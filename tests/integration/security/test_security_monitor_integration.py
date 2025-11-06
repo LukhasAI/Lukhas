@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import Any, Dict, List
 
 import pytest
+
 from core.security.security_monitor import EventSeverity, SecurityMonitor, SecurityMonitorConfig
 
 

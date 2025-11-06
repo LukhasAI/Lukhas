@@ -294,11 +294,7 @@ class QICoherenceEnhancer:
             metrics.append(stress / 10)  # Assume 0-10 scale
 
         # Average entropy change
-        if metrics:
-            entropy_change = np.mean(metrics)
-        else:
-            # Default low entropy change
-            entropy_change = 0.1
+        entropy_change = np.mean(metrics) if metrics else 0.1  # Default low entropy change
 
         return entropy_change
 

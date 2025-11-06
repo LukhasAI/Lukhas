@@ -23,7 +23,7 @@ Integration Date: 2025-05-31T07:55:30.387117
 """
 
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 log_path = Path("LUKHAS_AGENT_PLUGIN/logs/overview_log.jsonl")
@@ -41,7 +41,7 @@ def log_event(event_type, message, tier=0, source="dashboard"):
     - source (str): module or interface origin
     """
     entry = {
-        "timestamp": datetime.utcnow().isoformat(),
+    "timestamp": datetime.now(timezone.utc).isoformat(),
         "type": event_type,
         "message": message,
         "tier": tier,

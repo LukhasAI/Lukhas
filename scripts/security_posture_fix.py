@@ -11,7 +11,7 @@ import argparse
 import json
 import shutil
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional, Set
 
@@ -114,8 +114,8 @@ class SecurityPostureFixer:
         return hashlib.sha256(sbom_str.encode()).hexdigest()[:16]
 
     def get_timestamp(self) -> str:
-        """Get current timestamp."""
-        return datetime.utcnow().isoformat() + "Z"
+        """Get current timestamp (timezone-aware UTC)."""
+        return datetime.now(timezone.utc).isoformat()
 
     def update_matrix_contract(self, contract_path: Path, sbom_data: Dict) -> bool:
         """Update a matrix contract with SBOM reference."""
@@ -302,7 +302,7 @@ class SecurityPostureFixer:
                 "sub": module_name,
                 "aud": "matrix-verifier",
                 "scope": ["runtime", "supply_chain"],
-                "iat": int(datetime.utcnow().timestamp()),
+                "iat": int(datetime.now(timezone.utc).timestamp()),
             },
             sort_keys=True,
         ).encode()

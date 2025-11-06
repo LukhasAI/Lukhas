@@ -476,10 +476,7 @@ class CostOptimizedStrategy(BaseRoutingStrategy):
                 cost = self.provider_costs.get(provider, 0.00002)
 
                 # Calculate cost-effectiveness score (lower cost = higher score)
-                if cost == 0:
-                    cost_score = 100  # Free providers get max score
-                else:
-                    cost_score = min(100, 1.0 / cost * 10000)
+                cost_score = 100 if cost == 0 else min(100, 1.0 / cost * 10000)  # Free providers get max score
 
                 # Adjust for quality (success rate and latency)
                 quality_factor = health.success_rate

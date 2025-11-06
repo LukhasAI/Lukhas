@@ -14,10 +14,8 @@ Usage:
 
 import ast
 import json
-import os
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
 
 
 class ModuleInventoryGenerator:
@@ -261,7 +259,7 @@ class ModuleInventoryGenerator:
         # Create final inventory document
         inventory_doc = {
             "schema_version": "1.0.0",
-            "generated_at": datetime.utcnow().isoformat() + "Z",
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "generator": "generate_complete_inventory.py",
             "total_modules": self.stats["total_modules"],
             "statistics": self.stats,

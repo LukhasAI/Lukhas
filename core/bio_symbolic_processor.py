@@ -16,6 +16,7 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+
 from core.matriz_consciousness_signals import (
     BioSymbolicData,
     ConsciousnessSignal,

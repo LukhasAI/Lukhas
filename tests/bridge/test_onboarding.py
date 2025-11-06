@@ -380,7 +380,7 @@ async def test_onboarding_lambda_id_generation(api):
 @pytest.mark.unit
 async def test_onboarding_completion_missing_tier(api, started_session):
     """Test completion fails without tier assignment."""
-    with pytest.raises(ValueError, match="Cannot complete onboarding in current status.*prerequisite"):
+    with pytest.raises(ValueError, match=r"Cannot complete onboarding in current status.*prerequisite"):
         await api.complete_onboarding(session_id=started_session)
 
 
@@ -388,7 +388,7 @@ async def test_onboarding_completion_missing_tier(api, started_session):
 @pytest.mark.unit
 async def test_onboarding_completion_missing_consent(api, session_with_tier):
     """Test completion fails without consent collection."""
-    with pytest.raises(ValueError, match="Cannot complete onboarding in current status.*prerequisite"):
+    with pytest.raises(ValueError, match=r"Cannot complete onboarding in current status.*prerequisite"):
         await api.complete_onboarding(session_id=session_with_tier)
 
 

@@ -18,7 +18,7 @@ Trinity Framework: 🧠 Consciousness · 🛡️ Guardian · 🔬 Vision
 
 import asyncio
 from collections import OrderedDict
-from datetime import datetime
+from datetime import datetime, timezone
 
 import pytest
 from labs.bridge.explainability_interface_layer import (
@@ -82,7 +82,7 @@ def sample_decision():
         "outcome": "approved",
         "confidence": 0.95,
         "factors": ["identity_verified", "tier_sufficient"],
-        "timestamp": datetime.utcnow().isoformat()
+    "timestamp": datetime.now(timezone.utc).isoformat()
     }
 
 

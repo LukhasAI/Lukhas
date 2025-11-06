@@ -26,6 +26,7 @@ import time
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+
 from orchestration.context_preservation import (
     CompressionLevel,
     ContextPreservationEngine,
@@ -585,8 +586,8 @@ class TestExternalizedOrchestrator:
             prompt="Test prompt"
         )
 
-        # Should raise exception
-        with pytest.raises(Exception):
+        # Should raise a runtime error due to invalid routing configuration
+        with pytest.raises(RuntimeError):
             await orchestrator.orchestrate(request)
 
     @pytest.mark.asyncio

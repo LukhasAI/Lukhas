@@ -6,7 +6,7 @@ This script provides a mock implementation of the Guardian system for consent ma
 """
 
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import List, Dict, Any
 
 # Mock Database
@@ -34,7 +34,7 @@ def collect_user_consent(user_id: str, policy: GuardianPolicy) -> Dict[str, Any]
         "user_id": user_id,
         "policy": policy,
         "granted": True,  # Assume user grants consent in this example
-        "timestamp": datetime.utcnow(),
+        "timestamp": datetime.now(timezone.utc),
     }
     _consent_db[user_id] = consent
     _audit_log.append({"event": "consent_collected", "user_id": user_id, "policy": policy.purpose})
@@ -52,7 +52,7 @@ def verify_consent(user_id: str, data_type: str) -> bool:
         return False
 
     # Check if consent is expired
-    if datetime.utcnow() > consent["timestamp"] + timedelta(days=policy.retention_days):
+    if datetime.now(timezone.utc) > consent["timestamp"] + timedelta(days=policy.retention_days):
         return False
 
     _audit_log.append({"event": "consent_verified", "user_id": user_id, "data_type": data_type})

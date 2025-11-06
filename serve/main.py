@@ -24,6 +24,7 @@ except Exception:
         pass
 try:
     import lukhas.memory
+    from lukhas.memory.index import index_manager
     MEMORY_AVAILABLE = True
 except ImportError:
     pass
@@ -106,37 +107,44 @@ def require_api_key(x_api_key: Optional[str]=Header(default=None)) -> Optional[s
     return x_api_key
 app = FastAPI(title='LUKHAS API', version='1.0.0', description='Governed tool loop, auditability, feedback LUT, and safety modes.', contact={'name': 'LUKHAS AI Team', 'url': 'https://github.com/LukhasAI/Lukhas'}, license_info={'name': 'MIT', 'url': 'https://opensource.org/licenses/MIT'}, servers=[{'url': 'http://localhost:8000', 'description': 'Local development'}, {'url': 'https://api.ai', 'description': 'Production'}])
 
+from labs.core.security.auth import get_auth_system
+
+
 class StrictAuthMiddleware(BaseHTTPMiddleware):
     """
-    Enforce authentication in strict policy mode.
-
-    When LUKHAS_POLICY_MODE=strict, validates Bearer token on all /v1/* endpoints.
+    Enforce authentication on all /v1/* endpoints.
     Returns 401 with OpenAI-compatible error envelope on auth failure.
     """
 
     def __init__(self, app):
         super().__init__(app)
+        self.auth_system = get_auth_system()
 
     async def dispatch(self, request: Request, call_next):
-        policy_mode = env_get('LUKHAS_POLICY_MODE', 'permissive') or 'permissive'
-        strict_enabled = policy_mode == 'strict'
-        if not strict_enabled or not request.url.path.startswith('/v1/'):
+        if not request.url.path.startswith('/v1/'):
             return await call_next(request)
+
         auth_header = request.headers.get('Authorization', '')
         if not auth_header:
             return self._auth_error('Missing Authorization header')
         if not auth_header.startswith('Bearer '):
             return self._auth_error('Authorization header must use Bearer scheme')
+
         token = auth_header[7:].strip()
         if not token:
             return self._auth_error('Bearer token is empty')
+
+        payload = self.auth_system.verify_jwt(token)
+        if payload is None:
+            return self._auth_error('Invalid authentication credentials')
+
         return await call_next(request)
 
     def _auth_error(self, message: str) -> Response:
         """Return OpenAI-compatible 401 error envelope."""
         from fastapi.responses import JSONResponse
-        error_detail = {'type': 'invalid_api_key', 'message': f'Invalid authentication credentials. {message}', 'code': 'invalid_api_key'}
-        error_response = {'error': {'message': {'error': error_detail}, 'type': error_detail['type'], 'code': error_detail['code']}}
+        error_detail = {'type': 'invalid_api_key', 'message': message, 'code': 'invalid_api_key'}
+        error_response = {'error': error_detail}
         return JSONResponse(status_code=401, content=error_response)
 
 class HeadersMiddleware(BaseHTTPMiddleware):
@@ -266,15 +274,47 @@ async def list_models() -> dict[str, Any]:
     return {'object': 'list', 'data': models}
 
 @app.post('/v1/embeddings', tags=['OpenAI Compatible'])
-async def create_embeddings(request: dict) -> dict[str, Any]:
+async def create_embeddings(request: dict, authorization: Optional[str] = Header(None)) -> dict[str, Any]:
     """OpenAI-compatible embeddings endpoint with unique deterministic vectors."""
+    if "input" not in request:
+        raise HTTPException(status_code=400, detail={"error": {
+            "message": "Missing `input` field",
+            "type": "invalid_request_error",
+            "param": "input",
+            "code": "missing_required_parameter"
+        }})
     input_text = request.get("input", "")
+    if not input_text:
+        raise HTTPException(status_code=400, detail={"error": {
+            "message": "`input` field cannot be empty",
+            "type": "invalid_request_error",
+            "param": "input",
+            "code": "invalid_parameter"
+        }})
     model = request.get("model", "text-embedding-ada-002")
     dimensions = request.get("dimensions", 1536)
+    store = request.get("store", False)
+    retrieve_similar = request.get("retrieve_similar", False)
+    top_k = request.get("top_k", 5)
 
     # Generate unique deterministic embedding based on input
     embedding = _hash_embed(input_text, dimensions)
-    return {'object': 'list', 'data': [{'object': 'embedding', 'embedding': embedding, 'index': 0}], 'model': model, 'usage': {'prompt_tokens': len(str(input_text).split()), 'total_tokens': len(str(input_text).split())}}
+
+    response_data = {'object': 'list', 'data': [{'object': 'embedding', 'embedding': embedding, 'index': 0}], 'model': model, 'usage': {'prompt_tokens': len(str(input_text).split()), 'total_tokens': len(str(input_text).split())}}
+
+    if MEMORY_AVAILABLE and authorization:
+        tenant_id = authorization.replace("Bearer ", "")
+        index = index_manager.get_index(tenant_id)
+
+        if retrieve_similar:
+            similar_results = index.search(embedding, top_k=top_k)
+            response_data['similar_results'] = similar_results
+
+        if store:
+            vector_id = str(uuid.uuid4())
+            index.add(vector_id, embedding, metadata=request.get("metadata"))
+
+    return response_data
 
 @app.post('/v1/chat/completions', tags=['OpenAI Compatible'])
 async def create_chat_completion(request: dict) -> dict[str, Any]:

@@ -17,7 +17,7 @@ Usage:
 from __future__ import annotations
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict
 
 from matriz.node_contract import (
@@ -190,7 +190,7 @@ class LegacyShim(MatrizNode):
             trace = {
                 "legacy_format": "dict",
                 "original_keys": list(legacy_output.keys()),
-                "processed_at": datetime.utcnow().isoformat()
+                "processed_at": datetime.now(timezone.utc).isoformat()
             }
 
         elif hasattr(legacy_output, '__dict__'):
@@ -204,7 +204,7 @@ class LegacyShim(MatrizNode):
             trace = {
                 "legacy_format": "object",
                 "object_type": legacy_output.__class__.__name__,
-                "processed_at": datetime.utcnow().isoformat()
+                "processed_at": datetime.now(timezone.utc).isoformat()
             }
 
         else:
@@ -214,7 +214,7 @@ class LegacyShim(MatrizNode):
             trace = {
                 "legacy_format": "raw",
                 "output_type": type(legacy_output).__name__,
-                "processed_at": datetime.utcnow().isoformat()
+                "processed_at": datetime.now(timezone.utc).isoformat()
             }
 
         # Add shim metadata to trace

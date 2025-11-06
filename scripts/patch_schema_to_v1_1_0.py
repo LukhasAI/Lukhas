@@ -148,7 +148,7 @@ def main():
     # --- write back ---
     text = json.dumps(schema, indent=4, ensure_ascii=False) + "\n"
     path.write_text(text, encoding="utf-8")
-    print("Patched →", path, "at", datetime.datetime.utcnow().isoformat()+"Z")
+    print("Patched →", path, "at", datetime.datetime.now(datetime.timezone.utc).isoformat())
 
 if __name__ == "__main__":
     main()

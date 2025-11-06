@@ -189,11 +189,8 @@ class ZeroKnowledgePrivacyEngine:
         if not witness_hash:
             return False
 
-        if witness_hash != expected_computation.expected_witness_hash:
-            return False
-
         # Claimed result is treated as informational metadata for now
-        return True
+        return witness_hash == expected_computation.expected_witness_hash
 
     async def validate_request(self, request: Any) -> bool:
         """Validate request integrity via PQC engine if available."""

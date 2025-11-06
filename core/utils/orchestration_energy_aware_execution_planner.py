@@ -744,11 +744,7 @@ class EnergyAwareExecutionPlanner:
 
         try:
             # Simulate task execution with energy consumption
-            if task.callback:
-                result = task.callback(task)
-            else:
-                # Default simulation
-                result = self._simulate_task_execution(task)
+            result = task.callback(task) if task.callback else self._simulate_task_execution(task)
 
             # Calculate actual energy consumption
             energy_consumed = energy_start - self.energy_budget.current_available

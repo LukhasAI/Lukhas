@@ -16,6 +16,7 @@ from enum import Enum
 from typing import Any, Optional, Union
 
 import numpy as np
+
 from core.common import get_logger
 
 logger = get_logger(__name__)
@@ -1076,10 +1077,10 @@ class VIVOXEncryptedPerceptionNode:
         consent = context.get("consent_level", "none")
         consent_privacy_map = {
             "none": "maximum",
-            "implicit": "high", 
+            "implicit": "high",
             "explicit": "standard",
         }
-        
+
         return consent_privacy_map.get(consent, "high")  # Default to high privacy
 
     def _aggregate_vectors(self, vectors: list[PerceptualVector]) -> np.ndarray:

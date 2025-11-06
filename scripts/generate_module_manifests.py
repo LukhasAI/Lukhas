@@ -566,7 +566,7 @@ def now_iso() -> str:
         >>> now_iso()
         '2025-10-20T14:32:15Z'
     """
-    return datetime.datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+    return datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat()
 
 def make_context_md(fqn: str, star: str, pipeline_nodes: List[str], colony: str | None, exports=None, contracts=None, logger=None) -> str:
     """Generate lukhas_context.md template with architectural metadata placeholders.

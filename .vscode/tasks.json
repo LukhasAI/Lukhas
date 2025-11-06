@@ -101,19 +101,22 @@
     {
       "label": "Lint (ruff)",
       "type": "shell",
-      "command": "ruff check .",
+      "command": "${workspaceFolder}/.venv/bin/python",
+      "args": ["-m", "ruff", "check", "."],
       "problemMatcher": []
     },
     {
       "label": "Type Check (mypy)",
       "type": "shell",
-      "command": "mypy .",
+      "command": "${workspaceFolder}/.venv/bin/python",
+      "args": ["-m", "mypy", "."],
       "problemMatcher": []
     },
     {
       "label": "Tests (pytest)",
       "type": "shell",
-      "command": "pytest -q",
+      "command": "${workspaceFolder}/.venv/bin/python",
+      "args": ["-m", "pytest", "-q"],
       "problemMatcher": []
     },
     {

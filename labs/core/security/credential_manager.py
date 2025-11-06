@@ -32,7 +32,7 @@ class CredentialType(Enum):
     """Types of credentials managed by the system"""
     API_KEY = "api_key"
     SECRET_TOKEN = "secret_token"
-    PASSWORD = "password"
+    PASSWORD = "password"  # nosec B105 - Enum constant, not hardcoded password
     CERTIFICATE = "certificate"
     PRIVATE_KEY = "private_key"
     DATABASE_URL = "database_url"

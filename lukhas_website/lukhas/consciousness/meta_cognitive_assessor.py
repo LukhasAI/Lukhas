@@ -474,10 +474,7 @@ class MetaCognitiveAssessor:
             load_factors.append(arousal)
 
         # Calculate overall load
-        if load_factors:
-            cognitive_load = statistics.mean(load_factors)
-        else:
-            cognitive_load = 0.3  # Default moderate-low load
+        cognitive_load = statistics.mean(load_factors) if load_factors else 0.3  # Default moderate-low load
 
         return min(1.0, cognitive_load)
 

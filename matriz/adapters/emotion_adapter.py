@@ -1,7 +1,8 @@
 import importlib
 
-from core.trace import mk_crumb
 from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+
+from core.trace import mk_crumb
 
 
 class EmotionAdapter(MatrizNode):

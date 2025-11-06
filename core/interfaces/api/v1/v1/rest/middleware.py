@@ -41,8 +41,9 @@ import structlog
 from fastapi import HTTPException, Request, status
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer
-from governance.identity.core.id_service import get_identity_manager
 from jwt.exceptions import InvalidTokenError as JWTError
+
+from governance.identity.core.id_service import get_identity_manager
 
 # Import centralized decorators and tier system
 

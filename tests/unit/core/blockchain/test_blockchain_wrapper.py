@@ -12,10 +12,11 @@ from __future__ import annotations
 
 import hashlib
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
 import pytest
+
 from core.blockchain.blockchain_wrapper import BlockchainTransaction, BlockchainWrapper
 
 
@@ -41,9 +42,9 @@ class TestBlockchainTransaction:
 
     def test_transaction_default_timestamp(self):
         """Test that transactions get automatic timestamp."""
-        before = datetime.utcnow()
+        before = datetime.now(timezone.utc)
         tx = BlockchainTransaction(reference_id="ref-002", payload={})
-        after = datetime.utcnow()
+        after = datetime.now(timezone.utc)
 
         assert before <= tx.timestamp <= after
 

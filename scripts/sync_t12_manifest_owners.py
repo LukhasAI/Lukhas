@@ -51,7 +51,7 @@ def now_iso() -> str:
         >>> now_iso()
         '2025-10-20T14:32:15Z'
     """
-    return datetime.datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+    return datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat()
 
 
 def main() -> None:
