@@ -27,7 +27,7 @@ for py_file in list(ROOT_DIR.rglob("*.py"))[:500]:
         with open(py_file, encoding='utf-8', errors='ignore') as f:
             for match in re.finditer(r'os\.getenv\(["\']([^"\']+)["\']', f.read()):
                 env_vars.add(match.group(1))
-    except: pass
+    except (OSError, UnicodeDecodeError): pass
 
 report = {"timestamp": datetime.now().isoformat(), "summary": {"total_configs": len(configs), "env_vars_python": len(env_vars)}, "config_files": configs[:100], "environment_variables": {"used_in_python": sorted(env_vars)[:50]}}
 

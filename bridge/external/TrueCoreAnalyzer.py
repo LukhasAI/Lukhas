@@ -215,7 +215,7 @@ class TrueCoreAnalyzer:
                         package = "Other External"
                     external_by_package[package].append(file)
 
-                for package, files in sorted(external_by_package.items()):
+                for package, _ in sorted(external_by_package.items()):
                     f.write(f"### {package}\n")
                     f.write("*These should be pip/npm dependencies, not included in core*\n\n")
 

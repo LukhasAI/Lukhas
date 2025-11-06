@@ -197,7 +197,7 @@ class ConsensusEngine:
         selected = []
         families_used = set()
 
-        for model_type, score in scored_models:
+        for model_type, _ in scored_models:
             if len(selected) >= min_models + 2:  # Select a few extra for robustness
                 break
 

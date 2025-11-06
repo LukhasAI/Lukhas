@@ -830,7 +830,7 @@ class DistributedMemoryOrchestrator:
                 self.local_node.last_heartbeat = datetime.now(timezone.utc)
 
                 # Send heartbeat to all known nodes
-                for node_id in self.known_nodes:
+                for _ in self.known_nodes:
                     # Would send heartbeat message via network
                     pass
 

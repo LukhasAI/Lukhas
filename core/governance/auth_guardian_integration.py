@@ -455,7 +455,7 @@ class AuthenticationGuardian:
                     tier_denials[tier]["denied"] += 1
 
             # Check for unusual denial patterns
-            for tier, stats in tier_denials.items():
+            for _, stats in tier_denials.items():
                 if stats["total"] >= 5:  # Sufficient data
                     denial_rate = stats["denied"] / stats["total"]
                     if denial_rate > 0.8:  # High denial rate

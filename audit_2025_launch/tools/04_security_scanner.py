@@ -30,7 +30,7 @@ for py_file in list(ROOT_DIR.rglob("*.py"))[:500]:  # Limit for speed
             for name, (pattern, severity) in PATTERNS.items():
                 for match in re.finditer(pattern, content):
                     findings.append({"file": str(py_file.relative_to(ROOT_DIR)), "type": name, "severity": severity, "line": content[:match.start()].count('\n')+1})
-    except: pass
+    except (OSError, UnicodeDecodeError): pass
 
 by_severity = {"critical": len([f for f in findings if f["severity"]=="critical"]), "high": 0, "medium": len([f for f in findings if f["severity"]=="medium"]), "low": 0}
 

@@ -227,7 +227,7 @@ def find_duplicate_docs(docs):
                 hasher.update(f.read())
             doc_hash = hasher.hexdigest()
             hash_map[doc_hash].append(doc["path"])
-        except:
+        except (OSError, UnicodeDecodeError):
             pass
 
     duplicates = {h: paths for h, paths in hash_map.items() if len(paths) > 1}

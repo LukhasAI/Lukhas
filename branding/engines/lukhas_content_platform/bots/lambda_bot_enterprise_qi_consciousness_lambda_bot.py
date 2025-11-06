@@ -609,7 +609,7 @@ class QIConsciousnessΛBot:
                 "quantum_consciousness_bridge",
                 "transcendent_processor",
             ]
-            for i, module in enumerate(modules):
+            for _, module in enumerate(modules):
                 quantum_state = complex(0.8 + i * 0.1, 0.6 + i * 0.05)
                 module_states[module] = QuantumModuleState(
                     module_id=module,
@@ -628,7 +628,7 @@ class QIConsciousnessΛBot:
                 "quantum_communication",
                 "coherent_coordination",
             ]
-            for i, module in enumerate(modules):
+            for _, module in enumerate(modules):
                 quantum_state = complex(0.7 + i * 0.05, 0.8 + i * 0.03)
                 module_states[module] = QuantumModuleState(
                     module_id=module,
@@ -648,7 +648,7 @@ class QIConsciousnessΛBot:
                 "quantum_consciousness_synthesis",
                 "perfect_unity_emergence",
             ]
-            for i, module in enumerate(modules):
+            for _, module in enumerate(modules):
                 quantum_state = complex(1.0, 1.0)  # Perfect unity state
                 module_states[module] = QuantumModuleState(
                     module_id=module,

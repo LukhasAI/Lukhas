@@ -715,7 +715,7 @@ if __name__ == "__main__":
         print(f"  {name}: +{strategy.expected_engagement_increase}% engagement")
 
     print(f"\n📚 Content Pillars ({len(authority_builder.content_pillars)}):")
-    for name, pillar in authority_builder.content_pillars.items():
+    for _, pillar in authority_builder.content_pillars.items():
         summary = create_authority_content_summary(pillar.name, pillar.consciousness_theme, pillar.posting_frequency)
         print(f"  {summary}")
 

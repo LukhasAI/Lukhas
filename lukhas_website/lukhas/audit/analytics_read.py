@@ -44,7 +44,7 @@ def summarize_tools(window_s: int = 24 * 3600) -> dict[str, dict]:
         d = r.get("duration_ms")
         if isinstance(d, (int, float)):
             bucket["durations"].append(d)
-    for name, b in by.items():
+    for _, b in by.items():
         if b["durations"]:
             ds = sorted(b["durations"])
             p95_idx = max(0, int(0.95 * len(ds)) - 1)

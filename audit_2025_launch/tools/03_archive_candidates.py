@@ -28,7 +28,7 @@ for py_file in ROOT_DIR.rglob("*.py"):
                     candidates.append({"path": str(py_file.relative_to(ROOT_DIR)), "reason": "deprecated_marker", "confidence": 80})
                 elif (datetime.now() - mtime).days > 365:
                     candidates.append({"path": str(py_file.relative_to(ROOT_DIR)), "reason": "stale_file", "confidence": 60})
-        except: pass
+        except (OSError, ValueError): pass
 
 report = {"timestamp": datetime.now().isoformat(), "summary": {"total_candidates": len(candidates), "high_confidence": len([c for c in candidates if c["confidence"] >= 70])}, "candidates": candidates[:100]}
 

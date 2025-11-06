@@ -42,7 +42,7 @@ def _export_submodules(package: ModuleType) -> None:
     paths = getattr(package, "__path__", None)
     if not paths:
         return
-    for finder, submodule_name, _ in pkgutil.iter_modules(paths):
+    for _, submodule_name, _ in pkgutil.iter_modules(paths):
         full_name = f"{package.__name__}.{submodule_name}"
         try:
             module = importlib.import_module(full_name)

@@ -376,7 +376,7 @@ class InMemoryVectorStore(AbstractVectorStore):
 
             # Create search results
             results = []
-            for rank, (score, doc_id, document) in enumerate(candidates):
+            for rank, (score, _, document) in enumerate(candidates):
                 result = SearchResult(
                     document=document,
                     score=score,
@@ -458,7 +458,7 @@ class InMemoryVectorStore(AbstractVectorStore):
 
             # Create results
             results = []
-            for rank, (score, doc_id, document) in enumerate(candidates):
+            for rank, (score, _, document) in enumerate(candidates):
                 result = SearchResult(
                     document=document,
                     score=score,
