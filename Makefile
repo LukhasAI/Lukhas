@@ -1,7 +1,7 @@
 # NOTE: Registry targets moved to canonical location (line ~1820)
 # See registry-up, registry-smoke, registry-ci, registry-clean, registry-test below
 # Main Makefile PHONY declarations (only for targets defined in this file)
-.PHONY: install setup-hooks dev api openapi openapi-spec openapi-validate facade-smoke live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports oneiric-drift-test
+.PHONY: install setup-hooks dev api openapi openapi-spec openapi-validate facade-smoke live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports oneiric-drift-test validate-root validate-root-docs validate-root-all
 .PHONY: load-smoke load-test load-extended load-spike load-locust load-check
 .PHONY: ai-analyze ai-setup ai-workflow clean deep-clean quick bootstrap organize organize-dry organize-suggest organize-watch
 .PHONY: codex-validate codex-fix validate-all perf migrate-dry migrate-run dna-health dna-compare admin lint-status lane-guard
@@ -1233,6 +1233,16 @@ imports-promote: ## Generate package shims from doctor analysis
 
 lint: ## Run ruff linter with auto-fix
 	python3 -m ruff check . --fix || true
+
+validate-root: ## Check root directory hygiene (all files)
+	@echo "→ validate-root: checking all root files"
+	@python3 scripts/validate_root_hygiene.py
+
+validate-root-docs: ## Check root documentation hygiene (strict)
+	@echo "→ validate-root-docs: checking documentation files"
+	@python3 scripts/validate_root_docs.py
+
+validate-root-all: validate-root validate-root-docs ## Run all root hygiene checks
 
 tests-smoke: ## Run smoke tests
 	python3 -m pytest tests/smoke -q || true

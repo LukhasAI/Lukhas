@@ -1,0 +1,424 @@
+# Root Directory Allowlist
+# Files and patterns allowed to remain at repository root
+# Any other files will be blocked by pre-commit hooks and CI checks
+#
+# Format:
+#   - Exact filenames (case-sensitive)
+#   - Glob patterns with * and **
+#   - Lines starting with # are comments
+#   - Empty lines ignored
+
+# Essential project files
+README.md
+SECURITY.md
+LICENSE
+CHANGELOG.md
+CONTRIBUTING.md
+
+# AI agent context files (must stay at root for discoverability)
+gemini.md
+lukhas_context.md
+claude.me
+
+# Python project files
+pyproject.toml
+setup.py
+setup.cfg
+requirements.txt
+requirements-dev.txt
+requirements-test.txt
+constraints.txt
+
+# Build and packaging
+Makefile
+justfile
+Dockerfile
+docker-compose.yml
+docker-compose.*.yml
+
+# Version control
+.gitignore
+.gitattributes
+.gitmodules
+
+# CI/CD
+.gitlab-ci.yml
+.travis.yml
+azure-pipelines.yml
+Jenkinsfile
+
+# Editor/IDE config (hidden files allowed)
+.editorconfig
+.vscode/
+.idea/
+.*.toml
+
+# Environment and config (hidden files)
+.env
+.env.*
+.envrc
+
+# Hidden directories (allowed)
+.git/
+.github/
+.gitlab/
+.venv/
+.venv*/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+
+# Tool config files (hidden)
+.codecov.yml
+.pre-commit-config.yaml
+.pylintrc
+.flake8
+.bandit
+.python-version
+.tool-versions
+.nvmrc
+
+# Documentation generators
+mkdocs.yml
+readthedocs.yml
+conf.py
+
+# Package management
+poetry.lock
+Pipfile
+Pipfile.lock
+package.json
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Other hidden config files (pattern)
+.*.yml
+.*.yaml
+.*.json
+.*.ini
+.*.cfg
+.*.conf
+
+# Copilot files (hidden)
+.copilot_*
+
+# MCP and other hidden tool files
+.mcp*
+.lukhas*
+.husky/
+.githooks/
+.import-linter*
+.cz.toml
+.baseline*
+.rgignore
+.pydocstyle
+.dockerignore
+.gitleaks.toml
+.gitconfig*
+.importlinter*
+
+# Specific tool directories
+.dev/
+.codex/
+.continue/
+.copilot_notes/
+.issue_bodies/
+.lukhas_audit/
+.lukhas_feedback/
+.lukhas_runs/
+
+# Temporary/cache (should be in .gitignore anyway)
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+*.dylib
+.DS_Store
+
+# ============================================================================
+# Project Structure Directories (Legitimate at Root)
+# ============================================================================
+
+# Core project directories (LUKHAS lane architecture)
+candidate/
+core/
+lukhas/
+matriz/
+universal_language/
+
+# Testing and quality
+tests/
+test_data/
+test_results/
+benchmarks/
+evaluations/
+
+# Development and tooling
+scripts/
+tools/
+hooks/
+ci/
+.semgrep/
+.claude/
+
+# Documentation and artifacts
+docs/
+examples/
+demos/
+samples/
+artifacts/
+manifests/
+release_artifacts/
+presentations/
+branding/
+
+# Specialized domains (constellation framework)
+identity/
+memory/
+consciousness/
+guardian/
+ethics/
+quantum/
+bio/
+dream/
+
+# Candidate lane experiments
+agent/
+agents/
+ai_orchestration/
+cognitive/
+orchestration/
+reasoning/
+symbolic/
+
+# Integration and adapters
+adapters/
+bridge/
+integrations/
+mcp-servers/
+mcp_servers/
+sdk/
+
+# Infrastructure
+infrastructure/
+deployment/
+docker/
+monitoring/
+observability/
+telemetry/
+prometheus/
+grafana/
+security/
+
+# Business and operations
+products/
+business/
+ops/
+governance/
+policies/
+compliance/
+enterprise/
+
+# Development artifacts
+logs/
+reports/
+audits/
+audit_2025_launch/
+health_reports/
+security_reports/
+delegation_reports/
+trace_logs/
+
+# Modules and packages
+modules/
+packages/
+models/
+services/
+api/
+server/
+serve/
+
+# Configuration and schemas
+config/
+schema/
+schemas/
+contracts/
+rules/
+
+# Data and storage
+data/
+storage/
+caching/
+
+# Utilities
+utils/
+async_utils/
+
+# Analytics and metrics
+analytics/
+dashboards/
+alerts/
+
+# Archive and legacy
+archive/
+recovered_components/
+third_party_stubs/
+
+# Build and release
+release/
+sbom/
+
+# Workspace files
+*.code-workspace
+Justfile
+pyrightconfig.json
+pytest.ini
+mypy.ini
+conftest.py
+__init__.py
+main.py
+
+# Specific scripts that live at root
+*.py
+*.sh
+*.txt
+
+# Root-level config files
+*.toml
+*.ini
+*.json
+*.yaml
+*.yml
+
+# Claude Code files
+claude-code.json
+
+# CODEOWNERS
+CODEOWNERS
+OWNERS.toml
+
+# Metadata
+zenodo.metadata.json
+
+# Other tool configs
+.searchignore
+.secrets.baseline
+.yamllint
+.copilot-dev-freeze.txt
+.root-allowlist
+
+# Temporary/work files
+TODO
+branch_audit_*.txt
+collection_test.txt
+coverage*.txt
+error_analysis.txt
+context_files.txt
+smoke_*.txt
+test-results.xml
+proposed_moves*.sh
+verify_*.sh
+run_*.sh
+dump.rdb
+
+# Legacy cleanup candidates (temporary allowance)
+aka_qualia/
+gtpsi/
+jules_branch/
+lukhas_ai_intro/
+lukhas_website/
+rats/
+vivox/
+transmission_bundle/
+next_gen/
+codex_artifacts/
+phase1_verification_pack/
+system_claude_audit/
+agents_external/
+claude_army/
+branding_bridge/
+cognitive_core/
+collapse/
+completion/
+consent/
+context_files/
+contradiction_integrator/
+design_system/
+diagnostics/
+drift/
+emotion/
+enforcement/
+environments/
+experimental/
+exports/
+feedback/
+flags/
+graphs/
+gymnasium_local/
+healing/
+labs/
+ledger/
+load/
+lukhas-mcp/
+mcp-lukhas-sse/
+mcp-server/
+modulation/
+nodes/
+oneiric_core/
+out/
+performance/
+perp_runs/
+personality/
+pr_comments/
+resilience/
+ring/
+rl/
+src/
+system/
+tagging/
+tasks/
+templates/
+tickets/
+tmp/
+tone/
+trace/
+var/
+vocab/
+vocabularies/
+vocabulary_refresh_data/
+
+# Special generated files
+*_pb2.py
+*.tsx
+.lukhas_*
+lukhas_agent_todos.*
+
+# Requirements variants
+requirements*.txt
+requirements*.in
+requirements.lock
+
+# Makefile variants
+Makefile.*
+
+# Google auth (dependency)
+google_auth_oauthlib/
+
+# urllib3 (dependency)
+urllib3/
+
+# Weird version files
+=*
+
+# Additional project components
+assets/
+audit/
+brain/
+mk/
+qi/
+Lukhas-cc-dxrc
+pytest_asyncio_stub_DISABLED/
