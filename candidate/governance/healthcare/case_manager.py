@@ -6,6 +6,7 @@ for various EHR system integrations. Integrated with LUKHAS governance
 and ethical oversight systems.
 """
 
+import asyncio
 import logging
 import uuid
 from datetime import datetime
@@ -43,6 +44,10 @@ class CaseManager(GlyphIntegrationMixin):
         """Initialize case manager with configuration"""
         super().__init__()
         self.config = config or {}
+        governance_config = self.config.get("governance", {})
+        self.consent_required = governance_config.get("consent_required", True)
+        self.ethical_checks_enabled = governance_config.get("ethical_checks_enabled", True)
+        self.case_audit_trail: dict[str, list[dict[str, Any]]] = {}
         self._init_authentication()
         self.consent_service = ConsentService()
         self.data_protection_service = DataProtectionService()
@@ -85,9 +90,18 @@ class CaseManager(GlyphIntegrationMixin):
         """
         try:
             # Validate consent
-            consent_valid = await self.consent_service.verify_capability_token(consent_token, ["healthcare.case.create"])
-            if not consent_valid["valid"]:
-                raise ValueError("Patient consent is not valid for case creation")
+            consent_claims: dict[str, Any] = {}
+            if consent_token:
+                consent_claims = await self.consent_service.verify_capability_token(
+                    consent_token,
+                    ["healthcare.case.create"],
+                )
+            elif self.consent_required:
+                raise ValueError("Patient consent is required for case creation")
+
+            consent_grant_id = consent_claims.get("grant_id") if consent_claims else None
+            if self.consent_required and not consent_grant_id:
+                raise ValueError("Consent token is missing required grant metadata")
 
             # Perform ethical validation
             ethical_result = await self._validate_case_ethics(
@@ -117,7 +131,8 @@ class CaseManager(GlyphIntegrationMixin):
                 "updates": [],
                 "encrypted_data": encrypted_case_data,
                 "governance": {
-                    "consent_grant_id": consent_valid["claims"]["grant_id"],
+                    "consent_grant_id": consent_grant_id,
+                    "consent_claims": consent_claims or None,
                     "ethical_approval": True,
                     "compliance_status": "validated",
                     "audit_trail": [

@@ -25,6 +25,7 @@ try:
     CRYPTO_AVAILABLE = True
 except ImportError:
     CRYPTO_AVAILABLE = False
+    Fernet = Any  # type: ignore[misc, assignment]
 
 
 class ProtectionPolicy(BaseModel):
@@ -122,6 +123,10 @@ class GDPRValidator:
             next_review_date=datetime.now() + timedelta(days=180),
         )
 
+class KeyManagementError(RuntimeError):
+    """Raised when encryption key material cannot be resolved."""
+
+
 class DataProtectionService:
     """
     Advanced data protection system with multi-layer security
@@ -131,6 +136,7 @@ class DataProtectionService:
         self.db_url = db_url
         self.db_pool = None
         self.protection_policies: dict[str, ProtectionPolicy] = {}
+        self._key_cache: dict[str, dict[str, Any]] = {}
 
     async def initialize(self):
         """Initialize database connection pool and load policies"""
@@ -195,11 +201,17 @@ class DataProtectionService:
             # Fallback to base64 encoding
             data_str = json.dumps(data, default=str)
             encoded_data = base64.b64encode(data_str.encode()).decode()
-            return {"encrypted": True, "data": encoded_data}, {"method": "base64", "key_id": "fallback"}
+            return (
+                {
+                    "encrypted": True,
+                    "data": encoded_data,
+                    "key_id": "fallback",
+                    "policy_id": policy.policy_id,
+                },
+                {"method": "base64", "key_id": "fallback"},
+            )
 
-        # For now, we will use a hardcoded key
-        key_material = b'12345678901234567890123456789012'
-        fernet = Fernet(base64.urlsafe_b64encode(key_material))
+        fernet, key_id = await self._get_policy_cipher(policy, context.get("key_id"))
         data_str = json.dumps(data, default=str)
         encrypted_data = fernet.encrypt(data_str.encode())
 
@@ -207,12 +219,14 @@ class DataProtectionService:
             "encrypted": True,
             "algorithm": "AES-256",
             "data": base64.b64encode(encrypted_data).decode(),
+            "key_id": key_id,
+            "policy_id": policy.policy_id,
         }
 
         result_info = {
             "method": "symmetric",
             "algorithm": "AES-256",
-            "key_id": "hardcoded_key",
+            "key_id": key_id,
             "success": True
         }
 
@@ -234,13 +248,98 @@ class DataProtectionService:
             return protected_data
 
         if isinstance(protected_data, dict) and protected_data.get("encrypted"):
-            key_material = b'12345678901234567890123456789012'
-            fernet = Fernet(base64.urlsafe_b64encode(key_material))
+            policy_id = protected_data.get("policy_id")
+            if not policy_id:
+                raise KeyManagementError("Encrypted payload missing policy reference")
+
+            policy = self.protection_policies.get(policy_id)
+            if not policy:
+                raise ValueError(f"Policy {policy_id} not loaded")
+
+            key_id = protected_data.get("key_id")
+            fernet, _ = await self._get_policy_cipher(policy, key_id)
             encrypted_data = base64.b64decode(protected_data["data"])
             decrypted_data = fernet.decrypt(encrypted_data)
             return json.loads(decrypted_data)
 
         return protected_data
+
+    async def _get_policy_cipher(
+        self, policy: ProtectionPolicy, key_override: Optional[str] = None
+    ) -> tuple['Fernet', str]:
+        """Resolve and cache the Fernet cipher for a policy-specific key."""
+
+        if not CRYPTO_AVAILABLE:
+            raise KeyManagementError("Cryptography backend not available")
+
+        cache_key = f"{policy.policy_id}:{key_override or 'active'}"
+        cached_entry = self._key_cache.get(cache_key)
+        if cached_entry:
+            expires_at = cached_entry.get("expires_at")
+            if key_override or not expires_at or expires_at > datetime.utcnow():
+                return cached_entry["cipher"], cached_entry["key_id"]
+
+        cipher, key_id, expires_at = await self._resolve_policy_key(policy, key_override)
+        self._key_cache[cache_key] = {
+            "cipher": cipher,
+            "key_id": key_id,
+            "expires_at": expires_at,
+        }
+        return cipher, key_id
+
+    async def _resolve_policy_key(
+        self, policy: ProtectionPolicy, key_override: Optional[str] = None
+    ) -> tuple['Fernet', str, Optional[datetime]]:
+        """Fetch key material from secure storage and build a Fernet cipher."""
+
+        if not self.db_pool:
+            raise KeyManagementError("Data protection service not initialized")
+
+        async with self.db_pool.acquire() as conn:
+            rows = await conn.fetch(
+                "SELECT key_id, key_material, expires_at FROM protection.policy_keys WHERE policy_id = $1",
+                policy.policy_id,
+            )
+
+        if not rows:
+            raise KeyManagementError(f"No keys registered for policy {policy.policy_id}")
+
+        now = datetime.utcnow()
+        candidates = []
+        for record in rows:
+            row = dict(record)
+            if key_override and row["key_id"] != key_override:
+                continue
+            expires_at = row.get("expires_at")
+            is_active = expires_at is None or expires_at > now
+            candidates.append((is_active, expires_at, row))
+
+        if not candidates:
+            raise KeyManagementError(
+                f"Key {key_override} not available for policy {policy.policy_id}"
+            )
+
+        candidates.sort(key=lambda item: (item[0], item[1] or datetime.max), reverse=True)
+        _, expires_at, row = candidates[0]
+
+        key_material = row["key_material"]
+        if isinstance(key_material, memoryview):
+            key_material = key_material.tobytes()
+        if isinstance(key_material, bytes):
+            raw_key = key_material
+        else:
+            try:
+                raw_key = base64.urlsafe_b64decode(str(key_material).encode())
+            except Exception:
+                raw_key = str(key_material).encode()
+
+        if len(raw_key) != 32:
+            raw_key = hashlib.sha256(raw_key).digest()
+
+        fernet_key = base64.urlsafe_b64encode(raw_key)
+        cipher = Fernet(fernet_key)
+
+        return cipher, row["key_id"], expires_at
 
     async def get_user_data(self, user_lid: str) -> list[dict]:
         """Get all protected data for a user."""
