@@ -353,15 +353,19 @@ async def create_response(request: dict) -> dict[str, Any]:
     response_text = f"[stub] {content}".strip() if content else "[stub] empty input"
     orchestrator_result: Optional[dict[str, Any]] = None
     if ASYNC_ORCH_ENABLED and _RUN_ASYNC_ORCH is not None:
-        orchestrator_result = await _RUN_ASYNC_ORCH(content)
-        metrics_snapshot = orchestrator_result.get('orchestrator_metrics') if isinstance(orchestrator_result, dict) else None
-        if metrics_snapshot:
-            logger.debug('Async MATRIZ orchestrator metrics: %s', metrics_snapshot)
-        orchestrator_answer = orchestrator_result.get('answer') if isinstance(orchestrator_result, dict) else None
-        if orchestrator_answer:
-            response_text = orchestrator_answer
-        elif isinstance(orchestrator_result, dict) and orchestrator_result.get('error'):
-            logger.info('Async MATRIZ orchestrator returned error; retaining stub response: %s', orchestrator_result['error'])
+        try:
+            orchestrator_result = await _RUN_ASYNC_ORCH(content)
+            metrics_snapshot = orchestrator_result.get('orchestrator_metrics') if isinstance(orchestrator_result, dict) else None
+            if metrics_snapshot:
+                logger.debug('Async MATRIZ orchestrator metrics: %s', metrics_snapshot)
+            orchestrator_answer = orchestrator_result.get('answer') if isinstance(orchestrator_result, dict) else None
+            if orchestrator_answer:
+                response_text = orchestrator_answer
+            elif isinstance(orchestrator_result, dict) and orchestrator_result.get('error'):
+                logger.info('Async MATRIZ orchestrator returned error; retaining stub response: %s', orchestrator_result['error'])
+        except Exception as e:
+            logger.error(f"Orchestrator failed: {e}")
+            raise HTTPException(status_code=500, detail="Internal server error")
     return {'id': rid, 'object': 'chat.completion', 'created': int(time.time()), 'model': model, 'choices': [{'index': 0, 'message': {'role': 'assistant', 'content': response_text}, 'finish_reason': 'stop'}], 'usage': {'prompt_tokens': len(content.split()) if content else 0, 'completion_tokens': len(response_text.split()), 'total_tokens': len(content.split()) + len(response_text.split()) if content else len(response_text.split())}}
 
 @app.get('/openapi.json', include_in_schema=False)

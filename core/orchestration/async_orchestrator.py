@@ -702,7 +702,7 @@ class AsyncOrchestrator:
                 pipeline_span.set_attribute("matriz.total_stages", len(self.stages))
 
             # If we have multiple viable results, arbitrate
-            viable_results = [r for r in results if r.get("status") != "error" and r.get("action") != "escalate"]
+            viable_results = [r for r in results if self._is_stage_success(r)]
 
             if pipeline_span:
                 pipeline_span.set_attribute("matriz.viable_results_count", len(viable_results))
