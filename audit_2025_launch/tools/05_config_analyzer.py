@@ -8,7 +8,8 @@ ROOT_DIR = Path(__file__).parent.parent.parent
 AUDIT_REPORTS_DIR = ROOT_DIR / "audit_2025_launch" / "reports"
 EXCLUDE = ["__pycache__", ".venv", ".git", "node_modules"]
 
-def should_exclude(p): return any(x in str(p) for x in EXCLUDE)
+def should_exclude(p):
+    return any(x in str(p) for x in EXCLUDE)
 
 print("=" * 80)
 print("LUKHAS PRE-LAUNCH AUDIT - PHASE 5: CONFIGURATION ANALYSIS")
@@ -22,12 +23,14 @@ for ext in [".json", ".yaml", ".yml", ".toml", ".ini", ".env"]:
 
 env_vars = set()
 for py_file in list(ROOT_DIR.rglob("*.py"))[:500]:
-    if should_exclude(py_file): continue
+    if should_exclude(py_file):
+        continue
     try:
         with open(py_file, encoding='utf-8', errors='ignore') as f:
             for match in re.finditer(r'os\.getenv\(["\']([^"\']+)["\']', f.read()):
                 env_vars.add(match.group(1))
-    except: pass
+    except OSError:
+        pass
 
 report = {"timestamp": datetime.now().isoformat(), "summary": {"total_configs": len(configs), "env_vars_python": len(env_vars)}, "config_files": configs[:100], "environment_variables": {"used_in_python": sorted(env_vars)[:50]}}
 

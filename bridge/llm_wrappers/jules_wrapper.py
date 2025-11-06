@@ -233,7 +233,7 @@ class JulesClient:
                         try:
                             error_body = await response.text()
                             self.logger.error(f"API error response ({response.status}): {error_body}")
-                        except:
+                        except (aiohttp.ClientError, UnicodeDecodeError):
                             pass
                     response.raise_for_status()
                     return await response.json()

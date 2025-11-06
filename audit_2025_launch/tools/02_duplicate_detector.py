@@ -9,14 +9,17 @@ ROOT_DIR = Path(__file__).parent.parent.parent
 AUDIT_REPORTS_DIR = ROOT_DIR / "audit_2025_launch" / "reports"
 EXCLUDE = ["__pycache__", ".venv", ".git", "node_modules"]
 
-def should_exclude(p): return any(x in str(p) for x in EXCLUDE)
+def should_exclude(p):
+    return any(x in str(p) for x in EXCLUDE)
 def hash_file(fp):
     try:
         h = hashlib.sha256()
         with open(fp, "rb") as f:
-            for chunk in iter(lambda: f.read(65536), b""): h.update(chunk)
+            for chunk in iter(lambda: f.read(65536), b""):
+                h.update(chunk)
         return h.hexdigest()
-    except: return None
+    except OSError:
+        return None
 
 print("=" * 80)
 print("LUKHAS PRE-LAUNCH AUDIT - PHASE 2: DUPLICATE DETECTION")
@@ -26,7 +29,8 @@ hash_map = defaultdict(list)
 for fp in ROOT_DIR.rglob("*"):
     if fp.is_file() and not should_exclude(fp) and fp.suffix in [".py", ".md", ".json"]:
         fh = hash_file(fp)
-        if fh: hash_map[fh].append({"path": str(fp.relative_to(ROOT_DIR)), "size": fp.stat().st_size})
+        if fh:
+            hash_map[fh].append({"path": str(fp.relative_to(ROOT_DIR)), "size": fp.stat().st_size})
 
 duplicates = {h: files for h, files in hash_map.items() if len(files) > 1}
 total_wasted = sum(sum(f["size"] for f in files[1:]) for files in duplicates.values())
