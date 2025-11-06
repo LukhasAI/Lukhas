@@ -52,7 +52,23 @@ def get_service() -> OpenAIModulatedService:
 
 
 # ΛTAG: openai_facade
-@_legacy_router.post("/chat", response_model=ModulatedChatResponse)
+@_legacy_router.post(
+    "/chat",
+    response_model=ModulatedChatResponse,
+    summary="Modulated Chat",
+    description="Generate a response via OpenAI with LUKHAS modulation applied.",
+    responses={
+        200: {
+            "description": "Modulated chat response.",
+            "content": {
+                "application/json": {
+                    "example": {"response": "This is a modulated response."}
+                }
+            },
+        },
+        500: {"description": "Internal Server Error"},
+    },
+)
 async def modulated_chat(req: ModulatedChatRequest) -> ModulatedChatResponse:
     """Generate a response via OpenAI with LUKHAS modulation applied."""
     try:
@@ -68,7 +84,18 @@ async def modulated_chat(req: ModulatedChatRequest) -> ModulatedChatResponse:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
-@_legacy_router.post("/chat/stream")
+@_legacy_router.post(
+    "/chat/stream",
+    summary="Modulated Chat Stream",
+    description="Stream a response via OpenAI with LUKHAS modulation applied.",
+    responses={
+        200: {
+            "description": "Streamed modulated chat response.",
+            "content": {"text/plain": {"example": "This is a streamed response."}},
+        },
+        500: {"description": "Internal Server Error"},
+    },
+)
 async def modulated_chat_stream(req: ModulatedChatRequest) -> StreamingResponse:
     """Stream a response via OpenAI with LUKHAS modulation applied."""
     service = get_service()
@@ -84,7 +111,17 @@ async def modulated_chat_stream(req: ModulatedChatRequest) -> StreamingResponse:
     return StreamingResponse(token_gen(), media_type="text/plain")
 
 
-@_legacy_router.get("/metrics")
+@_legacy_router.get(
+    "/metrics",
+    summary="OpenAI Modulation Metrics",
+    description="Expose safe subset of OpenAI modulation metrics.",
+    responses={
+        200: {
+            "description": "OpenAI modulation metrics.",
+            "content": {"application/json": {"example": {"requests": 100, "errors": 5}}},
+        },
+    },
+)
 async def openai_metrics() -> JSONResponse:
     """Expose safe subset of OpenAI modulation metrics."""
     service = get_service()
@@ -132,7 +169,27 @@ def _with_std_headers(resp: Response, trace_id: str | None) -> None:
     resp.headers["X-Trace-Id"] = req_id
 
 
-@_v1_router.get("/models")
+@_v1_router.get(
+    "/models",
+    summary="List Models",
+    description="List available models (OpenAI-compatible format).",
+    responses={
+        200: {
+            "description": "A list of available models.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "object": "list",
+                        "data": [
+                            {"id": "lukhas-mini", "object": "model", "created": 1730000000, "owned_by": "lukhas"},
+                            {"id": "lukhas-embed-1", "object": "model", "created": 1730000000, "owned_by": "lukhas"},
+                        ],
+                    }
+                }
+            },
+        },
+    },
+)
 def list_models(
     request: Request,
     response: Response,
@@ -174,7 +231,33 @@ def _invalid_request(detail: str, param: str | None = None) -> Dict[str, Any]:
     return payload
 
 
-@_v1_router.post("/embeddings")
+@_v1_router.post(
+    "/embeddings",
+    summary="Create Embeddings",
+    description="Create deterministic embeddings (OpenAI-compatible format).",
+    responses={
+        200: {
+            "description": "Embeddings created successfully.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "object": "list",
+                        "data": [
+                            {
+                                "object": "embedding",
+                                "index": 0,
+                                "embedding": [0.1, 0.2, 0.3],
+                            }
+                        ],
+                        "model": "lukhas-embed-1",
+                        "usage": {"prompt_tokens": 5, "total_tokens": 5},
+                    }
+                }
+            },
+        },
+        400: {"description": "Invalid request"},
+    },
+)
 def create_embeddings(
     request: Request,
     response: Response,
@@ -246,7 +329,29 @@ def _stream_chunks(text: str, plan: Dict[str, Any]) -> List[str]:
     return chunks
 
 
-@_v1_router.post("/responses")
+@_v1_router.post(
+    "/responses",
+    summary="Create Response",
+    description="Create response (OpenAI Responses API format, non-stream stub).",
+    responses={
+        200: {
+            "description": "Response created successfully.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "id": "resp_123",
+                        "object": "response",
+                        "created": 1730000000,
+                        "model": "lukhas-mini",
+                        "output": [{"type": "output_text", "text": "echo: Hello"}],
+                        "usage": {"input_tokens": 1, "output_tokens": 2, "total_tokens": 3},
+                    }
+                }
+            },
+        },
+        400: {"description": "Invalid request"},
+    },
+)
 def create_response(
     request: Request,
     response: Response,

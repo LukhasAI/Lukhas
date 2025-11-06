@@ -66,7 +66,28 @@ class SystemMetricsResponse(BaseModel):
     total_updates: int
 
 
-@router.post("/capture", response_model=FeedbackResponse)
+@router.post(
+    "/capture",
+    response_model=FeedbackResponse,
+    summary="Capture Feedback",
+    description="Capture user feedback for an AI action.",
+    responses={
+        200: {
+            "description": "Feedback captured successfully.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "card_id": "card_123",
+                        "rating": 5,
+                        "timestamp": 1730000000.0,
+                        "message": "Feedback captured successfully",
+                    }
+                }
+            },
+        },
+        500: {"description": "Internal Server Error"},
+    },
+)
 async def capture_feedback(request: FeedbackRequest):
     """
     Capture user feedback for an AI action.
@@ -98,7 +119,30 @@ async def capture_feedback(request: FeedbackRequest):
         raise HTTPException(status_code=500, detail=str(e)) from e
 
 
-@router.post("/batch", response_model=list[FeedbackResponse])
+@router.post(
+    "/batch",
+    response_model=list[FeedbackResponse],
+    summary="Capture Batch Feedback",
+    description="Capture multiple feedback cards at once.",
+    responses={
+        200: {
+            "description": "Batch feedback captured successfully.",
+            "content": {
+                "application/json": {
+                    "example": [
+                        {
+                            "card_id": "card_123",
+                            "rating": 5,
+                            "timestamp": 1730000000.0,
+                            "message": "Feedback captured successfully",
+                        }
+                    ]
+                }
+            },
+        },
+        500: {"description": "Internal Server Error"},
+    },
+)
 async def capture_batch_feedback(requests: list[FeedbackRequest]):
     """
     Capture multiple feedback cards at once.
@@ -134,7 +178,31 @@ async def capture_batch_feedback(requests: list[FeedbackRequest]):
     return responses
 
 
-@router.get("/report/{user_id}", response_model=LearningReportResponse)
+@router.get(
+    "/report/{user_id}",
+    response_model=LearningReportResponse,
+    summary="Get Learning Report",
+    description="Get a learning report for a specific user.",
+    responses={
+        200: {
+            "description": "Learning report generated successfully.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "user_id_hash": "hashed_user_id",
+                        "total_feedback_cards": 10,
+                        "overall_satisfaction": 4.5,
+                        "improvement_trend": 0.2,
+                        "preferred_styles": ["direct", "concise"],
+                        "summary": "Based on 10 feedback cards...",
+                        "recommendations": {"tone": "more formal"},
+                    }
+                }
+            },
+        },
+        500: {"description": "Internal Server Error"},
+    },
+)
 async def get_learning_report(user_id: str):
     """
     Get a learning report for a specific user.
@@ -175,7 +243,32 @@ async def get_learning_report(user_id: str):
         raise HTTPException(status_code=500, detail=str(e)) from e
 
 
-@router.get("/metrics", response_model=SystemMetricsResponse)
+@router.get(
+    "/metrics",
+    response_model=SystemMetricsResponse,
+    summary="Get System Metrics",
+    description="Get overall feedback system metrics.",
+    responses={
+        200: {
+            "description": "System metrics retrieved successfully.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "cards_captured": 100,
+                        "patterns_identified": 20,
+                        "policies_updated": 5,
+                        "validations_passed": 5,
+                        "validations_failed": 0,
+                        "total_cards": 500,
+                        "total_patterns": 50,
+                        "total_updates": 10,
+                    }
+                }
+            },
+        },
+        500: {"description": "Internal Server Error"},
+    },
+)
 async def get_system_metrics():
     """
     Get overall feedback system metrics.
@@ -201,7 +294,25 @@ async def get_system_metrics():
         raise HTTPException(status_code=500, detail=str(e)) from e
 
 
-@router.post("/trigger-learning")
+@router.post(
+    "/trigger-learning",
+    summary="Trigger Learning Cycle",
+    description="Manually trigger pattern extraction and policy updates.",
+    responses={
+        200: {
+            "description": "Learning cycle triggered successfully.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "status": "triggered",
+                        "message": "Learning cycle triggered with 50 feedback cards",
+                    }
+                }
+            },
+        },
+        500: {"description": "Internal Server Error"},
+    },
+)
 async def trigger_learning(background_tasks: BackgroundTasks):
     """
     Manually trigger pattern extraction and policy updates.
@@ -253,7 +364,29 @@ async def run_learning_cycle(cards):
         logger.error(f"Error in learning cycle: {e}")
 
 
-@router.get("/health")
+@router.get(
+    "/health",
+    summary="Health Check",
+    description="Health check for feedback system.",
+    responses={
+        200: {
+            "description": "System is healthy.",
+            "content": {
+                "application/json": {
+                    "example": {"status": "healthy", "total_cards": 500, "system_active": True}
+                }
+            },
+        },
+        503: {
+            "description": "System is unhealthy.",
+            "content": {
+                "application/json": {
+                    "example": {"status": "unhealthy", "error": "Storage disconnected", "system_active": False}
+                }
+            },
+        },
+    },
+)
 async def health_check():
     """Health check for feedback system."""
     try:
