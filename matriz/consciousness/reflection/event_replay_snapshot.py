@@ -15,13 +15,12 @@ snapshotting for efficient recovery and debugging of the actor system.
 
 from __future__ import annotations
 
-import logging
-
 import asyncio
 import contextlib
 import gzip
 import hashlib
 import json
+import logging
 import pickle
 import threading
 import time

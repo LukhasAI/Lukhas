@@ -47,9 +47,8 @@ AIDEA: Add emotional intelligence integration for empathetic decisions
 
 from __future__ import annotations
 
-import logging
-
 import json
+import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone

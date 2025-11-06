@@ -16,9 +16,8 @@ Features:
 
 from __future__ import annotations
 
-import logging
-
 import asyncio
+import logging
 import re
 from dataclasses import dataclass, field
 from datetime import datetime, timezone

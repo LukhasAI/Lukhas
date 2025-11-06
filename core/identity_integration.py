@@ -21,9 +21,8 @@
 
 from __future__ import annotations
 
-import logging
-
 import functools
+import logging
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable

@@ -40,11 +40,10 @@
 
 from __future__ import annotations
 
-import logging
-from datetime import datetime, timezone
-
 import json
+import logging
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 

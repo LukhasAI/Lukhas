@@ -20,9 +20,8 @@ The system is inherently flexible, scalable, and resilient.
 
 from __future__ import annotations
 
-import logging
-
 import asyncio
+import logging
 import time
 import uuid
 from collections import defaultdict

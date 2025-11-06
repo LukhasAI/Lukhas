@@ -1,6 +1,9 @@
 # path: qi/provenance/receipts_hub.py
 from __future__ import annotations
 
+# ---- safe I/O (avoid sandbox recursion) ----
+import builtins
+import contextlib
 import hashlib
 import json
 import os
@@ -9,10 +12,6 @@ import time
 from typing import Any
 
 from qi.provenance.receipt_standard import build_receipt, to_json
-
-# ---- safe I/O (avoid sandbox recursion) ----
-import builtins
-import contextlib
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 OUT_DIR = os.path.join(STATE, "provenance", "exec_receipts")

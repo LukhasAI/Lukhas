@@ -9,11 +9,10 @@
 Consolidated module for better performance
 """
 
-import logging
-
 import asyncio
 import hashlib
 import json
+import logging
 import math
 import random
 import string
@@ -27,11 +26,10 @@ from typing import Any, Optional, Union
 import aiohttp
 import numpy as np
 from aiohttp import web
-from lazy_loading_embeddings import LazyEmbeddingLoader, create_lazy_embedding_system
-
 from hybrid_memory_fold import (
     HybridMemoryFold,
 )
+from lazy_loading_embeddings import LazyEmbeddingLoader, create_lazy_embedding_system
 from memory_fold_system import MemoryFoldSystem, MemoryItem
 from optimized_hybrid_memory_fold import OptimizedHybridMemoryFold
 from optimized_memory_item import OptimizedMemoryItem, create_optimized_memory

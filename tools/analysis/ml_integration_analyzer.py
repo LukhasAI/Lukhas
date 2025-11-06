@@ -25,8 +25,6 @@ Design Notes
 
 from __future__ import annotations
 
-from datetime import timezone
-
 import ast
 import datetime as _dt
 import hashlib
@@ -38,6 +36,7 @@ import subprocess
 import sys
 import textwrap
 from dataclasses import asdict, dataclass, field
+from datetime import timezone
 from pathlib import Path
 from typing import Any
 

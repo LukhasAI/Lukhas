@@ -23,7 +23,6 @@
 from __future__ import annotations
 
 import logging
-
 from abc import ABC, abstractmethod
 from functools import wraps
 from typing import Any, Callable

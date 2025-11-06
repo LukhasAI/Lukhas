@@ -3,8 +3,6 @@ from collections import Counter
 
 import pytest
 from products.experience.dashboard.consciousness import trace_dashboard
-from pydantic.warnings import PydanticDeprecatedSince20
-
 from products.experience.universal_language.core.core import (
     Grammar,
     Symbol,
@@ -16,6 +14,7 @@ from products.experience.voice.bridge.adaptation_module import (
     load_initial_emotion_map,
 )
 from products.experience.voice.bridge.validator import VoiceValidator
+from pydantic.warnings import PydanticDeprecatedSince20
 from system.common.event_bus import EventBus
 
 warnings.filterwarnings("ignore", message="Import 'bio.bio_utilities' is deprecated")

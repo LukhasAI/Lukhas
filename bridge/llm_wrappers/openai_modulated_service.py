@@ -21,13 +21,12 @@ import time
 import uuid
 from typing import Any, cast
 
-from bridge.llm_wrappers.tool_executor import (
-    execute_tool as bridged_execute_tool,
-)
-
 from branding.policy.terminology import normalize_chunk, normalize_output
 from openai.tooling import build_tools_from_allowlist, get_all_tools
 
+from bridge.llm_wrappers.tool_executor import (
+    execute_tool as bridged_execute_tool,
+)
 from metrics import get_metrics_collector
 from orchestration.signals.homeostasis import (
     HomeostasisController,

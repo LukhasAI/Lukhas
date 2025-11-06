@@ -3,15 +3,15 @@ from __future__ import annotations
 
 # Safe I/O
 import builtins
+
+# Approvals & sandbox reuse
+import contextlib
 import hashlib
 import json
 import os
 import time
 from dataclasses import asdict, dataclass
 from typing import Any
-
-# Approvals & sandbox reuse
-import contextlib
 
 from qi.autonomy.self_healer import observe_signals
 

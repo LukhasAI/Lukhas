@@ -55,12 +55,11 @@
 
 from __future__ import annotations
 
-import logging
-import sys
-
 # Module imports
 import asyncio
 import json
+import logging
+import sys
 import threading
 import time
 import uuid

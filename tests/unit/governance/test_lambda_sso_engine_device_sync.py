@@ -7,7 +7,6 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import pytest
-
 from labs.governance.identity.core.sing.sso_engine import LambdaSSOEngine
 
 REPO_ROOT = Path(__file__).resolve().parents[3]

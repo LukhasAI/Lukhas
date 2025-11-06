@@ -7,8 +7,6 @@ the staged migration to the canonical module name.
 Do not add heavy logic here — keep this shim thin and import-only.
 """
 
-from .lambda_id_routes import lambda_id_bp
-
 import logging
 import random
 import time  # For request IDs
@@ -17,6 +15,8 @@ from datetime import datetime, timezone
 from flask import Blueprint, jsonify, request
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+
+from .lambda_id_routes import lambda_id_bp
 
 # Backwards-compatible alias expected by older code
 lambd_id_bp = lambda_id_bp

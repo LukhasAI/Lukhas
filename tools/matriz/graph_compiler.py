@@ -14,12 +14,11 @@ Public API (importable for tests):
 
 from __future__ import annotations
 
-from datetime import timezone
-
 import argparse
 import hashlib
 import json
 from collections.abc import Mapping, MutableMapping, Sequence
+from datetime import timezone
 from pathlib import Path
 
 # Allowed node roles for v0.1
