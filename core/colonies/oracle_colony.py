@@ -29,7 +29,7 @@ from __future__ import annotations
 import asyncio
 import importlib
 import json
-import logging
+import structlog
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
@@ -71,7 +71,7 @@ try:
 except ImportError:
     BaseColony = object
 
-logger = logging.getLogger("ΛTRACE.oracle_colony")
+logger = structlog.get_logger("ΛTRACE.oracle_colony")
 
 
 @dataclass
@@ -111,7 +111,7 @@ class OracleAgent:
         self.agent_id = agent_id
         self.specialization = specialization  # "predictor", "dreamer", "prophet", "analyzer"
         self.openai_service = openai_service
-        self.logger = logger.bind(agent_id=agent_id, specialization=specialization)
+        self.logger = logger.bind(agent_id=agent_id, specialization=specialization) if hasattr(logger, "bind") else logger
 
     async def process_query(self, query: OracleQuery) -> OracleResponse:
         """Process an Oracle query based on specialization."""
@@ -398,7 +398,7 @@ class OracleColony(BaseColony):
     """
 
     def __init__(self, colony_id: str = "oracle_colony"):
-        super().__init__(colony_id)
+        super().__init__(colony_id=colony_id)
         self.openai_service = None
         self.oracle_agents: dict[str, OracleAgent] = {}
         self.query_queue = asyncio.Queue()
@@ -406,8 +406,6 @@ class OracleColony(BaseColony):
 
     async def initialize(self):
         """Initialize the Oracle Colony."""
-        await super().initialize()
-
         # Initialize OpenAI service
         self.openai_service = None
         _load_labs_openai_symbols()
@@ -429,7 +427,7 @@ class OracleColony(BaseColony):
         # Create specialized Oracle agents
         specializations = ["predictor", "dreamer", "prophet", "analyzer"]
         for spec in specializations:
-            agent_id = f"oracle_{spec}_{self.node_id[:8]}"
+            agent_id = f"oracle_{spec}_{self.colony_id[:8]}"
             self.oracle_agents[spec] = OracleAgent(agent_id, spec, self.openai_service)
 
         # Start processing loop
@@ -468,15 +466,16 @@ class OracleColony(BaseColony):
         self.response_cache[response.query_id] = response
 
         # Emit event
-        await self.emit_event(
-            "oracle_response_generated",
-            {
-                "query_type": query.query_type,
-                "response_id": response.query_id,
-                "confidence": response.confidence,
-                "agent_specialization": agent.specialization,
-            },
-        )
+        if hasattr(self, "emit_event") and asyncio.iscoroutinefunction(self.emit_event):
+            await self.emit_event(
+                "oracle_response_generated",
+                {
+                    "query_type": query.query_type,
+                    "response_id": response.query_id,
+                    "confidence": response.confidence,
+                    "agent_specialization": agent.specialization,
+                },
+            )
 
         return response
 
