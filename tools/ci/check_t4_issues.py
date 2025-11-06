@@ -189,18 +189,32 @@ def run_ruff(paths: list[str], codes: list[str] | None = None) -> dict:
 
 def compute_weighted_quality_score(annotations: list[dict]) -> dict:
     """
-    Compute weighted annotation quality score.
-    
+    Compute weighted annotation quality score with detailed breakdown.
+
     Quality = (weighted_good / weighted_total) * 100
-    
+
     Good = has owner+ticket OR status not in (planned, committed)
     Weighted by severity of violation code
     """
     if not annotations:
-        return {"score": 100.0, "weighted_good": 0, "weighted_total": 0}
+        return {
+            "score": 100.0,
+            "weighted_good": 0,
+            "weighted_total": 0,
+            "breakdown": {
+                "missing_owner": [],
+                "missing_ticket": [],
+                "generic_reason": [],
+                "files_by_quality": {}
+            }
+        }
 
     weighted_good = 0
     weighted_total = 0
+    missing_owner = []
+    missing_ticket = []
+    generic_reason = []
+    file_quality = {}
 
     for annot in annotations:
         code = annot.get("code", "UNKNOWN")
@@ -210,17 +224,79 @@ def compute_weighted_quality_score(annotations: list[dict]) -> dict:
         status = annot.get("status")
         has_owner = bool(annot.get("owner"))
         has_ticket = bool(annot.get("ticket"))
+        reason = annot.get("reason", "")
+        file_path = annot.get("file", "unknown")
+        line_num = annot.get("line", 0)
+
+        # Track quality issues per file
+        if file_path not in file_quality:
+            file_quality[file_path] = {"good": 0, "total": 0, "weight": 0}
+        file_quality[file_path]["total"] += 1
+        file_quality[file_path]["weight"] += weight
 
         # Good if: (not planned/committed) OR (has both owner+ticket)
-        if status not in ("planned", "committed") or (has_owner and has_ticket):
+        is_good = status not in ("planned", "committed") or (has_owner and has_ticket)
+
+        if is_good:
             weighted_good += weight
+            file_quality[file_path]["good"] += 1
+        else:
+            # Track specific quality issues
+            if status in ("planned", "committed"):
+                if not has_owner:
+                    missing_owner.append({
+                        "file": file_path,
+                        "line": line_num,
+                        "code": code,
+                        "status": status,
+                        "id": annot.get("id", "UNKNOWN")
+                    })
+                if not has_ticket:
+                    missing_ticket.append({
+                        "file": file_path,
+                        "line": line_num,
+                        "code": code,
+                        "status": status,
+                        "id": annot.get("id", "UNKNOWN")
+                    })
+
+        # Check for generic reasons
+        if any(generic in reason.lower() for generic in [
+            "kept for future", "reserved", "todo", "fixme", "placeholder"
+        ]):
+            generic_reason.append({
+                "file": file_path,
+                "line": line_num,
+                "code": code,
+                "reason": reason,
+                "id": annot.get("id", "UNKNOWN")
+            })
 
     score = 100.0 * weighted_good / weighted_total if weighted_total > 0 else 100.0
+
+    # Sort files by quality issues (worst first)
+    files_by_quality = sorted(
+        [(path, data["total"] - data["good"], data["weight"]) for path, data in file_quality.items()],
+        key=lambda x: (x[1], x[2]),
+        reverse=True
+    )[:10]  # Top 10 worst files
 
     return {
         "score": round(score, 2),
         "weighted_good": weighted_good,
         "weighted_total": weighted_total,
+        "breakdown": {
+            "missing_owner_count": len(missing_owner),
+            "missing_owner": missing_owner[:10],  # Top 10
+            "missing_ticket_count": len(missing_ticket),
+            "missing_ticket": missing_ticket[:10],  # Top 10
+            "generic_reason_count": len(generic_reason),
+            "generic_reason": generic_reason[:10],  # Top 10
+            "files_by_quality": [
+                {"file": path, "issues": issues, "weight": weight}
+                for path, issues, weight in files_by_quality
+            ],
+        }
     }
 
 
@@ -338,8 +414,11 @@ def main():
         annotation = parse_unified_annotation(line_content)
 
         if annotation:
-            # Valid unified annotation
-            valid_annotations.append(annotation)
+            # Valid unified annotation - add file/line context
+            annotation_with_context = annotation.copy()
+            annotation_with_context["file"] = finding["file"]
+            annotation_with_context["line"] = line_num
+            valid_annotations.append(annotation_with_context)
 
             # Count by status
             status = annotation.get("status", "unknown")
@@ -396,6 +475,7 @@ def main():
             "annotation_quality_score": quality_score_data["score"],
             "weighted_good": quality_score_data["weighted_good"],
             "weighted_total": quality_score_data["weighted_total"],
+            "quality_breakdown": quality_score_data["breakdown"],
             "counts_by_code": counts_by_code,
             "counts_by_status": counts_by_status,
         },
@@ -420,6 +500,34 @@ def main():
             print(f"⚠️  {missing_count} unannotated + {len(quality_issues)} quality issues")
             print("💡 Run migrate_annotations.py for legacy formats")
             print("💡 Add owner+ticket for planned/committed items")
+
+        # Quality breakdown summary
+        breakdown = quality_score_data["breakdown"]
+        if breakdown["missing_owner_count"] or breakdown["missing_ticket_count"] or breakdown["generic_reason_count"]:
+            print("\n📊 Quality Score Breakdown:")
+            print(f"   Score: {quality_score_data['score']:.1f}% " +
+                  f"({quality_score_data['weighted_good']}/{quality_score_data['weighted_total']} weighted)")
+
+            if breakdown["missing_owner_count"]:
+                print(f"\n   ❌ Missing Owner: {breakdown['missing_owner_count']} annotations")
+                for item in breakdown["missing_owner"][:3]:
+                    print(f"      • {item['file']}:{item['line']} ({item['code']}) - {item['id']}")
+
+            if breakdown["missing_ticket_count"]:
+                print(f"\n   ❌ Missing Ticket: {breakdown['missing_ticket_count']} annotations")
+                for item in breakdown["missing_ticket"][:3]:
+                    print(f"      • {item['file']}:{item['line']} ({item['code']}) - {item['id']}")
+
+            if breakdown["generic_reason_count"]:
+                print(f"\n   ⚠️  Generic Reason: {breakdown['generic_reason_count']} annotations")
+                for item in breakdown["generic_reason"][:3]:
+                    print(f"      • {item['file']}:{item['line']}: \"{item['reason'][:50]}...\"")
+
+            if breakdown["files_by_quality"]:
+                print("\n   📁 Files Needing Attention (Top 5):")
+                for file_data in breakdown["files_by_quality"][:5]:
+                    print(f"      • {file_data['file']}: {file_data['issues']} issues " +
+                          f"(weight: {file_data['weight']})")
 
     # Exit code
     if args.strict:
