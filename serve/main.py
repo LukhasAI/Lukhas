@@ -272,7 +272,21 @@ async def list_models() -> dict[str, Any]:
 @app.post('/v1/embeddings', tags=['OpenAI Compatible'])
 async def create_embeddings(request: dict) -> dict[str, Any]:
     """OpenAI-compatible embeddings endpoint with unique deterministic vectors."""
+    if "input" not in request:
+        raise HTTPException(status_code=400, detail={"error": {
+            "message": "Missing `input` field",
+            "type": "invalid_request_error",
+            "param": "input",
+            "code": "missing_required_parameter"
+        }})
     input_text = request.get("input", "")
+    if not input_text:
+        raise HTTPException(status_code=400, detail={"error": {
+            "message": "`input` field cannot be empty",
+            "type": "invalid_request_error",
+            "param": "input",
+            "code": "invalid_parameter"
+        }})
     model = request.get("model", "text-embedding-ada-002")
     dimensions = request.get("dimensions", 1536)
 
