@@ -1,107 +1,29 @@
----
-status: wip
-type: documentation
----
-# 📦 Core
+# Core Module
 
-_Within the grand architecture of LUKHAS, core emerges—Compatibility bridge exposing :mod:`lukhas.core`, purpose refined to essence, functionality elevated to art._
+## Purpose
 
-**Compatibility bridge exposing :mod:`lukhas.core` under the historical ``core`` namespace.**
-
-## Overview
-
-Compatibility bridge exposing :mod:`lukhas.core` under the historical ``core`` namespace.
-
-
-
-**Technical Foundation**: Core core module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
-
-## Lane Position
-
-- **Lane**: `unknown`
-- **Module ID**: `unknown`
-- **Constellation**: Core System Component
-
-## Features
-
-- ✅ Core functionality
-- ✅ API integration
-- ✅ Testing support
-
-## Quick Start
-
-**Getting Started**: Compatibility bridge exposing :mod:`lukhas. This module integrates with the LUKHAS system to provide essential functionality.
-
-
-### Installation
-
-```python
-# Import from unknown lane
-from core import Core
-
-# Initialize
-system = Core()
-result = system.process(input_data)
-print(f"Result: {result}")
-```
-
-## API Reference
-
-See code docstrings and inline documentation.
-
-## Dependencies
-
-- `identity`
-
-## Provides
-
-- Core module functionality
+The `core` module is the central pillar of the LUKHAS AI system, providing the fundamental building blocks for cognition, orchestration, and system management. It houses the most critical components that enable the AI to function, reason, and interact with the world.
 
 ## Architecture
 
+The `core` module is organized into several key submodules, each responsible for a distinct aspect of the AI's functionality:
+
+- **`orchestration/`**: Contains the logic for coordinating complex tasks and workflows.
+- **`colonies/`**: Implements the concept of "cognitive colonies," which are specialized agents that work together to solve problems.
+- **`security/`**: Manages security-related aspects of the system, such as access control and data protection.
+
+## Key Components
+
+- **`core/orchestration/async_orchestrator.py`**: The asynchronous orchestrator, which is responsible for managing the execution of complex, long-running tasks.
+- **`core/colonies/oracle_colony.py`**: A specialized colony that is designed to provide expert knowledge on a wide range of topics.
+
+## Usage Examples
+
+To use the `core` module, you can import its components and interact with them as needed:
+
+```python
+from core.orchestration import AsyncCognitiveOrchestrator
+
+orchestrator = AsyncCognitiveOrchestrator()
+result = orchestrator.process_query("What is the meaning of life?")
 ```
-core/
-├── __init__.py          # Module initialization
-├── core.py              # Core functionality
-├── api.py               # API interfaces
-├── tests/               # Test suite
-└── docs/                # Documentation
-```
-
-## Testing
-
-```bash
-# Run module tests
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/core/tests/ -v
-
-# Run with coverage
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/core/tests/ --cov=core --cov-report=html
-```
-
-## Performance
-
-- Performance targets: Follow LUKHAS system SLOs
-
-## Documentation
-
-- **Module Manifest**: [`module.manifest.json`](module.manifest.json)
-- **Detailed Docs**: [`docs/`](docs/)
-- **API Examples**: See code docstrings and `docs/` directory
-
-## Contributing
-
-Follow LUKHAS development guidelines:
-1. Respect lane boundaries
-2. Maintain T4/0.01% quality standards
-3. Add comprehensive tests
-4. Update documentation
-
-## Related Modules
-
-- [identity](../identity/)
-
----
-
-**Version**: 1.0.0
-**Lane**: unknown
-**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
