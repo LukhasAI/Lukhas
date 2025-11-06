@@ -41,6 +41,7 @@ try:
     GUARDIAN_AVAILABLE = True
 except ImportError:
     print("⚠️  Guardian system not available - identity operations without ethical validation")
+    GUARDIAN_AVAILABLE = False
 
 
 
