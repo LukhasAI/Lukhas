@@ -1,3 +1,8 @@
+status: wip
+type: documentation
+> **Note**: This is a vendor-neutral version of claude.me for compatibility with any AI tool or development environment.
+
+
 # Grafana Module - LUKHAS Visualization & Dashboards
 
 **Module**: grafana
@@ -5,7 +10,6 @@
 **Team**: Core
 **Purpose**: Grafana dashboards and visualization configuration for LUKHAS system monitoring
 
----
 
 ## Overview
 
@@ -19,7 +23,6 @@ The grafana module provides pre-configured Grafana dashboards, data source confi
 - Alert visualization
 - Multi-environment support
 
----
 
 ## Architecture
 
@@ -43,7 +46,6 @@ grafana/
 └── tests/                       # Configuration tests
 ```
 
----
 
 ## Core Components
 
@@ -69,7 +71,6 @@ providers:
       foldersFromFilesStructure: true
 ```
 
----
 
 ### 2. Pre-Configured Dashboards
 
@@ -135,7 +136,6 @@ providers:
   - Throughput heatmap
   - Slow queries
 
----
 
 ### 3. Data Source Configuration
 
@@ -173,7 +173,6 @@ datasources:
         datasourceUid: prometheus
 ```
 
----
 
 ### 4. Custom Panels
 
@@ -206,7 +205,6 @@ datasources:
   - Prevention success/failure
   - Fold limit proximity (visual warning)
 
----
 
 ### 5. Alert Visualization
 
@@ -224,7 +222,6 @@ Grafana visualizes alerts from Prometheus Alertmanager:
 - Alert frequency heatmap
 - MTTR (Mean Time To Resolve)
 
----
 
 ## Configuration
 
@@ -292,7 +289,6 @@ environments:
       max_attempts: 3
 ```
 
----
 
 ## Deployment
 
@@ -344,7 +340,6 @@ volumes:
   grafana-data:
 ```
 
----
 
 ## Dashboard Access
 
@@ -360,7 +355,6 @@ After deployment, access dashboards at:
 - **MATRIZ Pipeline**: `http://localhost:3000/d/matriz`
 - **API Performance**: `http://localhost:3000/d/api`
 
----
 
 ## Performance Targets
 
@@ -369,7 +363,6 @@ After deployment, access dashboards at:
 - **Query Timeout**: 60 seconds max
 - **Data Retention**: 90 days (configurable)
 
----
 
 ## Observability
 
@@ -382,7 +375,6 @@ After deployment, access dashboards at:
 - Data source query rate
 - Alert evaluation time
 
----
 
 ## Related Modules
 
@@ -391,7 +383,6 @@ After deployment, access dashboards at:
 - **telemetry/**: Observability data collection
 - **brain/**: System orchestration metrics
 
----
 
 ## Quick Reference
 
@@ -406,31 +397,3 @@ After deployment, access dashboards at:
 **Schema Version**: 1.0.0
 **Last Updated**: 2025-10-18
 **Philosophy**: Visibility drives improvement—make every metric beautiful and actionable.
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

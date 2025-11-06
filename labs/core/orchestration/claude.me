@@ -1,6 +1,5 @@
----
-title: me
-slug: core.orchestration.claude.me
+title: lukhas_context
+slug: core.orchestration.lukhas_context
 owner: T4
 lane: labs
 star:
@@ -10,13 +9,20 @@ constellation_stars:
 related_modules:
 manifests:
 links:
----
+status: wip
+type: documentation
+# LUKHAS AI Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
+
+
+
 # CANDIDATE Core Orchestration Systems
-*266-File Multi-Agent Coordination - Distributed AGI Orchestration*
+*266-File Multi-Agent Coordination - Distributed Cognitive Orchestration*
 
 ## Multi-Agent Orchestration Overview
 
-CANDIDATE core orchestration represents the **largest coordination system** in LUKHAS with **266 files** implementing comprehensive multi-agent coordination, distributed task management, and external service orchestration. This is the primary AGI coordination engine that manages distributed consciousness, reasoning, and integration workflows across the entire LUKHAS ecosystem.
+CANDIDATE core orchestration represents the **largest coordination system** in LUKHAS with **266 files** implementing comprehensive multi-agent coordination, distributed task management, and external service orchestration. This is the primary Cognitive AI coordination engine that manages distributed consciousness, reasoning, and integration workflows across the entire LUKHAS ecosystem.
 
 ### **Orchestration System Scope**
 - **Files**: 266 orchestration files (largest CANDIDATE core domain)
@@ -70,24 +76,24 @@ class AgentOrchestrator:
     async def orchestrate_multi_agent_workflow(self, complex_task):
         # 1. Task Analysis and Decomposition
         task_breakdown = await self.analyze_and_decompose_task(complex_task)
-        
+
         # 2. Agent Selection and Assignment
         selected_agents = await self.select_optimal_agents(task_breakdown)
-        
+
         # 3. Parallel Agent Execution
         agent_results = await asyncio.gather(*[
             agent.execute_task(task_component)
             for agent, task_component in zip(selected_agents, task_breakdown)
         ])
-        
+
         # 4. Result Synthesis and Validation
         synthesized_result = await self.synthesize_agent_results(agent_results)
-        
+
         # 5. Quality Validation and Consensus
         validated_result = await self.validate_multi_agent_consensus(
             synthesized_result
         )
-        
+
         return validated_result
 ```
 
@@ -136,20 +142,20 @@ class AgentOrchestrator:
 async def coordinate_agent_communication(self, communication_context):
     # 1. Message Routing
     routing_plan = await self.plan_message_routing(communication_context)
-    
+
     # 2. Agent Discovery
     available_agents = await self.discover_available_agents(routing_plan)
-    
+
     # 3. Message Broadcasting
     broadcast_results = await self.broadcast_to_agents(
         communication_context, available_agents
     )
-    
+
     # 4. Response Aggregation
     aggregated_responses = await self.aggregate_agent_responses(
         broadcast_results
     )
-    
+
     # 5. Consensus Building
     return await self.build_agent_consensus(aggregated_responses)
 ```
@@ -197,7 +203,7 @@ async def coordinate_agent_communication(self, communication_context):
 - **Context Preservation**: Context preservation across OpenAI API calls
 - **Response Integration**: OpenAI response integration with agent workflows
 
-#### **Multi-AI Coordination** 
+#### **Multi-AI Coordination**
 **Comprehensive external AI integration**
 ```python
 # Multi-AI service orchestration pattern
@@ -206,22 +212,22 @@ async def orchestrate_multi_ai_services(self, ai_coordination_request):
     selected_services = await self.select_optimal_ai_services(
         ai_coordination_request
     )
-    
+
     # 2. Parallel AI Processing
     ai_results = await asyncio.gather(*[
         self.openai_orchestrator.process(ai_coordination_request),
         self.anthropic_coordinator.process(ai_coordination_request),
         self.google_orchestrator.process(ai_coordination_request)
     ])
-    
+
     # 3. Result Synthesis
     synthesized_ai_result = await self.synthesize_ai_results(ai_results)
-    
+
     # 4. Quality Validation
     validated_result = await self.validate_ai_result_quality(
         synthesized_ai_result
     )
-    
+
     # 5. Agent Integration
     return await self.integrate_ai_result_with_agents(validated_result)
 ```
@@ -242,22 +248,22 @@ class OrchestrationDevelopment:
     async def develop_orchestration_capability(self, new_capability):
         # 1. Agent Capability Analysis
         capability_analysis = await self.analyze_agent_capabilities(new_capability)
-        
+
         # 2. Orchestration Pattern Design
         orchestration_pattern = await self.design_orchestration_pattern(
             capability_analysis
         )
-        
+
         # 3. Multi-Agent Integration
         agent_integration = await self.integrate_with_existing_agents(
             orchestration_pattern
         )
-        
+
         # 4. Workflow Testing
         workflow_validation = await self.test_orchestration_workflow(
             agent_integration
         )
-        
+
         # 5. Performance Optimization
         return await self.optimize_orchestration_performance(
             workflow_validation
@@ -270,16 +276,16 @@ class OrchestrationDevelopment:
 async def integrate_new_agent(self, agent_specification):
     # 1. Agent Implementation
     new_agent = await self.implement_agent(agent_specification)
-    
+
     # 2. Orchestrator Registration
     await self.agent_orchestrator.register_agent(new_agent)
-    
+
     # 3. Communication Integration
     await self.message_broker.integrate_agent_communication(new_agent)
-    
+
     # 4. Workflow Integration
     await self.workflow_manager.integrate_agent_workflows(new_agent)
-    
+
     # 5. Testing and Validation
     return await self.validate_agent_integration(new_agent)
 ```
@@ -290,22 +296,22 @@ async def integrate_new_agent(self, agent_specification):
 async def integrate_external_service(self, service_specification):
     # 1. API Wrapper Development
     api_wrapper = await self.develop_api_wrapper(service_specification)
-    
+
     # 2. Orchestration Integration
     orchestration_integration = await self.integrate_with_orchestrator(
         api_wrapper
     )
-    
+
     # 3. Agent Coordination
     agent_coordination = await self.coordinate_with_agents(
         orchestration_integration
     )
-    
+
     # 4. Workflow Integration
     workflow_integration = await self.integrate_with_workflows(
         agent_coordination
     )
-    
+
     # 5. Performance Validation
     return await self.validate_service_integration_performance(
         workflow_integration
@@ -364,10 +370,9 @@ async def integrate_external_service(self, service_specification):
 3. **Production Scaling**: Enterprise-scale orchestration deployment patterns
 4. **Performance Optimization**: Sub-100ms orchestration coordination optimization
 
----
 
-**Orchestration System**: 266 files with multi-agent coordination | **Core**: AgentOrchestrator (24KB) + Base patterns + Specialized agents  
-**Integration**: Multi-AI coordination + External APIs + Workflow management | **Status**: Active development with Constellation Framework integration  
+**Orchestration System**: 266 files with multi-agent coordination | **Core**: AgentOrchestrator (24KB) + Base patterns + Specialized agents
+**Integration**: Multi-AI coordination + External APIs + Workflow management | **Status**: Active development with Constellation Framework integration
 **Performance**: <100ms coordination + Sub-250ms synthesis + <500ms external integration
 
-*Primary AGI coordination engine - extend through agent specialization and workflow development*
+*Primary Cognitive AI coordination engine - extend through agent specialization and workflow development*

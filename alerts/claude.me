@@ -1,3 +1,8 @@
+status: wip
+type: documentation
+> **Note**: This is a vendor-neutral version of claude.me for compatibility with any AI tool or development environment.
+
+
 # Alerts Module - LUKHAS Alert Rules & Configurations
 
 **Module**: alerts
@@ -5,7 +10,6 @@
 **Team**: Core
 **Purpose**: Alert rule definitions, alert configurations, and alerting infrastructure for LUKHAS monitoring
 
----
 
 ## Overview
 
@@ -19,7 +23,6 @@ The alerts module contains Prometheus alert rule definitions, Alertmanager confi
 - Drift detection alerts (EMA-based)
 - Unrouted signal alerts
 
----
 
 ## Architecture
 
@@ -40,7 +43,6 @@ alerts/
 └── tests/                       # Alert rule tests
 ```
 
----
 
 ## Core Components
 
@@ -81,7 +83,6 @@ groups:
 - **Warning**: Attention needed (high latency, resource usage)
 - **Info**: Informational (configuration changes, deployments)
 
----
 
 ### 2. Drift Detection Alerts (`lukhas_drift_ema.json`)
 
@@ -126,7 +127,6 @@ groups:
 - `lukhas_drift_realignment_events`: Realignment count
 - `lukhas_drift_realignment_failures`: Failed realignments
 
----
 
 ### 3. Unrouted Signals Alerts (`lukhas_unrouted_signals.json`)
 
@@ -165,7 +165,6 @@ groups:
 }
 ```
 
----
 
 ## Alert Severity Levels
 
@@ -195,7 +194,6 @@ groups:
 - Routine maintenance scheduled
 - Dashboard usage statistics
 
----
 
 ## Alert Routing Configuration
 
@@ -245,7 +243,6 @@ receivers:
       - to: 'lukhas-ops@lukhas.ai'
 ```
 
----
 
 ## Testing Alert Rules
 
@@ -276,7 +273,6 @@ Embedded tests in `rules_with_tests.yaml`:
 promtool test rules rules_with_tests.yaml
 ```
 
----
 
 ## Alert Best Practices
 
@@ -306,7 +302,6 @@ annotations:
   runbook_url: "https://docs.lukhas.ai/runbooks/memory-cascade"
 ```
 
----
 
 ## Configuration
 
@@ -342,7 +337,6 @@ alerts:
       smtp_host: "smtp.lukhas.ai"
 ```
 
----
 
 ## Deployment
 
@@ -363,7 +357,6 @@ curl -X POST http://prometheus:9090/-/reload
 alertmanager --config.file=alertmanager.yml
 ```
 
----
 
 ## Observability
 
@@ -376,7 +369,6 @@ alertmanager --config.file=alertmanager.yml
 - Notification delivery success rate
 - Alert test pass/fail rate
 
----
 
 ## Related Modules
 
@@ -385,7 +377,6 @@ alertmanager --config.file=alertmanager.yml
 - **dashboards/**: Alert visualization
 - **brain/**: Alert event integration (AlertEvent, AlertLevel)
 
----
 
 ## Quick Reference
 
@@ -397,37 +388,8 @@ alertmanager --config.file=alertmanager.yml
 
 **Severity Levels**: Critical (immediate), Warning (30min), Info (next day)
 
----
 
 **Module Status**: L2 Integration
 **Schema Version**: 1.0.0
 **Last Updated**: 2025-10-18
 **Philosophy**: Alert on what matters, silence the noise, and always provide a path to resolution.
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

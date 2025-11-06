@@ -1,3 +1,8 @@
+status: wip
+type: documentation
+> **Note**: This is a vendor-neutral version of claude.me for compatibility with any AI tool or development environment.
+
+
 # Dashboards Module - LUKHAS Dashboard Definitions
 
 **Module**: dashboards
@@ -5,7 +10,6 @@
 **Team**: Core
 **Purpose**: Grafana dashboard JSON definitions and configurations for LUKHAS monitoring
 
----
 
 ## Overview
 
@@ -18,7 +22,6 @@ The dashboards module contains Grafana dashboard JSON definitions specifically d
 - Multi-environment dashboard variants
 - Dashboard templates and variables
 
----
 
 ## Architecture
 
@@ -39,7 +42,6 @@ dashboards/
 └── tests/                       # Dashboard tests
 ```
 
----
 
 ## Core Dashboards
 
@@ -66,7 +68,6 @@ curl -X POST http://grafana:3000/api/dashboards/import \
   -d @lukhas_ops.json
 ```
 
----
 
 ### 2. Drift Detection Dashboard (`lukhas_drift_ema.json`)
 
@@ -78,7 +79,7 @@ curl -X POST http://grafana:3000/api/dashboards/import \
 - Drift spike detection
 - Realignment events timeline
 - Drift distribution histogram
-- Trinity Framework compliance status
+- Constellation Framework (8 Stars) compliance status
 
 **Key Metrics**:
 - `lukhas_consciousness_drift` (current drift)
@@ -89,7 +90,6 @@ curl -X POST http://grafana:3000/api/dashboards/import \
 - Warning: drift > 0.12
 - Critical: drift > 0.15
 
----
 
 ### 3. Unrouted Signals Dashboard (`lukhas_unrouted_signals.json`)
 
@@ -109,7 +109,6 @@ curl -X POST http://grafana:3000/api/dashboards/import \
 
 **Use Case**: Debugging integration issues and signal flow problems.
 
----
 
 ## Dashboard Configuration
 
@@ -143,7 +142,6 @@ Dashboards support variables for multi-environment deployment:
 
 **Usage**: Select environment, cluster, and service from dashboard dropdowns to filter metrics.
 
----
 
 ### Panel Query Examples
 
@@ -191,7 +189,6 @@ Dashboards support variables for multi-environment deployment:
 }
 ```
 
----
 
 ## Deployment
 
@@ -229,7 +226,6 @@ providers:
 
 Place dashboard JSON files in `/etc/grafana/dashboards/lukhas/` and Grafana will auto-load them.
 
----
 
 ## Configuration
 
@@ -255,7 +251,6 @@ dashboards:
     - "7d"
 ```
 
----
 
 ## Customization
 
@@ -288,7 +283,6 @@ dashboards:
 4. Replace JSON file in `dashboards/` directory
 5. Commit to version control
 
----
 
 ## Observability
 
@@ -300,7 +294,6 @@ dashboards:
 - Panel query duration
 - Import success/failure rate
 
----
 
 ## Related Modules
 
@@ -309,7 +302,6 @@ dashboards:
 - **monitoring/**: Alert definitions
 - **alerts/**: Alert rule definitions
 
----
 
 ## Quick Reference
 
@@ -319,37 +311,8 @@ dashboards:
 | `lukhas_drift_ema.json` | Drift detection | Drift value, EMA trend, realignments |
 | `lukhas_unrouted_signals.json` | Signal routing | Unrouted count, failure reasons |
 
----
 
 **Module Status**: L2 Integration
 **Schema Version**: 1.0.0
 **Last Updated**: 2025-10-18
 **Philosophy**: Dashboards make the invisible visible—design for clarity, not complexity.
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

@@ -1,4 +1,9 @@
-# Analytics Module - Claude AI Context
+status: wip
+type: documentation
+# Analytics Module Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
+
 
 **Module**: analytics
 **Purpose**: Analytics, metrics collection, and data visualization
@@ -6,7 +11,6 @@
 **Language**: Python
 **Last Updated**: 2025-10-18
 
----
 
 ## Module Overview
 
@@ -25,7 +29,6 @@ The analytics module provides comprehensive analytics capabilities for LUKHAS, i
 - **✦ Trail Star (Memory)**: Historical analytics and trend analysis
 - **🛡️ Watch Star (Guardian)**: Compliance and ethics analytics
 
----
 
 ## Architecture
 
@@ -47,7 +50,6 @@ from analytics import (
 )
 ```
 
----
 
 ## Analytics Domains
 
@@ -59,7 +61,6 @@ from analytics import (
 - **MATRIZ Analytics**: Pipeline performance, node execution times
 - **API Analytics**: Request patterns, latency, throughput
 
----
 
 ## Key Functions
 
@@ -125,7 +126,6 @@ alert = create_analytics_alert(
 )
 ```
 
----
 
 ## Metrics Available
 
@@ -153,7 +153,6 @@ alert = create_analytics_alert(
 - `guardian_validation_rate` - Ethics validation success rate
 - `guardian_policy_violations` - Policy violation count
 
----
 
 ## Module Structure
 
@@ -176,7 +175,6 @@ analytics/
     └── test_analytics_integration.py
 ```
 
----
 
 ## Integration Points
 
@@ -198,7 +196,6 @@ analytics/
 - Anomaly detection
 - Integration with monitoring/alerting systems
 
----
 
 ## Development Guidelines
 
@@ -237,7 +234,6 @@ dashboard = get_analytics_dashboard(
 )
 ```
 
----
 
 ## MATRIZ Pipeline Integration
 
@@ -250,7 +246,6 @@ This module operates within the MATRIZ cognitive framework:
 - **I (Intent)**: Intentional metric collection and reporting
 - **A (Action)**: Automated responses to analytics insights
 
----
 
 ## Performance Targets
 
@@ -259,7 +254,6 @@ This module operates within the MATRIZ cognitive framework:
 - **Report Generation**: <5s for 24-hour reports
 - **Prometheus Export**: <100ms for full metrics export
 
----
 
 ## Related Modules
 
@@ -268,7 +262,6 @@ This module operates within the MATRIZ cognitive framework:
 - **Memory** ([../memory/](../memory/)) - Memory metrics source
 - **Guardian** ([../governance/](../governance/)) - Ethics and compliance analytics
 
----
 
 ## Documentation
 
@@ -277,38 +270,9 @@ This module operates within the MATRIZ cognitive framework:
 - **Tests**: [analytics/tests/](tests/) - Analytics test suites
 - **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#analytics)
 
----
 
 **Status**: Integration Lane (L2)
 **Manifest**: ✓ module.manifest.json (schema v3.0.0)
 **Team**: Core
 **Code Owners**: @lukhas-core
 **Last Updated**: 2025-10-18
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----
