@@ -206,8 +206,8 @@ def main():
         text=True
     )
 
-    remaining = len([l for l in result.stdout.split('\n')
-                    if 'E402' in l and not any(x in l for x in ['archive/', 'gemini-dev/', 'b1db8919'])])
+    remaining = len([line for line in result.stdout.split('\n')
+                    if 'E402' in line and not any(x in line for x in ['archive/', 'gemini-dev/', 'b1db8919'])])
     print(f"Remaining E402 errors: {remaining}")
 
 
