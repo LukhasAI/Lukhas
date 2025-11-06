@@ -2,7 +2,7 @@
 In-memory implementation of memory indexing systems.
 """
 from collections import defaultdict
-from typing import Any, Dict, List, TypedDict
+from typing import Any, Dict, List, Optional, TypedDict
 
 import numpy as np
 

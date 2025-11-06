@@ -16,7 +16,7 @@ mock_labs_openai_mod.OpenAIRequest = MagicMock()
 sys.modules['labs.consciousness.reflection.openai_core_service'] = mock_labs_openai_mod
 
 # Now we can import the module to be tested
-from core.colonies.oracle_colony import (
+from core.colonies.oracle_colony import (  # noqa: E402 - test stubs must populate sys.modules before import
     OracleQuery,
     OracleResponse,
     OracleAgent,

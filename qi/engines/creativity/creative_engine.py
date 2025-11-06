@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
 ██║     ██║   ██║██║ ██╔╝██║  ██║██╔══██╗██╔════╝
@@ -30,14 +26,16 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
+import asyncio
+import logging
+import os
+import sys
+
+logger = logging.getLogger(__name__)
+
 __module_name__ = "Quantum Creative Engine"
 __version__ = "2.0.0"
 __tier__ = 2
-
-
-import asyncio
-import os
-import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
