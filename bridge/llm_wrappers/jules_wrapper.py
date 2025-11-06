@@ -42,6 +42,14 @@ from typing import Any, AsyncIterator, Optional
 import aiohttp
 from pydantic import BaseModel, Field
 
+# Import keychain manager for secure API key storage
+try:
+    from core.security.keychain_manager import get_jules_api_key
+    KEYCHAIN_AVAILABLE = True
+except ImportError:
+    KEYCHAIN_AVAILABLE = False
+    get_jules_api_key = None
+
 logger = logging.getLogger(__name__)
 
 
@@ -115,18 +123,44 @@ class JulesClient:
         Initialize Jules API client.
 
         Args:
-            api_key: Jules API key (or use JULES_API_KEY env var)
+            api_key: Jules API key (or use JULES_API_KEY env var or macOS Keychain)
             config: Optional JulesConfig object for advanced configuration
+
+        Raises:
+            ValueError: If no API key can be found
+
+        Note:
+            API key lookup order:
+            1. Explicit api_key parameter
+            2. macOS Keychain (if available)
+            3. JULES_API_KEY environment variable
+            4. Raise ValueError if none found
         """
         if config:
             self.config = config
         else:
-            api_key = api_key or os.getenv("JULES_API_KEY")
+            # Try to get API key from multiple sources
+            if not api_key:
+                # 1. Try macOS Keychain first (most secure)
+                if KEYCHAIN_AVAILABLE and get_jules_api_key:
+                    api_key = get_jules_api_key()
+                    if api_key:
+                        logger.debug("Using Jules API key from macOS Keychain")
+
+                # 2. Fallback to environment variable
+                if not api_key:
+                    api_key = os.getenv("JULES_API_KEY")
+                    if api_key:
+                        logger.debug("Using Jules API key from environment variable")
+
             if not api_key:
                 raise ValueError(
-                    "Jules API key required. Set JULES_API_KEY environment "
-                    "variable or pass api_key parameter."
+                    "Jules API key required. Options:\n"
+                    "1. Store in macOS Keychain: python scripts/setup_api_keys.py\n"
+                    "2. Set environment variable: export JULES_API_KEY=your-key\n"
+                    "3. Pass api_key parameter to JulesClient()"
                 )
+
             self.config = JulesConfig(api_key=api_key)
 
         self._session: Optional[aiohttp.ClientSession] = None
