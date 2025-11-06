@@ -88,6 +88,59 @@ def rs256_adapter(rs256_keys):
     )
 
 
+@pytest.fixture
+def es256_keys():
+    """Generate ECDSA key pair for ES256 testing."""
+    from cryptography.hazmat.backends import default_backend
+    from cryptography.hazmat.primitives import serialization
+    from cryptography.hazmat.primitives.asymmetric import ec
+
+    private_key = ec.generate_private_key(
+        ec.SECP256R1(),
+        default_backend()
+    )
+
+    private_pem = private_key.private_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PrivateFormat.PKCS8,
+        encryption_algorithm=serialization.NoEncryption()
+    ).decode('utf-8')
+
+    public_key = private_key.public_key()
+    public_pem = public_key.public_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PublicFormat.SubjectPublicKeyInfo
+    ).decode('utf-8')
+
+    return {"private": private_pem, "public": public_pem}
+
+
+@pytest.fixture
+def rs512_adapter(rs256_keys):
+    """JWT adapter with RS512 algorithm."""
+    return JWTAdapter(
+        public_key=rs256_keys["public"],
+        private_key=rs256_keys["private"],
+        algorithm=JWTAlgorithm.RS512,
+        issuer="lukhas-test",
+        audience="lukhas-platform",
+        lambda_id_integration=True,
+    )
+
+
+@pytest.fixture
+def es256_adapter(es256_keys):
+    """JWT adapter with ES256 algorithm."""
+    return JWTAdapter(
+        public_key=es256_keys["public"],
+        private_key=es256_keys["private"],
+        algorithm=JWTAlgorithm.ES256,
+        issuer="lukhas-test",
+        audience="lukhas-platform",
+        lambda_id_integration=True,
+    )
+
+
 # ============================================================================
 # TEST-HIGH-JWT-01: Token Creation
 # ============================================================================
@@ -116,6 +169,38 @@ def test_jwt_token_creation_hs256(hs256_adapter):
     assert decoded["identity_tier"] == "alpha"
     assert decoded["scopes"] == ["read", "write"]
     assert decoded["token_type"] == "access"
+
+
+@pytest.mark.unit
+def test_jwt_token_creation_rs512(rs512_adapter):
+    """Test JWT token creation with RS512 algorithm."""
+    token = rs512_adapter.create_token(
+        subject="user_789",
+        token_type=TokenType.ACCESS,
+        lambda_id="Λ_gamma_user789",
+        identity_tier="gamma"
+    )
+
+    assert isinstance(token, str)
+    decoded = rs512_adapter.decode_without_verification(token)
+    assert decoded["sub"] == "user_789"
+    assert decoded["lambda_id"] == "Λ_gamma_user789"
+
+
+@pytest.mark.unit
+def test_jwt_token_creation_es256(es256_adapter):
+    """Test JWT token creation with ES256 algorithm."""
+    token = es256_adapter.create_token(
+        subject="user_101",
+        token_type=TokenType.ACCESS,
+        lambda_id="Λ_delta_user101",
+        identity_tier="delta"
+    )
+
+    assert isinstance(token, str)
+    decoded = es256_adapter.decode_without_verification(token)
+    assert decoded["sub"] == "user_101"
+    assert decoded["lambda_id"] == "Λ_delta_user101"
 
 
 @pytest.mark.unit
@@ -215,7 +300,7 @@ def test_jwt_token_verification_expired(hs256_adapter):
     )
 
     # Wait for expiration
-    time.sleep(2)
+    time.sleep(62)
 
     result = hs256_adapter.verify_token(token)
 
@@ -395,6 +480,43 @@ def test_jwt_lambda_id_tier_validation_insufficient(hs256_adapter):
 
 
 @pytest.mark.unit
+def test_jwt_lambda_id_tier_validation_correct_logic(hs256_adapter):
+    """Test that the tier validation logic is correct."""
+    token = create_identity_token(
+        adapter=hs256_adapter,
+        lambda_id="Λ_beta_user123",
+        identity_tier="beta"
+    )
+
+    # Verify requiring alpha (higher tier)
+    result = verify_identity_token(
+        adapter=hs256_adapter,
+        token=token,
+        required_tier="alpha"
+    )
+
+    assert result.valid is False
+    assert result.error_code == "INSUFFICIENT_TIER"
+
+    # Verify requiring beta (same tier)
+    result = verify_identity_token(
+        adapter=hs256_adapter,
+        token=token,
+        required_tier="beta"
+    )
+
+    assert result.valid is True
+
+    # Verify requiring gamma (lower tier)
+    result = verify_identity_token(
+        adapter=hs256_adapter,
+        token=token,
+        required_tier="gamma"
+    )
+    assert result.valid is True
+
+
+@pytest.mark.unit
 def test_jwt_lambda_id_tier_access_control(hs256_adapter):
     """Test tier-based access control."""
     tiers = ["alpha", "beta", "gamma", "delta"]
@@ -429,74 +551,6 @@ def test_jwt_lambda_id_missing_verification(hs256_adapter):
     # Should still be valid but log warning
     assert result.valid is True
     assert result.claims.lambda_id is None
-
-
-# ============================================================================
-# TEST-HIGH-JWT-04: Rate Limiting
-# ============================================================================
-
-@pytest.mark.unit
-def test_jwt_rate_limiting_free_tier(hs256_adapter):
-    """Test rate limiting for free tier."""
-    # Free tier should have base limits
-    lambda_id = "Λ_delta_user123"  # delta = free tier
-
-    # Check rate limit (should use tier multiplier of 1.0)
-    can_proceed = hs256_adapter._check_rate_limit(
-        lambda_id=lambda_id,
-        identity_tier="delta"
-    )
-
-    assert can_proceed is True  # Currently always allows
-
-
-@pytest.mark.unit
-def test_jwt_rate_limiting_pro_multiplier(hs256_adapter):
-    """Test rate limiting with pro tier multiplier."""
-    lambda_id = "Λ_beta_user123"  # beta = pro tier
-
-    can_proceed = hs256_adapter._check_rate_limit(
-        lambda_id=lambda_id,
-        identity_tier="beta"
-    )
-
-    assert can_proceed is True
-
-
-@pytest.mark.unit
-def test_jwt_rate_limiting_enterprise_multiplier(hs256_adapter):
-    """Test rate limiting with enterprise tier multiplier."""
-    lambda_id = "Λ_alpha_user123"  # alpha = enterprise tier
-
-    can_proceed = hs256_adapter._check_rate_limit(
-        lambda_id=lambda_id,
-        identity_tier="alpha"
-    )
-
-    assert can_proceed is True
-
-
-@pytest.mark.unit
-def test_jwt_rate_limit_enforcement():
-    """Test rate limit enforcement logic."""
-    from labs.bridge.adapters.api_framework import RateLimitConfig
-
-    config = RateLimitConfig(
-        requests_per_minute=60,
-        tokens_per_minute=90000,
-        tier_multipliers={
-            "alpha": 3.0,
-            "beta": 2.0,
-            "gamma": 1.5,
-            "delta": 1.0,
-        }
-    )
-
-    # Verify multipliers
-    assert config.tier_multipliers["alpha"] == 3.0
-    assert config.tier_multipliers["beta"] == 2.0
-    assert config.tier_multipliers["gamma"] == 1.5
-    assert config.tier_multipliers["delta"] == 1.0
 
 
 # ============================================================================

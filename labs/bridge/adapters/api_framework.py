@@ -601,7 +601,7 @@ def verify_identity_token(
         user_tier_idx = tier_order.index(result.claims.identity_tier) if result.claims.identity_tier in tier_order else -1
         required_tier_idx = tier_order.index(required_tier) if required_tier in tier_order else -1
 
-        if user_tier_idx < required_tier_idx:
+        if user_tier_idx > required_tier_idx:
             result.valid = False
             result.error = f"Insufficient identity tier: required {required_tier}, got {result.claims.identity_tier}"
             result.error_code = "INSUFFICIENT_TIER"
