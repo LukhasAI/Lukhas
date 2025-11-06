@@ -73,9 +73,9 @@ class JulesSource(BaseModel):
     """Represents a connected repository source."""
 
     name: str = Field(..., description="Resource name (e.g., sources/123)")
-    display_name: str = Field(..., description="Human-readable source name")
-    repository_url: str = Field(..., description="Repository URL")
-    create_time: datetime = Field(..., description="Creation timestamp")
+    display_name: Optional[str] = Field(None, description="Human-readable source name")
+    repository_url: Optional[str] = Field(None, description="Repository URL")
+    create_time: Optional[datetime] = Field(None, description="Creation timestamp")
 
 
 class JulesSession(BaseModel):
@@ -152,6 +152,20 @@ class JulesClient:
                     api_key = os.getenv("JULES_API_KEY")
                     if api_key:
                         logger.debug("Using Jules API key from environment variable")
+
+                # 3. Since Jules is a Google service, try GOOGLE_API_KEY as fallback
+                if not api_key:
+                    api_key = os.getenv("GOOGLE_API_KEY")
+                    if api_key:
+                        logger.debug("Using GOOGLE_API_KEY for Jules (Google service)")
+                    elif KEYCHAIN_AVAILABLE:
+                        try:
+                            from core.security.keychain_manager import KeychainManager
+                            api_key = KeychainManager.get_key("GOOGLE_API_KEY", fallback_to_env=False)
+                            if api_key:
+                                logger.debug("Using GOOGLE_API_KEY from Keychain for Jules")
+                        except Exception:
+                            pass
 
             if not api_key:
                 raise ValueError(

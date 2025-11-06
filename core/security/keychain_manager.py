@@ -258,8 +258,17 @@ class KeychainManager:
 
 # Convenience functions for common API keys
 def get_jules_api_key() -> Optional[str]:
-    """Get Jules API key from Keychain or environment."""
-    return KeychainManager.get_key("JULES_API_KEY")
+    """
+    Get Jules API key from Keychain or environment.
+
+    Since Jules is a Google service (jules.googleapis.com), this function
+    will also check GOOGLE_API_KEY as a fallback if JULES_API_KEY is not found.
+    """
+    key = KeychainManager.get_key("JULES_API_KEY")
+    if not key:
+        # Fallback to GOOGLE_API_KEY since Jules is a Google service
+        key = KeychainManager.get_key("GOOGLE_API_KEY")
+    return key
 
 
 def get_openai_api_key() -> Optional[str]:
