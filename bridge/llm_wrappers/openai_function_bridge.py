@@ -371,11 +371,10 @@ class OpenAIFunctionBridge:
             func_def = self.functions[func_call.name]
 
             # Security validation
-            if func_def.security_level == "critical":
+            if func_def.security_level == 'critical' and (not await self._validate_critical_function_call(func_call, func_def)):
                 # Additional security checks for critical functions
-                if not await self._validate_critical_function_call(func_call, func_def):
-                    func_call.error = "Critical function validation failed"
-                    return
+                func_call.error = "Critical function validation failed"
+                return
 
             # Execute function if handler available
             if func_def.handler:

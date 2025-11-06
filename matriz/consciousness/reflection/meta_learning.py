@@ -1078,9 +1078,8 @@ class MetaLearningSystem:
             match_score += 0.2
 
         # Check for data volume match
-        if "data_volume" in features:
-            if features["data_volume"] < 100 and "limited_data" in strategy.get("suitable_for", []):
-                match_score += 0.2
+        if 'data_volume' in features and (features['data_volume'] < 100 and 'limited_data' in strategy.get('suitable_for', [])):
+            match_score += 0.2
 
         # Check for privacy sensitivity match
         if (

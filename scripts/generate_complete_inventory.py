@@ -205,11 +205,10 @@ class ModuleInventoryGenerator:
                 for node in ast.walk(tree):
                     if isinstance(node, ast.Assign):
                         for target in node.targets:
-                            if isinstance(target, ast.Name) and target.id == '__all__':
-                                if isinstance(node.value, ast.List):
-                                    export_count = len(node.value.elts)
-                                    if export_count > 0:
-                                        capabilities.append(f'{export_count}_exports')
+                            if (isinstance(target, ast.Name) and target.id == '__all__') and isinstance(node.value, ast.List):
+                                export_count = len(node.value.elts)
+                                if export_count > 0:
+                                    capabilities.append(f'{export_count}_exports')
 
         except Exception as e:
             print(f"Warning: Could not parse {init_file}: {e}")

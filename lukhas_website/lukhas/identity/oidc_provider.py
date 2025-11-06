@@ -760,9 +760,8 @@ class OIDCProvider:
             return client
 
         # For confidential clients, verify secret
-        if client.token_endpoint_auth_method == "client_secret_basic":
-            if not client_secret or client_secret != client.client_secret:
-                return None
+        if client.token_endpoint_auth_method == 'client_secret_basic' and (not client_secret or client_secret != client.client_secret):
+            return None
 
         return client
 

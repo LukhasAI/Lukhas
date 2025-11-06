@@ -421,10 +421,9 @@ class SessionManager:
             if session.expires_at < now and session.state == SessionState.ACTIVE:
                 session.state = SessionState.EXPIRED
 
-            if session.state in [SessionState.EXPIRED, SessionState.REVOKED]:
+            if session.state in [SessionState.EXPIRED, SessionState.REVOKED] and session.expires_at < now - timedelta(hours=24):
                 # Keep sessions for 24 hours for audit purposes
-                if session.expires_at < now - timedelta(hours=24):
-                    expired_sessions.append(session_id)
+                expired_sessions.append(session_id)
 
         # Clean up expired sessions
         for session_id in expired_sessions:

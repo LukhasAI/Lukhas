@@ -117,10 +117,9 @@ class TokenBucket:
         if self.mode == BackpressureMode.DISABLED:
             return True
 
-        if self.mode == BackpressureMode.EMERGENCY:
-            if self.total_requests % 10 != 0:  # Allow only 10% through
-                self.rejection_count += 1
-                return False
+        if self.mode == BackpressureMode.EMERGENCY and self.total_requests % 10 != 0:
+            self.rejection_count += 1
+            return False
 
         async with self._lock:
             # Refill tokens based on elapsed time

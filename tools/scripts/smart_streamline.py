@@ -69,28 +69,27 @@ class SmartStreamline:
 
                 # Find imports that need fixing
                 for node in ast.walk(tree):
-                    if isinstance(node, ast.ImportFrom):
-                        if node.module and node.level == 0:  # Absolute import
-                            # Check if import is valid
-                            module_parts = node.module.split(".")
-                            if module_parts[0] in [
-                                "core",
-                                "consciousness",
-                                "memory",
-                                "orchestration",
-                            ]:
-                                # This is a cross-module import - verify it exists
-                                target_path = self.root_path / "/".join(module_parts)
-                                if not target_path.exists() and not (target_path.with_suffix(".py")).exists():
-                                    self.import_fixes.append(
-                                        {
-                                            "file": str(relative_path),
-                                            "line": node.lineno,
-                                            "import": node.module,
-                                            "issue": "Module not found",
-                                            "suggested_fix": self._suggest_import_fix(node.module),
-                                        }
-                                    )
+                    if isinstance(node, ast.ImportFrom) and (node.module and node.level == 0):
+                        # Check if import is valid
+                        module_parts = node.module.split(".")
+                        if module_parts[0] in [
+                            "core",
+                            "consciousness",
+                            "memory",
+                            "orchestration",
+                        ]:
+                            # This is a cross-module import - verify it exists
+                            target_path = self.root_path / "/".join(module_parts)
+                            if not target_path.exists() and not (target_path.with_suffix(".py")).exists():
+                                self.import_fixes.append(
+                                    {
+                                        "file": str(relative_path),
+                                        "line": node.lineno,
+                                        "import": node.module,
+                                        "issue": "Module not found",
+                                        "suggested_fix": self._suggest_import_fix(node.module),
+                                    }
+                                )
 
             except Exception:
                 pass

@@ -62,27 +62,23 @@ class ModuleDirectoryPopulator:
 
         # Populate config/ directory
         config_dir = module_path / "config"
-        if config_dir.exists():
-            if self.populate_config_directory(config_dir, module_name, manifest):
-                populated = True
+        if config_dir.exists() and self.populate_config_directory(config_dir, module_name, manifest):
+            populated = True
 
         # Populate docs/ directory
         docs_dir = module_path / "docs"
-        if docs_dir.exists():
-            if self.populate_docs_directory(docs_dir, module_name, manifest):
-                populated = True
+        if docs_dir.exists() and self.populate_docs_directory(docs_dir, module_name, manifest):
+            populated = True
 
         # Populate tests/ directory
         tests_dir = module_path / "tests"
-        if tests_dir.exists():
-            if self.populate_tests_directory(tests_dir, module_name, manifest):
-                populated = True
+        if tests_dir.exists() and self.populate_tests_directory(tests_dir, module_name, manifest):
+            populated = True
 
         # Populate assets/ directory
         assets_dir = module_path / "assets"
-        if assets_dir.exists():
-            if self.populate_assets_directory(assets_dir, module_name, manifest):
-                populated = True
+        if assets_dir.exists() and self.populate_assets_directory(assets_dir, module_name, manifest):
+            populated = True
 
         return populated
 

@@ -154,18 +154,17 @@ class SecurityMonitor:
             new_threat = self._handle_anomalous_behavior(event)
         elif event.event_type is EventType.POLICY_VIOLATION:
             new_threat = self._handle_policy_violation(event)
-        elif event.event_type is EventType.QI_SECURITY_EVENT:
+        elif event.event_type is EventType.QI_SECURITY_EVENT and event.severity in {EventSeverity.HIGH, EventSeverity.CRITICAL}:
             # QI events are pass-through but still tracked as active threats when
             # flagged with high severity.
-            if event.severity in {EventSeverity.HIGH, EventSeverity.CRITICAL}:
-                new_threat = self._register_threat(
-                    threat_id=self._build_threat_id("qi", event),
-                    threat_type="qi_security",
-                    severity=event.severity,
-                    description="Quantum integrity security event",
-                    context=dict(event.metadata),
-                    timestamp=event.timestamp,
-                )
+            new_threat = self._register_threat(
+                threat_id=self._build_threat_id("qi", event),
+                threat_type="qi_security",
+                severity=event.severity,
+                description="Quantum integrity security event",
+                context=dict(event.metadata),
+                timestamp=event.timestamp,
+            )
 
         duration = perf_counter() - start
         self._metrics.observe_event(event, duration)

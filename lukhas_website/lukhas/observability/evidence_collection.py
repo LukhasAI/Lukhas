@@ -361,9 +361,8 @@ class EvidenceCollectionEngine:
                 return False
 
             # Verify signature if present
-            if evidence.signature:
-                if not self._verify_signature(evidence.integrity_hash, evidence.signature):
-                    return False
+            if evidence.signature and (not self._verify_signature(evidence.integrity_hash, evidence.signature)):
+                return False
 
             # Track verification performance
             verification_time = (time.perf_counter() - start_time) * 1000

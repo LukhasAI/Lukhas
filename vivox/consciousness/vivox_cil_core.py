@@ -539,14 +539,12 @@ class VectorCollapseEngine:
             passes_ethics = True
 
             # Check cognitive load constraint
-            if "max_cognitive_load" in constraints:
-                if vector.cognitive_load > constraints["max_cognitive_load"]:
-                    passes_ethics = False
+            if 'max_cognitive_load' in constraints and vector.cognitive_load > constraints['max_cognitive_load']:
+                passes_ethics = False
 
             # Check required focuses
-            if "required_focus" in constraints:
-                if constraints["required_focus"] not in vector.attention_focus:
-                    weight *= 0.5  # Reduce weight but don't filter out
+            if 'required_focus' in constraints and constraints['required_focus'] not in vector.attention_focus:
+                weight *= 0.5  # Reduce weight but don't filter out
 
             if passes_ethics:
                 filtered.append((vector, weight))

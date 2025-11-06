@@ -327,9 +327,8 @@ def main():
         if args.apply:
             if args.apply_limit and edits >= args.apply_limit:
                 continue
-            if not file_has_import(file, import_line):
-                if insert_import(file, import_line):
-                    edits += 1
+            if not file_has_import(file, import_line) and insert_import(file, import_line):
+                edits += 1
 
     # CSV
     outp = Path(args.out); outp.parent.mkdir(parents=True, exist_ok=True)

@@ -875,10 +875,9 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             if "imagine" not in response.lower() and "envision" not in response.lower():
                 response = response.replace("I see", "I envision")
 
-        elif tone == EmotionalTone.SUPPORTIVE:
+        elif tone == EmotionalTone.SUPPORTIVE and (not any((word in response.lower() for word in ['help', 'support', 'assist']))):
             # Add supportive elements
-            if not any(word in response.lower() for word in ["help", "support", "assist"]):
-                response += " How else can I help?"
+            response += " How else can I help?"
 
         return response
 

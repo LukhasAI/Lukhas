@@ -432,10 +432,9 @@ class EnhancedTracer:
 
                         # Set success attributes
                         span.set_attribute("identity.success", True)
-                        if hasattr(result, 'get'):
+                        if hasattr(result, 'get') and 'authenticated' in str(result):
                             # For auth results
-                            if 'authenticated' in str(result):
-                                span.set_attribute("identity.authenticated", True)
+                            span.set_attribute("identity.authenticated", True)
 
                         span.set_status(Status(StatusCode.OK))
                         return result

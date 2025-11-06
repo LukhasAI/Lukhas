@@ -171,15 +171,13 @@ class OneiricHook:
         ops = policy.actions.copy()
 
         # Add context-sensitive operations based on scene state
-        if scene.proto.arousal > 0.7 and scene.proto.tone < -0.3:
+        if (scene.proto.arousal > 0.7 and scene.proto.tone < -0.3) and 'breathing' not in ops:
             # High arousal + negative tone: suggest breathing
-            if "breathing" not in ops:
-                ops.append("breathing")
+            ops.append("breathing")
 
-        if scene.proto.clarity < 0.4:
+        if scene.proto.clarity < 0.4 and 'focus-shift' not in ops:
             # Low clarity: suggest focus-shift
-            if "focus-shift" not in ops:
-                ops.append("focus-shift")
+            ops.append("focus-shift")
 
         if scene.risk.severity.value in {"moderate", "high"}:
             # Risk present: suggest pause and reframe
@@ -189,9 +187,8 @@ class OneiricHook:
                 ops.append("reframe")
 
         # Sublimation for creative transformation of difficult emotions
-        if scene.proto.tone < -0.2 and scene.proto.arousal > 0.5 and scene.proto.narrative_gravity > 0.6:
-            if "sublimate" not in ops:
-                ops.append("sublimate")
+        if (scene.proto.tone < -0.2 and scene.proto.arousal > 0.5 and (scene.proto.narrative_gravity > 0.6)) and 'sublimate' not in ops:
+            ops.append("sublimate")
 
         return ops
 

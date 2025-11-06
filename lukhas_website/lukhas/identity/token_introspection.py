@@ -292,20 +292,19 @@ class TokenIntrospectionService:
                 span.set_attribute("cache_hit", False)
 
                 # Authenticate client if credentials provided
-                if request.client_id and request.client_secret:
-                    if not self._authenticate_client(request.client_id, request.client_secret):
-                        span.set_attribute("client_auth_failed", True)
-                        introspection_requests_total.labels(
-                            endpoint="introspect",
-                            result="unauthorized",
-                            client_type="authenticated"
-                        ).inc()
+                if (request.client_id and request.client_secret) and (not self._authenticate_client(request.client_id, request.client_secret)):
+                    span.set_attribute("client_auth_failed", True)
+                    introspection_requests_total.labels(
+                        endpoint="introspect",
+                        result="unauthorized",
+                        client_type="authenticated"
+                    ).inc()
 
-                        return IntrospectionResponse(
-                            active=False,
-                            error="invalid_client",
-                            error_description="Client authentication failed"
-                        )
+                    return IntrospectionResponse(
+                        active=False,
+                        error="invalid_client",
+                        error_description="Client authentication failed"
+                    )
 
                 # Create validation context
                 validation_context = ValidationContext(

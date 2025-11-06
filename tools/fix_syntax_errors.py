@@ -299,11 +299,10 @@ class PythonSyntaxFixer:
                 elif error_line.count("'") % 2 == 1:
                     fixed_line = error_line + "'"
 
-            elif "invalid syntax" in str(syntax_error):
+            elif 'invalid syntax' in str(syntax_error) and re.search('["\\\']["\\s]*\\)\\\'?$', error_line):
                 # Check for common issues
                 # Extra closing parenthesis at end of string literals
-                if re.search(r'["\']["\s]*\)\'?$', error_line):
-                    fixed_line = re.sub(r'(["\'])(["\s]*\))\'?$', r"\1)", error_line)
+                fixed_line = re.sub(r'(["\'])(["\s]*\))\'?$', r"\1)", error_line)
 
             if fixed_line != error_line:
                 lines[syntax_error.lineno - 1] = fixed_line

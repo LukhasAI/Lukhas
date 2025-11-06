@@ -1127,9 +1127,8 @@ class VIVOXEncryptedPerceptionNode:
                 return False
 
         # Check consent requirements
-        if ethical_assessment.get("consent_required", False):
-            if not ethical_assessment.get("consent_verified", False):
-                return False
+        if ethical_assessment.get('consent_required', False) and (not ethical_assessment.get('consent_verified', False)):
+            return False
 
         # All checks passed
         return True

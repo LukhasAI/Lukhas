@@ -651,17 +651,16 @@ class UnifiedMemoryOrchestrator:
 
         # Check recent memories in hippocampal buffer
         for existing_trace in list(self.hippocampal_buffer)[-100:]:  # Check last 100
-            if existing_trace.memory_type == memory_trace.memory_type:
+            if existing_trace.memory_type == memory_trace.memory_type and existing_trace.semantic_links:
                 # Simple similarity based on semantic links overlap
-                if existing_trace.semantic_links:
-                    overlap = len(memory_trace.semantic_links & existing_trace.semantic_links)
-                    similarity = overlap / max(
-                        len(memory_trace.semantic_links),
-                        len(existing_trace.semantic_links),
-                        1,
-                    )
-                    if similarity > threshold:
-                        similar.append(existing_trace)
+                overlap = len(memory_trace.semantic_links & existing_trace.semantic_links)
+                similarity = overlap / max(
+                    len(memory_trace.semantic_links),
+                    len(existing_trace.semantic_links),
+                    1,
+                )
+                if similarity > threshold:
+                    similar.append(existing_trace)
 
         return similar
 

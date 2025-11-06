@@ -801,10 +801,9 @@ class ValidatorNode(CognitiveNode):
         # Mathematical validation is critical for COMPUTATION nodes
         if "mathematical" in validation_results:
             math_result = validation_results["mathematical"]
-            if not math_result.get("is_valid", False):
+            if not math_result.get('is_valid', False) and math_result.get('confidence', 0) < 0.5:
                 # Check if this was a serious mathematical error
-                if math_result.get("confidence", 0) < 0.5:
-                    return True
+                return True
 
         # Logical consistency failures with very low confidence are critical
         if "logical" in validation_results:
