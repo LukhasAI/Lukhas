@@ -29,10 +29,7 @@ OPTIONAL_DOCS = ["ARCHITECTURE.md", "API.md", "CONTRIBUTING.md", "CHANGELOG.md"]
 def should_exclude(path: Path) -> bool:
     """Check if path should be excluded."""
     path_str = str(path)
-    for pattern in EXCLUDE_PATTERNS:
-        if pattern in path_str:
-            return True
-    return False
+    return any(pattern in path_str for pattern in EXCLUDE_PATTERNS)
 
 def discover_all_docs():
     """Discover all markdown documentation files."""
@@ -120,7 +117,6 @@ def analyze_doc_quality(doc_file):
         has_links = bool(re.search(r'\[.*?\]\(.*?\)', content))
         link_count = len(re.findall(r'\[.*?\]\(.*?\)', content))
 
-        has_headers = bool(re.search(r'^#+\s+', content, re.MULTILINE))
         header_count = len(re.findall(r'^#+\s+', content, re.MULTILINE))
 
         has_lists = bool(re.search(r'^\s*[-*+]\s+', content, re.MULTILINE))

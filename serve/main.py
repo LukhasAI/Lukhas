@@ -83,6 +83,7 @@ def _safe_import_router(module_path: str, attr: str='router') -> Optional[Any]:
     except Exception:
         return None
 consciousness_router = _safe_import_router('.consciousness_api', 'router')
+dreams_router = _safe_import_router('serve.dreams_api', 'router')
 feedback_router = _safe_import_router('.feedback_routes', 'router')
 guardian_router = _safe_import_router('.guardian_api', 'router')
 identity_router = _safe_import_router('.identity_api', 'router')
@@ -187,6 +188,8 @@ if webauthn_router is not None:
     app.include_router(webauthn_router)
 if consciousness_router is not None:
     app.include_router(consciousness_router)
+if dreams_router is not None:
+    app.include_router(dreams_router, tags=["dreams"])
 if guardian_router is not None:
     app.include_router(guardian_router)
 

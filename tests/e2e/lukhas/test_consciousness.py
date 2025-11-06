@@ -69,7 +69,7 @@ class TestConsciousnessWrapper:
         wrapper = ConsciousnessWrapper(config=mock_config)
         kernel = ConsciousnessKernel(config=mock_config)
 
-        assert type(wrapper) == type(kernel)
+        assert type(wrapper) is type(kernel)
         assert ConsciousnessKernel is ConsciousnessWrapper
 
     @pytest.mark.unit

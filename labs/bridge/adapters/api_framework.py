@@ -22,7 +22,7 @@ from __future__ import annotations
 import hashlib
 import logging
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 
@@ -229,7 +229,7 @@ class JWTAdapter:
         Returns:
             Encoded JWT token string
         """
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
 
         # Determine TTL
         if custom_ttl:
@@ -527,7 +527,7 @@ class JWTAdapter:
             return {"error": "Invalid token format"}
 
         exp = payload.get("exp")
-        now = datetime.utcnow().timestamp()
+        now = datetime.now(timezone.utc).timestamp()
 
         return {
             "subject": payload.get("sub"),
