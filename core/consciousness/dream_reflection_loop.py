@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - DREAM REFLECTION LOOP V3.0
@@ -43,17 +37,24 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
 # Module imports
 import asyncio
 import json
+import logging
 import threading
 import time
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 try:
     from dream.dashboard import DreamMetricsDB

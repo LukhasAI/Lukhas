@@ -4,7 +4,7 @@ Tests for the Guardian System Example
 """
 
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from examples.governance.consent_example import (
     GuardianPolicy,
@@ -57,7 +57,7 @@ class TestGuardianExample(unittest.TestCase):
         policy = GuardianPolicy("research", ["health_records"], 1, ["US", "EU"])
         user_id = "test-user"
         consent = collect_user_consent(user_id, policy)
-        consent["timestamp"] = datetime.utcnow() - timedelta(days=2)
+        consent["timestamp"] = datetime.now(timezone.utc) - timedelta(days=2)
 
         self.assertFalse(verify_consent(user_id, "health_records"))
 

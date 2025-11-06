@@ -1,3 +1,8 @@
+status: wip
+type: documentation
+> **Note**: This is a vendor-neutral version of claude.me for compatibility with any AI tool or development environment.
+
+
 # Enforcement Module - LUKHAS Policy & Standards Enforcement
 
 **Module**: enforcement
@@ -5,7 +10,6 @@
 **Team**: Core
 **Purpose**: Policy enforcement, standards validation, and automated quality control for LUKHAS systems
 
----
 
 ## Overview
 
@@ -19,7 +23,6 @@ The enforcement module provides automated policy enforcement, standards validati
 - Automated quality gates
 - Violation detection and reporting
 
----
 
 ## Architecture
 
@@ -39,7 +42,6 @@ enforcement/
 └── config/                      # Configuration
 ```
 
----
 
 ## Core Components
 
@@ -92,7 +94,6 @@ guard.fix_violations(
 - Git commit metadata (not scanned)
 - External third-party code
 
----
 
 ### 2. Tone System Enforcement
 
@@ -132,7 +133,6 @@ violations = enforcer.validate_content(
 # ]
 ```
 
----
 
 ### 3. Standards Validation
 
@@ -177,7 +177,6 @@ compliance = validator.validate_module(
 # }
 ```
 
----
 
 ### 4. Policy Compliance Checker
 
@@ -220,7 +219,6 @@ compliance = checker.check_component(
 # }
 ```
 
----
 
 ### 5. Quality Gates
 
@@ -281,7 +279,6 @@ results = gates.run_all(
 sys.exit(0 if results["passed"] else 1)
 ```
 
----
 
 ## Integration with CI/CD
 
@@ -313,7 +310,6 @@ jobs:
             --output enforcement_report.md
 ```
 
----
 
 ### Pre-Commit Hook Integration
 
@@ -335,7 +331,6 @@ repos:
         files: \.(md|rst)$
 ```
 
----
 
 ## Configuration
 
@@ -399,7 +394,6 @@ enforcement:
     export_results: true
 ```
 
----
 
 ## Observability
 
@@ -412,7 +406,6 @@ enforcement:
 - Enforcement execution time
 - Auto-fix success rate
 
----
 
 ## Testing
 
@@ -428,7 +421,6 @@ enforcement:
 - Multi-gate orchestration
 - Auto-fix end-to-end workflows
 
----
 
 ## Use Cases
 
@@ -456,7 +448,6 @@ python -m enforcement.tone_enforcer docs/ --report
 python -m enforcement.tone.author_reference_guard --auto-fix
 ```
 
----
 
 ## Development Guidelines
 
@@ -475,7 +466,6 @@ python -m enforcement.tone.author_reference_guard --auto-fix
 - Document exceptions explicitly
 - Test enforcement on real codebase samples
 
----
 
 ## Related Modules
 
@@ -484,7 +474,6 @@ python -m enforcement.tone.author_reference_guard --auto-fix
 - **governance/**: Governance policies (enforced)
 - **guardian/**: Safety and ethics (integrated with policy checks)
 
----
 
 ## Quick Reference
 
@@ -496,7 +485,6 @@ python -m enforcement.tone.author_reference_guard --auto-fix
 | `PolicyChecker` | Validate governance policies | `policy_checker.policies` |
 | `QualityGates` | Orchestrate all enforcement | `quality_gates.fail_fast` |
 
----
 
 **Module Status**: L2 Integration
 **Schema Version**: 1.0.0
@@ -504,31 +492,3 @@ python -m enforcement.tone.author_reference_guard --auto-fix
 **MATRIZ Compatibility**: Standard
 **Last Updated**: 2025-10-18
 **Philosophy**: Automated enforcement ensures quality scales—what's measured and enforced becomes the standard.
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

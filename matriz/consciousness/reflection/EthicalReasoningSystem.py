@@ -261,10 +261,9 @@ class DeontologicalReasoner:
         if "deceive" in maxim_lower or "lie" in maxim_lower:
             return True  # Universal lying would make lying impossible
 
-        if "free_ride" in maxim_lower or "avoid_contribution" in maxim_lower:
-            return True  # Universal free-riding would collapse the system
-
-        return False
+        return (
+            "free_ride" in maxim_lower or "avoid_contribution" in maxim_lower
+        )  # Universal free-riding would collapse the system
 
     def _generate_universalization_reasoning(
         self, maxim: str, logical_contradiction: bool, practical_contradiction: bool
@@ -362,17 +361,12 @@ class DeontologicalReasoner:
         action_lower = action.lower()
 
         # Actions rational beings would likely legislate
-        positive_actions = ["help", "protect", "respect", "educate", "heal"]
 
         # Actions rational beings would likely not legislate
         negative_actions = ["harm", "deceive", "exploit", "discriminate", "destroy"]
 
-        if any(pos in action_lower for pos in positive_actions):
-            return True
-        elif any(neg in action_lower for neg in negative_actions):
-            return False
-        else:
-            return True  # Neutral default
+        # Neutral default is True; only become False on negative actions.
+        return not any(neg in action_lower for neg in negative_actions)
 
     async def _check_promotes_dignity(self, action: str, context: dict[str, Any]) -> bool:
         """Check if action promotes human dignity."""
@@ -1359,10 +1353,9 @@ class EthicalReasoningSystem:
         # 1. Constraint checking
         constraint_violations = await self._check_ethical_constraints(ethical_question, context)
 
-        if constraint_violations:
+        if constraint_violations and any((v['hard_constraint'] for v in constraint_violations)):
             # Hard constraints violated - immediate judgment
-            if any(v["hard_constraint"] for v in constraint_violations):
-                return self._create_constraint_violation_judgment(judgment_id, ethical_question, constraint_violations)
+            return self._create_constraint_violation_judgment(judgment_id, ethical_question, constraint_violations)
 
         # 2. Multi-framework analysis
         framework_analyses = {}

@@ -1,9 +1,5 @@
-from __future__ import annotations
-
-import logging
-
 #!/usr/bin/env python3
-# DEPRECATED: Functionality consolidated into unified_orchestrator.py
+
 """
 
 #TAG:consciousness
@@ -46,9 +42,13 @@ Original Location: brain/legacy/enhanced_bot_primary.py
 Commercial Integration: 2025-01-27 (QC Session)
 Priority: CRITICAL - Enterprise platform enhancement
 """
+
+from __future__ import annotations
+
 import asyncio
 import copy
 import hashlib
+import logging
 import re
 import sys
 import uuid
@@ -58,6 +58,9 @@ from enum import Enum
 from typing import Any
 
 import numpy as np
+
+# DEPRECATED: Functionality consolidated into unified_orchestrator.py
+
 
 # Configure logging for AI operations
 logging.basicConfig(
@@ -828,11 +831,10 @@ class MetaCognitiveOrchestrator:
                             component.confidence_threshold *= 0.9  # Lower threshold for better sensitivity
                         modification["status"] = "successful"
 
-                elif rec["type"] == "component_addition":
+                elif rec['type'] == 'component_addition' and (rec['target'] == 'attention' and 'attention' not in self.components):
                     # Add new component (simplified)
-                    if rec["target"] == "attention" and "attention" not in self.components:
-                        self.components["attention"] = QIInspiredAttention()
-                        modification["status"] = "successful"
+                    self.components["attention"] = QIInspiredAttention()
+                    modification["status"] = "successful"
 
                 self.metacognitive_state["last_self_modification"] = modification["timestamp"]
                 logger.info(f"Self-modification performed: {modification['description']}")

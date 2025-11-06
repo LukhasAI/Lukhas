@@ -17,7 +17,7 @@ from __future__ import annotations
 import argparse
 import json
 import pathlib
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -182,7 +182,7 @@ def main():
     readme = output_dir / "README.md"
     readme_content = f"""# LUKHAS OpenAPI Stubs
 
-**Generated**: {datetime.utcnow().isoformat()}Z
+**Generated**: {datetime.now(timezone.utc).isoformat()}
 **Purpose**: Flagship API stubs for ecosystem integration
 
 ## Flagship APIs ({len(created)})

@@ -347,7 +347,7 @@ class TraceEvent:
 class TraceCollector:
     """Minimal trace collector that stores or emits trace events.
 
-    This is a lightweight, import-time-safe stand‑in for a full tracing backend.
+    This is a lightweight, import-time-safe stand-in for a full tracing backend.
     """
 
     def __init__(self):
@@ -368,7 +368,7 @@ _GLOBAL_TRACER: Optional[GlobalTracer] = None
 
 
 def get_global_tracer() -> GlobalTracer:
-    """Return a process‑local global tracer with a minimal collector."""
+    """Return a process-local global tracer with a minimal collector."""
     global _GLOBAL_TRACER
     if _GLOBAL_TRACER is None:
         _GLOBAL_TRACER = GlobalTracer()
@@ -413,7 +413,7 @@ class Supervisor:
         # For now, log + simple restart placeholder depending on strategy
         if self.strategy == SupervisionStrategy.RESTART and child_id in self.children:
             # A real implementation would reconstruct/restart the actor.
-            # We keep a no‑op to maintain import‑time safety.
+            # We keep a no-op to maintain import-time safety.
             pass
         elif self.strategy == SupervisionStrategy.IGNORE:
             pass

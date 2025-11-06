@@ -691,9 +691,8 @@ class WebAuthnSecurityHardening:
             return False, f"Credential status is {credential.status.value}"
 
         # Check credential expiry (if applicable)
-        if hasattr(credential, 'expires_at') and credential.expires_at:
-            if datetime.now(timezone.utc) > credential.expires_at:
-                return False, "Credential has expired"
+        if (hasattr(credential, 'expires_at') and credential.expires_at) and datetime.now(timezone.utc) > credential.expires_at:
+            return False, "Credential has expired"
 
         # Validate sign count (replay attack detection)
         if credential.sign_count > 0:

@@ -1,6 +1,13 @@
 from __future__ import annotations
 
+import hashlib
 import logging
+from datetime import datetime, timezone
+from typing import Any
+
+import structlog
+
+from orchestration.brain.unified_collapse_system import BrainCollapseManager
 
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
@@ -17,12 +24,7 @@ logger = logging.getLogger(__name__)
 # ΛCOMMIT_WINDOW: post-ZIP
 # ΛAPPROVED_BY: Human Overseer (Gonzalo)
 
-import hashlib
-from datetime import datetime, timezone
-from typing import Any
 
-import structlog
-from orchestration.brain.unified_collapse_system import BrainCollapseManager
 
 # TAG:qim
 # TAG:qi_states

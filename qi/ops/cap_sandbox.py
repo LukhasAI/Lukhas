@@ -140,7 +140,7 @@ class CapManager:
     def revoke(self, subject: str, cap_prefix: str | None = None, persist: bool = False) -> int:
         arr = self._leases.get(subject, [])
         before = len(arr)
-        arr = [] if cap_prefix is None else [l for l in arr if not any(c.startswith(cap_prefix) for c in l.caps)]
+        arr = [] if cap_prefix is None else [lease for lease in arr if not any(c.startswith(cap_prefix) for c in lease.caps)]
         self._leases[subject] = arr
         if persist:
             self._save()
@@ -153,7 +153,7 @@ class CapManager:
 
     def list(self, subject: str, now: float | None = None) -> list[Lease]:
         now = now or _now()
-        return [l for l in self._leases.get(subject, []) if l.alive(now)]
+        return [lease for lease in self._leases.get(subject, []) if lease.alive(now)]
 
     def require(self, subject: str, cap: str):
         if not self.has(subject, cap):
@@ -168,10 +168,10 @@ class CapManager:
         now = _now()
         leases = self._leases.get(subject, [])
         cap_kind = cap.split(":", 1)[0]
-        for l in leases:
-            if not l.alive(now):
+        for lease in leases:
+            if not lease.alive(now):
                 continue
-            for c in l.caps:
+            for c in lease.caps:
                 if c == cap:
                     return True
                 if cap_kind in ("fs",) and c.startswith(cap_kind + ":"):

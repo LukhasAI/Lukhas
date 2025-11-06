@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-import logging
 
-logger = logging.getLogger(__name__)
 """
 Reality Synthesis Engine
 ========================
@@ -17,6 +15,7 @@ Features:
 """
 
 import asyncio
+import logging
 import uuid
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -28,6 +27,10 @@ from core.common import GLYPHToken, get_logger
 from core.common.exceptions import LukhasError
 from core.interfaces import CoreInterface
 from core.interfaces.dependency_injection import register_service
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 

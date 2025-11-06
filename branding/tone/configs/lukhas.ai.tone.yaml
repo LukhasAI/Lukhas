@@ -1,0 +1,246 @@
+# LUKHAS.AI Tone Configuration
+# Flagship "Dreaming" Platform - Main Hub
+
+domain: lukhas.ai
+role: flagship_dreaming_platform
+priority: critical
+status: active
+
+# Audience Configuration
+audience:
+  primary:
+    - general_public
+    - ai_enthusiasts
+    - creative_professionals
+    - tech_users
+  secondary:
+    - researchers
+    - potential_enterprise_clients
+    - media_press
+    - community_members
+
+# 3-Layer Tone Distribution (must sum to 1.0)
+tone_distribution:
+  poetic: 0.35          # Eye-catching, soul-connecting, rebellious
+  user_friendly: 0.45   # Conversational, accessible, practical
+  academic: 0.20        # Technical, precise, evidence-based
+
+# Tone Distribution by Content Type
+content_type_overrides:
+  hero_homepage:
+    poetic: 0.50
+    user_friendly: 0.40
+    academic: 0.10
+
+  product_pages:
+    poetic: 0.20
+    user_friendly: 0.60
+    academic: 0.20
+
+  research_section:
+    poetic: 0.10
+    user_friendly: 0.20
+    academic: 0.70
+
+  interactive_demos:
+    poetic: 0.40
+    user_friendly: 0.50
+    academic: 0.10
+
+  about_mission:
+    poetic: 0.45
+    user_friendly: 0.40
+    academic: 0.15
+
+  technical_docs:
+    poetic: 0.05
+    user_friendly: 0.35
+    academic: 0.60
+
+# 8-Family Vocabulary Rotation Preferences
+vocabulary_emphasis:
+  neural_gardens: 0.20        # Organic growth, cultivation, emergence
+  harmonic_resonance: 0.18    # Musical, vibrational, synchronization
+  prismatic_light: 0.15       # Illumination, refraction, spectrum
+  fluid_dynamics: 0.15        # Flow, currents, adaptation
+  woven_patterns: 0.12        # Tapestry, interconnection, emergence
+  architectural_bridges: 0.10 # Structure, connection, foundation
+  geological_strata: 0.05     # Layers, depth, foundation
+  circuit_patterns: 0.05      # Precision, connectivity, systems
+
+# Vocabulary Rotation Settings
+vocabulary_rotation:
+  enabled: true
+  cycle_period: monthly
+  novelty_threshold: 0.8      # Minimum novelty score for new content
+  staleness_detection: true
+
+# Constellation Framework Integration
+constellation_stars:
+  primary:
+    - dream            # Primary domain star
+    - vision
+    - identity
+  secondary:
+    - memory
+    - bio
+    - ethics
+    - guardian
+    - quantum
+
+  emphasis:
+    dream: high
+    vision: high
+    identity: medium
+    memory: medium
+    bio: low
+    ethics: low
+    guardian: low
+    quantum: low
+
+# Messaging Principles
+messaging:
+  brand_positioning: "AI consciousness technology that dreams, adapts, and serves humanity"
+
+  core_values:
+    - consciousness_technology
+    - ethical_foundation
+    - constellation_framework
+    - innovation_with_accessibility
+    - open_ecosystem
+
+  prohibited_terms:
+    - "LUKHAS AGI"
+    - "production-ready"
+    - "unhackable"
+    - "revolutionary" # avoid hype
+    - "breakthrough" # in all-caps
+
+  required_terminology:
+    identity_system: "ΛiD"
+    platform_name: "LUKHAS AI"
+    core_framework: "Constellation Framework"
+    cognitive_engine: "MATRIZ Pipeline"
+
+# Content Quality Standards
+quality:
+  reading_level:
+    user_friendly_target: 8  # Grade level
+    academic_sections: 12     # College level
+
+  sentence_structure:
+    active_voice_minimum: 0.80
+    max_paragraph_sentences: 4
+    average_sentence_length: 15-20 # words
+
+  technical_precision:
+    claims_require_evidence: true
+    t4_precision_standard: 0.0001  # T4/0.01% standard
+    qualifier_usage: true  # "quantum-inspired" not "quantum"
+
+# Novelty & Freshness
+novelty:
+  enabled: true
+  metaphor_tracking: true
+  rotation_enforcement: true
+
+  update_cadence:
+    hero_content: quarterly
+    product_features: as_shipped
+    research_section: monthly
+    community_highlights: weekly
+    blog: biweekly
+
+  metrics:
+    target_novelty_score: 0.8
+    metaphor_reuse_limit: 3  # Max times per year
+    vocabulary_diversity: 0.7
+
+# SEO Configuration
+seo:
+  primary_keywords:
+    - "AI consciousness technology"
+    - "consciousness computing platform"
+    - "ethical AI framework"
+    - "bio-inspired AI"
+    - "quantum-inspired AI"
+    - "AI with memory and context"
+    - "creative AI tools"
+    - "consciousness AI playground"
+
+  meta_description_pattern: "LUKHAS AI: {feature} with consciousness technology. {unique_capability} powered by our Constellation Framework. {cta}."
+
+# Performance Targets
+performance:
+  first_contentful_paint: 1.2  # seconds
+  largest_contentful_paint: 2.5
+  time_to_interactive: 3.5
+  cumulative_layout_shift: 0.1
+
+# Accessibility Standards
+accessibility:
+  wcag_target: "AAA"
+  color_contrast_min: 7.0  # AAA for body text
+  keyboard_navigation: required
+  screen_reader_friendly: required
+  reduced_motion: respect
+
+# Enforcement Rules
+enforcement:
+  consciousness_alignment_min: 0.947  # From existing system
+  tone_distribution_tolerance: 0.05   # ±5% from target
+  vocabulary_diversity_min: 0.6
+  novelty_check_required: true
+
+  validation:
+    pre_publish: true
+    automated_checks: true
+    manual_review_for:
+      - homepage_hero
+      - major_announcements
+      - research_papers
+
+  alerts:
+    tone_drift: warning
+    vocabulary_staleness: warning
+    novelty_below_threshold: error
+    prohibited_terms: error
+
+# Content Ownership
+ownership:
+  brand_team:
+    - overall_voice
+    - messaging
+    - brand_coherence
+  product_team:
+    - product_descriptions
+    - feature_updates
+  research_team:
+    - papers
+    - technical_blog
+    - innovation_content
+  community_team:
+    - events
+    - forums
+    - user_content
+
+# Integration with Existing Systems
+integration:
+  three_layer_tone_system: enabled
+  eight_family_vocabulary: enabled
+  constellation_framework: enabled
+  matriz_pipeline: enabled
+  guardian_enforcement: enabled
+
+# Version & Metadata
+version: "1.0"
+created: "2025-11-06"
+last_updated: "2025-11-06"
+next_review: "2026-01-06"  # Quarterly review
+
+# References
+based_on:
+  - "LUKHAS Multi-Domain Web Ecosystem Strategy (docs/gonzo/LUKHAS_STYLE_GUIDE.md)"
+  - "LUKHAS 3-Layer Tone System"
+  - "8-Family Vocabulary Rotation Engine"
+  - "Constellation Framework Branding Guidelines"

@@ -26,11 +26,11 @@ import numpy as np
 # Import LUKHAS AI branding system for consciousness-aware outputs
 try:
     from branding_bridge import (
-        BrandContext,  # TODO: branding_bridge.BrandCo...
-        get_brand_voice,  # TODO: branding_bridge.get_bra...
-        get_constellation_context,  # TODO: branding_bridge.get_con...
-        normalize_output_text,  # TODO: branding_bridge.normali...
-        validate_output,  # TODO: branding_bridge.validat...
+        BrandContext,  # TODO: branding_bridge.BrandCo...  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-eb45d958","reason_category":"CONSTELLATION","reason":"Constellation Framework branding and cryptography integration","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:08:41+00:00"}
+        get_brand_voice,  # TODO: branding_bridge.get_bra...  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-34267a68","reason_category":"CONSTELLATION","reason":"Constellation Framework branding and cryptography integration","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:08:41+00:00"}
+        get_constellation_context,  # TODO: branding_bridge.get_con...  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-f8f9d2e8","reason_category":"CONSTELLATION","reason":"Constellation Framework branding and cryptography integration","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:08:41+00:00"}
+        normalize_output_text,  # TODO: branding_bridge.normali...  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-d967cbeb","reason_category":"CONSTELLATION","reason":"Constellation Framework branding and cryptography integration","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:08:41+00:00"}
+        validate_output,  # TODO: branding_bridge.validat...  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-654948ea","reason_category":"CONSTELLATION","reason":"Constellation Framework branding and cryptography integration","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:08:41+00:00"}
     )
 
     BRANDING_AVAILABLE = True
@@ -84,7 +84,7 @@ def lukhas_tier_required(level: int):
 ANTHROPIC_AVAILABLE = False
 anthropic_client = None
 try:
-    import anthropic  # External dependency  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    import anthropic  # External dependency  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-83304959","reason_category":"MATRIZ","reason":"MATRIZ consciousness integration pending","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:07:03+00:00"}
 
     ANTHROPIC_AVAILABLE = True
     # TODO: Initialize anthropic_client if needed, e.g.,

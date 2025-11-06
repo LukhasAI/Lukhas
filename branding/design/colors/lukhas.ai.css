@@ -1,0 +1,71 @@
+/**
+ * LUKHAS.AI Color Palette
+ * Flagship "Dreaming" Platform - Ethereal Dream Aesthetics
+ * Generated from MASTER_PALETTE.yaml
+ */
+
+:root {
+  /* Domain Primary Accent */
+  --lukhas-ai-primary: #8B7CF6;
+  --lukhas-ai-primary-rgb: 139, 124, 246;
+  --lukhas-ai-primary-hsl: 247, 87%, 73%;
+
+  /* Base Constellation Colors */
+  --consciousness-deep: #1A1A2E;
+  --consciousness-deep-rgb: 26, 26, 46;
+  
+  --awareness-silver: #E8E8F0;
+  --awareness-silver-rgb: 232, 232, 240;
+  
+  --identity-quantum: #6C5CE7;
+  --consciousness-neural: #00B894;
+  --guardian-shield: #E17055;
+  --lambda-gold: #FFB347;
+  --whisper-pearl: #F8F9FA;
+
+  /* Gradients */
+  --dream-ethereal-gradient: linear-gradient(135deg, #8B7CF6 0%, #6366F1 100%);
+  --consciousness-spectrum: linear-gradient(90deg, #6C5CE7, #8B7CF6, #06B6D4, #10B981, #FFB347, #E17055);
+
+  /* Semantic Colors */
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #3B82F6;
+
+  /* Particle System Colors */
+  --particle-primary: var(--lukhas-ai-primary);
+  --particle-accent: var(--lambda-gold);
+  --particle-glow: rgba(139, 124, 246, 0.6);
+}
+
+/* Dark Theme (Default) */
+[data-theme="dark"] {
+  --bg-primary: var(--consciousness-deep);
+  --bg-secondary: hsl(240, 28%, 18%);
+  --text-primary: var(--awareness-silver);
+  --text-secondary: hsl(240, 20%, 80%);
+  --accent: var(--lukhas-ai-primary);
+}
+
+/* Light Theme */
+[data-theme="light"] {
+  --bg-primary: #FFFFFF;
+  --bg-secondary: var(--whisper-pearl);
+  --text-primary: var(--consciousness-deep);
+  --text-secondary: hsl(240, 28%, 30%);
+  --accent: var(--lukhas-ai-primary);
+}
+
+/* Utility Classes */
+.bg-dream-gradient {
+  background: var(--dream-ethereal-gradient);
+}
+
+.text-lukhas-ai {
+  color: var(--lukhas-ai-primary);
+}
+
+.border-lukhas-ai {
+  border-color: var(--lukhas-ai-primary);
+}

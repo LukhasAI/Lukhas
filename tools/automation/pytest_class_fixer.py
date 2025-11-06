@@ -278,9 +278,8 @@ class PytestClassFixer:
                 continue
 
             # Check if we're leaving the test class
-            if in_test_class and current_indent <= class_indent and stripped and not stripped.startswith("#"):
-                if not stripped.startswith("def ") and not stripped.startswith("@"):
-                    in_test_class = False
+            if (in_test_class and current_indent <= class_indent and stripped and (not stripped.startswith('#'))) and (not stripped.startswith('def ') and (not stripped.startswith('@'))):
+                in_test_class = False
 
             # Replace __init__ with setup_method in test classes
             if in_test_class and stripped.startswith("def __init__(self"):

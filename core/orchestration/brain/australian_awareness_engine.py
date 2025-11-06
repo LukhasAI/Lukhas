@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 Australian Awareness Engine - Privacy Act 1988 Compliant Framework
 ===============================================================
@@ -34,6 +32,9 @@ Author: Lukhas AI Research Team - Australian Compliance Division
 Version: 1.0.0 - Privacy Act Edition
 Date: June 2025
 """
+
+from __future__ import annotations
+
 # NOTE: moved to core/orchestration/brain via Hidden Gems Integration (Batch 5)
 import json
 import logging
@@ -44,6 +45,11 @@ from enum import Enum
 from typing import Any
 
 from pydantic import Field
+
+from labs.core.orchestration.brain.GlobalInstitutionalFramework import (
+    GlobalConsentData,
+    InstitutionalProcessingRecord,
+)
 
 # Import global framework (with import-time safety stubs for missing backend)
 try:
@@ -86,7 +92,7 @@ except Exception:  # pragma: no cover - fallback for import-time safety
         legal_basis: str = LegalBasis.CONSENT.value
         data_category: str = DataCategory.PERSONAL_DATA.value
 
-# ——— Australian-Specific Regulatory Framework ——————————————————————— #
+# --- Australian-Specific Regulatory Framework ----------------------- #
 
 
 class AustralianPrivacyPrinciple(Enum):
@@ -290,7 +296,7 @@ def australian_audit_log(
     logging.getLogger("australian_institutional_audit").info(json.dumps(audit_entry))
 
 
-# ——— Australian Institutional Awareness Modules ——————————————————————— #
+# --- Australian Institutional Awareness Modules ----------------------- #
 
 
 class AustralianPrivacyModule:
@@ -528,7 +534,7 @@ class AustralianPrivacyModule:
         return True  # Default compliance for other states
 
 
-# ——— Main Australian Awareness Engine ——————————————————————————————— #
+# --- Main Australian Awareness Engine ------------------------------- #
 
 
 class AustralianAwarenessEngine:
@@ -601,7 +607,7 @@ class AustralianAwarenessEngine:
             raise
 
 
-# ——— Compliance Certification ——————————————————————————————————— #
+# --- Compliance Certification ----------------------------------- #
 
 
 def certify_australian_compliance() -> dict[str, Any]:

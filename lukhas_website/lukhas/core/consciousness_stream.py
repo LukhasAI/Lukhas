@@ -17,7 +17,7 @@ import logging
 import os
 import statistics
 from collections import deque
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List
 from uuid import UUID, uuid4
 
@@ -29,11 +29,12 @@ except ImportError:
     GUARDIAN_AVAILABLE = False
     logging.warning("Guardian system not available for consciousness validation")
 
-from core.clock import Ticker
-from core.ring import DecimatingRing
 from matriz.node_contract import GLYPH, MatrizMessage
 from matriz.router import SymbolicMeshRouter
 from storage.events import Event, EventStore
+
+from core.clock import Ticker
+from core.ring import DecimatingRing
 
 # Optional metrics
 try:
@@ -129,7 +130,7 @@ class ConsciousnessStream:
         self._tick_processing_times: deque = deque(maxlen=100)    # Store recent tick processing times
         self._drift_ema = 0.0                                     # Exponential moving average of drift
         self._drift_alpha = 0.1                                   # EMA smoothing factor
-        self._last_metrics_update = datetime.utcnow()
+        self._last_metrics_update = datetime.now(timezone.utc)
 
         # Guardian integration for consciousness safety
         self._guardian_integration_enabled = False
@@ -169,7 +170,7 @@ class ConsciousnessStream:
     def _log_router_event(self, event_type: str, data: dict) -> None:
         """Router logging callback - captures router activity."""
         log_entry = {
-            "ts": datetime.utcnow(),
+            "ts": datetime.now(timezone.utc),
             "type": event_type,
             "data": data,
             "lane": self.lane
@@ -184,14 +185,14 @@ class ConsciousnessStream:
         Creates events for the tick and routes them through the system.
         This is the core of the live stream integration.
         """
-        tick_start = datetime.utcnow()
+        tick_start = datetime.now(timezone.utc)
 
         try:
             self.tick_count = tick_count
 
             # Guardian pre-processing validation
             if self._guardian_integration_enabled and self._guardian_instance:
-                guardian_check_start = datetime.utcnow()
+                guardian_check_start = datetime.now(timezone.utc)
 
                 # Prepare consciousness context for Guardian validation
                 consciousness_context = {
@@ -212,9 +213,9 @@ class ConsciousnessStream:
                 try:
                     guardian_result = self._guardian_instance.validate_safety(consciousness_context)
 
-                    guardian_overhead = (datetime.utcnow() - guardian_check_start).total_seconds() * 1000
+                    guardian_overhead = (datetime.now(timezone.utc) - guardian_check_start).total_seconds() * 1000
                     self._guardian_processing_overhead.append(guardian_overhead)
-                    self._last_guardian_check = datetime.utcnow()
+                    self._last_guardian_check = datetime.now(timezone.utc)
 
                     # Check if consciousness processing is safe
                     if not guardian_result.get("safe", False):
@@ -297,7 +298,7 @@ class ConsciousnessStream:
                 logger.warning(f"Event dropped due to storage capacity: {tick_event.kind}")
 
             # Update processing time in payload
-            processing_duration = (datetime.utcnow() - tick_start).total_seconds()
+            processing_duration = (datetime.now(timezone.utc) - tick_start).total_seconds()
             processing_ms = processing_duration * 1000
 
             # Track tick processing time for p95 calculation
@@ -307,7 +308,7 @@ class ConsciousnessStream:
             if len(self._tick_processing_times) > 10:
                 avg_processing = statistics.mean(self._tick_processing_times)
                 if processing_ms > avg_processing * 1.5:  # Simple breakthrough detection
-                    self._breakthrough_timestamps.append(datetime.utcnow())
+                    self._breakthrough_timestamps.append(datetime.now(timezone.utc))
 
             # Update drift EMA based on timing deviation
             target_interval = 1.0 / self.ticker.fps  # Expected interval between ticks
@@ -412,7 +413,7 @@ class ConsciousnessStream:
         """Update per-stream Prometheus metrics."""
         try:
             # Calculate breakthroughs per minute
-            now = datetime.utcnow()
+            now = datetime.now(timezone.utc)
             one_minute_ago = now - timedelta(minutes=1)
             recent_breakthroughs = [ts for ts in self._breakthrough_timestamps if ts >= one_minute_ago]
             breakthroughs_per_min = len(recent_breakthroughs)
@@ -494,7 +495,7 @@ class ConsciousnessStream:
     def get_stream_metrics(self) -> Dict[str, Any]:
         """Get current stream performance and status metrics."""
         # Calculate per-stream metrics
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         one_minute_ago = now - timedelta(minutes=1)
         recent_breakthroughs = [ts for ts in self._breakthrough_timestamps if ts >= one_minute_ago]
         breakthroughs_per_min = len(recent_breakthroughs)
@@ -650,7 +651,7 @@ class ConsciousnessStream:
                 "reason": reason,
                 "tick_count": self.tick_count,
                 "safety_violations": self._consciousness_safety_violations,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat()
             }
         )
 
@@ -674,7 +675,7 @@ class ConsciousnessStream:
             payload={
                 "reason": reason,
                 "tick_count": self.tick_count,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat()
             }
         )
 
@@ -698,7 +699,7 @@ class ConsciousnessStream:
             "tick_count": self.tick_count,
             "safety_violations": self._consciousness_safety_violations,
             "context": context or {},
-            "correlation_id": f"state_transition_{int(datetime.utcnow().timestamp() * 1000)}"
+            "correlation_id": f"state_transition_{int(datetime.now(timezone.utc).timestamp() * 1000)}"
         }
 
         try:

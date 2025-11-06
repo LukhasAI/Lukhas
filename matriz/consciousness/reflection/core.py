@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -15,6 +12,7 @@ Consolidated module for better performance
 import asyncio
 import hashlib
 import json
+import logging
 import math
 import random
 import string
@@ -28,7 +26,17 @@ from typing import Any, Optional, Union
 import aiohttp
 import numpy as np
 from aiohttp import web
+from hybrid_memory_fold import (
+    HybridMemoryFold,
+)
 from lazy_loading_embeddings import LazyEmbeddingLoader, create_lazy_embedding_system
+from memory_fold_system import MemoryFoldSystem, MemoryItem
+from optimized_hybrid_memory_fold import OptimizedHybridMemoryFold
+from optimized_memory_item import OptimizedMemoryItem, create_optimized_memory
+
+logger = logging.getLogger(__name__)
+
+
 
 try:
     from .optimized_memory_item import QuantizationCodec
@@ -41,12 +49,6 @@ try:
     from memory.structural_conscience import create_structural_conscience
 except ImportError:
     create_structural_conscience = None
-from hybrid_memory_fold import (
-    HybridMemoryFold,
-)
-from memory_fold_system import MemoryFoldSystem, MemoryItem
-from optimized_hybrid_memory_fold import OptimizedHybridMemoryFold
-from optimized_memory_item import OptimizedMemoryItem, create_optimized_memory
 
 
 def create_hybrid_memory_fold(

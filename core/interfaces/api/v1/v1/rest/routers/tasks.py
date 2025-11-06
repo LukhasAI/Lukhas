@@ -1,5 +1,14 @@
 from typing import Any
 
+try:
+    from labs.core.event_bus import EventBus
+except ImportError:
+    # Fallback if EventBus not available
+    class EventBus:
+        """Placeholder EventBus"""
+        def __init__(self):
+            pass
+
 from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel
 

@@ -5,7 +5,7 @@
 pip>=25.3
 
 # FastAPI stack
-fastapi>=0.117.1,<1.0.0  # Updated from Dependabot PR #337
+fastapi>=0.120.1,<1.0.0  # Updated from Dependabot PR #337
 starlette>=0.49.1,<1.0.0  # Security fix for GHSA DoS vulnerability (CVE-2025)
 pydantic>=2.0.0,<3.0.0
 uvicorn>=0.23.0,<1.0.0
@@ -42,13 +42,18 @@ streamlit>=1.28.0,<2.0.0
 
 # Monitoring & observability
 prometheus-client>=0.19.0,<1.0.0
+structlog>=23.0.0,<24.0.0
 opentelemetry-api>=1.20.0,<2.0.0
 opentelemetry-sdk>=1.20.0,<2.0.0
 opentelemetry-exporter-otlp>=1.20.0,<2.0.0
+opentelemetry-instrumentation-fastapi
 
 # Image processing
 Pillow>=10.0.0,<12.0.0
 qrcode>=7.4.0,<8.0.0
+
+# Graphs
+networkx>=3.0,<4.0
 
 # Basic security scanning (minimal)
 bandit>=1.7.5,<2.0.0
@@ -59,3 +64,4 @@ pytest-asyncio>=0.21.0,<1.0.0
 pytest-mock>=3.11.0,<4.0.0
 greenlet==3.2.4
 lz4>=4.0.0
+lz4

@@ -79,18 +79,12 @@ FORBIDDEN_PATHS = [
 
 def is_allowed(file_path: str) -> bool:
     """Check if a file is in an allowed location for raw LLM imports."""
-    for pattern in ALLOWED_PATHS:
-        if re.match(pattern, file_path):
-            return True
-    return False
+    return any(re.match(pattern, file_path) for pattern in ALLOWED_PATHS)
 
 
 def is_forbidden(file_path: str) -> bool:
     """Check if a file is in a forbidden location for raw LLM imports."""
-    for pattern in FORBIDDEN_PATHS:
-        if re.match(pattern, file_path):
-            return True
-    return False
+    return any(re.match(pattern, file_path) for pattern in FORBIDDEN_PATHS)
 
 
 @pytest.mark.smoke

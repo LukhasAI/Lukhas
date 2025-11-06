@@ -63,6 +63,7 @@ try:
     from communication.explainability_interface_layer import (
         ExplainabilityInterfaceLayer,
     )
+
     from ethics.meta_ethics_governor import EthicalVerdict, MetaEthicsGovernor
     from ethics.self_reflective_debugger import SelfReflectiveDebugger
     from orchestration.lukhas_master_orchestrator import (
@@ -1707,10 +1708,9 @@ class HumanInTheLoopOrchestrator:
             if assignment.status != "assigned":
                 continue
 
-            if assignment.due_date and now > assignment.due_date:
-                if assignment.reminder_count < 3:  # Max 3 reminders
-                    await self._notify_reviewers(decision, "reminder")
-                    assignment.reminder_count += 1
+            if (assignment.due_date and now > assignment.due_date) and assignment.reminder_count < 3:
+                await self._notify_reviewers(decision, "reminder")
+                assignment.reminder_count += 1
 
     async def _update_metrics(self):
         """Background task to update performance metrics."""

@@ -1,0 +1,135 @@
+{
+  "timestamp": "2025-11-06T00:26:17.701601",
+  "summary": {
+    "critical": 4,
+    "high": 0,
+    "medium": 16,
+    "low": 0
+  },
+  "findings_by_severity": {
+    "critical": [
+      {
+        "file": "labs/core/identity/consciousness_tiered_authentication.py",
+        "type": "password",
+        "severity": "critical",
+        "line": 70
+      },
+      {
+        "file": "labs/core/identity/consciousness_tiered_authentication.py",
+        "type": "password",
+        "severity": "critical",
+        "line": 71
+      },
+      {
+        "file": "labs/core/security/auth.py",
+        "type": "password",
+        "severity": "critical",
+        "line": 175
+      },
+      {
+        "file": "labs/core/security/credential_manager.py",
+        "type": "password",
+        "severity": "critical",
+        "line": 35
+      }
+    ],
+    "medium": [
+      {
+        "file": "validate_infrastructure.py",
+        "type": "email",
+        "severity": "medium",
+        "line": 43
+      },
+      {
+        "file": "labs/core/identity/test_consciousness_identity_patterns.py",
+        "type": "email",
+        "severity": "medium",
+        "line": 97
+      },
+      {
+        "file": "labs/core/identity/test_consciousness_identity_patterns.py",
+        "type": "email",
+        "severity": "medium",
+        "line": 378
+      },
+      {
+        "file": "labs/core/identity/test_consciousness_identity_patterns.py",
+        "type": "email",
+        "severity": "medium",
+        "line": 849
+      },
+      {
+        "file": "labs/core/security/defense_monitor.py",
+        "type": "email",
+        "severity": "medium",
+        "line": 593
+      },
+      {
+        "file": "labs/core/security/defense_monitor.py",
+        "type": "email",
+        "severity": "medium",
+        "line": 600
+      },
+      {
+        "file": "labs/core/security/defense_monitor.py",
+        "type": "email",
+        "severity": "medium",
+        "line": 605
+      },
+      {
+        "file": "labs/core/security/secure_logging.py",
+        "type": "email",
+        "severity": "medium",
+        "line": 221
+      },
+      {
+        "file": "labs/core/security/secure_logging.py",
+        "type": "email",
+        "severity": "medium",
+        "line": 225
+      },
+      {
+        "file": "labs/core/security/security_policy.py",
+        "type": "email",
+        "severity": "medium",
+        "line": 682
+      },
+      {
+        "file": "labs/core/compliance/democratic_oversight.py",
+        "type": "email",
+        "severity": "medium",
+        "line": 289
+      },
+      {
+        "file": "labs/core/compliance/democratic_oversight.py",
+        "type": "email",
+        "severity": "medium",
+        "line": 306
+      },
+      {
+        "file": "labs/core/compliance/democratic_oversight.py",
+        "type": "email",
+        "severity": "medium",
+        "line": 319
+      },
+      {
+        "file": "labs/core/compliance/democratic_oversight.py",
+        "type": "email",
+        "severity": "medium",
+        "line": 337
+      },
+      {
+        "file": "labs/core/compliance/democratic_oversight.py",
+        "type": "email",
+        "severity": "medium",
+        "line": 354
+      },
+      {
+        "file": "labs/core/adapters/seven_agent_adapter.py",
+        "type": "email",
+        "severity": "medium",
+        "line": 407
+      }
+    ]
+  }
+}

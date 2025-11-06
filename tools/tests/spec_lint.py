@@ -36,10 +36,9 @@ class TestMarkerVisitor(ast.NodeVisitor):
                     # pytest.mark.tier1, etc.
                     if isinstance(decorator.value, ast.Attribute) and decorator.value.attr == "mark":
                         markers.add(decorator.attr)
-                elif isinstance(decorator, ast.Call) and isinstance(decorator.func, ast.Attribute):
+                elif (isinstance(decorator, ast.Call) and isinstance(decorator.func, ast.Attribute)) and (isinstance(decorator.func.value, ast.Attribute) and decorator.func.value.attr == 'mark'):
                     # pytest.mark.tier1(), etc.
-                    if isinstance(decorator.func.value, ast.Attribute) and decorator.func.value.attr == "mark":
-                        markers.add(decorator.func.attr)
+                    markers.add(decorator.func.attr)
 
             self.test_functions.append({"name": node.name, "line": node.lineno, "markers": markers})
 

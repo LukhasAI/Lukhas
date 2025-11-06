@@ -1,3 +1,8 @@
+status: wip
+type: documentation
+> **Note**: This is a vendor-neutral version of claude.me for compatibility with any AI tool or development environment.
+
+
 # Policies Module - LUKHAS Policy Definitions & Management
 
 **Module**: policies
@@ -5,7 +10,6 @@
 **Team**: Core
 **Purpose**: Policy definitions, policy management, and policy enforcement infrastructure for LUKHAS governance
 
----
 
 ## Overview
 
@@ -19,7 +23,6 @@ The policies module contains policy definitions and management infrastructure fo
 - Compliance mapping (GDPR, CCPA, SOC2)
 - Policy audit trail integration
 
----
 
 ## Architecture
 
@@ -45,7 +48,6 @@ policies/
 └── tests/                       # Policy tests
 ```
 
----
 
 ## Core Components
 
@@ -109,7 +111,6 @@ policy:
       severity: "critical"
 ```
 
----
 
 ### 2. Policy Evaluation
 
@@ -140,7 +141,6 @@ result = engine.evaluate(context)
 # - requirements: []
 ```
 
----
 
 ### 3. Policy Management
 
@@ -172,7 +172,6 @@ manager.deprecate_policy(
 )
 ```
 
----
 
 ### 4. Compliance Mapping
 
@@ -198,7 +197,6 @@ compliance:
         - "Data purging automation"
 ```
 
----
 
 ## Policy Enforcement Levels
 
@@ -223,7 +221,6 @@ compliance:
 - Policy updates
 - Unusual patterns
 
----
 
 ## Policy Testing
 
@@ -250,7 +247,6 @@ results = tester.run_all_tests()
 assert results.all_passed
 ```
 
----
 
 ## Configuration
 
@@ -282,7 +278,6 @@ policies:
     deprecation_notice_days: 30
 ```
 
----
 
 ## Integration
 
@@ -310,7 +305,6 @@ checker = PolicyChecker(policy_engine=engine)
 compliance = checker.check_component("memory/")
 ```
 
----
 
 ## Observability
 
@@ -323,7 +317,6 @@ compliance = checker.check_component("memory/")
 - Enforcement actions (block/log/alert)
 - Policy load time
 
----
 
 ## Related Modules
 
@@ -332,37 +325,8 @@ compliance = checker.check_component("memory/")
 - **enforcement/**: Policy compliance checking
 - **audit/**: Policy violation auditing
 
----
 
 **Module Status**: L2 Integration
 **Schema Version**: 1.0.0
 **Last Updated**: 2025-10-18
 **Philosophy**: Policies codify values—enforce them rigorously, update them thoughtfully, audit them continuously.
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

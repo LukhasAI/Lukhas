@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import datetime, timezone
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -20,13 +14,22 @@ Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
+from __future__ import annotations
+
 import datetime
 import json
+import logging
 import os
 from collections import defaultdict
+from datetime import datetime, timezone
 
 import numpy as np
+
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 
@@ -1086,9 +1089,8 @@ class MetaLearningSystem:
             match_score += 0.2
 
         # Check for data volume match
-        if "data_volume" in features:
-            if features["data_volume"] < 100 and "limited_data" in strategy.get("suitable_for", []):
-                match_score += 0.2
+        if 'data_volume' in features and (features['data_volume'] < 100 and 'limited_data' in strategy.get('suitable_for', [])):
+            match_score += 0.2
 
         # Check for privacy sensitivity match
         if (

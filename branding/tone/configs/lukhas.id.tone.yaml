@@ -1,0 +1,96 @@
+# LUKHAS.ID Tone Configuration
+# Identity & Authentication Portal (ΛiD)
+
+domain: lukhas.id
+role: identity_authentication_portal
+priority: critical
+status: active
+
+audience:
+  primary:
+    - all_lukhas_users
+    - privacy_conscious_individuals
+    - security_professionals
+    - enterprise_it_teams
+    - compliance_officers
+  secondary:
+    - developers
+    - ctos_decision_makers
+    - identity_management_specialists
+
+# 3-Layer Tone Distribution
+tone_distribution:
+  user_friendly: 0.40
+  academic: 0.40
+  poetic: 0.20
+
+content_type_overrides:
+  hero_homepage:
+    user_friendly: 0.35
+    academic: 0.30
+    poetic: 0.35
+  signup_flow:
+    user_friendly: 0.75
+    academic: 0.15
+    poetic: 0.10
+  security_docs:
+    user_friendly: 0.30
+    academic: 0.65
+    poetic: 0.05
+  enterprise_pages:
+    user_friendly: 0.40
+    academic: 0.55
+    poetic: 0.05
+  developer_docs:
+    user_friendly: 0.25
+    academic: 0.70
+    poetic: 0.05
+
+# Vocabulary Emphasis
+vocabulary_emphasis:
+  architectural_bridges: 0.25
+  geological_strata: 0.20
+  circuit_patterns: 0.20
+  harmonic_resonance: 0.15
+  prismatic_light: 0.10
+  woven_patterns: 0.05
+  neural_gardens: 0.03
+  fluid_dynamics: 0.02
+
+# Constellation Stars
+constellation_stars:
+  primary:
+    - identity
+    - guardian
+    - ethics
+  secondary:
+    - memory
+    - vision
+    - bio
+
+# Messaging
+messaging:
+  brand_positioning: "Your consciousness signature—unique, secure, sovereign"
+  core_values:
+    - zero_knowledge_architecture
+    - user_sovereignty
+    - enterprise_security
+    - privacy_by_design
+
+# Quality Standards
+quality:
+  reading_level:
+    user_friendly_target: 10
+    academic_sections: 14
+  technical_precision:
+    security_claims_verified: true
+    certifications_current: true
+
+# Enforcement
+enforcement:
+  tone_distribution_tolerance: 0.05
+  security_review_required: true
+  compliance_check_required: true
+
+version: "1.0"
+created: "2025-11-06"

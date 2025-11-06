@@ -20,7 +20,7 @@ from __future__ import annotations
 import hashlib
 import json
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Dict, List, Literal, Tuple
 from uuid import UUID
@@ -153,7 +153,7 @@ def from_dict(d: Dict[str, Any]) -> MatrizMessage:
 
     # Parse/validate IDs and timestamps if present
     msg_id = UUID(d["msg_id"]) if "msg_id" in d else UUID(int=0)
-    ts = datetime.fromisoformat(d["ts"]) if "ts" in d else datetime.utcnow()
+    ts = datetime.fromisoformat(d["ts"]) if "ts" in d else datetime.now(timezone.utc)
 
     lane = d["lane"]
     topic = d["topic"]
@@ -289,7 +289,7 @@ def validate_message_ex(msg: MatrizMessage) -> Tuple[bool, List[str]]:
 def mk_guardian_token(node_name: str, lane: str, msg_id: UUID, epoch_ms: int | None = None) -> str:
     """Recommended Guardian token format for searchable audits."""
     if epoch_ms is None:
-        epoch_ms = int(datetime.utcnow().timestamp() * 1000)
+        epoch_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
     return f"lukhas:{lane}:{node_name}:{str(msg_id)[:8]}:{epoch_ms}"
 
 

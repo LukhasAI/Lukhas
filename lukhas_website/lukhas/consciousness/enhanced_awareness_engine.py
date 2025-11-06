@@ -336,13 +336,10 @@ class EnhancedAwarenessEngine:
             return True
 
         # Force assessment if significant time has passed
-        if time.time() - self.last_meta_assessment_time > 30.0:  # 30 seconds
-            return True
+        return (time.time() - self.last_meta_assessment_time) > 30.0  # 30 seconds
 
         # Force assessment if anomalies detected in base awareness
         # (This would be determined by the base snapshot)
-
-        return False
 
     def _track_inference(self, inference_result: InferenceResult) -> None:
         """Track inference result for meta-cognitive assessment."""

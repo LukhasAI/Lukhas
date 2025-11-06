@@ -75,7 +75,7 @@ def print_debug_narration_summary():
         print(
             f" • ID: {e.get('id')} | Emoji: {e.get('emoji')} | Tags: {','.join(e.get('tags', []))}"
         )
-        print(f"   📝 Summary: {e.get('summary', '—')}")
+        print(f"   📝 Summary: {e.get('summary', '-')}")
         print()
 
 if __name__ == "__main__":

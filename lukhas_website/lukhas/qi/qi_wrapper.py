@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
 """
 LUKHAS AI Quantum-Inspired (QI) Wrapper
@@ -20,12 +19,15 @@ This module provides:
 Default mode: DRY-RUN (simulation only) with QI_ACTIVE feature flag required.
 """
 
+from __future__ import annotations
+
 import logging
 import os
 from datetime import datetime, timezone
 from typing import Any
 
 import numpy as np
+
 from observability.matriz_decorators import instrument
 from observability.matriz_emit import emit
 

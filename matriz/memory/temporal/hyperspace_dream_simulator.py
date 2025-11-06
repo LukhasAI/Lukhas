@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:memory
@@ -61,6 +58,7 @@ IDEA: Add machine learning-based resource optimization recommendations
 
 import asyncio
 import json
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
@@ -69,6 +67,10 @@ from typing import Any, Optional
 from uuid import uuid4
 
 import numpy as np
+
+logger = logging.getLogger(__name__)
+
+
 
 try:
     from core.integration.dynamic_modality_broker import (

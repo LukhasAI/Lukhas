@@ -29,7 +29,7 @@ def nearest_manifest(pyfile: Path) -> dict:
     return {}
 
 def main():
-    ap = argparse.ArgumentParser(description="Build Ruff owner heatmap (Star × Owner × Rule).")
+    ap = argparse.ArgumentParser(description="Build Ruff owner heatmap (Star x Owner x Rule).")
     ap.add_argument("--ruff", default="docs/audits/ruff.json")
     ap.add_argument("--csv", default="docs/audits/ruff_heatmap.csv")
     ap.add_argument("--md",  default="docs/audits/ruff_heatmap.md")
@@ -66,7 +66,7 @@ def main():
 
     # MD
     with Path(args.md).open("w", encoding="utf-8") as f:
-        f.write("# Ruff Heatmap (Star × Owner × Rule)\n\n")
+        f.write("# Ruff Heatmap (Star x Owner x Rule)\n\n")
         f.write("| Star | Owner | " + " | ".join(all_codes) + " | Total |\n")
         f.write("|---|---|" + "|".join([":--:" for _ in all_codes]) + "|---:|\n")
         for (star, owner), cnt in sorted(cube.items()):

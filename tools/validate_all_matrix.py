@@ -9,7 +9,7 @@ Produces comprehensive validation results for CI/CD pipeline.
 import argparse
 import json
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from glob import glob
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
@@ -136,9 +136,8 @@ class MatrixValidator:
                 errors.append(f"Identity: Critical module '{module_name}' should require WebAuthn")
 
             # Check high-tier WebAuthn requirement
-            if "inner_circle" in identity_info["tiers"] or "root_dev" in identity_info["tiers"]:
-                if not identity_info["webauthn_required"]:
-                    errors.append("Identity: High-tier module should require WebAuthn")
+            if ('inner_circle' in identity_info['tiers'] or 'root_dev' in identity_info['tiers']) and (not identity_info['webauthn_required']):
+                errors.append("Identity: High-tier module should require WebAuthn")
 
             return len(errors) == 0, errors, identity_info
 
@@ -156,9 +155,8 @@ class MatrixValidator:
                 tokenization = contract["tokenization"]
 
                 # Check enabled field
-                if "enabled" in tokenization:
-                    if not isinstance(tokenization["enabled"], bool):
-                        errors.append("Tokenization: 'enabled' must be boolean")
+                if 'enabled' in tokenization and (not isinstance(tokenization['enabled'], bool)):
+                    errors.append("Tokenization: 'enabled' must be boolean")
 
                 # Check network if enabled
                 if tokenization.get("enabled", False):
@@ -265,7 +263,7 @@ class MatrixValidator:
                 summary["critical_modules"] += 1
 
         return {
-            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
             "summary": summary,
             "modules": results
         }

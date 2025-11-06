@@ -22,7 +22,10 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-import asyncpg
+try:
+    import asyncpg  # type: ignore[import-not-found]
+except ModuleNotFoundError:  # pragma: no cover - optional dependency
+    asyncpg = None  # type: ignore[assignment]
 from pydantic import BaseModel, Field, field_validator
 
 # Mock macaroon library (in production use pymacaroons)
@@ -162,7 +165,12 @@ class ConsentService:
 
     async def initialize(self):
         """Initialize database connection pool"""
-        self.db_pool = await asyncpg.create_pool(self.db_url, min_size=2, max_size=10, command_timeout=30)
+        if asyncpg is None:
+            raise RuntimeError("asyncpg is required for database operations but is not installed")
+
+        self.db_pool = await asyncpg.create_pool(
+            self.db_url, min_size=2, max_size=10, command_timeout=30
+        )
 
     async def close(self):
         """Close database connections"""

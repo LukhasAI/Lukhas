@@ -72,7 +72,7 @@ class TestCognitiveOrchestratorInit:
         }
         mock_node.validate_output.return_value = True
 
-        orch.register_node("test", mock_node)
+        orch.register_node("facts", mock_node)
 
         # Process first query
         orch.process_query("test query 1")

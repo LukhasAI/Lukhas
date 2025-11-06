@@ -14,7 +14,7 @@ import logging
 import os
 import secrets
 from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Optional
 
@@ -211,10 +211,10 @@ class SecretsManager:
             encrypted_b64 = base64.b64encode(encrypted_value).decode()
 
             # Create metadata
-            created_at = datetime.utcnow().isoformat()
+            created_at = datetime.now(timezone.utc).isoformat()
             expires_at = None
             if expires_days:
-                expires_at = (datetime.utcnow() + timedelta(days=expires_days)).isoformat()
+                expires_at = (datetime.now(timezone.utc) + timedelta(days=expires_days)).isoformat()
 
             metadata = SecretMetadata(
                 name=name,
@@ -262,7 +262,7 @@ class SecretsManager:
         # Check expiration
         if entry.metadata.expires_at:
             expires_at = datetime.fromisoformat(entry.metadata.expires_at)
-            if datetime.utcnow() > expires_at:
+            if datetime.now(timezone.utc) > expires_at:
                 logger.warning(f"Secret '{name}' has expired")
                 return None
 
@@ -273,7 +273,7 @@ class SecretsManager:
 
             # Update access metadata
             entry.metadata.access_count += 1
-            entry.metadata.last_accessed = datetime.utcnow().isoformat()
+            entry.metadata.last_accessed = datetime.now(timezone.utc).isoformat()
             self._save_secrets_db()
 
             return decrypted_value
@@ -312,7 +312,7 @@ class SecretsManager:
             # Update entry
             entry.encrypted_value = encrypted_b64
             entry.salt = salt
-            entry.metadata.rotated_at = datetime.utcnow().isoformat()
+            entry.metadata.rotated_at = datetime.now(timezone.utc).isoformat()
 
             self._save_secrets_db()
 
@@ -373,14 +373,14 @@ class SecretsManager:
             needs_rotation = False
             if entry.metadata.created_at:
                 created_at = datetime.fromisoformat(entry.metadata.created_at)
-                age_days = (datetime.utcnow() - created_at).days
+                age_days = (datetime.now(timezone.utc) - created_at).days
                 needs_rotation = age_days >= self.auto_rotate_days
 
             # Check if expired
             is_expired = False
             if entry.metadata.expires_at:
                 expires_at = datetime.fromisoformat(entry.metadata.expires_at)
-                is_expired = datetime.utcnow() > expires_at
+                is_expired = datetime.now(timezone.utc) > expires_at
 
             secrets_list.append({
                 "name": name,
@@ -417,7 +417,7 @@ class SecretsManager:
             # Skip expired secrets
             if entry.metadata.expires_at:
                 expires_at = datetime.fromisoformat(entry.metadata.expires_at)
-                if datetime.utcnow() > expires_at:
+                if datetime.now(timezone.utc) > expires_at:
                     continue
 
             # Get secret value
@@ -486,14 +486,14 @@ class SecretsManager:
             # Check expiration
             if entry.metadata.expires_at:
                 expires_at = datetime.fromisoformat(entry.metadata.expires_at)
-                if datetime.utcnow() > expires_at:
+                if datetime.now(timezone.utc) > expires_at:
                     expired_secrets.append(name)
                     continue
 
             # Check if needs rotation
             if entry.metadata.created_at:
                 created_at = datetime.fromisoformat(entry.metadata.created_at)
-                age_days = (datetime.utcnow() - created_at).days
+                age_days = (datetime.now(timezone.utc) - created_at).days
                 if age_days >= self.auto_rotate_days:
                     rotation_needed.append(name)
 

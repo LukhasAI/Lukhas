@@ -12,12 +12,12 @@ jsonschema==4.25.1
 lukhas==0.0.1
 matplotlib==3.10.5
 numpy==2.2.6
-openai==2.6.1
+openai==2.7.1
 pandas==2.3.2
 Pillow==11.3.0
 plotly==6.3.1
 pycryptodome==3.23.0
-pydantic==2.12.3
+pydantic==2.12.4
 pyfiglet==1.0.4
 PyJWT==2.10.1
 pypandoc==1.15

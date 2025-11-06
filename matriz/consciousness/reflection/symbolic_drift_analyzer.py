@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -39,21 +33,28 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
 import asyncio
 import contextlib
 import hashlib
 import json
+import logging
 import math
 import statistics
 import time
 from collections import Counter, defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum, auto
 from pathlib import Path
 from typing import Any, Callable
 
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 # Rich terminal output
 try:
@@ -69,8 +70,9 @@ except ImportError:
 
 # Import LUKHAS modules
 try:
-    from core.glyph.glyphs import Glyph
     from dream.core.dream_memory_manager import DreamMemoryManager
+
+    from core.glyph.glyphs import Glyph
     from ethics.ethical_drift_detector import EthicalDriftDetector
     from symbolic.drift.symbolic_drift_tracker import DriftPhase, DriftScore
 except ImportError:

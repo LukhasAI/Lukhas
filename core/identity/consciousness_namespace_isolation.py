@@ -1,8 +1,3 @@
-import logging
-
-import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-
-logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
 ║ 🧬 MΛTRIZ Namespace Isolation System: Consciousness Domain Separation
@@ -21,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 import asyncio
 import hashlib
+import logging
 import logging as std_logging
 import time
 import uuid
@@ -29,14 +25,19 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
+import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+
+logger = logging.getLogger(__name__)
+
+
 # Import MΛTRIZ consciousness components
 try:
-    from ..matriz_consciousness_signals import (  # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+    from ..matriz_consciousness_signals import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
         ConsciousnessSignal,
         ConstellationStar,
     )
     from .matriz_consciousness_identity_signals import (
-        IdentitySignalType,  # TODO: .matriz_consciousness_identity...
+        IdentitySignalType,  # noqa: F401  # TODO: .matriz_consciousness_identity...
         NamespaceIsolationData,
         consciousness_identity_signal_emitter,
     )

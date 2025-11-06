@@ -646,9 +646,8 @@ class SelfHealingDashboard:
                     if file_path.exists() and file_path.stat().st_size < 100000:  # Skip large files
                         content = file_path.read_text(errors="ignore")
                         # Simple check for potential f-string issues
-                        if 'f"' in content or "f'" in content:
-                            if content.count("{") != content.count("}"):
-                                affected_files.append(str(file_path.relative_to(ROOT)))
+                        if ('f"' in content or "f'" in content) and content.count('{') != content.count('}'):
+                            affected_files.append(str(file_path.relative_to(ROOT)))
 
             return {
                 "fix_type": "fstring_syntax",

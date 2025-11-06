@@ -1,11 +1,11 @@
-from __future__ import annotations
-
 """
 Dream Verification Colony
 
 Specialized colony for Tier 5 dream-based authentication using multiverse simulation,
 collective dream analysis, and emergent symbolic pattern recognition.
 """
+
+from __future__ import annotations
 
 import asyncio
 import hashlib

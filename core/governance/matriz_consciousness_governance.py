@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
 ║ 🧬 MΛTRIZ Governance Module: Consciousness Governance
@@ -18,6 +15,7 @@ logger = logging.getLogger(__name__)
 """
 
 import asyncio
+import logging
 
 # Explicit logging import to avoid conflicts with candidate/core/logging
 import logging as std_logging
@@ -26,6 +24,10 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+logger = logging.getLogger(__name__)
+
+
 
 # Import consciousness components
 try:

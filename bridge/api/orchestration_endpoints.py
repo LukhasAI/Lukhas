@@ -29,16 +29,6 @@ from typing import Any, Optional
 
 try:
     import jwt  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
-
-    # LUKHAS imports
-    from bridge.api.orchestration_api_bridge import (
-        APIProvider,
-        ComprehensiveAPIOrchestrator,  # TODO: bridge.api.orchestratio...
-        OrchestrationRequest,
-        OrchestrationResponse,  # TODO: bridge.api.orchestratio...
-        OrchestrationStrategy,
-        get_orchestrator,
-    )
     from fastapi import (
         Depends,
         FastAPI,
@@ -57,6 +47,17 @@ try:
         Field,
         ValidationError,
     )
+
+    # LUKHAS imports
+    from bridge.api.orchestration_api_bridge import (
+        APIProvider,
+        ComprehensiveAPIOrchestrator,  # TODO: bridge.api.orchestratio...
+        OrchestrationRequest,
+        OrchestrationResponse,  # TODO: bridge.api.orchestratio...
+        OrchestrationStrategy,
+        get_orchestrator,
+    )
+    from bridge.api.validation import get_validator
 
     FASTAPI_AVAILABLE = True
 except ImportError as e:

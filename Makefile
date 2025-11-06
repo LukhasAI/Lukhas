@@ -1,7 +1,7 @@
 # NOTE: Registry targets moved to canonical location (line ~1820)
 # See registry-up, registry-smoke, registry-ci, registry-clean, registry-test below
 # Main Makefile PHONY declarations (only for targets defined in this file)
-.PHONY: install setup-hooks dev api openapi openapi-spec openapi-validate facade-smoke live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports oneiric-drift-test
+.PHONY: install setup-hooks dev api openapi openapi-spec openapi-validate facade-smoke live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports oneiric-drift-test validate-root validate-root-docs validate-root-all
 .PHONY: load-smoke load-test load-extended load-spike load-locust load-check
 .PHONY: ai-analyze ai-setup ai-workflow clean deep-clean quick bootstrap organize organize-dry organize-suggest organize-watch
 .PHONY: codex-validate codex-fix validate-all perf migrate-dry migrate-run dna-health dna-compare admin lint-status lane-guard
@@ -20,6 +20,7 @@
 .PHONY: docs-map docs-migrate-auto docs-migrate-dry docs-lint validate-structure module-health vault-audit vault-audit-vault star-rules-lint star-rules-coverage promotions
 .PHONY: lint-json lint-fix lint-delta f401-tests import-map imports-abs imports-graph ruff-heatmap ruff-ratchet f821-suggest f706-detect f811-detect todos todos-issues codemod-dry codemod-apply check-legacy-imports
 .PHONY: state-sweep shadow-diff plan-colony-renames integration-manifest
+.PHONY: t4-init t4-migrate t4-migrate-dry t4-validate t4-dashboard t4-api t4-parallel t4-parallel-dry t4-codemod-dry t4-codemod-apply
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1234,6 +1235,16 @@ imports-promote: ## Generate package shims from doctor analysis
 lint: ## Run ruff linter with auto-fix
 	python3 -m ruff check . --fix || true
 
+validate-root: ## Check root directory hygiene (all files)
+	@echo "→ validate-root: checking all root files"
+	@python3 scripts/validate_root_hygiene.py
+
+validate-root-docs: ## Check root documentation hygiene (strict)
+	@echo "→ validate-root-docs: checking documentation files"
+	@python3 scripts/validate_root_docs.py
+
+validate-root-all: validate-root validate-root-docs ## Run all root hygiene checks
+
 tests-smoke: ## Run smoke tests
 	python3 -m pytest tests/smoke -q || true
 
@@ -1824,6 +1835,55 @@ gates-all: ## Run project-wide T4 gates (best-effort)
 	@make nodespec-validate || true
 	@make registry-test || true
 	@echo "✅ Gates check complete"
+
+# ============================================================================
+# T4 Unified Platform v2.0
+# ============================================================================
+
+t4-init: ## Initialize T4 platform (DB, dashboard, reports)
+	@echo "🚀 Initializing T4 Unified Platform..."
+	@./scripts/t4_init.sh
+
+t4-migrate-dry: ## Dry-run migration of legacy annotations
+	@echo "🔍 Dry-run migration (legacy → unified)..."
+	@python3 tools/ci/migrate_annotations.py --dry-run --report reports/migration_report.json
+	@echo "📊 Report: reports/migration_report.json"
+
+t4-migrate: ## Apply migration of legacy annotations (with backup)
+	@echo "🔄 Migrating annotations (legacy → unified)..."
+	@python3 tools/ci/migrate_annotations.py --apply --backup
+	@echo "✅ Migration complete! Backups: *.bak"
+
+t4-validate: ## Validate annotations with unified validator
+	@echo "✅ Validating T4 annotations..."
+	@python3 tools/ci/check_t4_issues.py --paths lukhas core api consciousness memory identity MATRIZ --json-only
+
+t4-dashboard: ## Generate HTML dashboard with metrics
+	@echo "📊 Generating T4 dashboard..."
+	@python3 tools/ci/t4_dashboard.py --output reports/t4_dashboard.html
+	@echo "✅ Dashboard: reports/t4_dashboard.html"
+	@echo "💡 Open: open reports/t4_dashboard.html"
+
+t4-api: ## Start Intent Registry API server
+	@echo "🚀 Starting Intent Registry API..."
+	@uvicorn tools.ci.intent_api:app --reload --port 8001
+
+t4-parallel-dry: ## Dry-run parallel batch automation
+	@echo "🔍 Dry-run parallel batching..."
+	@./scripts/t4_parallel_batches.sh --dry-run --max-per-batch 5
+
+t4-parallel: ## Run parallel batch automation (5 categories)
+	@echo "⚡ Running parallel batch automation..."
+	@./scripts/t4_parallel_batches.sh --max-per-batch 5
+
+t4-codemod-dry: ## Dry-run codemod application
+	@echo "🔍 Dry-run codemod (FixB904)..."
+	@python3 tools/ci/codemods/run_codemod.py --transformer FixB904 --paths lukhas core --dry-run
+
+t4-codemod-apply: ## Apply codemod with backup
+	@echo "🔧 Applying codemod (FixB904)..."
+	@python3 tools/ci/codemods/run_codemod.py --transformer FixB904 --paths lukhas core --backup
+	@echo "✅ Codemod complete! Backups: *.bak"
 
 # ============================================================================
 # Claude Code PR Review Integration

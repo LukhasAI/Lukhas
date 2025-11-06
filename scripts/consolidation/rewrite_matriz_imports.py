@@ -127,9 +127,8 @@ def find_python_files(root_path: Path, exclude_patterns: List[str]) -> List[Path
 
     # Handle single file case
     if root_path.is_file():
-        if root_path.suffix == ".py":
-            if not any(excl in str(root_path) for excl in exclude_patterns):
-                python_files.append(root_path)
+        if root_path.suffix == '.py' and (not any((excl in str(root_path) for excl in exclude_patterns))):
+            python_files.append(root_path)
         return python_files
 
     # Handle directory case

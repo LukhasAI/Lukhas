@@ -1,11 +1,12 @@
-from __future__ import annotations
-
 """
 Golden Trio Orchestrator
 
 Unified orchestration system for DAST, ABAS, and NIAS coordination.
 Manages communication, prevents circular dependencies, and optimizes execution flow.
 """
+
+from __future__ import annotations
+
 import asyncio
 import logging
 from collections import deque

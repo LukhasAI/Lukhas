@@ -107,7 +107,7 @@ def scan_repo(root: Path) -> List[TODORecord]:
 def emit_md(items: List[TODORecord]) -> str:
     lines = ["# TODO/FIXME Report", "", "## Items", ""]
     for it in items:
-        lines.append(f"- `{it.file}:{it.line}` — **{it.text}**")
+        lines.append(f"- `{it.file}:{it.line}` - **{it.text}**")
     return "\n".join(lines) + "\n"
 
 

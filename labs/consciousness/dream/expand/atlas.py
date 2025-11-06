@@ -9,7 +9,7 @@ import pathlib
 
 
 def log(run_id: str, snapshot: dict, drift_score: float, entropy: float) -> dict:
-    row = {"ts": datetime.datetime.utcnow().isoformat(),
+    row = {"ts": datetime.datetime.now(datetime.timezone.utc).isoformat(),
            "run_id": run_id, "drift": drift_score, "entropy": entropy}
     return row
 

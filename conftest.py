@@ -1,4 +1,4 @@
-# conftest.py (ROOT) — deterministic import behavior + telemetry
+# conftest.py (ROOT) - deterministic import behavior + telemetry
 from __future__ import annotations
 
 import importlib
@@ -7,6 +7,9 @@ import importlib.util
 import sys
 import traceback
 from pathlib import Path
+
+# ---- Additional test fixtures ----
+import pytest
 
 # Ensure sitecustomize runs (fixes _SixMetaPathImporter compatibility)
 try:
@@ -105,8 +108,6 @@ def pytest_sessionstart(session):
         pass
 
 
-# ---- Additional test fixtures ----
-import pytest
 
 
 @pytest.fixture(scope="session")

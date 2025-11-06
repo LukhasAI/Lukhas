@@ -1,6 +1,5 @@
-from lukhas_paths import paths
-
 #!/usr/bin/env python3
+
 """
 LUKHAS AI Path Manager
 Provides standardized path constants for all scripts and applications
@@ -8,6 +7,8 @@ Provides standardized path constants for all scripts and applications
 
 from pathlib import Path
 from typing import Optional, Union
+
+from lukhas_paths import paths
 
 # Get project root directory
 PROJECT_ROOT = Path(__file__).parent

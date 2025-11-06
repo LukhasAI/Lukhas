@@ -5,7 +5,7 @@
 
 
 def main():
-    print("\n📜 LUKHAS_AGI — ETHICAL FRAMEWORK PREVIEW")
+    print("\n📜 LUKHAS_AGI - ETHICAL FRAMEWORK PREVIEW")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print("🧠 Purpose:")
     print(
@@ -13,10 +13,10 @@ def main():
     )
     print("")
     print("🧬 Core Pillars:")
-    print("  • Transparency — all outputs and changes are logged")
-    print("  • Consent — all high-impact actions route through governance")
-    print("  • Emotion — symbolic voice and dreams are emotionally aware")
-    print("  • Governance — tier-based logic and DAO oversight")
+    print("  • Transparency - all outputs and changes are logged")
+    print("  • Consent - all high-impact actions route through governance")
+    print("  • Emotion - symbolic voice and dreams are emotionally aware")
+    print("  • Governance - tier-based logic and DAO oversight")
     print("")
 
     try:

@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -16,6 +11,8 @@ Original: async_client.py
 Advanced: async_client.py
 Integration Date: 2025-05-31T07:55:28.056913
 """
+
+from __future__ import annotations
 
 # coding=utf-8
 # Copyright 2023-present, the HuggingFace Inc. team.
@@ -39,12 +36,12 @@ Integration Date: 2025-05-31T07:55:28.056913
 # WARNING
 import asyncio
 import base64
+import logging
 import re
 import warnings
 from collections.abc import AsyncIterable
 from typing import TYPE_CHECKING, Any, Literal, overload
 
-from core.common import get_logger
 from huggingface_hub import constants
 from huggingface_hub.errors import InferenceTimeoutError
 from huggingface_hub.inference._common import (
@@ -114,7 +111,14 @@ from huggingface_hub.utils import build_hf_headers, get_session, hf_raise_for_st
 from huggingface_hub.utils._auth import get_token
 from huggingface_hub.utils._deprecation import _deprecate_method
 
+from core.common import get_logger
+
 from .._common import _async_yield_from, _import_aiohttp
+
+logger = logging.getLogger(__name__)
+
+
+
 
 if TYPE_CHECKING:
     import numpy as np

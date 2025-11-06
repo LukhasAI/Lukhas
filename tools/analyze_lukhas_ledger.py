@@ -65,12 +65,12 @@ def main():
         lines.append("| rank | lukhas.* | hits | recommended canonical |")
         lines.append("|---:|---|---:|---|")
         for i, (lukhas_mod, hit_count) in enumerate(top_legacy, 1):
-            lines.append(f"| {i} | `{lukhas_mod}` | {hit_count} | `{recommended.get(lukhas_mod, '—')}` |")
+            lines.append(f"| {i} | `{lukhas_mod}` | {hit_count} | `{recommended.get(lukhas_mod, '-')}` |")
         lines.append("")
     if misses:
         lines.append("## Misses (need real modules or xfail)\n")
         for lukhas_mod, miss_count in misses.most_common(20):
-            lines.append(f"- `{lukhas_mod}` — {miss_count} misses")
+            lines.append(f"- `{lukhas_mod}` - {miss_count} misses")
         lines.append("")
     REPORT.write_text("\n".join(lines))
     print(f"✅ Wrote {REPORT}")

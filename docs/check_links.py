@@ -4,7 +4,7 @@ Link checker for internal docs.
 
 - Scans all Markdown files under ./docs and ./manifests for:
   - relative file links (./path.md, ../path, docs/foo.md)
-  - in-file anchors (#heading) — verified against actual headings
+  - in-file anchors (#heading) - verified against actual headings
   - optional external http(s) links (opt-in via --external)
 - Writes a report to docs/audits/linkcheck.txt
 - Exits 1 if any internal links are broken (external links are WARNs unless --strict)

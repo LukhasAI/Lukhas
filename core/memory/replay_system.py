@@ -1,8 +1,5 @@
-from __future__ import annotations
-
-import logging
-
 #!/usr/bin/env python3
+
 """
 ```plaintext
 ┌────────────────────────────────────────────────────────────────────────────────┐
@@ -32,7 +29,7 @@ import logging
 │ necklace of our being.                                                         │
 │                                                                                │
 │ Thus, in the digital realm, we craft a sanctuary where the past is not simply   │
-│ forgotten but celebrated—a space where the threads of experience are            │
+│ forgotten but celebrated-a space where the threads of experience are            │
 │ interlaced with intention and purpose. Here, the Memory Replay System stands     │
 │ as an ode to the intricate dance of cognition, bridging the realms of           │
 │ technology and humanity, allowing us to relive, reflect, and rejoice in the     │
@@ -54,6 +51,10 @@ import logging
 └────────────────────────────────────────────────────────────────────────────────┘
 ```
 """
+
+from __future__ import annotations
+
+import logging
 import uuid
 from collections import defaultdict, deque
 from dataclasses import dataclass

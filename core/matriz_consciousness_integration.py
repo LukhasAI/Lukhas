@@ -327,10 +327,9 @@ class MatrizConsciousnessSystem:
             evolution_signal.bio_symbolic_data = enhanced_bio_data
 
             # Check if bio-symbolic adaptations were applied
-            if enhanced_bio_data and bio_data_before:
-                if enhanced_bio_data.coherence_score != bio_data_before.coherence_score:
-                    evolution_results["bio_adaptations_applied"] += 1
-                    stage_results["bio_adaptation"] = True
+            if (enhanced_bio_data and bio_data_before) and enhanced_bio_data.coherence_score != bio_data_before.coherence_score:
+                evolution_results["bio_adaptations_applied"] += 1
+                stage_results["bio_adaptation"] = True
 
             # Validate compliance
             compliance_level, violations = self.constellation_validator.validate_signal_compliance(evolution_signal)

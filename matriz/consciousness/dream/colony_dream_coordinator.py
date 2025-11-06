@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 ═══════════════════════════════════════════════════════════════════════════════════
 🌙 MODULE: creativity.dream.colony_dream_coordinator
@@ -47,6 +45,9 @@ allowing for:
 ΛTODO: Add colony load balancing for optimal dream distribution
 AIDEA: Implement colony evolution tracking for dream processing capabilities
 """
+
+from __future__ import annotations
+
 import asyncio
 import logging
 import uuid

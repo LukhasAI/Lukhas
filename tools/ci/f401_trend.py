@@ -13,7 +13,7 @@ Columns:
 - "candidate" is candidate/
 - "other" is everything else
 
-Idempotent and tolerant: if the JSON is missing, exits non‑zero with a
+Idempotent and tolerant: if the JSON is missing, exits non-zero with a
 clear message; creates the CSV with header if absent.
 """
 
@@ -79,7 +79,7 @@ def main() -> int:
             totals["other"] += 1
 
     total = sum(totals.values())
-    now = _dt.datetime.utcnow().isoformat()
+    now = _dt.datetime.now(_dt.timezone.utc).isoformat()
     commit = _git(["rev-parse", "--short", "HEAD"])
     branch = _git(["rev-parse", "--abbrev-ref", "HEAD"])
 

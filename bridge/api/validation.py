@@ -388,13 +388,12 @@ class RequestValidator:
 
             # Max tokens validation
             max_tokens = request_data.get("max_tokens")
-            if max_tokens is not None:
-                if not isinstance(max_tokens, int) or max_tokens < 1 or max_tokens > 32000:
-                    result.add_error(
-                        ValidationErrorType.INVALID_VALUE,
-                        "Max tokens must be between 1 and 32000",
-                        field="max_tokens",
-                    )
+            if max_tokens is not None and (not isinstance(max_tokens, int) or max_tokens < 1 or max_tokens > 32000):
+                result.add_error(
+                    ValidationErrorType.INVALID_VALUE,
+                    "Max tokens must be between 1 and 32000",
+                    field="max_tokens",
+                )
 
         except Exception as e:
             result.add_error(

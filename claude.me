@@ -5,7 +5,7 @@ owner: T4
 lane: labs
 star:
 stability: experimental
-last_reviewed: 2025-11-02
+last_reviewed: 2025-11-06
 constellation_stars:
 related_modules:
 manifests:
@@ -22,27 +22,29 @@ Legacy core alias: enabled (warn/disable via env) — use lukhas.core.*
 # LUKHAS AI System - Master Architecture Overview
 *Artificial Intelligence with Constellation Framework & Constitutional AI*
 
-## 🚨 MATRIZ Migration Update
+## � T4 Unified Platform v2.0 - PRODUCTION READY
 
-**Team Announcement (Ready to Share):**
+**Major Update: Intent-Driven Development Infrastructure Deployed**
 
-We've completed MATRIZ case standardization for all production code and integration tests!
+✅ **Production-Grade Intent API** with authentication, rate limiting, audit logging  
+✅ **LLM Safety Layer** with cost tracking & daily quota enforcement  
+✅ **Policy Client** for agent integration and pre-PR validation  
+✅ **Branch Protection** enforced via CODEOWNERS & required status checks  
+✅ **Agent Onboarding** complete with comprehensive runbook
 
-**Completed:**
-✅ serve/ (2 imports)
-✅ core/ (2 imports)  
-✅ tests/integration/ (20 imports)
+**Baseline Metrics:** 459 violations tracked, 100% annotation quality score  
+**Status:** PR #1031 open for review (feat/t4-prod-hardening)  
+**Documentation:** See `docs/gonzo/T4_ONBOARD_AGENTS.md` for agent integration
 
-**Status:** 3 PRs in CI validation
+**What This Means:**
+- All code changes require registered intents via Intent API
+- LLM usage tracked with per-agent daily quotas (cost controls)
+- Automated pre-PR checks prevent unvalidated changes
+- Full audit trail for compliance & debugging
 
-**Next:** tests/unit + tests/smoke (23 imports) - will migrate after current PRs pass CI
+**Action Required:** Agents must obtain API keys before next deployment cycle. Run `python3 tools/ci/create_api_key_admin.py --agent_id <your-id>` or request from platform team.
 
-**CI Mode:** Warning (logs occurrences, doesn't block)
-**Timeline:** Flip to blocking mode after critical tests are migrated and stable (~48 hours)
-
-**Action Required:** Avoid large MATRIZ-related changes until migrations merge. Use uppercase `from MATRIZ import X` for new code.
-
-Questions? See MATRIZ_MIGRATION_GUIDE.md
+Questions? See T4_ONBOARD_AGENTS.md or contact @platform-team
 
 ## 🧠 System Overview
 
@@ -471,6 +473,57 @@ CANDIDATE Research → LUKHAS Integration → PRODUCTS Deployment
 - MATRIZ evaluation harness - Comprehensive testing
 
 **Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures and [SESSION_2025-11-01_NEW_SYSTEMS.md](./docs/SESSION_2025-11-01_NEW_SYSTEMS.md) for latest system deliverables.
+
+---
+## 🤖 Jules AI Integration
+
+**Jules** is Google's autonomous AI coding agent integrated with LUKHAS for automated test creation and PR generation.
+
+### ⚡ JULES USAGE POLICY (MANDATORY)
+
+**CRITICAL**: 100 Jules sessions/day (paid) - MUST USE ALL 100 DAILY!
+
+All Claude Code agents MUST use Jules aggressively for: tests, bugs, docs, refactoring, coverage. Sessions don't roll over!
+
+### Jules Documentation
+- [JULES_API_COMPLETE_REFERENCE.md](./JULES_API_COMPLETE_REFERENCE.md) - Complete API documentation with all endpoints and features
+- [JULES_SUCCESS_SUMMARY.md](./JULES_SUCCESS_SUMMARY.md) - Recent session creation success and results (7 sessions, 6+ PRs)
+- [JULES_WAITING_SESSIONS.md](./JULES_WAITING_SESSIONS.md) - Guide for handling sessions awaiting feedback
+- [CREATE_7_JULES_SESSIONS.md](./CREATE_7_JULES_SESSIONS.md) - Manual session creation guide
+
+### Jules API Wrapper
+Located at: `bridge/llm_wrappers/jules_wrapper.py`
+
+**Features**:
+- Create sessions programmatically with `AUTO_CREATE_PR` mode
+- Approve plans via API (`approve_plan`)
+- Send feedback/messages (`send_message`)
+- List sessions, sources, and activities
+- API keys stored securely in macOS Keychain
+
+**Usage**:
+```python
+from bridge.llm_wrappers.jules_wrapper import JulesClient
+
+async with JulesClient() as jules:
+    session = await jules.create_session(
+        prompt="Write tests for module X",
+        source_id="sources/github/LukhasAI/Lukhas",
+        automation_mode="AUTO_CREATE_PR"
+    )
+```
+
+### Scripts
+- `scripts/create_test_sessions.py` - Batch create test sessions
+- `scripts/list_all_jules_sessions.py` - Monitor all sessions
+- `scripts/test_jules_connection.py` - Verify API connectivity
+
+### Recent Jules Sessions
+Successfully created 7 test sessions (TEST-014 through TEST-020) generating 6+ PRs with ~10% coverage increase:
+- Smoke tests for critical paths (PR #997)
+- Performance test suite (PR #1000)
+- Candidate module tests (consciousness, bio, quantum)
+- Labs module tests (memory, governance)
 
 ---
 ## 📚 Context Navigation Quick Reference

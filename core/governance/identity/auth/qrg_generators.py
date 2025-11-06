@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 LUKHAS QR Code Generators (QRGs)
 
@@ -20,6 +18,9 @@ Author: LUKHAS QRG Development Team
 License: Proprietary - See LUKHAS_LICENSE.md
 Version: 2.0.0
 """
+
+from __future__ import annotations
+
 import base64
 import hashlib
 import json

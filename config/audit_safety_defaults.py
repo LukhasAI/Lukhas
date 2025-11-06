@@ -9,6 +9,7 @@ All defaults prioritize audit safety and dry-run modes.
 from __future__ import annotations
 
 import json
+import textwrap
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -136,148 +137,149 @@ AUDIT_TRACE_ENABLED=true
 
     def generate_conftest_safety(self) -> str:
         """Generate enhanced conftest.py with safety defaults."""
-        conftest_content = '''import os
-import pytest
-from datetime import datetime
-import json
-from pathlib import Path
+        conftest_content = textwrap.dedent('''\
+        import os
+        import pytest
+        from datetime import datetime, timezone
+        import json
+        from pathlib import Path
 
-# ============================================================================
-# AUDIT SAFETY CONFIGURATION
-# ============================================================================
+        # ============================================================================
+        # AUDIT SAFETY CONFIGURATION
+        # ============================================================================
 
-def pytest_configure(config):
-    """Configure pytest with audit safety defaults."""
-    # Core safety environment variables
-    safety_defaults = {
-        "LUKHAS_DRY_RUN_MODE": "true",
-        "LUKHAS_OFFLINE": "true",
-        "LUKHAS_AUDIT_MODE": "true",
-        "LUKHAS_FEATURE_MATRIX_EMIT": "true",
+        def pytest_configure(config):
+            """Configure pytest with audit safety defaults."""
+            # Core safety environment variables
+            safety_defaults = {
+                "LUKHAS_DRY_RUN_MODE": "true",
+                "LUKHAS_OFFLINE": "true",
+                "LUKHAS_AUDIT_MODE": "true",
+                "LUKHAS_FEATURE_MATRIX_EMIT": "true",
 
-        # Disable all potentially unsafe features
-        "FEATURE_GOVERNANCE_LEDGER": "false",
-        "FEATURE_IDENTITY_PASSKEY": "false",
-        "FEATURE_ORCHESTRATION_HANDOFF": "false",
-        "FEATURE_POLICY_DECIDER": "false",
-        "FEATURE_CONSCIOUSNESS_ACTIVE": "false",
-        "FEATURE_MEMORY_PERSISTENCE": "false",
-        "FEATURE_REAL_API_CALLS": "false",
+                # Disable all potentially unsafe features
+                "FEATURE_GOVERNANCE_LEDGER": "false",
+                "FEATURE_IDENTITY_PASSKEY": "false",
+                "FEATURE_ORCHESTRATION_HANDOFF": "false",
+                "FEATURE_POLICY_DECIDER": "false",
+                "FEATURE_CONSCIOUSNESS_ACTIVE": "false",
+                "FEATURE_MEMORY_PERSISTENCE": "false",
+                "FEATURE_REAL_API_CALLS": "false",
 
-        # Safety thresholds
-        "MAX_API_CALLS_PER_TEST": "0",
-        "MAX_MEMORY_USAGE_MB": "100",
-        "MAX_TEST_RUNTIME_SECONDS": "300",
-        "GUARDIAN_DRIFT_THRESHOLD": "0.01",
+                # Safety thresholds
+                "MAX_API_CALLS_PER_TEST": "0",
+                "MAX_MEMORY_USAGE_MB": "100",
+                "MAX_TEST_RUNTIME_SECONDS": "300",
+                "GUARDIAN_DRIFT_THRESHOLD": "0.01",
 
-        # Audit settings
-        "ENABLE_COMPREHENSIVE_LOGGING": "true",
-        "PRESERVE_AUDIT_TRAIL": "true",
-        "VALIDATE_ALL_IMPORTS": "true",
-        "ENFORCE_DRY_RUN_MODE": "true",
-        "BLOCK_EXTERNAL_CONNECTIONS": "true",
+                # Audit settings
+                "ENABLE_COMPREHENSIVE_LOGGING": "true",
+                "PRESERVE_AUDIT_TRAIL": "true",
+                "VALIDATE_ALL_IMPORTS": "true",
+                "ENFORCE_DRY_RUN_MODE": "true",
+                "BLOCK_EXTERNAL_CONNECTIONS": "true",
 
-        # Local database for audit
-        "DATABASE_URL": "sqlite:///lukhas_audit_test.db",
-        "LUKHAS_ID_SECRET": "audit_test_local_key_32_characters_long"
-    }
+                # Local database for audit
+                "DATABASE_URL": "sqlite:///lukhas_audit_test.db",
+                "LUKHAS_ID_SECRET": "audit_test_local_key_32_characters_long"
+            }
 
-    # Apply safety defaults
-    for key, value in safety_defaults.items():
-        os.environ.setdefault(key, value)
+            # Apply safety defaults
+            for key, value in safety_defaults.items():
+                os.environ.setdefault(key, value)
 
-    # Create audit log directory
-    log_dir = Path("logs")
-    log_dir.mkdir(exist_ok=True)
+            # Create audit log directory
+            log_dir = Path("logs")
+            log_dir.mkdir(exist_ok=True)
 
-    # Log test session start
-    with open("logs/audit_test_session.log", "a") as f:
-        f.write(f"\\n=== AUDIT TEST SESSION START: {datetime.utcnow().isoformat()} ===\\n")
-        f.write(f"Safety defaults applied: {len(safety_defaults} settings\\n")
+            # Log test session start
+            with open("logs/audit_test_session.log", "a") as f:
+                f.write(f"\n=== AUDIT TEST SESSION START: {datetime.now(timezone.utc).isoformat()} ===\n")
+                f.write(f"Safety defaults applied: {len(safety_defaults)} settings\n")
 
-def pytest_sessionfinish(session, exitstatus):
-    """Log session completion."""
-    with open("logs/audit_test_session.log", "a") as f:
-        f.write(f"=== AUDIT TEST SESSION END: {datetime.utcnow().isoformat()} ===\\n")
-        f.write(f"Exit status: {exitstatus}\\n")
+        def pytest_sessionfinish(session, exitstatus):
+            """Log session completion."""
+            with open("logs/audit_test_session.log", "a") as f:
+                f.write(f"=== AUDIT TEST SESSION END: {datetime.now(timezone.utc).isoformat()} ===\n")
+                f.write(f"Exit status: {exitstatus}\n")
 
-# ============================================================================
-# AUDIT SAFETY FIXTURES
-# ============================================================================
+        # ============================================================================
+        # AUDIT SAFETY FIXTURES
+        # ============================================================================
 
-@pytest.fixture(scope="session", autouse=True)
-def audit_safety_check():
-    """Verify audit safety configuration is active."""
-    # Verify core safety settings
-    assert os.getenv("LUKHAS_DRY_RUN_MODE", "false").lower() == "true"
-    assert os.getenv("LUKHAS_OFFLINE", "false").lower() == "true"
-    assert os.getenv("LUKHAS_AUDIT_MODE", "false").lower() == "true"
+        @pytest.fixture(scope="session", autouse=True)
+        def audit_safety_check():
+            """Verify audit safety configuration is active."""
+            # Verify core safety settings
+            assert os.getenv("LUKHAS_DRY_RUN_MODE", "false").lower() == "true"
+            assert os.getenv("LUKHAS_OFFLINE", "false").lower() == "true"
+            assert os.getenv("LUKHAS_AUDIT_MODE", "false").lower() == "true"
 
-    # Verify dangerous features are disabled
-    dangerous_features = [
-        "FEATURE_REAL_API_CALLS",
-        "FEATURE_MEMORY_PERSISTENCE"
-    ]
+            # Verify dangerous features are disabled
+            dangerous_features = [
+                "FEATURE_REAL_API_CALLS",
+                "FEATURE_MEMORY_PERSISTENCE"
+            ]
 
-    for feature in dangerous_features:
-        assert os.getenv(feature, "true").lower() == "false", f"Dangerous feature {feature} must be disabled for audit"
+            for feature in dangerous_features:
+                assert os.getenv(feature, "true").lower() == "false", f"Dangerous feature {feature} must be disabled for audit"
 
-    yield
+            yield
 
-    # Cleanup after all tests
-    cleanup_audit_artifacts()
+            # Cleanup after all tests
+            cleanup_audit_artifacts()
 
-def cleanup_audit_artifacts():
-    """Clean up audit test artifacts."""
-    artifacts_to_clean = [
-        "lukhas_audit_test.db",
-        "lukhas_audit_test.db-journal",
-        "test_audit_*.json"
-    ]
+        def cleanup_audit_artifacts():
+            """Clean up audit test artifacts."""
+            artifacts_to_clean = [
+                "lukhas_audit_test.db",
+                "lukhas_audit_test.db-journal",
+                "test_audit_*.json"
+            ]
 
-    for pattern in artifacts_to_clean:
-        for file in Path(".").glob(pattern):
-            try:
-                file.unlink()
-            except OSError:
-                pass  # File may not exist
+            for pattern in artifacts_to_clean:
+                for file in Path(".").glob(pattern):
+                    try:
+                        file.unlink()
+                    except OSError:
+                        pass  # File may not exist
 
-@pytest.fixture
-def audit_mode():
-    """Fixture that ensures audit mode for individual tests."""
-    assert os.getenv("LUKHAS_AUDIT_MODE") == "true"
-    return True
+        @pytest.fixture
+        def audit_mode():
+            """Fixture that ensures audit mode for individual tests."""
+            assert os.getenv("LUKHAS_AUDIT_MODE") == "true"
+            return True
 
-@pytest.fixture
-def dry_run_mode():
-    """Fixture that ensures dry run mode for individual tests."""
-    assert os.getenv("LUKHAS_DRY_RUN_MODE") == "true"
-    return True
+        @pytest.fixture
+        def dry_run_mode():
+            """Fixture that ensures dry run mode for individual tests."""
+            assert os.getenv("LUKHAS_DRY_RUN_MODE") == "true"
+            return True
 
-# ============================================================================
-# AUDIT SAFETY MARKERS
-# ============================================================================
+        # ============================================================================
+        # AUDIT SAFETY MARKERS
+        # ============================================================================
 
-def pytest_collection_modifyitems(items):
-    """Add audit safety markers to tests."""
-    for item in items:
-        # Mark all tests as audit-safe by default
-        item.add_marker(pytest.mark.audit_safe)
+        def pytest_collection_modifyitems(items):
+            """Add audit safety markers to tests."""
+            for item in items:
+                # Mark all tests as audit-safe by default
+                item.add_marker(pytest.mark.audit_safe)
 
-        # Mark tests that should not make external calls
-        if not item.get_closest_marker("allow_external"):
-            item.add_marker(pytest.mark.no_external_calls)
+                # Mark tests that should not make external calls
+                if not item.get_closest_marker("allow_external"):
+                    item.add_marker(pytest.mark.no_external_calls)
 
-def pytest_runtest_setup(item):
-    """Setup for individual test runs."""
-    # Block external calls unless explicitly allowed
-    if item.get_closest_marker("no_external_calls"):
-        os.environ["BLOCK_EXTERNAL_CONNECTIONS"] = "true"
+        def pytest_runtest_setup(item):
+            """Setup for individual test runs."""
+            # Block external calls unless explicitly allowed
+            if item.get_closest_marker("no_external_calls"):
+                os.environ["BLOCK_EXTERNAL_CONNECTIONS"] = "true"
 
-    # Ensure audit mode is active
-    if not os.getenv("LUKHAS_AUDIT_MODE") == "true":
-        pytest.fail("Audit mode not active - unsafe to run tests")
-'''
+            # Ensure audit mode is active
+            if not os.getenv("LUKHAS_AUDIT_MODE") == "true":
+                pytest.fail("Audit mode not active - unsafe to run tests")
+        ''')
         return conftest_content
 
     def generate_audit_settings_json(self) -> dict[str, Any]:
@@ -315,7 +317,7 @@ def pytest_runtest_setup(item):
 
     def validate_safety_config(self) -> dict[str, bool]:
         """Validate that safety configuration is properly set."""
-        checks = {
+        _checks = {
             "dry_run_active": self.config.dry_run_mode,
             "offline_mode_active": self.config.offline_mode,
             "audit_mode_active": self.config.audit_mode,
@@ -334,7 +336,6 @@ def pytest_runtest_setup(item):
             "audit_logging_enabled": self.config.audit_settings["enable_comprehensive_logging"],
             "import_validation_active": self.config.audit_settings["validate_all_imports"],
         }
-        return checks
 
     def export_audit_configuration(self, output_dir: Path):
         """Export complete audit configuration."""

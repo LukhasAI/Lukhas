@@ -99,9 +99,8 @@ class SpecializedBatchCreator:
         elif agent_spec["domain"] == "HIGH-API-INTEGRATION":
             if any(keyword in todo_text for keyword in ["api", "integration", "service", "adapter", "bridge"]):
                 score += 6
-        elif agent_spec["domain"] == "MEDIUM-REFACTORING":
-            if any(keyword in todo_text for keyword in ["refactor", "cleanup", "structure", "organize"]):
-                score += 4
+        elif agent_spec['domain'] == 'MEDIUM-REFACTORING' and any((keyword in todo_text for keyword in ['refactor', 'cleanup', 'structure', 'organize'])):
+            score += 4
 
         return score
 

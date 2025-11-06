@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-#!/usr/bin/env python3
 """
 
 #TAG:consciousness
@@ -55,16 +49,23 @@ from datetime import timezone
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
 import asyncio
 import hashlib
 import json
+import logging
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any
 
 import numpy as np
+
+#!/usr/bin/env python3
+
+
 
 
 class _FallbackComponent:

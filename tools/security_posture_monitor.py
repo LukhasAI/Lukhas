@@ -12,6 +12,7 @@ import glob
 import json
 import sys
 from dataclasses import dataclass
+from datetime import timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -211,7 +212,7 @@ class SecurityPostureMonitor:
             'attestation_status': {},
             'supply_chain_refs': {},
             'telemetry_coverage': {},
-            'timestamp': datetime.datetime.utcnow().isoformat()
+            'timestamp': datetime.datetime.now(timezone.utc).isoformat()
         }
 
         for contract_path in contracts:
@@ -261,7 +262,7 @@ class SecurityPostureMonitor:
                             'package': vuln.get('package', {}).get('name', 'unknown'),
                             'fixed_version': vuln.get('fixed', ''),
                             'introduced': vuln.get('introduced', ''),
-                            'timestamp': datetime.datetime.utcnow().isoformat()
+                            'timestamp': datetime.datetime.now(timezone.utc).isoformat()
                         })
 
         return findings
@@ -441,7 +442,7 @@ class SecurityPostureMonitor:
                     message=f"Vulnerability {finding.get('vulnerability_id')} found in {finding.get('package')}",
                     affected_modules=[finding.get('module')],
                     remediation=f"Update to fixed version: {finding.get('fixed_version', 'latest')}",
-                    timestamp=datetime.datetime.utcnow().isoformat()
+                    timestamp=datetime.datetime.now(timezone.utc).isoformat()
                 ))
 
         # Score: 100 = no vulnerabilities, decreases with weighted vulnerability count
@@ -474,7 +475,7 @@ class SecurityPostureMonitor:
                     message=f"Attestation evidence collection failing for {module}",
                     affected_modules=[module],
                     remediation="Check verifier configuration and evidence collection pipeline",
-                    timestamp=datetime.datetime.utcnow().isoformat()
+                    timestamp=datetime.datetime.now(timezone.utc).isoformat()
                 ))
 
         # Coverage score based on valid attestations
@@ -507,7 +508,7 @@ class SecurityPostureMonitor:
                     message=f"Missing SBOM for {module}",
                     affected_modules=[module],
                     remediation="Generate and reference SBOM in matrix contract",
-                    timestamp=datetime.datetime.utcnow().isoformat()
+                    timestamp=datetime.datetime.now(timezone.utc).isoformat()
                 ))
 
         # Integrity score based on multiple factors
@@ -549,7 +550,7 @@ class SecurityPostureMonitor:
                     message=f"Low telemetry coverage in {module}: {data.get('instrumentation_coverage', 0)}%",
                     affected_modules=[module],
                     remediation="Increase OpenTelemetry instrumentation coverage",
-                    timestamp=datetime.datetime.utcnow().isoformat()
+                    timestamp=datetime.datetime.now(timezone.utc).isoformat()
                 ))
 
         # Compliance score based on instrumentation and export coverage
@@ -583,7 +584,7 @@ class SecurityPostureMonitor:
         """Generate comprehensive security posture report."""
         report = {
             'security_posture_report': {
-                'timestamp': datetime.datetime.utcnow().isoformat(),
+                'timestamp': datetime.datetime.now(timezone.utc).isoformat(),
                 'metrics': self.metrics,
                 'alerts': [
                     {

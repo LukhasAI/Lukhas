@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 
 #TAG:consciousness
@@ -24,6 +22,9 @@ Author: Lukhas AI Research Team
 Version: 2.0.0 - Elevated Edition
 Date: June 2025
 """
+
+from __future__ import annotations
+
 import asyncio
 import json
 import logging
@@ -36,7 +37,7 @@ from typing import Any, Protocol
 
 from pydantic import BaseModel, Field
 
-# ——— Configuration & Utilities —————————————————————————————— #
+# --- Configuration & Utilities ------------------------------ #
 
 
 class ComplianceStatus(Enum):
@@ -105,7 +106,7 @@ def structured_log(event: str, payload: dict, level: str = "INFO"):
     getattr(logger, level.lower())(json.dumps(record))
 
 
-# ——— Core Interfaces ————————————————————————————————————————— #
+# --- Core Interfaces ----------------------------------------- #
 
 
 class AwarenessInput(BaseModel):
@@ -220,7 +221,7 @@ class AwarenessModule(ABC):
 
     @abstractmethod
     def evaluate_alignment(self, result: dict[str, Any], inputs: AwarenessInput) -> float:
-        """Must return [0–100] alignment/compliance score for institutional use."""
+        """Must return [0-100] alignment/compliance score for institutional use."""
         ...
 
     @abstractmethod
@@ -280,7 +281,7 @@ class AwarenessModule(ABC):
         # Placeholder for database integration
 
 
-# ——— Enhanced Environmental Awareness Module ——————————————————— #
+# --- Enhanced Environmental Awareness Module ------------------- #
 
 
 class EnvironmentalAwarenessInput(AwarenessInput):
@@ -555,9 +556,9 @@ class EnvironmentalAwarenessModule(AwarenessModule):
         return max(0.0, min(sustainability_score, 100.0))
 
 
-# ——— Additional Awareness Module Placeholders ——————————————————— #
+# --- Additional Awareness Module Placeholders ------------------- #
 
-# ——— Enhanced Cognitive Awareness Module ——————————————————————— #
+# --- Enhanced Cognitive Awareness Module ----------------------- #
 
 
 class CognitiveAwarenessInput(AwarenessInput):
@@ -856,7 +857,7 @@ class CognitiveAwarenessModule(AwarenessModule):
         return max(0.0, min(sustainability_score, 100.0))
 
 
-# ——— Enhanced Emotional Awareness Module ——————————————————————— #
+# --- Enhanced Emotional Awareness Module ----------------------- #
 
 
 class EmotionalAwarenessInput(AwarenessInput):
@@ -1255,7 +1256,7 @@ class EnhancedEmotionalReasoner:
                 "Continue healthy emotional habits",
             ],
         }
-        
+
         return interventions.get(trajectory, [
             "Continue current emotional wellness practices",
             "Monitor for any significant changes",
@@ -1418,7 +1419,7 @@ class SocialAwarenessModule(AwarenessModule):
         return max(0.0, min(base_score + group_bonus, 100.0))
 
 
-# ——— Lukhas Awareness Engine Orchestrator ———————————————————————— #
+# --- Lukhas Awareness Engine Orchestrator ------------------------ #
 
 
 class LukhasAwarenessEngine:
@@ -1503,7 +1504,7 @@ class LukhasAwarenessEngine:
         }
 
 
-# ——— Example Usage & Testing ————————————————————————————————— #
+# --- Example Usage & Testing --------------------------------- #
 
 if __name__ == "__main__":
     # Initialize Lukhas Awareness Engine with institutional settings

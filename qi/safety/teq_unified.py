@@ -380,14 +380,12 @@ class UnifiedTEQCoupler:
         self.risk_accumulator *= 0.98
 
         # Check transient timeout
-        if self.current_state == GateState.TRANSIENT and self.transient_start:
-            if now - self.transient_start > self.transient_duration:
-                self._begin_recovery()
+        if (self.current_state == GateState.TRANSIENT and self.transient_start) and now - self.transient_start > self.transient_duration:
+            self._begin_recovery()
 
         # Check recovery completion
-        if self.current_state == GateState.RECOVERING:
-            if self.current_energy < 10.0 and self.risk_accumulator < 20.0:
-                self._enter_stable_state()
+        if self.current_state == GateState.RECOVERING and (self.current_energy < 10.0 and self.risk_accumulator < 20.0):
+            self._enter_stable_state()
 
         # Check lockdown release
         if self.current_state == GateState.LOCKED and self.risk_accumulator < 10.0:

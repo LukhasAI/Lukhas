@@ -164,7 +164,7 @@ def export_as_text_narration():
                     except SecurityError as say_error:
                         print(f"⚠️ Fallback 'say' failed: {say_error}")
         else:
-            print("⚠️ ElevenLabs not enabled — skipping audio generation.")
+            print("⚠️ ElevenLabs not enabled - skipping audio generation.")
 
     print(f"✅ Exported {len(logs)} symbolic narrations as text/audio → {EXPORT_PATH}")
 

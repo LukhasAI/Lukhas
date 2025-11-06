@@ -10,7 +10,7 @@ import ast
 import json
 from collections import defaultdict
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List
 
@@ -79,7 +79,7 @@ class LaneAssignmentAuditor:
         print("🔍 Starting comprehensive lane assignment audit...")
 
         audit_results = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "summary": {},
             "modules": {},
             "recommendations": {},

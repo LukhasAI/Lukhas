@@ -1,6 +1,8 @@
 # path: qi/ui/cockpit_api.py
 from __future__ import annotations
 
+# Safe I/O for UI files
+import builtins
 import json
 import os
 import time
@@ -29,8 +31,6 @@ COCKPIT_UI_PATH = os.environ.get("COCKPIT_UI_PATH")  # /abs/path/to/web/cockpit.
 RECEIPTS_UI_PATH = os.environ.get("RECEIPTS_UI_PATH")  # /abs/path/to/web/trace_drilldown.html
 APPROVER_UI_PATH = os.environ.get("APPROVER_UI_PATH")  # /abs/path/to/web/approver_ui.html
 
-# Safe I/O for UI files
-import builtins
 
 _ORIG_OPEN = builtins.open
 

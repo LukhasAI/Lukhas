@@ -115,10 +115,9 @@ def find_files_to_process() -> List[Path]:
             continue
 
         for file_path in scan_path.rglob('*'):
-            if file_path.is_file() and not should_skip_path(file_path):
+            if (file_path.is_file() and (not should_skip_path(file_path))) and file_path.suffix in {'.py', '.md', '.txt', '.yaml', '.yml', '.json', '.rst'}:
                 # Process Python files, markdown, and other text files
-                if file_path.suffix in {'.py', '.md', '.txt', '.yaml', '.yml', '.json', '.rst'}:
-                    files.append(file_path)
+                files.append(file_path)
 
     return sorted(files)
 

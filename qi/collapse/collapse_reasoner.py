@@ -1,4 +1,11 @@
 import logging
+import uuid
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Optional
+
+import structlog
 
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
@@ -14,13 +21,7 @@ logger = logging.getLogger(__name__)
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import uuid
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from enum import Enum
-from typing import Any, Optional
 
-import structlog
 
 # Initialize structured logger for this module
 

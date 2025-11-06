@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 Ethical Decision Maker for LUKHAS AI System
 
@@ -28,14 +22,21 @@ Features:
 #TAG:guardian
 """
 
+from __future__ import annotations
+
+import logging
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
 from core.common import get_logger
 from governance.ethics.constitutional_ai import ConstitutionalFramework
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 

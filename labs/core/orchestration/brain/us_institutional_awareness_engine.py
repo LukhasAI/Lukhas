@@ -47,7 +47,7 @@ from identity.backend.app.institution_manager import (
     institutional_audit_log,
 )
 
-# ——— US-Specific Regulatory Framework ——————————————————————— #
+# --- US-Specific Regulatory Framework ----------------------- #
 
 
 class USLegalBasis(Enum):
@@ -275,7 +275,7 @@ class USInstitutionalOutput(BaseModel):
     compliance_attestation: str
 
 
-# ——— US-Compliant Reasoner Implementations ——————————————————— #
+# --- US-Compliant Reasoner Implementations ------------------- #
 
 
 class USEnvironmentalReasoner:
@@ -410,7 +410,7 @@ class USInstitutionalEnvironmentalModule(GlobalInstitutionalModule):
         return recommendations
 
 
-# ——— US Awareness Engine Orchestrator ——————————————————————— #
+# --- US Awareness Engine Orchestrator ----------------------- #
 
 
 class USInstitutionalAwarenessEngine:
@@ -704,7 +704,7 @@ class USInstitutionalAwarenessEngine:
         }
 
 
-# ——— Example Usage & US Compliance Testing ——————————————————— #
+# --- Example Usage & US Compliance Testing ------------------- #
 
 
 if __name__ == "__main__":

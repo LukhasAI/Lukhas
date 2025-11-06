@@ -360,8 +360,8 @@ class CollapseEntropyTracker:
 
         # Calculate entropy trend
         entropy_slopes = []
-        for field in active_fields:
-            slope = self.calculate_entropy_slope(field.field_id)
+        for fld in active_fields:
+            slope = self.calculate_entropy_slope(fld.field_id)
             entropy_slopes.append(slope)
 
         avg_slope = np.mean(entropy_slopes) if entropy_slopes else 0.0
@@ -730,8 +730,8 @@ class CollapseEntropyTracker:
         """Get distribution of fields across phases."""
         distribution = {phase.value: 0 for phase in CollapsePhase}
 
-        for field in fields:
-            phase = self._determine_phase(field.entropy)
+        for fld in fields:
+            phase = self._determine_phase(fld.entropy)
             distribution[phase.value] += 1
 
         return distribution
@@ -781,8 +781,8 @@ class CollapseEntropyTracker:
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=inactive_hours)
 
         fields_to_remove = []
-        for field_id, field in self.collapse_fields.items():
-            if field.last_update < cutoff_time and field.entropy < 0.3:
+        for field_id, fld in self.collapse_fields.items():
+            if fld.last_update < cutoff_time and fld.entropy < 0.3:
                 fields_to_remove.append(field_id)
 
         for field_id in fields_to_remove:

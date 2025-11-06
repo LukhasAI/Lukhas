@@ -73,12 +73,13 @@ try:
 except ImportError:
     try:
         from compliance.ai_compliance_manager import AIComplianceManager
-        from ethics.ethical_hierarchy import EthicalHierarchy
-        from governance.dao_governance_node import DAOGovernanceNode
-        from memory.enhanced_memory_manager import EnhancedMemoryManager
         from meta_cognitive.reflective_introspection_system import ReflectiveIntrospectionSystem
         from prediction.predictive_resource_manager import PredictiveResourceManager
         from reasoning.causal_reasoning_module import CausalReasoningModule
+
+        from ethics.ethical_hierarchy import EthicalHierarchy
+        from governance.dao_governance_node import DAOGovernanceNode
+        from memory.enhanced_memory_manager import EnhancedMemoryManager
         ADVANCED_AGI_COMPONENTS = True
     except ImportError:
         logger.warning("Advanced AI components not available, using fallback implementations")
@@ -666,13 +667,12 @@ class EnhancedBrainIntegration:
                 self.stats["symphony_processes"] += 1
 
             # Stage 7: Governance Decision Making (for major decisions)
-            if self.advanced_agi_available and context.get("requires_governance", False):
-                if hasattr(self, "dao_governance"):
-                    governance_result = await self.dao_governance.evaluate_decision(
-                        input_data, context, result
-                    )
-                    result["cognitive_enhancements"]["governance"] = governance_result
-                    self.stats["governance_decisions"] += 1
+            if (self.advanced_agi_available and context.get('requires_governance', False)) and hasattr(self, 'dao_governance'):
+                governance_result = await self.dao_governance.evaluate_decision(
+                    input_data, context, result
+                )
+                result["cognitive_enhancements"]["governance"] = governance_result
+                self.stats["governance_decisions"] += 1
 
             # Stage 8: Integration and Final Processing
             result = await self._integrate_agi_results(result, input_data, context)

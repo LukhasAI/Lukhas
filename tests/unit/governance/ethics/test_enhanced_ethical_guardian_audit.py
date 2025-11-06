@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 import pytest
+
 from governance.ethics.enhanced_ethical_guardian import EnhancedEthicalGuardian
 
 pytestmark = pytest.mark.asyncio
@@ -25,6 +26,6 @@ async def test_ethics_events_emitted(tmp_path: Path):
     jsonl = tmp_path / "ethics.jsonl"
     assert jsonl.exists()
     lines = jsonl.read_text().strip().splitlines()
-    events = [json.loads(l) for l in lines]
+    events = [json.loads(line) for line in lines]
     kinds = {e.get("event") for e in events}
     assert "ethics_reflection" in kinds or "ethics_governance_escalation" in kinds

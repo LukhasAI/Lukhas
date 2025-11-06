@@ -45,6 +45,7 @@ from enum import Enum
 from typing import Any
 
 import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+
 from consciousness.qi import (
     qi,  # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 )
@@ -245,6 +246,7 @@ class QIIdentityManager:
 
     def _initialize_quantum_components(self):
         """Initialize post-quantum cryptographic components."""
+        global QUANTUM_CRYPTO_AVAILABLE
         if QUANTUM_CRYPTO_AVAILABLE:
             try:
                 self.qi_key_manager = QISecureKeyManager(security_level=SecurityLevel.NIST_5)

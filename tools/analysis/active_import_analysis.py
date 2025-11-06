@@ -82,10 +82,9 @@ class ActiveImportAnalyzer:
 
         # Check if in active module
         rel_path = file_path.relative_to(self.root_path)
-        if rel_path.parts and rel_path.parts[0] not in self.ACTIVE_MODULES:
+        if (rel_path.parts and rel_path.parts[0] not in self.ACTIVE_MODULES) and len(rel_path.parts) > 1:
             # Allow root-level Python files
-            if len(rel_path.parts) > 1:
-                return False
+            return False
 
         return True
 

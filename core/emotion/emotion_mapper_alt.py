@@ -72,6 +72,10 @@ class EmotionMapper:
         if profile is None:
             profile = self._profiles.get("neutral")
 
+        if profile is None and self._profiles:
+            # Fallback to the first available profile if "neutral" is missing
+            profile = next(iter(self._profiles.values()))
+
         affect_delta = self._compute_affect_delta(record.get("emotion_vector"))
         # ΛTAG: affect_delta - update drift for suggested tone
         self._cumulative_affect_delta += abs(affect_delta)
@@ -102,7 +106,13 @@ class EmotionMapper:
 
         emotion_vector = record.get("emotion_vector")
         affect_delta = self._compute_affect_delta(emotion_vector)
-        profile = self._profiles.get(str(record.get("mood_hint", "neutral")), self._profiles["neutral"])
+        profile = self._profiles.get(str(record.get("mood_hint", "neutral")))
+        if profile is None:
+            profile = self._profiles.get("neutral")
+
+        if profile is None and self._profiles:
+            profile = next(iter(self._profiles.values()))
+
         intensity = max(0.0, min(1.0, profile.similarity_boost * (1.0 - abs(affect_delta))))
         logger.debug(
             "Intensity inferred",

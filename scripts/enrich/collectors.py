@@ -330,20 +330,18 @@ class InitExtractor:
         for node in ast.walk(tree):
             if isinstance(node, ast.Assign):
                 for target in node.targets:
-                    if isinstance(target, ast.Name) and target.id == "__all__":
-                        if isinstance(node.value, (ast.List, ast.Tuple)):
-                            for elem in node.value.elts:
-                                if isinstance(elem, (ast.Str, ast.Constant)):
-                                    val = getattr(elem, "s", None) or getattr(elem, "value", None)
-                                    if val:
-                                        exports.add(val)
+                    if (isinstance(target, ast.Name) and target.id == '__all__') and isinstance(node.value, (ast.List, ast.Tuple)):
+                        for elem in node.value.elts:
+                            if isinstance(elem, (ast.Str, ast.Constant)):
+                                val = getattr(elem, "s", None) or getattr(elem, "value", None)
+                                if val:
+                                    exports.add(val)
 
         # Fallback: public class/function defs
         if not exports:
             for node in tree.body:
-                if isinstance(node, (ast.ClassDef, ast.FunctionDef)):
-                    if not node.name.startswith("_"):
-                        exports.add(node.name)
+                if isinstance(node, (ast.ClassDef, ast.FunctionDef)) and (not node.name.startswith('_')):
+                    exports.add(node.name)
 
         # Build API metadata
         apis = {}

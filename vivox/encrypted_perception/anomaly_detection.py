@@ -9,6 +9,7 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+
 from core.common import get_logger
 from core.interfaces.encrypted_perception_interface import (
     AnomalySignature,
@@ -668,12 +669,11 @@ class SignificanceAnalyzer:
 
         # Check against significance rules
         for rule in self.significance_rules.values():
-            if anomaly.anomaly_type in rule["indicators"]:
-                if anomaly.confidence >= rule["confidence_threshold"]:
-                    # Potentially upgrade significance
-                    rule_significance = rule["base_significance"]
-                    if rule_significance.value < current_significance.value:
-                        current_significance = rule_significance
+            if anomaly.anomaly_type in rule['indicators'] and anomaly.confidence >= rule['confidence_threshold']:
+                # Potentially upgrade significance
+                rule_significance = rule["base_significance"]
+                if rule_significance.value < current_significance.value:
+                    current_significance = rule_significance
 
         # Apply context modifiers
         context_type = context.get("monitoring_context", "home_monitoring")

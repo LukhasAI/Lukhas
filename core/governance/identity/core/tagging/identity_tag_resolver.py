@@ -1,11 +1,11 @@
-from __future__ import annotations
-
 """
 Identity Tag Resolver with Trust Networks
 
 Manages identity-based tagging, trust relationships, and tier-aware
 permission resolution using distributed tag consensus.
 """
+
+from __future__ import annotations
 
 import asyncio
 import logging

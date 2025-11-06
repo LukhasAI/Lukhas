@@ -132,7 +132,7 @@ def main():
         print("\nPromotion guard: BLOCKED")
         sys.exit(1)
     else:
-        print("\nPromotion guard: PASS — MATRIZ-007 appears completed for Week 6.")
+        print("\nPromotion guard: PASS - MATRIZ-007 appears completed for Week 6.")
         sys.exit(0)
 
 if __name__ == "__main__":

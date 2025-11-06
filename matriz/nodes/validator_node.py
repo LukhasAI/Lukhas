@@ -720,10 +720,7 @@ class ValidatorNode(CognitiveNode):
                 issues.append(f"High confidence variance across strategies: {confidence_variance:.3f}")
 
             # Calculate cross-validation confidence
-            if all_agree_valid or all_agree_invalid:
-                base_confidence = 0.9
-            else:
-                base_confidence = 0.5  # Lower confidence when strategies disagree
+            base_confidence = 0.9 if (all_agree_valid or all_agree_invalid) else 0.5  # Lower confidence when strategies disagree
 
             # Adjust based on individual strategy confidences
             avg_confidence = sum(confidences) / len(confidences)
@@ -804,10 +801,9 @@ class ValidatorNode(CognitiveNode):
         # Mathematical validation is critical for COMPUTATION nodes
         if "mathematical" in validation_results:
             math_result = validation_results["mathematical"]
-            if not math_result.get("is_valid", False):
+            if not math_result.get('is_valid', False) and math_result.get('confidence', 0) < 0.5:
                 # Check if this was a serious mathematical error
-                if math_result.get("confidence", 0) < 0.5:
-                    return True
+                return True
 
         # Logical consistency failures with very low confidence are critical
         if "logical" in validation_results:

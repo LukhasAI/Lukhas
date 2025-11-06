@@ -44,7 +44,7 @@ def generate_html(content):
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Lucas Dream – {timestamp}</title>
+    <title>Lucas Dream - {timestamp}</title>
     <style>
         body {{
             font-family: 'Inter', sans-serif;

@@ -1,9 +1,5 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
-import logging
 
-logger = logging.getLogger(__name__)
 """
 Parallel Reality Simulator for Dream Engine
 ==========================================
@@ -18,7 +14,10 @@ Features:
 - Memory integration for reality experiences
 """
 
+from __future__ import annotations
+
 import asyncio
+import logging
 import random
 import uuid
 from collections import defaultdict
@@ -37,6 +36,11 @@ from .parallel_reality_safety import (
     ParallelRealitySafetyFramework,
     SafetyLevel,
 )
+
+logger = logging.getLogger(__name__)
+
+
+
 
 logger = get_logger(__name__)
 

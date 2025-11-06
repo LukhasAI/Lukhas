@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
 """
 LUKHAS Module Description Fixer
@@ -7,6 +6,8 @@ LUKHAS Module Description Fixer
 Fixes overly verbose descriptions and ensures they follow the
 3-4 line format with academic-poetic blend.
 """
+
+from __future__ import annotations
 
 import re
 from pathlib import Path

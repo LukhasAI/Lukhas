@@ -36,19 +36,17 @@ class ModuleContentMiner:
                 for node in ast.walk(tree):
                     if isinstance(node, ast.Assign):
                         for target in node.targets:
-                            if isinstance(target, ast.Name) and target.id == '__all__':
-                                if isinstance(node.value, ast.List):
-                                    for item in node.value.elts:
-                                        if isinstance(item, ast.Str):
-                                            entrypoints.append(f"{module_path.name}.{item.s}")
-                                        elif isinstance(item, ast.Constant) and isinstance(item.value, str):
-                                            entrypoints.append(f"{module_path.name}.{item.value}")
+                            if (isinstance(target, ast.Name) and target.id == '__all__') and isinstance(node.value, ast.List):
+                                for item in node.value.elts:
+                                    if isinstance(item, ast.Str):
+                                        entrypoints.append(f"{module_path.name}.{item.s}")
+                                    elif isinstance(item, ast.Constant) and isinstance(item.value, str):
+                                        entrypoints.append(f"{module_path.name}.{item.value}")
 
                 # Also look for class and function definitions
                 for node in ast.walk(tree):
-                    if isinstance(node, (ast.ClassDef, ast.FunctionDef)):
-                        if not node.name.startswith('_'):  # Skip private
-                            entrypoints.append(f"{module_path.name}.{node.name}")
+                    if isinstance(node, (ast.ClassDef, ast.FunctionDef)) and (not node.name.startswith('_')):
+                        entrypoints.append(f"{module_path.name}.{node.name}")
 
             except Exception as e:
                 print(f"Warning: Could not parse {init_file}: {e}")
@@ -64,9 +62,8 @@ class ModuleContentMiner:
 
                 tree = ast.parse(content)
                 for node in ast.walk(tree):
-                    if isinstance(node, (ast.ClassDef, ast.FunctionDef)):
-                        if not node.name.startswith('_'):
-                            entrypoints.append(f"{module_path.name}.{py_file.stem}.{node.name}")
+                    if isinstance(node, (ast.ClassDef, ast.FunctionDef)) and (not node.name.startswith('_')):
+                        entrypoints.append(f"{module_path.name}.{py_file.stem}.{node.name}")
 
             except Exception as e:
                 print(f"Warning: Could not parse {py_file}: {e}")
@@ -236,12 +233,10 @@ class ModuleContentMiner:
 
         # Common dependency patterns
         entrypoint_text = ' '.join(entrypoints).lower()
-        if 'identity' in entrypoint_text or 'auth' in entrypoint_text:
-            if module_path.name != 'identity':
-                dependencies.append('identity')
-        if 'core' in entrypoint_text or 'orchestr' in entrypoint_text:
-            if module_path.name not in ['core', 'orchestration']:
-                dependencies.append('core')
+        if ('identity' in entrypoint_text or 'auth' in entrypoint_text) and module_path.name != 'identity':
+            dependencies.append('identity')
+        if ('core' in entrypoint_text or 'orchestr' in entrypoint_text) and module_path.name not in ['core', 'orchestration']:
+            dependencies.append('core')
         if 'memory' in entrypoint_text and module_path.name != 'memory':
             dependencies.append('memory')
 

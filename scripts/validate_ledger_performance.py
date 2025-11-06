@@ -25,16 +25,16 @@ from typing import Any, Dict, List, Optional
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-import jsonschema
-from ledger.event_bus import (
+import jsonschema  # noqa: E402 - project root must be available on sys.path before import
+from ledger.event_bus import (  # noqa: E402 - project root must be available on sys.path before import
     AsyncEventBus,
 )
-from ledger.events import (
+from ledger.events import (  # noqa: E402 - project root must be available on sys.path before import
     ConsentGrantedEvent,
     ConsentType,
     validate_event_schema,
 )
-from ledger.metrics import (
+from ledger.metrics import (  # noqa: E402 - project root must be available on sys.path before import
     get_metrics,
     reset_metrics,
 )

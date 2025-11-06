@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -26,18 +21,26 @@ The Quantum Bio Coordinator serves as a cornerstone in the LUKHAS AI architectur
 
 """
 
-__module_name__ = "Quantum Quantum Bio Coordinator"
-__version__ = "2.0.0"
-__tier__ = 2
-
+from __future__ import annotations
 
 import hashlib  # For string to float conversion
+import logging
 import uuid  # For task IDs
 from datetime import datetime, timezone  # Added timezone for UTC
 from typing import Any
 
 import numpy as np
 import structlog  # Changed from standard logging
+
+logger = logging.getLogger(__name__)
+
+
+__module_name__ = "Quantum Quantum Bio Coordinator"
+__version__ = "2.0.0"
+__tier__ = 2
+
+
+
 
 # Initialize structlog logger for this module
 log = structlog.get_logger(__name__)

@@ -1,6 +1,3 @@
-from __future__ import annotations
-
-# candidate/core/orchestration/async_orchestrator.py
 """
 Advanced async orchestrator with resilience patterns.
 
@@ -10,6 +7,8 @@ Features:
 - Loop detection and escalation
 - Comprehensive observability
 """
+
+from __future__ import annotations
 
 import asyncio
 import random
@@ -21,7 +20,6 @@ from typing import Any, Dict, List, Tuple
 
 from core.interfaces import ICognitiveNode
 from core.registry import resolve
-
 from metrics import (
     arbitration_decisions_total,
     constellation_star_activations,
@@ -44,6 +42,12 @@ from metrics import (
 from .consensus_arbitrator import Proposal, choose
 from .meta_controller import MetaController
 from .otel import stage_span
+
+# candidate/core/orchestration/async_orchestrator.py
+
+
+
+
 
 
 @dataclass
@@ -236,6 +240,20 @@ class AsyncOrchestrator:
                 return False
         return True
 
+    def _resolve_node(self, node_key: str, stage_config: StageConfig) -> Tuple[ICognitiveNode | None, Dict[str, Any] | None]:
+        """Resolves a node from the registry, returning the node or a skip result."""
+        try:
+            return resolve(f"node:{node_key}"), None
+        except LookupError:
+            skip_result = {
+                "stage": stage_config.name,
+                "status": "skipped",
+                "reason": "node_not_registered",
+                "node": node_key,
+            }
+            self._record_node_result(node_key, 0.0, False, stage_config, skip_result)
+            return None, skip_result
+
     async def _execute_stage_with_routing(
         self,
         stage_config: StageConfig,
@@ -243,77 +261,92 @@ class AsyncOrchestrator:
         cancellation: CancellationToken | None,
         span_ctx: Any,
     ) -> Dict[str, Any]:
+        """Executes a stage with adaptive routing, handling node selection, retries, and fallbacks."""
         primary_key = (stage_config.node or stage_config.name).lower()
         last_result: Dict[str, Any] | None = None
 
-        for attempt_index, node_key in enumerate(self._candidate_node_keys(stage_config)):
+        for attempt_index, node_key in enumerate(
+            self._candidate_node_keys(stage_config)
+        ):
             if span_ctx:
                 span_ctx.set_attribute("matriz.node_candidate", node_key)
                 span_ctx.set_attribute("matriz.node_candidate_index", attempt_index)
                 if node_key != primary_key and attempt_index == 0:
                     span_ctx.set_attribute("matriz.primary_skipped", True)
 
-            try:
-                node = resolve(f"node:{node_key}")
-            except LookupError:
-                skip_result = {
-                    "stage": stage_config.name,
-                    "status": "skipped",
-                    "reason": "node_not_registered",
-                    "node": node_key,
-                }
-                self._record_node_result(node_key, 0.0, False, stage_config, skip_result)
+            node, skip_result = self._resolve_node(node_key, stage_config)
+            if skip_result:
                 last_result = skip_result
                 continue
 
             start = time.perf_counter()
             try:
                 result = await self._run_stage(
-                    stage_config,
-                    node,
-                    context,
-                    cancellation=cancellation,
+                    stage_config, node, context, cancellation=cancellation
                 )
                 duration_ms = (time.perf_counter() - start) * 1000
                 success = self._is_stage_success(result)
-                self._record_node_result(node_key, duration_ms, success, stage_config, result if not success else None)
+                self._record_node_result(
+                    node_key,
+                    duration_ms,
+                    success,
+                    stage_config,
+                    result if not success else None,
+                )
 
                 if span_ctx:
-                    span_ctx.set_attribute("matriz.node_name", getattr(node, "name", node_key))
+                    span_ctx.set_attribute(
+                        "matriz.node_name", getattr(node, "name", node_key)
+                    )
                     span_ctx.set_attribute("matriz.node_key", node_key)
                     span_ctx.set_attribute("matriz.node_latency_ms", duration_ms)
 
                 if success:
                     if attempt_index > 0 and isinstance(result, dict):
-                        # # ΛTAG: adaptive_routing
                         result.setdefault("_fallback", {})
-                        result["_fallback"].update({
-                            "attempts": attempt_index + 1,
-                            "failed_primary": True,
-                            "node": node_key,
-                        })
+                        result["_fallback"].update(
+                            {
+                                "attempts": attempt_index + 1,
+                                "failed_primary": True,
+                                "node": node_key,
+                            }
+                        )
                     if span_ctx:
                         span_ctx.set_attribute("matriz.fallback_used", attempt_index > 0)
-                        span_ctx.set_attribute("matriz.fallback_attempts", attempt_index + 1)
+                        span_ctx.set_attribute(
+                            "matriz.fallback_attempts", attempt_index + 1
+                        )
                     return result
 
                 if span_ctx:
                     span_ctx.set_attribute("matriz.node_health", "degraded")
-                last_result = result if isinstance(result, dict) else {
-                    "stage": stage_config.name,
-                    "status": "error",
-                    "error": "unknown_failure",
-                    "node": node_key,
-                }
+                last_result = (
+                    result
+                    if isinstance(result, dict)
+                    else {
+                        "stage": stage_config.name,
+                        "status": "error",
+                        "error": "unknown_failure",
+                        "node": node_key,
+                    }
+                )
             except asyncio.CancelledError:
                 duration_ms = (time.perf_counter() - start) * 1000
-                cancel_metadata = {"action": "cancelled", "stage": stage_config.name, "node": node_key}
-                self._record_node_result(node_key, duration_ms, False, stage_config, cancel_metadata)
+                cancel_metadata = {
+                    "action": "cancelled",
+                    "stage": stage_config.name,
+                    "node": node_key,
+                }
+                self._record_node_result(
+                    node_key, duration_ms, False, stage_config, cancel_metadata
+                )
                 if span_ctx:
                     span_ctx.set_attribute("matriz.fallback_cancelled", True)
                 if hasattr(node, "cancel"):
                     try:
-                        await node.cancel(cancellation.reason if cancellation else None)  # # ΛTAG: cancellation
+                        await node.cancel(
+                            cancellation.reason if cancellation else None
+                        )
                     except Exception:
                         pass
                 raise
@@ -325,7 +358,9 @@ class AsyncOrchestrator:
                     "error": str(exc),
                     "node": node_key,
                 }
-                self._record_node_result(node_key, duration_ms, False, stage_config, error_metadata)
+                self._record_node_result(
+                    node_key, duration_ms, False, stage_config, error_metadata
+                )
                 last_result = error_metadata
                 if span_ctx:
                     span_ctx.set_attribute("matriz.node_error", str(exc))
@@ -561,177 +596,273 @@ class AsyncOrchestrator:
             rationale=rationale
         )
 
+    async def _handle_pipeline_cancellation(
+        self,
+        stage_config: StageConfig,
+        cancellation: CancellationToken,
+        pipeline_span: Any,
+    ) -> PipelineResult:
+        """Handles the logic for a cancelled pipeline stage."""
+        cancel_reason = cancellation.reason or "cancelled"
+        cancelled_result = {
+            "stage": stage_config.name,
+            "status": "cancelled",
+            "reason": cancel_reason,
+        }
+        if pipeline_span:
+            pipeline_span.set_attribute("matriz.cancelled_stage", stage_config.name)
+            pipeline_span.set_attribute("matriz.cancel_reason", cancel_reason)
+        return PipelineResult(
+            success=False,
+            output={"cancelled": True, "reason": cancel_reason},
+            stage_results=[cancelled_result],
+            escalation_reason="cancelled",
+        )
+
+    async def _execute_and_process_stage(
+        self,
+        stage_config: StageConfig,
+        current_context: Dict[str, Any],
+        cancellation: CancellationToken | None,
+        pipeline_span: Any,
+        stage_index: int,
+    ) -> Tuple[Dict[str, Any] | None, PipelineResult | None]:
+        """Executes a single stage and processes its result, returning the stage result and a potential final pipeline result."""
+        try:
+            with stage_span(
+                f"stage_{stage_config.name.lower()}",
+                stage_index=stage_index,
+                stage_name=stage_config.name,
+                constellation_star=self._get_constellation_star(stage_config.name),
+            ) as stage_span_ctx:
+                stage_result = await self._execute_stage_with_routing(
+                    stage_config, current_context, cancellation, stage_span_ctx
+                )
+
+                if stage_span_ctx and isinstance(stage_result, dict):
+                    stage_span_ctx.set_attribute(
+                        "matriz.stage_success", stage_result.get("action") != "escalate"
+                    )
+                    stage_span_ctx.set_attribute(
+                        "matriz.confidence", stage_result.get("confidence", 0.0)
+                    )
+                    stage_span_ctx.set_attribute(
+                        "matriz.ethics_risk", stage_result.get("ethics_risk", 0.0)
+                    )
+
+                if stage_result.get("action") == "escalate":
+                    if pipeline_span:
+                        pipeline_span.set_attribute(
+                            "matriz.escalation_reason", stage_result.get("reason")
+                        )
+                        pipeline_span.set_attribute(
+                            "matriz.escalation_stage", stage_config.name
+                        )
+                    return None, PipelineResult(
+                        success=False,
+                        output=stage_result,
+                        stage_results=[stage_result],
+                        escalation_reason=stage_result.get("reason"),
+                    )
+
+                if isinstance(stage_result, dict):
+                    current_context.update(stage_result)
+                return stage_result, None
+        except asyncio.CancelledError:
+            return None, await self._handle_pipeline_cancellation(
+                stage_config, cancellation, pipeline_span
+            )
+        except Exception as e:
+            error_result = {
+                "stage": stage_config.name,
+                "status": "error",
+                "error": str(e),
+            }
+            if pipeline_span:
+                pipeline_span.set_attribute("matriz.error_stage", stage_config.name)
+                pipeline_span.set_attribute("matriz.error_message", str(e))
+            return None, PipelineResult(
+                success=False,
+                output={"error": str(e)},
+                stage_results=[error_result],
+                escalation_reason="stage_error",
+            )
+
+    async def _finalize_pipeline_results(
+        self,
+        results: List[Dict[str, Any]],
+        pipeline_span: Any,
+        pipeline_start_time: float,
+    ) -> PipelineResult:
+        """Finalizes the pipeline by arbitrating results and returning the final PipelineResult."""
+        pipeline_end_time = time.time()
+        pipeline_duration = pipeline_end_time - pipeline_start_time
+
+        if pipeline_span:
+            pipeline_span.set_attribute("matriz.end_time", pipeline_end_time)
+            pipeline_span.set_attribute("matriz.duration_seconds", pipeline_duration)
+            pipeline_span.set_attribute("matriz.stages_completed", len(results))
+            pipeline_span.set_attribute("matriz.total_stages", len(self.stages))
+
+        viable_results = [
+            r
+            for r in results
+            if r.get("status") != "error" and r.get("action") != "escalate"
+        ]
+
+        if pipeline_span:
+            pipeline_span.set_attribute(
+                "matriz.viable_results_count", len(viable_results)
+            )
+
+        if len(viable_results) > 1:
+            with stage_span(
+                "consensus_arbitration", proposals_count=len(viable_results)
+            ) as arb_span:
+                result = await self._arbitrate_proposals(viable_results)
+                outcome = "success" if result.success else "failure"
+                arbitration_decisions_total.labels(
+                    outcome, str(len(viable_results))
+                ).inc()
+                if arb_span and result.rationale:
+                    arb_span.set_attribute(
+                        "matriz.arbitration_rationale", str(result.rationale)
+                    )
+                return result
+        elif viable_results:
+            if pipeline_span:
+                pipeline_span.set_attribute("matriz.result_source", "single_viable")
+            return PipelineResult(
+                success=True, output=viable_results[0], stage_results=results
+            )
+        else:
+            if pipeline_span:
+                pipeline_span.set_attribute(
+                    "matriz.failure_reason", "no_viable_results"
+                )
+            return PipelineResult(
+                success=False,
+                output={},
+                stage_results=results,
+                escalation_reason="no_viable_results",
+            )
+
     async def process_query(
         self,
         context: Mapping[str, Any],
         cancellation: CancellationToken | None = None,
     ) -> PipelineResult:
         """Process a query through the async pipeline with comprehensive tracing."""
-
-        # Start root span for entire pipeline
         with stage_span(
             "matriz_pipeline",
             pipeline_enabled=self.enabled,
             stage_count=len(self.stages),
             query_length=len(str(context.get("query", ""))),
-            pipeline_id=id(self)
+            pipeline_id=id(self),
         ) as pipeline_span:
-
             if not self.enabled:
                 if pipeline_span:
-                    pipeline_span.set_attribute("matriz.disabled_reason", "async_disabled")
+                    pipeline_span.set_attribute(
+                        "matriz.disabled_reason", "async_disabled"
+                    )
                 return PipelineResult(
                     success=False,
                     output={},
                     stage_results=[],
-                    escalation_reason="async_disabled"
+                    escalation_reason="async_disabled",
                 )
 
             results = []
             current_context = dict(context)
             pipeline_start_time = time.time()
 
-            # Add pipeline metadata to span
             if pipeline_span:
                 pipeline_span.set_attribute("matriz.start_time", pipeline_start_time)
-                pipeline_span.set_attribute("matriz.context_keys", ",".join(context.keys()))
+                pipeline_span.set_attribute(
+                    "matriz.context_keys", ",".join(context.keys())
+                )
 
             for stage_index, stage_config in enumerate(self.stages):
                 if cancellation and cancellation.cancelled:
-                    cancel_reason = cancellation.reason or "cancelled"
-                    cancelled_result = {
-                        "stage": stage_config.name,
-                        "status": "cancelled",
-                        "reason": cancel_reason,
-                    }
-                    results.append(cancelled_result)
-                    if pipeline_span:
-                        pipeline_span.set_attribute("matriz.cancelled_stage", stage_config.name)
-                        pipeline_span.set_attribute("matriz.cancel_reason", cancel_reason)
-                    return PipelineResult(
-                        success=False,
-                        output={"cancelled": True, "reason": cancel_reason},
-                        stage_results=results,
-                        escalation_reason="cancelled"
+                    return await self._handle_pipeline_cancellation(
+                        stage_config, cancellation, pipeline_span
                     )
 
-                try:
-                    # Add stage-level tracing context
-                    with stage_span(
-                        f"stage_{stage_config.name.lower()}",
-                        stage_index=stage_index,
-                        stage_name=stage_config.name,
-                        constellation_star=self._get_constellation_star(stage_config.name)
-                    ) as stage_span_ctx:
+                stage_result, final_result = await self._execute_and_process_stage(
+                    stage_config,
+                    current_context,
+                    cancellation,
+                    pipeline_span,
+                    stage_index,
+                )
 
-                        stage_result = await self._execute_stage_with_routing(
-                            stage_config,
-                            current_context,
-                            cancellation,
-                            stage_span_ctx,
+                if final_result:
+                    return final_result
+                if stage_result:
+                    results.append(stage_result)
+
+            return await self._finalize_pipeline_results(
+                results, pipeline_span, pipeline_start_time
+            )
+
+    async def _process_parallel_batch(
+        self,
+        batch: List[StageConfig],
+        batch_index: int,
+        current_context: Dict[str, Any],
+        cancellation: CancellationToken | None,
+        pipeline_span: Any,
+    ) -> Tuple[List[Dict[str, Any]], Dict[str, Any], PipelineResult | None]:
+        """Processes a single batch of stages in parallel."""
+        batch_results = []
+        with stage_span(
+            f"parallel_batch_{batch_index}",
+            batch_size=len(batch),
+            batch_index=batch_index,
+        ) as batch_span:
+            batch_tasks = []
+            for stage_config in batch:
+                node, skip_result = self._resolve_node(
+                    stage_config.name.lower(), stage_config
+                )
+                if skip_result:
+                    batch_results.append(skip_result)
+                    continue
+
+                task = asyncio.create_task(
+                    self._run_stage_with_context(
+                        stage_config, node, current_context, batch_index, cancellation
+                    )
+                )
+                batch_tasks.append((stage_config, task))
+
+            if batch_tasks:
+                completed_results = await self._execute_batch_with_timeout(
+                    batch_tasks, batch_span, batch_index
+                )
+                batch_results.extend(completed_results)
+
+                escalation = self._check_batch_escalations(batch_results)
+                if escalation:
+                    if pipeline_span:
+                        pipeline_span.set_attribute(
+                            "matriz.escalation_batch", batch_index
                         )
-                        results.append(stage_result)
-
-                        # Add result metadata to span
-                        if stage_span_ctx and isinstance(stage_result, dict):
-                            stage_span_ctx.set_attribute("matriz.stage_success", stage_result.get("action") != "escalate")
-                            stage_span_ctx.set_attribute("matriz.confidence", stage_result.get("confidence", 0.0))
-                            stage_span_ctx.set_attribute("matriz.ethics_risk", stage_result.get("ethics_risk", 0.0))
-
-                        # Check for escalation
-                        if stage_result.get("action") == "escalate":
-                            if pipeline_span:
-                                pipeline_span.set_attribute("matriz.escalation_reason", stage_result.get("reason"))
-                                pipeline_span.set_attribute("matriz.escalation_stage", stage_config.name)
-                            return PipelineResult(
-                                success=False,
-                                output=stage_result,
-                                stage_results=results,
-                                escalation_reason=stage_result.get("reason")
-                            )
-
-                        # Update context for next stage
-                        if isinstance(stage_result, dict):
-                            current_context.update(stage_result)
-
-                except asyncio.CancelledError:
-                    cancel_reason = cancellation.reason if cancellation else "cancelled"
-                    cancelled_result = {
-                        "stage": stage_config.name,
-                        "status": "cancelled",
-                        "reason": cancel_reason,
-                    }
-                    results.append(cancelled_result)
-                    if pipeline_span:
-                        pipeline_span.set_attribute("matriz.cancelled_stage", stage_config.name)
-                        pipeline_span.set_attribute("matriz.cancel_reason", cancel_reason)
-                    return PipelineResult(
-                        success=False,
-                        output={"cancelled": True, "reason": cancel_reason},
-                        stage_results=results,
-                        escalation_reason="cancelled"
-                    )
-                except Exception as e:
-                    results.append({
-                        "stage": stage_config.name,
-                        "status": "error",
-                        "error": str(e)
-                    })
-                    if pipeline_span:
-                        pipeline_span.set_attribute("matriz.error_stage", stage_config.name)
-                        pipeline_span.set_attribute("matriz.error_message", str(e))
-                    return PipelineResult(
-                        success=False,
-                        output={"error": str(e)},
-                        stage_results=results,
-                        escalation_reason="stage_error"
+                    return (
+                        batch_results,
+                        current_context,
+                        PipelineResult(
+                            success=False,
+                            output=escalation,
+                            stage_results=batch_results,
+                            escalation_reason=escalation.get("reason"),
+                        ),
                     )
 
-            # Pipeline completion and final arbitration
-            pipeline_end_time = time.time()
-            pipeline_duration = pipeline_end_time - pipeline_start_time
-
-            if pipeline_span:
-                pipeline_span.set_attribute("matriz.end_time", pipeline_end_time)
-                pipeline_span.set_attribute("matriz.duration_seconds", pipeline_duration)
-                pipeline_span.set_attribute("matriz.stages_completed", len(results))
-                pipeline_span.set_attribute("matriz.total_stages", len(self.stages))
-
-            # If we have multiple viable results, arbitrate
-            viable_results = [r for r in results if r.get("status") != "error" and r.get("action") != "escalate"]
-
-            if pipeline_span:
-                pipeline_span.set_attribute("matriz.viable_results_count", len(viable_results))
-
-            if len(viable_results) > 1:
-                # Add arbitration span and metrics
-                with stage_span("consensus_arbitration", proposals_count=len(viable_results)) as arb_span:
-                    result = await self._arbitrate_proposals(viable_results)
-
-                    # Collect arbitration metrics
-                    outcome = "success" if result.success else "failure"
-                    arbitration_decisions_total.labels(outcome, str(len(viable_results))).inc()
-
-                    if arb_span and result.rationale:
-                        arb_span.set_attribute("matriz.arbitration_rationale", str(result.rationale))
-                    return result
-            elif viable_results:
-                if pipeline_span:
-                    pipeline_span.set_attribute("matriz.result_source", "single_viable")
-                return PipelineResult(
-                    success=True,
-                    output=viable_results[0],
-                    stage_results=results
+                current_context = self._merge_batch_context(
+                    current_context, batch_results
                 )
-            else:
-                if pipeline_span:
-                    pipeline_span.set_attribute("matriz.failure_reason", "no_viable_results")
-                return PipelineResult(
-                    success=False,
-                    output={},
-                    stage_results=results,
-                    escalation_reason="no_viable_results"
-                )
+        return batch_results, current_context, None
 
     async def process_query_parallel(
         self,
@@ -739,125 +870,50 @@ class AsyncOrchestrator:
         cancellation: CancellationToken | None = None,
     ) -> PipelineResult:
         """Process query with parallel stage execution where possible."""
-
-        # Start root span for entire parallel pipeline
         with stage_span(
             "matriz_parallel_pipeline",
             pipeline_enabled=self.enabled and self.parallel_enabled,
             stage_count=len(self.stages),
             max_parallel_stages=self.max_parallel_stages,
             query_length=len(str(context.get("query", ""))),
-            pipeline_id=id(self)
+            pipeline_id=id(self),
         ) as pipeline_span:
-
             if not self.enabled or not self.parallel_enabled:
-                reason = "async_disabled" if not self.enabled else "parallel_disabled"
+                reason = (
+                    "async_disabled" if not self.enabled else "parallel_disabled"
+                )
                 if pipeline_span:
                     pipeline_span.set_attribute("matriz.disabled_reason", reason)
-                # Fall back to sequential processing
                 return await self.process_query(context, cancellation)
 
             pipeline_start_time = time.time()
-
             if pipeline_span:
                 pipeline_span.set_attribute("matriz.start_time", pipeline_start_time)
-                pipeline_span.set_attribute("matriz.context_keys", ",".join(context.keys()))
+                pipeline_span.set_attribute(
+                    "matriz.context_keys", ",".join(context.keys())
+                )
                 pipeline_span.set_attribute("matriz.execution_mode", "parallel")
 
-            # Group stages into batches for parallel execution
             stage_batches = self._create_stage_batches()
             all_results = []
             current_context = dict(context)
 
             for batch_index, batch in enumerate(stage_batches):
                 if cancellation and cancellation.cancelled:
-                    cancel_reason = cancellation.reason or "cancelled"
-                    if pipeline_span:
-                        pipeline_span.set_attribute("matriz.cancelled_batch", batch_index)
-                        pipeline_span.set_attribute("matriz.cancel_reason", cancel_reason)
-                    return PipelineResult(
-                        success=False,
-                        output={"cancelled": True, "reason": cancel_reason},
-                        stage_results=all_results,
-                        escalation_reason="cancelled"
+                    return await self._handle_pipeline_cancellation(
+                        batch[0], cancellation, pipeline_span
                     )
-                batch_start_time = time.time()
-                with stage_span(
-                    f"parallel_batch_{batch_index}",
-                    batch_size=len(batch),
-                    batch_index=batch_index
-                ) as batch_span:
 
-                    # Execute stages in parallel within this batch
-                    batch_tasks = []
-
-                    for stage_config in batch:
-                        try:
-                            # Resolve node from registry
-                            node = resolve(f"node:{stage_config.name.lower()}")
-
-                            # Create async task for this stage
-                            task = asyncio.create_task(
-                                self._run_stage_with_context(
-                                    stage_config,
-                                    node,
-                                    current_context,
-                                    batch_index,
-                                    cancellation,
-                                )
-                            )
-                            batch_tasks.append((stage_config, task))
-
-                        except LookupError:
-                            # Node not found, create placeholder result
-                            all_results.append({
-                                "stage": stage_config.name,
-                                "status": "skipped",
-                                "reason": "node_not_registered",
-                                "batch": batch_index
-                            })
-
-                    # Wait for all tasks in this batch to complete
-                    if batch_tasks:
-                        batch_results = await self._execute_batch_with_timeout(
-                            batch_tasks, batch_span, batch_index
-                        )
-                        all_results.extend(batch_results)
-
-                        # Collect batch duration metrics
-                        batch_duration = time.time() - batch_start_time
-                        parallel_batch_duration.labels(
-                            batch_index=str(batch_index),
-                            batch_size=str(len(batch))
-                        ).observe(batch_duration)
-
-                        # Check for escalations before proceeding to next batch
-                        escalation = self._check_batch_escalations(batch_results)
-                        if escalation:
-                            if pipeline_span:
-                                pipeline_span.set_attribute("matriz.escalation_batch", batch_index)
-                            return PipelineResult(
-                                success=False,
-                                output=escalation,
-                                stage_results=all_results,
-                                escalation_reason=escalation.get("reason")
-                            )
-
-                        # Update context with successful results for next batch
-                        current_context = self._merge_batch_context(
-                            current_context, batch_results
-                        )
-
-            # Final pipeline processing (same as sequential)
-            pipeline_end_time = time.time()
-            pipeline_duration = pipeline_end_time - pipeline_start_time
-
-            if pipeline_span:
-                pipeline_span.set_attribute("matriz.end_time", pipeline_end_time)
-                pipeline_span.set_attribute("matriz.duration_seconds", pipeline_duration)
-                pipeline_span.set_attribute("matriz.stages_completed", len(all_results))
-                pipeline_span.set_attribute("matriz.total_stages", len(self.stages))
-                pipeline_span.set_attribute("matriz.parallel_batches", len(stage_batches))
+                (
+                    batch_results,
+                    current_context,
+                    pipeline_result,
+                ) = await self._process_parallel_batch(
+                    batch, batch_index, current_context, cancellation, pipeline_span
+                )
+                all_results.extend(batch_results)
+                if pipeline_result:
+                    return pipeline_result
 
             return await self._finalize_parallel_results(all_results, pipeline_span)
 

@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
 
 """
 
@@ -37,21 +34,8 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
-from core.identity.identity_engine import QIIdentityEngine
-from core.integration.governance.__init__ import QIEthicsEngine
-from core.testing.plugin_test_framework import QITestOracle
-from qi.qi_processing_core import BaseOscillator
-from reasoning.symbolic_reasoning import SymbolicEngine
-from tools.documentation.symbolic_knowledge_core.knowledge_graph import (
-    MultiverseKnowledgeWeb,
-)
-
-__module_name__ = "Quantum Phase Quantum Integration"
-__version__ = "2.0.0"
-__tier__ = 2
-
-
 import asyncio
+import logging
 import os
 
 # Import quantum optimization modules
@@ -61,6 +45,27 @@ from typing import Any
 
 import numpy as np
 import pytest
+from qi.qi_processing_core import BaseOscillator
+from reasoning.symbolic_reasoning import SymbolicEngine
+from tools.documentation.symbolic_knowledge_core.knowledge_graph import (
+    MultiverseKnowledgeWeb,
+)
+
+from core.identity.identity_engine import QIIdentityEngine
+from core.integration.governance.__init__ import QIEthicsEngine
+from core.testing.plugin_test_framework import QITestOracle
+
+logger = logging.getLogger(__name__)
+
+
+
+__module_name__ = "Quantum Phase Quantum Integration"
+__version__ = "2.0.0"
+__tier__ = 2
+
+
+
+
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 

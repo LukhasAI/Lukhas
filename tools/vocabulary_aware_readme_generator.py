@@ -346,14 +346,14 @@ def generate_vocabulary_aware_readme(module_path: Path, vocab_loader: ModuleVoca
             readme_lines.append("### Core Components\n")
             for cls in sorted(classes)[:6]:
                 class_name = cls.split('.')[-1]
-                readme_lines.append(f"- **`{class_name}`** — {_describe_component(class_name, vocab)}")
+                readme_lines.append(f"- **`{class_name}`** - {_describe_component(class_name, vocab)}")
             readme_lines.append("")
 
         if functions:
             readme_lines.append("### Functions\n")
             for func in sorted(functions)[:6]:
                 func_name = func.split('.')[-1]
-                readme_lines.append(f"- **`{func_name}()`** — {_describe_function(func_name, vocab)}")
+                readme_lines.append(f"- **`{func_name}()`** - {_describe_function(func_name, vocab)}")
             readme_lines.append("")
 
     # Layer 3: Technical specifications
@@ -396,9 +396,8 @@ def _describe_component(class_name: str, vocab: Optional[Dict]) -> str:
         for key, value in vocab.items():
             if isinstance(value, dict):
                 for _sub_key, sub_value in value.items():
-                    if isinstance(sub_value, dict) and 'name' in sub_value:
-                        if class_name.lower() in sub_value['name'].lower():
-                            return sub_value.get('technical', sub_value.get('poetic', 'Core system component'))
+                    if (isinstance(sub_value, dict) and 'name' in sub_value) and class_name.lower() in sub_value['name'].lower():
+                        return sub_value.get('technical', sub_value.get('poetic', 'Core system component'))
 
     # Fallback descriptions
     descriptions = {

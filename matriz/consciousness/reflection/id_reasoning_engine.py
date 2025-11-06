@@ -59,12 +59,12 @@ CRYPTO_AVAILABLE = False  # ΛSIM_TRACE: Mocking crypto availability.
 try:
     # Attempt to import actual cryptography libraries if they were being used
     from cryptography.hazmat.primitives import (  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
-        hashes,
-        serialization,
+        hashes,  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-36519eb4","reason_category":"CONSTELLATION","reason":"Constellation Framework branding and cryptography integration","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:08:41+00:00"}
+        serialization,  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-170d00c2","reason_category":"CONSTELLATION","reason":"Constellation Framework branding and cryptography integration","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:08:41+00:00"}
     )
     from cryptography.hazmat.primitives.asymmetric import (  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
-        padding,
-        rsa,
+        padding,  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-ab617425","reason_category":"CONSTELLATION","reason":"Constellation Framework branding and cryptography integration","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:08:41+00:00"}
+        rsa,  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-e2671f8e","reason_category":"CONSTELLATION","reason":"Constellation Framework branding and cryptography integration","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:08:41+00:00"}
     )
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
     CRYPTO_AVAILABLE = True
@@ -985,9 +985,8 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
 
         # Example: Ensure Tier 5 always has a specific critical permission if not
         # covered by 'all_system_ops'
-        if tier == AccessTier.TIER_5_ADMIN:
-            if "full_audit_log_access" not in allowed_permissions:  # More descriptive name:
-                allowed_permissions.append("full_audit_log_access")
+        if tier == AccessTier.TIER_5_ADMIN and 'full_audit_log_access' not in allowed_permissions:
+            allowed_permissions.append("full_audit_log_access")
 
         unique_permissions = list(set(allowed_permissions))
         self.logger.debug(

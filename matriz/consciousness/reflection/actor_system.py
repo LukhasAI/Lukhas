@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -28,6 +23,8 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
 import asyncio
 import json
 import logging
@@ -40,6 +37,10 @@ from enum import Enum
 from typing import Any, Callable
 
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 try:  # Optional dependency for distributed comms; keep import-safe during tests
     from .p2p_communication import P2PNode  # type: ignore

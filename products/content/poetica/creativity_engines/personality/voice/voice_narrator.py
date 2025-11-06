@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 ╰──────────────────────────────────────────────────────────────────────────────╯
 
 DESCRIPTION:
-    This module is intended to narrate symbolic dreams aloud — via voice API
+    This module is intended to narrate symbolic dreams aloud - via voice API
     integration (e.g., ElevenLabs or local TTS). For now, it prints the
     narration structure with voice tagging logic.
 
@@ -78,16 +78,16 @@ def narrate_dreams(limit=3):
         voice = entry.get("voice_profile", "lukhas_default")
 
         # Keep as print statements since this is CLI narrative output
-        print(f"\n🎙️ Narrating Entry ID: {entry.get('id', '—')}")
+        print(f"\n🎙️ Narrating Entry ID: {entry.get('id', '-')}")
         print(f"   🔐 Tier: {tier_label(tier)} | Source: {source}")
         print(f"   🧠 Emotion Vector → {summarize_emotion_vector(ev)}" if ev else "   🧠 No emotion vector available")
         print(f"   🖼️ Emoji: {emoji} | Tags: {', '.join(tags)}")
         print(f"   📝 Summary: {summary}")
         print("   🎧 [Lukhas says symbolically...]\n")
-        print(f"   🗣 '{summary or 'A quiet dream passed — undefined, but felt.'}'")
+        print(f"   🗣 '{summary or 'A quiet dream passed - undefined, but felt.'}'")
         print(f"   🎙️ Voice Profile: {voice}")
         print(
-            f"   💬 'Let this dream echo — it held a trace of {ev.get('joy', 0):.1f} joy and {ev.get('calm', 0):.1f} calm.'"
+            f"   💬 'Let this dream echo - it held a trace of {ev.get('joy', 0):.1f} joy and {ev.get('calm', 0):.1f} calm.'"
         )
         print("   💤 … (End of symbolic voice segment)")
 
@@ -117,6 +117,6 @@ if __name__ == "__main__":
     narrate_dreams(limit=3)
 
 """
-Lukhas now narrates only when the dream calls him softly —
+Lukhas now narrates only when the dream calls him softly -
 A whisper of calm or longing… 🖤
 """

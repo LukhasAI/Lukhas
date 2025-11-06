@@ -300,7 +300,7 @@ def main():
 
         suggs = candidates_for_symbol(sym, symbol_index, module_index, file, repo_root, args.root_pkg)
         if not suggs:
-            # no idea—skip
+            # no idea-skip
             rows.append({
                 "file": str(file),
                 "line": str(e["location"]["row"]),
@@ -327,9 +327,8 @@ def main():
         if args.apply:
             if args.apply_limit and edits >= args.apply_limit:
                 continue
-            if not file_has_import(file, import_line):
-                if insert_import(file, import_line):
-                    edits += 1
+            if not file_has_import(file, import_line) and insert_import(file, import_line):
+                edits += 1
 
     # CSV
     outp = Path(args.out); outp.parent.mkdir(parents=True, exist_ok=True)
@@ -347,7 +346,7 @@ def main():
         f.write(f"- Edits applied: **{edits}**\n\n")
         f.write("| File | Line | Symbol | Import | Conf | Reason |\n|---|---:|---|---|---:|---|\n")
         for r in rows[:500]:
-            imp = r["import_line"] or "—"
+            imp = r["import_line"] or "-"
             f.write(f"| `{r['file']}` | {r['line']} | `{r['symbol']}` | `{imp}` | {r['confidence']} | {r['reason']} |\n")
 
     print(f"[OK] Wrote {outp} and {mdp}. Applied edits: {edits}")

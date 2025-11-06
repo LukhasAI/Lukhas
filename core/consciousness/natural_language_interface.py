@@ -1,9 +1,5 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
-import logging
 
-logger = logging.getLogger(__name__)
 """
 Natural Language Consciousness Interface
 =======================================
@@ -18,7 +14,10 @@ Features:
 - Emotional context preservation
 """
 
+from __future__ import annotations
+
 import asyncio
+import logging
 import re
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -27,10 +26,15 @@ from typing import Any
 
 # LUKHAS Branding Integration
 from branding_bridge import BrandContext, get_bridge, initialize_branding
+
 from core.common import GLYPHSymbol, GLYPHToken, get_logger
 from core.common.exceptions import LukhasError
 from core.interfaces import CoreInterface
 from core.interfaces.dependency_injection import get_service, register_service
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 
@@ -871,10 +875,9 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             if "imagine" not in response.lower() and "envision" not in response.lower():
                 response = response.replace("I see", "I envision")
 
-        elif tone == EmotionalTone.SUPPORTIVE:
+        elif tone == EmotionalTone.SUPPORTIVE and (not any((word in response.lower() for word in ['help', 'support', 'assist']))):
             # Add supportive elements
-            if not any(word in response.lower() for word in ["help", "support", "assist"]):
-                response += " How else can I help?"
+            response += " How else can I help?"
 
         return response
 

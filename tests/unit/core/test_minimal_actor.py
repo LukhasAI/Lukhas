@@ -12,6 +12,7 @@ Tests the Actor model implementation including:
 from unittest.mock import patch
 
 import pytest
+
 from core.minimal_actor import Actor
 
 

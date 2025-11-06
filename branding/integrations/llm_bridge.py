@@ -11,8 +11,9 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional, Protocol, Type, runtime_checkable
 
-from core.registry import discover_entry_points, resolve
 from dotenv import load_dotenv
+
+from core.registry import discover_entry_points, resolve
 
 # Load environment variables from .env file
 load_dotenv()

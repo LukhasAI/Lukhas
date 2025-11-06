@@ -37,12 +37,11 @@ def fix_f_string_braces(content: str) -> str:
 
     for i, line in enumerate(lines):
         # Fix f-strings with single } that should be escaped
-        if 'f"' in line or "f'" in line:
+        if ('f"' in line or "f'" in line) and re.search('f["\\\'][^"\\\']*\\}[^}]', line):
             # Simple pattern: if we see }something} it should probably be }}something}}
-            if re.search(r'f["\'][^"\']*\}[^}]', line):
-                # This is complex - for now just try doubling single braces
-                line = re.sub(r"(?<!})(\})(?!})", r"}}", line)
-                lines[i] = line
+            # This is complex - for now just try doubling single braces
+            line = re.sub(r"(?<!})(\})(?!})", r"}}", line)
+            lines[i] = line
 
     return "\n".join(lines)
 

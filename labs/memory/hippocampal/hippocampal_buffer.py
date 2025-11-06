@@ -18,14 +18,14 @@ logger = logging.getLogger(__name__)
 ║                             ◊ POETIC ESSENCE ◊
 ║
 ║ │ In the seahorse-shaped chamber of immediate experience, the Hippocampus      │
-║ │ dances—a neural maestro conducting the symphony of now. Each moment,         │
+║ │ dances-a neural maestro conducting the symphony of now. Each moment,         │
 ║ │ each sensation, each fleeting thought is caught in its rapid embrace,        │
 ║ │ encoded with the urgency of the present, the context of the immediate.       │
 ║ │                                                                               │
 ║ │ Like a scribe with infinite parchment but limited ink, it writes quickly,    │
 ║ │ capturing the essence before it fades. Pattern separation ensures each       │
 ║ │ memory is distinct, while pattern completion allows fragments to resurrect   │
-║ │ the whole. This is not mere storage—it's the birthplace of experience.       │
+║ │ the whole. This is not mere storage-it's the birthplace of experience.       │
 ║ │                                                                               │
 ║ │ Through theta rhythms it oscillates, binding disparate elements into         │
 ║ │ cohesive episodes. What was separate becomes unified, what was temporal      │

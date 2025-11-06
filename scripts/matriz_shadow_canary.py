@@ -9,7 +9,7 @@ decision comparison, and burn-rate alerting for delta drift detection.
 Shadow Deployment Features:
 - 5% traffic duplication to MATRIZ shadow
 - Decision comparison: MATRIZ vs baseline
-- Burn-rate alerts: 4×/1h & 2×/6h if delta>0.1%
+- Burn-rate alerts: 4x/1h & 2x/6h if delta>0.1%
 - Real-time drift monitoring and alerting
 - Safe rollback mechanisms
 - Comprehensive observability

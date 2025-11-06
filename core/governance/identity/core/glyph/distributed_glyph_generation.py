@@ -1,11 +1,11 @@
-from __future__ import annotations
-
 """
 Distributed GLYPH Generation with Colony Coordination
 
 Manages distributed generation of identity GLYPHs using colony-based
 parallel processing and tier-aware steganographic embedding.
 """
+
+from __future__ import annotations
 
 import asyncio
 import base64
@@ -18,6 +18,7 @@ from enum import Enum
 from typing import Any
 
 import numpy as np
+from PIL import Image
 
 # Import colony infrastructure
 from core.colonies.base_colony import BaseColony
@@ -26,7 +27,6 @@ from core.enhanced_swarm import AgentState, EnhancedSwarmAgent as SwarmAgent
 # Import identity components
 from governance.identity.core.events import IdentityEventType, get_identity_event_publisher
 from governance.identity.core.visualization.lukhas_orb import OrbVisualization
-from PIL import Image
 
 logger = logging.getLogger("LUKHAS_DISTRIBUTED_GLYPH")
 

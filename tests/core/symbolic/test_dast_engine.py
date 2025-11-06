@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import pytest
+
 from core.symbolic.dast_engine import (
     GestureCorpusRepository,
     GestureInterpretationSystem,

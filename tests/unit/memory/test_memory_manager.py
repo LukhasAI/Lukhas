@@ -6,6 +6,7 @@
 from unittest.mock import AsyncMock
 
 import pytest
+
 from memory.fakes.agimemory_fake import AGIMemoryFake
 from memory.folds.fold_engine import MemoryType
 from memory.systems.memory_manager import AdvancedMemoryManager

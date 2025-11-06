@@ -108,7 +108,7 @@ def main():
                         candidates = list(contracts.keys())
                     hint = get_close_matches(stem, candidates, n=3)
                     if hint:
-                        print(f"[FAIL] {mf}: unknown contract: {stem} — did you mean: {', '.join(hint)}?")
+                        print(f"[FAIL] {mf}: unknown contract: {stem} - did you mean: {', '.join(hint)}?")
                     else:
                         print(f"[FAIL] {mf}: unknown contract: {stem}")
 

@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
 ║ 🧬 MΛTRIZ Identity Module: Consciousness Identity Persistence
@@ -18,6 +15,7 @@ logger = logging.getLogger(__name__)
 """
 
 import asyncio
+import logging
 
 # Explicit logging import to avoid conflicts with candidate/core/logging
 import logging as std_logging
@@ -26,6 +24,10 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+logger = logging.getLogger(__name__)
+
+
 
 # Import consciousness components
 try:
@@ -804,13 +806,11 @@ class MatrizConsciousnessIdentityManager:
         ):
             profile.capabilities.append("consciousness_aware")
 
-        if profile.identity_consciousness_type == IdentityConsciousnessType.PERSISTENT_CONSCIOUS:
-            if "persistent_memory" not in profile.capabilities:
-                profile.capabilities.append("persistent_memory")
+        if profile.identity_consciousness_type == IdentityConsciousnessType.PERSISTENT_CONSCIOUS and 'persistent_memory' not in profile.capabilities:
+            profile.capabilities.append("persistent_memory")
 
-        if profile.identity_consciousness_type == IdentityConsciousnessType.TRANSCENDENT_IDENTITY:
-            if "transcendent_access" not in profile.capabilities:
-                profile.capabilities.append("transcendent_access")
+        if profile.identity_consciousness_type == IdentityConsciousnessType.TRANSCENDENT_IDENTITY and 'transcendent_access' not in profile.capabilities:
+            profile.capabilities.append("transcendent_access")
 
     async def get_identity_by_identifier(self, identifier: str) -> Optional[ConsciousnessIdentityProfile]:
         """Get identity profile by any identifier (user_identifier, lid, identity_id, etc.)"""

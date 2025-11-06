@@ -29,7 +29,7 @@
 ║
 ║ In the ethereal realms of computation, where the ephemeral
 ║ dances with the eternal, we find ourselves summoned to
-║ the Encrypted Sanctum of Knowledge—a sanctified repository
+║ the Encrypted Sanctum of Knowledge-a sanctified repository
 ║ where the tendrils of memory intertwine with the unyielding
 ║ embrace of encryption. Here, thoughts and data converge,
 ║ cocooned in layers of secrecy, safeguarded against the
@@ -47,7 +47,7 @@
 ║ ensuring that the treasures buried within remain untouched
 ║ by the uninvited, their secrets wrapped in the silken
 ║ threads of ciphered elegance. Thus, we embark upon a
-║ journey—one where ethical stewardship of memory
+║ journey-one where ethical stewardship of memory
 ║ becomes a resonant song, echoing through the digital
 ║ corridors of time, inviting the curious and the wise
 ║ to partake in its boundless offerings, all while
@@ -105,9 +105,10 @@ from typing import Any
 from uuid import uuid4
 
 import numpy as np  # Required for differential privacy
-from core.integration.governance.__init__ import get_srd, instrument_reasoning
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+
+from core.integration.governance.__init__ import get_srd, instrument_reasoning
 from ethics.meta_ethics_governor import EthicalDecision, get_meg
 
 # Lukhas Core Integration

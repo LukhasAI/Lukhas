@@ -40,6 +40,7 @@ from typing import Any
 
 try:
     from async_manager import TaskPriority, get_consciousness_manager
+
     from consciousness.constellation_integration import get_constellation_integrator
     from consciousness.registry import ComponentType, get_consciousness_registry
     from core.common.config import get_config
@@ -502,9 +503,8 @@ class ConsciousnessMemoryIntegrator:
         for related_fold_id in related_folds:
             # Bidirectional association
             fold.associations.append(related_fold_id)
-            if related_fold_id in self._memory_folds:
-                if fold.fold_id not in self._memory_folds[related_fold_id].associations:
-                    self._memory_folds[related_fold_id].associations.append(fold.fold_id)
+            if related_fold_id in self._memory_folds and fold.fold_id not in self._memory_folds[related_fold_id].associations:
+                self._memory_folds[related_fold_id].associations.append(fold.fold_id)
 
             # Update association graph
             self._association_graph[fold.fold_id].add(related_fold_id)

@@ -67,8 +67,8 @@ class BiometricPattern(Enum):
 class AuthenticationMethod(Enum):
     """Authentication methods for different tiers"""
 
-    PASSWORD = "password"
-    EMOJI_PASSWORD = "emoji_password"
+    PASSWORD = "password"  # nosec B105 - Enum constant, not hardcoded password
+    EMOJI_PASSWORD = "emoji_password"  # nosec B105 - Enum constant
     WEBAUTHN_PASSKEY = "webauthn_passkey"
     BIOMETRIC_PATTERN = "biometric_pattern"
     CONSCIOUSNESS_SIGNATURE = "consciousness_signature"

@@ -1,7 +1,3 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -24,7 +20,20 @@ Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
+import asyncio
+import json
 import logging
+import time
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from enum import Enum, auto
+from pathlib import Path
+from typing import Any, Callable, Optional
+
+import yaml
+
+logger = logging.getLogger(__name__)
+
 
 """
 LUKHlukhasS Visionary AI Orchestrator
@@ -53,24 +62,14 @@ Created: Based on comprehensive audit and vision synthesis
 License: lukhas Proprietary (Enterprise) / Open Core (Community)
 """
 
-import asyncio
-import json
-import time
-from dataclasses import dataclass
-from datetime import datetime
-from enum import Enum, auto
-from pathlib import Path
-from typing import Any, Callable, Optional
 
-import yaml
 
 # lukhas Core Imports (based on audit findings)
 try:
+    from common.exceptions import SafetyViolationError
     from core.advanced_symbolic_loop import EnhancedCoreIntegrator
     from core.logging import get_lukhas_logger
     from core.memory.memory_manager import MemoryManager
-
-    from common.exceptions import SafetyViolationError
 
     #     from system.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
     #     from system.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE

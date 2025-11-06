@@ -40,9 +40,8 @@ def test_no_importlib_candidate_shims():
 
                     # Check if argument contains "candidate"
                     arg = node.args[0]
-                    if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
-                        if "labs" in arg.value:
-                            violations.append(f"{rel_path}:{node.lineno}")
+                    if (isinstance(arg, ast.Constant) and isinstance(arg.value, str)) and 'labs' in arg.value:
+                        violations.append(f"{rel_path}:{node.lineno}")
 
         except Exception:
             # Skip files that can't be parsed

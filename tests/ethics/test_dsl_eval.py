@@ -15,6 +15,7 @@ Test coverage:
 import time
 
 import pytest
+
 from core.ethics.logic.dsl_lite import (
     DSLError,
     and_op,
@@ -768,7 +769,7 @@ class TestProductionHardening:
         assert len(errors) == 0, f"Concurrency errors: {errors}"
 
         # Verify all evaluations completed
-        assert len(results) == 50  # 5 threads × 10 evaluations each
+        assert len(results) == 50  # 5 threads x 10 evaluations each
 
         # Verify deterministic results (all should be WARN)
         assert all(result == EthicsAction.WARN for result in results)
