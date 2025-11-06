@@ -54,6 +54,19 @@ This document provides a comprehensive implementation guide for setting up auton
 
 ---
 
+## 🤖 Agent Components
+
+### JULES — AI Planning Agent
+JULES (Google's autonomous coding agent) handles initial code generation, test creation, and feature implementation. JULES creates PRs with the `jules-pr` label and hands off to CODEX for review and refinement. JULES integrates via API and can autonomously write code, create comprehensive test suites, and generate PRs with minimal human intervention.
+
+### CODEX — Deterministic LLM-Driven Code Change Operator
+Codex is the LLM-driven code-change subsystem for T4. It accepts a single source of truth (an Intent) and returns a strict JSON response that contains a `patch` (git unified-diff), `explanation`, `confidence` and `meta` (files changed, lines changed). All Codex calls flow through `tools/ci/llm_policy.py` for quota and cost accounting. Codex proposals are validated by an automated verification pipeline: apply patch to a temporary branch, run `ruff`, `pytest` and type checks, and reject or open a draft PR if verification fails or passes respectively. Every suggestion is audited in the Intent Registry (linked via `codex_suggestion_id`) and recorded in `reports/todos/ai_suggestions.jsonl` with usage and cost details. Key guarantees: deterministic output (`temperature=0.0`), size limits, single-JSON responses, one-repair retry, mandatory human review before merge, and full audit trail. Codex is pluggable (OpenAI, Anthropic, local) and exposes `tools/ci/codex_adapter.py` as the repository-level interface so other Lukhas modules (ai_suggester, parallel-batches, codemod driver) can reuse the same safety and verification semantics.
+
+### Claude Code — AI Code Review Agent
+Claude Code provides comprehensive code review with deep understanding of the Constellation Framework. When mentioned with @claude, it reviews PRs for 8-star compliance, lane isolation, test coverage, security vulnerabilities, and T4 code quality standards. Claude Code approval (via `claude-approved` label) is required before auto-merge can proceed.
+
+---
+
 ## 📦 Deliverables Created
 
 ### 1. Core Workflow Files (`.github/workflows/`)
