@@ -216,7 +216,13 @@ class EnhancedAuthenticationSystem:
 
     def __init__(self, redis_url: Optional[str] = None):
         # JWT configuration (allow override via env)
-        self.jwt_secret = env_get("JWT_PRIVATE_KEY", secrets.token_urlsafe(32))
+        configured_secret = env_get("JWT_PRIVATE_KEY")
+        if configured_secret and configured_secret.strip():
+            self.jwt_secret = configured_secret.strip()
+            self.jwt_secret_configured = True
+        else:
+            self.jwt_secret = secrets.token_urlsafe(32)
+            self.jwt_secret_configured = False
         self.jwt_algorithm = "HS256"
         self.jwt_expiry_hours = 24
 

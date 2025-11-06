@@ -148,7 +148,12 @@ class StrictAuthMiddleware(BaseHTTPMiddleware):
             return self._auth_error('Bearer token is empty')
 
         payload = self.auth_system.verify_jwt(token)
-        if payload is None and token.startswith("sk-lukhas-"):
+        allow_legacy_fallback = (
+            payload is None
+            and token.startswith("sk-lukhas-")
+            and not getattr(self.auth_system, "jwt_secret_configured", True)
+        )
+        if allow_legacy_fallback:
             # Allow legacy prefixed tokens used in smoke tests when formal JWT verification
             # is not available (e.g., offline CI environments without shared secrets).
             payload = {"legacy_token": token}
