@@ -169,7 +169,10 @@ if matriz_traces_router is not None:
     app.include_router(matriz_traces_router)
 if orchestration_router is not None:
     app.include_router(orchestration_router)
-setup_tracing(app)
+if getattr(obs_stack, "opentelemetry_enabled", False):
+    setup_tracing(app)
+else:
+    logger.info("OpenTelemetry disabled; skipping tracing setup")
 if identity_router is not None:
     app.include_router(identity_router)
 if webauthn_router is not None:
@@ -273,13 +276,17 @@ CHAT_COMPLETIONS_COUNT = Counter(
 async def track_metrics(request: Request, call_next):
     """Add prometheus metrics to each request."""
     start_time = time.time()
+    route = request.scope.get("route")
+    endpoint = getattr(route, "path", None) if route is not None else None
+    if not endpoint:
+        endpoint = request.url.path
     response = await call_next(request)
     end_time = time.time()
-    REQUEST_TIME.labels(request.method, request.url.path).observe(
+    REQUEST_TIME.labels(request.method, endpoint).observe(
         end_time - start_time
     )
     REQUEST_COUNT.labels(
-        request.method, request.url.path, response.status_code
+        request.method, endpoint, response.status_code
     ).inc()
     return response
 
