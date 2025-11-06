@@ -151,6 +151,7 @@ def generate_html(
 
     counts_by_code = metrics["metrics"]["counts_by_code"]
     counts_by_status = metrics["metrics"]["counts_by_status"]
+    total_findings = metrics["summary"]["total_findings"]
 
     # Sort by count descending
     sorted_codes = sorted(counts_by_code.items(), key=lambda x: x[1], reverse=True)
@@ -358,7 +359,7 @@ def generate_html(
                     </tr>
                 </thead>
                 <tbody>
-                    {"".join(f"<tr><td>{code}</td><td>{count}</td><td>{round(100 * count / metrics["summary"]["total_findings"], 1)}%</td></tr>" for code, count in sorted_codes[:10])}
+                    {"".join(f"<tr><td>{code}</td><td>{count}</td><td>{round(100 * count / total_findings, 1)}%</td></tr>" for code, count in sorted_codes[:10])}
                 </tbody>
             </table>
         </div>
