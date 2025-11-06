@@ -1,8 +1,33 @@
 ---
-status: wip
+status: DEPRECATED
 type: documentation
+deprecation_date: 2025-11-06
+superseded_by: BRAND_GUIDELINES.md
 ---
-# 🎭 LUKHAS AI Branding Master Guide
+
+# ⚠️ DEPRECATED: LUKHAS AI Branding Master Guide
+
+> **🚨 THIS DOCUMENT IS DEPRECATED**
+>
+> **Date**: 2025-11-06
+> **Superseded By**: [BRAND_GUIDELINES.md](BRAND_GUIDELINES.md) (canonical source)
+>
+> **Why Deprecated**: This document has been replaced by the canonical BRAND_GUIDELINES.md which provides:
+> - More comprehensive visual identity specifications
+> - Integration with multi-domain system (10 domains)
+> - Updated tone system with domain-specific configurations
+> - Reference to complete design system (colors, themes, motifs)
+>
+> **Please Use Instead**:
+> - **Foundation**: [BRAND_GUIDELINES.md](BRAND_GUIDELINES.md)
+> - **Navigation**: [README.md](README.md)
+> - **Domain-Specific**: [domains/](domains/) brand guides
+>
+> **This document will be archived after 2026-02-06 (90 days).**
+
+---
+
+# 🎭 LUKHAS AI Branding Master Guide (HISTORICAL - DO NOT USE)
 *The Comprehensive Brand Identity & Policy Reference*
 
 ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework** | **MATRIZ Pipeline** | **Consciousness Technology** | **Elite Brand Intelligence System**
