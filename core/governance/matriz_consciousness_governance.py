@@ -34,9 +34,6 @@ try:
     from ..consciousness.matriz_consciousness_state import (
         ConsciousnessState,
         ConsciousnessType,
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
         EvolutionaryStage,  # TODO: ..consciousness.matriz_conscio...
         consciousness_state_manager,
         create_consciousness_state,
@@ -742,9 +739,6 @@ class MatrizConsciousnessGovernanceSystem:
     async def _start_governance_monitoring(self) -> None:
         """Start background governance monitoring"""
         self._monitoring_active = True
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._governance_monitoring_loop())
         logger.info("🔍 Started governance monitoring")
 

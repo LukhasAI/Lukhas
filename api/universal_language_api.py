@@ -10,26 +10,26 @@ import math
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from pydantic import BaseModel, Field
+
 from consciousness.reflection.openai_modulated_service import (
     OpenAIModulatedService,
 )
 from core.colonies.consensus_mechanisms import ConsensusMethod
 from core.colonies.enhanced_colony import EnhancedReasoningColony
-from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-
-# Import LUKHAS components
-from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
-from pydantic import BaseModel, Field
-from symbolic.exchange.universal_exchange import (
-    ExchangeProtocol,
-    UniversalSymbolExchange,
-)
-
 from orchestration.gpt_colony_orchestrator import (
     GPTColonyOrchestrator,
     OrchestrationMode,
     OrchestrationTask,
+)
+
+# Import LUKHAS components
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from symbolic.exchange.universal_exchange import (
+    ExchangeProtocol,
+    UniversalSymbolExchange,
 )
 
 # Configure logging
@@ -295,9 +295,6 @@ async def understand_symbols(
 
     except Exception as e:
         logger.error(f"Symbol understanding error: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -353,9 +350,6 @@ async def generate_password(
 
     except Exception as e:
         logger.error(f"Password generation error: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -392,9 +386,6 @@ async def initiate_exchange(
 
     except Exception as e:
         logger.error(f"Exchange initiation error: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -457,9 +448,6 @@ async def build_language(
 
     except Exception as e:
         logger.error(f"Language building error: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -508,9 +496,6 @@ async def colony_consensus(
 
     except Exception as e:
         logger.error(f"Colony consensus error: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -538,9 +523,6 @@ async def get_statistics(credentials: HTTPAuthorizationCredentials = Depends(sec
 
     except Exception as e:
         logger.error(f"Statistics error: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 

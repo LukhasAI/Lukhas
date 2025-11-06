@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from _bridgeutils import bridge_from_candidates
-
 from observability import counter, histogram
 
 __all__, _exp = bridge_from_candidates(

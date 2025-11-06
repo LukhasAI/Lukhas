@@ -104,9 +104,6 @@ def _base64url_decode(data: str) -> bytes:
         padded = data + ('=' * padding_needed)
         return base64.urlsafe_b64decode(padded)
     except Exception as e:
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
         raise InvalidAssertionError(f"Failed to decode base64url data: {e}")
 
 
@@ -196,9 +193,6 @@ def _parse_client_data_json(client_data_json: bytes) -> Dict[str, Any]:
     try:
         data = json.loads(client_data_json.decode('utf-8'))
     except Exception as e:
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
         raise InvalidAssertionError(f"Failed to parse clientDataJSON: {e}")
 
     # Validate required fields
@@ -254,9 +248,6 @@ def _verify_signature_es256(
                     curve=ec.SECP256R1()
                 ).public_key()
             else:
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
                 raise InvalidSignatureError("Unsupported public key format")
 
         # Verify signature
@@ -269,14 +260,8 @@ def _verify_signature_es256(
             ec.ECDSA(hashes.SHA256())
         )
     except CryptoInvalidSignature:
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
         raise InvalidSignatureError("ES256 signature verification failed")
     except Exception as e:
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
         raise InvalidSignatureError(f"ES256 verification error: {e}")
 
 
@@ -310,14 +295,8 @@ def _verify_signature_rs256(
             hashes.SHA256()
         )
     except CryptoInvalidSignature:
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
         raise InvalidSignatureError("RS256 signature verification failed")
     except Exception as e:
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
         raise InvalidSignatureError(f"RS256 verification error: {e}")
 
 

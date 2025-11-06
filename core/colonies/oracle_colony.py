@@ -29,11 +29,10 @@ from __future__ import annotations
 import asyncio
 import importlib
 import json
+import structlog
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
-
-import structlog
 
 """Note on lane boundaries
 This module must not import from `labs.*` at import time. To keep lane guard
@@ -299,9 +298,6 @@ class OracleAgent:
 
     async def _handle_analysis(self, query: OracleQuery) -> OracleResponse:
         """Handle deep analytical queries."""
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
         query.context
 
         analysis_content = {
@@ -435,9 +431,6 @@ class OracleColony(BaseColony):
             self.oracle_agents[spec] = OracleAgent(agent_id, spec, self.openai_service)
 
         # Start processing loop
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._process_queries())
 
         logger.info(

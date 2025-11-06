@@ -113,9 +113,6 @@ class VoiceAdapter:
         voice_id = content.get("voice_id")
 
         logger.info(f"Processing speak request: {text[:50]}...")
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self.speak(text, emotion, voice_id))
 
     def _handle_audio_input(self, content: dict[str, Any]) -> None:
@@ -127,9 +124,6 @@ class VoiceAdapter:
             return
 
         logger.info("Processing audio input...")
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self.process_audio(audio_data))
 
     def _handle_voice_config(self, content: dict[str, Any]) -> None:

@@ -35,23 +35,11 @@ except ImportError:
 # Quantum Security Imports (placeholder for actual quantum crypto)
 try:
     from cryptography.hazmat.primitives import (  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
         hashes,
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
         serialization,
     )
     from cryptography.hazmat.primitives.asymmetric import (  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
         padding,
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
         rsa,
     )
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes

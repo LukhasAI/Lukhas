@@ -38,9 +38,9 @@ from typing import Optional
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from bridge.llm_wrappers.codex_wrapper import CodexClient
-from bridge.llm_wrappers.jules_wrapper import JulesClient
 from bridge.queue.redis_queue import RedisTaskQueue, Task, TaskPriority, TaskType
+from bridge.llm_wrappers.jules_wrapper import JulesClient
+from bridge.llm_wrappers.codex_wrapper import CodexClient
 
 # Configure logging
 logging.basicConfig(

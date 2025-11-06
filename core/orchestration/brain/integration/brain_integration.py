@@ -47,17 +47,8 @@ except ImportError:
     try:
         # from MultiBrainSymphony  # External dependency import
         from MultiBrainSymphony import (
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
             DreamBrainSpecialist,  # TODO: MultiBrainSymphony.DreamBrainS...
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
             LearningBrainSpecialist,  # TODO: MultiBrainSymphony.LearningBra...
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
             MemoryBrainSpecialist,  # TODO: MultiBrainSymphony.MemoryBrain...
             MultiBrainSymphonyOrchestrator,
         )
@@ -71,17 +62,8 @@ except ImportError:
 try:
     from core.orchestration.brain.spine.fold_engine import (  # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
         AGIMemory,
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
         MemoryFold,
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
         MemoryPriority,
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
         MemoryType,
     )
 except ImportError:

@@ -6,7 +6,6 @@ T4 Lint Issues Validator: ensure every lint finding in production lanes is eithe
 - waived via AUDIT/waivers/unused_imports.yaml
 """
 from __future__ import annotations
-
 import argparse
 import json
 import re

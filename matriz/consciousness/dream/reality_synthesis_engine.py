@@ -145,9 +145,6 @@ class RealitySynthesisEngine(CoreInterface):
 
         except Exception as e:
             logger.error(f"Failed to initialize Synthesis Engine: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
             raise LukhasError(f"Synthesis Engine initialization failed: {e}")
 
     async def shutdown(self) -> None:

@@ -1,7 +1,6 @@
 # tests/integration/serve/test_api.py
 import os
-from unittest.mock import MagicMock, patch
-
+from unittest.mock import patch, MagicMock
 
 def test_healthz_endpoint(client_no_auth):
     """Test the /healthz endpoint."""

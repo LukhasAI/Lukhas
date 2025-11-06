@@ -278,9 +278,6 @@ class GuardianSystemIntegration:
         self.alert_handlers: dict[GuardianAlertLevel, list[Callable]] = {level: [] for level in GuardianAlertLevel}
 
         # Initialize system
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._initialize_guardian_system())
 
         logger.info(f"🛡️ Guardian System Integration Hub initializing: {self.guardian_id}")
@@ -325,17 +322,8 @@ class GuardianSystemIntegration:
             await self._connect_components()
 
             # Start monitoring
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
             asyncio.create_task(self._monitoring_loop())
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
             asyncio.create_task(self._metrics_update_loop())
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
             asyncio.create_task(self._health_check_loop())
 
             # System ready

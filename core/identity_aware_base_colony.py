@@ -353,9 +353,6 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             self.active_user_contexts[user_context.user_id] = user_context
 
         except Exception as e:
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
             raise QISecurityError(f"Quantum identity validation failed: {e}")
 
     async def _authorize_task_execution(self, user_context: QIUserContext, operation: str) -> bool:

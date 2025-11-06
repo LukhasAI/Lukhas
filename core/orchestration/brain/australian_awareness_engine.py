@@ -44,11 +44,12 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any
 
+from pydantic import Field
+
 from labs.core.orchestration.brain.GlobalInstitutionalFramework import (
     GlobalConsentData,
     InstitutionalProcessingRecord,
 )
-from pydantic import Field
 
 # Import global framework (with import-time safety stubs for missing backend)
 try:

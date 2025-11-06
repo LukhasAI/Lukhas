@@ -358,25 +358,10 @@ class ComplianceAuditSystem:
         self.monitoring_active = True
 
         # Start monitoring loops
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._consent_monitoring_loop())
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._subject_rights_processing_loop())
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._compliance_violation_detection_loop())
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._data_retention_enforcement_loop())
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._audit_cleanup_loop())
 
         logger.info("⚖️ Compliance monitoring started")

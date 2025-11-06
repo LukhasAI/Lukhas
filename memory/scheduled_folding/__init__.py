@@ -25,9 +25,6 @@ except Exception:
         UNKNOWN = "unknown"
         DEFAULT = "default"
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
     __all__  # type: ignore[name-defined]
 except NameError:
     __all__ = []
@@ -49,9 +46,6 @@ except Exception:
         COMPLETED = "completed"
         FAILED = "failed"
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
     __all__  # type: ignore[name-defined]
 except NameError:
     __all__ = []
@@ -83,13 +77,7 @@ if "ScheduledFold" not in __all__:
 
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
     ScheduledFold
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
     ScheduledFoldingManager
 except NameError:
     class ScheduledFold:  # pragma: no cover - fallback
@@ -120,9 +108,6 @@ def get_folding_manager() -> "ScheduledFoldingManager":
 
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
     __all__  # type: ignore[name-defined]
 except NameError:
     __all__ = []

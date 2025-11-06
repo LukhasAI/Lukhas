@@ -1,17 +1,16 @@
 
 import asyncio
-import gc
-import random
 import statistics
 import time
+import random
+import gc
 
-import psutil
 import pytest
+import psutil
 
 # The 'matriz' package is aliased to 'MATRIZ' at runtime.
 # See matriz/__init__.py for details.
 from matriz import orchestration
-
 
 # A dummy node for testing purposes
 class DummyNode:

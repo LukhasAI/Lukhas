@@ -26,9 +26,9 @@ def test_unknown_route_returns_404():
     Validates router configuration handles unknown paths correctly.
     """
     try:
-        from labs.core.security.auth import get_auth_system
         from serve.main import app
         from starlette.testclient import TestClient
+        from labs.core.security.auth import get_auth_system
 
         client = TestClient(app)
         auth_system = get_auth_system()
@@ -99,9 +99,9 @@ def test_malformed_json_returns_422():
     Validates Pydantic validation is working.
     """
     try:
-        from labs.core.security.auth import get_auth_system
         from serve.main import app
         from starlette.testclient import TestClient
+        from labs.core.security.auth import get_auth_system
 
         client = TestClient(app)
         auth_system = get_auth_system()
@@ -145,9 +145,9 @@ def test_missing_required_fields_rejected():
     Validates Pydantic model validation.
     """
     try:
-        from labs.core.security.auth import get_auth_system
         from serve.main import app
         from starlette.testclient import TestClient
+        from labs.core.security.auth import get_auth_system
 
         client = TestClient(app)
         auth_system = get_auth_system()
@@ -188,9 +188,9 @@ def test_invalid_http_methods():
     Validates method-based routing works correctly.
     """
     try:
-        from labs.core.security.auth import get_auth_system
         from serve.main import app
         from starlette.testclient import TestClient
+        from labs.core.security.auth import get_auth_system
 
         client = TestClient(app)
         auth_system = get_auth_system()

@@ -6,6 +6,7 @@
 from unittest.mock import AsyncMock, patch
 
 import pytest
+
 from bridge.adapters.gmail_adapter import GmailAdapter
 
 

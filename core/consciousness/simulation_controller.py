@@ -266,9 +266,6 @@ class BioSimulationController:
         oscillator.driftScore = 0.0
         oscillator.affect_delta = 0.0
         oscillator.target_frequency = oscillator._get_default_frequency(OscillationType.ALPHA)
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(oscillator._synchronize())
 
     def _initialize_default_hormones(self):

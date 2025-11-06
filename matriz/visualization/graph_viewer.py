@@ -40,9 +40,6 @@ try:
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
 except ImportError as e:
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
     raise ImportError(
         f"Missing required dependencies: {e}. Please install with: pip install networkx plotly pandas numpy"
     )

@@ -95,9 +95,6 @@ except ImportError:
 
 # Streamlit support (optional)
 try:
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
     import streamlit as st
 
     STREAMLIT_AVAILABLE = True
@@ -694,8 +691,9 @@ def test_system():
         # Test imports
         from audit_logger import AuditLogger
         from block_builder import BlockBuilder
-        from core.config_manager import ConfigManager
         from markdown_parser import MarkdownParser
+
+        from core.config_manager import ConfigManager
 
         print("✅ All imports successful")
 

@@ -25,9 +25,6 @@ except ImportError:
         """Stub for archetypes."""
         return None
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
     __all__  # type: ignore[name-defined]
 except NameError:
     __all__ = []
@@ -42,9 +39,6 @@ except ImportError:
         """Stub for atlas."""
         return None
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
     __all__  # type: ignore[name-defined]
 except NameError:
     __all__ = []
@@ -59,9 +53,6 @@ except ImportError:
         """Stub for mediation."""
         return None
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
     __all__  # type: ignore[name-defined]
 except NameError:
     __all__ = []
@@ -76,9 +67,6 @@ except ImportError:
         """Stub for replay."""
         return None
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
     __all__  # type: ignore[name-defined]
 except NameError:
     __all__ = []
@@ -93,9 +81,6 @@ except ImportError:
         """Stub for sentinel."""
         return None
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
     __all__  # type: ignore[name-defined]
 except NameError:
     __all__ = []
@@ -110,9 +95,6 @@ except ImportError:
         """Stub for mesh."""
         return None
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
     __all__  # type: ignore[name-defined]
 except NameError:
     __all__ = []
@@ -127,9 +109,6 @@ except ImportError:
         """Stub for noise."""
         return None
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
     __all__  # type: ignore[name-defined]
 except NameError:
     __all__ = []
@@ -144,9 +123,6 @@ except ImportError:
         """Stub for evolution."""
         return None
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
     __all__  # type: ignore[name-defined]
 except NameError:
     __all__ = []
@@ -161,9 +137,6 @@ except ImportError:
         """Stub for resonance."""
         return None
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
     __all__  # type: ignore[name-defined]
 except NameError:
     __all__ = []

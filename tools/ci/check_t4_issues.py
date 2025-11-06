@@ -16,7 +16,6 @@ Usage:
   python3 tools/ci/check_t4_issues.py --paths lukhas core --json-only
   python3 tools/ci/check_t4_issues.py --paths lukhas --codes F821,F401,B008 --strict
 """
-
 from __future__ import annotations
 
 import argparse
@@ -150,22 +149,13 @@ def validate_annotation(annotation: dict, code: str) -> list[str]:
 
 def run_ruff(paths: list[str], codes: list[str] | None = None) -> dict:
     """Run ruff check and return structured findings."""
-    code_selector = (
-        ",".join(codes)
-        if codes
-        else "F401,F821,B008,B904,B018,SIM102,SIM105,E701,E702,RUF006,RUF012"
-    )
+    code_selector = ",".join(codes) if codes else "F401,F821,B008,B904,B018,SIM102,SIM105,E701,E702,RUF006,RUF012"
 
     cmd = [
-        "python3",
-        "-m",
-        "ruff",
-        "check",
-        "--select",
-        code_selector,
-        "--output-format",
-        "json",
-        *paths,
+        "python3", "-m", "ruff", "check",
+        "--select", code_selector,
+        "--output-format", "json",
+        *paths
     ]
 
     proc = subprocess.run(cmd, cwd=REPO_ROOT, capture_output=True, text=True)
@@ -186,15 +176,13 @@ def run_ruff(paths: list[str], codes: list[str] | None = None) -> dict:
         if any(skip_dir in file_path.parts for skip_dir in SKIP_DIRS):
             continue
 
-        findings.append(
-            {
-                "file": str(file_path.relative_to(REPO_ROOT)),
-                "abs_path": str(file_path),
-                "line": item["location"]["row"],
-                "code": item["code"],
-                "message": item["message"],
-            }
-        )
+        findings.append({
+            "file": str(file_path.relative_to(REPO_ROOT)),
+            "abs_path": str(file_path),
+            "line": item["location"]["row"],
+            "code": item["code"],
+            "message": item["message"],
+        })
 
     return {"findings": findings}
 
@@ -217,8 +205,8 @@ def compute_weighted_quality_score(annotations: list[dict]) -> dict:
                 "missing_owner": [],
                 "missing_ticket": [],
                 "generic_reason": [],
-                "files_by_quality": {},
-            },
+                "files_by_quality": {}
+            }
         }
 
     weighted_good = 0
@@ -256,51 +244,41 @@ def compute_weighted_quality_score(annotations: list[dict]) -> dict:
             # Track specific quality issues
             if status in ("planned", "committed"):
                 if not has_owner:
-                    missing_owner.append(
-                        {
-                            "file": file_path,
-                            "line": line_num,
-                            "code": code,
-                            "status": status,
-                            "id": annot.get("id", "UNKNOWN"),
-                        }
-                    )
+                    missing_owner.append({
+                        "file": file_path,
+                        "line": line_num,
+                        "code": code,
+                        "status": status,
+                        "id": annot.get("id", "UNKNOWN")
+                    })
                 if not has_ticket:
-                    missing_ticket.append(
-                        {
-                            "file": file_path,
-                            "line": line_num,
-                            "code": code,
-                            "status": status,
-                            "id": annot.get("id", "UNKNOWN"),
-                        }
-                    )
+                    missing_ticket.append({
+                        "file": file_path,
+                        "line": line_num,
+                        "code": code,
+                        "status": status,
+                        "id": annot.get("id", "UNKNOWN")
+                    })
 
         # Check for generic reasons
-        if any(
-            generic in reason.lower()
-            for generic in ["kept for future", "reserved", "todo", "fixme", "placeholder"]
-        ):
-            generic_reason.append(
-                {
-                    "file": file_path,
-                    "line": line_num,
-                    "code": code,
-                    "reason": reason,
-                    "id": annot.get("id", "UNKNOWN"),
-                }
-            )
+        if any(generic in reason.lower() for generic in [
+            "kept for future", "reserved", "todo", "fixme", "placeholder"
+        ]):
+            generic_reason.append({
+                "file": file_path,
+                "line": line_num,
+                "code": code,
+                "reason": reason,
+                "id": annot.get("id", "UNKNOWN")
+            })
 
     score = 100.0 * weighted_good / weighted_total if weighted_total > 0 else 100.0
 
     # Sort files by quality issues (worst first)
     files_by_quality = sorted(
-        [
-            (path, data["total"] - data["good"], data["weight"])
-            for path, data in file_quality.items()
-        ],
+        [(path, data["total"] - data["good"], data["weight"]) for path, data in file_quality.items()],
         key=lambda x: (x[1], x[2]),
-        reverse=True,
+        reverse=True
     )[:10]  # Top 10 worst files
 
     return {
@@ -318,7 +296,7 @@ def compute_weighted_quality_score(annotations: list[dict]) -> dict:
                 {"file": path, "issues": issues, "weight": weight}
                 for path, issues, weight in files_by_quality
             ],
-        },
+        }
     }
 
 
@@ -330,18 +308,21 @@ def main():
         "--paths",
         nargs="+",
         default=["lukhas", "core", "api", "consciousness", "memory", "identity", "MATRIZ"],
-        help="Paths to validate (default: production lanes)",
+        help="Paths to validate (default: production lanes)"
     )
     parser.add_argument(
-        "--codes", help="Comma-separated lint codes to check (default: all common codes)"
+        "--codes",
+        help="Comma-separated lint codes to check (default: all common codes)"
     )
     parser.add_argument(
-        "--json-only", action="store_true", help="Output JSON only (no human-readable text)"
+        "--json-only",
+        action="store_true",
+        help="Output JSON only (no human-readable text)"
     )
     parser.add_argument(
         "--strict",
         action="store_true",
-        help="Exit with error on any unannotated or low-quality findings",
+        help="Exit with error on any unannotated or low-quality findings"
     )
     args = parser.parse_args()
 
@@ -411,26 +392,22 @@ def main():
         try:
             lines = file_abs.read_text(encoding="utf-8", errors="ignore").splitlines()
             if line_num < 1 or line_num > len(lines):
-                unannotated.append(
-                    {
-                        "file": finding["file"],
-                        "line": line_num,
-                        "code": code,
-                        "message": "line out of range",
-                    }
-                )
+                unannotated.append({
+                    "file": finding["file"],
+                    "line": line_num,
+                    "code": code,
+                    "message": "line out of range"
+                })
                 continue
 
             line_content = lines[line_num - 1]
         except Exception as e:
-            unannotated.append(
-                {
-                    "file": finding["file"],
-                    "line": line_num,
-                    "code": code,
-                    "message": f"unreadable: {e}",
-                }
-            )
+            unannotated.append({
+                "file": finding["file"],
+                "line": line_num,
+                "code": code,
+                "message": f"unreadable: {e}"
+            })
             continue
 
         # Parse annotation
@@ -450,37 +427,31 @@ def main():
             # Validate quality
             issues = validate_annotation(annotation, code)
             if issues:
-                quality_issues.append(
-                    {
-                        "file": finding["file"],
-                        "line": line_num,
-                        "code": code,
-                        "annotation_id": annotation.get("id"),
-                        "issues": issues,
-                    }
-                )
+                quality_issues.append({
+                    "file": finding["file"],
+                    "line": line_num,
+                    "code": code,
+                    "annotation_id": annotation.get("id"),
+                    "issues": issues
+                })
 
         elif is_legacy_annotation(line_content):
             # Legacy annotation detected
-            legacy_annotations.append(
-                {
-                    "file": finding["file"],
-                    "line": line_num,
-                    "code": code,
-                    "message": "legacy annotation format - migrate to TODO[T4-ISSUE]",
-                }
-            )
+            legacy_annotations.append({
+                "file": finding["file"],
+                "line": line_num,
+                "code": code,
+                "message": "legacy annotation format - migrate to TODO[T4-ISSUE]"
+            })
 
         else:
             # Unannotated
-            unannotated.append(
-                {
-                    "file": finding["file"],
-                    "line": line_num,
-                    "code": code,
-                    "message": finding["message"],
-                }
-            )
+            unannotated.append({
+                "file": finding["file"],
+                "line": line_num,
+                "code": code,
+                "message": finding["message"]
+            })
 
     # Compute metrics
     total_findings = len(findings)
@@ -517,11 +488,11 @@ def main():
     if args.json_only:
         print(json.dumps(result, indent=2))
     else:
-        print("\n" + "=" * 60)
+        print("\n" + "="*60)
         print("🔍 T4 UNIFIED VALIDATOR - Production Lane Policy")
-        print("=" * 60)
+        print("="*60)
         print(json.dumps(result, indent=2))
-        print("=" * 60)
+        print("="*60)
 
         if result["status"] == "pass":
             print("✅ All findings properly annotated!")
@@ -532,16 +503,10 @@ def main():
 
         # Quality breakdown summary
         breakdown = quality_score_data["breakdown"]
-        if (
-            breakdown["missing_owner_count"]
-            or breakdown["missing_ticket_count"]
-            or breakdown["generic_reason_count"]
-        ):
+        if breakdown["missing_owner_count"] or breakdown["missing_ticket_count"] or breakdown["generic_reason_count"]:
             print("\n📊 Quality Score Breakdown:")
-            print(
-                f"   Score: {quality_score_data['score']:.1f}% "
-                + f"({quality_score_data['weighted_good']}/{quality_score_data['weighted_total']} weighted)"
-            )
+            print(f"   Score: {quality_score_data['score']:.1f}% " +
+                  f"({quality_score_data['weighted_good']}/{quality_score_data['weighted_total']} weighted)")
 
             if breakdown["missing_owner_count"]:
                 print(f"\n   ❌ Missing Owner: {breakdown['missing_owner_count']} annotations")
@@ -556,15 +521,13 @@ def main():
             if breakdown["generic_reason_count"]:
                 print(f"\n   ⚠️  Generic Reason: {breakdown['generic_reason_count']} annotations")
                 for item in breakdown["generic_reason"][:3]:
-                    print(f'      • {item["file"]}:{item["line"]}: "{item["reason"][:50]}..."')
+                    print(f"      • {item['file']}:{item['line']}: \"{item['reason'][:50]}...\"")
 
             if breakdown["files_by_quality"]:
                 print("\n   📁 Files Needing Attention (Top 5):")
                 for file_data in breakdown["files_by_quality"][:5]:
-                    print(
-                        f"      • {file_data['file']}: {file_data['issues']} issues "
-                        + f"(weight: {file_data['weight']})"
-                    )
+                    print(f"      • {file_data['file']}: {file_data['issues']} issues " +
+                          f"(weight: {file_data['weight']})")
 
     # Exit code
     if args.strict:

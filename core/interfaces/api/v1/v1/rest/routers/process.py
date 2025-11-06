@@ -4,6 +4,7 @@ import uuid
 from datetime import datetime, timezone
 
 from fastapi import APIRouter, BackgroundTasks, Depends
+
 from interfaces.api.v1.common.errors import ProcessingError, ValidationError
 from interfaces.api.v1.rest.models import ProcessRequest, ProcessResponse, SymbolicState
 
@@ -111,7 +112,4 @@ async def process_request(
     except Exception as e:
         duration = time.time() - start_time
         background_tasks.add_task(record_metrics, request_id, duration, "error")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
         raise ProcessingError(f"Processing failed: {e!s}")

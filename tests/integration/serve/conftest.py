@@ -1,10 +1,8 @@
 # tests/integration/serve/conftest.py
 import os
-from unittest.mock import patch
-
 import pytest
+from unittest.mock import patch
 from fastapi.testclient import TestClient
-
 
 @pytest.fixture
 def client_no_auth():

@@ -163,9 +163,6 @@ class AwarenessAdapter:
         context = content.get("context")
 
         logger.info("Processing awareness update...")
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self.update_awareness(state_data, context))
 
     def _handle_focus_request(self, content: dict[str, Any]) -> None:
@@ -179,9 +176,6 @@ class AwarenessAdapter:
             return
 
         logger.info(f"Focusing attention on: {target}")
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self.focus_attention(target, duration, priority))
 
     def _handle_reflection_request(self, content: dict[str, Any]) -> None:
@@ -190,7 +184,4 @@ class AwarenessAdapter:
         depth = content.get("depth", "normal")
 
         logger.info("Starting system reflection...")
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self.reflect_on_system(targets, depth))

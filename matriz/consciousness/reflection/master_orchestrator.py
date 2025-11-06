@@ -989,28 +989,16 @@ class MasterOrchestrator:
         """Start background monitoring and maintenance tasks"""
 
         # Health monitoring task
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._health_monitoring_loop())
 
         # Performance monitoring task
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._performance_monitoring_loop())
 
         # Request processing loop
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._request_processing_loop())
 
         # LUKHAS cycle monitoring
         if self.config.get("lukhas_cycle_tracking", True):
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
             asyncio.create_task(self._lukhas_cycle_monitoring_loop())
 
     async def _health_monitoring_loop(self):
@@ -1044,9 +1032,6 @@ class MasterOrchestrator:
             try:
                 if self.request_queue:
                     request = self.request_queue.popleft()
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
                     asyncio.create_task(self.orchestrate_request(request))
                 else:
                     await asyncio.sleep(1.0)

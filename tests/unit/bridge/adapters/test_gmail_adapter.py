@@ -187,9 +187,8 @@ class TestGmailAdapterUnit:
     @pytest.mark.asyncio
     async def test_fetch_emails_api_error(self, adapter: GmailAdapter):
         """Test API error when fetching emails."""
-        import re
-
         from aioresponses import aioresponses
+        import re
 
         with aioresponses() as m:
             m.get(

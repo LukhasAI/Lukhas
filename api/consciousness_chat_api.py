@@ -10,14 +10,15 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+from fastapi import Body, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
+
 from consciousness.interfaces.natural_language_interface import (
     ConversationManager,
     NaturalLanguageConsciousnessInterface,
 )
 from core.common import get_logger
-from fastapi import Body, FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
 
 logger = get_logger(__name__)
 
@@ -210,9 +211,6 @@ async def chat(request: ChatRequest):
 
     except Exception as e:
         logger.error(f"Error processing chat request: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=f"Error processing request: {e!s}")
 
 

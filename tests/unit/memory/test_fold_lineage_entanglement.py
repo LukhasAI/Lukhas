@@ -1,7 +1,7 @@
 """Unit tests for fold lineage entanglement detection."""
 
-import importlib.util
 import sys
+import importlib.util
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]

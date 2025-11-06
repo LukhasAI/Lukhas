@@ -5,9 +5,9 @@ Uses Redis Sorted Sets (ZADD/BZPOPMIN) for atomic priority queueing.
 import asyncio
 import json
 import logging
+from typing import Any, Optional
 from datetime import datetime
 from enum import IntEnum
-from typing import Any, Optional
 
 import redis.asyncio as redis
 from pydantic import BaseModel, Field

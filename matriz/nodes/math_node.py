@@ -410,14 +410,8 @@ class MathNode(CognitiveNode):
             return result
 
         except ZeroDivisionError:
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
             raise ZeroDivisionError("Division by zero")
         except Exception as e:
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
             raise ValueError(f"Evaluation failed: {e!s}")
 
     def _eval_ast_node(self, node: ast.AST) -> Union[float, int]:

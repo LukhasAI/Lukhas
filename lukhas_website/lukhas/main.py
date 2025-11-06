@@ -21,14 +21,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
 
-# Import API routers
-from identity.webauthn_api import router as webauthn_router
-from orchestration.api import router as orchestration_router
-
 # Import observability
 from prometheus_client import Counter, Gauge, Histogram, make_asgi_app
 
 from governance.guardian import get_guardian_status
+
+# Import API routers
+from identity.webauthn_api import router as webauthn_router
+from orchestration.api import router as orchestration_router
 
 logger = logging.getLogger(__name__)
 

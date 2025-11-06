@@ -1,9 +1,7 @@
 """Unit tests for the EmotionMapper class."""
 from __future__ import annotations
-
 import pytest
 from core.emotion.emotion_mapper_alt import EmotionMapper, EmotionProfile
-
 
 def test_initialization_default():
     """Test that the EmotionMapper initializes with default profiles."""

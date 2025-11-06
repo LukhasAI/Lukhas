@@ -82,9 +82,6 @@ class ProviderRegistry:
 
         except ImportError as e:
             logger.error(f"Failed to load OpenAI provider: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
             raise ImportError(
                 f"Cannot import OpenAI provider from labs. "
                 f"Ensure labs.consciousness.reflection.openai_modulated_service is available. "
@@ -151,9 +148,6 @@ class ProviderRegistry:
 
         except ImportError as e:
             logger.error(f"Failed to load consciousness service: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
             raise ImportError(
                 f"Cannot import consciousness service from labs. "
                 f"Ensure candidate.consciousness is available. "
@@ -220,9 +214,6 @@ class ProviderRegistry:
 
         except ImportError as e:
             logger.error(f"Failed to load memory service: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
             raise ImportError(
                 f"Cannot import memory service from labs. "
                 f"Ensure candidate.memory is available. "
@@ -317,9 +308,6 @@ class ProviderRegistry:
 
         except ImportError as e:
             logger.error(f"Failed to load identity service: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
             raise ImportError(
                 f"Cannot import identity service from labs. "
                 f"Ensure candidate.identity is available. "
@@ -390,9 +378,6 @@ class ProviderRegistry:
 
         except ImportError as e:
             logger.error(f"Failed to load governance service: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
             raise ImportError(
                 f"Cannot import governance service. "
                 f"Ensure governance modules are available. "

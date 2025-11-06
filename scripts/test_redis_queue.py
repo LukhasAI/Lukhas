@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Test Redis queue implementation"""
 import asyncio
-import sys
 import uuid
+import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))

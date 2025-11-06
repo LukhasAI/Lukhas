@@ -7,7 +7,6 @@ sys.modules['_bridgeutils'] = MagicMock()
 import pytest
 from decision_engine import ConsciousnessDecisionEngine
 
-
 def test_decision_engine_initialization():
     """Test that the ConsciousnessDecisionEngine can be initialized."""
     engine = ConsciousnessDecisionEngine()

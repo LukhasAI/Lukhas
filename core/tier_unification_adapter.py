@@ -28,6 +28,7 @@ from functools import wraps
 from typing import Any, Callable
 
 import structlog
+
 from core.identity_integration import TierMappingConfig, get_identity_client
 
 logger = logging.getLogger(__name__)
@@ -127,9 +128,6 @@ class EmotionalTierAdapter(TierSystemAdapter):
             self.EmotionalTier = None
             logger.warning("EmotionalTier not available")
 
-# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Async import or consciousness module lazy loading pattern
-# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
     def to_lambda_tier(self, tier: str | EmotionalTier) -> str:
         """Convert EmotionalTier (T0-T5) to LAMBDA_TIER."""
         if self.EmotionalTier and hasattr(tier, "name"):
@@ -142,9 +140,6 @@ class EmotionalTierAdapter(TierSystemAdapter):
         mapping = TierMappingConfig.LAMBDA_TO_EMOTIONAL
         return mapping.get(lambda_tier, "T1")
 
-# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Async import or consciousness module lazy loading pattern
-# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
     def validate_access(self, user_id: str, required_tier: str | EmotionalTier) -> bool:
         """Validate user access using central identity system."""
         if not self.client:
@@ -336,9 +331,6 @@ def oneiric_tier_required(tier: int):
     return adapter.create_unified_decorator(tier, "oneiric")
 
 
-# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Async import or consciousness module lazy loading pattern
-# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
 def emotional_tier_required(tier: str | EmotionalTier):
     """Decorator for DreamSeed Emotional tier requirements."""
     adapter = get_unified_adapter()

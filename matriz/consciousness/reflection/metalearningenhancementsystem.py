@@ -122,9 +122,6 @@ class MetaLearningEnhancementsystem:
 
         # System state and integration tracking
         self.enhanced_systems: list[Any] = []
-# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Async import or consciousness module lazy loading pattern
-# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
         self.integration_status = SystemIntegrationStatus(
             meta_learning_systems_found=0,
             systems_enhanced=0,
@@ -1081,9 +1078,6 @@ async def initialize_meta_learning_enhancement(
     enhancement_mode: EnhancementMode = EnhancementMode.OPTIMIZATION_ACTIVE,
     enable_federation: bool = False,
     auto_discover: bool = True,
-# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Async import or consciousness module lazy loading pattern
-# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
 ) -> MetaLearningEnhancementSystem:
     """
     Initialize the Meta-Learning Enhancement System for LUKHAS
@@ -1095,9 +1089,6 @@ async def initialize_meta_learning_enhancement(
     logger.info(f"Initializing Meta-Learning Enhancement System for {node_id}")
 
     # Create enhancement system
-# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Async import or consciousness module lazy loading pattern
-# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
     enhancement_system = MetaLearningEnhancementSystem(
         node_id=node_id,
         enhancement_mode=enhancement_mode,

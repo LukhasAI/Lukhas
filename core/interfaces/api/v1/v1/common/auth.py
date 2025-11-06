@@ -199,9 +199,6 @@ async def verify_api_key(x_api_key: str = Header(...), request: Request = None) 
         # Log unexpected errors
         logger.error("Unexpected error in API key validation", error=str(e))
         _audit_auth_attempt(api_key if "api_key" in locals() else "", False, request)
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail="Authentication service error")
 
 

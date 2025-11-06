@@ -55,6 +55,7 @@ from typing import Any
 
 import aiohttp
 import numpy as np
+
 from core.common.config import get_config
 
 logger = logging.getLogger(__name__)
@@ -216,15 +217,9 @@ class ConsensusProtocol:
         """Start the distributed node"""
 
         # Start heartbeat timer
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._heartbeat_timer())
 
         # Start election timer
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._election_timer())
 
         # Start HTTP server for node communication

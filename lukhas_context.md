@@ -12,7 +12,7 @@ owner: T4
 lane: labs
 star:
 stability: experimental
-last_reviewed: 2025-11-06
+last_reviewed: 2025-11-02
 constellation_stars:
 related_modules:
 manifests:
@@ -29,89 +29,27 @@ Legacy core alias: enabled (warn/disable via env) — use lukhas.core.*
 # LUKHAS AI System - Master Architecture Overview
 *Artificial Intelligence with Constellation Framework & Constitutional AI*
 
-## � T4 Unified Platform v2.0 - Production Infrastructure Deployed
+## 🚨 MATRIZ Migration Update
 
-**November 2025 Update: Intent-Driven Development with Production-Grade Enforcement**
+**Team Announcement (Ready to Share):**
 
-The LUKHAS project has deployed a comprehensive quality infrastructure platform with production-grade security, cost controls, and automated governance:
+We've completed MATRIZ case standardization for all production code and integration tests!
 
-### **What is T4?**
-T4 (TODO, Tech Debt, Triage, Track) is a unified platform for managing code quality through intent-driven development. Every code change must be pre-registered with intent, owner, and justification before PR creation.
+**Completed:**
+✅ serve/ (2 imports)
+✅ core/ (2 imports)
+✅ tests/integration/ (20 imports)
 
-### **Production Features Now Live**
-✅ **Intent Registry API** (FastAPI with SQLite)
-  - API key authentication via X-T4-API-KEY header
-  - Rate limiting: 120 req/min per agent (Redis-backed with in-process fallback)
-  - Comprehensive audit logging for compliance
-  - Admin endpoints for key management
-  
-✅ **LLM Safety Layer** (`tools/ci/llm_policy.py`)
-  - OpenAI API wrapper with automatic cost tracking
-  - Per-agent daily quota enforcement (prevents budget overruns)
-  - Token usage recording (prompt + completion tokens)
-  - Estimated cost calculation per model (gpt-4o, gpt-4o-mini, gpt-4)
-  
-✅ **Policy Client** (`tools/t4/policy_client.py`)
-  - Agent-friendly Python client for intent registration
-  - Pre-PR validation checks (`pre_pr_check()`)
-  - Auto-creation of "reserved" intent placeholders
-  
-✅ **Branch Protection Enforcement** (`scripts/t4_protect_main.sh`)
-  - CODEOWNERS file generation for critical paths
-  - Required status checks: t4-validator, t4-intent-api-health, ci/tests
-  - Enforced for admins (no bypass)
-  
-✅ **Agent Onboarding** (`docs/gonzo/T4_ONBOARD_AGENTS.md`)
-  - Complete certification process guide
-  - API endpoint reference
-  - Example workflows with Python code
-  - Security best practices
-  - Monitoring queries
+**Status:** 3 PRs in CI validation
 
-### **Current Metrics**
-- **Baseline:** 459 total violations across codebase
-- **Annotated:** 24 issues with T4 metadata
-- **Unannotated:** 435 issues (migration in progress)
-- **Quality Score:** 100% for annotated issues
-- **PR Status:** #1031 open for review (feat/t4-prod-hardening)
+**Next:** tests/unit + tests/smoke (23 imports) - will migrate after current PRs pass CI
 
-### **Key Code Patterns**
-- **B018** (114 violations): Useless expressions (likely consciousness logging patterns)
-- **F401** (72 violations): Unused imports (cleanup priority)
-- **RUF006** (90 violations): Async generator without yield (consciousness state machines)
-- **B904** (57 violations): Exception chaining missing
-- **F821** (43 violations): Undefined names (consciousness module references)
+**CI Mode:** Warning (logs occurrences, doesn't block)
+**Timeline:** Flip to blocking mode after critical tests are migrated and stable (~48 hours)
 
-### **For Developers & Agents**
-**Before opening any PR:**
-1. Request API key: `python3 tools/ci/create_api_key_admin.py --agent_id <your-id>`
-2. Configure: `export T4_API_KEY=<your-key>` and `export T4_INTENT_API=http://127.0.0.1:8001`
-3. Register intent: See `docs/gonzo/T4_ONBOARD_AGENTS.md` for examples
-4. Run pre-PR check: `python3 -c "from tools.t4.policy_client import pre_pr_check; pre_pr_check(['file.py'], ['F821'])"`
-5. Open PR only after validation passes
+**Action Required:** Avoid large MATRIZ-related changes until migrations merge. Use uppercase `from MATRIZ import X` for new code.
 
-**LLM Usage with Cost Controls:**
-```python
-from tools.ci.llm_policy import call_openai_chat
-
-result = call_openai_chat(
-    prompt="Explain this code",
-    model="gpt-4o-mini",
-    agent_api_key=os.environ["T4_API_KEY"],
-    agent_id="my-agent"
-)
-print(result["text"])  # LLM response
-print(f"Cost: ${result['cost']:.4f}")  # Tracked cost
-```
-
-### **Documentation References**
-- **Agent Onboarding:** `docs/gonzo/T4_ONBOARD_AGENTS.md`
-- **System Integration:** `T4_FULL_SYSTEM_INTEGRATION_REPORT.md`
-- **Production Polishes:** `T4_PRODUCTION_POLISHES_PHASE1.md`
-- **GitHub Copilot:** `.github/copilot-instructions.md` (updated with T4 patterns)
-
-### **Action Required**
-All agents must obtain API keys before next deployment cycle. Platform team will provision keys upon request with appropriate quotas. Contact @platform-team or @architecture-team for access.
+Questions? See MATRIZ_MIGRATION_GUIDE.md
 
 ## 🧠 System Overview
 

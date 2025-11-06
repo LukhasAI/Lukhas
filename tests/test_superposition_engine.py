@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import math
-
 import pytest
 
 from candidate.quantum.superposition_engine import QuantumSuperpositionEngine

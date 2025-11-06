@@ -5,7 +5,7 @@ owner: T4
 lane: labs
 star:
 stability: experimental
-last_reviewed: 2025-11-06
+last_reviewed: 2025-11-02
 constellation_stars:
 related_modules:
 manifests:
@@ -22,29 +22,27 @@ Legacy core alias: enabled (warn/disable via env) — use lukhas.core.*
 # LUKHAS AI System - Master Architecture Overview
 *Artificial Intelligence with Constellation Framework & Constitutional AI*
 
-## � T4 Unified Platform v2.0 - PRODUCTION READY
+## 🚨 MATRIZ Migration Update
 
-**Major Update: Intent-Driven Development Infrastructure Deployed**
+**Team Announcement (Ready to Share):**
 
-✅ **Production-Grade Intent API** with authentication, rate limiting, audit logging  
-✅ **LLM Safety Layer** with cost tracking & daily quota enforcement  
-✅ **Policy Client** for agent integration and pre-PR validation  
-✅ **Branch Protection** enforced via CODEOWNERS & required status checks  
-✅ **Agent Onboarding** complete with comprehensive runbook
+We've completed MATRIZ case standardization for all production code and integration tests!
 
-**Baseline Metrics:** 459 violations tracked, 100% annotation quality score  
-**Status:** PR #1031 open for review (feat/t4-prod-hardening)  
-**Documentation:** See `docs/gonzo/T4_ONBOARD_AGENTS.md` for agent integration
+**Completed:**
+✅ serve/ (2 imports)
+✅ core/ (2 imports)
+✅ tests/integration/ (20 imports)
 
-**What This Means:**
-- All code changes require registered intents via Intent API
-- LLM usage tracked with per-agent daily quotas (cost controls)
-- Automated pre-PR checks prevent unvalidated changes
-- Full audit trail for compliance & debugging
+**Status:** 3 PRs in CI validation
 
-**Action Required:** Agents must obtain API keys before next deployment cycle. Run `python3 tools/ci/create_api_key_admin.py --agent_id <your-id>` or request from platform team.
+**Next:** tests/unit + tests/smoke (23 imports) - will migrate after current PRs pass CI
 
-Questions? See T4_ONBOARD_AGENTS.md or contact @platform-team
+**CI Mode:** Warning (logs occurrences, doesn't block)
+**Timeline:** Flip to blocking mode after critical tests are migrated and stable (~48 hours)
+
+**Action Required:** Avoid large MATRIZ-related changes until migrations merge. Use uppercase `from MATRIZ import X` for new code.
+
+Questions? See MATRIZ_MIGRATION_GUIDE.md
 
 ## 🧠 System Overview
 

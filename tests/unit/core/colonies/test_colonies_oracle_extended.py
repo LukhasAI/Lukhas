@@ -1,8 +1,8 @@
-import asyncio
-import sys
-from unittest.mock import AsyncMock, MagicMock, patch
-
 import pytest
+import asyncio
+from unittest.mock import patch, MagicMock, AsyncMock
+
+import sys
 
 # Mock the labs module and its classes before importing oracle_colony
 mock_labs_openai_mod = MagicMock()
@@ -15,10 +15,10 @@ sys.modules['labs.consciousness.reflection.openai_core_service'] = mock_labs_ope
 
 # Now we can import the module to be tested
 from core.colonies.oracle_colony import (
-    OracleAgent,
-    OracleColony,
     OracleQuery,
     OracleResponse,
+    OracleAgent,
+    OracleColony,
     get_oracle_colony,
 )
 
@@ -157,7 +157,7 @@ async def test_oracle_colony_predict_system_drift():
 
 async def test_convenience_functions():
     """Test the convenience functions predict, dream, and prophecy."""
-    from core.colonies.oracle_colony import dream, predict, prophecy
+    from core.colonies.oracle_colony import predict, dream, prophecy
 
     with patch('core.colonies.oracle_colony.get_oracle_colony') as mock_get_colony:
         mock_colony = AsyncMock()

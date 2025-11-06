@@ -792,13 +792,7 @@ class ComprehensiveAuditSystem:
 
     def _start_background_tasks(self):
         """Start background processing tasks"""
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._buffer_flush_task())
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._retention_cleanup_task())
 
     async def log_event(

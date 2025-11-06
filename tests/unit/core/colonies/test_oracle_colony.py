@@ -1,11 +1,10 @@
+import pytest
 import asyncio
+from unittest.mock import patch, MagicMock, AsyncMock
 
 # Since oracle_colony uses importlib to load labs symbols, we need to do some setup
 # before importing the module to ensure the symbols are available for patching.
 import sys
-from unittest.mock import AsyncMock, MagicMock, patch
-
-import pytest
 
 # Mock the labs module and its classes before importing oracle_colony
 mock_labs_openai_mod = MagicMock()
@@ -18,10 +17,10 @@ sys.modules['labs.consciousness.reflection.openai_core_service'] = mock_labs_ope
 
 # Now we can import the module to be tested
 from core.colonies.oracle_colony import (  # noqa: E402 - test stubs must populate sys.modules before import
-    OracleAgent,
-    OracleColony,
     OracleQuery,
     OracleResponse,
+    OracleAgent,
+    OracleColony,
     get_oracle_colony,
 )
 
