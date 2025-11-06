@@ -37,7 +37,7 @@ class _FallbackAdapter:
 def _ensure(name: str, factory: type | None = None) -> None:
     if name in globals():
         return
-    target = factory if factory is not None else _FallbackAdapter  # TODO: _FallbackAdapter
+    target = factory if factory is not None else _FallbackAdapter
     globals()[name] = target
     __all__.append(name)
 
@@ -59,4 +59,4 @@ class _BridgeTraceLogger:
 
 _ensure("BridgeTraceLogger", _BridgeTraceLogger)
 
-del _mod, _exports, _ensure, _FallbackAdapter, _BridgeTraceLogger
+del _mod, _exports

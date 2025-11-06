@@ -58,6 +58,10 @@ try:
     )
 except Exception:  # pragma: no cover - fallback for import-time safety
     from datetime import datetime as _dt, timezone as _tz
+    from labs.core.orchestration.brain.GlobalInstitutionalFramework import (
+        GlobalConsentData,
+        InstitutionalProcessingRecord,
+    )
     from enum import Enum as _Enum
 
     from pydantic import BaseModel as _BaseModel

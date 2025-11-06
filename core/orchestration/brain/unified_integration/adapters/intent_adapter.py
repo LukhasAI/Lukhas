@@ -14,6 +14,12 @@ from typing import Any, Optional
 
 import numpy as np
 
+from qi.bio.bio_components import (
+    CardiolipinEncoder,
+    CristaFilter,
+    ProtonGradient,
+    QIAttentionGate,
+)
 from ..unified_node import UnifiedNode
 
 logger = logging.getLogger(__name__)
