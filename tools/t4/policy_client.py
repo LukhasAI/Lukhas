@@ -1,30 +1,35 @@
 # tools/t4/policy_client.py
 from __future__ import annotations
+
 import os
-import requests
 import time
-from datetime import datetime
+
+import requests
 
 T4_API = os.environ.get("T4_INTENT_API", "http://127.0.0.1:8001")
 T4_KEY = os.environ.get("T4_API_KEY")
 
+
 def _hdrs():
-    h = {"Content-Type":"application/json"}
+    h = {"Content-Type": "application/json"}
     if T4_KEY:
         h["X-T4-API-KEY"] = T4_KEY
     return h
 
+
 def register_intent(payload: dict):
     r = requests.post(f"{T4_API}/intents", headers=_hdrs(), json=payload, timeout=10)
-    if r.status_code not in (200,201):
+    if r.status_code not in (200, 201):
         raise RuntimeError(f"register_intent failed: {r.status_code} {r.text}")
     return r.json()
+
 
 def intents_by_file(file: str):
     r = requests.get(f"{T4_API}/intents/by_file?file={file}", headers=_hdrs(), timeout=5)
     if r.status_code != 200:
         return []
     return r.json()
+
 
 def pre_pr_check(files: list, critical_codes: list = None, auto_create_reserved: bool = True):
     missing = []
@@ -40,7 +45,7 @@ def pre_pr_check(files: list, critical_codes: list = None, auto_create_reserved:
             missing.append(f)
             if auto_create_reserved:
                 payload = {
-                    "id": f"t4-auto-{int(time.time())}-{abs(hash(f))%99999}",
+                    "id": f"t4-auto-{int(time.time())}-{abs(hash(f)) % 99999}",
                     "code": (critical_codes[0] if critical_codes else "F821"),
                     "type": "lint",
                     "file": f,
