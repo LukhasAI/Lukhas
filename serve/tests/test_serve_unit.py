@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import serve  # noqa: F401  # TODO: serve; consider using importli...
+    import serve  # TODO: serve; consider using importli...
 except ImportError:
     pytest.skip("Module serve not available", allow_module_level=True)
 

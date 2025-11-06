@@ -2,7 +2,7 @@
 import importlib as _importlib
 
 try:
-    from governance.identity import *  # noqa: F403
+    from governance.identity import *
 except ImportError:
     try:
         _mod = _importlib.import_module("labs.governance.identity")

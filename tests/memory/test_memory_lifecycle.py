@@ -11,6 +11,7 @@ from unittest.mock import patch
 
 import numpy as np
 import pytest
+
 from memory.backends.base import AbstractVectorStore, VectorDocument
 from memory.lifecycle import (
     AbstractArchivalBackend,
@@ -48,7 +49,7 @@ class MockVectorStore(AbstractVectorStore):
 
     async def get(self, document_id):
         if document_id in self.deleted_ids:
-            raise DocumentNotFoundError(f"Document {document_id} not found")  # noqa: F821  # TODO: DocumentNotFoundError
+            raise DocumentNotFoundError(f"Document {document_id} not found")  # TODO: DocumentNotFoundError
         return self.documents.get(document_id)
 
     async def update(self, document):

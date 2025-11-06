@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import personality  # noqa: F401  # TODO: personality; consider using im...
+    import personality  # TODO: personality; consider using im...
 except ImportError:
     pytest.skip("Module personality not available", allow_module_level=True)
 

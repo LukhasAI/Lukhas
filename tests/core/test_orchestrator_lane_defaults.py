@@ -16,7 +16,6 @@ class TestOrchestratorLaneDefaults:
 
     def test_default_lane_is_canary(self):
         """MATRIZ Orchestrator must default to 'canary' lane for safer rollouts"""
-        import os
         with patch.dict(os.environ, {}, clear=True):
             default_lane = os.getenv('LUKHAS_LANE', 'canary').lower()
             assert default_lane == 'canary', f"Default lane is '{default_lane}', should be 'canary'"
@@ -26,7 +25,6 @@ class TestOrchestratorLaneDefaults:
         test_cases = [('production', 'production'), ('labs', 'labs'), ('experimental', 'experimental'), ('custom', 'custom')]
         for (env_value, expected) in test_cases:
             with patch.dict(os.environ, {'LUKHAS_LANE': env_value}):
-                import os
                 lane = os.getenv('LUKHAS_LANE', 'canary').lower()
                 assert lane == expected, f"Expected '{expected}', got '{lane}' for LUKHAS_LANE='{env_value}'"
 
@@ -45,7 +43,6 @@ class TestOrchestratorLaneDefaults:
         lane_progression = ['experimental', 'canary', 'production']
         for lane in lane_progression:
             with patch.dict(os.environ, {'LUKHAS_LANE': lane}):
-                import os
                 resolved_lane = os.getenv('LUKHAS_LANE', 'canary').lower()
                 assert resolved_lane == lane
                 from matriz.core.async_orchestrator import AsyncOrchestrator
@@ -57,7 +54,6 @@ class TestOrchestratorLaneDefaults:
         test_cases = [('CANARY', 'canary'), ('Production', 'production'), ('EXPERIMENTAL', 'experimental'), ('Candidate', 'labs')]
         for (env_value, expected) in test_cases:
             with patch.dict(os.environ, {'LUKHAS_LANE': env_value}):
-                import os
                 lane = os.getenv('LUKHAS_LANE', 'canary').lower()
                 assert lane == expected, f"Expected '{expected}', got '{lane}' for LUKHAS_LANE='{env_value}'"
 
@@ -74,7 +70,6 @@ class TestOrchestratorLaneDefaults:
     def test_production_safety_check(self):
         """Production lane should be explicitly set, not defaulted to"""
         with patch.dict(os.environ, {}, clear=True):
-            import os
             lane = os.getenv('LUKHAS_LANE', 'canary').lower()
             assert lane != 'production', 'Must not default to production lane for safety'
             assert lane != 'prod', 'Must not default to prod lane for safety'

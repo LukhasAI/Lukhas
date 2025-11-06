@@ -517,7 +517,7 @@ class VIVOXERNIntegratedSystem:
 
     def __init__(
         self,
-        vivox_ern: "VIVOXEmotionalRegulationNetwork",  # noqa: F821  # TODO: VIVOXEmotionalRegulationNetwor...
+        vivox_ern: "VIVOXEmotionalRegulationNetwork",  # TODO: VIVOXEmotionalRegulationNetwor...
         event_bus: Optional[TypedEventBus] = None,
     ):
         self.vivox_ern = vivox_ern

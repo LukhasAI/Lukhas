@@ -1,7 +1,8 @@
 from datetime import datetime, timezone
 
 from fastapi import APIRouter
-from ..models import MetricsResponse
+
+from interfaces.api.v1.rest.models import MetricsResponse
 
 router = APIRouter()
 

@@ -38,6 +38,7 @@ import unittest
 
 import numpy as np
 from bio.symbolic import BioSymbolicOrchestrator as BioOrchestrator
+
 from core.bio_systems.qi_layer import QIBioOscillator
 
 __module_name__ = "Quantum Integration"
@@ -49,7 +50,7 @@ logger = logging.getLogger(__name__)
 class TestQuantumIntegration(unittest.TestCase):
     def setUp(self):
         # Configure quantum settings for faster testing
-        self.qi_config = QIConfig(  # noqa: F821  # TODO: QIConfig
+        self.qi_config = QIConfig(  # TODO: QIConfig
             coherence_threshold=0.85,
             entanglement_threshold=0.95,
             decoherence_rate=0.1,  # Higher rate for faster testing
@@ -66,7 +67,7 @@ class TestQuantumIntegration(unittest.TestCase):
     def test_superposition_transition(self):
         """Test transition to superposition state"""
         # Initially in classical state
-        self.assertEqual(self.osc1.qi_like_state, QILikeState.CLASSICAL)  # noqa: F821  # TODO: QILikeState
+        self.assertEqual(self.osc1.qi_like_state, QILikeState.CLASSICAL)  # TODO: QILikeState
 
         # Simulate high coherence
         self.osc1.metrics["coherence"] = 0.9
@@ -74,7 +75,7 @@ class TestQuantumIntegration(unittest.TestCase):
         # Should enter superposition
         success = self.osc1.enter_superposition()
         self.assertTrue(success)
-        self.assertEqual(self.osc1.qi_like_state, QILikeState.SUPERPOSITION)  # noqa: F821  # TODO: QILikeState
+        self.assertEqual(self.osc1.qi_like_state, QILikeState.SUPERPOSITION)  # TODO: QILikeState
 
     def test_entanglement(self):
         """Test entanglement between oscillators"""
@@ -91,8 +92,8 @@ class TestQuantumIntegration(unittest.TestCase):
         self.assertTrue(success)
 
         # Both should be in entangled state
-        self.assertEqual(self.osc1.qi_like_state, QILikeState.ENTANGLED)  # noqa: F821  # TODO: QILikeState
-        self.assertEqual(self.osc2.qi_like_state, QILikeState.ENTANGLED)  # noqa: F821  # TODO: QILikeState
+        self.assertEqual(self.osc1.qi_like_state, QILikeState.ENTANGLED)  # TODO: QILikeState
+        self.assertEqual(self.osc2.qi_like_state, QILikeState.ENTANGLED)  # TODO: QILikeState
 
     def test_decoherence(self):
         """Test natural decoherence process"""
@@ -105,7 +106,7 @@ class TestQuantumIntegration(unittest.TestCase):
         self.osc1.update_quantum_like_state()
 
         # Should return to classical
-        self.assertEqual(self.osc1.qi_like_state, QILikeState.CLASSICAL)  # noqa: F821  # TODO: QILikeState
+        self.assertEqual(self.osc1.qi_like_state, QILikeState.CLASSICAL)  # TODO: QILikeState
 
     def test_measurement(self):
         """Test probabilistic observation"""
@@ -118,7 +119,7 @@ class TestQuantumIntegration(unittest.TestCase):
         phase, state = self.osc1.measure_state()
 
         # Verify measurement
-        self.assertEqual(state, QILikeState.CLASSICAL)  # noqa: F821  # TODO: QILikeState
+        self.assertEqual(state, QILikeState.CLASSICAL)  # TODO: QILikeState
         self.assertTrue(any(np.isclose(phase, exp_phase) for exp_phase in expected_phases))
 
     def test_orchestrator_quantum_management(self):

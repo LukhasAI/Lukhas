@@ -93,7 +93,7 @@ try:
     # replay_recent_dreams  # TODO: Install or implement AID
     from ...bio_core.memory.qi_memory_manager import QIMemoryManager
     from ...bio_symbolic_.glyph_id_hash import (
-        GlyphIDHasher,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
+        GlyphIDHasher,  # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
     )
 
     # Note: extra underscore in original path, assuming typo and it's bio_symbolic

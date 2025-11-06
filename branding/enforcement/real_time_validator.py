@@ -638,11 +638,7 @@ class RealTimeBrandValidator:
         performance_factor = max(0.5, 1.0 - (performance_impact / 1000))  # Penalize slow validation
 
         # Issue detection confidence
-        if not issues:
-            issue_confidence = 1.0  # High confidence when no issues found
-        else:
-            # Lower confidence with more issues (may indicate content complexity)
-            issue_confidence = max(0.3, 1.0 - (len(issues) / 20))
+        issue_confidence = 1.0 if not issues else max(0.3, 1.0 - (len(issues) / 20))
 
         # Combine factors
         overall_confidence = (

@@ -28,14 +28,11 @@ Status: GOLDEN FEATURE - FLAGSHIP CANDIDATE
 
 from __future__ import annotations
 
-import datetime
-import logging
 from datetime import datetime, timezone
 
 import numpy as np
-from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+from core.common import get_logger
 
 logger = get_logger(__name__)
 

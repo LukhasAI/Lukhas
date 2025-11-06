@@ -76,7 +76,7 @@ def _load_summary(path: Path) -> str:
 
 
 def _timestamp() -> str:
-    return dt.datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+    return dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
 
 
 def generate_report(summary_path: Path = DEFAULT_SUMMARY) -> dict[str, object]:

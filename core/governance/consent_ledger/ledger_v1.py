@@ -1202,10 +1202,7 @@ class PolicyEngine:
 
         # Check for rapid deletion pattern
         recent_deletes = context.get("recent_delete_count", 0)
-        if recent_deletes > 5:  # More than 5 deletes in session
-            return True
-
-        return False
+        return recent_deletes > 5  # More than 5 deletes in session
 
     def _detect_jailbreak(self, input_text: str) -> bool:
         """Detect jailbreak attempts in user input"""

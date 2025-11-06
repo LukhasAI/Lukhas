@@ -32,7 +32,7 @@ import structlog
 
 # Import existing LUKHAS WebAuthn infrastructure
 try:
-    from .webauthn import (  # noqa: F401  # TODO: .webauthn.WebAuthnCredential; ...
+    from .webauthn import (  # TODO: .webauthn.WebAuthnCredential; ...
         WebAuthnCredential,
         WebAuthnManager,
     )
@@ -652,11 +652,8 @@ class EnhancedWebAuthnService:
             if len(signature) < 64:  # Minimum signature length
                 return False
 
-            if len(authenticator_data) < 37:  # Minimum authenticator data length
-                return False
-
             # Mock success for well-formed requests
-            return True
+            return len(authenticator_data) >= 37  # Minimum authenticator data length
 
         except Exception:
             return False

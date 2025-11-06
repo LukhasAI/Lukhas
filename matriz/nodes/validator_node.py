@@ -22,7 +22,7 @@ import math
 import operator
 import re
 import time
-from typing import Any, Union
+from typing import Any
 
 from matriz.core.node_interface import (
     CognitiveNode,
@@ -720,10 +720,7 @@ class ValidatorNode(CognitiveNode):
                 issues.append(f"High confidence variance across strategies: {confidence_variance:.3f}")
 
             # Calculate cross-validation confidence
-            if all_agree_valid or all_agree_invalid:
-                base_confidence = 0.9
-            else:
-                base_confidence = 0.5  # Lower confidence when strategies disagree
+            base_confidence = 0.9 if (all_agree_valid or all_agree_invalid) else 0.5  # Lower confidence when strategies disagree
 
             # Adjust based on individual strategy confidences
             avg_confidence = sum(confidences) / len(confidences)
@@ -893,7 +890,7 @@ class ValidatorNode(CognitiveNode):
 
         return any(re.search(pattern, text, re.IGNORECASE) for pattern in factual_patterns)
 
-    def _safe_eval_expression(self, expression: str) -> Union[float, int]:
+    def _safe_eval_expression(self, expression: str) -> float | int:
         """Safely evaluate a mathematical expression."""
         try:
             # Simple validation and evaluation
@@ -917,7 +914,7 @@ class ValidatorNode(CognitiveNode):
         except Exception:
             raise ValueError("Cannot evaluate expression")
 
-    def _eval_ast_node(self, node: ast.AST) -> Union[float, int]:
+    def _eval_ast_node(self, node: ast.AST) -> float | int:
         """Recursively evaluate AST node safely."""
         if isinstance(node, ast.Constant):
             return node.value

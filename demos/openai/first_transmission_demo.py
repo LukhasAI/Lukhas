@@ -10,6 +10,7 @@ import sys
 from pathlib import Path
 
 import yaml
+
 from governance.identity.gateway.stargate_activation import StargateActivator
 
 # Add project root to path

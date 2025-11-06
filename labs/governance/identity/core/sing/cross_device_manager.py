@@ -17,7 +17,7 @@ Features:
 import hashlib
 import secrets
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 
 try:
@@ -51,13 +51,14 @@ class DeviceTrustScore:
 
             # Registration age factor
             reg_date = datetime.fromisoformat(device_data.get("registered_at", "2024-01-01"))
-            age_days = (datetime.utcnow() - reg_date).days
+            now_naive_utc = datetime.now(timezone.utc).replace(tzinfo=None)
+            age_days = (now_naive_utc - reg_date).days
             age_score = min(age_days / 90.0, 1.0)  # Max score at 90 days
             score += age_score * self.trust_factors["registration_age"]
 
             # Usage frequency factor
             last_used = datetime.fromisoformat(device_data.get("last_used", "2024-01-01"))
-            days_since_use = (datetime.utcnow() - last_used).days
+            days_since_use = (now_naive_utc - last_used).days
             usage_score = max(1.0 - (days_since_use / 30.0), 0.0)  # Decay over 30 days
             score += usage_score * self.trust_factors["usage_frequency"]
 
@@ -158,12 +159,13 @@ class CrossDeviceTokenManager:
             encrypted_token = self._encrypt_token(token, device_id)
 
             # Create sync record
+            now_naive_utc = datetime.now(timezone.utc).replace(tzinfo=None)
             sync_record = {
                 "token": encrypted_token,
                 "device_id": device_id,
                 "user_id": user_id,
-                "synced_at": datetime.utcnow().isoformat(),
-                "expires_at": (datetime.utcnow() + timedelta(hours=24)).isoformat(),
+                "synced_at": now_naive_utc.isoformat(),
+                "expires_at": (datetime.now(timezone.utc) + timedelta(hours=24)).replace(tzinfo=None).isoformat(),
                 "trust_score": trust_score,
                 "device_fingerprint": self._generate_device_fingerprint(device_data),
                 "sync_method": "secure_channel",
@@ -233,7 +235,7 @@ class CrossDeviceTokenManager:
             for token_record in device_token_records:
                 if not token_record.get("invalidated", False):
                     token_record["invalidated"] = True
-                    token_record["invalidated_at"] = datetime.utcnow().isoformat()
+                    token_record["invalidated_at"] = datetime.now(timezone.utc).replace(tzinfo=None).isoformat()
                     token_record["invalidation_reason"] = reason
                     invalidated_count += 1
 
@@ -257,7 +259,7 @@ class CrossDeviceTokenManager:
                 "device_id": device_id,
                 "invalidated_count": invalidated_count,
                 "reason": reason,
-                "invalidated_at": datetime.utcnow().isoformat(),
+                "invalidated_at": datetime.now(timezone.utc).replace(tzinfo=None).isoformat(),
                 "invalidation_time_ms": (time.time() - start_time) * 1000,
             }
 
@@ -284,7 +286,7 @@ class CrossDeviceTokenManager:
             device_token_records = self.device_tokens[user_id][device_id]
             active_tokens = []
 
-            current_time = datetime.utcnow()
+            current_time = datetime.now(timezone.utc).replace(tzinfo=None)
 
             for token_record in device_token_records:
                 # Skip invalidated tokens
@@ -493,8 +495,8 @@ class CrossDeviceTokenManager:
         default_device_data = {
             "device_id": device_id,
             "user_id": user_id,
-            "registered_at": datetime.utcnow().isoformat(),
-            "last_used": datetime.utcnow().isoformat(),
+            "registered_at": datetime.now(timezone.utc).replace(tzinfo=None).isoformat(),
+            "last_used": datetime.now(timezone.utc).replace(tzinfo=None).isoformat(),
             "biometric_enabled": device_info.get("biometric_enabled", False) if device_info else False,
             "secure_enclave": device_info.get("secure_enclave", False) if device_info else False,
             "device_encrypted": device_info.get("device_encrypted", True) if device_info else True,
@@ -508,7 +510,7 @@ class CrossDeviceTokenManager:
         # Update with provided device info
         if device_info:
             default_device_data.update(device_info)
-            default_device_data["last_used"] = datetime.utcnow().isoformat()
+            default_device_data["last_used"] = datetime.now(timezone.utc).replace(tzinfo=None).isoformat()
 
         return default_device_data
 
@@ -532,7 +534,7 @@ class CrossDeviceTokenManager:
 
             # Check device registration age (prevent rapid device additions)
             reg_date = datetime.fromisoformat(device_data.get("registered_at", "2024-01-01"))
-            if (datetime.utcnow() - reg_date).total_seconds() < 300:  # 5 minutes minimum
+            if (datetime.now(timezone.utc).replace(tzinfo=None) - reg_date).total_seconds() < 300:  # 5 minutes minimum
                 return False
 
             # ⚛️ Identity integrity check
@@ -545,7 +547,7 @@ class CrossDeviceTokenManager:
         """🧠 Update consciousness patterns for security analysis"""
         # This would integrate with the consciousness tracking system
         # For now, just log the activity
-        timestamp = datetime.utcnow().isoformat()
+        timestamp = datetime.now(timezone.utc).replace(tzinfo=None).isoformat()
         print(f"Consciousness update: {user_id} | {device_id} | {action} | {timestamp}")
 
     def _is_device_trusted(self, user_id: str, device_id: str) -> bool:
@@ -570,7 +572,7 @@ class CrossDeviceTokenManager:
         try:
             start_time = time.time()
             total_cleaned = 0
-            current_time = datetime.utcnow()
+            current_time = datetime.now(timezone.utc).replace(tzinfo=None)
 
             for user_devices in self.device_tokens.values():
                 for token_records in user_devices.values():
@@ -624,7 +626,7 @@ class WebRTCDeviceSync:
             self.active_channels[channel_id] = {
                 "user_id": user_id,
                 "devices": [device_a, device_b],
-                "established_at": datetime.utcnow().isoformat(),
+                "established_at": datetime.now(timezone.utc).replace(tzinfo=None).isoformat(),
                 "status": "active",
             }
 

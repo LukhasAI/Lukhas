@@ -19,7 +19,7 @@ class Composer:
     def __init__(self, schema: Dict):
         self.validator = Draft202012Validator(schema)
 
-    def merge(self, base: Dict, signals: Dict[str, Signal]) -> Dict:  # noqa: F821  # TODO: Signal
+    def merge(self, base: Dict, signals: Dict[str, Signal]) -> Dict:  # TODO: Signal
         """
         Deep merge signals into base manifest.
 

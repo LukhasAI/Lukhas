@@ -35,7 +35,7 @@ try:
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
     from governance.guardian_system import GuardianSystem
-    from identity.biometrics import (  # noqa: F401  # TODO: identity.biometrics.Bio...
+    from identity.biometrics import (  # TODO: identity.biometrics.Bio...
         BiometricModality,
         create_mock_biometric_provider,
     )

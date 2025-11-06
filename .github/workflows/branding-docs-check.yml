@@ -1,0 +1,49 @@
+name: Branding Docs Drift Check
+
+on:
+  schedule:
+    # Weekly check on Monday at 6am UTC
+    - cron: '0 6 * * 1'
+
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'branding/websites/**'
+      - 'docs/web/content/**'
+      - 'tools/check_branding_docs.py'
+
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  check-drift:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run branding drift check
+        id: drift_check
+        run: |
+          echo "🔍 Checking for content drift between docs/web and branding/websites..."
+          python3 tools/check_branding_docs.py
+        continue-on-error: true
+
+      - name: Report results
+        if: steps.drift_check.outcome == 'failure'
+        run: |
+          echo "::warning::Content drift detected between docs/web and branding/websites"
+          echo "::warning::Review the differences and update as needed"
+          echo "::warning::Per migration plan, branding/websites/ is canonical source"
+          exit 1
+
+      - name: Success message
+        if: steps.drift_check.outcome == 'success'
+        run: |
+          echo "✅ No content drift detected"
+          echo "✅ All branding documents match their sources"

@@ -636,10 +636,9 @@ class GuardianSystemIntegration:
 
         try:
             # ✨ Identity validation - Anchor star
-            if request.user_id and self.consent_ledger:
-                # Check if user identity is validated through consent system
-                if response.consent_result and response.consent_result.get("status") == "completed":
-                    constellation_validation["identity"] = True
+            if (request.user_id and self.consent_ledger and
+                response.consent_result and response.consent_result.get("status") == "completed"):
+                constellation_validation["identity"] = True
 
             # 🌟 Memory validation - Tracing paths of past light
             # Memory validation through consent history and audit trails
@@ -664,13 +663,10 @@ class GuardianSystemIntegration:
             )
 
             # ⚖️ Ethics validation - The North Star (responsible, transparent, accountable)
-            if response.ethics_result and response.ethics_result.get("status") == "completed":
-                # Check constitutional compliance and ethical score
-                if (
-                    response.ethics_result.get("constitutional_compliance", False)
-                    and response.ethics_result.get("ethical_score", 0.0) > 0.7
-                ):
-                    constellation_validation["ethics"] = True
+            if (response.ethics_result and response.ethics_result.get("status") == "completed" and
+                response.ethics_result.get("constitutional_compliance", False) and
+                response.ethics_result.get("ethical_score", 0.0) > 0.7):
+                constellation_validation["ethics"] = True
 
             # 🛡️ Guardian validation - The Watch Star (protective, trustworthy, serious protection)
             # Overall system approval based on all validations
@@ -779,10 +775,11 @@ class GuardianSystemIntegration:
             result = ValidationResult.APPROVED
 
         # Calculate confidence
-        if validation_scores:
-            confidence = sum(validation_scores) / len(validation_scores)
-        else:
-            confidence = 0.5  # Neutral confidence when no scores available
+        confidence = (
+            sum(validation_scores) / len(validation_scores)
+            if validation_scores
+            else 0.5  # Neutral confidence when no scores available
+        )
 
         # Adjust confidence based on component failures
         if warnings:

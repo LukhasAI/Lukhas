@@ -42,9 +42,8 @@ import base64
 import re
 import warnings
 from collections.abc import AsyncIterable
-from typing import TYPE_CHECKING, Any, Literal, Union, overload
+from typing import TYPE_CHECKING, Any, Literal, overload
 
-from core.common import get_logger
 from huggingface_hub import constants
 from huggingface_hub.errors import InferenceTimeoutError
 from huggingface_hub.inference._common import (
@@ -113,6 +112,8 @@ from huggingface_hub.inference._providers import (
 from huggingface_hub.utils import build_hf_headers, get_session, hf_raise_for_status
 from huggingface_hub.utils._auth import get_token
 from huggingface_hub.utils._deprecation import _deprecate_method
+
+from core.common import get_logger
 
 from .._common import _async_yield_from, _import_aiohttp
 
@@ -262,7 +263,7 @@ class AsyncInferenceClient:
     async def post(  # type: ignore[misc]
         self,
         *,
-        json: Union[str, dict, list] | None = None,
+        json: str | dict | list | None = None,
         data: ContentT | None = None,
         model: str | None = None,
         task: str | None = None,
@@ -273,7 +274,7 @@ class AsyncInferenceClient:
     async def post(  # type: ignore[misc]
         self,
         *,
-        json: Union[str, dict, list] | None = None,
+        json: str | dict | list | None = None,
         data: ContentT | None = None,
         model: str | None = None,
         task: str | None = None,
@@ -284,12 +285,12 @@ class AsyncInferenceClient:
     async def post(
         self,
         *,
-        json: Union[str, dict, list] | None = None,
+        json: str | dict | list | None = None,
         data: ContentT | None = None,
         model: str | None = None,
         task: str | None = None,
         stream: bool = False,
-    ) -> Union[bytes, AsyncIterable[bytes]]: ...
+    ) -> bytes | AsyncIterable[bytes]: ...
 
     @_deprecate_method(
         version="0.31.0",
@@ -302,12 +303,12 @@ class AsyncInferenceClient:
     async def post(
         self,
         *,
-        json: Union[str, dict, list] | None = None,
+        json: str | dict | list | None = None,
         data: ContentT | None = None,
         model: str | None = None,
         task: str | None = None,
         stream: bool = False,
-    ) -> Union[bytes, AsyncIterable[bytes]]:
+    ) -> bytes | AsyncIterable[bytes]:
         """
         Make a POST request to the inference server.
 
@@ -348,11 +349,11 @@ class AsyncInferenceClient:
     @overload
     async def _inner_post(
         self, request_parameters: RequestParameters, *, stream: bool = False
-    ) -> Union[bytes, AsyncIterable[bytes]]: ...
+    ) -> bytes | AsyncIterable[bytes]: ...
 
     async def _inner_post(
         self, request_parameters: RequestParameters, *, stream: bool = False
-    ) -> Union[bytes, AsyncIterable[bytes]]:
+    ) -> bytes | AsyncIterable[bytes]:
         """Make a request to the inference server."""
 
         aiohttp = _import_aiohttp()
@@ -600,7 +601,7 @@ class AsyncInferenceClient:
         stop: list[str] | None = None,
         stream_options: ChatCompletionInputStreamOptions | None = None,
         temperature: float | None = None,
-        tool_choice: Union[ChatCompletionInputToolChoiceClass, ChatCompletionInputToolChoiceEnum] | None = None,
+        tool_choice: ChatCompletionInputToolChoiceClass | ChatCompletionInputToolChoiceEnum | None = None,
         tool_prompt: str | None = None,
         tools: list[ChatCompletionInputTool] | None = None,
         top_logprobs: int | None = None,
@@ -626,7 +627,7 @@ class AsyncInferenceClient:
         stop: list[str] | None = None,
         stream_options: ChatCompletionInputStreamOptions | None = None,
         temperature: float | None = None,
-        tool_choice: Union[ChatCompletionInputToolChoiceClass, ChatCompletionInputToolChoiceEnum] | None = None,
+        tool_choice: ChatCompletionInputToolChoiceClass | ChatCompletionInputToolChoiceEnum | None = None,
         tool_prompt: str | None = None,
         tools: list[ChatCompletionInputTool] | None = None,
         top_logprobs: int | None = None,
@@ -652,13 +653,13 @@ class AsyncInferenceClient:
         stop: list[str] | None = None,
         stream_options: ChatCompletionInputStreamOptions | None = None,
         temperature: float | None = None,
-        tool_choice: Union[ChatCompletionInputToolChoiceClass, ChatCompletionInputToolChoiceEnum] | None = None,
+        tool_choice: ChatCompletionInputToolChoiceClass | ChatCompletionInputToolChoiceEnum | None = None,
         tool_prompt: str | None = None,
         tools: list[ChatCompletionInputTool] | None = None,
         top_logprobs: int | None = None,
         top_p: float | None = None,
         extra_body: dict | None = None,
-    ) -> Union[ChatCompletionOutput, AsyncIterable[ChatCompletionStreamOutput]]: ...
+    ) -> ChatCompletionOutput | AsyncIterable[ChatCompletionStreamOutput]: ...
 
     async def chat_completion(
         self,
@@ -678,13 +679,13 @@ class AsyncInferenceClient:
         stop: list[str] | None = None,
         stream_options: ChatCompletionInputStreamOptions | None = None,
         temperature: float | None = None,
-        tool_choice: Union[ChatCompletionInputToolChoiceClass, ChatCompletionInputToolChoiceEnum] | None = None,
+        tool_choice: ChatCompletionInputToolChoiceClass | ChatCompletionInputToolChoiceEnum | None = None,
         tool_prompt: str | None = None,
         tools: list[ChatCompletionInputTool] | None = None,
         top_logprobs: int | None = None,
         top_p: float | None = None,
         extra_body: dict | None = None,
-    ) -> Union[ChatCompletionOutput, AsyncIterable[ChatCompletionStreamOutput]]:
+    ) -> ChatCompletionOutput | AsyncIterable[ChatCompletionStreamOutput]:
         """
         A method for completing conversations using a specified language model.
 
@@ -1079,7 +1080,7 @@ class AsyncInferenceClient:
         max_question_len: int | None = None,
         max_seq_len: int | None = None,
         top_k: int | None = None,
-        word_boxes: list[Union[list[float], str]] | None = None,
+        word_boxes: list[list[float] | str] | None = None,
     ) -> list[DocumentQuestionAnsweringOutputElement]:
         """
         Answer questions on document images.
@@ -1592,7 +1593,7 @@ class AsyncInferenceClient:
         max_question_len: int | None = None,
         max_seq_len: int | None = None,
         top_k: int | None = None,
-    ) -> Union[QuestionAnsweringOutputElement, list[QuestionAnsweringOutputElement]]:
+    ) -> QuestionAnsweringOutputElement | list[QuestionAnsweringOutputElement]:
         """
         Retrieve the answer to a question from a given text.
 
@@ -2156,7 +2157,7 @@ class AsyncInferenceClient:
         truncate: int | None = None,
         typical_p: float | None = None,
         watermark: bool | None = None,
-    ) -> Union[TextGenerationOutput, AsyncIterable[TextGenerationStreamOutput]]: ...
+    ) -> TextGenerationOutput | AsyncIterable[TextGenerationStreamOutput]: ...
 
     async def text_generation(
         self,
@@ -2185,12 +2186,7 @@ class AsyncInferenceClient:
         truncate: int | None = None,
         typical_p: float | None = None,
         watermark: bool | None = None,
-    ) -> Union[
-        str,
-        TextGenerationOutput,
-        AsyncIterable[str],
-        AsyncIterable[TextGenerationStreamOutput],
-    ]:
+    ) -> str | TextGenerationOutput | AsyncIterable[str] | AsyncIterable[TextGenerationStreamOutput]:
         """
         Given a prompt, generate the following text.
 
@@ -2755,7 +2751,7 @@ class AsyncInferenceClient:
         *,
         model: str | None = None,
         do_sample: bool | None = None,
-        early_stopping: Union[bool, TextToSpeechEarlyStoppingEnum] | None = None,
+        early_stopping: bool | TextToSpeechEarlyStoppingEnum | None = None,
         epsilon_cutoff: float | None = None,
         eta_cutoff: float | None = None,
         max_length: int | None = None,
@@ -3363,7 +3359,7 @@ class AsyncInferenceClient:
         ),
     )
     async def list_deployed_models(
-        self, frameworks: Union[None, str, Literal["all"], list[str]] = None
+        self, frameworks: None | str | Literal["all"] | list[str] = None
     ) -> dict[str, list[str]]:
         """
         List models deployed on the HF Serverless Inference API service.

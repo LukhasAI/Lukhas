@@ -49,7 +49,7 @@ class TestConsolidateIdentities(unittest.TestCase):
         self.assertIn('secondary-789', report['secondary_sources'])
 
     def test_edge_case_no_timestamp(self):
-        secondary_identities = self.secondary_identities + [{
+        secondary_identities = [*self.secondary_identities, {
             "id": "secondary-abc",
             "department": "Engineering"
             # No timestamp

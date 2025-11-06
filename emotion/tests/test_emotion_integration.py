@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import emotion  # noqa: F401  # TODO: emotion; consider using import...
+    import emotion  # TODO: emotion; consider using import...
 except ImportError:
     pytest.skip("Module emotion not available", allow_module_level=True)
 

@@ -38,7 +38,7 @@ try:
         DriftResult,
         EthicalDecision,
         EthicalSeverity,
-        GovernanceAction,  # noqa: F401  # TODO: governance.guardian.cor...
+        GovernanceAction,  # TODO: governance.guardian.cor...
         SafetyResult,
     )
     from governance.guardian.guardian_impl import GuardianSystemImpl
@@ -54,7 +54,7 @@ try:
         GuardianSubject,
         GuardianSystem,
         RuntimeEnvironment,
-        create_simple_decision,  # noqa: F401  # TODO: governance.guardian_sys...
+        create_simple_decision,  # TODO: governance.guardian_sys...
     )
     GUARDIAN_AVAILABLE = True
 except ImportError:

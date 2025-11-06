@@ -11,6 +11,7 @@ import time
 from unittest.mock import Mock
 
 import pytest
+
 from orchestration.multi_ai_router import (
     AIModel,
     AIProvider,
@@ -313,7 +314,7 @@ class TestMultiAIRouter:
         )
 
         # Should raise error for insufficient responses
-        with pytest.raises(ValueError, match="Only .* models available"):
+    with pytest.raises(ValueError, match=r"Only .* models available"):
             await self.router.route_request(request)
 
     def test_model_registration(self):
@@ -394,7 +395,7 @@ class TestPerformanceRequirements:
         """Test that routing latency meets p95 < 250ms requirement"""
         import json
         import os
-        from datetime import datetime
+        from datetime import datetime, timezone
 
         request = RoutingRequest(
             prompt="Quick test",
@@ -434,7 +435,7 @@ class TestPerformanceRequirements:
         # Generate performance artifact
         perf_data = {
             "test": "orchestration_routing_latency",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "metrics": {
                 "p50_ms": p50_latency * 1000 if p50_latency != float('inf') else None,
                 "p95_ms": p95_latency * 1000 if p95_latency != float('inf') else None,
@@ -450,7 +451,7 @@ class TestPerformanceRequirements:
 
         # Save artifact
         os.makedirs("artifacts", exist_ok=True)
-        artifact_path = f"artifacts/perf_orchestration_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.json"
+        artifact_path = f"artifacts/perf_orchestration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         with open(artifact_path, "w") as f:
             json.dump(perf_data, f, indent=2)
 

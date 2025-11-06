@@ -18,7 +18,6 @@ from pathlib import Path
 
 import pytest
 
-
 # Allowed patterns where raw LLM imports are expected
 ALLOWED_PATHS = [
     # Adapter modules - where LLM clients SHOULD be
@@ -169,7 +168,7 @@ def test_openai_imports_isolated():
 
     with open(artifact_dir / "openai_hits.txt", "w") as f:
         f.write("# OpenAI Import Scan Results\n\n")
-        f.write(f"## Summary\n")
+        f.write("## Summary\n")
         f.write(f"- Total imports found: {len(allowed_imports) + len(violations)}\n")
         f.write(f"- Allowed locations: {len(allowed_imports)}\n")
         f.write(f"- Violations: {len(violations)}\n\n")
@@ -200,7 +199,7 @@ def test_openai_imports_isolated():
         if len(violations) > 10:
             error_msg += f"\n... and {len(violations) - 10} more"
 
-        error_msg += f"\n\nFull report: release_artifacts/repo_audit_v2/security/openai_hits.txt"
+        error_msg += "\n\nFull report: release_artifacts/repo_audit_v2/security/openai_hits.txt"
 
         # For now, just warn - don't fail CI
         # This gives teams time to refactor

@@ -254,18 +254,18 @@ class TestLaneIsolationEnforcement:
                         all_entry_points.append((group, ep))
 
                 # Mock entry_points to return plugins for specific groups
-                def mock_entry_points_func(group=None):
-                    return [ep for g, ep in all_entry_points if g == group]
+                def mock_entry_points_func(group=None, captured_entry_points=all_entry_points):
+                    return [ep for g, ep in captured_entry_points if g == group]
 
                 mock_entry_points.side_effect = mock_entry_points_func
 
                 # Mock the discovery process to respect lane isolation
                 with patch('core.registry._register_kind') as mock_register_kind:
-                    def lane_aware_register(group, name, obj):
+                    def lane_aware_register(group, name, obj, captured_lane=lane_name):
                         # Only register if plugin is allowed in current lane
-                        if self.isolation_manager.is_plugin_allowed_in_lane(group, lane_name):
+                        if self.isolation_manager.is_plugin_allowed_in_lane(group, captured_lane):
                             lane_key = self.isolation_manager.get_lane_specific_registry_key(
-                                name, group, lane_name
+                                name, group, captured_lane
                             )
                             register(lane_key, obj)
 
@@ -565,13 +565,14 @@ class TestLaneIsolationEnforcement:
 
     def _should_allow_plugin_by_security_policy(self, plugin_name: str, risk_level: str, security_level: str) -> bool:
         """Helper method to determine if plugin should be allowed based on security policy"""
-        if security_level == 'strict':
-            return risk_level == 'safe'
-        elif security_level == 'moderate':
-            return risk_level in ['safe', 'moderate_risk']
-        elif security_level == 'permissive':
-            return True
-        return False
+        security_policies = {
+            'strict': lambda: risk_level == 'safe',
+            'moderate': lambda: risk_level in ['safe', 'moderate_risk'],
+            'permissive': lambda: True,
+        }
+
+        policy_check = security_policies.get(security_level)
+        return policy_check() if policy_check else False
 
     def test_lane_migration_safety(self):
         """Test that plugins cannot be migrated between lanes unsafely"""

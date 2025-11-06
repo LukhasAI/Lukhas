@@ -12,7 +12,7 @@ import argparse
 import json
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 DAO_PROPOSAL_LOG = "dao/net_relay/lukhas_net_relay.jsonl"
 TIER = 5  # Simulated access
@@ -29,7 +29,7 @@ if not logger.handlers:
 
 def submit_proposal(title, proposal_type, summary):
     proposal = {
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "tier": TIER,
         "proposal_title": title,
         "proposal_type": proposal_type,

@@ -37,7 +37,7 @@ import structlog
 try:
     from . import ΛTOKEN_SYSTEM_AVAILABLE
     if ΛTOKEN_SYSTEM_AVAILABLE:
-        from .alias_format import (  # noqa: F401  # TODO: .alias_format.verify_crc; cons...
+        from .alias_format import (  # TODO: .alias_format.verify_crc; cons...
             make_alias,
             verify_crc,
         )
@@ -52,7 +52,7 @@ try:
 
     # Optional components (graceful degradation)
     try:
-        from .tier_system import (  # noqa: F401  # TODO: .tier_system.TierLevel; consid...
+        from .tier_system import (  # TODO: .tier_system.TierLevel; consid...
             TierLevel,
             normalize_tier,
         )

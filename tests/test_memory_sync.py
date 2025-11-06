@@ -8,11 +8,12 @@ Tests synchronization safety: fanout/depth/budget trips, idempotency.
 import os
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime
+from datetime import datetime, timezone
 from unittest.mock import patch
 from uuid import uuid4
 
 import pytest
+
 from memory.sync import MemorySynchronizer, SyncBudgetConfig, SyncResult, create_memory_synchronizer
 
 
@@ -46,7 +47,7 @@ class TestMemorySynchronizer:
         fold_data = {
             "fold_id": "test_fold_001",
             "content": {"memories": ["item1", "item2"]},
-            "metadata": {"timestamp": datetime.utcnow().isoformat()}
+            "metadata": {"timestamp": datetime.now(timezone.utc).isoformat()}
         }
 
         result = syncer.sync_fold(

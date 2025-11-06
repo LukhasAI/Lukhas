@@ -58,11 +58,11 @@ logger.info("ΛTRACE_MODULE_INIT: module_path=%s status=initializing", __file__)
 CRYPTO_AVAILABLE = False  # ΛSIM_TRACE: Mocking crypto availability.
 try:
     # Attempt to import actual cryptography libraries if they were being used
-    from cryptography.hazmat.primitives import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    from cryptography.hazmat.primitives import (  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
         hashes,
         serialization,
     )
-    from cryptography.hazmat.primitives.asymmetric import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    from cryptography.hazmat.primitives.asymmetric import (  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
         padding,
         rsa,
     )

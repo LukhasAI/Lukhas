@@ -27,10 +27,11 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum, auto
 from pathlib import Path
-from typing import Any, Union
+from typing import Any
 
 # Module imports
 import numpy as np
+
 from core.common import get_logger
 
 # Configure module logger
@@ -582,7 +583,7 @@ class CognitiveAdapter(CoreComponent):
     async def process(
         self,
         data: dict[str, Any],
-        context: Union[SecurityContext, dict[str, Any]] | None = None,
+        context: SecurityContext | dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """Main processing method for cognitive adaptation."""
         self.logger.info("Processing data through cognitive adapter")

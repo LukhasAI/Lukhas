@@ -39,7 +39,7 @@ import os
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Union
+from typing import Any
 
 # Try to import from core.common if available
 try:
@@ -861,7 +861,7 @@ async def generate_audio(
     voice: str = "nova",
     output_path: str | None = None,
     **kwargs,
-) -> Union[str, bytes]:
+) -> str | bytes:
     """Convenience function for audio generation."""
     service = OpenAICoreService()
     data = {"text": text, "voice": voice, **kwargs}

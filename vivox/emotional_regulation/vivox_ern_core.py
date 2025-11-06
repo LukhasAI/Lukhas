@@ -739,7 +739,7 @@ class VIVOXEmotionalRegulationNetwork:
     Main VIVOX.ERN class integrating all emotional regulation components
     """
 
-    def __init__(self, vivox_me: Optional["VIVOXMemoryExpansion"] = None):  # noqa: F821  # TODO: VIVOXMemoryExpansion
+    def __init__(self, vivox_me: Optional["VIVOXMemoryExpansion"] = None):  # TODO: VIVOXMemoryExpansion
         self.vivox_me = vivox_me
         self.regulator = EmotionalRegulator()
         self.current_state = VADVector()  # Neutral starting state

@@ -19,7 +19,7 @@ import logging
 import os
 from collections import defaultdict
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Set
 from uuid import UUID, uuid4
@@ -185,7 +185,7 @@ class PolicyGuard:
         Returns:
             ReplayDecision with allow/deny result and reasoning
         """
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
 
         try:
             # 1. Check event kind allowlist
@@ -278,7 +278,7 @@ class PolicyGuard:
         finally:
             # Record metrics
             if PROM:
-                decision_duration = (datetime.utcnow() - start_time).total_seconds()
+                decision_duration = (datetime.now(timezone.utc) - start_time).total_seconds()
                 POLICY_DECISIONS.labels(lane=self.lane).observe(decision_duration)
 
     def _compute_risk(self, payload: Dict[str, Any]) -> float:
@@ -309,7 +309,7 @@ class PolicyGuard:
 
     def _check_rate_limit(self) -> bool:
         """Check if replay rate is within limits."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         current_minute = now.replace(second=0, microsecond=0)
 
         # Clean old entries
@@ -325,7 +325,7 @@ class PolicyGuard:
 
     def _check_budget(self) -> bool:
         """Check if replay budget is available."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         window_start = now - timedelta(minutes=self.config.budget_window_minutes)
 
         # Clean old entries
@@ -336,7 +336,7 @@ class PolicyGuard:
 
     def _record_replay(self) -> None:
         """Record a replay for rate limiting and budget tracking."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         current_minute = now.replace(second=0, microsecond=0)
 
         # Update rate counter
@@ -376,7 +376,7 @@ class PolicyGuard:
 
     def get_policy_stats(self) -> Dict[str, Any]:
         """Get current policy statistics."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
 
         # Calculate recent metrics
         recent_decisions = [
@@ -402,7 +402,7 @@ class PolicyGuard:
 
     def get_promotion_stats(self) -> Dict[str, Any]:
         """Get promotion statistics for cross-lane operations."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
 
         # Count cross-lane decisions in recent window
         recent_decisions = [

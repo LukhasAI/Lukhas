@@ -79,7 +79,7 @@ def main() -> int:
             totals["other"] += 1
 
     total = sum(totals.values())
-    now = _dt.datetime.utcnow().isoformat()
+    now = _dt.datetime.now(_dt.timezone.utc).isoformat()
     commit = _git(["rev-parse", "--short", "HEAD"])
     branch = _git(["rev-parse", "--abbrev-ref", "HEAD"])
 

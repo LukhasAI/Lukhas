@@ -427,7 +427,7 @@ class ΛDependaBoT(BotProtocol):
         self.reasoning_context = None
 
         # Dependency analysis state
-        self.dependency_network = nx.DiGraph() if QUANTUM_ANALYSIS_AVAILABLE else nx.DiGraph()
+        self.dependency_network = nx.DiGraph()
         self.module_profiles = {}
         self.architectural_insights = []
         self.analysis_history = []
@@ -642,7 +642,7 @@ class ΛDependaBoT(BotProtocol):
 
         try:
             # Test quantum network capabilities
-            test_network = nx.DiGraph() if QUANTUM_ANALYSIS_AVAILABLE else nx.DiGraph()
+            test_network = nx.DiGraph()
             test_network.add_node("test_node")
             test_network.add_edge("test_node", "test_target")
 

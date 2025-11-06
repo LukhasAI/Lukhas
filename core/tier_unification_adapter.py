@@ -26,9 +26,10 @@ logger = logging.getLogger(__name__)
 
 from abc import ABC, abstractmethod
 from functools import wraps
-from typing import Any, Callable, Union
+from typing import Any, Callable
 
 import structlog
+
 from core.identity_integration import TierMappingConfig, get_identity_client
 
 logger = structlog.get_logger(__name__)
@@ -56,7 +57,7 @@ class OneiricTierAdapter(TierSystemAdapter):
     def __init__(self):
         self.client = get_identity_client()
 
-    def to_lambda_tier(self, tier: Union[int, str]) -> str:
+    def to_lambda_tier(self, tier: int | str) -> str:
         """Convert Oneiric tier (1-5) to LAMBDA_TIER."""
         if isinstance(tier, str) and tier.isdigit():
             tier = int(tier)
@@ -70,7 +71,7 @@ class OneiricTierAdapter(TierSystemAdapter):
             return 1  # Map base tier to Oneiric tier 1
         return mapping.get(lambda_tier, 1)
 
-    def validate_access(self, user_id: str, required_tier: Union[int, str]) -> bool:
+    def validate_access(self, user_id: str, required_tier: int | str) -> bool:
         """Validate user access using central identity system."""
         if not self.client:
             logger.warning("Identity client not available, granting access by default")
@@ -124,7 +125,7 @@ class EmotionalTierAdapter(TierSystemAdapter):
             self.EmotionalTier = None
             logger.warning("EmotionalTier not available")
 
-    def to_lambda_tier(self, tier: Union[str, EmotionalTier]) -> str:
+    def to_lambda_tier(self, tier: str | EmotionalTier) -> str:
         """Convert EmotionalTier (T0-T5) to LAMBDA_TIER."""
         if self.EmotionalTier and hasattr(tier, "name"):
             # Handle EmotionalTier enum
@@ -136,7 +137,7 @@ class EmotionalTierAdapter(TierSystemAdapter):
         mapping = TierMappingConfig.LAMBDA_TO_EMOTIONAL
         return mapping.get(lambda_tier, "T1")
 
-    def validate_access(self, user_id: str, required_tier: Union[str, EmotionalTier]) -> bool:
+    def validate_access(self, user_id: str, required_tier: str | EmotionalTier) -> bool:
         """Validate user access using central identity system."""
         if not self.client:
             logger.warning("Identity client not available, granting access by default")
@@ -327,7 +328,7 @@ def oneiric_tier_required(tier: int):
     return adapter.create_unified_decorator(tier, "oneiric")
 
 
-def emotional_tier_required(tier: Union[str, EmotionalTier]):
+def emotional_tier_required(tier: str | EmotionalTier):
     """Decorator for DreamSeed Emotional tier requirements."""
     adapter = get_unified_adapter()
     return adapter.create_unified_decorator(tier, "emotional")

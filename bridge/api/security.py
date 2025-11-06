@@ -31,7 +31,7 @@ from typing import Any, Optional
 import jwt
 
 try:
-    from fastapi import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    from fastapi import (  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
         HTTPException,
         Request,
         status,

@@ -125,11 +125,7 @@ def is_incomplete_mention(line: str, star_count: int, next_lines: str) -> bool:
     ))
 
     # If there's an inline list with separators but not all 8, it's incomplete
-    if has_inline_star_list and star_count < 7:
-        return True
-
-    # Simple mentions (0-2 stars) without lists are OK
-    return False
+    return has_inline_star_list and star_count < 7
 
 
 def generate_report(root_dir: Path, exclude_patterns: List[str]) -> None:

@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import sbom  # noqa: F401  # TODO: sbom; consider using importlib...
+    import sbom  # TODO: sbom; consider using importlib...
 except ImportError:
     pytest.skip("Module sbom not available", allow_module_level=True)
 

@@ -68,7 +68,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Union
+from typing import Any
 
 # Configure logger
 logger = logging.getLogger(__name__)
@@ -112,7 +112,7 @@ def _resolve_log_directory(override: str | None) -> Path:
     return (repo_root / _DEFAULT_LOG_SUBDIR).resolve()
 
 
-def _coerce_path(value: Union[str, Path] | None, *, default: Path) -> Path:
+def _coerce_path(value: str | Path | None, *, default: Path) -> Path:
     """Convert a value to Path if provided, otherwise return default."""
 
     if value is None:
@@ -187,7 +187,7 @@ class FoldLineageTracker:
     def __init__(
         self,
         max_drift_rate: float = MAX_DRIFT_RATE,  # JULES05_NOTE: Loop-safe guard added
-        log_directory: Union[str, Path] | None = None,
+        log_directory: str | Path | None = None,
     ):
         log_dir = _resolve_log_directory(str(log_directory) if isinstance(log_directory, Path) else log_directory)
 

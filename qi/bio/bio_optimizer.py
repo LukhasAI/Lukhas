@@ -80,13 +80,6 @@ QIBioCoordinator = Any  # Placeholder
 
 try:
     from bio.symbolic.architectures import BioSymbolicOrchestrator as BioOrchestrator
-
-    # type: ignore
-    from core.bio_systems.qi_layer import (  # type: ignore
-        QIBioOscillator,
-        QIConfig,
-        QILikeState,
-    )
     from qi.qi_awareness_system import QIAwarenessSystem  # type: ignore
 
     # AIMPORT_TODO: Review this path for QIBioCoordinator. If it's part
@@ -94,7 +87,14 @@ try:
     from qi.qi_bio_coordinator import QIBioCoordinator  # type: ignore
     from qi.qi_dream_adapter import QIDreamAdapter  # type: ignore
     from qi.qi_unified_system import (
-        UnifiedQuantumSystem,  # type: ignore  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
+        UnifiedQuantumSystem,  # type: ignore  # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
+    )
+
+    # type: ignore
+    from core.bio_systems.qi_layer import (  # type: ignore
+        QIBioOscillator,
+        QIConfig,
+        QILikeState,
     )
 
     LUKHAS_CORE_COMPONENTS_AVAILABLE = True
@@ -564,7 +564,7 @@ class QIBioOptimizationAdapter:
         time_condition = self.last_optimization_timestamp is None or (
             time.monotonic() - self.last_optimization_timestamp > time_threshold_sec
         )
-        return cycles_condition and time_condition  # noqa: F821  # TODO: cycles_condition
+        return cycles_condition and time_condition  # TODO: cycles_condition
 
     async def _process_dream_consolidation(self, awareness_result: dict[str, Any]) -> dict[str, Any]:
         self.log.info("Starting dream consolidation cycle.")

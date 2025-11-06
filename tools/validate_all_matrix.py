@@ -9,7 +9,7 @@ Produces comprehensive validation results for CI/CD pipeline.
 import argparse
 import json
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from glob import glob
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
@@ -265,7 +265,7 @@ class MatrixValidator:
                 summary["critical_modules"] += 1
 
         return {
-            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
             "summary": summary,
             "modules": results
         }

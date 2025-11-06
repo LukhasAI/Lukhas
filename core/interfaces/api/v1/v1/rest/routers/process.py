@@ -4,8 +4,9 @@ import uuid
 from datetime import datetime, timezone
 
 from fastapi import APIRouter, BackgroundTasks, Depends
-from ...common.errors import ProcessingError, ValidationError
-from ..models import ProcessRequest, ProcessResponse, SymbolicState
+
+from interfaces.api.v1.common.errors import ProcessingError, ValidationError
+from interfaces.api.v1.rest.models import ProcessRequest, ProcessResponse, SymbolicState
 
 router = APIRouter()
 logger = logging.getLogger(__name__)

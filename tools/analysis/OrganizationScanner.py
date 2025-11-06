@@ -268,7 +268,7 @@ class OrganizationScanner:
 ## ✅ COMPLETION STATUS
 
 **Organization Scan:** Complete
-**Issues Identified:** {sum(len(v) if isinstance(v, list) else len(v) for v in self.issues.values())}
+**Issues Identified:** {sum(len(v) for v in self.issues.values())}
 **Ready for:** Manual fixes and automated cleanup
 
 """
@@ -318,7 +318,7 @@ def main():
     print(f"📋 Report: {report_path}")
 
     # Print summary
-    total_issues = sum(len(v) if isinstance(v, list) else len(v) for v in scanner.issues.values())
+    total_issues = sum(len(v) for v in scanner.issues.values())
     print(f"🔍 Total Issues Found: {total_issues}")
 
 

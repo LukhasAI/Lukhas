@@ -17,7 +17,7 @@ Features:
 import logging
 from collections import deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
@@ -287,7 +287,7 @@ class BurnRateAlertManager:
             slo=calculation.slo,
             burn_calculation=calculation,
             severity=calculation.severity,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             message=self._generate_alert_message(calculation),
             details={
                 'burn_rate': calculation.burn_rate,
@@ -319,7 +319,7 @@ class BurnRateAlertManager:
         for window, threshold in self.calculator.burn_rate_thresholds.items():
             if window.value in alert_id:
                 cooldown_delta = timedelta(minutes=threshold.cooldown_minutes)
-                return datetime.utcnow() - last_alert < cooldown_delta
+                return datetime.now(timezone.utc) - last_alert < cooldown_delta
 
         return False
 
@@ -382,7 +382,7 @@ class BurnRateAlertManager:
     def get_slo_status_dashboard(self) -> Dict[str, Any]:
         """Get SLO status dashboard data"""
         dashboard = {
-            'timestamp': datetime.utcnow().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'slos': {},
             'active_alerts': len(self.active_alerts),
             'alert_summary': {
@@ -490,7 +490,7 @@ class CIPipelineIntegration:
 
         return {
             'service': service,
-            'timestamp': datetime.utcnow().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'deployment_safe': is_safe,
             'safety_reason': reason,
             'details': details,

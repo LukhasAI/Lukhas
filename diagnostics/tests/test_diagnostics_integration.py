@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import diagnostics  # noqa: F401  # TODO: diagnostics; consider using im...
+    import diagnostics  # TODO: diagnostics; consider using im...
 except ImportError:
     pytest.skip("Module diagnostics not available", allow_module_level=True)
 

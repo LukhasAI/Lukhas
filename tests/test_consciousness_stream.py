@@ -10,6 +10,7 @@ import time
 from uuid import UUID, uuid4
 
 import pytest
+
 from core.consciousness_stream import ConsciousnessStream, create_consciousness_stream
 
 
@@ -245,7 +246,7 @@ class TestConsciousnessStream:
             if i == 10:
                 # Simulate a processing breakthrough with longer delay
                 original_method = stream._on_consciousness_tick
-                def delayed_tick(tick_count):
+                def delayed_tick(tick_count, original_method=original_method):
                     time.sleep(0.005)  # 5ms delay
                     original_method(tick_count)
                 delayed_tick(i)

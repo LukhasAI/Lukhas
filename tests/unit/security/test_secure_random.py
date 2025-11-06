@@ -1,6 +1,7 @@
 # tests/unit/security/test_secure_random.py
 
 import pytest
+
 from security.secure_random import (
     get_quantum_random_bytes,
     get_quantum_random_int,
@@ -57,7 +58,7 @@ class TestQuantumEntropyStub:
         """
         Test that get_quantum_random_int raises ValueError if min_val > max_val.
         """
-        with pytest.raises(ValueError, match="min_val cannot be greater than max_val."):
+    with pytest.raises(ValueError, match=r"min_val cannot be greater than max_val."):
             get_quantum_random_int(10, 1)
 
     def test_get_quantum_random_int_invalid_input_type(self):

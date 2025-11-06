@@ -15,7 +15,7 @@ import glob
 import json
 import pathlib
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict, List
 
 
@@ -23,8 +23,8 @@ class TrackBadgeGenerator:
     """Generate and update Matrix Tracks status badges in module READMEs."""
 
     def __init__(self):
-        self.timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        self.date_only = datetime.utcnow().strftime('%Y-%m-%d')
+        self.timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+        self.date_only = datetime.now(timezone.utc).strftime('%Y-%m-%d')
 
     def analyze_contract(self, contract_path: str) -> Dict[str, Any]:
         """Analyze matrix contract to determine track status."""
@@ -301,7 +301,7 @@ Current gate configuration from [`matrix_{analysis['module']}.json`](matrix_{ana
 
         # Write summary to artifacts
         pathlib.Path("reports").mkdir(exist_ok=True)
-        summary_path = f"reports/matrix_tracks_status_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.md"
+        summary_path = f"reports/matrix_tracks_status_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.md"
         with open(summary_path, 'w') as f:
             f.write(summary)
 

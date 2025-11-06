@@ -77,19 +77,26 @@ def main():
         items.sort(key=lambda x: (x["tier"], x["fqn"]))
         star_slug = slug(star)
         out = STARS_DIR / f"{star_slug}.md"
-        lines = [f"# {star}\n", f"_Generated {datetime.datetime.utcnow().isoformat()}Z_\n",
-                 f"\n**Modules:** {len(items)}\n\n",
-                 "| Tier | MATRIZ | Context | Module | Path |\n|---|---|---|---|---|\n"]
+        lines = [
+            f"# {star}\n",
+            f"_Generated {datetime.datetime.now(datetime.timezone.utc).isoformat()}_\n",
+            f"\n**Modules:** {len(items)}\n\n",
+            "| Tier | MATRIZ | Context | Module | Path |\n|---|---|---|---|---|\n",
+        ]
         for it in items:
             lines.append(f"| {it['tier']} | {it['matriz']} | {'✅' if it['ctx'] else '—'} | `{it['fqn']}` | `{it['path']}` |\n")
         out.write_text("".join(lines), encoding="utf-8")
         perstar_links.append(f"- [{star}](stars/{star_slug}.md) — {len(items)} modules")
 
     # Top summary
-    md = [f"# {conf.get('title','Constellation Top')}\n",
-          f"_Generated {datetime.datetime.utcnow().isoformat()}Z_\n\n",
-          f"**Total manifests scanned:** {total}\n\n",
-          "## Stars\n", "\n".join(perstar_links), "\n\n"]
+    md = [
+        f"# {conf.get('title','Constellation Top')}\n",
+        f"_Generated {datetime.datetime.now(datetime.timezone.utc).isoformat()}_\n\n",
+        f"**Total manifests scanned:** {total}\n\n",
+        "## Stars\n",
+        "\n".join(perstar_links),
+        "\n\n",
+    ]
 
     limit = conf.get("limit_per_star", 15)
     for section in conf.get("sections", []):

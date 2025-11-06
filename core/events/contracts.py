@@ -285,19 +285,6 @@ class QIStateCreated(DomainEvent):
 
 
 @dataclass
-class QIStateCollapsed(DomainEvent):
-    """Event when quantum state collapses"""
-
-    state_id: str = ""
-    measurement_result: Any = None
-    collapse_reason: str = ""
-
-    @property
-    def event_type(self) -> str:
-        return "qi.state.collapsed"
-
-
-@dataclass
 class QISuperpositionCreated(DomainEvent):
     """Event when quantum superposition is created"""
 

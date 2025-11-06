@@ -19,9 +19,8 @@ import logging
 import time
 import uuid
 from collections.abc import AsyncGenerator
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List
 
-from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 from fastapi import (
     APIRouter,
     Body,
@@ -35,6 +34,7 @@ from fastapi import (
 from fastapi.responses import JSONResponse, StreamingResponse
 
 from adapters.openai import TokenClaims, require_bearer
+from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 
 from .schemas import ModulatedChatRequest, ModulatedChatResponse
 
@@ -252,7 +252,7 @@ def create_response(
     response: Response,
     payload: Dict[str, Any] = Body(...),
     _claims=Depends(require_api_key),
-) -> Union[Dict[str, Any], StreamingResponse]:
+) -> Dict[str, Any] | StreamingResponse:
     """Create response (OpenAI Responses API format, non-stream stub)."""
     trace_id = request.headers.get("X-Request-Id") or request.headers.get("X-Trace-Id")
 

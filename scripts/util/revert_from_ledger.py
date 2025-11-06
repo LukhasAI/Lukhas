@@ -25,7 +25,7 @@ Features:
 import hashlib
 import json
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -207,7 +207,7 @@ def main():
     # Log revert operation
     revert_entry = {
         "operation": "revert",
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+    "timestamp": datetime.now(timezone.utc).isoformat(),
         "reverted_to_sha": enrichment_sha,
         "reverted_to_timestamp": timestamp,
         "modules_reverted": success_count,

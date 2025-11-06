@@ -3,10 +3,11 @@
 from typing import Any, Callable
 
 
-class HTTPException(Exception):
-    """Lightweight HTTP exception matching FastAPI's API."""
 from __future__ import annotations
 
+
+class HTTPException(Exception):
+    """Lightweight HTTP exception matching FastAPI's API."""
 
     def __init__(self, status_code: int, detail: Any = None) -> None:
         super().__init__(f"HTTP {status_code}: {detail}")

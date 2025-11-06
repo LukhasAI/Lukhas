@@ -44,7 +44,7 @@ PROJECT_ROOT = SCRIPT_DIR.parent.parent
 if str(SCRIPT_DIR.parent) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR.parent))
 
-from security_sbom_generator import (  # noqa: E402 - requires sys.path injection before import
+from security_sbom_generator import (
     LUKHASSecuritySBOMGenerator,
 )
 

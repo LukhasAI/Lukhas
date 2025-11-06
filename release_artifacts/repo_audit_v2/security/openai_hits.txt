@@ -1,75 +1,76 @@
 # OpenAI Import Scan Results
 
 ## Summary
-- Total imports found: 63
+- Total imports found: 64
 - Allowed locations: 45
-- Violations: 18
+- Violations: 19
 
 ## VIOLATIONS (need refactoring)
 
-WARNING: tests/smoke/test_llm_adapter_scan.py:102 - This meta-test scans the codebase for `import openai` or `from openai`
-WARNING: tests/smoke/test_llm_adapter_scan.py:115 - ["rg", "--type", "py", "-n", r"import openai|from openai", "--no-heading"],
-WARNING: matriz/consciousness/reflection/lambda_dependa_bot.py:1764 - import openai
-WARNING: qi/attention_economics.py:17 - from openai import AsyncOpenAI
 WARNING: modulation/openai_integration.py:18 - from openai import OpenAI
-WARNING: labs/memory/learning/systems/symbolic_voice_loop.py:6 - import openai
-WARNING: labs/memory/temporal/meg_openai_guard.py:47 - import openai
-WARNING: labs/memory/systems/memory_legacy/gpt_reflection.py:44 - from openai import APIError, OpenAI
+WARNING: qi/attention_economics.py:17 - from openai import AsyncOpenAI
 WARNING: labs/core/interfaces/voice/listen.py:11 - from openai import OpenAI
+WARNING: labs/memory/systems/memory_legacy/gpt_reflection.py:44 - from openai import APIError, OpenAI
 WARNING: labs/memory/systems/memory_legacy/dreams.py:49 - from openai import APIError, OpenAI
-WARNING: labs/core/safety/multi_agent_consensus.py:16 - from openai import AsyncOpenAI
-WARNING: labs/core/safety/constitutional_safety.py:15 - from openai import AsyncOpenAI
-WARNING: labs/core/integrations/nias_dream_bridge.py:15 - from openai import AsyncOpenAI
 WARNING: labs/core/modules/nias/openai_adapter.py:20 - from openai import AsyncOpenAI
 WARNING: labs/core/symbolic/ethical_auditor.py:65 - import openai
-WARNING: labs/core/orchestration/brain/core/azure_openai_client.py:71 - from openai import AzureOpenAI
+WARNING: matriz/consciousness/reflection/lambda_dependa_bot.py:1764 - import openai
+WARNING: labs/memory/learning/systems/symbolic_voice_loop.py:6 - import openai
 WARNING: labs/core/orchestration/brain/dna/dna_link.py:19 - import openai
 WARNING: labs/core/orchestration/brain/lambdabot_autonomous_fixer.py:35 - import openai
+WARNING: labs/memory/temporal/meg_openai_guard.py:47 - import openai
+WARNING: labs/core/orchestration/brain/core/azure_openai_client.py:71 - from openai import AzureOpenAI
+WARNING: tests/smoke/test_llm_adapter_scan.py:101 - This meta-test scans the codebase for `import openai` or `from openai`
+WARNING: tests/smoke/test_llm_adapter_scan.py:114 - ["rg", "--type", "py", "-n", r"import openai|from openai", "--no-heading"],
+WARNING: consciousness/__init__.py:326 - from labs.consciousness import openai_modulated_service
+WARNING: labs/core/integrations/nias_dream_bridge.py:15 - from openai import AsyncOpenAI
+WARNING: labs/core/safety/multi_agent_consensus.py:16 - from openai import AsyncOpenAI
+WARNING: labs/core/safety/constitutional_safety.py:15 - from openai import AsyncOpenAI
 
 ## Allowed imports (in adapter modules)
 
-labs/api/tools.py:7
-branding/integrations/simple_llm_bridge.py:20
-branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_enhanced_core_abot_backend.py:17
-branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_cli.py:1060
-lukhas_website/lukhas/bridge/llm_wrappers/unified_openai_client.py:16
-products/communication/nias/capture_dream_image.py:12
-products/communication/nias/dream_generator.py:22
-lukhas_website/lukhas/orchestration/providers/openai_client.py:42
-tools/ml_integration_analyzer.py:189
-tools/ml_integration_analyzer.py:236
 tools/AiDocumentationGenerator.py:37
-tools/analysis/ml_integration_analyzer.py:205
-tools/analysis/ml_integration_analyzer.py:252
-products/shared/lambda_products_remaining/integrations/openai_ai_bridge.py:24
-products/shared/lambda_products_remaining/integrations/openai_ai_bridge.py:25
-tools/headers/add_verbose_intelligent_descriptions.py:18
-tools/headers/add_intelligent_descriptions.py:14
-labs/governance/identity/gateway/stargate_gateway.py:48
-products/experience/voice/core/tts_integration.py:283
-products/experience/voice/core/speech_recognition.py:251
-matriz/consciousness/reflection/openai_core_service.py:54
+labs/api/tools.py:7
 bridge/llm_wrappers/openai_optimized.py:20
 bridge/llm_wrappers/openai_optimized.py:21
 bridge/llm_wrappers/azure_openai_wrapper.py:67
 bridge/llm_wrappers/openai_modulated_service.py:35
 bridge/llm_wrappers/openai_function_bridge.py:32
 bridge/llm_wrappers/unified_openai_client.py:18
-labs/orchestration/dream_orchestrator.py:9
-ai_orchestration/lukhas_ai_orchestrator.py:27
-labs/orchestration/openai_modulated_service.py:19
 labs/consciousness/reflection/openai_core_service.py:54
-core/interfaces/as_agent/agent_logic/agent_self.py:81
-scripts/integration/demo_tool_gating.py:50
-core/interfaces/ui/app.py:49
-labs/consciousness/dream/openai_dream_integration.py:41
 labs/bridge/llm_wrappers/openai_modulated_service.py:34
 labs/bridge/llm_wrappers/openai_modulated_service.py:35
 labs/bridge/llm_wrappers/openai_modulated_service.py:36
-labs/consciousness/states/qi_consciousness_hub.py:26
+core/interfaces/as_agent/agent_logic/agent_self.py:81
+core/interfaces/ui/app.py:49
+labs/consciousness/dream/openai_dream_integration.py:41
+tools/headers/add_verbose_intelligent_descriptions.py:18
+tools/headers/add_intelligent_descriptions.py:14
 core/symbolic/EthicalAuditor.py:66
-core/notion_sync.py:89
+labs/consciousness/states/qi_consciousness_hub.py:26
+labs/orchestration/dream_orchestrator.py:9
+labs/governance/identity/gateway/stargate_gateway.py:48
+labs/orchestration/openai_modulated_service.py:19
+lukhas_website/lukhas/orchestration/providers/openai_client.py:42
 core/orchestration/brain/unified_self_merge_divergence.py:26
+core/orchestration/brain/output/report_generator.py:11
+ai_orchestration/lukhas_ai_orchestrator.py:27
 core/orchestration/brain/spine/trait_sync_gpt_synb_ref.py:15
 core/orchestration/brain/spine/unified_self.py:15
-core/orchestration/brain/output/report_generator.py:11
+lukhas_website/lukhas/bridge/llm_wrappers/unified_openai_client.py:16
+tools/analysis/ml_integration_analyzer.py:205
+tools/analysis/ml_integration_analyzer.py:252
+tools/ml_integration_analyzer.py:189
+tools/ml_integration_analyzer.py:236
+core/notion_sync.py:89
+matriz/consciousness/reflection/openai_core_service.py:54
+products/communication/nias/capture_dream_image.py:12
+products/communication/nias/dream_generator.py:22
+products/shared/lambda_products_remaining/integrations/openai_ai_bridge.py:24
+products/shared/lambda_products_remaining/integrations/openai_ai_bridge.py:25
+branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_enhanced_core_abot_backend.py:17
+branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_cli.py:1060
+branding/integrations/simple_llm_bridge.py:20
+scripts/integration/demo_tool_gating.py:50
+products/experience/voice/core/tts_integration.py:283
+products/experience/voice/core/speech_recognition.py:251

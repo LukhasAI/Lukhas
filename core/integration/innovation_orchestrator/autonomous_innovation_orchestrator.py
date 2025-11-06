@@ -14,13 +14,14 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import (
     Any,
-    List,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    List,  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
     Optional,
 )
 
-import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+
 from consciousness.qi import (
-    qi,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
+    qi,  # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 )
 from core.container.service_container import ServiceContainer
 from core.interfaces import CoreInterface

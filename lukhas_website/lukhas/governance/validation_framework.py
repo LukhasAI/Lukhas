@@ -242,14 +242,14 @@ class SyntaxValidator(Validator):
 
         # Check required decision fields
         required_decision_fields = {"status", "policy", "timestamp"}
-        for field in required_decision_fields:
-            if field not in decision:
+        for fld in required_decision_fields:
+            if fld not in decision:
                 issues.append(ValidationIssue(
                     tier=ValidationTier.SYNTAX,
                     severity=ValidationSeverity.ERROR,
                     validation_type=ValidationType.REQUIRED_FIELD,
-                    field_path=f"decision.{field}",
-                    message=f"Decision field '{field}' is required"
+                    field_path=f"decision.{fld}",
+                    message=f"Decision field '{fld}' is required"
                 ))
 
         # Validate status enum
@@ -283,14 +283,14 @@ class SyntaxValidator(Validator):
 
         # Check required subject fields
         required_subject_fields = {"correlation_id", "actor", "operation"}
-        for field in required_subject_fields:
-            if field not in subject:
+        for fld in required_subject_fields:
+            if fld not in subject:
                 issues.append(ValidationIssue(
                     tier=ValidationTier.SYNTAX,
                     severity=ValidationSeverity.ERROR,
                     validation_type=ValidationType.REQUIRED_FIELD,
-                    field_path=f"subject.{field}",
-                    message=f"Subject field '{field}' is required"
+                    field_path=f"subject.{fld}",
+                    message=f"Subject field '{fld}' is required"
                 ))
 
         # Validate correlation_id pattern

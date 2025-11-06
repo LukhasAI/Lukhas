@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import scripts  # noqa: F401  # TODO: scripts; consider using import...
+    import scripts  # TODO: scripts; consider using import...
 except ImportError:
     pytest.skip("Module scripts not available", allow_module_level=True)
 

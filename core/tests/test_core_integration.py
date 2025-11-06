@@ -109,7 +109,6 @@ class TestCoreScalabilityIntegration:
         """Test concurrent processing capabilities."""
         try:
             import concurrent.futures
-            import threading
 
             from core import CoreCore
 

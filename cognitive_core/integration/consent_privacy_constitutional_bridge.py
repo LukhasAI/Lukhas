@@ -61,9 +61,8 @@ except ImportError:
 try:
     # LUKHAS Consent System
     from governance.consent.consent_manager import ConsentManager
-    from governance.privacy.data_protection import DataProtectionEngine, ProtectionLevel
-
     from governance.consent_ledger import record_consent
+    from governance.privacy.data_protection import DataProtectionEngine, ProtectionLevel
 
     CONSENT_AVAILABLE = True
 except ImportError:
@@ -205,8 +204,8 @@ class ConsentPrivacyConstitutionalBridge:
 
         # Core systems
         self.constitutional_ai = ConstitutionalAI() if CONSTITUTIONAL_AI_AVAILABLE else MockConstitutionalAI()
-        self.consent_manager = ConsentManager() if CONSENT_AVAILABLE else ConsentManager()
-        self.data_protection = DataProtectionEngine() if CONSENT_AVAILABLE else DataProtectionEngine()
+        self.consent_manager = ConsentManager()
+        self.data_protection = DataProtectionEngine()
 
         # Cognitive AI components registry
         self.cognitive_components: dict[str, Any] = {}

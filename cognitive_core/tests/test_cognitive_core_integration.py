@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import cognitive_core  # noqa: F401  # TODO: cognitive_core; consider using...
+    import cognitive_core  # TODO: cognitive_core; consider using...
 except ImportError:
     pytest.skip("Module cognitive_core not available", allow_module_level=True)
 

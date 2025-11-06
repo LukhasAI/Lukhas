@@ -47,9 +47,9 @@ except ImportError:
     try:
         # from MultiBrainSymphony  # External dependency import
         from MultiBrainSymphony import (
-            DreamBrainSpecialist,  # noqa: F401  # TODO: MultiBrainSymphony.DreamBrainS...
-            LearningBrainSpecialist,  # noqa: F401  # TODO: MultiBrainSymphony.LearningBra...
-            MemoryBrainSpecialist,  # noqa: F401  # TODO: MultiBrainSymphony.MemoryBrain...
+            DreamBrainSpecialist,  # TODO: MultiBrainSymphony.DreamBrainS...
+            LearningBrainSpecialist,  # TODO: MultiBrainSymphony.LearningBra...
+            MemoryBrainSpecialist,  # TODO: MultiBrainSymphony.MemoryBrain...
             MultiBrainSymphonyOrchestrator,
         )
         SYMPHONY_AVAILABLE = True
@@ -60,7 +60,7 @@ except ImportError:
 
 # Import core components with fallbacks
 try:
-    from core.orchestration.brain.spine.fold_engine import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
+    from core.orchestration.brain.spine.fold_engine import (  # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
         AGIMemory,
         MemoryFold,
         MemoryPriority,

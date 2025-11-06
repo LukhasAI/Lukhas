@@ -11,7 +11,7 @@ from typing import Any
 
 # Prefer the top-level governance package if available (no labs edge)
 try:  # pragma: no cover - import-time availability
-    from governance import *  # type: ignore  # noqa: F403
+    from governance import *  # type: ignore
     _HAS_PRIMARY = True
 except Exception:  # pragma: no cover
     _HAS_PRIMARY = False
