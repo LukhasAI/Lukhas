@@ -4,11 +4,15 @@ LUKHAS Directory Index Generator
 Creates machine-readable JSON indexes for AI agent discovery and coordination
 """
 
+import logging
+
 import ast
 import json
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
+logger = logging.getLogger(__name__)
+
 
 
 class DirectoryIndexGenerator:

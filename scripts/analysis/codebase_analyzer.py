@@ -3,6 +3,8 @@
 Codebase Analyzer - Systematic analysis tool for messy codebases
 Helps identify naming inconsistencies, misplaced files, and organizational issues
 """
+import logging
+
 from __future__ import annotations
 
 import json
@@ -10,6 +12,8 @@ import os
 import re
 from collections import defaultdict
 from pathlib import Path
+logger = logging.getLogger(__name__)
+
 
 
 class CodebaseAnalyzer:

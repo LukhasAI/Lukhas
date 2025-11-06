@@ -31,6 +31,8 @@ from bench_core import (
     PerformanceBenchmark,  # - requires sys.path manipulation before import
 )
 from preflight_check import (
+logger = logging.getLogger(__name__)
+
     PreflightValidator,  # - requires sys.path manipulation before import
 )
 

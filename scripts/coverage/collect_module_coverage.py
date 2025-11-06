@@ -2,6 +2,8 @@
 """T4/0.01% Module Coverage Collection
 Runs pytest with coverage, updates manifest, ledgers results.
 """
+import logging
+
 from __future__ import annotations
 
 import argparse
@@ -11,6 +13,8 @@ import sys
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
+logger = logging.getLogger(__name__)
+
 
 
 def utc() -> str:

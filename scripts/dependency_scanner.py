@@ -4,11 +4,15 @@ LUKHAS Dependency Scanner
 Scans actual Python imports to build real dependency matrix
 """
 
+import logging
+
 import ast
 import json
 from collections import defaultdict
 from pathlib import Path
 from typing import Dict, Set
+logger = logging.getLogger(__name__)
+
 
 
 class DependencyScanner:

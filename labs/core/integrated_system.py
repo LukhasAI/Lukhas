@@ -23,6 +23,12 @@ except ImportError:
 
 # Use the colony system from lukhas
 from colonies.base import BaseColony
+from colonies.reasoning_colony import ReasoningColony
+from colonies.memory_colony import MemoryColony
+from colonies.creativity_colony import CreativityColony
+from colonies.reasoning_colony import ReasoningColony
+from colonies.memory_colony import MemoryColony
+from colonies.creativity_colony import CreativityColony
 
 # Import our core components
 

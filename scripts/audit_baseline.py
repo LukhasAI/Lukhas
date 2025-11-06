@@ -6,6 +6,8 @@ Independent verification of LUKHAS AI performance claims with regulatory-grade e
 Implements comprehensive benchmarking with statistical rigor and tamper-evident proof chains.
 """
 
+import logging
+
 import argparse
 import asyncio
 import hashlib
@@ -23,6 +25,8 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import psutil
+logger = logging.getLogger(__name__)
+
 
 # Add project root to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))

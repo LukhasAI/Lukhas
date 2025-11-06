@@ -4,6 +4,8 @@ AGI Module Analyzer & Distiller
 Advanced analysis tool for complex AGI codebases using AI-powered analysis
 Understands that AGI requires modular complexity, not simplification to basic chatbots
 """
+import logging
+
 from __future__ import annotations
 
 import ast
@@ -13,6 +15,8 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import networkx as nx
+logger = logging.getLogger(__name__)
+
 
 
 @dataclass

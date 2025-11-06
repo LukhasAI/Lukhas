@@ -4,6 +4,8 @@ LUKHAS Automated Schema Maintenance Pipeline
 Provides automated validation, monitoring, and maintenance for LUKHAS architecture
 """
 
+import logging
+
 import argparse
 import json
 import subprocess
@@ -11,6 +13,8 @@ import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Tuple
+logger = logging.getLogger(__name__)
+
 
 
 class LUKHASMaintenancePipeline:

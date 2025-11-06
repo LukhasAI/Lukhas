@@ -7,6 +7,12 @@ tasks to colonies based on their resource state, memory load, and
 symbolic tag density.
 """
 
+from resource_optimization_integration import SwarmHub, ResourceState
+
+
+from resource_optimization_integration import SwarmHub, ResourceState
+
+
 
 class SwarmResourceScheduler:
     def __init__(self, swarm_hub: SwarmHub):
@@ -27,8 +33,4 @@ class SwarmResourceScheduler:
             score = self._calculate_score(colony)
             if score > best_score:
                 best_score = score
-                best_colony = colony_id
-
         print(f"Scheduler: Assigned task to colony {best_colony}")
-    print(f"--> Best colony for memory task: {winner}")
-    print(f"--> Best colony for creative task: {winner}")

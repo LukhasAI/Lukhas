@@ -5,9 +5,13 @@ Fixes f-string errors where } comes after ( without matching )
 Pattern: f"text{var}" → f"text{var()}" when there's a ( without )
 """
 
+import logging
+
 import ast
 import re
 from pathlib import Path
+logger = logging.getLogger(__name__)
+
 
 
 def fix_fstring_parentheses(content: str) -> tuple[str, int]:
