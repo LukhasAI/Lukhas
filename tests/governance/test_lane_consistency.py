@@ -29,7 +29,7 @@ class TestLaneConsistency:
 
     def test_schema_registry_canonical_enum(self, canonical_lanes: List[str]):
         """Test that schema registry returns expected canonical lanes."""
-        expected_lanes = ["labs", "lukhas", "MATRIZ", "integration", "production", "canary", "experimental"]
+        expected_lanes = ["candidate", "lukhas", "MATRIZ", "integration", "production", "canary", "experimental"]
 
         assert len(canonical_lanes) == len(expected_lanes), f"Lane count mismatch: {len(canonical_lanes)} != {len(expected_lanes)}"
         assert set(canonical_lanes) == set(expected_lanes), f"Lane set mismatch: {set(canonical_lanes)} != {set(expected_lanes)}"
@@ -48,14 +48,14 @@ class TestLaneConsistency:
     def test_luke_lane_enum_completeness(self):
         """Test that LUKHASLane enum has all expected values."""
         all_values = LUKHASLane.get_all_values()
-        expected = ["labs", "lukhas", "MATRIZ", "integration", "production", "canary", "experimental"]
+        expected = ["candidate", "lukhas", "MATRIZ", "integration", "production", "canary", "experimental"]
 
         assert set(all_values) == set(expected), f"LUKHASLane enum incomplete: {set(all_values)} != {set(expected)}"
 
     def test_lane_validation_functionality(self):
         """Test lane validation helper methods."""
         # Valid lanes
-        assert LUKHASLane.is_valid_lane("labs")
+        assert LUKHASLane.is_valid_lane("candidate")
         assert LUKHASLane.is_valid_lane("production")
         assert LUKHASLane.is_valid_lane("MATRIZ")
 
@@ -178,6 +178,6 @@ class TestLaneEnumIntegration:
         assert not LUKHASLane.is_valid_lane("matriz")      # should be "MATRIZ"
 
         # These should be valid (correct case)
-        assert LUKHASLane.is_valid_lane("labs")
+        assert LUKHASLane.is_valid_lane("candidate")
         assert LUKHASLane.is_valid_lane("production")
         assert LUKHASLane.is_valid_lane("MATRIZ")
