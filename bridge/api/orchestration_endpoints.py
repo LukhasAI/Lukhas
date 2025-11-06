@@ -817,7 +817,6 @@ else:
 # Export main components
 __all__ = [
     "APIKeyManager",
-    "HealthcareOrchestrationRequest",
     "OrchestrationAPIRequest",
     "OrchestrationAPIResponse",
     "StreamingRequest",
