@@ -45,11 +45,10 @@ Priority: CRITICAL - Enterprise platform enhancement
 
 from __future__ import annotations
 
-import logging
-
 import asyncio
 import copy
 import hashlib
+import logging
 import re
 import sys
 import uuid

@@ -15,8 +15,6 @@ DEPENDENCIES:
   - core/emotion/emotion_engine.py
 """
 
-from datetime import timezone
-
 import asyncio
 import json
 import logging
@@ -24,7 +22,7 @@ import threading
 import time
 import uuid
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional

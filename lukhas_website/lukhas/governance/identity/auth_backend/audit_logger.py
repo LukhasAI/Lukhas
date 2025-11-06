@@ -8,10 +8,9 @@ This module provides comprehensive audit logging that meets enterprise
 security requirements and constitutional AI compliance standards.
 """
 
-import logging
-
 import hashlib
 import json
+import logging
 import uuid
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone

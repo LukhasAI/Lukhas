@@ -1,6 +1,7 @@
 """Entry point for LUKHAS commercial API"""
 
 import logging
+import os
 import time
 import uuid
 from collections.abc import Awaitable
@@ -9,8 +10,6 @@ from typing import Any, Callable, Optional
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
-
-import os
 
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False

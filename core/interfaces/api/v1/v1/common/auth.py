@@ -1,7 +1,6 @@
-import logging
-
 import hashlib
 import hmac
+import logging
 import os
 import secrets
 import time

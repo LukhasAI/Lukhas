@@ -56,10 +56,9 @@ TODO: Implement predictive token consumption modeling for simulation planning
 IDEA: Add machine learning-based resource optimization recommendations
 """
 
-import logging
-
 import asyncio
 import json
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum

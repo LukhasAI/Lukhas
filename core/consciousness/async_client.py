@@ -14,8 +14,6 @@ Integration Date: 2025-05-31T07:55:28.056913
 
 from __future__ import annotations
 
-import logging
-
 # coding=utf-8
 # Copyright 2023-present, the HuggingFace Inc. team.
 #
@@ -38,6 +36,7 @@ import logging
 # WARNING
 import asyncio
 import base64
+import logging
 import re
 import warnings
 from collections.abc import AsyncIterable

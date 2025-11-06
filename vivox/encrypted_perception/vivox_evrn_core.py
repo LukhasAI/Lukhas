@@ -3,12 +3,11 @@ VIVOX.EVRN Core - Encrypted Visual Recognition Node
 Handles encrypted perception without exposing decoded content
 """
 
-import logging
-
 import asyncio
 import base64
 import hashlib
 import json
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum

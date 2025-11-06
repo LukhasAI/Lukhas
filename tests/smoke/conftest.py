@@ -1,12 +1,14 @@
+import os
+
 import pytest
 from serve.main import app
 from starlette.testclient import TestClient
-import os
+
 
 @pytest.fixture
 def app():
-    from serve.main import app
     from serve.dreams_api import router as dreams_router
+    from serve.main import app
     app.include_router(dreams_router)
     return app
 

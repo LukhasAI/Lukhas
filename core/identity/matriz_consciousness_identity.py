@@ -14,9 +14,8 @@
 ╚══════════════════════════════════════════════════════════════
 """
 
-import logging
-
 import asyncio
+import logging
 
 # Explicit logging import to avoid conflicts with candidate/core/logging
 import logging as std_logging

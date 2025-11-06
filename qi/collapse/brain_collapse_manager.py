@@ -1,10 +1,10 @@
-import logging
-
 import asyncio
+import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 
 import structlog
+
 from consciousness.awareness.symbolic_trace_logger import SymbolicTraceLogger
 from memory.systems.memory_collapse_verifier import MemoryCollapseVerifier
 from orchestration.brain.collapse_chain_integrity import (

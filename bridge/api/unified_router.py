@@ -9,7 +9,6 @@ Unified API Router - Connects all API endpoints
 """
 
 import logging
-
 from typing import Any
 
 from fastapi import APIRouter, HTTPException

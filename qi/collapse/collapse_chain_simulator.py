@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-import logging
-
 import hashlib
+import logging
 from datetime import datetime, timezone
 from typing import Any
 
 import structlog
+
 from orchestration.brain.unified_collapse_system import BrainCollapseManager
 
 logger = logging.getLogger(__name__)

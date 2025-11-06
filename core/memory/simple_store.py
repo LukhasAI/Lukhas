@@ -16,12 +16,11 @@ DEPENDENCIES:
 
 from __future__ import annotations
 
-import logging
-
 import asyncio
 import contextlib
 import gzip
 import json
+import logging
 import mmap
 import time
 import uuid

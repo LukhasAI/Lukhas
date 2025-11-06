@@ -1,7 +1,9 @@
 
-import pytest
 import numpy as np
+import pytest
+
 from lukhas.memory.index import EmbeddingIndex, IndexManager
+
 
 def test_embedding_index_creation():
     """Test EmbeddingIndex initializes correctly"""

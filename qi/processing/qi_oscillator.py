@@ -28,10 +28,7 @@ For documentation and support: https://ai/docs
 """
 
 import logging
-from datetime import timezone
-
-import logging
-from datetime import datetime
+from datetime import datetime, timezone
 
 import numpy as np
 import simpleaudio as sa

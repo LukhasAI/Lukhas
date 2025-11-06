@@ -15,6 +15,9 @@ import asyncio
 import base64
 import hashlib
 import logging
+
+# Import for compatibility
+import random
 import secrets
 import time
 from collections import defaultdict, deque
@@ -25,9 +28,6 @@ from typing import Any, Dict, List, Set
 
 import bcrypt
 import jwt
-
-# Import for compatibility
-import random
 
 logger = logging.getLogger(__name__)
 
