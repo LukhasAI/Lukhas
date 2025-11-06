@@ -618,7 +618,7 @@ class BiometricVerificationColony(BaseColony):
         base_weight = type_weights.get(biometric_type, 0.8)
 
         # Adjust weight based on tier level
-        if tier_level >= 4:
+        if tier_level >= 4:  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_governance_identity_core_colonies_biometric_verification_colony_py_L621"}
             # Higher tiers emphasize advanced biometrics
             if biometric_type in [
                 BiometricType.BRAINWAVE.value,

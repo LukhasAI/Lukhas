@@ -111,6 +111,6 @@ async def check_compliance(request: models.ComplianceCheckRequest):
     return models.ComplianceCheckResponse(compliant=True, details="System is compliant.")
 
 @app.get("/guardian/audit/trail", response_model=models.AuditTrailResponse, tags=["Guardian"])
-async def get_audit_trail(request: models.AuditTrailRequest = Depends()):
+async def get_audit_trail(request: models.AuditTrailRequest = Depends()):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_expansion_api_py_L114"}
     """Access the audit trail."""
     return models.AuditTrailResponse(logs=["log1", "log2"])

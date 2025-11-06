@@ -445,7 +445,7 @@ class ContextPreservationEngine:
                 # Restore from compressed data
                 if preserved_context.compressed_data:
                     # Verify checksum
-                    if preserved_context.checksum:
+                    if preserved_context.checksum:  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_context_preservation_py_L448"}
                         if not self.serializer.verify_checksum(
                             preserved_context.compressed_data,
                             preserved_context.checksum

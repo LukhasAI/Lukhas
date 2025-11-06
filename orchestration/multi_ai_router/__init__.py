@@ -13,7 +13,7 @@ for mod in (
     try:
         a, e = bridge_from_candidates(mod)
         if a:
-            __all__ = list(a); _exp = e; break
+            __all__ = list(a); _exp = e; break  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_orchestration_multi_ai_router___init___py_L16"}
     except Exception:
         continue
 globals().update(_exp)

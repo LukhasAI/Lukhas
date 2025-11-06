@@ -220,7 +220,7 @@ class LUKHASMonitoringHub:
         # Track metrics that might indicate system stress
         stress_metrics = ["cpu_usage", "memory_usage", "response_time", "error_rate"]
 
-        if any(stress_metric in metric.metric_name.lower() for stress_metric in stress_metrics):
+        if any(stress_metric in metric.metric_name.lower() for stress_metric in stress_metrics):  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_monitoring_integration_hub_py_L223"}
             # Check if this metric indicates potential issues
             if ((metric.metric_name in ["cpu_usage", "memory_usage"] and metric.value > 80) or
                 (metric.metric_name == "response_time" and metric.value > 1000) or

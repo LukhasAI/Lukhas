@@ -490,7 +490,7 @@ class MemoryContradictionBridge:
         conclusion = str(final_step.conclusion).lower()
 
         # Simple conflict detection
-        if memory_content and conclusion:
+        if memory_content and conclusion:  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_consciousness_memory_contradiction_bridge_py_L493"}
             if ("not" in memory_content and conclusion.replace("not", "").strip() in memory_content) or \
                ("not" in conclusion and memory_content.replace("not", "").strip() in conclusion):
                 return f"Memory-reasoning contradiction: memory suggests '{memory_content[:50]}...' but reasoning concludes '{conclusion[:50]}...'"

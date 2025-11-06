@@ -124,7 +124,7 @@ def main():
     ap.add_argument("--junit", action="store_true", help="also write JUnit XML")
     args = ap.parse_args()
 
-    out = Path(args.out); out.mkdir(parents=True, exist_ok=True)
+    out = Path(args.out); out.mkdir(parents=True, exist_ok=True)  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_evaluations_definitions_run_evals_py_L127"}
 
     cases = load_cases(args.cases)
     if not cases:

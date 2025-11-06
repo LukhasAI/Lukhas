@@ -281,7 +281,7 @@ class ReviewStatus(Enum):
 
 
 # Authentication and authorization
-async def get_current_user(credentials: HTTPAuthorizationCredentials = Security(security)):
+async def get_current_user(credentials: HTTPAuthorizationCredentials = Security(security)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L284"}
     """Get current authenticated user from JWT token"""
     try:
         payload = jwt.decode(credentials.credentials, JWT_SECRET, algorithms=["HS256"])
@@ -890,7 +890,7 @@ async def login(login_data: UserLogin):
 
 # Chat routes
 @app.post("/chat/message", response_model=ChatResponse)
-async def send_chat_message(message: ChatMessage, current_user=Depends(get_current_user)):
+async def send_chat_message(message: ChatMessage, current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L893"}
     """Send message to ChatGPT and get response"""
     user_id = str(current_user["id"])
     conversation_id = str(uuid.uuid4())
@@ -947,7 +947,7 @@ async def send_chat_message(message: ChatMessage, current_user=Depends(get_curre
 
 
 @app.post("/chat/generate-content")
-async def generate_content_suggestion(platform: str, topic: str, current_user=Depends(get_current_user)):
+async def generate_content_suggestion(platform: str, topic: str, current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L950"}
     """Generate content suggestion for specific platform"""
     user_context = {"user_id": str(current_user["id"])}
     content = await chatgpt_service.generate_content(platform, topic, user_context)
@@ -956,7 +956,7 @@ async def generate_content_suggestion(platform: str, topic: str, current_user=De
 
 
 @app.post("/chat/review-content")
-async def review_content(content: str, platform: str, current_user=Depends(get_current_user)):
+async def review_content(content: str, platform: str, current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L959"}
     """Review content for compliance and effectiveness"""
     user_context = {"user_id": str(current_user["id"])}
     review = await chatgpt_service.review_content(content, platform, user_context)
@@ -968,7 +968,7 @@ async def review_content(content: str, platform: str, current_user=Depends(get_c
 
 
 @app.post("/chat/apply-amendment")
-async def apply_amendment(request: AmendmentRequest, current_user=Depends(get_current_user)):
+async def apply_amendment(request: AmendmentRequest, current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L971"}
     """Apply natural language amendment to content"""
     user_context = {"user_id": str(current_user["id"])}
     updated_content = await chatgpt_service.apply_amendment(request.content, request.amendment, user_context)
@@ -982,7 +982,7 @@ async def apply_amendment(request: AmendmentRequest, current_user=Depends(get_cu
 
 # Content management routes
 @app.post("/content/create", response_model=ContentResponse)
-async def create_content(content_data: ContentCreate, current_user=Depends(get_current_user)):
+async def create_content(content_data: ContentCreate, current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L985"}
     """Create new content item"""
     user_id = str(current_user["id"])
 
@@ -1021,7 +1021,7 @@ async def create_content(content_data: ContentCreate, current_user=Depends(get_c
 
 
 @app.get("/content/list")
-async def list_content(status: str | None = None, current_user=Depends(get_current_user)):
+async def list_content(status: str | None = None, current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L1024"}
     """List user's content items"""
     query = content_items_table.select().where(content_items_table.c.user_id == current_user["id"])
 
@@ -1034,7 +1034,7 @@ async def list_content(status: str | None = None, current_user=Depends(get_curre
 
 @app.post("/content/{content_id}/review")
 async def review_content_item(
-    content_id: str, review_request: ContentReviewRequest, current_user=Depends(get_current_user)
+    content_id: str, review_request: ContentReviewRequest, current_user=Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L1037"}
 ):
     """Review and approve/reject content"""
     # Get content item
@@ -1072,7 +1072,7 @@ async def review_content_item(
 
 
 @app.post("/content/{content_id}/publish")
-async def publish_content(content_id: str, current_user=Depends(get_current_user)):
+async def publish_content(content_id: str, current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L1075"}
     """Publish content to social platforms"""
     result = await social_media_service.publish_content(content_id, str(current_user["id"]))
     return result
@@ -1080,7 +1080,7 @@ async def publish_content(content_id: str, current_user=Depends(get_current_user
 
 # Social media integration routes
 @app.post("/social/connect/{platform}")
-async def connect_social_platform(platform: str, auth_code: str = Form(...), current_user=Depends(get_current_user)):
+async def connect_social_platform(platform: str, auth_code: str = Form(...), current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L1083"}
     """Connect user to social media platform"""
     try:
         auth_data = await social_media_service.authenticate_platform(platform, auth_code, str(current_user["id"]))
@@ -1090,7 +1090,7 @@ async def connect_social_platform(platform: str, auth_code: str = Form(...), cur
 
 
 @app.delete("/social/disconnect/{platform}")
-async def disconnect_social_platform(platform: str, current_user=Depends(get_current_user)):
+async def disconnect_social_platform(platform: str, current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L1093"}
     """Disconnect user from social media platform"""
     query = (
         platform_connections_table.update()
@@ -1106,7 +1106,7 @@ async def disconnect_social_platform(platform: str, current_user=Depends(get_cur
 
 
 @app.get("/social/connections")
-async def get_social_connections(current_user=Depends(get_current_user)):
+async def get_social_connections(current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L1109"}
     """Get user's social media connections"""
     query = platform_connections_table.select().where(
         platform_connections_table.c.user_id == current_user["id"],
@@ -1126,21 +1126,21 @@ async def get_social_connections(current_user=Depends(get_current_user)):
 
 # File management routes
 @app.post("/files/upload")
-async def upload_file(file: UploadFile = File(...), current_user=Depends(get_current_user)):
+async def upload_file(file: UploadFile = File(...), current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L1129"}
     """Upload file to cloud storage"""
     result = await file_service.upload_file(file, str(current_user["id"]))
     return result
 
 
 @app.get("/files/list")
-async def list_files(file_type: str | None = None, current_user=Depends(get_current_user)):
+async def list_files(file_type: str | None = None, current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L1136"}
     """List user's uploaded files"""
     files = await file_service.get_user_files(str(current_user["id"]), file_type)
     return files
 
 
 @app.delete("/files/{file_id}")
-async def delete_file(file_id: str, current_user=Depends(get_current_user)):
+async def delete_file(file_id: str, current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L1143"}
     """Delete uploaded file"""
     success = await file_service.delete_file(file_id, str(current_user["id"]))
     if success:
@@ -1155,7 +1155,7 @@ async def update_consent(
     gdpr_consent: bool = Form(False),
     eu_ai_act_consent: bool = Form(False),
     data_processing_consent: bool = Form(False),
-    current_user=Depends(get_current_user),
+    current_user=Depends(get_current_user),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L1158"}
 ):
     """Update user consent preferences"""
     update_query = (
@@ -1188,7 +1188,7 @@ async def update_consent(
 @app.post("/compliance/data-request")
 async def handle_data_request(
     request_type: str = Form(...),  # "export", "delete", "rectification"
-    current_user=Depends(get_current_user),
+    current_user=Depends(get_current_user),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L1191"}
 ):
     """Handle GDPR data subject requests"""
     result = await compliance_service.handle_data_subject_request(str(current_user["id"]), request_type)
@@ -1196,7 +1196,7 @@ async def handle_data_request(
 
 
 @app.get("/compliance/logs")
-async def get_compliance_logs(current_user=Depends(get_current_user)):
+async def get_compliance_logs(current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L1199"}
     """Get user's compliance activity logs"""
     query = (
         compliance_logs_table.select()

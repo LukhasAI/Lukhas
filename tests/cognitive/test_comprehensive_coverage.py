@@ -1102,7 +1102,7 @@ class ComprehensiveCoverageFramework:
                 ]
 
                 for malformed_input in malformed_inputs:
-                    try:
+                    try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_cognitive_test_comprehensive_coverage_py_L1105"}
                         result = await self.cognitive_components['inference_engine'].infer(malformed_input)
                         # Should handle gracefully without crashing
                     except Exception:

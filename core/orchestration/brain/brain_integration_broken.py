@@ -107,7 +107,7 @@ except ImportError:
 try:
     from core.spine.fold_engine import AGIMemory, MemoryFold, MemoryPriority, MemoryType
 except ImportError:
-    try:
+    try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_orchestration_brain_brain_integration_broken_py_L110"}
         # Commented out until CORE is available
         # from CORE.spine.fold_engine import AGIMemory, MemoryFold, MemoryType, MemoryPriority
         pass

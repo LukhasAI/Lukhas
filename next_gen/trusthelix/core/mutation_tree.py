@@ -86,7 +86,7 @@ class SymbolicMutationTree:
     """
 
     # Glyph transformation rules
-    TRUST_MUTATIONS = {
+    TRUST_MUTATIONS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_trusthelix_core_mutation_tree_py_L89"}
         "🔐": {"increase": "🔓", "decrease": "🔒", "neutral": "🔐"},
         "🧬": {"increase": "🌱", "decrease": "🦠", "neutral": "🧬"},
         "🪷": {"increase": "🌸", "decrease": "🥀", "neutral": "🪷"},
@@ -96,7 +96,7 @@ class SymbolicMutationTree:
     }
 
     # Action impact on trust
-    ACTION_IMPACTS = {
+    ACTION_IMPACTS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_trusthelix_core_mutation_tree_py_L99"}
         "unlock_profile": 0.05,
         "view_data": 0.02,
         "authenticate": 0.03,

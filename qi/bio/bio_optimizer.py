@@ -792,7 +792,7 @@ class QIBioOptimizationAdapter:
         self.log.info("Shutting down QIBioOptimizationAdapter...")
         try:
             self.is_currently_optimizing = False
-            if (
+            if (  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_bio_bio_optimizer_py_L795"}
                 hasattr(self, "qi_dream_adapter")
                 and hasattr(self.qi_dream_adapter, "active")
                 and self.qi_dream_adapter.active

@@ -193,7 +193,7 @@ def _with_std_headers(resp: Response, trace_id: str | None) -> None:
 def list_models(
     request: Request,
     response: Response,
-    _claims=Depends(require_api_key),
+    _claims=Depends(require_api_key),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L196"}
 ) -> Dict[str, Any]:
     """List available models (OpenAI-compatible format)."""
     trace_id = request.headers.get("X-Request-Id") or request.headers.get("X-Trace-Id")
@@ -261,8 +261,8 @@ def _invalid_request(detail: str, param: str | None = None) -> Dict[str, Any]:
 def create_embeddings(
     request: Request,
     response: Response,
-    payload: Dict[str, Any] = Body(...),
-    _claims=Depends(require_api_key),
+    payload: Dict[str, Any] = Body(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L264"}
+    _claims=Depends(require_api_key),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L265"}
 ) -> Dict[str, Any]:
     """Create deterministic embeddings (OpenAI-compatible format)."""
     trace_id = request.headers.get("X-Request-Id") or request.headers.get("X-Trace-Id")
@@ -355,8 +355,8 @@ def _stream_chunks(text: str, plan: Dict[str, Any]) -> List[str]:
 def create_response(
     request: Request,
     response: Response,
-    payload: Dict[str, Any] = Body(...),
-    _claims=Depends(require_api_key),
+    payload: Dict[str, Any] = Body(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L358"}
+    _claims=Depends(require_api_key),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L359"}
 ) -> Dict[str, Any] | StreamingResponse:
     """Create response (OpenAI Responses API format, non-stream stub)."""
     trace_id = request.headers.get("X-Request-Id") or request.headers.get("X-Trace-Id")

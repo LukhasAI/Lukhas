@@ -21,7 +21,7 @@ def fix_multiline_string_error(file_path):
         # Pattern 1: String split across lines without proper closing
         # Look for lines with odd number of quotes
         quote_count = line.count('"') - line.count('\\"')
-        if quote_count % 2 != 0:
+        if quote_count % 2 != 0:  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_scripts_fix_all_syntax_py_L24"}
             # Check if it's a line that starts a string but doesn't close it
             if '": "' in line or '= "' in line or 'return "' in line:
                 # Check if the line doesn't end with a quote

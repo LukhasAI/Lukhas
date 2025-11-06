@@ -157,7 +157,7 @@ class PytestClassFixer:
 
             # Parse pytest output for collection warnings
             for line in result.stderr.split("\n"):
-                if "cannot collect test class" in line.lower() and "__init__" in line.lower():
+                if "cannot collect test class" in line.lower() and "__init__" in line.lower():  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_automation_pytest_class_fixer_py_L160"}
                     # Extract file path from pytest warning
                     if " from: " in line:
                         file_part = line.split(" from: ")[1].strip(")")

@@ -230,7 +230,7 @@ async def root():
 @app.post("/api/v1/symbols/understand", response_model=SymbolUnderstandingResponse)
 async def understand_symbols(
     request: SymbolUnderstandingRequest,
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials = Depends(security),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_universal_language_api_py_L233"}
 ):
     """Understand multi-modal symbolic input"""
     try:
@@ -301,7 +301,7 @@ async def understand_symbols(
 @app.post("/api/v1/password/generate", response_model=PasswordGenerationResponse)
 async def generate_password(
     request: PasswordGenerationRequest,
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials = Depends(security),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_universal_language_api_py_L304"}
 ):
     """Generate high-entropy password using multi-modal elements"""
     try:
@@ -356,7 +356,7 @@ async def generate_password(
 @app.post("/api/v1/exchange/initiate")
 async def initiate_exchange(
     request: ExchangeInitiationRequest,
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials = Depends(security),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_universal_language_api_py_L359"}
 ):
     """Initiate privacy-preserving symbol exchange"""
     try:
@@ -392,7 +392,7 @@ async def initiate_exchange(
 @app.post("/api/v1/language/build")
 async def build_language(
     request: LanguageBuildRequest,
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials = Depends(security),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_universal_language_api_py_L395"}
 ):
     """Build universal language element from multi-modal inputs"""
     try:
@@ -455,7 +455,7 @@ async def build_language(
 async def colony_consensus(
     request: ColonyConsensusRequest,
     background_tasks: BackgroundTasks,
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials = Depends(security),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_universal_language_api_py_L458"}
 ):
     """Request colony consensus on a proposal"""
     try:
@@ -500,7 +500,7 @@ async def colony_consensus(
 
 
 @app.get("/api/v1/stats")
-async def get_statistics(credentials: HTTPAuthorizationCredentials = Depends(security)):
+async def get_statistics(credentials: HTTPAuthorizationCredentials = Depends(security)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_universal_language_api_py_L503"}
     """Get system statistics"""
     try:
         # Get various statistics

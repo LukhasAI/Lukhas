@@ -165,7 +165,7 @@ class VoicePersonalityIntegrator:
             return text
 
         # Apply creative enhancements if appropriate
-        if (self.haiku_generator and context.get('enable_creative', True)) and (emotion in ['reflective', 'calm'] and len(text.split()) > 10):
+        if (self.haiku_generator and context.get('enable_creative', True)) and (emotion in ['reflective', 'calm'] and len(text.split()) > 10):  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_orchestration_brain_personality_voice_personality_py_L168"}
             # Only apply creative enhancements in specific contexts
             # For reflective or calm states, potentially add haiku
             if random.random() < self.personality_traits["creativity"] * 0.3:

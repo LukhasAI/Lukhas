@@ -21,7 +21,7 @@ class MatrixTestGenerator:
     """Generates test matrices for all Matrix contracts based on their identity configurations."""
 
     # Tier mapping with numeric values
-    TIER_MAPPING = {
+    TIER_MAPPING = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_matrix_test_generator_py_L24"}
         'guest': 0,
         'visitor': 1,
         'friend': 2,
@@ -31,7 +31,7 @@ class MatrixTestGenerator:
     }
 
     # All possible tiers in order
-    ALL_TIERS = ['guest', 'visitor', 'friend', 'trusted', 'inner_circle', 'root_dev']
+    ALL_TIERS = ['guest', 'visitor', 'friend', 'trusted', 'inner_circle', 'root_dev']  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_matrix_test_generator_py_L34"}
 
     def __init__(self, lukhas_root: Optional[Path] = None):
         """Initialize the generator with paths to lukhas contracts."""

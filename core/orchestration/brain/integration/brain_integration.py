@@ -494,7 +494,7 @@ class EnhancedMemorySystem:
 class MultiBrain:
     """MultiBrain specialist orchestrator for distributed cognitive processing."""
 
-    SUPPORTED_SPECIALIST_TYPES = {"symbolic", "neural", "quantum", "bio", "general"}
+    SUPPORTED_SPECIALIST_TYPES = {"symbolic", "neural", "quantum", "bio", "general"}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_orchestration_brain_integration_brain_integration_py_L497"}
     _TELEMETRY_WINDOW = 25
 
     def __init__(self, *, loop: Optional[asyncio.AbstractEventLoop] = None):

@@ -116,7 +116,7 @@ class SecurityValidator:
     """Security validation for API requests"""
 
     # Dangerous patterns that should be blocked
-    DANGEROUS_PATTERNS = [
+    DANGEROUS_PATTERNS = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_validation_py_L119"}
         r"<script[^>]*>.*?</script>",  # XSS
         r"javascript:",  # JavaScript injection
         r"data:text/html",  # Data URL injection
@@ -135,7 +135,7 @@ class SecurityValidator:
     ]
 
     # Healthcare-specific patterns (PHI detection)
-    PHI_PATTERNS = [
+    PHI_PATTERNS = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_validation_py_L138"}
         r"\b\d{3}-\d{2}-\d{4}\b",  # SSN
         r"\b\d{16}\b",  # Credit card
         r"\b[A-Z]{2}\d{8}\b",  # Medical record number pattern

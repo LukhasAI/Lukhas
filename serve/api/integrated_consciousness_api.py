@@ -63,7 +63,7 @@ class IntegratedChatRequest(BaseModel):
     region: Optional[ComplianceRegion] = Field(ComplianceRegion.GLOBAL, description="User's regulatory region")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_api_integrated_consciousness_api_py_L66"}
             "example": {
                 "message": "How can you help me make a decision?",
                 "session_id": "session_123",
@@ -86,7 +86,7 @@ class IntegratedChatResponse(BaseModel):
     decision_trace: Optional[dict[str, Any]] = Field(None, description="Decision explanation")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_api_integrated_consciousness_api_py_L89"}
             "example": {
                 "response": "I can help you make decisions by analyzing options...",
                 "session_id": "session_123",
@@ -114,7 +114,7 @@ class ConversationFeedback(BaseModel):
     content: dict[str, Any] = Field(..., description="Feedback content")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_api_integrated_consciousness_api_py_L117"}
             "example": {
                 "action_id": "action_789",
                 "user_id": "user_456",

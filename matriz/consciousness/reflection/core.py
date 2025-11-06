@@ -43,7 +43,7 @@ try:
 except ImportError:
     # Fallback if optimized_memory_item is not available
     class ReflectionQuantizationCodec:
-        SUPPORTED_DIMENSIONS = [512, 1024]
+        SUPPORTED_DIMENSIONS = [512, 1024]  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_core_py_L46"}
 
 try:
     from memory.structural_conscience import create_structural_conscience

@@ -207,7 +207,7 @@ class VisionaryAGIOrchestrator:
         class VisionaryFormatter(logging.Formatter):
             """Custom formatter that makes logs beautiful and informative"""
 
-            COLORS = {
+            COLORS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_visionary_orchestrator_py_L210"}
                 "DEBUG": "\033[36m",  # Cyan
                 "INFO": "\033[32m",  # Green
                 "WARNING": "\033[33m",  # Yellow

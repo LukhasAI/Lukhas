@@ -37,7 +37,7 @@ def pre_pr_check(files: list, critical_codes: list = None, auto_create_reserved:
         intents = intents_by_file(f)
         ok = False
         for it in intents:
-            if not critical_codes or it.get("code") in critical_codes:
+            if not critical_codes or it.get("code") in critical_codes:  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_t4_policy_client_py_L40"}
                 if it.get("status") in ("planned", "committed", "implemented"):
                     ok = True
                     break

@@ -217,7 +217,7 @@ def validate_svg(svg_path, tokens, theme, args):
     palette = []
     th = tokens.get('theme', {}).get(theme) or {}
     for k, v in th.items():
-        if k in ('bg', 'surface', 'matriz', 'identity', 'dev', 'enterprise',
+        if k in ('bg', 'surface', 'matriz', 'identity', 'dev', 'enterprise',  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_svg_validator_py_L220"}
                  'success', 'warning', 'danger', 'text'):
             if v:
                 palette.append(v.upper())

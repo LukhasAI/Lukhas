@@ -50,7 +50,7 @@ except Exception:  # pragma: no cover - optional dependency
     _labs_monitor_module = None
 else:  # pragma: no cover - prefer labs implementation when available
     ConstitutionalAIComplianceMonitor = _labs_monitor_module.ConstitutionalAIComplianceMonitor
-try:
+try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_identity_constitutional_ai_compliance_py_L53"}
     __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_constitutional_ai_compliance_py_L55"}
 except NameError:
     pass

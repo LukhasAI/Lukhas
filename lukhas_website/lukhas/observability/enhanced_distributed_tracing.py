@@ -259,7 +259,7 @@ class EnhancedLUKHASTracer:
                 AsyncioInstrumentor().instrument()
 
             # Database instrumentation (when available)
-            try:
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_observability_enhanced_distributed_tracing_py_L262"}
                 SQLAlchemyInstrumentor().instrument()
             except Exception:
                 pass  # SQLAlchemy not available

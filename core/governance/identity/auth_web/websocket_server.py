@@ -484,7 +484,7 @@ class DashboardWebSocketServer:
                 async with self.client_lock:
                     for client in self.clients.values():
                         # Check if client is subscribed to this stream type
-                        if (
+                        if (  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_governance_identity_auth_web_websocket_server_py_L487"}
                             message.stream_type in client.subscribed_streams
                             or StreamType.ALL_STREAMS in client.subscribed_streams
                         ):

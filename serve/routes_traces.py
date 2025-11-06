@@ -107,7 +107,7 @@ async def get_recent_traces(
     level: Optional[int] = None,
     tag: Optional[str] = None,
     _api_key: str = Depends(require_api_key),
-    storage: TraceStorageProvider = Depends(get_trace_storage_provider),
+    storage: TraceStorageProvider = Depends(get_trace_storage_provider),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_routes_traces_py_L110"}
 ) -> list[ExecutionTraceResponse]:
     """
     Retrieve recent traces with optional filtering.
@@ -192,7 +192,7 @@ async def get_recent_traces(
 async def get_trace(
     trace_id: str,
     _api_key: str = Depends(require_api_key),
-    storage: TraceStorageProvider = Depends(get_trace_storage_provider),
+    storage: TraceStorageProvider = Depends(get_trace_storage_provider),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_routes_traces_py_L195"}
 ) -> Union[ExecutionTraceResponse, JSONResponse]:
     """
     Retrieve a trace by its unique identifier.

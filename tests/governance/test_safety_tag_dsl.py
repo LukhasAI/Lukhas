@@ -46,7 +46,7 @@ class SafetyLevel:
     DANGER = "DANGER"
     CRITICAL = "CRITICAL"
 
-    ALL_LEVELS = [SAFE, CAUTION, DANGER, CRITICAL]
+    ALL_LEVELS = [SAFE, CAUTION, DANGER, CRITICAL]  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_governance_test_safety_tag_dsl_py_L49"}
 
     @classmethod
     def get_numeric_level(cls, level: str) -> int:

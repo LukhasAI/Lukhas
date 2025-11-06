@@ -25,7 +25,7 @@ import pytest
 class SecurityValidationFramework:
     """Framework for comprehensive security validation."""
 
-    SECURITY_PATTERNS = {
+    SECURITY_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_e2e_test_comprehensive_security_validation_py_L28"}
         "hardcoded_passwords": [
             r'password\s*=\s*["\'][^"\']{3,}["\']',
             r'pwd\s*=\s*["\'][^"\']{3,}["\']',

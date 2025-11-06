@@ -1222,7 +1222,7 @@ async def demonstrate_analyzer():
     print("\nStarting continuous monitoring (press Ctrl+C to stop)...")
     await analyzer.start_monitoring()
 
-    try:
+    try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_symbolic_drift_analyzer_py_L1225"}
         # Keep running
         await asyncio.sleep(30)  # Run for 30 seconds
     except KeyboardInterrupt:

@@ -55,7 +55,7 @@ class FeedbackRequest(BaseModel):
     region: Optional[ComplianceRegion] = Field(ComplianceRegion.GLOBAL, description="User's regulatory region")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_feedback_api_py_L58"}
             "example": {
                 "user_id": "user_123",
                 "session_id": "session_456",
@@ -80,7 +80,7 @@ class QuickFeedbackRequest(BaseModel):
     session_id: Optional[str] = None
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_feedback_api_py_L83"}
             "example": {
                 "user_id": "user_123",
                 "action_id": "decision_789",
@@ -508,8 +508,8 @@ async def export_user_data(user_id: str):
 
 @app.get("/feedback/report", tags=["Analytics"])
 async def generate_feedback_report(
-    start_date: datetime = Query(..., description="Report start date"),
-    end_date: datetime = Query(..., description="Report end date"),
+    start_date: datetime = Query(..., description="Report start date"),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_feedback_api_py_L511"}
+    end_date: datetime = Query(..., description="Report end date"),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_feedback_api_py_L512"}
     anonymize: bool = Query(True, description="Anonymize user data"),
 ):
     """Generate feedback analytics report."""

@@ -89,7 +89,7 @@ class OrganizationScanner:
             relative_path = md_file.relative_to(self.workspace_root)
 
             # Check if .md file is in core directories (suspicious)
-            if "/core/" in str(relative_path) and md_file.name not in [
+            if "/core/" in str(relative_path) and md_file.name not in [  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_analysis_OrganizationScanner_py_L92"}
                 "README.md",
                 "ARCHITECTURE.md",
                 "API.md",

@@ -254,7 +254,7 @@ def get_adaptive_candidates(token: str | None = Header(None, alias="X-Auth-Token
 
 @app.post("/cockpit/adaptive/promote")
 def promote_adaptive_candidates(
-    targets: list[str] = Query(...),
+    targets: list[str] = Query(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_ui_cockpit_api_py_L257"}
     token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)

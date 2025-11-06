@@ -182,7 +182,7 @@ class FixRUF012(cst.CSTTransformer):
         for stmt in updated_node.body:
             if isinstance(stmt, cst.SimpleStatementLine):
                 for item in stmt.body:
-                    if isinstance(item, cst.ImportFrom):
+                    if isinstance(item, cst.ImportFrom):  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_ci_codemods_library_py_L185"}
                         if m.matches(item.module, m.Name("typing")):
                             # Already has typing import - would need to extend this
                             return updated_node

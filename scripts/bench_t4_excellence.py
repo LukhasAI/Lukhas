@@ -176,18 +176,18 @@ class E2EPromotionGate:
     """E2E-only promotion gates for SLA compliance validation"""
 
     # Define valid E2E metric patterns
-    E2E_METRIC_PATTERNS = {
+    E2E_METRIC_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_bench_t4_excellence_py_L179"}
         'guardian_e2e', 'memory_e2e', 'orchestrator_e2e',
         'api_e2e', 'workflow_e2e', 'integration_e2e'
     }
 
     # Define forbidden unit test patterns
-    UNIT_METRIC_PATTERNS = {
+    UNIT_METRIC_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_bench_t4_excellence_py_L185"}
         'guardian_unit', 'memory_unit', 'orchestrator_unit',
         'api_unit', 'workflow_unit', 'integration_unit'
     }
 
-    SLA_THRESHOLDS = {
+    SLA_THRESHOLDS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_bench_t4_excellence_py_L190"}
         'guardian_e2e': 100000,    # 100ms in μs
         'memory_e2e': 1000,       # 1ms in μs
         'orchestrator_e2e': 250000, # 250ms in μs

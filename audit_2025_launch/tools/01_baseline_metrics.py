@@ -22,7 +22,7 @@ def count_files_by_extension():
         if file_path.is_file() and not should_exclude(file_path):
             ext = file_path.suffix or "no_extension"
             counts[ext] += 1
-            try:
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_audit_2025_launch_tools_01_baseline_metrics_py_L25"}
                 sizes[ext] += file_path.stat().st_size
             except OSError:
                 pass

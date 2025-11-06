@@ -515,7 +515,7 @@ def test_memory_system_stateful_properties(data):
 
     # Execute state machine test
     for _ in range(steps):
-        try:
+        try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_memory_test_memory_properties_hypothesis_py_L518"}
             # Let Hypothesis choose what to do next
             state_machine.step(data)
         except Exception:

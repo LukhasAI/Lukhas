@@ -70,7 +70,7 @@ class ConsciousnessMemory:
     """
 
     # Consciousness-memory associations
-    STATE_MEMORY_TRAITS = {
+    STATE_MEMORY_TRAITS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_memory_consciousness_fold_py_L73"}
         "focused": {"retention": 0.9, "clarity": 0.95, "emotion": 0.0},
         "creative": {"retention": 0.8, "clarity": 0.7, "emotion": 0.3},
         "analytical": {"retention": 0.95, "clarity": 0.9, "emotion": -0.1},

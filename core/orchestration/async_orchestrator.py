@@ -344,7 +344,7 @@ class AsyncOrchestrator:
                 if span_ctx:
                     span_ctx.set_attribute("matriz.fallback_cancelled", True)
                 if hasattr(node, "cancel"):
-                    try:
+                    try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_orchestration_async_orchestrator_py_L347"}
                         await node.cancel(
                             cancellation.reason if cancellation else None
                         )

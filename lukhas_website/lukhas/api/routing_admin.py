@@ -133,7 +133,7 @@ router.add_middleware(
 # Authentication dependency
 async def get_admin_user(
     request: Request,
-    credentials: HTTPAuthorizationCredentials = Security(security)
+    credentials: HTTPAuthorizationCredentials = Security(security)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_routing_admin_py_L136"}
 ):
     """Validate admin authentication via the identity service."""
 
@@ -211,7 +211,7 @@ async def health_check():
 
 @router.get("/configuration")
 @instrument("API", label="admin:config", capability="routing:read")
-async def get_current_configuration(admin_user: dict = Depends(get_admin_user)):
+async def get_current_configuration(admin_user: dict = Depends(get_admin_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_routing_admin_py_L214"}
     """Get current routing configuration"""
     try:
         config_manager = await get_routing_config_manager()
@@ -263,7 +263,7 @@ async def get_current_configuration(admin_user: dict = Depends(get_admin_user)):
 @instrument("API", label="admin:validate", capability="routing:validate")
 async def validate_configuration(
     request: ConfigurationValidationRequest,
-    admin_user: dict = Depends(get_admin_user)
+    admin_user: dict = Depends(get_admin_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_routing_admin_py_L266"}
 ):
     """Validate routing configuration"""
     try:
@@ -341,7 +341,7 @@ async def validate_configuration(
 @instrument("API", label="admin:preview", capability="routing:preview")
 async def preview_routing(
     request: RoutingPreviewRequest,
-    admin_user: dict = Depends(get_admin_user)
+    admin_user: dict = Depends(get_admin_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_routing_admin_py_L344"}
 ):
     """Preview routing decision for a request"""
     try:
@@ -417,7 +417,7 @@ async def preview_routing(
 @instrument("API", label="admin:simulate", capability="routing:simulate")
 async def simulate_routing(
     request: RoutingSimulationRequest,
-    admin_user: dict = Depends(get_admin_user)
+    admin_user: dict = Depends(get_admin_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_routing_admin_py_L420"}
 ):
     """Simulate routing decisions across multiple scenarios"""
     try:
@@ -505,7 +505,7 @@ async def simulate_routing(
 
 @router.get("/health/providers")
 @instrument("API", label="admin:health", capability="routing:health")
-async def get_provider_health(admin_user: dict = Depends(get_admin_user)):
+async def get_provider_health(admin_user: dict = Depends(get_admin_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_routing_admin_py_L508"}
     """Get health status for all providers"""
     try:
         health_monitor = await get_health_monitor()
@@ -521,7 +521,7 @@ async def get_provider_health(admin_user: dict = Depends(get_admin_user)):
 @instrument("API", label="admin:health_check", capability="routing:health")
 async def trigger_health_check(
     request: HealthCheckRequest,
-    admin_user: dict = Depends(get_admin_user)
+    admin_user: dict = Depends(get_admin_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_routing_admin_py_L524"}
 ):
     """Trigger health check for providers"""
     try:
@@ -549,7 +549,7 @@ async def trigger_health_check(
 
 @router.get("/ab-tests")
 @instrument("API", label="admin:ab_tests", capability="routing:ab_test")
-async def get_ab_tests(admin_user: dict = Depends(get_admin_user)):
+async def get_ab_tests(admin_user: dict = Depends(get_admin_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_routing_admin_py_L552"}
     """Get all A/B tests"""
     try:
         config_manager = await get_routing_config_manager()
@@ -577,7 +577,7 @@ async def get_ab_tests(admin_user: dict = Depends(get_admin_user)):
 async def manage_circuit_breaker(
     provider: str,
     request: CircuitBreakerRequest,
-    admin_user: dict = Depends(get_admin_user)
+    admin_user: dict = Depends(get_admin_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_routing_admin_py_L580"}
 ):
     """Manage circuit breaker for a provider"""
     try:
@@ -612,7 +612,7 @@ async def manage_circuit_breaker(
 
 @router.get("/status")
 @instrument("API", label="admin:status", capability="routing:status")
-async def get_orchestration_status(admin_user: dict = Depends(get_admin_user)):
+async def get_orchestration_status(admin_user: dict = Depends(get_admin_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_routing_admin_py_L615"}
     """Get overall orchestration status"""
     try:
         orchestrator = await get_externalized_orchestrator()
@@ -626,7 +626,7 @@ async def get_orchestration_status(admin_user: dict = Depends(get_admin_user)):
 
 @router.get("/metrics")
 @instrument("API", label="admin:metrics", capability="routing:metrics")
-async def get_routing_metrics(admin_user: dict = Depends(get_admin_user)):
+async def get_routing_metrics(admin_user: dict = Depends(get_admin_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_routing_admin_py_L629"}
     """Get routing performance metrics"""
     try:
         # TODO: Implement metrics collection from Prometheus

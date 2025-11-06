@@ -378,7 +378,7 @@ class AsyncInferenceClient:
                 )
                 response_error_payload = None
                 if response.status != 200:
-                    try:
+                    try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_consciousness_async_client_py_L381"}
                         response_error_payload = await response.json()  # get payload before connection closed
                     except Exception:
                         pass

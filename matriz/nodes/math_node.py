@@ -46,7 +46,7 @@ class MathNode(CognitiveNode):
     """
 
     # Supported mathematical operations
-    SUPPORTED_OPERATORS = {
+    SUPPORTED_OPERATORS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_nodes_math_node_py_L49"}
         ast.Add: operator.add,
         ast.Sub: operator.sub,
         ast.Mult: operator.mul,
@@ -57,7 +57,7 @@ class MathNode(CognitiveNode):
     }
 
     # Mathematical constants
-    MATH_CONSTANTS = {"pi": math.pi, "e": math.e, "tau": math.tau}
+    MATH_CONSTANTS = {"pi": math.pi, "e": math.e, "tau": math.tau}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_nodes_math_node_py_L60"}
 
     def __init__(self, tenant: str = "default", precision: int = 10):
         """

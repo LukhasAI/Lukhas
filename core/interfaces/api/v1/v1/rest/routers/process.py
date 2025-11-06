@@ -71,7 +71,7 @@ async def record_metrics(request_id: str, duration: float, status: str = "succes
 async def process_request(
     request: ProcessRequest,
     background_tasks: BackgroundTasks,
-    core=Depends(get_lukhas_core),
+    core=Depends(get_lukhas_core),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_interfaces_api_v1_v1_rest_routers_process_py_L74"}
 ) -> ProcessResponse:
     """Process input through LUKHAS Cognitive system."""
     request_id = str(uuid.uuid4())

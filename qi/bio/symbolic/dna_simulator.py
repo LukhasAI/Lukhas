@@ -9,7 +9,7 @@ from core.symbolism.tags import TagPermission, TagScope
 class DNASimulator:
     """Parse symbolic DNA sequences into inheritable tags."""
 
-    SYMBOL_MAP = {
+    SYMBOL_MAP = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_bio_symbolic_dna_simulator_py_L12"}
         "A": "alpha",
         "C": "cognition",
         "G": "growth",

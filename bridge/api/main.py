@@ -71,7 +71,7 @@ async def root():
 
 
 @app.get("/healthz")
-async def health_check(user: AuthUser = Depends(get_current_user)):
+async def health_check(user: AuthUser = Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_main_py_L74"}
     """Health check with user authentication"""
     return {
         "status": "ok",
@@ -95,7 +95,7 @@ async def public_health():
 
 
 @app.post("/api/generate-dream")
-async def generate_dream(request: Request, user: AuthUser = Depends(get_current_user)):
+async def generate_dream(request: Request, user: AuthUser = Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_main_py_L98"}
     """Generate a dream scene with symbolic analysis"""
     try:
         # Get request data
@@ -147,7 +147,7 @@ async def generate_dream(request: Request, user: AuthUser = Depends(get_current_
 
 
 @app.get("/api/dreams")
-async def list_dreams(user: AuthUser = Depends(get_current_user)):
+async def list_dreams(user: AuthUser = Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_main_py_L150"}
     """List user's dreams"""
     # Mock dreams data
     dreams = [
@@ -180,7 +180,7 @@ async def list_dreams(user: AuthUser = Depends(get_current_user)):
 
 
 @app.post("/api/dreams/{dream_id}/rate")
-async def rate_dream(dream_id: str, request: Request, user: AuthUser = Depends(get_current_user)):
+async def rate_dream(dream_id: str, request: Request, user: AuthUser = Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_main_py_L183"}
     """Rate a dream"""
     data = await request.json()
     rating = data.get("rating", 0)  # -1, 0, 1
@@ -198,7 +198,7 @@ async def rate_dream(dream_id: str, request: Request, user: AuthUser = Depends(g
 
 
 @app.get("/api/symbols")
-async def list_symbols(user: AuthUser = Depends(get_current_user)):
+async def list_symbols(user: AuthUser = Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_main_py_L201"}
     """List user's symbolic patterns"""
     # Mock symbols data
     symbols = [
@@ -223,7 +223,7 @@ async def list_symbols(user: AuthUser = Depends(get_current_user)):
 
 
 @app.get("/api/settings")
-async def get_user_settings(user: AuthUser = Depends(get_current_user)):
+async def get_user_settings(user: AuthUser = Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_main_py_L226"}
     """Get user settings"""
     return {
         "recursive_dreams": True,
@@ -234,7 +234,7 @@ async def get_user_settings(user: AuthUser = Depends(get_current_user)):
 
 
 @app.post("/api/settings")
-async def update_user_settings(request: Request, user: AuthUser = Depends(get_current_user)):
+async def update_user_settings(request: Request, user: AuthUser = Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_main_py_L237"}
     """Update user settings"""
     data = await request.json()
 

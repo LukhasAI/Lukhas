@@ -57,13 +57,13 @@ class LUKHASSecuritySBOMGenerator:
     """Generate comprehensive SBOM with security analysis"""
 
     # Approved licenses for LUKHAS project
-    APPROVED_LICENSES = {
+    APPROVED_LICENSES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_security_sbom_generator_py_L60"}
         'MIT', 'Apache-2.0', 'BSD-3-Clause', 'BSD-2-Clause',
         'Python-2.0', 'PSF-2.0', 'ISC', 'Unlicense'
     }
 
     # Critical CVE patterns to flag
-    CRITICAL_CVE_PATTERNS = {
+    CRITICAL_CVE_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_security_sbom_generator_py_L66"}
         'remote_code_execution', 'sql_injection', 'xss',
         'authentication_bypass', 'privilege_escalation'
     }

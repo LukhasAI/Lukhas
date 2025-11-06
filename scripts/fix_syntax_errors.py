@@ -41,7 +41,7 @@ def fix_common_syntax_patterns(content: str) -> tuple[str, list[str]]:
             fixes_applied.append(f"Line {i}: Fixed method definition syntax")
 
         # Pattern 2: Fix incomplete f-strings
-        if ('f"' in line or "f'" in line) and line.count('{') != line.count('}'):
+        if ('f"' in line or "f'" in line) and line.count('{') != line.count('}'):  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_fix_syntax_errors_py_L44"}
             # Check for unclosed braces
             # Try to fix by closing braces
             if line.count("{") > line.count("}"):

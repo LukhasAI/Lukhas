@@ -62,7 +62,7 @@ class TierMappingConfig:
     """Centralized tier mapping configuration for unifying different tier systems."""
 
     # Map Oneiric database tiers (1-5) to LAMBDA_TIER system
-    ONEIRIC_TO_LAMBDA = {
+    ONEIRIC_TO_LAMBDA = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_identity_integration_py_L65"}
         1: "LAMBDA_TIER_1",
         2: "LAMBDA_TIER_2",
         3: "LAMBDA_TIER_3",
@@ -71,7 +71,7 @@ class TierMappingConfig:
     }
 
     # Map EmotionalTier (T0-T5) to LAMBDA_TIER system
-    EMOTIONAL_TO_LAMBDA = {
+    EMOTIONAL_TO_LAMBDA = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_identity_integration_py_L74"}
         "T0": "LAMBDA_TIER_5",  # System access maps to highest tier
         "T1": "LAMBDA_TIER_1",
         "T2": "LAMBDA_TIER_2",
@@ -81,8 +81,8 @@ class TierMappingConfig:
     }
 
     # Reverse mappings
-    LAMBDA_TO_ONEIRIC = {v: k for k, v in ONEIRIC_TO_LAMBDA.items()}
-    LAMBDA_TO_EMOTIONAL = {v: k for k, v in EMOTIONAL_TO_LAMBDA.items()}
+    LAMBDA_TO_ONEIRIC = {v: k for k, v in ONEIRIC_TO_LAMBDA.items()}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_identity_integration_py_L84"}
+    LAMBDA_TO_EMOTIONAL = {v: k for k, v in EMOTIONAL_TO_LAMBDA.items()}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_identity_integration_py_L85"}
 
     @classmethod
     def normalize_tier(cls, tier: str | int | Enum) -> str:
