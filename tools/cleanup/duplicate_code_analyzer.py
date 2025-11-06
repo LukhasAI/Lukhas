@@ -7,6 +7,9 @@ Identifies duplicate and conflicting code patterns for cleanup.
 
 import ast
 import hashlib
+import logging
+
+logger = logging.getLogger(__name__)
 import os
 from collections import defaultdict
 from pathlib import Path

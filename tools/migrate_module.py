@@ -6,6 +6,9 @@ Automates the migration of modules to lukhas/ (accepted)
 from __future__ import annotations
 
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 import re
 import shutil
 import sys

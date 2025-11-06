@@ -17,6 +17,14 @@ IMPORT_RE = re.compile(
     re.MULTILINE
 )
 
+
+def read_ledger():
+    """Read ledger events from NDJSON file"""
+    import json
+    with open(LEDGER) as f:
+        for line in f:
+            if line.strip():
+                yield json.loads(line)
 def build_mapping(threshold=3):
     if not LEDGER.exists():
         raise SystemExit("ledger missing; run tests to populate.")
@@ -28,7 +36,7 @@ def build_mapping(threshold=3):
             if lukhas_mod and real_mod:
                 pairs[lukhas_mod][real_mod] += 1
     mapping = {}
-    for lukhas_mod, counts in votes.items():
+    for lukhas_mod, counts in pairs.items():
         best, n = counts.most_common(1)[0]
         if n >= threshold:  # only rewrite if we have strong evidence
             mapping[lukhas_mod] = best

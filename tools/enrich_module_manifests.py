@@ -7,6 +7,9 @@ with domain-specific intelligence and LUKHAS-aware context.
 """
 
 import argparse
+import logging
+
+logger = logging.getLogger(__name__)
 import json
 from pathlib import Path
 from typing import Any, Dict, List
