@@ -218,7 +218,10 @@ def _get_health_status() -> dict[str, Any]:
     """Get health status for both /health and /healthz endpoints."""
     status: dict[str, Any] = {'status': 'ok'}
     required = os.getenv('LUKHAS_VOICE_REQUIRED', 'false').strip().lower() == 'true'
-    voice_ok = voice_core_available()
+    try:
+        voice_ok = voice_core_available()
+    except Exception:
+        voice_ok = False
     status['voice_mode'] = 'normal' if voice_ok else 'degraded'
     if required and (not voice_ok):
         existing = status.get('degraded_reasons')
