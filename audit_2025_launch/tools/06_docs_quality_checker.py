@@ -4,13 +4,13 @@ LUKHAS Pre-Launch Audit - Phase 6: Documentation Quality Assessment
 Analyzes documentation completeness, quality, and identifies gaps.
 """
 
-import os
-import json
-import re
 import hashlib
-from pathlib import Path
+import json
+import os
+import re
 from collections import defaultdict
 from datetime import datetime, timedelta
+from pathlib import Path
 
 ROOT_DIR = Path(__file__).parent.parent.parent
 AUDIT_DATA_DIR = ROOT_DIR / "audit_2025_launch" / "data"
@@ -43,14 +43,18 @@ def discover_all_docs():
         if should_exclude(md_file):
             continue
 
-        docs.append({
-            "path": str(md_file.relative_to(ROOT_DIR)),
-            "absolute_path": str(md_file),
-            "name": md_file.name,
-            "size": md_file.stat().st_size,
-            "modified": datetime.fromtimestamp(md_file.stat().st_mtime).isoformat(),
-            "directory": str(md_file.parent.relative_to(ROOT_DIR))
-        })
+        try:
+            docs.append({
+                "path": str(md_file.relative_to(ROOT_DIR)),
+                "absolute_path": str(md_file),
+                "name": md_file.name,
+                "size": md_file.stat().st_size,
+                "modified": datetime.fromtimestamp(md_file.stat().st_mtime).isoformat(),
+                "directory": str(md_file.parent.relative_to(ROOT_DIR))
+            })
+        except (FileNotFoundError, OSError):
+            # Skip broken symlinks
+            pass
 
     print(f"  Found {len(docs)} markdown files")
     return docs
@@ -101,7 +105,7 @@ def check_module_documentation():
 def analyze_doc_quality(doc_file):
     """Analyze quality metrics for a documentation file."""
     try:
-        with open(doc_file["absolute_path"], 'r', encoding='utf-8', errors='ignore') as f:
+        with open(doc_file["absolute_path"], encoding='utf-8', errors='ignore') as f:
             content = f.read()
 
         # Basic metrics
@@ -453,22 +457,22 @@ def generate_docs_report():
     print(f"\nTotal Documentation: {len(all_docs)} files")
     print(f"Average Quality Score: {round(avg_quality, 1)}/100")
 
-    print(f"\nQuality Distribution:")
+    print("\nQuality Distribution:")
     print(f"  Excellent (90-100): {len(excellent)}")
     print(f"  Good (70-89): {len(good)}")
     print(f"  Needs Improvement (50-69): {len(needs_improvement)}")
     print(f"  Poor (<50): {len(poor)}")
 
-    print(f"\nModule Completeness:")
+    print("\nModule Completeness:")
     for module, info in sorted(module_docs.items(), key=lambda x: x[1]["completeness"], reverse=True)[:5]:
         print(f"  {module}: {info['completeness']}%")
 
-    print(f"\nIssues Found:")
+    print("\nIssues Found:")
     print(f"  Duplicate Groups: {len(duplicate_docs)}")
     print(f"  Stale Docs (>6mo): {len(stale_docs)}")
     print(f"  Poor Quality: {len(poor)}")
 
-    print(f"\n✓ Documentation report saved to:")
+    print("\n✓ Documentation report saved to:")
     print(f"  JSON: {output_file}")
     print(f"  Markdown: {md_output}")
     print("=" * 80)
