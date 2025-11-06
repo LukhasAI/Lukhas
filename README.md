@@ -827,20 +827,39 @@ See [`docs/consciousness/README.md`](docs/consciousness/README.md) for comprehen
 
 ## 📚 Documentation
 
+All documentation is now organized in the `docs/` directory for easy navigation.
+
 ### **Getting Started** 🚀
 - **[Quick Start Guide](docs/QUICK_START_GUIDE.md)** - 15-minute installation to first decision
 - **[Visual Architecture Guide](docs/VISUAL_ARCHITECTURE_GUIDE.md)** - ASCII & Mermaid diagrams
 - **[Core API Reference](docs/API_REFERENCE_CORE.md)** - Complete API documentation with examples
+- **[Context Files](lukhas_context.md)** - Comprehensive system context for AI agents ([Gemini version](gemini.md))
 
 ### **Architecture & Design** 🏗️
 - **[Architecture Overview](docs/ARCHITECTURE_OVERVIEW.md)** - Complete system with 0.01% standard
 - **[Architecture Guide](docs/architecture/README.md)** - Deep dive into system design
 - **[MΛTRIZ Guide](docs/MATRIZ_GUIDE.md)** - Cognitive engine documentation
+- **[MATRIZ Documentation](docs/matriz/)** - MATRIZ migration guides and reports
 
 ### **Development & API** 🛠️
 - **[Developer Guide](docs/development/README.md)** - Development workflows and standards
 - **[API Reference](docs/api/README.md)** - Comprehensive API documentation
-- **[Multi-Agent System](AGENTS.md)** - AI agent coordination platform
+- **[Multi-Agent System](docs/agents/)** - AI agent coordination and autonomous guides
+- **[Testing Documentation](docs/testing/)** - Test coverage reports and smoke test guides
+
+### **Project Management** 📋
+- **[Project Status](docs/project_status/)** - Implementation summaries and status reports
+- **[Project Planning](docs/project/)** - Quick reference guides and task templates
+- **[Session Notes](docs/sessions/)** - Development session summaries and progress reports
+
+### **Quality & Security** 🔒
+- **[Audit Reports](docs/audits/)** - Code quality audits and transparency scorecards
+- **[Security Documentation](docs/security/)** - Security improvement plans and posture reports
+- **[SECURITY.md](SECURITY.md)** - Security policy and vulnerability reporting
+
+### **Specialized Topics** 🎯
+- **[Bridge Patterns](docs/bridge/)** - Integration patterns and gap analysis
+- **[Codex Documentation](docs/codex/)** - Codex agent coordination and task reports
 
 ## 🚀 Enterprise Deployment
 
