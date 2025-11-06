@@ -317,7 +317,7 @@ AUDIT_TRACE_ENABLED=true
 
     def validate_safety_config(self) -> dict[str, bool]:
         """Validate that safety configuration is properly set."""
-        checks = {
+        _checks = {
             "dry_run_active": self.config.dry_run_mode,
             "offline_mode_active": self.config.offline_mode,
             "audit_mode_active": self.config.audit_mode,

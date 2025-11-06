@@ -361,7 +361,6 @@ class DeontologicalReasoner:
         action_lower = action.lower()
 
         # Actions rational beings would likely legislate
-        positive_actions = ["help", "protect", "respect", "educate", "heal"]
 
         # Actions rational beings would likely not legislate
         negative_actions = ["harm", "deceive", "exploit", "discriminate", "destroy"]

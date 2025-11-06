@@ -120,7 +120,6 @@ def analyze_doc_quality(doc_file):
         has_links = bool(re.search(r'\[.*?\]\(.*?\)', content))
         link_count = len(re.findall(r'\[.*?\]\(.*?\)', content))
 
-        has_headers = bool(re.search(r'^#+\s+', content, re.MULTILINE))
         header_count = len(re.findall(r'^#+\s+', content, re.MULTILINE))
 
         has_lists = bool(re.search(r'^\s*[-*+]\s+', content, re.MULTILINE))
