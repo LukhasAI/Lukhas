@@ -17,11 +17,11 @@ intelligence platform combining symbolic reasoning, emotional intelligence,
 quantum integration, and bio-inspired architecture.
 
 Mission: To illuminate complex reality through rigorous logic, adaptive
-intelligence, and human-centred ethics—turning data into understanding,
+intelligence, and human-centred ethics-turning data into understanding,
 understanding into foresight, and foresight into shared benefit for people
 and planet.
 
-ΛSAGE – Archetypal Resonance Profiler & Mythic Symbol Mapper
+ΛSAGE - Archetypal Resonance Profiler & Mythic Symbol Mapper
 
 Purpose: Identify deep symbolic archetypes across dreams, memory, and GLYPH lineage.
 Map motifs to Jungian, mythological, or cultural resonance patterns for long-range
@@ -198,7 +198,7 @@ class ArchetypalSession:
 
 class ΛSage:
     """
-    ΛSAGE – Archetypal Resonance Profiler & Mythic Symbol Mapper
+    ΛSAGE - Archetypal Resonance Profiler & Mythic Symbol Mapper
 
     Identifies deep symbolic archetypes across dreams, memory, and GLYPH lineage.
     Maps motifs to Jungian, mythological, or cultural resonance patterns for

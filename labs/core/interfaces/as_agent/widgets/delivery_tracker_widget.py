@@ -30,7 +30,7 @@ def create_delivery_widget(timezone, vendor, delivery_id, user_tier, estimated_e
     Parameters:
     - vendor (str): Delivery vendor name (e.g. 'FedEx', 'Uber Eats')
     - delivery_id (str): Unique delivery or order ID
-    - user_tier (int): Lukhas ID tier (0–5)
+    - user_tier (int): Lukhas ID tier (0-5)
     - estimated_eta (str): ISO timestamp string for ETA
     - delivery_status (str): Initial status: 'in_transit', 'delayed', 'delivered'
 

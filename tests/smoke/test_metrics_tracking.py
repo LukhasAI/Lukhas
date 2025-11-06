@@ -95,14 +95,14 @@ def test_metrics_prometheus_format(client):
     lines = metrics_text.strip().split("\n")
 
     # Should have HELP and TYPE declarations
-    help_lines = [l for l in lines if l.startswith("# HELP")]
-    type_lines = [l for l in lines if l.startswith("# TYPE")]
+    help_lines = [line for line in lines if line.startswith("# HELP")]
+    type_lines = [line for line in lines if line.startswith("# TYPE")]
 
     assert len(help_lines) > 0, "Should have HELP declarations"
     assert len(type_lines) > 0, "Should have TYPE declarations"
 
     # Should have actual metric values
-    metric_lines = [l for l in lines if l and not l.startswith("#")]
+    metric_lines = [line for line in lines if line and not line.startswith("#")]
     assert len(metric_lines) > 0, "Should have metric values"
 
 

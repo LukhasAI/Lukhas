@@ -58,11 +58,11 @@ def test_read_timeout_valid(reliability_config):
 
 
 def test_read_timeout_slo_compatible(reliability_config):
-    """Ensure read_ms allows meeting SLO with 2× buffer."""
+    """Ensure read_ms allows meeting SLO with 2x buffer."""
     read_ms = reliability_config["timeouts"]["read_ms"]
     min_required_ms = SLO_E2E_MS * 2
     assert read_ms >= min_required_ms, \
-        f"read_ms ({read_ms}ms) must be >= {min_required_ms}ms (2× SLO_E2E_MS) for SLO compliance"
+        f"read_ms ({read_ms}ms) must be >= {min_required_ms}ms (2x SLO_E2E_MS) for SLO compliance"
 
 
 def test_backoff_section_exists(reliability_config):

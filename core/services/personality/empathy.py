@@ -21,7 +21,7 @@ def generate_empathic_response(emotion, intensity=0.5):
     if mood in ["melancholy", "sad", "lonely"]:
         return f"I'm feeling your {level} sadness. You don't have to carry it alone."
     elif mood in ["joyful", "happy", "grateful"]:
-        return f"I sense your {level} joy — it's beautiful to witness."
+        return f"I sense your {level} joy - it's beautiful to witness."
     elif mood in ["anxious", "afraid", "nervous"]:
         return f"That {level} anxiety you feel? I'm here, steady with you."
     elif mood in ["angry", "frustrated", "bitter"]:
@@ -60,7 +60,7 @@ if __name__ == "__main__":
 #   python lukhas_empathy.py
 #
 # Description:
-# - Takes emotion + intensity (0–1)
+# - Takes emotion + intensity (0-1)
 # - Returns symbolic, human-like empathy phrases
 # - Use in response to dreams, speech, mood, or intent
 #

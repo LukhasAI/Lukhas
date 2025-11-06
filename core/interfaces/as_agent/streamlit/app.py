@@ -316,7 +316,7 @@ if selected_block:
 # 📦 FEATURES:
 #   - Sidebar toggle for Agent core (LUKHAS symbolic modules)
 #   - Symbolic widget preview with DST and vendor handoff
-#   - Multi-tier access simulation (Tier 0–5)
+#   - Multi-tier access simulation (Tier 0-5)
 #   - Emotional state-aware scheduler (backend logic)
 #
 # 📡 PAIRED APPS OVERVIEW:

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-promotion_selector.py — 0.01% surgical picker for promoting files from legacy lanes
+promotion_selector.py - 0.01% surgical picker for promoting files from legacy lanes
 to canonical flat root under `Lukhas/`.
 
 Goals
@@ -342,7 +342,7 @@ def _write_plan_md(rows: List[FileCandidate], path: pathlib.Path,
                    params: Dict[str, str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     lines = []
-    lines.append("# Promotion Selector — Batch Plan")
+    lines.append("# Promotion Selector - Batch Plan")
     lines.append("")
     lines.append(f"_Generated:_ {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}")
     lines.append("")

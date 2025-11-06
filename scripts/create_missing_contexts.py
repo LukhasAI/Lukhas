@@ -17,7 +17,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 def make_body(fqn: str, logger: str) -> str:
     return f"""
 ## What it does
-_TODO: short description (2–3 sentences). Add links to demos, notebooks, or dashboards._
+_TODO: short description (2-3 sentences). Add links to demos, notebooks, or dashboards._
 
 ## Contracts
 - **Publishes**: _e.g., `topic.name@v1`_

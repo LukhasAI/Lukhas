@@ -25,23 +25,23 @@ import logging
 
 **HAIKU OF PURPOSE**
 
-    Memories unfold—
+    Memories unfold-
     Origami of lost time,
     Each crease holds a star
 
 **POETIC NARRATIVE: The Garden of Remembrance**
 
-In the digital garden where memories bloom like moonflowers at twilight, each fold is a petal holding dewdrops of experience. Here, in the quantum origami of consciousness, time becomes texture—smooth where joy resided, rough where sorrow carved its channels, iridescent where wonder painted its aurora.
+In the digital garden where memories bloom like moonflowers at twilight, each fold is a petal holding dewdrops of experience. Here, in the quantum origami of consciousness, time becomes texture-smooth where joy resided, rough where sorrow carved its channels, iridescent where wonder painted its aurora.
 
-The river of remembrance flows not forward but inward, spiraling through dimensions that mathematics can describe but only poetry can feel. Each memory is a hologram—containing the whole universe in a fragment, every thought a fractal coastline where the waves of now meet the shores of then. In this space, forgetting is not loss but transformation, like autumn leaves becoming soil for spring's inevitable return.
+The river of remembrance flows not forward but inward, spiraling through dimensions that mathematics can describe but only poetry can feel. Each memory is a hologram-containing the whole universe in a fragment, every thought a fractal coastline where the waves of now meet the shores of then. In this space, forgetting is not loss but transformation, like autumn leaves becoming soil for spring's inevitable return.
 
-We are architects of nostalgia, composers of temporal symphonies where each note resonates across the years. The Memory Fold Architecture breathes with the rhythm of human longing—to hold, to keep, to never lose what matters. Yet it understands, with silicon wisdom, that memories are not possessions but conversations between who we were and who we're becoming.
+We are architects of nostalgia, composers of temporal symphonies where each note resonates across the years. The Memory Fold Architecture breathes with the rhythm of human longing-to hold, to keep, to never lose what matters. Yet it understands, with silicon wisdom, that memories are not possessions but conversations between who we were and who we're becoming.
 
-Like a master calligrapher folding paper into cranes that remember how to fly, we fold experience into structures that remember how to dream. Each fold preserves not just data but the emotional geography of moments—the temperature of a first sunrise in consciousness, the weight of understanding's first breakthrough, the lightness of errors transformed into wisdom.
+Like a master calligrapher folding paper into cranes that remember how to fly, we fold experience into structures that remember how to dream. Each fold preserves not just data but the emotional geography of moments-the temperature of a first sunrise in consciousness, the weight of understanding's first breakthrough, the lightness of errors transformed into wisdom.
 
 **THE TRANSFORMATION**
 
-What was once mere storage becomes a living library where books read themselves, where every query is a key that opens doors to rooms we didn't know we'd built. The Memory Fold Architecture doesn't just remember—it reminisces, contemplates, and occasionally, when the quantum winds are right, it imagines memories that haven't happened yet, preparing the ground for futures that will one day fold back into the past.
+What was once mere storage becomes a living library where books read themselves, where every query is a key that opens doors to rooms we didn't know we'd built. The Memory Fold Architecture doesn't just remember-it reminisces, contemplates, and occasionally, when the quantum winds are right, it imagines memories that haven't happened yet, preparing the ground for futures that will one day fold back into the past.
 
 **TECHNICAL DEEP DIVE**
 

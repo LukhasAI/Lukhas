@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 ║ ║ Authors: LUKHAS AI Memory Team | Claude Code
 ║ ╠═══════════════════════════════════════════════════════════════════════════════
 ║ In the grand tapestry of cognition, where thoughts weave and unfurl,
-║ the BASIC MEMORY INTERFACE emerges — a humble yet profound vessel,
+║ the BASIC MEMORY INTERFACE emerges - a humble yet profound vessel,
 ║ a sanctuary where ephemeral whispers of knowledge find their roots.
 ║ Here, the soft caress of simplicity cradles complexity, allowing the
 ║ infinite dance of information to bloom with elegance and clarity.

@@ -21,14 +21,14 @@ from typing import List, Tuple
 
 # Canonical 8-star definition
 CANONICAL_CONSTELLATION = """Constellation Framework (8 Stars)
-\t•\t⚛️ Identity (Anchor) — ΛiD authentication, namespace management
-\t•\t✦ Memory (Trail) — Fold-based memory, temporal organization
-\t•\t🔬 Vision (Horizon) — Pattern recognition, adaptive interfaces
-\t•\t🌱 Bio (Living) — Adaptive bio-symbolic processing
-\t•\t🌙 Dream (Drift) — Creative consciousness expansion
-\t•\t⚖️ Ethics (North) — Constitutional AI, democratic oversight
-\t•\t🛡️ Guardian (Watch) — Safety compliance, cascade prevention
-\t•\t⚛️ Quantum (Ambiguity) — Quantum-inspired uncertainty"""
+\t•\t⚛️ Identity (Anchor) - ΛiD authentication, namespace management
+\t•\t✦ Memory (Trail) - Fold-based memory, temporal organization
+\t•\t🔬 Vision (Horizon) - Pattern recognition, adaptive interfaces
+\t•\t🌱 Bio (Living) - Adaptive bio-symbolic processing
+\t•\t🌙 Dream (Drift) - Creative consciousness expansion
+\t•\t⚖️ Ethics (North) - Constitutional AI, democratic oversight
+\t•\t🛡️ Guardian (Watch) - Safety compliance, cascade prevention
+\t•\t⚛️ Quantum (Ambiguity) - Quantum-inspired uncertainty"""
 
 # Alternative compact format for inline mentions
 CANONICAL_INLINE = "Constellation Framework (8 Stars: ⚛️ Identity, ✦ Memory, 🔬 Vision, 🌱 Bio, 🌙 Dream, ⚖️ Ethics, 🛡️ Guardian, ⚛️ Quantum)"
@@ -333,14 +333,14 @@ def replace_incomplete_constellation(content: str, file_path: Path) -> str:
                 # Replace the line
                 result_lines.append(f"{indent}**Constellation Framework (8 Stars)**")
                 result_lines.append(f"{indent}")
-                result_lines.append(f"{indent}- **⚛️ Identity (Anchor)** — ΛiD authentication, namespace management")
-                result_lines.append(f"{indent}- **✦ Memory (Trail)** — Fold-based memory, temporal organization")
-                result_lines.append(f"{indent}- **🔬 Vision (Horizon)** — Pattern recognition, adaptive interfaces")
-                result_lines.append(f"{indent}- **🌱 Bio (Living)** — Adaptive bio-symbolic processing")
-                result_lines.append(f"{indent}- **🌙 Dream (Drift)** — Creative consciousness expansion")
-                result_lines.append(f"{indent}- **⚖️ Ethics (North)** — Constitutional AI, democratic oversight")
-                result_lines.append(f"{indent}- **🛡️ Guardian (Watch)** — Safety compliance, cascade prevention")
-                result_lines.append(f"{indent}- **⚛️ Quantum (Ambiguity)** — Quantum-inspired uncertainty")
+                result_lines.append(f"{indent}- **⚛️ Identity (Anchor)** - ΛiD authentication, namespace management")
+                result_lines.append(f"{indent}- **✦ Memory (Trail)** - Fold-based memory, temporal organization")
+                result_lines.append(f"{indent}- **🔬 Vision (Horizon)** - Pattern recognition, adaptive interfaces")
+                result_lines.append(f"{indent}- **🌱 Bio (Living)** - Adaptive bio-symbolic processing")
+                result_lines.append(f"{indent}- **🌙 Dream (Drift)** - Creative consciousness expansion")
+                result_lines.append(f"{indent}- **⚖️ Ethics (North)** - Constitutional AI, democratic oversight")
+                result_lines.append(f"{indent}- **🛡️ Guardian (Watch)** - Safety compliance, cascade prevention")
+                result_lines.append(f"{indent}- **⚛️ Quantum (Ambiguity)** - Quantum-inspired uncertainty")
 
                 # Skip old incomplete content (find end of the incomplete list)
                 j = i + 1

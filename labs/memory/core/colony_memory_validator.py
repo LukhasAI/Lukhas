@@ -15,7 +15,7 @@
 ║ │ In the distributed realm of colonies, trust is not assumed but earned      │
 ║ │ through consensus. Like neurons voting on the reality of a memory, each    │
 ║ │ colony contributes its voice to the choir of validation. No single point   │
-║ │ of failure, no singular authority—only the collective wisdom of the        │
+║ │ of failure, no singular authority-only the collective wisdom of the        │
 ║ │ distributed mind ensuring the integrity of remembrance.                    │
 ║ │                                                                             │
 ║ │ Through Byzantine fault tolerance and quorum consensus, memories are       │

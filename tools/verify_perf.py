@@ -43,7 +43,7 @@ def main() -> int:
     effective_budget = unit_budget * threshold_mult
     if total > effective_budget:
         print(f"❌ Performance budget exceeded: unit_contracts_total {total:.2f}s > {effective_budget:.2f}s "
-              f"(budget {unit_budget:.2f}s × {threshold_mult:g})")
+              f"(budget {unit_budget:.2f}s x {threshold_mult:g})")
         return 1
     print(f"✅ Performance budgets within limits: unit_contracts_total {total:.2f}s ≤ {effective_budget:.2f}s")
     return 0

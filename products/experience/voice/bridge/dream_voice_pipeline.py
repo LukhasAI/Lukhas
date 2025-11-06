@@ -54,7 +54,7 @@ def run_dream_voice_pipeline():
     tier = user_settings.get("tier", 0)
 
     # Keep as print since this is CLI user output
-    print(f"🔐 LUKHAS TIER LEVEL: {tier} — Checking narration queue...\n")
+    print(f"🔐 LUKHAS TIER LEVEL: {tier} - Checking narration queue...\n")
 
     narration_entries = fetch_narration_entries()
     filtered = filter_narration_queue(narration_entries, tier)

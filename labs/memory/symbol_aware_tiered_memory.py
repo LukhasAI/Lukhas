@@ -9,7 +9,7 @@
 │                              POETIC ESSENCE                                   │
 │                                                                              │
 │ In the realm of computation, where the ephemeral whispers of data dance,     │
-│ lies a sanctuary of memory—a tiered bastion, where the echoes of symbols      │
+│ lies a sanctuary of memory-a tiered bastion, where the echoes of symbols      │
 │ resonate like ancient tomes of wisdom. Here, the Symbol Aware Tiered Memory   │
 │ unfurls its wings, embracing the duality of structure and fluidity,           │
 │ encapsulating the essence of thought within its carefully wrought cache.      │
@@ -22,7 +22,7 @@
 │ every twist and turn illuminates the path of knowledge.                      │
 │                                                                              │
 │ Thus, the Symbol Aware Tiered Memory serves as a bridge over the chasm of     │
-│ obscurity—an oracle that bestows clarity upon the chaotic symphony of         │
+│ obscurity-an oracle that bestows clarity upon the chaotic symphony of         │
 │ information. In this hallowed space, the ephemeral becomes eternal, as        │
 │ context and memory coalesce, crafting a narrative woven from the fabric of    │
 │ dreams and reason.                                                            │
