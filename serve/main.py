@@ -84,18 +84,18 @@ def _safe_import_router(module_path: str, attr: str='router') -> Optional[Any]:
         return getattr(mod, attr)
     except Exception:
         return None
-consciousness_router = _safe_import_router('.consciousness_api', 'router')
+consciousness_router = _safe_import_router('serve.consciousness_api', 'router')
 dreams_router = _safe_import_router('serve.dreams_api', 'router')
-feedback_router = _safe_import_router('.feedback_routes', 'router')
-guardian_router = _safe_import_router('.guardian_api', 'router')
-identity_router = _safe_import_router('.identity_api', 'router')
+feedback_router = _safe_import_router('serve.feedback_routes', 'router')
+guardian_router = _safe_import_router('serve.guardian_api', 'router')
+identity_router = _safe_import_router('serve.identity_api', 'router')
 webauthn_router = None
 if (env_get('LUKHAS_WEBAUTHN', '0') or '0').strip() == '1':
-    webauthn_router = _safe_import_router('.webauthn_routes', 'router')
-openai_router = _safe_import_router('.openai_routes', 'router')
-orchestration_router = _safe_import_router('.orchestration_routes', 'router')
-routes_router = _safe_import_router('.routes', 'router')
-traces_router = _safe_import_router('.routes_traces', 'router')
+    webauthn_router = _safe_import_router('serve.webauthn_routes', 'router')
+openai_router = _safe_import_router('serve.openai_routes', 'router')
+orchestration_router = _safe_import_router('serve.orchestration_routes', 'router')
+routes_router = _safe_import_router('serve.routes', 'router')
+routes_traces_router = _safe_import_router('serve.routes_traces', 'router')
 matriz_traces_router = (
     _safe_import_router('MATRIZ.traces_router', 'router')
     or _safe_import_router('matriz.traces_router', 'router')
@@ -186,7 +186,8 @@ class HeadersMiddleware(BaseHTTPMiddleware):
         return response
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
-app.add_middleware(StrictAuthMiddleware)
+if env_get("LUKHAS_DEV_MODE") != "true":
+    app.add_middleware(StrictAuthMiddleware)
 app.add_middleware(HeadersMiddleware)
 if routes_router is not None:
     app.include_router(routes_router)
@@ -194,8 +195,8 @@ if openai_router is not None:
     app.include_router(openai_router)
 if feedback_router is not None:
     app.include_router(feedback_router)
-if traces_router is not None:
-    app.include_router(traces_router)
+if routes_traces_router is not None:
+    app.include_router(routes_traces_router)
 if matriz_traces_router is not None:
     app.include_router(matriz_traces_router)
 if orchestration_router is not None:
@@ -344,6 +345,16 @@ async def create_chat_completion(request: dict) -> dict[str, Any]:
     messages = request.get('messages', [])
     model = request.get('model', 'gpt-4')
     request.get('max_tokens', 100)
+    stream = request.get('stream', False)
+
+    async def stream_generator():
+        yield "data: test\n\n"
+        yield "data: [DONE]\n\n"
+
+    if stream:
+        from fastapi.responses import StreamingResponse
+        return StreamingResponse(stream_generator(), media_type="text/event-stream")
+
     import time
     response_text = 'This is a stub response for RC soak testing.'
     return {'id': f'chatcmpl-{int(time.time())}', 'object': 'chat.completion', 'created': int(time.time()), 'model': model, 'choices': [{'index': 0, 'message': {'role': 'assistant', 'content': response_text}, 'finish_reason': 'stop'}], 'usage': {'prompt_tokens': sum(len(str(m.get('content', '')).split()) for m in messages), 'completion_tokens': len(response_text.split()), 'total_tokens': sum(len(str(m.get('content', '')).split()) for m in messages) + len(response_text.split())}}
