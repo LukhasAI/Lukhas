@@ -20,7 +20,7 @@ class EmbeddingIndex:
         self._vectors: Dict[str, np.ndarray] = {}
         self._metadata: Dict[str, Dict[str, Any]] = {}
 
-    def add(self, vector_id: str, vector: List[float], metadata: Dict[str, Any] = None):
+    def add(self, vector_id: str, vector: List[float], metadata: Optional[Dict[str, Any]] = None):
         """Adds a vector to the index."""
         self._vectors[vector_id] = np.array(vector)
         if metadata:
