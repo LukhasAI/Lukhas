@@ -14,10 +14,8 @@ Usage:
 
 import ast
 import json
-import ast
 from datetime import datetime, timezone
 from pathlib import Path
-from datetime import datetime, timezone
 
 
 class ModuleInventoryGenerator:

@@ -22,6 +22,9 @@ import time
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
+from fastapi import status
+from fastapi.testclient import TestClient
+
 from core.api.api_system import (
     APIResponse,
     APISystem,
@@ -33,8 +36,6 @@ from core.api.api_system import (
     handle_api_error,
     validate_request,
 )
-from fastapi import status
-from fastapi.testclient import TestClient
 
 
 class TestAPISystem:

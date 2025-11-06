@@ -90,7 +90,7 @@ def main() -> int:
         elif status == "changed":
             print(f"❌ DRIFT DETECTED: {dst}")
             print(f"   Does not match source: {src}")
-            print(f"   → Content has diverged. Review and reconcile.")
+            print("   → Content has diverged. Review and reconcile.")
             issues.append((src, dst, status))
 
     print()

@@ -54,8 +54,9 @@ LUKHAS_OSCILLATORS_AVAILABLE = False
 try:
     # Try absolute imports first (candidate lane structure)
     # type: ignore
-    from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
     from qi.processing.qi_engine import QIOscillator  # type: ignore
+
+    from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
 
 
     LUKHAS_OSCILLATORS_AVAILABLE = True
@@ -64,8 +65,9 @@ except ImportError:
     try:
         # Fallback to production lane if available
         # type: ignore
-        from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
         from qi.processing.qi_engine import QIOscillator  # type: ignore
+
+        from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
 
 
         LUKHAS_OSCILLATORS_AVAILABLE = True

@@ -1,8 +1,9 @@
 """Tests for tier resolution in the core integrator."""
 
 import pytest
-from consciousness.reflection.core_integrator import AccessTier, resolve_access_tier
 from tiers import GlobalTier, TierMappingError
+
+from consciousness.reflection.core_integrator import AccessTier, resolve_access_tier
 
 
 def test_resolve_access_tier_supports_legacy_names() -> None:

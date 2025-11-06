@@ -2,8 +2,10 @@
 In-memory implementation of memory indexing systems.
 """
 from collections import defaultdict
-from typing import Dict, List, Any, TypedDict
+from typing import Any, Dict, List, TypedDict
+
 import numpy as np
+
 
 class SearchResult(TypedDict):
     id: str

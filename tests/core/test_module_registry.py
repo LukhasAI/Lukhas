@@ -1,6 +1,9 @@
-import pytest
 from unittest.mock import Mock, patch
-from core.module_registry import ModuleRegistry, ModuleInfo, TierLevel
+
+import pytest
+
+from core.module_registry import ModuleInfo, ModuleRegistry, TierLevel
+
 
 class TestModuleRegistry:
     @pytest.fixture

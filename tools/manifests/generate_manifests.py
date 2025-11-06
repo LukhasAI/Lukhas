@@ -3,11 +3,11 @@ from __future__ import annotations
 
 import argparse
 import datetime
-from datetime import timezone
 import json
 import os
 import re
 import sys
+from datetime import timezone
 
 STAR_RULES = [
     (re.compile(r'(governance|guardian|ethic)'), (["Ethics","Guardian"], 0.95)),

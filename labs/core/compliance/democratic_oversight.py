@@ -286,7 +286,7 @@ class DemocraticOversightEngine:
             ],
             voting_weight=0.20,
             expertise_areas=["human_rights", "digital_rights", "privacy", "algorithmic_accountability"],
-            contact_information={"email": "contact@airights.org", "website": "https://airights.org"},
+            contact_information={"email": "contact@airights.example.org", "website": "https://airights.example"},
         )
         self.stakeholder_groups[civil_society.group_id] = civil_society
 
@@ -303,7 +303,7 @@ class DemocraticOversightEngine:
             ],
             voting_weight=0.15,
             expertise_areas=["ai_ethics", "machine_learning", "algorithmic_bias", "fairness"],
-            contact_information={"email": "consortium@aiethics.edu", "website": "https://aiethics.edu"},
+            contact_information={"email": "consortium@aiethics.example.edu", "website": "https://aiethics.example"},
         )
         self.stakeholder_groups[academic_group.group_id] = academic_group
 

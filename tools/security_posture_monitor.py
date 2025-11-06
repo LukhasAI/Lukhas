@@ -8,11 +8,11 @@ attestation health, and supply chain integrity.
 """
 
 import datetime
-from datetime import timezone
 import glob
 import json
 import sys
 from dataclasses import dataclass
+from datetime import timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
