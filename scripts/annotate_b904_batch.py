@@ -42,7 +42,7 @@ def annotate_file(filepath: str, line: int) -> bool:
 
     # Check if already annotated
     if line > 3:
-        prev_lines = "".join(lines[max(0, line - 4):line - 1])
+        prev_lines = "".join(lines[max(0, line - 4) : line - 1])
         if "T4:" in prev_lines and "B904" in prev_lines:
             print(f"✓ Already annotated: {filepath}:{line}")
             return True
@@ -78,7 +78,9 @@ def main():
                 success_count += 1
 
     print(f"\n✅ Annotated {success_count}/{len(violations)} B904 violations")
-    print("\n💡 Note: These are marked as 'planned' - consider using raise...from for proper exception chaining")
+    print(
+        "\n💡 Note: These are marked as 'planned' - consider using raise...from for proper exception chaining"
+    )
 
     # Show updated T4 status
     print("\n🔍 Running T4 check to verify annotations...")

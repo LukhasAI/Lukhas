@@ -41,7 +41,7 @@ def annotate_file(filepath: str, line: int) -> bool:
 
     # Check if already annotated
     if line > 3:
-        prev_lines = "".join(lines[max(0, line - 4):line - 1])
+        prev_lines = "".join(lines[max(0, line - 4) : line - 1])
         if "T4:" in prev_lines and "F401" in prev_lines:
             print(f"✓ Already annotated: {filepath}:{line}")
             return True

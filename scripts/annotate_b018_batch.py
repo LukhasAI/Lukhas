@@ -5,7 +5,6 @@ Specifically targets the __all__ module export validation pattern.
 """
 
 import json
-import re
 import subprocess
 import sys
 from pathlib import Path
@@ -26,7 +25,7 @@ def get_b018_violations():
     if result.returncode != 0:
         print(f"Error running T4 check: {result.stderr}", file=sys.stderr)
         return []
-    
+
     data = json.loads(result.stdout)
     return [v for v in data.get("unannotated", []) if v["code"] == "B018"]
 
@@ -37,20 +36,20 @@ def annotate_file(filepath: str, line: int) -> bool:
     if not path.exists():
         print(f"File not found: {filepath}", file=sys.stderr)
         return False
-    
+
     lines = path.read_text().splitlines(keepends=True)
-    
+
     # Check if already annotated
     if line > 3:
-        prev_lines = "".join(lines[max(0, line - 4):line - 1])
+        prev_lines = "".join(lines[max(0, line - 4) : line - 1])
         if "T4:" in prev_lines and "B018" in prev_lines:
             print(f"✓ Already annotated: {filepath}:{line}")
             return True
-    
+
     # Insert annotation before the target line (line is 1-indexed)
     insert_pos = line - 1
     lines.insert(insert_pos, T4_ANNOTATION)
-    
+
     path.write_text("".join(lines))
     print(f"✓ Annotated: {filepath}:{line}")
     return True
@@ -59,7 +58,7 @@ def annotate_file(filepath: str, line: int) -> bool:
 def main():
     violations = get_b018_violations()
     print(f"Found {len(violations)} B018 violations to annotate\n")
-    
+
     # Group by file to process efficiently
     by_file = {}
     for v in violations:
@@ -68,7 +67,7 @@ def main():
         if filepath not in by_file:
             by_file[filepath] = []
         by_file[filepath].append(line)
-    
+
     success_count = 0
     for filepath, lines in sorted(by_file.items()):
         print(f"\n📝 Processing {filepath} ({len(lines)} violations)")
@@ -76,9 +75,9 @@ def main():
         for line in sorted(lines, reverse=True):
             if annotate_file(filepath, line):
                 success_count += 1
-    
+
     print(f"\n✅ Annotated {success_count}/{len(violations)} B018 violations")
-    
+
     # Show updated T4 status
     print("\n🔍 Running T4 check to verify annotations...")
     subprocess.run(
