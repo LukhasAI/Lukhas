@@ -9,11 +9,32 @@ import importlib
 import json
 import logging
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
+
+
+def _default_seseo_replacements() -> dict[str, str]:
+    return {
+        "gracias": "grasia",
+        "hacer": "haser",
+        "medicina": "medisina",
+        "corazón": "corasón",
+    }
+
+
+def _default_aspiration_patterns() -> dict[str, str]:
+    return {"los ": "loh ", "más ": "mah ", "después": "dehpué"}
+
+
+def _default_expressions() -> dict[str, list[str]]:
+    return {
+        "greeting": ["mi niño", "mi niña", "mi arma"],
+        "concern": ["¿qué le pasa?", "¿está malito?"],
+        "comfort": ["no se preocupe", "tranquilo", "ya verá como se mejora"],
+    }
 
 
 @dataclass
@@ -21,22 +42,13 @@ class AndaluzPhonetics:
     """Andalusian Spanish phonetic patterns"""
 
     # Seseo: s/c/z all pronounced as 's'
-    seseo_replacements = {
-        "gracias": "grasia",
-        "hacer": "haser",
-        "medicina": "medisina",
-        "corazón": "corasón",
-    }
+    seseo_replacements: dict[str, str] = field(default_factory=_default_seseo_replacements)
 
     # Aspiration of final consonants
-    aspiration_patterns = {"los ": "loh ", "más ": "mah ", "después": "dehpué"}
+    aspiration_patterns: dict[str, str] = field(default_factory=_default_aspiration_patterns)
 
     # Common Andalusian expressions
-    expressions = {
-        "greeting": ["mi niño", "mi niña", "mi arma"],
-        "concern": ["¿qué le pasa?", "¿está malito?"],
-        "comfort": ["no se preocupe", "tranquilo", "ya verá como se mejora"],
-    }
+    expressions: dict[str, list[str]] = field(default_factory=_default_expressions)
 
 
 class AndaluzVoiceEngine:
