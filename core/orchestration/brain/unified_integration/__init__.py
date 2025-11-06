@@ -75,15 +75,15 @@ class UnifiedIntegration:
     """
 
     def __init__(self) -> None:
-        self._handlers: dict[str, Callable[[dict[str, Any]], None]] = {}
+        self._handlers: dict[str, Callable[["Message"], None]] = {}
         self._component_types: dict[str, ComponentType] = {}
         self._message_history: list[Message] = []
 
     def register_component(
         self,
         component_id: str,
-        component_type_or_handler: ComponentType | Callable[[dict[str, Any]], None],
-        handler: Callable[[dict[str, Any]], None] | None = None,
+        component_type_or_handler: ComponentType | Callable[["Message"], None],
+        handler: Callable[["Message"], None] | None = None,
     ) -> None:
         """Register a component handler.
 
@@ -135,12 +135,7 @@ class UnifiedIntegration:
         if target and target in self._handlers:
             handler = self._handlers[target]
             try:
-                handler({
-                    "type": msg.type.value,
-                    "content": msg.content,
-                    "source": msg.source,
-                    "metadata": msg.metadata,
-                })
+                handler(msg)
             except Exception as exc:  # pragma: no cover - defensive logging
                 logger.exception("Handler for '%s' failed: %s", target, exc)
 
