@@ -1146,11 +1146,21 @@ class HealixMapper:
 
             for strand in strands:
                 for memory in self.strands[strand]:
+                    created_dt = datetime.fromisoformat(memory["created"]) if "created" in memory else None
+                    now_utc = datetime.now(timezone.utc)
+                    if created_dt is not None:
+                        # Ensure both sides are timezone-aware for subtraction
+                        if created_dt.tzinfo is None:
+                            created_dt = created_dt.replace(tzinfo=timezone.utc)
+                        age_days_val = (now_utc - created_dt).days
+                    else:
+                        age_days_val = 0
+
                     resonance_data.append(
                         {
                             "resonance": memory["resonance"],
                             "strand": strand.value,
-                            "age_days": (datetime.utcnow() - datetime.fromisoformat(memory["created"])).days,
+                            "age_days": age_days_val,
                             "mutation_count": len(memory.get("mutations", [])),
                         }
                     )
@@ -1189,7 +1199,7 @@ class HealixMapper:
         """Create a comprehensive snapshot of the current memory state"""
         try:
             snapshot = {
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "total_memories": 0,
                 "strand_statistics": {},
                 "overall_health": {},
@@ -1247,7 +1257,7 @@ class HealixMapper:
 
         except Exception as e:
             logger.error(f"Memory snapshot creation error: {e}")
-            return {"error": str(e), "timestamp": datetime.utcnow().isoformat()}
+            return {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
 
 
 # Last Updated: 2025-06-05 09:37:28
