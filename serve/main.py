@@ -4,6 +4,7 @@ import time
 import uuid
 from collections.abc import Awaitable
 from typing import Any, Callable, Optional
+import uuid
 
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
@@ -24,6 +25,7 @@ except Exception:
         pass
 try:
     import lukhas.memory
+    from lukhas.memory.index import index_manager
     MEMORY_AVAILABLE = True
 except ImportError:
     pass
@@ -270,7 +272,7 @@ async def list_models() -> dict[str, Any]:
     return {'object': 'list', 'data': models}
 
 @app.post('/v1/embeddings', tags=['OpenAI Compatible'])
-async def create_embeddings(request: dict) -> dict[str, Any]:
+async def create_embeddings(request: dict, authorization: Optional[str] = Header(None)) -> dict[str, Any]:
     """OpenAI-compatible embeddings endpoint with unique deterministic vectors."""
     if "input" not in request:
         raise HTTPException(status_code=400, detail={"error": {
@@ -289,10 +291,28 @@ async def create_embeddings(request: dict) -> dict[str, Any]:
         }})
     model = request.get("model", "text-embedding-ada-002")
     dimensions = request.get("dimensions", 1536)
+    store = request.get("store", False)
+    retrieve_similar = request.get("retrieve_similar", False)
+    top_k = request.get("top_k", 5)
 
     # Generate unique deterministic embedding based on input
     embedding = _hash_embed(input_text, dimensions)
-    return {'object': 'list', 'data': [{'object': 'embedding', 'embedding': embedding, 'index': 0}], 'model': model, 'usage': {'prompt_tokens': len(str(input_text).split()), 'total_tokens': len(str(input_text).split())}}
+
+    response_data = {'object': 'list', 'data': [{'object': 'embedding', 'embedding': embedding, 'index': 0}], 'model': model, 'usage': {'prompt_tokens': len(str(input_text).split()), 'total_tokens': len(str(input_text).split())}}
+
+    if MEMORY_AVAILABLE and authorization:
+        tenant_id = authorization.replace("Bearer ", "")
+        index = index_manager.get_index(tenant_id)
+
+        if retrieve_similar:
+            similar_results = index.search(embedding, top_k=top_k)
+            response_data['similar_results'] = similar_results
+
+        if store:
+            vector_id = str(uuid.uuid4())
+            index.add(vector_id, embedding, metadata=request.get("metadata"))
+
+    return response_data
 
 @app.post('/v1/chat/completions', tags=['OpenAI Compatible'])
 async def create_chat_completion(request: dict) -> dict[str, Any]:
