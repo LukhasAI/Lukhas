@@ -122,6 +122,30 @@ Complete ΛiD SSO integration specification:
 
 ---
 
+### 6. Content Templates
+
+#### [templates/](templates/) - **Page Templates & Content Patterns**
+Ready-to-use markdown templates for creating consistent content:
+
+##### [templates/PRODUCT_TEMPLATES.md](templates/PRODUCT_TEMPLATES.md)
+- Reasoning Lab page template
+- Product overview page template
+- 5-minute quickstart template
+
+##### [templates/HOMEPAGE_CASESTUDY_TEMPLATES.md](templates/HOMEPAGE_CASESTUDY_TEMPLATES.md)
+- Homepage template with evidence requirements
+- Case study template with legal compliance
+
+##### [design/ASSISTIVE_MODE_IMPLEMENTATION.md](design/ASSISTIVE_MODE_IMPLEMENTATION.md)
+- Assistive Mode content checklist
+- CI validation tools and workflows
+- Sample assistive homepage
+- Design tokens (dark/light/assistive themes)
+
+**See**: [templates/README.md](templates/README.md) for complete usage guide
+
+---
+
 ## 🗂️ Supporting Documents
 
 These provide additional context but are **not canonical**:
@@ -174,7 +198,8 @@ These provide additional context but are **not canonical**:
 ### **Content Creators**
 1. Read: [BRAND_GUIDELINES.md](BRAND_GUIDELINES.md)
 2. Check domain: [domains/lukhas.ai/BRAND_GUIDE.md](domains/lukhas.ai/BRAND_GUIDE.md) (or your target domain)
-3. Apply tone: [tone/configs/lukhas.ai.tone.yaml](tone/configs/lukhas.ai.tone.yaml)
+3. Use template: [templates/](templates/) - Choose appropriate template for your content type
+4. Apply tone: [tone/configs/lukhas.ai.tone.yaml](tone/configs/lukhas.ai.tone.yaml)
 
 ### **Designers**
 1. Read: [BRAND_GUIDELINES.md](BRAND_GUIDELINES.md) (Visual Identity section)
@@ -215,6 +240,12 @@ These provide additional context but are **not canonical**:
 
 **"Dark or light theme by default?"**
 → [design/LUKHAS_THEMES.md](design/LUKHAS_THEMES.md) → Dark-first
+
+**"How do I create a product page?"**
+→ [templates/PRODUCT_TEMPLATES.md](templates/PRODUCT_TEMPLATES.md) → Product overview template
+
+**"What content template should I use?"**
+→ [templates/README.md](templates/README.md) → Complete template guide
 
 ---
 
