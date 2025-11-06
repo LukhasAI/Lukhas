@@ -518,6 +518,66 @@ class JulesClient:
 
             await asyncio.sleep(poll_interval)
 
+    async def approve_plan(self, session_id: str) -> dict[str, Any]:
+        """
+        Approve the latest plan in a session.
+
+        Args:
+            session_id: Session resource name (e.g., "sessions/123")
+
+        Returns:
+            Response dictionary (typically empty as per API docs)
+
+        Example:
+            await client.approve_plan("sessions/123")
+        """
+        response = await self._request(
+            "POST",
+            f"/v1alpha/{session_id}:approvePlan",
+            json={}
+        )
+
+        self.logger.info(f"Approved plan for session: {session_id}")
+        return response
+
+    async def send_message(
+        self,
+        session_id: str,
+        message: str
+    ) -> dict[str, Any]:
+        """
+        Send a message/feedback to a Jules session.
+
+        Args:
+            session_id: Session resource name (e.g., "sessions/123")
+            message: Your message or feedback to Jules
+
+        Returns:
+            Response dictionary (typically empty - check activities for reply)
+
+        Note:
+            The agent's response appears as the next activity in the session.
+            Poll activities to see Jules' reply.
+
+        Example:
+            await client.send_message(
+                "sessions/123",
+                "Use lukhas.* imports instead of core.* imports"
+            )
+        """
+        payload = {"prompt": message}
+
+        response = await self._request(
+            "POST",
+            f"/v1alpha/{session_id}:sendMessage",
+            json=payload
+        )
+
+        self.logger.info(
+            f"Sent message to session {session_id}: {message[:50]}..."
+        )
+        return response
+
 
 # Convenience functions for quick usage
 async def create_jules_session(
