@@ -12,6 +12,7 @@ This module provides a complete brain integration system that combines:
 Replaces and enhances the previous brain_integration.py with superior architecture.
 """
 
+import contextlib
 import asyncio
 import logging
 import os
@@ -108,11 +109,9 @@ except ImportError:
 try:
     from core.spine.fold_engine import AGIMemory, MemoryFold, MemoryPriority, MemoryType
 except ImportError:
-    try:
+    with contextlib.suppress(ImportError):
         # Commented out until CORE is available
         # from CORE.spine.fold_engine import AGIMemory, MemoryFold, MemoryType, MemoryPriority
-        pass
-    except ImportError:
         pass
     logger.warning("Core memory components not available - using fallbacks")
     AGIMemory = None

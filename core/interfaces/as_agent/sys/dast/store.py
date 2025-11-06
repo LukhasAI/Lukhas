@@ -45,7 +45,7 @@ class DASTStore:
 
         # Register with DAST integration hub (when available)
         self.dast_hub = None
-        try:
+        try:  # noqa: SIM105 (intentional - TODO or deferred import)
             # TODO: Enable when hub dependencies are resolved
             # from dast.integration.dast_integration_hub import get_dast_integration_hub
             # self.dast_hub = get_dast_integration_hub()

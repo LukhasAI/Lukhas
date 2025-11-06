@@ -8,6 +8,7 @@ Features:
 - Comprehensive observability
 """
 
+import contextlib
 from __future__ import annotations
 
 import asyncio
@@ -316,10 +317,8 @@ class AsyncOrchestrator:
                 if span_ctx:
                     span_ctx.set_attribute("matriz.fallback_cancelled", True)
                 if hasattr(node, "cancel"):
-                    try:
+                    with contextlib.suppress(Exception):
                         await node.cancel(cancellation.reason if cancellation else None)  # # ΛTAG: cancellation
-                    except Exception:
-                        pass
                 raise
             except Exception as exc:
                 duration_ms = (time.perf_counter() - start) * 1000

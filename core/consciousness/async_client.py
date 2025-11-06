@@ -12,6 +12,7 @@ Advanced: async_client.py
 Integration Date: 2025-05-31T07:55:28.056913
 """
 
+import contextlib
 from __future__ import annotations
 
 import logging
@@ -380,10 +381,8 @@ class AsyncInferenceClient:
                 )
                 response_error_payload = None
                 if response.status != 200:
-                    try:
+                    with contextlib.suppress(Exception):
                         response_error_payload = await response.json()  # get payload before connection closed
-                    except Exception:
-                        pass
                 response.raise_for_status()
                 if stream:
                     return _async_yield_from(session, response)

@@ -38,7 +38,7 @@ def _alias_module(shim_name: str, target: str) -> None:
 
 
 # Set up common aliases eagerly so basic imports succeed in light environments
-try:
+try:  # noqa: SIM105 (intentional - TODO or deferred import)
     _alias_module("lukhas.core", "core")
 except Exception:
     # Core may not be importable in ultra-minimal envs; defer to runtime

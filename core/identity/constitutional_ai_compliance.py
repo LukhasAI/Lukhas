@@ -14,6 +14,7 @@
 ╚══════════════════════════════════════════════════════════════
 """
 
+import contextlib
 import asyncio
 import importlib as _importlib
 import logging
@@ -50,10 +51,8 @@ except Exception:  # pragma: no cover - optional dependency
     _labs_monitor_module = None
 else:  # pragma: no cover - prefer labs implementation when available
     ConstitutionalAIComplianceMonitor = _labs_monitor_module.ConstitutionalAIComplianceMonitor
-try:
+with contextlib.suppress(NameError):
     __all__  # type: ignore[name-defined]
-except NameError:
-    pass
 
 logger = logging.getLogger(__name__)
 
