@@ -8,4 +8,5 @@ _CANDIDATES = (
   "candidate.memory.backends.redis",
   "memory.backends.redis",
 )
-__all__, _exports = bridge_from_candidates(*_CANDIDATES); globals().update(_exports)
+__all__, _exports = bridge_from_candidates(*_CANDIDATES)
+globals().update(_exports)

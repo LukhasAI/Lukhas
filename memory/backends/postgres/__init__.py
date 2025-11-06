@@ -8,4 +8,5 @@ _CANDIDATES = (
   "candidate.memory.backends.postgres",
   "memory.backends.postgres",
 )
-__all__, _exports = bridge_from_candidates(*_CANDIDATES); globals().update(_exports)
+__all__, _exports = bridge_from_candidates(*_CANDIDATES)
+globals().update(_exports)
