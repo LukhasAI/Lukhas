@@ -4,10 +4,6 @@
 #
 #    pip-compile --generate-hashes --output-file=constraints.txt requirements.in
 #
-pip<25.2
-    # via -r requirements.in
-    # reason: CVE-2025-8869 (pip arbitrary file overwrite)
-
 aiohappyeyeballs==2.6.1 \
     --hash=sha256:c3f9d0113123803ccadfdf3f0faa505bc78e6a72d1cc4806cbd719826e943558 \
     --hash=sha256:f349ba8f4b75cb25c99c5c2d84e997e485204d2902a9597802b0371f09331fb8
@@ -108,13 +104,17 @@ altair==5.5.0 \
     --hash=sha256:91a310b926508d560fe0148d02a194f38b824122641ef528113d029fcd129f8c \
     --hash=sha256:d960ebe6178c56de3855a68c47b516be38640b73fb3b5111c2a9ca90546dd73d
     # via streamlit
+annotated-doc==0.0.3 \
+    --hash=sha256:348ec6664a76f1fd3be81f43dffbee4c7e8ce931ba71ec67cc7f4ade7fbbb580 \
+    --hash=sha256:e18370014c70187422c33e945053ff4c286f453a984eba84d0dbfa0c935adeda
+    # via fastapi
 annotated-types==0.7.0 \
     --hash=sha256:1f02e8b43a8fbbc3f3e0d4f0f4bfc8131bcb4eebe8849b8e5c773f3a1c582a53 \
     --hash=sha256:aff07c09a53a08bc8cfccb9c85b05f1aa9a2a6f23728d790723543408344ce89
     # via pydantic
-anthropic==0.71.0 \
-    --hash=sha256:85c5015fcdbdc728390f11b17642a65a4365d03b12b799b18b6cc57e71fdb327 \
-    --hash=sha256:eb8e6fa86d049061b3ef26eb4cbae0174ebbff21affa6de7b3098da857d8de6a
+anthropic==0.72.0 \
+    --hash=sha256:0e9f5a7582f038cab8efbb4c959e49ef654a56bfc7ba2da51b5a7b8a84de2e4d \
+    --hash=sha256:8971fe76dcffc644f74ac3883069beb1527641115ae0d6eb8fa21c1ce4082f7a
     # via -r requirements.in
 anyio==4.11.0 \
     --hash=sha256:0287e96f4d26d4149305414d4e3bc32f0dcd0862365a4bddea19d7a1ec38c4fc \
@@ -437,9 +437,9 @@ exceptiongroup==1.3.0 \
     #   anyio
     #   hypothesis
     #   pytest
-fastapi==0.119.0 \
-    --hash=sha256:451082403a2c1f0b99c6bd57c09110ed5463856804c8078d38e5a1f1035dbbb7 \
-    --hash=sha256:90a2e49ed19515320abb864df570dd766be0662c5d577688f1600170f7f73cf2
+fastapi==0.121.0 \
+    --hash=sha256:06663356a0b1ee93e875bbf05a31fb22314f5bed455afaaad2b2dad7f26e98fa \
+    --hash=sha256:8bdf1b15a55f4e4b0d6201033da9109ea15632cb76cf156e7b8b4019f2172106
     # via -r requirements.in
 frozenlist==1.7.0 \
     --hash=sha256:04fb24d104f425da3540ed83cbfc31388a586a7696142004c577fa61c6298c3f \
@@ -1070,6 +1070,10 @@ narwhals==2.10.0 \
     --hash=sha256:1c05bbef2048a4045263de7d98c3d06140583eb13d796dd733b2157f05d24485 \
     --hash=sha256:baed44e8fc38e800e3a585e3fa9843a7079a6fad5fbffbecee4348d6ac52298c
     # via altair
+networkx==3.2.1 \
+    --hash=sha256:9f1bb5cf3409bf324e0a722c20bdb4c20ee39bf1c30ce8ae499c8502b0b5e0c6 \
+    --hash=sha256:f18c69adc97877c42332c170849c96cefa91881c99a7cb3e95b7c659ebdc1ec2
+    # via -r requirements.in
 numpy==2.0.2 \
     --hash=sha256:0123ffdaa88fa4ab64835dcbde75dcdf89c453c922f18dced6e27c90d1d0ec5a \
     --hash=sha256:11a76c372d1d37437857280aa142086476136a8c0f373b2e648ab2c8f18fb195 \
@@ -2265,10 +2269,12 @@ sqlalchemy==2.0.43 \
     --hash=sha256:f42f23e152e4545157fa367b2435a1ace7571cab016ca26038867eb7df2c3631 \
     --hash=sha256:fe2b3b4927d0bc03d02ad883f402d5de201dbc8894ac87d2e981e7d87430e60d
     # via -r requirements.in
-starlette==0.48.0 \
-    --hash=sha256:0764ca97b097582558ecb498132ed0c7d942f233f365b86ba37770e026510659 \
-    --hash=sha256:7e8cee469a8ab2352911528110ce9088fdc6a37d9876926e73da7ce4aa4c7a46
-    # via fastapi
+starlette==0.49.3 \
+    --hash=sha256:1c14546f299b5901a1ea0e34410575bc33bbd741377a10484a54445588d00284 \
+    --hash=sha256:b579b99715fdc2980cf88c8ec96d3bf1ce16f5a8051a7c2b84ef9b1cdecaea2f
+    # via
+    #   -r requirements.in
+    #   fastapi
 stevedore==5.5.0 \
     --hash=sha256:18363d4d268181e8e8452e71a38cd77630f345b2ef6b4a8d5614dac5ee0d18cf \
     --hash=sha256:d31496a4f4df9825e1a1e4f1f74d19abb0154aff311c3b376fcc89dae8fccd73
@@ -2276,6 +2282,10 @@ stevedore==5.5.0 \
 streamlit==1.50.0 \
     --hash=sha256:87221d568aac585274a05ef18a378b03df332b93e08103fffcf3cd84d852af46 \
     --hash=sha256:9403b8f94c0a89f80cf679c2fcc803d9a6951e0fba542e7611995de3f67b4bb3
+    # via -r requirements.in
+structlog==23.3.0 \
+    --hash=sha256:24b42b914ac6bc4a4e6f716e82ac70d7fb1e8c3b1035a765591953bfc37101a5 \
+    --hash=sha256:d6922a88ceabef5b13b9eda9c4043624924f60edbb00397f4d193bd754cde60a
     # via -r requirements.in
 tenacity==9.1.2 \
     --hash=sha256:1169d376c297e7de388d18b4481760d478b0e99a777cad3a9c86e556f4b697cb \
