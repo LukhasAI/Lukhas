@@ -1,8 +1,4 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
-import logging
-from datetime import timezone
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -51,6 +47,11 @@ VERSION: 2.0.0-CONSOLIDATED
 CREATED: 2025-07-29
 AUTHORS: LUKHAS AI Team (Consolidated)
 """
+
+from __future__ import annotations
+
+import logging
+from datetime import timezone
 
 import asyncio
 import random

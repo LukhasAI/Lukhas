@@ -1,10 +1,9 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.EVRN Core - Encrypted Visual Recognition Node
 Handles encrypted perception without exposing decoded content
 """
+
+import logging
 
 import asyncio
 import base64
@@ -18,6 +17,10 @@ from typing import Any, Optional, Union
 import numpy as np
 
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 

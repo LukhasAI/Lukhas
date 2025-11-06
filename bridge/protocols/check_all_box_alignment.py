@@ -26,13 +26,14 @@ EXPORT FORMATS: Markdown • LaTeX • HTML • PDF • JSON • XML
 METADATA TAGS: #LuKhas #AI #Professional #Deployment #AI Professional System
 """
 
+import re
+from pathlib import Path
+
 #!/usr/bin/env python3
 """
 Verify all enhanced ASCII box headers have perfect alignment
 """
 
-import re
-from pathlib import Path
 
 
 def check_box_alignment(file_path):

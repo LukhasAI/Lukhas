@@ -1,9 +1,5 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
-import logging
 
-logger = logging.getLogger(__name__)
 """
 Parallel Reality Simulator for Dream Engine
 ==========================================
@@ -17,6 +13,10 @@ Features:
 - Ethical constraint validation for each reality
 - Memory integration for reality experiences
 """
+
+from __future__ import annotations
+
+import logging
 
 import asyncio
 import random
@@ -37,6 +37,11 @@ from .parallel_reality_safety import (
     ParallelRealitySafetyFramework,
     SafetyLevel,
 )
+
+logger = logging.getLogger(__name__)
+
+
+
 
 logger = get_logger(__name__)
 

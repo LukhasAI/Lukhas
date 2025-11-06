@@ -1,8 +1,5 @@
-from __future__ import annotations
-
-import logging
-
 #!/usr/bin/env python3
+
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🌅 LUKHAS AI - CONSCIOUSNESS ENGINE
@@ -78,6 +75,11 @@ import logging
 ║ Symbolic Tags: {ΛCONSCIOUSNESS}, {ΛMIRROR}, {ΛPHI}, {ΛQUALIA}, {ΛAWARENESS}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
+from __future__ import annotations
+
+import logging
+
 import asyncio
 from collections import deque
 from dataclasses import dataclass

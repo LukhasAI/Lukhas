@@ -1,6 +1,5 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
+
 """
 LUKHAS Unified Authentication Manager
 ====================================
@@ -22,6 +21,8 @@ Version: 3.0.0 - Revolutionary Integration
 Created: 2025-08-03
 Status: BLEEDING EDGE RESEARCH
 """
+
+from __future__ import annotations
 
 import asyncio
 import hashlib

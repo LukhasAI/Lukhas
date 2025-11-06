@@ -1,9 +1,5 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
-import logging
 
-logger = logging.getLogger(__name__)
 """
 Natural Language Consciousness Interface
 =======================================
@@ -17,6 +13,10 @@ Features:
 - Multi-turn dialogue support
 - Emotional context preservation
 """
+
+from __future__ import annotations
+
+import logging
 
 import asyncio
 import re
@@ -32,6 +32,10 @@ from core.common import GLYPHSymbol, GLYPHToken, get_logger
 from core.common.exceptions import LukhasError
 from core.interfaces import CoreInterface
 from core.interfaces.dependency_injection import get_service, register_service
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 

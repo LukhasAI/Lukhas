@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-#!/usr/bin/env python3
 """
 
 #TAG:consciousness
@@ -24,6 +18,12 @@ from datetime import timezone
 
 "Command and control for enterprise content operations" - lukhas Orchestrator 2025
 """
+
+from __future__ import annotations
+
+import logging
+from datetime import timezone
+
 import asyncio
 import json
 import os
@@ -36,6 +36,9 @@ from enum import Enum
 from typing import Any, Callable
 
 import psutil
+
+#!/usr/bin/env python3
+
 
 # Advanced orchestration libraries
 try:

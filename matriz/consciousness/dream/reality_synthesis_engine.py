@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-import logging
 
-logger = logging.getLogger(__name__)
 """
 Reality Synthesis Engine
 ========================
@@ -16,6 +14,8 @@ Features:
 - Integration with LUKHAS Constellation Framework
 """
 
+import logging
+
 import asyncio
 import uuid
 from collections import defaultdict
@@ -28,6 +28,10 @@ from core.common import GLYPHToken, get_logger
 from core.common.exceptions import LukhasError
 from core.interfaces import CoreInterface
 from core.interfaces.dependency_injection import register_service
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 

@@ -1,9 +1,4 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
 
 """
 
@@ -35,10 +30,9 @@ The Quantum Awareness System isn't just an isolated module in the mighty LUKHAS 
 
 """
 
-__module_name__ = "Quantum Awareness System"
-__version__ = "2.0.0"
-__tier__ = 2
+from __future__ import annotations
 
+import logging
 
 import asyncio
 import json
@@ -60,6 +54,16 @@ from qi.processing_core import QIProcessingCore
 from consciousness.awareness.awareness_engine import AwarenessEngine
 from core.unified.integration import UnifiedIntegration
 from ethics.engine import EthicalFramework, EthicalRiskLevel, QIEthics
+
+logger = logging.getLogger(__name__)
+
+
+__module_name__ = "Quantum Awareness System"
+__version__ = "2.0.0"
+__tier__ = 2
+
+
+
 
 
 @dataclass

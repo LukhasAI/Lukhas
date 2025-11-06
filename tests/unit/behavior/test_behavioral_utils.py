@@ -3,12 +3,13 @@ from pathlib import Path
 
 import pytest
 
+from scripts.consciousness_wordsmith_fixed import fix_later, register_fix_later
+from src.attribution.fallback_ladder import BehavioralAnalyzer
+
 ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.consciousness_wordsmith_fixed import fix_later, register_fix_later
-from src.attribution.fallback_ladder import BehavioralAnalyzer
 
 
 @pytest.mark.asyncio

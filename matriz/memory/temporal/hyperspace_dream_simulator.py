@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:memory
@@ -59,6 +56,8 @@ TODO: Implement predictive token consumption modeling for simulation planning
 IDEA: Add machine learning-based resource optimization recommendations
 """
 
+import logging
+
 import asyncio
 import json
 from dataclasses import dataclass, field
@@ -69,6 +68,10 @@ from typing import Any, Optional
 from uuid import uuid4
 
 import numpy as np
+
+logger = logging.getLogger(__name__)
+
+
 
 try:
     from core.integration.dynamic_modality_broker import (

@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 
 #TAG:consciousness
@@ -32,6 +30,8 @@ Integration Points:
 Author: LUKHAS Meta-Learning Enhancement System
 Created: January 2025
 """
+
+from __future__ import annotations
 
 import asyncio
 import json

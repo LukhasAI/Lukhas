@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-import logging
 
-log = logging.getLogger(__name__)
 """
 LUKHAS Production Audit Logger
 Enterprise-grade audit logging system for constitutional AI compliance
@@ -9,6 +7,9 @@ Enterprise-grade audit logging system for constitutional AI compliance
 This module provides comprehensive audit logging that meets enterprise
 security requirements and constitutional AI compliance standards.
 """
+
+import logging
+
 import hashlib
 import json
 import uuid
@@ -19,6 +20,9 @@ from pathlib import Path
 from typing import Any, Optional
 
 from core.common.logger import get_logger
+
+log = logging.getLogger(__name__)
+
 
 logger = get_logger(__name__)
 

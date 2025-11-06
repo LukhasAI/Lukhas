@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -23,6 +18,10 @@ This module implements a decentralized coordination system where agents can:
 The system is inherently flexible, scalable, and resilient.
 """
 
+from __future__ import annotations
+
+import logging
+
 import asyncio
 import time
 import uuid
@@ -35,6 +34,11 @@ from core.common import get_logger
 
 from .actor_system import ActorMessage, ActorRef
 from .mailbox import MailboxActor, MailboxType, MessagePriority
+
+logger = logging.getLogger(__name__)
+
+
+
 
 
 # Extension methods for ActorRef serialization

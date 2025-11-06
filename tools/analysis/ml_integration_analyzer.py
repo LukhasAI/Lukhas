@@ -1,7 +1,3 @@
-from __future__ import annotations
-
-from datetime import timezone
-
 """
 ML-Powered Integration Analyzer for LUKHΛS
 -------------------------------------------------
@@ -26,6 +22,10 @@ Design Notes
 - External tools (git, semgrep) are optional. The analyzer gracefully degrades.
 
 """
+
+from __future__ import annotations
+
+from datetime import timezone
 
 import ast
 import datetime as _dt

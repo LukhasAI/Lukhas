@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 
 #TAG:consciousness
@@ -49,6 +47,9 @@ Dream → Memory → Reflection → Directive → Action → Drift → Evolution
 ΛCOMPLETE: Brain/memory orchestration integration implemented with safety protocols
 AIDEA: Implement LUKHAS cycle optimization with memory integration
 """
+
+from __future__ import annotations
+
 import asyncio
 import logging
 import time

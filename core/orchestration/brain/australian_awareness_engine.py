@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 Australian Awareness Engine - Privacy Act 1988 Compliant Framework
 ===============================================================
@@ -34,6 +32,9 @@ Author: Lukhas AI Research Team - Australian Compliance Division
 Version: 1.0.0 - Privacy Act Edition
 Date: June 2025
 """
+
+from __future__ import annotations
+
 # NOTE: moved to core/orchestration/brain via Hidden Gems Integration (Batch 5)
 import json
 import logging

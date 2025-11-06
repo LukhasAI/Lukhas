@@ -1,19 +1,3 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
-# ═══════════════════════════════════════════════════════════════════════════
-# FILENAME: reflection_layer.py
-# MODULE: core.Adaptative_AGI.GUARDIAN.reflection_layer
-# DESCRIPTION: Implements the Symbolic Conscience Layer (ReflectionLayer) for LUKHAS Cognitive AI,
-#              responsible for introspection, ethical contemplation, future modeling,
-#              and generating reflective statements with quantum signatures.
-# DEPENDENCIES: json, os, time, structlog, asyncio, datetime, typing,
-#               dataclasses, enum, hashlib, random, pathlib, and potentially other
-#               LUKHAS core infrastructure modules (with fallbacks).
-# LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
-# ═══════════════════════════════════════════════════════════════════════════
-
 """
 
 #TAG:consciousness
@@ -46,6 +30,9 @@ logger = logging.getLogger(__name__)
 └───────────────────────────────────────────────────────────────┘
 """
 
+import logging
+from datetime import timezone
+
 import asyncio
 import hashlib
 import json
@@ -58,6 +45,22 @@ from pathlib import Path
 from typing import Any, Optional
 
 import structlog  # Changed from logging
+
+logger = logging.getLogger(__name__)
+# ═══════════════════════════════════════════════════════════════════════════
+# FILENAME: reflection_layer.py
+# MODULE: core.Adaptative_AGI.GUARDIAN.reflection_layer
+# DESCRIPTION: Implements the Symbolic Conscience Layer (ReflectionLayer) for LUKHAS Cognitive AI,
+#              responsible for introspection, ethical contemplation, future modeling,
+#              and generating reflective statements with quantum signatures.
+# DEPENDENCIES: json, os, time, structlog, asyncio, datetime, typing,
+#               dataclasses, enum, hashlib, random, pathlib, and potentially other
+#               LUKHAS core infrastructure modules (with fallbacks).
+# LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
+# ═══════════════════════════════════════════════════════════════════════════
+
+
+
 
 # Dream engine integration
 try:

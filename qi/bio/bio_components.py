@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -32,10 +27,9 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
-__module_name__ = "Quantum Bio Components"
-__version__ = "2.0.0"
-__tier__ = 2
+from __future__ import annotations
 
+import logging
 
 import asyncio  # For async methods
 import hashlib  # For CardiolipinEncoder
@@ -45,6 +39,16 @@ from typing import Any
 
 import numpy as np
 import structlog  # Standardized logging
+
+logger = logging.getLogger(__name__)
+
+
+__module_name__ = "Quantum Bio Components"
+__version__ = "2.0.0"
+__tier__ = 2
+
+
+
 
 # Initialize structlog logger for this module
 log = structlog.get_logger(__name__)

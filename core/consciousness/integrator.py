@@ -14,7 +14,20 @@ DEPENDENCIES:
   - core/identity/identity_manager.py
   - core/emotion/emotion_engine.py
 """
+
 from datetime import timezone
+
+import asyncio
+import json
+import logging
+import threading
+import time
+import uuid
+from dataclasses import asdict, dataclass
+from datetime import datetime
+from enum import Enum
+from pathlib import Path
+from typing import Any, Optional
 
 """
 Consciousness Integrator for LUKHAS Cognitive AI System
@@ -34,17 +47,6 @@ The integrator maintains consciousness continuity and ensures
 seamless communication between all cognitive modules.
 """
 
-import asyncio
-import json
-import logging
-import threading
-import time
-import uuid
-from dataclasses import asdict, dataclass
-from datetime import datetime
-from enum import Enum
-from pathlib import Path
-from typing import Any, Optional
 
 # Try to import from core.common if available
 try:

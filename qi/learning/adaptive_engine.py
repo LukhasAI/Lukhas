@@ -10,6 +10,11 @@ import time
 from dataclasses import asdict, dataclass
 from typing import Any
 
+# Approvals & sandbox reuse
+import contextlib
+
+from qi.autonomy.self_healer import observe_signals
+
 _ORIG_OPEN = builtins.open
 _ORIG_MAKEDIRS = os.makedirs
 
@@ -19,10 +24,7 @@ _ORIG_MAKEDIRS(LEARN_DIR, exist_ok=True)
 EPISODES = os.path.join(LEARN_DIR, "episodes.jsonl")  # ring buffer of task runs
 CANDIDATES = os.path.join(LEARN_DIR, "candidates.jsonl")  # proposed configs + scores
 
-# Approvals & sandbox reuse
-import contextlib
 
-from qi.autonomy.self_healer import observe_signals
 
 
 def _now() -> float:

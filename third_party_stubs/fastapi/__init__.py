@@ -1,9 +1,6 @@
-"""Minimal FastAPI stub for offline testing."""
-# ΛTAG: fastapi_stub
-from typing import Any, Callable
-
-
 from __future__ import annotations
+
+from typing import Any, Callable
 
 
 class HTTPException(Exception):

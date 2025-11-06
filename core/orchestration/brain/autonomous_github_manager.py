@@ -1,6 +1,5 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
+
 """
 ΛBot Advanced Autonomous GitHub Manager
 ======================================
@@ -16,6 +15,9 @@ Features:
 - Multi-repository dependency updates
 - Intelligent prioritization system
 """
+
+from __future__ import annotations
+
 import argparse
 import json
 import logging
@@ -32,7 +34,6 @@ import requests
 # Import ΛBot components
 from core.budget.token_controller import APICallContext, CallUrgency, TokenBudgetController
 from core.common.config import settings
-
 
 class NotificationPriority(Enum):
     """Priority levels for GitHub notifications"""

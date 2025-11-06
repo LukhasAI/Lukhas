@@ -8,11 +8,12 @@ from pathlib import Path
 
 import pytest
 
+from labs.governance.identity.core.sing.sso_engine import LambdaSSOEngine
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from labs.governance.identity.core.sing.sso_engine import LambdaSSOEngine
 
 
 def _build_token(

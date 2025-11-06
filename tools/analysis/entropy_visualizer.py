@@ -1,7 +1,3 @@
-from __future__ import annotations
-
-# tools/analysis/entropy_visualizer.py
-
 """
 Entropy Visualizer
 ==================
@@ -10,8 +6,14 @@ A simple command-line tool to visualize the entropy of byte strings.
 This tool is for internal research and debugging purposes.
 """
 
+from __future__ import annotations
+
 import sys
 from collections import Counter
+
+# tools/analysis/entropy_visualizer.py
+
+
 
 
 def visualize_entropy(data: bytes):
