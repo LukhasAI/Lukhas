@@ -62,7 +62,7 @@ else:
 
 # --- retention aliases: ArchivalTier / AbstractArchivalBackend (safe append) ---
 try:
-    ArchivalTier
+    ArchivalTier  # noqa: B018 (lazy import check)
 except NameError:
     from enum import Enum
 
@@ -75,7 +75,7 @@ except NameError:
     __all__ = list(set(globals().get("__all__", []) or []) | {"ArchivalTier"})
 
 try:
-    AbstractArchivalBackend
+    AbstractArchivalBackend  # noqa: B018 (lazy import check)
 except NameError:
 
     class AbstractArchivalBackend:

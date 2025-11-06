@@ -58,9 +58,6 @@ except ImportError:
         def __init__(self, *args, **kwargs):
             for key, value in kwargs.items():
                 setattr(self, key, value)
-try:
-    __all__  # type: ignore[name-defined]
-except NameError:
-    __all__ = []
+__all__ = globals().get("__all__", [])
 if "FoldGuard" not in __all__:
     __all__.append("FoldGuard")

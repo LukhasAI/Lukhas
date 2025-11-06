@@ -24,10 +24,7 @@ except Exception:
         """Stub for CompressionLevel."""
         UNKNOWN = "unknown"
         DEFAULT = "default"
-try:
-    __all__  # type: ignore[name-defined]
-except NameError:
-    __all__ = []
+__all__ = globals().get("__all__", [])
 if "CompressionLevel" not in __all__:
     __all__.append("CompressionLevel")
 
@@ -45,10 +42,7 @@ except Exception:
         RUNNING = "running"
         COMPLETED = "completed"
         FAILED = "failed"
-try:
-    __all__  # type: ignore[name-defined]
-except NameError:
-    __all__ = []
+__all__ = globals().get("__all__", [])
 if "FoldStatus" not in __all__:
     __all__.append("FoldStatus")
 
@@ -77,8 +71,8 @@ if "ScheduledFold" not in __all__:
 
 
 try:
-    ScheduledFold
-    ScheduledFoldingManager
+    ScheduledFold # noqa: B018 (lazy import check)
+    ScheduledFoldingManager # noqa: B018 (lazy import check)
 except NameError:
     class ScheduledFold:  # pragma: no cover - fallback
         def __init__(self, id: str, when: str, *, policy: str = "default"):
@@ -107,10 +101,7 @@ def get_folding_manager() -> "ScheduledFoldingManager":
         return _DEFAULT_FOLDING_MANAGER
 
 
-try:
-    __all__  # type: ignore[name-defined]
-except NameError:
-    __all__ = []
+__all__ = globals().get("__all__", [])
 
 for _symbol in ("ScheduledFold", "ScheduledFoldingManager", "get_folding_manager"):
     if _symbol not in __all__:
