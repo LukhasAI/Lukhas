@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import adapters  # TODO: adapters; consider using impor...
+    import adapters  # TODO: adapters; consider using impor...  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-36049fe2","reason_category":"MATRIZ","reason":"MATRIZ consciousness integration pending","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:07:03+00:00"}
 except ImportError:
     pytest.skip("Module adapters not available", allow_module_level=True)
 

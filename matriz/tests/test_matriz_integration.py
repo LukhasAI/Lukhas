@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import matriz  # TODO: matriz; consider using importl...
+    import matriz  # TODO: matriz; consider using importl...  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-4d47a6ac","reason_category":"MATRIZ","reason":"MATRIZ consciousness integration pending","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:07:03+00:00"}
 except ImportError:
     pytest.skip("Module matriz not available", allow_module_level=True)
 
