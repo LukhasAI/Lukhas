@@ -69,71 +69,112 @@ Agents **MUST** read these context files before writing any tests:
 ## 🔴 HIGH PRIORITY Test Tasks (15 tasks)
 
 ### TEST-001: Core Orchestration Tests (P1 HIGH)
-- **Module**: `core/orchestration/`
-- **Files Needing Tests**: 11 files
+- **Module**: `core/orchestration/` + `labs/core/orchestration/`
+- **Files Needing Tests**: 20 files (8 production + 12 experimental)
 - **Current Coverage**: 0%
 - **Target Coverage**: 75%
 - **Priority**: HIGH - Core system functionality
 
-**Files to Test**:
-1. `core/orchestration/agent.py` - Agent coordination
-2. `core/orchestration/brain.py` - Decision making
-3. `core/orchestration/flow.py` - Workflow management
-4. `core/orchestration/orchestrator.py` - Main orchestrator
-5. `core/orchestration/planner.py` - Task planning
-6. `core/orchestration/prompt.py` - Prompt generation
-7. `core/orchestration/react.py` - ReAct pattern
-8. `core/orchestration/task.py` - Task management
-9. `core/orchestration/tool.py` - Tool integration
-10. `core/orchestration/workflow.py` - Workflow execution
-11. `core/orchestration/worker.py` - Worker management
+**Production Files (core/orchestration/)** - 8 files:
+1. `core/orchestration/async_orchestrator.py` (44KB) - Advanced async orchestrator with resilience patterns, consensus arbitration, loop detection
+2. `core/orchestration/core.py` (20KB) - Central orchestration core, module lifecycle management, consciousness simulation
+3. `core/orchestration/gpt_colony_orchestrator.py` (28KB) - GPT colony coordination and multi-agent collaboration
+4. `core/orchestration/integration_hub.py` (33KB) - Integration hub for external services and adapters
+5. `core/orchestration/learning_initializer.py` (6.5KB) - Learning system initialization and configuration
+6. `core/orchestration/loader.py` (2.8KB) - Dynamic module loading and plugin management
+7. `core/orchestration/main_node.py` (19KB) - Main orchestration node coordination
+8. `core/orchestration/__init__.py` - Module exports
+
+**Experimental Files (labs/core/orchestration/)** - 12 files:
+9. `labs/core/orchestration/agent_orchestrator.py` (30KB) - Main agent orchestrator, lifecycle management, plugin coordination
+10. `labs/core/orchestration/base.py` (15KB) - Base orchestration classes and interfaces
+11. `labs/core/orchestration/workflow_engine.py` (10KB) - Workflow processing engine for consciousness computing
+12. `labs/core/orchestration/matriz_consciousness_coordinator.py` (29KB) - MATRIZ cognitive engine coordination
+13. `labs/core/orchestration/service_registry.py` (7.2KB) - Service discovery and registration
+14. `labs/core/orchestration/plan_verifier.py` (34KB) - Task plan verification and validation
+15. `labs/core/orchestration/router.py` (11KB) - Request routing and load balancing
+16. `labs/core/orchestration/integration_engine.py` (18KB) - Integration pattern engine
+17. `labs/core/orchestration/consensus_arbitrator.py` (1.1KB) - Consensus decision arbitration
+18. `labs/core/orchestration/agents/base.py` - Agent base classes
+19. `labs/core/orchestration/agents/registry.py` - Agent registration and discovery
+20. `labs/core/orchestration/agents/multi_agent_collaboration.py` - Multi-agent coordination
 
 **Agent Context**:
 - **Relevant Context Files**:
-  - `/Users/agi_dev/LOCAL-REPOS/Lukhas/core/orchestration/` - Implementation
-  - `/Users/agi_dev/LOCAL-REPOS/Lukhas/claude.me` - Architecture
-- **Lane Location**: Core (integration layer)
-- **Architecture Impact**: Critical - orchestrates all agent workflows
-- **Related Components**: MATRIZ, consciousness, memory
+  - `/Users/agi_dev/LOCAL-REPOS/Lukhas/core/orchestration/` - Production implementation
+  - `/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/orchestration/claude.me` - Experimental architecture
+  - `/Users/agi_dev/LOCAL-REPOS/Lukhas/claude.me` - Master architecture
+- **Lane Location**: Core (production) + Labs (experimental)
+- **Architecture Impact**: CRITICAL - orchestrates all agent workflows, MATRIZ coordination, consciousness simulation
+- **Related Components**: MATRIZ, consciousness, memory, Guardian, multi-agent systems
 
 **Test Strategy**:
 ```python
-# tests/unit/core/orchestration/test_orchestrator.py
+# tests/unit/core/orchestration/test_async_orchestrator.py
 import pytest
-from core.orchestration.orchestrator import Orchestrator
+from core.orchestration.async_orchestrator import AsyncOrchestrator
 
-def test_orchestrator_initialization():
-    """Test orchestrator initializes with default config"""
-    orch = Orchestrator()
+@pytest.mark.asyncio
+async def test_async_orchestrator_initialization():
+    """Test async orchestrator initializes with default config"""
+    orch = AsyncOrchestrator()
     assert orch is not None
-    assert orch.config is not None
+    assert hasattr(orch, 'config')
 
-def test_orchestrator_task_execution():
-    """Test orchestrator can execute simple task"""
-    orch = Orchestrator()
-    result = orch.execute_task({"type": "test", "input": "data"})
-    assert result["status"] == "success"
+@pytest.mark.asyncio
+async def test_async_orchestrator_resilience():
+    """Test orchestrator handles failures with retry logic"""
+    orch = AsyncOrchestrator()
+    # Test circuit breaker, exponential backoff, etc.
+    result = await orch.execute_with_resilience(mock_task)
+    assert result is not None
 
-def test_orchestrator_multi_agent_coordination():
-    """Test orchestrator coordinates multiple agents"""
-    orch = Orchestrator()
+@pytest.mark.asyncio
+async def test_async_orchestrator_consensus():
+    """Test consensus arbitration with ethics gating"""
+    orch = AsyncOrchestrator()
+    results = await orch.arbitrate_consensus([agent1, agent2, agent3])
+    assert results["consensus_reached"]
+    assert results["ethics_approved"]
+
+# tests/unit/core/orchestration/test_gpt_colony_orchestrator.py
+def test_gpt_colony_orchestrator_multi_agent():
+    """Test GPT colony coordinates multiple agents"""
+    from core.orchestration.gpt_colony_orchestrator import GPTColonyOrchestrator
+    colony = GPTColonyOrchestrator()
     agents = [MockAgent("agent1"), MockAgent("agent2")]
-    result = orch.coordinate(agents, task="test_task")
+    result = colony.coordinate(agents, task="test_task")
     assert len(result["agent_results"]) == 2
 
+# tests/unit/labs/orchestration/test_workflow_engine.py
+def test_workflow_engine_consciousness_computing():
+    """Test workflow engine for consciousness computing"""
+    from labs.core.orchestration.workflow_engine import WorkflowEngine
+    engine = WorkflowEngine()
+    workflow = engine.create_workflow(steps=["perceive", "reason", "act"])
+    result = engine.execute(workflow)
+    assert result["status"] == "completed"
+
 # Add 20+ tests per file covering:
-# - Initialization
-# - Happy path execution
-# - Error handling
-# - Edge cases (empty input, invalid config)
-# - Integration with other components
+# - Initialization and configuration
+# - Async execution patterns
+# - Resilience patterns (retry, circuit breaker, timeout)
+# - Multi-agent coordination
+# - Error handling and recovery
+# - Edge cases (empty input, invalid config, network failures)
+# - Integration with MATRIZ, consciousness, memory systems
 ```
 
 **Validation**:
 ```bash
 cd /Users/agi_dev/LOCAL-REPOS/Lukhas
-pytest tests/unit/core/orchestration/ -v --cov=core/orchestration
-# Target: 75%+ coverage
+# Test production orchestration
+pytest tests/unit/core/orchestration/ -v --cov=core/orchestration --cov-report=term-missing
+
+# Test experimental orchestration
+pytest tests/unit/labs/orchestration/ -v --cov=labs/core/orchestration --cov-report=term-missing
+
+# Target: 75%+ coverage for both
 ```
 
 ---
@@ -549,7 +590,7 @@ Expected Outcome:
 ```
 Write comprehensive tests for core orchestration module.
 
-Context: Read /Users/agi_dev/LOCAL-REPOS/Lukhas/TEST_ASSIGNMENT_REPORT.md, find TEST-001, read all context files listed, write tests for all 11 files in core/orchestration/, target 75%+ coverage, validate with pytest.
+Context: Read /Users/agi_dev/LOCAL-REPOS/Lukhas/TEST_ASSIGNMENT_REPORT.md, find TEST-001, read all context files listed, write tests for 20 orchestration files (8 in core/orchestration/ + 12 in labs/core/orchestration/), target 75%+ coverage, validate with pytest.
 ```
 
 ### Example 2: Assign Identity Tests
