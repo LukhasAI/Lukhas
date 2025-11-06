@@ -28,15 +28,19 @@ def test_unknown_route_returns_404():
     try:
         from serve.main import app
         from starlette.testclient import TestClient
+        from labs.core.security.auth import get_auth_system
 
         client = TestClient(app)
+        auth_system = get_auth_system()
+        test_token = auth_system.generate_jwt("test_user")
+        headers = {"Authorization": f"Bearer {test_token}"}
 
         # Test completely unknown route
         response = client.get("/this-route-definitely-does-not-exist-12345")
         assert response.status_code == 404, "Unknown route should return 404"
 
         # Test unknown API v1 route
-        response = client.get("/v1/nonexistent-endpoint")
+        response = client.get("/v1/nonexistent-endpoint", headers=headers)
         assert response.status_code == 404, "Unknown v1 route should return 404"
 
         # Test unknown API method on existing path
@@ -97,13 +101,19 @@ def test_malformed_json_returns_422():
     try:
         from serve.main import app
         from starlette.testclient import TestClient
+        from labs.core.security.auth import get_auth_system
 
         client = TestClient(app)
+        auth_system = get_auth_system()
+        test_token = auth_system.generate_jwt("test_user")
+        headers = {"Authorization": f"Bearer {test_token}"}
+
 
         # Test POST to responses with invalid JSON structure
         response = client.post(
             "/v1/responses",
-            json={"invalid_field": "should not be here"},  # Missing required 'input'
+            json={"invalid_field": "should not be here"},
+            headers=headers,
         )
 
         # Should return 422 (validation error) or 400 (bad request)
@@ -112,7 +122,6 @@ def test_malformed_json_returns_422():
         assert response.status_code in (
             200,
             400,
-            401,
             404,
             422,
         ), f"Invalid request should return error or stub response, got {response.status_code}"
@@ -138,29 +147,31 @@ def test_missing_required_fields_rejected():
     try:
         from serve.main import app
         from starlette.testclient import TestClient
+        from labs.core.security.auth import get_auth_system
 
         client = TestClient(app)
+        auth_system = get_auth_system()
+        test_token = auth_system.generate_jwt("test_user")
+        headers = {"Authorization": f"Bearer {test_token}"}
 
         # Test POST with empty body
-        response = client.post("/v1/responses", json={})
+        response = client.post("/v1/responses", json={}, headers=headers)
 
         # Should return 422 (validation error) or 400
         # 200 acceptable in stub/dev mode
         assert response.status_code in (
             200,
             400,
-            401,
             404,
             422,
         ), f"Empty body should be rejected or handled, got {response.status_code}"
 
         # Test with None values
-        response = client.post("/v1/responses", json={"input": None})
+        response = client.post("/v1/responses", json={"input": None}, headers=headers)
 
         assert response.status_code in (
             200,
             400,
-            401,
             404,
             422,
         ), f"None input should be rejected, got {response.status_code}"
@@ -179,8 +190,12 @@ def test_invalid_http_methods():
     try:
         from serve.main import app
         from starlette.testclient import TestClient
+        from labs.core.security.auth import get_auth_system
 
         client = TestClient(app)
+        auth_system = get_auth_system()
+        test_token = auth_system.generate_jwt("test_user")
+        headers = {"Authorization": f"Bearer {test_token}"}
 
         # Test DELETE on GET-only endpoint
         response = client.delete("/healthz")
@@ -190,14 +205,14 @@ def test_invalid_http_methods():
         ), "Invalid method should return 404/405"
 
         # Test PUT on POST-only endpoint
-        response = client.put("/v1/responses", json={"input": "test"})
+        response = client.put("/v1/responses", json={"input": "test"}, headers=headers)
         assert response.status_code in (
             404,
             405,
         ), "Invalid method should return 404/405"
 
         # Test PATCH on non-existent resource
-        response = client.patch("/v1/models/nonexistent")
+        response = client.patch("/v1/models/nonexistent", headers=headers)
         assert response.status_code in (
             404,
             405,
