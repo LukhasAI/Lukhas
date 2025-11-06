@@ -1,5 +1,32 @@
 ---
 title: "Constitutional Validation in Production AI Systems"
+domain: "lukhas.eu"
+owner: "@web-architect"
+audience: "researchers|regulators|enterprise"
+tone:
+  poetic: 0.05
+  user_friendly: 0.45
+  academic: 0.50
+canonical: true
+source: "branding/websites/lukhas.eu/research/constitutional-validation-production-ai.md"
+evidence_links:
+  - "release_artifacts/guardian-compliance-2025-Q3.pdf"
+  - "release_artifacts/drift-detection-validation.json"
+claims_verified_by: ["@web-architect", "@legal"]
+claims_verified_date: "2025-11-05"
+claims_approval: true
+seo:
+  title: "Constitutional AI Validation in Production Systems - Guardian Research"
+  description: "Peer-reviewed research on Guardian constitutional validation achieving 99.7% compliance across 3M production interactions with drift detection and EU AI Act compliance."
+  keywords:
+    - "constitutional AI"
+    - "value alignment"
+    - "EU AI Act compliance"
+    - "Guardian system"
+    - "drift detection"
+hreflang: ["en-US", "en-GB"]
+last_reviewed: "2025-11-05"
+tags: ["research", "guardian", "constitutional-ai", "compliance"]
 authors: "LUKHAS Research Team"
 publication_date: 2024-09
 venue: "ACM Conference on Fairness, Accountability, and Transparency (FAccT 2024)"
@@ -59,7 +86,7 @@ European AI regulation anticipates and arguably demands constitutional AI approa
 
 ### 1.2 Research Contributions
 
-This work advances constitutional AI from promising concept to production-ready implementation:
+This work advances constitutional AI from promising concept to validated production implementation:
 
 **Architectural Integration**: Guardian integrates with MATRIZ cognitive DNA at reasoning construction time rather than output filtering time, enabling constitutional principles to shape cognitive operations proactively rather than reactively constraining outputs after reasoning completes.
 

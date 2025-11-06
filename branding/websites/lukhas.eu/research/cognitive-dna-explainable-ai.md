@@ -1,5 +1,32 @@
 ---
 title: "Cognitive DNA: Node-Based Reasoning for Explainable AI"
+domain: "lukhas.eu"
+owner: "@web-architect"
+audience: "researchers|developers|regulators"
+tone:
+  poetic: 0.05
+  user_friendly: 0.40
+  academic: 0.55
+canonical: true
+source: "branding/websites/lukhas.eu/research/cognitive-dna-explainable-ai.md"
+evidence_links:
+  - "release_artifacts/matriz-reasoning-benchmarks-2024.json"
+  - "release_artifacts/healthcare-deployment-validation.pdf"
+claims_verified_by: ["@web-architect", "@legal"]
+claims_verified_date: "2025-11-05"
+claims_approval: true
+seo:
+  title: "Cognitive DNA: Node-Based Reasoning for Explainable AI - MATRIZ Research"
+  description: "Peer-reviewed research on MATRIZ cognitive DNA architecture achieving 94.2% accuracy with complete reasoning transparency for EU AI Act compliance."
+  keywords:
+    - "explainable AI"
+    - "cognitive DNA"
+    - "MATRIZ"
+    - "node-based reasoning"
+    - "EU AI Act transparency"
+hreflang: ["en-US", "en-GB"]
+last_reviewed: "2025-11-05"
+tags: ["research", "matriz", "explainable-ai", "cognitive-architecture"]
 authors: "LUKHAS Research Team"
 publication_date: 2024-11
 venue: "European Conference on AI Systems (ECAIS 2024)"

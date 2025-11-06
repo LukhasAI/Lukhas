@@ -1,5 +1,32 @@
 ---
 title: "Parallel Dream Simulation: Multi-Reality Exploration for Consciousness Technology"
+domain: "lukhas.eu"
+owner: "@web-architect"
+audience: "researchers|ai-scientists|strategists"
+tone:
+  poetic: 0.10
+  user_friendly: 0.45
+  academic: 0.45
+canonical: true
+source: "branding/websites/lukhas.eu/research/parallel-dream-simulation-gamechanger.md"
+evidence_links:
+  - "release_artifacts/parallel-dream-validation-2025.json"
+  - "release_artifacts/strategic-planning-benchmarks.pdf"
+claims_verified_by: ["@web-architect", "@research-lead"]
+claims_verified_date: "2025-11-05"
+claims_approval: true
+seo:
+  title: "Parallel Dream Simulation for AI Strategic Foresight - LUKHAS Research"
+  description: "AGI 2025 research on parallel dream simulation achieving 43% improvement in strategic planning through multi-reality exploration."
+  keywords:
+    - "parallel simulation"
+    - "dream simulation"
+    - "strategic AI"
+    - "counterfactual reasoning"
+    - "consciousness technology"
+hreflang: ["en-US", "en-GB"]
+last_reviewed: "2025-11-05"
+tags: ["research", "consciousness", "simulation", "strategic-ai"]
 authors: "LUKHAS Research Team"
 publication_date: 2025-01
 venue: "International Conference on Artificial General Intelligence (AGI 2025)"
