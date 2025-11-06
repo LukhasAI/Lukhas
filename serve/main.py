@@ -8,6 +8,112 @@ from typing import Any, Callable, Optional
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
+import redis.asyncio as redis
+from fastapi.responses import JSONResponse
+import os
+import fakeredis
+
+class RateLimitingMiddleware(BaseHTTPMiddleware):
+    """
+    Rate limiting middleware using a token bucket algorithm in Redis.
+    - Identifies tenants by Authorization header, falls back to IP.
+    - Exempts health/metrics endpoints.
+    - Handles different rate limits per endpoint.
+    - Returns 429 with Retry-After and OpenAI-compatible error.
+    """
+
+    def __init__(self, app, default_limit="20/second"):
+        super().__init__(app)
+        self.lua_script = """
+        local key = KEYS[1]
+        local rate = tonumber(ARGV[1])
+        local capacity = tonumber(ARGV[2])
+        local now = tonumber(ARGV[3])
+        local requested = tonumber(ARGV[4])
+        local bucket_data = redis.call('hmget', key, 'last_check', 'tokens')
+        local last_check = tonumber(bucket_data[1]) or now
+        local tokens = tonumber(bucket_data[2]) or capacity
+        local elapsed = now - last_check
+        tokens = tokens + elapsed * rate
+        if tokens > capacity then
+            tokens = capacity
+        end
+        if tokens < requested then
+            return {0, tokens, capacity}
+        else
+            tokens = tokens - requested
+            redis.call('hmset', key, 'last_check', now, 'tokens', tokens)
+            return {1, tokens, capacity}
+        end
+        """
+        self.redis = None
+        self.script = None
+        # Use fakeredis for testing to avoid event loop conflicts
+        if os.environ.get("LUKHAS_TESTING") == "true":
+            server = fakeredis.FakeServer()
+            self.redis = fakeredis.FakeRedis(server=server)
+        else:
+            self.redis_url = os.environ.get("REDIS_URL", "redis://localhost")
+
+        self.default_rate, self.default_period = self._parse_rate_limit(default_limit)
+        self.endpoint_limits = {
+            "/v1/embeddings": (10, 1),  # 10 requests per second
+            "/v1/models": (self.default_rate, self.default_period)
+        }
+
+    def _parse_rate_limit(self, rate_limit):
+        """Parse rate limit string like '20/second' into (requests, period_seconds)."""
+        parts = rate_limit.lower().split("/")
+        requests = int(parts[0])
+        period = parts[1]
+        if "second" in period:
+            return requests, 1
+        if "minute" in period:
+            return requests, 60
+        return requests, 1
+
+    async def dispatch(self, request: Request, call_next):
+        if self.redis is None:
+            self.redis = redis.from_url(self.redis_url)
+            self.script = self.redis.register_script(self.lua_script)
+
+        if request.url.path in ["/healthz", "/readyz", "/metrics"]:
+            return await call_next(request)
+
+        auth_header = request.headers.get("Authorization", "")
+        client_id = auth_header if auth_header.startswith("Bearer ") else request.client.host
+        rate, period = self.endpoint_limits.get(request.url.path, (self.default_rate, self.default_period))
+
+        bucket_key = f"rate_limit:{client_id}:{request.url.path}"
+
+        now = time.time()
+        capacity = rate * 2
+
+        if os.environ.get("LUKHAS_TESTING") == "true":
+            # In testing mode, `self.redis` is a sync client, so we use `eval` directly
+            if self.script is None:
+                self.script = self.redis.register_script(self.lua_script)
+            allowed, tokens, _ = self.script(keys=[bucket_key], args=[rate / period, capacity, now, 1])
+        else:
+            # In production, `self.redis` is an async client
+            if self.script is None:
+                self.script = self.redis.register_script(self.lua_script)
+            allowed, tokens, _ = await self.script(keys=[bucket_key], args=[rate / period, capacity, now, 1])
+
+        if not allowed:
+            tokens = max(0, float(tokens))
+            retry_after = (1 - (tokens / capacity)) * period if capacity > 0 else period
+            error = {
+                "error": {
+                    "message": "You exceeded your current quota, please check your plan and billing details.",
+                    "type": "insufficient_quota",
+                    "param": None,
+                    "code": "insufficient_quota"
+                }
+            }
+            return JSONResponse(status_code=429, content=error, headers={"Retry-After": str(retry_after)})
+
+        return await call_next(request)
 
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False
@@ -155,6 +261,7 @@ class HeadersMiddleware(BaseHTTPMiddleware):
         return response
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
+app.add_middleware(RateLimitingMiddleware)
 app.add_middleware(StrictAuthMiddleware)
 app.add_middleware(HeadersMiddleware)
 if routes_router is not None:
