@@ -81,7 +81,7 @@ class ModuleInfo:
     permissions: set[str] = field(default_factory=set)
     dependencies: list[str] = field(default_factory=list)
     health_status: str = "unknown"
-    registered_at: datetime = field(default_factory=datetime.utcnow)
+    registered_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     last_accessed: datetime | None = None
     access_count: int = 0
 
@@ -144,6 +144,8 @@ class ModuleRegistry:
         Returns:
             bool: True if registration successful
         """
+        if module_id in self.modules:
+            raise ValueError(f"Module {module_id} already registered")
         try:
             # Determine minimum tier
             if min_tier is None:
