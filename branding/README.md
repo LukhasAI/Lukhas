@@ -146,6 +146,40 @@ Ready-to-use markdown templates for creating consistent content:
 
 ---
 
+### 7. Governance & Quality Assurance
+
+#### [governance/](governance/) - **Quality, Compliance & Automation**
+Complete governance framework for maintaining quality and compliance:
+
+##### [governance/README.md](governance/README.md) - **Governance Overview**
+- Validation tools
+- CI/CD workflows
+- Governance policies
+- Research & testing plans
+
+##### [governance/tools/CONTENT_LINTING.md](governance/tools/CONTENT_LINTING.md)
+- front_matter_lint.py - Validates YAML front-matter
+- evidence_check.py - Ensures claims have evidence
+- branding_vocab_lint.py - Enforces vocabulary standards
+- assistive_validate.py - Checks assistive mode compliance
+
+##### [governance/tools/GOVERNANCE_ARTIFACTS.md](governance/tools/GOVERNANCE_ARTIFACTS.md)
+- Accessibility GitHub Action (pa11y + axe)
+- Claims registry generator
+- PR template & CODEOWNERS
+- Release/claims gating policy
+- Assistive user testing plan
+- Telemetry specification
+- Domain health dashboard
+- Content migration checklist
+
+##### [governance/AUTOMATION_GUIDE.md](governance/AUTOMATION_GUIDE.md)
+- Automated governance setup script
+- CI/CD integration guide
+- Enforcement workflows
+
+---
+
 ## 🗂️ Supporting Documents
 
 These provide additional context but are **not canonical**:
@@ -216,8 +250,8 @@ These provide additional context but are **not canonical**:
 ### **Brand Managers**
 1. Foundation: [BRAND_GUIDELINES.md](BRAND_GUIDELINES.md)
 2. Registry: [config/domain_registry.yaml](config/domain_registry.yaml)
-3. Enforcement: [enforcement/](enforcement/)
-4. Analytics: [intelligence/](intelligence/)
+3. Governance: [governance/README.md](governance/README.md)
+4. Validation: [governance/tools/](governance/tools/)
 
 ---
 
@@ -246,6 +280,15 @@ These provide additional context but are **not canonical**:
 
 **"What content template should I use?"**
 → [templates/README.md](templates/README.md) → Complete template guide
+
+**"How do I validate my content before submitting?"**
+→ [governance/tools/CONTENT_LINTING.md](governance/tools/CONTENT_LINTING.md) → Run all linters
+
+**"What claims require evidence?"**
+→ [governance/README.md](governance/README.md) → All numeric/operational claims
+
+**"How do I set up CI for content validation?"**
+→ [governance/tools/GOVERNANCE_ARTIFACTS.md](governance/tools/GOVERNANCE_ARTIFACTS.md) → Complete CI setup
 
 ---
 
