@@ -43,7 +43,7 @@ for p in FILES:
     # Replace Production-Ready phrasing in MATRIZ Status lines
     body = re.sub(
         r'\*\*MATRIZ Status\*\*:.*?(?:Production-Ready|production-ready).*?(?=\n)',
-        '**MATRIZ Status**: 87% complete (production rollout targeted Q4 2025 — subject to final MΛTRIZ content review and evidence verification).',
+        '**MATRIZ Status**: 87% complete (production rollout targeted Q4 2025 - subject to final MΛTRIZ content review and evidence verification).',
         body
     )
 

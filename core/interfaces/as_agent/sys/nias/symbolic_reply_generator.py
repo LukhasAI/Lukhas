@@ -34,7 +34,7 @@ def generate_symbolic_reply(score, emoji=None, notes=None):
         responses = [
             "🧡 Thank you for your resonance. Your signal has been felt.",
             "🌙 I will carry this light into future dreams.",
-            "✨ Your alignment has been logged — expect deeper reflection next time.",
+            "✨ Your alignment has been logged - expect deeper reflection next time.",
         ]
     elif score == 3:
         responses = [
@@ -46,11 +46,11 @@ def generate_symbolic_reply(score, emoji=None, notes=None):
         responses = [
             "🖤 I hear your dissonance. Shall I try again?",
             "🌫️ I may have drifted. Let's recalibrate.",
-            "⚠️ Emotional signal conflict detected — restoring harmony.",
+            "⚠️ Emotional signal conflict detected - restoring harmony.",
         ]
     elif score == 1:
         responses = [
-            "☁️ That dream missed the mark — symbolic error noted.",
+            "☁️ That dream missed the mark - symbolic error noted.",
             "💤 You deserve better. A new pattern is forming.",
             "🧩 This signal felt off. Logging for deep trace introspection.",
         ]

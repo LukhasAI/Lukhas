@@ -77,7 +77,7 @@ def build_user_context(user_id: str) -> dict[str, Any]:
     # ΛEXPOSE: Provides a structured view of the user's current state.
     # ΛSYMBOLIC_ECHO: Reflects the aggregated understanding of the user.
     """
-    # ΛPLACEHOLDER_LOGIC – should be dynamically linked to DAST, emotion memory, consent DB
+    # ΛPLACEHOLDER_LOGIC - should be dynamically linked to DAST, emotion memory, consent DB
     # ΛCAUTION: Current implementation returns static placeholder data.
     context_data = {
         "user_id": user_id,

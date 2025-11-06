@@ -122,7 +122,7 @@ def main():
             print("🌙 Exiting Lukhas. Your symbolic trace ends here.")
             break
         else:
-            print("⚠️ Unknown option. Try 1–5 or type q to quit.")
+            print("⚠️ Unknown option. Try 1-5 or type q to quit.")
 
 
 if __name__ == "__main__":

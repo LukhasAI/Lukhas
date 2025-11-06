@@ -32,7 +32,7 @@ SECTION_STARTS = (
 
 def clean_unicode(s: str) -> str:
     s = s.replace("\u200b", "").replace("\ufeff", "").replace("\ufffc", "")
-    s = s.replace('"', '"').replace('"', '"').replace("'", "'").replace("–", "-").replace("—", "-")
+    s = s.replace('"', '"').replace('"', '"').replace("'", "'").replace("-", "-").replace("-", "-")
     return s
 
 

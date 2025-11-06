@@ -74,7 +74,7 @@ def process_user_input(user_input):
 
 
 if __name__ == "__main__":
-    print("🎙️ LUKHAS v1.0 — Symbolic Conscience Activated")
+    print("🎙️ LUKHAS v1.0 - Symbolic Conscience Activated")
     while True:
         try:
             user_input = input("You: ")

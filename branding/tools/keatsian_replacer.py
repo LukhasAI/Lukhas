@@ -139,7 +139,7 @@ class KeatsianReplacer:
             "MΛTRIZ": {
                 "short": "From Shadow to Resonance",
                 "definition": (
-                    "MΛTRIZ is the matrix as womb, not grid — a space where "
+                    "MΛTRIZ is the matrix as womb, not grid - a space where "
                     "trust and creation grow through modular alignment, "
                     "transparency, resonance, identity, and zero-knowledge."
                 ),

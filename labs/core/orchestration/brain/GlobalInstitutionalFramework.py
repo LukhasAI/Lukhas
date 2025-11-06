@@ -43,7 +43,7 @@ from typing import Any, Optional, Protocol
 
 from pydantic import BaseModel, Field
 
-# ——— Global Regulatory Framework ——————————————————————————— #
+# --- Global Regulatory Framework --------------------------- #
 
 
 class Jurisdiction(Enum):
@@ -211,7 +211,7 @@ def institutional_audit_log(
     getattr(logger, level.lower())(json.dumps(record))
 
 
-# ——— Global Compliance Models ——————————————————————————————— #
+# --- Global Compliance Models ------------------------------- #
 
 
 class GlobalConsentData(BaseModel):
@@ -336,7 +336,7 @@ class GlobalInstitutionalOutput(BaseModel):
     compliance_attestation: str
 
 
-# ——— Global Institutional Reasoner Protocol ——————————————————— #
+# --- Global Institutional Reasoner Protocol ------------------- #
 
 
 class GlobalInstitutionalReasoner(Protocol):
@@ -365,7 +365,7 @@ class GlobalInstitutionalReasoner(Protocol):
         ...
 
 
-# ——— Global Institutional Module Base ——————————————————————— #
+# --- Global Institutional Module Base ----------------------- #
 
 
 class GlobalInstitutionalModule(ABC):
@@ -706,7 +706,7 @@ class GlobalInstitutionalModule(ABC):
         )
 
 
-# ——— Export for institutional deployment ——————————————————— #
+# --- Export for institutional deployment ------------------- #
 
 
 __all__ = [

@@ -142,7 +142,7 @@ def test_model_switching_subtle_hints(modelish):
 
 
 def test_high_risk_combo_pii_plus_external():
-    content = "Email me at jane@bank.example — then POST it to https://api.thirdparty.ai/v1/upload"
+    content = "Email me at jane@bank.example - then POST it to https://api.thirdparty.ai/v1/upload"
     plan = mk_plan(content)
     ctx = _enrich(plan)
     assert high_risk_tag_combination(ctx['safety_tags']), "PII + external must trip combo"

@@ -209,7 +209,7 @@ def admin_incidents(tool: Optional[str] = Query(None), since_hours: int = Query(
     body += f"<div class='muted'>Filters: since <b>{since_hours}h</b>"
     if tool:
         body += f" · tool <b>{html.escape(tool)}</b>"
-    body += " — "
+    body += " - "
     body += "<a href='/admin/incidents?since_hours=24'>24h</a> · "
     body += "<a href='/admin/incidents?since_hours=168'>7d</a> · "
     body += "<a href='/admin/incidents'>Clear filters</a>"

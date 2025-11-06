@@ -87,7 +87,7 @@ except Exception:  # pragma: no cover - fallback for import-time safety
         legal_basis: str = LegalBasis.CONSENT.value
         data_category: str = DataCategory.PERSONAL_DATA.value
 
-# ——— Australian-Specific Regulatory Framework ——————————————————————— #
+# --- Australian-Specific Regulatory Framework ----------------------- #
 
 
 class AustralianPrivacyPrinciple(Enum):
@@ -291,7 +291,7 @@ def australian_audit_log(
     logging.getLogger("australian_institutional_audit").info(json.dumps(audit_entry))
 
 
-# ——— Australian Institutional Awareness Modules ——————————————————————— #
+# --- Australian Institutional Awareness Modules ----------------------- #
 
 
 class AustralianPrivacyModule:
@@ -529,7 +529,7 @@ class AustralianPrivacyModule:
         return True  # Default compliance for other states
 
 
-# ——— Main Australian Awareness Engine ——————————————————————————————— #
+# --- Main Australian Awareness Engine ------------------------------- #
 
 
 class AustralianAwarenessEngine:
@@ -602,7 +602,7 @@ class AustralianAwarenessEngine:
             raise
 
 
-# ——— Compliance Certification ——————————————————————————————————— #
+# --- Compliance Certification ----------------------------------- #
 
 
 def certify_australian_compliance() -> dict[str, Any]:

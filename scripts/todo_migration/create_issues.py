@@ -114,7 +114,7 @@ def run_gh_issue_create(title: str, body: str, labels: str = "") -> int:
     res = subprocess.run(cmd, capture_output=True, text=True)
     if res.returncode != 0:
         raise RuntimeError(f"gh issue create failed: {res.stderr}")
-    # gh prints the URL — parse issue number
+    # gh prints the URL - parse issue number
     out = res.stdout.strip()
     # Try to parse last /number
     try:

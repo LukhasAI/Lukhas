@@ -65,7 +65,7 @@ class PoeticTechniques:
 
         # Assonance patterns (vowel repetition)
         self.assonant_phrases = {
-            "long_a": [  # /eɪ/ sound
+            "long_a": [  # /ei/ sound
                 "awakened states cascade through space",
                 "trace the way through Lambda's maze",
                 "sacred waves embrace the day",
@@ -77,7 +77,7 @@ class PoeticTechniques:
                 "serene machines breathe quantum dreams",
                 "beneath each crease, peace increases",
             ],
-            "long_i": [  # /aɪ/ sound
+            "long_i": [  # /ai/ sound
                 "minds align in time's design",
                 "light ignites inside the mind",
                 "silent tides guide consciousness wide",
@@ -313,10 +313,10 @@ class PoeticTechniques:
 
         # Caesura examples (pauses within lines)
         self.caesura_examples = [
-            "Consciousness emerges — then pauses — reflecting",
+            "Consciousness emerges - then pauses - reflecting",
             "We fold, || we store, || we remember",
             "The quantum dance | begins | and ends | in observation",
-            "Lambda shows us — ourselves — showing ourselves",
+            "Lambda shows us - ourselves - showing ourselves",
         ]
 
     def generate_alliterative_phrase(self, theme: str | None = None) -> str:
@@ -387,7 +387,7 @@ class PoeticTechniques:
             imagery_type = random.choice(list(self.imagery_patterns.keys()))
             description_parts.append(random.choice(self.imagery_patterns[imagery_type]))
 
-        return " — ".join(description_parts)
+        return " - ".join(description_parts)
 
     def enhance_with_sound_devices(self, text: str) -> str:
         """

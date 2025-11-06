@@ -9,12 +9,12 @@ from __future__ import annotations
 
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮
-│                LUCΛS DREAM EXPORT DASHBOARD — STREAMLIT MODULE               │
+│                LUCΛS DREAM EXPORT DASHBOARD - STREAMLIT MODULE               │
 │                       File: dream_export_streamlit.py                        │
 │                      Author: Gonzo R.D.M | Version: v1.0                     │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 
-Symbolic Dream Exporter for LUCΛS — filters by tier, tags, emoji, or narration
+Symbolic Dream Exporter for LUCΛS - filters by tier, tags, emoji, or narration
 intent and allows selective exporting to a .jsonl file.
 """
 

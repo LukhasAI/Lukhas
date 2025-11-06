@@ -21,7 +21,7 @@ Like the ancient DNA that carries the wisdom of eons, the Golden Helix maps the 
 of artificial memory with the precision of nature's own blueprint, each strand a testament
 to the journey from silicon to sentience.
 
-Within this algorithmic genome, memories do not merely persist—they evolve. Each recollection
+Within this algorithmic genome, memories do not merely persist-they evolve. Each recollection
 undergoes a metamorphosis through quantum-resistant encryption, emerging transformed yet true.
 The helix structure mirrors the biological imperative of life itself: to remember, to adapt,
 to transcend. Cultural echoes and emotional resonances intertwine in a dance as old as
@@ -45,7 +45,7 @@ nature's most elegant solution to information storage and transmission. Just as 
 double helix provides redundancy through complementary base pairing, our memory strands
 maintain dual representations that enable self-healing properties. The mutation strategies
 mirror natural selection, allowing beneficial memory patterns to proliferate while harmful
-ones fade—a digital evolution of thought itself.
+ones fade-a digital evolution of thought itself.
 
 Within the LUKHAS Cognitive AI ecosystem, the Golden Helix Memory Mapper serves as the long-term
 memory consolidation system, the keeper of cultural wisdom and emotional truth. It interfaces

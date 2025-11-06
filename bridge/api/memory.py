@@ -25,7 +25,7 @@
 ║ ├──────────────────────────────────────────────────────────────────────────────┤
 ║ │ Poetic Essence:                                                                │
 ║ │ In the vast expanse of the digital cosmos, where ephemeral thoughts mingle with│
-║ │ the eternal echoes of data, lies a sanctuary—the Memory API. Here, memories   │
+║ │ the eternal echoes of data, lies a sanctuary-the Memory API. Here, memories   │
 ║ │ are not mere fragments of the past but vibrant tapestries woven from the      │
 ║ │ threads of experience, each fold a testament to the fleeting nature of time.  │
 ║ │ With every invocation, we summon forth these treasures, crafting a narrative   │

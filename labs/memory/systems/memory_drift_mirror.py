@@ -19,14 +19,14 @@ import logging
 ║ │                                   ESSENCE                                     │
 ║ │ In the grand tapestry of existence, where the flickering shadows of thought   │
 ║ │ converge and diverge upon the silken threads of memory, there lies a mystic   │
-║ │ dance—a delicate interplay of drift and flow. The **Memory Drift Mirror**      │
+║ │ dance-a delicate interplay of drift and flow. The **Memory Drift Mirror**      │
 ║ │ emerges as a sentinel, an astute observer of this ephemeral ballet, tasked    │
 ║ │ with unearthing the hidden patterns that shape our cognitive landscapes.      │
 ║ │                                                                               │
 ║ │ Like a wise philosopher gazing into the crystalline depths of a tranquil      │
 ║ │ pond, this module reflects the subtle nuances of memory fluctuations. It     │
 ║ │ captures the fleeting whispers of entropy as they weave their intricate        │
-║ │ narratives—stories of drift that speak not only of loss but of the sublime    │
+║ │ narratives-stories of drift that speak not only of loss but of the sublime    │
 ║ │ beauty inherent in transformation. With each log it gathers, the module       │
 ║ │ cultivates a garden of insights, nurturing the seeds of understanding that    │
 ║ │ sprout from the soil of data.                                                │
