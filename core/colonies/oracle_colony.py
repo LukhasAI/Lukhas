@@ -29,10 +29,11 @@ from __future__ import annotations
 import asyncio
 import importlib
 import json
-import structlog
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
+
+import structlog
 
 """Note on lane boundaries
 This module must not import from `labs.*` at import time. To keep lane guard

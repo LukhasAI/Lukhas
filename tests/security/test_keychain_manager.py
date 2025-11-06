@@ -1,6 +1,8 @@
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
 from core.security.keychain_manager import KeychainManager
+
 
 @patch('subprocess.run')
 class TestKeychainManager:

@@ -10,11 +10,10 @@ from collections.abc import Mapping
 from typing import Any
 
 import pytest
-from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
-from prometheus_client import REGISTRY
-
 from core.interfaces import CognitiveNodeBase
 from core.registry import _REG, register
+from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
+from prometheus_client import REGISTRY
 
 
 def _collect_metric_value(metric_name: str, labels: Mapping[str, str], sample_suffix: str | None = "total") -> float:

@@ -7,14 +7,15 @@ Usage:
   python3 tools/ci/lint_annotator.py --paths lukhas core --codes F821,F403,B008 --dry-run
 """
 from __future__ import annotations
+
 import argparse
 import json
 import re
 import subprocess
 import sys
-from pathlib import Path
-from datetime import datetime, timezone
 import uuid
+from datetime import datetime, timezone
+from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 LOG = REPO / "reports" / "todos" / "lint_issues.jsonl"

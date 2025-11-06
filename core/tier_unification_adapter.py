@@ -28,7 +28,6 @@ from functools import wraps
 from typing import Any, Callable
 
 import structlog
-
 from core.identity_integration import TierMappingConfig, get_identity_client
 
 logger = logging.getLogger(__name__)

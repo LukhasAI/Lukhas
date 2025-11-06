@@ -45,7 +45,6 @@ from enum import Enum
 from typing import Any
 
 import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
-
 from consciousness.qi import (
     qi,  # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 )

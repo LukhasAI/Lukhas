@@ -26,9 +26,10 @@ try:
 # reason: Optional dependency import or module side-effect registration
 # estimate: 0h | priority: low | dependencies: none
     import numpy as np
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
+
+    # T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+    # reason: Optional dependency import or module side-effect registration
+    # estimate: 0h | priority: low | dependencies: none
     import pandas as pd
     PANDAS_AVAILABLE = True
 except ImportError:
@@ -39,9 +40,10 @@ try:
 # reason: Optional dependency import or module side-effect registration
 # estimate: 0h | priority: low | dependencies: none
     from sklearn.cluster import KMeans
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
+
+    # T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+    # reason: Optional dependency import or module side-effect registration
+    # estimate: 0h | priority: low | dependencies: none
     from sklearn.preprocessing import StandardScaler
     SKLEARN_AVAILABLE = True
 except ImportError:

@@ -229,6 +229,7 @@ except ImportError:
 
 try:
     from consciousness.reflection.consciousness_hub import ConsciousnessHub
+
     from consciousness.reflection.memory_hub import MemoryHub
 except ImportError:
     ConsciousnessHub = None

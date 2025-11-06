@@ -27,7 +27,6 @@ from datetime import datetime, timezone
 from typing import Any
 
 import numpy as np
-
 from observability.matriz_decorators import instrument
 from observability.matriz_emit import emit
 

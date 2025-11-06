@@ -1,6 +1,7 @@
-import pytest
-from unittest.mock import patch, MagicMock
 from datetime import datetime, timedelta, timezone
+from unittest.mock import MagicMock, patch
+
+import pytest
 
 # Mock external dependencies before import
 # This is important to avoid ImportError if the libraries are not installed
@@ -15,7 +16,7 @@ with patch.dict('sys.modules', {
     'jwt': MOCK_JWT,
     'redis': MOCK_REDIS,
 }):
-    from core.security.auth import EnhancedAuthenticationSystem, get_auth_system, AuthSession
+    from core.security.auth import AuthSession, EnhancedAuthenticationSystem, get_auth_system
 
 @pytest.fixture
 def auth_system():
@@ -344,6 +345,7 @@ class TestAuthFallback:
         """Test that the fallback get_auth_system works and returns a minimal object."""
         with patch.dict('sys.modules', {'labs.core.security.auth': None}):
             import importlib
+
             import core.security.auth
             importlib.reload(core.security.auth)
 

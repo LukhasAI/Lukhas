@@ -10,26 +10,26 @@ import math
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from pydantic import BaseModel, Field
-
 from consciousness.reflection.openai_modulated_service import (
     OpenAIModulatedService,
 )
 from core.colonies.consensus_mechanisms import ConsensusMethod
 from core.colonies.enhanced_colony import EnhancedReasoningColony
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+
+# Import LUKHAS components
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from pydantic import BaseModel, Field
+from symbolic.exchange.universal_exchange import (
+    ExchangeProtocol,
+    UniversalSymbolExchange,
+)
+
 from orchestration.gpt_colony_orchestrator import (
     GPTColonyOrchestrator,
     OrchestrationMode,
     OrchestrationTask,
-)
-
-# Import LUKHAS components
-from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
-from symbolic.exchange.universal_exchange import (
-    ExchangeProtocol,
-    UniversalSymbolExchange,
 )
 
 # Configure logging

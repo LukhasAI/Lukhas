@@ -29,9 +29,9 @@ try:
     from .advanced_api_optimizer import (
         APITier,
         LUKHASAPIOptimizer,
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
+        # T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+        # reason: Optional dependency import or module side-effect registration
+        # estimate: 0h | priority: low | dependencies: none
         OptimizationConfig,
         OptimizationStrategy,
         RequestContext,
@@ -44,9 +44,10 @@ try:
         RequestMetadata,
         create_middleware_pipeline,
     )
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
+
+    # T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+    # reason: Optional dependency import or module side-effect registration
+    # estimate: 0h | priority: low | dependencies: none
     from .analytics_dashboard import AnalyticsDashboard, TimeWindow, create_analytics_dashboard
     OPTIMIZATION_COMPONENTS_AVAILABLE = True
 except ImportError:

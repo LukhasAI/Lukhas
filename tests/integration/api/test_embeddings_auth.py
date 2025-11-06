@@ -1,6 +1,6 @@
 
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
 # The TestClient and app are imported inside setUp to ensure patches are active
 # during the application's initialization.

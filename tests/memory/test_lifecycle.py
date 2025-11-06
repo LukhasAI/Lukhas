@@ -22,7 +22,6 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 import pytest
-
 from memory.lifecycle import (
     ArchivalTier,
     FileArchivalBackend,
