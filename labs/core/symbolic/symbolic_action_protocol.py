@@ -69,7 +69,7 @@ class SymbolicActionProtocol:
             🔍 Introspective Explanation (Altman-style):
             Provide a human-readable explanation of why an action proposal was permitted or denied.
 
-            Inspired by Steve Jobs — this message should feel intimate, emotional,
+            Inspired by Steve Jobs - this message should feel intimate, emotional,
         and symbolic.
 
             Returns:
@@ -92,5 +92,5 @@ class SymbolicActionProtocol:
         else:
             return (
                 f"🔒 Lukhas received a symbolic signal ({trigger}), but '{action}' exceeds Tier {tier} permissions "
-                f"or spending limits. The moment was felt — but held safely in silence."
+                f"or spending limits. The moment was felt - but held safely in silence."
             )

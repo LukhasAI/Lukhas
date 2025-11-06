@@ -86,7 +86,7 @@ def propose_moves(files):
     return moves
 
 def write_proposed(moves, out='proposed_moves.sh'):
-    lines = ["#!/bin/bash", "set -euo pipefail", "echo '=== PROPOSED MOVES — REVIEW BEFORE EXECUTION ==='"]
+    lines = ["#!/bin/bash", "set -euo pipefail", "echo '=== PROPOSED MOVES - REVIEW BEFORE EXECUTION ==='"]
     for src,dst in moves:
         if dst is None:
             lines.append(f"# DUPLICATE (identical sha) - REMOVE: {src}")

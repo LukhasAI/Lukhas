@@ -28,7 +28,7 @@
 ║
 ║ As the tides of time ebb and flow, so too does the memory fold system,
 ║ cradling the glyphs within its gentle embrace, nurturing them into vivid
-║ recollections. This sacred union—of symbols and memory—is akin to the
+║ recollections. This sacred union-of symbols and memory-is akin to the
 ║ alchemical transformation of lead into gold, where the raw elements of thought
 ║ are refined into the purest essence of wisdom. It is a pilgrimage through the
 ║ landscapes of the mind, where the ancient art of memory is reinvigorated,

@@ -20,8 +20,8 @@ from pathlib import Path
 import streamlit as st
 
 st.set_page_config(page_title="Lukhas Compliance Visual Dashboard", layout="wide")
-st.title("🛡️ Lukhas AGI — Visual Compliance Review Dashboard")
-st.markdown("✅ **Restored Symbolic Export** — LUKHAS_AGI_3_FINAL_HANDOVER.zip")
+st.title("🛡️ Lukhas AGI - Visual Compliance Review Dashboard")
+st.markdown("✅ **Restored Symbolic Export** - LUKHAS_AGI_3_FINAL_HANDOVER.zip")
 st.markdown("🔐 SHA-256: `33fc117c5fd786fb701de0cfe1514f6d5dabe70002cb4c09857d92cc58a4f569`")
 digest_path = Path("logs/weekly_compliance_digest.md")
 plot_dir = Path("logs")
@@ -94,7 +94,7 @@ if st.checkbox("📱 Optimize for Mobile Display (experimental)"):
         unsafe_allow_html=True,
     )
     st.success("✅ Mobile layout adjustments applied.")
-st.markdown("💬 *Next module to re-link: `id_portal/frontend/login.js` — tiered auth + face emoji grid.*")
+st.markdown("💬 *Next module to re-link: `id_portal/frontend/login.js` - tiered auth + face emoji grid.*")
 st.divider()
 st.markdown("## 🔐 ID Portal Preview")
 if st.button("🔓 Preview Tiered Login (id_portal/login.js)"):
@@ -104,6 +104,6 @@ if st.button("🔓 Preview Tiered Login (id_portal/login.js)"):
     ✅ `login.js` reconnection initiated.
     - Tier-based emoji grid ready.
     - Face ID fallback: **off** (dev mode).
-    - Auth logic not yet live — symbolic preview only.
+    - Auth logic not yet live - symbolic preview only.
     """
     )

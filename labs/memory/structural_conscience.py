@@ -1,11 +1,11 @@
 """
-structural_conscience.py — Structural awareness & integrity validation
+structural_conscience.py - Structural awareness & integrity validation
 
 Purpose
 -------
 Validates structural integrity of memory folds and monitors the
-memory–consciousness interface. Designed to prevent cascade errors and
-flag misalignment before consolidation writes land in long‑term memory.
+memory-consciousness interface. Designed to prevent cascade errors and
+flag misalignment before consolidation writes land in long-term memory.
 
 Usage
 -----
@@ -116,7 +116,7 @@ class StructuralConscience:
         )
 
     def monitor_consciousness_integration(self, metrics: Dict[str, Any]) -> Dict[str, Any]:
-        """Monitor memory–consciousness integration health.
+        """Monitor memory-consciousness integration health.
 
         Parameters
         ----------

@@ -39,7 +39,7 @@ dream_options = [
     ("The algorithm wept silently.", "🤖💧"),
     ("Time unfolded like ribbon.", "⏳🎀"),
     ("He dreamt of fire encoded in ice.", "🔥❄️"),
-    ("The data blinked — then sang.", "📊🎶"),
+    ("The data blinked - then sang.", "📊🎶"),
     ("Lukhas exhaled the memory.", "🫁🧠"),
 ]
 text, emotion = random.choice(dream_options)

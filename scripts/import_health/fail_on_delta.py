@@ -12,7 +12,7 @@ from pathlib import Path
 
 
 def count_e402_from_ruff_file(path: Path) -> int:
-    # ruff output file — we'll count lines or parse numbers.
+    # ruff output file - we'll count lines or parse numbers.
     try:
         text = path.read_text(encoding="utf-8")
     except Exception:

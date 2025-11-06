@@ -36,7 +36,7 @@ def extract_public_vocabulary(lexicon_path="LUKHAS_LEXICON.md", output_path="voc
     public_content += "- Marketing materials and social media\n"
     public_content += "- Any external-facing communications\n\n"
     public_content += (
-        """**Philosophy**: "Uncertainty as fertile ground" — welcoming ambiguity as resource, not flaw.\n\n"""
+        """**Philosophy**: "Uncertainty as fertile ground" - welcoming ambiguity as resource, not flaw.\n\n"""
     )
     public_content += "**Validation**: ✅ All content passes author-reference guard\n\n"
     public_content += f"*Generated from LUKHAS_LEXICON.md on {Path().absolute().name}*"

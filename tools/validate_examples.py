@@ -110,7 +110,7 @@ def main():
                     printed = None
             if printed is None:
                 printed = repr(obj)
-            print("  OK — validated.\n", printed)
+            print("  OK - validated.\n", printed)
         except Exception as exc:
             failed = True
             print("  VALIDATION FAILED:", exc)

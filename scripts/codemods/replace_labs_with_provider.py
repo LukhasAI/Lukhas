@@ -80,7 +80,7 @@ def _importfrom_to_spec(node: cst.ImportFrom) -> ImportSpec | None:
     names: List[Tuple[str, str | None]] = []
     for alias in node.names:
         if isinstance(alias, cst.ImportStar):
-            # Skip star imports – too risky to rewrite automatically
+            # Skip star imports - too risky to rewrite automatically
             return None
         if isinstance(alias, cst.ImportAlias):
             name_node = alias.name

@@ -107,7 +107,7 @@ def main():
     if all_ok:
         print("  All expected files and markers appear present.")
     else:
-        print("  Some files or markers are missing — inspect output above.")
+        print("  Some files or markers are missing - inspect output above.")
 
     print(
         "\nIf anything looks missing, open the file or run `git log -p <file>` to inspect changes."

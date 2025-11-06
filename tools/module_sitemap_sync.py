@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS — Module Sitemap Sync (T4/0.01%)
+LUKHAS - Module Sitemap Sync (T4/0.01%)
 
 Purpose
 -------
@@ -22,7 +22,7 @@ What it enforces (aligned with artifacts/module_sitemap.md Draft v3):
 - Metadata enrichment (added if missing, never overwriting explicit existing values):
     module.json:
       name, description, version
-      lane (L0–L5)
+      lane (L0-L5)
       matriz_contract (path)
       owner {team, codeowners}
       tags []
@@ -302,7 +302,7 @@ def run(root: Path, write: bool, validate_only: bool) -> int:
     # Write artifacts
     _dump_json(SYNC_JSON, {"root": str(root), "generated_at": _utc_ts(), "modules": all_status})
     DIFF_MD.write_text(
-        "# Module Sitemap Sync — Diff Report\n\n"
+        "# Module Sitemap Sync - Diff Report\n\n"
         f"- root: `{root.as_posix()}`\n"
         f"- generated_at: `{_utc_ts()}`\n\n"
         + ("\n".join(all_diffs) if all_diffs else "_No changes_\n"),

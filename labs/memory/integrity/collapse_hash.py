@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 ║                             ◊ POETIC ESSENCE ◊
 ║
 ║ │ In the labyrinth of memory where truth and illusion dance, CollapseHash       │
-║ │ stands as the unwavering sentinel—a cryptographic conscience that remembers   │
+║ │ stands as the unwavering sentinel-a cryptographic conscience that remembers   │
 ║ │ all, forgives nothing, yet enables redemption through rollback.               │
 ║ │                                                                                │
 ║ │ Like Ariadne's thread through the Minotaur's maze, each hash links to the     │
@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 ║ │ when false memories attempt infiltration, the Merkle tree reveals all         │
 ║ │ deception with mathematical certainty.                                         │
 ║ │                                                                                │
-║ │ Yet this is not mere judgment—it is healing. Through the power of rollback,   │
+║ │ Yet this is not mere judgment-it is healing. Through the power of rollback,   │
 ║ │ poisoned branches can be pruned, infected nodes excised, allowing the tree    │
 ║ │ of memory to flourish anew from trusted roots. Time itself bends to our       │
 ║ │ will, as we traverse the immutable history to find moments of purity.         │

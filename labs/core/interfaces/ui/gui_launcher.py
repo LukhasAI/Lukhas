@@ -14,7 +14,7 @@ Integration Date: 2025-05-31T07:55:28.291189
 #
 # 🛡️ Symbolic Access:
 # Tier 1 → Public Dashboard
-# Tier 2–3 → Dev Dashboard
+# Tier 2-3 → Dev Dashboard
 # Tier 4 → Research Dashboard
 # Tier 5 → AI Supervision Dashboard (future)
 #

@@ -8,7 +8,7 @@
 ███████╗╚██████╔╝██║  ██╗██║  ██║██║  ██║███████║
 ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
 
-Aka Qualia — Phenomenological Module
+Aka Qualia - Phenomenological Module
 =====================================
 
 Bidirectional translator between raw multimodal signals and phenomenal scenes

@@ -25,8 +25,8 @@ logger = get_logger(__name__)
 class GridPattern(Enum):
     """Grid layout patterns"""
 
-    SQUARE = "square"  # n×n square grid
-    RECTANGLE = "rectangle"  # m×n rectangular grid
+    SQUARE = "square"  # nxn square grid
+    RECTANGLE = "rectangle"  # mxn rectangular grid
     CIRCULAR = "circular"  # Circular arrangement
     ADAPTIVE = "adaptive"  # Adaptive based on content
     ACCESSIBILITY = "accessibility"  # Optimized for accessibility
@@ -319,7 +319,7 @@ class GridSizeCalculator:
             # For non-square patterns, calculate optimal rectangle
             cells_per_row, cells_per_column = self._calculate_rectangular_layout(grid_size, screen)
 
-        reasoning.append(f"Layout: {cells_per_row}×{cells_per_column}")
+        reasoning.append(f"Layout: {cells_per_row}x{cells_per_column}")
 
         # Calculate available space
         available_width = screen.width * 0.9  # 90% of screen width

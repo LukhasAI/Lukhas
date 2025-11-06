@@ -84,9 +84,9 @@ def main():
             "| Tier | MATRIZ | Context | Module | Path |\n|---|---|---|---|---|\n",
         ]
         for it in items:
-            lines.append(f"| {it['tier']} | {it['matriz']} | {'✅' if it['ctx'] else '—'} | `{it['fqn']}` | `{it['path']}` |\n")
+            lines.append(f"| {it['tier']} | {it['matriz']} | {'✅' if it['ctx'] else '-'} | `{it['fqn']}` | `{it['path']}` |\n")
         out.write_text("".join(lines), encoding="utf-8")
-        perstar_links.append(f"- [{star}](stars/{star_slug}.md) — {len(items)} modules")
+        perstar_links.append(f"- [{star}](stars/{star_slug}.md) - {len(items)} modules")
 
     # Top summary
     md = [
@@ -115,7 +115,7 @@ def main():
             md.append(f"\n### {star}\n")
             md.append("| Tier | MATRIZ | Context | Module | Path |\n|---|---|---|---|---|\n")
             for it in items[:limit]:
-                md.append(f"| {it['tier']} | {it['matriz']} | {'✅' if it['ctx'] else '—'} | `{it['fqn']}` | `{it['path']}` |\n")
+                md.append(f"| {it['tier']} | {it['matriz']} | {'✅' if it['ctx'] else '-'} | `{it['fqn']}` | `{it['path']}` |\n")
         md.append("\n")
 
     (DOCS / "CONSTELLATION_TOP.md").write_text("".join(md), encoding="utf-8")

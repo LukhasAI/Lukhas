@@ -45,7 +45,7 @@ def _schema_is_valid(schema: Dict[str, Any]) -> bool:
     try:
         Draft7Validator.check_schema(schema)
     except SchemaError as exc:
-        _logger.warning("ΛTRACE: Guardrail schema invalid — %s", exc)
+        _logger.warning("ΛTRACE: Guardrail schema invalid - %s", exc)
         return False
     return True
 
@@ -72,7 +72,7 @@ def call_llm(prompt: str, schema: Dict[str, Any]) -> Dict[str, Any]:
     try:
         Draft7Validator(schema).validate(candidate)
     except ValidationError as exc:
-        _logger.warning("ΛTRACE: Candidate payload rejected — %s", exc.message)
+        _logger.warning("ΛTRACE: Candidate payload rejected - %s", exc.message)
         _metrics["denials"] += 1
         rejection = {"_rejected": True, "reason": "schema", "details": exc.message}
         return rejection

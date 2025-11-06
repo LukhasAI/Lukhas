@@ -300,7 +300,7 @@ def main():
 
         suggs = candidates_for_symbol(sym, symbol_index, module_index, file, repo_root, args.root_pkg)
         if not suggs:
-            # no idea—skip
+            # no idea-skip
             rows.append({
                 "file": str(file),
                 "line": str(e["location"]["row"]),
@@ -347,7 +347,7 @@ def main():
         f.write(f"- Edits applied: **{edits}**\n\n")
         f.write("| File | Line | Symbol | Import | Conf | Reason |\n|---|---:|---|---|---:|---|\n")
         for r in rows[:500]:
-            imp = r["import_line"] or "—"
+            imp = r["import_line"] or "-"
             f.write(f"| `{r['file']}` | {r['line']} | `{r['symbol']}` | `{imp}` | {r['confidence']} | {r['reason']} |\n")
 
     print(f"[OK] Wrote {outp} and {mdp}. Applied edits: {edits}")

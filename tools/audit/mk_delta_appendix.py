@@ -102,7 +102,7 @@ def main():
         before = file_hash_at(old, p) if exists_at(old, p) else None
         after = file_hash_at(new, p) if exists_at(new, p) else None
         if before != after:
-            key_rows.append((p, before or "—", after or "—"))
+            key_rows.append((p, before or "-", after or "-"))
 
     # SBOM presence
     sbom_path = "reports/sbom/cyclonedx.json"
@@ -123,7 +123,7 @@ def main():
 
     # Build appendix MD
     md = []
-    md.append(f"# Appendix — Delta between `{old}` and `{new}`\n")
+    md.append(f"# Appendix - Delta between `{old}` and `{new}`\n")
     md.append("## Summary\n")
     md.append(f"- Commits: **{int(commits)}**\n- File changes: **{len(changes)}**\n- Diff stat: `{stat or 'n/a'}`\n")
     md.append("### Change buckets\n")
@@ -147,7 +147,7 @@ def main():
     md.append("## SBOM\n")
     md.append(f"- Present @ old: **{sbom_before}**  \n- Present @ new: **{sbom_after}**\n")
     if sbom_after and not sbom_before:
-        md.append("- **Note:** SBOM added in new tag — add link in SECURITY_ARCHITECTURE.json if missing.\n")
+        md.append("- **Note:** SBOM added in new tag - add link in SECURITY_ARCHITECTURE.json if missing.\n")
 
     if test_matriz:
         md.append("## MATRIZ/GOLDEN Test Additions\n")

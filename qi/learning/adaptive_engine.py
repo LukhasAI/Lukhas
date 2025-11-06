@@ -108,12 +108,12 @@ class AdaptiveLearningEngine:
             if not arr:
                 continue
             r = [x["reward"] for x in arr]
-            l = [x["latency_ms"] for x in arr if x.get("latency_ms") is not None]
+            latencies = [x["latency_ms"] for x in arr if x.get("latency_ms") is not None]
             stats[t] = {
                 "n": len(arr),
                 "reward_mean": round(sum(r) / len(r), 4),
-                "lat_p50": int(sorted(l)[len(l) // 2]) if l else None,
-                "lat_p90": int(sorted(l)[int(0.9 * len(l)) - 1]) if l else None,
+                "lat_p50": int(sorted(latencies)[len(latencies) // 2]) if latencies else None,
+                "lat_p90": int(sorted(latencies)[int(0.9 * len(latencies)) - 1]) if latencies else None,
             }
         return {"by_task": stats, "window": window, "ts": _now()}
 
@@ -206,7 +206,7 @@ class AdaptiveLearningEngine:
     # ---------- Propose → Approve → Apply (HITL) ----------
     def propose_best(self, *, config_targets: list[str]) -> list[str]:
         """
-        Send 1–3 top candidates through self_healer's governance/approval flow as config_patch proposals.
+        Send 1-3 top candidates through self_healer's governance/approval flow as config_patch proposals.
         """
         top = self.batch_offline_eval(top_k=3)
         # Merge patches per target (simple one-by-one for clarity)

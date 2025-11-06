@@ -144,14 +144,14 @@ def main():
             "downstream_modules": "TBD",
             "p95_target": manifest.get("performance", {})
             .get("sla_targets", {})
-            .get("latency_p95_ms", "—"),
+            .get("latency_p95_ms", "-"),
             "p95_observed": manifest.get("performance", {})
             .get("observed", {})
-            .get("latency_p95_ms", "—"),
+            .get("latency_p95_ms", "-"),
             "observed_at": manifest.get("performance", {})
             .get("observed", {})
-            .get("observed_at", "—"),
-            "coverage_target": manifest.get("testing", {}).get("coverage_target", "—"),
+            .get("observed_at", "-"),
+            "coverage_target": manifest.get("testing", {}).get("coverage_target", "-"),
             "feature1": "Feature 1",
             "feature2": "Feature 2",
             "api_one": "API entrypoint",
