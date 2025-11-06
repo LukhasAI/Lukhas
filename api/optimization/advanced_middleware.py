@@ -25,8 +25,6 @@ try:
     from .advanced_api_optimizer import (
         APITier,
         LUKHASAPIOptimizer,
-        OptimizationConfig,
-        OptimizationStrategy,
         RequestContext,
         RequestPriority,
     )
@@ -36,7 +34,7 @@ except ImportError:
 
 # FastAPI integration
 try:
-    from fastapi import HTTPException, Request, Response
+    from fastapi import Request, Response
     from fastapi.middleware.base import BaseHTTPMiddleware
     from starlette.middleware.base import RequestResponseEndpoint
     FASTAPI_AVAILABLE = True

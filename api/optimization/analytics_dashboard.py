@@ -22,15 +22,11 @@ logger = logging.getLogger(__name__)
 
 # Optional dependencies for advanced features
 try:
-    import numpy as np
-    import pandas as pd
     PANDAS_AVAILABLE = True
 except ImportError:
     PANDAS_AVAILABLE = False
 
 try:
-    from sklearn.cluster import KMeans
-    from sklearn.preprocessing import StandardScaler
     SKLEARN_AVAILABLE = True
 except ImportError:
     SKLEARN_AVAILABLE = False

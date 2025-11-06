@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """LUKHAS Pre-Launch Audit - Phase 1: Baseline Metrics"""
 import json
-import os
-import subprocess
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path

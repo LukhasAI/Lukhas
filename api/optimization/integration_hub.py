@@ -29,7 +29,6 @@ try:
     from .advanced_api_optimizer import (
         APITier,
         LUKHASAPIOptimizer,
-        OptimizationConfig,
         OptimizationStrategy,
         RequestContext,
         RequestPriority,
@@ -41,7 +40,7 @@ try:
         RequestMetadata,
         create_middleware_pipeline,
     )
-    from .analytics_dashboard import AnalyticsDashboard, TimeWindow, create_analytics_dashboard
+    from .analytics_dashboard import AnalyticsDashboard, create_analytics_dashboard
     OPTIMIZATION_COMPONENTS_AVAILABLE = True
 except ImportError:
     OPTIMIZATION_COMPONENTS_AVAILABLE = False
