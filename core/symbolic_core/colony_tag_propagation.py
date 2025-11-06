@@ -220,13 +220,11 @@ class SymbolicReasoningColony(BaseColony):
 
         return belief_states
 
-    @lru_cache(maxsize=256)
     def _get_agent_neighbors_cached(self, agent_id: str) -> Tuple[str, ...]:
         """Cached agent neighbors lookup."""
         neighbors = [a for a in self.agents if a != agent_id]
         return tuple(neighbors)
 
-    @lru_cache(maxsize=512)
     def _get_agent_distance_cached(self, a: str, b: str) -> float:
         """Cached agent distance calculation."""
 

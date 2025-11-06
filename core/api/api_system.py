@@ -222,7 +222,6 @@ class EnhancedAPISystem:
         self._setup_middleware()
         self._setup_routes()
 
-    @lru_cache(maxsize=128)
     def _generate_cache_key(self, endpoint: str, params: str, auth_hash: str) -> str:
         """Generate cache key for request caching."""
         return f"{endpoint}:{hash(params)}:{auth_hash}"
