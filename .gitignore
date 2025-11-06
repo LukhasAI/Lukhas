@@ -78,6 +78,7 @@ htmlcov/
 
 # Coverage files
 .coverage
+.coverage.*
 coverage.xml
 *.cover
 .hypothesis/
