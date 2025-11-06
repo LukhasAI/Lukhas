@@ -173,9 +173,9 @@ class TestToneSuggestion:
         tone_mixed = mapper.suggest_tone("test", record_mixed)
 
         assert tone_lower == "calm"
-        # Upper/mixed case fall through to context/neutral fallback
-        assert tone_upper == "neutral"
-        assert tone_mixed == "neutral"
+        # The implementation uses .lower(), so these should match
+        assert tone_upper == "calm"
+        assert tone_mixed == "calm"
 
     def test_empty_record(self):
         """Test tone suggestion with empty record."""
@@ -552,7 +552,8 @@ class TestEdgeCases:
         # Type system allows Any, but code expects str
         # This should be handled gracefully
         result = mapper.suggest_tone("neutral", record)
-        assert result == 123  # Preserved as-is
+        # Non-string tones are not considered explicit and should fall back.
+        assert result == "neutral"
 
     def test_mapper_state_isolation(self):
         """Test that multiple mappers have isolated state."""
