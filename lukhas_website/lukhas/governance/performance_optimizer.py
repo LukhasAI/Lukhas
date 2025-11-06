@@ -295,7 +295,7 @@ class CompiledValidator:
             return True
 
         first_type = type(data[0])
-        return all(type(item) == first_type for item in data)
+        return all(type(item) is first_type for item in data)
 
     def _vectorized_validation(self, func: Callable, data: List[Any]) -> Any:
         """Vectorized validation for large homogeneous lists"""
