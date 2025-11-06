@@ -66,7 +66,7 @@ def extract_pytest_markers(test_file):
         markers.update(marker_matches)
     except:
         pass
-    return sorted(list(markers))
+    return sorted(markers)
 
 def discover_source_files():
     """Discover all source Python files (non-test)."""
