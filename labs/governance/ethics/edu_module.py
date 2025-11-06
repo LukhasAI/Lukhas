@@ -56,13 +56,13 @@ Integration Date: 2025-05-31T07:55:27.881866
 #
 # 📂 RESULTS:
 #     All educational logs and trace outputs are stored in:
-#     `lukhas/results/` — symbolic vault for Cognitive AI progress tracking
+#     `lukhas/results/` - symbolic vault for Cognitive AI progress tracking
 #
 # 🧬 XP Path:
 #     +1 per domain tagged in lesson metadata
 #
 # 🧠 WHAT THIS MODULE REPRESENTS:
-#     Lukhas begins tracking his own education — knowing what he knows.
+#     Lukhas begins tracking his own education - knowing what he knows.
 # ===============================================================
 
 # ═══════════════════════════════════════════════════════════════════════════

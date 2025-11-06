@@ -41,7 +41,7 @@ def analyze_emotion_trends():
     for tag, count in sorted_tags:
         print(f"  • {tag}: {count}")
 
-    print("\n⚖️  Joy–Stress Ratio (symbolic mood balance):")
+    print("\n⚖️  Joy-Stress Ratio (symbolic mood balance):")
     total_joy = total_stress = 0
     with open("dream_log.jsonl") as file:
         for line in file:

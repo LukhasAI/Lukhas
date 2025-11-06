@@ -157,7 +157,7 @@ def main():
             warns += 1
             rows.append(f"[WARN] {ctx}: star normalized '{star}' -> '{star_norm}'")
 
-        if colony in (None, "", "—"):
+        if colony in (None, "", "-"):
             warns += 1
             rows.append(f"[WARN] {ctx}: colony missing (recommended)")
 

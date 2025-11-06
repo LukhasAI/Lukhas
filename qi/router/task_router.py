@@ -147,7 +147,7 @@ class TaskRouter:
 
         cap_latency = out.pop("cap_latency_ms", None)
         if cap_latency is not None and isinstance(cap_latency, int):
-            # This is advisory — caller should check with Budgeter for precise latency caps
+            # This is advisory - caller should check with Budgeter for precise latency caps
             out.setdefault("notes", "")
             out["notes"] += " | latency cap advisory"
 

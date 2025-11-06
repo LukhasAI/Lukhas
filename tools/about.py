@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 
 
 def main():
-    print("\033[95m🌿 WELCOME TO LUCAS AGI — Symbolic Neuro-Symbolic AI\033[0m")
+    print("\033[95m🌿 WELCOME TO LUCAS AGI - Symbolic Neuro-Symbolic AI\033[0m")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print("🧠 Project: LUKHAS_AGI v0.1.0")
     print("🔐 License: Custom Symbolic License (DAO-bound, ZK-sealed)")

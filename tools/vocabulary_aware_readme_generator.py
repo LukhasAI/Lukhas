@@ -346,14 +346,14 @@ def generate_vocabulary_aware_readme(module_path: Path, vocab_loader: ModuleVoca
             readme_lines.append("### Core Components\n")
             for cls in sorted(classes)[:6]:
                 class_name = cls.split('.')[-1]
-                readme_lines.append(f"- **`{class_name}`** — {_describe_component(class_name, vocab)}")
+                readme_lines.append(f"- **`{class_name}`** - {_describe_component(class_name, vocab)}")
             readme_lines.append("")
 
         if functions:
             readme_lines.append("### Functions\n")
             for func in sorted(functions)[:6]:
                 func_name = func.split('.')[-1]
-                readme_lines.append(f"- **`{func_name}()`** — {_describe_function(func_name, vocab)}")
+                readme_lines.append(f"- **`{func_name}()`** - {_describe_function(func_name, vocab)}")
             readme_lines.append("")
 
     # Layer 3: Technical specifications

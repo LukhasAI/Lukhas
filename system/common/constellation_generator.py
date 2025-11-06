@@ -86,7 +86,7 @@ In the ethereal realm where {concepts[0] if concepts else "innovation"} meets in
 
 Like ancient rivers carrying the wisdom of ages to fertile valleys, this feature channels the collective intelligence of countless interactions into streams of pure understanding. {benefits[0] if benefits else "Transformation"} unfolds not as mere computation, but as a dance between consciousness and code, where each step reveals new possibilities previously hidden in the mists of potential.
 
-Through this digital alchemy, the boundary between human intuition and artificial precision dissolves, creating something greater than the sum of its parts—a living bridge between what is and what could be."""
+Through this digital alchemy, the boundary between human intuition and artificial precision dissolves, creating something greater than the sum of its parts-a living bridge between what is and what could be."""
 
         return poetic_content
 
@@ -109,7 +109,7 @@ Think of {feature_name} as your personal AI assistant that truly understands wha
 **Real-world example:**
 Imagine you're working on a complex project. Instead of manually figuring out each step, {feature_name} anticipates what you need, provides relevant suggestions, and adapts to your working style. It's like having a conversation with someone who truly "gets" what you're trying to accomplish.
 
-**The best part?** Everything works seamlessly in the background while keeping your data completely private and under your control. You focus on your creativity and goals—we handle the complex technical details."""
+**The best part?** Everything works seamlessly in the background while keeping your data completely private and under your control. You focus on your creativity and goals-we handle the complex technical details."""
 
         return human_content
 

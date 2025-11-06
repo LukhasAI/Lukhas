@@ -171,7 +171,7 @@ def main() -> int:
         patch_path = t.get("patch_path")
         patch_url = t.get("patch_url")
         commit_message = t.get("commit_message") or f"chore(cloud): apply Codex Cloud Task {tid}"
-        pr_title = t.get("pr_title") or f"codex: {tid} — cloud task"
+        pr_title = t.get("pr_title") or f"codex: {tid} - cloud task"
         pr_body = t.get("pr_body") or (
             f"Automated PR for Codex Cloud Task `{tid}`.\n\n"
             f"- Base: `{base}`\n- Branch: `{branch}`\n"

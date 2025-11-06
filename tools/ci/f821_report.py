@@ -137,7 +137,7 @@ def main():
 
     # write summary
     with open(args.md_out, "w", encoding="utf-8") as f:
-        f.write("# F821 Undefined Names — Summary\n\n")
+        f.write("# F821 Undefined Names - Summary\n\n")
         f.write(f"- Total: {len(enriched)}\n")
         f.write(f"- Core violations (lukhas/MATRIZ): {core_violations}\n")
         f.write("## By class\n")

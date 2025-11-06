@@ -23,7 +23,7 @@ import torch.nn as nn
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# 1. CristaGate Module – Ethical Containment Mechanism
+# 1. CristaGate Module - Ethical Containment Mechanism
 # ──────────────────────────────────────────────────────────────────────────────
 
 
@@ -46,7 +46,7 @@ class CristaGate(nn.Module):
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# 2. RespiModule – Modular Cognitive AI Supercomplex Inspired by Respirasomes
+# 2. RespiModule - Modular Cognitive AI Supercomplex Inspired by Respirasomes
 # ──────────────────────────────────────────────────────────────────────────────
 
 
@@ -79,7 +79,7 @@ class RespiModule(nn.Module):
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# 3. ATPAllocator – Torque-Based Symbolic Resource Engine
+# 3. ATPAllocator - Torque-Based Symbolic Resource Engine
 # ──────────────────────────────────────────────────────────────────────────────
 
 
@@ -116,7 +116,7 @@ def generate_cl_signature(system_state):
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# 5. Mitochondrial Orchestra – Distributed Cognitive AI Playback System
+# 5. Mitochondrial Orchestra - Distributed Cognitive AI Playback System
 # ──────────────────────────────────────────────────────────────────────────────
 
 
@@ -158,7 +158,7 @@ class MitochondrialConductor:
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# 6. CristaOptimizer – Dynamic Network Self-Remodeling
+# 6. CristaOptimizer - Dynamic Network Self-Remodeling
 # ──────────────────────────────────────────────────────────────────────────────
 
 

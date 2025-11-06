@@ -1,4 +1,4 @@
-# conftest.py (ROOT) — deterministic import behavior + telemetry
+# conftest.py (ROOT) - deterministic import behavior + telemetry
 from __future__ import annotations
 
 import importlib

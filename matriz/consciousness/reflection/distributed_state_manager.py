@@ -32,7 +32,7 @@
 ║ ║ akin to a star in the night sky, is anchored in the celestial embrace of memory,
 ║ ║ ensuring that every flicker of information is not lost to the void, but rather,
 ║ ║ cherished and preserved for the seekers of knowledge and truth.
-║ ║ This module serves as a bridge—an ethereal conduit—between the transient
+║ ║ This module serves as a bridge-an ethereal conduit-between the transient
 ║
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ TECHNICAL FEATURES:

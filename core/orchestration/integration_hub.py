@@ -25,14 +25,14 @@ try:
 except ImportError:
     Learningengine = None
 
-# ABAS (Adaptive Bio‑Aware System) hub — provide a safe stub if not installed
+# ABAS (Adaptive Bio-Aware System) hub - provide a safe stub if not installed
 try:
     from abas.integration.abas_integration_hub import ABASIntegrationHub  # type: ignore
 except Exception:
     class ABASIntegrationHub:  # minimal stub
-        """Stub for ABAS Integration Hub with no‑op registration APIs.
+        """Stub for ABAS Integration Hub with no-op registration APIs.
 
-        Provides import‑time safety and a predictable surface for orchestration wiring.
+        Provides import-time safety and a predictable surface for orchestration wiring.
         """
 
         def __init__(self, *_, **__):
@@ -127,12 +127,12 @@ except ImportError:
     BaseOscillator = None
     QIHub = None
 
-# Quantum Intelligence Orchestrator — safe stub if not available
+# Quantum Intelligence Orchestrator - safe stub if not available
 try:
     from qi.system_orchestrator import QIAGISystem  # type: ignore
 except Exception:
     class QIAGISystem:  # minimal stub
-        """Quantum‑Inspired AGI Orchestrator stub.
+        """Quantum-Inspired AGI Orchestrator stub.
 
         Exposes a small control surface used by SystemIntegrationHub.
         """

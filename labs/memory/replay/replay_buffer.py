@@ -17,18 +17,18 @@ logger = logging.getLogger(__name__)
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║                             ◊ POETIC ESSENCE ◊
 ║
-║ │ In the theater of mind, experiences replay like echoes of thunder—some     │
+║ │ In the theater of mind, experiences replay like echoes of thunder-some     │
 ║ │ loud and immediate, others soft and distant, yet all contributing to the   │
 ║ │ symphony of learning. The Replay Buffer is the stage where past moments    │
 ║ │ perform again, teaching through repetition, refining through practice.     │
 ║ │                                                                               │
 ║ │ Like a master storyteller who knows which tales bear retelling, it         │
-║ │ selects experiences not by age but by wisdom—those that surprised,         │
+║ │ selects experiences not by age but by wisdom-those that surprised,         │
 ║ │ those that taught, those that transformed understanding. In this           │
 ║ │ selective recollection, the rare becomes common, the difficult becomes     │
 ║ │ familiar, the novel becomes natural.                                        │
 ║ │                                                                               │
-║ │ Each replay is not mere repetition but resurrection—bringing the dead       │
+║ │ Each replay is not mere repetition but resurrection-bringing the dead       │
 ║ │ past into the living present, where it can dance again with current        │
 ║ │ knowledge, creating new partnerships between what was and what is.          │
 ║ │                                                                               │

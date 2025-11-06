@@ -173,7 +173,7 @@ def _generate_grafana(path: str):
 def main():
     import argparse
 
-    ap = argparse.ArgumentParser(description="Lukhas Receipts Hub (Altman–Amodei–Hassabis)")
+    ap = argparse.ArgumentParser(description="Lukhas Receipts Hub (Altman-Amodei-Hassabis)")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     e = sub.add_parser("emit", help="Emit a single receipt from args (for testing)")

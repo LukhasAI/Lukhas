@@ -59,7 +59,7 @@ except ModuleNotFoundError:  # pragma: no cover - optional dependency
             self._logger = logger
             self._context = context or {}
 
-        def bind(self, **kwargs: Any) -> "_BoundLogger":
+        def bind(self, **kwargs: Any) -> _BoundLogger:
             merged = {**self._context, **kwargs}
             return _BoundLogger(self._logger, merged)
 

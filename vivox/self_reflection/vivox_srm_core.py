@@ -2,7 +2,7 @@
 VIVOX.SRM - Self-Reflective Memory
 Stores all collapses, hesitations, and moral rejections
 
-"Remembers not just what it did — but what it chose not to do"
+"Remembers not just what it did - but what it chose not to do"
 Forensically sound audit log of ethical cognition
 """
 import json
@@ -480,7 +480,7 @@ class VIVOXSelfReflectiveMemory:
     """
     VIVOX.SRM - Stores all collapses, hesitations, and moral rejections
 
-    "Remembers not just what it did — but what it chose not to do"
+    "Remembers not just what it did - but what it chose not to do"
     Forensically sound audit log of ethical cognition
     """
 

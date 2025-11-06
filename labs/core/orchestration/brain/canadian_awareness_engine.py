@@ -51,7 +51,7 @@ from identity.backend.app.institution_manager import (
     global_timestamp,
 )
 
-# ——— Canadian-Specific Regulatory Framework ——————————————————————— #
+# --- Canadian-Specific Regulatory Framework ----------------------- #
 
 
 class PIPEDALegalBasis(Enum):
@@ -254,7 +254,7 @@ def canadian_audit_log(
     )
 
 
-# ——— Canadian Institutional Awareness Modules ——————————————————————— #
+# --- Canadian Institutional Awareness Modules ----------------------- #
 
 
 class CanadianPrivacyModule:
@@ -562,7 +562,7 @@ class CanadianAIGovernanceModule:
         return min(score, 100.0)
 
 
-# ——— Main Canadian Awareness Engine ——————————————————————————————— #
+# --- Main Canadian Awareness Engine ------------------------------- #
 
 
 class CanadianAwarenessEngine:
@@ -650,7 +650,7 @@ class CanadianAwarenessEngine:
             raise
 
 
-# ——— Compliance Certification ——————————————————————————————————— #
+# --- Compliance Certification ----------------------------------- #
 
 
 def certify_canadian_compliance() -> dict[str, Any]:

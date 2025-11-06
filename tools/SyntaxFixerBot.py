@@ -49,10 +49,9 @@ class SyntaxFixerBot:
         """Initialize common syntax error patterns and their fixes."""
         return {
             "unicode_chars": {
-                "pattern": r'[—–""' "•→←↑↓✨╔╗╚╝║═╠╣╤╧╪╬╭╮╯╰│┌┐└┘├┤┬┴┼]",
+                "pattern": r'[--""' "•→←↑↓✨╔╗╚╝║═╠╣╤╧╪╬╭╮╯╰│┌┐└┘├┤┬┴┼]",
                 "replacements": {
-                    "—": "-",
-                    "–": "-",
+                    "-": "-",
                     '"': '"',
                     """: "'", """: "'",
                     "•": "*",

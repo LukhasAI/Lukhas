@@ -1,4 +1,4 @@
-"""Bridge: governance.guardian_system — guardian orchestration layer."""
+"""Bridge: governance.guardian_system - guardian orchestration layer."""
 from __future__ import annotations
 
 from _bridgeutils import bridge_from_candidates, export_from, safe_guard

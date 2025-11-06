@@ -1,4 +1,4 @@
-# 25 LOC — asserts all legacy import styles resolve to core
+# 25 LOC - asserts all legacy import styles resolve to core
 import importlib
 import types
 

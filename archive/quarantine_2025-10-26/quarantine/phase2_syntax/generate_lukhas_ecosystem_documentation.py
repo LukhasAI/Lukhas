@@ -208,8 +208,8 @@ class LUKHASDocumentationOrchestrator:
         if filename == "README.md":
             return f"""# LUKHAS Ecosystem Documentation
 
-> "Intelligence is not about processing information—it's about creating understanding."
-> — LUKHAS SYSTEMS
+> "Intelligence is not about processing information-it's about creating understanding."
+> - LUKHAS SYSTEMS
 
 ## 🌟 Welcome to the LUKHAS Ecosystem
 

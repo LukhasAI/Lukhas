@@ -704,7 +704,7 @@ class ComplianceFramework:
         """
         risk_id = f"RISK-{int(time.time())}-{str(uuid.uuid4())[:8]}"
 
-        # Calculate inherent risk (likelihood × impact)
+        # Calculate inherent risk (likelihood x impact)
         risk_matrix = {
             (RiskLevel.LOW, RiskLevel.LOW): RiskLevel.LOW,
             (RiskLevel.LOW, RiskLevel.MEDIUM): RiskLevel.LOW,

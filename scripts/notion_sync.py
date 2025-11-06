@@ -235,7 +235,7 @@ def to_notion_properties(manifest: Dict[str, Any], content_sha: str) -> Dict[str
             "multi_select": feat_select
         },
         "APIs": {
-            "rich_text": [{"text": {"content": "\n".join(api_lines)[:2000] or "—"}}]
+            "rich_text": [{"text": {"content": "\n".join(api_lines)[:2000] or "-"}}]
         },
         "Provenance SHA": {
             "rich_text": [{"text": {"content": content_sha}}]
@@ -262,11 +262,11 @@ def to_notion_blocks(manifest: Dict[str, Any]) -> List[Dict[str, Any]]:
         return []
 
     rows = [
-        f"p50: {perf.get('latency_p50_ms', '—')} ms",
-        f"p95: {perf.get('latency_p95_ms', '—')} ms",
-        f"p99: {perf.get('latency_p99_ms', '—')} ms",
-        f"env: {perf.get('env_fingerprint', '—')}",
-        f"observed_at: {perf.get('observed_at', '—')}",
+        f"p50: {perf.get('latency_p50_ms', '-')} ms",
+        f"p95: {perf.get('latency_p95_ms', '-')} ms",
+        f"p99: {perf.get('latency_p99_ms', '-')} ms",
+        f"env: {perf.get('env_fingerprint', '-')}",
+        f"observed_at: {perf.get('observed_at', '-')}",
     ]
 
     text = "📊 Observed Metrics\n" + "\n".join(rows)
@@ -385,7 +385,7 @@ def main():
 
         # Dry-run: show diff preview
         if args.dry_run and not unchanged:
-            before = f"Module: {module}\nSHA: {current_sha or '—'}"
+            before = f"Module: {module}\nSHA: {current_sha or '-'}"
             after = f"Module: {module}\nSHA: {sha}\nProps:\n{json.dumps(props, indent=2)}"
             preview = md_diff(before, after)
             print(preview or f"~ {module}: would {action}")

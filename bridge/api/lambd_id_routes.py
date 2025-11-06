@@ -4,7 +4,7 @@ This module intentionally re-exports the canonical `lambda_id_bp` Blueprint
 so legacy imports that reference `lambd_id_routes` continue to work during
 the staged migration to the canonical module name.
 
-Do not add heavy logic here — keep this shim thin and import-only.
+Do not add heavy logic here - keep this shim thin and import-only.
 """
 
 import logging

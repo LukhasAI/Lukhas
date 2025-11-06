@@ -494,7 +494,7 @@ In the {adjective1} space where memories {verb1} into {structure},
 each fold carries the {quality} of {experience}. Here, {process}
 becomes {outcome}, and every {element} {verb2} with {resonance}.
 
-The {system} doesn't merely store—it {action}, {transform}, and
+The {system} doesn't merely store-it {action}, {transform}, and
 {emerge} through {mechanism} of {deeper_concept}.
 """,
             "quantum": """

@@ -528,7 +528,7 @@ Generated: {audit_results["timestamp"]}
 
     for module, metrics in modules_by_health:
         status = "🟢" if metrics["health_score"] >= 0.7 else "🟡" if metrics["health_score"] >= 0.5 else "🔴"
-        report += f"\n## {status} {module} — Health: {metrics['health_score']:.1%}\n"
+        report += f"\n## {status} {module} - Health: {metrics['health_score']:.1%}\n"
         report += f"- Files: {metrics['file_count']}\n"
         report += f"- Test Coverage: {metrics['test_file_ratio']:.1%}\n"
         report += f"- Documentation: {metrics['documentation_score']}%\n"

@@ -48,7 +48,7 @@ OpenAIRequest = None
 def _load_labs_openai_symbols() -> None:
     """Attempt to load OpenAI helper types from labs at runtime.
 
-    Avoids static imports so import‑linter lane guard remains satisfied.
+    Avoids static imports so import-linter lane guard remains satisfied.
     """
     global ModelType, OpenAICoreService, OpenAIRequest
     if all(sym is not None for sym in (ModelType, OpenAICoreService, OpenAIRequest)):
