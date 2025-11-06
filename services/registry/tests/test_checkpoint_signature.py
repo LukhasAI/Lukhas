@@ -10,7 +10,6 @@ from typing import Any, Dict
 
 import pytest
 from fastapi.testclient import TestClient
-
 from services.registry import main as registry_main
 from services.registry.main import app
 

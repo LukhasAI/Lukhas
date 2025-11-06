@@ -911,6 +911,9 @@ class ValidatorNode(CognitiveNode):
             return result
 
         except Exception:
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
             raise ValueError("Cannot evaluate expression")
 
     def _eval_ast_node(self, node: ast.AST) -> float | int:

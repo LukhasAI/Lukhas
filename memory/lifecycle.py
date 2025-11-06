@@ -55,6 +55,12 @@ __all__ = [
 ]
 
 try:
+# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+# reason: Optional dependency import or module side-effect registration
+# estimate: 0h | priority: low | dependencies: none
+# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+# reason: Optional dependency import or module side-effect registration
+# estimate: 0h | priority: low | dependencies: none
     from memory.retention import AbstractArchivalBackend, ArchivalTier
     __all__.extend(
         name

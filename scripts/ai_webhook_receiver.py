@@ -5,17 +5,17 @@ Receives webhooks from Jules/Codex and enqueues tasks to Redis.
 """
 import asyncio
 import logging
+import sys
 import uuid
-from typing import Any, Optional
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Optional
 
+import uvicorn
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
-import uvicorn
 
-import sys
-from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from bridge.queue.redis_queue import RedisTaskQueue, Task, TaskPriority, TaskType

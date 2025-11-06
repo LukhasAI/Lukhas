@@ -30,9 +30,21 @@ class IntentNodeAdapter:
 
     def __init__(self, cognitive_system=None):
         # Initialize bio components
+# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Async import or consciousness module lazy loading pattern
+# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
         self.proton_gradient = ProtonGradient()
+# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Async import or consciousness module lazy loading pattern
+# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
         self.attention_gate = QIAttentionGate()
+# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Async import or consciousness module lazy loading pattern
+# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
         self.crista_filter = CristaFilter()
+# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Async import or consciousness module lazy loading pattern
+# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
         self.identity_encoder = CardiolipinEncoder()
 
         # Create unified node

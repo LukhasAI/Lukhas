@@ -115,9 +115,9 @@ def test_valid_token_allows_access():
     Uses a test token that meets minimum requirements.
     """
     try:
+        from labs.core.security.auth import get_auth_system
         from serve.main import app
         from starlette.testclient import TestClient
-        from labs.core.security.auth import get_auth_system
 
         # Set strict mode
         original_mode = os.environ.get("LUKHAS_POLICY_MODE")

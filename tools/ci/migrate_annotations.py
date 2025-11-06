@@ -80,7 +80,10 @@ def git_blame_owner(file_path: Path, line_num: int) -> tuple[str | None, float]:
                 if line.startswith("author "):
                     author = line[7:].strip()
                     # Check for bot authors
-                    if any(bot in author.lower() for bot in ["bot", "copilot", "dependabot", "renovate"]):
+                    if any(
+                        bot in author.lower()
+                        for bot in ["bot", "copilot", "dependabot", "renovate"]
+                    ):
                         is_bot = True
                 elif line.startswith("author-time "):
                     commit_time = int(line[12:].strip())
@@ -95,6 +98,7 @@ def git_blame_owner(file_path: Path, line_num: int) -> tuple[str | None, float]:
             elif commit_time:
                 # Check if commit is recent (<30 days)
                 import time
+
                 age_days = (time.time() - commit_time) / 86400
                 if age_days > 30:
                     confidence = 0.8
@@ -336,7 +340,8 @@ def find_python_files(paths: list[str]) -> list[Path]:
 def generate_owner_review_issues(annotations: list[dict], report_path: Path) -> None:
     """Generate GitHub issue drafts for annotations with low owner confidence."""
     low_confidence = [
-        a for a in annotations
+        a
+        for a in annotations
         if a.get("needs_owner_review") and a.get("inferred_owner_confidence", 1.0) < 0.7
     ]
 

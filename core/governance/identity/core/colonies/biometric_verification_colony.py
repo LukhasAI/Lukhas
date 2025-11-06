@@ -676,6 +676,9 @@ class BiometricVerificationColony(BaseColony):
         agent.capabilities[agent.specialization.value].proficiency *= 0.95
 
         # Schedule performance recovery
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._gradual_performance_recovery(agent_id))
 
     async def _gradual_performance_recovery(self, agent_id: str):

@@ -19,10 +19,10 @@ Usage:
 
 import argparse
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
-import re
 
 
 def print_header(text: str):

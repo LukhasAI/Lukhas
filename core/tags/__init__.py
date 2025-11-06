@@ -14,6 +14,9 @@ def __getattr__(name: str) -> Any:
     try:
         _mod = importlib.import_module("labs.core.tags")
     except Exception:
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise AttributeError(f"module 'core.tags' has no attribute {name}")
     return getattr(_mod, name)
 

@@ -883,16 +883,28 @@ class ColonyOrchestrator:
         """Start background monitoring and maintenance tasks"""
 
         # Health monitoring task
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._health_monitoring_loop())
 
         # Performance monitoring task
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._performance_monitoring_loop())
 
         # Task processing loop
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._task_processing_loop())
 
         # Auto-scaling monitoring
         if self.config.get("auto_scaling_enabled", True):
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
             asyncio.create_task(self._auto_scaling_loop())
 
     async def _health_monitoring_loop(self):

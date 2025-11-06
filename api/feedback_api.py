@@ -9,6 +9,7 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+from core.common import get_logger
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from feedback.user_feedback_system import (
@@ -18,8 +19,6 @@ from feedback.user_feedback_system import (
     UserFeedbackSystem,
 )
 from pydantic import BaseModel, Field, validator
-
-from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -264,6 +263,9 @@ async def submit_feedback(request: FeedbackRequest):
 
     except Exception as e:
         logger.error(f"Error collecting feedback: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -295,6 +297,9 @@ async def submit_quick_feedback(request: QuickFeedbackRequest):
 
     except Exception as e:
         logger.error(f"Error with quick feedback: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -326,6 +331,9 @@ async def submit_emoji_feedback(request: EmojiFeedbackRequest):
 
     except Exception as e:
         logger.error(f"Error with emoji feedback: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -353,6 +361,9 @@ async def submit_text_feedback(request: TextFeedbackRequest):
 
     except Exception as e:
         logger.error(f"Error with text feedback: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -377,6 +388,9 @@ async def edit_feedback(request: FeedbackEditRequest):
 
     except Exception as e:
         logger.error(f"Error editing feedback: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -397,6 +411,9 @@ async def delete_feedback(feedback_id: str, user_id: str = Query(..., descriptio
 
     except Exception as e:
         logger.error(f"Error deleting feedback: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -424,6 +441,9 @@ async def get_feedback_history(
 
     except Exception as e:
         logger.error(f"Error getting feedback history: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -452,6 +472,9 @@ async def get_feedback_summary(action_id: str):
 
     except Exception as e:
         logger.error(f"Error getting feedback summary: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -488,6 +511,9 @@ async def update_consent(request: ConsentRequest):
 
     except Exception as e:
         logger.error(f"Error updating consent: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -504,6 +530,9 @@ async def export_user_data(user_id: str):
 
     except Exception as e:
         logger.error(f"Error exporting user data: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -526,6 +555,9 @@ async def generate_feedback_report(
 
     except Exception as e:
         logger.error(f"Error generating report: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 

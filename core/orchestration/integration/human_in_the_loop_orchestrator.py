@@ -63,7 +63,6 @@ try:
     from communication.explainability_interface_layer import (
         ExplainabilityInterfaceLayer,
     )
-
     from ethics.meta_ethics_governor import EthicalVerdict, MetaEthicsGovernor
     from ethics.self_reflective_debugger import SelfReflectiveDebugger
     from orchestration.lukhas_master_orchestrator import (
@@ -968,6 +967,9 @@ class HumanInTheLoopOrchestrator:
 
             # Phase 8: Broadcast availability event for workflow orchestration
             if hasattr(self, "_broadcast_orchestration_event"):
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
                 asyncio.create_task(
                     self._broadcast_orchestration_event(
                         "orchestration.reviewer.availability_checked",

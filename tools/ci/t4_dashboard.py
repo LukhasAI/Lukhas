@@ -237,15 +237,19 @@ def generate_html(
     elif age_minutes < 60:
         freshness_badge = f'<span style="color: orange;">🟡 {age_minutes}min old</span>'
     else:
-        freshness_badge = f'<span style="color: red;">🔴 {age_minutes//60}h old</span>'
+        freshness_badge = f'<span style="color: red;">🔴 {age_minutes // 60}h old</span>'
 
     # Sort by count descending
     sorted_codes = sorted(counts_by_code.items(), key=lambda x: x[1], reverse=True)
     sorted_statuses = sorted(counts_by_status.items(), key=lambda x: x[1], reverse=True)
 
     # Prepare CSV export data (JavaScript arrays)
-    csv_codes_js = "\n            ".join([f"csvData.push(['{code}', '{count}']);" for code, count in sorted_codes])
-    csv_statuses_js = "\n            ".join([f"csvData.push(['{status}', '{count}']);" for status, count in sorted_statuses])
+    csv_codes_js = "\n            ".join(
+        [f"csvData.push(['{code}', '{count}']);" for code, count in sorted_codes]
+    )
+    csv_statuses_js = "\n            ".join(
+        [f"csvData.push(['{status}', '{count}']);" for status, count in sorted_statuses]
+    )
 
     # ETA section
     eta_html = ""
@@ -659,6 +663,7 @@ def main():
     except Exception as e:
         print(f"❌ Unexpected error: {e}", file=sys.stderr)
         import traceback
+
         traceback.print_exc()
         sys.exit(1)
 

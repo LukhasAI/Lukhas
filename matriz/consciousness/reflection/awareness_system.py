@@ -47,12 +47,11 @@ from typing import Any
 import numpy as np  # ΛTRACE_ADD: For neuroplasticity calculations
 from bio.qi_layer import QIBioOscillator
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
-from dream.core import DreamPhase
-from qi.processing_core import QIProcessingCore
-
 from consciousness.awareness.awareness_engine import AwarenessEngine
 from core.unified.integration import UnifiedIntegration
+from dream.core import DreamPhase
 from ethics.engine import EthicalFramework, EthicalRiskLevel, QIEthics
+from qi.processing_core import QIProcessingCore
 
 logger = logging.getLogger(__name__)
 
@@ -210,6 +209,9 @@ class QIAwarenessSystem:
 
             # Start consciousness integration if available
             if self.config.consciousness_sync_interval > 0:
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
                 asyncio.create_task(self._consciousness_sync_loop())
 
             # Start dream-based training if enabled
@@ -798,6 +800,9 @@ class QIAwarenessSystem:
             self.current_state.learning_efficiency = 0.5
 
             # Start neuroplasticity monitoring
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
             asyncio.create_task(self._neuroplasticity_monitor())
 
             log.info("Neuroplasticity system initialized with safety constraints.")

@@ -14,9 +14,9 @@ Exit codes:
     1 - Failure (API key not configured or API error)
 """
 
+import argparse
 import asyncio
 import sys
-import argparse
 from pathlib import Path
 
 # Add parent directory to path

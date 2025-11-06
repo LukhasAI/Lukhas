@@ -3,7 +3,6 @@ Tests for the Collective Intelligence Layer.
 """
 
 import pytest
-
 from core.collective.clusters.consciousness_clusters import (
     ConsciousnessClusteringEngine,
 )

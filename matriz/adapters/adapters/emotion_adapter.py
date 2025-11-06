@@ -1,8 +1,7 @@
 import importlib
 
-from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
-
 from core.trace import mk_crumb
+from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
 
 
 class EmotionAdapter(MatrizNode):
@@ -46,7 +45,13 @@ except Exception:  # pragma: no cover - fallback for missing candidate module
                 setattr(self, key, value)
 
 
+# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
+# reason: Module export validation - __all__ check for dynamic adapter loading
+# estimate: 0h | priority: low | dependencies: none
 try:
+# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
+# reason: Module export validation - __all__ check for dynamic adapter loading
+# estimate: 0h | priority: low | dependencies: none
     __all__  # type: ignore[name-defined]
 except NameError:
     __all__ = []

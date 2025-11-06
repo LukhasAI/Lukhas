@@ -26,7 +26,6 @@ from typing import Any
 
 # LUKHAS Branding Integration
 from branding_bridge import BrandContext, get_bridge, initialize_branding
-
 from core.common import GLYPHSymbol, GLYPHToken, get_logger
 from core.common.exceptions import LukhasError
 from core.interfaces import CoreInterface
@@ -276,6 +275,9 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         except Exception as e:
             logger.error(f"Failed to initialize NL interface: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
             raise LukhasError(f"Initialization failed: {e}")
 
     async def process_input(

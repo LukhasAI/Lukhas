@@ -3,7 +3,6 @@
 import contextlib
 
 import pytest
-
 from governance.ethics.ethics_engine import (
     GUARDIAN_EMERGENCY_DISABLE_FILE,
     ConstitutionalFramework,

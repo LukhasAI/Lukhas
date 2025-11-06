@@ -33,6 +33,9 @@ try:
     )
     from .matriz_consciousness_identity_signals import (
         ConstitutionalComplianceData,
+# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+# reason: Optional dependency import or module side-effect registration
+# estimate: 0h | priority: low | dependencies: none
         IdentitySignalType,  # TODO: .matriz_consciousness_identity...
         consciousness_identity_signal_emitter,
     )
@@ -51,6 +54,9 @@ except Exception:  # pragma: no cover - optional dependency
 else:  # pragma: no cover - prefer labs implementation when available
     ConstitutionalAIComplianceMonitor = _labs_monitor_module.ConstitutionalAIComplianceMonitor
 try:
+# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
+# reason: Module export validation - __all__ check for dynamic adapter loading
+# estimate: 0h | priority: low | dependencies: none
     __all__  # type: ignore[name-defined]
 except NameError:
     pass
@@ -333,6 +339,9 @@ class ConstitutionalAIValidator:
 
             # Start background monitoring
             self._monitoring_active = True
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
             asyncio.create_task(self._validation_monitoring_loop())
 
             logger.info("✅ Constitutional AI validation system initialized")

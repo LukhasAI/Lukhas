@@ -32,6 +32,9 @@ try:
     from ..core.glyph.glyph_engine import GlyphEngine
     from ..orchestration.symbolic_kernel_bus import SymbolicKernelBus
     from .auth_glyph_registry import (  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+# reason: Optional dependency import or module side-effect registration
+# estimate: 0h | priority: low | dependencies: none
         AuthGlyphCategory,
         auth_glyph_registry,
     )

@@ -1,7 +1,6 @@
 # tests/unit/security/test_secure_random.py
 
 import pytest
-
 from security.secure_random import (
     get_quantum_random_bytes,
     get_quantum_random_int,

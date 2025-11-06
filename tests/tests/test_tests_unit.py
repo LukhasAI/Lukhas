@@ -64,6 +64,7 @@ class TestTestsCore:
         """Test proper error handling patterns."""
         try:
             from core.exceptions import LUKHASException
+
             from tests import TestsCore
 
             component = TestsCore()

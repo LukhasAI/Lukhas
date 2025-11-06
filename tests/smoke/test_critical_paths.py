@@ -4,8 +4,9 @@ Smoke tests for the critical paths of the LUKHAS system.
 
 import pytest
 from fastapi.testclient import TestClient
-from serve.main import app, MEMORY_AVAILABLE
 from labs.core.security.auth import get_auth_system
+from serve.main import MEMORY_AVAILABLE, app
+
 
 @pytest.fixture
 def client():
