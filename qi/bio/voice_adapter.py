@@ -11,6 +11,21 @@ from typing import Any, Optional
 
 logger = logging.getLogger("LUKHAS.VoiceBioAdapter")
 
+# TODO: Replace these stubs with actual imports when BioOrchestrator is implemented
+class BioOrchestrator:
+    """Stub for future bio orchestration system"""
+    def __init__(self, **kwargs):
+        pass
+    def register_module(self, *args, **kwargs):
+        pass
+    def update_module(self, *args, **kwargs):
+        pass
+
+class ResourcePriority:
+    """Stub for resource priority levels"""
+    HIGH = "high"
+    CRITICAL = "critical"
+
 
 class VoiceBioAdapter:
     """

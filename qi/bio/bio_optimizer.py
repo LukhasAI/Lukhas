@@ -603,11 +603,12 @@ class QIBioOptimizationAdapter:
         return awareness_result
 
     def _should_trigger_dream_cycle(self) -> bool:
-        (self.config.max_optimization_cycles_per_call // 10 or 1)  # Avoid division by zero
         time_threshold_sec = 300  # 5 minutes
-        # SYNTAX_ERROR_FIXED:         cycles_condition =
-        # (self.optimization_cycles_completed_total > 0 and " +
-        # "self.optimization_cycles_completed_total % cycles_threshold == 0)
+        cycles_threshold = self.config.max_optimization_cycles_per_call // 10 or 1
+        cycles_condition = (
+            self.optimization_cycles_completed_total > 0
+            and self.optimization_cycles_completed_total % cycles_threshold == 0
+        )
         time_condition = self.last_optimization_timestamp is None or (
             time.monotonic() - self.last_optimization_timestamp > time_threshold_sec
         )
