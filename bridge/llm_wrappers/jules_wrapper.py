@@ -322,22 +322,31 @@ class JulesClient:
         if not source_id:
             raise ValueError("Either source_id or repository_url must be provided")
 
-        session_data: dict[str, Any] = {
-            "displayName": display_name or f"LUKHAS Session {datetime.now(timezone.utc).isoformat()}",
+        # Build payload according to official Jules API documentation
+        # https://developers.google.com/jules/api
+        payload: dict[str, Any] = {
             "prompt": prompt,
-            "sources": [source_id],
+            "sourceContext": {
+                "source": source_id,
+                "githubRepoContext": {
+                    "startingBranch": "main"
+                }
+            }
         }
 
+        # Add optional title (displayName)
+        if display_name:
+            payload["title"] = display_name
+
+        # Add automation mode if specified
         if automation_mode:
-            session_data["automationMode"] = automation_mode
+            payload["automationMode"] = automation_mode
 
+        # Add plan approval setting
         if require_plan_approval is not None:
-            session_data["requirePlanApproval"] = require_plan_approval
+            payload["requirePlanApproval"] = require_plan_approval
         elif self.config.auto_approve_plans:
-            session_data["requirePlanApproval"] = False
-
-        # Wrap in "session" object as required by API
-        payload = {"session": session_data}
+            payload["requirePlanApproval"] = False
 
         self.logger.debug(f"Creating session with payload: {payload}")
         response = await self._request(
