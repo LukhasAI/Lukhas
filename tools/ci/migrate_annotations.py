@@ -26,7 +26,6 @@ import sys
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 REPORTS_DIR = REPO_ROOT / "reports" / "todos"
@@ -51,8 +50,18 @@ def make_id() -> str:
     return f"t4-{uuid.uuid4().hex[:8]}"
 
 
-def git_blame_owner(file_path: Path, line_num: int) -> Optional[str]:
-    """Use git blame to infer who last touched this line."""
+def git_blame_owner(file_path: Path, line_num: int) -> tuple[str | None, float]:
+    """
+    Use git blame to infer who last touched this line.
+    Returns (owner, confidence_score).
+
+    Confidence scoring:
+    - 1.0: Direct author with recent commit (<30 days)
+    - 0.8: Direct author with older commit
+    - 0.5: Bot commit (copilot, dependabot, etc.)
+    - 0.3: File moved/renamed (different from current path)
+    - 0.0: Unable to determine
+    """
     try:
         result = subprocess.run(
             ["git", "blame", "-L", f"{line_num},{line_num}", "--porcelain", str(file_path)],
@@ -62,14 +71,38 @@ def git_blame_owner(file_path: Path, line_num: int) -> Optional[str]:
             timeout=5,
         )
         if result.returncode == 0:
-            # Parse porcelain format for author
+            author = None
+            commit_time = None
+            is_bot = False
+
+            # Parse porcelain format
             for line in result.stdout.splitlines():
                 if line.startswith("author "):
                     author = line[7:].strip()
-                    return f"@{author}" if author else None
-        return None
+                    # Check for bot authors
+                    if any(bot in author.lower() for bot in ["bot", "copilot", "dependabot", "renovate"]):
+                        is_bot = True
+                elif line.startswith("author-time "):
+                    commit_time = int(line[12:].strip())
+
+            if not author:
+                return None, 0.0
+
+            # Calculate confidence
+            confidence = 1.0
+            if is_bot:
+                confidence = 0.5
+            elif commit_time:
+                # Check if commit is recent (<30 days)
+                import time
+                age_days = (time.time() - commit_time) / 86400
+                if age_days > 30:
+                    confidence = 0.8
+
+            return f"@{author}", confidence
+        return None, 0.0
     except Exception:
-        return None
+        return None, 0.0
 
 
 def infer_code_from_reason(reason: str) -> str:
@@ -113,7 +146,7 @@ def infer_reason_category(code: str, reason: str) -> str:
     return "OTHER"
 
 
-def parse_legacy_annotation(line: str, file_path: Path, line_num: int) -> Optional[dict]:
+def parse_legacy_annotation(line: str, file_path: Path, line_num: int) -> dict | None:
     """Parse legacy annotation and convert to unified format."""
 
     # Check if already unified (skip)
@@ -129,9 +162,9 @@ def parse_legacy_annotation(line: str, file_path: Path, line_num: int) -> Option
 
         code = infer_code_from_reason(reason)
         reason_category = infer_reason_category(code, reason)
-        owner = git_blame_owner(file_path, line_num)
+        owner, confidence = git_blame_owner(file_path, line_num)
 
-        return {
+        annotation = {
             "id": make_id(),
             "code": code,
             "type": "import" if code == "F401" else "lint",
@@ -139,12 +172,19 @@ def parse_legacy_annotation(line: str, file_path: Path, line_num: int) -> Option
             "reason": reason,
             "suggestion": None,
             "owner": owner,
+            "inferred_owner_confidence": round(confidence, 2),
             "ticket": None,
             "eta": None,
             "status": "reserved",
             "created_at": iso_now(),
             "legacy_format": "T4-UNUSED-IMPORT",
         }
+
+        # Create GitHub issue draft for low-confidence owners
+        if confidence < 0.7 and owner:
+            annotation["needs_owner_review"] = True
+
+        return annotation
 
     # Try legacy lint issue pattern (already JSON)
     m_lint = LEGACY_LINT_ISSUE.search(line)
@@ -157,9 +197,16 @@ def parse_legacy_annotation(line: str, file_path: Path, line_num: int) -> Option
             if not old_data.get("suggestion"):
                 old_data["suggestion"] = None
             old_data["legacy_format"] = "T4-LINT-ISSUE"
+
+            # Add confidence for existing owner if present
+            if old_data.get("owner"):
+                _, confidence = git_blame_owner(file_path, line_num)
+                old_data["inferred_owner_confidence"] = round(confidence, 2)
+
             return old_data
         except json.JSONDecodeError:
             # Malformed JSON, treat as generic
+            owner, confidence = git_blame_owner(file_path, line_num)
             return {
                 "id": make_id(),
                 "code": "UNKNOWN",
@@ -167,7 +214,8 @@ def parse_legacy_annotation(line: str, file_path: Path, line_num: int) -> Option
                 "reason_category": "OTHER",
                 "reason": "malformed legacy annotation",
                 "suggestion": None,
-                "owner": git_blame_owner(file_path, line_num),
+                "owner": owner,
+                "inferred_owner_confidence": round(confidence, 2),
                 "ticket": None,
                 "eta": None,
                 "status": "reserved",
@@ -178,7 +226,7 @@ def parse_legacy_annotation(line: str, file_path: Path, line_num: int) -> Option
     return None
 
 
-def convert_line(line: str, file_path: Path, line_num: int) -> tuple[str, bool, Optional[dict]]:
+def convert_line(line: str, file_path: Path, line_num: int) -> tuple[str, bool, dict | None]:
     """
     Convert a line with legacy annotation to unified format.
     Returns: (new_line, was_converted, annotation_dict)
@@ -285,6 +333,51 @@ def find_python_files(paths: list[str]) -> list[Path]:
     return result
 
 
+def generate_owner_review_issues(annotations: list[dict], report_path: Path) -> None:
+    """Generate GitHub issue drafts for annotations with low owner confidence."""
+    low_confidence = [
+        a for a in annotations
+        if a.get("needs_owner_review") and a.get("inferred_owner_confidence", 1.0) < 0.7
+    ]
+
+    if not low_confidence:
+        return
+
+    issue_draft_path = report_path.parent / "owner_review_issues.md"
+    with issue_draft_path.open("w", encoding="utf-8") as f:
+        f.write("# Owner Review Required - Low Confidence Assignments\n\n")
+        f.write(f"Generated: {iso_now()}\n\n")
+        f.write(f"Found {len(low_confidence)} annotations requiring owner review.\n\n")
+        f.write("---\n\n")
+
+        for annotation in low_confidence:
+            confidence = annotation.get("inferred_owner_confidence", 0.0)
+            owner = annotation.get("owner", "UNKNOWN")
+            code = annotation.get("code", "UNKNOWN")
+            reason = annotation.get("reason", "No reason provided")
+            annotation_id = annotation.get("id", "UNKNOWN")
+
+            f.write(f"## Issue: Verify Owner for `{annotation_id}`\n\n")
+            f.write(f"**Inferred Owner:** {owner} (confidence: {confidence:.2f})\n\n")
+            f.write(f"**Code:** {code}\n")
+            f.write(f"**Reason:** {reason}\n\n")
+            f.write("**Why Low Confidence:**\n")
+
+            if confidence <= 0.5:
+                f.write("- Owner appears to be a bot (copilot, dependabot, etc.)\n")
+            elif confidence <= 0.7:
+                f.write("- Commit is >30 days old, owner may have moved on\n")
+
+            f.write("**Action Required:**\n")
+            f.write(f"1. Verify if {owner} is the correct owner\n")
+            f.write("2. Update annotation with correct owner if different\n")
+            f.write("3. Add ticket reference if this requires tracking\n\n")
+            f.write("---\n\n")
+
+    print(f"\n📋 Generated owner review issues: {issue_draft_path}")
+    print(f"   {len(low_confidence)} annotations need manual owner verification")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Migrate legacy T4 annotations to unified TODO[T4-ISSUE] format"
@@ -352,6 +445,9 @@ def main():
     }
 
     args.report.write_text(json.dumps(report, indent=2), encoding="utf-8")
+
+    # Generate owner review issues for low-confidence assignments
+    generate_owner_review_issues(all_annotations, args.report)
 
     # Summary
     print(f"\n{'=' * 60}")
