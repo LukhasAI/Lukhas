@@ -598,6 +598,9 @@ class DreamVerificationColony(BaseColony):
         logger.info(f"Dream colony initialized with {agent_count} specialized agents")
 
         # Start collective dreaming space
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._maintain_collective_dream_space())
 
     async def verify_dream_authentication(

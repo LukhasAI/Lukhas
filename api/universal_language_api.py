@@ -295,6 +295,9 @@ async def understand_symbols(
 
     except Exception as e:
         logger.error(f"Symbol understanding error: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -350,6 +353,9 @@ async def generate_password(
 
     except Exception as e:
         logger.error(f"Password generation error: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -386,6 +392,9 @@ async def initiate_exchange(
 
     except Exception as e:
         logger.error(f"Exchange initiation error: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -448,6 +457,9 @@ async def build_language(
 
     except Exception as e:
         logger.error(f"Language building error: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -496,6 +508,9 @@ async def colony_consensus(
 
     except Exception as e:
         logger.error(f"Colony consensus error: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -523,6 +538,9 @@ async def get_statistics(credentials: HTTPAuthorizationCredentials = Depends(sec
 
     except Exception as e:
         logger.error(f"Statistics error: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 

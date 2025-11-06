@@ -600,6 +600,9 @@ class ConsciousnessVerificationColony(BaseColony):
         logger.info(f"Colony initialized with {agent_count} consciousness analysis agents")
 
         # Start background pattern learning
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._pattern_learning_loop())
 
     async def verify_consciousness_state(

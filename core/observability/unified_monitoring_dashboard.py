@@ -283,6 +283,9 @@ class UnifiedMonitoringDashboard:
         }
 
         # Initialize dashboard
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._initialize_dashboard())
 
         logger.info("🖥️ Unified Monitoring Dashboard initialized")
@@ -295,9 +298,21 @@ class UnifiedMonitoringDashboard:
             await self._initialize_monitoring_systems()
 
             # Start dashboard loops
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
             asyncio.create_task(self._dashboard_update_loop())
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
             asyncio.create_task(self._alert_processing_loop())
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
             asyncio.create_task(self._session_management_loop())
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
             asyncio.create_task(self._cache_cleanup_loop())
 
             logger.info("✅ Unified dashboard loops started")

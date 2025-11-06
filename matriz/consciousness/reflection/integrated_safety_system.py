@@ -538,6 +538,9 @@ class IntegratedSafetySystem:
         )
 
         # Subscribe colonies to events
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._initialize_subscriptions())
 
         logger.info(f"IntegratedSafetySystem {self.system_id} initialized")
@@ -964,6 +967,9 @@ class IntegratedSafetySystem:
                 timestamp=datetime.now(timezone.utc),
                 data={"component": component, "failures": breaker["failures"]},
             )
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
             asyncio.create_task(self.event_bus.broadcast_safety_event(event))
 
     async def run_continuous_monitoring(self):

@@ -47,6 +47,9 @@ except Exception:  # pragma: no cover - fallback for missing candidate module
 
 
 try:
+# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
+# reason: Module export validation - __all__ check for dynamic adapter loading
+# estimate: 0h | priority: low | dependencies: none
     __all__  # type: ignore[name-defined]
 except NameError:
     __all__ = []

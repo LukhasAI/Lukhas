@@ -144,6 +144,9 @@ class BrainAdapter:
         context = content.get("context")
 
         logger.info(f"Processing input: {input_data[:50]}...")
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self.process_input(input_data, context))
 
     def _handle_memory_consolidation(self, content: dict[str, Any]) -> None:
@@ -152,6 +155,9 @@ class BrainAdapter:
         max_count = content.get("max_memories", 100)
 
         logger.info(f"Starting memory consolidation: {hours}h limit, max {max_count}...")
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self.consolidate_memories(hours, max_count))
 
     def _handle_dream_cycle(self, content: dict[str, Any]) -> None:
@@ -159,4 +165,7 @@ class BrainAdapter:
         duration = content.get("duration_minutes", 10.0)
 
         logger.info(f"Starting dream cycle for {duration} minutes...")
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self.start_dream_cycle(duration))

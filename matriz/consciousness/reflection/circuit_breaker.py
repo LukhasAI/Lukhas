@@ -570,6 +570,9 @@ class ConsensusValidator:
         try:
             return await asyncio.wait_for(actor_ref.ask(query, {}), timeout=timeout)
         except asyncio.TimeoutError:
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
             raise TimeoutError(f"Actor {actor_ref.actor_id} timed out")
 
     def _analyze_responses(self, responses: list[tuple[str, Any]]) -> tuple[bool, Any]:
@@ -609,7 +612,13 @@ class CascadePreventionSystem:
 
     def __init__(
         self,
+# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Async import or consciousness module lazy loading pattern
+# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
         actor_system: ActorSystem,
+# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Async import or consciousness module lazy loading pattern
+# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
         observability: ObservabilityCollector | None = None,
     ):
         self.actor_system = actor_system
@@ -748,6 +757,9 @@ class CascadePreventionSystem:
             except Exception as e:
                 logger.debug(f"Failed to collect metrics for {actor_id}: {e}")
 
+# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Async import or consciousness module lazy loading pattern
+# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
     async def _get_actor_snapshot(self, actor_id: str) -> ActorSnapshot | None:
         """Get snapshot for an actor"""
         if not self.observability:

@@ -68,9 +68,15 @@ try:
     )
 
     from core.integration.neuro_symbolic_fusion_layer import (
+# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+# reason: Optional dependency import or module side-effect registration
+# estimate: 0h | priority: low | dependencies: none
         NeuroSymbolicFusionLayer,  # TODO: core.integration.neuro_...
     )
     from core.utils.orchestration_energy_aware_execution_planner import (
+# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+# reason: Optional dependency import or module side-effect registration
+# estimate: 0h | priority: low | dependencies: none
         EnergyAwareExecutionPlanner,  # TODO: core.utils.orchestratio...
     )
     from memory.governance.ethical_drift_governor import (

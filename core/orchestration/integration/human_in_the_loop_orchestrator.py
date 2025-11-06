@@ -968,6 +968,9 @@ class HumanInTheLoopOrchestrator:
 
             # Phase 8: Broadcast availability event for workflow orchestration
             if hasattr(self, "_broadcast_orchestration_event"):
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
                 asyncio.create_task(
                     self._broadcast_orchestration_event(
                         "orchestration.reviewer.availability_checked",

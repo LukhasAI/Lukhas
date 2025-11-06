@@ -177,8 +177,17 @@ class OracleNervousSystem:
             await self._register_capabilities()
 
             # Start background tasks
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
             asyncio.create_task(self._process_events())
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
             asyncio.create_task(self._health_monitor())
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
             asyncio.create_task(self._performance_monitor())
 
             self.is_initialized = True

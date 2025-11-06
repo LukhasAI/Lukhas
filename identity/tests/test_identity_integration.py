@@ -15,6 +15,9 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
+# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+# reason: Optional dependency import or module side-effect registration
+# estimate: 0h | priority: low | dependencies: none
     import identity  # TODO: identity; consider using impor...
 except ImportError:
     pytest.skip("Module identity not available", allow_module_level=True)

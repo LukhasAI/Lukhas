@@ -31,6 +31,9 @@ from metrics import (
     mtrx_stage_duration_seconds,
     node_confidence_scores,
     oscillation_detections_total,
+# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+# reason: Optional dependency import or module side-effect registration
+# estimate: 0h | priority: low | dependencies: none
     parallel_batch_duration,
     parallel_execution_mode_total,
     reasoning_chain_length,

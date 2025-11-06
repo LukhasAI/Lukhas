@@ -864,6 +864,9 @@ async def create_dream_seed(
 
     except Exception as e:
         logger.error(f"Failed to create dream seed: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -888,6 +891,9 @@ async def generate_dream_experience(request: DreamExperienceRequest):
 
     except Exception as e:
         logger.error(f"Failed to generate dream experience: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -960,6 +966,9 @@ async def browse_marketplace(
 
     except Exception as e:
         logger.error(f"Failed to browse marketplace: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -977,6 +986,9 @@ async def get_commerce_statistics():
 
     except Exception as e:
         logger.error(f"Failed to get commerce statistics: {e}")
+# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
+# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
+# estimate: 15m | priority: medium | dependencies: none
         raise HTTPException(status_code=500, detail=str(e))
 
 

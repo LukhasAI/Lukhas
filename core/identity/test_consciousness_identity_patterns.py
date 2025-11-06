@@ -39,8 +39,14 @@ except ImportError as exc:  # pragma: no cover - critical dependency missing
 try:
     from .consciousness_coherence_monitor import (
         CoherenceAlert,
+# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+# reason: Optional dependency import or module side-effect registration
+# estimate: 0h | priority: low | dependencies: none
         CoherenceAnomaly,  # TODO: .consciousness_coherence_monit...
         CoherenceMetricType,
+# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+# reason: Optional dependency import or module side-effect registration
+# estimate: 0h | priority: low | dependencies: none
         CoherenceState,  # TODO: .consciousness_coherence_monit...
         IdentityCoherenceMonitor,
     )
@@ -54,7 +60,13 @@ try:
         ConsciousnessDomain,
         ConsciousnessNamespaceManager,
         IsolationLevel,
+# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+# reason: Optional dependency import or module side-effect registration
+# estimate: 0h | priority: low | dependencies: none
         NamespaceInstance,  # TODO: .consciousness_namespace_isola...
+# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+# reason: Optional dependency import or module side-effect registration
+# estimate: 0h | priority: low | dependencies: none
         NamespacePolicy,  # TODO: .consciousness_namespace_isola...
     )
     NAMESPACE_MODULES_AVAILABLE = True
@@ -74,7 +86,13 @@ except ImportError:
 
 try:
     from .matriz_consciousness_identity import (
+# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+# reason: Optional dependency import or module side-effect registration
+# estimate: 0h | priority: low | dependencies: none
         ConsciousnessIdentityProfile,  # TODO: .matriz_consciousness_identity...
+# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+# reason: Optional dependency import or module side-effect registration
+# estimate: 0h | priority: low | dependencies: none
         ConsciousnessNamespace,  # TODO: .matriz_consciousness_identity...
         IdentityConsciousnessType,
         MatrizConsciousnessIdentityManager,
@@ -86,9 +104,15 @@ except ImportError:
 try:
     from .matriz_consciousness_identity_signals import (
         AuthenticationTier,
+# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+# reason: Optional dependency import or module side-effect registration
+# estimate: 0h | priority: low | dependencies: none
         ConstitutionalComplianceData,  # TODO: .matriz_consciousness_identity...
         IdentityBiometricData,
         MatrizConsciousnessIdentitySignalEmitter,
+# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
+# reason: Optional dependency import or module side-effect registration
+# estimate: 0h | priority: low | dependencies: none
         NamespaceIsolationData,  # TODO: .matriz_consciousness_identity...
     )
     SIGNAL_MODULES_AVAILABLE = True

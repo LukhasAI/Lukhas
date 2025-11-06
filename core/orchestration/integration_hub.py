@@ -805,8 +805,17 @@ class SystemIntegrationHub:
     def _connect_golden_trio(self):
         """Connect DAST, ABAS, NIAS through TrioOrchestrator"""
         # Register each hub with trio orchestrator
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self.trio_orchestrator.register_component("dast", self.dast_hub))
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self.trio_orchestrator.register_component("abas", self.abas_hub))
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self.trio_orchestrator.register_component("nias", self.nias_hub))
 
         # Connect to ethics for oversight
@@ -868,6 +877,9 @@ class SystemIntegrationHub:
 
     def _start_health_monitoring(self):
         """Start mito-inspired health monitoring"""
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
         asyncio.create_task(self._health_monitor_loop())
 
     async def _health_monitor_loop(self):

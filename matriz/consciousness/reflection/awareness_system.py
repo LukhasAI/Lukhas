@@ -210,6 +210,9 @@ class QIAwarenessSystem:
 
             # Start consciousness integration if available
             if self.config.consciousness_sync_interval > 0:
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
                 asyncio.create_task(self._consciousness_sync_loop())
 
             # Start dream-based training if enabled
@@ -798,6 +801,9 @@ class QIAwarenessSystem:
             self.current_state.learning_efficiency = 0.5
 
             # Start neuroplasticity monitoring
+# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
+# reason: Fire-and-forget async task - intentional background processing pattern
+# estimate: 0h | priority: low | dependencies: none
             asyncio.create_task(self._neuroplasticity_monitor())
 
             log.info("Neuroplasticity system initialized with safety constraints.")
