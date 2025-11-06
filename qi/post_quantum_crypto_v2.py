@@ -38,7 +38,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional, Union
 
-log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
+log = logging.getLogger(__name__)  # TODO: logging
 
 __module_name__ = "Quantum Post Quantum Crypto Enhanced"
 __version__ = "2.0.0"
@@ -288,7 +288,7 @@ class PostQuantumCryptoEngine:
         self.config = config or SecurityConfig()
         self.key_manager = QIResistantKeyManager(self.config)
         self.session_cache: dict[str, dict[str, Any]] = {}
-        self.active_sessions: Set[str] = set()  # noqa: F821  # TODO: Set
+        self.active_sessions: Set[str] = set()  # TODO: Set
 
         # Initialize secure memory manager
         self.secure_memory = SecureMemoryManager(self.config)
