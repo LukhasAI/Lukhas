@@ -378,10 +378,45 @@ If anything fails, the script prints helpful hints. Fix files, run again, and op
 
 ---
 
-## 7) Follow-ups I can prepare (optional / recommended)
+## 7) Evidence Pages System
+
+**✅ IMPLEMENTED** (2025-11-06)
+
+The evidence pages system is now available:
+
+### Evidence Page Template
+- **Location**: `branding/templates/evidence_page.md`
+- **Purpose**: Template for creating evidence pages that back up numeric/operational claims
+- **Usage**: Copy template to `release_artifacts/evidence/<claim-id>.md` and fill in methodology, artifacts, signatures
+
+### Evidence Generator
+- **Tool**: `tools/generate_evidence_pages.py`
+- **Purpose**: Automatically creates evidence page stubs from claims registry
+- **Usage**:
+  ```bash
+  python3 tools/generate_claims_registry.py   # First generate registry
+  python3 tools/generate_evidence_pages.py    # Then create stubs
+  ```
+
+### Audit Pack Builder
+- **Tool**: `tools/build_audit_pack.py`
+- **Purpose**: Creates signed audit packs with artifacts + metadata
+- **Usage**:
+  ```bash
+  python3 tools/build_audit_pack.py \
+    --claim-id matriz-p95-2025q3 \
+    --artifacts release_artifacts/perf/*.json \
+    --out audit-packs/matriz-p95-2025q3.zip \
+    --sign
+  ```
+
+See [T4 Strategic Audit](../strategic/T4_STRATEGIC_AUDIT.md) for complete evidence system specification.
+
+---
+
+## 8) Follow-ups (optional / recommended)
 
 * A stricter **a11y job** that builds the site and runs pa11y/axe on core pages (requires site build pipeline).
-* A script to automatically **generate `claims_registry.yaml`** from front-matter `evidence_links` to produce a single governance view.
 * A GitHub PR template that automatically shows required checklist items and blocks merge unless all checks pass.
 
 ---
