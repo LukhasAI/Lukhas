@@ -96,10 +96,7 @@ class AdaptiveAGISystem:
             from learning.meta_learning import MetaLearningSystem
 
             # Backend components
-            # T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-            # reason: Optional dependency import or module side-effect registration
-            # estimate: 0h | priority: low | dependencies: none
-            from memory.node import Node
+            from memory.node import Node  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_main_node_py_L99"}
             from orchestration.brain.privacy_manager import PrivacyManager
             from voice.speech_processor import SpeechProcessor
         except ImportError as e:

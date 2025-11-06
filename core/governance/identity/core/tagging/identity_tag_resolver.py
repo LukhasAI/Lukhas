@@ -190,16 +190,10 @@ class IdentityTagResolver:
         await self.tag_manager.initialize()
 
         # Start consensus processor
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self._process_consensus_requests())
+        asyncio.create_task(self._process_consensus_requests())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_identity_core_tagging_identity_tag_resolver_py_L193"}
 
         # Start trust network analyzer
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self._analyze_trust_network())
+        asyncio.create_task(self._analyze_trust_network())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_identity_core_tagging_identity_tag_resolver_py_L197"}
 
         logger.info("Identity Tag Resolver initialized")
 

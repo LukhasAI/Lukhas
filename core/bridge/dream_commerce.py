@@ -864,10 +864,7 @@ async def create_dream_seed(
 
     except Exception as e:
         logger.error(f"Failed to create dream seed: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_bridge_dream_commerce_py_L867"}
 
 
 @router.post("/experiences", response_model=APIResponse)
@@ -891,10 +888,7 @@ async def generate_dream_experience(request: DreamExperienceRequest):
 
     except Exception as e:
         logger.error(f"Failed to generate dream experience: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_bridge_dream_commerce_py_L892"}
 
 
 @router.get("/marketplace", response_model=APIResponse)
@@ -966,10 +960,7 @@ async def browse_marketplace(
 
     except Exception as e:
         logger.error(f"Failed to browse marketplace: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_bridge_dream_commerce_py_L965"}
 
 
 @router.get("/stats", response_model=APIResponse)
@@ -986,10 +977,7 @@ async def get_commerce_statistics():
 
     except Exception as e:
         logger.error(f"Failed to get commerce statistics: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_bridge_dream_commerce_py_L983"}
 
 
 @router.get("/health", response_model=APIResponse)

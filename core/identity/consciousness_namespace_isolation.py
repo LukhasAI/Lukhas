@@ -234,10 +234,7 @@ class ConsciousnessNamespaceManager:
 
             # Start background maintenance
             self._maintenance_active = True
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-            asyncio.create_task(self._namespace_maintenance_loop())
+            asyncio.create_task(self._namespace_maintenance_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_consciousness_namespace_isolation_py_L237"}
 
             # Create default system namespaces
             await self._create_default_system_namespaces()

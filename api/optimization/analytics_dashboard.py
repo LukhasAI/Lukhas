@@ -22,29 +22,17 @@ logger = logging.getLogger(__name__)
 
 # Optional dependencies for advanced features
 try:
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
-    import numpy as np
+    import numpy as np  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_analytics_dashboard_py_L25"}
 
-    # T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-    # reason: Optional dependency import or module side-effect registration
-    # estimate: 0h | priority: low | dependencies: none
-    import pandas as pd
+    import pandas as pd  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_analytics_dashboard_py_L28"}
     PANDAS_AVAILABLE = True
 except ImportError:
     PANDAS_AVAILABLE = False
 
 try:
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
-    from sklearn.cluster import KMeans
+    from sklearn.cluster import KMeans  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_analytics_dashboard_py_L35"}
 
-    # T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-    # reason: Optional dependency import or module side-effect registration
-    # estimate: 0h | priority: low | dependencies: none
-    from sklearn.preprocessing import StandardScaler
+    from sklearn.preprocessing import StandardScaler  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_analytics_dashboard_py_L38"}
     SKLEARN_AVAILABLE = True
 except ImportError:
     SKLEARN_AVAILABLE = False

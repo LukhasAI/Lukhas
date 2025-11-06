@@ -806,18 +806,9 @@ class SystemIntegrationHub:
     def _connect_golden_trio(self):
         """Connect DAST, ABAS, NIAS through TrioOrchestrator"""
         # Register each hub with trio orchestrator
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self.trio_orchestrator.register_component("dast", self.dast_hub))
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self.trio_orchestrator.register_component("abas", self.abas_hub))
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self.trio_orchestrator.register_component("nias", self.nias_hub))
+        asyncio.create_task(self.trio_orchestrator.register_component("dast", self.dast_hub))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_integration_hub_py_L809"}
+        asyncio.create_task(self.trio_orchestrator.register_component("abas", self.abas_hub))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_integration_hub_py_L811"}
+        asyncio.create_task(self.trio_orchestrator.register_component("nias", self.nias_hub))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_integration_hub_py_L813"}
 
         # Connect to ethics for oversight
         self.dast_hub.register_component("ethics_service", "ethics/service.py", self.ethics_service)
@@ -878,10 +869,7 @@ class SystemIntegrationHub:
 
     def _start_health_monitoring(self):
         """Start mito-inspired health monitoring"""
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self._health_monitor_loop())
+        asyncio.create_task(self._health_monitor_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_integration_hub_py_L875"}
 
     async def _health_monitor_loop(self):
         """Monitor system health using mito-inspired patterns"""

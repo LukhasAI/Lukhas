@@ -13,10 +13,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L16"}
 except NameError:
     __all__ = []
 if "affiliate_log" not in __all__:
@@ -31,10 +28,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L32"}
 except NameError:
     __all__ = []
 if "agent_handoff" not in __all__:
@@ -49,10 +43,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L48"}
 except NameError:
     __all__ = []
 if "app" not in __all__:
@@ -67,10 +58,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L64"}
 except NameError:
     __all__ = []
 if "breakthrough_synthesis_engine" not in __all__:
@@ -85,10 +73,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L80"}
 except NameError:
     __all__ = []
 if "checkout_handler" not in __all__:
@@ -103,10 +88,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L96"}
 except NameError:
     __all__ = []
 if "cli" not in __all__:
@@ -121,10 +103,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L112"}
 except NameError:
     __all__ = []
 if "common_interface" not in __all__:
@@ -139,10 +118,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L128"}
 except NameError:
     __all__ = []
 if "common_interfaces" not in __all__:
@@ -157,10 +133,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L144"}
 except NameError:
     __all__ = []
 if "connectivity_engine" not in __all__:
@@ -175,10 +148,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L160"}
 except NameError:
     __all__ = []
 if "consolidate_bio_symbolic_coherence" not in __all__:
@@ -193,10 +163,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L176"}
 except NameError:
     __all__ = []
 if "consolidate_symbolic_communication" not in __all__:
@@ -211,10 +178,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L192"}
 except NameError:
     __all__ = []
 if "core_interface" not in __all__:
@@ -229,10 +193,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L208"}
 except NameError:
     __all__ = []
 if "current_connectivity_analysis" not in __all__:
@@ -247,10 +208,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L224"}
 except NameError:
     __all__ = []
 if "custom_llm" not in __all__:
@@ -265,10 +223,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L240"}
 except NameError:
     __all__ = []
 if "dashboad" not in __all__:
@@ -283,10 +238,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L256"}
 except NameError:
     __all__ = []
 if "dast_integration_hub" not in __all__:
@@ -301,10 +253,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L272"}
 except NameError:
     __all__ = []
 if "dependency_injection" not in __all__:
@@ -319,10 +268,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L288"}
 except NameError:
     __all__ = []
 if "dev_dashboard" not in __all__:
@@ -337,10 +283,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L304"}
 except NameError:
     __all__ = []
 if "duet_conductor" not in __all__:
@@ -355,10 +298,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L320"}
 except NameError:
     __all__ = []
 if "dynamic_modality_broker" not in __all__:
@@ -373,10 +313,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L336"}
 except NameError:
     __all__ = []
 if "encrypted_perception_interface" not in __all__:
@@ -391,10 +328,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L352"}
 except NameError:
     __all__ = []
 if "generate_video" not in __all__:
@@ -409,10 +343,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L368"}
 except NameError:
     __all__ = []
 if "hub_registry" not in __all__:
@@ -427,10 +358,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L384"}
 except NameError:
     __all__ = []
 if "innovation_prioritization_engine" not in __all__:
@@ -445,10 +373,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L400"}
 except NameError:
     __all__ = []
 if "interfaces_hub" not in __all__:
@@ -463,10 +388,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L416"}
 except NameError:
     __all__ = []
 if "lambda_bot_api_integration" not in __all__:
@@ -481,10 +403,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L432"}
 except NameError:
     __all__ = []
 if "launcher" not in __all__:
@@ -499,10 +418,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L448"}
 except NameError:
     __all__ = []
 if "layer" not in __all__:
@@ -517,10 +433,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L464"}
 except NameError:
     __all__ = []
 if "main" not in __all__:
@@ -535,10 +448,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L480"}
 except NameError:
     __all__ = []
 if "memory_handler" not in __all__:
@@ -553,10 +463,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L496"}
 except NameError:
     __all__ = []
 if "memory_interface" not in __all__:
@@ -571,10 +478,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L512"}
 except NameError:
     __all__ = []
 if "moral_alignment_interface" not in __all__:
@@ -589,10 +493,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L528"}
 except NameError:
     __all__ = []
 if "neuroplastic_consolidator" not in __all__:
@@ -607,10 +508,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L544"}
 except NameError:
     __all__ = []
 if "nias_filter" not in __all__:
@@ -625,10 +523,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L560"}
 except NameError:
     __all__ = []
 if "pr_security_review_github_actions" not in __all__:
@@ -643,10 +538,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L576"}
 except NameError:
     __all__ = []
 if "pr_security_review_task" not in __all__:
@@ -661,10 +553,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L592"}
 except NameError:
     __all__ = []
 if "pwm_deep_analysis" not in __all__:
@@ -679,10 +568,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L608"}
 except NameError:
     __all__ = []
 if "research_dashboard" not in __all__:
@@ -697,10 +583,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L624"}
 except NameError:
     __all__ = []
 if "resource_allocation_optimizer" not in __all__:
@@ -715,10 +598,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L640"}
 except NameError:
     __all__ = []
 if "reward_reputation" not in __all__:
@@ -733,10 +613,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L656"}
 except NameError:
     __all__ = []
 if "safety_filter" not in __all__:
@@ -751,10 +628,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L672"}
 except NameError:
     __all__ = []
 if "security_pr_analyzer" not in __all__:
@@ -769,10 +643,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L688"}
 except NameError:
     __all__ = []
 if "service_discovery" not in __all__:
@@ -787,10 +658,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L704"}
 except NameError:
     __all__ = []
 if "services" not in __all__:
@@ -805,10 +673,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L720"}
 except NameError:
     __all__ = []
 if "socket" not in __all__:
@@ -823,10 +688,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L736"}
 except NameError:
     __all__ = []
 if "system_bridge" not in __all__:
@@ -841,10 +703,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L752"}
 except NameError:
     __all__ = []
 if "vendor_sync" not in __all__:
@@ -859,10 +718,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L768"}
 except NameError:
     __all__ = []
 if "vision_prompts" not in __all__:
@@ -877,10 +733,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L784"}
 except NameError:
     __all__ = []
 if "voice_narration_player" not in __all__:
@@ -895,10 +748,7 @@ except ImportError:
         return None
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core___init___py_L800"}
 except NameError:
     __all__ = []
 if "web_formatter" not in __all__:

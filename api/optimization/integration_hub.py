@@ -29,10 +29,7 @@ try:
     from .advanced_api_optimizer import (
         APITier,
         LUKHASAPIOptimizer,
-        # T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-        # reason: Optional dependency import or module side-effect registration
-        # estimate: 0h | priority: low | dependencies: none
-        OptimizationConfig,
+        OptimizationConfig,  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_integration_hub_py_L32"}
         OptimizationStrategy,
         RequestContext,
         RequestPriority,
@@ -45,10 +42,7 @@ try:
         create_middleware_pipeline,
     )
 
-    # T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-    # reason: Optional dependency import or module side-effect registration
-    # estimate: 0h | priority: low | dependencies: none
-    from .analytics_dashboard import AnalyticsDashboard, TimeWindow, create_analytics_dashboard
+    from .analytics_dashboard import AnalyticsDashboard, TimeWindow, create_analytics_dashboard  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_integration_hub_py_L46"}
     OPTIMIZATION_COMPONENTS_AVAILABLE = True
 except ImportError:
     OPTIMIZATION_COMPONENTS_AVAILABLE = False

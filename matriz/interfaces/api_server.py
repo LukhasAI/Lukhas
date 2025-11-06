@@ -431,10 +431,7 @@ async def process_query(
 
     except Exception as e:
         logger.error(f"Query processing failed (trace: {trace_id}): {e!s}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
-        raise HTTPException(
+        raise HTTPException(  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_interfaces_api_server_py_L434"}
             status_code=500,
             detail={
                 "error": "Query processing failed",

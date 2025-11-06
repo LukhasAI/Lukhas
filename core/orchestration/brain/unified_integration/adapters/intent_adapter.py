@@ -30,22 +30,10 @@ class IntentNodeAdapter:
 
     def __init__(self, cognitive_system=None):
         # Initialize bio components
-# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Async import or consciousness module lazy loading pattern
-# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
-        self.proton_gradient = ProtonGradient()
-# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Async import or consciousness module lazy loading pattern
-# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
-        self.attention_gate = QIAttentionGate()
-# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Async import or consciousness module lazy loading pattern
-# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
-        self.crista_filter = CristaFilter()
-# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Async import or consciousness module lazy loading pattern
-# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
-        self.identity_encoder = CardiolipinEncoder()
+        self.proton_gradient = ProtonGradient()  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "core_orchestration_brain_unified_integration_adapters_intent_adapter_py_L33"}
+        self.attention_gate = QIAttentionGate()  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "core_orchestration_brain_unified_integration_adapters_intent_adapter_py_L35"}
+        self.crista_filter = CristaFilter()  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "core_orchestration_brain_unified_integration_adapters_intent_adapter_py_L37"}
+        self.identity_encoder = CardiolipinEncoder()  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "core_orchestration_brain_unified_integration_adapters_intent_adapter_py_L39"}
 
         # Create unified node
         self.unified_node = UnifiedNode(

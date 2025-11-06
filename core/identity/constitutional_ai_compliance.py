@@ -33,10 +33,7 @@ try:
     )
     from .matriz_consciousness_identity_signals import (
         ConstitutionalComplianceData,
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
-        IdentitySignalType,  # TODO: .matriz_consciousness_identity...
+        IdentitySignalType,  # TODO: .matriz_consciousness_identity...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_constitutional_ai_compliance_py_L36"}
         consciousness_identity_signal_emitter,
     )
 except ImportError:
@@ -54,10 +51,7 @@ except Exception:  # pragma: no cover - optional dependency
 else:  # pragma: no cover - prefer labs implementation when available
     ConstitutionalAIComplianceMonitor = _labs_monitor_module.ConstitutionalAIComplianceMonitor
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_constitutional_ai_compliance_py_L55"}
 except NameError:
     pass
 
@@ -339,10 +333,7 @@ class ConstitutionalAIValidator:
 
             # Start background monitoring
             self._monitoring_active = True
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-            asyncio.create_task(self._validation_monitoring_loop())
+            asyncio.create_task(self._validation_monitoring_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_constitutional_ai_compliance_py_L338"}
 
             logger.info("✅ Constitutional AI validation system initialized")
             return True

@@ -1449,17 +1449,11 @@ class LukhasAwarenessEngine:
         self.modules[AwarenessType.ENVIRONMENTAL] = EnvironmentalAwarenessModule(env_reasoner, self.config)
 
         # Cognitive Module with meta-learning reasoner
-# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Async import or consciousness module lazy loading pattern
-# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
-        cog_reasoner = CognitiveReasoner()
+        cog_reasoner = CognitiveReasoner()  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_awareness_awareness_engine_elevated_py_L1452"}
         self.modules[AwarenessType.COGNITIVE] = CognitiveAwarenessModule(cog_reasoner, self.config)
 
         # Emotional Module with personality integration
-# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Async import or consciousness module lazy loading pattern
-# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
-        emo_reasoner = EmotionalReasoner()
+        emo_reasoner = EmotionalReasoner()  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_awareness_awareness_engine_elevated_py_L1457"}
         self.modules[AwarenessType.EMOTIONAL] = EmotionalAwarenessModule(emo_reasoner, self.config)
 
         # Social Module with interpersonal dynamics reasoner

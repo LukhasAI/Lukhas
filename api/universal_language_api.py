@@ -295,10 +295,7 @@ async def understand_symbols(
 
     except Exception as e:
         logger.error(f"Symbol understanding error: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "api_universal_language_api_py_L298"}
 
 
 @app.post("/api/v1/password/generate", response_model=PasswordGenerationResponse)
@@ -353,10 +350,7 @@ async def generate_password(
 
     except Exception as e:
         logger.error(f"Password generation error: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "api_universal_language_api_py_L354"}
 
 
 @app.post("/api/v1/exchange/initiate")
@@ -392,10 +386,7 @@ async def initiate_exchange(
 
     except Exception as e:
         logger.error(f"Exchange initiation error: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "api_universal_language_api_py_L391"}
 
 
 @app.post("/api/v1/language/build")
@@ -457,10 +448,7 @@ async def build_language(
 
     except Exception as e:
         logger.error(f"Language building error: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "api_universal_language_api_py_L454"}
 
 
 @app.post("/api/v1/colony/consensus")
@@ -508,10 +496,7 @@ async def colony_consensus(
 
     except Exception as e:
         logger.error(f"Colony consensus error: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "api_universal_language_api_py_L503"}
 
 
 @app.get("/api/v1/stats")
@@ -538,10 +523,7 @@ async def get_statistics(credentials: HTTPAuthorizationCredentials = Depends(sec
 
     except Exception as e:
         logger.error(f"Statistics error: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "api_universal_language_api_py_L531"}
 
 
 # ==================== Startup/Shutdown Events ====================

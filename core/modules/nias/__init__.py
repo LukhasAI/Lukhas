@@ -310,10 +310,7 @@ class NIASCore:
         try:
             import asyncio
 
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-            asyncio.create_task(
+            asyncio.create_task(  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_modules_nias___init___py_L313"}
                 self.dream_bridge.register_nias_events(
                     {
                         "message_deferred": self._handle_dream_message,

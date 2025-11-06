@@ -275,10 +275,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         except Exception as e:
             logger.error(f"Failed to initialize NL interface: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
-            raise LukhasError(f"Initialization failed: {e}")
+            raise LukhasError(f"Initialization failed: {e}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_consciousness_natural_language_interface_py_L278"}
 
     async def process_input(
         self,

@@ -98,18 +98,12 @@ class DreamEngineAdapter:
         """Handle start cycle request"""
         duration = content.get("duration_minutes", 10)
         logger.info(f"Received request to start dream cycle for {duration} minutes")
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self.start_dream_cycle(duration))
+        asyncio.create_task(self.start_dream_cycle(duration))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_brain_unified_integration_adapters_dream_adapter_py_L101"}
 
     def _handle_stop_cycle(self, content: dict[str, Any]) -> None:
         """Handle stop cycle request"""
         logger.info("Received request to stop dream cycle")
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self.stop_dream_cycle())
+        asyncio.create_task(self.stop_dream_cycle())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_brain_unified_integration_adapters_dream_adapter_py_L107"}
 
     def _handle_get_state(self, content: dict[str, Any]) -> None:
         """Handle get state request and send response"""

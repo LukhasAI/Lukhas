@@ -72,10 +72,7 @@ LOG_PATH = Path("core/logs/narration_log.jsonl")
 EXPORT_PATH.mkdir(parents=True, exist_ok=True)
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    args
+    args  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_interfaces_ui_components_audio_exporter_py_L75"}
 except NameError:
 
     class Args:

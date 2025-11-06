@@ -53,10 +53,7 @@ try:
         AuthenticationTier,
         ConstitutionalComplianceData,
         IdentityBiometricData,
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
-        IdentitySignalType,  # TODO: .matriz_consciousness_identity...
+        IdentitySignalType,  # TODO: .matriz_consciousness_identity...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_matriz_consciousness_identity_py_L56"}
         NamespaceIsolationData,
         consciousness_identity_signal_emitter,
     )
@@ -266,10 +263,7 @@ class MatrizConsciousnessIdentityManager:
 
             # Start background maintenance
             self._maintenance_active = True
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-            asyncio.create_task(self._identity_maintenance_loop())
+            asyncio.create_task(self._identity_maintenance_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_matriz_consciousness_identity_py_L267"}
 
             logger.info("✅ Consciousness identity system initialized")
             return True

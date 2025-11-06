@@ -95,10 +95,7 @@ except ImportError:
 
 # Streamlit support (optional)
 try:
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
-    import streamlit as st
+    import streamlit as st  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_notion_sync_py_L98"}
 
     STREAMLIT_AVAILABLE = True
 except ImportError:

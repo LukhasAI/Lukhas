@@ -348,10 +348,7 @@ class CoordinationHub(MailboxActor):
                         await agent_ref.tell(CoordinationProtocol.SKILL_QUERY, announcement.__dict__)
 
             # Start group formation timer
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-            asyncio.create_task(self._form_group_timeout(announcement.task_id))
+            asyncio.create_task(self._form_group_timeout(announcement.task_id))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_agent_coordination_py_L351"}
 
             return {"status": "announced", "candidates": len(contacted)}
 
@@ -487,10 +484,7 @@ class CoordinationHub(MailboxActor):
                 logger.info(f"Task {task_id} completed by group {group_id}")
 
                 # Clean up after delay
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-                asyncio.create_task(self._delayed_cleanup(task_id, 60))
+                asyncio.create_task(self._delayed_cleanup(task_id, 60))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_agent_coordination_py_L488"}
 
                 return {"status": "acknowledged"}
 

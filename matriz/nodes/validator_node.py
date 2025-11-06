@@ -911,10 +911,7 @@ class ValidatorNode(CognitiveNode):
             return result
 
         except Exception:
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
-            raise ValueError("Cannot evaluate expression")
+            raise ValueError("Cannot evaluate expression")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_nodes_validator_node_py_L914"}
 
     def _eval_ast_node(self, node: ast.AST) -> float | int:
         """Recursively evaluate AST node safely."""

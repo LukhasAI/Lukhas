@@ -216,16 +216,10 @@ class ConsensusProtocol:
         """Start the distributed node"""
 
         # Start heartbeat timer
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self._heartbeat_timer())
+        asyncio.create_task(self._heartbeat_timer())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_memory_distributed_memory_fold_py_L219"}
 
         # Start election timer
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self._election_timer())
+        asyncio.create_task(self._election_timer())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_memory_distributed_memory_fold_py_L223"}
 
         # Start HTTP server for node communication
         await self._start_http_server()

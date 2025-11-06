@@ -531,10 +531,7 @@ class EnhancedBrainIntegration:
                 logger.info("🚀 Advanced AI components integrated successfully")
 
                 # Initialize AI subsystems
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-                asyncio.create_task(self._initialize_agi_subsystems())
+                asyncio.create_task(self._initialize_agi_subsystems())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_brain_brain_integration_broken_py_L534"}
 
             except Exception as e:
                 logger.error(f"Failed to initialize advanced AI components: {e}")

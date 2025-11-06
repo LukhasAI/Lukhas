@@ -209,10 +209,7 @@ class QIAwarenessSystem:
 
             # Start consciousness integration if available
             if self.config.consciousness_sync_interval > 0:
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-                asyncio.create_task(self._consciousness_sync_loop())
+                asyncio.create_task(self._consciousness_sync_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_awareness_system_py_L212"}
 
             # Start dream-based training if enabled
             if self.config.dream_cycle_enabled:
@@ -800,10 +797,7 @@ class QIAwarenessSystem:
             self.current_state.learning_efficiency = 0.5
 
             # Start neuroplasticity monitoring
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-            asyncio.create_task(self._neuroplasticity_monitor())
+            asyncio.create_task(self._neuroplasticity_monitor())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_awareness_system_py_L801"}
 
             log.info("Neuroplasticity system initialized with safety constraints.")
 

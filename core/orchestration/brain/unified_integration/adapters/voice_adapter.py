@@ -113,10 +113,7 @@ class VoiceAdapter:
         voice_id = content.get("voice_id")
 
         logger.info(f"Processing speak request: {text[:50]}...")
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self.speak(text, emotion, voice_id))
+        asyncio.create_task(self.speak(text, emotion, voice_id))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_brain_unified_integration_adapters_voice_adapter_py_L116"}
 
     def _handle_audio_input(self, content: dict[str, Any]) -> None:
         """Handle audio input processing request"""
@@ -127,10 +124,7 @@ class VoiceAdapter:
             return
 
         logger.info("Processing audio input...")
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self.process_audio(audio_data))
+        asyncio.create_task(self.process_audio(audio_data))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_brain_unified_integration_adapters_voice_adapter_py_L128"}
 
     def _handle_voice_config(self, content: dict[str, Any]) -> None:
         """Handle voice configuration update"""

@@ -62,10 +62,7 @@ else:
 
 # --- retention aliases: ArchivalTier / AbstractArchivalBackend (safe append) ---
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    ArchivalTier
+    ArchivalTier  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "memory_retention___init___py_L65"}
 except NameError:
     from enum import Enum
 
@@ -78,10 +75,7 @@ except NameError:
     __all__ = list(set(globals().get("__all__", []) or []) | {"ArchivalTier"})
 
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    AbstractArchivalBackend
+    AbstractArchivalBackend  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "memory_retention___init___py_L79"}
 except NameError:
 
     class AbstractArchivalBackend:

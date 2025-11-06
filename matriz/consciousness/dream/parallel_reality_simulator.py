@@ -163,10 +163,7 @@ class ParallelRealitySimulator(CoreInterface):
 
         except Exception as e:
             logger.error(f"Failed to initialize simulator: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
-            raise LukhasError(f"Initialization failed: {e}")
+            raise LukhasError(f"Initialization failed: {e}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_parallel_reality_simulator_py_L166"}
 
     async def create_simulation(
         self,

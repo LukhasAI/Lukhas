@@ -878,10 +878,7 @@ class EnergyAwareExecutionPlanner:
 
             # Start distributed coordination
             self.coordination_active = True
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-            asyncio.create_task(self._distributed_coordination_loop())
+            asyncio.create_task(self._distributed_coordination_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_utils_orchestration_energy_aware_execution_planner_py_L881"}
 
             self.logger.info(
                 "Joined energy cluster",

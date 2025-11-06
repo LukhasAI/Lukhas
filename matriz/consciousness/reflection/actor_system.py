@@ -214,10 +214,7 @@ class Actor(ABC):
             self._running = True
 
             # Start message processing loop
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-            asyncio.create_task(self._message_loop())
+            asyncio.create_task(self._message_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_actor_system_py_L217"}
 
             logger.info(f"Actor {self.actor_id} started successfully")
         except Exception as e:

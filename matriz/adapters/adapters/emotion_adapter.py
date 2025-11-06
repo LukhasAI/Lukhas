@@ -45,14 +45,9 @@ except Exception:  # pragma: no cover - fallback for missing candidate module
                 setattr(self, key, value)
 
 
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
+# TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_adapters_adapters_emotion_adapter_py_L48"}
 try:
-# T4: code=B018 | ticket=GH-1031 | owner=matriz-team | status=accepted
-# reason: Module export validation - __all__ check for dynamic adapter loading
-# estimate: 0h | priority: low | dependencies: none
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_adapters_adapters_emotion_adapter_py_L50"}
 except NameError:
     __all__ = []
 if "UemotionAdapter" not in __all__:

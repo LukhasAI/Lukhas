@@ -316,14 +316,8 @@ class ReflectionMemoryAttentionLayer:
         self.hidden_dim = hidden_dim
         self.num_heads = num_heads
         self.head_dim = hidden_dim // num_heads
-# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Async import or consciousness module lazy loading pattern
-# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
-        if TORCH_AVAILABLE:
-# T4: code=F821 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Async import or consciousness module lazy loading pattern
-# estimate: 30m | priority: medium | dependencies: consciousness-wave-c
-            self.attention = nn.MultiheadAttention(embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1)
+        if TORCH_AVAILABLE:  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_core_py_L319"}
+            self.attention = nn.MultiheadAttention(embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1)  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_core_py_L321"}
 
     def compute_attention_scores(
         self,
@@ -1229,14 +1223,8 @@ class ConsensusProtocol:
 
     async def start_node(self):
         """Start the distributed node"""
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self._heartbeat_timer())
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self._election_timer())
+        asyncio.create_task(self._heartbeat_timer())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_core_py_L1228"}
+        asyncio.create_task(self._election_timer())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_core_py_L1230"}
         await self._start_http_server()
         logger.info("Distributed memory node started", node_id=self.node_id, port=self.port)
 

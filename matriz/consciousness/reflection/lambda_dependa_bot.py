@@ -446,10 +446,7 @@ class ΛDependaBoT(BotProtocol):
 
         # Initialize LLM if available
         if SELF_HEALING_LLM:
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-            asyncio.create_task(self._initialize_healing_llm())
+            asyncio.create_task(self._initialize_healing_llm())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_lambda_dependa_bot_py_L449"}
 
         # Performance metrics
         self.performance_metrics = {

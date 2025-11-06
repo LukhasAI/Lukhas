@@ -15,10 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-# T4: code=F401 | ticket=GH-1031 | owner=core-team | status=accepted
-# reason: Optional dependency import or module side-effect registration
-# estimate: 0h | priority: low | dependencies: none
-    import memory  # TODO: memory; consider using importl...
+    import memory  # TODO: memory; consider using importl...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "memory_tests_test_memory_integration_py_L18"}
 except ImportError:
     pytest.skip("Module memory not available", allow_module_level=True)
 

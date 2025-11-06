@@ -239,10 +239,7 @@ def integrate_collapse_tracking(orchestrator, ethics_sentinel=None) -> CollapseI
 
     # Start monitoring if orchestrator is async
     if asyncio.iscoroutinefunction(getattr(orchestrator, "run", None)):
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(integration.monitor_system_health())
+        asyncio.create_task(integration.monitor_system_health())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_monitoring_collapse_integration_py_L242"}
 
     return integration
 

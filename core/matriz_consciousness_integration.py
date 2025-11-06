@@ -119,10 +119,7 @@ class MatrizConsciousnessSystem:
         self.constellation_monitor.start_monitoring()
 
         # Start background health monitoring
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self._health_monitoring_loop())
+        asyncio.create_task(self._health_monitoring_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_matriz_consciousness_integration_py_L122"}
 
         # Emit system startup signals
         await self._emit_system_startup_signals()

@@ -210,10 +210,7 @@ async def chat(request: ChatRequest):
 
     except Exception as e:
         logger.error(f"Error processing chat request: {e}")
-# T4: code=B904 | ticket=GH-1031 | owner=consciousness-team | status=planned
-# reason: Exception re-raise pattern - needs review for proper chaining (raise...from)
-# estimate: 15m | priority: medium | dependencies: none
-        raise HTTPException(status_code=500, detail=f"Error processing request: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Error processing request: {e!s}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "api_consciousness_chat_api_py_L213"}
 
 
 @app.get("/sessions", response_model=list[SessionInfo], tags=["Sessions"])

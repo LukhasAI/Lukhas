@@ -423,10 +423,7 @@ class SharedStateManager:
             for callback in list(self.subscribers[key]):
                 try:
                     if asyncio.iscoroutinefunction(callback):
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-                        asyncio.create_task(callback(key, new_value, operation_type_str))
+                        asyncio.create_task(callback(key, new_value, operation_type_str))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_consciousness_shared_state_py_L426"}
                     else:
                         callback(key, new_value, operation_type_str)
                     self.logger.debug(

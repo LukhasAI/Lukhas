@@ -144,10 +144,7 @@ class BrainAdapter:
         context = content.get("context")
 
         logger.info(f"Processing input: {input_data[:50]}...")
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self.process_input(input_data, context))
+        asyncio.create_task(self.process_input(input_data, context))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_brain_unified_integration_adapters_brain_adapter_py_L147"}
 
     def _handle_memory_consolidation(self, content: dict[str, Any]) -> None:
         """Handle memory consolidation request"""
@@ -155,17 +152,11 @@ class BrainAdapter:
         max_count = content.get("max_memories", 100)
 
         logger.info(f"Starting memory consolidation: {hours}h limit, max {max_count}...")
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self.consolidate_memories(hours, max_count))
+        asyncio.create_task(self.consolidate_memories(hours, max_count))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_brain_unified_integration_adapters_brain_adapter_py_L156"}
 
     def _handle_dream_cycle(self, content: dict[str, Any]) -> None:
         """Handle dream cycle request"""
         duration = content.get("duration_minutes", 10.0)
 
         logger.info(f"Starting dream cycle for {duration} minutes...")
-# T4: code=RUF006 | ticket=GH-1031 | owner=consciousness-team | status=accepted
-# reason: Fire-and-forget async task - intentional background processing pattern
-# estimate: 0h | priority: low | dependencies: none
-        asyncio.create_task(self.start_dream_cycle(duration))
+        asyncio.create_task(self.start_dream_cycle(duration))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_brain_unified_integration_adapters_brain_adapter_py_L164"}
