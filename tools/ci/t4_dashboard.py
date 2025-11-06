@@ -136,11 +136,86 @@ def compute_eta(history: list[dict]) -> dict | None:
     }
 
 
+def generate_zero_state_html(timestamp: str, refresh_seconds: int | None) -> str:
+    """Generate HTML for zero-state (no violations found)."""
+    refresh_meta = (
+        f'<meta http-equiv="refresh" content="{refresh_seconds}">' if refresh_seconds else ""
+    )
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {refresh_meta}
+    <title>T4 Dashboard - Zero State</title>
+    <style>
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        body {{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }}
+        .zero-state {{
+            text-align: center;
+            background: white;
+            border-radius: 12px;
+            padding: 60px;
+            max-width: 600px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }}
+        .zero-state h1 {{
+            font-size: 4em;
+            margin-bottom: 20px;
+        }}
+        .zero-state h2 {{
+            color: #333;
+            margin-bottom: 15px;
+        }}
+        .zero-state p {{
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }}
+        .timestamp {{
+            color: #999;
+            font-size: 0.9em;
+            margin-top: 30px;
+        }}
+    </style>
+</head>
+<body>
+    <div class="zero-state">
+        <h1>🎉</h1>
+        <h2>No Violations Found!</h2>
+        <p>Your codebase is clean - no T4 violations detected.</p>
+        <p>This could mean:</p>
+        <ul style="text-align: left; display: inline-block; margin: 20px auto;">
+            <li>All code meets T4 standards</li>
+            <li>No files were scanned (check paths)</li>
+            <li>Validator not yet run (wait for first scan)</li>
+        </ul>
+        <div class="timestamp">Last checked: {timestamp}</div>
+    </div>
+</body>
+</html>
+"""
+
+
 def generate_html(
     metrics: dict, history: list[dict], eta: dict | None, refresh_seconds: int | None
 ) -> str:
     """Generate HTML dashboard with Chart.js."""
     timestamp = datetime.fromisoformat(metrics["timestamp"]).strftime("%Y-%m-%d %H:%M UTC")
+    total_findings = metrics["summary"]["total_findings"]
+
+    # Zero-state handling
+    if total_findings == 0 and not history:
+        return generate_zero_state_html(timestamp, refresh_seconds)
 
     # Prepare chart data
     history_timestamps = [
@@ -151,11 +226,26 @@ def generate_html(
 
     counts_by_code = metrics["metrics"]["counts_by_code"]
     counts_by_status = metrics["metrics"]["counts_by_status"]
-    total_findings = metrics["summary"]["total_findings"]
+
+    # Data freshness indicator
+    last_update = datetime.fromisoformat(metrics["timestamp"])
+    now = datetime.now(timezone.utc)
+    age_minutes = int((now - last_update).total_seconds() / 60)
+
+    if age_minutes < 5:
+        freshness_badge = '<span style="color: green;">🟢 Fresh</span>'
+    elif age_minutes < 60:
+        freshness_badge = f'<span style="color: orange;">🟡 {age_minutes}min old</span>'
+    else:
+        freshness_badge = f'<span style="color: red;">🔴 {age_minutes//60}h old</span>'
 
     # Sort by count descending
     sorted_codes = sorted(counts_by_code.items(), key=lambda x: x[1], reverse=True)
     sorted_statuses = sorted(counts_by_status.items(), key=lambda x: x[1], reverse=True)
+
+    # Prepare CSV export data (JavaScript arrays)
+    csv_codes_js = "\n            ".join([f"csvData.push(['{code}', '{count}']);" for code, count in sorted_codes])
+    csv_statuses_js = "\n            ".join([f"csvData.push(['{status}', '{count}']);" for status, count in sorted_statuses])
 
     # ETA section
     eta_html = ""
@@ -303,7 +393,7 @@ def generate_html(
 <body>
     <div class="container">
         <h1>🛡️ T4 Unified Platform Dashboard</h1>
-        <div class="subtitle">Last updated: {timestamp}</div>
+        <div class="subtitle">Last updated: {timestamp} {freshness_badge}</div>
 
         {eta_html}
 
@@ -363,9 +453,49 @@ def generate_html(
                 </tbody>
             </table>
         </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <button onclick="exportToCSV()" style="
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 12px 24px;
+                border: none;
+                border-radius: 8px;
+                font-size: 1em;
+                cursor: pointer;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            ">
+                📥 Download CSV Export
+            </button>
+        </div>
     </div>
 
     <script>
+        // CSV Export Function
+        function exportToCSV() {{
+            const csvData = [];
+            csvData.push(['Metric', 'Value']);
+            csvData.push(['Total Violations', '{metrics["summary"]["total_findings"]}']);
+            csvData.push(['Annotated', '{metrics["summary"]["annotated"]}']);
+            csvData.push(['Unannotated', '{metrics["summary"]["unannotated"]}']);
+            csvData.push(['Quality Score (%)', '{metrics["metrics"]["annotation_quality_score"]}']);
+            csvData.push(['']);
+            csvData.push(['Code', 'Count']);
+            {csv_codes_js}
+            csvData.push(['']);
+            csvData.push(['Status', 'Count']);
+            {csv_statuses_js}
+
+            const csvContent = csvData.map(row => row.join(',')).join('\\n');
+            const blob = new Blob([csvContent], {{ type: 'text/csv' }});
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 't4_dashboard_export_' + new Date().toISOString().split('T')[0] + '.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }}
+
         // Trend chart
         new Chart(document.getElementById('trendChart'), {{
             type: 'line',
@@ -484,35 +614,53 @@ def main():
     parser.add_argument("--refresh", type=int, help="Auto-refresh interval in seconds")
     args = parser.parse_args()
 
-    # Run validator
-    metrics = run_validator(args.paths)
+    try:
+        # Run validator
+        metrics = run_validator(args.paths)
 
-    if "error" in metrics:
-        print(f"❌ Error: {metrics['error']}", file=sys.stderr)
+        if "error" in metrics:
+            print(f"❌ Error: {metrics['error']}", file=sys.stderr)
+            sys.exit(1)
+
+        # Validate metrics structure
+        if not metrics.get("summary") or not metrics.get("metrics"):
+            print("❌ Error: Invalid metrics structure from validator", file=sys.stderr)
+            sys.exit(1)
+
+        # Load history
+        history = load_history(args.history)
+
+        # Save current metrics to history
+        save_history(args.history, metrics, history)
+
+        # Compute ETA
+        eta = compute_eta(history)
+
+        # Generate HTML
+        html = generate_html(metrics, history, eta, args.refresh)
+
+        # Write output
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(html, encoding="utf-8")
+
+        print(f"✅ Dashboard generated: {args.output}")
+        print(f"📊 Total violations: {metrics['summary']['total_findings']}")
+        print(f"⭐ Quality score: {metrics['metrics']['annotation_quality_score']}%")
+
+        if eta and eta["status"] == "on_track":
+            print(f"🎯 ETA to <100: {eta['days_remaining']} days ({eta['target_date']})")
+
+    except KeyError as e:
+        print(f"❌ Error: Missing required field in metrics: {e}", file=sys.stderr)
         sys.exit(1)
-
-    # Load history
-    history = load_history(args.history)
-
-    # Save current metrics to history
-    save_history(args.history, metrics, history)
-
-    # Compute ETA
-    eta = compute_eta(history)
-
-    # Generate HTML
-    html = generate_html(metrics, history, eta, args.refresh)
-
-    # Write output
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(html, encoding="utf-8")
-
-    print(f"✅ Dashboard generated: {args.output}")
-    print(f"📊 Total violations: {metrics['summary']['total_findings']}")
-    print(f"⭐ Quality score: {metrics['metrics']['annotation_quality_score']}%")
-
-    if eta and eta["status"] == "on_track":
-        print(f"🎯 ETA to <100: {eta['days_remaining']} days ({eta['target_date']})")
+    except json.JSONDecodeError as e:
+        print(f"❌ Error: Failed to parse JSON data: {e}", file=sys.stderr)
+        sys.exit(1)
+    except Exception as e:
+        print(f"❌ Unexpected error: {e}", file=sys.stderr)
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
 
 
 if __name__ == "__main__":
