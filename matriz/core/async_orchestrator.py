@@ -547,6 +547,9 @@ class AsyncCognitiveOrchestrator:
                 "Validator nodes require a dict with a 'target_output' payload"
             )
 
+        if "symbolic" in normalized:
+            return {"expression": raw_input}
+
         return {"query": raw_input}
 
     async def process_query(self, user_input: str) -> dict[str, Any]:
@@ -707,7 +710,9 @@ class AsyncCognitiveOrchestrator:
         await asyncio.sleep(0)  # Yield control
 
         # Simple intent detection
-        if any(op in user_input for op in ["+", "-", "*", "/", "="]):
+        if "prove" in user_input.lower():
+            detected_intent = "symbolic"
+        elif any(op in user_input for op in ["+", "-", "*", "/", "="]):
             detected_intent = "mathematical"
         elif "?" in user_input.lower():
             detected_intent = "question"
@@ -733,6 +738,7 @@ class AsyncCognitiveOrchestrator:
             "mathematical": "math",
             "question": "facts",
             "general": "facts",
+            "symbolic": "symbolic",
         }
 
         base_node = intent_map.get(intent, "facts")
