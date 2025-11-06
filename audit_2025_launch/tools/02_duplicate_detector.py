@@ -16,7 +16,7 @@ def hash_file(fp):
         with open(fp, "rb") as f:
             for chunk in iter(lambda: f.read(65536), b""): h.update(chunk)
         return h.hexdigest()
-    except: return None
+    except (OSError, PermissionError): return None
 
 print("=" * 80)
 print("LUKHAS PRE-LAUNCH AUDIT - PHASE 2: DUPLICATE DETECTION")
