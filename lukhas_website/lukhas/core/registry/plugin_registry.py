@@ -102,6 +102,7 @@ class PluginBase(ABC):
         """Plugin-specific initialization logic."""
         pass
 
+    @abstractmethod
     def _shutdown(self) -> None:
         """Plugin-specific shutdown logic."""
         pass

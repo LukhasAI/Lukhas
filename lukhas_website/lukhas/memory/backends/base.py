@@ -482,6 +482,7 @@ class AbstractVectorStore(ABC):
                 raise
         return wrapper
 
+    @abstractmethod
     def _record_latency(self, operation: str, duration_ms: float, success: bool):
         """Record operation latency for observability"""
         # Implementation will be provided by concrete backends

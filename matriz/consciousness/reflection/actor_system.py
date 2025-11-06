@@ -33,7 +33,7 @@ import logging
 import threading
 import time
 import uuid
-from abc import ABC
+from abc import ABC, abstractmethod
 from dataclasses import asdict, dataclass
 from enum import Enum
 from typing import Any, Callable
@@ -343,17 +343,24 @@ class Actor(ABC):
         return child_ref
 
     # Abstract methods to be implemented by subclasses
+    @abstractmethod
     async def pre_start(self):
         """Called before actor starts"""
 
+    @abstractmethod
     async def pre_stop(self):
         """Called before actor stops"""
+        pass
 
+    @abstractmethod
     async def post_stop(self):
         """Called after actor stops"""
+        pass
 
+    @abstractmethod
     async def pre_restart(self, reason: Exception):
         """Called before actor is restarted"""
+        pass
 
     async def unhandled_message(self, message: ActorMessage):
         """Handle unknown message types"""

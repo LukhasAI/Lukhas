@@ -88,10 +88,12 @@ class Actor(ABC):
         """Handle incoming messages. Override in subclasses."""
         pass
 
+    @abstractmethod
     async def on_start(self) -> None:
         """Called when actor starts. Override for initialization."""
         pass
 
+    @abstractmethod
     async def on_stop(self) -> None:
         """Called when actor stops. Override for cleanup."""
         pass

@@ -276,6 +276,7 @@ class AwarenessModule(ABC):
         data_str = json.dumps(result, sort_keys=True)
         return hashlib.sha256(data_str.encode()).hexdigest()[:16]
 
+    @abstractmethod
     def _persist_to_store(self, inputs: AwarenessInput, output: AwarenessOutput):
         """Persist to time-series store - integrate with your database."""
         # Placeholder for database integration

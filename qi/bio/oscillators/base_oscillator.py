@@ -470,6 +470,7 @@ class BaseOscillator(ABC):
             - Must be numerically stable
         """
 
+    @abstractmethod
     def update_metrics(self):
         """
         Update oscillator performance metrics.
