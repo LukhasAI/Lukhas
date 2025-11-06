@@ -530,6 +530,18 @@ print(f"Request {req_id}: {remaining}/{limit} remaining, resets at {datetime.fro
 
 ## 🛠️ Development Tools
 
+**T4 Unified Platform** (v2.0 - Code Quality System):
+```bash
+make t4-init           # Initialize T4 platform (one-time setup)
+make t4-validate       # Run unified validator (quality scoring)
+make t4-dashboard      # Generate interactive HTML dashboard
+make t4-migrate        # Migrate legacy annotations to unified format
+make t4-api            # Start Intent Registry API (port 8001)
+make t4-parallel       # Run parallel automation (5x throughput)
+make t4-codemod-apply  # Apply AST-level automated fixes
+```
+📊 **Dashboard**: `reports/t4_dashboard.html` | 📖 **Docs**: `T4_MEGA_PR_SUMMARY.md`
+
 **Quality Automation**:
 ```bash
 make lint              # Run Ruff, MyPy, Bandit security checks

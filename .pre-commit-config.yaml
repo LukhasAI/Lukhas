@@ -147,6 +147,25 @@ repos:
         pass_filenames: true
         types: [python]
         stages: [pre-commit]
+      
+      # T4 Unified Platform: Annotation validation
+      - id: t4-validate-annotations
+        name: T4 annotation format validation
+        entry: python3 tools/ci/check_t4_issues.py --paths lukhas core api consciousness memory identity MATRIZ
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+        description: "Validate T4 annotation format and quality score"
+      
+      # T4 Unified Platform: Block legacy annotations
+      - id: t4-block-legacy-annotations
+        name: Block legacy TODO[T4-UNUSED-IMPORT] annotations
+        entry: bash -c 'if git diff --cached | grep -E "TODO\[T4-(UNUSED-IMPORT|LINT-ISSUE)\]"; then echo "❌ Legacy T4 annotations detected! Use TODO[T4-ISSUE] instead. Run: make t4-migrate" >&2; exit 1; fi'
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+        description: "Prevent commits with legacy T4 annotation formats"
+      
       # T4: fast smoke executes on push, not on each commit
       - id: quick-smoke-tests
         name: quick-smoke-tests
