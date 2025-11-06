@@ -30,11 +30,7 @@ CRITICAL_DOCS = ["README.md", "CLAUDE.md", "claude.me"]
 def should_exclude(path: Path) -> bool:
     """Check if path should be excluded."""
     path_str = str(path)
-    for pattern in EXCLUDE_PATTERNS:
-        if pattern in path_str:
-            return True
-    # Don't exclude archive for inventory purposes
-    return False
+    return any(pattern in path_str for pattern in EXCLUDE_PATTERNS)
 
 def find_entry_points():
     """Find application entry points."""
