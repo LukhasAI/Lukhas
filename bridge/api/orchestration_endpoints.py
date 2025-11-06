@@ -57,6 +57,7 @@ try:
         OrchestrationStrategy,
         get_orchestrator,
     )
+    from bridge.api.validation import get_validator
 
     FASTAPI_AVAILABLE = True
 except ImportError as e:
