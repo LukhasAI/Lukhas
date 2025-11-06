@@ -382,16 +382,15 @@ class OIDCTokenManager:
 
             except Exception:
                 # Check if it's a refresh token
-                if refresh_data := self._refresh_tokens.get(token):
-                    if refresh_data.is_valid():
-                        span.set_attribute("oidc.token_active", True)
-                        return {
-                            "active": True,
-                            "sub": refresh_data.user_id,
-                            "client_id": refresh_data.client_id,
-                            "token_type": "refresh_token",
-                            "scope": " ".join(refresh_data.scopes)
-                        }
+                if refresh_data and refresh_data.is_valid():= self._refresh_tokens.get(token):
+                    span.set_attribute("oidc.token_active", True)
+                    return {
+                        "active": True,
+                        "sub": refresh_data.user_id,
+                        "client_id": refresh_data.client_id,
+                        "token_type": "refresh_token",
+                        "scope": " ".join(refresh_data.scopes)
+                    }
 
                 span.set_attribute("oidc.token_active", False)
                 return {"active": False}

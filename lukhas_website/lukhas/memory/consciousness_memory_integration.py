@@ -503,9 +503,8 @@ class ConsciousnessMemoryIntegrator:
         for related_fold_id in related_folds:
             # Bidirectional association
             fold.associations.append(related_fold_id)
-            if related_fold_id in self._memory_folds:
-                if fold.fold_id not in self._memory_folds[related_fold_id].associations:
-                    self._memory_folds[related_fold_id].associations.append(fold.fold_id)
+            if related_fold_id in self._memory_folds and fold.fold_id not in self._memory_folds[related_fold_id].associations:
+                self._memory_folds[related_fold_id].associations.append(fold.fold_id)
 
             # Update association graph
             self._association_graph[fold.fold_id].add(related_fold_id)

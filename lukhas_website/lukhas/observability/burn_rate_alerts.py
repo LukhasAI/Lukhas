@@ -452,9 +452,8 @@ class CIPipelineIntegration:
         # Check for fast burn rates even without alerts
         fast_burns = []
         for alert in service_alerts:
-            if alert.burn_calculation.window in [BurnRateWindow.FAST_1H, BurnRateWindow.FAST_6H]:
-                if alert.burn_calculation.burn_rate > 2.0:  # More than 2x normal
-                    fast_burns.append(alert)
+            if alert.burn_calculation.window in [BurnRateWindow.FAST_1H, BurnRateWindow.FAST_6H] and alert.burn_calculation.burn_rate > 2.0:
+                fast_burns.append(alert)
 
         if fast_burns:
             return False, f"Fast burn rates detected: {len(fast_burns)}", {

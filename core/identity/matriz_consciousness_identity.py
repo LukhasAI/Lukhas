@@ -807,13 +807,11 @@ class MatrizConsciousnessIdentityManager:
         ):
             profile.capabilities.append("consciousness_aware")
 
-        if profile.identity_consciousness_type == IdentityConsciousnessType.PERSISTENT_CONSCIOUS:
-            if "persistent_memory" not in profile.capabilities:
-                profile.capabilities.append("persistent_memory")
+        if profile.identity_consciousness_type == IdentityConsciousnessType.PERSISTENT_CONSCIOUS and 'persistent_memory' not in profile.capabilities:
+            profile.capabilities.append("persistent_memory")
 
-        if profile.identity_consciousness_type == IdentityConsciousnessType.TRANSCENDENT_IDENTITY:
-            if "transcendent_access" not in profile.capabilities:
-                profile.capabilities.append("transcendent_access")
+        if profile.identity_consciousness_type == IdentityConsciousnessType.TRANSCENDENT_IDENTITY and 'transcendent_access' not in profile.capabilities:
+            profile.capabilities.append("transcendent_access")
 
     async def get_identity_by_identifier(self, identifier: str) -> Optional[ConsciousnessIdentityProfile]:
         """Get identity profile by any identifier (user_identifier, lid, identity_id, etc.)"""

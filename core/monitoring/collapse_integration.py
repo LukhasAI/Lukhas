@@ -160,13 +160,12 @@ class CollapseIntegration:
                 )
 
             # Request intervention if critical
-            if intervention_data.get("severity") == "HIGH":
-                if hasattr(self.ethics_sentinel, "request_intervention"):
-                    await self.ethics_sentinel.request_intervention(
-                        reason="Critical collapse risk detected",
-                        urgency="IMMEDIATE",
-                        context=violation_context,
-                    )
+            if intervention_data.get('severity') == 'HIGH' and hasattr(self.ethics_sentinel, 'request_intervention'):
+                await self.ethics_sentinel.request_intervention(
+                    reason="Critical collapse risk detected",
+                    urgency="IMMEDIATE",
+                    context=violation_context,
+                )
 
             logger.info(
                 "Ethics sentinel notified for intervention",

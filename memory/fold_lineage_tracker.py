@@ -1169,18 +1169,17 @@ def create_enhanced_lineage_tracker(
     """Create an enhanced fold lineage tracker with custom configuration."""
     tracker = FoldLineageTracker()
 
-    if config:
+    if config and 'log_paths' in config:
         # Apply custom configuration
-        if "log_paths" in config:
-            tracker.lineage_log_path = _coerce_path(
-                config["log_paths"].get("lineage"), default=tracker.lineage_log_path
-            )
-            tracker.causal_map_path = _coerce_path(
-                config["log_paths"].get("causal"), default=tracker.causal_map_path
-            )
-            tracker.lineage_graph_path = _coerce_path(
-                config["log_paths"].get("graph"), default=tracker.lineage_graph_path
-            )
+        tracker.lineage_log_path = _coerce_path(
+            config["log_paths"].get("lineage"), default=tracker.lineage_log_path
+        )
+        tracker.causal_map_path = _coerce_path(
+            config["log_paths"].get("causal"), default=tracker.causal_map_path
+        )
+        tracker.lineage_graph_path = _coerce_path(
+            config["log_paths"].get("graph"), default=tracker.lineage_graph_path
+        )
 
     return tracker
 

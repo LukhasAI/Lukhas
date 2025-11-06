@@ -1074,10 +1074,9 @@ class ConstitutionalAIValidator:
             ]
 
         # Handle emergency overrides
-        if context.urgency_level == "emergency" and context.decision_type == DecisionType.EMERGENCY_OVERRIDE:
-            if result.overall_compliance_score >= 0.6:  # Lower threshold for emergencies
-                result.decision_approved = True
-                result.approval_conditions.append("Emergency override - enhanced post-decision review required")
+        if (context.urgency_level == 'emergency' and context.decision_type == DecisionType.EMERGENCY_OVERRIDE) and result.overall_compliance_score >= 0.6:
+            result.decision_approved = True
+            result.approval_conditions.append("Emergency override - enhanced post-decision review required")
 
     def _generate_explanations(self, result: ConstitutionalValidationResult) -> None:
         """Generate explanations for validation result"""

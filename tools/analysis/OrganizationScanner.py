@@ -148,16 +148,15 @@ class OrganizationScanner:
             relative_path = str(file_path.relative_to(self.workspace_root))
 
             for pattern, expected_category in suspicious_patterns:
-                if re.search(pattern, file_path.name, re.IGNORECASE):
-                    if expected_category not in relative_path:
-                        self.issues["orphaned_files"].append(
-                            {
-                                "file": relative_path,
-                                "current_location": str(file_path.parent.relative_to(self.workspace_root)),
-                                "suggested_category": expected_category,
-                                "reason": f"Matches pattern: {pattern}",
-                            }
-                        )
+                if re.search(pattern, file_path.name, re.IGNORECASE) and expected_category not in relative_path:
+                    self.issues["orphaned_files"].append(
+                        {
+                            "file": relative_path,
+                            "current_location": str(file_path.parent.relative_to(self.workspace_root)),
+                            "suggested_category": expected_category,
+                            "reason": f"Matches pattern: {pattern}",
+                        }
+                    )
 
     def _pascal_to_snake(self, name: str) -> str:
         """Convert PascalCase to snake_case"""

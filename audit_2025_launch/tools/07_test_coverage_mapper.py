@@ -46,9 +46,8 @@ def count_test_functions(test_file):
             tree = ast.parse(content, filename=str(test_file))
         test_count = 0
         for node in ast.walk(tree):
-            if isinstance(node, ast.FunctionDef):
-                if node.name.startswith('test_'):
-                    test_count += 1
+            if isinstance(node, ast.FunctionDef) and node.name.startswith('test_'):
+                test_count += 1
         return test_count
     except:
         return 0

@@ -985,9 +985,8 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
 
         # Example: Ensure Tier 5 always has a specific critical permission if not
         # covered by 'all_system_ops'
-        if tier == AccessTier.TIER_5_ADMIN:
-            if "full_audit_log_access" not in allowed_permissions:  # More descriptive name:
-                allowed_permissions.append("full_audit_log_access")
+        if tier == AccessTier.TIER_5_ADMIN and 'full_audit_log_access' not in allowed_permissions:
+            allowed_permissions.append("full_audit_log_access")
 
         unique_permissions = list(set(allowed_permissions))
         self.logger.debug(

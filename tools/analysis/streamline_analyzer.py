@@ -195,9 +195,8 @@ class StreamlineAnalyzer:
                         # Find interface classes
                         tree = ast.parse(content)
                         for node in ast.walk(tree):
-                            if isinstance(node, ast.ClassDef):
-                                if "Interface" in node.name or "Base" in node.name:
-                                    interface_classes[node.name].append(str(py_file.relative_to(self.root_path)))
+                            if isinstance(node, ast.ClassDef) and ('Interface' in node.name or 'Base' in node.name):
+                                interface_classes[node.name].append(str(py_file.relative_to(self.root_path)))
 
                     except Exception:
                         pass

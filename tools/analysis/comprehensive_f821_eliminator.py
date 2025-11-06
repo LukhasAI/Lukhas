@@ -79,9 +79,8 @@ class ComprehensiveF821Eliminator:
 
         # Check for logger violations
         for logger_pattern in self.logger_patterns:
-            if re.search(rf"\b{logger_pattern}\.(info|debug|warning|error|critical)\b", content):
-                if not self.has_logger_definition(content):
-                    violations.append("log_declaration")
+            if re.search(f'\\b{logger_pattern}\\.(info|debug|warning|error|critical)\\b', content) and (not self.has_logger_definition(content)):
+                violations.append("log_declaration")
 
         return {"content": content, "violations": violations, "error": None}
 

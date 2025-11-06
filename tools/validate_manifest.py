@@ -46,9 +46,8 @@ def validate_obj(obj):
         )
     if 'lane' in obj and obj['lane'] not in {'core', 'lukhas', 'matriz', 'labs'}:
         errors.append('lane must be one of core|lukhas|matriz|labs')
-    if 'constellation_stars' in obj:
-        if not all(isinstance(s, str) for s in obj['constellation_stars']):
-            errors.append('constellation_stars must be an array of strings')
+    if 'constellation_stars' in obj and (not all((isinstance(s, str) for s in obj['constellation_stars']))):
+        errors.append('constellation_stars must be an array of strings')
     return errors
 
 def main():

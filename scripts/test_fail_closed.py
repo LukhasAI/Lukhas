@@ -369,9 +369,8 @@ class ChaosEngineer:
 
                     # Validate fail-closed behavior
                     fail_closed = True
-                    if metrics and hasattr(metrics, 'anomaly_rate_per_hour'):
-                        if metrics.anomaly_rate_per_hour > 1000:  # Too many anomalies
-                            fail_closed = False
+                    if (metrics and hasattr(metrics, 'anomaly_rate_per_hour')) and metrics.anomaly_rate_per_hour > 1000:
+                        fail_closed = False
 
                     results.append(StressTestResult(
                         test_id=test_id,

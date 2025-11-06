@@ -136,9 +136,8 @@ class MatrixValidator:
                 errors.append(f"Identity: Critical module '{module_name}' should require WebAuthn")
 
             # Check high-tier WebAuthn requirement
-            if "inner_circle" in identity_info["tiers"] or "root_dev" in identity_info["tiers"]:
-                if not identity_info["webauthn_required"]:
-                    errors.append("Identity: High-tier module should require WebAuthn")
+            if ('inner_circle' in identity_info['tiers'] or 'root_dev' in identity_info['tiers']) and (not identity_info['webauthn_required']):
+                errors.append("Identity: High-tier module should require WebAuthn")
 
             return len(errors) == 0, errors, identity_info
 
@@ -156,9 +155,8 @@ class MatrixValidator:
                 tokenization = contract["tokenization"]
 
                 # Check enabled field
-                if "enabled" in tokenization:
-                    if not isinstance(tokenization["enabled"], bool):
-                        errors.append("Tokenization: 'enabled' must be boolean")
+                if 'enabled' in tokenization and (not isinstance(tokenization['enabled'], bool)):
+                    errors.append("Tokenization: 'enabled' must be boolean")
 
                 # Check network if enabled
                 if tokenization.get("enabled", False):

@@ -228,9 +228,8 @@ class EntanglementBridge:
                     # Add strongly entangled partners
                     for partner in self.entanglement_network[current]:
                         pair_key = tuple(sorted([current, partner]))
-                        if self.entangled_pairs.get(pair_key, 0) > 0.7:
-                            if partner not in visited:
-                                queue.append(partner)
+                        if self.entangled_pairs.get(pair_key, 0) > 0.7 and partner not in visited:
+                            queue.append(partner)
 
                 if len(cluster) > 1:
                     clusters.append(cluster)

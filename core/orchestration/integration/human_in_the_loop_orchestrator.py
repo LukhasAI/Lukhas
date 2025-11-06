@@ -1708,10 +1708,9 @@ class HumanInTheLoopOrchestrator:
             if assignment.status != "assigned":
                 continue
 
-            if assignment.due_date and now > assignment.due_date:
-                if assignment.reminder_count < 3:  # Max 3 reminders
-                    await self._notify_reviewers(decision, "reminder")
-                    assignment.reminder_count += 1
+            if (assignment.due_date and now > assignment.due_date) and assignment.reminder_count < 3:
+                await self._notify_reviewers(decision, "reminder")
+                assignment.reminder_count += 1
 
     async def _update_metrics(self):
         """Background task to update performance metrics."""

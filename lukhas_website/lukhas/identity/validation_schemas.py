@@ -101,10 +101,9 @@ class RedirectUriValidation(BaseModel):
             parsed = urlparse(v)
 
             # Security checks
-            if parsed.scheme not in ['https', 'http']:
+            if parsed.scheme not in ['https', 'http'] and parsed.hostname not in ['localhost', '127.0.0.1']:
                 # Allow http only for localhost in development
-                if parsed.hostname not in ['localhost', '127.0.0.1']:
-                    raise ValueError('Redirect URI must use HTTPS')
+                raise ValueError('Redirect URI must use HTTPS')
 
             if parsed.fragment:
                 raise ValueError('Redirect URI must not contain fragment')
