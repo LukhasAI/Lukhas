@@ -29,7 +29,7 @@ for py_file in list(ROOT_DIR.rglob("*.py"))[:500]:
                 env_vars.add(match.group(1))
     except: pass
 
-report = {"timestamp": datetime.now().isoformat(), "summary": {"total_configs": len(configs), "env_vars_python": len(env_vars)}, "config_files": configs[:100], "environment_variables": {"used_in_python": sorted(list(env_vars))[:50]}}
+report = {"timestamp": datetime.now().isoformat(), "summary": {"total_configs": len(configs), "env_vars_python": len(env_vars)}, "config_files": configs[:100], "environment_variables": {"used_in_python": sorted(env_vars)[:50]}}
 
 with open(AUDIT_REPORTS_DIR / "config_inventory.json", "w") as f: json.dump(report, f, indent=2)
 print(f"✓ Found {len(configs)} config files, {len(env_vars)} env vars")
