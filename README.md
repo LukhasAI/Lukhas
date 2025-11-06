@@ -563,6 +563,22 @@ make rc-synthetic-load # Generate synthetic load
 ```
 - See [RC Soak Operations Guide](docs/ops/RC_SOAK_OPS_GUIDE.md) for GA readiness validation
 
+### Observability
+
+The LUKHAS API includes built-in support for Prometheus metrics and OpenTelemetry tracing, providing a comprehensive solution for monitoring and observability.
+
+#### Prometheus Metrics
+
+The API exposes a `/metrics` endpoint that provides a wide range of metrics in the Prometheus format. These metrics can be scraped by a Prometheus server and used to monitor the health and performance of the application.
+
+#### OpenTelemetry Tracing
+
+The API is instrumented with OpenTelemetry to provide distributed tracing. To enable tracing, set the `OTEL_EXPORTER_OTLP_ENDPOINT` environment variable to the address of your OpenTelemetry collector. For example:
+
+```bash
+export OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4317"
+```
+
 ---
 
 ## 🏛️ Project Structure
