@@ -9,7 +9,10 @@ import json
 from datetime import datetime, timedelta, timezone
 from typing import Any, Optional, Union
 
-import asyncpg
+try:
+    import asyncpg  # type: ignore[import-not-found]
+except ModuleNotFoundError:  # pragma: no cover - optional dependency
+    asyncpg = None  # type: ignore[assignment]
 from pydantic import BaseModel
 
 try:
@@ -135,7 +138,12 @@ class DataProtectionService:
 
     async def initialize(self):
         """Initialize database connection pool and load policies"""
-        self.db_pool = await asyncpg.create_pool(self.db_url, min_size=2, max_size=10, command_timeout=30)
+        if asyncpg is None:
+            raise RuntimeError("asyncpg is required for compliance data storage but is not installed")
+
+        self.db_pool = await asyncpg.create_pool(
+            self.db_url, min_size=2, max_size=10, command_timeout=30
+        )
         await self._load_policies()
 
     async def close(self):

@@ -48,7 +48,50 @@ from pathlib import Path  # Not used in current code, but often useful
 from typing import Any  # Added Type
 
 import numpy as np
-import structlog  # Standardized logging
+# structlog is optional in the test environment; fall back to stdlib logging when absent.
+try:  # pragma: no cover - import guard for optional dependency
+    import structlog  # Standardized logging
+except ModuleNotFoundError:  # pragma: no cover - optional dependency
+    import logging
+
+    class _BoundLogger:
+        def __init__(self, logger: logging.Logger, context: dict[str, Any] | None = None) -> None:
+            self._logger = logger
+            self._context = context or {}
+
+        def bind(self, **kwargs: Any) -> "_BoundLogger":
+            merged = {**self._context, **kwargs}
+            return _BoundLogger(self._logger, merged)
+
+        def _compose(self, event: str, extra: dict[str, Any]) -> str:
+            if not self._context and not extra:
+                return event
+            merged = {**self._context, **extra}
+            return f"{event} | {merged}"
+
+        def debug(self, event: str, **kwargs: Any) -> None:
+            self._log(self._logger.debug, event, kwargs)
+
+        def info(self, event: str, **kwargs: Any) -> None:
+            self._log(self._logger.info, event, kwargs)
+
+        def warning(self, event: str, **kwargs: Any) -> None:
+            self._log(self._logger.warning, event, kwargs)
+
+        def error(self, event: str, **kwargs: Any) -> None:
+            self._log(self._logger.error, event, kwargs)
+
+        def _log(self, method, event: str, kwargs: dict[str, Any]) -> None:
+            extra = kwargs.copy()
+            exc_info = extra.pop("exc_info", None)
+            method(self._compose(event, extra), exc_info=exc_info)
+
+    class _StructlogShim:
+        @staticmethod
+        def get_logger(name: str) -> _BoundLogger:  # type: ignore[override]
+            return _BoundLogger(logging.getLogger(name))
+
+    structlog = _StructlogShim()  # type: ignore[assignment]
 
 log = logging.getLogger(__name__)  # TODO: logging
 

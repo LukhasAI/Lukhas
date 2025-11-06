@@ -6,6 +6,9 @@ Awareness components for consciousness tracking and monitoring.
 Constellation Framework: ⚛️🧠🛡️
 """
 # Re-export the package itself for submodule access
-from candidate.consciousness import awareness
+try:
+    from candidate.consciousness import awareness
+except ModuleNotFoundError:  # pragma: no cover - optional fallback
+    from labs.consciousness import awareness  # type: ignore[import-not-found]
 
 __all__ = ["awareness"]
