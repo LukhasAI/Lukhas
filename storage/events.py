@@ -160,8 +160,8 @@ class EventStore:
         """Query recent events with optional filtering."""
         query_type = f"recent_{kind or 'all'}_{lane or 'all'}"
 
-        with QUERY_DURATION.labels(query_type=query_type).time() if PROM else _DummyTimer():
-            with self._lock:
+        with QUERY_DURATION.labels(query_type=query_type).time() if PROM else _DummyTimer(), \
+                self._lock:
                 if PROM:
                     EVENTS_QUERIED.labels(query_type=query_type).inc()
 
@@ -187,8 +187,8 @@ class EventStore:
         """Query events for specific glyph ID (for replay)."""
         query_type = "by_glyph"
 
-        with QUERY_DURATION.labels(query_type=query_type).time() if PROM else _DummyTimer():
-            with self._lock:
+        with QUERY_DURATION.labels(query_type=query_type).time() if PROM else _DummyTimer(), \
+                self._lock:
                 if PROM:
                     EVENTS_QUERIED.labels(query_type=query_type).inc()
 

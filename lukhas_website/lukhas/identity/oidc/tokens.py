@@ -196,8 +196,8 @@ class OIDCTokenManager:
         Returns:
             Tuple of (access_token, refresh_token, id_token)
         """
-        with tracer.start_span("oidc.exchange_authorization_code") as span:
-            with token_exchange_latency.labels(operation="code_exchange").time():
+        with tracer.start_span("oidc.exchange_authorization_code") as span, \
+                token_exchange_latency.labels(operation="code_exchange").time():
                 # Validate authorization code
                 auth_code = self._authorization_codes.get(code)
                 if not auth_code or not auth_code.is_valid():
@@ -279,8 +279,8 @@ class OIDCTokenManager:
         Returns:
             Tuple of (new_access_token, new_refresh_token)
         """
-        with tracer.start_span("oidc.refresh_access_token") as span:
-            with token_exchange_latency.labels(operation="token_refresh").time():
+        with tracer.start_span("oidc.refresh_access_token") as span, \
+                token_exchange_latency.labels(operation="token_refresh").time():
                 # Validate refresh token
                 refresh_data = self._refresh_tokens.get(refresh_token)
                 if not refresh_data or not refresh_data.is_valid():

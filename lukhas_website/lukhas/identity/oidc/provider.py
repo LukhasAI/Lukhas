@@ -184,8 +184,8 @@ class OIDCProvider:
 
     def get_discovery_document(self) -> Dict[str, Any]:
         """Get OpenID Connect Discovery document."""
-        with tracer.start_span("oidc.discovery") as span:
-            with oidc_request_latency.labels(endpoint="discovery").time():
+        with tracer.start_span("oidc.discovery") as span, \
+                oidc_request_latency.labels(endpoint="discovery").time():
                 document = self.discovery_provider.get_discovery_document()
 
                 oidc_requests_total.labels(
@@ -199,8 +199,8 @@ class OIDCProvider:
 
     def get_jwks(self) -> Dict[str, Any]:
         """Get JSON Web Key Set."""
-        with tracer.start_span("oidc.jwks") as span:
-            with oidc_request_latency.labels(endpoint="jwks").time():
+        with tracer.start_span("oidc.jwks") as span, \
+                oidc_request_latency.labels(endpoint="jwks").time():
                 jwks = self.jwt_manager.get_jwks()
 
                 oidc_requests_total.labels(
@@ -231,8 +231,8 @@ class OIDCProvider:
         Returns:
             Dict containing response data or error information
         """
-        with tracer.start_span("oidc.authorization_request") as span:
-            with oidc_request_latency.labels(endpoint="authorize").time():
+        with tracer.start_span("oidc.authorization_request") as span, \
+                oidc_request_latency.labels(endpoint="authorize").time():
                 try:
                     # Parse and validate request
                     auth_request = AuthorizationRequest.from_query_params(params)
@@ -379,8 +379,8 @@ class OIDCProvider:
         Returns:
             Token response or error
         """
-        with tracer.start_span("oidc.token_request") as span:
-            with oidc_request_latency.labels(endpoint="token").time():
+        with tracer.start_span("oidc.token_request") as span, \
+                oidc_request_latency.labels(endpoint="token").time():
                 try:
                     # Parse and validate request
                     token_request = TokenRequest.from_form_data(form_data)
@@ -510,8 +510,8 @@ class OIDCProvider:
 
     def handle_userinfo_request(self, access_token: str) -> Dict[str, Any]:
         """Handle OpenID Connect UserInfo request."""
-        with tracer.start_span("oidc.userinfo") as span:
-            with oidc_request_latency.labels(endpoint="userinfo").time():
+        with tracer.start_span("oidc.userinfo") as span, \
+                oidc_request_latency.labels(endpoint="userinfo").time():
                 try:
                     # Verify access token
                     claims = self.jwt_manager.verify_token(access_token, audience=["lukhas-api"])
