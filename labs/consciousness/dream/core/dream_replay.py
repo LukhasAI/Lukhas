@@ -72,7 +72,7 @@ def replay_recent_dreams(limit=5, filter_by_tag=None, only_replay_candidates=Fal
         limiter = DreamLimiter()
         dreams = limiter.filter_dreams(dreams)
 
-    print(f"\n🌙 LUCΛS Dream Replay – Showing Last {limit} Dream Messages")
+    print(f"\n🌙 LUCΛS Dream Replay - Showing Last {limit} Dream Messages")
     print("──────────────────────────────────────────────────────────────")
 
     for dream in dreams:

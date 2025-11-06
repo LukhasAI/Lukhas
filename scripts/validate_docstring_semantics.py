@@ -87,7 +87,7 @@ def main():
     if candidates:
         report += "## Issues\n\n"
         for path, why in candidates:
-            report += f"- `{path}` — {why}\n"
+            report += f"- `{path}` - {why}\n"
     else:
         report += "## ✅ No Issues Found\n\nAll analyzed files meet semantic docstring requirements.\n"
 

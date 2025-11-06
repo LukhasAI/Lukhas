@@ -1,7 +1,7 @@
 """
 tests/test_breakthrough_basic.py
 
-Basic unit tests for BreakthroughDetector - novelty × value scoring with z-score detection.
+Basic unit tests for BreakthroughDetector - novelty x value scoring with z-score detection.
 Covers core functionality and edge cases.
 """
 import pytest

@@ -46,7 +46,7 @@ def log_output(text, tier, voice):
 
 
 def main():
-    print("\n🎤 LUCAS VOICE MODE — Speak With Intention")
+    print("\n🎤 LUCAS VOICE MODE - Speak With Intention")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
     parser = argparse.ArgumentParser(description="🎤 Speak via symbolic voice system (Lucas voice)")

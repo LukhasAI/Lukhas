@@ -615,7 +615,7 @@ def make_context_md(fqn: str, star: str, pipeline_nodes: List[str], colony: str 
 **Colony**: {colony or "-"}
 
 ## What it does
-_TODO: short description (2–3 sentences). Add links to demos, notebooks, or dashboards._
+_TODO: short description (2-3 sentences). Add links to demos, notebooks, or dashboards._
 
 ## Contracts
 - **Publishes**: _e.g., `topic.name@v1`_

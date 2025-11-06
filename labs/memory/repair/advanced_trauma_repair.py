@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 ║                             ◊ POETIC ESSENCE ◊
 ║
 ║ │ In the wounded landscapes of memory, where trauma leaves its scars,          │
-║ │ the Advanced Trauma Repair system works as nature's own physician—            │
+║ │ the Advanced Trauma Repair system works as nature's own physician-            │
 ║ │ not erasing pain, but transmuting it into wisdom, not forgetting harm,       │
 ║ │ but building resilience from its lessons.                                     │
 ║ │                                                                               │
@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 ║ │ Through helical repair mechanisms inspired by DNA's own error correction,     │
 ║ │ through immune-like responses to toxic data, through the gentle scaffolding  │
 ║ │ of recovery, we achieve what biology achieves: not perfection, but           │
-║ │ anti-fragility—growing stronger at the broken places.                        │
+║ │ anti-fragility-growing stronger at the broken places.                        │
 ║ │                                                                               │
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ TECHNICAL FEATURES:

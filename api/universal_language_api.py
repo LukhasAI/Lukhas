@@ -154,7 +154,7 @@ def calculate_entropy(elements: dict[str, Any]) -> float:
 
     # Gesture entropy
     if elements.get("gestures"):
-        gesture_space = 1000  # gesture × timing × pressure
+        gesture_space = 1000  # gesture x timing x pressure
         entropy_bits += len(elements["gestures"]) * math.log2(gesture_space)
 
     # Image entropy (simplified)

@@ -157,12 +157,12 @@ def generate_dashboard(registry_path: Path, verbose: bool = False) -> str:
     ]
 
     for slo in slo_data:
-        target_p95 = f"{slo['target_p95']:.1f}" if slo["target_p95"] is not None else "—"
-        observed_p95 = f"{slo['observed_p95']:.1f}" if slo["observed_p95"] is not None else "—"
-        coverage_target = f"{slo['coverage_target']:.1f}%" if slo["coverage_target"] is not None else "—"
-        coverage_observed = f"{slo['coverage_observed']:.1f}%" if slo["coverage_observed"] is not None else "—"
+        target_p95 = f"{slo['target_p95']:.1f}" if slo["target_p95"] is not None else "-"
+        observed_p95 = f"{slo['observed_p95']:.1f}" if slo["observed_p95"] is not None else "-"
+        coverage_target = f"{slo['coverage_target']:.1f}%" if slo["coverage_target"] is not None else "-"
+        coverage_observed = f"{slo['coverage_observed']:.1f}%" if slo["coverage_observed"] is not None else "-"
         freshness = days_since(slo["observed_at"])
-        freshness_str = str(freshness) if freshness < 9999 else "—"
+        freshness_str = str(freshness) if freshness < 9999 else "-"
 
         md_lines.append(
             f"| `{slo['module']}` | {slo['lane']} | {target_p95} | {observed_p95} | "

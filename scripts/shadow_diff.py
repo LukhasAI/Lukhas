@@ -182,7 +182,7 @@ def build_markdown(report: Dict[str, Any]) -> str:
             notes.append("Header diffs present")
         if not item.get("body_signature_match"):
             notes.append("Body shape mismatch")
-        rows.append(f"| {name} | {status} | {headers} | {body} | {'; '.join(notes) or '—'} |")
+        rows.append(f"| {name} | {status} | {headers} | {body} | {'; '.join(notes) or '-'} |")
 
     table = "\n".join(rows)
     return (
@@ -263,7 +263,7 @@ def main() -> None:
     print(f"Shadow diff complete: {json_path}")
     print(f"Matches: {matches} / {len(requests_report)}")
     if mismatches:
-        print("⚠️  Mismatches detected – inspect docs/audits/shadow/latest.md")
+        print("⚠️  Mismatches detected - inspect docs/audits/shadow/latest.md")
     else:
         print("✅ All compared responses match")
 

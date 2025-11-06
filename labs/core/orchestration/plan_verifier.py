@@ -286,7 +286,7 @@ class PlanVerifier:
         # Audit ledger
         self.verification_ledger = []
 
-        # ΛTAG: guardian_canary — Configure gradual Guardian enforcement rollout
+        # ΛTAG: guardian_canary - Configure gradual Guardian enforcement rollout
         canary_percent_config = self.config.get(
             'guardian_canary_percent',
             os.getenv('LUKHAS_CANARY_PERCENT', '10')
@@ -642,7 +642,7 @@ class PlanVerifier:
             counterfactual["human_requirements"] = guardian_result.human_requirements
 
         if self.guardian_counterfactual_logging:
-            # ΛTAG: guardian_counterfactual — emit shadow-mode telemetry
+            # ΛTAG: guardian_counterfactual - emit shadow-mode telemetry
             logger.warning(
                 "Guardian counterfactual triggered",
                 extra={

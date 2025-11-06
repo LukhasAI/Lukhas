@@ -304,7 +304,7 @@ def _fallback_replacements(src: str, mapping: Dict[str, str]) -> Tuple[List[Repl
     last_end = -1
     for rep in replacements:
         if rep.start < last_end:
-            # overlapping replacement – skip to keep deterministic output
+            # overlapping replacement - skip to keep deterministic output
             continue
         merged.append(rep)
         last_end = rep.end

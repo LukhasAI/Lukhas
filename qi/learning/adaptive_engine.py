@@ -206,7 +206,7 @@ class AdaptiveLearningEngine:
     # ---------- Propose → Approve → Apply (HITL) ----------
     def propose_best(self, *, config_targets: list[str]) -> list[str]:
         """
-        Send 1–3 top candidates through self_healer's governance/approval flow as config_patch proposals.
+        Send 1-3 top candidates through self_healer's governance/approval flow as config_patch proposals.
         """
         top = self.batch_offline_eval(top_k=3)
         # Merge patches per target (simple one-by-one for clarity)

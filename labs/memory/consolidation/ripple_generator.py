@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║                             ◊ POETIC ESSENCE ◊
 ║
-║ │ In the quiet moments of rest, the hippocampus speaks in ripples—brief,     │
+║ │ In the quiet moments of rest, the hippocampus speaks in ripples-brief,     │
 ║ │ powerful bursts of synchronized activity that carry memories from the       │
 ║ │ temporary to the permanent. Each ripple, lasting mere milliseconds,         │
 ║ │ contains the compressed essence of experience, ready for distribution.       │

@@ -575,8 +575,8 @@ async def test_gdpr_article17_compliance_integration():
         total_erased_scenes = sum(r["erasure_counts"]["akaq_scene"] for r in all_results)
         total_erased_glyphs = sum(r["erasure_counts"]["akaq_glyph"] for r in all_results)
 
-        assert total_erased_scenes >= 9  # 3 users × 3 scenes each
-        assert total_erased_glyphs >= 18  # 3 users × 3 scenes × 2 glyphs each
+        assert total_erased_scenes >= 9  # 3 users x 3 scenes each
+        assert total_erased_glyphs >= 18  # 3 users x 3 scenes x 2 glyphs each
 
         print("✅ GDPR Article 17 Right-to-Erasure compliance validated successfully")
 

@@ -1,4 +1,4 @@
-"""Bridge: aka_qualia — canonical surface for qualia research components."""
+"""Bridge: aka_qualia - canonical surface for qualia research components."""
 from __future__ import annotations
 
 from importlib import import_module

@@ -37,7 +37,7 @@ def generate_payload():
     message_id = input("Message ID (e.g., msg_2025_custom_01): ").strip()
     content = input("Symbolic Message Content: ").strip()
     tags = input("Comma-separated Tags (e.g., dream,focus,calm): ").strip().split(",")
-    required_tier = int(input("Required Tier (0–5): ").strip())
+    required_tier = int(input("Required Tier (0-5): ").strip())
 
     print("\n🎭 Enter Emotion Vector Values (0.0 to 1.0)")
     joy = float(input("→ Joy: "))

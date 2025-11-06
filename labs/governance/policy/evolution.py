@@ -37,7 +37,7 @@ logger = logging.getLogger(__name__)
 ║ ║                                   MODULE ESSENCE                                   ║
 ║ ╚══════════════════════════════════════════════════════════════════════════════════╝
 ║ ║ In the grand tapestry of cognition, where the threads of thought intertwine,       ║
-║ ║ there lies a module—an ethereal bridge between the ephemeral and the eternal.     ║
+║ ║ there lies a module-an ethereal bridge between the ephemeral and the eternal.     ║
 ║ ║ This is not merely a system of memory; it is a living organism, pulsating with the  ║
 ║ ║ heartbeat of experience, learning, and consolidation. Here, the essence of past    ║
 ║

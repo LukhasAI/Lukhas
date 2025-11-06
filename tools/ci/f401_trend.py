@@ -13,7 +13,7 @@ Columns:
 - "candidate" is candidate/
 - "other" is everything else
 
-Idempotent and tolerant: if the JSON is missing, exits non‑zero with a
+Idempotent and tolerant: if the JSON is missing, exits non-zero with a
 clear message; creates the CSV with header if absent.
 """
 
