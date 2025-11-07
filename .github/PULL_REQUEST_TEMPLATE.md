@@ -1,101 +1,43 @@
-# Summary
-<!-- What changed and why -->
+## What/Why
+Describe the change in one sentence. Why is this change necessary?
 
-## 🤖 AI-Assisted Review
-<!-- Optional: Uncomment to request automated Claude Code review -->
-<!-- @claude review this PR -->
+## Checklist (T4 guardrails)
+- [ ] **Snapshot**: Recorded state snapshot for audit trail (attach ledger id or file)
+- [ ] **Tests**: Unit/integration tests added/updated. All tests pass: `pytest -q`
+- [ ] **Module Registry**: New/modified modules registered in `lukhas/core/module_registry.py`
+- [ ] **Observability**: Metrics intact (`lukhas_guardian_decision_total` etc.)
+- [ ] **Documentation**: Updated README, docs/guardian-enhancements.md
+- [ ] **Zero-regression**: No behavior changes (explain test coverage)
+- [ ] **Canary**: Rollback plan provided for risky changes
+- [ ] **Audit**: Dual approval captured for governance/flag changes
 
-## 🎯 MATRIZ Readiness
+## Implementation notes
+Short implementation notes and reasoning. Link to discovery report if relevant.
 
-**Required for all PRs touching `lukhas/`, `matriz/`, or `core/`**:
+## Testing instructions
+How to run tests locally and manual verification steps.
 
-- [ ] Smoke tests passing locally (`make smoke` or `pytest -q -m matriz_smoke`)
-- [ ] Lane boundaries respected (`make lane-guard`)
-- [ ] No hardcoded secrets (`make security-scan`)
-- [ ] Evals accuracy ≥ 0.70 (if applicable, run `python evals/run_evals.py`)
-- [ ] Documentation updated for new features (see `docs/`)
-- [ ] Tests added for new functionality (coverage maintained or improved)
-
-**CI Artifacts** (automatically uploaded by workflows):
-- [ ] `evals_report.md` - Evaluation results (if evals ran)
-- [ ] `manifest_stats.md` - Manifest health check
-- [ ] `star_rules_coverage.md` - Star rule coverage
-- [ ] `linkcheck.txt` - Documentation link validation
-- [ ] `sbom.cyclonedx.json` - Supply chain bill of materials (release only)
-
-**MATRIZ Integration Notes**:
-- Star alignment: <!-- Which constellation star does this change align with? -->
-- Quality tier: <!-- T1_critical, T2_important, T3_standard, T4_experimental -->
-- Pipeline nodes: <!-- Which MATRIZ pipeline nodes are affected? -->
-
-## Artifact Discipline Checks
-
-- [ ] Manifests updated if packages/modules moved or capabilities changed
-- [ ] `lukhas_context.md` present/updated with YAML front-matter (star, tier, matriz, owner)
-- [ ] Contracts references valid (`scripts/validate_contract_refs.py`)
-- [ ] Link checker passes (`docs/check_links.py`)
-- [ ] Context front-matter validates (`scripts/validate_context_front_matter.py`)
-
-## Testing & Quality
-
-- [ ] Smoke suite passes locally: `pytest -q -m matriz_smoke` (<120s)
-- [ ] Unit tests updated and passing
-- [ ] T1/T2: owner set, latency_target_p95 set or explicitly n/a
-- [ ] No policy violations (`scripts/policy_guard.py` passes for T1 modules)
-
-## Lane/Module Promotion (if applicable)
-
-- [ ] Candidate smoke: `tests/smoke/test_<MODULE>_candidate_smoke.py` passes
-- [ ] Lukhas smoke: `tests/smoke/test_<MODULE>_lukhas_smoke.py` passes
-- [ ] Imports updated only in promoted files (core.* → lukhas.core.*)
-- [ ] TEMP shim added? (Y/N) — if Y, list dependents
-- [ ] Lane boundaries validated (`make lane-guard`)
-
-## Governance
-
-- [ ] Release freeze notes updated if relevant (`release/FREEZE.md`)
-- [ ] Guardian/North policy implications documented (if security-sensitive)
-- [ ] Breaking changes flagged and versioned
-
-## 🧊 FREEZE Checklist (for RC/release PRs ONLY)
-
-**Only required for release candidate and release PRs. Skip for feature PRs.**
-
-- [ ] CHANGELOG.md updated with user-facing changes
-- [ ] Version bumped in `pyproject.toml` and `lukhas/__init__.py`
-- [ ] SBOM generated (`build/sbom.cyclonedx.json` present)
-- [ ] All CI checks passing (including security scans)
-- [ ] Smoke tests passing locally (`pytest tests/smoke/ -v`)
-- [ ] Evals accuracy ≥ 0.70 (if eval framework available)
-- [ ] No breaking changes without migration guide in docs
-- [ ] Documentation updated for new features
-- [ ] Release notes reviewed and approved by maintainer
-
-**RC Release Command:**
-```bash
-./scripts/release_rc.sh v0.X.Y-rc
+## Snapshot metadata
+Attach snapshot output or ledger transaction id:
 ```
 
-## Phase 3 Gate (tick all if applicable)
+---
 
-**Only required for Phase 3 PRs (compat removal, OpenAPI polish)**:
-
-- [ ] `compat-enforce` job green (hits == 0)
-- [ ] No `lukhas.compat` imports in repo (outside historical docs)
-- [ ] OpenAPI artifact present & validated (`make openapi-validate`)
-- [ ] OpenAPI diff posted as PR comment (no breaking changes unless explicitly approved)
-- [ ] Security headers present (HSTS/XFO/XCTO/CSP)
-- [ ] `X-Trace-Id` header observed in smoke logs
-- [ ] No secrets redacted violations in CI log-scan
-- [ ] (If needed) `LUKHAS_RL_KEYING` toggle documented for rollback
-- [ ] New/changed endpoints include `x-deprecated` or `Sunset` header plan if deprecating
-
-## API Contract & Security
-
-- [ ] OpenAPI diff posted as PR comment (no breaking changes unless explicitly approved)
-- [ ] Security headers present (HSTS/XFO/XCTO/CSP)
-- [ ] No secrets redacted violations in CI log-scan
-- [ ] New/changed endpoints include `x-deprecated` or `Sunset` header plan if deprecating
-
-## Notes for Reviewers
-<!-- Risks, follow-ups, perf/observability considerations, module deletions -->
+**T4 BRIEF FOR COPILOT:**
+```
+- Consolidating guardian code with strict safety guardrails
+- Discovery script shows exact duplicates and similarity scores
+- Do NOT merge until discovery report reviewed by human
+- Quick wins: PYTHONPATH/import fixes only, must pass pytest
+- Any functional consolidation requires:
+  * Module registration in module_registry.py
+  * Unit tests covering preserved behavior
+  * Audit snapshot with ledger id
+  * Updated docs in guardian/ and docs/
+  * Forwarding shims for old APIs (deprecate, don't break)
+  * Canary/rollback plan
+- Strategy driven by overlap %:
+  * >50% overlap: merge
+  * <10% overlap: modular API (Guardian pattern)
+  * Forwarding: document and verify
+```
