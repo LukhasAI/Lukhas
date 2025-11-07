@@ -1,8 +1,10 @@
-import pytest
 import sys
-from unittest.mock import MagicMock, AsyncMock
+from unittest.mock import AsyncMock, MagicMock
+
+import pytest
 
 from core.integration.nias_dream_bridge import NIASDreamBridge, get_nias_dream_bridge
+
 
 @pytest.fixture
 def bridge():
