@@ -1353,7 +1353,7 @@ class EthicalReasoningSystem:
         # 1. Constraint checking
         constraint_violations = await self._check_ethical_constraints(ethical_question, context)
 
-        if constraint_violations and any((v['hard_constraint'] for v in constraint_violations)):
+        if constraint_violations and any(v['hard_constraint'] for v in constraint_violations):
             # Hard constraints violated - immediate judgment
             return self._create_constraint_violation_judgment(judgment_id, ethical_question, constraint_violations)
 

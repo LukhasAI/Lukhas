@@ -40,7 +40,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from bridge.llm_wrappers.codex_wrapper import CodexClient
 from bridge.llm_wrappers.jules_wrapper import JulesClient
-from bridge.queue.redis_queue import RedisTaskQueue, Task, TaskPriority, TaskType
+from bridge.queue.redis_queue import RedisTaskQueue, Task, TaskType
 
 # Configure logging
 logging.basicConfig(
@@ -239,7 +239,7 @@ class AITaskRouter:
 
         TODO: Implement Gemini wrapper and integration.
         """
-        logger.warning(f"⚠️ Gemini agent not yet implemented - task skipped")
+        logger.warning("⚠️ Gemini agent not yet implemented - task skipped")
 
     async def _handle_ollama_task(self, task: Task):
         """
@@ -248,7 +248,7 @@ class AITaskRouter:
         Used for fast local semantic analysis (architectural linting).
         TODO: Implement Ollama wrapper and integration.
         """
-        logger.warning(f"⚠️ Ollama agent not yet implemented - task skipped")
+        logger.warning("⚠️ Ollama agent not yet implemented - task skipped")
 
     async def shutdown(self):
         """Graceful shutdown."""

@@ -5,6 +5,7 @@ This test prevents future regressions where new signal types are added
 but no routing rules are created for them.
 """
 import pytest
+
 from core.consciousness_signal_router import ConsciousnessSignalRouter
 from core.matriz_consciousness_signals import ConsciousnessSignal, ConsciousnessSignalType
 

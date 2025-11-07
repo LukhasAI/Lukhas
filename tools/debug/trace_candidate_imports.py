@@ -28,6 +28,5 @@ builtins.__import__ = _guard___import__
 importlib.import_module = _guard_import_module
 
 # kick off the suspect import
-import lukhas  # noqa: E402 - instrumentation hooks must be installed before importing package
 
 print("✅ trap finished")
