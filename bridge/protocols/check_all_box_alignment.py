@@ -29,7 +29,6 @@ METADATA TAGS: #LuKhas #AI #Professional #Deployment #AI Professional System
 import re
 from pathlib import Path
 
-
 BOX_PATTERN = r"╔[\s\S]*?╚"
 
 #!/usr/bin/env python3

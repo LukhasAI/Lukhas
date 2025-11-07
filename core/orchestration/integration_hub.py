@@ -10,9 +10,10 @@ import asyncio
 import logging
 import random
 import time
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Mapping, Sequence
+from typing import Any, Callable
 
 
 @dataclass

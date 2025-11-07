@@ -9,14 +9,14 @@ failure injection, network partitioning, and resource exhaustion.
 """
 
 import asyncio
-import pytest
 from unittest.mock import MagicMock
 
+import pytest
 from resilience.chaos import (
+    ChaosMonkey,
     FailureInjector,
     NetworkPartitioner,
     ResourceExhaustor,
-    ChaosMonkey,
 )
 
 # --- Test FailureInjector ---

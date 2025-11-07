@@ -7,6 +7,7 @@ Usage:
   python3 tools/ci/codemods/run_fix_b008.py --root lukhas --apply
 """
 from __future__ import annotations
+
 import argparse
 import difflib
 import sys

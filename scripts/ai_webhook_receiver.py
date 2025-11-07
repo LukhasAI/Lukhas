@@ -3,19 +3,18 @@
 FastAPI webhook receiver for AI agent status updates.
 Receives webhooks from Jules/Codex and enqueues tasks to Redis.
 """
-import asyncio
 import logging
+import sys
 import uuid
-from typing import Any, Optional
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Optional
 
-from fastapi import FastAPI, HTTPException, Request
+import uvicorn
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
-import uvicorn
 
-import sys
-from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from bridge.queue.redis_queue import RedisTaskQueue, Task, TaskPriority, TaskType
@@ -152,13 +151,13 @@ async def receive_ai_status(payload: WebhookPayload):
                 "success": True,
                 "task_id": task.task_id,
                 "priority": priority.name,
-                "message": f"Task enqueued successfully"
+                "message": "Task enqueued successfully"
             }
         )
 
     except Exception as e:
         logger.error(f"❌ Failed to enqueue task: {e}", exc_info=True)
-        raise HTTPException(status_code=500, detail=f"Failed to enqueue task: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to enqueue task: {e!s}")
 
 
 @app.get("/health")

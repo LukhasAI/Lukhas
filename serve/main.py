@@ -9,10 +9,9 @@ from typing import Any, Callable, Optional
 
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
+from labs.core.security.auth import get_auth_system
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.routing import Match
-
-from labs.core.security.auth import get_auth_system
 
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False
@@ -34,6 +33,7 @@ try:
 except ImportError:
     pass
 from serve.tracing import setup_tracing
+
 try:
     from enterprise.observability.instantiate import obs_stack
 except Exception:
@@ -272,7 +272,6 @@ def readyz() -> dict[str, Any]:
     return {'status': 'not_ready', 'details': status}
 
 from prometheus_client import (
-    CONTENT_TYPE_LATEST,
     Counter,
     Histogram,
     make_asgi_app,

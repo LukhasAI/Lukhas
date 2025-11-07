@@ -1,7 +1,8 @@
-import pytest
 import re
-from urllib.parse import urlencode
 from unittest.mock import AsyncMock, MagicMock, patch
+from urllib.parse import urlencode
+
+import pytest
 from aioresponses import aioresponses
 
 from bridge.adapters.drive_adapter import DriveAdapter, DriveContextIntegration

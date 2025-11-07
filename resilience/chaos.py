@@ -13,7 +13,7 @@ import random
 import time
 from contextlib import contextmanager
 from functools import wraps
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, List
 
 # --- Failure Injection ---
 

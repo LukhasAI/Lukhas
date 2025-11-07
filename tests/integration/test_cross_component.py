@@ -1,7 +1,8 @@
-from matriz.core.memory_system import MemorySystem, MemoryType, MemoryQuery
 from fastapi.testclient import TestClient
-from serve.main import app
 from labs.core.security.auth import get_auth_system
+from matriz.core.memory_system import MemoryQuery, MemorySystem, MemoryType
+from serve.main import app
+
 # import asyncio
 # from core.orchestration.core import OrchestrationCore
 # from labs.consciousness.awareness.awareness_engine import AwarenessEngine

@@ -31,7 +31,6 @@ from metrics import (
     mtrx_stage_duration_seconds,
     node_confidence_scores,
     oscillation_detections_total,
-    parallel_batch_duration,
     parallel_execution_mode_total,
     reasoning_chain_length,
     retry_attempts_total,

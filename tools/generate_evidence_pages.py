@@ -8,11 +8,11 @@ and creates evidence page stubs under release_artifacts/evidence/<claim_id>.md w
 Usage:
   python3 tools/generate_evidence_pages.py
 """
-import sys, os
-from pathlib import Path
-import yaml
-import hashlib
 import re
+import sys
+from pathlib import Path
+
+import yaml
 
 REGISTRY = Path("release_artifacts/claims_registry.yaml")
 OUT_DIR = Path("release_artifacts/evidence")

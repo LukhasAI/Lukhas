@@ -5,9 +5,10 @@ LibCST transformer to fix B008: function-call-in-default-argument.
 Usage as module (driver provided separately) to run in dry-run or apply mode.
 """
 from __future__ import annotations
+
+from typing import List, Optional, Tuple
+
 import libcst as cst
-from libcst import matchers as m
-from typing import List, Tuple, Optional
 
 
 def _is_call(node: Optional[cst.BaseExpression]) -> bool:

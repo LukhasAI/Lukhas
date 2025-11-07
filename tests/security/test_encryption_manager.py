@@ -1,6 +1,13 @@
 import pytest
-from core.security.encryption_manager import EncryptionManager, EncryptionError, DecryptionError, InvalidKeyError
+
+from core.security.encryption_manager import (
+    DecryptionError,
+    EncryptionError,
+    EncryptionManager,
+    InvalidKeyError,
+)
 from core.security.encryption_types import EncryptionAlgorithm
+
 
 @pytest.fixture
 def manager():

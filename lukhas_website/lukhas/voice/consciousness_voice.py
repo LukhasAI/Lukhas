@@ -144,7 +144,7 @@ class ConsciousnessVoice:
         depth = self.current_state.emotional_depth
         patterns = self.adaptation_patterns["emotional_depth"]
 
-        if depth > 0.8 and (not any((indicator in text.lower() for indicator in patterns['empathy_indicators']))):
+        if depth > 0.8 and (not any(indicator in text.lower() for indicator in patterns['empathy_indicators'])):
             # High emotional depth - add empathy indicators
             # Add empathetic framing
             text = f"I sense the depth of this moment. {text}"

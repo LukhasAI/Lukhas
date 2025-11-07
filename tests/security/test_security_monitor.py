@@ -1,11 +1,18 @@
-import pytest
-from unittest.mock import MagicMock, patch
 from datetime import datetime, timedelta, timezone
+from unittest.mock import MagicMock, patch
+
+import pytest
 
 # Mock the observability module before importing the security monitor
 MOCK_OBSERVABILITY = MagicMock()
 with patch.dict('sys.modules', {'observability': MOCK_OBSERVABILITY}):
-    from core.security.security_monitor import SecurityMonitor, SecurityEvent, EventType, EventSeverity, SecurityMonitorConfig
+    from core.security.security_monitor import (
+        EventSeverity,
+        EventType,
+        SecurityEvent,
+        SecurityMonitor,
+        SecurityMonitorConfig,
+    )
 
 @pytest.fixture
 def monitor():

@@ -8,11 +8,10 @@ to test its resilience under various failure conditions.
 # ΛTAG: chaos_engineering, resilience_testing, api_testing
 """
 
-import pytest
 from unittest.mock import patch
 
+import pytest
 from fastapi.testclient import TestClient
-
 from serve.main import app
 
 # --- Test Fixtures ---

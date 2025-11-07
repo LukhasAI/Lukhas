@@ -1,16 +1,17 @@
 
 import asyncio
+import gc
+import random
 import statistics
 import time
-import random
-import gc
 
-import pytest
 import psutil
+import pytest
 
 # The 'matriz' package is aliased to 'MATRIZ' at runtime.
 # See matriz/__init__.py for details.
 from matriz import orchestration
+
 
 # A dummy node for testing purposes
 class DummyNode:
@@ -102,7 +103,7 @@ class TestSystemPerformance:
         throughput_ops_per_sec = total_requests / total_duration_sec
         p95_latency = statistics.quantiles(latencies, n=20)[18]
 
-        print(f"Load Test Results:")
+        print("Load Test Results:")
         print(f"  - Throughput: {throughput_ops_per_sec:.2f} ops/sec")
         print(f"  - p95 Latency: {p95_latency:.2f} ms")
 
@@ -148,7 +149,7 @@ class TestSystemPerformance:
         avg_cpu_utilization = statistics.mean(cpu_usage_samples) if cpu_usage_samples else 0
         peak_memory_mb = process.memory_info().rss / 1024 / 1024
 
-        print(f"Stress Test Results:")
+        print("Stress Test Results:")
         print(f"  - Error Rate: {error_rate:.2%}")
         print(f"  - Avg CPU Utilization: {avg_cpu_utilization:.2f}%")
         print(f"  - Peak Memory Usage: {peak_memory_mb:.2f} MB")
@@ -206,7 +207,7 @@ class TestSystemPerformance:
 
         memory_growth_mb = final_mem_mb - baseline_mem_mb
 
-        print(f"\nMemory Leak Detection Results:")
+        print("\nMemory Leak Detection Results:")
         print(f"  - Baseline Memory: {baseline_mem_mb:.2f} MB")
         print(f"  - Final Memory: {final_mem_mb:.2f} MB")
         print(f"  - Memory Growth: {memory_growth_mb:.2f} MB (Threshold: < {MEMORY_LEAK_THRESHOLD_MB} MB)")
