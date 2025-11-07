@@ -42,7 +42,6 @@ import warnings
 from collections.abc import AsyncIterable
 from typing import TYPE_CHECKING, Any, Literal, overload
 
-from core.common import get_logger
 from huggingface_hub import constants
 from huggingface_hub.errors import InferenceTimeoutError
 from huggingface_hub.inference._common import (
@@ -111,6 +110,8 @@ from huggingface_hub.inference._providers import (
 from huggingface_hub.utils import build_hf_headers, get_session, hf_raise_for_status
 from huggingface_hub.utils._auth import get_token
 from huggingface_hub.utils._deprecation import _deprecate_method
+
+from core.common import get_logger
 
 from .._common import _async_yield_from, _import_aiohttp
 

@@ -1,4 +1,5 @@
 import pytest
+
 from core.security.encryption_manager import (
     DecryptionError,
     EncryptionError,

@@ -193,6 +193,7 @@ async def test_integration():
     try:
         # Test security + caching integration
         from caching.cache_system import CacheConfig, HierarchicalCacheManager
+
         from security.security_framework import LUKHASSecurityFramework, SecurityConfig
 
         # Initialize components

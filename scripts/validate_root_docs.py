@@ -13,7 +13,7 @@ Exit codes:
 
 import sys
 from pathlib import Path
-from typing import List, Set
+from typing import List
 
 # Allowed documentation files at root (grandfathered in)
 ALLOWED_DOCS = {
@@ -126,7 +126,7 @@ def main() -> int:
         for allowed in sorted(ALLOWED_DOCS):
             print(f"  - {allowed}", file=sys.stderr)
 
-        print(f"\n🔧 To fix: git mv <file> docs/<appropriate-subdir>/", file=sys.stderr)
+        print("\n🔧 To fix: git mv <file> docs/<appropriate-subdir>/", file=sys.stderr)
 
         return 1
 
