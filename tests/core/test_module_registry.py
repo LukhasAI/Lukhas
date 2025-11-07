@@ -23,6 +23,7 @@ from datetime import datetime, timezone
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
+
 from core.module_registry import (
     ModuleAccessError,
     ModuleAuditLogger,

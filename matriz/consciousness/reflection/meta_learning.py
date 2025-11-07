@@ -10,6 +10,7 @@ import os
 from collections import defaultdict
 
 import numpy as np
+
 from core.common import get_logger
 
 # TAG:consciousness

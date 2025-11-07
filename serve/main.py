@@ -285,10 +285,10 @@ async def create_chat_completion(request: dict) -> dict[str, Any]:
 
 async def _stream_generator(request: dict) -> str:
     """SSE stream generator for OpenAI-compatible streaming responses."""
-    import time
+    import asyncio
     import hashlib
     import json
-    import asyncio
+    import time
 
     model = request.get("model", "lukhas-mini")
     content = ""
@@ -343,7 +343,7 @@ async def create_response(request: dict) -> Response:
     import hashlib
     import json
     import time
-    import asyncio
+
     from fastapi.responses import StreamingResponse
 
     stream = request.get("stream", False)

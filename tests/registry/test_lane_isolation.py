@@ -570,7 +570,7 @@ class TestLaneIsolationEnforcement:
             'moderate': lambda: risk_level in ['safe', 'moderate_risk'],
             'permissive': lambda: True,
         }
-        
+
         policy_check = security_policies.get(security_level)
         return policy_check() if policy_check else False
 
