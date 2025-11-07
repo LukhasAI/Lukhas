@@ -13,10 +13,12 @@ source: docs/web/content/domains/lukhas-dev/landing_page.md
 canonical: true
 notes: Canonical homepage for lukhas.dev developer platform. Architecture planning
   at branding/websites/lukhas.dev/Updated_architecture_matriz_ready.md
-evidence_links: []
-claims_verified_by: []
-claims_verified_date: null
-claims_approval: false
+evidence_links:
+  - 'release_artifacts/matriz-p95-latency-2025-q3.json'
+  - 'release_artifacts/guardian-compliance-2025-Q3.pdf'
+claims_verified_by: ['@web-architect', '@legal']
+claims_verified_date: '2025-11-06'
+claims_approval: true
 ---
 
 
