@@ -1,6 +1,7 @@
 
-import pytest
 from unittest.mock import AsyncMock, patch
+
+import pytest
 
 from candidate.core.qi_financial.qi_financial_consciousness_engine import (
     ConsciousnessTokenProtocol,

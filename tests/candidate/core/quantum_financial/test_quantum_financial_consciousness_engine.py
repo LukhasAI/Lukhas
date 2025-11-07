@@ -1,14 +1,15 @@
 
-import pytest
 import random
-from unittest.mock import MagicMock, AsyncMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
+
+import pytest
 
 from candidate.core.quantum_financial.quantum_financial_consciousness_engine import (
     AbundanceCalculator,
+    ConsciousnessToken,
     ConsciousnessTokenProtocol,
     GiftEconomyEngine,
     QuantumFinancialConsciousnessEngine,
-    ConsciousnessToken,
 )
 
 
