@@ -6,9 +6,7 @@ Maps tests to source code and identifies coverage gaps.
 
 import ast
 import json
-import os
 import re
-from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 

@@ -4,7 +4,8 @@ Unit tests for the multimodal module in Universal Language.
 """
 
 import unittest
-from universal_language.multimodal import ModalityType, ModalityProcessor
+
+from universal_language.multimodal import ModalityProcessor, ModalityType
 
 
 class TestModalityProcessor(unittest.TestCase):

@@ -24,6 +24,7 @@ from collections import defaultdict
 from datetime import datetime, timezone
 
 import numpy as np
+
 from core.common import get_logger
 
 logger = logging.getLogger(__name__)

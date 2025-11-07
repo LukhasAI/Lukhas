@@ -5,7 +5,6 @@ Runs all audit tools and generates comprehensive executive summary.
 """
 
 import json
-import os
 import subprocess
 import sys
 import time

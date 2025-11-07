@@ -4,9 +4,10 @@ Unit tests for the compositional module in Universal Language.
 """
 
 import unittest
+
 from universal_language.compositional import (
-    SymbolProgram,
     SymbolComposer,
+    SymbolProgram,
     SymbolProgramSynthesizer,
 )
 
