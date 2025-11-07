@@ -50,8 +50,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from core.common import get_logger
-
 logger = logging.getLogger(__name__)
 
 
@@ -64,7 +62,7 @@ except Exception:
     metrics_db_available = False
 
 # Configure module logger
-logger = get_logger(__name__)
+# logger = get_logger(__name__) # Removed to prevent recursion
 
 # Module constants
 MODULE_VERSION = "3.0.0"
