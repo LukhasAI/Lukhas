@@ -1,8 +1,9 @@
 import asyncio
-import pytest
 from unittest.mock import AsyncMock, MagicMock
 
-from labs.core.event_bus import EventBus, DreamEventType, get_global_event_bus
+import pytest
+from labs.core.event_bus import DreamEventType, EventBus, get_global_event_bus
+
 
 @pytest.fixture
 async def event_bus():

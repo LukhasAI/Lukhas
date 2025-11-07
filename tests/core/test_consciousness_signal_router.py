@@ -20,7 +20,6 @@ from collections import defaultdict, deque
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
-
 from core.consciousness_signal_router import (
     CascadePrevention,
     ConsciousnessSignalRouter,

@@ -56,4 +56,4 @@ else:
             self.level = 0.5
 
 # Expose a minimal API
-__all__ = ["BioEngine", "get_symbolic_processor", "BioAwareness"]
+__all__ = ["BioAwareness", "BioEngine", "get_symbolic_processor"]

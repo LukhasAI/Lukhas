@@ -1,6 +1,7 @@
 import pytest
 from labs.core.orchestration.meta_controller import MetaController
 
+
 class TestMetaController:
     def test_no_oscillation(self):
         mc = MetaController()

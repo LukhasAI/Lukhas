@@ -5,7 +5,6 @@ Handles source code files and extracts functions, classes, and structure
 """
 from __future__ import annotations
 
-
 import re
 from typing import Any
 

@@ -983,11 +983,11 @@ def create_guardian_drift_bands(
 
 # Export main classes
 __all__ = [
-    "GuardianBand",
-    "GuardianThresholds",
-    "GuardianBandResult",
-    "GuardianDriftBands",
     "BandTransition",
     "BandTrigger",
+    "GuardianBand",
+    "GuardianBandResult",
+    "GuardianDriftBands",
+    "GuardianThresholds",
     "create_guardian_drift_bands"
 ]

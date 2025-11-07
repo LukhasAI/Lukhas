@@ -4,6 +4,7 @@ from unittest.mock import patch
 import pytest
 from labs.core.orchestration.consensus_arbitrator import Proposal, choose, score
 
+
 class TestConsensusArbitrator:
     def test_score_calculation(self):
         proposal = Proposal("p1", 0.8, time.time(), 0.1, 0.5)

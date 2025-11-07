@@ -1,9 +1,8 @@
 import json
 from pathlib import Path
 
-from tiers import GlobalTier
-
 from consciousness.awareness.awareness_log_synchronizer import AwarenessLogSynchronizer
+from tiers import GlobalTier
 
 
 def test_sync_for_user_respects_tier(tmp_path: Path):

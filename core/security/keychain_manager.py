@@ -99,7 +99,7 @@ class KeychainManager:
             return False
 
     @classmethod
-    def get_key(cls, key_name: str, fallback_to_env: bool = True) -> Optional[str]:
+    def get_key(cls, key_name: str, fallback_to_env: bool = True) -> str | None:
         """
         Retrieve API key from macOS Keychain with environment variable fallback.
 
@@ -257,7 +257,7 @@ class KeychainManager:
 
 
 # Convenience functions for common API keys
-def get_jules_api_key() -> Optional[str]:
+def get_jules_api_key() -> str | None:
     """
     Get Jules API key from Keychain or environment.
 
@@ -271,22 +271,22 @@ def get_jules_api_key() -> Optional[str]:
     return key
 
 
-def get_openai_api_key() -> Optional[str]:
+def get_openai_api_key() -> str | None:
     """Get OpenAI API key from Keychain or environment."""
     return KeychainManager.get_key("OPENAI_API_KEY")
 
 
-def get_anthropic_api_key() -> Optional[str]:
+def get_anthropic_api_key() -> str | None:
     """Get Anthropic API key from Keychain or environment."""
     return KeychainManager.get_key("ANTHROPIC_API_KEY")
 
 
-def get_google_api_key() -> Optional[str]:
+def get_google_api_key() -> str | None:
     """Get Google API key from Keychain or environment."""
     return KeychainManager.get_key("GOOGLE_API_KEY")
 
 
-def get_perplexity_api_key() -> Optional[str]:
+def get_perplexity_api_key() -> str | None:
     """Get Perplexity API key from Keychain or environment."""
     return KeychainManager.get_key("PERPLEXITY_API_KEY")
 

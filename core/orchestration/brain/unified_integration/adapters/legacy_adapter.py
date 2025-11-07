@@ -43,7 +43,7 @@ class LegacyComponentAdapter:
     def adapt_legacy_message(
         self,
         message: dict[str, Any],
-        target: Optional[str] = None,
+        target: str | None = None,
     ) -> Message:
         """Normalize a legacy-style message to the integration format."""
 
@@ -67,7 +67,7 @@ class LegacyComponentAdapter:
     async def send_message(
         self,
         message: dict[str, Any],
-        target: Optional[str] = None,
+        target: str | None = None,
     ) -> str:
         """Send a legacy message through the integration layer."""
 

@@ -43,7 +43,6 @@
 """
 from __future__ import annotations
 
-
 import asyncio
 import json
 import logging
@@ -82,12 +81,11 @@ class AdaptiveDashboard:
             def noop(*args, **kwargs):
                 return None
             return noop
-from system.common.event_bus import EventBus
-
 from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
 from core.monitoring.drift_monitor import UnifiedDriftMonitor
 from core.oracle_nervous_system import get_oracle_nervous_system
 from memory.systems.healix_memory_core import HealixMemoryCore
+from system.common.event_bus import EventBus
 
 logger = logging.getLogger("ΛTRACE.universal_adaptive_dashboard", timezone)
 

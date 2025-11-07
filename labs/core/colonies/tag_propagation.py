@@ -1,7 +1,6 @@
 from typing import Any
 
 import networkx as nx
-
 from core.colonies.base_colony import BaseColony
 from core.symbolism.tags import Tag, TagScope
 from symbolic.vocabularies import SymbolicVocabulary

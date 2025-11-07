@@ -5,11 +5,10 @@ Comprehensive end-to-end testing of all integrated components.
 
 import asyncio
 import time
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from unittest.mock import AsyncMock, Mock
 
 import pytest
-
 from consciousness.consciousness_stream import ConsciousnessStream
 from consciousness.memory_bridge import MemoryConsciousnessBridge
 from governance.audit_trail import AuditEventType, AuditLevel, AuditTrail, ComplianceFramework
@@ -286,7 +285,7 @@ class TestMemoryConsciousnessIntegration:
 
         test_content = {
             "test_data": "integration_test",
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.utcnow().isoformat(),
             "significance": "high"
         }
 
@@ -364,7 +363,7 @@ class TestGovernanceIntegration:
         # Query audit events
         events = await audit_trail.query_events(
             user_id=test_user,
-            start_date=datetime.now(timezone.utc) - timedelta(minutes=1),
+            start_date=datetime.utcnow() - timedelta(minutes=1),
             limit=100
         )
 
@@ -377,8 +376,8 @@ class TestGovernanceIntegration:
         # Test compliance report generation
         report = await audit_trail.generate_compliance_report(
             framework=ComplianceFramework.GDPR,
-            start_date=datetime.now(timezone.utc) - timedelta(hours=1),
-            end_date=datetime.now(timezone.utc)
+            start_date=datetime.utcnow() - timedelta(hours=1),
+            end_date=datetime.utcnow()
         )
 
         assert report.framework == ComplianceFramework.GDPR

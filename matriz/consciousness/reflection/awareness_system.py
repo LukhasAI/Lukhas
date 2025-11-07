@@ -47,12 +47,11 @@ from typing import Any
 import numpy as np  # ΛTRACE_ADD: For neuroplasticity calculations
 from bio.qi_layer import QIBioOscillator
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
-from dream.core import DreamPhase
-from qi.processing_core import QIProcessingCore
-
 from consciousness.awareness.awareness_engine import AwarenessEngine
 from core.unified.integration import UnifiedIntegration
+from dream.core import DreamPhase
 from ethics.engine import EthicalFramework, EthicalRiskLevel, QIEthics
+from qi.processing_core import QIProcessingCore
 
 logger = logging.getLogger(__name__)
 

@@ -1,8 +1,9 @@
 
-import unittest
-from unittest.mock import patch
 import builtins
 import sys
+import unittest
+from unittest.mock import patch
+
 
 class TestAuthSecurity(unittest.TestCase):
     def test_import_error_without_jwt(self):
@@ -21,6 +22,7 @@ class TestAuthSecurity(unittest.TestCase):
             with self.assertRaises(ImportError) as cm:
                 # The import needs to be reloaded to trigger the mock
                 from importlib import reload
+
                 from labs.core.security import auth
                 reload(auth)
 

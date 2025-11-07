@@ -551,9 +551,9 @@ class EthicalEngine:
 
 # Export main classes
 __all__ = [
-    "EthicalDecision",
-    "EthicalPrinciple",
     "EthicalContext",
+    "EthicalDecision",
+    "EthicalEngine",
     "EthicalEvaluation",
-    "EthicalEngine"
+    "EthicalPrinciple"
 ]

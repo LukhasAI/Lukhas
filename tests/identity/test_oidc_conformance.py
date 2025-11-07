@@ -31,7 +31,6 @@ import jwt
 import pytest
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
-
 from identity.oidc.client_registry import OIDCClient
 from identity.oidc.discovery import DiscoveryProvider
 from identity.oidc.provider import OIDCProvider

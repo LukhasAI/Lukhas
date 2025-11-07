@@ -1,3 +1,6 @@
+import logging
+
+logger = logging.getLogger(__name__)
 """
 VIVOX.EVRN Core - Encrypted Visual Recognition Node
 Handles encrypted perception without exposing decoded content
@@ -7,19 +10,13 @@ import asyncio
 import base64
 import hashlib
 import json
-import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional, Union
 
 import numpy as np
-
 from core.common import get_logger
-
-logger = logging.getLogger(__name__)
-
-
 
 logger = get_logger(__name__)
 
@@ -1127,8 +1124,9 @@ class VIVOXEncryptedPerceptionNode:
                 return False
 
         # Check consent requirements
-        if ethical_assessment.get('consent_required', False) and (not ethical_assessment.get('consent_verified', False)):
-            return False
+        if ethical_assessment.get("consent_required", False):
+            if not ethical_assessment.get("consent_verified", False):
+                return False
 
         # All checks passed
         return True

@@ -11,7 +11,7 @@ from typing import List, Optional, Tuple
 import libcst as cst
 
 
-def _is_call(node: Optional[cst.BaseExpression]) -> bool:
+def _is_call(node: cst.BaseExpression | None) -> bool:
     return isinstance(node, cst.Call)
 
 

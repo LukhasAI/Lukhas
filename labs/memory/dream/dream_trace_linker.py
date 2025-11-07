@@ -35,7 +35,6 @@ TECHNICAL ARCHITECTURE:
 """
 from __future__ import annotations
 
-
 import json
 import logging
 import os
@@ -891,13 +890,13 @@ def get_dream_trace_linker() -> DreamTraceLinker:
 
 # Export classes and functions
 __all__ = [
-    "DreamTraceLinker",
     "DreamFragment",
+    "DreamState",
+    "DreamTraceLinker",
+    "GlyphType",
     "MemoryTrace",
     "SymbolicEntanglement",
-    "DreamState",
     "SymbolicPattern",
-    "GlyphType",
     "create_dream_trace_linker",
     "get_dream_trace_linker",
 ]

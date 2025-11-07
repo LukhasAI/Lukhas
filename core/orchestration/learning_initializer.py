@@ -18,7 +18,6 @@ import logging
 from typing import Optional
 
 import structlog
-
 from orchestration.service_registry import ServiceNames, register_factory
 
 # Initialize logger

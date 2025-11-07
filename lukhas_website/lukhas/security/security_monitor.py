@@ -550,8 +550,12 @@ class SecurityMonitor:
                 logger.warning(f"Unknown response action: {recommended}")
 
         # Escalate based on threat level and confidence
-        if threat.threat_level == ThreatLevel.CRITICAL or \  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_security_security_monitor_py_L553"}
-           (threat.threat_level == ThreatLevel.HIGH and threat.confidence_score > 0.8):
+        # T4: code=SIM102 | ticket=GH-1031 | owner=consciousness-team | status=planned
+        # reason: Nested if statements - can be collapsed with 'and' operator
+        # estimate: 5m | priority: low | dependencies: none
+        if threat.threat_level == ThreatLevel.CRITICAL or (
+            threat.threat_level == ThreatLevel.HIGH and threat.confidence_score > 0.8
+        ):
             if ResponseAction.ESCALATE not in actions:
                 actions.append(ResponseAction.ESCALATE)
 

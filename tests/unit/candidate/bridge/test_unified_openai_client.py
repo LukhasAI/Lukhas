@@ -4,7 +4,6 @@ import os
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-
 from bridge.llm_wrappers.unified_openai_client import (
     ConversationState,
     UnifiedOpenAIClient,

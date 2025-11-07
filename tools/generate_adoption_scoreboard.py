@@ -14,7 +14,7 @@ import argparse
 import glob
 import json
 import pathlib
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Dict
 
 
@@ -24,7 +24,7 @@ class AdoptionScoreboardGenerator:
     def __init__(self, status_file: str = "docs/matrix_tracks.status.json"):
         self.status_file = pathlib.Path(status_file)
         self.status_data = self._load_status_data()
-        self.timestamp = datetime.now(timezone.utc)
+        self.timestamp = datetime.utcnow()
 
     def _load_status_data(self) -> Dict[str, Any]:
         """Load track adoption status data."""

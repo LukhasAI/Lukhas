@@ -18,6 +18,7 @@ Notes:
    to source extraction.
  - Designed to be non-destructive and fast enough for medium-sized repos.
 """
+
 import argparse
 import ast
 import hashlib
@@ -26,13 +27,15 @@ import os
 import re
 from collections import defaultdict
 from difflib import SequenceMatcher
-from typing import Dict, List, Optional
 
 REPORT_DIR_DEFAULT = "reports"
 
 
 def find_py_files(root: str, exclude_dirs=None):
-    exclude_dirs = set(exclude_dirs or [".git", "__pycache__", "venv", "env", "node_modules", ".venv", "archive", "backup"])
+    exclude_dirs = set(
+        exclude_dirs
+        or [".git", "__pycache__", "venv", "env", "node_modules", ".venv", "archive", "backup"]
+    )
     py_files = []
     for dirpath, dirnames, filenames in os.walk(root):
         # skip excluded dirs
@@ -47,7 +50,7 @@ def find_py_files(root: str, exclude_dirs=None):
 
 def read_file(path: str) -> str:
     try:
-        with open(path, "r", encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             return f.read()
     except (FileNotFoundError, PermissionError, OSError) as e:
         print(f"[WARN] Cannot read {path}: {e}")
@@ -66,7 +69,7 @@ def normalize_code(source: str) -> str:
         if "#" in line and qcount % 2 == 0:
             line = line.split("#", 1)[0]
         lines.append(line.rstrip())
-    
+
     joined = "\n".join(lines)
     collapsed = re.sub(r"\s+", " ", joined).strip()
     return collapsed
@@ -100,22 +103,24 @@ def extract_functions_from_ast(tree: ast.AST, source_text: str, file_path: str):
                 src_seg = ast.get_source_segment(source_text, node) or ""
             except Exception:
                 src_seg = ""
-            
+
             normalized = normalize_code(src_seg if src_seg else str(node.name))
             sig = node_to_signature(node)
             kind = "method" if self.class_stack else "function"
-            
-            funcs.append({
-                "name": node.name,
-                "qualname": qual,
-                "signature": sig,
-                "code": src_seg[:200] if src_seg else "",  # First 200 chars
-                "normalized": normalized[:500],  # Limit for performance
-                "lineno": getattr(node, "lineno", None),
-                "end_lineno": getattr(node, "end_lineno", None),
-                "kind": kind,
-                "file": file_path,
-            })
+
+            funcs.append(
+                {
+                    "name": node.name,
+                    "qualname": qual,
+                    "signature": sig,
+                    "code": src_seg[:200] if src_seg else "",  # First 200 chars
+                    "normalized": normalized[:500],  # Limit for performance
+                    "lineno": getattr(node, "lineno", None),
+                    "end_lineno": getattr(node, "end_lineno", None),
+                    "kind": kind,
+                    "file": file_path,
+                }
+            )
             self.generic_visit(node)
 
     v = FnVisitor()
@@ -153,28 +158,28 @@ def build_import_graph(tree: ast.AST, current_module: str):
 def run_discovery(repo_root: str, output_path: str, similarity_threshold: float):
     py_files = find_py_files(repo_root)
     print(f"[i] Found {len(py_files)} python files.")
-    
+
     all_funcs = []
     import_graph = {}
-    
+
     for i, f in enumerate(py_files):
         if i % 100 == 0:
             print(f"[i] Processing file {i}/{len(py_files)}...")
-        
+
         parsed = file_ast_safe(f)
         if not parsed:
             continue
-        
+
         tree, text = parsed
         funcs = extract_functions_from_ast(tree, text, os.path.relpath(f, repo_root))
         if funcs:
             all_funcs.extend(funcs)
-        
+
         module_key = os.path.relpath(f, repo_root)
         import_graph[module_key] = build_import_graph(tree, module_key)
 
     print(f"[i] Found {len(all_funcs)} total functions/methods.")
-    
+
     # Group by hash for exact duplicates
     hash_map = defaultdict(list)
     for fn in all_funcs:
@@ -185,12 +190,12 @@ def run_discovery(repo_root: str, output_path: str, similarity_threshold: float)
     print(f"[i] Found {len(exact_duplicates)} exact duplicate groups.")
 
     # Find near-duplicates (sample only first 1000 functions for performance)
-    print(f"[i] Analyzing near-duplicates (this may take a while)...")
+    print("[i] Analyzing near-duplicates (this may take a while)...")
     near_duplicates = []
     sample_size = min(1000, len(all_funcs))
     normalized_texts = [(i, fn["normalized"]) for i, fn in enumerate(all_funcs[:sample_size])]
     n = len(normalized_texts)
-    
+
     for i in range(n):
         if i % 100 == 0 and i > 0:
             print(f"[i] Compared {i}/{n} functions...")
@@ -201,11 +206,13 @@ def run_discovery(repo_root: str, output_path: str, similarity_threshold: float)
                 continue
             score = SequenceMatcher(None, a, b).ratio()
             if score >= similarity_threshold and compute_hash(a) != compute_hash(b):
-                near_duplicates.append({
-                    "score": round(score, 3),
-                    "left": all_funcs[normalized_texts[i][0]],
-                    "right": all_funcs[normalized_texts[j][0]],
-                })
+                near_duplicates.append(
+                    {
+                        "score": round(score, 3),
+                        "left": all_funcs[normalized_texts[i][0]],
+                        "right": all_funcs[normalized_texts[j][0]],
+                    }
+                )
 
     print(f"[i] Found {len(near_duplicates)} near-duplicate pairs.")
 
@@ -224,16 +231,21 @@ def run_discovery(repo_root: str, output_path: str, similarity_threshold: float)
     }
 
     for h, items in list(exact_duplicates.items())[:100]:  # Top 100 groups
-        report["exact_duplicates"].append({
-            "hash": h,
-            "count": len(items),
-            "examples": [{
-                "qualname": it["qualname"],
-                "signature": it["signature"],
-                "file": it["file"],
-                "lineno": it["lineno"],
-            } for it in items[:6]]  # Max 6 examples per group
-        })
+        report["exact_duplicates"].append(
+            {
+                "hash": h,
+                "count": len(items),
+                "examples": [
+                    {
+                        "qualname": it["qualname"],
+                        "signature": it["signature"],
+                        "file": it["file"],
+                        "lineno": it["lineno"],
+                    }
+                    for it in items[:6]
+                ],  # Max 6 examples per group
+            }
+        )
 
     # Write JSON
     os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
@@ -252,12 +264,16 @@ def run_discovery(repo_root: str, output_path: str, similarity_threshold: float)
         hr.append(f"\n- Hash {g['hash'][:16]}... ({g['count']} copies)")
         for ex in g["examples"]:
             hr.append(f"    {ex['qualname']} @ {ex['file']}:{ex['lineno']}")
-    
+
     hr.append(f"\nNear-duplicate pairs (threshold {similarity_threshold}):")
     for pair in near_duplicates[:20]:
-        hr.append(f"- score {pair['score']}: {pair['left']['qualname']} <-> {pair['right']['qualname']}")
-        hr.append(f"  {pair['left']['file']}:{pair['left']['lineno']} <-> {pair['right']['file']}:{pair['right']['lineno']}")
-    
+        hr.append(
+            f"- score {pair['score']}: {pair['left']['qualname']} <-> {pair['right']['qualname']}"
+        )
+        hr.append(
+            f"  {pair['left']['file']}:{pair['left']['lineno']} <-> {pair['right']['file']}:{pair['right']['lineno']}"
+        )
+
     hr_text = "\n".join(hr)
     hr_path = os.path.splitext(output_path)[0] + ".txt"
     with open(hr_path, "w", encoding="utf-8") as f:
@@ -271,8 +287,14 @@ def run_discovery(repo_root: str, output_path: str, similarity_threshold: float)
 def main():
     ap = argparse.ArgumentParser(description="Guardian discovery and duplication scanner")
     ap.add_argument("--repo-root", default=".", help="Repo root to analyze")
-    ap.add_argument("--output", default=os.path.join(REPORT_DIR_DEFAULT, "guardian_discovery.json"), help="Output JSON path")
-    ap.add_argument("--similarity", default=0.85, type=float, help="Threshold for near-duplicates (0..1)")
+    ap.add_argument(
+        "--output",
+        default=os.path.join(REPORT_DIR_DEFAULT, "guardian_discovery.json"),
+        help="Output JSON path",
+    )
+    ap.add_argument(
+        "--similarity", default=0.85, type=float, help="Threshold for near-duplicates (0..1)"
+    )
     args = ap.parse_args()
 
     report = run_discovery(args.repo_root, args.output, args.similarity)

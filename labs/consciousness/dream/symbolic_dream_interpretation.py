@@ -7,7 +7,6 @@
 """
 from __future__ import annotations
 
-
 import logging
 from datetime import datetime, timezone
 from enum import Enum
@@ -216,4 +215,4 @@ class SymbolicDreamInterpreter:
         return export_data
 
 
-__all__ = ["SymbolicDreamInterpreter", "SymbolicDomain"]
+__all__ = ["SymbolicDomain", "SymbolicDreamInterpreter"]

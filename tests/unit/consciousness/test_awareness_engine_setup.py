@@ -1,5 +1,4 @@
 import pytest
-
 from consciousness.awareness.awareness_engine import AwarenessEngine
 
 # ΛTAG: awareness_setup_test

@@ -24,7 +24,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from bench_core import (
     PerformanceBenchmark,  # - repo root must be on sys.path before import
 )
-
 from governance.guardian_system import (
     GuardianSystem,  # - repo root must be on sys.path before import
 )
