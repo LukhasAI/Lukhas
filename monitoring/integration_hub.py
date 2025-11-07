@@ -50,6 +50,11 @@ from resilience.circuit_breaker import (
     CircuitBreakerRegistry,
 )
 
+from resilience.circuit_breaker import (
+    CircuitBreakerConfig,
+    CircuitBreakerRegistry,
+)
+
 from monitoring.health_system import (
     HealthMonitoringSystem,
     RestartServiceAction,
