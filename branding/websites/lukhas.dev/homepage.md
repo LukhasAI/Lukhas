@@ -151,7 +151,7 @@ Beyond core MATRIZ pipeline access, lukhas.dev exposes specialized capabilities 
 
 ### Identity (ΛiD): Consciousness-Aware Authentication
 
-Building multi-tenant applications with sophisticated permission models typically requires weeks of authentication infrastructure development. ΛiD provides production-ready identity services that go beyond traditional auth systems to deliver context-aware access control.
+Building multi-tenant applications with sophisticated permission models typically requires weeks of authentication infrastructure development. ΛiD provides deployment-ready identity services that go beyond traditional auth systems to deliver context-aware access control.
 
 ```python
 from lukhas.identity import LidAuth, NamespaceIsolation, PermissionModel
