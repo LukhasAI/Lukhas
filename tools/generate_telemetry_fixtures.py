@@ -29,7 +29,7 @@ def generate_span_id() -> str:
     return uuid.uuid4().hex[:16]
 
 
-def generate_spans_fixture(module: str) -> Dict[str, Any]:
+def generate_spans_fixture(module: str) -> dict[str, Any]:
     """Generate spans fixture for a module."""
     trace_id = generate_trace_id()
     current_nano = int(time.time() * 1_000_000_000)
@@ -157,7 +157,7 @@ def generate_spans_fixture(module: str) -> Dict[str, Any]:
     return {"spans": spans}
 
 
-def generate_metrics_fixture(module: str) -> Dict[str, Any]:
+def generate_metrics_fixture(module: str) -> dict[str, Any]:
     """Generate metrics fixture for a module."""
 
     # Module-specific metric configurations
@@ -261,7 +261,7 @@ def generate_metrics_fixture(module: str) -> Dict[str, Any]:
     return {"metrics": metrics_config}
 
 
-def write_fixture_file(data: Dict[str, Any], output_path: pathlib.Path) -> None:
+def write_fixture_file(data: dict[str, Any], output_path: pathlib.Path) -> None:
     """Write fixture data to JSON file with pretty formatting."""
     with open(output_path, 'w') as f:
         json.dump(data, f, indent=2, sort_keys=False)

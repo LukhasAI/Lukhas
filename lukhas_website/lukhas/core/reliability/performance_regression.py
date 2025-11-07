@@ -48,7 +48,7 @@ class RegressionAlert:
     severity: AlertSeverity
     timestamp: float
     correlation_id: str
-    context: Dict[str, Any]
+    context: dict[str, Any]
 
 
 class PerformanceRegressionDetector:
@@ -81,9 +81,9 @@ class PerformanceRegressionDetector:
         self.throughput_degradation_threshold = throughput_degradation_threshold
 
         # Storage for performance data
-        self.operation_data: Dict[str, deque] = defaultdict(lambda: deque(maxlen=10000))
-        self.baselines: Dict[str, PerformanceBaseline] = {}
-        self.active_alerts: Dict[str, RegressionAlert] = {}
+        self.operation_data: dict[str, deque] = defaultdict(lambda: deque(maxlen=10000))
+        self.baselines: dict[str, PerformanceBaseline] = {}
+        self.active_alerts: dict[str, RegressionAlert] = {}
 
         # Dependencies
         self.metrics = LUKHASMetrics()
@@ -91,7 +91,7 @@ class PerformanceRegressionDetector:
 
         # Alert suppression
         self.alert_cooldown = 300  # 5 minutes
-        self.last_alert_time: Dict[str, float] = {}
+        self.last_alert_time: dict[str, float] = {}
 
     def record_operation(
         self,
@@ -180,7 +180,7 @@ class PerformanceRegressionDetector:
         self.baselines[operation] = baseline
         return baseline
 
-    def _get_recent_data(self, operation: str, window_seconds: int) -> List[Dict[str, Any]]:
+    def _get_recent_data(self, operation: str, window_seconds: int) -> list[dict[str, Any]]:
         """Get recent performance data within the specified window."""
         cutoff_time = time.time() - window_seconds
         return [
@@ -188,7 +188,7 @@ class PerformanceRegressionDetector:
             if dp['timestamp'] >= cutoff_time
         ]
 
-    def _calculate_metrics(self, data: List[Dict[str, Any]]) -> Dict[str, float]:
+    def _calculate_metrics(self, data: list[dict[str, Any]]) -> dict[str, float]:
         """Calculate performance metrics from data points."""
         if not data:
             return {}
@@ -226,8 +226,8 @@ class PerformanceRegressionDetector:
         self,
         operation: str,
         baseline: PerformanceBaseline,
-        current: Dict[str, float]
-    ) -> List[RegressionAlert]:
+        current: dict[str, float]
+    ) -> list[RegressionAlert]:
         """Detect performance regressions by comparing current metrics to baseline."""
         alerts = []
         correlation_id = f"regression_{operation}_{int(time.time())}"
@@ -361,7 +361,7 @@ class PerformanceRegressionDetector:
         print(f"  Degradation: {alert.degradation_percent:.1f}%")
         print(f"  Correlation: {alert.correlation_id}")
 
-    def get_active_alerts(self) -> List[RegressionAlert]:
+    def get_active_alerts(self) -> list[RegressionAlert]:
         """Get all active regression alerts."""
         return list(self.active_alerts.values())
 
@@ -373,7 +373,7 @@ class PerformanceRegressionDetector:
             return True
         return False
 
-    def get_health_summary(self) -> Dict[str, Any]:
+    def get_health_summary(self) -> dict[str, Any]:
         """Get performance health summary."""
         current_time = time.time()
 
@@ -429,7 +429,7 @@ def record_operation_performance(
     detector.record_operation(operation, latency_ms, success, throughput_rps, correlation_id)
 
 
-def get_performance_health() -> Dict[str, Any]:
+def get_performance_health() -> dict[str, Any]:
     """Get performance monitoring health status."""
     detector = get_regression_detector()
     return detector.get_health_summary()

@@ -85,7 +85,7 @@ class GuardianOperation:
     performance_optimization: bool = True
     constitutional_ai: bool = True
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -98,9 +98,9 @@ class GuardianResult:
     validation_result: Optional[Any] = None
     migration_result: Optional[Any] = None
     execution_time_ms: float = 0.0
-    errors: List[str] = field(default_factory=list)
-    warnings: List[str] = field(default_factory=list)
-    metrics: Dict[str, Any] = field(default_factory=dict)
+    errors: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    metrics: dict[str, Any] = field(default_factory=dict)
 
 
 class GuardianSerializer:
@@ -118,7 +118,7 @@ class GuardianSerializer:
 
     def serialize_decision(
         self,
-        decision_data: Dict[str, Any],
+        decision_data: dict[str, Any],
         operation: Optional[GuardianOperation] = None
     ) -> GuardianResult:
         """Serialize Guardian decision with full validation and optimization"""
@@ -250,7 +250,7 @@ class GuardianSerializer:
 
     def validate_decision(
         self,
-        decision_data: Dict[str, Any],
+        decision_data: dict[str, Any],
         operation: Optional[GuardianOperation] = None
     ) -> GuardianResult:
         """Validate Guardian decision with full compliance checking"""
@@ -286,7 +286,7 @@ class GuardianSerializer:
 
     def migrate_decision(
         self,
-        decision_data: Dict[str, Any],
+        decision_data: dict[str, Any],
         target_version: str,
         operation: Optional[GuardianOperation] = None
     ) -> GuardianResult:
@@ -332,14 +332,14 @@ class GuardianSerializer:
 
     async def batch_serialize_decisions(
         self,
-        decisions: List[Dict[str, Any]],
+        decisions: list[dict[str, Any]],
         operation: Optional[GuardianOperation] = None
-    ) -> List[GuardianResult]:
+    ) -> list[GuardianResult]:
         """Batch serialize multiple Guardian decisions"""
         if operation is None:
             operation = GuardianOperation(operation_type=OperationType.SERIALIZE)
 
-        async def serialize_single(decision: Dict[str, Any]) -> GuardianResult:
+        async def serialize_single(decision: dict[str, Any]) -> GuardianResult:
             return self.serialize_decision(decision, operation)
 
         # Use performance optimizer for batch processing
@@ -351,7 +351,7 @@ class GuardianSerializer:
             tasks = [serialize_single(decision) for decision in decisions]
             return await asyncio.gather(*tasks)
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive system status"""
         registry_metrics = self.schema_registry.get_metrics()
         serialization_metrics = self.serialization_engine.get_metrics()
@@ -399,7 +399,7 @@ class GuardianSerializer:
 
     def _validate_decision(
         self,
-        decision_data: Dict[str, Any],
+        decision_data: dict[str, Any],
         operation: GuardianOperation
     ) -> Any:
         """Validate Guardian decision data"""
@@ -417,7 +417,7 @@ class GuardianSerializer:
 
     def _optimized_serialize(
         self,
-        data: Dict[str, Any],
+        data: dict[str, Any],
         format: SerializationFormat,
         compression: CompressionType
     ) -> Any:
@@ -431,9 +431,9 @@ class GuardianSerializer:
 
     def _add_system_metadata(
         self,
-        decision_data: Dict[str, Any],
+        decision_data: dict[str, Any],
         operation: GuardianOperation
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Add system metadata to Guardian decision"""
         enhanced_data = decision_data.copy()
 
@@ -496,7 +496,7 @@ def get_guardian_serializer() -> GuardianSerializer:
 
 # Convenience functions for common operations
 def serialize_guardian(
-    decision: Dict[str, Any],
+    decision: dict[str, Any],
     format: SerializationFormat = SerializationFormat.MSGPACK,
     compression: CompressionType = CompressionType.ZSTD,
     validate: bool = True
@@ -530,7 +530,7 @@ def deserialize_guardian(
 
 
 def validate_guardian(
-    decision: Dict[str, Any],
+    decision: dict[str, Any],
     constitutional_ai: bool = True
 ) -> GuardianResult:
     """Validate Guardian decision with Constitutional AI compliance"""
@@ -543,7 +543,7 @@ def validate_guardian(
 
 
 def migrate_guardian(
-    decision: Dict[str, Any],
+    decision: dict[str, Any],
     target_version: str
 ) -> GuardianResult:
     """Migrate Guardian decision to target schema version"""
@@ -552,16 +552,16 @@ def migrate_guardian(
 
 
 async def batch_process_guardians(
-    decisions: List[Dict[str, Any]],
+    decisions: list[dict[str, Any]],
     operation_type: OperationType = OperationType.SERIALIZE
-) -> List[GuardianResult]:
+) -> list[GuardianResult]:
     """Batch process multiple Guardian decisions"""
     serializer = get_guardian_serializer()
     operation = GuardianOperation(operation_type=operation_type)
     return await serializer.batch_serialize_decisions(decisions, operation)
 
 
-def get_system_health() -> Dict[str, Any]:
+def get_system_health() -> dict[str, Any]:
     """Get Guardian serialization system health status"""
     serializer = get_guardian_serializer()
     return serializer.get_system_status()

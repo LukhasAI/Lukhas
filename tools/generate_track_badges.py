@@ -26,7 +26,7 @@ class TrackBadgeGenerator:
         self.timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
         self.date_only = datetime.now(timezone.utc).strftime('%Y-%m-%d')
 
-    def analyze_contract(self, contract_path: str) -> Dict[str, Any]:
+    def analyze_contract(self, contract_path: str) -> dict[str, Any]:
         """Analyze matrix contract to determine track status."""
         try:
             with open(contract_path) as f:
@@ -51,7 +51,7 @@ class TrackBadgeGenerator:
             'gates': contract.get('gates', [])
         }
 
-    def _analyze_verification_track(self, contract: Dict) -> Dict[str, str]:
+    def _analyze_verification_track(self, contract: Dict) -> dict[str, str]:
         """Analyze verification track status from contract."""
         formal = contract.get('formal', {})
         probabilistic = formal.get('probabilistic', {})
@@ -82,7 +82,7 @@ class TrackBadgeGenerator:
             'details': 'No probabilistic verification in contract'
         }
 
-    def _analyze_provenance_track(self, contract: Dict) -> Dict[str, str]:
+    def _analyze_provenance_track(self, contract: Dict) -> dict[str, str]:
         """Analyze provenance track status from contract."""
         causal_prov = contract.get('causal_provenance', {})
         cid = causal_prov.get('ipld_root_cid', '')
@@ -109,7 +109,7 @@ class TrackBadgeGenerator:
             'details': 'No causal_provenance in contract'
         }
 
-    def _analyze_attestation_track(self, contract: Dict) -> Dict[str, str]:
+    def _analyze_attestation_track(self, contract: Dict) -> dict[str, str]:
         """Analyze attestation track status from contract."""
         attestation = contract.get('attestation', {})
         rats = attestation.get('rats', {})
@@ -140,7 +140,7 @@ class TrackBadgeGenerator:
             'details': 'No RATS configuration in contract'
         }
 
-    def generate_status_table(self, analysis: Dict[str, Any]) -> str:
+    def generate_status_table(self, analysis: dict[str, Any]) -> str:
         """Generate the Matrix Tracks status table markdown."""
         tracks = analysis['tracks']
 
@@ -168,7 +168,7 @@ class TrackBadgeGenerator:
 
         return table
 
-    def update_module_readme(self, contract_path: str, analysis: Dict[str, Any]) -> bool:
+    def update_module_readme(self, contract_path: str, analysis: dict[str, Any]) -> bool:
         """Update module README.md with current status table."""
         module_dir = pathlib.Path(contract_path).parent
         readme_path = module_dir / 'README.md'
@@ -238,7 +238,7 @@ Current gate configuration from [`matrix_{analysis['module']}.json`](matrix_{ana
             print(f"❌ Failed to write {readme_path}: {e}")
             return False
 
-    def generate_summary_report(self, analyses: List[Dict[str, Any]]) -> str:
+    def generate_summary_report(self, analyses: list[dict[str, Any]]) -> str:
         """Generate summary report of all track statuses."""
         if not analyses:
             return "No matrix contracts found."

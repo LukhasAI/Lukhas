@@ -84,7 +84,7 @@ def read_manifest(md_path: pathlib.Path) -> Dict | None:
         return None
 
 
-def parse_legacy_header(text: str) -> Dict[str, str | None]:
+def parse_legacy_header(text: str) -> dict[str, str | None]:
     """Extract metadata from legacy context file header format.
 
     Scans the first 40 lines of a context file to find legacy header fields
@@ -125,7 +125,7 @@ def parse_legacy_header(text: str) -> Dict[str, str | None]:
     return fields
 
 
-def sanitize_nodes(nodes_str: str | None) -> List[str]:
+def sanitize_nodes(nodes_str: str | None) -> list[str]:
     """Parse and normalize MATRIZ node string to list of node codes.
 
     Splits a comma or whitespace-separated string of MATRIZ node codes into
@@ -158,7 +158,7 @@ def sanitize_nodes(nodes_str: str | None) -> List[str]:
     return parts
 
 
-def to_front_matter(data: Dict[str, object]) -> str:
+def to_front_matter(data: dict[str, object]) -> str:
     """Generate YAML front matter block from metadata dictionary.
 
     Converts a metadata dictionary to a YAML front-matter block suitable for
@@ -224,7 +224,7 @@ def remove_legacy_header(text: str) -> str:
         'Content\\n'
     """
     lines = text.splitlines()
-    keep: List[str] = []
+    keep: list[str] = []
     skip_prefixes = (
         "**Star**:",
         "**MATRIZ Nodes**:",

@@ -57,8 +57,8 @@ class GuardianPerformanceValidator:
         """
         self.iterations = iterations
         self.verbose = verbose
-        self.results: List[Dict[str, Any]] = []
-        self.performance_stats: Dict[str, Any] = {}
+        self.results: list[dict[str, Any]] = []
+        self.performance_stats: dict[str, Any] = {}
 
         # Performance targets from PHASE_MATRIX.md
         self.p95_target_ms = 250.0
@@ -157,7 +157,7 @@ class GuardianPerformanceValidator:
 
         return integration
 
-    async def run_performance_validation(self) -> Dict[str, Any]:
+    async def run_performance_validation(self) -> dict[str, Any]:
         """
         Run comprehensive performance validation.
 
@@ -547,7 +547,7 @@ class GuardianPerformanceValidator:
 
         print(f"  ✓ GDPR compliance rate: {gdpr_compliance_rate:.1%} ({gdpr_passed}/{gdpr_tests})")
 
-    def _generate_performance_report(self) -> Dict[str, Any]:
+    def _generate_performance_report(self) -> dict[str, Any]:
         """Generate comprehensive performance validation report"""
 
         # Overall assessment
@@ -601,7 +601,7 @@ class GuardianPerformanceValidator:
 
         return report
 
-    def print_performance_summary(self, report: Dict[str, Any]):
+    def print_performance_summary(self, report: dict[str, Any]):
         """Print performance validation summary"""
         print("\n" + "="*60)
         print("🛡️ GUARDIAN PERFORMANCE VALIDATION SUMMARY")

@@ -47,7 +47,7 @@ def categorize_link(link_url: str) -> str:
     return 'other'
 
 
-def scan_broken_links(docs: List[Dict]) -> Dict[str, List[Dict]]:
+def scan_broken_links(docs: list[Dict]) -> dict[str, list[Dict]]:
     """Scan all docs for broken links and categorize."""
     broken_by_category = defaultdict(list)
     docs_by_path = {d['path']: d for d in docs}
@@ -98,7 +98,7 @@ def scan_broken_links(docs: List[Dict]) -> Dict[str, List[Dict]]:
     return broken_by_category
 
 
-def generate_issue_for_category(category: str, links: List[Dict]) -> str:
+def generate_issue_for_category(category: str, links: list[Dict]) -> str:
     """Generate GitHub issue markdown for a category of broken links."""
     titles = {
         'missing_file': 'Broken Links: Missing Files',

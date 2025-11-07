@@ -8,8 +8,8 @@ import pkgutil
 from types import ModuleType
 from typing import List
 
-__all__: List[str] = []
-__path__: List[str] = [os.path.dirname(__file__)]  # type: ignore[assignment]
+__all__: list[str] = []
+__path__: list[str] = [os.path.dirname(__file__)]  # type: ignore[assignment]
 
 _BACKEND: ModuleType | None = None
 _CANDIDATES = [

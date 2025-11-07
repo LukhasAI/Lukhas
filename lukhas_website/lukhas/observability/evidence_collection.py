@@ -74,10 +74,10 @@ class EvidenceRecord:
     user_id: Optional[str]
     session_id: Optional[str]
     operation: str
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     integrity_hash: str
     signature: Optional[str] = None
-    compliance_regimes: List[ComplianceRegime] = None
+    compliance_regimes: list[ComplianceRegime] = None
     retention_until: Optional[datetime] = None
     archival_location: Optional[str] = None
 
@@ -91,7 +91,7 @@ class EvidenceChain:
     """Chain of evidence records with tamper-evident linking"""
     chain_id: str
     previous_hash: str
-    records: List[EvidenceRecord]
+    records: list[EvidenceRecord]
     block_hash: str
     sequence_number: int
     created_at: datetime
@@ -144,7 +144,7 @@ class EvidenceCollectionEngine:
         self._init_crypto_system(signing_key_path)
 
         # Initialize evidence chain
-        self.current_chain: List[EvidenceRecord] = []
+        self.current_chain: list[EvidenceRecord] = []
         self.chain_sequence = 0
         self.last_block_hash = self._genesis_hash()
 
@@ -203,7 +203,7 @@ class EvidenceCollectionEngine:
         }
         return hashlib.sha256(json.dumps(genesis_data, sort_keys=True).encode()).hexdigest()
 
-    def _compute_integrity_hash(self, record_data: Dict[str, Any]) -> str:
+    def _compute_integrity_hash(self, record_data: dict[str, Any]) -> str:
         """Compute HMAC-SHA256 integrity hash for evidence record"""
         record_json = json.dumps(record_data, sort_keys=True, default=str)
         return hmac.new(self.hmac_key, record_json.encode(), hashlib.sha256).hexdigest()
@@ -242,11 +242,11 @@ class EvidenceCollectionEngine:
         evidence_type: EvidenceType,
         source_component: str,
         operation: str,
-        payload: Dict[str, Any],
+        payload: dict[str, Any],
         correlation_id: Optional[str] = None,
         user_id: Optional[str] = None,
         session_id: Optional[str] = None,
-        compliance_regimes: Optional[List[ComplianceRegime]] = None,
+        compliance_regimes: Optional[list[ComplianceRegime]] = None,
     ) -> str:
         """
         Collect evidence with tamper-evident integrity.
@@ -575,7 +575,7 @@ class EvidenceCollectionEngine:
                 print(f"Warning: Failed to process evidence file {chain_file}: {e}")
                 continue
 
-    def get_performance_metrics(self) -> Dict[str, Any]:
+    def get_performance_metrics(self) -> dict[str, Any]:
         """Get evidence collection performance metrics"""
         collection_times = list(self._collection_times)
         verification_times = list(self._verification_times)
@@ -706,7 +706,7 @@ async def collect_evidence(
     evidence_type: EvidenceType,
     source_component: str,
     operation: str,
-    payload: Dict[str, Any],
+    payload: dict[str, Any],
     **kwargs
 ) -> str:
     """Convenience function for collecting evidence"""

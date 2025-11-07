@@ -17,7 +17,7 @@ class VerificationMatrix:
     def __init__(self):
         self.verification_rules = self._initialize_verification_rules()
 
-    def _initialize_verification_rules(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_verification_rules(self) -> dict[str, dict[str, Any]]:
         """Initialize verification matrix as specified in PLANNING_TODO.md Section 8"""
         return {
             "identity_trace": {
@@ -121,7 +121,7 @@ class VerificationMatrix:
             },
         }
 
-    def verify_todo(self, todo: Dict[str, Any]) -> Dict[str, Any]:
+    def verify_todo(self, todo: dict[str, Any]) -> dict[str, Any]:
         """Verify a manifest task against the appropriate verification matrix."""
         todo.get("module", "").lower()
         todo.get("risk", "medium")
@@ -146,7 +146,7 @@ class VerificationMatrix:
             "evidence_requirements": self._generate_evidence_requirements(todo, rules),
         }
 
-    def _categorize_todo(self, todo: Dict[str, Any]) -> Optional[str]:
+    def _categorize_todo(self, todo: dict[str, Any]) -> Optional[str]:
         """Categorize a task based on module and content."""
         module = todo.get("module", "").lower()
         title = todo.get("title", "").lower()
@@ -160,7 +160,7 @@ class VerificationMatrix:
 
         return None
 
-    def _create_basic_verification(self, todo: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_basic_verification(self, todo: dict[str, Any]) -> dict[str, Any]:
         """Create basic verification for uncategorized tasks."""
         return {
             "todo_id": todo.get("task_id", "unknown"),
@@ -181,7 +181,7 @@ class VerificationMatrix:
             "evidence_requirements": ["Passing tests", "Code review approval"],
         }
 
-    def _generate_acceptance_criteria(self, todo: Dict[str, Any], rules: Dict[str, Any]) -> List[str]:
+    def _generate_acceptance_criteria(self, todo: dict[str, Any], rules: dict[str, Any]) -> list[str]:
         """Generate acceptance criteria based on verification rules"""
         criteria = [
             "Implementation completes the recorded task requirements",
@@ -208,7 +208,7 @@ class VerificationMatrix:
 
         return criteria
 
-    def _generate_test_requirements(self, todo: Dict[str, Any], rules: Dict[str, Any]) -> List[str]:
+    def _generate_test_requirements(self, todo: dict[str, Any], rules: dict[str, Any]) -> list[str]:
         """Generate test requirements based on verification rules"""
         tests = ["Unit tests cover happy path scenarios"]
 
@@ -235,7 +235,7 @@ class VerificationMatrix:
 
         return tests
 
-    def _generate_safety_requirements(self, todo: Dict[str, Any], rules: Dict[str, Any]) -> List[str]:
+    def _generate_safety_requirements(self, todo: dict[str, Any], rules: dict[str, Any]) -> list[str]:
         """Generate safety requirements based on verification rules"""
         safety = []
 
@@ -261,7 +261,7 @@ class VerificationMatrix:
 
         return safety
 
-    def _generate_evidence_requirements(self, todo: Dict[str, Any], rules: Dict[str, Any]) -> List[str]:
+    def _generate_evidence_requirements(self, todo: dict[str, Any], rules: dict[str, Any]) -> list[str]:
         """Generate evidence requirements for verification"""
         evidence = ["Passing test suite", "Code review approval", "Documentation updated"]
 
@@ -279,7 +279,7 @@ class VerificationMatrix:
 
         return evidence
 
-    def generate_verification_report(self, todos: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def generate_verification_report(self, todos: list[dict[str, Any]]) -> dict[str, Any]:
         """Generate comprehensive verification report for all tracked tasks."""
         verifications = [self.verify_todo(todo) for todo in todos]
 

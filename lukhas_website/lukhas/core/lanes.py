@@ -14,7 +14,7 @@ from typing import Any, Callable, Tuple
 
 LANE = os.getenv("LUKHAS_LANE", "experimental")
 
-def lane_guard(allowed: Tuple[str, ...] = ("candidate", "prod")) -> Callable:
+def lane_guard(allowed: tuple[str, ...] = ("candidate", "prod")) -> Callable:
     """
     Enforce lane routing. Always emits a Guardian attempt token even on block.
     """

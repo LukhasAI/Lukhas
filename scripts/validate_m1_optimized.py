@@ -42,7 +42,7 @@ class OptimizedEmbeddings(Embeddings):
     def __init__(self):
         self._cache = {}
 
-    def embed(self, text: str) -> List[float]:
+    def embed(self, text: str) -> list[float]:
         if text in self._cache:
             return self._cache[text]
 
@@ -73,11 +73,11 @@ class OptimizedMockStore(PgVectorStore):
         self.index[doc.id] = {"doc": doc, "norm": norm}
         return doc.id
 
-    def bulk_add(self, docs: List[VectorDoc]) -> List[str]:
+    def bulk_add(self, docs: list[VectorDoc]) -> list[str]:
         return [self.add(doc) for doc in docs]
 
-    def search(self, embedding: List[float], k: int = 10,
-               filters: Optional[Dict[str, Any]] = None) -> List[tuple]:
+    def search(self, embedding: list[float], k: int = 10,
+               filters: Optional[dict[str, Any]] = None) -> list[tuple]:
         # Fast cosine similarity with pre-computed norms
         query_norm = sum(x * x for x in embedding) ** 0.5
         results = []
@@ -100,7 +100,7 @@ class OptimizedMockStore(PgVectorStore):
         results.sort(key=lambda x: x[1], reverse=True)
         return results[:k]
 
-    def delete(self, *, id: Optional[str] = None, where: Optional[Dict[str, Any]] = None) -> int:
+    def delete(self, *, id: Optional[str] = None, where: Optional[dict[str, Any]] = None) -> int:
         deleted = 0
         if id and id in self.storage:
             del self.storage[id]
@@ -118,7 +118,7 @@ class OptimizedMockStore(PgVectorStore):
                 deleted += 1
         return deleted
 
-    def stats(self) -> Dict[str, Any]:
+    def stats(self) -> dict[str, Any]:
         return {"table": self.table, "dim": self.dim, "count": len(self.storage)}
 
 def stabilize_environment():
@@ -163,7 +163,7 @@ async def measure_with_warmup(operation, warmup_count: int = 10, measurement_cou
 
     return latencies
 
-async def validate_optimized_performance(samples: int = 500) -> Dict[str, Any]:
+async def validate_optimized_performance(samples: int = 500) -> dict[str, Any]:
     """Validate with optimized components for T4/0.01% compliance."""
 
     stabilize_environment()
@@ -212,7 +212,7 @@ async def validate_optimized_performance(samples: int = 500) -> Dict[str, Any]:
     gc.enable()
 
     # Calculate robust statistics
-    def calc_robust_stats(latencies: List[float], name: str, target_us: float) -> Dict[str, Any]:
+    def calc_robust_stats(latencies: list[float], name: str, target_us: float) -> dict[str, Any]:
         # Remove outliers (beyond 3 standard deviations)
         mean = statistics.mean(latencies)
         std_dev = statistics.stdev(latencies)

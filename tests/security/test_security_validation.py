@@ -52,7 +52,7 @@ class SecurityTestFramework:
         }
         self.vulnerabilities_found.append(vulnerability)
 
-    def get_vulnerability_report(self) -> Dict[str, Any]:
+    def get_vulnerability_report(self) -> dict[str, Any]:
         """Generate vulnerability report."""
         severity_counts = {}
         category_counts = {}

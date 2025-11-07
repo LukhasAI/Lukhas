@@ -69,8 +69,8 @@ class ResourceMetrics:
     cpu_percent: float
     memory_percent: float
     disk_usage_percent: float
-    network_io: Dict[str, int]
-    load_average: List[float]
+    network_io: dict[str, int]
+    load_average: list[float]
     timestamp: str
 
 
@@ -86,7 +86,7 @@ class TestExecutionMetrics:
     stdout_lines: int
     stderr_lines: int
     resource_usage: ResourceMetrics
-    performance_markers: Dict[str, float]
+    performance_markers: dict[str, float]
     flakiness_score: float
 
 
@@ -101,8 +101,8 @@ class InfrastructureHealth:
     dependencies_ready: bool
     test_database_ready: bool
     external_services_ready: bool
-    issues: List[str]
-    recommendations: List[str]
+    issues: list[str]
+    recommendations: list[str]
 
 
 class TestInfrastructureMonitor:
@@ -110,10 +110,10 @@ class TestInfrastructureMonitor:
 
     def __init__(self, config_path: Optional[Path] = None):
         self.config = self._load_config(config_path)
-        self.active_executions: Dict[str, TestExecutionMetrics] = {}
-        self.health_history: List[InfrastructureHealth] = []
-        self.performance_baseline: Dict[str, float] = {}
-        self.flaky_test_registry: Dict[str, List[datetime]] = {}
+        self.active_executions: dict[str, TestExecutionMetrics] = {}
+        self.health_history: list[InfrastructureHealth] = []
+        self.performance_baseline: dict[str, float] = {}
+        self.flaky_test_registry: dict[str, list[datetime]] = {}
 
         # Resource thresholds
         self.cpu_threshold = self.config.get('cpu_threshold', 80.0)
@@ -135,7 +135,7 @@ class TestInfrastructureMonitor:
         self.monitoring_active = True
         self.monitoring_thread = None
 
-    def _load_config(self, config_path: Optional[Path]) -> Dict[str, Any]:
+    def _load_config(self, config_path: Optional[Path]) -> dict[str, Any]:
         """Load monitoring configuration"""
         default_config = {
             'cpu_threshold': 80.0,
@@ -335,7 +335,7 @@ class TestInfrastructureMonitor:
 
     def execute_test_suite(
         self,
-        test_command: List[str],
+        test_command: list[str],
         test_id: Optional[str] = None,
         retry_on_failure: bool = True,
         timeout: Optional[int] = None
@@ -429,7 +429,7 @@ class TestInfrastructureMonitor:
 
     def _execute_single_attempt(
         self,
-        test_command: List[str],
+        test_command: list[str],
         test_id: str,
         timeout: Optional[int]
     ) -> subprocess.CompletedProcess:
@@ -580,7 +580,7 @@ class TestInfrastructureMonitor:
 
         logger.info(f"Cleaned up {cleaned_count} old test artifacts")
 
-    def get_infrastructure_status(self) -> Dict[str, Any]:
+    def get_infrastructure_status(self) -> dict[str, Any]:
         """Get current infrastructure status"""
         latest_health = self.health_history[-1] if self.health_history else None
 

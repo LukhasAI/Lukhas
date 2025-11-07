@@ -70,11 +70,11 @@ class ContractWebAuthnAnalysis:
     path: Path
     module: str
     webauthn_required: bool
-    required_tiers: List[str]
+    required_tiers: list[str]
     highest_tier: Optional[TierLevel]
     recommended_policy: Optional[WebAuthnPolicy]
     current_compliance: bool
-    issues: List[str]
+    issues: list[str]
 
 class WebAuthnMatrixIntegration:
     """WebAuthn integration validator for Matrix contracts."""
@@ -82,11 +82,11 @@ class WebAuthnMatrixIntegration:
     def __init__(self):
         self.contracts = self._discover_contracts()
 
-    def _discover_contracts(self) -> List[Path]:
+    def _discover_contracts(self) -> list[Path]:
         """Discover all Matrix contracts."""
         return sorted(MATRIX_CONTRACTS.rglob("matrix_*.json"))
 
-    def _get_recommended_policy(self, tiers: List[str]) -> Optional[WebAuthnPolicy]:
+    def _get_recommended_policy(self, tiers: list[str]) -> Optional[WebAuthnPolicy]:
         """Get recommended WebAuthn policy based on tier requirements."""
         if not tiers:
             return None
@@ -189,7 +189,7 @@ class WebAuthnMatrixIntegration:
             issues=issues
         )
 
-    def validate_all_contracts(self) -> List[ContractWebAuthnAnalysis]:
+    def validate_all_contracts(self) -> list[ContractWebAuthnAnalysis]:
         """Validate WebAuthn configuration for all Matrix contracts."""
         analyses = []
 
@@ -199,7 +199,7 @@ class WebAuthnMatrixIntegration:
 
         return analyses
 
-    def generate_compliance_report(self, analyses: List[ContractWebAuthnAnalysis]) -> Dict[str, Any]:
+    def generate_compliance_report(self, analyses: list[ContractWebAuthnAnalysis]) -> dict[str, Any]:
         """Generate WebAuthn compliance report."""
         total_contracts = len(analyses)
         webauthn_required = sum(1 for a in analyses if a.webauthn_required)
@@ -253,7 +253,7 @@ class WebAuthnMatrixIntegration:
             ]
         }
 
-    def _generate_recommendations(self, analyses: List[ContractWebAuthnAnalysis]) -> List[Dict[str, str]]:
+    def _generate_recommendations(self, analyses: list[ContractWebAuthnAnalysis]) -> list[dict[str, str]]:
         """Generate recommendations for WebAuthn improvements."""
         recommendations = []
 
@@ -284,7 +284,7 @@ class WebAuthnMatrixIntegration:
 
         return recommendations
 
-    def fix_webauthn_requirements(self, dry_run: bool = True) -> List[Dict[str, Any]]:
+    def fix_webauthn_requirements(self, dry_run: bool = True) -> list[dict[str, Any]]:
         """Fix WebAuthn requirements based on analysis."""
         changes = []
         analyses = self.validate_all_contracts()
@@ -324,7 +324,7 @@ class WebAuthnMatrixIntegration:
 
         return changes
 
-async def test_webauthn_flow(module: str) -> Dict[str, Any]:
+async def test_webauthn_flow(module: str) -> dict[str, Any]:
     """Test WebAuthn authentication flow for a module."""
     # Placeholder for actual WebAuthn testing
     # In a real implementation, this would test credential creation/validation

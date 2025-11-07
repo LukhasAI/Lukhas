@@ -42,7 +42,7 @@ class MATRIZPromotionManager:
             "promotion_approved": False
         }
 
-    def load_module_manifest(self, module: str) -> Optional[Dict[str, Any]]:
+    def load_module_manifest(self, module: str) -> Optional[dict[str, Any]]:
         """Load module lane manifest."""
         manifest_paths = [
             f"{module.replace('.', '/')}/module.lane.yaml",
@@ -75,7 +75,7 @@ class MATRIZPromotionManager:
         return True
 
     def validate_promotion_gates(self, module: str, target_lane: str,
-                                manifest: Dict[str, Any]) -> Dict[str, bool]:
+                                manifest: dict[str, Any]) -> dict[str, bool]:
         """Validate all required promotion gates."""
         gate_results = {}
 

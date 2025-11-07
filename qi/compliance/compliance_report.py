@@ -82,7 +82,7 @@ class ConsentRecord(TypedDict):
     timestamp: str
     purpose: str
     legal_basis: str
-    scope: List[str]
+    scope: list[str]
     active: bool
     withdrawn_at: str | None
     expiry_date: str | None
@@ -94,7 +94,7 @@ class AccessRecord(TypedDict):
     timestamp: str
     accessor: str
     accessor_type: str
-    data_categories: List[str]
+    data_categories: list[str]
     purpose: str
     legal_basis: str
     ip_address: str | None
@@ -115,7 +115,7 @@ class DeletionRecord(TypedDict):
 
     timestamp: str
     request_type: str
-    scope: List[str]
+    scope: list[str]
     status: str
     completed_at: str | None
     retention_exception: str | None
@@ -126,9 +126,9 @@ class ThirdPartyDisclosure(TypedDict):
 
     name: str
     purpose: str
-    data_categories: List[str]
+    data_categories: list[str]
     legal_basis: str
-    safeguards: List[str]
+    safeguards: list[str]
     location: str
     active: bool
 
@@ -149,14 +149,14 @@ class ComplianceReport(TypedDict):
     user_id: str
     jurisdiction: str
     report_date: str
-    date_range: Dict[str, str]
-    consent_history: List[ConsentRecord]
-    data_access_log: List[AccessRecord]
-    retention_compliance: Dict[str, RetentionPolicy]
-    deletion_requests: List[DeletionRecord]
-    third_party_disclosures: List[ThirdPartyDisclosure]
-    security_events: List[SecurityEvent] | None
-    metadata: Dict[str, Any]
+    date_range: dict[str, str]
+    consent_history: list[ConsentRecord]
+    data_access_log: list[AccessRecord]
+    retention_compliance: dict[str, RetentionPolicy]
+    deletion_requests: list[DeletionRecord]
+    third_party_disclosures: list[ThirdPartyDisclosure]
+    security_events: list[SecurityEvent] | None
+    metadata: dict[str, Any]
 
 
 @dataclass
@@ -165,7 +165,7 @@ class GuardianAuditInterface:
 
     def get_access_logs(
         self, user_id: str, start_date: datetime, end_date: datetime
-    ) -> List[AccessRecord]:
+    ) -> list[AccessRecord]:
         """Retrieve access logs from Guardian System.
 
         In production, this would query the actual Guardian audit trail.
@@ -193,7 +193,7 @@ class GuardianAuditInterface:
             },
         ]
 
-    def get_consent_records(self, user_id: str) -> List[ConsentRecord]:
+    def get_consent_records(self, user_id: str) -> list[ConsentRecord]:
         """Retrieve consent records from privacy system.
 
         In production, this would query qi/privacy/ consent management.
@@ -219,7 +219,7 @@ class GuardianAuditInterface:
             },
         ]
 
-    def get_deletion_requests(self, user_id: str) -> List[DeletionRecord]:
+    def get_deletion_requests(self, user_id: str) -> list[DeletionRecord]:
         """Retrieve deletion requests from identity system."""
         return [
             {
@@ -232,7 +232,7 @@ class GuardianAuditInterface:
             }
         ]
 
-    def get_security_events(self, user_id: str, start_date: datetime, end_date: datetime) -> List[SecurityEvent]:
+    def get_security_events(self, user_id: str, start_date: datetime, end_date: datetime) -> list[SecurityEvent]:
         """Retrieve security events for user."""
         return [
             {
@@ -416,13 +416,13 @@ class ComplianceReportGenerator:
 
     # Helper methods
 
-    def _get_consent_history(self, user_id: str) -> List[ConsentRecord]:
+    def _get_consent_history(self, user_id: str) -> list[ConsentRecord]:
         """Retrieve consent history for user."""
         return self._guardian.get_consent_records(user_id)
 
     def _get_access_log(
         self, user_id: str, start_date: datetime, end_date: datetime
-    ) -> List[AccessRecord]:
+    ) -> list[AccessRecord]:
         """Retrieve data access log for user within date range."""
         all_logs = self._guardian.get_access_logs(user_id, start_date, end_date)
 
@@ -438,10 +438,10 @@ class ComplianceReportGenerator:
 
         return filtered_logs
 
-    def _get_retention_compliance(self, user_id: str) -> Dict[str, RetentionPolicy]:
+    def _get_retention_compliance(self, user_id: str) -> dict[str, RetentionPolicy]:
         """Calculate retention compliance for all data categories."""
         # Mock retention policies - in production would query actual policies
-        policies: Dict[str, RetentionPolicy] = {
+        policies: dict[str, RetentionPolicy] = {
             "profile": {
                 "data_category": "profile",
                 "retention_period_days": 2555,  # 7 years
@@ -466,11 +466,11 @@ class ComplianceReportGenerator:
         }
         return policies
 
-    def _get_deletion_requests(self, user_id: str) -> List[DeletionRecord]:
+    def _get_deletion_requests(self, user_id: str) -> list[DeletionRecord]:
         """Retrieve deletion requests for user."""
         return self._guardian.get_deletion_requests(user_id)
 
-    def _get_third_party_disclosures(self, user_id: str) -> List[ThirdPartyDisclosure]:
+    def _get_third_party_disclosures(self, user_id: str) -> list[ThirdPartyDisclosure]:
         """Retrieve third-party data sharing information."""
         # Mock third-party disclosures - in production would query actual data
         return [
@@ -496,7 +496,7 @@ class ComplianceReportGenerator:
 
     def _get_security_events(
         self, user_id: str, start_date: datetime, end_date: datetime
-    ) -> List[SecurityEvent]:
+    ) -> list[SecurityEvent]:
         """Retrieve security events for user within date range."""
         all_events = self._guardian.get_security_events(user_id, start_date, end_date)
 
@@ -527,7 +527,7 @@ class ComplianceReportGenerator:
                 return f"{parts[0]}:{parts[1]}:{parts[2]}:xxxx:xxxx:xxxx:xxxx:xxxx"
         return "xxx.xxx.xxx.xxx"
 
-    def _generate_metadata(self, jurisdiction: Jurisdiction, access_count: int) -> Dict[str, Any]:
+    def _generate_metadata(self, jurisdiction: Jurisdiction, access_count: int) -> dict[str, Any]:
         """Generate report metadata."""
         report_data = f"{jurisdiction.value}_{access_count}_{datetime.now(timezone.utc).isoformat()}"
         report_hash = hashlib.sha256(report_data.encode()).hexdigest()[:16]
@@ -633,7 +633,7 @@ class ComplianceReportGenerator:
 
     # HTML rendering helpers
 
-    def _render_consent_history_html(self, consents: List[ConsentRecord]) -> List[str]:
+    def _render_consent_history_html(self, consents: list[ConsentRecord]) -> list[str]:
         """Render consent history section as HTML."""
         html = [
             '  <div class="section">',
@@ -666,7 +666,7 @@ class ComplianceReportGenerator:
         html.extend(["    </table>", "  </div>"])
         return html
 
-    def _render_access_log_html(self, accesses: List[AccessRecord]) -> List[str]:
+    def _render_access_log_html(self, accesses: list[AccessRecord]) -> list[str]:
         """Render data access log section as HTML."""
         html = [
             '  <div class="section">',
@@ -699,7 +699,7 @@ class ComplianceReportGenerator:
         html.extend(["    </table>", "  </div>"])
         return html
 
-    def _render_retention_html(self, retention: Dict[str, RetentionPolicy]) -> List[str]:
+    def _render_retention_html(self, retention: dict[str, RetentionPolicy]) -> list[str]:
         """Render retention compliance section as HTML."""
         html = [
             '  <div class="section">',
@@ -730,7 +730,7 @@ class ComplianceReportGenerator:
         html.extend(["    </table>", "  </div>"])
         return html
 
-    def _render_deletions_html(self, deletions: List[DeletionRecord]) -> List[str]:
+    def _render_deletions_html(self, deletions: list[DeletionRecord]) -> list[str]:
         """Render deletion requests section as HTML."""
         html = [
             '  <div class="section">',
@@ -762,7 +762,7 @@ class ComplianceReportGenerator:
         html.extend(["    </table>", "  </div>"])
         return html
 
-    def _render_third_party_html(self, third_parties: List[ThirdPartyDisclosure]) -> List[str]:
+    def _render_third_party_html(self, third_parties: list[ThirdPartyDisclosure]) -> list[str]:
         """Render third-party disclosures section as HTML."""
         html = [
             '  <div class="section">',
@@ -796,7 +796,7 @@ class ComplianceReportGenerator:
         html.extend(["    </table>", "  </div>"])
         return html
 
-    def _render_security_events_html(self, events: List[SecurityEvent]) -> List[str]:
+    def _render_security_events_html(self, events: list[SecurityEvent]) -> list[str]:
         """Render security events section as HTML."""
         html = [
             '  <div class="section">',

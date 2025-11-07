@@ -42,7 +42,7 @@ def looks_laneish(p: Path) -> bool:
     # nested pockets like src/candidate/, libs/lucas/
     return any(tok in BRAND_MAP for tok in name.split("-"))
 
-def propose_target(p: Path) -> Optional[Tuple[str, str]]:
+def propose_target(p: Path) -> Optional[tuple[str, str]]:
     name = p.name
     if name in BRAND_MAP:
         return (str(p), str(p.with_name(BRAND_MAP[name])))

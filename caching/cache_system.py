@@ -102,7 +102,7 @@ class CacheConfig:
     hierarchical_caching: bool = True
     write_through: bool = False
     write_behind: bool = True
-    invalidation_patterns: List[str] = field(default_factory=list)
+    invalidation_patterns: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -160,8 +160,8 @@ class CacheStatistics:
     entry_count: int = 0
 
     # Recent activity
-    recent_requests: List[float] = field(default_factory=list)
-    recent_response_times: List[float] = field(default_factory=list)
+    recent_requests: list[float] = field(default_factory=list)
+    recent_response_times: list[float] = field(default_factory=list)
 
     def update_hit(self, response_time_ms: float) -> None:
         """Update hit statistics."""
@@ -196,7 +196,7 @@ class CacheStatistics:
         if self.total_requests > 0:
             self.hit_ratio = self.hits / self.total_requests
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
             "total_requests": self.total_requests,
@@ -245,7 +245,7 @@ class CacheBackend(ABC):
         pass
 
     @abstractmethod
-    async def keys(self, pattern: str = "*") -> List[str]:
+    async def keys(self, pattern: str = "*") -> list[str]:
         """Get keys matching pattern."""
         pass
 
@@ -267,9 +267,9 @@ class MemoryCacheBackend(CacheBackend):
         self.strategy = strategy
 
         # Storage
-        self.entries: Dict[str, CacheEntry] = {}
+        self.entries: dict[str, CacheEntry] = {}
         self.access_order: OrderedDict = OrderedDict()  # For LRU
-        self.access_frequency: Dict[str, int] = defaultdict(int)  # For LFU
+        self.access_frequency: dict[str, int] = defaultdict(int)  # For LFU
 
         # Statistics
         self.statistics = CacheStatistics()
@@ -373,7 +373,7 @@ class MemoryCacheBackend(CacheBackend):
         self._update_statistics()
         return True
 
-    async def keys(self, pattern: str = "*") -> List[str]:
+    async def keys(self, pattern: str = "*") -> list[str]:
         """Get keys matching pattern."""
         import fnmatch
 
@@ -589,7 +589,7 @@ class RedisCacheBackend(CacheBackend):
             logger.error(f"Redis clear error: {e}")
             return False
 
-    async def keys(self, pattern: str = "*") -> List[str]:
+    async def keys(self, pattern: str = "*") -> list[str]:
         """Get keys matching pattern."""
         if not self.redis_client:
             return []
@@ -612,7 +612,7 @@ class RedisCacheBackend(CacheBackend):
             logger.error(f"Redis size error: {e}")
             return 0
 
-    def _get_serializer(self) -> Tuple[Callable, Callable]:
+    def _get_serializer(self) -> tuple[Callable, Callable]:
         """Get serialization functions."""
 
         if self.config.serialization_format == "json":
@@ -670,7 +670,7 @@ class HierarchicalCacheManager:
         # Cache warming
         self.warming_enabled = config.warming_enabled
         self.warming_task: Optional[asyncio.Task] = None
-        self.warming_candidates: Set[str] = set()
+        self.warming_candidates: set[str] = set()
 
         # Statistics
         self.global_statistics = CacheStatistics()
@@ -821,7 +821,7 @@ class HierarchicalCacheManager:
             logger.error(f"Cached operation failed for key {cache_key}: {e}")
             raise
 
-    async def warm_cache(self, keys: List[str], operation: Callable) -> int:
+    async def warm_cache(self, keys: list[str], operation: Callable) -> int:
         """Warm cache with computed values for given keys."""
 
         warmed = 0
@@ -849,7 +849,7 @@ class HierarchicalCacheManager:
         logger.info(f"Warmed {warmed} cache entries")
         return warmed
 
-    async def get_statistics(self) -> Dict[str, Any]:
+    async def get_statistics(self) -> dict[str, Any]:
         """Get comprehensive cache statistics."""
 
         stats = {
@@ -883,7 +883,7 @@ class HierarchicalCacheManager:
 
         return stats
 
-    async def _get_redis_info(self) -> Dict[str, Any]:
+    async def _get_redis_info(self) -> dict[str, Any]:
         """Get Redis server information."""
 
         if not self.l2_cache or not self.l2_cache.redis_client:

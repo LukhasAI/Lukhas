@@ -8,7 +8,7 @@ from typing import Any, Optional, Tuple, Union
 logger = logging.getLogger(__name__)
 
 
-RuleEvaluation = Union[bool, Tuple[bool, Optional[str]]]
+RuleEvaluation = Union[bool, tuple[bool, Optional[str]]]
 ConstitutionRule = Callable[[Mapping[str, object]], RuleEvaluation]
 
 
@@ -109,14 +109,14 @@ class PolicyEngine:
 
         return True
 
-    def _normalize_rule_result(self, result: RuleEvaluation) -> Tuple[bool, str | None]:
+    def _normalize_rule_result(self, result: RuleEvaluation) -> tuple[bool, str | None]:
         if isinstance(result, tuple):
             allowed = bool(result[0])
             reason = result[1] if len(result) > 1 else None
             return allowed, reason
         return bool(result), None
 
-    def _evaluate_rule_token(self, rule: Any, labels: set[str]) -> Tuple[bool, str | None]:
+    def _evaluate_rule_token(self, rule: Any, labels: set[str]) -> tuple[bool, str | None]:
         if isinstance(rule, str):
             allowed = self._apply_string_rule(rule, labels)
             return allowed, f"string_rule:{rule}" if not allowed else None

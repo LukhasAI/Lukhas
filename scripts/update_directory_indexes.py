@@ -27,7 +27,7 @@ class ConstellationMetadata:
     framework_version: str = "2.0.0"
     star_role: Optional[str] = None
     cluster_name: Optional[str] = None
-    cognitive_domains: List[str] = None
+    cognitive_domains: list[str] = None
 
 @dataclass
 class MatrizPipelineMetadata:
@@ -101,7 +101,7 @@ class DirectoryIndexUpdater:
         self.updates_count = 0
         self.errors = []
 
-    def update_all_indexes(self) -> Dict[str, Any]:
+    def update_all_indexes(self) -> dict[str, Any]:
         """Update all directory_index.json files in the codebase"""
         index_files = list(self.root_path.glob("**/directory_index.json"))
 
@@ -154,7 +154,7 @@ class DirectoryIndexUpdater:
         except Exception as e:
             raise Exception(f"Failed to update {index_file}: {e!s}")
 
-    def modernize_index_data(self, data: Dict[str, Any], file_path: Path) -> Dict[str, Any]:
+    def modernize_index_data(self, data: dict[str, Any], file_path: Path) -> dict[str, Any]:
         """Apply all modernization transformations to index data"""
 
         # 1. Update schema version
@@ -191,7 +191,7 @@ class DirectoryIndexUpdater:
 
         return data
 
-    def update_directory_metadata(self, metadata: Dict[str, Any], file_path: Path) -> Dict[str, Any]:
+    def update_directory_metadata(self, metadata: dict[str, Any], file_path: Path) -> dict[str, Any]:
         """Update directory metadata with Constellation Framework and MATRIZ"""
 
         # Remove Trinity references
@@ -224,7 +224,7 @@ class DirectoryIndexUpdater:
 
         return metadata
 
-    def update_component_inventory(self, inventory: Dict[str, Any], file_path: Path) -> Dict[str, Any]:
+    def update_component_inventory(self, inventory: dict[str, Any], file_path: Path) -> dict[str, Any]:
         """Update component inventory with modern types and contracts"""
 
         if "python_files" in inventory:
@@ -239,7 +239,7 @@ class DirectoryIndexUpdater:
 
         return inventory
 
-    def update_agent_guidance(self, guidance: Dict[str, Any]) -> Dict[str, Any]:
+    def update_agent_guidance(self, guidance: dict[str, Any]) -> dict[str, Any]:
         """Update agent guidance with Constellation Framework patterns"""
 
         # Update prerequisites
@@ -286,7 +286,7 @@ class DirectoryIndexUpdater:
 
         return guidance
 
-    def update_performance_metadata(self, metadata: Dict[str, Any], file_path: Path) -> Dict[str, Any]:
+    def update_performance_metadata(self, metadata: dict[str, Any], file_path: Path) -> dict[str, Any]:
         """Update performance metadata with T4/0.01% compliance metrics"""
 
         # Add T4 compliance metrics
@@ -311,7 +311,7 @@ class DirectoryIndexUpdater:
 
         return metadata
 
-    def update_relationships(self, relationships: Dict[str, Any], file_path: Path) -> Dict[str, Any]:
+    def update_relationships(self, relationships: dict[str, Any], file_path: Path) -> dict[str, Any]:
         """Update relationships with Constellation Framework clusters"""
 
         # Determine constellation cluster
@@ -338,7 +338,7 @@ class DirectoryIndexUpdater:
 
         return None
 
-    def determine_matriz_integration(self, file_path: Path) -> Optional[Dict[str, str]]:
+    def determine_matriz_integration(self, file_path: Path) -> Optional[dict[str, str]]:
         """Determine MATRIZ pipeline integration levels"""
         path_str = str(file_path).lower()
 
@@ -359,7 +359,7 @@ class DirectoryIndexUpdater:
 
         return None
 
-    def determine_cognitive_domains(self, file_path: Path) -> Optional[List[str]]:
+    def determine_cognitive_domains(self, file_path: Path) -> Optional[list[str]]:
         """Determine cognitive domains for consciousness modules"""
         path_str = str(file_path).lower()
         domains = []
@@ -410,7 +410,7 @@ class DirectoryIndexUpdater:
 
         return current_type or "UTILITY"
 
-    def get_domain_specific_metadata(self, file_path: Path) -> Dict[str, Any]:
+    def get_domain_specific_metadata(self, file_path: Path) -> dict[str, Any]:
         """Get domain-specific metadata"""
         path_str = str(file_path).lower()
         metadata = {}

@@ -85,7 +85,7 @@ class SecurityFinding:
     category: str = "security"
     confidence: str = "medium"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert finding to dictionary."""
         return {
             "id": self.id,
@@ -122,7 +122,7 @@ class AuditReport:
     t4_compliance: bool = False
 
     # Findings
-    findings: List[SecurityFinding] = field(default_factory=list)
+    findings: list[SecurityFinding] = field(default_factory=list)
 
     # Performance metrics
     audit_duration: float = 0.0
@@ -156,7 +156,7 @@ class AuditReport:
         self.excellence_score = score
         return score
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert report to dictionary."""
         return {
             "timestamp": self.timestamp.isoformat(),

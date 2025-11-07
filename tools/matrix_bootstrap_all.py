@@ -48,7 +48,7 @@ MODULE_TIER_MAPPING = {
     "accepted": "friend",          # Accepted modules
 }
 
-def discover_modules() -> List[Tuple[str, Path]]:
+def discover_modules() -> list[tuple[str, Path]]:
     """Discover all Python modules under lukhas/ with __init__.py files."""
     modules = []
 
@@ -66,7 +66,7 @@ def discover_modules() -> List[Tuple[str, Path]]:
 
     return sorted(modules)
 
-def extract_public_api(pkg_dir: Path) -> List[Dict[str, str]]:
+def extract_public_api(pkg_dir: Path) -> list[dict[str, str]]:
     """Extract public API from package __init__.py file."""
     init_file = pkg_dir / "__init__.py"
     if not init_file.exists():
@@ -139,7 +139,7 @@ def determine_module_tier(pkg_name: str) -> str:
     # Default tier
     return "trusted"
 
-def default_gates(pkg_name: str) -> List[Dict[str, Any]]:
+def default_gates(pkg_name: str) -> list[dict[str, Any]]:
     """Generate baseline gates for module."""
     gates = [
         {"metric": "security.osv_high", "op": "==", "value": 0},
@@ -157,7 +157,7 @@ def default_gates(pkg_name: str) -> List[Dict[str, Any]]:
 
     return gates
 
-def telemetry_stub(pkg_name: str, semconv: str) -> Dict[str, Any]:
+def telemetry_stub(pkg_name: str, semconv: str) -> dict[str, Any]:
     """Generate OpenTelemetry telemetry configuration."""
     simple_name = pkg_name.split(".")[-1] if "." in pkg_name else pkg_name
 
@@ -183,7 +183,7 @@ def telemetry_stub(pkg_name: str, semconv: str) -> Dict[str, Any]:
         ]
     }
 
-def identity_stub(pkg_name: str, default_tier: str) -> Dict[str, Any]:
+def identity_stub(pkg_name: str, default_tier: str) -> dict[str, Any]:
     """Generate ΛiD identity configuration for module."""
     tier = determine_module_tier(pkg_name)
     tier_num = TIER_MAP_NUM.get(tier, TIER_MAP_NUM.get(default_tier, 3))
@@ -229,11 +229,11 @@ def identity_stub(pkg_name: str, default_tier: str) -> Dict[str, Any]:
 def base_contract(
     pkg_name: str,
     team: str,
-    codeowners: List[str],
-    api: List[Dict[str, str]],
+    codeowners: list[str],
+    api: list[dict[str, str]],
     semconv: str,
     default_tier: str
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Generate complete Matrix contract for module."""
     simple_name = pkg_name.split(".")[-1] if "." in pkg_name else pkg_name
 
@@ -400,7 +400,7 @@ def base_contract(
         }
     }
 
-def write_contract(pkg_dir: Path, pkg_name: str, data: Dict[str, Any], overwrite: bool = False) -> bool:
+def write_contract(pkg_dir: Path, pkg_name: str, data: dict[str, Any], overwrite: bool = False) -> bool:
     """Write Matrix contract to appropriate file location."""
     simple_name = pkg_name.split(".")[-1] if "." in pkg_name else pkg_name
     out_file = pkg_dir / f"matrix_{simple_name}.json"

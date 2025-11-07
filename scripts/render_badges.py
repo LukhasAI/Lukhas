@@ -51,7 +51,7 @@ def slugify_owner(owner: str) -> str:
     return slug
 
 
-def generate_badges(status: str, owner: str) -> List[str]:
+def generate_badges(status: str, owner: str) -> list[str]:
     """Generate badge markdown for status and owner."""
     badges = []
 

@@ -13,7 +13,7 @@ class SecurityException(RuntimeError):
         message: str,
         *,
         code: str | None = None,
-        details: Dict[str, Any] | None = None,
+        details: dict[str, Any] | None = None,
     ) -> None:
         super().__init__(message)
         self.code = code

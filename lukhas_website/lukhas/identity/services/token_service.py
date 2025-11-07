@@ -139,7 +139,7 @@ class TokenService(TokenManagerInterface):
             logger.error(f"Token refresh failed: {e}")
             raise
 
-    async def decode_token(self, token: str) -> Optional[Dict[str, Any]]:
+    async def decode_token(self, token: str) -> Optional[dict[str, Any]]:
         """Decode token and return claims"""
         try:
             if JWT_AVAILABLE:
@@ -201,7 +201,7 @@ class TokenService(TokenManagerInterface):
 
         return await self._generate_fallback_token(claims)
 
-    async def _decode_fallback_token(self, token: str) -> Optional[Dict[str, Any]]:
+    async def _decode_fallback_token(self, token: str) -> Optional[dict[str, Any]]:
         """Decode fallback token"""
         try:
             import base64

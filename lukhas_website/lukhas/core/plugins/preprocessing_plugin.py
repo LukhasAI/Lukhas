@@ -14,7 +14,7 @@ from core.registry.plugin_registry import PluginBase, PluginInfo
 class DataPreprocessingPlugin(PluginBase):
     """Plugin for data preprocessing operations."""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         super().__init__("DataPreprocessing", "1.0.0")
         self.config = config or {}
         self.normalize_data = self.config.get("normalize", True)
@@ -40,7 +40,7 @@ class DataPreprocessingPlugin(PluginBase):
         """Initialize the preprocessing plugin."""
         print(f"Initializing {self.name} plugin with config: {self.config}")
 
-    async def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process data through preprocessing pipeline."""
         start_time = time.time()
 

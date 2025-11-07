@@ -65,7 +65,7 @@ class BenchmarkResult:
 
 
 def percentile(values: Iterable[float], pct: float) -> float:
-    data: List[float] = sorted(values)
+    data: list[float] = sorted(values)
     if not data:
         raise ValueError("cannot compute percentile of empty data")
     if pct <= 0:
@@ -88,8 +88,8 @@ def bench(
     verify_threshold_ms: float,
     message: bytes,
 ) -> BenchmarkResult:
-    sign_timings: List[float] = []
-    verify_timings: List[float] = []
+    sign_timings: list[float] = []
+    verify_timings: list[float] = []
 
     with oqs.Signature(algorithm) as sig:
         public_key = sig.generate_keypair()

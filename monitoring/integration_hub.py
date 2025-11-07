@@ -91,14 +91,14 @@ class LUKHASMonitoringHub:
 
         # State tracking
         self.is_running = False
-        self.background_tasks: List[asyncio.Task] = []
+        self.background_tasks: list[asyncio.Task] = []
 
         # Integration components
-        self.component_correlations: Dict[str, Set[str]] = {}
-        self.cross_system_events: List[Dict[str, Any]] = []
+        self.component_correlations: dict[str, set[str]] = {}
+        self.cross_system_events: list[dict[str, Any]] = []
 
         # Dashboard state
-        self.dashboard_state: Dict[str, Any] = {}
+        self.dashboard_state: dict[str, Any] = {}
         self.last_dashboard_update = 0.0
 
         # Setup initial integrations
@@ -300,7 +300,7 @@ class LUKHASMonitoringHub:
 
                 raise
 
-    async def get_unified_dashboard_data(self) -> Dict[str, Any]:
+    async def get_unified_dashboard_data(self) -> dict[str, Any]:
         """Get unified dashboard data from all monitoring systems."""
 
         current_time = time.time()
@@ -342,9 +342,9 @@ class LUKHASMonitoringHub:
             self.dashboard_state["error"] = str(e)
 
     def _calculate_overall_status(self,
-                                telemetry_overview: Dict[str, Any],
-                                health_overview: Dict[str, Any],
-                                circuit_breaker_stats: Dict[str, Any]) -> str:
+                                telemetry_overview: dict[str, Any],
+                                health_overview: dict[str, Any],
+                                circuit_breaker_stats: dict[str, Any]) -> str:
         """Calculate overall system status from all monitoring data."""
 
         # Health system status weights the most
@@ -373,7 +373,7 @@ class LUKHASMonitoringHub:
         else:
             return "critical"
 
-    def _generate_performance_summary(self) -> Dict[str, Any]:
+    def _generate_performance_summary(self) -> dict[str, Any]:
         """Generate performance summary across all systems."""
 
         # Get recent metrics from telemetry

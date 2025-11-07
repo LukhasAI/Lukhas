@@ -13,7 +13,7 @@ from typing import List
 from enum import Enum
 from dataclasses import dataclass
 
-__all__: List[str] = []
+__all__: list[str] = []
 
 def _try(n: str):
     try:

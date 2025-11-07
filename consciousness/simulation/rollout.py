@@ -6,7 +6,7 @@ from .evaluator import score_scenario
 from .world_model import generate_scenarios
 
 
-async def run_rollouts(seed: Dict[str, Any], trace_id: str) -> List[Dict[str, Any]]:
+async def run_rollouts(seed: dict[str, Any], trace_id: str) -> list[dict[str, Any]]:
     scenarios = generate_scenarios(seed, trace_id)
     results = []
     for sc in scenarios:

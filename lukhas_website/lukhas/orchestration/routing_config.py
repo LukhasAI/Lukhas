@@ -109,12 +109,12 @@ class RoutingRule:
     name: str
     pattern: str
     strategy: RoutingStrategy
-    providers: List[str]
-    weights: Dict[str, float] | None = None
+    providers: list[str]
+    weights: dict[str, float] | None = None
     health_threshold: float = 0.95
     latency_threshold_ms: float = 250.0
-    fallback_providers: List[str] | None = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    fallback_providers: list[str] | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -122,9 +122,9 @@ class ABTestConfig:
     """A/B test configuration"""
     name: str
     enabled: bool
-    traffic_split: Dict[str, int]  # variant_name -> percentage
-    rules: List[str]  # rule names to apply test to
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    traffic_split: dict[str, int]  # variant_name -> percentage
+    rules: list[str]  # rule names to apply test to
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -132,14 +132,14 @@ class RoutingConfiguration:
     """Complete routing configuration"""
     version: str
     default_strategy: RoutingStrategy
-    default_providers: List[str]
-    rules: List[RoutingRule]
-    ab_tests: List[ABTestConfig]
+    default_providers: list[str]
+    rules: list[RoutingRule]
+    ab_tests: list[ABTestConfig]
     health_check_interval: float = 30.0
     circuit_breaker_threshold: int = 5
     circuit_breaker_timeout: float = 60.0
     context_timeout: float = 10.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class ConfigurationFileHandler(FileSystemEventHandler):
@@ -168,7 +168,7 @@ class RoutingConfigurationManager:
         self.file_handler = ConfigurationFileHandler(self)
 
         # A/B test state
-        self.ab_test_assignments: Dict[str, str] = {}  # session_id -> variant
+        self.ab_test_assignments: dict[str, str] = {}  # session_id -> variant
 
         logger.info(f"Routing configuration manager initialized: {self.config_path}")
 
@@ -268,7 +268,7 @@ class RoutingConfigurationManager:
             raise ValueError("Configuration not loaded")
         return self.current_config
 
-    def get_rule_for_request(self, request_type: str, context: Dict[str, Any] | None = None) -> RoutingRule | None:
+    def get_rule_for_request(self, request_type: str, context: dict[str, Any] | None = None) -> RoutingRule | None:
         """Find matching routing rule for a request"""
         if not self.current_config:
             return None
@@ -387,7 +387,7 @@ class RoutingConfigurationManager:
 
         logger.info(f"✅ Default configuration created: {self.config_path}")
 
-    def _parse_configuration(self, config_data: Dict[str, Any]) -> RoutingConfiguration:
+    def _parse_configuration(self, config_data: dict[str, Any]) -> RoutingConfiguration:
         """Parse YAML configuration into RoutingConfiguration object"""
 
         # Parse routing rules
@@ -431,7 +431,7 @@ class RoutingConfigurationManager:
             metadata=config_data.get('metadata', {})
         )
 
-    def _matches_pattern(self, pattern: str, request_type: str, context: Dict[str, Any]) -> bool:
+    def _matches_pattern(self, pattern: str, request_type: str, context: dict[str, Any]) -> bool:
         """Check if request matches routing pattern"""
         # Simple pattern matching (can be enhanced with regex)
         if pattern == "*":

@@ -73,7 +73,7 @@ class APIQuota:
     concurrent_requests: int = 10
     max_request_size_mb: float = 10.0
     max_response_size_mb: float = 50.0
-    allowed_endpoints: Optional[Set[str]] = None
+    allowed_endpoints: Optional[set[str]] = None
     tier: APITier = APITier.FREE
 
 
@@ -126,9 +126,9 @@ class RequestContext:
     priority: RequestPriority = RequestPriority.NORMAL
     start_time: float = field(default_factory=time.time)
     size_bytes: int = 0
-    headers: Dict[str, str] = field(default_factory=dict)
-    params: Dict[str, Any] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    headers: dict[str, str] = field(default_factory=dict)
+    params: dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class RateLimiter:
@@ -171,7 +171,7 @@ class RateLimiter:
             )
         }
 
-    async def is_allowed(self, context: RequestContext) -> Tuple[bool, Dict[str, Any]]:
+    async def is_allowed(self, context: RequestContext) -> tuple[bool, dict[str, Any]]:
         """Check if request is allowed under rate limits."""
         quota = self.tier_configs.get(context.tier, self.tier_configs[APITier.FREE])
 
@@ -203,14 +203,14 @@ class RateLimiter:
             "retry_after_seconds": await self._calculate_retry_after(context.tier, current_counts)
         }
 
-    async def _get_current_counts(self, identifier: str, tier: APITier) -> Dict[str, int]:
+    async def _get_current_counts(self, identifier: str, tier: APITier) -> dict[str, int]:
         """Get current usage counts for rate limiting."""
         if self.redis_client:
             return await self._get_redis_counts(identifier, tier)
         else:
             return await self._get_local_counts(identifier, tier)
 
-    async def _get_redis_counts(self, identifier: str, tier: APITier) -> Dict[str, int]:
+    async def _get_redis_counts(self, identifier: str, tier: APITier) -> dict[str, int]:
         """Get counts from Redis."""
         try:
             pipe = self.redis_client.pipeline()
@@ -238,7 +238,7 @@ class RateLimiter:
             logger.warning(f"Redis rate limit check failed: {e}")
             return await self._get_local_counts(identifier, tier)
 
-    async def _get_local_counts(self, identifier: str, tier: APITier) -> Dict[str, int]:
+    async def _get_local_counts(self, identifier: str, tier: APITier) -> dict[str, int]:
         """Get counts from local memory."""
         now = time.time()
         bucket_key = f"{identifier}:{tier.value}"
@@ -297,7 +297,7 @@ class RateLimiter:
         self.local_buckets[bucket_key].append(time.time())
         self.local_quotas[bucket_key]["concurrent"] += 1
 
-    async def _calculate_retry_after(self, tier: APITier, current_counts: Dict[str, int]) -> int:
+    async def _calculate_retry_after(self, tier: APITier, current_counts: dict[str, int]) -> int:
         """Calculate retry-after seconds for rate limited requests."""
         quota = self.tier_configs[tier]
 
@@ -337,7 +337,7 @@ class APICache:
         self.local_cache = {}
         self.cache_stats = defaultdict(int)
 
-    async def get(self, key: str) -> Optional[Dict[str, Any]]:
+    async def get(self, key: str) -> Optional[dict[str, Any]]:
         """Get cached response."""
         try:
             if self.redis_client:
@@ -361,7 +361,7 @@ class APICache:
             self.cache_stats["errors"] += 1
             return None
 
-    async def set(self, key: str, data: Dict[str, Any], ttl_seconds: int = 300):
+    async def set(self, key: str, data: dict[str, Any], ttl_seconds: int = 300):
         """Set cached response."""
         try:
             if self.redis_client:
@@ -413,7 +413,7 @@ class APICache:
             logger.warning(f"Cache invalidation failed: {e}")
             return 0
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get cache statistics."""
         total_operations = self.cache_stats["hits"] + self.cache_stats["misses"]
         hit_rate = (self.cache_stats["hits"] / total_operations * 100) if total_operations > 0 else 0
@@ -485,7 +485,7 @@ class APIAnalytics:
                 "response_time_ms": response_time_ms
             })
 
-    async def get_endpoint_analytics(self, endpoint: str, method: str = "GET") -> Dict[str, Any]:
+    async def get_endpoint_analytics(self, endpoint: str, method: str = "GET") -> dict[str, Any]:
         """Get analytics for specific endpoint."""
         endpoint_key = f"{method}:{endpoint}"
         stats = self.endpoint_stats[endpoint_key]
@@ -514,7 +514,7 @@ class APIAnalytics:
             "status_code_distribution": self._count_distribution(status_codes)
         }
 
-    async def get_user_analytics(self, user_id: str) -> Dict[str, Any]:
+    async def get_user_analytics(self, user_id: str) -> dict[str, Any]:
         """Get analytics for specific user."""
         user_data = self.user_patterns[user_id]
 
@@ -539,7 +539,7 @@ class APIAnalytics:
             "request_pattern": self._analyze_request_pattern(timestamps)
         }
 
-    async def get_system_health(self) -> Dict[str, Any]:
+    async def get_system_health(self) -> dict[str, Any]:
         """Get overall system health metrics."""
         recent_requests = [r for r in self.request_history
                           if r["timestamp"] > time.time() - 3600]  # Last hour
@@ -561,7 +561,7 @@ class APIAnalytics:
             "health_score": self._calculate_health_score(response_times, status_codes)
         }
 
-    def _percentile(self, data: List[float], percentile: float) -> float:
+    def _percentile(self, data: list[float], percentile: float) -> float:
         """Calculate percentile of data."""
         if not data:
             return 0.0
@@ -569,14 +569,14 @@ class APIAnalytics:
         index = int(len(sorted_data) * percentile / 100)
         return sorted_data[min(index, len(sorted_data) - 1)]
 
-    def _count_distribution(self, data: List[Any]) -> Dict[Any, int]:
+    def _count_distribution(self, data: list[Any]) -> dict[Any, int]:
         """Get count distribution of data."""
         counts = defaultdict(int)
         for item in data:
             counts[item] += 1
         return dict(sorted(counts.items(), key=lambda x: x[1], reverse=True))
 
-    def _analyze_request_pattern(self, timestamps: List[float]) -> str:
+    def _analyze_request_pattern(self, timestamps: list[float]) -> str:
         """Analyze user request patterns."""
         if len(timestamps) < 10:
             return "insufficient_data"
@@ -594,7 +594,7 @@ class APIAnalytics:
         else:
             return "sporadic"
 
-    def _get_top_endpoints(self, requests: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _get_top_endpoints(self, requests: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Get top endpoints by request count."""
         endpoint_counts = defaultdict(int)
         for req in requests:
@@ -607,8 +607,8 @@ class APIAnalytics:
                                         key=lambda x: x[1], reverse=True)[:10]
         ]
 
-    def _calculate_health_score(self, response_times: List[float],
-                               status_codes: List[int]) -> float:
+    def _calculate_health_score(self, response_times: list[float],
+                               status_codes: list[int]) -> float:
         """Calculate overall system health score (0-100)."""
         if not response_times or not status_codes:
             return 0.0
@@ -648,7 +648,7 @@ class LUKHASAPIOptimizer:
             self.active_requests_gauge = Gauge('lukhas_api_active_requests',
                                              'Currently active API requests')
 
-    async def process_request(self, context: RequestContext) -> Tuple[bool, Dict[str, Any]]:
+    async def process_request(self, context: RequestContext) -> tuple[bool, dict[str, Any]]:
         """Process API request with optimization."""
         start_time = time.time()
 
@@ -684,7 +684,7 @@ class LUKHASAPIOptimizer:
         }
 
     async def complete_request(self, context: RequestContext,
-                             response_data: Dict[str, Any],
+                             response_data: dict[str, Any],
                              status_code: int):
         """Complete request processing with caching and analytics."""
         response_time = (time.time() - context.start_time) * 1000
@@ -711,7 +711,7 @@ class LUKHASAPIOptimizer:
         await self.rate_limiter.decrement_concurrent(
             context.user_id or context.api_key, context.tier)
 
-    async def get_optimization_stats(self) -> Dict[str, Any]:
+    async def get_optimization_stats(self) -> dict[str, Any]:
         """Get comprehensive optimization statistics."""
         cache_stats = self.cache.get_stats()
         system_health = await self.analytics.get_system_health()
@@ -750,7 +750,7 @@ class LUKHASAPIOptimizer:
 
         return ":".join(key_parts)
 
-    def _should_cache_response(self, context: RequestContext, response_data: Dict[str, Any]) -> bool:
+    def _should_cache_response(self, context: RequestContext, response_data: dict[str, Any]) -> bool:
         """Determine if response should be cached."""
         # Don't cache large responses
         response_size = len(json.dumps(response_data))

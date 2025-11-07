@@ -44,14 +44,14 @@ class SymbolicReasoningColony(BaseColony):
         }
 
         # Caching for expensive operations
-        self._belief_cache: Dict[str, Tuple[Any, float]] = {}
-        self._propagation_cache: Dict[str, Tuple[Any, float]] = {}
+        self._belief_cache: dict[str, tuple[Any, float]] = {}
+        self._propagation_cache: dict[str, tuple[Any, float]] = {}
         self.cache_ttl_seconds = 300.0  # 5 minutes
 
         # Graph optimization
         self._graph_dirty = True
-        self._cached_centrality: Dict[str, float] = {}
-        self._cached_shortest_paths: Dict[Tuple[str, str], List[str]] = {}
+        self._cached_centrality: dict[str, float] = {}
+        self._cached_shortest_paths: dict[tuple[str, str], list[str]] = {}
 
         # Get mesh topology service for agent registry
         self.mesh_service = get_mesh_topology_service()
@@ -220,7 +220,7 @@ class SymbolicReasoningColony(BaseColony):
         return belief_states
 
     @lru_cache(maxsize=256)
-    def _get_agent_neighbors_cached(self, agent_id: str) -> Tuple[str, ...]:
+    def _get_agent_neighbors_cached(self, agent_id: str) -> tuple[str, ...]:
         """Cached agent neighbors lookup."""
         neighbors = [a for a in self.agents if a != agent_id]
         return tuple(neighbors)
@@ -284,7 +284,7 @@ class SymbolicReasoningColony(BaseColony):
         new_avg = ((current_avg * (count - 1)) + duration_ms) / count
         self.performance_metrics["average_propagation_time_ms"] = new_avg
 
-    def optimize_graph_structure(self) -> Dict[str, Any]:
+    def optimize_graph_structure(self) -> dict[str, Any]:
         """Optimize belief network graph structure for better performance."""
 
         if not self._graph_dirty:
@@ -315,7 +315,7 @@ class SymbolicReasoningColony(BaseColony):
             "paths_cached": len(self._cached_shortest_paths)
         }
 
-    def get_performance_report(self) -> Dict[str, Any]:
+    def get_performance_report(self) -> dict[str, Any]:
         """Get comprehensive performance report for the colony."""
 
         cache_total = self.performance_metrics["cache_hits"] + self.performance_metrics["cache_misses"]

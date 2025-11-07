@@ -68,17 +68,17 @@ class QuantumField:
     phase: float = 0.0                       # Quantum phase (radians)
 
     # Entanglement properties
-    entangled_symbols: List[str] = field(default_factory=list)
-    entanglement_strength: Dict[str, float] = field(default_factory=dict)
+    entangled_symbols: list[str] = field(default_factory=list)
+    entanglement_strength: dict[str, float] = field(default_factory=dict)
 
     # Observer effects
     observation_count: int = 0
     last_observer_id: Optional[str] = None
-    collapse_history: List[Dict[str, Any]] = field(default_factory=list)
+    collapse_history: list[dict[str, Any]] = field(default_factory=list)
 
     # Field dynamics
-    field_perturbations: List[Tuple[float, float, float]] = field(default_factory=list)  # (time, magnitude, frequency)
-    resonance_frequencies: List[float] = field(default_factory=list)
+    field_perturbations: list[tuple[float, float, float]] = field(default_factory=list)  # (time, magnitude, frequency)
+    resonance_frequencies: list[float] = field(default_factory=list)
 
     def calculate_probability(self) -> float:
         """Calculate probability of symbol manifestation"""
@@ -137,8 +137,8 @@ class PerceptionToken:
     novelty: float = 0.5              # How novel/unexpected
 
     # Chain-of-thought support
-    reasoning_chain: List[str] = field(default_factory=list)
-    derived_tokens: List[str] = field(default_factory=list)
+    reasoning_chain: list[str] = field(default_factory=list)
+    derived_tokens: list[str] = field(default_factory=list)
 
     def compress(self) -> str:
         """Compress token to Q-symbol representation"""
@@ -157,7 +157,7 @@ class EmergentSymbol:
     Implements bootstrap paradox where symbols create themselves
     through repeated observation and compression.
     """
-    origin_symbols: List[str]        # Symbols that combined to create this
+    origin_symbols: list[str]        # Symbols that combined to create this
     emergence_time: float = field(default_factory=time.time)
     observation_threshold: int = 10  # Observations needed for emergence
     current_observations: int = 0
@@ -168,7 +168,7 @@ class EmergentSymbol:
     semantic_coherence: float = 0.5   # How well-defined the meaning is
 
     # Evolution tracking
-    evolution_history: List[Dict[str, Any]] = field(default_factory=list)
+    evolution_history: list[dict[str, Any]] = field(default_factory=list)
     mutation_rate: float = 0.01       # Rate of symbolic drift
 
     def observe(self) -> bool:
@@ -208,7 +208,7 @@ class SymbolicState:
     phase: SymbolicPhase = SymbolicPhase.NASCENT
 
     # Perception properties
-    perception_tokens: List[PerceptionToken] = field(default_factory=list)
+    perception_tokens: list[PerceptionToken] = field(default_factory=list)
     compressed_representation: Optional[str] = None  # Q-symbol
 
     # Emergence properties
@@ -217,9 +217,9 @@ class SymbolicState:
 
     # Visual properties (compatibility with existing system)
     visual_weight: float = 0.5
-    analysis_properties: Dict[str, Any] = field(default_factory=dict)
-    usage_contexts: List[str] = field(default_factory=list)
-    color_associations: List[Tuple[int, int, int]] = field(default_factory=list)
+    analysis_properties: dict[str, Any] = field(default_factory=dict)
+    usage_contexts: list[str] = field(default_factory=list)
+    color_associations: list[tuple[int, int, int]] = field(default_factory=list)
 
     # Consciousness properties
     emotional_valence: float = 0.0   # -1.0 to 1.0
@@ -228,9 +228,9 @@ class SymbolicState:
 
     # MATRIZ compatibility
     matriz_node_id: Optional[str] = None
-    provenance: Dict[str, Any] = field(default_factory=dict)
+    provenance: dict[str, Any] = field(default_factory=dict)
 
-    def to_matriz_node(self) -> Dict[str, Any]:
+    def to_matriz_node(self) -> dict[str, Any]:
         """Convert to MATRIZ format node for governance and interpretability"""
         return {
             "node_id": self.matriz_node_id or self.symbol_id,
@@ -310,7 +310,7 @@ class VisualSymbol:
             "model_signature": "VisualSymbol_v1.0.0"
         }
 
-    def observe(self, observer_id: str, observation_strength: float = 1.0) -> Dict[str, Any]:
+    def observe(self, observer_id: str, observation_strength: float = 1.0) -> dict[str, Any]:
         """
         Observe the symbol, causing quantum effects.
 
@@ -461,7 +461,7 @@ class VisualSymbol:
         self.state.consciousness_level = consciousness
         return consciousness
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Export symbol state as dictionary"""
         return {
             "symbol_id": self.state.symbol_id,

@@ -19,8 +19,8 @@ logger = logging.getLogger(__name__)
 class MemoryEvent:
     """Simple container for memory event data."""
 
-    data: Dict[str, Any]
-    metadata: Dict[str, Any]
+    data: dict[str, Any]
+    metadata: dict[str, Any]
 
 
 class MemoryEventFactory:
@@ -30,7 +30,7 @@ class MemoryEventFactory:
         self._last_affect_delta: float | None = None
         self._drift_history: deque[float] = deque(maxlen=100)
 
-    def create(self, data: Dict[str, Any], metadata: Dict[str, Any]) -> MemoryEvent:
+    def create(self, data: dict[str, Any], metadata: dict[str, Any]) -> MemoryEvent:
         """Create a new :class:`MemoryEvent` instance.
 
         Args:
@@ -62,7 +62,7 @@ class MemoryEventFactory:
         return MemoryEvent(data=payload_data, metadata=enriched_metadata)
 
     # ΛTAG: memory_event_validation
-    def _validate_payload(self, payload: Dict[str, Any], label: str) -> Dict[str, Any]:
+    def _validate_payload(self, payload: dict[str, Any], label: str) -> dict[str, Any]:
         """Validate payload structure and create a safe copy."""
 
         if not isinstance(payload, dict):
@@ -70,7 +70,7 @@ class MemoryEventFactory:
         return copy.deepcopy(payload)
 
     # ΛTAG: memory_event_metrics
-    def _calculate_drift(self, metadata: Dict[str, Any], affect_delta: float) -> float:
+    def _calculate_drift(self, metadata: dict[str, Any], affect_delta: float) -> float:
         """Determine driftScore using provided metadata and affect_delta."""
 
         provided = metadata.get("driftScore")
@@ -91,10 +91,10 @@ class MemoryEventFactory:
 
     def _enrich_metadata(
         self,
-        metadata: Dict[str, Any],
+        metadata: dict[str, Any],
         affect_delta: float,
         drift_score: float,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Attach telemetry metadata including drift trends."""
 
         enriched = copy.deepcopy(metadata)

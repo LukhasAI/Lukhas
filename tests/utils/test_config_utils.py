@@ -142,7 +142,7 @@ def test_json_parse_array():
 @pytest.mark.unit
 def test_config_required_fields():
     """Test configuration required fields validation."""
-    def validate_config(config: Dict[str, Any]) -> bool:
+    def validate_config(config: dict[str, Any]) -> bool:
         """Validate configuration has required fields."""
         required_fields = ["name", "version", "enabled"]
         return all(field in config for field in required_fields)
@@ -166,7 +166,7 @@ def test_config_required_fields():
 @pytest.mark.unit
 def test_config_type_validation():
     """Test configuration type validation."""
-    def validate_types(config: Dict[str, Any]) -> bool:
+    def validate_types(config: dict[str, Any]) -> bool:
         """Validate configuration field types."""
         if not isinstance(config.get("name"), str):
             return False
@@ -196,7 +196,7 @@ def test_config_type_validation():
 @pytest.mark.unit
 def test_config_value_constraints():
     """Test configuration value constraints."""
-    def validate_constraints(config: Dict[str, Any]) -> bool:
+    def validate_constraints(config: dict[str, Any]) -> bool:
         """Validate configuration value constraints."""
         # Port must be 1-65535
         port = config.get("port", 0)
@@ -232,7 +232,7 @@ def test_config_value_constraints():
 @pytest.mark.unit
 def test_config_default_values():
     """Test configuration default value application."""
-    def apply_defaults(config: Dict[str, Any]) -> Dict[str, Any]:
+    def apply_defaults(config: dict[str, Any]) -> dict[str, Any]:
         """Apply default values to configuration."""
         defaults = {
             "host": "localhost",
@@ -261,7 +261,7 @@ def test_config_default_values():
 @pytest.mark.unit
 def test_config_environment_override():
     """Test configuration environment variable override."""
-    def apply_env_overrides(config: Dict[str, Any], env: Dict[str, str]) -> Dict[str, Any]:
+    def apply_env_overrides(config: dict[str, Any], env: dict[str, str]) -> dict[str, Any]:
         """Apply environment variable overrides to config."""
         result = config.copy()
 
@@ -317,7 +317,7 @@ tiers:
 @pytest.mark.unit
 def test_tier_config_validation():
     """Test tier configuration validation."""
-    def validate_tier_config(config: Dict[str, Any]) -> bool:
+    def validate_tier_config(config: dict[str, Any]) -> bool:
         """Validate tier configuration structure."""
         required_tiers = ["alpha", "beta", "gamma", "delta"]
 

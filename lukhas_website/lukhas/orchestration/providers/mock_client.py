@@ -93,16 +93,16 @@ class MockAIClient(BaseAIClient):
         await asyncio.sleep(0.01)  # Minimal latency
         return True
 
-    def get_available_models(self) -> List[str]:
+    def get_available_models(self) -> list[str]:
         """Return available mock models"""
         return self.models.copy()
 
     async def batch_generate(
         self,
-        prompts: List[str],
+        prompts: list[str],
         model: str,
         **kwargs
-    ) -> List[AIResponse]:
+    ) -> list[AIResponse]:
         """Mock batch generation with parallel processing simulation"""
         tasks = [
             self.generate(prompt, model, **kwargs)

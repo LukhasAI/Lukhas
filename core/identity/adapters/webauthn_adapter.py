@@ -36,7 +36,7 @@ class _ChallengeContext:
         return base64.urlsafe_b64encode(payload).decode("ascii").rstrip("=")
 
 
-def start_challenge(user_id: str, rp_id: str, origin: str) -> Dict[str, Any]:
+def start_challenge(user_id: str, rp_id: str, origin: str) -> dict[str, Any]:
     """Produce secure public key credential options with cryptographic random challenge.
 
     Security: Uses secrets.token_urlsafe(32) for 256-bit cryptographic nonce,
@@ -78,7 +78,7 @@ def start_challenge(user_id: str, rp_id: str, origin: str) -> Dict[str, Any]:
     }
 
 
-def verify_response(response: Dict[str, Any], expected_challenge: str | None = None) -> Dict[str, Any]:
+def verify_response(response: dict[str, Any], expected_challenge: str | None = None) -> dict[str, Any]:
     """Verify the provided WebAuthn response matches the expected challenge.
 
     Security: Validates challenge matches expected value to prevent replay attacks.

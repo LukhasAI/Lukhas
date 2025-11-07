@@ -21,7 +21,7 @@ class ConstellationMapper:
         self.graph = nx.DiGraph()
         self.component_map = {}
 
-    def extract_imports_from_file(self, file_path: Path) -> Set[str]:
+    def extract_imports_from_file(self, file_path: Path) -> set[str]:
         """Extract import dependencies from a Python file"""
         imports = set()
         try:

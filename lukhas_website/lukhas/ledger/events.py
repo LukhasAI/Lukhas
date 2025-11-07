@@ -46,7 +46,7 @@ class ConsentEvent(ABC):
     lid: str = ""  # LUKHAS ID (Lambda ID)
     correlation_id: Optional[str] = None
     causation_id: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         # Set event_type based on class name
@@ -61,7 +61,7 @@ class ConsentEvent(ABC):
         }
         object.__setattr__(self, 'event_type', event_type_map.get(self.__class__.__name__, EventType.TRACE_CREATED))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert event to dictionary for serialization"""
         data = asdict(self)
         # Convert enums to string values
@@ -97,17 +97,17 @@ class ConsentGrantedEvent(ConsentEvent):
 
     consent_id: str = ""
     resource_type: str = ""
-    scopes: List[str] = field(default_factory=list)
+    scopes: list[str] = field(default_factory=list)
     purpose: str = ""
     lawful_basis: str = "consent"
     consent_type: ConsentType = ConsentType.EXPLICIT
     granted_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     expires_at: Optional[str] = None
-    data_categories: List[str] = field(default_factory=list)
-    third_parties: List[str] = field(default_factory=list)
-    processing_locations: List[str] = field(default_factory=list)
+    data_categories: list[str] = field(default_factory=list)
+    third_parties: list[str] = field(default_factory=list)
+    processing_locations: list[str] = field(default_factory=list)
     withdrawal_method: str = "api_revoke_consent"
-    data_subject_rights: List[DataSubjectRights] = field(default_factory=list)
+    data_subject_rights: list[DataSubjectRights] = field(default_factory=list)
     retention_period: Optional[int] = None
     automated_decision_making: bool = False
     profiling: bool = False
@@ -127,7 +127,7 @@ class ConsentRevokedEvent(ConsentEvent):
     revoked_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     reason: Optional[str] = None
     revocation_method: str = "api_request"
-    cascade_deletions: List[str] = field(default_factory=list)
+    cascade_deletions: list[str] = field(default_factory=list)
     trace_id: str = ""
 
     def get_aggregate_id(self) -> str:
@@ -144,7 +144,7 @@ class ConsentCheckedEvent(ConsentEvent):
     allowed: bool = False
     reason: Optional[str] = None
     require_step_up: bool = False
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
     trace_id: str = ""
 
     def get_aggregate_id(self) -> str:
@@ -162,15 +162,15 @@ class TraceCreatedEvent(ConsentEvent):
     purpose: str = ""
     policy_verdict: PolicyVerdict = PolicyVerdict.DENY
     capability_token_id: Optional[str] = None
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
     explanation_unl: Optional[str] = None
     glyph_signature: Optional[str] = None
-    triad_validation: Dict[str, bool] = field(default_factory=lambda: {
+    triad_validation: dict[str, bool] = field(default_factory=lambda: {
         "identity_verified": False,
         "consciousness_aligned": False,
         "guardian_approved": False,
     })
-    compliance_flags: Dict[str, Any] = field(default_factory=dict)
+    compliance_flags: dict[str, Any] = field(default_factory=dict)
     chain_integrity: Optional[str] = None
 
     def get_aggregate_id(self) -> str:
@@ -186,7 +186,7 @@ class DuressDetectedEvent(ConsentEvent):
     detected_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     response_action: str = ""
     severity_level: int = 1
-    context_data: Dict[str, Any] = field(default_factory=dict)
+    context_data: dict[str, Any] = field(default_factory=dict)
     trace_id: str = ""
 
     def get_aggregate_id(self) -> str:
@@ -202,7 +202,7 @@ class DataSubjectRequestEvent(ConsentEvent):
     submitted_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     status: str = "pending"
     processing_deadline: Optional[str] = None
-    response_data: Optional[Dict[str, Any]] = None
+    response_data: Optional[dict[str, Any]] = None
     trace_id: str = ""
 
     def get_aggregate_id(self) -> str:
@@ -218,7 +218,7 @@ class PolicyViolationEvent(ConsentEvent):
     detected_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     severity: str = "medium"  # low, medium, high, critical
     violated_policy: str = ""
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
     remediation_action: Optional[str] = None
     trace_id: str = ""
 
@@ -227,7 +227,7 @@ class PolicyViolationEvent(ConsentEvent):
 
 
 # Event factory for creating events from dict/JSON
-def create_event_from_dict(event_data: Dict[str, Any]) -> ConsentEvent:
+def create_event_from_dict(event_data: dict[str, Any]) -> ConsentEvent:
     """Create an event instance from dictionary data"""
     event_type_str = event_data.get('event_type', '')
 
@@ -314,7 +314,7 @@ def validate_event_schema(event: ConsentEvent) -> bool:
         return False
 
 
-def compute_event_chain_hash(events: List[ConsentEvent]) -> str:
+def compute_event_chain_hash(events: list[ConsentEvent]) -> str:
     """Compute chain hash for a sequence of events"""
     if not events:
         return ""

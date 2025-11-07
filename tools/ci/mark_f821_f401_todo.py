@@ -30,7 +30,7 @@ class F821F401Annotator:
         self.skipped_count = 0
         self.errors_found = 0
 
-    def get_ruff_errors(self, error_codes: List[str]) -> List[Dict]:
+    def get_ruff_errors(self, error_codes: list[str]) -> list[Dict]:
         """Get F821/F401 errors from ruff in JSON format"""
         try:
             cmd = [".venv/bin/ruff", "check", ".", "--select", ",".join(error_codes), "--output-format=json"]
@@ -74,7 +74,7 @@ class F821F401Annotator:
 
         return False
 
-    def process_errors(self, error_codes: List[str]):
+    def process_errors(self, error_codes: list[str]):
         """Process and annotate F821/F401 errors"""
         logger.info("🎯 T4 F821/F401 ANNOTATOR - LUKHAS Constellation Framework")
         logger.info("=" * 60)

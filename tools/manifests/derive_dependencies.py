@@ -10,8 +10,8 @@ from typing import List, Set
 INTERNAL_TOPS = {'core', 'lukhas', 'matriz'}
 
 
-def gather_py_files(pkg_dir: pathlib.Path) -> List[pathlib.Path]:
-    files: List[pathlib.Path] = []
+def gather_py_files(pkg_dir: pathlib.Path) -> list[pathlib.Path]:
+    files: list[pathlib.Path] = []
     for p in pkg_dir.rglob('*.py'):
         if any(seg.startswith('.') for seg in p.parts):
             continue
@@ -25,14 +25,14 @@ def gather_py_files(pkg_dir: pathlib.Path) -> List[pathlib.Path]:
     return files
 
 
-def extract_imports(py_path: pathlib.Path) -> Set[str]:
+def extract_imports(py_path: pathlib.Path) -> set[str]:
     try:
         src = py_path.read_text(encoding='utf-8',
                                errors='ignore')
         tree = ast.parse(src)
     except Exception:
         return set()
-    mods: Set[str] = set()
+    mods: set[str] = set()
     for node in ast.walk(tree):
         if isinstance(node, ast.Import):
             for alias in node.names:
@@ -50,12 +50,12 @@ def extract_imports(py_path: pathlib.Path) -> Set[str]:
     return mods
 
 
-def to_internal_module_names(mods: Set[str]) -> List[str]:
+def to_internal_module_names(mods: set[str]) -> list[str]:
     keep = [m for m in mods if m in INTERNAL_TOPS]
     return sorted(set(keep))
 
 
-def derive_for_manifest(manifest_path: pathlib.Path) -> List[str]:
+def derive_for_manifest(manifest_path: pathlib.Path) -> list[str]:
     obj = json.loads(manifest_path.read_text())
     pkg_path = obj.get('path')
     if not isinstance(pkg_path, str):
@@ -63,7 +63,7 @@ def derive_for_manifest(manifest_path: pathlib.Path) -> List[str]:
     pkg_dir = pathlib.Path(pkg_path)
     if not pkg_dir.exists():
         return []
-    deps: Set[str] = set()
+    deps: set[str] = set()
     for pyf in gather_py_files(pkg_dir):
         deps |= extract_imports(pyf)
     internals = to_internal_module_names(deps)
@@ -71,7 +71,7 @@ def derive_for_manifest(manifest_path: pathlib.Path) -> List[str]:
 
 
 def update_manifest_deps(manifest_path: pathlib.Path,
-                         new_deps: List[str]) -> bool:
+                         new_deps: list[str]) -> bool:
     obj = json.loads(manifest_path.read_text())
     cur = obj.get('dependencies')
     if not isinstance(cur, list):
@@ -84,8 +84,8 @@ def update_manifest_deps(manifest_path: pathlib.Path,
     return True
 
 
-def collect_created_manifests_by_shas(shas: List[str]) -> List[pathlib.Path]:
-    created: List[pathlib.Path] = []
+def collect_created_manifests_by_shas(shas: list[str]) -> list[pathlib.Path]:
+    created: list[pathlib.Path] = []
     for sha in shas:
         out = subprocess.check_output([
             'git','diff-tree','--no-commit-id',
@@ -105,7 +105,7 @@ def main():
                     help='Use known batch SHAs')
     args = ap.parse_args()
 
-    manifests: List[pathlib.Path] = []
+    manifests: list[pathlib.Path] = []
     if args.targets:
         manifests = [pathlib.Path(p) for p in args.targets]
     elif args.batches:

@@ -24,7 +24,7 @@ class T4BatchSplitter:
         self.agents = self._initialize_agents()
         self.assigned_tasks = set()
 
-    def _load_rules(self, rules_file: str) -> Dict[str, Any]:
+    def _load_rules(self, rules_file: str) -> dict[str, Any]:
         """Load allocation rules from YAML file"""
         try:
             with open(rules_file) as f:
@@ -33,7 +33,7 @@ class T4BatchSplitter:
             # Fallback to basic rules if file doesn't exist
             return self._get_default_rules()
 
-    def _get_default_rules(self) -> Dict[str, Any]:
+    def _get_default_rules(self) -> dict[str, Any]:
         """Default allocation rules matching PLANNING_TODO.md Section 10"""
         return {
             "agents": {
@@ -54,7 +54,7 @@ class T4BatchSplitter:
             }
         }
 
-    def _initialize_agents(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_agents(self) -> dict[str, dict[str, Any]]:
         """Initialize agent state tracking"""
         agents = {}
         for agent_id, config in self.rules["agents"].items():
@@ -66,7 +66,7 @@ class T4BatchSplitter:
             }
         return agents
 
-    def split_todos(self, manifest: Dict[str, Any]) -> Dict[str, List[Dict[str, Any]]]:
+    def split_todos(self, manifest: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
         """Split tracked tasks into agent-specific batches following PLANNING_TODO.md Section 10."""
         todos = manifest["todos"]
         batches = {}
@@ -94,7 +94,7 @@ class T4BatchSplitter:
 
         return batches
 
-    def _assign_todo_to_agent(self, todo: Dict[str, Any]) -> Optional[str]:
+    def _assign_todo_to_agent(self, todo: dict[str, Any]) -> Optional[str]:
         """Assign a tracked task to an agent following PLANNING_TODO.md allocation rules."""
         priority = todo["priority"]
         todo["module"]
@@ -147,7 +147,7 @@ class T4BatchSplitter:
 
         return agent
 
-    def _assign_by_domain(self, todo: Dict[str, Any]) -> Optional[str]:
+    def _assign_by_domain(self, todo: dict[str, Any]) -> Optional[str]:
         """Assign based on domain expertise as specified in PLANNING_TODO.md Section 10."""
         module = todo["module"].lower()
 
@@ -198,7 +198,7 @@ class T4BatchSplitter:
         # Default fallback
         return self._find_available_agent(list(self.agents.keys()), todo)
 
-    def _find_available_agent(self, agent_candidates: List[str], todo: Dict[str, Any]) -> Optional[str]:
+    def _find_available_agent(self, agent_candidates: list[str], todo: dict[str, Any]) -> Optional[str]:
         """Find available agent from candidates with capacity"""
         for agent_id in agent_candidates:
             if agent_id not in self.agents:
@@ -225,7 +225,7 @@ class T4BatchSplitter:
 
         return None
 
-    def create_batch_files(self, batches: Dict[str, List[Dict[str, Any]]], output_dir: str):
+    def create_batch_files(self, batches: dict[str, list[dict[str, Any]]], output_dir: str):
         """Create batch files with proper T4 structure"""
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)

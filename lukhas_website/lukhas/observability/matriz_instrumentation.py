@@ -333,7 +333,7 @@ async def _execute_instrumented_cognitive_stage(
 def cognitive_pipeline_span(
     pipeline_name: str,
     user_query: str,
-    expected_stages: Optional[List[str]] = None,
+    expected_stages: Optional[list[str]] = None,
     target_slo_ms: float = 250.0
 ):
     """
@@ -435,7 +435,7 @@ def cognitive_pipeline_span(
 
             raise
 
-def record_focus_drift(node_id: str, attention_weights: List[float], window_size: int = 10):
+def record_focus_drift(node_id: str, attention_weights: list[float], window_size: int = 10):
     """
     Record focus drift metrics for attention monitoring.
 
@@ -652,7 +652,7 @@ def _record_cognitive_error(stage_name: str, node_id: str, intent_type: Optional
         "intent_type": intent_type
     })
 
-def _record_cognitive_anomaly(anomaly_type: str, node_id: str, context: Dict[str, Any]):
+def _record_cognitive_anomaly(anomaly_type: str, node_id: str, context: dict[str, Any]):
     """Record detected cognitive anomalies"""
     if not _cognitive_initialized or not _cognitive_metrics.anomaly_detection_counter:
         return
@@ -688,7 +688,7 @@ def _classify_query_type(user_query: str) -> str:
     else:
         return "general"
 
-def _calculate_pipeline_complexity(expected_stages: Optional[List[str]], duration_ms: float) -> float:
+def _calculate_pipeline_complexity(expected_stages: Optional[list[str]], duration_ms: float) -> float:
     """Calculate pipeline complexity score"""
     base_complexity = len(expected_stages) if expected_stages else 1
     time_factor = min(duration_ms / 100, 10)  # Cap time factor at 10
@@ -760,7 +760,7 @@ def _classify_confidence_range(confidence: float) -> str:
     else:
         return "high"
 
-def _classify_anomaly_severity(anomaly_type: str, context: Dict[str, Any]) -> str:
+def _classify_anomaly_severity(anomaly_type: str, context: dict[str, Any]) -> str:
     """Classify anomaly severity for alerting"""
     critical_types = ["memory_cascade_risk", "stage_error"]
     warning_types = ["performance_outlier", "low_decision_confidence"]
@@ -772,7 +772,7 @@ def _classify_anomaly_severity(anomaly_type: str, context: Dict[str, Any]) -> st
     else:
         return "info"
 
-def get_cognitive_instrumentation_status() -> Dict[str, Any]:
+def get_cognitive_instrumentation_status() -> dict[str, Any]:
     """Get current cognitive instrumentation status and configuration"""
     return {
         "cognitive_initialized": _cognitive_initialized,

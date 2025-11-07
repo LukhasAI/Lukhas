@@ -72,7 +72,7 @@ ARCHETYPES = {
 # Canonical emotion keys for consistency
 CANONICAL_EMOTIONS = ["confidence", "curiosity", "joy", "fear", "anger", "sadness", "surprise", "trust"]
 
-def classify_archetype(emotion_vector: Dict[str, float], threshold: float = 0.6) -> List[Tuple[str, float]]:
+def classify_archetype(emotion_vector: dict[str, float], threshold: float = 0.6) -> list[tuple[str, float]]:
     """
     Classify emotional vector into archetypal categories.
 
@@ -94,7 +94,7 @@ def classify_archetype(emotion_vector: Dict[str, float], threshold: float = 0.6)
     archetype_scores.sort(key=lambda x: x[1], reverse=True)
     return archetype_scores
 
-def calculate_archetype_score(emotion_vector: Dict[str, float], archetype_data: Dict[str, Any]) -> float:
+def calculate_archetype_score(emotion_vector: dict[str, float], archetype_data: dict[str, Any]) -> float:
     """
     Calculate how well an emotion vector matches an archetype.
 
@@ -137,7 +137,7 @@ def calculate_archetype_score(emotion_vector: Dict[str, float], archetype_data: 
     total_score = primary_score + secondary_score - opposition_penalty
     return max(0.0, min(1.0, total_score))
 
-def analyze_snapshot_archetypes(snapshots: List[Dict[str, Any]]) -> Dict[str, Any]:
+def analyze_snapshot_archetypes(snapshots: list[dict[str, Any]]) -> dict[str, Any]:
     """
     Analyze archetypal patterns in a collection of snapshots.
 
@@ -205,7 +205,7 @@ def analyze_snapshot_archetypes(snapshots: List[Dict[str, Any]]) -> Dict[str, An
         "diversity_index": calculate_archetypal_diversity(archetype_frequencies)
     }
 
-def calculate_archetypal_diversity(frequencies: Dict[str, int]) -> float:
+def calculate_archetypal_diversity(frequencies: dict[str, int]) -> float:
     """
     Calculate Shannon diversity index for archetypal distribution.
 
@@ -228,7 +228,7 @@ def calculate_archetypal_diversity(frequencies: Dict[str, int]) -> float:
 
     return entropy
 
-def suggest_archetypal_balance(current_stats: Dict[str, Any], target_balance: str = "balanced") -> Dict[str, Any]:
+def suggest_archetypal_balance(current_stats: dict[str, Any], target_balance: str = "balanced") -> dict[str, Any]:
     """
     Suggest improvements for archetypal balance in dream system.
 
@@ -287,7 +287,7 @@ def suggest_archetypal_balance(current_stats: Dict[str, Any], target_balance: st
         "overall_balance_score": calculate_balance_score(current_dist, target_dist)
     }
 
-def calculate_balance_score(current: Dict[str, float], target: Dict[str, float]) -> float:
+def calculate_balance_score(current: dict[str, float], target: dict[str, float]) -> float:
     """
     Calculate how well current distribution matches target.
 
@@ -305,7 +305,7 @@ def calculate_balance_score(current: Dict[str, float], target: Dict[str, float])
     balance_score = 1.0 - (total_error / max_possible_error)
     return max(0.0, balance_score)
 
-def create_archetypal_test_case(archetype_name: str, intensity: float = 0.8) -> Dict[str, Any]:
+def create_archetypal_test_case(archetype_name: str, intensity: float = 0.8) -> dict[str, Any]:
     """
     Create a test case that strongly represents a specific archetype.
 

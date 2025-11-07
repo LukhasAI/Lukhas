@@ -75,7 +75,7 @@ class MigrationRule:
     description: str
     reversible: bool = False
     reverse_transformation: Optional[Callable[[Any], Any]] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -88,7 +88,7 @@ class MigrationContext:
     preserve_unknown_fields: bool = True
     strict_mode: bool = False
     audit_trail: bool = True
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -111,19 +111,19 @@ class MigrationResult:
     source_version: Optional[str] = None
     target_version: Optional[str] = None
     migration_time_ms: float = 0.0
-    steps: List[MigrationStep] = field(default_factory=list)
+    steps: list[MigrationStep] = field(default_factory=list)
     compatibility_type: Optional[CompatibilityType] = None
-    warnings: List[str] = field(default_factory=list)
-    errors: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class MigrationEngine:
     """Engine for executing schema migrations"""
 
     def __init__(self):
-        self.migration_rules: Dict[Tuple[str, str], List[MigrationRule]] = {}
-        self.migration_paths: Dict[Tuple[str, str], List[Tuple[str, str]]] = {}
+        self.migration_rules: dict[tuple[str, str], list[MigrationRule]] = {}
+        self.migration_paths: dict[tuple[str, str], list[tuple[str, str]]] = {}
         self._lock = threading.RLock()
         self._metrics = MigrationMetrics()
 
@@ -287,11 +287,11 @@ class MigrationEngine:
         except Exception:
             return CompatibilityType.NONE
 
-    def get_migration_path(self, from_version: str, to_version: str) -> List[str]:
+    def get_migration_path(self, from_version: str, to_version: str) -> list[str]:
         """Get migration path between versions"""
         return self._find_migration_path(from_version, to_version)
 
-    def get_available_versions(self, schema_id: str = "guardian_decision") -> Set[str]:
+    def get_available_versions(self, schema_id: str = "guardian_decision") -> set[str]:
         """Get all available schema versions"""
         versions = set()
         for (from_ver, to_ver), rules in self.migration_rules.items():
@@ -300,7 +300,7 @@ class MigrationEngine:
                 versions.add(to_ver)
         return versions
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get migration engine metrics"""
         return self._metrics.get_stats()
 
@@ -406,7 +406,7 @@ class MigrationEngine:
             steps=steps
         )
 
-    def _find_migration_path(self, from_version: str, to_version: str) -> List[str]:
+    def _find_migration_path(self, from_version: str, to_version: str) -> list[str]:
         """Find migration path between versions using BFS"""
         if from_version == to_version:
             return []
@@ -465,7 +465,7 @@ class MigrationEngine:
         except ValueError:
             return CompatibilityType.NONE
 
-    def _migrate_guardian_1_to_2(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _migrate_guardian_1_to_2(self, data: dict[str, Any]) -> dict[str, Any]:
         """Migrate Guardian schema from v1 to v2"""
         # This is a major version migration with structural changes
         migrated = {
@@ -493,7 +493,7 @@ class MigrationEngine:
 
         return migrated
 
-    def _migrate_guardian_2_0_to_2_1(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _migrate_guardian_2_0_to_2_1(self, data: dict[str, Any]) -> dict[str, Any]:
         """Migrate Guardian schema from v2.0 to v2.1"""
         migrated = data.copy()
         migrated["schema_version"] = "2.1.0"
@@ -504,7 +504,7 @@ class MigrationEngine:
 
         return migrated
 
-    def _migrate_guardian_2_1_to_2_0(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _migrate_guardian_2_1_to_2_0(self, data: dict[str, Any]) -> dict[str, Any]:
         """Reverse migrate Guardian schema from v2.1 to v2.0"""
         migrated = data.copy()
         migrated["schema_version"] = "2.0.0"
@@ -514,7 +514,7 @@ class MigrationEngine:
 
         return migrated
 
-    def _calculate_content_hash(self, data: Dict[str, Any]) -> str:
+    def _calculate_content_hash(self, data: dict[str, Any]) -> str:
         """Calculate content hash for integrity field"""
         import hashlib
         content_str = json.dumps(data, sort_keys=True, ensure_ascii=True)
@@ -547,7 +547,7 @@ class MigrationMetrics:
         """Record migration error"""
         self.error_count += 1
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get migration statistics"""
         uptime = time.time() - self.start_time
         avg_time = (
@@ -590,7 +590,7 @@ def get_migration_engine() -> MigrationEngine:
 
 # Convenience functions
 def migrate_guardian_data(
-    data: Dict[str, Any],
+    data: dict[str, Any],
     target_version: str,
     source_version: Optional[str] = None
 ) -> MigrationResult:

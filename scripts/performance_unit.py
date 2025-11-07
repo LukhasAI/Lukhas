@@ -75,7 +75,7 @@ class PerformanceUnitTester:
         except Exception:
             return "unknown"
 
-    def get_baseline_performance(self) -> Optional[Dict[str, Any]]:
+    def get_baseline_performance(self) -> Optional[dict[str, Any]]:
         """Load baseline performance metrics for regression detection."""
         baseline_path = self.output_dir / "baseline_unit_performance.json"
         if baseline_path.exists():
@@ -86,7 +86,7 @@ class PerformanceUnitTester:
                 logging.warning(f"Could not load baseline: {e}")
         return None
 
-    def measure_latency(self, operation_func, iterations: Optional[int] = None) -> Dict[str, float]:
+    def measure_latency(self, operation_func, iterations: Optional[int] = None) -> dict[str, float]:
         """Measure operation latency with statistical analysis."""
         iterations = iterations or self.sample_count
         latencies = []
@@ -130,7 +130,7 @@ class PerformanceUnitTester:
             "max_ms": round(max(latencies), 3)
         }
 
-    def test_memory_operations(self) -> Dict[str, Any]:
+    def test_memory_operations(self) -> dict[str, Any]:
         """Test memory system operation latencies."""
         print("🧠 Testing memory operation latencies...")
 
@@ -171,7 +171,7 @@ class PerformanceUnitTester:
             }
         }
 
-    def test_guardian_decisions(self) -> Dict[str, Any]:
+    def test_guardian_decisions(self) -> dict[str, Any]:
         """Test Guardian decision latencies."""
         print("🛡️ Testing Guardian decision latencies...")
 
@@ -201,7 +201,7 @@ class PerformanceUnitTester:
             }
         }
 
-    def test_identity_operations(self) -> Dict[str, Any]:
+    def test_identity_operations(self) -> dict[str, Any]:
         """Test Identity system operation latencies."""
         print("🔐 Testing Identity operation latencies...")
 
@@ -242,7 +242,7 @@ class PerformanceUnitTester:
             }
         }
 
-    def test_consciousness_processing(self) -> Dict[str, Any]:
+    def test_consciousness_processing(self) -> dict[str, Any]:
         """Test Consciousness processing latencies."""
         print("🌊 Testing Consciousness processing latencies...")
 
@@ -283,7 +283,7 @@ class PerformanceUnitTester:
             }
         }
 
-    def detect_regression(self, current_results: Dict[str, Any], baseline: Dict[str, Any]) -> Dict[str, Any]:
+    def detect_regression(self, current_results: dict[str, Any], baseline: dict[str, Any]) -> dict[str, Any]:
         """Detect performance regression against baseline."""
         if not baseline or "performance_metrics" not in baseline:
             return {
@@ -337,7 +337,7 @@ class PerformanceUnitTester:
             "analysis": f"{'Regression detected' if regression_detected else 'No regression'}: {delta_pct:+.2f}% change"
         }
 
-    def run_all_tests(self) -> Dict[str, Any]:
+    def run_all_tests(self) -> dict[str, Any]:
         """Run all unit performance tests."""
         print("🚀 Starting unit performance validation...")
 
@@ -392,7 +392,7 @@ class PerformanceUnitTester:
 
         return results
 
-    def generate_artifact(self, results: Dict[str, Any]) -> str:
+    def generate_artifact(self, results: dict[str, Any]) -> str:
         """Generate performance artifact file."""
         timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         artifact_filename = f"unit-performance-{timestamp}.json"
@@ -404,7 +404,7 @@ class PerformanceUnitTester:
         print(f"📊 Unit performance artifact generated: {artifact_path}")
         return str(artifact_path)
 
-    def print_summary(self, results: Dict[str, Any]):
+    def print_summary(self, results: dict[str, Any]):
         """Print performance test summary."""
         print("\n" + "="*60)
         print("🎯 UNIT PERFORMANCE VALIDATION SUMMARY")

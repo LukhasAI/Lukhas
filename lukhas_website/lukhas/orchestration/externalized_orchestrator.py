@@ -84,11 +84,11 @@ class OrchestrationRequest:
     request_type: RequestType = RequestType.SINGLE_SHOT
     prompt: str = ""
     system_prompt: str | None = None
-    context_data: Dict[str, Any] = field(default_factory=dict)
-    routing_hints: Dict[str, Any] = field(default_factory=dict)
+    context_data: dict[str, Any] = field(default_factory=dict)
+    routing_hints: dict[str, Any] = field(default_factory=dict)
     preserve_context: bool = True
     timeout_seconds: float = 30.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -101,10 +101,10 @@ class OrchestrationResponse:
     response: str
     context_id: str | None = None
     latency_ms: float = 0.0
-    token_usage: Dict[str, int] = field(default_factory=dict)
-    routing_hops: List[str] = field(default_factory=list)
+    token_usage: dict[str, int] = field(default_factory=dict)
+    routing_hops: list[str] = field(default_factory=list)
     ab_test_variant: str | None = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class ExternalizedOrchestrator:
@@ -119,11 +119,11 @@ class ExternalizedOrchestrator:
         self.kernel_bus = None
 
         # State tracking
-        self.active_requests: Dict[str, OrchestrationRequest] = {}
-        self.request_metrics: Dict[str, Dict[str, Any]] = {}
+        self.active_requests: dict[str, OrchestrationRequest] = {}
+        self.request_metrics: dict[str, dict[str, Any]] = {}
 
         # A/B test state
-        self.ab_test_state: Dict[str, Any] = {}
+        self.ab_test_state: dict[str, Any] = {}
 
         logger.info("Externalized orchestrator initialized")
 
@@ -349,7 +349,7 @@ class ExternalizedOrchestrator:
         request: OrchestrationRequest,
         routing_result: RoutingResult,
         context_id: str | None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Execute request with selected provider"""
 
         provider = routing_result.provider
@@ -495,7 +495,7 @@ class ExternalizedOrchestrator:
         self.ab_test_state.clear()
         await self._initialize_ab_tests()
 
-    async def get_orchestration_status(self) -> Dict[str, Any]:
+    async def get_orchestration_status(self) -> dict[str, Any]:
         """Get orchestrator status"""
 
         health_summary = await self.health_monitor.get_health_summary()

@@ -28,7 +28,7 @@ class CoverageGate:
         self.baselines_file = baselines_file
         self.baselines = self.load_baselines()
 
-    def load_baselines(self) -> Dict[str, Any]:
+    def load_baselines(self) -> dict[str, Any]:
         """Load existing coverage baselines."""
         if self.baselines_file.exists():
             with self.baselines_file.open("r", encoding="utf-8") as f:
@@ -41,7 +41,7 @@ class CoverageGate:
         with self.baselines_file.open("w", encoding="utf-8") as f:
             json.dump(self.baselines, f, indent=2)
 
-    def parse_coverage_xml(self, xml_path: Path) -> Dict[str, Dict[str, float]]:
+    def parse_coverage_xml(self, xml_path: Path) -> dict[str, dict[str, float]]:
         """Parse coverage XML report."""
         if not xml_path.exists():
             return {}
@@ -85,7 +85,7 @@ class CoverageGate:
 
         return ".".join(parts) if parts else ""
 
-    def check_ratchet(self, current_coverage: Dict[str, Dict[str, float]]) -> List[str]:
+    def check_ratchet(self, current_coverage: dict[str, dict[str, float]]) -> list[str]:
         """Check coverage ratchet violations."""
         violations = []
 
@@ -116,7 +116,7 @@ class CoverageGate:
 
         return violations
 
-    def update_baselines(self, current_coverage: Dict[str, Dict[str, float]]):
+    def update_baselines(self, current_coverage: dict[str, dict[str, float]]):
         """Update baselines with improved coverage only (ratchet up)."""
         updated = []
 
@@ -148,7 +148,7 @@ class CoverageGate:
 
         return updated
 
-    def generate_priority_matrix(self, current_coverage: Dict[str, Dict[str, float]], output_file: Path):
+    def generate_priority_matrix(self, current_coverage: dict[str, dict[str, float]], output_file: Path):
         """Generate priority matrix CSV for low-coverage modules."""
         modules = current_coverage.get("modules", {})
 

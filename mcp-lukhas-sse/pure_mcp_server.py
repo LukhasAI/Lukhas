@@ -124,7 +124,7 @@ AVAILABLE_TOOLS = [
 ]
 
 # Tool Implementation Functions
-async def constellation_health_check(arguments: Optional[dict] = None) -> Dict[str, Any]:
+async def constellation_health_check(arguments: Optional[dict] = None) -> dict[str, Any]:
     """Complete LUKHAS AI Constellation Framework health status"""
     session_id = str(uuid.uuid4())
     timestamp = datetime.now().isoformat()
@@ -180,7 +180,7 @@ async def constellation_health_check(arguments: Optional[dict] = None) -> Dict[s
         }
     }
 
-async def get_consciousness_architecture(arguments: Optional[dict] = None) -> Dict[str, Any]:
+async def get_consciousness_architecture(arguments: Optional[dict] = None) -> dict[str, Any]:
     """Detailed LUKHAS AI consciousness architecture"""
     return {
         "consciousness_overview": f"{TRINITY_CONSCIOUSNESS} Advanced Consciousness Architecture",
@@ -231,7 +231,7 @@ async def get_consciousness_architecture(arguments: Optional[dict] = None) -> Di
         }
     }
 
-async def explore_lukhas_codebase(arguments: Optional[dict] = None) -> Dict[str, Any]:
+async def explore_lukhas_codebase(arguments: Optional[dict] = None) -> dict[str, Any]:
     """Safely explore LUKHAS AI codebase structure"""
     path = arguments.get("path", "/tmp") if arguments else "/tmp"
 
@@ -300,7 +300,7 @@ async def explore_lukhas_codebase(arguments: Optional[dict] = None) -> Dict[str,
             "recovery_suggestion": "Check path permissions and access rights"
         }
 
-async def read_lukhas_file(arguments: Optional[dict] = None) -> Dict[str, Any]:
+async def read_lukhas_file(arguments: Optional[dict] = None) -> dict[str, Any]:
     """Safely read LUKHAS AI files with Constellation Framework analysis"""
     if not arguments or "file_path" not in arguments:
         return {"error": "file_path parameter required"}
@@ -397,7 +397,7 @@ async def read_lukhas_file(arguments: Optional[dict] = None) -> Dict[str, Any]:
             "recovery_action": "Check file permissions and system status"
         }
 
-async def get_constellation_capabilities(arguments: Optional[dict] = None) -> Dict[str, Any]:
+async def get_constellation_capabilities(arguments: Optional[dict] = None) -> dict[str, Any]:
     """Complete overview of LUKHAS AI Constellation Framework capabilities"""
     return {
         "constellation_framework_overview": CONSTELLATION_FRAMEWORK,

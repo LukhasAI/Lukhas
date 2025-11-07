@@ -178,9 +178,9 @@ class TokenStorage:
         self._component_id = "TokenStorage"
 
         # In-memory storage (production should use persistent storage)
-        self._tokens: Dict[str, StoredToken] = {}
-        self._key_rotation_history: List[KeyRotationRecord] = []
-        self._revocation_blacklist: Set[str] = set()
+        self._tokens: dict[str, StoredToken] = {}
+        self._key_rotation_history: list[KeyRotationRecord] = []
+        self._revocation_blacklist: set[str] = set()
 
         # Performance tracking
         self._cache_hits = 0
@@ -517,7 +517,7 @@ class TokenStorage:
 
             return len(expired_tokens)
 
-    def get_storage_stats(self) -> Dict[str, Any]:
+    def get_storage_stats(self) -> dict[str, Any]:
         """
         Get storage statistics and health metrics.
 

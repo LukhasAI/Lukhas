@@ -24,7 +24,7 @@ from opentelemetry.trace import Span, StatusCode
 class CapturedSpan:
     """Captured span data for testing."""
     name: str
-    attributes: Dict[str, Any]
+    attributes: dict[str, Any]
     status: str
     status_message: Optional[str]
     duration_ms: float
@@ -38,14 +38,14 @@ class CapturedSpan:
 @dataclass
 class TelemetryCapture:
     """Container for captured telemetry data."""
-    spans: List[CapturedSpan] = field(default_factory=list)
-    metrics: List[Dict[str, Any]] = field(default_factory=list)
+    spans: list[CapturedSpan] = field(default_factory=list)
+    metrics: list[dict[str, Any]] = field(default_factory=list)
 
-    def get_spans_by_name(self, name: str) -> List[CapturedSpan]:
+    def get_spans_by_name(self, name: str) -> list[CapturedSpan]:
         """Get all spans with the given name."""
         return [span for span in self.spans if span.name == name]
 
-    def get_authz_spans(self) -> List[CapturedSpan]:
+    def get_authz_spans(self) -> list[CapturedSpan]:
         """Get all authorization spans."""
         return self.get_spans_by_name("authz.check")
 
@@ -60,7 +60,7 @@ class InMemorySpanExporter(SpanExporter):
     def __init__(self, capture: TelemetryCapture):
         self.capture = capture
 
-    def export(self, spans: List[Span]) -> SpanExportResult:
+    def export(self, spans: list[Span]) -> SpanExportResult:
         """Export spans to in-memory storage."""
         for span in spans:
             # Convert span to our test format
@@ -214,7 +214,7 @@ def authz_test_scenarios():
 
 
 @contextmanager
-def temp_span_dump(spans: List[CapturedSpan]):
+def temp_span_dump(spans: list[CapturedSpan]):
     """Create temporary file with span data for compatibility tests."""
     span_data = {
         "spans": [
@@ -250,7 +250,7 @@ def span_validator():
         """Utility class for validating spans."""
 
         @staticmethod
-        def validate_authz_span(span: CapturedSpan, expected_attrs: Optional[Dict[str, Any]] = None) -> bool:
+        def validate_authz_span(span: CapturedSpan, expected_attrs: Optional[dict[str, Any]] = None) -> bool:
             """Validate an authorization span has required attributes."""
             required_attrs = [
                 "subject",
@@ -301,7 +301,7 @@ def span_validator():
 def matrix_contract_loader():
     """Fixture for loading Matrix contracts for testing."""
 
-    def load_contract(module: str) -> Dict[str, Any]:
+    def load_contract(module: str) -> dict[str, Any]:
         """Load Matrix contract for a module."""
         contract_paths = [
             Path(f"/Users/agi_dev/LOCAL-REPOS/Lukhas/{module}/matrix_{module}.json"),

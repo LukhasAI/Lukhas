@@ -71,11 +71,11 @@ class AlertRule:
     name: str
     condition: str  # Metric condition expression
     severity: MetricSeverity
-    notification_channels: List[NotificationChannel]
-    escalation_rules: Dict[EscalationLevel, timedelta]
+    notification_channels: list[NotificationChannel]
+    escalation_rules: dict[EscalationLevel, timedelta]
     suppression_window: timedelta = timedelta(minutes=15)
     max_alerts_per_hour: int = 10
-    correlation_tags: List[str] = field(default_factory=list)
+    correlation_tags: list[str] = field(default_factory=list)
     runbook_url: Optional[str] = None
     enabled: bool = True
 
@@ -93,8 +93,8 @@ class Alert:
     metric_name: str
     current_value: float
     threshold_value: float
-    labels: Dict[str, str]
-    annotations: Dict[str, str]
+    labels: dict[str, str]
+    annotations: dict[str, str]
     created_at: datetime
     updated_at: datetime
     acknowledged_at: Optional[datetime] = None
@@ -102,8 +102,8 @@ class Alert:
     acknowledged_by: Optional[str] = None
     escalation_level: EscalationLevel = EscalationLevel.L1_MONITORING
     correlation_id: Optional[str] = None
-    evidence_ids: List[str] = field(default_factory=list)
-    notification_history: List[Dict[str, Any]] = field(default_factory=list)
+    evidence_ids: list[str] = field(default_factory=list)
+    notification_history: list[dict[str, Any]] = field(default_factory=list)
 
 
 @dataclass
@@ -120,7 +120,7 @@ class EscalationPolicy:
     """Escalation policy configuration"""
     policy_id: str
     name: str
-    escalation_rules: Dict[EscalationLevel, Dict[str, Any]]
+    escalation_rules: dict[EscalationLevel, dict[str, Any]]
     enabled: bool = True
 
 
@@ -133,7 +133,7 @@ class IntelligentAlertingSystem:
     def __init__(
         self,
         config_path: str = "./config/alerting.json",
-        smtp_config: Optional[Dict[str, str]] = None,
+        smtp_config: Optional[dict[str, str]] = None,
         webhook_timeout: int = 30,
         enable_storm_detection: bool = True,
         alert_history_days: int = 30,
@@ -155,19 +155,19 @@ class IntelligentAlertingSystem:
         self.alert_history_days = alert_history_days
 
         # Core state
-        self.alert_rules: Dict[str, AlertRule] = {}
-        self.active_alerts: Dict[str, Alert] = {}
-        self.alert_history: List[Alert] = []
-        self.escalation_policies: Dict[str, EscalationPolicy] = {}
-        self.notification_templates: Dict[NotificationChannel, NotificationTemplate] = {}
+        self.alert_rules: dict[str, AlertRule] = {}
+        self.active_alerts: dict[str, Alert] = {}
+        self.alert_history: list[Alert] = []
+        self.escalation_policies: dict[str, EscalationPolicy] = {}
+        self.notification_templates: dict[NotificationChannel, NotificationTemplate] = {}
 
         # Alert correlation and deduplication
-        self.correlation_groups: Dict[str, Set[str]] = defaultdict(set)
-        self.alert_fingerprints: Dict[str, datetime] = {}
+        self.correlation_groups: dict[str, set[str]] = defaultdict(set)
+        self.alert_fingerprints: dict[str, datetime] = {}
 
         # Storm detection
-        self.alert_rate_tracker: Dict[str, deque] = defaultdict(lambda: deque(maxlen=100))
-        self.suppressed_alerts: Set[str] = set()
+        self.alert_rate_tracker: dict[str, deque] = defaultdict(lambda: deque(maxlen=100))
+        self.suppressed_alerts: set[str] = set()
 
         # Background tasks
         self._escalation_task: Optional[asyncio.Task] = None
@@ -328,8 +328,8 @@ This is an automated alert from LUKHAS AI System.
         metric_name: str,
         current_value: float,
         threshold_value: float,
-        labels: Optional[Dict[str, str]] = None,
-        annotations: Optional[Dict[str, str]] = None,
+        labels: Optional[dict[str, str]] = None,
+        annotations: Optional[dict[str, str]] = None,
         correlation_id: Optional[str] = None,
     ) -> str:
         """
@@ -430,7 +430,7 @@ This is an automated alert from LUKHAS AI System.
         rule_id: str,
         source_component: str,
         metric_name: str,
-        labels: Dict[str, str],
+        labels: dict[str, str],
     ) -> str:
         """Generate unique fingerprint for alert deduplication"""
         fingerprint_data = {
@@ -674,7 +674,7 @@ This is an automated alert from LUKHAS AI System.
         self,
         severity_filter: Optional[MetricSeverity] = None,
         component_filter: Optional[str] = None,
-    ) -> List[Alert]:
+    ) -> list[Alert]:
         """Get list of active alerts with optional filtering"""
         alerts = list(self.active_alerts.values())
 
@@ -686,7 +686,7 @@ This is an automated alert from LUKHAS AI System.
 
         return sorted(alerts, key=lambda x: x.created_at, reverse=True)
 
-    def get_alert_statistics(self, hours_back: int = 24) -> Dict[str, Any]:
+    def get_alert_statistics(self, hours_back: int = 24) -> dict[str, Any]:
         """Get alert statistics for dashboard"""
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours_back)
 

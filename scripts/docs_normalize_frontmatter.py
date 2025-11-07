@@ -96,7 +96,7 @@ def safe_yaml_load(text: str) -> Dict:
             return {}
         return data
     # Minimal fallback: key: value per line, no nesting (keeps existing behavior but safer)
-    out: Dict[str, object] = {}
+    out: dict[str, object] = {}
     for line in text.splitlines():
         if not line.strip() or ":" not in line:
             continue
@@ -132,7 +132,7 @@ def safe_yaml_dump(data: Dict) -> str:
     return "\n".join(lines) + "\n"
 
 
-def extract_front_matter(content: str) -> Tuple[Dict | None, str]:
+def extract_front_matter(content: str) -> tuple[Dict | None, str]:
     match = FRONT_MATTER_PATTERN.match(content)
     if not match:
         return None, content

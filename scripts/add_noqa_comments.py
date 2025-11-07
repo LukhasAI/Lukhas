@@ -12,7 +12,7 @@ import sys
 from typing import List, Tuple
 
 
-def find_delayed_imports(file_path: pathlib.Path) -> List[Tuple[int, str]]:
+def find_delayed_imports(file_path: pathlib.Path) -> list[tuple[int, str]]:
     """
     Find imports that occur after module-level code.
 

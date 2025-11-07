@@ -43,7 +43,7 @@ IMPORT_TESTS = [
 ]
 
 
-def test_import(module_name: str, description: str, verbose: bool = False) -> Tuple[bool, str]:
+def test_import(module_name: str, description: str, verbose: bool = False) -> tuple[bool, str]:
     """
     Test if a module can be imported.
 

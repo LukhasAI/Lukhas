@@ -86,7 +86,7 @@ class IncidentArtifact:
     hash_sha256: str
     collected_at: datetime
     size_bytes: int
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 @dataclass
 class ResponseStep:
@@ -95,11 +95,11 @@ class ResponseStep:
     name: str
     description: str
     action: ResponseAction
-    parameters: Dict[str, Any] = field(default_factory=dict)
+    parameters: dict[str, Any] = field(default_factory=dict)
     timeout_seconds: int = 300
     retry_count: int = 3
     requires_approval: bool = False
-    depends_on: List[str] = field(default_factory=list)
+    depends_on: list[str] = field(default_factory=list)
 
 @dataclass
 class ResponsePlaybook:
@@ -107,9 +107,9 @@ class ResponsePlaybook:
     id: str
     name: str
     description: str
-    incident_categories: List[IncidentCategory]
-    severity_levels: List[IncidentSeverity]
-    steps: List[ResponseStep] = field(default_factory=list)
+    incident_categories: list[IncidentCategory]
+    severity_levels: list[IncidentSeverity]
+    steps: list[ResponseStep] = field(default_factory=list)
     auto_execute: bool = False
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -123,16 +123,16 @@ class Incident:
     severity: IncidentSeverity
     status: IncidentStatus
     category: IncidentCategory
-    source_events: List[str] = field(default_factory=list)
-    affected_systems: List[str] = field(default_factory=list)
-    affected_users: List[str] = field(default_factory=list)
-    artifacts: List[IncidentArtifact] = field(default_factory=list)
-    timeline: List[Dict[str, Any]] = field(default_factory=list)
+    source_events: list[str] = field(default_factory=list)
+    affected_systems: list[str] = field(default_factory=list)
+    affected_users: list[str] = field(default_factory=list)
+    artifacts: list[IncidentArtifact] = field(default_factory=list)
+    timeline: list[dict[str, Any]] = field(default_factory=list)
     assigned_to: Optional[str] = None
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     resolved_at: Optional[datetime] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 @dataclass
 class ExecutionResult:
@@ -142,8 +142,8 @@ class ExecutionResult:
     output: str
     error: Optional[str] = None
     execution_time_ms: float = 0.0
-    artifacts_collected: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    artifacts_collected: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 class IncidentResponseSystem:
     """Comprehensive incident response automation system."""
@@ -158,9 +158,9 @@ class IncidentResponseSystem:
         self.evidence_retention_days = evidence_retention_days
 
         # Core data
-        self.incidents: Dict[str, Incident] = {}
-        self.playbooks: Dict[str, ResponsePlaybook] = {}
-        self.active_responses: Dict[str, threading.Thread] = {}
+        self.incidents: dict[str, Incident] = {}
+        self.playbooks: dict[str, ResponsePlaybook] = {}
+        self.active_responses: dict[str, threading.Thread] = {}
 
         # Evidence storage
         self.evidence_path = os.getenv("LUKHAS_EVIDENCE_PATH", "./evidence")
@@ -175,7 +175,7 @@ class IncidentResponseSystem:
         self._initialize_default_playbooks()
 
         # Notification handlers
-        self.notification_handlers: Dict[str, Callable] = {}
+        self.notification_handlers: dict[str, Callable] = {}
 
         logger.info("Incident Response System initialized")
 
@@ -338,9 +338,9 @@ class IncidentResponseSystem:
                        description: str,
                        severity: IncidentSeverity,
                        category: IncidentCategory,
-                       source_events: Optional[List[str]] = None,
-                       affected_systems: Optional[List[str]] = None,
-                       affected_users: Optional[List[str]] = None,
+                       source_events: Optional[list[str]] = None,
+                       affected_systems: Optional[list[str]] = None,
+                       affected_users: Optional[list[str]] = None,
                        auto_respond: bool = True) -> str:
         """
         Create a new incident and trigger automated response.
@@ -425,7 +425,7 @@ class IncidentResponseSystem:
                 logger.info(f"Playbook {playbook.name} requires manual approval for incident {incident.id}")
                 self._add_timeline_entry(incident, "playbook_pending", f"Playbook {playbook.name} pending approval")
 
-    def _find_matching_playbooks(self, incident: Incident) -> List[ResponsePlaybook]:
+    def _find_matching_playbooks(self, incident: Incident) -> list[ResponsePlaybook]:
         """Find playbooks matching incident criteria."""
         matching = []
 
@@ -530,7 +530,7 @@ class IncidentResponseSystem:
             if incident.id in self.active_responses:
                 del self.active_responses[incident.id]
 
-    def _build_dependency_graph(self, steps: List[ResponseStep]) -> Dict[str, Set[str]]:
+    def _build_dependency_graph(self, steps: list[ResponseStep]) -> dict[str, set[str]]:
         """Build dependency graph for steps."""
         dependencies = {}
         for step in steps:
@@ -911,7 +911,7 @@ class IncidentResponseSystem:
         # In production, would integrate with approval workflow system
         self._add_timeline_entry(incident, "approval_requested", f"Approval requested for step: {step.name}")
 
-    def _add_timeline_entry(self, incident: Incident, event: str, description: str, metadata: Optional[Dict[str, Any]] = None):
+    def _add_timeline_entry(self, incident: Incident, event: str, description: str, metadata: Optional[dict[str, Any]] = None):
         """Add entry to incident timeline."""
         entry = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -959,7 +959,7 @@ class IncidentResponseSystem:
         """Get incident by ID."""
         return self.incidents.get(incident_id)
 
-    def get_active_incidents(self) -> List[Incident]:
+    def get_active_incidents(self) -> list[Incident]:
         """Get all active (non-closed) incidents."""
         return [inc for inc in self.incidents.values()
                 if inc.status != IncidentStatus.CLOSED]
@@ -979,7 +979,7 @@ class IncidentResponseSystem:
         logger.info(f"INCIDENT_CLOSED: {incident_id}")
         return True
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get incident response statistics."""
         active_incidents = len(self.get_active_incidents())
         avg_response_time = sum(self.response_times) / len(self.response_times) if self.response_times else 0
@@ -995,7 +995,7 @@ class IncidentResponseSystem:
         }
 
 # Factory function
-def create_incident_response_system(config: Optional[Dict[str, Any]] = None) -> IncidentResponseSystem:
+def create_incident_response_system(config: Optional[dict[str, Any]] = None) -> IncidentResponseSystem:
     """Create incident response system with configuration."""
     config = config or {}
 

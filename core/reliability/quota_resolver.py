@@ -45,8 +45,8 @@ class QuotaResolver:
             config_path: Path to quotas.yaml config file (optional)
         """
         self.defaults: Quota = Quota(rps=20, burst=40, description="system default")
-        self.principals: Dict[str, Quota] = {}
-        self.endpoint_multipliers: Dict[str, float] = {}
+        self.principals: dict[str, Quota] = {}
+        self.endpoint_multipliers: dict[str, float] = {}
 
         # Load from config file if provided or use default location
         if config_path is None:
@@ -188,7 +188,7 @@ class QuotaResolver:
         """
         return self.defaults
 
-    def get_quota_for_key(self, key: str) -> Tuple[int, int]:
+    def get_quota_for_key(self, key: str) -> tuple[int, int]:
         """
         Get (rps, burst) tuple for a rate limit key.
 

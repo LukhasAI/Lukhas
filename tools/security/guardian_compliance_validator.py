@@ -358,7 +358,7 @@ class GuardianComplianceValidator:
         except Exception:
             return False
 
-    def _is_guardian_compliant(self, results: Dict[str, Any]) -> bool:
+    def _is_guardian_compliant(self, results: dict[str, Any]) -> bool:
         """Check if Guardian System is compliant."""
         guardian = results["guardian"]
         return (

@@ -30,7 +30,7 @@ class LUKHASMaintenancePipeline:
         self.maintenance_log.append(log_entry)
         print(f"[{status}] {action}: {details}")
 
-    def run_script(self, script_name: str, description: str) -> Tuple[bool, str]:
+    def run_script(self, script_name: str, description: str) -> tuple[bool, str]:
         """Run a maintenance script and capture results"""
         script_path = self.scripts_dir / script_name
 

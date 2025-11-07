@@ -35,7 +35,7 @@ class TokenMetadata:
     token_hash: str
     created_at: str
     expires_at: str | None
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
     last_validated_at: str | None = None
 
 
@@ -58,7 +58,7 @@ class SessionTokenStore:
         self._state_dir.mkdir(parents=True, exist_ok=True)
 
         self._store_path = self._state_dir / filename
-        self._tokens: Dict[str, TokenMetadata] = {}
+        self._tokens: dict[str, TokenMetadata] = {}
 
         self._load()
 
@@ -68,7 +68,7 @@ class SessionTokenStore:
     def register_token(
         self,
         token: str,
-        metadata: Dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
         ttl_seconds: int | None = None,
     ) -> str:
         """Store a session token hash with optional metadata.
@@ -139,7 +139,7 @@ class SessionTokenStore:
                 self._save()
             return removed
 
-    def list_tokens(self) -> Dict[str, TokenMetadata]:
+    def list_tokens(self) -> dict[str, TokenMetadata]:
         """Return a shallow copy of stored token metadata."""
 
         with self._lock:
@@ -169,7 +169,7 @@ class SessionTokenStore:
             logger.error("Invalid token store format: expected mapping")
             return
 
-        loaded: Dict[str, TokenMetadata] = {}
+        loaded: dict[str, TokenMetadata] = {}
         for token_hash, info in tokens.items():
             if not isinstance(info, dict):
                 continue

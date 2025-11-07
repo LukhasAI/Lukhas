@@ -26,7 +26,7 @@ class MemoryOrchestrator:
         self.logger = logger
         self.logger.info("MemoryOrchestrator initialized")
 
-    async def add_event(self, text: str, meta: Dict[str, Any]) -> str:
+    async def add_event(self, text: str, meta: dict[str, Any]) -> str:
         """Add memory event with Guardian validation."""
         with self.tracer.trace_operation("add_event") as span:
             span.add_attributes(text_length=len(text), meta_keys=list(meta.keys()))
@@ -44,7 +44,7 @@ class MemoryOrchestrator:
             span.add_attributes(result_id=result)
             return result
 
-    def query(self, text: str, k: int = 8, filters: Dict[str, Any] | None = None):
+    def query(self, text: str, k: int = 8, filters: dict[str, Any] | None = None):
         """Query memories with filters."""
         with self.tracer.trace_operation("query") as span:
             span.add_attributes(query_length=len(text), k=k, has_filters=filters is not None)

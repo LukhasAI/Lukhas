@@ -16,8 +16,8 @@ log = logging.getLogger("consciousness.simulation")
 
 class DreamSeed(TypedDict):
     goal: str
-    context: Dict[str, Any]
-    constraints: Dict[str, Any]
+    context: dict[str, Any]
+    constraints: dict[str, Any]
 
 class DreamResult(TypedDict):
     shards: list[dict]
@@ -68,7 +68,7 @@ async def schedule(seed: DreamSeed) -> str:
     await _get_scheduler().enqueue(job_id, seed, trace_id)
     return job_id
 
-async def status(job_id: str) -> Dict[str, Any]:
+async def status(job_id: str) -> dict[str, Any]:
     _require_enabled()
     s = _get_scheduler().get(job_id)
     if not s:

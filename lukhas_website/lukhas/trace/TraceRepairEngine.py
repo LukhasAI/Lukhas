@@ -82,7 +82,7 @@ class RepairResult:
 
     def __init__(self, success: bool, method: RepairMethod,
                  pre_score: float, post_score: float,
-                 details: Optional[Dict[str, Any]] = None):
+                 details: Optional[dict[str, Any]] = None):
         self.success = success
         self.method = method
         self.pre_score = pre_score
@@ -111,7 +111,7 @@ class TraceRepairEngine:
     MIN_IMPROVEMENT_PCT = 20.0  # Minimum improvement percentage
     MAX_REPAIR_ATTEMPTS = 3  # Maximum attempts per drift event
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize trace repair engine.
 
@@ -130,13 +130,13 @@ class TraceRepairEngine:
         self.max_attempts = self.config.get('max_attempts', self.MAX_REPAIR_ATTEMPTS)
 
         # Repair history for analysis
-        self.repair_history: List[RepairResult] = []
+        self.repair_history: list[RepairResult] = []
 
         logger.info(f"TraceRepairEngine initialized with thresholds: "
                    f"minor={self.minor_threshold}, critical={self.critical_threshold}")
 
-    def reconsolidate(self, kind: str, score: float, context: Dict[str, Any],
-                     top_symbols: Optional[List[str]] = None) -> RepairResult:
+    def reconsolidate(self, kind: str, score: float, context: dict[str, Any],
+                     top_symbols: Optional[list[str]] = None) -> RepairResult:
         """
         Main repair entry point - reconsolidate traces to reduce drift.
 
@@ -213,7 +213,7 @@ class TraceRepairEngine:
             )
 
     def _select_repair_method(self, kind: str, score: float,
-                            top_symbols: List[str]) -> RepairMethod:
+                            top_symbols: list[str]) -> RepairMethod:
         """
         Select optimal repair method based on drift characteristics.
 
@@ -261,8 +261,8 @@ class TraceRepairEngine:
             return RepairMethod.STABILIZE
 
     def _memory_reconsolidation(self, kind: str, score: float,
-                              context: Dict[str, Any],
-                              top_symbols: List[str]) -> RepairResult:
+                              context: dict[str, Any],
+                              top_symbols: list[str]) -> RepairResult:
         """
         Memory-specific reconsolidation repair.
 
@@ -301,8 +301,8 @@ class TraceRepairEngine:
         )
 
     def _ethical_realignment(self, kind: str, score: float,
-                           context: Dict[str, Any],
-                           top_symbols: List[str]) -> RepairResult:
+                           context: dict[str, Any],
+                           top_symbols: list[str]) -> RepairResult:
         """
         Ethical alignment repair.
 
@@ -339,8 +339,8 @@ class TraceRepairEngine:
         )
 
     def _identity_stabilization(self, kind: str, score: float,
-                              context: Dict[str, Any],
-                              top_symbols: List[str]) -> RepairResult:
+                              context: dict[str, Any],
+                              top_symbols: list[str]) -> RepairResult:
         """
         Identity coherence stabilization.
 
@@ -383,8 +383,8 @@ class TraceRepairEngine:
         )
 
     def _state_rollback(self, kind: str, score: float,
-                       context: Dict[str, Any],
-                       top_symbols: List[str]) -> RepairResult:
+                       context: dict[str, Any],
+                       top_symbols: list[str]) -> RepairResult:
         """
         Emergency state rollback for severe drift.
 
@@ -408,8 +408,8 @@ class TraceRepairEngine:
         )
 
     def _hybrid_repair(self, kind: str, score: float,
-                      context: Dict[str, Any],
-                      top_symbols: List[str]) -> RepairResult:
+                      context: dict[str, Any],
+                      top_symbols: list[str]) -> RepairResult:
         """
         Hybrid repair approach for complex/unified drift.
 

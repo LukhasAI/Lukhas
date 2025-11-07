@@ -79,7 +79,7 @@ class AuthorizationCode:
     client_id: str
     user_id: str
     redirect_uri: str
-    scopes: Set[str]
+    scopes: set[str]
     code_challenge: str | None = None
     code_challenge_method: str | None = None
     nonce: str | None = None
@@ -119,7 +119,7 @@ class RefreshToken:
     token: str
     client_id: str
     user_id: str
-    scopes: Set[str]
+    scopes: set[str]
     created_at: int = field(default_factory=lambda: int(time.time()))
     expires_at: int | None = None
     last_used_at: int | None = None
@@ -149,8 +149,8 @@ class OIDCTokenManager:
         self.guardian_client = guardian_client
 
         # In-memory storage (replace with Redis/database in production)
-        self._authorization_codes: Dict[str, AuthorizationCode] = {}
-        self._refresh_tokens: Dict[str, RefreshToken] = {}
+        self._authorization_codes: dict[str, AuthorizationCode] = {}
+        self._refresh_tokens: dict[str, RefreshToken] = {}
 
         # Token cleanup interval
         self._last_cleanup = time.time()
@@ -161,7 +161,7 @@ class OIDCTokenManager:
         client_id: str,
         user_id: str,
         redirect_uri: str,
-        scopes: Set[str],
+        scopes: set[str],
         code_challenge: str | None = None,
         code_challenge_method: str | None = None,
         nonce: str | None = None,
@@ -197,7 +197,7 @@ class OIDCTokenManager:
 
     def exchange_authorization_code(
         self, code: str, client_id: str, redirect_uri: str, code_verifier: str | None = None
-    ) -> Tuple[str, str, str | None]:
+    ) -> tuple[str, str, str | None]:
         """
         Exchange authorization code for tokens.
 
@@ -270,7 +270,7 @@ class OIDCTokenManager:
 
                 return access_token, refresh_token, id_token
 
-    def refresh_access_token(self, refresh_token: str, client_id: str) -> Tuple[str, str]:
+    def refresh_access_token(self, refresh_token: str, client_id: str) -> tuple[str, str]:
         """
         Refresh access token using refresh token.
 
@@ -340,7 +340,7 @@ class OIDCTokenManager:
             span.set_attribute("oidc.token_revoked", False)
             return False
 
-    def introspect_token(self, token: str) -> Dict[str, Any]:
+    def introspect_token(self, token: str) -> dict[str, Any]:
         """Introspect a token (RFC 7662)."""
         with tracer.start_span("oidc.introspect_token") as span:
             try:
@@ -381,7 +381,7 @@ class OIDCTokenManager:
                 span.set_attribute("oidc.token_active", False)
                 return {"active": False}
 
-    def _create_refresh_token(self, client_id: str, user_id: str, scopes: Set[str]) -> str:
+    def _create_refresh_token(self, client_id: str, user_id: str, scopes: set[str]) -> str:
         """Create a refresh token."""
         token = secrets.token_urlsafe(32)
 
@@ -431,7 +431,7 @@ class OIDCTokenManager:
             len([t for t in self._refresh_tokens.values() if t.is_valid()])
         )
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get token manager statistics."""
         self._maybe_cleanup()
 

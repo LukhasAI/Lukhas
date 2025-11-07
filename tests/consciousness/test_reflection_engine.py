@@ -36,11 +36,11 @@ from consciousness.systems.state import ConsciousnessState
 class MockContextProvider:
     """Mock context provider for testing"""
 
-    def __init__(self, context_data: Optional[Dict[str, Any]] = None, should_fail: bool = False):
+    def __init__(self, context_data: Optional[dict[str, Any]] = None, should_fail: bool = False):
         self.context_data = context_data or {"test": "context"}
         self.should_fail = should_fail
 
-    async def get_context(self) -> Dict[str, Any]:
+    async def get_context(self) -> dict[str, Any]:
         if self.should_fail:
             raise Exception("Mock context provider failure")
         return self.context_data

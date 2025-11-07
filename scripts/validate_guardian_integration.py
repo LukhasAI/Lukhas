@@ -65,13 +65,13 @@ class GuardianIntegrationReport:
     """Comprehensive Guardian integration validation report"""
     timestamp: str
     validation_id: str
-    environment: Dict[str, Any]
-    module_metrics: Dict[str, GuardianValidationMetrics]
-    cross_module_tests: Dict[str, Any]
-    chaos_resilience: Dict[str, Any]
-    security_validation: Dict[str, Any]
-    performance_sla: Dict[str, bool]
-    audit_artifacts: Dict[str, str]
+    environment: dict[str, Any]
+    module_metrics: dict[str, GuardianValidationMetrics]
+    cross_module_tests: dict[str, Any]
+    chaos_resilience: dict[str, Any]
+    security_validation: dict[str, Any]
+    performance_sla: dict[str, bool]
+    audit_artifacts: dict[str, str]
     merkle_proof: str
     overall_status: str
     certification_level: str
@@ -257,7 +257,7 @@ class GuardianIntegrationValidator:
         self.metrics["guardian_performance"] = metrics
         return metrics
 
-    async def validate_module_integrations(self) -> Dict[str, GuardianValidationMetrics]:
+    async def validate_module_integrations(self) -> dict[str, GuardianValidationMetrics]:
         """Validate Guardian integration in each LUKHAS module"""
         print("\n🔗 Validating Guardian integration across all modules...")
 
@@ -412,7 +412,7 @@ class GuardianIntegrationValidator:
 
         return module_results
 
-    async def validate_guardian_fail_safe_behavior(self) -> Dict[str, Any]:
+    async def validate_guardian_fail_safe_behavior(self) -> dict[str, Any]:
         """Validate that Guardian fails safely under all conditions"""
         print("\n🛡️  Validating Guardian fail-safe behavior...")
 
@@ -509,7 +509,7 @@ class GuardianIntegrationValidator:
 
         return fail_safe_tests
 
-    async def validate_guardian_drift_detection(self) -> Dict[str, Any]:
+    async def validate_guardian_drift_detection(self) -> dict[str, Any]:
         """Validate Guardian drift detection and remediation"""
         print("\n📊 Validating Guardian drift detection...")
 
@@ -550,7 +550,7 @@ class GuardianIntegrationValidator:
 
         return drift_tests
 
-    async def validate_security_and_audit_trails(self) -> Dict[str, Any]:
+    async def validate_security_and_audit_trails(self) -> dict[str, Any]:
         """Validate security controls and audit trail completeness"""
         print("\n🔒 Validating security controls and audit trails...")
 

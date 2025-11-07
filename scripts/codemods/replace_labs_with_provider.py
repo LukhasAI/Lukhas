@@ -34,7 +34,7 @@ LABS_PREFIX = "labs"
 @dataclass
 class ImportSpec:
     module_str: str
-    names: List[Tuple[str, str | None]]  # (name, alias)
+    names: list[tuple[str, str | None]]  # (name, alias)
 
 
 def _is_top_level_stmt(stmt: cst.BaseStatement) -> bool:
@@ -77,7 +77,7 @@ def _importfrom_to_spec(node: cst.ImportFrom) -> ImportSpec | None:
     # Only handle explicit names; skip star imports
     if isinstance(node.names, MaybeSentinel):
         return None
-    names: List[Tuple[str, str | None]] = []
+    names: list[tuple[str, str | None]] = []
     for alias in node.names:
         if isinstance(alias, cst.ImportStar):
             # Skip star imports - too risky to rewrite automatically
@@ -93,14 +93,14 @@ def _importfrom_to_spec(node: cst.ImportFrom) -> ImportSpec | None:
     return ImportSpec(module_str=mod_text, names=names)
 
 
-def _try_collect_labs_specs(try_node: cst.Try) -> List[ImportSpec] | None:
+def _try_collect_labs_specs(try_node: cst.Try) -> list[ImportSpec] | None:
     """If the try-block body consists of one or more labs ImportFrom lines, collect them.
     Returns list of specs or None if pattern not matched (to avoid risky rewrites).
     """
     # Only consider trivial try blocks (no else/finally), any except allowed.
     if try_node.orelse is not None or try_node.finalbody is not None:
         return None
-    specs: List[ImportSpec] = []
+    specs: list[ImportSpec] = []
     for st in try_node.body.body:
         if not isinstance(st, cst.SimpleStatementLine) or len(st.body) != 1:
             return None
@@ -139,7 +139,7 @@ def _build_lazy_block(spec: ImportSpec, importlib_symbol: str) -> cst.Try:
     #   Name = getattr(_mod, "Name"); ...
     # except Exception:
     #   Name = None; ...
-    body_stmts: List[cst.BaseStatement] = []
+    body_stmts: list[cst.BaseStatement] = []
 
     assign_mod = cst.parse_statement(
         f"_mod = {importlib_symbol}.import_module(\"{spec.module_str}\")"
@@ -150,7 +150,7 @@ def _build_lazy_block(spec: ImportSpec, importlib_symbol: str) -> cst.Try:
         varname = alias or nm
         body_stmts.append(cst.parse_statement(f"{varname} = getattr(_mod, \"{nm}\")"))
 
-    except_body: List[cst.BaseStatement] = []
+    except_body: list[cst.BaseStatement] = []
     for nm, alias in spec.names:
         varname = alias or nm
         except_body.append(cst.parse_statement(f"{varname} = None"))
@@ -170,10 +170,10 @@ def _build_lazy_block(spec: ImportSpec, importlib_symbol: str) -> cst.Try:
     return try_node
 
 
-def rewrite_module(module: cst.Module) -> Tuple[cst.Module, bool]:
+def rewrite_module(module: cst.Module) -> tuple[cst.Module, bool]:
     """Return (new_module, changed?)."""
     changed = False
-    new_body: List[cst.BaseStatement] = []
+    new_body: list[cst.BaseStatement] = []
 
     # Determine existing importlib symbol (alias) if present
     importlib_symbol = _has_importlib_alias(module)
@@ -238,13 +238,13 @@ def rewrite_module(module: cst.Module) -> Tuple[cst.Module, bool]:
                     continue
             break
 
-        new_body2: List[cst.BaseStatement] = [*body[:idx], import_stmt, *body[idx:]]
+        new_body2: list[cst.BaseStatement] = [*body[:idx], import_stmt, *body[idx:]]
         out_module = out_module.with_changes(body=new_body2)
 
     return out_module, changed
 
 
-def process_file(path: Path) -> Tuple[str, str] | None:
+def process_file(path: Path) -> tuple[str, str] | None:
     src = path.read_text(encoding="utf-8")
     try:
         module = cst.parse_module(src)
@@ -264,7 +264,7 @@ def process_file(path: Path) -> Tuple[str, str] | None:
     return new_src, diff
 
 
-def collect_py_files(root: Path, includes: List[str] | None = None) -> Iterable[Path]:
+def collect_py_files(root: Path, includes: list[str] | None = None) -> Iterable[Path]:
     root = root.resolve()
     if includes:
         include_paths = [ (root / inc).resolve() for inc in includes ]

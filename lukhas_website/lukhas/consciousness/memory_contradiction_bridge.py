@@ -63,29 +63,29 @@ class MemoryConflictType(Enum):
 @dataclass
 class MemoryValidationContext:
     """Context for memory-reasoning validation"""
-    memory_signals: List[Dict[str, Any]]
-    reasoning_chains: List[Any]
+    memory_signals: list[dict[str, Any]]
+    reasoning_chains: list[Any]
     query_context: str
     validation_depth: str = "standard"  # standard, deep, minimal
     time_budget_ms: float = 10.0
     enable_temporal_checking: bool = True
     enable_semantic_checking: bool = True
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class MemoryContradictionResult:
     """Result of memory-reasoning contradiction detection"""
     memory_conflicts_found: int
-    conflict_types: Dict[MemoryConflictType, int]
-    contradictory_memory_pairs: List[Tuple[str, str]]
-    reasoning_memory_conflicts: List[Dict[str, Any]]
-    temporal_inconsistencies: List[Dict[str, Any]]
-    semantic_conflicts: List[Dict[str, Any]]
-    confidence_issues: List[Dict[str, Any]]
+    conflict_types: dict[MemoryConflictType, int]
+    contradictory_memory_pairs: list[tuple[str, str]]
+    reasoning_memory_conflicts: list[dict[str, Any]]
+    temporal_inconsistencies: list[dict[str, Any]]
+    semantic_conflicts: list[dict[str, Any]]
+    confidence_issues: list[dict[str, Any]]
     processing_time_ms: float
     validation_quality: float
-    recommendations: List[str]
+    recommendations: list[str]
     success: bool
     error_message: Optional[str] = None
 
@@ -264,9 +264,9 @@ class MemoryContradictionBridge:
 
     async def _validate_memory_memory_consistency(
         self,
-        memory_signals: List[Dict[str, Any]],
+        memory_signals: list[dict[str, Any]],
         context: MemoryValidationContext
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Validate consistency between memory signals."""
         conflicts = []
 
@@ -290,10 +290,10 @@ class MemoryContradictionBridge:
 
     async def _validate_memory_reasoning_consistency(
         self,
-        memory_signals: List[Dict[str, Any]],
-        reasoning_chains: List[Any],
+        memory_signals: list[dict[str, Any]],
+        reasoning_chains: list[Any],
         context: MemoryValidationContext
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Validate consistency between memory and reasoning."""
         conflicts = []
 
@@ -313,9 +313,9 @@ class MemoryContradictionBridge:
 
     async def _validate_temporal_consistency(
         self,
-        memory_signals: List[Dict[str, Any]],
+        memory_signals: list[dict[str, Any]],
         context: MemoryValidationContext
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Validate temporal consistency of memories."""
         temporal_conflicts = []
 
@@ -356,10 +356,10 @@ class MemoryContradictionBridge:
 
     async def _validate_semantic_consistency(
         self,
-        memory_signals: List[Dict[str, Any]],
-        reasoning_chains: List[Any],
+        memory_signals: list[dict[str, Any]],
+        reasoning_chains: list[Any],
         context: MemoryValidationContext
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Validate semantic consistency across memory and reasoning."""
         semantic_conflicts = []
 
@@ -408,10 +408,10 @@ class MemoryContradictionBridge:
 
     async def _validate_confidence_consistency(
         self,
-        memory_signals: List[Dict[str, Any]],
-        reasoning_chains: List[Any],
+        memory_signals: list[dict[str, Any]],
+        reasoning_chains: list[Any],
         context: MemoryValidationContext
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Validate confidence consistency between memory and reasoning."""
         confidence_issues = []
 
@@ -440,8 +440,8 @@ class MemoryContradictionBridge:
 
     async def _check_memory_pair_conflict(
         self,
-        memory1: Dict[str, Any],
-        memory2: Dict[str, Any],
+        memory1: dict[str, Any],
+        memory2: dict[str, Any],
         context: MemoryValidationContext
     ) -> Optional[str]:
         """Check for conflicts between two memories."""
@@ -472,7 +472,7 @@ class MemoryContradictionBridge:
 
     async def _check_memory_reasoning_conflict(
         self,
-        memory: Dict[str, Any],
+        memory: dict[str, Any],
         reasoning_chain: Any,
         context: MemoryValidationContext
     ) -> Optional[str]:
@@ -499,8 +499,8 @@ class MemoryContradictionBridge:
 
     async def _check_temporal_logic_conflict(
         self,
-        earlier_memory: Dict[str, Any],
-        later_memory: Dict[str, Any]
+        earlier_memory: dict[str, Any],
+        later_memory: dict[str, Any]
     ) -> Optional[str]:
         """Check for temporal logic conflicts between memories."""
         earlier_content = str(earlier_memory.get('content', '')).lower()
@@ -515,7 +515,7 @@ class MemoryContradictionBridge:
 
         return None
 
-    def _convert_memories_to_fragments(self, memory_signals: List[Dict[str, Any]]) -> List[Any]:
+    def _convert_memories_to_fragments(self, memory_signals: list[dict[str, Any]]) -> list[Any]:
         """Convert memory signals to fragments for contradiction detection."""
         # This is a simplified implementation
         # In practice, this would use the SymbolicFragment structure
@@ -536,7 +536,7 @@ class MemoryContradictionBridge:
 
         return fragments
 
-    def _convert_reasoning_to_fragments(self, reasoning_chains: List[Any]) -> List[Any]:
+    def _convert_reasoning_to_fragments(self, reasoning_chains: list[Any]) -> list[Any]:
         """Convert reasoning chains to fragments for contradiction detection."""
         fragments = []
 
@@ -557,12 +557,12 @@ class MemoryContradictionBridge:
 
     def _generate_memory_recommendations(
         self,
-        memory_conflicts: List[Dict[str, Any]],
-        reasoning_conflicts: List[Dict[str, Any]],
-        temporal_conflicts: List[Dict[str, Any]],
-        semantic_conflicts: List[Dict[str, Any]],
-        confidence_issues: List[Dict[str, Any]]
-    ) -> List[str]:
+        memory_conflicts: list[dict[str, Any]],
+        reasoning_conflicts: list[dict[str, Any]],
+        temporal_conflicts: list[dict[str, Any]],
+        semantic_conflicts: list[dict[str, Any]],
+        confidence_issues: list[dict[str, Any]]
+    ) -> list[str]:
         """Generate recommendations based on detected conflicts."""
         recommendations = []
 
@@ -639,7 +639,7 @@ class MemoryContradictionBridge:
         successful_validations = (self.validation_stats["validation_success_rate"] * (self.validation_stats["total_validations"] - 1)) + (1 if success else 0)
         self.validation_stats["validation_success_rate"] = successful_validations / self.validation_stats["total_validations"]
 
-    def get_validation_stats(self) -> Dict[str, Any]:
+    def get_validation_stats(self) -> dict[str, Any]:
         """Get comprehensive validation statistics."""
         return {
             **self.validation_stats,

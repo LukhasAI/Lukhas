@@ -14,7 +14,7 @@ import asyncio
 from importlib import import_module
 from typing import List
 
-__all__: List[str] = [
+__all__: list[str] = [
     "CircuitBreaker",
     "circuit_breaker",
     "get_circuit_health",

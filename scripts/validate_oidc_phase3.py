@@ -359,7 +359,7 @@ def performance_benchmark():
         print(f"❌ Performance benchmark failed: {e}")
         return False
 
-def generate_validation_report(results: Dict[str, bool]):
+def generate_validation_report(results: dict[str, bool]):
     """Generate comprehensive validation report"""
     print("\n=== Validation Report Generation ===")
 

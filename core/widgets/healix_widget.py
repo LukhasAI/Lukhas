@@ -37,7 +37,7 @@ class HealixWidget:
         self._nodes = list(nodes)
         logger.info("HealixWidget nodes loaded", extra={"count": len(self._nodes)})
 
-    def render_timeline(self) -> List[HealixTimelinePoint]:
+    def render_timeline(self) -> list[HealixTimelinePoint]:
         """Render the timeline as symbolic points."""
 
         timeline: list[HealixTimelinePoint] = []

@@ -343,7 +343,7 @@ class VocabularyRotationEngine:
             }
         }
 
-    def get_next_family(self, force_rotation: bool = False) -> Tuple[str, Dict]:
+    def get_next_family(self, force_rotation: bool = False) -> tuple[str, Dict]:
         """Get next metaphor family using rotation logic."""
         family_names = list(self.metaphor_families.keys())
 
@@ -368,7 +368,7 @@ class VocabularyRotationEngine:
         phrases = family_data.get("MATRIZ", {}).get(matriz_component, ["consciousness flows"])
         return random.choice(phrases)
 
-    def get_3_layer_content(self, family_name: Optional[str] = None) -> Dict[str, str]:
+    def get_3_layer_content(self, family_name: Optional[str] = None) -> dict[str, str]:
         """Get 3-layer tone system content for a family."""
         if family_name is None:
             family_name, family_data = self.get_next_family()
@@ -458,7 +458,7 @@ class VocabularyRotationEngine:
         self.current_family_index = 0
         self.save_usage_data()
 
-    def get_family_by_theme(self, theme: str) -> Tuple[str, Dict]:
+    def get_family_by_theme(self, theme: str) -> tuple[str, Dict]:
         """Get appropriate family based on theme/context."""
         theme_mappings = {
             "organic": "neural_gardens",

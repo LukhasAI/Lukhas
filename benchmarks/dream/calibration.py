@@ -22,7 +22,7 @@ def run_with_thresholds(align_thresh: float, drift_thresh: float, conf_thresh: f
 
     subprocess.check_call([sys.executable, "-m", "benchmarks.dream.run", "--out", out], env=env)
 
-def load_results(path: str) -> List[Dict[str, Any]]:
+def load_results(path: str) -> list[dict[str, Any]]:
     """Load results from JSONL file."""
     results = []
     if not pathlib.Path(path).exists():
@@ -35,7 +35,7 @@ def load_results(path: str) -> List[Dict[str, Any]]:
                 results.append(json.loads(line))
     return results
 
-def evaluate_threshold_performance(results: List[Dict]) -> Dict[str, float]:
+def evaluate_threshold_performance(results: list[Dict]) -> dict[str, float]:
     """Evaluate performance metrics for given results."""
     if not results:
         return {"accuracy": 0.0, "coverage": 0.0, "avg_latency": 0.0}
@@ -106,7 +106,7 @@ def run_threshold_sweep(out_dir: str = "benchmarks/dream/calibration_results") -
     print(f"Threshold sweep report saved to: {report_path}")
     return report_path
 
-def find_optimal_thresholds(report_path: str, metric: str = "accuracy") -> Dict[str, Any]:
+def find_optimal_thresholds(report_path: str, metric: str = "accuracy") -> dict[str, Any]:
     """Find optimal thresholds based on specified metric."""
     with open(report_path) as f:
         sweep_results = json.load(f)

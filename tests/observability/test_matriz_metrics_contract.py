@@ -48,7 +48,7 @@ class MATRIZMetricsContractValidator:
         self.required_labels = {"lane", "component", "phase"}
         self.valid_prometheus_name_pattern = r"^[a-zA-Z_:][a-zA-Z0-9_:]*$"
 
-    def validate_label_cardinality(self, metric_name: str, labels: Dict[str, str]) -> List[str]:
+    def validate_label_cardinality(self, metric_name: str, labels: dict[str, str]) -> list[str]:
         """Validate labels don't cause cardinality explosion."""
         violations = []
 
@@ -79,7 +79,7 @@ class MATRIZMetricsContractValidator:
 
         return violations
 
-    def validate_dynamic_id_prevention(self, metric_name: str, labels: Dict[str, str]) -> List[str]:
+    def validate_dynamic_id_prevention(self, metric_name: str, labels: dict[str, str]) -> list[str]:
         """Validate that no dynamic IDs are used as Prometheus labels."""
         violations = []
 
@@ -104,7 +104,7 @@ class MATRIZMetricsContractValidator:
         # Allow alphanumeric, underscore, hyphen, dot
         return all(c.isalnum() or c in "_-." for c in value)
 
-    def validate_histogram_buckets(self, metric_name: str, operation_type: str) -> List[str]:
+    def validate_histogram_buckets(self, metric_name: str, operation_type: str) -> list[str]:
         """Validate histogram buckets are appropriate for operation type."""
         violations = []
 
@@ -123,7 +123,7 @@ class MATRIZMetricsContractValidator:
 
         return violations
 
-    def validate_metric_naming(self, metric_name: str, service_type: ServiceType) -> List[str]:
+    def validate_metric_naming(self, metric_name: str, service_type: ServiceType) -> list[str]:
         """Validate metric naming conventions."""
         violations = []
 
@@ -151,8 +151,8 @@ class MATRIZMetricsContractValidator:
         operation: str = "tick",
         phase: str = "processing",
         lane: str = "production",
-        labels: Optional[Dict[str, Any]] = None
-    ) -> List[str]:
+        labels: Optional[dict[str, Any]] = None
+    ) -> list[str]:
         """Record MATRIZ metric and validate against contracts."""
         violations = []
 

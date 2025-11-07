@@ -8,13 +8,13 @@ from typing import Any, Dict, cast
 import pytest
 
 
-def _load_schema() -> Dict[str, Any]:
+def _load_schema() -> dict[str, Any]:
     schema_path = Path("docs/schemas/nodespec_schema.json").resolve()
     assert schema_path.exists(), f"Schema not found at {schema_path}"
     return json.loads(schema_path.read_text())
 
 
-def _example_nodespec(name: str = "memory_adapter") -> Dict[str, Any]:
+def _example_nodespec(name: str = "memory_adapter") -> dict[str, Any]:
     """Load a sample NodeSpec example for mutation in tests."""
     examples_dir = Path("docs/schemas/examples")
     candidates = [
@@ -35,7 +35,7 @@ def test_invalid_nodespec_missing_required_fields():
     """
     schema = _load_schema()
 
-    bad_spec: Dict[str, Any] = {
+    bad_spec: dict[str, Any] = {
         # 'node_type': intentionally present to ensure failure is about missing blocks
         "node_type": "matriz.memory.adapter",
         # 'metadata': missing
@@ -155,9 +155,9 @@ def test_query_with_nonexistent_signal_or_capability():
             assert not data
     else:
         spec = _example_nodespec()
-        interfaces = cast(Dict[str, Any], spec.get("interfaces", {}) or {})
-        signals = cast(Dict[str, Any], interfaces.get("signals", {}) or {})
-        emits = cast(list[Dict[str, Any]], signals.get("emits", []) or [])
+        interfaces = cast(dict[str, Any], spec.get("interfaces", {}) or {})
+        signals = cast(dict[str, Any], interfaces.get("signals", {}) or {})
+        emits = cast(list[dict[str, Any]], signals.get("emits", []) or [])
         names = {e.get("name") for e in emits}
         assert target_signal not in names
 

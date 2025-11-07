@@ -56,7 +56,7 @@ app = FastAPI(
 )
 
 # In-memory storage (ephemeral)
-_registry: Dict[str, Dict[str, Any]] = {}
+_registry: dict[str, dict[str, Any]] = {}
 
 # Mock NodeSpec schema (simplified for dev stub)
 MOCK_SCHEMA = {

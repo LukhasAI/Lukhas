@@ -62,8 +62,8 @@ class AdaptiveTimeoutManager:
 
     def __init__(self, window_size: int = 1000):
         self.window_size = window_size
-        self.operation_data: Dict[str, deque] = {}
-        self.timeout_configs: Dict[str, TimeoutConfig] = {}
+        self.operation_data: dict[str, deque] = {}
+        self.timeout_configs: dict[str, TimeoutConfig] = {}
         self.metrics = LUKHASMetrics()
         self.tracer = LUKHASTracer()
 
@@ -319,7 +319,7 @@ class IntelligentBackoff:
         except ImportError:
             return 1.0  # No load adjustment if psutil not available
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get backoff statistics."""
         if not self.attempt_history:
             return {}

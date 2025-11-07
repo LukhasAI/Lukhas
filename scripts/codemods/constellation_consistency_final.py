@@ -24,7 +24,7 @@ from typing import List, Tuple
 ROOT = Path(__file__).resolve().parents[2]
 
 # Comprehensive replacement patterns
-REPLACEMENTS: List[Tuple[re.Pattern, str]] = [
+REPLACEMENTS: list[tuple[re.Pattern, str]] = [
     # Remaining Trinity references
     (re.compile(r'\bTrinity Framework\b'), 'Constellation Framework'),
     (re.compile(r'\bTRINITY_FRAMEWORK\b'), 'CONSTELLATION_FRAMEWORK'),
@@ -134,7 +134,7 @@ def should_skip_path(path: Path) -> bool:
     return any(pattern in path_str for pattern in EXCLUDE_PATTERNS)
 
 
-def find_files_to_process() -> List[Path]:
+def find_files_to_process() -> list[Path]:
     """Find all files that need consistency updates."""
     files = []
 
@@ -152,7 +152,7 @@ def find_files_to_process() -> List[Path]:
     return sorted(files)
 
 
-def apply_replacements(content: str) -> Tuple[str, int]:
+def apply_replacements(content: str) -> tuple[str, int]:
     """Apply all replacement patterns to content."""
     new_content = content
     total_changes = 0
@@ -164,7 +164,7 @@ def apply_replacements(content: str) -> Tuple[str, int]:
     return new_content, total_changes
 
 
-def process_file(file_path: Path, dry_run: bool = True) -> Tuple[bool, int]:
+def process_file(file_path: Path, dry_run: bool = True) -> tuple[bool, int]:
     """Process a single file for consistency updates."""
     try:
         with open(file_path, encoding='utf-8') as f:

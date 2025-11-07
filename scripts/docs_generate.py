@@ -24,7 +24,7 @@ def load_manifest() -> Dict:
         return json.load(f)
 
 
-def build_directory_tree(docs: List[Dict]) -> Dict:
+def build_directory_tree(docs: list[Dict]) -> Dict:
     """Build hierarchical directory tree from document list."""
     tree = {}
 
@@ -59,7 +59,7 @@ def build_directory_tree(docs: List[Dict]) -> Dict:
     return tree
 
 
-def render_tree(tree: Dict, indent: int = 0, path_prefix: str = "") -> List[str]:
+def render_tree(tree: Dict, indent: int = 0, path_prefix: str = "") -> list[str]:
     """Render directory tree as markdown list."""
     lines = []
     indent_str = "  " * indent

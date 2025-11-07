@@ -160,7 +160,7 @@ COLONY_HINTS = [
     (r"/perception|/asr|/vision_model", "perception"),
 ]
 
-def validate_star(star: str, star_canon: Dict[str, Any], *, labels: set[str] | None = None) -> str:
+def validate_star(star: str, star_canon: dict[str, Any], *, labels: set[str] | None = None) -> str:
     """Validate constellation star label against canonical definitions with fail-fast gating.
 
     Enforces strict validation of star labels to prevent invalid assignments
@@ -197,7 +197,7 @@ def validate_star(star: str, star_canon: Dict[str, Any], *, labels: set[str] | N
     return star
 
 
-def guess_star(path: str, inv_star: str | None, star_canon: Dict[str, Any]) -> str:
+def guess_star(path: str, inv_star: str | None, star_canon: dict[str, Any]) -> str:
     """Guess constellation star label with canonical normalization.
 
     Args:
@@ -252,7 +252,7 @@ def guess_colony(path: str) -> str | None:
     return None
 
 
-def infer_capabilities(path: str, star: str, matriz_node: str, module_name: str) -> List[Dict[str, Any]]:
+def infer_capabilities(path: str, star: str, matriz_node: str, module_name: str) -> list[dict[str, Any]]:
     """Infer module capabilities from context using multi-source heuristics.
 
     Generates capability declarations for manifest compliance (schema requires
@@ -433,7 +433,7 @@ def decide_quality_tier(priority: str | None, has_tests: bool, owner: str | None
 
     return base
 
-def discover_tests(module_fs_path: str) -> List[str]:
+def discover_tests(module_fs_path: str) -> list[str]:
     """Discover test files for a module using multi-location search strategy.
 
     Searches common test locations (module-local tests/, repo-level tests/,
@@ -499,7 +499,7 @@ def discover_tests(module_fs_path: str) -> List[str]:
     return sorted(found)
 
 
-def build_testing_block(module_fs_path: str, tier: str | None = None) -> Dict[str, Any]:
+def build_testing_block(module_fs_path: str, tier: str | None = None) -> dict[str, Any]:
     """Build schema-compliant testing configuration block for manifest.
 
     Generates testing metadata matching matriz_module_compliance.schema.json
@@ -534,7 +534,7 @@ def build_testing_block(module_fs_path: str, tier: str | None = None) -> Dict[st
     paths = discover_tests(module_fs_path)
     has_tests = bool(paths)
 
-    testing: Dict[str, Any] = {
+    testing: dict[str, Any] = {
         "has_tests": has_tests,
         "quality_tier": tier or "T4_experimental"
     }
@@ -568,7 +568,7 @@ def now_iso() -> str:
     """
     return datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat()
 
-def make_context_md(fqn: str, star: str, pipeline_nodes: List[str], colony: str | None, exports=None, contracts=None, logger=None) -> str:
+def make_context_md(fqn: str, star: str, pipeline_nodes: list[str], colony: str | None, exports=None, contracts=None, logger=None) -> str:
     """Generate lukhas_context.md template with architectural metadata placeholders.
 
     Creates structured Markdown documentation template for module context files.

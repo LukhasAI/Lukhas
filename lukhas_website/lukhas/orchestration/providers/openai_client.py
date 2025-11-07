@@ -184,7 +184,7 @@ class OpenAIClient(BaseAIClient):
             logger.error(f"OpenAI health check failed: {e}")
             return False
 
-    def get_available_models(self) -> List[str]:
+    def get_available_models(self) -> list[str]:
         """Get available OpenAI models"""
         return self.models.copy()
 

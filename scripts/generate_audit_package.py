@@ -38,15 +38,15 @@ class AuditPackageMetadata:
 @dataclass
 class EvidenceManifest:
     """Manifest of all evidence files in the package."""
-    audit_baselines: List[Dict[str, str]]
-    statistical_analyses: List[Dict[str, str]]
-    reproducibility_reports: List[Dict[str, str]]
-    chaos_test_results: List[Dict[str, str]]
-    verification_reports: List[Dict[str, str]]
-    merkle_chains: List[Dict[str, str]]
-    source_snapshots: List[Dict[str, str]]
-    environment_captures: List[Dict[str, str]]
-    checksums: Dict[str, str]
+    audit_baselines: list[dict[str, str]]
+    statistical_analyses: list[dict[str, str]]
+    reproducibility_reports: list[dict[str, str]]
+    chaos_test_results: list[dict[str, str]]
+    verification_reports: list[dict[str, str]]
+    merkle_chains: list[dict[str, str]]
+    source_snapshots: list[dict[str, str]]
+    environment_captures: list[dict[str, str]]
+    checksums: dict[str, str]
     total_files: int
     total_size_bytes: int
 
@@ -169,7 +169,7 @@ class AuditPackageGenerator:
 
         return manifest
 
-    def _copy_and_catalog_file(self, source_path: Path, dest_dir: Path) -> Dict[str, str]:
+    def _copy_and_catalog_file(self, source_path: Path, dest_dir: Path) -> dict[str, str]:
         """Copy file and create catalog entry."""
         if not source_path.exists():
             raise FileNotFoundError(f"Source file not found: {source_path}")
@@ -198,7 +198,7 @@ class AuditPackageGenerator:
                 hash_obj.update(chunk)
         return hash_obj.hexdigest()
 
-    def capture_source_snapshot(self, include_source_hash: bool = True) -> Dict[str, Any]:
+    def capture_source_snapshot(self, include_source_hash: bool = True) -> dict[str, Any]:
         """Capture source code snapshot."""
         source_info = {}
 
@@ -240,7 +240,7 @@ class AuditPackageGenerator:
 
         return source_info
 
-    def _get_git_info(self) -> Dict[str, Any]:
+    def _get_git_info(self) -> dict[str, Any]:
         """Get Git repository information."""
         git_info = {}
 
@@ -311,7 +311,7 @@ class AuditPackageGenerator:
                 if file_path.is_file():
                     tar.add(file_path, arcname=file_path)
 
-    def capture_environment_info(self) -> Dict[str, Any]:
+    def capture_environment_info(self) -> dict[str, Any]:
         """Capture complete environment information."""
         import platform
         import sys
@@ -337,7 +337,7 @@ class AuditPackageGenerator:
 
         return env_info
 
-    def _capture_dependencies(self) -> Dict[str, Any]:
+    def _capture_dependencies(self) -> dict[str, Any]:
         """Capture Python dependencies."""
         try:
             # Try to get pip freeze output
@@ -489,7 +489,7 @@ All evidence files are protected by:
 
         return instructions
 
-    def generate_checksums(self) -> Dict[str, str]:
+    def generate_checksums(self) -> dict[str, str]:
         """Generate checksums for all package files."""
         checksums = {}
 

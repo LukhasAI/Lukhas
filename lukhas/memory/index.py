@@ -9,24 +9,24 @@ import numpy as np
 
 class SearchResult(TypedDict):
     id: str
-    vector: List[float]
-    metadata: Dict[str, Any]
+    vector: list[float]
+    metadata: dict[str, Any]
     similarity: float
 
 class EmbeddingIndex:
     """A simple in-memory embedding index."""
 
     def __init__(self):
-        self._vectors: Dict[str, np.ndarray] = {}
-        self._metadata: Dict[str, Dict[str, Any]] = {}
+        self._vectors: dict[str, np.ndarray] = {}
+        self._metadata: dict[str, dict[str, Any]] = {}
 
-    def add(self, vector_id: str, vector: List[float], metadata: Optional[Dict[str, Any]] = None):
+    def add(self, vector_id: str, vector: list[float], metadata: Optional[dict[str, Any]] = None):
         """Adds a vector to the index."""
         self._vectors[vector_id] = np.array(vector)
         if metadata:
             self._metadata[vector_id] = metadata
 
-    def search(self, query_vector: List[float], top_k: int = 5) -> List[SearchResult]:
+    def search(self, query_vector: list[float], top_k: int = 5) -> list[SearchResult]:
         """
         Performs a cosine similarity search.
         """
@@ -49,7 +49,7 @@ class EmbeddingIndex:
         # Sort by similarity and return top_k results
         sorted_ids = sorted(similarities.keys(), key=lambda x: similarities[x], reverse=True)
 
-        results: List[SearchResult] = []
+        results: list[SearchResult] = []
         for vector_id in sorted_ids[:top_k]:
             results.append({
                 "id": vector_id,
@@ -63,7 +63,7 @@ class IndexManager:
     """Manages embedding indexes for different tenants."""
 
     def __init__(self):
-        self._indexes: Dict[str, EmbeddingIndex] = defaultdict(EmbeddingIndex)
+        self._indexes: dict[str, EmbeddingIndex] = defaultdict(EmbeddingIndex)
 
     def get_index(self, tenant_id: str) -> EmbeddingIndex:
         """Returns the index for a given tenant."""

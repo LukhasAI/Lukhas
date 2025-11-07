@@ -20,11 +20,11 @@ from typing import Any, Dict, List, Set
 
 class BatchLocker:
     def __init__(self):
-        self.locked_tasks: Set[str] = set()
-        self.batch_registry: Dict[str, Dict[str, Any]] = {}
-        self.conflicts: List[Dict[str, Any]] = []
+        self.locked_tasks: set[str] = set()
+        self.batch_registry: dict[str, dict[str, Any]] = {}
+        self.conflicts: list[dict[str, Any]] = []
 
-    def lock_batches(self, batch_dir: str) -> Dict[str, Any]:
+    def lock_batches(self, batch_dir: str) -> dict[str, Any]:
         """Lock all batch files and create allocation registry"""
         batch_path = Path(batch_dir)
         if not batch_path.exists():
@@ -138,7 +138,7 @@ class BatchLocker:
                 }
             )
 
-    def _validate_batch(self, batch_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _validate_batch(self, batch_data: dict[str, Any]) -> dict[str, Any]:
         """Validate batch structure and constraints"""
         errors = []
 
@@ -171,7 +171,7 @@ class BatchLocker:
 
         return {"valid": len(errors) == 0, "errors": errors}
 
-    def _validate_task(self, task: Dict[str, Any], index: int) -> List[str]:
+    def _validate_task(self, task: dict[str, Any], index: int) -> list[str]:
         """Validate individual task structure"""
         errors = []
 
@@ -244,7 +244,7 @@ class BatchLocker:
             return 30
         return 25  # Default
 
-    def _calculate_checksum(self, batch_data: Dict[str, Any]) -> str:
+    def _calculate_checksum(self, batch_data: dict[str, Any]) -> str:
         """Calculate checksum for batch integrity verification"""
         # Use task IDs and batch ID for checksum
         task_ids = [task["task_id"] for task in batch_data.get("tasks", [])]
@@ -253,7 +253,7 @@ class BatchLocker:
         checksum_input = f"{batch_data.get('batch_id', '')}:{':'.join(task_ids)}"
         return hashlib.md5(checksum_input.encode()).hexdigest()[:16]
 
-    def _create_registry(self, batch_dir: str) -> Dict[str, Any]:
+    def _create_registry(self, batch_dir: str) -> dict[str, Any]:
         """Create allocation registry"""
         registry = {
             "created_at": datetime.now().isoformat() + "Z",

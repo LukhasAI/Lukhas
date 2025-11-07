@@ -26,7 +26,7 @@ class ConsciousnessContractValidator:
         except Exception as e:
             return {"error": f"Failed to load schema: {e}"}
 
-    def validate_contract(self, contract_path: Path, schema: Dict) -> Tuple[bool, List[str]]:
+    def validate_contract(self, contract_path: Path, schema: Dict) -> tuple[bool, list[str]]:
         """Validate a single contract against the schema"""
         try:
             with open(contract_path) as f:

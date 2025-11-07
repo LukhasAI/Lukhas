@@ -73,8 +73,8 @@ class TestSuiteMetrics:
     performance_regressions: int = 0
     security_issues: int = 0
     quality_gate_status: str = "unknown"
-    tier_results: Dict[str, Dict[str, int]] = None
-    component_results: Dict[str, Dict[str, int]] = None
+    tier_results: dict[str, dict[str, int]] = None
+    component_results: dict[str, dict[str, int]] = None
 
     def __post_init__(self):
         if self.tier_results is None:
@@ -122,8 +122,8 @@ class TestSuiteResults:
     skipped_tests: int = 0
     coverage_percentage: float = 0.0
     execution_time: float = 0.0
-    performance_metrics: Dict[str, Any] = None
-    failed_test_details: List[Dict[str, str]] = None
+    performance_metrics: dict[str, Any] = None
+    failed_test_details: list[dict[str, str]] = None
 
     def __post_init__(self):
         if self.performance_metrics is None:
@@ -175,7 +175,7 @@ class ComprehensiveTestSuite:
         else:
             self.coverage = None
 
-    def _load_test_config(self) -> Dict[str, Any]:
+    def _load_test_config(self) -> dict[str, Any]:
         """Load comprehensive test configuration"""
         default_config = {
             "test_tiers": {
@@ -233,7 +233,7 @@ class ComprehensiveTestSuite:
 
         return default_config
 
-    def _load_quality_gates(self) -> Dict[str, float]:
+    def _load_quality_gates(self) -> dict[str, float]:
         """Load quality gate thresholds"""
         return {
             "min_success_rate": 95.0,
@@ -388,7 +388,7 @@ class ComprehensiveTestOrchestrator:
 
         return self.test_results
 
-    def _run_unit_tests(self) -> Dict[str, Any]:
+    def _run_unit_tests(self) -> dict[str, Any]:
         """Run all unit tests."""
 
         unit_test_paths = [
@@ -412,7 +412,7 @@ class ComprehensiveTestOrchestrator:
 
         return results
 
-    def _run_integration_tests(self) -> Dict[str, Any]:
+    def _run_integration_tests(self) -> dict[str, Any]:
         """Run integration tests."""
 
         integration_paths = [
@@ -433,7 +433,7 @@ class ComprehensiveTestOrchestrator:
 
         return results
 
-    def _run_e2e_tests(self) -> Dict[str, Any]:
+    def _run_e2e_tests(self) -> dict[str, Any]:
         """Run end-to-end tests."""
 
         e2e_paths = [
@@ -452,7 +452,7 @@ class ComprehensiveTestOrchestrator:
 
         return results
 
-    def _run_security_tests(self) -> Dict[str, Any]:
+    def _run_security_tests(self) -> dict[str, Any]:
         """Run security validation tests."""
 
         security_paths = [
@@ -471,7 +471,7 @@ class ComprehensiveTestOrchestrator:
 
         return results
 
-    def _run_performance_tests(self) -> Dict[str, Any]:
+    def _run_performance_tests(self) -> dict[str, Any]:
         """Run performance benchmark tests."""
 
         performance_paths = [
@@ -490,7 +490,7 @@ class ComprehensiveTestOrchestrator:
 
         return results
 
-    def _run_memory_tests(self) -> Dict[str, Any]:
+    def _run_memory_tests(self) -> dict[str, Any]:
         """Run memory system tests."""
 
         memory_paths = [
@@ -510,7 +510,7 @@ class ComprehensiveTestOrchestrator:
 
         return results
 
-    def _execute_pytest(self, test_path: Path, markers: str = "") -> Dict[str, Any]:
+    def _execute_pytest(self, test_path: Path, markers: str = "") -> dict[str, Any]:
         """Execute pytest on given path with optional markers."""
 
         cmd = [
@@ -563,7 +563,7 @@ class ComprehensiveTestOrchestrator:
                 "success": False
             }
 
-    def _aggregate_results(self, phase_results: List[Dict[str, Any]]) -> None:
+    def _aggregate_results(self, phase_results: list[dict[str, Any]]) -> None:
         """Aggregate results from all test phases."""
 
         total_tests = 0
@@ -635,7 +635,7 @@ class ComprehensiveTestOrchestrator:
             print(f"⚠️ Coverage analysis failed: {e}")
             self.test_results.coverage_percentage = 0.0
 
-    def _collect_performance_metrics(self) -> Dict[str, Any]:
+    def _collect_performance_metrics(self) -> dict[str, Any]:
         """Collect system performance metrics during testing."""
 
         if not PERFORMANCE_MONITORING:

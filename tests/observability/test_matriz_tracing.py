@@ -78,7 +78,7 @@ class SpanValidationResult:
     proper_naming: bool
     guardian_linkage: bool
     baggage_propagated: bool
-    violations: List[str]
+    violations: list[str]
 
 
 class MATRIZTracingContractValidator:
@@ -87,9 +87,9 @@ class MATRIZTracingContractValidator:
     def __init__(self):
         """Initialize tracing contract validator."""
         self.tracer = trace.get_tracer("matriz_contract_validator")
-        self.active_spans: Dict[str, Any] = {}
-        self.span_relationships: Dict[str, str] = {}  # child_id -> parent_id
-        self.validation_results: List[SpanValidationResult] = []
+        self.active_spans: dict[str, Any] = {}
+        self.span_relationships: dict[str, str] = {}  # child_id -> parent_id
+        self.validation_results: list[SpanValidationResult] = []
 
         # Contract requirements
         self.required_span_names = {
@@ -220,7 +220,7 @@ class MATRIZTracingContractValidator:
         self.validation_results.append(result)
         return result
 
-    def simulate_matriz_guardian_trace_flow(self, correlation_id: str) -> Dict[str, Any]:
+    def simulate_matriz_guardian_trace_flow(self, correlation_id: str) -> dict[str, Any]:
         """Simulate complete MATRIZ → Guardian trace flow."""
         trace_results = {
             "correlation_id": correlation_id,

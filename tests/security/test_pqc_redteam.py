@@ -38,7 +38,7 @@ class TestPQCSignatureForgery:
     """Test resistance to signature forgery attacks."""
 
     @pytest.fixture
-    def valid_checkpoint(self) -> Dict[str, Any]:
+    def valid_checkpoint(self) -> dict[str, Any]:
         """Create a valid checkpoint for testing."""
         return {
             "registry_id": "test-node-001",

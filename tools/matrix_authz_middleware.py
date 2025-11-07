@@ -59,7 +59,7 @@ class AuthzRequest:
     subject: str
     tier: str
     tier_num: int
-    scopes: List[str]
+    scopes: list[str]
     module: str
     action: str
     capability_token: str
@@ -77,7 +77,7 @@ class AuthzDecision:
     policy_sha: Optional[str] = None
     contract_sha: Optional[str] = None
     decision_time_ms: float = 0.0
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
 
 
 class MatrixAuthzMiddleware:
@@ -93,11 +93,11 @@ class MatrixAuthzMiddleware:
         self.shadow_mode = shadow_mode
         self.opa_endpoint = opa_endpoint
         self.verifier = TierMacaroonVerifier()
-        self.contracts_cache: Dict[str, Dict[str, Any]] = {}
+        self.contracts_cache: dict[str, dict[str, Any]] = {}
 
         logger.info(f"Matrix AuthZ Middleware initialized (shadow_mode={shadow_mode})")
 
-    def load_contract(self, module: str) -> Dict[str, Any]:
+    def load_contract(self, module: str) -> dict[str, Any]:
         """Load Matrix contract for module (with caching)."""
         if module in self.contracts_cache:
             return self.contracts_cache[module]
@@ -118,7 +118,7 @@ class MatrixAuthzMiddleware:
 
         raise FileNotFoundError(f"No contract found for module: {module}")
 
-    def calculate_contract_sha(self, contract: Dict[str, Any]) -> str:
+    def calculate_contract_sha(self, contract: dict[str, Any]) -> str:
         """Calculate contract SHA256 for telemetry."""
         import hashlib
         contract_json = json.dumps(contract, sort_keys=True, separators=(',', ':'))
@@ -172,9 +172,9 @@ class MatrixAuthzMiddleware:
     def _build_opa_input(
         self,
         request: AuthzRequest,
-        contract: Dict[str, Any],
-        capability_claims: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        contract: dict[str, Any],
+        capability_claims: dict[str, Any]
+    ) -> dict[str, Any]:
         """Build OPA input from request and contract."""
         return {
             "subject": request.subject,
@@ -195,7 +195,7 @@ class MatrixAuthzMiddleware:
             }
         }
 
-    async def _query_opa(self, opa_input: Dict[str, Any]) -> Dict[str, Any]:
+    async def _query_opa(self, opa_input: dict[str, Any]) -> dict[str, Any]:
         """Query OPA for authorization decision."""
         try:
             # In production, this would make HTTP call to OPA server
@@ -210,7 +210,7 @@ class MatrixAuthzMiddleware:
                 "reason": f"Policy evaluation failed: {e!s}"
             }
 
-    async def _simulate_opa_decision(self, opa_input: Dict[str, Any]) -> Dict[str, Any]:
+    async def _simulate_opa_decision(self, opa_input: dict[str, Any]) -> dict[str, Any]:
         """Simulate OPA decision (replace with real OPA call in production)."""
         # This would call: opa eval -d policies/matrix -I opa_input.json "data.matrix.authz.allow"
 
@@ -262,7 +262,7 @@ class MatrixAuthzMiddleware:
                 "reason": f"Policy simulation failed: {e!s}"
             }
 
-    def _fallback_policy_simulation(self, opa_input: Dict[str, Any]) -> Dict[str, Any]:
+    def _fallback_policy_simulation(self, opa_input: dict[str, Any]) -> dict[str, Any]:
         """Fallback policy simulation when OPA unavailable."""
         contract = opa_input.get("contract", {})
         identity = contract.get("identity", {})
@@ -434,8 +434,8 @@ class MatrixAuthzMiddleware:
         capability_token: str,
         module: str,
         action: str,
-        context: Optional[Dict[str, Any]] = None
-    ) -> Tuple[bool, str]:
+        context: Optional[dict[str, Any]] = None
+    ) -> tuple[bool, str]:
         """Main middleware entry point for HTTP handlers."""
 
         # Verify and extract capability claims

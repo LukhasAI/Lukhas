@@ -48,7 +48,7 @@ class MockPgClient:
 
 class ValidationEmbeddings(Embeddings):
     """Deterministic embeddings for consistent validation."""
-    def embed(self, text: str) -> List[float]:
+    def embed(self, text: str) -> list[float]:
         # Create deterministic embedding based on text hash
         text_hash = hashlib.sha256(text.encode()).hexdigest()
         # Convert hash to 1536-dim vector
@@ -77,14 +77,14 @@ class MockPgVectorStore(PgVectorStore):
         time.perf_counter() - start
         return doc.id
 
-    def bulk_add(self, docs: List[VectorDoc]) -> List[str]:
+    def bulk_add(self, docs: list[VectorDoc]) -> list[str]:
         ids = []
         for doc in docs:
             ids.append(self.add(doc))
         return ids
 
-    def search(self, embedding: List[float], k: int = 10,
-               filters: Optional[Dict[str, Any]] = None) -> List[tuple]:
+    def search(self, embedding: list[float], k: int = 10,
+               filters: Optional[dict[str, Any]] = None) -> list[tuple]:
         time.perf_counter()
 
         # Simple cosine similarity search
@@ -115,7 +115,7 @@ class MockPgVectorStore(PgVectorStore):
 
         return results[:k]
 
-    def delete(self, *, id: Optional[str] = None, where: Optional[Dict[str, Any]] = None) -> int:
+    def delete(self, *, id: Optional[str] = None, where: Optional[dict[str, Any]] = None) -> int:
         deleted = 0
         if id and id in self.storage:
             del self.storage[id]
@@ -135,14 +135,14 @@ class MockPgVectorStore(PgVectorStore):
                 deleted += 1
         return deleted
 
-    def stats(self) -> Dict[str, Any]:
+    def stats(self) -> dict[str, Any]:
         return {
             "table": self.table,
             "dim": self.dim,
             "count": len(self.storage)
         }
 
-async def validate_memory_orchestrator_performance(samples: int = 1000) -> Dict[str, Any]:
+async def validate_memory_orchestrator_performance(samples: int = 1000) -> dict[str, Any]:
     """Validate MemoryOrchestrator performance against T4/0.01% SLAs."""
 
     # Setup test environment
@@ -202,7 +202,7 @@ async def validate_memory_orchestrator_performance(samples: int = 1000) -> Dict[
         indexer_latencies.append(latency_us)
 
     # Calculate statistics
-    def calc_stats(latencies: List[float], name: str, target_us: float) -> Dict[str, Any]:
+    def calc_stats(latencies: list[float], name: str, target_us: float) -> dict[str, Any]:
         latencies.sort()
         n = len(latencies)
 

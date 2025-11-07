@@ -13,7 +13,7 @@ import sys
 from typing import List
 
 
-def validate_demo_script(script_path: str) -> List[str]:
+def validate_demo_script(script_path: str) -> list[str]:
     """Validate a demo script for common issues."""
     errors = []
     script_file = pathlib.Path(script_path)

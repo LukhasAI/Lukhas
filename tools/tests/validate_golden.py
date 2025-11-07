@@ -22,7 +22,7 @@ from typing import Any, Dict, List
 import jsonschema
 
 
-def load_golden_schema(schema_path: Path) -> Dict[str, Any]:
+def load_golden_schema(schema_path: Path) -> dict[str, Any]:
     """Load the golden artifacts schema."""
     if not schema_path.exists():
         # Create default schema if missing
@@ -50,7 +50,7 @@ def load_golden_schema(schema_path: Path) -> Dict[str, Any]:
         return json.load(f)
 
 
-def validate_golden_json(golden_path: Path, schema: Dict[str, Any]) -> List[str]:
+def validate_golden_json(golden_path: Path, schema: dict[str, Any]) -> list[str]:
     """Validate a single golden JSON file against schema."""
     errors = []
 
@@ -77,7 +77,7 @@ def validate_golden_json(golden_path: Path, schema: Dict[str, Any]) -> List[str]
     return errors
 
 
-def find_golden_files(search_dirs: List[Path]) -> List[Path]:
+def find_golden_files(search_dirs: list[Path]) -> list[Path]:
     """Find all golden JSON files in search directories."""
     golden_files = []
 

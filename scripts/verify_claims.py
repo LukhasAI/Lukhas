@@ -44,7 +44,7 @@ class ClaimsVerifier:
         self.tolerance_percent = tolerance_percent
         self.t4_claims = self._load_t4_claims()
 
-    def _load_t4_claims(self) -> List[ClaimTarget]:
+    def _load_t4_claims(self) -> list[ClaimTarget]:
         """Load T4/0.01% performance claims."""
         return [
             ClaimTarget(
@@ -98,7 +98,7 @@ class ClaimsVerifier:
             )
         ]
 
-    def load_baseline_data(self, baseline_file: str) -> Dict[str, Any]:
+    def load_baseline_data(self, baseline_file: str) -> dict[str, Any]:
         """Load baseline audit data from file."""
         baseline_path = Path(baseline_file)
 
@@ -110,7 +110,7 @@ class ClaimsVerifier:
             with open(baseline_path) as f:
                 return json.load(f)
 
-    def _parse_markdown_claims(self, md_file: Path) -> Dict[str, Any]:
+    def _parse_markdown_claims(self, md_file: Path) -> dict[str, Any]:
         """Parse claims from markdown audit report."""
         with open(md_file) as f:
             content = f.read()
@@ -134,14 +134,14 @@ class ClaimsVerifier:
 
         return claims_data
 
-    def load_results_data(self, results_file: str) -> Dict[str, Any]:
+    def load_results_data(self, results_file: str) -> dict[str, Any]:
         """Load measurement results from file."""
         with open(results_file) as f:
             return json.load(f)
 
     def extract_measurement_value(
         self,
-        results_data: Dict[str, Any],
+        results_data: dict[str, Any],
         claim: ClaimTarget
     ) -> Optional[float]:
         """Extract measurement value for a specific claim."""
@@ -223,9 +223,9 @@ class ClaimsVerifier:
 
     def verify_all_claims(
         self,
-        baseline_data: Dict[str, Any],
-        results_data: Dict[str, Any]
-    ) -> List[VerificationResult]:
+        baseline_data: dict[str, Any],
+        results_data: dict[str, Any]
+    ) -> list[VerificationResult]:
         """Verify all T4/0.01% performance claims."""
 
         verification_results = []
@@ -248,7 +248,7 @@ class ClaimsVerifier:
 
     def generate_verification_report(
         self,
-        verification_results: List[VerificationResult],
+        verification_results: list[VerificationResult],
         baseline_file: str,
         results_file: str
     ) -> str:
@@ -345,10 +345,10 @@ class ClaimsVerifier:
 
     def export_verification_json(
         self,
-        verification_results: List[VerificationResult],
+        verification_results: list[VerificationResult],
         baseline_file: str,
         results_file: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Export verification results as JSON."""
 
         # Convert results to serializable format

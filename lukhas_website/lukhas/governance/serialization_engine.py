@@ -80,7 +80,7 @@ class SerializationResult:
     compressed_size: int
     original_size: Optional[int] = None
     compression_ratio: Optional[float] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -91,7 +91,7 @@ class DeserializationResult:
     compression: CompressionType
     deserialization_time_ms: float
     original_size: int
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class SerializationError(Exception):
@@ -347,7 +347,7 @@ class SerializationEngine:
     """High-performance multi-format serialization engine"""
 
     def __init__(self):
-        self.serializers: Dict[SerializationFormat, Serializer] = {
+        self.serializers: dict[SerializationFormat, Serializer] = {
             SerializationFormat.JSON: JSONSerializer(),
             SerializationFormat.MSGPACK: MessagePackSerializer(),
         }
@@ -355,7 +355,7 @@ class SerializationEngine:
         if PROTOBUF_AVAILABLE:
             self.serializers[SerializationFormat.PROTOBUF] = ProtocolBufferSerializer()
 
-        self.compressors: Dict[CompressionType, Compressor] = {
+        self.compressors: dict[CompressionType, Compressor] = {
             CompressionType.GZIP: GzipCompressor(),
             CompressionType.ZSTD: ZstdCompressor(),
             CompressionType.LZ4: Lz4Compressor(),
@@ -482,12 +482,12 @@ class SerializationEngine:
 
     def serialize_stream(
         self,
-        data_stream: List[Any],
+        data_stream: list[Any],
         output_stream: BinaryIO,
         format: SerializationFormat = SerializationFormat.MSGPACK,
         compression: CompressionType = CompressionType.ZSTD,
         batch_size: int = 1000
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Serialize stream of data objects"""
         start_time = time.perf_counter()
         total_objects = 0
@@ -529,15 +529,15 @@ class SerializationEngine:
             self.compressors[compression_type] = compressor
             logger.info(f"Added custom compressor: {compression_type}")
 
-    def get_supported_formats(self) -> List[SerializationFormat]:
+    def get_supported_formats(self) -> list[SerializationFormat]:
         """Get list of supported serialization formats"""
         return list(self.serializers.keys())
 
-    def get_supported_compressions(self) -> List[CompressionType]:
+    def get_supported_compressions(self) -> list[CompressionType]:
         """Get list of supported compression types"""
         return list(self.compressors.keys())
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get serialization engine metrics"""
         return self._metrics.get_stats()
 
@@ -571,7 +571,7 @@ class SerializationMetrics:
         """Record error"""
         self.error_count += 1
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get performance statistics"""
         uptime = time.time() - self.start_time
         total_operations = self.serialization_count + self.deserialization_count
@@ -626,7 +626,7 @@ def get_serialization_engine() -> SerializationEngine:
 
 # Convenience functions for Guardian data
 def serialize_guardian_decision(
-    decision: Dict[str, Any],
+    decision: dict[str, Any],
     format: SerializationFormat = SerializationFormat.MSGPACK,
     compression: CompressionType = CompressionType.ZSTD
 ) -> SerializationResult:
@@ -639,7 +639,7 @@ def deserialize_guardian_decision(
     data: bytes,
     format: SerializationFormat = SerializationFormat.MSGPACK,
     compression: CompressionType = CompressionType.ZSTD
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Deserialize Guardian decision data"""
     engine = get_serialization_engine()
     result = engine.deserialize(data, format, compression)

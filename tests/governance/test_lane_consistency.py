@@ -23,18 +23,18 @@ class TestLaneConsistency:
     """T4/0.01% lane taxonomy consistency validation."""
 
     @pytest.fixture
-    def canonical_lanes(self) -> List[str]:
+    def canonical_lanes(self) -> list[str]:
         """Get the canonical lane enum from schema registry."""
         return get_lane_enum()
 
-    def test_schema_registry_canonical_enum(self, canonical_lanes: List[str]):
+    def test_schema_registry_canonical_enum(self, canonical_lanes: list[str]):
         """Test that schema registry returns expected canonical lanes."""
         expected_lanes = ["candidate", "lukhas", "MATRIZ", "integration", "production", "canary", "experimental"]
 
         assert len(canonical_lanes) == len(expected_lanes), f"Lane count mismatch: {len(canonical_lanes)} != {len(expected_lanes)}"
         assert set(canonical_lanes) == set(expected_lanes), f"Lane set mismatch: {set(canonical_lanes)} != {set(expected_lanes)}"
 
-    def test_guardian_schema_uses_canonical_lanes(self, canonical_lanes: List[str]):
+    def test_guardian_schema_uses_canonical_lanes(self, canonical_lanes: list[str]):
         """Test that Guardian schema uses the canonical lane enum."""
         schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
         schema = json.loads(schema_path.read_text())
@@ -64,7 +64,7 @@ class TestLaneConsistency:
         assert not LUKHASLane.is_valid_lane("staging")  # Common mistake
         assert not LUKHASLane.is_valid_lane("")
 
-    def test_orchestrator_memory_consistency(self, canonical_lanes: List[str]):
+    def test_orchestrator_memory_consistency(self, canonical_lanes: list[str]):
         """Test that orchestrator and memory components use canonical lanes."""
         # This test ensures components import from schema_registry rather than define local constants
 
@@ -74,7 +74,7 @@ class TestLaneConsistency:
         # Verify the imported function returns the same values
         assert imported_enum() == canonical_lanes, "Import inconsistency in lane enum"
 
-    def test_identity_guardian_client_consistency(self, canonical_lanes: List[str]):
+    def test_identity_guardian_client_consistency(self, canonical_lanes: list[str]):
         """Test that identity and Guardian clients use canonical lanes."""
         # Verify that key components would use the registry
 
@@ -107,7 +107,7 @@ class TestLaneConsistency:
 
         assert canonical_set == imported_set, "Lane enum import inconsistency detected"
 
-    def test_lane_enum_immutability(self, canonical_lanes: List[str]):
+    def test_lane_enum_immutability(self, canonical_lanes: list[str]):
         """Test that the canonical lane enum is stable."""
         # Call multiple times to ensure consistent results
         first_call = get_lane_enum()
@@ -117,7 +117,7 @@ class TestLaneConsistency:
         assert first_call == second_call == third_call, "Lane enum should return consistent results"
         assert all(isinstance(lane, str) for lane in first_call), "All lanes should be strings"
 
-    def test_performance_contract(self, canonical_lanes: List[str]):
+    def test_performance_contract(self, canonical_lanes: list[str]):
         """Test that lane enum access is fast (<1ms)."""
         import time
 
@@ -129,7 +129,7 @@ class TestLaneConsistency:
         avg_time_ms = ((end_time - start_time) / 1000) * 1000
         assert avg_time_ms < 1.0, f"Lane enum access too slow: {avg_time_ms:.3f}ms average"
 
-    def test_memory_efficiency(self, canonical_lanes: List[str]):
+    def test_memory_efficiency(self, canonical_lanes: list[str]):
         """Test that lane enum doesn't create excessive objects."""
         import sys
 

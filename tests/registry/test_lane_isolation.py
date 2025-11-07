@@ -34,9 +34,9 @@ from core.registry import _REG, discover_entry_points, register, resolve
 class LaneConfig:
     """Configuration for a specific execution lane"""
     name: str
-    allowed_plugin_groups: List[str]
+    allowed_plugin_groups: list[str]
     security_level: str  # 'strict', 'moderate', 'permissive'
-    resource_limits: Dict[str, Any]
+    resource_limits: dict[str, Any]
     plugin_prefix: str
 
 

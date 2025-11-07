@@ -74,7 +74,7 @@ class PrometheusAlertValidator:
             'coverage_percentage': 0.0
         }
 
-    def extract_metrics_from_promql(self, expr: str) -> Set[str]:
+    def extract_metrics_from_promql(self, expr: str) -> set[str]:
         """Extract metric names from PromQL expression"""
         metric_pattern = r'([a-zA-Z_][a-zA-Z0-9_]*)\s*[\{\(]?'
         metrics = set()

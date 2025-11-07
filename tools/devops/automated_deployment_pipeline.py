@@ -58,11 +58,11 @@ class DeploymentConfig:
     health_check_timeout: int = 300
     rollback_enabled: bool = True
     backup_enabled: bool = True
-    notification_channels: List[str] = field(default_factory=list)
-    environment_vars: Dict[str, str] = field(default_factory=dict)
-    secrets: Dict[str, str] = field(default_factory=dict)
-    pre_deploy_commands: List[str] = field(default_factory=list)
-    post_deploy_commands: List[str] = field(default_factory=list)
+    notification_channels: list[str] = field(default_factory=list)
+    environment_vars: dict[str, str] = field(default_factory=dict)
+    secrets: dict[str, str] = field(default_factory=dict)
+    pre_deploy_commands: list[str] = field(default_factory=list)
+    post_deploy_commands: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -74,8 +74,8 @@ class DeploymentResult:
     started_at: datetime
     completed_at: Optional[datetime] = None
     error_message: Optional[str] = None
-    logs: List[str] = field(default_factory=list)
-    metrics: Dict[str, Any] = field(default_factory=dict)
+    logs: list[str] = field(default_factory=list)
+    metrics: dict[str, Any] = field(default_factory=dict)
 
 
 class HealthChecker:
@@ -108,7 +108,7 @@ class HealthChecker:
             return False
 
     @staticmethod
-    def check_system_resources() -> Dict[str, float]:
+    def check_system_resources() -> dict[str, float]:
         """Check system resource availability"""
         try:
             import psutil
@@ -158,8 +158,8 @@ class DockerManager:
             return False
 
     async def run_container(self, image_name: str, tag: str = "latest",
-                          port_mapping: Optional[Dict[int, int]] = None,
-                          environment: Optional[Dict[str, str]] = None,
+                          port_mapping: Optional[dict[int, int]] = None,
+                          environment: Optional[dict[str, str]] = None,
                           name: Optional[str] = None) -> Optional[str]:
         """Run Docker container and return container ID"""
         try:
@@ -249,14 +249,14 @@ class AutomatedDeploymentPipeline:
         self.health_checker = HealthChecker()
 
         # Deployment state
-        self.active_deployments: Dict[str, DeploymentResult] = {}
-        self.deployment_history: List[DeploymentResult] = []
+        self.active_deployments: dict[str, DeploymentResult] = {}
+        self.deployment_history: list[DeploymentResult] = []
 
         # Create deployment directories
         self.deployment_dir = project_root / "tools" / "devops" / "deployments"
         self.deployment_dir.mkdir(parents=True, exist_ok=True)
 
-    def _load_deployment_config(self) -> Dict[str, DeploymentConfig]:
+    def _load_deployment_config(self) -> dict[str, DeploymentConfig]:
         """Load deployment configuration"""
         try:
             if self.config_path.exists():
@@ -658,7 +658,7 @@ class AutomatedDeploymentPipeline:
 
         return None
 
-    def list_deployments(self, environment: Optional[str] = None) -> List[DeploymentResult]:
+    def list_deployments(self, environment: Optional[str] = None) -> list[DeploymentResult]:
         """List recent deployments"""
         deployments = []
 

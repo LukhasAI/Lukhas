@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class JWKSCacheEntry:
     """JWKS cache entry with metadata"""
-    jwks: Dict[str, Any]
+    jwks: dict[str, Any]
     created_at: datetime
     expires_at: datetime
     etag: str | None = None
@@ -111,7 +111,7 @@ class JWKSCache:
         self.enable_compression = enable_compression
 
         # Thread-safe cache storage (LRU)
-        self._cache: OrderedDict[str, JWKSCacheEntry] = OrderedDict()
+        self._cache: collections.collections.OrderedDict[str, JWKSCacheEntry] = OrderedDict()
         self._lock = threading.RLock()
 
         # Statistics
@@ -139,7 +139,7 @@ class JWKSCache:
                 await self._prefetch_worker
         logger.info("🛑 JWKS Cache stopped")
 
-    def get(self, cache_key: str) -> Tuple[Dict[str, Any] | None, bool]:
+    def get(self, cache_key: str) -> tuple[dict[str, Any] | None, bool]:
         """
         Get JWKS from cache.
 
@@ -184,7 +184,7 @@ class JWKSCache:
     def put(
         self,
         cache_key: str,
-        jwks: Dict[str, Any],
+        jwks: dict[str, Any],
         ttl_seconds: int | None = None,
         etag: str | None = None,
         last_modified: str | None = None
@@ -304,7 +304,7 @@ class JWKSCache:
                 avg_access_time_ms=self._stats.avg_access_time_ms
             )
 
-    def get_cache_info(self) -> Dict[str, Any]:
+    def get_cache_info(self) -> dict[str, Any]:
         """Get detailed cache information"""
         with self._lock:
             entries_info = []
@@ -431,7 +431,7 @@ async def cached_get_jwks(
     issuer_url: str,
     jwks_fetcher: Any = None,
     cache_key: str | None = None
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Get JWKS with caching support.
 
@@ -476,6 +476,6 @@ def _generate_cache_key(issuer_url: str) -> str:
 
 
 # FastAPI dependency for JWKS caching
-async def get_cached_jwks_dependency(issuer_url: str = "https://ai") -> Dict[str, Any]:
+async def get_cached_jwks_dependency(issuer_url: str = "https://ai") -> dict[str, Any]:
     """FastAPI dependency for cached JWKS"""
     return await cached_get_jwks(issuer_url)

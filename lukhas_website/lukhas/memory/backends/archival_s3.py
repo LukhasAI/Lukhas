@@ -69,7 +69,7 @@ class ArchivalManifestEntry:
     archived_at: datetime
     expires_at: Optional[datetime]
     checksum_sha256: str
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -81,7 +81,7 @@ class ArchivalManifest:
     total_documents: int = 0
     total_size_bytes: int = 0
     total_compressed_bytes: int = 0
-    entries: Dict[str, ArchivalManifestEntry] = field(default_factory=dict)
+    entries: dict[str, ArchivalManifestEntry] = field(default_factory=dict)
 
     def add_entry(self, entry: ArchivalManifestEntry):
         """Add entry to manifest with statistics update"""

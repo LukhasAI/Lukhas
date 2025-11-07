@@ -48,18 +48,18 @@ class EventOffset:
     event_id: str
     hash: str
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'EventOffset':
+    def from_dict(cls, data: dict[str, Any]) -> 'EventOffset':
         return cls(**data)
 
 
 @dataclass
 class DeadLetterEvent:
     """Event that failed processing and ended up in dead letter queue"""
-    original_event: Dict[str, Any]
+    original_event: dict[str, Any]
     error_message: str
     failure_count: int
     first_failure_at: str
@@ -179,8 +179,8 @@ class AsyncEventBus:
         self.max_retry_attempts = max_retry_attempts
 
         # Subscribers and handlers
-        self.subscribers: Dict[str, List[EventSubscriber]] = {}
-        self.dead_letter_queue: List[DeadLetterEvent] = []
+        self.subscribers: dict[str, list[EventSubscriber]] = {}
+        self.dead_letter_queue: list[DeadLetterEvent] = []
 
         # Circuit breaker for resilience
         self.circuit_breaker = CircuitBreaker()
@@ -379,7 +379,7 @@ class AsyncEventBus:
             logger.error(f"Failed to create replay iterator: {e}")
             raise
 
-    async def _get_event_at_offset(self, offset: int) -> Optional[Dict[str, Any]]:
+    async def _get_event_at_offset(self, offset: int) -> Optional[dict[str, Any]]:
         """Get event data at specific offset"""
         with self._db_lock:
             conn = sqlite3.connect(str(self.db_path))
@@ -523,7 +523,7 @@ class AsyncEventBus:
             finally:
                 conn.close()
 
-    async def save_consumer_checkpoint(self, consumer_id: str, offset: int, metadata: Optional[Dict[str, Any]] = None):
+    async def save_consumer_checkpoint(self, consumer_id: str, offset: int, metadata: Optional[dict[str, Any]] = None):
         """Save consumer processing checkpoint"""
         with self._db_lock:
             conn = sqlite3.connect(str(self.db_path))
@@ -564,7 +564,7 @@ class AsyncEventBus:
             finally:
                 conn.close()
 
-    def get_performance_metrics(self) -> Dict[str, Any]:
+    def get_performance_metrics(self) -> dict[str, Any]:
         """Get performance metrics for monitoring"""
         append_times = self.metrics['append_times']
         replay_times = self.metrics['replay_times']
@@ -579,7 +579,7 @@ class AsyncEventBus:
             'dead_letter_queue_size': len(self.dead_letter_queue),
         }
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check for event bus"""
         try:
             latest_offset = await self.get_latest_offset()

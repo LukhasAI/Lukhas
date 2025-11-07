@@ -220,7 +220,7 @@ class DeepArchitectureAnalyzer:
 
         return min(score, 100)
 
-    def generate_refactoring_recommendations(self, duplications: Dict, core_analysis: Dict, overlaps: Dict) -> List[str]:
+    def generate_refactoring_recommendations(self, duplications: Dict, core_analysis: Dict, overlaps: Dict) -> list[str]:
         """Generate specific refactoring recommendations"""
         recommendations = []
 

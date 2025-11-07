@@ -15,7 +15,7 @@ from re import Pattern
 from typing import List
 
 # Secret patterns to redact
-_SECRET_PATTERNS: List[Pattern] = [
+_SECRET_PATTERNS: list[Pattern] = [
     re.compile(r"\bsk-[A-Za-z0-9]{10,}\b"),  # OpenAI-like tokens
     re.compile(r"\bBearer\s+[A-Za-z0-9._-]{8,}\b", re.I),  # Bearer tokens
     re.compile(r"\bAPIKEY[=:]\s*[A-Za-z0-9._-]{8,}\b", re.I),  # API key assignments

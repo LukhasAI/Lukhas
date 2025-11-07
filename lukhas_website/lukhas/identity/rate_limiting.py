@@ -68,10 +68,10 @@ class RateLimiter:
         }
 
         # In-memory storage (for production, use Redis)
-        self._minute_windows: Dict[str, deque] = defaultdict(deque)
-        self._hour_windows: Dict[str, deque] = defaultdict(deque)
-        self._lockouts: Dict[str, float] = {}
-        self._violation_counts: Dict[str, int] = defaultdict(int)
+        self._minute_windows: dict[str, deque] = defaultdict(deque)
+        self._hour_windows: dict[str, deque] = defaultdict(deque)
+        self._lockouts: dict[str, float] = {}
+        self._violation_counts: dict[str, int] = defaultdict(int)
 
     def _get_client_key(self,
                        client_identifier: str,
@@ -118,7 +118,7 @@ class RateLimiter:
     async def check_rate_limit(self,
                               client_identifier: str,
                               rate_limit_type: RateLimitType,
-                              request_context: Optional[Dict[str, Any]] = None) -> Tuple[bool, Dict[str, Any]]:
+                              request_context: Optional[dict[str, Any]] = None) -> tuple[bool, dict[str, Any]]:
         """
         Check if request should be rate limited
 
@@ -247,7 +247,7 @@ class RateLimiter:
 
     def get_client_status(self,
                          client_identifier: str,
-                         rate_limit_type: RateLimitType) -> Dict[str, Any]:
+                         rate_limit_type: RateLimitType) -> dict[str, Any]:
         """Get current rate limit status for client"""
         current_time = time.time()
         client_key = self._get_client_key(client_identifier, rate_limit_type)
@@ -291,7 +291,7 @@ def get_rate_limiter() -> RateLimiter:
 # FastAPI dependency
 async def check_webauthn_rate_limit(client_ip: str,
                                    operation: str,
-                                   user_id: Optional[str] = None) -> Dict[str, Any]:
+                                   user_id: Optional[str] = None) -> dict[str, Any]:
     """FastAPI dependency for WebAuthn rate limiting"""
     rate_limiter = get_rate_limiter()
 

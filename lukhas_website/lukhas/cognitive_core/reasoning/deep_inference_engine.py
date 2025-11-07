@@ -59,8 +59,8 @@ class InferenceStep:
     reasoning: str
     depth: int
     parent_step_id: Optional[str] = None
-    children_ids: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    children_ids: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
     created_at: float = field(default_factory=time.time)
     processing_time_ms: float = 0.0
     status: InferenceStatus = InferenceStatus.PENDING
@@ -72,14 +72,14 @@ class InferenceChain:
     chain_id: str
     root_premise: str
     target_conclusion: Optional[str]
-    steps: List[InferenceStep]
+    steps: list[InferenceStep]
     total_confidence: float
     max_depth_reached: int
     chain_valid: bool
-    reasoning_path: List[str]  # step_ids in order
-    contradictions_found: List[str] = field(default_factory=list)
-    circular_references: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    reasoning_path: list[str]  # step_ids in order
+    contradictions_found: list[str] = field(default_factory=list)
+    circular_references: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
     created_at: float = field(default_factory=time.time)
     completed_at: Optional[float] = None
     total_processing_time_ms: float = 0.0
@@ -90,7 +90,7 @@ class InferenceResult:
     """Result of deep inference reasoning"""
     query: str
     primary_chain: Optional[InferenceChain]
-    alternative_chains: List[InferenceChain]
+    alternative_chains: list[InferenceChain]
     total_steps: int
     max_depth_explored: int
     confidence_score: float
@@ -99,7 +99,7 @@ class InferenceResult:
     circular_logic_detected: int
     success: bool
     error_message: Optional[str] = None
-    performance_metrics: Dict[str, float] = field(default_factory=dict)
+    performance_metrics: dict[str, float] = field(default_factory=dict)
     timestamp: float = field(default_factory=time.time)
 
 
@@ -127,9 +127,9 @@ class DeepInferenceEngine:
         self.circuit_breaker_threshold = circuit_breaker_threshold
 
         # State management
-        self.active_chains: Dict[str, InferenceChain] = {}
-        self.completed_chains: List[InferenceChain] = []
-        self.step_cache: Dict[str, InferenceStep] = weakref.WeakValueDictionary()
+        self.active_chains: dict[str, InferenceChain] = {}
+        self.completed_chains: list[InferenceChain] = []
+        self.step_cache: dict[str, InferenceStep] = weakref.WeakValueDictionary()
 
         # Performance tracking
         self.performance_stats = {
@@ -155,7 +155,7 @@ class DeepInferenceEngine:
         self,
         premise: str,
         target_conclusion: Optional[str] = None,
-        context: Optional[Dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None
     ) -> InferenceResult:
         """
         Perform deep inference reasoning from premise to conclusion(s).
@@ -238,7 +238,7 @@ class DeepInferenceEngine:
         self,
         premise: str,
         target: Optional[str],
-        context: Optional[Dict[str, Any]]
+        context: Optional[dict[str, Any]]
     ) -> InferenceChain:
         """Initialize a new inference chain."""
         chain_id = f"chain_{uuid.uuid4().hex[:8]}"
@@ -312,7 +312,7 @@ class DeepInferenceEngine:
         chain: InferenceChain,
         depth: int,
         processed_premises: set
-    ) -> List[InferenceStep]:
+    ) -> list[InferenceStep]:
         """Generate next possible inference steps."""
         next_steps = []
         current_conclusion = current_step.conclusion
@@ -345,7 +345,7 @@ class DeepInferenceEngine:
 
         return next_steps
 
-    async def _get_inference_templates(self, conclusion: str, depth: int) -> List[Dict[str, Any]]:
+    async def _get_inference_templates(self, conclusion: str, depth: int) -> list[dict[str, Any]]:
         """Get inference templates based on current conclusion and depth."""
         templates = []
 
@@ -407,7 +407,7 @@ class DeepInferenceEngine:
 
     async def _create_inference_step(
         self,
-        template: Dict[str, Any],
+        template: dict[str, Any],
         parent_step: InferenceStep,
         depth: int,
         chain: InferenceChain
@@ -447,7 +447,7 @@ class DeepInferenceEngine:
 
     async def _apply_inference_template(
         self,
-        template: Dict[str, Any],
+        template: dict[str, Any],
         premise: str,
         depth: int
     ) -> str:
@@ -487,8 +487,8 @@ class DeepInferenceEngine:
         premise: str,
         target: Optional[str],
         primary_chain: InferenceChain,
-        context: Optional[Dict[str, Any]]
-    ) -> List[InferenceChain]:
+        context: Optional[dict[str, Any]]
+    ) -> list[InferenceChain]:
         """Generate alternative reasoning chains if primary chain is weak."""
         alternative_chains = []
 
@@ -559,8 +559,8 @@ class DeepInferenceEngine:
         chain: InferenceChain,
         depth: int,
         processed_premises: set,
-        preferred_types: List[InferenceType]
-    ) -> List[InferenceStep]:
+        preferred_types: list[InferenceType]
+    ) -> list[InferenceStep]:
         """Generate inferences with type preference."""
         templates = await self._get_inference_templates(current_step.conclusion, depth)
 
@@ -577,7 +577,7 @@ class DeepInferenceEngine:
 
         return next_steps
 
-    async def _validate_chains(self, chains: List[InferenceChain]) -> List[InferenceChain]:
+    async def _validate_chains(self, chains: list[InferenceChain]) -> list[InferenceChain]:
         """Validate chains for contradictions and circular logic."""
         validated_chains = []
 
@@ -603,7 +603,7 @@ class DeepInferenceEngine:
 
         return validated_chains
 
-    async def _detect_contradictions(self, chain: InferenceChain) -> List[str]:
+    async def _detect_contradictions(self, chain: InferenceChain) -> list[str]:
         """Detect contradictions within inference chain with 98% accuracy."""
         contradictions = []
 
@@ -644,7 +644,7 @@ class DeepInferenceEngine:
 
         return False
 
-    async def _detect_logical_contradictions(self, chain: InferenceChain) -> List[str]:
+    async def _detect_logical_contradictions(self, chain: InferenceChain) -> list[str]:
         """Detect more complex logical contradictions."""
         contradictions = []
 
@@ -691,7 +691,7 @@ class DeepInferenceEngine:
 
         return product ** (1.0 / count)
 
-    def _select_best_chain(self, chains: List[InferenceChain]) -> Optional[InferenceChain]:
+    def _select_best_chain(self, chains: list[InferenceChain]) -> Optional[InferenceChain]:
         """Select best inference chain based on quality metrics."""
         if not chains:
             return None
@@ -719,7 +719,7 @@ class DeepInferenceEngine:
         self,
         query: str,
         primary_chain: Optional[InferenceChain],
-        alternative_chains: List[InferenceChain],
+        alternative_chains: list[InferenceChain],
         start_time: float
     ) -> InferenceResult:
         """Build final inference result."""
@@ -833,7 +833,7 @@ class DeepInferenceEngine:
                 (current_rate * (total - 1) + detection_rate) / total
             )
 
-    def get_performance_stats(self) -> Dict[str, Any]:
+    def get_performance_stats(self) -> dict[str, Any]:
         """Get current performance statistics."""
         return {
             **self.performance_stats,

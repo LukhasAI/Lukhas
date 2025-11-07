@@ -734,8 +734,8 @@ class AdvancedIdentityManager:
 
     # Guardian Integration Methods for Identity Security
 
-    async def validate_identity_operation(self, operation_type: str, operation_data: Dict[str, Any],
-                                        user_id: str = "unknown") -> Dict[str, Any]:
+    async def validate_identity_operation(self, operation_type: str, operation_data: dict[str, Any],
+                                        user_id: str = "unknown") -> dict[str, Any]:
         """Standalone method to validate identity operations with Guardian"""
         if not self._guardian_integration_enabled or not self._guardian_instance:
             return {
@@ -778,7 +778,7 @@ class AdvancedIdentityManager:
                 "correlation_id": correlation_id
             }
 
-    def get_guardian_identity_status(self) -> Dict[str, Any]:
+    def get_guardian_identity_status(self) -> dict[str, Any]:
         """Get comprehensive Guardian-Identity integration status for monitoring"""
         if not self._guardian_integration_enabled:
             return {

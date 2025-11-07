@@ -14,7 +14,7 @@ from services.registry import main as registry_main
 from services.registry.main import app
 
 
-def _load_sample_nodespec() -> Dict[str, Any]:
+def _load_sample_nodespec() -> dict[str, Any]:
     spec_path = Path("docs/schemas/examples/memory_adapter.json")
     if not spec_path.exists():
         pytest.skip("memory_adapter.json example not available")

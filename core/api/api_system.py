@@ -210,12 +210,12 @@ class EnhancedAPISystem:
         }
 
         # Response caching (LRU cache with TTL)
-        self.response_cache: Dict[str, Tuple[Any, float]] = {}
+        self.response_cache: dict[str, tuple[Any, float]] = {}
         self.cache_ttl_seconds = 300  # 5 minutes
         self.max_cache_size = 1000
 
         # Request coalescing for duplicate concurrent requests
-        self.pending_requests: Dict[str, asyncio.Task] = {}
+        self.pending_requests: dict[str, asyncio.Task] = {}
 
         # Setup middleware and routes
         self._setup_middleware()

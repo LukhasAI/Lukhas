@@ -38,7 +38,7 @@ REGISTRY = ROOT / "docs" / "_generated" / "MODULE_REGISTRY.json"
 OUTPUT = ROOT / "docs" / "_generated" / "SLO_DASHBOARD.md"
 
 
-def parse_lane(tags: List[str]) -> str:
+def parse_lane(tags: list[str]) -> str:
     """Extract lane from tags"""
     for tag in tags:
         if tag.startswith("lane:"):
@@ -68,7 +68,7 @@ def load_manifest(path: Path) -> Dict:
         return {}
 
 
-def extract_slo_data(manifest: Dict, module_name: str, tags: List[str]) -> Tuple[str, Dict]:
+def extract_slo_data(manifest: Dict, module_name: str, tags: list[str]) -> tuple[str, Dict]:
     """Extract SLO data from manifest"""
     performance = manifest.get("performance", {}) or {}
     targets = performance.get("sla_targets", {}) or {}

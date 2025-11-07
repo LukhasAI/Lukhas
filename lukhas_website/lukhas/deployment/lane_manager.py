@@ -43,8 +43,8 @@ class LaneConfig:
     health_check_interval: int
     failover_threshold: float
     rollback_threshold: float
-    feature_flags: Dict[str, bool]
-    resource_limits: Dict[str, Any]
+    feature_flags: dict[str, bool]
+    resource_limits: dict[str, Any]
     constellation_enabled: bool = True
 
 
@@ -79,10 +79,10 @@ class LaneManager:
         self.logger = logging.getLogger(f"{__name__}.LaneManager")
 
         # Lane state management
-        self._lanes: Dict[Lane, LaneConfig] = {}
-        self._lane_metrics: Dict[Lane, LaneMetrics] = {}
-        self._lane_assignments: Dict[str, Lane] = {}  # service_id -> lane
-        self._traffic_distribution: Dict[Lane, float] = {}
+        self._lanes: dict[Lane, LaneConfig] = {}
+        self._lane_metrics: dict[Lane, LaneMetrics] = {}
+        self._lane_assignments: dict[str, Lane] = {}  # service_id -> lane
+        self._traffic_distribution: dict[Lane, float] = {}
 
         # Control flags
         self._running = False
@@ -91,7 +91,7 @@ class LaneManager:
 
         # Performance tracking
         self._lane_switch_latencies = []
-        self._assignment_cache: Dict[str, Tuple[Lane, float]] = {}  # service_id -> (lane, timestamp)
+        self._assignment_cache: dict[str, tuple[Lane, float]] = {}  # service_id -> (lane, timestamp)
 
         # Load default configuration
         self._load_default_config()
@@ -376,7 +376,7 @@ class LaneManager:
         """Get current lane assignment for a service"""
         return self._lane_assignments.get(service_id)
 
-    async def update_traffic_distribution(self, distribution: Dict[Lane, float]):
+    async def update_traffic_distribution(self, distribution: dict[Lane, float]):
         """Update traffic distribution across lanes"""
         total = sum(distribution.values())
         if abs(total - 100.0) > 0.1:
@@ -603,7 +603,7 @@ class LaneManager:
                             lane, target_lane, "automatic_health_failover"
                         )
 
-    async def _health_check(self) -> Dict[str, Any]:
+    async def _health_check(self) -> dict[str, Any]:
         """Health check for Constellation Framework"""
         return {
             "status": "healthy" if self._running else "stopped",
@@ -619,7 +619,7 @@ class LaneManager:
             }
         }
 
-    async def get_deployment_status(self) -> Dict[str, Any]:
+    async def get_deployment_status(self) -> dict[str, Any]:
         """Get comprehensive deployment status"""
         return {
             "timestamp": datetime.now().isoformat(),

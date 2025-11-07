@@ -61,7 +61,7 @@ class AlertRule:
     threshold_value: float
     evaluation_window: int = 300  # seconds
     cooldown_period: int = 600  # seconds to prevent alert spam
-    tags: Set[str] = field(default_factory=set)
+    tags: set[str] = field(default_factory=set)
     enabled: bool = True
     description: str = ""
     escalation_delay: int = 1800  # seconds before escalation
@@ -78,7 +78,7 @@ class AlertInstance:
     value: float
     threshold: float
     message: str
-    tags: Set[str] = field(default_factory=set)
+    tags: set[str] = field(default_factory=set)
     acknowledged_by: Optional[str] = None
     escalated: bool = False
     suppression_end: Optional[datetime] = None
@@ -91,7 +91,7 @@ class SystemMetrics:
     cpu_percent: float
     memory_percent: float
     disk_usage_percent: float
-    network_io_bytes: Dict[str, int]
+    network_io_bytes: dict[str, int]
     test_success_rate: float
     coverage_percentage: float
     response_time_p95: float
@@ -111,7 +111,7 @@ class EmailAlertChannel(AlertChannel):
     """Email alert notifications"""
 
     def __init__(self, smtp_host: str, smtp_port: int, username: str, password: str,
-                 from_email: str, to_emails: List[str]):
+                 from_email: str, to_emails: list[str]):
         self.smtp_host = smtp_host
         self.smtp_port = smtp_port
         self.username = username
@@ -228,7 +228,7 @@ class SlackAlertChannel(AlertChannel):
 class WebhookAlertChannel(AlertChannel):
     """Generic webhook alert notifications"""
 
-    def __init__(self, webhook_url: str, headers: Optional[Dict[str, str]] = None):
+    def __init__(self, webhook_url: str, headers: Optional[dict[str, str]] = None):
         self.webhook_url = webhook_url
         self.headers = headers or {}
 
@@ -284,14 +284,14 @@ class ProductionAlertingSystem:
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Initialize components
-        self.alert_rules: Dict[str, AlertRule] = {}
-        self.active_alerts: Dict[str, AlertInstance] = {}
-        self.alert_channels: List[AlertChannel] = []
-        self.last_evaluation: Dict[str, datetime] = {}
-        self.metrics_history: List[SystemMetrics] = []
+        self.alert_rules: dict[str, AlertRule] = {}
+        self.active_alerts: dict[str, AlertInstance] = {}
+        self.alert_channels: list[AlertChannel] = []
+        self.last_evaluation: dict[str, datetime] = {}
+        self.metrics_history: list[SystemMetrics] = []
 
         # Performance baselines for regression detection
-        self.performance_baselines: Dict[str, float] = {
+        self.performance_baselines: dict[str, float] = {
             "cpu_threshold": 80.0,
             "memory_threshold": 85.0,
             "disk_threshold": 90.0,
@@ -305,7 +305,7 @@ class ProductionAlertingSystem:
         self._load_default_rules()
         self._setup_alert_channels()
 
-    def _load_config(self, config_path: Optional[Path]) -> Dict[str, Any]:
+    def _load_config(self, config_path: Optional[Path]) -> dict[str, Any]:
         """Load configuration from file or use defaults"""
         if config_path and config_path.exists():
             try:
@@ -721,7 +721,7 @@ class ProductionAlertingSystem:
         logger.info(f"Alert acknowledged: {rule_name} by {acknowledged_by}")
         return True
 
-    def get_alert_summary(self) -> Dict[str, Any]:
+    def get_alert_summary(self) -> dict[str, Any]:
         """Get summary of current alert status"""
         summary = {
             "active_alerts": len(self.active_alerts),

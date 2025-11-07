@@ -220,7 +220,7 @@ class AdaptiveCircuitBreaker:
             self.metrics.average_response_time = statistics.mean(self.response_times)
             self.metrics.p95_response_time = self._calculate_p95_latency()
 
-    def get_health_status(self) -> Dict[str, Any]:
+    def get_health_status(self) -> dict[str, Any]:
         """Get detailed health status for monitoring."""
         if len(self.recent_requests) > 0:
             failure_rate = sum(1 for req in self.recent_requests if not req['success']) / len(self.recent_requests)
@@ -252,7 +252,7 @@ class CircuitBreakerRegistry:
     """Global registry for managing multiple circuit breakers."""
 
     def __init__(self):
-        self.breakers: Dict[str, AdaptiveCircuitBreaker] = {}
+        self.breakers: dict[str, AdaptiveCircuitBreaker] = {}
 
     def get_or_create(self, name: str, **kwargs) -> AdaptiveCircuitBreaker:
         """Get existing circuit breaker or create new one."""
@@ -260,14 +260,14 @@ class CircuitBreakerRegistry:
             self.breakers[name] = AdaptiveCircuitBreaker(name, **kwargs)
         return self.breakers[name]
 
-    def get_global_health(self) -> Dict[str, Any]:
+    def get_global_health(self) -> dict[str, Any]:
         """Get health status of all circuit breakers."""
         return {
             name: breaker.get_health_status()
             for name, breaker in self.breakers.items()
         }
 
-    def get_degraded_services(self) -> List[str]:
+    def get_degraded_services(self) -> list[str]:
         """Get list of services showing performance degradation."""
         degraded = []
         for name, breaker in self.breakers.items():
@@ -302,11 +302,11 @@ def circuit_breaker(name: str, **kwargs):
     return decorator
 
 
-def get_circuit_health() -> Dict[str, Any]:
+def get_circuit_health() -> dict[str, Any]:
     """Get global circuit breaker health status."""
     return _circuit_registry.get_global_health()
 
 
-def get_degraded_services() -> List[str]:
+def get_degraded_services() -> list[str]:
     """Get list of degraded services."""
     return _circuit_registry.get_degraded_services()

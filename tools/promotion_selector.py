@@ -143,8 +143,8 @@ def _read_json(path: pathlib.Path) -> dict | None:
         return None
 
 
-def _discover_legacy_files(modules_filter: set | None) -> List[FileCandidate]:
-    out: List[FileCandidate] = []
+def _discover_legacy_files(modules_filter: set | None) -> list[FileCandidate]:
+    out: list[FileCandidate] = []
     for lane in LEGACY_LANES:
         lane_path = ROOT / lane
         if not lane_path.exists():
@@ -183,7 +183,7 @@ def _discover_legacy_files(modules_filter: set | None) -> List[FileCandidate]:
     return out
 
 
-def _index_import_frequencies() -> Dict[str, float]:
+def _index_import_frequencies() -> dict[str, float]:
     """
     Returns a mapping from repo-relative path → import frequency (approx).
     Expects artifacts/matriz_imports.json if present. We support multiple loosely-structured schemas:
@@ -192,7 +192,7 @@ def _index_import_frequencies() -> Dict[str, float]:
       - { "imports": [ {"module": "candidate.core.x", "count": 5, "files": ["..."]}, ...] }
     If not present, we fallback to 0 for all, and later use recency + heuristics.
     """
-    path2count: Dict[str, float] = {}
+    path2count: dict[str, float] = {}
     j = _read_json(ART / "matriz_imports.json")
     if not j:
         return path2count
@@ -229,13 +229,13 @@ def _index_import_frequencies() -> Dict[str, float]:
     return path2count
 
 
-def _index_critical_flags() -> Dict[str, bool]:
+def _index_critical_flags() -> dict[str, bool]:
     """
     Pull best-effort critical flags from matriz_audit.json:
       - { "critical_files": ["pathA", "pathB", ...] }
       - Or entries with {"path": "...", "critical": true}
     """
-    flags: Dict[str, bool] = {}
+    flags: dict[str, bool] = {}
     j = _read_json(ART / "matriz_audit.json")
     if not j:
         return flags
@@ -265,7 +265,7 @@ def _index_critical_flags() -> Dict[str, bool]:
     return flags
 
 
-def _normalize(values: List[float]) -> List[float]:
+def _normalize(values: list[float]) -> list[float]:
     if not values:
         return []
     vmin, vmax = min(values), max(values)
@@ -280,7 +280,7 @@ def select_candidates(top: int,
                       w_recency: float,
                       w_critical: float,
                       layout: str = "flat",
-                      target_root: str = "Lukhas") -> List[FileCandidate]:
+                      target_root: str = "Lukhas") -> list[FileCandidate]:
     files = _discover_legacy_files(modules_filter)
     if not files:
         return []
@@ -319,7 +319,7 @@ def select_candidates(top: int,
     return files[:top]
 
 
-def _write_plan_jsonl(rows: List[FileCandidate], path: pathlib.Path) -> None:
+def _write_plan_jsonl(rows: list[FileCandidate], path: pathlib.Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as f:
         for r in rows:
@@ -338,8 +338,8 @@ def _write_plan_jsonl(rows: List[FileCandidate], path: pathlib.Path) -> None:
             f.write(json.dumps(obj) + "\n")
 
 
-def _write_plan_md(rows: List[FileCandidate], path: pathlib.Path,
-                   params: Dict[str, str]) -> None:
+def _write_plan_md(rows: list[FileCandidate], path: pathlib.Path,
+                   params: dict[str, str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     lines = []
     lines.append("# Promotion Selector - Batch Plan")
@@ -357,7 +357,7 @@ def _write_plan_md(rows: List[FileCandidate], path: pathlib.Path,
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def _write_plan_csv(rows: List[FileCandidate], path: pathlib.Path) -> None:
+def _write_plan_csv(rows: list[FileCandidate], path: pathlib.Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
@@ -366,7 +366,7 @@ def _write_plan_csv(rows: List[FileCandidate], path: pathlib.Path) -> None:
             w.writerow([i, f"{r.score:.6f}", r.source, r.lane, r.module, r.rel_from_module, r.target, int(r.import_freq), int(r.mtime), int(r.critical)])
 
 
-def main(argv: List[str] | None = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Select top-N legacy files to promote into Lukhas/ flat root.")
     ap.add_argument("--top", type=int, default=DEFAULT_TOP, help=f"How many files to select (default {DEFAULT_TOP})")
     ap.add_argument("--modules", type=str, default="", help="Comma-separated allowlist of modules to consider (e.g., core,identity,api)")

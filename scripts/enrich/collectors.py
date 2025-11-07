@@ -23,9 +23,9 @@ from enrich.review_queue import ReviewQueue
 class Signal:
     """Extracted signal with full T4/0.01% provenance"""
     value: Any
-    provenance: List[str]
+    provenance: list[str]
     confidence: str  # "high" | "medium" | "low"
-    reasons: List[str]
+    reasons: list[str]
     extracted_at: str
     sha: str | None = None
 
@@ -70,7 +70,7 @@ class Vocab:
         data = json.loads(path.read_text())
         return set(data.get("allowed", []))
 
-    def _build_synonym_map(self) -> Dict[str, str]:
+    def _build_synonym_map(self) -> dict[str, str]:
         """Build mapping from synonyms to canonical keys"""
         mapping = {}
         for canonical, meta in self.features.items():
@@ -214,7 +214,7 @@ class ClaudeExtractor:
     def description(
         self,
         claude_me: Path,
-        features: List[str],
+        features: list[str],
         components_count: int
     ) -> Signal:
         """
@@ -388,7 +388,7 @@ class ImportVerifier:
         self,
         pkg_root: Path,
         module_dir: Path,
-        apis: Dict[str, Dict]
+        apis: dict[str, Dict]
     ) -> Signal:
         """
         Verify each API is importable by checking:

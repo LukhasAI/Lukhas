@@ -45,7 +45,7 @@ def check_file_header(file_path: Path) -> bool:
         return False
 
 
-def find_python_files(roots: List[Path], exclude_patterns: List[str]) -> List[Path]:
+def find_python_files(roots: list[Path], exclude_patterns: list[str]) -> list[Path]:
     """
     Find all Python files in given roots, excluding patterns.
 

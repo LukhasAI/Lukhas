@@ -22,7 +22,7 @@ class ΛiDClaims:
     subject: str  # lukhas:user:handle or lukhas:svc:name
     tier: str     # guest, visitor, friend, trusted, inner_circle, root_dev
     tier_num: int # 0-5 canonical numeric tier
-    scopes: List[str]
+    scopes: list[str]
     exp: int      # expiration timestamp
     iat: int      # issued at
     mfa: bool = False
@@ -65,7 +65,7 @@ class TierMacaroonIssuer:
         system_id = "lukhas-matrix-macaroons-v1"
         return hashlib.pbkdf2_hmac('sha256', system_id.encode(), b'lukhas-salt', 100000)
 
-    def _load_tier_permissions(self) -> Dict[str, Any]:
+    def _load_tier_permissions(self) -> dict[str, Any]:
         """Load canonical ΛiD tier permissions for validation."""
         tier_file = Path("candidate/governance/identity/config/tier_permissions.json")
         if not tier_file.exists():
@@ -97,7 +97,7 @@ class TierMacaroonIssuer:
         claims: ΛiDClaims,
         audience: str,
         ttl_minutes: int = 15,
-        additional_caveats: Optional[List[str]] = None
+        additional_caveats: Optional[list[str]] = None
     ) -> str:
         """Issue a capability macaroon with ΛiD tier-based caveats."""
 
@@ -144,7 +144,7 @@ class TierMacaroonIssuer:
         macaroon_json = json.dumps(macaroon_data, separators=(',', ':'))
         return self._encode_macaroon(macaroon_json)
 
-    def _compute_signature(self, identifier: str, caveats: List[str]) -> str:
+    def _compute_signature(self, identifier: str, caveats: list[str]) -> str:
         """Compute HMAC signature for macaroon."""
         payload = identifier + '|' + '|'.join(sorted(caveats))
         signature = hmac.new(self.secret_key, payload.encode(), hashlib.sha256).hexdigest()
@@ -160,7 +160,7 @@ class TierMacaroonIssuer:
         jwt_token: str,
         audience: str,
         ttl_minutes: int = 15,
-        additional_scopes: Optional[List[str]] = None
+        additional_scopes: Optional[list[str]] = None
     ) -> str:
         """Issue macaroon from existing JWT token (bridge existing auth)."""
 
@@ -211,7 +211,7 @@ class TierMacaroonVerifier:
             issuer = TierMacaroonIssuer()
             self.secret_key = issuer.secret_key
 
-    def verify_capability(self, macaroon_token: str) -> Dict[str, Any]:
+    def verify_capability(self, macaroon_token: str) -> dict[str, Any]:
         """Verify macaroon and return normalized claims for OPA input."""
 
         try:
@@ -267,13 +267,13 @@ class TierMacaroonVerifier:
         import base64
         return base64.b64decode(token).decode()
 
-    def _compute_signature(self, identifier: str, caveats: List[str]) -> str:
+    def _compute_signature(self, identifier: str, caveats: list[str]) -> str:
         """Compute HMAC signature for verification."""
         payload = identifier + '|' + '|'.join(sorted(caveats))
         signature = hmac.new(self.secret_key, payload.encode(), hashlib.sha256).hexdigest()
         return signature
 
-    def _parse_caveats(self, caveats: List[str]) -> Dict[str, Any]:
+    def _parse_caveats(self, caveats: list[str]) -> dict[str, Any]:
         """Parse macaroon caveats into claims dict."""
         claims = {}
         for caveat in caveats:

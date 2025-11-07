@@ -580,13 +580,13 @@ class ConsentManager:
             10: "Develop and improve products",
         }
 
-    async def request_consent(self, user_id: str, scopes: List[ConsentScope], context: dict) -> dict:
+    async def request_consent(self, user_id: str, scopes: list[ConsentScope], context: dict) -> dict:
         return {}  # Placeholder
 
-    async def grant_consent(self, request_id: str, granted_scopes: List[str], consent_string: str) -> dict:
+    async def grant_consent(self, request_id: str, granted_scopes: list[str], consent_string: str) -> dict:
         return {}  # Placeholder
 
-    async def withdraw_consent(self, user_id: str, scopes: Optional[List[str]] = None) -> dict:
+    async def withdraw_consent(self, user_id: str, scopes: Optional[list[str]] = None) -> dict:
         return {}  # Placeholder
 
 

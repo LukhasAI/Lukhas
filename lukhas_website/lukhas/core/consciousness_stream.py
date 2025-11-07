@@ -122,7 +122,7 @@ class ConsciousnessStream:
         self.running = False
         self.tick_count = 0
         self.events_processed = 0
-        self._router_logs: List[Dict[str, Any]] = []
+        self._router_logs: list[dict[str, Any]] = []
 
         # Per-stream metrics tracking
         self._breakthrough_timestamps: deque = deque(maxlen=1000)  # Store recent breakthrough timestamps
@@ -491,7 +491,7 @@ class ConsciousnessStream:
         )
         self.event_store.append(stop_event)
 
-    def get_stream_metrics(self) -> Dict[str, Any]:
+    def get_stream_metrics(self) -> dict[str, Any]:
         """Get current stream performance and status metrics."""
         # Calculate per-stream metrics
         now = datetime.now(timezone.utc)
@@ -540,7 +540,7 @@ class ConsciousnessStream:
             )
         }
 
-    def get_guardian_integration_status(self) -> Dict[str, Any]:
+    def get_guardian_integration_status(self) -> dict[str, Any]:
         """Get detailed Guardian-Consciousness integration status"""
         if not self._guardian_integration_enabled:
             return {
@@ -681,7 +681,7 @@ class ConsciousnessStream:
         if self._should_store_event(resume_event):
             self.event_store.append(resume_event)
 
-    async def validate_consciousness_state_transition(self, new_state: str, context: Dict[str, Any] | None = None) -> Dict[str, Any]:
+    async def validate_consciousness_state_transition(self, new_state: str, context: dict[str, Any] | None = None) -> dict[str, Any]:
         """Validate consciousness state transitions through Guardian"""
         if not self._guardian_integration_enabled or not self._guardian_instance:
             return {
@@ -736,11 +736,11 @@ class ConsciousnessStream:
                 "error": True
             }
 
-    def get_recent_events(self, limit: int = 100) -> List[Event]:
+    def get_recent_events(self, limit: int = 100) -> list[Event]:
         """Get recent events from the store for monitoring."""
         return self.event_store.query_recent(limit=limit)
 
-    def replay_events(self, since_minutes: int = 5) -> List[Event]:
+    def replay_events(self, since_minutes: int = 5) -> list[Event]:
         """Get events for experience replay."""
         return self.event_store.query_sliding_window(window_seconds=since_minutes * 60)
 

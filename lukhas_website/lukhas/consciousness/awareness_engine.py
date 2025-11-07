@@ -63,7 +63,7 @@ class AwarenessEngine:
     Optimized for sub-100ms update cycles with comprehensive observability.
     """
 
-    def __init__(self, config: Dict[str, Any] | None = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize awareness engine with configuration."""
         self.config = {**DEFAULT_AWARENESS_CONFIG, **(config or {})}
         self.drift_alpha = self.config["drift_alpha"]
@@ -73,18 +73,18 @@ class AwarenessEngine:
         # Internal state
         self._drift_ema = 0.0
         self._previous_state: ConsciousnessState | None = None
-        self._load_history: List[float] = []
+        self._load_history: list[float] = []
         self._update_count = 0
         self._component_id = "AwarenessEngine"
 
         # Performance tracking
         self._last_update_time = 0.0
-        self._processing_times: List[float] = []
+        self._processing_times: list[float] = []
 
     async def update(
         self,
         state: ConsciousnessState,
-        signals: Dict[str, Any]
+        signals: dict[str, Any]
     ) -> AwarenessSnapshot:
         """
         Generate awareness snapshot from consciousness state and signals.
@@ -136,7 +136,7 @@ class AwarenessEngine:
     async def _process_awareness(
         self,
         state: ConsciousnessState,
-        signals: Dict[str, Any]
+        signals: dict[str, Any]
     ) -> AwarenessSnapshot:
         """Internal awareness processing logic."""
 
@@ -203,7 +203,7 @@ class AwarenessEngine:
 
         return (self.drift_alpha * state_delta) + ((1 - self.drift_alpha) * self._drift_ema)
 
-    def _calculate_load_factor(self, signals: Dict[str, Any]) -> float:
+    def _calculate_load_factor(self, signals: dict[str, Any]) -> float:
         """Calculate system load factor from signals."""
 
         # Extract load indicators from signals
@@ -226,7 +226,7 @@ class AwarenessEngine:
 
         return sum(self._load_history) / len(self._load_history)
 
-    def _calculate_signal_metrics(self, signals: Dict[str, Any]) -> tuple[float, float]:
+    def _calculate_signal_metrics(self, signals: dict[str, Any]) -> tuple[float, float]:
         """Calculate signal strength and signal-to-noise ratio."""
 
         # Signal strength based on number and quality of signals
@@ -249,7 +249,7 @@ class AwarenessEngine:
         self,
         snapshot: AwarenessSnapshot,
         state: ConsciousnessState,
-        signals: Dict[str, Any]
+        signals: dict[str, Any]
     ) -> None:
         """Detect and record anomalies in awareness data."""
 
@@ -323,7 +323,7 @@ class AwarenessEngine:
 
         self._last_update_time = time.time()
 
-    def get_performance_stats(self) -> Dict[str, float]:
+    def get_performance_stats(self) -> dict[str, float]:
         """Get current performance statistics."""
         if not self._processing_times:
             return {

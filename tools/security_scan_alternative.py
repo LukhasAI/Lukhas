@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any, Dict
 
 
-def check_pinned_github_actions() -> Dict[str, Any]:
+def check_pinned_github_actions() -> dict[str, Any]:
     """Check that GitHub Actions are pinned to SHA"""
     print("🔒 Checking GitHub Actions pinning...")
 
@@ -62,7 +62,7 @@ def check_pinned_github_actions() -> Dict[str, Any]:
         "compliant": pinning_rate >= 90  # 90% threshold
     }
 
-def check_constraints_enforcement() -> Dict[str, Any]:
+def check_constraints_enforcement() -> dict[str, Any]:
     """Check constraints.txt exists and is enforced in CI"""
     print("📋 Checking constraints.txt enforcement...")
 
@@ -94,7 +94,7 @@ def check_constraints_enforcement() -> Dict[str, Any]:
     results["compliant"] = results["constraints_exists"] and results["ci_enforces"]
     return results
 
-def check_dependency_vulnerabilities() -> Dict[str, Any]:
+def check_dependency_vulnerabilities() -> dict[str, Any]:
     """Check for known vulnerable dependencies using basic safety check"""
     print("🛡️ Checking for vulnerable dependencies...")
 
@@ -154,7 +154,7 @@ def check_dependency_vulnerabilities() -> Dict[str, Any]:
         "compliant": len(issues_found) == 0
     }
 
-def generate_sbom() -> Dict[str, Any]:
+def generate_sbom() -> dict[str, Any]:
     """Generate Software Bill of Materials"""
     print("📦 Generating SBOM...")
 

@@ -75,7 +75,7 @@ def pick_color(name: str) -> str:
     return NOTION_COLORS[h % len(NOTION_COLORS)]
 
 
-def rate_sleep(bucket: List[float]):
+def rate_sleep(bucket: list[float]):
     """Simple leaky-bucket rate limiter"""
     now = time.time()
     bucket[:] = [t for t in bucket if now - t < 1.0]
@@ -84,7 +84,7 @@ def rate_sleep(bucket: List[float]):
     bucket.append(time.time())
 
 
-def append_ledger(rec: Dict[str, Any]):
+def append_ledger(rec: dict[str, Any]):
     """Append record to ledger"""
     LEDGER.parent.mkdir(parents=True, exist_ok=True)
     with LEDGER.open("a") as f:
@@ -98,7 +98,7 @@ class NotionClient:
         if not token or not db_id:
             raise SystemExit("❌ NOTION_TOKEN and NOTION_DATABASE_ID must be set")
         self.db_id = db_id
-        self.bucket: List[float] = []
+        self.bucket: list[float] = []
 
     def _get(self, url: str) -> Dict:
         """Rate-limited GET request"""
@@ -108,7 +108,7 @@ class NotionClient:
             raise RuntimeError(f"GET {url} failed: {r.status_code} {r.text}")
         return r.json()
 
-    def _patch(self, url: str, payload: Dict[str, Any]) -> Dict:
+    def _patch(self, url: str, payload: dict[str, Any]) -> Dict:
         """Rate-limited PATCH request"""
         rate_sleep(self.bucket)
         r = requests.patch(url, headers=HEADERS, json=payload, timeout=30)
@@ -120,7 +120,7 @@ class NotionClient:
         """Fetch database schema"""
         return self._get(f"https://api.notion.com/v1/databases/{self.db_id}")
 
-    def update_db_properties(self, props: Dict[str, Any]) -> Dict:
+    def update_db_properties(self, props: dict[str, Any]) -> Dict:
         """Update database property schema"""
         payload = {"properties": props}
         return self._patch(
@@ -129,7 +129,7 @@ class NotionClient:
         )
 
 
-def get_multi_select_options(db: Dict, prop_name: str) -> List[Dict]:
+def get_multi_select_options(db: Dict, prop_name: str) -> list[Dict]:
     """Extract multi-select options from database schema"""
     props = db.get("properties", {})
     prop = props.get(prop_name)
@@ -138,18 +138,18 @@ def get_multi_select_options(db: Dict, prop_name: str) -> List[Dict]:
     return prop["multi_select"].get("options", [])
 
 
-def extract_option_names(options: List[Dict]) -> List[str]:
+def extract_option_names(options: list[Dict]) -> list[str]:
     """Extract option names from Notion options list"""
     return [o["name"] for o in options]
 
 
-def build_missing_options(current: List[str], desired: List[str]) -> List[Dict]:
+def build_missing_options(current: list[str], desired: list[str]) -> list[Dict]:
     """Build list of options to add"""
     missing = [d for d in desired if d not in current]
     return [{"name": name, "color": pick_color(name)} for name in missing]
 
 
-def build_prunable_options(current: List[str], desired: List[str]) -> List[str]:
+def build_prunable_options(current: list[str], desired: list[str]) -> list[str]:
     """Build list of option names to remove"""
     return [c for c in current if c not in desired]
 
@@ -259,7 +259,7 @@ def main():
         return
 
     # Apply changes
-    props_payload: Dict[str, Any] = {}
+    props_payload: dict[str, Any] = {}
 
     for prop, adds, rms, existing_opts in plan:
         if not adds and not rms:

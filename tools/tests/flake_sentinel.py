@@ -28,7 +28,7 @@ class FlakeSentinel:
         self.timings_file = timings_file
         self.timings_data = self.load_timings()
 
-    def load_timings(self) -> Dict[str, Any]:
+    def load_timings(self) -> dict[str, Any]:
         """Load existing timings data."""
         if self.timings_file.exists():
             with self.timings_file.open("r", encoding="utf-8") as f:
@@ -41,7 +41,7 @@ class FlakeSentinel:
         with self.timings_file.open("w", encoding="utf-8") as f:
             json.dump(self.timings_data, f, indent=2)
 
-    def record_session(self, session_data: Dict[str, Any]):
+    def record_session(self, session_data: dict[str, Any]):
         """Record a test session with timing data."""
         session_data["timestamp"] = time.time()
         self.timings_data["sessions"].append(session_data)
@@ -85,7 +85,7 @@ class FlakeSentinel:
                 if stable_durations:
                     test_data["baseline"] = statistics.median(stable_durations)
 
-    def detect_flakes(self) -> List[Dict[str, Any]]:
+    def detect_flakes(self) -> list[dict[str, Any]]:
         """Detect flaky tests based on recent status patterns."""
         flakes = []
 
@@ -115,7 +115,7 @@ class FlakeSentinel:
 
         return flakes
 
-    def check_budget(self, budget_seconds: int) -> Dict[str, Any]:
+    def check_budget(self, budget_seconds: int) -> dict[str, Any]:
         """Check if total test duration exceeds budget."""
         if not self.timings_data["sessions"]:
             return {"within_budget": True, "total_duration": 0}
@@ -131,7 +131,7 @@ class FlakeSentinel:
         }
 
 
-def parse_pytest_json_report(report_file: Path) -> Dict[str, Any]:
+def parse_pytest_json_report(report_file: Path) -> dict[str, Any]:
     """Parse pytest JSON report for timing data."""
     if not report_file.exists():
         return {}

@@ -14,7 +14,7 @@ from datetime import datetime
 from typing import Any, Dict, List
 
 
-def load_artifact(file_path: pathlib.Path, description: str) -> Dict[str, Any]:
+def load_artifact(file_path: pathlib.Path, description: str) -> dict[str, Any]:
     """Load an artifact file with error handling."""
     try:
         if file_path.exists():
@@ -28,8 +28,8 @@ def load_artifact(file_path: pathlib.Path, description: str) -> Dict[str, Any]:
         return {}
 
 
-def merge_module_data(inventory: Dict[str, Any], validation: Dict[str, Any],
-                     imports: Dict[str, Any], lanes: Dict[str, Any]) -> List[Dict[str, Any]]:
+def merge_module_data(inventory: dict[str, Any], validation: dict[str, Any],
+                     imports: dict[str, Any], lanes: dict[str, Any]) -> list[dict[str, Any]]:
     """Merge data from all sources for each module."""
     modules = []
 
@@ -100,7 +100,7 @@ def merge_module_data(inventory: Dict[str, Any], validation: Dict[str, Any],
     return modules
 
 
-def generate_move_suggestions(modules: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+def generate_move_suggestions(modules: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Generate suggested git mv operations based on lane assignments."""
     suggestions = []
 
@@ -154,8 +154,8 @@ def generate_move_suggestions(modules: List[Dict[str, Any]]) -> List[Dict[str, A
     return suggestions
 
 
-def compute_summary_stats(modules: List[Dict[str, Any]], validation: Dict[str, Any],
-                         imports: Dict[str, Any], lanes: Dict[str, Any]) -> Dict[str, Any]:
+def compute_summary_stats(modules: list[dict[str, Any]], validation: dict[str, Any],
+                         imports: dict[str, Any], lanes: dict[str, Any]) -> dict[str, Any]:
     """Compute overall summary statistics."""
     total_modules = len(modules)
 

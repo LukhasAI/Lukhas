@@ -24,8 +24,8 @@ class ImportlibDetector(ast.NodeVisitor):
     """AST visitor to detect importlib usage in Python files"""
 
     def __init__(self):
-        self.importlib_calls: List[Tuple[int, str]] = []
-        self.importlib_imports: List[Tuple[int, str]] = []
+        self.importlib_calls: list[tuple[int, str]] = []
+        self.importlib_imports: list[tuple[int, str]] = []
 
     def visit_Import(self, node: ast.Import) -> None:
         """Detect 'import importlib' statements"""
@@ -58,7 +58,7 @@ class ImportlibDetector(ast.NodeVisitor):
         self.generic_visit(node)
 
 
-def scan_file_for_importlib(file_path: Path) -> Tuple[List[Tuple[int, str]], List[Tuple[int, str]]]:
+def scan_file_for_importlib(file_path: Path) -> tuple[list[tuple[int, str]], list[tuple[int, str]]]:
     """
     Scan a Python file for importlib usage.
 
@@ -84,7 +84,7 @@ def scan_file_for_importlib(file_path: Path) -> Tuple[List[Tuple[int, str]], Lis
         return [], []
 
 
-def get_python_files(root_dir: Path) -> List[Path]:
+def get_python_files(root_dir: Path) -> list[Path]:
     """Get all Python files in the project, excluding common ignore patterns"""
     python_files = []
 

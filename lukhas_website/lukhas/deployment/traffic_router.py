@@ -47,7 +47,7 @@ class RoutingTarget:
     active_connections: int = 0
     avg_latency_ms: float = 0.0
     enabled: bool = True
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     @property
     def effective_weight(self) -> float:
@@ -61,8 +61,8 @@ class RoutingTarget:
 class ABTestConfig:
     """A/B test configuration"""
     test_id: str
-    control_targets: List[str]
-    treatment_targets: List[str]
+    control_targets: list[str]
+    treatment_targets: list[str]
     traffic_split: float = 0.5  # Percentage to treatment
     hash_seed: str = ""
     enabled: bool = True
@@ -95,15 +95,15 @@ class TrafficRouter:
         self.cache_ttl_seconds = cache_ttl_seconds
 
         # Routing targets
-        self.targets: Dict[str, RoutingTarget] = {}
-        self.lane_targets: Dict[str, Set[str]] = defaultdict(set)
+        self.targets: dict[str, RoutingTarget] = {}
+        self.lane_targets: dict[str, set[str]] = defaultdict(set)
 
         # A/B tests
-        self.ab_tests: Dict[str, ABTestConfig] = {}
+        self.ab_tests: dict[str, ABTestConfig] = {}
 
         # Routing state
-        self.round_robin_indices: Dict[str, int] = defaultdict(int)
-        self.routing_cache: Dict[str, Tuple[str, datetime]] = {}
+        self.round_robin_indices: dict[str, int] = defaultdict(int)
+        self.routing_cache: dict[str, tuple[str, datetime]] = {}
 
         # Statistics
         self.routing_stats = defaultdict(lambda: {
@@ -166,7 +166,7 @@ class TrafficRouter:
         lane: Optional[str] = None,
         strategy: Optional[RoutingStrategy] = None,
         session_id: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[dict[str, Any]] = None
     ) -> Optional[str]:
         """
         Route request to appropriate target.
@@ -267,7 +267,7 @@ class TrafficRouter:
     def _apply_strategy(
         self,
         strategy: RoutingStrategy,
-        targets: List[RoutingTarget],
+        targets: list[RoutingTarget],
         request_id: str
     ) -> Optional[RoutingTarget]:
         """Apply routing strategy to select target"""
@@ -288,14 +288,14 @@ class TrafficRouter:
             # Default to weighted random
             return self._weighted_random(targets)
 
-    def _round_robin(self, targets: List[RoutingTarget]) -> RoutingTarget:
+    def _round_robin(self, targets: list[RoutingTarget]) -> RoutingTarget:
         """Round-robin selection"""
         key = ",".join(sorted(t.target_id for t in targets))
         index = self.round_robin_indices[key] % len(targets)
         self.round_robin_indices[key] = index + 1
         return targets[index]
 
-    def _weighted_random(self, targets: List[RoutingTarget]) -> RoutingTarget:
+    def _weighted_random(self, targets: list[RoutingTarget]) -> RoutingTarget:
         """Weighted random selection"""
         weights = [t.effective_weight for t in targets]
         total_weight = sum(weights)
@@ -313,11 +313,11 @@ class TrafficRouter:
 
         return targets[-1]
 
-    def _least_connections(self, targets: List[RoutingTarget]) -> RoutingTarget:
+    def _least_connections(self, targets: list[RoutingTarget]) -> RoutingTarget:
         """Select target with least active connections"""
         return min(targets, key=lambda t: t.active_connections)
 
-    def _latency_based(self, targets: List[RoutingTarget]) -> RoutingTarget:
+    def _latency_based(self, targets: list[RoutingTarget]) -> RoutingTarget:
         """Select target with lowest latency"""
         # Filter out targets with no latency data
         with_latency = [t for t in targets if t.avg_latency_ms > 0]
@@ -329,7 +329,7 @@ class TrafficRouter:
 
     def _hash_based(
         self,
-        targets: List[RoutingTarget],
+        targets: list[RoutingTarget],
         request_id: str
     ) -> RoutingTarget:
         """Consistent hash-based selection"""
@@ -378,7 +378,7 @@ class TrafficRouter:
             del self.ab_tests[test_id]
             logger.info("A/B test removed", test_id=test_id)
 
-    async def get_routing_metrics(self) -> Dict[str, Any]:
+    async def get_routing_metrics(self) -> dict[str, Any]:
         """Get comprehensive routing metrics"""
         metrics_data = {}
 

@@ -68,10 +68,10 @@ def _contains_sensitive_data(value: str) -> bool:
     return bool(_SENSITIVE_KEY_PATTERN.search(value))
 
 
-def _sanitize_mapping(data: Mapping[str, Any]) -> Dict[str, Any]:
+def _sanitize_mapping(data: Mapping[str, Any]) -> dict[str, Any]:
     """Return a sanitised copy of *data* with sensitive values redacted."""
 
-    sanitised: Dict[str, Any] = {}
+    sanitised: dict[str, Any] = {}
     for key, value in data.items():
         replacement: Any = value
 
@@ -96,7 +96,7 @@ class SecurityReport:
 
         return replace(self, details=_sanitize_mapping(self.details))
 
-    def to_payload(self) -> Dict[str, Any]:
+    def to_payload(self) -> dict[str, Any]:
         """Return a dictionary payload suitable for serialisation."""
 
         sanitised = self.sanitise()
@@ -150,7 +150,7 @@ def validate_report(report: SecurityReport, *, allowed_detail_keys: Iterable[str
             )
 
 
-def build_secure_payload(report: SecurityReport) -> Dict[str, Any]:
+def build_secure_payload(report: SecurityReport) -> dict[str, Any]:
     """Validate and sanitise *report*, returning a serialisable payload."""
 
     validate_report(report)
@@ -161,7 +161,7 @@ class SecurityReportRepository:
     """In-memory repository that stores sanitised security reports."""
 
     def __init__(self) -> None:
-        self._storage: Dict[str, SecurityReport] = {}
+        self._storage: dict[str, SecurityReport] = {}
 
     def upsert(self, report: SecurityReport) -> None:
         """Insert or update *report* after validating and sanitising it."""

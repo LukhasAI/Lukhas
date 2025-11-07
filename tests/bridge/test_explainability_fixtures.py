@@ -10,7 +10,7 @@ import pytest
 
 
 @pytest.fixture
-def sample_explanation_templates() -> Dict[str, str]:
+def sample_explanation_templates() -> dict[str, str]:
     """Sample explanation templates for different formats."""
     return {
         "text": "The action '{action}' was taken with {confidence}% confidence based on {factors}.",
@@ -20,7 +20,7 @@ def sample_explanation_templates() -> Dict[str, str]:
 
 
 @pytest.fixture
-def mock_decision_simple() -> Dict[str, Any]:
+def mock_decision_simple() -> dict[str, Any]:
     """Simple mock decision for testing."""
     return {
         "action": "grant_access",
@@ -31,7 +31,7 @@ def mock_decision_simple() -> Dict[str, Any]:
 
 
 @pytest.fixture
-def mock_decision_complex() -> Dict[str, Any]:
+def mock_decision_complex() -> dict[str, Any]:
     """Complex mock decision with multi-level reasoning."""
     return {
         "action": "deny_access",
@@ -48,7 +48,7 @@ def mock_decision_complex() -> Dict[str, Any]:
 
 
 @pytest.fixture
-def mock_meg_response() -> Dict[str, Any]:
+def mock_meg_response() -> dict[str, Any]:
     """Mock MEG (Memory-Emotion-Glyph) engine response."""
     return {
         "memory": {
@@ -70,7 +70,7 @@ def mock_meg_response() -> Dict[str, Any]:
 
 
 @pytest.fixture
-def mock_symbolic_engine_response() -> Dict[str, Any]:
+def mock_symbolic_engine_response() -> dict[str, Any]:
     """Mock symbolic reasoning engine response."""
     return {
         "symbols": ["⚛️", "🧠", "🛡️"],
@@ -84,7 +84,7 @@ def mock_symbolic_engine_response() -> Dict[str, Any]:
 
 
 @pytest.fixture
-def explanation_context_minimal() -> Dict[str, Any]:
+def explanation_context_minimal() -> dict[str, Any]:
     """Minimal context for explanation generation."""
     return {
         "user_id": "test_user_123",
@@ -94,7 +94,7 @@ def explanation_context_minimal() -> Dict[str, Any]:
 
 
 @pytest.fixture
-def explanation_context_full() -> Dict[str, Any]:
+def explanation_context_full() -> dict[str, Any]:
     """Full context for explanation generation including Trinity Framework."""
     return {
         "user_id": "test_user_123",
@@ -114,7 +114,7 @@ def explanation_context_full() -> Dict[str, Any]:
 
 
 @pytest.fixture
-def mock_proof_data() -> Dict[str, Any]:
+def mock_proof_data() -> dict[str, Any]:
     """Mock formal proof data."""
     return {
         "proof_type": "logical_inference",
@@ -130,7 +130,7 @@ def mock_proof_data() -> Dict[str, Any]:
 
 
 @pytest.fixture
-def sample_multi_modal_explanation() -> Dict[str, Any]:
+def sample_multi_modal_explanation() -> dict[str, Any]:
     """Sample multi-modal explanation output."""
     return {
         "text": "Access granted with 92% confidence based on valid JWT authentication and tier authorization.",
@@ -198,7 +198,7 @@ def mock_template_loader():
 
 
 @pytest.fixture
-def sample_lambda_trace() -> List[Dict[str, Any]]:
+def sample_lambda_trace() -> list[dict[str, Any]]:
     """Sample ΛTRACE audit trail for explanation context."""
     return [
         {
@@ -223,7 +223,7 @@ def sample_lambda_trace() -> List[Dict[str, Any]]:
 
 
 @pytest.fixture
-def mock_guardian_context() -> Dict[str, Any]:
+def mock_guardian_context() -> dict[str, Any]:
     """Mock Guardian system context for explanations."""
     return {
         "status": "active",

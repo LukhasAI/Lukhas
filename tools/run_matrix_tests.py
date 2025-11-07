@@ -49,7 +49,7 @@ class MatrixTestRunner:
         logger.info(f"  Contracts directory: {self.contracts_dir}")
         logger.info(f"  Policies directory: {self.policies_dir}")
 
-    def find_test_matrices(self) -> List[Path]:
+    def find_test_matrices(self) -> list[Path]:
         """Find all test matrix files."""
         # Look in both fixtures and matrix directories
         patterns = [
@@ -65,7 +65,7 @@ class MatrixTestRunner:
         logger.info(f"Found {len(matrices)} test matrices")
         return matrices
 
-    def load_matrix(self, matrix_path: Path) -> Dict[str, Any]:
+    def load_matrix(self, matrix_path: Path) -> dict[str, Any]:
         """Load a test matrix file."""
         try:
             content = matrix_path.read_text()
@@ -80,7 +80,7 @@ class MatrixTestRunner:
             logger.error(f"Failed to load matrix {matrix_path}: {e}")
             return {}
 
-    def load_contract(self, module: str) -> Dict[str, Any]:
+    def load_contract(self, module: str) -> dict[str, Any]:
         """Load Matrix contract for a module."""
         # Try different naming patterns
         contract_patterns = [
@@ -105,7 +105,7 @@ class MatrixTestRunner:
         logger.warning(f"No contract found for module: {module}")
         return {}
 
-    def execute_opa_query(self, input_data: Dict[str, Any], contract: Dict[str, Any]) -> Dict[str, Any]:
+    def execute_opa_query(self, input_data: dict[str, Any], contract: dict[str, Any]) -> dict[str, Any]:
         """Execute OPA policy query (mock implementation)."""
         # This would normally call OPA via subprocess or HTTP API
         # For now, we'll simulate the authorization logic
@@ -150,7 +150,7 @@ class MatrixTestRunner:
             'subject_ok': subject_ok
         }
 
-    def run_test_case(self, test_case: Dict[str, Any], contract: Dict[str, Any]) -> Dict[str, Any]:
+    def run_test_case(self, test_case: dict[str, Any], contract: dict[str, Any]) -> dict[str, Any]:
         """Run a single authorization test case."""
         module = test_case.get('module', '')
         subject = test_case.get('subject', '')
@@ -211,7 +211,7 @@ class MatrixTestRunner:
                 'details': {}
             }
 
-    def run_matrix(self, matrix_path: Path) -> Dict[str, Any]:
+    def run_matrix(self, matrix_path: Path) -> dict[str, Any]:
         """Run all test cases in a matrix."""
         matrix_data = self.load_matrix(matrix_path)
         if not matrix_data:
@@ -252,7 +252,7 @@ class MatrixTestRunner:
             'pass_rate': passed_count / len(test_cases) if test_cases else 0
         }
 
-    def run_all_tests(self) -> Dict[str, Any]:
+    def run_all_tests(self) -> dict[str, Any]:
         """Run all authorization matrix tests."""
         logger.info("Starting authorization matrix test run")
 
@@ -292,7 +292,7 @@ class MatrixTestRunner:
             'matrices': all_results
         }
 
-    def generate_output(self, results: Dict[str, Any], output_file: Optional[str] = None, min_pass_rate: float = 0.95):
+    def generate_output(self, results: dict[str, Any], output_file: Optional[str] = None, min_pass_rate: float = 0.95):
         """Generate output file and check pass rate."""
         if output_file:
             output_path = Path(output_file)

@@ -35,7 +35,7 @@ class LUKHASSchemaValidator:
         except Exception as e:
             return {"error": f"Failed to load document: {e}"}
 
-    def validate_document(self, document: Dict, schema: Dict) -> Tuple[bool, List[str]]:
+    def validate_document(self, document: Dict, schema: Dict) -> tuple[bool, list[str]]:
         """Validate a document against a schema"""
         try:
             jsonschema.validate(document, schema)
@@ -47,7 +47,7 @@ class LUKHASSchemaValidator:
         except Exception as e:
             return False, [f"Unexpected error: {e}"]
 
-    def find_documents_for_schema(self, schema_name: str) -> List[Path]:
+    def find_documents_for_schema(self, schema_name: str) -> list[Path]:
         """Find documents that should be validated against a schema"""
         document_map = {
             "architecture_master.schema.json": [
@@ -149,7 +149,7 @@ class LUKHASSchemaValidator:
 
         return results
 
-    def generate_recommendations(self, results: Dict) -> List[str]:
+    def generate_recommendations(self, results: Dict) -> list[str]:
         """Generate recommendations based on validation results"""
         recommendations = []
 

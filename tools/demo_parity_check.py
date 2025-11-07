@@ -27,7 +27,7 @@ class DemoParityChecker:
         self.tools_dir = pathlib.Path("tools")
         self.parity_issues = []
 
-    def check_verification_track_parity(self) -> Dict[str, Any]:
+    def check_verification_track_parity(self) -> dict[str, Any]:
         """Check verification track demo parity."""
         print("🔮 Checking verification track parity...")
 
@@ -79,7 +79,7 @@ class DemoParityChecker:
             "prism_available": prism_available if 'prism_available' in locals() else False
         }
 
-    def check_provenance_track_parity(self) -> Dict[str, Any]:
+    def check_provenance_track_parity(self) -> dict[str, Any]:
         """Check provenance track demo parity."""
         print("🔗 Checking provenance track parity...")
 
@@ -151,7 +151,7 @@ class DemoParityChecker:
             "production_tool_available": production_tool.exists()
         }
 
-    def check_attestation_track_parity(self) -> Dict[str, Any]:
+    def check_attestation_track_parity(self) -> dict[str, Any]:
         """Check attestation track demo parity."""
         print("🛡️ Checking attestation track parity...")
 
@@ -230,7 +230,7 @@ class DemoParityChecker:
             "production_tool_available": production_tool.exists()
         }
 
-    def _check_tool_availability(self, tool_name: str, version_args: List[str]) -> bool:
+    def _check_tool_availability(self, tool_name: str, version_args: list[str]) -> bool:
         """Check if external tool is available."""
         try:
             result = subprocess.run(
@@ -242,7 +242,7 @@ class DemoParityChecker:
         except (subprocess.TimeoutExpired, FileNotFoundError):
             return False
 
-    def run_parity_checks(self) -> Dict[str, Any]:
+    def run_parity_checks(self) -> dict[str, Any]:
         """Run all parity checks and generate report."""
         print("🔍 Running Matrix Tracks demo-production parity checks...\n")
 
@@ -268,7 +268,7 @@ class DemoParityChecker:
 
         return summary
 
-    def _generate_recommendations(self, results: Dict[str, Any]) -> List[str]:
+    def _generate_recommendations(self, results: dict[str, Any]) -> list[str]:
         """Generate recommendations based on parity check results."""
         recommendations = []
 
@@ -286,7 +286,7 @@ class DemoParityChecker:
 
         return recommendations
 
-    def generate_report(self, results: Dict[str, Any], output_path: Optional[str] = None) -> str:
+    def generate_report(self, results: dict[str, Any], output_path: Optional[str] = None) -> str:
         """Generate parity check report."""
         if not output_path:
             output_path = "reports/demo_parity_report.md"

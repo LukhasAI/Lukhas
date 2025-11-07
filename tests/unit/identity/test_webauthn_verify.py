@@ -135,7 +135,7 @@ def _create_assertion_es256(
     sign_count: int,
     credential_id: str = "test_credential_id",
     user_verified: bool = False,
-) -> tuple[Dict[str, Any], str]:
+) -> tuple[dict[str, Any], str]:
     """Create a valid ES256 WebAuthn assertion for testing.
 
     Returns:
@@ -188,7 +188,7 @@ def _create_assertion_rs256(
     rp_id: str,
     sign_count: int,
     credential_id: str = "test_credential_id",
-) -> tuple[Dict[str, Any], str]:
+) -> tuple[dict[str, Any], str]:
     """Create a valid RS256 WebAuthn assertion for testing.
 
     Returns:

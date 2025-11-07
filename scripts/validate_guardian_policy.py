@@ -11,7 +11,7 @@ import yaml
 ALLOWED_EFFECTS = {"allow", "deny"}
 
 
-def _ensure_list(value) -> List[str]:
+def _ensure_list(value) -> list[str]:
     if value is None:
         return []
     if isinstance(value, list):

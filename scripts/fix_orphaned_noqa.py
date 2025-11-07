@@ -34,7 +34,7 @@ PATTERNS = [
 ]
 
 
-def find_python_files(roots: List[str]) -> List[Path]:
+def find_python_files(roots: list[str]) -> list[Path]:
     """Find all Python files in specified roots."""
     files = []
     for root in roots:
@@ -45,7 +45,7 @@ def find_python_files(roots: List[str]) -> List[Path]:
     return sorted(files)
 
 
-def fix_file(file_path: Path, dry_run: bool = True) -> Tuple[int, List[str]]:
+def fix_file(file_path: Path, dry_run: bool = True) -> tuple[int, list[str]]:
     """
     Fix orphaned noqa comments in a file.
 

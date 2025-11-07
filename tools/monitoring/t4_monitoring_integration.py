@@ -47,7 +47,7 @@ class T4MonitoringIntegration:
         # Load integration configuration
         self.integration_config = self._load_integration_config()
 
-    def _load_integration_config(self) -> Dict[str, Any]:
+    def _load_integration_config(self) -> dict[str, Any]:
         """Load integration-specific configuration"""
         try:
             with open(self.config_path) as f:
@@ -81,7 +81,7 @@ class T4MonitoringIntegration:
 
         return base_metrics
 
-    async def _collect_t4_metrics(self) -> Dict[str, Any]:
+    async def _collect_t4_metrics(self) -> dict[str, Any]:
         """Collect metrics from T4 observability components"""
         metrics = {}
 
@@ -126,7 +126,7 @@ class T4MonitoringIntegration:
 
         return metrics
 
-    def _merge_metrics(self, base_metrics: SystemMetrics, enhanced_data: Dict[str, Any]) -> SystemMetrics:
+    def _merge_metrics(self, base_metrics: SystemMetrics, enhanced_data: dict[str, Any]) -> SystemMetrics:
         """Merge enhanced T4 metrics into base system metrics"""
         # Extract meaningful metrics from T4 data and enhance base metrics
 
@@ -250,7 +250,7 @@ INTEGRATION STATUS:
 
         return base_report + t4_section
 
-    async def test_integration(self) -> Dict[str, Any]:
+    async def test_integration(self) -> dict[str, Any]:
         """Test the integration between systems"""
         test_results = {
             "alerting_system": False,

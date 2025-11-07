@@ -16,7 +16,7 @@ except Exception:
     _SYSTEM_NAME = "LUKHAS"
 
 
-def initialize_branding(**overrides: Any) -> Dict[str, Any]:
+def initialize_branding(**overrides: Any) -> dict[str, Any]:
     """Ensure branding globals exist and optionally override them."""
 
     global APPROVED_TERMS, SYSTEM_NAME  # type: ignore[assignment]

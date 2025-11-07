@@ -68,7 +68,7 @@ class ImportRewriter(ast.NodeTransformer):
         return node
 
 
-def rewrite_file(filepath: Path, dry_run: bool = False) -> Tuple[bool, List[str]]:
+def rewrite_file(filepath: Path, dry_run: bool = False) -> tuple[bool, list[str]]:
     """
     Rewrite imports in a single file.
 
@@ -121,7 +121,7 @@ def rewrite_file(filepath: Path, dry_run: bool = False) -> Tuple[bool, List[str]
     return True, rewriter.changes
 
 
-def find_python_files(root_path: Path, exclude_patterns: List[str]) -> List[Path]:
+def find_python_files(root_path: Path, exclude_patterns: list[str]) -> list[Path]:
     """Find all Python files, excluding specified patterns."""
     python_files = []
 

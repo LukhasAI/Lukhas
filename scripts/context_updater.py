@@ -23,7 +23,7 @@ class ContextUpdater:
             "governance_framework_complete": True
         }
 
-    def find_context_files(self) -> List[Path]:
+    def find_context_files(self) -> list[Path]:
         """Find all claude.me and lukhas_context.md files"""
         context_files = []
 
@@ -37,7 +37,7 @@ class ContextUpdater:
 
         return sorted(context_files)
 
-    def analyze_file_needs_update(self, file_path: Path) -> Tuple[bool, List[str]]:
+    def analyze_file_needs_update(self, file_path: Path) -> tuple[bool, list[str]]:
         """Analyze if a file needs updates"""
         needs_update = False
         reasons = []

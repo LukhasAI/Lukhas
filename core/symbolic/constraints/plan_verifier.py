@@ -12,8 +12,8 @@ from collections.abc import Mapping
 from typing import List, Tuple
 
 
-def verify(plan: Mapping) -> Tuple[bool, List[str]]:
-    violations: List[str] = []
+def verify(plan: Mapping) -> tuple[bool, list[str]]:
+    violations: list[str] = []
     contains_pii = bool(plan.get("contains_pii"))
     verb = str(plan.get("verb", "")).upper()
     target = str(plan.get("target", ""))

@@ -15,7 +15,7 @@ class HierarchyAnalysis(NamedTuple):
 
 class Architecture(NamedTuple):
     name: str
-    components: Dict[str, Any]
+    components: dict[str, Any]
 
 
 class IntegrationPath(NamedTuple):
@@ -25,7 +25,7 @@ class IntegrationPath(NamedTuple):
 
 class SymbolicData(NamedTuple):
     glyph: str
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
 
 
 class ProcessingResult(NamedTuple):

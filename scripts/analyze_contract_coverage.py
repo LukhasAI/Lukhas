@@ -13,9 +13,9 @@ MANIFESTS_DIR = ROOT / "manifests"
 CONTRACTS_DIR = ROOT / "contracts"
 
 
-def load_contract_index() -> Dict[str, pathlib.Path]:
+def load_contract_index() -> dict[str, pathlib.Path]:
     """Load all contract files and index them by path."""
-    idx: Dict[str, pathlib.Path] = {}
+    idx: dict[str, pathlib.Path] = {}
     if not CONTRACTS_DIR.exists():
         return idx
 

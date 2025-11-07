@@ -80,7 +80,7 @@ def is_allowed_doc(name: str) -> bool:
     return False
 
 
-def get_root_doc_files(repo_root: Path) -> List[Path]:
+def get_root_doc_files(repo_root: Path) -> list[Path]:
     """Get all documentation files at repository root."""
     doc_files = []
     for item in repo_root.iterdir():

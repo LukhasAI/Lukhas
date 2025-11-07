@@ -25,13 +25,13 @@ _FEEDBACK_SCHEMA = json.loads((SCHEMAS_DIR / "feedback_event_v1.json").read_text
 _VALIDATOR = Draft202012Validator(_FEEDBACK_SCHEMA)
 
 
-def validate_event(evt: Dict[str, Any]) -> None:
+def validate_event(evt: dict[str, Any]) -> None:
     errors = sorted(_VALIDATOR.iter_errors(evt), key=lambda e: e.path)
     if errors:
         raise ValueError("Invalid feedback event: " + "; ".join([e.message for e in errors]))
 
 
-def record_feedback(evt: Dict[str, Any]) -> Dict[str, Any]:
+def record_feedback(evt: dict[str, Any]) -> dict[str, Any]:
     """
     Persist a validated feedback event. Returns a minimal receipt.
     - append-only, one JSON object per line
@@ -54,7 +54,7 @@ def record_feedback(evt: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-def quick_card(node_id: str, scale: int = 5) -> Dict[str, Any]:
+def quick_card(node_id: str, scale: int = 5) -> dict[str, Any]:
     """
     Convenience: generate a default card spec (matches feedback_card_v1)
     """

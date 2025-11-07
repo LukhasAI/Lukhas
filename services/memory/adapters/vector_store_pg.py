@@ -53,7 +53,7 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
         index_params: Index-specific parameters
     """
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         super().__init__(config)
         self.pool: Optional[asyncpg.Pool] = None
         self.table_name = config.get('table_name', 'vector_documents')
@@ -198,7 +198,7 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
 
         logger.info(f"Created indexes for table: {self.table_name}")
 
-    async def upsert_documents(self, documents: List[VectorDocument]) -> Dict[str, Any]:
+    async def upsert_documents(self, documents: list[VectorDocument]) -> dict[str, Any]:
         """Insert or update documents with vectors using efficient UPSERT"""
         if not documents:
             return {'inserted': 0, 'updated': 0, 'failed': 0, 'duration_ms': 0}
@@ -229,8 +229,8 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
             }
 
     async def _batch_upsert_prepared(self, conn: asyncpg.Connection,
-                                   documents: List[VectorDocument],
-                                   start_time: float) -> Dict[str, Any]:
+                                   documents: list[VectorDocument],
+                                   start_time: float) -> dict[str, Any]:
         """Efficient batch upsert using prepared statements"""
         upsert_sql = f"""
         INSERT INTO {self.table_name} (id, vector, content, metadata, created_at, updated_at)
@@ -282,8 +282,8 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
         }
 
     async def _bulk_upsert(self, conn: asyncpg.Connection,
-                          documents: List[VectorDocument],
-                          start_time: float) -> Dict[str, Any]:
+                          documents: list[VectorDocument],
+                          start_time: float) -> dict[str, Any]:
         """High-performance bulk upsert using COPY protocol"""
         # For very large batches, use COPY to temporary table then UPSERT
         temp_table = f"temp_{self.table_name}_{int(time.time())}"
@@ -429,7 +429,7 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
             query_vector_dim=len(query.vector)
         )
 
-    async def delete_documents(self, document_ids: List[str]) -> Dict[str, Any]:
+    async def delete_documents(self, document_ids: list[str]) -> dict[str, Any]:
         """Delete documents by IDs"""
         if not document_ids:
             return {'deleted': 0, 'not_found': 0, 'failed': 0, 'duration_ms': 0}
@@ -498,7 +498,7 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
             logger.error(f"Get document failed: {e}")
             raise VectorStoreError(f"Get document failed: {e}")
 
-    async def count_documents(self, metadata_filter: Optional[Dict[str, Any]] = None) -> int:
+    async def count_documents(self, metadata_filter: Optional[dict[str, Any]] = None) -> int:
         """Count documents with optional metadata filter"""
         try:
             async with self.pool.acquire() as conn:
@@ -530,7 +530,7 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
             logger.error(f"Count documents failed: {e}")
             return 0
 
-    async def create_index(self, index_params: Dict[str, Any]) -> None:
+    async def create_index(self, index_params: dict[str, Any]) -> None:
         """Create or rebuild vector index"""
         try:
             async with self.pool.acquire() as conn:
@@ -563,9 +563,9 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
             raise VectorStoreError(f"Create index failed: {e}")
 
     async def batch_upsert(self,
-                          documents: List[VectorDocument],
+                          documents: list[VectorDocument],
                           batch_size: int = 100,
-                          parallel_batches: int = 4) -> Dict[str, Any]:
+                          parallel_batches: int = 4) -> dict[str, Any]:
         """Parallel batch upsert for high throughput"""
         if not documents:
             return {'inserted': 0, 'updated': 0, 'failed': 0, 'duration_ms': 0}
@@ -614,8 +614,8 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
         }
 
     async def batch_search(self,
-                          queries: List[VectorSearchQuery],
-                          parallel_queries: int = 8) -> List[VectorSearchResponse]:
+                          queries: list[VectorSearchQuery],
+                          parallel_queries: int = 8) -> list[VectorSearchResponse]:
         """Execute multiple searches in parallel"""
         if not queries:
             return []

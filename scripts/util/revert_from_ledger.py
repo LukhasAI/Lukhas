@@ -30,7 +30,7 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 
-def load_ledger(ledger_path: Path) -> List[Dict]:
+def load_ledger(ledger_path: Path) -> list[Dict]:
     """Load enrichment ledger entries."""
     if not ledger_path.exists():
         print(f"❌ Ledger not found: {ledger_path}", file=sys.stderr)
@@ -45,7 +45,7 @@ def load_ledger(ledger_path: Path) -> List[Dict]:
     return entries
 
 
-def find_ledger_entry(entries: List[Dict], sha: Optional[str] = None, last: bool = False) -> Optional[Dict]:
+def find_ledger_entry(entries: list[Dict], sha: Optional[str] = None, last: bool = False) -> Optional[Dict]:
     """Find ledger entry by SHA or get last entry."""
     if last and entries:
         return entries[-1]

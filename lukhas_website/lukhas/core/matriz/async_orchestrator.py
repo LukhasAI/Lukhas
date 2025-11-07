@@ -26,8 +26,8 @@ from .pipeline_stage import PipelineStage, StageResult
 class PipelineResult:
     """Result of pipeline execution."""
     success: bool
-    output: Optional[Dict[str, Any]]
-    stage_results: Dict[str, StageResult]
+    output: Optional[dict[str, Any]]
+    stage_results: dict[str, StageResult]
     total_duration: float
     error: Optional[Exception] = None
 
@@ -46,7 +46,7 @@ class AsyncOrchestrator:
         stage_timeout: float = 0.1,  # 100ms
         total_timeout: float = 0.25,  # 250ms
     ):
-        self.stages: List[PipelineStage] = []
+        self.stages: list[PipelineStage] = []
         self.metrics = metrics or LUKHASMetrics()
         self.tracer = tracer or LUKHASTracer()
         self.stage_timeout = stage_timeout
@@ -64,7 +64,7 @@ class AsyncOrchestrator:
                 return True
         return False
 
-    async def process(self, input_data: Dict[str, Any]) -> PipelineResult:
+    async def process(self, input_data: dict[str, Any]) -> PipelineResult:
         """
         Process data through the pipeline.
 
@@ -161,7 +161,7 @@ class AsyncOrchestrator:
             error=pipeline_error
         )
 
-    async def _execute_stage(self, stage: PipelineStage, input_data: Dict[str, Any]) -> StageResult:
+    async def _execute_stage(self, stage: PipelineStage, input_data: dict[str, Any]) -> StageResult:
         """Execute a single pipeline stage."""
         start_time = time.time()
 
@@ -213,7 +213,7 @@ class AsyncOrchestrator:
                 error=e
             )
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Perform orchestrator health check."""
         health_data = {
             "orchestrator_healthy": True,
@@ -246,7 +246,7 @@ class AsyncOrchestrator:
 
         return health_data
 
-    async def get_metrics(self) -> Dict[str, Any]:
+    async def get_metrics(self) -> dict[str, Any]:
         """Get orchestrator performance metrics."""
         return {
             "stage_count": len(self.stages),
@@ -267,7 +267,7 @@ class MockAsyncOrchestrator(AsyncOrchestrator):
         self.process_calls = 0
         self.last_input = None
 
-    async def process(self, input_data: Dict[str, Any]) -> PipelineResult:
+    async def process(self, input_data: dict[str, Any]) -> PipelineResult:
         """Mock process that tracks calls."""
         self.process_calls += 1
         self.last_input = input_data

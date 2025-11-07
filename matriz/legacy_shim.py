@@ -130,7 +130,7 @@ class LegacyShim(MatrizNode):
                 guardian_log=[token]
             )
 
-    def _to_legacy_format(self, msg: MatrizMessage) -> Dict[str, Any]:
+    def _to_legacy_format(self, msg: MatrizMessage) -> dict[str, Any]:
         """
         Convert v1.0.0 MatrizMessage to legacy format
 
@@ -260,7 +260,7 @@ def is_legacy_available() -> bool:
 
 
 # Compatibility utilities
-def migrate_legacy_nodes() -> Dict[str, MatrizNode]:
+def migrate_legacy_nodes() -> dict[str, MatrizNode]:
     """
     Auto-discover and wrap legacy nodes
 

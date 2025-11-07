@@ -83,10 +83,10 @@ FLAGSHIP_APIS = {
 }
 
 
-def generate_openapi_stub(api_name: str, api_def: Dict[str, Any]) -> Dict[str, Any]:
+def generate_openapi_stub(api_name: str, api_def: dict[str, Any]) -> dict[str, Any]:
     """Generate OpenAPI 3.0 stub for a flagship API."""
 
-    paths: Dict[str, Any] = {}
+    paths: dict[str, Any] = {}
     for endpoint in api_def["endpoints"]:
         path = api_def["base_path"] + endpoint["path"]
         method = endpoint["method"]

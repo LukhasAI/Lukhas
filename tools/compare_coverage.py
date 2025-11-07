@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any, Dict
 
 
-def load_coverage(path: str) -> Dict[str, Any]:
+def load_coverage(path: str) -> dict[str, Any]:
     """Load coverage data from JSON file"""
     if not Path(path).exists():
         print(f"❌ Coverage file not found: {path}")
@@ -19,7 +19,7 @@ def load_coverage(path: str) -> Dict[str, Any]:
     with open(path) as f:
         return json.load(f)
 
-def extract_metrics(coverage_data: Dict[str, Any]) -> Dict[str, float]:
+def extract_metrics(coverage_data: dict[str, Any]) -> dict[str, float]:
     """Extract key coverage metrics"""
     # Support different coverage report formats
     if 'totals' in coverage_data:
@@ -46,7 +46,7 @@ def extract_metrics(coverage_data: Dict[str, Any]) -> Dict[str, float]:
             'files': coverage_data.get('files', 0)
         }
 
-def compare_coverage(baseline: Dict[str, float], current: Dict[str, float]) -> bool:
+def compare_coverage(baseline: dict[str, float], current: dict[str, float]) -> bool:
     """Compare coverage metrics and return True if current >= baseline"""
 
     print("📊 Coverage Comparison")

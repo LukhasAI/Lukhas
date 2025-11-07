@@ -11,7 +11,7 @@ from typing import List
 # Always expose our submodule path
 from . import exceptions
 
-__all__: List[str] = []
+__all__: list[str] = []
 _SRC: object | None = None
 
 def _bind(modname: str) -> bool:

@@ -71,11 +71,11 @@ class CanaryConfig:
     rollback_on_sla_violation: bool = True
 
     # Feature flags
-    feature_flags: Dict[str, Any] = field(default_factory=dict)
+    feature_flags: dict[str, Any] = field(default_factory=dict)
 
     # Validation
-    smoke_tests: List[str] = field(default_factory=list)
-    validation_endpoints: List[str] = field(default_factory=list)
+    smoke_tests: list[str] = field(default_factory=list)
+    validation_endpoints: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -102,8 +102,8 @@ class CanaryDeployment:
     started_at: datetime
     current_step: int
     current_traffic: float
-    metrics_history: List[CanaryMetrics] = field(default_factory=list)
-    errors: List[str] = field(default_factory=list)
+    metrics_history: list[CanaryMetrics] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
     rollback_reason: Optional[str] = None
     completed_at: Optional[datetime] = None
 
@@ -125,16 +125,16 @@ class CanaryController:
         self.logger = logging.getLogger(f"{__name__}.CanaryController")
 
         # Deployment tracking
-        self._active_deployments: Dict[str, CanaryDeployment] = {}
-        self._deployment_history: List[CanaryDeployment] = []
+        self._active_deployments: dict[str, CanaryDeployment] = {}
+        self._deployment_history: list[CanaryDeployment] = []
 
         # Control
         self._running = False
         self._controller_task: Optional[asyncio.Task] = None
 
         # Callbacks
-        self._rollback_callbacks: Dict[str, List[Callable]] = {}
-        self._validation_callbacks: Dict[str, List[Callable]] = {}
+        self._rollback_callbacks: dict[str, list[Callable]] = {}
+        self._validation_callbacks: dict[str, list[Callable]] = {}
 
         # Initialize metrics
         self._init_metrics()
@@ -716,7 +716,7 @@ class CanaryController:
         await self._initiate_rollback(deployment, f"cancelled: {reason}")
         return True
 
-    async def get_deployment_status(self, deployment_id: str) -> Optional[Dict[str, Any]]:
+    async def get_deployment_status(self, deployment_id: str) -> Optional[dict[str, Any]]:
         """Get status of a deployment"""
         if deployment_id in self._active_deployments:
             deployment = self._active_deployments[deployment_id]
@@ -759,7 +759,7 @@ class CanaryController:
             "rollback_reason": deployment.rollback_reason
         }
 
-    async def list_active_deployments(self) -> List[Dict[str, Any]]:
+    async def list_active_deployments(self) -> list[dict[str, Any]]:
         """List all active deployments"""
         return [
             await self.get_deployment_status(deployment_id)
@@ -776,7 +776,7 @@ class CanaryController:
             self._rollback_callbacks[deployment_id] = []
         self._rollback_callbacks[deployment_id].append(callback)
 
-    async def _health_check(self) -> Dict[str, Any]:
+    async def _health_check(self) -> dict[str, Any]:
         """Health check for Constellation Framework"""
         return {
             "status": "healthy" if self._running else "stopped",

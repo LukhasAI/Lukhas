@@ -32,8 +32,8 @@ class VulnerabilityRecord:
     installed_version: str | None = None
     severity: str | None = None
     description: str | None = None
-    fix_versions: Tuple[str, ...] = ()
-    sources: Tuple[str, ...] = ()
+    fix_versions: tuple[str, ...] = ()
+    sources: tuple[str, ...] = ()
 
     def merge(self, other: VulnerabilityRecord) -> VulnerabilityRecord:
         """Return a new record that combines data from ``self`` and ``other``."""
@@ -60,9 +60,9 @@ class VulnerabilityRecord:
 class SecuritySummary:
     """Summary of aggregated security scan results."""
 
-    vulnerabilities: List[VulnerabilityRecord] = field(default_factory=list)
+    vulnerabilities: list[VulnerabilityRecord] = field(default_factory=list)
     bandit_issue_count: int = 0
-    missing_reports: Tuple[str, ...] = ()
+    missing_reports: tuple[str, ...] = ()
 
     @property
     def total_vulnerabilities(self) -> int:
@@ -100,7 +100,7 @@ def _normalize_severity(value: str | None) -> str | None:
 class SecurityReportAggregator:
     """Aggregate multiple security scan outputs into a unified summary."""
 
-    REPORT_FILES: Mapping[str, Tuple[str, ...]] = {
+    REPORT_FILES: Mapping[str, tuple[str, ...]] = {
         "pip_audit": ("pip-audit.json",),
         "safety": ("safety-report.json", "safety-scan.json"),
         "bandit": ("bandit.json", "bandit-report.json"),
@@ -114,8 +114,8 @@ class SecurityReportAggregator:
     def summarize(self) -> SecuritySummary:
         """Load available reports and return a summary of the findings."""
 
-        missing: List[str] = []
-        vulnerabilities: MutableMapping[Tuple[str, str | None], VulnerabilityRecord] = {}
+        missing: list[str] = []
+        vulnerabilities: MutableMapping[tuple[str, str | None], VulnerabilityRecord] = {}
         bandit_issue_count = 0
 
         pip_audit_data = self._load_json_report("pip_audit", missing)
@@ -145,7 +145,7 @@ class SecurityReportAggregator:
             missing_reports=tuple(sorted(missing)),
         )
 
-    def _load_json_report(self, name: str, missing: List[str]) -> object | None:
+    def _load_json_report(self, name: str, missing: list[str]) -> object | None:
         filenames = self.REPORT_FILES.get(name, ())
         for filename in filenames:
             path = self.reports_dir / filename
@@ -228,7 +228,7 @@ def _to_optional_str(value: object) -> str | None:
     return text or None
 
 
-def _to_tuple(value: object) -> Tuple[str, ...]:
+def _to_tuple(value: object) -> tuple[str, ...]:
     if value is None:
         return ()
     if isinstance(value, (list, tuple, set)):
@@ -238,7 +238,7 @@ def _to_tuple(value: object) -> Tuple[str, ...]:
     return (text,) if text else ()
 
 
-def _merge_record(target: MutableMapping[Tuple[str, str | None], VulnerabilityRecord], record: VulnerabilityRecord) -> None:
+def _merge_record(target: MutableMapping[tuple[str, str | None], VulnerabilityRecord], record: VulnerabilityRecord) -> None:
     key = (record.identifier, record.package)
     if key in target:
         target[key] = target[key].merge(record)

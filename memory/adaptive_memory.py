@@ -45,9 +45,9 @@ class MemoryItem:
     importance: float = 0.5
     access_count: int = 0
     last_accessed: Optional[datetime] = None
-    embedding: Optional[List[float]] = None  # For similarity search
-    context_tags: List[str] = field(default_factory=list)
-    causal_chain: List[str] = field(default_factory=list)
+    embedding: Optional[list[float]] = None  # For similarity search
+    context_tags: list[str] = field(default_factory=list)
+    causal_chain: list[str] = field(default_factory=list)
     fold_id: Optional[str] = None  # Which fold this belongs to
 
     def __post_init__(self):
@@ -63,7 +63,7 @@ class MemoryItem:
         self.access_count += 1
         self.last_accessed = datetime.now()
 
-    def get_relevance_score(self, query_embedding: Optional[List[float]] = None) -> float:
+    def get_relevance_score(self, query_embedding: Optional[list[float]] = None) -> float:
         """
         Calculate relevance score for ranking.
         Combines recency, importance, and embedding similarity.
@@ -95,11 +95,11 @@ class MemoryItem:
 class MemoryFold:
     """Collection of related memories for consolidation"""
     id: str
-    items: List[MemoryItem] = field(default_factory=list)
+    items: list[MemoryItem] = field(default_factory=list)
     created: datetime = field(default_factory=datetime.now)
     last_consolidated: Optional[datetime] = None
     size_bytes: int = 0
-    consolidated_embedding: Optional[List[float]] = None
+    consolidated_embedding: Optional[list[float]] = None
 
     def add_item(self, item: MemoryItem):
         """Add item to fold"""
@@ -153,7 +153,7 @@ class MemoryFold:
         contents = [str(i.content)[:50] for i in self.items[:5]]
         return f"Fold with {len(self.items)} items: {'; '.join(contents)}..."
 
-    def _extract_key_items(self) -> List[Dict]:
+    def _extract_key_items(self) -> list[Dict]:
         """Extract most important items"""
         sorted_items = sorted(self.items, key=lambda x: x.importance, reverse=True)
         return [
@@ -190,13 +190,13 @@ class AdaptiveMemorySystem:
         self.enable_embeddings = enable_embeddings
 
         # Storage
-        self.items: Dict[str, MemoryItem] = {}
-        self.folds: Dict[str, MemoryFold] = {}
+        self.items: dict[str, MemoryItem] = {}
+        self.folds: dict[str, MemoryFold] = {}
         self.active_fold: Optional[MemoryFold] = None
 
         # Indexes for fast retrieval
-        self.type_index: Dict[MemoryType, List[str]] = {t: [] for t in MemoryType}
-        self.tag_index: Dict[str, List[str]] = {}
+        self.type_index: dict[MemoryType, list[str]] = {t: [] for t in MemoryType}
+        self.tag_index: dict[str, list[str]] = {}
         self.recent_items: deque = deque(maxlen=100)  # LRU cache
 
         # Performance metrics
@@ -222,8 +222,8 @@ class AdaptiveMemorySystem:
         content: Any,
         memory_type: MemoryType = MemoryType.SEMANTIC,
         importance: float = 0.5,
-        tags: Optional[List[str]] = None,
-        embedding: Optional[List[float]] = None,
+        tags: Optional[list[str]] = None,
+        embedding: Optional[list[float]] = None,
     ) -> MemoryItem:
         """
         Store a new memory item.
@@ -286,10 +286,10 @@ class AdaptiveMemorySystem:
         self,
         k: int = 10,
         memory_type: Optional[MemoryType] = None,
-        tags: Optional[List[str]] = None,
-        query_embedding: Optional[List[float]] = None,
+        tags: Optional[list[str]] = None,
+        query_embedding: Optional[list[float]] = None,
         max_age_days: Optional[int] = None,
-    ) -> Tuple[List[MemoryItem], float]:
+    ) -> tuple[list[MemoryItem], float]:
         """
         Recall top-K most relevant memories.
 
@@ -367,7 +367,7 @@ class AdaptiveMemorySystem:
 
     def get_context_window(
         self,
-        items: List[MemoryItem],
+        items: list[MemoryItem],
         max_tokens: Optional[int] = None,
     ) -> str:
         """
@@ -401,9 +401,9 @@ class AdaptiveMemorySystem:
     def _get_candidates(
         self,
         memory_type: Optional[MemoryType],
-        tags: Optional[List[str]],
+        tags: Optional[list[str]],
         max_age_days: Optional[int],
-    ) -> List[str]:
+    ) -> list[str]:
         """Get candidate item IDs based on filters"""
         candidates = set(self.items.keys())
 
@@ -530,7 +530,7 @@ class AdaptiveMemorySystem:
         else:
             self.metrics["cache_misses"] += 1
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get performance metrics"""
         avg_latency = (
             self.metrics["total_recall_time_ms"] / self.metrics["total_recalls"]

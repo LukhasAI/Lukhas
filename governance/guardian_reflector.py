@@ -48,7 +48,7 @@ class DriftIndicator:
     timestamp: float
     correlation_id: str
     source: str
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     confidence: float = 1.0
 
 
@@ -57,10 +57,10 @@ class DriftAnalysis:
     """Comprehensive drift analysis result"""
     overall_drift_score: float
     severity: DriftSeverity
-    indicators: List[DriftIndicator]
+    indicators: list[DriftIndicator]
     trend_direction: str  # "stable", "increasing", "decreasing"
-    prediction: Dict[str, Any]
-    remediation_recommendations: List[str]
+    prediction: dict[str, Any]
+    remediation_recommendations: list[str]
     correlation_id: str
     analysis_timestamp: float
     confidence_score: float
@@ -71,11 +71,11 @@ class RemediationPlan:
     """Automated remediation plan for drift issues"""
     plan_id: str
     drift_analysis: DriftAnalysis
-    actions: List[Dict[str, Any]]
+    actions: list[dict[str, Any]]
     priority: str  # "low", "medium", "high", "critical"
     estimated_effectiveness: float
     estimated_duration_minutes: int
-    risk_assessment: Dict[str, Any]
+    risk_assessment: dict[str, Any]
     approval_required: bool
 
 
@@ -128,7 +128,7 @@ class GuardianReflector:
 
         self.logger.info("GuardianReflector initialized with T4/0.01% excellence configuration")
 
-    async def analyze_drift(self, context_data: Dict[str, Any]) -> DriftAnalysis:
+    async def analyze_drift(self, context_data: dict[str, Any]) -> DriftAnalysis:
         """
         Perform comprehensive drift analysis on context data
 
@@ -200,7 +200,7 @@ class GuardianReflector:
             # Return conservative analysis on failure
             return self._create_fallback_analysis(correlation_id)
 
-    async def predict_safety_risk(self, behavioral_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def predict_safety_risk(self, behavioral_data: dict[str, Any]) -> dict[str, Any]:
         """
         Predict safety risk based on behavioral patterns
 
@@ -300,8 +300,8 @@ class GuardianReflector:
 
     # Private helper methods for drift analysis
 
-    async def _detect_multi_dimensional_drift(self, context_data: Dict[str, Any],
-                                            correlation_id: str) -> List[DriftIndicator]:
+    async def _detect_multi_dimensional_drift(self, context_data: dict[str, Any],
+                                            correlation_id: str) -> list[DriftIndicator]:
         """Detect drift across multiple dimensions"""
         indicators = []
 
@@ -346,7 +346,7 @@ class GuardianReflector:
 
         return indicators
 
-    async def _detect_behavioral_drift(self, context_data: Dict[str, Any]) -> float:
+    async def _detect_behavioral_drift(self, context_data: dict[str, Any]) -> float:
         """Detect behavioral pattern drift"""
         # Simulate behavioral drift detection (enhanced in future phases)
         await asyncio.sleep(0.001)  # Realistic processing time
@@ -362,7 +362,7 @@ class GuardianReflector:
 
         return 0.02  # Baseline behavioral drift
 
-    async def _detect_performance_drift(self, context_data: Dict[str, Any]) -> float:
+    async def _detect_performance_drift(self, context_data: dict[str, Any]) -> float:
         """Detect performance degradation drift"""
         await asyncio.sleep(0.001)
 
@@ -373,7 +373,7 @@ class GuardianReflector:
 
         return 0.01  # Minimal performance drift
 
-    async def _detect_ethical_drift(self, context_data: Dict[str, Any]) -> float:
+    async def _detect_ethical_drift(self, context_data: dict[str, Any]) -> float:
         """Detect ethical compliance drift"""
         await asyncio.sleep(0.001)
 
@@ -387,7 +387,7 @@ class GuardianReflector:
 
         return 0.005  # Minimal ethical drift
 
-    def _calculate_overall_drift_score(self, indicators: List[DriftIndicator]) -> float:
+    def _calculate_overall_drift_score(self, indicators: list[DriftIndicator]) -> float:
         """Calculate weighted overall drift score"""
         if not indicators:
             return 0.0
@@ -425,7 +425,7 @@ class GuardianReflector:
         else:
             return DriftSeverity.CRITICAL
 
-    async def _analyze_trends(self, indicators: List[DriftIndicator]) -> str:
+    async def _analyze_trends(self, indicators: list[DriftIndicator]) -> str:
         """Analyze drift trends over time"""
         if len(self.drift_history) < 5:
             return "insufficient_data"
@@ -451,8 +451,8 @@ class GuardianReflector:
         else:
             return "stable"
 
-    async def _predict_future_drift(self, indicators: List[DriftIndicator],
-                                   context_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _predict_future_drift(self, indicators: list[DriftIndicator],
+                                   context_data: dict[str, Any]) -> dict[str, Any]:
         """Predict future drift patterns"""
         # Simple prediction model (enhanced in future phases)
         current_score = self._calculate_overall_drift_score(indicators)
@@ -478,9 +478,9 @@ class GuardianReflector:
             "risk_of_threshold_breach": max(0.0, (predicted_15min - self.drift_threshold) / self.drift_threshold)
         }
 
-    async def _generate_remediation_recommendations(self, indicators: List[DriftIndicator],
+    async def _generate_remediation_recommendations(self, indicators: list[DriftIndicator],
                                                    overall_score: float,
-                                                   severity: DriftSeverity) -> List[str]:
+                                                   severity: DriftSeverity) -> list[str]:
         """Generate actionable remediation recommendations"""
         recommendations = []
 
@@ -539,7 +539,7 @@ class GuardianReflector:
     # Additional helper methods for risk prediction and remediation...
     # (Implementation continues with remaining private methods)
 
-    def _extract_risk_indicators(self, behavioral_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _extract_risk_indicators(self, behavioral_data: dict[str, Any]) -> list[dict[str, Any]]:
         """Extract risk indicators from behavioral data"""
         indicators = []
 
@@ -563,7 +563,7 @@ class GuardianReflector:
 
         return indicators
 
-    async def _calculate_temporal_risk(self, risk_indicators: List[Dict[str, Any]],
+    async def _calculate_temporal_risk(self, risk_indicators: list[dict[str, Any]],
                                       timeframe: str) -> float:
         """Calculate risk for specific timeframe"""
         if not risk_indicators:
@@ -581,8 +581,8 @@ class GuardianReflector:
 
         return min(1.0, base_risk * weight)
 
-    def _calculate_prediction_confidence(self, behavioral_data: Dict[str, Any],
-                                       risk_indicators: List[Dict[str, Any]]) -> float:
+    def _calculate_prediction_confidence(self, behavioral_data: dict[str, Any],
+                                       risk_indicators: list[dict[str, Any]]) -> float:
         """Calculate confidence in risk prediction"""
         # Base confidence on data quality and historical accuracy
         data_quality = min(1.0, len(behavioral_data) / 10)  # More data = higher confidence
@@ -601,7 +601,7 @@ class GuardianReflector:
         else:
             return "critical"
 
-    def _recommend_risk_mitigation_actions(self, risk_score: float) -> List[str]:
+    def _recommend_risk_mitigation_actions(self, risk_score: float) -> list[str]:
         """Recommend actions to mitigate identified risks"""
         actions = []
 
@@ -621,7 +621,7 @@ class GuardianReflector:
 
         return actions
 
-    def _create_fallback_risk_prediction(self, correlation_id: str) -> Dict[str, Any]:
+    def _create_fallback_risk_prediction(self, correlation_id: str) -> dict[str, Any]:
         """Create fallback risk prediction on errors"""
         return {
             "overall_risk_score": 0.2,  # Conservative assumption
@@ -639,7 +639,7 @@ class GuardianReflector:
             "error": "risk_prediction_failed"
         }
 
-    def _calculate_analysis_confidence(self, indicators: List[DriftIndicator],
+    def _calculate_analysis_confidence(self, indicators: list[DriftIndicator],
                                      history_size: int) -> float:
         """Calculate confidence in drift analysis"""
         if not indicators:
@@ -664,7 +664,7 @@ class GuardianReflector:
         else:
             return "low"
 
-    def _generate_remediation_actions(self, drift_analysis: DriftAnalysis) -> List[Dict[str, Any]]:
+    def _generate_remediation_actions(self, drift_analysis: DriftAnalysis) -> list[dict[str, Any]]:
         """Generate specific remediation actions"""
         actions = []
 
@@ -686,7 +686,7 @@ class GuardianReflector:
         return actions
 
     def _estimate_remediation_effectiveness(self, drift_analysis: DriftAnalysis,
-                                          actions: List[Dict[str, Any]]) -> float:
+                                          actions: list[dict[str, Any]]) -> float:
         """Estimate remediation effectiveness"""
         # Simple effectiveness estimation
         base_effectiveness = 0.6
@@ -701,12 +701,12 @@ class GuardianReflector:
 
         return min(1.0, base_effectiveness)
 
-    def _estimate_remediation_duration(self, actions: List[Dict[str, Any]]) -> int:
+    def _estimate_remediation_duration(self, actions: list[dict[str, Any]]) -> int:
         """Estimate total remediation duration"""
         return sum(action.get("estimated_time_minutes", 5) for action in actions)
 
     def _assess_remediation_risks(self, drift_analysis: DriftAnalysis,
-                                 actions: List[Dict[str, Any]]) -> Dict[str, Any]:
+                                 actions: list[dict[str, Any]]) -> dict[str, Any]:
         """Assess risks of remediation actions"""
         return {
             "intervention_risk": 0.1,  # Low risk for monitoring changes
@@ -724,7 +724,7 @@ class TrendAnalyzer:
     def __init__(self):
         self.patterns = {}
 
-    async def analyze_pattern(self, data_series: List[float]) -> Dict[str, Any]:
+    async def analyze_pattern(self, data_series: list[float]) -> dict[str, Any]:
         """Analyze patterns in drift data series"""
         # Simplified pattern analysis
         return {"trend": "stable", "confidence": 0.5}
@@ -736,7 +736,7 @@ class DriftPredictor:
     def __init__(self):
         self.model_accuracy = 0.7
 
-    async def predict(self, current_indicators: List[DriftIndicator]) -> Dict[str, float]:
+    async def predict(self, current_indicators: list[DriftIndicator]) -> dict[str, float]:
         """Predict future drift scores"""
         # Simplified prediction
         current_score = sum(ind.score for ind in current_indicators) / len(current_indicators) if current_indicators else 0.1

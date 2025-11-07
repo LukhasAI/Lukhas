@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any, Dict
 
 
-def load_tier_permissions() -> Dict[str, Any]:
+def load_tier_permissions() -> dict[str, Any]:
     """Load canonical ΛiD tier permissions."""
     tier_file = Path("candidate/governance/identity/config/tier_permissions.json")
 
@@ -27,13 +27,13 @@ def load_tier_permissions() -> Dict[str, Any]:
         return json.load(f)
 
 
-def calculate_permissions_checksum(permissions: Dict[str, Any]) -> str:
+def calculate_permissions_checksum(permissions: dict[str, Any]) -> str:
     """Calculate SHA256 checksum of tier permissions for policy validation."""
     canonical_json = json.dumps(permissions, sort_keys=True, separators=(',', ':'))
     return hashlib.sha256(canonical_json.encode()).hexdigest()
 
 
-def generate_rego_bundle(permissions: Dict[str, Any]) -> str:
+def generate_rego_bundle(permissions: dict[str, Any]) -> str:
     """Generate OPA Rego bundle from ΛiD tier permissions."""
 
     tier_permissions = permissions["tier_permissions"]
@@ -221,7 +221,7 @@ decision_metadata := {{
     return rego_content
 
 
-def generate_test_fixtures(permissions: Dict[str, Any]) -> str:
+def generate_test_fixtures(permissions: dict[str, Any]) -> str:
     """Generate OPA test fixtures from tier permissions."""
 
     test_content = f'''# Matrix Tracks Identity Authorization Tests

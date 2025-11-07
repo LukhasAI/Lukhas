@@ -291,8 +291,8 @@ class AdaptiveBackpressure:
     and provides centralized backpressure control with metrics.
     """
 
-    def __init__(self, configs: Dict[str, BackpressureConfig]):
-        self.buckets: Dict[str, TokenBucket] = {}
+    def __init__(self, configs: dict[str, BackpressureConfig]):
+        self.buckets: dict[str, TokenBucket] = {}
         self.global_config = configs.get('global', BackpressureConfig())
 
         # Create token buckets for different operation types
@@ -318,7 +318,7 @@ class AdaptiveBackpressure:
         bucket = self.buckets.get(operation_type, self.buckets['default'])
         bucket.record_latency(latency_ms)
 
-    async def get_metrics(self, operation_type: Optional[str] = None) -> Dict[str, BackpressureMetrics]:
+    async def get_metrics(self, operation_type: Optional[str] = None) -> dict[str, BackpressureMetrics]:
         """Get metrics for all or specific operation types"""
         if operation_type:
             bucket = self.buckets.get(operation_type)
@@ -347,7 +347,7 @@ class AdaptiveBackpressure:
         logger.info(f"Backpressure mode set to {mode.value}" +
                    (f" for {operation_type}" if operation_type else " globally"))
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check for backpressure system"""
         health = {
             'healthy': True,
@@ -396,7 +396,7 @@ class BackpressureFactory:
     """Factory for creating standard backpressure configurations"""
 
     @staticmethod
-    def create_memory_service_config() -> Dict[str, BackpressureConfig]:
+    def create_memory_service_config() -> dict[str, BackpressureConfig]:
         """Create backpressure configuration for memory service"""
         return {
             'search': BackpressureConfig(
@@ -426,7 +426,7 @@ class BackpressureFactory:
         }
 
     @staticmethod
-    def create_high_throughput_config() -> Dict[str, BackpressureConfig]:
+    def create_high_throughput_config() -> dict[str, BackpressureConfig]:
         """Create configuration optimized for high throughput"""
         return {
             'default': BackpressureConfig(
@@ -439,7 +439,7 @@ class BackpressureFactory:
         }
 
     @staticmethod
-    def create_strict_latency_config() -> Dict[str, BackpressureConfig]:
+    def create_strict_latency_config() -> dict[str, BackpressureConfig]:
         """Create configuration optimized for strict latency"""
         return {
             'default': BackpressureConfig(

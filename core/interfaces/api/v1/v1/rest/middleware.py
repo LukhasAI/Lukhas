@@ -185,7 +185,7 @@ class RateLimitConfig:
 class RateLimitMiddleware:
     """Rate limiting middleware with tier-based policies."""
 
-    DEFAULT_LIMITS: Dict[int, RateLimitConfig] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_interfaces_api_v1_v1_rest_middleware_py_L188"}
+    DEFAULT_LIMITS: dict[int, RateLimitConfig] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_interfaces_api_v1_v1_rest_middleware_py_L188"}
         0: RateLimitConfig(limit=1000, window_seconds=3600),
         1: RateLimitConfig(limit=5000, window_seconds=3600),
     }
@@ -193,15 +193,15 @@ class RateLimitMiddleware:
     def __init__(
         self,
         *,
-        rate_limits: Dict[int, RateLimitConfig] | None = None,
+        rate_limits: dict[int, RateLimitConfig] | None = None,
         identity_manager: Any | None = None,
         time_provider: Callable[[], float] = time.time,
     ) -> None:
         self.rate_limits = rate_limits or self.DEFAULT_LIMITS.copy()
         self.identity_manager = identity_manager or IDENTITY_MANAGER
         self.time_provider = time_provider
-        self._request_counts: Dict[str, Dict[str, float]] = defaultdict(dict)
-        self._locks: Dict[str, asyncio.Lock] = defaultdict(asyncio.Lock)
+        self._request_counts: dict[str, dict[str, float]] = defaultdict(dict)
+        self._locks: dict[str, asyncio.Lock] = defaultdict(asyncio.Lock)
 
     def _resolve_key(self, request: Request) -> str:
         user_id = getattr(request.state, "user_id", None)
@@ -294,7 +294,7 @@ class RateLimitMiddleware:
         return response
 
     @staticmethod
-    def _build_headers(limit: Any, remaining: Any, reset: Any) -> Dict[str, str]:
+    def _build_headers(limit: Any, remaining: Any, reset: Any) -> dict[str, str]:
         return {
             "X-RateLimit-Limit": str(limit),
             "X-RateLimit-Remaining": str(remaining),

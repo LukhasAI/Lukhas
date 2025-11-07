@@ -476,7 +476,7 @@ def _record_stage_error(
 
 
 @contextmanager
-def stage_span(stage: str, attrs: Optional[Dict[str, Any]] = None):
+def stage_span(stage: str, attrs: Optional[dict[str, Any]] = None):
     """
     Simple stage span helper for basic tracing.
 
@@ -503,7 +503,7 @@ def stage_span(stage: str, attrs: Optional[Dict[str, Any]] = None):
         yield sp
 
 
-def get_instrumentation_status() -> Dict[str, Any]:
+def get_instrumentation_status() -> dict[str, Any]:
     """Get current instrumentation status and configuration"""
     return {
         "otel_available": OTEL_AVAILABLE,

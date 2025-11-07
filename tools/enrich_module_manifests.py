@@ -12,18 +12,18 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 
-def load_json(path: Path) -> Dict[str, Any]:
+def load_json(path: Path) -> dict[str, Any]:
     """Load JSON file safely"""
     with open(path, encoding='utf-8') as f:
         return json.load(f)
 
-def save_json(path: Path, data: Dict[str, Any]) -> None:
+def save_json(path: Path, data: dict[str, Any]) -> None:
     """Save JSON file with formatting"""
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, sort_keys=False)
         f.write('\n')
 
-def detect_module_entrypoints(module_dir: Path) -> List[str]:
+def detect_module_entrypoints(module_dir: Path) -> list[str]:
     """Detect actual Python entrypoints in module"""
     entrypoints = []
 
@@ -57,7 +57,7 @@ def detect_module_entrypoints(module_dir: Path) -> List[str]:
 
     return entrypoints
 
-def extract_rich_description(module_name: str, legacy_data: Dict[str, Any]) -> str:
+def extract_rich_description(module_name: str, legacy_data: dict[str, Any]) -> str:
     """Extract rich description from legacy metadata"""
 
     # Domain-specific descriptions based on module name and legacy data
@@ -87,7 +87,7 @@ def extract_rich_description(module_name: str, legacy_data: Dict[str, Any]) -> s
     # Return domain-specific description or fallback
     return domain_descriptions.get(module_name, f"LUKHAS {module_name} module providing specialized functionality within the consciousness-driven AGI architecture.")
 
-def extract_rich_tags(module_name: str, legacy_data: Dict[str, Any]) -> List[str]:
+def extract_rich_tags(module_name: str, legacy_data: dict[str, Any]) -> list[str]:
     """Extract meaningful tags from module name and legacy data"""
 
     # Base tags from module name patterns
@@ -131,7 +131,7 @@ def extract_rich_tags(module_name: str, legacy_data: Dict[str, Any]) -> List[str
 
     return list(set(tags))  # Remove duplicates
 
-def extract_dependencies(module_name: str, legacy_data: Dict[str, Any]) -> List[str]:
+def extract_dependencies(module_name: str, legacy_data: dict[str, Any]) -> list[str]:
     """Extract module dependencies from legacy data"""
     dependencies = []
 
@@ -166,7 +166,7 @@ def extract_dependencies(module_name: str, legacy_data: Dict[str, Any]) -> List[
 
     return list(set(dependencies))
 
-def extract_observability_spans(module_name: str, legacy_data: Dict[str, Any]) -> List[str]:
+def extract_observability_spans(module_name: str, legacy_data: dict[str, Any]) -> list[str]:
     """Extract required observability spans for module"""
 
     # Default spans by module type
@@ -183,7 +183,7 @@ def extract_observability_spans(module_name: str, legacy_data: Dict[str, Any]) -
 
     return span_patterns.get(module_name, [f"lukhas.{module_name}.operation"])
 
-def determine_team_ownership(module_name: str, legacy_data: Dict[str, Any]) -> Dict[str, Any]:
+def determine_team_ownership(module_name: str, legacy_data: dict[str, Any]) -> dict[str, Any]:
     """Determine appropriate team ownership"""
 
     # Team assignments based on domain

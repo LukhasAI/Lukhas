@@ -31,7 +31,7 @@ class IdentityBiometricData:
     confidence_score: float = 0.0
     behavioral_coherence: float = 0.0
     consciousness_frequency: float = 0.0
-    brainwave_pattern: Dict[str, float] = field(default_factory=dict)
+    brainwave_pattern: dict[str, float] = field(default_factory=dict)
 
 
 @dataclass
@@ -40,7 +40,7 @@ class NamespaceIsolationData:
 
     namespace_id: str = ""
     isolation_level: float = 1.0
-    permissions: List[str] = field(default_factory=list)
+    permissions: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -63,7 +63,7 @@ class _IdentitySignal:
     validation_passed: bool
     signal_integrity_hash: str
     bio_symbolic_data: IdentityBiometricData | None = None
-    constellation_compliance: Dict[str, Any] | None = None
+    constellation_compliance: dict[str, Any] | None = None
 
 
 class MatrizConsciousnessIdentitySignalEmitter:
@@ -72,8 +72,8 @@ class MatrizConsciousnessIdentitySignalEmitter:
     def __init__(self) -> None:
         self.signal_factory = object()  # Truthy sentinel for tests
         self._lock = asyncio.Lock()
-        self._emitted_signals: List[_IdentitySignal] = []
-        self._constitutional_signals: List[tuple[str, ConstitutionalComplianceData, dict[str, Any]]] = []
+        self._emitted_signals: list[_IdentitySignal] = []
+        self._constitutional_signals: list[tuple[str, ConstitutionalComplianceData, dict[str, Any]]] = []
         self._metrics = {
             "signals_emitted": 0,
             "authentication_signals": 0,
@@ -147,7 +147,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                 "emitted_signals_count": len(self._emitted_signals),
             }
 
-    async def get_constitutional_signals(self) -> List[tuple[str, ConstitutionalComplianceData, dict[str, Any]]]:
+    async def get_constitutional_signals(self) -> list[tuple[str, ConstitutionalComplianceData, dict[str, Any]]]:
         async with self._lock:
             return list(self._constitutional_signals)
 

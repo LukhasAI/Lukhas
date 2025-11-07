@@ -266,7 +266,7 @@ class TestCognitiveEventInstrumentation:
     def test_cognitive_event_decorator_with_event_data(self):
         """Test cognitive event decoration with event data extraction"""
         @instrument_cognitive_event("process_matriz_event", slo_target_ms=100.0)
-        def process_event(event: Dict[str, Any]):
+        def process_event(event: dict[str, Any]):
             # Simulate MATRIZ event processing
             stage = event.get('node_type', 'unknown').lower()
             node_id = event.get('id', 'unknown')

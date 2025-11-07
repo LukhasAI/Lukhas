@@ -13,11 +13,11 @@ from typing import Any, Dict, Optional, Protocol
 class StagePlugin(Protocol):
     """Protocol for stage plugins."""
 
-    async def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process input data and return output."""
         ...
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Optional health check method."""
         ...
 
@@ -26,7 +26,7 @@ class StagePlugin(Protocol):
 class StageResult:
     """Result of stage execution."""
     success: bool
-    output: Optional[Dict[str, Any]]
+    output: Optional[dict[str, Any]]
     processing_time: float
     error: Optional[Exception] = None
 
@@ -75,7 +75,7 @@ class BaseStagePlugin:
         self.last_input = None
         self.last_output = None
 
-    async def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Default process implementation."""
         self.call_count += 1
         self.last_input = input_data
@@ -92,7 +92,7 @@ class BaseStagePlugin:
         self.last_output = output
         return output
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Default health check implementation."""
         return {
             "plugin_name": self.name,

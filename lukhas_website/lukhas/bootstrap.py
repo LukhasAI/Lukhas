@@ -48,7 +48,7 @@ def init_tracing(service_name: str = "lukhas-matriz"):
 init_tracing()
 
 
-def initialize_lukhas_services() -> Dict[str, Any]:
+def initialize_lukhas_services() -> dict[str, Any]:
     """
     Initialize all LUKHAS core services.
 
@@ -131,7 +131,7 @@ def initialize_lukhas_services() -> Dict[str, Any]:
     return initialization_results
 
 
-def validate_per_stage_spans() -> Dict[str, Any]:
+def validate_per_stage_spans() -> dict[str, Any]:
     """
     Test that per-stage OTEL spans are working.
 

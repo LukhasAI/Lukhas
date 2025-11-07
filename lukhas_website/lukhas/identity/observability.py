@@ -375,7 +375,7 @@ class OpenTelemetryTracer:
         ) as span:
             yield span
 
-    def add_span_event(self, span: Any, name: str, attributes: Dict[str, Any]):
+    def add_span_event(self, span: Any, name: str, attributes: dict[str, Any]):
         """Add event to current span."""
         if span and hasattr(span, 'add_event'):
             span.add_event(name, attributes)
@@ -434,7 +434,7 @@ class StructuredLogger:
         action: str,
         ip_address: str,
         description: str,
-        indicators: List[str],
+        indicators: list[str],
         correlation_id: str = ""
     ):
         """Log security event."""
@@ -482,7 +482,7 @@ class StructuredLogger:
         action: str,
         success: bool,
         duration_ms: float,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         correlation_id: str = ""
     ):
         """Log Guardian system validation."""
@@ -655,12 +655,12 @@ class ObservabilityManager:
                 self.tracer.set_span_status(span, False, str(e))
                 raise
 
-    def record_guardian_validation(self, action: str, success: bool, duration_ms: float, context: Dict[str, Any], correlation_id: str = ""):
+    def record_guardian_validation(self, action: str, success: bool, duration_ms: float, context: dict[str, Any], correlation_id: str = ""):
         """Record Guardian system validation."""
         self.metrics.record_guardian_validation(action, success)
         self.logger.log_guardian_validation(action, success, duration_ms, context, correlation_id)
 
-    def record_security_event(self, event_type: str, threat_level: str, action: str, ip_address: str, description: str, indicators: List[str], correlation_id: str = ""):
+    def record_security_event(self, event_type: str, threat_level: str, action: str, ip_address: str, description: str, indicators: list[str], correlation_id: str = ""):
         """Record security event."""
         self.metrics.record_security_event(event_type, threat_level, action)
         self.logger.log_security_event(event_type, threat_level, action, ip_address, description, indicators, correlation_id)
@@ -677,7 +677,7 @@ class ObservabilityManager:
         """Update active sessions count."""
         self.metrics.update_active_sessions(count)
 
-    def get_performance_summary(self) -> Dict[str, Any]:
+    def get_performance_summary(self) -> dict[str, Any]:
         """Get performance summary for monitoring."""
         summary = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -729,7 +729,7 @@ class ObservabilityManager:
         """Get Prometheus metrics for export."""
         return self.metrics.get_metrics()
 
-    def get_health_status(self) -> Dict[str, Any]:
+    def get_health_status(self) -> dict[str, Any]:
         """Get health status for monitoring."""
         return {
             "status": "healthy",

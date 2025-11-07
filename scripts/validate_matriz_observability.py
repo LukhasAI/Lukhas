@@ -118,7 +118,7 @@ class MatrizObservabilityValidator:
         try:
             # Test 1: Memory stage instrumentation
             @instrument_cognitive_stage("memory", node_id="memory_test", slo_target_ms=50.0)
-            def test_memory_stage(query: str) -> Dict[str, Any]:
+            def test_memory_stage(query: str) -> dict[str, Any]:
                 time.sleep(0.02)  # Simulate memory retrieval
                 return {
                     "memories": ["memory1", "memory2"],
@@ -134,7 +134,7 @@ class MatrizObservabilityValidator:
 
             # Test 2: Attention stage instrumentation
             @instrument_cognitive_stage("attention", node_id="attention_test", slo_target_ms=30.0)
-            def test_attention_stage(inputs: List[str]) -> Dict[str, Any]:
+            def test_attention_stage(inputs: list[str]) -> dict[str, Any]:
                 time.sleep(0.015)  # Simulate attention processing
                 return {
                     "focused_input": inputs[0] if inputs else None,
@@ -150,7 +150,7 @@ class MatrizObservabilityValidator:
 
             # Test 3: Thought stage instrumentation
             @instrument_cognitive_stage("thought", node_id="thought_test", slo_target_ms=100.0)
-            def test_thought_stage(problem: str) -> Dict[str, Any]:
+            def test_thought_stage(problem: str) -> dict[str, Any]:
                 time.sleep(0.05)  # Simulate reasoning
                 return {
                     "solution": "42",
@@ -167,7 +167,7 @@ class MatrizObservabilityValidator:
 
             # Test 4: Decision stage instrumentation
             @instrument_cognitive_stage("decision", node_id="decision_test", slo_target_ms=40.0)
-            def test_decision_stage(options: List[str]) -> Dict[str, Any]:
+            def test_decision_stage(options: list[str]) -> dict[str, Any]:
                 time.sleep(0.025)  # Simulate decision making
                 return {
                     "chosen_option": options[0],
@@ -183,7 +183,7 @@ class MatrizObservabilityValidator:
 
             # Test 5: Async instrumentation
             @instrument_cognitive_stage("action", node_id="async_test", slo_target_ms=75.0)
-            async def test_async_stage(action: str) -> Dict[str, Any]:
+            async def test_async_stage(action: str) -> dict[str, Any]:
                 await asyncio.sleep(0.03)  # Simulate async action
                 return {
                     "action_taken": action,
@@ -390,7 +390,7 @@ class MatrizObservabilityValidator:
 
         try:
             @instrument_cognitive_event("process_matriz_event", slo_target_ms=100.0)
-            def mock_process_matriz_event(event: Dict[str, Any]) -> Dict[str, Any]:
+            def mock_process_matriz_event(event: dict[str, Any]) -> dict[str, Any]:
                 # Simulate MATRIZ event processing
                 stage = event.get('node_type', 'unknown').lower()
                 node_id = event.get('id', 'unknown')
@@ -430,7 +430,7 @@ class MatrizObservabilityValidator:
             self.log(f"✗ Cognitive event validation failed: {e}", "error")
             return False
 
-    async def run_full_validation(self) -> Dict[str, Any]:
+    async def run_full_validation(self) -> dict[str, Any]:
         """Run complete validation suite"""
         self.log("🧠 Starting MATRIZ Cognitive Pipeline Observability Validation")
         self.log("=" * 60)

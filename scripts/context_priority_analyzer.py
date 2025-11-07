@@ -178,7 +178,7 @@ class ContextPriorityAnalyzer:
         else:
             return "LOW"
 
-    def create_update_sequence(self, batches: Dict) -> List[Dict]:
+    def create_update_sequence(self, batches: Dict) -> list[Dict]:
         """Create recommended update sequence"""
         sequence = []
 

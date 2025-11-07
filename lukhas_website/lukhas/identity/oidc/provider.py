@@ -62,7 +62,7 @@ class AuthorizationRequest:
     max_age: int | None = None
 
     @classmethod
-    def from_query_params(cls, params: Dict[str, str]) -> AuthorizationRequest:
+    def from_query_params(cls, params: dict[str, str]) -> AuthorizationRequest:
         """Create from URL query parameters."""
         return cls(
             response_type=params.get("response_type", ""),
@@ -77,7 +77,7 @@ class AuthorizationRequest:
             max_age=int(params["max_age"]) if params.get("max_age") else None
         )
 
-    def validate(self) -> List[str]:
+    def validate(self) -> list[str]:
         """Validate authorization request parameters."""
         errors = []
 
@@ -117,7 +117,7 @@ class TokenRequest:
     client_secret: str | None = None
 
     @classmethod
-    def from_form_data(cls, data: Dict[str, str]) -> TokenRequest:
+    def from_form_data(cls, data: dict[str, str]) -> TokenRequest:
         """Create from form data."""
         return cls(
             grant_type=data.get("grant_type", ""),
@@ -129,7 +129,7 @@ class TokenRequest:
             client_secret=data.get("client_secret")
         )
 
-    def validate(self) -> List[str]:
+    def validate(self) -> list[str]:
         """Validate token request parameters."""
         errors = []
 
@@ -182,7 +182,7 @@ class OIDCProvider:
 
     # Discovery and JWKS endpoints
 
-    def get_discovery_document(self) -> Dict[str, Any]:
+    def get_discovery_document(self) -> dict[str, Any]:
         """Get OpenID Connect Discovery document."""
         with tracer.start_span("oidc.discovery") as span:
             with oidc_request_latency.labels(endpoint="discovery").time():
@@ -197,7 +197,7 @@ class OIDCProvider:
                 span.set_attribute("oidc.issuer", self.issuer)
                 return document.to_dict()
 
-    def get_jwks(self) -> Dict[str, Any]:
+    def get_jwks(self) -> dict[str, Any]:
         """Get JSON Web Key Set."""
         with tracer.start_span("oidc.jwks") as span:
             with oidc_request_latency.labels(endpoint="jwks").time():
@@ -215,10 +215,10 @@ class OIDCProvider:
     # Authorization endpoint
 
     def handle_authorization_request(self,
-                                   params: Dict[str, str],
+                                   params: dict[str, str],
                                    user_authenticated: bool = False,
                                    user_id: str | None = None,
-                                   authentication_tier: str | None = None) -> Dict[str, Any]:
+                                   authentication_tier: str | None = None) -> dict[str, Any]:
         """
         Handle OAuth2 authorization request.
 
@@ -369,7 +369,7 @@ class OIDCProvider:
 
     # Token endpoint
 
-    def handle_token_request(self, form_data: Dict[str, str]) -> Dict[str, Any]:
+    def handle_token_request(self, form_data: dict[str, str]) -> dict[str, Any]:
         """
         Handle OAuth2 token request.
 
@@ -437,7 +437,7 @@ class OIDCProvider:
     def _handle_authorization_code_grant(self,
                                        token_request: TokenRequest,
                                        client: OIDCClient,
-                                       span) -> Dict[str, Any]:
+                                       span) -> dict[str, Any]:
         """Handle authorization code grant flow."""
         try:
             # Exchange authorization code for tokens
@@ -476,7 +476,7 @@ class OIDCProvider:
     def _handle_refresh_token_grant(self,
                                   token_request: TokenRequest,
                                   client: OIDCClient,
-                                  span) -> Dict[str, Any]:
+                                  span) -> dict[str, Any]:
         """Handle refresh token grant flow."""
         try:
             # Refresh tokens
@@ -508,7 +508,7 @@ class OIDCProvider:
 
     # UserInfo endpoint
 
-    def handle_userinfo_request(self, access_token: str) -> Dict[str, Any]:
+    def handle_userinfo_request(self, access_token: str) -> dict[str, Any]:
         """Handle OpenID Connect UserInfo request."""
         with tracer.start_span("oidc.userinfo") as span:
             with oidc_request_latency.labels(endpoint="userinfo").time():
@@ -570,7 +570,7 @@ class OIDCProvider:
         sensitive_scopes = {"lukhas:admin", "lukhas:tier"}
         return bool(scopes.intersection(sensitive_scopes))
 
-    def _error_response(self, error: str, description: str, state: str | None = None) -> Dict[str, Any]:
+    def _error_response(self, error: str, description: str, state: str | None = None) -> dict[str, Any]:
         """Create error response for direct errors."""
         response = {
             "error": error,
@@ -584,7 +584,7 @@ class OIDCProvider:
                                 redirect_uri: str,
                                 error: str,
                                 description: str,
-                                state: str | None = None) -> Dict[str, Any]:
+                                state: str | None = None) -> dict[str, Any]:
         """Create redirect error response."""
         error_params = {
             "error": error,
@@ -601,7 +601,7 @@ class OIDCProvider:
             "error": error
         }
 
-    def _token_error_response(self, error: str, description: str) -> Dict[str, Any]:
+    def _token_error_response(self, error: str, description: str) -> dict[str, Any]:
         """Create token endpoint error response."""
         return {
             "error": error,

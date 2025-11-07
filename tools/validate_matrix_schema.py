@@ -17,11 +17,11 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTRACTS_DIR = ROOT / "contracts"
 SCHEMA_FILE = ROOT / "matrix.schema.template.json"
 
-def load_schema() -> Dict[str, Any]:
+def load_schema() -> dict[str, Any]:
     """Load the Matrix contract schema."""
     return json.loads(SCHEMA_FILE.read_text())
 
-def validate_contract(contract_path: Path, schema: Dict[str, Any]) -> Tuple[bool, List[str]]:
+def validate_contract(contract_path: Path, schema: dict[str, Any]) -> tuple[bool, list[str]]:
     """Validate a contract against the schema."""
     errors = []
 

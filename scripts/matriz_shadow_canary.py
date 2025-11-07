@@ -160,7 +160,7 @@ class MATRIZShadowCanary:
         # Data storage
         self.shadow_decisions: deque = deque(maxlen=10000)  # Store recent decisions
         self.error_history: deque = deque(maxlen=1000)  # Store recent errors
-        self.alerts_sent: List[Dict[str, Any]] = []
+        self.alerts_sent: list[dict[str, Any]] = []
 
         # Circuit breaker state
         self.circuit_breaker_triggered = False
@@ -178,7 +178,7 @@ class MATRIZShadowCanary:
 
         return random.random() * 100 < self.config.traffic_percentage
 
-    async def simulate_baseline_decision(self, request_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def simulate_baseline_decision(self, request_data: dict[str, Any]) -> dict[str, Any]:
         """Simulate baseline (production) decision processing."""
         # Simulate baseline processing time and decision
         baseline_time = random.uniform(50, 150)  # 50-150ms baseline
@@ -192,7 +192,7 @@ class MATRIZShadowCanary:
             "success": True
         }
 
-    async def simulate_matriz_decision(self, request_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def simulate_matriz_decision(self, request_data: dict[str, Any]) -> dict[str, Any]:
         """Simulate MATRIZ shadow decision processing."""
         try:
             # Simulate MATRIZ processing with potential variation
@@ -230,7 +230,7 @@ class MATRIZShadowCanary:
                 "error": str(e)
             }
 
-    async def process_shadow_request(self, request_data: Dict[str, Any]) -> ShadowDecision:
+    async def process_shadow_request(self, request_data: dict[str, Any]) -> ShadowDecision:
         """Process request through both baseline and MATRIZ shadow."""
         request_id = str(uuid.uuid4())
         timestamp = time.time()
@@ -503,7 +503,7 @@ class MATRIZShadowCanary:
 
         logger.info(f"Traffic simulation completed: {request_count} total requests")
 
-    def generate_deployment_report(self) -> Dict[str, Any]:
+    def generate_deployment_report(self) -> dict[str, Any]:
         """Generate comprehensive canary deployment report."""
         current_time = time.time()
 
@@ -556,7 +556,7 @@ class MATRIZShadowCanary:
             not any(alert["alert_triggered"] for alert in self.burn_rate_alerts.values())
         )
 
-    def generate_deployment_recommendations(self) -> List[str]:
+    def generate_deployment_recommendations(self) -> list[str]:
         """Generate deployment recommendations based on canary results."""
         recommendations = []
 

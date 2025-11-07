@@ -94,7 +94,7 @@ class IntegrityProbe:
         self.prev_state = {}
         self.curr_state = {}
 
-    def run_consistency_check(self, state: Optional[Dict[str, Any]] = None) -> bool:
+    def run_consistency_check(self, state: Optional[dict[str, Any]] = None) -> bool:
         """
         Runs a consistency check on the symbolic core.
 

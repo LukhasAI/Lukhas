@@ -53,8 +53,8 @@ class DashboardValidator:
                  grafana_url: str = "http://localhost:3000"):
         self.dashboard_dir = Path(dashboard_dir)
         self.grafana_url = grafana_url
-        self.validation_errors: List[str] = []
-        self.validation_warnings: List[str] = []
+        self.validation_errors: list[str] = []
+        self.validation_warnings: list[str] = []
 
     def validate_dashboard_structure(self, dashboard_path: Path) -> bool:
         """Validate dashboard JSON structure and required fields"""
@@ -87,7 +87,7 @@ class DashboardValidator:
 
         return self._validate_panels(dashboard_path.name, panels)
 
-    def _validate_panels(self, dashboard_name: str, panels: List[Dict]) -> bool:
+    def _validate_panels(self, dashboard_name: str, panels: list[Dict]) -> bool:
         """Validate individual dashboard panels"""
         valid = True
 

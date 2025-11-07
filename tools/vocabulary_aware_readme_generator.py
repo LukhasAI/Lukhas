@@ -82,7 +82,7 @@ class ModuleVocabularyLoader:
 
         return None
 
-    def get_available_modules(self) -> List[str]:
+    def get_available_modules(self) -> list[str]:
         """Get list of modules with available vocabularies."""
         return list(self.vocabularies.keys())
 
@@ -122,7 +122,7 @@ class VocabularyAwareContentGenerator:
 
         return opening
 
-    def _extract_poetic_elements(self, vocab: Dict) -> List[Dict]:
+    def _extract_poetic_elements(self, vocab: Dict) -> list[Dict]:
         """Extract poetic elements from vocabulary structure."""
         elements = []
 

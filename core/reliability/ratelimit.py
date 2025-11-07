@@ -44,7 +44,7 @@ class TokenBucket:
         self.last_refill = time.time()
         self.lock = Lock()
 
-    def consume(self, tokens: int = 1) -> Tuple[bool, float]:
+    def consume(self, tokens: int = 1) -> tuple[bool, float]:
         """
         Try to consume tokens.
 
@@ -86,7 +86,7 @@ class RateLimiter:
             default_rps: Default requests per second for endpoints
         """
         self.default_rps = default_rps
-        self.buckets: Dict[str, TokenBucket] = defaultdict(
+        self.buckets: dict[str, TokenBucket] = defaultdict(
             lambda: TokenBucket(capacity=default_rps * 2, refill_rate=default_rps)
         )
         self.lock = Lock()
@@ -165,7 +165,7 @@ class RateLimiter:
                 refill_rate=rps,
             )
 
-    def check_limit(self, request) -> Tuple[bool, float]:
+    def check_limit(self, request) -> tuple[bool, float]:
         """
         Check if request is within rate limit.
 
@@ -207,7 +207,7 @@ class RateLimiter:
         except Exception:
             return "anonymous"
 
-    def _ensure_bucket(self, key: str) -> Dict[str, Any]:
+    def _ensure_bucket(self, key: str) -> dict[str, Any]:
         """
         Ensure a bucket record exists for key.
         Expected shape: {"tokens": float, "ts": float, "capacity": int, "refill_rate": float}
@@ -232,7 +232,7 @@ class RateLimiter:
             "refill_rate": bucket.refill_rate,
         }
 
-    def _refilled(self, b: Dict[str, Any]) -> None:
+    def _refilled(self, b: dict[str, Any]) -> None:
         """
         Update bucket dict with passive refill (for window calculations).
 
@@ -244,7 +244,7 @@ class RateLimiter:
         b["tokens"] = min(b["capacity"], b["tokens"] + b["refill_rate"] * elapsed)
         b["ts"] = now
 
-    def current_window(self, key: str) -> Dict[str, float]:
+    def current_window(self, key: str) -> dict[str, float]:
         """
         Returns the current 'window' snapshot for OpenAI-style headers.
         Token-bucket doesn't have hard windows, so we report:
@@ -279,7 +279,7 @@ class RateLimiter:
         tokens_limit: int = 0,
         tokens_remaining: int = 0,
         tokens_reset: float = 0.0,
-    ) -> Dict[str, str]:
+    ) -> dict[str, str]:
         """
         OpenAI-aligned header set. Requests-dimension always present.
         Tokens-* are optional placeholders unless you wire in token

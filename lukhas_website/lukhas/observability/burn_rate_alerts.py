@@ -57,7 +57,7 @@ class BurnRateThreshold:
     window: BurnRateWindow
     threshold: float  # Burn rate multiplier (e.g., 2.0 = 2x normal)
     alert_severity: AlertSeverity
-    notification_channels: List[str] = field(default_factory=list)
+    notification_channels: list[str] = field(default_factory=list)
     cooldown_minutes: int = 15  # Minimum time between same alerts
 
 
@@ -84,7 +84,7 @@ class BurnRateAlert:
     severity: AlertSeverity
     timestamp: datetime
     message: str
-    details: Dict[str, Any] = field(default_factory=dict)
+    details: dict[str, Any] = field(default_factory=dict)
     acknowledged: bool = False
     resolved: bool = False
 
@@ -203,15 +203,15 @@ class BurnRateAlertManager:
     """
 
     def __init__(self):
-        self.slos: Dict[str, SLODefinition] = {}
+        self.slos: dict[str, SLODefinition] = {}
         self.calculator = BurnRateCalculator()
-        self.active_alerts: Dict[str, BurnRateAlert] = {}
+        self.active_alerts: dict[str, BurnRateAlert] = {}
         self.alert_history: deque = deque(maxlen=1000)
-        self.notification_handlers: Dict[str, Callable] = {}
-        self.last_alert_times: Dict[str, datetime] = {}
+        self.notification_handlers: dict[str, Callable] = {}
+        self.last_alert_times: dict[str, datetime] = {}
 
         # Metrics storage (would integrate with actual metrics backend)
-        self.metrics_data: Dict[str, deque] = {}
+        self.metrics_data: dict[str, deque] = {}
 
         logger.info("BurnRateAlertManager initialized")
 
@@ -227,7 +227,7 @@ class BurnRateAlertManager:
         logger.info(f"Registered notification handler: {channel}")
 
     async def evaluate_burn_rates(self,
-                                metrics: Dict[str, Dict[str, Any]]) -> List[BurnRateCalculation]:
+                                metrics: dict[str, dict[str, Any]]) -> list[BurnRateCalculation]:
         """Evaluate burn rates for all registered SLOs"""
         calculations = []
 
@@ -357,7 +357,7 @@ class BurnRateAlertManager:
                 except Exception as e:
                     logger.error(f"Notification failed for channel {channel}: {e}")
 
-    def get_active_alerts(self) -> List[BurnRateAlert]:
+    def get_active_alerts(self) -> list[BurnRateAlert]:
         """Get all active alerts"""
         return list(self.active_alerts.values())
 
@@ -379,7 +379,7 @@ class BurnRateAlertManager:
             return True
         return False
 
-    def get_slo_status_dashboard(self) -> Dict[str, Any]:
+    def get_slo_status_dashboard(self) -> dict[str, Any]:
         """Get SLO status dashboard data"""
         dashboard = {
             'timestamp': datetime.now(timezone.utc).isoformat(),
@@ -422,7 +422,7 @@ class CIPipelineIntegration:
     def __init__(self, alert_manager: BurnRateAlertManager):
         self.alert_manager = alert_manager
 
-    def check_deployment_safety(self, service: str) -> Tuple[bool, str, Dict[str, Any]]:
+    def check_deployment_safety(self, service: str) -> tuple[bool, str, dict[str, Any]]:
         """
         Check if it's safe to deploy based on current burn rates.
 
@@ -483,7 +483,7 @@ class CIPipelineIntegration:
             'recommendation': 'Safe to deploy'
         }
 
-    def generate_deployment_report(self, service: str) -> Dict[str, Any]:
+    def generate_deployment_report(self, service: str) -> dict[str, Any]:
         """Generate deployment safety report"""
         is_safe, reason, details = self.check_deployment_safety(service)
 
@@ -532,7 +532,7 @@ async def pagerduty_burn_rate_notification(alert: BurnRateAlert):
         logger.warning(f"PagerDuty incident: {incident}")
 
 
-def create_lukhas_slos() -> List[SLODefinition]:
+def create_lukhas_slos() -> list[SLODefinition]:
     """Create standard LUKHAS SLOs"""
     return [
         SLODefinition(

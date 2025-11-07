@@ -33,7 +33,7 @@ class AuthzTestRunner:
         if self.verbose:
             print(f"🔍 {message}")
 
-    def load_test_matrix(self, matrix_path: Path) -> Dict[str, Any]:
+    def load_test_matrix(self, matrix_path: Path) -> dict[str, Any]:
         """Load authorization test matrix from YAML or JSON file."""
         try:
             with open(matrix_path) as f:
@@ -44,7 +44,7 @@ class AuthzTestRunner:
         except Exception as e:
             raise ValueError(f"Could not load test matrix {matrix_path}: {e}")
 
-    def load_contract(self, module: str) -> Dict[str, Any]:
+    def load_contract(self, module: str) -> dict[str, Any]:
         """Load Matrix contract for module."""
         # Try multiple contract locations
         contract_paths = [
@@ -60,7 +60,7 @@ class AuthzTestRunner:
 
         raise FileNotFoundError(f"No contract found for module: {module}")
 
-    async def run_opa_test(self, test_input: Dict[str, Any]) -> Tuple[bool, str]:
+    async def run_opa_test(self, test_input: dict[str, Any]) -> tuple[bool, str]:
         """Run single test case against OPA policy."""
         try:
             # Create temporary input file
@@ -103,7 +103,7 @@ class AuthzTestRunner:
         except Exception as e:
             return False, f"Test error: {e}"
 
-    def _simulate_policy_decision(self, opa_input: Dict[str, Any]) -> Tuple[bool, str]:
+    def _simulate_policy_decision(self, opa_input: dict[str, Any]) -> tuple[bool, str]:
         """Simulate policy decision when OPA unavailable."""
         try:
             from matrix_authz_middleware import MatrixAuthzMiddleware
@@ -115,9 +115,9 @@ class AuthzTestRunner:
 
     def build_opa_input(
         self,
-        test_case: Dict[str, Any],
-        contract: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        test_case: dict[str, Any],
+        contract: dict[str, Any]
+    ) -> dict[str, Any]:
         """Build OPA input from test case and contract."""
         test_input = test_case["input"]
 
@@ -149,9 +149,9 @@ class AuthzTestRunner:
 
     async def run_test_case(
         self,
-        test_case: Dict[str, Any],
-        contract: Dict[str, Any]
-    ) -> Tuple[bool, str]:
+        test_case: dict[str, Any],
+        contract: dict[str, Any]
+    ) -> tuple[bool, str]:
         """Run single test case."""
         test_name = test_case["name"]
         expected = test_case["expected"]
@@ -183,7 +183,7 @@ class AuthzTestRunner:
             print(f"     Actual: {actual} ({decision_reason})")
             return False, decision_reason
 
-    async def run_matrix(self, matrix_path: Path) -> Tuple[int, int]:
+    async def run_matrix(self, matrix_path: Path) -> tuple[int, int]:
         """Run complete authorization test matrix."""
         print(f"🧪 Running authorization test matrix: {matrix_path}")
 

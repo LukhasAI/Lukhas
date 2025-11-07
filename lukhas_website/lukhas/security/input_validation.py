@@ -64,15 +64,15 @@ class ValidationResult:
     """Result of input validation with detailed diagnostics."""
     is_valid: bool
     severity: ValidationSeverity
-    attack_vectors: List[AttackVector] = field(default_factory=list)
+    attack_vectors: list[AttackVector] = field(default_factory=list)
     sanitized_value: Any | None = None
-    warnings: List[str] = field(default_factory=list)
-    errors: List[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
     processing_time_ms: float = 0.0
     confidence_score: float = 0.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert result to dictionary for logging/API responses."""
         return {
             "is_valid": self.is_valid,
@@ -150,9 +150,9 @@ class InputValidator:
 
     def validate(self,
                  value: Any,
-                 context: Dict[str, Any] | None = None,
+                 context: dict[str, Any] | None = None,
                  expected_type: type | None = None,
-                 custom_validators: List[Callable] | None = None) -> ValidationResult:
+                 custom_validators: list[Callable] | None = None) -> ValidationResult:
         """
         Comprehensive input validation with multi-layer checks.
 
@@ -333,7 +333,7 @@ class InputValidator:
                 result.severity = ValidationSeverity.DANGER
                 result.is_valid = False
 
-    def _run_custom_validators(self, value: Any, result: ValidationResult, validators: List[Callable]):
+    def _run_custom_validators(self, value: Any, result: ValidationResult, validators: list[Callable]):
         """Run custom validation functions."""
         for validator in validators:
             try:
@@ -353,7 +353,7 @@ class InputValidator:
                 logger.exception(f"Custom validator error: {e}")
                 result.errors.append(f"Custom validator error: {validator.__name__}")
 
-    def _guardian_validation(self, value: Any, result: ValidationResult, context: Dict[str, Any] | None):
+    def _guardian_validation(self, value: Any, result: ValidationResult, context: dict[str, Any] | None):
         """Integrate with Guardian system for high-risk inputs."""
         try:
             # Mock Guardian integration - would be replaced with actual Guardian calls
@@ -458,7 +458,7 @@ class AIInputValidator(InputValidator):
             ]
         }
 
-    def validate_ai_input(self, prompt: str, context: Dict[str, Any] | None = None) -> ValidationResult:
+    def validate_ai_input(self, prompt: str, context: dict[str, Any] | None = None) -> ValidationResult:
         """Validate AI input with specialized AI threat detection."""
         result = self.validate(prompt, context, expected_type=str)
 
@@ -558,7 +558,7 @@ class ValidationMetrics:
         if false_positive:
             self.false_positives += 1
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get validation statistics."""
         if self.total_validations == 0:
             return {"no_data": True}

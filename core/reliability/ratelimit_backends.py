@@ -9,7 +9,7 @@ class LimiterBackend(ABC):  # ABC
     """Abstract base class for a rate limiter backend."""
 
     @abstractmethod
-    def allow(self, key: str, rate: float, burst: int) -> Tuple[bool, int, float]:
+    def allow(self, key: str, rate: float, burst: int) -> tuple[bool, int, float]:
         """
         Checks if a request is allowed.
 
@@ -75,7 +75,7 @@ class RedisTokenBucket(LimiterBackend):
         self.r = redis.Redis.from_url(url, decode_responses=True)
         self.script_sha = self.r.script_load(self.LUA_SCRIPT)
 
-    def allow(self, key: str, rate: float, burst: int) -> Tuple[bool, int, float]:
+    def allow(self, key: str, rate: float, burst: int) -> tuple[bool, int, float]:
         now = time.time()
 
         # evalsha is more efficient as the script is pre-loaded

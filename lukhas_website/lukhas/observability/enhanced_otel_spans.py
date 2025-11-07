@@ -86,7 +86,7 @@ class SpanContext:
     request_id: Optional[str] = None
     trace_id: Optional[str] = None
     parent_span_id: Optional[str] = None
-    custom_attributes: Dict[str, Any] = field(default_factory=dict)
+    custom_attributes: dict[str, Any] = field(default_factory=dict)
     performance_target_ms: Optional[float] = None
 
     # Required T4/0.01% observability attributes
@@ -103,8 +103,8 @@ class SpanMetrics:
     duration_ms: float
     success: bool
     error_type: Optional[str] = None
-    resource_usage: Dict[str, float] = field(default_factory=dict)
-    custom_metrics: Dict[str, float] = field(default_factory=dict)
+    resource_usage: dict[str, float] = field(default_factory=dict)
+    custom_metrics: dict[str, float] = field(default_factory=dict)
 
 
 # Context variables for span correlation
@@ -505,7 +505,7 @@ class EnhancedTracer:
             return wrapper
         return decorator
 
-    def get_coverage_metrics(self) -> Dict[str, Any]:
+    def get_coverage_metrics(self) -> dict[str, Any]:
         """Get span coverage metrics"""
         total_spans = self.span_coverage_stats['total_spans']
         successful_spans = self.span_coverage_stats['successful_spans']
@@ -525,7 +525,7 @@ class EnhancedTracer:
             'coverage_compliant': coverage_rate >= 0.95
         }
 
-    def inject_trace_context(self, carrier: Dict[str, str]) -> Dict[str, str]:
+    def inject_trace_context(self, carrier: dict[str, str]) -> dict[str, str]:
         """Inject trace context into carrier for cross-service calls"""
         if not OTEL_AVAILABLE:
             return carrier
@@ -534,7 +534,7 @@ class EnhancedTracer:
         propagator.inject(carrier)
         return carrier
 
-    def extract_trace_context(self, carrier: Dict[str, str]) -> Optional[context.Context]:
+    def extract_trace_context(self, carrier: dict[str, str]) -> Optional[context.Context]:
         """Extract trace context from carrier"""
         if not OTEL_AVAILABLE:
             return None

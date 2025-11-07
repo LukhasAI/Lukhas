@@ -84,7 +84,7 @@ def suggest_owner(doc: Dict) -> str | None:
     return module_teams.get(module, '@docs-team')
 
 
-def generate_issue_markdown(docs: List[Dict]) -> str:
+def generate_issue_markdown(docs: list[Dict]) -> str:
     """Generate GitHub issue markdown for owner assignment."""
     issue = [
         "# Documentation Owner Assignment Queue",

@@ -25,7 +25,7 @@ class ModuleMetrics:
     complexity_score: int
     documentation_score: float
     dependency_count: int
-    performance_profile: Dict[str, any]
+    performance_profile: dict[str, any]
     error_handling_score: float
     security_score: float
     enterprise_readiness_score: float
@@ -37,8 +37,8 @@ class LaneAssignment:
     current_lane: str
     recommended_lane: str
     readiness_score: float
-    promotion_blockers: List[str]
-    promotion_requirements: List[str]
+    promotion_blockers: list[str]
+    promotion_requirements: list[str]
     target_completion_days: int
 
 class LaneAssignmentAuditor:
@@ -54,8 +54,8 @@ class LaneAssignmentAuditor:
 
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path).resolve()
-        self.module_metrics: Dict[str, ModuleMetrics] = {}
-        self.lane_assignments: Dict[str, LaneAssignment] = {}
+        self.module_metrics: dict[str, ModuleMetrics] = {}
+        self.lane_assignments: dict[str, LaneAssignment] = {}
 
         # Lane criteria thresholds
         self.lane_thresholds = {
@@ -74,7 +74,7 @@ class LaneAssignmentAuditor:
             "availability": 0.999
         }
 
-    def audit_codebase(self) -> Dict[str, any]:
+    def audit_codebase(self) -> dict[str, any]:
         """Perform comprehensive codebase audit for lane assignment."""
         print("🔍 Starting comprehensive lane assignment audit...")
 
@@ -111,7 +111,7 @@ class LaneAssignmentAuditor:
 
         return audit_results
 
-    def _discover_modules(self) -> List[str]:
+    def _discover_modules(self) -> list[str]:
         """Discover Python modules in the codebase."""
         modules = []
 
@@ -257,7 +257,7 @@ class LaneAssignmentAuditor:
                 import_count += 1
         return import_count
 
-    def _analyze_performance_profile(self, content: str) -> Dict[str, any]:
+    def _analyze_performance_profile(self, content: str) -> dict[str, any]:
         """Analyze performance characteristics."""
         profile = {
             "async_operations": 'async ' in content,
@@ -414,7 +414,7 @@ class LaneAssignmentAuditor:
         else:
             return "RESEARCH"
 
-    def _generate_summary(self) -> Dict[str, any]:
+    def _generate_summary(self) -> dict[str, any]:
         """Generate audit summary statistics."""
         lane_counts = defaultdict(int)
         readiness_scores = []
@@ -436,7 +436,7 @@ class LaneAssignmentAuditor:
                                    if a.readiness_score > 0.9])
         }
 
-    def _generate_recommendations(self) -> Dict[str, any]:
+    def _generate_recommendations(self) -> dict[str, any]:
         """Generate specific recommendations for improvement."""
         recommendations = {
             "high_priority": [],
@@ -485,7 +485,7 @@ class LaneAssignmentAuditor:
 
         return recommendations
 
-    def _generate_promotion_plan(self) -> Dict[str, any]:
+    def _generate_promotion_plan(self) -> dict[str, any]:
         """Generate systematic promotion plan."""
         promotion_plan = {
             "immediate_promotions": [],
@@ -522,7 +522,7 @@ class LaneAssignmentAuditor:
 
         return promotion_plan
 
-    def save_audit_report(self, audit_results: Dict[str, any], filename: str = "lane_assignment_audit.json"):
+    def save_audit_report(self, audit_results: dict[str, any], filename: str = "lane_assignment_audit.json"):
         """Save audit results to JSON file."""
         with open(filename, 'w') as f:
             json.dump(audit_results, f, indent=2, default=str)

@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import List, Tuple
 
 
-def fix_markdown_links(text: str, old_lane: str, new_lane: str) -> Tuple[str, int]:
+def fix_markdown_links(text: str, old_lane: str, new_lane: str) -> tuple[str, int]:
     """
     Replace old lane path with new in markdown links.
 
@@ -64,7 +64,7 @@ def fix_file(file_path: Path, old_lane: str, new_lane: str, dry_run: bool = Fals
     return changes
 
 
-def find_markdown_files(root: Path, exclude_patterns: List[str] | None = None) -> List[Path]:
+def find_markdown_files(root: Path, exclude_patterns: list[str] | None = None) -> list[Path]:
     """
     Find all markdown files in the repository.
 

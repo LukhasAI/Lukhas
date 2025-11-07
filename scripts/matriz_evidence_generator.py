@@ -60,7 +60,7 @@ class SchemaEvidence:
     schema_hash: str
     validation_valid: bool
     drift_detected: bool
-    breaking_changes: List[str]
+    breaking_changes: list[str]
     required_fields_validated: bool
     enum_compatibility_maintained: bool
     constraint_compliance: bool
@@ -71,7 +71,7 @@ class IntegrationEvidence:
     """Cross-stack integration evidence."""
     flow_name: str
     total_time_ms: float
-    component_timings: Dict[str, float]
+    component_timings: dict[str, float]
     success_rate: float
     jwt_claims_propagated: bool
     guardian_validation_passed: bool
@@ -86,8 +86,8 @@ class ComplianceEvidence:
     compliance_type: str
     compliant: bool
     compliance_score: float
-    requirements_met: List[str]
-    violations: List[str]
+    requirements_met: list[str]
+    violations: list[str]
     audit_timestamp: str
     evidence_hash: str
 
@@ -99,14 +99,14 @@ class MATRIZEvidenceBundle:
     generation_timestamp: str
     git_commit_sha: str
     environment: str
-    performance_evidence: List[PerformanceEvidence]
-    schema_evidence: List[SchemaEvidence]
-    integration_evidence: List[IntegrationEvidence]
-    compliance_evidence: List[ComplianceEvidence]
+    performance_evidence: list[PerformanceEvidence]
+    schema_evidence: list[SchemaEvidence]
+    integration_evidence: list[IntegrationEvidence]
+    compliance_evidence: list[ComplianceEvidence]
     overall_compliance: bool
     t4_excellence_achieved: bool
     matriz_ready: bool
-    recommendations: List[str]
+    recommendations: list[str]
     bundle_signature: Optional[str] = None
 
 
@@ -141,7 +141,7 @@ class MATRIZEvidenceGenerator:
 
         return "unknown"
 
-    def collect_performance_evidence(self) -> List[PerformanceEvidence]:
+    def collect_performance_evidence(self) -> list[PerformanceEvidence]:
         """Collect performance evidence from test artifacts."""
         evidence = []
 
@@ -241,7 +241,7 @@ class MATRIZEvidenceGenerator:
 
         return evidence
 
-    def collect_schema_evidence(self) -> List[SchemaEvidence]:
+    def collect_schema_evidence(self) -> list[SchemaEvidence]:
         """Collect schema validation and drift evidence."""
         evidence = []
 
@@ -285,7 +285,7 @@ class MATRIZEvidenceGenerator:
 
         return evidence
 
-    def collect_integration_evidence(self) -> List[IntegrationEvidence]:
+    def collect_integration_evidence(self) -> list[IntegrationEvidence]:
         """Collect cross-stack integration evidence."""
         evidence = []
 
@@ -337,7 +337,7 @@ class MATRIZEvidenceGenerator:
 
         return evidence
 
-    def collect_compliance_evidence(self) -> List[ComplianceEvidence]:
+    def collect_compliance_evidence(self) -> list[ComplianceEvidence]:
         """Collect T4/0.01% compliance evidence."""
         evidence = []
 
@@ -390,7 +390,7 @@ class MATRIZEvidenceGenerator:
 
         return evidence
 
-    def generate_recommendations(self) -> List[str]:
+    def generate_recommendations(self) -> list[str]:
         """Generate recommendations based on evidence analysis."""
         recommendations = []
 

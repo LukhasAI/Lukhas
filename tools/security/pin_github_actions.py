@@ -29,7 +29,7 @@ ACTION_SHA_MAP = {
 }
 
 
-def find_workflow_files() -> List[Path]:
+def find_workflow_files() -> list[Path]:
     """Find all GitHub workflow files"""
     workflows_dir = Path(".github/workflows")
     if not workflows_dir.exists():
@@ -38,7 +38,7 @@ def find_workflow_files() -> List[Path]:
     return list(workflows_dir.glob("*.yml")) + list(workflows_dir.glob("*.yaml"))
 
 
-def analyze_workflow_file(filepath: Path) -> List[Tuple[str, str, int]]:
+def analyze_workflow_file(filepath: Path) -> list[tuple[str, str, int]]:
     """Analyze a workflow file for action references that need pinning"""
     issues = []
 
@@ -90,7 +90,7 @@ def update_workflow_file(filepath: Path, dry_run: bool = True) -> bool:
     return False
 
 
-def check_workflows() -> Dict[str, List]:
+def check_workflows() -> dict[str, List]:
     """Check all workflows for unpinned actions"""
     print("🔍 Scanning GitHub workflows for unpinned actions...")
 

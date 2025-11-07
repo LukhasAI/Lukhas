@@ -140,7 +140,7 @@ except Exception:
 
 
 # --- Auth & audit helpers ---
-def lookup_api_key(key: str) -> Dict[str, Any | None]:
+def lookup_api_key(key: str) -> dict[str, Any | None]:
     conn = get_conn()
     cur = conn.execute("SELECT * FROM api_keys WHERE key=? AND revoked=0", (key,))
     row = cur.fetchone()

@@ -93,7 +93,7 @@ API_REGISTRY = {
 }
 
 
-def get_available_apis() -> Dict[str, Dict[str, Union[bool, str, Optional[object]]]]:
+def get_available_apis() -> dict[str, dict[str, Union[bool, str, Optional[object]]]]:
     """Get list of available API applications."""
     return {name: info for name, info in API_REGISTRY.items() if info["available"]}
 
@@ -105,7 +105,7 @@ def get_api_app(api_name: str) -> Optional[object]:
     return None
 
 
-def get_api_status() -> Dict[str, Union[str, int, float, Dict[str, Dict[str, Union[bool, str, Optional[object]]]]]]:
+def get_api_status() -> dict[str, Union[str, int, float, dict[str, dict[str, Union[bool, str, Optional[object]]]]]]:
     """Get comprehensive API module status."""
     available_count = sum(1 for api in API_REGISTRY.values() if api["available"])
     total_count = len(API_REGISTRY)

@@ -13,7 +13,7 @@ from typing import Any, Dict, Optional
 from matriz.node_contract import GLYPH
 
 
-def mk_crumb(event: str, glyph: Optional[GLYPH] = None, **kv: Any) -> Dict[str, Any]:
+def mk_crumb(event: str, glyph: Optional[GLYPH] = None, **kv: Any) -> dict[str, Any]:
     """
     Minimal, deterministic trace crumb.
     """

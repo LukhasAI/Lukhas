@@ -137,7 +137,7 @@ class TestGuardianSchemaRegistry:
         assert metrics["total_schemas"] > 0
         assert metrics["cache_hit_rate"] >= 0
 
-    def _create_valid_guardian_decision(self) -> Dict[str, Any]:
+    def _create_valid_guardian_decision(self) -> dict[str, Any]:
         """Create a valid Guardian decision for testing"""
         return {
             "schema_version": "2.0.0",
@@ -222,7 +222,7 @@ class TestSerializationEngine:
         assert metrics["serialization_count"] == 100
         assert metrics["average_serialization_time_ms"] > 0
 
-    def _create_test_guardian_decision(self) -> Dict[str, Any]:
+    def _create_test_guardian_decision(self) -> dict[str, Any]:
         """Create test Guardian decision"""
         return {
             "schema_version": "2.0.0",
@@ -296,7 +296,7 @@ class TestValidationFramework:
         assert result.validation_time_ms < 50  # Should be under 50ms
         assert (end_time - start_time) * 1000 < 100
 
-    def _create_valid_guardian_decision(self) -> Dict[str, Any]:
+    def _create_valid_guardian_decision(self) -> dict[str, Any]:
         """Create valid Guardian decision for testing"""
         return {
             "schema_version": "2.0.0",
@@ -487,7 +487,7 @@ class TestGuardianSerializer:
         assert "performance_optimizer" in status
         assert "integration_health" in status
 
-    def _create_test_decision(self) -> Dict[str, Any]:
+    def _create_test_decision(self) -> dict[str, Any]:
         """Create test Guardian decision"""
         return {
             "schema_version": "2.0.0",
@@ -623,7 +623,7 @@ class TestPerformanceBenchmarks:
 
         tracemalloc.stop()
 
-    def _create_benchmark_decision(self) -> Dict[str, Any]:
+    def _create_benchmark_decision(self) -> dict[str, Any]:
         """Create decision for benchmarking"""
         return {
             "schema_version": "2.0.0",

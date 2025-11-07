@@ -91,7 +91,7 @@ class CreativityEngine:
     T4/0.01% performance with Guardian validation and comprehensive observability.
     """
 
-    def __init__(self, config: Dict[str, Any] | None = None, guardian_validator: Callable | None = None):
+    def __init__(self, config: dict[str, Any] | None = None, guardian_validator: Callable | None = None):
         """Initialize creativity engine with configuration and Guardian integration."""
         self.config = {**DEFAULT_CREATIVITY_CONFIG, **(config or {})}
         self.guardian_validator = guardian_validator
@@ -110,26 +110,26 @@ class CreativityEngine:
         self._component_id = "CreativityEngine"
 
         # Creativity knowledge base
-        self._concept_network: Dict[str, List[str]] = {}
-        self._creative_patterns: List[Dict[str, Any]] = []
-        self._inspiration_sources: List[str] = []
+        self._concept_network: dict[str, list[str]] = {}
+        self._creative_patterns: list[dict[str, Any]] = []
+        self._inspiration_sources: list[str] = []
 
         # Performance tracking
         self._cycle_count = 0
-        self._processing_times: List[float] = []
-        self._quality_scores: List[float] = []
-        self._guardian_decisions: List[bool] = []
+        self._processing_times: list[float] = []
+        self._quality_scores: list[float] = []
+        self._guardian_decisions: list[bool] = []
 
         # Memory and context
-        self._recent_ideas: List[Dict[str, Any]] = []
-        self._active_constraints: List[str] = []
-        self._synthesis_cache: Dict[str, Any] = {}
+        self._recent_ideas: list[dict[str, Any]] = []
+        self._active_constraints: list[str] = []
+        self._synthesis_cache: dict[str, Any] = {}
 
     async def generate_ideas(
         self,
         task: CreativeTask,
         consciousness_state: ConsciousnessState,
-        context: Dict[str, Any] | None = None
+        context: dict[str, Any] | None = None
     ) -> CreativitySnapshot:
         """
         Generate creative ideas for a given task using multiple creative processes.
@@ -195,7 +195,7 @@ class CreativityEngine:
         self,
         task: CreativeTask,
         consciousness_state: ConsciousnessState,
-        context: Dict[str, Any] | None
+        context: dict[str, Any] | None
     ) -> CreativitySnapshot:
         """Initialize creativity snapshot for processing session."""
 
@@ -613,7 +613,7 @@ class CreativityEngine:
 
     # Helper methods for creative processes
 
-    async def _populate_concept_network(self, task: CreativeTask, context: Dict[str, Any] | None):
+    async def _populate_concept_network(self, task: CreativeTask, context: dict[str, Any] | None):
         """Populate concept network for associative reasoning."""
         # This would integrate with knowledge bases or semantic networks
         # For now, create a simple conceptual mapping
@@ -625,7 +625,7 @@ class CreativityEngine:
                 related = await self._generate_related_concepts(concept, task.inspiration_domains)
                 self._concept_network[concept] = related
 
-    async def _generate_related_concepts(self, concept: str, domains: List[str]) -> List[str]:
+    async def _generate_related_concepts(self, concept: str, domains: list[str]) -> list[str]:
         """Generate related concepts for associative reasoning."""
         # Simplified implementation - in production would use semantic networks
         related = []
@@ -648,8 +648,8 @@ class CreativityEngine:
         self,
         prompt: str,
         perspective: str,
-        context: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        context: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Generate ideas from a specific perspective."""
         # Simplified creative idea generation
         ideas = []
@@ -669,7 +669,7 @@ class CreativityEngine:
 
         return ideas
 
-    def _calculate_novelty(self, idea_content: Dict[str, Any], existing_ideas: List[Dict[str, Any]]) -> float:
+    def _calculate_novelty(self, idea_content: dict[str, Any], existing_ideas: list[dict[str, Any]]) -> float:
         """Calculate novelty score for an idea."""
         if not existing_ideas:
             return 0.8  # High novelty for first ideas
@@ -694,7 +694,7 @@ class CreativityEngine:
 
         return max(0.1, min(novelty, 1.0))
 
-    def _calculate_coherence(self, idea_content: Dict[str, Any], task: CreativeTask) -> float:
+    def _calculate_coherence(self, idea_content: dict[str, Any], task: CreativeTask) -> float:
         """Calculate coherence score for an idea."""
         coherence = 0.5  # Base coherence
 
@@ -720,7 +720,7 @@ class CreativityEngine:
 
         return max(0.1, min(coherence, 1.0))
 
-    def _find_related_concepts(self, concept: str) -> List[str]:
+    def _find_related_concepts(self, concept: str) -> list[str]:
         """Find related concepts in the concept network."""
         return self._concept_network.get(concept, [])
 
@@ -740,8 +740,8 @@ class CreativityEngine:
         source: str,
         target: str,
         prompt: str,
-        context: Dict[str, Any]
-    ) -> Dict[str, Any] | None:
+        context: dict[str, Any]
+    ) -> dict[str, Any] | None:
         """Generate idea from concept association."""
         return {
             "description": f"Combining {source} and {target} for: {prompt}",
@@ -753,10 +753,10 @@ class CreativityEngine:
 
     async def _refine_idea(
         self,
-        idea: Dict[str, Any],
+        idea: dict[str, Any],
         task: CreativeTask,
         snapshot: CreativitySnapshot
-    ) -> Dict[str, Any] | None:
+    ) -> dict[str, Any] | None:
         """Refine an existing idea."""
         original_content = idea["content"]
 
@@ -771,11 +771,11 @@ class CreativityEngine:
 
     async def _apply_transformation(
         self,
-        content: Dict[str, Any],
+        content: dict[str, Any],
         method: str,
         task: CreativeTask,
         snapshot: CreativitySnapshot
-    ) -> Dict[str, Any] | None:
+    ) -> dict[str, Any] | None:
         """Apply transformation method to content."""
         transformed = content.copy() if isinstance(content, dict) else {"original": content}
 
@@ -793,8 +793,8 @@ class CreativityEngine:
 
     def _calculate_transformation_confidence(
         self,
-        original: Dict[str, Any],
-        transformed: Dict[str, Any],
+        original: dict[str, Any],
+        transformed: dict[str, Any],
         method: str
     ) -> float:
         """Calculate confidence in transformation quality."""
@@ -808,7 +808,7 @@ class CreativityEngine:
 
         return min(base_confidence + random.uniform(-0.1, 0.1), 1.0)
 
-    async def _group_similar_ideas(self, ideas: List[Dict[str, Any]]) -> List[List[Dict[str, Any]]]:
+    async def _group_similar_ideas(self, ideas: list[dict[str, Any]]) -> list[list[dict[str, Any]]]:
         """Group similar ideas for synthesis."""
         # Simplified grouping by idea type
         groups = {}
@@ -826,9 +826,9 @@ class CreativityEngine:
 
     async def _synthesize_idea_group(
         self,
-        group: List[Dict[str, Any]],
+        group: list[dict[str, Any]],
         task: CreativeTask
-    ) -> Dict[str, Any] | None:
+    ) -> dict[str, Any] | None:
         """Synthesize a group of ideas into a unified concept."""
         if len(group) < 2:
             return None
@@ -897,7 +897,7 @@ class CreativityEngine:
         )
         snapshot.elaboration_depth = min(total_complexity / len(snapshot.ideas), 1.0)
 
-    def get_performance_stats(self) -> Dict[str, Any]:
+    def get_performance_stats(self) -> dict[str, Any]:
         """Get comprehensive performance statistics."""
 
         if not self._processing_times:

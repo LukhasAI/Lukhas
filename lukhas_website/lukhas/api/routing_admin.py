@@ -48,7 +48,7 @@ logger = logging.getLogger(__name__)
 security = HTTPBearer()
 
 
-def _parse_env_list(env_var: str, default: str | None = None) -> List[str]:
+def _parse_env_list(env_var: str, default: str | None = None) -> list[str]:
     """Parse a comma-separated environment variable into a list."""
 
     value = os.getenv(env_var)
@@ -84,29 +84,29 @@ class RoutingPreviewRequest(BaseModel):
     """Request for routing preview"""
     request_type: str = Field(..., description="Type of request to route")
     session_id: str = Field("preview-session", description="Session ID for preview")
-    routing_hints: Dict[str, Any] = Field(default_factory=dict, description="Routing hints")
-    configuration_override: Dict[str, Any] | None = Field(None, description="Configuration to test")
+    routing_hints: dict[str, Any] = Field(default_factory=dict, description="Routing hints")
+    configuration_override: dict[str, Any] | None = Field(None, description="Configuration to test")
 
 class RoutingSimulationRequest(BaseModel):
     """Request for routing simulation"""
-    scenarios: List[Dict[str, Any]] = Field(..., description="Simulation scenarios")
+    scenarios: list[dict[str, Any]] = Field(..., description="Simulation scenarios")
     iterations: int = Field(100, ge=1, le=10000, description="Number of iterations per scenario")
-    configuration_override: Dict[str, Any] | None = Field(None, description="Configuration to test")
+    configuration_override: dict[str, Any] | None = Field(None, description="Configuration to test")
 
 class ABTestRequest(BaseModel):
     """A/B test management request"""
     test_name: str = Field(..., description="Test name")
     enabled: bool = Field(..., description="Enable/disable test")
-    traffic_split: Dict[str, int] = Field(..., description="Traffic split percentages")
-    rules: List[str] = Field(..., description="Rules to apply test to")
+    traffic_split: dict[str, int] = Field(..., description="Traffic split percentages")
+    rules: list[str] = Field(..., description="Rules to apply test to")
 
 class ConfigurationValidationRequest(BaseModel):
     """Configuration validation request"""
-    configuration: Dict[str, Any] = Field(..., description="Configuration to validate")
+    configuration: dict[str, Any] = Field(..., description="Configuration to validate")
 
 class HealthCheckRequest(BaseModel):
     """Health check request"""
-    providers: List[str] | None = Field(None, description="Specific providers to check")
+    providers: list[str] | None = Field(None, description="Specific providers to check")
     force_check: bool = Field(False, description="Force immediate health check")
 
 class CircuitBreakerRequest(BaseModel):
@@ -157,7 +157,7 @@ async def get_admin_user(
         )
 
     client_ip = request.client.host if request.client else None
-    verification_kwargs: Dict[str, Any] = {
+    verification_kwargs: dict[str, Any] = {
         "request_context": {
             "client_ip": client_ip,
             "user_agent": request.headers.get("user-agent"),

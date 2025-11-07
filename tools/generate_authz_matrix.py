@@ -26,7 +26,7 @@ class AuthzTestCase:
     subject: str
     tier: str
     tier_num: int
-    scopes: List[str]
+    scopes: list[str]
     action: str
     expected: bool
     mfa: bool = False
@@ -45,7 +45,7 @@ class AuthzMatrixGenerator:
         }
         self.tier_names = list(self.tier_map.keys())
 
-    def load_contract(self, contract_path: Path) -> Dict[str, Any]:
+    def load_contract(self, contract_path: Path) -> dict[str, Any]:
         """Load and validate Matrix contract."""
         if not contract_path.exists():
             raise FileNotFoundError(f"Contract not found: {contract_path}")
@@ -58,7 +58,7 @@ class AuthzMatrixGenerator:
 
         return contract
 
-    def generate_matrix_for_module(self, module_name: str) -> List[AuthzTestCase]:
+    def generate_matrix_for_module(self, module_name: str) -> list[AuthzTestCase]:
         """Generate authorization matrix for a specific module."""
 
         # Find the contract file
@@ -80,7 +80,7 @@ class AuthzMatrixGenerator:
         contract = self.load_contract(contract_path)
         return self._generate_test_cases(contract, module_name)
 
-    def _generate_test_cases(self, contract: Dict[str, Any], module_name: str) -> List[AuthzTestCase]:
+    def _generate_test_cases(self, contract: dict[str, Any], module_name: str) -> list[AuthzTestCase]:
         """Generate comprehensive test cases for a contract."""
         test_cases = []
 
@@ -174,8 +174,8 @@ class AuthzMatrixGenerator:
         self,
         tier_name: str,
         tier_num: int,
-        required_tiers: List[str],
-        required_tiers_numeric: List[int]
+        required_tiers: list[str],
+        required_tiers_numeric: list[int]
     ) -> bool:
         """Determine if a tier meets the requirements."""
 
@@ -190,7 +190,7 @@ class AuthzMatrixGenerator:
         # Check numeric tier requirements
         return bool(required_tiers_numeric and tier_num in required_tiers_numeric)
 
-    def _generate_edge_cases(self, contract: Dict[str, Any], module_name: str) -> List[AuthzTestCase]:
+    def _generate_edge_cases(self, contract: dict[str, Any], module_name: str) -> list[AuthzTestCase]:
         """Generate edge case test scenarios."""
         edge_cases = []
 
@@ -249,7 +249,7 @@ class AuthzMatrixGenerator:
 
         return edge_cases
 
-    def _generate_service_cases(self, contract: Dict[str, Any], module_name: str) -> List[AuthzTestCase]:
+    def _generate_service_cases(self, contract: dict[str, Any], module_name: str) -> list[AuthzTestCase]:
         """Generate service account authorization test cases."""
         service_cases = []
 
@@ -284,7 +284,7 @@ class AuthzMatrixGenerator:
 
         return service_cases
 
-    def save_matrix_yaml(self, test_cases: List[AuthzTestCase], output_path: Path) -> None:
+    def save_matrix_yaml(self, test_cases: list[AuthzTestCase], output_path: Path) -> None:
         """Save test matrix as YAML fixture."""
 
         # Convert test cases to YAML structure
@@ -319,7 +319,7 @@ class AuthzMatrixGenerator:
         with open(output_path, 'w') as f:
             yaml.dump(yaml_data, f, default_flow_style=False, sort_keys=False, indent=2)
 
-    def save_matrix_json(self, test_cases: List[AuthzTestCase], output_path: Path) -> None:
+    def save_matrix_json(self, test_cases: list[AuthzTestCase], output_path: Path) -> None:
         """Save test matrix as JSON fixture."""
 
         json_data = {

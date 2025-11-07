@@ -87,7 +87,7 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _compute_symbolic_metrics(rng: Random, request: DriftDreamProbeRequest) -> Dict[str, Any]:
+def _compute_symbolic_metrics(rng: Random, request: DriftDreamProbeRequest) -> dict[str, Any]:
     """Derive deterministic symbolic metrics for the dream probe.
 
     # ΛTAG: drift_metrics, affect_delta
@@ -122,7 +122,7 @@ def _compute_symbolic_metrics(rng: Random, request: DriftDreamProbeRequest) -> D
     }
 
 
-def _generate_top_symbols(rng: Random, symbol: str) -> List[str]:
+def _generate_top_symbols(rng: Random, symbol: str) -> list[str]:
     """Produce deterministic related symbol suggestions.
 
     # ΛTAG: top_symbols
@@ -139,7 +139,7 @@ def _generate_top_symbols(rng: Random, symbol: str) -> List[str]:
     return seeds[:3]
 
 
-def generate_probe_report(request: DriftDreamProbeRequest) -> Dict[str, Any]:
+def generate_probe_report(request: DriftDreamProbeRequest) -> dict[str, Any]:
     """Generate the drift probe report payload.
 
     # ΛTAG: drift_report
@@ -173,7 +173,7 @@ def generate_probe_report(request: DriftDreamProbeRequest) -> Dict[str, Any]:
     return report
 
 
-def write_report(report: Dict[str, Any], output_path: Path = REPORT_PATH) -> Path:
+def write_report(report: dict[str, Any], output_path: Path = REPORT_PATH) -> Path:
     """Persist the report to disk.
 
     The default location is ``codex_artifacts/dream_drift_report.json`` to align
@@ -186,7 +186,7 @@ def write_report(report: Dict[str, Any], output_path: Path = REPORT_PATH) -> Pat
     return output_path
 
 
-def run_cli(argv: List[str] | None = None) -> Dict[str, Any]:
+def run_cli(argv: list[str] | None = None) -> dict[str, Any]:
     """Entry point used by ``main`` and tests.
 
     # ΛTAG: cli_entrypoint

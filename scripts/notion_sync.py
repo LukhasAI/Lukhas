@@ -67,13 +67,13 @@ def utcnow() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-def sha_manifest(m: Dict[str, Any]) -> str:
+def sha_manifest(m: dict[str, Any]) -> str:
     """Stable hash of manifest content (excludes volatile provenance timestamps)"""
     sanitized = json.loads(json.dumps(m, sort_keys=True))
     return hashlib.sha1(json.dumps(sanitized, sort_keys=True).encode()).hexdigest()
 
 
-def rate_sleep(last_ts: List[float]):
+def rate_sleep(last_ts: list[float]):
     """Simple leaky-bucket limiter"""
     now = time.time()
     last_ts[:] = [t for t in last_ts if now - t < 1.0]
@@ -82,7 +82,7 @@ def rate_sleep(last_ts: List[float]):
     last_ts.append(time.time())
 
 
-def append_ledger(record: Dict[str, Any]):
+def append_ledger(record: dict[str, Any]):
     """Append record to ledger"""
     LEDGER.parent.mkdir(parents=True, exist_ok=True)
     with LEDGER.open("a") as f:
@@ -106,9 +106,9 @@ class NotionClient:
             raise SystemExit("❌ NOTION_TOKEN and NOTION_DATABASE_ID must be set")
         self.token = token
         self.db_id = db_id
-        self._ops_window: List[float] = []
+        self._ops_window: list[float] = []
 
-    def _post(self, url: str, payload: Dict[str, Any]) -> Dict:
+    def _post(self, url: str, payload: dict[str, Any]) -> Dict:
         """Rate-limited POST request"""
         rate_sleep(self._ops_window)
         r = requests.post(url, headers=HEADERS, json=payload, timeout=30)
@@ -116,7 +116,7 @@ class NotionClient:
             raise RuntimeError(f"POST {url} failed: {r.status_code} {r.text}")
         return r.json()
 
-    def _patch(self, url: str, payload: Dict[str, Any]) -> Dict:
+    def _patch(self, url: str, payload: dict[str, Any]) -> Dict:
         """Rate-limited PATCH request"""
         rate_sleep(self._ops_window)
         r = requests.patch(url, headers=HEADERS, json=payload, timeout=30)
@@ -161,11 +161,11 @@ class NotionClient:
     def create_or_update_page(
         self,
         module: str,
-        props: Dict[str, Any],
-        blocks: List[Dict[str, Any]],
+        props: dict[str, Any],
+        blocks: list[dict[str, Any]],
         page_id: str | None,
         dry_run: bool
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create new page or update existing one"""
         if page_id:
             if dry_run:
@@ -193,7 +193,7 @@ class NotionClient:
             return self._post(url, payload)
 
 
-def to_notion_properties(manifest: Dict[str, Any], content_sha: str) -> Dict[str, Any]:
+def to_notion_properties(manifest: dict[str, Any], content_sha: str) -> dict[str, Any]:
     """
     Map manifest → Notion properties.
 
@@ -255,7 +255,7 @@ def to_notion_properties(manifest: Dict[str, Any], content_sha: str) -> Dict[str
     return props
 
 
-def to_notion_blocks(manifest: Dict[str, Any]) -> List[Dict[str, Any]]:
+def to_notion_blocks(manifest: dict[str, Any]) -> list[dict[str, Any]]:
     """Generate Notion blocks for observed metrics (optional rich content)"""
     perf = manifest.get("performance", {}).get("observed", {})
     if not perf:
@@ -282,7 +282,7 @@ def to_notion_blocks(manifest: Dict[str, Any]) -> List[Dict[str, Any]]:
     }]
 
 
-def load_manifests(root: Path, selection: str | None) -> List[Path]:
+def load_manifests(root: Path, selection: str | None) -> list[Path]:
     """Find manifests to sync"""
     paths = [
         m for m in root.rglob("module.manifest.json")

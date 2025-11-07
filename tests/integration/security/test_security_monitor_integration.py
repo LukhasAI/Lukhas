@@ -24,9 +24,9 @@ class FakeIdentityService:
 
     def __init__(self, monitor: SecurityMonitor) -> None:
         self.monitor = monitor
-        self.attempts: List[FakeAuthAttempt] = []
+        self.attempts: list[FakeAuthAttempt] = []
 
-    async def authenticate(self, attempt: FakeAuthAttempt) -> Dict[str, Any]:
+    async def authenticate(self, attempt: FakeAuthAttempt) -> dict[str, Any]:
         self.attempts.append(attempt)
         threats = self.monitor.observe_authentication_attempt(
             user_id=attempt.user_id,

@@ -133,18 +133,18 @@ CONFLICT_CASES = [
     }
 ]
 
-def get_conflict_corpus() -> List[Dict[str, Any]]:
+def get_conflict_corpus() -> list[dict[str, Any]]:
     """Get the complete conflict test corpus."""
     return CONFLICT_CASES
 
-def get_conflict_case(case_id: str) -> Dict[str, Any]:
+def get_conflict_case(case_id: str) -> dict[str, Any]:
     """Get specific conflict case by ID."""
     for case in CONFLICT_CASES:
         if case["id"] == case_id:
             return case
     raise ValueError(f"Conflict case '{case_id}' not found")
 
-def validate_conflict_case(case: Dict[str, Any]) -> List[str]:
+def validate_conflict_case(case: dict[str, Any]) -> list[str]:
     """
     Validate conflict case structure.
     Returns list of validation errors (empty if valid).
@@ -174,7 +174,7 @@ def validate_conflict_case(case: Dict[str, Any]) -> List[str]:
 
     return errors
 
-def run_conflict_validation() -> Dict[str, Any]:
+def run_conflict_validation() -> dict[str, Any]:
     """Validate all conflict cases."""
     all_errors = {}
     total_cases = len(CONFLICT_CASES)

@@ -68,7 +68,7 @@ class LiDTokenSystemTest:
 
     def __init__(self):
         """Initialize test environment."""
-        self.metrics: List[PerformanceMetrics] = []
+        self.metrics: list[PerformanceMetrics] = []
         self.secret_provider: Optional[EnvironmentSecretProvider] = None
         self.token_generator: Optional[TokenGenerator] = None
         self.token_validator: Optional[TokenValidator] = None
@@ -108,7 +108,7 @@ class LiDTokenSystemTest:
             )
 
             # Create Guardian validator mock for testing
-            def mock_guardian_validator(context: Dict[str, Any]) -> Dict[str, Any]:
+            def mock_guardian_validator(context: dict[str, Any]) -> dict[str, Any]:
                 """Mock Guardian validator for testing."""
                 return {
                     "approved": True,

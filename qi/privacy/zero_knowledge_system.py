@@ -40,7 +40,7 @@ from typing import Any, Dict
 logger = logging.getLogger(__name__)
 
 
-def _stable_hash(data: Dict[str, Any]) -> str:
+def _stable_hash(data: dict[str, Any]) -> str:
     """Create a deterministic hash for dictionaries used in zero-knowledge flows."""
     digest = hashlib.sha256()
     if not isinstance(data, dict):
@@ -65,7 +65,7 @@ def _stable_hash(data: Dict[str, Any]) -> str:
 class ProofStatement:
     """Public statement describing the computation proven by the witness."""
 
-    public_input: Dict[str, Any]
+    public_input: dict[str, Any]
     requires_non_interactive: bool = True
     circuit_size: int = 0
     description: str | None = None
@@ -75,14 +75,14 @@ class ProofStatement:
 class PrivateWitness:
     """Private witness values used to create zero-knowledge proofs."""
 
-    values: Dict[str, Any]
+    values: dict[str, Any]
 
 
 @dataclass
 class Computation:
     """Expected computation metadata used during verification."""
 
-    public_input: Dict[str, Any]
+    public_input: dict[str, Any]
     expected_witness_hash: str
 
 
@@ -91,22 +91,22 @@ class ZeroKnowledgeProof:
     """Base representation for generated zero-knowledge proofs."""
 
     scheme: str
-    proof_data: Dict[str, Any]
-    public_input: Dict[str, Any]
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    proof_data: dict[str, Any]
+    public_input: dict[str, Any]
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class ZkSnarkProof(ZeroKnowledgeProof):
     """Proof generated using zk-SNARK style circuits."""
 
-    def __init__(self, proof_data: Dict[str, Any], public_input: Dict[str, Any], metadata: Dict[str, Any] | None = None):
+    def __init__(self, proof_data: dict[str, Any], public_input: dict[str, Any], metadata: dict[str, Any] | None = None):
         super().__init__("zksnark", proof_data, public_input, metadata or {})
 
 
 class BulletProof(ZeroKnowledgeProof):
     """Proof generated using Bulletproof-style range proofs."""
 
-    def __init__(self, proof_data: Dict[str, Any], public_input: Dict[str, Any], metadata: Dict[str, Any] | None = None):
+    def __init__(self, proof_data: dict[str, Any], public_input: dict[str, Any], metadata: dict[str, Any] | None = None):
         super().__init__("bulletproof", proof_data, public_input, metadata or {})
 
 
@@ -122,7 +122,7 @@ class InMemoryAuditBlockchain:
     """Lightweight audit trail used when the full blockchain implementation is unavailable."""
 
     def __init__(self) -> None:
-        self.records: list[Dict[str, Any]] = []
+        self.records: list[dict[str, Any]] = []
 
     async def log_ai_decision(self, decision: Any, context: Any, user_consent: Any) -> str:
         record = {
@@ -151,7 +151,7 @@ class ZeroKnowledgePrivacyEngine:
         self._threat_history: list[ThreatLandscape] = []
 
     @staticmethod
-    def compute_witness_fingerprint(values: Dict[str, Any]) -> str:
+    def compute_witness_fingerprint(values: dict[str, Any]) -> str:
         """Expose stable hashing for witness material so callers can build expectations."""
         return _stable_hash(values)
 
@@ -218,7 +218,7 @@ class ZeroKnowledgePrivacyEngine:
 
         return True
 
-    async def extract_private_features(self, request: Any, preserve_privacy: bool = True) -> Dict[str, Any]:
+    async def extract_private_features(self, request: Any, preserve_privacy: bool = True) -> dict[str, Any]:
         """Extract sanitized features for downstream processing."""
         payload = getattr(request, "payload", {}) or {}
         metadata = getattr(request, "metadata", {}) or {}
@@ -240,7 +240,7 @@ class ZeroKnowledgePrivacyEngine:
             "metadata": {"privacy_preserved": preserve_privacy, **metadata},
         }
 
-    async def prepare_secure_response(self, qi_result: Any, qi_session: Any, include_telemetry: bool = True) -> Dict[str, Any]:
+    async def prepare_secure_response(self, qi_result: Any, qi_session: Any, include_telemetry: bool = True) -> dict[str, Any]:
         """Assemble a secure response payload for downstream consumers."""
         response = {
             "decision": getattr(qi_result, "decision", None),

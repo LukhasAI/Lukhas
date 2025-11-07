@@ -19,7 +19,7 @@ class MemoryIdentity:
     """Representation of an entity capable of holding memories."""
 
     identifier: str
-    attributes: Dict[str, Any]
+    attributes: dict[str, Any]
 
 
 # ΛTAG: memory_identity_registry
@@ -78,7 +78,7 @@ class MemoryIdentityFactory:
         self.registry = registry or MemoryIdentityRegistry()
 
     # ΛTAG: memory_identity_factory
-    def create(self, identifier: str, attributes: Dict[str, Any]) -> MemoryIdentity:
+    def create(self, identifier: str, attributes: dict[str, Any]) -> MemoryIdentity:
         """Create a new :class:`MemoryIdentity` instance.
 
         Args:
@@ -90,7 +90,7 @@ class MemoryIdentityFactory:
         """
 
         self._validate_inputs(identifier, attributes)
-        safe_attributes: Dict[str, Any] = copy.deepcopy(attributes)
+        safe_attributes: dict[str, Any] = copy.deepcopy(attributes)
 
         identity = MemoryIdentity(identifier=identifier, attributes=safe_attributes)
         metrics = self.registry.register(identity)
@@ -109,7 +109,7 @@ class MemoryIdentityFactory:
         )
         return identity
 
-    def _validate_inputs(self, identifier: str, attributes: Dict[str, Any]) -> None:
+    def _validate_inputs(self, identifier: str, attributes: dict[str, Any]) -> None:
         """Validate identity creation inputs."""
 
         if not isinstance(identifier, str) or not identifier.strip():

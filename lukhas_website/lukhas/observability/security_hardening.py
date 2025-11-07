@@ -71,7 +71,7 @@ class SecurityEvent:
     component: str
     operation: str
     timestamp: datetime
-    details: Dict[str, Any]
+    details: dict[str, Any]
     action_taken: Optional[str] = None
     resolved: bool = False
     false_positive: bool = False
@@ -139,19 +139,19 @@ class ObservabilitySecurityHardening:
         self.lockout_duration_minutes = lockout_duration_minutes
 
         # Security state
-        self.security_keys: Dict[str, SecurityKey] = {}
-        self.security_events: List[SecurityEvent] = []
+        self.security_keys: dict[str, SecurityKey] = {}
+        self.security_events: list[SecurityEvent] = []
         self.access_attempts: deque = deque(maxlen=10000)
-        self.failed_attempts: Dict[str, List[datetime]] = defaultdict(list)
-        self.locked_sources: Dict[str, datetime] = {}
+        self.failed_attempts: dict[str, list[datetime]] = defaultdict(list)
+        self.locked_sources: dict[str, datetime] = {}
 
         # Integrity verification
-        self.integrity_hashes: Dict[str, str] = {}
+        self.integrity_hashes: dict[str, str] = {}
         self.tamper_detection_enabled = True
 
         # Security monitoring
         self.threat_detection_rules = []
-        self.security_baselines: Dict[str, Any] = {}
+        self.security_baselines: dict[str, Any] = {}
 
         # Background tasks
         self._security_monitor_task: Optional[asyncio.Task] = None
@@ -339,10 +339,10 @@ class ObservabilitySecurityHardening:
 
     async def secure_evidence_collection(
         self,
-        evidence_data: Dict[str, Any],
+        evidence_data: dict[str, Any],
         source_ip: Optional[str] = None,
         user_id: Optional[str] = None,
-    ) -> Tuple[str, Dict[str, str]]:
+    ) -> tuple[str, dict[str, str]]:
         """
         Secure evidence collection with integrity verification.
 
@@ -403,8 +403,8 @@ class ObservabilitySecurityHardening:
     async def verify_evidence_integrity(
         self,
         evidence_id: str,
-        evidence_data: Dict[str, Any],
-        security_metadata: Dict[str, str],
+        evidence_data: dict[str, Any],
+        security_metadata: dict[str, str],
     ) -> bool:
         """
         Verify evidence integrity using cryptographic methods.
@@ -542,7 +542,7 @@ class ObservabilitySecurityHardening:
         decryptor = cipher.decryptor()
         return decryptor.update(ciphertext) + decryptor.finalize()
 
-    def _is_sensitive_evidence(self, evidence_data: Dict[str, Any]) -> bool:
+    def _is_sensitive_evidence(self, evidence_data: dict[str, Any]) -> bool:
         """Determine if evidence contains sensitive data"""
         sensitive_fields = ["user_id", "session_id", "personal_data", "financial_data", "medical_data"]
         sensitive_evidence_types = ["authentication", "data_access", "regulatory_event"]
@@ -653,7 +653,7 @@ class ObservabilitySecurityHardening:
         user_id: Optional[str],
         component: str,
         operation: str,
-        details: Dict[str, Any],
+        details: dict[str, Any],
         action_taken: Optional[str] = None,
     ):
         """Record security event"""
@@ -759,7 +759,7 @@ class ObservabilitySecurityHardening:
                 action_taken="key_rotated",
             )
 
-    def get_security_status(self) -> Dict[str, Any]:
+    def get_security_status(self) -> dict[str, Any]:
         """Get current security status"""
         current_time = datetime.now(timezone.utc)
 
@@ -895,7 +895,7 @@ def get_security_hardening() -> ObservabilitySecurityHardening:
     return _security_hardening
 
 
-async def secure_evidence_operation(evidence_data: Dict[str, Any], **kwargs) -> Tuple[str, Dict[str, str]]:
+async def secure_evidence_operation(evidence_data: dict[str, Any], **kwargs) -> tuple[str, dict[str, str]]:
     """Convenience function for secure evidence operations"""
     security_system = get_security_hardening()
     return await security_system.secure_evidence_collection(evidence_data, **kwargs)

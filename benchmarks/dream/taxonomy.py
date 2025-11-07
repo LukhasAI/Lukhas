@@ -31,8 +31,8 @@ class ErrorPattern:
     """Defines an error detection pattern."""
     error_type: ErrorType
     severity: Severity
-    symptoms: List[str]
-    detection_rules: Dict[str, Any]
+    symptoms: list[str]
+    detection_rules: dict[str, Any]
     mitigation: str
     expected_frequency: float  # 0.0 - 1.0
 
@@ -157,14 +157,14 @@ class ErrorClassifier:
     def __init__(self):
         self.patterns = {p.error_type: p for p in ERROR_PATTERNS}
 
-    def classify_error(self, error_data: Dict[str, Any]) -> ErrorPattern | None:
+    def classify_error(self, error_data: dict[str, Any]) -> ErrorPattern | None:
         """Classify an error based on available data."""
         for pattern in ERROR_PATTERNS:
             if self._matches_pattern(error_data, pattern):
                 return pattern
         return None
 
-    def _matches_pattern(self, error_data: Dict[str, Any], pattern: ErrorPattern) -> bool:
+    def _matches_pattern(self, error_data: dict[str, Any], pattern: ErrorPattern) -> bool:
         """Check if error data matches a pattern."""
         rules = pattern.detection_rules
 
@@ -198,7 +198,7 @@ class ErrorClassifier:
 
         return True
 
-def analyze_error_distribution(results: List[Dict[str, Any]]) -> Dict[str, Any]:
+def analyze_error_distribution(results: list[dict[str, Any]]) -> dict[str, Any]:
     """Analyze error distribution in benchmark results."""
     classifier = ErrorClassifier()
 
@@ -240,7 +240,7 @@ def analyze_error_distribution(results: List[Dict[str, Any]]) -> Dict[str, Any]:
         "classification_coverage": (total_errors - unclassified_errors) / total_errors if total_errors > 0 else 1.0
     }
 
-def generate_taxonomy_report(analysis: Dict[str, Any], out_path: str) -> None:
+def generate_taxonomy_report(analysis: dict[str, Any], out_path: str) -> None:
     """Generate comprehensive taxonomy report."""
     report = {
         "taxonomy_analysis": analysis,
@@ -276,7 +276,7 @@ def generate_taxonomy_report(analysis: Dict[str, Any], out_path: str) -> None:
     with open(out_path, "w") as f:
         json.dump(report, f, indent=2)
 
-def load_and_analyze(results_path: str) -> Dict[str, Any]:
+def load_and_analyze(results_path: str) -> dict[str, Any]:
     """Load benchmark results and perform taxonomy analysis."""
     results = []
 

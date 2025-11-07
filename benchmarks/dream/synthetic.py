@@ -12,8 +12,8 @@ CANON_EMOTIONS = ["confidence", "curiosity", "joy", "fear", "anger", "sadness", 
 class SyntheticCase:
     """A synthetic test case for dream system evaluation."""
     case_id: str
-    query_emotion: Dict[str, float]
-    snapshots: List[Dict[str, Any]]
+    query_emotion: dict[str, float]
+    snapshots: list[dict[str, Any]]
     expected_selection: str
     difficulty: str  # "easy", "medium", "hard", "adversarial"
     scenario: str   # Description of test scenario
@@ -24,7 +24,7 @@ class SyntheticGenerator:
     def __init__(self, seed: int = 42):
         self.rng = random.Random(seed)
 
-    def _random_emotion(self, bias: Dict[str, float] | None = None) -> Dict[str, float]:
+    def _random_emotion(self, bias: dict[str, float] | None = None) -> dict[str, float]:
         """Generate random emotion vector with optional bias."""
         emotion = {}
         for key in CANON_EMOTIONS:
@@ -39,8 +39,8 @@ class SyntheticGenerator:
             emotion[key] = round(value, 3)
         return emotion
 
-    def _generate_snapshot(self, name: str, emotion: Dict[str, float],
-                         timestamp_base: float, alignment_hint: float | None = None) -> Dict[str, Any]:
+    def _generate_snapshot(self, name: str, emotion: dict[str, float],
+                         timestamp_base: float, alignment_hint: float | None = None) -> dict[str, Any]:
         """Generate a single snapshot."""
         # Add some noise to emotion if desired
         noisy_emotion = {}

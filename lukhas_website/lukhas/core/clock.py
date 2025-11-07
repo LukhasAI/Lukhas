@@ -43,7 +43,7 @@ class Ticker:
         """
         self.fps = fps
         self.period = 1.0 / fps
-        self.subscribers: List[Callable[[int], None]] = []
+        self.subscribers: list[Callable[[int], None]] = []
         self.tick_count = 0
         self.running = False
 
@@ -62,7 +62,7 @@ class Ticker:
         }
 
         # Timing history for p95 calculation
-        self._timing_history: List[float] = []
+        self._timing_history: list[float] = []
         self._history_limit = 1000  # Keep last 1000 measurements
 
     def subscribe(self, callback: Callable[[int], None]) -> None:

@@ -123,7 +123,7 @@ def _constant_time_compare(a: bytes, b: bytes) -> bool:
     return hmac.compare_digest(a, b)
 
 
-def _parse_authenticator_data(auth_data: bytes) -> Dict[str, Any]:
+def _parse_authenticator_data(auth_data: bytes) -> dict[str, Any]:
     """Parse authenticator data structure.
 
     Authenticator data structure (minimum 37 bytes):
@@ -170,7 +170,7 @@ def _parse_authenticator_data(auth_data: bytes) -> Dict[str, Any]:
     }
 
 
-def _parse_client_data_json(client_data_json: bytes) -> Dict[str, Any]:
+def _parse_client_data_json(client_data_json: bytes) -> dict[str, Any]:
     """Parse and validate client data JSON.
 
     Client data JSON contains:
@@ -303,7 +303,7 @@ def _verify_signature_rs256(
 # Main verification function
 
 def verify_assertion(
-    assertion: Dict[str, Any],
+    assertion: dict[str, Any],
     credential: WebAuthnCredential,
     expected_challenge: str,
     expected_origin: str,

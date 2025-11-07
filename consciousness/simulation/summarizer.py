@@ -8,7 +8,7 @@ class DreamResult(TypedDict):
     scores: dict
     trace_id: str
 
-def build_dream_result(seed: Dict[str, Any], rollouts: List[Dict[str, Any]], trace_id: str) -> DreamResult:
+def build_dream_result(seed: dict[str, Any], rollouts: list[dict[str, Any]], trace_id: str) -> DreamResult:
     shards = []
     for r in rollouts:
         shards.append({
@@ -37,7 +37,7 @@ def build_dream_result(seed: Dict[str, Any], rollouts: List[Dict[str, Any]], tra
     }
     return {"shards": shards, "scores": aggregate, "trace_id": trace_id}
 
-def build_matada_nodes(seed: Dict[str, Any], rollouts: List[Dict[str, Any]], trace_id: str, *, schema_ref: str) -> List[dict]:
+def build_matada_nodes(seed: dict[str, Any], rollouts: list[dict[str, Any]], trace_id: str, *, schema_ref: str) -> list[dict]:
     nodes = []
     for i, r in enumerate(rollouts, start=1):
         nodes.append({

@@ -21,7 +21,7 @@ EXCLUDED_DIRS = {
 }
 
 
-def check_encoding(file_path: Path) -> Tuple[bool, str]:
+def check_encoding(file_path: Path) -> tuple[bool, str]:
     """
     Check if file is valid UTF-8.
     Returns (is_valid, encoding_detected).
@@ -74,7 +74,7 @@ def rewrite_to_utf8(file_path: Path, source_encoding: str) -> bool:
         return False
 
 
-def scan_docs(apply: bool = False) -> Tuple[List[Path], List[Path]]:
+def scan_docs(apply: bool = False) -> tuple[list[Path], list[Path]]:
     """
     Scan all .md files for encoding issues.
     Returns (non_utf8_files, failed_rewrites).

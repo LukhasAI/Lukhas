@@ -19,7 +19,7 @@ class TargetedSyntaxFixer:
     def __init__(self, workspace_path: str = "/Users/agi_dev/LOCAL-REPOS/Lukhas"):
         self.workspace_path = Path(workspace_path)
 
-    def get_ruff_errors(self) -> List[Dict]:
+    def get_ruff_errors(self) -> list[Dict]:
         """Get syntax errors from ruff in JSON format."""
         try:
             result = subprocess.run(
@@ -33,7 +33,7 @@ class TargetedSyntaxFixer:
             print(f"Error getting ruff output: {e}")
             return []
 
-    def fix_obvious_indentation_issues(self, file_path: Path, lines: List[str]) -> List[str]:
+    def fix_obvious_indentation_issues(self, file_path: Path, lines: list[str]) -> list[str]:
         """Fix obvious indentation issues like mixed tabs/spaces."""
         fixed_lines = []
         for line_num, line in enumerate(lines, 1):

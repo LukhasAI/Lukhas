@@ -21,12 +21,12 @@ from pathlib import Path
 from typing import List, Tuple
 
 
-def find_all_manifests(repo_root: Path) -> List[Path]:
+def find_all_manifests(repo_root: Path) -> list[Path]:
     """Find all module.manifest.json files in the repository."""
     return list(repo_root.rglob("module.manifest.json"))
 
 
-def extract_entrypoints(manifest_path: Path) -> List[Tuple[str, str, str]]:
+def extract_entrypoints(manifest_path: Path) -> list[tuple[str, str, str]]:
     """
     Extract entrypoints from a manifest file.
 
@@ -72,7 +72,7 @@ def extract_entrypoints(manifest_path: Path) -> List[Tuple[str, str, str]]:
         return []
 
 
-def generate_test_file(test_cases: List[Tuple[str, str, str]], output_path: Path) -> None:
+def generate_test_file(test_cases: list[tuple[str, str, str]], output_path: Path) -> None:
     """Generate the pytest test file."""
 
     # Sort test cases for deterministic output

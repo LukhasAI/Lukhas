@@ -32,8 +32,8 @@ class PerformanceSLAValidator:
     def __init__(self, benchmark_file: str):
         self.benchmark_file = Path(benchmark_file)
         self.results = self._load_benchmark_results()
-        self.violations: List[Dict] = []
-        self.passed_checks: List[Dict] = []
+        self.violations: list[Dict] = []
+        self.passed_checks: list[Dict] = []
 
     def _load_benchmark_results(self) -> Dict:
         """Load benchmark results from JSON file"""

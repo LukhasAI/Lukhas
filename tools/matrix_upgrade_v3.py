@@ -67,7 +67,7 @@ V3_DEFAULTS = {
 }
 
 
-def upgrade_contract(contract_data: Dict[str, Any], dry_run: bool = False) -> bool:
+def upgrade_contract(contract_data: dict[str, Any], dry_run: bool = False) -> bool:
     """
     Upgrade a single contract with v3 placeholders.
 
@@ -129,7 +129,7 @@ def upgrade_file(file_path: Path, dry_run: bool = False) -> bool:
         return False
 
 
-def find_contract_files(pattern: str) -> List[Path]:
+def find_contract_files(pattern: str) -> list[Path]:
     """Find all contract files matching the pattern."""
     return sorted(Path(".").rglob(pattern))
 

@@ -172,7 +172,7 @@ class ConsciousnessContractGenerator:
 
         return contract
 
-    def _infer_input_types(self, component_type: str, analysis: Dict) -> List[str]:
+    def _infer_input_types(self, component_type: str, analysis: Dict) -> list[str]:
         """Infer input types based on component type and analysis"""
         base_inputs = ["CONTEXT_INFO"]
 
@@ -190,7 +190,7 @@ class ConsciousnessContractGenerator:
 
         return base_inputs + type_inputs.get(component_type, [])
 
-    def _infer_output_types(self, component_type: str, analysis: Dict) -> List[str]:
+    def _infer_output_types(self, component_type: str, analysis: Dict) -> list[str]:
         """Infer output types based on component type and analysis"""
         type_outputs = {
             "CONSCIOUSNESS_ENGINE": ["CONSCIOUSNESS_STATE", "EMOTIONAL_RESPONSE"],

@@ -31,7 +31,7 @@ class AttackResult:
     response_body: str
     success: bool
     blocked_properly: bool
-    details: Dict[str, Any]
+    details: dict[str, Any]
 
 
 @dataclass
@@ -55,8 +55,8 @@ class LUKHASAbuseTestFramework:
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
-        self.attack_results: List[AttackResult] = []
-        self.rate_limit_results: List[RateLimitTest] = []
+        self.attack_results: list[AttackResult] = []
+        self.rate_limit_results: list[RateLimitTest] = []
 
         # Common endpoints to test (will be discovered dynamically in production)
         self.test_endpoints = [
@@ -117,7 +117,7 @@ class LUKHASAbuseTestFramework:
             {"username": "test\"; DROP TABLE users; --", "password": "test"},
         ]
 
-    async def discover_endpoints(self, session: aiohttp.ClientSession) -> List[str]:
+    async def discover_endpoints(self, session: aiohttp.ClientSession) -> list[str]:
         """Discover available endpoints"""
         discovered_endpoints = []
 
@@ -146,7 +146,7 @@ class LUKHASAbuseTestFramework:
         return all_endpoints
 
     async def test_sql_injection(self, session: aiohttp.ClientSession,
-                                endpoint: str) -> List[AttackResult]:
+                                endpoint: str) -> list[AttackResult]:
         """Test SQL injection vulnerabilities"""
         results = []
 
@@ -235,7 +235,7 @@ class LUKHASAbuseTestFramework:
         return results
 
     async def test_xss_vulnerabilities(self, session: aiohttp.ClientSession,
-                                     endpoint: str) -> List[AttackResult]:
+                                     endpoint: str) -> list[AttackResult]:
         """Test Cross-Site Scripting vulnerabilities"""
         results = []
 
@@ -288,7 +288,7 @@ class LUKHASAbuseTestFramework:
 
         return results
 
-    async def test_authentication_bypass(self, session: aiohttp.ClientSession) -> List[AttackResult]:
+    async def test_authentication_bypass(self, session: aiohttp.ClientSession) -> list[AttackResult]:
         """Test authentication bypass vulnerabilities"""
         results = []
 
@@ -407,7 +407,7 @@ class LUKHASAbuseTestFramework:
             rate_limit_triggered=rate_limit_triggered
         )
 
-    async def _make_request(self, session: aiohttp.ClientSession, url: str) -> Tuple[int, float]:
+    async def _make_request(self, session: aiohttp.ClientSession, url: str) -> tuple[int, float]:
         """Make a single request and return status and response time"""
         start_time = time.time()
         try:
@@ -418,7 +418,7 @@ class LUKHASAbuseTestFramework:
             response_time = (time.time() - start_time) * 1000
             return 0, response_time
 
-    async def test_jwt_manipulation(self, session: aiohttp.ClientSession) -> List[AttackResult]:
+    async def test_jwt_manipulation(self, session: aiohttp.ClientSession) -> list[AttackResult]:
         """Test JWT token manipulation attacks"""
         results = []
 
@@ -486,7 +486,7 @@ class LUKHASAbuseTestFramework:
 
         return results
 
-    async def test_memory_exhaustion(self, session: aiohttp.ClientSession) -> List[AttackResult]:
+    async def test_memory_exhaustion(self, session: aiohttp.ClientSession) -> list[AttackResult]:
         """Test memory exhaustion and DoS attacks"""
         results = []
 
@@ -550,7 +550,7 @@ class LUKHASAbuseTestFramework:
 
         return results
 
-    def generate_abuse_test_report(self) -> Dict[str, Any]:
+    def generate_abuse_test_report(self) -> dict[str, Any]:
         """Generate comprehensive abuse test report"""
 
         # Analyze attack results
@@ -642,7 +642,7 @@ class LUKHASAbuseTestFramework:
             pass
         return "unknown"
 
-    def _generate_security_recommendations(self) -> List[str]:
+    def _generate_security_recommendations(self) -> list[str]:
         """Generate security recommendations based on test results"""
         recommendations = []
 
@@ -672,7 +672,7 @@ class LUKHASAbuseTestFramework:
 
         return recommendations
 
-    async def run_comprehensive_abuse_tests(self) -> Dict[str, Any]:
+    async def run_comprehensive_abuse_tests(self) -> dict[str, Any]:
         """Run comprehensive abuse testing suite"""
         print("🚀 Starting LUKHAS comprehensive abuse testing...")
         print(f"🎯 Target: {self.base_url}")

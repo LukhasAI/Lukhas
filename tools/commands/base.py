@@ -23,7 +23,7 @@ class BaseCommand:
         self.name = name or self.__class__.__name__.lower()
         self.description = (description or (self.__doc__ or "")).strip()
         self.logger = logging.getLogger(f"tools.commands.{self.name}")
-        self.subcommands: Dict[str, CommandHandler] = {}
+        self.subcommands: dict[str, CommandHandler] = {}
 
     async def execute(self, args: list[str]) -> bool:  # pragma: no cover - interface contract
         """Execute the command. Subclasses must override this."""

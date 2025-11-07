@@ -90,7 +90,7 @@ class StorageConfig:
     # Replication settings
     replication_strategy: ReplicationStrategy = ReplicationStrategy.ASYNC
     replication_factor: int = 2
-    replica_backends: List[StorageBackendType] = field(default_factory=list)
+    replica_backends: list[StorageBackendType] = field(default_factory=list)
 
     # Performance settings
     chunk_size_bytes: int = 1024 * 1024  # 1MB chunks
@@ -145,7 +145,7 @@ class StorageObject:
     storage_policy: StoragePolicy
 
     # Replication info
-    replica_locations: List[str] = field(default_factory=list)
+    replica_locations: list[str] = field(default_factory=list)
     replication_status: str = "pending"
 
     # Lifecycle info
@@ -153,14 +153,14 @@ class StorageObject:
     next_transition_date: Optional[datetime] = None
 
     # Metadata
-    custom_metadata: Dict[str, str] = field(default_factory=dict)
-    tags: Set[str] = field(default_factory=set)
+    custom_metadata: dict[str, str] = field(default_factory=dict)
+    tags: set[str] = field(default_factory=set)
 
     # Version info
     version: int = 1
     is_deleted: bool = False
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "object_id": self.object_id,
@@ -184,7 +184,7 @@ class StorageObject:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'StorageObject':
+    def from_dict(cls, data: dict[str, Any]) -> 'StorageObject':
         """Create from dictionary."""
         return cls(
             object_id=data["object_id"],
@@ -243,7 +243,7 @@ class StorageMetrics:
     failed_operations: int = 0
     corrupted_objects: int = 0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "total_objects": self.total_objects,
@@ -271,7 +271,7 @@ class StorageBackend(ABC):
     """Abstract storage backend interface."""
 
     @abstractmethod
-    async def put(self, key: str, data: bytes, metadata: Optional[Dict[str, str]] = None) -> bool:
+    async def put(self, key: str, data: bytes, metadata: Optional[dict[str, str]] = None) -> bool:
         """Store data."""
         pass
 
@@ -291,12 +291,12 @@ class StorageBackend(ABC):
         pass
 
     @abstractmethod
-    async def list_keys(self, prefix: str = "") -> List[str]:
+    async def list_keys(self, prefix: str = "") -> list[str]:
         """List keys with optional prefix."""
         pass
 
     @abstractmethod
-    async def get_metadata(self, key: str) -> Optional[Dict[str, str]]:
+    async def get_metadata(self, key: str) -> Optional[dict[str, str]]:
         """Get object metadata."""
         pass
 
@@ -315,7 +315,7 @@ class LocalFilesystemBackend(StorageBackend):
         self.metadata_dir = self.base_path / ".metadata"
         self.metadata_dir.mkdir(exist_ok=True)
 
-    async def put(self, key: str, data: bytes, metadata: Optional[Dict[str, str]] = None) -> bool:
+    async def put(self, key: str, data: bytes, metadata: Optional[dict[str, str]] = None) -> bool:
         """Store data to filesystem."""
         try:
             file_path = self._get_file_path(key)
@@ -378,7 +378,7 @@ class LocalFilesystemBackend(StorageBackend):
         file_path = self._get_file_path(key)
         return file_path.exists()
 
-    async def list_keys(self, prefix: str = "") -> List[str]:
+    async def list_keys(self, prefix: str = "") -> list[str]:
         """List keys with optional prefix."""
         keys = []
 
@@ -397,7 +397,7 @@ class LocalFilesystemBackend(StorageBackend):
 
         return keys
 
-    async def get_metadata(self, key: str) -> Optional[Dict[str, str]]:
+    async def get_metadata(self, key: str) -> Optional[dict[str, str]]:
         """Get object metadata."""
         try:
             metadata_path = self._get_metadata_path(key)
@@ -573,7 +573,7 @@ class SQLiteMetadataStore:
     async def list_objects(self,
                           prefix: str = "",
                           limit: int = 1000,
-                          lifecycle_stage: Optional[StoragePolicy] = None) -> List[StorageObject]:
+                          lifecycle_stage: Optional[StoragePolicy] = None) -> list[StorageObject]:
         """List objects with optional filtering."""
 
         try:
@@ -641,7 +641,7 @@ class SQLiteMetadataStore:
 
     async def get_lifecycle_candidates(self,
                                      current_stage: StoragePolicy,
-                                     cutoff_date: datetime) -> List[StorageObject]:
+                                     cutoff_date: datetime) -> list[StorageObject]:
         """Get objects eligible for lifecycle transition."""
 
         try:
@@ -694,7 +694,7 @@ class DistributedStorageManager:
 
         # Storage backends
         self.primary_backend: Optional[StorageBackend] = None
-        self.replica_backends: List[StorageBackend] = []
+        self.replica_backends: list[StorageBackend] = []
 
         # Metadata store
         self.metadata_store = SQLiteMetadataStore(
@@ -710,7 +710,7 @@ class DistributedStorageManager:
         self.backup_task: Optional[asyncio.Task] = None
 
         # Content deduplication
-        self.content_hashes: Dict[str, Set[str]] = defaultdict(set)
+        self.content_hashes: dict[str, set[str]] = defaultdict(set)
 
         # Telemetry integration
         try:
@@ -759,8 +759,8 @@ class DistributedStorageManager:
                   content_type: str = "application/octet-stream",
                   classification: DataClassification = DataClassification.INTERNAL,
                   storage_policy: StoragePolicy = StoragePolicy.HOT,
-                  metadata: Optional[Dict[str, str]] = None,
-                  tags: Optional[Set[str]] = None) -> bool:
+                  metadata: Optional[dict[str, str]] = None,
+                  tags: Optional[set[str]] = None) -> bool:
         """Store object in distributed storage."""
 
         start_time = time.time()
@@ -987,7 +987,7 @@ class DistributedStorageManager:
 
     async def list_objects(self,
                           prefix: str = "",
-                          limit: int = 1000) -> List[StorageObject]:
+                          limit: int = 1000) -> list[StorageObject]:
         """List objects with optional prefix filter."""
 
         return await self.metadata_store.list_objects(prefix, limit)
@@ -997,7 +997,7 @@ class DistributedStorageManager:
 
         return await self.metadata_store.get_object(key)
 
-    async def get_metrics(self) -> Dict[str, Any]:
+    async def get_metrics(self) -> dict[str, Any]:
         """Get comprehensive storage metrics."""
 
         # Update lifecycle stage counts
@@ -1044,7 +1044,7 @@ class DistributedStorageManager:
     async def _replicate_object(self,
                                key: str,
                                data: bytes,
-                               metadata: Optional[Dict[str, str]],
+                               metadata: Optional[dict[str, str]],
                                obj: StorageObject) -> None:
         """Replicate object to replica backends."""
 
@@ -1076,7 +1076,7 @@ class DistributedStorageManager:
     async def _create_dedup_reference(self,
                                     new_key: str,
                                     existing_key: str,
-                                    metadata: Optional[Dict[str, str]]) -> bool:
+                                    metadata: Optional[dict[str, str]]) -> bool:
         """Create a deduplication reference."""
 
         # Get existing object

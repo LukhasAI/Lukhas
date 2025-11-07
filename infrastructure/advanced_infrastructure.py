@@ -67,7 +67,7 @@ class LUKHASInfrastructureManager:
             logger.error(f"Failed to initialize LUKHAS Infrastructure: {e}")
             return False
 
-    async def get_system_status(self) -> Dict[str, Any]:
+    async def get_system_status(self) -> dict[str, Any]:
         """
         Get comprehensive system status for all infrastructure components.
 

@@ -4,13 +4,13 @@ from importlib.resources import files
 from typing import Dict, List
 
 # ΛTAG: star_canon
-def _derive_labels(payload: Dict[str, object]) -> List[str]:
+def _derive_labels(payload: dict[str, object]) -> list[str]:
     labels = payload.get("labels")
     if isinstance(labels, list):
         return [str(label) for label in labels]
     stars = payload.get("stars", [])
     if isinstance(stars, list) and stars and isinstance(stars[0], dict):
-        derived: List[str] = []
+        derived: list[str] = []
         for entry in stars:
             emoji = str(entry.get("emoji", "")).strip()
             star_id = str(entry.get("id", "")).strip()
@@ -26,9 +26,9 @@ def _derive_labels(payload: Dict[str, object]) -> List[str]:
 
 
 @functools.lru_cache
-def canon() -> Dict[str, object]:
+def canon() -> dict[str, object]:
     p = files(__package__) / "star_canon.json"
-    data: Dict[str, object] = json.loads(p.read_text(encoding="utf-8"))
+    data: dict[str, object] = json.loads(p.read_text(encoding="utf-8"))
     _derive_labels(data)
     return data
 

@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 
-def run_command(cmd: List[str], description: str) -> Dict[str, Any]:
+def run_command(cmd: list[str], description: str) -> dict[str, Any]:
     """Run command and return result"""
     print(f"🧪 Testing: {description}")
 
@@ -48,7 +48,7 @@ def run_command(cmd: List[str], description: str) -> Dict[str, Any]:
         }
 
 
-def validate_json_output(file_path: Path, required_fields: List[str]) -> Dict[str, Any]:
+def validate_json_output(file_path: Path, required_fields: list[str]) -> dict[str, Any]:
     """Validate JSON output contains required fields"""
     if not file_path.exists():
         return {"valid": False, "error": "File does not exist"}

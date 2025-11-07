@@ -10,7 +10,7 @@ from typing import ClassVar, Set
 class Flags:
     """Minimal feature flag facade to unblock candidate level tests."""
 
-    _enabled: ClassVar[Set[str]] = set()
+    _enabled: ClassVar[set[str]] = set()
 
     @classmethod
     def enable(cls, flag: str) -> None:

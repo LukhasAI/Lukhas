@@ -43,7 +43,7 @@ def fetch_issue(n: str) -> dict:
         sys.exit(1)
     return resp.json()
 
-def extract_week6_checkboxes(body: str, heading: str = "Week 6") -> Tuple[List[Tuple[int,str]], List[Tuple[int,str]]]:
+def extract_week6_checkboxes(body: str, heading: str = "Week 6") -> tuple[list[tuple[int,str]], list[tuple[int,str]]]:
     """
     Return (checked_items, unchecked_items)
     Each item is (line_number, line_text)

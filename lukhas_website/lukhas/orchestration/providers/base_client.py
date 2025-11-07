@@ -27,8 +27,8 @@ class AIResponse:
     provider: AIProvider
     model: str
     latency_ms: float
-    usage: Optional[Dict[str, Any]] = None
-    metadata: Optional[Dict[str, Any]] = None
+    usage: Optional[dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
     finish_reason: Optional[str] = None
 
 
@@ -80,16 +80,16 @@ class BaseAIClient(ABC):
         pass
 
     @abstractmethod
-    def get_available_models(self) -> List[str]:
+    def get_available_models(self) -> list[str]:
         """Get list of available models for this provider"""
         pass
 
     async def batch_generate(
         self,
-        prompts: List[str],
+        prompts: list[str],
         model: str,
         **kwargs
-    ) -> List[AIResponse]:
+    ) -> list[AIResponse]:
         """Generate responses for multiple prompts (default sequential implementation)"""
         responses = []
         for prompt in prompts:

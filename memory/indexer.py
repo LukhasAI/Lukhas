@@ -16,7 +16,7 @@ def _register(symbol: str) -> None:
 
 # TODO: plug in actual embedding providers
 class Embeddings:
-    def embed(self, text: str) -> List[float]:
+    def embed(self, text: str) -> list[float]:
         # TODO: call provider, cache results
         return [0.0] * 1536  # placeholder
 
@@ -30,13 +30,13 @@ class Indexer:
         self.store = store
         self.emb = emb or Embeddings()
 
-    def upsert(self, text: str, meta: Dict[str, Any]) -> str:
+    def upsert(self, text: str, meta: dict[str, Any]) -> str:
         fp = _fingerprint(text)
         vec = self.emb.embed(text)
         # TODO: detect duplicates by fp in meta
         return self.store.add(VectorDoc(id=fp, text=text, embedding=vec, meta=meta))
 
-    def search_text(self, query: str, k: int = 10, filters: Dict[str, Any] | None = None):
+    def search_text(self, query: str, k: int = 10, filters: dict[str, Any] | None = None):
         vec = self.emb.embed(query)
         return self.store.search(vec, k=k, filters=filters)
 
@@ -82,7 +82,7 @@ except ImportError:
         class OpenAIEmbeddingProvider:
             """Stub embedding provider."""
 
-            def embed(self, texts: Iterable[str]) -> List[List[float]]:
+            def embed(self, texts: Iterable[str]) -> list[list[float]]:
                 return [[0.0] * 1536 for _ in texts]
 
         _register("OpenAIEmbeddingProvider")
@@ -98,7 +98,7 @@ except ImportError:
         def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
             self.model_name = model_name
 
-        def embed(self, texts: Iterable[str]) -> List[List[float]]:
+        def embed(self, texts: Iterable[str]) -> list[list[float]]:
             return [[0.0] * 768 for _ in texts]
 
 _register("SentenceTransformersProvider")

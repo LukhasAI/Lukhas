@@ -111,7 +111,7 @@ class ValidationContext:
     # Authentication context
     expected_audience: str | None = None
     required_tier: TierLevel | None = None
-    required_permissions: List[str] | None = None
+    required_permissions: list[str] | None = None
 
     # Security context
     max_token_age_seconds: int = 3600
@@ -142,7 +142,7 @@ class ValidationResult:
 
     # Token claims (if valid)
     alias: str | None = None
-    claims: Dict[str, Any] | None = None
+    claims: dict[str, Any] | None = None
     parsed_alias: ΛiDAlias | None = None
 
     # Security metrics
@@ -235,12 +235,12 @@ class TokenValidator:
         self._component_id = "TokenValidator"
 
         # Token cache for performance (LRU-style)
-        self._token_cache: Dict[str, Tuple[ValidationResult, float]] = {}
+        self._token_cache: dict[str, tuple[ValidationResult, float]] = {}
         self._cache_size = cache_size
         self._cache_ttl = cache_ttl_seconds
 
         # Rate limiting storage
-        self._rate_limit_store: Dict[str, List[float]] = {}
+        self._rate_limit_store: dict[str, list[float]] = {}
 
         # Known token revocations (in production, this would be external)
         self._revoked_tokens: set[str] = set()
@@ -405,7 +405,7 @@ class TokenValidator:
 
                 return self._update_result_timing(error_result, start_time)
 
-    def _parse_token_structure(self, token: str) -> Tuple[Dict[str, Any], Dict[str, Any], str]:
+    def _parse_token_structure(self, token: str) -> tuple[dict[str, Any], dict[str, Any], str]:
         """
         Parse JWT token structure with comprehensive validation.
 
@@ -454,7 +454,7 @@ class TokenValidator:
         except Exception as e:
             raise TokenStructureError(f"Token parsing failed: {e}")
 
-    def _validate_claims_structure(self, claims: Dict[str, Any]) -> Dict[str, Any]:
+    def _validate_claims_structure(self, claims: dict[str, Any]) -> dict[str, Any]:
         """
         Validate JWT claims structure and required fields.
 
@@ -512,8 +512,8 @@ class TokenValidator:
     def _verify_signature_constant_time(
         self,
         token: str,
-        header: Dict[str, Any],
-        payload: Dict[str, Any],
+        header: dict[str, Any],
+        payload: dict[str, Any],
         signature_encoded: str,
         kid: str
     ) -> bool:
@@ -557,7 +557,7 @@ class TokenValidator:
             logger.warning(f"Signature verification error: {e}")
             return False
 
-    def _validate_token_timing(self, claims: Dict[str, Any], context: ValidationContext) -> None:
+    def _validate_token_timing(self, claims: dict[str, Any], context: ValidationContext) -> None:
         """
         Validate token timing constraints (expiration, not-before, etc).
 
@@ -589,7 +589,7 @@ class TokenValidator:
         if iat and (current_time - iat) > context.max_token_age_seconds:
             raise TokenValidationError("Token exceeds maximum age", "token_too_old")
 
-    def _guardian_validation(self, claims: Dict[str, Any], context: ValidationContext) -> Dict[str, Any]:
+    def _guardian_validation(self, claims: dict[str, Any], context: ValidationContext) -> dict[str, Any]:
         """
         Perform Guardian ethical validation of token usage.
 
@@ -641,7 +641,7 @@ class TokenValidator:
                 raise GuardianBlockedError(f"Guardian validation error: {e}")
             return {"approved": True, "reason": f"Guardian error (fail-open): {e}"}
 
-    def _extract_tier_level(self, claims: Dict[str, Any]) -> TierLevel | None:
+    def _extract_tier_level(self, claims: dict[str, Any]) -> TierLevel | None:
         """Extract and normalize tier level from token claims."""
         tier_value = claims.get("lukhas_tier")
         if tier_value is None:
@@ -705,7 +705,7 @@ class TokenValidator:
         self._rate_limit_store[key].append(current_time)
         return True
 
-    def _is_token_revoked(self, token: str, claims: Dict[str, Any]) -> bool:
+    def _is_token_revoked(self, token: str, claims: dict[str, Any]) -> bool:
         """Check if token has been revoked."""
         # Check by token ID (jti)
         jti = claims.get("jti")
@@ -761,7 +761,7 @@ class TokenValidator:
             logger.error(f"Token revocation failed: {e}")
             return False
 
-    def get_cache_stats(self) -> Dict[str, Any]:
+    def get_cache_stats(self) -> dict[str, Any]:
         """Get token cache statistics."""
         return {
             "cache_size": len(self._token_cache),

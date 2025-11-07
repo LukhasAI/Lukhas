@@ -118,7 +118,7 @@ class GuardianSubject:
     canary_percent: Optional[float] = None
     actor_tier: Optional[str] = None
     operation_resource: Optional[str] = None
-    operation_parameters: Optional[Dict[str, Any]] = None
+    operation_parameters: Optional[dict[str, Any]] = None
 
 
 @dataclass
@@ -139,14 +139,14 @@ class GuardianMetrics:
     risk_score: Optional[float] = None
     drift_score: Optional[float] = None
     quota_remaining: Optional[int] = None
-    counters: Optional[Dict[str, int]] = None
+    counters: Optional[dict[str, int]] = None
 
 
 @dataclass
 class GuardianEnforcement:
     """Guardian enforcement configuration."""
     mode: EnforcementMode
-    actions: Optional[List[str]] = None
+    actions: Optional[list[str]] = None
 
 
 @dataclass
@@ -155,7 +155,7 @@ class GuardianAudit:
     event_id: str
     timestamp: str
     source_system: Optional[str] = None
-    audit_trail: Optional[List[Dict[str, Any]]] = None
+    audit_trail: Optional[list[dict[str, Any]]] = None
 
 
 class GuardianSystem:
@@ -209,13 +209,13 @@ class GuardianSystem:
         metrics: GuardianMetrics,
         enforcement: GuardianEnforcement,
         audit: GuardianAudit,
-        reasons: Optional[List[Dict[str, Any]]] = None,
-        rule_evaluations: Optional[List[Dict[str, Any]]] = None,
-        approvals: Optional[List[Dict[str, Any]]] = None,
-        redactions: Optional[Dict[str, str]] = None,
-        extensions: Optional[Dict[str, Any]] = None,
-        debug: Optional[Dict[str, str]] = None
-    ) -> Dict[str, Any]:
+        reasons: Optional[list[dict[str, Any]]] = None,
+        rule_evaluations: Optional[list[dict[str, Any]]] = None,
+        approvals: Optional[list[dict[str, Any]]] = None,
+        redactions: Optional[dict[str, str]] = None,
+        extensions: Optional[dict[str, Any]] = None,
+        debug: Optional[dict[str, str]] = None
+    ) -> dict[str, Any]:
         """
         Serialize Guardian decision into T4/0.01% compliant envelope.
 
@@ -324,7 +324,7 @@ class GuardianSystem:
 
         return envelope
 
-    def _compute_integrity(self, envelope: Dict[str, Any]) -> Dict[str, Any]:
+    def _compute_integrity(self, envelope: dict[str, Any]) -> dict[str, Any]:
         """
         Compute tamper-evident integrity hash and optional signature.
 
@@ -359,7 +359,7 @@ class GuardianSystem:
 
         return integrity
 
-    def _sign_content(self, content: bytes) -> Dict[str, str]:
+    def _sign_content(self, content: bytes) -> dict[str, str]:
         """
         Sign content with ED25519 private key.
 
@@ -399,7 +399,7 @@ class GuardianSystem:
             logger.error(f"Signing failed: {e}")
             raise
 
-    def verify_integrity(self, envelope: Dict[str, Any]) -> bool:
+    def verify_integrity(self, envelope: dict[str, Any]) -> bool:
         """
         Verify tamper-evident integrity of Guardian envelope.
 
@@ -450,7 +450,7 @@ class GuardianSystem:
             logger.error(f"Guardian integrity verification error: {e}")
             return False  # Fail-closed on error
 
-    def _verify_signature(self, content: bytes, signature: Dict[str, str]) -> bool:
+    def _verify_signature(self, content: bytes, signature: dict[str, str]) -> bool:
         """
         Verify cryptographic signature.
 
@@ -482,7 +482,7 @@ class GuardianSystem:
             logger.error(f"Signature verification error: {e}")
             return False
 
-    def _validate_envelope(self, envelope: Dict[str, Any]) -> bool:
+    def _validate_envelope(self, envelope: dict[str, Any]) -> bool:
         """
         Validate envelope against T4 Guardian schema.
 
@@ -503,7 +503,7 @@ class GuardianSystem:
             logger.error(f"Guardian envelope schema validation failed: {e}")
             raise ValueError(f"Guardian envelope validation failed: {e.message}")
 
-    def is_decision_allow(self, envelope: Dict[str, Any]) -> bool:
+    def is_decision_allow(self, envelope: dict[str, Any]) -> bool:
         """
         Determine if Guardian decision allows the operation (fail-closed).
 
@@ -563,7 +563,7 @@ def create_simple_decision(
     region: str = "us-east-1",
     runtime: RuntimeEnvironment = RuntimeEnvironment.PROD,
     latency_ms: float = 0.0
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Create a simple Guardian decision envelope for common use cases.
 

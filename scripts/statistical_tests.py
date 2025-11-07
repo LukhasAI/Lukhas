@@ -29,12 +29,12 @@ class StatisticalAnalyzer:
         self.alpha = alpha
         self.confidence_level = 1 - alpha
 
-    def load_audit_data(self, file_path: str) -> Dict[str, Any]:
+    def load_audit_data(self, file_path: str) -> dict[str, Any]:
         """Load audit data from JSON file."""
         with open(file_path) as f:
             return json.load(f)
 
-    def extract_latencies(self, audit_data: Dict[str, Any]) -> Dict[str, List[float]]:
+    def extract_latencies(self, audit_data: dict[str, Any]) -> dict[str, list[float]]:
         """Extract latency measurements from audit data."""
         return {
             "guardian": audit_data.get("guardian_latency_us", []),
@@ -43,7 +43,7 @@ class StatisticalAnalyzer:
             "creativity": audit_data.get("creativity_latency_us", [])
         }
 
-    def mann_whitney_test(self, sample1: List[float], sample2: List[float]) -> Dict[str, Any]:
+    def mann_whitney_test(self, sample1: list[float], sample2: list[float]) -> dict[str, Any]:
         """Perform Mann-Whitney U test for distribution comparison."""
         if len(sample1) < 3 or len(sample2) < 3:
             return {
@@ -84,7 +84,7 @@ class StatisticalAnalyzer:
             "interpretation": self._interpret_mann_whitney(p_value, effect_size)
         }
 
-    def _calculate_cliffs_delta(self, sample1: List[float], sample2: List[float]) -> float:
+    def _calculate_cliffs_delta(self, sample1: list[float], sample2: list[float]) -> float:
         """Calculate Cliff's delta effect size."""
         n1, n2 = len(sample1), len(sample2)
         if n1 == 0 or n2 == 0:
@@ -111,7 +111,7 @@ class StatisticalAnalyzer:
             direction = "first sample larger" if effect_size > 0 else "second sample larger"
             return f"Statistically significant difference detected ({direction})"
 
-    def kolmogorov_smirnov_test(self, sample1: List[float], sample2: List[float]) -> Dict[str, Any]:
+    def kolmogorov_smirnov_test(self, sample1: list[float], sample2: list[float]) -> dict[str, Any]:
         """Perform Kolmogorov-Smirnov test for distribution comparison."""
         if len(sample1) < 3 or len(sample2) < 3:
             return {
@@ -140,11 +140,11 @@ class StatisticalAnalyzer:
 
     def bootstrap_confidence_interval(
         self,
-        sample: List[float],
+        sample: list[float],
         statistic_func=np.mean,
         n_bootstrap: int = 1000,
         confidence_level: Optional[float] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Calculate bootstrap confidence interval."""
         if confidence_level is None:
             confidence_level = self.confidence_level
@@ -186,7 +186,7 @@ class StatisticalAnalyzer:
             "interpretation": f"{confidence_level*100:.0f}% confidence interval for population parameter"
         }
 
-    def normality_tests(self, sample: List[float]) -> Dict[str, Any]:
+    def normality_tests(self, sample: list[float]) -> dict[str, Any]:
         """Perform normality tests on sample."""
         if len(sample) < 8:
             return {
@@ -239,7 +239,7 @@ class StatisticalAnalyzer:
 
         return results
 
-    def descriptive_statistics(self, sample: List[float]) -> Dict[str, Any]:
+    def descriptive_statistics(self, sample: list[float]) -> dict[str, Any]:
         """Calculate comprehensive descriptive statistics."""
         if not sample:
             return {"error": "Empty sample"}
@@ -265,7 +265,7 @@ class StatisticalAnalyzer:
             "kurtosis": float(stats.kurtosis(sample_array))
         }
 
-    def power_analysis(self, sample1: List[float], sample2: List[float]) -> Dict[str, Any]:
+    def power_analysis(self, sample1: list[float], sample2: list[float]) -> dict[str, Any]:
         """Perform statistical power analysis."""
         if len(sample1) < 3 or len(sample2) < 3:
             return {"error": "Insufficient data for power analysis"}
@@ -304,9 +304,9 @@ class StatisticalAnalyzer:
 
     def comprehensive_comparison(
         self,
-        baseline_data: Dict[str, Any],
-        comparison_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        baseline_data: dict[str, Any],
+        comparison_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Perform comprehensive statistical comparison."""
         baseline_latencies = self.extract_latencies(baseline_data)
         comparison_latencies = self.extract_latencies(comparison_data)
@@ -350,7 +350,7 @@ class StatisticalAnalyzer:
 
         return results
 
-    def generate_summary_report(self, analysis_results: Dict[str, Any]) -> str:
+    def generate_summary_report(self, analysis_results: dict[str, Any]) -> str:
         """Generate human-readable summary report."""
         report_lines = []
         report_lines.append("# T4/0.01% Excellence Statistical Analysis Report")

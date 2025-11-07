@@ -90,10 +90,10 @@ class DriftKind(Enum):
 class DriftResult:
     """Result of drift computation"""
     score: float  # 0.0 to 1.0
-    top_symbols: List[str]  # Top contributing symbols
+    top_symbols: list[str]  # Top contributing symbols
     kind: DriftKind
     confidence: float  # 0.0 to 1.0
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
 
 class DriftManager:
@@ -119,7 +119,7 @@ class DriftManager:
     MEMORY_WEIGHT = 0.3
     IDENTITY_WEIGHT = 0.3
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize drift manager with optional configuration.
 
@@ -197,7 +197,7 @@ class DriftManager:
             current = getattr(self, f'_cycles_since_{kind}', 0)
             setattr(self, f'_cycles_since_{kind}', current + 1)
 
-    def compute(self, kind: str, prev: Any, curr: Any) -> Dict[str, Any]:
+    def compute(self, kind: str, prev: Any, curr: Any) -> dict[str, Any]:
         """
         Compute drift score between previous and current states.
 
@@ -285,7 +285,7 @@ class DriftManager:
                 'metadata': {'error': str(e)}
             }
 
-    def on_exceed(self, kind: str, score: float, ctx: Dict[str, Any]) -> None:
+    def on_exceed(self, kind: str, score: float, ctx: dict[str, Any]) -> None:
         """
         Handler for drift threshold exceedance.
 
@@ -495,7 +495,7 @@ class DriftManager:
             logger.debug(f"TraceRepairEngine not available: {e}")
             self._repair_engine = None
 
-    def _extract_symbols_from_context(self, kind: str, ctx: Dict[str, Any]) -> List[str]:
+    def _extract_symbols_from_context(self, kind: str, ctx: dict[str, Any]) -> list[str]:
         """
         Extract drift symbols from context when not directly provided.
 
@@ -684,7 +684,7 @@ class DriftManager:
             }
         )
 
-    def _extract_ethical_indicators(self, state: Any) -> Dict[str, float]:
+    def _extract_ethical_indicators(self, state: Any) -> dict[str, float]:
         """Extract ethical indicators from state."""
         if not state:
             return {}
@@ -708,7 +708,7 @@ class DriftManager:
 
         return indicators
 
-    def _extract_memory_metrics(self, state: Any) -> Dict[str, float]:
+    def _extract_memory_metrics(self, state: Any) -> dict[str, float]:
         """Extract memory metrics from state."""
         if not state:
             return {}
@@ -732,7 +732,7 @@ class DriftManager:
 
         return metrics
 
-    def _extract_identity_features(self, state: Any) -> Dict[str, Any]:
+    def _extract_identity_features(self, state: Any) -> dict[str, Any]:
         """Extract identity features from state (mixed types for namespace_hash)."""
         if not state:
             return {}
@@ -777,7 +777,7 @@ class DriftManager:
             f"symbols={','.join(result.top_symbols[:3]) if result.top_symbols else 'none'}"
         )
 
-    def get_drift_history(self, kind: Optional[str] = None, limit: int = 100) -> List[Dict]:
+    def get_drift_history(self, kind: Optional[str] = None, limit: int = 100) -> list[Dict]:
         """
         Retrieve drift calculation history from ledger.
 
@@ -800,7 +800,7 @@ class DriftManager:
 _drift_manager = None
 
 
-def get_drift_manager(config: Optional[Dict[str, Any]] = None) -> DriftManager:
+def get_drift_manager(config: Optional[dict[str, Any]] = None) -> DriftManager:
     """
     Get or create the global drift manager instance.
 

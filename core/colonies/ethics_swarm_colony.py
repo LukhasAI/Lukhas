@@ -85,7 +85,7 @@ class EthicsSwarmColony:
         drift_threshold: float = 0.62,
         escalation_penalty: float = 0.12,
     ) -> None:
-        self._signals: Deque[EthicalSignal] = deque(maxlen=max_history)
+        self._signals: collections.deque[EthicalSignal] = deque(maxlen=max_history)
         self.drift_threshold = max(0.0, min(drift_threshold, 1.0))
         self.escalation_penalty = escalation_penalty
         # ✅ TODO: integrate Guardian feedback scores for adaptive drift thresholds.

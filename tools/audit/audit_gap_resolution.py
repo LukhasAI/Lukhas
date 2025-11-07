@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Any, Dict
 
 
-def validate_ci_workflows_enabled() -> Dict[str, Any]:
+def validate_ci_workflows_enabled() -> dict[str, Any]:
     """Validate CI workflows moved from disabled to active"""
     disabled_dir = Path(".github/workflows-disabled")
     active_dir = Path(".github/workflows")
@@ -48,7 +48,7 @@ def validate_ci_workflows_enabled() -> Dict[str, Any]:
         "security_operational": "security-scan.yml" in essential_active
     }
 
-def validate_system_plugins_endpoint() -> Dict[str, Any]:
+def validate_system_plugins_endpoint() -> dict[str, Any]:
     """Validate /system/plugins endpoint implementation"""
     endpoint_file = Path("lukhas/api/system_endpoints.py")
 
@@ -76,7 +76,7 @@ def validate_system_plugins_endpoint() -> Dict[str, Any]:
     except Exception as e:
         return {"status": "error", "error": str(e)}
 
-def validate_otel_instrumentation() -> Dict[str, Any]:
+def validate_otel_instrumentation() -> dict[str, Any]:
     """Validate comprehensive OTEL instrumentation"""
     otel_file = Path("lukhas/observability/otel_instrumentation.py")
     orchestrator_file = Path("matriz/core/async_orchestrator.py")
@@ -128,7 +128,7 @@ def validate_otel_instrumentation() -> Dict[str, Any]:
         "comprehensive": comprehensive
     }
 
-def validate_promql_grafana_assets() -> Dict[str, Any]:
+def validate_promql_grafana_assets() -> dict[str, Any]:
     """Validate PromQL alerts and Grafana dashboards committed"""
     prometheus_alerts = Path("ops/prometheus/slo_alerts.yml")
     grafana_dashboard = Path("ops/grafana/lukhas_system_dashboard.json")
@@ -168,7 +168,7 @@ def validate_promql_grafana_assets() -> Dict[str, Any]:
         "comprehensive": alerts_valid and dashboard_valid
     }
 
-def validate_memory_benchmarks() -> Dict[str, Any]:
+def validate_memory_benchmarks() -> dict[str, Any]:
     """Validate memory performance benchmarks"""
     memory_bench_files = [
         Path("benchmarks/memory_performance.py"),
@@ -205,7 +205,7 @@ def validate_memory_benchmarks() -> Dict[str, Any]:
                             cascade_prevention, stress_testing])
     }
 
-def validate_dual_approval_enforcement() -> Dict[str, Any]:
+def validate_dual_approval_enforcement() -> dict[str, Any]:
     """Validate dual-approval CI enforcement"""
     critical_path_workflow = Path(".github/workflows/critical-path-approval.yml")
     flag_snapshot = Path("guardian/flag_snapshot.sh")
@@ -245,7 +245,7 @@ def validate_dual_approval_enforcement() -> Dict[str, Any]:
         "comprehensive": dual_approval_workflow and governance_snapshot
     }
 
-def validate_constraints_enforcement() -> Dict[str, Any]:
+def validate_constraints_enforcement() -> dict[str, Any]:
     """Validate constraints.txt enforcement in CI"""
     ci_file = Path(".github/workflows/ci.yml")
     constraints_file = Path("constraints.txt")
@@ -269,7 +269,7 @@ def validate_constraints_enforcement() -> Dict[str, Any]:
         "comprehensive": constraints_exist and ci_enforces_constraints
     }
 
-def calculate_audit_score_improvement() -> Dict[str, Any]:
+def calculate_audit_score_improvement() -> dict[str, Any]:
     """Calculate estimated audit score based on implemented improvements"""
 
     components = {

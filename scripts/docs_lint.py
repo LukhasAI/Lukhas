@@ -45,7 +45,7 @@ def load_manifest() -> Dict:
         return json.load(f)
 
 
-def check_front_matter(manifest: Dict) -> tuple[List[Dict], List[Dict]]:
+def check_front_matter(manifest: Dict) -> tuple[list[Dict], list[Dict]]:
     """Validate front-matter on all documents. Returns (errors, warnings)."""
     errors = []
     warnings = []
@@ -103,7 +103,7 @@ def check_front_matter(manifest: Dict) -> tuple[List[Dict], List[Dict]]:
     return errors, warnings
 
 
-def check_manifest_completeness(manifest: Dict) -> List[Dict]:
+def check_manifest_completeness(manifest: Dict) -> list[Dict]:
     """Check that all .md files are in manifest."""
     errors = []
 
@@ -150,7 +150,7 @@ def check_sitemap_fresh(manifest: Dict) -> bool:
     return True
 
 
-def check_encoding(manifest: Dict) -> List[Dict]:
+def check_encoding(manifest: Dict) -> list[Dict]:
     """Check that all markdown files are UTF-8 encoded."""
     errors = []
 
@@ -175,7 +175,7 @@ def check_encoding(manifest: Dict) -> List[Dict]:
     return errors
 
 
-def check_internal_links(manifest: Dict) -> List[Dict]:
+def check_internal_links(manifest: Dict) -> list[Dict]:
     """
     Quick internal link validation.
     Returns list of broken links (sample only for performance).

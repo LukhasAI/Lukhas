@@ -22,7 +22,7 @@ def fix_later(
     *,
     file_path: Optional[Path] = None,
     error: Optional[Exception] = None,
-    metadata: Optional[Dict[str, Any]] = None,
+    metadata: Optional[dict[str, Any]] = None,
     log_path: Optional[Path] = None,
 ) -> str:
     """Record graceful fallback diagnostics for Keatsian replacements.

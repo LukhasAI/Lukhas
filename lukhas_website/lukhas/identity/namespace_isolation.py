@@ -73,8 +73,8 @@ class DataAccessRequest:
     data_path: str
     access_mode: AccessMode
     requester_id: str
-    requester_context: Dict[str, Any] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    requester_context: dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -84,8 +84,8 @@ class IsolatedData:
     scope: IsolationScope
     data_path: str
     encrypted_data: bytes
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    access_log: List[Dict[str, Any]] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
+    access_log: list[dict[str, Any]] = field(default_factory=list)
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -109,9 +109,9 @@ class NamespaceIsolationEngine:
         self.key_rotation_days = key_rotation_days
 
         # In-memory storage for demo (replace with secure key management)
-        self._namespace_keys: Dict[str, NamespaceKey] = {}
-        self._isolated_data: Dict[str, Dict[str, IsolatedData]] = {}  # namespace -> path -> data
-        self._access_policies: Dict[str, Dict[str, Set[str]]] = {}  # namespace -> role -> permissions
+        self._namespace_keys: dict[str, NamespaceKey] = {}
+        self._isolated_data: dict[str, dict[str, IsolatedData]] = {}  # namespace -> path -> data
+        self._access_policies: dict[str, dict[str, set[str]]] = {}  # namespace -> role -> permissions
 
         self.logger = logging.getLogger(f"{__name__}.NamespaceIsolationEngine")
         self.logger.info("NamespaceIsolationEngine initialized with cryptographic isolation")
@@ -376,7 +376,7 @@ class NamespaceIsolationEngine:
         requester_id: str,
         path_prefix: str = "",
         scope_filter: IsolationScope | None = None
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         List data in namespace with access control.
 
@@ -428,7 +428,7 @@ class NamespaceIsolationEngine:
         self,
         source_namespace: str,
         target_namespace: str,
-        permissions: List[AccessMode],
+        permissions: list[AccessMode],
         requester_id: str,
         expires_at: datetime | None = None
     ) -> str:
@@ -536,7 +536,7 @@ class NamespaceIsolationEngine:
         isolated_data.access_log.append(access_entry)
         isolated_data.updated_at = datetime.now(timezone.utc)
 
-    def _create_default_policies(self, tenant: TenantMetadata) -> Dict[str, Set[str]]:
+    def _create_default_policies(self, tenant: TenantMetadata) -> dict[str, set[str]]:
         """Create default access policies for tenant."""
         return {
             "admin": {"read", "write", "delete", "admin"},
@@ -548,7 +548,7 @@ class NamespaceIsolationEngine:
         self,
         event: str,
         namespace: str,
-        context: Dict[str, Any]
+        context: dict[str, Any]
     ) -> None:
         """Guardian monitoring for namespace events."""
         if self.guardian:
@@ -564,7 +564,7 @@ class NamespaceIsolationEngine:
         self,
         operation: str,
         request: DataAccessRequest,
-        context: Dict[str, Any]
+        context: dict[str, Any]
     ) -> None:
         """Guardian monitoring for data operations."""
         if self.guardian:

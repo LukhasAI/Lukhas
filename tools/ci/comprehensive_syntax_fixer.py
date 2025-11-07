@@ -30,7 +30,7 @@ class ComprehensiveSyntaxFixer:
         self.patterns_fixed = {}
         self.files_processed = set()
 
-    def get_syntax_errors(self) -> List[Dict]:
+    def get_syntax_errors(self) -> list[Dict]:
         """Get all syntax errors from ruff"""
         try:
             result = subprocess.run(

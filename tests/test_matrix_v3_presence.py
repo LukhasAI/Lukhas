@@ -68,12 +68,12 @@ V3_SECTIONS = {
 }
 
 
-def get_all_contracts() -> List[Path]:
+def get_all_contracts() -> list[Path]:
     """Get all Matrix contract files."""
     return [Path(p) for p in sorted(glob.glob("contracts/matrix_*.json"))]
 
 
-def load_contract(contract_path: Path) -> Dict[str, Any]:
+def load_contract(contract_path: Path) -> dict[str, Any]:
     """Load a contract file as JSON."""
     with open(contract_path, encoding='utf-8') as f:
         return json.load(f)

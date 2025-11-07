@@ -25,7 +25,7 @@ class ReproducibilityAnalyzer:
         """Initialize with target reproducibility threshold."""
         self.target_reproducibility = target_reproducibility
 
-    def load_multiple_audits(self, file_patterns: List[str]) -> List[Dict[str, Any]]:
+    def load_multiple_audits(self, file_patterns: list[str]) -> list[dict[str, Any]]:
         """Load multiple audit result files."""
         audit_data = []
 
@@ -43,7 +43,7 @@ class ReproducibilityAnalyzer:
 
         return audit_data
 
-    def extract_performance_matrices(self, audit_results: List[Dict[str, Any]]) -> Dict[str, np.ndarray]:
+    def extract_performance_matrices(self, audit_results: list[dict[str, Any]]) -> dict[str, np.ndarray]:
         """Extract performance data as matrices for analysis."""
         matrices = {
             "guardian_p95": [],
@@ -76,7 +76,7 @@ class ReproducibilityAnalyzer:
 
         return matrices
 
-    def calculate_reproducibility_metrics(self, values: np.ndarray) -> Dict[str, float]:
+    def calculate_reproducibility_metrics(self, values: np.ndarray) -> dict[str, float]:
         """Calculate reproducibility metrics for a set of values."""
         if len(values) < 2:
             return {
@@ -131,7 +131,7 @@ class ReproducibilityAnalyzer:
             "count": len(values)
         }
 
-    def cross_run_variance_analysis(self, matrices: Dict[str, np.ndarray]) -> Dict[str, Any]:
+    def cross_run_variance_analysis(self, matrices: dict[str, np.ndarray]) -> dict[str, Any]:
         """Analyze variance across multiple runs."""
         results = {}
 
@@ -155,7 +155,7 @@ class ReproducibilityAnalyzer:
 
         return results
 
-    def detect_outliers(self, values: np.ndarray) -> Dict[str, Any]:
+    def detect_outliers(self, values: np.ndarray) -> dict[str, Any]:
         """Detect outliers using multiple methods."""
         if len(values) < 4:
             return {"method": "insufficient_data", "outliers": [], "outlier_count": 0}
@@ -193,7 +193,7 @@ class ReproducibilityAnalyzer:
             "outlier_percentage": len({o["index"] for o in all_outliers}) / len(values) * 100
         }
 
-    def environment_consistency_analysis(self, audit_results: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def environment_consistency_analysis(self, audit_results: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze consistency across different environments."""
         environments = {}
 
@@ -226,7 +226,7 @@ class ReproducibilityAnalyzer:
 
         return env_analysis
 
-    def generate_reproducibility_matrix(self, matrices: Dict[str, np.ndarray]) -> Dict[str, Any]:
+    def generate_reproducibility_matrix(self, matrices: dict[str, np.ndarray]) -> dict[str, Any]:
         """Generate comprehensive reproducibility matrix."""
         # Overall variance analysis
         variance_analysis = self.cross_run_variance_analysis(matrices)
@@ -280,7 +280,7 @@ class ReproducibilityAnalyzer:
     def _generate_reproducibility_recommendation(
         self,
         score: float,
-        failing_metrics: List[str]
+        failing_metrics: list[str]
     ) -> str:
         """Generate reproducibility improvement recommendations."""
         if score >= self.target_reproducibility:
@@ -304,7 +304,7 @@ class ReproducibilityAnalyzer:
 
         return "; ".join(recommendations) if recommendations else "No specific recommendations"
 
-    def generate_visualizations(self, matrices: Dict[str, np.ndarray], output_dir: str):
+    def generate_visualizations(self, matrices: dict[str, np.ndarray], output_dir: str):
         """Generate reproducibility visualizations."""
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
@@ -408,8 +408,8 @@ class ReproducibilityAnalyzer:
 
     def generate_comprehensive_report(
         self,
-        audit_results: List[Dict[str, Any]],
-        reproducibility_matrix: Dict[str, Any]
+        audit_results: list[dict[str, Any]],
+        reproducibility_matrix: dict[str, Any]
     ) -> str:
         """Generate comprehensive reproducibility report."""
         report_lines = []

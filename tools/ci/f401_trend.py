@@ -31,7 +31,7 @@ SRC = "reports/audit/f401.json"
 DST = "reports/audit/f401_trends.csv"
 
 
-def _git(args: List[str]) -> str:
+def _git(args: list[str]) -> str:
     try:
         return subprocess.check_output(["git", *args], text=True).strip()
     except Exception:
@@ -60,7 +60,7 @@ def main() -> int:
 
     try:
         with open(SRC, encoding="utf-8") as f:
-            data: List[Dict[str, Any]] = json.load(f)
+            data: list[dict[str, Any]] = json.load(f)
     except json.JSONDecodeError as e:
         print(f"[f401_trend] invalid JSON in {SRC}: {e}", file=sys.stderr)
         return 2

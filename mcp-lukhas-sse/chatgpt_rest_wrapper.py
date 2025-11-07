@@ -34,7 +34,7 @@ class LukhasMCPRestWrapper:
             "version": "1.0.0"
         }
 
-    async def list_directory_impl(self, path: str) -> Dict[str, Any]:
+    async def list_directory_impl(self, path: str) -> dict[str, Any]:
         """Internal implementation of list_directory."""
         try:
             # Security: Only allow paths under allowed roots
@@ -81,7 +81,7 @@ class LukhasMCPRestWrapper:
             logger.error(f"Error listing directory {path}: {e}")
             return {"error": f"Error listing directory: {e!s}"}
 
-    async def read_file_impl(self, path: str, max_lines: int = 100) -> Dict[str, Any]:
+    async def read_file_impl(self, path: str, max_lines: int = 100) -> dict[str, Any]:
         """Internal implementation of read_file."""
         try:
             # Security: Only allow paths under allowed roots

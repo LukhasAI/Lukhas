@@ -114,7 +114,7 @@ class LaneImportLinter:
 
         return None
 
-    def extract_imports_from_file(self, file_path: Path) -> Set[str]:
+    def extract_imports_from_file(self, file_path: Path) -> set[str]:
         """Extract import statements from a Python file."""
         imports = set()
 
@@ -143,7 +143,7 @@ class LaneImportLinter:
 
         return imports
 
-    def check_import_violations(self, file_path: Path, file_lane: str, imports: Set[str]) -> List[str]:
+    def check_import_violations(self, file_path: Path, file_lane: str, imports: set[str]) -> list[str]:
         """Check for import violations against lane boundaries."""
         violations = []
 
@@ -183,7 +183,7 @@ class LaneImportLinter:
 
         return violations
 
-    def scan_directory_for_violations(self, directory: Path, lane: str) -> List[str]:
+    def scan_directory_for_violations(self, directory: Path, lane: str) -> list[str]:
         """Scan directory for lane import violations."""
         violations = []
 
@@ -210,7 +210,7 @@ class LaneImportLinter:
 
         return violations
 
-    def run_import_linter_tool(self) -> Tuple[bool, str]:
+    def run_import_linter_tool(self) -> tuple[bool, str]:
         """Run import-linter tool with configuration."""
         config_path = self.project_root / "config" / "tools" / "importlinter.cfg"
 
@@ -234,7 +234,7 @@ class LaneImportLinter:
         except Exception as e:
             return False, f"Error running import-linter: {e}"
 
-    def validate_lane_boundaries(self) -> Dict[str, List[str]]:
+    def validate_lane_boundaries(self) -> dict[str, list[str]]:
         """Validate all lane boundaries and return violations by lane."""
         lane_violations = {}
 
@@ -255,7 +255,7 @@ class LaneImportLinter:
 
         return lane_violations
 
-    def generate_violation_report(self, lane_violations: Dict[str, List[str]]) -> str:
+    def generate_violation_report(self, lane_violations: dict[str, list[str]]) -> str:
         """Generate comprehensive violation report."""
         report = ["=== Lane Boundary Import Violation Report ===\n"]
 

@@ -73,13 +73,13 @@ class WebAuthnOIDCSession:
 
     # OIDC context
     authorization_code: Optional[str] = None
-    scope: Set[str] = field(default_factory=set)
+    scope: set[str] = field(default_factory=set)
     nonce: Optional[str] = None
     code_challenge: Optional[str] = None
 
     # Security context
     security_level: IntegrationSecurityLevel = IntegrationSecurityLevel.T4_EXCELLENCE
-    authentication_methods: List[AuthenticationMethod] = field(default_factory=list)
+    authentication_methods: list[AuthenticationMethod] = field(default_factory=list)
     risk_score: float = 0.0
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     expires_at: Optional[datetime] = None
@@ -101,7 +101,7 @@ class WebAuthnOIDCSession:
             self.risk_score < 50.0
         )
 
-    def get_authentication_context_reference(self) -> List[str]:
+    def get_authentication_context_reference(self) -> list[str]:
         """Get Authentication Context Class Reference for OIDC tokens"""
         acr_values = []
 
@@ -126,7 +126,7 @@ class WebAuthnOIDCSession:
 class WebAuthnOIDCIntegration:
     """WebAuthn-OIDC Integration with T4/0.01% Excellence Security"""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.fail_closed = self.config.get('fail_closed', True)
 
@@ -139,8 +139,8 @@ class WebAuthnOIDCIntegration:
         )
 
         # Session management
-        self.active_sessions: Dict[str, WebAuthnOIDCSession] = {}
-        self.integration_events: List[Dict[str, Any]] = []
+        self.active_sessions: dict[str, WebAuthnOIDCSession] = {}
+        self.integration_events: list[dict[str, Any]] = []
 
         # Performance targets
         self.token_generation_target_ms = 100
@@ -150,8 +150,8 @@ class WebAuthnOIDCIntegration:
                    fail_closed=self.fail_closed,
                    token_target_ms=self.token_generation_target_ms)
 
-    async def initiate_webauthn_oidc_flow(self, authorization_params: Dict[str, Any],
-                                        context: Dict[str, Any]) -> Dict[str, Any]:
+    async def initiate_webauthn_oidc_flow(self, authorization_params: dict[str, Any],
+                                        context: dict[str, Any]) -> dict[str, Any]:
         """
         Initiate integrated WebAuthn + OIDC authentication flow
         Returns: {'status': str, 'session_id': str, 'webauthn_options': dict, 'redirect_uri': str}
@@ -220,8 +220,8 @@ class WebAuthnOIDCIntegration:
             raise
 
     async def complete_webauthn_authentication(self, session_id: str,
-                                             webauthn_response: Dict[str, Any],
-                                             context: Dict[str, Any]) -> Dict[str, Any]:
+                                             webauthn_response: dict[str, Any],
+                                             context: dict[str, Any]) -> dict[str, Any]:
         """
         Complete WebAuthn authentication and generate OIDC authorization code
         Returns: {'status': str, 'authorization_code': str, 'redirect_uri': str}
@@ -324,8 +324,8 @@ class WebAuthnOIDCIntegration:
             raise
 
     async def generate_oidc_tokens(self, authorization_code: str,
-                                 token_request: Dict[str, Any],
-                                 context: Dict[str, Any]) -> Dict[str, Any]:
+                                 token_request: dict[str, Any],
+                                 context: dict[str, Any]) -> dict[str, Any]:
         """
         Generate OIDC tokens with WebAuthn authentication context
         Returns: {'access_token': str, 'id_token': str, 'token_type': str, 'expires_in': int}
@@ -437,7 +437,7 @@ class WebAuthnOIDCIntegration:
 
     # Private helper methods
 
-    async def _generate_webauthn_options(self, session: WebAuthnOIDCSession) -> Dict[str, Any]:
+    async def _generate_webauthn_options(self, session: WebAuthnOIDCSession) -> dict[str, Any]:
         """Generate WebAuthn authentication options"""
         challenge = secrets.token_bytes(32)
 
@@ -454,8 +454,8 @@ class WebAuthnOIDCIntegration:
         }
 
     async def _validate_webauthn_response(self, session: WebAuthnOIDCSession,
-                                        response: Dict[str, Any],
-                                        context: Dict[str, Any]) -> Dict[str, Any]:
+                                        response: dict[str, Any],
+                                        context: dict[str, Any]) -> dict[str, Any]:
         """Validate WebAuthn authentication response"""
         # Use existing WebAuthn security hardening
         validation_result = await self.webauthn_security.validate_authentication_response(
@@ -481,7 +481,7 @@ class WebAuthnOIDCIntegration:
         return bool(credential_id and lambda_id)
 
     async def _validate_with_guardian(self, session: WebAuthnOIDCSession,
-                                    context: Dict[str, Any]) -> Dict[str, Any]:
+                                    context: dict[str, Any]) -> dict[str, Any]:
         """Validate session with Guardian system"""
         # Simulated Guardian validation
         # In production, this would integrate with the actual Guardian system
@@ -518,7 +518,7 @@ class WebAuthnOIDCIntegration:
 
         return f"lukhas_{code_hash[:32]}"
 
-    async def _generate_jwt_token(self, claims: Dict[str, Any]) -> str:
+    async def _generate_jwt_token(self, claims: dict[str, Any]) -> str:
         """Generate JWT token with proper signing"""
         # Generate a test RSA key for demonstration
         # In production, this would use the actual signing key
@@ -536,7 +536,7 @@ class WebAuthnOIDCIntegration:
 
         return token
 
-    async def _log_integration_event(self, event: Dict[str, Any]):
+    async def _log_integration_event(self, event: dict[str, Any]):
         """Log integration event for monitoring"""
         event['timestamp'] = datetime.now(timezone.utc).isoformat()
         event['component'] = 'webauthn_oidc_integration'
@@ -549,7 +549,7 @@ class WebAuthnOIDCIntegration:
                    latency_ms=event.get('latency_ms'),
                    success=event.get('success'))
 
-    async def get_integration_metrics(self) -> Dict[str, Any]:
+    async def get_integration_metrics(self) -> dict[str, Any]:
         """Get integration performance and security metrics"""
         total_events = len(self.integration_events)
         if total_events == 0:

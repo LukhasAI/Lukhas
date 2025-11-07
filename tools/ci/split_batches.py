@@ -20,7 +20,7 @@ class BatchSplitter:
         self.strategy = self._load_strategy(strategy_file)
         self.agents = self._initialize_agents()
 
-    def _load_strategy(self, strategy_file: str) -> Dict[str, Any]:
+    def _load_strategy(self, strategy_file: str) -> dict[str, Any]:
         """Load allocation strategy from YAML or use defaults"""
         if strategy_file and strategy_file != "default" and Path(strategy_file).exists():
             try:
@@ -67,14 +67,14 @@ class BatchSplitter:
             "mechanical_keywords": ["import", "f821", "rename", "docstring", "format"],
         }
 
-    def _initialize_agents(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_agents(self) -> dict[str, dict[str, Any]]:
         """Initialize agent state tracking"""
         agents = {}
         for agent_id, config in self.strategy["agent_capabilities"].items():
             agents[agent_id] = {"config": config, "assigned": [], "current_batch_size": 0}
         return agents
 
-    def split_todos(self, manifest: Dict[str, Any]) -> Dict[str, List[Dict[str, Any]]]:
+    def split_todos(self, manifest: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
         """Split tracked tasks into agent-specific batches"""
         todos = manifest["todos"]
         batches = {}
@@ -97,7 +97,7 @@ class BatchSplitter:
 
         return batches
 
-    def _assign_todo_to_agent(self, todo: Dict[str, Any]) -> str:
+    def _assign_todo_to_agent(self, todo: dict[str, Any]) -> str:
         """Assign a tracked task to the most appropriate agent"""
         priority = todo["priority"]
         todo_type = todo["est"]["type"]
@@ -143,7 +143,7 @@ class BatchSplitter:
         module_lower = module.lower()
         return any(risk_keyword in module_lower for risk_keyword in self.strategy["high_risk_modules"])
 
-    def create_batch_files(self, batches: Dict[str, List[Dict[str, Any]]], output_dir: str, run_id: str):
+    def create_batch_files(self, batches: dict[str, list[dict[str, Any]]], output_dir: str, run_id: str):
         """Create batch files for each agent"""
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
@@ -202,7 +202,7 @@ class BatchSplitter:
 
         return batch_summary
 
-    def _get_dominant_module(self, todos: List[Dict[str, Any]]) -> str:
+    def _get_dominant_module(self, todos: list[dict[str, Any]]) -> str:
         """Get the most common module for branch naming"""
         module_counts = {}
         for todo in todos:
@@ -222,7 +222,7 @@ class BatchSplitter:
         expiry = datetime.now() + timedelta(hours=72)
         return expiry.isoformat() + "Z"
 
-    def _count_by_field(self, todos: List[Dict[str, Any]], field) -> Dict[str, int]:
+    def _count_by_field(self, todos: list[dict[str, Any]], field) -> dict[str, int]:
         """Count tracked tasks by a specific field"""
         counts = {}
         for todo in todos:

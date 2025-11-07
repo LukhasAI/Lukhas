@@ -49,7 +49,7 @@ class PrivacyStatement:
     content: str
     format: OutputFormat
     organization: OrganizationInfo
-    data_types: List[str]
+    data_types: list[str]
     last_updated: datetime
     version: str = "1.0"
     language: str = "en"
@@ -70,10 +70,10 @@ class PrivacyStatementGenerator:
     def generate(
         self,
         jurisdiction: str | Jurisdiction,
-        data_types: List[str],
+        data_types: list[str],
         organization: OrganizationInfo,
         output_format: str | OutputFormat = OutputFormat.PLAIN_TEXT,
-        purposes: List[str] | None = None,
+        purposes: list[str] | None = None,
         retention_period: str = "as long as necessary for stated purposes",
         legal_basis: str | None = None,
     ) -> PrivacyStatement:
@@ -136,7 +136,7 @@ class PrivacyStatementGenerator:
         )
 
     @staticmethod
-    def _default_purposes() -> List[str]:
+    def _default_purposes() -> list[str]:
         """Return default data processing purposes."""
         return [
             "Providing and maintaining our service",
@@ -155,7 +155,7 @@ class PrivacyStatementGenerator:
 
     # Template methods for each jurisdiction
 
-    def _gdpr_template(self, context: Dict[str, Any], output_format: OutputFormat) -> str:
+    def _gdpr_template(self, context: dict[str, Any], output_format: OutputFormat) -> str:
         """Generate GDPR-compliant privacy statement."""
         org = context["organization"]
         data_types = context["data_types"]
@@ -175,8 +175,8 @@ class PrivacyStatementGenerator:
     def _gdpr_plain_template(
         self,
         org: OrganizationInfo,
-        data_types: List[str],
-        purposes: List[str],
+        data_types: list[str],
+        purposes: list[str],
         retention_period: str,
         legal_basis: str,
         last_updated: datetime,
@@ -288,8 +288,8 @@ Email: {org.email}
     def _gdpr_html_template(
         self,
         org: OrganizationInfo,
-        data_types: List[str],
-        purposes: List[str],
+        data_types: list[str],
+        purposes: list[str],
         retention_period: str,
         legal_basis: str,
         last_updated: datetime,
@@ -432,7 +432,7 @@ Email: {org.email}
 </html>
 """
 
-    def _ccpa_template(self, context: Dict[str, Any], output_format: OutputFormat) -> str:
+    def _ccpa_template(self, context: dict[str, Any], output_format: OutputFormat) -> str:
         """Generate CCPA-compliant privacy statement."""
         org = context["organization"]
         data_types = context["data_types"]
@@ -447,8 +447,8 @@ Email: {org.email}
     def _ccpa_plain_template(
         self,
         org: OrganizationInfo,
-        data_types: List[str],
-        purposes: List[str],
+        data_types: list[str],
+        purposes: list[str],
         retention_period: str,
         last_updated: datetime,
     ) -> str:
@@ -585,8 +585,8 @@ Email: {org.email}
     def _ccpa_html_template(
         self,
         org: OrganizationInfo,
-        data_types: List[str],
-        purposes: List[str],
+        data_types: list[str],
+        purposes: list[str],
         retention_period: str,
         last_updated: datetime,
     ) -> str:
@@ -761,7 +761,7 @@ Email: {org.email}
 </html>
 """
 
-    def _pipeda_template(self, context: Dict[str, Any], output_format: OutputFormat) -> str:
+    def _pipeda_template(self, context: dict[str, Any], output_format: OutputFormat) -> str:
         """Generate PIPEDA-compliant privacy statement."""
         org = context["organization"]
         data_types = context["data_types"]
@@ -776,8 +776,8 @@ Email: {org.email}
     def _pipeda_plain_template(
         self,
         org: OrganizationInfo,
-        data_types: List[str],
-        purposes: List[str],
+        data_types: list[str],
+        purposes: list[str],
         retention_period: str,
         last_updated: datetime,
     ) -> str:
@@ -937,8 +937,8 @@ Email: {org.email}
     def _pipeda_html_template(
         self,
         org: OrganizationInfo,
-        data_types: List[str],
-        purposes: List[str],
+        data_types: list[str],
+        purposes: list[str],
         retention_period: str,
         last_updated: datetime,
     ) -> str:
@@ -1123,7 +1123,7 @@ Email: {org.email}
 </html>
 """
 
-    def _lgpd_template(self, context: Dict[str, Any], output_format: OutputFormat) -> str:
+    def _lgpd_template(self, context: dict[str, Any], output_format: OutputFormat) -> str:
         """Generate LGPD-compliant privacy statement."""
         org = context["organization"]
         data_types = context["data_types"]
@@ -1143,8 +1143,8 @@ Email: {org.email}
     def _lgpd_plain_template(
         self,
         org: OrganizationInfo,
-        data_types: List[str],
-        purposes: List[str],
+        data_types: list[str],
+        purposes: list[str],
         retention_period: str,
         legal_basis: str,
         last_updated: datetime,
@@ -1324,8 +1324,8 @@ Email: {org.email}
     def _lgpd_html_template(
         self,
         org: OrganizationInfo,
-        data_types: List[str],
-        purposes: List[str],
+        data_types: list[str],
+        purposes: list[str],
         retention_period: str,
         legal_basis: str,
         last_updated: datetime,

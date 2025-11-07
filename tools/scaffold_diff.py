@@ -57,8 +57,8 @@ except ImportError:
         template = env.get_template(template_rel)
         return template.render(**context)
 
-def diff_module_files(module_path: pathlib.Path, templates: List[str],
-                     env: Environment, context_lines: int = 3) -> Dict[str, Any]:
+def diff_module_files(module_path: pathlib.Path, templates: list[str],
+                     env: Environment, context_lines: int = 3) -> dict[str, Any]:
     """Generate diffs for a module's files vs templates."""
     module_name = module_path.name
     manifest = load_module_manifest(module_path)
@@ -155,7 +155,7 @@ def diff_module_files(module_path: pathlib.Path, templates: List[str],
 
     return results
 
-def format_diff_output(results: Dict[str, Any], show_unchanged: bool = False) -> str:
+def format_diff_output(results: dict[str, Any], show_unchanged: bool = False) -> str:
     """Format diff results for human-readable output."""
     lines = []
     module = results["module"]

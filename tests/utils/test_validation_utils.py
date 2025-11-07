@@ -247,7 +247,7 @@ def test_hex_color_validation():
 @pytest.mark.unit
 def test_json_structure_validation():
     """Test JSON structure validation."""
-    def validate_user_json(data: Dict[str, Any]) -> bool:
+    def validate_user_json(data: dict[str, Any]) -> bool:
         """Validate user JSON has required fields."""
         required_fields = ["user_id", "email", "tier"]
         return all(field in data for field in required_fields)
@@ -271,7 +271,7 @@ def test_json_structure_validation():
 @pytest.mark.unit
 def test_list_validation():
     """Test list content validation."""
-    def validate_list(items: List[Any], item_type: type, max_items: int = 100) -> bool:
+    def validate_list(items: list[Any], item_type: type, max_items: int = 100) -> bool:
         """Validate list contains items of correct type and size."""
         if len(items) > max_items:
             return False
@@ -384,7 +384,7 @@ def test_boundary_string_validation():
 @pytest.mark.unit
 def test_user_registration_validation():
     """Test complete user registration validation."""
-    def validate_registration(data: Dict[str, str]) -> tuple[bool, List[str]]:
+    def validate_registration(data: dict[str, str]) -> tuple[bool, list[str]]:
         """Validate user registration data. Returns (is_valid, errors)."""
         errors = []
 
@@ -432,7 +432,7 @@ def test_user_registration_validation():
 @pytest.mark.capability
 def test_validation_pipeline_capability():
     """Test complete validation pipeline."""
-    def validate_api_request(data: Dict[str, Any]) -> bool:
+    def validate_api_request(data: dict[str, Any]) -> bool:
         """Validate API request data."""
         # 1. Check required fields
         if "user_id" not in data or "action" not in data:

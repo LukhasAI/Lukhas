@@ -244,7 +244,7 @@ class OrchestrationMetrics:
     """Performance metrics for orchestration"""
 
     total_duration_ms: float = 0.0
-    stage_durations: Dict[str, float] = field(default_factory=dict)
+    stage_durations: dict[str, float] = field(default_factory=dict)
     timeout_count: int = 0
     error_count: int = 0
     success_count: int = 0
@@ -322,8 +322,8 @@ class AsyncCognitiveOrchestrator:
 
     def __init__(
         self,
-        stage_timeouts: Optional[Dict[StageType, float]] = None,
-        stage_critical: Optional[Dict[StageType, bool]] = None,
+        stage_timeouts: Optional[dict[StageType, float]] = None,
+        stage_critical: Optional[dict[StageType, bool]] = None,
         total_timeout: float = 0.250,  # 250ms total budget
     ):
         """
@@ -516,12 +516,12 @@ class AsyncCognitiveOrchestrator:
 
         return best_node
 
-    def _finalize_metrics(self, stage_results: List[StageResult], total_duration_ms: float) -> None:
+    def _finalize_metrics(self, stage_results: list[StageResult], total_duration_ms: float) -> None:
         self.metrics.total_duration_ms = total_duration_ms
         executed = {result.stage_type for result in stage_results}
         self.metrics.stages_skipped = max(0, len(StageType) - len(executed))
 
-    def _adapt_input_for_node(self, node_name: str, raw_input: Any) -> Dict[str, Any]:
+    def _adapt_input_for_node(self, node_name: str, raw_input: Any) -> dict[str, Any]:
         """Map raw pipeline input to the schema expected by a specific node."""
 
         # ΛTAG: input_contract_adapter
@@ -549,7 +549,7 @@ class AsyncCognitiveOrchestrator:
 
         return {"query": raw_input}
 
-    async def process_query(self, user_input: str) -> Dict[str, Any]:
+    async def process_query(self, user_input: str) -> dict[str, Any]:
         """
         Process user query through MATRIZ nodes with timeout enforcement.
 
@@ -591,8 +591,8 @@ class AsyncCognitiveOrchestrator:
                 }
 
     async def _process_pipeline(
-        self, user_input: str, stage_results: List[StageResult]
-    ) -> Dict[str, Any]:
+        self, user_input: str, stage_results: list[StageResult]
+    ) -> dict[str, Any]:
         """
         Internal pipeline processing with stage management.
         """
@@ -757,7 +757,7 @@ class AsyncCognitiveOrchestrator:
     @instrument_matriz_stage(
         "cognitive_processing", "processing", critical=True, slo_target_ms=120.0
     )
-    async def _process_node_async(self, node: CognitiveNode, node_input: Dict[str, Any]) -> Dict:
+    async def _process_node_async(self, node: CognitiveNode, node_input: dict[str, Any]) -> Dict:
         """Async wrapper for node processing with circuit breaker protection"""
         if not isinstance(node_input, dict):
             raise TypeError("node_input must be a dictionary for node.process() calls")
@@ -812,8 +812,8 @@ class AsyncCognitiveOrchestrator:
             health["p95_latency_ms"] = sorted_latencies[p95_index]
 
     def _build_error_response(
-        self, error: str, stage_results: List[StageResult], start_time: float
-    ) -> Dict[str, Any]:
+        self, error: str, stage_results: list[StageResult], start_time: float
+    ) -> dict[str, Any]:
         """Build error response with metrics"""
         total_ms = (time.perf_counter() - start_time) * 1000
         _record_pipeline_metrics(total_ms, "error", False)
@@ -832,8 +832,8 @@ class AsyncCognitiveOrchestrator:
         }
 
     def _build_success_response(
-        self, result: Dict, stage_results: List[StageResult], total_duration_ms: float
-    ) -> Dict[str, Any]:
+        self, result: Dict, stage_results: list[StageResult], total_duration_ms: float
+    ) -> dict[str, Any]:
         """Build success response with full metrics"""
         stage_durations = {r.stage_type.value: r.duration_ms for r in stage_results}
         self._finalize_metrics(stage_results, total_duration_ms)
@@ -857,7 +857,7 @@ class AsyncCognitiveOrchestrator:
             "orchestrator_metrics": asdict(self.metrics),
         }
 
-    def get_performance_report(self) -> Dict[str, Any]:
+    def get_performance_report(self) -> dict[str, Any]:
         """Get detailed performance report with circuit breaker status"""
         report = {
             "node_health": self.node_health,
@@ -873,7 +873,7 @@ class AsyncCognitiveOrchestrator:
 
         return report
 
-    def get_health_report(self) -> Dict[str, Any]:
+    def get_health_report(self) -> dict[str, Any]:
         """Get comprehensive health report for monitoring and diagnostics"""
         return {
             "status": "healthy" if len(self.available_nodes) > 0 else "degraded",
@@ -895,7 +895,7 @@ class AsyncCognitiveOrchestrator:
 
     # === ENHANCED ASYNC INTERFACE FOR INTEGRATION ===
 
-    async def process_query_async(self, user_input: str) -> Dict[str, Any]:
+    async def process_query_async(self, user_input: str) -> dict[str, Any]:
         """
         Async interface for query processing - delegates to process_query.
         Added for compatibility with async orchestrator test patterns.
@@ -919,7 +919,7 @@ class AsyncCognitiveOrchestrator:
                 self.node_id = name
                 self.capabilities = ["async_processing"]
 
-            def process(self, node_input: Dict[str, Any]) -> Dict[str, Any]:
+            def process(self, node_input: dict[str, Any]) -> dict[str, Any]:
                 """
                 Synchronous wrapper that runs async function.
                 Note: This is called from within an async context via run_in_executor.
@@ -935,7 +935,7 @@ class AsyncCognitiveOrchestrator:
                 except Exception as e:
                     return {"error": f"Async node processing failed: {e!s}"}
 
-            def validate_output(self, output: Dict[str, Any]) -> bool:
+            def validate_output(self, output: dict[str, Any]) -> bool:
                 """Basic validation for async node outputs"""
                 return isinstance(output, dict) and "error" not in output
 
@@ -946,7 +946,7 @@ class AsyncCognitiveOrchestrator:
 
     # === CONTEXT PRESERVATION ENHANCEMENTS ===
 
-    def preserve_context(self, context_data: Dict[str, Any]) -> str:
+    def preserve_context(self, context_data: dict[str, Any]) -> str:
         """
         Preserve context data for cross-orchestration continuity.
 
@@ -968,7 +968,7 @@ class AsyncCognitiveOrchestrator:
 
         return context_id
 
-    def restore_context(self, context_id: str) -> Optional[Dict[str, Any]]:
+    def restore_context(self, context_id: str) -> Optional[dict[str, Any]]:
         """
         Restore preserved context data.
 
@@ -980,7 +980,7 @@ class AsyncCognitiveOrchestrator:
                 return entry["data"]
         return None
 
-    def get_context_summary(self) -> Dict[str, Any]:
+    def get_context_summary(self) -> dict[str, Any]:
         """Get summary of preserved context for monitoring"""
         return {
             "total_contexts": len(self.context_memory),

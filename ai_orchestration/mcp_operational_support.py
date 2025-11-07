@@ -21,13 +21,13 @@ class MCPServerContext:
 
 class OperationalMetrics:
     """Represents the collected operational metrics."""
-    def __init__(self, metrics: Dict[str, Any]):
+    def __init__(self, metrics: dict[str, Any]):
         self.metrics = metrics
         self.timestamp = time.time()
 
 class AnalysisResult:
     """Represents the result of an operational analysis."""
-    def __init__(self, findings: List[str]):
+    def __init__(self, findings: list[str]):
         self.findings = findings
 
 class SupportIncident:
@@ -78,7 +78,7 @@ class LUKHASMCPOperationalSupport:
 
         return OperationalMetrics(metrics)
 
-    def analyze_operational_patterns(self, metrics_history: List[OperationalMetrics]) -> AnalysisResult:
+    def analyze_operational_patterns(self, metrics_history: list[OperationalMetrics]) -> AnalysisResult:
         """Analyze operational patterns for optimization opportunities."""
         logging.info("Analyzing operational patterns...")
         findings = []
@@ -114,7 +114,7 @@ class LUKHASMCPOperationalSupport:
 
         return AnalysisResult(findings)
 
-    def _calculate_trend(self, data: List[float]) -> float:
+    def _calculate_trend(self, data: list[float]) -> float:
         """Calculates the trend of a time series using simple linear regression."""
         if len(data) < 2:
             return 0.0

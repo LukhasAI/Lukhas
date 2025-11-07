@@ -69,15 +69,15 @@ class MetricDefinition:
     name: str
     type: MetricType
     description: str
-    labels: List[str]
-    buckets: Optional[List[float]] = None
+    labels: list[str]
+    buckets: Optional[list[float]] = None
 
 
 class GuardianMetricsCollector:
     """Metrics collector for Guardian serialization operations"""
 
     def __init__(self):
-        self.metrics: Dict[str, Any] = {}
+        self.metrics: dict[str, Any] = {}
         self._initialize_metrics()
 
     def record_operation(self, result: GuardianResult) -> None:
@@ -138,7 +138,7 @@ class GuardianMetricsCollector:
                     tier=issue.tier.name
                 ).inc()
 
-    def record_serialization_metrics(self, serialization_metrics: Dict[str, Any]) -> None:
+    def record_serialization_metrics(self, serialization_metrics: dict[str, Any]) -> None:
         """Record serialization-specific metrics"""
         if not PROMETHEUS_AVAILABLE:
             return
@@ -161,7 +161,7 @@ class GuardianMetricsCollector:
                 serialization_metrics["serialization_time_ms"] / 1000.0
             )
 
-    def record_cache_metrics(self, cache_metrics: Dict[str, Any]) -> None:
+    def record_cache_metrics(self, cache_metrics: dict[str, Any]) -> None:
         """Record cache performance metrics"""
         if not PROMETHEUS_AVAILABLE:
             return
@@ -178,7 +178,7 @@ class GuardianMetricsCollector:
         if "memory_usage_mb" in cache_metrics:
             self.metrics["guardian_memory_usage_mb"].set(cache_metrics["memory_usage_mb"])
 
-    def record_circuit_breaker_metrics(self, integration_health: Dict[str, Any]) -> None:
+    def record_circuit_breaker_metrics(self, integration_health: dict[str, Any]) -> None:
         """Record circuit breaker metrics"""
         if not PROMETHEUS_AVAILABLE:
             return
@@ -197,7 +197,7 @@ class GuardianMetricsCollector:
                         integration=integration
                     ).set(health_info["failure_count"])
 
-    def get_metrics_summary(self) -> Dict[str, Any]:
+    def get_metrics_summary(self) -> dict[str, Any]:
         """Get summary of collected metrics"""
         if not PROMETHEUS_AVAILABLE:
             return {"status": "prometheus_not_available"}
@@ -359,7 +359,7 @@ class GuardianMetricsCollector:
         )
         self.metrics["guardian_migrations_total"].labels(status=status).inc()
 
-    def _record_serialization_metrics(self, serialization_metrics: Dict[str, Any]) -> None:
+    def _record_serialization_metrics(self, serialization_metrics: dict[str, Any]) -> None:
         """Internal method to record serialization metrics"""
         self.record_serialization_metrics(serialization_metrics)
 
@@ -389,7 +389,7 @@ class GuardianTracing:
             }
         )
 
-    def add_span_event(self, event_name: str, attributes: Optional[Dict[str, Any]] = None):
+    def add_span_event(self, event_name: str, attributes: Optional[dict[str, Any]] = None):
         """Add event to current span"""
         if not self.tracer:
             return
@@ -465,7 +465,7 @@ class GuardianHealthCheck:
         self.metrics_collector = GuardianMetricsCollector()
         self.start_time = time.time()
 
-    def get_health_status(self) -> Dict[str, Any]:
+    def get_health_status(self) -> dict[str, Any]:
         """Get comprehensive health status"""
         from .guardian_serializers import get_system_health
 
@@ -490,7 +490,7 @@ class GuardianHealthCheck:
 
         return health_status
 
-    def get_readiness_status(self) -> Dict[str, Any]:
+    def get_readiness_status(self) -> dict[str, Any]:
         """Get readiness status for Kubernetes/container orchestration"""
         health = self.get_health_status()
         integration_health = health.get("integration_health", {})
@@ -508,7 +508,7 @@ class GuardianHealthCheck:
             "components": integration_health
         }
 
-    def get_liveness_status(self) -> Dict[str, Any]:
+    def get_liveness_status(self) -> dict[str, Any]:
         """Get liveness status for Kubernetes/container orchestration"""
         # Basic liveness check - system is alive if it can respond
         return {
@@ -519,8 +519,8 @@ class GuardianHealthCheck:
 
     def _determine_overall_status(
         self,
-        system_health: Dict[str, Any],
-        observability_health: Dict[str, Any]
+        system_health: dict[str, Any],
+        observability_health: dict[str, Any]
     ) -> str:
         """Determine overall system status"""
         integration_health = system_health.get("integration_health", {})
@@ -624,7 +624,7 @@ def record_guardian_operation(result: GuardianResult) -> None:
     metrics_collector.record_operation(result)
 
 
-def record_system_metrics(system_status: Dict[str, Any]) -> None:
+def record_system_metrics(system_status: dict[str, Any]) -> None:
     """Record system-level metrics"""
     metrics_collector = get_metrics_collector()
 
@@ -640,19 +640,19 @@ def record_system_metrics(system_status: Dict[str, Any]) -> None:
 
 
 # Health check endpoints (for web framework integration)
-def health_endpoint() -> Dict[str, Any]:
+def health_endpoint() -> dict[str, Any]:
     """Health check endpoint"""
     health_check = get_health_check()
     return health_check.get_health_status()
 
 
-def ready_endpoint() -> Dict[str, Any]:
+def ready_endpoint() -> dict[str, Any]:
     """Readiness check endpoint"""
     health_check = get_health_check()
     return health_check.get_readiness_status()
 
 
-def live_endpoint() -> Dict[str, Any]:
+def live_endpoint() -> dict[str, Any]:
     """Liveness check endpoint"""
     health_check = get_health_check()
     return health_check.get_liveness_status()

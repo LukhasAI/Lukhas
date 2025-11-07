@@ -168,7 +168,7 @@ def parse_alias(alias: str) -> ΛiDAlias | None:
     )
 
 
-def validate_alias_format(alias: str) -> Tuple[bool, str]:
+def validate_alias_format(alias: str) -> tuple[bool, str]:
     """
     Comprehensive alias validation with detailed error reporting.
 

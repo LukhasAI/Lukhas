@@ -80,14 +80,14 @@ class StressTestConfig:
 @dataclass
 class PerformanceMetrics:
     """Performance metrics collected during stress testing"""
-    latencies_ms: List[float] = field(default_factory=list)
-    error_rates: Dict[str, float] = field(default_factory=dict)
-    cpu_usage_percent: List[float] = field(default_factory=list)
-    memory_usage_mb: List[float] = field(default_factory=list)
-    cognitive_loads: List[float] = field(default_factory=list)
-    contradiction_accuracy: List[float] = field(default_factory=list)
+    latencies_ms: list[float] = field(default_factory=list)
+    error_rates: dict[str, float] = field(default_factory=dict)
+    cpu_usage_percent: list[float] = field(default_factory=list)
+    memory_usage_mb: list[float] = field(default_factory=list)
+    cognitive_loads: list[float] = field(default_factory=list)
+    contradiction_accuracy: list[float] = field(default_factory=list)
     circuit_breaker_trips: int = 0
-    recovery_times_ms: List[float] = field(default_factory=list)
+    recovery_times_ms: list[float] = field(default_factory=list)
 
 
 class SystemResourceMonitor:
@@ -131,7 +131,7 @@ class SystemResourceMonitor:
             except Exception as e:
                 logger.warning(f"Resource monitoring error: {e}")
 
-    def get_resource_summary(self) -> Dict[str, Any]:
+    def get_resource_summary(self) -> dict[str, Any]:
         """Get summary of resource usage"""
         if not self.metrics.cpu_usage_percent or not self.metrics.memory_usage_mb:
             return {'error': 'No monitoring data available'}
@@ -166,7 +166,7 @@ class CognitiveLoadGenerator:
 
     async def generate_load(self,
                            config: StressTestConfig,
-                           cognitive_components: Dict[str, Any]) -> PerformanceMetrics:
+                           cognitive_components: dict[str, Any]) -> PerformanceMetrics:
         """Generate cognitive load based on configuration"""
         load_generator = self.load_patterns.get(config.load_pattern)
         if not load_generator:
@@ -184,7 +184,7 @@ class CognitiveLoadGenerator:
 
     async def _constant_load(self,
                            config: StressTestConfig,
-                           components: Dict[str, Any],
+                           components: dict[str, Any],
                            metrics: PerformanceMetrics):
         """Generate constant cognitive load"""
         end_time = time.time() + config.duration_seconds
@@ -214,7 +214,7 @@ class CognitiveLoadGenerator:
 
     async def _ramp_up_load(self,
                           config: StressTestConfig,
-                          components: Dict[str, Any],
+                          components: dict[str, Any],
                           metrics: PerformanceMetrics):
         """Generate ramping up load"""
         end_time = time.time() + config.duration_seconds
@@ -244,7 +244,7 @@ class CognitiveLoadGenerator:
 
     async def _spike_load(self,
                         config: StressTestConfig,
-                        components: Dict[str, Any],
+                        components: dict[str, Any],
                         metrics: PerformanceMetrics):
         """Generate spike load pattern"""
         spike_duration = config.duration_seconds * 0.2  # 20% of total time
@@ -281,7 +281,7 @@ class CognitiveLoadGenerator:
 
     async def _oscillating_load(self,
                               config: StressTestConfig,
-                              components: Dict[str, Any],
+                              components: dict[str, Any],
                               metrics: PerformanceMetrics):
         """Generate oscillating load pattern"""
         end_time = time.time() + config.duration_seconds
@@ -312,7 +312,7 @@ class CognitiveLoadGenerator:
 
     async def _random_load(self,
                          config: StressTestConfig,
-                         components: Dict[str, Any],
+                         components: dict[str, Any],
                          metrics: PerformanceMetrics):
         """Generate random load pattern"""
         end_time = time.time() + config.duration_seconds
@@ -343,7 +343,7 @@ class CognitiveLoadGenerator:
 
     async def _create_cognitive_task(self,
                                    test_type: StressTestType,
-                                   components: Dict[str, Any],
+                                   components: dict[str, Any],
                                    task_id: int):
         """Create a cognitive task based on stress test type"""
         try:
@@ -365,7 +365,7 @@ class CognitiveLoadGenerator:
         except Exception as e:
             return {'error': str(e), 'task_id': task_id}
 
-    async def _cpu_intensive_task(self, components: Dict[str, Any], task_id: int):
+    async def _cpu_intensive_task(self, components: dict[str, Any], task_id: int):
         """CPU-intensive cognitive task"""
         thought_engine = components.get('thought_engine')
         if not thought_engine:
@@ -392,7 +392,7 @@ class CognitiveLoadGenerator:
             'task_id': task_id
         }
 
-    async def _memory_pressure_task(self, components: Dict[str, Any], task_id: int):
+    async def _memory_pressure_task(self, components: dict[str, Any], task_id: int):
         """Memory-pressure cognitive task"""
         thought_engine = components.get('thought_engine')
         if not thought_engine:
@@ -424,7 +424,7 @@ class CognitiveLoadGenerator:
             'context_size': len(large_context['data'])
         }
 
-    async def _concurrency_task(self, components: Dict[str, Any], task_id: int):
+    async def _concurrency_task(self, components: dict[str, Any], task_id: int):
         """Concurrency stress task"""
         inference_engine = components.get('inference_engine')
         if not inference_engine:
@@ -455,7 +455,7 @@ class CognitiveLoadGenerator:
             'total_count': len(results)
         }
 
-    async def _latency_critical_task(self, components: Dict[str, Any], task_id: int):
+    async def _latency_critical_task(self, components: dict[str, Any], task_id: int):
         """Latency-critical cognitive task"""
         thought_engine = components.get('thought_engine')
         if not thought_engine:
@@ -498,7 +498,7 @@ class CognitiveLoadGenerator:
                 'timeout_exceeded': True
             }
 
-    async def _cognitive_overload_task(self, components: Dict[str, Any], task_id: int):
+    async def _cognitive_overload_task(self, components: dict[str, Any], task_id: int):
         """Cognitive overload stress task"""
         meta_assessor = components.get('meta_assessor')
         contradiction_integrator = components.get('contradiction_integrator')
@@ -547,7 +547,7 @@ class CognitiveLoadGenerator:
             'premises_count': len(contradictory_premises)
         }
 
-    async def _mixed_load_task(self, components: Dict[str, Any], task_id: int):
+    async def _mixed_load_task(self, components: dict[str, Any], task_id: int):
         """Mixed load cognitive task"""
         # Randomly select and combine multiple task types
         task_types = [
@@ -580,7 +580,7 @@ class CognitiveLoadGenerator:
         }
 
     def _process_batch_results(self,
-                             results: List[Any],
+                             results: list[Any],
                              batch_time: float,
                              metrics: PerformanceMetrics):
         """Process batch results and update metrics"""
@@ -652,7 +652,7 @@ class StressTestInfrastructure:
         self.cognitive_components['thought_engine'].inference_engine = \
             self.cognitive_components['inference_engine']
 
-    async def run_stress_test(self, config: StressTestConfig) -> Dict[str, Any]:
+    async def run_stress_test(self, config: StressTestConfig) -> dict[str, Any]:
         """Run comprehensive stress test"""
         logger.info(f"Starting stress test: {config.test_type.value} - {config.load_pattern.value}")
 
@@ -707,7 +707,7 @@ class StressTestInfrastructure:
 
     def _analyze_performance(self,
                            metrics: PerformanceMetrics,
-                           config: StressTestConfig) -> Dict[str, Any]:
+                           config: StressTestConfig) -> dict[str, Any]:
         """Analyze performance metrics"""
         if not metrics.latencies_ms:
             return {'error': 'No performance data collected'}
@@ -743,7 +743,7 @@ class StressTestInfrastructure:
 
     def _check_t4_compliance(self,
                            metrics: PerformanceMetrics,
-                           config: StressTestConfig) -> Dict[str, Any]:
+                           config: StressTestConfig) -> dict[str, Any]:
         """Check T4/0.01% compliance under stress"""
         if not metrics.latencies_ms:
             return {'compliant': False, 'reason': 'No latency data'}
@@ -780,7 +780,7 @@ class StressTestInfrastructure:
 
     def _generate_recommendations(self,
                                 metrics: PerformanceMetrics,
-                                config: StressTestConfig) -> List[str]:
+                                config: StressTestConfig) -> list[str]:
         """Generate performance improvement recommendations"""
         recommendations = []
 
@@ -841,7 +841,7 @@ class StressTestInfrastructure:
 
         return recommendations
 
-    def get_comprehensive_report(self) -> Dict[str, Any]:
+    def get_comprehensive_report(self) -> dict[str, Any]:
         """Generate comprehensive stress testing report"""
         if not self.test_results:
             return {'error': 'No stress test results available'}
@@ -880,7 +880,7 @@ class StressTestInfrastructure:
             'recommendations': self._generate_overall_recommendations()
         }
 
-    def _generate_overall_recommendations(self) -> List[str]:
+    def _generate_overall_recommendations(self) -> list[str]:
         """Generate overall recommendations from all stress tests"""
         if not self.test_results:
             return ['No test results available for analysis']

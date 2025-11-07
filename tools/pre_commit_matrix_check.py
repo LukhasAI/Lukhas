@@ -21,7 +21,7 @@ except ImportError:
     sys.exit(1)
 
 
-def validate_matrix_contract(contract_path: str) -> List[str]:
+def validate_matrix_contract(contract_path: str) -> list[str]:
     """Validate a single matrix contract against schema."""
     errors = []
 

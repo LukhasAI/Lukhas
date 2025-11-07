@@ -25,7 +25,7 @@ class BioAwareConsciousnessState(Enum):
 
 # Mapping from bio-symbolic glyphs to consciousness layers/states
 # This is a simplified data structure for the integration design.
-BIO_CONSCIOUSNESS_MAP: Dict[SymbolicGlyph, BioAwareConsciousnessState] = {
+BIO_CONSCIOUSNESS_MAP: dict[SymbolicGlyph, BioAwareConsciousnessState] = {
     # Rhythm
     SymbolicGlyph.CIRCADIAN: BioAwareConsciousnessState.RESTORATIVE_INTEGRATION,
     SymbolicGlyph.ULTRADIAN: BioAwareConsciousnessState.CALM_FOCUS,
@@ -57,7 +57,7 @@ BIO_CONSCIOUSNESS_MAP: Dict[SymbolicGlyph, BioAwareConsciousnessState] = {
 }
 
 
-def bio_feedback_loop(bio_symbolic_result: Dict[str, Any]):
+def bio_feedback_loop(bio_symbolic_result: dict[str, Any]):
     """
     A basic bio-feedback mechanism.
 

@@ -80,7 +80,7 @@ class DreamEngine:
     for sub-50ms dream cycles with comprehensive memory integration.
     """
 
-    def __init__(self, config: Dict[str, Any] | None = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize dream engine with configuration."""
         self.config = {**DEFAULT_DREAM_CONFIG, **(config or {})}
         self.max_duration_ms = self.config["max_duration_ms"]
@@ -94,9 +94,9 @@ class DreamEngine:
         self._component_id = "DreamEngine"
 
         # Memory processing state
-        self._memory_buffer: List[Dict[str, Any]] = []
-        self._discovered_motifs: Set[str] = set()
-        self._association_graph: Dict[str, List[str]] = {}
+        self._memory_buffer: list[dict[str, Any]] = []
+        self._discovered_motifs: set[str] = set()
+        self._association_graph: dict[str, list[str]] = {}
         self._consolidation_count = 0
 
         # Performance tracking
@@ -107,7 +107,7 @@ class DreamEngine:
     async def process_cycle(
         self,
         state: ConsciousnessState,
-        memory_events: List[Dict[str, Any]],
+        memory_events: list[dict[str, Any]],
         trigger_reason: str = "scheduled"
     ) -> DreamTrace:
         """
@@ -207,7 +207,7 @@ class DreamEngine:
         self,
         dream_trace: DreamTrace,
         state: ConsciousnessState,
-        memory_events: List[Dict[str, Any]]
+        memory_events: list[dict[str, Any]]
     ) -> None:
         """Transition from ENTERING to DREAMING phase."""
         phase_start = time.time()
@@ -284,7 +284,7 @@ class DreamEngine:
     async def _process_memory_consolidation(
         self,
         dream_trace: DreamTrace,
-        memory_events: List[Dict[str, Any]]
+        memory_events: list[dict[str, Any]]
     ) -> None:
         """Process memory events for consolidation."""
 
@@ -311,14 +311,14 @@ class DreamEngine:
 
     async def _consolidate_similar_events(
         self,
-        events: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        events: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Consolidate similar memory events."""
         if not events:
             return []
 
         # Simple grouping by event type
-        event_groups: Dict[str, List[Dict[str, Any]]] = {}
+        event_groups: dict[str, list[dict[str, Any]]] = {}
         for event in events:
             event_type = event.get("type", "unknown")
             if event_type not in event_groups:
@@ -411,7 +411,7 @@ class DreamEngine:
     async def _calculate_compression_metrics(
         self,
         dream_trace: DreamTrace,
-        input_events: List[Dict[str, Any]]
+        input_events: list[dict[str, Any]]
     ) -> None:
         """Calculate memory compression ratio achieved."""
         if not input_events:
@@ -474,7 +474,7 @@ class DreamEngine:
         time_since_last = time.time() - self._last_consolidation_time
         return time_since_last > 300  # 5 minutes
 
-    def get_performance_stats(self) -> Dict[str, float]:
+    def get_performance_stats(self) -> dict[str, float]:
         """Get current performance statistics."""
         if self._dream_cycles_completed == 0:
             return {

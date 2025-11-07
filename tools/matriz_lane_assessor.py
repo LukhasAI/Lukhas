@@ -51,7 +51,7 @@ class LaneAssessor:
             }
         }
 
-    def assess_module_characteristics(self, module_data: Dict[str, Any]) -> Dict[str, Any]:
+    def assess_module_characteristics(self, module_data: dict[str, Any]) -> dict[str, Any]:
         """Assess various characteristics of a module."""
         module_name = module_data['module']
         paths = module_data.get('paths', [])
@@ -69,7 +69,7 @@ class LaneAssessor:
 
         return characteristics
 
-    def _analyze_path_indicators(self, paths: List[str]) -> Dict[str, bool]:
+    def _analyze_path_indicators(self, paths: list[str]) -> dict[str, bool]:
         """Analyze path patterns for lane indicators."""
         indicators = {
             'in_core': any('core' in path for path in paths),
@@ -82,7 +82,7 @@ class LaneAssessor:
         }
         return indicators
 
-    def _analyze_name_indicators(self, module_name: str) -> Dict[str, bool]:
+    def _analyze_name_indicators(self, module_name: str) -> dict[str, bool]:
         """Analyze module name for lane indicators."""
         name_lower = module_name.lower()
         indicators = {
@@ -97,7 +97,7 @@ class LaneAssessor:
         }
         return indicators
 
-    def _analyze_contract_indicators(self, contracts: List[str]) -> Dict[str, Any]:
+    def _analyze_contract_indicators(self, contracts: list[str]) -> dict[str, Any]:
         """Analyze contract files for maturity indicators."""
         if not contracts:
             return {'maturity_score': 0, 'has_identity_config': False, 'has_policy_config': False}
@@ -137,7 +137,7 @@ class LaneAssessor:
             'has_policy_config': has_policy_config
         }
 
-    def _count_files_in_paths(self, paths: List[str]) -> int:
+    def _count_files_in_paths(self, paths: list[str]) -> int:
         """Count Python files in module paths."""
         total_files = 0
         for path in paths:
@@ -146,7 +146,7 @@ class LaneAssessor:
                 total_files += len(list(path_obj.rglob("*.py")))
         return total_files
 
-    def _assess_test_coverage(self, paths: List[str]) -> Dict[str, Any]:
+    def _assess_test_coverage(self, paths: list[str]) -> dict[str, Any]:
         """Assess test coverage indicators."""
         has_tests = False
         test_file_count = 0
@@ -164,7 +164,7 @@ class LaneAssessor:
             'test_file_count': test_file_count
         }
 
-    def _assess_dependency_score(self, module_name: str, paths: List[str]) -> int:
+    def _assess_dependency_score(self, module_name: str, paths: list[str]) -> int:
         """Assess how critical this module might be based on location and name."""
         score = 0
 
@@ -182,7 +182,7 @@ class LaneAssessor:
 
         return score
 
-    def compute_provisional_lane(self, characteristics: Dict[str, Any]) -> str:
+    def compute_provisional_lane(self, characteristics: dict[str, Any]) -> str:
         """Compute provisional lane assignment based on characteristics."""
         path_indicators = characteristics['path_indicators']
         name_indicators = characteristics['name_indicators']
@@ -224,7 +224,7 @@ class LaneAssessor:
         # Default to Development lane (L2)
         return 'L2'
 
-    def assess_all_modules(self, inventory_data: Dict[str, Any]) -> Dict[str, Any]:
+    def assess_all_modules(self, inventory_data: dict[str, Any]) -> dict[str, Any]:
         """Assess lane assignments for all modules."""
         modules = inventory_data.get('modules', [])
         assessments = []
@@ -261,7 +261,7 @@ class LaneAssessor:
             'assessments': assessments
         }
 
-    def _compute_confidence(self, characteristics: Dict[str, Any], provisional_lane: str) -> float:
+    def _compute_confidence(self, characteristics: dict[str, Any], provisional_lane: str) -> float:
         """Compute confidence score for lane assignment."""
         confidence = 0.5  # Base confidence
 

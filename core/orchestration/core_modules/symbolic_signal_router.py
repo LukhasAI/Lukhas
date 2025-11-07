@@ -228,7 +228,7 @@ class SignalRouterMetrics:
         if not success:
             self.signals_by_type[type_key]["failures"] += 1
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get comprehensive routing metrics"""
         if not self.routing_times:
             return {"status": "no_data"}

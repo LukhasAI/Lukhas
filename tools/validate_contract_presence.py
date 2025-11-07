@@ -36,10 +36,10 @@ class ModuleContractCheck:
     contract_exists: bool
     contract_valid: bool
     has_identity_block: bool
-    issues: List[str]
+    issues: list[str]
     manifest_path: Optional[Path] = None
     has_manifest: bool = False
-    manifest_capabilities: List[str] = None
+    manifest_capabilities: list[str] = None
     constellation_star: Optional[str] = None
 
     def __post_init__(self):
@@ -73,7 +73,7 @@ class ContractPresenceValidator:
             except (json.JSONDecodeError, KeyError):
                 pass  # Skip invalid manifests
 
-    def _discover_modules(self) -> List[Tuple[Path, str]]:
+    def _discover_modules(self) -> list[tuple[Path, str]]:
         """Discover all Python modules under lukhas/."""
         modules = []
 
@@ -93,7 +93,7 @@ class ContractPresenceValidator:
         simple_name = module_name.split(".")[-1] if "." in module_name else module_name
         return module_dir / f"matrix_{simple_name}.json"
 
-    def _validate_contract_file(self, contract_path: Path) -> Tuple[bool, bool, List[str]]:
+    def _validate_contract_file(self, contract_path: Path) -> tuple[bool, bool, list[str]]:
         """Validate contract file format and required sections."""
         issues = []
 
@@ -182,7 +182,7 @@ class ContractPresenceValidator:
             constellation_star=constellation_star
         )
 
-    def validate_all_modules(self) -> List[ModuleContractCheck]:
+    def validate_all_modules(self) -> list[ModuleContractCheck]:
         """Validate contract presence for all discovered modules."""
         results = []
 
@@ -192,7 +192,7 @@ class ContractPresenceValidator:
 
         return results
 
-    def generate_enforcement_report(self, results: List[ModuleContractCheck], include_manifest_coverage: bool = False) -> Dict[str, Any]:
+    def generate_enforcement_report(self, results: list[ModuleContractCheck], include_manifest_coverage: bool = False) -> dict[str, Any]:
         """Generate enforcement report for CI/CD."""
         total_modules = len(results)
         modules_with_contracts = sum(1 for r in results if r.contract_exists)
@@ -277,7 +277,7 @@ class ContractPresenceValidator:
 
         return report
 
-    def create_missing_contracts(self, results: List[ModuleContractCheck], dry_run: bool = True) -> List[str]:
+    def create_missing_contracts(self, results: list[ModuleContractCheck], dry_run: bool = True) -> list[str]:
         """Create missing contract files with basic templates."""
         created_contracts = []
 
@@ -296,7 +296,7 @@ class ContractPresenceValidator:
 
         return created_contracts
 
-    def suggest_contracts_from_manifests(self, results: List[ModuleContractCheck]) -> Dict[str, Any]:
+    def suggest_contracts_from_manifests(self, results: list[ModuleContractCheck]) -> dict[str, Any]:
         """Suggest contract content based on manifest capabilities."""
         if not self.enable_manifest_integration:
             return {
@@ -329,9 +329,9 @@ class ContractPresenceValidator:
     def _generate_intelligent_contract_suggestion(
         self,
         module_name: str,
-        capabilities: List[str],
+        capabilities: list[str],
         constellation_star: Optional[str]
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate intelligent contract template based on manifest capabilities."""
         simple_name = module_name.split(".")[-1] if "." in module_name else module_name
 
@@ -395,7 +395,7 @@ class ContractPresenceValidator:
 
         return contract
 
-    def _generate_contract_template(self, module_name: str) -> Dict[str, Any]:
+    def _generate_contract_template(self, module_name: str) -> dict[str, Any]:
         """Generate basic contract template for a module."""
         simple_name = module_name.split(".")[-1] if "." in module_name else module_name
 

@@ -26,7 +26,7 @@ class AdoptionScoreboardGenerator:
         self.status_data = self._load_status_data()
         self.timestamp = datetime.utcnow()
 
-    def _load_status_data(self) -> Dict[str, Any]:
+    def _load_status_data(self) -> dict[str, Any]:
         """Load track adoption status data."""
         if self.status_file.exists():
             try:
@@ -43,7 +43,7 @@ class AdoptionScoreboardGenerator:
             "statistics": {}
         }
 
-    def analyze_current_contracts(self) -> Dict[str, Any]:
+    def analyze_current_contracts(self) -> dict[str, Any]:
         """Analyze actual matrix contracts to determine current adoption."""
         print("🔍 Analyzing matrix contracts for actual adoption status...")
 
@@ -68,7 +68,7 @@ class AdoptionScoreboardGenerator:
 
         return contract_analysis
 
-    def _analyze_contract_tracks(self, contract: Dict) -> Dict[str, Any]:
+    def _analyze_contract_tracks(self, contract: Dict) -> dict[str, Any]:
         """Analyze contract to determine which tracks are actually implemented."""
         tracks = {}
 
@@ -149,7 +149,7 @@ class AdoptionScoreboardGenerator:
 
         return tracks
 
-    def generate_scoreboard_markdown(self, contract_analysis: Dict[str, Any]) -> str:
+    def generate_scoreboard_markdown(self, contract_analysis: dict[str, Any]) -> str:
         """Generate markdown scoreboard showing adoption progress."""
         content = f"""# 🏆 Matrix Tracks Adoption Scoreboard
 
@@ -334,7 +334,7 @@ class AdoptionScoreboardGenerator:
         else:
             return "⚪ not configured"
 
-    def update_status_file(self, contract_analysis: Dict[str, Any]) -> None:
+    def update_status_file(self, contract_analysis: dict[str, Any]) -> None:
         """Update the status file with current analysis."""
         # Calculate statistics
         total_modules = len(contract_analysis)

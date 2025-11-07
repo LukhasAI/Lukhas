@@ -41,14 +41,14 @@ class ThoughtComplexity(Enum):
 class ThoughtContext:
     """Context for thought processing"""
     query: str
-    memory_signals: List[Dict[str, Any]]
+    memory_signals: list[dict[str, Any]]
     consciousness_state: Optional[ConsciousnessState]
     complexity_level: ThoughtComplexity
     max_inference_depth: int
     time_budget_ms: float
     enable_contradiction_detection: bool = True
     enable_meta_cognitive_checks: bool = True
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
 
     def __post_init__(self):
         if self.metadata is None:
@@ -60,14 +60,14 @@ class ThoughtResult:
     """Result of enhanced thought processing"""
     synthesis: str
     confidence: float
-    reasoning_chains: List[Any]  # InferenceChain objects
+    reasoning_chains: list[Any]  # InferenceChain objects
     contradictions_found: int
-    meta_cognitive_assessment: Dict[str, Any]
+    meta_cognitive_assessment: dict[str, Any]
     inference_depth_reached: int
     processing_time_ms: float
     cognitive_load: float
     quality_score: float
-    supporting_memory_ids: List[str]
+    supporting_memory_ids: list[str]
     affect_delta: float
     success: bool
     error_message: Optional[str] = None
@@ -367,7 +367,7 @@ class EnhancedThoughtEngine:
         self,
         context: ThoughtContext,
         inference_result: InferenceResult,
-        reasoning_chains: List[Any]
+        reasoning_chains: list[Any]
     ) -> str:
         """Build thought synthesis from inference results."""
 
@@ -424,8 +424,8 @@ class EnhancedThoughtEngine:
         self,
         context: ThoughtContext,
         inference_result: InferenceResult,
-        reasoning_chains: List[Any]
-    ) -> Dict[str, Any]:
+        reasoning_chains: list[Any]
+    ) -> dict[str, Any]:
         """Perform meta-cognitive assessment of thought quality."""
 
         assessment = {
@@ -451,7 +451,7 @@ class EnhancedThoughtEngine:
 
         return assessment
 
-    def _assess_coherence(self, reasoning_chains: List[Any]) -> float:
+    def _assess_coherence(self, reasoning_chains: list[Any]) -> float:
         """Assess coherence of reasoning chains."""
         if not reasoning_chains:
             return 0.0
@@ -534,7 +534,7 @@ class EnhancedThoughtEngine:
         else:
             return 0.3  # Contradictions led to failure
 
-    def _identify_reasoning_strategy(self, reasoning_chains: List[Any]) -> str:
+    def _identify_reasoning_strategy(self, reasoning_chains: list[Any]) -> str:
         """Identify the primary reasoning strategy used."""
         if not reasoning_chains:
             return "none"
@@ -557,7 +557,7 @@ class EnhancedThoughtEngine:
         dominant_strategy = max(type_counts.items(), key=lambda x: x[1])[0]
         return dominant_strategy
 
-    def _generate_improvement_suggestions(self, assessment: Dict[str, Any]) -> List[str]:
+    def _generate_improvement_suggestions(self, assessment: dict[str, Any]) -> list[str]:
         """Generate suggestions for improving reasoning quality."""
         suggestions = []
 
@@ -628,7 +628,7 @@ class EnhancedThoughtEngine:
 
         return max(0.0, min(0.5, base_affect))
 
-    def _extract_memory_ids(self, memory_signals: List[Dict[str, Any]]) -> List[str]:
+    def _extract_memory_ids(self, memory_signals: list[dict[str, Any]]) -> list[str]:
         """Extract memory IDs from memory signals."""
         return [
             memory.get("id") for memory in memory_signals
@@ -665,7 +665,7 @@ class EnhancedThoughtEngine:
             (current_avg_load * (total - 1) + result.cognitive_load) / total
         )
 
-    def get_performance_stats(self) -> Dict[str, Any]:
+    def get_performance_stats(self) -> dict[str, Any]:
         """Get current performance statistics."""
         total_thoughts = max(1, self.thought_stats["total_thoughts"])
 
@@ -687,7 +687,7 @@ class EnhancedThoughtEngine:
 # Convenience function for backward compatibility with ThoughtNode
 async def synthesize_thought_enhanced(
     query: str,
-    memory_signals: List[Dict[str, Any]],
+    memory_signals: list[dict[str, Any]],
     complexity: ThoughtComplexity = ThoughtComplexity.MODERATE,
     max_depth: int = 8,
     time_budget_ms: float = 150.0

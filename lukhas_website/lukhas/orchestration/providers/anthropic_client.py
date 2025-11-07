@@ -196,7 +196,7 @@ class AnthropicClient(BaseAIClient):
             logger.error(f"Anthropic health check failed: {e}")
             return False
 
-    def get_available_models(self) -> List[str]:
+    def get_available_models(self) -> list[str]:
         """Get available Anthropic models"""
         return self.models.copy()
 

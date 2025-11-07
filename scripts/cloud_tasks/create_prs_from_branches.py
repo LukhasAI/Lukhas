@@ -21,11 +21,11 @@ import sys
 from typing import List, Tuple
 
 
-def sh(cmd: List[str], check=True) -> subprocess.CompletedProcess:
+def sh(cmd: list[str], check=True) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, capture_output=True, text=True, check=check)
 
 
-def list_remote_branches() -> List[str]:
+def list_remote_branches() -> list[str]:
     cp = sh(["git", "ls-remote", "--heads", "origin"])
     branches = []
     for line in cp.stdout.splitlines():
@@ -37,7 +37,7 @@ def list_remote_branches() -> List[str]:
     return branches
 
 
-def pr_exists(branch: str) -> Tuple[bool, str]:
+def pr_exists(branch: str) -> tuple[bool, str]:
     cp = sh(["gh", "pr", "list", "--state", "all", "--head", branch, "--json", "number,title,state,url"], check=False)
     if cp.returncode != 0:
         # treat as no PR found on API error
@@ -49,7 +49,7 @@ def pr_exists(branch: str) -> Tuple[bool, str]:
     return False, ""
 
 
-def create_pr(branch: str, base: str, labels: List[str], dry_run: bool) -> bool:
+def create_pr(branch: str, base: str, labels: list[str], dry_run: bool) -> bool:
     title = f"codex: {branch}"
     body = (
         f"Automated PR for Codex Cloud Task branch `{branch}`.\n\n"

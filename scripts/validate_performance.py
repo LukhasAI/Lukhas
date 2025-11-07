@@ -35,7 +35,7 @@ class PerformanceValidator:
             }
         }
 
-    def validate_artifact(self, artifact_path: str) -> Dict[str, Any]:
+    def validate_artifact(self, artifact_path: str) -> dict[str, Any]:
         """Validate a single performance artifact"""
         try:
             with open(artifact_path) as f:
@@ -98,7 +98,7 @@ class PerformanceValidator:
 
         return result
 
-    def validate_directory(self, artifact_dir: str) -> Dict[str, Any]:
+    def validate_directory(self, artifact_dir: str) -> dict[str, Any]:
         """Validate all performance artifacts in a directory"""
         if not os.path.exists(artifact_dir):
             return {
@@ -155,7 +155,7 @@ class PerformanceValidator:
             "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
-    def generate_report(self, validation_result: Dict[str, Any], output_file: Optional[str] = None) -> str:
+    def generate_report(self, validation_result: dict[str, Any], output_file: Optional[str] = None) -> str:
         """Generate human-readable performance report"""
         status = validation_result["status"]
         summary = validation_result.get("summary", {})

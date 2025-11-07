@@ -230,7 +230,7 @@ class LUKHASTracer:
     def trace_operation(
         self,
         operation_name: str,
-        attributes: Optional[Dict[str, Any]] = None,
+        attributes: Optional[dict[str, Any]] = None,
         record_exception: bool = True,
     ):
         """
@@ -466,7 +466,7 @@ class LUKHASTracer:
 
 def trace_function(
     operation_name: Optional[str] = None,
-    attributes: Optional[Dict[str, Any]] = None,
+    attributes: Optional[dict[str, Any]] = None,
 ):
     """
     Decorator for tracing function execution.

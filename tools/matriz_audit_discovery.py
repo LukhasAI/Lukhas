@@ -13,7 +13,7 @@ import sys
 from typing import Any, Dict, List
 
 
-def find_matrix_contracts(root_path: pathlib.Path) -> List[pathlib.Path]:
+def find_matrix_contracts(root_path: pathlib.Path) -> list[pathlib.Path]:
     """Find all matrix_*.json files in the codebase."""
     contracts = []
 
@@ -54,7 +54,7 @@ def get_module_name_from_contract(contract_path: pathlib.Path) -> str:
     return filename[:-5]  # Just remove '.json'
 
 
-def discover_module_directories(root_path: pathlib.Path) -> Dict[str, List[str]]:
+def discover_module_directories(root_path: pathlib.Path) -> dict[str, list[str]]:
     """Discover directories that contain module code."""
     module_dirs = {}
 
@@ -96,7 +96,7 @@ def discover_module_directories(root_path: pathlib.Path) -> Dict[str, List[str]]
     return module_dirs
 
 
-def build_module_inventory(root_path: pathlib.Path) -> List[Dict[str, Any]]:
+def build_module_inventory(root_path: pathlib.Path) -> list[dict[str, Any]]:
     """Build comprehensive module inventory."""
     inventory = []
 

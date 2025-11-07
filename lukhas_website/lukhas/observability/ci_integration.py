@@ -60,7 +60,7 @@ class DeploymentContext:
     branch: str
     initiated_by: str
     timestamp: datetime
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -71,7 +71,7 @@ class SLOValidationResult:
     actual_value: float
     target_value: float
     measurement_window: str
-    details: Dict[str, Any] = field(default_factory=dict)
+    details: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -81,12 +81,12 @@ class DeploymentReport:
     stage: DeploymentStage
     status: DeploymentStatus
     duration_seconds: float | None
-    slo_validations: List[SLOValidationResult] = field(default_factory=list)
-    performance_metrics: Dict[str, Any] = field(default_factory=dict)
-    safety_checks: Dict[str, bool] = field(default_factory=dict)
-    rollback_triggers: List[str] = field(default_factory=list)
-    artifacts: List[str] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
+    slo_validations: list[SLOValidationResult] = field(default_factory=list)
+    performance_metrics: dict[str, Any] = field(default_factory=dict)
+    safety_checks: dict[str, bool] = field(default_factory=dict)
+    rollback_triggers: list[str] = field(default_factory=list)
+    artifacts: list[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
 
 
 class ObservabilityCIIntegration:
@@ -103,15 +103,15 @@ class ObservabilityCIIntegration:
         self.metrics_collector = get_metrics_collector()
 
         # Deployment tracking
-        self.active_deployments: Dict[str, DeploymentReport] = {}
-        self.deployment_history: List[DeploymentReport] = []
+        self.active_deployments: dict[str, DeploymentReport] = {}
+        self.deployment_history: list[DeploymentReport] = []
 
         # Configuration
         self.config = self._load_config()
 
         logger.info("ObservabilityCIIntegration initialized")
 
-    def _load_config(self) -> Dict[str, Any]:
+    def _load_config(self) -> dict[str, Any]:
         """Load CI integration configuration"""
         return {
             'slo_validation_window': '10m',
@@ -287,7 +287,7 @@ class ObservabilityCIIntegration:
 
         return report
 
-    async def _validate_current_slos(self, service: str) -> List[SLOValidationResult]:
+    async def _validate_current_slos(self, service: str) -> list[SLOValidationResult]:
         """Validate current SLOs for service"""
         results = []
 
@@ -345,7 +345,7 @@ class ObservabilityCIIntegration:
 
         return results
 
-    async def _collect_baseline_metrics(self, service: str) -> Dict[str, Any]:
+    async def _collect_baseline_metrics(self, service: str) -> dict[str, Any]:
         """Collect baseline metrics before deployment"""
         # This would query metrics from Prometheus/other systems
         # Mock implementation for now
@@ -363,7 +363,7 @@ class ObservabilityCIIntegration:
             }
         }
 
-    async def _collect_current_metrics(self, service: str) -> Dict[str, Any]:
+    async def _collect_current_metrics(self, service: str) -> dict[str, Any]:
         """Collect current metrics after deployment"""
         # Mock implementation - would query actual metrics
 
@@ -381,8 +381,8 @@ class ObservabilityCIIntegration:
         }
 
     async def _analyze_performance_regression(self,
-                                           baseline: Dict[str, Any],
-                                           current: Dict[str, Any]) -> Dict[str, Any]:
+                                           baseline: dict[str, Any],
+                                           current: dict[str, Any]) -> dict[str, Any]:
         """Analyze performance regression between baseline and current"""
 
         baseline_metrics = baseline['metrics']
@@ -439,8 +439,8 @@ class ObservabilityCIIntegration:
 
     async def _check_rollback_triggers(self,
                                      service: str,
-                                     current_metrics: Dict[str, Any],
-                                     slo_results: List[SLOValidationResult]) -> List[str]:
+                                     current_metrics: dict[str, Any],
+                                     slo_results: list[SLOValidationResult]) -> list[str]:
         """Check for automatic rollback triggers"""
 
         triggers = []
@@ -494,7 +494,7 @@ class ObservabilityCIIntegration:
         # 3. Send notifications
         # 4. Create incident ticket
 
-    def _get_recent_deployments(self, service: str, hours: int = 24) -> List[DeploymentReport]:
+    def _get_recent_deployments(self, service: str, hours: int = 24) -> list[DeploymentReport]:
         """Get recent deployments for service"""
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours)
 
@@ -504,7 +504,7 @@ class ObservabilityCIIntegration:
                 deployment.context.timestamp >= cutoff_time)
         ]
 
-    def generate_observability_report(self, context: DeploymentContext) -> Dict[str, Any]:
+    def generate_observability_report(self, context: DeploymentContext) -> dict[str, Any]:
         """Generate comprehensive observability report for deployment"""
 
         service_health = self.metrics_collector.get_service_health_summary()
@@ -541,7 +541,7 @@ class ObservabilityCIIntegration:
 
         return report
 
-    def _generate_deployment_recommendations(self, context: DeploymentContext) -> List[str]:
+    def _generate_deployment_recommendations(self, context: DeploymentContext) -> list[str]:
         """Generate deployment recommendations based on observability"""
 
         recommendations = []
@@ -582,7 +582,7 @@ class ObservabilityCIIntegration:
 
         return recommendations
 
-    def export_ci_artifacts(self, report: DeploymentReport) -> List[str]:
+    def export_ci_artifacts(self, report: DeploymentReport) -> list[str]:
         """Export CI artifacts for deployment report"""
 
         artifacts = []

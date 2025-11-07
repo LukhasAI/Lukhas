@@ -34,12 +34,12 @@ class ContractAnalysis:
     path: Path
     module: str
     has_identity: bool
-    tiers: List[str]
-    tier_numeric: List[int]
+    tiers: list[str]
+    tier_numeric: list[int]
     webauthn_required: bool
-    scopes: List[str]
-    accepted_subjects: List[str]
-    issues: List[str]
+    scopes: list[str]
+    accepted_subjects: list[str]
+    issues: list[str]
 
 class LukhasIdBridge:
     """Bridge between ΛiD tier system and Matrix contracts."""
@@ -48,7 +48,7 @@ class LukhasIdBridge:
         self.tier_permissions = self._load_tier_permissions()
         self.contracts = self._discover_contracts()
 
-    def _load_tier_permissions(self) -> Dict[str, Any]:
+    def _load_tier_permissions(self) -> dict[str, Any]:
         """Load canonical tier permissions."""
         try:
             return json.loads(TIER_PERMISSIONS.read_text())
@@ -59,7 +59,7 @@ class LukhasIdBridge:
             print(f"❌ Invalid JSON in tier permissions: {e}")
             sys.exit(1)
 
-    def _discover_contracts(self) -> List[Path]:
+    def _discover_contracts(self) -> list[Path]:
         """Discover all Matrix contracts."""
         return sorted(MATRIX_CONTRACTS.rglob("matrix_*.json"))
 
@@ -120,7 +120,7 @@ class LukhasIdBridge:
             issues=issues
         )
 
-    def validate_all_contracts(self) -> List[ContractAnalysis]:
+    def validate_all_contracts(self) -> list[ContractAnalysis]:
         """Validate all Matrix contracts for ΛiD compliance."""
         analyses = []
 
@@ -130,7 +130,7 @@ class LukhasIdBridge:
 
         return analyses
 
-    def generate_report(self, analyses: List[ContractAnalysis]) -> Dict[str, Any]:
+    def generate_report(self, analyses: list[ContractAnalysis]) -> dict[str, Any]:
         """Generate comprehensive compliance report."""
         total_contracts = len(analyses)
         contracts_with_identity = sum(1 for a in analyses if a.has_identity)
@@ -176,7 +176,7 @@ class LukhasIdBridge:
             ]
         }
 
-    def sync_tiers_to_contracts(self, dry_run: bool = True) -> List[Dict[str, Any]]:
+    def sync_tiers_to_contracts(self, dry_run: bool = True) -> list[dict[str, Any]]:
         """Sync tier definitions from canonical source to Matrix contracts."""
         changes = []
 

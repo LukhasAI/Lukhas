@@ -93,7 +93,7 @@ class ThreatLevel(Enum):
 class MetricSnapshot:
     """Snapshot of metric values at a point in time"""
     timestamp: datetime
-    metrics: Dict[str, Any] = field(default_factory=dict)
+    metrics: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -126,7 +126,7 @@ class ServiceMetricsCollector:
         self._lock = threading.Lock()
 
         # Performance tracking
-        self._request_times: Dict[str, List[float]] = {}
+        self._request_times: dict[str, list[float]] = {}
         self._max_samples = 1000  # Keep last 1000 samples per endpoint
 
         # Initialize Prometheus metrics
@@ -346,7 +346,7 @@ class ServiceMetricsCollector:
         event_type: str,
         threat_level: ThreatLevel,
         action: str,
-        metadata: Dict[str, Any] | None = None
+        metadata: dict[str, Any] | None = None
     ):
         """Record security event"""
         self.security_events_total.labels(
@@ -424,12 +424,12 @@ class ServiceMetricsCollector:
         with self._lock:
             self._stats['active_sessions'] = count
 
-    def update_user_tier_distribution(self, tier_counts: Dict[int, int]):
+    def update_user_tier_distribution(self, tier_counts: dict[int, int]):
         """Update user tier distribution"""
         for tier, count in tier_counts.items():
             self.user_tier_distribution.labels(tier_level=str(tier)).set(count)
 
-    def get_performance_stats(self, endpoint: str | None = None) -> Dict[str, PerformanceStats]:
+    def get_performance_stats(self, endpoint: str | None = None) -> dict[str, PerformanceStats]:
         """Get performance statistics"""
         stats = {}
 
@@ -447,7 +447,7 @@ class ServiceMetricsCollector:
 
         return stats
 
-    def get_health_metrics(self) -> Dict[str, Any]:
+    def get_health_metrics(self) -> dict[str, Any]:
         """Get health and status metrics"""
         with self._lock:
             total_requests = self._stats['total_requests']
@@ -478,7 +478,7 @@ class ServiceMetricsCollector:
         """Record failed operation"""
         logger.warning(f"Operation failed: {operation.value} ({duration*1000:.2f}ms) - {error}")
 
-    def _calculate_stats(self, times: List[float]) -> PerformanceStats:
+    def _calculate_stats(self, times: list[float]) -> PerformanceStats:
         """Calculate performance statistics from timing samples"""
         if not times:
             return PerformanceStats()
