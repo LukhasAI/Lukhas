@@ -19,6 +19,7 @@ from typing import Any, Dict, List, Optional
 import asyncpg
 import numpy as np
 from asyncpg.pool import Pool
+
 from core.common.logger import get_logger
 from observability.service_metrics import get_metrics_collector
 

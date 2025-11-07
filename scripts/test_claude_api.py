@@ -79,11 +79,11 @@ async def test_claude(model: str = "claude-3-5-haiku-20241022", verbose: bool = 
         )
 
         if response:
-            print(f"✅ Test 1 PASSED")
+            print("✅ Test 1 PASSED")
             print(f"   Model: {used_model}")
             print(f"   Response: {response[:200]}")
             if len(response) > 200:
-                print(f"   ... (truncated)")
+                print("   ... (truncated)")
             print()
         else:
             print("❌ Test 1 FAILED: Empty response")
@@ -108,11 +108,11 @@ async def test_claude(model: str = "claude-3-5-haiku-20241022", verbose: bool = 
             # Check if response contains preferred terminology
             contains_preferred = "quantum-inspired" in response.lower()
 
-            print(f"✅ Test 2 PASSED")
+            print("✅ Test 2 PASSED")
             print(f"   Uses 'quantum-inspired': {contains_preferred}")
             print(f"   Response: {response[:200]}")
             if len(response) > 200:
-                print(f"   ... (truncated)")
+                print("   ... (truncated)")
             print()
         else:
             print("❌ Test 2 FAILED: Empty response")
@@ -142,11 +142,11 @@ Be concise (under 100 words).""",
 
         if response:
             word_count = len(response.split())
-            print(f"✅ Test 3 PASSED")
+            print("✅ Test 3 PASSED")
             print(f"   Response length: {word_count} words")
             print(f"   Response preview: {response[:300]}")
             if len(response) > 300:
-                print(f"   ... (truncated)")
+                print("   ... (truncated)")
             print()
         else:
             print("❌ Test 3 FAILED: Empty response")

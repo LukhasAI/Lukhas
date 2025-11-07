@@ -2,11 +2,12 @@
 Tests for the BioHub module using pytest.
 """
 
+from unittest.mock import AsyncMock, MagicMock, patch
+
 import pytest
-from unittest.mock import MagicMock, patch, AsyncMock
 
 # Import the module under test. Patches will be applied to prevent side effects.
-from core.symbolic.bio_hub import BioHub, get_bio_hub, _bio_hub_instance
+from core.symbolic.bio_hub import BioHub, _bio_hub_instance, get_bio_hub
 
 
 @pytest.fixture(autouse=True)

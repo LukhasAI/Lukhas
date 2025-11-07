@@ -31,6 +31,7 @@ from typing import Any
 # Import core system modules
 try:
     from backend.audit_logger import AuditLogger
+
     from consciousness.core_consciousness.consciousness_engine import (
         ConsciousnessEngine,
     )
