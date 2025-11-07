@@ -35,17 +35,17 @@ def annotate_file(file_path: Path, violations_by_line: dict):
 
     changes = 0
     file_id = str(file_path).replace('/', '_').replace('.', '_').replace('-', '_')
-    
+
     for line_num, violation in violations_by_line.items():
         if line_num > len(lines):
             continue
-            
+
         line = lines[line_num - 1]
-        
+
         # Skip if already annotated
         if 'TODO[T4-ISSUE]' in line:
             continue
-        
+
         # Determine annotation based on message
         if 'Depends' in violation['message']:
             annotation = {
@@ -71,17 +71,17 @@ def annotate_file(file_path: Path, violations_by_line: dict):
                 "dependencies": "none",
                 "id": f"{file_id}_L{line_num}"
             }
-        
+
         json_str = json.dumps(annotation, separators=(',', ':'), ensure_ascii=False)
         new_line = f"{line.rstrip()}  # TODO[T4-ISSUE]: {json_str}\n"
         lines[line_num - 1] = new_line
         changes += 1
-    
+
     if changes > 0:
         with open(file_path, 'w', encoding='utf-8') as f:
             f.writelines(lines)
         print(f"✓ {file_path}: {changes} annotations")
-    
+
     return changes
 
 
@@ -90,21 +90,21 @@ def main():
     print("🔍 Finding B008 violations...")
     violations = get_b008_violations()
     print(f"📝 Found {len(violations)} B008 violations")
-    
+
     # Group by file
     files_violations = {}
     for v in violations:
         file_path = Path(v['filename'])
         line_num = v['location']['row']
-        
+
         if file_path not in files_violations:
             files_violations[file_path] = {}
         files_violations[file_path][line_num] = v
-    
+
     total = 0
     for file_path, violations_by_line in files_violations.items():
         total += annotate_file(file_path, violations_by_line)
-    
+
     print(f"\n✅ Annotated {total} B008 violations")
 
 

@@ -10,6 +10,7 @@ import time
 from unittest.mock import Mock
 
 import pytest
+
 from core.clock import Ticker, create_consciousness_ticker
 
 

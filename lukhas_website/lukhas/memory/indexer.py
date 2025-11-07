@@ -21,6 +21,7 @@ from datetime import datetime, timezone
 from typing import Any, Dict, List
 
 import numpy as np
+
 from core.logging import get_logger
 from memory.backends.base import VectorDocument
 from observability.metrics import get_metrics_collector

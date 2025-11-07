@@ -179,7 +179,7 @@ class FocusedAtlasBuilder:
                 if self.analyze_file(py_file):
                     analyzed += 1
             except Exception as e:
-                if any((pattern in str(py_file) for pattern in ['lukhas/', 'candidate/'])) and 'syntax' not in str(e).lower():
+                if any(pattern in str(py_file) for pattern in ['lukhas/', 'candidate/']) and 'syntax' not in str(e).lower():
                     print(f"⚠️ Error analyzing {py_file.name}: {e}")
 
         print(f"✅ Successfully analyzed {analyzed} files")
