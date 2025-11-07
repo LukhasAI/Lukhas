@@ -13,6 +13,8 @@ Exit codes:
 
 import sys
 from pathlib import Path
+from typing import List
+
 # Allowed documentation files at root (grandfathered in)
 ALLOWED_DOCS = {
     'README.md',
@@ -78,7 +80,7 @@ def is_allowed_doc(name: str) -> bool:
     return False
 
 
-def get_root_doc_files(repo_root: Path) -> list[Path]:
+def get_root_doc_files(repo_root: Path) -> List[Path]:
     """Get all documentation files at repository root."""
     doc_files = []
     for item in repo_root.iterdir():

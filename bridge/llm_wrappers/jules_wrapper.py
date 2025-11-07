@@ -38,7 +38,7 @@ import logging
 import os
 from collections.abc import AsyncIterator
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Optional
 
 import aiohttp
 from pydantic import BaseModel, Field
@@ -101,7 +101,7 @@ class JulesActivity(BaseModel):
     create_time: datetime = Field(..., description="Creation timestamp")
     originator: str = Field(..., description="Who created the activity (AGENT/USER)")
     message: Optional[str] = Field(None, description="Activity message text")
-    artifacts: dict[str, Optional[Any]] = Field(
+    artifacts: Optional[dict[str, Any]] = Field(
         None,
         description="Activity artifacts (code changes, etc.)"
     )
@@ -178,7 +178,7 @@ class JulesClient:
 
             self.config = JulesConfig(api_key=api_key)
 
-        self._session: aiohttp.Optional[ClientSession] = None
+        self._session: Optional[aiohttp.ClientSession] = None
         self.logger = logging.getLogger(f"{__name__}.JulesClient")
 
     async def __aenter__(self) -> JulesClient:

@@ -36,6 +36,7 @@ import asyncio
 import logging
 import os
 from datetime import datetime
+from typing import Optional
 
 import aiohttp
 from pydantic import BaseModel, Field
@@ -95,8 +96,8 @@ class CodexClient:
 
     def __init__(
         self,
-        api_key: str | None = None,
-        config: CodexConfig | None = None
+        api_key: Optional[str] = None,
+        config: Optional[CodexConfig] = None
     ):
         """
         Initialize Codex API client.
@@ -124,14 +125,16 @@ class CodexClient:
                 if KEYCHAIN_AVAILABLE and KeychainManager:
                     try:
                         api_key = KeychainManager.get_key("OPENAI_API_KEY", fallback_to_env=False)
-                        logger.debug("Using OpenAI API key from macOS Keychain")
+                        if api_key:
+                            logger.debug("Using OpenAI API key from macOS Keychain")
                     except Exception:
                         pass
 
                 # 2. Fallback to environment variable
                 if not api_key:
                     api_key = os.getenv("OPENAI_API_KEY")
-                    logger.debug("Using OpenAI API key from environment variable")
+                    if api_key:
+                        logger.debug("Using OpenAI API key from environment variable")
 
             if not api_key:
                 raise ValueError(
@@ -143,7 +146,7 @@ class CodexClient:
 
             self.config = CodexConfig(api_key=api_key)
 
-        self._session: aiohttp.ClientSession | None = None
+        self._session: Optional[aiohttp.ClientSession] = None
         self.logger = logging.getLogger(f"{__name__}.CodexClient")
 
     async def __aenter__(self) -> CodexClient:
@@ -173,9 +176,9 @@ class CodexClient:
     async def _make_request(
         self,
         prompt: str,
-        system_prompt: str | None = None,
-        temperature: float | None = None,
-        max_tokens: int | None = None
+        system_prompt: Optional[str] = None,
+        temperature: Optional[float] = None,
+        max_tokens: Optional[int] = None
     ) -> CodexResponse:
         """
         Make a request to OpenAI Chat Completions API.
@@ -225,32 +228,29 @@ class CodexClient:
                             f"Status {response.status} - {error_text}"
                         )
 
-                        if response.status in (429, 500, 502, 503, 504):
-                            # Retryable error. If it's not the last attempt, sleep and continue.
-                            if attempt < self.config.max_retries - 1:
-                                await asyncio.sleep(2 ** attempt)
-                                continue
-                        else:
-                            # Non-retryable error, raise immediately.
-                            raise RuntimeError(
-                                f"OpenAI API request failed: {response.status} - {error_text}"
-                            )
+                        if response.status in (429, 500, 502, 503, 504) and attempt < self.config.max_retries - 1:
+                            # Retry on rate limit or server errors
+                            await asyncio.sleep(2 ** attempt)
+                            continue
+
+                        raise RuntimeError(
+                            f"OpenAI API request failed: {response.status} - {error_text}"
+                        )
 
             except asyncio.TimeoutError:
                 self.logger.error(f"Request timeout (attempt {attempt + 1})")
-                # On timeout, if it's not the last attempt, sleep and continue.
                 if attempt < self.config.max_retries - 1:
                     await asyncio.sleep(2 ** attempt)
                     continue
-                # On the last attempt, we let the loop finish to raise the final error.
+                raise
 
         raise RuntimeError(f"Failed after {self.config.max_retries} retries")
 
     async def complete(
         self,
         prompt: str,
-        temperature: float | None = None,
-        max_tokens: int | None = None
+        temperature: Optional[float] = None,
+        max_tokens: Optional[int] = None
     ) -> CodexResponse:
         """
         Generate code completion from prompt.
@@ -270,18 +270,13 @@ class CodexClient:
         )
 
         self.logger.info(f"Generating code completion for: {prompt[:100]}...")
-        return await self._make_request(
-            prompt=prompt,
-            system_prompt=system_prompt,
-            temperature=temperature,
-            max_tokens=max_tokens,
-        )
+        return await self._make_request(prompt, system_prompt, temperature, max_tokens)
 
     async def fix_code(
         self,
         code: str,
         error: str,
-        context: str | None = None
+        context: Optional[str] = None
     ) -> CodexResponse:
         """
         Fix code that has errors.
@@ -313,7 +308,7 @@ class CodexClient:
         prompt = "\n".join(prompt_parts)
 
         self.logger.info(f"Fixing code error: {error[:100]}...")
-        return await self._make_request(prompt=prompt, system_prompt=system_prompt)
+        return await self._make_request(prompt, system_prompt)
 
     async def refactor(
         self,
@@ -343,7 +338,7 @@ class CodexClient:
         )
 
         self.logger.info(f"Refactoring code: {instructions[:100]}...")
-        return await self._make_request(prompt=prompt, system_prompt=system_prompt)
+        return await self._make_request(prompt, system_prompt)
 
     async def explain(
         self,
@@ -374,7 +369,7 @@ class CodexClient:
         prompt = f"Explain this code:\n```\n{code}\n```"
 
         self.logger.info(f"Explaining code ({detail_level} detail)...")
-        return await self._make_request(prompt=prompt, system_prompt=system_prompt)
+        return await self._make_request(prompt, system_prompt)
 
     async def document(
         self,
@@ -403,6 +398,32 @@ class CodexClient:
         )
 
         self.logger.info(f"Generating {style}-style documentation...")
-        return await self._make_request(prompt=prompt, system_prompt=system_prompt)
+        return await self._make_request(prompt, system_prompt)
 
 
+if __name__ == "__main__":
+    # Demo usage
+    async def demo():
+        """Demonstrate Codex wrapper capabilities."""
+        print("🤖 Testing LUKHAS Codex Wrapper\n")
+
+        async with CodexClient() as codex:
+            # Test code generation
+            print("1. Generating code...")
+            result = await codex.complete(
+                "Write a Python function to check if a number is prime"
+            )
+            print(f"Generated ({result.tokens_used} tokens):\n{result.content}\n")
+
+            # Test code explanation
+            print("2. Explaining code...")
+            result = await codex.explain(
+                "def fib(n): return n if n <= 1 else fib(n-1) + fib(n-2)",
+                detail_level="brief"
+            )
+            print(f"Explanation:\n{result.content}\n")
+
+        print("✅ Demo complete!")
+
+    # Run demo
+    asyncio.run(demo())
