@@ -15,7 +15,7 @@ Usage:
       assert response.status_code == 200
 """
 import os
-from typing import Dict
+# from typing import Dict  # All imports converted to builtins (PEP 585)
 
 
 # Environment-aware token configuration
@@ -30,7 +30,7 @@ def _get_tenant_id() -> str:
 
 
 # Golden headers for different scopes
-def golden_chat_headers() -> Dict[str, str]:
+def golden_chat_headers() -> dict[str, str]:
     """
     Standard headers for /v1/chat/completions endpoints.
 
@@ -46,7 +46,7 @@ def golden_chat_headers() -> Dict[str, str]:
     }
 
 
-def golden_embed_headers() -> Dict[str, str]:
+def golden_embed_headers() -> dict[str, str]:
     """
     Standard headers for /v1/embeddings endpoints.
 
@@ -63,7 +63,7 @@ def golden_embed_headers() -> Dict[str, str]:
     }
 
 
-def golden_models_headers() -> Dict[str, str]:
+def golden_models_headers() -> dict[str, str]:
     """
     Standard headers for /v1/models endpoints.
 
@@ -80,7 +80,7 @@ def golden_models_headers() -> Dict[str, str]:
     }
 
 
-def golden_admin_headers() -> Dict[str, str]:
+def golden_admin_headers() -> dict[str, str]:
     """
     Standard headers for admin endpoints (internal APIs).
 
@@ -102,22 +102,22 @@ try:
     import pytest
 
     @pytest.fixture
-    def chat_headers() -> Dict[str, str]:
+    def chat_headers() -> dict[str, str]:
         """Pytest fixture for chat completion headers."""
         return golden_chat_headers()
 
     @pytest.fixture
-    def embed_headers() -> Dict[str, str]:
+    def embed_headers() -> dict[str, str]:
         """Pytest fixture for embeddings headers."""
         return golden_embed_headers()
 
     @pytest.fixture
-    def models_headers() -> Dict[str, str]:
+    def models_headers() -> dict[str, str]:
         """Pytest fixture for models list headers."""
         return golden_models_headers()
 
     @pytest.fixture
-    def admin_headers() -> Dict[str, str]:
+    def admin_headers() -> dict[str, str]:
         """Pytest fixture for admin headers."""
         return golden_admin_headers()
 

@@ -33,7 +33,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Optional
 
 import pytest
 
@@ -109,7 +109,7 @@ class ChaosTestResult:
     in_flight_transactions_recovered: int
     decisions_rolled_back: int
     system_integrity_maintained: bool
-    performance_metrics: Dict[str, float]
+    performance_metrics: dict[str, float]
 
 
 class GuardianSimulator:
@@ -122,9 +122,9 @@ class GuardianSimulator:
         self.memory_corrupted = False
         self.response_delay_ms = 0
         self.consensus_corrupted = False
-        self.failure_callbacks: List[Callable] = []
+        self.failure_callbacks: list[Callable] = []
 
-    def validate_decision(self, decision_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
+    def validate_decision(self, decision_data: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
         """Simulate Guardian decision validation."""
         start_time = time.perf_counter()
 
@@ -198,8 +198,8 @@ class MATRIZChaosController:
         """Initialize chaos controller."""
         self.guardian = guardian_simulator
         self.system_state = SystemState.HEALTHY
-        self.in_flight_decisions: Dict[str, MATRIZDecision] = {}
-        self.completed_decisions: List[MATRIZDecision] = []
+        self.in_flight_decisions: dict[str, MATRIZDecision] = {}
+        self.completed_decisions: list[MATRIZDecision] = []
         self.failure_detection_time: Optional[float] = None
         self.fail_closed_activation_time: Optional[float] = None
         self.recovery_start_time: Optional[float] = None
@@ -275,9 +275,9 @@ class MATRIZChaosController:
 
     def process_matriz_decision(
         self,
-        decision_context: Dict[str, Any],
+        decision_context: dict[str, Any],
         simulate_phases: bool = True
-    ) -> Tuple[MATRIZDecision, List[str]]:
+    ) -> tuple[MATRIZDecision, list[str]]:
         """Process MATRIZ decision with Guardian interaction."""
         start_time = time.perf_counter()
 

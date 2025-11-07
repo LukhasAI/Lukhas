@@ -11,7 +11,7 @@ Tests the complete MATRIZ pipeline for T4/0.01% performance targets:
 
 import asyncio
 import time
-from typing import Dict
+# from typing import Dict  # All imports converted to builtins (PEP 585)
 
 import pytest
 from core.matriz.async_orchestrator import AsyncOrchestrator
@@ -29,7 +29,7 @@ class MockPlugin:
         self.failure_rate = failure_rate
         self.call_count = 0
 
-    async def process(self, input_data: Dict) -> Dict:
+    async def process(self, input_data: dict) -> dict:
         """Mock processing with configurable delay and failure."""
         self.call_count += 1
         await asyncio.sleep(self.processing_time)

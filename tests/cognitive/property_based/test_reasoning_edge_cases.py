@@ -27,7 +27,7 @@ import time
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 import hypothesis
 import pytest
@@ -67,7 +67,7 @@ class EdgeCaseScenario:
     """Structured edge case scenario for testing"""
     category: EdgeCaseCategory
     description: str
-    input_data: Dict[str, Any]
+    input_data: dict[str, Any]
     expected_behavior: str
     probability_estimate: float  # Target <0.01%
 
@@ -85,7 +85,7 @@ class PropertyBasedTestFramework:
         self.thought_engine = None
         self.contradiction_integrator = None
         self.meta_assessor = None
-        self.test_scenarios: List[EdgeCaseScenario] = []
+        self.test_scenarios: list[EdgeCaseScenario] = []
         self.performance_metrics = {
             'latency_samples': [],
             'error_rates': {},
@@ -117,7 +117,7 @@ class PropertyBasedTestFramework:
             performance_tracking=True
         )
 
-    def generate_edge_case_scenarios(self) -> List[EdgeCaseScenario]:
+    def generate_edge_case_scenarios(self) -> list[EdgeCaseScenario]:
         """Generate comprehensive edge case scenarios"""
         scenarios = []
 
@@ -255,7 +255,7 @@ class PropertyBasedTestFramework:
         """Validate T4/0.01% latency compliance"""
         return latency_ms < 250.0
 
-    def calculate_test_coverage_metrics(self) -> Dict[str, float]:
+    def calculate_test_coverage_metrics(self) -> dict[str, float]:
         """Calculate test coverage metrics for edge cases"""
         total_scenarios = len(self.test_scenarios)
         if total_scenarios == 0:

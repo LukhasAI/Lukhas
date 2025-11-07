@@ -12,7 +12,7 @@ from __future__ import annotations
 import threading
 import time
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 
@@ -31,7 +31,7 @@ def store() -> WebAuthnCredentialStore:
 
 
 @pytest.fixture
-def sample_credential() -> Dict[str, Any]:
+def sample_credential() -> dict[str, Any]:
     """Create a sample credential with required fields."""
     return {
         "credential_id": "test_cred_123",
@@ -42,7 +42,7 @@ def sample_credential() -> Dict[str, Any]:
 
 
 @pytest.fixture
-def full_credential() -> Dict[str, Any]:
+def full_credential() -> dict[str, Any]:
     """Create a credential with all optional fields."""
     return {
         "credential_id": "full_cred_456",
@@ -63,7 +63,7 @@ def full_credential() -> Dict[str, Any]:
 
 def test_store_credential_success(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test successful credential storage."""
     store.store_credential("user_123", sample_credential)
@@ -79,7 +79,7 @@ def test_store_credential_success(
 
 def test_store_credential_with_optional_fields(
     store: WebAuthnCredentialStore,
-    full_credential: Dict[str, Any]
+    full_credential: dict[str, Any]
 ) -> None:
     """Test storing credential with all optional fields."""
     store.store_credential("user_456", full_credential)
@@ -164,7 +164,7 @@ def test_store_credential_empty_credential_id(
 
 def test_store_credential_duplicate(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test error when storing duplicate credential_id."""
     store.store_credential("user_123", sample_credential)
@@ -178,7 +178,7 @@ def test_store_credential_duplicate(
 
 def test_get_credential_success(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test successful credential retrieval."""
     store.store_credential("user_123", sample_credential)
@@ -198,7 +198,7 @@ def test_get_credential_not_found(store: WebAuthnCredentialStore) -> None:
 
 def test_list_credentials_single_user(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test listing credentials for a user with one credential."""
     store.store_credential("user_123", sample_credential)
@@ -279,7 +279,7 @@ def test_list_credentials_isolation(store: WebAuthnCredentialStore) -> None:
 
 def test_delete_credential_success(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test successful credential deletion."""
     store.store_credential("user_123", sample_credential)
@@ -335,7 +335,7 @@ def test_delete_credential_removes_from_user_index(
 
 def test_delete_last_credential_cleans_user_index(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test that deleting last credential removes user from index."""
     store.store_credential("user_123", sample_credential)
@@ -350,7 +350,7 @@ def test_delete_last_credential_cleans_user_index(
 
 def test_update_credential_counter(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test updating credential counter."""
     store.store_credential("user_123", sample_credential)
@@ -365,7 +365,7 @@ def test_update_credential_counter(
 
 def test_update_credential_last_used(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test updating last_used timestamp."""
     store.store_credential("user_123", sample_credential)
@@ -381,7 +381,7 @@ def test_update_credential_last_used(
 
 def test_update_credential_device_name(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test updating device name."""
     store.store_credential("user_123", sample_credential)
@@ -402,7 +402,7 @@ def test_update_credential_not_found(store: WebAuthnCredentialStore) -> None:
 
 def test_update_credential_immutable_fields(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test error when trying to update immutable fields."""
     store.store_credential("user_123", sample_credential)
@@ -418,7 +418,7 @@ def test_update_credential_immutable_fields(
 
 def test_update_credential_invalid_types(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test error when updating with invalid types."""
     store.store_credential("user_123", sample_credential)
@@ -526,7 +526,7 @@ def test_concurrent_store_operations(store: WebAuthnCredentialStore) -> None:
 
 def test_concurrent_read_operations(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test thread safety with concurrent read operations."""
     store.store_credential("user_123", sample_credential)
@@ -745,7 +745,7 @@ def test_realistic_webauthn_usage_pattern(store: WebAuthnCredentialStore) -> Non
 
 def test_update_credential_with_all_optional_fields(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test updating all supported optional fields."""
     store.store_credential("user_123", sample_credential)
@@ -777,7 +777,7 @@ def test_update_credential_with_all_optional_fields(
 
 def test_list_credentials_after_corrupted_index(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test that list_credentials handles corrupted index gracefully."""
     store.store_credential("user_123", sample_credential)
@@ -797,7 +797,7 @@ def test_list_credentials_after_corrupted_index(
 
 def test_get_credentials_by_user_single_credential(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test get_credentials_by_user with single credential."""
     store.store_credential("user_123", sample_credential)
@@ -911,7 +911,7 @@ def test_get_credentials_by_user_performance_o1(
 
 def test_get_credential_by_user_and_id_success(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test get_credential_by_user_and_id happy path."""
     store.store_credential("user_123", sample_credential)
@@ -925,7 +925,7 @@ def test_get_credential_by_user_and_id_success(
 
 def test_get_credential_by_user_and_id_wrong_user(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test get_credential_by_user_and_id with wrong user_id returns None."""
     store.store_credential("alice@example.com", sample_credential)
@@ -937,7 +937,7 @@ def test_get_credential_by_user_and_id_wrong_user(
 
 def test_get_credential_by_user_and_id_wrong_credential(
     store: WebAuthnCredentialStore,
-    sample_credential: Dict[str, Any]
+    sample_credential: dict[str, Any]
 ) -> None:
     """Test get_credential_by_user_and_id with wrong credential_id returns None."""
     store.store_credential("user_123", sample_credential)

@@ -15,7 +15,7 @@ Tests comprehensive observability functionality including:
 
 import asyncio
 import time
-from typing import Any, Dict
+from typing import Any
 from unittest.mock import Mock, patch
 
 import pytest
@@ -266,7 +266,7 @@ class TestCognitiveEventInstrumentation:
     def test_cognitive_event_decorator_with_event_data(self):
         """Test cognitive event decoration with event data extraction"""
         @instrument_cognitive_event("process_matriz_event", slo_target_ms=100.0)
-        def process_event(event: Dict[str, Any]):
+        def process_event(event: dict[str, Any]):
             # Simulate MATRIZ event processing
             stage = event.get('node_type', 'unknown').lower()
             node_id = event.get('id', 'unknown')
@@ -306,11 +306,11 @@ class TestCognitiveEventInstrumentation:
 
     def test_cognitive_event_custom_node_id_extractor(self):
         """Test custom node ID extraction in cognitive event instrumentation"""
-        def custom_extractor(event_data: Dict) -> str:
+        def custom_extractor(event_data: dict) -> str:
             return f"custom_{event_data.get('uuid', 'unknown')}"
 
         @instrument_cognitive_event("custom_event", node_id_extractor=custom_extractor)
-        def custom_event_processor(event: Dict):
+        def custom_event_processor(event: dict):
             return {"custom_processed": True}
 
         test_event = {"uuid": "abc123", "type": "custom"}

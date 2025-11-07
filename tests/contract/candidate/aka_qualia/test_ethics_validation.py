@@ -94,8 +94,7 @@ class ConstellationFrameworkValidator:
             akaq: AkaQualia instance to validate
             test_scenario: Test scenario configuration
 
-        Returns:
-            Dict with compliance scores for each constellation principle
+        Returns: dict with compliance scores for each constellation principle
         """
         validation_start = time.time()
         compliance_results = {}

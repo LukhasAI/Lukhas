@@ -253,7 +253,7 @@ def test_matriz_multi_turn_conversation(client, auth_headers):
     """Verify MATRIZ maintains context across multiple turns."""
     session_id = "multi-turn-123"
 
-    # Turn 1: Set context
+    # Turn 1: set context
     r1 = client.post(
         "/v1/responses",
         json={

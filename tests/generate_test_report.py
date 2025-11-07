@@ -10,7 +10,7 @@ import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple
+# from typing import Dict, List, Tuple  # All imports converted to builtins (PEP 585)
 
 
 class TestReportGenerator:
@@ -19,7 +19,7 @@ class TestReportGenerator:
         self.results = {}
         self.known_issues = []
 
-    def run_tests(self) -> Dict:
+    def run_tests(self) -> dict:
         """Run pytest and collect results in JSON format"""
         print("🔍 Running test suite...")
 
@@ -43,7 +43,7 @@ class TestReportGenerator:
             print(f"⚠️ Could not run tests with JSON output: {e}")
             return self._run_simple_tests()
 
-    def _run_simple_tests(self) -> Dict:
+    def _run_simple_tests(self) -> dict:
         """Fallback: Run tests with simple output parsing"""
         cmd = ["pytest", str(self.test_dir), "--tb=no", "-v", "--co"]  # Collect only for quick analysis
 
@@ -61,7 +61,7 @@ class TestReportGenerator:
             "tests": [{"nodeid": t} for t in tests],
         }
 
-    def parse_failures(self, results: Dict) -> List[Dict]:
+    def parse_failures(self, results: dict) -> list[Dict]:
         """Extract failure information from test results"""
         failures = []
 
@@ -78,13 +78,13 @@ class TestReportGenerator:
 
         return failures
 
-    def _extract_error(self, test: Dict) -> str:
+    def _extract_error(self, test: dict) -> str:
         """Extract error message from test result"""
         if "call" in test and "longrepr" in test["call"]:
             return str(test["call"]["longrepr"])[:200]
         return "Error details not available"
 
-    def categorize_issue(self, failure: Dict) -> Tuple[str, str]:
+    def categorize_issue(self, failure: dict) -> tuple[str, str]:
         """Categorize issue by priority and type"""
         test_path = failure["test_path"]
 
@@ -110,7 +110,7 @@ class TestReportGenerator:
 
         return priority, issue_type
 
-    def generate_known_issues(self, failures: List[Dict]) -> str:
+    def generate_known_issues(self, failures: list[Dict]) -> str:
         """Generate KNOWN_ISSUES.md content"""
 
         issues = []
@@ -140,7 +140,7 @@ class TestReportGenerator:
 
         return "\n".join(issues)
 
-    def generate_status_dashboard(self, results: Dict) -> str:
+    def generate_status_dashboard(self, results: dict) -> str:
         """Generate TEST_STATUS.md content"""
 
         summary = results.get("summary", {})

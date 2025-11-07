@@ -398,8 +398,7 @@ class ComponentAblationFramework:
         """
         Validate Constellation Framework (⚛️🧠🛡️) compliance under ablation.
 
-        Returns:
-            Dict with compliance status for each Trinity principle
+        Returns: dict with compliance status for each Trinity principle
         """
         compliance = {
             "identity_preserved": True,  # ⚛️ Identity maintained
@@ -464,8 +463,7 @@ class ComponentAblationFramework:
         """
         Measure quantitative impact of ablation on system performance.
 
-        Returns:
-            Dict with degradation metrics (0.0=no impact, 1.0=complete failure)
+        Returns: dict with degradation metrics (0.0=no impact, 1.0=complete failure)
         """
         impact = {}
 
@@ -518,8 +516,7 @@ class ComponentAblationFramework:
         """
         Test emergency stabilization protocols under extreme conditions.
 
-        Returns:
-            Dict with emergency protocol performance metrics
+        Returns: dict with emergency protocol performance metrics
         """
         emergency_results = {
             "activation_time_ms": None,

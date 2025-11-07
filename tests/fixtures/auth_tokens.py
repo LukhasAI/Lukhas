@@ -9,7 +9,7 @@ Example:
     >>> response = client.get("/v1/models", headers=headers)
 """
 
-from typing import Dict, List, Optional
+from typing import Optional
 from dataclasses import dataclass
 import os
 
@@ -32,16 +32,16 @@ class Scopes:
     """Standard scope sets for LUKHAS API testing."""
 
     # Read-only scopes
-    MODELS_READ: List[str] = None
-    EMBEDDINGS_READ: List[str] = None
-    DREAMS_READ: List[str] = None
+    MODELS_READ: list[str] = None
+    EMBEDDINGS_READ: list[str] = None
+    DREAMS_READ: list[str] = None
 
     # Write scopes
-    RESPONSES_WRITE: List[str] = None
-    DREAMS_WRITE: List[str] = None
+    RESPONSES_WRITE: list[str] = None
+    DREAMS_WRITE: list[str] = None
 
     # Admin scopes
-    ADMIN_ALL: List[str] = None
+    ADMIN_ALL: list[str] = None
 
     def __init__(self):
         """Initialize scope sets."""
@@ -64,25 +64,24 @@ SCOPES = Scopes()
 
 
 def get_auth_headers(
-    scopes: Optional[List[str]] = None,
+    scopes: Optional[list[str]] = None,
     user_id: Optional[str] = None,
     org_id: Optional[str] = None,
     project_id: Optional[str] = None,
     api_key: Optional[str] = None,
     include_openai_headers: bool = True
-) -> Dict[str, str]:
+) -> dict[str, str]:
     """Get standardized auth headers for testing.
 
     Args:
-        scopes: List of OAuth scopes (default: models:read).
+        scopes: list of OAuth scopes (default: models:read).
         user_id: User identifier (default: TEST_USER_ID).
         org_id: Organization identifier (default: TEST_ORG_ID).
         project_id: Project identifier (default: TEST_PROJECT_ID).
         api_key: API key (default: TEST_API_KEY).
         include_openai_headers: Include OpenAI-compatible headers (default: True).
 
-    Returns:
-        Dict of HTTP headers ready for API requests.
+    Returns: dict of HTTP headers ready for API requests.
 
     Example:
         >>> headers = get_auth_headers(scopes=SCOPES.MODELS_READ)
@@ -112,14 +111,13 @@ def get_auth_headers(
     return headers
 
 
-def get_minimal_headers(api_key: Optional[str] = None) -> Dict[str, str]:
+def get_minimal_headers(api_key: Optional[str] = None) -> dict[str, str]:
     """Get minimal auth headers (API key only).
 
     Args:
         api_key: API key (default: TEST_API_KEY).
 
-    Returns:
-        Dict with minimal authentication headers.
+    Returns: dict with minimal authentication headers.
 
     Example:
         >>> headers = get_minimal_headers()
@@ -131,11 +129,10 @@ def get_minimal_headers(api_key: Optional[str] = None) -> Dict[str, str]:
     }
 
 
-def get_multi_user_headers() -> Dict[str, Dict[str, str]]:
+def get_multi_user_headers() -> dict[str, dict[str, str]]:
     """Get headers for multiple test users (Alice, Bob, Charlie).
 
-    Returns:
-        Dict mapping user names to their auth headers.
+    Returns: dict mapping user names to their auth headers.
 
     Example:
         >>> users = get_multi_user_headers()
