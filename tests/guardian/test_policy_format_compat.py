@@ -1,4 +1,5 @@
 import yaml
+
 from adapters.openai.policy_pdp import PDP
 
 LEGACY_POLICY = {
