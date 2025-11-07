@@ -36,7 +36,7 @@ import asyncio
 import logging
 import os
 from datetime import datetime
-from typing import Any, Optional
+from typing import Optional
 
 import aiohttp
 from pydantic import BaseModel, Field

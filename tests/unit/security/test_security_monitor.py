@@ -5,6 +5,7 @@ import time
 from datetime import datetime, timedelta, timezone
 
 import pytest
+
 from core.security.security_monitor import (
     EventSeverity,
     EventType,

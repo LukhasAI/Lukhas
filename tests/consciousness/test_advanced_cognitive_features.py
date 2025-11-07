@@ -32,6 +32,7 @@ from cognitive_core.reasoning.deep_inference_engine import (
     InferenceResult,
     InferenceType,
 )
+
 from consciousness.meta_cognitive_assessor import (
     CognitiveLoadLevel,
     MetaCognitiveAssessor,
