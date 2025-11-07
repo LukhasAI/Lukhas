@@ -1,4 +1,5 @@
 import pytest
+
 from core.colonies.base_colony import BaseColony, ConsensusResult, Tag, TagScope
 
 

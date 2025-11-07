@@ -85,7 +85,7 @@ def determine_target_location(module_path: str) -> dict[str, str]:
         pattern_parts = pattern.split(".")
 
         # Check if module path matches pattern
-        if len(parts) >= len(pattern_parts) and all((parts[i] == pattern_parts[i] for i in range(len(pattern_parts)))):
+        if len(parts) >= len(pattern_parts) and all(parts[i] == pattern_parts[i] for i in range(len(pattern_parts))):
             # Construct target path
             remaining = parts[len(pattern_parts):]
             if remaining:

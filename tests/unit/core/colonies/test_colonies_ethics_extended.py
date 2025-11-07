@@ -1,4 +1,5 @@
 import pytest
+
 from core.colonies.ethics_swarm_colony import (
     EthicalDecisionType,
     EthicsSwarmColony,

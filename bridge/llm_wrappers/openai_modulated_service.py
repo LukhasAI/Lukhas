@@ -22,10 +22,12 @@ import uuid
 from typing import Any, cast
 
 from branding.policy.terminology import normalize_chunk, normalize_output
+from openai.tooling import build_tools_from_allowlist, get_all_tools
+
 from bridge.llm_wrappers.tool_executor import (
     execute_tool as bridged_execute_tool,
 )
-from openai.tooling import build_tools_from_allowlist, get_all_tools
+from metrics import get_metrics_collector
 from orchestration.signals.homeostasis import (
     HomeostasisController,
     ModulationParams,
@@ -33,8 +35,6 @@ from orchestration.signals.homeostasis import (
 )
 from orchestration.signals.modulator import PromptModulation, PromptModulator
 from orchestration.signals.signal_bus import Signal, get_signal_bus
-
-from metrics import get_metrics_collector
 
 from .unified_openai_client import UnifiedOpenAIClient
 
@@ -916,8 +916,9 @@ def resume_with_tools(
     import asyncio
     import json
 
-    from audit.tool_analytics import get_analytics
     from tools.tool_executor import get_tool_executor
+
+    from audit.tool_analytics import get_analytics
 
     analytics = get_analytics()
     executor = get_tool_executor()

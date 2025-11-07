@@ -38,7 +38,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional, Union
 
-log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
+log = logging.getLogger(__name__)  # TODO: logging
 
 __module_name__ = "Quantum Post Quantum Crypto Enhanced"
 __version__ = "2.0.0"

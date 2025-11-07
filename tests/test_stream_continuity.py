@@ -9,6 +9,7 @@ import os
 import time
 
 import pytest
+
 from core.consciousness_stream import ConsciousnessStream
 
 

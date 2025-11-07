@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from typing import Any, Dict, List
 
 import structlog
+
 from core.identity.vault.lukhas_id import (
     IdentityManager,
     IdentityVerificationError,
