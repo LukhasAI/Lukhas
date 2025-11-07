@@ -3,8 +3,9 @@ Unit tests for the MATRIZ Memory System.
 """
 import time
 from unittest.mock import patch
+
 import pytest
-from matriz.core.memory_system import MemorySystem, MemoryType, MemoryQuery, MemoryItem
+from matriz.core.memory_system import MemoryItem, MemoryQuery, MemorySystem, MemoryType
 
 
 @pytest.fixture

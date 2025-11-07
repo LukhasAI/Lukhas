@@ -20,7 +20,6 @@ This memory system follows the MATRIZ principles:
 
 import hashlib
 import json
-import lz4.frame
 import threading
 import time
 import uuid
@@ -30,6 +29,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
+import lz4.frame
 from matriz.core.node_interface import (
     CognitiveNode,
     NodeState,
