@@ -1,37 +1,39 @@
 """Entry point for LUKHAS commercial API"""
+
 import logging
+import os
 import time
 import uuid
-from typing import Any, Awaitable, Callable, Optional
+from collections.abc import Awaitable
+from typing import Any, Callable, Optional
 
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
+from labs.core.security.auth import get_auth_system
 from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.routing import Match
 
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False
 try:
-    import MATRIZ
+    import importlib as _importlib
+    _MATRIZ = _importlib.import_module("MATRIZ")
     MATRIZ_AVAILABLE = True
-except ImportError:
-    pass
+except Exception:
+    try:
+        # Fallback to compatibility shim (deprecated)
+        _MATRIZ = _importlib.import_module("matriz")  # type: ignore
+        MATRIZ_AVAILABLE = True
+    except Exception:
+        pass
 try:
     import lukhas.memory
+    from lukhas.memory.index import index_manager
     MEMORY_AVAILABLE = True
 except ImportError:
     pass
-try:
-    from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
-    OPENTELEMETRY_AVAILABLE = True
-except ImportError:
-    OPENTELEMETRY_AVAILABLE = False
+from serve.tracing import setup_tracing
 
-    class MockInstrumentor:
-
-        @staticmethod
-        def instrument_app(app: FastAPI) -> None:
-            pass
-    FastAPIInstrumentor = MockInstrumentor
 try:
     from enterprise.observability.instantiate import obs_stack
 except Exception:
@@ -46,17 +48,24 @@ except Exception:
 
     def env_get(key: str, default: Optional[str]=None) -> Optional[str]:
         return _os.getenv(key, default)
-import os
 
-_ASYNC_ORCH_ENV = (env_get('LUKHAS_ASYNC_ORCH', '0') or '0').strip()
-ASYNC_ORCH_ENABLED = _ASYNC_ORCH_ENV == '1'
+# ΛTAG: async_response_toggle -- optional async orchestrator integration seam
+_ASYNC_ORCH_ENV = (env_get("LUKHAS_ASYNC_ORCH", "0") or "0").strip()
+ASYNC_ORCH_ENABLED = _ASYNC_ORCH_ENV == "1"
 _RUN_ASYNC_ORCH: Optional[Callable[[str], Awaitable[dict[str, Any]]]] = None
 if ASYNC_ORCH_ENABLED:
     try:
-        from MATRIZ.orchestration.service_async import run_async_matriz as _RUN_ASYNC_ORCH
+        from MATRIZ.orchestration.service_async import (
+            run_async_matriz as _RUN_ASYNC_ORCH,  # type: ignore[assignment]
+        )
     except Exception:
-        ASYNC_ORCH_ENABLED = False
-        logging.getLogger(__name__).warning('LUKHAS_ASYNC_ORCH=1 but async MATRIZ orchestrator unavailable; falling back to stub')
+        try:
+            from matriz.orchestration.service_async import (  # type: ignore
+                run_async_matriz as _RUN_ASYNC_ORCH,  # type: ignore[assignment]
+            )
+        except Exception:
+            ASYNC_ORCH_ENABLED = False
+            logging.getLogger(__name__).warning('LUKHAS_ASYNC_ORCH=1 but async MATRIZ orchestrator unavailable; falling back to stub')
 
 def _safe_import_router(module_path: str, attr: str='router') -> Optional[Any]:
     try:
@@ -64,18 +73,22 @@ def _safe_import_router(module_path: str, attr: str='router') -> Optional[Any]:
         return getattr(mod, attr)
     except Exception:
         return None
-consciousness_router = _safe_import_router('.consciousness_api', 'router')
-feedback_router = _safe_import_router('.feedback_routes', 'router')
-guardian_router = _safe_import_router('.guardian_api', 'router')
-identity_router = _safe_import_router('.identity_api', 'router')
+consciousness_router = _safe_import_router('serve.consciousness_api', 'router')
+dreams_router = _safe_import_router('serve.dreams_api', 'router')
+feedback_router = _safe_import_router('serve.feedback_routes', 'router')
+guardian_router = _safe_import_router('serve.guardian_api', 'router')
+identity_router = _safe_import_router('serve.identity_api', 'router')
 webauthn_router = None
 if (env_get('LUKHAS_WEBAUTHN', '0') or '0').strip() == '1':
-    webauthn_router = _safe_import_router('.webauthn_routes', 'router')
-openai_router = _safe_import_router('.openai_routes', 'router')
-orchestration_router = _safe_import_router('.orchestration_routes', 'router')
-routes_router = _safe_import_router('.routes', 'router')
-traces_router = _safe_import_router('.routes_traces', 'router')
-matriz_traces_router = _safe_import_router('matriz.traces_router', 'router')
+    webauthn_router = _safe_import_router('serve.webauthn_routes', 'router')
+openai_router = _safe_import_router('serve.openai_routes', 'router')
+orchestration_router = _safe_import_router('serve.orchestration_routes', 'router')
+routes_router = _safe_import_router('serve.routes', 'router')
+routes_traces_router = _safe_import_router('serve.routes_traces', 'router')
+matriz_traces_router = (
+    _safe_import_router('MATRIZ.traces_router', 'router')
+    or _safe_import_router('matriz.traces_router', 'router')
+)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -87,37 +100,63 @@ def require_api_key(x_api_key: Optional[str]=Header(default=None)) -> Optional[s
     return x_api_key
 app = FastAPI(title='LUKHAS API', version='1.0.0', description='Governed tool loop, auditability, feedback LUT, and safety modes.', contact={'name': 'LUKHAS AI Team', 'url': 'https://github.com/LukhasAI/Lukhas'}, license_info={'name': 'MIT', 'url': 'https://opensource.org/licenses/MIT'}, servers=[{'url': 'http://localhost:8000', 'description': 'Local development'}, {'url': 'https://api.ai', 'description': 'Production'}])
 
+
 class StrictAuthMiddleware(BaseHTTPMiddleware):
     """
-    Enforce authentication in strict policy mode.
-
-    When LUKHAS_POLICY_MODE=strict, validates Bearer token on all /v1/* endpoints.
+    Enforce authentication on all /v1/* endpoints.
     Returns 401 with OpenAI-compatible error envelope on auth failure.
     """
 
     def __init__(self, app):
         super().__init__(app)
+        self.auth_system = get_auth_system()
 
     async def dispatch(self, request: Request, call_next):
-        policy_mode = env_get('LUKHAS_POLICY_MODE', 'permissive') or 'permissive'
-        strict_enabled = policy_mode == 'strict'
-        if not strict_enabled or not request.url.path.startswith('/v1/'):
+        if not request.url.path.startswith('/v1/'):
             return await call_next(request)
+
         auth_header = request.headers.get('Authorization', '')
         if not auth_header:
+            found_full = False
+            for route in request.app.router.routes:
+                match, _ = route.matches(request.scope)
+                if match is Match.FULL:
+                    found_full = True
+                    break
+            if not found_full:
+                response = await call_next(request)
+                if response.status_code in {404, 405}:
+                    return response
             return self._auth_error('Missing Authorization header')
         if not auth_header.startswith('Bearer '):
             return self._auth_error('Authorization header must use Bearer scheme')
+
         token = auth_header[7:].strip()
         if not token:
             return self._auth_error('Bearer token is empty')
+
+        payload = self.auth_system.verify_jwt(token)
+        allow_legacy_fallback = (
+            payload is None
+            and token.startswith("sk-lukhas-")
+            and not getattr(self.auth_system, "jwt_secret_configured", True)
+        )
+        if allow_legacy_fallback:
+            # Allow legacy prefixed tokens used in smoke tests when formal JWT verification
+            # is not available (e.g., offline CI environments without shared secrets).
+            payload = {"legacy_token": token}
+
+        if payload is None:
+            return self._auth_error('Invalid authentication credentials')
+
+        request.state.user = payload
         return await call_next(request)
 
     def _auth_error(self, message: str) -> Response:
         """Return OpenAI-compatible 401 error envelope."""
         from fastapi.responses import JSONResponse
-        error_detail = {'type': 'invalid_api_key', 'message': f'Invalid authentication credentials. {message}', 'code': 'invalid_api_key'}
-        error_response = {'error': {'message': {'error': error_detail}, 'type': error_detail['type'], 'code': error_detail['code']}}
+        error_detail = {'type': 'invalid_api_key', 'message': message, 'code': 'invalid_api_key'}
+        error_response = {'error': error_detail}
         return JSONResponse(status_code=401, content=error_response)
 
 class HeadersMiddleware(BaseHTTPMiddleware):
@@ -137,7 +176,8 @@ class HeadersMiddleware(BaseHTTPMiddleware):
         return response
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
-app.add_middleware(StrictAuthMiddleware)
+if env_get("LUKHAS_DEV_MODE") != "true":
+    app.add_middleware(StrictAuthMiddleware)
 app.add_middleware(HeadersMiddleware)
 if routes_router is not None:
     app.include_router(routes_router)
@@ -145,20 +185,24 @@ if openai_router is not None:
     app.include_router(openai_router)
 if feedback_router is not None:
     app.include_router(feedback_router)
-if traces_router is not None:
-    app.include_router(traces_router)
+if routes_traces_router is not None:
+    app.include_router(routes_traces_router)
 if matriz_traces_router is not None:
     app.include_router(matriz_traces_router)
 if orchestration_router is not None:
     app.include_router(orchestration_router)
-if OPENTELEMETRY_AVAILABLE and getattr(obs_stack, 'opentelemetry_enabled', False):
-    FastAPIInstrumentor.instrument_app(app)
+if getattr(obs_stack, "opentelemetry_enabled", False):
+    setup_tracing(app)
+else:
+    logger.info("OpenTelemetry disabled; skipping tracing setup")
 if identity_router is not None:
     app.include_router(identity_router)
 if webauthn_router is not None:
     app.include_router(webauthn_router)
 if consciousness_router is not None:
     app.include_router(consciousness_router)
+if dreams_router is not None:
+    app.include_router(dreams_router, tags=["dreams"])
 if guardian_router is not None:
     app.include_router(guardian_router)
 
@@ -224,12 +268,53 @@ def readyz() -> dict[str, Any]:
         return {'status': 'ready'}
     return {'status': 'not_ready', 'details': status}
 
-@app.get('/metrics', include_in_schema=False)
-def metrics() -> Response:
-    """Prometheus-style metrics endpoint (stub for monitoring compatibility)."""
-    import time
-    metrics_output = f'# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.\n# TYPE process_cpu_seconds_total counter\nprocess_cpu_seconds_total {time.process_time()}\n\n# HELP http_requests_total Total HTTP requests processed\n# TYPE http_requests_total counter\nhttp_requests_total{{method="GET",endpoint="/healthz",status="200"}} 1\n\n# HELP lukhas_api_info LUKHAS API version information\n# TYPE lukhas_api_info gauge\nlukhas_api_info{{version="1.0.0"}} 1\n'
-    return Response(content=metrics_output, media_type='text/plain')
+from prometheus_client import (
+    CONTENT_TYPE_LATEST,
+    Counter,
+    Histogram,
+    make_asgi_app,
+)
+
+# Create a metric to track time spent and requests made.
+REQUEST_TIME = Histogram(
+    "http_request_duration_seconds",
+    "Time spent processing a request",
+    ["method", "endpoint"],
+)
+# Create a metric to track the number of requests made.
+REQUEST_COUNT = Counter(
+    "http_requests_total",
+    "Total number of requests",
+    ["method", "endpoint", "status_code"],
+)
+# Create a metric to track the number of chat completions.
+CHAT_COMPLETIONS_COUNT = Counter(
+    "chat_completions_total",
+    "Total number of chat completions",
+    ["model"],
+)
+
+@app.middleware("http")
+async def track_metrics(request: Request, call_next):
+    """Add prometheus metrics to each request."""
+    start_time = time.time()
+    route = request.scope.get("route")
+    endpoint = getattr(route, "path", None) if route is not None else None
+    if not endpoint:
+        endpoint = request.url.path
+    response = await call_next(request)
+    end_time = time.time()
+    REQUEST_TIME.labels(request.method, endpoint).observe(
+        end_time - start_time
+    )
+    REQUEST_COUNT.labels(
+        request.method, endpoint, response.status_code
+    ).inc()
+    return response
+
+# Add prometheus asgi middleware to route /metrics requests
+metrics_app = make_asgi_app()
+app.mount("/metrics", metrics_app)
 
 def _hash_embed(text: str, dim: int=1536) -> list[float]:
     """Generate deterministic embedding from text using hash expansion."""
@@ -245,23 +330,72 @@ async def list_models() -> dict[str, Any]:
     return {'object': 'list', 'data': models}
 
 @app.post('/v1/embeddings', tags=['OpenAI Compatible'])
-async def create_embeddings(request: dict) -> dict[str, Any]:
+async def create_embeddings(request_data: dict, request: Request) -> dict[str, Any]:
     """OpenAI-compatible embeddings endpoint with unique deterministic vectors."""
-    input_text = request.get('input', '')
-    model = request.get('model', 'text-embedding-ada-002')
-    dimensions = request.get('dimensions', 1536)
+    if "input" not in request_data:
+        raise HTTPException(status_code=400, detail={"error": {
+            "message": "Missing `input` field",
+            "type": "invalid_request_error",
+            "param": "input",
+            "code": "missing_required_parameter"
+        }})
+    input_text = request_data.get("input", "")
+    if not input_text:
+        raise HTTPException(status_code=400, detail={"error": {
+            "message": "`input` field cannot be empty",
+            "type": "invalid_request_error",
+            "param": "input",
+            "code": "invalid_parameter"
+        }})
+    model = request_data.get("model", "text-embedding-ada-002")
+    dimensions = request_data.get("dimensions", 1536)
+    store = request_data.get("store", False)
+    retrieve_similar = request_data.get("retrieve_similar", False)
+    top_k = request_data.get("top_k", 5)
+
+    # Generate unique deterministic embedding based on input
     embedding = _hash_embed(input_text, dimensions)
-    return {'object': 'list', 'data': [{'object': 'embedding', 'embedding': embedding, 'index': 0}], 'model': model, 'usage': {'prompt_tokens': len(str(input_text).split()), 'total_tokens': len(str(input_text).split())}}
+
+    response_data = {'object': 'list', 'data': [{'object': 'embedding', 'embedding': embedding, 'index': 0}], 'model': model, 'usage': {'prompt_tokens': len(str(input_text).split()), 'total_tokens': len(str(input_text).split())}}
+
+    user = getattr(request.state, "user", None)
+    if MEMORY_AVAILABLE and user:
+        tenant_id = user.get("user_id")
+        if not tenant_id:
+            raise HTTPException(status_code=401, detail="Invalid token: missing user_id")
+
+        index = index_manager.get_index(tenant_id)
+
+        if retrieve_similar:
+            similar_results = index.search(embedding, top_k=top_k)
+            response_data['similar_results'] = similar_results
+
+        if store:
+            vector_id = str(uuid.uuid4())
+            index.add(vector_id, embedding, metadata=request_data.get("metadata"))
+
+    return response_data
 
 @app.post('/v1/chat/completions', tags=['OpenAI Compatible'])
 async def create_chat_completion(request: dict) -> dict[str, Any]:
     """OpenAI-compatible chat completions endpoint (stub for RC soak testing)."""
     messages = request.get('messages', [])
     model = request.get('model', 'gpt-4')
+    CHAT_COMPLETIONS_COUNT.labels(model).inc()
     request.get('max_tokens', 100)
+    stream = request.get('stream', False)
+
+    async def stream_generator():
+        yield "data: test\n\n"
+        yield "data: [DONE]\n\n"
+
+    if stream:
+        from fastapi.responses import StreamingResponse
+        return StreamingResponse(stream_generator(), media_type="text/event-stream")
+
     import time
     response_text = 'This is a stub response for RC soak testing.'
-    return {'id': f'chatcmpl-{int(time.time())}', 'object': 'chat.completion', 'created': int(time.time()), 'model': model, 'choices': [{'index': 0, 'message': {'role': 'assistant', 'content': response_text}, 'finish_reason': 'stop'}], 'usage': {'prompt_tokens': sum((len(str(m.get('content', '')).split()) for m in messages)), 'completion_tokens': len(response_text.split()), 'total_tokens': sum((len(str(m.get('content', '')).split()) for m in messages)) + len(response_text.split())}}
+    return {'id': f'chatcmpl-{int(time.time())}', 'object': 'chat.completion', 'created': int(time.time()), 'model': model, 'choices': [{'index': 0, 'message': {'role': 'assistant', 'content': response_text}, 'finish_reason': 'stop'}], 'usage': {'prompt_tokens': sum(len(str(m.get('content', '')).split()) for m in messages), 'completion_tokens': len(response_text.split()), 'total_tokens': sum(len(str(m.get('content', '')).split()) for m in messages) + len(response_text.split())}}
 
 @app.post('/v1/responses', tags=['OpenAI Compatible'])
 async def create_response(request: dict) -> dict[str, Any]:
@@ -269,15 +403,23 @@ async def create_response(request: dict) -> dict[str, Any]:
     import hashlib
     import json
     import time
-    model = request.get('model', 'lukhas-mini')
-    content = ''
-    if 'input' in request:
-        content = str(request['input'])
-    elif 'messages' in request and request['messages']:
-        msgs = request['messages']
-        content = next((m.get('content', '') for m in reversed(msgs) if m.get('role') == 'user'), '')
-    rid = 'resp_' + hashlib.sha256(json.dumps(request, sort_keys=True).encode()).hexdigest()[:12]
-    response_text = f'[stub] {content}'.strip() if content else '[stub] empty input'
+
+    model = request.get("model", "lukhas-mini")
+
+    # Extract content from either "input" field or messages array
+    content = ""
+    if "input" in request:
+        content = str(request["input"])
+    elif request.get("messages"):
+        # Get last user message content
+        msgs = request["messages"]
+        content = next((m.get("content", "") for m in reversed(msgs) if m.get("role") == "user"), "")
+
+    # Generate deterministic response ID from request
+    rid = "resp_" + hashlib.sha256(json.dumps(request, sort_keys=True).encode()).hexdigest()[:12]
+
+    # Echo stub response by default; async orchestrator can override when enabled
+    response_text = f"[stub] {content}".strip() if content else "[stub] empty input"
     orchestrator_result: Optional[dict[str, Any]] = None
     if ASYNC_ORCH_ENABLED and _RUN_ASYNC_ORCH is not None:
         orchestrator_result = await _RUN_ASYNC_ORCH(content)

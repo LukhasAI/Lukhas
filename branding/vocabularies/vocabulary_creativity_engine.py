@@ -12,8 +12,9 @@ providing the symbolic language elements used for visual analysis,
 image interpretation, and visual communication.
 """
 
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
-from typing import Any, Iterable, Sequence
+from typing import Any, Union
 
 from core.symbolic import VisualSymbol
 from symbolic.vocabularies.vision_vocabulary import VisionSymbolicVocabulary
@@ -1009,7 +1010,7 @@ class VocabularyCreativityEngine:
 
     # ΛTAG: vision_symbolic_mapping
     def map_detected_objects_to_symbols(
-        self, detected_objects: Sequence[str] | Iterable[str] | None
+        self, detected_objects: Union[Sequence[str], Iterable[str], None]
     ) -> list[str]:
         """Map detected object labels to unique symbolic elements."""
 

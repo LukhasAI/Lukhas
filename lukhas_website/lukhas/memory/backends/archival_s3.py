@@ -40,7 +40,7 @@ import numpy as np
 
 try:
     import boto3
-    from botocore.exceptions import (  # noqa: F401  # TODO: botocore.exceptions.NoCredenti...
+    from botocore.exceptions import (  # TODO: botocore.exceptions.NoCredenti...
         ClientError,
         NoCredentialsError,
     )
@@ -139,7 +139,7 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
         """Load manifest from disk"""
         if self.manifest_path.exists():
             try:
-                with open(self.manifest_path, 'r') as f:
+                with open(self.manifest_path) as f:
                     data = json.load(f)
 
                 # Convert string dates back to datetime objects

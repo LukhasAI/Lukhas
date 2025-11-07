@@ -24,7 +24,7 @@ import traceback
 from typing import Any, Dict, List, Optional, Tuple
 
 try:
-    from jsonschema import (  # noqa: F401  # TODO: jsonschema.validate; consider ...
+    from jsonschema import (  # TODO: jsonschema.validate; consider ...
         Draft202012Validator,
         ValidationError,
         validate,
@@ -129,7 +129,7 @@ class MatrixGate:
         try:
             with open(run_files[-1]) as f:
                 return json.load(f)
-        except (json.JSONDecodeError, IOError) as e:
+        except (OSError, json.JSONDecodeError) as e:
             print(f"[WARN] Could not load run report {run_files[-1]}: {e}")
             return None
 
@@ -343,7 +343,7 @@ class MatrixGate:
             print(f"  [OK] SBOM valid: {sbom_path}")
             return True
 
-        except (json.JSONDecodeError, IOError) as e:
+        except (OSError, json.JSONDecodeError) as e:
             print(f"  [ERROR] Could not load SBOM {sbom_path}: {e}")
             return False
 
@@ -367,9 +367,8 @@ class MatrixGate:
         # Check TEE report if present
         if "tee_report" in attestation:
             tee = attestation["tee_report"]
-            if tee.get("type") == "amd-sev-snp":
-                if "measurement" in tee:
-                    print(f"  [OK] SEV-SNP measurement: {tee['measurement'][:16]}...")
+            if tee.get("type") == "amd-sev-snp" and "measurement" in tee:
+                print(f"  [OK] SEV-SNP measurement: {tee['measurement'][:16]}...")
 
         return True
 

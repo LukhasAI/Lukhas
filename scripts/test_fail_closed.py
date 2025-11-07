@@ -26,9 +26,10 @@ import psutil
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
-    from consciousness import ConsciousnessStream, CreativityEngine
     from consciousness.types import ConsciousnessState, CreativeTask
     from governance.guardian_system import GuardianSystem
+
+    from consciousness import ConsciousnessStream, CreativityEngine
 except ImportError:
     print("Warning: LUKHAS modules not available, using simulation mode")
     GuardianSystem = None
@@ -214,7 +215,8 @@ class ChaosEngineer:
                 for temp_file in temp_files:
                     try:
                         os.remove(temp_file)
-                    except:
+                    except Exception as e:
+                        logger.debug(f"Expected optional failure: {e}")
                         pass
 
         # Start I/O stress worker
@@ -368,9 +370,8 @@ class ChaosEngineer:
 
                     # Validate fail-closed behavior
                     fail_closed = True
-                    if metrics and hasattr(metrics, 'anomaly_rate_per_hour'):
-                        if metrics.anomaly_rate_per_hour > 1000:  # Too many anomalies
-                            fail_closed = False
+                    if (metrics and hasattr(metrics, 'anomaly_rate_per_hour')) and metrics.anomaly_rate_per_hour > 1000:
+                        fail_closed = False
 
                     results.append(StressTestResult(
                         test_id=test_id,
@@ -406,7 +407,8 @@ class ChaosEngineer:
         finally:
             try:
                 await self.consciousness_stream.stop()
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
         return results

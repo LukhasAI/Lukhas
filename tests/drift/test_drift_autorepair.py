@@ -427,7 +427,7 @@ class TestAutorepairAcceptanceGates:
         for _ in range(50):
             start = time.perf_counter()
             # Simulate threshold check without repair
-            _ = 0.10 > manager.critical_threshold
+            _ = manager.critical_threshold < 0.10
             baseline_times.append(time.perf_counter() - start)
 
         # Measure with auto-repair

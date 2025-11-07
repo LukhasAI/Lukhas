@@ -51,7 +51,7 @@ class DirectoryIndexUpdater:
     """Updates directory_index.json files with modern architecture"""
 
     # Constellation Framework star mappings
-    STAR_MAPPINGS = {
+    STAR_MAPPINGS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_update_directory_indexes_py_L54"}
         "identity": "anchor_star",
         "memory": "trail_star",
         "consciousness": "horizon_star",
@@ -62,14 +62,14 @@ class DirectoryIndexUpdater:
     }
 
     # Component type modernization
-    COMPONENT_TYPE_MAPPINGS = {
+    COMPONENT_TYPE_MAPPINGS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_update_directory_indexes_py_L65"}
         "TRINITY_BRIDGE": "CONSTELLATION_BRIDGE",
         "TRINITY_CORE": "CONSTELLATION_CORE",
         "TRINITY_SERVICE": "CONSTELLATION_SERVICE"
     }
 
     # MATRIZ pipeline activation patterns
-    MATRIZ_PATTERNS = {
+    MATRIZ_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_update_directory_indexes_py_L72"}
         "memory": {
             "memory_stage": "primary",
             "attention_stage": "supporting",
@@ -119,7 +119,7 @@ class DirectoryIndexUpdater:
                 if self.update_single_index(index_file):
                     results["updated_files"] += 1
             except Exception as e:
-                error_msg = f"Error updating {index_file}: {str(e)}"
+                error_msg = f"Error updating {index_file}: {e!s}"
                 results["errors"].append(error_msg)
                 print(f"ERROR: {error_msg}")
 
@@ -135,7 +135,7 @@ class DirectoryIndexUpdater:
     def update_single_index(self, index_file: Path) -> bool:
         """Update a single directory_index.json file"""
         try:
-            with open(index_file, 'r', encoding='utf-8') as f:
+            with open(index_file, encoding='utf-8') as f:
                 data = json.load(f)
 
             # Skip if already at latest schema version
@@ -152,7 +152,7 @@ class DirectoryIndexUpdater:
             return True
 
         except Exception as e:
-            raise Exception(f"Failed to update {index_file}: {str(e)}")
+            raise Exception(f"Failed to update {index_file}: {e!s}")
 
     def modernize_index_data(self, data: Dict[str, Any], file_path: Path) -> Dict[str, Any]:
         """Apply all modernization transformations to index data"""
@@ -195,8 +195,7 @@ class DirectoryIndexUpdater:
         """Update directory metadata with Constellation Framework and MATRIZ"""
 
         # Remove Trinity references
-        if "trinity_role" in metadata:
-            del metadata["trinity_role"]
+        metadata.pop("trinity_role", None)
 
         # Add Constellation Framework metadata
         metadata["constellation_framework_version"] = "2.0.0"

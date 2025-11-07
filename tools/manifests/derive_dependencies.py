@@ -5,7 +5,7 @@ import json
 import pathlib
 import subprocess
 import sys
-from typing import Set, List
+from typing import List, Set
 
 INTERNAL_TOPS = {'core', 'lukhas', 'matriz'}
 
@@ -80,13 +80,11 @@ def update_manifest_deps(manifest_path: pathlib.Path,
     obj['dependencies'] = merged
     text = json.dumps(obj, indent=2, ensure_ascii=False)
     text += '\n'
-'
     manifest_path.write_text(text)
     return True
 
 
-def collect_created_manifests_by_shas(shas: List[str]) ->
-                         List[pathlib.Path]:
+def collect_created_manifests_by_shas(shas: List[str]) -> List[pathlib.Path]:
     created: List[pathlib.Path] = []
     for sha in shas:
         out = subprocess.check_output([
@@ -94,9 +92,8 @@ def collect_created_manifests_by_shas(shas: List[str]) ->
             '--name-only','-r', sha
         ]).decode().splitlines()
         for p in out:
-            if p.startswith('manifests/'):
-                if p.endswith('/module.manifest.json'):
-                    created.append(pathlib.Path(p))
+            if p.startswith('manifests/') and p.endswith('/module.manifest.json'):
+                created.append(pathlib.Path(p))
     return created
 
 

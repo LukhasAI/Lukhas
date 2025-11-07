@@ -1,10 +1,11 @@
+import importlib as _importlib
 import time
 
 import pytest
-from labs.governance.guardian_system_integration import (
-    GuardianSystemIntegration,
-    GuardianValidationRequest,
-)
+
+_mod = _importlib.import_module("labs.governance.guardian_system_integration")
+GuardianSystemIntegration = _mod.GuardianSystemIntegration
+GuardianValidationRequest = _mod.GuardianValidationRequest
 
 pytestmark = pytest.mark.asyncio
 

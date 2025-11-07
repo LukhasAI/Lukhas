@@ -13,9 +13,13 @@ Usage:
     })
 """
 from __future__ import annotations
-from datetime import datetime
+
+from datetime import datetime, timezone
+from typing import Optional
 from uuid import UUID, uuid4
-from MATRIZ.node_contract import GLYPH, MatrizMessage
+
+from matriz.node_contract import GLYPH, MatrizMessage
+
 
 def mk_msg_from_json(d: dict) -> MatrizMessage:
     """
@@ -48,7 +52,7 @@ def mk_msg_from_json(d: dict) -> MatrizMessage:
         glyph_data['tags'] = {}
     return MatrizMessage(
         msg_id=UUID(d['msg_id']) if 'msg_id' in d else uuid4(),
-        ts=datetime.fromisoformat(d['ts']) if 'ts' in d else datetime.utcnow(),
+    ts=datetime.fromisoformat(d['ts']) if 'ts' in d else datetime.now(timezone.utc),
         lane=d['lane'],
         topic=d['topic'],
         glyph=GLYPH(
@@ -60,7 +64,7 @@ def mk_msg_from_json(d: dict) -> MatrizMessage:
         payload=d.get('payload', {})
     )
 
-def mk_test_glyph(kind: str='intent', tags: dict=None, id_override: UUID | None=None) -> GLYPH:
+def mk_test_glyph(kind: str='intent', tags: dict | None=None, id_override: UUID | None=None) -> GLYPH:
     """Create a test GLYPH with stable defaults"""
     return GLYPH(
         id=id_override or UUID('550e8400-e29b-41d4-a716-446655440000'),
@@ -69,11 +73,11 @@ def mk_test_glyph(kind: str='intent', tags: dict=None, id_override: UUID | None=
         tags=tags or {}
     )
 
-def mk_test_message(topic: str='contradiction', lane: str='experimental', payload: dict=None, glyph_kind: str='intent') -> MatrizMessage:
+def mk_test_message(topic: str='contradiction', lane: str='experimental', payload: dict | None=None, glyph_kind: str='intent') -> MatrizMessage:
     """Create a test MatrizMessage with sensible defaults"""
     return MatrizMessage(
         msg_id=uuid4(),
-        ts=datetime.utcnow(),
+    ts=datetime.now(timezone.utc),
         lane=lane,
         topic=topic,
         glyph=mk_test_glyph(glyph_kind),

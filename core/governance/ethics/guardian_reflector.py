@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:governance
@@ -17,14 +11,11 @@ Author: lukhas AI Team
 This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable System)
 Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
-"""
 
-"""
 Guardian Reflector Plugin - Ethical Reflection and Moral Reasoning Guardian
 
 This plugin provides comprehensive ethical analysis and moral reasoning capabilities
 for the LUKHAS AI system, ensuring all decisions and actions align with established
-for the lukhas AI system, ensuring all decisions and actions align with established
 ethical frameworks and moral principles.
 
 Key Features:
@@ -40,10 +31,12 @@ License: Proprietary
 Version: 1.0.0
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from core.common import get_logger
 
@@ -83,13 +76,13 @@ if "MemoryManager" not in globals() or isinstance(MemoryManager, MagicMock):  # 
             return {}
 
 __all__ = [
+    "EthicalFramework",
+    "EthicalReflection",
     "EthicsEngine",
     "GuardianReflector",
-    "EthicalReflection",
-    "MoralDrift",
-    "EthicalFramework",
-    "MoralSeverity",
     "MemoryManager",
+    "MoralDrift",
+    "MoralSeverity",
 ]
 
 
@@ -128,7 +121,7 @@ class EthicalReflection:
     concerns: list[str]
     recommendations: list[str]
     timestamp: datetime
-    consciousness_impact: Optional[float] = None
+    consciousness_impact: float | None = None
 
 
 @dataclass
@@ -151,7 +144,7 @@ class GuardianReflector:
     ensuring moral alignment and consciousness protection.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize the Guardian Reflector plugin"""
         self.config = config or {}
         self.name = "Guardian Reflector"
@@ -171,7 +164,7 @@ class GuardianReflector:
 
         # Internal state
         self.reflection_history: list[EthicalReflection] = []
-        self.moral_baseline: Optional[float] = None
+        self.moral_baseline: float | None = None
         self.active_frameworks = [
             EthicalFramework.VIRTUE_ETHICS,
             EthicalFramework.DEONTOLOGICAL,
@@ -204,7 +197,7 @@ class GuardianReflector:
             return False
 
     async def reflect_on_decision(
-        self, decision_context: dict[str, Any], decision_id: Optional[str] = None
+        self, decision_context: dict[str, Any], decision_id: str | None = None
     ) -> EthicalReflection:
         """
         Perform comprehensive ethical reflection on a decision
@@ -262,7 +255,7 @@ class GuardianReflector:
         logger.info(f"Ethical reflection completed: {moral_score:.3f} moral score, {severity.value} severity")
         return reflection
 
-    async def detect_moral_drift(self, time_window: Optional[timedelta] = None) -> MoralDrift:
+    async def detect_moral_drift(self, time_window: timedelta | None = None) -> MoralDrift:
         """
         Detect moral drift in recent decisions
 
@@ -730,7 +723,7 @@ class GuardianReflector:
 # Plugin factory function
 
 
-def create_plugin(config: Optional[dict[str, Any]] = None) -> GuardianReflector:
+def create_plugin(config: dict[str, Any] | None = None) -> GuardianReflector:
     """Factory function to create Guardian Reflector plugin instance"""
     return GuardianReflector(config)
 

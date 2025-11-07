@@ -63,19 +63,15 @@ def extract_week6_checkboxes(body: str, heading: str = "Week 6") -> Tuple[List[T
     checked = []
     unchecked = []
     # If heading found, gather until a blank line followed by a non-list line or a new heading starting with '#' or 'Week'
-    if heading_idx is not None:
-        i = heading_idx + 1
-    else:
-        i = 0
+    i = heading_idx + 1 if heading_idx is not None else 0
     # Collect up to 200 lines or until we hit a new heading
     while i < len(lines):
         ln = lines[i].strip()
         # stop if we hit another top heading or "Week <n>" heading when we started under Week 6
-        if heading_idx is not None:
-            if re.match(r'^\s*#+\s+', lines[i]) or re.match(r'^\s*Week\s+\d+', lines[i], re.I):
-                # Stop if it's a new heading and it's not the first lines immediately after our heading
-                if i > heading_idx + 1 and ln != '':
-                    break
+        if (heading_idx is not None and
+            (re.match(r'^\s*#+\s+', lines[i]) or re.match(r'^\s*Week\s+\d+', lines[i], re.I)) and
+            i > heading_idx + 1 and ln != ''):
+            break
         # Match checkbox patterns
         m_checked = re.match(r'^\s*[-*]\s*\[\s*[xX]\s*\]\s*(.+)', ln)
         m_unchecked = re.match(r'^\s*[-*]\s*\[\s*\]\s*(.+)', ln)
@@ -122,7 +118,7 @@ def print_blockers(issue):
         print(" * " + b)
     print()
     print("REMEDIATION:")
-    print(" - Close the issue #{} after confirming Week 6 completion. Use the issue checklist to mark items done.".format(ISSUE_NUMBER))
+    print(f" - Close the issue #{ISSUE_NUMBER} after confirming Week 6 completion. Use the issue checklist to mark items done.")
     print(" - Ensure the Week 6 checklist in the issue body contains items such as: 'Dilithium2 sign/verify passed', 'Key rotation implemented', 'Red-team sign-off', 'Performance validated', etc.")
     print(" - After closing and verifying, re-run CI to allow promotion.")
     print("="*80)
@@ -136,7 +132,7 @@ def main():
         print("\nPromotion guard: BLOCKED")
         sys.exit(1)
     else:
-        print("\nPromotion guard: PASS — MATRIZ-007 appears completed for Week 6.")
+        print("\nPromotion guard: PASS - MATRIZ-007 appears completed for Week 6.")
         sys.exit(0)
 
 if __name__ == "__main__":

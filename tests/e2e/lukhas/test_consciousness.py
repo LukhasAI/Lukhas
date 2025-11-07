@@ -69,7 +69,7 @@ class TestConsciousnessWrapper:
         wrapper = ConsciousnessWrapper(config=mock_config)
         kernel = ConsciousnessKernel(config=mock_config)
 
-        assert type(wrapper) == type(kernel)
+        assert type(wrapper) is type(kernel)
         assert ConsciousnessKernel is ConsciousnessWrapper
 
     @pytest.mark.unit
@@ -294,7 +294,7 @@ class TestConsciousnessPerformance:
         for i in range(100):
             consciousness.process_input(f"memory_test_{i}")
 
-        current, peak = tracemalloc.get_traced_memory()
+        _current, peak = tracemalloc.get_traced_memory()
         tracemalloc.stop()
 
         # T4 requirement: <10MB peak memory usage

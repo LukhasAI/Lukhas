@@ -16,6 +16,8 @@
 ║ of the system, including frontend, backend, and core services.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import asyncio
 import json
 import logging
@@ -65,6 +67,17 @@ class AdaptiveAGISystem:
     def _load_dependencies(self):
         """Load all system components"""
         try:
+            # Utils and config
+            from core.orchestration.brain.config.settings import load_settings
+            self.load_settings = load_settings
+        except ImportError as e:
+            logger.critical(f"Failed to import required components: {e}")
+            sys.exit(1)
+
+    def init_components(self):
+        """Initialize all system components"""
+        # Delay imports to prevent circular dependencies
+        try:
             # Frontend components
             from core.common.interfaces.ui.adaptive.adaptive_interface_generator import (
                 AdaptiveInterfaceGenerator,
@@ -74,7 +87,6 @@ class AdaptiveAGISystem:
             )
 
             # Utils and config
-            from core.orchestration.brain.config.settings import load_settings
             from core.orchestration.brain.neuro_symbolic.neuro_symbolic_engine import (
                 NeuroSymbolicEngine,
             )
@@ -84,35 +96,23 @@ class AdaptiveAGISystem:
             from learning.meta_learning import MetaLearningSystem
 
             # Backend components
-            from memory.node import Node
+            from memory.node import Node  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_main_node_py_L99"}
             from orchestration.brain.privacy_manager import PrivacyManager
             from voice.speech_processor import SpeechProcessor
-
-            self.SpeechProcessor = SpeechProcessor
-            self.AdaptiveImageGenerator = AdaptiveImageGenerator
-            self.AdaptiveInterfaceGenerator = AdaptiveInterfaceGenerator
-            self.Node = Node
-            self.MetaLearningSystem = MetaLearningSystem
-            self.NeuroSymbolicEngine = NeuroSymbolicEngine
-            self.IdentityManager = IdentityManager
-            self.PrivacyManager = PrivacyManager
-            self.load_settings = load_settings
         except ImportError as e:
             logger.critical(f"Failed to import required components: {e}")
             sys.exit(1)
 
-    def init_components(self):
-        """Initialize all system components"""
         # Frontend
-        self.speech_processor = self.SpeechProcessor()
-        self.image_generator = self.AdaptiveImageGenerator()
-        self.interface_generator = self.AdaptiveInterfaceGenerator()
+        self.speech_processor = SpeechProcessor()
+        self.image_generator = AdaptiveImageGenerator()
+        self.interface_generator = AdaptiveInterfaceGenerator()
 
         # Backend
-        self.meta_learning = self.MetaLearningSystem()
-        self.neuro_symbolic_engine = self.NeuroSymbolicEngine()
-        self.identity_manager = self.IdentityManager()
-        self.privacy_manager = self.PrivacyManager()
+        self.meta_learning = MetaLearningSystem()
+        self.neuro_symbolic_engine = NeuroSymbolicEngine()
+        self.identity_manager = IdentityManager()
+        self.privacy_manager = PrivacyManager()
 
         # Register event handlers
         self.register_event_handlers()

@@ -107,7 +107,7 @@ async def verify_jwt_token(token: str) -> Optional[Dict[str, Any]]:
                     key,
                     algorithms=["RS256"],
                     audience=oauth_audience,
-                    issuer=oauth_issuer.rstrip('/.well-known/openid-configuration')
+                    issuer=oauth_issuer.removesuffix('/.well-known/openid-configuration')
                 )
                 return payload
             except JWTError:
@@ -294,7 +294,7 @@ async def protected_resource_metadata(request: Request) -> JSONResponse:
     """OAuth Protected Resource Metadata endpoint."""
     prm = {
         "resource": public_base_url,
-        "authorization_servers": [oauth_issuer.rstrip('/.well-known/openid-configuration')]
+        "authorization_servers": [oauth_issuer.removesuffix('/.well-known/openid-configuration')]
     }
     return JSONResponse(prm)
 

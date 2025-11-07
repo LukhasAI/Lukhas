@@ -110,99 +110,92 @@ from .security_hardening import (
     initialize_security_hardening,
     secure_evidence_operation,
 )
+import contextlib
 
 __all__ = [
-    # Core observability (Phase 0-4)
-    "LUKHASTracer",
-    "initialize_tracing",
-    "get_lukhas_tracer",
-    "shutdown_tracing",
-    "trace_function",
-    "trace_memory_recall",
-    "trace_matriz_execution",
     "OTEL_AVAILABLE",
-    "LUKHASMetrics",
-    "MetricsConfig",
-    "initialize_metrics",
-    "get_lukhas_metrics",
-    "shutdown_metrics",
     "PROMETHEUS_AVAILABLE",
-
+    # Phase 5 Advanced Metrics
+    "AdvancedMetricsSystem",
+    "AlertState",
+    "AnomalyType",
+    "AuditReport",
+    "CloudProvider",
+    # Phase 5 Compliance Dashboard
+    "ComplianceDashboard",
+    "ComplianceRegime",
+    "ComplianceStatus",
+    "DetectionMethod",
+    # Phase 5 Enhanced Distributed Tracing
+    "EnhancedLUKHASTracer",
+    "EscalationLevel",
+    # Phase 5 Evidence Archival
+    "EvidenceArchivalSystem",
     # Phase 5 Evidence Collection
     "EvidenceCollectionEngine",
     "EvidenceRecord",
     "EvidenceType",
-    "ComplianceRegime",
-    "initialize_evidence_collection",
-    "get_evidence_engine",
-    "collect_evidence",
-
-    # Phase 5 Advanced Metrics
-    "AdvancedMetricsSystem",
-    "MetricAnomaly",
-    "AnomalyType",
-    "MetricSeverity",
-    "initialize_advanced_metrics",
-    "get_advanced_metrics",
-    "record_metric",
-    "record_operation_performance",
-
     # Phase 5 Intelligent Alerting
     "IntelligentAlertingSystem",
-    "AlertState",
-    "NotificationChannel",
-    "EscalationLevel",
-    "initialize_alerting",
-    "get_alerting_system",
-    "trigger_alert",
-
-    # Phase 5 Compliance Dashboard
-    "ComplianceDashboard",
-    "ComplianceStatus",
-    "AuditReport",
-    "initialize_compliance_dashboard",
-    "get_compliance_dashboard",
-
-    # Phase 5 Performance Regression Detection
-    "PerformanceRegressionDetector",
-    "PerformanceBaseline",
-    "PerformanceRegression",
-    "RegressionSeverity",
-    "DetectionMethod",
-    "initialize_regression_detector",
-    "get_regression_detector",
-    "record_performance_data",
-
-    # Phase 5 Evidence Archival
-    "EvidenceArchivalSystem",
-    "StorageTier",
-    "CloudProvider",
-    "RetentionPolicy",
-    "initialize_archival_system",
-    "get_archival_system",
-    "schedule_archival",
-
-    # Phase 5 Enhanced Distributed Tracing
-    "EnhancedLUKHASTracer",
-    "TraceConfig",
+    "LUKHASMetrics",
     "LUKHASSemanticConventions",
-    "initialize_enhanced_tracing",
-    "get_enhanced_tracer",
-    "trace_lukhas_operation",
-    "trace_evidence_collection",
-    "trace_performance_check",
-    "create_correlation_id",
-    "propagate_trace_context",
-    "extract_trace_context",
-
+    # Core observability (Phase 0-4)
+    "LUKHASTracer",
+    "MetricAnomaly",
+    "MetricSeverity",
+    "MetricsConfig",
+    "NotificationChannel",
     # Phase 5 Security Hardening
     "ObservabilitySecurityHardening",
-    "SecurityLevel",
-    "ThreatType",
+    "PerformanceBaseline",
+    "PerformanceRegression",
+    # Phase 5 Performance Regression Detection
+    "PerformanceRegressionDetector",
+    "RegressionSeverity",
+    "RetentionPolicy",
     "SecurityEvent",
-    "initialize_security_hardening",
+    "SecurityLevel",
+    "StorageTier",
+    "ThreatType",
+    "TraceConfig",
+    "collect_evidence",
+    "create_correlation_id",
+    "extract_trace_context",
+    "get_advanced_metrics",
+    "get_alerting_system",
+    "get_archival_system",
+    "get_compliance_dashboard",
+    "get_enhanced_tracer",
+    "get_evidence_engine",
+    "get_lukhas_metrics",
+    "get_lukhas_tracer",
+    "get_regression_detector",
     "get_security_hardening",
+    "initialize_advanced_metrics",
+    "initialize_alerting",
+    "initialize_archival_system",
+    "initialize_compliance_dashboard",
+    "initialize_enhanced_tracing",
+    "initialize_evidence_collection",
+    "initialize_metrics",
+    "initialize_regression_detector",
+    "initialize_security_hardening",
+    "initialize_tracing",
+    "propagate_trace_context",
+    "record_metric",
+    "record_operation_performance",
+    "record_performance_data",
+    "schedule_archival",
     "secure_evidence_operation",
+    "shutdown_metrics",
+    "shutdown_tracing",
+    "trace_evidence_collection",
+    "trace_function",
+    "trace_lukhas_operation",
+    "trace_matriz_execution",
+    "trace_memory_recall",
+    "trace_performance_check",
+    "trigger_alert",
 ]
 
 
@@ -263,10 +256,8 @@ async def initialize_phase5_observability(
         # Cleanup any partially initialized components
         for component in components.values():
             if hasattr(component, 'shutdown'):
-                try:
+                with contextlib.suppress(Exception):
                     await component.shutdown()
-                except Exception:
-                    pass
         raise
 
 
@@ -301,7 +292,7 @@ async def shutdown_phase5_observability():
         enhanced_distributed_tracing.shutdown_enhanced_tracing()
 
         # Execute all shutdowns concurrently
-        await asyncio.gather(*shutdown_tasks, return_exceptions=True)  # noqa: F821  # TODO: asyncio
+        await asyncio.gather(*shutdown_tasks, return_exceptions=True)  # TODO: asyncio
 
         print("Phase 5 observability shutdown completed")
 

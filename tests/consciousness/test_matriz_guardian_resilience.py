@@ -154,7 +154,7 @@ class GuardianSimulator:
             "guardian_healthy": True
         }
 
-    def inject_failure(self, failure_type: GuardianFailureType, duration_ms: float = None):
+    def inject_failure(self, failure_type: GuardianFailureType, duration_ms: Optional[float] = None):
         """Inject failure into Guardian."""
         logger.info(f"Injecting Guardian failure: {failure_type.value}")
 
@@ -335,10 +335,10 @@ class MATRIZChaosController:
                     raise RuntimeError("Guardian validation failed")
 
             except Exception as e:
-                error_log.append(f"Guardian failure during validation: {str(e)}")
+                error_log.append(f"Guardian failure during validation: {e!s}")
                 # This should trigger fail-closed if not already active
                 if self.system_state != SystemState.FAIL_CLOSED:
-                    self._activate_fail_closed(f"Guardian validation error: {str(e)}")
+                    self._activate_fail_closed(f"Guardian validation error: {e!s}")
                 raise
 
             # Commit phase (only if Guardian validated)
@@ -355,7 +355,7 @@ class MATRIZChaosController:
 
         except Exception as e:
             decision.phase = MATRIZPhase.FAILED
-            error_log.append(f"Decision processing failed: {str(e)}")
+            error_log.append(f"Decision processing failed: {e!s}")
 
             # Remove from in-flight if still there
             if decision.decision_id in self.in_flight_decisions:
@@ -699,7 +699,7 @@ class TestMATRIZGuardianResilience:
         time.sleep(0.1)  # Allow fail-closed to activate
 
         # Phase 3: Attempt decision during failure (should fail)
-        during_failure_decision, errors = chaos_controller.process_matriz_decision({"phase": "during_failure"})
+        during_failure_decision, _errors = chaos_controller.process_matriz_decision({"phase": "during_failure"})
         assert not during_failure_decision.committed, "Decision during failure should not be committed"
         assert during_failure_decision.phase == MATRIZPhase.FAILED, "Decision during failure should be marked failed"
 
@@ -879,7 +879,7 @@ if __name__ == "__main__":
                 try:
                     result = future.result(timeout=0.1)
                     results.append(result)
-                except:
+                except Exception:
                     results.append(None)
 
         if chaos_controller.system_state == SystemState.FAIL_CLOSED:

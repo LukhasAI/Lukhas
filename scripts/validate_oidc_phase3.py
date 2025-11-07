@@ -63,7 +63,7 @@ def validate_oidc_security_hardening():
     try:
         # Read the security hardening file
         hardening_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/oidc_security_hardening.py"
-        with open(hardening_path, 'r') as f:
+        with open(hardening_path) as f:
             content = f.read()
 
         # Check for key security features
@@ -109,7 +109,7 @@ def validate_webauthn_integration():
     try:
         # Read the integration file
         integration_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/webauthn_oidc_integration.py"
-        with open(integration_path, 'r') as f:
+        with open(integration_path) as f:
             content = f.read()
 
         # Check for key integration features
@@ -156,7 +156,7 @@ def validate_discovery_provider():
     try:
         # Read the discovery file
         discovery_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/oidc/discovery.py"
-        with open(discovery_path, 'r') as f:
+        with open(discovery_path) as f:
             content = f.read()
 
         # Check for OIDC specification compliance
@@ -215,7 +215,7 @@ def validate_test_coverage():
     for test_file in test_files:
         try:
             full_path = os.path.join("/Users/agi_dev/LOCAL-REPOS/Lukhas", test_file)
-            with open(full_path, 'r') as f:
+            with open(full_path) as f:
                 content = f.read()
 
             # Count test methods
@@ -269,7 +269,7 @@ def validate_documentation():
 
     try:
         doc_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/identity/oidc_security_audit.md"
-        with open(doc_path, 'r') as f:
+        with open(doc_path) as f:
             content = f.read()
 
         # Check for required documentation sections

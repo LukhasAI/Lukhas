@@ -39,7 +39,7 @@ def main():
         if not line.strip():
             continue
         row = json.loads(line)
-        lane, mod_src, rel_src = split_source(row["source"])
+        _lane, mod_src, rel_src = split_source(row["source"])
         module = row.get("module") or mod_src or "unknown"
         relpath = row.get("relpath") or rel_src or ""
         row["module"] = module

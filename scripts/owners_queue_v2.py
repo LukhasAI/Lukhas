@@ -5,6 +5,7 @@ LUKHAS Owner Assignment Queue Generator (T4/0.01%)
 Creates batched GitHub issues for docs with owner: unknown.
 Uses git blame (≥30% threshold) + module mapping + fallback team.
 """
+from __future__ import annotations
 
 import json
 import subprocess
@@ -12,7 +13,7 @@ import sys
 from collections import defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 
 try:
     import yaml
@@ -35,7 +36,7 @@ BATCH_SIZE = 20
 
 def load_manifest() -> Dict:
     """Load documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
@@ -45,12 +46,12 @@ def load_owners_map() -> Dict[str, str]:
         return {}
 
     if yaml:
-        with open(OWNERS_MAP_PATH, 'r', encoding='utf-8') as f:
+        with open(OWNERS_MAP_PATH, encoding='utf-8') as f:
             return yaml.safe_load(f) or {}
     else:
         # Fallback: simple key: value parser
         mapping = {}
-        with open(OWNERS_MAP_PATH, 'r', encoding='utf-8') as f:
+        with open(OWNERS_MAP_PATH, encoding='utf-8') as f:
             for line in f:
                 line = line.strip()
                 if line and not line.startswith('#') and ':' in line:
@@ -59,7 +60,7 @@ def load_owners_map() -> Dict[str, str]:
         return mapping
 
 
-def get_git_blame_author(file_path: Path) -> Optional[Tuple[str, float]]:
+def get_git_blame_author(file_path: Path) -> Tuple[str, float] | None:
     """
     Get most frequent author from git blame.
     Returns (email, percentage) if ≥30% threshold met.
@@ -205,7 +206,7 @@ def generate_github_issue(batch_num: int, docs_batch: List[Dict], owners_map: Di
         "",
         "```bash",
         "# Example: Assign all to @username",
-        "python3 scripts/bulk_assign_owner.py --batch {} --owner @username".format(batch_num),
+        f"python3 scripts/bulk_assign_owner.py --batch {batch_num} --owner @username",
         "```",
         "",
         "---",

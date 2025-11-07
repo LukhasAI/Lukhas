@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import logging
 import streamlit as st
 import time
@@ -34,7 +36,7 @@ logger = logging.getLogger(__name__)
 ║ In the ethereal realm where silicon whispers the secrets of thought and
 ║ remembrance, there lies a grand tapestry woven with threads of electric
 ║ dreams and the luminescent glow of knowledge. This module, dear traveler,
-║ stands as a beacon—a lightholder guiding the wayward bits of memory,
+║ stands as a beacon-a lightholder guiding the wayward bits of memory,
 ║ ensuring that they dance harmoniously in the vast ocean of digital
 ║ consciousness. It is an oracle, ever-watchful, that breathes life into
 ║ the lifeblood of the DREAMSEED memory systems, nurturing it with insights
@@ -44,8 +46,8 @@ logger = logging.getLogger(__name__)
 ║ code lies the alchemical art of balance and precision. The Memory Health
 ║ Dashboard serves as both guardian and sage, translating the cryptic
 ║ murmurs of data into a symphony of understanding. It harmonizes the
-║ cacophony of fleeting moments—each byte a fleeting memory, each error
-║ a lesson waiting to be unfurled—transforming the ephemeral into the
+║ cacophony of fleeting moments-each byte a fleeting memory, each error
+║ a lesson waiting to be unfurled-transforming the ephemeral into the
 ║ eternal. In this dance of zeros and ones, the essence of humanity
 ║ intertwines with the divine, as the module stands resolute against the
 ║ tides of entropy that threaten to consume the unguarded mind.

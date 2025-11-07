@@ -455,8 +455,8 @@ __all__ = [
     "detect_drift",
     "evaluate_ethics",
     "get_governance_status",
-    "get_guardian_status",
     "get_guardian",
+    "get_guardian_status",
     "initialize_governance_system",
 ]
 
@@ -464,56 +464,56 @@ __all__ = [
 if PHASE_7_SERIALIZERS:
     __all__.extend(
         [
-            # Guardian Serializers Core
-            "GuardianSerializer",
+            "CompatibilityType",
+            "CompressionType",
             "GuardianOperation",
             "GuardianResult",
-            "OperationType",
-            "serialize_guardian",
-            "deserialize_guardian",
-            "validate_guardian",
-            "migrate_guardian",
-            "get_system_health",
-            # Schema Registry
-            "SchemaRegistry",
-            "SchemaVersion",
-            "ValidationLevel",
-            "get_schema_registry",
-            "validate_guardian_decision",
-            # Serialization Engine
-            "SerializationEngine",
-            "SerializationFormat",
-            "CompressionType",
-            "get_serialization_engine",
-            # Validation Framework
-            "ValidationFramework",
-            "ValidationTier",
-            "ValidationSeverity",
-            "get_validation_framework",
-            "validate_guardian_data",
-            # Schema Migration
-            "MigrationEngine",
-            "CompatibilityType",
-            "get_migration_engine",
-            "migrate_guardian_data",
-            "check_schema_compatibility",
-            # Performance Optimizer
-            "PerformanceOptimizer",
-            "OptimizationLevel",
-            "get_performance_optimizer",
+            # Guardian Serializers Core
+            "GuardianSerializer",
             # Integration Layer
             "IntegrationOrchestrator",
             "IntegrationType",
+            # Schema Migration
+            "MigrationEngine",
+            "OperationType",
+            "OptimizationLevel",
+            # Performance Optimizer
+            "PerformanceOptimizer",
+            # Schema Registry
+            "SchemaRegistry",
+            "SchemaVersion",
+            # Serialization Engine
+            "SerializationEngine",
+            "SerializationFormat",
+            # Validation Framework
+            "ValidationFramework",
+            "ValidationLevel",
+            "ValidationSeverity",
+            "ValidationTier",
+            "check_schema_compatibility",
+            "deserialize_guardian",
+            "get_health_check",
             "get_integration_orchestrator",
-            "process_guardian_with_integrations",
             # Observability Integration
             "get_metrics_collector",
+            "get_migration_engine",
+            "get_performance_optimizer",
+            "get_schema_registry",
+            "get_serialization_engine",
+            "get_system_health",
             "get_tracer",
-            "get_health_check",
+            "get_validation_framework",
             "health_endpoint",
-            "ready_endpoint",
             "live_endpoint",
             "metrics_endpoint",
+            "migrate_guardian",
+            "migrate_guardian_data",
+            "process_guardian_with_integrations",
+            "ready_endpoint",
+            "serialize_guardian",
+            "validate_guardian",
+            "validate_guardian_data",
+            "validate_guardian_decision",
         ]
     )
 
@@ -536,6 +536,7 @@ if PHASE_7_AVAILABLE:
             "AuthModuleMessage",
             # Authentication Guardian Integration
             "AuthenticationGuardian",
+            "ConstellationFrameworkIntegration",
             "ConstitutionalAuthPrinciples",
             "IntegrationHealthStatus",
             # Complete Integration System
@@ -548,7 +549,6 @@ if PHASE_7_AVAILABLE:
             "PolicySeverity",
             "PolicyViolation",
             "SymbolicIdentity",
-            "ConstellationFrameworkIntegration",
             "auth_cross_module_integrator",
             "auth_glyph_registry",
             "auth_governance_policy_engine",

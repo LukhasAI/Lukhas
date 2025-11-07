@@ -156,7 +156,7 @@ class EnhancedThoughtEngine:
             processing_time = (time.time() - start_time) * 1000
 
             error_result = ThoughtResult(
-                synthesis=f"Error in thought synthesis: {str(e)}",
+                synthesis=f"Error in thought synthesis: {e!s}",
                 confidence=0.0,
                 reasoning_chains=[],
                 contradictions_found=0,
@@ -714,8 +714,8 @@ async def synthesize_thought_enhanced(
 # Export main classes and functions
 __all__ = [
     "EnhancedThoughtEngine",
+    "ThoughtComplexity",
     "ThoughtContext",
     "ThoughtResult",
-    "ThoughtComplexity",
     "synthesize_thought_enhanced"
 ]

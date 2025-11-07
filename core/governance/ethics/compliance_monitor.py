@@ -1,7 +1,3 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 Comprehensive Compliance Monitor for LUKHAS AI System
 
@@ -32,7 +28,7 @@ Features:
 import asyncio
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -875,9 +871,8 @@ class ComplianceMonitor:
         ]
 
         for framework in critical_frameworks:
-            if framework in framework_statuses:
-                if framework_statuses[framework] == ComplianceStatus.CRITICAL_VIOLATION:
-                    return ComplianceStatus.CRITICAL_VIOLATION
+            if framework in framework_statuses and framework_statuses[framework] == ComplianceStatus.CRITICAL_VIOLATION:
+                return ComplianceStatus.CRITICAL_VIOLATION
 
         # Check for non-compliance in any framework
         non_compliant_count = sum(

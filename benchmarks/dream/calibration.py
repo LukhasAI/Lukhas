@@ -28,7 +28,7 @@ def load_results(path: str) -> List[Dict[str, Any]]:
     if not pathlib.Path(path).exists():
         return results
 
-    with open(path, "r") as f:
+    with open(path) as f:
         for line in f:
             line = line.strip()
             if line:
@@ -108,13 +108,13 @@ def run_threshold_sweep(out_dir: str = "benchmarks/dream/calibration_results") -
 
 def find_optimal_thresholds(report_path: str, metric: str = "accuracy") -> Dict[str, Any]:
     """Find optimal thresholds based on specified metric."""
-    with open(report_path, "r") as f:
+    with open(report_path) as f:
         sweep_results = json.load(f)
 
     best_config = None
     best_score = -1.0
 
-    for config_key, config_data in sweep_results.items():
+    for _config_key, config_data in sweep_results.items():
         if "error" in config_data:
             continue
 
@@ -131,7 +131,7 @@ def find_optimal_thresholds(report_path: str, metric: str = "accuracy") -> Dict[
         "optimization_metric": metric
     }
 
-def calibration_report(sweep_path: str, out_path: str = None) -> str:
+def calibration_report(sweep_path: str, out_path: str | None = None) -> str:
     """Generate calibration report with recommendations."""
     if out_path is None:
         out_path = sweep_path.replace(".json", "_report.json")
@@ -168,7 +168,7 @@ def calibration_report(sweep_path: str, out_path: str = None) -> str:
 
 def print_calibration_summary(report_path: str) -> None:
     """Print human-readable calibration summary."""
-    with open(report_path, "r") as f:
+    with open(report_path) as f:
         report = json.load(f)
 
     print("\n=== CALIBRATION SUMMARY ===")

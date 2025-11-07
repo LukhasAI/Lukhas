@@ -7,14 +7,15 @@ Critical for T4/0.01% operational excellence.
 """
 import os
 from unittest.mock import patch
+
 import pytest
+
 
 class TestOrchestratorLaneDefaults:
     """Test MATRIZ Orchestrator lane default behavior"""
 
     def test_default_lane_is_canary(self):
         """MATRIZ Orchestrator must default to 'canary' lane for safer rollouts"""
-        import os
         with patch.dict(os.environ, {}, clear=True):
             default_lane = os.getenv('LUKHAS_LANE', 'canary').lower()
             assert default_lane == 'canary', f"Default lane is '{default_lane}', should be 'canary'"
@@ -24,13 +25,12 @@ class TestOrchestratorLaneDefaults:
         test_cases = [('production', 'production'), ('labs', 'labs'), ('experimental', 'experimental'), ('custom', 'custom')]
         for (env_value, expected) in test_cases:
             with patch.dict(os.environ, {'LUKHAS_LANE': env_value}):
-                import os
                 lane = os.getenv('LUKHAS_LANE', 'canary').lower()
                 assert lane == expected, f"Expected '{expected}', got '{lane}' for LUKHAS_LANE='{env_value}'"
 
     def test_orchestrator_uses_lane_in_context(self):
         """AsyncOrchestrator should use lane information in processing context"""
-        from MATRIZ.core.async_orchestrator import AsyncOrchestrator
+        from matriz.core.async_orchestrator import AsyncOrchestrator
         with patch.dict(os.environ, {}, clear=True):
             orchestrator = AsyncOrchestrator()
             assert orchestrator is not None
@@ -43,10 +43,9 @@ class TestOrchestratorLaneDefaults:
         lane_progression = ['experimental', 'canary', 'production']
         for lane in lane_progression:
             with patch.dict(os.environ, {'LUKHAS_LANE': lane}):
-                import os
                 resolved_lane = os.getenv('LUKHAS_LANE', 'canary').lower()
                 assert resolved_lane == lane
-                from MATRIZ.core.async_orchestrator import AsyncOrchestrator
+                from matriz.core.async_orchestrator import AsyncOrchestrator
                 orchestrator = AsyncOrchestrator()
                 assert orchestrator is not None
 
@@ -55,7 +54,6 @@ class TestOrchestratorLaneDefaults:
         test_cases = [('CANARY', 'canary'), ('Production', 'production'), ('EXPERIMENTAL', 'experimental'), ('Candidate', 'labs')]
         for (env_value, expected) in test_cases:
             with patch.dict(os.environ, {'LUKHAS_LANE': env_value}):
-                import os
                 lane = os.getenv('LUKHAS_LANE', 'canary').lower()
                 assert lane == expected, f"Expected '{expected}', got '{lane}' for LUKHAS_LANE='{env_value}'"
 
@@ -64,7 +62,6 @@ class TestOrchestratorLaneDefaults:
         test_cases = ['', '  ', '\t', '\n']
         for empty_value in test_cases:
             with patch.dict(os.environ, {'LUKHAS_LANE': empty_value}):
-                import os
                 lane = os.getenv('LUKHAS_LANE', 'canary').lower()
                 expected = empty_value.strip().lower() if empty_value.strip() else ''
                 assert lane == expected
@@ -72,7 +69,6 @@ class TestOrchestratorLaneDefaults:
     def test_production_safety_check(self):
         """Production lane should be explicitly set, not defaulted to"""
         with patch.dict(os.environ, {}, clear=True):
-            import os
             lane = os.getenv('LUKHAS_LANE', 'canary').lower()
             assert lane != 'production', 'Must not default to production lane for safety'
             assert lane != 'prod', 'Must not default to prod lane for safety'
@@ -80,7 +76,7 @@ class TestOrchestratorLaneDefaults:
 
     def test_lane_integration_with_configuration(self):
         """Test that lane properly integrates with AsyncOrchestrator configuration"""
-        from MATRIZ.core.async_orchestrator import AsyncOrchestrator
+        from matriz.core.async_orchestrator import AsyncOrchestrator
         configs = [{}, {'MATRIZ_ASYNC': '1'}, {'MATRIZ_PARALLEL': '1', 'MATRIZ_MAX_PARALLEL': '5'}]
         for config in configs:
             with patch.dict(os.environ, {'LUKHAS_LANE': 'canary'}):

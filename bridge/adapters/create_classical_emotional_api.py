@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-from typing import Any
+"""LUKHAS Classical Emotional Intelligence API - Non-Quantum Alternative.
 
+Bio-symbolic emotional processing without quantum enhancement.
 """
-LUKHAS Classical Emotional Intelligence API - Non-Quantum Alternative
-Bio-symbolic emotional processing without quantum enhancement
-"""
+
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Optional
+from typing import Any, Optional
 
 import numpy as np
 import uvicorn
@@ -127,7 +126,7 @@ class ClassicalEmotionEngine:
         physiological = self._calculate_physiological_state(emotional_state, context.context_type, context.user_state)
 
         # Calculate coherence (classical, max 1.0)
-        coherence, stability = self._calculate_classical_coherence(
+        coherence, _stability = self._calculate_classical_coherence(
             emotional_state, physiological, context.stability_threshold
         )
 

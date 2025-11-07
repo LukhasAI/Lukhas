@@ -21,7 +21,7 @@ def iso(dt: datetime) -> str:
 
 def load(path: str) -> Optional[dict]:
     try:
-        with open(path, "r", encoding="utf-8") as handle:
+        with open(path, encoding="utf-8") as handle:
             return json.load(handle)
     except Exception:
         return None

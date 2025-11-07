@@ -7,6 +7,7 @@ Adds authentication, tier protection, and user ID linking where needed.
 
 SAFETY: Creates backups before modifying files.
 """
+from __future__ import annotations
 
 import re
 import shutil

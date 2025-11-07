@@ -383,7 +383,8 @@ class TestMemorySQL:
         if self.test_db_path and os.path.exists(self.test_db_path):
             try:
                 os.remove(self.test_db_path)
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass  # Ignore cleanup errors
 
     def test_sql_memory_initialization(self):

@@ -23,11 +23,10 @@ from typing import Any, Dict, List
 # Add LUKHAS to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from core.matriz.optimized_orchestrator import OptimizedAsyncOrchestrator
 from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
 from matriz.nodes.fact_node import FactNode
 from matriz.nodes.math_node import MathNode
-
-from core.matriz.optimized_orchestrator import OptimizedAsyncOrchestrator
 
 
 @dataclass
@@ -138,7 +137,7 @@ class MATRIZBenchmark:
 
         start_time = time.perf_counter()
 
-        for iteration in range(iterations):
+        for _iteration in range(iterations):
             for query in queries:
                 query_start = time.perf_counter()
 
@@ -312,7 +311,7 @@ class MATRIZBenchmark:
             max_ms=max(latencies),
             min_ms=min(latencies),
             error_rate=failed_queries / concurrent_requests,
-            within_budget_rate=sum(1 for l in latencies if l < 240) / len(latencies),
+            within_budget_rate=sum(1 for latency in latencies if latency < 240) / len(latencies),
             total_duration_s=total_duration
         )
 

@@ -34,7 +34,6 @@ import pytest
 # LUKHAS cognitive imports
 from cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
 from cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine, InferenceType
-
 from consciousness.enhanced_thought_engine import EnhancedThoughtEngine, ThoughtComplexity
 from consciousness.meta_cognitive_assessor import MetaCognitiveAssessor
 
@@ -579,7 +578,7 @@ class ComprehensiveCoverageFramework:
             except Exception as e:
                 logger.warning(f"Test scenario failed: {scenario.name} - {e}")
                 scenario.success = False
-                scenario.actual_outcome = f"error: {str(e)}"
+                scenario.actual_outcome = f"error: {e!s}"
 
         # Calculate overall coverage
         self._calculate_overall_coverage()
@@ -642,7 +641,8 @@ class ComprehensiveCoverageFramework:
                 for _ in range(6):  # Exceed threshold
                     try:
                         await inference_engine.infer("Failing query", max_depth=1)
-                    except:
+                    except Exception as e:
+                        logger.debug(f"Expected optional failure: {e}")
                         pass
 
                 result = await inference_engine.infer("Test after circuit breaker")
@@ -664,7 +664,7 @@ class ComprehensiveCoverageFramework:
         except asyncio.TimeoutError:
             return {'success': True, 'outcome': 'timeout_handled'}
         except Exception as e:
-            return {'success': False, 'outcome': f'error: {str(e)}'}
+            return {'success': False, 'outcome': f'error: {e!s}'}
 
         return {'success': False, 'outcome': 'unknown_inference_test'}
 
@@ -713,7 +713,7 @@ class ComprehensiveCoverageFramework:
                 }
 
         except Exception as e:
-            return {'success': False, 'outcome': f'error: {str(e)}'}
+            return {'success': False, 'outcome': f'error: {e!s}'}
 
         return {'success': False, 'outcome': 'unknown_thought_test'}
 
@@ -774,7 +774,7 @@ class ComprehensiveCoverageFramework:
                 }
 
         except Exception as e:
-            return {'success': False, 'outcome': f'error: {str(e)}'}
+            return {'success': False, 'outcome': f'error: {e!s}'}
 
         return {'success': False, 'outcome': 'unknown_contradiction_test'}
 
@@ -819,7 +819,7 @@ class ComprehensiveCoverageFramework:
                 }
 
         except Exception as e:
-            return {'success': False, 'outcome': f'error: {str(e)}'}
+            return {'success': False, 'outcome': f'error: {e!s}'}
 
         return {'success': False, 'outcome': 'unknown_meta_cognitive_test'}
 
@@ -911,7 +911,7 @@ class ComprehensiveCoverageFramework:
                 }
 
         except Exception as e:
-            return {'success': False, 'outcome': f'error: {str(e)}'}
+            return {'success': False, 'outcome': f'error: {e!s}'}
 
         return {'success': False, 'outcome': 'unknown_integration_test'}
 
@@ -954,7 +954,8 @@ class ComprehensiveCoverageFramework:
                 # First cause a failure
                 try:
                     await self.cognitive_components['inference_engine'].infer("", max_depth=-1)
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
                 # Then test recovery
@@ -1034,7 +1035,7 @@ class ComprehensiveCoverageFramework:
                 }
 
         except Exception as e:
-            return {'success': False, 'outcome': f'performance_error: {str(e)}'}
+            return {'success': False, 'outcome': f'performance_error: {e!s}'}
 
         return {'success': False, 'outcome': 'unknown_performance_test'}
 
@@ -1101,7 +1102,7 @@ class ComprehensiveCoverageFramework:
                 ]
 
                 for malformed_input in malformed_inputs:
-                    try:
+                    try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_cognitive_test_comprehensive_coverage_py_L1105"}
                         result = await self.cognitive_components['inference_engine'].infer(malformed_input)
                         # Should handle gracefully without crashing
                     except Exception:
@@ -1115,7 +1116,7 @@ class ComprehensiveCoverageFramework:
 
         except Exception as e:
             # For rare edge cases, controlled failure is acceptable
-            return {'success': True, 'outcome': f'edge_case_handled: {str(e)}'}
+            return {'success': True, 'outcome': f'edge_case_handled: {e!s}'}
 
         return {'success': False, 'outcome': 'unknown_rare_edge_test'}
 

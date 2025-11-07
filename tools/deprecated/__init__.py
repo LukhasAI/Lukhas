@@ -11,5 +11,5 @@ try:
 except ImportError:
     import warnings
 
-    warnings.warn("Could not import deprecated analysis tools", ImportWarning)
+    warnings.warn("Could not import deprecated analysis tools", ImportWarning, stacklevel=2)
     __all__ = []

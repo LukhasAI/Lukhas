@@ -26,10 +26,10 @@ import time
 import traceback
 import uuid
 from collections import defaultdict
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict
+from typing import TYPE_CHECKING, Any, Dict
 
 # Suppress verbose logging during validation
 logging.getLogger().setLevel(logging.CRITICAL)
@@ -37,7 +37,8 @@ logging.getLogger().setLevel(logging.CRITICAL)
 # Add project root to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from preflight_check import PreflightValidator
+if TYPE_CHECKING:
+    from preflight_check import PreflightValidator as PreflightValidatorType
 
 
 @dataclass
@@ -98,7 +99,7 @@ class GuardianChaosEngine:
                     for _ in range(10):
                         if not chaos_active:
                             break
-                        try:
+                        try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_validate_guardian_integration_py_L102"}
                             await guardian.validate_action_async({
                                 "action_type": "chaos_load_test",
                                 "timestamp": time.time(),
@@ -124,10 +125,8 @@ class GuardianChaosEngine:
             # Cancel all chaos tasks
             for task in chaos_tasks:
                 task.cancel()
-                try:
+                with suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
             print("    Guardian overload chaos stopped")
 
     @staticmethod
@@ -877,7 +876,10 @@ async def main():
         # Run preflight checks
         print("🔍 Running preflight validation...")
         audit_run_id = f"guardian_val_{int(time.time())}"
-        validator = PreflightValidator(audit_run_id)
+        from preflight_check import PreflightValidator as PreflightValidatorRuntime
+
+        validator: PreflightValidatorType
+        validator = PreflightValidatorRuntime(audit_run_id)
         preflight_passed = validator.run_all_validations()
 
         if not preflight_passed:

@@ -12,5 +12,6 @@ from .causal_inference import CausalInferenceEngine
 from .chain_of_thought import ChainOfThought
 from .dream_integration import DreamReasoningBridge
 from .tree_of_thoughts import TreeOfThoughts
+from .contradiction_integrator import ContradictionIntegrator
 
-__all__ = ["CausalInferenceEngine", "ChainOfThought", "DreamReasoningBridge", "TreeOfThoughts"]
+__all__ = ["CausalInferenceEngine", "ChainOfThought", "ContradictionIntegrator", "DreamReasoningBridge", "TreeOfThoughts"]

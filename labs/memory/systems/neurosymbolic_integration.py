@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import logging
 from datetime import timezone
 
@@ -1405,7 +1407,8 @@ class NeurosymbolicIntegrationLayer:
         }
 
         # Load existing knowledge
-        asyncio.create_task(self._load_knowledge())
+        self._load_knowledge_task: Optional[asyncio.Task[None]] = None
+        self._load_knowledge_task = asyncio.create_task(self._load_knowledge())
 
         logger.info(
             "Neurosymbolic integration layer initialized",

@@ -11,9 +11,9 @@ import glob
 import json
 import logging
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import yaml
 
@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 class MatrixTestRunner:
     """Runs and validates matrix authorization tests."""
 
-    def __init__(self, fixtures_dir: str = None):
+    def __init__(self, fixtures_dir: Optional[str] = None):
         """Initialize the test runner."""
         self.fixtures_dir = Path(fixtures_dir) if fixtures_dir else Path(__file__).parent.parent / "tests" / "authz"
         self.matrix_dir = Path(__file__).parent.parent / "tests" / "matrix_identity"
@@ -40,7 +40,7 @@ class MatrixTestRunner:
             'skipped_test_cases': 0,
             'modules': {},
             'tiers_tested': set(),
-            'start_time': datetime.utcnow().isoformat() + 'Z'
+            'start_time': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
         }
 
         logger.info("Initialized MatrixTestRunner:")
@@ -279,7 +279,7 @@ class MatrixTestRunner:
         overall_pass_rate = total_passed / total_tests if total_tests > 0 else 0
 
         return {
-            'timestamp': datetime.utcnow().isoformat() + 'Z',
+            'timestamp': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
             'summary': {
                 'total_matrices': len(matrices),
                 'total_tests': total_tests,
@@ -292,7 +292,7 @@ class MatrixTestRunner:
             'matrices': all_results
         }
 
-    def generate_output(self, results: Dict[str, Any], output_file: str = None, min_pass_rate: float = 0.95):
+    def generate_output(self, results: Dict[str, Any], output_file: Optional[str] = None, min_pass_rate: float = 0.95):
         """Generate output file and check pass rate."""
         if output_file:
             output_path = Path(output_file)

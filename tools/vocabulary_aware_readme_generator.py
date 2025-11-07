@@ -42,7 +42,7 @@ class ModuleVocabularyLoader:
     def _load_vocabulary_file(self, vocab_file: Path):
         """Load a YAML vocabulary file."""
         try:
-            with open(vocab_file, 'r', encoding='utf-8') as f:
+            with open(vocab_file, encoding='utf-8') as f:
                 content = yaml.safe_load(f)
 
             # Extract module name from filename
@@ -127,7 +127,7 @@ class VocabularyAwareContentGenerator:
         elements = []
 
         # Handle different vocabulary structures
-        for key, value in vocab.items():
+        for _key, value in vocab.items():
             if isinstance(value, dict):
                 # Check for direct elements
                 if 'poetic' in value or 'description' in value:
@@ -163,13 +163,13 @@ class VocabularyAwareContentGenerator:
         }
 
         # Try to find symbol in vocabulary
-        for key, value in vocab.items():
+        for _key, value in vocab.items():
             if isinstance(value, dict):
                 if 'symbol' in value:
                     return value['symbol']
 
                 # Check nested structures
-                for sub_key, sub_value in value.items():
+                for _sub_key, sub_value in value.items():
                     if isinstance(sub_value, dict) and 'symbol' in sub_value:
                         return sub_value['symbol']
                     elif isinstance(sub_value, list):
@@ -184,10 +184,10 @@ class VocabularyAwareContentGenerator:
         # Extract technical elements for bridging
         technical_elements = []
 
-        for key, value in vocab.items():
+        for _key, value in vocab.items():
             if isinstance(value, dict):
                 # Look for technical descriptions
-                for sub_key, sub_value in value.items():
+                for _sub_key, sub_value in value.items():
                     if isinstance(sub_value, dict) and 'technical' in sub_value:
                         technical_elements.append(sub_value['technical'])
                     elif isinstance(sub_value, list):
@@ -237,7 +237,7 @@ class VocabularyAwareContentGenerator:
 
         # Extract vocabulary terms
         terms = []
-        for key, value in vocab.items():
+        for _key, value in vocab.items():
             if isinstance(value, dict):
                 self._extract_terms_recursive(value, terms)
 
@@ -265,7 +265,7 @@ class VocabularyAwareContentGenerator:
                 terms.append(data)
 
             # Recurse into nested structures
-            for key, value in data.items():
+            for _key, value in data.items():
                 if isinstance(value, dict):
                     self._extract_terms_recursive(value, terms)
                 elif isinstance(value, list):
@@ -283,7 +283,7 @@ def generate_vocabulary_aware_readme(module_path: Path, vocab_loader: ModuleVoca
         return ""
 
     try:
-        with open(manifest_file, 'r', encoding='utf-8') as f:
+        with open(manifest_file, encoding='utf-8') as f:
             manifest = json.load(f)
     except Exception as e:
         print(f"Error loading {manifest_file}: {e}")
@@ -346,14 +346,14 @@ def generate_vocabulary_aware_readme(module_path: Path, vocab_loader: ModuleVoca
             readme_lines.append("### Core Components\n")
             for cls in sorted(classes)[:6]:
                 class_name = cls.split('.')[-1]
-                readme_lines.append(f"- **`{class_name}`** — {_describe_component(class_name, vocab)}")
+                readme_lines.append(f"- **`{class_name}`** - {_describe_component(class_name, vocab)}")
             readme_lines.append("")
 
         if functions:
             readme_lines.append("### Functions\n")
             for func in sorted(functions)[:6]:
                 func_name = func.split('.')[-1]
-                readme_lines.append(f"- **`{func_name}()`** — {_describe_function(func_name, vocab)}")
+                readme_lines.append(f"- **`{func_name}()`** - {_describe_function(func_name, vocab)}")
             readme_lines.append("")
 
     # Layer 3: Technical specifications
@@ -395,10 +395,9 @@ def _describe_component(class_name: str, vocab: Optional[Dict]) -> str:
         # Try to find description in vocabulary
         for key, value in vocab.items():
             if isinstance(value, dict):
-                for sub_key, sub_value in value.items():
-                    if isinstance(sub_value, dict) and 'name' in sub_value:
-                        if class_name.lower() in sub_value['name'].lower():
-                            return sub_value.get('technical', sub_value.get('poetic', 'Core system component'))
+                for _sub_key, sub_value in value.items():
+                    if (isinstance(sub_value, dict) and 'name' in sub_value) and class_name.lower() in sub_value['name'].lower():
+                        return sub_value.get('technical', sub_value.get('poetic', 'Core system component'))
 
     # Fallback descriptions
     descriptions = {

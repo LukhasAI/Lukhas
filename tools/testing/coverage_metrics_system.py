@@ -256,15 +256,7 @@ class CoverageMetricsSystem:
             test_paths = [f"tests/{test_suite}/"]
 
         # Build coverage command
-        cmd = [
-            sys.executable, "-m", "coverage", "run",
-            "--source=.",
-            "--omit=" + ",".join(self.config['exclude_patterns']),
-            "-m", "pytest",
-            "-v",
-            "--tb=short",
-            "--junitxml=reports/testing/junit.xml"
-        ] + test_paths
+        cmd = [sys.executable, "-m", "coverage", "run", "--source=.", "--omit=" + ",".join(self.config['exclude_patterns']), "-m", "pytest", "-v", "--tb=short", "--junitxml=reports/testing/junit.xml", *test_paths]
 
         try:
             # Run tests with coverage
@@ -361,21 +353,21 @@ class CoverageMetricsSystem:
                     # Parse line coverage
                     lines = class_elem.findall('.//line')
                     total_lines = len(lines)
-                    covered_lines = len([l for l in lines if l.get('hits', '0') != '0'])
+                    covered_lines = len([line for line in lines if line.get('hits', '0') != '0'])
 
                     if total_lines > 0:
                         coverage_percent = (covered_lines / total_lines) * 100
 
                         # Get line numbers
                         lines_covered = [
-                            int(l.get('number', 0))
-                            for l in lines
-                            if l.get('hits', '0') != '0'
+                            int(line.get('number', 0))
+                            for line in lines
+                            if line.get('hits', '0') != '0'
                         ]
                         lines_missing = [
-                            int(l.get('number', 0))
-                            for l in lines
-                            if l.get('hits', '0') == '0'
+                            int(line.get('number', 0))
+                            for line in lines
+                            if line.get('hits', '0') == '0'
                         ]
 
                         coverage_data[module_name] = CoverageMetrics(
@@ -491,9 +483,8 @@ class CoverageMetricsSystem:
                     risk = "high"
 
             # Adjust for critical modules
-            if any(critical in metrics.module_name for critical in self.config['critical_modules']):
-                if risk in ["medium", "high"]:
-                    risk = "critical"
+            if any((critical in metrics.module_name for critical in self.config['critical_modules'])) and risk in ['medium', 'high']:
+                risk = "critical"
 
             metrics.risk_level = risk
 

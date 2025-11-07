@@ -6,10 +6,13 @@ Also provides real exceptions submodule for explicit imports.
 from __future__ import annotations
 
 from importlib import import_module
-from typing import List, Optional
+from typing import List
+
+# Always expose our submodule path
+from . import exceptions
 
 __all__: List[str] = []
-_SRC: Optional[object] = None
+_SRC: object | None = None
 
 def _bind(modname: str) -> bool:
     global _SRC, __all__
@@ -34,9 +37,6 @@ for _mod in (
 else:
     # Minimal fallback (package still presents `exceptions` submodule)
     pass
-
-# Always expose our submodule path
-from . import exceptions  # noqa: E402  (ensures attr exists even if backend lacks it)
 
 if _SRC is not None:
     def __getattr__(name: str):

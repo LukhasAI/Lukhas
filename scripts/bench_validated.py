@@ -21,10 +21,15 @@ logging.getLogger().setLevel(logging.CRITICAL)
 # Add project root to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from bench_core import PerformanceBenchmark  # noqa: E402
-
-from governance.guardian_system import GuardianSystem  # noqa: E402
-from memory.memory_event import MemoryEventFactory  # noqa: E402
+from bench_core import (
+    PerformanceBenchmark,  # noqa: E402 - repo root must be on sys.path before import
+)
+from governance.guardian_system import (
+    GuardianSystem,  # noqa: E402 - repo root must be on sys.path before import
+)
+from memory.memory_event import (
+    MemoryEventFactory,  # noqa: E402 - repo root must be on sys.path before import
+)
 
 
 def run_validated_benchmarks():
@@ -80,7 +85,7 @@ def run_validated_benchmarks():
             json.dump(response, f)
 
         # 4. Read back for verification
-        with open(log_file, 'r') as f:
+        with open(log_file) as f:
             verified = json.load(f)
 
         # 5. Cleanup
@@ -140,7 +145,7 @@ def run_validated_benchmarks():
             }, f)
 
         # 3. Read back for verification
-        with open(event_file, 'r') as f:
+        with open(event_file) as f:
             verified = json.load(f)
 
         # 4. Cleanup
@@ -268,10 +273,7 @@ def run_validated_benchmarks():
         unit_results = [r for r in bench.results if prefix in r.name and r.type == 'unit']
         e2e_results = [r for r in bench.results if prefix in r.name and r.type == 'e2e']
 
-        if unit_results:
-            unit_str = f"{unit_results[0].p95_us:.2f}"
-        else:
-            unit_str = "N/A"
+        unit_str = f"{unit_results[0].p95_us:.2f}" if unit_results else "N/A"
 
         if e2e_results:
             r = e2e_results[0]

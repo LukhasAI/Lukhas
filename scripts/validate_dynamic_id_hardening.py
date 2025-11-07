@@ -24,8 +24,10 @@ from typing import Any, Dict, Tuple
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from observability.service_metrics import MetricType, ServiceType
-from tests.observability.test_matriz_metrics_contract import MATRIZMetricsContractValidator
+from observability.service_metrics import (  # noqa: E402 - project root must be injected before import
+    MetricType,
+    ServiceType,
+)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

@@ -5,9 +5,10 @@ import argparse
 import json
 import sys
 from collections import defaultdict
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
+from typing import Any, Dict, List
 
 # ΛTAG: hidden_gems_summary
 
@@ -39,7 +40,7 @@ class HiddenGem:
 
     # ΛTAG: hidden_gem_factory
     @classmethod
-    def from_manifest_entry(cls, entry: Mapping[str, Any]) -> "HiddenGem":
+    def from_manifest_entry(cls, entry: Mapping[str, Any]) -> HiddenGem:
         """Create a ``HiddenGem`` from a manifest entry, validating required fields."""
 
         required_fields = ("module", "score", "complexity", "effort_hours", "target_location")
@@ -147,7 +148,7 @@ def format_summary(gems: Sequence[HiddenGem], *, top_n: int = 5) -> str:
     return "\n".join(lines)
 
 
-def _resolve_manifest_path(path_argument: Optional[Path]) -> Path:
+def _resolve_manifest_path(path_argument: Path | None) -> Path:
     """Resolve the manifest path argument, falling back to the default location."""
 
     manifest_path = path_argument or DEFAULT_MANIFEST_PATH
@@ -191,7 +192,7 @@ def _build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: Optional[Sequence[str]] = None) -> int:
+def main(argv: Sequence[str] | None = None) -> int:
     """Entry point for the CLI utility."""
 
     parser = _build_parser()

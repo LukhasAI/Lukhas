@@ -86,7 +86,8 @@ def main():
         except SyntaxError as e:
             if "f-string" in str(e) and ("closing parenthesis" in str(e) or "parenthesis" in str(e)):
                 return True
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             pass
         return False
 

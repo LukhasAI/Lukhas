@@ -10,7 +10,7 @@ import ast
 import json
 from collections import defaultdict
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List
 
@@ -79,7 +79,7 @@ class LaneAssignmentAuditor:
         print("🔍 Starting comprehensive lane assignment audit...")
 
         audit_results = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "summary": {},
             "modules": {},
             "recommendations": {},
@@ -146,7 +146,7 @@ class LaneAssignmentAuditor:
         """Analyze a single module for production readiness."""
         file_path = self.root_path / module_path
 
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
 
         # Basic metrics
@@ -156,7 +156,7 @@ class LaneAssignmentAuditor:
         try:
             tree = ast.parse(content)
             complexity_score = self._calculate_complexity(tree)
-        except:
+        except Exception:
             complexity_score = 0
 
         # Analyze various aspects

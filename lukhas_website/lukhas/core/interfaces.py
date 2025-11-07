@@ -25,7 +25,8 @@ Usage (example):
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any, Mapping, Optional, Protocol, runtime_checkable
+from collections.abc import Mapping
+from typing import Any, Protocol, runtime_checkable
 
 
 class CognitiveNodeBase(ABC):
@@ -34,7 +35,7 @@ class CognitiveNodeBase(ABC):
     AUTOINIT: bool = False  # loader respects this
 
     @classmethod
-    def from_env(cls) -> "CognitiveNodeBase":
+    def from_env(cls) -> CognitiveNodeBase:
         """Construct from environment (override in impls)."""
         return cls()
 
@@ -64,7 +65,7 @@ class ICognitiveNode(Protocol):
 
     async def process(self, ctx: Mapping[str, Any]) -> Mapping[str, Any]: ...
 
-    async def cancel(self, reason: Optional[str] = None) -> None: ...  # # ΛTAG: pipeline_interface
+    async def cancel(self, reason: str | None = None) -> None: ...  # # ΛTAG: pipeline_interface
 
     async def health_check(self) -> Mapping[str, Any]: ...
 

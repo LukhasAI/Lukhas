@@ -43,7 +43,7 @@ class ImportRewriter(ast.NodeTransformer):
         self.changes = []
 
     def visit_Import(self, node):
-        """Rewrite 'import matriz' → 'import MATRIZ'"""
+        """Rewrite 'import matriz' → 'import matriz'"""
         for alias in node.names:
             if alias.name == OLD_MODULE:
                 self.changes.append(
@@ -76,7 +76,7 @@ def rewrite_file(filepath: Path, dry_run: bool = False) -> Tuple[bool, List[str]
         (changed, change_list) - Whether file was changed and list of changes
     """
     try:
-        with open(filepath, "r", encoding="utf-8") as f:
+        with open(filepath, encoding="utf-8") as f:
             source = f.read()
     except (UnicodeDecodeError, PermissionError) as e:
         return False, [f"ERROR: Could not read file: {e}"]
@@ -127,9 +127,8 @@ def find_python_files(root_path: Path, exclude_patterns: List[str]) -> List[Path
 
     # Handle single file case
     if root_path.is_file():
-        if root_path.suffix == ".py":
-            if not any(excl in str(root_path) for excl in exclude_patterns):
-                python_files.append(root_path)
+        if root_path.suffix == '.py' and (not any((excl in str(root_path) for excl in exclude_patterns))):
+            python_files.append(root_path)
         return python_files
 
     # Handle directory case
@@ -292,7 +291,7 @@ Examples:
         print("   Backup files created with .bak extension")
         print("\nNext steps:")
         print("  1. Run tests: make smoke && python3 -m pytest")
-        print("  2. Verify imports: python3 -c 'import MATRIZ; print(\"OK\")'")
+        print("  2. Verify imports: python3 -c 'import matriz; print(\"OK\")'")
         print("  3. Review changes: git diff")
         print("  4. Commit: git add -A && git commit -m 'fix(imports): matriz → MATRIZ'")
 

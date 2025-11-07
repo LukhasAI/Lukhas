@@ -20,7 +20,7 @@ class DirectoryIndexValidator:
     def load_schema(self) -> Dict:
         """Load the directory index schema"""
         try:
-            with open(self.schema_path, 'r') as f:
+            with open(self.schema_path) as f:
                 return json.load(f)
         except Exception as e:
             return {"error": f"Failed to load schema: {e}"}
@@ -32,7 +32,7 @@ class DirectoryIndexValidator:
             return False, [schema["error"]]
 
         try:
-            with open(index_path, 'r') as f:
+            with open(index_path) as f:
                 index = json.load(f)
 
             jsonschema.validate(index, schema)
@@ -52,7 +52,7 @@ class DirectoryIndexValidator:
     def check_index_consistency(self, index_path: Path) -> Dict:
         """Check consistency between directory index and actual directory contents"""
         try:
-            with open(index_path, 'r') as f:
+            with open(index_path) as f:
                 index = json.load(f)
 
             directory = index_path.parent
@@ -107,7 +107,7 @@ class DirectoryIndexValidator:
     def check_context_sync_integration(self, index_path: Path) -> Dict:
         """Check integration with context sync system"""
         try:
-            with open(index_path, 'r') as f:
+            with open(index_path) as f:
                 index = json.load(f)
 
             directory = index_path.parent

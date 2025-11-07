@@ -16,6 +16,8 @@
 ║ distributing tasks, and handling inter-agent communication.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 import logging

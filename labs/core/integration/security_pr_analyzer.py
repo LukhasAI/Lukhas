@@ -13,6 +13,8 @@ Comprehensive security scanning and pull request analysis for GitHub repositorie
 Created: 2025-06-29
 Status: ACTIVE DEPLOYMENT ✅
 """
+from __future__ import annotations
+
 
 import json
 import os

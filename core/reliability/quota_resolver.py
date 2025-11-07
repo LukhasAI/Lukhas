@@ -75,7 +75,7 @@ class QuotaResolver:
 
     def _load_config(self, config_path: str) -> None:
         """Load quota configuration from YAML file."""
-        with open(config_path, "r") as f:
+        with open(config_path) as f:
             config = yaml.safe_load(f)
 
         # Load defaults

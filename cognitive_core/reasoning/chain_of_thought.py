@@ -37,7 +37,7 @@ def _load_consciousness_wrapper() -> tuple[bool, Optional[type]]:
 
     try:
         module = import_module("consciousness.consciousness_wrapper")
-        wrapper = getattr(module, "ConsciousnessWrapper")
+        wrapper = module.ConsciousnessWrapper
         return True, wrapper
     except Exception:  # pragma: no cover - optional dependency
         return False, None

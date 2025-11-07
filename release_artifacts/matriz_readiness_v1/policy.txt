@@ -1,0 +1,3 @@
+reviewers=["@gonzalordm"]
+required_checks=["verify-syntax-zero","pytest-matriz","ruff"]
+shim_deprecation_days=30

@@ -93,7 +93,7 @@ class ConsciousExperience:
     awareness_state: CollapsedAwareness
     drift_measurement: DriftMeasurement
     timestamp: datetime
-    ethical_validation: Optional["MAEDecision"] = None  # noqa: F821  # TODO: MAEDecision
+    ethical_validation: Optional["MAEDecision"] = None  # TODO: MAEDecision
     experience_id: str = field(default="", init=False)
 
     def __post_init__(self):
@@ -416,10 +416,11 @@ class ConsciousDriftMonitor:
         )
 
         # Normalize by total awareness points
-        if state.awareness_map:
-            alignment = ethical_focus / len(state.awareness_map)
-        else:
-            alignment = 0.5  # Neutral
+        alignment = (
+            ethical_focus / len(state.awareness_map)
+            if state.awareness_map
+            else 0.5  # Neutral
+        )
 
         # Factor in coherence
         alignment *= state.coherence_level
@@ -538,14 +539,12 @@ class VectorCollapseEngine:
             passes_ethics = True
 
             # Check cognitive load constraint
-            if "max_cognitive_load" in constraints:
-                if vector.cognitive_load > constraints["max_cognitive_load"]:
-                    passes_ethics = False
+            if 'max_cognitive_load' in constraints and vector.cognitive_load > constraints['max_cognitive_load']:
+                passes_ethics = False
 
             # Check required focuses
-            if "required_focus" in constraints:
-                if constraints["required_focus"] not in vector.attention_focus:
-                    weight *= 0.5  # Reduce weight but don't filter out
+            if 'required_focus' in constraints and constraints['required_focus'] not in vector.attention_focus:
+                weight *= 0.5  # Reduce weight but don't filter out
 
             if passes_ethics:
                 filtered.append((vector, weight))
@@ -790,7 +789,7 @@ class VIVOXConsciousnessInterpretationLayer:
     Achieves traceable state of self-awareness
     """
 
-    def __init__(self, vivox_me: "VIVOXMemoryExpansion", vivox_mae: "VIVOXMoralAlignmentEngine"):  # noqa: F821  # TODO: VIVOXMemoryExpansion
+    def __init__(self, vivox_me: "VIVOXMemoryExpansion", vivox_mae: "VIVOXMoralAlignmentEngine"):  # TODO: VIVOXMemoryExpansion
         self.vivox_me = vivox_me
         self.vivox_mae = vivox_mae
         self.consciousness_simulator = ConsciousnessSimulator()

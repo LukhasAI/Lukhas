@@ -12,6 +12,8 @@ on:
 jobs:
   pqc_check:
     runs-on: ubuntu-latest
+    env:
+      OQS_INSTALL_PREFIX: ${{ github.workspace }}/.oqs
     steps:
       - uses: actions/checkout@v4
 
@@ -20,38 +22,75 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build PQC Runner Image
+      - name: Install build dependencies
         run: |
-          echo "Building PQC runner Docker image..."
-          docker build -f .github/docker/pqc-runner.Dockerfile \
-            -t lukhas-pqc-runner:ci \
-            --cache-from type=gha \
-            --cache-to type=gha,mode=max \
-            .
-          echo "✓ PQC runner image built successfully"
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            cmake \
+            ninja-build \
+            libssl-dev \
+            pkg-config \
+            jq \
+            bc
+
+      - name: Configure liboqs environment
+        run: |
+          mkdir -p "$OQS_INSTALL_PREFIX"
+          echo "OQS_INSTALL_PREFIX=$OQS_INSTALL_PREFIX" >> "$GITHUB_ENV"
+          echo "LD_LIBRARY_PATH=$OQS_INSTALL_PREFIX/lib:${LD_LIBRARY_PATH}" >> "$GITHUB_ENV"
+          echo "PKG_CONFIG_PATH=$OQS_INSTALL_PREFIX/lib/pkgconfig:${PKG_CONFIG_PATH}" >> "$GITHUB_ENV"
+          echo "CMAKE_PREFIX_PATH=$OQS_INSTALL_PREFIX:${CMAKE_PREFIX_PATH}" >> "$GITHUB_ENV"
+          echo "PATH=$OQS_INSTALL_PREFIX/bin:${PATH}" >> "$GITHUB_ENV"
+
+      - name: Restore cached liboqs build
+        id: cache-liboqs
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.OQS_INSTALL_PREFIX }}
+          key: liboqs-0.9.2-${{ runner.os }}
+
+      - name: Build liboqs from source
+        if: steps.cache-liboqs.outputs.cache-hit != 'true'
+        run: |
+          git clone --depth 1 --branch 0.9.2 https://github.com/open-quantum-safe/liboqs.git /tmp/liboqs
+          cmake -S /tmp/liboqs -B /tmp/liboqs/build \
+            -GNinja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX="$OQS_INSTALL_PREFIX" \
+            -DBUILD_SHARED_LIBS=ON \
+            -DOQS_BUILD_ONLY_LIB=ON \
+            -DOQS_DIST_BUILD=ON
+          cmake --build /tmp/liboqs/build
+          cmake --install /tmp/liboqs/build
+          rm -rf /tmp/liboqs
+
+      - name: Install python-oqs bindings
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install liboqs-python==0.9.0
+
+      - name: Verify liboqs availability
+        run: |
+          python -c "import oqs; print('liboqs version:', oqs.__oqs_version__); print('python-oqs version:', oqs.__version__)"
 
       - name: Run PQC Benchmark
         run: |
           echo "Running PQC benchmark..."
-          docker run --rm \
-            -v $(pwd)/tmp:/workspace/tmp \
-            lukhas-pqc-runner:ci \
-            pqc-bench --json > tmp/pqc_bench.json || {
-              echo "⚠️ pqc-bench failed, creating fallback marker"
-              mkdir -p tmp
-              echo '{"status":"fallback","message":"PQC bench not available"}' > tmp/pqc_bench.json
-              touch tmp/pqc_fallback_marker.txt
-            }
-          cat tmp/pqc_bench.json
+          mkdir -p tmp
+          if python scripts/pqc/pqc_bench.py --json --output tmp/pqc_bench.json; then
+            cat tmp/pqc_bench.json
+          else
+            echo "⚠️ pqc-bench failed, creating fallback marker"
+            echo '{"status":"fallback","message":"PQC bench not available"}' > tmp/pqc_bench.json
+            touch tmp/pqc_fallback_marker.txt
+          fi
 
       - name: Validate PQC Performance
         run: |
           if [ -f tmp/pqc_fallback_marker.txt ]; then
-            echo "::warning::PQC in fallback mode - runner provisioning needed (issue #492)"
-            exit 0
+            echo "::error::PQC benchmark entered fallback mode - required dependencies missing"
+            exit 1
           fi
 
           # Check sign/verify latency thresholds
@@ -82,3 +121,4 @@ jobs:
           path: |
             tmp/pqc_bench.json
             tmp/pqc_fallback_marker.txt
+          if-no-files-found: ignore

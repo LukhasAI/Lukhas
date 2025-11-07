@@ -13,7 +13,7 @@ from __future__ import annotations
 import math
 import os
 from dataclasses import dataclass
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 # Optional metrics
 try:
@@ -51,8 +51,8 @@ def _cosine(a: List[float], b: List[float]) -> float:
     return v
 
 class DriftMonitor:
-    __slots__ = ("lane","cfg","ema","_raw")
-    def __init__(self, lane: Optional[str] = None):
+    __slots__ = ("_raw", "cfg", "ema", "lane")
+    def __init__(self, lane: str | None = None):
         self.lane = (lane or os.getenv("LUKHAS_LANE", "experimental")).lower()
         self.cfg  = LANE_CFG.get(self.lane, LANE_CFG["experimental"])
         self.ema: float = 0.0

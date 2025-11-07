@@ -111,7 +111,8 @@ def get_git_last_modified(file_path: Path) -> Optional[int]:
     try:
         modified_date = datetime.fromtimestamp(file_path.stat().st_mtime)
         return (datetime.now() - modified_date).days
-    except:
+    except Exception as e:
+        logger.debug(f"Expected optional failure: {e}")
         return 999  # Very old
 
 
@@ -184,7 +185,7 @@ def analyze_module(file_path: Path, root: Path) -> Optional[ModuleMetrics]:
 
     # Path analysis
     rel_path = file_path.relative_to(root)
-    module_name = '.'.join(rel_path.parts[:-1] + (rel_path.stem,))
+    module_name = '.'.join((*rel_path.parts[:-1], rel_path.stem))
     in_archive = 'archive' in rel_path.parts
     in_candidate_labs = any(p in rel_path.parts for p in ['candidate', 'labs'])
 

@@ -4,12 +4,13 @@ Advanced bidirectional bridge between consciousness and memory systems with real
 """
 
 import asyncio
+import contextlib
 import logging
 import time
 import uuid
 from collections import defaultdict, deque
 from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Callable, Dict, List, Optional, Set, Tuple
 
@@ -149,10 +150,8 @@ class MemoryConsciousnessBridge:
         for task in [self.sync_task, self.monitor_task]:
             if task and not task.done():
                 task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
 
         logger.info("✅ Memory-Consciousness Bridge stopped")
 
@@ -171,8 +170,8 @@ class MemoryConsciousnessBridge:
             "session_id": session_id,
             "consciousness_state": asdict(consciousness_state),
             "context": context or {},
-            "created_at": datetime.utcnow(),
-            "last_updated": datetime.utcnow(),
+            "created_at": datetime.now(timezone.utc),
+            "last_updated": datetime.now(timezone.utc),
             "memory_folds": set(),
             "sync_count": 0
         }
@@ -194,7 +193,7 @@ class MemoryConsciousnessBridge:
                 "session_id": session_id,
                 "consciousness_state": asdict(consciousness_state)
             },
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             priority=3,
             correlation_id=session_id
         )
@@ -218,7 +217,7 @@ class MemoryConsciousnessBridge:
 
         session = self.consciousness_sessions[session_id]
         session["consciousness_state"] = asdict(consciousness_state)
-        session["last_updated"] = datetime.utcnow()
+        session["last_updated"] = datetime.now(timezone.utc)
 
         # Create memory folds for significant updates
         memory_events = []
@@ -251,7 +250,7 @@ class MemoryConsciousnessBridge:
                     "memory_events": memory_events,
                     "consciousness_state": asdict(consciousness_state)
                 },
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 priority=2,
                 correlation_id=session_id
             )
@@ -302,7 +301,7 @@ class MemoryConsciousnessBridge:
                 "query": query,
                 "result_count": len(results)
             },
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             priority=2,
             correlation_id=session_id
         )
@@ -348,7 +347,7 @@ class MemoryConsciousnessBridge:
                 "fold_type": memory_fold.fold_type.value,
                 "emotional_context": asdict(memory_fold.emotional_context)
             },
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             priority=3,
             correlation_id=session_id
         )
@@ -385,7 +384,7 @@ class MemoryConsciousnessBridge:
                 "sync_latency_ms": sync_latency,
                 "consciousness_fold_id": consciousness_fold_id,
                 "memory_sync_count": memory_sync_count,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat()
             }
             self.sync_history.append(sync_record)
 
@@ -399,7 +398,7 @@ class MemoryConsciousnessBridge:
             error_record = {
                 "session_id": session_id,
                 "error": str(e),
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat()
             }
             self.error_history.append(error_record)
 
@@ -543,7 +542,7 @@ class MemoryConsciousnessBridge:
             "session_id": session_id,
             "sync_type": "consciousness_to_memory",
             "consciousness_state": consciousness_state,
-            "sync_timestamp": datetime.utcnow().isoformat()
+            "sync_timestamp": datetime.now(timezone.utc).isoformat()
         }
 
         fold_id = await self.memory_integrator.create_consciousness_memory_fold(
@@ -575,7 +574,7 @@ class MemoryConsciousnessBridge:
 
         # Integrate relevant memories
         integration_count = 0
-        for fold_id, memory_fold, relevance in memories:
+        for _fold_id, memory_fold, relevance in memories:
             if relevance > 0.7:  # High relevance threshold
                 await self.integrate_memory_into_consciousness(session_id, memory_fold)
                 integration_count += 1
@@ -725,7 +724,7 @@ class MemoryConsciousnessBridge:
             elif action == "session_updated":
                 # Handle session update
                 memory_events = payload.get("memory_events", [])
-                for event_type, fold_id in memory_events:
+                for _event_type, _fold_id in memory_events:
                     # Process memory events
                     pass
 
@@ -768,7 +767,7 @@ class MemoryConsciousnessBridge:
 
     async def _cleanup_old_sessions(self):
         """Clean up old consciousness sessions"""
-        cutoff_time = datetime.utcnow() - timedelta(hours=24)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=24)
         sessions_to_remove = []
 
         for session_id, session_data in self.consciousness_sessions.items():

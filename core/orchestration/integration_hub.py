@@ -4,12 +4,149 @@ System Integration Hub with Oscillator Pattern
 Central connection point for all major LUKHAS subsystems.
 Enhanced with quantum oscillator synchronization and mito-inspired health monitoring.
 """
+from __future__ import annotations
+
 import asyncio
 import logging
 import random
 import time
+from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Mapping, Optional, Sequence
+from typing import Any, Callable, Mapping, Sequence
+
+
+@dataclass
+class SuperpositionState:
+    """Lightweight representation of a quantum-inspired superposition."""
+
+    options: list[dict[str, Any]]
+    amplitudes: list[complex]
+    metadata: dict[str, Any]
+
+
+@dataclass
+class MeasurementResult:
+    """Outcome of collapsing a superposition."""
+
+    collapsed_option: dict[str, Any] | None
+    probability: float
+    metadata: dict[str, Any]
+    post_state: SuperpositionState
+
+
+@dataclass
+class AnnealingResult:
+    """Result of a quantum-inspired annealing optimisation."""
+
+    solution: dict[str, Any]
+    energy: float
+    explored: list[dict[str, Any]]
+    history: list[dict[str, Any]]
+    metadata: dict[str, Any]
+
+
+class QuantumSuperpositionEngine:
+    """Minimal stub used to create deterministic superposition states."""
+
+    def __init__(self, rng: random.Random | None = None) -> None:
+        self._rng = rng or random.Random()
+
+    def create_state(
+        self,
+        options: Sequence[Mapping[str, Any]] | list[dict[str, Any]],
+        context: Mapping[str, Any] | None = None,
+    ) -> SuperpositionState:
+        context = context or {}
+        option_dicts = [dict(option) for option in options]
+        if not option_dicts:
+            raise ValueError("Superposition requires at least one option")
+
+        weights = [float(option.get("weight", 1.0)) for option in option_dicts]
+        total = sum(weights)
+        if total <= 0:
+            probability = 1.0 / len(option_dicts)
+            probabilities = [probability] * len(option_dicts)
+        else:
+            probabilities = [weight / total for weight in weights]
+
+        amplitudes = [complex(prob ** 0.5, 0.0) for prob in probabilities]
+        metadata = {
+            "probabilities": probabilities,
+            "coherence": float(context.get("coherence", 1.0)),
+            "interference_events": list(context.get("interference_events", [])),
+        }
+        return SuperpositionState(option_dicts, amplitudes, metadata)
+
+
+class QuantumMeasurement:
+    """Stub measurement engine that collapses superpositions predictably."""
+
+    def __init__(self, rng: random.Random | None = None) -> None:
+        self._rng = rng or random.Random()
+
+    def collapse(
+        self,
+        state: SuperpositionState,
+        context: Mapping[str, Any] | None = None,
+    ) -> MeasurementResult:
+        if not state.options:
+            raise ValueError("Cannot collapse an empty superposition")
+
+        context = dict(context or {})
+        probabilities = state.metadata.get("probabilities") or [
+            1.0 / len(state.options)
+        ] * len(state.options)
+        if len(probabilities) != len(state.options):
+            probabilities = [1.0 / len(state.options)] * len(state.options)
+
+        index = self._rng.choices(
+            range(len(state.options)), weights=probabilities, k=1
+        )[0]
+        context.setdefault("coherence_loss", 0.0)
+
+        return MeasurementResult(
+            collapsed_option=state.options[index],
+            probability=float(probabilities[index]),
+            metadata=context,
+            post_state=state,
+        )
+
+
+class QuantumAnnealer:
+    """Simplified annealer that evaluates a finite search space."""
+
+    def __init__(self, rng: random.Random | None = None) -> None:
+        self._rng = rng or random.Random()
+
+    def anneal(
+        self,
+        objective: Callable[[Mapping[str, Any]], float] | None,
+        *,
+        search_space: Sequence[Mapping[str, Any]],
+        constraints: Mapping[str, Any] | None = None,
+    ) -> AnnealingResult:
+        candidates = [dict(candidate) for candidate in search_space]
+        history: list[dict[str, Any]] = []
+
+        if not candidates:
+            metadata = {"constraints": dict(constraints or {}), "iterations": 0}
+            return AnnealingResult({}, 0.0, [], history, metadata)
+
+        best_solution = candidates[0]
+        best_energy = float("inf") if objective else 0.0
+
+        for candidate in candidates:
+            energy = float(objective(candidate)) if objective else 0.0
+            history.append({"candidate": candidate, "energy": energy})
+            if energy < best_energy:
+                best_energy = energy
+                best_solution = candidate
+
+        if best_energy is float("inf"):
+            best_energy = 0.0
+
+        metadata = {"constraints": dict(constraints or {}), "iterations": len(candidates)}
+        return AnnealingResult(best_solution, best_energy, candidates, history, metadata)
 
 # Golden Trio imports
 try:
@@ -23,7 +160,24 @@ try:
 except ImportError:
     Learningengine = None
 
-# from abas.integration.abas_integration_hub import ABASIntegrationHub
+# ABAS (Adaptive Bio-Aware System) hub - provide a safe stub if not installed
+try:
+    from abas.integration.abas_integration_hub import ABASIntegrationHub  # type: ignore
+except Exception:
+    class ABASIntegrationHub:  # minimal stub
+        """Stub for ABAS Integration Hub with no-op registration APIs.
+
+        Provides import-time safety and a predictable surface for orchestration wiring.
+        """
+
+        def __init__(self, *_, **__):
+            self.components: dict[str, Any] = {}
+
+        async def register_component(self, name: str, component: Any) -> None:
+            self.components[name] = component
+
+        def get_component(self, name: str) -> Any | None:
+            return self.components.get(name)
 try:
     from nias.integration.nias_integration_hub import NIASIntegrationHub
 except ImportError:
@@ -109,37 +263,29 @@ except ImportError:
     BaseOscillator = None
     QIHub = None
 
-# Quantum features (development lane - optional, loaded dynamically to avoid lane violations)
-# NOTE: These are candidate-lane features and must be loaded dynamically
-AnnealingResult = None
-QuantumAnnealer = None
-MeasurementResult = None
-QuantumMeasurement = None
-QuantumSuperpositionEngine = None
-SuperpositionState = None
+# Quantum Intelligence Orchestrator - safe stub if not available
+try:
+    from qi.system_orchestrator import QIAGISystem  # type: ignore
+except Exception:
+    class QIAGISystem:  # minimal stub
+        """Quantum-Inspired AGI Orchestrator stub.
 
-def _load_quantum_features():
-    """Dynamically load quantum features from candidate lane if available."""
-    global AnnealingResult, QuantumAnnealer, MeasurementResult, QuantumMeasurement
-    global QuantumSuperpositionEngine, SuperpositionState
-    try:
-        import importlib
-        annealing = importlib.import_module("candidate.quantum.annealing")
-        measurement = importlib.import_module("candidate.quantum.measurement")
-        superposition = importlib.import_module("candidate.quantum.superposition_engine")
+        Exposes a small control surface used by SystemIntegrationHub.
+        """
 
-        AnnealingResult = annealing.AnnealingResult
-        QuantumAnnealer = annealing.QuantumAnnealer
-        MeasurementResult = measurement.MeasurementResult
-        QuantumMeasurement = measurement.QuantumMeasurement
-        QuantumSuperpositionEngine = superposition.QuantumSuperpositionEngine
-        SuperpositionState = superposition.SuperpositionState
-        return True
-    except ImportError:
-        return False
+        def __init__(self, config: dict | None = None):
+            self.config = config or {}
+            self.running = False
 
-# Attempt to load quantum features at module import time
-_QUANTUM_AVAILABLE = _load_quantum_features()
+        async def start(self) -> None:
+            self.running = True
+
+        async def stop(self) -> None:
+            self.running = False
+
+        async def orchestrate(self, payload: dict) -> dict:
+            # Return a predictable noop response
+            return {"status": "ok", "received": payload}
 
 logger = logging.getLogger(__name__)
 
@@ -167,7 +313,7 @@ class ABASIntegrationHub:
     - Integration with DAST and NIAS (Golden Trio)
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """
         Initialize ABAS Integration Hub
 
@@ -333,7 +479,7 @@ class QIAGISystem:
     - Integration with MATRIZ cognitive engine
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """
         Initialize QI-AGI System
 
@@ -367,7 +513,7 @@ class QIAGISystem:
     async def create_superposition(
         self,
         options: list[dict[str, Any]],
-        context: Optional[dict[str, Any]] = None
+        context: dict[str, Any] | None = None
     ) -> dict[str, Any]:
         """
         Create quantum superposition of decision options
@@ -411,7 +557,7 @@ class QIAGISystem:
     async def measure_collapse(
         self,
         superposition_id: str,
-        measurement_context: Optional[dict[str, Any]] = None
+        measurement_context: dict[str, Any] | None = None
     ) -> dict[str, Any]:
         """
         Collapse quantum superposition to single decision
@@ -455,7 +601,7 @@ class QIAGISystem:
     async def quantum_anneal(
         self,
         objective_function: str,
-        constraints: Optional[dict[str, Any]] = None
+        constraints: dict[str, Any] | None = None
     ) -> dict[str, Any]:
         """
         Perform quantum annealing optimization
@@ -660,9 +806,9 @@ class SystemIntegrationHub:
     def _connect_golden_trio(self):
         """Connect DAST, ABAS, NIAS through TrioOrchestrator"""
         # Register each hub with trio orchestrator
-        asyncio.create_task(self.trio_orchestrator.register_component("dast", self.dast_hub))
-        asyncio.create_task(self.trio_orchestrator.register_component("abas", self.abas_hub))
-        asyncio.create_task(self.trio_orchestrator.register_component("nias", self.nias_hub))
+        asyncio.create_task(self.trio_orchestrator.register_component("dast", self.dast_hub))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_integration_hub_py_L809"}
+        asyncio.create_task(self.trio_orchestrator.register_component("abas", self.abas_hub))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_integration_hub_py_L811"}
+        asyncio.create_task(self.trio_orchestrator.register_component("nias", self.nias_hub))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_integration_hub_py_L813"}
 
         # Connect to ethics for oversight
         self.dast_hub.register_component("ethics_service", "ethics/service.py", self.ethics_service)
@@ -723,7 +869,7 @@ class SystemIntegrationHub:
 
     def _start_health_monitoring(self):
         """Start mito-inspired health monitoring"""
-        asyncio.create_task(self._health_monitor_loop())
+        asyncio.create_task(self._health_monitor_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_integration_hub_py_L875"}
 
     async def _health_monitor_loop(self):
         """Monitor system health using mito-inspired patterns"""

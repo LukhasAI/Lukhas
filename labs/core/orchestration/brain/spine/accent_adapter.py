@@ -4,6 +4,8 @@ Original: accent_adapter.py
 Advanced: accent_adapter.py
 Integration Date: 2025-05-31T07:55:28.109160
 """
+from __future__ import annotations
+
 
 """
 ╔═══════════════════════════════════════════════════════════════════════════╗
@@ -344,7 +346,7 @@ class AccentAdapter:
                 if self.emotion_mapper:
                     tone = self.emotion_mapper.suggest_tone("nostalgia", memory)
                     reminiscence = (
-                        f"{reminiscence} I remember it softly—it made me feel {tone}."
+                        f"{reminiscence} I remember it softly-it made me feel {tone}."
                     )
                     if self.config.get("speak_reminiscence", False) and hasattr(:
                         self.memory_helix, "speak"
@@ -360,7 +362,7 @@ class AccentAdapter:
                 if self.emotion_mapper:
                     tone = self.emotion_mapper.suggest_tone("nostalgia", memory)
                     reminiscence = (
-                        f"{reminiscence} I remember it softly—it made me feel {tone}."
+                        f"{reminiscence} I remember it softly-it made me feel {tone}."
                     )
                     if self.config.get("speak_reminiscence", False) and hasattr(:
                         self.memory_helix, "speak"

@@ -90,7 +90,7 @@ class TestDocsIntegration:
             # Test consciousness-aware processing
             with consciousness.awareness_context():
                 # This should not raise an exception
-                result = component.process({})
+                component.process({})
 
         except ImportError:
             pytest.skip("Consciousness integration not available")
@@ -104,7 +104,7 @@ class TestDocsIntegration:
 
             # Test MATRIZ pipeline methods
             assert hasattr(component, 'process')
-            assert callable(getattr(component, 'process'))
+            assert callable(component.process)
 
         except ImportError:
             pytest.skip("DocsCore not available")
@@ -159,7 +159,7 @@ class TestDocsPerformance:
             component = DocsCore()
 
             start_time = time.time()
-            result = component.process({})
+            component.process({})
             duration = time.time() - start_time
 
             # Should complete within 1 second for basic operations

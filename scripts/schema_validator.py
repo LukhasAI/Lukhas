@@ -22,7 +22,7 @@ class LUKHASSchemaValidator:
     def load_schema(self, schema_path: Path) -> Dict:
         """Load a JSON schema file"""
         try:
-            with open(schema_path, 'r') as f:
+            with open(schema_path) as f:
                 return json.load(f)
         except Exception as e:
             return {"error": f"Failed to load schema: {e}"}
@@ -30,7 +30,7 @@ class LUKHASSchemaValidator:
     def load_document(self, doc_path: Path) -> Dict:
         """Load a JSON document to validate"""
         try:
-            with open(doc_path, 'r') as f:
+            with open(doc_path) as f:
                 return json.load(f)
         except Exception as e:
             return {"error": f"Failed to load document: {e}"}

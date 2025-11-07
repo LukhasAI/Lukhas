@@ -22,6 +22,7 @@ Features:
 
 Rehabilitated: 2025-09-10 from quarantine status
 """
+import logging
 
 import re
 from dataclasses import dataclass, field
@@ -283,7 +284,7 @@ class PolicyValidator:
                         category=ValidationCategory.SYNTAX,
                         severity=ValidationSeverity.ERROR,
                         title="Validation Failed",
-                        description=f"Validation process failed: {str(e)}"
+                        description=f"Validation process failed: {e!s}"
                     )
                 ],
                 error_count=1,
@@ -474,7 +475,7 @@ class PolicyValidator:
                         category=ValidationCategory.SYNTAX,
                         severity=ValidationSeverity.ERROR,
                         title="Invalid Regular Expression",
-                        description=f"Condition {index} has invalid regex pattern: {str(e)}",
+                        description=f"Condition {index} has invalid regex pattern: {e!s}",
                         rule_id=rule_id,
                         field_path=f"conditions[{index}].value"
                     )

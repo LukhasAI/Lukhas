@@ -16,9 +16,10 @@ from __future__ import annotations
 import os
 import threading
 from collections import deque
+from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import datetime, timedelta
-from typing import Any, Dict, Iterator, List, Optional
+from datetime import datetime, timedelta, timezone
+from typing import Any, Dict, List
 from uuid import UUID, uuid4
 
 try:
@@ -76,13 +77,13 @@ class Event:
         glyph_id: UUID,
         payload: Dict[str, Any],
         *,
-        ts: Optional[datetime] = None,
-        event_id: Optional[UUID] = None
+        ts: datetime | None = None,
+        event_id: UUID | None = None
     ) -> Event:
         """Create a new event with automatic ID and timestamp."""
         return cls(
             id=event_id or uuid4(),
-            ts=ts or datetime.utcnow(),
+            ts=ts or datetime.now(timezone.utc),
             kind=kind,
             lane=lane,
             glyph_id=glyph_id,
@@ -152,9 +153,9 @@ class EventStore:
     def query_recent(
         self,
         limit: int = 100,
-        kind: Optional[str] = None,
-        lane: Optional[str] = None,
-        since: Optional[datetime] = None
+        kind: str | None = None,
+        lane: str | None = None,
+        since: datetime | None = None
     ) -> List[Event]:
         """Query recent events with optional filtering."""
         query_type = f"recent_{kind or 'all'}_{lane or 'all'}"
@@ -181,7 +182,7 @@ class EventStore:
         self,
         glyph_id: UUID,
         limit: int = 100,
-        since: Optional[datetime] = None
+        since: datetime | None = None
     ) -> List[Event]:
         """Query events for specific glyph ID (for replay)."""
         query_type = "by_glyph"
@@ -205,10 +206,10 @@ class EventStore:
     def query_sliding_window(
         self,
         window_seconds: int = 300,  # 5 minutes default
-        kind: Optional[str] = None
+        kind: str | None = None
     ) -> List[Event]:
         """Query events within sliding time window for replay analysis."""
-        since = datetime.utcnow() - timedelta(seconds=window_seconds)
+        since = datetime.now(timezone.utc) - timedelta(seconds=window_seconds)
         return self.query_recent(limit=1000, kind=kind, since=since)
 
     def replay_sequence(
@@ -280,7 +281,7 @@ class _DummyTimer:
 
 
 # Global event store instance
-_global_store: Optional[EventStore] = None
+_global_store: EventStore | None = None
 _store_lock = threading.Lock()
 
 

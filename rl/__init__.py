@@ -27,11 +27,11 @@ from .rewards.consciousness_rewards import ConsciousnessRewards
 __version__ = "1.0.0"
 __all__ = [
     "ConsciousnessBuffer",
-    "ConsciousnessState",
     "ConsciousnessEnvironment",
-    "MatrizNode",
     "ConsciousnessMetaLearning",
     "ConsciousnessRewards",
+    "ConsciousnessState",
+    "MatrizNode",
     "MultiAgentCoordination",
     "PolicyNetwork",
     "ValueNetwork",

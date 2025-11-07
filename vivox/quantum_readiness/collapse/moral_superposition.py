@@ -1,20 +1,18 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.QREADY - Moral Superposition
 Quantum superposition for exploring ethical ambiguities
 """
 
+import logging
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
 
 logger = get_logger(__name__)
 

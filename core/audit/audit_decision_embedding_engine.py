@@ -3,8 +3,8 @@
 Audit Decision Embedding Engine
 Embeds audit trails into ALL decisions using event-bus colony/swarm architecture
 """
-
 import asyncio
+import importlib as _importlib
 import json
 import time
 import uuid
@@ -20,10 +20,10 @@ except ImportError:
     Tuple = tuple
     Dict = dict
     List = list
-
 try:
-    from labs.governance.ethics.shared_ethics_engine import SharedEthicsEngine
-except ImportError:
+    _mod = _importlib.import_module("labs.governance.ethics.shared_ethics_engine")
+    SharedEthicsEngine = _mod.SharedEthicsEngine
+except Exception:
     SharedEthicsEngine = None
 
 try:

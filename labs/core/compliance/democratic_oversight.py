@@ -286,7 +286,7 @@ class DemocraticOversightEngine:
             ],
             voting_weight=0.20,
             expertise_areas=["human_rights", "digital_rights", "privacy", "algorithmic_accountability"],
-            contact_information={"email": "contact@airights.org", "website": "https://airights.org"},
+            contact_information={"email": "contact@airights.example.org", "website": "https://airights.example"},
         )
         self.stakeholder_groups[civil_society.group_id] = civil_society
 
@@ -303,7 +303,7 @@ class DemocraticOversightEngine:
             ],
             voting_weight=0.15,
             expertise_areas=["ai_ethics", "machine_learning", "algorithmic_bias", "fairness"],
-            contact_information={"email": "consortium@aiethics.edu", "website": "https://aiethics.edu"},
+            contact_information={"email": "consortium@aiethics.example.edu", "website": "https://aiethics.example"},
         )
         self.stakeholder_groups[academic_group.group_id] = academic_group
 
@@ -316,7 +316,7 @@ class DemocraticOversightEngine:
             engagement_methods=[EngagementMethod.EXPERT_PANEL, EngagementMethod.ADVISORY_COMMITTEE],
             voting_weight=0.25,
             expertise_areas=["regulatory_compliance", "policy_development", "enforcement"],
-            contact_information={"email": "contact@airegulators.gov", "website": "https://airegulators.gov"},
+            contact_information={"email": "contact@airegulators.example.gov", "website": "https://airegulators.example"},
         )
         self.stakeholder_groups[regulator_group.group_id] = regulator_group
 
@@ -334,7 +334,7 @@ class DemocraticOversightEngine:
             ],
             voting_weight=0.20,
             expertise_areas=["lived_experience", "community_impact", "social_justice"],
-            contact_information={"email": "network@aicommunities.org", "website": "https://aicommunities.org"},
+            contact_information={"email": "network@aicommunities.example.org", "website": "https://aicommunities.example"},
         )
         self.stakeholder_groups[community_group.group_id] = community_group
 
@@ -351,7 +351,7 @@ class DemocraticOversightEngine:
             ],
             voting_weight=0.20,
             expertise_areas=["human_rights", "international_law", "discrimination", "privacy"],
-            contact_information={"email": "alliance@hrai.org", "website": "https://hrai.org"},
+            contact_information={"email": "alliance@hrai.example.org", "website": "https://hrai.example"},
         )
         self.stakeholder_groups[hr_group.group_id] = hr_group
 

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import time
-from typing import Optional
 
 from opentelemetry import trace
 from opentelemetry.trace import Status, StatusCode
@@ -32,7 +31,7 @@ class MemoryTracer:
         self.tracer = trace.get_tracer(service_name)
         self.metrics = PrometheusMetrics()
 
-    def trace_operation(self, operation: str, span_name: Optional[str] = None):
+    def trace_operation(self, operation: str, span_name: str | None = None):
         """Context manager for tracing memory operations."""
         return MemorySpan(
             self.tracer.start_span(span_name or f"memory.{operation}"),

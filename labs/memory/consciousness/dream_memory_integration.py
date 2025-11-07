@@ -115,6 +115,7 @@ class DreamMemoryIntegrator:
         # State management
         self.integration_active = False
         self.dream_session_active = False
+        self._integration_monitoring_task: Optional[asyncio.Task[None]] = None
 
     async def initialize(self) -> bool:
         """Initialize the dream-memory integration system"""
@@ -122,7 +123,9 @@ class DreamMemoryIntegrator:
             self.logger.info("Initializing Dream-Memory Integration System")
 
             # Start background integration monitoring
-            asyncio.create_task(self._integration_monitoring_loop())
+            self._integration_monitoring_task = asyncio.create_task(
+                self._integration_monitoring_loop()
+            )
 
             # Initialize dream memory selection
             await self._initialize_dream_memory_selection()
@@ -654,13 +657,6 @@ class DreamMemoryIntegrator:
         self.logger.info(f"Integrating dream experience {dream_experience.dream_id} with consciousness")
 
         # This would integrate with the awareness mechanism
-        integration_data = {
-            'content': f"Dream integration: {dream_experience.dream_type.name}",
-            'triggers': ['dream_integration', 'memory_consolidation'],
-            'emotional_context': dream_experience.emotional_themes,
-            'dream_reference': dream_experience.dream_id,
-            'insights': dream_experience.insights_generated
-        }
 
         # Simulated consciousness integration
         await asyncio.sleep(0.05)

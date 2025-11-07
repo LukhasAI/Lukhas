@@ -315,20 +315,21 @@ def initialize_security(config: Optional[SecurityConfig] = None) -> LUKHASSecuri
 # Legacy exports (Phase 0 secure random)
 if SECURE_RANDOM_AVAILABLE:
     __all__ = [
+        "SECURE_RANDOM_AVAILABLE",
+        # Availability flags
+        "SECURITY_COMPONENTS_AVAILABLE",
         # Phase 6 main classes
         "LUKHASSecuritySystem",
-        "SecurityConfig",
-        "SecurityMetrics",
-
-        # Phase 6 functions
-        "get_security_system",
-        "initialize_security",
-
         # Legacy Phase 0 secure random
         "SecureRandom",
+        "SecurityConfig",
+        "SecurityMetrics",
         "choice",
         "choices",
         "gauss",
+        # Phase 6 functions
+        "get_security_system",
+        "initialize_security",
         "normalvariate",
         "randint",
         "random",
@@ -342,20 +343,16 @@ if SECURE_RANDOM_AVAILABLE:
         "secure_random",
         "secure_token",
         "shuffle",
-        "uniform",
-
-        # Availability flags
-        "SECURITY_COMPONENTS_AVAILABLE",
-        "SECURE_RANDOM_AVAILABLE"
+        "uniform"
     ]
 else:
     __all__ = [
+        "SECURE_RANDOM_AVAILABLE",
+        "SECURITY_COMPONENTS_AVAILABLE",
         # Phase 6 only
         "LUKHASSecuritySystem",
         "SecurityConfig",
         "SecurityMetrics",
         "get_security_system",
-        "initialize_security",
-        "SECURITY_COMPONENTS_AVAILABLE",
-        "SECURE_RANDOM_AVAILABLE"
+        "initialize_security"
     ]

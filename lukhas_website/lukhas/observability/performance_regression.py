@@ -535,7 +535,7 @@ class PerformanceRegressionDetector:
             x_values = [(t.timestamp() - start_time) / 3600 for t in recent_timestamps]  # Hours
 
             # Linear regression
-            slope, intercept, r_value, p_value, std_err = stats.linregress(x_values, recent_values)
+            slope, intercept, r_value, p_value, _std_err = stats.linregress(x_values, recent_values)
 
             # Check if trend is significantly upward (performance degradation)
             if slope > 0 and p_value < 0.05 and abs(r_value) > 0.7:
@@ -597,13 +597,12 @@ class PerformanceRegressionDetector:
 
             # Check if any values around the same time
             for i, timestamp in enumerate(other_timestamps):
-                if abs((timestamp - current_time).total_seconds()) < 300:  # Within 5 minutes
-                    if i < len(self.metric_timeseries[other_key]):
-                        other_value = self.metric_timeseries[other_key][i]
-                        if other_key in self.performance_baselines:
-                            other_baseline = self.performance_baselines[other_key]
-                            if other_value > other_baseline.baseline_value * 1.2:  # 20% increase
-                                root_causes.append(f"Correlated regression in {other_key}")
+                if abs((timestamp - current_time).total_seconds()) < 300 and i < len(self.metric_timeseries[other_key]):  # Within 5 minutes
+                    other_value = self.metric_timeseries[other_key][i]
+                    if other_key in self.performance_baselines:
+                        other_baseline = self.performance_baselines[other_key]
+                        if other_value > other_baseline.baseline_value * 1.2:  # 20% increase
+                            root_causes.append(f"Correlated regression in {other_key}")
 
         # Check for error rate increases
         error_patterns = [

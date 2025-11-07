@@ -160,11 +160,11 @@ def quick_resolve(resolver: SimpleTagResolver, key: str, default: Any = None) ->
 
 # Export main components
 __all__ = [
-    "SymbolicTag",
-    "TagScope",
-    "TagPriority",
-    "SimpleTagResolver",
     "AdvancedTagResolver",
+    "SimpleTagResolver",
+    "SymbolicTag",
+    "TagPriority",
+    "TagScope",
     "create_tag",
     "quick_resolve",
 ]

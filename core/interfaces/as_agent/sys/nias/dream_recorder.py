@@ -13,10 +13,11 @@ Integration Date: 2025-05-31T07:55:30.562286
 
 DESCRIPTION:
     This module appends all dream-deferred symbolic payloads to a
-    `dream_log.jsonl` file — each line a valid JSON object, allowing
+    `dream_log.jsonl` file - each line a valid JSON object, allowing
     future dream reconstruction, recurrence logic, or poetic replay.
 
 """
+from __future__ import annotations
 
 import json
 import os

@@ -1,6 +1,7 @@
 import json
 import re
 from pathlib import Path
+from typing import Optional
 
 RULES = json.loads(Path("configs/star_rules.json").read_text(encoding="utf-8"))
 
@@ -13,7 +14,7 @@ EXCL_RX  = [re.compile(r["pattern"], re.I) for r in RULES.get("exclusions", [])]
 CONF_MIN = float(RULES["confidence"]["min_suggest"])
 W = RULES["weights"]
 
-def suggest_star(path_str: str, name: str, caps: list[str], nodes: list[str], owner: str = "", deps: list[str] = None):
+def suggest_star(path_str: str, name: str, caps: list[str], nodes: list[str], owner: str = "", deps: Optional[list[str]] = None):
     deps = deps or []
     # block by exclusions
     for rx in EXCL_RX:
@@ -53,22 +54,22 @@ def test_flow_by_path_or_node():
     assert conf >= 0.5
 
 def test_memory_by_capability():
-    star, conf, _ = suggest_star("labs/bio/memory", "bio.memory", ["memory_consolidation"], [])
+    star, _conf, _ = suggest_star("labs/bio/memory", "bio.memory", ["memory_consolidation"], [])
     assert star == "✦ Trail (Memory)"
 
 def test_guardian_by_auth_capability():
-    star, conf, _ = suggest_star("labs/api/oidc", "oidc", ["authentication"], [])
+    star, _conf, _ = suggest_star("labs/api/oidc", "oidc", ["authentication"], [])
     assert star == "🛡️ Watch (Guardian)"
 
 def test_vision_by_path():
-    star, conf, _ = suggest_star("tools/vision/ocr", "ocr", ["ocr"], [])
+    star, _conf, _ = suggest_star("tools/vision/ocr", "ocr", ["ocr"], [])
     assert star == "🔬 Horizon (Vision)"
 
 def test_oracle_by_keyword():
-    star, conf, _ = suggest_star("labs/bio/quantum_attention", "quantum_attention", ["quantum_attention"], [])
+    star, _conf, _ = suggest_star("labs/bio/quantum_attention", "quantum_attention", ["quantum_attention"], [])
     assert star == "🔮 Oracle (Quantum)"
 
 def test_exclusion_stopwatch_not_guardian():
-    star, conf, why = suggest_star("utils/stopwatch", "stopwatch", [], [])
+    star, _conf, why = suggest_star("utils/stopwatch", "stopwatch", [], [])
     assert star is None
     assert why == "excluded"

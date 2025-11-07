@@ -23,7 +23,7 @@ from typing import Any, Dict, List, Optional, Tuple
 from uuid import uuid4
 
 try:
-    import pandas as pd  # noqa: F401  # TODO: pandas; consider using importl...
+    import pandas as pd  # TODO: pandas; consider using importl...
     PANDAS_AVAILABLE = True
 except ImportError:
     PANDAS_AVAILABLE = False
@@ -32,7 +32,7 @@ try:
     import matplotlib
     matplotlib.use('Agg')  # Use non-GUI backend
     import matplotlib.pyplot as plt
-    import seaborn as sns  # noqa: F401  # TODO: seaborn; consider using import...
+    import seaborn as sns  # TODO: seaborn; consider using import...
     PLOTTING_AVAILABLE = True
 except ImportError:
     PLOTTING_AVAILABLE = False
@@ -167,7 +167,7 @@ class ComplianceDashboard:
 
         if self.config_path.exists():
             try:
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path) as f:
                     config = json.load(f)
                     # Merge with defaults
                     for key, value in default_config.items():
@@ -701,7 +701,7 @@ class ComplianceDashboard:
             score = report.compliance_score
             colors = ['red' if score < 90 else 'orange' if score < 95 else 'green']
 
-            ax.pie([score, 100-score], startangle=90, colors=colors + ['lightgray'],
+            ax.pie([score, 100-score], startangle=90, colors=[*colors, 'lightgray'],
                   labels=[f'Compliant\n{score:.1f}%', f'Non-compliant\n{100-score:.1f}%'])
             ax.set_title(f'{report.regulation.value} Compliance Score')
             plt.savefig(chart_dir / 'compliance_score.png', dpi=150, bbox_inches='tight')
@@ -711,8 +711,8 @@ class ComplianceDashboard:
             if 'evidence_statistics' in report.report_data:
                 stats = report.report_data['evidence_statistics']
 
-                if 'by_type' in stats and stats['by_type']:
-                    fig, ax = plt.subplots(figsize=(10, 6))
+                if stats.get('by_type'):
+                    _fig, ax = plt.subplots(figsize=(10, 6))
                     types = list(stats['by_type'].keys())
                     counts = list(stats['by_type'].values())
 
@@ -776,7 +776,7 @@ class ComplianceDashboard:
             while True:
                 try:
                     # Assess compliance for all regulations
-                    for regulation in self.compliance_statuses.keys():
+                    for regulation in self.compliance_statuses:
                         await self.assess_compliance_status(regulation)
 
                     await asyncio.sleep(300)  # Every 5 minutes
@@ -811,19 +811,19 @@ class ComplianceDashboard:
 
         # Generate daily reports at midnight
         if now.hour == 0 and now.minute < 10:
-            for regulation in self.compliance_statuses.keys():
+            for regulation in self.compliance_statuses:
                 if self.dashboard_config["reporting"]["daily_reports"]:
                     await self.generate_compliance_report(regulation, "daily")
 
         # Generate weekly reports on Sundays
         if now.weekday() == 6 and now.hour == 1 and now.minute < 10:
-            for regulation in self.compliance_statuses.keys():
+            for regulation in self.compliance_statuses:
                 if self.dashboard_config["reporting"]["weekly_reports"]:
                     await self.generate_compliance_report(regulation, "weekly")
 
         # Generate monthly reports on the 1st of each month
         if now.day == 1 and now.hour == 2 and now.minute < 10:
-            for regulation in self.compliance_statuses.keys():
+            for regulation in self.compliance_statuses:
                 if self.dashboard_config["reporting"]["monthly_reports"]:
                     await self.generate_compliance_report(regulation, "monthly")
 

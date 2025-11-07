@@ -52,9 +52,8 @@ class TestCoreEndToEnd:
             component = CoreCore()
 
             # Test integrated processing
-            with consciousness.awareness_context():
-                with memory.session_context():
-                    result = component.process({'integration': 'test'})
+            with consciousness.awareness_context(), memory.session_context():
+                result = component.process({'integration': 'test'})
 
             assert result is not None
 
@@ -110,7 +109,6 @@ class TestCoreScalabilityIntegration:
         """Test concurrent processing capabilities."""
         try:
             import concurrent.futures
-            import threading
 
             from core import CoreCore
 

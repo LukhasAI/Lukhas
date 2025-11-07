@@ -203,7 +203,7 @@ class VocabularyRotationEngine:
                 "sensory": ["visual", "tactile", "temporal"],
                 "concreteness": 0.85,
                 "novelty": 0.87,
-                "poetic": "Consciousness technology is carved in geological strata—dynamic systems layering memory sediments",
+                "poetic": "Consciousness technology is carved in geological strata-dynamic systems layering memory sediments",
                 "academic": "This metaphor conceptualizes consciousness technology as stratified dynamic systems",
                 "user": "Think of your mind like layers of rock built over time",
                 "MATRIZ": {
@@ -239,7 +239,7 @@ class VocabularyRotationEngine:
                 "sensory": ["kinesthetic", "auditory", "visual"],
                 "concreteness": 0.8,
                 "novelty": 0.9,
-                "poetic": "Consciousness technology flows like fluid dynamics—dynamic systems of memory currents",
+                "poetic": "Consciousness technology flows like fluid dynamics-dynamic systems of memory currents",
                 "academic": "This metaphor models consciousness technology as fluid dynamic systems",
                 "user": "Imagine your thoughts and memories flowing like water in a river",
                 "MATRIZ": {
@@ -275,7 +275,7 @@ class VocabularyRotationEngine:
                 "sensory": ["visual", "color", "luminous"],
                 "concreteness": 0.75,
                 "novelty": 0.88,
-                "poetic": "Consciousness technology refracts like prismatic light—dynamic systems splitting memory beams",
+                "poetic": "Consciousness technology refracts like prismatic light-dynamic systems splitting memory beams",
                 "academic": "This metaphor frames consciousness technology as dynamic systems of light refraction",
                 "user": "Think of your mind like a prism breaking light into many colors",
                 "MATRIZ": {
@@ -311,7 +311,7 @@ class VocabularyRotationEngine:
                 "sensory": ["visual", "kinesthetic", "auditory"],
                 "concreteness": 0.8,
                 "novelty": 0.85,
-                "poetic": "Consciousness technology pulses through circuit patterns—dynamic systems of memory nodes",
+                "poetic": "Consciousness technology pulses through circuit patterns-dynamic systems of memory nodes",
                 "academic": "This metaphor models consciousness technology as integrated circuits",
                 "user": "Imagine your brain like an electric circuit board where memories are nodes",
                 "MATRIZ": {
@@ -358,7 +358,7 @@ class VocabularyRotationEngine:
 
         return family_name, self.metaphor_families[family_name]
 
-    def get_matriz_phrase(self, matriz_component: str, family_name: str = None) -> str:
+    def get_matriz_phrase(self, matriz_component: str, family_name: Optional[str] = None) -> str:
         """Get MATRIZ-specific phrase from current or specified family."""
         if family_name is None:
             family_name, family_data = self.get_next_family()
@@ -368,7 +368,7 @@ class VocabularyRotationEngine:
         phrases = family_data.get("MATRIZ", {}).get(matriz_component, ["consciousness flows"])
         return random.choice(phrases)
 
-    def get_3_layer_content(self, family_name: str = None) -> Dict[str, str]:
+    def get_3_layer_content(self, family_name: Optional[str] = None) -> Dict[str, str]:
         """Get 3-layer tone system content for a family."""
         if family_name is None:
             family_name, family_data = self.get_next_family()
@@ -430,7 +430,7 @@ class VocabularyRotationEngine:
         try:
             data_path = Path(self.data_file)
             if data_path.exists():
-                with open(data_path, 'r') as f:
+                with open(data_path) as f:
                     data = json.load(f)
                     self.usage_tracker = data.get('usage_tracker', {})
                     self.current_family_index = data.get('current_family_index', 0)

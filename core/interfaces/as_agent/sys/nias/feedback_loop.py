@@ -16,6 +16,7 @@ DESCRIPTION:
     Results are logged to a symbolic feedback ledger for future tuning and trust metrics.
 
 """
+from __future__ import annotations
 
 import json
 from datetime import datetime, timezone
@@ -32,7 +33,7 @@ def record_feedback(message_id, user_id, score, notes=None, emoji=None, user_con
     Args:
         message_id (str): ID of the symbolic message
         user_id (str): symbolic user reference
-        score (int): numeric feedback (1–5)
+        score (int): numeric feedback (1-5)
         notes (str, optional): optional reflection or reaction
         emoji (str, optional): optional symbolic reaction 🧠💡🖤🌙⚠️
 
@@ -84,7 +85,7 @@ if __name__ == "__main__":
     try:
         message_id = input("📩 Enter symbolic message ID: ").strip()
         user_id = input("🧑 Enter user ID: ").strip()
-        score = int(input("🔢 Score (1–5): ").strip())
+        score = int(input("🔢 Score (1-5): ").strip())
         emoji = input("🔘 Emoji (optional): ").strip() or None
         notes = input("📝 Notes (optional): ").strip() or None
         tier = input("🔐 User Tier (optional): ").strip()

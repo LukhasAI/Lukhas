@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-"""
-Fix common syntax errors in the LUKHAS codebase
-"""
+"""Fix common syntax errors in the LUKHAS codebase."""
 
 import ast
+import logging
 import os
 import re
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 
 def fix_broken_strings(content: str) -> str:

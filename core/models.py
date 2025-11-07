@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 class BaseModel(PydanticBaseModel):
     """
     LUKHAS Base Model extending Pydantic BaseModel with LUKHAS-specific features.
-    
+
     This serves as the foundation for all LUKHAS data models, providing:
     - Constellation Framework awareness
     - Identity integration hooks

@@ -1,24 +1,22 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.EVRN Sensory Integration
 Processes multiple sensory modalities while maintaining encryption
 """
 
+import logging
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-
 from core.common import get_logger
 
 from .anomaly_detection import AnomalyDetector
 from .vector_encryption import PerceptualEncryptor
 from .vivox_evrn_core import EncryptedPerception, PerceptualVector
+
+logger = logging.getLogger(__name__)
 
 logger = get_logger(__name__)
 
@@ -505,20 +503,19 @@ class MotionDetector:
             )
 
         # Unusual stillness detection
-        if pattern_matches.get("unusual_stillness", 0) > 0.8:
+        if pattern_matches.get('unusual_stillness', 0) > 0.8 and (self.motion_history and self.motion_history[-1].velocity > 0.3):
             # Check history for sudden change
-            if self.motion_history and self.motion_history[-1].velocity > 0.3:
-                events.append(
-                    {
-                        "type": "sudden_stillness",
-                        "severity": "high",
-                        "confidence": pattern_matches["unusual_stillness"],
-                        "features": {
-                            "velocity": features.velocity,
-                            "previous_velocity": self.motion_history[-1].velocity,
-                        },
-                    }
-                )
+            events.append(
+                {
+                    "type": "sudden_stillness",
+                    "severity": "high",
+                    "confidence": pattern_matches["unusual_stillness"],
+                    "features": {
+                        "velocity": features.velocity,
+                        "previous_velocity": self.motion_history[-1].velocity,
+                    },
+                }
+            )
 
         # Erratic movement detection
         if pattern_matches.get("erratic_movement", 0) > 0.6:
@@ -775,28 +772,26 @@ class MultimodalFusion:
             modalities = correlation_key.split("_")
 
             # Thermal-Motion correlation check
-            if "thermal" in modalities and "motion" in modalities:
-                if correlation_value > 0.8:  # High correlation
-                    anomalies.append(
-                        {
-                            "type": "thermal_motion_correlation",
-                            "severity": "high",
-                            "correlation": correlation_value,
-                            "interpretation": "High activity with thermal stress",
-                        }
-                    )
+            if ('thermal' in modalities and 'motion' in modalities) and correlation_value > 0.8:
+                anomalies.append(
+                    {
+                        "type": "thermal_motion_correlation",
+                        "severity": "high",
+                        "correlation": correlation_value,
+                        "interpretation": "High activity with thermal stress",
+                    }
+                )
 
             # Visual-Texture mismatch
-            if "visual" in modalities and "texture" in modalities:
-                if correlation_value < 0.2:  # Low correlation
-                    anomalies.append(
-                        {
-                            "type": "visual_texture_mismatch",
-                            "severity": "moderate",
-                            "correlation": correlation_value,
-                            "interpretation": "Visual and texture data inconsistent",
-                        }
-                    )
+            if ('visual' in modalities and 'texture' in modalities) and correlation_value < 0.2:
+                anomalies.append(
+                    {
+                        "type": "visual_texture_mismatch",
+                        "severity": "moderate",
+                        "correlation": correlation_value,
+                        "interpretation": "Visual and texture data inconsistent",
+                    }
+                )
 
         # Check individual modality anomalies
         for modality, vectors in modality_groups.items():

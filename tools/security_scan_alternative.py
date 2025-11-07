@@ -31,7 +31,7 @@ def check_pinned_github_actions() -> Dict[str, Any]:
 
     for workflow_file in workflow_files:
         try:
-            with open(workflow_file, 'r') as f:
+            with open(workflow_file) as f:
                 content = f.read()
 
             # Find uses: statements
@@ -77,7 +77,7 @@ def check_constraints_enforcement() -> Dict[str, Any]:
 
     if constraints_file.exists():
         try:
-            with open(constraints_file, 'r') as f:
+            with open(constraints_file) as f:
                 lines = [line.strip() for line in f.readlines() if line.strip() and not line.startswith('#')]
                 results["constraints_count"] = len(lines)
         except Exception:
@@ -85,7 +85,7 @@ def check_constraints_enforcement() -> Dict[str, Any]:
 
     if ci_file.exists():
         try:
-            with open(ci_file, 'r') as f:
+            with open(ci_file) as f:
                 ci_content = f.read()
                 results["ci_enforces"] = "constraints.txt" in ci_content
         except Exception:
@@ -139,7 +139,7 @@ def check_dependency_vulnerabilities() -> Dict[str, Any]:
         req_path = Path(req_file)
         if req_path.exists():
             try:
-                with open(req_path, 'r') as f:
+                with open(req_path) as f:
                     content = f.read()
                     for pattern in problematic_patterns:
                         if pattern in content:
@@ -246,9 +246,8 @@ def run_comprehensive_security_scan():
         elif check_name == "vulnerabilities":
             vuln_count = check_result.get('vulnerabilities', check_result.get('issues_found', 0))
             print(f"   Issues Found: {vuln_count}")
-        elif check_name == "sbom":
-            if check_result['status'] == 'generated':
-                print(f"   Components: {check_result['components_count']}")
+        elif check_name == "sbom" and check_result['status'] == 'generated':
+            print(f"   Components: {check_result['components_count']}")
 
     compliance_rate = (passed_checks / total_checks) * 100
 

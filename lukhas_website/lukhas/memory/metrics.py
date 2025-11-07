@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import os
-from typing import Optional
 
 # ΛTAG: memory_metrics -- deterministic lane-aware Prometheus instruments
 try:
@@ -24,7 +23,7 @@ except Exception:  # pragma: no cover - Prometheus optional dependency
     Gauge = Counter = Histogram = _NoopMetric  # type: ignore
 
 
-def _resolve_lane(explicit_lane: Optional[str] = None) -> str:
+def _resolve_lane(explicit_lane: str | None = None) -> str:
     """Resolve the effective lane label for metrics."""
     lane = (explicit_lane or os.getenv("LUKHAS_LANE", "experimental")).strip().lower()
     return lane or "unknown"
@@ -64,17 +63,17 @@ else:  # pragma: no cover - Prometheus optional dependency fallback
     MEMORY_RECALL_LATENCY = Histogram()
 
 
-def observe_fold_count(count: int, lane: Optional[str] = None) -> None:
+def observe_fold_count(count: int, lane: str | None = None) -> None:
     """Set the gauge representing active fold count."""
     MEMORY_FOLD_COUNT.labels(lane=_resolve_lane(lane)).set(max(count, 0))
 
 
-def increment_cascade_events(lane: Optional[str] = None) -> None:
+def increment_cascade_events(lane: str | None = None) -> None:
     """Increment the cascade prevention counter."""
     MEMORY_CASCADE_EVENTS.labels(lane=_resolve_lane(lane)).inc()
 
 
-def observe_recall_latency(latency_seconds: float, result: str, lane: Optional[str] = None) -> None:
+def observe_recall_latency(latency_seconds: float, result: str, lane: str | None = None) -> None:
     """Record memory recall latency histogram sample."""
     # ΛTAG: metrics_cardinality -- normalise result labels
     normalized = result if result in {"hit", "miss", "dry_run", "error"} else "unknown"
@@ -85,7 +84,7 @@ def observe_recall_latency(latency_seconds: float, result: str, lane: Optional[s
 
 
 __all__ = [
-    "observe_fold_count",
     "increment_cascade_events",
+    "observe_fold_count",
     "observe_recall_latency",
 ]

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # core/interfaces/voice/core/__init__.py
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Initializes the 'core' sub-package under 'core.interfaces.voice'.

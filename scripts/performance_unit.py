@@ -11,6 +11,7 @@ This script performs isolated component benchmarking for unit-level performance 
 Generates detailed performance artifacts with statistical analysis and regression detection.
 """
 
+import contextlib
 import json
 import logging
 import statistics
@@ -26,16 +27,16 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
     # LUKHAS core imports for performance testing
-    from guardian.core import GuardianSystem  # noqa: F401  # TODO: guardian.core.GuardianS...
+    from guardian.core import GuardianSystem  # TODO: guardian.core.GuardianS...
+    from identity.core import IdentitySystem  # TODO: identity.core.IdentityS...
+    from observability.metrics import (
+        get_metrics_registry,  # TODO: observability.metrics.g...
+    )
 
     from consciousness.core import (
-        ConsciousnessSystem,  # noqa: F401  # TODO: consciousness.core.Cons...
+        ConsciousnessSystem,  # TODO: consciousness.core.Cons...
     )
-    from identity.core import IdentitySystem  # noqa: F401  # TODO: identity.core.IdentityS...
-    from memory.core import MemorySystem  # noqa: F401  # TODO: memory.core.MemorySyste...
-    from observability.metrics import (
-        get_metrics_registry,  # noqa: F401  # TODO: observability.metrics.g...
-    )
+    from memory.core import MemorySystem  # TODO: memory.core.MemorySyste...
 except ImportError as e:
     logging.warning(f"Some LUKHAS modules not available: {e}")
 
@@ -79,23 +80,21 @@ class PerformanceUnitTester:
         baseline_path = self.output_dir / "baseline_unit_performance.json"
         if baseline_path.exists():
             try:
-                with open(baseline_path, 'r') as f:
+                with open(baseline_path) as f:
                     return json.load(f)
             except Exception as e:
                 logging.warning(f"Could not load baseline: {e}")
         return None
 
-    def measure_latency(self, operation_func, iterations: int = None) -> Dict[str, float]:
+    def measure_latency(self, operation_func, iterations: Optional[int] = None) -> Dict[str, float]:
         """Measure operation latency with statistical analysis."""
         iterations = iterations or self.sample_count
         latencies = []
 
         # Warmup
         for _ in range(self.warmup_iterations):
-            try:
+            with contextlib.suppress(Exception):
                 operation_func()
-            except Exception:
-                pass
 
         # Actual measurements
         for _ in range(iterations):

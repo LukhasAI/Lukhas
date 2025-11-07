@@ -3,6 +3,7 @@
 Root Directory Audit and Reorganization Plan
 Analyzes root-level directories and proposes a reorganization plan.
 """
+from __future__ import annotations
 
 import contextlib
 import json
@@ -97,7 +98,7 @@ class RootDirectoryAuditor:
             self.categories["tools_and_utils"].append(directory)
             analysis["suggested_action"] = "CONSOLIDATE"
             analysis["suggested_location"] = "tools/"
-            analysis["reason"] = "Utility/tool — consolidate"
+            analysis["reason"] = "Utility/tool - consolidate"
         elif directory in ["docs", "deployment", "config"]:
             self.categories["documentation"].append(directory)
             analysis["suggested_action"] = "KEEP"

@@ -1,0 +1,9 @@
+python3: OK
+git: OK
+gh: OK
+rg: OK
+jq: OK
+black: OK (.venv/bin/black)
+ruff: OK (.venv/bin/ruff)
+pytest: OK (.venv/bin/pytest)
+libcst: OK

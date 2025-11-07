@@ -27,14 +27,14 @@ def check_encoding(file_path: Path) -> Tuple[bool, str]:
     Returns (is_valid, encoding_detected).
     """
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             f.read()
         return True, 'utf-8'
     except UnicodeDecodeError:
         # Try common encodings
         for encoding in ['latin-1', 'cp1252', 'iso-8859-1']:
             try:
-                with open(file_path, 'r', encoding=encoding) as f:
+                with open(file_path, encoding=encoding) as f:
                     f.read()
                 return False, encoding
             except (UnicodeDecodeError, LookupError):
@@ -49,7 +49,7 @@ def rewrite_to_utf8(file_path: Path, source_encoding: str) -> bool:
     """
     try:
         # Read with source encoding
-        with open(file_path, 'r', encoding=source_encoding, errors='replace') as f:
+        with open(file_path, encoding=source_encoding, errors='replace') as f:
             content = f.read()
 
         # Create backup

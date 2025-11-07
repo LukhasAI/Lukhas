@@ -110,7 +110,7 @@ def read_file_tool(path: str, max_lines: int = 100) -> Dict[str, Any]:
         if not os.path.isfile(path):
             return {"error": "Path is not a file"}
 
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(path, encoding='utf-8') as f:
             lines = f.readlines()[:max_lines]
 
         return {

@@ -228,7 +228,7 @@ class TestModelRouter:
                 ),
             ],
         ) as mock_call:
-            decision, response = await router.route_request(request)
+            _decision, response = await router.route_request(request)
 
             assert response is not None
             assert response.model_used == "gpt-3.5-turbo"

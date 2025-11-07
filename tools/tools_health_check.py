@@ -140,7 +140,7 @@ class ToolsHealthChecker:
         config_path = self.tools_dir / "monitoring" / "monitoring_config.json"
         if config_path.exists():
             try:
-                with open(config_path, 'r') as f:
+                with open(config_path) as f:
                     config = json.load(f)
 
                 required_keys = ["evaluation_interval", "channels", "alert_rules"]
@@ -286,7 +286,7 @@ class ToolsHealthChecker:
 
             if full_path.exists():
                 try:
-                    with open(full_path, 'r') as f:
+                    with open(full_path) as f:
                         json.load(f)
                     results[file_path] = True
                     self.log_info(f"Configuration: {description}")

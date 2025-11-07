@@ -20,11 +20,12 @@ import os
 import time
 import zlib
 from collections import deque
+from collections.abc import AsyncGenerator
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, AsyncGenerator, Dict, List, Optional
+from typing import Any, Dict, List, Optional
 from uuid import uuid4
 
 from cryptography.hazmat.primitives import hashes, serialization
@@ -360,9 +361,8 @@ class EvidenceCollectionEngine:
                 return False
 
             # Verify signature if present
-            if evidence.signature:
-                if not self._verify_signature(evidence.integrity_hash, evidence.signature):
-                    return False
+            if evidence.signature and (not self._verify_signature(evidence.integrity_hash, evidence.signature)):
+                return False
 
             # Track verification performance
             verification_time = (time.perf_counter() - start_time) * 1000

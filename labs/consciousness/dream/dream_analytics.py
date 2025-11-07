@@ -5,6 +5,8 @@
 │      Advanced analytics and insights for dream experiences                  │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
+from __future__ import annotations
+
 
 import logging
 from datetime import datetime, timezone

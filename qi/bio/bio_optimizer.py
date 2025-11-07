@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
-import logging
-
-logger = logging.getLogger(__name__)
 
 """
 
@@ -38,22 +34,76 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
+from __future__ import annotations
+
+import asyncio
+import hashlib  # For caching key generation
+import json  # For caching key generation if complex dicts are used
+import logging
+import time
+from dataclasses import asdict, dataclass, field  # Added asdict
+from datetime import datetime, timezone  # Standardized timestamping
+from pathlib import Path  # Not used in current code, but often useful
+from typing import Any  # Added Type
+
+import numpy as np
+
+# structlog is optional in the test environment; fall back to stdlib logging when absent.
+try:  # pragma: no cover - import guard for optional dependency
+    import structlog  # Standardized logging
+except ModuleNotFoundError:  # pragma: no cover - optional dependency
+    import logging
+
+    class _BoundLogger:
+        def __init__(self, logger: logging.Logger, context: dict[str, Any] | None = None) -> None:
+            self._logger = logger
+            self._context = context or {}
+
+        def bind(self, **kwargs: Any) -> _BoundLogger:
+            merged = {**self._context, **kwargs}
+            return _BoundLogger(self._logger, merged)
+
+        def _compose(self, event: str, extra: dict[str, Any]) -> str:
+            if not self._context and not extra:
+                return event
+            merged = {**self._context, **extra}
+            return f"{event} | {merged}"
+
+        def debug(self, event: str, **kwargs: Any) -> None:
+            self._log(self._logger.debug, event, kwargs)
+
+        def info(self, event: str, **kwargs: Any) -> None:
+            self._log(self._logger.info, event, kwargs)
+
+        def warning(self, event: str, **kwargs: Any) -> None:
+            self._log(self._logger.warning, event, kwargs)
+
+        def error(self, event: str, **kwargs: Any) -> None:
+            self._log(self._logger.error, event, kwargs)
+
+        def _log(self, method, event: str, kwargs: dict[str, Any]) -> None:
+            extra = kwargs.copy()
+            exc_info = extra.pop("exc_info", None)
+            method(self._compose(event, extra), exc_info=exc_info)
+
+    class _StructlogShim:
+        @staticmethod
+        def get_logger(name: str) -> _BoundLogger:  # type: ignore[override]
+            return _BoundLogger(logging.getLogger(name))
+
+    structlog = _StructlogShim()  # type: ignore[assignment]
+
+log = logging.getLogger(__name__)  # TODO: logging
+
+logger = logging.getLogger(__name__)
+
+
 __module_name__ = "Quantum Bio Optimization Adapter"
 __version__ = "2.0.0"
 __tier__ = 2
 
 
-import asyncio
-import hashlib  # For caching key generation
-import json  # For caching key generation if complex dicts are used
-import time
-from dataclasses import asdict, dataclass, field  # Added asdict
-from datetime import datetime, timezone  # Standardized timestamping
-from pathlib import Path  # Not used in current code, but often useful
-from typing import Any, Optional  # Added Type
 
-import numpy as np
-import structlog  # Standardized logging
 
 # Initialize structlog logger for this module
 log = structlog.get_logger(__name__)
@@ -77,6 +127,13 @@ QIBioCoordinator = Any  # Placeholder
 
 try:
     from bio.symbolic.architectures import BioSymbolicOrchestrator as BioOrchestrator
+
+    # type: ignore
+    from core.bio_systems.qi_layer import (  # type: ignore
+        QIBioOscillator,
+        QIConfig,
+        QILikeState,
+    )
     from qi.qi_awareness_system import QIAwarenessSystem  # type: ignore
 
     # AIMPORT_TODO: Review this path for QIBioCoordinator. If it's part
@@ -84,14 +141,7 @@ try:
     from qi.qi_bio_coordinator import QIBioCoordinator  # type: ignore
     from qi.qi_dream_adapter import QIDreamAdapter  # type: ignore
     from qi.qi_unified_system import (
-        UnifiedQuantumSystem,  # type: ignore  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
-    )
-
-    # type: ignore
-    from core.bio_systems.qi_layer import (  # type: ignore
-        QIBioOscillator,
-        QIConfig,
-        QILikeState,
+        UnifiedQuantumSystem,  # type: ignore  # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
     )
 
     LUKHAS_CORE_COMPONENTS_AVAILABLE = True
@@ -126,10 +176,10 @@ except ImportError as e:
         async def strengthen_entanglement(self):
             await asyncio.sleep(0.01)
 
-        def create_superposition(self, vector: np.ndarray) -> "QILikeState":
+        def create_superposition(self, vector: np.ndarray) -> QILikeState:
             return QILikeState(vector, 0.9, 0.1, 1.0, 1.0, 0.8)  # type: ignore
 
-        async def entangle_states(self, states: list["QILikeState"]) -> "QILikeState":
+        async def entangle_states(self, states: list[QILikeState]) -> QILikeState:
             return states[0] if states else QILikeState(np.array([0.0]), 0.0, 0.0, 0.0, 0.0, 0.0)  # type: ignore
 
     class QILikeState:  # type: ignore
@@ -288,7 +338,7 @@ class QIBioOptimizationAdapter:
     def __init__(
         self,
         bio_orchestrator: BioOrchestrator,  # type: ignore
-        config: Optional[QIBioOptimizationConfig] = None,
+        config: QIBioOptimizationConfig | None = None,
     ):
         self.log = log.bind(adapter_id=hex(id(self))[-6:])
         self.bio_orchestrator = bio_orchestrator
@@ -300,7 +350,7 @@ class QIBioOptimizationAdapter:
         self.optimization_cycles_completed_total = 0
         self.is_currently_optimizing = False
         self.optimization_performance_cache: dict[str, dict[str, Any]] = {}  # Key changed to str
-        self.last_optimization_timestamp: Optional[float] = None
+        self.last_optimization_timestamp: float | None = None
 
         self.log.info("QIBioOptimizationAdapter initialized.")
 
@@ -341,7 +391,7 @@ class QIBioOptimizationAdapter:
     async def optimize_qi_bio_system(
         self,
         input_data: dict[str, Any],
-        target_metrics: Optional[dict[str, float]] = None,
+        target_metrics: dict[str, float] | None = None,
     ) -> dict[str, Any]:
         """Performs a full cycle of quantum bio-optimization on the system."""
         if self.is_currently_optimizing:
@@ -561,7 +611,7 @@ class QIBioOptimizationAdapter:
         time_condition = self.last_optimization_timestamp is None or (
             time.monotonic() - self.last_optimization_timestamp > time_threshold_sec
         )
-        return cycles_condition and time_condition  # noqa: F821  # TODO: cycles_condition
+        return cycles_condition and time_condition  # TODO: cycles_condition
 
     async def _process_dream_consolidation(self, awareness_result: dict[str, Any]) -> dict[str, Any]:
         self.log.info("Starting dream consolidation cycle.")
@@ -702,7 +752,7 @@ class QIBioOptimizationAdapter:
 
     @lukhas_tier_required(2)
     async def _queue_optimization_request_handler(
-        self, input_data: dict[str, Any], target_metrics: Optional[dict[str, float]]
+        self, input_data: dict[str, Any], target_metrics: dict[str, float] | None
     ) -> dict[str, Any]:  # Renamed
         self.log.info(
             "Queueing optimization request as system is busy.",
@@ -721,7 +771,7 @@ class QIBioOptimizationAdapter:
     @lukhas_tier_required(0)
     def get_optimization_status(self) -> dict[str, Any]:
         self.log.debug("Optimization status requested.")
-        latest_metrics_dict: Optional[dict[str, Any]] = (
+        latest_metrics_dict: dict[str, Any] | None = (
             asdict(self.metrics_history[-1]) if self.metrics_history else None
         )
         return {
@@ -742,7 +792,7 @@ class QIBioOptimizationAdapter:
         self.log.info("Shutting down QIBioOptimizationAdapter...")
         try:
             self.is_currently_optimizing = False
-            if (
+            if (  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_bio_bio_optimizer_py_L795"}
                 hasattr(self, "qi_dream_adapter")
                 and hasattr(self.qi_dream_adapter, "active")
                 and self.qi_dream_adapter.active

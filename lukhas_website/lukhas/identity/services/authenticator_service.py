@@ -152,7 +152,7 @@ class PasswordAuthenticator(AuthenticatorInterface):
             error="API key authentication not supported by password authenticator"
         )
 
-    def add_user(self, username: str, password: str, roles: list[str] = None) -> bool:
+    def add_user(self, username: str, password: str, roles: Optional[list[str]] = None) -> bool:
         """Add new user (for management purposes)"""
         try:
             if username in self.users:
@@ -267,7 +267,7 @@ class ApiKeyAuthenticator(AuthenticatorInterface):
                 error="API key authentication error occurred"
             )
 
-    def add_api_key(self, api_key: str, service_name: str, roles: list[str] = None) -> bool:
+    def add_api_key(self, api_key: str, service_name: str, roles: Optional[list[str]] = None) -> bool:
         """Add new API key"""
         try:
             if api_key in self.api_keys:

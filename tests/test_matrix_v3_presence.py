@@ -75,7 +75,7 @@ def get_all_contracts() -> List[Path]:
 
 def load_contract(contract_path: Path) -> Dict[str, Any]:
     """Load a contract file as JSON."""
-    with open(contract_path, 'r', encoding='utf-8') as f:
+    with open(contract_path, encoding='utf-8') as f:
         return json.load(f)
 
 
@@ -87,7 +87,7 @@ class TestMatrixV3Presence:
         """Test that all v3 sections are present in each contract."""
         contract = load_contract(contract_path)
 
-        for section_name in V3_SECTIONS.keys():
+        for section_name in V3_SECTIONS:
             assert section_name in contract, (
                 f"Contract {contract_path.name} missing v3 section: {section_name}"
             )

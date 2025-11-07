@@ -5,6 +5,8 @@
 │       Advanced symbolic interpretation of dream consciousness patterns      │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
+from __future__ import annotations
+
 
 import logging
 from datetime import datetime, timezone

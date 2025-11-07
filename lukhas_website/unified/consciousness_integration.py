@@ -13,12 +13,11 @@ from typing import Any
 
 # Import LUKHAS core systems
 try:
-    from qi.engines.consciousness.engine import ConsciousnessEngine
-
     from consciousness.unified.auto_consciousness import AutoConsciousness
     from core.glyph.glyph_engine import GlyphEngine
     from emotion.service import EmotionService
     from memory.folds.memory_fold import MemoryFold
+    from qi.engines.consciousness.engine import ConsciousnessEngine
 except ImportError as e:
     print(f"Warning: Some LUKHAS modules not available: {e}")
 
@@ -108,13 +107,13 @@ class ConsciousnessVisualizationBridge:
         try:
             self.consciousness = AutoConsciousness()
             print("✓ Connected to AutoConsciousness")
-        except:
+        except Exception:
             print("✗ AutoConsciousness not available")
 
         try:
             self.emotion = EmotionService()
             print("✓ Connected to EmotionService")
-        except:
+        except Exception:
             print("✗ EmotionService not available")
 
         try:
@@ -132,7 +131,7 @@ class ConsciousnessVisualizationBridge:
         try:
             self.glyph_engine = GlyphEngine()
             print("✓ Connected to GlyphEngine")
-        except:
+        except Exception:
             print("✗ GlyphEngine not available")
 
     def _init_particle_behaviors(self) -> dict:
@@ -322,7 +321,7 @@ class ConsciousnessVisualizationBridge:
         """Convert HSV to RGB hex color"""
         import colorsys
 
-        r, g, b = colorsys.hsv_to_rgb(h, s, v)
+        _r, _g, _b = colorsys.hsv_to_rgb(h, s, v)
         return ""
 
     def _emotion_to_color(self, valence: float, arousal: float, dominance: float) -> str:
@@ -401,7 +400,8 @@ class ConsciousnessVisualizationBridge:
                 glyphs = self.glyph_engine.text_to_glyphs(text)
                 visualization_params["glyphs"] = glyphs
                 self.state.active_glyphs = glyphs
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
         # Determine if text contains consciousness keywords

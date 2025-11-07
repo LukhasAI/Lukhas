@@ -1,8 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Any, Dict, Iterable, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple
 
 
 # TODO: replace with real DB client (psycopg or sqlalchemy)
@@ -34,11 +35,11 @@ class PgVectorStore:
         raise NotImplementedError("implement bulk_add()")
 
     def search(self, embedding: List[float], k: int = 10,
-               filters: Optional[Dict[str, Any]] = None) -> List[Tuple[str, float]]:
+               filters: Dict[str, Any] | None = None) -> List[Tuple[str, float]]:
         """Return [(id, score)] by cosine distance. TODO: apply filters."""
         raise NotImplementedError("implement search()")
 
-    def delete(self, *, id: Optional[str] = None, where: Optional[Dict[str, Any]] = None) -> int:
+    def delete(self, *, id: str | None = None, where: Dict[str, Any] | None = None) -> int:
         """Delete by id or filter. Return rows affected."""
         raise NotImplementedError("implement delete()")
 

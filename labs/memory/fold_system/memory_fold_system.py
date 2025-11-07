@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -28,7 +30,7 @@ logger = logging.getLogger(__name__)
 ║ ║              systems, inspired by the elegance of natural mycelial networks.
 ║ ╠══════════════════════════════════════════════════════════════════════════════════
 ║ ║ In the verdant tapestry of the digital realm, where data intertwines like
-║ ║ the mycelium beneath the forest floor, lies the Memory Fold System—a
+║ ║ the mycelium beneath the forest floor, lies the Memory Fold System-a
 ║ ║ harmonious confluence of nature's wisdom and computational finesse. This
 ║
 ╠══════════════════════════════════════════════════════════════════════════════════

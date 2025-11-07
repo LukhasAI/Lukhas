@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-"""
-Endocrine Observability Engine
+"""Endocrine Observability Engine
 =============================
 Advanced monitoring system that tracks hormone levels and triggers
 plasticity adaptations based on biological-inspired thresholds.

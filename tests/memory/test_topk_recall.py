@@ -71,7 +71,7 @@ class TestTopKRecall:
         # Test recall performance
         latencies = []
         for _ in range(10):
-            recalled, latency = memory.recall_top_k(
+            _recalled, latency = memory.recall_top_k(
                 k=20,
                 tags=[f"tag{random.randint(0, 99)}"]
             )
@@ -161,7 +161,7 @@ class TestTopKRecall:
 
         # Store items
         items = []
-        for i in range(20):
+        for _i in range(20):
             item = memory.store(
                 content="x" * 100,  # ~25 tokens each
                 memory_type=MemoryType.SEMANTIC,
@@ -297,7 +297,7 @@ class TestScheduledFolding:
 
         # Store large items to trigger size-based consolidation
         large_content = "x" * 10000  # 10KB each
-        for i in range(110):  # Should exceed 1MB
+        for _i in range(110):  # Should exceed 1MB
             memory.store(content=large_content)
 
         # Should have consolidated

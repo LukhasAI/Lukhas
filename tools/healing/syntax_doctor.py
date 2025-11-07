@@ -2,6 +2,7 @@
 """
 Syntax Doctor - Automatically fixes common Python syntax errors
 """
+from __future__ import annotations
 
 import ast
 import os
@@ -189,16 +190,15 @@ class SyntaxDoctor:
             if closing:
                 lines.append(closing)
 
-        elif "unindent does not match" in error["msg"]:
+        elif 'unindent does not match' in error['msg'] and (error['line'] and error['line'] <= len(lines)):
             # Fix indentation on error line
-            if error["line"] and error["line"] <= len(lines):
-                line_idx = error["line"] - 1
-                # Find previous line's indentation
-                for i in range(line_idx - 1, -1, -1):
-                    if lines[i].strip():
-                        prev_indent = len(lines[i]) - len(lines[i].lstrip())
-                        lines[line_idx] = " " * prev_indent + lines[line_idx].lstrip()
-                        break
+            line_idx = error["line"] - 1
+            # Find previous line's indentation
+            for i in range(line_idx - 1, -1, -1):
+                if lines[i].strip():
+                    prev_indent = len(lines[i]) - len(lines[i].lstrip())
+                    lines[line_idx] = " " * prev_indent + lines[line_idx].lstrip()
+                    break
 
         return "\n".join(lines)
 

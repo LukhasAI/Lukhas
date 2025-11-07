@@ -2,6 +2,7 @@
 Quantum-Inspired Colony for Advanced Processing
 Implements quantum-like properties in colony architecture
 """
+from __future__ import annotations
 
 import asyncio
 import cmath
@@ -11,11 +12,10 @@ from typing import Any
 
 import numpy as np
 from bio.oscillator import PrimeOscillator
-from qi.qi_layer import QIBioOscillator
-
 from core.colonies.base_colony import BaseColony
 from core.efficient_communication import MessagePriority
 from core.swarm import SwarmAgent
+from qi.qi_layer import QIBioOscillator
 
 logger = logging.getLogger(__name__)
 

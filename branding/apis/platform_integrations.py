@@ -32,18 +32,21 @@ except ImportError:
 
 try:
     from linkedin_api import (
-        Linkedin,  # LinkedIn API  # noqa: F401  # TODO: linkedin_api.Linkedin; conside...
+        Linkedin,  # LinkedIn API client used when official endpoints are required
     )
 
     LINKEDIN_AVAILABLE = True
 except ImportError:
+    Linkedin = None
     LINKEDIN_AVAILABLE = False
 
 try:
-# See: https://github.com/LukhasAI/Lukhas/issues/555
+    from requests_oauthlib import OAuth2Session  # OAuth client for LinkedIn integrations
+    # See: https://github.com/LukhasAI/Lukhas/issues/555 for security review context
 
     OAUTH_AVAILABLE = True
 except ImportError:
+    OAuth2Session = None
     OAUTH_AVAILABLE = False
 
 
@@ -213,7 +216,7 @@ class PlatformAPIManager:
     def _initialize_platform_clients(self):
         """Initialize platform-specific API clients"""
 
-        # Twitter/𝕏 API v2
+        # Twitter/X API v2
         if "twitter" in self.credentials and TWITTER_AVAILABLE:
             try:
                 creds = self.credentials["twitter"]
@@ -270,7 +273,7 @@ class PlatformAPIManager:
             self.logger.info("✅ Instagram API credentials loaded (custom implementation)")
 
     async def post_to_twitter(self, content: str, media_paths: Optional[list[str]] = None) -> PostResult:
-        """Post to Twitter/𝕏 using API v2"""
+        """Post to Twitter/X using API v2"""
 
         if "twitter" not in self.platform_clients:
             return PostResult(success=False, platform="twitter", error="Twitter client not initialized")

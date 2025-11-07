@@ -53,7 +53,7 @@ class EntropyTracker:
     """
 
     # Symbolic states and their drift representations
-    TRUST_STATES = {
+    TRUST_STATES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_entropy_log_entropy_tracker_py_L56"}
         "stable": "🌿",
         "growing": "🌱",
         "neutral": "🪷",
@@ -65,7 +65,7 @@ class EntropyTracker:
     }
 
     # State transition types
-    TRANSITIONS = {
+    TRANSITIONS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_entropy_log_entropy_tracker_py_L68"}
         "consent_grant": ["locked", "neutral", "growing", "open"],
         "consent_revoke": ["open", "shifting", "turbulent", "locked"],
         "trust_increase": ["neutral", "growing", "stable"],
@@ -75,7 +75,7 @@ class EntropyTracker:
     }
 
     # Drift classification thresholds
-    DRIFT_THRESHOLDS = {
+    DRIFT_THRESHOLDS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_entropy_log_entropy_tracker_py_L78"}
         "stable": (0.0, 0.3),
         "neutral": (0.3, 0.7),
         "unstable": (0.7, 1.0),

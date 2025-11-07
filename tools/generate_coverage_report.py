@@ -5,11 +5,16 @@ Generate Matrix Identity Coverage Report
 Creates a comprehensive coverage report for all Matrix contracts
 including validation status, AuthZ pass rates, and compliance metrics.
 """
+from __future__ import annotations
 
 import datetime
 import glob
 import json
+import logging
+from datetime import timezone
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 
 def main():
@@ -28,7 +33,8 @@ def main():
                 module = contract_path.split('/')[-1].replace('matrix_', '').replace('.json', '')
                 webauthn_modules.append(module)
             valid_contracts += 1
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             pass
 
     # Load AuthZ data
@@ -36,14 +42,15 @@ def main():
     try:
         with open('artifacts/matrix_validation_results.json') as f:
             authz_data = json.load(f)
-    except:
+    except Exception as e:
+        logger.debug(f"Expected optional failure: {e}")
         authz_data = {'summary': {'pass_rate': 0.963, 'passed': 2391, 'total_tests': 2484}}
 
     pass_rate = authz_data.get('summary', {}).get('pass_rate', 0.963)
     passed_tests = authz_data.get('summary', {}).get('passed', 2391)
     total_tests = authz_data.get('summary', {}).get('total_tests', 2484)
 
-    timestamp = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+    timestamp = datetime.datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
 
     # Generate report content
     report = f"""# Matrix Identity Coverage Report
@@ -80,7 +87,8 @@ _Generated: {timestamp}_
             coverage = '40/40' if module in ['governance', 'identity'] else '38/40'
             report += f"""
 | `{module}` | ✅ | ✅ | {webauthn} | {coverage} |"""
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             pass
 
     report += f"""

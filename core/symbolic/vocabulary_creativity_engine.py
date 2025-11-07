@@ -12,7 +12,12 @@ providing the symbolic language elements used for visual analysis,
 image interpretation, and visual communication.
 """
 
+
 from __future__ import annotations
+
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any
 
 """Vision Module Symbolic Vocabulary Engine
 
@@ -20,9 +25,6 @@ This module provides the core engine for processing and managing vision-related
 symbolic vocabulary, handling visual analysis symbols, and color relationships.
 """
 
-from dataclasses import dataclass, field
-from enum import Enum
-from typing import Any
 
 
 class AnalysisType(Enum):
@@ -1135,9 +1137,9 @@ class VocabularyCreativityEngine:
 
 # Export main classes
 __all__ = [
-    "VisualSymbol",
-    "VocabularyCreativityEngine",
     "AnalysisType",
     "VisionProvider",
+    "VisualSymbol",
+    "VocabularyCreativityEngine",
     "create_symbol",
 ]

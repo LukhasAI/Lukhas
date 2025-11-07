@@ -22,6 +22,8 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
+from .guardian.core import EthicalSeverity
+
 logger = logging.getLogger(__name__)
 
 # Optional cryptographic signing
@@ -29,9 +31,9 @@ try:
     import base64
 
     from cryptography.exceptions import (
-        InvalidSignature,  # noqa: F401  # TODO: cryptography.exceptions.Invali...
+        InvalidSignature,  # TODO: cryptography.exceptions.Invali...
     )
-    from cryptography.hazmat.primitives import (  # noqa: F401  # TODO: cryptography.hazmat.primitives...
+    from cryptography.hazmat.primitives import (  # TODO: cryptography.hazmat.primitives...
         hashes,
         serialization,
     )
@@ -45,16 +47,12 @@ except ImportError:
 try:
     import jsonschema
     from jsonschema import (
-        Draft202012Validator,  # noqa: F401  # TODO: jsonschema.Draft202012Validato...
+        Draft202012Validator,  # TODO: jsonschema.Draft202012Validato...
     )
     SCHEMA_VALIDATION = True
 except ImportError:
     SCHEMA_VALIDATION = False
     logger.warning("jsonschema not available - schema validation disabled")
-
-# Import EthicalSeverity
-from .guardian.core import EthicalSeverity
-
 
 class GuardianJSONEncoder(json.JSONEncoder):
     """Custom JSON encoder for Guardian types"""
@@ -195,7 +193,7 @@ class GuardianSystem:
                 schema_file = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
 
             if os.path.exists(schema_file):
-                with open(schema_file, 'r') as f:
+                with open(schema_file) as f:
                     self.schema = json.load(f)
                 logger.info(f"Guardian schema loaded from {schema_file}")
             else:
@@ -442,10 +440,9 @@ class GuardianSystem:
 
             # Verify signature if present
             signature = integrity.get("signature")
-            if signature and CRYPTO_AVAILABLE:
-                if not self._verify_signature(canonical_json, signature):
-                    logger.warning("Guardian signature verification failed")
-                    return False  # Signature verification failed
+            if (signature and CRYPTO_AVAILABLE) and (not self._verify_signature(canonical_json, signature)):
+                logger.warning("Guardian signature verification failed")
+                return False  # Signature verification failed
 
             return True
 
@@ -631,17 +628,17 @@ def create_simple_decision(
 
 # Export public API
 __all__ = [
-    "GuardianSystem",
+    "ActorType",
     "DecisionStatus",
     "EnforcementMode",
-    "ActorType",
-    "RuntimeEnvironment",
-    "GuardianDecision",
-    "GuardianSubject",
-    "GuardianContext",
-    "GuardianMetrics",
-    "GuardianEnforcement",
     "GuardianAudit",
+    "GuardianContext",
+    "GuardianDecision",
+    "GuardianEnforcement",
+    "GuardianMetrics",
+    "GuardianSubject",
+    "GuardianSystem",
+    "RuntimeEnvironment",
     "create_guardian_system",
     "create_simple_decision"
 ]

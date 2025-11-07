@@ -11,9 +11,8 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional, Protocol, Type, runtime_checkable
 
-from dotenv import load_dotenv
-
 from core.registry import discover_entry_points, resolve
+from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
@@ -84,7 +83,7 @@ def _safe_dynamic_import_fallback() -> dict[str, Type[LLMWrapperProtocol]]:
             wrapper_class = getattr(module, class_name)
 
             # Validate protocol compliance
-            if hasattr(wrapper_class, '__call__'):  # Basic callable check
+            if callable(wrapper_class):  # Basic callable check
                 wrappers[name] = wrapper_class
                 logger.info(f"Loaded {name} wrapper via fallback")
             else:

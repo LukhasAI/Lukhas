@@ -6,7 +6,7 @@ import copy
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 from memory.metrics import compute_affect_delta, compute_drift
 
@@ -60,12 +60,12 @@ class MemoryIdentityRegistry:
         )
         return metrics
 
-    def get_identity(self, identifier: str) -> Optional[MemoryIdentity]:
+    def get_identity(self, identifier: str) -> MemoryIdentity | None:
         """Retrieve a registered identity if available."""
 
         return self._identities.get(identifier)
 
-    def get_metrics(self, identifier: str) -> Optional[dict[str, Any]]:
+    def get_metrics(self, identifier: str) -> dict[str, Any] | None:
         """Retrieve telemetry metrics for a registered identity."""
 
         return self._metrics.get(identifier)
@@ -74,7 +74,7 @@ class MemoryIdentityRegistry:
 class MemoryIdentityFactory:
     """Factory for creating :class:`MemoryIdentity` objects."""
 
-    def __init__(self, registry: Optional[MemoryIdentityRegistry] = None) -> None:
+    def __init__(self, registry: MemoryIdentityRegistry | None = None) -> None:
         self.registry = registry or MemoryIdentityRegistry()
 
     # ΛTAG: memory_identity_factory

@@ -155,7 +155,7 @@ class MemoryContradictionBridge:
         try:
             # Initialize result tracking
             memory_conflicts = []
-            conflict_type_counts = {conflict_type: 0 for conflict_type in MemoryConflictType}
+            conflict_type_counts = dict.fromkeys(MemoryConflictType, 0)
             contradictory_pairs = []
             reasoning_memory_conflicts = []
             temporal_inconsistencies = []
@@ -246,7 +246,7 @@ class MemoryContradictionBridge:
 
             error_result = MemoryContradictionResult(
                 memory_conflicts_found=0,
-                conflict_types={conflict_type: 0 for conflict_type in MemoryConflictType},
+                conflict_types=dict.fromkeys(MemoryConflictType, 0),
                 contradictory_memory_pairs=[],
                 reasoning_memory_conflicts=[],
                 temporal_inconsistencies=[],
@@ -254,7 +254,7 @@ class MemoryContradictionBridge:
                 confidence_issues=[],
                 processing_time_ms=processing_time,
                 validation_quality=0.0,
-                recommendations=[f"Validation error: {str(e)}"],
+                recommendations=[f"Validation error: {e!s}"],
                 success=False,
                 error_message=str(e)
             )
@@ -490,7 +490,7 @@ class MemoryContradictionBridge:
         conclusion = str(final_step.conclusion).lower()
 
         # Simple conflict detection
-        if memory_content and conclusion:
+        if memory_content and conclusion:  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_consciousness_memory_contradiction_bridge_py_L493"}
             if ("not" in memory_content and conclusion.replace("not", "").strip() in memory_content) or \
                ("not" in conclusion and memory_content.replace("not", "").strip() in conclusion):
                 return f"Memory-reasoning contradiction: memory suggests '{memory_content[:50]}...' but reasoning concludes '{conclusion[:50]}...'"
@@ -661,4 +661,4 @@ class MemoryContradictionBridge:
 
 
 # Export main class
-__all__ = ["MemoryContradictionBridge", "MemoryValidationContext", "MemoryContradictionResult"]
+__all__ = ["MemoryContradictionBridge", "MemoryContradictionResult", "MemoryValidationContext"]

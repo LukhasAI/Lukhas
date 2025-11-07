@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # core/interfaces/as_agent/widgets/__init__.py
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Initializes the 'widgets' sub-package under 'core.interfaces.as_agent'.

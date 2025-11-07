@@ -4,12 +4,13 @@ Comprehensive session management with device binding, lifecycle tracking, and se
 """
 
 import asyncio
+import contextlib
 import hashlib
 import logging
 import time
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, Set
 
@@ -74,7 +75,7 @@ class SessionInfo:
         """Check if session is currently valid"""
         return (
             self.state == SessionState.ACTIVE and
-            self.expires_at > datetime.utcnow()
+            self.expires_at > datetime.now(timezone.utc)
         )
 
     @property
@@ -82,7 +83,7 @@ class SessionInfo:
         """Get remaining session TTL in seconds"""
         if not self.is_valid:
             return 0
-        return int((self.expires_at - datetime.utcnow()).total_seconds())
+        return int((self.expires_at - datetime.now(timezone.utc)).total_seconds())
 
 
 class SessionManager:
@@ -124,10 +125,8 @@ class SessionManager:
         """Stop session manager background tasks"""
         if self._cleanup_task:
             self._cleanup_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._cleanup_task
-            except asyncio.CancelledError:
-                pass
             self._cleanup_task = None
 
     async def register_device(self,
@@ -156,7 +155,7 @@ class SessionManager:
 
         # Create new device
         device_id = f"dev_{uuid.uuid4().hex[:12]}"
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
 
         device_info = DeviceInfo(
             device_id=device_id,
@@ -206,12 +205,12 @@ class SessionManager:
 
         # Update device last seen
         if device_id in self.devices:
-            self.devices[device_id].last_seen = datetime.utcnow()
+            self.devices[device_id].last_seen = datetime.now(timezone.utc)
             self.devices[device_id].ip_address = ip_address
 
         # Create session
         session_id = f"ses_{uuid.uuid4().hex}"
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         ttl = custom_ttl or self.session_ttl
         expires_at = now + timedelta(seconds=ttl)
 
@@ -261,7 +260,7 @@ class SessionManager:
             return None
 
         # Update last activity
-        session.last_activity = datetime.utcnow()
+        session.last_activity = datetime.now(timezone.utc)
 
         # Record activity
         await self.observability.record_session_activity(session.lambda_id)
@@ -276,8 +275,8 @@ class SessionManager:
 
         # Extend session
         ttl = extend_ttl or self.session_ttl
-        session.expires_at = datetime.utcnow() + timedelta(seconds=ttl)
-        session.last_activity = datetime.utcnow()
+        session.expires_at = datetime.now(timezone.utc) + timedelta(seconds=ttl)
+        session.last_activity = datetime.now(timezone.utc)
 
         logger.info(f"Session refreshed: {session_id}")
         return True
@@ -290,7 +289,7 @@ class SessionManager:
 
         session.state = SessionState.REVOKED
         session.metadata["revocation_reason"] = reason
-        session.metadata["revoked_at"] = datetime.utcnow().isoformat()
+        session.metadata["revoked_at"] = datetime.now(timezone.utc).isoformat()
 
         # Record metrics
         await self.observability.record_session_revoked(session.lambda_id, reason)
@@ -348,9 +347,8 @@ class SessionManager:
 
         for session_id in user_sessions:
             session = self.sessions.get(session_id)
-            if session:
-                if not active_only or session.is_valid:
-                    sessions.append(session)
+            if session and (not active_only or session.is_valid):
+                sessions.append(session)
 
         return sorted(sessions, key=lambda s: s.last_activity, reverse=True)
 
@@ -416,17 +414,16 @@ class SessionManager:
 
     async def _cleanup_expired_sessions(self):
         """Remove expired and revoked sessions"""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         expired_sessions = []
 
         for session_id, session in self.sessions.items():
             if session.expires_at < now and session.state == SessionState.ACTIVE:
                 session.state = SessionState.EXPIRED
 
-            if session.state in [SessionState.EXPIRED, SessionState.REVOKED]:
+            if session.state in [SessionState.EXPIRED, SessionState.REVOKED] and session.expires_at < now - timedelta(hours=24):
                 # Keep sessions for 24 hours for audit purposes
-                if session.expires_at < now - timedelta(hours=24):
-                    expired_sessions.append(session_id)
+                expired_sessions.append(session_id)
 
         # Clean up expired sessions
         for session_id in expired_sessions:
@@ -441,7 +438,7 @@ class SessionManager:
 
     async def get_session_stats(self) -> Dict[str, Any]:
         """Get session management statistics"""
-        datetime.utcnow()
+        datetime.now(timezone.utc)
         active_sessions = sum(1 for s in self.sessions.values() if s.is_valid)
 
         return {

@@ -22,7 +22,6 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 import pytest
-
 from memory.lifecycle import (
     ArchivalTier,
     FileArchivalBackend,
@@ -396,7 +395,7 @@ class TestGDPRTombstones:
         assert len(audit_files) > 0
 
         # Check audit event content
-        with open(audit_files[0], 'r', encoding='utf-8') as f:
+        with open(audit_files[0], encoding='utf-8') as f:
             audit_event = json.loads(f.read().strip())
 
         assert audit_event["event_type"] == "tombstone_created"
@@ -558,15 +557,15 @@ class TestAuditEventGeneration:
         audit_files = list(artifacts_path.glob("memory_validation_*.json"))
         assert len(audit_files) > 0
 
-        with open(audit_files[0], 'r', encoding='utf-8') as f:
+        with open(audit_files[0], encoding='utf-8') as f:
             audit_event = json.loads(f.read().strip())
 
         # Validate audit event structure
         required_fields = [
             "event_type", "timestamp", "tombstone", "audit_metadata"
         ]
-        for field in required_fields:
-            assert field in audit_event, f"Missing required field: {field}"
+        for name in required_fields:
+            assert name in audit_event, f"Missing required field: {name}"
 
         # Validate compliance metadata
         audit_metadata = audit_event["audit_metadata"]
@@ -601,7 +600,7 @@ class TestAuditEventGeneration:
         assert len(audit_files) > 0
 
         # Count events in file
-        with open(audit_files[0], 'r', encoding='utf-8') as f:
+        with open(audit_files[0], encoding='utf-8') as f:
             content = f.read().strip()
             events = [json.loads(line) for line in content.split('\n') if line.strip()]
 

@@ -34,12 +34,14 @@
 ║ SYMBOLIC TAGS: ΛCORE, ΛORCHESTRATION, ΛCONSCIOUSNESS
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 # Module imports
 import asyncio
 import logging
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 from core.module_registry import ModuleRegistry
 
@@ -108,7 +110,7 @@ class OrchestrationCore:
     plan for system coordination with modular architecture and bio-inspired design.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize the flagship core system."""
         self.config = config or {}
         self.session_id = str(uuid.uuid4())
@@ -345,7 +347,7 @@ class OrchestrationCore:
 
     async def _initiate_consciousness_loop(self):
         """Start the main consciousness simulation loop."""
-        asyncio.create_task(self._consciousness_loop())
+        asyncio.create_task(self._consciousness_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_core_py_L350"}
         logger.info("Consciousness simulation loop initiated")
 
     async def _consciousness_loop(self):

@@ -11,6 +11,7 @@ Usage:
     python scripts/validate_module_manifests.py --fix
     python scripts/validate_module_manifests.py --report artifacts/manifest_validation.json
 """
+from __future__ import annotations
 
 import argparse
 import json
@@ -18,7 +19,7 @@ import logging
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Set
 
 import yaml
 
@@ -103,7 +104,7 @@ class ModuleManifestValidator:
 
         return sorted(set(preferred.values()))
 
-    def load_module_manifest(self, module_path: Path) -> Optional[Dict[str, Any]]:
+    def load_module_manifest(self, module_path: Path) -> Dict[str, Any] | None:
         """Load a module's lane manifest if present.
 
         Args:
@@ -118,7 +119,7 @@ class ModuleManifestValidator:
             return None
 
         try:
-            with open(manifest_path, 'r') as f:
+            with open(manifest_path) as f:
                 return yaml.safe_load(f)
         except Exception as e:
             logger.error(f"Error loading manifest {manifest_path}: {e}")

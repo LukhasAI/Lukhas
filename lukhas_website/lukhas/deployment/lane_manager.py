@@ -9,7 +9,7 @@ automatic lane switching and Constellation Framework coordination.
 import asyncio
 import logging
 import time
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from enum import Enum
@@ -219,10 +219,8 @@ class LaneManager:
 
         if self._monitoring_task:
             self._monitoring_task.cancel()
-            try:
+            with suppress(asyncio.CancelledError):
                 await self._monitoring_task
-            except asyncio.CancelledError:
-                pass
 
         self.logger.info("Lane Manager stopped")
 
@@ -340,10 +338,9 @@ class LaneManager:
             elif self._is_lane_healthy(Lane.MATRIZ):
                 return Lane.MATRIZ
 
-        elif service_type in ["experimental", "canary"]:
+        elif service_type in ['experimental', 'canary'] and self._is_lane_healthy(Lane.CANDIDATE):
             # Experimental features use candidate lane
-            if self._is_lane_healthy(Lane.CANDIDATE):
-                return Lane.CANDIDATE
+            return Lane.CANDIDATE
 
         # Fallback to healthiest lane
         return self._get_healthiest_lane()
@@ -629,9 +626,9 @@ class LaneManager:
             "lanes": {
                 lane.value: {
                     "config": asdict(config),
-                    "metrics": asdict(metrics) if lane in self._lane_metrics else None,  # noqa: F821  # TODO: metrics
+                    "metrics": asdict(metrics) if lane in self._lane_metrics else None,  # TODO: metrics
                     "assignments": len([
-                        s for s, l in self._lane_assignments.items() if l == lane
+                        s for s, lane_assignment in self._lane_assignments.items() if lane_assignment == lane
                     ])
                 }
                 for lane, config in self._lanes.items()

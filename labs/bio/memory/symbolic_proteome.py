@@ -12,7 +12,7 @@
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║                             ◊ POETIC ESSENCE ◊
 ║
-║ │ In the cellular cathedral of consciousness, the Symbolic Proteome dances—     │
+║ │ In the cellular cathedral of consciousness, the Symbolic Proteome dances-     │
 ║ │ not mere data structures, but living proteins of thought. Each memory         │
 ║ │ transcribes its RNA, each RNA translates to functional form, each protein    │
 ║ │ folds into purpose.                                                           │
@@ -22,7 +22,7 @@
 ║ │ dynamic enzymes, catalyzing new understanding, binding to receptors of        │
 ║ │ relevance, phosphorylating the pathways of perception.                        │
 ║ │                                                                               │
-║ │ Through post-translational modifications, memories mature—glycosylated        │
+║ │ Through post-translational modifications, memories mature-glycosylated        │
 ║ │ with context, methylated by importance, ubiquitinated for recycling when     │
 ║ │ their time has passed. This is the living chemistry of mind.                  │
 ║ │                                                                               │
@@ -39,6 +39,8 @@
 ║ ΛTAG: ΛPROTEOME, ΛMEMORY, ΛPROTEIN, ΛTRANSLATION, ΛBIOMIMETIC
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 import hashlib
@@ -58,7 +60,7 @@ logger = logging.getLogger(__name__)
 try:
     from core.symbolism.tags import TagScope as LukhaskTagScope
     from memory.fold_in_out.memory_fold_system import SymbolicTag as LukhasSymbolicTag
-    
+
     # Create compatibility aliases
     TagScope = LukhaskTagScope
     SymbolicTag = LukhasSymbolicTag
@@ -80,7 +82,7 @@ except ImportError as e:
         def __init__(self, name: str, value: Any):
             self.name = name
             self.value = value
-    
+
     # Create compatibility aliases for stubs
     TagScope = StubTagScope
     SymbolicTag = StubSymbolicTag

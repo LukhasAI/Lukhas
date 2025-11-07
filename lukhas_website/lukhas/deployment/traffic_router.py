@@ -74,9 +74,7 @@ class ABTestConfig:
         if not self.enabled:
             return False
         now = datetime.now(timezone.utc)
-        if self.end_time and now > self.end_time:
-            return False
-        return True
+        return not (self.end_time and now > self.end_time)
 
 
 class TrafficRouter:
@@ -191,11 +189,10 @@ class TrafficRouter:
                 cache_key = f"{session_id}:{lane or 'all'}"
                 if cache_key in self.routing_cache:
                     cached_target, cached_time = self.routing_cache[cache_key]
-                    if (datetime.now(timezone.utc) - cached_time).seconds < self.cache_ttl_seconds:
+                    if (datetime.now(timezone.utc) - cached_time).seconds < self.cache_ttl_seconds and (cached_target in self.targets and self.targets[cached_target].enabled):
                         # Validate target still exists and is healthy
-                        if cached_target in self.targets and self.targets[cached_target].enabled:
-                            self.routing_stats[lane or "all"]["cache_hits"] += 1
-                            return cached_target
+                        self.routing_stats[lane or "all"]["cache_hits"] += 1
+                        return cached_target
 
             # Check for active A/B tests
             for ab_test in self.ab_tests.values():

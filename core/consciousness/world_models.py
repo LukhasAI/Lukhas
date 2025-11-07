@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -27,14 +21,20 @@ Features:
 - Predictive modeling frameworks
 """
 
+from __future__ import annotations
+
 import logging
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 
@@ -282,7 +282,7 @@ class TemporalDynamicsModel:
 
         return trends
 
-    def _calculate_linear_trend(self, states: list[WorldState], entity_id: str) -> Optional[dict[str, Any]]:
+    def _calculate_linear_trend(self, states: list[WorldState], entity_id: str) -> dict[str, Any] | None:
         """Calculate linear trend for entity"""
         try:
             entity_data = [state.entities[entity_id] for state in states]
@@ -321,10 +321,7 @@ class TemporalDynamicsModel:
                 (history[i].timestamp - history[i - 1].timestamp).total_seconds() for i in range(1, len(history))
             ) / (len(history) - 1)
 
-            if avg_gap > 3600:  # More than 1 hour gaps
-                time_penalty = 0.1
-            else:
-                time_penalty = 0.0
+            time_penalty = 0.1 if avg_gap > 3600 else 0.0  # More than 1 hour gaps
         else:
             time_penalty = 0.0
 
@@ -407,8 +404,8 @@ class WorldModels:
     async def create_world_state(
         self,
         entities: dict[str, Any],
-        relationships: Optional[list[dict[str, Any]]] = None,
-        physics_properties: Optional[dict[str, float]] = None,
+        relationships: list[dict[str, Any]] | None = None,
+        physics_properties: dict[str, float] | None = None,
     ) -> WorldState:
         """Create a new world state"""
         try:
@@ -439,7 +436,7 @@ class WorldModels:
         self,
         current_state: WorldState,
         duration: timedelta,
-        accuracy: Optional[SimulationAccuracy] = None,
+        accuracy: SimulationAccuracy | None = None,
     ) -> PredictionResult:
         """Simulate world state forward in time"""
         try:
@@ -537,8 +534,8 @@ class WorldModels:
         return min(0.95, final_confidence)
 
     async def get_prediction(
-        self, prediction_horizon: timedelta, context: Optional[dict[str, Any]] = None
-    ) -> Optional[PredictionResult]:
+        self, prediction_horizon: timedelta, context: dict[str, Any] | None = None
+    ) -> PredictionResult | None:
         """Get prediction for specified time horizon"""
         try:
             if not self.world_states:
@@ -566,7 +563,7 @@ class WorldModels:
             return None
 
     async def update_world_state(
-        self, observations: dict[str, Any], context: Optional[dict[str, Any]] = None
+        self, observations: dict[str, Any], context: dict[str, Any] | None = None
     ) -> WorldState:
         """Update world model with new observations"""
         try:

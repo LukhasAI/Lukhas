@@ -408,13 +408,13 @@ if TRINITY_MONITORING_AVAILABLE:
         [
             "APIPerformanceMetric",
             "AuthenticationEvent",
-            "InteractionType",
-            "PerformanceMetric",
             "ConstellationComponent",
             "ConstellationFrameworkMonitor",
             "ConstellationHealthStatus",
             "ConstellationInteraction",
             "ConstellationReport",
+            "InteractionType",
+            "PerformanceMetric",
         ]
     )
 

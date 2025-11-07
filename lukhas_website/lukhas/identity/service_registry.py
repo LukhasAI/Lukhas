@@ -5,6 +5,8 @@ Coordinates all identity services and registers them with the global registry.
 Provides T4 architecture compliant service discovery and initialization.
 """
 
+# Schedule auto-initialization
+import asyncio
 import logging
 from typing import Any, Dict, Optional
 
@@ -188,8 +190,6 @@ async def _auto_initialize():
         logger.debug(f"Auto-initialization failed: {e}")
 
 
-# Schedule auto-initialization
-import asyncio
 
 if not _identity_registry:
     # Only auto-initialize in async context

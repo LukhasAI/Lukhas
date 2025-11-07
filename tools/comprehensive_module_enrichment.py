@@ -28,7 +28,7 @@ class ModuleContentMiner:
         init_file = module_path / "__init__.py"
         if init_file.exists():
             try:
-                with open(init_file, 'r', encoding='utf-8') as f:
+                with open(init_file, encoding='utf-8') as f:
                     content = f.read()
 
                 # Parse AST to find __all__ definitions
@@ -36,19 +36,17 @@ class ModuleContentMiner:
                 for node in ast.walk(tree):
                     if isinstance(node, ast.Assign):
                         for target in node.targets:
-                            if isinstance(target, ast.Name) and target.id == '__all__':
-                                if isinstance(node.value, ast.List):
-                                    for item in node.value.elts:
-                                        if isinstance(item, ast.Str):
-                                            entrypoints.append(f"{module_path.name}.{item.s}")
-                                        elif isinstance(item, ast.Constant) and isinstance(item.value, str):
-                                            entrypoints.append(f"{module_path.name}.{item.value}")
+                            if (isinstance(target, ast.Name) and target.id == '__all__') and isinstance(node.value, ast.List):
+                                for item in node.value.elts:
+                                    if isinstance(item, ast.Str):
+                                        entrypoints.append(f"{module_path.name}.{item.s}")
+                                    elif isinstance(item, ast.Constant) and isinstance(item.value, str):
+                                        entrypoints.append(f"{module_path.name}.{item.value}")
 
                 # Also look for class and function definitions
                 for node in ast.walk(tree):
-                    if isinstance(node, (ast.ClassDef, ast.FunctionDef)):
-                        if not node.name.startswith('_'):  # Skip private
-                            entrypoints.append(f"{module_path.name}.{node.name}")
+                    if isinstance(node, (ast.ClassDef, ast.FunctionDef)) and (not node.name.startswith('_')):
+                        entrypoints.append(f"{module_path.name}.{node.name}")
 
             except Exception as e:
                 print(f"Warning: Could not parse {init_file}: {e}")
@@ -59,19 +57,18 @@ class ModuleContentMiner:
                 continue
 
             try:
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding='utf-8') as f:
                     content = f.read()
 
                 tree = ast.parse(content)
                 for node in ast.walk(tree):
-                    if isinstance(node, (ast.ClassDef, ast.FunctionDef)):
-                        if not node.name.startswith('_'):
-                            entrypoints.append(f"{module_path.name}.{py_file.stem}.{node.name}")
+                    if isinstance(node, (ast.ClassDef, ast.FunctionDef)) and (not node.name.startswith('_')):
+                        entrypoints.append(f"{module_path.name}.{py_file.stem}.{node.name}")
 
             except Exception as e:
                 print(f"Warning: Could not parse {py_file}: {e}")
 
-        return sorted(list(set(entrypoints)))
+        return sorted(set(entrypoints))
 
     def mine_description_from_docstring(self, module_path: Path) -> Optional[str]:
         """Extract rich description from module docstrings."""
@@ -80,7 +77,7 @@ class ModuleContentMiner:
             return None
 
         try:
-            with open(init_file, 'r', encoding='utf-8') as f:
+            with open(init_file, encoding='utf-8') as f:
                 content = f.read()
 
             tree = ast.parse(content)
@@ -117,7 +114,7 @@ class ModuleContentMiner:
         for context_file in context_files:
             if context_file.exists():
                 try:
-                    with open(context_file, 'r', encoding='utf-8') as f:
+                    with open(context_file, encoding='utf-8') as f:
                         content = f.read()
                     context_data[context_file.name] = content
                 except Exception as e:
@@ -190,7 +187,7 @@ class ModuleContentMiner:
         if 'orchestr' in entrypoint_text:
             tags.append('orchestration')
 
-        return sorted(list(set(tags)))
+        return sorted(set(tags))
 
     def generate_rich_description(self, module_name: str, docstring: Optional[str],
                                 context_data: Dict[str, str], entrypoints: List[str]) -> str:
@@ -236,15 +233,12 @@ class ModuleContentMiner:
 
         # Common dependency patterns
         entrypoint_text = ' '.join(entrypoints).lower()
-        if 'identity' in entrypoint_text or 'auth' in entrypoint_text:
-            if module_path.name != 'identity':
-                dependencies.append('identity')
-        if 'core' in entrypoint_text or 'orchestr' in entrypoint_text:
-            if module_path.name not in ['core', 'orchestration']:
-                dependencies.append('core')
-        if 'memory' in entrypoint_text:
-            if module_path.name != 'memory':
-                dependencies.append('memory')
+        if ('identity' in entrypoint_text or 'auth' in entrypoint_text) and module_path.name != 'identity':
+            dependencies.append('identity')
+        if ('core' in entrypoint_text or 'orchestr' in entrypoint_text) and module_path.name not in ['core', 'orchestration']:
+            dependencies.append('core')
+        if 'memory' in entrypoint_text and module_path.name != 'memory':
+            dependencies.append('memory')
 
         # Module-specific dependencies
         module_deps = {
@@ -259,7 +253,7 @@ class ModuleContentMiner:
         if module_path.name in module_deps:
             dependencies.extend(module_deps[module_path.name])
 
-        return sorted(list(set(dependencies)))
+        return sorted(set(dependencies))
 
     def generate_observability_spans(self, module_name: str, entrypoints: List[str]) -> List[str]:
         """Generate observability spans for the module."""
@@ -278,7 +272,7 @@ class ModuleContentMiner:
         if 'consciousness' in entrypoint_text or 'aware' in entrypoint_text:
             base_spans.append(f"lukhas.{module_name}.consciousness")
 
-        return sorted(list(set(base_spans)))
+        return sorted(set(base_spans))
 
 
 def enrich_single_module(module_path: Path, miner: ModuleContentMiner) -> Dict[str, Any]:
@@ -291,7 +285,7 @@ def enrich_single_module(module_path: Path, miner: ModuleContentMiner) -> Dict[s
 
     # Load existing manifest
     try:
-        with open(manifest_file, 'r', encoding='utf-8') as f:
+        with open(manifest_file, encoding='utf-8') as f:
             manifest = json.load(f)
     except Exception as e:
         print(f"Error loading {manifest_file}: {e}")

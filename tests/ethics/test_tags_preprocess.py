@@ -4,9 +4,8 @@ import os
 import time
 
 import pytest
-from hypothesis import given, strategies as st
-
 from core.ethics.safety_tags import preprocess_text
+from hypothesis import given, strategies as st
 
 ZERO_WIDTH = ("\u200b", "\u200c", "\u200d", "\u2060", "\ufeff")
 

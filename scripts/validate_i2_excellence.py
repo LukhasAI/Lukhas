@@ -35,7 +35,7 @@ try:
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
     from governance.guardian_system import GuardianSystem
-    from identity.biometrics import (  # noqa: F401  # TODO: identity.biometrics.Bio...
+    from identity.biometrics import (  # TODO: identity.biometrics.Bio...
         BiometricModality,
         create_mock_biometric_provider,
     )
@@ -135,7 +135,7 @@ class T4ExcellenceValidator:
             print("✅ Validation completed successfully")
 
         except Exception as e:
-            print(f"❌ Validation failed: {str(e)}")
+            print(f"❌ Validation failed: {e!s}")
             self.results["validation_error"] = str(e)
 
         return self.results
@@ -333,8 +333,8 @@ class T4ExcellenceValidator:
         identifier = "test_ip_rate_limit"
         rate_limit_results = []
 
-        for i in range(15):  # Exceed typical rate limit
-            action, reason = await self.security_manager.check_rate_limit(identifier, "authentication")
+        for _i in range(15):  # Exceed typical rate limit
+            action, _reason = await self.security_manager.check_rate_limit(identifier, "authentication")
             rate_limit_results.append(action.value)
 
         # Should have some throttling or blocking

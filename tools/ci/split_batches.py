@@ -26,7 +26,7 @@ class BatchSplitter:
             try:
                 import yaml
 
-                with open(strategy_file, "r") as handle:
+                with open(strategy_file) as handle:
                     data = yaml.safe_load(handle) or {}
                 if data:
                     return data  # ΛTAG: strategy_loader
@@ -247,7 +247,7 @@ def main():
     args = parser.parse_args()
 
     # Load manifest
-    with open(args.manifest, "r") as f:
+    with open(args.manifest) as f:
         manifest = json.load(f)
 
     # Initialize splitter

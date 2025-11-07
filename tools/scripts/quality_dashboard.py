@@ -146,7 +146,7 @@ class QualityDashboard:
     <div class="container">
         <h1>🧠 LUKHAS AI Quality Dashboard</h1>
         <div class="timestamp">Last Updated: {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")}</div>
-        
+
         <div class="health-score">
             <h2>Overall Health Score</h2>
             <div class="score-circle">{self.metrics["health_score"]}%</div>

@@ -49,6 +49,8 @@
 ║ Trace: #ΛTRACE: ENABLED
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import logging
 from dataclasses import dataclass
 from typing import Any

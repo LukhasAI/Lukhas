@@ -234,7 +234,7 @@ def main():
     high_confidence = sum(1 for i in mapping.values() if i["confidence"] >= 0.80)
     review_needed = total - high_confidence
 
-    print(f"\n📊 Summary:")
+    print("\n📊 Summary:")
     print(f"  Total files: {total}")
     print(f"  High confidence (≥0.80): {high_confidence} ({high_confidence/total*100:.1f}%)")
     print(f"  Review needed (<0.80): {review_needed} ({review_needed/total*100:.1f}%)")

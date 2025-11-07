@@ -36,6 +36,8 @@ Features:
             emotion_entropy = -sum([v * np.log(v + 1e-10) for v in emotion_values if isinstance(v, (int, float)) and v > 0])
             entropy += emotion_entropy * 0.2ntum-resistant symbol encryption
 """
+from __future__ import annotations
+
 import hashlib
 import json
 import uuid

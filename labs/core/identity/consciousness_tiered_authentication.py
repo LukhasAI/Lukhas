@@ -1,5 +1,4 @@
 import logging
-import streamlit as st
 logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
@@ -68,8 +67,8 @@ class BiometricPattern(Enum):
 class AuthenticationMethod(Enum):
     """Authentication methods for different tiers"""
 
-    PASSWORD = "password"
-    EMOJI_PASSWORD = "emoji_password"
+    PASSWORD = "password"  # nosec B105 - Enum constant, not hardcoded password
+    EMOJI_PASSWORD = "emoji_password"  # nosec B105 - Enum constant
     WEBAUTHN_PASSKEY = "webauthn_passkey"
     BIOMETRIC_PATTERN = "biometric_pattern"
     CONSCIOUSNESS_SIGNATURE = "consciousness_signature"
@@ -466,7 +465,11 @@ class ConsciousnessWebAuthnManager:
             if len(self.biometric_patterns[identity_id]) > 10:
                 self.biometric_patterns[identity_id] = self.biometric_patterns[identity_id][-10:]
 
-            logger.debug(f"🧬 Processed consciousness biometrics for {identity_id}: {list(biometric_patterns.keys()}")
+            logger.debug(
+                "🧬 Processed consciousness biometrics for %s: %s",
+                identity_id,
+                list(biometric_patterns.keys()),
+            )
             return True
 
         except Exception as e:

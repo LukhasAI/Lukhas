@@ -342,7 +342,7 @@ async def get_metrics():
 @app.post("/v1/memory/search", response_model=SearchResponse)
 async def search_memory(
     request: SearchRequest,
-    services = Depends(get_services)
+    services = Depends(get_services)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_services_memory_api_service_py_L345"}
 ) -> SearchResponse:
     """Search memory with semantic, keyword, or hybrid search"""
     read_svc, _ = services
@@ -368,14 +368,14 @@ async def search_memory(
             logger.error(f"Search failed: {e}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Search operation failed: {str(e)}"
+                detail=f"Search operation failed: {e!s}"
             )
 
 
 @app.post("/v1/memory/upsert", response_model=WriteResult)
 async def upsert_memory(
     request: UpsertRequest,
-    services = Depends(get_services)
+    services = Depends(get_services)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_services_memory_api_service_py_L378"}
 ) -> WriteResult:
     """Upsert memory fold with content and metadata"""
     _, write_svc = services
@@ -396,14 +396,14 @@ async def upsert_memory(
             logger.error(f"Upsert failed: {e}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Upsert operation failed: {str(e)}"
+                detail=f"Upsert operation failed: {e!s}"
             )
 
 
 @app.post("/v1/memory/batch-upsert")
 async def batch_upsert_memory(
     request: BatchUpsertRequest,
-    services = Depends(get_services)
+    services = Depends(get_services)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_services_memory_api_service_py_L406"}
 ):
     """Batch upsert multiple memory folds"""
     _, write_svc = services
@@ -434,14 +434,14 @@ async def batch_upsert_memory(
             logger.error(f"Batch upsert failed: {e}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Batch upsert operation failed: {str(e)}"
+                detail=f"Batch upsert operation failed: {e!s}"
             )
 
 
 @app.delete("/v1/memory/delete")
 async def delete_memory(
     request: DeleteRequest,
-    services = Depends(get_services)
+    services = Depends(get_services)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_services_memory_api_service_py_L444"}
 ):
     """Delete memory folds by ID"""
     _, write_svc = services
@@ -459,7 +459,7 @@ async def delete_memory(
             logger.error(f"Delete failed: {e}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Delete operation failed: {str(e)}"
+                detail=f"Delete operation failed: {e!s}"
             )
 
 
@@ -467,7 +467,7 @@ async def delete_memory(
 async def get_memory_fold(
     fold_id: str,
     include_vector: bool = False,
-    services = Depends(get_services)
+    services = Depends(get_services)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_services_memory_api_service_py_L470"}
 ):
     """Get memory fold by ID"""
     read_svc, _ = services
@@ -490,12 +490,12 @@ async def get_memory_fold(
             logger.error(f"Get fold failed: {e}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Get fold operation failed: {str(e)}"
+                detail=f"Get fold operation failed: {e!s}"
             )
 
 
 @app.get("/v1/memory/stats")
-async def get_memory_stats(services = Depends(get_services)):
+async def get_memory_stats(services = Depends(get_services)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_services_memory_api_service_py_L498"}
     """Get memory service statistics"""
     read_svc, write_svc = services
 
@@ -513,7 +513,7 @@ async def get_memory_stats(services = Depends(get_services)):
         logger.error(f"Get stats failed: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Get stats operation failed: {str(e)}"
+            detail=f"Get stats operation failed: {e!s}"
         )
 
 

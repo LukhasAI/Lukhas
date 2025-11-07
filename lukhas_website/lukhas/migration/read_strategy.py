@@ -1,15 +1,16 @@
 import logging
-
-logger = logging.getLogger(__name__)
 from typing import Optional
 
 from dna.interfaces import HelixMemory
 from migration.legacy_store import LegacyStore
 
+logger = logging.getLogger(__name__)
+
+
 
 def read_memory(*, legacy: LegacyStore, dna: HelixMemory, key: str) -> Optional[dict]:
-    cutover = Flags.get_str("DNA_CUTOVER_READ_FROM", "legacy").lower()  # noqa: F821  # TODO: Flags
-    shadow = Flags.get("DNA_READ_SHADOW", default=False)  # noqa: F821  # TODO: Flags
+    cutover = Flags.get_str("DNA_CUTOVER_READ_FROM", "legacy").lower()  # TODO: Flags
+    shadow = Flags.get("DNA_READ_SHADOW", default=False)  # TODO: Flags
 
     def _cmp(a, b):  # minimalist compare
         if not a or not b:

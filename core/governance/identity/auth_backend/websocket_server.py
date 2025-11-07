@@ -1,6 +1,5 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
+
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🌐 LUKHAS DASHBOARD WEBSOCKET SERVER
@@ -44,6 +43,9 @@ from __future__ import annotations
 ║ ΛTAG: ΛWEBSOCKET, ΛSTREAMING, ΛREALTIME, ΛDASHBOARD, ΛINTELLIGENCE
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
+from __future__ import annotations
+
 import asyncio
 import builtins
 import contextlib
@@ -53,7 +55,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 import uvicorn
 from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
@@ -97,7 +99,7 @@ class StreamClient:
     subscribed_streams: set[StreamType]
     connected_at: datetime
     last_activity: datetime
-    user_id: Optional[str] = None
+    user_id: str | None = None
     permissions: set[str] = field(default_factory=set)
     client_info: dict[str, Any] = field(default_factory=dict)
 
@@ -111,7 +113,7 @@ class StreamMessage:
     data: dict[str, Any]
     timestamp: datetime
     priority: int = 3  # 1=critical, 2=high, 3=normal, 4=low, 5=debug
-    target_clients: Optional[set[str]] = None
+    target_clients: set[str] | None = None
 
 
 class DashboardWebSocketServer:
@@ -135,11 +137,11 @@ class DashboardWebSocketServer:
         self.client_lock = asyncio.Lock()
 
         # Dashboard system components
-        self.dashboard: Optional[UniversalAdaptiveDashboard] = None
+        self.dashboard: UniversalAdaptiveDashboard | None = None
         self.colony_agents: list = []
-        self.tab_system: Optional[DynamicTabSystem] = None
-        self.morphing_engine: Optional[MorphingEngine] = None
-        self.healing_manager: Optional[SelfHealingManager] = None
+        self.tab_system: DynamicTabSystem | None = None
+        self.morphing_engine: MorphingEngine | None = None
+        self.healing_manager: SelfHealingManager | None = None
 
         # LUKHAS system integration
         self.oracle_nervous_system = None
@@ -449,7 +451,7 @@ class DashboardWebSocketServer:
         stream_type: StreamType,
         data: dict[str, Any],
         priority: int = 3,
-        target_clients: Optional[set[str]] = None,
+        target_clients: set[str] | None = None,
     ):
         """Broadcast a message to subscribed clients."""
 
@@ -478,7 +480,7 @@ class DashboardWebSocketServer:
                 async with self.client_lock:
                     for client in self.clients.values():
                         # Check if client is subscribed to this stream type
-                        if (
+                        if (  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_governance_identity_auth_backend_websocket_server_py_L483"}
                             message.stream_type in client.subscribed_streams
                             or StreamType.ALL_STREAMS in client.subscribed_streams
                         ):
@@ -601,7 +603,7 @@ class DashboardWebSocketServer:
 
     # Stream handler methods
 
-    async def _handle_oracle_metrics_stream(self) -> Optional[dict[str, Any]]:
+    async def _handle_oracle_metrics_stream(self) -> dict[str, Any] | None:
         """Handle Oracle metrics stream."""
         if not self.oracle_nervous_system:
             return None
@@ -616,7 +618,7 @@ class DashboardWebSocketServer:
             self.logger.error("Oracle metrics stream error", error=str(e))
             return None
 
-    async def _handle_ethics_swarm_stream(self) -> Optional[dict[str, Any]]:
+    async def _handle_ethics_swarm_stream(self) -> dict[str, Any] | None:
         """Handle Ethics Swarm stream."""
         if not self.ethics_swarm:
             return None
@@ -631,7 +633,7 @@ class DashboardWebSocketServer:
             self.logger.error("Ethics swarm stream error", error=str(e))
             return None
 
-    async def _handle_system_health_stream(self) -> Optional[dict[str, Any]]:
+    async def _handle_system_health_stream(self) -> dict[str, Any] | None:
         """Handle system health stream."""
         if not self.healing_manager:
             return None
@@ -646,19 +648,19 @@ class DashboardWebSocketServer:
             self.logger.error("System health stream error", error=str(e))
             return None
 
-    async def _handle_morphing_events_stream(self) -> Optional[dict[str, Any]]:
+    async def _handle_morphing_events_stream(self) -> dict[str, Any] | None:
         """Handle morphing events stream."""
         # This would be event-driven rather than polling
         return None
 
-    async def _handle_healing_events_stream(self) -> Optional[dict[str, Any]]:
+    async def _handle_healing_events_stream(self) -> dict[str, Any] | None:
         """Handle healing events stream."""
         # This would be event-driven rather than polling
         return None
 
     async def _handle_colony_coordination_stream(
         self,
-    ) -> Optional[dict[str, Any]]:
+    ) -> dict[str, Any] | None:
         """Handle colony coordination stream."""
         if not self.colony_agents:
             return None
@@ -683,14 +685,14 @@ class DashboardWebSocketServer:
 
     async def _handle_performance_metrics_stream(
         self,
-    ) -> Optional[dict[str, Any]]:
+    ) -> dict[str, Any] | None:
         """Handle performance metrics stream."""
         return {
             "server_metrics": self.performance_metrics.copy(),
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    async def _handle_predictions_stream(self) -> Optional[dict[str, Any]]:
+    async def _handle_predictions_stream(self) -> dict[str, Any] | None:
         """Handle predictions stream."""
         if not (self.tab_system and self.morphing_engine):
             return None

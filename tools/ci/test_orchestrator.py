@@ -53,7 +53,7 @@ class TestResult:
 class IntelligentTestOrchestrator:
     """Orchestrates test execution based on change analysis and risk assessment."""
 
-    def __init__(self, base_path: Path = None):
+    def __init__(self, base_path: Optional[Path] = None):
         self.base_path = base_path or Path.cwd()
         self.test_history = self._load_test_history()
 
@@ -272,7 +272,7 @@ class IntelligentTestOrchestrator:
         changed_components = set()
         for file_path in changed_files:
             path_str = str(file_path).lower()
-            for component in self.risk_weights.keys():
+            for component in self.risk_weights:
                 if component in path_str:
                     changed_components.add(component)
 

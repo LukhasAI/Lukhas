@@ -4,12 +4,13 @@ Coordinates multiple distributed memory clusters with advanced governance and op
 """
 
 import asyncio
+import contextlib
 import logging
 import time
 import uuid
 from collections import defaultdict, deque
 from dataclasses import asdict, dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, Set
 
@@ -55,7 +56,7 @@ class FederationCluster:
     capabilities: Set[str]
     load_factor: float = 0.0
     health_score: float = 1.0
-    last_heartbeat: datetime = field(default_factory=datetime.utcnow)
+    last_heartbeat: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     metadata: Dict[str, Any] = field(default_factory=dict)
 
 
@@ -172,10 +173,8 @@ class FederationCoordinator:
                     self.optimization_task, self.load_balancer_task]:
             if task and not task.done():
                 task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
 
         logger.info(f"✅ Federation Coordinator stopped: {self.federation_id}")
 
@@ -190,7 +189,7 @@ class FederationCoordinator:
                 "federation_id": self.federation_id,
                 "local_cluster": self._get_local_cluster_info(),
                 "capabilities": list(self.local_orchestrator.local_node.capabilities),
-                "request_timestamp": datetime.utcnow().isoformat()
+                "request_timestamp": datetime.now(timezone.utc).isoformat()
             }
 
             # Simulate join request (would use actual network in production)
@@ -228,7 +227,7 @@ class FederationCoordinator:
             # Setup federation metadata
             {
                 "federation_id": self.federation_id,
-                "created_at": datetime.utcnow().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
                 "coordinator_cluster": local_cluster.cluster_id,
                 "founding_node": self.local_orchestrator.node_id
             }
@@ -325,7 +324,7 @@ class FederationCoordinator:
             target_clusters={target_cluster},
             payload=payload,
             priority=priority,
-            created_at=datetime.utcnow()
+            created_at=datetime.now(timezone.utc)
         )
 
         self.pending_operations[operation_id] = operation
@@ -629,7 +628,7 @@ class FederationCoordinator:
             await asyncio.sleep(0.01)  # Simulated processing time
 
             operation.status = "completed"
-            operation.completed_at = datetime.utcnow()
+            operation.completed_at = datetime.now(timezone.utc)
 
             # Move to history
             self.operation_history.append(asdict(operation))
@@ -743,7 +742,7 @@ class FederationCoordinator:
         while not self._shutdown_event.is_set():
             try:
                 # Process pending cross-cluster operations
-                for operation_id, operation in list(self.pending_operations.items()):
+                for _operation_id, operation in list(self.pending_operations.items()):
                     if operation.status == "pending":
                         await self._execute_cross_cluster_operation(operation)
 
@@ -819,7 +818,7 @@ class FederationCoordinator:
         health_factors = []
 
         # Check heartbeat recency
-        time_since_heartbeat = (datetime.utcnow() - cluster.last_heartbeat).total_seconds()
+        time_since_heartbeat = (datetime.now(timezone.utc) - cluster.last_heartbeat).total_seconds()
         heartbeat_health = max(0.0, 1.0 - (time_since_heartbeat / 60.0))  # Decay over 1 minute
         health_factors.append(heartbeat_health * 0.4)
 

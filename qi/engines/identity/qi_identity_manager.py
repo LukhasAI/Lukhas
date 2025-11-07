@@ -33,6 +33,8 @@
 ║ ΛTAG: ΛIDENTITY, ΛQUANTUM, ΛAGI, ΛSECURITY, ΛTIER
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import hashlib
 import logging
 import time
@@ -40,12 +42,11 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
-import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
-
+import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
 from consciousness.qi import (
-    qi,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
+    qi,  # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 )
 
 # Import post-quantum cryptography components
@@ -119,19 +120,19 @@ class QIUserContext:
     security_level: QISecurityLevel
 
     # Quantum cryptographic components
-    qi_key_id: Optional[str] = None
-    qi_signature: Optional[bytes] = None
-    collapse_hash: Optional[str] = None
-    qi_timestamp: Optional[str] = None
+    qi_key_id: str | None = None
+    qi_signature: bytes | None = None
+    collapse_hash: str | None = None
+    qi_timestamp: str | None = None
 
     # Identity evolution tracking
     identity_generation: int = 1
-    parent_identity_id: Optional[str] = None
+    parent_identity_id: str | None = None
     child_identity_ids: list[str] = field(default_factory=list)
 
     # Resource allocation
     allocated_resources: dict[str, Any] = field(default_factory=dict)
-    resource_quantum_pool: Optional[str] = None
+    resource_quantum_pool: str | None = None
 
     # Behavioral patterns (for dynamic tier adjustment)
     behavior_patterns: dict[str, float] = field(default_factory=dict)
@@ -142,7 +143,7 @@ class QIUserContext:
     # Temporal tracking
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     last_accessed: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    expires_at: Optional[datetime] = None
+    expires_at: datetime | None = None
 
     # Multi-agent support
     composite_agents: list[str] = field(default_factory=list)
@@ -177,7 +178,7 @@ class QIUserContext:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "QIUserContext":
+    def from_dict(cls, data: dict[str, Any]) -> QIUserContext:
         """Create from dictionary."""
         return cls(
             user_id=data["user_id"],
@@ -222,9 +223,9 @@ class QIIdentityManager:
         self.identity_hierarchy: dict[str, list[str]] = defaultdict(list)  # parent -> children
 
         # Quantum cryptographic components
-        self.qi_key_manager: Optional[QISecureKeyManager] = None
-        self.collapse_hash_manager: Optional[CollapseHashManager] = None
-        self.qi_timestamp_manager: Optional[QIVerifiableTimestamp] = None
+        self.qi_key_manager: QISecureKeyManager | None = None
+        self.collapse_hash_manager: CollapseHashManager | None = None
+        self.qi_timestamp_manager: QIVerifiableTimestamp | None = None
 
         # Resource management
         self.qi_resource_pools: dict[str, dict[str, Any]] = {}
@@ -235,7 +236,7 @@ class QIIdentityManager:
         self.tier_promotion_history: deque = deque(maxlen=10000)
 
         # Integration components
-        self.legacy_identity_client: Optional[IdentityClient] = None
+        self.legacy_identity_client: IdentityClient | None = None
 
         # Initialize components
         self._initialize_quantum_components()
@@ -244,6 +245,7 @@ class QIIdentityManager:
 
     def _initialize_quantum_components(self):
         """Initialize post-quantum cryptographic components."""
+        global QUANTUM_CRYPTO_AVAILABLE
         if QUANTUM_CRYPTO_AVAILABLE:
             try:
                 self.qi_key_manager = QISecureKeyManager(security_level=SecurityLevel.NIST_5)
@@ -342,7 +344,7 @@ class QIIdentityManager:
         identity_type: AGIIdentityType = AGIIdentityType.HUMAN,
         tier_level: QITierLevel = QITierLevel.QUANTUM_TIER_0,
         security_level: QISecurityLevel = QISecurityLevel.QUANTUM_STANDARD,
-        parent_identity_id: Optional[str] = None,
+        parent_identity_id: str | None = None,
     ) -> QIUserContext:
         """
         Create a new quantum-proof identity with advanced cognitive AI support.
@@ -427,7 +429,7 @@ class QIIdentityManager:
         self.logger.info(f"Quantum identity created successfully for {user_id}")
         return context
 
-    async def authenticate_quantum_identity(self, user_id: str, credentials: dict[str, Any]) -> Optional[QIUserContext]:
+    async def authenticate_quantum_identity(self, user_id: str, credentials: dict[str, Any]) -> QIUserContext | None:
         """
         Authenticate user with quantum-proof verification.
 
@@ -716,7 +718,7 @@ class QIIdentityManager:
 
         return not ("oracle" in operation.lower() and allocated.get("oracle_queries_remaining", 0) <= 0)
 
-    async def _load_identity_from_storage(self, user_id: str) -> Optional[QIUserContext]:
+    async def _load_identity_from_storage(self, user_id: str) -> QIUserContext | None:
         """Load identity from persistent storage."""
         # In production, this would load from distributed database
         # For now, try legacy system
@@ -807,7 +809,7 @@ class QIIdentityManager:
 
 
 # Global quantum identity manager instance
-_quantum_identity_manager: Optional[QIIdentityManager] = None
+_quantum_identity_manager: QIIdentityManager | None = None
 
 
 def get_quantum_identity_manager() -> QIIdentityManager:
@@ -825,7 +827,7 @@ async def create_agi_identity(user_id: str, identity_type: AGIIdentityType = AGI
     return await manager.create_quantum_identity(user_id, identity_type)
 
 
-async def authenticate_quantum_user(user_id: str, credentials: dict[str, Any]) -> Optional[QIUserContext]:
+async def authenticate_quantum_user(user_id: str, credentials: dict[str, Any]) -> QIUserContext | None:
     """Authenticate user with quantum-proof verification."""
     manager = get_quantum_identity_manager()
     return await manager.authenticate_quantum_identity(user_id, credentials)

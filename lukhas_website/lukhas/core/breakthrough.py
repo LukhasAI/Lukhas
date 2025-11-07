@@ -1,8 +1,8 @@
 """
 core/breakthrough.py
 
-BreakthroughDetector for novelty × value scoring with CUSUM-style detection.
-Working theory: breakthrough = significant increase in (novelty × value) using z-score.
+BreakthroughDetector for novelty x value scoring with CUSUM-style detection.
+Working theory: breakthrough = significant increase in (novelty x value) using z-score.
 
 Usage:
   from core.breakthrough import BreakthroughDetector
@@ -45,12 +45,12 @@ if PROM:
         )
         BREAKTHROUGH_SCORE = Gauge(
             "lukhas_breakthrough_score",
-            "Latest novelty×value score",
+            "Latest noveltyxvalue score",
             ["lane"],
         )
         BREAKTHROUGH_STD = Gauge(
             "lukhas_breakthrough_std",
-            "Running standard deviation of novelty×value",
+            "Running standard deviation of noveltyxvalue",
             ["lane"],
         )
     except ValueError:
@@ -65,15 +65,15 @@ else:
 
 class BreakthroughDetector:
     """
-    Detects breakthroughs using novelty × value scoring with z-score threshold.
+    Detects breakthroughs using novelty x value scoring with z-score threshold.
 
     A breakthrough is detected when the weighted score exceeds mean + z*std,
     using online statistics to track running mean and standard deviation.
     Warmup samples can be required before flagging using min_n.
     """
-    __slots__ = ("mu", "sq", "n", "z", "w", "lane", "min_n", "z_per_lane")
+    __slots__ = ("lane", "min_n", "mu", "n", "sq", "w", "z", "z_per_lane")
 
-    def __init__(self, novelty_w: float = 0.5, value_w: float = 0.5, z: float = 3.0, *, min_n: int = None):
+    def __init__(self, novelty_w: float = 0.5, value_w: float = 0.5, z: float = 3.0, *, min_n: int | None = None):
         """Initialize breakthrough detector.
 
         Args:
@@ -125,7 +125,7 @@ class BreakthroughDetector:
         n_clamped = 0.0 if novelty < 0 else 1.0 if novelty > 1 else float(novelty)
         v_clamped = 0.0 if value < 0 else 1.0 if value > 1 else float(value)
 
-        # Compute weighted score (novelty×value style via convex combo for stability)
+        # Compute weighted score (noveltyxvalue style via convex combo for stability)
         score = self.w[0] * n_clamped + self.w[1] * v_clamped
 
         # Update online statistics (Welford's algorithm)
@@ -173,7 +173,7 @@ if __name__ == "__main__":
     lane = os.getenv("LUKHAS_LANE", "experimental").lower()
 
     print(f"BreakthroughDetector CLI (lane={lane}) - enter 'novelty value' pairs:")
-    print("Example: 0.5 0.8 — type 'quit' to exit")
+    print("Example: 0.5 0.8 - type 'quit' to exit")
 
     try:
         while True:

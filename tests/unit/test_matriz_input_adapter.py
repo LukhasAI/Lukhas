@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 """Contract tests for MATRIZ orchestrator input adaptation."""
 
 import asyncio
@@ -7,6 +8,10 @@ import types
 from pathlib import Path
 
 import pytest
+from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
+from matriz.nodes.fact_node import FactNode
+from matriz.nodes.math_node import MathNode
+from matriz.nodes.validator_node import ValidatorNode
 
 tests_unit_path = Path(__file__).resolve().parents[2]
 if str(tests_unit_path) not in sys.path:
@@ -25,10 +30,6 @@ if "streamlit" not in sys.modules:
     streamlit_stub.cache_data = _cache_decorator
     sys.modules["streamlit"] = streamlit_stub
 
-from MATRIZ.core.async_orchestrator import AsyncCognitiveOrchestrator
-from MATRIZ.nodes.fact_node import FactNode
-from MATRIZ.nodes.math_node import MathNode
-from MATRIZ.nodes.validator_node import ValidatorNode
 
 
 class TestMatrizInputAdapter:

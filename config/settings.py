@@ -1,5 +1,4 @@
-"""
-LUKHAS Configuration Settings Integration
+"""LUKHAS Configuration Settings Integration
 
 This module provides centralized access to LUKHAS configuration settings,
 integrating with the main settings.json file and providing typed access
@@ -168,14 +167,14 @@ def reload_settings() -> None:
 
 # Export main classes and functions
 __all__ = [
-    "LUKHASSettings",
     "ConfigurationManager",
+    "EngineConfig",
+    "InterfaceConfig",
+    "LUKHASSettings",
     "MemoryConfig",
     "PrivacyConfig",
-    "InterfaceConfig",
-    "EngineConfig",
-    "get_settings",
-    "get_setting",
-    "reload_settings",
     "config_manager",
+    "get_setting",
+    "get_settings",
+    "reload_settings",
 ]

@@ -92,7 +92,7 @@ class TestStrategyGenome:
         assert child2.genes != parent2.genes
 
         # Children should have mix of parent values
-        for gene_name in parent1.genes.keys():
+        for gene_name in parent1.genes:
             c1_val = child1.genes[gene_name]
             c2_val = child2.genes[gene_name]
 

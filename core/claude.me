@@ -1,6 +1,5 @@
----
-title: me
-slug: claude.me
+title: lukhas_context
+slug: lukhas_context
 owner: T4
 lane: labs
 star:
@@ -10,396 +9,237 @@ constellation_stars:
 related_modules:
 manifests:
 links:
----
-# core Module
+status: wip
+type: documentation
+# core - Compatibility Bridge Module
 
-**Compatibility Bridge for LUKHAS Core Functionality**
+## Overview
 
-The `core` module provides a compatibility bridge exposing `lukhas.core` functionality under the historical `core` namespace. This ensures backward compatibility during the transition to the unified `lukhas.core` architecture.
+The `core` module provides backward compatibility by exposing `lukhas.core` functionality under the historical `core` namespace. This enables smooth migration for legacy code while the system transitions to the unified namespace structure.
 
-## Core Purpose
-
-**Compatibility Layer**: Maintains access to core LUKHAS components for legacy code and external integrations while the system migrates to the unified namespace structure.
-
+**Module**: core
+**Purpose**: Compatibility bridge for lukhas.core namespace
 **Lane**: L2 Integration
-**Dependencies**: identity
-**Entrypoints**: 14 (bio-symbolic processor + consciousness signal router)
+**Schema**: v3.0.0
+**Last Updated**: 2025-10-18
 
----
-
-## Quick Start
+## Quick Reference
 
 ```python
-# Legacy namespace (core module)
-from core.bio_symbolic_processor import (
-    BioSymbolicProcessor,
-    create_bio_symbolic_processor,
-    get_bio_symbolic_processor
-)
+# Legacy namespace (compatibility)
+from core.bio_symbolic_processor import BioSymbolicProcessor, create_bio_symbolic_processor
+from core.consciousness_signal_router import ConsciousnessSignalRouter, CascadeDetector
 
-from core.consciousness_signal_router import (
-    ConsciousnessSignalRouter,
-    CascadeDetector,
-    NetworkMetrics
-)
-
-# Recommended: Use lukhas.core namespace
+# Recommended namespace (migrate to this)
 from lukhas.core.bio_symbolic_processor import BioSymbolicProcessor
 from lukhas.core.consciousness_signal_router import ConsciousnessSignalRouter
 ```
 
----
+## Core Components
 
-## Component Categories
+### Bio-Symbolic Processor (6 entrypoints)
+- **BioSymbolicProcessor**: Main processor for bio-symbolic patterns
+- **BioSymbolicPattern**: Pattern definition with type and representation
+- **AdaptationRule**: Rules for bio-symbolic adaptation
+- **BioPatternType**: Enum for pattern types (neural oscillation, etc.)
+- **SymbolicRepresentationType**: Enum for representation types (graph, etc.)
+- **Factory functions**: `create_bio_symbolic_processor`, `get_bio_symbolic_processor`
 
-### 1. Bio-Symbolic Processor (6 entrypoints)
+### Consciousness Signal Router (8 entrypoints)
+- **ConsciousnessSignalRouter**: Routes consciousness signals across system
+- **CascadeDetector**: Detects and prevents memory cascade risk
+- **NetworkMetrics**: Network monitoring and statistics
+- **NetworkNode**: Node representation in consciousness network
+- **RoutingRule**: Routing rule definition
+- **RoutingStrategy**: Strategy enum (priority-based, round-robin, etc.)
+- **SignalFilter**: Filters signals based on type and priority
 
-**Core Classes**:
+## Usage Examples
+
+### Bio-Symbolic Processing
 ```python
 from core.bio_symbolic_processor import (
-    BioSymbolicProcessor,           # Main processor
-    BioSymbolicPattern,             # Pattern definition
-    AdaptationRule,                 # Adaptation rules
-    BioPatternType,                 # Pattern types enum
-    SymbolicRepresentationType,     # Representation types enum
+    create_bio_symbolic_processor,
+    BioSymbolicPattern,
+    BioPatternType
 )
 
-# Factory functions
-from core.bio_symbolic_processor import (
-    create_bio_symbolic_processor,  # Create new processor
-    get_bio_symbolic_processor,     # Get singleton instance
-)
-```
-
-**Usage**:
-```python
 processor = create_bio_symbolic_processor()
-
-# Define bio-symbolic pattern
 pattern = BioSymbolicPattern(
     pattern_type=BioPatternType.NEURAL_OSCILLATION,
-    representation=SymbolicRepresentationType.GRAPH,
-    parameters={"frequency": 40, "amplitude": 1.0}
+    parameters={"frequency": 40}
 )
-
-# Process pattern
 result = processor.process(pattern)
-
-# Apply adaptation
-rule = AdaptationRule(
-    condition="threshold_exceeded",
-    action="adjust_parameters"
-)
-processor.apply_adaptation(rule)
 ```
 
-### 2. Consciousness Signal Router (8 entrypoints)
-
-**Core Classes**:
+### Consciousness Signal Routing
 ```python
 from core.consciousness_signal_router import (
-    ConsciousnessSignalRouter,      # Main router
-    CascadeDetector,                # Cascade prevention
-    NetworkMetrics,                 # Network monitoring
-    NetworkNode,                    # Node representation
-    RoutingRule,                    # Routing rules
-    RoutingStrategy,                # Strategy enum
-    SignalFilter,                   # Signal filtering
+    ConsciousnessSignalRouter,
+    RoutingRule,
+    RoutingStrategy
 )
-```
 
-**Usage**:
-```python
-# Create router
 router = ConsciousnessSignalRouter()
-
-# Add routing rule
 rule = RoutingRule(
     source_pattern="consciousness.*",
     destination="memory.episodic",
     strategy=RoutingStrategy.PRIORITY_BASED
 )
 router.add_rule(rule)
+router.route_signal("consciousness.awareness.update", data)
+```
 
-# Route signal
-router.route_signal(
-    signal_type="consciousness.awareness.update",
-    data=awareness_data
-)
+### Cascade Prevention
+```python
+from core.consciousness_signal_router import CascadeDetector
 
-# Cascade detection
 detector = CascadeDetector(threshold=0.95)
-cascade_risk = detector.detect_cascade_risk(
-    fold_count=current_folds,
+risk = detector.detect_cascade_risk(
+    fold_count=950,
     fold_limit=1000
 )
-
-if cascade_risk > 0.95:
+if risk > 0.95:
+    # Trigger prevention
     router.trigger_cascade_prevention()
 ```
 
-**Network Metrics**:
-```python
-from core.consciousness_signal_router import NetworkMetrics
+## Performance Targets
 
-metrics = NetworkMetrics()
-stats = metrics.get_network_stats()
-# Returns: {
-#   "total_nodes": 42,
-#   "active_routes": 128,
-#   "signal_throughput": 1500,  # signals/sec
-#   "cascade_risk": 0.12
-# }
-```
+- Bio-symbolic processing: <100ms
+- Signal routing: <10ms
+- Cascade detection: <5ms
+- Network metrics: <20ms
+- Signal filtering: <1ms
 
-**Signal Filtering**:
-```python
-from core.consciousness_signal_router import SignalFilter
-
-filter = SignalFilter(
-    allowed_types=["consciousness.*", "memory.*"],
-    blocked_types=["temp.*"],
-    priority_threshold=3
-)
-
-if filter.should_process(signal):
-    router.route_signal(signal)
-```
-
----
-
-## OpenTelemetry Spans
+## OpenTelemetry
 
 **5 Required Spans**:
-1. `lukhas.core.auth` - Authentication operations
-2. `lukhas.core.consciousness` - Consciousness processing
-3. `lukhas.core.monitoring` - System monitoring
-4. `lukhas.core.operation` - General operations
-5. `lukhas.core.processing` - Data processing
+- `lukhas.core.auth`: Authentication operations
+- `lukhas.core.consciousness`: Consciousness processing
+- `lukhas.core.monitoring`: System monitoring
+- `lukhas.core.operation`: General operations
+- `lukhas.core.processing`: Data processing
 
 ```python
 from telemetry import create_tracer
 
 tracer = create_tracer("lukhas.core")
-
-# Bio-symbolic processing
 with tracer.start_span("core.processing"):
     result = processor.process(pattern)
-
-# Consciousness routing
-with tracer.start_span("core.consciousness"):
-    router.route_signal(signal_type, data)
-
-# Cascade detection
-with tracer.start_span("core.monitoring"):
-    risk = detector.detect_cascade_risk(count, limit)
 ```
 
----
+## Migration Path
 
-## Configuration
-
-**No configuration files** - the `core` module is a pure compatibility bridge with no independent configuration. Configuration is managed by the underlying `lukhas.core` implementation.
-
----
-
-## Migration Guide
-
-### From `core` to `lukhas.core`
-
-**Before (legacy)**:
+**Legacy Code**:
 ```python
 from core.bio_symbolic_processor import BioSymbolicProcessor
-from core.consciousness_signal_router import ConsciousnessSignalRouter
-
-processor = BioSymbolicProcessor()
-router = ConsciousnessSignalRouter()
 ```
 
-**After (recommended)**:
+**Migrated Code** (recommended):
 ```python
 from lukhas.core.bio_symbolic_processor import BioSymbolicProcessor
-from lukhas.core.consciousness_signal_router import ConsciousnessSignalRouter
-
-processor = BioSymbolicProcessor()
-router = ConsciousnessSignalRouter()
 ```
 
-### Compatibility Period
-
-The `core` module will remain available during the transition period. New code should use `lukhas.core` directly.
-
----
-
-## Common Use Cases
-
-### 1. Bio-Symbolic Pattern Processing
-```python
-from core.bio_symbolic_processor import (
-    create_bio_symbolic_processor,
-    BioSymbolicPattern,
-    BioPatternType,
-    SymbolicRepresentationType
-)
-
-processor = create_bio_symbolic_processor()
-
-# Neural oscillation pattern
-neural_pattern = BioSymbolicPattern(
-    pattern_type=BioPatternType.NEURAL_OSCILLATION,
-    representation=SymbolicRepresentationType.GRAPH,
-    parameters={"frequency": 40, "phase": 0.0}
-)
-
-result = processor.process(neural_pattern)
-```
-
-### 2. Consciousness Signal Routing with Cascade Prevention
-```python
-from core.consciousness_signal_router import (
-    ConsciousnessSignalRouter,
-    CascadeDetector,
-    RoutingRule,
-    RoutingStrategy
-)
-
-router = ConsciousnessSignalRouter()
-detector = CascadeDetector(threshold=0.95)
-
-# Add priority-based routing
-rule = RoutingRule(
-    source_pattern="consciousness.awareness.*",
-    destination="memory.episodic",
-    strategy=RoutingStrategy.PRIORITY_BASED,
-    priority=5
-)
-router.add_rule(rule)
-
-# Route with cascade detection
-if detector.detect_cascade_risk(fold_count, 1000) < 0.95:
-    router.route_signal("consciousness.awareness.update", data)
-else:
-    router.trigger_cascade_prevention()
-```
-
-### 3. Network Monitoring
-```python
-from core.consciousness_signal_router import NetworkMetrics, NetworkNode
-
-metrics = NetworkMetrics()
-
-# Get network statistics
-stats = metrics.get_network_stats()
-print(f"Active routes: {stats['active_routes']}")
-print(f"Signal throughput: {stats['signal_throughput']} signals/sec")
-print(f"Cascade risk: {stats['cascade_risk']}")
-
-# Get node-specific metrics
-node = NetworkNode(node_id="consciousness.awareness")
-node_stats = metrics.get_node_stats(node)
-```
-
----
-
-## Performance Targets
-
-- **Bio-symbolic processing**: <100ms per pattern
-- **Signal routing**: <10ms per signal
-- **Cascade detection**: <5ms
-- **Network metrics**: <20ms
-- **Signal filtering**: <1ms
-
----
-
-## Dependencies
-
-**Required**: identity module for authentication integration
-
----
+Both work during transition period. New code should use `lukhas.core`.
 
 ## Module Metadata
 
 - **Lane**: L2 Integration
+- **Dependencies**: identity
+- **Entrypoints**: 14 (6 bio-symbolic + 8 routing)
 - **Schema Version**: 3.0.0
-- **Entrypoints**: 14 (6 bio-symbolic + 8 consciousness routing)
-- **OpenTelemetry**: 1.37.0 semantic conventions
 - **Test Coverage**: 85%
 - **T4 Compliance**: 0.65 (experimental)
+- **OpenTelemetry**: 1.37.0
 
----
-
-## Constellation Framework Integration
+## Constellation Integration
 
 **Tags**: authentication, consciousness, coordination, core, infrastructure, monitoring, orchestration
 
-**Integration Points**:
-- ⚛️ **IDENTITY**: Authentication and identity management
-- 🔬 **VISION**: Monitoring and metrics
-- 🛡️ **GUARDIAN**: Cascade prevention and safety
-- ✦ **MEMORY**: Signal routing to memory systems
-- 🌊 **FLOW**: Consciousness signal flow management
+**Stars**:
+- ⚛️ IDENTITY: Authentication integration
+- 🔬 VISION: Monitoring and metrics
+- 🛡️ GUARDIAN: Cascade prevention
+- ✦ MEMORY: Signal routing
+- 🌊 FLOW: Consciousness flow management
 
----
+## Related Systems
 
-## Subdirectory Structure
-
-```
-core/
-├── logs/                    # Log storage (empty, no Python files)
-├── claude.me               # This documentation
-└── lukhas_context.md       # Vendor-neutral context
-```
-
----
-
-## Related Modules
-
-- **lukhas.core**: Recommended namespace (migrate here)
-- **identity**: Authentication integration
+- **lukhas.core**: Target namespace (migrate here)
+- **identity**: Authentication
 - **consciousness**: Consciousness processing
-- **memory**: Memory system integration
+- **memory**: Memory integration
 - **monitoring**: System monitoring
 
----
+## Key Features
+
+✅ Backward compatibility bridge
+✅ 14 entrypoints (bio-symbolic + routing)
+✅ Cascade detection (0.95 threshold)
+✅ Network metrics and monitoring
+✅ 5 OpenTelemetry spans
+✅ Sub-100ms processing targets
 
 ## Important Notes
 
-⚠️ **Compatibility Bridge**: This module exists for backward compatibility. New code should use `lukhas.core` directly.
+⚠️ **Compatibility Layer**: Use `lukhas.core` for new code
+⚠️ **No Direct Implementation**: Delegates to `lukhas.core`
+⚠️ **Transition Period**: Plan migration timeline
 
-⚠️ **No Direct Implementation**: All functionality is delegated to `lukhas.core`. This module only provides namespace compatibility.
+## 🔬 LUKHAS Context System Integration
 
-⚠️ **Transition Period**: Plan to migrate legacy code to `lukhas.core` namespace.
+### Context System for Core Module
 
----
+The core module integrates with the **LUKHAS T4-Grade Context System** for race-free caching, resource enforcement, and distributed coordination across bio-symbolic processing and consciousness signal routing.
 
-**Documentation Status**: ✅ Complete
-**Last Updated**: 2025-10-18
-**Maintainer**: LUKHAS Core Team
+**Implementation**: [../labs/context/](../labs/context/)
+**Full Documentation**: [../LUKHAS_CONTEXT_ANALYSIS_T4.md](../LUKHAS_CONTEXT_ANALYSIS_T4.md)
+
+### Core Integration Points
+
+```typescript
+import { AsyncMemoryStore } from '../labs/context/cache/AsyncMemoryStore';
+import { MemoryBudgetEnforcer } from '../labs/context/memory/MemoryBudgetEnforcer';
+import { DistributedLockManager } from '../labs/context/distributed/DistributedLockManager';
+
+// Bio-symbolic processing with context management
+const processor = create_bio_symbolic_processor();
+const cache = new AsyncMemoryStore({ maxSize: 1000, ttlMs: 60000 });
+const memoryEnforcer = new MemoryBudgetEnforcer({ maxBytes: 50 * 1024 * 1024 });
+
+async function processBioSymbolicWithContext(pattern: BioSymbolicPattern) {
+  // Enforce memory budget
+  const allocated = await memoryEnforcer.allocate(pattern.id, patternSize, 'normal');
+  if (!allocated) throw new Error('Memory budget exceeded');
+
+  // Cache with race protection
+  await cache.set(`pattern:${pattern.id}`, pattern);
+
+  // Process with bio-symbolic processor
+  return await processor.process(pattern);
+}
+
+// Consciousness routing with distributed locks
+const router = new ConsciousnessSignalRouter();
+const lockManager = new DistributedLockManager({ redisUrl: 'redis://localhost' });
+
+async function routeSignalWithLocking(signal: string, data: any) {
+  await lockManager.withLock(`route:${signal}`, async () => {
+    await router.route_signal(signal, data);
+  });
+}
+```
+
+### Context System Benefits for Core
+
+- **Race-Free Cache**: AsyncLock prevents cache corruption in bio-symbolic processing
+- **Memory Protection**: MemoryBudgetEnforcer prevents OOM in pattern processing
+- **Distributed Coordination**: Multi-region lock management for signal routing
+- **Cascade Prevention**: Integration with CascadeDetector for memory safety
+- **Performance**: Sub-100ms processing with context management overhead <10ms
 
 
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----
+**Status**: Compatibility bridge (transitional) | **Context System**: T4-Grade Integration
+**Version**: Schema 3.0.0
+**Last Updated**: 2025-10-24

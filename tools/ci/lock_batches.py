@@ -79,7 +79,7 @@ class BatchLocker:
     def _process_batch_file(self, batch_file: Path):
         """Process and validate a single batch file"""
         try:
-            with open(batch_file, "r") as f:
+            with open(batch_file) as f:
                 batch_data = json.load(f)
 
             batch_id = batch_data["batch_id"]
@@ -213,10 +213,7 @@ class BatchLocker:
             return False
 
         hash_part = parts[3]
-        if len(hash_part) != 8 or not re.fullmatch(r"[0-9a-fA-F]{8}", hash_part):
-            return False
-
-        return True
+        return not (len(hash_part) != 8 or not re.fullmatch(r"[0-9a-fA-F]{8}", hash_part))
 
     def _validate_branch_name(self, branch_name: str) -> bool:
         """Validate branch name format"""
@@ -233,10 +230,7 @@ class BatchLocker:
             return False
 
         agent_part = parts[1]
-        if not (agent_part.startswith("jules") or agent_part.startswith("codex")):
-            return False
-
-        return True
+        return agent_part.startswith("jules") or agent_part.startswith("codex")
 
     def _get_max_batch_size(self, agent: str) -> int:
         """Get maximum batch size for agent type"""
@@ -269,7 +263,7 @@ class BatchLocker:
             "total_conflicts": len(self.conflicts),
             "batches": self.batch_registry,
             "conflicts": self.conflicts,
-            "locked_task_ids": sorted(list(self.locked_tasks)),
+            "locked_task_ids": sorted(self.locked_tasks),
             "integrity": {
                 "checksum": self._calculate_registry_checksum(),
                 "verified_at": datetime.now().isoformat() + "Z",
@@ -281,7 +275,7 @@ class BatchLocker:
     def _calculate_registry_checksum(self) -> str:
         """Calculate registry integrity checksum"""
         # Sort for consistent checksum
-        sorted_tasks = sorted(list(self.locked_tasks))
+        sorted_tasks = sorted(self.locked_tasks)
         sorted_batches = sorted(self.batch_registry.keys())
 
         checksum_input = f"tasks:{':'.join(sorted_tasks)}:batches:{':'.join(sorted_batches)}"

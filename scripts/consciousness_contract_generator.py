@@ -21,7 +21,7 @@ class ConsciousnessContractGenerator:
     def analyze_component_file(self, file_path: Path) -> Dict:
         """Analyze a Python consciousness component file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             # Parse AST
@@ -47,9 +47,8 @@ class ConsciousnessContractGenerator:
                 elif isinstance(node, ast.Import):
                     for alias in node.names:
                         component_info["imports"].append(alias.name)
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module:
-                        component_info["imports"].append(node.module)
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    component_info["imports"].append(node.module)
 
             # Analyze content for patterns
             if "async " in content:

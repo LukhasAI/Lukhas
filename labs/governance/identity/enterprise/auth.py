@@ -25,10 +25,11 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-PLACEHOLDER_JWT_SECRET = "your-jwt-secret-key-here"  # nosec B105
-PLACEHOLDER_BIND_PASSWORD = "service-account-password"  # nosec B105
-
+import os
 import jwt
+
+PLACEHOLDER_JWT_SECRET = os.environ.get("JWT_SECRET", "your-jwt-secret-key-here") # nosec B105
+PLACEHOLDER_BIND_PASSWORD = os.environ.get("BIND_PASSWORD", "service-account-password") # nosec B105
 import requests
 from cryptography.fernet import Fernet
 

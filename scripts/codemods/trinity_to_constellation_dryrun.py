@@ -64,7 +64,7 @@ CONTEXT_LINES = 1
 
 
 def should_skip_dir(path: str) -> bool:
-    parts = set(p for p in path.split(os.sep) if p)
+    parts = {p for p in path.split(os.sep) if p}
     return bool(parts & EXCLUDE_DIRS)
 
 

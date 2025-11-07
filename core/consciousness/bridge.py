@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ===================================================================================
  MODULE: core.decision.decision_making_bridge
@@ -50,28 +45,35 @@ TODO: Implement quantum decision superposition for parallel evaluation
 AIDEA: Add emotional intelligence integration for empathetic decisions
 """
 
+from __future__ import annotations
+
 import json
+import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
+
+logger = logging.getLogger(__name__)
+
+
 
 # Import Lukhas core components
 try:
     from core.integration.neuro_symbolic_fusion_layer import (
-        NeuroSymbolicFusionLayer,  # noqa: F401  # TODO: core.integration.neuro_...
+        NeuroSymbolicFusionLayer,  # TODO: core.integration.neuro_...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_consciousness_bridge_py_L67"}
     )
     from core.utils.orchestration_energy_aware_execution_planner import (
-        EnergyAwareExecutionPlanner,  # noqa: F401  # TODO: core.utils.orchestratio...
+        EnergyAwareExecutionPlanner,  # TODO: core.utils.orchestratio...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_consciousness_bridge_py_L71"}
     )
     from memory.governance.ethical_drift_governor import (
-        EthicalDriftGovernor,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+        EthicalDriftGovernor,  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
     )
     from reasoning.symbolic_reasoning import (
-        SymbolicEngine,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
+        SymbolicEngine,  # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
     )
 except ImportError:
     pass
@@ -172,7 +174,7 @@ class DecisionOutcome:
     evaluation_summary: dict[str, Any]
     implementation_timeline: list[dict[str, Any]]
     monitoring_plan: dict[str, Any]
-    rollback_plan: Optional[dict[str, Any]]
+    rollback_plan: dict[str, Any] | None
     decided_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 
@@ -193,7 +195,7 @@ class DecisionStrategy(ABC):
 class UtilityMaximizationStrategy(DecisionStrategy):
     """Decision strategy based on utility maximization"""
 
-    def __init__(self, weights: Optional[dict[DecisionCriteria, float]] = None):
+    def __init__(self, weights: dict[DecisionCriteria, float] | None = None):
         self.weights = weights or {
             DecisionCriteria.UTILITY: 0.3,
             DecisionCriteria.RISK: 0.2,
@@ -323,7 +325,7 @@ class DecisionMakingBridge:
     ethical reasoning, emotional intelligence, and creative insight.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """
         Initialize the Decision-Making Bridge
 
@@ -377,10 +379,10 @@ class DecisionMakingBridge:
 
     def integrate_components(
         self,
-        neuro_symbolic_layer: Optional[Any] = None,
-        energy_planner: Optional[Any] = None,
-        ethical_governor: Optional[Any] = None,
-        symbolic_engine: Optional[Any] = None,
+        neuro_symbolic_layer: Any | None = None,
+        energy_planner: Any | None = None,
+        ethical_governor: Any | None = None,
+        symbolic_engine: Any | None = None,
     ) -> None:
         """
         Integrate with other Lukhas Strategy Engine components
@@ -414,7 +416,7 @@ class DecisionMakingBridge:
         self,
         context: DecisionContext,
         alternatives: list[DecisionAlternative],
-        strategy_name: Optional[str] = None,
+        strategy_name: str | None = None,
     ) -> DecisionOutcome:
         """
         Make a decision given context and alternatives
@@ -469,7 +471,7 @@ class DecisionMakingBridge:
                 evaluations = await self._apply_energy_constraints(context, evaluations)
 
             # Select the best alternative
-            selected_id, confidence_score = strategy.select_best_alternative(evaluations)
+            selected_id, _confidence_score = strategy.select_best_alternative(evaluations)
             selected_evaluation = next(e for e in evaluations if e.alternative_id == selected_id)
 
             # Generate implementation plan
@@ -665,7 +667,7 @@ class DecisionMakingBridge:
         if len(alt_ids) != len(set(alt_ids)):
             raise ValueError("Alternative IDs must be unique")
 
-    def _select_strategy(self, context: DecisionContext, strategy_name: Optional[str]) -> DecisionStrategy:
+    def _select_strategy(self, context: DecisionContext, strategy_name: str | None) -> DecisionStrategy:
         """Select appropriate decision strategy"""
         if strategy_name and strategy_name in self.strategies:
             return self.strategies[strategy_name]
@@ -776,7 +778,7 @@ class DecisionMakingBridge:
 
     def _create_rollback_plan(
         self, context: DecisionContext, evaluation: DecisionEvaluation
-    ) -> Optional[dict[str, Any]]:
+    ) -> dict[str, Any] | None:
         """Create rollback plan in case decision needs to be reversed"""
         if evaluation.overall_score > 0.8:
             return None  # High confidence decisions may not need rollback plans
@@ -901,7 +903,7 @@ class DecisionMakingBridge:
 
 
 # Factory function for Lukhas integration
-def create_dmb_instance(config_path: Optional[str] = None) -> DecisionMakingBridge:
+def create_dmb_instance(config_path: str | None = None) -> DecisionMakingBridge:
     """
     Factory function to create DMB instance with Lukhas integration
 

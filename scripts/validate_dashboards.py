@@ -22,7 +22,7 @@ import requests
 class DashboardValidator:
     """Validates Grafana dashboards for T4/0.01% excellence requirements"""
 
-    REQUIRED_DASHBOARDS = [
+    REQUIRED_DASHBOARDS = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_validate_dashboards_py_L25"}
         'lukhas-t4-overview',
         'lukhas-guardian-sla',
         'lukhas-memory-performance',
@@ -31,7 +31,7 @@ class DashboardValidator:
         'lukhas-identity-auth'
     ]
 
-    REQUIRED_METRICS = [
+    REQUIRED_METRICS = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_validate_dashboards_py_L34"}
         'guardian_response_duration_seconds',
         'memory_event_creation_duration_seconds',
         'ai_provider_request_duration_seconds',
@@ -41,7 +41,7 @@ class DashboardValidator:
         'lukhas:excellence_compliance_score'
     ]
 
-    SLA_THRESHOLDS = {
+    SLA_THRESHOLDS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_validate_dashboards_py_L44"}
         'guardian_latency_p95': 0.1,
         'memory_creation_p95': 0.0001,
         'provider_latency_p95': 0.25,
@@ -59,7 +59,7 @@ class DashboardValidator:
     def validate_dashboard_structure(self, dashboard_path: Path) -> bool:
         """Validate dashboard JSON structure and required fields"""
         try:
-            with open(dashboard_path, 'r') as f:
+            with open(dashboard_path) as f:
                 dashboard = json.load(f)
         except json.JSONDecodeError as e:
             self.validation_errors.append(f"Invalid JSON in {dashboard_path.name}: {e}")
@@ -116,9 +116,8 @@ class DashboardValidator:
                     valid = False
 
             # Check SLA panels have thresholds
-            if 'sla' in panel_title.lower() or 'threshold' in panel_title.lower():
-                if not self._validate_sla_panel(dashboard_name, panel_title, panel):
-                    valid = False
+            if ('sla' in panel_title.lower() or 'threshold' in panel_title.lower()) and (not self._validate_sla_panel(dashboard_name, panel_title, panel)):
+                valid = False
 
         return valid
 
@@ -170,7 +169,7 @@ class DashboardValidator:
 
         # Check if any threshold matches our SLA requirements
         sla_matched = False
-        for sla_name, sla_value in self.SLA_THRESHOLDS.items():
+        for _sla_name, sla_value in self.SLA_THRESHOLDS.items():
             if any(abs(threshold - sla_value) < 0.001 for threshold in threshold_values):
                 sla_matched = True
                 break

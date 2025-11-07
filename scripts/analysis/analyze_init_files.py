@@ -21,7 +21,7 @@ for root, dirs, files in os.walk("."):
             lines = []
             for line in content.split("\n"):
                 stripped = line.strip()
-                if stripped and not stripped.startswith("#"):
+                if stripped and not stripped.startswith("#"):  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_analysis_analyze_init_files_py_L24"}
                     # Skip docstrings
                     if not (
                         stripped == '"""'

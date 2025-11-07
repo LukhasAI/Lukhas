@@ -21,7 +21,6 @@ from typing import Any, Dict, List, Optional
 
 from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator, StageResult, StageType
 from matriz.core.node_interface import CognitiveNode
-
 from observability.matriz_instrumentation import (
     cognitive_pipeline_span,
     initialize_cognitive_instrumentation,
@@ -389,7 +388,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             total_ms = (time.perf_counter() - start_time) * 1000
 
             return {
-                "error": f"Pipeline optimization failure: {str(e)}",
+                "error": f"Pipeline optimization failure: {e!s}",
                 "metrics": {
                     "total_duration_ms": total_ms,
                     "optimization_failure": True,

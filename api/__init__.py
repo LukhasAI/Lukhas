@@ -122,12 +122,12 @@ def get_api_status() -> Dict[str, Union[str, int, float, Dict[str, Dict[str, Uni
 
 # Export main components
 __all__ = [
-    "consciousness_chat_app",
-    "integrated_consciousness_app",
-    "universal_language_app",
-    "feedback_app",
     "API_REGISTRY",
-    "get_available_apis",
+    "consciousness_chat_app",
+    "feedback_app",
     "get_api_app",
     "get_api_status",
+    "get_available_apis",
+    "integrated_consciousness_app",
+    "universal_language_app",
 ]

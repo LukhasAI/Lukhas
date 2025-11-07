@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.EVRN Core - Encrypted Visual Recognition Node
 Handles encrypted perception without exposing decoded content
@@ -10,14 +7,18 @@ import asyncio
 import base64
 import hashlib
 import json
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional, Union
 
 import numpy as np
-
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 
@@ -1075,15 +1076,13 @@ class VIVOXEncryptedPerceptionNode:
 
         # Check consent level
         consent = context.get("consent_level", "none")
-        if consent == "none":
-            return "maximum"
-        elif consent == "implicit":
-            return "high"
-        elif consent == "explicit":
-            return "standard"
+        consent_privacy_map = {
+            "none": "maximum",
+            "implicit": "high",
+            "explicit": "standard",
+        }
 
-        # Default to high privacy
-        return "high"
+        return consent_privacy_map.get(consent, "high")  # Default to high privacy
 
     def _aggregate_vectors(self, vectors: list[PerceptualVector]) -> np.ndarray:
         """Aggregate multiple perceptual vectors into single feature vector"""
@@ -1127,9 +1126,8 @@ class VIVOXEncryptedPerceptionNode:
                 return False
 
         # Check consent requirements
-        if ethical_assessment.get("consent_required", False):
-            if not ethical_assessment.get("consent_verified", False):
-                return False
+        if ethical_assessment.get('consent_required', False) and (not ethical_assessment.get('consent_verified', False)):
+            return False
 
         # All checks passed
         return True

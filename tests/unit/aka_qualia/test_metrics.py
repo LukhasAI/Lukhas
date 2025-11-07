@@ -90,7 +90,7 @@ class TestAkaQualiaMetrics:
 
     def test_initialization_invalid_config_raises_error(self):
         """Tests that an invalid config (weights don't sum to 1.0) raises a ValueError."""
-        with pytest.raises(ValueError, match="Weights must sum to 1.0"):
+    with pytest.raises(ValueError, match=r"Weights must sum to 1.0"):
             # Create a valid config, then modify it to be invalid to bypass Pydantic's validation
             config = MetricsConfig()
             config.weight_arousal = 1.0

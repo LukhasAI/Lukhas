@@ -3,15 +3,14 @@ from __future__ import annotations
 
 from _bridgeutils import bridge_from_candidates
 
+from observability import counter, histogram
+
 __all__, _exp = bridge_from_candidates(
     "labs.core.metrics",
     "labs.metrics",
     "core.metrics",
 )
 globals().update(_exp)
-
-# Additional metric exports for test compatibility
-from observability import counter, histogram  # noqa: E402  (after bridge dynamic import)
 
 stage_latency = histogram(
     "lukhas_stage_latency_seconds",
@@ -109,5 +108,5 @@ mtrx_orch_circuit_open_total = counter(
     labelnames=("component", "reason"),
 )
 
-__all__.extend(["stage_latency", "stage_timeouts", "guardian_band", "reasoning_chain_length", "ethics_risk_distribution", "node_confidence_scores", "constellation_star_activations", "arbitration_decisions_total", "oscillation_detections_total", "parallel_batch_duration", "parallel_execution_mode_total", "retry_attempts_total", "mtrx_stage_duration_seconds", "mtrx_orch_timeout_total", "mtrx_orch_retry_total", "mtrx_orch_circuit_open_total"])
+__all__.extend(["arbitration_decisions_total", "constellation_star_activations", "ethics_risk_distribution", "guardian_band", "mtrx_orch_circuit_open_total", "mtrx_orch_retry_total", "mtrx_orch_timeout_total", "mtrx_stage_duration_seconds", "node_confidence_scores", "oscillation_detections_total", "parallel_batch_duration", "parallel_execution_mode_total", "reasoning_chain_length", "retry_attempts_total", "stage_latency", "stage_timeouts"])
 

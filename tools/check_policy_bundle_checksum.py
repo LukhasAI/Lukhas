@@ -59,7 +59,8 @@ def load_stored_checksum() -> Dict[str, str]:
     if CHECKSUM_FILE.exists():
         try:
             return json.loads(CHECKSUM_FILE.read_text())
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             return {}
     return {}
 

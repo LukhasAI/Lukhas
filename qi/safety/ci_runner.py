@@ -90,7 +90,7 @@ def main():
     # 4) mutation fuzzer for specific tasks
     tasks_to_fuzz = ["generate_summary", "answer_medical"]  # adjust as you like
     for t in tasks_to_fuzz:
-        rc, out = step(
+        rc, _out = step(
             f"policy_mutate:{t}",
             [
                 sys.executable,

@@ -7,7 +7,8 @@ module imports.
 
 from __future__ import annotations
 
-from typing import Dict, Sequence, Tuple, Type
+from collections.abc import Sequence
+from typing import Dict, Tuple, Type
 
 try:
     from prometheus_client import (  # type: ignore
@@ -50,8 +51,8 @@ __all__ = [
     "counter",
     "gauge",
     "histogram",
-    "summary",
     "register_lukhas_metric",
+    "summary",
 ]
 
 LUKHAS_REGISTRY: CollectorRegistry = CollectorRegistry()  # auto_describe default ok

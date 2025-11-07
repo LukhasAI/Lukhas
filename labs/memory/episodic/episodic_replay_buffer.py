@@ -26,7 +26,7 @@
 ║ ╠══════════════════════════════════════════════════════════════════════════════════
 ║ ║ In the grand theater of intelligence, where the dance of neurons paints the
 ║ ║ tapestry of cognition, lies a reservoir of experiences, a sacred vault of
-║ ║ memories—the Episodic Replay Buffer. This module stands as the sentinel
+║ ║ memories-the Episodic Replay Buffer. This module stands as the sentinel
 ║
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ TECHNICAL FEATURES:
@@ -39,6 +39,8 @@
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛADVANCED, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 import heapq

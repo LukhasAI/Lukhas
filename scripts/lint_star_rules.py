@@ -173,8 +173,8 @@ def main():
     # output
     report = {
         "rules_file": str(rules_path),
-        "canonical_stars": sorted(list(canonical)),
-        "deny": sorted(list(deny)),
+        "canonical_stars": sorted(canonical),
+        "deny": sorted(deny),
         "weights": weights,
         "confidence": conf,
         "totals": {

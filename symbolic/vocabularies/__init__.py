@@ -135,8 +135,6 @@ def get_symbol(vocabulary_name: str, key: str, default: str = "❓") -> str:
 
 # Export all symbols
 __all__ = [
-    # Main class
-    "SymbolicVocabulary",
     # Bio module
     "BIO_SYMBOLS",
     "DEVICE_SYMBOLS",
@@ -153,6 +151,8 @@ __all__ = [
     "VISION_SYMBOLIC_VOCABULARY",
     # Voice module
     "VOICE_SYMBOLIC_VOCABULARY",
+    # Main class
+    "SymbolicVocabulary",
     # Helper function
     "get_symbol",
 ]

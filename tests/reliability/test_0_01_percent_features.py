@@ -11,7 +11,6 @@ import time
 from unittest.mock import Mock, patch
 
 import pytest
-
 from core.reliability import (
     AdaptiveCircuitBreaker,
     AdaptiveTimeoutManager,
@@ -67,8 +66,8 @@ class TestAdaptiveCircuitBreaker:
             raise ValueError("Test failure")
 
         # Generate failures to trigger circuit opening
-        for i in range(10):
-            try:
+        for _i in range(10):
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_reliability_test_0_01_percent_features_py_L70"}
                 await circuit_breaker.call(failing_func)
             except (ValueError, CircuitBreakerOpenError):
                 pass  # Ignore both test failures and circuit breaker errors
@@ -83,7 +82,8 @@ class TestAdaptiveCircuitBreaker:
         for _ in range(10):
             try:
                 await circuit_breaker.call(lambda: exec('raise ValueError("failure")'))
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
         # Circuit should now be open and fail fast
@@ -143,14 +143,14 @@ class TestPerformanceRegressionDetector:
     def test_regression_detection(self, detector):
         """Test that performance regressions are detected."""
         # Establish baseline
-        for i in range(50):
+        for _i in range(50):
             detector.record_operation("test_op", 100.0, success=True)
 
         # Force baseline calculation
         detector._get_or_calculate_baseline("test_op")
 
         # Simulate performance regression
-        for i in range(20):
+        for _i in range(20):
             detector.record_operation("test_op", 300.0, success=True)  # 3x slower
 
         alerts = detector.get_active_alerts()

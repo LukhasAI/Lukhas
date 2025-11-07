@@ -29,7 +29,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 try:
-    import anthropic  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    import anthropic  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
     from anthropic import AsyncAnthropic
 
     ANTHROPIC_AVAILABLE = True
@@ -476,10 +476,9 @@ class AnthropicFunctionBridge:
                     return
 
             # Security validation for critical tools
-            if tool_def.security_level == "critical":
-                if not await self._validate_critical_tool_use(tool_use, tool_def):
-                    tool_use.error = "Critical tool validation failed"
-                    return
+            if tool_def.security_level == 'critical' and (not await self._validate_critical_tool_use(tool_use, tool_def)):
+                tool_use.error = "Critical tool validation failed"
+                return
 
             # Execute tool if handler available
             if tool_def.handler:

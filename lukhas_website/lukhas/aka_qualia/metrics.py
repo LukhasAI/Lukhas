@@ -381,7 +381,7 @@ class AkaQualiaMetrics:
 
         # Repair delta with energy conservation
         if energy_before:
-            repair_delta, conservation_valid = self.compute_repair_delta(energy_before, energy_after, policy_work)
+            repair_delta, _conservation_valid = self.compute_repair_delta(energy_before, energy_after, policy_work)
         else:
             repair_delta = 0.0
 

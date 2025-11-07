@@ -15,6 +15,7 @@ Contract Requirements:
 
 Constellation Framework: 🌊 Distributed Tracing Excellence
 """
+from __future__ import annotations
 
 import logging
 import time
@@ -105,7 +106,7 @@ class MATRIZTracingContractValidator:
         self,
         operation: str,
         correlation_id: str,
-        parent_span: Optional[Any] = None,
+        parent_span: Any | None = None,
         **attributes
     ) -> Any:
         """Create MATRIZ span with proper tracing contract compliance."""
@@ -141,9 +142,9 @@ class MATRIZTracingContractValidator:
             parent_id = getattr(parent_span, '_span_id', 'unknown')
             self.span_relationships[span_id] = parent_id
 
-        setattr(span, '_span_id', span_id)
-        setattr(span, '_correlation_id', correlation_id)
-        setattr(span, '_operation', operation)
+        span._span_id = span_id
+        span._correlation_id = correlation_id
+        span._operation = operation
 
         return span
 
@@ -162,8 +163,8 @@ class MATRIZTracingContractValidator:
         # Store span
         span_id = str(uuid.uuid4())
         self.active_spans[span_id] = span
-        setattr(span, '_span_id', span_id)
-        setattr(span, '_correlation_id', correlation_id)
+        span._span_id = span_id
+        span._correlation_id = correlation_id
 
         return span
 
@@ -187,10 +188,7 @@ class MATRIZTracingContractValidator:
             # For mock spans
             attributes = getattr(span, 'attributes', {})
 
-        if "correlation_id" in attributes:
-            has_correlation_id = True
-            correlation_id_as_attribute = True
-        elif hasattr(span, '_correlation_id'):
+        if "correlation_id" in attributes or hasattr(span, '_correlation_id'):
             has_correlation_id = True
             correlation_id_as_attribute = True
 

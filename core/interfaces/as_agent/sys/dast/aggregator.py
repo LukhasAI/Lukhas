@@ -17,8 +17,10 @@ Original: aggregator.py
 Advanced: aggregator.py
 Integration Date: 2025-05-31T07:55:30.569930
 """
+from __future__ import annotations
+
 import asyncio
-from typing import Any, Optional
+from typing import Any
 
 # Explicit imports replacing star imports per PEP8 guidelines # CLAUDE_EDIT_v0.8
 # Since the constants.py file contains placeholder values and symbolic_utils.py
@@ -55,12 +57,12 @@ class DASTAggregator:
         self._initialized = True
 
         # Orchestrator integration
-        self.trio_orchestrator: Optional[TrioOrchestrator] = None
+        self.trio_orchestrator: TrioOrchestrator | None = None
         self.dast_engine = DASTEngine() if DASTEngine else None
 
         # Register with DAST integration hub (when available)
         self.dast_hub = None
-        try:
+        try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_interfaces_as_agent_sys_dast_aggregator_py_L65"}
             # TODO: Enable when hub dependencies are resolved
             # from dast.integration.dast_integration_hub import get_dast_integration_hub
             # self.dast_hub = get_dast_integration_hub()
@@ -133,8 +135,8 @@ class DASTAggregator:
 
 
 # Global aggregator instance and orchestrator integration
-_aggregator: Optional[DASTAggregator] = None
-trio_orchestrator: Optional[TrioOrchestrator] = None
+_aggregator: DASTAggregator | None = None
+trio_orchestrator: TrioOrchestrator | None = None
 dast_engine = DASTEngine() if DASTEngine else None
 
 

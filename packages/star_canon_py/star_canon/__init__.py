@@ -25,7 +25,7 @@ def _derive_labels(payload: Dict[str, object]) -> List[str]:
     return []
 
 
-@functools.lru_cache()
+@functools.lru_cache
 def canon() -> Dict[str, object]:
     p = files(__package__) / "star_canon.json"
     data: Dict[str, object] = json.loads(p.read_text(encoding="utf-8"))

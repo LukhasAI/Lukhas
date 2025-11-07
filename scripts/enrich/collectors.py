@@ -14,7 +14,7 @@ import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from enrich.review_queue import ReviewQueue
 
@@ -27,7 +27,7 @@ class Signal:
     confidence: str  # "high" | "medium" | "low"
     reasons: List[str]
     extracted_at: str
-    sha: Optional[str] = None
+    sha: str | None = None
 
     def to_prov(self) -> Dict:
         """Convert to _provenance schema format"""
@@ -81,7 +81,7 @@ class Vocab:
                 mapping[syn.lower().strip()] = canonical
         return mapping
 
-    def map_feature(self, text: str) -> Optional[str]:
+    def map_feature(self, text: str) -> str | None:
         """Map raw text to canonical feature key"""
         normalized = text.lower().strip()
         return self.synonym_map.get(normalized)
@@ -99,7 +99,7 @@ class ClaudeExtractor:
         self.repo_root = repo_root
         self.queue = ReviewQueue(repo_root)
 
-    def _read(self, path: Path) -> Optional[str]:
+    def _read(self, path: Path) -> str | None:
         """Safe read with error handling"""
         if not path.exists():
             return None
@@ -330,20 +330,18 @@ class InitExtractor:
         for node in ast.walk(tree):
             if isinstance(node, ast.Assign):
                 for target in node.targets:
-                    if isinstance(target, ast.Name) and target.id == "__all__":
-                        if isinstance(node.value, (ast.List, ast.Tuple)):
-                            for elem in node.value.elts:
-                                if isinstance(elem, (ast.Str, ast.Constant)):
-                                    val = getattr(elem, "s", None) or getattr(elem, "value", None)
-                                    if val:
-                                        exports.add(val)
+                    if (isinstance(target, ast.Name) and target.id == '__all__') and isinstance(node.value, (ast.List, ast.Tuple)):
+                        for elem in node.value.elts:
+                            if isinstance(elem, (ast.Str, ast.Constant)):
+                                val = getattr(elem, "s", None) or getattr(elem, "value", None)
+                                if val:
+                                    exports.add(val)
 
         # Fallback: public class/function defs
         if not exports:
             for node in tree.body:
-                if isinstance(node, (ast.ClassDef, ast.FunctionDef)):
-                    if not node.name.startswith("_"):
-                        exports.add(node.name)
+                if isinstance(node, (ast.ClassDef, ast.FunctionDef)) and (not node.name.startswith('_')):
+                    exports.add(node.name)
 
         # Build API metadata
         apis = {}

@@ -4,6 +4,8 @@ Original: main.py
 Advanced: main.py
 Integration Date: 2025-05-31T07:55:27.735633
 """
+from __future__ import annotations
+
 
 # ╔════════════════════════════════════════════════════════════╗
 # ║ 🌿 LUKHAS Cognitive AI MAIN INTERFACE - symbolic_brainstem v1.0      ║
@@ -120,7 +122,7 @@ def main():
             print("🌙 Exiting Lukhas. Your symbolic trace ends here.")
             break
         else:
-            print("⚠️ Unknown option. Try 1–5 or type q to quit.")
+            print("⚠️ Unknown option. Try 1-5 or type q to quit.")
 
 
 if __name__ == "__main__":

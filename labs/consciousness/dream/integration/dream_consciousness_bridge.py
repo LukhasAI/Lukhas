@@ -5,6 +5,8 @@
 │     Advanced bridge between dream states and consciousness systems          │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
+from __future__ import annotations
+
 
 import logging
 from datetime import datetime, timezone

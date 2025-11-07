@@ -14,6 +14,8 @@ CONSTELLATION FRAMEWORK:
     🧠 Consciousness: Manages conscious/unconscious dream state transitions
     🛡️ Guardian: Ensures safe state transitions and content validation
 """
+from __future__ import annotations
+
 
 import logging
 from datetime import datetime, timezone

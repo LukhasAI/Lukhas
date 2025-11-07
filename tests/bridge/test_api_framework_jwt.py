@@ -4,7 +4,7 @@ Tests for JWT verification adapter.
 Part of BATCH-COPILOT-2025-10-08-01
 TaskID: ASSIST-HIGH-TEST-JWT-m3n4o5p6
 """
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from unittest.mock import Mock, patch
 
 import pytest
@@ -18,8 +18,8 @@ def valid_jwt_payload():
         "user_id": "test_user_123",
         "email": "test@example.com",
         "tier": "free",
-        "exp": int((datetime.utcnow() + timedelta(hours=1)).timestamp()),
-        "iat": int(datetime.utcnow().timestamp()),
+        "exp": int((datetime.now(timezone.utc) + timedelta(hours=1)).timestamp()),
+        "iat": int(datetime.now(timezone.utc).timestamp()),
         "iss": "ai"
     }
 
@@ -29,8 +29,8 @@ def expired_jwt_payload():
     """Expired JWT payload."""
     return {
         "user_id": "test_user_123",
-        "exp": int((datetime.utcnow() - timedelta(hours=1)).timestamp()),
-        "iat": int((datetime.utcnow() - timedelta(hours=2)).timestamp())
+        "exp": int((datetime.now(timezone.utc) - timedelta(hours=1)).timestamp()),
+        "iat": int((datetime.now(timezone.utc) - timedelta(hours=2)).timestamp())
     }
 
 
@@ -123,7 +123,7 @@ def test_jwt_verification_invalid_issuer():
     """Test JWT verification fails for wrong issuer."""
     {
         "user_id": "test_user_123",
-        "exp": int((datetime.utcnow() + timedelta(hours=1)).timestamp()),
+        "exp": int((datetime.now(timezone.utc) + timedelta(hours=1)).timestamp()),
         "iss": "evil.com"
     }
     pytest.skip("Pending implementation")
@@ -173,8 +173,8 @@ def test_jwt_not_before_claim():
     """Test JWT 'nbf' (not before) claim validation."""
     {
         "user_id": "test_user_123",
-        "exp": int((datetime.utcnow() + timedelta(hours=2)).timestamp()),
-        "nbf": int((datetime.utcnow() + timedelta(hours=1)).timestamp())
+        "exp": int((datetime.now(timezone.utc) + timedelta(hours=2)).timestamp()),
+        "nbf": int((datetime.now(timezone.utc) + timedelta(hours=1)).timestamp())
     }
     pytest.skip("Pending implementation")
 
@@ -245,7 +245,7 @@ def test_jwt_with_custom_claims():
     """Test JWT with custom claims."""
     {
         "user_id": "test_user_123",
-        "exp": int((datetime.utcnow() + timedelta(hours=1)).timestamp()),
+        "exp": int((datetime.now(timezone.utc) + timedelta(hours=1)).timestamp()),
         "custom_field": "custom_value",
         "lambda_id": "λ_user_123"
     }
@@ -263,7 +263,7 @@ def test_jwt_unicode_in_claims():
     {
         "user_id": "test_用户_123",
         "name": "Test 用户 🎭",
-        "exp": int((datetime.utcnow() + timedelta(hours=1)).timestamp())
+        "exp": int((datetime.now(timezone.utc) + timedelta(hours=1)).timestamp())
     }
     pytest.skip("Pending implementation")
 

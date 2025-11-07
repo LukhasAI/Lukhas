@@ -187,7 +187,7 @@ class DeepInferenceEngine:
             )
 
             # Validate all chains for contradictions and circular logic
-            validated_chains = await self._validate_chains([primary_chain] + alternative_chains)
+            validated_chains = await self._validate_chains([primary_chain, *alternative_chains])
 
             # Select best chain and build result
             primary_chain = self._select_best_chain(validated_chains)
@@ -475,10 +475,9 @@ class DeepInferenceEngine:
             if pattern == "modus_ponens":
                 return f"Conditional result of: {premise}"
 
-        elif template_type == InferenceType.PROBABILISTIC:
-            if pattern == "bayesian_update":
-                confidence_est = max(0.1, 1.0 - depth * 0.1)
-                return f"Probabilistic inference ({confidence_est:.1%}): {premise}"
+        elif template_type == InferenceType.PROBABILISTIC and pattern == "bayesian_update":
+            confidence_est = max(0.1, 1.0 - depth * 0.1)
+            return f"Probabilistic inference ({confidence_est:.1%}): {premise}"
 
         # Fallback
         return f"Inference at depth {depth}: {premise}"
@@ -610,7 +609,7 @@ class DeepInferenceEngine:
 
         # Check for direct contradictions between steps
         for i, step1 in enumerate(chain.steps):
-            for j, step2 in enumerate(chain.steps[i+1:], i+1):
+            for _j, step2 in enumerate(chain.steps[i+1:], i+1):
                 if await self._are_contradictory(step1.conclusion, step2.conclusion):
                     contradiction_id = f"contradiction_{step1.step_id}_{step2.step_id}"
                     contradictions.append(contradiction_id)
@@ -651,11 +650,9 @@ class DeepInferenceEngine:
 
         # Check for violations of logical rules
         for step in chain.steps:
-            if step.inference_type == InferenceType.CONDITIONAL:
+            if step.inference_type == InferenceType.CONDITIONAL and (('if' in step.premise.lower() and 'therefore' in step.reasoning.lower()) and await self._is_fallacious_reasoning(step)):
                 # Check for affirming the consequent fallacy
-                if "if" in step.premise.lower() and "therefore" in step.reasoning.lower():
-                    if await self._is_fallacious_reasoning(step):
-                        contradictions.append(f"logical_fallacy_{step.step_id}")
+                contradictions.append(f"logical_fallacy_{step.step_id}")
 
         return contradictions
 
@@ -673,11 +670,7 @@ class DeepInferenceEngine:
             "false dilemma"
         ]
 
-        for pattern in fallacy_patterns:
-            if pattern in reasoning:
-                return True
-
-        return False
+        return any(pattern in reasoning for pattern in fallacy_patterns)
 
     def _calculate_chain_confidence(self, chain: InferenceChain) -> float:
         """Calculate overall confidence for inference chain."""
@@ -876,9 +869,9 @@ class DeepInferenceEngine:
 # Export main classes
 __all__ = [
     "DeepInferenceEngine",
-    "InferenceResult",
     "InferenceChain",
+    "InferenceResult",
+    "InferenceStatus",
     "InferenceStep",
-    "InferenceType",
-    "InferenceStatus"
+    "InferenceType"
 ]

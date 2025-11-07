@@ -82,7 +82,7 @@ class RepairResult:
 
     def __init__(self, success: bool, method: RepairMethod,
                  pre_score: float, post_score: float,
-                 details: Dict[str, Any] = None):
+                 details: Optional[Dict[str, Any]] = None):
         self.success = success
         self.method = method
         self.pre_score = pre_score
@@ -136,7 +136,7 @@ class TraceRepairEngine:
                    f"minor={self.minor_threshold}, critical={self.critical_threshold}")
 
     def reconsolidate(self, kind: str, score: float, context: Dict[str, Any],
-                     top_symbols: List[str] = None) -> RepairResult:
+                     top_symbols: Optional[List[str]] = None) -> RepairResult:
         """
         Main repair entry point - reconsolidate traces to reduce drift.
 

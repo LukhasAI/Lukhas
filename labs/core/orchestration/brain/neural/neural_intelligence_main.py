@@ -91,7 +91,7 @@ async def main():
         "log_level": "INFO",
     }
 
-    lukhas = LukhasNeuralIntelligence(config)
+    LukhasNeuralIntelligence(config)
 
     # Show system status
     status = get_system_status()

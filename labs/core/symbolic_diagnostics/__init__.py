@@ -29,6 +29,8 @@ Q
 Q Symbolic Tags: {DIAGNOSTICS}, {TRACE}, {REPAIR}, {INTEGRITY}, {INIT}
 ZPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 """
+from __future__ import annotations
+
 # Package imports
 import logging
 

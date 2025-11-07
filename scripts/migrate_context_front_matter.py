@@ -20,7 +20,7 @@ import json
 import pathlib
 import re
 import sys
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 FM_BOUNDARY = re.compile(r"^\s*---\s*$")
@@ -52,13 +52,10 @@ def has_front_matter(text: str) -> bool:
     if not FM_BOUNDARY.match(lines[0]):
         return False
     # find end within first 200 lines
-    for i in range(1, min(len(lines), 200)):
-        if FM_BOUNDARY.match(lines[i]):
-            return True
-    return False
+    return any(FM_BOUNDARY.match(lines[i]) for i in range(1, min(len(lines), 200)))
 
 
-def read_manifest(md_path: pathlib.Path) -> Optional[Dict]:
+def read_manifest(md_path: pathlib.Path) -> Dict | None:
     """Read and parse the sibling module.manifest.json file.
 
     Looks for module.manifest.json in the same directory as the given markdown
@@ -87,7 +84,7 @@ def read_manifest(md_path: pathlib.Path) -> Optional[Dict]:
         return None
 
 
-def parse_legacy_header(text: str) -> Dict[str, Optional[str]]:
+def parse_legacy_header(text: str) -> Dict[str, str | None]:
     """Extract metadata from legacy context file header format.
 
     Scans the first 40 lines of a context file to find legacy header fields
@@ -128,7 +125,7 @@ def parse_legacy_header(text: str) -> Dict[str, Optional[str]]:
     return fields
 
 
-def sanitize_nodes(nodes_str: Optional[str]) -> List[str]:
+def sanitize_nodes(nodes_str: str | None) -> List[str]:
     """Parse and normalize MATRIZ node string to list of node codes.
 
     Splits a comma or whitespace-separated string of MATRIZ node codes into
@@ -244,7 +241,7 @@ def remove_legacy_header(text: str) -> str:
     return "\n".join(keep).lstrip("\n") + ("\n" if keep else "")
 
 
-def migrate_one(md_path: pathlib.Path) -> Optional[str]:
+def migrate_one(md_path: pathlib.Path) -> str | None:
     """Migrate a single context file to YAML front-matter format.
 
     Orchestrates the migration of one lukhas_context.md file by combining

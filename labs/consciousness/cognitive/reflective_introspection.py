@@ -46,6 +46,8 @@
 ║ • Cybernetic Control Theory (Wiener, 1948)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import asyncio  # For tier decorator placeholder
 import logging
 from collections import defaultdict, deque  # Added defaultdict

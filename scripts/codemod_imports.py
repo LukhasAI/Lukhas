@@ -19,9 +19,10 @@ import ast
 import csv
 import re
 import sys
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Tuple
+from typing import Dict, List, Tuple
 
 HAS_LIBCST = True
 
@@ -93,10 +94,7 @@ def load_cfg(path: str|None):
     return merged, allow or ALLOWLIST_DEFAULT
 
 def root_ok(p: Path)->bool:
-    for seg in p.parts:
-        if seg in EXCLUDE_DIRS:
-            return False
-    return True
+    return all(seg not in EXCLUDE_DIRS for seg in p.parts)
 
 def rewrite_root(name: str, mapping: Dict[str,str]) -> str|None:
     # If name begins with any legacy root, replace that segment
@@ -106,7 +104,7 @@ def rewrite_root(name: str, mapping: Dict[str,str]) -> str|None:
     root = parts[0]
     if root in mapping:
         new_root = mapping[root]
-        new_name = ".".join([new_root] + parts[1:])
+        new_name = ".".join([new_root, *parts[1:]])
         return new_name
     return None
 
@@ -306,7 +304,7 @@ def _fallback_replacements(src: str, mapping: Dict[str, str]) -> Tuple[List[Repl
     last_end = -1
     for rep in replacements:
         if rep.start < last_end:
-            # overlapping replacement – skip to keep deterministic output
+            # overlapping replacement - skip to keep deterministic output
             continue
         merged.append(rep)
         last_end = rep.end

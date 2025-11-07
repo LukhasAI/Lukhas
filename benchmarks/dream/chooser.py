@@ -218,7 +218,7 @@ class ConfigChooser:
                         priority: Priority = Priority.BALANCED) -> Dict[str, Any]:
         """Recommend best configuration based on benchmark results."""
         # Load benchmark results
-        with open(benchmark_path, 'r') as f:
+        with open(benchmark_path) as f:
             if benchmark_path.endswith('.jsonl'):
                 results = []
                 for line in f:

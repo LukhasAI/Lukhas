@@ -40,7 +40,7 @@ class PytestErrorAnalyzer:
     """Analyzes pytest collection errors and suggests fixes."""
 
     # Error pattern regex definitions
-    PATTERNS = {
+    PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_error_analysis_pytest_error_analyzer_py_L43"}
         'module_not_found': re.compile(r"ModuleNotFoundError: No module named '([^']+)'"),
         'cannot_import': re.compile(r"cannot import name '([^']+)' from '([^']+)'"),
         'no_attribute': re.compile(r"module '([^']+)' has no attribute '([^']+)'"),
@@ -87,7 +87,7 @@ class PytestErrorAnalyzer:
 
     def generate_fix_suggestions(self) -> None:
         """Generate fix suggestions for each error pattern."""
-        for error, count in self.error_counts.most_common():
+        for error, _count in self.error_counts.most_common():
             if error.category == 'ModuleNotFound':
                 self.fix_suggestions[str(error)].append(
                     self._generate_bridge_fix(error.detail)
@@ -153,7 +153,7 @@ cat >> {module_path}/__init__.py <<'EXPORT'
 
 # Add {symbol} for test compatibility
 try:
-    from candidate.{module} import {symbol}
+    from labs.{module} import {symbol}
 except ImportError:
     # Stub fallback
     class {symbol}:
@@ -243,7 +243,7 @@ EXPORT
             ],
             "category_summary": {
                 category: sum(count for e, count in self.error_counts.items() if e.category == category)
-                for category in set(e.category for e in self.error_counts.keys())
+                for category in {e.category for e in self.error_counts}
             }
         }
 

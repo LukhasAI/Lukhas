@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import random
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 # Canonical emotion keys for consistency
 CANON_EMOTIONS = ["confidence", "curiosity", "joy", "fear", "anger", "sadness", "surprise", "trust"]
@@ -24,7 +24,7 @@ class SyntheticGenerator:
     def __init__(self, seed: int = 42):
         self.rng = random.Random(seed)
 
-    def _random_emotion(self, bias: Optional[Dict[str, float]] = None) -> Dict[str, float]:
+    def _random_emotion(self, bias: Dict[str, float] | None = None) -> Dict[str, float]:
         """Generate random emotion vector with optional bias."""
         emotion = {}
         for key in CANON_EMOTIONS:
@@ -40,7 +40,7 @@ class SyntheticGenerator:
         return emotion
 
     def _generate_snapshot(self, name: str, emotion: Dict[str, float],
-                         timestamp_base: float, alignment_hint: float = None) -> Dict[str, Any]:
+                         timestamp_base: float, alignment_hint: float | None = None) -> Dict[str, Any]:
         """Generate a single snapshot."""
         # Add some noise to emotion if desired
         noisy_emotion = {}
@@ -65,7 +65,7 @@ class SyntheticGenerator:
 
         # Create clearly worse options
         worse_emotions = []
-        for i in range(3):
+        for _ in range(3):
             # Flip some emotions to opposite values
             flipped = {}
             for key, value in query_emotion.items():
@@ -197,8 +197,8 @@ class SyntheticGenerator:
 
         # Snapshots with various extreme patterns
         snapshots = []
-        snapshots.append(self._generate_snapshot("all_max", {k: 1.0 for k in CANON_EMOTIONS}, 100.0))
-        snapshots.append(self._generate_snapshot("all_min", {k: 0.0 for k in CANON_EMOTIONS}, 100.0))
+        snapshots.append(self._generate_snapshot("all_max", dict.fromkeys(CANON_EMOTIONS, 1.0), 100.0))
+        snapshots.append(self._generate_snapshot("all_min", dict.fromkeys(CANON_EMOTIONS, 0.0), 100.0))
         snapshots.append(self._generate_snapshot("alternating",
                                                 {k: 1.0 if i % 2 == 0 else 0.0 for i, k in enumerate(CANON_EMOTIONS)}, 100.0))
 
@@ -216,12 +216,12 @@ class SyntheticGenerator:
 
     def _adversarial_all_zeros(self, case_id: str) -> SyntheticCase:
         """Adversarial: all emotions zero."""
-        query = {k: 0.0 for k in CANON_EMOTIONS}
+        query = dict.fromkeys(CANON_EMOTIONS, 0.0)
 
         snapshots = []
         snapshots.append(self._generate_snapshot("also_zeros", query.copy(), 100.0))
-        snapshots.append(self._generate_snapshot("small_values", {k: 0.1 for k in CANON_EMOTIONS}, 100.0))
-        snapshots.append(self._generate_snapshot("large_values", {k: 0.9 for k in CANON_EMOTIONS}, 100.0))
+        snapshots.append(self._generate_snapshot("small_values", dict.fromkeys(CANON_EMOTIONS, 0.1), 100.0))
+        snapshots.append(self._generate_snapshot("large_values", dict.fromkeys(CANON_EMOTIONS, 0.9), 100.0))
 
         return SyntheticCase(
             case_id=case_id,
@@ -234,12 +234,12 @@ class SyntheticGenerator:
 
     def _adversarial_all_ones(self, case_id: str) -> SyntheticCase:
         """Adversarial: all emotions maxed."""
-        query = {k: 1.0 for k in CANON_EMOTIONS}
+        query = dict.fromkeys(CANON_EMOTIONS, 1.0)
 
         snapshots = []
         snapshots.append(self._generate_snapshot("also_ones", query.copy(), 100.0))
-        snapshots.append(self._generate_snapshot("mostly_ones", {k: 0.95 for k in CANON_EMOTIONS}, 100.0))
-        snapshots.append(self._generate_snapshot("half_values", {k: 0.5 for k in CANON_EMOTIONS}, 100.0))
+        snapshots.append(self._generate_snapshot("mostly_ones", dict.fromkeys(CANON_EMOTIONS, 0.95), 100.0))
+        snapshots.append(self._generate_snapshot("half_values", dict.fromkeys(CANON_EMOTIONS, 0.5), 100.0))
 
         return SyntheticCase(
             case_id=case_id,
@@ -275,7 +275,7 @@ class SyntheticGenerator:
     def _adversarial_sparse_emotions(self, case_id: str) -> SyntheticCase:
         """Adversarial: very sparse emotion vectors."""
         # Query with only 1-2 non-zero emotions
-        query = {k: 0.0 for k in CANON_EMOTIONS}
+        query = dict.fromkeys(CANON_EMOTIONS, 0.0)
         active_emotions = self.rng.sample(CANON_EMOTIONS, 2)
         for key in active_emotions:
             query[key] = self.rng.uniform(0.5, 1.0)
@@ -286,11 +286,11 @@ class SyntheticGenerator:
         snapshots.append(self._generate_snapshot("sparse_match", query.copy(), 100.0))
 
         # Dense but lower values
-        dense = {k: 0.3 for k in CANON_EMOTIONS}
+        dense = dict.fromkeys(CANON_EMOTIONS, 0.3)
         snapshots.append(self._generate_snapshot("dense_low", dense, 100.0))
 
         # Different sparse pattern
-        different_sparse = {k: 0.0 for k in CANON_EMOTIONS}
+        different_sparse = dict.fromkeys(CANON_EMOTIONS, 0.0)
         other_emotions = [k for k in CANON_EMOTIONS if k not in active_emotions]
         for key in self.rng.sample(other_emotions, 2):
             different_sparse[key] = self.rng.uniform(0.5, 1.0)

@@ -107,10 +107,7 @@ class TokenService(TokenManagerInterface):
                     return False
 
                 # Check issuer
-                if payload.get("iss") != self.issuer:
-                    return False
-
-                return True
+                return payload.get("iss") == self.issuer
             else:
                 # Fallback validation
                 return await self._validate_fallback_token(token)
@@ -184,10 +181,7 @@ class TokenService(TokenManagerInterface):
                 return False
 
             # Check expiry
-            if claims.get("exp", 0) < time.time():
-                return False
-
-            return True
+            return not claims.get("exp", 0) < time.time()
         except Exception:
             return False
 

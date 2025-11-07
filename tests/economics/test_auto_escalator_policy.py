@@ -17,27 +17,27 @@ from src.economics.auto_escalator_policy import (
 def _build_metrics(**overrides: Any) -> UserValueMetrics:
     """Helper to construct metrics objects with sensible defaults."""
 
-    base = dict(
-        user_id="user-test",
-        current_tier=EscalatorTier.VISITOR,
-        monthly_transaction_volume=750.0,
-        total_lifetime_volume=2500.0,
-        avg_order_value=125.0,
-        engagement_score=0.65,
-        session_frequency=4.2,
-        time_on_platform=8.5,
-        data_quality_score=0.78,
-        consent_breadth=0.85,
-        data_freshness=0.92,
-        feedback_score=0.72,
-        referral_count=3,
-        merchant_satisfaction=0.88,
-        platform_advocacy=0.56,
-        total_value_score=0.0,
-        next_tier_progress=0.0,
-        escalation_eligible=False,
-        last_updated=time.time(),
-    )
+    base = {
+        "user_id": "user-test",
+        "current_tier": EscalatorTier.VISITOR,
+        "monthly_transaction_volume": 750.0,
+        "total_lifetime_volume": 2500.0,
+        "avg_order_value": 125.0,
+        "engagement_score": 0.65,
+        "session_frequency": 4.2,
+        "time_on_platform": 8.5,
+        "data_quality_score": 0.78,
+        "consent_breadth": 0.85,
+        "data_freshness": 0.92,
+        "feedback_score": 0.72,
+        "referral_count": 3,
+        "merchant_satisfaction": 0.88,
+        "platform_advocacy": 0.56,
+        "total_value_score": 0.0,
+        "next_tier_progress": 0.0,
+        "escalation_eligible": False,
+        "last_updated": time.time(),
+    }
     base.update(overrides)
     return UserValueMetrics(**base)
 

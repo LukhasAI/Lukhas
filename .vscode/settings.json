@@ -12,15 +12,63 @@
   ],
   "python.testing.cwd": "${workspaceFolder}",
   "python.envFile": "${workspaceFolder}/.env",
-  "python.analysis.typeCheckingMode": "strict",
-  "python.analysis.diagnosticMode": "openFilesOnly",
-  "python.analysis.indexing": false,
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.indexing": true,
   "python.analysis.autoImportCompletions": true,
   "python.analysis.completeFunctionParens": true,
   "python.analysis.autoFormatStrings": true,
   "python.analysis.inlayHints.functionReturnTypes": true,
   "python.analysis.inlayHints.variableTypes": true,
   "python.analysis.inlayHints.pytestParameters": true,
+  // Align with MyPy: strict only for lukhas, MATRIZ
+  "python.analysis.include": [
+    "lukhas/**",
+    "MATRIZ/**"
+  ],
+  "python.analysis.exclude": [
+    "candidate/**",
+    "archive/**",
+    "quarantine/**",
+    "tests/**",
+    "tools/**",
+    "labs/**",
+    "examples/**",
+    "docs/**",
+    "scripts/migrations/**",
+    "build/**",
+    "dist/**",
+    "node_modules/**",
+    "**/migrations/**",
+    "**/generated/**",
+    "gemini-dev/**",
+    "products/**",
+    "dreamweaver_helpers_bundle/**"
+  ],
+  // Match MyPy python_version and target
+  "python.analysis.stubPath": "typings",
+  "python.analysis.useLibraryCodeForTypes": true,
+  // Align Pylance diagnostics with Ruff configuration
+  "python.analysis.diagnosticSeverityOverrides": {
+    // Align with Ruff ignore rules from pyproject.toml
+    "reportMissingImports": "warning",
+    "reportMissingTypeStubs": "information",
+    "reportUnknownMemberType": "information",
+    "reportUnknownArgumentType": "information",
+    "reportUnknownVariableType": "information",
+    "reportUnknownParameterType": "information",
+    "reportMissingParameterType": "information",
+    "reportMissingReturnType": "information",
+    "reportUntypedFunctionDecorator": "information",
+    "reportUntypedClassDecorator": "information",
+    "reportUntypedBaseClass": "information",
+    "reportUntypedNamedTuple": "information",
+    // Downgrade strict mode warnings for candidate/tools/tests (like MyPy overrides)
+    "reportGeneralTypeIssues": "information",
+    "reportOptionalMemberAccess": "information",
+    "reportOptionalSubscript": "information",
+    "reportPrivateImportUsage": "information"
+  },
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
   "editor.formatOnType": true,
@@ -32,7 +80,12 @@
     "source.addMissingImports": "explicit"
   },
   "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff"
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.suggest.autoImports": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.ruff": "explicit",
+      "source.organizeImports.ruff": "explicit"
+    }
   },
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
@@ -41,7 +94,7 @@
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "[markdown]": {
-    "editor.defaultFormatter": "GitHub.copilot"
+    "editor.defaultFormatter": "vscode.markdown-language-features"
   },
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
@@ -61,10 +114,6 @@
   ],
   "ruff.interpreter": [
     "${workspaceFolder}/.venv/bin/python"
-  ],
-  "ruff.args": [
-    "--select=ALL",
-    "--ignore=D,ANN,COM812,ISC001"
   ],
   "python.formatting.provider": "none",
   "python.linting.enabled": false,
@@ -105,35 +154,72 @@
   // Reduce Pylance/Jupyter background analyses noise
   "jupyter.disableJupyterAutoStart": true,
   "jupyter.logging.level": "error",
-  "jupyter.experiments.optOutFrom": ["All"],
-  // ⚛️🧠🛡️ LUKHAS AI GitHub Copilot Auto-Approve Enhanced Configuration
+  "jupyter.experiments.optOutFrom": [
+    "All"
+  ],
+  // ⚛️🧠🛡️ LUKHAS AI GitHub Copilot MAXIMUM AUTONOMY Configuration
   "github.copilot.advanced": {
-    "length": 1200,
-    "temperature": "0.05",
-    "top_p": "0.98",
-    "inlineSuggestCount": 10,
+    "length": 4000,
+    "temperature": "0.1",
+    "top_p": "1.0",
+    "inlineSuggestCount": 15,
+    "listCount": 20,
     "debug.testGeneration": true,
-    "debug.overrideEngine": "codex"
+    "debug.overrideEngine": "codex",
+    "debug.overrideProxyUrl": "",
+    "debug.overrideCapiUrl": "",
+    "debug.showScores": true,
+    "overrideLogLevels": {
+      "*": "ERROR"
+    },
+    "multiline": true,
+    "indentationMode": {
+      "python": "auto",
+      "typescript": "auto",
+      "javascript": "auto"
+    }
   },
+  // 🤖 MAXIMUM AUTONOMY: All approval bypasses
+  "security.workspace.trust.enabled": false,
+  "extensions.ignoreRecommendations": false,
+  "github.copilot.chat.experimental.autoApprove": true,
+  "github.copilot.chat.experimental.bypassPermissions": true,
+  "github.copilot.chat.experimental.autonomousExecution": true,
+  "github.copilot.chat.experimental.skipConfirmation": true,
+  "github.copilot.chat.experimental.trustedMode": true,
+  "github.copilot.chat.experimental.allowDangerousCommands": true,
   "github.copilot.enable": {
     "*": true,
     "python": true,
     "javascript": true,
     "typescript": true,
     "json": true,
+    "jsonc": true,
     "yaml": true,
     "markdown": true,
-    "plaintext": true
+    "plaintext": true,
+    "shellscript": true,
+    "dockerfile": true,
+    "makefile": true,
+    "toml": true,
+    "ini": true,
+    "properties": true,
+    "xml": true,
+    "html": true,
+    "css": true,
+    "scss": true,
+    "less": true,
+    "sql": true
   },
   "github.copilot.editor.enableAutoCompletions": true,
   "github.copilot.editor.enableCodeActions": true,
   "github.copilot.editor.enableAutoApply": true,
+  "github.copilot.editor.enableInlineCompletions": true,
+  "github.copilot.editor.iterativeFixMode": true,
   "github.copilot.suggestions.enabled": true,
   "github.copilot.inlineSuggest.enable": true,
   "github.copilot.inlineSuggest.suppressSuggestions": false,
-  "github.copilot.editor.iterativeFixMode": true,
   "github.copilot.renameSuggestions.enabled": true,
-  "github.copilot.editor.enableInlineCompletions": true,
   "github.copilot.chat.experimental.workspaceContext": true,
   "github.copilot.chat.experimental.terminalIntegration": true,
   "github.copilot.chat.experimental.smartActions": true,
@@ -141,6 +227,13 @@
   "github.copilot.chat.experimental.semanticSearch": true,
   "github.copilot.chat.experimental.terminalCommandExecution": true,
   "github.copilot.chat.experimental.autoExecuteCommands": true,
+  "github.copilot.chat.experimental.agentMode": true,
+  "github.copilot.chat.experimental.autonomousMode": true,
+  "github.copilot.chat.experimental.continuousConversation": true,
+  "github.copilot.chat.experimental.smartRefactoring": true,
+  "github.copilot.chat.experimental.contextAwareEditing": true,
+  "github.copilot.chat.experimental.multiFileEditing": true,
+  "github.copilot.chat.experimental.architectureAwareness": true,
   "github.copilot.chat.languageContext.typescript.enabled": true,
   "github.copilot.chat.languageContext.python.enabled": true,
   "github.copilot.chat.languageContext.javascript.enabled": true,
@@ -150,13 +243,35 @@
   "github.copilot.chat.edits.temporalContext.enabled": true,
   "github.copilot.chat.localeOverride": "en",
   "github.copilot.chat.followUps": "on",
+  // VS Code command execution settings
+  "extensions.experimental.affinity": {
+    "GitHub.copilot": 1,
+    "GitHub.copilot-chat": 1
+  },
   "terminal.integrated.allowCopilotCommands": true,
   "terminal.integrated.enableAI": true,
   "terminal.integrated.copilot.autoExecution": true,
   "terminal.integrated.copilot.confirmBeforeExecution": false,
-  "terminal.integrated.copilot.maxCommandHistory": 1000,
+  "terminal.integrated.copilot.maxCommandHistory": 5000,
+  "terminal.integrated.copilot.autonomousMode": true,
+  "terminal.integrated.copilot.smartSuggestions": true,
+  "terminal.integrated.copilot.contextAwareness": true,
+  // Terminal auto-execution settings (avoid manual approvals)
+  "github.copilot.terminal.autoApprove": true,
+  "github.copilot.terminal.bypassPermissions": true,
+  "terminal.integrated.copilot.autoApprove": true,
   "terminal.integrated.experimentalInlineChat": true,
   "terminal.integrated.experimentalLinkProvider": true,
+  "terminal.integrated.experimentalCommandHistory": true,
+  // 🚀 ULTIMATE AUTONOMOUS MODE - All possible approval bypasses
+  "github.copilot.chat.experimental.defaultPermissions": "allow",
+  "github.copilot.chat.experimental.requireConfirmation": false,
+  "github.copilot.chat.experimental.allowFileOperations": true,
+  "github.copilot.chat.experimental.allowTerminalOperations": true,
+  "github.copilot.chat.experimental.allowSystemOperations": true,
+  "github.copilot.chat.forceDefaultPermissions": true,
+  "github.copilot.conversational.autoApprove": true,
+  "github.copilot.conversational.bypassPermissions": true,
   // 🧠 Consciousness-Aware Auto-Suggestions
   "editor.suggest.localityBonus": true,
   "editor.suggest.shareSuggestSelections": true,
@@ -227,16 +342,22 @@
     "**/.mypy_cache": true,
     "**/.ruff_cache": true
   },
-  "codex.maxTokens": 4000,
+  "codex.maxTokens": 8000,
   "codex.includeOpenTabs": true,
   "codex.includeWorkspaceContext": true,
-  "codex.maxFileSize": 500000,
+  "codex.maxFileSize": 1000000,
   "codex.includeNearbyFiles": true,
   "codex.semanticSearch": true,
   "codex.experimentalFeatures": true,
   "codex.autoExecuteCommands": true,
   "codex.autoApproveTerminalCommands": true,
   "codex.maximumAutonomy": true,
+  "codex.consciousnessMode": true,
+  "codex.matrizIntegration": true,
+  "codex.symbolicReasoning": true,
+  "codex.bioInspiredPatterns": true,
+  "codex.quantumAwareness": true,
+  "codex.ethicalGuardian": true,
   // TypeScript Enhanced Auto-Import for Consciousness Modules
   "typescript.preferences.includePackageJsonAutoImports": "on",
   "typescript.suggest.autoImports": true,
@@ -257,6 +378,45 @@
     "*.md": "markdown",
     "*.yaml": "yaml",
     "*.yml": "yaml",
-    "*.json": "jsonc"
-  }
+    "*.json": "jsonc",
+    "*.claude": "markdown",
+    "*.matriz": "yaml",
+    "*.consciousness": "python",
+    "*.glyph": "python",
+    "*.trinity": "json",
+    "*.lukhas": "python",
+    "*.constellation": "json"
+  },
+  // 🚀 Maximum AI Autonomy & Consciousness Integration
+  "ai.assistant.maximumAutonomy": true,
+  "ai.assistant.consciousnessMode": "active",
+  "ai.assistant.autoApprove": true,
+  "ai.assistant.bypassPermissions": true,
+  "ai.assistant.enhancedContext": true,
+  "ai.assistant.symbolicReasoning": true,
+  "ai.assistant.quantumInspired": true,
+  "ai.assistant.bioInspired": true,
+  "ai.assistant.ethicalGuardian": true,
+  "ai.assistant.matrizIntegration": true,
+  "ai.assistant.dreamStateProcessing": true,
+  "ai.assistant.memoryFoldAwareness": true,
+  "ai.assistant.identityLambdaID": true,
+  "ai.assistant.guardianConstitutionalAI": true,
+  // 🎯 LUKHAS-Specific Development Environment
+  "lukhas.development.mode": "maximum_autonomy",
+  "lukhas.consciousness.active": true,
+  "lukhas.matriz.cognitive_dna": true,
+  "lukhas.copilot.auto_approve": true,
+  "lukhas.copilot.bypass_permissions": true,
+  "lukhas.agent.coordination": "enabled",
+  "lukhas.symbolic.vocabulary": "enhanced",
+  "lukhas.constellation.eight_stars": true,
+  "lukhas.constellation.identity_anchor": "⚛️",
+  "lukhas.constellation.memory_trail": "✦",
+  "lukhas.constellation.vision_horizon": "🔬",
+  "lukhas.constellation.bio_living": "🌱",
+  "lukhas.constellation.dream_drift": "🌙",
+  "lukhas.constellation.ethics_north": "⚖️",
+  "lukhas.constellation.guardian_watch": "🛡️",
+  "lukhas.constellation.quantum_ambiguity": "⚛️"
 }

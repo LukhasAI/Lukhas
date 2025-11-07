@@ -1,6 +1,11 @@
 #!/bin/bash
 # 🧪 Simple Test Script
 
+set -e # Exit immediately if a command exits with a non-zero status.
+
+PORT=8080
+SERVER_URL="http://localhost:$PORT"
+
 echo "🧪 LUKHAS MCP Simple Test"
 echo "========================="
 

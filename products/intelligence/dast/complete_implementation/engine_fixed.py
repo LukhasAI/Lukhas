@@ -7,6 +7,8 @@ Sam Altman AGI Vision: "AI should proactively assist in task management and deci
 This is the core engine for AI-powered task management with symbolic reasoning,
 intelligent prioritization, and seamless human-AI collaboration.
 """
+from __future__ import annotations
+
 
 import asyncio
 import hashlib
@@ -352,7 +354,8 @@ class LucasDASTEngine:
                 return await self.task_intelligence.analyze_task(
                     {"title": request, "description": request, "context": context}
                 )
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass  # Fallback to simple analysis
 
         # Fallback: Simulate AI analysis
@@ -596,7 +599,7 @@ class LucasDASTEngine:
         """Asynchronous workflow optimization"""
         try:
             asyncio.create_task(self._background_workflow_analysis(task_id))
-        except:
+        except Exception:
             # If async isn't available, update metrics synchronously
             self._update_workflow_metrics_sync(task_id)
 

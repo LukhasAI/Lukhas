@@ -10,7 +10,6 @@ import os
 import random
 
 import pytest
-
 from core.breakthrough import BreakthroughDetector
 
 # ---- Helpers ---------------------------------------------------------------
@@ -42,7 +41,7 @@ def test_large_n_stability_no_nan_inf():
     n_steps = 50_000
     for i in range(n_steps):
         base = 0.5 + (0.1 if (i & 1) == 0 else -0.1)
-        # deterministic jitter in [−0.02, +0.02]
+        # deterministic jitter in [-0.02, +0.02]
         jitter = ((i * 9301 + 49297) % 233280) / 233280.0  # [0,1)
         jitter = (jitter - 0.5) * 0.04
         val = min(1.0, max(0.0, base + jitter))

@@ -26,7 +26,7 @@ import logging
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, Literal, Optional, Set
+from typing import Any, Dict, Literal, Set, cast
 from uuid import uuid4
 
 import argon2
@@ -37,7 +37,7 @@ import structlog
 try:
     from . import ΛTOKEN_SYSTEM_AVAILABLE
     if ΛTOKEN_SYSTEM_AVAILABLE:
-        from .alias_format import (  # noqa: F401  # TODO: .alias_format.verify_crc; cons...
+        from .alias_format import (  # TODO: .alias_format.verify_crc; cons...
             make_alias,
             verify_crc,
         )
@@ -52,7 +52,7 @@ try:
 
     # Optional components (graceful degradation)
     try:
-        from .tier_system import (  # noqa: F401  # TODO: .tier_system.TierLevel; consid...
+        from .tier_system import (  # TODO: .tier_system.TierLevel; consid...
             TierLevel,
             normalize_tier,
         )
@@ -60,10 +60,33 @@ try:
         print("⚠️ tier_system not available")
 
     try:
-        from .webauthn import WebAuthnService
+        from .webauthn_enhanced import (
+            EnhancedWebAuthnService,
+            WebAuthnVerificationResult,
+            create_enhanced_webauthn_service,
+        )
     except ImportError:
-        print("⚠️ webauthn not available")
-        WebAuthnService = None
+        print("⚠️ enhanced webauthn not available")
+        EnhancedWebAuthnService = None  # type: ignore[assignment]
+
+        @dataclass
+        class _FallbackWebAuthnVerificationResult:  # pragma: no cover - only used when dependency missing
+            success: bool
+            credential_id: str | None = None
+            user_id: str | None = None
+            signature_valid: bool = False
+            challenge_valid: bool = False
+            origin_valid: bool = False
+            user_present: bool = False
+            user_verified: bool = False
+            verification_time_ms: float = 0.0
+            error_code: str | None = None
+            error_message: str | None = None
+            risk_factors: Any | None = None
+            risk_score: float = 0.0
+
+        WebAuthnVerificationResult = _FallbackWebAuthnVerificationResult  # type: ignore[assignment]
+        create_enhanced_webauthn_service = None  # type: ignore[assignment]
 
     try:
         from ..governance.guardian_system import GuardianSystem
@@ -90,25 +113,25 @@ class AuthContext:
 
     # Request metadata
     ip_address: str
-    user_agent: Optional[str] = None
+    user_agent: str | None = None
     correlation_id: str = field(default_factory=lambda: str(uuid4()))
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     # Authentication credentials (tier-specific)
-    username: Optional[str] = None
-    password: Optional[str] = None
-    totp_token: Optional[str] = None
-    webauthn_response: Optional[Dict[str, Any]] = None
-    biometric_attestation: Optional[Dict[str, Any]] = None
+    username: str | None = None
+    password: str | None = None
+    totp_token: str | None = None
+    webauthn_response: Dict[str, Any] | None = None
+    biometric_attestation: Dict[str, Any] | None = None
 
     # Session context
-    session_id: Optional[str] = None
-    existing_tier: Optional[Tier] = None
-    nonce: Optional[str] = None
+    session_id: str | None = None
+    existing_tier: Tier | None = None
+    nonce: str | None = None
 
     # Security context
-    challenge_data: Optional[Dict[str, Any]] = None
-    anti_replay_token: Optional[str] = None
+    challenge_data: Dict[str, Any] | None = None
+    anti_replay_token: str | None = None
 
 
 @dataclass
@@ -120,19 +143,19 @@ class AuthResult:
     reason: str = ""
 
     # Authentication metadata
-    user_id: Optional[str] = None
-    session_id: Optional[str] = None
-    jwt_token: Optional[str] = None
-    expires_at: Optional[datetime] = None
+    user_id: str | None = None
+    session_id: str | None = None
+    jwt_token: str | None = None
+    expires_at: datetime | None = None
 
     # Security metadata
-    correlation_id: Optional[str] = None
+    correlation_id: str | None = None
     auth_time: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     guardian_validated: bool = False
 
     # Performance metadata
-    duration_ms: Optional[float] = None
-    tier_elevation_path: Optional[str] = None
+    duration_ms: float | None = None
+    tier_elevation_path: str | None = None
 
 
 @dataclass
@@ -165,8 +188,8 @@ class TieredAuthenticator:
 
     def __init__(
         self,
-        security_policy: Optional[SecurityPolicy] = None,
-        guardian_system: Optional[GuardianSystem] = None
+        security_policy: SecurityPolicy | None = None,
+        guardian_system: GuardianSystem | None = None
     ):
         """Initialize the tiered authenticator."""
         self.logger = logger.bind(component="TieredAuthenticator")
@@ -202,8 +225,17 @@ class TieredAuthenticator:
 
                 # Legacy components (graceful degradation)
                 try:
-                    self.webauthn = WebAuthnService()
-                except:
+                    if create_enhanced_webauthn_service:
+                        self.webauthn = create_enhanced_webauthn_service(
+                            guardian_system=self.guardian
+                        )
+                    else:
+                        self.webauthn = None
+                except Exception as e:
+                    self.logger.warning(
+                        "Failed to initialize WebAuthn service",
+                        error=str(e),
+                    )
                     self.webauthn = None
 
                 self.logger.info("I.1 ΛiD Token System integration successful")
@@ -221,6 +253,45 @@ class TieredAuthenticator:
         self.token_storage = None
         self.webauthn = None
         self.logger.info("Using fallback infrastructure implementations - I.1 integration disabled")
+
+    async def generate_webauthn_challenge(
+        self,
+        username: str,
+        correlation_id: str | None,
+        ip_address: str,
+        user_agent: str | None = None,
+    ) -> Dict[str, Any]:
+        """Generate a WebAuthn authentication challenge for T4 verification."""
+
+        if not self.webauthn:
+            raise RuntimeError("WebAuthn service unavailable")
+
+        challenge_payload = await cast(EnhancedWebAuthnService, self.webauthn).generate_authentication_challenge(
+            user_id=username,
+            correlation_id=correlation_id or "",
+            ip_address=ip_address,
+            user_agent=user_agent,
+        )
+
+        challenge_id = challenge_payload.get("challenge_id")
+        if not challenge_id:
+            raise ValueError("Challenge payload missing challenge_id")
+
+        expires_at_iso = challenge_payload.get("expires_at")
+        try:
+            expires_at = datetime.fromisoformat(expires_at_iso) if expires_at_iso else None
+        except ValueError:
+            expires_at = None
+
+        self._active_challenges[challenge_id] = {
+            "username": username,
+            "correlation_id": correlation_id,
+            "ip_address": ip_address,
+            "issued_at": datetime.now(timezone.utc),
+            "expires_at": expires_at,
+        }
+
+        return challenge_payload
 
     async def authenticate_T1(self, ctx: AuthContext) -> AuthResult:
         """
@@ -263,7 +334,7 @@ class TieredAuthenticator:
             error_result = AuthResult(
                 tier="T1",
                 ok=False,
-                reason=f"internal_error: {str(e)}",
+                reason=f"internal_error: {e!s}",
                 correlation_id=ctx.correlation_id,
                 duration_ms=duration_ms
             )
@@ -353,7 +424,7 @@ class TieredAuthenticator:
             error_result = AuthResult(
                 tier="T2",
                 ok=False,
-                reason=f"internal_error: {str(e)}",
+                reason=f"internal_error: {e!s}",
                 correlation_id=ctx.correlation_id,
                 duration_ms=duration_ms
             )
@@ -441,7 +512,7 @@ class TieredAuthenticator:
             error_result = AuthResult(
                 tier="T3",
                 ok=False,
-                reason=f"internal_error: {str(e)}",
+                reason=f"internal_error: {e!s}",
                 correlation_id=ctx.correlation_id,
                 duration_ms=duration_ms
             )
@@ -488,19 +559,37 @@ class TieredAuthenticator:
                 await self._guardian_validate("auth_t4", ctx)
 
             # WebAuthn verification
-            webauthn_valid = await self._verify_webauthn(ctx.username, ctx.webauthn_response)
+            verification_result = await self._verify_webauthn(ctx)
 
-            if not webauthn_valid:
+            if not verification_result.success:
+                failure_reason = verification_result.error_code or "invalid_webauthn_response"
+                self.logger.warning(
+                    "WebAuthn verification failed",
+                    reason=failure_reason,
+                    user_id=ctx.username,
+                    correlation_id=ctx.correlation_id,
+                )
                 return AuthResult(
                     tier="T4",
                     ok=False,
-                    reason="invalid_webauthn_response",
+                    reason=failure_reason,
+                    correlation_id=ctx.correlation_id,
+                    duration_ms=(time.perf_counter() - start_time) * 1000
+                )
+
+            verified_user = verification_result.user_id or ctx.username
+
+            if ctx.username and verified_user and ctx.username != verified_user:
+                return AuthResult(
+                    tier="T4",
+                    ok=False,
+                    reason="webauthn_user_mismatch",
                     correlation_id=ctx.correlation_id,
                     duration_ms=(time.perf_counter() - start_time) * 1000
                 )
 
             # Generate T4 token
-            token = await self._generate_jwt_token("T4", ctx, user_id=ctx.username)
+            token = await self._generate_jwt_token("T4", ctx, user_id=verified_user)
 
             result = AuthResult(
                 tier="T4",
@@ -529,7 +618,7 @@ class TieredAuthenticator:
             error_result = AuthResult(
                 tier="T4",
                 ok=False,
-                reason=f"internal_error: {str(e)}",
+                reason=f"internal_error: {e!s}",
                 correlation_id=ctx.correlation_id,
                 duration_ms=duration_ms
             )
@@ -617,7 +706,7 @@ class TieredAuthenticator:
             error_result = AuthResult(
                 tier="T5",
                 ok=False,
-                reason=f"internal_error: {str(e)}",
+                reason=f"internal_error: {e!s}",
                 correlation_id=ctx.correlation_id,
                 duration_ms=duration_ms
             )
@@ -701,24 +790,61 @@ class TieredAuthenticator:
             await asyncio.sleep(0.001)
             return False
 
-    async def _verify_webauthn(self, username: str, response: Dict[str, Any]) -> bool:
-        """Verify WebAuthn response."""
+    async def _verify_webauthn(self, ctx: AuthContext) -> WebAuthnVerificationResult:
+        """Verify WebAuthn response using the enhanced service."""
+
+        if not ctx.webauthn_response:
+            return WebAuthnVerificationResult(
+                success=False,
+                error_code="MISSING_RESPONSE",
+                error_message="WebAuthn response missing",
+            )
+
+        if not self.webauthn:
+            return WebAuthnVerificationResult(
+                success=False,
+                error_code="WEBAUTHN_UNAVAILABLE",
+                error_message="WebAuthn service unavailable",
+            )
+
+        challenge_data = ctx.challenge_data or {}
+        challenge_id = challenge_data.get("challenge_id")
+
+        if not challenge_id:
+            return WebAuthnVerificationResult(
+                success=False,
+                error_code="MISSING_CHALLENGE_ID",
+                error_message="WebAuthn challenge not issued",
+            )
+
+        challenge_meta = self._active_challenges.get(challenge_id)
+        if challenge_meta:
+            expected_user = challenge_meta.get("username")
+            if expected_user and ctx.username and expected_user != ctx.username:
+                return WebAuthnVerificationResult(
+                    success=False,
+                    error_code="CHALLENGE_USER_MISMATCH",
+                    error_message="Challenge issued for different user",
+                )
+
         try:
-            # Add timing normalization for consistency
-            import asyncio
-            await asyncio.sleep(0.001)  # 1ms constant delay for timing normalization
+            verification_result = await cast(EnhancedWebAuthnService, self.webauthn).verify_authentication_response(
+                challenge_id=challenge_id,
+                webauthn_response=ctx.webauthn_response,
+                correlation_id=ctx.correlation_id or "",
+                ip_address=ctx.ip_address,
+            )
+        except Exception as exc:  # pragma: no cover - defensive guardrail
+            return WebAuthnVerificationResult(
+                success=False,
+                error_code="WEBAUTHN_EXCEPTION",
+                error_message=str(exc),
+            )
 
-            # Mock implementation - validate challenge and signature
-            if not response.get("challenge") or not response.get("signature"):
-                return False
+        if verification_result.success:
+            self._active_challenges.pop(challenge_id, None)
 
-            # In production, verify against stored credential ID and public key
-            return True
-        except Exception:
-            # Ensure constant timing even for errors
-            import asyncio
-            await asyncio.sleep(0.001)
-            return False
+        return verification_result
 
     async def _verify_biometric(self, username: str, attestation: Dict[str, Any]) -> bool:
         """Verify biometric attestation (mock implementation)."""
@@ -742,7 +868,7 @@ class TieredAuthenticator:
             await asyncio.sleep(0.002)
             return False
 
-    async def _generate_jwt_token(self, tier: Tier, ctx: AuthContext, user_id: Optional[str] = None) -> str:
+    async def _generate_jwt_token(self, tier: Tier, ctx: AuthContext, user_id: str | None = None) -> str:
         """Generate JWT token using I.1 ΛiD Token System with tier-specific claims."""
         try:
             if self.token_generator:
@@ -799,7 +925,7 @@ class TieredAuthenticator:
         }
         return permissions_map.get(tier, [])
 
-    async def validate_token(self, token: str, required_tier: Optional[Tier] = None) -> AuthResult:
+    async def validate_token(self, token: str, required_tier: Tier | None = None) -> AuthResult:
         """Validate JWT token using I.1 ΛiD Token System with tier verification."""
         start_time = time.perf_counter()
 
@@ -859,7 +985,7 @@ class TieredAuthenticator:
             return AuthResult(
                 tier="T1",
                 ok=False,
-                reason=f"validation_error: {str(e)}",
+                reason=f"validation_error: {e!s}",
                 duration_ms=(time.perf_counter() - start_time) * 1000
             )
 
@@ -877,10 +1003,7 @@ class TieredAuthenticator:
         attempt_data = self._failed_attempts[username]
         lock_until = attempt_data.get("locked_until")
 
-        if lock_until and datetime.now(timezone.utc) < lock_until:
-            return True
-
-        return False
+        return bool(lock_until and datetime.now(timezone.utc) < lock_until)
 
     async def _record_failed_attempt(self, username: str, ip_address: str) -> None:
         """Record failed authentication attempt."""
@@ -914,8 +1037,8 @@ class TieredAuthenticator:
 
 # Convenience factory function
 def create_tiered_authenticator(
-    security_policy: Optional[SecurityPolicy] = None,
-    guardian_system: Optional[GuardianSystem] = None
+    security_policy: SecurityPolicy | None = None,
+    guardian_system: GuardianSystem | None = None
 ) -> TieredAuthenticator:
     """Create a tiered authenticator with optional configuration."""
     return TieredAuthenticator(security_policy, guardian_system)

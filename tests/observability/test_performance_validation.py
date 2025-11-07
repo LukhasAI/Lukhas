@@ -267,7 +267,7 @@ class TestPerformanceValidation:
 
             start_time = time.perf_counter()
 
-            evidence_id, metadata = await security_hardening.secure_evidence_collection(
+            _evidence_id, _metadata = await security_hardening.secure_evidence_collection(
                 evidence_data=evidence_data,
                 source_ip="127.0.0.1",
                 user_id="test_user",

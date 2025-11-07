@@ -12,6 +12,7 @@ Constellation Framework: Identity ⚛️ pillar with T4-T5 authentication tiers
 from __future__ import annotations
 
 import base64
+import binascii
 import json
 import logging
 import secrets
@@ -19,7 +20,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -66,15 +67,10 @@ try:
     )
     from webauthn.helpers.structs import (
         AttestationConveyancePreference,
-# See: https://github.com/LukhasAI/Lukhas/issues/590
         AuthenticatorAttachment,
         AuthenticatorSelectionCriteria,
-# See: https://github.com/LukhasAI/Lukhas/issues/591
-# See: https://github.com/LukhasAI/Lukhas/issues/592
-# See: https://github.com/LukhasAI/Lukhas/issues/593
-# See: https://github.com/LukhasAI/Lukhas/issues/594
-# See: https://github.com/LukhasAI/Lukhas/issues/595
-# See: https://github.com/LukhasAI/Lukhas/issues/596
+        PublicKeyCredentialDescriptor,
+        RegistrationCredential,
         ResidentKeyRequirement,
         UserVerificationRequirement,
     )
@@ -82,6 +78,24 @@ try:
 except ImportError:
     logger.warning("WebAuthn library not available - using mock implementation")
     WEBAUTHN_AVAILABLE = False
+    RegistrationCredential = Any  # type: ignore[misc,assignment]
+
+# Import LUKHAS WebAuthn type definitions (TypedDict for type checking)
+# Resolves: #591, #592, #593, #594, #595, #596
+
+
+def _decode_credential_id(credential_id: str) -> bytes | None:
+    """Decode a credential ID stored as URL-safe base64."""
+    padding = "=" * (-len(credential_id) % 4)
+    try:
+        return base64.b64decode(
+            f"{credential_id}{padding}",
+            altchars=b"-_",
+            validate=True
+        )
+    except (ValueError, binascii.Error) as exc:
+        logger.warning("Invalid credential_id encoding for WebAuthn descriptor: %s", exc)
+        return None
 
 
 class AuthenticatorType(Enum):
@@ -117,9 +131,9 @@ class WebAuthnCredential:
     tier: AuthenticatorTier = AuthenticatorTier.T4_STRONG
     status: CredentialStatus = CredentialStatus.ACTIVE
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    last_used: Optional[datetime] = None
-    device_name: Optional[str] = None
-    aaguid: Optional[str] = None  # Authenticator Attestation GUID
+    last_used: datetime | None = None
+    device_name: str | None = None
+    aaguid: str | None = None  # Authenticator Attestation GUID
     attestation_data: Dict[str, Any] = field(default_factory=dict)
     biometric_enrolled: bool = False
     backup_eligible: bool = False
@@ -148,7 +162,7 @@ class WebAuthnCredential:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'WebAuthnCredential':
+    def from_dict(cls, data: Dict[str, Any]) -> WebAuthnCredential:
         """Create credential from dictionary"""
         credential = cls(
             credential_id=data["credential_id"],
@@ -214,7 +228,7 @@ class WebAuthnCredentialStore:
         """Get all credentials for a user"""
         return self._credentials.get(user_id, [])
 
-    async def get_credential(self, credential_id: str) -> Optional[WebAuthnCredential]:
+    async def get_credential(self, credential_id: str) -> WebAuthnCredential | None:
         """Get specific credential by ID"""
         for credentials in self._credentials.values():
             for credential in credentials:
@@ -232,7 +246,7 @@ class WebAuthnCredentialStore:
 
     async def delete_credential(self, credential_id: str) -> bool:
         """Delete a credential"""
-        for user_id, credentials in self._credentials.items():
+        for _user_id, credentials in self._credentials.items():
             for i, credential in enumerate(credentials):
                 if credential.credential_id == credential_id:
                     removed = credentials.pop(i)
@@ -250,7 +264,7 @@ class WebAuthnCredentialStore:
         """Store a WebAuthn challenge"""
         self._challenges[challenge.challenge_id] = challenge
 
-    async def get_challenge(self, challenge_id: str) -> Optional[WebAuthnChallenge]:
+    async def get_challenge(self, challenge_id: str) -> WebAuthnChallenge | None:
         """Get a challenge by ID"""
         challenge = self._challenges.get(challenge_id)
         if challenge and challenge.is_expired():
@@ -271,7 +285,7 @@ class WebAuthnManager:
                  rp_id: str,
                  rp_name: str,
                  origin: str,
-                 credential_store: Optional[WebAuthnCredentialStore] = None):
+                 credential_store: WebAuthnCredentialStore | None = None):
         self.rp_id = rp_id
         self.rp_name = rp_name
         self.origin = origin
@@ -312,7 +326,7 @@ class WebAuthnManager:
                                username: str,
                                display_name: str,
                                tier: AuthenticatorTier = AuthenticatorTier.T4_STRONG,
-                               authenticator_attachment: Optional[str] = None,
+                               authenticator_attachment: str | None = None,
                                resident_key: bool = True) -> Dict[str, Any]:
         """Begin WebAuthn credential registration"""
 
@@ -326,13 +340,16 @@ class WebAuthnManager:
             try:
                 # Get existing credentials for excludeCredentials
                 existing_credentials = await self.credential_store.get_credentials(user_id)
-                exclude_credentials = [
-                    {"id": cred.credential_id, "type": "public-key"}
-                    for cred in existing_credentials
+                active_credentials = [
+                    cred for cred in existing_credentials
                     if cred.status == CredentialStatus.ACTIVE
                 ]
 
                 if not WEBAUTHN_AVAILABLE:
+                    exclude_credentials = [
+                        {"id": cred.credential_id, "type": "public-key"}
+                        for cred in active_credentials
+                    ]
                     # Mock implementation for testing
                     challenge_id = secrets.token_urlsafe(32)
                     challenge = secrets.token_urlsafe(64)
@@ -369,6 +386,8 @@ class WebAuthnManager:
                         "attestation": "direct" if tier == AuthenticatorTier.T5_BIOMETRIC else "none",
                         "_challenge_id": challenge_id
                     }
+
+                exclude_credentials = self._build_credential_descriptors(active_credentials)
 
                 # Production WebAuthn implementation
                 user_verification = (
@@ -422,7 +441,7 @@ class WebAuthnManager:
                 span.set_attribute("challenge_id", challenge_id)
                 span.set_attribute("latency", latency)
 
-                options_dict = registration_options.model_dump()
+                options_dict = registration_options.model_dump(mode="json")
                 options_dict["_challenge_id"] = challenge_id
                 return options_dict
 
@@ -441,7 +460,7 @@ class WebAuthnManager:
     async def finish_registration(self,
                                 challenge_id: str,
                                 credential_data: Dict[str, Any],
-                                device_name: Optional[str] = None) -> WebAuthnCredential:
+                                device_name: str | None = None) -> WebAuthnCredential:
         """Complete WebAuthn credential registration"""
 
         with tracer.start_span("webauthn.finish_registration") as span:
@@ -488,7 +507,9 @@ class WebAuthnManager:
                     return credential
 
                 # Production WebAuthn implementation
-                credential = parse_registration_credential_json(json.dumps(credential_data))
+                credential: RegistrationCredential = parse_registration_credential_json(
+                    json.dumps(credential_data)
+                )
 
                 verification = verify_registration_response(
                     credential=credential,
@@ -560,7 +581,7 @@ class WebAuthnManager:
                 raise
 
     async def begin_authentication(self,
-                                 user_id: Optional[str] = None,
+                                 user_id: str | None = None,
                                  tier: AuthenticatorTier = AuthenticatorTier.T4_STRONG,
                                  timeout: int = 300000) -> Dict[str, Any]:
         """Begin WebAuthn authentication"""
@@ -573,19 +594,32 @@ class WebAuthnManager:
 
             try:
                 # Get allowed credentials
-                allowed_credentials = []
+                active_credentials: List[WebAuthnCredential] = []
                 if user_id:
                     credentials = await self.credential_store.get_credentials(user_id)
-                    allowed_credentials = [
-                        {"id": cred.credential_id, "type": "public-key"}
+                    active_credentials = [
+                        cred
                         for cred in credentials
                         if cred.status == CredentialStatus.ACTIVE and cred.tier.value >= tier.value
                     ]
+
+                    if not WEBAUTHN_AVAILABLE:
+                        allowed_credentials = [
+                            {"id": cred.credential_id, "type": "public-key"}
+                            for cred in active_credentials
+                        ]
+                    else:
+                        allowed_credentials = self._build_credential_descriptors(active_credentials)
 
                 if not WEBAUTHN_AVAILABLE:
                     # Mock implementation for testing
                     challenge_id = secrets.token_urlsafe(32)
                     challenge = secrets.token_urlsafe(64)
+
+                    allowed_credentials = [
+                        {"id": cred.credential_id, "type": "public-key"}
+                        for cred in active_credentials
+                    ]
 
                     # Store challenge
                     await self.credential_store.store_challenge(WebAuthnChallenge(
@@ -596,6 +630,8 @@ class WebAuthnManager:
                         expires_at=datetime.now(timezone.utc) + timedelta(minutes=5),
                         tier_required=tier
                     ))
+
+                    span.set_attribute("allowed_credentials", len(allowed_credentials))
 
                     return {
                         "challenge": challenge,
@@ -612,6 +648,18 @@ class WebAuthnManager:
                     if tier == AuthenticatorTier.T5_BIOMETRIC
                     else UserVerificationRequirement.PREFERRED
                 )
+
+                allowed_credentials = []
+                for cred in active_credentials:
+                    descriptor_bytes = _decode_credential_id(cred.credential_id)
+                    if descriptor_bytes is None:
+                        continue
+                    allowed_credentials.append(
+                        PublicKeyCredentialDescriptor(
+                            id=descriptor_bytes,
+                            type="public-key"
+                        )
+                    )
 
                 authentication_options = generate_authentication_options(
                     rp_id=self.rp_id,
@@ -642,7 +690,7 @@ class WebAuthnManager:
                 span.set_attribute("allowed_credentials", len(allowed_credentials))
                 span.set_attribute("latency", latency)
 
-                options_dict = authentication_options.model_dump()
+                options_dict = authentication_options.model_dump(mode="json")
                 options_dict["_challenge_id"] = challenge_id
                 return options_dict
 
@@ -798,6 +846,31 @@ class WebAuthnManager:
             return self.authenticator_metadata[aaguid]["name"]
         return "Unknown Device"
 
+    def _decode_credential_id(self, credential_id: Any) -> bytes:
+        """Decode credential ID into bytes for PublicKeyCredentialDescriptor."""
+        if isinstance(credential_id, bytes):
+            return credential_id
+
+        if isinstance(credential_id, str):
+            padding = "=" * (-len(credential_id) % 4)
+            try:
+                return base64.urlsafe_b64decode(credential_id + padding)
+            except (ValueError, binascii.Error):
+                return credential_id.encode()
+
+        raise TypeError("Unsupported credential_id type")
+
+    def _build_credential_descriptors(self, credentials: List[WebAuthnCredential]):
+        """Create PublicKeyCredentialDescriptor entries for provided credentials."""
+        if not WEBAUTHN_AVAILABLE:
+            raise RuntimeError("PublicKeyCredentialDescriptor is unavailable")
+
+        descriptors = []
+        for credential in credentials:
+            credential_id_bytes = self._decode_credential_id(credential.credential_id)
+            descriptors.append(PublicKeyCredentialDescriptor(id=credential_id_bytes))
+        return descriptors
+
     async def list_user_credentials(self, user_id: str) -> List[Dict[str, Any]]:
         """List all credentials for a user"""
         credentials = await self.credential_store.get_credentials(user_id)
@@ -835,7 +908,7 @@ class WebAuthnManager:
 
 
 # Global WebAuthn manager instance
-_global_webauthn_manager: Optional[WebAuthnManager] = None
+_global_webauthn_manager: WebAuthnManager | None = None
 
 def get_webauthn_manager(rp_id: str = "ai",
                         rp_name: str = "LUKHAS AI",

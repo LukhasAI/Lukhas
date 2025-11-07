@@ -20,7 +20,7 @@ import sys
 import threading
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 from unittest.mock import Mock, patch
 
 import pytest
@@ -76,19 +76,19 @@ class LaneIsolationManager:
             raise ValueError(f"Unknown lane: {lane_name}")
         self.current_lane = lane_name
 
-    def get_lane_config(self, lane_name: str = None) -> LaneConfig:
+    def get_lane_config(self, lane_name: Optional[str] = None) -> LaneConfig:
         """Get configuration for specified or current lane"""
         lane_name = lane_name or self.current_lane
         if not lane_name or lane_name not in self.lanes:
             raise ValueError(f"Invalid lane: {lane_name}")
         return self.lanes[lane_name]
 
-    def is_plugin_allowed_in_lane(self, plugin_group: str, lane_name: str = None) -> bool:
+    def is_plugin_allowed_in_lane(self, plugin_group: str, lane_name: Optional[str] = None) -> bool:
         """Check if plugin group is allowed in specified lane"""
         lane_config = self.get_lane_config(lane_name)
         return plugin_group in lane_config.allowed_plugin_groups
 
-    def enforce_lane_isolation(self, plugin_name: str, plugin_group: str, lane_name: str = None) -> bool:
+    def enforce_lane_isolation(self, plugin_name: str, plugin_group: str, lane_name: Optional[str] = None) -> bool:
         """Enforce lane isolation for plugin registration"""
         if not self.isolation_enabled:
             return True
@@ -108,7 +108,7 @@ class LaneIsolationManager:
 
         return True
 
-    def get_lane_specific_registry_key(self, plugin_name: str, plugin_group: str, lane_name: str = None) -> str:
+    def get_lane_specific_registry_key(self, plugin_name: str, plugin_group: str, lane_name: Optional[str] = None) -> str:
         """Generate lane-specific registry key"""
         lane_config = self.get_lane_config(lane_name)
         prefix = lane_config.plugin_prefix
@@ -254,18 +254,18 @@ class TestLaneIsolationEnforcement:
                         all_entry_points.append((group, ep))
 
                 # Mock entry_points to return plugins for specific groups
-                def mock_entry_points_func(group=None):
-                    return [ep for g, ep in all_entry_points if g == group]
+                def mock_entry_points_func(group=None, captured_entry_points=all_entry_points):
+                    return [ep for g, ep in captured_entry_points if g == group]
 
                 mock_entry_points.side_effect = mock_entry_points_func
 
                 # Mock the discovery process to respect lane isolation
                 with patch('core.registry._register_kind') as mock_register_kind:
-                    def lane_aware_register(group, name, obj):
+                    def lane_aware_register(group, name, obj, captured_lane=lane_name):
                         # Only register if plugin is allowed in current lane
-                        if self.isolation_manager.is_plugin_allowed_in_lane(group, lane_name):
+                        if self.isolation_manager.is_plugin_allowed_in_lane(group, captured_lane):
                             lane_key = self.isolation_manager.get_lane_specific_registry_key(
-                                name, group, lane_name
+                                name, group, captured_lane
                             )
                             register(lane_key, obj)
 
@@ -274,7 +274,7 @@ class TestLaneIsolationEnforcement:
                     # Set discovery to auto
                     with patch.dict(os.environ, {'LUKHAS_PLUGIN_DISCOVERY': 'auto'}):
                         # Simulate lane-aware discovery
-                        for group in test_plugins.keys():
+                        for group in test_plugins:
                             with patch('core.registry.entry_points', return_value=mock_entry_points_func(group)):
                                 discover_entry_points()
 
@@ -287,7 +287,7 @@ class TestLaneIsolationEnforcement:
                     assert key.startswith(f"{lane_prefix}:"), f"Key {key} should start with {lane_prefix}:"
 
                 # Verify only allowed plugin types are present
-                for group in test_plugins.keys():
+                for group in test_plugins:
                     group_allowed = group in lane_config.allowed_plugin_groups
                     group_plugins_found = any(
                         self._extract_plugin_group_from_key(key) == group
@@ -517,7 +517,7 @@ class TestLaneIsolationEnforcement:
         assert len(worker_errors) == 0, f"Unexpected errors: {worker_errors}"
 
         # Verify lane isolation in results
-        lanes_used = set(result['lane'] for result in worker_results)
+        lanes_used = {result['lane'] for result in worker_results}
         assert lanes_used == set(lanes), f"Not all lanes used: {lanes_used}"
 
         # Each worker should have registered plugins successfully
@@ -565,13 +565,14 @@ class TestLaneIsolationEnforcement:
 
     def _should_allow_plugin_by_security_policy(self, plugin_name: str, risk_level: str, security_level: str) -> bool:
         """Helper method to determine if plugin should be allowed based on security policy"""
-        if security_level == 'strict':
-            return risk_level == 'safe'
-        elif security_level == 'moderate':
-            return risk_level in ['safe', 'moderate_risk']
-        elif security_level == 'permissive':
-            return True
-        return False
+        security_policies = {
+            'strict': lambda: risk_level == 'safe',
+            'moderate': lambda: risk_level in ['safe', 'moderate_risk'],
+            'permissive': lambda: True,
+        }
+
+        policy_check = security_policies.get(security_level)
+        return policy_check() if policy_check else False
 
     def test_lane_migration_safety(self):
         """Test that plugins cannot be migrated between lanes unsafely"""
@@ -602,8 +603,8 @@ class TestLaneIsolationEnforcement:
         assert prod_key != dev_key
 
         # Verify cross-lane access is not possible
-        prod_plugins = [k for k in _REG.keys() if k.startswith('prod:')]
-        dev_plugins = [k for k in _REG.keys() if k.startswith('dev:')]
+        prod_plugins = [k for k in _REG if k.startswith('prod:')]
+        dev_plugins = [k for k in _REG if k.startswith('dev:')]
 
         assert len(prod_plugins) == 1
         assert len(dev_plugins) == 1

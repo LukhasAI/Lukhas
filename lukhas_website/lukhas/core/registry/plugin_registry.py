@@ -244,7 +244,7 @@ class PluginRegistry:
             spec.loader.exec_module(module)
 
             # Find plugin classes
-            for name, obj in inspect.getmembers(module, inspect.isclass):
+            for _name, obj in inspect.getmembers(module, inspect.isclass):
                 if (issubclass(obj, PluginBase) and
                     obj != PluginBase and
                     not obj.__name__.startswith('_')):
@@ -288,10 +288,7 @@ class PluginRegistry:
         with self.tracer.trace_operation(f"plugin_instantiation_{plugin_name}") as span:
             try:
                 # Instantiate plugin
-                if config:
-                    plugin_instance = plugin_class(config=config)
-                else:
-                    plugin_instance = plugin_class()
+                plugin_instance = plugin_class(config=config) if config else plugin_class()
 
                 # Initialize plugin
                 plugin_instance.initialize()
@@ -336,7 +333,7 @@ class PluginRegistry:
 
         plugin_list = {}
 
-        for name, plugin_class in self.discovered_plugins.items():
+        for name, _plugin_class in self.discovered_plugins.items():
             if name in self.plugin_metadata:
                 plugin_list[name] = self.plugin_metadata[name]
             else:

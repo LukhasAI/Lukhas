@@ -85,14 +85,12 @@ def get_template_context(module_name: str, manifest: Dict[str, Any]) -> Dict[str
             context["module_contract"] = manifest["matrix"]["contract"]
 
     # Extract identity requirements
-    if "identity" in manifest:
-        if "tiers" in manifest["identity"]:
-            context["module_tier"] = manifest["identity"]["tiers"][0] if manifest["identity"]["tiers"] else "T3"
+    if 'identity' in manifest and 'tiers' in manifest['identity']:
+        context["module_tier"] = manifest["identity"]["tiers"][0] if manifest["identity"]["tiers"] else "T3"
 
     # Extract observability requirements
-    if "observability" in manifest:
-        if "required_spans" in manifest["observability"]:
-            context["module_spans"] = manifest["observability"]["required_spans"]
+    if "observability" in manifest and "required_spans" in manifest["observability"]:
+        context["module_spans"] = manifest["observability"]["required_spans"]
 
     # Add default values for optional fields
     context.setdefault("module_tier", "T3")
@@ -155,7 +153,7 @@ def is_generated_file(file_path: pathlib.Path) -> bool:
         return False
 
     try:
-        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+        with open(file_path, encoding='utf-8', errors='ignore') as f:
             first_line = f.readline().strip()
             return first_line == PROV_PREFIX.strip()
     except Exception:

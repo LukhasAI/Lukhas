@@ -4,6 +4,7 @@ Original: consent_filter.py
 Advanced: consent_filter.py
 Integration Date: 2025-05-31T07:55:30.557229
 """
+from __future__ import annotations
 
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮

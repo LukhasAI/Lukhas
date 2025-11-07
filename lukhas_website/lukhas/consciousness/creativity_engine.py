@@ -19,7 +19,7 @@ from __future__ import annotations
 import logging
 import random
 import time
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -91,7 +91,7 @@ class CreativityEngine:
     T4/0.01% performance with Guardian validation and comprehensive observability.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None, guardian_validator: Optional[Callable] = None):
+    def __init__(self, config: Dict[str, Any] | None = None, guardian_validator: Callable | None = None):
         """Initialize creativity engine with configuration and Guardian integration."""
         self.config = {**DEFAULT_CREATIVITY_CONFIG, **(config or {})}
         self.guardian_validator = guardian_validator
@@ -129,7 +129,7 @@ class CreativityEngine:
         self,
         task: CreativeTask,
         consciousness_state: ConsciousnessState,
-        context: Optional[Dict[str, Any]] = None
+        context: Dict[str, Any] | None = None
     ) -> CreativitySnapshot:
         """
         Generate creative ideas for a given task using multiple creative processes.
@@ -195,7 +195,7 @@ class CreativityEngine:
         self,
         task: CreativeTask,
         consciousness_state: ConsciousnessState,
-        context: Optional[Dict[str, Any]]
+        context: Dict[str, Any] | None
     ) -> CreativitySnapshot:
         """Initialize creativity snapshot for processing session."""
 
@@ -324,7 +324,7 @@ class CreativityEngine:
                     ).inc()
 
             # Update divergence metrics
-            unique_types = set(idea.get("type", "") for idea in snapshot.ideas)
+            unique_types = {idea.get("type", "") for idea in snapshot.ideas}
             snapshot.divergence_breadth = min(len(unique_types) / 10.0, 1.0)
 
             span.set_attribute("ideas_generated", idea_count)
@@ -613,7 +613,7 @@ class CreativityEngine:
 
     # Helper methods for creative processes
 
-    async def _populate_concept_network(self, task: CreativeTask, context: Optional[Dict[str, Any]]):
+    async def _populate_concept_network(self, task: CreativeTask, context: Dict[str, Any] | None):
         """Populate concept network for associative reasoning."""
         # This would integrate with knowledge bases or semantic networks
         # For now, create a simple conceptual mapping
@@ -741,7 +741,7 @@ class CreativityEngine:
         target: str,
         prompt: str,
         context: Dict[str, Any]
-    ) -> Optional[Dict[str, Any]]:
+    ) -> Dict[str, Any] | None:
         """Generate idea from concept association."""
         return {
             "description": f"Combining {source} and {target} for: {prompt}",
@@ -756,7 +756,7 @@ class CreativityEngine:
         idea: Dict[str, Any],
         task: CreativeTask,
         snapshot: CreativitySnapshot
-    ) -> Optional[Dict[str, Any]]:
+    ) -> Dict[str, Any] | None:
         """Refine an existing idea."""
         original_content = idea["content"]
 
@@ -775,7 +775,7 @@ class CreativityEngine:
         method: str,
         task: CreativeTask,
         snapshot: CreativitySnapshot
-    ) -> Optional[Dict[str, Any]]:
+    ) -> Dict[str, Any] | None:
         """Apply transformation method to content."""
         transformed = content.copy() if isinstance(content, dict) else {"original": content}
 
@@ -828,7 +828,7 @@ class CreativityEngine:
         self,
         group: List[Dict[str, Any]],
         task: CreativeTask
-    ) -> Optional[Dict[str, Any]]:
+    ) -> Dict[str, Any] | None:
         """Synthesize a group of ideas into a unified concept."""
         if len(group) < 2:
             return None

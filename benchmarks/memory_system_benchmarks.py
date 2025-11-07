@@ -107,18 +107,13 @@ class MockMemorySystem:
                 return True
 
         # Cascade condition 4: Suspicious importance spikes
-        if item.importance > 10.0:  # Abnormally high importance
-            return True
-
-        return False
+        return item.importance > 10.0  # Abnormally high importance
 
     def _has_circular_reference(self, item: MemoryItem) -> bool:
         """Check for circular references in item content"""
         content_str = str(item.content)
         # Simple circular reference detection - look for self-references
-        if item.id in content_str:
-            return True
-        return False
+        return item.id in content_str
 
     def get_cascade_prevention_rate(self) -> float:
         """Calculate cascade prevention success rate (successful operations rate)"""
@@ -368,7 +363,7 @@ class MemorySystemBenchmarks:
         stress_queries = 100
         query_latencies = []
 
-        for i in range(stress_queries):
+        for _ in range(stress_queries):
             q_start = time.perf_counter()
             results = await self.memory_system.recall_topk(query_embedding, k=10)
             q_end = time.perf_counter()

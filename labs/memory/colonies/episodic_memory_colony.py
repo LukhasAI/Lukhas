@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import logging
 import streamlit as st
 logger = logging.getLogger(__name__)
@@ -16,7 +18,7 @@ logger = logging.getLogger(__name__)
 ║                             ◊ POETIC ESSENCE ◊
 ║
 ║ │ In the theater of remembrance, the Episodic Colony is both audience and   │
-║ │ performer, witness and storyteller. Each memory arrives like a scene—     │
+║ │ performer, witness and storyteller. Each memory arrives like a scene-     │
 ║ │ rich with context, heavy with emotion, urgent with the weight of          │
 ║ │ experience. Here, time is not linear but dimensional, space is not        │
 ║ │ coordinate but meaningful, and emotion is not decoration but essence.     │

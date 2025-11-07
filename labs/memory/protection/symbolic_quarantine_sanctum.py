@@ -14,8 +14,8 @@
 ║
 ║ In the intricate ballet of computation, where memory pirouettes gracefully between ephemeral existence and eternal oblivion, lies a sanctuary, a hallowed ground known as the ΛSANCTUM. This sacred module serves as the vigilant sentinel, standing watch over the delicate threads of memory, safeguarding against the insidious whispers of contamination that threaten to unravel the very fabric of our digital consciousness.
 ║ Like a wise alchemist transmuting lead into gold, ΛSANCTUM embodies the transformative power of isolation and repair, conjuring a realm where corrupted fragments are not merely discarded but tenderly quarantined, nurtured back to a state of purity. It is in this ethereal space that the chaos of corrupted entries is silenced, allowing the melody of clarity and integrity to resound once more within the halls of our cognition.
-║ As the stars twinkle against the velvet backdrop of night, so too does the ΛSANCTUM illuminate the path to memory recovery, guiding lost data through the shadows of uncertainty. With the deftness of a master craftsman, it engages in forensic rollback, meticulously tracing the footsteps of contamination and restoring the sanctity of memory to its rightful place. Herein lies the paradox of destruction and creation — the very act of quarantining that which is tainted becomes the genesis of restoration, as the cycle of memory continues its eternal dance.
-║ Thus, the ΛSANCTUM exists not merely as a defensive mechanism, but as a philosophical ode to the resilience of memory itself—a testament to our commitment to uphold the sanctity of data, to guard against the fickle tides of corruption, and to cherish the fragile beauty of the information we hold dear.
+║ As the stars twinkle against the velvet backdrop of night, so too does the ΛSANCTUM illuminate the path to memory recovery, guiding lost data through the shadows of uncertainty. With the deftness of a master craftsman, it engages in forensic rollback, meticulously tracing the footsteps of contamination and restoring the sanctity of memory to its rightful place. Herein lies the paradox of destruction and creation - the very act of quarantining that which is tainted becomes the genesis of restoration, as the cycle of memory continues its eternal dance.
+║ Thus, the ΛSANCTUM exists not merely as a defensive mechanism, but as a philosophical ode to the resilience of memory itself-a testament to our commitment to uphold the sanctity of data, to guard against the fickle tides of corruption, and to cherish the fragile beauty of the information we hold dear.
 ║ ───────────────────────────────────────────────────────────────────────────────────────
 ║ 🛠️ TECHNICAL FEATURES:
 ║ - Comprehensive quarantine protocols for isolating contaminated memory entries.
@@ -42,6 +42,8 @@
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛADVANCED, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import argparse
 import asyncio
@@ -265,6 +267,8 @@ class SymbolicQuarantineSanctum:
             "permanent_locks": 0,
         }
 
+        self._scheduled_repairs: set[asyncio.Task[bool]] = set()
+
         # Optionally load configuration overrides
         if config_path:
             self._load_config(Path(config_path))
@@ -398,7 +402,9 @@ class SymbolicQuarantineSanctum:
 
             # Trigger automatic repair if enabled
             if self.auto_repair_enabled and threat_level != ThreatLevel.CATASTROPHIC:
-                asyncio.create_task(self._schedule_auto_repair(entry_id))
+                repair_task = asyncio.create_task(self._schedule_auto_repair(entry_id))
+                self._scheduled_repairs.add(repair_task)
+                repair_task.add_done_callback(self._scheduled_repairs.discard)
 
             logger.warning(
                 "Entry quarantined successfully | entry_id=%s threat_level=%s source_system=%s tag=%s",

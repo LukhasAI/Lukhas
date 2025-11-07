@@ -14,10 +14,11 @@ import asyncio
 import json
 import logging
 from collections import Counter
+from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Iterable, Optional
+from typing import Any
 
 from ethics.core import EthicalDecision, get_shared_ethics_engine
 from ethics.seedra import get_seedra
@@ -29,7 +30,7 @@ def _clamp(value: float, minimum: float=0.0, maximum: float=1.0) -> float:
     """Clamp *value* between *minimum* and *maximum*."""
     return max(minimum, min(maximum, value))
 
-def _to_datetime(value: Any) -> Optional[datetime]:
+def _to_datetime(value: Any) -> datetime | None:
     """Attempt to coerce a timestamp-like value into a :class:`datetime`."""
     if value is None:
         return None
@@ -186,12 +187,12 @@ class GestureScoringSystem:
 class GestureCorpusRepository:
     """Retrieve gesture corpora with MATRIZ + file fallbacks."""
 
-    def __init__(self, corpus_path: Optional[Path | str]=None) -> None:
+    def __init__(self, corpus_path: Path | str | None=None) -> None:
         self._cache: dict[str, list[dict[str, Any]]] = {}
         self._lock = asyncio.Lock()
         self._corpus_path = Path(corpus_path) if corpus_path is not None else Path(__file__).with_name('gesture_corpus.json')
 
-    async def fetch_gesture_data(self, user_context: Optional[dict[str, Any]]=None, *, force_refresh: bool=False) -> list[dict[str, Any]]:
+    async def fetch_gesture_data(self, user_context: dict[str, Any] | None=None, *, force_refresh: bool=False) -> list[dict[str, Any]]:
         """Retrieve gesture corpus using MATRIZ memory or a file fallback."""
         user_id = (user_context or {}).get('user_id', '__global__')
         if not force_refresh and user_id in self._cache:
@@ -208,7 +209,7 @@ class GestureCorpusRepository:
             logger.debug('# ΛTAG: gesture_repository cache_update', extra={'user_id': user_id, 'entries': len(data)})
             return data
 
-    async def _fetch_from_matriz_memory(self, user_context: dict[str, Any]) -> Optional[list[dict[str, Any]]]:
+    async def _fetch_from_matriz_memory(self, user_context: dict[str, Any]) -> list[dict[str, Any]] | None:
         """Attempt to retrieve gesture data from MATRIZ memory systems."""
         try:
             from MATRIZ.core.memory_system import get_memory_system
@@ -260,7 +261,7 @@ class GestureCorpusRepository:
 class GestureInterpretationSystem:
     """Interprets gestures using the ethics engine."""
 
-    def __init__(self, engine: Optional[DASTEngine], *, scorer: Optional[GestureScoringSystem]=None, repository: Optional[GestureCorpusRepository]=None, ethics: Optional[Any]=None, symbolic: Optional[SymbolicVocabulary]=None) -> None:
+    def __init__(self, engine: DASTEngine | None, *, scorer: GestureScoringSystem | None=None, repository: GestureCorpusRepository | None=None, ethics: Any | None=None, symbolic: SymbolicVocabulary | None=None) -> None:
         self.engine = engine
         self.scorer = scorer or GestureScoringSystem()
         self.repository = repository or GestureCorpusRepository()
@@ -283,7 +284,7 @@ class GestureInterpretationSystem:
         logger.debug('# ΛTAG: gesture_interpretation summary', extra={'states': [state['state'] for state in states], 'confidence': interpretation['overall_confidence'], 'drift_indicator': metrics.get('drift_indicator', 0.0)})
         return interpretation
 
-    async def interpret_gesture(self, gesture_data: dict[str, Any], user_context: dict[str, Any]) -> Optional[Symbol]:
+    async def interpret_gesture(self, gesture_data: dict[str, Any], user_context: dict[str, Any]) -> Symbol | None:
         """Compatibility shim returning a symbolic gesture interpretation."""
         interpretation = await self.interpret([gesture_data], user_context)
         if not interpretation.get('states') or self._symbolic is None:
@@ -295,10 +296,10 @@ class GestureInterpretationSystem:
         if not breakdown:
             return {'average_score': 0.0, 'drift_indicator': 0.0, 'affect_delta': 0.0, 'confidence': 0.0}
         count = len(breakdown)
-        average_score = sum((item.score for item in breakdown.values())) / count
-        average_context = sum((item.context_relevance for item in breakdown.values())) / count
-        average_emotion = sum((item.emotional_valence for item in breakdown.values())) / count
-        average_temporal = sum((item.temporal_alignment for item in breakdown.values())) / count
+        average_score = sum(item.score for item in breakdown.values()) / count
+        average_context = sum(item.context_relevance for item in breakdown.values()) / count
+        average_emotion = sum(item.emotional_valence for item in breakdown.values()) / count
+        average_temporal = sum(item.temporal_alignment for item in breakdown.values()) / count
         affect_delta = average_emotion * 2.0 - 1.0
         drift_indicator = _clamp(1.0 - average_context)
         confidence = _clamp((average_score + average_temporal) / 2.0)
@@ -319,7 +320,7 @@ class GestureInterpretationSystem:
             states.append({'state': 'drifting', 'confidence': _clamp(drift_indicator), 'supporting_gestures': self._gestures_with_low_context(breakdown), 'signals': {'drift_indicator': drift_indicator}})
         if not states:
             states.append({'state': 'calm', 'confidence': _clamp(metrics.get('average_emotion', 0.5)), 'supporting_gestures': self._top_gestures(breakdown, limit=2), 'signals': {'affect_delta': affect_delta}})
-        tag_counter = Counter((tag for gesture in gestures for tag in gesture.get('tags', [])))
+        tag_counter = Counter(tag for gesture in gestures for tag in gesture.get('tags', []))
         if tag_counter.get('analysis', 0) >= 2:
             states.append({'state': 'cognitive_analysis', 'confidence': _clamp(average_score), 'supporting_gestures': self._top_gestures(breakdown, limit=2), 'signals': {'tag_frequency': tag_counter.get('analysis', 0)}})
         return states

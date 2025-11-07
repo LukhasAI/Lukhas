@@ -144,7 +144,7 @@ class ConsciousnessSignalRouter:
         self.boot_sanity_check()
 
     # Required signal types for minimal viable routing coverage
-    REQUIRED_SIGNAL_TYPES = {
+    REQUIRED_SIGNAL_TYPES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_consciousness_signal_router_py_L147"}
         "AWARENESS", "REFLECTION", "EVOLUTION", "INTEGRATION",
         "BIO_ADAPTATION", "TRINITY_SYNC", "NETWORK_PULSE"
     }
@@ -742,11 +742,10 @@ class ConsciousnessSignalRouter:
 
         # Mark inactive nodes
         for node_id, node in self.nodes.items():
-            if current_time - node.last_seen > 300:  # 5 minutes
-                if node.is_active:
-                    node.is_active = False
-                    logger.info(f"Marked node {node_id} as inactive")
-                    self.network_metrics.active_nodes -= 1
+            if current_time - node.last_seen > 300 and node.is_active:  # 5 minutes
+                node.is_active = False
+                logger.info(f"Marked node {node_id} as inactive")
+                self.network_metrics.active_nodes -= 1
 
         # Clean up old signal history (keep last 1000 entries)
         if len(self.signal_history) > 1000:

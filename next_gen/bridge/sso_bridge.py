@@ -80,7 +80,7 @@ class SSOBridge:
     """
 
     # Standard claim to glyph mappings
-    STANDARD_GLYPH_MAPPINGS = {
+    STANDARD_GLYPH_MAPPINGS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_bridge_sso_bridge_py_L83"}
         # OAuth2 / OpenID Connect standard claims
         "admin": "🔐",
         "user": "🔓",

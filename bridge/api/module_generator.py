@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-from typing import Any
-
 """
 
 #TAG:bridge
@@ -16,8 +11,11 @@ Creates standardized module structure with LUKHAS personality preserved
 """
 
 import argparse
+import logging
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
+
+logger = logging.getLogger(__name__)
 
 # LUKHAS module template structure
 MODULE_TEMPLATE = {

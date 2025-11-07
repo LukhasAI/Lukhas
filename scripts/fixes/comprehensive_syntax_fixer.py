@@ -97,7 +97,7 @@ def check_syntax(content: str) -> bool:
 def fix_file(file_path: Path) -> bool:
     """Fix syntax errors in a single file"""
     try:
-        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+        with open(file_path, encoding="utf-8", errors="ignore") as f:
             original_content = f.read()
 
         # Check if already valid
@@ -133,12 +133,12 @@ def main():
     files_to_fix = []
     for file_path in lukhas_files:
         try:
-            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+            with open(file_path, encoding="utf-8", errors="ignore") as f:
                 content = f.read()
 
             if not check_syntax(content):
                 files_to_fix.append(file_path)
-        except:
+        except Exception:
             continue
 
     print(f"❌ Files needing fixes: {len(files_to_fix)}")
@@ -155,11 +155,11 @@ def main():
     working_files = 0
     for file_path in lukhas_files[:100]:  # Check first 100
         try:
-            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+            with open(file_path, encoding="utf-8", errors="ignore") as f:
                 content = f.read()
             if check_syntax(content):
                 working_files += 1
-        except:
+        except Exception:
             continue
 
     print(f"📊 Working files: {working_files}/100 ({working_files}%)")

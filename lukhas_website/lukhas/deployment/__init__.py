@@ -44,12 +44,12 @@ from .rollback_system import RollbackSystem
 from .traffic_router import TrafficRouter
 
 __all__ = [
-    'LaneManager',
     'CanaryController',
-    'TrafficRouter',
-    'HealthMonitor',
-    'DeploymentPipeline',
     'ConfigurationManager',
+    'DeploymentCoordinator',
+    'DeploymentPipeline',
+    'HealthMonitor',
+    'LaneManager',
     'RollbackSystem',
-    'DeploymentCoordinator'
+    'TrafficRouter'
 ]

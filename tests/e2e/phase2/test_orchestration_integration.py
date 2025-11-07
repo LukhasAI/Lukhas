@@ -24,6 +24,10 @@ import pytest
 
 # Test imports with fallback handling
 try:
+    from bridge.anthropic_bridge import AnthropicBridge
+    from bridge.google_bridge import GoogleBridge
+    from bridge.openai_bridge import OpenAIBridge
+    from governance.guardian_system import GuardianSystem
     from labs.orchestration.high_performance_context_bus import (
         ContextMessage,
         ContextPriority,
@@ -36,10 +40,6 @@ try:
         WorkflowExecution,
     )
 
-    from bridge.anthropic_bridge import AnthropicBridge
-    from bridge.google_bridge import GoogleBridge
-    from bridge.openai_bridge import OpenAIBridge
-    from governance.guardian_system import GuardianSystem
 except ImportError as e:
     pytest.skip(f"Phase 2 modules not available: {e}", allow_module_level=True)
 
@@ -269,7 +269,7 @@ class TestTrinityFrameworkIntegration:
     @pytest.mark.asyncio
     async def test_identity_consciousness_coherence(self, triad_orchestrator):
         """Test Identity (⚛️) and Consciousness (🧠) coherence"""
-        orchestrator, guardian = triad_orchestrator
+        orchestrator, _guardian = triad_orchestrator
 
         # Mock identity and consciousness systems
         orchestrator.identity_system.get_identity_state = AsyncMock(

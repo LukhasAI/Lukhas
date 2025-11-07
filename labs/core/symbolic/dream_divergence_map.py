@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -19,7 +21,7 @@ logger = logging.getLogger(__name__)
 💭 INTEGRATION: DreamSession, SymbolicAnomalyExplorer, HyperspaceSimulator
 ═══════════════════════════════════════════════════════════════════════════════════
 
-🔍 DREAM DIVERGENCE MATRIX — CROSS-SESSION SYMBOLIC DRIFT ANALYSIS
+🔍 DREAM DIVERGENCE MATRIX - CROSS-SESSION SYMBOLIC DRIFT ANALYSIS
 ────────────────────────────────────────────────────────────────────────────────────
 
 The Dream Divergence Matrix maps symbolic drift trajectories across multiple dream

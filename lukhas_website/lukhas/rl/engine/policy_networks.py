@@ -15,9 +15,8 @@ import logging
 
 import torch
 import torch.nn as nn
-from torch.distributions import Categorical, Normal
-
 from observability.matriz_decorators import instrument
+from torch.distributions import Categorical, Normal
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +45,7 @@ class ConsciousnessAttention(nn.Module):
             consciousness_features = consciousness_features.unsqueeze(0)
 
         # Self-attention over consciousness features
-        attended_features, attention_weights = self.attention(
+        attended_features, _attention_weights = self.attention(
             consciousness_features, consciousness_features, consciousness_features
         )
 

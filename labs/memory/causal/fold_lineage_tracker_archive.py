@@ -47,6 +47,8 @@ ENHANCED CAUSATION TYPES:
 
 ΛTAG: ΛLUKHAS, ΛCAUSAL, ΛLINEAGE, ΛARCHAEOLOGY, ΛENTERPRISE
 """
+from __future__ import annotations
+
 
 import hashlib
 import json

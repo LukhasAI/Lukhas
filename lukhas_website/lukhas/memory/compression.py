@@ -578,7 +578,7 @@ class AdaptiveCompressionManager:
                     algorithm = self.content_hints['text']
                 else:
                     algorithm = self.content_hints['binary']
-            except:
+            except Exception:
                 algorithm = self.content_hints['default']
 
         # Ensure algorithm is available
@@ -636,10 +636,7 @@ class AdaptiveCompressionManager:
             CompressionResult with compressed data and metrics
         """
         # Convert string to bytes if needed
-        if isinstance(data, str):
-            data_bytes = data.encode('utf-8')
-        else:
-            data_bytes = data
+        data_bytes = data.encode('utf-8') if isinstance(data, str) else data
 
         # Select algorithm and level if not specified
         if algorithm is None or level is None:
@@ -785,10 +782,7 @@ class AdaptiveCompressionManager:
         Synchronous compression wrapper.
         """
         # Convert string to bytes if needed
-        if isinstance(data, str):
-            data_bytes = data.encode('utf-8')
-        else:
-            data_bytes = data
+        data_bytes = data.encode('utf-8') if isinstance(data, str) else data
 
         # Select algorithm and level if not specified
         if algorithm is None or level is None:
@@ -864,7 +858,7 @@ class AdaptiveCompressionManager:
             },
             "configuration": {
                 "adaptive_enabled": self.enable_adaptive,
-                "available_algorithms": [algo.value for algo in self.compressors.keys()],
+                "available_algorithms": [algo.value for algo in self.compressors],
                 "zstd_available": ZSTD_AVAILABLE
             }
         }

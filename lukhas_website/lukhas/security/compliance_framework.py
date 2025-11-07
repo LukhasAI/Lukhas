@@ -553,9 +553,7 @@ class ComplianceFramework:
         control.last_tested = result.assessed_at
 
         # Calculate next assessment date
-        if control.frequency == "continuous":
-            control.next_test_due = datetime.now(timezone.utc) + timedelta(days=1)
-        elif control.frequency == "daily":
+        if control.frequency == "continuous" or control.frequency == "daily":
             control.next_test_due = datetime.now(timezone.utc) + timedelta(days=1)
         elif control.frequency == "weekly":
             control.next_test_due = datetime.now(timezone.utc) + timedelta(weeks=1)
@@ -597,7 +595,7 @@ class ComplianceFramework:
         except Exception as e:
             logger.exception(f"Automated assessment failed for {control.id}: {e}")
             result_status = ControlStatus.NON_COMPLIANT
-            findings = [f"Assessment automation failed: {str(e)}"]
+            findings = [f"Assessment automation failed: {e!s}"]
             recommendations = ["Review automation handler and control implementation"]
             confidence = 0.5
             metadata = {"error": str(e)}
@@ -706,7 +704,7 @@ class ComplianceFramework:
         """
         risk_id = f"RISK-{int(time.time())}-{str(uuid.uuid4())[:8]}"
 
-        # Calculate inherent risk (likelihood × impact)
+        # Calculate inherent risk (likelihood x impact)
         risk_matrix = {
             (RiskLevel.LOW, RiskLevel.LOW): RiskLevel.LOW,
             (RiskLevel.LOW, RiskLevel.MEDIUM): RiskLevel.LOW,

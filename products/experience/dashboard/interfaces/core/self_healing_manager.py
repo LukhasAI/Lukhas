@@ -42,6 +42,8 @@
 ║ ΛTAG: ΛHEALING, ΛADAPTIVE, ΛFALLBACK, ΛRECOVERY, ΛINTELLIGENT
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 import logging
@@ -60,6 +62,8 @@ from dashboard.core.dashboard_colony_agent import DashboardAgentRole, DashboardC
 
 from core.event_bus import EventBus
 from core.monitoring.drift_monitor import UnifiedDriftMonitor
+
+# Dashboard system imports
 from memory.systems.healix_memory_core import HealixMemoryCore
 
 logger = logging.getLogger("ΛTRACE.self_healing_manager")

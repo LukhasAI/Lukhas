@@ -15,7 +15,7 @@
 ║ │ In the distributed realm of colonies, trust is not assumed but earned      │
 ║ │ through consensus. Like neurons voting on the reality of a memory, each    │
 ║ │ colony contributes its voice to the choir of validation. No single point   │
-║ │ of failure, no singular authority—only the collective wisdom of the        │
+║ │ of failure, no singular authority-only the collective wisdom of the        │
 ║ │ distributed mind ensuring the integrity of remembrance.                    │
 ║ │                                                                             │
 ║ │ Through Byzantine fault tolerance and quorum consensus, memories are       │
@@ -37,6 +37,8 @@
 ║ ΛTAG: ΛVALIDATION, ΛCOLONY, ΛCONSENSUS, ΛBYZANTINE, ΛINTEGRITY
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 import hashlib
@@ -196,6 +198,7 @@ class ColonyMemoryValidator:
         self._running = False
         self._cleanup_task = None
         self._monitoring_task = None
+        self._background_tasks: set[asyncio.Task[Any]] = set()
 
         logger.info(
             "ColonyMemoryValidator initialized",
@@ -210,7 +213,12 @@ class ColonyMemoryValidator:
 
         # Start background tasks
         self._cleanup_task = asyncio.create_task(self._cleanup_expired_validations())
+        self._background_tasks.add(self._cleanup_task)
+        self._cleanup_task.add_done_callback(self._background_tasks.discard)
+
         self._monitoring_task = asyncio.create_task(self._monitor_colony_health())
+        self._background_tasks.add(self._monitoring_task)
+        self._monitoring_task.add_done_callback(self._background_tasks.discard)
 
         logger.info("ColonyMemoryValidator started")
 
@@ -219,10 +227,23 @@ class ColonyMemoryValidator:
         self._running = False
 
         # Cancel background tasks
-        if self._cleanup_task:
-            self._cleanup_task.cancel()
-        if self._monitoring_task:
-            self._monitoring_task.cancel()
+        tasks_to_cancel = [
+            task
+            for task in [self._cleanup_task, self._monitoring_task]
+            if task is not None
+        ]
+
+        for task in list(self._background_tasks):
+            if task not in tasks_to_cancel:
+                tasks_to_cancel.append(task)
+
+        for task in tasks_to_cancel:
+            task.cancel()
+
+        self._background_tasks.clear()
+
+        if tasks_to_cancel:
+            await asyncio.gather(*tasks_to_cancel, return_exceptions=True)
 
         # Cancel active validations
         for request_id in list(self.active_validations.keys()):

@@ -12,7 +12,6 @@ from types import ModuleType, SimpleNamespace
 
 import pytest
 
-
 # Ensure repository root is importable when pytest uses nested configuration.
 repo_root = str(Path(__file__).resolve().parents[2])
 if repo_root not in sys.path:
@@ -159,19 +158,6 @@ def test_swarm_agent_receive_returns_placeholder_response(monkeypatch):
     assert fallback["agent_id"] == "agent-1"
 
     assert "agent-1" in colony.supervisor.children
-"""Additional unit coverage for observability and swarm fallbacks."""
-
-from __future__ import annotations
-
-import importlib
-import importlib.util
-import logging
-import os
-import sys
-from pathlib import Path
-from types import ModuleType, SimpleNamespace
-
-import pytest
 
 
 # Ensure repository root is importable when pytest uses nested configuration.

@@ -12,7 +12,7 @@ from __future__ import annotations
 import re
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Set
 from urllib.parse import urlparse
 
 from pydantic import BaseModel, Field, root_validator, validator
@@ -101,10 +101,9 @@ class RedirectUriValidation(BaseModel):
             parsed = urlparse(v)
 
             # Security checks
-            if parsed.scheme not in ['https', 'http']:
+            if parsed.scheme not in ['https', 'http'] and parsed.hostname not in ['localhost', '127.0.0.1']:
                 # Allow http only for localhost in development
-                if parsed.hostname not in ['localhost', '127.0.0.1']:
-                    raise ValueError('Redirect URI must use HTTPS')
+                raise ValueError('Redirect URI must use HTTPS')
 
             if parsed.fragment:
                 raise ValueError('Redirect URI must not contain fragment')
@@ -144,13 +143,13 @@ class ScopeValidation(BaseModel):
 class AuthorizationRequest(BaseRequest, ClientIdValidation, RedirectUriValidation, ScopeValidation):
     """OAuth2 authorization request validation"""
     response_type: ResponseTypeEnum = Field(..., description="OAuth2 response type")
-    state: Optional[str] = Field(None, max_length=500, regex=r'^[a-zA-Z0-9_.-]+$')
-    nonce: Optional[str] = Field(None, max_length=500, regex=r'^[a-zA-Z0-9_.-]+$')
-    code_challenge: Optional[str] = Field(None, max_length=128, regex=r'^[a-zA-Z0-9_.-~]+$')
-    code_challenge_method: Optional[CodeChallengeMethodEnum] = None
-    prompt: Optional[str] = Field(None, regex=r'^(none|login|consent|select_account)( (none|login|consent|select_account))*$')
-    max_age: Optional[int] = Field(None, ge=0, le=86400)  # Max 24 hours
-    login_hint: Optional[str] = Field(None, max_length=256)
+    state: str | None = Field(None, max_length=500, regex=r'^[a-zA-Z0-9_.-]+$')
+    nonce: str | None = Field(None, max_length=500, regex=r'^[a-zA-Z0-9_.-]+$')
+    code_challenge: str | None = Field(None, max_length=128, regex=r'^[a-zA-Z0-9_.-~]+$')
+    code_challenge_method: CodeChallengeMethodEnum | None = None
+    prompt: str | None = Field(None, regex=r'^(none|login|consent|select_account)( (none|login|consent|select_account))*$')
+    max_age: int | None = Field(None, ge=0, le=86400)  # Max 24 hours
+    login_hint: str | None = Field(None, max_length=256)
 
     @validator('nonce')
     def validate_nonce_with_id_token(cls, v, values):
@@ -178,13 +177,13 @@ class AuthorizationRequest(BaseRequest, ClientIdValidation, RedirectUriValidatio
 class TokenRequest(BaseRequest, ClientIdValidation):
     """OAuth2 token request validation"""
     grant_type: GrantTypeEnum = Field(..., description="OAuth2 grant type")
-    code: Optional[str] = Field(None, max_length=512)
-    redirect_uri: Optional[HttpUrl] = None
-    code_verifier: Optional[str] = Field(None, max_length=128, regex=r'^[a-zA-Z0-9_.-~]+$')
-    refresh_token: Optional[str] = Field(None, max_length=512)
-    username: Optional[str] = Field(None, max_length=256)
-    password: Optional[str] = Field(None, max_length=256)
-    client_secret: Optional[str] = Field(None, max_length=512)
+    code: str | None = Field(None, max_length=512)
+    redirect_uri: HttpUrl | None = None
+    code_verifier: str | None = Field(None, max_length=128, regex=r'^[a-zA-Z0-9_.-~]+$')
+    refresh_token: str | None = Field(None, max_length=512)
+    username: str | None = Field(None, max_length=256)
+    password: str | None = Field(None, max_length=256)
+    client_secret: str | None = Field(None, max_length=512)
 
     @root_validator
     def validate_grant_type_params(cls, values):
@@ -213,15 +212,15 @@ class TokenRequest(BaseRequest, ClientIdValidation):
 class IntrospectionRequest(BaseRequest, ClientIdValidation):
     """OAuth2 token introspection request validation"""
     token: str = Field(..., min_length=1, max_length=2048)
-    token_type_hint: Optional[TokenTypeHintEnum] = None
-    client_secret: Optional[str] = Field(None, max_length=512)
+    token_type_hint: TokenTypeHintEnum | None = None
+    client_secret: str | None = Field(None, max_length=512)
 
 
 class RevocationRequest(BaseRequest, ClientIdValidation):
     """OAuth2 token revocation request validation"""
     token: str = Field(..., min_length=1, max_length=2048)
-    token_type_hint: Optional[TokenTypeHintEnum] = None
-    client_secret: Optional[str] = Field(None, max_length=512)
+    token_type_hint: TokenTypeHintEnum | None = None
+    client_secret: str | None = Field(None, max_length=512)
 
 
 class UserInfoRequest(BaseRequest):
@@ -243,7 +242,7 @@ class WebAuthnCredentialCreationOptions(BaseRequest):
     username: str = Field(..., min_length=1, max_length=256, regex=r'^[a-zA-Z0-9._@-]+$')
     display_name: str = Field(..., min_length=1, max_length=256)
     user_verification: str = Field('preferred', regex=r'^(required|preferred|discouraged)$')
-    authenticator_attachment: Optional[str] = Field(None, regex=r'^(platform|cross-platform)$')
+    authenticator_attachment: str | None = Field(None, regex=r'^(platform|cross-platform)$')
     resident_key: str = Field('preferred', regex=r'^(required|preferred|discouraged)$')
 
     @validator('username')
@@ -261,7 +260,7 @@ class WebAuthnCredentialCreationOptions(BaseRequest):
 
 class WebAuthnCredentialRequestOptions(BaseRequest):
     """WebAuthn credential request options validation"""
-    username: Optional[str] = Field(None, min_length=1, max_length=256, regex=r'^[a-zA-Z0-9._@-]+$')
+    username: str | None = Field(None, min_length=1, max_length=256, regex=r'^[a-zA-Z0-9._@-]+$')
     user_verification: str = Field('preferred', regex=r'^(required|preferred|discouraged)$')
 
 
@@ -289,7 +288,7 @@ class WebAuthnRegistrationResponse(BaseRequest):
 
 class WebAuthnAuthenticationResponse(BaseRequest):
     """WebAuthn authentication response validation"""
-    username: Optional[str] = Field(None, min_length=1, max_length=256)
+    username: str | None = Field(None, min_length=1, max_length=256)
     credential: Dict[str, Any] = Field(..., description="WebAuthn credential response")
     client_data_json: str = Field(..., max_length=4096)
     authenticator_data: str = Field(..., max_length=2048)
@@ -322,9 +321,9 @@ class ClientRegistrationRequest(BaseRequest):
     application_type: str = Field('web', regex=r'^(web|native)$')
     token_endpoint_auth_method: str = Field('client_secret_basic',
                                           regex=r'^(client_secret_basic|client_secret_post|none)$')
-    jwks_uri: Optional[HttpUrl] = None
-    software_id: Optional[str] = Field(None, max_length=256)
-    software_version: Optional[str] = Field(None, max_length=256)
+    jwks_uri: HttpUrl | None = None
+    software_id: str | None = Field(None, max_length=256)
+    software_version: str | None = Field(None, max_length=256)
 
     @validator('redirect_uris')
     def validate_redirect_uris(cls, v):
@@ -351,9 +350,9 @@ class ClientRegistrationRequest(BaseRequest):
 class RateLimitContext(BaseModel):
     """Rate limiting context"""
     client_ip: str = Field(..., regex=r'^[0-9.:a-fA-F]+$')  # IPv4/IPv6
-    user_id: Optional[str] = Field(None, max_length=256)
-    endpoint: Optional[str] = Field(None, max_length=256)
-    user_agent: Optional[str] = Field(None, max_length=1024)
+    user_id: str | None = Field(None, max_length=256)
+    endpoint: str | None = Field(None, max_length=256)
+    user_agent: str | None = Field(None, max_length=1024)
 
     @validator('client_ip')
     def validate_ip_address(cls, v):
@@ -372,16 +371,16 @@ class SecurityEvent(BaseModel):
     """Security event for audit logging"""
     event_type: str = Field(..., max_length=128)
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    client_ip: Optional[str] = None
-    user_id: Optional[str] = None
-    client_id: Optional[str] = None
-    endpoint: Optional[str] = None
+    client_ip: str | None = None
+    user_id: str | None = None
+    client_id: str | None = None
+    endpoint: str | None = None
     threat_level: str = Field('low', regex=r'^(low|medium|high|critical)$')
     indicators: List[str] = Field(default_factory=list, max_items=20)
     metadata: Dict[str, Any] = Field(default_factory=dict)
 
     class Config:
-        json_encoders = {
+        json_encoders = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_identity_validation_schemas_py_L383"}
             datetime: lambda v: v.isoformat()
         }
 
@@ -391,9 +390,9 @@ class SecurityEvent(BaseModel):
 class ErrorResponse(BaseModel):
     """Standard OAuth2/OIDC error response"""
     error: str = Field(..., max_length=128)
-    error_description: Optional[str] = Field(None, max_length=512)
-    error_uri: Optional[HttpUrl] = None
-    state: Optional[str] = Field(None, max_length=500)
+    error_description: str | None = Field(None, max_length=512)
+    error_uri: HttpUrl | None = None
+    state: str | None = Field(None, max_length=500)
 
 
 class TokenResponse(BaseModel):
@@ -401,22 +400,22 @@ class TokenResponse(BaseModel):
     access_token: str = Field(..., max_length=2048)
     token_type: str = Field('Bearer', max_length=64)
     expires_in: int = Field(..., ge=1, le=86400)
-    refresh_token: Optional[str] = Field(None, max_length=2048)
-    id_token: Optional[str] = Field(None, max_length=4096)
-    scope: Optional[str] = Field(None, max_length=1000)
+    refresh_token: str | None = Field(None, max_length=2048)
+    id_token: str | None = Field(None, max_length=4096)
+    scope: str | None = Field(None, max_length=1000)
 
 
 class UserInfoResponse(BaseModel):
     """OIDC UserInfo response"""
     sub: str = Field(..., max_length=256)
-    name: Optional[str] = Field(None, max_length=256)
-    given_name: Optional[str] = Field(None, max_length=256)
-    family_name: Optional[str] = Field(None, max_length=256)
-    email: Optional[EmailStr] = None
-    email_verified: Optional[bool] = None
-    picture: Optional[HttpUrl] = None
-    updated_at: Optional[int] = None
-    tier_level: Optional[int] = Field(None, ge=1, le=10)
+    name: str | None = Field(None, max_length=256)
+    given_name: str | None = Field(None, max_length=256)
+    family_name: str | None = Field(None, max_length=256)
+    email: EmailStr | None = None
+    email_verified: bool | None = None
+    picture: HttpUrl | None = None
+    updated_at: int | None = None
+    tier_level: int | None = Field(None, ge=1, le=10)
 
 
 # Helper functions for validation
@@ -430,7 +429,7 @@ def validate_jwt_token(token: str) -> bool:
     return len(parts) == 3 and all(part for part in parts)
 
 
-def sanitize_correlation_id(correlation_id: Optional[str]) -> Optional[str]:
+def sanitize_correlation_id(correlation_id: str | None) -> str | None:
     """Sanitize correlation ID for logging"""
     if not correlation_id:
         return None
@@ -443,20 +442,20 @@ def sanitize_correlation_id(correlation_id: Optional[str]) -> Optional[str]:
 # Export main validation schemas
 __all__ = [
     'AuthorizationRequest',
-    'TokenRequest',
+    'ClientRegistrationRequest',
+    'ErrorResponse',
     'IntrospectionRequest',
+    'RateLimitContext',
     'RevocationRequest',
+    'SecurityEvent',
+    'TokenRequest',
+    'TokenResponse',
     'UserInfoRequest',
+    'UserInfoResponse',
+    'WebAuthnAuthenticationResponse',
     'WebAuthnCredentialCreationOptions',
     'WebAuthnCredentialRequestOptions',
     'WebAuthnRegistrationResponse',
-    'WebAuthnAuthenticationResponse',
-    'ClientRegistrationRequest',
-    'RateLimitContext',
-    'SecurityEvent',
-    'ErrorResponse',
-    'TokenResponse',
-    'UserInfoResponse',
-    'validate_jwt_token',
-    'sanitize_correlation_id'
+    'sanitize_correlation_id',
+    'validate_jwt_token'
 ]

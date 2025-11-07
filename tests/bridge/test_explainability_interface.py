@@ -3,7 +3,6 @@
 import asyncio
 
 import pytest
-
 from labs.bridge.explainability_interface_layer import (
     ExplainabilityInterface,
     ExplanationLevel,

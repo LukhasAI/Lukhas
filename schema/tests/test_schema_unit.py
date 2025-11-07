@@ -81,8 +81,9 @@ class TestSchemaIntegration:
     def test_consciousness_integration(self):
         """Test integration with consciousness system."""
         try:
-            from consciousness import ConsciousnessCore
             from schema import SchemaCore
+
+            from consciousness import ConsciousnessCore
 
             consciousness = ConsciousnessCore()
             component = SchemaCore()
@@ -104,7 +105,7 @@ class TestSchemaIntegration:
 
             # Test MATRIZ pipeline methods
             assert hasattr(component, 'process')
-            assert callable(getattr(component, 'process'))
+            assert callable(component.process)
 
         except ImportError:
             pytest.skip("SchemaCore not available")
@@ -174,7 +175,6 @@ class TestSchemaPerformance:
             import os
 
             import psutil
-
             from schema import SchemaCore
 
             component = SchemaCore()

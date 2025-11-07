@@ -14,7 +14,7 @@ import asyncio
 import random
 import time
 from enum import Enum as PyEnum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Set
 
 from opentelemetry import trace
 from prometheus_client import Counter, Enum, Gauge, Histogram
@@ -80,7 +80,7 @@ class DreamEngine:
     for sub-50ms dream cycles with comprehensive memory integration.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Dict[str, Any] | None = None):
         """Initialize dream engine with configuration."""
         self.config = {**DEFAULT_DREAM_CONFIG, **(config or {})}
         self.max_duration_ms = self.config["max_duration_ms"]
@@ -90,7 +90,7 @@ class DreamEngine:
         # FSM state
         self._current_phase: DreamState = DreamState.IDLE
         self._phase_start_time = 0.0
-        self._dream_session_id: Optional[str] = None
+        self._dream_session_id: str | None = None
         self._component_id = "DreamEngine"
 
         # Memory processing state
@@ -472,10 +472,7 @@ class DreamEngine:
 
         # Trigger if too much time has passed since last consolidation
         time_since_last = time.time() - self._last_consolidation_time
-        if time_since_last > 300:  # 5 minutes
-            return True
-
-        return False
+        return time_since_last > 300  # 5 minutes
 
     def get_performance_stats(self) -> Dict[str, float]:
         """Get current performance statistics."""

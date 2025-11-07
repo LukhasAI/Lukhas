@@ -119,11 +119,10 @@ class ValidationCache:
                 return None
 
             # Check TTL if applicable
-            if self.ttl_seconds and key in self._timestamps:
-                if time.time() - self._timestamps[key] > self.ttl_seconds:
-                    self._remove_item(key)
-                    self.metrics.cache_misses += 1
-                    return None
+            if (self.ttl_seconds and key in self._timestamps) and time.time() - self._timestamps[key] > self.ttl_seconds:
+                self._remove_item(key)
+                self.metrics.cache_misses += 1
+                return None
 
             # Update access patterns
             self._access_count[key] += 1
@@ -295,7 +294,7 @@ class CompiledValidator:
             return True
 
         first_type = type(data[0])
-        return all(type(item) == first_type for item in data)
+        return all(type(item) is first_type for item in data)
 
     def _vectorized_validation(self, func: Callable, data: List[Any]) -> Any:
         """Vectorized validation for large homogeneous lists"""

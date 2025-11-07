@@ -1,6 +1,3 @@
-from __future__ import annotations
-
-#!/usr/bin/env python3
 """
 LUKHΛS T3 Biometric Fusion Engine
 =================================
@@ -18,6 +15,9 @@ Author: LUKHΛS AI Systems
 Version: 3.1.0 - Biometric Fusion Revolution
 Created: 2025-08-03
 """
+
+from __future__ import annotations
+
 import asyncio
 import hashlib
 import json
@@ -25,7 +25,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -61,7 +61,7 @@ class BiometricSample:
     raw_data: bytes
     quality_score: float  # 0.0 to 1.0
     consciousness_context: dict[str, Any]
-    cultural_markers: Optional[dict[str, Any]] = None
+    cultural_markers: dict[str, Any] | None = None
     timestamp: datetime = field(default_factory=datetime.utcnow)
 
     def compute_hash(self) -> str:
@@ -89,7 +89,7 @@ class FusionResult:
     fusion_method: str
     modalities_used: list[BiometricModality]
     fallback_triggered: bool
-    fallback_strategy: Optional[FallbackStrategy]
+    fallback_strategy: FallbackStrategy | None
     consciousness_boost: float
     cultural_alignment: float
     session_vector: str  # Unique fusion vector for this session
@@ -152,7 +152,7 @@ class BiometricFusionEngine:
         biometric_samples: list[BiometricSample],
         consciousness_state: str,
         cultural_context: dict[str, Any],
-        fallback_data: Optional[dict[str, Any]] = None,
+        fallback_data: dict[str, Any] | None = None,
     ) -> FusionResult:
         """
         Perform T3 biometric authentication with intelligent fallback
@@ -261,7 +261,7 @@ class BiometricFusionEngine:
         samples: list[BiometricSample],
         consciousness_state: str,
         cultural_context: dict[str, Any],
-        fallback_data: Optional[dict[str, Any]],
+        fallback_data: dict[str, Any] | None,
     ) -> FusionResult:
         """Execute intelligent fallback authentication"""
 
@@ -296,7 +296,7 @@ class BiometricFusionEngine:
         self,
         samples: list[BiometricSample],
         consciousness_state: str,
-        fallback_data: Optional[dict[str, Any]],
+        fallback_data: dict[str, Any] | None,
     ) -> FallbackStrategy:
         """Intelligently select best fallback strategy"""
 
@@ -669,10 +669,9 @@ class BiometricFusionEngine:
             strength += 0.15
 
         # Cultural adaptation
-        if cultural_context.get("cultural_type") == "high_context":
+        if cultural_context.get('cultural_type') == 'high_context' and len(keyword.split()) > 1:
             # High-context cultures may use meaningful phrases
-            if len(keyword.split()) > 1:
-                strength += 0.15
+            strength += 0.15
 
         return min(strength, 1.0)
 
@@ -713,9 +712,8 @@ class BiometricFusionEngine:
         base_score = min(matches / 3.0, 1.0)
 
         # Cultural dream interpretation bonus
-        if cultural_context.get("region") == "asia":
-            if any(s in ["dragon", "lotus", "mountain"] for s in symbols):
-                base_score *= 1.2
+        if cultural_context.get('region') == 'asia' and any((s in ['dragon', 'lotus', 'mountain'] for s in symbols)):
+            base_score *= 1.2
 
         return min(base_score, 1.0)
 
@@ -731,10 +729,9 @@ class BiometricFusionEngine:
             # High-context cultures often have rich dream symbolism
             if dream_recall.get("symbolic_depth", 0) > 0.7:
                 cultural_factor = 1.3
-        elif cultural_type == "individual":
+        elif cultural_type == 'individual' and dream_recall.get('personal_significance', 0) > 0.6:
             # Individual cultures focus on personal dream meaning
-            if dream_recall.get("personal_significance", 0) > 0.6:
-                cultural_factor = 1.2
+            cultural_factor = 1.2
 
         return cultural_factor
 

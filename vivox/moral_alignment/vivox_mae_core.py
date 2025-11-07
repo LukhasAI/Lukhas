@@ -381,10 +381,9 @@ class EthicalPrecedentDatabase:
         action_weight = 0.5
         if precedent_action_type and precedent_action_type == action.action_type:
             similarity_score += action_weight
-        elif precedent_action_type:
+        elif precedent_action_type and self._are_actions_related(action.action_type, precedent_action_type):
             # Partial credit for related action types
-            if self._are_actions_related(action.action_type, precedent_action_type):
-                similarity_score += action_weight * 0.5
+            similarity_score += action_weight * 0.5
         weights_sum += action_weight
 
         # Context similarity (medium weight)
@@ -408,10 +407,9 @@ class EthicalPrecedentDatabase:
                 val1, val2 = combined_context[key], combined_precedent[key]
                 if val1 == val2:
                     matches += 1
-                elif isinstance(val1, (int, float)) and isinstance(val2, (int, float)):
+                elif (isinstance(val1, (int, float)) and isinstance(val2, (int, float))) and abs(val1 - val2) < 0.2:
                     # Fuzzy match for numeric values
-                    if abs(val1 - val2) < 0.2:
-                        matches += 0.5
+                    matches += 0.5
 
             similarity_score += context_weight * (matches / len(common_keys))
         weights_sum += context_weight
@@ -567,7 +565,7 @@ class VIVOXMoralAlignmentEngine:
     Computes dissonance scores and moral fingerprints
     """
 
-    def __init__(self, vivox_me: "VIVOXMemoryExpansion"):  # noqa: F821  # TODO: VIVOXMemoryExpansion
+    def __init__(self, vivox_me: "VIVOXMemoryExpansion"):  # TODO: VIVOXMemoryExpansion
         self.vivox_me = vivox_me
         self.dissonance_calculator = DissonanceCalculator()
         self.moral_fingerprinter = MoralFingerprinter()

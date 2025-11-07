@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 """
 CRITICAL FILE - DO NOT MODIFY WITHOUT APPROVAL
 lukhas AI System - Core Memory Component
@@ -19,10 +14,13 @@ DEPENDENCIES:
   - core/identity/identity_manager.py
 """
 
+from __future__ import annotations
+
 import asyncio
 import contextlib
 import gzip
 import json
+import logging
 import mmap
 import time
 import uuid
@@ -30,9 +28,13 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 
@@ -83,7 +85,7 @@ class MemoryEntry:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "MemoryEntry":
+    def from_dict(cls, data: dict[str, Any]) -> MemoryEntry:
         """Create from dictionary"""
         return cls(
             id=data["id"],
@@ -140,7 +142,7 @@ class UnifiedMemoryManager:
     - Memory garbage collection
     """
 
-    def __init__(self, config: Optional[MemoryConfig] = None):
+    def __init__(self, config: MemoryConfig | None = None):
         self.config = config or MemoryConfig()
 
         # Storage setup
@@ -159,7 +161,7 @@ class UnifiedMemoryManager:
         self.mmap_files: dict[str, mmap.mmap] = {}
 
         # Background tasks
-        self._gc_task: Optional[asyncio.Task] = None
+        self._gc_task: asyncio.Task | None = None
         self._running = False
 
         # Compression (using gzip for now, can upgrade to zstd later)
@@ -218,7 +220,7 @@ class UnifiedMemoryManager:
         content: dict[str, Any],
         memory_type: MemoryType = MemoryType.EPISODIC,
         priority: MemoryPriority = MemoryPriority.MEDIUM,
-        memory_id: Optional[str] = None,
+        memory_id: str | None = None,
     ) -> str:
         """
         Store a memory entry.
@@ -275,8 +277,8 @@ class UnifiedMemoryManager:
     async def retrieve_memory(
         self,
         user_id: str,
-        memory_id: Optional[str] = None,
-        memory_type: Optional[MemoryType] = None,
+        memory_id: str | None = None,
+        memory_type: MemoryType | None = None,
         limit: int = 20,
         include_old: bool = False,
     ) -> list[MemoryEntry]:
@@ -343,7 +345,7 @@ class UnifiedMemoryManager:
             logger.error(f"Failed to retrieve memories: {e}")
             return []
 
-    async def delete_user_memories(self, user_id: str, memory_ids: Optional[list[str]] = None) -> bool:
+    async def delete_user_memories(self, user_id: str, memory_ids: list[str] | None = None) -> bool:
         """
         Delete memories for GDPR compliance.
 
@@ -383,7 +385,7 @@ class UnifiedMemoryManager:
             logger.error(f"Failed to delete user memories: {e}")
             return False
 
-    async def get_memory_stats(self, user_id: Optional[str] = None) -> dict[str, Any]:
+    async def get_memory_stats(self, user_id: str | None = None) -> dict[str, Any]:
         """Get memory usage statistics"""
         try:
             if user_id:
@@ -509,7 +511,7 @@ class UnifiedMemoryManager:
 
         return (current_time - memory.timestamp) < ttl_seconds
 
-    async def _get_memory_by_id(self, user_id: str, memory_id: str) -> Optional[MemoryEntry]:
+    async def _get_memory_by_id(self, user_id: str, memory_id: str) -> MemoryEntry | None:
         """Get specific memory by ID"""
         user_memories = self.lru_cache.get(user_id, OrderedDict())
         memory = user_memories.get(memory_id)

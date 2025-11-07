@@ -28,13 +28,24 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 try:
-    import jwt  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    import jwt  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+
+    # LUKHAS imports
+    from bridge.api.orchestration_api_bridge import (
+        APIProvider,
+        ComprehensiveAPIOrchestrator,  # TODO: bridge.api.orchestratio...
+        OrchestrationRequest,
+        OrchestrationResponse,  # TODO: bridge.api.orchestratio...
+        OrchestrationStrategy,
+        get_orchestrator,
+    )
+    from bridge.api.validation import get_validator
     from fastapi import (
         Depends,
         FastAPI,
         HTTPException,
-        Request,  # noqa: F401  # TODO: fastapi.Request; consider usin...
-        Response,  # noqa: F401  # TODO: fastapi.Response; consider usi...
+        Request,  # TODO: fastapi.Request; consider usin...
+        Response,  # TODO: fastapi.Response; consider usi...
         WebSocket,
         WebSocketDisconnect,
         status,
@@ -42,20 +53,10 @@ try:
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.responses import StreamingResponse
     from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-    from pydantic import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    from pydantic import (  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
         BaseModel,
         Field,
         ValidationError,
-    )
-
-    # LUKHAS imports
-    from bridge.api.orchestration_api_bridge import (
-        APIProvider,
-        ComprehensiveAPIOrchestrator,  # noqa: F401  # TODO: bridge.api.orchestratio...
-        OrchestrationRequest,
-        OrchestrationResponse,  # noqa: F401  # TODO: bridge.api.orchestratio...
-        OrchestrationStrategy,
-        get_orchestrator,
     )
 
     FASTAPI_AVAILABLE = True
@@ -235,7 +236,7 @@ security = HTTPBearer() if FASTAPI_AVAILABLE else None
 
 
 async def get_current_user(
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials = Depends(security),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_orchestration_endpoints_py_L239"}
 ):
     """Get current authenticated user"""
     api_key = credentials.credentials
@@ -288,7 +289,7 @@ if FASTAPI_AVAILABLE:
     # Main orchestration endpoint
     @app.post("/api/v1/orchestrate", response_model=OrchestrationAPIResponse)
     async def orchestrate_request(
-        request: OrchestrationAPIRequest, current_user: dict = Depends(get_current_user)
+        request: OrchestrationAPIRequest, current_user: dict = Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_orchestration_endpoints_py_L292"}
     ) -> OrchestrationAPIResponse:
         """
         Orchestrate multi-model AI request with advanced consensus algorithms.
@@ -376,7 +377,7 @@ if FASTAPI_AVAILABLE:
 
     # Streaming endpoint with Server-Sent Events
     @app.post("/api/v1/stream")
-    async def stream_orchestration(request: StreamingRequest, current_user: dict = Depends(get_current_user)):
+    async def stream_orchestration(request: StreamingRequest, current_user: dict = Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_orchestration_endpoints_py_L380"}
         """
         Stream AI responses in real-time using Server-Sent Events (SSE).
 
@@ -518,7 +519,7 @@ if FASTAPI_AVAILABLE:
     @app.post("/api/v1/functions/register")
     async def register_functions(
         request: FunctionRegistrationRequest,
-        current_user: dict = Depends(get_current_user),
+        current_user: dict = Depends(get_current_user),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_orchestration_endpoints_py_L522"}
     ):
         """
         Register custom functions for use with AI models.
@@ -538,7 +539,7 @@ if FASTAPI_AVAILABLE:
 
         # Validate functions before registration
         try:
-            validator = get_validator()  # noqa: F821  # TODO: get_validator
+            validator = get_validator()  # TODO: get_validator
             if validator:
                 validation_result = await validator.validate_request(
                     "function_registration",
@@ -596,7 +597,7 @@ if FASTAPI_AVAILABLE:
 
     # Metrics endpoint
     @app.get("/api/v1/metrics")
-    async def get_metrics(current_user: dict = Depends(get_current_user)):
+    async def get_metrics(current_user: dict = Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_orchestration_endpoints_py_L600"}
         """
         Get comprehensive orchestration metrics and performance data.
 
@@ -630,7 +631,7 @@ if FASTAPI_AVAILABLE:
 
     # Provider status endpoint
     @app.get("/api/v1/providers/status")
-    async def get_provider_status(current_user: dict = Depends(get_current_user)):
+    async def get_provider_status(current_user: dict = Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_orchestration_endpoints_py_L634"}
         """
         Get status of all available AI providers.
 
@@ -686,7 +687,7 @@ if FASTAPI_AVAILABLE:
     @app.post("/api/v1/orchestrate/batch")
     async def batch_orchestration(
         requests: list[OrchestrationAPIRequest],
-        current_user: dict = Depends(get_current_user),
+        current_user: dict = Depends(get_current_user),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_orchestration_endpoints_py_L690"}
     ):
         """
         Process multiple orchestration requests in batch for efficiency.
@@ -738,7 +739,7 @@ if FASTAPI_AVAILABLE:
 
     # Model comparison endpoint
     @app.post("/api/v1/compare-models")
-    async def compare_models(request: OrchestrationAPIRequest, current_user: dict = Depends(get_current_user)):
+    async def compare_models(request: OrchestrationAPIRequest, current_user: dict = Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_orchestration_endpoints_py_L742"}
         """
         Compare responses from different AI models side-by-side.
 

@@ -8,6 +8,7 @@ Implements ground truth enumeration per PLANNING_TODO.md:
 - Verify claimed completions against actual code
 - Generate canonical manifest with evidence
 """
+from __future__ import annotations
 
 import argparse
 import hashlib
@@ -16,7 +17,7 @@ import re
 import subprocess
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 
 class TodoManifestBuilder:
@@ -68,7 +69,7 @@ class TodoManifestBuilder:
 
         return entries
 
-    def _parse_single_entry(self, section: str, source_file: str, priority: str) -> Optional[Dict[str, Any]]:
+    def _parse_single_entry(self, section: str, source_file: str, priority: str) -> Dict[str, Any] | None:
         """Parse a single TODO entry from markdown section"""
         # Extract file path
         file_match = re.search(r"\*\*File\*\*:\s*`([^`]+)`", section)
@@ -202,7 +203,7 @@ class TodoManifestBuilder:
         # Read grep results
         grep_todos = []
         if Path(grep_file).exists():
-            with open(grep_file, "r") as f:
+            with open(grep_file) as f:
                 for line in f:
                     line = line.strip()
                     if ":" in line and ("TODO" in line or "FIXME" in line or "HACK" in line):
@@ -260,7 +261,7 @@ class TodoManifestBuilder:
 
         return evidence
 
-    def _create_todo_from_grep(self, grep_line: str) -> Optional[Dict[str, Any]]:
+    def _create_todo_from_grep(self, grep_line: str) -> Dict[str, Any] | None:
         """Create TODO entry from grep result"""
         parts = grep_line.split(":", 2)
         if len(parts) < 3:

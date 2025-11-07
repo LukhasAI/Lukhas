@@ -279,7 +279,7 @@ class BatchVectorStoreBase(VectorStoreBase):
 class VectorStoreFactory:
     """Factory for creating vector store instances"""
 
-    _stores: Dict[VectorStoreType, type] = {}
+    _stores: Dict[VectorStoreType, type] = {}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_services_memory_adapters_vector_store_base_py_L282"}
 
     @classmethod
     def register(cls, store_type: VectorStoreType, store_class: type):

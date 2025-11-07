@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-"""
-Neuroplastic Learning Orchestrator
+"""Neuroplastic Learning Orchestrator
 ==================================
 Advanced orchestrator that coordinates neuroplastic adaptations across
 multiple system components using biological-inspired learning principles.

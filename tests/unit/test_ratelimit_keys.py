@@ -12,15 +12,14 @@ from types import SimpleNamespace
 from typing import Optional
 
 import pytest
-
 from core.reliability.ratelimit import RateLimiter
 
 
 def _mock_request(
     path: str = "/v1/embeddings",
-    auth: Optional[str] = None,
+    auth: str | None = None,
     ip: str = "1.2.3.4",
-    xff: Optional[str] = None
+    xff: str | None = None
 ):
     """
     Create mock FastAPI Request object for testing.

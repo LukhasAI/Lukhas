@@ -4,6 +4,8 @@ LUKHAS  Unified Monitoring Dashboard
 Comprehensive real-time monitoring for all  systems
 Trinity Framework: ⚛️🧠🛡️
 """
+from __future__ import annotations
+
 
 import asyncio
 import logging

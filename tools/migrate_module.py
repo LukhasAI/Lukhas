@@ -3,17 +3,17 @@
 Module Migration Helper for LUKHAS AI
 Automates the migration of modules to lukhas/ (accepted)
 """
+from __future__ import annotations
 
 import json
 import re
 import shutil
 import sys
 from pathlib import Path
-from typing import Optional
 
 
 class ModuleMigrator:
-    def __init__(self, root_path: Optional[Path] = None):
+    def __init__(self, root_path: Path | None = None):
         self.root = root_path or Path.cwd()
         self.lukhas_dir = self.root / "lukhas"
         self.candidate_dir = self.root / "labs"
@@ -68,7 +68,8 @@ class ModuleMigrator:
                             if pattern.search(line):
                                 imports.append(f"{py_file.relative_to(module_path)}")
                                 break
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
             if imports:
@@ -91,7 +92,8 @@ class ModuleMigrator:
                 for pattern in matriz_patterns:
                     if re.search(pattern, content, re.IGNORECASE):
                         return True
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
         return False

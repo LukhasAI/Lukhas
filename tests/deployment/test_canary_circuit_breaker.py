@@ -530,7 +530,7 @@ class TestMATRIZCanaryCircuitBreaker:
             )
 
             start_time = time.perf_counter()
-            rollback_needed, trigger, evaluation = circuit_breaker.evaluate_circuit_breaker(metrics)
+            _rollback_needed, _trigger, _evaluation = circuit_breaker.evaluate_circuit_breaker(metrics)
             eval_time = (time.perf_counter() - start_time) * 1000
 
             evaluation_times.append(eval_time)

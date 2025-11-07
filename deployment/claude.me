@@ -1,4 +1,9 @@
-# Deployment Module - Claude AI Context
+status: wip
+type: documentation
+# Deployment Module Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
+
 
 **Module**: deployment
 **Purpose**: Deployment automation and platform management
@@ -6,7 +11,6 @@
 **Language**: Python
 **Last Updated**: 2025-10-18
 
----
 
 ## Module Overview
 
@@ -25,7 +29,6 @@ The deployment module provides comprehensive deployment automation for LUKHAS AI
 - **⚛️ Anchor Star (Identity)**: Identity-aware deployment
 - **🛡️ Watch Star (Guardian)**: Secure deployment practices
 
----
 
 ## Architecture
 
@@ -61,7 +64,6 @@ deployment = deploy_consciousness_platform(
 - Health monitoring
 - Rollback capabilities
 
----
 
 #### 2. Memory Services
 **Location**: `deployment/platforms/memory_services/`
@@ -88,7 +90,6 @@ memory_deployment = deploy_memory_services(
 - Storage backend configuration
 - Memory service scaling
 
----
 
 #### 3. Dream Commerce
 **Location**: `deployment/platforms/dream_commerce/`
@@ -114,7 +115,6 @@ dream_deployment = deploy_dream_platform(
 - Commerce workflows
 - Revenue tracking
 
----
 
 ## Module Structure
 
@@ -149,7 +149,6 @@ deployment/
             └── dream_api.py
 ```
 
----
 
 ## Deployment Strategies
 
@@ -186,7 +185,6 @@ deployment.deploy(
 - Maintain service availability
 - Configurable batch size
 
----
 
 ## Observability
 
@@ -208,7 +206,6 @@ The deployment system tracks:
 - **Service Availability**: Uptime during deployments
 - **Health Check Status**: Post-deployment validation results
 
----
 
 ## Platform Configuration
 
@@ -258,7 +255,6 @@ platform:
     monetization: true
 ```
 
----
 
 ## Development Guidelines
 
@@ -309,7 +305,6 @@ manager.rollback(
 )
 ```
 
----
 
 ## MATRIZ Pipeline Integration
 
@@ -322,7 +317,6 @@ This module operates within the MATRIZ cognitive framework:
 - **I (Intent)**: Intent understanding for deployment automation
 - **A (Action)**: Automated deployment execution
 
----
 
 ## Performance Targets
 
@@ -332,7 +326,6 @@ This module operates within the MATRIZ cognitive framework:
 - **Zero Downtime**: 100% uptime during deployments
 - **Service Recovery**: <1 minute for service restart
 
----
 
 ## Dependencies
 
@@ -344,7 +337,6 @@ This module operates within the MATRIZ cognitive framework:
 - Terraform for infrastructure as code
 - Helm for Kubernetes deployments
 
----
 
 ## Related Modules
 
@@ -353,7 +345,6 @@ This module operates within the MATRIZ cognitive framework:
 - **Docker** ([../docker/](../docker/)) - Container infrastructure
 - **Monitoring** ([../monitoring/](../monitoring/)) - Deployment monitoring
 
----
 
 ## Documentation
 
@@ -362,7 +353,6 @@ This module operates within the MATRIZ cognitive framework:
 - **Tests**: [deployment/tests/](tests/) - Deployment test suites
 - **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#deployment)
 
----
 
 **Status**: Integration Lane (L2)
 **Manifest**: ✓ module.manifest.json (schema v1.0.0)
@@ -370,31 +360,3 @@ This module operates within the MATRIZ cognitive framework:
 **Code Owners**: @lukhas-core
 **Platforms**: 3 deployment platforms (consciousness, memory, dream commerce)
 **Last Updated**: 2025-10-18
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

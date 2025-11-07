@@ -180,7 +180,7 @@ class RecursiveSymbolicEngine:
         # Recursive observation of entangled symbols
         if symbol.state.quantum_field.entangled_symbols:
             result["entangled_observations"] = []
-            for entangled_id in symbol.state.quantum_field.entangled_symbols[:2]:  # Limit recursion
+            for _entangled_id in symbol.state.quantum_field.entangled_symbols[:2]:  # Limit recursion
                 # Would need access to other symbols here
                 pass
 

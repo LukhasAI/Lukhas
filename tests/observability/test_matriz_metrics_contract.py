@@ -18,10 +18,9 @@ Constellation Framework: 🌊 Metrics Contract Compliance
 
 import logging
 import re
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import pytest
-
 from governance.schema_registry import LUKHASLane
 
 # Import observability components
@@ -152,7 +151,7 @@ class MATRIZMetricsContractValidator:
         operation: str = "tick",
         phase: str = "processing",
         lane: str = "production",
-        labels: Dict[str, Any] = None
+        labels: Optional[Dict[str, Any]] = None
     ) -> List[str]:
         """Record MATRIZ metric and validate against contracts."""
         violations = []
@@ -192,7 +191,7 @@ class MATRIZMetricsContractValidator:
                 labels=metric_labels
             )
         except Exception as e:
-            violations.append(f"Failed to record metric '{name}': {str(e)}")
+            violations.append(f"Failed to record metric '{name}': {e!s}")
 
         # Store violations for reporting
         if violations:

@@ -47,7 +47,8 @@ def parse_pct(xml_path: Path) -> float:
     rate = root.attrib.get("line-rate", "0")
     try:
         return round(100.0 * float(rate), 2)
-    except:
+    except Exception as e:
+        logger.debug(f"Expected optional failure: {e}")
         return 0.0
 
 

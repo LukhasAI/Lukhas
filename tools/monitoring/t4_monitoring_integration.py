@@ -50,7 +50,7 @@ class T4MonitoringIntegration:
     def _load_integration_config(self) -> Dict[str, Any]:
         """Load integration-specific configuration"""
         try:
-            with open(self.config_path, 'r') as f:
+            with open(self.config_path) as f:
                 config = json.load(f)
                 return config.get("integration", {})
         except Exception as e:

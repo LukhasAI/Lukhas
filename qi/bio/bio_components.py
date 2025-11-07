@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -30,19 +27,27 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
+from __future__ import annotations
+
+import asyncio  # For async methods
+import hashlib  # For CardiolipinEncoder
+import json  # For CardiolipinEncoder
+import logging
+from datetime import datetime, timezone  # Standardized timestamping
+from typing import Any
+
+import numpy as np
+import structlog  # Standardized logging
+
+logger = logging.getLogger(__name__)
+
+
 __module_name__ = "Quantum Bio Components"
 __version__ = "2.0.0"
 __tier__ = 2
 
 
-import asyncio  # For async methods
-import hashlib  # For CardiolipinEncoder
-import json  # For CardiolipinEncoder
-from datetime import datetime, timezone  # Standardized timestamping
-from typing import Any, Optional
 
-import numpy as np
-import structlog  # Standardized logging
 
 # Initialize structlog logger for this module
 log = structlog.get_logger(__name__)
@@ -52,9 +57,9 @@ LUKHAS_OSCILLATORS_AVAILABLE = False
 try:
     # Try absolute imports first (candidate lane structure)
     # type: ignore
+    from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
     from qi.processing.qi_engine import QIOscillator  # type: ignore
 
-    from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
 
     LUKHAS_OSCILLATORS_AVAILABLE = True
     log.debug("LUKHAS Oscillators imported successfully from candidate lane.")
@@ -62,9 +67,9 @@ except ImportError:
     try:
         # Fallback to production lane if available
         # type: ignore
+        from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
         from qi.processing.qi_engine import QIOscillator  # type: ignore
 
-        from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
 
         LUKHAS_OSCILLATORS_AVAILABLE = True
         log.debug("LUKHAS Oscillators imported successfully from production lane.")
@@ -133,7 +138,7 @@ def lukhas_tier_required(level: int):
 class ProtonGradient:
     """Simulates bio-inspired quantum-enhanced gradient processing."""
 
-    def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
+    def __init__(self, qi_oscillator: QIOscillator | None = None):
         self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
         self.qi_oscillator: QIOscillator = qi_oscillator or QIOscillator()
         self.gradient_state_vector = np.zeros(3, dtype=float)
@@ -200,7 +205,7 @@ class ProtonGradient:
 class QIAttentionGate:
     """Simulates a quantum-enhanced attention gating mechanism."""
 
-    def __init__(self, bio_oscillator: Optional[QIBioOscillator] = None):
+    def __init__(self, bio_oscillator: QIBioOscillator | None = None):
         self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
         self.bio_oscillator: QIBioOscillator = bio_oscillator or QIBioOscillator()
         self.log.info("QIAttentionGate initialized.")

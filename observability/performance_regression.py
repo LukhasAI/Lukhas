@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
+import importlib as _importlib
+
 # Minimal stub for test collection
 __all__ = []
 
 # Added for test compatibility (observability.performance_regression.DetectionMethod)
 try:
-    from labs.observability.performance_regression import DetectionMethod
+    _mod = _importlib.import_module("labs.observability.performance_regression")
+    DetectionMethod = _mod.DetectionMethod
 except ImportError:
 
     class DetectionMethod:
@@ -27,10 +30,9 @@ if "DetectionMethod" not in __all__:
 
 # Added for test compatibility (observability.performance_regression.PerformanceRegressionDetector)
 try:
-    from labs.observability.performance_regression import (
-        PerformanceRegressionDetector,
-    )
-except ImportError:
+    _mod = _importlib.import_module("labs.observability.performance_regression")
+    PerformanceRegressionDetector = _mod.PerformanceRegressionDetector
+except Exception:
 
     class PerformanceRegressionDetector:
         """Stub for PerformanceRegressionDetector."""
@@ -49,8 +51,9 @@ if "PerformanceRegressionDetector" not in __all__:
 
 # Added for test compatibility (observability.performance_regression.PerformanceBaseline)
 try:
-    from labs.observability.performance_regression import PerformanceBaseline
-except ImportError:
+    _mod = _importlib.import_module("labs.observability.performance_regression")
+    PerformanceBaseline = _mod.PerformanceBaseline
+except Exception:
 
     class PerformanceBaseline:
         """Stub for PerformanceBaseline."""
@@ -69,8 +72,9 @@ if "PerformanceBaseline" not in __all__:
 
 # Added for test compatibility (observability.performance_regression.PerformanceRegression)
 try:
-    from labs.observability.performance_regression import PerformanceRegression
-except ImportError:
+    _mod = _importlib.import_module("labs.observability.performance_regression")
+    PerformanceRegression = _mod.PerformanceRegression
+except Exception:
 
     class PerformanceRegression:
         """Stub for PerformanceRegression."""

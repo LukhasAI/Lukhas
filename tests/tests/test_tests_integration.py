@@ -52,9 +52,8 @@ class TestTestsEndToEnd:
             component = TestsCore()
 
             # Test integrated processing
-            with consciousness.awareness_context():
-                with memory.session_context():
-                    result = component.process({'integration': 'test'})
+            with consciousness.awareness_context(), memory.session_context():
+                result = component.process({'integration': 'test'})
 
             assert result is not None
 

@@ -119,11 +119,10 @@ class AdaptiveCircuitBreaker:
         self._update_performance_metrics()
 
         # Check if we should close circuit from half-open
-        if self.state == CircuitState.HALF_OPEN:
-            if self._should_close_circuit():
-                self.state = CircuitState.CLOSED
-                self.last_state_change = time.time()
-                print(f"✅ Circuit {self.name} recovered (correlation: {correlation_id})")
+        if self.state == CircuitState.HALF_OPEN and self._should_close_circuit():
+            self.state = CircuitState.CLOSED
+            self.last_state_change = time.time()
+            print(f"✅ Circuit {self.name} recovered (correlation: {correlation_id})")
 
         # Performance-based degradation detection (0.01% feature)
         if self._is_performance_degraded():
@@ -211,7 +210,7 @@ class AdaptiveCircuitBreaker:
             return max(self.response_times)
         try:
             return statistics.quantiles(self.response_times, n=20)[18]  # 95th percentile
-        except:
+        except Exception:
             # Fallback for small datasets
             return max(self.response_times)
 

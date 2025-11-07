@@ -10,6 +10,7 @@ with performance metrics, security validation, and compliance documentation.
 Usage:
     python scripts/generate_i2_excellence_evidence.py [--output=artifacts/]
 """
+from __future__ import annotations
 
 import argparse
 import hashlib

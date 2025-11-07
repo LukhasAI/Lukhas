@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 System Health Monitor for LUKHAS AI - Comprehensive Memory Cascade and API Performance Monitoring
 
@@ -23,16 +17,16 @@ This module provides real-time monitoring of system health with focus on:
 #TAG:performance
 """
 
+from __future__ import annotations
+
 import asyncio
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import psutil
-
-# Add logging
 from core.common import get_logger
 
 logger = get_logger(__name__)
@@ -119,8 +113,8 @@ class CascadeEvent:
 
     # Prevention status
     prevented: bool = False
-    prevention_method: Optional[str] = None
-    recovery_time: Optional[float] = None
+    prevention_method: str | None = None
+    recovery_time: float | None = None
 
 
 @dataclass
@@ -192,7 +186,7 @@ class SystemHealthMonitor:
     and Constellation Framework health with real-time alerting.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """
         Initialize system health monitor.
 
@@ -257,12 +251,12 @@ class SystemHealthMonitor:
         self.monitoring_active = True
 
         # Start monitoring loops
-        asyncio.create_task(self._health_monitoring_loop())
-        asyncio.create_task(self._cascade_detection_loop())
-        asyncio.create_task(self._api_monitoring_loop())
-        asyncio.create_task(self._constellation_monitoring_loop())
-        asyncio.create_task(self._alert_management_loop())
-        asyncio.create_task(self._reporting_loop())
+        asyncio.create_task(self._health_monitoring_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_health_monitor_py_L254"}
+        asyncio.create_task(self._cascade_detection_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_health_monitor_py_L256"}
+        asyncio.create_task(self._api_monitoring_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_health_monitor_py_L258"}
+        asyncio.create_task(self._constellation_monitoring_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_health_monitor_py_L260"}
+        asyncio.create_task(self._alert_management_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_health_monitor_py_L262"}
+        asyncio.create_task(self._reporting_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_health_monitor_py_L264"}
 
         logger.info("🏥 System health monitoring started")
 
@@ -529,7 +523,7 @@ class SystemHealthMonitor:
         value: float,
         unit: str,
         timestamp: datetime,
-        tags: Optional[dict[str, str]] = None,
+        tags: dict[str, str] | None = None,
     ):
         """Record a health metric."""
 

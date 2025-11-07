@@ -17,6 +17,8 @@ Author: LUKHΛS AI Systems
 Version: 3.1.0 - Quantum GLYPH Revolution
 Created: 2025-08-03
 """
+from __future__ import annotations
+
 
 import asyncio
 import base64

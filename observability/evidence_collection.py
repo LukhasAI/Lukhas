@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import importlib as _importlib
 from enum import Enum
 
 # Minimal stub for test collection
@@ -9,10 +10,11 @@ __all__ = []
 
 # Add ComplianceRegime for test compatibility
 try:
-    from labs.observability.evidence_collection import ComplianceRegime
+    _mod = _importlib.import_module("labs.observability.evidence_collection")
+    ComplianceRegime = _mod.ComplianceRegime
 
     __all__.append("ComplianceRegime")
-except ImportError:
+except Exception:
     # Stub enum
     class ComplianceRegime(Enum):
         """Stub compliance regime enum."""
@@ -25,10 +27,11 @@ except ImportError:
 
 # Add EvidenceCollectionEngine for test compatibility
 try:
-    from labs.observability.evidence_collection import EvidenceCollectionEngine
+    _mod = _importlib.import_module("labs.observability.evidence_collection")
+    EvidenceCollectionEngine = _mod.EvidenceCollectionEngine
 
     __all__.append("EvidenceCollectionEngine")
-except ImportError:
+except Exception:
     # Stub class
     class EvidenceCollectionEngine:
         """Stub evidence collection engine."""
@@ -43,10 +46,11 @@ except ImportError:
 
 # Add EvidenceType for test compatibility
 try:
-    from labs.observability.evidence_collection import EvidenceType
+    _mod = _importlib.import_module("labs.observability.evidence_collection")
+    EvidenceType = _mod.EvidenceType
 
     __all__.append("EvidenceType")
-except ImportError:
+except Exception:
     # Stub enum
     class EvidenceType(Enum):
         """Stub evidence type enum."""
@@ -60,10 +64,11 @@ except ImportError:
 
 # Add collect_evidence for test compatibility
 try:
-    from labs.observability.evidence_collection import collect_evidence
+    _mod = _importlib.import_module("labs.observability.evidence_collection")
+    collect_evidence = _mod.collect_evidence
 
     __all__.append("collect_evidence")
-except ImportError:
+except Exception:
 
     def collect_evidence(*args, **kwargs):
         """Stub evidence collection function."""
@@ -73,8 +78,9 @@ except ImportError:
 
 # Added for test compatibility (observability.evidence_collection.initialize_evidence_collection)
 try:
-    from labs.observability.evidence_collection import initialize_evidence_collection
-except ImportError:
+    _mod = _importlib.import_module("labs.observability.evidence_collection")
+    initialize_evidence_collection = _mod.initialize_evidence_collection
+except Exception:
 
     def initialize_evidence_collection(*args, **kwargs):
         """Stub for initialize_evidence_collection."""

@@ -23,7 +23,7 @@ HEADING_PATTERN = re.compile(r'^#+\s+(.+)$', re.MULTILINE)
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
@@ -32,7 +32,7 @@ def load_dedupe_plan() -> Dict:
     if not DEDUPE_PLAN_PATH.exists():
         return {"redirects": []}
 
-    with open(DEDUPE_PLAN_PATH, 'r', encoding='utf-8') as f:
+    with open(DEDUPE_PLAN_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
@@ -123,7 +123,7 @@ def validate_link(source_file: Path, link_text: str, link_url: str,
     # Validate anchor if present
     if anchor:
         try:
-            with open(target_doc['path'], 'r', encoding='utf-8') as f:
+            with open(target_doc['path'], encoding='utf-8') as f:
                 content = f.read()
             headings = extract_headings(content)
 
@@ -149,7 +149,7 @@ def rewrite_links_in_file(file_path: Path, docs_by_path: Dict, redirect_map: Dic
     Returns stats and changes.
     """
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
     except Exception as e:
         return {"error": str(e)}

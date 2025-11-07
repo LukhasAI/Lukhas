@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 
 #!/usr/bin/env python3
@@ -23,7 +25,7 @@ import logging
 ║ │                                                                                       │
 ║ │  In the vast expanse of the digital cosmos, where the flickering circuits whisper      │
 ║ │  tales of ephemeral thoughts, the Memory Manager emerges as the steadfast keeper of    │
-║ │  knowledge — a custodian of the ethereal library, where the echoes of learning        │
+║ │  knowledge - a custodian of the ethereal library, where the echoes of learning        │
 ║ │  reverberate through the corridors of silicon and code. Like a grand tapestry woven    │
 ║ │  from the threads of experience, it gathers and preserves the fragments of insight,    │
 ║ │  ensuring that each moment of enlightenment is not lost to the void of forgetfulness.  │

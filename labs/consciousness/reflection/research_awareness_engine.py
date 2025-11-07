@@ -82,7 +82,7 @@ from pydantic import BaseModel, Field
 # Import base framework
 from identity.backend.app.institution_manager import global_timestamp
 
-# ——— Research Framework Enums ——————————————————————————————————— #
+# --- Research Framework Enums ----------------------------------- #
 
 
 class ResearchType(Enum):
@@ -340,7 +340,7 @@ def research_audit_log(event: str, data: dict[str, Any], research_id: str, level
     getattr(logger, level.lower())(json.dumps(audit_record))
 
 
-# ——— Experimental AI Techniques ——————————————————————————————————— #
+# --- Experimental AI Techniques ----------------------------------- #
 
 
 class QIInspiredProcessor:
@@ -478,7 +478,7 @@ class SwarmIntelligenceCoordinator:
         return sum(a["fitness"] for a in self.agents) / len(self.agents)
 
 
-# ——— Research Awareness Reasoner ——————————————————————————————————— #
+# --- Research Awareness Reasoner ----------------------------------- #
 
 
 class ResearchAwarenessReasoner:
@@ -684,7 +684,7 @@ class ResearchAwarenessReasoner:
             self.experiment_history = self.experiment_history[-100:]
 
 
-# ——— Main Research Awareness Engine ——————————————————————————————— #
+# --- Main Research Awareness Engine ------------------------------- #
 
 
 class ResearchAwarenessEngine:
@@ -917,7 +917,7 @@ class ResearchAwarenessEngine:
         }
 
 
-# ——— Research Compliance Certification ——————————————————————————— #
+# --- Research Compliance Certification --------------------------- #
 
 
 def certify_research_compliance(engine: ResearchAwarenessEngine) -> dict[str, Any]:

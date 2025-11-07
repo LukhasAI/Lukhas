@@ -10,7 +10,7 @@ HEADER = """# auto-generated lukhas compat shim
 try:
     from {real} import *
 except Exception:
-    from candidate.{real} import *
+    from labs.{real} import *
 """
 
 def ensure_pkg(path: Path):

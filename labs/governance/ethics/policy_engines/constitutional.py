@@ -3,6 +3,8 @@
 LUKHAS Constitutional Policy Engine
 Constitutional AI policy evaluation with Constellation Framework integration
 """
+from __future__ import annotations
+
 
 import logging
 import re

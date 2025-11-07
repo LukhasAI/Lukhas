@@ -332,7 +332,7 @@ class RuleSet:
                 triggered_rules=[],
                 evaluation_time_ms=evaluation_time_ms,
                 plan_hash=plan_hash,
-                reasons=[f"block: evaluation_error ({str(e)})"],
+                reasons=[f"block: evaluation_error ({e!s})"],
                 facts_hash="error",
                 triggered_rule_ids=[]
             )

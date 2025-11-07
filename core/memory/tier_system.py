@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 RESCUED FROM ARCHIVE - LUKHAS CONSCIOUSNESS ARCHAEOLOGY PROJECT
 ═══════════════════════════════════════════════════════════════════════════════════
@@ -24,6 +22,8 @@ License:
   OpenAI-aligned Cognitive AI Symbolic Framework (internal use)
 """
 
+from __future__ import annotations
+
 import hashlib
 import json
 import logging
@@ -32,7 +32,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from functools import wraps
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 logger = logging.getLogger(__name__)
 
@@ -75,8 +75,8 @@ class PermissionScope(Enum):
 class AccessContext:
     """Context information for access requests."""
 
-    user_id: Optional[str]
-    session_id: Optional[str]
+    user_id: str | None
+    session_id: str | None
     operation_type: AccessType
     resource_scope: PermissionScope
     resource_id: str
@@ -382,7 +382,7 @@ class DynamicTierSystem:
 
         return decision
 
-    def _get_current_tier(self, user_id: Optional[str], session_id: Optional[str]) -> TierLevel:
+    def _get_current_tier(self, user_id: str | None, session_id: str | None) -> TierLevel:
         """Determine current tier level for user/session."""
         # Check session-specific tier
         if session_id and session_id in self.active_sessions:

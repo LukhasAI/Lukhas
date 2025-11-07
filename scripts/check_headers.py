@@ -26,7 +26,7 @@ ACCEPTABLE_HEADERS = [
 def check_file_header(file_path: Path) -> bool:
     """
     Check if a Python file has the required license header.
-    
+
     Returns:
         bool: True if header present, False otherwise
     """
@@ -38,11 +38,7 @@ def check_file_header(file_path: Path) -> bool:
         first_lines = "\n".join(lines)
 
         # Check if any acceptable header is present
-        for header in ACCEPTABLE_HEADERS:
-            if header in first_lines:
-                return True
-
-        return False
+        return any(header in first_lines for header in ACCEPTABLE_HEADERS)
 
     except Exception as e:
         print(f"[WARN] Failed to read {file_path}: {e}", file=sys.stderr)
@@ -52,11 +48,11 @@ def check_file_header(file_path: Path) -> bool:
 def find_python_files(roots: List[Path], exclude_patterns: List[str]) -> List[Path]:
     """
     Find all Python files in given roots, excluding patterns.
-    
+
     Args:
         roots: List of root directories to search
         exclude_patterns: List of path patterns to exclude
-    
+
     Returns:
         List of Path objects for Python files
     """
@@ -80,12 +76,12 @@ def find_python_files(roots: List[Path], exclude_patterns: List[str]) -> List[Pa
 def add_header_to_file(file_path: Path, header: str, dry_run: bool = False) -> bool:
     """
     Add license header to a Python file.
-    
+
     Args:
         file_path: Path to Python file
         header: Header text to add
         dry_run: If True, don't actually modify the file
-    
+
     Returns:
         bool: True if header was added, False otherwise
     """

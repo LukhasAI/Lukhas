@@ -44,13 +44,15 @@
 ║ ΛTAG: ΛORACLE, ΛNERVOUS_SYSTEM, ΛINTEGRATION, ΛCENTRAL_HUB
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import asyncio
 import logging
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 logger = logging.getLogger("ΛTRACE.oracle_nervous_system")
 
@@ -86,7 +88,7 @@ class OracleCapability:
     openai_enhanced: bool = False
     colony_integrated: bool = False
     health_status: str = "unknown"
-    last_health_check: Optional[datetime] = None
+    last_health_check: datetime | None = None
     performance_metrics: dict[str, Any] = field(default_factory=dict)
 
 
@@ -97,7 +99,7 @@ class NervousSystemRequest:
     request_id: str
     capability_type: OracleCapabilityType
     context: dict[str, Any]
-    user_id: Optional[str] = None
+    user_id: str | None = None
     priority: str = "normal"  # low, normal, high
     time_horizon: str = "medium"  # immediate, near, medium, far
     integration_level: OracleIntegrationLevel = OracleIntegrationLevel.ENHANCED
@@ -175,9 +177,9 @@ class OracleNervousSystem:
             await self._register_capabilities()
 
             # Start background tasks
-            asyncio.create_task(self._process_events())
-            asyncio.create_task(self._health_monitor())
-            asyncio.create_task(self._performance_monitor())
+            asyncio.create_task(self._process_events())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_oracle_nervous_system_py_L180"}
+            asyncio.create_task(self._health_monitor())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_oracle_nervous_system_py_L182"}
+            asyncio.create_task(self._performance_monitor())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_oracle_nervous_system_py_L184"}
 
             self.is_initialized = True
             self.health_status = "operational"
@@ -732,7 +734,7 @@ async def get_oracle_nervous_system() -> OracleNervousSystem:
 async def predict(
     context: dict[str, Any],
     time_horizon: str = "medium",
-    user_id: Optional[str] = None,
+    user_id: str | None = None,
     **kwargs,
 ) -> NervousSystemResponse:
     """Direct prediction through the Oracle nervous system."""
@@ -753,7 +755,7 @@ async def predict(
 async def prophecy(
     context: dict[str, Any],
     time_horizon: str = "medium",
-    user_id: Optional[str] = None,
+    user_id: str | None = None,
     **kwargs,
 ) -> NervousSystemResponse:
     """Direct prophecy through the Oracle nervous system."""
@@ -771,7 +773,7 @@ async def prophecy(
     return await system.process_request(request)
 
 
-async def dream(context: dict[str, Any], user_id: Optional[str] = None, **kwargs) -> NervousSystemResponse:
+async def dream(context: dict[str, Any], user_id: str | None = None, **kwargs) -> NervousSystemResponse:
     """Direct dream generation through the Oracle nervous system."""
     system = await get_oracle_nervous_system()
 

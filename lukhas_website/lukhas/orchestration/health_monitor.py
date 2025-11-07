@@ -27,11 +27,12 @@ Constellation Framework: Flow Star (🌊) coordination hub
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import logging
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List
 
 from opentelemetry import trace
 
@@ -100,7 +101,7 @@ class HealthCheckResult:
     provider: str
     success: bool
     latency_ms: float
-    error: Optional[str] = None
+    error: str | None = None
     timestamp: float = field(default_factory=time.time)
     metadata: Dict[str, Any] = field(default_factory=dict)
 
@@ -113,7 +114,7 @@ class PerformanceMetrics:
     successful_requests: int = 0
     total_latency_ms: float = 0.0
     error_count: int = 0
-    last_error: Optional[str] = None
+    last_error: str | None = None
     uptime_percentage: float = 100.0
 
 
@@ -143,7 +144,7 @@ class HealthMonitor:
 
         # Monitoring state
         self.running = False
-        self.monitor_task: Optional[asyncio.Task] = None
+        self.monitor_task: asyncio.Task | None = None
         self.health_change_callbacks: List[Callable] = []
 
         # Provider clients for health checks
@@ -180,10 +181,8 @@ class HealthMonitor:
         self.running = False
         if self.monitor_task:
             self.monitor_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self.monitor_task
-            except asyncio.CancelledError:
-                pass
 
         logger.info("✅ Health monitor stopped")
 
@@ -191,7 +190,7 @@ class HealthMonitor:
         """Add callback for health status changes"""
         self.health_change_callbacks.append(callback)
 
-    async def get_provider_health(self, provider: str) -> Optional[ProviderHealth]:
+    async def get_provider_health(self, provider: str) -> ProviderHealth | None:
         """Get current health status for a provider"""
         return self.provider_health.get(provider)
 
@@ -346,7 +345,7 @@ class HealthMonitor:
         """Initialize health state for all providers"""
         logger.info("Initializing provider health state...")
 
-        for provider in self.provider_clients.keys():
+        for provider in self.provider_clients:
             self.provider_health[provider] = ProviderHealth(
                 provider=provider,
                 status=HealthStatus.UNKNOWN
@@ -363,7 +362,7 @@ class HealthMonitor:
             try:
                 # Perform health checks for all providers
                 check_tasks = []
-                for provider in self.provider_clients.keys():
+                for provider in self.provider_clients:
                     task = asyncio.create_task(self._check_and_update_provider(provider))
                     check_tasks.append(task)
 
@@ -538,7 +537,7 @@ class HealthMonitor:
 
 
 # Global health monitor instance
-_health_monitor: Optional[HealthMonitor] = None
+_health_monitor: HealthMonitor | None = None
 
 
 async def get_health_monitor() -> HealthMonitor:

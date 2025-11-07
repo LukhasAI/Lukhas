@@ -13,7 +13,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
 logger = logging.getLogger(__name__)
 
@@ -472,7 +472,7 @@ class ConsciousnessSignalFactory:
             pattern_type="inter_module_integration",
             oscillation_frequency=20.0 + integration_strength * 30,  # Beta to gamma
             coherence_score=integration_strength,
-            adaptation_vector={module: integration_strength for module in target_modules},
+            adaptation_vector=dict.fromkeys(target_modules, integration_strength),
             entropy_delta=0.05,  # Integration slightly increases complexity
             resonance_patterns=["integration", "synchronization"],
             membrane_permeability=0.9,  # High permeability for integration
@@ -513,7 +513,7 @@ __all__ = [
     "ConsciousnessSignalFactory",
     "ConsciousnessSignalType",
     "ConsciousnessStateDelta",
-    "TemporalContext",
     "ConstellationAlignmentData",
     "ConstellationStar",
+    "TemporalContext",
 ]

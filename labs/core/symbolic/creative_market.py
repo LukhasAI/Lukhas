@@ -8,6 +8,7 @@
 Exports generated art and literature with glyph tagging.
 Tracks symbolic reputation for each creative item.
 """
+import logging
 
 from __future__ import annotations
 

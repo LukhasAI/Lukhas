@@ -423,7 +423,7 @@ class ΛBotQuantumSecurityOrchestrator:
 
         # Initialize brain symphony for bio-symbolic processing
         if BRAIN_SYSTEM_AVAILABLE:
-            self.brain_symphony = MultiBrainSymphony()  # noqa: F821  # TODO: MultiBrainSymphony
+            self.brain_symphony = MultiBrainSymphony()  # TODO: MultiBrainSymphony
         else:
             self.brain_symphony = None
 

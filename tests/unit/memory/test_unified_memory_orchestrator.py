@@ -5,7 +5,11 @@
 
 import pytest
 
-from memory.core.unified_memory_orchestrator import MemoryType, SleepStage, UnifiedMemoryOrchestrator
+from memory.core.unified_memory_orchestrator import (
+    MemoryType,
+    SleepStage,
+    UnifiedMemoryOrchestrator,
+)
 
 
 @pytest.fixture
@@ -125,10 +129,10 @@ class TestUnifiedMemoryOrchestrator:
 
     async def test_pattern_separation(self, orchestrator):
         """Test the pattern separation mechanism."""
-        mem1_id = await orchestrator.encode_memory(
+        await orchestrator.encode_memory(
             content="similar memory", memory_type=MemoryType.EPISODIC, semantic_links=["a", "b"]
         )
-        mem2_id = await orchestrator.encode_memory(
+        await orchestrator.encode_memory(
             content="similar memory", memory_type=MemoryType.EPISODIC, semantic_links=["a", "b", "c"]
         )
 
@@ -143,7 +147,7 @@ class TestUnifiedMemoryOrchestrator:
         orchestrator.enable_colony_validation = True
 
         # To test this in isolation, we mock the internal validation method.
-        with patch.object(orchestrator, '_validate_memory_with_colonies', return_value=False) as mock_validate:  # noqa: F821  # TODO: patch
+        with patch.object(orchestrator, '_validate_memory_with_colonies', return_value=False) as mock_validate:  # TODO: patch
             memory_id = await orchestrator.encode_memory(
                 content="failed validation content",
                 memory_type=MemoryType.EPISODIC
@@ -206,15 +210,14 @@ class TestUnifiedMemoryOrchestratorBackgroundTasks:
     @pytest.fixture
     async def orchestrator_with_tasks(self):
         """Fixture to create an orchestrator and manage its background tasks."""
-        with patch('candidate.memory.core.unified_memory_orchestrator.LUKHAS_COMPONENTS_AVAILABLE', False), \  # noqa: F821  # TODO: patch
-             patch('candidate.memory.core.unified_memory_orchestrator.MEMORY_COMPONENTS_AVAILABLE', False):  # noqa: F821  # TODO: patch
+        with patch('candidate.memory.core.unified_memory_orchestrator.LUKHAS_COMPONENTS_AVAILABLE', False), patch('candidate.memory.core.unified_memory_orchestrator.MEMORY_COMPONENTS_AVAILABLE', False):
 
             # We patch sleep to control the loop execution manually
-            with patch('asyncio.sleep', return_value=None) as mock_sleep:  # noqa: F821  # TODO: patch
+            with patch('asyncio.sleep', return_value=None) as mock_sleep:  # TODO: patch
                 orchestrator = UnifiedMemoryOrchestrator()
                 # The tasks are started in __init__ if a loop is running.
                 # We need to give them a chance to run once.
-                await asyncio.sleep(0)  # noqa: F821  # TODO: asyncio
+                await asyncio.sleep(0)  # TODO: asyncio
                 yield orchestrator, mock_sleep
 
                 # Shutdown orchestrator to cancel tasks
@@ -222,7 +225,7 @@ class TestUnifiedMemoryOrchestratorBackgroundTasks:
 
     async def test_consolidation_loop(self, orchestrator_with_tasks):
         """Test the consolidation loop processes memories from the queue."""
-        orchestrator, mock_sleep = orchestrator_with_tasks
+        orchestrator, _mock_sleep = orchestrator_with_tasks
 
         # Encode a memory that is important enough to be queued for consolidation
         memory_id = await orchestrator.encode_memory(
@@ -236,7 +239,7 @@ class TestUnifiedMemoryOrchestratorBackgroundTasks:
         await orchestrator.enter_sleep_stage(SleepStage.NREM3)
 
         # Give the loop a chance to run. Since sleep is patched, it will execute immediately.
-        await asyncio.sleep(0)  # noqa: F821  # TODO: asyncio
+        await asyncio.sleep(0)  # TODO: asyncio
 
         # Verify that the memory was consolidated
         # Note: The loop runs in the background. We check the result.
@@ -253,7 +256,7 @@ class TestUnifiedMemoryOrchestratorBackgroundTasks:
 
     async def test_health_maintenance_loop_cleans_working_memory(self, orchestrator_with_tasks):
         """Test that the health maintenance loop cleans up oversized working memory."""
-        orchestrator, mock_sleep = orchestrator_with_tasks
+        orchestrator, _mock_sleep = orchestrator_with_tasks
 
         orchestrator.max_working_memory_size = 1
 

@@ -82,7 +82,8 @@ class LUKHASMaintenancePipeline:
             try:
                 json_part = output.split("JSON Results:")[1].split("\n==================================================\n")[0]
                 validation_details = json.loads(json_part.strip())
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
         return {
@@ -103,10 +104,11 @@ class LUKHASMaintenancePipeline:
         validation_rate = 0.0
         if "Validation rate:" in output:
             try:
-                rate_line = [line for line in output.split('\n') if 'Validation rate:' in line][0]
+                rate_line = next(line for line in output.split('\n') if 'Validation rate:' in line)
                 rate_str = rate_line.split(':')[1].strip().replace('%', '')
                 validation_rate = float(rate_str) / 100
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
         return {
@@ -127,10 +129,11 @@ class LUKHASMaintenancePipeline:
         validation_rate = 0.0
         if "Validation rate:" in output:
             try:
-                rate_line = [line for line in output.split('\n') if 'Validation rate:' in line][0]
+                rate_line = next(line for line in output.split('\n') if 'Validation rate:' in line)
                 rate_str = rate_line.split(':')[1].strip().replace('%', '')
                 validation_rate = float(rate_str) / 100
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
         return {
@@ -197,7 +200,7 @@ class LUKHASMaintenancePipeline:
                 try:
                     # Check if JSON files are valid
                     if file_path.endswith('.json'):
-                        with open(full_path, 'r') as f:
+                        with open(full_path) as f:
                             json.load(f)
 
                     # Check if files are not empty

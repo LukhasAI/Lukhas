@@ -22,7 +22,6 @@ from concurrent.futures import ThreadPoolExecutor
 
 import psutil
 import pytest
-
 from tests.integration.candidate.aka_qualia.conftest import (
     create_test_glyph,
     create_test_scene,

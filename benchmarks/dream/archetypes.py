@@ -148,8 +148,8 @@ def analyze_snapshot_archetypes(snapshots: List[Dict[str, Any]]) -> Dict[str, An
         Analysis dictionary with archetypal statistics
     """
     snapshot_archetypes = []
-    archetype_frequencies = {name: 0 for name in ARCHETYPES.keys()}
-    archetype_scores = {name: [] for name in ARCHETYPES.keys()}
+    archetype_frequencies = dict.fromkeys(ARCHETYPES, 0)
+    archetype_scores = {name: [] for name in ARCHETYPES}
 
     for snapshot in snapshots:
         if "emotional_context" not in snapshot:
@@ -178,7 +178,7 @@ def analyze_snapshot_archetypes(snapshots: List[Dict[str, Any]]) -> Dict[str, An
     total_snapshots = len(snapshot_archetypes)
 
     archetype_stats = {}
-    for archetype_name in ARCHETYPES.keys():
+    for archetype_name in ARCHETYPES:
         frequency = archetype_frequencies[archetype_name]
         scores = archetype_scores[archetype_name]
 
@@ -241,7 +241,7 @@ def suggest_archetypal_balance(current_stats: Dict[str, Any], target_balance: st
     """
     recommendations = []
     target_distributions = {
-        "balanced": {name: 1.0 / len(ARCHETYPES) for name in ARCHETYPES.keys()},
+        "balanced": {name: 1.0 / len(ARCHETYPES) for name in ARCHETYPES},
         "heroic": {"hero": 0.4, "explorer": 0.2, "warrior": 0.2, "sage": 0.1, "innocent": 0.1},
         "exploratory": {"explorer": 0.3, "trickster": 0.2, "hero": 0.2, "sage": 0.15, "innocent": 0.15},
         "nurturing": {"caregiver": 0.3, "innocent": 0.2, "lover": 0.2, "sage": 0.15, "hero": 0.15},
@@ -295,7 +295,7 @@ def calculate_balance_score(current: Dict[str, float], target: Dict[str, float])
         Score between 0.0 and 1.0 (1.0 = perfect match)
     """
     total_error = 0.0
-    for archetype in target.keys():
+    for archetype in target:
         current_val = current.get(archetype, 0.0)
         target_val = target.get(archetype, 0.0)
         total_error += abs(current_val - target_val)
@@ -374,7 +374,7 @@ if __name__ == "__main__":
 
     # Generate test cases for all archetypes
     print("\nGenerated archetypal test cases:")
-    for archetype_name in ARCHETYPES.keys():
+    for archetype_name in ARCHETYPES:
         test_case = create_archetypal_test_case(archetype_name)
         classifications = classify_archetype(test_case["emotional_context"])
         top_match = classifications[0] if classifications else ("none", 0.0)

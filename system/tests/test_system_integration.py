@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import system  # noqa: F401  # TODO: system; consider using importl...
+    import system  # TODO: system; consider using importl...
 except ImportError:
     pytest.skip("Module system not available", allow_module_level=True)
 

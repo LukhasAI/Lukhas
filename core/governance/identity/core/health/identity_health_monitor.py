@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 Identity Health Monitor with Self-Healing
 
@@ -7,13 +5,15 @@ Monitors the health of all identity system components and orchestrates
 self-healing procedures based on tier-specific strategies.
 """
 
+from __future__ import annotations
+
 import asyncio
 import logging
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 import numpy as np
 import psutil
@@ -69,7 +69,7 @@ class ComponentHealth:
     metrics: dict[HealthMetric, float]
     error_history: deque = field(default_factory=lambda: deque(maxlen=100))
     healing_attempts: int = 0
-    last_healing: Optional[datetime] = None
+    last_healing: datetime | None = None
     tier_specific_data: dict[int, dict[str, Any]] = field(default_factory=dict)
 
     def add_error(self, error: str):
@@ -201,7 +201,7 @@ class IdentityHealthMonitor:
         }
 
         # Event publisher
-        self.event_publisher: Optional[IdentityEventPublisher] = None
+        self.event_publisher: IdentityEventPublisher | None = None
 
         logger.info(f"Identity Health Monitor {monitor_id} initialized")
 
@@ -214,10 +214,10 @@ class IdentityHealthMonitor:
         await self.self_healing_system.initialize()
 
         # Start monitoring tasks
-        asyncio.create_task(self._monitor_system_health())
-        asyncio.create_task(self._monitor_component_health())
-        asyncio.create_task(self._execute_healing_plans())
-        asyncio.create_task(self._analyze_health_trends())
+        asyncio.create_task(self._monitor_system_health())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_identity_core_health_identity_health_monitor_py_L217"}
+        asyncio.create_task(self._monitor_component_health())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_identity_core_health_identity_health_monitor_py_L219"}
+        asyncio.create_task(self._execute_healing_plans())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_identity_core_health_identity_health_monitor_py_L221"}
+        asyncio.create_task(self._analyze_health_trends())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_identity_core_health_identity_health_monitor_py_L223"}
 
         logger.info("Identity Health Monitor initialized")
 
@@ -225,7 +225,7 @@ class IdentityHealthMonitor:
         self,
         component_id: str,
         component_type: ComponentType,
-        health_check_callback: Optional[Callable] = None,
+        health_check_callback: Callable | None = None,
         tier_level: int = 0,
     ):
         """Register a component for health monitoring."""
@@ -826,7 +826,7 @@ class IdentityHealthMonitor:
             "recent_errors": sum(len(c.error_history) for c in self.component_health.values()),
         }
 
-    def get_component_health_details(self, component_id: str) -> Optional[dict[str, Any]]:
+    def get_component_health_details(self, component_id: str) -> dict[str, Any] | None:
         """Get detailed health information for a component."""
         component = self.component_health.get(component_id)
         if not component:

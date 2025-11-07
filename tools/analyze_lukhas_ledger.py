@@ -3,6 +3,8 @@
 Analyze lukhas_import_ledger.ndjson to generate migration scorecard.
 Ranks top legacy imports and recommends canonical targets.
 """
+from __future__ import annotations
+
 import json
 import sys
 from collections import Counter, defaultdict
@@ -31,16 +33,16 @@ def main():
 
     for ev in read_ledger():
         if ev.get("event") == "alias":
-            l = ev.get("lukhas")
-            r = ev.get("real")
-            if l and r:
-                alias_counts[l] += 1
-                target_counts[r] += 1
-                pairs[l][r] += 1
+            lukhas_mod = ev.get("lukhas")
+            real_mod = ev.get("real")
+            if lukhas_mod and real_mod:
+                alias_counts[lukhas_mod] += 1
+                target_counts[real_mod] += 1
+                pairs[lukhas_mod][real_mod] += 1
         elif ev.get("event") == "miss":
-            l = ev.get("lukhas")
-            if l:
-                misses[l] += 1
+            lukhas_mod = ev.get("lukhas")
+            if lukhas_mod:
+                misses[lukhas_mod] += 1
 
     top_legacy = alias_counts.most_common(30)
     total_alias = sum(alias_counts.values())
@@ -48,10 +50,10 @@ def main():
 
     # Pick a canonical target per lukhas.* (plurality vote)
     recommended = {}
-    for l, _ in top_legacy:
-        if pairs[l]:
-            best = pairs[l].most_common(1)[0][0]
-            recommended[l] = best
+    for lukhas_mod, _ in top_legacy:
+        if pairs[lukhas_mod]:
+            best = pairs[lukhas_mod].most_common(1)[0][0]
+            recommended[lukhas_mod] = best
 
     # Emit report
     lines = []
@@ -62,13 +64,13 @@ def main():
         lines.append("## Top legacy imports\n")
         lines.append("| rank | lukhas.* | hits | recommended canonical |")
         lines.append("|---:|---|---:|---|")
-        for i, (l, n) in enumerate(top_legacy, 1):
-            lines.append(f"| {i} | `{l}` | {n} | `{recommended.get(l, '—')}` |")
+        for i, (lukhas_mod, hit_count) in enumerate(top_legacy, 1):
+            lines.append(f"| {i} | `{lukhas_mod}` | {hit_count} | `{recommended.get(lukhas_mod, '-')}` |")
         lines.append("")
     if misses:
         lines.append("## Misses (need real modules or xfail)\n")
-        for l, n in misses.most_common(20):
-            lines.append(f"- `{l}` — {n} misses")
+        for lukhas_mod, miss_count in misses.most_common(20):
+            lines.append(f"- `{lukhas_mod}` - {miss_count} misses")
         lines.append("")
     REPORT.write_text("\n".join(lines))
     print(f"✅ Wrote {REPORT}")

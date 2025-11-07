@@ -1,15 +1,17 @@
 import json
 from pathlib import Path
+
 import pytest
 from fastapi import FastAPI
 from starlette.testclient import TestClient
+
 pytestmark = [pytest.mark.tier1, pytest.mark.matriz]
 GOLD = Path('tests/golden/tier1')
 LIVE = Path('reports/matriz/traces')
 
 def _make_app():
     app = FastAPI()
-    from MATRIZ.traces_router import router
+    from matriz.traces_router import router
     app.include_router(router)
     return app
 

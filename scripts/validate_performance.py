@@ -38,7 +38,7 @@ class PerformanceValidator:
     def validate_artifact(self, artifact_path: str) -> Dict[str, Any]:
         """Validate a single performance artifact"""
         try:
-            with open(artifact_path, 'r') as f:
+            with open(artifact_path) as f:
                 data = json.load(f)
         except Exception as e:
             return {

@@ -3,6 +3,7 @@
 Configuration validation tool for LUKHAS modules.
 Validates YAML configs against schemas and detects potential secrets.
 """
+from __future__ import annotations
 
 import json
 import pathlib
@@ -71,7 +72,7 @@ class ConfigValidator:
         secrets_found = []
 
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path) as f:
                 content = f.read()
 
             for pattern, description in self.secret_patterns:

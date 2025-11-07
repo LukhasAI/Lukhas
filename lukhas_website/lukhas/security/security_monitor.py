@@ -18,6 +18,7 @@ Key Features:
 
 Constellation Framework: 🛡️ Guardian Excellence - Security Monitoring
 """
+from __future__ import annotations
 
 import hashlib
 import json
@@ -31,7 +32,7 @@ from collections import defaultdict, deque
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set
+from typing import Any, Callable, Dict, List, Set
 
 logger = logging.getLogger(__name__)
 
@@ -72,14 +73,14 @@ class SecurityEvent:
     id: str
     event_type: EventType
     timestamp: datetime
-    source_ip: Optional[str] = None
-    user_id: Optional[str] = None
-    resource_id: Optional[str] = None
-    action: Optional[str] = None
+    source_ip: str | None = None
+    user_id: str | None = None
+    resource_id: str | None = None
+    action: str | None = None
     details: Dict[str, Any] = field(default_factory=dict)
     severity: ThreatLevel = ThreatLevel.INFORMATIONAL
     tags: Set[str] = field(default_factory=set)
-    correlation_id: Optional[str] = None
+    correlation_id: str | None = None
 
 @dataclass
 class ThreatDetection:
@@ -113,7 +114,7 @@ class ThreatDetector:
         self.description = description
         self.enabled = True
 
-    def detect(self, event: SecurityEvent, context: Dict[str, Any]) -> Optional[ThreatDetection]:
+    def detect(self, event: SecurityEvent, context: Dict[str, Any]) -> ThreatDetection | None:
         """Detect threats in security event."""
         raise NotImplementedError
 
@@ -130,7 +131,7 @@ class BruteForceDetector(ThreatDetector):
         self.lockout_duration = timedelta(minutes=lockout_duration_minutes)
         self.failed_attempts: Dict[str, List[datetime]] = defaultdict(list)
 
-    def detect(self, event: SecurityEvent, context: Dict[str, Any]) -> Optional[ThreatDetection]:
+    def detect(self, event: SecurityEvent, context: Dict[str, Any]) -> ThreatDetection | None:
         if event.event_type != EventType.AUTHENTICATION or not event.source_ip:
             return None
 
@@ -179,7 +180,7 @@ class AnomalousAccessDetector(ThreatDetector):
         self.baseline_days = baseline_days
         self.user_baselines: Dict[str, Dict[str, Any]] = {}
 
-    def detect(self, event: SecurityEvent, context: Dict[str, Any]) -> Optional[ThreatDetection]:
+    def detect(self, event: SecurityEvent, context: Dict[str, Any]) -> ThreatDetection | None:
         if not event.user_id or event.event_type not in [EventType.DATA_ACCESS, EventType.SYSTEM_ACCESS]:
             return None
 
@@ -209,15 +210,13 @@ class AnomalousAccessDetector(ThreatDetector):
 
         # Location-based anomaly (if available)
         current_location = event.details.get("location", {}).get("country")
-        if current_location and baseline["access_locations"]:
-            if current_location not in baseline["access_locations"]:
-                anomalies.append(f"Access from new location: {current_location}")
+        if (current_location and baseline['access_locations']) and current_location not in baseline['access_locations']:
+            anomalies.append(f"Access from new location: {current_location}")
 
         # Resource type anomaly
         resource_type = event.details.get("resource_type")
-        if resource_type and baseline["resource_types"]:
-            if resource_type not in baseline["resource_types"]:
-                anomalies.append(f"Access to new resource type: {resource_type}")
+        if (resource_type and baseline['resource_types']) and resource_type not in baseline['resource_types']:
+            anomalies.append(f"Access to new resource type: {resource_type}")
 
         # Update baseline
         baseline["access_times"].append(current_hour)
@@ -265,7 +264,7 @@ class PrivilegeEscalationDetector(ThreatDetector):
             re.compile(r'admin|administrator|root', re.IGNORECASE)
         ]
 
-    def detect(self, event: SecurityEvent, context: Dict[str, Any]) -> Optional[ThreatDetection]:
+    def detect(self, event: SecurityEvent, context: Dict[str, Any]) -> ThreatDetection | None:
         if event.event_type != EventType.PRIVILEGE_ESCALATION:
             return None
 
@@ -325,7 +324,7 @@ class MaliciousIPDetector(ThreatDetector):
         for ip in self.threat_intelligence:
             self.ip_reputation[ip] = 0.9  # High threat score
 
-    def detect(self, event: SecurityEvent, context: Dict[str, Any]) -> Optional[ThreatDetection]:
+    def detect(self, event: SecurityEvent, context: Dict[str, Any]) -> ThreatDetection | None:
         if not event.source_ip:
             return None
 
@@ -551,15 +550,14 @@ class SecurityMonitor:
                 logger.warning(f"Unknown response action: {recommended}")
 
         # Escalate based on threat level and confidence
-        if threat.threat_level == ThreatLevel.CRITICAL or \
+        if threat.threat_level == ThreatLevel.CRITICAL or \  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_security_security_monitor_py_L553"}
            (threat.threat_level == ThreatLevel.HIGH and threat.confidence_score > 0.8):
             if ResponseAction.ESCALATE not in actions:
                 actions.append(ResponseAction.ESCALATE)
 
         # Alert for medium and above threats
-        if threat.threat_level in [ThreatLevel.MEDIUM, ThreatLevel.HIGH, ThreatLevel.CRITICAL]:
-            if ResponseAction.ALERT not in actions:
-                actions.append(ResponseAction.ALERT)
+        if threat.threat_level in [ThreatLevel.MEDIUM, ThreatLevel.HIGH, ThreatLevel.CRITICAL] and ResponseAction.ALERT not in actions:
+            actions.append(ResponseAction.ALERT)
 
         return actions
 
@@ -607,11 +605,11 @@ class SecurityMonitor:
 
     def create_event(self,
                     event_type: EventType,
-                    source_ip: Optional[str] = None,
-                    user_id: Optional[str] = None,
-                    resource_id: Optional[str] = None,
-                    action: Optional[str] = None,
-                    details: Optional[Dict[str, Any]] = None,
+                    source_ip: str | None = None,
+                    user_id: str | None = None,
+                    resource_id: str | None = None,
+                    action: str | None = None,
+                    details: Dict[str, Any] | None = None,
                     severity: ThreatLevel = ThreatLevel.INFORMATIONAL) -> SecurityEvent:
         """Create a security event."""
         event_id = hashlib.sha256(
@@ -724,7 +722,7 @@ class SecurityMonitor:
         logger.info(f"THREAT_DETECTION: {json.dumps(threat_log)}")
 
 # Factory function
-def create_security_monitor(config: Optional[Dict[str, Any]] = None) -> SecurityMonitor:
+def create_security_monitor(config: Dict[str, Any] | None = None) -> SecurityMonitor:
     """Create security monitor with configuration."""
     config = config or {}
 
@@ -797,7 +795,7 @@ if __name__ == "__main__":
         metrics = monitor.get_metrics()
 
         print(f"\nActive Threats: {len(active_threats)}")
-        for threat_id, threat in active_threats.items():
+        for _threat_id, threat in active_threats.items():
             print(f"  - {threat.name}: {threat.threat_level.value} "
                   f"(confidence: {threat.confidence_score:.2f})")
 

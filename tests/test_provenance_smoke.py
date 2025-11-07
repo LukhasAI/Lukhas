@@ -36,7 +36,7 @@ class TestProvenanceSmoke:
 
         assert report_file.exists(), "Provenance report not found"
 
-        with open(report_file, 'r') as f:
+        with open(report_file) as f:
             report = json.load(f)
 
         # Check required top-level fields
@@ -80,7 +80,7 @@ class TestProvenanceSmoke:
         """Test that root CID has correct format."""
         report_file = Path("artifacts/provenance_report.json")
 
-        with open(report_file, 'r') as f:
+        with open(report_file) as f:
             report = json.load(f)
 
         root_cid = report["root_cid"]
@@ -94,7 +94,7 @@ class TestProvenanceSmoke:
         """Test that contract entries have required structure."""
         report_file = Path("artifacts/provenance_report.json")
 
-        with open(report_file, 'r') as f:
+        with open(report_file) as f:
             report = json.load(f)
 
         contracts = report["contracts"]
@@ -190,7 +190,7 @@ class TestProvenanceSmoke:
                 assert tmp_output.exists(), "Tokenization script didn't create output file"
 
                 # Check output structure
-                with open(tmp_output, 'r') as f:
+                with open(tmp_output) as f:
                     output = json.load(f)
 
                 required_fields = ["contract", "module", "sha256", "txid", "network", "tokenization"]
@@ -246,7 +246,7 @@ class TestProvenanceSmoke:
         # Load initial report
         assert report_file.exists(), "Initial provenance report not found"
 
-        with open(report_file, 'r') as f:
+        with open(report_file) as f:
             initial_report = json.load(f)
 
         initial_root_cid = initial_report["root_cid"]
@@ -262,7 +262,7 @@ class TestProvenanceSmoke:
         assert result.returncode == 0, f"Provenance regeneration failed: {result.stderr}"
 
         # Load new report
-        with open(report_file, 'r') as f:
+        with open(report_file) as f:
             new_report = json.load(f)
 
         new_root_cid = new_report["root_cid"]
@@ -276,7 +276,7 @@ class TestProvenanceSmoke:
         """Test that all contracts have v3 sections after upgrade."""
         report_file = Path("artifacts/provenance_report.json")
 
-        with open(report_file, 'r') as f:
+        with open(report_file) as f:
             report = json.load(f)
 
         v3_sections = report["summary"]["v3_sections_present"]

@@ -7,7 +7,7 @@ import random
 import time
 from dataclasses import asdict, dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 
 class RolloutStrategy(Enum):
@@ -65,7 +65,7 @@ class RolloutPlan:
     events: List[RolloutEvent]
     current_status: RolloutStatus
     created_at: float
-    completed_at: Optional[float] = None
+    completed_at: float | None = None
 
 class RolloutManager:
     """Manages safe rollout of dream system configurations."""
@@ -79,7 +79,7 @@ class RolloutManager:
         """Load rollout state from disk."""
         if os.path.exists(self.state_file):
             try:
-                with open(self.state_file, 'r') as f:
+                with open(self.state_file) as f:
                     state_data = json.load(f)
 
                 for plan_id, plan_data in state_data.items():
@@ -414,7 +414,7 @@ class RolloutManager:
 
     def list_plans(self) -> List[Dict[str, Any]]:
         """List all rollout plans."""
-        return [self.get_rollout_status(plan_id) for plan_id in self.plans.keys()]
+        return [self.get_rollout_status(plan_id) for plan_id in self.plans]
 
 def create_and_execute_rollout(config: Dict[str, Any], strategy: str = "canary") -> Dict[str, Any]:
     """Create and execute a rollout plan."""
@@ -455,7 +455,7 @@ if __name__ == "__main__":
                 print("Error: config file required")
                 sys.exit(1)
 
-            with open(sys.argv[2], 'r') as f:
+            with open(sys.argv[2]) as f:
                 config = json.load(f)
 
             strategy = sys.argv[3] if len(sys.argv) > 3 else "canary"

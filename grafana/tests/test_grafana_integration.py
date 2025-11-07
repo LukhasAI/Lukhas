@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import grafana  # noqa: F401  # TODO: grafana; consider using import...
+    import grafana  # TODO: grafana; consider using import...
 except ImportError:
     pytest.skip("Module grafana not available", allow_module_level=True)
 

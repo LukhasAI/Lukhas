@@ -1,4 +1,6 @@
 """Test branding bridge exports and contract."""
+import importlib as _importlib
+
 import pytest
 
 
@@ -29,9 +31,11 @@ def test_branding_exports():
 
 
 def test_branding_single_source_of_truth():
-    """Verify branding data comes from candidate.branding."""
+    """Verify branding data comes from labs.branding."""
     import branding
-    from labs.branding import APPROVED_TERMS as canonical_terms
+
+    _mod = _importlib.import_module("labs.branding")
+    canonical_terms = _mod.APPROVED_TERMS
 
     # Should be same object (not a copy)
     assert branding.APPROVED_TERMS is canonical_terms

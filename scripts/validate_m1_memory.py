@@ -23,7 +23,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 sys.path.append('/Users/agi_dev/LOCAL-REPOS/Lukhas')
 
@@ -84,7 +84,7 @@ class MockPgVectorStore(PgVectorStore):
         return ids
 
     def search(self, embedding: List[float], k: int = 10,
-               filters: Dict[str, Any] = None) -> List[tuple]:
+               filters: Optional[Dict[str, Any]] = None) -> List[tuple]:
         time.perf_counter()
 
         # Simple cosine similarity search
@@ -115,7 +115,7 @@ class MockPgVectorStore(PgVectorStore):
 
         return results[:k]
 
-    def delete(self, *, id: str = None, where: Dict[str, Any] = None) -> int:
+    def delete(self, *, id: Optional[str] = None, where: Optional[Dict[str, Any]] = None) -> int:
         deleted = 0
         if id and id in self.storage:
             del self.storage[id]

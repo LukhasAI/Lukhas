@@ -1,0 +1,53 @@
+name: SLSA Attestation Matrix
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  read-slsa-modules:
+    runs-on: ubuntu-latest
+    outputs:
+      modules: ${{ steps.get-modules.outputs.modules }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Read SLSA modules
+        id: get-modules
+        run: |
+          modules=$(yq -o=json '[]' config/slsa_modules.yml)
+          echo "::set-output name=modules::$modules"
+
+  attest:
+    needs: read-slsa-modules
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        module: ${{ fromJson(needs.read-slsa-modules.outputs.modules) }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3
+        with:
+          cosign-release: 'v2.2.0'
+
+      - name: Run SLSA attestation for ${{ matrix.module }}
+        run: |
+          mkdir -p slsa_out
+          bash scripts/automation/run_slsa_for_module.sh --module ${{ matrix.module }} --outdir slsa_out
+        env:
+          COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
+          IN_TOTO_KEY: ${{ secrets.IN_TOTO_KEY }}
+          COSIGN_PASSPHRASE: ${{ secrets.COSIGN_PASSPHRASE }}
+
+      - name: Upload attestation
+        uses: actions/upload-artifact@v3
+        with:
+          name: attestations
+          path: slsa_out/

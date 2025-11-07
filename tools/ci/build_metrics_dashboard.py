@@ -3,6 +3,7 @@
 🎯 Build System Performance Metrics Dashboard
 Tracks efficiency gains from T4 system and Makefile improvements
 """
+from __future__ import annotations
 
 import json
 import subprocess
@@ -15,7 +16,7 @@ from typing import Any, Dict
 class BuildMetricsCollector:
     """Collects and analyzes build system performance metrics"""
 
-    def __init__(self, repo_path: Path = None):
+    def __init__(self, repo_path: Path | None = None):
         self.repo_path = repo_path or Path.cwd()
         self.metrics_file = self.repo_path / "reports" / "build_metrics.json"
         self.metrics_file.parent.mkdir(exist_ok=True)

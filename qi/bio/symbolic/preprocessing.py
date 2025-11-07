@@ -10,14 +10,15 @@
 ║ Authors: LUKHAS Bio-Symbolic Team | Claude Code
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import logging
 from collections import deque
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 from bio.core.symbolic_fallback_systems import get_fallback_manager
-
 from core.colonies.base_colony import BaseColony
 from core.symbolism.tags import TagPermission, TagScope
 
@@ -332,7 +333,7 @@ class BioPreprocessingColony(BaseColony):
 
 # Colony instance factory
 def create_preprocessing_colony(
-    colony_id: Optional[str] = None,
+    colony_id: str | None = None,
 ) -> BioPreprocessingColony:
     """Create a new preprocessing colony instance."""
     return BioPreprocessingColony(colony_id or "bio_preprocessing_default")

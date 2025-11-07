@@ -218,7 +218,7 @@ class EvolutionEngine:
                 config = genome.to_dream_config()
                 try:
                     genome.fitness = benchmark_function(config)
-                except Exception as e:
+                except Exception:
                     # Assign poor fitness for failed evaluations
                     genome.fitness = 0.0
 

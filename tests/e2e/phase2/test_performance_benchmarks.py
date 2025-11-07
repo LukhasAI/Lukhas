@@ -38,6 +38,8 @@ PLACEHOLDER_PASSWORD = "a-secure-password"  # nosec B105
 
 # Performance testing imports with fallback handling
 try:
+    from governance.guardian_system import GuardianSystem
+    from identity.core import IdentitySystem
     from labs.memory.service import MemoryService
     from labs.orchestration.high_performance_context_bus import (
         HighPerformanceContextBus,
@@ -45,8 +47,6 @@ try:
     from labs.orchestration.multi_model_orchestration import MultiModelOrchestrator
     from labs.tools.tool_executor import ToolExecutor
 
-    from governance.guardian_system import GuardianSystem
-    from identity.core import IdentitySystem
 except ImportError as e:
     pytest.skip(f"Performance testing modules not available: {e}", allow_module_level=True)
 
@@ -146,7 +146,7 @@ class PerformanceBenchmark:
                 errors += 1
                 continue
 
-            latency, success, error, memory_delta, cpu_usage, _ = result
+            latency, success, _error, memory_delta, cpu_usage, _ = result
             latencies.append(latency)
             memory_usages.append(memory_delta)
             cpu_usages.append(cpu_usage)

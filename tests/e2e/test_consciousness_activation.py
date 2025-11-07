@@ -296,7 +296,7 @@ class TestMemoryConsciousnessIntegration:
 
         # Verify recall results
         assert len(results) > 0
-        fold_id_result, fold, relevance_score = results[0]
+        fold_id_result, _fold, relevance_score = results[0]
         assert fold_id_result == fold_id
         assert relevance_score > 0.0
 

@@ -200,7 +200,7 @@ class TestEventProperties:
     @given(events=st.lists(consent_granted_event_strategy(), min_size=2, max_size=10))
     def test_event_chain_hash_order_dependent(self, events):
         """Property: Chain hash must depend on event order"""
-        assume(len(set(e.event_id for e in events)) == len(events))  # All unique events
+        assume(len({e.event_id for e in events}) == len(events))  # All unique events
 
         hash_original = compute_event_chain_hash(events)
         hash_reversed = compute_event_chain_hash(list(reversed(events)))
@@ -246,7 +246,8 @@ class TestEventBusProperties:
             if hasattr(event_bus, 'db_path'):
                 try:
                     os.unlink(event_bus.db_path)
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
     @pytest.mark.asyncio
@@ -279,7 +280,8 @@ class TestEventBusProperties:
             if hasattr(event_bus, 'db_path'):
                 try:
                     os.unlink(event_bus.db_path)
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
     @pytest.mark.asyncio
@@ -315,7 +317,8 @@ class TestEventBusProperties:
             if hasattr(event_bus, 'db_path'):
                 try:
                     os.unlink(event_bus.db_path)
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
 
@@ -412,7 +415,8 @@ class EventHandlerStateMachine(RuleBasedStateMachine):
         import shutil
         try:
             shutil.rmtree(self.temp_dir)
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             pass
 
 
@@ -472,7 +476,8 @@ class TestIntegrationProperties:
             import shutil
             try:
                 shutil.rmtree(temp_dir)
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
     @pytest.mark.asyncio
@@ -492,14 +497,14 @@ class TestIntegrationProperties:
             # Append all events and collect hashes
             original_hashes = []
             for event in events:
-                offset = await event_bus.append_event(event)
+                await event_bus.append_event(event)
                 original_hashes.append(event.compute_hash())
 
             # Replay and verify all hashes match
             replay_hashes = []
             replay_iterator = await event_bus.replay(1)
 
-            async for event, offset in replay_iterator:
+            async for event, _offset in replay_iterator:
                 replay_hashes.append(event.compute_hash())
 
             # All hashes should match (no corruption)
@@ -511,7 +516,8 @@ class TestIntegrationProperties:
             import shutil
             try:
                 shutil.rmtree(temp_dir)
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
 
@@ -560,7 +566,8 @@ class TestPerformanceProperties:
             import shutil
             try:
                 shutil.rmtree(temp_dir)
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
 

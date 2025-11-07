@@ -298,7 +298,7 @@ class ConsentLedger:
         if not result:
             return {"allowed": False, "require_step_up": True, "reason": "No active consent found"}
 
-        consent_id, scope_json, purpose, expires_at = result
+        consent_id, scope_json, _purpose, expires_at = result
         scope = json.loads(scope_json)
 
         # Check expiration
@@ -415,7 +415,7 @@ class PolicyEngine:
 class ContentModerationFilter:
     """OpenAI-aligned content moderation"""
 
-    REFUSAL_TEMPLATES = {
+    REFUSAL_TEMPLATES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_agents_external_CLAUDE_workspaces_consent_compliance_specialist_src_consent_ledger_py_L418"}
         "harmful": "I cannot assist with potentially harmful content.",
         "illegal": "I cannot help with illegal activities.",
         "pii_leak": "I cannot expose personal information.",

@@ -7,6 +7,8 @@ Dario Amodei Level: "Safety first, alignment always, responsible deployment"
 Comprehensive security validation for LUKHAS AI Trinity Framework
 Designed for Jules Agent #2: Security & Constitutional AI Specialist
 """
+from __future__ import annotations
+
 
 import asyncio
 import importlib.util
@@ -196,7 +198,8 @@ class T4SecurityAssessment:
         try:
             if file_path.stat().st_size > 10 * 1024 * 1024:
                 return True
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             return True
 
         return False

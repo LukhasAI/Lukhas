@@ -117,7 +117,7 @@ class QRSManager:
         self.secret_key = secret_key or "default_qrs_secret"
         self.default_algorithm = default_algorithm
         self.trace_logger = trace_logger
-        
+
         # Statistics for monitoring
         self._stats = {
             'created': 0,
@@ -125,13 +125,13 @@ class QRSManager:
             'failed': 0,
             'tampered_detected': 0
         }
-        
+
         # Nonce tracking for replay prevention
         self._used_nonces: set = set()
-        
+
         # Audit trail storage
         self._audit_trail: List[Dict[str, Any]] = []
-        
+
         # Rate limit configuration (requests per minute by tier)
         self._rate_limits = {
             "alpha": 300,   # 3x multiplier
@@ -171,29 +171,29 @@ class QRSManager:
         missing = [f for f in required_fields if f not in data]
         if missing:
             raise ValueError(f"Missing required fields: {', '.join(missing)}")
-        
+
         # Validate timestamp
         current_time = int(time.time())
         request_timestamp = int(data['timestamp'])
-        
+
         if request_timestamp > current_time + self.TIMESTAMP_TOLERANCE:
-            raise ValueError(f"Invalid timestamp: Request timestamp is in the future")
-        
+            raise ValueError("Invalid timestamp: Request timestamp is in the future")
+
         # Validate payload size
         payload_str = str(data['response_payload'])
         if len(payload_str.encode('utf-8')) > self.MAX_PAYLOAD_SIZE:
             raise ValueError(f"Response payload exceeds maximum size of {self.MAX_PAYLOAD_SIZE} bytes")
-        
+
         # Select algorithm
         algo = algorithm or self.default_algorithm
-        
+
         # Generate nonce for uniqueness
         nonce = secrets.token_hex(16)
         if nonce in self._used_nonces:
             # Extremely rare, regenerate to guarantee uniqueness
             nonce = secrets.token_hex(16)
         self._used_nonces.add(nonce)
-        
+
         # Create hash
         hash_value = self._compute_hash(
             request_id=data['request_id'],
@@ -203,13 +203,13 @@ class QRSManager:
             nonce=nonce,
             algorithm=algo
         )
-        
+
         # Generate QRS ID
         qrs_id = f"qrs_{secrets.token_hex(12)}"
-        
+
         # Create signature (simplified - real implementation would use asymmetric crypto)
         signature = f"0x{hashlib.sha256(f'{hash_value}{nonce}'.encode()).hexdigest()}"
-        
+
         # Create QRS signature object
         created_at = int(time.time())
         qrs = QRSSignature(
@@ -267,7 +267,7 @@ class QRSManager:
         Task: TODO-HIGH-BRIDGE-API-k7l8m9n0 (QRS manager logic)
         """
         verified_at = int(time.time())
-        
+
         def _audit(status: QRSStatus, valid: bool, reason: Optional[str] = None) -> None:
             self._audit_trail.append(
                 {
@@ -450,11 +450,11 @@ class QRSManager:
         """
         # Canonicalize payload
         payload_str = str(response_payload)
-        
+
         # Combine fields for hashing
         data = f"{request_id}:{payload_str}:{timestamp}:{service}:{nonce}"
         data_bytes = data.encode('utf-8')
-        
+
         # Compute hash based on algorithm
         if algorithm == QRSAlgorithm.SHA256_QRS:
             return hashlib.sha256(data_bytes).hexdigest()
@@ -473,7 +473,7 @@ class QRSManager:
         """
         if not self.trace_logger:
             return
-        
+
         try:
             # ΛTRACE logging format
             await self.trace_logger.log({
@@ -499,7 +499,7 @@ class QRSManager:
         """
         if not self.trace_logger:
             return
-        
+
         try:
             await self.trace_logger.log({
                 'event': 'qrs_verified',
@@ -534,12 +534,12 @@ class QRSManager:
         """
         import hmac
         import json
-        
+
         # Canonicalize request data
         canonical_data = json.dumps(request_data, sort_keys=True)
         data_bytes = canonical_data.encode('utf-8')
         key_bytes = self.secret_key.encode('utf-8')
-        
+
         # Generate HMAC based on algorithm
         if algorithm in (QRSAlgorithm.SHA256, QRSAlgorithm.SHA256_QRS):
             signature = hmac.new(key_bytes, data_bytes, hashlib.sha256).hexdigest()
@@ -547,7 +547,7 @@ class QRSManager:
             signature = hmac.new(key_bytes, data_bytes, hashlib.sha512).hexdigest()
         else:
             raise ValueError(f"Unsupported algorithm: {algorithm}")
-        
+
         return signature
 
     def verify_signature(
@@ -595,7 +595,7 @@ class QRSManager:
         Task: TEST-HIGH-API-QRS-02 (audit trail integration)
         """
         timestamp = datetime.now(timezone.utc).isoformat()
-        
+
         # Create audit entry
         audit_entry = {
             "timestamp": timestamp,
@@ -606,27 +606,27 @@ class QRSManager:
             "method": request_data.get("method", "UNKNOWN"),
             "path": request_data.get("path", "/"),
         }
-        
+
         # Add failure reason if verification failed
         if not verification_result:
             audit_entry["failure_reason"] = "signature_mismatch"
             audit_entry["error"] = "Signature verification failed"
-        
+
         # Calculate entry hash for chain integrity
         entry_str = f"{timestamp}{audit_entry['lambda_id']}{signature}{verification_result}"
         entry_hash = hashlib.sha256(entry_str.encode()).hexdigest()
         audit_entry["entry_hash"] = entry_hash
-        
+
         # Add previous hash for chain linkage
         if self._audit_trail:
             audit_entry["previous_hash"] = self._audit_trail[-1].get("entry_hash", "0" * 64)
         else:
             # Genesis entry
             audit_entry["previous_hash"] = "0" * 64
-        
+
         # Store in audit trail
         self._audit_trail.append(audit_entry)
-        
+
         return audit_entry
 
     def validate_timestamp(
@@ -655,17 +655,17 @@ class QRSManager:
             else:
                 # No microseconds
                 timestamp = datetime.fromisoformat(timestamp_str.replace('Z', '+00:00'))
-            
+
             # Ensure timezone awareness
             if timestamp.tzinfo is None:
                 timestamp = timestamp.replace(tzinfo=timezone.utc)
-            
+
             # Get current time
             now = datetime.now(timezone.utc)
-            
+
             # Calculate age
             age_seconds = (now - timestamp).total_seconds()
-            
+
             # Check if within acceptable range
             return 0 <= age_seconds <= max_age_seconds
         except Exception:
@@ -685,7 +685,7 @@ class QRSManager:
         """
         if nonce in self._used_nonces:
             return False  # Replay detected
-        
+
         # Mark nonce as used
         self._used_nonces.add(nonce)
         return True  # New nonce
@@ -707,7 +707,7 @@ class QRSManager:
         if len(parts) >= 2:
             tier = parts[1].lower()
             return self._rate_limits.get(tier, 100)  # Default to delta tier
-        
+
         return 100  # Default rate limit
 
 

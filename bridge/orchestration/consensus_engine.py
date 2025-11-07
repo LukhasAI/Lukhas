@@ -38,11 +38,13 @@
 ║ Symbolic Tags: {ΛCONSENSUS}, {ΛVOTING}, {ΛSYNTHESIS}, {ΛQUALITY}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import logging
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.orchestration.consensus")
@@ -72,9 +74,9 @@ class ConsensusResult:
     participating_models: int
     processing_time_ms: float
     individual_responses: list[Any]
-    quality_metrics: Optional[dict[str, float]] = None
-    similarity_matrix: Optional[list[list[float]]] = None
-    error_info: Optional[str] = None
+    quality_metrics: dict[str, float] | None = None
+    similarity_matrix: list[list[float]] | None = None
+    error_info: str | None = None
 
 
 class ConsensusEngine:
@@ -83,7 +85,7 @@ class ConsensusEngine:
     Implements multiple algorithms to find the best collective response.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize the consensus engine"""
         self.config = config or {}
 
@@ -105,7 +107,7 @@ class ConsensusEngine:
         self,
         responses: list[Any],
         task_type=None,
-        method: Optional[ConsensusMethod] = None,
+        method: ConsensusMethod | None = None,
     ) -> ConsensusResult:
         """
         Process consensus from multiple AI responses
@@ -327,12 +329,12 @@ class ConsensusEngine:
             individual_responses=[],
         )
 
-    async def _best_response_consensus(self, responses: list[Any], error: Optional[str] = None) -> ConsensusResult:
+    async def _best_response_consensus(self, responses: list[Any], error: str | None = None) -> ConsensusResult:
         """Simple best response selection (fallback method)"""
 
         # Score all responses and select the best
         scored_responses = [(r, self._score_response_quality(r)) for r in responses]
-        best_response, best_score = max(scored_responses, key=lambda x: x[1])
+        best_response, _best_score = max(scored_responses, key=lambda x: x[1])
 
         return ConsensusResult(
             final_response=best_response.content,
@@ -493,7 +495,7 @@ class ConsensusEngine:
             return {}
 
         # Response diversity
-        unique_responses = len(set(r.content for r in responses))
+        unique_responses = len({r.content for r in responses})
         diversity = unique_responses / len(responses)
 
         # Average confidence

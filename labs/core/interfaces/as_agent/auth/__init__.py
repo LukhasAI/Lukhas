@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # core/interfaces/as_agent/auth/__init__.py
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Initializes the 'auth' sub-package under 'core.interfaces.as_agent'.

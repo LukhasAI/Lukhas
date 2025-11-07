@@ -1,19 +1,20 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.EVRN Ethical Perception
 Ensures perception respects privacy and ethical boundaries
 """
 
 import hashlib
+import logging
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional, Union
 
 import numpy as np
-
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 

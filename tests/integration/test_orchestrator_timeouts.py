@@ -6,10 +6,18 @@ import asyncio
 import sys
 import time
 from pathlib import Path
+
 import pytest
+
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-from MATRIZ.core.async_orchestrator import AsyncCognitiveOrchestrator, StageResult, StageType, run_with_timeout
-from MATRIZ.core.node_interface import CognitiveNode
+from matriz.core.async_orchestrator import (
+    AsyncCognitiveOrchestrator,
+    StageResult,
+    StageType,
+    run_with_timeout,
+)
+from matriz.core.node_interface import CognitiveNode
+
 
 class SlowNode(CognitiveNode):
     """Test node with configurable delay"""

@@ -1,0 +1,3125 @@
+{
+  "timestamp": "2025-11-06T00:26:16.584730",
+  "summary": {
+    "total_duplicate_groups": 326,
+    "total_wasted_space_mb": 14.26
+  },
+  "duplicates": [
+    [
+      {
+        "path": "lukhas_pb2.py",
+        "size": 867
+      },
+      {
+        "path": "core/interfaces/api/v1/v1/grpc/lukhas_pb2.py",
+        "size": 867
+      }
+    ],
+    [
+      {
+        "path": "AUTONOMOUS_GUIDE_CANDIDATE_CLEANUP.md",
+        "size": 6964
+      },
+      {
+        "path": "AUTONOMOUS_GUIDE_IMPORT_ORGANIZATION.md",
+        "size": 6964
+      }
+    ],
+    [
+      {
+        "path": "tone/tools/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tone/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "modulation/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "mcp-lukhas-sse/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "mcp-lukhas-sse/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "vocabularies/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/bio/energy/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/bio/coherence/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/core/utils/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/core/observability/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/core/modules/nias/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/core/agi_preparedness/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/memory/consensus/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/memory/security/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/memory/consciousness/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/memory/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/memory/fakes/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/memory/lineage/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/memory/dream/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/memory/interfaces/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/bridge/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/consciousness/constellation/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/consciousness/testing/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/consciousness/resilience/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/consciousness/dream/integration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/consciousness/quantum/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/governance/privacy/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/governance/identity/auth_integrations/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/governance/identity/auth_web/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "labs/governance/consent/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "candidate/quantum/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "branding/design/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "branding/apis/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "branding/analysis/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "branding/optimization/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "branding/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "branding/content/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "branding/poetry/legacy/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "branding/engines/lukhas_content_platform/bots/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "branding/engines/lukhas_doc_engine/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "branding/storytelling/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "branding/orchestration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "branding/communications/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "phase1_verification_pack/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "cognitive_core/products/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "cognitive_core/optimization/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "cognitive/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "oneiric_core/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_website/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_website/tests/api/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_website/unified/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_website/scripts/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_website/lukhas/cognitive_core/reasoning/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_website/lukhas/quantum_bio_consciousness/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_website/lukhas/core/plugins/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_website/lukhas/core/orchestration/integration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_website/lukhas/core/orchestration/brain/consciousness/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_website/lukhas/core/orchestration/brain/unified_integration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_website/lukhas/core/orchestration/brain/unified_integration/adapters/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_website/lukhas/nodes/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_website/lukhas/utils/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_website/lukhas/shims/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_website/lukhas/interfaces/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_website/lukhas/aka_qualia/tools/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_website/lukhas/aka_qualia/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "delegation_reports/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "delegation_reports/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/tone/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/bench/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/devops/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/tests/validators/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/mcp/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/docs/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/matriz/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/testing/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/error_analysis/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/audit/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/ai/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/automation/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/manifests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/monitoring/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/git/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/vocabulary/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tools/debug/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "docker/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "bio/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/enterprise/core/scale/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/enterprise/core/security/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/enterprise/core/integration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/enterprise/core/rigor/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/enterprise/core/observability/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/enterprise/core/compliance/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/enterprise/core/safety/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/enterprise/core/api/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/enterprise/core/monitoring/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/enterprise/core/performance/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/enterprise/core/infrastructure/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/enterprise/core/validation/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/enterprise/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/enterprise/observability/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/enterprise/compliance/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/enterprise/wallet/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/enterprise/api/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/intelligence/dast_enhanced/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/intelligence/lens/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/security/healthcare_guardian/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/security/healthcare_guardian/providers/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/security/healthcare_guardian/providers/templates/regions/europe/spain/private/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/security/healthcare_guardian/providers/templates/regions/europe/spain/sas/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/security/healthcare_guardian/providers/templates/regions/europe/germany/gkv/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/security/healthcare_guardian/providers/templates/regions/europe/uk/nhs/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/security/healthcare_guardian/providers/templates/regions/private/global/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/security/healthcare_guardian/providers/templates/regions/asia_pacific/australia/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/security/healthcare_guardian/providers/templates/regions/americas/north_america/us/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/security/healthcare_guardian/providers/templates/regions/americas/north_america/us/retail/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/security/healthcare_guardian/providers/templates/compliance/common/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/content/auctor/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/shared/deploy/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/shared/gpt_oss_integration/lambda-products/adapters/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/shared/gpt_oss_integration/agi-integration/brain-modules/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/communication/abas/complete_implementation/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/infrastructure/trace/quantum_implementations/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "products/infrastructure/nimbus/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "trace/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/symbolic_legacy/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/symbolic_legacy/features/collapse/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/integration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/integration/innovation_orchestrator/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/safety/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/symbolism/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/symbolic_core/features/collapse/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/orchestration/golden_trio/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/orchestration/swarm/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/orchestration/integration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/orchestration/examples/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/orchestration/brain/spine/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/orchestration/brain/integration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/orchestration/brain/personality/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/orchestration/brain/abstract_reasoning/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/orchestration/brain/output/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/orchestration/brain/symbolic_ai/modules/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/orchestration/brain/orchestration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/orchestration/brain/neural/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/orchestration/user_feedback/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/orchestration/core_modules/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/governance/identity/core/colonies/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/governance/identity/core/health/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/governance/identity/core/tagging/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/governance/identity/core/glyph/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/governance/security/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/glyph/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/monitoring/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/neural_architectures/abas/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/neural/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/services/personality/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/interfaces/ui/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/interfaces/ui/components/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/interfaces/logic/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/interfaces/logic/context/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/interfaces/as_agent/agent_logic/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/interfaces/as_agent/streamlit/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/interfaces/as_agent/core/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/interfaces/as_agent/utils/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/interfaces/as_agent/sys/nias/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/interfaces/as_agent/sys/dast/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/interfaces/as_agent/sys/abas/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/interfaces/as_agent/widgets/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "core/router/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "memory/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "identity/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "evaluations/definitions/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "evaluations/runs/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "codex_artifacts/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/scattered_root_files/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/delegation_reports/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/dreams_2025-10-26/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/root_files_2025_10_03/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/dream_2025-10-26/dream/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/website_v1/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/lanes_experiment/lukhas_acceptance_scaffold/archive/memory_variants/memory/core/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/lanes_experiment/lukhas_acceptance_scaffold/archive/memory_variants/memory/causal/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/lanes_experiment/lukhas_acceptance_scaffold/archive/memory_variants/memory/proteome/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/lanes_experiment/lukhas_acceptance_scaffold/archive/memory_variants/memory/hippocampal/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/lanes_experiment/lukhas_acceptance_scaffold/archive/memory_variants/memory/fold_system/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/lanes_experiment/lukhas_acceptance_scaffold/archive/memory_variants/memory/systems/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/final_sweep_batch_2025-10-26/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/tests_legacy/matriz/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/quarantine_2025-10-26/quarantine/phase2_syntax/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/quarantine_2025-10-26/quarantine/phase2_syntax/ci/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/quarantine_2025-10-26/quarantine/phase2_syntax/prediction/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/quarantine_2025-10-26/quarantine/phase2_syntax/automation/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/quarantine_2025-10-26/quarantine/critical/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/quarantine_2025-10-26/quarantine/emergency_syntax/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/quarantine_2025-10-26/quarantine/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/quarantine_2025-10-26/quarantine/encoding/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/quarantine_2025-10-26/quarantine/damaged/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/dreamweaver_helpers_bundle_2025-10-26/dreamweaver_helpers_bundle/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "archive/doc_stub_2025-10-26/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "third_party_stubs/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "out/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "config/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "next_gen/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "security/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": ".lukhas_runs/2025-10-08/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "sbom/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "vocabulary_refresh_data/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "ci/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "bridge/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "health_reports/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "contracts/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "personality/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "recovered_components/tools/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "recovered_components/memory/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "recovered_components/auth/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "recovered_components/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "recovered_components/utils/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "recovered_components/api/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "test_data/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "design_system/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "consciousness/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "consciousness/simulation/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "claude_army/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "claude_army/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "mcp-server/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "business/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/smoke/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/labs/core/governance/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/labs/governance/identity/core/auth/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/candidate/bridge/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/candidate/qi/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/candidate/emotion/examples/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/lane/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/quarantine/phase2_syntax/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/behavior/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/labs/qi/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/metrics/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/candidate/core/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/candidate/core/quantum_financial/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/candidate/core/identity/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/candidate/core/ethics/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/candidate/core/matrix/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/candidate/core/interfaces/api/v1/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/candidate/identity/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/candidate/bridge/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/candidate/bridge/orchestration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/candidate/qi/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/candidate/qi/engines/identity/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/candidate/governance/identity/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/branding/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/branding/personal_brand/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/branding/poetry/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/contract/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/tools/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/tools/ci/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/bio/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/bio/core/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/core/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/core/blockchain/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/core/emotion/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/core/interfaces/api/v1/v1/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/core/interfaces/as_agent/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/memory/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/identity/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/config/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/ci/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/bridge/api_gateway/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/bridge/adapters/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/bridge/external_adapters/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/consciousness/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/golden/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/ai_orchestration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/matriz/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/observability/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/compliance/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/qi/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/qi/crypto/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/products_infra/trace/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/products_infra/legado/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/vivox/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/scripts/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/orchestration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/governance/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/governance/compliance/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/governance/ethics/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/monitoring/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/dream/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/services/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/services/registry/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/emotion/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/universal_language/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/reports/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/aka_qualia/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/unit/router/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/branding/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/branding/apis/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/cognitive/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/cognitive/property_based/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/cognitive/stress/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/lint/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/contract/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/contract/candidate/aka_qualia/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/contract/contract/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/contract/golden/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/contract/matriz/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/oneiric_core/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/tools/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/products/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/core/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/core/identity/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/core/consciousness/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/core/endocrine/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/core/orchestration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/core/orchestration/brain/spine/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/core/governance/examples/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/core/api/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/core/symbolic/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/core/modules/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/capabilities/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/identity/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/constraints/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/gpt/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/config/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/security/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/candidate/tools/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/candidate/core/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/candidate/core/collective/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/candidate/identity/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/candidate/bridge/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/branding/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/contract/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/tools/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/bio/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/products/communication/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/core/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/identity/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/end_to_end/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/security/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/bridge/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/bridge/api_gateway/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/bridge/adapters/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/phase2/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/ai_orchestration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/qi/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/adapters/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/consent/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/scripts/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/orchestration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/governance/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/api/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/integration/universal_language/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/contracts/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/simulation/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/utils/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/collapse/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/docs/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/matriz/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/qi/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/soak/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/drift/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/obs/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/dashboard/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/system/integration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/ethics/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/deployment/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/examples/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/benchmarks/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/reliability/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/scripts/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/economics/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/orchestration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/governance/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/rules/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/ast/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/fixtures/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/guardian/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/reality/tier1/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/reality/reality/tier1/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/qualia/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/monitoring/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/performance/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/e2e/candidate/bridge/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/e2e/tools/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/e2e/core/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/e2e/security/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/e2e/integration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/e2e/memory_security/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/e2e/consciousness/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/e2e/comprehensive/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/e2e/phase2/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/e2e/gdpr/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/e2e/scripts/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/e2e/governance/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/e2e/lukhas/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/e2e/lukhas/core/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/e2e/lukhas/qi/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/e2e/functional/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/e2e/rl/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/perf/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/auditor/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/logging/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tests/stress/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "completion/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "completion/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "trace_logs/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "agents/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "var/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "grafana/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "server/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "utils/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "perp_runs/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "agent/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "docs/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "docs/identity/examples/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "docs/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "ai_orchestration/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "matriz/memory/temporal/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "matriz/memory/core/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "matriz/consciousness/awareness/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "matriz/consciousness/dream/oneiric/oneiric_core/engine/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "matriz/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "matriz/adapters/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "matriz/interfaces/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "observability/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "policies/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "reasoning/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "qi/trace/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "qi/learning/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "qi/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "qi/docs/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "qi/autonomy/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "qi/provenance/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "tagging/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "schemas/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "feedback/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "storage/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "TODO/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "system_claude_audit/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "exports/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "alerts/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "integrations/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "integrations/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "samples/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "rats/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "adapters/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "schema/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "system/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "gymnasium_local/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "load/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "presentations/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "ethics/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "consent/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "audit/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "dashboards/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "vivox/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "sdk/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "mk/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "deployment/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "hooks/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "examples/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "examples/sdk/python/src/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "examples/rl/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "benchmarks/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "benchmarks/dream/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "transmission_bundle/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/fixes/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/locks/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/bench/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/tools/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/analysis/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/util/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/security/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/ci/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/todo_migration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/utils/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/docs/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/matriz/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/phase_management/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/bridges/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/integrations/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/testing/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/cloud_tasks/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/hooks/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/pqc/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/import_health/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/automation/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/guardian/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/monitoring/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/consolidation/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/migration/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/coverage/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/analytics/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "scripts/codemods/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "packages/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "security_reports/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "diagnostics/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "mcp_servers/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "orchestration/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "governance/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "governance/ethics_legacy/policy_engines/examples/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "governance/extended/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "rules/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "jules_branch/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "jules_branch/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "api/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "brain/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "templates/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "pytest_asyncio_stub_DISABLED/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "ops/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "test_results/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "healing/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "prometheus/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "graphs/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "telemetry/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "symbolic/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "guardian/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "guardian/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "enforcement/tone/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "enforcement/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "serve/reference_api/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "serve/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "serve/api/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "monitoring/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "mcp-servers/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "mcp-servers/lukhas-devtools-mcp/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "performance/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "modules/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "agents_external/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "assets/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "demos/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "lukhas_ai_intro/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "rl/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "services/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "services/registry/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "emotion/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "universal_language/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "universal_language/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "analytics/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "gtpsi/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "quantum/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "src/tests/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "src/attribution/__init__.py",
+        "size": 29
+      },
+      {
+        "path": "src/economics/__init__.py",
+        "size": 29
+      }
+    ],
+    [
+      {
+        "path": "labs/tools/__init__.py",
+        "size": 21
+      },
+      {
+        "path": "branding/tone/tools/__init__.py",
+        "size": 21
+      },
+      {
+        "path": "tools/__init__.py",
+        "size": 21
+      },
+      {
+        "path": "agents_external/CLAUDE/workspaces/special-ops-secrets-kms-legacy/tools/__init__.py",
+        "size": 21
+      }
+    ],
+    [
+      {
+        "path": "labs/bio/quantum_inspired_layer/__init__.py",
+        "size": 38
+      },
+      {
+        "path": "labs/bio/qi_layer/__init__.py",
+        "size": 38
+      }
+    ],
+    [
+      {
+        "path": "labs/bio/qi_bio_components/__init__.py",
+        "size": 38
+      },
+      {
+        "path": "labs/bio/quantum_bio_components/__init__.py",
+        "size": 38
+      }
+    ],
+    [
+      {
+        "path": "labs/bio/advanced_quantum_bio/__init__.py",
+        "size": 36
+      },
+      {
+        "path": "labs/bio/advanced_qi_bio/__init__.py",
+        "size": 36
+      }
+    ],
+    [
+      {
+        "path": "labs/bio/systems/orchestration/__init__.py",
+        "size": 52
+      },
+      {
+        "path": "labs/orchestration/brain/orchestration/__init__.py",
+        "size": 52
+      },
+      {
+        "path": "qi/coordination/orchestration/__init__.py",
+        "size": 52
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/GLYPH_CONSCIOUSNESS_PROTOCOLS.md",
+        "size": 17196
+      },
+      {
+        "path": "labs/core/symbolic_core/GLYPH_CONSCIOUSNESS_PROTOCOLS.md",
+        "size": 17196
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/swarm_tag_simulation.py",
+        "size": 4604
+      },
+      {
+        "path": "labs/core/colonies/swarm_simulation.py",
+        "size": 4604
+      },
+      {
+        "path": "labs/core/symbolic_core/swarm_tag_simulation.py",
+        "size": 4604
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/README.md",
+        "size": 7740
+      },
+      {
+        "path": "labs/core/symbolic_core/README.md",
+        "size": 7740
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/symbolic_glyph_hash.py",
+        "size": 811
+      },
+      {
+        "path": "labs/core/symbolic_core/symbolic_glyph_hash.py",
+        "size": 811
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/MIGRATION_GUIDE.md",
+        "size": 3748
+      },
+      {
+        "path": "labs/core/symbolic_core/MIGRATION_GUIDE.md",
+        "size": 3748
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/MODULE_MANIFEST.json",
+        "size": 7443
+      },
+      {
+        "path": "labs/core/symbolic_core/MODULE_MANIFEST.json",
+        "size": 7443
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/vocabularies/VOCABULARY_DEVELOPMENT_PLAN.md",
+        "size": 7330
+      },
+      {
+        "path": "labs/core/symbolic_core/vocabularies/VOCABULARY_DEVELOPMENT_PLAN.md",
+        "size": 7330
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/vocabularies/VALUABLE_ASSET_NOTICE.md",
+        "size": 1742
+      },
+      {
+        "path": "labs/core/symbolic_core/vocabularies/VALUABLE_ASSET_NOTICE.md",
+        "size": 1742
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/vocabularies/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/symbolic_legacy/features/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/symbolic_legacy/features/memoria/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/adapters/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/container/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/engines/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/examples/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/examples/basic/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/symbolic_core/vocabularies/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/symbolic_core/features/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/symbolic_core/features/memoria/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/apis/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/config/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/security/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/integration/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/agents/builtin/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/specialized/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/examples/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/brain/mesh/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/brain/visualization/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/brain/abstract_reasoning/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/brain/compliance/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/brain/reasoning/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/brain/emotional/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/brain/monitoring/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/user_feedback/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/core_modules/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/monitoring/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/orchestration/interfaces/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/meta_learning/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/events/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/base/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/core/hub_services/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/memory/colonies/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/memory/connected/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/memory/learning/embodied_thought/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/memory/learning/federated/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/memory/convergence/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/memory/examples/basic/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/core/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/connected/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/creativity/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/creativity/personality/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/reasoning/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/reasoning/ethical/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/reasoning/analysis/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/reasoning/goals/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/reasoning/utils/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/reasoning/intent/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/reasoning/hooks/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/reasoning/diagnostics/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/reasoning/decision/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/examples/basic/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/dream/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/dream/visualization/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/dream/tools/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/dream/oneiric/demo/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/dream/oneiric/oneiric_core/analysis/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/dream/oneiric/oneiric_core/utils/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/dream/oneiric/oneiric_core/engine/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/dream/processors/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/dream/stability/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/dream/engine/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/consciousness/qi_integration/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/governance/examples/basic/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/governance/ethics_legacy/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/governance/ethics_legacy/governor/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/governance/ethics_legacy/fallback/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/governance/ethics_legacy/training/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/governance/ethics_legacy/simulations/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/emotion/tools/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/emotion/examples/basic/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/emotion/mood_regulation/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "labs/emotion/affect_detection/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "tools/documentation/memory_evolution/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "tools/enterprise/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "tools/scripts/consolidation/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "products/experience/dashboard/consciousness/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "products/experience/dashboard/interfaces/core/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "products/experience/dashboard/interfaces/api/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "products/experience/voice/bridge/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "products/experience/voice/bridge/safety/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "products/experience/voice/bridge/systems/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "products/content/poetica/creativity_engines/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "products/content/poetica/creativity_engines/personality/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "products/infrastructure/legado/legacy_systems/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "products/infrastructure/legado/legacy_systems/governor/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "products/infrastructure/legado/legacy_systems/fallback/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "products/infrastructure/legado/legacy_systems/training/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "products/infrastructure/legado/legacy_systems/simulations/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "products/infrastructure/legado/legacy_systems/policy_engines/examples/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "archive/quarantine_2025-10-26/quarantine/phase2_syntax/dev/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "archive/quarantine_2025-10-26/quarantine/phase2_syntax/consolidation/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "archive/quarantine_2025-10-26/quarantine/phase2_syntax/migration/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "archive/quarantine_2025-10-26/quarantine/phase2_syntax/documentation_suite/ai_documentation_engine/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "bridge/examples/basic/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "vivox/utils/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "vivox/collapse/__init__.py",
+        "size": 33
+      },
+      {
+        "path": "governance/identity/api/controllers/__init__.py",
+        "size": 33
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/vocabularies/README.md",
+        "size": 8966
+      },
+      {
+        "path": "labs/core/symbolic_core/vocabularies/README.md",
+        "size": 8966
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/vocabularies/vocabulary_template.py",
+        "size": 311
+      },
+      {
+        "path": "labs/core/symbolic_core/vocabularies/vocabulary_template.py",
+        "size": 311
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/vocabularies/emotion_vocabulary.py",
+        "size": 2061
+      },
+      {
+        "path": "labs/core/symbolic_core/vocabularies/emotion_vocabulary.py",
+        "size": 2061
+      },
+      {
+        "path": "branding/vocabularies/emotion_vocabulary.py",
+        "size": 2061
+      },
+      {
+        "path": "symbolic/vocabularies/emotion_vocabulary.py",
+        "size": 2061
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/foundry/README.md",
+        "size": 2836
+      },
+      {
+        "path": "labs/core/symbolic_core/foundry/README.md",
+        "size": 2836
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/foundry/AI_Core_System.md",
+        "size": 1966
+      },
+      {
+        "path": "labs/core/symbolic_core/foundry/AI_Core_System.md",
+        "size": 1966
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/foundry/foundational_knowledge.json",
+        "size": 5057
+      },
+      {
+        "path": "labs/core/symbolic_core/foundry/foundational_knowledge.json",
+        "size": 5057
+      },
+      {
+        "path": "config/knowledge/foundational_knowledge.json",
+        "size": 5057
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/foundry/cognitive_mesh_ai.json",
+        "size": 25520
+      },
+      {
+        "path": "labs/core/symbolic_core/foundry/cognitive_mesh_ai.json",
+        "size": 25520
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/foundry/core_manifest.md",
+        "size": 2363
+      },
+      {
+        "path": "labs/core/symbolic_core/foundry/core_manifest.md",
+        "size": 2363
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/bio/crista_optimizer.py",
+        "size": 2294
+      },
+      {
+        "path": "labs/core/symbolic_core/bio/crista_optimizer.py",
+        "size": 2294
+      },
+      {
+        "path": "qi/bio/symbolic/crista_optimizer.py",
+        "size": 2294
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/bio/mito_qi_attention.py",
+        "size": 7356
+      },
+      {
+        "path": "labs/core/symbolic_core/bio/mito_qi_attention.py",
+        "size": 7356
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/bio/bio_symbolic_architectures.py",
+        "size": 307
+      },
+      {
+        "path": "labs/core/symbolic_core/bio/bio_symbolic_architectures.py",
+        "size": 307
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/bio/bio_systems_inspiration.py",
+        "size": 301
+      },
+      {
+        "path": "labs/core/symbolic_core/bio/bio_systems_inspiration.py",
+        "size": 301
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/bio/mito_ethics_sync.py",
+        "size": 3188
+      },
+      {
+        "path": "labs/core/symbolic_core/bio/mito_ethics_sync.py",
+        "size": 3188
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/bio/__init__.py",
+        "size": 482
+      },
+      {
+        "path": "labs/core/symbolic_core/bio/__init__.py",
+        "size": 482
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/bio/stress_gate.py",
+        "size": 2913
+      },
+      {
+        "path": "labs/core/symbolic_core/bio/stress_gate.py",
+        "size": 2913
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/bio/glyph_id_hash.py",
+        "size": 2606
+      },
+      {
+        "path": "labs/core/symbolic_core/bio/glyph_id_hash.py",
+        "size": 2606
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/bio/qi_attention.py",
+        "size": 279
+      },
+      {
+        "path": "labs/core/symbolic_core/bio/qi_attention.py",
+        "size": 279
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/bio/mito_qi_attention_adapter.py",
+        "size": 7372
+      },
+      {
+        "path": "labs/core/symbolic_core/bio/mito_qi_attention_adapter.py",
+        "size": 7372
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/bio/bio_symbolic.py",
+        "size": 298
+      },
+      {
+        "path": "labs/core/symbolic_core/bio/bio_symbolic.py",
+        "size": 298
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/processing/__init__.py",
+        "size": 216
+      },
+      {
+        "path": "labs/core/symbolic_core/processing/__init__.py",
+        "size": 216
+      },
+      {
+        "path": "labs/core/orchestration/processing/__init__.py",
+        "size": 216
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/integration/__init__.py",
+        "size": 218
+      },
+      {
+        "path": "labs/core/symbolic_core/integration/__init__.py",
+        "size": 218
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/features/README_glyphs.md",
+        "size": 12973
+      },
+      {
+        "path": "labs/core/symbolic_core/features/README_glyphs.md",
+        "size": 12973
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/features/README.md",
+        "size": 3426
+      },
+      {
+        "path": "labs/core/symbolic_core/features/README.md",
+        "size": 3426
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/features/README_symbolic.md",
+        "size": 5373
+      },
+      {
+        "path": "labs/core/symbolic_core/features/README_symbolic.md",
+        "size": 5373
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/features/trace_verifier.py",
+        "size": 813
+      },
+      {
+        "path": "labs/core/symbolic_core/features/trace_verifier.py",
+        "size": 813
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/features/security/__init__.py",
+        "size": 274
+      },
+      {
+        "path": "labs/core/symbolic_core/features/security/__init__.py",
+        "size": 274
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/features/security/README.md",
+        "size": 349
+      },
+      {
+        "path": "labs/core/symbolic_core/features/security/README.md",
+        "size": 349
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/features/security/main.py",
+        "size": 422
+      },
+      {
+        "path": "labs/core/symbolic_core/features/security/main.py",
+        "size": 422
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/features/docs/GLYPH_GUIDANCE.md",
+        "size": 11462
+      },
+      {
+        "path": "labs/core/symbolic_core/features/docs/GLYPH_GUIDANCE.md",
+        "size": 11462
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/features/docs/GLYPH_VISUAL_DEBUG_LEGEND.md",
+        "size": 8955
+      },
+      {
+        "path": "labs/core/symbolic_core/features/docs/GLYPH_VISUAL_DEBUG_LEGEND.md",
+        "size": 8955
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/features/docs/GLYPH_SECURITY_SCHEMAS.md",
+        "size": 13027
+      },
+      {
+        "path": "labs/core/symbolic_core/features/docs/GLYPH_SECURITY_SCHEMAS.md",
+        "size": 13027
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/features/docs/GLYPH_CLASS_DICTIONARY.md",
+        "size": 7414
+      },
+      {
+        "path": "labs/core/symbolic_core/features/docs/GLYPH_CLASS_DICTIONARY.md",
+        "size": 7414
+      }
+    ],
+    [
+      {
+        "path": "labs/core/symbolic_legacy/features/docs/GLYPH_CONFLICT_POLICY.md",
+        "size": 9268
+      },
+      {
+        "path": "labs/core/symbolic_core/features/docs/GLYPH_CONFLICT_POLICY.md",
+        "size": 9268
+      }
+    ]
+  ]
+}

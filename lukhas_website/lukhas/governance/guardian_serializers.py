@@ -187,7 +187,7 @@ class GuardianSerializer:
 
         except Exception as e:
             logger.error(f"Guardian serialization failed: {e}", exc_info=True)
-            result.errors.append(f"Serialization error: {str(e)}")
+            result.errors.append(f"Serialization error: {e!s}")
             return self._finalize_result(result, start_time)
 
     def deserialize_decision(
@@ -245,7 +245,7 @@ class GuardianSerializer:
 
         except Exception as e:
             logger.error(f"Guardian deserialization failed: {e}", exc_info=True)
-            result.errors.append(f"Deserialization error: {str(e)}")
+            result.errors.append(f"Deserialization error: {e!s}")
             return self._finalize_result(result, start_time)
 
     def validate_decision(
@@ -281,7 +281,7 @@ class GuardianSerializer:
 
         except Exception as e:
             logger.error(f"Guardian validation failed: {e}", exc_info=True)
-            result.errors.append(f"Validation error: {str(e)}")
+            result.errors.append(f"Validation error: {e!s}")
             return self._finalize_result(result, start_time)
 
     def migrate_decision(
@@ -327,7 +327,7 @@ class GuardianSerializer:
 
         except Exception as e:
             logger.error(f"Guardian migration failed: {e}", exc_info=True)
-            result.errors.append(f"Migration error: {str(e)}")
+            result.errors.append(f"Migration error: {e!s}")
             return self._finalize_result(result, start_time)
 
     async def batch_serialize_decisions(

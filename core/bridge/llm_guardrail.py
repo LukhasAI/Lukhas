@@ -5,7 +5,7 @@ import logging
 import os
 import time
 from statistics import quantiles
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Dict
 
 from jsonschema import Draft7Validator, ValidationError
 from jsonschema.exceptions import SchemaError
@@ -13,7 +13,7 @@ from jsonschema.exceptions import SchemaError
 # ΛTAG: guardrail
 _logger = logging.getLogger(__name__)
 
-_LLM_CALLABLE: Optional[Callable[[str], Dict[str, Any]]] = None
+_LLM_CALLABLE: Callable[[str], Dict[str, Any]] | None = None
 _metrics = {
     "attempts": 0,
     "successes": 0,
@@ -45,7 +45,7 @@ def _schema_is_valid(schema: Dict[str, Any]) -> bool:
     try:
         Draft7Validator.check_schema(schema)
     except SchemaError as exc:
-        _logger.warning("ΛTRACE: Guardrail schema invalid — %s", exc)
+        _logger.warning("ΛTRACE: Guardrail schema invalid - %s", exc)
         return False
     return True
 
@@ -72,7 +72,7 @@ def call_llm(prompt: str, schema: Dict[str, Any]) -> Dict[str, Any]:
     try:
         Draft7Validator(schema).validate(candidate)
     except ValidationError as exc:
-        _logger.warning("ΛTRACE: Candidate payload rejected — %s", exc.message)
+        _logger.warning("ΛTRACE: Candidate payload rejected - %s", exc.message)
         _metrics["denials"] += 1
         rejection = {"_rejected": True, "reason": "schema", "details": exc.message}
         return rejection

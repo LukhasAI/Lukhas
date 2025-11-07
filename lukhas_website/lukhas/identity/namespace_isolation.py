@@ -24,7 +24,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set
+from typing import Any, Callable, Dict, List, Set
 
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
@@ -63,7 +63,7 @@ class NamespaceKey:
     encrypted_key: bytes
     salt: bytes
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    expires_at: Optional[datetime] = None
+    expires_at: datetime | None = None
 
 
 @dataclass
@@ -100,8 +100,8 @@ class NamespaceIsolationEngine:
 
     def __init__(
         self,
-        guardian: Optional[Any] = None,
-        storage_provider: Optional[Callable] = None,
+        guardian: Any | None = None,
+        storage_provider: Callable | None = None,
         key_rotation_days: int = 90
     ):
         self.guardian = guardian
@@ -119,7 +119,7 @@ class NamespaceIsolationEngine:
     async def create_namespace(
         self,
         tenant: TenantMetadata,
-        master_key: Optional[str] = None
+        master_key: str | None = None
     ) -> str:
         """
         Create cryptographically isolated namespace for tenant.
@@ -375,7 +375,7 @@ class NamespaceIsolationEngine:
         namespace: str,
         requester_id: str,
         path_prefix: str = "",
-        scope_filter: Optional[IsolationScope] = None
+        scope_filter: IsolationScope | None = None
     ) -> List[Dict[str, Any]]:
         """
         List data in namespace with access control.
@@ -430,7 +430,7 @@ class NamespaceIsolationEngine:
         target_namespace: str,
         permissions: List[AccessMode],
         requester_id: str,
-        expires_at: Optional[datetime] = None
+        expires_at: datetime | None = None
     ) -> str:
         """
         Grant cross-namespace access permissions.
@@ -587,10 +587,10 @@ class NamespaceIsolationEngine:
 
 # Export main classes
 __all__ = [
-    "NamespaceIsolationEngine",
-    "IsolationScope",
     "AccessMode",
     "DataAccessRequest",
     "IsolatedData",
+    "IsolationScope",
+    "NamespaceIsolationEngine",
     "NamespaceKey"
 ]

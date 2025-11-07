@@ -25,10 +25,19 @@ from typing import Any, Dict, List, Optional
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-import jsonschema
-from ledger.event_bus import AsyncEventBus
-from ledger.events import ConsentGrantedEvent, ConsentType, validate_event_schema
-from ledger.metrics import get_metrics, reset_metrics
+import jsonschema  # noqa: E402 - project root must be available on sys.path before import
+from ledger.event_bus import (  # noqa: E402 - project root must be available on sys.path before import
+    AsyncEventBus,
+)
+from ledger.events import (  # noqa: E402 - project root must be available on sys.path before import
+    ConsentGrantedEvent,
+    ConsentType,
+    validate_event_schema,
+)
+from ledger.metrics import (  # noqa: E402 - project root must be available on sys.path before import
+    get_metrics,
+    reset_metrics,
+)
 
 # Configure logging
 logging.basicConfig(
@@ -88,7 +97,7 @@ class LedgerPerformanceValidator:
     def load_json_schema(self) -> Dict[str, Any]:
         """Load and validate JSON schema"""
         try:
-            with open(self.schema_path, 'r') as f:
+            with open(self.schema_path) as f:
                 schema = json.load(f)
 
             # Validate schema itself

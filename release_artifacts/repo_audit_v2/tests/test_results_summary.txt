@@ -1,0 +1,32 @@
+# Test Coverage Baseline Summary
+Run Date: 2025-11-03
+
+## Smoke Tests (`make smoke`) - ✅ PASSING
+Command: `CI_QUALITY_GATES=1 python3 -m pytest -q tests/smoke -m "smoke" --maxfail=1 --disable-warnings`
+- **Total Tests:** 54 passed, 11 skipped (280 deselected)
+- **Pass Rate:** 100% (0 failures)
+- **Execution Time:** 2.35s
+- **Status:** All smoke tests passing ✅
+
+## Full tests/smoke/ Suite (No Marker Filter)
+Command: `pytest tests/smoke/ -v --cov=matriz --cov=core`
+- **Total Tests:** 345
+- **Passed:** 189 (54.8%)
+- **Failed:** 82 (23.8%)
+- **Skipped:** 74 (21.4%)
+- **Execution Time:** 42.05s
+
+## Analysis
+- ✅ **Smoke tests are healthy** - All essential quick tests pass
+- ℹ️ **Integration test failures** - The 82 failures are non-smoke integration/e2e tests
+  - These tests are NOT marked with `@pytest.mark.smoke`
+  - They require full environment: API server, Redis, PostgreSQL, MATRIZ components
+  - Examples: test_models.py (API endpoints), test_responses.py, test_matriz_integration.py
+- 📊 **Coverage data:** Available in coverage_baseline.json
+
+## Recommendations
+1. ✅ Smoke tests are working correctly - no action needed
+2. Document integration test environment requirements in docs/development/testing.md
+3. Ensure CI runs integration tests with proper environment setup
+4. Consider docker-compose for local integration testing
+5. Review skipped tests (11 in smoke suite, 74 in full suite)

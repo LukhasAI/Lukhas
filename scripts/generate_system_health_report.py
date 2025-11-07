@@ -13,7 +13,6 @@ import datetime as dt
 import json
 import re
 from pathlib import Path
-from typing import Optional
 
 DEFAULT_SUMMARY = Path("TEST_RESULTS_SUMMARY.md")
 OUTPUT_DIR = Path("docs/audits")
@@ -77,7 +76,7 @@ def _load_summary(path: Path) -> str:
 
 
 def _timestamp() -> str:
-    return dt.datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+    return dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
 
 
 def generate_report(summary_path: Path = DEFAULT_SUMMARY) -> dict[str, object]:
@@ -126,7 +125,7 @@ def write_outputs(payload: dict[str, object]) -> None:
     JSON_OUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 
 
-def main(argv: Optional[list[str]] = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Generate system health report")
     parser.add_argument(
         "--summary",

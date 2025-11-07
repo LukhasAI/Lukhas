@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import urllib.parse
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram
@@ -54,15 +54,15 @@ class AuthorizationRequest:
     client_id: str
     redirect_uri: str
     scope: str
-    state: Optional[str] = None
-    nonce: Optional[str] = None
-    code_challenge: Optional[str] = None
-    code_challenge_method: Optional[str] = None
-    prompt: Optional[str] = None
-    max_age: Optional[int] = None
+    state: str | None = None
+    nonce: str | None = None
+    code_challenge: str | None = None
+    code_challenge_method: str | None = None
+    prompt: str | None = None
+    max_age: int | None = None
 
     @classmethod
-    def from_query_params(cls, params: Dict[str, str]) -> 'AuthorizationRequest':
+    def from_query_params(cls, params: Dict[str, str]) -> AuthorizationRequest:
         """Create from URL query parameters."""
         return cls(
             response_type=params.get("response_type", ""),
@@ -110,14 +110,14 @@ class TokenRequest:
     """OAuth2 token request parameters."""
     grant_type: str
     client_id: str
-    code: Optional[str] = None
-    redirect_uri: Optional[str] = None
-    code_verifier: Optional[str] = None
-    refresh_token: Optional[str] = None
-    client_secret: Optional[str] = None
+    code: str | None = None
+    redirect_uri: str | None = None
+    code_verifier: str | None = None
+    refresh_token: str | None = None
+    client_secret: str | None = None
 
     @classmethod
-    def from_form_data(cls, data: Dict[str, str]) -> 'TokenRequest':
+    def from_form_data(cls, data: Dict[str, str]) -> TokenRequest:
         """Create from form data."""
         return cls(
             grant_type=data.get("grant_type", ""),
@@ -159,9 +159,9 @@ class OIDCProvider:
 
     def __init__(self,
                  issuer: str = "https://auth.ai",
-                 client_registry: Optional[ClientRegistry] = None,
-                 token_manager: Optional[OIDCTokenManager] = None,
-                 discovery_provider: Optional[DiscoveryProvider] = None,
+                 client_registry: ClientRegistry | None = None,
+                 token_manager: OIDCTokenManager | None = None,
+                 discovery_provider: DiscoveryProvider | None = None,
                  guardian_client=None):
         """
         Initialize OIDC provider.
@@ -217,8 +217,8 @@ class OIDCProvider:
     def handle_authorization_request(self,
                                    params: Dict[str, str],
                                    user_authenticated: bool = False,
-                                   user_id: Optional[str] = None,
-                                   authentication_tier: Optional[str] = None) -> Dict[str, Any]:
+                                   user_id: str | None = None,
+                                   authentication_tier: str | None = None) -> Dict[str, Any]:
         """
         Handle OAuth2 authorization request.
 
@@ -570,7 +570,7 @@ class OIDCProvider:
         sensitive_scopes = {"lukhas:admin", "lukhas:tier"}
         return bool(scopes.intersection(sensitive_scopes))
 
-    def _error_response(self, error: str, description: str, state: Optional[str] = None) -> Dict[str, Any]:
+    def _error_response(self, error: str, description: str, state: str | None = None) -> Dict[str, Any]:
         """Create error response for direct errors."""
         response = {
             "error": error,
@@ -584,7 +584,7 @@ class OIDCProvider:
                                 redirect_uri: str,
                                 error: str,
                                 description: str,
-                                state: Optional[str] = None) -> Dict[str, Any]:
+                                state: str | None = None) -> Dict[str, Any]:
         """Create redirect error response."""
         error_params = {
             "error": error,
@@ -610,7 +610,7 @@ class OIDCProvider:
 
 
 # Global provider instance
-_oidc_provider: Optional[OIDCProvider] = None
+_oidc_provider: OIDCProvider | None = None
 
 def get_oidc_provider() -> OIDCProvider:
     """Get the default OIDC provider instance."""

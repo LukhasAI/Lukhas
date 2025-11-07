@@ -12,6 +12,7 @@ Systematic automation for fixing the most common syntax error patterns:
 
 Based on proven patterns from 11 consecutive perfect eliminations.
 """
+from __future__ import annotations
 
 import re
 import subprocess
@@ -212,7 +213,7 @@ class AutomatedSyntaxFixer:
 
         return 0, compiles_before
 
-    def run_automated_fixes(self, target_dirs: List[str] = None) -> dict:
+    def run_automated_fixes(self, target_dirs: List[str] | None = None) -> dict:
         """Run automated fixes on target directories"""
         if target_dirs is None:
             target_dirs = ["branding", "labs", "tools", "products", "matriz", "next_gen", "lukhas"]

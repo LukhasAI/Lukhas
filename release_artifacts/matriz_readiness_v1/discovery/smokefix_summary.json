@@ -1,0 +1,23 @@
+{
+  "base_branch": "main",
+  "temp_branch": "main-smokefix-20251103T165126Z",
+  "patch": "/Users/agi_dev/LOCAL-REPOS/Lukhas/release_artifacts/matriz_readiness_v1/patches/smokefix-20251103T165356Z.patch",
+  "summary_before": {
+    "errors_count": 212,
+    "missing_modules": 82,
+    "file_not_found": 5,
+    "name_errors": 2,
+    "type_errors": 11,
+    "candidate_refs": 31750
+  },
+  "summary_after": {
+    "errors_count": 236,
+    "missing_modules": 53,
+    "file_not_found": 5,
+    "name_errors": 6,
+    "type_errors": 11,
+    "candidate_refs": 31762
+  },
+  "preview_ok": true,
+  "preview_dir": "/Users/agi_dev/LOCAL-REPOS/Lukhas/release_artifacts/matriz_readiness_v1/rewrite_preview_20251103T165128Z"
+}

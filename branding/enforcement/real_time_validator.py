@@ -2,6 +2,7 @@
 LUKHAS Real-Time Brand Validator - Constellation Framework (⚛️🧠🛡️)
 Live brand compliance checking and automatic correction system
 """
+from __future__ import annotations
 
 import asyncio
 import logging
@@ -9,7 +10,7 @@ import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +46,7 @@ class ValidationResult:
     confidence: float
     issues: list[dict[str, Any]]
     suggestions: list[str]
-    auto_corrections: Optional[dict[str, str]]
+    auto_corrections: dict[str, str] | None
     performance_impact: float  # Time taken for validation
 
 
@@ -59,7 +60,7 @@ class BrandRule:
     severity: ValidationSeverity
     description: str
     auto_correctable: bool
-    correction_template: Optional[str]
+    correction_template: str | None
 
 
 class RealTimeBrandValidator:
@@ -637,11 +638,7 @@ class RealTimeBrandValidator:
         performance_factor = max(0.5, 1.0 - (performance_impact / 1000))  # Penalize slow validation
 
         # Issue detection confidence
-        if not issues:
-            issue_confidence = 1.0  # High confidence when no issues found
-        else:
-            # Lower confidence with more issues (may indicate content complexity)
-            issue_confidence = max(0.3, 1.0 - (len(issues) / 20))
+        issue_confidence = 1.0 if not issues else max(0.3, 1.0 - (len(issues) / 20))
 
         # Combine factors
         overall_confidence = (

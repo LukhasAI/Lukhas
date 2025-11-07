@@ -606,9 +606,8 @@ class AccessControlSystem:
             return False
 
         # Check resource pattern
-        if permission.resource_pattern != "*":
-            if not self._match_resource_pattern(permission.resource_pattern, request.resource.id):
-                return False
+        if permission.resource_pattern != '*' and (not self._match_resource_pattern(permission.resource_pattern, request.resource.id)):
+            return False
 
         # Check conditions
         for condition_key, condition_value in permission.conditions.items():
@@ -630,9 +629,7 @@ class AccessControlSystem:
 
     def _check_permission_condition(self, condition_key: str, condition_value: Any, request: AccessRequest) -> bool:
         """Check permission condition."""
-        if condition_key == "self_only":
-            return request.subject.id == request.resource.owner
-        elif condition_key == "owner_only":
+        if condition_key == "self_only" or condition_key == "owner_only":
             return request.subject.id == request.resource.owner
         elif condition_key == "role_required":
             return condition_value in request.subject.roles

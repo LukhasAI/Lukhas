@@ -13,6 +13,8 @@ Constellation Framework: ⚛️🧠🛡️
 Author: LUKHAS AI Security Team
 Version: 1.0.0
 """
+from __future__ import annotations
+
 
 import asyncio
 import hashlib

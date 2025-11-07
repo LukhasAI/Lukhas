@@ -2,4 +2,4 @@
 
 from .blockchain_wrapper import BlockchainWrapper, BlockchainTransaction
 
-__all__ = ["BlockchainWrapper", "BlockchainTransaction"]
+__all__ = ["BlockchainTransaction", "BlockchainWrapper"]

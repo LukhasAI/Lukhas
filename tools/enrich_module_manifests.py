@@ -14,7 +14,7 @@ from typing import Any, Dict, List
 
 def load_json(path: Path) -> Dict[str, Any]:
     """Load JSON file safely"""
-    with open(path, 'r', encoding='utf-8') as f:
+    with open(path, encoding='utf-8') as f:
         return json.load(f)
 
 def save_json(path: Path, data: Dict[str, Any]) -> None:
@@ -35,7 +35,8 @@ def detect_module_entrypoints(module_dir: Path) -> List[str]:
             # Look for __all__ exports
             if "__all__" in content:
                 entrypoints.append(f"{module_dir.name}")
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             pass
 
     # Check legacy data for exports

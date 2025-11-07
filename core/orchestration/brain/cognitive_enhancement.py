@@ -1,18 +1,5 @@
 #!/usr/bin/env python3
-"""
-Lukhas Cognitive Core Cognitive Enhancement
-=====================================
-Enhancement module for integrating Cognitive capabilities into the existing
-cognitive core system.
-
-This module extends brain/cognitive_core.py with:
-- Cognitive AI orchestrator integration
-- Enhanced consciousness awareness
-- Cross-domain reasoning
-- Autonomous goal formation
-
-Enhanced: 2025-7-2
-"""
+"""Cognitive enhancement bridge for the Lukhas core system."""
 import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
@@ -27,37 +14,54 @@ logger = logging.getLogger("CognitiveAGIEnhancement")
 
 class CognitiveAGIEnhancement:
     """
+from __future__ import annotations
+
     Enhancement layer for integrating Cognitive capabilities into cognitive core
     """
 
     def __init__(self, cognitive_engine=None):
         self.cognitive_engine = cognitive_engine
-        self.cognitive_orchestrator: LukhasAGIOrchestrator | None = None
-        self.enhancement_active = False
+        self.cognitive_orchestrator: LukhasAGIOrchestrator | None = lukhas_agi_orchestrator
+        self.enhancement_active = bool(self.cognitive_orchestrator and self.cognitive_orchestrator.is_active)
 
-        # Try to import and initialize Cognitive AI orchestrator
-        try:
-            self.cognitive_orchestrator = lukhas_agi_orchestrator
-            logger.info(" Cognitive AI orchestrator connected to cognitive core")
-        except Exception as error:  # pragma: no cover - defensive
-            logger.warning(
-                "Cognitive AI orchestrator unavailable",
-                extra={"error": str(error)},
+        if self.cognitive_orchestrator:
+            logger.info(
+                "cognitive_enhancement_orchestrator_ready",
+                extra={
+                    "orchestrator_initialised": self.cognitive_orchestrator.is_initialised,
+                    "orchestrator_active": self.cognitive_orchestrator.is_active,
+                },
             )
-            self.cognitive_orchestrator = None
+        else:
+            logger.warning("Cognitive AI orchestrator not available for cognitive enhancement")
 
     async def enhance_cognitive_processing(self, user_input: str, context: Optional[dict] = None):
         """
         Enhance cognitive processing with Cognitive capabilities
         """
-        if not self.cognitive_orchestrator:
+        orchestrator = self.cognitive_orchestrator
+
+        if not orchestrator:
             # Fall back to regular cognitive processing
             if self.cognitive_engine:
                 return await self.cognitive_engine.process_input(user_input, context)
             return None
 
+        if not orchestrator.is_active:
+            try:
+                await orchestrator.initialize_agi_system(start_background=False)
+                self.enhancement_active = True
+            except Exception as error:  # - legacy orchestrator bootstrap
+                logger.warning(
+                    "cognitive_enhancement_orchestrator_init_failed",
+                    extra={"error": str(error)},
+                )
+                if self.cognitive_engine:
+                    return await self.cognitive_engine.process_input(user_input, context)
+                return None
+
         # Process through Cognitive AI orchestrator for enhanced capabilities
-        cognitive_result = await self.cognitive_orchestrator.process_agi_request(user_input, context)
+        cognitive_result = await orchestrator.process_agi_request(user_input, context)
 
         # Handle cases where Cognitive AI result might be incomplete
         if not cognitive_result or not isinstance(cognitive_result, dict):

@@ -25,7 +25,7 @@ mcp = FastMCP("lukhas-ai")
 @mcp.tool()
 async def list_directory(path: str) -> str:
     """List files and directories in a given path.
-    
+
     Args:
         path: The directory path to list (must be within allowed roots)
     """
@@ -69,12 +69,12 @@ async def list_directory(path: str) -> str:
 
     except Exception as e:
         logger.error(f"Error listing directory {path}: {e}")
-        return f"Error listing directory: {str(e)}"
+        return f"Error listing directory: {e!s}"
 
 @mcp.tool()
 async def read_file(path: str, max_lines: int = 100) -> str:
     """Read the contents of a text file.
-    
+
     Args:
         path: The file path to read (must be within allowed roots)
         max_lines: Maximum number of lines to read (default: 100)
@@ -98,7 +98,7 @@ async def read_file(path: str, max_lines: int = 100) -> str:
         if file_size > 1024 * 1024:  # 1MB
             return f"Error: File '{path}' is too large ({file_size} bytes). Maximum allowed: 1MB"
 
-        with open(path, 'r', encoding='utf-8', errors='replace') as f:
+        with open(path, encoding='utf-8', errors='replace') as f:
             lines = f.readlines()
 
         # Limit the number of lines
@@ -126,12 +126,12 @@ async def read_file(path: str, max_lines: int = 100) -> str:
         return f"Error: File '{path}' appears to be a binary file or uses unsupported encoding"
     except Exception as e:
         logger.error(f"Error reading file {path}: {e}")
-        return f"Error reading file: {str(e)}"
+        return f"Error reading file: {e!s}"
 
 @mcp.tool()
 async def search_files(directory: str, pattern: str, max_results: int = 20) -> str:
     """Search for files matching a pattern in a directory.
-    
+
     Args:
         directory: The directory to search in (must be within allowed roots)
         pattern: The filename pattern to search for (supports wildcards)
@@ -190,7 +190,7 @@ async def search_files(directory: str, pattern: str, max_results: int = 20) -> s
 
     except Exception as e:
         logger.error(f"Error searching files in {directory}: {e}")
-        return f"Error searching files: {str(e)}"
+        return f"Error searching files: {e!s}"
 
 @mcp.tool()
 async def get_system_info() -> str:
@@ -232,7 +232,7 @@ async def get_system_info() -> str:
 
     except Exception as e:
         logger.error(f"Error getting system info: {e}")
-        return f"Error getting system info: {str(e)}"
+        return f"Error getting system info: {e!s}"
 
 if __name__ == "__main__":
     # Set environment variables for security

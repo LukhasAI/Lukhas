@@ -3,6 +3,8 @@
 LUKHAS 2030 Bio Symbolic Coherence Consolidation
 Perfect harmony between biological and symbolic
 """
+from __future__ import annotations
+
 from pathlib import Path
 
 
@@ -33,12 +35,6 @@ def consolidate_bio_symbolic_coherence():
     # Implement actual consolidation logic
 
     # 1. Analyze existing code patterns
-    existing_patterns = {
-        "bio_rhythm_sync": ["candidate/bio/oscillator.py", "candidate/qi/bio/*.py"],
-        "symbolic_mutation": ["candidate/emotion/*.py", "candidate/consciousness/*.py"],
-        "pattern_matching": ["candidate/core/interfaces/*/symbolic_matcher.py"],
-        "coherence_amplification": ["candidate/qi/coordination/*.py"]
-    }
 
     # 2. Extract common patterns and create unified interfaces
     consolidated_structure = {

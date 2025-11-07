@@ -228,7 +228,7 @@ def main():
         logger.info("DRY RUN MODE - no changes will be made")
         for file_path in file_paths:
             content = file_path.read_text()
-            fixed_content, changed = fixer.fix_content(content)
+            _fixed_content, changed = fixer.fix_content(content)
             if changed:
                 logger.info(f"Would fix: {file_path}")
         return 0

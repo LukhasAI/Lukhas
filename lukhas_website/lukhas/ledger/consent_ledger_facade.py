@@ -285,7 +285,8 @@ class ConsentLedgerV2:
                 )
                 try:
                     self._run_async(self.event_bus.append_event(error_trace))
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass  # Don't fail on error trace failure
 
                 raise
@@ -354,7 +355,7 @@ class ConsentLedgerV2:
                 reason = "no_active_consent"
 
                 if result:
-                    consent_id, scopes_json, purpose, expires_at, lawful_basis = result
+                    consent_id, scopes_json, _purpose, expires_at, lawful_basis = result
                     scopes = json.loads(scopes_json)
 
                     # Check expiration

@@ -758,7 +758,7 @@ class LambdaIDService:
             return {
                 "validated": False,
                 "safe": False,
-                "reason": f"Guardian validation failed: {str(e)}",
+                "reason": f"Guardian validation failed: {e!s}",
                 "error": True,
                 "correlation_id": correlation_id
             }

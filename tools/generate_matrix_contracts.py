@@ -5,6 +5,7 @@ Matrix Contract Generator with Full Identity Integration
 Generates schema-compliant Matrix contracts for all 65 LUKHAS modules
 with comprehensive identity blocks, tokenization placeholders, and tier mappings.
 """
+from __future__ import annotations
 
 import json
 import sys
@@ -106,10 +107,7 @@ def should_require_webauthn(module_name: str, tiers: List[str]) -> bool:
         return True
 
     # High-tier modules require WebAuthn
-    if "inner_circle" in tiers or "root_dev" in tiers:
-        return True
-
-    return False
+    return bool("inner_circle" in tiers or "root_dev" in tiers)
 
 def generate_contract(module_path: Path, module_name: str) -> Dict[str, Any]:
     """Generate a complete Matrix contract for a module."""
@@ -329,11 +327,7 @@ def validate_contract_against_schema(contract: Dict[str, Any]) -> bool:
     identity = contract["identity"]
     required_identity = ["requires_auth", "accepted_subjects", "required_tiers",
                         "required_tiers_numeric", "scopes", "webauthn_required"]
-    for field in required_identity:
-        if field not in identity:
-            return False
-
-    return True
+    return all(field in identity for field in required_identity)
 
 def main():
     """Generate all Matrix contracts with identity integration."""

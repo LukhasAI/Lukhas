@@ -54,7 +54,7 @@ API_TIER_RULES = {
 def analyze_api_module(manifest_path: pathlib.Path) -> Tuple[str, float, str]:
     """
     Analyze API module and suggest star rating.
-    
+
     Returns: (suggested_star, confidence, reason)
     """
     try:
@@ -132,7 +132,7 @@ def main():
         api_manifests.extend(root.glob(f"**/{pattern}/module.manifest.json"))
 
     # Remove duplicates and archived
-    api_manifests = list(set([m for m in api_manifests if "/.archive/" not in str(m)]))
+    api_manifests = list({m for m in api_manifests if "/.archive/" not in str(m)})
     api_manifests.sort()
 
     print(f"Found {len(api_manifests)} API-related manifests\n")

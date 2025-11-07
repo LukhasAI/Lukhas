@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 
 # CRITICAL FILE - DO NOT MODIFY WITHOUT APPROVAL

@@ -115,7 +115,7 @@ class AdaptiveTimeoutManager:
                 p95_latency = statistics.quantiles(successful_latencies, n=20)[18]
             else:
                 p95_latency = max(successful_latencies)
-        except:
+        except Exception:
             p95_latency = statistics.mean(successful_latencies)
 
         # Apply safety multiplier
@@ -382,10 +382,7 @@ async def execute_with_backoff(
     **kwargs
 ) -> Any:
     """Execute function with intelligent backoff."""
-    if config:
-        backoff = IntelligentBackoff(config)
-    else:
-        backoff = get_default_backoff()
+    backoff = IntelligentBackoff(config) if config else get_default_backoff()
 
     return await backoff.execute_with_backoff(operation, func, *args, **kwargs)
 

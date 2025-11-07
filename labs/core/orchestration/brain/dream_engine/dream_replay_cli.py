@@ -4,6 +4,8 @@ Original: dream_replay_cli.py
 Advanced: dream_replay_cli.py
 Integration Date: 2025-05-31T07:55:28.268667
 """
+from __future__ import annotations
+
 
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮

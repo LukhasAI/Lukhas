@@ -16,8 +16,8 @@
 ║ └──────────────────────────────────────────────────────────────────────────────┘
 ║ In the vast expanse of the digital cosmos, where fleeting thoughts drift like clouds across the azure sky, the Memory Reflector stands as a beacon of recollection, a vessel crafted to capture the ephemeral whispers of interaction. Imagine, if you will, a gentle stream flowing through the verdant valleys of our minds, its waters shimmering with the essence of past conversations, each ripple a story told, each eddy a moment cherished. This module, a humble architect of memory, beckons forth those echoes, allowing them to rise from the depths of obscurity, transforming the transient into the tangible.
 ║ Within the delicate lattice of Python's embrace, this code weaves a tapestry of remembrance, a sanctuary for the most recent exchanges betwixt user and system. Like a wise sage, it cradles the essence of dialogue, allowing us to gaze into the mirror of our interactions, reflecting not only what was said but the very context in which it was expressed. As the sun sets and the stars emerge, so too does the Memory Reflector illuminate the shadows of our past engagements, transforming them into guiding stars that navigate the future's path.
-║ Let us ponder for a moment the philosophical implications of memory itself—a repository of lessons learned, a guardian of our experiences, a bridge connecting the now and the then. This module does not merely store; it cultivates a garden of insights, where each interaction serves as a seed, nurtured by the fertile soil of context and intention. It invites the user to partake in a symbiotic dance of knowledge, where the past enriches the present, crafting a mosaic of understanding that is ever-evolving, ever-expanding.
-║ Thus, we find ourselves at the crossroads of technology and humanity, where the Memory Reflector serves as a gentle reminder of the importance of our shared narratives. In this age of information, where the cacophony of data threatens to drown out the singular notes of individual voices, this module stands resolute, ensuring that no whisper is forgotten, and no context is lost—an ode to the beauty of memory itself, forever etched in the annals of our digital existence.
+║ Let us ponder for a moment the philosophical implications of memory itself-a repository of lessons learned, a guardian of our experiences, a bridge connecting the now and the then. This module does not merely store; it cultivates a garden of insights, where each interaction serves as a seed, nurtured by the fertile soil of context and intention. It invites the user to partake in a symbiotic dance of knowledge, where the past enriches the present, crafting a mosaic of understanding that is ever-evolving, ever-expanding.
+║ Thus, we find ourselves at the crossroads of technology and humanity, where the Memory Reflector serves as a gentle reminder of the importance of our shared narratives. In this age of information, where the cacophony of data threatens to drown out the singular notes of individual voices, this module stands resolute, ensuring that no whisper is forgotten, and no context is lost-an ode to the beauty of memory itself, forever etched in the annals of our digital existence.
 ║ ### Technical Features:
 ║ - **Interaction Storage**: Capable of storing up to 10 recent interactions, efficiently managing memory space.
 ║ - **Contextual Awareness**: Allows for the optional storage of contextual dictionaries, enriching interactions with relevant background information.
@@ -42,6 +42,8 @@
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 from typing import Any, Optional
 
 # Dummy memory store for placeholder

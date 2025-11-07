@@ -113,7 +113,7 @@ class PrometheusAlertValidator:
     def validate_yaml_alert_file(self, alert_file: Path) -> bool:
         """Validate a Prometheus YAML alert file"""
         try:
-            with open(alert_file, 'r') as f:
+            with open(alert_file) as f:
                 content = yaml.safe_load(f)
 
             logger.info(f"✅ {alert_file.name}: Valid YAML structure")

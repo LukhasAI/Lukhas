@@ -206,12 +206,11 @@ class ModuleRouter:
                     ).inc()
 
                 # Check if this is a deprecated path
-                if module_path in self.MODULE_REGISTRY:
-                    if _ROUTER_DEPRECATION_WARNINGS:
-                        _ROUTER_DEPRECATION_WARNINGS.labels(
-                            deprecated_module=module_path,
-                            canonical_module=actual_path
-                        ).inc()
+                if module_path in self.MODULE_REGISTRY and _ROUTER_DEPRECATION_WARNINGS:
+                    _ROUTER_DEPRECATION_WARNINGS.labels(
+                        deprecated_module=module_path,
+                        canonical_module=actual_path
+                    ).inc()
 
             try:
                 module = importlib.import_module(actual_path)

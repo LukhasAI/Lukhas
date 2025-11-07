@@ -13,7 +13,7 @@ Usage:
 
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict
 
 try:
@@ -43,7 +43,7 @@ def get_plugins_status() -> Dict[str, Any]:
         return {
             "status": "unavailable",
             "error": "Registry module not available",
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
     # Get plugin registry instance
@@ -56,7 +56,7 @@ def get_plugins_status() -> Dict[str, Any]:
     plugin_kinds = {}
     plugin_details = []
 
-    for name, plugin_info in registered_plugins.items():
+    for _name, plugin_info in registered_plugins.items():
         kind = plugin_info.category
         plugin_kinds[kind] = plugin_kinds.get(kind, 0) + 1
 
@@ -90,7 +90,7 @@ def get_plugins_status() -> Dict[str, Any]:
 
     return {
         "status": "operational",
-        "timestamp": datetime.utcnow().isoformat(),
+    "timestamp": datetime.now(timezone.utc).isoformat(),
         "discovery": discovery_status,
         "registry": {
             "total_plugins": len(registered_plugins),
@@ -127,7 +127,7 @@ def get_system_health() -> Dict[str, Any]:
 
     return {
         "status": overall_health,
-        "timestamp": datetime.utcnow().isoformat(),
+    "timestamp": datetime.now(timezone.utc).isoformat(),
         "components": health_checks,
         "summary": {
             "healthy_components": healthy_components,
@@ -145,7 +145,7 @@ def get_feature_flags() -> Dict[str, Any]:
     """
     # Read from claude-code.json if available
     try:
-        with open("claude-code.json", "r") as f:
+        with open("claude-code.json") as f:
             config = json.load(f)
             feature_flags = config.get("featureFlags", {})
     except Exception:
@@ -162,7 +162,7 @@ def get_feature_flags() -> Dict[str, Any]:
 
     return {
         "status": "operational",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "config_flags": feature_flags,
         "env_flags": env_flags,
         "active_lane": env_flags["LUKHAS_LANE"],
@@ -197,14 +197,14 @@ def _check_registry_health() -> Dict[str, Any]:
         return {"status": "unavailable", "error": "Registry not available"}
 
     try:
-        plugin_count = len(_REG) if _REG else 0  # noqa: F821  # TODO: _REG
-        discovery_mode = _DISCOVERY_FLAG  # noqa: F821  # TODO: _DISCOVERY_FLAG
+        plugin_count = len(_REG) if _REG else 0  # TODO: _REG
+        discovery_mode = _DISCOVERY_FLAG  # TODO: _DISCOVERY_FLAG
 
         # Registry is healthy if it can store/retrieve plugins
         test_key = "_health_check_test"
-        _REG[test_key] = "test_value"  # noqa: F821  # TODO: _REG
-        can_write = _REG.get(test_key) == "test_value"  # noqa: F821  # TODO: _REG
-        del _REG[test_key]  # noqa: F821  # TODO: _REG
+        _REG[test_key] = "test_value"  # TODO: _REG
+        can_write = _REG.get(test_key) == "test_value"  # TODO: _REG
+        del _REG[test_key]  # TODO: _REG
 
         return {
             "status": "healthy" if can_write else "degraded",

@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-LUKHAS Documentation Front‑Matter Normalizer (T4/0.01% edition)
+LUKHAS Documentation Front-Matter Normalizer (T4/0.01% edition)
 
 Goals
-- Enforce 100% front‑matter compliance with correct YAML types (bool/null), not stringified.
+- Enforce 100% front-matter compliance with correct YAML types (bool/null), not stringified.
 - Preserve existing values; only fill required defaults or normalize types/keys/order.
 - Skip generated, inventory, archive, and explicit redirect stubs.
 - Work off docs_manifest.json but tolerate missing fields.
-- Safety: dry‑run by default; create .bak on apply; concurrency for speed; clear delta reporting.
+- Safety: dry-run by default; create .bak on apply; concurrency for speed; clear delta reporting.
 - Resilient YAML parsing: prefer PyYAML if available; fall back to a minimal parser.
 
 Usage
@@ -23,6 +23,7 @@ Notes
 
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import json
 import re
@@ -30,7 +31,7 @@ import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Optional, Tuple
+from typing import Dict, Tuple
 
 # Optional YAML dependency (preferred)
 try:
@@ -44,7 +45,7 @@ DOCS_ROOT = REPO_ROOT / "docs"
 INVENTORY_DIR = DOCS_ROOT / "_inventory"
 MANIFEST_PATH = INVENTORY_DIR / "docs_manifest.json"
 
-# Front‑matter regex (must be at file start)
+# Front-matter regex (must be at file start)
 FRONT_MATTER_PATTERN = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.DOTALL)
 
 # Canonical key order (stable diffs)
@@ -74,9 +75,9 @@ class Result:
     path: str
     had_fm: bool
     updated: bool
-    error: Optional[str] = None
-    sha_before: Optional[str] = None
-    sha_after: Optional[str] = None
+    error: str | None = None
+    sha_before: str | None = None
+    sha_after: str | None = None
 
 
 def sha256_text(s: str) -> str:
@@ -84,7 +85,7 @@ def sha256_text(s: str) -> str:
 
 
 def load_manifest() -> Dict:
-    with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
+    with open(MANIFEST_PATH, encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -131,7 +132,7 @@ def safe_yaml_dump(data: Dict) -> str:
     return "\n".join(lines) + "\n"
 
 
-def extract_front_matter(content: str) -> Tuple[Optional[Dict], str]:
+def extract_front_matter(content: str) -> Tuple[Dict | None, str]:
     match = FRONT_MATTER_PATTERN.match(content)
     if not match:
         return None, content
@@ -140,7 +141,7 @@ def extract_front_matter(content: str) -> Tuple[Optional[Dict], str]:
     return safe_yaml_load(fm_text), body
 
 
-def build_front_matter(doc_info: Dict, existing: Optional[Dict]) -> Dict:
+def build_front_matter(doc_info: Dict, existing: Dict | None) -> Dict:
     fm = dict(existing or {})
 
     # Fill from manifest if present; otherwise defaults
@@ -214,10 +215,8 @@ def normalize_file(doc: Dict, dry_run: bool, only_missing: bool, backups: bool) 
 
     if updated and not dry_run:
         if backups:
-            try:
+            with contextlib.suppress(Exception):
                 file_path.with_suffix(file_path.suffix + ".bak").write_text(content, encoding="utf-8")
-            except Exception:
-                pass
         # Python 3.9 compatible: write_text doesn't support newline parameter
         with open(file_path, 'w', encoding='utf-8', newline='\n') as f:
             f.write(new_content)
@@ -241,7 +240,7 @@ def main() -> None:
     backups = not dry_run
 
     print("=" * 92)
-    print("LUKHAS Front‑Matter Normalizer — T4/0.01%")
+    print("LUKHAS Front-Matter Normalizer - T4/0.01%")
     print("=" * 92)
     print(f"Mode: {'DRY RUN' if dry_run else 'APPLY'} | only-missing: {only_missing} | workers: {workers}")
     print(f"Repo root: {REPO_ROOT}")
@@ -292,7 +291,7 @@ def main() -> None:
     print(f"Had FM: {had_fm_count} | Updated: {updated}")
 
     if dry_run:
-        print("⚠️  DRY RUN — no files modified. Use --apply to write changes.")
+        print("⚠️  DRY RUN - no files modified. Use --apply to write changes.")
     else:
         print("✅ Applied changes. Run: make docs-lint")
 

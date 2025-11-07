@@ -49,49 +49,43 @@ __framework__ = "Constellation Framework - Flow Star (🌊)"
 
 # Export all public interfaces
 __all__ = [
-    # Main consciousness stream
-    "ConsciousnessStream",
-
-    # Core engines
-    "AwarenessEngine",
-    "CreativityEngine",
-    "DreamEngine",
-    "AutoConsciousness",
-
-    # Core data types
-    "ConsciousnessState",
-    "AwarenessSnapshot",
-    "ReflectionReport",
-    "CreativitySnapshot",
-    "CreativeTask",
-    "DreamTrace",
-    "DecisionContext",
-    "ConsciousnessMetrics",
-
-    # Supporting types
-    "GuardianResponse",
-    "DreamState",
-
-    # Type definitions
-    "StatePhase",
-    "DreamPhase",
-    "AwarenessLevel",
-    "AnomalySeverity",
-    "CreativeProcessType",
-    "CreativeFlowState",
-    "ImaginationMode",
-    "ConsciousnessEvent",
-    "EngineState",
-    "SignalData",
-
     # Configuration
     "DEFAULT_AWARENESS_CONFIG",
-    "DEFAULT_REFLECTION_CONFIG",
-    "DEFAULT_DREAM_CONFIG",
     "DEFAULT_CREATIVITY_CONFIG",
-
-    # Metadata
-    "__version__",
+    "DEFAULT_DREAM_CONFIG",
+    "DEFAULT_REFLECTION_CONFIG",
+    "AnomalySeverity",
+    "AutoConsciousness",
+    # Core engines
+    "AwarenessEngine",
+    "AwarenessLevel",
+    "AwarenessSnapshot",
+    "ConsciousnessEvent",
+    "ConsciousnessMetrics",
+    # Core data types
+    "ConsciousnessState",
+    # Main consciousness stream
+    "ConsciousnessStream",
+    "CreativeFlowState",
+    "CreativeProcessType",
+    "CreativeTask",
+    "CreativityEngine",
+    "CreativitySnapshot",
+    "DecisionContext",
+    "DreamEngine",
+    "DreamPhase",
+    "DreamState",
+    "DreamTrace",
+    "EngineState",
+    # Supporting types
+    "GuardianResponse",
+    "ImaginationMode",
+    "ReflectionReport",
+    "SignalData",
+    # Type definitions
+    "StatePhase",
+    "__framework__",
     "__schema_version__",
-    "__framework__"
+    # Metadata
+    "__version__"
 ]

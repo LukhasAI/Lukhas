@@ -95,15 +95,15 @@ def move_to_production(module_path: str) -> str:
 def fix_imports(module_path: str):
     """Fix common import issues in module"""
 
-    with open(module_path, 'r') as f:
+    with open(module_path) as f:
         content = f.read()
 
     # Fix common patterns
     replacements = [
-        ("from candidate.", "from "),
         ("from labs.", "from "),
-        ("from MATRIZ.", "from matriz."),
-        ("import MATRIZ", "import matriz"),
+        ("from labs.", "from "),
+        ("from matriz.", "from matriz."),
+        ("import matriz", "import matriz"),
         # Fix relative imports
         ("from ..consciousness", "from matriz.consciousness"),
         ("from ..memory", "from matriz.memory"),
@@ -315,7 +315,7 @@ def validate_module(module_path: str) -> Dict[str, Any]:
         with open(module_path) as f:
             compile(f.read(), module_path, 'exec')
         results["checks"]["imports"] = True
-    except:
+    except Exception:
         results["checks"]["imports"] = False
 
     # Check 2: Schema exists
@@ -331,7 +331,7 @@ def validate_module(module_path: str) -> Dict[str, Any]:
         with open(module_path) as f:
             ast.parse(f.read())
         results["checks"]["syntax"] = True
-    except:
+    except Exception:
         results["checks"]["syntax"] = False
 
     # Calculate readiness

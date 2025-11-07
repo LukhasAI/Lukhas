@@ -19,6 +19,8 @@ from typing import Any
 from unittest.mock import Mock
 
 import pytest
+from sqlalchemy import create_engine
+
 from aka_qualia.core import AkaQualia
 from aka_qualia.memory_noop import NoopMemory
 from aka_qualia.memory_sql import SqlMemory
@@ -32,7 +34,6 @@ from aka_qualia.models import (
     SeverityLevel,
     TemporalFeel,
 )
-from sqlalchemy import create_engine
 
 # === Database Fixtures ===
 

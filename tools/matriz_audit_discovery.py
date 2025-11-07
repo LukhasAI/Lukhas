@@ -36,7 +36,7 @@ def find_matrix_contracts(root_path: pathlib.Path) -> List[pathlib.Path]:
 def get_module_name_from_contract(contract_path: pathlib.Path) -> str:
     """Extract module name from contract file, either from content or filename."""
     try:
-        with open(contract_path, 'r') as f:
+        with open(contract_path) as f:
             contract_data = json.load(f)
 
         # Check if contract specifies a canonical module name

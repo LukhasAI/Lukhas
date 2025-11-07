@@ -1,11 +1,11 @@
-from __future__ import annotations
-
 """
 Dream Verification Colony
 
 Specialized colony for Tier 5 dream-based authentication using multiverse simulation,
 collective dream analysis, and emergent symbolic pattern recognition.
 """
+
+from __future__ import annotations
 
 import asyncio
 import hashlib
@@ -15,7 +15,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 
@@ -29,6 +29,14 @@ from core.enhanced_swarm import (
 )
 
 # Import event bus for dream coordination
+try:
+    from system.common.event_bus import EventBus
+except ImportError:
+    try:
+        from core.event_bus import EventBus
+    except ImportError:
+        # Fallback if no event bus available
+        EventBus = None
 try:
     from orchestration.symbolic_kernel_bus import DreamEventType
 except ImportError:
@@ -97,7 +105,7 @@ class MultiverseDreamBranch:
     symbolic_elements: list[DreamSymbol]
     emotional_trajectory: list[str]
     coherence_score: float
-    qi_signature: Optional[str] = None
+    qi_signature: str | None = None
 
 
 class DreamAnalysisAgent(SwarmAgent):
@@ -109,7 +117,7 @@ class DreamAnalysisAgent(SwarmAgent):
     def __init__(
         self,
         agent_id: str,
-        colony: "DreamVerificationColony",
+        colony: DreamVerificationColony,
         specialization: DreamAnalysisMethod,
     ):
         super().__init__(agent_id, colony, capabilities=[specialization.value])
@@ -539,9 +547,9 @@ class DreamVerificationColony(BaseColony):
         )
 
         self.verification_agents: dict[str, DreamAnalysisAgent] = {}
-        self.event_publisher: Optional[IdentityEventPublisher] = None
-        self.event_bus: Optional[EventBus] = None
-        self.dream_authenticator: Optional[DreamAuthenticator] = None
+        self.event_publisher: IdentityEventPublisher | None = None
+        self.event_bus: EventBus | None = None
+        self.dream_authenticator: DreamAuthenticator | None = None
 
         # Colony configuration
         self.min_agents_per_method = 3  # More agents for Tier 5
@@ -590,14 +598,14 @@ class DreamVerificationColony(BaseColony):
         logger.info(f"Dream colony initialized with {agent_count} specialized agents")
 
         # Start collective dreaming space
-        asyncio.create_task(self._maintain_collective_dream_space())
+        asyncio.create_task(self._maintain_collective_dream_space())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_identity_core_colonies_dream_verification_colony_py_L601"}
 
     async def verify_dream_authentication(
         self,
         lambda_id: str,
         dream_response: dict[str, Any],
         seed_id: str,
-        session_id: Optional[str] = None,
+        session_id: str | None = None,
     ) -> DreamAuthenticationResult:
         """
         Perform Tier 5 dream-based authentication with multiverse simulation.

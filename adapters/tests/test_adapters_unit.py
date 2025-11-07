@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import adapters  # noqa: F401  # TODO: adapters; consider using impor...
+    import adapters  # TODO: adapters; consider using impor...
 except ImportError:
     pytest.skip("Module adapters not available", allow_module_level=True)
 

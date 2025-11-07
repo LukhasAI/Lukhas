@@ -79,7 +79,7 @@ class LukhasMCPRestWrapper:
 
         except Exception as e:
             logger.error(f"Error listing directory {path}: {e}")
-            return {"error": f"Error listing directory: {str(e)}"}
+            return {"error": f"Error listing directory: {e!s}"}
 
     async def read_file_impl(self, path: str, max_lines: int = 100) -> Dict[str, Any]:
         """Internal implementation of read_file."""
@@ -107,7 +107,7 @@ class LukhasMCPRestWrapper:
                     "error": f"File '{path}' is too large ({file_size} bytes). Maximum allowed: 1MB"
                 }
 
-            with open(path, 'r', encoding='utf-8', errors='replace') as f:
+            with open(path, encoding='utf-8', errors='replace') as f:
                 lines = f.readlines()
 
             # Limit the number of lines
@@ -137,7 +137,7 @@ class LukhasMCPRestWrapper:
             }
         except Exception as e:
             logger.error(f"Error reading file {path}: {e}")
-            return {"error": f"Error reading file: {str(e)}"}
+            return {"error": f"Error reading file: {e!s}"}
 
 # Global server instance
 mcp_wrapper = LukhasMCPRestWrapper()
@@ -189,7 +189,7 @@ def list_directory(path: str) -> dict:
             "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
         }
     except Exception as e:
-        return {"error": f"Error listing directory: {str(e)}"}
+        return {"error": f"Error listing directory: {e!s}"}
 
 @mcp.tool()
 def read_file(path: str, max_lines: int = 100) -> dict:
@@ -218,7 +218,7 @@ def read_file(path: str, max_lines: int = 100) -> dict:
                 "error": f"File '{path}' is too large ({file_size} bytes). Maximum allowed: 1MB"
             }
 
-        with open(path, 'r', encoding='utf-8', errors='replace') as f:
+        with open(path, encoding='utf-8', errors='replace') as f:
             lines = f.readlines()
 
         # Limit the number of lines
@@ -246,7 +246,7 @@ def read_file(path: str, max_lines: int = 100) -> dict:
             "error": f"File '{path}' appears to be a binary file or uses unsupported encoding"
         }
     except Exception as e:
-        return {"error": f"Error reading file: {str(e)}"}
+        return {"error": f"Error reading file: {e!s}"}
 
 # OAuth PRM configuration
 OIDC_DISCOVERY = os.getenv("OAUTH_ISSUER", "").rstrip("/")
@@ -310,7 +310,7 @@ async def list_directory_rest(request):
 
     except Exception as e:
         logger.error(f"Error in list_directory endpoint: {e}")
-        return JSONResponse({"error": f"Internal server error: {str(e)}"}, status_code=500)
+        return JSONResponse({"error": f"Internal server error: {e!s}"}, status_code=500)
 
 async def read_file_rest(request):
     """REST endpoint to read file contents."""
@@ -329,7 +329,7 @@ async def read_file_rest(request):
         return JSONResponse({"error": "Invalid max_lines parameter"}, status_code=400)
     except Exception as e:
         logger.error(f"Error in read_file endpoint: {e}")
-        return JSONResponse({"error": f"Internal server error: {str(e)}"}, status_code=500)
+        return JSONResponse({"error": f"Internal server error: {e!s}"}, status_code=500)
 
 async def list_directory_post(request):
     """POST endpoint to list directory contents."""
@@ -342,7 +342,7 @@ async def list_directory_post(request):
 
     except Exception as e:
         logger.error(f"Error in list_directory POST endpoint: {e}")
-        return JSONResponse({"error": f"Internal server error: {str(e)}"}, status_code=500)
+        return JSONResponse({"error": f"Internal server error: {e!s}"}, status_code=500)
 
 async def read_file_post(request):
     """POST endpoint to read file contents."""
@@ -359,7 +359,7 @@ async def read_file_post(request):
 
     except Exception as e:
         logger.error(f"Error in read_file POST endpoint: {e}")
-        return JSONResponse({"error": f"Internal server error: {str(e)}"}, status_code=500)
+        return JSONResponse({"error": f"Internal server error: {e!s}"}, status_code=500)
 
 async def get_openapi_spec(request):
     """Serve OpenAPI specification for ChatGPT Connectors."""

@@ -1,0 +1,51 @@
+{
+  "buildType": "https://slsa.dev/provenance/v1",
+  "builder": {
+    "id": "https://github.com/LukhasAI/Lukhas/.github/workflows/security-posture.yml"
+  },
+  "invocation": {
+    "configSource": {
+      "digest": {
+        "sha1": "8ed3824d529b2d69b84a29da288e52561fc26747"
+      },
+      "uri": "git+https://github.com/LukhasAI/Lukhas"
+    },
+    "environment": {
+      "repository": "LukhasAI/Lukhas",
+      "workflow": "security-posture-artifacts"
+    },
+    "parameters": {
+      "module": "lukhas.core"
+    }
+  },
+  "materials": [
+    {
+      "digest": {
+        "sha256": "c1798ef262ec70b25b0f1cfe0d59a1a76b017eeacad0571278bbe1406fa5e12c"
+      },
+      "uri": "security/sboms/shared/lukhas-platform.cdx.json"
+    }
+  ],
+  "metadata": {
+    "buildFinishedOn": "2025-11-01T21:27:07+00:00",
+    "buildStartedOn": "2025-11-01T21:27:07+00:00",
+    "completeness": {
+      "environment": true,
+      "materials": true,
+      "parameters": true
+    },
+    "reproducible": true
+  },
+  "provenance": {
+    "ipld_root_cid": "bafybeilukhasc1798ef262ec70b25b0f1cfe0d59a1a76b017eeacad057"
+  },
+  "subject": [
+    {
+      "digest": {
+        "sha256": "bfb82cd21b0f08d7cda8d2802bc024737c0421232d3422dc904df8e7f64ac586"
+      },
+      "name": "lukhas.core",
+      "uri": "security/sboms/modules/lukhas_core.cdx.json"
+    }
+  ]
+}

@@ -4,6 +4,8 @@ Original: nias_core.py
 Advanced: nias_core.py
 Integration Date: 2025-05-31T07:55:30.518606
 """
+from __future__ import annotations
+
 
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮

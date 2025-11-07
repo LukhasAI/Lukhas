@@ -22,7 +22,7 @@ def load_results(path: str) -> List[Dict[str, Any]]:
     if not pathlib.Path(path).exists():
         return results
 
-    with open(path, "r") as f:
+    with open(path) as f:
         for line in f:
             line = line.strip()
             if line:
@@ -109,7 +109,7 @@ def run_stability_test(out_dir: str = "benchmarks/dream/stability_results") -> s
 
 def print_stability_summary(report_path: str) -> None:
     """Print human-readable stability summary."""
-    with open(report_path, "r") as f:
+    with open(report_path) as f:
         report = json.load(f)
 
     print("\n=== STABILITY SUMMARY ===")

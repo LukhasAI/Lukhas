@@ -4,12 +4,13 @@ Dream-Guided Tool Framework for Cognitive AI
 Integrates dream processing with tool selection for creative and intuitive
 tool usage patterns that go beyond traditional rule-based selection.
 """
+from __future__ import annotations
 
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 import numpy as np
 
@@ -70,7 +71,7 @@ class ToolSpecification:
     dream_resonance: float = 0.0  # How well tool works with dream insights
 
     # Function reference
-    tool_function: Optional[Callable] = None
+    tool_function: Callable | None = None
 
     def calculate_suitability(self, context: dict[str, Any]) -> float:
         """Calculate suitability for given context."""
@@ -123,10 +124,10 @@ class ToolInsight:
 
     # Context information
     discovery_context: dict[str, Any] = field(default_factory=dict)
-    dream_session_id: Optional[str] = None
+    dream_session_id: str | None = None
 
     # Application information
-    suggested_usage: Optional[str] = None
+    suggested_usage: str | None = None
     expected_benefits: list[str] = field(default_factory=list)
     potential_risks: list[str] = field(default_factory=list)
 
@@ -720,7 +721,7 @@ class DreamGuidedToolFramework:
         context: dict[str, Any],
         success: bool,
         effectiveness: float,
-        insights_gained: Optional[list[str]] = None,
+        insights_gained: list[str] | None = None,
     ):
         """Record tool usage for learning and improvement."""
 

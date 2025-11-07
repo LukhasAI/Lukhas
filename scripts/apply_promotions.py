@@ -31,7 +31,7 @@ def main():
     deny = set(rules.get("deny", []))
     min_auto = args.min_confidence if args.min_confidence is not None else float(rules["confidence"]["min_autopromote"])
 
-    applied = 0; skipped = 0; errors = 0
+    applied = 0; skipped = 0; errors = 0  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_apply_promotions_py_L34"}
 
     with Path(args.csv).open("r", encoding="utf-8") as f:
         r = csv.DictReader(f)
@@ -43,16 +43,16 @@ def main():
 
             if target not in canonical:
                 print(f"[SKIP] {file} → {target} not canonical")
-                skipped += 1; continue
+                skipped += 1; continue  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_apply_promotions_py_L46"}
             if target in deny:
                 print(f"[SKIP] {file} → {target} is denied")
-                skipped += 1; continue
+                skipped += 1; continue  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_apply_promotions_py_L49"}
             if conf < min_auto:
                 print(f"[SKIP] {file} → confidence {conf:.2f} < {min_auto:.2f}")
-                skipped += 1; continue
+                skipped += 1; continue  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_apply_promotions_py_L52"}
             if not file.exists():
                 print(f"[SKIP] missing file {file}")
-                skipped += 1; continue
+                skipped += 1; continue  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_apply_promotions_py_L55"}
 
             try:
                 d = load_json(file)
@@ -60,7 +60,7 @@ def main():
                 current = align.get("primary_star", "Supporting")
                 if current == target:
                     print(f"[SKIP] {file} already {target}")
-                    skipped += 1; continue
+                    skipped += 1; continue  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_apply_promotions_py_L63"}
                 print(f"[APPLY] {file}: {current} → {target} (conf={conf:.2f}; {reason})")
                 align["primary_star"] = target
 

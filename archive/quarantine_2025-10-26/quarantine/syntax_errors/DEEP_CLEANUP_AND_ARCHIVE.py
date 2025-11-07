@@ -3,6 +3,8 @@
 Deep Cleanup and Archive Script for Lukhas
 Archives deprecated files, cleans cache, updates docs, and creates clean package
 """
+from __future__ import annotations
+
 
 import re
 import shutil

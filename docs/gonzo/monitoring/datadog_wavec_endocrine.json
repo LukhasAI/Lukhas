@@ -1,0 +1,51 @@
+{
+  "title": "LUKHAS WaveC & Endocrine Monitoring",
+  "description": "Dashboard for monitoring WaveC snapshots, lane-guard failures, and endocrine metrics.",
+  "widgets": [
+    {
+      "definition": {
+        "type": "timeseries",
+        "requests": [
+          {
+            "q": "avg:lukhas.wavec.snapshot.count{*}"
+          }
+        ],
+        "title": "WaveC Snapshot Count"
+      }
+    },
+    {
+      "definition": {
+        "type": "gauge",
+        "requests": [
+          {
+            "q": "avg:lukhas.wavec.rollback.rate{*}"
+          }
+        ],
+        "title": "WaveC Rollback Rate"
+      }
+    },
+    {
+      "definition": {
+        "type": "histogram",
+        "requests": [
+          {
+            "q": "p95:lukhas.wavec.snapshot.latency{*}"
+          }
+        ],
+        "title": "WaveC Snapshot Latency (p95)"
+      }
+    },
+    {
+      "definition": {
+        "type": "counter",
+        "requests": [
+          {
+            "q": "sum:lukhas.lane_guard.failures{*}"
+          }
+        ],
+        "title": "Lane-Guard Failures"
+      }
+    }
+  ],
+  "layout_type": "ordered"
+}

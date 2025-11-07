@@ -57,13 +57,13 @@ class LUKHASSecuritySBOMGenerator:
     """Generate comprehensive SBOM with security analysis"""
 
     # Approved licenses for LUKHAS project
-    APPROVED_LICENSES = {
+    APPROVED_LICENSES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_security_sbom_generator_py_L60"}
         'MIT', 'Apache-2.0', 'BSD-3-Clause', 'BSD-2-Clause',
         'Python-2.0', 'PSF-2.0', 'ISC', 'Unlicense'
     }
 
     # Critical CVE patterns to flag
-    CRITICAL_CVE_PATTERNS = {
+    CRITICAL_CVE_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_security_sbom_generator_py_L66"}
         'remote_code_execution', 'sql_injection', 'xss',
         'authentication_bypass', 'privilege_escalation'
     }
@@ -81,7 +81,7 @@ class LUKHASSecuritySBOMGenerator:
             dist = pkg_resources.get_distribution(name)
             if hasattr(dist, 'location') and dist.location:
                 # Create hash based on package name and version (simplified)
-                content = f"{name}:{version}".encode('utf-8')
+                content = f"{name}:{version}".encode()
                 sha256_hash = hashlib.sha256(content).hexdigest()
                 return [{
                     "alg": "SHA-256",
@@ -91,7 +91,7 @@ class LUKHASSecuritySBOMGenerator:
             pass
 
         # Fallback hash generation
-        content = f"{name}:{version}".encode('utf-8')
+        content = f"{name}:{version}".encode()
         return [{
             "alg": "SHA-256",
             "content": hashlib.sha256(content).hexdigest()
@@ -246,7 +246,7 @@ class LUKHASSecuritySBOMGenerator:
     def analyze_installed_packages(self) -> None:
         """Analyze currently installed packages"""
         try:
-            installed_packages = [d for d in pkg_resources.working_set]
+            installed_packages = list(pkg_resources.working_set)
             for dist in installed_packages:
                 # Only include packages likely to be project dependencies
                 if any(dist.project_name.startswith(prefix) for prefix in
@@ -263,7 +263,7 @@ class LUKHASSecuritySBOMGenerator:
         total_components = len(self.components)
         vulnerable_components = sum(1 for c in self.components if c.vulnerabilities)
         unlicensed_components = sum(1 for c in self.components
-                                  if not c.licenses or not any(l.approved for l in c.licenses))
+                                  if not c.licenses or not any(license.approved for license in c.licenses))
 
         critical_vulnerabilities = []
         high_vulnerabilities = []
@@ -340,7 +340,7 @@ class LUKHASSecuritySBOMGenerator:
                 "version": comp.version,
                 "scope": comp.scope,
                 "hashes": comp.hashes,
-                "licenses": [{"license": {"id": l.id, "name": l.name}} for l in comp.licenses]
+                "licenses": [{"license": {"id": license.id, "name": license.name}} for license in comp.licenses]
             }
 
             if comp.supplier:

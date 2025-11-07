@@ -1,22 +1,24 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.QREADY - Quantum Synchronization Events
 Multi-agent quantum coherence and synchronization
 """
 
+from __future__ import annotations
+
 import hashlib
+import logging
 from collections import defaultdict
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
-
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 
@@ -223,9 +225,8 @@ class EntanglementBridge:
                     # Add strongly entangled partners
                     for partner in self.entanglement_network[current]:
                         pair_key = tuple(sorted([current, partner]))
-                        if self.entangled_pairs.get(pair_key, 0) > 0.7:
-                            if partner not in visited:
-                                queue.append(partner)
+                        if self.entangled_pairs.get(pair_key, 0) > 0.7 and partner not in visited:
+                            queue.append(partner)
 
                 if len(cluster) > 1:
                     clusters.append(cluster)
@@ -258,7 +259,7 @@ class QISynchronizer:
     Manages quantum synchronization events and multi-agent coherence
     """
 
-    def __init__(self, entanglement_bridge: Optional[EntanglementBridge] = None):
+    def __init__(self, entanglement_bridge: EntanglementBridge | None = None):
         self.bridge = entanglement_bridge or EntanglementBridge()
         self.sync_events: list[QSyncEvent] = []
         self.agent_states: dict[str, np.ndarray] = {}
@@ -277,7 +278,7 @@ class QISynchronizer:
         self.resonance_frequencies[agent_id] = resonance_frequency
         logger.debug(f"Agent {agent_id} registered with resonance frequency {resonance_frequency}")
 
-    def create_sync_event(self, agent_ids: list[str], sync_type: SyncType = SyncType.EMERGENT) -> Optional[QSyncEvent]:
+    def create_sync_event(self, agent_ids: list[str], sync_type: SyncType = SyncType.EMERGENT) -> QSyncEvent | None:
         """
         Create a quantum synchronization event
 
@@ -332,7 +333,7 @@ class QISynchronizer:
     def synchronize_agents(
         self,
         agent_ids: list[str],
-        target_state: Optional[np.ndarray] = None,
+        target_state: np.ndarray | None = None,
         sync_strength: float = 0.5,
     ) -> dict[str, np.ndarray]:
         """

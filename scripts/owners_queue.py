@@ -5,12 +5,13 @@ LUKHAS Owner Assignment Queue Generator
 Creates GitHub issues for docs with owner: unknown, suggesting owners
 based on git blame and module context.
 """
+from __future__ import annotations
 
 import json
 import subprocess
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 # Constants
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -21,11 +22,11 @@ MANIFEST_PATH = INVENTORY_DIR / "docs_manifest.json"
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
-def get_git_blame_author(file_path: Path) -> Optional[str]:
+def get_git_blame_author(file_path: Path) -> str | None:
     """Get most frequent author from git blame."""
     try:
         result = subprocess.run(
@@ -56,7 +57,7 @@ def get_git_blame_author(file_path: Path) -> Optional[str]:
         return None
 
 
-def suggest_owner(doc: Dict) -> Optional[str]:
+def suggest_owner(doc: Dict) -> str | None:
     """Suggest an owner based on git blame and module."""
     file_path = Path(doc['path'])
 

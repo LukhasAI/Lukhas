@@ -257,21 +257,21 @@ except ImportError:
 
 # Export main functions and classes
 __all__ = [
-    "get_identity_status",
-    "create_tier_system",
-    "validate_access",
-    "manage_permissions",
-    "get_identity_metrics",
-    "DynamicTierSystem",
-    "TierLevel",
-    "AccessType",
-    "PermissionScope",
-    "AccessContext",
-    "TierPermission",
-    "AccessDecision",
     "IDENTITY_ENHANCED_ACTIVE",
+    "AccessContext",
+    "AccessDecision",
+    "AccessType",
+    "DynamicTierSystem",
     "IdentityConnector",
+    "PermissionScope",
+    "TierLevel",
+    "TierPermission",
+    "create_tier_system",
+    "get_identity_metrics",
+    "get_identity_status",
     "logger",
+    "manage_permissions",
+    "validate_access",
 ]
 
 

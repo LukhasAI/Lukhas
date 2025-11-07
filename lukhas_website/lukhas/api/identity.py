@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import time
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 import structlog
 from fastapi import APIRouter, Depends, HTTPException, Request, status
@@ -31,7 +31,7 @@ from pydantic import BaseModel, Field
 try:
     from ..governance.guardian_system import GuardianSystem
     from ..identity.biometrics import (
-        BiometricAttestation,  # noqa: F401  # TODO: ..identity.biometrics.Biometri...
+        BiometricAttestation,  # TODO: ..identity.biometrics.Biometri...
         BiometricModality,
         MockBiometricProvider,
         create_mock_biometric_provider,
@@ -64,25 +64,26 @@ class TierAuthenticationRequest(BaseModel):
     """Base authentication request."""
 
     tier: Tier = Field(..., description="Authentication tier (T1-T5)")
-    correlation_id: Optional[str] = Field(None, description="Request correlation ID")
+    correlation_id: str | None = Field(None, description="Request correlation ID")
 
     # T2+ credentials
-    username: Optional[str] = Field(None, description="Username for T2+ authentication")
-    password: Optional[str] = Field(None, description="Password for T2 authentication")
+    username: str | None = Field(None, description="Username for T2+ authentication")
+    password: str | None = Field(None, description="Password for T2 authentication")
 
     # T3+ credentials
-    totp_token: Optional[str] = Field(None, description="TOTP token for T3 authentication")
+    totp_token: str | None = Field(None, description="TOTP token for T3 authentication")
 
     # T4+ credentials
-    webauthn_response: Optional[Dict[str, Any]] = Field(None, description="WebAuthn response for T4")
+    webauthn_response: Dict[str, Any] | None = Field(None, description="WebAuthn response for T4")
+    webauthn_challenge_id: str | None = Field(None, description="Issued WebAuthn challenge identifier")
 
     # T5 credentials
-    biometric_attestation: Optional[Dict[str, Any]] = Field(None, description="Biometric attestation for T5")
+    biometric_attestation: Dict[str, Any] | None = Field(None, description="Biometric attestation for T5")
 
     # Session context
-    existing_tier: Optional[Tier] = Field(None, description="Current authenticated tier")
-    session_id: Optional[str] = Field(None, description="Existing session ID")
-    nonce: Optional[str] = Field(None, description="Anti-replay nonce")
+    existing_tier: Tier | None = Field(None, description="Current authenticated tier")
+    session_id: str | None = Field(None, description="Existing session ID")
+    nonce: str | None = Field(None, description="Anti-replay nonce")
 
 
 class AuthenticationResponse(BaseModel):
@@ -92,28 +93,28 @@ class AuthenticationResponse(BaseModel):
     tier: Tier = Field(..., description="Achieved authentication tier")
 
     # Success fields
-    user_id: Optional[str] = Field(None, description="Authenticated user ID")
-    session_id: Optional[str] = Field(None, description="Session identifier")
-    jwt_token: Optional[str] = Field(None, description="JWT authentication token")
-    expires_at: Optional[datetime] = Field(None, description="Token expiration time")
-    tier_elevation_path: Optional[str] = Field(None, description="Tier elevation path")
+    user_id: str | None = Field(None, description="Authenticated user ID")
+    session_id: str | None = Field(None, description="Session identifier")
+    jwt_token: str | None = Field(None, description="JWT authentication token")
+    expires_at: datetime | None = Field(None, description="Token expiration time")
+    tier_elevation_path: str | None = Field(None, description="Tier elevation path")
 
     # Metadata
-    correlation_id: Optional[str] = Field(None, description="Request correlation ID")
+    correlation_id: str | None = Field(None, description="Request correlation ID")
     auth_time: datetime = Field(..., description="Authentication timestamp")
     duration_ms: float = Field(..., description="Authentication duration in milliseconds")
     guardian_validated: bool = Field(False, description="Guardian system validation status")
 
     # Error fields
-    error_code: Optional[str] = Field(None, description="Error code for failed authentication")
-    error_message: Optional[str] = Field(None, description="Human-readable error message")
+    error_code: str | None = Field(None, description="Error code for failed authentication")
+    error_message: str | None = Field(None, description="Human-readable error message")
 
 
 class WebAuthnChallengeRequest(BaseModel):
     """WebAuthn challenge generation request."""
 
     user_id: str = Field(..., description="User identifier")
-    correlation_id: Optional[str] = Field(None, description="Request correlation ID")
+    correlation_id: str | None = Field(None, description="Request correlation ID")
 
 
 class WebAuthnChallengeResponse(BaseModel):
@@ -129,15 +130,15 @@ class WebAuthnVerificationRequest(BaseModel):
 
     challenge_id: str = Field(..., description="Challenge identifier")
     webauthn_response: Dict[str, Any] = Field(..., description="WebAuthn authentication response")
-    correlation_id: Optional[str] = Field(None, description="Request correlation ID")
+    correlation_id: str | None = Field(None, description="Request correlation ID")
 
 
 class WebAuthnVerificationResponse(BaseModel):
     """WebAuthn verification response."""
 
     success: bool = Field(..., description="Verification success status")
-    credential_id: Optional[str] = Field(None, description="Verified credential ID")
-    user_id: Optional[str] = Field(None, description="Verified user ID")
+    credential_id: str | None = Field(None, description="Verified credential ID")
+    user_id: str | None = Field(None, description="Verified user ID")
 
     # Security metadata
     signature_valid: bool = Field(False, description="Signature validation status")
@@ -147,8 +148,8 @@ class WebAuthnVerificationResponse(BaseModel):
     verification_time_ms: float = Field(..., description="Verification duration")
 
     # Error metadata
-    error_code: Optional[str] = Field(None, description="Error code")
-    error_message: Optional[str] = Field(None, description="Error message")
+    error_code: str | None = Field(None, description="Error code")
+    error_message: str | None = Field(None, description="Error message")
 
 
 class BiometricEnrollmentRequest(BaseModel):
@@ -157,15 +158,15 @@ class BiometricEnrollmentRequest(BaseModel):
     user_id: str = Field(..., description="User identifier")
     modality: str = Field(..., description="Biometric modality (fingerprint, face, iris, etc.)")
     sample_data: str = Field(..., description="Base64-encoded biometric sample")
-    device_info: Optional[Dict[str, Any]] = Field(None, description="Capture device information")
+    device_info: Dict[str, Any] | None = Field(None, description="Capture device information")
 
 
 class BiometricEnrollmentResponse(BaseModel):
     """Biometric enrollment response."""
 
     success: bool = Field(..., description="Enrollment success status")
-    template_id: Optional[str] = Field(None, description="Generated template ID")
-    error_message: Optional[str] = Field(None, description="Error message if failed")
+    template_id: str | None = Field(None, description="Generated template ID")
+    error_message: str | None = Field(None, description="Error message if failed")
 
 
 class BiometricAuthenticationRequest(BaseModel):
@@ -175,7 +176,7 @@ class BiometricAuthenticationRequest(BaseModel):
     modality: str = Field(..., description="Biometric modality")
     sample_data: str = Field(..., description="Base64-encoded biometric sample")
     nonce: str = Field(..., description="Anti-replay nonce")
-    device_info: Optional[Dict[str, Any]] = Field(None, description="Capture device information")
+    device_info: Dict[str, Any] | None = Field(None, description="Capture device information")
 
 
 class BiometricAuthenticationResponse(BaseModel):
@@ -190,11 +191,11 @@ class SessionStatusResponse(BaseModel):
     """Session status response."""
 
     authenticated: bool = Field(..., description="Session authentication status")
-    tier: Optional[Tier] = Field(None, description="Current authentication tier")
-    user_id: Optional[str] = Field(None, description="Authenticated user ID")
-    session_id: Optional[str] = Field(None, description="Session identifier")
-    expires_at: Optional[datetime] = Field(None, description="Session expiration time")
-    created_at: Optional[datetime] = Field(None, description="Session creation time")
+    tier: Tier | None = Field(None, description="Current authentication tier")
+    user_id: str | None = Field(None, description="Authenticated user ID")
+    session_id: str | None = Field(None, description="Session identifier")
+    expires_at: datetime | None = Field(None, description="Session expiration time")
+    created_at: datetime | None = Field(None, description="Session creation time")
 
 
 class SystemMetricsResponse(BaseModel):
@@ -219,10 +220,10 @@ router = APIRouter(
 )
 
 # Global services (initialized on startup)
-authenticator: Optional[TieredAuthenticator] = None
-webauthn_service: Optional[EnhancedWebAuthnService] = None
-biometric_provider: Optional[MockBiometricProvider] = None
-guardian: Optional[GuardianSystem] = None
+authenticator: TieredAuthenticator | None = None
+webauthn_service: EnhancedWebAuthnService | None = None
+biometric_provider: MockBiometricProvider | None = None
+guardian: GuardianSystem | None = None
 
 
 def get_client_ip(request: Request) -> str:
@@ -238,7 +239,7 @@ def get_client_ip(request: Request) -> str:
     return request.client.host if request.client else "unknown"
 
 
-def get_user_agent(request: Request) -> Optional[str]:
+def get_user_agent(request: Request) -> str | None:
     """Extract user agent from request."""
     return request.headers.get("User-Agent")
 
@@ -259,7 +260,12 @@ async def create_auth_context(
         biometric_attestation=auth_request.biometric_attestation,
         existing_tier=auth_request.existing_tier,
         session_id=auth_request.session_id,
-        nonce=auth_request.nonce
+        nonce=auth_request.nonce,
+        challenge_data=(
+            {"challenge_id": auth_request.webauthn_challenge_id}
+            if auth_request.webauthn_challenge_id
+            else None
+        )
     )
 
 
@@ -405,19 +411,25 @@ async def generate_webauthn_challenge(
     with anti-replay protection and Guardian integration.
     """
     try:
-        if not webauthn_service:
+        if authenticator and getattr(authenticator, "webauthn", None):
+            challenge_data = await authenticator.generate_webauthn_challenge(
+                username=challenge_request.user_id,
+                correlation_id=challenge_request.correlation_id,
+                ip_address=get_client_ip(request),
+                user_agent=get_user_agent(request),
+            )
+        elif webauthn_service:
+            challenge_data = await webauthn_service.generate_authentication_challenge(
+                user_id=challenge_request.user_id,
+                correlation_id=challenge_request.correlation_id or "",
+                ip_address=get_client_ip(request),
+                user_agent=get_user_agent(request)
+            )
+        else:
             raise HTTPException(
                 status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
                 detail="WebAuthn service unavailable"
             )
-
-        # Generate challenge
-        challenge_data = await webauthn_service.generate_authentication_challenge(
-            user_id=challenge_request.user_id,
-            correlation_id=challenge_request.correlation_id or "",
-            ip_address=get_client_ip(request),
-            user_agent=get_user_agent(request)
-        )
 
         return WebAuthnChallengeResponse(
             challenge_id=challenge_data["challenge_id"],
@@ -447,14 +459,18 @@ async def verify_webauthn_response(
     and user verification requirements for T4 tier authentication.
     """
     try:
-        if not webauthn_service:
+        if authenticator and getattr(authenticator, "webauthn", None):
+            service = authenticator.webauthn
+        else:
+            service = webauthn_service
+
+        if not service:
             raise HTTPException(
                 status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
                 detail="WebAuthn service unavailable"
             )
 
-        # Verify WebAuthn response
-        result = await webauthn_service.verify_authentication_response(
+        result = await service.verify_authentication_response(  # type: ignore[call-arg]
             challenge_id=verification_request.challenge_id,
             webauthn_response=verification_request.webauthn_response,
             correlation_id=verification_request.correlation_id or "",
@@ -619,7 +635,7 @@ async def authenticate_biometric(
 @router.get("/session/status", response_model=SessionStatusResponse)
 async def get_session_status(
     request: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)
+    credentials: HTTPAuthorizationCredentials | None = Depends(security)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_identity_py_L638"}
 ) -> SessionStatusResponse:
     """
     Get current session authentication status.
@@ -657,7 +673,7 @@ async def get_session_status(
 async def elevate_session_tier(
     auth_request: TierAuthenticationRequest,
     request: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)
+    credentials: HTTPAuthorizationCredentials | None = Depends(security)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_identity_py_L676"}
 ) -> AuthenticationResponse:
     """
     Elevate current session to higher authentication tier.

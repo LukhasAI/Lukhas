@@ -14,6 +14,8 @@
 ║ Provides real-time speech recognition and acoustic analysis.
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 from datetime import datetime, timezone

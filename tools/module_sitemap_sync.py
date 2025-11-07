@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS — Module Sitemap Sync (T4/0.01%)
+LUKHAS - Module Sitemap Sync (T4/0.01%)
 
 Purpose
 -------
@@ -22,7 +22,7 @@ What it enforces (aligned with artifacts/module_sitemap.md Draft v3):
 - Metadata enrichment (added if missing, never overwriting explicit existing values):
     module.json:
       name, description, version
-      lane (L0–L5)
+      lane (L0-L5)
       matriz_contract (path)
       owner {team, codeowners}
       tags []
@@ -65,7 +65,7 @@ import json
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple
 
 # ---------- Defaults / Constants ----------
 
@@ -82,7 +82,7 @@ README_STUB = "# Placeholder\n\nThis stub is created by module_sitemap_sync.py. 
 LANES = ["L0", "L1", "L2", "L3", "L4", "L5"]
 
 # Attempt to detect MATRIZ contract naming convention
-def _guess_matriz_contract(mod_dir: Path) -> Optional[str]:
+def _guess_matriz_contract(mod_dir: Path) -> str | None:
     # Look for matrix_<module>.json, or matrix.json
     mname = f"matrix_{mod_dir.name}.json"
     cand = mod_dir / mname
@@ -105,7 +105,7 @@ def _stable_module_id(module_name: str, root: Path) -> str:
 def _utc_ts() -> str:
     return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
 
-def _load_json(p: Path) -> Optional[Dict[str, Any]]:
+def _load_json(p: Path) -> Dict[str, Any] | None:
     try:
         if not p.exists():
             return None
@@ -246,11 +246,10 @@ def _normalize_module(mod_dir: Path, root: Path, write: bool) -> Tuple[bool, Dic
             _dump_json(manifest_path, merged)
     else:
         # Write merged manifest if we're allowed AND something changed or it doesn't exist
-        if write:
-            if not manifest_path.exists() or merged != existing:
-                action = "create" if not manifest_path.exists() else "update"
-                diffs.append(f"  - {action} manifest: {manifest_path.as_posix()}")
-                _dump_json(manifest_path, merged)
+        if write and (not manifest_path.exists() or merged != existing):
+            action = "create" if not manifest_path.exists() else "update"
+            diffs.append(f"  - {action} manifest: {manifest_path.as_posix()}")
+            _dump_json(manifest_path, merged)
 
     # MODULE SCHEMA (per-module descriptor)
     schema_path = mod_dir / "schema" / MODULE_SCHEMA_FILENAME
@@ -261,11 +260,10 @@ def _normalize_module(mod_dir: Path, root: Path, write: bool) -> Tuple[bool, Dic
     status["module_schema_after"] = schema_merged
     status["module_schema_path"] = schema_path.as_posix()
 
-    if write:
-        if not schema_path.exists() or schema_merged != schema_existing:
-            action = "create" if not schema_path.exists() else "update"
-            diffs.append(f"  - {action} schema: {schema_path.as_posix()}")
-            _dump_json(schema_path, schema_merged)
+    if write and (not schema_path.exists() or schema_merged != schema_existing):
+        action = "create" if not schema_path.exists() else "update"
+        diffs.append(f"  - {action} schema: {schema_path.as_posix()}")
+        _dump_json(schema_path, schema_merged)
 
     # Stubs if newly created dirs
     for d in ("docs", "tests", "config"):
@@ -293,7 +291,7 @@ def run(root: Path, write: bool, validate_only: bool) -> int:
 
     # Treat each immediate child of root as a module directory
     for mod_dir in sorted([p for p in modules_root.iterdir() if p.is_dir() and not p.name.startswith(".")]):
-        ok, status, diffs = _normalize_module(mod_dir, root, write=write and not validate_only)
+        _ok, status, diffs = _normalize_module(mod_dir, root, write=write and not validate_only)
         all_status.append(status)
         if diffs:
             all_diffs.append(f"- **{mod_dir.name}**")
@@ -304,7 +302,7 @@ def run(root: Path, write: bool, validate_only: bool) -> int:
     # Write artifacts
     _dump_json(SYNC_JSON, {"root": str(root), "generated_at": _utc_ts(), "modules": all_status})
     DIFF_MD.write_text(
-        "# Module Sitemap Sync — Diff Report\n\n"
+        "# Module Sitemap Sync - Diff Report\n\n"
         f"- root: `{root.as_posix()}`\n"
         f"- generated_at: `{_utc_ts()}`\n\n"
         + ("\n".join(all_diffs) if all_diffs else "_No changes_\n"),

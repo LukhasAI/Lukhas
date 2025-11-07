@@ -14,6 +14,7 @@ TRINITY FRAMEWORK:
     🧠 Consciousness: Integrates dream memories into consciousness fabric
     🛡️ Guardian: Validates dream memory safety and content ethics
 """
+from __future__ import annotations
 
 import logging
 from datetime import datetime, timezone

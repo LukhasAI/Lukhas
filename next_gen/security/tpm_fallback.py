@@ -45,7 +45,7 @@ class TPMFallback:
     """
 
     # Simulated TPM capabilities
-    TPM_CAPABILITIES = {
+    TPM_CAPABILITIES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_security_tpm_fallback_py_L48"}
         "version": "2.0_simulation",
         "algorithms": ["RSA-2048", "AES-256", "SHA-256", "HMAC-SHA256"],
         "key_storage": "software_protected",

@@ -4,6 +4,7 @@
 =================================
 Systematically fixes all import errors and dependencies in LUKHAS .
 """
+from __future__ import annotations
 
 import ast
 import json
@@ -12,7 +13,7 @@ import re
 import sys
 from collections import defaultdict
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 # Add project root to path
 PROJECT_ROOT = Path(__file__).parent.parent.parent
@@ -285,7 +286,7 @@ class ImportErrorFixer:
                 # Create missing module structure
                 self.create_missing_module(module_name)
 
-    def find_correct_module_path(self, module_name: str) -> Optional[str]:
+    def find_correct_module_path(self, module_name: str) -> str | None:
         """Find the correct path for a module"""
         parts = module_name.split(".")
 

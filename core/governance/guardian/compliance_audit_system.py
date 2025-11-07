@@ -1,7 +1,3 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 LUKHAS AI Compliance Audit System - GDPR/CCPA Audit Trail Management
 
@@ -29,7 +25,7 @@ import asyncio
 import uuid
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -179,17 +175,21 @@ class ConsentRecord:
     data_categories: list[DataCategory]
     consent_method: str  # explicit, implicit, opt_in, opt_out
 
+    # Legal basis (non-defaults must come before defaults in dataclasses)
+    lawful_basis: DataProcessingPurpose
+
+    # Technical implementation (non-default before defaults)
+    consent_string: str  # IAB TCF or custom format
+
+    # Legal basis (defaults)
+    legitimate_interest_assessment: Optional[str] = None
+
     # Consent status
     active: bool = True
     withdrawn_at: Optional[datetime] = None
     withdrawal_method: Optional[str] = None
 
-    # Legal basis
-    lawful_basis: DataProcessingPurpose
-    legitimate_interest_assessment: Optional[str] = None
-
     # Technical implementation
-    consent_string: str  # IAB TCF or custom format
     consent_version: str = "1.0"
     privacy_policy_version: str = "1.0"
 
@@ -221,9 +221,9 @@ class DataSubjectRequest:
     verification_method: str
 
     # Processing status
+    due_date: datetime
     status: str = "received"  # received, verified, processing, completed, rejected
     assigned_to: Optional[str] = None
-    due_date: datetime
     completed_at: Optional[datetime] = None
 
     # Request fulfillment
@@ -254,12 +254,14 @@ class PrivacyImpactAssessment:
     # Assessment details
     project_name: str
     description: str
-    data_controller: str = "LUKHAS AI"
 
     # Data processing details
     data_categories: list[DataCategory]
     processing_purposes: list[DataProcessingPurpose]
     data_subjects: list[str]
+
+    # Controller (defaulted) and additional metadata
+    data_controller: str = "LUKHAS AI"
 
     # Risk assessment
     privacy_risks: list[dict[str, Any]] = field(default_factory=list)
@@ -356,11 +358,11 @@ class ComplianceAuditSystem:
         self.monitoring_active = True
 
         # Start monitoring loops
-        asyncio.create_task(self._consent_monitoring_loop())
-        asyncio.create_task(self._subject_rights_processing_loop())
-        asyncio.create_task(self._compliance_violation_detection_loop())
-        asyncio.create_task(self._data_retention_enforcement_loop())
-        asyncio.create_task(self._audit_cleanup_loop())
+        asyncio.create_task(self._consent_monitoring_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_compliance_audit_system_py_L361"}
+        asyncio.create_task(self._subject_rights_processing_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_compliance_audit_system_py_L363"}
+        asyncio.create_task(self._compliance_violation_detection_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_compliance_audit_system_py_L365"}
+        asyncio.create_task(self._data_retention_enforcement_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_compliance_audit_system_py_L367"}
+        asyncio.create_task(self._audit_cleanup_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_compliance_audit_system_py_L369"}
 
         logger.info("⚖️ Compliance monitoring started")
 
@@ -930,22 +932,17 @@ class ComplianceAuditSystem:
         # Simulate Guardian System validation
         # In production, would integrate with actual Guardian System
 
-        if audit_event.event_type in [
+        return audit_event.event_type not in [
             AuditEventType.DATA_BREACH,
             AuditEventType.DATA_SHARING,
-        ]:
-            return False  # Require explicit approval for sensitive operations
-
-        return True
+        ]  # Require explicit approval for sensitive operations
 
     async def _validate_consent_with_guardian(self, consent_record: ConsentRecord) -> bool:
         """Validate consent with Guardian System (🛡️)."""
 
         # Check if consent meets Guardian System ethical standards
-        if DataCategory.SPECIAL_CATEGORY in consent_record.data_categories:
-            return False  # Require additional review for special category data
-
-        return True
+        return DataCategory.SPECIAL_CATEGORY not in consent_record.data_categories
+        # Require additional review for special category data
 
     async def _assess_compliance_status(self, audit_event: ComplianceAuditEvent) -> ComplianceStatus:
         """Assess compliance status for audit event."""

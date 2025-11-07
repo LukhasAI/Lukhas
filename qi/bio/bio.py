@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
 
 """
 +     +   ++  ++  + + +
@@ -30,16 +27,24 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
+from __future__ import annotations
+
+import logging
+from datetime import datetime, timezone
+from typing import Any
+
+import numpy as np
+import structlog
+
+logger = logging.getLogger(__name__)
+
+
 __module_name__ = "Quantum Bio"
 __version__ = "2.0.0"
 __tier__ = 2
 
 
-from datetime import datetime, timezone
-from typing import Any, Optional
 
-import numpy as np
-import structlog
 
 log = structlog.get_logger(__name__)  # Module-level logger
 
@@ -115,7 +120,7 @@ class MitochondrialQIBridge:
     Implements conceptual electron transport chain dynamics for quantum information flow.
     """
 
-    def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
+    def __init__(self, qi_oscillator: QIOscillator | None = None):
         self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
         self.qi_oscillator: QIOscillator = qi_oscillator or QIOscillator()
 
@@ -139,7 +144,7 @@ class MitochondrialQIBridge:
 
     @lukhas_tier_required(2)
     async def process_quantum_signal(
-        self, input_signal: np.ndarray, context: Optional[dict[str, Any]] = None
+        self, input_signal: np.ndarray, context: dict[str, Any] | None = None
     ) -> tuple[np.ndarray, dict[str, Any]]:
         """
         Processes a quantum signal through a simulated mitochondrial-inspired pathway.
@@ -276,7 +281,7 @@ class QISynapticGate:
     Modulates signal transmission based on quantum interference patterns.
     """
 
-    def __init__(self, bio_oscillator: Optional[QIBioOscillator] = None):
+    def __init__(self, bio_oscillator: QIBioOscillator | None = None):
         self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
         self.bio_oscillator: QIBioOscillator = bio_oscillator or QIBioOscillator()
         self.internal_quantum_like_state = np.zeros(5, dtype=float)
@@ -290,7 +295,7 @@ class QISynapticGate:
         self,
         pre_synaptic_signal: np.ndarray,
         post_synaptic_context_signal: np.ndarray,
-        context: Optional[dict[str, Any]] = None,
+        context: dict[str, Any] | None = None,
     ) -> tuple[np.ndarray, dict[str, Any]]:
         """
         Processes neural-like signals with quantum-enhancement simulation.
@@ -404,7 +409,7 @@ class NeuroplasticityModulator:
     Adjusts internal state based on current and target states, modulated by a quantum oscillator.
     """
 
-    def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
+    def __init__(self, qi_oscillator: QIOscillator | None = None):
         self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
         self.qi_oscillator: QIOscillator = qi_oscillator or QIOscillator()
         self.plasticity_state_vector = np.zeros(4, dtype=float)
@@ -420,7 +425,7 @@ class NeuroplasticityModulator:
         self,
         current_neural_state: np.ndarray,
         target_neural_state: np.ndarray,
-        context: Optional[dict[str, Any]] = None,
+        context: dict[str, Any] | None = None,
     ) -> tuple[np.ndarray, dict[str, Any]]:
         """
         Modulates neuroplasticity with simulated quantum enhancement.

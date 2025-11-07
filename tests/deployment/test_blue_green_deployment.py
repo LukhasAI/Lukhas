@@ -32,7 +32,7 @@ import yaml
 def deployment_config():
     """Load deployment configuration from docker-compose.production.yml."""
     config_path = Path(__file__).parent.parent.parent / "deployment" / "docker-compose.production.yml"
-    with open(config_path, 'r') as f:
+    with open(config_path) as f:
         return yaml.safe_load(f)
 
 
@@ -318,7 +318,7 @@ class TestBlueGreenDeployment:
         runbook_path = project_root / "docs" / "GA_DEPLOYMENT_RUNBOOK.md"
         assert runbook_path.exists(), "Missing GA deployment runbook"
 
-        with open(runbook_path, 'r') as f:
+        with open(runbook_path) as f:
             runbook_content = f.read()
             assert "Phase 4: Production Cutover" in runbook_content, \
                 "Missing Production Cutover section in runbook"
@@ -346,7 +346,7 @@ class TestBlueGreenDeployment:
         project_root = Path(__file__).parent.parent.parent
         runbook_path = project_root / "docs" / "GA_DEPLOYMENT_RUNBOOK.md"
 
-        with open(runbook_path, 'r') as f:
+        with open(runbook_path) as f:
             runbook_content = f.read()
             assert "Phase 5: Blue Environment Decommission" in runbook_content, \
                 "Missing Blue Environment Decommission section"
@@ -394,7 +394,7 @@ class TestDeploymentRollback:
         project_root = Path(__file__).parent.parent.parent
         runbook_path = project_root / "docs" / "GA_DEPLOYMENT_RUNBOOK.md"
 
-        with open(runbook_path, 'r') as f:
+        with open(runbook_path) as f:
             runbook_content = f.read()
             assert "Immediate Rollback Triggers" in runbook_content, \
                 "Missing rollback triggers section"
@@ -422,7 +422,7 @@ class TestDeploymentRollback:
         project_root = Path(__file__).parent.parent.parent
         runbook_path = project_root / "docs" / "GA_DEPLOYMENT_RUNBOOK.md"
 
-        with open(runbook_path, 'r') as f:
+        with open(runbook_path) as f:
             runbook_content = f.read()
             assert "Step 2: Execute DNS Cutback" in runbook_content, \
                 "Missing DNS cutback procedure"
@@ -450,7 +450,7 @@ class TestDeploymentRollback:
         project_root = Path(__file__).parent.parent.parent
         runbook_path = project_root / "docs" / "GA_DEPLOYMENT_RUNBOOK.md"
 
-        with open(runbook_path, 'r') as f:
+        with open(runbook_path) as f:
             runbook_content = f.read()
             assert "Step 3: Preserve Evidence" in runbook_content, \
                 "Missing evidence preservation section"
@@ -478,7 +478,7 @@ class TestDeploymentRollback:
         project_root = Path(__file__).parent.parent.parent
         runbook_path = project_root / "docs" / "GA_DEPLOYMENT_RUNBOOK.md"
 
-        with open(runbook_path, 'r') as f:
+        with open(runbook_path) as f:
             runbook_content = f.read()
             assert "Auto-Rollback Script" in runbook_content or "auto_rollback.sh" in runbook_content, \
                 "Missing auto-rollback script reference"

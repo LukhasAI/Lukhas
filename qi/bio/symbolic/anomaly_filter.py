@@ -10,14 +10,15 @@
 ║ Authors: LUKHAS Bio-Symbolic Team | Claude Code
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import logging
 from collections import defaultdict, deque
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
-
 from core.colonies.base_colony import BaseColony
 from core.symbolism.tags import TagPermission, TagScope
 
@@ -708,12 +709,11 @@ class AnomalyFilterColony(BaseColony):
             base_actions = self.recovery_strategies.get(anomaly_type, [AnomalyAction.SOFT_FILTER])
 
             # Modify based on severity
-            if severity > 2.0:
+            if severity > 2.0 and AnomalyAction.SOFT_FILTER in base_actions:
                 # High severity - more aggressive actions
-                if AnomalyAction.SOFT_FILTER in base_actions:
-                    base_actions = [AnomalyAction.HARD_FILTER] + [
-                        a for a in base_actions if a != AnomalyAction.SOFT_FILTER
-                    ]
+                base_actions = [AnomalyAction.HARD_FILTER] + [
+                    a for a in base_actions if a != AnomalyAction.SOFT_FILTER
+                ]
 
             actions[anomaly["id"]] = base_actions
 
@@ -955,7 +955,7 @@ class AnomalyFilterColony(BaseColony):
 
 # Colony instance factory
 def create_anomaly_filter_colony(
-    colony_id: Optional[str] = None,
+    colony_id: str | None = None,
 ) -> AnomalyFilterColony:
     """Create a new anomaly filter colony instance."""
     return AnomalyFilterColony(colony_id or "anomaly_filter_default")

@@ -481,7 +481,7 @@ class ServiceMetricsCollector:
         alerts = []
 
         # Check burn rate alerts
-        for key, status in self.get_burn_rate_status().items():
+        for _key, status in self.get_burn_rate_status().items():
             if status['alert_level'] != 'ok':
                 severity = 'critical' if status['alert_level'] == 'critical' else 'warning'
 
@@ -498,7 +498,7 @@ class ServiceMetricsCollector:
                 })
 
         # Check T4 compliance alerts
-        for key, compliance in self.get_t4_compliance_report().items():
+        for _key, compliance in self.get_t4_compliance_report().items():
             if not compliance['t4_compliant']:
                 alerts.append({
                     'type': 't4_compliance',
@@ -549,13 +549,13 @@ class ServiceMetricsCollector:
             issues = []
 
             # Check T4 compliance
-            for comp_key, comp_data in compliance_data.items():
+            for _comp_key, comp_data in compliance_data.items():
                 if not comp_data['t4_compliant']:
                     health_score *= 0.8
                     issues.append(f"T4 SLO violation: {comp_data['operation']}")
 
             # Check burn rates
-            for burn_key, burn_data in burn_rates.items():
+            for _burn_key, burn_data in burn_rates.items():
                 if burn_data['alert_level'] == 'critical':
                     health_score *= 0.5
                     issues.append(f"Critical burn rate: {burn_data['time_window']}")

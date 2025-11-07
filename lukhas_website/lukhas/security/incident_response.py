@@ -523,7 +523,7 @@ class IncidentResponseSystem:
 
         except Exception as e:
             logger.exception(f"Playbook execution error for incident {incident.id}: {e}")
-            self._add_timeline_entry(incident, "playbook_error", f"Playbook execution error: {str(e)}")
+            self._add_timeline_entry(incident, "playbook_error", f"Playbook execution error: {e!s}")
 
         finally:
             # Remove from active responses

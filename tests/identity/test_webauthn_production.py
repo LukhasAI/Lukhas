@@ -13,7 +13,6 @@ import time
 from datetime import datetime, timedelta, timezone
 
 import pytest
-
 from identity.webauthn_production import (
     AuthenticatorTier,
     AuthenticatorType,
@@ -501,6 +500,53 @@ class TestWebAuthnManager:
         assert "allowCredentials" in options
         assert isinstance(options["allowCredentials"], list)
 
+    def test_decode_credential_id_handles_base64(self):
+        """Ensure credential IDs are decoded from base64url strings."""
+        manager = self.manager
+        raw_bytes = b"credential-bytes"
+        encoded_id = base64.urlsafe_b64encode(raw_bytes).decode().rstrip("=")
+
+        decoded = manager._decode_credential_id(encoded_id)
+
+        assert decoded == raw_bytes
+
+    def test_decode_credential_id_falls_back_to_utf8(self):
+        """Non-base64 credential IDs should be UTF-8 encoded."""
+        manager = self.manager
+        credential_id = "non_base64_id"
+
+        decoded = manager._decode_credential_id(credential_id)
+
+        assert decoded == credential_id.encode()
+
+    def test_build_credential_descriptors(self, monkeypatch):
+        """Ensure credential descriptors use PublicKeyCredentialDescriptor."""
+        manager = self.manager
+        raw_bytes = b"descriptor-id"
+        encoded_id = base64.urlsafe_b64encode(raw_bytes).decode().rstrip("=")
+        credential = WebAuthnCredential(
+            credential_id=encoded_id,
+            public_key="pk",
+            user_id="user_123",
+        )
+
+        class DummyDescriptor:
+            def __init__(self, *, id):
+                self.id = id
+
+        monkeypatch.setattr(
+            "identity.webauthn_production.PublicKeyCredentialDescriptor",
+            DummyDescriptor,
+            raising=False,
+        )
+        monkeypatch.setattr("identity.webauthn_production.WEBAUTHN_AVAILABLE", True)
+
+        descriptors = manager._build_credential_descriptors([credential])
+
+        assert len(descriptors) == 1
+        assert isinstance(descriptors[0], DummyDescriptor)
+        assert descriptors[0].id == raw_bytes
+
     async def register_test_credential(self,
                                      user_id: str = "user_123",
                                      credential_id: str = "test_credential",
@@ -545,7 +591,7 @@ class TestWebAuthnPerformanceRequirements:
     async def test_registration_latency_p95(self):
         """Test that registration latency meets p95 < 100ms requirement"""
         import os
-        from datetime import datetime
+        from datetime import datetime, timezone
 
         latencies = []
 
@@ -572,7 +618,7 @@ class TestWebAuthnPerformanceRequirements:
                 latencies.append(float('inf'))
 
         # Calculate percentiles
-        valid_latencies = [l for l in latencies if l != float('inf')]
+        valid_latencies = [latency for latency in latencies if latency != float('inf')]
         valid_latencies.sort()
         p95_index = int(0.95 * len(valid_latencies)) if valid_latencies else 0
         p50_index = int(0.50 * len(valid_latencies)) if valid_latencies else 0
@@ -587,7 +633,7 @@ class TestWebAuthnPerformanceRequirements:
         # Generate performance artifact
         perf_data = {
             "test": "webauthn_registration_latency",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "metrics": {
                 "p50_ms": p50_latency * 1000 if p50_latency != float('inf') else None,
                 "p95_ms": p95_latency * 1000 if p95_latency != float('inf') else None,
@@ -598,12 +644,12 @@ class TestWebAuthnPerformanceRequirements:
                 "actual_p95_ms": p95_latency * 1000 if p95_latency != float('inf') else None,
                 "passed": p95_latency < 0.1
             },
-            "latencies_ms": [l * 1000 for l in valid_latencies[:10]]  # First 10 samples
+            "latencies_ms": [latency * 1000 for latency in valid_latencies[:10]]  # First 10 samples
         }
 
         # Save artifact
         os.makedirs("artifacts", exist_ok=True)
-        artifact_path = f"artifacts/perf_webauthn_registration_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.json"
+        artifact_path = f"artifacts/perf_webauthn_registration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         with open(artifact_path, "w") as f:
             json.dump(perf_data, f, indent=2)
 
@@ -616,7 +662,7 @@ class TestWebAuthnPerformanceRequirements:
     async def test_authentication_latency_p95(self):
         """Test that authentication latency meets p95 < 100ms requirement"""
         import os
-        from datetime import datetime
+        from datetime import datetime, timezone
 
         latencies = []
 
@@ -642,7 +688,7 @@ class TestWebAuthnPerformanceRequirements:
                 latencies.append(float('inf'))
 
         # Calculate percentiles
-        valid_latencies = [l for l in latencies if l != float('inf')]
+        valid_latencies = [latency for latency in latencies if latency != float('inf')]
         valid_latencies.sort()
         p95_index = int(0.95 * len(valid_latencies)) if valid_latencies else 0
         p50_index = int(0.50 * len(valid_latencies)) if valid_latencies else 0
@@ -657,7 +703,7 @@ class TestWebAuthnPerformanceRequirements:
         # Generate performance artifact
         perf_data = {
             "test": "webauthn_authentication_latency",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "metrics": {
                 "p50_ms": p50_latency * 1000 if p50_latency != float('inf') else None,
                 "p95_ms": p95_latency * 1000 if p95_latency != float('inf') else None,
@@ -668,12 +714,12 @@ class TestWebAuthnPerformanceRequirements:
                 "actual_p95_ms": p95_latency * 1000 if p95_latency != float('inf') else None,
                 "passed": p95_latency < 0.1
             },
-            "latencies_ms": [l * 1000 for l in valid_latencies[:10]]  # First 10 samples
+            "latencies_ms": [latency * 1000 for latency in valid_latencies[:10]]  # First 10 samples
         }
 
         # Save artifact
         os.makedirs("artifacts", exist_ok=True)
-        artifact_path = f"artifacts/perf_webauthn_authentication_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.json"
+        artifact_path = f"artifacts/perf_webauthn_authentication_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         with open(artifact_path, "w") as f:
             json.dump(perf_data, f, indent=2)
 

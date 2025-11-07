@@ -1,7 +1,3 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🔬 LUKHAS AI - QUANTUM COHERENCE ENHANCER
@@ -26,13 +22,17 @@ logger = logging.getLogger(__name__)
 ║ ΛTAG: ΛQUANTUM, ΛCOHERENCE, ΛBIO_SYMBOLIC, ΛENHANCEMENT
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
 
+import logging
 from dataclasses import dataclass
-from datetime import datetime
-from typing import Any, Optional
+from datetime import datetime, timezone
+from typing import Any
 
 import numpy as np
 import structlog
+
+logger = logging.getLogger(__name__)
 
 logger = structlog.get_logger("ΛTRACE.bio.qi_coherence", timezone)
 
@@ -151,7 +151,7 @@ class QICoherenceEnhancer:
         self,
         current_coherence: float,
         bio_data: dict[str, Any],
-        context: Optional[dict[str, Any]] = None,
+        context: dict[str, Any] | None = None,
     ) -> tuple[float, dict[str, Any]]:
         """
         Enhance bio-symbolic coherence using quantum collapse.
@@ -294,11 +294,7 @@ class QICoherenceEnhancer:
             metrics.append(stress / 10)  # Assume 0-10 scale
 
         # Average entropy change
-        if metrics:
-            entropy_change = np.mean(metrics)
-        else:
-            # Default low entropy change
-            entropy_change = 0.1
+        entropy_change = np.mean(metrics) if metrics else 0.1  # Default low entropy change
 
         return entropy_change
 

@@ -1,11 +1,14 @@
 """Unit tests for MATRIZ cognitive nodes."""
+
+from __future__ import annotations
+
 import importlib.util
 import os
 import sys
 import types
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", ".."))
-NODES_PATH = os.path.join(PROJECT_ROOT, "labs", "core", "matrix", "nodes")
+NODES_PATH = os.path.join(PROJECT_ROOT, "labs", "core", "matriz", "nodes")
 
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
@@ -28,8 +31,8 @@ def _ensure_package(name: str, path: str | None = None) -> types.ModuleType:
 
 _ensure_package(PACKAGE_PREFIX)
 _ensure_package(f"{PACKAGE_PREFIX}.core")
-_ensure_package(f"{PACKAGE_PREFIX}.core.matrix")
-_ensure_package(f"{PACKAGE_PREFIX}.core.matrix.nodes", NODES_PATH)
+_ensure_package(f"{PACKAGE_PREFIX}.core.matriz")
+_ensure_package(f"{PACKAGE_PREFIX}.core.matriz.nodes", NODES_PATH)
 
 
 def _load_module(module_name: str, file_name: str, is_package: bool = False):
@@ -45,7 +48,7 @@ def _load_module(module_name: str, file_name: str, is_package: bool = False):
     return module
 
 
-_nodes_pkg = _load_module(f"{PACKAGE_PREFIX}.core.matrix.nodes", "__init__.py", is_package=True)
+_nodes_pkg = _load_module(f"{PACKAGE_PREFIX}.core.matriz.nodes", "__init__.py", is_package=True)
 MemoryNode = _nodes_pkg.MemoryNode
 ThoughtNode = _nodes_pkg.ThoughtNode
 DecisionNode = _nodes_pkg.DecisionNode

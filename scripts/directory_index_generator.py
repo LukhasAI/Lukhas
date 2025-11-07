@@ -20,7 +20,7 @@ class DirectoryIndexGenerator:
     def analyze_python_file(self, file_path: Path) -> Dict:
         """Analyze a Python file to extract metadata"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             tree = ast.parse(content)
@@ -38,9 +38,8 @@ class DirectoryIndexGenerator:
                 elif isinstance(node, ast.Import):
                     for alias in node.names:
                         imports.append(alias.name)
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module:
-                        imports.append(node.module)
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    imports.append(node.module)
 
             # Determine component type
             component_type = self.classify_component_type(file_path, content, classes, functions)
@@ -145,10 +144,11 @@ class DirectoryIndexGenerator:
 
                 # Check for sync header
                 try:
-                    with open(file_path, 'r', encoding='utf-8') as f:
+                    with open(file_path, encoding='utf-8') as f:
                         content = f.read(500)  # Read first 500 chars
                         has_sync_header = "Context Sync Header" in content and "Schema v2.0.0" in content
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
                 docs.append({

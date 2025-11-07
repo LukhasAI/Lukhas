@@ -4,6 +4,7 @@ LUKHAS Security Scanner
 Comprehensive security scanning with Semgrep, Bandit, dependency vulnerability scanning,
 and secrets detection for T4/0.01% excellence standards.
 """
+from __future__ import annotations
 
 import argparse
 import datetime
@@ -13,7 +14,7 @@ import subprocess
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 
 @dataclass
@@ -26,7 +27,7 @@ class SecurityFinding:
     file_path: str
     line_number: int
     code_snippet: str
-    fix_suggestion: Optional[str] = None
+    fix_suggestion: str | None = None
 
 
 @dataclass
@@ -37,7 +38,7 @@ class VulnerabilityFinding:
     vulnerability_id: str
     severity: str
     description: str
-    fix_version: Optional[str] = None
+    fix_version: str | None = None
 
 
 @dataclass

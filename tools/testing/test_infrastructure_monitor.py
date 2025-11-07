@@ -254,9 +254,7 @@ class TestInfrastructureMonitor:
         # Determine overall status
         if not any([cpu_available, memory_available, disk_available]):
             status = TestHealthStatus.CRITICAL
-        elif not all([network_accessible, dependencies_ready, test_database_ready]):
-            status = TestHealthStatus.DEGRADED
-        elif issues:
+        elif not all([network_accessible, dependencies_ready, test_database_ready]) or issues:
             status = TestHealthStatus.DEGRADED
         else:
             status = TestHealthStatus.HEALTHY
@@ -298,8 +296,8 @@ class TestInfrastructureMonitor:
     def _check_dependencies(self) -> bool:
         """Check if test dependencies are available"""
         try:
-            import coverage  # noqa: F401  # TODO: coverage; consider using impor...
-            import pytest  # noqa: F401  # TODO: pytest; consider using importl...
+            import coverage  # TODO: coverage; consider using impor...
+            import pytest  # TODO: pytest; consider using importl...
             return True
         except ImportError:
             return False
@@ -537,7 +535,7 @@ class TestInfrastructureMonitor:
         summary_file = reports_dir / "execution_summary.json"
 
         if summary_file.exists():
-            with open(summary_file, 'r') as f:
+            with open(summary_file) as f:
                 summary = json.load(f)
         else:
             summary = {

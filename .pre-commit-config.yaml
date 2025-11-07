@@ -14,15 +14,23 @@ repos:
         args: [--maxkb=1000]
 
   - repo: https://github.com/psf/black
-    rev: 24.8.0
+    rev: 24.10.0
     hooks:
       - id: black
         args: [--line-length=100]
+        language_version: python3.11
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.3
+    rev: v0.6.8
     hooks:
       - id: ruff
-        args: [--fix, --exit-non-zero-on-fix]
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.10.0
+    hooks:
+      - id: mypy
+        args: [--ignore-missing-imports]
 
   # YAML validation
   - repo: https://github.com/adrienverge/yamllint.git
@@ -31,6 +39,17 @@ repos:
       - id: yamllint
         args: [--format, parsable, --strict]
         exclude: ^(candidate/|\.github/)
+  # Root directory hygiene checks
+  - repo: local
+    hooks:
+      - id: validate-root-docs
+        name: Validate root documentation hygiene
+        entry: python3 scripts/validate_root_docs.py
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [commit]
+
   # Matrix Tracks hygiene hooks
   - repo: https://github.com/shellcheck-py/shellcheck-py
     rev: v0.10.0.1
@@ -85,6 +104,14 @@ repos:
 
   - repo: local
     hooks:
+      - id: block-labs-imports
+        name: Block direct labs imports in production lanes
+        entry: bash scripts/consolidation/block_labs_imports.sh
+        language: system
+        types: [python]
+        pass_filenames: false
+        stages: [commit]
+
       # MATRIZ Import Check Hook
       - id: check-matriz-imports
         name: Check for legacy 'matriz' imports (warning by default)
@@ -120,6 +147,25 @@ repos:
         pass_filenames: true
         types: [python]
         stages: [pre-commit]
+      
+      # T4 Unified Platform: Annotation validation
+      - id: t4-validate-annotations
+        name: T4 annotation format validation
+        entry: python3 tools/ci/check_t4_issues.py --paths lukhas core api consciousness memory identity MATRIZ
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+        description: "Validate T4 annotation format and quality score"
+      
+      # T4 Unified Platform: Block legacy annotations
+      - id: t4-block-legacy-annotations
+        name: Block legacy TODO[T4-UNUSED-IMPORT] annotations
+        entry: bash -c 'if git diff --cached | grep -E "TODO\[T4-(UNUSED-IMPORT|LINT-ISSUE)\]"; then echo "❌ Legacy T4 annotations detected! Use TODO[T4-ISSUE] instead. Run: make t4-migrate" >&2; exit 1; fi'
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+        description: "Prevent commits with legacy T4 annotation formats"
+      
       # T4: fast smoke executes on push, not on each commit
       - id: quick-smoke-tests
         name: quick-smoke-tests

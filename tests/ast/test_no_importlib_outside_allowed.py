@@ -66,7 +66,7 @@ def scan_file_for_importlib(file_path: Path) -> Tuple[List[Tuple[int, str]], Lis
         Tuple of (imports, calls) - lists of (line_number, code) tuples
     """
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
 
         # Skip files with null bytes (binary files)
@@ -149,10 +149,7 @@ def is_allowed_location(file_path: Path) -> bool:
         return True
 
     # Allow performance optimization files temporarily
-    if "performance/" in path_str:
-        return True
-
-    return False
+    return "performance/" in path_str
 
 
 class TestNoImportlibOutsideAllowed:

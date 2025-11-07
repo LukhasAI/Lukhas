@@ -5,6 +5,7 @@ Real-time voice consistency and personality alignment system
 
 Target: 85%+ voice coherence across all LUKHAS AI communications
 """
+from __future__ import annotations
 
 import asyncio
 import re
@@ -15,7 +16,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 sys.path.append(str(Path(__file__).parent.parent))
 
@@ -269,7 +270,7 @@ class LUKHASVoiceCoherenceEngine:
         content_id: str,
         context: VoiceContext = VoiceContext.MARKETING_CONTENT,
         audience: AudienceType = AudienceType.GENERAL_USERS,
-        target_profile: Optional[str] = None,
+        target_profile: str | None = None,
     ) -> VoiceCoherenceResult:
         """
         Perform comprehensive voice coherence analysis
@@ -678,7 +679,7 @@ class LUKHASVoiceCoherenceEngine:
 
 
 # Global instance for LUKHAS AI voice coherence
-voice_coherence_engine: Optional[LUKHASVoiceCoherenceEngine] = None
+voice_coherence_engine: LUKHASVoiceCoherenceEngine | None = None
 
 
 def get_voice_coherence_engine() -> LUKHASVoiceCoherenceEngine:

@@ -32,7 +32,7 @@ from cryptography.hazmat.primitives.asymmetric import padding, rsa
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 try:
-    import jwt  # noqa: F401  # TODO: jwt; consider using importlib....
+    import jwt  # TODO: jwt; consider using importlib....
     JWT_AVAILABLE = True
 except ImportError:
     JWT_AVAILABLE = False
@@ -197,7 +197,7 @@ class ObservabilitySecurityHardening:
         if self.security_config_path.exists():
             try:
                 import json
-                with open(self.security_config_path, 'r') as f:
+                with open(self.security_config_path) as f:
                     self.security_config = json.load(f)
                     # Merge with defaults
                     for key, value in default_config.items():
@@ -378,7 +378,7 @@ class ObservabilitySecurityHardening:
         }
 
         # Generate integrity hash
-        evidence_json = json.dumps(evidence_data, sort_keys=True, default=str)  # noqa: F821  # TODO: json
+        evidence_json = json.dumps(evidence_data, sort_keys=True, default=str)  # TODO: json
         integrity_hash = self._compute_integrity_hash(evidence_json.encode())
         security_metadata["integrity_hash"] = integrity_hash
 
@@ -419,7 +419,7 @@ class ObservabilitySecurityHardening:
         """
         try:
             # Verify integrity hash
-            evidence_json = json.dumps(evidence_data, sort_keys=True, default=str)  # noqa: F821  # TODO: json
+            evidence_json = json.dumps(evidence_data, sort_keys=True, default=str)  # TODO: json
             computed_hash = self._compute_integrity_hash(evidence_json.encode())
 
             stored_hash = security_metadata.get("integrity_hash")
@@ -554,10 +554,7 @@ class ObservabilitySecurityHardening:
 
         # Check for sensitive evidence types
         evidence_type = evidence_data.get("evidence_type", "")
-        if evidence_type in sensitive_evidence_types:
-            return True
-
-        return False
+        return evidence_type in sensitive_evidence_types
 
     async def _verify_access_authorization(
         self,

@@ -1,33 +1,16 @@
-import logging
-
 #!/usr/bin/env python3
-"""
-
+"""Integration manager for orchestrating Cognitive AI subsystems."""
 #TAG:consciousness
 #TAG:reflection
 #TAG:neuroplastic
 #TAG:colony
-
-
-Lukhas System Cognitive Integration Manager
-====================================
-Central integration manager for connecting Cognitive capabilities across
-the entire Lukhas ecosystem.
-
-This manager coordinates:
-1. Main Lukhas Cognitive AI Orchestrator
-2. Cognitive Core Cognitive Enhancement
-3. Brain Orchestration Integration
-4. Bot GitHub App Cognitive capabilities
-5. Legacy system compatibility
-
-Enhanced: 2025-7-2
-Author: Lukhas AI Team
-"""
 import asyncio
+import logging
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
+
+from core.orchestration.brain.lukhas_agi_orchestrator import lukhas_agi_orchestrator
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -94,10 +77,6 @@ class LukhasAGIIntegrationManager:
     async def _initialize_agi_orchestrator(self):
         """Initialize the main Cognitive AI orchestrator"""
         try:
-            # SYNTAX_ERROR_FIXED:             from
-            # orchestration.brain.lukhas_agi_orchestrator import
-            # orchestration.brain.lukhas_agi_orchestrator
-
             success = await lukhas_agi_orchestrator.initialize_agi_system()
             if success:
                 self.components["cognitive_orchestrator"] = lukhas_agi_orchestrator
@@ -294,7 +273,6 @@ class LukhasAGIIntegrationManager:
                     "text": user_input,
                     "context": context,
                     "cognitive_insights": cognitive_result,
-                    "cognitive_insights": cognitive_result,
                 }
                 brain_result = await self.components["brain_orchestrator"].orchestrate_processing(brain_input)
                 logger.info(" Brain orchestration processing complete")
@@ -312,7 +290,6 @@ class LukhasAGIIntegrationManager:
                 request_id=request_id,
                 user_input=user_input,
                 context=context,
-                cognitive_result=cognitive_result,
                 cognitive_result=cognitive_result,
                 brain_result=brain_result,
                 github_result=github_result,
@@ -334,8 +311,8 @@ class LukhasAGIIntegrationManager:
                 "integration_status": self.integration_status,
             }
 
-    async def _process_through_github_agi(self, user_input, context, cognitive_result, cognitive_result, brain_result):
-        """Process through GitHub App Cognitive AI capabilitie"""
+    async def _process_through_github_agi(self, user_input, context, cognitive_result, brain_result):
+        """Process through GitHub App Cognitive AI capabilities"""
 
         github_agi = self.components.get("github_app_agi")
         if not github_agi:
@@ -407,8 +384,8 @@ class LukhasAGIIntegrationManager:
             },
         }
 
-    async def _synthesize_cross_component_insights(self, cognitive_result, cognitive_result, brain_result, github_result):
-        """Synthesize insights across all component"""
+    async def _synthesize_cross_component_insights(self, cognitive_result, brain_result, github_result):
+        """Synthesize insights across all components"""
 
         synthesis = {
             "component_agreement_score": 0.0,

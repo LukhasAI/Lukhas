@@ -2,16 +2,17 @@
 from __future__ import annotations
 
 from importlib import import_module
-from typing import Any, Iterable
+from typing import Any
+from collections.abc import Iterable
 
 __all__ = [
-    "AuthMiddleware",
-    "identity_routes",
-    "get_current_identity",
-    "IdentityContext",
-    "AuthUser",
-    "get_current_user",
     "AuthContext",
+    "AuthMiddleware",
+    "AuthUser",
+    "IdentityContext",
+    "get_current_identity",
+    "get_current_user",
+    "identity_routes",
 ]
 
 _CANDIDATES: tuple[str, ...] = (

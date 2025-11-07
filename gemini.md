@@ -7,8 +7,57 @@ slug: gemini.md
 primary_source: lukhas_context.md
 secondary_source: claude.me
 optimized_for: gemini_ai
-last_updated: 2025-10-26
+last_updated: 2025-11-06
 navigation_note: "lukhas_context.md files are the most comprehensive and frequently updated source of truth. gemini.md files provide Gemini-optimized summaries."
+recent_systems: "T4 Platform v2.0, Intent API, LLM Safety Layer, WebAuthn FIDO2, Encryption Manager"
+---
+
+## 🚀 T4 Platform v2.0 Production Deployment (2025-11-06)
+
+**Intent-Driven Development Infrastructure with Production-Grade Security**
+
+LUKHAS has deployed a comprehensive quality platform with authentication, cost controls, and automated governance:
+
+**Key Systems:**
+1. **Intent Registry API** - FastAPI with API key auth, rate limiting (120 req/min), audit logging
+2. **LLM Safety Layer** - OpenAI wrapper with per-agent daily quotas, automatic cost tracking
+3. **Policy Client** - Python client for intent registration and pre-PR validation
+4. **Branch Protection** - CODEOWNERS enforcement with required status checks
+5. **Agent Onboarding** - Complete certification guide in `docs/gonzo/T4_ONBOARD_AGENTS.md`
+
+**Metrics:** 459 violations tracked, 100% quality score, PR #1031 open for review
+
+**For Agents:** Request API key via `python3 tools/ci/create_api_key_admin.py --agent_id <id>` before next deployment.
+
+See: `docs/gonzo/T4_ONBOARD_AGENTS.md`, `T4_FULL_SYSTEM_INTEGRATION_REPORT.md`
+
+---
+
+## 🆕 Latest Systems (2025-11-02)
+
+**Multi-Agent Orchestration Deliverables** - 9 specialized agents delivered 4 complete production systems:
+
+1. **WebAuthn FIDO2 Authentication System**
+   - W3C Level 2 compliant, 130+ tests, ES256/RS256 signatures
+   - See: [docs/identity/WEBAUTHN_GUIDE.md](./docs/identity/WEBAUTHN_GUIDE.md)
+   - Code: `lukhas/identity/webauthn_credential.py`, `lukhas/identity/webauthn_verify.py`
+
+2. **Centralized Encryption Infrastructure**
+   - AEAD encryption (AES-256-GCM, ChaCha20-Poly1305), 33+ tests
+   - See: [docs/SESSION_2025-11-01_NEW_SYSTEMS.md](./docs/SESSION_2025-11-01_NEW_SYSTEMS.md)
+   - Code: `core/security/encryption_manager.py`
+
+3. **Multi-Jurisdiction Compliance System**
+   - GDPR, CCPA, PIPEDA, LGPD support, 107+ tests
+   - See: [docs/governance/GUARDIAN_EXAMPLE.md](./docs/governance/GUARDIAN_EXAMPLE.md)
+   - Code: `qi/compliance/privacy_statement.py`, `qi/compliance/compliance_report.py`
+
+4. **OAuth 2.1 Migration Decision**
+   - Architectural decision to migrate to authlib
+   - See: [docs/decisions/ADR-001-oauth-library-selection.md](./docs/decisions/ADR-001-oauth-library-selection.md)
+
+**Total Delivered**: 15,000 lines of code, 273+ tests, 100% pass rate
+
 ---
 
 ---

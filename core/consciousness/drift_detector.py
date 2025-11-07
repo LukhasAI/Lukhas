@@ -1,11 +1,13 @@
 """Consciousness drift detection utilities for legacy consensus."""
+
 from __future__ import annotations
 
 import logging
 from collections import defaultdict, deque
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Deque, Dict, List, Optional, Sequence
+from typing import Deque, Dict, List
 
 from core.symbolic.glyph_specialist import GlyphSignal
 
@@ -20,7 +22,7 @@ class DriftSnapshot:
     driftScore: float
     affect_delta: float
     glyph_markers: Sequence[str] = field(default_factory=list)
-    metadata: Optional[dict] = None
+    metadata: dict | None = None
     recorded_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 
@@ -29,7 +31,9 @@ class ConsciousnessDriftDetector:
 
     def __init__(self, retention: int = 12) -> None:
         self.retention = retention
-        self._history: Dict[str, Deque[DriftSnapshot]] = defaultdict(lambda: deque(maxlen=self.retention))
+        self._history: Dict[str, Deque[DriftSnapshot]] = defaultdict(
+            lambda: deque(maxlen=self.retention)
+        )
         self._logger = logger
 
     def record_snapshot(
@@ -37,8 +41,8 @@ class ConsciousnessDriftDetector:
         layer_id: str,
         driftScore: float,
         affect_delta: float,
-        glyph_markers: Optional[Sequence[str]] = None,
-        metadata: Optional[dict] = None,
+        glyph_markers: Sequence[str] | None = None,
+        metadata: dict | None = None,
     ) -> DriftSnapshot:
         """Record a new snapshot for a consciousness layer."""
         snapshot = DriftSnapshot(

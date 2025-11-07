@@ -289,7 +289,7 @@ class OIDCSecurityHardening:
                 response_action=SecurityResponse.EMERGENCY_SHUTDOWN,
                 client_id=client_id,
                 ip_address=ip_address,
-                description=f"Security validation error: {str(e)}",
+                description=f"Security validation error: {e!s}",
                 risk_score=100.0
             )
 
@@ -479,17 +479,16 @@ class OIDCSecurityHardening:
             profile.total_requests += 1
 
             # Check if client is blocked
-            if profile.is_blocked:
-                if profile.block_until and datetime.now(timezone.utc) < profile.block_until:
-                    events.append(SecurityEvent(
-                        event_type=OIDCSecurityEventType.SUSPICIOUS_CLIENT_BEHAVIOR,
-                        threat_level=SecurityThreatLevel.HIGH,
-                        response_action=SecurityResponse.BLOCK,
-                        client_id=client_id,
-                        description="Client is temporarily blocked",
-                        risk_score=100.0
-                    ))
-                    risk_score = 100.0
+            if profile.is_blocked and (profile.block_until and datetime.now(timezone.utc) < profile.block_until):
+                events.append(SecurityEvent(
+                    event_type=OIDCSecurityEventType.SUSPICIOUS_CLIENT_BEHAVIOR,
+                    threat_level=SecurityThreatLevel.HIGH,
+                    response_action=SecurityResponse.BLOCK,
+                    client_id=client_id,
+                    description="Client is temporarily blocked",
+                    risk_score=100.0
+                ))
+                risk_score = 100.0
         else:
             # New client - create profile
             self.client_profiles[client_id] = ClientSecurityProfile(

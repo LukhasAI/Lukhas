@@ -11,7 +11,6 @@ import time
 from unittest.mock import Mock
 
 import pytest
-
 from orchestration.multi_ai_router import (
     AIModel,
     AIProvider,
@@ -56,7 +55,7 @@ class TestModelSelector:
         self.selector.register_model(claude)
 
         # Request specific models
-        request = RoutingRequest(
+        _request = RoutingRequest(
             prompt="test",
             models=["openai:gpt-4", "anthropic:claude-3-sonnet"],
             min_responses=2,
@@ -92,7 +91,7 @@ class TestModelSelector:
         self.selector.register_model(fast_model)
         self.selector.register_model(slow_model)
 
-        request = RoutingRequest(prompt="test", max_responses=2)
+        _request = RoutingRequest(prompt="test", max_responses=2)
         selected = self.selector.select_models(request)
 
         # Should select both models, but order based on score
@@ -269,7 +268,7 @@ class TestMultiAIRouter:
     @pytest.mark.asyncio
     async def test_route_request_mock(self):
         """Test multi-AI request routing with mock implementation"""
-        request = RoutingRequest(
+        _request = RoutingRequest(
             prompt="What is the meaning of life?",
             consensus_type=ConsensusType.MAJORITY,
             min_responses=2,
@@ -281,7 +280,7 @@ class TestMultiAIRouter:
         self.router.ai_clients[AIProvider.OPENAI] = mock_client
         self.router.ai_clients[AIProvider.ANTHROPIC] = mock_client
 
-        result = await self.router.route_request(request)
+        result = await self.router.route_request(_request)
 
         assert result is not None
         assert result.final_response is not None
@@ -293,7 +292,7 @@ class TestMultiAIRouter:
     @pytest.mark.asyncio
     async def test_route_request_timeout(self):
         """Test request timeout handling"""
-        request = RoutingRequest(
+        _request = RoutingRequest(
             prompt="Test prompt",
             timeout=0.1,  # Very short timeout
             min_responses=1,
@@ -301,21 +300,22 @@ class TestMultiAIRouter:
         )
 
         # Should handle timeout gracefully
-        result = await self.router.route_request(request)
+        result = await self.router.route_request(_request)
         assert result is not None
 
     @pytest.mark.asyncio
     async def test_route_request_insufficient_responses(self):
         """Test handling of insufficient responses"""
-        request = RoutingRequest(
+        _request = RoutingRequest(
             prompt="Test prompt",
             min_responses=5,  # More than available models
             max_responses=5
         )
 
+
         # Should raise error for insufficient responses
-        with pytest.raises(ValueError, match="Only .* models available"):
-            await self.router.route_request(request)
+        with pytest.raises(ValueError, match=r"Only .* models available"):
+            await self.router.route_request(_request)
 
     def test_model_registration(self):
         """Test AI client registration"""
@@ -333,7 +333,7 @@ class TestMultiAIRouter:
         # Check for expected providers
         models = self.router.model_selector.models
         provider_models = {}
-        for key, model in models.items():
+        for _key, model in models.items():
             provider = model.provider.value
             if provider not in provider_models:
                 provider_models[provider] = []
@@ -349,7 +349,7 @@ class TestRoutingRequestValidation:
 
     def test_routing_request_defaults(self):
         """Test RoutingRequest default values"""
-        request = RoutingRequest(prompt="test")
+        _request = RoutingRequest(prompt="test")
 
         assert request.prompt == "test"
         assert request.consensus_type == ConsensusType.MAJORITY
@@ -362,7 +362,7 @@ class TestRoutingRequestValidation:
 
     def test_routing_request_custom_values(self):
         """Test RoutingRequest with custom values"""
-        request = RoutingRequest(
+        _request = RoutingRequest(
             prompt="custom prompt",
             context={"key": "value"},
             models=["openai:gpt-4"],
@@ -395,9 +395,9 @@ class TestPerformanceRequirements:
         """Test that routing latency meets p95 < 250ms requirement"""
         import json
         import os
-        from datetime import datetime
+        from datetime import datetime, timezone
 
-        request = RoutingRequest(
+        _request = RoutingRequest(
             prompt="Quick test",
             min_responses=1,
             max_responses=2,
@@ -410,7 +410,7 @@ class TestPerformanceRequirements:
         for _ in range(20):
             start_time = time.time()
             try:
-                result = await self.router.route_request(request)
+                result = await self.router.route_request(_request)
                 latency = time.time() - start_time
                 latencies.append(latency)
                 assert result is not None
@@ -420,7 +420,7 @@ class TestPerformanceRequirements:
                 latencies.append(float('inf'))
 
         # Calculate p95
-        valid_latencies = [l for l in latencies if l != float('inf')]
+        valid_latencies = [latency for latency in latencies if latency != float('inf')]
         valid_latencies.sort()
         p95_index = int(0.95 * len(valid_latencies))
         p50_index = int(0.50 * len(valid_latencies))
@@ -435,7 +435,7 @@ class TestPerformanceRequirements:
         # Generate performance artifact
         perf_data = {
             "test": "orchestration_routing_latency",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "metrics": {
                 "p50_ms": p50_latency * 1000 if p50_latency != float('inf') else None,
                 "p95_ms": p95_latency * 1000 if p95_latency != float('inf') else None,
@@ -446,12 +446,12 @@ class TestPerformanceRequirements:
                 "actual_p95_ms": p95_latency * 1000 if p95_latency != float('inf') else None,
                 "passed": p95_latency < 0.25
             },
-            "latencies_ms": [l * 1000 for l in valid_latencies[:10]]  # First 10 samples
+            "latencies_ms": [latency * 1000 for latency in valid_latencies[:10]]  # First 10 samples
         }
 
         # Save artifact
         os.makedirs("artifacts", exist_ok=True)
-        artifact_path = f"artifacts/perf_orchestration_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.json"
+        artifact_path = f"artifacts/perf_orchestration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         with open(artifact_path, "w") as f:
             json.dump(perf_data, f, indent=2)
 
@@ -502,7 +502,7 @@ class TestOrchestrationIntegration:
         for provider in AIProvider:
             router.register_ai_client(provider, mock_client)
 
-        request = RoutingRequest(
+        _request = RoutingRequest(
             prompt="Explain quantum computing in simple terms",
             consensus_type=ConsensusType.HYBRID,
             min_responses=2,

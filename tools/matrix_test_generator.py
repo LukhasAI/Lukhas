@@ -21,7 +21,7 @@ class MatrixTestGenerator:
     """Generates test matrices for all Matrix contracts based on their identity configurations."""
 
     # Tier mapping with numeric values
-    TIER_MAPPING = {
+    TIER_MAPPING = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_matrix_test_generator_py_L24"}
         'guest': 0,
         'visitor': 1,
         'friend': 2,
@@ -31,9 +31,9 @@ class MatrixTestGenerator:
     }
 
     # All possible tiers in order
-    ALL_TIERS = ['guest', 'visitor', 'friend', 'trusted', 'inner_circle', 'root_dev']
+    ALL_TIERS = ['guest', 'visitor', 'friend', 'trusted', 'inner_circle', 'root_dev']  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_matrix_test_generator_py_L34"}
 
-    def __init__(self, lukhas_root: Path = None):
+    def __init__(self, lukhas_root: Optional[Path] = None):
         """Initialize the generator with paths to lukhas contracts."""
         self.lukhas_root = lukhas_root or Path(__file__).parent.parent / "lukhas"
         self.output_dir = Path(__file__).parent.parent / "tests" / "matrix_identity"
@@ -55,7 +55,7 @@ class MatrixTestGenerator:
     def extract_identity_config(self, contract_path: Path) -> Optional[Dict[str, Any]]:
         """Extract identity configuration from a matrix contract."""
         try:
-            with open(contract_path, 'r') as f:
+            with open(contract_path) as f:
                 contract = json.load(f)
 
             # Extract module name from contract or filename
@@ -178,7 +178,7 @@ class MatrixTestGenerator:
                     test_case['reason'] += " with MFA"
                     # Also add special fold scope if available
                     if f"{module_name}.fold" not in scopes:
-                        test_case['input']['scopes'] = scopes + [f"{module_name}.fold"]
+                        test_case['input']['scopes'] = [*scopes, f"{module_name}.fold"]
 
                 test_cases.append(test_case)
 
@@ -359,7 +359,7 @@ class MatrixTestGenerator:
             return False
 
         # Load memoria test matrix
-        with open(memoria_path, 'r') as f:
+        with open(memoria_path) as f:
             memoria_data = yaml.safe_load(f)
 
         # Validate that our generated memoria matrix matches the expected structure
@@ -368,7 +368,7 @@ class MatrixTestGenerator:
             logger.error("Generated memoria matrix not found")
             return False
 
-        with open(generated_memoria_path, 'r') as f:
+        with open(generated_memoria_path) as f:
             generated_data = yaml.safe_load(f)
 
         # Compare key structure elements

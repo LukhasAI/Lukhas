@@ -87,7 +87,7 @@ class TargetedSyntaxFixer:
     def fix_syntax_errors_in_file(self, file_path: Path) -> bool:
         """Fix syntax errors in a single file conservatively."""
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
                 lines = content.splitlines(keepends=True)
 
@@ -131,7 +131,7 @@ class TargetedSyntaxFixer:
                 file_path = self.workspace_path / file_name
                 if file_path.exists() and file_path.suffix == ".py":
                     try:
-                        with open(file_path, "r", encoding="utf-8") as f:
+                        with open(file_path, encoding="utf-8") as f:
                             content = f.read()
 
                         # Check if file has problematic patterns

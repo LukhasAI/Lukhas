@@ -199,7 +199,7 @@ class EthicalEngine:
             return EthicalEvaluation(
                 decision=EthicalDecision.REVIEW,
                 confidence=0.5,
-                reasoning=f"Evaluation error: {str(e)}",
+                reasoning=f"Evaluation error: {e!s}",
                 recommendations=["Manual review required due to evaluation error"],
                 guardian_status="escalated",
                 evaluation_time=(datetime.now() - start_time).total_seconds()

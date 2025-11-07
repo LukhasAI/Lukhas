@@ -4,6 +4,7 @@ Original: emotional_sorter.py
 Advanced: emotional_sorter.py
 Integration Date: 2025-05-31T07:55:28.101674
 """
+from __future__ import annotations
 
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮

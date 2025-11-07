@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-import logging
 
-logger = logging.getLogger(__name__)
 """
 ════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - TIER UNIFICATION ADAPTER
@@ -22,12 +20,19 @@ logger = logging.getLogger(__name__)
 ╚════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
+import logging
 from abc import ABC, abstractmethod
 from functools import wraps
-from typing import Any, Callable, Optional, Union
+from typing import Any, Callable
 
 import structlog
 from core.identity_integration import TierMappingConfig, get_identity_client
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = structlog.get_logger(__name__)
 
@@ -54,7 +59,7 @@ class OneiricTierAdapter(TierSystemAdapter):
     def __init__(self):
         self.client = get_identity_client()
 
-    def to_lambda_tier(self, tier: Union[int, str]) -> str:
+    def to_lambda_tier(self, tier: int | str) -> str:
         """Convert Oneiric tier (1-5) to LAMBDA_TIER."""
         if isinstance(tier, str) and tier.isdigit():
             tier = int(tier)
@@ -68,7 +73,7 @@ class OneiricTierAdapter(TierSystemAdapter):
             return 1  # Map base tier to Oneiric tier 1
         return mapping.get(lambda_tier, 1)
 
-    def validate_access(self, user_id: str, required_tier: Union[int, str]) -> bool:
+    def validate_access(self, user_id: str, required_tier: int | str) -> bool:
         """Validate user access using central identity system."""
         if not self.client:
             logger.warning("Identity client not available, granting access by default")
@@ -122,7 +127,7 @@ class EmotionalTierAdapter(TierSystemAdapter):
             self.EmotionalTier = None
             logger.warning("EmotionalTier not available")
 
-    def to_lambda_tier(self, tier: Union[str, "EmotionalTier"]) -> str:
+    def to_lambda_tier(self, tier: str | EmotionalTier) -> str:  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "core_tier_unification_adapter_py_L130"}
         """Convert EmotionalTier (T0-T5) to LAMBDA_TIER."""
         if self.EmotionalTier and hasattr(tier, "name"):
             # Handle EmotionalTier enum
@@ -134,7 +139,7 @@ class EmotionalTierAdapter(TierSystemAdapter):
         mapping = TierMappingConfig.LAMBDA_TO_EMOTIONAL
         return mapping.get(lambda_tier, "T1")
 
-    def validate_access(self, user_id: str, required_tier: Union[str, "EmotionalTier"]) -> bool:
+    def validate_access(self, user_id: str, required_tier: str | EmotionalTier) -> bool:  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "core_tier_unification_adapter_py_L143"}
         """Validate user access using central identity system."""
         if not self.client:
             logger.warning("Identity client not available, granting access by default")
@@ -231,7 +236,7 @@ class UnifiedTierAdapter:
         self.emotional = EmotionalTierAdapter()
         self.client = get_identity_client()
 
-    def normalize_any_tier(self, tier: Any, system_hint: Optional[str] = None) -> str:
+    def normalize_any_tier(self, tier: Any, system_hint: str | None = None) -> str:
         """
         Normalize any tier format to LAMBDA_TIER.
 
@@ -252,7 +257,7 @@ class UnifiedTierAdapter:
         # Otherwise use general normalization
         return TierMappingConfig.normalize_tier(tier)
 
-    def create_unified_decorator(self, required_tier: Any, system: Optional[str] = None):
+    def create_unified_decorator(self, required_tier: Any, system: str | None = None):
         """
         Create a unified decorator that works with any tier system.
 
@@ -305,7 +310,7 @@ class UnifiedTierAdapter:
 
 
 # Singleton instance
-_unified_adapter: Optional[UnifiedTierAdapter] = None
+_unified_adapter: UnifiedTierAdapter | None = None
 
 
 def get_unified_adapter() -> UnifiedTierAdapter:
@@ -325,7 +330,7 @@ def oneiric_tier_required(tier: int):
     return adapter.create_unified_decorator(tier, "oneiric")
 
 
-def emotional_tier_required(tier: Union[str, "EmotionalTier"]):
+def emotional_tier_required(tier: str | EmotionalTier):  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "core_tier_unification_adapter_py_L335"}
     """Decorator for DreamSeed Emotional tier requirements."""
     adapter = get_unified_adapter()
     return adapter.create_unified_decorator(tier, "emotional")
@@ -339,7 +344,7 @@ class TierUnificationAdapter:
     across the LUKHAS AI ecosystem.
     """
 
-    def __init__(self, config: Optional[dict] = None):
+    def __init__(self, config: dict | None = None):
         """Initialize the tier unification adapter"""
         self.config = config or {}
         self.unified_adapter = get_unified_adapter()

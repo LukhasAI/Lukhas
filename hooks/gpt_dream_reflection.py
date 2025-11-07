@@ -28,7 +28,7 @@ class GPTSymbolicBridge:
     """Bridge between LUKHΛS symbolic states and GPT interaction modes"""
 
     # Glyph to reflection mapping
-    GLYPH_REFLECTIONS = {
+    GLYPH_REFLECTIONS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_hooks_gpt_dream_reflection_py_L31"}
         # Constellation Framework
         "⚛️": "The system maintains quantum coherence at its core.",
         "🧠": "Consciousness has crystallized into analytical clarity.",
@@ -83,7 +83,7 @@ class GPTSymbolicBridge:
     }
 
     # Glyph to GPT interaction style mapping
-    GLYPH_TO_STYLE = {
+    GLYPH_TO_STYLE = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_hooks_gpt_dream_reflection_py_L86"}
         # Analytical glyphs
         "🧠": GPTInteractionStyle.ANALYTICAL,
         "🔬": GPTInteractionStyle.ANALYTICAL,
@@ -127,7 +127,7 @@ class GPTSymbolicBridge:
     }
 
     # GPT style descriptions
-    STYLE_DESCRIPTIONS = {
+    STYLE_DESCRIPTIONS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_hooks_gpt_dream_reflection_py_L130"}
         GPTInteractionStyle.ANALYTICAL: {
             "description": "Precise, logical, structured reasoning",
             "temperature": 0.3,

@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import asyncio
 import logging
+import time
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
-from typing import Any, Optional
+from functools import lru_cache
+from typing import Any, Dict, Tuple
 
 import structlog
 from core.security.auth import get_auth_system
@@ -116,8 +119,8 @@ class LUKHASRequest(BaseModel):
 
     operation: str = Field(..., description="Operation to perform")
     data: dict[str, Any] = Field(default_factory=dict)
-    context: Optional[dict[str, Any]] = Field(default=None)
-    options: Optional[dict[str, Any]] = Field(default=None)
+    context: dict[str, Any] | None = Field(default=None)
+    options: dict[str, Any] | None = Field(default=None)
 
 
 class LUKHASResponse(BaseModel):
@@ -127,8 +130,8 @@ class LUKHASResponse(BaseModel):
     timestamp: datetime
     operation: str
     status: str = Field(..., pattern="^(success|error|partial)$")
-    result: Optional[dict[str, Any]] = None
-    error: Optional[dict[str, Any]] = None
+    result: dict[str, Any] | None = None
+    error: dict[str, Any] | None = None
     metadata: dict[str, Any] = Field(default_factory=dict)
     processing_time_ms: float
 
@@ -145,8 +148,8 @@ class MemoryRequest(BaseModel):
     """Memory operation request"""
 
     action: str = Field(..., pattern="^(store|retrieve|search|update)$")
-    content: Optional[dict[str, Any]] = None
-    query: Optional[str] = None
+    content: dict[str, Any] | None = None
+    query: str | None = None
     memory_type: str = Field(default="general")
 
 
@@ -168,8 +171,8 @@ class DreamRequest(BaseModel):
 
 class EnhancedAPISystem:
     """
-    Enhanced API system with full LUKHAS integration
-    Addresses the 33.3% functionality issue
+    Enhanced API system with full LUKHAS integration and performance optimizations
+    Features: Response caching, request coalescing, performance monitoring
     """
 
     def __init__(self):
@@ -194,13 +197,104 @@ class EnhancedAPISystem:
         self.emotion = None
         self.dream = None
 
-        # Request tracking
+        # Request tracking and performance monitoring
         self.active_requests: dict[str, Any] = {}
         self.request_counter = 0
+        self.performance_metrics = {
+            "total_requests": 0,
+            "successful_requests": 0,
+            "error_requests": 0,
+            "average_response_time": 0.0,
+            "cache_hits": 0,
+            "cache_misses": 0
+        }
+
+        # Response caching (LRU cache with TTL)
+        self.response_cache: Dict[str, Tuple[Any, float]] = {}
+        self.cache_ttl_seconds = 300  # 5 minutes
+        self.max_cache_size = 1000
+
+        # Request coalescing for duplicate concurrent requests
+        self.pending_requests: Dict[str, asyncio.Task] = {}
 
         # Setup middleware and routes
         self._setup_middleware()
         self._setup_routes()
+
+    @lru_cache(maxsize=128)
+    def _generate_cache_key(self, endpoint: str, params: str, auth_hash: str) -> str:
+        """Generate cache key for request caching."""
+        return f"{endpoint}:{hash(params)}:{auth_hash}"
+
+    def _is_cache_valid(self, timestamp: float) -> bool:
+        """Check if cached response is still valid."""
+        return (time.time() - timestamp) < self.cache_ttl_seconds
+
+    async def _get_cached_response(self, cache_key: str) -> Any | None:
+        """Get cached response if valid."""
+        if cache_key in self.response_cache:
+            response, timestamp = self.response_cache[cache_key]
+            if self._is_cache_valid(timestamp):
+                self.performance_metrics["cache_hits"] += 1
+                return response
+            else:
+                # Remove expired entry
+                del self.response_cache[cache_key]
+
+        self.performance_metrics["cache_misses"] += 1
+        return None
+
+    async def _cache_response(self, cache_key: str, response: Any) -> None:
+        """Cache response with timestamp."""
+        # Implement simple LRU eviction
+        if len(self.response_cache) >= self.max_cache_size:
+            # Remove oldest 10% of entries
+            sorted_entries = sorted(
+                self.response_cache.items(),
+                key=lambda x: x[1][1]  # Sort by timestamp
+            )
+            remove_count = max(1, len(sorted_entries) // 10)
+            for key, _ in sorted_entries[:remove_count]:
+                del self.response_cache[key]
+
+        self.response_cache[cache_key] = (response, time.time())
+
+    async def _coalesce_request(self, request_key: str, request_fn) -> Any:
+        """Coalesce duplicate concurrent requests."""
+        if request_key in self.pending_requests:
+            # Wait for existing request to complete
+            try:
+                return await self.pending_requests[request_key]
+            except Exception:
+                # If existing request failed, try new request
+                pass
+
+        # Create new request task
+        task = asyncio.create_task(request_fn())
+        self.pending_requests[request_key] = task
+
+        try:
+            result = await task
+            return result
+        finally:
+            # Clean up completed request
+            self.pending_requests.pop(request_key, None)
+
+    def _update_performance_metrics(self, response_time_ms: float, is_error: bool = False) -> None:
+        """Update performance metrics."""
+        self.performance_metrics["total_requests"] += 1
+
+        if is_error:
+            self.performance_metrics["error_requests"] += 1
+        else:
+            self.performance_metrics["successful_requests"] += 1
+
+        # Update rolling average response time
+        total = self.performance_metrics["total_requests"]
+        current_avg = self.performance_metrics["average_response_time"]
+        self.performance_metrics["average_response_time"] = (
+            (current_avg * (total - 1) + response_time_ms) / total
+        )
 
     @asynccontextmanager
     async def lifespan(self, app: FastAPI):
@@ -384,7 +478,7 @@ class EnhancedAPISystem:
         @self.app.post("/api/v2/consciousness/query", response_model=LUKHASResponse)
         async def consciousness_query(
             request: ConsciousnessRequest,
-            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_api_api_system_py_L481"}
         ):
             """Query consciousness system"""
             # Validate auth
@@ -437,7 +531,7 @@ class EnhancedAPISystem:
         async def memory_operation(
             action: str,
             request: MemoryRequest,
-            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_api_api_system_py_L534"}
         ):
             """Memory operations (store, retrieve, search, update)"""
             # Validate auth
@@ -500,7 +594,7 @@ class EnhancedAPISystem:
         @self.app.post("/api/v2/governance/check", response_model=LUKHASResponse)
         async def governance_check(
             request: GovernanceRequest,
-            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_api_api_system_py_L597"}
         ):
             """Check action proposal with Guardian system"""
             # Validate auth
@@ -544,7 +638,7 @@ class EnhancedAPISystem:
         @self.app.post("/api/v2/dream/generate", response_model=LUKHASResponse)
         async def dream_generate(
             request: DreamRequest,
-            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_api_api_system_py_L641"}
         ):
             """Generate creative content through dream engine"""
             # Validate auth
@@ -599,7 +693,7 @@ class EnhancedAPISystem:
         @self.app.post("/api/v2/process", response_model=LUKHASResponse)
         async def process_request(
             request: LUKHASRequest,
-            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_api_api_system_py_L696"}
         ):
             """Generic processing endpoint for complex operations"""
             # Validate auth
@@ -650,7 +744,7 @@ class EnhancedAPISystem:
         # System information endpoints
         @self.app.get("/api/v2/capabilities")
         async def get_capabilities(
-            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_api_api_system_py_L747"}
         ):
             """Get system capabilities"""
             # Validate auth
@@ -673,7 +767,7 @@ class EnhancedAPISystem:
 
         @self.app.get("/api/v2/metrics")
         async def get_metrics(
-            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_api_api_system_py_L770"}
         ):
             """Get system metrics"""
             # Validate auth
@@ -694,7 +788,7 @@ class EnhancedAPISystem:
                 },
             }
 
-    async def _validate_auth(self, token: str, operation: str) -> tuple[bool, Optional[str]]:
+    async def _validate_auth(self, token: str, operation: str) -> tuple[bool, str | None]:
         """Validate authentication for operation"""
         request_data = {
             "authorization": f"Bearer {token}",

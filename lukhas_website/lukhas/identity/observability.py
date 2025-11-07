@@ -21,7 +21,7 @@ from __future__ import annotations
 import time
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 import structlog
 
@@ -30,10 +30,10 @@ try:
     from opentelemetry import trace
     from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
     from opentelemetry.instrumentation.fastapi import (
-        FastAPIInstrumentor,  # noqa: F401  # TODO: opentelemetry.instrumentation....
+        FastAPIInstrumentor,  # TODO: opentelemetry.instrumentation....
     )
     from opentelemetry.instrumentation.httpx import (
-        HTTPXClientInstrumentor,  # noqa: F401  # TODO: opentelemetry.instrumentation....
+        HTTPXClientInstrumentor,  # TODO: opentelemetry.instrumentation....
     )
     from opentelemetry.sdk.resources import Resource
     from opentelemetry.sdk.trace import TracerProvider
@@ -62,7 +62,7 @@ logger = structlog.get_logger(__name__)
 class AuthenticationMetrics:
     """Prometheus metrics for authentication system."""
 
-    def __init__(self, registry: Optional[Any] = None):
+    def __init__(self, registry: Any | None = None):
         """Initialize authentication metrics."""
         self.registry = registry or (CollectorRegistry() if PROMETHEUS_AVAILABLE else None)
 
@@ -745,7 +745,7 @@ class ObservabilityManager:
 
 
 # Global observability manager instance
-_observability_manager: Optional[ObservabilityManager] = None
+_observability_manager: ObservabilityManager | None = None
 
 
 def get_observability_manager() -> ObservabilityManager:

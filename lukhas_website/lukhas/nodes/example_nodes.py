@@ -5,7 +5,8 @@ Example cognitive nodes for testing the orchestration system.
 
 import asyncio
 import time
-from typing import Any, Mapping
+from collections.abc import Mapping
+from typing import Any
 
 from core.interfaces import CognitiveNodeBase
 
@@ -177,7 +178,7 @@ class ActionNode(CognitiveNodeBase):
                         result = eval(expr)  # Only for demo - would use safe math parser in production
                         actions_taken.append("mathematical_calculation")
                         results["calculation_result"] = result
-            except:
+            except Exception:
                 actions_taken.append("calculation_failed")
                 results["error"] = "Could not parse mathematical expression"
 

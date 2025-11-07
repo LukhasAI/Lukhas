@@ -12,11 +12,11 @@ from __future__ import annotations
 
 import hashlib
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any
+from unittest.mock import patch
 
 import pytest
-
 from core.blockchain.blockchain_wrapper import BlockchainTransaction, BlockchainWrapper
 
 
@@ -460,23 +460,24 @@ class TestConcurrency:
 
         assert wrapper.verify_integrity() is True
 
-    def test_independent_wrappers_dont_interfere(self):
+    @patch('core.blockchain.blockchain_wrapper.datetime')
+    def test_independent_wrappers_dont_interfere(self, mock_datetime):
         """Test multiple independent wrapper instances."""
+        mock_datetime.utcnow.return_value = datetime(2025, 1, 1, 12, 0, 0)
         wrapper1 = BlockchainWrapper()
         wrapper2 = BlockchainWrapper()
 
-        wrapper1.record_transaction("ref-001", {"source": "wrapper1"})
-        wrapper2.record_transaction("ref-001", {"source": "wrapper2"})
+        payload = {"data": "shared_payload"}
+        tx1 = wrapper1.record_transaction("ref-001", payload)
+        tx2 = wrapper2.record_transaction("ref-001", payload)
 
         assert len(wrapper1.get_transactions()) == 1
         assert len(wrapper2.get_transactions()) == 1
         assert wrapper1.verify_integrity() is True
         assert wrapper2.verify_integrity() is True
 
-        # Same ref/payload but different chains
-        tx1 = wrapper1.get_transactions()[0]
-        tx2 = wrapper2.get_transactions()[0]
-        assert tx1.collapseHash == tx2.collapseHash  # First tx, no previous
+        # Same ref/payload but different chains, hashes should now be identical
+        assert tx1.collapseHash == tx2.collapseHash
 
 
 @pytest.mark.integration

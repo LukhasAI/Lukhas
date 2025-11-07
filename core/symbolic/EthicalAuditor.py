@@ -290,9 +290,8 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
                 elif current_section == "concerns" and line.startswith("-"):
                     result["ethical_concerns"].append(line[1:].strip())
 
-                elif current_section == "symbolic":
-                    if "compromised" in line.lower() or "violated" in line.lower():
-                        result["symbolic_integrity"] = False
+                elif current_section == 'symbolic' and ('compromised' in line.lower() or 'violated' in line.lower()):
+                    result["symbolic_integrity"] = False
 
             return result
 

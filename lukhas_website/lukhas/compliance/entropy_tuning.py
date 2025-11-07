@@ -34,6 +34,6 @@ def recheck_entropy(trauma_data):
     Returns:
         float: Recalculated entropy value.
     """
-    hist, bin_edges = np.histogram(trauma_data, bins=10, density=True)
+    hist, _bin_edges = np.histogram(trauma_data, bins=10, density=True)
     entropy = -np.sum(hist * np.log2(hist + 1e-9))  # Avoid log(0)
     return round(entropy, 4)

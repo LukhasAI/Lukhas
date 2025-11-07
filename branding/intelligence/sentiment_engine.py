@@ -2,12 +2,13 @@
 LUKHAS Brand Sentiment Intelligence Engine - Constellation Framework (⚛️🧠🛡️)
 Advanced sentiment analysis and brand perception tracking for LUKHAS AI
 """
+from __future__ import annotations
 
 import re
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 
 def create_sentiment_symbolic_display(polarity: str, score: float, component: str = "") -> str:
@@ -418,7 +419,7 @@ class BrandSentimentEngine:
         }
 
     def analyze_sentiment(
-        self, text: str, context: str = "general", metadata: Optional[dict[str, Any]] = None
+        self, text: str, context: str = "general", metadata: dict[str, Any] | None = None
     ) -> SentimentResult:
         """
         Perform comprehensive sentiment analysis with LUKHAS brand focus
@@ -676,7 +677,7 @@ class BrandSentimentEngine:
         return max(-1.0, min(1.0, final_sentiment))
 
     def _store_sentiment_result(
-        self, result: SentimentResult, text: str, context: str, metadata: Optional[dict[str, Any]]
+        self, result: SentimentResult, text: str, context: str, metadata: dict[str, Any] | None
     ) -> None:
         """Store sentiment result for historical analysis"""
 
@@ -790,7 +791,7 @@ class BrandSentimentEngine:
 
         return distribution
 
-    def analyze_brand_perception_evolution(self, time_periods: Optional[list[str]] = None) -> dict[str, Any]:
+    def analyze_brand_perception_evolution(self, time_periods: list[str] | None = None) -> dict[str, Any]:
         """Analyze how brand perception has evolved over time"""
 
         if time_periods is None:

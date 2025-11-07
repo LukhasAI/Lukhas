@@ -10,6 +10,7 @@ import asyncio
 import logging
 from typing import Any, Optional
 
+from core.bridges.quantum_memory_bridge import get_quantum_memory_bridge
 from qi.bio.bio_optimizer import (
     MockBioOrchestrator,
     MockQIBioCoordinator,
@@ -27,8 +28,6 @@ from qi.post_quantum_crypto_enhanced import (
     SecureMemoryManager,
 )
 from qi.quantum_security_integration import create_quantum_security_integration
-
-from core.bridges.quantum_memory_bridge import get_quantum_memory_bridge
 
 # Neuro Symbolic Integration
 try:
@@ -64,11 +63,11 @@ class QIHub:
         # Initialize components
         self.coordinator = QuantumCoordinator()
         self.register_service("coordinator", self.coordinator)
-        self.mock = MockQuantumCore()  # noqa: F821  # TODO: MockQuantumCore
+        self.mock = MockQuantumCore()  # TODO: MockQuantumCore
         self.register_service("mock", self.mock)
-        self.mockbiocoordinator = MockBioCoordinator()  # noqa: F821  # TODO: MockBioCoordinator
+        self.mockbiocoordinator = MockBioCoordinator()  # TODO: MockBioCoordinator
         self.register_service("mockbiocoordinator", self.mockbiocoordinator)
-        self.simplebiocoordinator = SimpleBioCoordinator()  # noqa: F821  # TODO: SimpleBioCoordinator
+        self.simplebiocoordinator = SimpleBioCoordinator()  # TODO: SimpleBioCoordinator
         self.register_service("simplebiocoordinator", self.simplebiocoordinator)
         self.metadatamanager = QuantumMetadataManager()
         self.register_service("metadatamanager", self.metadatamanager)
@@ -116,10 +115,9 @@ class QIHub:
             logger.info("Quantum security system initialized")
 
         # Initialize neuro symbolic system
-        if NEURO_SYMBOLIC_AVAILABLE and "neuro_symbolic" in self.services:
-            if hasattr(self.services["neuro_symbolic"], "initialize"):
-                await self.services["neuro_symbolic"].initialize()
-                logger.info("Quantum neuro symbolic system initialized")
+        if (NEURO_SYMBOLIC_AVAILABLE and 'neuro_symbolic' in self.services) and hasattr(self.services['neuro_symbolic'], 'initialize'):
+            await self.services["neuro_symbolic"].initialize()
+            logger.info("Quantum neuro symbolic system initialized")
 
         # Initialize all registered services
         for name, service in self.services.items():

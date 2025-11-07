@@ -10,6 +10,8 @@ Constellation Framework Integration: ⚛️🧠🛡️
 - 🧠 Consciousness: Brand awareness and consistent messaging
 - 🛡️ Guardian: Approved terminology and compliance standards
 """
+from __future__ import annotations
+
 import re
 from typing import Optional
 

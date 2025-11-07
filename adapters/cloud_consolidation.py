@@ -22,12 +22,11 @@ from typing import Any, Optional
 
 from consent.service import ConsentService
 from fastapi import APIRouter, Depends, HTTPException
+from matriz.adapters import ResourceMetadata, ServiceAdapter
+from matriz.adapters.drive import create_drive_adapter
+from matriz.adapters.dropbox import create_dropbox_adapter
+from matriz.adapters.gmail_headers import create_gmail_adapter
 from pydantic import BaseModel, Field
-
-from MATRIZ.adapters import ResourceMetadata, ServiceAdapter
-from MATRIZ.adapters.drive import create_drive_adapter
-from MATRIZ.adapters.dropbox import create_dropbox_adapter
-from MATRIZ.adapters.gmail_headers import create_gmail_adapter
 
 
 @dataclass
@@ -406,7 +405,7 @@ async def get_consolidation_service() -> CloudConsolidationService:
 @router.post("/plan", response_model=ConsolidationResponse)
 async def create_consolidation_plan(
     request: ConsolidationRequest,
-    service: CloudConsolidationService = Depends(get_consolidation_service),
+    service: CloudConsolidationService = Depends(get_consolidation_service),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_adapters_cloud_consolidation_py_L408"}
 ):
     """
     Analyze cloud storage and create consolidation plan.
@@ -450,7 +449,7 @@ async def create_consolidation_plan(
 @router.post("/execute")
 async def execute_consolidation_plan(
     request: ExecutePlanRequest,
-    service: CloudConsolidationService = Depends(get_consolidation_service),
+    service: CloudConsolidationService = Depends(get_consolidation_service),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_adapters_cloud_consolidation_py_L452"}
 ):
     """
     Execute selected consolidation actions.

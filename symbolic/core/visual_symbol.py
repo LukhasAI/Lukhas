@@ -335,9 +335,8 @@ class VisualSymbol:
             self.state.quantum_state = QuantumState.COLLAPSED
 
         # If emergent, observe emergence progress
-        if self.state.emergent_symbol:
-            if self.state.emergent_symbol.observe():
-                self.state.phase = SymbolicPhase.TRANSCENDENT
+        if self.state.emergent_symbol and self.state.emergent_symbol.observe():
+            self.state.phase = SymbolicPhase.TRANSCENDENT
 
         return {
             "observer_id": observer_id,
@@ -435,9 +434,8 @@ class VisualSymbol:
         self.state.emotional_arousal = min(1.0, self.state.emotional_arousal + magnitude * 0.2)
 
         # Strong resonance can trigger phase change
-        if magnitude > 0.8 and frequency in self.state.quantum_field.resonance_frequencies:
-            if self.state.phase == SymbolicPhase.STABLE:
-                self.state.phase = SymbolicPhase.EVOLVING
+        if (magnitude > 0.8 and frequency in self.state.quantum_field.resonance_frequencies) and self.state.phase == SymbolicPhase.STABLE:
+            self.state.phase = SymbolicPhase.EVOLVING
 
     def measure_consciousness(self) -> float:
         """

@@ -15,7 +15,7 @@ import time
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List
 
 import yaml
 from opentelemetry import trace
@@ -83,7 +83,7 @@ class RoutingCondition:
     """A single routing condition."""
     field: str
     operator: OperatorType
-    value: Union[str, List[str], int, float]
+    value: str | List[str] | int | float
 
     def evaluate(self, request_data: Dict[str, Any]) -> bool:
         """Evaluate condition against request data."""
@@ -113,7 +113,7 @@ class RoutingCondition:
         return False
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'RoutingCondition':
+    def from_dict(cls, data: Dict[str, Any]) -> RoutingCondition:
         """Create from dictionary."""
         return cls(
             field=data["field"],
@@ -133,10 +133,10 @@ class ProviderConfig:
     temperature: float = 0.1
     priority: int = 1
     enabled: bool = True
-    api_key: Optional[str] = None
+    api_key: str | None = None
 
     @classmethod
-    def from_dict(cls, name: str, data: Dict[str, Any]) -> 'ProviderConfig':
+    def from_dict(cls, name: str, data: Dict[str, Any]) -> ProviderConfig:
         """Create from dictionary."""
         return cls(
             name=data["name"],
@@ -156,10 +156,10 @@ class ABTestBucket:
     """A/B test bucket configuration."""
     provider: str
     percentage: float
-    options: Optional[Dict[str, Any]] = None
+    options: Dict[str, Any] | None = None
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'ABTestBucket':
+    def from_dict(cls, data: Dict[str, Any]) -> ABTestBucket:
         """Create from dictionary."""
         return cls(
             provider=data["provider"],
@@ -176,7 +176,7 @@ class LoadBalanceTarget:
     providers: List[Dict[str, Any]]
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'LoadBalanceTarget':
+    def from_dict(cls, data: Dict[str, Any]) -> LoadBalanceTarget:
         """Create from dictionary."""
         return cls(
             enabled=data["enabled"],
@@ -188,14 +188,14 @@ class LoadBalanceTarget:
 @dataclass
 class RoutingTarget:
     """Routing target configuration."""
-    provider: Optional[str] = None
-    fallback: Optional[str] = None
-    options: Optional[Dict[str, Any]] = None
-    ab_test: Optional[Dict[str, Any]] = None
-    load_balance: Optional[LoadBalanceTarget] = None
+    provider: str | None = None
+    fallback: str | None = None
+    options: Dict[str, Any] | None = None
+    ab_test: Dict[str, Any] | None = None
+    load_balance: LoadBalanceTarget | None = None
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'RoutingTarget':
+    def from_dict(cls, data: Dict[str, Any]) -> RoutingTarget:
         """Create from dictionary."""
         load_balance = None
         if "load_balance" in data:
@@ -229,7 +229,7 @@ class RoutingRule:
         return all(condition.evaluate(request_data) for condition in self.conditions)
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'RoutingRule':
+    def from_dict(cls, data: Dict[str, Any]) -> RoutingRule:
         """Create from dictionary."""
         conditions = [
             RoutingCondition.from_dict(cond)
@@ -252,8 +252,8 @@ class RoutingResult:
     provider: str
     rule_name: str
     options: Dict[str, Any]
-    fallback_provider: Optional[str] = None
-    ab_test_bucket: Optional[str] = None
+    fallback_provider: str | None = None
+    ab_test_bucket: str | None = None
     processing_time_ms: float = 0.0
 
     def to_dict(self) -> Dict[str, Any]:
@@ -301,7 +301,7 @@ class ConfigurableRoutingSystem:
             if current_mtime <= self.last_config_mtime:
                 return False  # No changes
 
-            with open(self.config_path, 'r') as f:
+            with open(self.config_path) as f:
                 new_config = yaml.safe_load(f)
 
             self._validate_config(new_config)
@@ -342,7 +342,7 @@ class ConfigurableRoutingSystem:
 
     async def route_request(self,
                            request_data: Dict[str, Any],
-                           user_id: Optional[str] = None) -> RoutingResult:
+                           user_id: str | None = None) -> RoutingResult:
         """
         Route request to appropriate provider.
 
@@ -406,7 +406,7 @@ class ConfigurableRoutingSystem:
     async def _resolve_target(self,
                              target: RoutingTarget,
                              request_data: Dict[str, Any],
-                             user_id: Optional[str]) -> RoutingResult:
+                             user_id: str | None) -> RoutingResult:
         """Resolve routing target to specific provider."""
 
         # Handle A/B testing
@@ -445,7 +445,7 @@ class ConfigurableRoutingSystem:
     async def _resolve_ab_test(self,
                               ab_test_config: Dict[str, Any],
                               request_data: Dict[str, Any],
-                              user_id: Optional[str]) -> RoutingResult:
+                              user_id: str | None) -> RoutingResult:
         """Resolve A/B test target."""
         test_name = ab_test_config["test_name"]
         buckets = [ABTestBucket.from_dict(b) for b in ab_test_config["buckets"]]
@@ -502,7 +502,7 @@ class ConfigurableRoutingSystem:
             return self._ab_test_buckets[bucket_key]
 
         # Hash-based assignment for consistency
-        hash_input = f"{test_name}_{user_id}".encode('utf-8')
+        hash_input = f"{test_name}_{user_id}".encode()
         hash_value = int(hashlib.sha256(hash_input).hexdigest()[:8], 16)
         percentage = (hash_value % 100) + 1
 
@@ -614,7 +614,7 @@ class ConfigurableRoutingSystem:
 
 
 # Global routing system instance
-_routing_system: Optional[ConfigurableRoutingSystem] = None
+_routing_system: ConfigurableRoutingSystem | None = None
 
 def get_routing_system() -> ConfigurableRoutingSystem:
     """Get the default routing system instance."""

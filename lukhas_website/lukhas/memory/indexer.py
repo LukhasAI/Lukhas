@@ -10,6 +10,7 @@ Performance targets:
 - Duplicate detection: <50ms p95
 - Content extraction: 99.9% accuracy
 """
+from __future__ import annotations
 
 import hashlib
 import re
@@ -17,10 +18,9 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 import numpy as np
-
 from core.logging import get_logger
 from memory.backends.base import VectorDocument
 from observability.metrics import get_metrics_collector
@@ -34,16 +34,16 @@ class IndexingResult:
     """
     Result of document indexing operation.
     """
-    document: Optional[VectorDocument] = None
+    document: VectorDocument | None = None
     success: bool = False
-    error: Optional[str] = None
-    duplicate_of: Optional[str] = None
+    error: str | None = None
+    duplicate_of: str | None = None
     processing_time_ms: float = 0.0
     metadata_extracted: Dict[str, Any] = field(default_factory=dict)
 
     # Content analysis results
     word_count: int = 0
-    language: Optional[str] = None
+    language: str | None = None
     content_type: str = "text"
     extracted_entities: List[str] = field(default_factory=list)
 
@@ -283,7 +283,7 @@ class DocumentIndexer:
     def __init__(
         self,
         embedding_provider: AbstractEmbeddingProvider,
-        content_extractor: Optional[ContentExtractor] = None,
+        content_extractor: ContentExtractor | None = None,
         enable_deduplication: bool = True,
         dedup_threshold: float = 0.95
     ):
@@ -321,12 +321,12 @@ class DocumentIndexer:
         self,
         document_id: str,
         content: str,
-        metadata: Optional[Dict[str, Any]] = None,
-        identity_id: Optional[str] = None,
+        metadata: Dict[str, Any] | None = None,
+        identity_id: str | None = None,
         lane: str = "candidate",
-        fold_id: Optional[str] = None,
-        tags: Optional[List[str]] = None,
-        expires_at: Optional[datetime] = None
+        fold_id: str | None = None,
+        tags: List[str] | None = None,
+        expires_at: datetime | None = None
     ) -> IndexingResult:
         """
         Index a single document with embedding generation and analysis.

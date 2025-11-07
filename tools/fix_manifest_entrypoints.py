@@ -148,7 +148,7 @@ def fix_manifest_entrypoints(
     print(f"\n🔧 Processing: {module_name}")
 
     # Load current manifest
-    with open(manifest_path, 'r', encoding='utf-8') as f:
+    with open(manifest_path, encoding='utf-8') as f:
         manifest = json.load(f)
 
     validated_entrypoints = []

@@ -10,6 +10,10 @@ const customJestConfig = {
   // Add more setup options before each test is run
   setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
 
+  transform: {
+    '^.+\\.(ts|tsx)$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.json', isolatedModules: true }],
+  },
+
   // Test environment
   testEnvironment: 'jest-environment-jsdom',
 

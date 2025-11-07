@@ -98,9 +98,8 @@ class TestLUKHASTracerWithOTel:
         """Test trace_operation with exception handling"""
         tracer = LUKHASTracer("test-service", enable_auto_instrumentation=False)
 
-        with pytest.raises(ValueError):
-            with tracer.trace_operation("failing_operation"):
-                raise ValueError("Test exception")
+        with pytest.raises(ValueError), tracer.trace_operation("failing_operation"):
+            raise ValueError("Test exception")
 
     def test_memory_operation_tracing(self):
         """Test memory operation tracing"""
@@ -221,9 +220,8 @@ class TestTracingDecorators:
 
     def test_trace_memory_recall_with_exception(self):
         """Test trace_memory_recall with exception"""
-        with pytest.raises(ValueError):
-            with trace_memory_recall(item_count=5):
-                raise ValueError("Memory error")
+        with pytest.raises(ValueError), trace_memory_recall(item_count=5):
+            raise ValueError("Memory error")
 
     def test_trace_matriz_execution_context_manager(self):
         """Test trace_matriz_execution context manager"""
@@ -234,10 +232,9 @@ class TestTracingDecorators:
 
     def test_trace_matriz_execution_with_exception(self):
         """Test trace_matriz_execution with exception"""
-        with pytest.raises(RuntimeError):
-            with trace_matriz_execution() as context:
-                context["stages_completed"] = 2
-                raise RuntimeError("Pipeline error")
+        with pytest.raises(RuntimeError), trace_matriz_execution() as context:
+            context["stages_completed"] = 2
+            raise RuntimeError("Pipeline error")
 
 
 class TestTracingIntegration:

@@ -52,7 +52,7 @@ def main():
     print(f"🎯 Original Error Count: {original_errors}")
 
     # Get current status
-    current_errors, mypy_output = run_mypy_check()
+    current_errors, _mypy_output = run_mypy_check()
     print(f"📈 Current Error Count: {current_errors}")
 
     # Calculate progress

@@ -47,7 +47,7 @@ class ImportVisitor(ast.NodeVisitor):
 def extract_imports_from_file(file_path: pathlib.Path) -> List[Dict[str, Any]]:
     """Extract import statements from a Python file."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
 
         tree = ast.parse(content, filename=str(file_path))
@@ -147,7 +147,7 @@ def detect_circular_imports(graph: Dict[str, Set[str]]) -> List[List[str]]:
         if node in rec_stack:
             # Found a cycle
             cycle_start = path.index(node)
-            cycle = path[cycle_start:] + [node]
+            cycle = [*path[cycle_start:], node]
             cycles.append(cycle)
             return
 
@@ -158,7 +158,7 @@ def detect_circular_imports(graph: Dict[str, Set[str]]) -> List[List[str]]:
         rec_stack.add(node)
 
         for neighbor in graph.get(node, set()):
-            dfs(neighbor, path + [node])
+            dfs(neighbor, [*path, node])
 
         rec_stack.remove(node)
 
@@ -192,7 +192,7 @@ def analyze_imports(root_path: pathlib.Path) -> Dict[str, Any]:
 
     # Summary statistics
     total_files = len(python_files)
-    files_with_bad_imports = len(set(imp['file'] for imp in all_bad_imports))
+    files_with_bad_imports = len({imp['file'] for imp in all_bad_imports})
     total_bad_imports = len(all_bad_imports)
 
     return {

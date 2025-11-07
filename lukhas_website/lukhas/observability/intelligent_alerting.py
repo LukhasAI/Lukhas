@@ -185,7 +185,7 @@ class IntelligentAlertingSystem:
         """Load alerting configuration from file"""
         if self.config_path.exists():
             try:
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path) as f:
                     config = json.load(f)
 
                 # Load alert rules
@@ -592,13 +592,12 @@ This is an automated alert from LUKHAS AI System.
                 "annotations": alert.annotations,
             }
 
-            async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    webhook_url,
-                    json=payload,
-                    timeout=aiohttp.ClientTimeout(total=self.webhook_timeout)
-                ) as response:
-                    return response.status < 400
+            async with aiohttp.ClientSession() as session, session.post(
+                webhook_url,
+                json=payload,
+                timeout=aiohttp.ClientTimeout(total=self.webhook_timeout)
+            ) as response:
+                return response.status < 400
 
         except Exception as e:
             print(f"Webhook notification error: {e}")
@@ -692,7 +691,7 @@ This is an automated alert from LUKHAS AI System.
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours_back)
 
         # Recent alerts (active + recently resolved)
-        recent_alerts = [a for a in self.active_alerts.values()]
+        recent_alerts = list(self.active_alerts.values())
         recent_alerts.extend([
             a for a in self.alert_history
             if a.created_at >= cutoff_time

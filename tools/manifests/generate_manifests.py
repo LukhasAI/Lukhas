@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import argparse
 import datetime
 import json
 import os
 import re
 import sys
+from datetime import timezone
 
 STAR_RULES = [
     (re.compile(r'(governance|guardian|ethic)'), (["Ethics","Guardian"], 0.95)),
@@ -32,7 +35,7 @@ def discover_packages(lanes):
             print(f"WARNING: lane '{lane}' root directory '{root}' not found; skipping", file=sys.stderr)
             continue
         found = 0
-        for dirpath, dirnames, filenames in os.walk(root):
+        for dirpath, _dirnames, filenames in os.walk(root):
             if '__init__.py' in filenames:
                 pkgs.add(dirpath)
                 found += 1
@@ -46,7 +49,7 @@ def discover_manifests(lanes):
         base = os.path.join('manifests', lane)
         if not os.path.isdir(base):
             continue
-        for dirpath, dirnames, filenames in os.walk(base):
+        for dirpath, _dirnames, filenames in os.walk(base):
             if 'module.manifest.json' in filenames:
                 rel = os.path.relpath(dirpath, 'manifests')
                 paths.add(rel)
@@ -65,7 +68,13 @@ def build_manifest(pkg: str):
     lane = pkg.split('/')[0]
     name = pkg.replace('/', '.')
     stars, conf = decide_star(pkg)
-    now = datetime.datetime.utcnow().replace(microsecond=0).isoformat()+"Z"
+    now = (
+        datetime.datetime
+        .now(timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z")
+    )
     return {
         "name": name,
         "path": pkg,

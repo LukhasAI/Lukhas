@@ -28,6 +28,7 @@ Constellation Framework: Flow Star (🌊) coordination hub
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import hashlib
 import json
 import logging
@@ -36,7 +37,7 @@ import uuid
 import zlib
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from opentelemetry import trace
 
@@ -111,7 +112,7 @@ class ContextHop:
     timestamp: float
     latency_ms: float
     success: bool
-    error: Optional[str] = None
+    error: str | None = None
     metadata: Dict[str, Any] = field(default_factory=dict)
 
 
@@ -135,8 +136,8 @@ class PreservedContext:
     """Complete preserved context with metadata"""
     metadata: ContextMetadata
     data: Dict[str, Any]
-    compressed_data: Optional[bytes] = None
-    checksum: Optional[str] = None
+    compressed_data: bytes | None = None
+    checksum: str | None = None
 
 
 class ContextSerializer:
@@ -215,7 +216,7 @@ class ContextCache:
         self._cache: Dict[str, tuple[PreservedContext, float]] = {}  # key -> (context, expiry_time)
         self._access_order: List[str] = []  # LRU tracking
 
-    async def get(self, context_id: str) -> Optional[PreservedContext]:
+    async def get(self, context_id: str) -> PreservedContext | None:
         """Get context from cache"""
         start_time = time.time()
 
@@ -254,9 +255,8 @@ class ContextCache:
             expiry_time = time.time() + context.metadata.ttl_seconds
 
             # Remove if already exists
-            if context_id in self._cache:
-                if context_id in self._access_order:
-                    self._access_order.remove(context_id)
+            if context_id in self._cache and context_id in self._access_order:
+                self._access_order.remove(context_id)
 
             # Add to cache
             self._cache[context_id] = (context, expiry_time)
@@ -316,7 +316,7 @@ class ContextPreservationEngine:
         self.memory_store: Dict[str, PreservedContext] = {}
 
         # Background cleanup task
-        self.cleanup_task: Optional[asyncio.Task] = None
+        self.cleanup_task: asyncio.Task | None = None
         self.cleanup_interval = 300  # 5 minutes
 
         logger.info("Context preservation engine initialized")
@@ -336,10 +336,8 @@ class ContextPreservationEngine:
 
         if self.cleanup_task:
             self.cleanup_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self.cleanup_task
-            except asyncio.CancelledError:
-                pass
 
         logger.info("✅ Context preservation engine stopped")
 
@@ -412,7 +410,7 @@ class ContextPreservationEngine:
                 logger.error(f"❌ Failed to preserve context: {e}")
                 raise
 
-    async def restore_context(self, context_id: str) -> Optional[Dict[str, Any]]:
+    async def restore_context(self, context_id: str) -> Dict[str, Any] | None:
         """Restore context data by ID"""
 
         start_time = time.time()
@@ -447,7 +445,7 @@ class ContextPreservationEngine:
                 # Restore from compressed data
                 if preserved_context.compressed_data:
                     # Verify checksum
-                    if preserved_context.checksum:
+                    if preserved_context.checksum:  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_context_preservation_py_L448"}
                         if not self.serializer.verify_checksum(
                             preserved_context.compressed_data,
                             preserved_context.checksum
@@ -483,7 +481,7 @@ class ContextPreservationEngine:
         context_id: str,
         source_provider: str,
         destination_provider: str,
-        additional_metadata: Optional[Dict[str, Any]] = None
+        additional_metadata: Dict[str, Any] | None = None
     ) -> bool:
         """Hand off context between providers"""
 
@@ -554,7 +552,7 @@ class ContextPreservationEngine:
                 logger.error(f"❌ Context handoff failed: {e}")
                 return False
 
-    async def get_context_metadata(self, context_id: str) -> Optional[ContextMetadata]:
+    async def get_context_metadata(self, context_id: str) -> ContextMetadata | None:
         """Get context metadata"""
         preserved_context = await self.cache.get(context_id)
         if not preserved_context:
@@ -626,7 +624,7 @@ class ContextPreservationEngine:
 
 
 # Global context preservation engine
-_context_engine: Optional[ContextPreservationEngine] = None
+_context_engine: ContextPreservationEngine | None = None
 
 
 async def get_context_preservation_engine() -> ContextPreservationEngine:

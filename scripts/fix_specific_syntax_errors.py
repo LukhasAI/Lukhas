@@ -3,6 +3,7 @@
 🔧 LUKHAS Specific Syntax Error Fixer
 Targets specific common syntax errors found in the codebase.
 """
+from __future__ import annotations
 
 import re
 from pathlib import Path
@@ -132,7 +133,7 @@ def fix_multiline_conditionals(content: str) -> tuple[str, list[str]]:
                         j += 1
 
                     # Join and add colon
-                    full_condition = " ".join(l.strip() for l in condition_lines)
+                    full_condition = " ".join(line.strip() for line in condition_lines)
                     if not full_condition.endswith(":"):
                         full_condition += ":"
 

@@ -9,4 +9,4 @@ by re-exporting classes from the colonies module.
 from ..shims.core_swarm import AgentColony, SwarmHub
 from .colonies import SwarmAgent
 
-__all__ = ["SwarmAgent", "SwarmHub", "AgentColony"]
+__all__ = ["AgentColony", "SwarmAgent", "SwarmHub"]

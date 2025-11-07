@@ -17,7 +17,7 @@ import asyncio
 import logging
 import time
 from dataclasses import asdict
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -47,7 +47,7 @@ from .types import (
 try:
     from .guardian_integration import (
         ConsciousnessGuardianIntegration,
-        ConsciousnessValidationContext,  # noqa: F401  # TODO: .guardian_integration.Consciou...
+        ConsciousnessValidationContext,  # TODO: .guardian_integration.Consciou...
         GuardianValidationConfig,
         GuardianValidationType,
         create_validation_context,
@@ -103,7 +103,7 @@ class ConsciousnessStream:
     Implements T4/0.01% performance standards with comprehensive observability.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Dict[str, Any] | None = None):
         """Initialize consciousness stream with configuration."""
         self.config = config or {}
         self._component_id = "ConsciousnessStream"
@@ -150,11 +150,11 @@ class ConsciousnessStream:
         self._last_tick_time = 0.0
 
         # Recent processing artifacts
-        self._recent_awareness: Optional[AwarenessSnapshot] = None
-        self._recent_reflection: Optional[ReflectionReport] = None
-        self._recent_dream: Optional[DreamTrace] = None
-        self._recent_creativity: Optional[CreativitySnapshot] = None
-        self._recent_decision: Optional[DecisionContext] = None
+        self._recent_awareness: AwarenessSnapshot | None = None
+        self._recent_reflection: ReflectionReport | None = None
+        self._recent_dream: DreamTrace | None = None
+        self._recent_creativity: CreativitySnapshot | None = None
+        self._recent_decision: DecisionContext | None = None
 
         # Performance tracking
         self._tick_latencies: List[float] = []
@@ -200,7 +200,7 @@ class ConsciousnessStream:
 
             logger.info(f"Consciousness Stream stopped after {self._tick_count} ticks")
 
-    async def tick(self, signals: Optional[Dict[str, Any]] = None) -> ConsciousnessMetrics:
+    async def tick(self, signals: Dict[str, Any] | None = None) -> ConsciousnessMetrics:
         """
         Execute single consciousness processing tick.
 
@@ -476,7 +476,7 @@ class ConsciousnessStream:
         # Extract seed concepts from signal buffer
         if self._signal_buffer:
             # Look for creative cues in signals
-            creative_signals = [k for k in self._signal_buffer.keys()
+            creative_signals = [k for k in self._signal_buffer
                              if "creative" in k.lower() or "idea" in k.lower()]
             if creative_signals:
                 triggers["should_create"] = True

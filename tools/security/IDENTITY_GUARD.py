@@ -5,11 +5,11 @@ LUKHAS  Identity Guard
 Pre-commit hook and validation tool to ensure new code follows identity integration standards.
 Prevents unprotected API endpoints and missing user tracking from being committed.
 """
+from __future__ import annotations
 
 import re
 import sys
 from pathlib import Path
-from typing import Optional
 
 
 class IdentityGuard:
@@ -180,7 +180,7 @@ class IdentityGuard:
 
         return violations
 
-    def validate_changes(self, changed_files: Optional[list[str]] = None) -> bool:
+    def validate_changes(self, changed_files: list[str] | None = None) -> bool:
         """Validate changed files for identity compliance."""
 
         if changed_files is None:
@@ -195,7 +195,7 @@ class IdentityGuard:
                     cwd=".",
                 )
                 changed_files = result.stdout.strip().split("\n") if result.stdout.strip() else []
-            except:
+            except Exception:
                 print("⚠️ Could not get git changes, validating all API files")
                 changed_files = []
 

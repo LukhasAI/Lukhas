@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import hashlib
-from typing import Any, Dict, Iterable, List, Optional
+from collections.abc import Iterable
+from typing import Any, Dict, List
 
 from .backends.pgvector_store import PgVectorStore, VectorDoc
 
@@ -25,7 +26,7 @@ def _fingerprint(text: str) -> str:
 
 
 class Indexer:
-    def __init__(self, store: PgVectorStore, emb: Optional[Embeddings] = None):
+    def __init__(self, store: PgVectorStore, emb: Embeddings | None = None):
         self.store = store
         self.emb = emb or Embeddings()
 
@@ -35,14 +36,14 @@ class Indexer:
         # TODO: detect duplicates by fp in meta
         return self.store.add(VectorDoc(id=fp, text=text, embedding=vec, meta=meta))
 
-    def search_text(self, query: str, k: int = 10, filters: Optional[Dict[str, Any]] = None):
+    def search_text(self, query: str, k: int = 10, filters: Dict[str, Any] | None = None):
         vec = self.emb.embed(query)
         return self.store.search(vec, k=k, filters=filters)
 
 
 # Added for test compatibility (memory.indexer.ContentExtractor)
 try:
-    from candidate.memory.indexer import ContentExtractor
+    from labs.memory.indexer import ContentExtractor
 except ImportError:
     class ContentExtractor:
         """Stub for ContentExtractor."""
@@ -56,7 +57,7 @@ _register("ContentExtractor")
 
 # Added for test compatibility (memory.indexer.DocumentIndexer)
 try:
-    from candidate.memory.indexer import DocumentIndexer
+    from labs.memory.indexer import DocumentIndexer
 except ImportError:
     class DocumentIndexer:
         """Stub for DocumentIndexer."""
@@ -74,7 +75,7 @@ try:
         __all__.append("OpenAIEmbeddingProvider")
 except ImportError:
     try:
-        from candidate.memory.indexer import OpenAIEmbeddingProvider  # type: ignore
+        from labs.memory.indexer import OpenAIEmbeddingProvider  # type: ignore
         if "OpenAIEmbeddingProvider" not in __all__:
             __all__.append("OpenAIEmbeddingProvider")
     except ImportError:
@@ -89,7 +90,7 @@ except ImportError:
 
 # Added for test compatibility (memory.indexer.SentenceTransformersProvider)
 try:
-    from candidate.memory.indexer import SentenceTransformersProvider
+    from labs.memory.indexer import SentenceTransformersProvider
 except ImportError:
     class SentenceTransformersProvider:
         """Stub sentence transformers provider."""

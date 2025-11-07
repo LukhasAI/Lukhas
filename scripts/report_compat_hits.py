@@ -32,7 +32,7 @@ def main():
     # Count total hits across all keys
     total_hits = 0
     if isinstance(data, dict):
-        for key, count in data.items():
+        for _key, count in data.items():
             if isinstance(count, int):
                 total_hits += count
             elif isinstance(count, dict) and "count" in count:

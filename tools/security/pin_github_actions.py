@@ -43,7 +43,7 @@ def analyze_workflow_file(filepath: Path) -> List[Tuple[str, str, int]]:
     issues = []
 
     try:
-        with open(filepath, 'r') as f:
+        with open(filepath) as f:
             lines = f.readlines()
 
         for line_num, line in enumerate(lines, 1):
@@ -64,7 +64,7 @@ def analyze_workflow_file(filepath: Path) -> List[Tuple[str, str, int]]:
 def update_workflow_file(filepath: Path, dry_run: bool = True) -> bool:
     """Update a workflow file to use SHA references"""
     try:
-        with open(filepath, 'r') as f:
+        with open(filepath) as f:
             content = f.read()
 
         updates_made = 0
@@ -112,7 +112,7 @@ def check_workflows() -> Dict[str, List]:
         print("\n🔍 Unpinned Actions Found:")
         for filepath, issues in all_issues.items():
             print(f"\n{filepath}:")
-            for action_ref, line, line_num in issues:
+            for action_ref, _line, line_num in issues:
                 status = "🔄 CAN PIN" if action_ref in ACTION_SHA_MAP else "⚠️ UNKNOWN"
                 print(f"   Line {line_num}: {action_ref} {status}")
 

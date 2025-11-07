@@ -1,7 +1,6 @@
 """High priority tests for JWTAdapter metadata enhancements."""
 
 import pytest
-
 from labs.bridge.adapters.api_framework import JWTAdapter, TokenType
 
 

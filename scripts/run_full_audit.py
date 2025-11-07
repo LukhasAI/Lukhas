@@ -234,7 +234,7 @@ def main():
         cert_file = output_dir / f"certification_{audit_id}.json"
         if cert_file.exists():
             try:
-                with open(cert_file, 'r') as f:
+                with open(cert_file) as f:
                     cert_data = json.load(f)
 
                 status = cert_data.get("certification", {}).get("status", "UNKNOWN")

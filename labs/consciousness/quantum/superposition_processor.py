@@ -28,6 +28,8 @@
 ║ • Quantum Error Correction: Self-healing consciousness states
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import asyncio
 import logging
 import math

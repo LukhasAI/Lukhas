@@ -38,10 +38,7 @@ def resolve_finding_path(filename: str) -> tuple[Path, Path]:
     """Return absolute and repo-relative paths for a ruff finding entry."""
     candidate = Path(filename)
 
-    if candidate.is_absolute():
-        abs_path = candidate
-    else:
-        abs_path = (REPO / candidate).resolve()
+    abs_path = candidate if candidate.is_absolute() else (REPO / candidate).resolve()
 
     try:
         rel_path = abs_path.relative_to(REPO)
@@ -56,7 +53,7 @@ SKIP_DIRS = {".git", ".venv", "node_modules", "archive", "quarantine", "labs", "
 
 def ruff_F401(paths):
     """Run ruff F401 on selected paths; return list[(abs_path, line, message)]."""
-    cmd = ["python3", "-m", "ruff", "check", "--select", "F401", "--output-format", "json"] + list(paths)
+    cmd = ["python3", "-m", "ruff", "check", "--select", "F401", "--output-format", "json", *list(paths)]
 
     try:
         result = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True)

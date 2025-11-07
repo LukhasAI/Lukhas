@@ -8,4 +8,4 @@ def disable_warnings(category: type[Warning] | None = None) -> None:
     """Stub disable_warnings to satisfy test harness."""
 
 
-__all__ = ["exceptions", "disable_warnings", "__version__"]
+__all__ = ["__version__", "disable_warnings", "exceptions"]

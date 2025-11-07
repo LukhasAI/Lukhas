@@ -200,7 +200,7 @@ class EnhancedAwarenessEngine:
                 self_awareness_score=0.0,
                 meta_reasoning_quality=0.0,
                 actionable_insights=[],
-                cognitive_adjustments=[f"Error in awareness update: {str(e)}"],
+                cognitive_adjustments=[f"Error in awareness update: {e!s}"],
                 reasoning_accuracy=0.0,
                 confidence_calibration=0.0,
                 processing_efficiency=0.0,
@@ -336,13 +336,10 @@ class EnhancedAwarenessEngine:
             return True
 
         # Force assessment if significant time has passed
-        if time.time() - self.last_meta_assessment_time > 30.0:  # 30 seconds
-            return True
+        return (time.time() - self.last_meta_assessment_time) > 30.0  # 30 seconds
 
         # Force assessment if anomalies detected in base awareness
         # (This would be determined by the base snapshot)
-
-        return False
 
     def _track_inference(self, inference_result: InferenceResult) -> None:
         """Track inference result for meta-cognitive assessment."""

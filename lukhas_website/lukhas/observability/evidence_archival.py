@@ -252,7 +252,7 @@ class EvidenceArchivalSystem:
 
         if self.config_path.exists():
             try:
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path) as f:
                     self.config = json.load(f)
                     # Merge with defaults
                     for key, value in default_config.items():
@@ -360,7 +360,7 @@ class EvidenceArchivalSystem:
 
         # Default retention policy
         if not retention_policy:
-            retention_policy = list(self.retention_policies.values())[0]
+            retention_policy = next(iter(self.retention_policies.values()))
 
         job = ArchivalJob(
             job_id=job_id,
@@ -424,7 +424,7 @@ class EvidenceArchivalSystem:
                 with gzip.open(evidence_file, 'rt') as f:
                     evidence_data = json.load(f)
             else:
-                with open(evidence_file, 'r') as f:
+                with open(evidence_file) as f:
                     evidence_data = json.load(f)
 
             original_size = evidence_file.stat().st_size
@@ -908,8 +908,8 @@ class EvidenceArchivalSystem:
         """Schedule archival based on evidence age and retention policies"""
         current_time = datetime.now(timezone.utc)
 
-        for regulation, policy in self.retention_policies.items():
-            for tier, days_threshold in policy.storage_tier_transitions.items():
+        for _regulation, policy in self.retention_policies.items():
+            for _tier, days_threshold in policy.storage_tier_transitions.items():
                 current_time - timedelta(days=days_threshold)
 
                 # Find evidence that should be transitioned to this tier

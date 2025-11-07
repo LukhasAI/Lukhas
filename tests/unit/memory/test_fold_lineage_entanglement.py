@@ -1,12 +1,11 @@
 """Unit tests for fold lineage entanglement detection."""
 
+import importlib.util
 import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PACKAGE_DIR = REPO_ROOT / "memory"
-
-import importlib.util  # noqa: E402
 
 package_spec = importlib.util.spec_from_file_location(
     "memory", PACKAGE_DIR / "__init__.py", submodule_search_locations=[str(PACKAGE_DIR)]
@@ -27,7 +26,10 @@ if flt_spec.loader is not None:
     flt_spec.loader.exec_module(flt_module)
 
 
-from memory.fold_lineage_tracker import CausationType, FoldLineageTracker  # noqa: E402
+from memory.fold_lineage_tracker import (  # noqa: E402 - test constructs in-memory package before import
+    CausationType,
+    FoldLineageTracker,
+)
 
 
 # ΛTAG: fold_lineage

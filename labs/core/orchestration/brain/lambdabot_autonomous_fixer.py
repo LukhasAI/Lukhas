@@ -15,6 +15,8 @@ Features:
 Created: 2025-06-30
 Status: AUTONOMOUS DEPLOYMENT READY ✅
 """
+from __future__ import annotations
+
 import time
 import streamlit as st
 

@@ -107,12 +107,12 @@ class ClaimsVerifier:
             return self._parse_markdown_claims(baseline_path)
         else:
             # Load from JSON
-            with open(baseline_path, 'r') as f:
+            with open(baseline_path) as f:
                 return json.load(f)
 
     def _parse_markdown_claims(self, md_file: Path) -> Dict[str, Any]:
         """Parse claims from markdown audit report."""
-        with open(md_file, 'r') as f:
+        with open(md_file) as f:
             content = f.read()
 
         # Extract performance claims using regex
@@ -136,7 +136,7 @@ class ClaimsVerifier:
 
     def load_results_data(self, results_file: str) -> Dict[str, Any]:
         """Load measurement results from file."""
-        with open(results_file, 'r') as f:
+        with open(results_file) as f:
             return json.load(f)
 
     def extract_measurement_value(

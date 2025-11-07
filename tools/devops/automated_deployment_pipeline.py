@@ -144,7 +144,7 @@ class DockerManager:
                 stderr=asyncio.subprocess.PIPE
             )
 
-            stdout, stderr = await process.communicate()
+            _stdout, stderr = await process.communicate()
 
             if process.returncode == 0:
                 logger.info(f"Docker image built successfully: {image_name}:{tag}")
@@ -210,7 +210,7 @@ class DockerManager:
                 stderr=asyncio.subprocess.PIPE
             )
 
-            stdout, stderr = await process.communicate()
+            _stdout, _stderr = await process.communicate()
             return process.returncode == 0
 
         except Exception as e:
@@ -226,7 +226,7 @@ class DockerManager:
                 stderr=asyncio.subprocess.PIPE
             )
 
-            stdout, stderr = await process.communicate()
+            _stdout, _stderr = await process.communicate()
             return process.returncode == 0
 
         except Exception as e:
@@ -260,7 +260,7 @@ class AutomatedDeploymentPipeline:
         """Load deployment configuration"""
         try:
             if self.config_path.exists():
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path) as f:
                     config_data = json.load(f)
 
                 environments = {}
@@ -383,7 +383,7 @@ class AutomatedDeploymentPipeline:
                 return False
 
         # Run coverage check
-        success, output, error = await self._run_command(
+        success, _output, error = await self._run_command(
             "python -m pytest tests/ --cov=. --cov-report=json --cov-fail-under=80"
         )
 
@@ -422,7 +422,7 @@ class AutomatedDeploymentPipeline:
 
         # Run any custom build commands
         for command in config.pre_deploy_commands:
-            success, output, error = await self._run_command(command)
+            success, _output, error = await self._run_command(command)
             if not success:
                 logger.error(f"Pre-deploy command failed: {command} - {error}")
                 return False
@@ -446,7 +446,7 @@ class AutomatedDeploymentPipeline:
 
         # Run post-deploy commands
         for command in config.post_deploy_commands:
-            success, output, error = await self._run_command(command)
+            success, _output, error = await self._run_command(command)
             if not success:
                 logger.error(f"Post-deploy command failed: {command} - {error}")
                 return False
@@ -499,7 +499,7 @@ class AutomatedDeploymentPipeline:
         backup_path = backup_dir / f"backup-{timestamp}.tar.gz"
 
         # Create backup of current deployment
-        success, output, error = await self._run_command(
+        success, _output, error = await self._run_command(
             f"tar -czf {backup_path} --exclude='.git' --exclude='__pycache__' ."
         )
 
@@ -628,7 +628,7 @@ class AutomatedDeploymentPipeline:
             await self._run_command(f"docker stop {container_name}")
 
             # Restore backup
-            success, output, error = await self._run_command(
+            success, _output, error = await self._run_command(
                 f"tar -xzf {latest_backup} -C {self.project_root}"
             )
 
@@ -691,7 +691,7 @@ class AutomatedDeploymentPipeline:
 
             if choice == "1":
                 print("\nAvailable environments:")
-                for env in self.environments.keys():
+                for env in self.environments:
                     print(f"- {env}")
 
                 env = input("Enter environment: ").strip()

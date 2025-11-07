@@ -4,6 +4,8 @@ Original: narration_controller.py
 Advanced: narration_controller.py
 Integration Date: 2025-05-31T07:55:30.566718
 """
+from __future__ import annotations
+
 
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮
@@ -73,7 +75,7 @@ def print_debug_narration_summary():
         print(
             f" • ID: {e.get('id')} | Emoji: {e.get('emoji')} | Tags: {','.join(e.get('tags', []))}"
         )
-        print(f"   📝 Summary: {e.get('summary', '—')}")
+        print(f"   📝 Summary: {e.get('summary', '-')}")
         print()
 
 if __name__ == "__main__":

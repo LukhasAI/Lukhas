@@ -102,7 +102,7 @@ def load_contracts(pattern: str) -> List[Tuple[Path, Dict[str, Any]]]:
     for contract_path in sorted(contract_paths):
         path = Path(contract_path)
         try:
-            with open(path, 'r', encoding='utf-8') as f:
+            with open(path, encoding='utf-8') as f:
                 contract_data = json.load(f)
             contracts.append((path, contract_data))
         except Exception as e:

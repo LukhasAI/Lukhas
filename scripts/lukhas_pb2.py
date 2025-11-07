@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 LUKHAS Protocol Buffer Definitions
 Generated protobuf-style module for LUKHAS AI system communication
@@ -201,13 +200,13 @@ def get_protocol() -> LukhasProtocol:
 
 # Export public interface
 __all__ = [
-    "MessageType",
-    "LukhasMessage",
     "ConsciousnessState",
     "DreamSequence",
-    "MemoryFold",
-    "IdentityValidation",
     "GuardianAlert",
+    "IdentityValidation",
+    "LukhasMessage",
     "LukhasProtocol",
+    "MemoryFold",
+    "MessageType",
     "get_protocol",
 ]

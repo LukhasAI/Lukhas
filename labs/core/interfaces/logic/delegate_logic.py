@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # core/interfaces/logic/delegate_logic.py
 import logging
 from typing import Any

@@ -156,7 +156,7 @@ class MATRIZEvidenceGenerator:
             artifacts = list(self.artifacts_dir.glob(pattern))
             for artifact in artifacts:
                 try:
-                    with open(artifact, 'r') as f:
+                    with open(artifact) as f:
                         data = json.load(f)
 
                     # Extract performance evidence - handle multiple formats
@@ -258,10 +258,10 @@ class MATRIZEvidenceGenerator:
 
         # Schema artifacts validated - proceed with evidence collection
         try:
-            with open(schema_file, 'r') as f:
+            with open(schema_file) as f:
                 schema_data = json.load(f)
 
-            with open(snapshot_file, 'r') as f:
+            with open(snapshot_file) as f:
                 snapshot_data = json.load(f)
 
             # Calculate schema hash
@@ -300,7 +300,7 @@ class MATRIZEvidenceGenerator:
             artifacts = list(self.artifacts_dir.glob(pattern))
             for artifact in artifacts:
                 try:
-                    with open(artifact, 'r') as f:
+                    with open(artifact) as f:
                         data = json.load(f)
 
                     # Handle different integration test formats
@@ -353,7 +353,7 @@ class MATRIZEvidenceGenerator:
             requirements_met=["performance_budgets"] if performance_compliant else [],
             violations=[] if performance_compliant else ["Performance SLO violations detected"],
             audit_timestamp=datetime.now(timezone.utc).isoformat(),
-            evidence_hash=hashlib.sha256("performance_evidence".encode()).hexdigest()[:16]
+            evidence_hash=hashlib.sha256(b"performance_evidence").hexdigest()[:16]
         ))
 
         # Schema compliance
@@ -369,7 +369,7 @@ class MATRIZEvidenceGenerator:
             requirements_met=["schema_validation", "drift_protection"] if schema_compliant else [],
             violations=[] if schema_compliant else ["Schema drift or validation issues detected"],
             audit_timestamp=datetime.now(timezone.utc).isoformat(),
-            evidence_hash=hashlib.sha256("schema_evidence".encode()).hexdigest()[:16]
+            evidence_hash=hashlib.sha256(b"schema_evidence").hexdigest()[:16]
         ))
 
         # Integration compliance
@@ -385,7 +385,7 @@ class MATRIZEvidenceGenerator:
             requirements_met=["cross_stack_integration"] if integration_compliant else [],
             violations=[] if integration_compliant else ["Integration flow issues detected"],
             audit_timestamp=datetime.now(timezone.utc).isoformat(),
-            evidence_hash=hashlib.sha256("integration_evidence".encode()).hexdigest()[:16]
+            evidence_hash=hashlib.sha256(b"integration_evidence").hexdigest()[:16]
         ))
 
         return evidence

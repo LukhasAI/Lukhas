@@ -1,38 +1,35 @@
-"""Tests for the symbolic Lukhas AGI orchestrator stub."""
-
-import asyncio
-
 import pytest
-
 from core.orchestration.brain.lukhas_agi_orchestrator import (
     LukhasAGIOrchestrator,
+    get_agi_status,
+    initialize_agi_system,
     lukhas_agi_orchestrator,
 )
 
 
 @pytest.mark.asyncio
-async def test_initialize_and_process_request() -> None:
+async def test_initialize_and_process_updates_metrics():
     orchestrator = LukhasAGIOrchestrator()
+    await orchestrator.initialize_agi_system(start_background=False)
 
-    initialised = await orchestrator.initialize_agi_system()
-    assert initialised is True
+    result = await orchestrator.process_agi_request("hello world", {"history": [1, 2, 3]})
 
-    result = await orchestrator.process_agi_request("hello", {"signals": ["s1"]})
-
-    assert result["processing_results"]["cognitive"]["echo"] == "hello"
-    assert result["processing_results"]["cognitive_capabilities"]
-    assert result["system_state"]["consciousness_level"] == "stable"
+    assert result["status"] == "ok"
+    status = orchestrator.get_agi_status()
+    assert status["requests_processed"] == 1
+    assert status["drift_score"] > 0.0
+    assert status["affect_delta"] > 0.0
 
 
 @pytest.mark.asyncio
-async def test_background_orchestration_lifecycle() -> None:
-    await lukhas_agi_orchestrator.initialize_agi_system()
-    await lukhas_agi_orchestrator.start_agi_orchestration()
+async def test_module_level_helpers_share_state():
+    await initialize_agi_system(start_monitoring=False)
 
-    await asyncio.sleep(0)
+    module_status = get_agi_status()
+    assert module_status["initialised"] is True
 
-    status = lukhas_agi_orchestrator.get_agi_status()
-    assert status["active"] is True
+    await lukhas_agi_orchestrator.process_agi_request("ping", {})
+    shared_status = get_agi_status()
+    assert shared_status["requests_processed"] >= 1
 
     await lukhas_agi_orchestrator.stop_agi_orchestration()
-    assert lukhas_agi_orchestrator.get_agi_status()["active"] is False

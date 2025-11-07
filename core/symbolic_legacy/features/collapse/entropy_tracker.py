@@ -34,6 +34,7 @@
 ║ Symbolic Tags: {ΛCOLLAPSE}, {ΛENTROPY}, {ΛCASCADE}, {ΛSTABILITY}
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
 
 import hashlib
 import json
@@ -42,7 +43,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 import structlog
@@ -115,7 +116,7 @@ class CollapseRiskAssessment:
     phase: CollapsePhase
     active_fields: list[CollapseField]
     entropy_trend: str  # increasing, stable, decreasing
-    time_to_cascade: Optional[timedelta]  # Estimated time to cascade
+    time_to_cascade: timedelta | None  # Estimated time to cascade
     risk_factors: list[str]
     recommended_actions: list[str]
     confidence: float  # Confidence in assessment (0.0 - 1.0)
@@ -128,7 +129,7 @@ class CollapseEntropyTracker:
     and triggers preventive measures when collapse risk exceeds thresholds.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize collapse entropy tracker with configuration."""
         self.config = config or {}
 
@@ -162,7 +163,7 @@ class CollapseEntropyTracker:
         self.risk_assessments: deque = deque(maxlen=100)
 
         # Drift monitor integration
-        self.drift_monitor: Optional[UnifiedDriftMonitor] = None
+        self.drift_monitor: UnifiedDriftMonitor | None = None
         self._init_drift_integration()
 
         # Performance metrics
@@ -195,7 +196,7 @@ class CollapseEntropyTracker:
         field_type: CollapseType,
         entropy_value: float,
         affected_nodes: set[str],
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> CollapseField:
         """
         Track entropy measurement and create/update collapse field.
@@ -277,7 +278,7 @@ class CollapseEntropyTracker:
 
         return field
 
-    def calculate_entropy_slope(self, field_id: str, time_window: Optional[timedelta] = None) -> float:
+    def calculate_entropy_slope(self, field_id: str, time_window: timedelta | None = None) -> float:
         """
         Calculate the rate of entropy change (slope) for a field.
 
@@ -359,8 +360,8 @@ class CollapseEntropyTracker:
 
         # Calculate entropy trend
         entropy_slopes = []
-        for field in active_fields:
-            slope = self.calculate_entropy_slope(field.field_id)
+        for fld in active_fields:
+            slope = self.calculate_entropy_slope(fld.field_id)
             entropy_slopes.append(slope)
 
         avg_slope = np.mean(entropy_slopes) if entropy_slopes else 0.0
@@ -545,7 +546,7 @@ class CollapseEntropyTracker:
         # Report as cognitive drift
         import asyncio
 
-        asyncio.create_task(
+        asyncio.create_task(  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_symbolic_legacy_features_collapse_entropy_tracker_py_L549"}
             self.drift_monitor.track_drift(
                 dimension=DriftDimension.COGNITIVE,
                 score=field.collapse_score,
@@ -684,7 +685,7 @@ class CollapseEntropyTracker:
 
         return confidence
 
-    def get_field_status(self, field_id: str) -> Optional[dict[str, Any]]:
+    def get_field_status(self, field_id: str) -> dict[str, Any] | None:
         """Get current status of a specific collapse field."""
         field = self.collapse_fields.get(field_id)
         if not field:
@@ -729,16 +730,16 @@ class CollapseEntropyTracker:
         """Get distribution of fields across phases."""
         distribution = {phase.value: 0 for phase in CollapsePhase}
 
-        for field in fields:
-            phase = self._determine_phase(field.entropy)
+        for fld in fields:
+            phase = self._determine_phase(fld.entropy)
             distribution[phase.value] += 1
 
         return distribution
 
     def export_traces(
         self,
-        start_time: Optional[datetime] = None,
-        end_time: Optional[datetime] = None,
+        start_time: datetime | None = None,
+        end_time: datetime | None = None,
         format: str = "json",
     ) -> Any:
         """Export collapse traces for analysis."""
@@ -780,8 +781,8 @@ class CollapseEntropyTracker:
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=inactive_hours)
 
         fields_to_remove = []
-        for field_id, field in self.collapse_fields.items():
-            if field.last_update < cutoff_time and field.entropy < 0.3:
+        for field_id, fld in self.collapse_fields.items():
+            if fld.last_update < cutoff_time and fld.entropy < 0.3:
                 fields_to_remove.append(field_id)
 
         for field_id in fields_to_remove:
@@ -802,7 +803,7 @@ class CollapseEntropyTracker:
 
 
 def create_collapse_tracker(
-    config: Optional[dict[str, Any]] = None,
+    config: dict[str, Any] | None = None,
 ) -> CollapseEntropyTracker:
     """Create configured collapse entropy tracker instance."""
     default_config = {

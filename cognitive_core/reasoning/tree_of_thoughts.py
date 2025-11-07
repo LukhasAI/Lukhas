@@ -317,7 +317,7 @@ class TreeOfThoughts:
             total_confidence *= self.thoughts[node_id].confidence
 
         # Calculate reasoning quality (higher for longer, more diverse paths)
-        path_types = set(self.thoughts[node_id].thought_type for node_id in path_nodes)
+        path_types = {self.thoughts[node_id].thought_type for node_id in path_nodes}
         type_diversity = len(path_types) / len(ThoughtType)
         reasoning_quality = (total_confidence + type_diversity) / 2
 
@@ -414,12 +414,12 @@ def create_tree_of_thoughts(
 
 # Export main classes and functions
 __all__ = [
-    "TreeOfThoughts",
-    "Thought",
-    "ThoughtType",
-    "ThoughtStatus",
     "ReasoningPath",
+    "Thought",
+    "ThoughtStatus",
+    "ThoughtType",
+    "TreeOfThoughts",
     "TreeOfThoughtsResult",
-    "solve_with_tree_reasoning",
     "create_tree_of_thoughts",
+    "solve_with_tree_reasoning",
 ]

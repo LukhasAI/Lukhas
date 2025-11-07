@@ -88,7 +88,7 @@ def sync_error_handler(func):
 class SingletonMeta(type):
     """Metaclass for singleton pattern"""
 
-    _instances = {}
+    _instances = {}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_system_common_utils_py_L91"}
 
     def __call__(cls, *args, **kwargs):
         if cls not in cls._instances:

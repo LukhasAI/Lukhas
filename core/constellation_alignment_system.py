@@ -130,11 +130,14 @@ class ConstellationAlignmentValidator:
             "violations_detected": 0,
             "auto_fixes_applied": 0,
             "compliance_score_avg": 0.0,
-            "component_scores": {component: 0.0 for component in ConstellationStar},
+            "component_scores": dict.fromkeys(ConstellationStar, 0.0),
         }
 
         # Compliance rules registry
-        self.rules: dict[AlignmentRule, AlignmentRuleChecker] = {
+        self.rules: dict[
+            AlignmentRule,
+            Callable[[ConsciousnessSignal], Optional[ComplianceViolation]],
+        ] = {
             AlignmentRule.IDENTITY_AUTH_THRESHOLD: self._check_identity_auth,
             AlignmentRule.VISION_COHERENCE_MIN: self._check_consciousness_coherence,
             AlignmentRule.GUARDIAN_SAFETY_MIN: self._check_guardian_compliance,
@@ -146,7 +149,10 @@ class ConstellationAlignmentValidator:
         }
 
         # Auto-fix strategies
-        self.auto_fix_strategies: dict[AlignmentRule, AlignmentAutoFixer] = {
+        self.auto_fix_strategies: dict[
+            AlignmentRule,
+            Callable[[ConsciousnessSignal, ComplianceViolation], bool],
+        ] = {
             AlignmentRule.IDENTITY_AUTH_THRESHOLD: self._fix_identity_auth,
             AlignmentRule.VISION_COHERENCE_MIN: self._fix_consciousness_coherence,
             AlignmentRule.QUANTUM_UNCERTAINTY_BALANCE: self._fix_alignment_balance,
@@ -842,11 +848,11 @@ def get_constellation_monitor() -> ConstellationAlignmentMonitor:
 __all__ = [
     "AlignmentLevel",
     "AlignmentRule",
-    "ComplianceViolation",
     "ComplianceConfiguration",
     "ComplianceReport",
-    "ConstellationAlignmentValidator",
+    "ComplianceViolation",
     "ConstellationAlignmentMonitor",
-    "get_constellation_validator",
+    "ConstellationAlignmentValidator",
     "get_constellation_monitor",
+    "get_constellation_validator",
 ]

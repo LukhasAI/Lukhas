@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-import logging
 
-log = logging.getLogger(__name__)
 """
 LUKHAS Production Access Control System
 Enterprise-grade tiered access control with constitutional AI compliance
@@ -9,6 +7,8 @@ Enterprise-grade tiered access control with constitutional AI compliance
 This module provides production-ready access control suitable for government
 and enterprise deployment with comprehensive audit trails and T1-T5 tier system.
 """
+
+import logging
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
@@ -16,6 +16,9 @@ from enum import Enum
 from typing import Any, List, Optional
 
 from core.common.logger import get_logger
+
+log = logging.getLogger(__name__)
+
 
 logger = get_logger(__name__)
 
@@ -583,7 +586,7 @@ class ConsentManager:
     async def grant_consent(self, request_id: str, granted_scopes: List[str], consent_string: str) -> dict:
         return {}  # Placeholder
 
-    async def withdraw_consent(self, user_id: str, scopes: List[str] = None) -> dict:
+    async def withdraw_consent(self, user_id: str, scopes: Optional[List[str]] = None) -> dict:
         return {}  # Placeholder
 
 
@@ -616,12 +619,12 @@ __all__ = [
     "AccessControlEngine",
     "AccessDecision",
     "AccessTier",
+    "CCPACompliance",
+    "ConsentManager",
+    "DataRetentionManager",
+    "GDPRCompliance",
     "Permission",
     "PermissionManager",
     "User",
     "UserRole",
-    "GDPRCompliance",
-    "ConsentManager",
-    "CCPACompliance",
-    "DataRetentionManager",
 ]

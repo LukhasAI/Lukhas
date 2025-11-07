@@ -179,9 +179,8 @@ class FocusedAtlasBuilder:
                 if self.analyze_file(py_file):
                     analyzed += 1
             except Exception as e:
-                if any(pattern in str(py_file) for pattern in ["lukhas/", "candidate/"]):
-                    if "syntax" not in str(e).lower():
-                        print(f"⚠️ Error analyzing {py_file.name}: {e}")
+                if any((pattern in str(py_file) for pattern in ['lukhas/', 'candidate/'])) and 'syntax' not in str(e).lower():
+                    print(f"⚠️ Error analyzing {py_file.name}: {e}")
 
         print(f"✅ Successfully analyzed {analyzed} files")
 
@@ -473,7 +472,7 @@ class FocusedAtlasBuilder:
             "violations_by_rule": {k: len(v) for k, v in self.violations.items()},
             "module_roles": {
                 role: [k for k, v in self.modules.items() if v.role == role]
-                for role in set(m.role for m in self.modules.values())
+                for role in {m.role for m in self.modules.values()}
             },
         }
 
@@ -510,7 +509,7 @@ class FocusedAtlasBuilder:
                     "description": self.get_rule_description(rule_code),
                     "total_violations": len(violations),
                     "violations": violations,
-                    "affected_files": list(set(v.get("filename", "") for v in violations)),
+                    "affected_files": list({v.get("filename", "") for v in violations}),
                     "focus_directories_affected": [
                         d for d in self.focus_dirs if any(d in v.get("filename", "") for v in violations)
                     ],

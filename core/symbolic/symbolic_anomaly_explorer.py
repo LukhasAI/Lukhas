@@ -55,6 +55,7 @@ LUKHAS_TAG: dream_analysis, symbolic_anomaly, pattern_detection, jules_13
 TODO: Add ML-based pattern prediction for proactive anomaly detection
 IDEA: Implement symbolic genealogy tracking for motif evolution analysis
 """
+from __future__ import annotations
 
 import hashlib
 import json
@@ -64,7 +65,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 import structlog
@@ -187,7 +188,7 @@ class SymbolicAnomalyExplorer:
 
     def __init__(
         self,
-        storage_path: Optional[str] = None,
+        storage_path: str | None = None,
         drift_integration: bool = True
     ):
         """
@@ -281,7 +282,7 @@ class SymbolicAnomalyExplorer:
         logger.info("Loaded dream sessions", count=len(sessions))
         return sessions
 
-    def _load_session_from_file(self, file_path: Path) -> Optional[DreamSession]:
+    def _load_session_from_file(self, file_path: Path) -> DreamSession | None:
         """Load dream session from json_file."""
         try:
             with open(file_path) as f:
@@ -1118,7 +1119,7 @@ class SymbolicAnomalyExplorer:
         return np.mean(overlaps) if overlaps else 0.0
 
     def export_report_json(
-        self, report: AnomalyReport, file_path: Optional[str] = None
+        self, report: AnomalyReport, file_path: str | None = None
     ) -> str:
         """Export anomaly report to JSON."""
         if not file_path:
@@ -1143,7 +1144,7 @@ class SymbolicAnomalyExplorer:
         return str(output_path)
 
     def export_summary_markdown(
-        self, report: AnomalyReport, file_path: Optional[str] = None
+        self, report: AnomalyReport, file_path: str | None = None
     ) -> str:
         """Export top anomalies summary to Markdown."""
         if not file_path:
@@ -1252,7 +1253,7 @@ class SymbolicAnomalyExplorer:
 
 
 def analyze_recent_dreams(
-    n: int = 10, storage_path: Optional[str] = None
+    n: int = 10, storage_path: str | None = None
 ) -> AnomalyReport:
     """Analyze recent dreams and return anomaly report."""
     explorer = SymbolicAnomalyExplorer(storage_path=storage_path)

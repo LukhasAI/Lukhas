@@ -29,7 +29,7 @@ import json
 import os
 import time
 import uuid
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
@@ -42,7 +42,7 @@ if os.environ.get("REGISTRY_DEV_STUB") != "1":
     )
 
 print("=" * 80)
-print("⚠️  DEV-STUB ACTIVE — Registry Development Stub Mode")
+print("⚠️  DEV-STUB ACTIVE - Registry Development Stub Mode")
 print("=" * 80)
 print("This is a mock registry for CI testing only.")
 print("All data is ephemeral and responses are simulated.")
@@ -187,8 +187,8 @@ async def register_node(request: Request):
 
 @app.get("/api/v1/registry/query")
 async def query_registry(
-    signal: Optional[str] = None,
-    capability: Optional[str] = None
+    signal: str | None = None,
+    capability: str | None = None
 ):
     """
     Query registered nodes (mocked).
@@ -261,7 +261,7 @@ if __name__ == "__main__":
     import uvicorn
 
     print("\n🚀 Starting Dev Stub Registry Server")
-    print("⚠️  Development mode only — NOT for production use")
+    print("⚠️  Development mode only - NOT for production use")
     print("📍 Listening on http://localhost:8000")
     print("\n")
 

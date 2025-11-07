@@ -23,7 +23,7 @@ def test_no_importlib_candidate_shims():
             continue
 
         try:
-            with open(py_file, 'r', encoding='utf-8') as f:
+            with open(py_file, encoding='utf-8') as f:
                 content = f.read()
 
             # Parse AST
@@ -40,9 +40,8 @@ def test_no_importlib_candidate_shims():
 
                     # Check if argument contains "candidate"
                     arg = node.args[0]
-                    if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
-                        if "labs" in arg.value:
-                            violations.append(f"{rel_path}:{node.lineno}")
+                    if (isinstance(arg, ast.Constant) and isinstance(arg.value, str)) and 'labs' in arg.value:
+                        violations.append(f"{rel_path}:{node.lineno}")
 
         except Exception:
             # Skip files that can't be parsed
@@ -50,4 +49,4 @@ def test_no_importlib_candidate_shims():
 
     if violations:
         violation_list = "\n".join(violations)
-        assert False, f"Found importlib.import_module('candidate.*') calls outside allowed files:\n{violation_list}"
+        raise AssertionError(f"Found importlib.import_module('candidate.*') calls outside allowed files:\n{violation_list}")

@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-import logging
 
-logger = logging.getLogger(__name__)
 """
 ════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - IDENTITY INTEGRATION MODULE
@@ -21,12 +19,19 @@ logger = logging.getLogger(__name__)
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
 import functools
+import logging
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Optional, Union
+from typing import Any, Callable
 
 import structlog
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = structlog.get_logger(__name__)
 
@@ -40,7 +45,7 @@ except ImportError:
     logger.warning("Identity system not available - running without identity validation")
 
 # Global identity client instance
-_identity_client: Optional["IdentityClient"] = None
+_identity_client: IdentityClient | None = None
 
 # Lambda Tier Definitions
 LAMBDA_TIERS = [
@@ -57,7 +62,7 @@ class TierMappingConfig:
     """Centralized tier mapping configuration for unifying different tier systems."""
 
     # Map Oneiric database tiers (1-5) to LAMBDA_TIER system
-    ONEIRIC_TO_LAMBDA = {
+    ONEIRIC_TO_LAMBDA = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_identity_integration_py_L65"}
         1: "LAMBDA_TIER_1",
         2: "LAMBDA_TIER_2",
         3: "LAMBDA_TIER_3",
@@ -66,7 +71,7 @@ class TierMappingConfig:
     }
 
     # Map EmotionalTier (T0-T5) to LAMBDA_TIER system
-    EMOTIONAL_TO_LAMBDA = {
+    EMOTIONAL_TO_LAMBDA = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_identity_integration_py_L74"}
         "T0": "LAMBDA_TIER_5",  # System access maps to highest tier
         "T1": "LAMBDA_TIER_1",
         "T2": "LAMBDA_TIER_2",
@@ -76,11 +81,11 @@ class TierMappingConfig:
     }
 
     # Reverse mappings
-    LAMBDA_TO_ONEIRIC = {v: k for k, v in ONEIRIC_TO_LAMBDA.items()}
-    LAMBDA_TO_EMOTIONAL = {v: k for k, v in EMOTIONAL_TO_LAMBDA.items()}
+    LAMBDA_TO_ONEIRIC = {v: k for k, v in ONEIRIC_TO_LAMBDA.items()}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_identity_integration_py_L84"}
+    LAMBDA_TO_EMOTIONAL = {v: k for k, v in EMOTIONAL_TO_LAMBDA.items()}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_identity_integration_py_L85"}
 
     @classmethod
-    def normalize_tier(cls, tier: Union[str, int, "Enum"]) -> str:
+    def normalize_tier(cls, tier: str | int | Enum) -> str:
         """Normalize any tier representation to LAMBDA_TIER format.
 
         Args:
@@ -120,7 +125,7 @@ class TierMappingConfig:
         return "LAMBDA_TIER_0"
 
     @classmethod
-    def get_tier_index(cls, tier: Union[str, int]) -> int:
+    def get_tier_index(cls, tier: str | int) -> int:
         """Get numeric index for tier comparison."""
         normalized = cls.normalize_tier(tier)
         try:
@@ -129,7 +134,7 @@ class TierMappingConfig:
             return 0  # Default to base tier
 
 
-def get_identity_client() -> Optional["IdentityClient"]:
+def get_identity_client() -> IdentityClient | None:
     """Get or create the global identity client instance."""
     global _identity_client
 
@@ -148,8 +153,8 @@ def get_identity_client() -> Optional["IdentityClient"]:
 
 
 def require_identity(
-    required_tier: Union[str, int] = "LAMBDA_TIER_1",
-    check_consent: Optional[str] = None,
+    required_tier: str | int = "LAMBDA_TIER_1",
+    check_consent: str | None = None,
 ):
     """
     Decorator that enforces identity validation and tier requirements.
@@ -247,7 +252,7 @@ class IdentityContext:
                 pass
     """
 
-    def __init__(self, user_id: str, required_tier: Union[str, int] = "LAMBDA_TIER_1"):
+    def __init__(self, user_id: str, required_tier: str | int = "LAMBDA_TIER_1"):
         self.user_id = user_id
         self.required_tier = TierMappingConfig.normalize_tier(required_tier)
         self.client = get_identity_client()
@@ -280,7 +285,7 @@ class IdentityContext:
             )
 
 
-def validate_and_log(user_id: str, activity: str, metadata: Optional[dict[str, Any]] = None) -> bool:
+def validate_and_log(user_id: str, activity: str, metadata: dict[str, Any] | None = None) -> bool:
     """
     Quick validation and logging helper.
 

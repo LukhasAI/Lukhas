@@ -39,7 +39,7 @@ class ResonanceField:
 
         # Blend with previous vector using decay factor
         blended = {}
-        for k in em.keys():
+        for k in em:
             # Weighted blend: decay * previous + (1-decay) * current
             previous_value = self.last_vector.get(k, 0.0)
             current_value = em.get(k, 0.0)
@@ -100,7 +100,7 @@ class ResonanceField:
 
         # Check decay behavior if we have previous vector
         if self.last_vector is not None:
-            for k in original.keys():
+            for k in original:
                 expected_min = min(original[k], self.last_vector.get(k, 0.0))
                 expected_max = max(original[k], self.last_vector.get(k, 0.0))
 

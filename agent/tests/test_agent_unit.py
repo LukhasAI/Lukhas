@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import agent  # noqa: F401  # TODO: agent; consider using importli...
+    import agent  # TODO: agent; consider using importli...
 except ImportError:
     pytest.skip("Module agent not available", allow_module_level=True)
 
@@ -107,11 +107,11 @@ class Testget_agent_system_status(unittest.TestCase):
         pass
 
 
-class Testis_available(unittest.TestCase):
-    """Tests for is_available component."""
+class Testis_available_intelligence_bridge(unittest.TestCase):
+    """Tests for is_available component (intelligence_bridge)."""
 
     def test_is_available_import(self):
-        """Test is_available can be imported."""
+        """Test is_available can be imported from intelligence_bridge."""
         try:
             from agent.intelligence_bridge import is_available
             self.assertIsNotNone(is_available)
@@ -119,7 +119,7 @@ class Testis_available(unittest.TestCase):
             pytest.skip("Component is_available not available")
 
     def test_is_available_instantiation(self):
-        """Test is_available can be instantiated."""
+        """Test is_available can be instantiated (intelligence_bridge)."""
         # Add component-specific instantiation tests
         pass
 

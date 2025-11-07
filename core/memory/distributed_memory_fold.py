@@ -1,10 +1,5 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
-import logging
-from datetime import timezone
 
-logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🚀 LUKHAS AI - ```PLAINTEXT
@@ -46,18 +41,25 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
 import asyncio
 import hashlib
 import json
+import logging
 import random
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import aiohttp
 import numpy as np
 from core.common.config import get_config
+
+logger = logging.getLogger(__name__)
+
+
 
 
 class NodeState(Enum):
@@ -115,7 +117,7 @@ class DistributedMemoryEntry:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "DistributedMemoryEntry":
+    def from_dict(cls, data: dict[str, Any]) -> DistributedMemoryEntry:
         return cls(
             memory_id=data["memory_id"],
             content_hash=data["content_hash"],
@@ -175,9 +177,9 @@ class ConsensusProtocol:
 
         # RAFT state
         self.current_term = 0
-        self.voted_for: Optional[str] = None
+        self.voted_for: str | None = None
         self.state = NodeState.FOLLOWER
-        self.leader_id: Optional[str] = None
+        self.leader_id: str | None = None
 
         # Memory log
         self.memory_log: list[DistributedMemoryEntry] = []
@@ -214,10 +216,10 @@ class ConsensusProtocol:
         """Start the distributed node"""
 
         # Start heartbeat timer
-        asyncio.create_task(self._heartbeat_timer())
+        asyncio.create_task(self._heartbeat_timer())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_memory_distributed_memory_fold_py_L219"}
 
         # Start election timer
-        asyncio.create_task(self._election_timer())
+        asyncio.create_task(self._election_timer())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_memory_distributed_memory_fold_py_L223"}
 
         # Start HTTP server for node communication
         await self._start_http_server()
@@ -565,7 +567,7 @@ class DistributedMemoryFold:
         self,
         node_id: str,
         port: int,
-        bootstrap_nodes: Optional[list[tuple[str, int]]] = None,
+        bootstrap_nodes: list[tuple[str, int]] | None = None,
         consciousness_level: float = 0.8,
     ):
         self.node_id = node_id
@@ -576,7 +578,7 @@ class DistributedMemoryFold:
         # ΛTAG: config_integration
         cfg = get_config()
         self.api_url: str = cfg.memory_api_url
-        self._session: Optional[aiohttp.ClientSession] = None
+        self._session: aiohttp.ClientSession | None = None
 
         # Initialize consensus protocol
         self.consensus = ConsensusProtocol(node_id=node_id, port=port, consciousness_threshold=0.7)
@@ -675,9 +677,9 @@ class DistributedMemoryFold:
     async def store_memory(
         self,
         content: str,
-        tags: Optional[list[str]] = None,
+        tags: list[str] | None = None,
         embedding: np.ndarray = None,
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
         require_consensus: bool = True,
     ) -> str:
         """
@@ -909,7 +911,7 @@ class DistributedMemoryFold:
 async def create_distributed_memory_fold(
     node_id: str,
     port: int,
-    bootstrap_nodes: Optional[list[tuple[str, int]]] = None,
+    bootstrap_nodes: list[tuple[str, int]] | None = None,
     consciousness_level: float = 0.8,
 ) -> DistributedMemoryFold:
     """

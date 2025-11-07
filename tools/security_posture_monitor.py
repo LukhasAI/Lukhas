@@ -12,8 +12,131 @@ import glob
 import json
 import sys
 from dataclasses import dataclass
+from datetime import timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+
+
+def _coerce_str(value: Any) -> str:
+    """Convert ``value`` to a trimmed string, returning an empty string for falsy values."""
+
+    if value is None:
+        return ''
+    if isinstance(value, str):
+        return value.strip()
+    return str(value).strip()
+
+
+def _has_items(value: Any) -> bool:
+    """Return ``True`` when ``value`` represents a non-empty collection."""
+
+    if value is None:
+        return False
+    if isinstance(value, (list, tuple, set, dict)):
+        return bool(value)
+    return bool(value)
+
+
+def _is_policy_configured(policy: Any) -> bool:
+    """Return ``True`` if the attestation policy is configured with real data."""
+
+    if isinstance(policy, dict):
+        if not policy:
+            return False
+        version = _coerce_str(policy.get('version'))
+        identifier = _coerce_str(policy.get('id'))
+        return not (version.lower() in {'', 'pending', 'tbd'} and identifier.lower() in {'', 'pending', 'tbd'})
+
+    if isinstance(policy, str):
+        normalized = policy.strip().lower()
+        return normalized not in {'', 'pending', 'todo', 'tbd'}
+
+    return bool(policy)
+
+
+def _policy_version(policy: Any) -> str:
+    """Best-effort extraction of a verifier policy version string."""
+
+    if isinstance(policy, dict):
+        version = _coerce_str(policy.get('version'))
+        if version:
+            return version
+        identifier = _coerce_str(policy.get('id'))
+        if identifier:
+            return identifier
+        ref = _coerce_str(policy.get('ref'))
+        if ref:
+            return ref
+        return ''
+
+    if isinstance(policy, str):
+        return policy.strip()
+
+    return ''
+
+
+def _is_telemetry_feature_enabled(config: Any) -> bool:
+    """Interpret telemetry configuration blocks of varying shapes."""
+
+    if isinstance(config, bool):
+        return config
+
+    if isinstance(config, dict):
+        if 'enabled' in config:
+            return bool(config.get('enabled'))
+        if 'active' in config:
+            return bool(config.get('active'))
+        return bool(config)
+
+    if isinstance(config, (list, tuple, set)):
+        return bool(config)
+
+    if isinstance(config, str):
+        normalized = config.strip().lower()
+        return normalized not in {'', 'disabled', 'none', 'off'}
+
+    return bool(config)
+
+
+def _logs_are_structured(logs_config: Any) -> bool:
+    """Return ``True`` if structured logging appears to be enabled."""
+
+    if isinstance(logs_config, dict):
+        if 'structured' in logs_config:
+            return bool(logs_config.get('structured'))
+        if 'enabled' in logs_config:
+            return bool(logs_config.get('enabled'))
+        return bool(logs_config)
+
+    if isinstance(logs_config, bool):
+        return logs_config
+
+    if isinstance(logs_config, str):
+        normalized = logs_config.strip().lower()
+        return normalized not in {'', 'disabled', 'none', 'off'}
+
+    return bool(logs_config)
+
+
+def _estimate_telemetry_coverage(
+    otel_instrumented: bool,
+    metrics_exported: bool,
+    traces_exported: bool,
+    logs_structured: bool,
+) -> float:
+    """Heuristically estimate coverage when explicit metrics are missing."""
+
+    score = 0.0
+    if otel_instrumented:
+        score += 40.0
+    if metrics_exported:
+        score += 25.0
+    if traces_exported:
+        score += 25.0
+    if logs_structured:
+        score += 10.0
+
+    return score
 
 
 @dataclass
@@ -40,6 +163,38 @@ class SecurityPostureMonitor:
             'telemetry_compliance': 0.0,
             'overall_posture_score': 0.0
         }
+        self.overlays = self._load_overlay_data()
+
+    def _load_overlay_data(self) -> Dict[str, Dict[str, Dict[str, Any]]]:
+        """Load optional overlay data for SBOM, attestation, and telemetry."""
+
+        overlays: Dict[str, Dict[str, Dict[str, Any]]] = {
+            'sboms': {},
+            'attestations': {},
+            'telemetry': {},
+        }
+
+        overlay_paths = {
+            'sboms': Path('security/sboms/index.json'),
+            'attestations': Path('security/attestations/index.json'),
+            'telemetry': Path('security/telemetry/index.json'),
+        }
+
+        for key, path in overlay_paths.items():
+            try:
+                with path.open('r', encoding='utf-8') as handle:
+                    data = json.load(handle)
+                modules = data.get('modules', {})
+                if isinstance(modules, dict):
+                    overlays[key] = modules
+                else:
+                    self.log(f"Overlay file {path} missing 'modules' mapping")
+            except FileNotFoundError:
+                self.log(f"Overlay file not found: {path}")
+            except Exception as exc:  # pragma: no cover - defensive logging
+                self.log(f"Failed to load {key} overlay from {path}: {exc}")
+
+        return overlays
 
     def log(self, message: str):
         """Log message if verbose mode enabled."""
@@ -57,7 +212,7 @@ class SecurityPostureMonitor:
             'attestation_status': {},
             'supply_chain_refs': {},
             'telemetry_coverage': {},
-            'timestamp': datetime.datetime.utcnow().isoformat()
+            'timestamp': datetime.datetime.now(timezone.utc).isoformat()
         }
 
         for contract_path in contracts:
@@ -107,49 +262,149 @@ class SecurityPostureMonitor:
                             'package': vuln.get('package', {}).get('name', 'unknown'),
                             'fixed_version': vuln.get('fixed', ''),
                             'introduced': vuln.get('introduced', ''),
-                            'timestamp': datetime.datetime.utcnow().isoformat()
+                            'timestamp': datetime.datetime.now(timezone.utc).isoformat()
                         })
 
         return findings
 
     def _extract_attestation_status(self, contract: Dict, module: str) -> Dict:
         """Extract attestation health status."""
-        attestation = contract.get('attestation', {})
-        rats_data = attestation.get('rats', {})
+        attestation = contract.get('attestation') or {}
+        if not isinstance(attestation, dict):
+            attestation = {}
+
+        rats_data = attestation.get('rats') or {}
+        if not isinstance(rats_data, dict):
+            rats_data = {}
+
+        verifier_policy = rats_data.get('verifier_policy')
+        verifier_configured = _is_policy_configured(verifier_policy)
+        verifier_version = _policy_version(verifier_policy)
+
+        overlay_entry = self.overlays.get('attestations', {}).get(module, {})
+        overlay_policy = overlay_entry.get('verifier_policy') if isinstance(overlay_entry, dict) else None
+
+        if overlay_policy and not verifier_configured:
+            verifier_configured = _is_policy_configured(overlay_policy)
+        overlay_version = _policy_version(overlay_policy) if overlay_policy else ''
+        if overlay_version:
+            verifier_version = overlay_version
+
+        combined_rats = dict(rats_data)
+
+        if isinstance(overlay_entry, dict):
+            overlay_jwt = overlay_entry.get('evidence_jwt')
+            if overlay_jwt:
+                combined_rats['evidence_jwt'] = overlay_jwt
+
+            overlay_timestamp = overlay_entry.get('timestamp')
+            if overlay_timestamp:
+                combined_rats['timestamp'] = overlay_timestamp
+
+        evidence = combined_rats.get('evidence_jwt')
+        evidence_collected = bool(evidence and evidence != 'pending')
 
         return {
-            'verifier_configured': bool(rats_data.get('verifier_policy')),
-            'evidence_collected': bool(rats_data.get('evidence_jwt') and
-                                     rats_data.get('evidence_jwt') != 'pending'),
-            'attestation_valid': self._validate_attestation(rats_data),
-            'last_attestation': rats_data.get('timestamp', ''),
-            'verifier_version': rats_data.get('verifier_policy', {}).get('version', '')
+            'verifier_configured': verifier_configured or bool(overlay_policy),
+            'evidence_collected': evidence_collected,
+            'attestation_valid': self._validate_attestation(combined_rats),
+            'last_attestation': _coerce_str(combined_rats.get('timestamp', '')),
+            'verifier_version': verifier_version,
         }
 
     def _extract_supply_chain_data(self, contract: Dict, module: str) -> Dict:
         """Extract supply chain integrity data."""
-        supply_chain = contract.get('supply_chain', {})
+        supply_chain = contract.get('supply_chain') or {}
+        if not isinstance(supply_chain, dict):
+            supply_chain = {}
+
+        causal_provenance = contract.get('causal_provenance') or {}
+        if not isinstance(causal_provenance, dict):
+            causal_provenance = {}
+
+        overlay_entry = self.overlays.get('sboms', {}).get(module, {})
+        if not isinstance(overlay_entry, dict):
+            overlay_entry = {}
+
+        sbom_ref = _coerce_str(supply_chain.get('sbom_ref', ''))
+        overlay_ref = _coerce_str(overlay_entry.get('sbom_path', ''))
+        if not sbom_ref and overlay_ref:
+            sbom_ref = overlay_ref
+
+        sbom_format = _coerce_str(supply_chain.get('format', '')) or _coerce_str(overlay_entry.get('format', ''))
+
+        provenance_cid = _coerce_str(causal_provenance.get('ipld_root_cid', ''))
+        overlay_cid = _coerce_str(overlay_entry.get('provenance_cid', ''))
+        if overlay_cid and (not provenance_cid or provenance_cid == 'bafybeipending'):
+            provenance_cid = overlay_cid
+
+        reproducible = bool(supply_chain.get('reproducible')) or bool(overlay_entry.get('reproducible_build'))
 
         return {
-            'sbom_present': bool(supply_chain.get('sbom_ref')),
-            'sbom_ref': supply_chain.get('sbom_ref', ''),
-            'sbom_format': supply_chain.get('format', ''),
-            'provenance_available': bool(contract.get('causal_provenance', {}).get('ipld_root_cid')),
-            'provenance_cid': contract.get('causal_provenance', {}).get('ipld_root_cid', ''),
-            'build_reproducible': supply_chain.get('reproducible', False)
+            'sbom_present': bool(sbom_ref),
+            'sbom_ref': sbom_ref,
+            'sbom_format': sbom_format,
+            'provenance_available': bool(provenance_cid and provenance_cid != 'bafybeipending'),
+            'provenance_cid': provenance_cid,
+            'build_reproducible': reproducible,
         }
 
     def _extract_telemetry_coverage(self, contract: Dict, module: str) -> Dict:
         """Extract telemetry and observability coverage."""
-        telemetry = contract.get('telemetry', {})
+        telemetry = contract.get('telemetry') or {}
+        if not isinstance(telemetry, dict):
+            telemetry = {}
+
+        spans = telemetry.get('spans')
+        otel_instrumented = bool(telemetry.get('opentelemetry')) or _has_items(spans)
+
+        metrics_data = telemetry.get('metrics')
+        metrics_exported = _is_telemetry_feature_enabled(metrics_data)
+
+        traces_data = telemetry.get('traces')
+        if traces_data is None:
+            traces_exported = _has_items(spans)
+        else:
+            traces_exported = _is_telemetry_feature_enabled(traces_data)
+
+        logs_data = telemetry.get('logs')
+        logs_structured = _logs_are_structured(logs_data)
+
+        semconv_version = (
+            _coerce_str(telemetry.get('semconv_version'))
+            or _coerce_str(telemetry.get('opentelemetry_semconv_version'))
+        )
+
+        coverage = telemetry.get('coverage_percentage')
+        if not isinstance(coverage, (int, float)):
+            coverage = _estimate_telemetry_coverage(
+                otel_instrumented,
+                metrics_exported,
+                traces_exported,
+                logs_structured,
+            )
+
+        overlay_entry = self.overlays.get('telemetry', {}).get(module, {})
+        if isinstance(overlay_entry, dict):
+            otel_instrumented = otel_instrumented or bool(overlay_entry.get('otel_instrumented'))
+            metrics_exported = metrics_exported or bool(overlay_entry.get('metrics_exported'))
+            traces_exported = traces_exported or bool(overlay_entry.get('traces_exported'))
+            logs_structured = logs_structured or bool(overlay_entry.get('logs_structured'))
+
+            overlay_coverage = overlay_entry.get('coverage_percentage')
+            if isinstance(overlay_coverage, (int, float)):
+                coverage = max(float(coverage), float(overlay_coverage))
+
+            if not semconv_version:
+                semconv_version = _coerce_str(overlay_entry.get('semconv_version', ''))
 
         return {
-            'otel_instrumented': bool(telemetry.get('opentelemetry')),
-            'metrics_exported': bool(telemetry.get('metrics', {}).get('enabled')),
-            'traces_exported': bool(telemetry.get('traces', {}).get('enabled')),
-            'logs_structured': bool(telemetry.get('logs', {}).get('structured')),
-            'semconv_version': telemetry.get('semconv_version', ''),
-            'instrumentation_coverage': telemetry.get('coverage_percentage', 0)
+            'otel_instrumented': otel_instrumented,
+            'metrics_exported': metrics_exported,
+            'traces_exported': traces_exported,
+            'logs_structured': logs_structured,
+            'semconv_version': semconv_version,
+            'instrumentation_coverage': float(coverage),
         }
 
     def _validate_attestation(self, rats_data: Dict) -> bool:
@@ -187,7 +442,7 @@ class SecurityPostureMonitor:
                     message=f"Vulnerability {finding.get('vulnerability_id')} found in {finding.get('package')}",
                     affected_modules=[finding.get('module')],
                     remediation=f"Update to fixed version: {finding.get('fixed_version', 'latest')}",
-                    timestamp=datetime.datetime.utcnow().isoformat()
+                    timestamp=datetime.datetime.now(timezone.utc).isoformat()
                 ))
 
         # Score: 100 = no vulnerabilities, decreases with weighted vulnerability count
@@ -220,7 +475,7 @@ class SecurityPostureMonitor:
                     message=f"Attestation evidence collection failing for {module}",
                     affected_modules=[module],
                     remediation="Check verifier configuration and evidence collection pipeline",
-                    timestamp=datetime.datetime.utcnow().isoformat()
+                    timestamp=datetime.datetime.now(timezone.utc).isoformat()
                 ))
 
         # Coverage score based on valid attestations
@@ -253,7 +508,7 @@ class SecurityPostureMonitor:
                     message=f"Missing SBOM for {module}",
                     affected_modules=[module],
                     remediation="Generate and reference SBOM in matrix contract",
-                    timestamp=datetime.datetime.utcnow().isoformat()
+                    timestamp=datetime.datetime.now(timezone.utc).isoformat()
                 ))
 
         # Integrity score based on multiple factors
@@ -295,7 +550,7 @@ class SecurityPostureMonitor:
                     message=f"Low telemetry coverage in {module}: {data.get('instrumentation_coverage', 0)}%",
                     affected_modules=[module],
                     remediation="Increase OpenTelemetry instrumentation coverage",
-                    timestamp=datetime.datetime.utcnow().isoformat()
+                    timestamp=datetime.datetime.now(timezone.utc).isoformat()
                 ))
 
         # Compliance score based on instrumentation and export coverage
@@ -325,11 +580,11 @@ class SecurityPostureMonitor:
         self.log(f"Overall security posture score: {overall_score:.1f}/100")
         return overall_score
 
-    def generate_security_report(self, output_path: str = None) -> Dict:
+    def generate_security_report(self, output_path: Optional[str] = None) -> Dict:
         """Generate comprehensive security posture report."""
         report = {
             'security_posture_report': {
-                'timestamp': datetime.datetime.utcnow().isoformat(),
+                'timestamp': datetime.datetime.now(timezone.utc).isoformat(),
                 'metrics': self.metrics,
                 'alerts': [
                     {

@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-import sys
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -59,16 +53,23 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
 # Module imports
 import asyncio
 import json
+import logging
+import sys
 import threading
 import time
 import uuid
 from copy import deepcopy
 from dataclasses import asdict, dataclass, field
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable
+
+logger = logging.getLogger(__name__)
+
 
 # Configure module logger
 
@@ -96,7 +97,7 @@ except ImportError as e:
     )
 
     class _DummyIdentityClient:  # Fallback for type hinting and basic structure
-        def get_user_info(self, user_id: str) -> Optional[dict[str, Any]]:
+        def get_user_info(self, user_id: str) -> dict[str, Any] | None:
             logger.debug("Fallback IdentityClient: get_user_info called", user_id=user_id)
             return None
 
@@ -134,9 +135,9 @@ class StateValue:
     access_level: StateAccessLevel
     version: int
     timestamp: float  # Should be float for time.time()
-    user_id: Optional[str] = None
-    tier: Optional[str] = None
-    ttl: Optional[float] = None  # Time to live in seconds
+    user_id: str | None = None
+    tier: str | None = None
+    ttl: float | None = None  # Time to live in seconds
     metadata: dict[str, Any] = field(default_factory=dict)  # Ensure it's always a dict
 
     def __post_init__(self):
@@ -156,7 +157,7 @@ class StateChange:
     new_value: Any
     operation: StateOperation
     module: str
-    user_id: Optional[str]
+    user_id: str | None
     timestamp: float
     version: int
 
@@ -208,7 +209,7 @@ class SharedStateManager:
         # Identity integration
         # AIDENTITY: IdentityClient is used here for access control if available.
         if identity_available and IdentityClient is not None and not isinstance(IdentityClient, _DummyIdentityClient):
-            self.identity_client: Optional[IdentityClient] = IdentityClient()
+            self.identity_client: IdentityClient | None = IdentityClient()
             self.logger.info("IdentityClient integration enabled for SharedStateManager.")
         else:
             self.identity_client = None
@@ -236,7 +237,7 @@ class SharedStateManager:
         key: str,
         operation: StateOperation,
         module: str,
-        user_id: Optional[str] = None,
+        user_id: str | None = None,
     ) -> bool:
         """Check if module/user has access to perform operation on key"""
         # AIDENTITY: Access control logic based on state ownership, access level,
@@ -422,7 +423,7 @@ class SharedStateManager:
             for callback in list(self.subscribers[key]):
                 try:
                     if asyncio.iscoroutinefunction(callback):
-                        asyncio.create_task(callback(key, new_value, operation_type_str))
+                        asyncio.create_task(callback(key, new_value, operation_type_str))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_consciousness_shared_state_py_L426"}
                     else:
                         callback(key, new_value, operation_type_str)
                     self.logger.debug(
@@ -446,7 +447,7 @@ class SharedStateManager:
         new_value: Any,
         operation: StateOperation,
         module: str,
-        user_id: Optional[str],
+        user_id: str | None,
         version: int,
     ):
         """Adds a change record to the history."""
@@ -476,10 +477,10 @@ class SharedStateManager:
         key: str,
         value: Any,
         module: str,
-        user_id: Optional[str] = None,
+        user_id: str | None = None,
         access_level: StateAccessLevel = StateAccessLevel.PROTECTED,
-        ttl: Optional[float] = None,
-        metadata: Optional[dict[str, Any]] = None,
+        ttl: float | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> bool:
         """Set a state value"""
         self.logger.debug(
@@ -506,7 +507,7 @@ class SharedStateManager:
                 old_value_for_history: Any = None
                 current_version = 0
 
-                tier: Optional[str] = None
+                tier: str | None = None
                 if self.identity_client and user_id:
                     user_info = self.identity_client.get_user_info(user_id)
                     if user_info:
@@ -596,7 +597,7 @@ class SharedStateManager:
             )
             return False
 
-    def get_state(self, key: str, module: str, user_id: Optional[str] = None, default: Any = None) -> Any:
+    def get_state(self, key: str, module: str, user_id: str | None = None, default: Any = None) -> Any:
         """Get a state value"""
         self.logger.debug("Attempting to get state", key=key, module_name=module, user_id=user_id)
         try:
@@ -656,7 +657,7 @@ class SharedStateManager:
             )
             return default
 
-    def delete_state(self, key: str, module: str, user_id: Optional[str] = None) -> bool:
+    def delete_state(self, key: str, module: str, user_id: str | None = None) -> bool:
         """Delete a state value"""
         self.logger.debug("Attempting to delete state", key=key, module_name=module, user_id=user_id)
         try:
@@ -714,7 +715,7 @@ class SharedStateManager:
         key: str,
         callback: Callable[[str, Any, str], Any],
         module: str,
-        user_id: Optional[str] = None,
+        user_id: str | None = None,
     ) -> bool:
         """Subscribe to state changes"""
         self.logger.debug(
@@ -794,7 +795,7 @@ class SharedStateManager:
             )
             return False
 
-    def get_keys_by_prefix(self, prefix: str, module: str, user_id: Optional[str] = None) -> list[str]:
+    def get_keys_by_prefix(self, prefix: str, module: str, user_id: str | None = None) -> list[str]:
         """Get all keys matching a prefix, respecting access controls."""
         self.logger.debug("Getting keys by prefix", prefix=prefix, module_name=module, user_id=user_id)
         self._cleanup_expired()
@@ -807,7 +808,7 @@ class SharedStateManager:
         self.logger.info("Keys by prefix retrieved", prefix=prefix, count=len(accessible_keys))
         return accessible_keys
 
-    def get_state_info(self, key: str, module: str, user_id: Optional[str] = None) -> Optional[dict[str, Any]]:
+    def get_state_info(self, key: str, module: str, user_id: str | None = None) -> dict[str, Any] | None:
         """Get metadata about a state value"""
         self.logger.debug("Getting state info", key=key, module_name=module, user_id=user_id)
         if key not in self.state:
@@ -837,7 +838,7 @@ class SharedStateManager:
         self.logger.info("State info retrieved", key=key, info_keys=list(info.keys()))
         return info
 
-    def get_change_history(self, key: Optional[str] = None, limit: int = 100) -> list[dict[str, Any]]:
+    def get_change_history(self, key: str | None = None, limit: int = 100) -> list[dict[str, Any]]:
         """Get change history for a key or all changes"""
         self.logger.debug("Fetching change history", key=key, limit=limit)
 
@@ -883,7 +884,7 @@ class SharedStateManager:
         )
         return current_stats
 
-    def rollback_to_version(self, key: str, version: int, module: str, user_id: Optional[str] = None) -> bool:
+    def rollback_to_version(self, key: str, version: int, module: str, user_id: str | None = None) -> bool:
         """Rollback a key to a specific version from its change history."""
         self.logger.info(
             "Attempting rollback",
@@ -893,7 +894,7 @@ class SharedStateManager:
             user_id=user_id,
         )
         try:
-            target_change_obj: Optional[StateChange] = None
+            target_change_obj: StateChange | None = None
             for change_rec in reversed(self.change_history):
                 if change_rec.key == key and change_rec.version == version:
                     target_change_obj = change_rec
@@ -980,9 +981,9 @@ def set_shared_state(
     key: str,
     value: Any,
     module: str,
-    user_id: Optional[str] = None,
+    user_id: str | None = None,
     access_level: StateAccessLevel = StateAccessLevel.PROTECTED,
-    ttl: Optional[float] = None,
+    ttl: float | None = None,
 ) -> bool:
     """Set shared state value using the global shared_state instance."""
     logger.debug(
@@ -997,7 +998,7 @@ def set_shared_state(
 
 
 # ΛEXPOSE
-def get_shared_state(key: str, module: str, user_id: Optional[str] = None, default: Any = None) -> Any:
+def get_shared_state(key: str, module: str, user_id: str | None = None, default: Any = None) -> Any:
     """Get shared state value using the global shared_state instance."""
     logger.debug(
         "Convenience: get_shared_state called",
@@ -1009,7 +1010,7 @@ def get_shared_state(key: str, module: str, user_id: Optional[str] = None, defau
 
 
 # ΛEXPOSE
-def delete_shared_state(key: str, module: str, user_id: Optional[str] = None) -> bool:
+def delete_shared_state(key: str, module: str, user_id: str | None = None) -> bool:
     """Delete shared state value using the global shared_state instance."""
     logger.debug(
         "Convenience: delete_shared_state called",
@@ -1025,7 +1026,7 @@ def subscribe_to_state(
     key: str,
     callback: Callable[[str, Any, str], Any],
     module: str,
-    user_id: Optional[str] = None,
+    user_id: str | None = None,
 ) -> bool:
     """Subscribe to state changes using the global shared_state instance."""
     logger.debug(

@@ -1,0 +1,51 @@
+{
+  "buildType": "https://slsa.dev/provenance/v1",
+  "builder": {
+    "id": "https://github.com/LukhasAI/Lukhas/.github/workflows/security-posture.yml"
+  },
+  "invocation": {
+    "configSource": {
+      "digest": {
+        "sha1": "8ed3824d529b2d69b84a29da288e52561fc26747"
+      },
+      "uri": "git+https://github.com/LukhasAI/Lukhas"
+    },
+    "environment": {
+      "repository": "LukhasAI/Lukhas",
+      "workflow": "security-posture-artifacts"
+    },
+    "parameters": {
+      "module": "lukhas.bridge.llm_wrappers"
+    }
+  },
+  "materials": [
+    {
+      "digest": {
+        "sha256": "c05a5a8ad96f473426b563c1694eb0edc85fd968d220a8b24528831d11ed9954"
+      },
+      "uri": "security/sboms/shared/lukhas-platform.cdx.json"
+    }
+  ],
+  "metadata": {
+    "buildFinishedOn": "2025-11-01T21:27:07+00:00",
+    "buildStartedOn": "2025-11-01T21:27:07+00:00",
+    "completeness": {
+      "environment": true,
+      "materials": true,
+      "parameters": true
+    },
+    "reproducible": true
+  },
+  "provenance": {
+    "ipld_root_cid": "bafybeilukhasc05a5a8ad96f473426b563c1694eb0edc85fd968d220a8"
+  },
+  "subject": [
+    {
+      "digest": {
+        "sha256": "538c2fa397718c9310a39f7f0b786f4b028efdd47c51d83fa0afccaa80725985"
+      },
+      "name": "lukhas.bridge.llm_wrappers",
+      "uri": "security/sboms/modules/lukhas_bridge_llm_wrappers.cdx.json"
+    }
+  ]
+}

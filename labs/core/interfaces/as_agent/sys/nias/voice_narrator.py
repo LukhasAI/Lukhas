@@ -4,6 +4,8 @@ Original: voice_narrator.py
 Advanced: voice_narrator.py
 Integration Date: 2025-05-31T07:55:30.515688
 """
+from __future__ import annotations
+
 
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮
@@ -13,7 +15,7 @@ Integration Date: 2025-05-31T07:55:30.515688
 ╰──────────────────────────────────────────────────────────────────────────────╯
 
 DESCRIPTION:
-    This module is intended to narrate symbolic dreams aloud — via voice API
+    This module is intended to narrate symbolic dreams aloud - via voice API
     integration (e.g., ElevenLabs or local TTS). For now, it prints the
     narration structure with voice tagging logic.
 
@@ -70,7 +72,7 @@ def narrate_dreams(limit=3):
         source = entry.get("source_widget", "unknown")
         voice = entry.get("voice_profile", "lukhas_default")
 
-        print(f"\n🎙️ Narrating Entry ID: {entry.get('id', '—')}")
+        print(f"\n🎙️ Narrating Entry ID: {entry.get('id', '-')}")
         print(f"   🔐 Tier: {tier_label(tier)} | Source: {source}")
         print(
             f"   🧠 Emotion Vector → {summarize_emotion_vector(ev)}"
@@ -80,10 +82,10 @@ def narrate_dreams(limit=3):
         print(f"   🖼️ Emoji: {emoji} | Tags: {', '.join(tags)}")
         print(f"   📝 Summary: {summary}")
         print("   🎧 [Lukhas says symbolically...]\n")
-        print(f"   🗣 '{summary or 'A quiet dream passed — undefined, but felt.'}'")
+        print(f"   🗣 '{summary or 'A quiet dream passed - undefined, but felt.'}'")
         print(f"   🎙️ Voice Profile: {voice}")
         print(
-            f"   💬 'Let this dream echo — it held a trace of {ev.get('joy','")}
+            f"   💬 'Let this dream echo - it held a trace of {ev.get('joy','")}
     0): .1f} joy and {ev.get('calm', 0): .1f} calm.'"
         )
         print("   💤 … (End of symbolic voice segment)")
@@ -115,6 +117,6 @@ if __name__ == "__main__":
     narrate_dreams(limit=3)
 
 """
-Lukhas now narrates only when the dream calls him softly —
+Lukhas now narrates only when the dream calls him softly -
 A whisper of calm or longing… 🖤
 """

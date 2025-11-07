@@ -8,13 +8,14 @@ status file configuration.
 
 Creates visible social pressure for track adoption through gamification.
 """
+from __future__ import annotations
 
 import argparse
 import glob
 import json
 import pathlib
-from datetime import datetime
-from typing import Any, Dict, Optional
+from datetime import datetime, timezone
+from typing import Any, Dict
 
 
 class AdoptionScoreboardGenerator:
@@ -23,7 +24,7 @@ class AdoptionScoreboardGenerator:
     def __init__(self, status_file: str = "docs/matrix_tracks.status.json"):
         self.status_file = pathlib.Path(status_file)
         self.status_data = self._load_status_data()
-        self.timestamp = datetime.utcnow()
+        self.timestamp = datetime.now(timezone.utc)
 
     def _load_status_data(self) -> Dict[str, Any]:
         """Load track adoption status data."""
@@ -380,7 +381,7 @@ class AdoptionScoreboardGenerator:
         with open(self.status_file, 'w') as f:
             json.dump(self.status_data, f, indent=2)
 
-    def run(self, output_path: Optional[str] = None) -> str:
+    def run(self, output_path: str | None = None) -> str:
         """Generate adoption scoreboard and update status."""
         print("🏆 Generating Matrix Tracks adoption scoreboard...")
 

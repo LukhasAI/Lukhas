@@ -1,11 +1,3 @@
-import logging
-from typing import (
-    Dict,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-)
-
-import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-
-logger = logging.getLogger(__name__)
 """
 VeriFold Unified System
 ======================
@@ -32,13 +24,23 @@ Last Updated: 2025-07-26
 
 import hashlib
 import json
+import logging
 import time
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import (
+    Any,
+    Dict,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    Optional,
+)
 
+import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 import structlog
+
+logger = logging.getLogger(__name__)
+
+
 
 try:
     import oqs  # Post-quantum cryptography

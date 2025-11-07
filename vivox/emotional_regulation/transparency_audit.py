@@ -1,12 +1,10 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.ERN Transparency & Audit System
 Provides comprehensive audit trails and user transparency for emotional regulation
 """
 
 import json
+import logging
 import os
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
@@ -17,6 +15,11 @@ from typing import Any, Optional
 from core.common import get_logger
 
 from .vivox_ern_core import RegulationResponse, RegulationStrategy
+
+logger = logging.getLogger(__name__)
+
+
+
 
 logger = get_logger(__name__)
 

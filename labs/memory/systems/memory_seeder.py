@@ -11,7 +11,9 @@
 │   - json                                                                  │
 └────────────────────────────────────────────────────────────────────────────┘
 """
-# ΛTIER: 1.1 — Symbolic Memory Initialization Layer
+from __future__ import annotations
+
+# ΛTIER: 1.1 - Symbolic Memory Initialization Layer
 import hashlib
 import json
 import random

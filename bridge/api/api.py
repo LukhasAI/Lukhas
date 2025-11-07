@@ -24,12 +24,14 @@
 ║ primary gateway for all identity-related operations.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import logging
 import os  # Added for ENV variable access example for API version
 import time
 from datetime import datetime, timezone
 from enum import Enum  # Added for QRGType fallback
-from typing import Any, Optional
+from typing import Any
 
 # Initialize ΛTRACE logger for this module
 logger = logging.getLogger("ΛTRACE.lukhas_id.api.unified_api", timezone)
@@ -189,7 +191,7 @@ class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
         if FASTAPI_AVAILABLE
         else 0.5
     )
-    cultural_context: Optional[str] = (
+    cultural_context: str | None = (
         Field(
             None,
             description="Identifier for the user's primary cultural context (e.g., 'east_asian', 'universal').",
@@ -213,7 +215,7 @@ class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
         if FASTAPI_AVAILABLE
         else True
     )
-    location_prefix: Optional[str] = (
+    location_prefix: str | None = (
         Field(
             "USR",
             max_length=5,
@@ -222,7 +224,7 @@ class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
         if FASTAPI_AVAILABLE
         else "USR"
     )
-    org_code: Optional[str] = (
+    org_code: str | None = (
         Field(
             "LUKH",
             max_length=10,
@@ -231,7 +233,7 @@ class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
         if FASTAPI_AVAILABLE
         else "LUKH"
     )
-    favorite_emoji: Optional[str] = (
+    favorite_emoji: str | None = (
         Field(
             "✨",
             max_length=5,
@@ -319,7 +321,7 @@ class QRGGenerationRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type:
         if FASTAPI_AVAILABLE
         else 60
     )
-    challenge_elements: Optional[list[str]] = (
+    challenge_elements: list[str] | None = (
         Field(
             None,
             description="Specific symbolic elements to include in a challenge-type QRG.",
@@ -486,7 +488,7 @@ class LukhasUnifiedAPI:
                 raise RuntimeError(f"Failed to initialize core managers: {e_mgr_init}") from e_mgr_init
 
         # Initialize FastAPI app instance if FastAPI is available
-        self.app: Optional[FastAPI] = None
+        self.app: FastAPI | None = None
         if FASTAPI_AVAILABLE and FastAPI is not None:  # Ensure FastAPI itself is not None
             self.app = FastAPI(
                 title="LUKHAS ΛiD Unified API",
@@ -570,7 +572,7 @@ class LukhasUnifiedAPI:
             tags=["ΛiD Management"],
         )
         async def create_lambda_id_route(
-            request_data: UserProfileRequest = Body(...),
+            request_data: UserProfileRequest = Body(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_api_py_L575"}
         ):  # Using Pydantic model for request body
             self.logger.info(f"ΛTRACE: Endpoint POST {api_v2_prefix}/create invoked.")
             return await self._create_lambda_id_endpoint_impl(request_data)
@@ -582,7 +584,7 @@ class LukhasUnifiedAPI:
             tags=["Authentication"],
         )
         async def authenticate_symbolic_route(
-            request_data: SymbolicAuthRequest = Body(...),
+            request_data: SymbolicAuthRequest = Body(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_api_py_L587"}
         ):
             self.logger.info(
                 f"ΛTRACE: Endpoint POST {api_v2_prefix}/authenticate/symbolic invoked for ΛiD: {request_data.lambda_id[:10]}..."
@@ -1334,7 +1336,7 @@ class LukhasUnifiedAPI:
 
     def get_fastapi_app_instance(
         self,
-    ) -> Optional[FastAPI]:  # Renamed for clarity
+    ) -> FastAPI | None:  # Renamed for clarity
         """Returns the configured FastAPI application instance, or None if FastAPI is not available."""
         self.logger.debug(
             f"ΛTRACE: get_fastapi_app_instance called. FastAPI available: {FASTAPI_AVAILABLE}, App initialized: {self.app is not None}"
@@ -1366,13 +1368,13 @@ class LukhasUnifiedAPI:
 # ═══════════════════════════════════════════════════════════════════════════════════════════════════════
 # Factory Function for Creating the API Application
 # ═══════════════════════════════════════════════════════════════════════════════════════════════════════
-_lukhas_unified_api_instance: Optional[LukhasUnifiedAPI] = None
+_lukhas_unified_api_instance: LukhasUnifiedAPI | None = None
 
 # Human-readable comment: Factory function to create or get the LUKHAS
 # Unified API application.
 
 
-def get_lukhas_unified_api_app() -> Optional[FastAPI]:  # Renamed for clarity:
+def get_lukhas_unified_api_app() -> FastAPI | None:  # Renamed for clarity:
     """
     Factory function to create and return the LUKHAS Unified API (FastAPI) application instance.
     Ensures a singleton pattern for the LukhasUnifiedAPI class instance.
@@ -1401,7 +1403,7 @@ def get_lukhas_unified_api_app() -> Optional[FastAPI]:  # Renamed for clarity:
 # Main FastAPI application instance, intended for Uvicorn or similar ASGI server.
 # This is what an ASGI server like `uvicorn
 # lukhas_id.api.unified_api:fastapi_app` would target.
-fastapi_app: Optional[FastAPI] = get_lukhas_unified_api_app()
+fastapi_app: FastAPI | None = get_lukhas_unified_api_app()
 
 if fastapi_app:
     logger.info(

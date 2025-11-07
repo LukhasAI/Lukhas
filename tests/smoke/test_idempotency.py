@@ -17,7 +17,6 @@ import uuid
 import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
-
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
 
@@ -94,9 +93,9 @@ def test_without_idempotency_key_not_cached(client: TestClient) -> None:
 def test_idempotency_same_body_cached_within_300s(client: TestClient) -> None:
     """
     Task 3.1: Replay with same body returns cached response within TTL window.
-    
+
     OpenAI Behavior: Duplicate request with same Idempotency-Key returns cached.
-    
+
     DoD:
     - First request completes normally (200)
     - Second request with same key + body returns cached (200, <100ms)
@@ -128,10 +127,10 @@ def test_idempotency_same_body_cached_within_300s(client: TestClient) -> None:
 def test_idempotency_different_body_recomputes_not_cached(client: TestClient) -> None:
     """
     Task 3.2: Replay with different body recomputes (no cache poisoning).
-    
+
     OpenAI Behavior: Same key + different body → 400 or recompute.
     LUKHAS: We recompute gracefully to avoid cache poisoning.
-    
+
     DoD:
     - First request completes (200)
     - Second request with same key + different body → new response (200)
@@ -146,31 +145,31 @@ def test_idempotency_different_body_recomputes_not_cached(client: TestClient) ->
     # First request
     r1 = client.post("/v1/responses", headers=headers, json=payload1)
     assert r1.status_code == 200
-    response1_data = r1.json()
+    r1.json()
 
     # Second request with different body
     r2 = client.post("/v1/responses", headers=headers, json=payload2)
     assert r2.status_code in (200, 409), f"Unexpected status: {r2.status_code}"
 
     if r2.status_code == 200:
-        response2_data = r2.json()
+        r2.json()
         # Verify recompute (data should differ for different inputs)
         # Note: If implementation caches regardless of body, this will fail
-        assert response1_data != response2_data or True, "Responses matched despite different body"
+        assert True, "Responses matched despite different body"
 
 
 def test_idempotency_ttl_expiry_recomputes_after_cache_expiry(client: TestClient) -> None:
     """
     Task 3.3: Expired idempotency entry recomputes after TTL.
-    
+
     OpenAI Behavior: Idempotency cache has TTL (24h typical, LUKHAS uses shorter).
-    
+
     DoD:
     - First request completes (200)
     - Wait for TTL expiry (or mock time)
     - Second request after TTL → recompute (200)
     - Graceful TTL handling (no errors)
-    
+
     NOTE: This test requires a short TTL (e.g., 2-3s) for practical testing.
     Production TTL is typically 300s-24h. Adjust sleep based on config.
     """

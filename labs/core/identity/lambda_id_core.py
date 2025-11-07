@@ -6,7 +6,9 @@ Performance target: <100ms p95 latency
 """
 
 import base64
+import binascii
 import hashlib
+import json
 import logging
 import secrets
 import time
@@ -15,6 +17,8 @@ from datetime import datetime, timedelta, timezone
 from typing import Any, Optional, Union
 
 import jwt
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric import ed25519, ec, padding, rsa
 
 # Constellation Framework Integration
 logger = logging.getLogger(__name__)
@@ -416,13 +420,137 @@ class WebAuthnPasskeyManager:
             del self.challenges[lid]
             return False
 
-        # In production: Verify signature with stored public key
-        # For MVP: Simplified validation
+        credential = self.credentials.get(lid)
+        if not credential:
+            del self.challenges[lid]
+            self._log_security_event(lid, "authentication_failed", {"error": "credential_not_found"})
+            logger.warning("⚠️ Passkey credential not found for %s", lid)
+            return False
+
+        try:
+            response = assertion.get("response", {})
+            client_data_b64 = response.get("clientDataJSON")
+            authenticator_data_b64 = response.get("authenticatorData")
+            signature_b64 = response.get("signature")
+
+            if not all([client_data_b64, authenticator_data_b64, signature_b64]):
+                raise AuthenticationError("Missing assertion components")
+
+            client_data_bytes = self._decode_base64(client_data_b64)
+            client_data = json.loads(client_data_bytes.decode("utf-8"))
+
+            response_challenge = client_data.get("challenge")
+            stored_challenge = challenge.get("challenge")
+
+            if not response_challenge or not stored_challenge:
+                raise AuthenticationError("Challenge mismatch")
+
+            response_challenge_bytes = self._decode_base64(response_challenge)
+            stored_challenge_bytes = self._decode_base64(stored_challenge)
+
+            if response_challenge_bytes != stored_challenge_bytes:
+                raise AuthenticationError("Challenge mismatch")
+
+            credential_id = credential.get("credential_id")
+            if credential_id and assertion.get("id") and assertion["id"] != credential_id:
+                raise AuthenticationError("Credential ID mismatch")
+
+            authenticator_data = self._decode_base64(authenticator_data_b64)
+            signature = self._decode_base64(signature_b64)
+
+            signed_payload = authenticator_data + hashlib.sha256(client_data_bytes).digest()
+
+            public_key = self._load_public_key(credential.get("public_key"))
+            self._verify_signature(public_key, signature, signed_payload)
+
+        except (AuthenticationError, json.JSONDecodeError, UnicodeDecodeError, binascii.Error) as exc:
+            del self.challenges[lid]
+            self._log_security_event(lid, "authentication_failed", {"error": str(exc)})
+            logger.warning("⚠️ Passkey authentication failed for %s: %s", lid, exc)
+            return False
+        except Exception as exc:  # pragma: no cover - unexpected failure path
+            del self.challenges[lid]
+            self._log_security_event(lid, "authentication_failed", {"error": str(exc)})
+            logger.error("❌ Unexpected passkey authentication failure for %s: %s", lid, exc)
+            return False
+
         del self.challenges[lid]
 
-        self._log_security_event(lid, "authentication_success", {})
+        self._log_security_event(
+            lid,
+            "authentication_success",
+            {"credential_id": credential.get("credential_id")},
+        )
         logger.info(f"⚛️ Passkey authentication successful for {lid}")
         return True
+
+    @staticmethod
+    def _decode_base64(data: Union[str, bytes]) -> bytes:
+        """Decode base64/urlsafe base64 strings with padding normalization."""
+        if isinstance(data, bytes):
+            data_str = data.decode("ascii")
+        else:
+            data_str = data or ""
+
+        normalized = data_str.strip()
+        if not normalized:
+            raise AuthenticationError("Missing base64 data")
+
+        padding_needed = (-len(normalized)) % 4
+        normalized += "=" * padding_needed
+
+        try:
+            return base64.urlsafe_b64decode(normalized)
+        except (binascii.Error, ValueError):
+            try:
+                return base64.b64decode(normalized)
+            except (binascii.Error, ValueError) as exc:
+                raise AuthenticationError("Invalid base64 data") from exc
+
+    def _load_public_key(self, encoded_key: Union[str, bytes, None]):
+        """Load a public key from base64, PEM, or DER encodings."""
+        if not encoded_key:
+            raise AuthenticationError("Missing public key")
+
+        if isinstance(encoded_key, str) and encoded_key.strip().startswith("-----BEGIN"):
+            key_bytes = encoded_key.encode("utf-8")
+            try:
+                return serialization.load_pem_public_key(key_bytes)
+            except ValueError as exc:
+                raise AuthenticationError("Invalid PEM public key") from exc
+
+        key_bytes: bytes
+        if isinstance(encoded_key, bytes):
+            key_bytes = encoded_key
+        else:
+            key_bytes = self._decode_base64(encoded_key)
+
+        try:
+            return ed25519.Ed25519PublicKey.from_public_bytes(key_bytes)
+        except ValueError:
+            pass
+
+        try:
+            return serialization.load_der_public_key(key_bytes)
+        except ValueError as exc:
+            raise AuthenticationError("Unsupported public key format") from exc
+
+    @staticmethod
+    def _verify_signature(public_key, signature: bytes, message: bytes) -> None:
+        """Verify signatures for supported public key types."""
+        if isinstance(public_key, ed25519.Ed25519PublicKey):
+            public_key.verify(signature, message)
+            return
+
+        if isinstance(public_key, ec.EllipticCurvePublicKey):
+            public_key.verify(signature, message, ec.ECDSA(hashes.SHA256()))
+            return
+
+        if isinstance(public_key, rsa.RSAPublicKey):
+            public_key.verify(signature, message, padding.PKCS1v15(), hashes.SHA256())
+            return
+
+        raise AuthenticationError("Unsupported public key type")
 
     def _check_rate_limit(self, lid: str, operation: str, max_attempts: int = 5) -> None:
         """🛡️ Rate limiting to prevent abuse"""
@@ -701,7 +829,7 @@ class LukhasIdentityService:
 
             # Extract namespace and validate
             try:
-                namespace = self.id_generator.extract_namespace(lid)
+                self.id_generator.extract_namespace(lid)
             except InvalidNamespaceError:
                 logger.warning(f"🛡️ Invalid namespace in ΛID: {lid}")
                 return False

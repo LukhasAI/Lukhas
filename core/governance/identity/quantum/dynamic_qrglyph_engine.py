@@ -1,6 +1,5 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
+
 """
 LUKHΛS T4 Dynamic QRGLYPH Engine
 ================================
@@ -19,6 +18,9 @@ Author: LUKHΛS AI Systems
 Version: 3.1.0 - Quantum GLYPH Revolution
 Created: 2025-08-03
 """
+
+from __future__ import annotations
+
 import asyncio
 import base64
 import hashlib
@@ -29,7 +31,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed448
@@ -66,11 +68,11 @@ class GLYPHMetadata:
     glyph_type: GLYPHType
     creation_time: datetime
     expiration_time: datetime
-    consciousness_binding: Optional[dict[str, Any]] = None
-    cultural_symbols: Optional[list[str]] = None
-    biometric_hash: Optional[str] = None
+    consciousness_binding: dict[str, Any] | None = None
+    cultural_symbols: list[str] | None = None
+    biometric_hash: str | None = None
     rotation_count: int = 0
-    qi_entropy: Optional[str] = None
+    qi_entropy: str | None = None
 
 
 @dataclass
@@ -82,7 +84,7 @@ class DynamicQRGLYPH:
     signature: bytes
     metadata: GLYPHMetadata
     ed448_public_key: bytes
-    zk_commitment: Optional[str] = None
+    zk_commitment: str | None = None
 
     def to_base64(self) -> str:
         """Serialize QRGLYPH to base64"""
@@ -108,7 +110,7 @@ class DynamicQRGLYPH:
         return base64.b64encode(json_data.encode()).decode()
 
     @classmethod
-    def from_base64(cls, base64_data: str) -> "DynamicQRGLYPH":
+    def from_base64(cls, base64_data: str) -> DynamicQRGLYPH:
         """Deserialize QRGLYPH from base64"""
         json_data = base64.b64decode(base64_data).decode()
         glyph_data = json.loads(json_data)
@@ -393,7 +395,7 @@ class DynamicQRGLYPHEngine:
         # For now, check proof structure
         return len(proof.proof_data) == 64 and len(proof.verification_key) == 32
 
-    async def rotate_qrglyph(self, glyph_id: str) -> Optional[DynamicQRGLYPH]:
+    async def rotate_qrglyph(self, glyph_id: str) -> DynamicQRGLYPH | None:
         """
         Rotate a dynamic QRGLYPH to a new version
         """

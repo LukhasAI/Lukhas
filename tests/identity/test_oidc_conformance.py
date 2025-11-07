@@ -31,7 +31,6 @@ import jwt
 import pytest
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
-
 from identity.oidc.client_registry import OIDCClient
 from identity.oidc.discovery import DiscoveryProvider
 from identity.oidc.provider import OIDCProvider
@@ -266,7 +265,7 @@ class TestOIDCDiscovery(OIDCConformanceTestSuite):
             assert kid.startswith('lukhas-oidc-'), f"New key ID should follow pattern: {kid}"
             assert len(kid.split('-')) >= 3, f"Key ID should include date/version: {kid}"
 
-        key = jwks['keys'][0]  # noqa: F821  # TODO: jwks
+        key = jwks['keys'][0]  # TODO: jwks
         required_key_fields = ['kty', 'use', 'kid', 'alg', 'n', 'e']
         for field in required_key_fields:
             assert field in key, f"Missing required key field: {field}"
@@ -638,7 +637,7 @@ class TestOIDCMetricsIntegration(OIDCConformanceTestSuite):
                 'client_secret': test_client.client_secret
             }
 
-            try:
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_identity_test_oidc_conformance_py_L640"}
                 await oidc_provider.handle_token_request(token_params)
             except Exception:
                 pass  # We expect some to fail, we're testing metrics collection
@@ -672,7 +671,7 @@ class TestOIDCMetricsIntegration(OIDCConformanceTestSuite):
         jwks_latencies = []
 
         # Simulate multiple JWKS requests
-        for i in range(5):
+        for _i in range(5):
             start_time = time.perf_counter()
 
             # In real implementation, this would be HTTP request to /.well-known/jwks.json
@@ -960,7 +959,7 @@ class TestConformanceReporting:
         # Generate validation artifacts
         validation_report = {
             'test_suite': 'OIDC 1.0 Conformance',
-            'timestamp': datetime.utcnow().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'version': '1.0.0',
             'excellence_tier': 'T4/0.01%',
             'results': test_results,
@@ -985,7 +984,7 @@ class TestConformanceReporting:
         artifacts_dir = '/Users/agi_dev/LOCAL-REPOS/Lukhas/artifacts'
         os.makedirs(artifacts_dir, exist_ok=True)
 
-        timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
+        timestamp = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
         report_path = f"{artifacts_dir}/oidc_conformance_validation_{timestamp}.json"
 
         with open(report_path, 'w') as f:

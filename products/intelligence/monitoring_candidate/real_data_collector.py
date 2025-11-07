@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-"""
-Real Data Collector
+"""Real Data Collector
 ==================
-Actual implementation showing how monitoring system collects real data from lukhas__modules
+Actual implementation showing how monitoring system collects real data from lukhas__modules.
 """
 
 import asyncio

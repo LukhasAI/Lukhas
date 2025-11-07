@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""
-T4/0.01% Excellence Performance Validation Suite
+
+"""T4/0.01% Excellence Performance Validation Suite
 ================================================
 
 Unassailable performance validation with complete statistical rigor,
@@ -26,6 +26,12 @@ from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
 import psutil
+from bench_core import (
+    PerformanceBenchmark,  # - requires sys.path manipulation before import
+)
+from preflight_check import (
+    PreflightValidator,  # - requires sys.path manipulation before import
+)
 
 # Suppress verbose logging
 logging.getLogger().setLevel(logging.CRITICAL)
@@ -33,8 +39,6 @@ logging.getLogger().setLevel(logging.CRITICAL)
 # Add project root to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from bench_core import PerformanceBenchmark
-from preflight_check import PreflightValidator
 
 
 class ChaosCleanupManager:
@@ -172,18 +176,18 @@ class E2EPromotionGate:
     """E2E-only promotion gates for SLA compliance validation"""
 
     # Define valid E2E metric patterns
-    E2E_METRIC_PATTERNS = {
+    E2E_METRIC_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_bench_t4_excellence_py_L179"}
         'guardian_e2e', 'memory_e2e', 'orchestrator_e2e',
         'api_e2e', 'workflow_e2e', 'integration_e2e'
     }
 
     # Define forbidden unit test patterns
-    UNIT_METRIC_PATTERNS = {
+    UNIT_METRIC_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_bench_t4_excellence_py_L185"}
         'guardian_unit', 'memory_unit', 'orchestrator_unit',
         'api_unit', 'workflow_unit', 'integration_unit'
     }
 
-    SLA_THRESHOLDS = {
+    SLA_THRESHOLDS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_bench_t4_excellence_py_L190"}
         'guardian_e2e': 100000,    # 100ms in μs
         'memory_e2e': 1000,       # 1ms in μs
         'orchestrator_e2e': 250000, # 250ms in μs
@@ -357,7 +361,8 @@ class PowerThermalTelemetry:
                         if freqs:
                             reading['cpu_freq_per_core'] = freqs
                             reading['cpu_freq_variance'] = max(freqs) - min(freqs)
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
             # CPU temperature (if available)
@@ -375,7 +380,7 @@ class PowerThermalTelemetry:
                         reading['cpu_temp_c'] = sum(cpu_temps) / len(cpu_temps)
                         reading['cpu_temp_max'] = max(cpu_temps)
                         reading['cpu_temp_cores'] = cpu_temps
-            except:
+            except Exception:
                 reading['cpu_temp_c'] = None
 
             # Power consumption (Linux only)
@@ -393,7 +398,8 @@ class PowerThermalTelemetry:
                                 power_uw = int(f.read().strip())
                                 reading['battery_power_w'] = power_uw / 1000000  # Convert μW to W
                             break
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
             # CPU load averages
@@ -918,7 +924,7 @@ class T4ExcellenceValidator:
                 if '==' in line:
                     name, version = line.split('==')
                     deps[name] = version
-        except:
+        except Exception:
             deps = {"error": "Could not capture dependencies"}
 
         return {
@@ -1207,7 +1213,7 @@ class T4ExcellenceValidator:
         result = ValidationResult(
             timestamp=env["timestamp"],
             environment=env,
-            distributions={k: v for k, v in self.results.items()},
+            distributions=dict(self.results.items()),
             sla_compliance=sla_compliance,
             chaos_results=self.chaos_results,
             reproducibility={},
@@ -1284,7 +1290,7 @@ def run_t4_excellence_validation():
         log_file = Path(temp_dir) / f"log_{time.time_ns()}.json"
         with open(log_file, 'w') as f:
             json.dump(response, f)
-        with open(log_file, 'r') as f:
+        with open(log_file) as f:
             verified = json.load(f)
         log_file.unlink()
         return verified
@@ -1304,7 +1310,7 @@ def run_t4_excellence_validation():
         event_file = Path(temp_dir) / f"event_{time.time_ns()}.json"
         with open(event_file, 'w') as f:
             json.dump({"data": event.data, "metadata": event.metadata}, f)
-        with open(event_file, 'r') as f:
+        with open(event_file) as f:
             verified = json.load(f)
         event_file.unlink()
         return verified

@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import logging
 import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -51,21 +51,21 @@ class RegistrationBeginRequest(BaseModel):
     username: str = Field(..., description="Username")
     display_name: str = Field(..., description="Display name")
     tier: str = Field(default="T4", description="Authentication tier (T3, T4, T5)")
-    authenticator_attachment: Optional[str] = Field(default=None, description="platform, cross-platform, or None")
+    authenticator_attachment: str | None = Field(default=None, description="platform, cross-platform, or None")
     resident_key: bool = Field(default=True, description="Require resident key")
-    device_name: Optional[str] = Field(default=None, description="Device name for identification")
+    device_name: str | None = Field(default=None, description="Device name for identification")
 
 
 class RegistrationFinishRequest(BaseModel):
     """WebAuthn registration finish request"""
     challenge_id: str = Field(..., description="Challenge ID from begin request")
     credential: Dict[str, Any] = Field(..., description="WebAuthn credential response")
-    device_name: Optional[str] = Field(default=None, description="Device name for identification")
+    device_name: str | None = Field(default=None, description="Device name for identification")
 
 
 class AuthenticationBeginRequest(BaseModel):
     """WebAuthn authentication begin request"""
-    user_id: Optional[str] = Field(default=None, description="User ID (optional for usernameless)")
+    user_id: str | None = Field(default=None, description="User ID (optional for usernameless)")
     tier: str = Field(default="T4", description="Required authentication tier")
     timeout: int = Field(default=300000, description="Timeout in milliseconds")
 
@@ -79,12 +79,12 @@ class AuthenticationFinishRequest(BaseModel):
 class WebAuthnCredentialResponse(BaseModel):
     """WebAuthn credential response"""
     id: str
-    device_name: Optional[str]
+    device_name: str | None
     authenticator_type: str
     tier: str
     status: str
     created_at: str
-    last_used: Optional[str]
+    last_used: str | None
     biometric_enrolled: bool
     backup_eligible: bool
 
@@ -97,7 +97,7 @@ class WebAuthnStatusResponse(BaseModel):
     supported_authenticator_types: List[str]
 
 
-async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
+async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_identity_webauthn_api_py_L100"}
     """Verify authentication token"""
     try:
         token = credentials.credentials
@@ -165,8 +165,8 @@ async def authentication_rate_limit(request: Request):
 @router.post("/register/begin")
 async def begin_registration(
     request: RegistrationBeginRequest,
-    current_user: Dict[str, Any] = Depends(get_current_user),
-    rate_limit_check: Dict[str, Any] = Depends(registration_rate_limit)
+    current_user: Dict[str, Any] = Depends(get_current_user),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_identity_webauthn_api_py_L168"}
+    rate_limit_check: Dict[str, Any] = Depends(registration_rate_limit)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_identity_webauthn_api_py_L169"}
 ):
     """Begin WebAuthn credential registration"""
 
@@ -241,8 +241,8 @@ async def begin_registration(
 @router.post("/register/finish")
 async def finish_registration(
     request: RegistrationFinishRequest,
-    current_user: Dict[str, Any] = Depends(get_current_user),
-    rate_limit_check: Dict[str, Any] = Depends(registration_rate_limit)
+    current_user: Dict[str, Any] = Depends(get_current_user),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_identity_webauthn_api_py_L244"}
+    rate_limit_check: Dict[str, Any] = Depends(registration_rate_limit)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_identity_webauthn_api_py_L245"}
 ):
     """Complete WebAuthn credential registration"""
 
@@ -316,7 +316,7 @@ async def finish_registration(
 @router.post("/authenticate/begin")
 async def begin_authentication(
     request: AuthenticationBeginRequest,
-    rate_limit_check: Dict[str, Any] = Depends(authentication_rate_limit)
+    rate_limit_check: Dict[str, Any] = Depends(authentication_rate_limit)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_identity_webauthn_api_py_L319"}
 ):
     """Begin WebAuthn authentication"""
 
@@ -388,7 +388,7 @@ async def begin_authentication(
 @router.post("/authenticate/finish")
 async def finish_authentication(
     request: AuthenticationFinishRequest,
-    rate_limit_check: Dict[str, Any] = Depends(authentication_rate_limit)
+    rate_limit_check: Dict[str, Any] = Depends(authentication_rate_limit)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_identity_webauthn_api_py_L391"}
 ):
     """Complete WebAuthn authentication"""
 
@@ -461,7 +461,7 @@ async def finish_authentication(
 
 
 @router.get("/credentials", response_model=List[WebAuthnCredentialResponse])
-async def list_credentials(current_user: Dict[str, Any] = Depends(get_current_user)):
+async def list_credentials(current_user: Dict[str, Any] = Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_identity_webauthn_api_py_L464"}
     """List all WebAuthn credentials for the current user"""
 
     with tracer.start_span("webauthn_api.list_credentials") as span:
@@ -524,7 +524,7 @@ async def list_credentials(current_user: Dict[str, Any] = Depends(get_current_us
 @router.delete("/credentials/{credential_id}")
 async def revoke_credential(
     credential_id: str,
-    current_user: Dict[str, Any] = Depends(get_current_user)
+    current_user: Dict[str, Any] = Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_identity_webauthn_api_py_L527"}
 ):
     """Revoke a WebAuthn credential"""
 
@@ -593,7 +593,7 @@ async def revoke_credential(
 
 
 @router.get("/status", response_model=WebAuthnStatusResponse)
-async def get_webauthn_status(current_user: Dict[str, Any] = Depends(get_current_user)):
+async def get_webauthn_status(current_user: Dict[str, Any] = Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_identity_webauthn_api_py_L596"}
     """Get WebAuthn system status for the current user"""
 
     with tracer.start_span("webauthn_api.status") as span:

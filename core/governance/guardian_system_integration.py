@@ -31,6 +31,7 @@ Core Components:
 Integrates with Constellation Framework, orchestration layer, and all LUKHAS agents.
 """
 import asyncio
+import importlib as _importlib
 import logging
 import time
 import uuid
@@ -49,44 +50,35 @@ except ImportError:
     ConsentLedgerV1 = None
     PolicyVerdict = None
     logging.warning("ConsentLedgerV1 not available - using fallback")
-
 try:
-    from labs.governance.guardian.drift_detector import (
-        AdvancedDriftDetector,
-        DriftSeverity,
-        DriftType,
-    )
-except ImportError:
+    _mod = _importlib.import_module("labs.governance.guardian.drift_detector")
+    AdvancedDriftDetector = _mod.AdvancedDriftDetector
+    DriftSeverity = _mod.DriftSeverity
+    DriftType = _mod.DriftType
+except Exception:
     AdvancedDriftDetector = None
-    DriftType = None
     DriftSeverity = None
-    logging.warning("AdvancedDriftDetector not available - using fallback")
-
+    DriftType = None
 try:
-    from labs.governance.identity.core.sent.policy_engine import (
-        ComprehensiveEthicsPolicyEngine,
-        EthicalFramework,
-        PolicyAction,
-    )
-except ImportError:
+    _mod = _importlib.import_module("labs.governance.identity.core.sent.policy_engine")
+    ComprehensiveEthicsPolicyEngine = _mod.ComprehensiveEthicsPolicyEngine
+    EthicalFramework = _mod.EthicalFramework
+    PolicyAction = _mod.PolicyAction
+except Exception:
     ComprehensiveEthicsPolicyEngine = None
     EthicalFramework = None
     PolicyAction = None
-    logging.warning("ComprehensiveEthicsPolicyEngine not available - using fallback")
-
 try:
-    from labs.governance.security.audit_system import (
-        AuditCategory,
-        AuditEventType,
-        AuditLevel,
-        ComprehensiveAuditSystem,
-    )
-except ImportError:
-    ComprehensiveAuditSystem = None
-    AuditEventType = None
+    _mod = _importlib.import_module("labs.governance.security.audit_system")
+    AuditCategory = _mod.AuditCategory
+    AuditEventType = _mod.AuditEventType
+    AuditLevel = _mod.AuditLevel
+    ComprehensiveAuditSystem = _mod.ComprehensiveAuditSystem
+except Exception:
     AuditCategory = None
+    AuditEventType = None
     AuditLevel = None
-    logging.warning("ComprehensiveAuditSystem not available - using fallback")
+    ComprehensiveAuditSystem = None
 
 # Core system integrations
 try:
@@ -286,7 +278,7 @@ class GuardianSystemIntegration:
         self.alert_handlers: dict[GuardianAlertLevel, list[Callable]] = {level: [] for level in GuardianAlertLevel}
 
         # Initialize system
-        asyncio.create_task(self._initialize_guardian_system())
+        asyncio.create_task(self._initialize_guardian_system())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_integration_py_L281"}
 
         logger.info(f"🛡️ Guardian System Integration Hub initializing: {self.guardian_id}")
 
@@ -330,9 +322,9 @@ class GuardianSystemIntegration:
             await self._connect_components()
 
             # Start monitoring
-            asyncio.create_task(self._monitoring_loop())
-            asyncio.create_task(self._metrics_update_loop())
-            asyncio.create_task(self._health_check_loop())
+            asyncio.create_task(self._monitoring_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_integration_py_L326"}
+            asyncio.create_task(self._metrics_update_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_integration_py_L328"}
+            asyncio.create_task(self._health_check_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_integration_py_L330"}
 
             # System ready
             self.status = GuardianStatus.ACTIVE
@@ -644,10 +636,9 @@ class GuardianSystemIntegration:
 
         try:
             # ✨ Identity validation - Anchor star
-            if request.user_id and self.consent_ledger:
-                # Check if user identity is validated through consent system
-                if response.consent_result and response.consent_result.get("status") == "completed":
-                    constellation_validation["identity"] = True
+            if (request.user_id and self.consent_ledger and
+                response.consent_result and response.consent_result.get("status") == "completed"):
+                constellation_validation["identity"] = True
 
             # 🌟 Memory validation - Tracing paths of past light
             # Memory validation through consent history and audit trails
@@ -672,13 +663,10 @@ class GuardianSystemIntegration:
             )
 
             # ⚖️ Ethics validation - The North Star (responsible, transparent, accountable)
-            if response.ethics_result and response.ethics_result.get("status") == "completed":
-                # Check constitutional compliance and ethical score
-                if (
-                    response.ethics_result.get("constitutional_compliance", False)
-                    and response.ethics_result.get("ethical_score", 0.0) > 0.7
-                ):
-                    constellation_validation["ethics"] = True
+            if (response.ethics_result and response.ethics_result.get("status") == "completed" and
+                response.ethics_result.get("constitutional_compliance", False) and
+                response.ethics_result.get("ethical_score", 0.0) > 0.7):
+                constellation_validation["ethics"] = True
 
             # 🛡️ Guardian validation - The Watch Star (protective, trustworthy, serious protection)
             # Overall system approval based on all validations
@@ -787,10 +775,11 @@ class GuardianSystemIntegration:
             result = ValidationResult.APPROVED
 
         # Calculate confidence
-        if validation_scores:
-            confidence = sum(validation_scores) / len(validation_scores)
-        else:
-            confidence = 0.5  # Neutral confidence when no scores available
+        confidence = (
+            sum(validation_scores) / len(validation_scores)
+            if validation_scores
+            else 0.5  # Neutral confidence when no scores available
+        )
 
         # Adjust confidence based on component failures
         if warnings:

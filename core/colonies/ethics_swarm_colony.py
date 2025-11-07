@@ -7,10 +7,11 @@ import statistics
 import time
 import uuid
 from collections import deque
+from collections.abc import Iterable
 from dataclasses import dataclass, field, replace
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Deque, Iterable
+from typing import Any, Deque
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +44,7 @@ class EthicalDecisionRequest:
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     request_id: str = field(default_factory=lambda: uuid.uuid4().hex)
 
-    def with_metadata(self, **extra: Any) -> "EthicalDecisionRequest":
+    def with_metadata(self, **extra: Any) -> EthicalDecisionRequest:
         """Return a copy enriched with additional metadata."""
 
         return replace(self, metadata={**self.metadata, **extra})

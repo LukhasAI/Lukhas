@@ -5,7 +5,6 @@ Uses ledger plurality voting to rewrite only proven-reliable imports.
 Supports dry-run (default) and --apply mode with backups.
 """
 import argparse
-import json
 import re
 import shutil
 from collections import Counter, defaultdict
@@ -21,20 +20,18 @@ IMPORT_RE = re.compile(
 def build_mapping(threshold=3):
     if not LEDGER.exists():
         raise SystemExit("ledger missing; run tests to populate.")
-    votes = defaultdict(Counter)  # mod -> canonical -> count
-    for line in LEDGER.read_text().splitlines():
-        if not line.strip():
-            continue
-        ev = json.loads(line)
-        if ev.get("event") != "alias":
-            continue
-        l, r = ev.get("lukhas"), ev.get("real")
-        votes[l][r] += 1
+    pairs = defaultdict(Counter)
+    for ev in read_ledger():
+        if ev.get("event") == "alias":
+            lukhas_mod = ev.get("lukhas")
+            real_mod = ev.get("real")
+            if lukhas_mod and real_mod:
+                pairs[lukhas_mod][real_mod] += 1
     mapping = {}
-    for l, counts in votes.items():
+    for lukhas_mod, counts in votes.items():
         best, n = counts.most_common(1)[0]
         if n >= threshold:  # only rewrite if we have strong evidence
-            mapping[l] = best
+            mapping[lukhas_mod] = best
     return mapping
 
 def rewrite_file(path: Path, mapping: dict, apply=False):

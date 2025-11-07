@@ -56,14 +56,14 @@ class MATRIZSchemaDriftDetector:
         if not self.schema_path.exists():
             raise FileNotFoundError(f"MATRIZ schema not found: {self.schema_path}")
 
-        with open(self.schema_path, 'r') as f:
+        with open(self.schema_path) as f:
             self.current_schema = json.load(f)
 
         # Load snapshot
         if not self.snapshot_path.exists():
             raise FileNotFoundError(f"MATRIZ schema snapshot not found: {self.snapshot_path}")
 
-        with open(self.snapshot_path, 'r') as f:
+        with open(self.snapshot_path) as f:
             self.snapshot = json.load(f)
 
     def compute_schema_hash(self, schema: Dict[str, Any]) -> str:

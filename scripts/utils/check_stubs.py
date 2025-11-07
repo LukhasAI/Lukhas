@@ -56,7 +56,8 @@ for stub in sorted(stub_dirs):
                                 break
                     if found:
                         break
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
         if found:
             break

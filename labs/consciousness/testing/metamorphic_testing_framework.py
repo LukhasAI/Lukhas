@@ -30,6 +30,8 @@
 ║ • Identity Temporal Consistency: Identity stable across time intervals
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 import logging
@@ -455,7 +457,7 @@ class AttentionConservationRelation(MetamorphicRelation):
         # Get current attention components
         components = list(followup.attention_distribution.keys())
         values = list(followup.attention_distribution.values())
-        total_attention = sum(values)
+        sum(values)
 
         # Redistribute attention while preserving total
         if len(components) >= 2:
@@ -1144,7 +1146,7 @@ async def main():
         # Show failures if any
         failed_tests = [tc for tc in relation_result["test_cases"] if not tc["relation_satisfied"]]
         if failed_tests:
-            print(f"  Failures:")
+            print("  Failures:")
             for failed_test in failed_tests[:2]:  # Show first 2 failures
                 print(f"    - {failed_test['violations']}")
         print()

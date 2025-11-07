@@ -93,7 +93,8 @@ class AutoImprover:
         try:
             result = subprocess.run(["which", tool], capture_output=True, text=True)
             return result.returncode == 0
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             return False
 
     async def _check_ollama(self) -> bool:

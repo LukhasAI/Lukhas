@@ -44,6 +44,8 @@ metabolic conscience of the system, optimizing for both performance and longevit
 AIDEA: Add circadian rhythm patterns for natural energy cycles
 """
 
+from __future__ import annotations
+
 import asyncio
 import json
 import logging
@@ -55,7 +57,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 import numpy as np
 import structlog
@@ -102,10 +104,10 @@ class EnergyTask:
     estimated_energy: float
     max_energy: float
     estimated_duration: float
-    deadline: Optional[datetime] = None
+    deadline: datetime | None = None
     dependencies: list[str] = field(default_factory=list)
     energy_profile: EnergyProfile = EnergyProfile.STANDARD
-    callback: Optional[Callable] = None
+    callback: Callable | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -158,13 +160,13 @@ class DistributedEnergyTask:
     priority: Priority
     estimated_energy: float
     estimated_duration: float
-    deadline: Optional[datetime] = None
+    deadline: datetime | None = None
     energy_profile: EnergyProfile = EnergyProfile.STANDARD
 
     # Distributed coordination fields
     node_requirements: dict[str, float] = field(default_factory=dict)  # node_id -> energy
     minimum_nodes: int = 1
-    maximum_nodes: Optional[int] = None
+    maximum_nodes: int | None = None
     task_distribution_strategy: str = "balanced"  # balanced, priority, locality
 
     # Energy budget and constraints
@@ -175,7 +177,7 @@ class DistributedEnergyTask:
     # Metadata and tracking
     metadata: dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    coordinator_node_id: Optional[str] = None
+    coordinator_node_id: str | None = None
 
     def __post_init__(self):
         """Initialize computed fields"""
@@ -220,18 +222,13 @@ class DistributedEnergyTask:
 
         energy_per_node = self.total_energy_budget / num_nodes
 
-        return {
-            node_id: energy_per_node
-            for node_id in available_nodes[:num_nodes]
-        }
+        return dict.fromkeys(available_nodes[:num_nodes], energy_per_node)
 
     def can_execute_on_nodes(self, node_count: int) -> bool:
         """Check if task can execute on given number of nodes"""
         if node_count < self.minimum_nodes:
             return False
-        if self.maximum_nodes and node_count > self.maximum_nodes:
-            return False
-        return True
+        return not (self.maximum_nodes and node_count > self.maximum_nodes)
 
 
 @dataclass
@@ -264,7 +261,7 @@ class EnergyAwareExecutionPlanner:
     of limited resources to achieve maximum cognitive impact.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """
         Initialize the Energy-Aware Execution Planner
 
@@ -675,8 +672,9 @@ class EnergyAwareExecutionPlanner:
                 # Perform periodic optimization
                 if (
                     len(self.optimization_history) == 0
-                    or " + "(
-                        datetime.now(timezone.utc) - datetime.fromisoformat(self.optimization_history[-1]["timestamp"])
+                    or (
+                        datetime.now(timezone.utc)
+                        - datetime.fromisoformat(self.optimization_history[-1]["timestamp"])
                     ).total_seconds()
                     > self.config["optimization_interval"]
                 ):
@@ -747,11 +745,7 @@ class EnergyAwareExecutionPlanner:
 
         try:
             # Simulate task execution with energy consumption
-            if task.callback:
-                result = task.callback(task)
-            else:
-                # Default simulation
-                result = self._simulate_task_execution(task)
+            result = task.callback(task) if task.callback else self._simulate_task_execution(task)
 
             # Calculate actual energy consumption
             energy_consumed = energy_start - self.energy_budget.current_available
@@ -884,7 +878,7 @@ class EnergyAwareExecutionPlanner:
 
             # Start distributed coordination
             self.coordination_active = True
-            asyncio.create_task(self._distributed_coordination_loop())
+            asyncio.create_task(self._distributed_coordination_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_utils_orchestration_energy_aware_execution_planner_py_L881"}
 
             self.logger.info(
                 "Joined energy cluster",
@@ -1298,12 +1292,12 @@ class EnergyAwareExecutionPlanner:
         """Check if a task dependency is satisfied"""
         return any(task["task_id"] == dep_id for task in self.completed_tasks)
 
-    def _estimate_completion_time(self, task_id: str) -> Optional[str]:
+    def _estimate_completion_time(self, task_id: str) -> str | None:
         """Estimate completion time for a running task"""
         # Simplified estimation
         return (datetime.now(timezone.utc) + timedelta(minutes=5)).isoformat()
 
-    def _estimate_start_time(self, queue_position: int) -> Optional[str]:
+    def _estimate_start_time(self, queue_position: int) -> str | None:
         """Estimate start time for a queued task"""
         # Simplified estimation based on queue position
         estimated_delay = queue_position * 60  # 1 minute per position
@@ -1314,7 +1308,7 @@ class EnergyAwareExecutionPlanner:
 
 
 def create_eaxp_instance(
-    config_path: Optional[str] = None,
+    config_path: str | None = None,
 ) -> EnergyAwareExecutionPlanner:
     """
     Factory function to create EAXP instance with Lukhas integration
@@ -1337,32 +1331,6 @@ def create_eaxp_instance(
 
 
 # Distributed Energy Coordination Classes
-
-
-@dataclass
-class DistributedEnergyTask:
-    """Energy task designed for distributed execution"""
-
-    task_id: str
-    name: str
-    components: list[dict] = field(default_factory=list)
-    total_energy_estimate: float = 0.0
-    parallelizable: bool = True
-    node_preferences: list[str] = field(default_factory=list)
-
-    def estimate_total_energy(self) -> float:
-        """Estimate total energy needed across all components"""
-        if self.total_energy_estimate > 0:
-            return self.total_energy_estimate
-
-        return sum(component.get("energy_requirement", 0) for component in self.components)
-
-    def split_into_components(self, max_components: int = 4) -> list[dict]:
-        """Split task into distributable components"""
-        if not self.parallelizable:
-            return self.components[:1]  # Single component only
-
-        return self.components[:max_components]
 
 
 class DistributedNodeRegistry:
@@ -1570,7 +1538,7 @@ class DistributedLoadBalancer:
 
         return rebalance_plan
 
-    def select_optimal_node(self, task: EnergyTask, available_nodes: list) -> Optional[str]:
+    def select_optimal_node(self, task: EnergyTask, available_nodes: list) -> str | None:
         """Select optimal node for task execution"""
         if not available_nodes:
             return None

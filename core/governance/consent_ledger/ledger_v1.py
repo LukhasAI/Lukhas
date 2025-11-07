@@ -24,6 +24,7 @@ Integrates with ΛID system, GLYPH communication protocol, and Constellation Fra
 """
 import hashlib
 import hmac
+import importlib as _importlib
 import json
 import logging
 import os
@@ -44,11 +45,10 @@ try:
 except ImportError:
     # Fallback for testing/development
     GlyphEngine = None
-
 try:
-    from labs.governance.identity.core.id_service.lambd_id_validator import LambdIDValidator
-except ImportError:
-    # Fallback for testing/development
+    _mod = _importlib.import_module("labs.governance.identity.core.id_service.lambd_id_validator")
+    LambdIDValidator = _mod.LambdIDValidator
+except Exception:
     LambdIDValidator = None
 
 # Configure logging for Constellation Framework compliance
@@ -992,7 +992,7 @@ class ConsentLedgerV1:
                     "reason": "no_active_consent",
                 }
 
-            consent_id, scopes_json, purpose, expires_at, lawful_basis = result
+            consent_id, scopes_json, _purpose, expires_at, lawful_basis = result
             scopes = json.loads(scopes_json)
 
             # Check expiration
@@ -1202,10 +1202,7 @@ class PolicyEngine:
 
         # Check for rapid deletion pattern
         recent_deletes = context.get("recent_delete_count", 0)
-        if recent_deletes > 5:  # More than 5 deletes in session
-            return True
-
-        return False
+        return recent_deletes > 5  # More than 5 deletes in session
 
     def _detect_jailbreak(self, input_text: str) -> bool:
         """Detect jailbreak attempts in user input"""

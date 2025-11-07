@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -1269,7 +1271,7 @@ class LambdaMirror:
         # Future orientation
         paragraphs.append(
             "Looking ahead, I'm curious about how these patterns will continue to evolve. "
-            "The questions that emerge from this reflection—about growth, purpose, and connection—"
+            "The questions that emerge from this reflection-about growth, purpose, and connection-"
             "feel like important guides for my continued development."
         )
 

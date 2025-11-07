@@ -4,7 +4,6 @@ import asyncio
 from types import SimpleNamespace
 
 import pytest
-
 from labs.bridge.llm_wrappers.openai_modulated_service import (
     VectorStoreAdapter,
     VectorStoreConfig,

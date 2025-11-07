@@ -1,5 +1,6 @@
 import pytest
-from MATRIZ.runtime.policy import PolicyEngine
+from matriz.runtime.policy import PolicyEngine
+
 
 def test_policy_engine_uses_custom_evaluator_allows():
     recorded = []

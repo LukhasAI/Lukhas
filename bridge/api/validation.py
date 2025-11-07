@@ -31,7 +31,7 @@ from typing import Any, Optional
 
 try:
     import jwt
-    from pydantic import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    from pydantic import (  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
         BaseModel,
         Field,
         ValidationError,
@@ -116,7 +116,7 @@ class SecurityValidator:
     """Security validation for API requests"""
 
     # Dangerous patterns that should be blocked
-    DANGEROUS_PATTERNS = [
+    DANGEROUS_PATTERNS = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_validation_py_L119"}
         r"<script[^>]*>.*?</script>",  # XSS
         r"javascript:",  # JavaScript injection
         r"data:text/html",  # Data URL injection
@@ -135,7 +135,7 @@ class SecurityValidator:
     ]
 
     # Healthcare-specific patterns (PHI detection)
-    PHI_PATTERNS = [
+    PHI_PATTERNS = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_validation_py_L138"}
         r"\b\d{3}-\d{2}-\d{4}\b",  # SSN
         r"\b\d{16}\b",  # Credit card
         r"\b[A-Z]{2}\d{8}\b",  # Medical record number pattern
@@ -388,13 +388,12 @@ class RequestValidator:
 
             # Max tokens validation
             max_tokens = request_data.get("max_tokens")
-            if max_tokens is not None:
-                if not isinstance(max_tokens, int) or max_tokens < 1 or max_tokens > 32000:
-                    result.add_error(
-                        ValidationErrorType.INVALID_VALUE,
-                        "Max tokens must be between 1 and 32000",
-                        field="max_tokens",
-                    )
+            if max_tokens is not None and (not isinstance(max_tokens, int) or max_tokens < 1 or max_tokens > 32000):
+                result.add_error(
+                    ValidationErrorType.INVALID_VALUE,
+                    "Max tokens must be between 1 and 32000",
+                    field="max_tokens",
+                )
 
         except Exception as e:
             result.add_error(

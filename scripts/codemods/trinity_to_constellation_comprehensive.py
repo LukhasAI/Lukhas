@@ -18,6 +18,7 @@ Options:
     --dry-run    Show what would be changed without applying
     --apply      Apply the changes to files
 """
+from __future__ import annotations
 
 import argparse
 import re
@@ -119,10 +120,7 @@ EXCLUDE_PATTERNS = [
 def should_skip_path(path: Path) -> bool:
     """Check if path should be skipped."""
     path_str = str(path)
-    for pattern in EXCLUDE_PATTERNS:
-        if pattern in path_str:
-            return True
-    return False
+    return any(pattern in path_str for pattern in EXCLUDE_PATTERNS)
 
 
 def find_python_files() -> List[Path]:
@@ -156,7 +154,7 @@ def apply_replacements(content: str) -> Tuple[str, int]:
 def process_file(file_path: Path, dry_run: bool = True) -> Tuple[bool, int]:
     """Process a single file for Trinity → Constellation replacements."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             original_content = f.read()
     except (UnicodeDecodeError, PermissionError) as e:
         print(f"Skipping {file_path}: {e}")

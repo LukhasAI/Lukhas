@@ -23,6 +23,7 @@ Features:
 Rehabilitated: 2025-09-10 from quarantine status
 Original location: ./consciousness/unified_consciousness_engine.py
 """
+import logging
 
 import asyncio
 import threading

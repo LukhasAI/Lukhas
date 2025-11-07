@@ -1,14 +1,14 @@
-from __future__ import annotations
-
 """
 Brain Identity Connector Integration Module
 Provides integration wrapper for connecting the brain identity connector to the identity hub
 """
 
+from __future__ import annotations
+
 import logging
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 from core.common import get_logger
 
@@ -64,7 +64,7 @@ class BrainIdentityIntegration:
     Provides a simplified interface for the identity hub.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize the brain identity integration"""
         self.config = config or {
             "enable_access_logging": True,
@@ -265,9 +265,9 @@ class BrainIdentityIntegration:
         user_id: str,
         operation: str,
         memory_key: str,
-        memory_type: Optional[str] = None,
-        memory_owner: Optional[str] = None,
-        access_policy: Optional[str] = None,
+        memory_type: str | None = None,
+        memory_owner: str | None = None,
+        access_policy: str | None = None,
     ) -> dict[str, Any]:
         """
         Authorize a memory operation for a user
@@ -379,8 +379,8 @@ class BrainIdentityIntegration:
         user_id: str,
         operation: str,
         memory_key: str,
-        memory_type: Optional[str],
-        memory_owner: Optional[str],
+        memory_type: str | None,
+        memory_owner: str | None,
     ) -> bool:
         """Fallback authorization logic when main connector is not available"""
         logger.info("Using fallback authorization logic")
@@ -640,7 +640,7 @@ class BrainIdentityIntegration:
 
 # Factory function for creating the integration
 def create_brain_identity_integration(
-    config: Optional[dict[str, Any]] = None,
+    config: dict[str, Any] | None = None,
 ) -> BrainIdentityIntegration:
     """Create and return a brain identity integration instance"""
     return BrainIdentityIntegration(config)

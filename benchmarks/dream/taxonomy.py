@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 
 class ErrorType(Enum):
@@ -157,7 +157,7 @@ class ErrorClassifier:
     def __init__(self):
         self.patterns = {p.error_type: p for p in ERROR_PATTERNS}
 
-    def classify_error(self, error_data: Dict[str, Any]) -> Optional[ErrorPattern]:
+    def classify_error(self, error_data: Dict[str, Any]) -> ErrorPattern | None:
         """Classify an error based on available data."""
         for pattern in ERROR_PATTERNS:
             if self._matches_pattern(error_data, pattern):
@@ -282,19 +282,16 @@ def load_and_analyze(results_path: str) -> Dict[str, Any]:
 
     if results_path.endswith(".jsonl"):
         # JSONL format
-        with open(results_path, "r") as f:
+        with open(results_path) as f:
             for line in f:
                 line = line.strip()
                 if line:
                     results.append(json.loads(line))
     else:
         # JSON format
-        with open(results_path, "r") as f:
+        with open(results_path) as f:
             data = json.load(f)
-            if isinstance(data, list):
-                results = data
-            else:
-                results = [data]
+            results = data if isinstance(data, list) else [data]
 
     return analyze_error_distribution(results)
 

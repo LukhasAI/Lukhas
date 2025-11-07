@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import datetime, timezone
-
-logger = logging.getLogger(__name__)
 """
 LUKHAS Adaptive Meta-Learning System
 ===================================
@@ -32,7 +26,9 @@ Version: v2.0.0-golden
 Status: GOLDEN FEATURE - FLAGSHIP CANDIDATE
 """
 
-import datetime
+from __future__ import annotations
+
+from datetime import datetime, timezone
 
 import numpy as np
 from core.common import get_logger

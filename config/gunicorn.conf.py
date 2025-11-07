@@ -116,8 +116,7 @@ def post_request(worker, req, _environ, resp):
 
 # Custom application callable for LUKHAS AI
 def application(environ, start_response):
-    """
-    WSGI application entry point for LUKHAS AI.
+    """WSGI application entry point for LUKHAS AI.
     This should be overridden by the actual application.
     """
     try:

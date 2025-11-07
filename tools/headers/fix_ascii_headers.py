@@ -7,6 +7,8 @@ This script fixes the ASCII art in headers to properly display "LUKHAS"
 instead of "LUKHAS AI" or other incorrect variations.
 """
 
+from __future__ import annotations
+
 import re
 from pathlib import Path
 

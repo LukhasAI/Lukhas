@@ -12,11 +12,16 @@ Performance targets:
 """
 
 import asyncio
+
+# Use standard Python logging instead of custom logger
+import contextlib
 import gzip
 import json
 import logging
 import time
+import uuid
 from abc import ABC, abstractmethod
+from contextvars import ContextVar
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
@@ -104,9 +109,6 @@ class AbstractVectorStore(ABC):
     async def list_by_identity(self, identity_id: str, limit: int) -> List[VectorDocument]:
         """List documents by identity"""
         pass
-# Use standard Python logging instead of custom logger
-import uuid
-from contextvars import ContextVar
 
 logger = logging.getLogger(__name__)
 
@@ -390,7 +392,7 @@ class FileArchivalBackend(AbstractArchivalBackend):
             with gzip.open(archive_path, 'rt', encoding='utf-8') as f:
                 archive_data = json.load(f)
         elif archive_path.with_suffix('.json').exists():
-            with open(archive_path.with_suffix('.json'), 'r', encoding='utf-8') as f:
+            with open(archive_path.with_suffix('.json'), encoding='utf-8') as f:
                 archive_data = json.load(f)
         else:
             raise FileNotFoundError(f"Archived document not found: {archive_id}")
@@ -785,27 +787,22 @@ class MemoryLifecycleManager:
         conditions: Dict[str, Any]
     ) -> bool:
         """Check if document matches rule conditions"""
-        for field, value in conditions.items():
-            if field == "lane" and document.lane != value:
+        for key, value in conditions.items():
+            if (key == "lane" and document.lane != value) or (key == "identity_id" and document.identity_id != value) or (key == "fold_id" and document.fold_id != value):
                 return False
-            elif field == "identity_id" and document.identity_id != value:
-                return False
-            elif field == "fold_id" and document.fold_id != value:
-                return False
-            elif field == "tags":
+            elif key == "tags":
                 if isinstance(value, list):
                     if not any(tag in document.tags for tag in value):
                         return False
                 else:
                     if value not in document.tags:
                         return False
-            elif field == "gdpr_category":
+            elif key == "gdpr_category":
                 gdpr_cat = document.metadata.get("gdpr", {}).get("category")
                 if gdpr_cat != value:
                     return False
-            elif field in document.metadata:
-                if document.metadata[field] != value:
-                    return False
+            elif key in document.metadata and document.metadata[key] != value:
+                return False
         return True
 
     async def cleanup_expired_documents(
@@ -1415,17 +1412,13 @@ class MemoryLifecycleManager:
         """Stop background tasks"""
         if self._cleanup_task:
             self._cleanup_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._cleanup_task
-            except asyncio.CancelledError:
-                pass
 
         if self._archival_task:
             self._archival_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._archival_task
-            except asyncio.CancelledError:
-                pass
 
         logger.info("Background lifecycle tasks stopped")
 

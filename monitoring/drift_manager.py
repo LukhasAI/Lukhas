@@ -434,7 +434,7 @@ class DriftManager:
                     'kind': kind,
                     'error': str(e),
                     'timestamp': time.time(),
-                    'rationale': f"Repair engine error: {str(e)}"
+                    'rationale': f"Repair engine error: {e!s}"
                 }
                 self.drift_ledger.append(repair_event)
 
@@ -511,7 +511,7 @@ class DriftManager:
         # Extract from state if available
         state = ctx.get('state', {})
         if isinstance(state, dict):
-            for key in state.keys():
+            for key in state:
                 symbols.append(f"{kind}.{key}")
 
         # Add common symbols based on kind
@@ -543,10 +543,7 @@ class DriftManager:
                 deltas[key] = delta
 
         # Overall score (weighted average)
-        if deltas:
-            score = sum(deltas.values()) / len(deltas)
-        else:
-            score = 0.0
+        score = sum(deltas.values()) / len(deltas) if deltas else 0.0
 
         # Identify top contributors
         sorted_deltas = sorted(deltas.items(), key=lambda x: x[1], reverse=True)
@@ -584,10 +581,7 @@ class DriftManager:
             deltas['fold_stability'] = fold_drift
 
         # Calculate score
-        if deltas:
-            score = sum(deltas.values()) / len(deltas)
-        else:
-            score = 0.0
+        score = sum(deltas.values()) / len(deltas) if deltas else 0.0
 
         # Identify top symbols
         sorted_deltas = sorted(deltas.items(), key=lambda x: x[1], reverse=True)
@@ -623,15 +617,11 @@ class DriftManager:
                     continue  # Skip non-numeric comparisons
 
         # Identity-specific: namespace consistency check
-        if 'namespace_hash' in prev_features and 'namespace_hash' in curr_features:
-            if prev_features['namespace_hash'] != curr_features['namespace_hash']:
-                deltas['namespace_change'] = 0.5  # Significant drift
+        if ('namespace_hash' in prev_features and 'namespace_hash' in curr_features) and prev_features['namespace_hash'] != curr_features['namespace_hash']:
+            deltas['namespace_change'] = 0.5  # Significant drift
 
         # Calculate score
-        if deltas:
-            score = sum(deltas.values()) / len(deltas)
-        else:
-            score = 0.0
+        score = sum(deltas.values()) / len(deltas) if deltas else 0.0
 
         # Top contributors
         sorted_deltas = sorted(deltas.items(), key=lambda x: x[1], reverse=True)

@@ -27,7 +27,7 @@ pytestmark = pytest.mark.skipif(
 )
 
 try:
-    from MATRIZ.core.node_interface import (
+    from matriz.core.node_interface import (
         CognitiveNode,
         NodeLink,
         NodeProvenance,
@@ -64,6 +64,7 @@ except ImportError:
 @pytest.mark.skipif(not MATRIZ_AVAILABLE, reason="matriz module not available")
 class TestNode(CognitiveNode):
     """Concrete node for testing."""
+    __test__ = False
 
     def process(self, input_data):
         return {
@@ -596,8 +597,7 @@ class TestEdgeCases:
     def test_state_requires_confidence_and_salience(self):
         """Creating node without required state fields should fail."""
         node = TestNode(node_name="test", capabilities=["test"])
-
-        with pytest.raises(ValueError, match="confidence.*salience"):
+        with pytest.raises(ValueError, match=r"confidence.*salience"):
             node.create_matriz_node(node_type="CONTEXT", state={"missing_required": True})
 
     def test_empty_capabilities_list(self):

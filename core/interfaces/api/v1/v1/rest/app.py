@@ -15,6 +15,14 @@ except ImportError:
             self.status_code = status_code
             super().__init__(message)
 
+try:
+    from labs.core.event_bus import EventBus
+except ImportError:
+    # Fallback if EventBus not available
+    class EventBus:
+        """Placeholder EventBus"""
+        def __init__(self):
+            pass
 
 from interfaces.api.v1.rest.routers import (
     health_router,

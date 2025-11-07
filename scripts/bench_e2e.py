@@ -20,7 +20,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from ai_orchestration.lukhas_ai_orchestrator import LUKHASAIOrchestrator
 from bench_core import PerformanceBenchmark
-
 from governance.guardian_system import GuardianSystem
 from memory.memory_event import MemoryEventFactory
 
@@ -120,7 +119,7 @@ class E2EPerformanceSuite:
                 }, f)
 
             # Simulate read-back verification
-            with open(event_file, 'r') as f:
+            with open(event_file) as f:
                 verified = json.load(f)
 
             # Cleanup (simulate rotation)

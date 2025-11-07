@@ -32,7 +32,7 @@ import json
 import logging
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -83,6 +83,7 @@ class ConsentMethod(Enum):
     WRITTEN = "written"  # Written documentation
     DIGITAL_SIGNATURE = "digital_signature"  # Digital signature
     BIOMETRIC = "biometric"  # Biometric confirmation
+    IMPLICIT = "implicit"  # Implicit consent
 
 
 class DataCategory(Enum):
@@ -242,10 +243,13 @@ class AdvancedConsentManager:
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
-        # Initialize standard purposes
-        asyncio.create_task(self._initialize_standard_purposes())
+        # Initialization of purposes is now handled by the async initialize() method.
 
         logger.info("📋 Advanced Consent Manager initialized with GDPR compliance")
+
+    async def initialize(self):
+        """Initializes standard data processing purposes."""
+        await self._initialize_standard_purposes()
 
     async def _initialize_standard_purposes(self):
         """Initialize standard data processing purposes"""
@@ -435,7 +439,14 @@ class AdvancedConsentManager:
         self, user_id: str, purpose_id: str, data_categories: Optional[list[DataCategory]] = None
     ) -> dict[str, Any]:
         """
-        Validate if user has valid consent for specific purpose and data categories
+        Validate if user has valid consent for specific purpose and data categories.
+
+        This method checks for consent existence, expiration, status, and data category coverage.
+        The order of checks is critical for providing accurate validation reasons:
+        1. Check if any consent record exists.
+        2. Check if the latest consent record is expired.
+        3. Check the status of the consent.
+        4. Check for specific data category coverage.
 
         Args:
             user_id: User identifier
@@ -443,12 +454,13 @@ class AdvancedConsentManager:
             data_categories: Specific data categories to check
 
         Returns:
-            Validation result with details
+            A dictionary containing the validation result.
         """
         try:
-            # Get active consent for purpose
-            consent = await self._get_active_consent(user_id, purpose_id)
+            # Get the most recent consent for the purpose, regardless of status.
+            consent = await self._get_latest_consent(user_id, purpose_id)
 
+            # 1. Check for existence
             if not consent:
                 return {
                     "valid": False,
@@ -457,20 +469,13 @@ class AdvancedConsentManager:
                     "recommended_action": "request_consent",
                 }
 
-            # Check consent status
-            if consent.status != ConsentStatus.GRANTED:
-                return {
-                    "valid": False,
-                    "reason": f"Consent status is {consent.status.value}",
-                    "consent_required": True,
-                    "recommended_action": "request_consent",
-                }
-
-            # Check expiration
+            # 2. Check for expiration
             if consent.expires_at and datetime.now(timezone.utc) > consent.expires_at:
-                # Update status to expired
-                consent.status = ConsentStatus.EXPIRED
-                consent.updated_at = datetime.now(timezone.utc)
+                # Update status to EXPIRED if it's not already, for data consistency.
+                if consent.status != ConsentStatus.EXPIRED:
+                    consent.status = ConsentStatus.EXPIRED
+                    consent.updated_at = datetime.now(timezone.utc)
+                    consent.guardian_validations.append("Status updated to EXPIRED during validation")
 
                 return {
                     "valid": False,
@@ -480,22 +485,31 @@ class AdvancedConsentManager:
                     "recommended_action": "renew_consent",
                 }
 
-            # Check data categories if specified
+            # 3. Check status
+            if consent.status != ConsentStatus.GRANTED:
+                return {
+                    "valid": False,
+                    "reason": f"Consent status is {consent.status.value}",
+                    "consent_required": True,
+                    "recommended_action": "request_consent",
+                }
+
+            # 4. Check data categories
             if data_categories:
-                purpose_categories = set(consent.purpose.data_categories)
-                requested_categories = set(data_categories)
+                purpose_categories = {cat.value for cat in consent.purpose.data_categories}
+                requested_categories = {cat.value for cat in data_categories}
 
                 if not requested_categories.issubset(purpose_categories):
                     uncovered_categories = requested_categories - purpose_categories
                     return {
                         "valid": False,
                         "reason": "Consent doesn't cover all requested data categories",
-                        "uncovered_categories": [cat.value for cat in uncovered_categories],
+                        "uncovered_categories": list(uncovered_categories),
                         "consent_required": True,
                         "recommended_action": "request_additional_consent",
                     }
 
-            # Valid consent found
+            # If all checks pass, consent is valid
             return {
                 "valid": True,
                 "consent_id": consent.consent_id,
@@ -507,12 +521,12 @@ class AdvancedConsentManager:
             }
 
         except Exception as e:
-            logger.error(f"❌ Consent validation failed: {e}")
+            logger.error(f"❌ Consent validation failed for user '{user_id}' and purpose '{purpose_id}': {e}", exc_info=True)
             return {
                 "valid": False,
-                "reason": f"Validation error: {e!s}",
+                "reason": f"An unexpected error occurred during validation: {e!s}",
                 "consent_required": True,
-                "recommended_action": "contact_support",
+                "recommended_action": "review_system_logs",
             }
 
     async def _create_consent_record(
@@ -669,15 +683,20 @@ class AdvancedConsentManager:
                 and consent.purpose.purpose_id == purpose_id
                 and consent.status == ConsentStatus.GRANTED
             ):
-                # Check expiration
-                if consent.expires_at and datetime.now(timezone.utc) > consent.expires_at:
-                    consent.status = ConsentStatus.EXPIRED
-                    consent.updated_at = datetime.now(timezone.utc)
-                    continue
-
                 return consent
 
         return None
+
+    async def _get_latest_consent(self, user_id: str, purpose_id: str) -> Optional[ConsentRecord]:
+        """Get the most recent consent record for a user and purpose, regardless of status."""
+        user_consents = [
+            c
+            for c in self.consent_records.values()
+            if c.user_id == user_id and c.purpose.purpose_id == purpose_id
+        ]
+        if not user_consents:
+            return None
+        return max(user_consents, key=lambda c: c.granted_at)
 
     async def _get_user_consents(
         self, user_id: str, status_filter: Optional[ConsentStatus] = None

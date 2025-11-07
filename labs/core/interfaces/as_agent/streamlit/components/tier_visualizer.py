@@ -14,9 +14,7 @@ Integration Date: 2025-05-31T07:55:30.622859
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
 
-# import streamlit as st  # TODO: Install or implement streamlit
-
-
+import streamlit as st
 import json
 
 st.title("🔐 Symbolic Tier Visualizer")
@@ -28,7 +26,7 @@ try:
 
     st.subheader("🧠 Tier Descriptions")
     for tier, description in manifest["tiers"].items():
-        st.markdown(f"**Tier {tier}** — {description}")
+        st.markdown(f"**Tier {tier}** - {description}")
 
     st.subheader("⚖️ Consent Rules")
     for rule, value in manifest["consent_rules"].items():

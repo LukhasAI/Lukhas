@@ -260,12 +260,12 @@ def demo_complete_workflow():
     sig_path = Path("audit_logs/ledger.sig.jsonl")
 
     if ledger_path.exists():
-        with open(ledger_path, 'r') as f:
+        with open(ledger_path) as f:
             lines = f.readlines()
         print(f"✅ Ledger file: {ledger_path} ({len(lines)} events)")
 
     if sig_path.exists():
-        with open(sig_path, 'r') as f:
+        with open(sig_path) as f:
             sig_lines = f.readlines()
         print(f"✅ Signature file: {sig_path} ({len(sig_lines)} signatures)")
 

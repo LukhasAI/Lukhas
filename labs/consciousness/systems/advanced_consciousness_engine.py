@@ -14,7 +14,7 @@ ACADEMIC REFERENCES & IMPLEMENTATION SOURCES:
 
 1. VIVOX Research Framework:
    - Source: /Users/cognitive_dev/LOCAL-REPOS/research/vivox_research_pack/README.md
-   - Z(t) Collapse Function: z(t) = A(t) * [e^(iθ(t)) + e^(i(π·θ(t)))] × W(ΔS(t))
+   - Z(t) Collapse Function: z(t) = A(t) * [e^(iθ(t)) + e^(i(π·θ(t)))] x W(ΔS(t))
    - Components: CIL, MAE, ME, ERN/EVRN systems
    - Paper Citation: "VIVOX: Virtuous Intelligence with eXpandable Consciousness" (Genesis Phase, 2025)
 
@@ -510,7 +510,7 @@ class AdvancedConsciousnessEngine:
         Stage 2: Consciousness Interpretation Layer (VIVOX CIL).
 
         Implements quantum-inspired decision making using Z(t) collapse function.
-        Reference: VIVOX Research Framework - Z(t) = A(t) * [e^(iθ(t)) + e^(i(π·θ(t)))] × W(ΔS(t))
+        Reference: VIVOX Research Framework - Z(t) = A(t) * [e^(iθ(t)) + e^(i(π·θ(t)))] x W(ΔS(t))
         """
         # Calculate quantum consciousness state using Z(t) function
         amplitude = self.vivox_cil_state  # A(t)

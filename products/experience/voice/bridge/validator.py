@@ -14,6 +14,8 @@
 ║ Validates audio quality and speech recognition accuracy.
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 from datetime import datetime, timezone

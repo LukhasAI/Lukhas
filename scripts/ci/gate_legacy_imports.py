@@ -10,6 +10,7 @@ Environment variables:
   - LUKHAS_IMPORT_MAX_DELTA: Max increase from baseline (default: 0)
   - UPDATE_BASELINE: Set to "1" to update baseline after passing checks
 """
+import contextlib
 import json
 import os
 from pathlib import Path
@@ -36,10 +37,8 @@ def main():
     current = count_aliases()
     baseline = 0
     if BASELINE_FILE.exists():
-        try:
+        with contextlib.suppress(Exception):
             baseline = json.loads(BASELINE_FILE.read_text()).get("alias_hits", 0)
-        except Exception:
-            pass
 
     # Do not allow regression beyond budget or baseline+delta
     delta = int(os.getenv("LUKHAS_IMPORT_MAX_DELTA", "0"))

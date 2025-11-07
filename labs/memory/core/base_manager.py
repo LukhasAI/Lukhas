@@ -67,6 +67,9 @@ that nourishes our quest for understanding in the age of LUKHAS AI.
 ══════════════════════════════════════════════════════════════════════════════════
 ```
 """
+import logging
+from __future__ import annotations
+
 import hashlib
 import json
 import uuid

@@ -25,14 +25,14 @@ import secrets
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Set
 from uuid import uuid4
 
 import structlog
 
 # Import existing LUKHAS WebAuthn infrastructure
 try:
-# See: https://github.com/LukhasAI/Lukhas/issues/589
+    from .webauthn import (  # TODO: .webauthn.WebAuthnCredential; ...
         WebAuthnCredential,
         WebAuthnManager,
     )
@@ -62,7 +62,7 @@ class WebAuthnChallenge:
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     expires_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc) + timedelta(minutes=5))
     ip_address: str = ""
-    user_agent: Optional[str] = None
+    user_agent: str | None = None
 
     # Security state
     used: bool = False
@@ -96,20 +96,20 @@ class WebAuthnCredentialMetadata:
 
     # Security metadata
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    last_used: Optional[datetime] = None
+    last_used: datetime | None = None
     device_type: str = "unknown"
-    authenticator_aaguid: Optional[str] = None
+    authenticator_aaguid: str | None = None
 
     # T4-specific metadata
     tier_level: int = 4
-    attestation_format: Optional[str] = None
+    attestation_format: str | None = None
     attestation_verified: bool = False
     backup_eligible: bool = False
     backup_state: bool = False
 
     # Usage tracking
     usage_count: int = 0
-    last_ip_address: Optional[str] = None
+    last_ip_address: str | None = None
     risk_score: float = 0.0
 
     def to_dict(self) -> Dict[str, Any]:
@@ -139,8 +139,8 @@ class WebAuthnVerificationResult:
     """Enhanced verification result with security metadata."""
 
     success: bool
-    credential_id: Optional[str] = None
-    user_id: Optional[str] = None
+    credential_id: str | None = None
+    user_id: str | None = None
 
     # Security verification details
     signature_valid: bool = False
@@ -153,8 +153,8 @@ class WebAuthnVerificationResult:
     verification_time_ms: float = 0.0
 
     # Error details
-    error_code: Optional[str] = None
-    error_message: Optional[str] = None
+    error_code: str | None = None
+    error_message: str | None = None
 
     # Risk assessment
     risk_factors: List[str] = field(default_factory=list)
@@ -174,7 +174,7 @@ class EnhancedWebAuthnService:
         rp_id: str = "ai",
         rp_name: str = "LUKHAS AI Identity System",
         origin: str = "https://ai",
-        guardian_system: Optional[GuardianSystem] = None
+        guardian_system: GuardianSystem | None = None
     ):
         """Initialize enhanced WebAuthn service."""
         self.rp_id = rp_id
@@ -229,7 +229,7 @@ class EnhancedWebAuthnService:
         user_id: str,
         correlation_id: str,
         ip_address: str,
-        user_agent: Optional[str] = None
+        user_agent: str | None = None
     ) -> Dict[str, Any]:
         """
         Generate enhanced WebAuthn authentication challenge for T4.
@@ -444,7 +444,7 @@ class EnhancedWebAuthnService:
             return WebAuthnVerificationResult(
                 success=False,
                 error_code="VERIFICATION_ERROR",
-                error_message=f"Internal verification error: {str(e)}",
+                error_message=f"Internal verification error: {e!s}",
                 verification_time_ms=duration_ms
             )
 
@@ -630,7 +630,7 @@ class EnhancedWebAuthnService:
             return WebAuthnVerificationResult(
                 success=False,
                 error_code="SIGNATURE_VERIFICATION_ERROR",
-                error_message=f"Signature verification error: {str(e)}"
+                error_message=f"Signature verification error: {e!s}"
             )
 
     async def _mock_signature_verification(
@@ -652,11 +652,8 @@ class EnhancedWebAuthnService:
             if len(signature) < 64:  # Minimum signature length
                 return False
 
-            if len(authenticator_data) < 37:  # Minimum authenticator data length
-                return False
-
             # Mock success for well-formed requests
-            return True
+            return len(authenticator_data) >= 37  # Minimum authenticator data length
 
         except Exception:
             return False
@@ -733,7 +730,7 @@ def create_enhanced_webauthn_service(
     rp_id: str = "ai",
     rp_name: str = "LUKHAS AI Identity System",
     origin: str = "https://ai",
-    guardian_system: Optional[GuardianSystem] = None
+    guardian_system: GuardianSystem | None = None
 ) -> EnhancedWebAuthnService:
     """Create enhanced WebAuthn service with configuration."""
     return EnhancedWebAuthnService(

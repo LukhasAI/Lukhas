@@ -165,7 +165,7 @@ class MatrixAuthzMiddleware:
                 logger.exception("Authorization error")
                 decision = AuthzDecision(
                     allowed=False,
-                    reason=f"Authorization error: {str(e)}"
+                    reason=f"Authorization error: {e!s}"
                 )
                 return await self._finalize_decision(request, decision, span, start_time)
 
@@ -207,7 +207,7 @@ class MatrixAuthzMiddleware:
             logger.error(f"OPA query failed: {e}")
             return {
                 "allow": False,
-                "reason": f"Policy evaluation failed: {str(e)}"
+                "reason": f"Policy evaluation failed: {e!s}"
             }
 
     async def _simulate_opa_decision(self, opa_input: Dict[str, Any]) -> Dict[str, Any]:
@@ -248,7 +248,8 @@ class MatrixAuthzMiddleware:
                 # Clean up temp file
                 try:
                     Path(input_file).unlink()
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
             # Fallback simulation when OPA not available
@@ -258,7 +259,7 @@ class MatrixAuthzMiddleware:
             logger.error(f"OPA simulation error: {e}")
             return {
                 "allow": False,
-                "reason": f"Policy simulation failed: {str(e)}"
+                "reason": f"Policy simulation failed: {e!s}"
             }
 
     def _fallback_policy_simulation(self, opa_input: Dict[str, Any]) -> Dict[str, Any]:
@@ -279,9 +280,7 @@ class MatrixAuthzMiddleware:
         tier_allowed = False
         if not required_tiers and not required_tiers_numeric:
             tier_allowed = True  # No tier requirement
-        elif required_tiers and user_tier in required_tiers:
-            tier_allowed = True
-        elif required_tiers_numeric and user_tier_num in required_tiers_numeric:
+        elif (required_tiers and user_tier in required_tiers) or (required_tiers_numeric and user_tier_num in required_tiers_numeric):
             tier_allowed = True
 
         if not tier_allowed:
@@ -307,12 +306,11 @@ class MatrixAuthzMiddleware:
 
         if action in api_policies:
             policy = api_policies[action]
-            if policy.get("requires_step_up", False):
-                if not opa_input.get("env", {}).get("mfa", False):
-                    return {
-                        "allow": False,
-                        "reason": f"Step-up authentication required for {action}"
-                    }
+            if policy.get('requires_step_up', False) and (not opa_input.get('env', {}).get('mfa', False)):
+                return {
+                    "allow": False,
+                    "reason": f"Step-up authentication required for {action}"
+                }
 
         # Check token expiration and audience
         token = opa_input.get("token", {})

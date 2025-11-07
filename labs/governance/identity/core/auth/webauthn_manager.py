@@ -15,6 +15,7 @@ Features:
 """
 
 import base64
+import binascii
 import json
 import secrets
 import time
@@ -27,13 +28,16 @@ try:
 # See: https://github.com/LukhasAI/Lukhas/issues/576
 # See: https://github.com/LukhasAI/Lukhas/issues/577
 # See: https://github.com/LukhasAI/Lukhas/issues/578
+        verify_authentication_response as webauthn_verify_authentication_response,
     )
-    from webauthn.helpers import structs
+    from webauthn.helpers import parse_authentication_credential_json, structs
 
     WEBAUTHN_AVAILABLE = True
 except ImportError:
     # Fallback for systems without webauthn library
     WEBAUTHN_AVAILABLE = False
+    webauthn_verify_authentication_response = None
+    parse_authentication_credential_json = None
     structs = None
 
 
@@ -415,20 +419,88 @@ class WebAuthnManager:
                 if client_data.get("origin") != self.origin:
                     return {"success": False, "error": "Origin mismatch"}
 
+                # Perform library-backed verification when available
+                library_metadata = {"library_verified": False}
+                library_used = False
+
+                if (
+                    WEBAUTHN_AVAILABLE
+                    and webauthn_verify_authentication_response is not None
+                    and parse_authentication_credential_json is not None
+                ):
+                    try:
+                        public_key_b64 = credential.public_key or ""
+                        if public_key_b64:
+                            public_key_bytes = self._decode_base64url(public_key_b64)
+                        else:
+                            public_key_bytes = b""
+
+                        if public_key_bytes:
+                            challenge_bytes = pending_auth.get("challenge")
+                            if isinstance(challenge_bytes, str):
+                                challenge_bytes = self._decode_base64url(challenge_bytes)
+                            if not isinstance(challenge_bytes, (bytes, bytearray)):
+                                raise ValueError("Invalid challenge format")
+
+                            parsed_credential = parse_authentication_credential_json(
+                                json.dumps(response)
+                            )
+
+                            verification = webauthn_verify_authentication_response(
+                                credential=parsed_credential,
+                                expected_challenge=challenge_bytes,
+                                expected_rp_id=self.rp_id,
+                                expected_origin=self.origin,
+                                credential_public_key=public_key_bytes,
+                                credential_current_sign_count=credential.sign_count,
+                            )
+
+                            library_used = True
+                            if not getattr(verification, "verified", False):
+                                return {
+                                    "success": False,
+                                    "error": "Authentication verification failed",
+                                }
+
+                            credential.sign_count = getattr(
+                                verification, "new_sign_count", credential.sign_count + 1
+                            )
+                            library_metadata = {
+                                "library_verified": True,
+                                "backup_state": getattr(verification, "backup_state", False),
+                                "backup_eligible": getattr(
+                                    verification, "backup_eligible", False
+                                ),
+                            }
+                        else:
+                            library_metadata = {
+                                "library_verified": False,
+                                "library_reason": "missing_public_key",
+                            }
+                    except Exception as verification_error:
+                        return {
+                            "success": False,
+                            "error": f"Authentication verification failed: {verification_error!s}",
+                        }
+
+                if not library_used:
+                    credential.sign_count += 1
+
                 # Update credential usage
                 credential.last_used = datetime.now(timezone.utc).isoformat()
-                credential.sign_count += 1
 
                 # Clean up pending authentication
                 del self.pending_authentications[authentication_id]
 
                 # 🧠 Update consciousness patterns
-                self._update_consciousness_patterns(user_id, "webauthn_authentication_successful")
+                self._update_consciousness_patterns(
+                    user_id, "webauthn_authentication_successful"
+                )
 
                 # Performance tracking
                 verification_time = (time.time() - start_time) * 1000
 
-                return {
+                result_payload = {
                     "success": True,
                     "user_id": user_id,
                     "credential_id": credential.credential_id,
@@ -440,6 +512,8 @@ class WebAuthnManager:
                     "constellation_compliant": True,
                     "authentication_method": "webauthn_fido2",
                 }
+                result_payload.update(library_metadata)
+                return result_payload
 
             except (json.JSONDecodeError, ValueError) as e:
                 return {"success": False, "error": f"Invalid response format: {e!s}"}
@@ -526,6 +600,17 @@ class WebAuthnManager:
             }
 
     # Helper methods
+
+    def _decode_base64url(self, data: str) -> bytes:
+        """Decode base64url strings with padding normalization"""
+        if not data:
+            raise ValueError("Empty base64 data")
+
+        padding = "=" * ((4 - len(data) % 4) % 4)
+        try:
+            return base64.urlsafe_b64decode(data + padding)
+        except (binascii.Error, ValueError) as exc:
+            raise ValueError("Invalid base64 encoding") from exc
 
     def _determine_device_type(self, response: dict[str, Any]) -> str:
         """Determine device type from WebAuthn response"""

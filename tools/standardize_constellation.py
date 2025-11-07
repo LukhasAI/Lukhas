@@ -12,6 +12,7 @@ SAFEGUARDS:
 - Never modifies .git, binary, or generated files
 - Shows before/after context for each change
 """
+from __future__ import annotations
 
 import re
 import sys
@@ -20,14 +21,14 @@ from typing import List, Tuple
 
 # Canonical 8-star definition
 CANONICAL_CONSTELLATION = """Constellation Framework (8 Stars)
-\t•\t⚛️ Identity (Anchor) — ΛiD authentication, namespace management
-\t•\t✦ Memory (Trail) — Fold-based memory, temporal organization
-\t•\t🔬 Vision (Horizon) — Pattern recognition, adaptive interfaces
-\t•\t🌱 Bio (Living) — Adaptive bio-symbolic processing
-\t•\t🌙 Dream (Drift) — Creative consciousness expansion
-\t•\t⚖️ Ethics (North) — Constitutional AI, democratic oversight
-\t•\t🛡️ Guardian (Watch) — Safety compliance, cascade prevention
-\t•\t⚛️ Quantum (Ambiguity) — Quantum-inspired uncertainty"""
+\t•\t⚛️ Identity (Anchor) - ΛiD authentication, namespace management
+\t•\t✦ Memory (Trail) - Fold-based memory, temporal organization
+\t•\t🔬 Vision (Horizon) - Pattern recognition, adaptive interfaces
+\t•\t🌱 Bio (Living) - Adaptive bio-symbolic processing
+\t•\t🌙 Dream (Drift) - Creative consciousness expansion
+\t•\t⚖️ Ethics (North) - Constitutional AI, democratic oversight
+\t•\t🛡️ Guardian (Watch) - Safety compliance, cascade prevention
+\t•\t⚛️ Quantum (Ambiguity) - Quantum-inspired uncertainty"""
 
 # Alternative compact format for inline mentions
 CANONICAL_INLINE = "Constellation Framework (8 Stars: ⚛️ Identity, ✦ Memory, 🔬 Vision, 🌱 Bio, 🌙 Dream, ⚖️ Ethics, 🛡️ Guardian, ⚛️ Quantum)"
@@ -124,11 +125,7 @@ def is_incomplete_mention(line: str, star_count: int, next_lines: str) -> bool:
     ))
 
     # If there's an inline list with separators but not all 8, it's incomplete
-    if has_inline_star_list and star_count < 7:
-        return True
-
-    # Simple mentions (0-2 stars) without lists are OK
-    return False
+    return has_inline_star_list and star_count < 7
 
 
 def generate_report(root_dir: Path, exclude_patterns: List[str]) -> None:
@@ -160,7 +157,7 @@ def generate_report(root_dir: Path, exclude_patterns: List[str]) -> None:
         # Read file for context checking
         try:
             lines = file_path.read_text(encoding='utf-8').split('\n')
-        except:
+        except Exception:
             continue
 
         has_incomplete = False
@@ -263,7 +260,7 @@ def dry_run_report(root_dir: Path) -> List[Tuple[Path, str, str]]:
         try:
             content = file_path.read_text(encoding='utf-8')
             lines = content.split('\n')
-        except:
+        except Exception:
             continue
 
         # Check if incomplete
@@ -336,14 +333,14 @@ def replace_incomplete_constellation(content: str, file_path: Path) -> str:
                 # Replace the line
                 result_lines.append(f"{indent}**Constellation Framework (8 Stars)**")
                 result_lines.append(f"{indent}")
-                result_lines.append(f"{indent}- **⚛️ Identity (Anchor)** — ΛiD authentication, namespace management")
-                result_lines.append(f"{indent}- **✦ Memory (Trail)** — Fold-based memory, temporal organization")
-                result_lines.append(f"{indent}- **🔬 Vision (Horizon)** — Pattern recognition, adaptive interfaces")
-                result_lines.append(f"{indent}- **🌱 Bio (Living)** — Adaptive bio-symbolic processing")
-                result_lines.append(f"{indent}- **🌙 Dream (Drift)** — Creative consciousness expansion")
-                result_lines.append(f"{indent}- **⚖️ Ethics (North)** — Constitutional AI, democratic oversight")
-                result_lines.append(f"{indent}- **🛡️ Guardian (Watch)** — Safety compliance, cascade prevention")
-                result_lines.append(f"{indent}- **⚛️ Quantum (Ambiguity)** — Quantum-inspired uncertainty")
+                result_lines.append(f"{indent}- **⚛️ Identity (Anchor)** - ΛiD authentication, namespace management")
+                result_lines.append(f"{indent}- **✦ Memory (Trail)** - Fold-based memory, temporal organization")
+                result_lines.append(f"{indent}- **🔬 Vision (Horizon)** - Pattern recognition, adaptive interfaces")
+                result_lines.append(f"{indent}- **🌱 Bio (Living)** - Adaptive bio-symbolic processing")
+                result_lines.append(f"{indent}- **🌙 Dream (Drift)** - Creative consciousness expansion")
+                result_lines.append(f"{indent}- **⚖️ Ethics (North)** - Constitutional AI, democratic oversight")
+                result_lines.append(f"{indent}- **🛡️ Guardian (Watch)** - Safety compliance, cascade prevention")
+                result_lines.append(f"{indent}- **⚛️ Quantum (Ambiguity)** - Quantum-inspired uncertainty")
 
                 # Skip old incomplete content (find end of the incomplete list)
                 j = i + 1

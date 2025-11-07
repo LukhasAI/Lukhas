@@ -44,6 +44,8 @@
 ║ ΛTAG: ΛETHICS, ΛSWARM, ΛSIMULATION, ΛDRIFT, ΛCOLLAPSE, ΛVERIFOLD
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import asyncio
 import hashlib
 import json

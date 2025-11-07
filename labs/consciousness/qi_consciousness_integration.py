@@ -41,6 +41,8 @@
 ║ Symbolic Tags: {ΛQUANTUM}, {ΛCONSCIOUSNESS}, {ΛCREATIVE}, {ΛINTEGRATION}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 # Module imports
 import asyncio
 import logging

@@ -119,7 +119,7 @@ class TestJWKSCacheIntegration:
         assert cache_hit is False  # Should be evicted
 
         # Recent keys should still be there
-        result, cache_hit = jwks_cache.get("key_104")
+        _result, cache_hit = jwks_cache.get("key_104")
         assert cache_hit is True
 
         # Check eviction statistics
@@ -173,7 +173,7 @@ class TestRateLimitingIntegration:
 
         # Different user should have separate limit
         context2 = {"user_id": "user456"}
-        allowed, metadata = await rate_limiter.check_rate_limit(
+        allowed, _metadata = await rate_limiter.check_rate_limit(
             client_ip, RateLimitType.WEBAUTHN_AUTHENTICATION, context2
         )
         assert allowed is True
@@ -404,7 +404,7 @@ class TestEndToEndOIDCFlow:
         for pattern in attack_patterns:
             for _ in range(10):  # Multiple requests from each attacker
                 # Security check
-                action, report = await security_manager.comprehensive_security_check(
+                action, _report = await security_manager.comprehensive_security_check(
                     ip_address=pattern["ip"],
                     user_agent=pattern["user_agent"],
                     headers=pattern["headers"],
@@ -412,7 +412,7 @@ class TestEndToEndOIDCFlow:
                 )
 
                 # Rate limiting check
-                allowed, rate_metadata = await rate_limiter.check_rate_limit(
+                allowed, _rate_metadata = await rate_limiter.check_rate_limit(
                     pattern["ip"], RateLimitType.API_GENERAL
                 )
 
@@ -470,7 +470,7 @@ class TestPerformanceBenchmarks:
 
             # Measure 1000 requests to get reliable p95
             times = []
-            for i in range(1000):
+            for _i in range(1000):
                 start = time.perf_counter()
 
                 # Simulate complete request processing

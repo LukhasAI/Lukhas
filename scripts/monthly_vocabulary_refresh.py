@@ -198,7 +198,7 @@ class MonthlyVocabularyRefresh:
                 "python3", "scripts/perp_research.py", "--query", research_query,
                 capture_output=True, text=True
             )
-            stdout, stderr = await pipeline_result.communicate()
+            _stdout, stderr = await pipeline_result.communicate()
 
             if pipeline_result.returncode == 0:
                 # Parse research results
@@ -476,7 +476,7 @@ class MonthlyVocabularyRefresh:
             return []
 
         cycles = []
-        with open(self.cycle_log, "r") as f:
+        with open(self.cycle_log) as f:
             for line in f:
                 cycles.append(json.loads(line.strip()))
 

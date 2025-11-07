@@ -6,8 +6,7 @@
 from datetime import datetime, timedelta, timezone
 
 import pytest
-
-from governance.consent.consent_manager import (
+from labs.governance.consent.consent_manager import (
     AdvancedConsentManager,
     ConsentMethod,
     ConsentStatus,
@@ -84,7 +83,7 @@ class TestAdvancedConsentManager:
 
         validation_after = await manager.validate_consent(user_id, purpose_id)
         assert validation_after["valid"] is False
-        assert validation_after["reason"] == "No active consent found"
+        assert validation_after["reason"] == "Consent status is withdrawn"
 
         user_consents = await manager.export_consent_audit_trail(user_id)
         withdrawn_record = user_consents[0]
@@ -109,7 +108,7 @@ class TestAdvancedConsentManager:
             user_id=user_id, purpose_ids=[purpose_id], method=ConsentMethod.WEB_FORM, context=valid_context
         )
 
-        consent_id = list(manager.consent_records.keys())[0]
+        consent_id = next(iter(manager.consent_records.keys()))
         record = manager.consent_records[consent_id]
 
         record.expires_at = datetime.now(timezone.utc) - timedelta(days=1)

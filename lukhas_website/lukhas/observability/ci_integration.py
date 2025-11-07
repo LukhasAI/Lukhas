@@ -13,16 +13,17 @@ Features:
 - Integration with GitHub Actions, GitLab CI
 - Observability evidence collection
 """
+from __future__ import annotations
 
 import asyncio
 import json
 import logging
 import tempfile
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from .burn_rate_alerts import BurnRateAlertManager, CIPipelineIntegration
 from .service_metrics import get_metrics_collector
@@ -79,7 +80,7 @@ class DeploymentReport:
     context: DeploymentContext
     stage: DeploymentStage
     status: DeploymentStatus
-    duration_seconds: Optional[float]
+    duration_seconds: float | None
     slo_validations: List[SLOValidationResult] = field(default_factory=list)
     performance_metrics: Dict[str, Any] = field(default_factory=dict)
     safety_checks: Dict[str, bool] = field(default_factory=dict)
@@ -141,7 +142,7 @@ class ObservabilityCIIntegration:
             duration_seconds=None
         )
 
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
 
         try:
             # Check deployment safety
@@ -199,7 +200,7 @@ class ObservabilityCIIntegration:
             report.recommendations.append(f"Pre-deployment check error: {e}")
 
         finally:
-            report.duration_seconds = (datetime.utcnow() - start_time).total_seconds()
+            report.duration_seconds = (datetime.now(timezone.utc) - start_time).total_seconds()
 
         return report
 
@@ -222,7 +223,7 @@ class ObservabilityCIIntegration:
             duration_seconds=None
         )
 
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
 
         try:
             # Wait for deployment to stabilize
@@ -282,7 +283,7 @@ class ObservabilityCIIntegration:
             report.recommendations.append(f"Validation error: {e}")
 
         finally:
-            report.duration_seconds = (datetime.utcnow() - start_time).total_seconds()
+            report.duration_seconds = (datetime.now(timezone.utc) - start_time).total_seconds()
 
         return report
 
@@ -350,7 +351,7 @@ class ObservabilityCIIntegration:
         # Mock implementation for now
 
         return {
-            'timestamp': datetime.utcnow().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'service': service,
             'metrics': {
                 'request_rate': 100.0,
@@ -367,7 +368,7 @@ class ObservabilityCIIntegration:
         # Mock implementation - would query actual metrics
 
         return {
-            'timestamp': datetime.utcnow().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'service': service,
             'metrics': {
                 'request_rate': 105.0,
@@ -482,7 +483,7 @@ class ObservabilityCIIntegration:
             'original_deployment': context.deployment_id,
             'service': context.service,
             'rollback_reason': 'Observability-triggered automatic rollback',
-            'timestamp': datetime.utcnow().isoformat()
+            'timestamp': datetime.now(timezone.utc).isoformat()
         }
 
         logger.info(f"Rollback context: {rollback_context}")
@@ -495,7 +496,7 @@ class ObservabilityCIIntegration:
 
     def _get_recent_deployments(self, service: str, hours: int = 24) -> List[DeploymentReport]:
         """Get recent deployments for service"""
-        cutoff_time = datetime.utcnow() - timedelta(hours=hours)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours)
 
         return [
             deployment for deployment in self.deployment_history
@@ -535,7 +536,7 @@ class ObservabilityCIIntegration:
                 ]
             },
             'recommendations': self._generate_deployment_recommendations(context),
-            'generated_at': datetime.utcnow().isoformat()
+            'generated_at': datetime.now(timezone.utc).isoformat()
         }
 
         return report

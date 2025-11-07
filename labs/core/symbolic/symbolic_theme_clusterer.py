@@ -54,6 +54,8 @@ LUKHAS_TAG: theme_clustering, motif_analysis, narrative_tracking, symbolic_conti
 TODO: Add ML-based theme prediction for proactive narrative modeling
 IDEA: Implement cross-user thematic linking for collective dream analysis
 """
+from __future__ import annotations
+
 
 import argparse
 import json

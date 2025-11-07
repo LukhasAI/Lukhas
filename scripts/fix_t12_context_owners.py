@@ -180,7 +180,7 @@ def main() -> None:
         if is_archived(mf):
             continue
         try:
-            tier, m_owner = get_tier_and_owner(mf)
+            tier, _m_owner = get_tier_and_owner(mf)
         except Exception:
             continue
         if tier not in ('T1_critical', 'T2_important'):

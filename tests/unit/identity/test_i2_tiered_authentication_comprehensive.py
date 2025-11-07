@@ -18,13 +18,20 @@ Test Coverage:
 """
 
 import asyncio
+import base64
+import json
 import time
 from datetime import datetime, timedelta, timezone
 from unittest.mock import AsyncMock, patch
 
 import pytest
-from hypothesis import HealthCheck, given, settings, strategies as st
-from hypothesis.strategies import text
+
+try:
+    from hypothesis import HealthCheck, given, settings, strategies as st
+    from hypothesis.strategies import text
+    HYPOTHESIS_AVAILABLE = True
+except ImportError:
+    HYPOTHESIS_AVAILABLE = False
 
 # Import the components under test
 try:
@@ -164,17 +171,62 @@ class TestTieredAuthenticationEngine:
         """Test T4 WebAuthn authentication success."""
         # Arrange
         auth_context.existing_tier = "T3"
-        auth_context.webauthn_response = {"challenge": "test", "signature": "test"}
 
-        with patch.object(authenticator, '_verify_webauthn', return_value=True):
-            # Act
-            result = await authenticator.authenticate_T4(auth_context)
+        assert authenticator.webauthn is not None
 
-            # Assert
-            assert result.ok is True
-            assert result.tier == "T4"
-            assert result.reason == "hardware_key_authenticated"
-            assert result.tier_elevation_path == "T1→T2→T3→T4"
+        credential_id = "cred-test"
+        await authenticator.webauthn.register_credential(
+            user_id=auth_context.username,
+            credential_data={
+                "id": credential_id,
+                "public_key": "test-public-key",
+                "device_type": "security_key",
+            },
+        )
+
+        challenge_payload = await authenticator.generate_webauthn_challenge(
+            username=auth_context.username,
+            correlation_id=auth_context.correlation_id,
+            ip_address=auth_context.ip_address,
+            user_agent=auth_context.user_agent,
+        )
+
+        challenge_id = challenge_payload["challenge_id"]
+        challenge_b64 = challenge_payload["options"]["challenge"]
+
+        client_data = {
+            "type": "webauthn.get",
+            "challenge": challenge_b64,
+            "origin": "https://ai",
+        }
+        client_data_json = base64.urlsafe_b64encode(json.dumps(client_data).encode()).decode().rstrip("=")
+
+        authenticator_data_bytes = bytearray(37)
+        authenticator_data_bytes[32] = 0x05  # user present + verified
+        authenticator_data = base64.urlsafe_b64encode(bytes(authenticator_data_bytes)).decode().rstrip("=")
+
+        signature = base64.urlsafe_b64encode(b"\x01" * 64).decode().rstrip("=")
+
+        auth_context.challenge_data = {"challenge_id": challenge_id}
+        auth_context.webauthn_response = {
+            "id": credential_id,
+            "response": {
+                "clientDataJSON": client_data_json,
+                "authenticatorData": authenticator_data,
+                "signature": signature,
+            },
+        }
+
+        # Act
+        result = await authenticator.authenticate_T4(auth_context)
+
+        # Assert
+        assert result.ok is True
+        assert result.tier == "T4"
+        assert result.reason == "hardware_key_authenticated"
+        assert result.tier_elevation_path == "T1→T2→T3→T4"
+        assert result.user_id == auth_context.username
+        assert result.session_id == auth_context.correlation_id
 
     @pytest.mark.asyncio
     async def test_t5_biometric_authentication_success(self, authenticator, auth_context):
@@ -190,8 +242,51 @@ class TestTieredAuthenticationEngine:
             # Assert
             assert result.ok is True
             assert result.tier == "T5"
-            assert result.reason == "biometric_authenticated"
-            assert result.tier_elevation_path == "T1→T2→T3→T4→T5"
+        assert result.reason == "biometric_authenticated"
+        assert result.tier_elevation_path == "T1→T2→T3→T4→T5"
+
+    @pytest.mark.asyncio
+    async def test_generate_webauthn_challenge_metadata(self, authenticator, auth_context):
+        """Challenge generation stores metadata for verification."""
+
+        assert authenticator.webauthn is not None
+
+        await authenticator.webauthn.register_credential(
+            user_id=auth_context.username,
+            credential_data={"id": "cred-meta", "public_key": "pk"},
+        )
+
+        challenge_payload = await authenticator.generate_webauthn_challenge(
+            username=auth_context.username,
+            correlation_id=auth_context.correlation_id,
+            ip_address=auth_context.ip_address,
+            user_agent=auth_context.user_agent,
+        )
+
+        challenge_id = challenge_payload["challenge_id"]
+        assert challenge_id in authenticator._active_challenges
+        metadata = authenticator._active_challenges[challenge_id]
+        assert metadata["username"] == auth_context.username
+        assert metadata["correlation_id"] == auth_context.correlation_id
+
+    @pytest.mark.asyncio
+    async def test_t4_webauthn_requires_challenge(self, authenticator, auth_context):
+        """Authentication fails when WebAuthn challenge metadata is missing."""
+
+        auth_context.existing_tier = "T3"
+        auth_context.webauthn_response = {
+            "id": "missing",
+            "response": {
+                "clientDataJSON": "",
+                "authenticatorData": "",
+                "signature": "",
+            },
+        }
+
+        result = await authenticator.authenticate_T4(auth_context)
+
+        assert result.ok is False
+        assert result.reason == "MISSING_CHALLENGE_ID"
 
     @pytest.mark.asyncio
     async def test_missing_credentials_validation(self, authenticator):
@@ -266,29 +361,37 @@ class TestTieredAuthenticationEngine:
             assert result.ok is True
             assert duration < tier_limits["T2"]
 
-    @given(
-        ip_address=st.ip_addresses().map(str),
-        username=text(min_size=1, max_size=50),
-        correlation_id=text(min_size=10, max_size=50)
-    )
-    @settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
-    async def test_property_based_authentication_contexts(self, authenticator, ip_address, username, correlation_id):
-        """Property-based test for authentication contexts."""
-        # Arrange
-        ctx = AuthContext(
-            ip_address=ip_address,
-            username=username,
-            correlation_id=correlation_id
+    if HYPOTHESIS_AVAILABLE:
+
+        @given(
+            ip_address=st.ip_addresses().map(str),
+            username=text(min_size=1, max_size=50),
+            correlation_id=text(min_size=10, max_size=50)
         )
+        @settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+        async def test_property_based_authentication_contexts(self, authenticator, ip_address, username, correlation_id):
+            """Property-based test for authentication contexts."""
+            # Arrange
+            ctx = AuthContext(
+                ip_address=ip_address,
+                username=username,
+                correlation_id=correlation_id
+            )
 
-        # Act
-        result = await authenticator.authenticate_T1(ctx)
+            # Act
+            result = await authenticator.authenticate_T1(ctx)
 
-        # Assert properties that should always hold
-        assert result is not None
-        assert isinstance(result, AuthResult)
-        assert result.tier == "T1"
-        assert result.correlation_id == correlation_id
+            # Assert properties that should always hold
+            assert result is not None
+            assert isinstance(result, AuthResult)
+            assert result.tier == "T1"
+            assert result.correlation_id == correlation_id
+    else:
+
+        @pytest.mark.skip(reason="Hypothesis not installed")
+        async def test_property_based_authentication_contexts(self):
+            """Skipped when Hypothesis is unavailable."""
+            raise pytest.SkipTest("Hypothesis dependency is required")
 
 
 @pytest.mark.skipif(not COMPONENTS_AVAILABLE, reason="Identity components not available")
@@ -607,12 +710,12 @@ class TestSecurityHardening:
         identifier = "127.0.0.1"
 
         # Act - Send requests within limit
-        for i in range(5):
+        for _i in range(5):
             action, reason = await security_manager.check_rate_limit(identifier, "authentication")
             assert action.value in ["allow", "throttle"]
 
         # Act - Exceed rate limit
-        for i in range(10):
+        for _i in range(10):
             action, reason = await security_manager.check_rate_limit(identifier, "authentication")
 
         # Assert - Should be blocked or throttled
@@ -623,7 +726,7 @@ class TestSecurityHardening:
     async def test_request_analysis(self, security_manager):
         """Test request analysis for threat detection."""
         # Act - Analyze normal request
-        threat_level, indicators = await security_manager.analyze_request(
+        threat_level, _indicators = await security_manager.analyze_request(
             ip_address="127.0.0.1",
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
             headers={"Host": "ai", "Accept": "text/html"}

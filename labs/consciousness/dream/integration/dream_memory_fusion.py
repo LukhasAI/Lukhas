@@ -5,6 +5,8 @@
 │       Advanced fusion of dream experiences with persistent memory           │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
+from __future__ import annotations
+
 
 import logging
 from datetime import datetime, timezone

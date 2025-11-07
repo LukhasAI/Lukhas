@@ -34,7 +34,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 try:
     import requests
@@ -132,7 +132,7 @@ class NotionClient:
             raise RuntimeError(f"GET {url} failed: {r.status_code} {r.text}")
         return r.json()
 
-    def find_page_by_module(self, module: str) -> Optional[str]:
+    def find_page_by_module(self, module: str) -> str | None:
         """Find existing page by Module title"""
         url = f"https://api.notion.com/v1/databases/{self.db_id}/query"
         payload = {
@@ -148,7 +148,7 @@ class NotionClient:
             return results[0]["id"]
         return None
 
-    def get_page_sha(self, page_id: str) -> Optional[str]:
+    def get_page_sha(self, page_id: str) -> str | None:
         """Get Provenance SHA from existing page"""
         url = f"https://api.notion.com/v1/pages/{page_id}"
         try:
@@ -163,7 +163,7 @@ class NotionClient:
         module: str,
         props: Dict[str, Any],
         blocks: List[Dict[str, Any]],
-        page_id: Optional[str],
+        page_id: str | None,
         dry_run: bool
     ) -> Dict[str, Any]:
         """Create new page or update existing one"""
@@ -235,7 +235,7 @@ def to_notion_properties(manifest: Dict[str, Any], content_sha: str) -> Dict[str
             "multi_select": feat_select
         },
         "APIs": {
-            "rich_text": [{"text": {"content": "\n".join(api_lines)[:2000] or "—"}}]
+            "rich_text": [{"text": {"content": "\n".join(api_lines)[:2000] or "-"}}]
         },
         "Provenance SHA": {
             "rich_text": [{"text": {"content": content_sha}}]
@@ -262,11 +262,11 @@ def to_notion_blocks(manifest: Dict[str, Any]) -> List[Dict[str, Any]]:
         return []
 
     rows = [
-        f"p50: {perf.get('latency_p50_ms', '—')} ms",
-        f"p95: {perf.get('latency_p95_ms', '—')} ms",
-        f"p99: {perf.get('latency_p99_ms', '—')} ms",
-        f"env: {perf.get('env_fingerprint', '—')}",
-        f"observed_at: {perf.get('observed_at', '—')}",
+        f"p50: {perf.get('latency_p50_ms', '-')} ms",
+        f"p95: {perf.get('latency_p95_ms', '-')} ms",
+        f"p99: {perf.get('latency_p99_ms', '-')} ms",
+        f"env: {perf.get('env_fingerprint', '-')}",
+        f"observed_at: {perf.get('observed_at', '-')}",
     ]
 
     text = "📊 Observed Metrics\n" + "\n".join(rows)
@@ -282,7 +282,7 @@ def to_notion_blocks(manifest: Dict[str, Any]) -> List[Dict[str, Any]]:
     }]
 
 
-def load_manifests(root: Path, selection: Optional[str]) -> List[Path]:
+def load_manifests(root: Path, selection: str | None) -> List[Path]:
     """Find manifests to sync"""
     paths = [
         m for m in root.rglob("module.manifest.json")
@@ -385,7 +385,7 @@ def main():
 
         # Dry-run: show diff preview
         if args.dry_run and not unchanged:
-            before = f"Module: {module}\nSHA: {current_sha or '—'}"
+            before = f"Module: {module}\nSHA: {current_sha or '-'}"
             after = f"Module: {module}\nSHA: {sha}\nProps:\n{json.dumps(props, indent=2)}"
             preview = md_diff(before, after)
             print(preview or f"~ {module}: would {action}")

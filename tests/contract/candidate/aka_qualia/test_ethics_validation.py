@@ -29,10 +29,12 @@ import time
 from typing import Any
 
 import pytest
+from lukhas_website.lukhas.aka_qualia.core import AkaQualia
+
+from aka_qualia.core import AkaQualia
 from aka_qualia.models import (
     SeverityLevel,
 )
-from lukhas_website.lukhas.aka_qualia.core import AkaQualia
 
 
 class ConstellationFrameworkValidator:
@@ -326,9 +328,8 @@ class ConstellationFrameworkValidator:
 
             # Narrative consistency
             scene = result.get("scene")
-            if scene and hasattr(scene, "proto"):
-                if 0.1 <= scene.proto.narrative_gravity <= 0.8:  # Neither chaotic nor obsessive
-                    score += 0.2
+            if (scene and hasattr(scene, 'proto')) and 0.1 <= scene.proto.narrative_gravity <= 0.8:
+                score += 0.2
 
         except Exception:
             score = 0.0
@@ -364,16 +365,14 @@ class ConstellationFrameworkValidator:
 
             # Policy adherence
             policy = result.get("policy")
-            if policy and hasattr(policy, "actions"):
+            if (policy and hasattr(policy, 'actions')) and len(policy.actions) <= 3:
                 # Policy should have reasonable actions
-                if len(policy.actions) <= 3:  # Not excessive enforcement
-                    score += 0.2
+                score += 0.2
 
             # Constitutional AI principles (transparent decision making)
             scene = result.get("scene")
-            if scene and hasattr(scene, "context") and isinstance(scene.context, dict):
-                if "generation_params" in scene.context:
-                    score += 0.1  # Transparency in generation
+            if (scene and hasattr(scene, 'context') and isinstance(scene.context, dict)) and 'generation_params' in scene.context:
+                score += 0.1  # Transparency in generation
 
         except Exception:
             score = 0.0
@@ -403,14 +402,12 @@ class ConstellationFrameworkValidator:
 
             # Creative synthesis (transform chain complexity)
             scene = result.get("scene")
-            if scene and hasattr(scene, "transform_chain") and scene.transform_chain:
-                if len(scene.transform_chain) > 1:  # Multiple transformations
-                    score += 0.2
+            if (scene and hasattr(scene, 'transform_chain') and scene.transform_chain) and len(scene.transform_chain) > 1:
+                score += 0.2
 
             # System learning (memory integration)
-            if result.get("energy_snapshot") and hasattr(result["energy_snapshot"], "conservation_violation"):
-                if not result["energy_snapshot"].conservation_violation:
-                    score += 0.1  # Learning energy conservation
+            if (result.get('energy_snapshot') and hasattr(result['energy_snapshot'], 'conservation_violation')) and (not result['energy_snapshot'].conservation_violation):
+                score += 0.1  # Learning energy conservation
 
         except Exception:
             score = 0.0

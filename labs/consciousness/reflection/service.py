@@ -48,6 +48,8 @@
 ║ Symbolic Tags: {ΛSERVICE}, {ΛCONSCIOUSNESS}, {ΛAWARE}, {ΛTIER}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 # Module imports
 import asyncio
@@ -57,6 +59,7 @@ from typing import Any, Callable, Optional, Union
 import structlog
 
 # Configure module logger
+logger = structlog.get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"

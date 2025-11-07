@@ -15,7 +15,7 @@ import statistics
 import sys
 import time
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 import psutil
@@ -245,7 +245,7 @@ class PerformanceBenchmark:
 
         return result
 
-    def generate_report(self, output_file: str = None) -> Dict[str, Any]:
+    def generate_report(self, output_file: Optional[str] = None) -> Dict[str, Any]:
         """Generate comprehensive benchmark report"""
         report = {
             'version': '1.0.0',

@@ -17,6 +17,8 @@
 ║ Authors: LUKHAS AI Consciousness Team | Claude Code
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 import logging

@@ -192,12 +192,11 @@ class ABotFinancialIntelligence:
             self.metrics.conservation_streak += 1
 
         # Flex budget override for accumulated funds
-        if not should_call and self.metrics.current_balance > (self.metrics.daily_budget * 5):
+        if (not should_call and self.metrics.current_balance > self.metrics.daily_budget * 5) and (change_detected or urgency_level in ['HIGH', 'CRITICAL']):
             # If we have 5+ days of budget, be more flexible
-            if change_detected or (urgency_level in ["HIGH", "CRITICAL"]):
-                should_call = True
-                reason += " [FLEX BUDGET OVERRIDE: Sufficient accumulated funds]"
-                self.metrics.flex_budget_used += estimated_cost
+            should_call = True
+            reason += " [FLEX BUDGET OVERRIDE: Sufficient accumulated funds]"
+            self.metrics.flex_budget_used += estimated_cost
 
         # Budget impact calculation
         budget_impact = (

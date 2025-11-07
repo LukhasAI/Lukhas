@@ -25,7 +25,7 @@ class ConstellationMapper:
         """Extract import dependencies from a Python file"""
         imports = set()
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             tree = ast.parse(content)
@@ -34,9 +34,8 @@ class ConstellationMapper:
                 if isinstance(node, ast.Import):
                     for alias in node.names:
                         imports.add(alias.name)
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module:
-                        imports.add(node.module)
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    imports.add(node.module)
 
         except Exception:
             pass
@@ -150,7 +149,7 @@ class ConstellationMapper:
                 # PageRank (overall importance)
                 try:
                     pagerank = nx.pagerank(self.graph)
-                except:
+                except Exception:
                     pagerank = {}
 
                 # Combine metrics

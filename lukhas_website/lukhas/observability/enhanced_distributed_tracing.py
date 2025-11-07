@@ -33,22 +33,22 @@ try:
     from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
     from opentelemetry.propagators.b3 import B3MultiFormat, B3SingleFormat
     from opentelemetry.propagators.jaeger import JaegerPropagator
-    from opentelemetry.sdk.trace import (  # noqa: F401  # TODO: opentelemetry.sdk.trace.Span; ...
+    from opentelemetry.sdk.trace import (  # TODO: opentelemetry.sdk.trace.Span; ...
         Span,
         TracerProvider,
     )
-    from opentelemetry.sdk.trace.export import (  # noqa: F401  # TODO: opentelemetry.sdk.trace.export...
+    from opentelemetry.sdk.trace.export import (  # TODO: opentelemetry.sdk.trace.export...
         BatchSpanProcessor,
         SpanExporter,
     )
     from opentelemetry.sdk.trace.sampling import ParentBased, TraceIdRatioBased
     from opentelemetry.semconv.trace import (
-        SpanAttributes,  # noqa: F401  # TODO: opentelemetry.semconv.trace.Sp...
+        SpanAttributes,  # TODO: opentelemetry.semconv.trace.Sp...
     )
     from opentelemetry.trace.propagation.tracecontext import TraceContextTextMapPropagator
     from opentelemetry.trace.status import Status, StatusCode
     from opentelemetry.util.http import (
-        get_excluded_urls,  # noqa: F401  # TODO: opentelemetry.util.http.get_ex...
+        get_excluded_urls,  # TODO: opentelemetry.util.http.get_ex...
     )
 
     OTEL_AVAILABLE = True
@@ -259,7 +259,7 @@ class EnhancedLUKHASTracer:
                 AsyncioInstrumentor().instrument()
 
             # Database instrumentation (when available)
-            try:
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_observability_enhanced_distributed_tracing_py_L262"}
                 SQLAlchemyInstrumentor().instrument()
             except Exception:
                 pass  # SQLAlchemy not available

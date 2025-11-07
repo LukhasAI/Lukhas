@@ -1,0 +1,51 @@
+{
+  "buildType": "https://slsa.dev/provenance/v1",
+  "builder": {
+    "id": "https://github.com/LukhasAI/Lukhas/.github/workflows/security-posture.yml"
+  },
+  "invocation": {
+    "configSource": {
+      "digest": {
+        "sha1": "8ed3824d529b2d69b84a29da288e52561fc26747"
+      },
+      "uri": "git+https://github.com/LukhasAI/Lukhas"
+    },
+    "environment": {
+      "repository": "LukhasAI/Lukhas",
+      "workflow": "security-posture-artifacts"
+    },
+    "parameters": {
+      "module": "lukhas.governance.ethics"
+    }
+  },
+  "materials": [
+    {
+      "digest": {
+        "sha256": "1ed64f081d6968dffd359bb3516238ea8cc51daa4749a44cd664ea43213405dd"
+      },
+      "uri": "security/sboms/shared/lukhas-platform.cdx.json"
+    }
+  ],
+  "metadata": {
+    "buildFinishedOn": "2025-11-01T21:27:07+00:00",
+    "buildStartedOn": "2025-11-01T21:27:07+00:00",
+    "completeness": {
+      "environment": true,
+      "materials": true,
+      "parameters": true
+    },
+    "reproducible": true
+  },
+  "provenance": {
+    "ipld_root_cid": "bafybeilukhas1ed64f081d6968dffd359bb3516238ea8cc51daa4749a4"
+  },
+  "subject": [
+    {
+      "digest": {
+        "sha256": "b9d466f3a50b6adc0370115ab0fdd60570112a8a0464990a4b681558b678b61b"
+      },
+      "name": "lukhas.governance.ethics",
+      "uri": "security/sboms/modules/lukhas_governance_ethics.cdx.json"
+    }
+  ]
+}

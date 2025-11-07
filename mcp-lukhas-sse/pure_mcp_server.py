@@ -15,7 +15,7 @@ import os
 import uuid
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 import uvicorn
 from starlette.applications import Starlette
@@ -124,7 +124,7 @@ AVAILABLE_TOOLS = [
 ]
 
 # Tool Implementation Functions
-async def constellation_health_check(arguments: dict = None) -> Dict[str, Any]:
+async def constellation_health_check(arguments: Optional[dict] = None) -> Dict[str, Any]:
     """Complete LUKHAS AI Constellation Framework health status"""
     session_id = str(uuid.uuid4())
     timestamp = datetime.now().isoformat()
@@ -180,7 +180,7 @@ async def constellation_health_check(arguments: dict = None) -> Dict[str, Any]:
         }
     }
 
-async def get_consciousness_architecture(arguments: dict = None) -> Dict[str, Any]:
+async def get_consciousness_architecture(arguments: Optional[dict] = None) -> Dict[str, Any]:
     """Detailed LUKHAS AI consciousness architecture"""
     return {
         "consciousness_overview": f"{TRINITY_CONSCIOUSNESS} Advanced Consciousness Architecture",
@@ -231,7 +231,7 @@ async def get_consciousness_architecture(arguments: dict = None) -> Dict[str, An
         }
     }
 
-async def explore_lukhas_codebase(arguments: dict = None) -> Dict[str, Any]:
+async def explore_lukhas_codebase(arguments: Optional[dict] = None) -> Dict[str, Any]:
     """Safely explore LUKHAS AI codebase structure"""
     path = arguments.get("path", "/tmp") if arguments else "/tmp"
 
@@ -295,12 +295,12 @@ async def explore_lukhas_codebase(arguments: dict = None) -> Dict[str, Any]:
 
     except Exception as e:
         return {
-            "error": f"Exploration failed: {str(e)}",
+            "error": f"Exploration failed: {e!s}",
             "guardian_log": f"{TRINITY_GUARDIAN} Security event logged",
             "recovery_suggestion": "Check path permissions and access rights"
         }
 
-async def read_lukhas_file(arguments: dict = None) -> Dict[str, Any]:
+async def read_lukhas_file(arguments: Optional[dict] = None) -> Dict[str, Any]:
     """Safely read LUKHAS AI files with Constellation Framework analysis"""
     if not arguments or "file_path" not in arguments:
         return {"error": "file_path parameter required"}
@@ -392,12 +392,12 @@ async def read_lukhas_file(arguments: dict = None) -> Dict[str, Any]:
 
     except Exception as e:
         return {
-            "error": f"File read failed: {str(e)}",
+            "error": f"File read failed: {e!s}",
             "guardian_incident": f"{TRINITY_GUARDIAN} Access error logged",
             "recovery_action": "Check file permissions and system status"
         }
 
-async def get_constellation_capabilities(arguments: dict = None) -> Dict[str, Any]:
+async def get_constellation_capabilities(arguments: Optional[dict] = None) -> Dict[str, Any]:
     """Complete overview of LUKHAS AI Constellation Framework capabilities"""
     return {
         "constellation_framework_overview": CONSTELLATION_FRAMEWORK,
@@ -549,7 +549,7 @@ async def call_tool(request):
     except Exception as e:
         logger.error(f"Tool execution error: {e}")
         return JSONResponse({
-            "error": f"Tool execution failed: {str(e)}",
+            "error": f"Tool execution failed: {e!s}",
             "guardian_incident": f"{TRINITY_GUARDIAN} Error logged and contained"
         }, status_code=500)
 
@@ -704,7 +704,7 @@ async def action_trinity_health_check(request):
     except Exception as e:
         logger.error(f"Constellation health check error: {e}")
         return JSONResponse({
-            "error": f"Health check failed: {str(e)}",
+            "error": f"Health check failed: {e!s}",
             "guardian_incident": f"{TRINITY_GUARDIAN} Error logged and contained"
         }, status_code=500)
 
@@ -716,7 +716,7 @@ async def action_get_consciousness_architecture(request):
     except Exception as e:
         logger.error(f"Consciousness architecture error: {e}")
         return JSONResponse({
-            "error": f"Architecture query failed: {str(e)}",
+            "error": f"Architecture query failed: {e!s}",
             "guardian_incident": f"{TRINITY_GUARDIAN} Error logged and contained"
         }, status_code=500)
 
@@ -734,7 +734,7 @@ async def action_explore_lukhas_codebase(request):
     except Exception as e:
         logger.error(f"Codebase exploration error: {e}")
         return JSONResponse({
-            "error": f"Exploration failed: {str(e)}",
+            "error": f"Exploration failed: {e!s}",
             "guardian_incident": f"{TRINITY_GUARDIAN} Error logged and contained"
         }, status_code=500)
 
@@ -747,7 +747,7 @@ async def action_read_lukhas_file(request):
     except Exception as e:
         logger.error(f"File read error: {e}")
         return JSONResponse({
-            "error": f"File read failed: {str(e)}",
+            "error": f"File read failed: {e!s}",
             "guardian_incident": f"{TRINITY_GUARDIAN} Error logged and contained"
         }, status_code=500)
 
@@ -759,7 +759,7 @@ async def action_get_trinity_capabilities(request):
     except Exception as e:
         logger.error(f"Constellation capabilities error: {e}")
         return JSONResponse({
-            "error": f"Capabilities query failed: {str(e)}",
+            "error": f"Capabilities query failed: {e!s}",
             "guardian_incident": f"{TRINITY_GUARDIAN} Error logged and contained"
         }, status_code=500)
 

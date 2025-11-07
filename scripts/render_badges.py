@@ -5,6 +5,7 @@ LUKHAS Documentation Badge Renderer (T4/0.01%)
 Synthesizes badges from front-matter (status + owner) and injects at top of docs.
 Preserves H1 headings, adds badge legend to DOCUMENTATION_INDEX.md.
 """
+from __future__ import annotations
 
 import json
 import re
@@ -38,7 +39,7 @@ H1_PATTERN = re.compile(r'^#\s+(.+)$', re.MULTILINE)
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
@@ -76,7 +77,7 @@ def inject_badges(file_path: Path, status: str, owner: str, dry_run: bool = True
     Returns True if modified.
     """
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
     except Exception as e:
         print(f"   ⚠️  Failed to read {file_path}: {e}")
@@ -179,7 +180,7 @@ def update_index_legend(dry_run: bool = True) -> bool:
         return False
 
     try:
-        with open(INDEX_PATH, 'r', encoding='utf-8') as f:
+        with open(INDEX_PATH, encoding='utf-8') as f:
             content = f.read()
     except Exception as e:
         print(f"   ❌ Failed to read {INDEX_PATH}: {e}")

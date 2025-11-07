@@ -10,12 +10,22 @@ from core.identity.vault.lukhas_id import (
     log_access,
 )
 
+def get_access_log():
+    """Get access log entries. Placeholder implementation."""
+    return []
+
+def reset_registry():
+    """Reset the identity registry. Placeholder implementation."""
+    pass
+
 __all__ = [
     "IdentityManager",
     "IdentityProfile",
     "IdentityRateLimitExceeded",
     "IdentityVerificationError",
     "LukhasIdentityVault",
+    "get_access_log",
     "has_access",
     "log_access",
+    "reset_registry",
 ]

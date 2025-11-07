@@ -4,13 +4,13 @@ AGI Module Analyzer & Distiller
 Advanced analysis tool for complex AGI codebases using AI-powered analysis
 Understands that AGI requires modular complexity, not simplification to basic chatbots
 """
+from __future__ import annotations
 
 import ast
 import json
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 import networkx as nx
 
@@ -108,7 +108,7 @@ class AGIModuleAnalyzer:
             except Exception as e:
                 print(f"Warning: Could not parse {py_file}: {e}")
 
-    def _analyze_module_ast(self, file_path: Path, tree: ast.AST, content: str) -> Optional[ModuleAnalysis]:
+    def _analyze_module_ast(self, file_path: Path, tree: ast.AST, content: str) -> ModuleAnalysis | None:
         """Analyze a module's AST to understand its structure and purpose"""
 
         # Extract classes and functions
@@ -194,7 +194,8 @@ class AGIModuleAnalyzer:
             tree = ast.parse(content)
             if isinstance(tree.body[0], ast.Expr) and isinstance(tree.body[0].value, ast.Str):
                 tree.body[0].value.s
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             pass
 
         # Analyze filename and content
@@ -281,7 +282,7 @@ class AGIModuleAnalyzer:
                 if dep_path and dep_path in self.modules:
                     self.dependency_graph.add_edge(module_path, dep_path)
 
-    def _import_to_path(self, import_name: str) -> Optional[str]:
+    def _import_to_path(self, import_name: str) -> str | None:
         """Convert import name to file path"""
         # Convert qi.bio.cellular to bio/cellular.py
         parts = import_name.split(".")
@@ -666,11 +667,12 @@ class AGIModuleAnalyzer:
                 try:
                     depths = nx.single_source_shortest_path_length(self.dependency_graph, source)
                     max_depth = max(max_depth, max(depths.values()) if depths else 0)
-                except:
+                except Exception:
                     continue
 
             return max_depth
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             return 0
 
     def _generate_modular_recommendations(self) -> list[dict]:

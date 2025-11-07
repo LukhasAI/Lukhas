@@ -1,0 +1,14 @@
+795	E402  	[ ] module-import-not-at-top-of-file
+130	W293  	[*] blank-line-with-whitespace
+ 87	F821  	[ ] undefined-name
+ 15	I001  	[*] unsorted-imports
+ 10	E722  	[ ] bare-except
+  7	W291  	[*] trailing-whitespace
+  7	F811  	[ ] redefined-while-unused
+  6	F402  	[ ] import-shadowed-by-loop-var
+  5	F401  	[ ] unused-import
+  3	F706  	[ ] return-outside-function
+  3	RUF100	[*] unused-noqa
+  2	F704  	[ ] yield-outside-function
+  1	F404  	[ ] late-future-import
+  1	F405  	[ ] undefined-local-with-import-star-usage

@@ -1,6 +1,8 @@
 # path: qi/ui/cockpit_api.py
 from __future__ import annotations
 
+# Safe I/O for UI files
+import builtins
 import json
 import os
 import time
@@ -29,8 +31,6 @@ COCKPIT_UI_PATH = os.environ.get("COCKPIT_UI_PATH")  # /abs/path/to/web/cockpit.
 RECEIPTS_UI_PATH = os.environ.get("RECEIPTS_UI_PATH")  # /abs/path/to/web/trace_drilldown.html
 APPROVER_UI_PATH = os.environ.get("APPROVER_UI_PATH")  # /abs/path/to/web/approver_ui.html
 
-# Safe I/O for UI files
-import builtins
 
 _ORIG_OPEN = builtins.open
 
@@ -100,7 +100,7 @@ def get_safety_card_json(
             try:
                 report_md = _mk_markdown(policy_root, overlays, 500)
                 card["_appendix_nightly_report_md"] = report_md
-            except:
+            except Exception:
                 card["_appendix_nightly_report_md"] = "(appendix generation failed)"
 
         return card
@@ -254,7 +254,7 @@ def get_adaptive_candidates(token: str | None = Header(None, alias="X-Auth-Token
 
 @app.post("/cockpit/adaptive/promote")
 def promote_adaptive_candidates(
-    targets: list[str] = Query(...),
+    targets: list[str] = Query(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_ui_cockpit_api_py_L257"}
     token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
@@ -922,14 +922,14 @@ def get_dashboard_summary(token: str | None = Header(None, alias="X-Auth-Token")
         try:
             adaptive_engine = AdaptiveLearningEngine()
             adaptive_patterns = adaptive_engine.analyze_performance_patterns(window=500)
-        except:
+        except Exception:
             adaptive_patterns = None
 
         # Human adaptation summary
         try:
             human_engine = HumanAdaptEngine()
             human_patterns = human_engine.analyze_satisfaction_patterns(window=500)
-        except:
+        except Exception:
             human_patterns = None
 
         dashboard = {

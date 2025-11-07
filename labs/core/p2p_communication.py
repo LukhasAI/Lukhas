@@ -16,6 +16,8 @@
 ║ fault tolerance, and reduced latency for high-bandwidth agent communication.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import asyncio
 import json
 import logging

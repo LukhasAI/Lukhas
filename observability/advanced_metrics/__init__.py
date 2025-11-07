@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import importlib as _importlib
+
 # Use centralized, duplicate-tolerant registry
 from observability import counter, gauge, summary
 
@@ -68,19 +70,20 @@ class AdvancedMetricsSystem:
 
 
 __all__ = [
-    "router_cascade_preventions_total",
-    "network_coherence_score",
-    "signal_processing_time_seconds",
+    "AdvancedMetricsSystem",
     "cache_hits_total",
     "cache_misses_total",
+    "network_coherence_score",
     "queue_depth",
-    "AdvancedMetricsSystem",
+    "router_cascade_preventions_total",
+    "signal_processing_time_seconds",
 ]
 
 # Added for test compatibility (observability.advanced_metrics.AnomalyType)
 try:
-    from labs.observability.advanced_metrics import AnomalyType
-except ImportError:
+    _mod = _importlib.import_module("labs.observability.advanced_metrics")
+    AnomalyType = _mod.AnomalyType
+except Exception:
     from enum import Enum
 
     class AnomalyType(Enum):
@@ -99,8 +102,9 @@ if "AnomalyType" not in __all__:
 
 # Added for test compatibility (observability.advanced_metrics.MetricAnomaly)
 try:
-    from labs.observability.advanced_metrics import MetricAnomaly
-except ImportError:
+    _mod = _importlib.import_module("labs.observability.advanced_metrics")
+    MetricAnomaly = _mod.MetricAnomaly
+except Exception:
 
     class MetricAnomaly:
         """Stub for MetricAnomaly."""
@@ -119,8 +123,9 @@ if "MetricAnomaly" not in __all__:
 
 # Added for test compatibility (observability.advanced_metrics.MetricSeverity)
 try:
-    from labs.observability.advanced_metrics import MetricSeverity
-except ImportError:
+    _mod = _importlib.import_module("labs.observability.advanced_metrics")
+    MetricSeverity = _mod.MetricSeverity
+except Exception:
     from enum import Enum
 
     class MetricSeverity(Enum):

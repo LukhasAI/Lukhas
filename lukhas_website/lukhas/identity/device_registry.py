@@ -4,12 +4,13 @@ Enhanced device registry with ML-based fingerprinting and behavioral analysis.
 """
 
 import asyncio
+import contextlib
 import hashlib
 import json
 import logging
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, Set, Tuple
 
@@ -112,10 +113,8 @@ class DeviceRegistry:
         for task in [self._decay_task, self._risk_task]:
             if task:
                 task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
 
     async def register_device(self,
                             lambda_id: str,
@@ -137,10 +136,10 @@ class DeviceRegistry:
 
         # Initialize device behavior tracking
         behavior = DeviceBehavior(
-            login_times=[datetime.utcnow()],
+            login_times=[datetime.now(timezone.utc)],
             ip_addresses={device_info.ip_address},
             user_agents=[device_info.user_agent],
-            last_activity=datetime.utcnow()
+            last_activity=datetime.now(timezone.utc)
         )
 
         # Store device data
@@ -177,7 +176,7 @@ class DeviceRegistry:
             return
 
         behavior = self.behaviors[device_id]
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
 
         # Update activity data
         behavior.login_times.append(now)
@@ -235,7 +234,7 @@ class DeviceRegistry:
             self.devices[device_id].trust_level = 0.0
             self.devices[device_id].metadata["compromised"] = {
                 "reason": reason,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat()
             }
 
         # Create critical risk assessment
@@ -243,7 +242,7 @@ class DeviceRegistry:
             risk_level=RiskLevel.CRITICAL,
             risk_score=1.0,
             factors=[f"manually_marked_compromised: {reason}"],
-            assessment_time=datetime.utcnow(),
+            assessment_time=datetime.now(timezone.utc),
             confidence=1.0,
             recommendations=["revoke_all_sessions", "require_reregistration"]
         )
@@ -259,7 +258,7 @@ class DeviceRegistry:
         if not devices:
             return {}
 
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         trusted_devices = sum(1 for d in devices if d.trust_level >= 0.7)
         recent_activity = sum(1 for d in devices if d.last_seen > now - timedelta(days=7))
 
@@ -428,7 +427,7 @@ class DeviceRegistry:
             risk_level=risk_level,
             risk_score=risk_score,
             factors=risk_factors,
-            assessment_time=datetime.utcnow(),
+            assessment_time=datetime.now(timezone.utc),
             confidence=0.8,  # Base confidence
             recommendations=recommendations
         )
@@ -533,7 +532,7 @@ class DeviceRegistry:
             self.devices[device_id].metadata["fingerprint_mismatch_count"] = mismatch_count + 1
             self.devices[device_id].metadata[f"fingerprint_mismatch_{int(time.time())}"] = {
                 "similarity": similarity,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat()
             }
 
         # Decrease trust level

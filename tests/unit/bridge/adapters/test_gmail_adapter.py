@@ -7,8 +7,18 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
+pytest.importorskip("google.auth")
+
 from bridge.adapters.gmail_adapter import GmailAdapter, GmailContextIntegration
 from bridge.adapters.service_adapter_base import CapabilityToken
+
+
+class ConcreteGmailAdapter(GmailAdapter):
+    async def fetch_resource(
+        self, lid: str, resource_id: str, capability_token: CapabilityToken
+    ) -> dict:
+        """Dummy implementation for the abstract method."""
+        return {"mock": "resource"}
 
 
 @pytest.mark.tier3
@@ -22,7 +32,7 @@ class TestGmailAdapterUnit:
     @pytest.fixture
     def adapter(self):
         """Returns a GmailAdapter instance."""
-        adapter = GmailAdapter()
+        adapter = ConcreteGmailAdapter()
         adapter.check_consent = AsyncMock(return_value=True)
         adapter.oauth_tokens["user123"] = {"access_token": "fake_token"}
         return adapter
@@ -58,7 +68,9 @@ class TestGmailAdapterUnit:
 
     @patch.object(GmailAdapter, "search_emails", new_callable=AsyncMock)
     @pytest.mark.asyncio
-    async def test_context_integration_workflow(self, mock_search_emails, adapter: GmailAdapter):
+    async def test_context_integration_workflow(
+        self, mock_search_emails, adapter: GmailAdapter
+    ):
         """Tests the GmailContextIntegration workflow."""
         mock_search_emails.return_value = {
             "emails": [
@@ -71,7 +83,9 @@ class TestGmailAdapterUnit:
             ]
         }
         integration = GmailContextIntegration(adapter)
-        result = await integration.workflow_fetch_travel_emails(lid="user123", context={})
+        result = await integration.workflow_fetch_travel_emails(
+            lid="user123", context={}
+        )
 
         assert "travel_emails" in result
         assert len(result["travel_emails"]) == 1
@@ -95,7 +109,9 @@ class TestGmailAdapterUnit:
             ("A random email", "travel"),
         ],
     )
-    def test_classify_travel_email(self, subject, expected_type, adapter: GmailAdapter):
+    def test_classify_travel_email(
+        self, subject, expected_type, adapter: GmailAdapter
+    ):
         """Tests the _classify_travel_email method."""
         integration = GmailContextIntegration(adapter)
         assert integration._classify_travel_email(subject) == expected_type
@@ -114,7 +130,9 @@ class TestGmailAdapterUnit:
             issued_at="2025-01-01T00:00:00Z",
             signature="invalid-sig",
         )
-        result = await adapter.search_emails(lid="user123", search_query="test", capability_token=invalid_token)
+        result = await adapter.search_emails(
+            lid="user123", search_query="test", capability_token=invalid_token
+        )
         assert result["error"] == "invalid_capability_token"
 
     @pytest.mark.asyncio
@@ -131,7 +149,9 @@ class TestGmailAdapterUnit:
             issued_at="2025-01-01T00:00:00Z",
             signature="invalid-sig",
         )
-        result = await adapter.list_labels(lid="user123", capability_token=invalid_token)
+        result = await adapter.list_labels(
+            lid="user123", capability_token=invalid_token
+        )
         assert result["error"] == "invalid_capability_token"
 
     @pytest.mark.asyncio
@@ -148,12 +168,40 @@ class TestGmailAdapterUnit:
             issued_at="2025-01-01T00:00:00Z",
             signature="invalid-sig",
         )
-        result = await adapter.fetch_emails(lid="user123", capability_token=invalid_token)
+        result = await adapter.fetch_emails(
+            lid="user123", capability_token=invalid_token
+        )
         assert result["error"] == "invalid_capability_token"
 
     @pytest.mark.asyncio
     async def test_authenticate_no_refresh_token(self, adapter: GmailAdapter):
         """Tests the authentication flow when no refresh token is provided."""
-        credentials = {"client_id": "test_client", "client_secret": "test_secret", "lid": "user123"}
+        credentials = {
+            "client_id": "test_client",
+            "client_secret": "test_secret",
+            "lid": "user123",
+        }
         token_data = await adapter.authenticate(credentials)
         assert token_data["error"] == "authentication_required"
+
+    @pytest.mark.asyncio
+    async def test_fetch_emails_api_error(self, adapter: GmailAdapter):
+        """Test API error when fetching emails."""
+        import re
+
+        from aioresponses import aioresponses
+
+        with aioresponses() as m:
+            m.get(
+                re.compile(f"^{adapter.base_url}/users/me/messages.*"), status=500
+            )
+            result = await adapter.fetch_emails(lid="user123")
+        assert result == {"error": "api_error_500"}
+
+    @pytest.mark.asyncio
+    async def test_fetch_emails_dry_run(self, adapter: GmailAdapter):
+        """Test dry-run mode for fetching emails."""
+        adapter.set_dry_run(True)
+        result = await adapter.fetch_emails(lid="user123")
+        assert result["dry_run"] is True
+        assert "plan" in result

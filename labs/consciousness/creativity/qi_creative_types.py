@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -16,7 +18,7 @@ logger = logging.getLogger(__name__)
 ║                             ◊ POETIC ESSENCE ◊
 ║
 ║ │ In the quantum realm of creativity, types define the grammar of              │
-║ │ possibility—the scaffolding upon which imagination builds its castles       │
+║ │ possibility-the scaffolding upon which imagination builds its castles       │
 ║ │ in the air. Each class is a vessel for potential, each field a dimension    │
 ║ │ of expression waiting to be explored.                                       │
 ║ │                                                                             │

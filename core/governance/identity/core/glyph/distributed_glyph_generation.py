@@ -1,11 +1,11 @@
-from __future__ import annotations
-
 """
 Distributed GLYPH Generation with Colony Coordination
 
 Manages distributed generation of identity GLYPHs using colony-based
 parallel processing and tier-aware steganographic embedding.
 """
+
+from __future__ import annotations
 
 import asyncio
 import base64
@@ -15,7 +15,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 
@@ -63,12 +63,12 @@ class GLYPHGenerationTask:
     tier_level: int
     complexity: GLYPHComplexity
     identity_data: dict[str, Any]
-    orb_state: Optional[OrbVisualization] = None
-    steganographic_data: Optional[dict[str, Any]] = None
-    qi_seed: Optional[bytes] = None
-    consciousness_pattern: Optional[np.ndarray] = None
-    dream_sequence: Optional[list[dict[str, Any]]] = None
-    deadline: Optional[datetime] = None
+    orb_state: OrbVisualization | None = None
+    steganographic_data: dict[str, Any] | None = None
+    qi_seed: bytes | None = None
+    consciousness_pattern: np.ndarray | None = None
+    dream_sequence: list[dict[str, Any]] | None = None
+    deadline: datetime | None = None
 
 
 @dataclass
@@ -93,7 +93,7 @@ class GeneratedGLYPH:
     glyph_type: GLYPHType
     tier_level: int
     image_data: np.ndarray
-    embedded_data: Optional[dict[str, Any]]
+    embedded_data: dict[str, Any] | None
     generation_metadata: dict[str, Any]
     fragments_used: list[str]
     consensus_achieved: bool
@@ -117,7 +117,7 @@ class GLYPHGenerationAgent(SwarmAgent):
     Specialized agent for GLYPH fragment generation.
     """
 
-    def __init__(self, agent_id: str, colony: "DistributedGLYPHColony", specialization: str):
+    def __init__(self, agent_id: str, colony: DistributedGLYPHColony, specialization: str):
         super().__init__(agent_id, colony, capabilities=[specialization])
         self.specialization = specialization
         self.fragments_generated = 0
@@ -575,9 +575,9 @@ class DistributedGLYPHColony(BaseColony):
         glyph_type: GLYPHType,
         tier_level: int,
         identity_data: dict[str, Any],
-        orb_state: Optional[OrbVisualization] = None,
-        steganographic_data: Optional[dict[str, Any]] = None,
-        session_id: Optional[str] = None,
+        orb_state: OrbVisualization | None = None,
+        steganographic_data: dict[str, Any] | None = None,
+        session_id: str | None = None,
     ) -> GeneratedGLYPH:
         """
         Generate an identity GLYPH using distributed agents.
@@ -894,7 +894,7 @@ class DistributedGLYPHColony(BaseColony):
 
         return params
 
-    def _generate_quantum_seed(self, lambda_id: str, session_id: Optional[str]) -> bytes:
+    def _generate_quantum_seed(self, lambda_id: str, session_id: str | None) -> bytes:
         """Generate quantum seed for GLYPH generation."""
         # Combine identity and session for uniqueness
         seed_data = f"{lambda_id}:{session_id or 'default'}:{datetime.now(timezone.utc).isoformat()}"

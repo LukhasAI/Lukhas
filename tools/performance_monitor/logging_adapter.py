@@ -8,4 +8,5 @@ _CANDIDATES = (
   "lukhas_website.tools.performance_monitor.logging_adapter",
   "labs.tools.performance_monitor.logging_adapter",
 )
-__all__, _exports = bridge_from_candidates(*_CANDIDATES); globals().update(_exports)
+__all__, _exports = bridge_from_candidates(*_CANDIDATES)
+globals().update(_exports)

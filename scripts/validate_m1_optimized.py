@@ -19,7 +19,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 sys.path.append('/Users/agi_dev/LOCAL-REPOS/Lukhas')
 
@@ -77,7 +77,7 @@ class OptimizedMockStore(PgVectorStore):
         return [self.add(doc) for doc in docs]
 
     def search(self, embedding: List[float], k: int = 10,
-               filters: Dict[str, Any] = None) -> List[tuple]:
+               filters: Optional[Dict[str, Any]] = None) -> List[tuple]:
         # Fast cosine similarity with pre-computed norms
         query_norm = sum(x * x for x in embedding) ** 0.5
         results = []
@@ -100,7 +100,7 @@ class OptimizedMockStore(PgVectorStore):
         results.sort(key=lambda x: x[1], reverse=True)
         return results[:k]
 
-    def delete(self, *, id: str = None, where: Dict[str, Any] = None) -> int:
+    def delete(self, *, id: Optional[str] = None, where: Optional[Dict[str, Any]] = None) -> int:
         deleted = 0
         if id and id in self.storage:
             del self.storage[id]
@@ -127,7 +127,7 @@ def stabilize_environment():
     gc.disable()
 
     # Set process priority if possible
-    try:
+    try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_validate_m1_optimized_py_L130"}
         os.nice(-5)  # Higher priority
     except (OSError, PermissionError):
         pass

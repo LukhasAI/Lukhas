@@ -3,7 +3,6 @@
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
-
 from memory.indexer import Indexer
 from memory.memory_orchestrator import MemoryOrchestrator
 

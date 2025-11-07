@@ -12,7 +12,7 @@ if not os.path.exists(IN):
     print(f"Missing input: {IN}", file=sys.stderr)
     sys.exit(1)
 
-with open(IN, "r", encoding="utf-8") as f:
+with open(IN, encoding="utf-8") as f:
     content = f.read()
 
 # Parse mypy text output: path:line:col: [code] message
@@ -27,7 +27,7 @@ def is_core(p: str) -> bool:
 
 
 # Parse each line like: lukhas/api.py:25:10: error: Name 'foo' is not defined  [name-defined]
-for line_num, line in enumerate(content.splitlines(), 1):
+for _line_num, line in enumerate(content.splitlines(), 1):
     line = line.strip()
     if not line or line.startswith("Found ") or line.startswith("Success"):
         continue
@@ -52,7 +52,7 @@ for line_num, line in enumerate(content.splitlines(), 1):
 counts = Counter(e["code"] for e in errors)
 
 with open(OUT, "w", encoding="utf-8") as f:
-    f.write("# Mypy Strict — Summary\n\n")
+    f.write("# Mypy Strict - Summary\n\n")
     f.write(f"- Total errors: {len(errors)}\n")
     f.write(f"- Core (lukhas/MATRIZ) errors: {core_violations}\n\n")
     if counts:

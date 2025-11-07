@@ -33,7 +33,7 @@ def run_git_mv(source: str, target: str) -> bool:
 def load_plan(plan_file: str) -> List[Dict]:
     """Load promotion plan from JSONL file"""
     plan = []
-    with open(plan_file, 'r') as f:
+    with open(plan_file) as f:
         for line in f:
             if line.strip():
                 plan.append(json.loads(line))

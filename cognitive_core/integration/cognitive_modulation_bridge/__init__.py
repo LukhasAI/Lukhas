@@ -24,11 +24,13 @@ def _try(n: str):
 _CANDIDATES = (
     "lukhas_website.cognitive_core.integration.cognitive_modulation_bridge",
     "candidate.cognitive_core.integration.cognitive_modulation_bridge",
-    "cognitive_core.integration.cognitive_modulation_bridge",
+    "cognitive_core.integration.agi_modulation_bridge",
 )
 
 _SRC = None
 for _cand in _CANDIDATES:
+    if _cand == __name__:
+        continue
     _m = _try(_cand)
     if _m:
         _SRC = _m

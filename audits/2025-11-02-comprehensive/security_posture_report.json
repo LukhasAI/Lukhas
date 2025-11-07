@@ -1,0 +1,918 @@
+{
+  "security_posture_report": {
+    "timestamp": "2025-11-02T01:54:47.523042",
+    "metrics": {
+      "vulnerability_exposure": 100.0,
+      "attestation_coverage": 41.830065359477125,
+      "supply_chain_integrity": 58.8235294117647,
+      "telemetry_compliance": 80.23529411764706,
+      "overall_posture_score": 72.19869281045752
+    },
+    "alerts": [
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for root",
+        "affected_modules": [
+          "root"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522884"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for branding",
+        "affected_modules": [
+          "branding"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522893"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for ledger",
+        "affected_modules": [
+          "ledger"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522895"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for tools",
+        "affected_modules": [
+          "tools"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522896"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for bio",
+        "affected_modules": [
+          "bio"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522897"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for bio.core",
+        "affected_modules": [
+          "bio.core"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522898"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for trace",
+        "affected_modules": [
+          "trace"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522899"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for core",
+        "affected_modules": [
+          "core"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522900"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for core.colonies",
+        "affected_modules": [
+          "core.colonies"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522901"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for core.bridge",
+        "affected_modules": [
+          "core.bridge"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522902"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for core.filesystem",
+        "affected_modules": [
+          "core.filesystem"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522903"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for core.matriz",
+        "affected_modules": [
+          "core.matriz"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522904"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for core.common",
+        "affected_modules": [
+          "core.common"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522905"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for core.reliability",
+        "affected_modules": [
+          "core.reliability"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522906"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for core.symbolism",
+        "affected_modules": [
+          "core.symbolism"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522906"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for core.registry",
+        "affected_modules": [
+          "core.registry"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522907"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for core.symbolic",
+        "affected_modules": [
+          "core.symbolic"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522908"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for core.symbolic.constraints",
+        "affected_modules": [
+          "core.symbolic.constraints"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522909"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for core.policy",
+        "affected_modules": [
+          "core.policy"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522910"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for trinity",
+        "affected_modules": [
+          "trinity"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522911"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for memory",
+        "affected_modules": [
+          "memory"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522912"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for memory.backends",
+        "affected_modules": [
+          "memory.backends"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522912"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for memory.emotional",
+        "affected_modules": [
+          "memory.emotional"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522913"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for identity",
+        "affected_modules": [
+          "identity"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522914"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for identity.passkey",
+        "affected_modules": [
+          "identity.passkey"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522915"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for identity.passkey.providers",
+        "affected_modules": [
+          "identity.passkey.providers"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522916"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for identity.auth",
+        "affected_modules": [
+          "identity.auth"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522917"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for identity.oidc",
+        "affected_modules": [
+          "identity.oidc"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522917"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for identity.facades",
+        "affected_modules": [
+          "identity.facades"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522918"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for identity.wallet",
+        "affected_modules": [
+          "identity.wallet"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522919"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for identity.services",
+        "affected_modules": [
+          "identity.services"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522920"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for identity.qrg",
+        "affected_modules": [
+          "identity.qrg"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522921"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for security",
+        "affected_modules": [
+          "security"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522922"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for constellation",
+        "affected_modules": [
+          "constellation"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522923"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for constellation.triad",
+        "affected_modules": [
+          "constellation.triad"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522923"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for bridge",
+        "affected_modules": [
+          "bridge"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522924"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for bridge.llm_wrappers",
+        "affected_modules": [
+          "bridge.llm_wrappers"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522925"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for consciousness",
+        "affected_modules": [
+          "consciousness"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522926"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for agents",
+        "affected_modules": [
+          "agents"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522927"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for accepted",
+        "affected_modules": [
+          "accepted"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522928"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for accepted.bio",
+        "affected_modules": [
+          "accepted.bio"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522929"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for matriz",
+        "affected_modules": [
+          "matriz"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522929"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for matriz.runtime",
+        "affected_modules": [
+          "matriz.runtime"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522930"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for observability",
+        "affected_modules": [
+          "observability"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522931"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for qi",
+        "affected_modules": [
+          "qi"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522932"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for vivox",
+        "affected_modules": [
+          "vivox"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522933"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for deployment",
+        "affected_modules": [
+          "deployment"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522934"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for orchestration",
+        "affected_modules": [
+          "orchestration"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522935"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for orchestration.context",
+        "affected_modules": [
+          "orchestration.context"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522936"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for orchestration.providers",
+        "affected_modules": [
+          "orchestration.providers"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522937"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for governance",
+        "affected_modules": [
+          "governance"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522937"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for governance.identity",
+        "affected_modules": [
+          "governance.identity"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522938"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for governance.identity.auth_backend",
+        "affected_modules": [
+          "governance.identity.auth_backend"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522939"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for governance.security",
+        "affected_modules": [
+          "governance.security"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522940"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for governance.ethics",
+        "affected_modules": [
+          "governance.ethics"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522941"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for governance.consent_ledger",
+        "affected_modules": [
+          "governance.consent_ledger"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522942"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for governance.consent_ledger.providers",
+        "affected_modules": [
+          "governance.consent_ledger.providers"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522943"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for governance.guardian",
+        "affected_modules": [
+          "governance.guardian"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522943"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for api",
+        "affected_modules": [
+          "api"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522944"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for rl",
+        "affected_modules": [
+          "rl"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522945"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for rl.experience",
+        "affected_modules": [
+          "rl.experience"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522946"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for rl.coordination",
+        "affected_modules": [
+          "rl.coordination"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522947"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for rl.engine",
+        "affected_modules": [
+          "rl.engine"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522948"
+      },
+      {
+        "severity": "medium",
+        "category": "attestation",
+        "message": "Attestation evidence collection failing for emotion",
+        "affected_modules": [
+          "emotion"
+        ],
+        "remediation": "Check verifier configuration and evidence collection pipeline",
+        "timestamp": "2025-11-02T01:54:47.522949"
+      },
+      {
+        "severity": "low",
+        "category": "supply_chain",
+        "message": "Missing SBOM for matrix_tracks_status.cdx",
+        "affected_modules": [
+          "matrix_tracks_status.cdx"
+        ],
+        "remediation": "Generate and reference SBOM in matrix contract",
+        "timestamp": "2025-11-02T01:54:47.522980"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in modulation: 0.0%",
+        "affected_modules": [
+          "modulation"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523008"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in cognitive_core: 0.0%",
+        "affected_modules": [
+          "cognitive_core"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523010"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in quantum_bio_consciousness: 0.0%",
+        "affected_modules": [
+          "quantum_bio_consciousness"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523011"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in colonies: 0.0%",
+        "affected_modules": [
+          "colonies"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523012"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in flags: 0.0%",
+        "affected_modules": [
+          "flags"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523013"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in nodes: 0.0%",
+        "affected_modules": [
+          "nodes"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523015"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in nias: 0.0%",
+        "affected_modules": [
+          "nias"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523016"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in colony: 0.0%",
+        "affected_modules": [
+          "colony"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523017"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in utils: 0.0%",
+        "affected_modules": [
+          "utils"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523018"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in compliance: 0.0%",
+        "affected_modules": [
+          "compliance"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523019"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in feedback: 0.0%",
+        "affected_modules": [
+          "feedback"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523020"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in adapters: 0.0%",
+        "affected_modules": [
+          "adapters"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523021"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in audit: 0.0%",
+        "affected_modules": [
+          "audit"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523023"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in voice: 0.0%",
+        "affected_modules": [
+          "voice"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523024"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in shims: 0.0%",
+        "affected_modules": [
+          "shims"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523025"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in dna: 0.0%",
+        "affected_modules": [
+          "dna"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523026"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in migration: 0.0%",
+        "affected_modules": [
+          "migration"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523028"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in dream: 0.0%",
+        "affected_modules": [
+          "dream"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523029"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in orchestrator: 0.0%",
+        "affected_modules": [
+          "orchestrator"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523030"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in openai: 0.0%",
+        "affected_modules": [
+          "openai"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523031"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in interfaces: 0.0%",
+        "affected_modules": [
+          "interfaces"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523032"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in aka_qualia: 0.0%",
+        "affected_modules": [
+          "aka_qualia"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523033"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in matrix_tracks.status: 0.0%",
+        "affected_modules": [
+          "matrix_tracks.status"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523036"
+      },
+      {
+        "severity": "low",
+        "category": "telemetry",
+        "message": "Low telemetry coverage in matrix_tracks_status.cdx: 0.0%",
+        "affected_modules": [
+          "matrix_tracks_status.cdx"
+        ],
+        "remediation": "Increase OpenTelemetry instrumentation coverage",
+        "timestamp": "2025-11-02T01:54:47.523037"
+      }
+    ],
+    "summary": {
+      "total_alerts": 89,
+      "critical_alerts": 0,
+      "high_alerts": 0,
+      "medium_alerts": 64,
+      "low_alerts": 25,
+      "posture_grade": "C"
+    },
+    "recommendations": [
+      "Increase attestation coverage across modules",
+      "Review and fix attestation evidence collection",
+      "Generate SBOMs for all modules",
+      "Implement provenance tracking for builds"
+    ]
+  }
+}

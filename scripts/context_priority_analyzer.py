@@ -100,9 +100,9 @@ class ContextPriorityAnalyzer:
     def analyze_update_impact(self, file_path: Path) -> Dict:
         """Analyze the impact of updating a specific file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
-        except:
+        except Exception:
             content = ""
 
         impact = {

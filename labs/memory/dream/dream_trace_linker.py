@@ -33,6 +33,8 @@ TECHNICAL ARCHITECTURE:
 
 ΛTAG: ΛLUKHAS, ΛDREAM, ΛMEMORY, ΛSYMBOLIC, ΛENTANGLEMENT
 """
+from __future__ import annotations
+
 
 import json
 import logging

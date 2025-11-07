@@ -22,4 +22,4 @@ warnings.warn(
 flag_name = "VIVOX_LITE"
 if os.getenv(flag_name, "false").lower() == "true":
     with contextlib.suppress(ImportError):
-        from candidate.vivox import *
+        from labs.vivox import *

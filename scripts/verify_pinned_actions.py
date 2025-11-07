@@ -72,7 +72,7 @@ def parse_workflow_actions(workflow_file: Path) -> List[Tuple[str, str, int]]:
     actions = []
 
     try:
-        with open(workflow_file, 'r') as f:
+        with open(workflow_file) as f:
             content = f.read()
 
         for line_num, line in enumerate(content.split('\n'), 1):
@@ -134,7 +134,7 @@ def verify_workflow_security(workflow_file: Path, fix_issues: bool = False) -> D
     }
 
 
-    with open(workflow_file, 'r') as f:
+    with open(workflow_file) as f:
         original_content = f.read()
 
     modified_content = original_content

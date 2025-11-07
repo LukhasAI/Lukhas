@@ -242,9 +242,9 @@ class BrandPersonalityAdapter:
         personality_expression = personality_expression.replace("artificial intelligence", "artificial consciousness")
 
         # Add Constellation Framework awareness for appropriate profiles
-        if profile.get("triad_alignment", {}).get("identity_authenticity", 0) > 0.8:
-            if "constellation" not in personality_expression.lower():
-                personality_expression += " [Constellation Framework: ⚛️🧠🛡️]"
+        if (profile.get("triad_alignment", {}).get("identity_authenticity", 0) > 0.8 and
+            "constellation" not in personality_expression.lower()):
+            personality_expression += " [Constellation Framework: ⚛️🧠🛡️]"
 
         # Ensure proper LUKHAS terminology
         deprecated_replacements = {

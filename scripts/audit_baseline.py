@@ -28,15 +28,16 @@ import psutil
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
+    from consciousness.types import DEFAULT_CREATIVITY_CONFIG
+    from governance.guardian_system import GuardianSystem
+
     from consciousness import (
-        AwarenessEngine,  # noqa: F401  # TODO: consciousness.Awareness...
+        AwarenessEngine,  # TODO: consciousness.Awareness...
         ConsciousnessState,
         ConsciousnessStream,
         CreativeTask,
         CreativityEngine,
     )
-    from consciousness.types import DEFAULT_CREATIVITY_CONFIG
-    from governance.guardian_system import GuardianSystem
 except ImportError as e:
     print(f"Warning: Could not import LUKHAS modules: {e}")
     print("Running in simulation mode for audit validation")
@@ -139,7 +140,7 @@ class AuditFramework:
         # Initialize Guardian System
         try:
             self.guardian = GuardianSystem()
-        except:
+        except Exception:
             print("Guardian system not available, using mock")
 
         # Initialize Consciousness Stream
@@ -188,7 +189,7 @@ class AuditFramework:
                 "threads": psutil.cpu_count(logical=True),
                 "freq_mhz": psutil.cpu_freq().max if psutil.cpu_freq() else 0
             }
-        except:
+        except Exception:
             cpu_info = {"error": "Could not retrieve CPU info"}
 
         # Get memory information
@@ -199,7 +200,7 @@ class AuditFramework:
                 "available_gb": memory.available / (1024**3),
                 "percent_used": memory.percent
             }
-        except:
+        except Exception:
             memory_info = {"error": "Could not retrieve memory info"}
 
         return AuditEnvironment(
@@ -244,7 +245,8 @@ class AuditFramework:
             dirty = len(status) > 0
 
             return commit, branch, dirty
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             return None, None, False
 
     async def benchmark_guardian_e2e(self) -> BenchmarkResult:

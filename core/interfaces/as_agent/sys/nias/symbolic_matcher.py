@@ -4,6 +4,7 @@ Original: symbolic_matcher.py
 Advanced: symbolic_matcher.py
 Integration Date: 2025-05-31T07:55:30.555398
 """
+from __future__ import annotations
 
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮
@@ -101,9 +102,8 @@ def match_message_to_context(message, user_context):
         decision = "show"
         composite_score = max(composite_score, 0.8)
 
-    if user_context.get("do_not_disturb", False) and decision == "show":
-        if composite_score < 0.9:  # Only very high relevance breaks DND
-            decision = "defer"
+    if (user_context.get('do_not_disturb', False) and decision == 'show') and composite_score < 0.9:
+        decision = "defer"
 
     return {
         "decision": decision,

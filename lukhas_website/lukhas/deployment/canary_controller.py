@@ -7,6 +7,7 @@ and rollback triggers integrated with the Constellation Framework.
 """
 
 import asyncio
+import contextlib
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -205,10 +206,8 @@ class CanaryController:
 
         if self._controller_task:
             self._controller_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._controller_task
-            except asyncio.CancelledError:
-                pass
 
         self.logger.info("Canary Controller stopped")
 
@@ -764,7 +763,7 @@ class CanaryController:
         """List all active deployments"""
         return [
             await self.get_deployment_status(deployment_id)
-            for deployment_id in self._active_deployments.keys()
+            for deployment_id in self._active_deployments
         ]
 
     def register_rollback_callback(

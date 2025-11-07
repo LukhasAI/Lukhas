@@ -15,7 +15,7 @@ import os
 import time
 from dataclasses import asdict, dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Set
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -96,13 +96,13 @@ class StoredToken:
     status: TokenStatus = TokenStatus.ACTIVE
 
     # Revocation metadata
-    revoked_at: Optional[int] = None
-    revoked_by: Optional[str] = None
-    revoked_reason: Optional[str] = None
+    revoked_at: int | None = None
+    revoked_by: str | None = None
+    revoked_reason: str | None = None
 
     # Audit metadata
     created_at: int = None
-    last_validated: Optional[int] = None
+    last_validated: int | None = None
     validation_count: int = 0
 
     def __post_init__(self):
@@ -139,11 +139,11 @@ class KeyRotationRecord:
     """
     kid: str
     created_at: int
-    activated_at: Optional[int] = None
-    deactivated_at: Optional[int] = None
+    activated_at: int | None = None
+    deactivated_at: int | None = None
     rotation_reason: str = "scheduled"
-    predecessor_kid: Optional[str] = None
-    successor_kid: Optional[str] = None
+    predecessor_kid: str | None = None
+    successor_kid: str | None = None
 
     @property
     def is_active(self) -> bool:
@@ -167,7 +167,7 @@ class TokenStorage:
     and performance optimization for enterprise-scale deployment.
     """
 
-    def __init__(self, storage_path: Optional[str] = None):
+    def __init__(self, storage_path: str | None = None):
         """
         Initialize token storage.
 
@@ -275,7 +275,7 @@ class TokenStorage:
                 span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
                 raise
 
-    def get_token(self, jti: str) -> Optional[StoredToken]:
+    def get_token(self, jti: str) -> StoredToken | None:
         """
         Retrieve token by JWT ID.
 
@@ -553,7 +553,7 @@ class TokenStorage:
             return
 
         try:
-            with open(self.storage_path, 'r') as f:
+            with open(self.storage_path) as f:
                 data = json.load(f)
 
             # Load tokens
@@ -595,8 +595,8 @@ class TokenStorage:
 
 # Export public interface
 __all__ = [
-    "TokenStorage",
-    "StoredToken",
     "KeyRotationRecord",
-    "TokenStatus"
+    "StoredToken",
+    "TokenStatus",
+    "TokenStorage"
 ]

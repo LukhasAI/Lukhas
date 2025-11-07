@@ -242,14 +242,14 @@ class SyntaxValidator(Validator):
 
         # Check required decision fields
         required_decision_fields = {"status", "policy", "timestamp"}
-        for field in required_decision_fields:
-            if field not in decision:
+        for fld in required_decision_fields:
+            if fld not in decision:
                 issues.append(ValidationIssue(
                     tier=ValidationTier.SYNTAX,
                     severity=ValidationSeverity.ERROR,
                     validation_type=ValidationType.REQUIRED_FIELD,
-                    field_path=f"decision.{field}",
-                    message=f"Decision field '{field}' is required"
+                    field_path=f"decision.{fld}",
+                    message=f"Decision field '{fld}' is required"
                 ))
 
         # Validate status enum
@@ -283,14 +283,14 @@ class SyntaxValidator(Validator):
 
         # Check required subject fields
         required_subject_fields = {"correlation_id", "actor", "operation"}
-        for field in required_subject_fields:
-            if field not in subject:
+        for fld in required_subject_fields:
+            if fld not in subject:
                 issues.append(ValidationIssue(
                     tier=ValidationTier.SYNTAX,
                     severity=ValidationSeverity.ERROR,
                     validation_type=ValidationType.REQUIRED_FIELD,
-                    field_path=f"subject.{field}",
-                    message=f"Subject field '{field}' is required"
+                    field_path=f"subject.{fld}",
+                    message=f"Subject field '{fld}' is required"
                 ))
 
         # Validate correlation_id pattern
@@ -474,7 +474,7 @@ class BusinessLogicValidator(Validator):
                     severity=ValidationSeverity.ERROR,
                     validation_type=ValidationType.BUSINESS_RULE,
                     field_path="$",
-                    message=f"Business rule '{rule_name}' failed: {str(e)}"
+                    message=f"Business rule '{rule_name}' failed: {e!s}"
                 ))
 
         return issues
@@ -752,7 +752,7 @@ class ValidationFramework:
                                 severity=ValidationSeverity.ERROR,
                                 validation_type=ValidationType.CUSTOM,
                                 field_path="$",
-                                message=f"Validator error: {str(e)}"
+                                message=f"Validator error: {e!s}"
                             ))
 
                 all_issues.extend(tier_issues)
@@ -810,7 +810,7 @@ class ValidationFramework:
                     severity=ValidationSeverity.CRITICAL,
                     validation_type=ValidationType.CUSTOM,
                     field_path="$",
-                    message=f"Validation framework error: {str(e)}"
+                    message=f"Validation framework error: {e!s}"
                 )],
                 validation_time_ms=validation_time,
                 context=context,
@@ -860,8 +860,8 @@ class ValidationMetrics:
         self.validation_count = 0
         self.total_validation_time = 0.0
         self.failed_validations = 0
-        self.issues_by_tier = {tier: 0 for tier in ValidationTier}
-        self.issues_by_severity = {severity: 0 for severity in ValidationSeverity}
+        self.issues_by_tier = dict.fromkeys(ValidationTier, 0)
+        self.issues_by_severity = dict.fromkeys(ValidationSeverity, 0)
         self.error_count = 0
         self.start_time = time.time()
 

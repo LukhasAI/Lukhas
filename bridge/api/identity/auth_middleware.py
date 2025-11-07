@@ -4,7 +4,7 @@ from __future__ import annotations
 from importlib import import_module
 from typing import Any
 
-__all__ = ["AuthUser", "get_current_user", "AuthContext"]
+__all__ = ["AuthContext", "AuthUser", "get_current_user"]
 
 _MODULES = (
     "lukhas_website.api.identity.auth_middleware",

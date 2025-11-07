@@ -23,6 +23,7 @@ Features:
 Rehabilitated: 2025-09-10 from quarantine status
 Original location: ./reasoning/reasoning_engine.py
 """
+import logging
 
 import asyncio
 import uuid

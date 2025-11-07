@@ -15,7 +15,7 @@ import hashlib
 import json
 import pathlib
 import platform
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 
 import jwt
@@ -186,8 +186,8 @@ class RATSCollector:
         """Collect comprehensive RATS evidence."""
         evidence = {
             # Standard EAT claims (RFC 8392)
-            "iat": int(datetime.utcnow().timestamp()),
-            "exp": int(datetime.utcnow().timestamp()) + 3600,  # 1 hour validity
+            "iat": int(datetime.now(timezone.utc).timestamp()),
+            "exp": int(datetime.now(timezone.utc).timestamp()) + 3600,  # 1 hour validity
             "iss": f"lukhas.{self.module}",
             "sub": f"module:{self.module}",
 
@@ -209,7 +209,7 @@ class RATSCollector:
 
             # Runtime context
             "runtime": {
-                "timestamp": datetime.utcnow().isoformat() + "Z",
+                "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
                 "hostname": platform.node(),
                 "process_id": "mock-pid-12345"
             }
@@ -292,7 +292,7 @@ def main():
     print("\n🔍 Next steps:")
     print("1. Verify evidence: python tools/verify_attestation.py --jwt evidence.jwt")
     print("2. Add to gate: tools/matrix_gate.py --attestation evidence.jwt")
-    print("3. Generate CAR: tools/generate_car.py --module {} --attestation evidence.jwt".format(args.module))
+    print(f"3. Generate CAR: tools/generate_car.py --module {args.module} --attestation evidence.jwt")
 
     return 0
 

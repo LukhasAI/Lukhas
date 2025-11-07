@@ -121,8 +121,8 @@ def main():
     # to JSON
     out = {
         "generated_from": "build_import_map.py",
-        "symbol_to_modules": {k: sorted(list(v)) for k,v in symbol_to_modules.items()},
-        "module_to_symbols": {k: sorted(list(v)) for k,v in module_to_symbols.items()},
+        "symbol_to_modules": {k: sorted(v) for k,v in symbol_to_modules.items()},
+        "module_to_symbols": {k: sorted(v) for k,v in module_to_symbols.items()},
     }
     outp = Path("docs/audits/import_map.json")
     outp.parent.mkdir(parents=True, exist_ok=True)

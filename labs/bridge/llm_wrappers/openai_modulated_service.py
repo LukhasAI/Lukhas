@@ -17,11 +17,13 @@ TaskIDs:
 #TAG:openai
 #TAG:trinity
 """
+from __future__ import annotations
+
 
 import hashlib
 import logging
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, AsyncIterator, Dict, List, Optional, Union
 
@@ -72,12 +74,12 @@ class VectorStoreConfig:
     index_name: str = "lukhas-embeddings"
     dimension: int = 1536  # OpenAI embedding dimension
     metric: str = "cosine"  # cosine|euclidean|dot_product
-    
+
     # Performance settings
     batch_size: int = 100
     connection_timeout: int = 30
     max_retries: int = 3
-    
+
     # Metadata
     metadata: Dict[str, Any] = field(default_factory=dict)
 
@@ -87,11 +89,11 @@ class EmbeddingRequest:
     """Embedding generation request"""
     text: Union[str, List[str]]
     model: ModelTier = ModelTier.EMBEDDING_3_SMALL
-    
+
     # ΛID integration
     lambda_id: Optional[str] = None
     identity_tier: Optional[str] = None
-    
+
     # Request metadata
     request_id: Optional[str] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
@@ -103,7 +105,7 @@ class EmbeddingResult:
     embeddings: List[List[float]]
     model: str
     usage: Dict[str, int]
-    
+
     # Metadata
     request_id: Optional[str] = None
     lambda_id: Optional[str] = None
@@ -117,7 +119,7 @@ class VectorSearchRequest:
     top_k: int = 10
     namespace: Optional[str] = None
     filter_metadata: Optional[Dict[str, Any]] = None
-    
+
     # ΛID integration
     lambda_id: Optional[str] = None
     include_metadata: bool = True
@@ -130,7 +132,7 @@ class VectorSearchResult:
     matches: List[Dict[str, Any]]
     query_embedding: Optional[List[float]] = None
     search_time_ms: Optional[float] = None
-    
+
     # Metadata
     request_id: Optional[str] = None
     lambda_id: Optional[str] = None
@@ -145,15 +147,15 @@ class CompletionRequest:
     temperature: float = 0.7
     max_tokens: Optional[int] = None
     stream: bool = False
-    
+
     # Consciousness integration
     consciousness_context: Optional[Dict[str, Any]] = None
     memory_context: Optional[List[str]] = None  # From vector store
-    
+
     # ΛID integration
     lambda_id: Optional[str] = None
     identity_tier: Optional[str] = None
-    
+
     # Request metadata
     request_id: Optional[str] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
@@ -164,7 +166,7 @@ class RateLimitConfig:
     """Rate limiting configuration"""
     requests_per_minute: int = 60
     tokens_per_minute: int = 90000
-    
+
     # ΛID-based tier limits
     tier_multipliers: Dict[str, float] = field(default_factory=lambda: {
         "alpha": 3.0,
@@ -180,23 +182,23 @@ class VectorStoreAdapter:
     
     TaskID: TODO-HIGH-BRIDGE-LLM-m7n8o9p0
     """
-    
+
     def __init__(self, config: VectorStoreConfig):
         """Initialize vector store adapter"""
         self.config = config
         self._client = None
         self._initialized = False
-        
+
         logger.info(
             f"VectorStoreAdapter initialized: provider={config.provider.value}, "
             f"index={config.index_name}, dimension={config.dimension}"
         )
-    
+
     async def initialize(self):
         """Initialize vector store connection"""
         if self._initialized:
             return
-        
+
         try:
             # Initialize provider-specific client
             if self.config.provider == VectorStoreProvider.PINECONE:
@@ -211,14 +213,14 @@ class VectorStoreAdapter:
                 await self._initialize_faiss()
             else:
                 raise ValueError(f"Unsupported provider: {self.config.provider}")
-            
+
             self._initialized = True
             logger.info(f"Vector store initialized: {self.config.provider.value}")
-            
+
         except Exception as e:
             logger.error(f"Vector store initialization failed: {e}", exc_info=True)
             raise
-    
+
     async def _initialize_pinecone(self):
         """Initialize Pinecone client"""
         try:
@@ -231,7 +233,7 @@ class VectorStoreAdapter:
         except ImportError:
             logger.warning("Pinecone not installed: pip install pinecone-client")
             raise
-    
+
     async def _initialize_weaviate(self):
         """Initialize Weaviate client"""
         try:
@@ -243,7 +245,7 @@ class VectorStoreAdapter:
         except ImportError:
             logger.warning("Weaviate not installed: pip install weaviate-client")
             raise
-    
+
     async def _initialize_chroma(self):
         """Initialize ChromaDB client"""
         try:
@@ -252,7 +254,7 @@ class VectorStoreAdapter:
         except ImportError:
             logger.warning("ChromaDB not installed: pip install chromadb")
             raise
-    
+
     async def _initialize_qdrant(self):
         """Initialize Qdrant client"""
         try:
@@ -264,7 +266,7 @@ class VectorStoreAdapter:
         except ImportError:
             logger.warning("Qdrant not installed: pip install qdrant-client")
             raise
-    
+
     async def _initialize_faiss(self):
         """Initialize FAISS index (local)"""
         try:
@@ -277,7 +279,7 @@ class VectorStoreAdapter:
         except ImportError:
             logger.warning("FAISS not installed: pip install faiss-cpu")
             raise
-    
+
     async def upsert_embeddings(
         self,
         embeddings: List[List[float]],
@@ -299,16 +301,16 @@ class VectorStoreAdapter:
         """
         if not self._initialized:
             await self.initialize()
-        
+
         namespace = namespace or self.config.namespace
         metadata = metadata or [{} for _ in ids]
-        
+
         try:
             # Provider-specific upsert
             if self.config.provider == VectorStoreProvider.PINECONE:
                 vectors = list(zip(ids, embeddings, metadata))
                 self._client.upsert(vectors=vectors, namespace=namespace)
-            
+
             elif self.config.provider == VectorStoreProvider.WEAVIATE:
                 # Weaviate batch upload
                 with self._client.batch as batch:
@@ -319,7 +321,7 @@ class VectorStoreAdapter:
                             uuid=id_,
                             vector=embedding,
                         )
-            
+
             elif self.config.provider == VectorStoreProvider.CHROMA:
                 collection = self._client.get_or_create_collection(self.config.index_name)
                 collection.upsert(
@@ -327,7 +329,7 @@ class VectorStoreAdapter:
                     embeddings=embeddings,
                     metadatas=metadata,
                 )
-            
+
             elif self.config.provider == VectorStoreProvider.QDRANT:
                 from qdrant_client.models import PointStruct
                 points = [
@@ -338,21 +340,21 @@ class VectorStoreAdapter:
                     collection_name=self.config.index_name,
                     points=points,
                 )
-            
+
             elif self.config.provider == VectorStoreProvider.FAISS:
                 import numpy as np
                 vectors_array = np.array(embeddings).astype('float32')
                 self._client.add(vectors_array)
                 self._vectors.extend(embeddings)
                 self._metadata.extend(metadata)
-            
+
             logger.info(f"Upserted {len(ids)} embeddings to {self.config.provider.value}")
             return True
-            
+
         except Exception as e:
             logger.error(f"Embedding upsert failed: {e}", exc_info=True)
             return False
-    
+
     async def search(
         self,
         query_embedding: List[float],
@@ -374,9 +376,9 @@ class VectorStoreAdapter:
         """
         if not self._initialized:
             await self.initialize()
-        
+
         namespace = namespace or self.config.namespace
-        
+
         try:
             # Provider-specific search
             if self.config.provider == VectorStoreProvider.PINECONE:
@@ -389,7 +391,7 @@ class VectorStoreAdapter:
                 )
                 # ΛTAG: vector_store_normalization
                 return self._normalize_matches(results.matches)
-            
+
             elif self.config.provider == VectorStoreProvider.WEAVIATE:
                 query = (
                     self._client.query
@@ -402,7 +404,7 @@ class VectorStoreAdapter:
                 results = query.do()
                 raw_matches = results.get("data", {}).get("Get", {}).get(self.config.index_name, [])
                 return self._normalize_matches(raw_matches)
-            
+
             elif self.config.provider == VectorStoreProvider.CHROMA:
                 collection = self._client.get_collection(self.config.index_name)
                 results = collection.query(
@@ -418,7 +420,7 @@ class VectorStoreAdapter:
                         "metadata": results["metadatas"][0][i] if results["metadatas"] else {},
                     })
                 return self._normalize_matches(matches)
-            
+
             elif self.config.provider == VectorStoreProvider.QDRANT:
                 results = self._client.search(
                     collection_name=self.config.index_name,
@@ -435,7 +437,7 @@ class VectorStoreAdapter:
                     for hit in results
                 ]
                 return self._normalize_matches(raw_matches)
-            
+
             elif self.config.provider == VectorStoreProvider.FAISS:
                 import numpy as np
                 query_array = np.array([query_embedding]).astype('float32')
@@ -500,7 +502,7 @@ class OpenAIModulatedService:
     
     TaskID: TODO-HIGH-BRIDGE-LLM-m7n8o9p0
     """
-    
+
     def __init__(
         self,
         api_key: str,
@@ -521,28 +523,28 @@ class OpenAIModulatedService:
         """
         if not OPENAI_AVAILABLE:
             raise ImportError("OpenAI package required: pip install openai")
-        
+
         self.api_key = api_key
         self.organization = organization
         self.consciousness_integration = consciousness_integration
-        
+
         # Initialize OpenAI clients
         self.client = OpenAI(api_key=api_key, organization=organization)
         self.async_client = AsyncOpenAI(api_key=api_key, organization=organization)
-        
+
         # Vector store
         self.vector_store = VectorStoreAdapter(vector_store_config) if vector_store_config else None
-        
+
         # Rate limiting
         self.rate_limit_config = rate_limit_config or RateLimitConfig()
         self._rate_limit_state: Dict[str, Dict[str, Any]] = {}
-        
+
         logger.info(
             f"OpenAIModulatedService initialized: "
             f"vector_store={bool(self.vector_store)}, "
             f"consciousness={consciousness_integration}"
         )
-    
+
     async def generate_embeddings(
         self,
         request: EmbeddingRequest,
@@ -557,15 +559,15 @@ class OpenAIModulatedService:
             Embedding result with vectors and metadata
         """
         texts = [request.text] if isinstance(request.text, str) else request.text
-        
+
         try:
             response = await self.async_client.embeddings.create(
                 model=request.model.value,
                 input=texts,
             )
-            
+
             embeddings = [item.embedding for item in response.data]
-            
+
             result = EmbeddingResult(
                 embeddings=embeddings,
                 model=response.model,
@@ -573,18 +575,18 @@ class OpenAIModulatedService:
                 request_id=request.request_id,
                 lambda_id=request.lambda_id,
             )
-            
+
             logger.info(
                 f"Generated {len(embeddings)} embeddings: "
                 f"model={request.model.value}, tokens={result.usage.get('total_tokens')}"
             )
-            
+
             return result
-            
+
         except Exception as e:
             logger.error(f"Embedding generation failed: {e}", exc_info=True)
             raise
-    
+
     async def store_embeddings(
         self,
         texts: List[str],
@@ -607,24 +609,24 @@ class OpenAIModulatedService:
         if not self.vector_store:
             logger.warning("Vector store not configured")
             return False
-        
+
         # Generate IDs from texts
         ids = [hashlib.sha256(text.encode()).hexdigest()[:16] for text in texts]
-        
+
         # Add text to metadata
         if metadata is None:
             metadata = [{"text": text} for text in texts]
         else:
             for i, meta in enumerate(metadata):
                 meta["text"] = texts[i]
-        
+
         return await self.vector_store.upsert_embeddings(
             embeddings=embeddings,
             ids=ids,
             metadata=metadata,
             namespace=namespace,
         )
-    
+
     async def search_similar(
         self,
         request: VectorSearchRequest,
@@ -641,9 +643,9 @@ class OpenAIModulatedService:
         if not self.vector_store:
             logger.warning("Vector store not configured")
             return VectorSearchResult(matches=[])
-        
-        start_time = datetime.utcnow()
-        
+
+        start_time = datetime.now(timezone.utc)
+
         # Generate query embedding if text provided
         if isinstance(request.query, str):
             embed_request = EmbeddingRequest(
@@ -654,7 +656,7 @@ class OpenAIModulatedService:
             query_embedding = embed_result.embeddings[0]
         else:
             query_embedding = request.query
-        
+
         # Perform search
         matches = await self.vector_store.search(
             query_embedding=query_embedding,
@@ -662,16 +664,16 @@ class OpenAIModulatedService:
             filter_metadata=request.filter_metadata,
             namespace=request.namespace,
         )
-        
-        search_time_ms = (datetime.utcnow() - start_time).total_seconds() * 1000
-        
+
+        search_time_ms = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
+
         return VectorSearchResult(
             matches=matches,
             query_embedding=query_embedding if request.include_vectors else None,
             search_time_ms=search_time_ms,
             lambda_id=request.lambda_id,
         )
-    
+
     async def chat_completion(
         self,
         request: CompletionRequest,
@@ -694,7 +696,7 @@ class OpenAIModulatedService:
                 lambda_id=request.lambda_id,
             )
             search_result = await self.search_similar(search_request)
-            
+
             # Add to system message
             if search_result.matches:
                 memory_text = "\n".join([
@@ -703,12 +705,12 @@ class OpenAIModulatedService:
                 ])
                 system_msg = f"Relevant context:\n{memory_text}"
                 request.messages.insert(0, {"role": "system", "content": system_msg})
-        
+
         # Add consciousness context
         if request.consciousness_context and self.consciousness_integration:
             context_msg = f"Consciousness state: {request.consciousness_context}"
             request.messages.insert(0, {"role": "system", "content": context_msg})
-        
+
         try:
             if request.stream:
                 return await self.async_client.chat.completions.create(
@@ -726,27 +728,27 @@ class OpenAIModulatedService:
                     max_tokens=request.max_tokens,
                     stream=False,
                 )
-                
+
                 logger.info(
                     f"Chat completion: model={request.model.value}, "
                     f"tokens={response.usage.total_tokens if response.usage else 'unknown'}"
                 )
-                
+
                 return response
-                
+
         except Exception as e:
             logger.error(f"Chat completion failed: {e}", exc_info=True)
             raise
-    
+
     def _check_rate_limit(self, lambda_id: Optional[str], identity_tier: Optional[str]) -> bool:
         """Check if request is within rate limits"""
         # TODO: Implement sliding window rate limiting
         # For now, always allow
         return True
-    
+
     async def close(self):
         """Close clients and connections"""
         # Close OpenAI clients
         await self.async_client.close()
-        
+
         logger.info("OpenAIModulatedService closed")

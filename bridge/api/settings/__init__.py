@@ -6,12 +6,12 @@ from importlib import import_module
 from typing import Any, Callable, Dict, Optional
 
 __all__ = [
+    "ENV",
     "Settings",
     "get_settings",
+    "load_env",
     "settings",
     "settings_router",
-    "ENV",
-    "load_env",
 ]
 
 _CANDIDATES = (
@@ -74,5 +74,5 @@ if "ENV" not in globals():
 
 
 if "load_env" not in globals():
-    def load_env(*_args: Any, **_kwargs: Any) -> Optional[Settings]:
+    def load_env(*_args: Any, **_kwargs: Any) -> Settings | None:
         return settings

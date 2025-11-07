@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 Ethical Decision Maker for LUKHAS AI System
 
@@ -28,14 +22,21 @@ Features:
 #TAG:guardian
 """
 
+from __future__ import annotations
+
+import logging
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from core.common import get_logger
 from governance.ethics.constitutional_ai import ConstitutionalFramework
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = get_logger(__name__)
 
@@ -143,7 +144,7 @@ class ComprehensiveEthicalDecision:
     # Monitoring and validation
     drift_score: float = 0.0
     requires_human_review: bool = False
-    escalation_reason: Optional[str] = None
+    escalation_reason: str | None = None
 
     # Constellation Framework integration
     identity_implications: list[str] = field(default_factory=list)  # ✨ Identity
@@ -171,7 +172,7 @@ class AdvancedEthicalDecisionMaker:
     ethical decisions with full audit trails and stakeholder analysis.
     """
 
-    def __init__(self, constitutional_framework: Optional[ConstitutionalFramework] = None):
+    def __init__(self, constitutional_framework: ConstitutionalFramework | None = None):
         self.constitutional_framework = constitutional_framework or ConstitutionalFramework()
         self.decision_history: list[ComprehensiveEthicalDecision] = []
         self.framework_weights = self._initialize_framework_weights()
@@ -220,7 +221,7 @@ class AdvancedEthicalDecisionMaker:
         self,
         context: dict[str, Any],
         available_options: list[str],
-        stakeholder_types: Optional[list[StakeholderType]] = None,
+        stakeholder_types: list[StakeholderType] | None = None,
         require_consensus: bool = False,
         min_confidence: float = 0.7,
     ) -> ComprehensiveEthicalDecision:
@@ -1200,7 +1201,7 @@ class AdvancedEthicalDecisionMaker:
             self.decision_history = self.decision_history[-self.max_history_size :]
 
     async def get_decision_history(
-        self, limit: int = 50, status_filter: Optional[DecisionStatus] = None
+        self, limit: int = 50, status_filter: DecisionStatus | None = None
     ) -> list[ComprehensiveEthicalDecision]:
         """Get decision history with optional filtering"""
 
@@ -1215,7 +1216,7 @@ class AdvancedEthicalDecisionMaker:
         """Get system performance metrics"""
         return self.metrics.copy()
 
-    async def export_decision_audit_trail(self, decision_id: str) -> Optional[dict[str, Any]]:
+    async def export_decision_audit_trail(self, decision_id: str) -> dict[str, Any] | None:
         """Export comprehensive audit trail for a decision"""
 
         decision = None

@@ -1,11 +1,12 @@
-from __future__ import annotations
-
 """
 Biometric Verification Colony
 
 Distributed colony of specialized agents for parallel biometric analysis,
 consensus-based verification, and self-healing sensor failure recovery.
 """
+
+from __future__ import annotations
+
 import asyncio
 import hashlib
 import logging
@@ -13,7 +14,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 
@@ -81,7 +82,7 @@ class BiometricVerificationTask:
     task_id: str
     lambda_id: str
     biometric_samples: list[BiometricSample]
-    reference_template: Optional[bytes]
+    reference_template: bytes | None
     verification_threshold: float
     tier_level: int
     required_confidence: float
@@ -97,7 +98,7 @@ class BiometricVerificationAgent(SwarmAgent):
     def __init__(
         self,
         agent_id: str,
-        colony: "BiometricVerificationColony",
+        colony: BiometricVerificationColony,
         specialization: BiometricType,
     ):
         super().__init__(agent_id, colony, capabilities=[specialization.value])
@@ -255,7 +256,7 @@ class BiometricVerificationColony(BaseColony):
         )
 
         self.verification_agents: dict[str, BiometricVerificationAgent] = {}
-        self.event_publisher: Optional[IdentityEventPublisher] = None
+        self.event_publisher: IdentityEventPublisher | None = None
 
         # Colony configuration
         self.min_agents_per_type = 3
@@ -311,7 +312,7 @@ class BiometricVerificationColony(BaseColony):
         biometric_samples: list[BiometricSample],
         reference_template: bytes,
         tier_level: int,
-        session_id: Optional[str] = None,
+        session_id: str | None = None,
     ) -> VerificationResult:
         """
         Perform distributed biometric verification with consensus.
@@ -617,7 +618,7 @@ class BiometricVerificationColony(BaseColony):
         base_weight = type_weights.get(biometric_type, 0.8)
 
         # Adjust weight based on tier level
-        if tier_level >= 4:
+        if tier_level >= 4:  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_governance_identity_core_colonies_biometric_verification_colony_py_L621"}
             # Higher tiers emphasize advanced biometrics
             if biometric_type in [
                 BiometricType.BRAINWAVE.value,
@@ -675,7 +676,7 @@ class BiometricVerificationColony(BaseColony):
         agent.capabilities[agent.specialization.value].proficiency *= 0.95
 
         # Schedule performance recovery
-        asyncio.create_task(self._gradual_performance_recovery(agent_id))
+        asyncio.create_task(self._gradual_performance_recovery(agent_id))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_identity_core_colonies_biometric_verification_colony_py_L679"}
 
     async def _gradual_performance_recovery(self, agent_id: str):
         """Gradually recover agent performance over time."""

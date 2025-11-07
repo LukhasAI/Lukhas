@@ -246,7 +246,7 @@ class MigrationEngine:
                 source_version=from_version,
                 target_version=to_version,
                 migration_time_ms=migration_time,
-                errors=[f"Migration failed: {str(e)}"]
+                errors=[f"Migration failed: {e!s}"]
             )
 
     def check_compatibility(
@@ -413,7 +413,7 @@ class MigrationEngine:
 
         # Build graph of available migrations
         graph = {}
-        for (from_ver, to_ver), rules in self.migration_rules.items():
+        for (from_ver, to_ver), _rules in self.migration_rules.items():
             if from_ver not in graph:
                 graph[from_ver] = []
             graph[from_ver].append(to_ver)
@@ -434,7 +434,7 @@ class MigrationEngine:
                 for next_version in graph[current_version]:
                     if next_version not in visited:
                         visited.add(next_version)
-                        queue.append((next_version, path + [next_version]))
+                        queue.append((next_version, [*path, next_version]))
 
         return []  # No path found
 
@@ -528,7 +528,7 @@ class MigrationMetrics:
         self.migration_count = 0
         self.total_migration_time = 0.0
         self.failed_migrations = 0
-        self.migrations_by_type = {migration_type: 0 for migration_type in MigrationType}
+        self.migrations_by_type = dict.fromkeys(MigrationType, 0)
         self.error_count = 0
         self.start_time = time.time()
 

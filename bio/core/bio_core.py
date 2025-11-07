@@ -5,7 +5,7 @@ import logging
 import math
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 logger = logging.getLogger(__name__)
 
@@ -72,8 +72,8 @@ class BioCore:
         self,
         *,
         memory_manager: Any | None = None,
-        config: Optional[dict[str, Any]] = None,
-        clock: Optional[ClockFn] = None,
+        config: dict[str, Any] | None = None,
+        clock: ClockFn | None = None,
     ) -> None:
         self.memory_manager = memory_manager
         self.config = config or {}

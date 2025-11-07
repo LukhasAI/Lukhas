@@ -180,14 +180,12 @@ class CostOptimizer:
             return False
 
         # Hourly constraint
-        if constraints.max_cost_per_hour:
-            if self.current_usage["hour"] + estimated_cost > constraints.max_cost_per_hour:
-                return False
+        if constraints.max_cost_per_hour and self.current_usage['hour'] + estimated_cost > constraints.max_cost_per_hour:
+            return False
 
         # Daily constraint
-        if constraints.max_cost_per_day:
-            if self.current_usage["day"] + estimated_cost > constraints.max_cost_per_day:
-                return False
+        if constraints.max_cost_per_day and self.current_usage['day'] + estimated_cost > constraints.max_cost_per_day:
+            return False
 
         return True
 
@@ -253,7 +251,7 @@ class CostOptimizer:
         elif constraints.strategy == OptimizationStrategy.BALANCE_COST_QUALITY:
             # Sort by balanced score: quality * cost_efficiency * budget_priority
             def balanced_score(candidate):
-                model_id, quality, efficiency = candidate
+                _model_id, quality, efficiency = candidate
                 return quality * efficiency * constraints.budget_priority
 
             optimized_candidates.sort(key=balanced_score, reverse=True)
@@ -272,7 +270,7 @@ class CostOptimizer:
             else:  # Normal usage - balance quality and cost
 
                 def adaptive_score(candidate):
-                    model_id, quality, efficiency = candidate
+                    _model_id, quality, efficiency = candidate
                     cost_weight = min(1.0, daily_usage_ratio * 2)  # Increase cost importance
                     quality_weight = 1.0 - cost_weight
                     return quality * quality_weight + efficiency * cost_weight
@@ -434,7 +432,7 @@ class CostOptimizer:
 
     def get_cost_tier_distribution(self) -> dict[CostTier, float]:
         """Get distribution of usage across cost tiers."""
-        tier_costs = {tier: 0.0 for tier in CostTier}
+        tier_costs = dict.fromkeys(CostTier, 0.0)
 
         for record in self.usage_history[-1000:]:  # Last 1000 requests
             model_id = record["model_id"]

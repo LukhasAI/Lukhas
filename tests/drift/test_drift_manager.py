@@ -308,7 +308,7 @@ class TestIntegrityProbeIntegration:
             'confidence': 0.9,
             'metadata': {}
         }
-        mock_get_manager.return_value = mock_manager  # noqa: F821  # TODO: mock_get_manager
+        mock_get_manager.return_value = mock_manager  # TODO: mock_get_manager
 
         # Create probe with mocked dependencies
         mock_drift_calc = Mock()

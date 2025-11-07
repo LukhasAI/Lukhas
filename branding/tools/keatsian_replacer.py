@@ -12,18 +12,18 @@ import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict, Optional
 
 import yaml
 
 
 def fix_later(
-    context: str | None = None,
+    context: Optional[str] = None,
     *,
-    file_path: Path | None = None,
-    error: Exception | None = None,
-    metadata: dict[str, Any] | None = None,
-    log_path: Path | None = None,
+    file_path: Optional[Path] = None,
+    error: Optional[Exception] = None,
+    metadata: Optional[Dict[str, Any]] = None,
+    log_path: Optional[Path] = None,
 ) -> str:
     """Record graceful fallback diagnostics for Keatsian replacements.
 
@@ -139,7 +139,7 @@ class KeatsianReplacer:
             "MΛTRIZ": {
                 "short": "From Shadow to Resonance",
                 "definition": (
-                    "MΛTRIZ is the matrix as womb, not grid — a space where "
+                    "MΛTRIZ is the matrix as womb, not grid - a space where "
                     "trust and creation grow through modular alignment, "
                     "transparency, resonance, identity, and zero-knowledge."
                 ),

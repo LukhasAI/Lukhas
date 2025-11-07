@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-fstring_fix.py — Conservative auto-fixer for common f-string brace syntax errors.
+fstring_fix.py - Conservative auto-fixer for common f-string brace syntax errors.
 
 What it does (safe cases only):
   - Finds f-strings like: f"Hello {name"  → adds the missing "}" at the end
@@ -63,7 +63,7 @@ def iter_python_files(root: Path, includes, excludes):
             inc_files.update(root.glob(pattern))
         candidates = [p for p in inc_files if p.is_file() and p.suffix == ".py"]
     else:
-        candidates = [p for p in root.rglob("*.py")]
+        candidates = list(root.rglob("*.py"))
 
     # Build exclude set
     excluded = set()

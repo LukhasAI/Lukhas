@@ -31,7 +31,7 @@ def count_errors(content):
 
 def git(cmd):
     try:
-        return subprocess.check_output(["git"] + cmd, text=True).strip()
+        return subprocess.check_output(["git", *cmd], text=True).strip()
     except Exception:
         return ""
 
@@ -40,11 +40,11 @@ def main():
     if not os.path.exists(SRC):
         print(f"[mypy_trend] missing {SRC}", file=sys.stderr)
         return 2
-    with open(SRC, "r", encoding="utf-8") as f:
+    with open(SRC, encoding="utf-8") as f:
         content = f.read()
 
     core, total = count_errors(content)
-    now = datetime.datetime.utcnow().isoformat(timespec="seconds") + "Z"
+    now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     sha = git(["rev-parse", "--short", "HEAD"])
     branch = git(["rev-parse", "--abbrev-ref", "HEAD"])
 

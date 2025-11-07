@@ -38,7 +38,7 @@ def run_fast_terminology_check():
     for file_path in ["guardian/flag_snapshot.sh", "lukhas/api/system_endpoints.py"]:
         if Path(file_path).exists():
             try:
-                with open(file_path, 'r') as f:
+                with open(file_path) as f:
                     content = f.read()
                     if "v2.0.0" in content:
                         schema_files += 1
@@ -58,9 +58,7 @@ def run_fast_terminology_check():
 
     for pattern in search_patterns:
         try:
-            result = subprocess.run([
-                "grep", "-r", "--include=*.py", "-i", pattern
-            ] + search_dirs, capture_output=True, text=True, timeout=10)
+            result = subprocess.run(["grep", "-r", "--include=*.py", "-i", pattern, *search_dirs], capture_output=True, text=True, timeout=10)
 
             if result.stdout.strip():
                 context_indicators += 1

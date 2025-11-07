@@ -24,6 +24,8 @@
 ║ security tier and ensuring robust authentication.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import logging
 import math

@@ -14,6 +14,8 @@
 ║ Coordinates multiple voice modules with quantum enhancements.
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import logging
 import time

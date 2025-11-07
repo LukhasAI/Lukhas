@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - EXECUTIVE DECISION INTEGRATOR
@@ -41,12 +38,13 @@ logger = logging.getLogger(__name__)
 ║ - Provides human-interpretable explanations for all decisions
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
 
 import asyncio
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import structlog
 
@@ -141,7 +139,7 @@ class IntegrationRequest:
     configuration: dict[str, Any] = field(default_factory=dict)
     priority: str = "medium"
     timeout_seconds: int = 300
-    callback_url: Optional[str] = None
+    callback_url: str | None = None
     require_human_approval: bool = False
     metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -156,7 +154,7 @@ class IntegrationResponse:
     results: dict[str, Any] = field(default_factory=dict)
     execution_trace: list[dict[str, Any]] = field(default_factory=list)
     performance_metrics: dict[str, float] = field(default_factory=dict)
-    error_details: Optional[str] = None
+    error_details: str | None = None
     recommendations: list[str] = field(default_factory=list)
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -177,7 +175,7 @@ class ModuleHealth:
 class WorkflowOrchestrator:
     """Orchestrates workflows across CEO Attitude modules."""
 
-    def __init__(self, integration_hub: "CEOAttitudeIntegrationHub"):
+    def __init__(self, integration_hub: CEOAttitudeIntegrationHub):
         self.hub = integration_hub
         self.logger = logger.bind(component="WorkflowOrchestrator")
 
@@ -1478,7 +1476,7 @@ class CEOAttitudeIntegrationHub:
     ΛTAG: integration, orchestration, ceo_attitude, lukhas_core
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize the integration hub."""
         self.config = config or {}
         self.logger = logger.bind(component="CEOAttitudeHub")

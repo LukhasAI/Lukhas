@@ -22,7 +22,7 @@ last_updated: 2025-10-26
 
 ```python
 # Import from benchmarks
-from benchmarks.matriz_pipeline import MATRIZBenchmarks
+from benchmarks.matriz_pipeline import matrizBenchmarks
 from benchmarks.memory_performance import MemoryBenchmarks
 from benchmarks.memory_performance import run_all_benchmarks
 from benchmarks.memory_performance import test_cascade_prevention_benchmark

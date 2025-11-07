@@ -34,7 +34,7 @@ def extract_entrypoints(manifest_path: Path) -> List[Tuple[str, str, str]]:
         List of tuples: (module_name, function_name, manifest_path)
     """
     try:
-        with open(manifest_path, "r", encoding="utf-8") as f:
+        with open(manifest_path, encoding="utf-8") as f:
             data = json.load(f)
 
         runtime = data.get("runtime", {})

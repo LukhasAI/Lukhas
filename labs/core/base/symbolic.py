@@ -34,6 +34,8 @@
 ║ Symbolic Tags: {ΛSYMBOL}, {ΛREFERENCE}, {ΛREGISTRY}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import hashlib
 
 # Module imports

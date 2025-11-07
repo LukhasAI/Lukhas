@@ -31,8 +31,8 @@ from typing import Any, Callable, Optional
 try:
     from ..core.glyph.glyph_engine import GlyphEngine
     from ..orchestration.symbolic_kernel_bus import SymbolicKernelBus
-    from .auth_glyph_registry import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
-        AuthGlyphCategory,
+    from .auth_glyph_registry import (  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+        AuthGlyphCategory,  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_auth_cross_module_integration_py_L35"}
         auth_glyph_registry,
     )
     from .auth_guardian_integration import AuthenticationGuardian, AuthEventType

@@ -13,7 +13,7 @@ Lane Architecture:
 
 Import Rules:
 - MATRIZ can only import from standard libraries and approved integrations
-- lukhas modules cannot import MATRIZ directly
+- lukhas modules cannot import matriz directly
 - candidate cannot import production-critical components
 - Approved integration points explicitly allowed
 
@@ -119,7 +119,7 @@ class LaneImportLinter:
         imports = set()
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             # Parse AST to extract imports
@@ -129,13 +129,12 @@ class LaneImportLinter:
                 if isinstance(node, ast.Import):
                     for alias in node.names:
                         imports.add(alias.name)
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module:
-                        imports.add(node.module)
-                        # Also add sub-imports
-                        for alias in node.names:
-                            if alias.name != '*':
-                                imports.add(f"{node.module}.{alias.name}")
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    imports.add(node.module)
+                    # Also add sub-imports
+                    for alias in node.names:
+                        if alias.name != '*':
+                            imports.add(f"{node.module}.{alias.name}")
 
         except (SyntaxError, UnicodeDecodeError) as e:
             logger.warning(f"Could not parse {file_path}: {e}")
@@ -308,7 +307,7 @@ class TestLaneImports:
         logger.info("✓ MATRIZ lane isolation maintained")
 
     def test_lukhas_cannot_import_matriz(self):
-        """Test root modules (former lukhas/) cannot import MATRIZ directly."""
+        """Test root modules (former lukhas/) cannot import matriz directly."""
         linter = LaneImportLinter()
 
         # Scan root-level module violations (after Phase 5B flattening)

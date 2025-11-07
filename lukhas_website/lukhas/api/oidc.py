@@ -20,7 +20,7 @@ import json
 import logging
 import time
 import uuid
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 from urllib.parse import urlencode
 
 from fastapi import (
@@ -61,6 +61,27 @@ logger = logging.getLogger(__name__)
 tracer = trace.get_tracer(__name__)
 security = HTTPBearer(auto_error=False)
 
+try:
+    from ..governance.guardian_system import GuardianSystem
+    from ..identity.tiers import (
+        SecurityPolicy,
+        TieredAuthenticator,
+        create_tiered_authenticator,
+    )
+
+    TIERED_AUTH_SYSTEM_AVAILABLE = True
+except ImportError:
+    GuardianSystem = None  # type: ignore[assignment]
+    SecurityPolicy = None  # type: ignore[assignment]
+    TieredAuthenticator = None  # type: ignore[assignment]
+    create_tiered_authenticator = None  # type: ignore[assignment]
+    TIERED_AUTH_SYSTEM_AVAILABLE = False
+    logger.warning("Tiered authentication system components not available")
+
+_tiered_auth_system: TieredAuthenticator | None = None
+_guardian_system: GuardianSystem | None = None
+_tiered_auth_lock = asyncio.Lock()
+
 # Global instances
 metrics_collector = get_metrics_collector()
 rate_limiter = get_rate_limiter()
@@ -87,6 +108,45 @@ router = APIRouter(
         500: {"model": ErrorResponse, "description": "Internal Server Error"}
     }
 )
+
+
+async def get_tiered_auth_system() -> TieredAuthenticator:
+    """Lazily initialize and return the tiered authentication system."""
+
+    if not TIERED_AUTH_SYSTEM_AVAILABLE:
+        logger.warning("Tiered authentication system requested but unavailable")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Tiered authentication system unavailable",
+        )
+
+    global _tiered_auth_system, _guardian_system
+
+    if _tiered_auth_system is not None:
+        return _tiered_auth_system
+
+    async with _tiered_auth_lock:
+        if _tiered_auth_system is not None:
+            return _tiered_auth_system
+
+        try:
+            if _guardian_system is None:
+                _guardian_system = GuardianSystem()
+
+            _tiered_auth_system = create_tiered_authenticator(
+                security_policy=SecurityPolicy(),
+                guardian_system=_guardian_system,
+            )
+
+            logger.info("Tiered authentication system initialized for OIDC integration")
+            return _tiered_auth_system
+        except Exception as exc:
+            logger.exception("Failed to initialize tiered authentication system for OIDC integration")
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Tiered authentication system initialization failed",
+            ) from exc
+
 
 # Security middleware and dependencies
 
@@ -224,7 +284,7 @@ async def get_oidc_provider() -> OIDCProvider:
 
 
 # Helper function to get current user from session/token
-async def get_current_user(request: Request) -> Optional[Dict[str, Any]]:
+async def get_current_user(request: Request) -> Dict[str, Any] | None:
     """Get current authenticated user from session or token."""
     # In production, this would integrate with session management
     # For now, we'll simulate authentication status
@@ -254,8 +314,8 @@ async def get_current_user(request: Request) -> Optional[Dict[str, Any]]:
 async def openid_configuration(
     request: Request,
     background_tasks: BackgroundTasks,
-    security_ctx: Dict[str, Any] = Depends(security_check_dependency),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    security_ctx: Dict[str, Any] = Depends(security_check_dependency),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L317"}
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L318"}
 ) -> Dict[str, Any]:
     """
     OpenID Connect Discovery 1.0 endpoint.
@@ -358,8 +418,8 @@ async def openid_configuration(
 async def jwks_json(
     request: Request,
     background_tasks: BackgroundTasks,
-    security_ctx: Dict[str, Any] = Depends(security_check_dependency),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    security_ctx: Dict[str, Any] = Depends(security_check_dependency),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L421"}
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L422"}
 ) -> Dict[str, Any]:
     """
     JSON Web Key Set (JWKS) endpoint with high-performance caching.
@@ -487,7 +547,7 @@ async def _log_jwks_access(client_ip: str, correlation_id: str, duration: float,
 
 async def _log_token_operation(
     operation: str, client_ip: str, correlation_id: str,
-    duration: float, success: bool, grant_type: Optional[str] = None
+    duration: float, success: bool, grant_type: str | None = None
 ):
     """Background task to log token operations"""
     logger.info(
@@ -534,8 +594,8 @@ def _add_cors_headers(response_headers: Dict[str, str], request: Request) -> Dic
 async def authorize(
     request: Request,
     background_tasks: BackgroundTasks,
-    security_ctx: Dict[str, Any] = Depends(security_check_dependency),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    security_ctx: Dict[str, Any] = Depends(security_check_dependency),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L597"}
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L598"}
 ):
     """
     OAuth2 Authorization Endpoint with comprehensive validation and security.
@@ -566,7 +626,7 @@ async def authorize(
                 )
 
             # Rate limiting for authorization attempts
-            allowed, rate_metadata = await rate_limiter.check_rate_limit(
+            allowed, _rate_metadata = await rate_limiter.check_rate_limit(
                 client_ip, RateLimitType.WEBAUTHN_AUTHENTICATION, {"endpoint": "authorize"}
             )
 
@@ -746,7 +806,7 @@ async def authorize(
             else:
                 # Error response
                 error = result.get("error", "server_error")
-                oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+                oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                     endpoint="authorize",
                     method="GET",
                     status="400"
@@ -766,7 +826,7 @@ async def authorize(
         except HTTPException:
             raise
         except Exception as e:
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="authorize",
                 method="GET",
                 status="500"
@@ -779,12 +839,12 @@ async def authorize(
 async def token(
     grant_type: str = Form(...),
     client_id: str = Form(...),
-    code: Optional[str] = Form(None),
-    redirect_uri: Optional[str] = Form(None),
-    code_verifier: Optional[str] = Form(None),
-    refresh_token: Optional[str] = Form(None),
-    client_secret: Optional[str] = Form(None),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    code: str | None = Form(None),
+    redirect_uri: str | None = Form(None),
+    code_verifier: str | None = Form(None),
+    refresh_token: str | None = Form(None),
+    client_secret: str | None = Form(None),
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L847"}
 ) -> Dict[str, Any]:
     """
     OAuth2 Token endpoint.
@@ -813,7 +873,7 @@ async def token(
             span.set_attribute("oidc.grant_type", grant_type)
 
             if "error" in result:
-                oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+                oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                     endpoint="token",
                     method="POST",
                     status="400"
@@ -824,18 +884,18 @@ async def token(
                     detail=result
                 )
             else:
-                oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+                oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                     endpoint="token",
                     method="POST",
                     status="200"
                 ).inc()
-                span.set_attribute("oidc.tokens_issued", len([k for k in result.keys() if "token" in k]))
+                span.set_attribute("oidc.tokens_issued", len([k for k in result if "token" in k]))
                 return result
 
         except HTTPException:
             raise
         except Exception as e:
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="token",
                 method="POST",
                 status="500"
@@ -847,9 +907,9 @@ async def token(
 @router.get("/userinfo")
 @router.post("/userinfo")
 async def userinfo(
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
-    authorization: Optional[str] = Header(None),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L910"}
+    authorization: str | None = Header(None),
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L912"}
 ) -> Dict[str, Any]:
     """
     OpenID Connect UserInfo endpoint.
@@ -867,7 +927,7 @@ async def userinfo(
                 access_token = authorization[7:]  # Remove "Bearer " prefix
 
             if not access_token:
-                oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+                oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                     endpoint="userinfo",
                     method="GET",
                     status="401"
@@ -880,7 +940,7 @@ async def userinfo(
             # Get user information
             userinfo_data = provider.handle_userinfo_request(access_token)
 
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="userinfo",
                 method="GET",
                 status="200"
@@ -892,7 +952,7 @@ async def userinfo(
         except HTTPException:
             raise
         except Exception as e:
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="userinfo",
                 method="GET",
                 status="500"
@@ -904,10 +964,10 @@ async def userinfo(
 @router.post("/revoke")
 async def revoke_token(
     token: str = Form(...),
-    token_type_hint: Optional[str] = Form(None),
+    token_type_hint: str | None = Form(None),
     client_id: str = Form(...),
-    client_secret: Optional[str] = Form(None),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    client_secret: str | None = Form(None),
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L970"}
 ) -> Dict[str, Any]:
     """
     OAuth2 Token Revocation endpoint (RFC 7009).
@@ -919,7 +979,7 @@ async def revoke_token(
             # Authenticate client
             client = provider.client_registry.authenticate_client(client_id, client_secret)
             if not client:
-                oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+                oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                     endpoint="revoke",
                     method="POST",
                     status="401"
@@ -932,7 +992,7 @@ async def revoke_token(
             # Revoke token
             success = provider.token_manager.revoke_token(token, token_type_hint)
 
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="revoke",
                 method="POST",
                 status="200"
@@ -947,7 +1007,7 @@ async def revoke_token(
         except HTTPException:
             raise
         except Exception as e:
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="revoke",
                 method="POST",
                 status="500"
@@ -959,10 +1019,10 @@ async def revoke_token(
 @router.post("/introspect")
 async def introspect_token(
     token: str = Form(...),
-    token_type_hint: Optional[str] = Form(None),
+    token_type_hint: str | None = Form(None),
     client_id: str = Form(...),
-    client_secret: Optional[str] = Form(None),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    client_secret: str | None = Form(None),
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L1025"}
 ) -> Dict[str, Any]:
     """
     OAuth2 Token Introspection endpoint (RFC 7662).
@@ -974,7 +1034,7 @@ async def introspect_token(
             # Authenticate client
             client = provider.client_registry.authenticate_client(client_id, client_secret)
             if not client:
-                oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+                oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                     endpoint="introspect",
                     method="POST",
                     status="401"
@@ -987,7 +1047,7 @@ async def introspect_token(
             # Introspect token
             introspection_result = provider.token_manager.introspect_token(token)
 
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="introspect",
                 method="POST",
                 status="200"
@@ -1001,7 +1061,7 @@ async def introspect_token(
         except HTTPException:
             raise
         except Exception as e:
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="introspect",
                 method="POST",
                 status="500"
@@ -1014,7 +1074,7 @@ async def introspect_token(
 
 @router.get("/clients", include_in_schema=False)
 async def list_clients(
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L1077"}
 ) -> Dict[str, Any]:
     """
     List registered OAuth2 clients (admin endpoint).
@@ -1042,13 +1102,13 @@ async def list_clients(
             }
 
         except Exception as e:
-            span.set_attribute("error", str(e))  # noqa: F821  # TODO: span
+            span.set_attribute("error", str(e))  # TODO: span
             raise HTTPException(status_code=500, detail="Internal server error")
 
 
 @router.get("/stats", include_in_schema=False)
 async def provider_stats(
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L1111"}
 ) -> Dict[str, Any]:
     """
     Get OIDC provider statistics (admin endpoint).
@@ -1072,7 +1132,7 @@ async def provider_stats(
             }
 
         except Exception as e:
-            span.set_attribute("error", str(e))  # noqa: F821  # TODO: span
+            span.set_attribute("error", str(e))  # TODO: span
             raise HTTPException(status_code=500, detail="Internal server error")
 
 
@@ -1083,9 +1143,9 @@ async def authenticate_with_tier(
     username: str = Form(...),
     password: str = Form(...),
     tier: str = Form("T2"),
-    totp_code: Optional[str] = Form(None),
-    webauthn_response: Optional[str] = Form(None),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    totp_code: str | None = Form(None),
+    webauthn_response: str | None = Form(None),
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L1148"}
 ) -> Dict[str, Any]:
     """
     Authenticate user with LUKHAS tiered authentication.
@@ -1095,7 +1155,9 @@ async def authenticate_with_tier(
     with tracer.start_span("api.oidc.authenticate_tier") as span:
         try:
             # Get tiered authentication system
-# See: https://github.com/LukhasAI/Lukhas/issues/583
+            auth_system = await get_tiered_auth_system()
+
+            # See: https://github.com/LukhasAI/Lukhas/issues/583
 
             # Prepare authentication request
             auth_request = {
@@ -1114,7 +1176,7 @@ async def authenticate_with_tier(
             auth_result = await auth_system.authenticate_tier(tier, auth_request)
 
             if auth_result.success:
-                oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+                oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                     endpoint="authenticate",
                     method="POST",
                     status="200"
@@ -1131,7 +1193,7 @@ async def authenticate_with_tier(
                     "permissions": auth_result.claims.get("permissions", [])
                 }
             else:
-                oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+                oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                     endpoint="authenticate",
                     method="POST",
                     status="401"
@@ -1150,7 +1212,7 @@ async def authenticate_with_tier(
         except HTTPException:
             raise
         except Exception as e:
-            oidc_api_requests_total.labels(  # noqa: F821  # TODO: oidc_api_requests_total
+            oidc_api_requests_total.labels(  # TODO: oidc_api_requests_total
                 endpoint="authenticate",
                 method="POST",
                 status="500"

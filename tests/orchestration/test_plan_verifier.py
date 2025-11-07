@@ -18,7 +18,6 @@ import time
 from unittest.mock import patch
 
 import pytest
-
 from core.orchestration.plan_verifier import PlanVerifier, VerificationContext, get_plan_verifier
 
 
@@ -455,7 +454,7 @@ class TestPlanVerifierGlobalInstance:
     def test_get_plan_verifier_singleton(self):
         """Test that get_plan_verifier returns singleton."""
         # Clear any existing instance
-        candidate.core.orchestration.plan_verifier._plan_verifier_instance = None  # noqa: F821  # TODO: candidate
+        candidate.core.orchestration.plan_verifier._plan_verifier_instance = None  # TODO: candidate
 
         verifier1 = get_plan_verifier()
         verifier2 = get_plan_verifier()
