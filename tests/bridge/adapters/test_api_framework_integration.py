@@ -6,7 +6,6 @@ import pytest
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import HTTPBearer
 from fastapi.testclient import TestClient
-
 from labs.bridge.adapters.api_framework import JWTAdapter, JWTAlgorithm
 
 # Test setup

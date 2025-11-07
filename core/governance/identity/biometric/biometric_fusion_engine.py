@@ -712,7 +712,7 @@ class BiometricFusionEngine:
         base_score = min(matches / 3.0, 1.0)
 
         # Cultural dream interpretation bonus
-        if cultural_context.get('region') == 'asia' and any((s in ['dragon', 'lotus', 'mountain'] for s in symbols)):
+        if cultural_context.get('region') == 'asia' and any(s in ['dragon', 'lotus', 'mountain'] for s in symbols):
             base_score *= 1.2
 
         return min(base_score, 1.0)

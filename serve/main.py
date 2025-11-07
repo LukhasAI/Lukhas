@@ -269,7 +269,6 @@ def readyz() -> dict[str, Any]:
     return {'status': 'not_ready', 'details': status}
 
 from prometheus_client import (
-    CONTENT_TYPE_LATEST,
     Counter,
     Histogram,
     make_asgi_app,
