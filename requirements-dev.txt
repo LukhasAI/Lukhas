@@ -1663,9 +1663,9 @@ numpy==2.0.2 \
     #   pandas
     #   pydeck
     #   streamlit
-openai==2.6.1 \
-    --hash=sha256:27ae704d190615fca0c0fc2b796a38f8b5879645a3a52c9c453b23f97141bb49 \
-    --hash=sha256:904e4b5254a8416746a2f05649594fa41b19d799843cd134dac86167e094edef
+openai==2.7.1 \
+    --hash=sha256:2f2530354d94c59c614645a4662b9dab0a5b881c5cd767a8587398feac0c9021 \
+    --hash=sha256:df4d4a3622b2df3475ead8eb0fbb3c27fd1c070fa2e55d778ca4f40e0186c726
     # via -r requirements.in
 opentelemetry-api==1.38.0 \
     --hash=sha256:2891b0197f47124454ab9f0cf58f3be33faca394457ac3e09daba13ff50aa582 \
