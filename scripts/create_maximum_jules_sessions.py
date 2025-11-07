@@ -393,12 +393,12 @@ async def create_all_sessions():
                     "id": session_id
                 })
 
-                print(f"  ✅ Created")
+                print("  ✅ Created")
 
             except Exception as e:
                 error_msg = str(e)
                 if "429" in error_msg or "exhausted" in error_msg.lower():
-                    print(f"  ⚠️  Rate limited - hit daily quota")
+                    print("  ⚠️  Rate limited - hit daily quota")
                     print(f"\n🎯 Successfully created {len(created_sessions)} sessions before hitting limit")
                     break
                 else:
@@ -412,7 +412,7 @@ async def create_all_sessions():
     print()
 
     if created_sessions:
-        print(f"📊 Session Breakdown by Priority:")
+        print("📊 Session Breakdown by Priority:")
         priorities = {}
         for s in created_sessions:
             p = s["priority"]
@@ -445,7 +445,7 @@ def main():
     elif total_today >= 50:
         print(f"\n✅ Good! Using {total_today}% of daily quota")
     else:
-        print(f"\n⚠️  Consider creating more sessions to maximize quota")
+        print("\n⚠️  Consider creating more sessions to maximize quota")
 
     sys.exit(0)
 

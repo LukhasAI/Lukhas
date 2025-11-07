@@ -20,7 +20,6 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from observability.matriz_decorators import instrument
 from rl.engine.policy_networks import ConsciousnessActorCritic
 from rl.environments.consciousness_environment import ConsciousnessEnvironment
 from rl.experience.consciousness_buffer import (
@@ -30,6 +29,7 @@ from rl.experience.consciousness_buffer import (
 
 from consciousness import ConsciousnessModule
 from governance import GuardianSystem
+from observability.matriz_decorators import instrument
 
 logger = logging.getLogger(__name__)
 

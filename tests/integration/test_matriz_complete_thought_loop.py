@@ -24,6 +24,7 @@ import time
 from unittest.mock import patch
 
 import pytest
+
 from consciousness.matriz_thought_loop import matrizThoughtLoop
 from consciousness.meta_cognitive_assessor import CognitiveLoadLevel, MetaCognitiveAssessment
 

@@ -79,6 +79,9 @@ class AdaptiveAGISystem:
         # Delay imports to prevent circular dependencies
         try:
             # Frontend components
+            from learning.meta_learning import MetaLearningSystem
+            from voice.speech_processor import SpeechProcessor
+
             from core.common.interfaces.ui.adaptive.adaptive_interface_generator import (
                 AdaptiveInterfaceGenerator,
             )
@@ -93,12 +96,12 @@ class AdaptiveAGISystem:
             from governance.identity.core.id_service.identity_manager import (
                 IdentityManager,
             )
-            from learning.meta_learning import MetaLearningSystem
 
             # Backend components
-            from memory.node import Node  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_main_node_py_L99"}
+            from memory.node import (
+                Node,  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_main_node_py_L99"}
+            )
             from orchestration.brain.privacy_manager import PrivacyManager
-            from voice.speech_processor import SpeechProcessor
         except ImportError as e:
             logger.critical(f"Failed to import required components: {e}")
             sys.exit(1)

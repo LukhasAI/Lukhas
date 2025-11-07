@@ -41,8 +41,11 @@ try:
         RequestMetadata,
         create_middleware_pipeline,
     )
-
-    from .analytics_dashboard import AnalyticsDashboard, TimeWindow, create_analytics_dashboard  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_integration_hub_py_L46"}
+    from .analytics_dashboard import (  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_integration_hub_py_L46"}
+        AnalyticsDashboard,
+        TimeWindow,
+        create_analytics_dashboard,
+    )
     OPTIMIZATION_COMPONENTS_AVAILABLE = True
 except ImportError:
     OPTIMIZATION_COMPONENTS_AVAILABLE = False
