@@ -1,7 +1,9 @@
 import sys
+from typing import Any, Dict
 from unittest.mock import MagicMock
+
 from pydantic import BaseModel
-from typing import Dict, Any
+
 
 # Create a fake Pydantic model to satisfy the router's type hint
 class FakeHealthStatus(BaseModel):
