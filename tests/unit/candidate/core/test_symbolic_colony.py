@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 import pytest
+
 from core.symbolic_core import plan_symbolic_core_preservation
 from core.symbolic_core.colony_tag_propagation import SymbolicReasoningColony
 

@@ -1,6 +1,7 @@
 from unittest.mock import Mock, patch
 
 import pytest
+
 from core.module_registry import ModuleInfo, ModuleRegistry, TierLevel
 
 

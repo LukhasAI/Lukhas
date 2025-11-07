@@ -1,4 +1,5 @@
 import pytest
+
 from core.utils import generate_symbolic_id, legacy_parse_lukhas_command
 
 
