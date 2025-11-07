@@ -22,6 +22,7 @@ from core.matriz_consciousness_signals import (
     ConsciousnessSignalType,
 )
 
+
 # Basic test structure
 class TestBioSymbolicProcessor:
     def test_initialization(self):
