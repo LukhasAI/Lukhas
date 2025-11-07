@@ -46,7 +46,7 @@ def iter_py_files(paths: Iterable[str]) -> Iterable[Path]:
             continue
         for fp in root.rglob("*.py"):
             # skip virtual envs and common build dirs
-            if any((part.startswith('.') for part in fp.parts)) and ('.venv' in fp.parts or 'venv' in fp.parts):
+            if any(part.startswith('.') for part in fp.parts) and ('.venv' in fp.parts or 'venv' in fp.parts):
                 # allow files like .something only if explicit; conservative skip
                 continue
             yield fp
