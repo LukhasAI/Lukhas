@@ -15,15 +15,16 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from core.bridge.dream_commerce import (
+    ConsentLevel,
     DreamCommerceEngine,
-    DreamSeedSubmission,
     DreamExperienceRequest,
     DreamMarketplaceFilter,
+    DreamSeedSubmission,
     DreamSeedType,
-    ConsentLevel,
     RevenueModel,
     router,
 )
+
 
 @pytest.fixture
 def commerce_engine():
