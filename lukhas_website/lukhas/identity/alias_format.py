@@ -14,7 +14,6 @@ import re
 import uuid
 import zlib
 from dataclasses import dataclass
-from typing import Tuple
 
 
 @dataclass

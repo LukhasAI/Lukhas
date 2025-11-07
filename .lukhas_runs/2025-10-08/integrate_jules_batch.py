@@ -6,8 +6,6 @@ Safely maps and integrates recovered Jules files into the repository.
 import shutil
 import subprocess
 from pathlib import Path
-from typing import List, Tuple
-
 # Repository root
 REPO_ROOT = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
 JULES_DOWNLOAD = Path("/Users/agi_dev/Downloads/BATCH-JULES-2025-10-08-01")

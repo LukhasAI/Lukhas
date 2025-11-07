@@ -27,7 +27,6 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import List
 
 ROOT = Path(__file__).resolve().parents[2]
 REGISTRY = ROOT / "docs" / "_generated" / "MODULE_REGISTRY.json"

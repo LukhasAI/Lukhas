@@ -8,7 +8,7 @@ Provides T4 architecture compliant service discovery and initialization.
 # Schedule auto-initialization
 import asyncio
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from core.registry import register, resolve
 

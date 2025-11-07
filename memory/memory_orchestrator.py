@@ -8,7 +8,7 @@ Central orchestrator for memory systems coordination.
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from .indexer import Indexer
 from .observability import MemoryTracer

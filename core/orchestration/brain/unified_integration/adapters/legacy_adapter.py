@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 import time
 import uuid
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 from ..unified_integration import (
     ComponentType,

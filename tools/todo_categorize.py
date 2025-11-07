@@ -21,8 +21,6 @@ import sys
 from collections.abc import Iterator, Sequence
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import List
-
 # --- Config ------------------------------------------------------------------
 SKIP_DIRS = {
     ".git", ".hg", ".svn", ".venv", "venv", "env",

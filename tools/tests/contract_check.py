@@ -17,9 +17,6 @@ import argparse
 import subprocess
 import sys
 from pathlib import Path
-from typing import Set
-
-
 def get_changed_test_files(base_ref: str) -> set[Path]:
     """Get test files that have been changed since base_ref."""
     try:

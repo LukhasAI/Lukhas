@@ -11,7 +11,7 @@ import subprocess
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 
 def run_cmd(cmd: str, check: bool = False) -> subprocess.CompletedProcess:

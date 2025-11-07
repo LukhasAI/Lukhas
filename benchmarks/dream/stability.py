@@ -6,7 +6,7 @@ import pathlib
 import statistics
 import subprocess
 import sys
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 SEEDS = [1, 7, 13, 42, 123, 999]
 

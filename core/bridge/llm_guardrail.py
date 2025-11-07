@@ -5,7 +5,7 @@ import logging
 import os
 import time
 from statistics import quantiles
-from typing import Any, Callable, Dict
+from typing import Any, Callable
 
 from jsonschema import Draft7Validator, ValidationError
 from jsonschema.exceptions import SchemaError

@@ -14,7 +14,7 @@ Performance targets:
 import threading
 import time
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 from core.common.logger import get_logger

@@ -15,7 +15,7 @@ import re
 import sys
 from collections import Counter
 from pathlib import Path
-from typing import Any, List, Tuple
+from typing import Any
 
 
 def load_json(path: Path) -> Any:

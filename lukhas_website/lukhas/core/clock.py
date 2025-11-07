@@ -16,7 +16,7 @@ import contextlib
 import math
 import os
 from time import perf_counter, sleep
-from typing import Callable, List
+from typing import Callable
 
 # Optional Prometheus metrics (safe to import; no hard dependency in tests)
 try:

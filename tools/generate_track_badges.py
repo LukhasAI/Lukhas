@@ -16,7 +16,7 @@ import json
 import pathlib
 import re
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 
 class TrackBadgeGenerator:

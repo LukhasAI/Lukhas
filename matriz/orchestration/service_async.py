@@ -6,7 +6,7 @@ import asyncio
 import logging
 from dataclasses import asdict
 from threading import Lock
-from typing import Any, Dict
+from typing import Any
 
 from matriz.nodes.fact_node import FactNode
 from matriz.nodes.math_node import MathNode

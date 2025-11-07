@@ -7,7 +7,7 @@ Validates directory indexes and integrates with context sync system
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict
 
 import jsonschema
 

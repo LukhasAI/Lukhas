@@ -6,7 +6,6 @@ import hmac
 import os
 import time
 from hashlib import sha256
-from typing import Dict, Tuple
 
 SECRET = (os.getenv("AUDIT_LINK_SECRET") or "dev-secret").encode()
 

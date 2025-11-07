@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import math
 import os
-from typing import Any, Dict
+from typing import Any
 
 try:
     from prometheus_client import Counter, Gauge

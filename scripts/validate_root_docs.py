@@ -13,8 +13,6 @@ Exit codes:
 
 import sys
 from pathlib import Path
-from typing import List
-
 # Allowed documentation files at root (grandfathered in)
 ALLOWED_DOCS = {
     'README.md',

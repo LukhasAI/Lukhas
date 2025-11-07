@@ -16,7 +16,7 @@ import json
 import pathlib
 import time
 import uuid
-from typing import Any, Dict
+from typing import Any
 
 
 def generate_trace_id() -> str:

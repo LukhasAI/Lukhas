@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any
 
 from .evaluator import score_scenario
 from .world_model import generate_scenarios

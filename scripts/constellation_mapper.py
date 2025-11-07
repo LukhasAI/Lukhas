@@ -8,7 +8,7 @@ import ast
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Set
+from typing import Dict
 
 import networkx as nx
 

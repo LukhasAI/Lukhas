@@ -21,7 +21,7 @@ from datetime import datetime, timezone
 from hashlib import sha1
 from pathlib import Path
 from random import Random
-from typing import Any, Dict, List
+from typing import Any
 
 # Default output path for generated reports.
 REPORT_PATH = Path("codex_artifacts/dream_drift_report.json")

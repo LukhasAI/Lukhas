@@ -20,7 +20,7 @@ Constellation Framework: 🌊 Flow Star Integration
 import logging
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ..cognitive_core.reasoning.deep_inference_engine import InferenceResult
 from .awareness_engine import AwarenessEngine

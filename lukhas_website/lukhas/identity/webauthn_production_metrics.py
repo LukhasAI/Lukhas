@@ -21,7 +21,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import structlog
 from identity.webauthn_production import WebAuthnCredential

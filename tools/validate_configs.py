@@ -9,7 +9,7 @@ import json
 import pathlib
 import re
 import sys
-from typing import Any, Dict, List
+from typing import Any
 
 import yaml
 

@@ -14,7 +14,7 @@ import hashlib
 import json
 import re
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any
 
 
 def _normalize_consent_timestamp(value: str | datetime | None) -> str | None:

@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from threading import RLock
-from typing import Any, Callable, Dict
+from typing import Any, Callable
 
 logger = logging.getLogger(__name__)
 

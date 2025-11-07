@@ -22,7 +22,7 @@ import logging
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .enhanced_awareness_engine import EnhancedAwarenessEngine, EnhancedAwarenessSnapshot
 from .enhanced_thought_node import EnhancedThoughtNode

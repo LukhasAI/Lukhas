@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import math
 import time
-from typing import Any, Dict, List
+from typing import Any
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram

@@ -22,7 +22,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Set
+from typing import Any
 from uuid import UUID, uuid4
 
 # Optional Prometheus metrics

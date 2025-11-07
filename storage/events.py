@@ -19,7 +19,7 @@ from collections import deque
 from collections.abc import Iterator
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any
 from uuid import UUID, uuid4
 
 try:

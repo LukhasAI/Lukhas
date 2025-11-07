@@ -13,7 +13,7 @@ import sys
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 from urllib.parse import urljoin
 
 import aiohttp

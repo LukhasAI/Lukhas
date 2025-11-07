@@ -32,9 +32,7 @@ try:
     )
 except ImportError:
     # Fallback mock implementations for template testing
-    from typing import Dict
-
-    class AuthContext:
+        class AuthContext:
         def __init__(self):
             self.user_id = "template_user"
             self.email = "test@ai"

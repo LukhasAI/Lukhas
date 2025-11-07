@@ -15,7 +15,7 @@ Examples:
 import argparse
 import sys
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional
 
 BRIDGE_TEMPLATE = '''"""Bridge for `{module_name}`.
 
@@ -28,8 +28,6 @@ Graceful fallback to stubs if no backend available.
 """
 from __future__ import annotations
 from importlib import import_module
-from typing import List
-
 __all__: list[str] = []
 
 def _try(n: str):

@@ -20,7 +20,7 @@ import json
 import pathlib
 import re
 import sys
-from typing import Dict, List
+from typing import Dict
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 FM_BOUNDARY = re.compile(r"^\s*---\s*$")

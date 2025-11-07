@@ -1,4 +1,5 @@
 """Bridge utilities - canonical location at bridge/_bridgeutils.py"""
+
 # This is a compatibility shim for imports that use `from _bridgeutils import ...`
 # The actual implementation is in bridge/_bridgeutils.py
 from bridge._bridgeutils import (

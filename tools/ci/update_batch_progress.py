@@ -10,7 +10,7 @@ Scans PRs 241-257 and maps them to batch tasks for progress tracking.
 import json
 import subprocess
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
 def get_pr_info(pr_number: int) -> dict[str, Any]:

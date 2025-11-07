@@ -7,7 +7,7 @@ import logging
 from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Deque
+from typing import Any
 
 logger = logging.getLogger("lukhas_agi_orchestrator")
 

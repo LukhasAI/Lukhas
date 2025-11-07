@@ -18,7 +18,7 @@ import random
 import statistics
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 import pytest
 

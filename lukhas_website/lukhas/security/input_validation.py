@@ -25,7 +25,7 @@ import unicodedata
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, TypeVar
+from typing import Any, Callable, TypeVar
 
 # AI-specific validation imports
 try:

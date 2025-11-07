@@ -20,7 +20,7 @@ import os
 import statistics
 import sys
 import time
-from typing import Any, Dict, List
+from typing import Any
 
 # Add project root to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))

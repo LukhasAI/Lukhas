@@ -8,7 +8,7 @@ Usage:
   trace = {"enter": mk_crumb("adapter_enter", msg.glyph, topic=msg.topic)}
 """
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from matriz.node_contract import GLYPH
 

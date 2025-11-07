@@ -16,7 +16,7 @@ Validates system ready for 85-90 audit score and canary rollout.
 
 import json
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 
 def validate_ci_workflows_enabled() -> dict[str, Any]:

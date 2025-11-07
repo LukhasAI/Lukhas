@@ -8,7 +8,7 @@ Validates front-matter, regenerates site map, and checks internal links.
 import json
 import sys
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 # Constants
 DOCS_ROOT = Path(__file__).parent.parent / "docs"

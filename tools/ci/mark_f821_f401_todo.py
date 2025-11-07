@@ -15,7 +15,7 @@ import logging
 import re
 import subprocess
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(message)s")

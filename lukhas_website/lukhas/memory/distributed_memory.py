@@ -14,7 +14,7 @@ from collections import deque
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, Optional, Set
+from typing import Any, Callable, Optional
 
 from memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator
 from memory.fold_system import MemoryFold

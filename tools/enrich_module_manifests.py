@@ -9,7 +9,7 @@ with domain-specific intelligence and LUKHAS-aware context.
 import argparse
 import json
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
 def load_json(path: Path) -> dict[str, Any]:

@@ -2,7 +2,6 @@
 PII redaction and consent-aware data masking utilities.
 """
 import re
-from typing import List
 
 # PII detection patterns
 EMAIL = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")

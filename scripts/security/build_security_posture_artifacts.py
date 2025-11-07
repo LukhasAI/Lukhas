@@ -36,7 +36,7 @@ import sys
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Tuple
+from typing importTuple
 
 # Ensure ``scripts/`` is importable so we can reuse the SBOM generator.
 SCRIPT_DIR = Path(__file__).resolve().parent

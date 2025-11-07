@@ -23,7 +23,7 @@ Usage:
 import argparse
 import re
 from pathlib import Path
-from typing import List, Tuple
+from typing importTuple
 
 # Patterns for orphaned noqa comments
 PATTERNS = [

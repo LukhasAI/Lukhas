@@ -21,7 +21,7 @@ import logging
 import random
 import time
 from dataclasses import dataclass
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 

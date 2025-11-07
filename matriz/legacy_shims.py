@@ -26,7 +26,7 @@ Design notes:
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from matriz.legacy_shim import LegacyShim  # shim and interface
 

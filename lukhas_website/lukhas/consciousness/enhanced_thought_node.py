@@ -20,7 +20,7 @@ Features:
 import asyncio
 import logging
 import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ..cognitive_core.reasoning.contradiction_integrator import (
     ContradictionContext,

@@ -32,7 +32,7 @@ from collections import defaultdict
 from collections.abc import Awaitable
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Callable, Dict
+from typing import Any, Callable
 
 # Replaced python-jose (vulnerable) with PyJWT for secure JWT handling
 import jwt

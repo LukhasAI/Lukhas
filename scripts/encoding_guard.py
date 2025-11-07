@@ -8,7 +8,7 @@ Integrates with docs_lint.py for CI enforcement.
 
 import sys
 from pathlib import Path
-from typing import List, Tuple
+from typing importTuple
 
 # Constants
 REPO_ROOT = Path(__file__).resolve().parents[1]

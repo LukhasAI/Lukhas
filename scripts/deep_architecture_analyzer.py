@@ -7,7 +7,7 @@ Exposes the true module structure and duplications
 import json
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 
 class DeepArchitectureAnalyzer:

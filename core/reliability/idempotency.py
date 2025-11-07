@@ -28,7 +28,7 @@ from __future__ import annotations
 import hashlib
 import os
 import time
-from typing import Dict, Protocol, Tuple
+from typing import Dict, Protocol
 
 
 class IdempotencyStore(Protocol):

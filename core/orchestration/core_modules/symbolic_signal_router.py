@@ -10,7 +10,7 @@ with sub-100ms routing latency and transparent logging.
 import asyncio
 import logging
 import time
-from typing import Any, Dict
+from typing import Any
 
 from orchestration.signals import DiagnosticSignalType, SignalType, SymbolicSignal
 

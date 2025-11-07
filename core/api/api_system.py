@@ -6,7 +6,7 @@ import time
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from functools import lru_cache
-from typing import Any, Dict, Tuple
+from typing import Any
 
 import structlog
 from core.security.auth import get_auth_system

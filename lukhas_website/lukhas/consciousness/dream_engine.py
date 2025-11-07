@@ -14,7 +14,7 @@ import asyncio
 import random
 import time
 from enum import Enum as PyEnum
-from typing import Any, Dict, List, Set
+from typing import Any
 
 from opentelemetry import trace
 from prometheus_client import Counter, Enum, Gauge, Histogram

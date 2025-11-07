@@ -6,8 +6,6 @@ import importlib
 import os
 import pkgutil
 from types import ModuleType
-from typing import List
-
 __all__: list[str] = []
 __path__: list[str] = [os.path.dirname(__file__)]  # type: ignore[assignment]
 

@@ -29,7 +29,7 @@ from collections import defaultdict
 from contextlib import asynccontextmanager, suppress
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Dict
+from typing import TYPE_CHECKING, Any
 
 # Suppress verbose logging during validation
 logging.getLogger().setLevel(logging.CRITICAL)

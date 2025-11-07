@@ -5,7 +5,7 @@ import logging
 import os
 import uuid
 from pathlib import Path
-from typing import Any, Dict, TypedDict
+from typing import Any, TypedDict
 
 from .ethics_gate import EthicsError, authorize_or_raise
 from .rollout import run_rollouts

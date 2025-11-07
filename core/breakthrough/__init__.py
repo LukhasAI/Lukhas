@@ -2,8 +2,6 @@
 from __future__ import annotations
 
 from importlib import import_module
-from typing import List
-
 __all__: list[str] = []
 
 def _try(n: str):

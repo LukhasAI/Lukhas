@@ -18,7 +18,7 @@ import os
 import time
 import zlib
 from dataclasses import asdict, dataclass
-from typing import Any, Dict
+from typing import Any
 
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram

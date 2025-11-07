@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any
 
 
 def generate_scenarios(seed: dict[str, Any], trace_id: str) -> list[dict[str, Any]]:

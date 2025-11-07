@@ -12,7 +12,7 @@ from collections import defaultdict, deque
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Callable, Optional
 
 from consciousness.types import AwarenessSnapshot, ConsciousnessState, DreamTrace, ReflectionReport
 from memory.consciousness_memory_integration import (

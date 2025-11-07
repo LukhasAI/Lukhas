@@ -8,7 +8,7 @@ Validates all generated Matrix contracts against the authoritative schema templa
 import json
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 from jsonschema import Draft202012Validator
 

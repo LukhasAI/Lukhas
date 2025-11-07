@@ -8,7 +8,7 @@ Usage:
   trace = {"enter": mk_crumb("adapter_enter", msg.glyph, topic=msg.topic)}
 """
 from datetime import datetime, timezone
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 # Avoid runtime dependency on MATRIZ in core by importing types only for typing.
 if TYPE_CHECKING:  # pragma: no cover

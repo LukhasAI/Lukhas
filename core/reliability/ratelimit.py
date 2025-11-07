@@ -20,7 +20,7 @@ import os
 import time
 from collections import defaultdict
 from threading import Lock
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Optional
 
 
 class TokenBucket:

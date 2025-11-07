@@ -41,7 +41,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .performance_optimizer import cached_validation, get_performance_optimizer
 from .schema_migration import get_migration_engine, migrate_guardian_data

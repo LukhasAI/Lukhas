@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import hashlib
 from collections.abc import Iterable
-from typing import Any, Dict, List
+from typing import Any
 
 from .backends.pgvector_store import PgVectorStore, VectorDoc
 

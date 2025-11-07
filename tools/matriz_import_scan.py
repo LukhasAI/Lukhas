@@ -12,7 +12,7 @@ import json
 import pathlib
 import sys
 from collections import defaultdict
-from typing import Any, Dict, List, Set
+from typing import Any
 
 
 class ImportVisitor(ast.NodeVisitor):

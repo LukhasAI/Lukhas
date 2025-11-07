@@ -7,7 +7,7 @@ Initializes core services including OTEL tracing, metrics, and Guardian system.
 
 import logging
 import os
-from typing import Any, Dict
+from typing import Any
 
 # Early OTel initialization
 from opentelemetry import trace

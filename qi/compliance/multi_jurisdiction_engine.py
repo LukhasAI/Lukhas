@@ -5,7 +5,7 @@ from __future__ import annotations
 import copy
 from collections.abc import Iterable, Mapping, MutableMapping
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 from .jurisdictions import CCPAModule, GDPRModule, LGPDModule, PIPEDAModule
 from .jurisdictions.base import BaseJurisdictionModule

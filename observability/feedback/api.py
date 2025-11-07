@@ -3,7 +3,7 @@ FastAPI endpoints for adaptive feedback collection and follow-ups.
 """
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
 from fastapi import APIRouter
 from pydantic import BaseModel

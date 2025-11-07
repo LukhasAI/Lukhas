@@ -25,7 +25,7 @@ import base64
 import hashlib
 import hmac
 import struct
-from typing import Any, Dict
+from typing import Any
 
 from cryptography.exceptions import InvalidSignature as CryptoInvalidSignature
 from cryptography.hazmat.primitives import hashes, serialization

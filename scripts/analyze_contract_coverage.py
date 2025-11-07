@@ -6,8 +6,6 @@ Reports broken references and missing contracts.
 import json
 import pathlib
 import sys
-from typing import Dict
-
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MANIFESTS_DIR = ROOT / "manifests"
 CONTRACTS_DIR = ROOT / "contracts"

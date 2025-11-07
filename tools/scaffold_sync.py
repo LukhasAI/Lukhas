@@ -9,7 +9,7 @@ import hashlib
 import json
 import pathlib
 import sys
-from typing import Any, Dict, List
+from typing import Any
 
 try:
     from jinja2 import Environment, FileSystemLoader

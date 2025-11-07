@@ -20,7 +20,7 @@ import json
 import logging
 import time
 import uuid
-from typing import Any, Dict
+from typing import Any
 from urllib.parse import urlencode
 
 from fastapi import (

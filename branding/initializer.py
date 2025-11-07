@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import Any, Dict
+from typing import Any
 
 try:
     from branding import APPROVED_TERMS as _APPROVED_TERMS  # type: ignore

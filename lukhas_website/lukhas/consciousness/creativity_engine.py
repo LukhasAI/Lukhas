@@ -19,7 +19,7 @@ from __future__ import annotations
 import logging
 import random
 import time
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram

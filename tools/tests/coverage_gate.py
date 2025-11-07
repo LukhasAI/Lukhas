@@ -18,7 +18,7 @@ import json
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
 class CoverageGate:

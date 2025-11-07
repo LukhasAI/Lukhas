@@ -3,7 +3,7 @@ LUKHAS AI Bio-Symbolic Architecture Analyzer
 Provides tools to analyze and design bio-symbolic system integrations.
 """
 
-from typing import Any, Dict, NamedTuple
+from typing import Any, NamedTuple
 
 
 # Placeholder type definitions for clarity in method signatures

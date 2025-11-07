@@ -22,7 +22,7 @@ import sys
 from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing importList, Tuple
 
 HAS_LIBCST = True
 

@@ -9,9 +9,6 @@ Finds delayed imports in tests/ and tools/ directories and adds
 import ast
 import pathlib
 import sys
-from typing import List, Tuple
-
-
 def find_delayed_imports(file_path: pathlib.Path) -> list[tuple[int, str]]:
     """
     Find imports that occur after module-level code.

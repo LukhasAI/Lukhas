@@ -36,7 +36,7 @@ import time
 import unittest
 from contextlib import contextmanager
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from unittest import mock
 
 # Add project root to path for imports

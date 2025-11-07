@@ -8,7 +8,7 @@ Factory for creating AI provider clients with feature flag gating and environmen
 
 import logging
 import os
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from .anthropic_client import AnthropicClient
 from .base_client import AIProvider, BaseAIClient

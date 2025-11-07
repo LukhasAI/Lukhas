@@ -22,7 +22,7 @@ import re
 import sys
 import tokenize
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 # Patterns to match TODO comments
 TODO_PATTERNS = [

@@ -8,7 +8,7 @@ import ast
 import json
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, Set
+from typing import Dict
 
 
 class DependencyScanner:

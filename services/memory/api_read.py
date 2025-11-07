@@ -24,7 +24,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 from memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator, MemoryFoldType
 from memory.fold_system import MemoryFold

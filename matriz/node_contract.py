@@ -22,7 +22,7 @@ import json
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Literal, Tuple
+from typing import Any, Literal
 from uuid import UUID
 
 CONTRACT_VERSION = "1.0.0"

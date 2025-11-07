@@ -5,7 +5,7 @@ import pathlib
 import subprocess
 import sys
 import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Import telemetry shim
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "tools", "mcp"))

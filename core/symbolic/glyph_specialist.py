@@ -5,8 +5,6 @@ import logging
 from collections.abc import Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import List
-
 logger = logging.getLogger("Lukhas.GLYPH.Specialist")
 
 

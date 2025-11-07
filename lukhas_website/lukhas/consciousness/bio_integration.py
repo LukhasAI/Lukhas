@@ -5,7 +5,7 @@ Connects bio-symbolic processing with consciousness systems.
 
 import logging
 from enum import Enum
-from typing import Any, Dict
+from typing import Any
 
 # Assuming SymbolicGlyph is available from the bio module.
 # A real implementation might need to handle circular dependencies carefully.

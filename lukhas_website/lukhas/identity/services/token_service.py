@@ -11,7 +11,7 @@ import logging
 import secrets
 import time
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Conditional JWT import with fallback
 try:

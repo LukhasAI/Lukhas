@@ -8,7 +8,7 @@ import ast
 import json
 import os
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 
 def integrate_hidden_gem(module_path: str) -> dict[str, Any]:

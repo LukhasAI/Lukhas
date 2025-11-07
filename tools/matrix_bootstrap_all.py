@@ -19,7 +19,7 @@ import json
 import re
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 # Repository structure
 ROOT = Path(__file__).resolve().parents[1]  # repo root

@@ -10,9 +10,6 @@ import pathlib
 import stat
 import subprocess
 import sys
-from typing import List
-
-
 def validate_demo_script(script_path: str) -> list[str]:
     """Validate a demo script for common issues."""
     errors = []

@@ -23,7 +23,7 @@ from collections import deque
 from collections.abc import Awaitable
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 

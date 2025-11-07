@@ -24,7 +24,7 @@ import logging
 import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Callable, Dict, List, Tuple
+from typing import Any, Callable
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram

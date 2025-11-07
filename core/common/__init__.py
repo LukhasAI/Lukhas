@@ -6,8 +6,6 @@ Also provides real exceptions submodule for explicit imports.
 from __future__ import annotations
 
 from importlib import import_module
-from typing import List
-
 # Always expose our submodule path
 from . import exceptions
 

@@ -6,7 +6,7 @@ Analyzes and prioritizes context file updates based on criticality
 
 import json
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 
 class ContextPriorityAnalyzer:

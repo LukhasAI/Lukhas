@@ -12,7 +12,7 @@ Comprehensive metrics collection for T4/0.01% excellence monitoring:
 import logging
 import threading
 import time
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from prometheus_client import (
     CollectorRegistry,

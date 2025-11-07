@@ -12,7 +12,7 @@ import re
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, replace
 from enum import Enum
-from typing import Any, Dict
+from typing import Any
 
 
 class SecurityReportValidationError(ValueError):

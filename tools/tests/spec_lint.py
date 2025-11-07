@@ -17,9 +17,6 @@ import argparse
 import ast
 import sys
 from pathlib import Path
-from typing import List
-
-
 class TestMarkerVisitor(ast.NodeVisitor):
     """AST visitor to find test functions and their markers."""
 

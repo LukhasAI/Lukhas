@@ -12,7 +12,7 @@ import logging
 import math
 import os
 import time
-from typing import Optional, Tuple
+from typing import Optional
 
 from core.reliability.quota_resolver import QuotaResolver
 

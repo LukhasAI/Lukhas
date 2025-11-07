@@ -26,7 +26,7 @@ import uuid
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 sys.path.append(str(Path(__file__).parent.parent.parent / "candidate" / "consciousness" / "reasoning"))
 

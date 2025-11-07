@@ -7,7 +7,7 @@ from __future__ import annotations
 import contextlib
 import json
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Storage configuration
 AUDIT_STORAGE = Path("audit_logs")

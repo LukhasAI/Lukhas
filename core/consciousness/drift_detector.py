@@ -7,8 +7,6 @@ from collections import defaultdict, deque
 from collections.abc import Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Deque, Dict, List
-
 from core.symbolic.glyph_specialist import GlyphSignal
 
 logger = logging.getLogger("Lukhas.Consciousness.DriftDetector")

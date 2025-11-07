@@ -1,6 +1,6 @@
 import json
 import time
-from typing import Dict, Optional, Tuple
+from typing import Dict, Optional
 
 import redis
 

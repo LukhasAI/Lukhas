@@ -10,7 +10,7 @@ import argparse
 import json
 import pathlib
 import sys
-from typing import Any, Dict, List
+from typing import Any
 
 
 def find_matrix_contracts(root_path: pathlib.Path) -> list[pathlib.Path]:

@@ -12,8 +12,6 @@ Phase 3: Added as part of security hardening.
 import logging
 import re
 from re import Pattern
-from typing import List
-
 # Secret patterns to redact
 _SECRET_PATTERNS: list[Pattern] = [
     re.compile(r"\bsk-[A-Za-z0-9]{10,}\b"),  # OpenAI-like tokens

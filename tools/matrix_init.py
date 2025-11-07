@@ -13,7 +13,7 @@ Usage:
 import argparse
 import json
 import pathlib
-from typing import Any, Dict
+from typing import Any
 
 
 def load_template_contract() -> dict[str, Any]:

@@ -25,7 +25,7 @@ import json
 import os
 import subprocess
 import sys
-from typing import Any, Dict, List
+from typing import Any
 
 SRC = "reports/audit/f401.json"
 DST = "reports/audit/f401_trends.csv"

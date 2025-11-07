@@ -12,8 +12,6 @@ import logging
 import re
 import sys
 from pathlib import Path
-from typing import Set
-
 import yaml
 
 # Configure logging

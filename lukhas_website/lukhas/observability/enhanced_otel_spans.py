@@ -22,7 +22,7 @@ import time
 from contextvars import ContextVar
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, Optional, Union
+from typing import Any, Callable, Optional, Union
 
 # Try to import OpenTelemetry components
 try:

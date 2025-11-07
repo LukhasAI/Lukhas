@@ -12,7 +12,7 @@ from __future__ import annotations
 import re
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Set
+from typing import Any
 from urllib.parse import urlparse
 
 from pydantic import BaseModel, Field, root_validator, validator

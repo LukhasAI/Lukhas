@@ -18,8 +18,6 @@ import os
 from collections import Counter
 from pathlib import Path
 from statistics import mean
-from typing import List, Tuple
-
 DEFAULT_INPUT = Path("reports/audit/merged/evidence_ledger.csv")
 DEFAULT_OUTPUT = Path("reports/dashboard/ai_audit_summary.md")
 

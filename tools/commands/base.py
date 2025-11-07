@@ -5,7 +5,7 @@ from __future__ import annotations
 import asyncio
 import logging
 from collections.abc import Awaitable, Iterable
-from typing import Callable, Dict, Union
+from typing import Callable, Union
 
 CommandHandler = Callable[[list[str]], Union[Awaitable[bool], bool]]
 

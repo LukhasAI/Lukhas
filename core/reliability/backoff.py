@@ -1,6 +1,3 @@
-from typing import Tuple
-
-
 def jittered_exponential(
     base: float, factor: float, attempt: int, jitter: float = 0.1
 ) -> tuple[float, float]:

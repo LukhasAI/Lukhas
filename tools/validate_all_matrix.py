@@ -12,7 +12,7 @@ import sys
 from datetime import datetime
 from glob import glob
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 from jsonschema import Draft202012Validator
 

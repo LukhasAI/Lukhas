@@ -4,7 +4,7 @@
 import logging
 import os
 import time
-from typing import Any, Dict
+from typing import Any
 
 import uvicorn
 from jose import JWTError, jwt

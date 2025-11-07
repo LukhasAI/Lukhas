@@ -9,7 +9,7 @@ Usage:
   pytest -k router -q
 """
 import queue
-from typing import Callable, Dict
+from typing import Callable
 
 from MATRIZ.node_contract import MatrizMessage, MatrizNode
 

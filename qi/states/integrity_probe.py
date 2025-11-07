@@ -18,7 +18,7 @@ import os
 import threading
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Micro-check metrics (lazy initialization to avoid registry conflicts)
 _microcheck_metrics = None

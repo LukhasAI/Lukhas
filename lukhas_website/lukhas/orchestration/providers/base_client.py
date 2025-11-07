@@ -9,7 +9,7 @@ Abstract base class for all AI provider clients with standardized interface.
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class AIProvider(Enum):

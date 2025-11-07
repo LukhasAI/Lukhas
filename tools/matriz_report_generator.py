@@ -13,7 +13,7 @@ import csv
 import json
 import pathlib
 import sys
-from typing import Any, Dict
+from typing import Any
 
 
 def generate_audit_report(audit_data: dict[str, Any], output_path: pathlib.Path):

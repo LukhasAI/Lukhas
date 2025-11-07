@@ -21,7 +21,7 @@ import logging
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ..cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine, InferenceResult
 from .types import ConsciousnessState

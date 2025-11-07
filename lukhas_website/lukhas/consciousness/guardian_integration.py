@@ -23,7 +23,7 @@ from collections.abc import Awaitable
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable
 
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram

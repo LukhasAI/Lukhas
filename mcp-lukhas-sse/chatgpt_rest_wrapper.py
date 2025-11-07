@@ -8,7 +8,7 @@ import logging
 import os
 import time
 import uuid
-from typing import Any, Dict
+from typing import Any
 
 import uvicorn
 

@@ -27,7 +27,7 @@ import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 
 def load_ledger(ledger_path: Path) -> list[Dict]:

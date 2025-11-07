@@ -6,7 +6,7 @@ Updates claude.me and lukhas_context.md files with current architecture reality
 
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict
 
 
 class ContextUpdater:

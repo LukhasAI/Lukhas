@@ -10,7 +10,7 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
 def run_command(cmd: list[str], description: str) -> dict[str, Any]:

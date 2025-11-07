@@ -10,7 +10,7 @@ Usage:
 """
 import functools
 import os
-from typing import Any, Callable, Tuple
+from typing import Any, Callable
 
 LANE = os.getenv("LUKHAS_LANE", "experimental")
 

@@ -10,7 +10,7 @@ import asyncio
 import logging
 import os
 import time
-from typing import List, Optional
+from typing import Optional
 
 from .base_client import AIProvider, AIResponse, BaseAIClient
 

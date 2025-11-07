@@ -18,7 +18,7 @@ import json
 import statistics
 import time
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
 class FlakeSentinel:

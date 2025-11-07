@@ -18,7 +18,6 @@ Output:
 import json
 import sys
 from pathlib import Path
-from typing import List, Tuple
 
 
 def find_all_manifests(repo_root: Path) -> list[Path]:

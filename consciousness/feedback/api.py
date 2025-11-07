@@ -12,7 +12,7 @@ from __future__ import annotations
 import json
 import pathlib
 import time
-from typing import Any, Dict
+from typing import Any
 
 from jsonschema import Draft202012Validator
 

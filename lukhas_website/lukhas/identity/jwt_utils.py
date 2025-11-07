@@ -15,7 +15,7 @@ import secrets
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 import jwt
 from cryptography.hazmat.primitives.asymmetric import ec, rsa

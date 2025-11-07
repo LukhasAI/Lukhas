@@ -11,7 +11,7 @@ import json
 import pathlib
 import sys
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 
 def load_artifact(file_path: pathlib.Path, description: str) -> dict[str, Any]:

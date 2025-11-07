@@ -15,7 +15,7 @@ import os
 import uuid
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import uvicorn
 from starlette.applications import Starlette

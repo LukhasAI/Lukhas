@@ -21,7 +21,7 @@ from __future__ import annotations
 import time
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any
 
 import structlog
 

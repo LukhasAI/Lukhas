@@ -9,8 +9,6 @@ import hashlib
 import json
 import sys
 from pathlib import Path
-from typing import Dict
-
 # Repository structure
 ROOT = Path(__file__).resolve().parents[1]
 POLICIES_DIR = ROOT / "policies" / "matrix"

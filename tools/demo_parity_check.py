@@ -16,7 +16,7 @@ import json
 import pathlib
 import subprocess
 import sys
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class DemoParityChecker:

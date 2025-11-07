@@ -18,7 +18,7 @@ Reference:
 import subprocess
 import time
 from pathlib import Path
-from typing import Dict, List
+from typing importList
 
 import pytest
 import requests

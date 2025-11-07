@@ -10,7 +10,7 @@ import hmac
 import logging
 import os
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from ..facades.authentication_facade import AuthenticatorInterface, AuthResult
 

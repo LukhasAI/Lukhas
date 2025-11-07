@@ -14,7 +14,7 @@ from abc import ABC, abstractmethod
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Re-import enums from original implementation for compatibility
 from ..governance.consent_ledger_impl import ConsentType, DataSubjectRights, PolicyVerdict

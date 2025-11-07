@@ -2,7 +2,7 @@
 Conflict corpus for stress-testing strategies.
 Tests direct emotional conflicts and edge cases.
 """
-from typing import Any, Dict, List
+from typing import Any
 
 CONFLICT_CASES = [
     {

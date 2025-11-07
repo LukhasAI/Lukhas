@@ -18,7 +18,7 @@ import json
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 
 def generate_evidence_bundle() -> dict[str, Any]:

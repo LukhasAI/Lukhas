@@ -9,9 +9,6 @@ particularly in documentation about AGI evolution and technical contexts.
 import os
 import re
 from pathlib import Path
-from typing import Tuple
-
-
 class AGICognitiveAccuracyFixer:
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path).resolve()

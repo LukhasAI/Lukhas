@@ -5,7 +5,7 @@ import os
 import subprocess
 import sys
 import time
-from typing import Any, Dict
+from typing import Any
 
 
 class CIRunner:

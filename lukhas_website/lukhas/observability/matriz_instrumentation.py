@@ -33,7 +33,7 @@ import time
 from contextlib import contextmanager
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Optional, Union
 
 # Import existing OTel infrastructure
 from observability.otel_instrumentation import OTEL_AVAILABLE, _metrics_initialized, _tracer
