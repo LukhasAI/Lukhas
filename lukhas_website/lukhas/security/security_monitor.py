@@ -578,11 +578,10 @@ class SecurityMonitor:
         # T4: code=SIM102 | ticket=GH-1031 | owner=consciousness-team | status=planned
         # reason: Nested if statements - can be collapsed with 'and' operator
         # estimate: 5m | priority: low | dependencies: none
-        if threat.threat_level == ThreatLevel.CRITICAL or (
+        if (threat.threat_level == ThreatLevel.CRITICAL or (
             threat.threat_level == ThreatLevel.HIGH and threat.confidence_score > 0.8
-        ):
-            if ResponseAction.ESCALATE not in actions:
-                actions.append(ResponseAction.ESCALATE)
+        )) and ResponseAction.ESCALATE not in actions:
+            actions.append(ResponseAction.ESCALATE)
 
         # Alert for medium and above threats
         if (
