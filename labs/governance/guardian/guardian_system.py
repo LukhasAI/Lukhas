@@ -152,7 +152,7 @@ class GuardianAgent:
     priority_level: int = 5  # 1-10 priority
 
     # Health and status
-    last_heartbeat: datetime = field(default_factory=datetime.now)
+    last_heartbeat: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     operational_since: datetime = field(default_factory=datetime.now)
     restart_count: int = 0
 
@@ -457,7 +457,8 @@ class EnhancedGuardianSystem:
             for action in actions:
                 result = await self._execute_response_action(action, threat, agent, response)
                 execution_results.append(result)
-                response.audit_trail.append(f"Executed {action.value}: {result['status']}")
+                action_name = action.value if isinstance(action, Enum) else str(action)
+                response.audit_trail.append(f"Executed {action_name}: {result['status']}")
 
             # Evaluate response effectiveness
             response.completed_at = datetime.now(timezone.utc)
@@ -626,6 +627,7 @@ class EnhancedGuardianSystem:
                 "success": False,
                 "error": str(e),
                 "execution_time": time.time() - start_time,
+                "status": "failed",
             }
 
     async def _enhance_monitoring(self, threat: ThreatDetection, agent: GuardianAgent) -> dict[str, Any]:
@@ -644,6 +646,7 @@ class EnhancedGuardianSystem:
             "action": "monitoring_enhanced",
             "details": f"Enhanced monitoring for {threat.threat_type}",
             "threshold_lowered": True,
+            "status": "completed",
         }
 
     async def _generate_alerts(self, threat: ThreatDetection, agent: GuardianAgent) -> dict[str, Any]:
@@ -671,6 +674,7 @@ class EnhancedGuardianSystem:
                 "log",
                 "metrics",
             ],  # Would include email, slack, etc.
+            "status": "completed",
         }
 
     async def _block_operation(self, threat: ThreatDetection, agent: GuardianAgent) -> dict[str, Any]:
@@ -693,6 +697,7 @@ class EnhancedGuardianSystem:
             "blocked_operations": blocked_operations,
             "permanent": False,  # Temporary block pending review
             "review_required": True,
+            "status": "completed",
         }
 
     async def _quarantine_source(self, threat: ThreatDetection, agent: GuardianAgent) -> dict[str, Any]:
@@ -712,6 +717,7 @@ class EnhancedGuardianSystem:
             "quarantine_actions": quarantine_actions,
             "isolation_complete": True,
             "release_requires_approval": True,
+            "status": "completed",
         }
 
     async def _emergency_shutdown(self, threat: ThreatDetection, agent: GuardianAgent) -> dict[str, Any]:
@@ -736,6 +742,7 @@ class EnhancedGuardianSystem:
             "shutdown_actions": shutdown_actions,
             "system_status": self.system_status.value,
             "recovery_required": True,
+            "status": "completed",
         }
 
     async def _initiate_repairs(self, threat: ThreatDetection, agent: GuardianAgent) -> dict[str, Any]:
@@ -757,6 +764,7 @@ class EnhancedGuardianSystem:
             "repair_actions": repair_actions,
             "estimated_completion": "pending",
             "monitoring_active": True,
+            "status": "completed",
         }
 
     async def _escalate_to_humans(self, threat: ThreatDetection, agent: GuardianAgent) -> dict[str, Any]:
@@ -788,6 +796,7 @@ class EnhancedGuardianSystem:
             "escalation_data": escalation_data,
             "priority": ("high" if threat.threat_level in [ThreatLevel.CRITICAL, ThreatLevel.SEVERE] else "normal"),
             "response_required": True,
+            "status": "completed",
         }
 
     async def _assign_threat_to_agent(self, threat: ThreatDetection) -> Optional[GuardianAgent]:
@@ -875,26 +884,28 @@ class EnhancedGuardianSystem:
 
         while self.monitoring_active:
             try:
-                current_time = datetime.now(timezone.utc)
-
-                for agent in self.guardian_agents.values():
-                    # Check agent heartbeat
-                    time_since_heartbeat = (current_time - agent.last_heartbeat).total_seconds()
-
-                    if time_since_heartbeat > 60:  # 1 minute without heartbeat
-                        if agent.status == GuardianStatus.ACTIVE:
-                            agent.status = GuardianStatus.WARNING
-                            logger.warning(f"⚠️ Agent {agent.name} missed heartbeat")
-
-                    if time_since_heartbeat > 300:  # 5 minutes without heartbeat
-                        agent.status = GuardianStatus.OFFLINE
-                        logger.error(f"❌ Agent {agent.name} offline")
-
+                await self._check_agents_health()
                 await asyncio.sleep(30)  # Check every 30 seconds
-
             except Exception as e:
                 logger.error(f"❌ Health check loop error: {e}")
                 await asyncio.sleep(30)
+
+    async def _check_agents_health(self):
+        """Checks the health of all guardian agents."""
+        current_time = datetime.now(timezone.utc)
+
+        for agent in self.guardian_agents.values():
+            # Check agent heartbeat
+            time_since_heartbeat = (current_time - agent.last_heartbeat).total_seconds()
+
+            if time_since_heartbeat > 300:  # 5 minutes without heartbeat
+                if agent.status != GuardianStatus.OFFLINE:
+                    agent.status = GuardianStatus.OFFLINE
+                    logger.error(f"❌ Agent {agent.name} offline")
+            elif time_since_heartbeat > 60:  # 1 minute without heartbeat
+                if agent.status == GuardianStatus.ACTIVE:
+                    agent.status = GuardianStatus.WARNING
+                    logger.warning(f"⚠️ Agent {agent.name} missed heartbeat")
 
     async def _drift_monitoring_loop(self):
         """Specialized monitoring for drift detection"""
@@ -996,6 +1007,71 @@ class EnhancedGuardianSystem:
     async def get_system_metrics(self) -> dict[str, Any]:
         """Get system performance metrics"""
         return self.metrics.copy()
+
+    # --------------------------------------------------------------------------
+    # Placeholder methods for missing implementations
+    # --------------------------------------------------------------------------
+
+    async def _validate_agent_config(self, agent: "GuardianAgent") -> bool:
+        """Validate agent configuration (placeholder)."""
+        return True
+
+    async def _initialize_agent_handlers(self, agent: "GuardianAgent"):
+        """Initialize agent-specific handlers (placeholder)."""
+        pass
+
+    async def _capture_system_state(self) -> dict[str, Any]:
+        """Capture the current system state (placeholder)."""
+        return {"placeholder_state": True}
+
+    async def _analyze_identity_impact(self, threat_data: dict, context: dict) -> Optional[str]:
+        """Analyze threat impact on Identity (placeholder)."""
+        return "not_analyzed"
+
+    async def _analyze_consciousness_impact(self, threat_data: dict, context: dict) -> Optional[str]:
+        """Analyze threat impact on Consciousness (placeholder)."""
+        return "not_analyzed"
+
+    async def _determine_guardian_priority(self, detection: "ThreatDetection") -> str:
+        """Determine Guardian priority for a threat (placeholder)."""
+        return "normal"
+
+    async def _trigger_automated_response(self, detection: "ThreatDetection"):
+        """Trigger an automated response (placeholder)."""
+        pass
+
+    async def _evaluate_threat_neutralization(self, threat: "ThreatDetection", results: list) -> bool:
+        """Evaluate if a threat has been neutralized (placeholder)."""
+        # A simple placeholder logic: only a REPAIR action truly neutralizes the threat.
+        # Other actions like SHUTDOWN or BLOCK are containment.
+        for result in results:
+            if result.get("success") and result.get("action") == "repairs_initiated":
+                return True
+        return False
+
+    async def _calculate_response_effectiveness(self, response: "GuardianResponse", results: list) -> float:
+        """Calculate the effectiveness of a response (placeholder)."""
+        return 1.0
+
+    async def _assess_collateral_impact(self, response: "GuardianResponse", results: list) -> Optional[str]:
+        """Assess collateral impact of a response (placeholder)."""
+        return "none_detected"
+
+    async def _update_agent_performance(self, agent: "GuardianAgent", response: "GuardianResponse"):
+        """Update agent performance metrics (placeholder)."""
+        pass
+
+    async def _check_system_health(self):
+        """Check system health (placeholder)."""
+        pass
+
+    async def _process_active_threats(self):
+        """Process active threats (placeholder)."""
+        pass
+
+    async def _update_system_metrics(self):
+        """Update system metrics (placeholder)."""
+        self.metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
 
 
 # Export main classes and functions
