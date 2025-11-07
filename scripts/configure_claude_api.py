@@ -23,6 +23,7 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+from typing import Optional
 
 
 def print_header(text: str):
@@ -174,12 +175,12 @@ def store_in_keychain(api_key: str) -> bool:
         return False
 
 
-def retrieve_from_keychain() -> str | None:
+def retrieve_from_keychain() -> Optional[str]:
     """
     Retrieve API key from macOS Keychain
 
     Returns:
-        str | None: API key if found, None otherwise
+        Optional[str]: API key if found, None otherwise
     """
     try:
         user = os.getenv('USER')

@@ -44,6 +44,7 @@ import logging
 
 # Module imports
 import os
+from typing import Optional
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.llm_wrappers.env_loader")
