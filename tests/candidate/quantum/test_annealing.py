@@ -1,6 +1,8 @@
 import random
 import unittest
+
 from candidate.quantum.annealing import QuantumAnnealer
+
 
 class TestQuantumAnnealer(unittest.TestCase):
     def setUp(self):

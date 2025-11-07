@@ -1,7 +1,9 @@
 import random
 import unittest
+
 from candidate.quantum.measurement import QuantumMeasurement
 from candidate.quantum.superposition_engine import SuperpositionState
+
 
 class TestQuantumMeasurement(unittest.TestCase):
     def setUp(self):

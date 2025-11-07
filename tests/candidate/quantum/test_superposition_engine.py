@@ -1,7 +1,9 @@
+import cmath
 import random
 import unittest
-import cmath
+
 from candidate.quantum.superposition_engine import QuantumSuperpositionEngine
+
 
 class TestQuantumSuperpositionEngine(unittest.TestCase):
     def setUp(self):
