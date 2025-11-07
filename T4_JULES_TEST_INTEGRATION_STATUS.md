@@ -120,3 +120,98 @@ Following 0.01% lens principles:
 **Status:** 🟡 IN PROGRESS - Awaiting tooling approval  
 **Next:** Install pyupgrade and batch fix UP035  
 **Blocker:** None - can proceed with manual fixes if needed
+
+---
+
+## 🚨 CRITICAL UPDATE: Import Error Discovery (After Initial Analysis)
+
+### Pytest Collection Results
+```
+✅ 3108/3136 tests collected (28 deselected)
+❌ 138 errors during collection
+⏱️  Collection time: 5.32s
+```
+
+### Severity Assessment
+**CRITICAL BLOCKER:** The 138 import errors completely prevent test execution. This takes absolute priority over the 134 lint violations documented above.
+
+**Revised Priority:**
+1. **Phase 0 (CRITICAL):** Fix 138 import errors ← CURRENT FOCUS
+2. Phase 1: Fix F821 undefined names (11 issues)
+3. Phase 2: Pyupgrade UP035 (105 issues)
+4. Phase 3: SIM105/SIM117 cleanup (18 issues)
+5. Phase 4: T4 annotation compliance
+6. Phase 5: Full test execution validation
+
+### Import Error Categories (Top 12)
+| Frequency | Missing Module | Action Required |
+|-----------|---------------|-----------------|
+| 5 | `opentelemetry.exporter` | Install optional deps |
+| 4 | `aka_qualia.core` | Fix import path |
+| 3 | `monitoring.drift_manager` | Locate moved module |
+| 3 | `labs.core.orchestration.async_orchestrator` | Fix deep import path |
+| 3 | `governance.schema_registry` | PYTHONPATH or __init__ fix |
+| 2 | `lukhas_website.core` | Website module access |
+| 2 | `governance.guardian_system` | Import path mismatch |
+| 2 | `core.matriz` | Matriz integration issue |
+| 2 | `core.ethics.guardian_drift_bands` | Deep path restructuring |
+| 2 | `async_manager` | Missing or moved module |
+| 2 | `adapters.openai.api` | Adapter path issue |
+| 2 | `_bridgeutils` | Internal module not exposed |
+
+### Sample Broken Test Files (Last 20 in Collection)
+```
+tests/observability/test_matriz_cognitive_instrumentation.py
+tests/observability/test_matriz_metrics_contract.py
+tests/observability/test_opentelemetry_tracing.py
+tests/observability/test_performance_validation.py
+tests/orchestration/test_async_orchestrator_metrics.py
+tests/orchestration/test_externalized_routing.py (RecursionError)
+tests/orchestration/test_guardian_enforcement.py
+tests/orchestration/test_killswitch.py
+tests/orchestration/test_multi_ai_router.py
+tests/orchestration/test_plan_verifier.py
+tests/perf/test_async_orchestrator_perf.py
+tests/performance/test_guardian_perf_*.py (4 files)
+tests/products/test_*.py (4 files)
+tests/reliability/test_0_01_percent_features.py
+tests/resilience/test_circuit_breaker.py
+tests/rules/test_star_rules.py (FileNotFoundError)
+tests/scripts/test_*.py (2 files)
+tests/security/test_pqc_redteam.py (marker error)
+tests/security/test_security_monitor.py (TypeError)
+tests/smoke/ (entire directory)
+tests/unit/ (ImportError: bridge from _bridgeutils)
+```
+
+### Codex Escalation Status
+📝 **GitHub Issue Created:** `GITHUB_ISSUE_JULES_TEST_IMPORTS.md`
+- Comprehensive error catalog
+- Diagnostic commands provided
+- Systematic fix patterns documented
+- Validation protocol included
+- T4 annotation format specified
+
+**Assignee:** @codex  
+**Priority:** P0 - Blocking  
+**Timeline:** 24h requested  
+
+### Next Actions (Blocked Until Import Fixes)
+1. ⏳ Wait for Codex analysis of import errors
+2. ⏳ Implement fixes based on Codex recommendations
+3. ⏳ Validate: `pytest --collect-only` → 0 errors
+4. ⏳ Then proceed with lint cleanup workflow
+
+### Quality Gate Established
+**New workflow requirement:** All future Jules test PRs must pass:
+```bash
+pytest tests/ --collect-only -q 2>&1 | grep "ERROR collecting" && echo "FAILED" || echo "PASSED"
+```
+
+This gate prevents merge of tests that cannot be imported.
+
+---
+
+**Status:** 🔴 CRITICAL BLOCKER IDENTIFIED  
+**Updated:** $(date +%Y-%m-%d\ %H:%M)  
+**T4 Compliance:** Import crisis documented, systematic resolution in progress
