@@ -15,7 +15,7 @@ import asyncio
 import os
 import statistics
 import time
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from unittest.mock import patch
 
 import pytest

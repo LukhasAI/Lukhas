@@ -24,7 +24,7 @@ import asyncio
 import logging
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 from unittest.mock import Mock, patch
 
 import pytest

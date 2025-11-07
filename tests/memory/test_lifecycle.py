@@ -18,7 +18,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 # Import VectorDocument directly without importing from backends package
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 import pytest

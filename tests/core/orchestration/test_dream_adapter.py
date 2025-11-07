@@ -25,7 +25,7 @@ Architecture: Field-theoretic consciousness model with unified integration layer
 import asyncio
 import time
 import unittest
-from typing import Any, Dict
+from typing import Any
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest

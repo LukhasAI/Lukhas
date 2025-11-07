@@ -27,7 +27,7 @@ import time
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 import hypothesis
 import pytest

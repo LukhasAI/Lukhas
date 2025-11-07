@@ -27,7 +27,7 @@ import logging
 import statistics
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from unittest.mock import patch
 
 import pytest

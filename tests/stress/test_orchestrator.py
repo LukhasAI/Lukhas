@@ -12,7 +12,7 @@ import asyncio
 import statistics
 import time
 from datetime import datetime
-from typing import Any, Dict, Tuple
+from typing import Any
 
 import pytest
 

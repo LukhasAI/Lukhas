@@ -15,7 +15,7 @@ Tests comprehensive observability functionality including:
 
 import asyncio
 import time
-from typing import Any, Dict
+from typing import Any
 from unittest.mock import Mock, patch
 
 import pytest

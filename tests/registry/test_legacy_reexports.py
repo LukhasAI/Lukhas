@@ -2,7 +2,7 @@
 """Ensure legacy registry helpers remain import-compatible."""
 
 import importlib
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 

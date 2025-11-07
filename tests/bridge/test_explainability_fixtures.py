@@ -4,7 +4,7 @@ Test fixtures for explainability interface testing.
 Part of BATCH-COPILOT-2025-10-08-01
 TaskID: ASSIST-HIGH-TEST-EXPLAIN-i9j0k1l2
 """
-from typing import Any, Dict, List
+from typing import Any
 
 import pytest
 

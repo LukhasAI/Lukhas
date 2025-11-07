@@ -8,7 +8,7 @@ Production-ready monitoring for Guardian (<100ms), Memory (<1ms), Orchestrator (
 import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing importList, Optional, Tuple
+from typing import Optional
 
 import pytest
 

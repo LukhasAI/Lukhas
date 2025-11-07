@@ -17,7 +17,7 @@ import asyncio
 import os
 import statistics
 import time
-from typing import Any, Dict
+from typing import Any
 
 import psutil
 import pytest

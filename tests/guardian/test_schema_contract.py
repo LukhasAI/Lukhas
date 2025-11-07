@@ -16,7 +16,7 @@ import hashlib
 import json
 import pathlib
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 

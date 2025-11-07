@@ -8,7 +8,7 @@ that the 99.7% cascade prevention rate is maintained.
 
 import asyncio
 import time
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 

@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import asyncio
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 import pytest
 from core.security.security_monitor import EventSeverity, SecurityMonitor, SecurityMonitorConfig

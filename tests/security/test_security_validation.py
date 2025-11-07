@@ -11,7 +11,7 @@ Validates Guardian safety mechanisms, authentication, and vulnerability detectio
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 from unittest.mock import Mock
 
 import pytest
