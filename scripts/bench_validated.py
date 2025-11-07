@@ -22,14 +22,13 @@ logging.getLogger().setLevel(logging.CRITICAL)
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from bench_core import (
-    PerformanceBenchmark,  # - repo root must be on sys.path before import
+    PerformanceBenchmark,  # noqa: E402 - repo root must be on sys.path before import
 )
-
 from governance.guardian_system import (
-    GuardianSystem,  # - repo root must be on sys.path before import
+    GuardianSystem,  # noqa: E402 - repo root must be on sys.path before import
 )
 from memory.memory_event import (
-    MemoryEventFactory,  # - repo root must be on sys.path before import
+    MemoryEventFactory,  # noqa: E402 - repo root must be on sys.path before import
 )
 
 

@@ -483,7 +483,7 @@ class CoverageMetricsSystem:
                     risk = "high"
 
             # Adjust for critical modules
-            if any(critical in metrics.module_name for critical in self.config['critical_modules']) and risk in ['medium', 'high']:
+            if any((critical in metrics.module_name for critical in self.config['critical_modules'])) and risk in ['medium', 'high']:
                 risk = "critical"
 
             metrics.risk_level = risk

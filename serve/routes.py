@@ -3,10 +3,9 @@
 import logging
 from typing import Any
 
+from config.config import TIER_PERMISSIONS
 from enterprise.observability.instantiate import obs_stack
 from fastapi import APIRouter, HTTPException
-
-from config.config import TIER_PERMISSIONS
 
 from .schemas import (
     DreamRequest,
@@ -283,8 +282,9 @@ async def memory_dump() -> MemoryDumpResponse:
         # Import memory system components
         import os
 
-        from emotion import process_emotion
         from memory.unified.fold_manager import FoldManager
+
+        from emotion import process_emotion
 
 
         # Initialize memory manager

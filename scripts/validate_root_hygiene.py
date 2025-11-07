@@ -90,7 +90,7 @@ def main() -> int:
         print("     - Test files → docs/testing/", file=sys.stderr)
         print("     - Security docs → docs/security/", file=sys.stderr)
         print("  2. Or add to .root-allowlist if legitimately needed at root", file=sys.stderr)
-        print("  3. Run: scripts/validate_root_hygiene.py", file=sys.stderr)
+        print(f"  3. Run: scripts/validate_root_hygiene.py", file=sys.stderr)
 
         return 1
 

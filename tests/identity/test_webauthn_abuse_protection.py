@@ -24,7 +24,6 @@ from datetime import datetime, timedelta
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
-
 from identity.webauthn_production import WebAuthnManager
 from identity.webauthn_security_hardening import (
     DeviceFingerprint,

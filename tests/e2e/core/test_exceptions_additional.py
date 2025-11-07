@@ -7,7 +7,6 @@ Based on PR #124 - expanding coverage from 49% to 89%
 """
 
 import pytest
-
 from core.common.exceptions import (
     AuthenticationError,
     AuthorizationError,

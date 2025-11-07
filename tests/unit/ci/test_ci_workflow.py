@@ -6,13 +6,13 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from tools.ci.build_manifest import (
-    TodoManifestBuilder,  # - repository root must be on sys.path before import
+    TodoManifestBuilder,  # noqa: E402 - repository root must be on sys.path before import
 )
 from tools.ci.lock_batches import (
-    BatchLocker,  # - repository root must be on sys.path before import
+    BatchLocker,  # noqa: E402 - repository root must be on sys.path before import
 )
 from tools.ci.split_batches import (
-    BatchSplitter,  # - repository root must be on sys.path before import
+    BatchSplitter,  # noqa: E402 - repository root must be on sys.path before import
 )
 
 

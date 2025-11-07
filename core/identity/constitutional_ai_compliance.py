@@ -21,11 +21,10 @@ import logging as std_logging
 import time
 import uuid
 from collections import Counter
-from collections.abc import Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, Sequence
 
 # Import MΛTRIZ consciousness components
 try:

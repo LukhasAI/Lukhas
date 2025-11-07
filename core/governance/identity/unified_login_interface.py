@@ -49,14 +49,13 @@ except ImportError:
     import sys
 
     sys.path.insert(0, str(Path(__file__).parent))
-    from lambda_id_auth import AuthTier
-
     from core.unified_auth_manager import (
         AuthMethod,
         ConsciousnessState,
         UnifiedAuthContext,
         get_revolutionary_auth_manager,
     )
+    from lambda_id_auth import AuthTier
 
 logger = logging.getLogger(__name__)
 

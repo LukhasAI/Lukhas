@@ -66,10 +66,11 @@ License: lukhas Proprietary (Enterprise) / Open Core (Community)
 
 # lukhas Core Imports (based on audit findings)
 try:
-    from common.exceptions import SafetyViolationError
     from core.advanced_symbolic_loop import EnhancedCoreIntegrator
     from core.logging import get_lukhas_logger
     from core.memory.memory_manager import MemoryManager
+
+    from common.exceptions import SafetyViolationError
 
     #     from system.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
     #     from system.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE

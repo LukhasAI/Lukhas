@@ -11,9 +11,8 @@ import logging
 import sys
 from pathlib import Path
 
-from feedback.card_system import FeedbackCardSystem
-
 from core.endocrine.hormone_system import get_endocrine_system
+from feedback.card_system import FeedbackCardSystem
 from orchestration.signals.signal_bus import Signal, SignalType, get_signal_bus
 
 # Add parent directory to path for imports

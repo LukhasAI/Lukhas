@@ -14,7 +14,6 @@ import uuid
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
-
 from observability.telemetry_system import (
     MetricData,
     MetricType,

@@ -28,7 +28,6 @@ from typing import Any, Dict
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from core.modules.nias import (
     ENHANCED_TTS_CONFIG,
     TTS_CONFIG,

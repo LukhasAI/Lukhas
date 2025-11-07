@@ -28,7 +28,6 @@ from typing import Any, Dict, List
 from unittest.mock import Mock, patch
 
 import pytest
-
 from consciousness.matriz_thought_loop import MATRIZThoughtLoop, matrizProcessingContext
 from consciousness.types import ConsciousnessState
 from governance.guardian_serializer import GuardianEnvelopeSerializer

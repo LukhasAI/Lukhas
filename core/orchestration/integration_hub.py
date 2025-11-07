@@ -10,10 +10,9 @@ import asyncio
 import logging
 import random
 import time
-from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable
+from typing import Any, Callable, Mapping, Sequence
 
 
 @dataclass
@@ -230,6 +229,7 @@ except ImportError:
 
 try:
     from consciousness.reflection.consciousness_hub import ConsciousnessHub
+
     from consciousness.reflection.memory_hub import MemoryHub
 except ImportError:
     ConsciousnessHub = None

@@ -15,7 +15,6 @@ Test coverage:
 import time
 
 import pytest
-
 from core.ethics.logic.dsl_lite import (
     DSLError,
     and_op,

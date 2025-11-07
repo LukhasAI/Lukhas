@@ -319,11 +319,11 @@ class EpisodicMemorySystem:
                     continue
 
             # Participant filter
-            if query.participants and (not any(p in episode.context.participants for p in query.participants)):
+            if query.participants and (not any((p in episode.context.participants for p in query.participants))):
                 continue
 
             # Tools filter
-            if query.tools_used and (not any(tool in episode.context.tools_used for tool in query.tools_used)):
+            if query.tools_used and (not any((tool in episode.context.tools_used for tool in query.tools_used))):
                 continue
 
             # Success score filter
