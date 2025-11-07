@@ -327,12 +327,11 @@ def main():
         if args.apply:
             if args.apply_limit and edits >= args.apply_limit:
                 continue
-            if not file_has_import(file, import_line):
-                if insert_import(file, import_line):
-                    edits += 1
+            if not file_has_import(file, import_line) and insert_import(file, import_line):
+                edits += 1
 
     # CSV
-    outp = Path(args.out); outp.parent.mkdir(parents=True, exist_ok=True)
+    outp = Path(args.out); outp.parent.mkdir(parents=True, exist_ok=True)  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_suggest_imports_f821_py_L334"}
     with outp.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=["file","line","symbol","suggestion","import_line","confidence","reason"])
         w.writeheader()

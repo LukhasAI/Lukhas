@@ -73,7 +73,18 @@ class CognitiveOrchestrator:
             }
 
         node = self.available_nodes[selected_node_name]
-        result = node.process({"query": user_input})
+        try:
+            result = node.process(
+                {"query": user_input, "trigger_node_id": decision_node["id"]}
+            )
+            if "matriz_node" in result and "id" in result["matriz_node"]:
+                self.matriz_graph[result["matriz_node"]["id"]] = result["matriz_node"]
+        except Exception as e:
+            return {
+                "error": f"Node '{selected_node_name}' failed during processing",
+                "error_details": e,
+                "trace": self.execution_trace,
+            }
 
         # 4. Validation
         if "validator" in self.available_nodes:

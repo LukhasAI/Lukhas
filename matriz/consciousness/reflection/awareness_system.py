@@ -32,10 +32,9 @@ The Quantum Awareness System isn't just an isolated module in the mighty LUKHAS 
 
 from __future__ import annotations
 
-import logging
-
 import asyncio
 import json
+import logging
 from dataclasses import (
     asdict,  # ΛTRACE_CHANGE: Added field and asdict
     dataclass,
@@ -48,12 +47,11 @@ from typing import Any
 import numpy as np  # ΛTRACE_ADD: For neuroplasticity calculations
 from bio.qi_layer import QIBioOscillator
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
-from dream.core import DreamPhase
-from qi.processing_core import QIProcessingCore
-
 from consciousness.awareness.awareness_engine import AwarenessEngine
 from core.unified.integration import UnifiedIntegration
+from dream.core import DreamPhase
 from ethics.engine import EthicalFramework, EthicalRiskLevel, QIEthics
+from qi.processing_core import QIProcessingCore
 
 logger = logging.getLogger(__name__)
 
@@ -211,7 +209,7 @@ class QIAwarenessSystem:
 
             # Start consciousness integration if available
             if self.config.consciousness_sync_interval > 0:
-                asyncio.create_task(self._consciousness_sync_loop())
+                asyncio.create_task(self._consciousness_sync_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_awareness_system_py_L212"}
 
             # Start dream-based training if enabled
             if self.config.dream_cycle_enabled:
@@ -799,7 +797,7 @@ class QIAwarenessSystem:
             self.current_state.learning_efficiency = 0.5
 
             # Start neuroplasticity monitoring
-            asyncio.create_task(self._neuroplasticity_monitor())
+            asyncio.create_task(self._neuroplasticity_monitor())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_awareness_system_py_L801"}
 
             log.info("Neuroplasticity system initialized with safety constraints.")
 

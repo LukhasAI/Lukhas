@@ -10,26 +10,26 @@ import math
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from pydantic import BaseModel, Field
-
 from consciousness.reflection.openai_modulated_service import (
     OpenAIModulatedService,
 )
 from core.colonies.consensus_mechanisms import ConsensusMethod
 from core.colonies.enhanced_colony import EnhancedReasoningColony
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+
+# Import LUKHAS components
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from pydantic import BaseModel, Field
+from symbolic.exchange.universal_exchange import (
+    ExchangeProtocol,
+    UniversalSymbolExchange,
+)
+
 from orchestration.gpt_colony_orchestrator import (
     GPTColonyOrchestrator,
     OrchestrationMode,
     OrchestrationTask,
-)
-
-# Import LUKHAS components
-from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
-from symbolic.exchange.universal_exchange import (
-    ExchangeProtocol,
-    UniversalSymbolExchange,
 )
 
 # Configure logging
@@ -230,7 +230,7 @@ async def root():
 @app.post("/api/v1/symbols/understand", response_model=SymbolUnderstandingResponse)
 async def understand_symbols(
     request: SymbolUnderstandingRequest,
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials = Depends(security),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_universal_language_api_py_L233"}
 ):
     """Understand multi-modal symbolic input"""
     try:
@@ -295,13 +295,13 @@ async def understand_symbols(
 
     except Exception as e:
         logger.error(f"Symbol understanding error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "api_universal_language_api_py_L298"}
 
 
 @app.post("/api/v1/password/generate", response_model=PasswordGenerationResponse)
 async def generate_password(
     request: PasswordGenerationRequest,
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials = Depends(security),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_universal_language_api_py_L304"}
 ):
     """Generate high-entropy password using multi-modal elements"""
     try:
@@ -350,13 +350,13 @@ async def generate_password(
 
     except Exception as e:
         logger.error(f"Password generation error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "api_universal_language_api_py_L354"}
 
 
 @app.post("/api/v1/exchange/initiate")
 async def initiate_exchange(
     request: ExchangeInitiationRequest,
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials = Depends(security),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_universal_language_api_py_L359"}
 ):
     """Initiate privacy-preserving symbol exchange"""
     try:
@@ -386,13 +386,13 @@ async def initiate_exchange(
 
     except Exception as e:
         logger.error(f"Exchange initiation error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "api_universal_language_api_py_L391"}
 
 
 @app.post("/api/v1/language/build")
 async def build_language(
     request: LanguageBuildRequest,
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials = Depends(security),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_universal_language_api_py_L395"}
 ):
     """Build universal language element from multi-modal inputs"""
     try:
@@ -448,14 +448,14 @@ async def build_language(
 
     except Exception as e:
         logger.error(f"Language building error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "api_universal_language_api_py_L454"}
 
 
 @app.post("/api/v1/colony/consensus")
 async def colony_consensus(
     request: ColonyConsensusRequest,
     background_tasks: BackgroundTasks,
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials = Depends(security),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_universal_language_api_py_L458"}
 ):
     """Request colony consensus on a proposal"""
     try:
@@ -496,11 +496,11 @@ async def colony_consensus(
 
     except Exception as e:
         logger.error(f"Colony consensus error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "api_universal_language_api_py_L503"}
 
 
 @app.get("/api/v1/stats")
-async def get_statistics(credentials: HTTPAuthorizationCredentials = Depends(security)):
+async def get_statistics(credentials: HTTPAuthorizationCredentials = Depends(security)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_universal_language_api_py_L503"}
     """Get system statistics"""
     try:
         # Get various statistics
@@ -523,7 +523,7 @@ async def get_statistics(credentials: HTTPAuthorizationCredentials = Depends(sec
 
     except Exception as e:
         logger.error(f"Statistics error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "api_universal_language_api_py_L531"}
 
 
 # ==================== Startup/Shutdown Events ====================

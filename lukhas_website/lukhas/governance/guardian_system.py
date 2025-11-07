@@ -440,10 +440,9 @@ class GuardianSystem:
 
             # Verify signature if present
             signature = integrity.get("signature")
-            if signature and CRYPTO_AVAILABLE:
-                if not self._verify_signature(canonical_json, signature):
-                    logger.warning("Guardian signature verification failed")
-                    return False  # Signature verification failed
+            if (signature and CRYPTO_AVAILABLE) and (not self._verify_signature(canonical_json, signature)):
+                logger.warning("Guardian signature verification failed")
+                return False  # Signature verification failed
 
             return True
 

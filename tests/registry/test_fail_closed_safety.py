@@ -560,7 +560,7 @@ class TestFailClosedSafetyMechanisms:
         # Simulate failure in component A's plugin instantiation
         FailingPlugin = MaliciousPluginSimulator.create_exception_throwing_plugin()
 
-        try:
+        try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_registry_test_fail_closed_safety_py_L563"}
             _instantiate_plugin('runtime_error', FailingPlugin)
         except Exception:
             pass  # Expected failure

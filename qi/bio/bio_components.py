@@ -29,11 +29,10 @@ For documentation and support: https://ai/docs
 
 from __future__ import annotations
 
-import logging
-
 import asyncio  # For async methods
 import hashlib  # For CardiolipinEncoder
 import json  # For CardiolipinEncoder
+import logging
 from datetime import datetime, timezone  # Standardized timestamping
 from typing import Any
 
@@ -58,9 +57,8 @@ LUKHAS_OSCILLATORS_AVAILABLE = False
 try:
     # Try absolute imports first (candidate lane structure)
     # type: ignore
-    from qi.processing.qi_engine import QIOscillator  # type: ignore
-
     from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
+    from qi.processing.qi_engine import QIOscillator  # type: ignore
 
 
     LUKHAS_OSCILLATORS_AVAILABLE = True
@@ -69,9 +67,8 @@ except ImportError:
     try:
         # Fallback to production lane if available
         # type: ignore
-        from qi.processing.qi_engine import QIOscillator  # type: ignore
-
         from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
+        from qi.processing.qi_engine import QIOscillator  # type: ignore
 
 
         LUKHAS_OSCILLATORS_AVAILABLE = True

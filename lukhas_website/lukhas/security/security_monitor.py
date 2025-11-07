@@ -210,15 +210,13 @@ class AnomalousAccessDetector(ThreatDetector):
 
         # Location-based anomaly (if available)
         current_location = event.details.get("location", {}).get("country")
-        if current_location and baseline["access_locations"]:
-            if current_location not in baseline["access_locations"]:
-                anomalies.append(f"Access from new location: {current_location}")
+        if (current_location and baseline['access_locations']) and current_location not in baseline['access_locations']:
+            anomalies.append(f"Access from new location: {current_location}")
 
         # Resource type anomaly
         resource_type = event.details.get("resource_type")
-        if resource_type and baseline["resource_types"]:
-            if resource_type not in baseline["resource_types"]:
-                anomalies.append(f"Access to new resource type: {resource_type}")
+        if (resource_type and baseline['resource_types']) and resource_type not in baseline['resource_types']:
+            anomalies.append(f"Access to new resource type: {resource_type}")
 
         # Update baseline
         baseline["access_times"].append(current_hour)
@@ -552,15 +550,14 @@ class SecurityMonitor:
                 logger.warning(f"Unknown response action: {recommended}")
 
         # Escalate based on threat level and confidence
-        if threat.threat_level == ThreatLevel.CRITICAL or \
+        if threat.threat_level == ThreatLevel.CRITICAL or \  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_security_security_monitor_py_L553"}
            (threat.threat_level == ThreatLevel.HIGH and threat.confidence_score > 0.8):
             if ResponseAction.ESCALATE not in actions:
                 actions.append(ResponseAction.ESCALATE)
 
         # Alert for medium and above threats
-        if threat.threat_level in [ThreatLevel.MEDIUM, ThreatLevel.HIGH, ThreatLevel.CRITICAL]:
-            if ResponseAction.ALERT not in actions:
-                actions.append(ResponseAction.ALERT)
+        if threat.threat_level in [ThreatLevel.MEDIUM, ThreatLevel.HIGH, ThreatLevel.CRITICAL] and ResponseAction.ALERT not in actions:
+            actions.append(ResponseAction.ALERT)
 
         return actions
 

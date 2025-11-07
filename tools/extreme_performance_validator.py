@@ -40,7 +40,6 @@ try:
         ExtremeAuthPerformanceOptimizer,  # Import available when enterprise features enabled
         get_extreme_optimizer,
     )
-
     from governance.identity.auth_backend.extreme_performance_audit_logger import (
         get_extreme_audit_logger,
         run_audit_benchmark_extreme,  # Import available when extreme auth logging enabled

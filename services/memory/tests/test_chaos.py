@@ -63,9 +63,8 @@ class ChaosVectorStore:
     async def _apply_chaos(self, operation: str):
         """Apply chaos scenarios if conditions are met"""
         for scenario in self.chaos_scenarios:
-            if scenario.get('operation') in [operation, 'all']:
-                if scenario.get('trigger_after', 0) <= self.call_count:
-                    await self._execute_chaos(scenario)
+            if scenario.get('operation') in [operation, 'all'] and scenario.get('trigger_after', 0) <= self.call_count:
+                await self._execute_chaos(scenario)
 
     async def _execute_chaos(self, scenario: Dict[str, Any]):
         """Execute a specific chaos scenario"""

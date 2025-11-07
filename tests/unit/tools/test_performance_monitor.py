@@ -211,7 +211,7 @@ class TestPerformanceMonitor:
         # Stop the monitor
         monitor.stop_monitoring()
         # Wait for the task to finish cancelling
-        try:
+        try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_unit_tools_test_performance_monitor_py_L214"}
             await asyncio.wait_for(monitoring_task, timeout=1.0)
         except asyncio.CancelledError:
             pass # This is expected

@@ -5,6 +5,8 @@ Coordinates all identity services and registers them with the global registry.
 Provides T4 architecture compliant service discovery and initialization.
 """
 
+# Schedule auto-initialization
+import asyncio
 import logging
 from typing import Any, Dict, Optional
 
@@ -14,9 +16,6 @@ from .facades.authentication_facade import AuthenticationFacade
 from .services.authenticator_service import ApiKeyAuthenticator, PasswordAuthenticator
 from .services.session_service import SessionService
 from .services.token_service import TokenService
-
-# Schedule auto-initialization
-import asyncio
 
 logger = logging.getLogger(__name__)
 

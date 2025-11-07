@@ -12,11 +12,16 @@ Performance targets:
 """
 
 import asyncio
+
+# Use standard Python logging instead of custom logger
+import contextlib
 import gzip
 import json
 import logging
 import time
+import uuid
 from abc import ABC, abstractmethod
+from contextvars import ContextVar
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
@@ -26,10 +31,6 @@ from typing import Any, Callable, Dict, List, Optional
 # Import base classes directly to avoid circular imports
 import numpy as np
 
-# Use standard Python logging instead of custom logger
-import contextlib
-import uuid
-from contextvars import ContextVar
 
 # Define minimal VectorDocument interface for lifecycle management
 @dataclass

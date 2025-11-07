@@ -101,10 +101,9 @@ class RedirectUriValidation(BaseModel):
             parsed = urlparse(v)
 
             # Security checks
-            if parsed.scheme not in ['https', 'http']:
+            if parsed.scheme not in ['https', 'http'] and parsed.hostname not in ['localhost', '127.0.0.1']:
                 # Allow http only for localhost in development
-                if parsed.hostname not in ['localhost', '127.0.0.1']:
-                    raise ValueError('Redirect URI must use HTTPS')
+                raise ValueError('Redirect URI must use HTTPS')
 
             if parsed.fragment:
                 raise ValueError('Redirect URI must not contain fragment')
@@ -381,7 +380,7 @@ class SecurityEvent(BaseModel):
     metadata: Dict[str, Any] = Field(default_factory=dict)
 
     class Config:
-        json_encoders = {
+        json_encoders = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_identity_validation_schemas_py_L383"}
             datetime: lambda v: v.isoformat()
         }
 

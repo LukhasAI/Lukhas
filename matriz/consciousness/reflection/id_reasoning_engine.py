@@ -863,7 +863,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
 
         # Tier 4: + Emergency Gesture/Fallback (Only if provided, could be
         # alternative path)
-        if tier.value >= AccessTier.TIER_4_RESEARCH.value:
+        if tier.value >= AccessTier.TIER_4_RESEARCH.value:  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_id_reasoning_engine_py_L866"}
             if "emergency_gesture" in credentials:  # Check if emergency gesture is being attempted:
                 if not self._verify_emergency_gesture(
                         user_record.get("emergency_gesture"),
@@ -985,9 +985,8 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
 
         # Example: Ensure Tier 5 always has a specific critical permission if not
         # covered by 'all_system_ops'
-        if tier == AccessTier.TIER_5_ADMIN:
-            if "full_audit_log_access" not in allowed_permissions:  # More descriptive name:
-                allowed_permissions.append("full_audit_log_access")
+        if tier == AccessTier.TIER_5_ADMIN and 'full_audit_log_access' not in allowed_permissions:
+            allowed_permissions.append("full_audit_log_access")
 
         unique_permissions = list(set(allowed_permissions))
         self.logger.debug(

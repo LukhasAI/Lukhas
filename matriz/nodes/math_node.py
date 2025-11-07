@@ -46,7 +46,7 @@ class MathNode(CognitiveNode):
     """
 
     # Supported mathematical operations
-    SUPPORTED_OPERATORS = {
+    SUPPORTED_OPERATORS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_nodes_math_node_py_L49"}
         ast.Add: operator.add,
         ast.Sub: operator.sub,
         ast.Mult: operator.mul,
@@ -57,7 +57,7 @@ class MathNode(CognitiveNode):
     }
 
     # Mathematical constants
-    MATH_CONSTANTS = {"pi": math.pi, "e": math.e, "tau": math.tau}
+    MATH_CONSTANTS = {"pi": math.pi, "e": math.e, "tau": math.tau}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_nodes_math_node_py_L60"}
 
     def __init__(self, tenant: str = "default", precision: int = 10):
         """
@@ -410,9 +410,9 @@ class MathNode(CognitiveNode):
             return result
 
         except ZeroDivisionError:
-            raise ZeroDivisionError("Division by zero")
+            raise ZeroDivisionError("Division by zero")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_nodes_math_node_py_L413"}
         except Exception as e:
-            raise ValueError(f"Evaluation failed: {e!s}")
+            raise ValueError(f"Evaluation failed: {e!s}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_nodes_math_node_py_L416"}
 
     def _eval_ast_node(self, node: ast.AST) -> Union[float, int]:
         """
@@ -493,9 +493,8 @@ class MathNode(CognitiveNode):
             complexity_penalty = complexity * 0.15
 
             # Reduce confidence for very large or very small results
-            if isinstance(result, (int, float)):
-                if abs(result) > 1e10 or (abs(result) < 1e-10 and result != 0):
-                    complexity_penalty += 0.1
+            if isinstance(result, (int, float)) and (abs(result) > 10000000000.0 or (abs(result) < 1e-10 and result != 0)):
+                complexity_penalty += 0.1
 
             # Reduce confidence for expressions with many operations
             operation_count = len(re.findall(r"[+\-*/()]", expression))

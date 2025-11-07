@@ -616,9 +616,8 @@ class AGISystemOptimizer:
             if hash(step.get("name", "")) % 10 == 0:  # 10% chance of unexpected effect
                 effects.append("Temporary consciousness coherence fluctuation detected")
 
-        elif step_type == "memory_optimization":
-            if hash(step.get("name", "")) % 15 == 0:  # ~7% chance of unexpected effect
-                effects.append("Brief memory usage spike during optimization")
+        elif step_type == 'memory_optimization' and hash(step.get('name', '')) % 15 == 0:
+            effects.append("Brief memory usage spike during optimization")
 
         return effects
 

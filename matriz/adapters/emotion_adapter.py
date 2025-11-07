@@ -1,8 +1,7 @@
 import importlib
 
-from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
-
 from core.trace import mk_crumb
+from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
 
 
 class EmotionAdapter(MatrizNode):
@@ -47,7 +46,7 @@ except Exception:  # pragma: no cover - fallback for missing candidate module
 
 
 try:
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_adapters_emotion_adapter_py_L49"}
 except NameError:
     __all__ = []
 if "UemotionAdapter" not in __all__:

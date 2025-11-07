@@ -127,7 +127,7 @@ def stabilize_environment():
     gc.disable()
 
     # Set process priority if possible
-    try:
+    try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_validate_m1_optimized_py_L130"}
         os.nice(-5)  # Higher priority
     except (OSError, PermissionError):
         pass

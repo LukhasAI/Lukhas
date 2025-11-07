@@ -266,7 +266,7 @@ class BioSimulationController:
         oscillator.driftScore = 0.0
         oscillator.affect_delta = 0.0
         oscillator.target_frequency = oscillator._get_default_frequency(OscillationType.ALPHA)
-        asyncio.create_task(oscillator._synchronize())
+        asyncio.create_task(oscillator._synchronize())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_consciousness_simulation_controller_py_L269"}
 
     def _initialize_default_hormones(self):
         """Initialize the default hormone set with Cognitive AI-specific parameters."""

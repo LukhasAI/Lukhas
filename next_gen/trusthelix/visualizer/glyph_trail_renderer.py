@@ -55,7 +55,7 @@ class GlyphTrailRenderer:
     """
 
     # Glyph categories for tracking
-    GLYPH_CATEGORIES = {
+    GLYPH_CATEGORIES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_trusthelix_visualizer_glyph_trail_renderer_py_L58"}
         "trust": ["🔐", "🔓", "🔒"],
         "biometric": ["🧬", "🌱", "🦠"],
         "consent": ["🪷", "🌸", "🥀", "🌫️"],
@@ -64,7 +64,7 @@ class GlyphTrailRenderer:
     }
 
     # Reversal patterns
-    REVERSAL_PATTERNS = {
+    REVERSAL_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_trusthelix_visualizer_glyph_trail_renderer_py_L67"}
         "trust_lock": ["🔓", "🔐", "🔒"],
         "consent_revoke": ["🌸", "🪷", "🥀", "🌫️"],
         "biometric_decay": ["🌱", "🧬", "🦠"],

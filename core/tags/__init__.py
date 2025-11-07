@@ -14,7 +14,7 @@ def __getattr__(name: str) -> Any:
     try:
         _mod = importlib.import_module("labs.core.tags")
     except Exception:
-        raise AttributeError(f"module 'core.tags' has no attribute {name}")
+        raise AttributeError(f"module 'core.tags' has no attribute {name}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_tags___init___py_L17"}
     return getattr(_mod, name)
 
 

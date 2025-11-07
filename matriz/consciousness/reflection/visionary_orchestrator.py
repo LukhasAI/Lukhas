@@ -20,16 +20,12 @@ Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
-import logging
-from datetime import timezone
-
-import logging
-
 import asyncio
 import json
+import logging
 import time
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum, auto
 from pathlib import Path
 from typing import Any, Callable, Optional
@@ -70,10 +66,11 @@ License: lukhas Proprietary (Enterprise) / Open Core (Community)
 
 # lukhas Core Imports (based on audit findings)
 try:
-    from common.exceptions import SafetyViolationError
     from core.advanced_symbolic_loop import EnhancedCoreIntegrator
     from core.logging import get_lukhas_logger
     from core.memory.memory_manager import MemoryManager
+
+    from common.exceptions import SafetyViolationError
 
     #     from system.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
     #     from system.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
@@ -181,13 +178,13 @@ class VisionaryAGIOrchestrator:
 
         # Core components (will be initialized in startup)
         self.core_integrator: Optional[EnhancedCoreIntegrator] = None
-        self.lukhas_agent: Optional[lukhasAgent] = None
+        self.lukhas_agent: Optional[lukhasAgent] = None  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L181"}
         self.memory_manager: Optional[MemoryManager] = None
-        self.voice_engine: Optional[VoiceEngine] = None
-        self.dream_engine: Optional[DreamEngine] = None
-        self.emotional_engine: Optional[EmotionalResonanceEngine] = None
-        self.identity_system: Optional[IdentitySystem] = None
-        self.qi_engine: Optional[QIEngine] = None
+        self.voice_engine: Optional[VoiceEngine] = None  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L184"}
+        self.dream_engine: Optional[DreamEngine] = None  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L186"}
+        self.emotional_engine: Optional[EmotionalResonanceEngine] = None  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L188"}
+        self.identity_system: Optional[IdentitySystem] = None  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L190"}
+        self.qi_engine: Optional[QIEngine] = None  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L192"}
 
         # Safety and monitoring
         self.safety_monitors: list[Callable] = []
@@ -210,7 +207,7 @@ class VisionaryAGIOrchestrator:
         class VisionaryFormatter(logging.Formatter):
             """Custom formatter that makes logs beautiful and informative"""
 
-            COLORS = {
+            COLORS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_visionary_orchestrator_py_L210"}
                 "DEBUG": "\033[36m",  # Cyan
                 "INFO": "\033[32m",  # Green
                 "WARNING": "\033[33m",  # Yellow
@@ -387,18 +384,18 @@ class VisionaryAGIOrchestrator:
             self.core_integrator = EnhancedCoreIntegrator(config=self.config, safety_mode=True)
 
             # Initialize main agent
-            self.lukhas_agent = lukhasAgent(
+            self.lukhas_agent = lukhasAgent(  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L393"}
                 integrator=self.core_integrator,
                 consciousness_level=self.current_consciousness_level,
             )
 
             # Initialize cognitive modules
             self.memory_manager = MemoryManager(config=self.config["consciousness"])
-            self.voice_engine = VoiceEngine(config=self.config["user_experience"])
-            self.dream_engine = DreamEngine(config=self.config["consciousness"])
-            self.emotional_engine = EmotionalResonanceEngine(config=self.config["consciousness"])
-            self.identity_system = IdentitySystem(config=self.config["consciousness"])
-            self.qi_engine = QIEngine(config=self.config["consciousness"])
+            self.voice_engine = VoiceEngine(config=self.config["user_experience"])  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L401"}
+            self.dream_engine = DreamEngine(config=self.config["consciousness"])  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L403"}
+            self.emotional_engine = EmotionalResonanceEngine(config=self.config["consciousness"])  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L405"}
+            self.identity_system = IdentitySystem(config=self.config["consciousness"])  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L407"}
+            self.qi_engine = QIEngine(config=self.config["consciousness"])  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L409"}
 
             self.logger.info("🧠 Core intelligence systems initialized")
 
@@ -529,7 +526,7 @@ class VisionaryAGIOrchestrator:
             Dict containing the response and metadata
         """
         if not self.is_running:
-            raise lukhasException("AI system is not running")
+            raise lukhasException("AI system is not running")  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L541"}
 
         start_time = time.time()
 
@@ -952,7 +949,7 @@ async def create_visionary_agi(
     if await ai.initialize():
         return ai
     else:
-        raise lukhasException("Failed to initialize Visionary AI Orchestrator")
+        raise lukhasException("Failed to initialize Visionary AI Orchestrator")  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L965"}
 
 
 # Example usage and testing

@@ -25,7 +25,6 @@ from enum import Enum
 from typing import Any, Callable
 
 import numpy as np
-
 from core.common import get_logger
 
 try:
@@ -570,7 +569,7 @@ class ConsensusValidator:
         try:
             return await asyncio.wait_for(actor_ref.ask(query, {}), timeout=timeout)
         except asyncio.TimeoutError:
-            raise TimeoutError(f"Actor {actor_ref.actor_id} timed out")
+            raise TimeoutError(f"Actor {actor_ref.actor_id} timed out")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_reflection_circuit_breaker_py_L572"}
 
     def _analyze_responses(self, responses: list[tuple[str, Any]]) -> tuple[bool, Any]:
         """Analyze responses for consensus"""
@@ -609,8 +608,8 @@ class CascadePreventionSystem:
 
     def __init__(
         self,
-        actor_system: ActorSystem,
-        observability: ObservabilityCollector | None = None,
+        actor_system: ActorSystem,  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_circuit_breaker_py_L612"}
+        observability: ObservabilityCollector | None = None,  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_circuit_breaker_py_L614"}
     ):
         self.actor_system = actor_system
         self.observability = observability
@@ -748,7 +747,7 @@ class CascadePreventionSystem:
             except Exception as e:
                 logger.debug(f"Failed to collect metrics for {actor_id}: {e}")
 
-    async def _get_actor_snapshot(self, actor_id: str) -> ActorSnapshot | None:
+    async def _get_actor_snapshot(self, actor_id: str) -> ActorSnapshot | None:  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_circuit_breaker_py_L753"}
         """Get snapshot for an actor"""
         if not self.observability:
             return None

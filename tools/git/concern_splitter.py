@@ -271,9 +271,8 @@ class ConcernSplitter:
                     deps = self._analyze_file_imports(file_change.path)
                     for dep in deps:
                         dep_concern = self.classify_file_concern(dep)
-                        if dep_concern != concern_name and dep_concern in groups:
-                            if dep_concern not in group.dependencies:
-                                group.dependencies.append(dep_concern)
+                        if (dep_concern != concern_name and dep_concern in groups) and dep_concern not in group.dependencies:
+                            group.dependencies.append(dep_concern)
 
         return groups
 

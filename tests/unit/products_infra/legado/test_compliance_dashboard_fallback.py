@@ -3,7 +3,6 @@ import sys
 from pathlib import Path
 
 import pytest
-
 from products.infrastructure.legado.legacy_systems.safety import compliance_dashboard
 
 path_obj = Path(__file__).resolve()

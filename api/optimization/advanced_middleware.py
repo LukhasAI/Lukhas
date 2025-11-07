@@ -25,8 +25,8 @@ try:
     from .advanced_api_optimizer import (
         APITier,
         LUKHASAPIOptimizer,
-        OptimizationConfig,
-        OptimizationStrategy,
+        OptimizationConfig,  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_advanced_middleware_py_L28"}
+        OptimizationStrategy,  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_advanced_middleware_py_L30"}
         RequestContext,
         RequestPriority,
     )
@@ -36,7 +36,7 @@ except ImportError:
 
 # FastAPI integration
 try:
-    from fastapi import HTTPException, Request, Response
+    from fastapi import HTTPException, Request, Response  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_advanced_middleware_py_L41"}
     from fastapi.middleware.base import BaseHTTPMiddleware
     from starlette.middleware.base import RequestResponseEndpoint
     FASTAPI_AVAILABLE = True

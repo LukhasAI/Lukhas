@@ -14,11 +14,11 @@ from qi.ops.metrics_middleware import (
     PrometheusMiddleware,
     metrics_endpoint,
 )
-from qi.safety.provenance_receipts import write_receipt
-from qi.safety.provenance_uploader import load_record_by_sha
 
 # Add rate limiting
 from qi.ops.rate_limit import BucketConfig, RateLimiter
+from qi.safety.provenance_receipts import write_receipt
+from qi.safety.provenance_uploader import load_record_by_sha
 
 # Reuse URL parsing from the presigner (inline minimal parser to avoid deps)
 _S3_RE = re.compile(r"^s3://([^/]+)/(.+)$")

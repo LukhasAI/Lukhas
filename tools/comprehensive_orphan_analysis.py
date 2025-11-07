@@ -250,9 +250,8 @@ class ComprehensiveOrphanAnalyzer:
                     for alias in node.names:
                         if not self.is_library_import(alias.name):
                             imports.add(alias.name)
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module and not self.is_library_import(node.module):
-                        imports.add(node.module)
+                elif isinstance(node, ast.ImportFrom) and (node.module and (not self.is_library_import(node.module))):
+                    imports.add(node.module)
 
         except (SyntaxError, UnicodeDecodeError, FileNotFoundError):
             pass

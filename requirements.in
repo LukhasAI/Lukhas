@@ -46,6 +46,7 @@ structlog>=23.0.0,<24.0.0
 opentelemetry-api>=1.20.0,<2.0.0
 opentelemetry-sdk>=1.20.0,<2.0.0
 opentelemetry-exporter-otlp>=1.20.0,<2.0.0
+opentelemetry-instrumentation-fastapi
 
 # Image processing
 Pillow>=10.0.0,<12.0.0
@@ -62,3 +63,5 @@ hypothesis>=6.88.0,<7.0.0
 pytest-asyncio>=0.21.0,<1.0.0
 pytest-mock>=3.11.0,<4.0.0
 greenlet==3.2.4
+lz4>=4.0.0
+lz4

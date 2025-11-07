@@ -14,9 +14,8 @@
 ╚══════════════════════════════════════════════════════════════
 """
 
-import logging
-
 import asyncio
+import logging
 
 # Explicit logging import to avoid conflicts with candidate/core/logging
 import logging as std_logging
@@ -35,7 +34,7 @@ try:
     from ..consciousness.matriz_consciousness_state import (
         ConsciousnessState,
         ConsciousnessType,
-        EvolutionaryStage,  # TODO: ..consciousness.matriz_conscio...
+        EvolutionaryStage,  # TODO: ..consciousness.matriz_conscio...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_matriz_consciousness_governance_py_L37"}
         consciousness_state_manager,
         create_consciousness_state,
     )
@@ -740,7 +739,7 @@ class MatrizConsciousnessGovernanceSystem:
     async def _start_governance_monitoring(self) -> None:
         """Start background governance monitoring"""
         self._monitoring_active = True
-        asyncio.create_task(self._governance_monitoring_loop())
+        asyncio.create_task(self._governance_monitoring_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_matriz_consciousness_governance_py_L743"}
         logger.info("🔍 Started governance monitoring")
 
     async def _governance_monitoring_loop(self) -> None:

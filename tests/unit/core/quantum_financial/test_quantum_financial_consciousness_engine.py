@@ -4,7 +4,6 @@ from __future__ import annotations
 import random
 
 import pytest
-
 from labs.core.qi_financial.quantum_financial_consciousness_engine import (
     AbundanceCalculator,
     ConsciousnessExchangeProposal,

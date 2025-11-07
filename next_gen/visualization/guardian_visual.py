@@ -59,7 +59,7 @@ class GuardianVisualizer:
     """
 
     # Guardian status levels with visual patterns
-    STATUS_PATTERNS = {
+    STATUS_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_visualization_guardian_visual_py_L62"}
         "monitoring": {
             "level": 0,
             "glyph": "🛡️",
@@ -113,7 +113,7 @@ class GuardianVisualizer:
     }
 
     # Threat types and their visual representations
-    THREAT_VISUALS = {
+    THREAT_VISUALS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_visualization_guardian_visual_py_L116"}
         "drift_spike": {
             "symbol": "🌪️",
             "color": Console.YELLOW,

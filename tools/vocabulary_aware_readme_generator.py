@@ -396,9 +396,8 @@ def _describe_component(class_name: str, vocab: Optional[Dict]) -> str:
         for key, value in vocab.items():
             if isinstance(value, dict):
                 for _sub_key, sub_value in value.items():
-                    if isinstance(sub_value, dict) and 'name' in sub_value:
-                        if class_name.lower() in sub_value['name'].lower():
-                            return sub_value.get('technical', sub_value.get('poetic', 'Core system component'))
+                    if (isinstance(sub_value, dict) and 'name' in sub_value) and class_name.lower() in sub_value['name'].lower():
+                        return sub_value.get('technical', sub_value.get('poetic', 'Core system component'))
 
     # Fallback descriptions
     descriptions = {

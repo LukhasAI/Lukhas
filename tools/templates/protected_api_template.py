@@ -178,7 +178,7 @@ async def health_check():
 
 @app.get("/protected/basic", response_model=BaseResponse, tags=["T2-Protected"])
 async def basic_protected_endpoint(
-    user: AuthContext = Depends(require_t2_or_above),
+    user: AuthContext = Depends(require_t2_or_above),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_templates_protected_api_template_py_L181"}
 ) -> BaseResponse:
     """
     T2+ Protected endpoint - Requires Creator tier or above.
@@ -209,7 +209,7 @@ async def basic_protected_endpoint(
 @app.post("/protected/create", response_model=BaseResponse, tags=["T2-Protected"])
 async def create_content_endpoint(
     request: BaseRequest,
-    user: AuthContext = Depends(require_t2_or_above),
+    user: AuthContext = Depends(require_t2_or_above),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_templates_protected_api_template_py_L212"}
 ) -> BaseResponse:
     """T2+ Protected content creation endpoint."""
 
@@ -246,7 +246,7 @@ async def create_content_endpoint(
 @app.post("/protected/consciousness", response_model=BaseResponse, tags=["T3-Protected"])
 async def consciousness_endpoint(
     request: BaseRequest,
-    user: AuthContext = Depends(require_t3_or_above),
+    user: AuthContext = Depends(require_t3_or_above),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_templates_protected_api_template_py_L249"}
 ) -> BaseResponse:
     """
     T3+ Protected consciousness endpoint.
@@ -286,7 +286,7 @@ async def consciousness_endpoint(
 
 
 @app.post("/protected/quantum", response_model=BaseResponse, tags=["T4-Protected"])
-async def qi_endpoint(request: BaseRequest, user: AuthContext = Depends(require_t4_or_above)) -> BaseResponse:
+async def qi_endpoint(request: BaseRequest, user: AuthContext = Depends(require_t4_or_above)) -> BaseResponse:  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_templates_protected_api_template_py_L289"}
     """
     T4+ Protected quantum endpoint.
     Requires Quantum tier for quantum processing access.
@@ -324,7 +324,7 @@ async def qi_endpoint(request: BaseRequest, user: AuthContext = Depends(require_
 
 
 @app.post("/protected/admin", response_model=BaseResponse, tags=["T5-Protected"])
-async def admin_endpoint(request: BaseRequest, user: AuthContext = Depends(require_t5)) -> BaseResponse:
+async def admin_endpoint(request: BaseRequest, user: AuthContext = Depends(require_t5)) -> BaseResponse:  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_templates_protected_api_template_py_L327"}
     """
     T5 Protected admin endpoint.
     Requires Guardian tier (T5) for administrative access.
@@ -364,14 +364,14 @@ async def admin_endpoint(request: BaseRequest, user: AuthContext = Depends(requi
 
 @app.get("/protected/custom", tags=["Custom-Protection"])
 @require_tier("T3")  # Decorator approach
-async def custom_tier_endpoint(user: AuthContext = Depends(get_current_user)):
+async def custom_tier_endpoint(user: AuthContext = Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_templates_protected_api_template_py_L367"}
     """Example using @require_tier decorator."""
     return {"message": "Custom tier protection applied", "user_tier": user.tier}
 
 
 @app.get("/protected/permission", tags=["Permission-Protection"])
 @require_permission("can_use_consciousness")  # Permission-based protection
-async def permission_based_endpoint(user: AuthContext = Depends(get_current_user)):
+async def permission_based_endpoint(user: AuthContext = Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_templates_protected_api_template_py_L374"}
     """Example using @require_permission decorator."""
     return {
         "message": "Permission-based protection applied",

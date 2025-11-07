@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import consciousness  # TODO: consciousness; consider using ...
+    import consciousness  # TODO: consciousness; consider using ...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "consciousness_tests_test_consciousness_integration_py_L18"}
 except ImportError:
     pytest.skip("Module consciousness not available", allow_module_level=True)
 

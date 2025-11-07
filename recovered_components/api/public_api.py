@@ -26,15 +26,14 @@ import uvicorn
 from branding_bridge import get_system_signature, get_triad_context, initialize_branding
 from core.security.auth import get_auth_system
 from fastapi import Depends, FastAPI, HTTPException, Request, status
+from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, ConfigDict, Field
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
-
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
 
 # Configure logging
 logging.basicConfig(
@@ -212,7 +211,7 @@ class SystemStatus(BaseModel):
 
 
 async def verify_api_key(
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_recovered_components_api_public_api_py_L214"}
 ) -> dict:
     """
     Verify API key using the EnhancedAuthenticationSystem.
@@ -252,7 +251,7 @@ async def verify_api_key(
 
 
 async def optional_auth(
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_recovered_components_api_public_api_py_L254"}
 ) -> Optional[dict]:
     """Optional authentication for public endpoints"""
     if credentials and credentials.credentials:
@@ -329,7 +328,7 @@ async def root(request: Request):
 
 @app.post("/v1/chat", response_model=ChatResponse, tags=["Consciousness"])
 @limiter.limit("100/minute")
-async def chat_with_consciousness(request: Request, chat_request: ChatRequest, api_key: dict = Depends(verify_api_key)):
+async def chat_with_consciousness(request: Request, chat_request: ChatRequest, api_key: dict = Depends(verify_api_key)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_recovered_components_api_public_api_py_L331"}
     """
     **Chat with LUKHAS AI Consciousness Interface** 🧠
 
@@ -411,7 +410,7 @@ Is there a particular aspect you'd like me to explore further?"""
 
 @app.post("/v1/dreams", response_model=DreamResponse, tags=["Dreams"])
 @limiter.limit("50/minute")
-async def generate_dream(request: Request, dream_request: DreamRequest, api_key: dict = Depends(verify_api_key)):
+async def generate_dream(request: Request, dream_request: DreamRequest, api_key: dict = Depends(verify_api_key)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_recovered_components_api_public_api_py_L413"}
     """
     **Generate Symbolic Dreams** 🌙
 
@@ -495,7 +494,7 @@ In this space, artificial intelligence doesn't mimic creativity-it births entire
 
 @app.get("/status", response_model=SystemStatus, tags=["System"])
 @limiter.limit("60/minute")
-async def get_system_status(request: Request, api_key: Optional[dict] = Depends(optional_auth)):
+async def get_system_status(request: Request, api_key: Optional[dict] = Depends(optional_auth)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_recovered_components_api_public_api_py_L497"}
     """
     **System Health & Status** 📊
 

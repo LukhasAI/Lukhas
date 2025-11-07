@@ -14,9 +14,8 @@ Features:
 - Integration with LUKHAS Constellation Framework
 """
 
-import logging
-
 import asyncio
+import logging
 import uuid
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -146,7 +145,7 @@ class RealitySynthesisEngine(CoreInterface):
 
         except Exception as e:
             logger.error(f"Failed to initialize Synthesis Engine: {e}")
-            raise LukhasError(f"Synthesis Engine initialization failed: {e}")
+            raise LukhasError(f"Synthesis Engine initialization failed: {e}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_reality_synthesis_engine_py_L148"}
 
     async def shutdown(self) -> None:
         """Shutdown synthesis engine"""

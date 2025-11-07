@@ -131,7 +131,7 @@ class SmartConsolidator:
 
                         tree = ast.parse(content)
                         for node in ast.walk(tree):
-                            if isinstance(node, ast.ClassDef):
+                            if isinstance(node, ast.ClassDef):  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_analysis_smart_consolidator_py_L134"}
                                 # Look for base-like class names
                                 if any(
                                     pattern in node.name.lower()

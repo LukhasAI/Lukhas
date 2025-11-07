@@ -8,7 +8,6 @@ import types
 from pathlib import Path
 
 import pytest
-
 from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
 from matriz.nodes.fact_node import FactNode
 from matriz.nodes.math_node import MathNode

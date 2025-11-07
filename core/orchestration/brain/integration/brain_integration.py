@@ -47,9 +47,9 @@ except ImportError:
     try:
         # from MultiBrainSymphony  # External dependency import
         from MultiBrainSymphony import (
-            DreamBrainSpecialist,  # TODO: MultiBrainSymphony.DreamBrainS...
-            LearningBrainSpecialist,  # TODO: MultiBrainSymphony.LearningBra...
-            MemoryBrainSpecialist,  # TODO: MultiBrainSymphony.MemoryBrain...
+            DreamBrainSpecialist,  # TODO: MultiBrainSymphony.DreamBrainS...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_brain_integration_brain_integration_py_L50"}
+            LearningBrainSpecialist,  # TODO: MultiBrainSymphony.LearningBra...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_brain_integration_brain_integration_py_L52"}
+            MemoryBrainSpecialist,  # TODO: MultiBrainSymphony.MemoryBrain...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_brain_integration_brain_integration_py_L54"}
             MultiBrainSymphonyOrchestrator,
         )
         SYMPHONY_AVAILABLE = True
@@ -62,9 +62,9 @@ except ImportError:
 try:
     from core.orchestration.brain.spine.fold_engine import (  # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
         AGIMemory,
-        MemoryFold,
-        MemoryPriority,
-        MemoryType,
+        MemoryFold,  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_brain_integration_brain_integration_py_L68"}
+        MemoryPriority,  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_brain_integration_brain_integration_py_L70"}
+        MemoryType,  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_brain_integration_brain_integration_py_L72"}
     )
 except ImportError:
     logger.warning("Core memory components not available - using fallbacks")
@@ -494,7 +494,7 @@ class EnhancedMemorySystem:
 class MultiBrain:
     """MultiBrain specialist orchestrator for distributed cognitive processing."""
 
-    SUPPORTED_SPECIALIST_TYPES = {"symbolic", "neural", "quantum", "bio", "general"}
+    SUPPORTED_SPECIALIST_TYPES = {"symbolic", "neural", "quantum", "bio", "general"}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_orchestration_brain_integration_brain_integration_py_L497"}
     _TELEMETRY_WINDOW = 25
 
     def __init__(self, *, loop: Optional[asyncio.AbstractEventLoop] = None):

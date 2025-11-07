@@ -13,7 +13,6 @@ from enum import Enum
 from typing import Any, Optional
 
 from cognition.symbolic_feedback_loop import SymbolicState
-
 from identity.identity_core import AccessTier
 
 # Import existing LUKHΛS components
@@ -113,10 +112,9 @@ class ComplianceValidator:
         recommendations = []
 
         # Higher tiers get more detailed compliance checks
-        if tier.value >= AccessTier.T3:
+        if tier.value >= AccessTier.T3 and ('personal_data' in content and (not content.get('consent_verified'))):
             # Check GDPR for sensitive operations
-            if "personal_data" in content and not content.get("consent_verified"):
-                violations.append("GDPR: Missing consent verification")
+            violations.append("GDPR: Missing consent verification")
 
         # Basic accessibility for all tiers
         if "interface_elements" in content:

@@ -383,11 +383,10 @@ class VIVOXMemoryExpansion:
 
             resonance = await self._calculate_resonance(current_frequency, memory_frequency)
 
-            if resonance >= resonance_threshold:
+            if resonance >= resonance_threshold and (not await self.soma_layer.is_memory_veiled(memory_entry.sequence_id)):
                 # Check if memory is veiled
-                if not await self.soma_layer.is_memory_veiled(memory_entry.sequence_id):
-                    memory_entry.resonance_score = resonance
-                    resonant_memories.append(memory_entry)
+                memory_entry.resonance_score = resonance
+                resonant_memories.append(memory_entry)
 
         return sorted(resonant_memories, key=lambda m: m.resonance_score, reverse=True)
 

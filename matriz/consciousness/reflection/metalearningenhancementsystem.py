@@ -122,7 +122,7 @@ class MetaLearningEnhancementsystem:
 
         # System state and integration tracking
         self.enhanced_systems: list[Any] = []
-        self.integration_status = SystemIntegrationStatus(
+        self.integration_status = SystemIntegrationStatus(  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_metalearningenhancementsystem_py_L125"}
             meta_learning_systems_found=0,
             systems_enhanced=0,
             monitoring_active=False,
@@ -1078,7 +1078,7 @@ async def initialize_meta_learning_enhancement(
     enhancement_mode: EnhancementMode = EnhancementMode.OPTIMIZATION_ACTIVE,
     enable_federation: bool = False,
     auto_discover: bool = True,
-) -> MetaLearningEnhancementSystem:
+) -> MetaLearningEnhancementSystem:  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_metalearningenhancementsystem_py_L1082"}
     """
     Initialize the Meta-Learning Enhancement System for LUKHAS
 
@@ -1089,7 +1089,7 @@ async def initialize_meta_learning_enhancement(
     logger.info(f"Initializing Meta-Learning Enhancement System for {node_id}")
 
     # Create enhancement system
-    enhancement_system = MetaLearningEnhancementSystem(
+    enhancement_system = MetaLearningEnhancementSystem(  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_metalearningenhancementsystem_py_L1094"}
         node_id=node_id,
         enhancement_mode=enhancement_mode,
         enable_federation=enable_federation,

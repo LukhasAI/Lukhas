@@ -635,7 +635,7 @@ async def authenticate_biometric(
 @router.get("/session/status", response_model=SessionStatusResponse)
 async def get_session_status(
     request: Request,
-    credentials: HTTPAuthorizationCredentials | None = Depends(security)
+    credentials: HTTPAuthorizationCredentials | None = Depends(security)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_identity_py_L638"}
 ) -> SessionStatusResponse:
     """
     Get current session authentication status.
@@ -673,7 +673,7 @@ async def get_session_status(
 async def elevate_session_tier(
     auth_request: TierAuthenticationRequest,
     request: Request,
-    credentials: HTTPAuthorizationCredentials | None = Depends(security)
+    credentials: HTTPAuthorizationCredentials | None = Depends(security)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_identity_py_L676"}
 ) -> AuthenticationResponse:
     """
     Elevate current session to higher authentication tier.

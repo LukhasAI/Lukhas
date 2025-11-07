@@ -18,7 +18,6 @@ from dataclasses import dataclass
 
 import psutil
 import pytest
-
 from observability.opentelemetry_tracing import LUKHASTracer
 from observability.prometheus_metrics import LUKHASMetrics
 
@@ -37,7 +36,7 @@ class PerformanceBudgets:
     """T4/0.01% Performance Budget Definitions."""
 
     # Core system performance budgets
-    SYSTEM_BUDGETS = [
+    SYSTEM_BUDGETS = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_performance_test_performance_budgets_py_L39"}
         PerformanceBudget("memory_usage_mb", 512, "MB", "Maximum memory usage per process", True),
         PerformanceBudget("cpu_avg_percent", 70, "%", "Average CPU usage under load", True),
         PerformanceBudget("cpu_peak_percent", 90, "%", "Peak CPU usage", True),
@@ -45,7 +44,7 @@ class PerformanceBudgets:
     ]
 
     # MATRIZ orchestration budgets
-    MATRIZ_BUDGETS = [
+    MATRIZ_BUDGETS = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_performance_test_performance_budgets_py_L47"}
         PerformanceBudget("stage_latency_ms", 100, "ms", "Maximum stage processing latency", True),
         PerformanceBudget("pipeline_latency_ms", 250, "ms", "Maximum total pipeline latency", True),
         PerformanceBudget("success_rate_percent", 99.9, "%", "Pipeline success rate", True),
@@ -53,7 +52,7 @@ class PerformanceBudgets:
     ]
 
     # Memory system budgets
-    MEMORY_BUDGETS = [
+    MEMORY_BUDGETS = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_performance_test_performance_budgets_py_L55"}
         PerformanceBudget("fold_access_ms", 10, "ms", "Memory fold access time", True),
         PerformanceBudget("recall_latency_ms", 100, "ms", "Top-K recall latency for 10k items", True),
         PerformanceBudget("consolidation_time_ms", 5000, "ms", "Memory consolidation time", False),
@@ -61,14 +60,14 @@ class PerformanceBudgets:
     ]
 
     # Identity system budgets
-    IDENTITY_BUDGETS = [
+    IDENTITY_BUDGETS = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_performance_test_performance_budgets_py_L63"}
         PerformanceBudget("auth_latency_ms", 100, "ms", "Authentication latency P95", True),
         PerformanceBudget("token_validation_ms", 50, "ms", "JWT token validation time", True),
         PerformanceBudget("session_lookup_ms", 25, "ms", "Session lookup time", True),
     ]
 
     # Observability budgets
-    OBSERVABILITY_BUDGETS = [
+    OBSERVABILITY_BUDGETS = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_performance_test_performance_budgets_py_L70"}
         PerformanceBudget("metrics_overhead_percent", 7, "%", "Metrics collection overhead", True),
         PerformanceBudget("tracing_overhead_percent", 3, "%", "Distributed tracing overhead", True),
         PerformanceBudget("log_processing_ms", 1, "ms", "Log entry processing time", False),

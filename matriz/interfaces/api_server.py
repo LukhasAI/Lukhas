@@ -367,7 +367,7 @@ async def liveness_check():
 async def process_query(
     request: QueryRequest,
     background_tasks: BackgroundTasks,
-    orch: CognitiveOrchestrator = Depends(get_orchestrator),
+    orch: CognitiveOrchestrator = Depends(get_orchestrator),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_interfaces_api_server_py_L370"}
 ):
     """
     Process a cognitive query through MATRIZ nodes
@@ -431,7 +431,7 @@ async def process_query(
 
     except Exception as e:
         logger.error(f"Query processing failed (trace: {trace_id}): {e!s}")
-        raise HTTPException(
+        raise HTTPException(  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_interfaces_api_server_py_L434"}
             status_code=500,
             detail={
                 "error": "Query processing failed",
@@ -444,7 +444,7 @@ async def process_query(
 
 # System introspection endpoints
 @app.get("/system/info", response_model=SystemInfo, tags=["System"])
-async def system_info(orch: CognitiveOrchestrator = Depends(get_orchestrator)):
+async def system_info(orch: CognitiveOrchestrator = Depends(get_orchestrator)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_interfaces_api_server_py_L447"}
     """Get comprehensive system information and diagnostics"""
 
     nodes = []
@@ -467,7 +467,7 @@ async def system_info(orch: CognitiveOrchestrator = Depends(get_orchestrator)):
 
 
 @app.get("/system/nodes", tags=["System"])
-async def list_nodes(orch: CognitiveOrchestrator = Depends(get_orchestrator)):
+async def list_nodes(orch: CognitiveOrchestrator = Depends(get_orchestrator)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_interfaces_api_server_py_L470"}
     """List all registered cognitive nodes"""
     nodes = {}
     for name, node in orch.available_nodes.items():
@@ -482,7 +482,7 @@ async def list_nodes(orch: CognitiveOrchestrator = Depends(get_orchestrator)):
 
 
 @app.get("/system/nodes/{node_name}", tags=["System"])
-async def get_node_details(node_name: str, orch: CognitiveOrchestrator = Depends(get_orchestrator)):
+async def get_node_details(node_name: str, orch: CognitiveOrchestrator = Depends(get_orchestrator)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_interfaces_api_server_py_L485"}
     """Get detailed information about a specific cognitive node"""
     if node_name not in orch.available_nodes:
         raise HTTPException(status_code=404, detail=f"Node '{node_name}' not found")
@@ -501,7 +501,7 @@ async def get_node_details(node_name: str, orch: CognitiveOrchestrator = Depends
 
 @app.get("/system/graph", tags=["System"])
 async def get_matriz_graph(
-    orch: CognitiveOrchestrator = Depends(get_orchestrator), limit: int = 100
+    orch: CognitiveOrchestrator = Depends(get_orchestrator), limit: int = 100  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_interfaces_api_server_py_L504"}
 ):
     """Get the MATRIZ graph nodes (limited for performance)"""
     nodes = list(orch.matriz_graph.values())[-limit:]
@@ -514,7 +514,7 @@ async def get_matriz_graph(
 
 @app.get("/system/trace", tags=["System"])
 async def get_execution_trace(
-    orch: CognitiveOrchestrator = Depends(get_orchestrator), limit: int = 50
+    orch: CognitiveOrchestrator = Depends(get_orchestrator), limit: int = 50  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_interfaces_api_server_py_L517"}
 ):
     """Get recent execution traces"""
     traces = orch.execution_trace[-limit:]
@@ -535,7 +535,7 @@ async def get_execution_trace(
 
 
 @app.get("/system/causal/{node_id}", tags=["System"])
-async def get_causal_chain(node_id: str, orch: CognitiveOrchestrator = Depends(get_orchestrator)):
+async def get_causal_chain(node_id: str, orch: CognitiveOrchestrator = Depends(get_orchestrator)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_interfaces_api_server_py_L538"}
     """Get the causal chain for a specific MATRIZ node"""
     chain = orch.get_causal_chain(node_id)
     return {"node_id": node_id, "chain_length": len(chain), "causal_chain": chain}

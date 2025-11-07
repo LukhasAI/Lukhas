@@ -14,9 +14,8 @@
 ╚══════════════════════════════════════════════════════════════
 """
 
-import logging
-
 import asyncio
+import logging
 
 # Explicit logging import to avoid conflicts with candidate/core/logging
 import logging as std_logging
@@ -54,7 +53,7 @@ try:
         AuthenticationTier,
         ConstitutionalComplianceData,
         IdentityBiometricData,
-        IdentitySignalType,  # TODO: .matriz_consciousness_identity...
+        IdentitySignalType,  # TODO: .matriz_consciousness_identity...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_matriz_consciousness_identity_py_L56"}
         NamespaceIsolationData,
         consciousness_identity_signal_emitter,
     )
@@ -264,7 +263,7 @@ class MatrizConsciousnessIdentityManager:
 
             # Start background maintenance
             self._maintenance_active = True
-            asyncio.create_task(self._identity_maintenance_loop())
+            asyncio.create_task(self._identity_maintenance_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_matriz_consciousness_identity_py_L267"}
 
             logger.info("✅ Consciousness identity system initialized")
             return True
@@ -807,13 +806,11 @@ class MatrizConsciousnessIdentityManager:
         ):
             profile.capabilities.append("consciousness_aware")
 
-        if profile.identity_consciousness_type == IdentityConsciousnessType.PERSISTENT_CONSCIOUS:
-            if "persistent_memory" not in profile.capabilities:
-                profile.capabilities.append("persistent_memory")
+        if profile.identity_consciousness_type == IdentityConsciousnessType.PERSISTENT_CONSCIOUS and 'persistent_memory' not in profile.capabilities:
+            profile.capabilities.append("persistent_memory")
 
-        if profile.identity_consciousness_type == IdentityConsciousnessType.TRANSCENDENT_IDENTITY:
-            if "transcendent_access" not in profile.capabilities:
-                profile.capabilities.append("transcendent_access")
+        if profile.identity_consciousness_type == IdentityConsciousnessType.TRANSCENDENT_IDENTITY and 'transcendent_access' not in profile.capabilities:
+            profile.capabilities.append("transcendent_access")
 
     async def get_identity_by_identifier(self, identifier: str) -> Optional[ConsciousnessIdentityProfile]:
         """Get identity profile by any identifier (user_identifier, lid, identity_id, etc.)"""

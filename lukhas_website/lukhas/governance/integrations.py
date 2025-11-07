@@ -463,9 +463,8 @@ class ConsciousnessIntegration(SystemIntegration):
             warnings = []
 
             # Check for ethical concerns
-            if status == "deny" and severity == "critical":
-                if actor_tier in ["T1", "T2"]:
-                    warnings.append("High-impact denial for low-tier actor requires review")
+            if (status == 'deny' and severity == 'critical') and actor_tier in ['T1', 'T2']:
+                warnings.append("High-impact denial for low-tier actor requires review")
 
             # Check for bias indicators
             operation_name = subject.get("operation", {}).get("name", "")

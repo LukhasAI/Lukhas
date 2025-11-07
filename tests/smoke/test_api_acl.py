@@ -115,6 +115,7 @@ def test_valid_token_allows_access():
     Uses a test token that meets minimum requirements.
     """
     try:
+        from labs.core.security.auth import get_auth_system
         from serve.main import app
         from starlette.testclient import TestClient
 
@@ -124,9 +125,8 @@ def test_valid_token_allows_access():
 
         try:
             client = TestClient(app)
-
-            # Test with valid-format token (meets length requirement)
-            test_token = "sk-lukhas-test-1234567890abcdef"
+            auth_system = get_auth_system()
+            test_token = auth_system.generate_jwt("test_user")
 
             response = client.post(
                 "/v1/responses",

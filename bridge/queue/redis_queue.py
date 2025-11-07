@@ -5,9 +5,9 @@ Uses Redis Sorted Sets (ZADD/BZPOPMIN) for atomic priority queueing.
 import asyncio
 import json
 import logging
-from typing import Any, Optional
 from datetime import datetime
 from enum import IntEnum
+from typing import Any, Optional
 
 import redis.asyncio as redis
 from pydantic import BaseModel, Field
@@ -23,8 +23,8 @@ class TaskPriority(IntEnum):
     LOW = 4         # Documentation, non-urgent
 
 
-class TaskType(str):
-    """Task types for routing"""
+class TaskType:
+    """Task type constants"""
     ARCHITECTURAL_VIOLATION = "architectural_violation"
     TODO_COMMENT = "todo_comment"
     BUG_FIX = "bug_fix"
@@ -36,7 +36,7 @@ class TaskType(str):
 class Task(BaseModel):
     """Task model for AI agent execution"""
     task_id: str = Field(..., description="Unique task identifier")
-    task_type: TaskType = Field(..., description="Type of task")
+    task_type: str = Field(..., description="Type of task")
     priority: TaskPriority = Field(..., description="Task priority")
     agent: str = Field(..., description="Target agent (jules/codex/gemini/ollama)")
     prompt: str = Field(..., description="Task prompt for agent")

@@ -21,6 +21,7 @@ import uuid
 from collections.abc import AsyncGenerator
 from typing import Any, Dict, List
 
+from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 from fastapi import (
     APIRouter,
     Body,
@@ -34,7 +35,6 @@ from fastapi import (
 from fastapi.responses import JSONResponse, StreamingResponse
 
 from adapters.openai import TokenClaims, require_bearer
-from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 
 from .schemas import ModulatedChatRequest, ModulatedChatResponse
 
@@ -52,7 +52,23 @@ def get_service() -> OpenAIModulatedService:
 
 
 # ΛTAG: openai_facade
-@_legacy_router.post("/chat", response_model=ModulatedChatResponse)
+@_legacy_router.post(
+    "/chat",
+    response_model=ModulatedChatResponse,
+    summary="Modulated Chat",
+    description="Generate a response via OpenAI with LUKHAS modulation applied.",
+    responses={
+        200: {
+            "description": "Modulated chat response.",
+            "content": {
+                "application/json": {
+                    "example": {"response": "This is a modulated response."}
+                }
+            },
+        },
+        500: {"description": "Internal Server Error"},
+    },
+)
 async def modulated_chat(req: ModulatedChatRequest) -> ModulatedChatResponse:
     """Generate a response via OpenAI with LUKHAS modulation applied."""
     try:
@@ -68,7 +84,18 @@ async def modulated_chat(req: ModulatedChatRequest) -> ModulatedChatResponse:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
-@_legacy_router.post("/chat/stream")
+@_legacy_router.post(
+    "/chat/stream",
+    summary="Modulated Chat Stream",
+    description="Stream a response via OpenAI with LUKHAS modulation applied.",
+    responses={
+        200: {
+            "description": "Streamed modulated chat response.",
+            "content": {"text/plain": {"example": "This is a streamed response."}},
+        },
+        500: {"description": "Internal Server Error"},
+    },
+)
 async def modulated_chat_stream(req: ModulatedChatRequest) -> StreamingResponse:
     """Stream a response via OpenAI with LUKHAS modulation applied."""
     service = get_service()
@@ -84,7 +111,17 @@ async def modulated_chat_stream(req: ModulatedChatRequest) -> StreamingResponse:
     return StreamingResponse(token_gen(), media_type="text/plain")
 
 
-@_legacy_router.get("/metrics")
+@_legacy_router.get(
+    "/metrics",
+    summary="OpenAI Modulation Metrics",
+    description="Expose safe subset of OpenAI modulation metrics.",
+    responses={
+        200: {
+            "description": "OpenAI modulation metrics.",
+            "content": {"application/json": {"example": {"requests": 100, "errors": 5}}},
+        },
+    },
+)
 async def openai_metrics() -> JSONResponse:
     """Expose safe subset of OpenAI modulation metrics."""
     service = get_service()
@@ -132,11 +169,31 @@ def _with_std_headers(resp: Response, trace_id: str | None) -> None:
     resp.headers["X-Trace-Id"] = req_id
 
 
-@_v1_router.get("/models")
+@_v1_router.get(
+    "/models",
+    summary="List Models",
+    description="List available models (OpenAI-compatible format).",
+    responses={
+        200: {
+            "description": "A list of available models.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "object": "list",
+                        "data": [
+                            {"id": "lukhas-mini", "object": "model", "created": 1730000000, "owned_by": "lukhas"},
+                            {"id": "lukhas-embed-1", "object": "model", "created": 1730000000, "owned_by": "lukhas"},
+                        ],
+                    }
+                }
+            },
+        },
+    },
+)
 def list_models(
     request: Request,
     response: Response,
-    _claims=Depends(require_api_key),
+    _claims=Depends(require_api_key),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L196"}
 ) -> Dict[str, Any]:
     """List available models (OpenAI-compatible format)."""
     trace_id = request.headers.get("X-Request-Id") or request.headers.get("X-Trace-Id")
@@ -174,12 +231,38 @@ def _invalid_request(detail: str, param: str | None = None) -> Dict[str, Any]:
     return payload
 
 
-@_v1_router.post("/embeddings")
+@_v1_router.post(
+    "/embeddings",
+    summary="Create Embeddings",
+    description="Create deterministic embeddings (OpenAI-compatible format).",
+    responses={
+        200: {
+            "description": "Embeddings created successfully.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "object": "list",
+                        "data": [
+                            {
+                                "object": "embedding",
+                                "index": 0,
+                                "embedding": [0.1, 0.2, 0.3],
+                            }
+                        ],
+                        "model": "lukhas-embed-1",
+                        "usage": {"prompt_tokens": 5, "total_tokens": 5},
+                    }
+                }
+            },
+        },
+        400: {"description": "Invalid request"},
+    },
+)
 def create_embeddings(
     request: Request,
     response: Response,
-    payload: Dict[str, Any] = Body(...),
-    _claims=Depends(require_api_key),
+    payload: Dict[str, Any] = Body(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L264"}
+    _claims=Depends(require_api_key),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L265"}
 ) -> Dict[str, Any]:
     """Create deterministic embeddings (OpenAI-compatible format)."""
     trace_id = request.headers.get("X-Request-Id") or request.headers.get("X-Trace-Id")
@@ -246,12 +329,34 @@ def _stream_chunks(text: str, plan: Dict[str, Any]) -> List[str]:
     return chunks
 
 
-@_v1_router.post("/responses")
+@_v1_router.post(
+    "/responses",
+    summary="Create Response",
+    description="Create response (OpenAI Responses API format, non-stream stub).",
+    responses={
+        200: {
+            "description": "Response created successfully.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "id": "resp_123",
+                        "object": "response",
+                        "created": 1730000000,
+                        "model": "lukhas-mini",
+                        "output": [{"type": "output_text", "text": "echo: Hello"}],
+                        "usage": {"input_tokens": 1, "output_tokens": 2, "total_tokens": 3},
+                    }
+                }
+            },
+        },
+        400: {"description": "Invalid request"},
+    },
+)
 def create_response(
     request: Request,
     response: Response,
-    payload: Dict[str, Any] = Body(...),
-    _claims=Depends(require_api_key),
+    payload: Dict[str, Any] = Body(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L358"}
+    _claims=Depends(require_api_key),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L359"}
 ) -> Dict[str, Any] | StreamingResponse:
     """Create response (OpenAI Responses API format, non-stream stub)."""
     trace_id = request.headers.get("X-Request-Id") or request.headers.get("X-Trace-Id")

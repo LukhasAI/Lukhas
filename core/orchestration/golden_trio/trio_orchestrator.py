@@ -207,7 +207,7 @@ class TrioOrchestrator:
         self.translator = get_symbolic_translator()
         self.vocabulary = get_symbolic_vocabulary()
         self.audit_engine = DecisionAuditEngine()
-        asyncio.create_task(self.audit_engine.initialize())
+        asyncio.create_task(self.audit_engine.initialize())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_golden_trio_trio_orchestrator_py_L210"}
 
         # Initialize queues for each system
         for system in SystemType:

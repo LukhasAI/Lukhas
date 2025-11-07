@@ -19,10 +19,9 @@ COLLAPSE_READY: True
 
 from __future__ import annotations
 
-import logging
-
 import asyncio
 import json
+import logging
 import time
 from dataclasses import dataclass, field
 from enum import Enum
@@ -30,7 +29,6 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-
 from core.common import get_logger
 
 logger = logging.getLogger(__name__)

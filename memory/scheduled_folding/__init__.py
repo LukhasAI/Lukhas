@@ -25,7 +25,7 @@ except Exception:
         UNKNOWN = "unknown"
         DEFAULT = "default"
 try:
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "memory_scheduled_folding___init___py_L28"}
 except NameError:
     __all__ = []
 if "CompressionLevel" not in __all__:
@@ -46,7 +46,7 @@ except Exception:
         COMPLETED = "completed"
         FAILED = "failed"
 try:
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "memory_scheduled_folding___init___py_L50"}
 except NameError:
     __all__ = []
 if "FoldStatus" not in __all__:
@@ -77,8 +77,8 @@ if "ScheduledFold" not in __all__:
 
 
 try:
-    ScheduledFold
-    ScheduledFoldingManager
+    ScheduledFold  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "memory_scheduled_folding___init___py_L82"}
+    ScheduledFoldingManager  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "memory_scheduled_folding___init___py_L84"}
 except NameError:
     class ScheduledFold:  # pragma: no cover - fallback
         def __init__(self, id: str, when: str, *, policy: str = "default"):
@@ -108,7 +108,7 @@ def get_folding_manager() -> "ScheduledFoldingManager":
 
 
 try:
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "memory_scheduled_folding___init___py_L115"}
 except NameError:
     __all__ = []
 

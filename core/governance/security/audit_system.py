@@ -27,16 +27,14 @@ Features:
 
 from __future__ import annotations
 
-import logging
-from datetime import timezone
-
 import asyncio
 import hashlib
 import json
+import logging
 import os
 import uuid
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any
 
@@ -794,8 +792,8 @@ class ComprehensiveAuditSystem:
 
     def _start_background_tasks(self):
         """Start background processing tasks"""
-        asyncio.create_task(self._buffer_flush_task())
-        asyncio.create_task(self._retention_cleanup_task())
+        asyncio.create_task(self._buffer_flush_task())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_security_audit_system_py_L795"}
+        asyncio.create_task(self._retention_cleanup_task())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_security_audit_system_py_L797"}
 
     async def log_event(
         self,

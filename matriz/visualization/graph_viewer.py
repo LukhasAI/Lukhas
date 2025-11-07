@@ -40,7 +40,7 @@ try:
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
 except ImportError as e:
-    raise ImportError(
+    raise ImportError(  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_visualization_graph_viewer_py_L43"}
         f"Missing required dependencies: {e}. Please install with: pip install networkx plotly pandas numpy"
     )
 
@@ -53,7 +53,7 @@ class NodeTypeConfig:
     """Configuration for MATRIZ node type visualization."""
 
     # Color scheme for different node types
-    COLORS = {
+    COLORS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L56"}
         "SENSORY_IMG": "#FF6B6B",  # Red - visual input
         "SENSORY_AUD": "#4ECDC4",  # Teal - audio input
         "SENSORY_VID": "#45B7D1",  # Blue - video input
@@ -76,7 +76,7 @@ class NodeTypeConfig:
     }
 
     # Shapes for different node types
-    SHAPES = {
+    SHAPES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L79"}
         "SENSORY_IMG": "square",
         "SENSORY_AUD": "circle",
         "SENSORY_VID": "diamond",
@@ -99,7 +99,7 @@ class NodeTypeConfig:
     }
 
     # Size scaling based on node importance
-    SIZE_MULTIPLIER = {
+    SIZE_MULTIPLIER = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L102"}
         "DECISION": 1.5,
         "EMOTION": 1.3,
         "AWARENESS": 1.4,
@@ -128,7 +128,7 @@ class LinkTypeConfig:
     """Configuration for MATRIZ link type visualization."""
 
     # Colors for different link types
-    COLORS = {
+    COLORS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L131"}
         "temporal": "#74B9FF",  # Blue - time-based connections
         "causal": "#E17055",  # Orange-red - cause-effect
         "semantic": "#00B894",  # Green - meaning-based
@@ -139,7 +139,7 @@ class LinkTypeConfig:
     }
 
     # Line styles for different link types
-    STYLES = {
+    STYLES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L142"}
         "temporal": "solid",
         "causal": "dash",
         "semantic": "dot",
@@ -150,7 +150,7 @@ class LinkTypeConfig:
     }
 
     # Width scaling based on link importance
-    WIDTH_MULTIPLIER = {
+    WIDTH_MULTIPLIER = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L153"}
         "causal": 1.5,
         "temporal": 1.3,
         "evidence": 1.2,

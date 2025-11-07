@@ -154,10 +154,9 @@ class LukhasNamingApplicator:
                 new_name = refinement["refined"]
 
                 # Skip if preserving a concept
-                if any(concept in old_name.lower() for concept in self.preserve_concepts):
-                    if not any(concept in new_name.lower() for concept in self.preserve_concepts):
-                        print(f"   ⚠️  Skipping {old_name} → {new_name} (would lose LUKHAS concept)")
-                        continue
+                if any((concept in old_name.lower() for concept in self.preserve_concepts)) and (not any((concept in new_name.lower() for concept in self.preserve_concepts))):
+                    print(f"   ⚠️  Skipping {old_name} → {new_name} (would lose LUKHAS concept)")
+                    continue
 
                 # Apply the refinement
                 if refinement_type == "class":

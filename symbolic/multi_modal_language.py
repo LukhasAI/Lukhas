@@ -253,10 +253,9 @@ class MultiModalLanguageBuilder:
         memorability = max(0.2, min(1.0, 1.0 - (element_complexity / 30)))
 
         # Adjust for memorability weight
-        if memorability < memorability_weight:
+        if memorability < memorability_weight and (ModalityType.GESTURE in password_elements and len(password_elements[ModalityType.GESTURE]) > 2):
             # Simplify if too complex
-            if ModalityType.GESTURE in password_elements and len(password_elements[ModalityType.GESTURE]) > 2:
-                password_elements[ModalityType.GESTURE] = password_elements[ModalityType.GESTURE][:2]
+            password_elements[ModalityType.GESTURE] = password_elements[ModalityType.GESTURE][:2]
 
         # Create password object
         password = HighEntropyPassword(

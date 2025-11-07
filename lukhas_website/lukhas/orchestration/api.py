@@ -16,11 +16,11 @@ from typing import Any, Dict, List
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from identity.auth_service import verify_token
 from opentelemetry import trace
 from pydantic import BaseModel, Field
 
 from governance.guardian import get_guardian
-from identity.auth_service import verify_token
 from observability import counter, histogram
 
 from .multi_ai_router import AIProvider, ConsensusType, RoutingRequest, get_multi_ai_router
@@ -79,7 +79,7 @@ class OrchestrationStatus(BaseModel):
     average_latency: float
 
 
-async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
+async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_api_py_L82"}
     """Verify authentication token"""
     try:
         token = credentials.credentials
@@ -95,7 +95,7 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
 @router.post("/multi-ai", response_model=MultiAIResponse)
 async def route_multi_ai(
     request: MultiAIRequest,
-    current_user: Dict[str, Any] = Depends(get_current_user)
+    current_user: Dict[str, Any] = Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_api_py_L98"}
 ):
     """Route request to multiple AI models and return consensus"""
 
@@ -204,7 +204,7 @@ async def route_multi_ai(
 
 @router.get("/status", response_model=OrchestrationStatus)
 async def get_orchestration_status(
-    current_user: Dict[str, Any] = Depends(get_current_user)
+    current_user: Dict[str, Any] = Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_api_py_L207"}
 ):
     """Get orchestration system status"""
 
@@ -254,7 +254,7 @@ async def get_orchestration_status(
 
 @router.get("/models")
 async def list_available_models(
-    current_user: Dict[str, Any] = Depends(get_current_user)
+    current_user: Dict[str, Any] = Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_api_py_L257"}
 ):
     """List all available AI models with their status"""
 
@@ -298,7 +298,7 @@ async def list_available_models(
 @router.post("/models/{model_id}/enable")
 async def enable_model(
     model_id: str,
-    current_user: Dict[str, Any] = Depends(get_current_user)
+    current_user: Dict[str, Any] = Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_api_py_L301"}
 ):
     """Enable a specific AI model"""
 
@@ -349,7 +349,7 @@ async def enable_model(
 @router.post("/models/{model_id}/disable")
 async def disable_model(
     model_id: str,
-    current_user: Dict[str, Any] = Depends(get_current_user)
+    current_user: Dict[str, Any] = Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_api_py_L352"}
 ):
     """Disable a specific AI model"""
 

@@ -1,6 +1,5 @@
-import logging
-
 import contextlib
+import logging
 import time
 import uuid
 
@@ -204,9 +203,8 @@ def test_qi_module_init_comprehensive():
 def test_core_symbolism_comprehensive():
     """Test comprehensive coverage for core symbolism modules."""
     try:
-        from labs.core.symbolism.tags import SymbolicTag, TagProcessor
-
         from core.symbolism.methylation_model import MethylationModel
+        from labs.core.symbolism.tags import SymbolicTag, TagProcessor
 
         # Test tag processing
         tag_scenarios = [

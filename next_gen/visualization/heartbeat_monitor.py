@@ -53,7 +53,7 @@ class HeartbeatVisualizer:
     """
 
     # Consciousness state to heartbeat mapping
-    HEARTBEAT_PATTERNS = {
+    HEARTBEAT_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_visualization_heartbeat_monitor_py_L56"}
         "focused": {
             "glyph": "💎",
             "color": Console.BLUE,
@@ -113,7 +113,7 @@ class HeartbeatVisualizer:
     }
 
     # Default pattern for unknown states
-    DEFAULT_PATTERN = {
+    DEFAULT_PATTERN = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_visualization_heartbeat_monitor_py_L116"}
         "glyph": "💓",
         "color": Console.WHITE,
         "bpm": 60,
@@ -206,10 +206,9 @@ class HeartbeatVisualizer:
             await self._draw_heartbeat_frame(pattern, pulse_intensity, time_in_beat)
 
             # Beat detection
-            if time_in_beat < 0.1:  # Peak of beat
-                if current_time - getattr(self, "_last_beat_time", 0) > beat_interval * 0.8:
-                    self.beat_count += 1
-                    self._last_beat_time = current_time
+            if time_in_beat < 0.1 and current_time - getattr(self, '_last_beat_time', 0) > beat_interval * 0.8:  # Peak of beat
+                self.beat_count += 1
+                self._last_beat_time = current_time
 
             await asyncio.sleep(0.05)  # 20 FPS
 

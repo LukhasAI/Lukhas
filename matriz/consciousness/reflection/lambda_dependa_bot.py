@@ -37,17 +37,15 @@ Created: July 6, 2025
 Enhanced: ΛBot Elite Integration
 """
 
-import logging
-from datetime import timezone
-
 import ast
 import asyncio
 import json
+import logging
 import os
 import sys
 from collections import defaultdict
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
@@ -448,7 +446,7 @@ class ΛDependaBoT(BotProtocol):
 
         # Initialize LLM if available
         if SELF_HEALING_LLM:
-            asyncio.create_task(self._initialize_healing_llm())
+            asyncio.create_task(self._initialize_healing_llm())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_lambda_dependa_bot_py_L449"}
 
         # Performance metrics
         self.performance_metrics = {

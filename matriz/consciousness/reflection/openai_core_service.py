@@ -128,7 +128,7 @@ class OpenAICoreService:
     """
 
     # Model configurations
-    MODELS = {
+    MODELS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_openai_core_service_py_L131"}
         ModelType.REASONING: "gpt-4-turbo-preview",
         ModelType.CREATIVE: "gpt-4",
         ModelType.FAST: "gpt-3.5-turbo",
@@ -141,7 +141,7 @@ class OpenAICoreService:
     }
 
     # Capability to models mapping
-    CAPABILITY_MODELS = {
+    CAPABILITY_MODELS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_openai_core_service_py_L144"}
         OpenAICapability.TEXT_GENERATION: [
             ModelType.REASONING,
             ModelType.CREATIVE,

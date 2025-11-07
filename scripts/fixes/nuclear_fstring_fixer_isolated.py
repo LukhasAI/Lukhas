@@ -121,10 +121,9 @@ class NuclearFStringFixer:
                     # Risk assessment
                     if risk_level == "NUCLEAR" and len(matches) > 10:
                         print(f"⚠️  {risk_level} pattern would affect {len(matches)} locations in {file_path}")
-                        if not self.dry_run:
+                        if not self.dry_run and (not self.isolate_and_test(file_path, content, new_content)):
                             # Extra validation for nuclear patterns
-                            if not self.isolate_and_test(file_path, content, new_content):
-                                continue
+                            continue
 
                     if new_content != content:
                         fixes_count += len(matches)

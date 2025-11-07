@@ -314,8 +314,8 @@ async def get_current_user(request: Request) -> Dict[str, Any] | None:
 async def openid_configuration(
     request: Request,
     background_tasks: BackgroundTasks,
-    security_ctx: Dict[str, Any] = Depends(security_check_dependency),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    security_ctx: Dict[str, Any] = Depends(security_check_dependency),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L317"}
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L318"}
 ) -> Dict[str, Any]:
     """
     OpenID Connect Discovery 1.0 endpoint.
@@ -418,8 +418,8 @@ async def openid_configuration(
 async def jwks_json(
     request: Request,
     background_tasks: BackgroundTasks,
-    security_ctx: Dict[str, Any] = Depends(security_check_dependency),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    security_ctx: Dict[str, Any] = Depends(security_check_dependency),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L421"}
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L422"}
 ) -> Dict[str, Any]:
     """
     JSON Web Key Set (JWKS) endpoint with high-performance caching.
@@ -594,8 +594,8 @@ def _add_cors_headers(response_headers: Dict[str, str], request: Request) -> Dic
 async def authorize(
     request: Request,
     background_tasks: BackgroundTasks,
-    security_ctx: Dict[str, Any] = Depends(security_check_dependency),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    security_ctx: Dict[str, Any] = Depends(security_check_dependency),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L597"}
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L598"}
 ):
     """
     OAuth2 Authorization Endpoint with comprehensive validation and security.
@@ -844,7 +844,7 @@ async def token(
     code_verifier: str | None = Form(None),
     refresh_token: str | None = Form(None),
     client_secret: str | None = Form(None),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L847"}
 ) -> Dict[str, Any]:
     """
     OAuth2 Token endpoint.
@@ -907,9 +907,9 @@ async def token(
 @router.get("/userinfo")
 @router.post("/userinfo")
 async def userinfo(
-    credentials: HTTPAuthorizationCredentials | None = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L910"}
     authorization: str | None = Header(None),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L912"}
 ) -> Dict[str, Any]:
     """
     OpenID Connect UserInfo endpoint.
@@ -967,7 +967,7 @@ async def revoke_token(
     token_type_hint: str | None = Form(None),
     client_id: str = Form(...),
     client_secret: str | None = Form(None),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L970"}
 ) -> Dict[str, Any]:
     """
     OAuth2 Token Revocation endpoint (RFC 7009).
@@ -1022,7 +1022,7 @@ async def introspect_token(
     token_type_hint: str | None = Form(None),
     client_id: str = Form(...),
     client_secret: str | None = Form(None),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L1025"}
 ) -> Dict[str, Any]:
     """
     OAuth2 Token Introspection endpoint (RFC 7662).
@@ -1074,7 +1074,7 @@ async def introspect_token(
 
 @router.get("/clients", include_in_schema=False)
 async def list_clients(
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L1077"}
 ) -> Dict[str, Any]:
     """
     List registered OAuth2 clients (admin endpoint).
@@ -1108,7 +1108,7 @@ async def list_clients(
 
 @router.get("/stats", include_in_schema=False)
 async def provider_stats(
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L1111"}
 ) -> Dict[str, Any]:
     """
     Get OIDC provider statistics (admin endpoint).
@@ -1145,7 +1145,7 @@ async def authenticate_with_tier(
     tier: str = Form("T2"),
     totp_code: str | None = Form(None),
     webauthn_response: str | None = Form(None),
-    provider: OIDCProvider = Depends(get_oidc_provider)
+    provider: OIDCProvider = Depends(get_oidc_provider)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_oidc_py_L1148"}
 ) -> Dict[str, Any]:
     """
     Authenticate user with LUKHAS tiered authentication.

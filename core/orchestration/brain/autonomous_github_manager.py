@@ -35,6 +35,7 @@ import requests
 from core.budget.token_controller import APICallContext, CallUrgency, TokenBudgetController
 from core.common.config import settings
 
+
 class NotificationPriority(Enum):
     """Priority levels for GitHub notifications"""
 

@@ -29,6 +29,8 @@ METADATA TAGS: #LuKhas #AI #Professional #Deployment #AI Professional System
 import re
 from pathlib import Path
 
+BOX_PATTERN = r"╔[\s\S]*?╚"
+
 #!/usr/bin/env python3
 """
 Verify all enhanced ASCII box headers have perfect alignment
@@ -43,7 +45,7 @@ def check_box_alignment(file_path):
             content = f.read()
 
         # Find ASCII box
-        match = re.search(box_pattern, content, re.DOTALL)  # TODO: box_pattern
+        match = re.search(BOX_PATTERN, content, re.DOTALL)
 
         if not match:
             return False, "No ASCII box found"

@@ -36,11 +36,10 @@ For documentation and support: https://ai/docs
 
 from __future__ import annotations
 
-import logging
-
 import asyncio
 import hashlib  # For caching key generation
 import json  # For caching key generation if complex dicts are used
+import logging
 import time
 from dataclasses import asdict, dataclass, field  # Added asdict
 from datetime import datetime, timezone  # Standardized timestamping
@@ -48,6 +47,7 @@ from pathlib import Path  # Not used in current code, but often useful
 from typing import Any  # Added Type
 
 import numpy as np
+
 # structlog is optional in the test environment; fall back to stdlib logging when absent.
 try:  # pragma: no cover - import guard for optional dependency
     import structlog  # Standardized logging
@@ -127,6 +127,13 @@ QIBioCoordinator = Any  # Placeholder
 
 try:
     from bio.symbolic.architectures import BioSymbolicOrchestrator as BioOrchestrator
+
+    # type: ignore
+    from core.bio_systems.qi_layer import (  # type: ignore
+        QIBioOscillator,
+        QIConfig,
+        QILikeState,
+    )
     from qi.qi_awareness_system import QIAwarenessSystem  # type: ignore
 
     # AIMPORT_TODO: Review this path for QIBioCoordinator. If it's part
@@ -135,13 +142,6 @@ try:
     from qi.qi_dream_adapter import QIDreamAdapter  # type: ignore
     from qi.qi_unified_system import (
         UnifiedQuantumSystem,  # type: ignore  # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
-    )
-
-    # type: ignore
-    from core.bio_systems.qi_layer import (  # type: ignore
-        QIBioOscillator,
-        QIConfig,
-        QILikeState,
     )
 
     LUKHAS_CORE_COMPONENTS_AVAILABLE = True
@@ -792,7 +792,7 @@ class QIBioOptimizationAdapter:
         self.log.info("Shutting down QIBioOptimizationAdapter...")
         try:
             self.is_currently_optimizing = False
-            if (
+            if (  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_bio_bio_optimizer_py_L795"}
                 hasattr(self, "qi_dream_adapter")
                 and hasattr(self.qi_dream_adapter, "active")
                 and self.qi_dream_adapter.active

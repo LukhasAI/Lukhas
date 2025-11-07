@@ -25,7 +25,7 @@ class LukhasAPIUser(HttpUser):
     wait_time = between(0.5, 2)
 
     # Test data
-    test_inputs = [
+    test_inputs = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_load_locustfile_py_L28"}
         "Analyze this consciousness pattern",
         "Generate a symbolic representation",
         "Process this quantum state",
@@ -33,7 +33,7 @@ class LukhasAPIUser(HttpUser):
         "Explain the MATRIZ cognitive architecture",
     ]
 
-    models = [
+    models = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_load_locustfile_py_L36"}
         "lukhas-consciousness-v1",
         "lukhas-vision-v1",
         "lukhas-quantum-v1",

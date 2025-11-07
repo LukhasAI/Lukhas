@@ -167,7 +167,7 @@ class EnhancedSwarmAgent(Actor):
     def receive(self, message: dict[str, Any]):
         """Handle incoming messages."""
         with self.tracer.trace_agent_operation(self.agent_id, "receive_message"):
-            asyncio.create_task(self._handle_message(message))
+            asyncio.create_task(self._handle_message(message))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_swarm_py_L170"}
 
     async def _handle_message(self, message: dict[str, Any]):
         """Process different message types."""

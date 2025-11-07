@@ -2,7 +2,6 @@ import sys
 from pathlib import Path
 
 import pytest
-
 from scripts.consciousness_wordsmith_fixed import fix_later, register_fix_later
 from src.attribution.fallback_ladder import BehavioralAnalyzer
 

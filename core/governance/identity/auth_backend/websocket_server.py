@@ -58,6 +58,10 @@ from enum import Enum
 from typing import Any, Callable
 
 import uvicorn
+from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
+
+# LUKHAS system imports
+from core.oracle_nervous_system import get_oracle_nervous_system
 from dashboard.core.dashboard_colony_agent import create_dashboard_colony_swarm
 from dashboard.core.dynamic_tab_system import DynamicTabSystem
 from dashboard.core.morphing_engine import MorphingEngine
@@ -67,11 +71,6 @@ from dashboard.core.self_healing_manager import SelfHealingManager
 from dashboard.core.universal_adaptive_dashboard import UniversalAdaptiveDashboard
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
-
-from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
-
-# LUKHAS system imports
-from core.oracle_nervous_system import get_oracle_nervous_system
 
 logger = logging.getLogger("ΛTRACE.websocket_server")
 
@@ -481,7 +480,7 @@ class DashboardWebSocketServer:
                 async with self.client_lock:
                     for client in self.clients.values():
                         # Check if client is subscribed to this stream type
-                        if (
+                        if (  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_governance_identity_auth_backend_websocket_server_py_L483"}
                             message.stream_type in client.subscribed_streams
                             or StreamType.ALL_STREAMS in client.subscribed_streams
                         ):

@@ -278,7 +278,7 @@ class GuardianSystemIntegration:
         self.alert_handlers: dict[GuardianAlertLevel, list[Callable]] = {level: [] for level in GuardianAlertLevel}
 
         # Initialize system
-        asyncio.create_task(self._initialize_guardian_system())
+        asyncio.create_task(self._initialize_guardian_system())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_integration_py_L281"}
 
         logger.info(f"🛡️ Guardian System Integration Hub initializing: {self.guardian_id}")
 
@@ -322,9 +322,9 @@ class GuardianSystemIntegration:
             await self._connect_components()
 
             # Start monitoring
-            asyncio.create_task(self._monitoring_loop())
-            asyncio.create_task(self._metrics_update_loop())
-            asyncio.create_task(self._health_check_loop())
+            asyncio.create_task(self._monitoring_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_integration_py_L326"}
+            asyncio.create_task(self._metrics_update_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_integration_py_L328"}
+            asyncio.create_task(self._health_check_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_integration_py_L330"}
 
             # System ready
             self.status = GuardianStatus.ACTIVE

@@ -36,10 +36,10 @@ class DriftTracker:
     """
 
     # Drift thresholds
-    THRESHOLDS = {"stable": 0.3, "neutral": 0.7, "unstable": 1.0}
+    THRESHOLDS = {"stable": 0.3, "neutral": 0.7, "unstable": 1.0}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_trusthelix_core_drift_tracker_py_L39"}
 
     # Time windows for analysis
-    WINDOWS = {
+    WINDOWS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_trusthelix_core_drift_tracker_py_L42"}
         "immediate": timedelta(minutes=5),
         "short": timedelta(hours=1),
         "medium": timedelta(hours=24),

@@ -16,9 +16,8 @@ Features:
 
 from __future__ import annotations
 
-import logging
-
 import asyncio
+import logging
 import re
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -27,7 +26,6 @@ from typing import Any
 
 # LUKHAS Branding Integration
 from branding_bridge import BrandContext, get_bridge, initialize_branding
-
 from core.common import GLYPHSymbol, GLYPHToken, get_logger
 from core.common.exceptions import LukhasError
 from core.interfaces import CoreInterface
@@ -277,7 +275,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         except Exception as e:
             logger.error(f"Failed to initialize NL interface: {e}")
-            raise LukhasError(f"Initialization failed: {e}")
+            raise LukhasError(f"Initialization failed: {e}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_consciousness_natural_language_interface_py_L278"}
 
     async def process_input(
         self,
@@ -876,10 +874,9 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             if "imagine" not in response.lower() and "envision" not in response.lower():
                 response = response.replace("I see", "I envision")
 
-        elif tone == EmotionalTone.SUPPORTIVE:
+        elif tone == EmotionalTone.SUPPORTIVE and (not any((word in response.lower() for word in ['help', 'support', 'assist']))):
             # Add supportive elements
-            if not any(word in response.lower() for word in ["help", "support", "assist"]):
-                response += " How else can I help?"
+            response += " How else can I help?"
 
         return response
 

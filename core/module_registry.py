@@ -92,7 +92,7 @@ class ModuleRegistry:
     """
 
     # Module tier requirements mapping
-    MODULE_TIER_REQUIREMENTS = {
+    MODULE_TIER_REQUIREMENTS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_module_registry_py_L95"}
         # Core modules
         "memory": TierLevel.VISITOR,  # Tier 1
         "consciousness": TierLevel.VISITOR,  # Tier 1

@@ -107,7 +107,7 @@ app = FastAPI(
 security = HTTPBearer(auto_error=False)
 
 
-async def verify_auth(credentials: HTTPAuthorizationCredentials = Security(security)):
+async def verify_auth(credentials: HTTPAuthorizationCredentials = Security(security)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_glyphs_signer_service_py_L110"}
     """Verify authentication token if required"""
     if not SIGNER_CONFIG["require_auth"]:
         return True

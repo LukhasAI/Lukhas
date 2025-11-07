@@ -291,10 +291,9 @@ class CustomValidator(SchemaValidator):
         score = 1.0
 
         # Check for ethical decision indicators
-        if "decision" in data and data["decision"].get("status") == "deny":
-            if not data.get("reasons"):
-                warnings.append("Denial decisions should include reasoning")
-                score -= 0.1
+        if ('decision' in data and data['decision'].get('status') == 'deny') and (not data.get('reasons')):
+            warnings.append("Denial decisions should include reasoning")
+            score -= 0.1
 
         # Check for audit trail presence
         if "audit" not in data:

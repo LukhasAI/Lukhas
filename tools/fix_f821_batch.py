@@ -93,7 +93,7 @@ def fix_logger_declarations(file_path):
         original_content = content
 
         # Check if logger is used but not declared
-        if "logger." in content:
+        if "logger." in content:  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_fix_f821_batch_py_L96"}
             # Check if logger is already imported/declared
             if (
                 ("import logging" not in content

@@ -11,12 +11,11 @@ import time
 from unittest.mock import Mock, patch
 
 import pytest
+from core.reliability.circuit_breaker import get_circuit_health
 
 # pytest-asyncio is already configured globally
 from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
 from matriz.core.node_interface import CognitiveNode
-
-from core.reliability.circuit_breaker import get_circuit_health
 
 
 class TestOrchestratoresWithCircuitBreakers:
@@ -58,7 +57,7 @@ class TestOrchestratoresWithCircuitBreakers:
 
         # Generate failures to trigger circuit breaker
         for i in range(12):  # Exceed failure threshold
-            try:
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_unit_test_orchestrator_circuit_breaker_py_L60"}
                 await self.orchestrator.process_query(f"failing query {i}")
             except Exception:
                 pass  # Expected failures
@@ -100,7 +99,7 @@ class TestOrchestratoresWithCircuitBreakers:
         # Patch the node processing to be slow
         with patch.object(self.orchestrator, '_process_node_async', slow_process):
             for i in range(10):
-                try:
+                try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_unit_test_orchestrator_circuit_breaker_py_L102"}
                     await self.orchestrator.process_query(f"slow query {i}")
                 except asyncio.TimeoutError:
                     pass  # Expected due to slow processing
@@ -149,7 +148,7 @@ class TestOrchestratoresWithCircuitBreakers:
                 self.mock_node.process.side_effect = None
                 self.mock_node.process.return_value = response
 
-            try:
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_unit_test_orchestrator_circuit_breaker_py_L151"}
                 await self.orchestrator.process_query(f"mixed query {i}")
             except Exception:
                 pass  # Expected for failure cases

@@ -9,11 +9,10 @@
 Consolidated module for better performance
 """
 
-import logging
-
 import asyncio
 import hashlib
 import json
+import logging
 import math
 import random
 import string
@@ -27,11 +26,10 @@ from typing import Any, Optional, Union
 import aiohttp
 import numpy as np
 from aiohttp import web
-from lazy_loading_embeddings import LazyEmbeddingLoader, create_lazy_embedding_system
-
 from hybrid_memory_fold import (
     HybridMemoryFold,
 )
+from lazy_loading_embeddings import LazyEmbeddingLoader, create_lazy_embedding_system
 from memory_fold_system import MemoryFoldSystem, MemoryItem
 from optimized_hybrid_memory_fold import OptimizedHybridMemoryFold
 from optimized_memory_item import OptimizedMemoryItem, create_optimized_memory
@@ -45,7 +43,7 @@ try:
 except ImportError:
     # Fallback if optimized_memory_item is not available
     class ReflectionQuantizationCodec:
-        SUPPORTED_DIMENSIONS = [512, 1024]
+        SUPPORTED_DIMENSIONS = [512, 1024]  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_core_py_L46"}
 
 try:
     from memory.structural_conscience import create_structural_conscience
@@ -318,8 +316,8 @@ class ReflectionMemoryAttentionLayer:
         self.hidden_dim = hidden_dim
         self.num_heads = num_heads
         self.head_dim = hidden_dim // num_heads
-        if TORCH_AVAILABLE:
-            self.attention = nn.MultiheadAttention(embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1)
+        if TORCH_AVAILABLE:  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_core_py_L319"}
+            self.attention = nn.MultiheadAttention(embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1)  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_core_py_L321"}
 
     def compute_attention_scores(
         self,
@@ -1225,8 +1223,8 @@ class ConsensusProtocol:
 
     async def start_node(self):
         """Start the distributed node"""
-        asyncio.create_task(self._heartbeat_timer())
-        asyncio.create_task(self._election_timer())
+        asyncio.create_task(self._heartbeat_timer())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_core_py_L1228"}
+        asyncio.create_task(self._election_timer())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_core_py_L1230"}
         await self._start_http_server()
         logger.info("Distributed memory node started", node_id=self.node_id, port=self.port)
 

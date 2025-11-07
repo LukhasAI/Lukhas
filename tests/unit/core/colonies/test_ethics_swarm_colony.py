@@ -1,5 +1,6 @@
-import pytest
 from datetime import datetime, timezone
+
+import pytest
 from core.colonies.ethics_swarm_colony import (
     EthicalDecisionRequest,
     EthicalDecisionType,

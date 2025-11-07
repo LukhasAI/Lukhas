@@ -3,7 +3,6 @@
 from unittest.mock import Mock
 
 import pytest
-
 from memory.backends.pgvector_store import VectorDoc
 from memory.indexer import Embeddings, Indexer, _fingerprint
 

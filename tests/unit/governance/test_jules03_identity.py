@@ -11,7 +11,6 @@ from pathlib import Path
 from typing import Any
 
 import pytest
-
 from governance.healthcare.decision_support import ClinicalDecisionSupport
 from governance.identity.auth_integrations.qrg_bridge import (
     AuthQRGBridge,

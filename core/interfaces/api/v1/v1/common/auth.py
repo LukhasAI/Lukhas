@@ -1,7 +1,6 @@
-import logging
-
 import hashlib
 import hmac
+import logging
 import os
 import secrets
 import time
@@ -200,7 +199,7 @@ async def verify_api_key(x_api_key: str = Header(...), request: Request = None) 
         # Log unexpected errors
         logger.error("Unexpected error in API key validation", error=str(e))
         _audit_auth_attempt(api_key if "api_key" in locals() else "", False, request)
-        raise HTTPException(status_code=500, detail="Authentication service error")
+        raise HTTPException(status_code=500, detail="Authentication service error")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_interfaces_api_v1_v1_common_auth_py_L202"}
 
 
 def generate_api_key(environment: str = "dev") -> str:

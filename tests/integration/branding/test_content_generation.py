@@ -13,6 +13,7 @@ from branding.engines.lukhas_content_platform.automated_content_generator import
     AutomatedContentGenerator,
 )
 
+
 # Mock the database integration to avoid dependency issues
 class MockDatabase:
     """Mock database for testing content generation"""

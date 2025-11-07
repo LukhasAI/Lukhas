@@ -358,11 +358,11 @@ class ComplianceAuditSystem:
         self.monitoring_active = True
 
         # Start monitoring loops
-        asyncio.create_task(self._consent_monitoring_loop())
-        asyncio.create_task(self._subject_rights_processing_loop())
-        asyncio.create_task(self._compliance_violation_detection_loop())
-        asyncio.create_task(self._data_retention_enforcement_loop())
-        asyncio.create_task(self._audit_cleanup_loop())
+        asyncio.create_task(self._consent_monitoring_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_compliance_audit_system_py_L361"}
+        asyncio.create_task(self._subject_rights_processing_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_compliance_audit_system_py_L363"}
+        asyncio.create_task(self._compliance_violation_detection_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_compliance_audit_system_py_L365"}
+        asyncio.create_task(self._data_retention_enforcement_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_compliance_audit_system_py_L367"}
+        asyncio.create_task(self._audit_cleanup_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_compliance_audit_system_py_L369"}
 
         logger.info("⚖️ Compliance monitoring started")
 

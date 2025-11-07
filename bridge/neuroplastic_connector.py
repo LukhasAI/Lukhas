@@ -4,7 +4,6 @@ Auto-generated connector that integrates isolated components
 """
 
 import logging
-
 from typing import Any
 
 from core.common import get_logger

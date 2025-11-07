@@ -165,7 +165,7 @@ router = APIRouter(prefix="/consent", tags=["Consent Management"])
 async def grant_consent(
     request_data: GrantConsentRequest,
     request: Request,
-    service: ConsentService = Depends(get_consent_service),
+    service: ConsentService = Depends(get_consent_service),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_consent_api_py_L168"}
 ):
     """
     Grant consent for service access with capability token issuance.
@@ -209,7 +209,7 @@ async def grant_consent(
 async def revoke_consent(
     request_data: RevokeConsentRequest,
     request: Request,
-    service: ConsentService = Depends(get_consent_service),
+    service: ConsentService = Depends(get_consent_service),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_consent_api_py_L212"}
 ):
     """
     Revoke consent grants and invalidate associated tokens.
@@ -250,7 +250,7 @@ async def get_consent_ledger(
     lid: str,
     service: Optional[str] = None,
     active_only: bool = True,
-    consent_service: ConsentService = Depends(get_consent_service),
+    consent_service: ConsentService = Depends(get_consent_service),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_consent_api_py_L253"}
 ):
     """
     Get human-readable consent ledger for Studio UI.
@@ -276,7 +276,7 @@ async def get_consent_ledger(
 async def escalate_to_content(
     request_data: EscalateRequest,
     request: Request,
-    service: ConsentService = Depends(get_consent_service),
+    service: ConsentService = Depends(get_consent_service),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_consent_api_py_L279"}
 ):
     """
     Escalate from metadata-only to content access for specific resource.
@@ -307,7 +307,7 @@ async def escalate_to_content(
 
 @router.post("/verify", response_model=VerifyTokenResponse)
 async def verify_capability_token(
-    request_data: VerifyTokenRequest, service: ConsentService = Depends(get_consent_service)
+    request_data: VerifyTokenRequest, service: ConsentService = Depends(get_consent_service)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_consent_api_py_L310"}
 ):
     """
     Verify capability token and check caveats.
@@ -334,7 +334,7 @@ async def verify_capability_token(
 
 
 @router.get("/stats", response_model=ConsentStatsResponse)
-async def get_consent_statistics(service: ConsentService = Depends(get_consent_service)):
+async def get_consent_statistics(service: ConsentService = Depends(get_consent_service)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_consent_api_py_L337"}
     """
     Get consent system statistics for monitoring and dashboards.
 
@@ -368,19 +368,19 @@ async def get_consent_statistics(service: ConsentService = Depends(get_consent_s
 
 
 @router.get("/purposes", response_model=list[Purpose])
-async def list_purposes(service: ConsentService = Depends(get_consent_service)):
+async def list_purposes(service: ConsentService = Depends(get_consent_service)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_consent_api_py_L371"}
     """List all available consent purposes."""
     return await service.list_purposes()
 
 
 @router.get("/data_categories", response_model=list[DataCategory])
-async def list_data_categories(service: ConsentService = Depends(get_consent_service)):
+async def list_data_categories(service: ConsentService = Depends(get_consent_service)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_consent_api_py_L377"}
     """List all available data categories."""
     return await service.list_data_categories()
 
 
 @router.post("/cleanup")
-async def cleanup_expired_grants(service: ConsentService = Depends(get_consent_service)):
+async def cleanup_expired_grants(service: ConsentService = Depends(get_consent_service)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_consent_api_py_L383"}
     """
     Clean up expired grants and tokens.
 

@@ -3,15 +3,14 @@ from __future__ import annotations
 
 from _bridgeutils import bridge_from_candidates
 
+from observability import counter, histogram
+
 __all__, _exp = bridge_from_candidates(
     "labs.core.metrics",
     "labs.metrics",
     "core.metrics",
 )
 globals().update(_exp)
-
-# Additional metric exports for test compatibility
-from observability import counter, histogram
 
 stage_latency = histogram(
     "lukhas_stage_latency_seconds",

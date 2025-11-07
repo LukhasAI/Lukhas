@@ -104,7 +104,7 @@ def _base64url_decode(data: str) -> bytes:
         padded = data + ('=' * padding_needed)
         return base64.urlsafe_b64decode(padded)
     except Exception as e:
-        raise InvalidAssertionError(f"Failed to decode base64url data: {e}")
+        raise InvalidAssertionError(f"Failed to decode base64url data: {e}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "lukhas_identity_webauthn_verify_py_L107"}
 
 
 def _constant_time_compare(a: bytes, b: bytes) -> bool:
@@ -193,7 +193,7 @@ def _parse_client_data_json(client_data_json: bytes) -> Dict[str, Any]:
     try:
         data = json.loads(client_data_json.decode('utf-8'))
     except Exception as e:
-        raise InvalidAssertionError(f"Failed to parse clientDataJSON: {e}")
+        raise InvalidAssertionError(f"Failed to parse clientDataJSON: {e}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "lukhas_identity_webauthn_verify_py_L197"}
 
     # Validate required fields
     if 'type' not in data:
@@ -248,7 +248,7 @@ def _verify_signature_es256(
                     curve=ec.SECP256R1()
                 ).public_key()
             else:
-                raise InvalidSignatureError("Unsupported public key format")
+                raise InvalidSignatureError("Unsupported public key format")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "lukhas_identity_webauthn_verify_py_L253"}
 
         # Verify signature
         if not isinstance(public_key, ec.EllipticCurvePublicKey):
@@ -260,9 +260,9 @@ def _verify_signature_es256(
             ec.ECDSA(hashes.SHA256())
         )
     except CryptoInvalidSignature:
-        raise InvalidSignatureError("ES256 signature verification failed")
+        raise InvalidSignatureError("ES256 signature verification failed")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "lukhas_identity_webauthn_verify_py_L266"}
     except Exception as e:
-        raise InvalidSignatureError(f"ES256 verification error: {e}")
+        raise InvalidSignatureError(f"ES256 verification error: {e}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "lukhas_identity_webauthn_verify_py_L269"}
 
 
 def _verify_signature_rs256(
@@ -295,9 +295,9 @@ def _verify_signature_rs256(
             hashes.SHA256()
         )
     except CryptoInvalidSignature:
-        raise InvalidSignatureError("RS256 signature verification failed")
+        raise InvalidSignatureError("RS256 signature verification failed")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "lukhas_identity_webauthn_verify_py_L303"}
     except Exception as e:
-        raise InvalidSignatureError(f"RS256 verification error: {e}")
+        raise InvalidSignatureError(f"RS256 verification error: {e}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "lukhas_identity_webauthn_verify_py_L306"}
 
 
 # Main verification function

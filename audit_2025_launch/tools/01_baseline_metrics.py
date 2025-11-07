@@ -22,8 +22,10 @@ def count_files_by_extension():
         if file_path.is_file() and not should_exclude(file_path):
             ext = file_path.suffix or "no_extension"
             counts[ext] += 1
-            try: sizes[ext] += file_path.stat().st_size
-            except: pass
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_audit_2025_launch_tools_01_baseline_metrics_py_L25"}
+                sizes[ext] += file_path.stat().st_size
+            except OSError:
+                pass
     return dict(counts), dict(sizes)
 
 def count_by_directory():
@@ -33,8 +35,14 @@ def count_by_directory():
         dir_path = ROOT_DIR / dir_name
         if dir_path.exists():
             file_count = sum(1 for _ in dir_path.rglob("*") if _.is_file() and not should_exclude(_))
-            try: size_bytes = sum(f.stat().st_size for f in dir_path.rglob("*") if f.is_file() and not should_exclude(f))
-            except: size_bytes = 0
+            try:
+                size_bytes = sum(
+                    f.stat().st_size
+                    for f in dir_path.rglob("*")
+                    if f.is_file() and not should_exclude(f)
+                )
+            except OSError:
+                size_bytes = 0
             dir_stats[dir_name] = {"file_count": file_count, "size_mb": round(size_bytes / (1024 * 1024), 2)}
     return dir_stats
 

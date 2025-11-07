@@ -58,7 +58,7 @@ def main():
     cap_over = {r["capability"]: normalize_star(r["star"]) for r in ruleset.get("capability_overrides", [])}
     node_over = {r["node"]: normalize_star(r["star"]) for r in ruleset.get("node_overrides", [])}
 
-    out_dir = Path(args.out); out_dir.mkdir(parents=True, exist_ok=True)
+    out_dir = Path(args.out); out_dir.mkdir(parents=True, exist_ok=True)  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_suggest_star_promotions_py_L61"}
 
     promotions = []
     counts = Counter()

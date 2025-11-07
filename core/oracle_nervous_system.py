@@ -177,9 +177,9 @@ class OracleNervousSystem:
             await self._register_capabilities()
 
             # Start background tasks
-            asyncio.create_task(self._process_events())
-            asyncio.create_task(self._health_monitor())
-            asyncio.create_task(self._performance_monitor())
+            asyncio.create_task(self._process_events())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_oracle_nervous_system_py_L180"}
+            asyncio.create_task(self._health_monitor())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_oracle_nervous_system_py_L182"}
+            asyncio.create_task(self._performance_monitor())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_oracle_nervous_system_py_L184"}
 
             self.is_initialized = True
             self.health_status = "operational"

@@ -476,10 +476,9 @@ class AnthropicFunctionBridge:
                     return
 
             # Security validation for critical tools
-            if tool_def.security_level == "critical":
-                if not await self._validate_critical_tool_use(tool_use, tool_def):
-                    tool_use.error = "Critical tool validation failed"
-                    return
+            if tool_def.security_level == 'critical' and (not await self._validate_critical_tool_use(tool_use, tool_def)):
+                tool_use.error = "Critical tool validation failed"
+                return
 
             # Execute tool if handler available
             if tool_def.handler:

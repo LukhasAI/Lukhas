@@ -4,7 +4,6 @@ import uuid
 from datetime import datetime, timezone
 
 from fastapi import APIRouter, BackgroundTasks, Depends
-
 from interfaces.api.v1.common.errors import ProcessingError, ValidationError
 from interfaces.api.v1.rest.models import ProcessRequest, ProcessResponse, SymbolicState
 
@@ -72,7 +71,7 @@ async def record_metrics(request_id: str, duration: float, status: str = "succes
 async def process_request(
     request: ProcessRequest,
     background_tasks: BackgroundTasks,
-    core=Depends(get_lukhas_core),
+    core=Depends(get_lukhas_core),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_interfaces_api_v1_v1_rest_routers_process_py_L74"}
 ) -> ProcessResponse:
     """Process input through LUKHAS Cognitive system."""
     request_id = str(uuid.uuid4())
@@ -112,4 +111,4 @@ async def process_request(
     except Exception as e:
         duration = time.time() - start_time
         background_tasks.add_task(record_metrics, request_id, duration, "error")
-        raise ProcessingError(f"Processing failed: {e!s}")
+        raise ProcessingError(f"Processing failed: {e!s}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_interfaces_api_v1_v1_rest_routers_process_py_L114"}

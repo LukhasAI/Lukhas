@@ -40,7 +40,7 @@ def discover_all_docs():
         if should_exclude(md_file):
             continue
 
-        try:
+        try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_audit_2025_launch_tools_06_docs_quality_checker_py_L43"}
             docs.append({
                 "path": str(md_file.relative_to(ROOT_DIR)),
                 "absolute_path": str(md_file),
@@ -227,7 +227,7 @@ def find_duplicate_docs(docs):
                 hasher.update(f.read())
             doc_hash = hasher.hexdigest()
             hash_map[doc_hash].append(doc["path"])
-        except:
+        except OSError:
             pass
 
     duplicates = {h: paths for h, paths in hash_map.items() if len(paths) > 1}
