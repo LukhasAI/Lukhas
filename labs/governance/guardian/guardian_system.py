@@ -534,7 +534,7 @@ class EnhancedGuardianSystem:
         elif threat_type == "anomaly_detection":
             anomaly_score = threat_data.get("anomaly_score", 0.0)
             base_score = anomaly_score
-            level = ThreatLevel.HIGH if anomaly_score > 0.8 else ThreatLevel.MODERATE
+            level = ThreatLevel.MODERATE # Start with moderate
             indicators.append(f"Anomaly score: {anomaly_score:.3f}")
 
         elif threat_type == "security_breach":
@@ -558,11 +558,18 @@ class EnhancedGuardianSystem:
         # Determine recommended actions
         recommended_actions = []
         if base_score >= 0.8:
+            level = ThreatLevel.CRITICAL if base_score >= 0.9 else ThreatLevel.HIGH
             recommended_actions = [ResponseAction.BLOCK, ResponseAction.ESCALATE]
         elif base_score >= 0.5:
+            level = ThreatLevel.HIGH if base_score >= 0.7 else ThreatLevel.MODERATE
             recommended_actions = [ResponseAction.ALERT, ResponseAction.MONITOR]
         else:
+            level = ThreatLevel.LOW if base_score >= 0.2 else ThreatLevel.MINIMAL
             recommended_actions = [ResponseAction.MONITOR]
+
+        if threat_type == "drift_detection" and base_score > self.drift_threshold:
+             recommended_actions = [ResponseAction.ALERT, ResponseAction.MONITOR]
+
 
         return {
             "level": level,
