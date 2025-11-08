@@ -1,0 +1,23 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "{{ product_name }}",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Linux, macOS, Windows",
+  "description": "{{ seo_description }}",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ rating }}",
+    "reviewCount": "{{ review_count }}"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "LUKHAS AI",
+    "url": "https://lukhas.com"
+  }
+}

@@ -1,9 +1,10 @@
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from core.swarm import SwarmHub
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+
+from core.swarm import SwarmHub
 
 # TAG:bridge
 # TAG:api

@@ -61,9 +61,8 @@ except ImportError:
 try:
     # LUKHAS Consent System
     from governance.consent.consent_manager import ConsentManager
-    from governance.privacy.data_protection import DataProtectionEngine, ProtectionLevel
-
     from governance.consent_ledger import record_consent
+    from governance.privacy.data_protection import DataProtectionEngine, ProtectionLevel
 
     CONSENT_AVAILABLE = True
 except ImportError:

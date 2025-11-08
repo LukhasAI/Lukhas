@@ -13,8 +13,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import openai
-from core.orchestration.brain.spine.trait_manager import load_traits
 from system_reflection_gpt import generate_gpt_reflection
+
+from core.orchestration.brain.spine.trait_manager import load_traits
 
 # Add OXN root to import path
 sys.path.append("/Users/grdm_admin/Downloads/oxn", timezone)

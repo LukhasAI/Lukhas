@@ -11,6 +11,7 @@ import time
 from collections import deque
 
 import psutil
+
 from memory.memory_event import MemoryEvent, MemoryEventFactory
 
 
