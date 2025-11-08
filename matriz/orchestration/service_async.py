@@ -6,7 +6,7 @@ import asyncio
 import logging
 from dataclasses import asdict
 from threading import Lock
-from typing import Any, Dict
+from typing import Any
 
 from matriz.nodes.fact_node import FactNode
 from matriz.nodes.math_node import MathNode
@@ -29,7 +29,7 @@ class _MathNodeAdapter(MathNode):
     """Adapter that maps generic queries to math node input."""
 
     # ΛTAG: adapter_math -- translate query payload to expression schema
-    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         query = input_data.get("query", "")
         adapted = dict(input_data)
         adapted.setdefault("expression", query)
@@ -40,7 +40,7 @@ class _FactNodeAdapter(FactNode):
     """Adapter that maps generic queries to fact node input."""
 
     # ΛTAG: adapter_fact -- translate query payload to question schema
-    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         query = input_data.get("query", "")
         adapted = dict(input_data)
         adapted.setdefault("question", query)
@@ -70,7 +70,7 @@ def get_async_orchestrator() -> AsyncCognitiveOrchestrator:
     return _ORCHESTRATOR_INSTANCE
 
 
-async def run_async_matriz(query: str) -> Dict[str, Any]:
+async def run_async_matriz(query: str) -> dict[str, Any]:
     """Execute the async MATRIZ pipeline for the provided query."""
 
     orchestrator = get_async_orchestrator()

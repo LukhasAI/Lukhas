@@ -1,6 +1,7 @@
 from unittest.mock import MagicMock, patch
 
 import pytest
+
 from core.security.keychain_manager import KeychainManager
 
 

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Any, Dict
+from typing import Any
 
 
 @dataclass(frozen=True)
@@ -24,7 +24,7 @@ class BaseJurisdictionModule:
     policy_version: str = ""
     supported_countries: Iterable[str] = ()
 
-    def evaluate(self, user_data: Dict[str, Any]) -> JurisdictionSignal | None:
+    def evaluate(self, user_data: dict[str, Any]) -> JurisdictionSignal | None:
         """Return a signal when the jurisdiction applies to *user_data*."""
 
         signal = self._evaluate(user_data)
@@ -33,12 +33,12 @@ class BaseJurisdictionModule:
         return None
 
     # NOTE: Implementers should override this method.
-    def _evaluate(self, user_data: Dict[str, Any]) -> JurisdictionSignal | None:
+    def _evaluate(self, user_data: dict[str, Any]) -> JurisdictionSignal | None:
         raise NotImplementedError
 
     # Helper accessors -----------------------------------------------------
     @staticmethod
-    def _get_ip_country(user_data: Dict[str, Any]) -> str | None:
+    def _get_ip_country(user_data: dict[str, Any]) -> str | None:
         ip_info = user_data.get("ip_geolocation") or {}
         country = ip_info.get("country")
         if country:
@@ -46,7 +46,7 @@ class BaseJurisdictionModule:
         return None
 
     @staticmethod
-    def _get_ip_region(user_data: Dict[str, Any]) -> str | None:
+    def _get_ip_region(user_data: dict[str, Any]) -> str | None:
         ip_info = user_data.get("ip_geolocation") or {}
         region = ip_info.get("region")
         if region:
@@ -54,7 +54,7 @@ class BaseJurisdictionModule:
         return None
 
     @staticmethod
-    def _get_account_country(user_data: Dict[str, Any]) -> str | None:
+    def _get_account_country(user_data: dict[str, Any]) -> str | None:
         account = user_data.get("user_account") or {}
         country = account.get("country") or account.get("country_code")
         if country:
@@ -62,7 +62,7 @@ class BaseJurisdictionModule:
         return None
 
     @staticmethod
-    def _get_account_region(user_data: Dict[str, Any]) -> str | None:
+    def _get_account_region(user_data: dict[str, Any]) -> str | None:
         account = user_data.get("user_account") or {}
         region = account.get("region") or account.get("state")
         if region:
@@ -70,14 +70,14 @@ class BaseJurisdictionModule:
         return None
 
     @staticmethod
-    def _get_data_processing_countries(user_data: Dict[str, Any]) -> Iterable[str]:
+    def _get_data_processing_countries(user_data: dict[str, Any]) -> Iterable[str]:
         locations = user_data.get("data_processing_locations") or []
         for item in locations:
             if not item:
                 continue
             yield str(item).upper()
 
-    def policy_definition(self) -> Dict[str, Any]:
+    def policy_definition(self) -> dict[str, Any]:
         """Return the jurisdiction's base policy definition."""
 
         raise NotImplementedError

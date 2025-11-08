@@ -16,7 +16,6 @@ CONSTELLATION FRAMEWORK:
 """
 from __future__ import annotations
 
-
 import logging
 from datetime import datetime, timezone
 from enum import Enum
@@ -233,4 +232,4 @@ class DreamStateManager:
 
 
 # Export for integration
-__all__ = ["DreamStateManager", "DreamState"]
+__all__ = ["DreamState", "DreamStateManager"]

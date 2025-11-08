@@ -3,6 +3,7 @@ from pathlib import Path as _Path
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+
 from bridge.adapters.service_adapter_base import CapabilityToken
 from bridge.external_adapters.dropbox_adapter import DropboxAdapter, DropboxContextIntegration
 

@@ -17,7 +17,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Deque, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 from core.logging import get_logger
 from observability.metrics import get_metrics_collector
@@ -46,7 +46,7 @@ class HealthMetric:
     threshold_warning: float
     threshold_critical: float
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     @property
     def status(self) -> str:
@@ -112,7 +112,7 @@ class HealthCheck:
     timeout_seconds: int = 10
     enabled: bool = True
     critical_for_deployment: bool = False
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -121,10 +121,10 @@ class ComponentHealth:
     component_id: str
     overall_status: str  # healthy, degraded, unhealthy
     overall_score: float  # 0-1
-    metrics: Dict[str, HealthMetric] = field(default_factory=dict)
+    metrics: dict[str, HealthMetric] = field(default_factory=dict)
     last_check: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     consecutive_failures: int = 0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def update_metric(self, metric: HealthMetric):
         """Update individual metric and recalculate overall health"""
@@ -184,20 +184,20 @@ class HealthMonitor:
         self.history_window_size = history_window_size
 
         # Health checks registry
-        self.health_checks: Dict[str, HealthCheck] = {}
-        self.component_health: Dict[str, ComponentHealth] = {}
+        self.health_checks: dict[str, HealthCheck] = {}
+        self.component_health: dict[str, ComponentHealth] = {}
 
         # Metric history for trend analysis
-        self.metric_history: Dict[str, Deque[HealthMetric]] = defaultdict(
+        self.metric_history: dict[str, collections.deque[HealthMetric]] = defaultdict(
             lambda: deque(maxlen=history_window_size)
         )
 
         # Check scheduling
-        self.check_tasks: Dict[str, asyncio.Task] = {}
+        self.check_tasks: dict[str, asyncio.Task] = {}
 
         # Alerting
-        self.alert_handlers: List[Callable] = []
-        self.alert_history: Deque[Dict[str, Any]] = deque(maxlen=1000)
+        self.alert_handlers: list[Callable] = []
+        self.alert_history: collections.deque[dict[str, Any]] = deque(maxlen=1000)
 
         # Statistics
         self.stats = {
@@ -516,7 +516,7 @@ class HealthMonitor:
         """Get current health status for component"""
         return self.component_health.get(component_id)
 
-    async def get_health_summary(self) -> Dict[str, Any]:
+    async def get_health_summary(self) -> dict[str, Any]:
         """Get overall health summary"""
         healthy_count = sum(
             1 for h in self.component_health.values()
@@ -550,7 +550,7 @@ class HealthMonitor:
         self,
         component_id: str,
         metric_name: str
-    ) -> List[HealthMetric]:
+    ) -> list[HealthMetric]:
         """Get historical metrics for analysis"""
         history_key = f"{component_id}:{metric_name}"
         return list(self.metric_history[history_key])

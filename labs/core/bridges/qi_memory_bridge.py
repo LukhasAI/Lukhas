@@ -20,8 +20,9 @@ class QIMemoryBridge:
     async def connect(self) -> bool:
         """Establish connection between systems"""
         try:
-            from consciousness.reflection.memory_hub import get_memory_hub
             from qi.qi_hub import get_quantum_hub
+
+            from consciousness.reflection.memory_hub import get_memory_hub
 
             self.qi_hub = get_quantum_hub()
             self.memory_hub = get_memory_hub()

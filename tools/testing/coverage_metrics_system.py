@@ -25,7 +25,7 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, List, Optional
 
 # Configure logging
 logging.basicConfig(
@@ -45,9 +45,9 @@ class CoverageMetrics:
     missing: int
     excluded: int
     coverage_percent: float
-    lines_covered: List[int] = field(default_factory=list)
-    lines_missing: List[int] = field(default_factory=list)
-    lines_excluded: List[int] = field(default_factory=list)
+    lines_covered: list[int] = field(default_factory=list)
+    lines_missing: list[int] = field(default_factory=list)
+    lines_excluded: list[int] = field(default_factory=list)
     complexity_score: float = 0.0
     risk_level: str = "unknown"
     last_updated: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
@@ -64,7 +64,7 @@ class TestSuiteMetrics:
     error_tests: int
     execution_time: float
     coverage_overall: float
-    coverage_by_module: Dict[str, CoverageMetrics] = field(default_factory=dict)
+    coverage_by_module: dict[str, CoverageMetrics] = field(default_factory=dict)
     timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
@@ -99,7 +99,7 @@ class CoverageMetricsSystem:
 
         logger.info("Coverage metrics system initialized")
 
-    def _load_config(self, config_path: Optional[Path]) -> Dict[str, Any]:
+    def _load_config(self, config_path: Optional[Path]) -> dict[str, Any]:
         """Load configuration for coverage system"""
         default_config = {
             'coverage_tools': {
@@ -239,7 +239,7 @@ class CoverageMetricsSystem:
             logger.error(f"Coverage analysis failed: {e}")
             raise
 
-    def _run_tests_with_coverage(self, test_suite: str) -> Dict[str, int]:
+    def _run_tests_with_coverage(self, test_suite: str) -> dict[str, int]:
         """Run tests with coverage measurement"""
         logger.info("Running tests with coverage measurement")
 
@@ -291,7 +291,7 @@ class CoverageMetricsSystem:
             logger.error(f"Test execution failed: {e}")
             return {'total': 0, 'passed': 0, 'failed': 1, 'skipped': 0, 'errors': 0}
 
-    def _parse_pytest_output(self, output: str) -> Dict[str, int]:
+    def _parse_pytest_output(self, output: str) -> dict[str, int]:
         """Parse pytest output to extract test results"""
         results = {'total': 0, 'passed': 0, 'failed': 0, 'skipped': 0, 'errors': 0}
 
@@ -327,7 +327,7 @@ class CoverageMetricsSystem:
 
         return results
 
-    def _parse_coverage_results(self) -> Dict[str, CoverageMetrics]:
+    def _parse_coverage_results(self) -> dict[str, CoverageMetrics]:
         """Parse coverage XML results"""
         coverage_file = ROOT / "reports/testing/coverage.xml"
 
@@ -402,7 +402,7 @@ class CoverageMetricsSystem:
 
         return module
 
-    def _add_complexity_metrics(self, coverage_data: Dict[str, CoverageMetrics]) -> Dict[str, CoverageMetrics]:
+    def _add_complexity_metrics(self, coverage_data: dict[str, CoverageMetrics]) -> dict[str, CoverageMetrics]:
         """Add complexity metrics using radon or similar tools"""
         logger.info("Calculating complexity metrics")
 
@@ -462,7 +462,7 @@ class CoverageMetricsSystem:
 
         return 0.0
 
-    def _assess_risk_levels(self, coverage_data: Dict[str, CoverageMetrics]) -> Dict[str, CoverageMetrics]:
+    def _assess_risk_levels(self, coverage_data: dict[str, CoverageMetrics]) -> dict[str, CoverageMetrics]:
         """Assess risk levels based on coverage and complexity"""
         for metrics in coverage_data.values():
             # Determine risk level
@@ -483,14 +483,14 @@ class CoverageMetricsSystem:
                     risk = "high"
 
             # Adjust for critical modules
-            if any((critical in metrics.module_name for critical in self.config['critical_modules'])) and risk in ['medium', 'high']:
+            if any(critical in metrics.module_name for critical in self.config['critical_modules']) and risk in ['medium', 'high']:
                 risk = "critical"
 
             metrics.risk_level = risk
 
         return coverage_data
 
-    def _calculate_overall_coverage(self, coverage_data: Dict[str, CoverageMetrics]) -> float:
+    def _calculate_overall_coverage(self, coverage_data: dict[str, CoverageMetrics]) -> float:
         """Calculate overall coverage percentage"""
         if not coverage_data:
             return 0.0
@@ -503,7 +503,7 @@ class CoverageMetricsSystem:
 
         return ((total_statements - total_missing) / total_statements) * 100
 
-    def _evaluate_quality_gates(self, metrics: TestSuiteMetrics) -> Dict[str, Dict[str, Any]]:
+    def _evaluate_quality_gates(self, metrics: TestSuiteMetrics) -> dict[str, dict[str, Any]]:
         """Evaluate quality gates against metrics"""
         gates = {}
 
@@ -588,7 +588,7 @@ class CoverageMetricsSystem:
                     module_metrics.risk_level
                 ))
 
-    def _store_quality_gate_results(self, run_id: str, gate_results: Dict[str, Dict[str, Any]]):
+    def _store_quality_gate_results(self, run_id: str, gate_results: dict[str, dict[str, Any]]):
         """Store quality gate results in database"""
         with sqlite3.connect(self.db_path) as conn:
             for gate_name, result in gate_results.items():
@@ -601,7 +601,7 @@ class CoverageMetricsSystem:
                     result['actual'], result['passed']
                 ))
 
-    def _get_git_info(self) -> Dict[str, str]:
+    def _get_git_info(self) -> dict[str, str]:
         """Get current git commit and branch"""
         try:
             commit = subprocess.run(
@@ -798,7 +798,7 @@ class CoverageMetricsSystem:
         logger.info(f"JSON report generated: {report_path}")
         return report_path
 
-    def get_coverage_trends(self, days_back: int = 30) -> Dict[str, Any]:
+    def get_coverage_trends(self, days_back: int = 30) -> dict[str, Any]:
         """Analyze coverage trends over time"""
         since_date = (datetime.now() - timedelta(days=days_back)).isoformat()
 

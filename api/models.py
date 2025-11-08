@@ -5,7 +5,7 @@ This module defines the Pydantic models for the API expansion.
 """
 
 from datetime import datetime
-from typing import List, Optional
+from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -20,7 +20,7 @@ class StatusResponse(BaseModel):
 class ConsciousnessStatus(BaseModel):
     state: str
     awareness_level: float
-    active_processes: List[str]
+    active_processes: list[str]
 
 
 class AwarenessLevel(BaseModel):
@@ -36,7 +36,7 @@ class MemoryQueryRequest(BaseModel):
 
 
 class MemoryQueryResponse(BaseModel):
-    results: List[str]
+    results: list[str]
 
 
 class DreamStateRequest(BaseModel):
@@ -95,12 +95,12 @@ class ConsolidateRequest(BaseModel):
 
 # Guardian API Models
 class SafetyProtocols(BaseModel):
-    protocols: List[str]
+    protocols: list[str]
 
 
 class EthicsMonitorData(BaseModel):
     monitoring_status: str
-    ethical_concerns: List[str]
+    ethical_concerns: list[str]
 
 
 class ComplianceCheckRequest(BaseModel):
@@ -119,4 +119,4 @@ class AuditTrailRequest(BaseModel):
 
 
 class AuditTrailResponse(BaseModel):
-    logs: List[str]
+    logs: list[str]

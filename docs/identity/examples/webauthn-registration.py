@@ -5,13 +5,13 @@ WebAuthn Registration Example (Backend)
 This script demonstrates the server-side flow for WebAuthn credential registration.
 """
 import base64
-from webauthn import generate_registration_options, verify_registration_response
-from webauthn.helpers.structs import RegistrationCredential
 
 from lukhas_website.lukhas.identity.webauthn_types import (
     CredentialCreationOptions,
     PublicKeyCredentialCreation,
 )
+from webauthn import generate_registration_options, verify_registration_response
+from webauthn.helpers.structs import RegistrationCredential
 
 RP_ID = "localhost"
 RP_NAME = "LUKHAS Demo"

@@ -15,7 +15,7 @@ import statistics
 import sys
 import time
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 import psutil
@@ -28,7 +28,7 @@ class BenchmarkResult:
     type: str  # 'unit' or 'e2e'
     samples: int
     warmup: int
-    latencies_ns: List[int]
+    latencies_ns: list[int]
     p50_us: float
     p95_us: float
     p99_us: float
@@ -39,7 +39,7 @@ class BenchmarkResult:
     min_us: float
     max_us: float
     throughput_per_sec: float
-    environment: Dict[str, Any]
+    environment: dict[str, Any]
     timestamp: str
     sha256: str = ""
 
@@ -63,7 +63,7 @@ class PerformanceBenchmark:
         self.results = []
         self.environment = self._capture_environment()
 
-    def _capture_environment(self) -> Dict[str, Any]:
+    def _capture_environment(self) -> dict[str, Any]:
         """Capture runtime environment for reproducibility"""
         cpu_freq = psutil.cpu_freq()
         return {
@@ -80,7 +80,7 @@ class PerformanceBenchmark:
             'hostname': platform.node()
         }
 
-    def percentile(self, data: List[float], p: float) -> float:
+    def percentile(self, data: list[float], p: float) -> float:
         """Calculate percentile with proper interpolation"""
         if not data:
             return 0.0
@@ -92,8 +92,8 @@ class PerformanceBenchmark:
         weight = idx - lower
         return sorted_data[lower] * (1 - weight) + sorted_data[upper] * weight
 
-    def bootstrap_ci(self, data: List[float], n_bootstrap: int = 1000,
-                    confidence: float = 0.95) -> Tuple[float, float]:
+    def bootstrap_ci(self, data: list[float], n_bootstrap: int = 1000,
+                    confidence: float = 0.95) -> tuple[float, float]:
         """Calculate bootstrap confidence interval for p95"""
         if len(data) < 10:
             return (min(data), max(data)) if data else (0.0, 0.0)
@@ -190,7 +190,7 @@ class PerformanceBenchmark:
 
         return result
 
-    def benchmark_throughput(self, func, name: str, duration_sec: int = 10) -> Dict[str, Any]:
+    def benchmark_throughput(self, func, name: str, duration_sec: int = 10) -> dict[str, Any]:
         """Benchmark throughput with steady-state verification"""
         print(f"🚀 Throughput benchmark {name} ({duration_sec}s)...")
 
@@ -245,7 +245,7 @@ class PerformanceBenchmark:
 
         return result
 
-    def generate_report(self, output_file: Optional[str] = None) -> Dict[str, Any]:
+    def generate_report(self, output_file: Optional[str] = None) -> dict[str, Any]:
         """Generate comprehensive benchmark report"""
         report = {
             'version': '1.0.0',
@@ -325,7 +325,7 @@ class PerformanceBenchmark:
                 return "✅" if p95_us < threshold else "❌"
         return "✅"
 
-    def validate_sla(self, sla_requirements: Dict[str, float]) -> bool:
+    def validate_sla(self, sla_requirements: dict[str, float]) -> bool:
         """Validate results against SLA requirements"""
         print("\n⚖️  SLA VALIDATION")
         print("-"*60)

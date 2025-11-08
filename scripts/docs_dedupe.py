@@ -11,7 +11,7 @@ import json
 import re
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict
 
 # Constants
 DOCS_ROOT = Path(__file__).parent.parent / "docs"
@@ -103,7 +103,7 @@ def is_referenced_by_index(doc_path: str) -> bool:
     return False
 
 
-def canonical_preference_score(doc: Dict) -> Tuple[int, int, int, str]:
+def canonical_preference_score(doc: Dict) -> tuple[int, int, int, str]:
     """
     Score document for canonical preference.
     Returns tuple: (taxonomy_match, index_ref, fm_richness, -date)
@@ -137,7 +137,7 @@ def canonical_preference_score(doc: Dict) -> Tuple[int, int, int, str]:
     return (taxonomy_score, index_score, fm_score, date_str)
 
 
-def find_near_duplicates(docs: List[Dict], threshold: float = 0.92) -> List[List[Dict]]:
+def find_near_duplicates(docs: list[Dict], threshold: float = 0.92) -> list[list[Dict]]:
     """
     Find near-duplicate documents using MinHash-like approach.
     Returns list of duplicate groups.

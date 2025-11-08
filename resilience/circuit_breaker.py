@@ -18,7 +18,7 @@ from collections import deque
 from contextlib import asynccontextmanager, suppress
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -95,7 +95,7 @@ class CircuitBreakerStats:
     time_in_open: float = 0.0
     time_in_half_open: float = 0.0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert stats to dictionary."""
         return {
             "total_calls": self.total_calls,
@@ -588,7 +588,7 @@ class CircuitBreakerRegistry:
     """Registry for managing multiple circuit breakers."""
 
     def __init__(self):
-        self.circuit_breakers: Dict[str, CircuitBreaker] = {}
+        self.circuit_breakers: dict[str, CircuitBreaker] = {}
         self.health_check_task: Optional[asyncio.Task] = None
 
     def register(self,
@@ -608,7 +608,7 @@ class CircuitBreakerRegistry:
         """Get circuit breaker by name."""
         return self.circuit_breakers.get(name)
 
-    def get_all_stats(self) -> Dict[str, Dict[str, Any]]:
+    def get_all_stats(self) -> dict[str, dict[str, Any]]:
         """Get statistics for all circuit breakers."""
 
         return {

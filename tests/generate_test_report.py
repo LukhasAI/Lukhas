@@ -10,7 +10,6 @@ import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 
 class TestReportGenerator:
@@ -61,7 +60,7 @@ class TestReportGenerator:
             "tests": [{"nodeid": t} for t in tests],
         }
 
-    def parse_failures(self, results: Dict) -> List[Dict]:
+    def parse_failures(self, results: Dict) -> list[Dict]:
         """Extract failure information from test results"""
         failures = []
 
@@ -84,7 +83,7 @@ class TestReportGenerator:
             return str(test["call"]["longrepr"])[:200]
         return "Error details not available"
 
-    def categorize_issue(self, failure: Dict) -> Tuple[str, str]:
+    def categorize_issue(self, failure: Dict) -> tuple[str, str]:
         """Categorize issue by priority and type"""
         test_path = failure["test_path"]
 
@@ -110,7 +109,7 @@ class TestReportGenerator:
 
         return priority, issue_type
 
-    def generate_known_issues(self, failures: List[Dict]) -> str:
+    def generate_known_issues(self, failures: list[Dict]) -> str:
         """Generate KNOWN_ISSUES.md content"""
 
         issues = []

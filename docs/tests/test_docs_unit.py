@@ -64,6 +64,7 @@ class TestDocsCore:
         """Test proper error handling patterns."""
         try:
             from core.exceptions import LUKHASException
+
             from docs import DocsCore
 
             component = DocsCore()

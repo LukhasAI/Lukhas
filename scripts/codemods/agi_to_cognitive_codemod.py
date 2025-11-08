@@ -18,13 +18,13 @@ Usage:
 import argparse
 import re
 from pathlib import Path
-from typing import List, Tuple
+from typing importTuple
 
 # Repository root
 ROOT = Path(__file__).resolve().parents[2]
 
 # Comprehensive replacement patterns
-REPLACEMENTS: List[Tuple[re.Pattern, str]] = [
+REPLACEMENTS: list[tuple[re.Pattern, str]] = [
     # Path and import updates
     (re.compile(r'\bagi_core\b'), 'cognitive_core'),
     (re.compile(r'\bfrom cognitive_core\b'), 'from cognitive_core'),
@@ -105,7 +105,7 @@ def should_skip_path(path: Path) -> bool:
     return any(pattern in path_str for pattern in EXCLUDE_PATTERNS)
 
 
-def find_files_to_process() -> List[Path]:
+def find_files_to_process() -> list[Path]:
     """Find all files that need AGI → Cognitive updates."""
     files = []
 
@@ -122,7 +122,7 @@ def find_files_to_process() -> List[Path]:
     return sorted(files)
 
 
-def apply_replacements(content: str) -> Tuple[str, int]:
+def apply_replacements(content: str) -> tuple[str, int]:
     """Apply all replacement patterns to content."""
     new_content = content
     total_changes = 0
@@ -134,7 +134,7 @@ def apply_replacements(content: str) -> Tuple[str, int]:
     return new_content, total_changes
 
 
-def process_file(file_path: Path, dry_run: bool = True) -> Tuple[bool, int]:
+def process_file(file_path: Path, dry_run: bool = True) -> tuple[bool, int]:
     """Process a single file for AGI → Cognitive replacements."""
     try:
         with open(file_path, encoding='utf-8') as f:

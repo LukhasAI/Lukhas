@@ -13,7 +13,6 @@ import logging
 from typing import Any, Optional
 
 import numpy as np
-
 from emotion.affect_stagnation_detector import AffectStagnationDetector
 from memory.emotional import EmotionalMemory
 

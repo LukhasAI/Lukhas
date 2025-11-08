@@ -9,12 +9,10 @@ Updates pytest collection paths.
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, Set
-
 ART = Path("artifacts")
 
 
-def find_test_files() -> Dict[str, str]:
+def find_test_files() -> dict[str, str]:
     """Find all test files and infer their module from path."""
     test_mapping = {}
 
@@ -97,11 +95,11 @@ def git_mv(old_path: Path, new_path: Path) -> bool:
         return False
 
 
-def migrate_tests(test_mapping: Dict[str, str], dry_run: bool = False):
+def migrate_tests(test_mapping: dict[str, str], dry_run: bool = False):
     """Migrate test files to module-local directories."""
     moved_count = 0
     skipped_count = 0
-    modules_with_tests: Set[str] = set()
+    modules_with_tests: set[str] = set()
 
     for test_file_str, module in test_mapping.items():
         test_file = Path(test_file_str)

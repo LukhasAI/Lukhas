@@ -22,7 +22,7 @@ import json
 import logging
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 import pytest
 from jsonschema.validators import Draft202012Validator
@@ -35,13 +35,13 @@ class SchemaDriftResult:
     """Result of schema drift analysis."""
     schema_valid: bool
     hash_matches: bool
-    breaking_changes: List[str]
-    warnings: List[str]
+    breaking_changes: list[str]
+    warnings: list[str]
     current_hash: str
     expected_hash: str
     version_compatible: bool
     t4_compliant: bool
-    recommendations: List[str]
+    recommendations: list[str]
 
 
 class MATRIZSchemaDriftDetector:
@@ -66,14 +66,14 @@ class MATRIZSchemaDriftDetector:
         with open(self.snapshot_path) as f:
             self.snapshot = json.load(f)
 
-    def compute_schema_hash(self, schema: Dict[str, Any]) -> str:
+    def compute_schema_hash(self, schema: dict[str, Any]) -> str:
         """Compute deterministic hash of schema structure."""
         # Create a normalized version for hashing
         normalized = self._normalize_schema_for_hashing(schema)
         schema_str = json.dumps(normalized, sort_keys=True, separators=(',', ':'))
         return hashlib.sha256(schema_str.encode('utf-8')).hexdigest()
 
-    def _normalize_schema_for_hashing(self, schema: Dict[str, Any]) -> Dict[str, Any]:
+    def _normalize_schema_for_hashing(self, schema: dict[str, Any]) -> dict[str, Any]:
         """Normalize schema for consistent hashing."""
         normalized = {}
 
@@ -102,7 +102,7 @@ class MATRIZSchemaDriftDetector:
 
         return normalized
 
-    def detect_breaking_changes(self) -> List[str]:
+    def detect_breaking_changes(self) -> list[str]:
         """Detect breaking changes between current schema and snapshot."""
         breaking_changes = []
 
@@ -132,7 +132,7 @@ class MATRIZSchemaDriftDetector:
 
         return breaking_changes
 
-    def _get_all_required_properties(self, schema: Dict[str, Any], path: str = "") -> Set[str]:
+    def _get_all_required_properties(self, schema: dict[str, Any], path: str = "") -> set[str]:
         """Extract all required properties from schema."""
         required = set()
 
@@ -148,7 +148,7 @@ class MATRIZSchemaDriftDetector:
 
         return required
 
-    def _check_enum_changes(self) -> List[str]:
+    def _check_enum_changes(self) -> list[str]:
         """Check for breaking enum value changes."""
         breaking_changes = []
 
@@ -181,7 +181,7 @@ class MATRIZSchemaDriftDetector:
 
         return breaking_changes
 
-    def _extract_enum_values(self, schema: Dict[str, Any], path: List[str]) -> Optional[List[str]]:
+    def _extract_enum_values(self, schema: dict[str, Any], path: list[str]) -> Optional[list[str]]:
         """Extract enum values from nested schema path."""
         current = schema
         for key in path:
@@ -191,7 +191,7 @@ class MATRIZSchemaDriftDetector:
                 return None
         return current if isinstance(current, list) else None
 
-    def _check_constraint_tightening(self) -> List[str]:
+    def _check_constraint_tightening(self) -> list[str]:
         """Check for constraint tightening that could break existing data."""
         breaking_changes = []
 
@@ -215,7 +215,7 @@ class MATRIZSchemaDriftDetector:
 
         return breaking_changes
 
-    def _extract_constraint_value(self, schema: Dict[str, Any], path: List[str]) -> Optional[float]:
+    def _extract_constraint_value(self, schema: dict[str, Any], path: list[str]) -> Optional[float]:
         """Extract constraint value from nested schema path."""
         current = schema
         for key in path:
@@ -225,7 +225,7 @@ class MATRIZSchemaDriftDetector:
                 return None
         return current if isinstance(current, (int, float)) else None
 
-    def validate_schema_structure(self) -> List[str]:
+    def validate_schema_structure(self) -> list[str]:
         """Validate schema structure meets T4/0.01% standards."""
         issues = []
 

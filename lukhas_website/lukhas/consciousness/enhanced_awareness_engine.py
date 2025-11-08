@@ -20,7 +20,7 @@ Constellation Framework: 🌊 Flow Star Integration
 import logging
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ..cognitive_core.reasoning.deep_inference_engine import InferenceResult
 from .awareness_engine import AwarenessEngine
@@ -51,8 +51,8 @@ class EnhancedAwarenessSnapshot:
     meta_reasoning_quality: float
 
     # Actionable insights
-    actionable_insights: List[MetaCognitiveInsight]
-    cognitive_adjustments: List[str]
+    actionable_insights: list[MetaCognitiveInsight]
+    cognitive_adjustments: list[str]
 
     # Performance metrics
     reasoning_accuracy: float
@@ -76,8 +76,8 @@ class EnhancedAwarenessEngine:
 
     def __init__(
         self,
-        awareness_config: Optional[Dict[str, Any]] = None,
-        metacognitive_config: Optional[Dict[str, Any]] = None,
+        awareness_config: Optional[dict[str, Any]] = None,
+        metacognitive_config: Optional[dict[str, Any]] = None,
         enable_auto_adjustment: bool = True,
         assessment_frequency_ratio: float = 0.2  # Meta-assessment every 5th update
     ):
@@ -97,9 +97,9 @@ class EnhancedAwarenessEngine:
         )
 
         # Enhanced state tracking
-        self.recent_inferences: List[InferenceResult] = []
-        self.recent_thoughts: List[Dict[str, Any]] = []
-        self.processing_history: List[Dict[str, float]] = []
+        self.recent_inferences: list[InferenceResult] = []
+        self.recent_thoughts: list[dict[str, Any]] = []
+        self.processing_history: list[dict[str, float]] = []
         self.session_id = f"awareness_session_{int(time.time())}"
 
         # Auto-adjustment parameters
@@ -121,9 +121,9 @@ class EnhancedAwarenessEngine:
     async def enhanced_update(
         self,
         state: ConsciousnessState,
-        signals: Dict[str, Any],
+        signals: dict[str, Any],
         recent_inference: Optional[InferenceResult] = None,
-        recent_thought: Optional[Dict[str, Any]] = None
+        recent_thought: Optional[dict[str, Any]] = None
     ) -> EnhancedAwarenessSnapshot:
         """
         Enhanced awareness update with meta-cognitive assessment.
@@ -320,7 +320,7 @@ class EnhancedAwarenessEngine:
         if performance_metrics.processing_efficiency < 0.6:
             logger.info("Recommendation: Optimize processing pipelines for better efficiency")
 
-    async def _apply_self_correction(self, insights: List[MetaCognitiveInsight]) -> None:
+    async def _apply_self_correction(self, insights: list[MetaCognitiveInsight]) -> None:
         """Apply self-correction based on meta-cognitive insights."""
         logger.info(f"Applying self-correction based on {len(insights)} insights")
 
@@ -349,7 +349,7 @@ class EnhancedAwarenessEngine:
         if len(self.recent_inferences) > 20:
             self.recent_inferences.pop(0)
 
-    def _track_thought(self, thought_result: Dict[str, Any]) -> None:
+    def _track_thought(self, thought_result: dict[str, Any]) -> None:
         """Track thought result for meta-cognitive assessment."""
         self.recent_thoughts.append(thought_result)
 
@@ -357,7 +357,7 @@ class EnhancedAwarenessEngine:
         if len(self.recent_thoughts) > 20:
             self.recent_thoughts.pop(0)
 
-    def _track_processing_history(self, processing_entry: Dict[str, float]) -> None:
+    def _track_processing_history(self, processing_entry: dict[str, float]) -> None:
         """Track processing history for performance analysis."""
         self.processing_history.append(processing_entry)
 
@@ -396,7 +396,7 @@ class EnhancedAwarenessEngine:
 
         return (stability * 0.6 + signal_strength * 0.4)
 
-    def _generate_basic_adjustments(self, base_snapshot: AwarenessSnapshot) -> List[str]:
+    def _generate_basic_adjustments(self, base_snapshot: AwarenessSnapshot) -> list[str]:
         """Generate basic cognitive adjustments without full meta-assessment."""
         adjustments = []
 
@@ -445,7 +445,7 @@ class EnhancedAwarenessEngine:
 
         return max(0.0, min(1.0, base_efficiency - load_penalty))
 
-    def get_enhanced_performance_stats(self) -> Dict[str, Any]:
+    def get_enhanced_performance_stats(self) -> dict[str, Any]:
         """Get comprehensive performance statistics."""
         base_stats = self.base_awareness.get_performance_stats()
         meta_stats = self.meta_assessor.get_performance_analytics()

@@ -9,10 +9,10 @@ Produces comprehensive validation results for CI/CD pipeline.
 import argparse
 import json
 import sys
-from datetime import datetime, timezone
+from datetime import datetime
 from glob import glob
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 from jsonschema import Draft202012Validator
 
@@ -39,7 +39,7 @@ class MatrixValidator:
         self.schema = self._load_schema()
         self.results = {}
 
-    def _load_schema(self) -> Dict[str, Any]:
+    def _load_schema(self) -> dict[str, Any]:
         """Load Matrix contract schema."""
         try:
             return json.loads(self.schema_path.read_text())
@@ -47,14 +47,14 @@ class MatrixValidator:
             print(f"❌ Failed to load schema: {e}")
             sys.exit(1)
 
-    def find_contracts(self, pattern: str) -> List[Path]:
+    def find_contracts(self, pattern: str) -> list[Path]:
         """Find all Matrix contracts matching pattern."""
         contracts = []
         for path in glob(pattern, recursive=True):
             contracts.append(Path(path))
         return sorted(contracts)
 
-    def validate_schema(self, contract_path: Path) -> Tuple[bool, List[str]]:
+    def validate_schema(self, contract_path: Path) -> tuple[bool, list[str]]:
         """Validate contract against JSON schema."""
         errors = []
 
@@ -73,7 +73,7 @@ class MatrixValidator:
         except Exception as e:
             return False, [f"Unexpected error: {e}"]
 
-    def validate_identity(self, contract_path: Path) -> Tuple[bool, List[str], Dict[str, Any]]:
+    def validate_identity(self, contract_path: Path) -> tuple[bool, list[str], dict[str, Any]]:
         """Validate identity block requirements."""
         errors = []
         identity_info = {}
@@ -136,15 +136,16 @@ class MatrixValidator:
                 errors.append(f"Identity: Critical module '{module_name}' should require WebAuthn")
 
             # Check high-tier WebAuthn requirement
-            if ('inner_circle' in identity_info['tiers'] or 'root_dev' in identity_info['tiers']) and (not identity_info['webauthn_required']):
-                errors.append("Identity: High-tier module should require WebAuthn")
+            if "inner_circle" in identity_info["tiers"] or "root_dev" in identity_info["tiers"]:
+                if not identity_info["webauthn_required"]:
+                    errors.append("Identity: High-tier module should require WebAuthn")
 
             return len(errors) == 0, errors, identity_info
 
         except Exception as e:
             return False, [f"Identity validation error: {e}"], {}
 
-    def validate_tokenization(self, contract_path: Path) -> Tuple[bool, List[str]]:
+    def validate_tokenization(self, contract_path: Path) -> tuple[bool, list[str]]:
         """Validate tokenization block."""
         errors = []
 
@@ -155,8 +156,9 @@ class MatrixValidator:
                 tokenization = contract["tokenization"]
 
                 # Check enabled field
-                if 'enabled' in tokenization and (not isinstance(tokenization['enabled'], bool)):
-                    errors.append("Tokenization: 'enabled' must be boolean")
+                if "enabled" in tokenization:
+                    if not isinstance(tokenization["enabled"], bool):
+                        errors.append("Tokenization: 'enabled' must be boolean")
 
                 # Check network if enabled
                 if tokenization.get("enabled", False):
@@ -170,7 +172,7 @@ class MatrixValidator:
         except Exception as e:
             return False, [f"Tokenization validation error: {e}"]
 
-    def validate_contract(self, contract_path: Path) -> Dict[str, Any]:
+    def validate_contract(self, contract_path: Path) -> dict[str, Any]:
         """Perform comprehensive validation of a single contract."""
         module_name = contract_path.stem.replace("matrix_", "")
 
@@ -198,7 +200,7 @@ class MatrixValidator:
             "error_count": len(all_errors)
         }
 
-    def validate_all(self, pattern: str, identity_lint: bool = True) -> Dict[str, Any]:
+    def validate_all(self, pattern: str, identity_lint: bool = True) -> dict[str, Any]:
         """Validate all contracts matching pattern."""
         print(f"🔍 Finding contracts matching: {pattern}")
         contracts = self.find_contracts(pattern)
@@ -263,7 +265,7 @@ class MatrixValidator:
                 summary["critical_modules"] += 1
 
         return {
-            "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "timestamp": datetime.utcnow().isoformat() + "Z",
             "summary": summary,
             "modules": results
         }

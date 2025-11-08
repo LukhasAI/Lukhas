@@ -11,11 +11,11 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 from creativity.core import CreativityEngine
+from dream.engine import DreamEngine  # Will be renamed to dream.synthesizer
 
 # These imports form an intentional cycle for meta-learning
 from learning.learning_gateway import LearningRequest, get_learning_gateway
 
-from dream.engine import DreamEngine  # Will be renamed to dream.synthesizer
 from memory.core import MemoryCore
 
 

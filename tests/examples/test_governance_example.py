@@ -7,14 +7,14 @@ import unittest
 from datetime import datetime, timedelta, timezone
 
 from examples.governance.consent_example import (
-    GuardianPolicy,
-    collect_user_consent,
-    verify_consent,
-    access_health_records,
-    get_audit_trail,
     ConsentDeniedException,
-    _consent_db,
+    GuardianPolicy,
     _audit_log,
+    _consent_db,
+    access_health_records,
+    collect_user_consent,
+    get_audit_trail,
+    verify_consent,
 )
 
 

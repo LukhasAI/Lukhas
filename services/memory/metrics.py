@@ -10,13 +10,13 @@ import logging
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
 # Mock Prometheus metrics for now - replace with actual prometheus_client
 class Counter:
-    def __init__(self, name: str, documentation: str, labelnames: Optional[List[str]] = None):
+    def __init__(self, name: str, documentation: str, labelnames: Optional[list[str]] = None):
         self.name = name
         self._value = 0.0
         self._labels = {}
@@ -28,7 +28,7 @@ class Counter:
         return self
 
 class Histogram:
-    def __init__(self, name: str, documentation: str, labelnames: Optional[List[str]] = None, buckets: Optional[List[float]] = None):
+    def __init__(self, name: str, documentation: str, labelnames: Optional[list[str]] = None, buckets: Optional[list[float]] = None):
         self.name = name
         self._observations = []
         self._labels = {}
@@ -40,7 +40,7 @@ class Histogram:
         return self
 
 class Gauge:
-    def __init__(self, name: str, documentation: str, labelnames: Optional[List[str]] = None):
+    def __init__(self, name: str, documentation: str, labelnames: Optional[list[str]] = None):
         self.name = name
         self._value = 0.0
         self._labels = {}
@@ -134,7 +134,7 @@ class MetricsCollector:
     """
 
     def __init__(self):
-        self.operation_metrics: Dict[str, PerformanceMetrics] = defaultdict(PerformanceMetrics)
+        self.operation_metrics: dict[str, PerformanceMetrics] = defaultdict(PerformanceMetrics)
         self.start_time = time.monotonic()
 
     def record_operation(self,
@@ -217,13 +217,13 @@ class MetricsCollector:
         self._update_percentiles(operation_type)
         return self.operation_metrics[operation_type]
 
-    def get_all_metrics(self) -> Dict[str, PerformanceMetrics]:
+    def get_all_metrics(self) -> dict[str, PerformanceMetrics]:
         """Get all operation metrics"""
         for op_type in self.operation_metrics:
             self._update_percentiles(op_type)
         return dict(self.operation_metrics)
 
-    def get_t4_compliance(self) -> Dict[str, Dict[str, Any]]:
+    def get_t4_compliance(self) -> dict[str, dict[str, Any]]:
         """Check T4/0.01% excellence compliance for all operations"""
         compliance = {}
 
@@ -355,7 +355,7 @@ def record_operation_error(operation_type: str, duration_ms: float, error_type: 
     _global_collector.record_operation(operation_type, duration_ms, False, error_type)
 
 
-def get_t4_compliance_report() -> Dict[str, Any]:
+def get_t4_compliance_report() -> dict[str, Any]:
     """Generate T4/0.01% excellence compliance report"""
     compliance_data = _global_collector.get_t4_compliance()
 

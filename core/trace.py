@@ -8,14 +8,14 @@ Usage:
   trace = {"enter": mk_crumb("adapter_enter", msg.glyph, topic=msg.topic)}
 """
 from datetime import datetime, timezone
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 # Avoid runtime dependency on MATRIZ in core by importing types only for typing.
 if TYPE_CHECKING:  # pragma: no cover
     from MATRIZ.node_contract import GLYPH  # type: ignore
 
 
-def mk_crumb(event: str, glyph: Optional["GLYPH"] = None, **kv: Any) -> Dict[str, Any]:
+def mk_crumb(event: str, glyph: Optional["GLYPH"] = None, **kv: Any) -> dict[str, Any]:
     """
     Minimal, deterministic trace crumb.
     """

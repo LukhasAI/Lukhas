@@ -17,7 +17,7 @@ from __future__ import annotations
 import re
 import subprocess
 from pathlib import Path
-from typing import List, Tuple
+from typing importTuple
 
 
 class AutomatedSyntaxFixer:
@@ -184,7 +184,7 @@ class AutomatedSyntaxFixer:
         except Exception:
             return False
 
-    def process_file(self, file_path: Path) -> Tuple[int, bool]:
+    def process_file(self, file_path: Path) -> tuple[int, bool]:
         """Process a single file with all fix patterns"""
         if file_path.suffix != ".py":
             return 0, False
@@ -213,7 +213,7 @@ class AutomatedSyntaxFixer:
 
         return 0, compiles_before
 
-    def run_automated_fixes(self, target_dirs: List[str] | None = None) -> dict:
+    def run_automated_fixes(self, target_dirs: list[str] | None = None) -> dict:
         """Run automated fixes on target directories"""
         if target_dirs is None:
             target_dirs = ["branding", "labs", "tools", "products", "matriz", "next_gen", "lukhas"]

@@ -41,8 +41,8 @@
 """
 from __future__ import annotations
 
-import logging
 import hashlib
+import logging
 import math
 
 # RESEARCH INTEGRATION: SAMPL (Spreading Activation and Memory Plasticity)

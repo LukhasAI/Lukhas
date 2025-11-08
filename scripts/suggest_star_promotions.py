@@ -15,7 +15,7 @@ import re
 import sys
 from collections import Counter
 from pathlib import Path
-from typing import Any, List, Tuple
+from typing import Any
 
 
 def load_json(path: Path) -> Any:
@@ -32,7 +32,7 @@ def normalize_star(s: str) -> str:
 def build_regex(pattern: str) -> re.Pattern:
     return re.compile(pattern, re.IGNORECASE)
 
-def choose_best(candidates: List[Tuple[str, float, str]], min_conf: float) -> Tuple[str, float, str] | None:
+def choose_best(candidates: list[tuple[str, float, str]], min_conf: float) -> tuple[str, float, str] | None:
     if not candidates:
         return None
     # Prefer highest confidence; stable tiebreaker by star label
@@ -82,7 +82,7 @@ def main():
         caps = data.get("capabilities", []) or []
         nodes = (data.get("matriz_integration", {}) or {}).get("pipeline_nodes", []) or []
 
-        candidates: List[Tuple[str, float, str]] = []
+        candidates: list[tuple[str, float, str]] = []
 
         # 1) capability overrides (weight 0.6)
         for c in caps:

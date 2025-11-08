@@ -18,18 +18,18 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Callable, Optional
 
+from consciousness.awareness.awareness_engine import AwarenessEngine
+from emotion.emotion_hub import EmotionHub
+from memory.service import MemoryService
 from voice.voice_modulator import (
     VoiceModulationMode,
     VoiceModulator,
     VoiceParameters,
 )
 
-from consciousness.awareness.awareness_engine import AwarenessEngine
 from core.common.glyph import GLYPHSymbol, create_glyph
 from core.common.logger import get_logger
-from emotion.emotion_hub import EmotionHub
 from governance.guardian import GuardianValidator
-from memory.service import MemoryService
 
 logger = get_logger(__name__)
 

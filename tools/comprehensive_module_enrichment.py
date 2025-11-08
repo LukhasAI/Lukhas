@@ -11,7 +11,7 @@ import ast
 import json
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class ModuleContentMiner:
@@ -20,7 +20,7 @@ class ModuleContentMiner:
     def __init__(self, repo_root: str):
         self.repo_root = Path(repo_root)
 
-    def mine_python_entrypoints(self, module_path: Path) -> List[str]:
+    def mine_python_entrypoints(self, module_path: Path) -> list[str]:
         """Extract actual entrypoints from Python files."""
         entrypoints = []
 
@@ -97,7 +97,7 @@ class ModuleContentMiner:
 
         return None
 
-    def mine_context_files(self, module_path: Path) -> Dict[str, str]:
+    def mine_context_files(self, module_path: Path) -> dict[str, str]:
         """Mine lukhas_context.md and claude.me for rich content."""
         context_data = {}
 
@@ -141,7 +141,7 @@ class ModuleContentMiner:
 
         return None
 
-    def extract_tags_from_content(self, module_name: str, content: str, entrypoints: List[str]) -> List[str]:
+    def extract_tags_from_content(self, module_name: str, content: str, entrypoints: list[str]) -> list[str]:
         """Extract meaningful tags from module content."""
         tags = [module_name]
 
@@ -190,7 +190,7 @@ class ModuleContentMiner:
         return sorted(set(tags))
 
     def generate_rich_description(self, module_name: str, docstring: Optional[str],
-                                context_data: Dict[str, str], entrypoints: List[str]) -> str:
+                                context_data: dict[str, str], entrypoints: list[str]) -> str:
         """Generate rich T4/0.01% description."""
 
         # Use docstring if available and rich
@@ -227,7 +227,7 @@ class ModuleContentMiner:
         # Fallback to generic but informative
         return f"LUKHAS {module_name} module implementing specialized {module_name} functionality with {len(entrypoints)} components for integrated system operations."
 
-    def detect_dependencies(self, module_path: Path, entrypoints: List[str]) -> List[str]:
+    def detect_dependencies(self, module_path: Path, entrypoints: list[str]) -> list[str]:
         """Detect logical module dependencies."""
         dependencies = []
 
@@ -255,7 +255,7 @@ class ModuleContentMiner:
 
         return sorted(set(dependencies))
 
-    def generate_observability_spans(self, module_name: str, entrypoints: List[str]) -> List[str]:
+    def generate_observability_spans(self, module_name: str, entrypoints: list[str]) -> list[str]:
         """Generate observability spans for the module."""
         base_spans = [f"lukhas.{module_name}.operation"]
 
@@ -275,7 +275,7 @@ class ModuleContentMiner:
         return sorted(set(base_spans))
 
 
-def enrich_single_module(module_path: Path, miner: ModuleContentMiner) -> Dict[str, Any]:
+def enrich_single_module(module_path: Path, miner: ModuleContentMiner) -> dict[str, Any]:
     """Enrich a single module with T4/0.01% quality metadata."""
 
     manifest_file = module_path / "module.manifest.json"

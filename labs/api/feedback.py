@@ -2,9 +2,8 @@ from typing import Optional
 
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field
-
 from feedback.store import get_lut, record_feedback
+from pydantic import BaseModel, Field
 
 router = APIRouter(prefix="/feedback", tags=["feedback"])
 

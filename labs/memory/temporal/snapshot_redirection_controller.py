@@ -22,10 +22,9 @@ from trace.drift_harmonizer import DriftHarmonizer
 from typing import Any, Optional
 
 import numpy as np
-
+from core.common import get_logger
 from dream.core.dream_snapshot import DreamSnapshotStore
 from dream.stability.redirect_forecaster import RedirectForecaster
-from core.common import get_logger
 from memory.emotional import EmotionalMemory, EmotionVector
 
 logger = get_logger(__name__)

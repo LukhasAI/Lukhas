@@ -17,9 +17,6 @@ import argparse
 import ast
 import sys
 from pathlib import Path
-from typing import List
-
-
 class TestMarkerVisitor(ast.NodeVisitor):
     """AST visitor to find test functions and their markers."""
 
@@ -45,7 +42,7 @@ class TestMarkerVisitor(ast.NodeVisitor):
         self.generic_visit(node)
 
 
-def lint_test_file(file_path: Path) -> List[str]:
+def lint_test_file(file_path: Path) -> list[str]:
     """Lint a single test file for marker compliance."""
     errors = []
 

@@ -39,8 +39,6 @@
 """
 from __future__ import annotations
 
-
-
 # Bio status symbols
 BIO_SYMBOLS = {
     "🫀": "bio_active",

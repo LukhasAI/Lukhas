@@ -20,7 +20,7 @@ import time
 import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import uvicorn
 from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, WebSocket, WebSocketDisconnect
@@ -138,11 +138,11 @@ start_time = time.time()
 total_queries = 0
 
 
-def _compute_orchestrator_health() -> Dict[str, Any]:
+def _compute_orchestrator_health() -> dict[str, Any]:
     """Construct an orchestrator health snapshot for status endpoints."""
     lane = os.getenv("LUKHAS_LANE", "experimental").lower() or "unknown"
 
-    snapshot: Dict[str, Any] = {
+    snapshot: dict[str, Any] = {
         "lane": lane,
         "status": "critical",
         "registered_nodes": 0,

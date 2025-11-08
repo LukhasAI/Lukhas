@@ -826,11 +826,11 @@ consciousness_flow_manager = ConsciousnessDataFlowManager()
 
 # Export key classes and functions
 __all__ = [
-    "FlowState",
-    "RoutingStrategy",
-    "ConsciousnessRoute",
-    "NetworkTopology",
-    "FlowMetrics",
     "ConsciousnessDataFlowManager",
+    "ConsciousnessRoute",
+    "FlowMetrics",
+    "FlowState",
+    "NetworkTopology",
+    "RoutingStrategy",
     "consciousness_flow_manager",
 ]
