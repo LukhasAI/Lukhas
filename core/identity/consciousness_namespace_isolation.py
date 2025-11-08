@@ -1,3 +1,6 @@
+import logging
+
+logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
 ║ 🧬 MΛTRIZ Namespace Isolation System: Consciousness Domain Separation
@@ -16,7 +19,6 @@
 
 import asyncio
 import hashlib
-import logging
 import logging as std_logging
 import time
 import uuid
@@ -25,19 +27,14 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-
-logger = logging.getLogger(__name__)
-
-
 # Import MΛTRIZ consciousness components
 try:
-    from ..matriz_consciousness_signals import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+    from ..matriz_consciousness_signals import (  # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
         ConsciousnessSignal,
         ConstellationStar,
     )
     from .matriz_consciousness_identity_signals import (
-        IdentitySignalType,  # noqa: F401  # TODO: .matriz_consciousness_identity...
+        IdentitySignalType,  # TODO: .matriz_consciousness_identity...
         NamespaceIsolationData,
         consciousness_identity_signal_emitter,
     )
@@ -234,7 +231,7 @@ class ConsciousnessNamespaceManager:
 
             # Start background maintenance
             self._maintenance_active = True
-            asyncio.create_task(self._namespace_maintenance_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_consciousness_namespace_isolation_py_L237"}
+            asyncio.create_task(self._namespace_maintenance_loop())
 
             # Create default system namespaces
             await self._create_default_system_namespaces()
