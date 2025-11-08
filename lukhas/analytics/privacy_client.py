@@ -12,14 +12,12 @@ Features:
 """
 
 import hashlib
-import json
 import re
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
 from typing import Any, Dict, List, Optional, Set
-from urllib.parse import urlparse
 
 
 class ConsentMode(Enum):
