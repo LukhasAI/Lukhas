@@ -13,6 +13,9 @@ import sys
 from pathlib import Path
 
 
+AUTO_TRACKED_EVENTS = {"page_view"}
+
+
 def validate_events():
     """Validate event tracking implementation."""
 
@@ -69,23 +72,31 @@ def validate_events():
 
     # Check for missing tracking
     missing = defined_events - tracked_events
-    if missing:
-        print(f"⚠️  Events in taxonomy but not tracked: {sorted(missing)}")
-        print(f"    (This is expected if tracking code hasn't been implemented yet)")
+    auto_tracked_missing = missing & AUTO_TRACKED_EVENTS
+    custom_missing = missing - AUTO_TRACKED_EVENTS
 
-    # Success message
-    if not undefined and not missing:
-        print(f"✅ Event validation passed ({len(defined_events)} events)")
-        print(f"   Events defined: {sorted(defined_events)}")
-        return 0
-    elif not undefined:
-        print(f"✅ Event taxonomy validated ({len(defined_events)} events defined)")
-        if missing:
-            print(f"   Note: {len(missing)} events not yet tracked (expected during development)")
-        return 0
-    else:
-        print(f"❌ Event validation failed")
+    if custom_missing:
+        print(f"❌ Events in taxonomy but not tracked: {sorted(custom_missing)}")
+
+    if auto_tracked_missing:
+        print(
+            "ℹ️  Auto-tracked events not found in code (handled by analytics vendor): "
+            f"{sorted(auto_tracked_missing)}"
+        )
+
+    errors = []
+    if undefined:
+        errors.append("undefined events present")
+    if custom_missing:
+        errors.append("missing custom events")
+
+    if errors:
+        print("❌ Event validation failed")
         return 1
+
+    print(f"✅ Event validation passed ({len(defined_events)} events)")
+    print(f"   Events defined: {sorted(defined_events)}")
+    return 0
 
 
 if __name__ == "__main__":
