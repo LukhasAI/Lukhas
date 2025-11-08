@@ -1,5 +1,5 @@
 ---
-title: "LUKHAS AI - Consciousness-Inspired Intelligence Platform"
+title: "LUKHAS \u2014 Consciousness AI Platform"
 domain: lukhas.ai
 owner: '@web-architect'
 audience: general
@@ -10,24 +10,13 @@ tone:
 review: MATRIZ content review required
 last_reviewed: '2025-11-05'
 source: branding/websites/lukhas.ai/Updated_homepage_matriz_ready.md
-canonical: https://lukhas.ai
-seo:
-  description: "LUKHAS AI consciousness platform powered by MATRIZ cognitive DNA engine. <250ms reasoning, 99.7% Guardian compliance, complete transparency for production AI systems with EU AI Act alignment."
-  keywords: ["consciousness AI", "MATRIZ", "cognitive DNA", "explainable AI", "AI platform"]
-  og_image: /assets/og-images/lukhas-ai-homepage.png
+canonical: true
 notes: Canonical homepage for lukhas.ai. Full technical architecture available at
   docs/web/LUKHAS_AI_WEBSITE_ARCHITECTURE.md
 evidence_links:
-  - 'release_artifacts/evidence/api-response-100ms.md'
-  - 'release_artifacts/evidence/compliance-rate-100pct.md'
-  - 'release_artifacts/evidence/experimental-design-95pct.md'
-  - 'release_artifacts/evidence/guardian-compliance-997pct.md'
-  - 'release_artifacts/evidence/matriz-completion-87pct.md'
-  - 'release_artifacts/evidence/matriz-deployment-ready-production.md'
-  - 'release_artifacts/evidence/matriz-p95-latency-250ms.md'
-  - 'release_artifacts/evidence/memory-fold-retrieval-50ms.md'
-  - 'release_artifacts/evidence/system-uptime-9995pct.md'
-  - 'release_artifacts/evidence/user-satisfaction-94pct.md'
+  - 'release_artifacts/matriz-87-percent-complete-2025-q4.json'
+  - 'release_artifacts/matriz-p95-latency-2025-q3.json'
+  - 'release_artifacts/guardian-compliance-2025-Q3.pdf'
 claims_verified_by: ['@web-architect', '@legal']
 claims_verified_date: '2025-11-06'
 claims_approval: true
