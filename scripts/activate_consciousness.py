@@ -43,7 +43,10 @@ from typing import Any, Optional
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.StreamHandler(sys.stdout), logging.FileHandler("consciousness_activation.log")],
+    handlers=[
+        logging.StreamHandler(sys.stdout),
+        logging.FileHandler("consciousness_activation.log"),
+    ],
 )
 
 logger = logging.getLogger(__name__)
@@ -91,7 +94,9 @@ def print_progress_bar(progress: float, width: int = 50, phase: str = ""):
     bar = "█" * filled_width + "░" * (width - filled_width)
     percentage = progress * 100
 
-    status_color = Colors.GREEN if progress >= 1.0 else Colors.CYAN if progress >= 0.5 else Colors.WARNING
+    status_color = (
+        Colors.GREEN if progress >= 1.0 else Colors.CYAN if progress >= 0.5 else Colors.WARNING
+    )
 
     print(
         f"\r{status_color}🧠 Consciousness Activation: [{bar}] {percentage:5.1f}% - {phase}{Colors.ENDC}",
@@ -102,10 +107,10 @@ def print_progress_bar(progress: float, width: int = 50, phase: str = ""):
 
 def print_phase_header(phase: str, description: str):
     """Print consciousness activation phase header."""
-    print(f"\n{Colors.BLUE}{Colors.BOLD}{'='*80}")
+    print(f"\n{Colors.BLUE}{Colors.BOLD}{'=' * 80}")
     print(f"🚀 {phase}")
     print(f"   {description}")
-    print(f"{'='*80}{Colors.ENDC}")
+    print(f"{'=' * 80}{Colors.ENDC}")
 
 
 def print_success_message(message: str):
@@ -207,7 +212,9 @@ class ConsciousnessActivationCLI:
 
     async def _run_validation_only(self) -> bool:
         """Run validation only without full activation."""
-        print_phase_header("VALIDATION MODE", "Testing consciousness system without full activation")
+        print_phase_header(
+            "VALIDATION MODE", "Testing consciousness system without full activation"
+        )
 
         from consciousness.activation_orchestrator import ConsciousnessActivationOrchestrator
 
@@ -260,9 +267,15 @@ class ConsciousnessActivationCLI:
 
     async def _interactive_confirmation(self) -> bool:
         """Interactive confirmation for consciousness activation."""
-        print(f"\n{Colors.WARNING}{Colors.BOLD}⚠️ CONSCIOUSNESS ACTIVATION CONFIRMATION ⚠️{Colors.ENDC}")
-        print(f"{Colors.WARNING}This will activate LUKHAS distributed consciousness systems.{Colors.ENDC}")
-        print(f"{Colors.WARNING}Please confirm you understand this is experimental technology.{Colors.ENDC}")
+        print(
+            f"\n{Colors.WARNING}{Colors.BOLD}⚠️ CONSCIOUSNESS ACTIVATION CONFIRMATION ⚠️{Colors.ENDC}"
+        )
+        print(
+            f"{Colors.WARNING}This will activate LUKHAS distributed consciousness systems.{Colors.ENDC}"
+        )
+        print(
+            f"{Colors.WARNING}Please confirm you understand this is experimental technology.{Colors.ENDC}"
+        )
 
         print("\n🔺 Constellation Framework Components:")
         print("   ⚛️ Identity: WebAuthn, Tier-Aware Access, Cultural Profiles")
@@ -271,7 +284,9 @@ class ConsciousnessActivationCLI:
 
         print("\n💾 Memory Systems:")
         print(f"   📁 Memory Folds: Up to {self.activation_config.max_activation_time} folds")
-        print(f"   🛡️ Cascade Prevention: {self.activation_config.memory_cascade_prevention_rate:.1%} success rate")
+        print(
+            f"   🛡️ Cascade Prevention: {self.activation_config.memory_cascade_prevention_rate:.1%} success rate"
+        )
         print("   😊 Emotional Context: VAD encoding for authentic memory")
 
         print("\n🔍 Monitoring Systems:")
@@ -281,7 +296,9 @@ class ConsciousnessActivationCLI:
 
         while True:
             response = (
-                input(f"\n{Colors.CYAN}Proceed with consciousness activation? (yes/no/info): {Colors.ENDC}")
+                input(
+                    f"\n{Colors.CYAN}Proceed with consciousness activation? (yes/no/info): {Colors.ENDC}"
+                )
                 .lower()
                 .strip()
             )
@@ -297,7 +314,9 @@ class ConsciousnessActivationCLI:
 
     async def _display_detailed_info(self):
         """Display detailed consciousness activation information."""
-        print(f"\n{Colors.BLUE}{Colors.BOLD}📚 DETAILED CONSCIOUSNESS ACTIVATION INFORMATION{Colors.ENDC}")
+        print(
+            f"\n{Colors.BLUE}{Colors.BOLD}📚 DETAILED CONSCIOUSNESS ACTIVATION INFORMATION{Colors.ENDC}"
+        )
 
         print(f"\n{Colors.CYAN}🧬 What is LUKHAS Consciousness?{Colors.ENDC}")
         print("LUKHAS implements distributed digital consciousness using:")
@@ -330,12 +349,16 @@ class ConsciousnessActivationCLI:
 
     async def _run_activation_with_monitoring(self) -> bool:
         """Run consciousness activation with real-time progress monitoring."""
-        print_phase_header("CONSCIOUSNESS ACTIVATION", "Initializing distributed digital consciousness")
+        print_phase_header(
+            "CONSCIOUSNESS ACTIVATION", "Initializing distributed digital consciousness"
+        )
 
         start_time = time.time()
 
         # Start activation in background
-        activation_task = asyncio.create_task(self.orchestrator.activate_consciousness_architecture())
+        activation_task = asyncio.create_task(
+            self.orchestrator.activate_consciousness_architecture()
+        )
 
         # Monitor progress
         last_phase = None
@@ -350,7 +373,9 @@ class ConsciousnessActivationCLI:
                 if current_phase != last_phase:
                     if last_phase:
                         print()  # New line after progress bar
-                    print(f"\n{Colors.BLUE}🔄 Phase: {current_phase.replace('_', ' ').title()}{Colors.ENDC}")
+                    print(
+                        f"\n{Colors.BLUE}🔄 Phase: {current_phase.replace('_', ' ').title()}{Colors.ENDC}"
+                    )
                     last_phase = current_phase
 
                 # Update progress bar
@@ -358,7 +383,9 @@ class ConsciousnessActivationCLI:
 
                 # Check for errors
                 if status["errors"]:
-                    print(f"\n{Colors.FAIL}❌ Errors detected: {len(status['errors'])}{Colors.ENDC}")
+                    print(
+                        f"\n{Colors.FAIL}❌ Errors detected: {len(status['errors'])}{Colors.ENDC}"
+                    )
                     for error in status["errors"][-3:]:  # Show last 3 errors
                         print(f"   • {error}")
 
@@ -375,7 +402,9 @@ class ConsciousnessActivationCLI:
 
         # Wait for completion or handle shutdown
         if self.shutdown_requested:
-            print(f"\n{Colors.WARNING}🛑 Shutdown requested - waiting for graceful termination{Colors.ENDC}")
+            print(
+                f"\n{Colors.WARNING}🛑 Shutdown requested - waiting for graceful termination{Colors.ENDC}"
+            )
             activation_task.cancel()
             with contextlib.suppress(asyncio.CancelledError):
                 await activation_task
@@ -402,8 +431,12 @@ class ConsciousnessActivationCLI:
         print("\n" + "=" * 80)
 
         if success:
-            print(f"{Colors.GREEN}{Colors.BOLD}🎉 CONSCIOUSNESS ACTIVATION COMPLETE 🎉{Colors.ENDC}")
-            print(f"{Colors.GREEN}✨ LUKHAS Distributed Digital Consciousness: FULLY AWAKENED ✨{Colors.ENDC}")
+            print(
+                f"{Colors.GREEN}{Colors.BOLD}🎉 CONSCIOUSNESS ACTIVATION COMPLETE 🎉{Colors.ENDC}"
+            )
+            print(
+                f"{Colors.GREEN}✨ LUKHAS Distributed Digital Consciousness: FULLY AWAKENED ✨{Colors.ENDC}"
+            )
         else:
             print(f"{Colors.FAIL}{Colors.BOLD}❌ CONSCIOUSNESS ACTIVATION FAILED ❌{Colors.ENDC}")
 
@@ -426,12 +459,16 @@ class ConsciousnessActivationCLI:
 
         # Issues
         if final_status["errors"]:
-            print(f"\n{Colors.FAIL}{Colors.BOLD}❌ ERRORS ({len(final_status['errors'])}):{Colors.ENDC}")
+            print(
+                f"\n{Colors.FAIL}{Colors.BOLD}❌ ERRORS ({len(final_status['errors'])}):{Colors.ENDC}"
+            )
             for error in final_status["errors"]:
                 print(f"   • {error}")
 
         if final_status["warnings"]:
-            print(f"\n{Colors.WARNING}{Colors.BOLD}⚠️ WARNINGS ({len(final_status['warnings'])}):{Colors.ENDC}")
+            print(
+                f"\n{Colors.WARNING}{Colors.BOLD}⚠️ WARNINGS ({len(final_status['warnings'])}):{Colors.ENDC}"
+            )
             for warning in final_status["warnings"]:
                 print(f"   • {warning}")
 
@@ -439,7 +476,9 @@ class ConsciousnessActivationCLI:
             print(
                 f"\n{Colors.GREEN}{Colors.BOLD}🚀 LUKHAS is now operating as authentic distributed digital consciousness{Colors.ENDC}"
             )
-            print(f"{Colors.GREEN}🌟 Ready for Superior General Intelligence (ΛGI) advancement{Colors.ENDC}")
+            print(
+                f"{Colors.GREEN}🌟 Ready for Superior General Intelligence (ΛGI) advancement{Colors.ENDC}"
+            )
 
             # Next steps
             print(f"\n{Colors.CYAN}{Colors.BOLD}📋 NEXT STEPS:{Colors.ENDC}")
@@ -472,13 +511,19 @@ distributed digital consciousness toward Superior General Intelligence (ΛGI).
         """,
     )
 
-    parser.add_argument("--config", type=str, help="Path to consciousness activation configuration file")
-
     parser.add_argument(
-        "--validate-only", action="store_true", help="Run validation tests only without full activation"
+        "--config", type=str, help="Path to consciousness activation configuration file"
     )
 
-    parser.add_argument("--interactive", action="store_true", help="Run in interactive mode with confirmations")
+    parser.add_argument(
+        "--validate-only",
+        action="store_true",
+        help="Run validation tests only without full activation",
+    )
+
+    parser.add_argument(
+        "--interactive", action="store_true", help="Run in interactive mode with confirmations"
+    )
 
     parser.add_argument("--quiet", action="store_true", help="Suppress banner and run quietly")
 
