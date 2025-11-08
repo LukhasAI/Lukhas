@@ -100,80 +100,8 @@ def require_api_key(x_api_key: Optional[str]=Header(default=None)) -> Optional[s
     return x_api_key
 app = FastAPI(title='LUKHAS API', version='1.0.0', description='Governed tool loop, auditability, feedback LUT, and safety modes.', contact={'name': 'LUKHAS AI Team', 'url': 'https://github.com/LukhasAI/Lukhas'}, license_info={'name': 'MIT', 'url': 'https://opensource.org/licenses/MIT'}, servers=[{'url': 'http://localhost:8000', 'description': 'Local development'}, {'url': 'https://api.ai', 'description': 'Production'}])
 
-
-class StrictAuthMiddleware(BaseHTTPMiddleware):
-    """
-    Enforce authentication on all /v1/* endpoints.
-    Returns 401 with OpenAI-compatible error envelope on auth failure.
-    """
-
-    def __init__(self, app):
-        super().__init__(app)
-        self.auth_system = get_auth_system()
-
-    async def dispatch(self, request: Request, call_next):
-        if not request.url.path.startswith('/v1/'):
-            return await call_next(request)
-
-        auth_header = request.headers.get('Authorization', '')
-        if not auth_header:
-            found_full = False
-            for route in request.app.router.routes:
-                match, _ = route.matches(request.scope)
-                if match is Match.FULL:
-                    found_full = True
-                    break
-            if not found_full:
-                response = await call_next(request)
-                if response.status_code in {404, 405}:
-                    return response
-            return self._auth_error('Missing Authorization header')
-        if not auth_header.startswith('Bearer '):
-            return self._auth_error('Authorization header must use Bearer scheme')
-
-        token = auth_header[7:].strip()
-        if not token:
-            return self._auth_error('Bearer token is empty')
-
-        payload = self.auth_system.verify_jwt(token)
-        allow_legacy_fallback = (
-            payload is None
-            and token.startswith("sk-lukhas-")
-            and not getattr(self.auth_system, "jwt_secret_configured", True)
-        )
-        if allow_legacy_fallback:
-            # Allow legacy prefixed tokens used in smoke tests when formal JWT verification
-            # is not available (e.g., offline CI environments without shared secrets).
-            payload = {"legacy_token": token}
-
-        if payload is None:
-            return self._auth_error('Invalid authentication credentials')
-
-        request.state.user = payload
-        return await call_next(request)
-
-    def _auth_error(self, message: str) -> Response:
-        """Return OpenAI-compatible 401 error envelope."""
-        from fastapi.responses import JSONResponse
-        error_detail = {'type': 'invalid_api_key', 'message': message, 'code': 'invalid_api_key'}
-        error_response = {'error': error_detail}
-        return JSONResponse(status_code=401, content=error_response)
-
-class HeadersMiddleware(BaseHTTPMiddleware):
-    """Add OpenAI-compatible headers to all responses."""
-
-    async def dispatch(self, request: Request, call_next):
-        response = await call_next(request)
-        trace_id = str(uuid.uuid4()).replace('-', '')
-        response.headers['X-Trace-Id'] = trace_id
-        response.headers['X-Request-Id'] = trace_id
-        response.headers['X-RateLimit-Limit'] = '60'
-        response.headers['X-RateLimit-Remaining'] = '59'
-        response.headers['X-RateLimit-Reset'] = str(int(time.time()) + 60)
-        response.headers['x-ratelimit-limit-requests'] = '60'
-        response.headers['x-ratelimit-remaining-requests'] = '59'
-        response.headers['x-ratelimit-reset-requests'] = str(int(time.time()) + 60)
-        return response
+from serve.middleware.strict_auth import StrictAuthMiddleware
+from serve.middleware.headers import HeadersMiddleware
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
 if env_get("LUKHAS_DEV_MODE") != "true":
