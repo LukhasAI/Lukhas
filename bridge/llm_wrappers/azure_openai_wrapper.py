@@ -38,6 +38,7 @@
 ║ Symbolic Tags: {ΛAZURE}, {ΛOPENAI}, {ΛENTERPRISE}, {ΛWRAPPER}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 from __future__ import annotations
 
 import logging

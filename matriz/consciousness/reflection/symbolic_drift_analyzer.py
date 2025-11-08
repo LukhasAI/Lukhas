@@ -55,7 +55,6 @@ from core.common import get_logger
 logger = logging.getLogger(__name__)
 
 
-
 # Rich terminal output
 try:
     from rich.console import Console
@@ -325,7 +324,9 @@ class SymbolicDriftAnalyzer:
         for dream in dream_contents:
             json.dumps(dream, sort_keys=True)
             # Simple semantic hash based on content structure
-            semantic_hash = hashlib.sha256()  #  Changed from MD5 for securitycontent.encode().hexdigest()[:8]
+            semantic_hash = (
+                hashlib.sha256()
+            )  #  Changed from MD5 for securitycontent.encode().hexdigest()[:8]
             semantic_hashes.append(semantic_hash)
 
         return self.calculate_shannon_entropy(semantic_hashes)
@@ -581,7 +582,9 @@ class SymbolicDriftAnalyzer:
             dreams = self._generate_synthetic_dreams()
         else:
             # Fetch recent dreams
-            dreams = await self.dream_memory.get_recent_dreams(limit=self.config["entropy_window_size"])
+            dreams = await self.dream_memory.get_recent_dreams(
+                limit=self.config["entropy_window_size"]
+            )
 
         if not dreams:
             return {"status": "no_data", "message": "No dreams available for analysis"}
@@ -1029,7 +1032,9 @@ class SymbolicDriftAnalyzer:
                 DriftAlertLevel.EMERGENCY: "bold red",
             }
             color = level_color.get(alert.level, "white")
-            alerts_content += f"[{color}]{alert.timestamp.strftime('%H:%M:%S')} - {alert.message}[/{color}]\n"
+            alerts_content += (
+                f"[{color}]{alert.timestamp.strftime('%H:%M:%S')} - {alert.message}[/{color}]\n"
+            )
 
         alerts_panel = Panel(
             alerts_content or "[green]No recent alerts[/green]",

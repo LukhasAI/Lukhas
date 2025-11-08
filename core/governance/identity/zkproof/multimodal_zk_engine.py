@@ -130,7 +130,9 @@ class MultiModalZKEngine:
 
         # Verify minimum requirements
         if len(biometric_samples) < self.t5_requirements["minimum_modalities"]:
-            raise ValueError(f"T5 requires at least {self.t5_requirements['minimum_modalities']} biometric modalities")
+            raise ValueError(
+                f"T5 requires at least {self.t5_requirements['minimum_modalities']} biometric modalities"
+            )
 
         # Check required modalities
         for required in self.t5_requirements["required_modalities"]:
@@ -141,10 +143,14 @@ class MultiModalZKEngine:
         user_id_commitment = self._generate_user_commitment(user_id)
 
         # Generate biometric commitments
-        biometric_commitments = await self._generate_biometric_commitments(biometric_samples, consciousness_data)
+        biometric_commitments = await self._generate_biometric_commitments(
+            biometric_samples, consciousness_data
+        )
 
         # Generate consciousness proof
-        consciousness_proof = await self._generate_consciousness_proof(consciousness_data, biometric_commitments)
+        consciousness_proof = await self._generate_consciousness_proof(
+            consciousness_data, biometric_commitments
+        )
 
         # Generate cultural knowledge proof (optional but enhances security)
         cultural_proof = None
@@ -163,7 +169,9 @@ class MultiModalZKEngine:
         )
 
         # Generate verification key
-        verification_key = self._generate_verification_key(user_id_commitment, biometric_commitments)
+        verification_key = self._generate_verification_key(
+            user_id_commitment, biometric_commitments
+        )
 
         # Create proof object
         proof = MultiModalZKProof(
@@ -209,7 +217,9 @@ class MultiModalZKEngine:
             verification_results["checks"]["freshness"] = True
 
         # Verify biometric commitments
-        biometric_valid = await self._verify_biometric_commitments(proof.biometric_commitments, expected_modalities)
+        biometric_valid = await self._verify_biometric_commitments(
+            proof.biometric_commitments, expected_modalities
+        )
         verification_results["checks"]["biometric_commitments"] = biometric_valid
 
         if not biometric_valid:
@@ -219,7 +229,9 @@ class MultiModalZKEngine:
             }
 
         # Verify consciousness proof
-        consciousness_valid = await self._verify_consciousness_proof(proof.consciousness_proof, consciousness_threshold)
+        consciousness_valid = await self._verify_consciousness_proof(
+            proof.consciousness_proof, consciousness_threshold
+        )
         verification_results["checks"]["consciousness"] = consciousness_valid
 
         if not consciousness_valid:
@@ -229,7 +241,9 @@ class MultiModalZKEngine:
             }
 
         # Verify temporal consistency
-        temporal_valid = await self._verify_temporal_proof(proof.temporal_proof, proof.user_id_commitment)
+        temporal_valid = await self._verify_temporal_proof(
+            proof.temporal_proof, proof.user_id_commitment
+        )
         verification_results["checks"]["temporal_consistency"] = temporal_valid
 
         if not temporal_valid:
@@ -239,7 +253,9 @@ class MultiModalZKEngine:
             }
 
         # Verify aggregated proof
-        aggregated_valid = await self._verify_aggregated_proof(proof.aggregated_proof, proof.verification_key)
+        aggregated_valid = await self._verify_aggregated_proof(
+            proof.aggregated_proof, proof.verification_key
+        )
         verification_results["checks"]["aggregated_proof"] = aggregated_valid
 
         if not aggregated_valid:
@@ -280,7 +296,9 @@ class MultiModalZKEngine:
             commitment_hash = hashlib.sha3_256(commitment_input).hexdigest()
 
             # Generate nullifier to prevent replay
-            nullifier = hashlib.sha3_256(commitment_hash.encode() + str(time.time_ns()).encode()).hexdigest()[:32]
+            nullifier = hashlib.sha3_256(
+                commitment_hash.encode() + str(time.time_ns()).encode()
+            ).hexdigest()[:32]
 
             # Calculate quality score (mock for demo)
             quality_score = 0.85 + secrets.randbelow(15) / 100
@@ -396,12 +414,16 @@ class MultiModalZKEngine:
 
         return {
             "proof_type": "temporal_consistency",
-            "consistency_window": self.t5_requirements["temporal_consistency_window"].total_seconds(),
+            "consistency_window": self.t5_requirements[
+                "temporal_consistency_window"
+            ].total_seconds(),
             "proof_data": proof_data,
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    async def _generate_constitutional_proof(self, constitutional_responses: dict[str, Any]) -> dict[str, Any]:
+    async def _generate_constitutional_proof(
+        self, constitutional_responses: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generate proof of constitutional AI alignment"""
 
         statement = ZKStatement(
@@ -445,7 +467,9 @@ class MultiModalZKEngine:
         }
 
         # Generate aggregated proof (mock)
-        aggregated = hashlib.sha3_512(json.dumps(aggregation_data, sort_keys=True).encode()).digest()
+        aggregated = hashlib.sha3_512(
+            json.dumps(aggregation_data, sort_keys=True).encode()
+        ).digest()
 
         return aggregated
 
@@ -461,7 +485,9 @@ class MultiModalZKEngine:
         }
 
         # Add private witness hash (never revealed)
-        witness_hash = hashlib.sha3_256(json.dumps(statement.private_witness, sort_keys=True).encode()).hexdigest()
+        witness_hash = hashlib.sha3_256(
+            json.dumps(statement.private_witness, sort_keys=True).encode()
+        ).hexdigest()
 
         proof_input["witness_commitment"] = witness_hash
 
@@ -495,25 +521,33 @@ class MultiModalZKEngine:
 
         return True
 
-    async def _verify_consciousness_proof(self, consciousness_proof: dict[str, Any], threshold: float) -> bool:
+    async def _verify_consciousness_proof(
+        self, consciousness_proof: dict[str, Any], threshold: float
+    ) -> bool:
         """Verify consciousness proof meets threshold"""
 
         coherence_score = consciousness_proof.get("coherence_score", 0.0)
         return coherence_score >= threshold
 
-    async def _verify_temporal_proof(self, temporal_proof: dict[str, Any], user_commitment: str) -> bool:
+    async def _verify_temporal_proof(
+        self, temporal_proof: dict[str, Any], user_commitment: str
+    ) -> bool:
         """Verify temporal consistency proof"""
 
         # In production, would verify against historical data
         return temporal_proof.get("proof_data") is not None
 
-    async def _verify_aggregated_proof(self, aggregated_proof: bytes, verification_key: bytes) -> bool:
+    async def _verify_aggregated_proof(
+        self, aggregated_proof: bytes, verification_key: bytes
+    ) -> bool:
         """Verify aggregated proof with verification key"""
 
         # In production, would use actual cryptographic verification
         return len(aggregated_proof) == 64 and len(verification_key) == 32
 
-    def _calculate_proof_confidence(self, proof: MultiModalZKProof, verification_results: dict[str, Any]) -> float:
+    def _calculate_proof_confidence(
+        self, proof: MultiModalZKProof, verification_results: dict[str, Any]
+    ) -> float:
         """Calculate overall proof confidence score"""
 
         base_confidence = 0.5
@@ -596,7 +630,9 @@ class MultiModalZKEngine:
 
         # Keep only recent commitments
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=24)
-        self.commitment_store[user_id] = [c for c in self.commitment_store[user_id] if c.timestamp > cutoff_time]
+        self.commitment_store[user_id] = [
+            c for c in self.commitment_store[user_id] if c.timestamp > cutoff_time
+        ]
 
     def _is_nullifier_used(self, nullifier: str) -> bool:
         """Check if nullifier has been used (prevent replay)"""

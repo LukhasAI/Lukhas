@@ -30,11 +30,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 import lz4.frame
-from matriz.core.node_interface import (
-    CognitiveNode,
-    NodeState,
-    NodeTrigger,
-)
+from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 
 
 class MemoryType(Enum):
@@ -432,7 +428,7 @@ class MemorySystem(CognitiveNode):
         for memory in filtered_memories:
             memory.content = self.decompress_content(memory)
 
-        # Update access statistics
+            # Update access statistics
             for memory in filtered_memories:
                 memory.last_accessed = int(time.time() * 1000)
                 memory.access_count += 1

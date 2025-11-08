@@ -237,7 +237,9 @@ class OptimizedOpenAIClient:
         if len(recent_requests) >= limits["rpm"]:
             self.stats["rate_limited"] += 1
             wait_time = 60 - (current_time - recent_requests[0])
-            logger.warning(f"Rate limit: {len(recent_requests)} requests in last minute, waiting {wait_time:.1f}s")
+            logger.warning(
+                f"Rate limit: {len(recent_requests)} requests in last minute, waiting {wait_time:.1f}s"
+            )
             return False
 
         # Check tokens per minute
@@ -330,7 +332,9 @@ class OptimizedOpenAIClient:
             response_dict = response.model_dump()
 
             # Track usage
-            tokens_used = response.usage.total_tokens if hasattr(response, "usage") else estimated_tokens
+            tokens_used = (
+                response.usage.total_tokens if hasattr(response, "usage") else estimated_tokens
+            )
             self.request_history.append(time.time())
             self.token_history.append((time.time(), tokens_used))
             self.stats["tokens_used"] += tokens_used
@@ -353,7 +357,9 @@ class OptimizedOpenAIClient:
             logger.error(f"API error: {e}")
             raise
 
-    async def embed(self, text: str, model: str = "text-embedding-ada-002", use_cache: bool = True) -> list[float]:
+    async def embed(
+        self, text: str, model: str = "text-embedding-ada-002", use_cache: bool = True
+    ) -> list[float]:
         """
         Generate embeddings with caching.
 
@@ -546,11 +552,15 @@ if __name__ == "__main__":
         print("=" * 40)
 
         # First request (cache miss)
-        response1 = await client.complete("What is machine learning?", model="gpt-3.5-turbo", max_tokens=100)
+        response1 = await client.complete(
+            "What is machine learning?", model="gpt-3.5-turbo", max_tokens=100
+        )
         print(f"Response 1: {response1['choices'][0]['message']['content'][:100]}...")
 
         # Same request (cache hit)
-        response2 = await client.complete("What is machine learning?", model="gpt-3.5-turbo", max_tokens=100)
+        response2 = await client.complete(
+            "What is machine learning?", model="gpt-3.5-turbo", max_tokens=100
+        )
         print(f"Response 2 (cached): {response2['choices'][0]['message']['content'][:100]}...")
 
         # Get statistics

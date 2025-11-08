@@ -11,6 +11,7 @@ This module combines the best features from both prototypes:
 ΛLOCKED: false
 ΛCANONICAL: Consolidated FastAPI-enabled dream engine
 """
+
 import asyncio
 import contextlib
 import logging
@@ -108,9 +109,15 @@ class DreamResponse(BaseModel):
 
     dream_id: str = Field(..., description="Unique dream identifier")
     processed_content: str = Field(..., description="Processed dream content")
-    qi_metrics: dict[str, Any] = Field(default_factory=dict, description="Quantum-inspired processing metrics")
-    reflection_results: dict[str, Any] = Field(default_factory=dict, description="Dream reflection results")
-    symbolic_analysis: dict[str, Any] = Field(default_factory=dict, description="Symbolic analysis results")
+    qi_metrics: dict[str, Any] = Field(
+        default_factory=dict, description="Quantum-inspired processing metrics"
+    )
+    reflection_results: dict[str, Any] = Field(
+        default_factory=dict, description="Dream reflection results"
+    )
+    symbolic_analysis: dict[str, Any] = Field(
+        default_factory=dict, description="Symbolic analysis results"
+    )
     processing_time: float = Field(..., description="Processing time in seconds")
 
 
@@ -354,7 +361,9 @@ class EnhancedDreamEngine:
                 # Also run dream reflection on the memory
                 if self.dream_reflection:
                     # Use process_dream method instead of reflect
-                    reflection_result = await self.dream_reflection.process_dream(memory.get("content", ""))
+                    reflection_result = await self.dream_reflection.process_dream(
+                        memory.get("content", "")
+                    )
                     # Store reflection result
                     await self._store_dream_reflection(
                         {
@@ -439,7 +448,9 @@ class EnhancedDreamEngine:
         duration = datetime.now(timezone.utc) - self.current_cycle["start_time"]
         memories = self.current_cycle["memories_processed"]
 
-        logger.info(f"Dream cycle completed: Duration={duration.total_seconds():.1f}s, Memories={memories}")
+        logger.info(
+            f"Dream cycle completed: Duration={duration.total_seconds():.1f}s, Memories={memories}"
+        )
 
     async def _handle_start_cycle(self, content: dict[str, Any]) -> None:
         """Handle start cycle request"""
@@ -567,7 +578,9 @@ class EnhancedDreamEngine:
                     processed = await self._process_dream_quantum(dream, qi_like_state)
                     processed_dreams.append(processed)
                 else:
-                    logger.warning(f"Insufficient coherence-inspired processing for dream {dream.get('id', 'unknown')}")
+                    logger.warning(
+                        f"Insufficient coherence-inspired processing for dream {dream.get('id', 'unknown')}"
+                    )
 
             except Exception as e:
                 logger.error(f"Error processing dream quantum: {e}")
@@ -604,7 +617,9 @@ class EnhancedDreamEngine:
                     self.current_cycle["memories_processed"] += 1
 
             else:
-                logger.warning(f"Insufficient coherence-inspired processing: {qi_like_state['coherence']:.2f}")
+                logger.warning(
+                    f"Insufficient coherence-inspired processing: {qi_like_state['coherence']:.2f}"
+                )
 
         except Exception as e:
             logger.error(f"Error processing dream: {e}")
@@ -765,7 +780,9 @@ async def process_dream(request: DreamRequest):
 
     except Exception as e:
         logger.error(f"Dream processing error: {e}")
-        raise HTTPException(status_code=500, detail=f"Dream processing failed: {e!s}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_oneiric_oneiric_core_engine_dream_engine_fastapi_py_L767"}
+        raise HTTPException(
+            status_code=500, detail=f"Dream processing failed: {e!s}"
+        )  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_oneiric_oneiric_core_engine_dream_engine_fastapi_py_L767"}
 
 
 @app.get("/dream/{dream_id}", summary="Get Dream")
@@ -793,7 +810,9 @@ async def get_dream(dream_id: str):
 
     except Exception as e:
         logger.error(f"Dream retrieval error: {e}")
-        raise HTTPException(status_code=500, detail=f"Dream retrieval failed: {e!s}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_oneiric_oneiric_core_engine_dream_engine_fastapi_py_L796"}
+        raise HTTPException(
+            status_code=500, detail=f"Dream retrieval failed: {e!s}"
+        )  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_oneiric_oneiric_core_engine_dream_engine_fastapi_py_L796"}
 
 
 @app.get("/dreams", summary="List Dreams")
@@ -827,7 +846,9 @@ async def list_dreams(limit: int = 10, offset: int = 0):
 
     except Exception as e:
         logger.error(f"Dream listing error: {e}")
-        raise HTTPException(status_code=500, detail=f"Dream listing failed: {e!s}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_oneiric_oneiric_core_engine_dream_engine_fastapi_py_L831"}
+        raise HTTPException(
+            status_code=500, detail=f"Dream listing failed: {e!s}"
+        )  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_oneiric_oneiric_core_engine_dream_engine_fastapi_py_L831"}
 
 
 @app.get("/status", summary="Dream Engine Status")
@@ -841,16 +862,21 @@ async def get_status():
         dream_engine = get_dream_engine()
 
         return {
-            "status": ("active" if hasattr(dream_engine, "active") and dream_engine.active else "inactive"),
+            "status": (
+                "active" if hasattr(dream_engine, "active") and dream_engine.active else "inactive"
+            ),
             "engine_type": "EnhancedDreamEngine",
-            "qi_enabled": hasattr(dream_engine, "qi_adapter") and dream_engine.qi_adapter is not None,
+            "qi_enabled": hasattr(dream_engine, "qi_adapter")
+            and dream_engine.qi_adapter is not None,
             "reflection_enabled": True,
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     except Exception as e:
         logger.error(f"Status check error: {e}")
-        raise HTTPException(status_code=500, detail=f"Status check failed: {e!s}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_oneiric_oneiric_core_engine_dream_engine_fastapi_py_L855"}
+        raise HTTPException(
+            status_code=500, detail=f"Status check failed: {e!s}"
+        )  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_oneiric_oneiric_core_engine_dream_engine_fastapi_py_L855"}
 
 
 # ================= PHASE 3B: MEMORY RECURRENCE LOOP & SNAPSHOT API =================
@@ -916,7 +942,9 @@ async def create_dream_snapshot(request: SnapshotRequest):
         raise
     except Exception as e:
         logger.error(f"Error creating dream snapshot: {e}")
-        raise HTTPException(status_code=500, detail=f"Snapshot creation failed: {e!s}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_oneiric_oneiric_core_engine_dream_engine_fastapi_py_L922"}
+        raise HTTPException(
+            status_code=500, detail=f"Snapshot creation failed: {e!s}"
+        )  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_oneiric_oneiric_core_engine_dream_engine_fastapi_py_L922"}
 
 
 @app.get("/memory/fold/{fold_id}/snapshots", summary="Get Memory Fold Snapshots")
@@ -946,7 +974,9 @@ async def get_fold_snapshots(fold_id: str):
         raise
     except Exception as e:
         logger.error(f"Error retrieving fold snapshots: {e}")
-        raise HTTPException(status_code=500, detail=f"Snapshot retrieval failed: {e!s}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_oneiric_oneiric_core_engine_dream_engine_fastapi_py_L953"}
+        raise HTTPException(
+            status_code=500, detail=f"Snapshot retrieval failed: {e!s}"
+        )  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_oneiric_oneiric_core_engine_dream_engine_fastapi_py_L953"}
 
 
 @app.get("/memory/fold/{fold_id}/statistics", summary="Get Memory Fold Statistics")
@@ -975,7 +1005,9 @@ async def get_fold_statistics(fold_id: str):
         raise
     except Exception as e:
         logger.error(f"Error retrieving fold statistics: {e}")
-        raise HTTPException(status_code=500, detail=f"Statistics retrieval failed: {e!s}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_oneiric_oneiric_core_engine_dream_engine_fastapi_py_L983"}
+        raise HTTPException(
+            status_code=500, detail=f"Statistics retrieval failed: {e!s}"
+        )  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_oneiric_oneiric_core_engine_dream_engine_fastapi_py_L983"}
 
 
 @app.post("/memory/fold/{fold_id}/sync", summary="Synchronize Memory Fold")
@@ -1005,7 +1037,9 @@ async def sync_memory_fold(fold_id: str):
         raise
     except Exception as e:
         logger.error(f"Error syncing memory fold: {e}")
-        raise HTTPException(status_code=500, detail=f"Fold synchronization failed: {e!s}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_oneiric_oneiric_core_engine_dream_engine_fastapi_py_L1014"}
+        raise HTTPException(
+            status_code=500, detail=f"Fold synchronization failed: {e!s}"
+        )  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_oneiric_oneiric_core_engine_dream_engine_fastapi_py_L1014"}
 
 
 # ================= END PHASE 3B ENDPOINTS =================
