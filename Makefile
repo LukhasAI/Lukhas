@@ -1887,6 +1887,14 @@ t4-codemod-apply: ## Apply codemod with backup
 	@echo "✅ Codemod complete! Backups: *.bak"
 
 # ============================================================================
+# Analytics Event Validation
+# ============================================================================
+
+events-validate: ## Validate event tracking implementation
+	@echo "✅ Validating event taxonomy..."
+	@python3 tools/validate_events.py
+
+# ============================================================================
 # Claude Code PR Review Integration
 # ============================================================================
 

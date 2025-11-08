@@ -236,10 +236,6 @@ class CognitiveNode(ABC):
         else:
             state_dict = dict(state)
 
-        # Add additional data to state
-        if additional_data:
-            state_dict.update(additional_data)
-
         # Ensure required state fields
         if "confidence" not in state_dict or "salience" not in state_dict:
             raise ValueError("State must include 'confidence' and 'salience' fields")
@@ -281,6 +277,9 @@ class CognitiveNode(ABC):
             ],
             "schema_ref": "lukhas://schemas/matriz_node_v1.json",
         }
+
+        if additional_data:
+            matriz_node["additional_data"] = additional_data
 
         # Store in processing history
         self.processing_history.append(matriz_node)
