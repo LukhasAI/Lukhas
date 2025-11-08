@@ -9,6 +9,7 @@
 # """
 
 import re
+
 from matriz.core.node_interface import CognitiveNode
 from matriz.schemas.proof import FormalProof
 

@@ -13,8 +13,8 @@ import pytest
 import yaml
 
 from lukhas.features.flags_service import (
-    FlagEvaluationContext,
     FeatureFlagsService,
+    FlagEvaluationContext,
     get_service,
 )
 

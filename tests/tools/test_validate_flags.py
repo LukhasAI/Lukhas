@@ -2,13 +2,13 @@
 Tests for feature flags validation tool.
 """
 
+import sys
 import tempfile
 from pathlib import Path
 
 import pytest
 import yaml
 
-import sys
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "tools"))
 
 from validate_flags import FlagValidator

@@ -7,22 +7,22 @@ Provides real-time consciousness state mapping to visual parameters.
 
 import asyncio
 import json
+import logging
 from dataclasses import asdict, dataclass
 from enum import Enum
 from typing import Any
-
-import logging
 
 # Module-level logger
 logger = logging.getLogger(__name__)
 
 # Import LUKHAS core systems
 try:
+    from qi.engines.consciousness.engine import ConsciousnessEngine
+
     from consciousness.unified.auto_consciousness import AutoConsciousness
     from core.glyph.glyph_engine import GlyphEngine
     from emotion.service import EmotionService
     from memory.folds.memory_fold import MemoryFold
-    from qi.engines.consciousness.engine import ConsciousnessEngine
 except ImportError as e:
     print(f"Warning: Some LUKHAS modules not available: {e}")
 

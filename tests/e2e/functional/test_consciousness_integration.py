@@ -122,9 +122,8 @@ class TestConsciousnessIntegration:
     async def test_platform_integration_workflow(self):
         """Test complete platform integration and component management."""
         from consciousness.awareness.awareness_tracker import AwarenessTracker
-        from consciousness.platform import create_consciousness_platform
-
         from consciousness.bridge import create_consciousness_bridge
+        from consciousness.platform import create_consciousness_platform
 
         # Create platform
         platform = create_consciousness_platform({"integration_test": True})
@@ -246,9 +245,8 @@ class TestConsciousnessIntegration:
     def test_consciousness_system_contracts(self):
         """Test that consciousness systems adhere to expected contracts."""
         from consciousness.awareness.awareness_tracker import AwarenessTracker
-        from consciousness.platform import ConsciousnessPlatform
-
         from consciousness.bridge import ConsciousnessBridge
+        from consciousness.platform import ConsciousnessPlatform
 
         # Test class instantiation contracts
         tracker = AwarenessTracker()

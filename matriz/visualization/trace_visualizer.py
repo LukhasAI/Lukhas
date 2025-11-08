@@ -10,6 +10,7 @@ suitable for visualization with the MATRIZGraphViewer.
 import networkx as nx
 from matriz.visualization.graph_viewer import MATRIZGraphViewer
 
+
 def trace_to_graph(trace_data: list[dict]) -> nx.DiGraph:
     """
     Converts a trace from the BioSymbolicOrchestrator into a NetworkX graph.

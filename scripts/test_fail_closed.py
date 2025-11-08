@@ -9,6 +9,7 @@ Implements chaos engineering principles with controlled stress testing.
 import argparse
 import asyncio
 import json
+import logging
 import multiprocessing
 import os
 import random
@@ -22,8 +23,6 @@ from typing import Any, Optional
 
 import psutil
 
-import logging
-
 # Module-level logger
 logger = logging.getLogger(__name__)
 
@@ -31,10 +30,9 @@ logger = logging.getLogger(__name__)
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
+    from consciousness import ConsciousnessStream, CreativityEngine
     from consciousness.types import ConsciousnessState, CreativeTask
     from governance.guardian_system import GuardianSystem
-
-    from consciousness import ConsciousnessStream, CreativityEngine
 except ImportError:
     print("Warning: LUKHAS modules not available, using simulation mode")
     GuardianSystem = None

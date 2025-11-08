@@ -5,8 +5,8 @@ Populate pages_using_claim in evidence pages based on claims registry.
 
 import json
 import re
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 # Map claim texts to evidence IDs
 CLAIM_TO_EVIDENCE = {

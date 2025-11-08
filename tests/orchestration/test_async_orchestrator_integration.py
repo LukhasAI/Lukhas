@@ -10,12 +10,11 @@ Tests the critical missing functionality implementations and context preservatio
 """
 
 import asyncio
+import logging
 import time
 from typing import Any
 
 import pytest
-
-import logging
 
 # Module-level logger
 logger = logging.getLogger(__name__)

@@ -7,10 +7,9 @@ Validates that OPA policy bundles haven't drifted from canonical sources.
 
 import hashlib
 import json
+import logging
 import sys
 from pathlib import Path
-
-import logging
 
 # Module-level logger
 logger = logging.getLogger(__name__)

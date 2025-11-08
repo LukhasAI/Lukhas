@@ -2,9 +2,10 @@
 '''Update 'Last Updated' timestamps in all documentation'''
 
 import re
+import subprocess
 from datetime import datetime
 from pathlib import Path
-import subprocess
+
 
 def update_timestamps(doc_dir: Path):
     today = datetime.now().strftime("%Y-%m-%d")

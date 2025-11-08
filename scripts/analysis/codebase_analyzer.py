@@ -6,12 +6,11 @@ Helps identify naming inconsistencies, misplaced files, and organizational issue
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 from collections import defaultdict
 from pathlib import Path
-
-import logging
 
 # Module-level logger
 logger = logging.getLogger(__name__)

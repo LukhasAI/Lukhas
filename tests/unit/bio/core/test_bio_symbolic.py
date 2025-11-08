@@ -3,11 +3,16 @@
 # module_uid: bio.core.bio_symbolic
 # criticality: P1
 
-import pytest
 from unittest import mock
 
+import pytest
+
 try:
-    from lukhas_website.lukhas.bio.core.bio_symbolic import BioSymbolic, BioSymbolicOrchestrator, SymbolicGlyph
+    from lukhas_website.lukhas.bio.core.bio_symbolic import (
+        BioSymbolic,
+        BioSymbolicOrchestrator,
+        SymbolicGlyph,
+    )
 except ImportError:  # pragma: no cover
     pytest.skip("Bio symbolic module unavailable", allow_module_level=True)
 

@@ -17,9 +17,8 @@ from typing import Any, Optional
 import aiofiles
 import aiofiles.os
 import structlog
-from cryptography.fernet import Fernet
-
 from async_utils import create_background_task
+from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from pydantic import BaseModel, Field, validator
