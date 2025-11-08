@@ -1,8 +1,9 @@
 
 from fastapi import Request, Response
-from starlette.middleware.base import BaseHTTPMiddleware
-from labs.core.security.auth import get_auth_system
 from fastapi.responses import JSONResponse
+from labs.core.security.auth import get_auth_system
+from starlette.middleware.base import BaseHTTPMiddleware
+
 
 class StrictAuthMiddleware(BaseHTTPMiddleware):
     """

@@ -6,7 +6,6 @@ Usage as module (driver provided separately) to run in dry-run or apply mode.
 """
 from __future__ import annotations
 
-
 import libcst as cst
 
 

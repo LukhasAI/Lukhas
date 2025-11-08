@@ -11,6 +11,9 @@ sys.modules['privacy.zkp_dream_validator'] = MagicMock()
 sys.modules['core.event_bus'] = MagicMock()
 
 import pytest
+from fastapi import FastAPI
+from fastapi.testclient import TestClient
+
 from core.bridge.dream_commerce import (
     ConsentLevel,
     DreamCommerceEngine,
@@ -21,8 +24,6 @@ from core.bridge.dream_commerce import (
     RevenueModel,
     router,
 )
-from fastapi import FastAPI
-from fastapi.testclient import TestClient
 
 
 @pytest.fixture

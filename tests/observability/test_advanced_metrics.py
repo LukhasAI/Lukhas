@@ -7,8 +7,6 @@ Comprehensive tests for advanced metrics, anomaly detection, and performance mon
 import asyncio
 import statistics
 
-from async_utils import create_background_task
-
 # Test imports
 import sys
 from datetime import datetime, timedelta, timezone
@@ -16,6 +14,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
+from async_utils import create_background_task
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 

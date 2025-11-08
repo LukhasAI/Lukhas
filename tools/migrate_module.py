@@ -6,12 +6,11 @@ Automates the migration of modules to lukhas/ (accepted)
 from __future__ import annotations
 
 import json
+import logging
 import re
 import shutil
 import sys
 from pathlib import Path
-
-import logging
 
 # Module-level logger
 logger = logging.getLogger(__name__)

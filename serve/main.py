@@ -100,8 +100,9 @@ def require_api_key(x_api_key: Optional[str]=Header(default=None)) -> Optional[s
     return x_api_key
 app = FastAPI(title='LUKHAS API', version='1.0.0', description='Governed tool loop, auditability, feedback LUT, and safety modes.', contact={'name': 'LUKHAS AI Team', 'url': 'https://github.com/LukhasAI/Lukhas'}, license_info={'name': 'MIT', 'url': 'https://opensource.org/licenses/MIT'}, servers=[{'url': 'http://localhost:8000', 'description': 'Local development'}, {'url': 'https://api.ai', 'description': 'Production'}])
 
-from serve.middleware.strict_auth import StrictAuthMiddleware
 from serve.middleware.headers import HeadersMiddleware
+from serve.middleware.strict_auth import StrictAuthMiddleware
+
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
 if env_get("LUKHAS_DEV_MODE") != "true":

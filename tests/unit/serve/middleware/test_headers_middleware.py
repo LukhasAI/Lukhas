@@ -1,9 +1,9 @@
 
+import time
+
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-import time
-
 from serve.middleware.headers import HeadersMiddleware
 
 # A simple app to test the middleware

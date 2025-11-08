@@ -4,8 +4,8 @@ Add evidence_links to branding pages for top 20 claims.
 """
 
 import json
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 # Map claim texts to evidence IDs
 CLAIM_TO_EVIDENCE = {

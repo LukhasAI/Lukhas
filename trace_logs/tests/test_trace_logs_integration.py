@@ -8,12 +8,11 @@
 Integration tests for trace_logs module.
 """
 
+# Import module for integration testing
+import importlib.util
 import unittest
 
 import pytest
-
-# Import module for integration testing
-import importlib.util
 
 if importlib.util.find_spec("trace_logs") is None:
     pytest.skip("Module trace_logs not available", allow_module_level=True)

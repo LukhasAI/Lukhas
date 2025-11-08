@@ -9,12 +9,11 @@ meaningful content based on module type and functionality.
 from __future__ import annotations
 
 import json
+import logging
 from pathlib import Path
 from typing import Dict
 
 import yaml
-
-import logging
 
 # Module-level logger
 logger = logging.getLogger(__name__)

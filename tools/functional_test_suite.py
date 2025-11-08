@@ -4,9 +4,8 @@
 Tests actual functionality, not just imports
 """
 
-from datetime import datetime, timezone
-
 import logging
+from datetime import datetime, timezone
 
 # Module-level logger
 logger = logging.getLogger(__name__)

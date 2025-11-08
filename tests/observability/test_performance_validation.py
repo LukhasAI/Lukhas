@@ -7,8 +7,6 @@ Validates that observability operations meet <10ms overhead requirements.
 import asyncio
 import statistics
 
-from async_utils import create_background_task
-
 # Test imports
 import sys
 import tempfile
@@ -18,6 +16,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
+from async_utils import create_background_task
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 

@@ -1,8 +1,10 @@
 """Benchmarks for memory operations."""
 
-import pytest
 import numpy as np
+import pytest
+
 from memory.index_manager import IndexManager
+
 
 @pytest.fixture
 def index_manager_with_index():

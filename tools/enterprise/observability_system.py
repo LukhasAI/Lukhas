@@ -17,11 +17,10 @@ import aiohttp
 import numpy as np
 import pandas as pd
 import structlog
+from async_utils import create_background_task
 from prometheus_api_client import PrometheusConnect
 from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
-
-from async_utils import create_background_task
 
 # Configure structured logging
 logger = structlog.get_logger()

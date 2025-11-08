@@ -11,6 +11,7 @@ import subprocess
 from datetime import datetime
 from pathlib import Path
 
+
 def generate_provenance(modules: list[str], output: Path, artifact_hashes: dict[str, str]):
     '''Generate SLSA provenance document'''
 

@@ -1,9 +1,11 @@
 """Benchmarks for the MATRIZ Cognitive Engine."""
 
 import asyncio
+
 import pytest
 from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
 from matriz.core.node_interface import CognitiveNode
+
 
 class MockCognitiveNode(CognitiveNode):
     """A mock cognitive node for benchmarking."""

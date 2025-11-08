@@ -24,9 +24,9 @@ from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel, Field
 
 from lukhas.features.flags_service import (
+    FeatureFlagsService,
     FlagEvaluationContext,
     FlagType,
-    FeatureFlagsService,
     get_service,
 )
 
