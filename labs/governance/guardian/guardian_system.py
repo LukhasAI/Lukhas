@@ -250,10 +250,11 @@ class EnhancedGuardianSystem:
         self.monitoring_active = True
         self.monitoring_interval = 1.0  # seconds
 
-        # Initialize system
-        asyncio.create_task(self._initialize_guardian_system())
-
         logger.info("🛡️ Enhanced Guardian System v1.0.0 initialized")
+
+    async def initialize(self):
+        """Asynchronously initialize the guardian system and start background tasks."""
+        await self._initialize_guardian_system()
 
     async def _initialize_guardian_system(self):
         """Initialize the Guardian system with default agents"""
@@ -613,7 +614,8 @@ class EnhancedGuardianSystem:
             result["execution_time"] = execution_time
 
             # Record resource usage
-            response.resource_usage[action.value] = {
+            action_key = action.value if isinstance(action, Enum) else action
+            response.resource_usage[action_key] = {
                 "cpu_time": execution_time,
                 "memory_used": 0,  # Would be measured in real implementation
                 "network_calls": result.get("network_calls", 0),
@@ -849,6 +851,36 @@ class EnhancedGuardianSystem:
                 best_agent = agent
 
         return best_agent
+
+    async def _trigger_automated_response(self, detection: ThreatDetection):
+        """Placeholder for triggering automated response"""
+        logger.info(f"Automated response triggered for {detection.detection_id}")
+        # This would contain logic to initiate a response flow
+        pass
+
+    async def _capture_system_state(self) -> dict:
+        """Placeholder for capturing the system state."""
+        return {"cpu_load": 0.5, "memory_usage": "high"}
+
+    async def _analyze_identity_impact(self, threat_data: dict, context: dict) -> str:
+        """Placeholder for analyzing identity impact."""
+        return "high"
+
+    async def _analyze_consciousness_impact(self, threat_data: dict, context: dict) -> str:
+        """Placeholder for analyzing consciousness impact."""
+        return "medium"
+
+    async def _determine_guardian_priority(self, detection: ThreatDetection) -> str:
+        """Placeholder for determining guardian priority."""
+        return "critical"
+
+    async def _validate_agent_config(self, agent: GuardianAgent) -> bool:
+        """Placeholder for validating agent config."""
+        return True
+
+    async def _initialize_agent_handlers(self, agent: GuardianAgent):
+        """Placeholder for initializing agent handlers."""
+        pass
 
     async def _monitoring_loop(self):
         """Main monitoring loop for threat detection"""
