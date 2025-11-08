@@ -12,7 +12,7 @@ import json
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 @dataclass
@@ -23,7 +23,7 @@ class CertificationEvidence:
     file_path: str
     checksum: str
     status: str
-    key_metrics: Dict[str, Any]
+    key_metrics: dict[str, Any]
     verification_timestamp: float
 
 @dataclass
@@ -34,8 +34,8 @@ class CertificationResult:
     confidence_level: float
     evidence_count: int
     failed_tests: int
-    missing_evidence: List[str]
-    key_performance_claims: Dict[str, Any]
+    missing_evidence: list[str]
+    key_performance_claims: dict[str, Any]
     certification_timestamp: str
     audit_trail_hash: str
 
@@ -47,7 +47,7 @@ class AuditCertificationGenerator:
         self.evidence_dir = Path(evidence_directory)
         self.certification_standards = self._load_certification_standards()
 
-    def _load_certification_standards(self) -> Dict[str, Any]:
+    def _load_certification_standards(self) -> dict[str, Any]:
         """Load T4/0.01% certification standards."""
         return {
             "performance_requirements": {
@@ -71,7 +71,7 @@ class AuditCertificationGenerator:
             }
         }
 
-    def discover_evidence_files(self) -> List[Path]:
+    def discover_evidence_files(self) -> list[Path]:
         """Discover all evidence files in the directory."""
         patterns = [
             "audit_baseline_*.json",
@@ -148,7 +148,7 @@ class AuditCertificationGenerator:
             print(f"Warning: Could not analyze {file_path}: {e}")
             return None
 
-    def _extract_baseline_metrics(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _extract_baseline_metrics(self, data: dict[str, Any]) -> dict[str, Any]:
         """Extract key metrics from baseline data."""
         metrics = {}
 
@@ -163,7 +163,7 @@ class AuditCertificationGenerator:
 
         return metrics
 
-    def _extract_statistical_metrics(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _extract_statistical_metrics(self, data: dict[str, Any]) -> dict[str, Any]:
         """Extract key metrics from statistical analysis."""
         metrics = {}
 
@@ -175,7 +175,7 @@ class AuditCertificationGenerator:
 
         return metrics
 
-    def _extract_reproducibility_metrics(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _extract_reproducibility_metrics(self, data: dict[str, Any]) -> dict[str, Any]:
         """Extract key metrics from reproducibility analysis."""
         metrics = {}
 
@@ -187,7 +187,7 @@ class AuditCertificationGenerator:
 
         return metrics
 
-    def _extract_chaos_metrics(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _extract_chaos_metrics(self, data: dict[str, Any]) -> dict[str, Any]:
         """Extract key metrics from chaos engineering."""
         metrics = {}
 
@@ -198,7 +198,7 @@ class AuditCertificationGenerator:
 
         return metrics
 
-    def _extract_merkle_metrics(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _extract_merkle_metrics(self, data: dict[str, Any]) -> dict[str, Any]:
         """Extract key metrics from Merkle chain."""
         metrics = {}
 
@@ -209,7 +209,7 @@ class AuditCertificationGenerator:
 
         return metrics
 
-    def _extract_verification_metrics(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _extract_verification_metrics(self, data: dict[str, Any]) -> dict[str, Any]:
         """Extract key metrics from claims verification."""
         metrics = {}
 
@@ -221,7 +221,7 @@ class AuditCertificationGenerator:
 
         return metrics
 
-    def _determine_evidence_status(self, component: str, test_type: str, metrics: Dict[str, Any]) -> str:
+    def _determine_evidence_status(self, component: str, test_type: str, metrics: dict[str, Any]) -> str:
         """Determine pass/fail status for evidence."""
 
         if component == "baseline":
@@ -231,9 +231,8 @@ class AuditCertificationGenerator:
             for metric_name, limit in standards.items():
                 if metric_name.replace("_us", "") in [k.replace("_p95", "") for k in metrics]:
                     metric_key = metric_name.replace("_us", "_p95")
-                    if metrics.get(metric_key):
-                        if metrics[metric_key] > limit["max"]:
-                            return "FAIL"
+                    if metrics.get(metric_key) and metrics[metric_key] > limit['max']:
+                        return "FAIL"
             return "PASS"
 
         elif component == "statistics":
@@ -265,7 +264,7 @@ class AuditCertificationGenerator:
         else:
             return "UNKNOWN"
 
-    def generate_certification(self, evidence_files: List[CertificationEvidence]) -> CertificationResult:
+    def generate_certification(self, evidence_files: list[CertificationEvidence]) -> CertificationResult:
         """Generate final certification based on evidence."""
 
         # Generate unique certification ID
@@ -322,7 +321,7 @@ class AuditCertificationGenerator:
             audit_trail_hash=audit_trail_hash
         )
 
-    def generate_certification_report(self, certification: CertificationResult, evidence_files: List[CertificationEvidence]) -> str:
+    def generate_certification_report(self, certification: CertificationResult, evidence_files: list[CertificationEvidence]) -> str:
         """Generate human-readable certification report."""
 
         report_lines = []
@@ -441,7 +440,7 @@ class AuditCertificationGenerator:
 
         return "\n".join(report_lines)
 
-    def export_certification_json(self, certification: CertificationResult, evidence_files: List[CertificationEvidence]) -> Dict[str, Any]:
+    def export_certification_json(self, certification: CertificationResult, evidence_files: list[CertificationEvidence]) -> dict[str, Any]:
         """Export certification as machine-readable JSON."""
 
         return {

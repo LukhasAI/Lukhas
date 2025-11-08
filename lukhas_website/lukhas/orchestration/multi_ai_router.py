@@ -17,7 +17,7 @@ import logging
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 from opentelemetry import trace
 
@@ -92,13 +92,13 @@ class AIModel:
 class RoutingRequest:
     """Multi-AI routing request"""
     prompt: str
-    context: Dict[str, Any] = field(default_factory=dict)
-    models: List[str] = field(default_factory=list)
+    context: dict[str, Any] = field(default_factory=dict)
+    models: list[str] = field(default_factory=list)
     consensus_type: ConsensusType = ConsensusType.MAJORITY
     min_responses: int = 2
     max_responses: int = 3
     timeout: float = 30.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -111,7 +111,7 @@ class AIResponse:
     tokens_used: int
     cost: float
     confidence: float = 0.5
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -120,18 +120,18 @@ class ConsensusResult:
     final_response: str
     confidence: float
     agreement_ratio: float
-    participating_models: List[str]
-    individual_responses: List[AIResponse]
+    participating_models: list[str]
+    individual_responses: list[AIResponse]
     consensus_type: ConsensusType
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class ModelSelector:
     """Intelligent model selection based on performance and availability"""
 
     def __init__(self):
-        self.models: Dict[str, AIModel] = {}
-        self.performance_history: Dict[str, List[float]] = {}
+        self.models: dict[str, AIModel] = {}
+        self.performance_history: dict[str, list[float]] = {}
 
     def register_model(self, model: AIModel) -> None:
         """Register a new AI model"""
@@ -146,7 +146,7 @@ class ModelSelector:
 
     def select_models(self,
                      request: RoutingRequest,
-                     exclude_models: List[str] | None = None) -> List[AIModel]:
+                     exclude_models: list[str] | None = None) -> list[AIModel]:
         """Select optimal models for the request"""
         exclude_models = exclude_models or []
 
@@ -173,8 +173,8 @@ class ModelSelector:
         return selected[:num_needed]
 
     def _intelligent_selection(self,
-                             available_models: List[AIModel],
-                             request: RoutingRequest) -> List[AIModel]:
+                             available_models: list[AIModel],
+                             request: RoutingRequest) -> list[AIModel]:
         """Intelligent model selection algorithm"""
         # Score models based on multiple factors
         scored_models = []
@@ -243,10 +243,10 @@ class ConsensusEngine:
     """Consensus evaluation engine"""
 
     def __init__(self):
-        self.similarity_cache: Dict[str, float] = {}
+        self.similarity_cache: dict[str, float] = {}
 
     async def evaluate_consensus(self,
-                               responses: List[AIResponse],
+                               responses: list[AIResponse],
                                consensus_type: ConsensusType) -> ConsensusResult:
         """Evaluate consensus from multiple AI responses"""
 
@@ -268,7 +268,7 @@ class ConsensusEngine:
                 # Default to majority
                 return await self._majority_consensus(responses)
 
-    async def _majority_consensus(self, responses: List[AIResponse]) -> ConsensusResult:
+    async def _majority_consensus(self, responses: list[AIResponse]) -> ConsensusResult:
         """Simple majority consensus"""
         if not responses:
             raise ValueError("No responses to evaluate")
@@ -299,7 +299,7 @@ class ConsensusEngine:
             metadata={"largest_group_size": len(largest_group)}
         )
 
-    async def _weighted_consensus(self, responses: List[AIResponse]) -> ConsensusResult:
+    async def _weighted_consensus(self, responses: list[AIResponse]) -> ConsensusResult:
         """Weighted consensus based on model confidence and performance"""
         if not responses:
             raise ValueError("No responses to evaluate")
@@ -341,7 +341,7 @@ class ConsensusEngine:
             metadata={"best_weight": best_weight, "total_weight": total_weight}
         )
 
-    async def _unanimous_consensus(self, responses: List[AIResponse]) -> ConsensusResult:
+    async def _unanimous_consensus(self, responses: list[AIResponse]) -> ConsensusResult:
         """Unanimous consensus - all responses must be similar"""
         if not responses:
             raise ValueError("No responses to evaluate")
@@ -385,7 +385,7 @@ class ConsensusEngine:
             metadata={"unanimous": all_similar}
         )
 
-    async def _best_of_n_consensus(self, responses: List[AIResponse]) -> ConsensusResult:
+    async def _best_of_n_consensus(self, responses: list[AIResponse]) -> ConsensusResult:
         """Best-of-N consensus - select single best response"""
         if not responses:
             raise ValueError("No responses to evaluate")
@@ -419,7 +419,7 @@ class ConsensusEngine:
             metadata={"best_score": best_score, "all_scores": [s for s, _ in scored_responses]}
         )
 
-    async def _hybrid_consensus(self, responses: List[AIResponse]) -> ConsensusResult:
+    async def _hybrid_consensus(self, responses: list[AIResponse]) -> ConsensusResult:
         """Hybrid consensus combining multiple approaches"""
         # First try majority consensus
         majority_result = await self._majority_consensus(responses)
@@ -458,8 +458,8 @@ class ConsensusEngine:
         return score
 
     async def _group_similar_responses(self,
-                                     responses: List[AIResponse],
-                                     threshold: float = 0.7) -> List[List[AIResponse]]:
+                                     responses: list[AIResponse],
+                                     threshold: float = 0.7) -> list[list[AIResponse]]:
         """Group responses by similarity"""
         groups = []
 
@@ -524,8 +524,8 @@ class MultiAIRouter:
     def __init__(self):
         self.model_selector = ModelSelector()
         self.consensus_engine = ConsensusEngine()
-        self.ai_clients: Dict[AIProvider, Any] = {}
-        self.default_models: List[str] = []
+        self.ai_clients: dict[AIProvider, Any] = {}
+        self.default_models: list[str] = []
         self._initialize_providers()
 
     def register_ai_client(self, provider: AIProvider, client: Any) -> None:
@@ -687,7 +687,7 @@ class MultiAIRouter:
 
     async def _send_parallel_requests(self,
                                     request: RoutingRequest,
-                                    models: List[AIModel]) -> List[AIResponse | None]:
+                                    models: list[AIModel]) -> list[AIResponse | None]:
         """Send requests to multiple models in parallel"""
 
         tasks = []

@@ -19,7 +19,6 @@
 from __future__ import annotations
 
 
-
 def manage_voice_handoff(user_query, context_state):
     """
     Orchestrates voice handoff between Lukhas and GPT.

@@ -8,6 +8,8 @@ Validates:
 - Range normalization (values in [0, 1] for stub mode)
 - Response format compliance
 """
+import os
+
 import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
@@ -18,7 +20,10 @@ from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 @pytest.fixture
 def client():
     """Create test client with auth."""
-    return TestClient(app)
+    os.environ['LUKHAS_POLICY_MODE'] = 'strict'
+    client = TestClient(app)
+    yield client
+    del os.environ['LUKHAS_POLICY_MODE']
 
 
 @pytest.fixture
@@ -153,6 +158,11 @@ def test_embeddings_empty_input_handled(client, auth_headers):
         headers=auth_headers
     )
     assert response.status_code == 400
+    data = response.json()
+    assert "detail" in data
+    assert "error" in data["detail"]
+    assert data["detail"]["error"]["type"] == "invalid_request_error"
+    assert data["detail"]["error"]["code"] == "invalid_parameter"
 
 
 def test_embeddings_missing_input_field(client, auth_headers):
@@ -163,6 +173,11 @@ def test_embeddings_missing_input_field(client, auth_headers):
         headers=auth_headers
     )
     assert response.status_code == 400
+    data = response.json()
+    assert "detail" in data
+    assert "error" in data["detail"]
+    assert data["detail"]["error"]["type"] == "invalid_request_error"
+    assert data["detail"]["error"]["code"] == "missing_required_parameter"
 
 
 def test_embeddings_requires_auth(client):

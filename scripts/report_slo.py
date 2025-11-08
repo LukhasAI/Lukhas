@@ -31,14 +31,14 @@ import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "docs" / "_generated" / "MODULE_REGISTRY.json"
 OUTPUT = ROOT / "docs" / "_generated" / "SLO_DASHBOARD.md"
 
 
-def parse_lane(tags: List[str]) -> str:
+def parse_lane(tags: list[str]) -> str:
     """Extract lane from tags"""
     for tag in tags:
         if tag.startswith("lane:"):
@@ -68,7 +68,7 @@ def load_manifest(path: Path) -> Dict:
         return {}
 
 
-def extract_slo_data(manifest: Dict, module_name: str, tags: List[str]) -> Tuple[str, Dict]:
+def extract_slo_data(manifest: Dict, module_name: str, tags: list[str]) -> tuple[str, Dict]:
     """Extract SLO data from manifest"""
     performance = manifest.get("performance", {}) or {}
     targets = performance.get("sla_targets", {}) or {}
@@ -90,14 +90,12 @@ def extract_slo_data(manifest: Dict, module_name: str, tags: List[str]) -> Tuple
     violations = []
 
     # P95 latency check
-    if slo["target_p95"] is not None and slo["observed_p95"] is not None:
-        if slo["observed_p95"] > slo["target_p95"]:
-            violations.append("p95_latency")
+    if (slo['target_p95'] is not None and slo['observed_p95'] is not None) and slo['observed_p95'] > slo['target_p95']:
+        violations.append("p95_latency")
 
     # Coverage check
-    if slo["coverage_target"] is not None and slo["coverage_observed"] is not None:
-        if slo["coverage_observed"] < slo["coverage_target"]:
-            violations.append("coverage")
+    if (slo['coverage_target'] is not None and slo['coverage_observed'] is not None) and slo['coverage_observed'] < slo['coverage_target']:
+        violations.append("coverage")
 
     # Freshness check (L2/L3 only, 14 days)
     if lane in ["L2", "L3"]:
@@ -157,12 +155,12 @@ def generate_dashboard(registry_path: Path, verbose: bool = False) -> str:
     ]
 
     for slo in slo_data:
-        target_p95 = f"{slo['target_p95']:.1f}" if slo["target_p95"] is not None else "—"
-        observed_p95 = f"{slo['observed_p95']:.1f}" if slo["observed_p95"] is not None else "—"
-        coverage_target = f"{slo['coverage_target']:.1f}%" if slo["coverage_target"] is not None else "—"
-        coverage_observed = f"{slo['coverage_observed']:.1f}%" if slo["coverage_observed"] is not None else "—"
+        target_p95 = f"{slo['target_p95']:.1f}" if slo["target_p95"] is not None else "-"
+        observed_p95 = f"{slo['observed_p95']:.1f}" if slo["observed_p95"] is not None else "-"
+        coverage_target = f"{slo['coverage_target']:.1f}%" if slo["coverage_target"] is not None else "-"
+        coverage_observed = f"{slo['coverage_observed']:.1f}%" if slo["coverage_observed"] is not None else "-"
         freshness = days_since(slo["observed_at"])
-        freshness_str = str(freshness) if freshness < 9999 else "—"
+        freshness_str = str(freshness) if freshness < 9999 else "-"
 
         md_lines.append(
             f"| `{slo['module']}` | {slo['lane']} | {target_p95} | {observed_p95} | "

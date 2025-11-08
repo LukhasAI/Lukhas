@@ -1,4 +1,4 @@
-# conftest.py (ROOT) — deterministic import behavior + telemetry
+# conftest.py (ROOT) - deterministic import behavior + telemetry
 from __future__ import annotations
 
 import importlib
@@ -8,8 +8,11 @@ import sys
 import traceback
 from pathlib import Path
 
+# ---- Additional test fixtures ----
+import pytest
+
 # Ensure sitecustomize runs (fixes _SixMetaPathImporter compatibility)
-try:
+try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_conftest_py_L15"}
     import sitecustomize
 except ImportError:
     pass
@@ -105,8 +108,6 @@ def pytest_sessionstart(session):
         pass
 
 
-# ---- Additional test fixtures ----
-import pytest
 
 
 @pytest.fixture(scope="session")

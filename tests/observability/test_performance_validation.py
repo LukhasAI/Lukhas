@@ -16,6 +16,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
+from async_utils import create_background_task
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
@@ -70,7 +71,7 @@ class TestPerformanceValidation:
                 metric_retention_hours=1,  # Short retention for testing
             )
             yield system
-            asyncio.create_task(system.shutdown())
+            create_background_task(system.shutdown())
 
     @pytest.fixture
     async def performance_detector(self, mock_dependencies):

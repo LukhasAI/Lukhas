@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
 """
 
@@ -18,11 +17,11 @@ intelligence platform combining symbolic reasoning, emotional intelligence,
 quantum integration, and bio-inspired architecture.
 
 Mission: To illuminate complex reality through rigorous logic, adaptive
-intelligence, and human-centred ethics—turning data into understanding,
+intelligence, and human-centred ethics-turning data into understanding,
 understanding into foresight, and foresight into shared benefit for people
 and planet.
 
-ΛSAGE – Archetypal Resonance Profiler & Mythic Symbol Mapper
+ΛSAGE - Archetypal Resonance Profiler & Mythic Symbol Mapper
 
 Purpose: Identify deep symbolic archetypes across dreams, memory, and GLYPH lineage.
 Map motifs to Jungian, mythological, or cultural resonance patterns for long-range
@@ -40,9 +39,7 @@ Core Capabilities:
 For more information, visit: https://ai
 """
 
-# ΛTRACE: ΛSAGE Archetypal Resonance Profiler initialization
-# ΛORIGIN_AGENT: Claude Code
-# ΛTASK_ID: Task 3
+from __future__ import annotations
 
 import csv
 import json
@@ -54,6 +51,11 @@ from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any
+
+# ΛTRACE: ΛSAGE Archetypal Resonance Profiler initialization
+# ΛORIGIN_AGENT: Claude Code
+# ΛTASK_ID: Task 3
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -196,7 +198,7 @@ class ArchetypalSession:
 
 class ΛSage:
     """
-    ΛSAGE – Archetypal Resonance Profiler & Mythic Symbol Mapper
+    ΛSAGE - Archetypal Resonance Profiler & Mythic Symbol Mapper
 
     Identifies deep symbolic archetypes across dreams, memory, and GLYPH lineage.
     Maps motifs to Jungian, mythological, or cultural resonance patterns for
@@ -1502,10 +1504,9 @@ class ΛSage:
 
             # Check direct symbol matches
             for myth_symbol, symbol_archetypes in database.get("symbols", {}).items():
-                if archetype in symbol_archetypes:
-                    if myth_symbol in symbol or symbol in myth_symbol:
-                        resonance += 0.7
-                        matches += 1
+                if archetype in symbol_archetypes and (myth_symbol in symbol or symbol in myth_symbol):
+                    resonance += 0.7
+                    matches += 1
 
             # Normalize resonance
             if matches > 0:

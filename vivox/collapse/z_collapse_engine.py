@@ -6,7 +6,7 @@ Implementation of the z(t) collapse function based on Jacobo Grinberg's vector c
 with cryptographic timestamping and hash verification.
 
 Mathematical Foundation:
-z(t) = A(t) * [e^(iθ(t)) + e^(i(π-θ(t)))] × W(ΔS(t))
+z(t) = A(t) * [e^(iθ(t)) + e^(i(π-θ(t)))] x W(ΔS(t))
 
 Where:
 - A(t) = moral alignment amplitude (from VIVOX.MAE)
@@ -112,7 +112,7 @@ class ZCollapseEngine:
         Execute the z(t) collapse function
 
         Mathematical Implementation:
-        z(t) = A(t) * [e^(iθ(t)) + e^(i(π-θ(t)))] × W(ΔS(t))
+        z(t) = A(t) * [e^(iθ(t)) + e^(i(π-θ(t)))] x W(ΔS(t))
 
         Args:
             potential_states: List of potential states to collapse
@@ -221,7 +221,7 @@ class ZCollapseEngine:
     ) -> complex:
         """
         Execute the core z(t) mathematical formula:
-        z(t) = A(t) * [e^(iθ(t)) + e^(i(π-θ(t)))] × W(ΔS(t))
+        z(t) = A(t) * [e^(iθ(t)) + e^(i(π-θ(t)))] x W(ΔS(t))
         """
         # Calculate complex exponential terms
         exp_theta = complex(math.cos(phase), math.sin(phase))
@@ -266,7 +266,7 @@ class ZCollapseEngine:
 
             # Create mathematical trace
             mathematical_trace = {
-                "formula": "z(t) = A(t) * [e^(iθ(t)) + e^(i(π-θ(t)))] × W(ΔS(t))",
+                "formula": "z(t) = A(t) * [e^(iθ(t)) + e^(i(π-θ(t)))] x W(ΔS(t))",
                 "parameters": {
                     "t": t,
                     "amplitude": amplitude,
@@ -439,7 +439,7 @@ class ZCollapseEngine:
         Generate complete mathematical trace for audit purposes
         """
         return {
-            "formula": "z(t) = A(t) * [e^(iθ(t)) + e^(i(π-θ(t)))] × W(ΔS(t))",
+            "formula": "z(t) = A(t) * [e^(iθ(t)) + e^(i(π-θ(t)))] x W(ΔS(t))",
             "components": {
                 "alignment_amplitude_A_t": alignment,
                 "resonance_phase_theta_t": phase,

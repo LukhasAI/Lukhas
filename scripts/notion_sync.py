@@ -34,7 +34,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 try:
     import requests
@@ -67,13 +67,13 @@ def utcnow() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-def sha_manifest(m: Dict[str, Any]) -> str:
+def sha_manifest(m: dict[str, Any]) -> str:
     """Stable hash of manifest content (excludes volatile provenance timestamps)"""
     sanitized = json.loads(json.dumps(m, sort_keys=True))
     return hashlib.sha1(json.dumps(sanitized, sort_keys=True).encode()).hexdigest()
 
 
-def rate_sleep(last_ts: List[float]):
+def rate_sleep(last_ts: list[float]):
     """Simple leaky-bucket limiter"""
     now = time.time()
     last_ts[:] = [t for t in last_ts if now - t < 1.0]
@@ -82,7 +82,7 @@ def rate_sleep(last_ts: List[float]):
     last_ts.append(time.time())
 
 
-def append_ledger(record: Dict[str, Any]):
+def append_ledger(record: dict[str, Any]):
     """Append record to ledger"""
     LEDGER.parent.mkdir(parents=True, exist_ok=True)
     with LEDGER.open("a") as f:
@@ -106,9 +106,9 @@ class NotionClient:
             raise SystemExit("❌ NOTION_TOKEN and NOTION_DATABASE_ID must be set")
         self.token = token
         self.db_id = db_id
-        self._ops_window: List[float] = []
+        self._ops_window: list[float] = []
 
-    def _post(self, url: str, payload: Dict[str, Any]) -> Dict:
+    def _post(self, url: str, payload: dict[str, Any]) -> Dict:
         """Rate-limited POST request"""
         rate_sleep(self._ops_window)
         r = requests.post(url, headers=HEADERS, json=payload, timeout=30)
@@ -116,7 +116,7 @@ class NotionClient:
             raise RuntimeError(f"POST {url} failed: {r.status_code} {r.text}")
         return r.json()
 
-    def _patch(self, url: str, payload: Dict[str, Any]) -> Dict:
+    def _patch(self, url: str, payload: dict[str, Any]) -> Dict:
         """Rate-limited PATCH request"""
         rate_sleep(self._ops_window)
         r = requests.patch(url, headers=HEADERS, json=payload, timeout=30)
@@ -161,11 +161,11 @@ class NotionClient:
     def create_or_update_page(
         self,
         module: str,
-        props: Dict[str, Any],
-        blocks: List[Dict[str, Any]],
+        props: dict[str, Any],
+        blocks: list[dict[str, Any]],
         page_id: str | None,
         dry_run: bool
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create new page or update existing one"""
         if page_id:
             if dry_run:
@@ -193,7 +193,7 @@ class NotionClient:
             return self._post(url, payload)
 
 
-def to_notion_properties(manifest: Dict[str, Any], content_sha: str) -> Dict[str, Any]:
+def to_notion_properties(manifest: dict[str, Any], content_sha: str) -> dict[str, Any]:
     """
     Map manifest → Notion properties.
 
@@ -235,7 +235,7 @@ def to_notion_properties(manifest: Dict[str, Any], content_sha: str) -> Dict[str
             "multi_select": feat_select
         },
         "APIs": {
-            "rich_text": [{"text": {"content": "\n".join(api_lines)[:2000] or "—"}}]
+            "rich_text": [{"text": {"content": "\n".join(api_lines)[:2000] or "-"}}]
         },
         "Provenance SHA": {
             "rich_text": [{"text": {"content": content_sha}}]
@@ -255,18 +255,18 @@ def to_notion_properties(manifest: Dict[str, Any], content_sha: str) -> Dict[str
     return props
 
 
-def to_notion_blocks(manifest: Dict[str, Any]) -> List[Dict[str, Any]]:
+def to_notion_blocks(manifest: dict[str, Any]) -> list[dict[str, Any]]:
     """Generate Notion blocks for observed metrics (optional rich content)"""
     perf = manifest.get("performance", {}).get("observed", {})
     if not perf:
         return []
 
     rows = [
-        f"p50: {perf.get('latency_p50_ms', '—')} ms",
-        f"p95: {perf.get('latency_p95_ms', '—')} ms",
-        f"p99: {perf.get('latency_p99_ms', '—')} ms",
-        f"env: {perf.get('env_fingerprint', '—')}",
-        f"observed_at: {perf.get('observed_at', '—')}",
+        f"p50: {perf.get('latency_p50_ms', '-')} ms",
+        f"p95: {perf.get('latency_p95_ms', '-')} ms",
+        f"p99: {perf.get('latency_p99_ms', '-')} ms",
+        f"env: {perf.get('env_fingerprint', '-')}",
+        f"observed_at: {perf.get('observed_at', '-')}",
     ]
 
     text = "📊 Observed Metrics\n" + "\n".join(rows)
@@ -282,7 +282,7 @@ def to_notion_blocks(manifest: Dict[str, Any]) -> List[Dict[str, Any]]:
     }]
 
 
-def load_manifests(root: Path, selection: str | None) -> List[Path]:
+def load_manifests(root: Path, selection: str | None) -> list[Path]:
     """Find manifests to sync"""
     paths = [
         m for m in root.rglob("module.manifest.json")
@@ -385,7 +385,7 @@ def main():
 
         # Dry-run: show diff preview
         if args.dry_run and not unchanged:
-            before = f"Module: {module}\nSHA: {current_sha or '—'}"
+            before = f"Module: {module}\nSHA: {current_sha or '-'}"
             after = f"Module: {module}\nSHA: {sha}\nProps:\n{json.dumps(props, indent=2)}"
             preview = md_diff(before, after)
             print(preview or f"~ {module}: would {action}")

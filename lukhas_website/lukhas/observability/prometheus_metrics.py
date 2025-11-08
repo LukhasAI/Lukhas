@@ -17,11 +17,10 @@ import threading
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 try:
     from prometheus_client import (
-        CONTENT_TYPE_LATEST,  # TODO: prometheus_client.CONTENT_TYPE...
         CollectorRegistry,
         Counter,
         Gauge,
@@ -641,7 +640,7 @@ class LUKHASMetrics:
             buckets=[1, 2, 3, 4, 5],
         )
 
-    def record_system_info(self, info: Dict[str, str]):
+    def record_system_info(self, info: dict[str, str]):
         """Record system information"""
         if self.enabled:
             self.system_info.labels(lane=self.lane).info(info)
@@ -716,7 +715,7 @@ class LUKHASMetrics:
                 lane=self.lane,
             ).observe(latency)
 
-    def record_memory_stats(self, items_by_type: Dict[str, int], size_by_component: Dict[str, int]):
+    def record_memory_stats(self, items_by_type: dict[str, int], size_by_component: dict[str, int]):
         """Record memory system statistics"""
         if not self.enabled:
             return
@@ -732,7 +731,7 @@ class LUKHASMetrics:
         operation: str,
         success: bool,
         compression_ratio: Optional[float] = None,
-        active_counts: Optional[Dict[str, int]] = None,
+        active_counts: Optional[dict[str, int]] = None,
     ):
         """Record memory fold operation"""
         if not self.enabled:
@@ -831,7 +830,7 @@ class LUKHASMetrics:
                 lane=self.lane,
             ).set(current_rate)
 
-    def record_plugin_stats(self, plugin_counts: Dict[str, Dict[str, int]]):
+    def record_plugin_stats(self, plugin_counts: dict[str, dict[str, int]]):
         """Record plugin registry statistics"""
         if not self.enabled:
             return
@@ -936,7 +935,7 @@ class LUKHASMetrics:
             uptime = time.time() - self._start_time
             self.system_uptime.labels(lane=self.lane).set(uptime)
 
-    def get_metrics_summary(self) -> Dict[str, Any]:
+    def get_metrics_summary(self) -> dict[str, Any]:
         """Get summary of current metrics state"""
         if not self.enabled:
             return {"enabled": False, "reason": "Prometheus client not available"}

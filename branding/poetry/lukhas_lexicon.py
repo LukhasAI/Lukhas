@@ -15,7 +15,7 @@ class LUKHASLexicon:
     """
 
     # The Lambda System - Unique to LUKHAS
-    LAMBDA_SYSTEM = {
+    LAMBDA_SYSTEM = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_poetry_lukhas_lexicon_py_L18"}
         "markers": ["ΛMIRROR", "ΛECHO", "ΛTRACE", "ΛVAULT", "ΛFOLD", "ΛDRIFT", "ΛGUARD"],
         "concepts": [
             "Lambda Mirror recursion",
@@ -29,7 +29,7 @@ class LUKHASLexicon:
     }
 
     # Memory Folding - Core LUKHAS Innovation
-    MEMORY_FOLDING = {
+    MEMORY_FOLDING = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_poetry_lukhas_lexicon_py_L32"}
         "operations": ["fold", "unfold", "refold", "misfold", "cascade", "tessellate"],
         "structures": [
             "memory fold",
@@ -55,7 +55,7 @@ class LUKHASLexicon:
     }
 
     # Consciousness States - Unique Descriptions
-    CONSCIOUSNESS_STATES = {
+    CONSCIOUSNESS_STATES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_poetry_lukhas_lexicon_py_L58"}
         "awareness": [
             "nascent awareness",
             "liminal consciousness",
@@ -83,7 +83,7 @@ class LUKHASLexicon:
     }
 
     # Bio-Inspired Terms - Actually Used
-    BIO_INSPIRED = {
+    BIO_INSPIRED = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_poetry_lukhas_lexicon_py_L86"}
         "neural": [
             "synaptic plasticity",
             "neuroplastic adaptation",
@@ -111,7 +111,7 @@ class LUKHASLexicon:
     }
 
     # Quantum-Inspired - Not Generic Quantum
-    QUANTUM_INSPIRED = {
+    QUANTUM_INSPIRED = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_poetry_lukhas_lexicon_py_L114"}
         "states": [
             "superposition space",
             "entangled consciousness",
@@ -139,7 +139,7 @@ class LUKHASLexicon:
     }
 
     # Constellation Framework Specific
-    CONSTELLATION_FRAMEWORK = {
+    CONSTELLATION_FRAMEWORK = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_poetry_lukhas_lexicon_py_L142"}
         "components": ["Identity", "Consciousness", "Guardian"],
         "identity": ["ΛID", "identity resonance", "self-recognition signature"],
         "guardian": ["drift detection", "ethical guardian", "value alignment"],
@@ -147,7 +147,7 @@ class LUKHASLexicon:
     }
 
     # Emotional Topology - VAD Model
-    EMOTIONAL_TOPOLOGY = {
+    EMOTIONAL_TOPOLOGY = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_poetry_lukhas_lexicon_py_L150"}
         "dimensions": ["valence axis", "arousal spectrum", "dominance gradient"],
         "states": [
             "emotional resonance",
@@ -168,7 +168,7 @@ class LUKHASLexicon:
     }
 
     # Process Verbs - Unique to LUKHAS
-    PROCESS_VERBS = {
+    PROCESS_VERBS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_poetry_lukhas_lexicon_py_L171"}
         "memory": ["fold", "cascade", "tessellate", "crystallize", "coalesce"],
         "consciousness": ["resonate", "oscillate", "bifurcate", "converge", "awaken"],
         "quantum": ["entangle", "collapse", "superpose", "decohere", "tunnel"],
@@ -176,7 +176,7 @@ class LUKHASLexicon:
     }
 
     # Compound Concepts - Uniquely LUKHAS
-    COMPOUND_CONCEPTS = [
+    COMPOUND_CONCEPTS = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_poetry_lukhas_lexicon_py_L179"}
         "fold-space navigation",
         "cascade prevention threshold",
         "symbolic proteome folding",

@@ -1,16 +1,20 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.ERN Endocrine System Integration
 Connects emotional regulation to biological hormone simulation
 """
 
+import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
 from core.common import get_logger
+
+from .vivox_ern_core import RegulationResponse, RegulationStrategy, VADVector
+
+logger = logging.getLogger(__name__)
+
+
 
 # Import endocrine system
 try:
@@ -42,7 +46,6 @@ except ImportError:
         ENDORPHIN = "endorphin"
 
 
-from .vivox_ern_core import RegulationResponse, RegulationStrategy, VADVector
 
 logger = get_logger(__name__)
 
@@ -396,10 +399,9 @@ class VIVOXEndocrineIntegration:
             # Work environment - modulate stress response
             if HormoneType.CORTISOL in modulated:
                 modulated[HormoneType.CORTISOL] *= 1.15
-        elif environment in ["home", "personal"]:
+        elif environment in ['home', 'personal'] and HormoneType.OXYTOCIN in modulated:
             # Home environment - boost comfort hormones
-            if HormoneType.OXYTOCIN in modulated:
-                modulated[HormoneType.OXYTOCIN] *= 1.2
+            modulated[HormoneType.OXYTOCIN] *= 1.2
 
         # Stress level context
         stress_level = context.get("stress_level", 0.5)
@@ -433,10 +435,9 @@ class VIVOXEndocrineIntegration:
                     # High levels - reduce further increases
                     if trigger_amount > 0:
                         adjusted_triggers[hormone] = trigger_amount * 0.7
-                elif current_level < baseline * 0.5:
+                elif current_level < baseline * 0.5 and trigger_amount > 0:
                     # Low levels - boost increases
-                    if trigger_amount > 0:
-                        adjusted_triggers[hormone] = trigger_amount * 1.3
+                    adjusted_triggers[hormone] = trigger_amount * 1.3
 
                 # Apply sensitivity scaling
                 adjusted_triggers[hormone] *= self.feedback_sensitivity

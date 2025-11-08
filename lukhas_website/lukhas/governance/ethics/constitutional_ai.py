@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-import logging
 
-log = logging.getLogger(__name__)
 """
 LUKHAS Production Constitutional AI Framework
 Enterprise-grade constitutional AI implementation for production deployment
@@ -9,6 +7,8 @@ Enterprise-grade constitutional AI implementation for production deployment
 This module provides the production-ready constitutional AI safety framework
 that maintains <0.15 drift threshold and ensures enterprise compliance.
 """
+
+import logging
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -16,6 +16,9 @@ from enum import Enum
 from typing import Any, Optional
 
 from core.common.logger import get_logger
+
+log = logging.getLogger(__name__)
+
 
 logger = get_logger(__name__)
 

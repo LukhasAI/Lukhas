@@ -21,7 +21,7 @@ import hashlib
 import logging
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -109,7 +109,7 @@ class IntrospectionResponse:
     zone: str | None = None
     tier_level: int | None = None
     namespace: str | None = None
-    permissions: List[str] | None = None
+    permissions: list[str] | None = None
     guardian_approved: bool | None = None
     validation_time_ms: float | None = None
 
@@ -135,11 +135,11 @@ class RateLimiter:
         """
         self.requests_per_minute = requests_per_minute
         self.burst_capacity = burst_capacity
-        self._request_history: Dict[str, List[float]] = {}
-        self._burst_counts: Dict[str, int] = {}
-        self._last_reset: Dict[str, float] = {}
+        self._request_history: dict[str, list[float]] = {}
+        self._burst_counts: dict[str, int] = {}
+        self._last_reset: dict[str, float] = {}
 
-    def check_rate_limit(self, client_key: str) -> tuple[bool, Dict[str, Any]]:
+    def check_rate_limit(self, client_key: str) -> tuple[bool, dict[str, Any]]:
         """
         Check if client is within rate limits.
 
@@ -231,10 +231,10 @@ class TokenIntrospectionService:
         self._component_id = "TokenIntrospectionService"
 
         # Response cache to reduce load
-        self._response_cache: Dict[str, tuple[IntrospectionResponse, float]] = {}
+        self._response_cache: dict[str, tuple[IntrospectionResponse, float]] = {}
 
         # Client authentication cache
-        self._client_auth_cache: Dict[str, float] = {}
+        self._client_auth_cache: dict[str, float] = {}
 
         logger.info(f"TokenIntrospectionService initialized with cache_ttl={cache_ttl_seconds}s")
 
@@ -292,20 +292,19 @@ class TokenIntrospectionService:
                 span.set_attribute("cache_hit", False)
 
                 # Authenticate client if credentials provided
-                if request.client_id and request.client_secret:
-                    if not self._authenticate_client(request.client_id, request.client_secret):
-                        span.set_attribute("client_auth_failed", True)
-                        introspection_requests_total.labels(
-                            endpoint="introspect",
-                            result="unauthorized",
-                            client_type="authenticated"
-                        ).inc()
+                if (request.client_id and request.client_secret) and (not self._authenticate_client(request.client_id, request.client_secret)):
+                    span.set_attribute("client_auth_failed", True)
+                    introspection_requests_total.labels(
+                        endpoint="introspect",
+                        result="unauthorized",
+                        client_type="authenticated"
+                    ).inc()
 
-                        return IntrospectionResponse(
-                            active=False,
-                            error="invalid_client",
-                            error_description="Client authentication failed"
-                        )
+                    return IntrospectionResponse(
+                        active=False,
+                        error="invalid_client",
+                        error_description="Client authentication failed"
+                    )
 
                 # Create validation context
                 validation_context = ValidationContext(
@@ -500,7 +499,7 @@ class TokenIntrospectionService:
             alias=auth_result.user_id
         )
 
-    def get_service_stats(self) -> Dict[str, Any]:
+    def get_service_stats(self) -> dict[str, Any]:
         """Get service statistics and health metrics."""
         return {
             "component": self._component_id,

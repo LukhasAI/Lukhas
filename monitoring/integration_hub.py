@@ -13,7 +13,12 @@ import logging
 import time
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
+
+from resilience.circuit_breaker import (
+    CircuitBreakerConfig,
+    CircuitBreakerRegistry,
+)
 
 from resilience.circuit_breaker import (
     CircuitBreakerConfig,
@@ -92,14 +97,14 @@ class LUKHASMonitoringHub:
 
         # State tracking
         self.is_running = False
-        self.background_tasks: List[asyncio.Task] = []
+        self.background_tasks: list[asyncio.Task] = []
 
         # Integration components
-        self.component_correlations: Dict[str, Set[str]] = {}
-        self.cross_system_events: List[Dict[str, Any]] = []
+        self.component_correlations: dict[str, set[str]] = {}
+        self.cross_system_events: list[dict[str, Any]] = []
 
         # Dashboard state
-        self.dashboard_state: Dict[str, Any] = {}
+        self.dashboard_state: dict[str, Any] = {}
         self.last_dashboard_update = 0.0
 
         # Setup initial integrations
@@ -221,7 +226,7 @@ class LUKHASMonitoringHub:
         # Track metrics that might indicate system stress
         stress_metrics = ["cpu_usage", "memory_usage", "response_time", "error_rate"]
 
-        if any(stress_metric in metric.metric_name.lower() for stress_metric in stress_metrics):
+        if any(stress_metric in metric.metric_name.lower() for stress_metric in stress_metrics):  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_monitoring_integration_hub_py_L223"}
             # Check if this metric indicates potential issues
             if ((metric.metric_name in ["cpu_usage", "memory_usage"] and metric.value > 80) or
                 (metric.metric_name == "response_time" and metric.value > 1000) or
@@ -301,7 +306,7 @@ class LUKHASMonitoringHub:
 
                 raise
 
-    async def get_unified_dashboard_data(self) -> Dict[str, Any]:
+    async def get_unified_dashboard_data(self) -> dict[str, Any]:
         """Get unified dashboard data from all monitoring systems."""
 
         current_time = time.time()
@@ -343,9 +348,9 @@ class LUKHASMonitoringHub:
             self.dashboard_state["error"] = str(e)
 
     def _calculate_overall_status(self,
-                                telemetry_overview: Dict[str, Any],
-                                health_overview: Dict[str, Any],
-                                circuit_breaker_stats: Dict[str, Any]) -> str:
+                                telemetry_overview: dict[str, Any],
+                                health_overview: dict[str, Any],
+                                circuit_breaker_stats: dict[str, Any]) -> str:
         """Calculate overall system status from all monitoring data."""
 
         # Health system status weights the most
@@ -374,7 +379,7 @@ class LUKHASMonitoringHub:
         else:
             return "critical"
 
-    def _generate_performance_summary(self) -> Dict[str, Any]:
+    def _generate_performance_summary(self) -> dict[str, Any]:
         """Generate performance summary across all systems."""
 
         # Get recent metrics from telemetry

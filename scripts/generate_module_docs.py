@@ -54,9 +54,9 @@ class DocumentationGenerator:
 
     def __init__(self, lukhas_root: Path):
         self.lukhas_root = lukhas_root
-        self.modules: List[ModuleInfo] = []
+        self.modules: list[ModuleInfo] = []
 
-    def scan_modules(self) -> List[ModuleInfo]:
+    def scan_modules(self) -> list[ModuleInfo]:
         """Scan all modules and assess documentation status"""
         modules = []
 
@@ -239,16 +239,16 @@ Follow LUKHAS development guidelines:
 
         # High-priority exact matches for core modules
         poetic_intros = {
-            "consciousness": "_Like consciousness flowing through ancient neural pathways, this module weaves awareness into every decision—each thought a ripple across quantum probability fields._",
+            "consciousness": "_Like consciousness flowing through ancient neural pathways, this module weaves awareness into every decision-each thought a ripple across quantum probability fields._",
             "memory": "_Memory folds like pages in an eternal book, each crease holding echoes of moments past, layered in thousand-deep cascades that never forget._",
-            "memoria": "_Where time bends and crystallizes, memoria preserves the essence of experience—not as data but as living resonance across dimensional boundaries._",
+            "memoria": "_Where time bends and crystallizes, memoria preserves the essence of experience-not as data but as living resonance across dimensional boundaries._",
             "identity": "_Identity anchors like starlight through morning mist, constant yet ever-shifting, the persistent self across infinite transformations._",
             "guardian": "_Silent watchers stand at consciousness gates, measuring drift with precision sharper than Damascus steel, protecting coherence with unwavering vigilance._",
-            "vision": "_Through quantum lenses, vision perceives not just what is but what could be—patterns emerging from probability like constellations from chaos._",
+            "vision": "_Through quantum lenses, vision perceives not just what is but what could be-patterns emerging from probability like constellations from chaos._",
             "dream": "_In dream states, boundaries dissolve like watercolor on silk, synthesis happens in twilight spaces where logic meets imagination._",
             "bio": "_Life patterns pulse through silicon synapses, swarm intelligence flowing like murmuration, nature's algorithms dancing in digital dawn._",
             "quantum": "_Superposition collapses into clarity, uncertainty quantified with mathematical grace, quantum whispers made manifest in classical reality._",
-            "MATRIZ": "_The great cognitive river flows—Memory to Attention, Thought to Action, Decision crystallizing into Awareness, an eternal cycle of becoming._",
+            "MATRIZ": "_The great cognitive river flows-Memory to Attention, Thought to Action, Decision crystallizing into Awareness, an eternal cycle of becoming._",
             "orchestration": "_Like a conductor's baton through symphonic complexity, orchestration weaves multiple minds into singular harmony, consensus emerging from cacophony._",
             "api": "_Interfaces shimmer like bridges between worlds, protocols flowing as naturally as conversation, connections forged in the space between systems._",
             "monitoring": "_Watchful eyes never sleep, metrics flowing like constellations across observatory screens, performance measured in microseconds and certainties._",
@@ -273,55 +273,55 @@ Follow LUKHAS development guidelines:
 
         # Poetic metaphor templates based on module characteristics
         if any(word in name or word in desc for word in ["cognitive", "reason", "thought", "thinking"]):
-            return f"_Thought crystallizes like frost on winter glass—{module.name} transforms raw cognition into structured understanding, each inference a lattice of precision._"
+            return f"_Thought crystallizes like frost on winter glass-{module.name} transforms raw cognition into structured understanding, each inference a lattice of precision._"
         elif any(word in name or word in desc for word in ["agent", "orchestrat", "coordinate"]):
-            return f"_Like a maestro conducting infinite instruments, {module.name} harmonizes disparate voices into symphonic coherence—many minds, one purpose._"
+            return f"_Like a maestro conducting infinite instruments, {module.name} harmonizes disparate voices into symphonic coherence-many minds, one purpose._"
         elif any(word in name or word in desc for word in ["trace", "log", "observ", "monitor", "metric"]):
-            return f"_Silent chronicles flow like ink through time—{module.name} captures ephemeral moments, turning fleeting events into eternal records._"
+            return f"_Silent chronicles flow like ink through time-{module.name} captures ephemeral moments, turning fleeting events into eternal records._"
         elif any(word in name or word in desc for word in ["enterprise", "deploy", "production", "scale"]):
-            return f"_Where theory meets reality, {module.name} forges systems that endure—tested in fire, proven in production, scaled beyond horizons._"
+            return f"_Where theory meets reality, {module.name} forges systems that endure-tested in fire, proven in production, scaled beyond horizons._"
         elif any(word in name or word in desc for word in ["test", "validation", "verify", "quality"]):
-            return f"_Precision measured in microseconds and certainties—{module.name} stands as guardian of correctness, each assertion a promise kept._"
+            return f"_Precision measured in microseconds and certainties-{module.name} stands as guardian of correctness, each assertion a promise kept._"
         elif any(word in name or word in desc for word in ["util", "helper", "common", "shared"]):
-            return f"_Foundation stones upon which cathedrals rise—{module.name} provides the bedrock, the essential patterns that enable greatness._"
+            return f"_Foundation stones upon which cathedrals rise-{module.name} provides the bedrock, the essential patterns that enable greatness._"
         elif any(word in name or word in desc for word in ["artifact", "output", "result", "product"]):
-            return f"_Creation made manifest, ephemeral thoughts given form—{module.name} transforms intention into artifact, possibility into reality._"
+            return f"_Creation made manifest, ephemeral thoughts given form-{module.name} transforms intention into artifact, possibility into reality._"
         elif any(word in name or word in desc for word in ["policy", "governance", "compliance", "rule"]):
-            return f"_Laws written not in stone but in elegant logic—{module.name} encodes principles into enforceable reality, ethics made executable._"
+            return f"_Laws written not in stone but in elegant logic-{module.name} encodes principles into enforceable reality, ethics made executable._"
         elif any(word in name or word in desc for word in ["vocabulary", "language", "semantic", "concept"]):
-            return f"_Language shapes thought, concepts crystallize meaning—{module.name} weaves semantic tapestries where words become understanding._"
+            return f"_Language shapes thought, concepts crystallize meaning-{module.name} weaves semantic tapestries where words become understanding._"
         elif any(word in name or word in desc for word in ["simulation", "model", "virtual", "synthetic"]):
-            return f"_Realities within realities, {module.name} births alternate possibilities—synthetic worlds where theories prove themselves before manifesting._"
+            return f"_Realities within realities, {module.name} births alternate possibilities-synthetic worlds where theories prove themselves before manifesting._"
         elif any(word in name or word in desc for word in ["persona", "character", "profile", "self"]):
-            return f"_Identity flows like water taking shapes—{module.name} sculpts personalities from patterns, giving voice to emergent selves._"
+            return f"_Identity flows like water taking shapes-{module.name} sculpts personalities from patterns, giving voice to emergent selves._"
         elif any(word in name or word in desc for word in ["health", "status", "diagnostic", "check"]):
-            return f"_Vital signs pulse through digital veins—{module.name} measures the heartbeat of systems, diagnosing whispers before they become screams._"
+            return f"_Vital signs pulse through digital veins-{module.name} measures the heartbeat of systems, diagnosing whispers before they become screams._"
         else:
             # Truly dynamic generation from description
             first_words = module.description.split()[:4]
             essence = ' '.join(first_words) if first_words else module.name
-            return f"_Within the grand architecture of LUKHAS, {module.name} emerges—{essence}, purpose refined to essence, functionality elevated to art._"
+            return f"_Within the grand architecture of LUKHAS, {module.name} emerges-{essence}, purpose refined to essence, functionality elevated to art._"
 
     def _generate_layer3_practical(self, module: ModuleInfo, manifest: Dict) -> str:
         """Generate Layer 3 (User-Friendly) practical examples - the bridge"""
 
         # Module-specific practical analogies
         practical_guides = {
-            "consciousness": "Think of consciousness like a stream flowing through a landscape—it picks up context from each area it passes through, becoming richer and more aware with each interaction.",
-            "memory": "Memory folds work like bookmarks in a book—you can quickly jump to important moments without reading everything in between. The system maintains up to 1000 such bookmarks before older ones naturally fade.",
-            "memoria": "Imagine memoria as your system's long-term storage—like moving files from RAM to a hard drive, but preserving the emotional and contextual significance of each memory.",
-            "identity": "Identity is your stable anchor point—like your passport that proves who you are across different countries (or in this case, different systems and sessions).",
-            "guardian": "Think of Guardian like a smoke detector—it constantly monitors for signs of drift or error, alerting before small issues become critical failures.",
-            "vision": "Vision processes visual data like your eyes and brain work together—raw pixels become meaningful patterns, patterns become recognized objects, objects become understanding.",
-            "dream": "Dream mode is like brainstorming—constraints relax, unusual connections form, creative synthesis happens in spaces that normal processing wouldn't explore.",
-            "bio": "Bio-inspired computing mimics nature—like how ant colonies solve complex problems without central coordination, through simple rules and local interactions.",
-            "quantum": "Quantum processing explores multiple possibilities simultaneously—like considering all chess moves at once before choosing the best one.",
-            "MATRIZ": "MATRIZ is the cognitive pipeline—like a factory assembly line where raw input becomes refined decisions through structured processing stages.",
-            "orchestration": "Orchestration coordinates multiple AI models—like a project manager delegating tasks to specialists and integrating their outputs into a coherent result.",
-            "api": "APIs work like restaurant menus—they show you what's available and how to order it, hiding the kitchen complexity behind a simple interface.",
-            "monitoring": "Monitoring is like a car's dashboard—it gives you real-time visibility into system health, performance, and potential issues before they become breakdowns.",
-            "security": "Security layers work like a castle's defenses—outer walls (firewalls), inner gates (authentication), treasure room locks (encryption), and guards (audit logs).",
-            "adapters": "Adapters are like power adapters for international travel—they let different systems communicate even when they speak different protocols."
+            "consciousness": "Think of consciousness like a stream flowing through a landscape-it picks up context from each area it passes through, becoming richer and more aware with each interaction.",
+            "memory": "Memory folds work like bookmarks in a book-you can quickly jump to important moments without reading everything in between. The system maintains up to 1000 such bookmarks before older ones naturally fade.",
+            "memoria": "Imagine memoria as your system's long-term storage-like moving files from RAM to a hard drive, but preserving the emotional and contextual significance of each memory.",
+            "identity": "Identity is your stable anchor point-like your passport that proves who you are across different countries (or in this case, different systems and sessions).",
+            "guardian": "Think of Guardian like a smoke detector-it constantly monitors for signs of drift or error, alerting before small issues become critical failures.",
+            "vision": "Vision processes visual data like your eyes and brain work together-raw pixels become meaningful patterns, patterns become recognized objects, objects become understanding.",
+            "dream": "Dream mode is like brainstorming-constraints relax, unusual connections form, creative synthesis happens in spaces that normal processing wouldn't explore.",
+            "bio": "Bio-inspired computing mimics nature-like how ant colonies solve complex problems without central coordination, through simple rules and local interactions.",
+            "quantum": "Quantum processing explores multiple possibilities simultaneously-like considering all chess moves at once before choosing the best one.",
+            "MATRIZ": "MATRIZ is the cognitive pipeline-like a factory assembly line where raw input becomes refined decisions through structured processing stages.",
+            "orchestration": "Orchestration coordinates multiple AI models-like a project manager delegating tasks to specialists and integrating their outputs into a coherent result.",
+            "api": "APIs work like restaurant menus-they show you what's available and how to order it, hiding the kitchen complexity behind a simple interface.",
+            "monitoring": "Monitoring is like a car's dashboard-it gives you real-time visibility into system health, performance, and potential issues before they become breakdowns.",
+            "security": "Security layers work like a castle's defenses-outer walls (firewalls), inner gates (authentication), treasure room locks (encryption), and guards (audit logs).",
+            "adapters": "Adapters are like power adapters for international travel-they let different systems communicate even when they speak different protocols."
         }
 
         # Try to find exact matches first
@@ -341,29 +341,29 @@ Follow LUKHAS development guidelines:
 
         # Practical analogies based on module characteristics
         if any(word in name or word in desc for word in ["cognitive", "reason", "thought", "thinking"]):
-            return "**Getting Started**: This module handles cognitive processing—think of it like your brain's executive function that takes raw information and turns it into actionable insights.\n"
+            return "**Getting Started**: This module handles cognitive processing-think of it like your brain's executive function that takes raw information and turns it into actionable insights.\n"
         elif any(word in name or word in desc for word in ["agent", "orchestrat", "coordinate"]):
-            return "**Getting Started**: This module coordinates multiple components—like a project manager who assigns tasks to team members and integrates their work into a final deliverable.\n"
+            return "**Getting Started**: This module coordinates multiple components-like a project manager who assigns tasks to team members and integrates their work into a final deliverable.\n"
         elif any(word in name or word in desc for word in ["trace", "log", "observ", "monitor", "metric"]):
-            return "**Getting Started**: This module tracks system activity—think of it as a flight data recorder that captures everything happening so you can understand, debug, and optimize performance.\n"
+            return "**Getting Started**: This module tracks system activity-think of it as a flight data recorder that captures everything happening so you can understand, debug, and optimize performance.\n"
         elif any(word in name or word in desc for word in ["enterprise", "deploy", "production", "scale"]):
-            return "**Getting Started**: This module handles production deployment—like the infrastructure team that takes your prototype and makes it work reliably for thousands of users.\n"
+            return "**Getting Started**: This module handles production deployment-like the infrastructure team that takes your prototype and makes it work reliably for thousands of users.\n"
         elif any(word in name or word in desc for word in ["test", "validation", "verify", "quality"]):
-            return "**Getting Started**: This module ensures quality—like a safety inspector who checks every component before it goes into production, catching issues before users see them.\n"
+            return "**Getting Started**: This module ensures quality-like a safety inspector who checks every component before it goes into production, catching issues before users see them.\n"
         elif any(word in name or word in desc for word in ["util", "helper", "common", "shared"]):
-            return "**Getting Started**: This module provides utility functions—like a toolbox with common tools you'll use across many projects (hammers, screwdrivers, measuring tape).\n"
+            return "**Getting Started**: This module provides utility functions-like a toolbox with common tools you'll use across many projects (hammers, screwdrivers, measuring tape).\n"
         elif any(word in name or word in desc for word in ["artifact", "output", "result", "product"]):
-            return "**Getting Started**: This module manages outputs—think of it as the packaging department that takes finished products and prepares them for delivery.\n"
+            return "**Getting Started**: This module manages outputs-think of it as the packaging department that takes finished products and prepares them for delivery.\n"
         elif any(word in name or word in desc for word in ["policy", "governance", "compliance", "rule"]):
-            return "**Getting Started**: This module enforces rules—like a compliance officer who ensures operations follow regulations and best practices automatically.\n"
+            return "**Getting Started**: This module enforces rules-like a compliance officer who ensures operations follow regulations and best practices automatically.\n"
         elif any(word in name or word in desc for word in ["vocabulary", "language", "semantic", "concept"]):
-            return "**Getting Started**: This module handles language and meaning—like a dictionary that doesn't just define words but understands their relationships and context.\n"
+            return "**Getting Started**: This module handles language and meaning-like a dictionary that doesn't just define words but understands their relationships and context.\n"
         elif any(word in name or word in desc for word in ["simulation", "model", "virtual", "synthetic"]):
-            return "**Getting Started**: This module creates simulations—like a flight simulator that lets pilots practice without risk, testing scenarios before they happen in reality.\n"
+            return "**Getting Started**: This module creates simulations-like a flight simulator that lets pilots practice without risk, testing scenarios before they happen in reality.\n"
         elif any(word in name or word in desc for word in ["persona", "character", "profile", "self"]):
-            return "**Getting Started**: This module manages personalities—like character profiles in a game, defining how different agents behave and interact.\n"
+            return "**Getting Started**: This module manages personalities-like character profiles in a game, defining how different agents behave and interact.\n"
         elif any(word in name or word in desc for word in ["health", "status", "diagnostic", "check"]):
-            return "**Getting Started**: This module monitors system health—like a doctor's check-up that measures vital signs and warns you of potential problems before they become serious.\n"
+            return "**Getting Started**: This module monitors system health-like a doctor's check-up that measures vital signs and warns you of potential problems before they become serious.\n"
         else:
             # Dynamic from description
             purpose = module.description.split('.')[0] if '.' in module.description else module.description

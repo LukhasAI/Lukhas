@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS — Module Sitemap Sync (T4/0.01%)
+LUKHAS - Module Sitemap Sync (T4/0.01%)
 
 Purpose
 -------
@@ -22,7 +22,7 @@ What it enforces (aligned with artifacts/module_sitemap.md Draft v3):
 - Metadata enrichment (added if missing, never overwriting explicit existing values):
     module.json:
       name, description, version
-      lane (L0–L5)
+      lane (L0-L5)
       matriz_contract (path)
       owner {team, codeowners}
       tags []
@@ -65,7 +65,7 @@ import json
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 # ---------- Defaults / Constants ----------
 
@@ -105,7 +105,7 @@ def _stable_module_id(module_name: str, root: Path) -> str:
 def _utc_ts() -> str:
     return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
 
-def _load_json(p: Path) -> Dict[str, Any] | None:
+def _load_json(p: Path) -> dict[str, Any] | None:
     try:
         if not p.exists():
             return None
@@ -114,13 +114,13 @@ def _load_json(p: Path) -> Dict[str, Any] | None:
     except Exception:
         return None
 
-def _dump_json(p: Path, obj: Dict[str, Any]) -> None:
+def _dump_json(p: Path, obj: dict[str, Any]) -> None:
     p.parent.mkdir(parents=True, exist_ok=True)
     with p.open("w", encoding="utf-8") as f:
         json.dump(obj, f, indent=2, sort_keys=False)
         f.write("\n")
 
-def _ensure_dirs(mod_dir: Path, write: bool, diffs: List[str]) -> Dict[str, bool]:
+def _ensure_dirs(mod_dir: Path, write: bool, diffs: list[str]) -> dict[str, bool]:
     created = {}
     for d in REQUIRED_DIRS:
         path = mod_dir / d
@@ -136,7 +136,7 @@ def _ensure_dirs(mod_dir: Path, write: bool, diffs: List[str]) -> Dict[str, bool
             created[d] = False
     return created
 
-def _merge(a: Dict[str, Any], b: Dict[str, Any]) -> Dict[str, Any]:
+def _merge(a: dict[str, Any], b: dict[str, Any]) -> dict[str, Any]:
     """
     Shallow merge: preserve values in a; fill missing from b. Never delete keys.
     """
@@ -146,7 +146,7 @@ def _merge(a: Dict[str, Any], b: Dict[str, Any]) -> Dict[str, Any]:
             out[k] = v
     return out
 
-def _manifest_defaults(module_name: str, mod_dir: Path, root: Path) -> Dict[str, Any]:
+def _manifest_defaults(module_name: str, mod_dir: Path, root: Path) -> dict[str, Any]:
     matriz_contract = _guess_matriz_contract(mod_dir)
     lane_guess = "L2"  # neutral default
     return {
@@ -170,7 +170,7 @@ def _manifest_defaults(module_name: str, mod_dir: Path, root: Path) -> Dict[str,
         "contracts": [matriz_contract] if matriz_contract else []
     }
 
-def _module_schema_defaults(module_name: str) -> Dict[str, Any]:
+def _module_schema_defaults(module_name: str) -> dict[str, Any]:
     """
     Per-module descriptor with light, human-friendly fields.
     Not a global JSON-Schema draft; think of it as module-local schema/config index.
@@ -198,12 +198,12 @@ def _module_schema_defaults(module_name: str) -> Dict[str, Any]:
         }
     }
 
-def _normalize_module(mod_dir: Path, root: Path, write: bool) -> Tuple[bool, Dict[str, Any], List[str]]:
+def _normalize_module(mod_dir: Path, root: Path, write: bool) -> tuple[bool, dict[str, Any], list[str]]:
     """
     Returns (ok, status_dict, diffs[])
     """
-    diffs: List[str] = []
-    status: Dict[str, Any] = {"module": mod_dir.name, "path": mod_dir.as_posix()}
+    diffs: list[str] = []
+    status: dict[str, Any] = {"module": mod_dir.name, "path": mod_dir.as_posix()}
     # Skip non-directories or hidden/system folders
     if not mod_dir.is_dir():
         status["skipped"] = "not-a-directory"
@@ -285,8 +285,8 @@ def run(root: Path, write: bool, validate_only: bool) -> int:
         print(f"[ERROR] Root '{modules_root}' does not exist.", file=sys.stderr)
         return 1
 
-    all_status: List[Dict[str, Any]] = []
-    all_diffs: List[str] = []
+    all_status: list[dict[str, Any]] = []
+    all_diffs: list[str] = []
     failures = 0
 
     # Treat each immediate child of root as a module directory
@@ -302,7 +302,7 @@ def run(root: Path, write: bool, validate_only: bool) -> int:
     # Write artifacts
     _dump_json(SYNC_JSON, {"root": str(root), "generated_at": _utc_ts(), "modules": all_status})
     DIFF_MD.write_text(
-        "# Module Sitemap Sync — Diff Report\n\n"
+        "# Module Sitemap Sync - Diff Report\n\n"
         f"- root: `{root.as_posix()}`\n"
         f"- generated_at: `{_utc_ts()}`\n\n"
         + ("\n".join(all_diffs) if all_diffs else "_No changes_\n"),

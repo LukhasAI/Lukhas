@@ -15,7 +15,6 @@ import logging
 import sqlite3
 import sys
 from pathlib import Path
-from typing import Dict, List
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -32,9 +31,9 @@ class ToolsHealthChecker:
         self.tools_dir = self.project_root / "tools"
 
         # Health check results
-        self.results: Dict[str, Dict[str, any]] = {}
-        self.issues_found: List[str] = []
-        self.fixes_applied: List[str] = []
+        self.results: dict[str, dict[str, any]] = {}
+        self.issues_found: list[str] = []
+        self.fixes_applied: list[str] = []
 
     def log_info(self, message: str):
         """Log info message with optional verbose output"""
@@ -62,7 +61,7 @@ class ToolsHealthChecker:
             self.log_error(f"{description}: Missing at {file_path}")
             return False
 
-    def check_directory_structure(self) -> Dict[str, bool]:
+    def check_directory_structure(self) -> dict[str, bool]:
         """Check tools directory structure"""
         self.log_info("Checking tools directory structure...")
 
@@ -93,7 +92,7 @@ class ToolsHealthChecker:
 
         return results
 
-    def check_testing_tools(self) -> Dict[str, bool]:
+    def check_testing_tools(self) -> dict[str, bool]:
         """Check testing infrastructure tools"""
         self.log_info("Checking testing infrastructure...")
 
@@ -120,7 +119,7 @@ class ToolsHealthChecker:
 
         return results
 
-    def check_monitoring_tools(self) -> Dict[str, bool]:
+    def check_monitoring_tools(self) -> dict[str, bool]:
         """Check monitoring and alerting tools"""
         self.log_info("Checking monitoring and alerting system...")
 
@@ -158,7 +157,7 @@ class ToolsHealthChecker:
 
         return results
 
-    def check_devops_tools(self) -> Dict[str, bool]:
+    def check_devops_tools(self) -> dict[str, bool]:
         """Check DevOps and deployment tools"""
         self.log_info("Checking DevOps and deployment tools...")
 
@@ -183,7 +182,7 @@ class ToolsHealthChecker:
 
         return results
 
-    def check_dashboard_tools(self) -> Dict[str, bool]:
+    def check_dashboard_tools(self) -> dict[str, bool]:
         """Check dashboard and visualization tools"""
         self.log_info("Checking dashboard tools...")
 
@@ -198,7 +197,7 @@ class ToolsHealthChecker:
 
         return results
 
-    async def check_tool_imports(self) -> Dict[str, bool]:
+    async def check_tool_imports(self) -> dict[str, bool]:
         """Check if tools can be imported successfully"""
         self.log_info("Checking tool imports...")
 
@@ -227,7 +226,7 @@ class ToolsHealthChecker:
 
         return results
 
-    def check_external_dependencies(self) -> Dict[str, bool]:
+    def check_external_dependencies(self) -> dict[str, bool]:
         """Check external dependencies and optional packages"""
         self.log_info("Checking external dependencies...")
 
@@ -270,7 +269,7 @@ class ToolsHealthChecker:
 
         return results
 
-    def check_configuration_files(self) -> Dict[str, bool]:
+    def check_configuration_files(self) -> dict[str, bool]:
         """Check configuration file validity"""
         self.log_info("Checking configuration files...")
 
@@ -299,7 +298,7 @@ class ToolsHealthChecker:
 
         return results
 
-    async def run_comprehensive_health_check(self) -> Dict[str, Dict[str, any]]:
+    async def run_comprehensive_health_check(self) -> dict[str, dict[str, any]]:
         """Run comprehensive health check of all tools"""
         print("🔍 LUKHAS AI Tools Health Check")
         print("=" * 50)

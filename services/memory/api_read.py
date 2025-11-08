@@ -24,7 +24,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 from memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator, MemoryFoldType
 from memory.fold_system import MemoryFold
@@ -62,9 +62,9 @@ class SearchQuery:
     search_type: SearchType = SearchType.HYBRID
     max_results: int = 10
     min_similarity: float = 0.7
-    fold_types: Optional[Set[MemoryFoldType]] = None
-    tags: Optional[List[str]] = None
-    date_range: Optional[Tuple[datetime, datetime]] = None
+    fold_types: Optional[set[MemoryFoldType]] = None
+    tags: Optional[list[str]] = None
+    date_range: Optional[tuple[datetime, datetime]] = None
     sort_order: SortOrder = SortOrder.RELEVANCE_DESC
     include_metadata: bool = True
     query_id: str = field(default_factory=lambda: f"q_{uuid.uuid4().hex[:8]}")
@@ -78,20 +78,20 @@ class SearchResult:
     content: str
     similarity_score: float
     timestamp: datetime
-    tags: List[str]
-    metadata: Dict[str, Any]
-    embedding: Optional[List[float]] = None
+    tags: list[str]
+    metadata: dict[str, Any]
+    embedding: Optional[list[float]] = None
 
 
 @dataclass
 class SearchResponse:
     """Complete search response"""
     query_id: str
-    results: List[SearchResult]
+    results: list[SearchResult]
     total_results: int
     search_time_ms: float
     query: SearchQuery
-    processing_stats: Dict[str, Any] = field(default_factory=dict)
+    processing_stats: dict[str, Any] = field(default_factory=dict)
 
 
 class MemoryReadService:
@@ -125,7 +125,7 @@ class MemoryReadService:
         self.metrics = MemoryMetrics()
 
         # Query optimization
-        self.query_cache: Dict[str, Tuple[SearchResponse, float]] = {}
+        self.query_cache: dict[str, tuple[SearchResponse, float]] = {}
         self.cache_ttl_seconds = 300  # 5 minutes
 
         # Connection pool
@@ -184,10 +184,10 @@ class MemoryReadService:
             self.backpressure.release_token()
 
     async def get_top_k(self,
-                       embedding: List[float],
+                       embedding: list[float],
                        k: int = 10,
-                       fold_types: Optional[Set[MemoryFoldType]] = None,
-                       min_similarity: float = 0.0) -> List[SearchResult]:
+                       fold_types: Optional[set[MemoryFoldType]] = None,
+                       min_similarity: float = 0.0) -> list[SearchResult]:
         """
         Get top-K most similar memory folds by embedding.
         Target: p95 <100ms
@@ -247,10 +247,10 @@ class MemoryReadService:
             self.backpressure.release_token()
 
     async def list_memory_folds(self,
-                              fold_types: Optional[Set[MemoryFoldType]] = None,
-                              tags: Optional[List[str]] = None,
+                              fold_types: Optional[set[MemoryFoldType]] = None,
+                              tags: Optional[list[str]] = None,
                               limit: int = 100,
-                              offset: int = 0) -> List[SearchResult]:
+                              offset: int = 0) -> list[SearchResult]:
         """List memory folds with filtering and pagination"""
         start_time = time.perf_counter()
 
@@ -347,10 +347,10 @@ class MemoryReadService:
             raise
 
     async def _execute_top_k_query(self,
-                                  embedding: List[float],
+                                  embedding: list[float],
                                   k: int,
-                                  fold_types: Optional[Set[MemoryFoldType]],
-                                  min_similarity: float) -> List[SearchResult]:
+                                  fold_types: Optional[set[MemoryFoldType]],
+                                  min_similarity: float) -> list[SearchResult]:
         """Execute top-K similarity search"""
         filters = {}
         if fold_types:
@@ -397,10 +397,10 @@ class MemoryReadService:
         )
 
     async def _list_folds(self,
-                         fold_types: Optional[Set[MemoryFoldType]],
-                         tags: Optional[List[str]],
+                         fold_types: Optional[set[MemoryFoldType]],
+                         tags: Optional[list[str]],
                          limit: int,
-                         offset: int) -> List[SearchResult]:
+                         offset: int) -> list[SearchResult]:
         """List memory folds with filtering"""
         filters = {}
         if fold_types:
@@ -429,7 +429,7 @@ class MemoryReadService:
 
         return results
 
-    async def _generate_query_embedding(self, query_text: str) -> List[float]:
+    async def _generate_query_embedding(self, query_text: str) -> list[float]:
         """Generate embedding for query text"""
         # This would use the consciousness integrator or a dedicated embedding service
         if self.consciousness_integrator:
@@ -438,7 +438,7 @@ class MemoryReadService:
             # Fallback embedding (would need actual implementation)
             return [0.0] * 768  # Placeholder
 
-    def _build_filters(self, query: SearchQuery) -> Dict[str, Any]:
+    def _build_filters(self, query: SearchQuery) -> dict[str, Any]:
         """Build filter dictionary from search query"""
         filters = {}
 
@@ -456,7 +456,7 @@ class MemoryReadService:
 
         return filters
 
-    def _sort_results(self, results: List[SearchResult], sort_order: SortOrder) -> List[SearchResult]:
+    def _sort_results(self, results: list[SearchResult], sort_order: SortOrder) -> list[SearchResult]:
         """Sort search results by specified order"""
         if sort_order == SortOrder.RELEVANCE_DESC:
             return sorted(results, key=lambda r: r.similarity_score, reverse=True)
@@ -520,7 +520,7 @@ class MemoryReadService:
         ]
         return hashlib.sha256("|".join(key_parts).encode()).hexdigest()[:16]
 
-    def get_performance_metrics(self) -> Dict[str, Any]:
+    def get_performance_metrics(self) -> dict[str, Any]:
         """Get service performance metrics"""
         return {
             **self.metrics.get_metrics(),
@@ -530,7 +530,7 @@ class MemoryReadService:
             'cache_size': len(self.query_cache)
         }
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Service health check"""
         try:
             # Test vector store connection

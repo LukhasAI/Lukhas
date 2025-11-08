@@ -20,7 +20,6 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from typing import List, Tuple
 
 import psutil
 
@@ -53,7 +52,7 @@ class PreflightValidator:
         elif status in ["FAIL", "WARN"]:
             self.warnings.append(f"{category}.{name}: {details}")
 
-    def run_command(self, cmd: List[str], timeout: int = 10) -> Tuple[int, str, str]:
+    def run_command(self, cmd: list[str], timeout: int = 10) -> tuple[int, str, str]:
         """Execute command with timeout and capture output"""
         try:
             result = subprocess.run(

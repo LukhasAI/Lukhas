@@ -14,7 +14,6 @@ Based on proven patterns from 11 consecutive perfect eliminations.
 """
 from __future__ import annotations
 
-
 import re
 import subprocess
 from pathlib import Path

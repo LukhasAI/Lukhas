@@ -11,7 +11,7 @@ import re
 import time
 from typing import Any
 
-from matriz.core.node_interface import CognitiveNode, NodeState
+from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 
 
 class MathReasoningNode(CognitiveNode):
@@ -46,6 +46,7 @@ class MathReasoningNode(CognitiveNode):
         start_time = time.time()
 
         query = input_data.get("query", "")
+        trigger_node_id = input_data.get("trigger_node_id")
         trace_id = input_data.get("trace_id", self.get_deterministic_hash(input_data))
 
         # Extract mathematical expression
@@ -98,11 +99,23 @@ class MathReasoningNode(CognitiveNode):
                 new_state={"confidence": confidence, "result": result},
             )
 
+            # Create a trigger if there was a causal node
+            triggers = []
+            if trigger_node_id:
+                trigger = NodeTrigger(
+                    event_type="computation_request",
+                    timestamp=int(time.time() * 1000),
+                    trigger_node_id=trigger_node_id,
+                    effect="invoke_computation",
+                )
+                triggers.append(trigger)
+
             matriz_node = self.create_matriz_node(
-                node_type="DECISION",
+                node_type="COMPUTATION",
                 state=state,
                 trace_id=trace_id,
                 reflections=[reflection],
+                triggers=triggers,
                 additional_data={
                     "query": query,
                     "expression": expression,
@@ -261,9 +274,13 @@ class MathReasoningNode(CognitiveNode):
             return float(result)
 
         except ZeroDivisionError:
-            raise ValueError("Division by zero")
+            raise ValueError(
+                "Division by zero"
+            )  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_core_example_node_py_L264"}
         except Exception as e:
-            raise ValueError(f"Invalid expression: {e!s}")
+            raise ValueError(
+                f"Invalid expression: {e!s}"
+            )  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_core_example_node_py_L267"}
 
 
 # Example usage and testing

@@ -2,7 +2,7 @@
 """Ensure legacy registry helpers remain import-compatible."""
 
 import importlib
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 
@@ -24,7 +24,7 @@ def test_package_exports_legacy_helpers(monkeypatch):
         assert callable(autoload)
 
         unique_kind = "test:legacy_reexport"
-        test_obj: Dict[str, Any] = {"value": 1}
+        test_obj: dict[str, Any] = {"value": 1}
 
         register(unique_kind, test_obj)
         assert resolve(unique_kind) is test_obj

@@ -85,22 +85,21 @@ def determine_target_location(module_path: str) -> dict[str, str]:
         pattern_parts = pattern.split(".")
 
         # Check if module path matches pattern
-        if len(parts) >= len(pattern_parts):
-            if all(parts[i] == pattern_parts[i] for i in range(len(pattern_parts))):
-                # Construct target path
-                remaining = parts[len(pattern_parts):]
-                if remaining:
-                    full_target = target_dir + "/".join(remaining[:-1]) + "/"
-                    target_file = remaining[-1] + ".py"
-                else:
-                    full_target = target_dir
-                    target_file = parts[-1] + ".py"
+        if len(parts) >= len(pattern_parts) and all(parts[i] == pattern_parts[i] for i in range(len(pattern_parts))):
+            # Construct target path
+            remaining = parts[len(pattern_parts):]
+            if remaining:
+                full_target = target_dir + "/".join(remaining[:-1]) + "/"
+                target_file = remaining[-1] + ".py"
+            else:
+                full_target = target_dir
+                target_file = parts[-1] + ".py"
 
-                return {
-                    "target_dir": full_target,
-                    "target_file": target_file,
-                    "reasoning": f"Matches pattern '{pattern}' - move to {target_dir}",
-                }
+            return {
+                "target_dir": full_target,
+                "target_file": target_file,
+                "reasoning": f"Matches pattern '{pattern}' - move to {target_dir}",
+            }
 
     # Default: keep domain, move to core
     domain = parts[0] if parts else "misc"

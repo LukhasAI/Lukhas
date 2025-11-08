@@ -164,6 +164,7 @@ The **MATRIZ** (Memory-Attention-Thought-Action-Decision-Awareness) engine imple
 - Python 3.9+ (3.11 recommended)
 - Virtual environment required
 - Git LFS for large assets (optional)
+- For a complete list of external dependencies and setup instructions, see [DEPENDENCIES.md](DEPENDENCIES.md).
 
 ### Installation
 
@@ -529,6 +530,18 @@ print(f"Request {req_id}: {remaining}/{limit} remaining, resets at {datetime.fro
 
 ## 🛠️ Development Tools
 
+**T4 Unified Platform** (v2.0 - Code Quality System):
+```bash
+make t4-init           # Initialize T4 platform (one-time setup)
+make t4-validate       # Run unified validator (quality scoring)
+make t4-dashboard      # Generate interactive HTML dashboard
+make t4-migrate        # Migrate legacy annotations to unified format
+make t4-api            # Start Intent Registry API (port 8001)
+make t4-parallel       # Run parallel automation (5x throughput)
+make t4-codemod-apply  # Apply AST-level automated fixes
+```
+📊 **Dashboard**: `reports/t4_dashboard.html` | 📖 **Docs**: `T4_MEGA_PR_SUMMARY.md`
+
 **Quality Automation**:
 ```bash
 make lint              # Run Ruff, MyPy, Bandit security checks
@@ -561,6 +574,22 @@ make rc-soak-snapshot  # Daily health snapshot
 make rc-synthetic-load # Generate synthetic load
 ```
 - See [RC Soak Operations Guide](docs/ops/RC_SOAK_OPS_GUIDE.md) for GA readiness validation
+
+### Observability
+
+The LUKHAS API includes built-in support for Prometheus metrics and OpenTelemetry tracing, providing a comprehensive solution for monitoring and observability.
+
+#### Prometheus Metrics
+
+The API exposes a `/metrics` endpoint that provides a wide range of metrics in the Prometheus format. These metrics can be scraped by a Prometheus server and used to monitor the health and performance of the application.
+
+#### OpenTelemetry Tracing
+
+The API is instrumented with OpenTelemetry to provide distributed tracing. To enable tracing, set the `OTEL_EXPORTER_OTLP_ENDPOINT` environment variable to the address of your OpenTelemetry collector. For example:
+
+```bash
+export OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4317"
+```
 
 ---
 
@@ -761,6 +790,13 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 
 ## 🛡️ Security & Governance
 
+### Ethics & Governance
+
+LUKHAS AI operates under strict ethical guidelines:
+- [Ethics Disclosure](docs/governance/ETHICS_DISCLOSURE.md)
+- [Guardian System](docs/governance/GUARDIAN_SYSTEM.md)
+- [Responsible Usage](docs/guides/SAFE_AI_USAGE.md)
+
 ### Guardian System
 The **Guardian System v1.0.0** provides comprehensive ethical oversight:
 - **Constitutional AI**: Principles-based decision validation
@@ -826,20 +862,39 @@ See [`docs/consciousness/README.md`](docs/consciousness/README.md) for comprehen
 
 ## 📚 Documentation
 
+All documentation is now organized in the `docs/` directory for easy navigation.
+
 ### **Getting Started** 🚀
 - **[Quick Start Guide](docs/QUICK_START_GUIDE.md)** - 15-minute installation to first decision
 - **[Visual Architecture Guide](docs/VISUAL_ARCHITECTURE_GUIDE.md)** - ASCII & Mermaid diagrams
 - **[Core API Reference](docs/API_REFERENCE_CORE.md)** - Complete API documentation with examples
+- **[Context Files](lukhas_context.md)** - Comprehensive system context for AI agents ([Gemini version](gemini.md))
 
 ### **Architecture & Design** 🏗️
 - **[Architecture Overview](docs/ARCHITECTURE_OVERVIEW.md)** - Complete system with 0.01% standard
 - **[Architecture Guide](docs/architecture/README.md)** - Deep dive into system design
 - **[MΛTRIZ Guide](docs/MATRIZ_GUIDE.md)** - Cognitive engine documentation
+- **[MATRIZ Documentation](docs/matriz/)** - MATRIZ migration guides and reports
 
 ### **Development & API** 🛠️
 - **[Developer Guide](docs/development/README.md)** - Development workflows and standards
 - **[API Reference](docs/api/README.md)** - Comprehensive API documentation
-- **[Multi-Agent System](AGENTS.md)** - AI agent coordination platform
+- **[Multi-Agent System](docs/agents/)** - AI agent coordination and autonomous guides
+- **[Testing Documentation](docs/testing/)** - Test coverage reports and smoke test guides
+
+### **Project Management** 📋
+- **[Project Status](docs/project_status/)** - Implementation summaries and status reports
+- **[Project Planning](docs/project/)** - Quick reference guides and task templates
+- **[Session Notes](docs/sessions/)** - Development session summaries and progress reports
+
+### **Quality & Security** 🔒
+- **[Audit Reports](docs/audits/)** - Code quality audits and transparency scorecards
+- **[Security Documentation](docs/security/)** - Security improvement plans and posture reports
+- **[SECURITY.md](SECURITY.md)** - Security policy and vulnerability reporting
+
+### **Specialized Topics** 🎯
+- **[Bridge Patterns](docs/bridge/)** - Integration patterns and gap analysis
+- **[Codex Documentation](docs/codex/)** - Codex agent coordination and task reports
 
 ## 🚀 Enterprise Deployment
 

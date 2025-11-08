@@ -159,7 +159,7 @@ class MCPServer:
             }
         }
 
-    async def list_directory_tool(self, path: str) -> Dict[str, Any]:
+    async def list_directory_tool(self, path: str) -> dict[str, Any]:
         """List files and directories in the given path."""
         try:
             # Security: Only allow paths under allowed roots
@@ -183,7 +183,7 @@ class MCPServer:
         except Exception as e:
             return {"error": str(e)}
 
-    async def read_file_tool(self, path: str, max_lines: int = 100) -> Dict[str, Any]:
+    async def read_file_tool(self, path: str, max_lines: int = 100) -> dict[str, Any]:
         """Read the contents of a text file."""
         try:
             # Security: Only allow paths under allowed roots

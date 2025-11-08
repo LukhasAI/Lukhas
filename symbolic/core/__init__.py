@@ -112,7 +112,7 @@ __all__ = [
 def create_visual_symbol(
     symbol: str,
     meaning: str,
-    quantum_state: Optional[Dict[str, Any]] = None
+    quantum_state: Optional[dict[str, Any]] = None
 ) -> VisualSymbol:
     """
     Factory function to create a quantum-aware visual symbol.
@@ -152,7 +152,7 @@ def create_perception_field(
 
 def create_consciousness_layer(
     matriz_compatible: bool = True,
-    constellation_stars: Optional[List[str]] = None
+    constellation_stars: Optional[list[str]] = None
 ) -> ConsciousnessIntegration:
     """
     Create a consciousness integration layer.

@@ -1,9 +1,5 @@
-from __future__ import annotations
-
-import logging
-
 #!/usr/bin/env python3
-# DEPRECATED: Functionality consolidated into unified_orchestrator.py
+
 """
 
 #TAG:consciousness
@@ -46,9 +42,13 @@ Original Location: brain/legacy/enhanced_bot_primary.py
 Commercial Integration: 2025-01-27 (QC Session)
 Priority: CRITICAL - Enterprise platform enhancement
 """
+
+from __future__ import annotations
+
 import asyncio
 import copy
 import hashlib
+import logging
 import re
 import sys
 import uuid
@@ -58,6 +58,9 @@ from enum import Enum
 from typing import Any
 
 import numpy as np
+
+# DEPRECATED: Functionality consolidated into unified_orchestrator.py
+
 
 # Configure logging for AI operations
 logging.basicConfig(
@@ -116,7 +119,9 @@ class QIInspiredAttention:
     def _initialize_superposition(self):
         """Initialize quantum-inspired superposition matrix"""
         dimensions = len(self.attention_gates)
-        self.superposition_matrix = np.eye(dimensions) * 0.5 + np.ones((dimensions, dimensions)) * 0.5 / dimensions
+        self.superposition_matrix = (
+            np.eye(dimensions) * 0.5 + np.ones((dimensions, dimensions)) * 0.5 / dimensions
+        )
         for i in range(dimensions):
             row_sum = np.sum(self.superposition_matrix[i, :])
             if row_sum > 0:
@@ -135,7 +140,9 @@ class QIInspiredAttention:
         """Extract relevant features from input data"""
         features = {}
         features["semantic"] = input_data.get("text", "")[:100] if "text" in input_data else None
-        features["emotional"] = input_data.get("emotion", {"primary_emotion": "neutral", "intensity": 0.5})
+        features["emotional"] = input_data.get(
+            "emotion", {"primary_emotion": "neutral", "intensity": 0.5}
+        )
         features["contextual"] = input_data.get("context", {})
         features["historical"] = input_data.get("history", [])
         return features
@@ -164,7 +171,9 @@ class QIInspiredAttention:
         attended_data = copy.deepcopy(input_data)
         gate_keys = list(self.attention_gates.keys())
 
-        attended_data["attention_weights"] = {gate_keys[i]: float(attention_weights[i]) for i in range(len(gate_keys))}
+        attended_data["attention_weights"] = {
+            gate_keys[i]: float(attention_weights[i]) for i in range(len(gate_keys))
+        }
         attended_data["attention_applied"] = True
         return attended_data
 
@@ -193,7 +202,11 @@ class CausalReasoningModule:
         causal_chains = self._build_causal_chains(causal_elements)
         weighted_causes = self._calculate_causal_confidences(causal_chains)
 
-        valid_causes = {k: v for k, v in weighted_causes.items() if v.get("confidence", 0) >= self.confidence_threshold}
+        valid_causes = {
+            k: v
+            for k, v in weighted_causes.items()
+            if v.get("confidence", 0) >= self.confidence_threshold
+        }
 
         if valid_causes:
             self._update_causal_graph(valid_causes)
@@ -317,9 +330,9 @@ class CausalReasoningModule:
             else:
                 self.causal_graph[chain_id]["frequency"] += 1
                 self.causal_graph[chain_id]["confidence_history"].append(chain_data["confidence"])
-                self.causal_graph[chain_id]["confidence_history"] = self.causal_graph[chain_id]["confidence_history"][
-                    -10:
-                ]
+                self.causal_graph[chain_id]["confidence_history"] = self.causal_graph[chain_id][
+                    "confidence_history"
+                ][-10:]
 
     def _identify_primary_cause(self, valid_causes: dict) -> dict | None:
         """Identify most likely primary cause"""
@@ -410,7 +423,11 @@ class SymbolicEngine:
         logical_chains = self._build_symbolic_logical_chains(logical_elements)
         weighted_logic = self._calculate_symbolic_confidences(logical_chains)
 
-        valid_logic = {k: v for k, v in weighted_logic.items() if v.get("confidence", 0) >= self.confidence_threshold}
+        valid_logic = {
+            k: v
+            for k, v in weighted_logic.items()
+            if v.get("confidence", 0) >= self.confidence_threshold
+        }
 
         return {
             "symbolic_reasoning": weighted_logic,
@@ -535,7 +552,9 @@ class SymbolicEngine:
             type_count = len(elements_by_type)
             type_diversity_bonus = min(0.1, 0.03 * type_count)
 
-            symbolic_types = sum(1 for t in elements_by_type if "symbolic" in t or "formal_logic" in t)
+            symbolic_types = sum(
+                1 for t in elements_by_type if "symbolic" in t or "formal_logic" in t
+            )
             symbolic_bonus = min(0.15, 0.05 * symbolic_types)
 
             evidence_strength = 0
@@ -552,7 +571,9 @@ class SymbolicEngine:
                 "elements": chain["elements"][:3],
                 "confidence": final_confidence,
                 "relation_type": chain.get("relation_type", "unknown"),
-                "summary": self._create_symbolic_summary(chain["elements"], chain.get("relation_type", "unknown")),
+                "summary": self._create_symbolic_summary(
+                    chain["elements"], chain.get("relation_type", "unknown")
+                ),
             }
 
         return weighted_logic
@@ -636,14 +657,20 @@ class MetaCognitiveOrchestrator:
         # Calculate self-awareness based on component performance
         total_components = len(self.components)
         active_components = sum(
-            1 for comp in self.components.values() if hasattr(comp, "reason") or hasattr(comp, "attend")
+            1
+            for comp in self.components.values()
+            if hasattr(comp, "reason") or hasattr(comp, "attend")
         )
 
         self.metacognitive_state["self_awareness"] = active_components / max(total_components, 1)
 
         # Update adaptation level based on recent modifications
         recent_modifications = len(
-            [m for m in self.modification_history if (datetime.now(timezone.utc) - datetime.fromisoformat(m["timestamp"])).days < 7]
+            [
+                m
+                for m in self.modification_history
+                if (datetime.now(timezone.utc) - datetime.fromisoformat(m["timestamp"])).days < 7
+            ]
         )
         self.metacognitive_state["adaptation_level"] = min(1.0, recent_modifications * 0.1)
 
@@ -665,7 +692,9 @@ class MetaCognitiveOrchestrator:
             "metacognitive_insights": self._generate_metacognitive_insights(results),
             "reasoning_path": self._extract_comprehensive_reasoning_path(results),
             "capability_assessment": self._assess_capability_level(),
-            "self_modification_recommendations": self._generate_self_modification_recommendations(results),
+            "self_modification_recommendations": self._generate_self_modification_recommendations(
+                results
+            ),
         }
 
         return synthesis
@@ -690,7 +719,9 @@ class MetaCognitiveOrchestrator:
                 insights.append("Inconsistent confidence levels suggest need for calibration")
 
             if avg_confidence < 0.5:
-                insights.append("Low confidence suggests need for additional information or component enhancement")
+                insights.append(
+                    "Low confidence suggests need for additional information or component enhancement"
+                )
 
         # Analyze reasoning complexity
         total_reasoning_steps = 0
@@ -825,14 +856,17 @@ class MetaCognitiveOrchestrator:
                     if rec["target"] in self.components:
                         component = self.components[rec["target"]]
                         if hasattr(component, "confidence_threshold"):
-                            component.confidence_threshold *= 0.9  # Lower threshold for better sensitivity
+                            component.confidence_threshold *= (
+                                0.9  # Lower threshold for better sensitivity
+                            )
                         modification["status"] = "successful"
 
-                elif rec["type"] == "component_addition":
+                elif rec["type"] == "component_addition" and (
+                    rec["target"] == "attention" and "attention" not in self.components
+                ):
                     # Add new component (simplified)
-                    if rec["target"] == "attention" and "attention" not in self.components:
-                        self.components["attention"] = QIInspiredAttention()
-                        modification["status"] = "successful"
+                    self.components["attention"] = QIInspiredAttention()
+                    modification["status"] = "successful"
 
                 self.metacognitive_state["last_self_modification"] = modification["timestamp"]
                 logger.info(f"Self-modification performed: {modification['description']}")
@@ -850,7 +884,9 @@ class MetaCognitiveOrchestrator:
         previous_level = self.capability_level
 
         if self.capability_level != previous_level:
-            logger.info(f"Capability level updated: {previous_level.value} -> {self.capability_level.value}")
+            logger.info(
+                f"Capability level updated: {previous_level.value} -> {self.capability_level.value}"
+            )
 
 
 class ComplianceEngine:
@@ -903,7 +939,9 @@ class ComplianceEngine:
         bias_indicators = ["always", "never", "all", "none"]
         for indicator in bias_indicators:
             if indicator in response_text.lower():
-                compliance_result["recommendations"].append(f"Consider qualifying absolute statement: '{indicator}'")
+                compliance_result["recommendations"].append(
+                    f"Consider qualifying absolute statement: '{indicator}'"
+                )
                 compliance_result["confidence"] *= 0.9
 
         # Record compliance check
@@ -928,7 +966,9 @@ class EnhancedAGIBot:
 
     def __init__(self, config: dict | None = None):
         """Initialize the Enhanced AI Bot with quantum-biological components"""
-        logger.info("🧠 Initializing Enhanced AI Bot - True AI System with Quantum-Biological Architecture")
+        logger.info(
+            "🧠 Initializing Enhanced AI Bot - True AI System with Quantum-Biological Architecture"
+        )
 
         self.config = config or {}
         self.session_id = str(uuid.uuid4())
@@ -1064,10 +1104,14 @@ class EnhancedAGIBot:
             orchestration_result = self.orchestrator.orchestrate(input_data, context)
 
             # Generate response content
-            response_content = await self._generate_response_content(orchestration_result, input_data)
+            response_content = await self._generate_response_content(
+                orchestration_result, input_data
+            )
 
             # Compliance check
-            compliance_result = self.compliance_engine.check_compliance(input_data, {"content": response_content})
+            compliance_result = self.compliance_engine.check_compliance(
+                input_data, {"content": response_content}
+            )
 
             if not compliance_result["is_compliant"]:
                 response_content = self._generate_safe_response(compliance_result)
@@ -1092,7 +1136,9 @@ class EnhancedAGIBot:
 
             # Continuous learning
             if self.continuous_learning:
-                await self._continuous_learning_update(input_data, cognitive_response, orchestration_result)
+                await self._continuous_learning_update(
+                    input_data, cognitive_response, orchestration_result
+                )
 
             self.performance_metrics["total_interactions"] += 1
             if cognitive_response.confidence > 0.6:
@@ -1111,7 +1157,9 @@ class EnhancedAGIBot:
             error_response = AGIResponse(
                 content=f"I encountered an error while processing your request. Error: {e!s}",
                 confidence=0.1,
-                reasoning_path=[{"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}],
+                reasoning_path=[
+                    {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
+                ],
                 metacognitive_state=self.orchestrator.metacognitive_state.copy(),
                 ethical_compliance={
                     "is_compliant": True,
@@ -1167,7 +1215,9 @@ class EnhancedAGIBot:
         demonstrations = []
 
         # Test 1: Metacognitive Self-Awareness
-        self_awareness_test = await self.process_input("What is your current capability level and how do you know?")
+        self_awareness_test = await self.process_input(
+            "What is your current capability level and how do you know?"
+        )
         demonstrations.append(
             {
                 "test": "metacognitive_self_awareness",
@@ -1212,7 +1262,8 @@ class EnhancedAGIBot:
             "current_capability_level": self.orchestrator.capability_level.value,
             "demonstrations": demonstrations,
             "overall_performance": {
-                "average_confidence": sum(d.get("confidence", 0) for d in demonstrations) / len(demonstrations),
+                "average_confidence": sum(d.get("confidence", 0) for d in demonstrations)
+                / len(demonstrations),
                 "successful_tests": sum(1 for d in demonstrations if d.get("confidence", 0) > 0.5),
                 "total_tests": len(demonstrations),
             },

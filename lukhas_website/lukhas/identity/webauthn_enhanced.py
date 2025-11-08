@@ -25,7 +25,7 @@ import secrets
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Set
+from typing import Any
 from uuid import uuid4
 
 import structlog
@@ -112,7 +112,7 @@ class WebAuthnCredentialMetadata:
     last_ip_address: str | None = None
     risk_score: float = 0.0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation."""
         return {
             "credential_id": self.credential_id,
@@ -157,7 +157,7 @@ class WebAuthnVerificationResult:
     error_message: str | None = None
 
     # Risk assessment
-    risk_factors: List[str] = field(default_factory=list)
+    risk_factors: list[str] = field(default_factory=list)
     risk_score: float = 0.0
 
 
@@ -185,12 +185,12 @@ class EnhancedWebAuthnService:
         self.logger = logger.bind(component="EnhancedWebAuthnService")
 
         # Challenge management
-        self._active_challenges: Dict[str, WebAuthnChallenge] = {}
-        self._challenge_nonces: Set[str] = set()
+        self._active_challenges: dict[str, WebAuthnChallenge] = {}
+        self._challenge_nonces: set[str] = set()
 
         # Credential storage (in production, use secure database)
-        self._credentials: Dict[str, WebAuthnCredentialMetadata] = {}
-        self._user_credentials: Dict[str, List[str]] = {}
+        self._credentials: dict[str, WebAuthnCredentialMetadata] = {}
+        self._user_credentials: dict[str, list[str]] = {}
 
         # Security configuration
         self.max_challenge_age_minutes = 5
@@ -230,7 +230,7 @@ class EnhancedWebAuthnService:
         correlation_id: str,
         ip_address: str,
         user_agent: str | None = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate enhanced WebAuthn authentication challenge for T4.
 
@@ -326,7 +326,7 @@ class EnhancedWebAuthnService:
     async def verify_authentication_response(
         self,
         challenge_id: str,
-        webauthn_response: Dict[str, Any],
+        webauthn_response: dict[str, Any],
         correlation_id: str,
         ip_address: str
     ) -> WebAuthnVerificationResult:
@@ -451,7 +451,7 @@ class EnhancedWebAuthnService:
     async def register_credential(
         self,
         user_id: str,
-        credential_data: Dict[str, Any],
+        credential_data: dict[str, Any],
         attestation_verified: bool = False
     ) -> bool:
         """
@@ -514,7 +514,7 @@ class EnhancedWebAuthnService:
         self,
         challenge: WebAuthnChallenge,
         credential: WebAuthnCredentialMetadata,
-        response: Dict[str, Any]
+        response: dict[str, Any]
     ) -> WebAuthnVerificationResult:
         """
         Verify WebAuthn signature with comprehensive security checks.
@@ -652,11 +652,8 @@ class EnhancedWebAuthnService:
             if len(signature) < 64:  # Minimum signature length
                 return False
 
-            if len(authenticator_data) < 37:  # Minimum authenticator data length
-                return False
-
             # Mock success for well-formed requests
-            return True
+            return len(authenticator_data) >= 37  # Minimum authenticator data length
 
         except Exception:
             return False
@@ -687,7 +684,7 @@ class EnhancedWebAuthnService:
             challenge = self._active_challenges.pop(cid)
             self._challenge_nonces.discard(challenge.challenge_b64)
 
-    async def _guardian_validate(self, action: str, context: Dict[str, Any]) -> None:
+    async def _guardian_validate(self, action: str, context: dict[str, Any]) -> None:
         """Guardian pre-validation hook."""
         if self.guardian:
             try:
@@ -695,7 +692,7 @@ class EnhancedWebAuthnService:
             except Exception as e:
                 self.logger.warning("Guardian validation failed", action=action, error=str(e))
 
-    async def _guardian_monitor(self, event: str, context: Dict[str, Any]) -> None:
+    async def _guardian_monitor(self, event: str, context: dict[str, Any]) -> None:
         """Guardian post-monitoring hook."""
         if self.guardian:
             try:
@@ -703,7 +700,7 @@ class EnhancedWebAuthnService:
             except Exception as e:
                 self.logger.warning("Guardian monitoring failed", event=event, error=str(e))
 
-    def get_performance_metrics(self) -> Dict[str, Any]:
+    def get_performance_metrics(self) -> dict[str, Any]:
         """Get performance metrics for monitoring."""
         challenge_gen = self._performance_metrics["challenge_generation"]
         credential_ver = self._performance_metrics["credential_verification"]

@@ -1,13 +1,15 @@
+import os
+
+import pytest
 from serve.main import app
 from starlette.testclient import TestClient
 
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
 
-def test_dreams_minimal():
-    client = TestClient(app)
+def test_dreams_minimal(client):
     payload = {"seed": "labyrinth under starlight", "constraints": {"length": "short"}}
-    headers = GOLDEN_AUTH_HEADERS
+    headers = {"X-API-Key": "test_api_key"}
     r = client.post("/v1/dreams", json=payload, headers=headers)
     assert r.status_code == 200
     data = r.json()

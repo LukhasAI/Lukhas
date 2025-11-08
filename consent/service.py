@@ -22,7 +22,10 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-import asyncpg
+try:
+    import asyncpg  # type: ignore[import-not-found]
+except ModuleNotFoundError:  # pragma: no cover - optional dependency
+    asyncpg = None  # type: ignore[assignment]
 from pydantic import BaseModel, Field, field_validator
 
 # Mock macaroon library (in production use pymacaroons)
@@ -130,7 +133,7 @@ class ConsentService:
     Handles consent grants, capability tokens, and audit trails.
     """
 
-    DEFAULT_ESCALATION_RULES = [
+    DEFAULT_ESCALATION_RULES = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_consent_service_py_L136"}
         {
             "name": "high_privilege_access",
             "condition": "permission_type in ['admin', 'root', 'critical'] and trust_score < 0.8",
@@ -162,7 +165,12 @@ class ConsentService:
 
     async def initialize(self):
         """Initialize database connection pool"""
-        self.db_pool = await asyncpg.create_pool(self.db_url, min_size=2, max_size=10, command_timeout=30)
+        if asyncpg is None:
+            raise RuntimeError("asyncpg is required for database operations but is not installed")
+
+        self.db_pool = await asyncpg.create_pool(
+            self.db_url, min_size=2, max_size=10, command_timeout=30
+        )
 
     async def close(self):
         """Close database connections"""

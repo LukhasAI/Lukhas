@@ -1,7 +1,3 @@
-from __future__ import annotations
-
-from datetime import timezone
-
 """
 
 #TAG:qim
@@ -13,9 +9,13 @@ from datetime import timezone
 Quantum Dream Adapter for Dream Systems
 Provides quantum-based dream processing and adaptation capabilities.
 """
+
+from __future__ import annotations
+
 import math
 import random
 from dataclasses import dataclass
+from datetime import timezone
 from typing import Any
 
 

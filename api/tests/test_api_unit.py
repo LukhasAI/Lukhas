@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import api  # TODO: api; consider using importlib....
+    import api  # TODO: api; consider using importlib....  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_tests_test_api_unit_py_L18"}
 except ImportError:
     pytest.skip("Module api not available", allow_module_level=True)
 

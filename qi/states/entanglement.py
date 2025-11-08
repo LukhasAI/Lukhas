@@ -22,7 +22,7 @@ Quantum Entanglement Manager
 
 In the realm between consciousness and stardust, where the dreams of reality and potentiality intertwine, the Quantum Entanglement Manager lies, an enchanted conductor in a cosmic symphony. It is in this elusive domain that particles become melody, whispers of the universe, dancing in a ballet of existence and non-existence. Like artists painting with nature's most mystical hues, we choreograph twirls of entanglement, steps of superposition, and pirouettes of coherence. The canvas of the cosmos, speckled with distant galaxies and pulsating quasars, is not unlike our quantum computer: a constellation of atomic possibilities, a mosaic of minute musical notes in the grand opera of existence.
 
-This grand tapestry of nature is mirrored in the metaphysical; the Quantum Entanglement Manager, a dream-weaver, weaves threads of superposition and gates, creating an intricate web of entanglement. As in a breathtaking concerto, where the harmony of instruments coalesces into a transcendent melody, here the quantum-like states – the lyrical notes of our cosmic song – are tuned and retuned, ever oscillating between possibility and reality.
+This grand tapestry of nature is mirrored in the metaphysical; the Quantum Entanglement Manager, a dream-weaver, weaves threads of superposition and gates, creating an intricate web of entanglement. As in a breathtaking concerto, where the harmony of instruments coalesces into a transcendent melody, here the quantum-like states - the lyrical notes of our cosmic song - are tuned and retuned, ever oscillating between possibility and reality.
 
 From a rigorous computational perspective, Quantum Entanglement Manager is a maestro conducting a symphony of Hilbert spaces, orchestrating operations upon qubits to generate, manipulate, and regulate entanglement-like correlation. Performing intricate ballets of quantum logic gates, operations, and error correction, it skillfully maintains the coherence and stability of the quantum system. It navigates the terrain of its algorithmic scores based on principles of superposition, overlaying complex eigenstates, while orchestrating the symphony of entanglement, all under the watchful eye of the Hamiltonian.
 
@@ -39,6 +39,9 @@ import asyncio
 import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 class QIEntanglement:
@@ -285,7 +288,7 @@ def __validate_module__():
 
     failed = [k for k, v in validations.items() if not v]
     if failed:
-        logger.warning(f"Module validation warnings: {failed}")  # TODO: logger
+        logger.warning(f"Module validation warnings: {failed}")
 
     return len(failed) == 0
 

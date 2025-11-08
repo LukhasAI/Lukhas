@@ -11,7 +11,7 @@ import json
 import random
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 
 class VocabularyEngine:
@@ -157,7 +157,7 @@ class ThreeLayerToneSystem:
 
         return f"{poetic_opening}{constellation_context}\n"
 
-    def generate_accessible_layer(self, module_name: str, manifest: Dict, entrypoints: List[str]) -> str:
+    def generate_accessible_layer(self, module_name: str, manifest: Dict, entrypoints: list[str]) -> str:
         """Generate accessible understanding layer (40-55% of content)."""
         description = manifest.get('description', f'LUKHAS {module_name} module')
         tags = manifest.get('tags', [])
@@ -186,7 +186,7 @@ class ThreeLayerToneSystem:
 
         return accessible_content + "\n"
 
-    def generate_technical_layer(self, module_name: str, manifest: Dict, entrypoints: List[str]) -> str:
+    def generate_technical_layer(self, module_name: str, manifest: Dict, entrypoints: list[str]) -> str:
         """Generate technical depth layer (20-40% of content)."""
 
         # Technical specifications
@@ -232,7 +232,7 @@ class ThreeLayerToneSystem:
         humanized = humanized.replace('processing engine', 'intelligent system')
         return humanized
 
-    def _extract_capabilities(self, entrypoints: List[str]) -> str:
+    def _extract_capabilities(self, entrypoints: list[str]) -> str:
         """Extract key capabilities from entrypoints."""
         capabilities = []
 
@@ -255,7 +255,7 @@ class ThreeLayerToneSystem:
 
         return ', '.join(capabilities[:3])
 
-    def _generate_practical_benefits(self, module_name: str, tags: List[str]) -> str:
+    def _generate_practical_benefits(self, module_name: str, tags: list[str]) -> str:
         """Generate practical benefits based on module characteristics."""
         benefits = []
 
@@ -343,7 +343,7 @@ def generate_enhanced_readme(module_path: Path, vocab_engine: VocabularyEngine, 
             readme_lines.append("")
             for cls in sorted(classes)[:8]:
                 class_name = cls.split('.')[-1]
-                readme_lines.append(f"- **`{class_name}`** — Central {class_name.lower()} for consciousness coordination")
+                readme_lines.append(f"- **`{class_name}`** - Central {class_name.lower()} for consciousness coordination")
             readme_lines.append("")
 
         if functions:
@@ -351,7 +351,7 @@ def generate_enhanced_readme(module_path: Path, vocab_engine: VocabularyEngine, 
             readme_lines.append("")
             for func in sorted(functions)[:8]:
                 func_name = func.split('.')[-1]
-                readme_lines.append(f"- **`{func_name}()`** — Consciousness-aware {func_name.replace('_', ' ')}")
+                readme_lines.append(f"- **`{func_name}()`** - Consciousness-aware {func_name.replace('_', ' ')}")
             readme_lines.append("")
 
     # Layer 3: Technical Depth (20-40%)
@@ -378,15 +378,15 @@ def generate_enhanced_readme(module_path: Path, vocab_engine: VocabularyEngine, 
 
     # Map module to constellation role
     constellation_roles = {
-        'identity': '⚛️ **Anchor Star** — Ensuring continuity and coherence',
-        'memory': '✦ **Path Tracer** — Tracing the paths of past light',
-        'consciousness': '🧠 **Awareness Hub** — Central consciousness coordination',
-        'governance': '⚖️ **Ethics Guardian** — Ensuring accountability and dignity',
-        'brain': '🧠 **Cognitive Center** — Intelligence coordination and monitoring',
-        'core': '⚛️ **Foundation Star** — Core system coordination'
+        'identity': '⚛️ **Anchor Star** - Ensuring continuity and coherence',
+        'memory': '✦ **Path Tracer** - Tracing the paths of past light',
+        'consciousness': '🧠 **Awareness Hub** - Central consciousness coordination',
+        'governance': '⚖️ **Ethics Guardian** - Ensuring accountability and dignity',
+        'brain': '🧠 **Cognitive Center** - Intelligence coordination and monitoring',
+        'core': '⚛️ **Foundation Star** - Core system coordination'
     }
 
-    role = constellation_roles.get(module_name.lower(), f'✨ **Specialist Component** — Dedicated {module_name} functionality')
+    role = constellation_roles.get(module_name.lower(), f'✨ **Specialist Component** - Dedicated {module_name} functionality')
     readme_lines.append(role)
     readme_lines.append("")
 

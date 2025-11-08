@@ -1,9 +1,10 @@
-from __future__ import annotations
-
 """
 🧠 Abstract Reasoning Brain Interface
 Interface for the Bio-Quantum Symbolic Reasoning system with Radar Analytics Integration
 """
+
+from __future__ import annotations
+
 import asyncio
 import logging
 from datetime import datetime, timezone

@@ -20,7 +20,7 @@ import asyncio
 import logging
 import statistics
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any
 
@@ -182,11 +182,11 @@ class EmotionalDriftMonitor:
     def _extract_emotional_data(self, session_history: list[dict[str, Any]], days: int) -> list[EmotionalDataPoint]:
         """Extract emotional data points from session history"""
 
-        cutoff_date = datetime.utcnow() - timedelta(days=days)
+        cutoff_date = datetime.now(timezone.utc) - timedelta(days=days)
         emotional_data = []
 
         for session in session_history:
-            session_time = datetime.fromisoformat(session.get("timestamp", datetime.utcnow().isoformat()))
+            session_time = datetime.fromisoformat(session.get("timestamp", datetime.now(timezone.utc).isoformat()))
 
             if session_time < cutoff_date:
                 continue
@@ -608,7 +608,7 @@ async def main():
 
     # Mock session history
     session_history = []
-    base_time = datetime.utcnow() - timedelta(days=30)
+    base_time = datetime.now(timezone.utc) - timedelta(days=30)
 
     consciousness_cycle = [
         "focused",

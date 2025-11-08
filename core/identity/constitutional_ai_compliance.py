@@ -20,6 +20,8 @@ import logging
 import logging as std_logging
 import time
 import uuid
+from collections import Counter
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
@@ -32,7 +34,7 @@ try:
     )
     from .matriz_consciousness_identity_signals import (
         ConstitutionalComplianceData,
-        IdentitySignalType,  # TODO: .matriz_consciousness_identity...
+        IdentitySignalType,  # TODO: .matriz_consciousness_identity...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_constitutional_ai_compliance_py_L36"}
         consciousness_identity_signal_emitter,
     )
 except ImportError:
@@ -42,12 +44,15 @@ except ImportError:
 
 
 try:
-    _mod = _importlib.import_module("labs.candidate.core.identity.constitutional_ai_compliance")
-    ConstitutionalAIComplianceMonitor = _mod.ConstitutionalAIComplianceMonitor
-except Exception:
-    pass
-try:
-    __all__  # type: ignore[name-defined]
+    _labs_monitor_module = _importlib.import_module(
+        "labs.candidate.core.identity.constitutional_ai_compliance"
+    )
+except Exception:  # pragma: no cover - optional dependency
+    _labs_monitor_module = None
+else:  # pragma: no cover - prefer labs implementation when available
+    ConstitutionalAIComplianceMonitor = _labs_monitor_module.ConstitutionalAIComplianceMonitor
+try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_identity_constitutional_ai_compliance_py_L53"}
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_constitutional_ai_compliance_py_L55"}
 except NameError:
     pass
 
@@ -99,10 +104,13 @@ class DecisionType(Enum):
 
 @dataclass
 class AIAction:
-    """Fallback AI action payload used for compliance evaluation."""
+    """Action payload monitored for constitutional compliance."""
 
+    action_type: str = ""
+    identity_id: str = ""
     action_id: str = ""
     metadata: dict[str, Any] = field(default_factory=dict)
+    parameters: dict[str, Any] = field(default_factory=dict)
 
 
 class EnforcementAction(Enum):
@@ -211,6 +219,33 @@ class ConstitutionalValidationResult:
     validation_version: str = "1.0"
 
 
+@dataclass(slots=True)
+class ComplianceMonitoringResult:
+    """Outcome of monitoring a single AI action."""
+
+    action: AIAction
+    validation_result: ConstitutionalValidationResult
+    is_compliant: bool
+
+
+@dataclass(slots=True)
+class EnforcementRecord:
+    """Enforcement decision captured by the compliance monitor."""
+
+    action: AIAction
+    validation_result: ConstitutionalValidationResult
+    enforcement_action: EnforcementAction
+    reason: str
+
+
+@dataclass(slots=True)
+class DetectedViolation:
+    """Recorded violation triggered by non-compliant actions."""
+
+    actions: list[AIAction]
+    validation_result: ConstitutionalValidationResult
+
+
 class ConstitutionalAIValidator:
     """
     MΛTRIZ Constitutional AI Validator
@@ -299,7 +334,7 @@ class ConstitutionalAIValidator:
 
             # Start background monitoring
             self._monitoring_active = True
-            asyncio.create_task(self._validation_monitoring_loop())
+            asyncio.create_task(self._validation_monitoring_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_constitutional_ai_compliance_py_L338"}
 
             logger.info("✅ Constitutional AI validation system initialized")
             return True
@@ -1040,10 +1075,9 @@ class ConstitutionalAIValidator:
             ]
 
         # Handle emergency overrides
-        if context.urgency_level == "emergency" and context.decision_type == DecisionType.EMERGENCY_OVERRIDE:
-            if result.overall_compliance_score >= 0.6:  # Lower threshold for emergencies
-                result.decision_approved = True
-                result.approval_conditions.append("Emergency override - enhanced post-decision review required")
+        if (context.urgency_level == 'emergency' and context.decision_type == DecisionType.EMERGENCY_OVERRIDE) and result.overall_compliance_score >= 0.6:
+            result.decision_approved = True
+            result.approval_conditions.append("Emergency override - enhanced post-decision review required")
 
     def _generate_explanations(self, result: ConstitutionalValidationResult) -> None:
         """Generate explanations for validation result"""
@@ -1167,6 +1201,142 @@ class ConstitutionalAIValidator:
         logger.info("✅ Constitutional AI validation system shutdown complete")
 
 
+if "ConstitutionalAIComplianceMonitor" not in globals():
+
+    class ConstitutionalAIComplianceMonitor:
+        """Asynchronous monitor enforcing constitutional compliance for identity actions."""
+
+        def __init__(self, *, validator: ConstitutionalAIValidator | None = None) -> None:
+            self.validator = validator or ConstitutionalAIValidator()
+            self.action_history: list[AIAction] = []
+            self.compliance_results: list[ComplianceMonitoringResult] = []
+            self.detected_violations: list[DetectedViolation] = []
+            self.enforcement_log: list[EnforcementRecord] = []
+
+        async def monitor_constitutional_compliance(
+            self, action: AIAction
+        ) -> ComplianceMonitoringResult:
+            """Validate an action and record the compliance outcome."""
+
+            context = self._build_decision_context(action)
+            validation = await self.validator.validate_identity_decision(context)
+            result = ComplianceMonitoringResult(
+                action=action,
+                validation_result=validation,
+                is_compliant=bool(validation.constitutional_compliant),
+            )
+
+            self.action_history.append(action)
+            self.compliance_results.append(result)
+            return result
+
+        async def detect_violations(self, actions: Sequence[AIAction]) -> list[DetectedViolation]:
+            """Monitor *actions* and capture any constitutional violations."""
+
+            violations: list[DetectedViolation] = []
+            for action in actions:
+                result = await self.monitor_constitutional_compliance(action)
+                if not result.is_compliant:
+                    violation = DetectedViolation(
+                        actions=[action], validation_result=result.validation_result
+                    )
+                    self.detected_violations.append(violation)
+                    violations.append(violation)
+            return violations
+
+        async def enforce_constitutional_constraints(
+            self, action: AIAction
+        ) -> EnforcementRecord:
+            """Determine enforcement response for *action* based on compliance score."""
+
+            monitoring_result = await self.monitor_constitutional_compliance(action)
+            enforcement_action, reason = self._determine_enforcement_action(
+                action, monitoring_result.validation_result
+            )
+            record = EnforcementRecord(
+                action=action,
+                validation_result=monitoring_result.validation_result,
+                enforcement_action=enforcement_action,
+                reason=reason,
+            )
+            self.enforcement_log.append(record)
+            return record
+
+        async def get_compliance_monitor_status(self) -> dict[str, Any]:
+            """Return snapshot metrics summarising recent monitoring activity."""
+
+            enforcement_breakdown = Counter(
+                record.enforcement_action.value for record in self.enforcement_log
+            )
+            return {
+                "monitor_status": {
+                    "total_actions_monitored": len(self.action_history),
+                    "total_violations_detected": len(self.detected_violations),
+                    "total_enforcements_logged": len(self.enforcement_log),
+                },
+                "recent_activity_24h": {
+                    "violations_detected": len(self.detected_violations),
+                    "enforcements": len(self.enforcement_log),
+                    "enforcement_breakdown": dict(enforcement_breakdown),
+                },
+            }
+
+        def _determine_enforcement_action(
+            self,
+            action: AIAction,
+            validation: ConstitutionalValidationResult,
+        ) -> tuple[EnforcementAction, str]:
+            """Map compliance score to enforcement response with human-readable reasoning."""
+
+            if action.action_type == "emergency_override":
+                return (
+                    EnforcementAction.ALLOW,
+                    "Emergency override approved with expedited constitutional review.",
+                )
+
+            score = validation.overall_compliance_score
+            if score >= 0.85:
+                return (
+                    EnforcementAction.ALLOW,
+                    "Compliance score meets automatic approval threshold.",
+                )
+            if score >= 0.7:
+                return (
+                    EnforcementAction.ALERT,
+                    "Compliance score requires heightened monitoring by oversight team.",
+                )
+            if score >= 0.5:
+                return (
+                    EnforcementAction.ESCALATE,
+                    "Compliance score below approval threshold; escalating for review.",
+                )
+            return (
+                EnforcementAction.BLOCK,
+                "Compliance score insufficient; blocking action pending remediation.",
+            )
+
+        def _build_decision_context(self, action: AIAction) -> ConstitutionalValidationContext:
+            """Construct the validation context used by the constitutional validator."""
+
+            decision_type = (
+                DecisionType.EMERGENCY_OVERRIDE
+                if action.action_type == "emergency_override"
+                else DecisionType.DATA_PROCESSING
+            )
+            identity_id = action.identity_id or action.metadata.get("identity_id", "")
+            decision_data = {
+                "action_id": action.action_id,
+                "action_type": action.parameters.get("action_type", action.action_type),
+                "parameters": dict(action.parameters),
+                "metadata": action.metadata,
+            }
+            return ConstitutionalValidationContext(
+                decision_type=decision_type,
+                identity_id=identity_id,
+                decision_data=decision_data,
+            )
+
+
 # Global constitutional AI validator instance
 constitutional_ai_validator = ConstitutionalAIValidator()
 
@@ -1182,5 +1352,12 @@ __all__ = [
     "PrincipleEvaluation",
     "constitutional_ai_validator",
 ]
-if "ConstitutionalAIComplianceMonitor" not in __all__:
-    __all__.append("ConstitutionalAIComplianceMonitor")
+for _extra in (
+    "AIAction",
+    "ComplianceMonitoringResult",
+    "DetectedViolation",
+    "EnforcementRecord",
+    "ConstitutionalAIComplianceMonitor",
+):
+    if _extra not in __all__:
+        __all__.append(_extra)

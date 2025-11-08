@@ -9,7 +9,6 @@ particularly in documentation about AGI evolution and technical contexts.
 import os
 import re
 from pathlib import Path
-from typing import Tuple
 
 
 class AGICognitiveAccuracyFixer:
@@ -54,7 +53,7 @@ class AGICognitiveAccuracyFixer:
 
         return False
 
-    def fix_file_content(self, content: str) -> Tuple[str, int]:
+    def fix_file_content(self, content: str) -> tuple[str, int]:
         """Apply corrections to file content."""
         corrections_made = 0
 

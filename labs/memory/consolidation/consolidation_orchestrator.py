@@ -1,10 +1,10 @@
 """
-consolidation_orchestrator.py — Sleep-stage memory consolidation orchestrator
+consolidation_orchestrator.py - Sleep-stage memory consolidation orchestrator
 
 Purpose
 -------
-Coordinates sleep-stage cycles (NREM->REM) to transfer short‑term traces
-(hippocampal store) into long‑term cortical folds. Integrates with the
+Coordinates sleep-stage cycles (NREM->REM) to transfer short-term traces
+(hippocampal store) into long-term cortical folds. Integrates with the
 Consciousness engine for auditability and safety, and exposes metrics for
 observability (prometheus-friendly dicts).
 
@@ -235,7 +235,7 @@ class ConsolidationOrchestrator:
 
     def _consolidate_batch(self, traces: List[MemoryTrace]) -> List[MemoryFold]:
         folds: List[MemoryFold] = []
-        # Group by domain; simple demo logic—replace with your fold engine
+        # Group by domain; simple demo logic-replace with your fold engine
         by_domain: Dict[str, List[MemoryTrace]] = {}
         for t in traces:
             by_domain.setdefault(t.domain, []).append(t)

@@ -511,7 +511,7 @@ class TestTelemetryIntegration:
         collector = TelemetryCollector()
 
         # Simulate error scenario
-        with pytest.raises(Exception):
+        with pytest.raises(RuntimeError):
             async with collector.trace_operation("failing_operation", "test_service") as span:
                 span.add_log("Starting operation")
 
@@ -523,7 +523,7 @@ class TestTelemetryIntegration:
                     severity=SeverityLevel.ERROR
                 )
 
-                raise Exception("Simulated failure")
+                raise RuntimeError("Simulated failure")
 
         # Verify error was captured
         assert span.status == "error"

@@ -33,7 +33,7 @@ from abc import ABC, abstractmethod
 from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 from opentelemetry import trace
 
@@ -82,10 +82,10 @@ class RoutingContext:
     session_id: str
     request_type: str
     request_id: str = field(default_factory=lambda: str(uuid.uuid4()))
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: float = field(default_factory=time.time)
     retry_count: int = 0
-    previous_providers: List[str] = field(default_factory=list)
+    previous_providers: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -96,7 +96,7 @@ class RoutingResult:
     reason: str
     confidence: float
     fallback_available: bool
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class CircuitBreakerState(Enum):
@@ -135,8 +135,8 @@ class BaseRoutingStrategy(ABC):
         self,
         rule: RoutingRule,
         context: RoutingContext,
-        provider_health: Dict[str, ProviderHealth],
-        circuit_breakers: Dict[str, CircuitBreaker]
+        provider_health: dict[str, ProviderHealth],
+        circuit_breakers: dict[str, CircuitBreaker]
     ) -> RoutingResult | None:
         """Select provider based on strategy"""
         pass
@@ -158,14 +158,14 @@ class RoundRobinStrategy(BaseRoutingStrategy):
 
     def __init__(self):
         super().__init__("round_robin")
-        self.provider_counters: Dict[str, int] = defaultdict(int)
+        self.provider_counters: dict[str, int] = defaultdict(int)
 
     async def select_provider(
         self,
         rule: RoutingRule,
         context: RoutingContext,
-        provider_health: Dict[str, ProviderHealth],
-        circuit_breakers: Dict[str, CircuitBreaker]
+        provider_health: dict[str, ProviderHealth],
+        circuit_breakers: dict[str, CircuitBreaker]
     ) -> RoutingResult | None:
 
         start_time = time.time()
@@ -220,8 +220,8 @@ class WeightedStrategy(BaseRoutingStrategy):
         self,
         rule: RoutingRule,
         context: RoutingContext,
-        provider_health: Dict[str, ProviderHealth],
-        circuit_breakers: Dict[str, CircuitBreaker]
+        provider_health: dict[str, ProviderHealth],
+        circuit_breakers: dict[str, CircuitBreaker]
     ) -> RoutingResult | None:
 
         start_time = time.time()
@@ -302,8 +302,8 @@ class HealthBasedStrategy(BaseRoutingStrategy):
         self,
         rule: RoutingRule,
         context: RoutingContext,
-        provider_health: Dict[str, ProviderHealth],
-        circuit_breakers: Dict[str, CircuitBreaker]
+        provider_health: dict[str, ProviderHealth],
+        circuit_breakers: dict[str, CircuitBreaker]
     ) -> RoutingResult | None:
 
         start_time = time.time()
@@ -392,8 +392,8 @@ class LatencyBasedStrategy(BaseRoutingStrategy):
         self,
         rule: RoutingRule,
         context: RoutingContext,
-        provider_health: Dict[str, ProviderHealth],
-        circuit_breakers: Dict[str, CircuitBreaker]
+        provider_health: dict[str, ProviderHealth],
+        circuit_breakers: dict[str, CircuitBreaker]
     ) -> RoutingResult | None:
 
         start_time = time.time()
@@ -456,8 +456,8 @@ class CostOptimizedStrategy(BaseRoutingStrategy):
         self,
         rule: RoutingRule,
         context: RoutingContext,
-        provider_health: Dict[str, ProviderHealth],
-        circuit_breakers: Dict[str, CircuitBreaker]
+        provider_health: dict[str, ProviderHealth],
+        circuit_breakers: dict[str, CircuitBreaker]
     ) -> RoutingResult | None:
 
         start_time = time.time()
@@ -476,10 +476,7 @@ class CostOptimizedStrategy(BaseRoutingStrategy):
                 cost = self.provider_costs.get(provider, 0.00002)
 
                 # Calculate cost-effectiveness score (lower cost = higher score)
-                if cost == 0:
-                    cost_score = 100  # Free providers get max score
-                else:
-                    cost_score = min(100, 1.0 / cost * 10000)
+                cost_score = 100 if cost == 0 else min(100, 1.0 / cost * 10000)  # Free providers get max score
 
                 # Adjust for quality (success rate and latency)
                 quality_factor = health.success_rate
@@ -533,8 +530,8 @@ class HybridStrategy(BaseRoutingStrategy):
         self,
         rule: RoutingRule,
         context: RoutingContext,
-        provider_health: Dict[str, ProviderHealth],
-        circuit_breakers: Dict[str, CircuitBreaker]
+        provider_health: dict[str, ProviderHealth],
+        circuit_breakers: dict[str, CircuitBreaker]
     ) -> RoutingResult | None:
 
         start_time = time.time()
@@ -597,7 +594,7 @@ class RoutingEngine:
     """Main routing engine orchestrating all strategies"""
 
     def __init__(self):
-        self.strategies: Dict[RoutingStrategy, BaseRoutingStrategy] = {
+        self.strategies: dict[RoutingStrategy, BaseRoutingStrategy] = {
             RoutingStrategy.ROUND_ROBIN: RoundRobinStrategy(),
             RoutingStrategy.WEIGHTED: WeightedStrategy(),
             RoutingStrategy.HEALTH_BASED: HealthBasedStrategy(),
@@ -606,14 +603,14 @@ class RoutingEngine:
             RoutingStrategy.HYBRID: HybridStrategy()
         }
 
-        self.circuit_breakers: Dict[str, CircuitBreaker] = {}
-        self.provider_health: Dict[str, ProviderHealth] = {}
+        self.circuit_breakers: dict[str, CircuitBreaker] = {}
+        self.provider_health: dict[str, ProviderHealth] = {}
 
     async def route_request(
         self,
         rule: RoutingRule,
         context: RoutingContext,
-        provider_health: Dict[str, ProviderHealth] | None = None
+        provider_health: dict[str, ProviderHealth] | None = None
     ) -> RoutingResult | None:
         """Route request using specified strategy"""
 
@@ -695,7 +692,7 @@ class RoutingEngine:
         self,
         rule: RoutingRule,
         context: RoutingContext,
-        provider_health: Dict[str, ProviderHealth]
+        provider_health: dict[str, ProviderHealth]
     ) -> RoutingResult | None:
         """Try fallback providers when primary strategy fails"""
 
@@ -769,7 +766,7 @@ class RoutingEngine:
         # Update metric
         circuit_breaker_state.labels(provider=provider).set(breaker.state.value)
 
-    def get_circuit_breaker_status(self) -> Dict[str, Dict[str, Any]]:
+    def get_circuit_breaker_status(self) -> dict[str, dict[str, Any]]:
         """Get status of all circuit breakers"""
         status = {}
         for provider, breaker in self.circuit_breakers.items():

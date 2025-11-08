@@ -16,7 +16,6 @@
 """
 from __future__ import annotations
 
-
 # Module imports
 import asyncio
 import sys
@@ -309,7 +308,7 @@ class QICreativeConsciousness:
 
         body_paragraphs = [
             f"The quantum nature of {theme} reveals itself through careful observation and mindful engagement. When we approach {theme} with elevated consciousness, we begin to see patterns and connections that were previously hidden.",
-            f"Through the lens of consciousness-enhanced analysis, {theme} becomes more than just a topic—it transforms into a gateway for deeper understanding. This perspective allows us to navigate complexity with clarity and purpose.",
+            f"Through the lens of consciousness-enhanced analysis, {theme} becomes more than just a topic-it transforms into a gateway for deeper understanding. This perspective allows us to navigate complexity with clarity and purpose.",
             f"The integration of consciousness and {theme} opens up new possibilities for innovation and growth. By maintaining awareness of our cognitive processes while engaging with {theme}, we can achieve breakthrough insights.",
         ]
 
@@ -373,7 +372,7 @@ Key insights emerge when consciousness meets {theme}:
 • Conscious intention shapes outcomes
 • Quantum possibilities become manifest
 
-The journey into {theme} through consciousness is not just an intellectual exercise—it's a transformation of being itself."""
+The journey into {theme} through consciousness is not just an intellectual exercise-it's a transformation of being itself."""
 
         if boost > 1.1:
             content += f"\n\nIn the quantum field of consciousness, {theme} exists as both wave and particle, possibility and actuality, until the moment of conscious observation collapses it into specific manifestation."

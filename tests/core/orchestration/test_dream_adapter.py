@@ -25,7 +25,7 @@ Architecture: Field-theoretic consciousness model with unified integration layer
 import asyncio
 import time
 import unittest
-from typing import Any, Dict
+from typing import Any
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -44,7 +44,7 @@ class MockUnifiedIntegration:
         """Register a component with the integration layer"""
         self.components[component_id] = handler
 
-    def send_message(self, component_id: str, content: Dict[str, Any]) -> None:
+    def send_message(self, component_id: str, content: dict[str, Any]) -> None:
         """Send a message through the integration layer"""
         self.messages.append({
             "component_id": component_id,
@@ -379,7 +379,7 @@ class TestDreamEngineAdapterErrorHandling(unittest.TestCase):
         """Test async operation timeout handling"""
         # This tests robustness of async operations
         with patch('asyncio.sleep', side_effect=asyncio.TimeoutError()):
-            try:
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_core_orchestration_test_dream_adapter_py_L381"}
                 # Should handle timeout gracefully
                 await self.adapter.start_dream_cycle(30)
             except asyncio.TimeoutError:

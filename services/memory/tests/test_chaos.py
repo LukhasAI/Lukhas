@@ -21,7 +21,7 @@ import logging
 import random
 import time
 from dataclasses import dataclass
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 
@@ -44,7 +44,7 @@ class ChaosTestResult:
     operations_failed: int
     recovery_time_seconds: float
     system_recovered: bool
-    error_types: Dict[str, int]
+    error_types: dict[str, int]
 
 
 class ChaosVectorStore:
@@ -56,18 +56,17 @@ class ChaosVectorStore:
         self.chaos_scenarios = []
         self.is_initialized = True
 
-    def add_chaos_scenario(self, scenario: Dict[str, Any]):
+    def add_chaos_scenario(self, scenario: dict[str, Any]):
         """Add a chaos scenario to be triggered"""
         self.chaos_scenarios.append(scenario)
 
     async def _apply_chaos(self, operation: str):
         """Apply chaos scenarios if conditions are met"""
         for scenario in self.chaos_scenarios:
-            if scenario.get('operation') in [operation, 'all']:
-                if scenario.get('trigger_after', 0) <= self.call_count:
-                    await self._execute_chaos(scenario)
+            if scenario.get('operation') in [operation, 'all'] and scenario.get('trigger_after', 0) <= self.call_count:
+                await self._execute_chaos(scenario)
 
-    async def _execute_chaos(self, scenario: Dict[str, Any]):
+    async def _execute_chaos(self, scenario: dict[str, Any]):
         """Execute a specific chaos scenario"""
         chaos_type = scenario['type']
 
@@ -192,7 +191,7 @@ class TestChaosEngineering:
     """Chaos engineering test suite"""
 
     async def run_chaos_test(self,
-                           chaos_scenario: Dict[str, Any],
+                           chaos_scenario: dict[str, Any],
                            operation_func,
                            test_duration: float = 30.0,
                            operation_interval: float = 0.1) -> ChaosTestResult:

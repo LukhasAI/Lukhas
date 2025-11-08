@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-
 """
 
 #TAG:core
@@ -19,7 +18,7 @@ intelligence platform combining symbolic reasoning, emotional intelligence,
 quantum integration, and bio-inspired architecture.
 
 Mission: To illuminate complex reality through rigorous logic, adaptive
-intelligence, and human-centred ethics—turning data into understanding,
+intelligence, and human-centred ethics-turning data into understanding,
 understanding into foresight, and foresight into shared benefit for people
 and planet.
 

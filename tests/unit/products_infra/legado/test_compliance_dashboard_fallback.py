@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 import pytest
+from products.infrastructure.legado.legacy_systems.safety import compliance_dashboard
 
 path_obj = Path(__file__).resolve()
 tests_unit_path = str(path_obj.parents[2])
@@ -11,7 +12,6 @@ if tests_unit_path in sys.path:
 
 sys.path.insert(0, str(path_obj.parents[4]))
 
-from products.infrastructure.legado.legacy_systems.safety import compliance_dashboard
 
 
 def test_compliance_dashboard_streamlit_fallback_logs(caplog, tmp_path, monkeypatch):

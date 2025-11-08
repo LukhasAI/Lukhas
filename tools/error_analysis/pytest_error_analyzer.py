@@ -14,7 +14,6 @@ import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
-from typing import Dict, List
 
 
 class ErrorPattern:
@@ -40,7 +39,7 @@ class PytestErrorAnalyzer:
     """Analyzes pytest collection errors and suggests fixes."""
 
     # Error pattern regex definitions
-    PATTERNS = {
+    PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_error_analysis_pytest_error_analyzer_py_L43"}
         'module_not_found': re.compile(r"ModuleNotFoundError: No module named '([^']+)'"),
         'cannot_import': re.compile(r"cannot import name '([^']+)' from '([^']+)'"),
         'no_attribute': re.compile(r"module '([^']+)' has no attribute '([^']+)'"),
@@ -54,9 +53,9 @@ class PytestErrorAnalyzer:
 
     def __init__(self, log_file: Path):
         self.log_file = log_file
-        self.errors: List[ErrorPattern] = []
+        self.errors: list[ErrorPattern] = []
         self.error_counts: Counter = Counter()
-        self.fix_suggestions: Dict[str, List[str]] = defaultdict(list)
+        self.fix_suggestions: dict[str, list[str]] = defaultdict(list)
 
     def parse(self) -> None:
         """Parse pytest collection log for error patterns."""

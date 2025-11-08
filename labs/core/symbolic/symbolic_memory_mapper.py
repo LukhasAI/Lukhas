@@ -54,9 +54,10 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any
 
-from consciousness.reflection.memory_hub import MemoryHub
 from core.integration.hub_registry import HubRegistry
 from symbolic.symbolic_hub import SymbolicHub
+
+from consciousness.reflection.memory_hub import MemoryHub
 
 # ΛTRACE injection point
 logger = logging.getLogger("bridge.symbolic_memory")

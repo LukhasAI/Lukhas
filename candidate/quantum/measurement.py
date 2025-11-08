@@ -61,6 +61,8 @@ class QuantumMeasurement:
         post_probabilities = [abs(amp) ** 2 for amp in post_amplitudes]
         post_metadata = dict(state.metadata)
         post_metadata["probabilities"] = post_probabilities
+        initial_coherence = post_metadata.get("coherence", 1.0)
+        post_metadata["coherence"] = initial_coherence * (1.0 - decoherence)
         post_state = SuperpositionState(options=state.options, amplitudes=post_amplitudes, metadata=post_metadata)
 
         metadata = {

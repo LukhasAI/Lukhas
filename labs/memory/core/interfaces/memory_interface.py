@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 ║                             ◊ POETIC ESSENCE ◊
 ║
 ║ │ In the architecture of mind, interfaces are the protocols of              │
-║ │ understanding—the common language that allows episodic whispers to        │
+║ │ understanding-the common language that allows episodic whispers to        │
 ║ │ converse with semantic knowledge, that permits working memory's rapid     │
 ║ │ dance to synchronize with long-term storage's patient rhythm.             │
 ║ │                                                                           │

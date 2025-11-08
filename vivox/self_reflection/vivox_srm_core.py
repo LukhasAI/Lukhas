@@ -2,7 +2,7 @@
 VIVOX.SRM - Self-Reflective Memory
 Stores all collapses, hesitations, and moral rejections
 
-"Remembers not just what it did — but what it chose not to do"
+"Remembers not just what it did - but what it chose not to do"
 Forensically sound audit log of ethical cognition
 """
 import json
@@ -480,7 +480,7 @@ class VIVOXSelfReflectiveMemory:
     """
     VIVOX.SRM - Stores all collapses, hesitations, and moral rejections
 
-    "Remembers not just what it did — but what it chose not to do"
+    "Remembers not just what it did - but what it chose not to do"
     Forensically sound audit log of ethical cognition
     """
 
@@ -783,10 +783,9 @@ class VIVOXSelfReflectiveMemory:
             recommendations.append("Enhance alternative generation algorithms for suppressed actions")
 
         # Check ethical trends
-        if patterns["ethical_improvement_trend"]:
-            if patterns["ethical_improvement_trend"]["direction"] == "declining":
-                recommendations.append("Increase ethical validation weight in decision process")
-                recommendations.append("Review recent precedents for drift indicators")
+        if patterns['ethical_improvement_trend'] and patterns['ethical_improvement_trend']['direction'] == 'declining':
+            recommendations.append("Increase ethical validation weight in decision process")
+            recommendations.append("Review recent precedents for drift indicators")
 
         # Always include self-reflection
         recommendations.append("Schedule regular structural conscience reviews")
@@ -837,8 +836,7 @@ class VIVOXSelfReflectiveMemory:
             return False
 
         # Time filter
-        if time_range and hasattr(entry, "timestamp"):
-            if entry.timestamp < time_range[0] or entry.timestamp > time_range[1]:
-                return False
+        if (time_range and hasattr(entry, 'timestamp')) and (entry.timestamp < time_range[0] or entry.timestamp > time_range[1]):
+            return False
 
         return True

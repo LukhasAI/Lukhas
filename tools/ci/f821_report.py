@@ -137,7 +137,7 @@ def main():
 
     # write summary
     with open(args.md_out, "w", encoding="utf-8") as f:
-        f.write("# F821 Undefined Names — Summary\n\n")
+        f.write("# F821 Undefined Names - Summary\n\n")
         f.write(f"- Total: {len(enriched)}\n")
         f.write(f"- Core violations (lukhas/MATRIZ): {core_violations}\n")
         f.write("## By class\n")
@@ -156,15 +156,14 @@ def main():
                 continue
             ln = it["line"]
             annotation = f"# TODO[T4-F821:{it['class']}]: {it['message']}"
-            if 1 <= ln <= len(lines):
+            if 1 <= ln <= len(lines) and annotation not in lines[ln - 1]:
                 # idempotent: don't duplicate the annotation
-                if annotation not in lines[ln - 1]:
-                    lines[ln - 1] = lines[ln - 1] + "  " + annotation
-                    try:
-                        with open(p, "w", encoding="utf-8") as w:
-                            w.write("\n".join(lines) + "\n")
-                    except Exception:
-                        pass
+                lines[ln - 1] = lines[ln - 1] + "  " + annotation
+                try:
+                    with open(p, "w", encoding="utf-8") as w:
+                        w.write("\n".join(lines) + "\n")
+                except Exception:
+                    pass
 
     if args.enforce_core and core_violations > 0:
         print(f"ERROR: F821 in core paths: {core_violations}", file=sys.stderr)

@@ -10,9 +10,9 @@ import json
 import logging
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 from identity.observability import IdentityObservability
 from identity.session_manager import DeviceInfo, DeviceType
@@ -48,12 +48,12 @@ class DeviceFingerprint:
 @dataclass
 class DeviceBehavior:
     """Device behavioral patterns"""
-    login_times: List[datetime] = field(default_factory=list)
-    ip_addresses: Set[str] = field(default_factory=set)
-    user_agents: List[str] = field(default_factory=list)
-    session_durations: List[int] = field(default_factory=list)
-    activity_patterns: Dict[str, int] = field(default_factory=dict)
-    location_data: List[Dict[str, Any]] = field(default_factory=list)
+    login_times: list[datetime] = field(default_factory=list)
+    ip_addresses: set[str] = field(default_factory=set)
+    user_agents: list[str] = field(default_factory=list)
+    session_durations: list[int] = field(default_factory=list)
+    activity_patterns: dict[str, int] = field(default_factory=dict)
+    location_data: list[dict[str, Any]] = field(default_factory=list)
     failed_attempts: int = 0
     last_activity: Optional[datetime] = None
 
@@ -63,10 +63,10 @@ class DeviceRiskAssessment:
     """Device risk assessment results"""
     risk_level: RiskLevel
     risk_score: float  # 0.0 to 1.0
-    factors: List[str]  # Risk contributing factors
+    factors: list[str]  # Risk contributing factors
     assessment_time: datetime
     confidence: float  # Assessment confidence 0.0 to 1.0
-    recommendations: List[str]
+    recommendations: list[str]
 
 
 class DeviceRegistry:
@@ -87,15 +87,15 @@ class DeviceRegistry:
         self.fingerprint_similarity_threshold = fingerprint_similarity_threshold
 
         # Storage
-        self.devices: Dict[str, DeviceInfo] = {}
-        self.fingerprints: Dict[str, DeviceFingerprint] = {}
-        self.behaviors: Dict[str, DeviceBehavior] = {}
-        self.risk_assessments: Dict[str, DeviceRiskAssessment] = {}
+        self.devices: dict[str, DeviceInfo] = {}
+        self.fingerprints: dict[str, DeviceFingerprint] = {}
+        self.behaviors: dict[str, DeviceBehavior] = {}
+        self.risk_assessments: dict[str, DeviceRiskAssessment] = {}
 
         # Indexes
-        self.fingerprint_index: Dict[str, Set[str]] = {}  # hash -> device_ids
-        self.user_devices: Dict[str, Set[str]] = {}  # lambda_id -> device_ids
-        self.compromised_devices: Set[str] = set()
+        self.fingerprint_index: dict[str, set[str]] = {}  # hash -> device_ids
+        self.user_devices: dict[str, set[str]] = {}  # lambda_id -> device_ids
+        self.compromised_devices: set[str] = set()
 
         # Background tasks
         self._decay_task: Optional[asyncio.Task] = None
@@ -119,7 +119,7 @@ class DeviceRegistry:
     async def register_device(self,
                             lambda_id: str,
                             device_info: DeviceInfo,
-                            fingerprint_data: Dict[str, Any]) -> DeviceInfo:
+                            fingerprint_data: dict[str, Any]) -> DeviceInfo:
         """Register device with enhanced fingerprinting"""
 
         # Create enhanced fingerprint
@@ -136,10 +136,10 @@ class DeviceRegistry:
 
         # Initialize device behavior tracking
         behavior = DeviceBehavior(
-            login_times=[datetime.utcnow()],
+            login_times=[datetime.now(timezone.utc)],
             ip_addresses={device_info.ip_address},
             user_agents=[device_info.user_agent],
-            last_activity=datetime.utcnow()
+            last_activity=datetime.now(timezone.utc)
         )
 
         # Store device data
@@ -176,7 +176,7 @@ class DeviceRegistry:
             return
 
         behavior = self.behaviors[device_id]
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
 
         # Update activity data
         behavior.login_times.append(now)
@@ -204,7 +204,7 @@ class DeviceRegistry:
 
     async def verify_device_fingerprint(self,
                                       device_id: str,
-                                      fingerprint_data: Dict[str, Any]) -> Tuple[bool, float]:
+                                      fingerprint_data: dict[str, Any]) -> tuple[bool, float]:
         """Verify device fingerprint against stored data"""
 
         if device_id not in self.fingerprints:
@@ -234,7 +234,7 @@ class DeviceRegistry:
             self.devices[device_id].trust_level = 0.0
             self.devices[device_id].metadata["compromised"] = {
                 "reason": reason,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat()
             }
 
         # Create critical risk assessment
@@ -242,7 +242,7 @@ class DeviceRegistry:
             risk_level=RiskLevel.CRITICAL,
             risk_score=1.0,
             factors=[f"manually_marked_compromised: {reason}"],
-            assessment_time=datetime.utcnow(),
+            assessment_time=datetime.now(timezone.utc),
             confidence=1.0,
             recommendations=["revoke_all_sessions", "require_reregistration"]
         )
@@ -250,7 +250,7 @@ class DeviceRegistry:
 
         logger.warning(f"Device marked as compromised: {device_id}, reason: {reason}")
 
-    async def get_device_statistics(self, lambda_id: str) -> Dict[str, Any]:
+    async def get_device_statistics(self, lambda_id: str) -> dict[str, Any]:
         """Get device statistics for a user"""
         user_device_ids = self.user_devices.get(lambda_id, set())
         devices = [self.devices[did] for did in user_device_ids if did in self.devices]
@@ -258,7 +258,7 @@ class DeviceRegistry:
         if not devices:
             return {}
 
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         trusted_devices = sum(1 for d in devices if d.trust_level >= 0.7)
         recent_activity = sum(1 for d in devices if d.last_seen > now - timedelta(days=7))
 
@@ -280,7 +280,7 @@ class DeviceRegistry:
             "compromised_devices": len([did for did in user_device_ids if did in self.compromised_devices])
         }
 
-    def _create_fingerprint(self, fingerprint_data: Dict[str, Any]) -> DeviceFingerprint:
+    def _create_fingerprint(self, fingerprint_data: dict[str, Any]) -> DeviceFingerprint:
         """Create device fingerprint from raw data"""
 
         # Primary fingerprint (basic data)
@@ -324,7 +324,7 @@ class DeviceRegistry:
                 self.fingerprint_index[hash_value] = set()
             self.fingerprint_index[hash_value].add(device_id)
 
-    async def _find_similar_devices(self, fingerprint: DeviceFingerprint) -> Set[str]:
+    async def _find_similar_devices(self, fingerprint: DeviceFingerprint) -> set[str]:
         """Find devices with similar fingerprints"""
         similar_devices = set()
 
@@ -427,7 +427,7 @@ class DeviceRegistry:
             risk_level=risk_level,
             risk_score=risk_score,
             factors=risk_factors,
-            assessment_time=datetime.utcnow(),
+            assessment_time=datetime.now(timezone.utc),
             confidence=0.8,  # Base confidence
             recommendations=recommendations
         )
@@ -436,7 +436,7 @@ class DeviceRegistry:
         # Record metrics
         await self.observability.record_device_risk_assessment(device_id, risk_level.value, risk_score)
 
-    def _analyze_behavioral_risk(self, behavior: DeviceBehavior) -> Tuple[float, List[str]]:
+    def _analyze_behavioral_risk(self, behavior: DeviceBehavior) -> tuple[float, list[str]]:
         """Analyze behavioral patterns for risk indicators"""
         risk_score = 0.0
         risk_factors = []
@@ -473,7 +473,7 @@ class DeviceRegistry:
 
         return min(1.0, risk_score), risk_factors
 
-    def _generate_risk_recommendations(self, risk_level: RiskLevel, risk_factors: List[str]) -> List[str]:
+    def _generate_risk_recommendations(self, risk_level: RiskLevel, risk_factors: list[str]) -> list[str]:
         """Generate risk mitigation recommendations"""
         recommendations = []
 
@@ -532,7 +532,7 @@ class DeviceRegistry:
             self.devices[device_id].metadata["fingerprint_mismatch_count"] = mismatch_count + 1
             self.devices[device_id].metadata[f"fingerprint_mismatch_{int(time.time())}"] = {
                 "similarity": similarity,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat()
             }
 
         # Decrease trust level

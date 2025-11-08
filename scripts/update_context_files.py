@@ -13,7 +13,6 @@ from __future__ import annotations
 import re
 from datetime import datetime
 from pathlib import Path
-from typing import List, Tuple
 
 # Key metrics to update (based on latest analysis)
 METRICS = {
@@ -47,7 +46,7 @@ RECENT_CHANGES = [
 ]
 
 
-def find_all_context_files() -> Tuple[List[Path], List[Path]]:
+def find_all_context_files() -> tuple[list[Path], list[Path]]:
     """Find all claude.me and lukhas_context.md files."""
     repo_root = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
 

@@ -13,6 +13,11 @@ from unittest.mock import Mock, patch
 import pytest
 
 from core.reliability import (
+
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
     AdaptiveCircuitBreaker,
     AdaptiveTimeoutManager,
     BackoffConfig,
@@ -68,7 +73,7 @@ class TestAdaptiveCircuitBreaker:
 
         # Generate failures to trigger circuit opening
         for _i in range(10):
-            try:
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_reliability_test_0_01_percent_features_py_L70"}
                 await circuit_breaker.call(failing_func)
             except (ValueError, CircuitBreakerOpenError):
                 pass  # Ignore both test failures and circuit breaker errors

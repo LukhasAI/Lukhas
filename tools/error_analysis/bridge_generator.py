@@ -15,7 +15,7 @@ Examples:
 import argparse
 import sys
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional
 
 BRIDGE_TEMPLATE = '''"""Bridge for `{module_name}`.
 
@@ -28,9 +28,7 @@ Graceful fallback to stubs if no backend available.
 """
 from __future__ import annotations
 from importlib import import_module
-from typing import List
-
-__all__: List[str] = []
+__all__: list[str] = []
 
 def _try(n: str):
     try:
@@ -83,7 +81,7 @@ class BridgeGenerator:
     def __init__(self, base_path: Path = Path(".")):
         self.base_path = base_path
 
-    def generate_bridge(self, module_name: str, expected_symbols: Optional[List[str]] = None) -> Path:
+    def generate_bridge(self, module_name: str, expected_symbols: Optional[list[str]] = None) -> Path:
         """Generate a bridge module for the given module name."""
         # Determine paths
         if module_name.startswith('lukhas.'):
@@ -127,7 +125,7 @@ class BridgeGenerator:
 
         return bridge_file
 
-    def generate_batch(self, module_list_file: Path, expected_symbols_map: Optional[dict] = None) -> List[Path]:
+    def generate_batch(self, module_list_file: Path, expected_symbols_map: Optional[dict] = None) -> list[Path]:
         """Generate bridges for a batch of modules."""
         with open(module_list_file) as f:
             modules = [line.strip() for line in f if line.strip() and not line.startswith('#')]

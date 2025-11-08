@@ -2,7 +2,11 @@
 """Fix EOL string literal errors in Python files"""
 
 import ast
+import logging
 from pathlib import Path
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 def fix_eol_in_file(file_path):
@@ -42,7 +46,7 @@ def fix_eol_in_file(file_path):
                 if '": "' in problem_line and not problem_line.rstrip().endswith('",'):
                     # Add closing quote
                     lines[line_no - 1] = problem_line.rstrip() + '",\n'
-            elif problem_line.count("'") % 2 != 0:
+            elif problem_line.count("'") % 2 != 0:  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_scripts_fix_eol_errors_py_L45"}
                 if "': '" in problem_line and not problem_line.rstrip().endswith("',"):
                     lines[line_no - 1] = problem_line.rstrip() + "',\n"
 

@@ -21,7 +21,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Add project root to Python path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -77,7 +77,7 @@ class PerformanceE2ETester:
         except Exception:
             return "unknown"
 
-    def get_baseline_performance(self) -> Optional[Dict[str, Any]]:
+    def get_baseline_performance(self) -> Optional[dict[str, Any]]:
         """Load baseline performance metrics for regression detection."""
         baseline_path = self.output_dir / "baseline_e2e_performance.json"
         if baseline_path.exists():
@@ -88,7 +88,7 @@ class PerformanceE2ETester:
                 logging.warning(f"Could not load baseline: {e}")
         return None
 
-    def measure_latency(self, operation_func, iterations: Optional[int] = None) -> Dict[str, float]:
+    def measure_latency(self, operation_func, iterations: Optional[int] = None) -> dict[str, float]:
         """Measure operation latency with statistical analysis."""
         iterations = iterations or self.sample_count
         latencies = []
@@ -160,7 +160,7 @@ class PerformanceE2ETester:
             "user_id": "user123"
         }
 
-    def test_oidc_flow(self) -> Dict[str, Any]:
+    def test_oidc_flow(self) -> dict[str, Any]:
         """Test complete OIDC flow end-to-end latency."""
         print("🔐 Testing OIDC flow end-to-end latency...")
 
@@ -223,7 +223,7 @@ class PerformanceE2ETester:
             "operations_count": 5
         }
 
-    def test_memory_lifecycle(self) -> Dict[str, Any]:
+    def test_memory_lifecycle(self) -> dict[str, Any]:
         """Test complete memory lifecycle flow."""
         print("🧠 Testing memory lifecycle end-to-end flow...")
 
@@ -288,7 +288,7 @@ class PerformanceE2ETester:
             "success": True
         }
 
-    def test_orchestration(self) -> Dict[str, Any]:
+    def test_orchestration(self) -> dict[str, Any]:
         """Test multi-service orchestration latency."""
         print("🎭 Testing multi-service orchestration latency...")
 
@@ -350,7 +350,7 @@ class PerformanceE2ETester:
             "coherence_score": 0.92
         }
 
-    def test_matriz_pipeline(self) -> Dict[str, Any]:
+    def test_matriz_pipeline(self) -> dict[str, Any]:
         """Test MATRIZ pipeline end-to-end processing."""
         print("🌊 Testing MATRIZ pipeline processing latency...")
 
@@ -389,7 +389,7 @@ class PerformanceE2ETester:
             }
         }
 
-    def detect_regression(self, current_results: Dict[str, Any], baseline: Dict[str, Any]) -> Dict[str, Any]:
+    def detect_regression(self, current_results: dict[str, Any], baseline: dict[str, Any]) -> dict[str, Any]:
         """Detect performance regression against baseline."""
         if not baseline or "performance_metrics" not in baseline:
             return {
@@ -444,7 +444,7 @@ class PerformanceE2ETester:
             "critical_flows_impact": self._analyze_critical_flows_impact(current_metrics, baseline_metrics)
         }
 
-    def _analyze_critical_flows_impact(self, current: Dict[str, Any], baseline: Dict[str, Any]) -> Dict[str, Any]:
+    def _analyze_critical_flows_impact(self, current: dict[str, Any], baseline: dict[str, Any]) -> dict[str, Any]:
         """Analyze impact on critical E2E flows."""
         critical_flows = {
             "oidc_complete_flow": ("oidc_flow", "complete_flow"),
@@ -474,7 +474,7 @@ class PerformanceE2ETester:
 
         return impact_analysis
 
-    def run_all_tests(self) -> Dict[str, Any]:
+    def run_all_tests(self) -> dict[str, Any]:
         """Run all E2E performance tests."""
         print("🚀 Starting end-to-end performance validation...")
 
@@ -534,7 +534,7 @@ class PerformanceE2ETester:
 
         return results
 
-    def generate_artifact(self, results: Dict[str, Any]) -> str:
+    def generate_artifact(self, results: dict[str, Any]) -> str:
         """Generate E2E performance artifact file."""
         timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         artifact_filename = f"e2e-performance-{timestamp}.json"
@@ -546,7 +546,7 @@ class PerformanceE2ETester:
         print(f"📊 E2E performance artifact generated: {artifact_path}")
         return str(artifact_path)
 
-    def print_summary(self, results: Dict[str, Any]):
+    def print_summary(self, results: dict[str, Any]):
         """Print E2E performance test summary."""
         print("\n" + "="*60)
         print("🎯 END-TO-END PERFORMANCE VALIDATION SUMMARY")

@@ -22,7 +22,7 @@ import json
 import re
 import shutil
 import subprocess
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(".").resolve()
@@ -48,7 +48,7 @@ def write_file(path: Path, data: str):
     path.write_text(data, encoding="utf-8")
 
 def timestamp():
-    return datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+    return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
 def ensure_env():
     safe_mkdir(ARTDIR)
@@ -112,8 +112,8 @@ def parse_collect_log(collect_log_path: Path):
     if rg:
         try:
             out = subprocess.check_output("rg --hidden --no-ignore \"candidate\\.\" --glob '!release_artifacts/**' -n", shell=True, text=True)
-            for l in out.splitlines():
-                candidate_refs.add(l)
+            for line in out.splitlines():
+                candidate_refs.add(line)
         except subprocess.CalledProcessError:
             pass
     else:
@@ -220,7 +220,7 @@ def run_rewrite_preview(mapping, candidate_refs_file: Path):
     if not files:
         top = DISC / "top_python_files.txt"
         if top.exists():
-            files = [l.strip() for l in top.read_text().splitlines()[:200]]
+            files = [line.strip() for line in top.read_text().splitlines()[:200]]
     files = files[:200]
     if not files:
         print("No files to preview rewrite.")

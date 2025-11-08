@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -28,6 +23,8 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
 import asyncio
 import json
 import logging
@@ -41,11 +38,16 @@ from typing import Any, Callable
 
 from core.common import get_logger
 
+logger = logging.getLogger(__name__)
+
+
 try:  # Optional dependency for distributed comms; keep import-safe during tests
     from .p2p_communication import P2PNode  # type: ignore
 except Exception:  # pragma: no cover
+
     class P2PNode:  # minimal stub for import-time safety
         pass
+
 
 # Import mailbox components if available
 try:
@@ -141,7 +143,9 @@ class ActorRef:
 
         try:
             # Send message with reply_to
-            await self.tell(message_type, payload, correlation_id, response_id, sender=self.actor_id)
+            await self.tell(
+                message_type, payload, correlation_id, response_id, sender=self.actor_id
+            )
 
             # Wait for response
             result = await asyncio.wait_for(response_future, timeout)
@@ -213,7 +217,9 @@ class Actor(ABC):
             self._running = True
 
             # Start message processing loop
-            asyncio.create_task(self._message_loop())
+            asyncio.create_task(
+                self._message_loop()
+            )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_actor_system_py_L217"}
 
             logger.info(f"Actor {self.actor_id} started successfully")
         except Exception as e:
@@ -363,13 +369,17 @@ class Actor(ABC):
     async def handle_child_failure(self, child_id: str, error: Exception):
         """Handle a child actor failure."""
         strategy = self.supervision_strategy()
-        logger.info(f"Supervisor {self.actor_id} handling failure of child {child_id} with strategy {strategy.value}")
+        logger.info(
+            f"Supervisor {self.actor_id} handling failure of child {child_id} with strategy {strategy.value}"
+        )
         if strategy == SupervisionStrategy.RESTART:
             await self.actor_system.restart_actor(child_id)
         elif strategy == SupervisionStrategy.STOP:
             await self.actor_system.stop_actor(child_id)
         elif strategy == SupervisionStrategy.ESCALATE and self.supervisor:
-            await self.supervisor.tell("child_failed", {"child_id": self.actor_id, "error": str(error)})
+            await self.supervisor.tell(
+                "child_failed", {"child_id": self.actor_id, "error": str(error)}
+            )
 
     def get_stats(self) -> dict[str, Any]:
         """Get actor statistics"""
@@ -554,7 +564,9 @@ class ActorSystem:
             if supervisor.supervisor:
                 await self.handle_failure(supervisor, reason)
             else:
-                logger.error(f"Cannot escalate failure from {supervisor.actor_id}, no supervisor. Stopping.")
+                logger.error(
+                    f"Cannot escalate failure from {supervisor.actor_id}, no supervisor. Stopping."
+                )
                 await self.stop_actor(supervisor.actor_id)
 
     def get_system_stats(self) -> dict[str, Any]:
@@ -745,9 +757,13 @@ async def demo_actor_system():
     system = await get_global_actor_system()
 
     # Create AI agents
-    agent1_ref = await system.create_actor(AIAgentActor, "reasoning-agent-001", capabilities=["reasoning", "analysis"])
+    agent1_ref = await system.create_actor(
+        AIAgentActor, "reasoning-agent-001", capabilities=["reasoning", "analysis"]
+    )
 
-    agent2_ref = await system.create_actor(AIAgentActor, "memory-agent-001", capabilities=["memory", "storage"])
+    agent2_ref = await system.create_actor(
+        AIAgentActor, "memory-agent-001", capabilities=["memory", "storage"]
+    )
 
     # Test interaction
     correlation_id = str(uuid.uuid4())
@@ -770,7 +786,9 @@ async def demo_actor_system():
     print("Agent 1 status:", status)
 
     # Agent collaboration
-    collab_response = await agent2_ref.ask("collaborate", {"type": "request_assistance", "capability": "memory"})
+    collab_response = await agent2_ref.ask(
+        "collaborate", {"type": "request_assistance", "capability": "memory"}
+    )
     print("Collaboration response:", collab_response)
 
     # System stats

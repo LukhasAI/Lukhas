@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Aka Qualia Core — Phenomenological Module
+Aka Qualia Core - Phenomenological Module
 ==========================================
 
 Core implementation of bidirectional signal↔qualia translator with

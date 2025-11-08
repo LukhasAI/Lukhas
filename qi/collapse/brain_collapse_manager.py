@@ -1,4 +1,18 @@
+import asyncio
 import logging
+from datetime import datetime, timezone
+from typing import Any, Optional
+
+import structlog
+
+from consciousness.awareness.symbolic_trace_logger import SymbolicTraceLogger
+from memory.systems.memory_collapse_verifier import MemoryCollapseVerifier
+from orchestration.brain.collapse_chain_integrity import (
+    CollapseChainIntegrity,
+)
+from orchestration.brain.integrity_probe import IntegrityProbe
+from orchestration.brain.mesh.collapse_mesh import CollapseMesh
+from orchestration.brain.unified_collapse_system import CollapseBridge
 
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
@@ -14,20 +28,7 @@ logger = logging.getLogger(__name__)
 # ΛCOMMIT_WINDOW: post-ZIP
 # ΛAPPROVED_BY: Human Overseer (Gonzalo)
 
-import asyncio
-from datetime import datetime, timezone
-from typing import Any, Optional
 
-import structlog
-
-from consciousness.awareness.symbolic_trace_logger import SymbolicTraceLogger
-from memory.systems.memory_collapse_verifier import MemoryCollapseVerifier
-from orchestration.brain.collapse_chain_integrity import (
-    CollapseChainIntegrity,
-)
-from orchestration.brain.integrity_probe import IntegrityProbe
-from orchestration.brain.mesh.collapse_mesh import CollapseMesh
-from orchestration.brain.unified_collapse_system import CollapseBridge
 
 # TAG:qim
 # TAG:qi_states

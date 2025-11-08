@@ -21,7 +21,7 @@ class ActiveImportAnalyzer:
     """Analyzes Python imports in active code only"""
 
     # Directories to exclude from analysis
-    EXCLUDE_DIRS = {
+    EXCLUDE_DIRS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_analysis_active_import_analysis_py_L24"}
         "._cleanup_archive",
         "archive",
         "__pycache__",
@@ -35,7 +35,7 @@ class ActiveImportAnalyzer:
     }
 
     # Active module directories
-    ACTIVE_MODULES = {
+    ACTIVE_MODULES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_analysis_active_import_analysis_py_L38"}
         "api",
         "architectures",
         "bio",
@@ -82,10 +82,9 @@ class ActiveImportAnalyzer:
 
         # Check if in active module
         rel_path = file_path.relative_to(self.root_path)
-        if rel_path.parts and rel_path.parts[0] not in self.ACTIVE_MODULES:
+        if (rel_path.parts and rel_path.parts[0] not in self.ACTIVE_MODULES) and len(rel_path.parts) > 1:
             # Allow root-level Python files
-            if len(rel_path.parts) > 1:
-                return False
+            return False
 
         return True
 

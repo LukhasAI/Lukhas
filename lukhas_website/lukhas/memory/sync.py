@@ -20,9 +20,9 @@ import os
 import threading
 from collections import defaultdict, deque
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Set
+from typing import Any
 from uuid import UUID, uuid4
 
 # Optional Prometheus metrics
@@ -80,7 +80,7 @@ class SyncOperation:
     duration_ms: float
     error_message: str | None = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for logging/serialization."""
         return {
             "op_id": str(self.op_id),
@@ -124,7 +124,7 @@ class SyncBudgetConfig:
 
 
 # Default configurations per lane
-DEFAULT_SYNC_CONFIGS: Dict[str, SyncBudgetConfig] = {
+DEFAULT_SYNC_CONFIGS: dict[str, SyncBudgetConfig] = {
     "experimental": SyncBudgetConfig(
         max_fanout=12,
         max_fanin=8,
@@ -163,7 +163,7 @@ class MemorySynchronizer:
     to ensure safe memory synchronization across lanes.
     """
 
-    def __init__(self, lane: str | None = None, custom_config: Dict[str, SyncBudgetConfig] | None = None):
+    def __init__(self, lane: str | None = None, custom_config: dict[str, SyncBudgetConfig] | None = None):
         """
         Initialize memory synchronizer.
 
@@ -178,16 +178,16 @@ class MemorySynchronizer:
         self.config = self.sync_configs.get(self.lane, DEFAULT_SYNC_CONFIGS["experimental"])
 
         # Synchronization state tracking
-        self._active_fanout: Dict[str, Set[UUID]] = defaultdict(set)  # lane -> operation_ids
-        self._active_fanin: Dict[str, Set[UUID]] = defaultdict(set)   # lane -> operation_ids
-        self._operation_depth: Dict[UUID, int] = {}                   # op_id -> depth
+        self._active_fanout: dict[str, set[UUID]] = defaultdict(set)  # lane -> operation_ids
+        self._active_fanin: dict[str, set[UUID]] = defaultdict(set)   # lane -> operation_ids
+        self._operation_depth: dict[UUID, int] = {}                   # op_id -> depth
 
         # Budget tracking
         self._ops_history: deque = deque(maxlen=1000)  # Recent operations for budget calculation
         self._data_usage_history: deque = deque(maxlen=1000)  # Recent data usage
 
         # Operation log
-        self._sync_log: List[SyncOperation] = []
+        self._sync_log: list[SyncOperation] = []
 
         # Thread safety
         self._lock = threading.RLock()
@@ -198,7 +198,7 @@ class MemorySynchronizer:
         self,
         source_lane: str,
         target_lane: str,
-        fold_data: Dict[str, Any],
+        fold_data: dict[str, Any],
         fold_id: str | None = None,
         operation_type: str = "fold_sync",
         parent_op_id: UUID | None = None
@@ -218,7 +218,7 @@ class MemorySynchronizer:
             SyncOperation with result and metrics
         """
         op_id = uuid4()
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
 
         with self._lock:
             try:
@@ -313,7 +313,7 @@ class MemorySynchronizer:
                     self._perform_sync(source_lane, target_lane, fold_data, fold_id)
 
                     # Sync successful
-                    duration_ms = (datetime.utcnow() - start_time).total_seconds() * 1000
+                    duration_ms = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
                     result = self._create_sync_operation(
                         op_id, start_time, source_lane, target_lane, operation_type,
                         fold_id, data_size, fanout_cost, fanin_cost, depth_level,
@@ -328,7 +328,7 @@ class MemorySynchronizer:
                     self._release_resources(op_id, source_lane, target_lane, fanout_cost, fanin_cost)
 
             except Exception as e:
-                duration_ms = (datetime.utcnow() - start_time).total_seconds() * 1000
+                duration_ms = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
                 result = self._create_sync_operation(
                     op_id, start_time, source_lane, target_lane, operation_type,
                     fold_id, 0, fanout_cost, fanin_cost, depth_level,
@@ -339,7 +339,7 @@ class MemorySynchronizer:
             self._log_operation(result)
             return result
 
-    def _calculate_data_size(self, data: Dict[str, Any]) -> int:
+    def _calculate_data_size(self, data: dict[str, Any]) -> int:
         """Estimate data size in bytes (simplified implementation)."""
         try:
             import json
@@ -375,7 +375,7 @@ class MemorySynchronizer:
 
     def _check_ops_budget(self) -> bool:
         """Check if operation budget allows new operation."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         window_start = now - timedelta(seconds=self.config.budget_window_seconds)
 
         # Count recent operations
@@ -388,7 +388,7 @@ class MemorySynchronizer:
 
     def _check_data_budget(self, data_size: int) -> bool:
         """Check if data budget allows the operation."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         window_start = now - timedelta(seconds=self.config.budget_window_seconds)
 
         # Calculate recent data usage
@@ -400,7 +400,7 @@ class MemorySynchronizer:
         data_size_mb = data_size / (1024 * 1024)
         return recent_data_mb + data_size_mb <= self.config.data_budget_per_tick_mb
 
-    def _validate_fold_data(self, data: Dict[str, Any]) -> bool:
+    def _validate_fold_data(self, data: dict[str, Any]) -> bool:
         """Validate fold data structure and content."""
         if not isinstance(data, dict):
             return False
@@ -430,7 +430,7 @@ class MemorySynchronizer:
 
         self._operation_depth.pop(op_id, None)
 
-    def _perform_sync(self, source_lane: str, target_lane: str, data: Dict[str, Any], fold_id: str | None):
+    def _perform_sync(self, source_lane: str, target_lane: str, data: dict[str, Any], fold_id: str | None):
         """Perform the actual memory synchronization (implementation placeholder)."""
         # This would contain the actual sync logic
         # For now, we simulate the sync operation
@@ -448,7 +448,7 @@ class MemorySynchronizer:
                               duration_ms: float | None = None) -> SyncOperation:
         """Create sync operation record."""
         if duration_ms is None:
-            duration_ms = (datetime.utcnow() - start_time).total_seconds() * 1000
+            duration_ms = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
         return SyncOperation(
             op_id=op_id,
@@ -500,9 +500,9 @@ class MemorySynchronizer:
                     error_type=operation.result.value
                 ).inc()
 
-    def get_sync_stats(self) -> Dict[str, Any]:
+    def get_sync_stats(self) -> dict[str, Any]:
         """Get current synchronization statistics."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         window_start = now - timedelta(seconds=self.config.budget_window_seconds)
 
         # Calculate recent metrics
@@ -531,7 +531,7 @@ class MemorySynchronizer:
             "active_operations": len(self._operation_depth)
         }
 
-    def get_sync_log(self, limit: int | None = None) -> List[SyncOperation]:
+    def get_sync_log(self, limit: int | None = None) -> list[SyncOperation]:
         """Get recent sync operations for audit/debugging."""
         if limit is None:
             return self._sync_log.copy()

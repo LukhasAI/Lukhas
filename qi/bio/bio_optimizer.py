@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
-
-import logging
-
-log = logging.getLogger(__name__)  # TODO: logging
-
-logger = logging.getLogger(__name__)
 
 """
 
@@ -41,14 +34,12 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
-__module_name__ = "Quantum Bio Optimization Adapter"
-__version__ = "2.0.0"
-__tier__ = 2
-
+from __future__ import annotations
 
 import asyncio
 import hashlib  # For caching key generation
 import json  # For caching key generation if complex dicts are used
+import logging
 import time
 from dataclasses import asdict, dataclass, field  # Added asdict
 from datetime import datetime, timezone  # Standardized timestamping
@@ -56,7 +47,63 @@ from pathlib import Path  # Not used in current code, but often useful
 from typing import Any  # Added Type
 
 import numpy as np
-import structlog  # Standardized logging
+
+# structlog is optional in the test environment; fall back to stdlib logging when absent.
+try:  # pragma: no cover - import guard for optional dependency
+    import structlog  # Standardized logging
+except ModuleNotFoundError:  # pragma: no cover - optional dependency
+    import logging
+
+    class _BoundLogger:
+        def __init__(self, logger: logging.Logger, context: dict[str, Any] | None = None) -> None:
+            self._logger = logger
+            self._context = context or {}
+
+        def bind(self, **kwargs: Any) -> _BoundLogger:
+            merged = {**self._context, **kwargs}
+            return _BoundLogger(self._logger, merged)
+
+        def _compose(self, event: str, extra: dict[str, Any]) -> str:
+            if not self._context and not extra:
+                return event
+            merged = {**self._context, **extra}
+            return f"{event} | {merged}"
+
+        def debug(self, event: str, **kwargs: Any) -> None:
+            self._log(self._logger.debug, event, kwargs)
+
+        def info(self, event: str, **kwargs: Any) -> None:
+            self._log(self._logger.info, event, kwargs)
+
+        def warning(self, event: str, **kwargs: Any) -> None:
+            self._log(self._logger.warning, event, kwargs)
+
+        def error(self, event: str, **kwargs: Any) -> None:
+            self._log(self._logger.error, event, kwargs)
+
+        def _log(self, method, event: str, kwargs: dict[str, Any]) -> None:
+            extra = kwargs.copy()
+            exc_info = extra.pop("exc_info", None)
+            method(self._compose(event, extra), exc_info=exc_info)
+
+    class _StructlogShim:
+        @staticmethod
+        def get_logger(name: str) -> _BoundLogger:  # type: ignore[override]
+            return _BoundLogger(logging.getLogger(name))
+
+    structlog = _StructlogShim()  # type: ignore[assignment]
+
+log = logging.getLogger(__name__)  # TODO: logging
+
+logger = logging.getLogger(__name__)
+
+
+__module_name__ = "Quantum Bio Optimization Adapter"
+__version__ = "2.0.0"
+__tier__ = 2
+
+
+
 
 # Initialize structlog logger for this module
 log = structlog.get_logger(__name__)
@@ -745,7 +792,7 @@ class QIBioOptimizationAdapter:
         self.log.info("Shutting down QIBioOptimizationAdapter...")
         try:
             self.is_currently_optimizing = False
-            if (
+            if (  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_bio_bio_optimizer_py_L795"}
                 hasattr(self, "qi_dream_adapter")
                 and hasattr(self.qi_dream_adapter, "active")
                 and self.qi_dream_adapter.active

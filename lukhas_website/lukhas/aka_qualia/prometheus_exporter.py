@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
 """
 Prometheus Metrics Exporter for Aka Qualia
@@ -15,6 +14,9 @@ Provides real-time observability into:
 - TEQ Guardian interventions
 - Energy conservation compliance
 """
+
+from __future__ import annotations
+
 import time
 from typing import Any
 

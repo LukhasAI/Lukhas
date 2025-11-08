@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-import sys
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -59,9 +53,13 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
 # Module imports
 import asyncio
 import json
+import logging
+import sys
 import threading
 import time
 import uuid
@@ -69,6 +67,9 @@ from copy import deepcopy
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any, Callable
+
+logger = logging.getLogger(__name__)
+
 
 # Configure module logger
 
@@ -422,7 +423,7 @@ class SharedStateManager:
             for callback in list(self.subscribers[key]):
                 try:
                     if asyncio.iscoroutinefunction(callback):
-                        asyncio.create_task(callback(key, new_value, operation_type_str))
+                        asyncio.create_task(callback(key, new_value, operation_type_str))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_consciousness_shared_state_py_L426"}
                     else:
                         callback(key, new_value, operation_type_str)
                     self.logger.debug(

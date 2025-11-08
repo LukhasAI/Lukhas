@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import time
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 import structlog
 from fastapi import APIRouter, Depends, HTTPException, Request, status
@@ -31,7 +31,6 @@ from pydantic import BaseModel, Field
 try:
     from ..governance.guardian_system import GuardianSystem
     from ..identity.biometrics import (
-        BiometricAttestation,  # TODO: ..identity.biometrics.Biometri...
         BiometricModality,
         MockBiometricProvider,
         create_mock_biometric_provider,
@@ -74,11 +73,11 @@ class TierAuthenticationRequest(BaseModel):
     totp_token: str | None = Field(None, description="TOTP token for T3 authentication")
 
     # T4+ credentials
-    webauthn_response: Dict[str, Any] | None = Field(None, description="WebAuthn response for T4")
+    webauthn_response: dict[str, Any] | None = Field(None, description="WebAuthn response for T4")
     webauthn_challenge_id: str | None = Field(None, description="Issued WebAuthn challenge identifier")
 
     # T5 credentials
-    biometric_attestation: Dict[str, Any] | None = Field(None, description="Biometric attestation for T5")
+    biometric_attestation: dict[str, Any] | None = Field(None, description="Biometric attestation for T5")
 
     # Session context
     existing_tier: Tier | None = Field(None, description="Current authenticated tier")
@@ -121,7 +120,7 @@ class WebAuthnChallengeResponse(BaseModel):
     """WebAuthn challenge response."""
 
     challenge_id: str = Field(..., description="Challenge identifier")
-    options: Dict[str, Any] = Field(..., description="WebAuthn challenge options")
+    options: dict[str, Any] = Field(..., description="WebAuthn challenge options")
     expires_at: datetime = Field(..., description="Challenge expiration time")
 
 
@@ -129,7 +128,7 @@ class WebAuthnVerificationRequest(BaseModel):
     """WebAuthn verification request."""
 
     challenge_id: str = Field(..., description="Challenge identifier")
-    webauthn_response: Dict[str, Any] = Field(..., description="WebAuthn authentication response")
+    webauthn_response: dict[str, Any] = Field(..., description="WebAuthn authentication response")
     correlation_id: str | None = Field(None, description="Request correlation ID")
 
 
@@ -158,7 +157,7 @@ class BiometricEnrollmentRequest(BaseModel):
     user_id: str = Field(..., description="User identifier")
     modality: str = Field(..., description="Biometric modality (fingerprint, face, iris, etc.)")
     sample_data: str = Field(..., description="Base64-encoded biometric sample")
-    device_info: Dict[str, Any] | None = Field(None, description="Capture device information")
+    device_info: dict[str, Any] | None = Field(None, description="Capture device information")
 
 
 class BiometricEnrollmentResponse(BaseModel):
@@ -176,14 +175,14 @@ class BiometricAuthenticationRequest(BaseModel):
     modality: str = Field(..., description="Biometric modality")
     sample_data: str = Field(..., description="Base64-encoded biometric sample")
     nonce: str = Field(..., description="Anti-replay nonce")
-    device_info: Dict[str, Any] | None = Field(None, description="Capture device information")
+    device_info: dict[str, Any] | None = Field(None, description="Capture device information")
 
 
 class BiometricAuthenticationResponse(BaseModel):
     """Biometric authentication response."""
 
     success: bool = Field(..., description="Authentication success status")
-    attestation: Dict[str, Any] = Field(..., description="Biometric attestation data")
+    attestation: dict[str, Any] = Field(..., description="Biometric attestation data")
     processing_time_ms: float = Field(..., description="Processing duration")
 
 
@@ -201,10 +200,10 @@ class SessionStatusResponse(BaseModel):
 class SystemMetricsResponse(BaseModel):
     """System performance metrics response."""
 
-    authentication_metrics: Dict[str, Any] = Field(..., description="Authentication performance metrics")
-    webauthn_metrics: Dict[str, Any] = Field(..., description="WebAuthn performance metrics")
-    biometric_metrics: Dict[str, Any] = Field(..., description="Biometric performance metrics")
-    system_status: Dict[str, Any] = Field(..., description="Overall system status")
+    authentication_metrics: dict[str, Any] = Field(..., description="Authentication performance metrics")
+    webauthn_metrics: dict[str, Any] = Field(..., description="WebAuthn performance metrics")
+    biometric_metrics: dict[str, Any] = Field(..., description="Biometric performance metrics")
+    system_status: dict[str, Any] = Field(..., description="Overall system status")
 
 
 # Router initialization
@@ -635,7 +634,7 @@ async def authenticate_biometric(
 @router.get("/session/status", response_model=SessionStatusResponse)
 async def get_session_status(
     request: Request,
-    credentials: HTTPAuthorizationCredentials | None = Depends(security)
+    credentials: HTTPAuthorizationCredentials | None = Depends(security)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_identity_py_L638"}
 ) -> SessionStatusResponse:
     """
     Get current session authentication status.
@@ -673,7 +672,7 @@ async def get_session_status(
 async def elevate_session_tier(
     auth_request: TierAuthenticationRequest,
     request: Request,
-    credentials: HTTPAuthorizationCredentials | None = Depends(security)
+    credentials: HTTPAuthorizationCredentials | None = Depends(security)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_api_identity_py_L676"}
 ) -> AuthenticationResponse:
     """
     Elevate current session to higher authentication tier.
@@ -742,7 +741,7 @@ async def get_system_metrics() -> SystemMetricsResponse:
 # Health check endpoint
 
 @router.get("/health")
-async def health_check() -> Dict[str, Any]:
+async def health_check() -> dict[str, Any]:
     """
     Health check endpoint for service monitoring.
 

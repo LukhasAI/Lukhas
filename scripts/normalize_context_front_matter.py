@@ -105,7 +105,7 @@ def _merge(a: dict, b: dict) -> dict:
             out[k] = list(merged)
         elif isinstance(v, dict):
             ex = out.get(k, {})
-            m = dict(ex); m.update(v)
+            m = dict(ex); m.update(v)  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_normalize_context_front_matter_py_L108"}
             out[k] = m
         else:
             out[k] = v

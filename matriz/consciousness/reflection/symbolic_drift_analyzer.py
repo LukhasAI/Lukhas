@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -39,21 +33,27 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
 import asyncio
 import contextlib
 import hashlib
 import json
+import logging
 import math
 import statistics
 import time
 from collections import Counter, defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum, auto
 from pathlib import Path
 from typing import Any, Callable
 
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
 
 # Rich terminal output
 try:
@@ -324,7 +324,9 @@ class SymbolicDriftAnalyzer:
         for dream in dream_contents:
             json.dumps(dream, sort_keys=True)
             # Simple semantic hash based on content structure
-            semantic_hash = hashlib.sha256()  #  Changed from MD5 for securitycontent.encode().hexdigest()[:8]
+            semantic_hash = (
+                hashlib.sha256()
+            )  #  Changed from MD5 for securitycontent.encode().hexdigest()[:8]
             semantic_hashes.append(semantic_hash)
 
         return self.calculate_shannon_entropy(semantic_hashes)
@@ -580,7 +582,9 @@ class SymbolicDriftAnalyzer:
             dreams = self._generate_synthetic_dreams()
         else:
             # Fetch recent dreams
-            dreams = await self.dream_memory.get_recent_dreams(limit=self.config["entropy_window_size"])
+            dreams = await self.dream_memory.get_recent_dreams(
+                limit=self.config["entropy_window_size"]
+            )
 
         if not dreams:
             return {"status": "no_data", "message": "No dreams available for analysis"}
@@ -1028,7 +1032,9 @@ class SymbolicDriftAnalyzer:
                 DriftAlertLevel.EMERGENCY: "bold red",
             }
             color = level_color.get(alert.level, "white")
-            alerts_content += f"[{color}]{alert.timestamp.strftime('%H:%M:%S')} - {alert.message}[/{color}]\n"
+            alerts_content += (
+                f"[{color}]{alert.timestamp.strftime('%H:%M:%S')} - {alert.message}[/{color}]\n"
+            )
 
         alerts_panel = Panel(
             alerts_content or "[green]No recent alerts[/green]",
@@ -1222,7 +1228,7 @@ async def demonstrate_analyzer():
     print("\nStarting continuous monitoring (press Ctrl+C to stop)...")
     await analyzer.start_monitoring()
 
-    try:
+    try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_symbolic_drift_analyzer_py_L1225"}
         # Keep running
         await asyncio.sleep(30)  # Run for 30 seconds
     except KeyboardInterrupt:

@@ -1,7 +1,19 @@
 ---
 status: wip
 type: documentation
----
+canonical: https://lukhas.app/architecture
+seo:
+  description: "LUKHAS.APP Vision Portal - interactive consciousness interfaces transforming abstract awareness into tangible experience with aperture-focused possibility orientation."
+  keywords:
+    - "consciousness interfaces"
+    - "interactive AI"
+    - "Vision Portal"
+    - "consciousness UX"
+    - "user experience AI"
+last_reviewed: "2025-11-08"
+keywords: "consciousness interfaces, interactive AI, Vision Portal, consciousness UX, user experience AI"
+evidence_links:
+  - 'release_artifacts/evidence/cloud-infrastructure-200ms.md'---
 # 🔬 LUKHAS.APP - The Vision Portal
 ## Website Architecture & Interactive Interface Gateway
 

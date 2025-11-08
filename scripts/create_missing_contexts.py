@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import json
 import pathlib
-from typing import List
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
@@ -17,7 +16,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 def make_body(fqn: str, logger: str) -> str:
     return f"""
 ## What it does
-_TODO: short description (2–3 sentences). Add links to demos, notebooks, or dashboards._
+_TODO: short description (2-3 sentences). Add links to demos, notebooks, or dashboards._
 
 ## Contracts
 - **Publishes**: _e.g., `topic.name@v1`_
@@ -40,7 +39,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 """.lstrip("\n")
 
 
-def to_front_matter(module: str, star: str, tier: str, owner: str, matriz: List[str], colony: str, manifest_path: str) -> str:
+def to_front_matter(module: str, star: str, tier: str, owner: str, matriz: list[str], colony: str, manifest_path: str) -> str:
     arr = ", ".join(matriz or [])
     fm = [
         "---",

@@ -7,7 +7,7 @@ from __future__ import annotations
 import contextlib
 import json
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Storage configuration
 AUDIT_STORAGE = Path("audit_logs")
@@ -25,7 +25,7 @@ class JSONLStorage:
         """Get path for JSONL table file."""
         return self.base_path / f"{table}.jsonl"
 
-    async def write_json(self, table: str, payload: Dict[str, Any]):
+    async def write_json(self, table: str, payload: dict[str, Any]):
         """
         Write JSON object to append-only JSONL file.
 
@@ -40,7 +40,7 @@ class JSONLStorage:
         with path.open("a") as f:
             f.write(line)
 
-    async def fetch_decision_trace(self, trace_id: str) -> Dict[str, Any] | None:
+    async def fetch_decision_trace(self, trace_id: str) -> dict[str, Any] | None:
         """
         Fetch decision trace by ID.
 
@@ -70,7 +70,7 @@ class JSONLStorage:
         table: str,
         trace_id: str,
         order_by: str | None = None
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Fetch all JSON objects matching trace_id.
 
@@ -117,13 +117,13 @@ def get_storage() -> JSONLStorage:
 
 
 # Convenience wrappers
-async def write_json(table: str, payload: Dict[str, Any]):
+async def write_json(table: str, payload: dict[str, Any]):
     """Write JSON to storage."""
     storage = get_storage()
     await storage.write_json(table, payload)
 
 
-async def fetch_decision_trace(trace_id: str) -> Dict[str, Any] | None:
+async def fetch_decision_trace(trace_id: str) -> dict[str, Any] | None:
     """Fetch decision trace by ID."""
     storage = get_storage()
     return await storage.fetch_decision_trace(trace_id)
@@ -133,7 +133,7 @@ async def fetch_jsons_by_trace(
     table: str,
     trace_id: str,
     order_by: str | None = None
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Fetch JSONs by trace ID."""
     storage = get_storage()
     return await storage.fetch_jsons_by_trace(table, trace_id, order_by)

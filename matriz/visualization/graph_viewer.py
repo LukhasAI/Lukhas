@@ -40,12 +40,14 @@ try:
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
 except ImportError as e:
-    raise ImportError(
+    raise ImportError(  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_visualization_graph_viewer_py_L43"}
         f"Missing required dependencies: {e}. Please install with: pip install networkx plotly pandas numpy"
     )
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 
@@ -53,7 +55,7 @@ class NodeTypeConfig:
     """Configuration for MATRIZ node type visualization."""
 
     # Color scheme for different node types
-    COLORS = {
+    COLORS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L56"}
         "SENSORY_IMG": "#FF6B6B",  # Red - visual input
         "SENSORY_AUD": "#4ECDC4",  # Teal - audio input
         "SENSORY_VID": "#45B7D1",  # Blue - video input
@@ -76,7 +78,7 @@ class NodeTypeConfig:
     }
 
     # Shapes for different node types
-    SHAPES = {
+    SHAPES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L79"}
         "SENSORY_IMG": "square",
         "SENSORY_AUD": "circle",
         "SENSORY_VID": "diamond",
@@ -99,7 +101,7 @@ class NodeTypeConfig:
     }
 
     # Size scaling based on node importance
-    SIZE_MULTIPLIER = {
+    SIZE_MULTIPLIER = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L102"}
         "DECISION": 1.5,
         "EMOTION": 1.3,
         "AWARENESS": 1.4,
@@ -128,7 +130,7 @@ class LinkTypeConfig:
     """Configuration for MATRIZ link type visualization."""
 
     # Colors for different link types
-    COLORS = {
+    COLORS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L131"}
         "temporal": "#74B9FF",  # Blue - time-based connections
         "causal": "#E17055",  # Orange-red - cause-effect
         "semantic": "#00B894",  # Green - meaning-based
@@ -139,7 +141,7 @@ class LinkTypeConfig:
     }
 
     # Line styles for different link types
-    STYLES = {
+    STYLES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L142"}
         "temporal": "solid",
         "causal": "dash",
         "semantic": "dot",
@@ -150,7 +152,7 @@ class LinkTypeConfig:
     }
 
     # Width scaling based on link importance
-    WIDTH_MULTIPLIER = {
+    WIDTH_MULTIPLIER = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L153"}
         "causal": 1.5,
         "temporal": 1.3,
         "evidence": 1.2,
@@ -393,7 +395,9 @@ class MATRIZGraphViewer:
 
             # Links filter
             if has_links is not None:
-                has_any_links = self.graph.in_degree(node_id) > 0 or self.graph.out_degree(node_id) > 0
+                has_any_links = (
+                    self.graph.in_degree(node_id) > 0 or self.graph.out_degree(node_id) > 0
+                )
                 if has_links != has_any_links:
                     continue
 
@@ -601,9 +605,9 @@ class MATRIZGraphViewer:
                                         "transition": {"duration": 300},
                                     },
                                 ],
-                                "label": datetime.fromtimestamp(int(frame.name, tz=timezone.utc) / 1000).strftime(
-                                    "%H:%M:%S"
-                                ),
+                                "label": datetime.fromtimestamp(
+                                    int(frame.name, tz=timezone.utc) / 1000
+                                ).strftime("%H:%M:%S"),
                                 "method": "animate",
                             }
                             for frame in frames
@@ -737,7 +741,10 @@ class MATRIZGraphViewer:
                     cells={
                         "values": [
                             list(metrics.keys()),
-                            [f"{v:.3f}" if isinstance(v, float) else str(v) for v in metrics.values()],
+                            [
+                                f"{v:.3f}" if isinstance(v, float) else str(v)
+                                for v in metrics.values()
+                            ],
                         ],
                         "fill_color": "white",
                         "align": "left",
@@ -781,7 +788,9 @@ class MATRIZGraphViewer:
         current_time = time.time()
 
         # Check cache
-        if cache_key in self._analysis_cache and current_time - self._cache_timestamp < 300:  # 5 minute cache
+        if (
+            cache_key in self._analysis_cache and current_time - self._cache_timestamp < 300
+        ):  # 5 minute cache
             return self._analysis_cache[cache_key]
 
         try:
@@ -812,16 +821,24 @@ class MATRIZGraphViewer:
             if sample_nodes:
                 # Degree centrality
                 degree_centrality = nx.degree_centrality(self.graph)
-                metrics["Avg Degree Centrality"] = np.mean([degree_centrality[n] for n in sample_nodes])
+                metrics["Avg Degree Centrality"] = np.mean(
+                    [degree_centrality[n] for n in sample_nodes]
+                )
 
                 # Betweenness centrality (expensive, so sample)
                 if len(sample_nodes) <= 50:
-                    between_centrality = nx.betweenness_centrality(self.graph, k=min(20, len(sample_nodes)))
-                    metrics["Avg Betweenness Centrality"] = np.mean(list(between_centrality.values()))
+                    between_centrality = nx.betweenness_centrality(
+                        self.graph, k=min(20, len(sample_nodes))
+                    )
+                    metrics["Avg Betweenness Centrality"] = np.mean(
+                        list(between_centrality.values())
+                    )
 
                 # Clustering coefficient
                 clustering = nx.clustering(undirected_graph)
-                metrics["Avg Clustering Coefficient"] = np.mean([clustering[n] for n in sample_nodes])
+                metrics["Avg Clustering Coefficient"] = np.mean(
+                    [clustering[n] for n in sample_nodes]
+                )
 
             # Confidence and salience statistics
             confidences = [data.get("confidence", 0) for _, data in self.graph.nodes(data=True)]
@@ -1045,7 +1062,9 @@ class MATRIZGraphViewer:
 
         # Link type distribution
         if self.graph.edges():
-            link_types = [data.get("link_type", "unknown") for _, _, data in self.graph.edges(data=True)]
+            link_types = [
+                data.get("link_type", "unknown") for _, _, data in self.graph.edges(data=True)
+            ]
             summary["link_types"] = dict(Counter(link_types))
 
         # Temporal range
@@ -1159,7 +1178,9 @@ class MATRIZGraphViewer:
             self.layout_cache[cache_key] = pos
             return pos
 
-    def _add_edges_to_plot(self, fig: go.Figure, pos: dict, show_weights: bool, highlight_critical: bool) -> None:
+    def _add_edges_to_plot(
+        self, fig: go.Figure, pos: dict, show_weights: bool, highlight_critical: bool
+    ) -> None:
         """Add edges to the plot."""
         edge_traces = defaultdict(list)
 
@@ -1205,7 +1226,9 @@ class MATRIZGraphViewer:
 
     def _add_nodes_to_plot(self, fig: go.Figure, pos: dict, show_info: bool) -> None:
         """Add nodes to the plot grouped by type."""
-        node_traces = defaultdict(lambda: {"x": [], "y": [], "text": [], "hovertext": [], "size": []})
+        node_traces = defaultdict(
+            lambda: {"x": [], "y": [], "text": [], "hovertext": [], "size": []}
+        )
 
         for node_id, data in self.graph.nodes(data=True):
             if node_id not in pos:
@@ -1269,7 +1292,9 @@ class MATRIZGraphViewer:
 
         return "<br>".join(lines)
 
-    def _create_node_trace(self, graph: nx.DiGraph, pos: dict, show_info: bool) -> Optional[go.Scatter]:
+    def _create_node_trace(
+        self, graph: nx.DiGraph, pos: dict, show_info: bool
+    ) -> Optional[go.Scatter]:
         """Create a single node trace for animation frames."""
         if not graph.nodes():
             return None
@@ -1343,7 +1368,6 @@ class MATRIZGraphViewer:
     def _add_node_type_legend(self, fig: go.Figure) -> None:
         """Add a legend showing node type colors."""
         # This is handled automatically by the node traces
-        pass
 
     def _create_empty_plot(self, title: str) -> go.Figure:
         """Create an empty plot with instructions."""

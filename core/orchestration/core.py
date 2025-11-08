@@ -347,7 +347,7 @@ class OrchestrationCore:
 
     async def _initiate_consciousness_loop(self):
         """Start the main consciousness simulation loop."""
-        asyncio.create_task(self._consciousness_loop())
+        asyncio.create_task(self._consciousness_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_core_py_L350"}
         logger.info("Consciousness simulation loop initiated")
 
     async def _consciousness_loop(self):

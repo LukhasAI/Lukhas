@@ -6,7 +6,7 @@ import pathlib
 import statistics
 import subprocess
 import sys
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 SEEDS = [1, 7, 13, 42, 123, 999]
 
@@ -16,7 +16,7 @@ def run_once(seed: int, out: str) -> None:
     env["LUKHAS_BENCH_SEED"] = str(seed)
     subprocess.check_call([sys.executable, "-m", "benchmarks.dream.run", "--out", out], env=env)
 
-def load_results(path: str) -> List[Dict[str, Any]]:
+def load_results(path: str) -> list[dict[str, Any]]:
     """Load results from JSONL file."""
     results = []
     if not pathlib.Path(path).exists():
@@ -29,7 +29,7 @@ def load_results(path: str) -> List[Dict[str, Any]]:
                 results.append(json.loads(line))
     return results
 
-def analyze_stability(results_by_seed: Dict[int, List[Dict]]) -> Dict[str, Any]:
+def analyze_stability(results_by_seed: dict[int, list[Dict]]) -> dict[str, Any]:
     """Analyze stability across seeds."""
     if not results_by_seed:
         return {"error": "No results to analyze"}

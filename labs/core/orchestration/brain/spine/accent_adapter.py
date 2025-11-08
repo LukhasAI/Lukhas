@@ -346,7 +346,7 @@ class AccentAdapter:
                 if self.emotion_mapper:
                     tone = self.emotion_mapper.suggest_tone("nostalgia", memory)
                     reminiscence = (
-                        f"{reminiscence} I remember it softly—it made me feel {tone}."
+                        f"{reminiscence} I remember it softly-it made me feel {tone}."
                     )
                     if self.config.get("speak_reminiscence", False) and hasattr(:
                         self.memory_helix, "speak"
@@ -362,7 +362,7 @@ class AccentAdapter:
                 if self.emotion_mapper:
                     tone = self.emotion_mapper.suggest_tone("nostalgia", memory)
                     reminiscence = (
-                        f"{reminiscence} I remember it softly—it made me feel {tone}."
+                        f"{reminiscence} I remember it softly-it made me feel {tone}."
                     )
                     if self.config.get("speak_reminiscence", False) and hasattr(:
                         self.memory_helix, "speak"

@@ -205,7 +205,7 @@ def update_module_base_classes(root_path: Path) -> None:
                 content = f.read()
 
             # Look for module-like classes
-            if re.search(r"class \w+Module\(.*\):", content):
+            if re.search(r"class \w+Module\(.*\):", content):  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_scripts_consolidate_modules_py_L208"}
                 # Check if not already inheriting from BaseModule
                 if "BaseModule" not in content:
                     base_class_updates.append(py_file)

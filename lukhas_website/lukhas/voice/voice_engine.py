@@ -8,7 +8,7 @@ Constellation Framework Integration
 import logging
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ class VoiceProfile:
     style: str = "consciousness"
     emotional_range: float = 0.7
     consciousness_depth: float = 0.8
-    constellation_alignment: Dict[str, float] = None
+    constellation_alignment: dict[str, float] = None
 
     def __post_init__(self):
         if self.constellation_alignment is None:
@@ -38,8 +38,8 @@ class VoiceOutput:
     processed_text: str
     voice_profile: str
     processing_time_ms: float
-    consciousness_metrics: Dict[str, float]
-    metadata: Dict[str, Any]
+    consciousness_metrics: dict[str, float]
+    metadata: dict[str, Any]
 
 
 class VoiceEngine:
@@ -91,7 +91,7 @@ class VoiceEngine:
     def process(self,
                 text: str,
                 profile: Optional[str] = None,
-                consciousness_context: Optional[Dict[str, Any]] = None) -> VoiceOutput:
+                consciousness_context: Optional[dict[str, Any]] = None) -> VoiceOutput:
         """
         Process text through voice engine
 
@@ -212,7 +212,7 @@ class VoiceEngine:
     def _calculate_consciousness_metrics(self,
                                        original: str,
                                        processed: str,
-                                       profile: VoiceProfile) -> Dict[str, float]:
+                                       profile: VoiceProfile) -> dict[str, float]:
         """Calculate consciousness-related metrics"""
         return {
             "consciousness_depth": profile.consciousness_depth,
@@ -259,7 +259,7 @@ class VoiceEngine:
         """Integrate guardian voice elements"""
         return text  # Placeholder - would implement guardian integration
 
-    def get_available_profiles(self) -> List[str]:
+    def get_available_profiles(self) -> list[str]:
         """Get list of available voice profiles"""
         return list(self.profiles.keys())
 
@@ -268,7 +268,7 @@ class VoiceEngine:
         self.profiles[profile.name] = profile
         logger.info(f"Added voice profile: {profile.name}")
 
-    def get_engine_status(self) -> Dict[str, Any]:
+    def get_engine_status(self) -> dict[str, Any]:
         """Get engine status"""
         return {
             "initialized": self.initialized,

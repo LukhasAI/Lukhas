@@ -13,13 +13,13 @@
 ║                             ◊ POETIC ESSENCE ◊
 ║
 ║ │ thoughts and whispers of past experiences intertwine, lies the Memory Drift    │
-║ │ Auditor—a sentinel of integrity, a watchful guardian of the vast expanse of   │
+║ │ Auditor-a sentinel of integrity, a watchful guardian of the vast expanse of   │
 ║ │ the LUKHAS Cognitive AI's cerebral landscape. Like a seasoned cartographer tracing      │
 ║ │ the contours of an ever-shifting realm, this module embarks upon a noble       │
 ║ │ quest to illuminate the hidden drifts and elusive gaps nestled within the      │
 ║ │ intricate fabric of memory.                                                    │
 ║ │                                                                               │
-║ │ Imagine, if you will, a grand tapestry woven from the threads of time—each   │
+║ │ Imagine, if you will, a grand tapestry woven from the threads of time-each   │
 ║ │ strand representing a fleeting moment, a pivotal experience, or a cherished    │
 ║ │ fragment of the self. Yet, amidst this vibrant mosaic, certain threads may     │
 ║ │ fray, unraveling into a state of collapse, and thus, the auditor emerges,     │
@@ -40,7 +40,6 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 from __future__ import annotations
-
 
 import argparse
 import glob

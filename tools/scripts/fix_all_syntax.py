@@ -2,7 +2,11 @@
 """Fix all remaining syntax errors in Python files"""
 
 import ast
+import logging
 from pathlib import Path
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 def fix_multiline_string_error(file_path):
@@ -21,25 +25,24 @@ def fix_multiline_string_error(file_path):
         # Pattern 1: String split across lines without proper closing
         # Look for lines with odd number of quotes
         quote_count = line.count('"') - line.count('\\"')
-        if quote_count % 2 != 0:
+        if quote_count % 2 != 0:  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_scripts_fix_all_syntax_py_L24"}
             # Check if it's a line that starts a string but doesn't close it
             if '": "' in line or '= "' in line or 'return "' in line:
                 # Check if the line doesn't end with a quote
                 stripped = line.rstrip()
-                if not stripped.endswith('"') and not stripped.endswith('",'):
+                if (not stripped.endswith('"') and (not stripped.endswith('",'))) and i + 1 < len(lines):
                     # Look ahead to see if next line continues the string
-                    if i + 1 < len(lines):
-                        next_line = lines[i + 1]
-                        # If next line is indented continuation, merge it
-                        if next_line.startswith("    "):
-                            # Merge the lines
-                            lines[i] = stripped + " " + next_line.strip()
-                            if lines[i].rstrip()[-1] not in "\",'":
-                                lines[i] = lines[i].rstrip() + '"\n'
-                            lines[i + 1] = ""
-                        else:
-                            # Just close the string
-                            lines[i] = stripped + '"\n'
+                    next_line = lines[i + 1]
+                    # If next line is indented continuation, merge it
+                    if next_line.startswith("    "):
+                        # Merge the lines
+                        lines[i] = stripped + " " + next_line.strip()
+                        if lines[i].rstrip()[-1] not in "\",'":
+                            lines[i] = lines[i].rstrip() + '"\n'
+                        lines[i + 1] = ""
+                    else:
+                        # Just close the string
+                        lines[i] = stripped + '"\n'
 
     # Write back the fixed content
     with open(file_path, "w", encoding="utf-8") as f:

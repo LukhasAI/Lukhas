@@ -1,3 +1,8 @@
+status: wip
+type: documentation
+> **Note**: This is a vendor-neutral version of claude.me for compatibility with any AI tool or development environment.
+
+
 # Audit Module - LUKHAS Audit Logging & Compliance
 
 **Module**: audit
@@ -5,7 +10,6 @@
 **Team**: Core
 **Purpose**: Comprehensive audit logging, compliance tracking, and audit trail management for LUKHAS systems
 
----
 
 ## Overview
 
@@ -19,7 +23,6 @@ The audit module provides comprehensive audit logging and compliance tracking fo
 - Retention policy management
 - Cryptographic integrity verification
 
----
 
 ## Architecture
 
@@ -36,7 +39,6 @@ audit/
 └── config/                      # Configuration
 ```
 
----
 
 ## Core Components
 
@@ -78,7 +80,6 @@ logger.log(
 - **POLICY_VIOLATION**: Guardian violations, drift alerts
 - **ADMINISTRATIVE**: User management, role changes
 
----
 
 ### 2. Compliance Reporting
 
@@ -108,7 +109,6 @@ gdpr_report = reporter.generate_gdpr_report(
 - **SOC2**: Security controls, audit trails
 - **HIPAA**: Healthcare data access (if applicable)
 
----
 
 ### 3. Audit Search
 
@@ -134,7 +134,6 @@ results = search.query(
 # - IP address and user agent
 ```
 
----
 
 ### 4. Integrity Verification
 
@@ -162,7 +161,6 @@ integrity_check = verifier.verify_chain(
 - Tamper detection
 - Non-repudiation
 
----
 
 ## Audit Event Structure
 
@@ -192,7 +190,6 @@ integrity_check = verifier.verify_chain(
 }
 ```
 
----
 
 ## Configuration
 
@@ -226,7 +223,6 @@ audit:
     soc2_enabled: true
 ```
 
----
 
 ## Use Cases
 
@@ -253,7 +249,6 @@ integrity = verifier.verify_complete_chain()
 assert integrity.valid == True
 ```
 
----
 
 ## Observability
 
@@ -266,7 +261,6 @@ assert integrity.valid == True
 - Integrity verification success rate
 - Compliance report generation time
 
----
 
 ## Related Modules
 
@@ -275,37 +269,8 @@ assert integrity.valid == True
 - **guardian/**: Violation events
 - **enforcement/**: Policy compliance events
 
----
 
 **Module Status**: L2 Integration
 **Schema Version**: 1.0.0
 **Last Updated**: 2025-10-18
 **Philosophy**: Audit everything, trust cryptography, ensure compliance isn't negotiable.
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

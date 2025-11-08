@@ -1,7 +1,3 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 🧬 DNA Healix - Immutable Memory Architecture for LUKHAS
 ======================================================
@@ -22,15 +18,20 @@ Version: 1.0
 import asyncio
 import contextlib
 import hashlib
+import logging
 from collections import defaultdict
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
 
 import numpy as np
 
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
+
 
 # from sklearn.metrics.pairwise import cosine_similarity  # Optional dependency
 

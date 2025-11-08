@@ -69,7 +69,7 @@ class TestSafetyTag:
 
     def test_invalid_confidence_raises_error(self):
         """Test that invalid confidence values raise errors."""
-        with pytest.raises(ValueError, match="Confidence must be between 0.0 and 1.0"):
+    with pytest.raises(ValueError, match=r"Confidence must be between 0.0 and 1.0"):
             SafetyTag(
                 name="test",
                 category=SafetyTagCategory.DATA_SENSITIVITY,

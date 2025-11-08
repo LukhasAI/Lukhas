@@ -1,6 +1,8 @@
 # path: qi/ui/cockpit_api.py
 from __future__ import annotations
 
+# Safe I/O for UI files
+import builtins
 import json
 import os
 import time
@@ -29,8 +31,6 @@ COCKPIT_UI_PATH = os.environ.get("COCKPIT_UI_PATH")  # /abs/path/to/web/cockpit.
 RECEIPTS_UI_PATH = os.environ.get("RECEIPTS_UI_PATH")  # /abs/path/to/web/trace_drilldown.html
 APPROVER_UI_PATH = os.environ.get("APPROVER_UI_PATH")  # /abs/path/to/web/approver_ui.html
 
-# Safe I/O for UI files
-import builtins
 
 _ORIG_OPEN = builtins.open
 
@@ -254,7 +254,7 @@ def get_adaptive_candidates(token: str | None = Header(None, alias="X-Auth-Token
 
 @app.post("/cockpit/adaptive/promote")
 def promote_adaptive_candidates(
-    targets: list[str] = Query(...),
+    targets: list[str] = Query(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_ui_cockpit_api_py_L257"}
     token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)

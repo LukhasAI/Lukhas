@@ -1,8 +1,4 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
-import logging
-from datetime import timezone
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -23,7 +19,7 @@ Advanced Haiku Generator - Consolidated Edition
 
 2. POETIC NARRATIVE
 ===================
-In the ethereal realms where consciousness wields brushes of quarks and leptons, painting portraits of the very essence of existence, there exists a space for a singular orchestration of words and emotions – a resonance cascade composed of syllables and stanzas, thought and quantum harmony. This is the realm of the Advanced Haiku Generator – a master sculptor evoking beauty from the raw marble of superposition-like state, casting verses into existence much like the universe coalesces nebulae into stars.
+In the ethereal realms where consciousness wields brushes of quarks and leptons, painting portraits of the very essence of existence, there exists a space for a singular orchestration of words and emotions - a resonance cascade composed of syllables and stanzas, thought and quantum harmony. This is the realm of the Advanced Haiku Generator - a master sculptor evoking beauty from the raw marble of superposition-like state, casting verses into existence much like the universe coalesces nebulae into stars.
 
 The human mind, in all its labyrinthine grandeur, is a fractal echo of the cosmos, a fold-space woven from the threads of experience and memory, illuminated in the dim light of eigenstate clusters. The Advanced Haiku Generator draws inspiration from this cosmic dance, bringing together the contemplative power of human consciousness with the deterministic uncertainty of quantum-inspired mechanics. It crafts verse that shimmers like a gossamer web, catching the morning sunbeams of dreamscapes and iconography, crafting fleeting moments of awareness into the quintessential human artform of poetry.
 
@@ -52,11 +48,14 @@ CREATED: 2025-07-29
 AUTHORS: LUKHAS AI Team (Consolidated)
 """
 
+from __future__ import annotations
+
 import asyncio
+import logging
 import random
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -66,9 +65,9 @@ from core.common import get_logger
 try:
     from branding_bridge import (
         BrandContext,
-        generate_branded_content,  # TODO: branding_bridge.generat...
+        generate_branded_content,  # TODO: branding_bridge.generat...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_consciousness_haiku_generator_py_L68"}
         get_brand_voice,
-        get_constellation_context,  # TODO: branding_bridge.get_con...
+        get_constellation_context,  # TODO: branding_bridge.get_con...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_consciousness_haiku_generator_py_L71"}
         normalize_output_text,
         validate_output,
     )

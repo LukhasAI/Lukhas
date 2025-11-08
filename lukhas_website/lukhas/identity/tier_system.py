@@ -1,6 +1,3 @@
-import logging
-
-log = logging.getLogger(__name__)
 """
 LUKHAS Memory Tier System
 
@@ -16,8 +13,10 @@ Metadata:
 License:
   OpenAI-aligned AGI Symbolic Framework (internal use)
 """
+
 import hashlib
 import json
+import logging
 import os
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
@@ -26,6 +25,9 @@ from functools import wraps
 from typing import Any, Callable, Optional, Union
 
 import structlog
+
+log = logging.getLogger(__name__)
+
 
 logger = structlog.get_logger(__name__)
 

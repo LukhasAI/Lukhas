@@ -216,7 +216,6 @@ grpcio==1.76.0
 h11==0.16.0
 httpcore==1.0.9
 httpx==0.28.1
-hypothesis==6.141.1
 hypothesis==6.142.4
 idna==3.11
 importlib-metadata==8.7.0
@@ -235,6 +234,9 @@ opentelemetry-exporter-otlp==1.38.0
 opentelemetry-proto==1.38.0
 opentelemetry-sdk==1.38.0
 opentelemetry-semantic-conventions==0.59b0
+opentelemetry-instrumentation==0.59b0
+opentelemetry-instrumentation-asgi==0.59b0
+opentelemetry-instrumentation-fastapi==0.59b0
 orjson==3.11.4
 packaging==25.0
 pillow==11.3.0
@@ -262,10 +264,10 @@ qrcode==7.4.2
 regex==2025.10.23
 requests==2.32.5
 rich==14.2.0
-rpds-py==0.28.0 \
+rpds-py==0.28.0
 six==1.17.0
-smmap==5.0.2 \
-sniffio==1.3.1 \
+smmap==5.0.2
+sniffio==1.3.1
 sortedcontainers==2.4.0
 sqlalchemy==2.0.44
 starlette==0.49.3
@@ -279,3 +281,5 @@ uvicorn==0.38.0
 websockets==12.0
 yarl==1.22.0
 zipp==3.23.0
+lz4>=4.0.0 \
+    --hash=sha256:0846e6e78f374156ccf21c631de80967e03cc3c01c373c665789dc0c5431e7fc

@@ -29,6 +29,7 @@
 ║ All LUKHAS modules should use this service instead of direct OpenAI calls.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -128,7 +129,7 @@ class OpenAICoreService:
     """
 
     # Model configurations
-    MODELS = {
+    MODELS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_openai_core_service_py_L131"}
         ModelType.REASONING: "gpt-4-turbo-preview",
         ModelType.CREATIVE: "gpt-4",
         ModelType.FAST: "gpt-3.5-turbo",
@@ -141,7 +142,7 @@ class OpenAICoreService:
     }
 
     # Capability to models mapping
-    CAPABILITY_MODELS = {
+    CAPABILITY_MODELS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_openai_core_service_py_L144"}
         OpenAICapability.TEXT_GENERATION: [
             ModelType.REASONING,
             ModelType.CREATIVE,
@@ -236,7 +237,9 @@ class OpenAICoreService:
             response.request_id = request_id
             response.module = request.module
             response.capability = request.capability
-            response.latency_ms = int((datetime.now(timezone.utc) - start_time).total_seconds() * 1000)
+            response.latency_ms = int(
+                (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
+            )
 
             # Cache successful responses
             if response.success and cache_key:
@@ -361,7 +364,9 @@ class OpenAICoreService:
                     {
                         "url": image.url if hasattr(image, "url") else None,
                         "b64_json": (image.b64_json if hasattr(image, "b64_json") else None),
-                        "revised_prompt": (image.revised_prompt if hasattr(image, "revised_prompt") else None),
+                        "revised_prompt": (
+                            image.revised_prompt if hasattr(image, "revised_prompt") else None
+                        ),
                     }
                 )
 
@@ -676,7 +681,9 @@ class OpenAIMockProvider:
             "emotion": "The emotional resonance indicates a complex interplay of feelings...",
         }
 
-        content = module_responses.get(request.module, "This is a mock response for development purposes.")
+        content = module_responses.get(
+            request.module, "This is a mock response for development purposes."
+        )
 
         return OpenAIResponse(
             request_id="mock",
@@ -824,7 +831,9 @@ class RateLimiter:
 
 
 # Convenience functions for modules
-async def generate_text(module: str, prompt: str, model_type: ModelType = ModelType.FAST, **kwargs) -> str:
+async def generate_text(
+    module: str, prompt: str, model_type: ModelType = ModelType.FAST, **kwargs
+) -> str:
     """Convenience function for text generation."""
     service = OpenAICoreService()
     request = OpenAIRequest(
@@ -840,7 +849,9 @@ async def generate_text(module: str, prompt: str, model_type: ModelType = ModelT
         raise Exception(f"Text generation failed: {response.error}")
 
 
-async def generate_image(module: str, prompt: str, size: str = "1024x1024", **kwargs) -> dict[str, Any]:
+async def generate_image(
+    module: str, prompt: str, size: str = "1024x1024", **kwargs
+) -> dict[str, Any]:
     """Convenience function for image generation."""
     service = OpenAICoreService()
     request = OpenAIRequest(

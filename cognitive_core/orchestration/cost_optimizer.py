@@ -180,14 +180,12 @@ class CostOptimizer:
             return False
 
         # Hourly constraint
-        if constraints.max_cost_per_hour:
-            if self.current_usage["hour"] + estimated_cost > constraints.max_cost_per_hour:
-                return False
+        if constraints.max_cost_per_hour and self.current_usage['hour'] + estimated_cost > constraints.max_cost_per_hour:
+            return False
 
         # Daily constraint
-        if constraints.max_cost_per_day:
-            if self.current_usage["day"] + estimated_cost > constraints.max_cost_per_day:
-                return False
+        if constraints.max_cost_per_day and self.current_usage['day'] + estimated_cost > constraints.max_cost_per_day:
+            return False
 
         return True
 

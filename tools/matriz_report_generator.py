@@ -13,10 +13,10 @@ import csv
 import json
 import pathlib
 import sys
-from typing import Any, Dict
+from typing import Any
 
 
-def generate_audit_report(audit_data: Dict[str, Any], output_path: pathlib.Path):
+def generate_audit_report(audit_data: dict[str, Any], output_path: pathlib.Path):
     """Generate comprehensive audit report in Markdown."""
     summary = audit_data.get('summary', {})
     modules = audit_data.get('modules', [])
@@ -157,7 +157,7 @@ def generate_audit_report(audit_data: Dict[str, Any], output_path: pathlib.Path)
         f.write('\n'.join(lines))
 
 
-def generate_location_reports(audit_data: Dict[str, Any], md_path: pathlib.Path, csv_path: pathlib.Path):
+def generate_location_reports(audit_data: dict[str, Any], md_path: pathlib.Path, csv_path: pathlib.Path):
     """Generate module location reports in both Markdown and CSV formats."""
     modules = audit_data.get('modules', [])
 
@@ -169,8 +169,8 @@ def generate_location_reports(audit_data: Dict[str, Any], md_path: pathlib.Path,
         paths = module.get('paths', [])
 
         # Format contracts and paths for display
-        contracts_str = '; '.join(contracts) if contracts else '—'
-        paths_str = '; '.join(paths) if paths else '—'
+        contracts_str = '; '.join(contracts) if contracts else '-'
+        paths_str = '; '.join(paths) if paths else '-'
 
         location_data.append({
             'module': module_name,
@@ -192,8 +192,8 @@ def generate_location_reports(audit_data: Dict[str, Any], md_path: pathlib.Path,
     ]
 
     for item in location_data:
-        contracts_display = item['contracts'].replace(';', '<br>') if item['contracts'] != '—' else '—'
-        paths_display = item['paths'].replace(';', '<br>') if item['paths'] != '—' else '—'
+        contracts_display = item['contracts'].replace(';', '<br>') if item['contracts'] != '-' else '-'
+        paths_display = item['paths'].replace(';', '<br>') if item['paths'] != '-' else '-'
         md_lines.append(f"| `{item['module']}` | {contracts_display} | {paths_display} |")
 
     md_lines.extend([

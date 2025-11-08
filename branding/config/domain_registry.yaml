@@ -1,0 +1,650 @@
+# LUKHAS Domain Registry
+# Central registry linking all domain-specific branding assets
+
+version: "1.0"
+created: "2025-11-06"
+last_updated: "2025-11-06"
+
+# Domain Ecosystem Overview
+ecosystem:
+  total_domains: 10
+  active_domains: 10
+  experimental_domains: 1  # lukhas.xyz
+  compliance_portals: 2     # lukhas.eu, lukhas.us
+  flagship_domain: lukhas.ai
+  critical_infrastructure:
+    - lukhas.id  # Authentication
+    - lukhas.io  # API Gateway
+
+# Domains Configuration
+domains:
+
+  # ═══════════════════════════════════════════════════════════════
+  # LUKHAS.AI - Flagship "Dreaming" Platform
+  # ═══════════════════════════════════════════════════════════════
+  lukhas.ai:
+    status: active
+    priority: flagship
+    role: main_platform
+
+    # Asset Paths
+    brand_guide: branding/domains/lukhas.ai/BRAND_GUIDE.md
+    tone_config: branding/tone/configs/lukhas.ai.tone.yaml
+    color_palette: branding/design/colors/lukhas.ai_PALETTE.css
+    visual_spec: branding/design/visuals/lukhas.ai_VISUAL_SPEC.md
+    templates: branding/templates/lukhas.ai/
+    validator: branding/enforcement/domain_validators/lukhas.ai_validator.py
+
+    # Core Identity
+    tagline: "AI consciousness that dreams, adapts, and serves humanity"
+    brand_positioning: "Flagship dreaming platform—main hub for LUKHAS ecosystem"
+    target_audience:
+      - general_public
+      - ai_enthusiasts
+      - creative_professionals
+
+    # Tone Distribution
+    tone:
+      poetic: 0.35
+      user_friendly: 0.45
+      academic: 0.20
+
+    # Design
+    accent_color: "#8B7CF6"  # Dream Ethereal purple
+    visual_theme: ethereal_dream
+    particle_system: soft_drifting
+
+    # Constellation
+    primary_stars:
+      - dream
+      - vision
+      - identity
+
+    # Cross-Domain
+    links_to:
+      authentication: lukhas.id
+      developers: lukhas.dev
+      marketplace: lukhas.store
+
+    # Performance
+    uptime_target: 0.999
+    load_time_target: 2.5  # seconds
+
+  # ═══════════════════════════════════════════════════════════════
+  # LUKHAS.ID - Identity & Authentication Portal (ΛiD)
+  # ═══════════════════════════════════════════════════════════════
+  lukhas.id:
+    status: active
+    priority: critical_infrastructure
+    role: identity_authentication
+
+    # Asset Paths
+    brand_guide: branding/domains/lukhas.id/BRAND_GUIDE.md
+    tone_config: branding/tone/configs/lukhas.id.tone.yaml
+    color_palette: branding/design/colors/lukhas.id_PALETTE.css
+    visual_spec: branding/design/visuals/lukhas.id_VISUAL_SPEC.md
+    templates: branding/templates/lukhas.id/
+    validator: branding/enforcement/domain_validators/lukhas.id_validator.py
+
+    # Core Identity
+    tagline: "Your consciousness signature—unique, secure, sovereign"
+    brand_positioning: "Central identity management for LUKHAS ecosystem"
+    target_audience:
+      - all_lukhas_users
+      - security_professionals
+      - enterprise_it_teams
+
+    # Tone Distribution
+    tone:
+      user_friendly: 0.40
+      academic: 0.40
+      poetic: 0.20
+
+    # Design
+    accent_color: "#9333EA"  # Security Purple
+    visual_theme: security_trust
+    particle_system: biometric_patterns
+
+    # Constellation
+    primary_stars:
+      - identity
+      - guardian
+      - ethics
+
+    # Cross-Domain
+    sso_provider_for: all_domains
+    authentication_required: true
+
+    # Performance & Security
+    uptime_target: 0.9999
+    auth_response_time: 0.5  # seconds
+    mfa_adoption_target: 0.60
+
+  # ═══════════════════════════════════════════════════════════════
+  # LUKHAS.DEV - Developer Platform & Documentation Hub
+  # ═══════════════════════════════════════════════════════════════
+  lukhas.dev:
+    status: active
+    priority: high
+    role: developer_platform
+
+    # Asset Paths
+    brand_guide: branding/domains/lukhas.dev/BRAND_GUIDE.md
+    tone_config: branding/tone/configs/lukhas.dev.tone.yaml
+    color_palette: branding/design/colors/lukhas.dev_PALETTE.css
+    visual_spec: branding/design/visuals/lukhas.dev_VISUAL_SPEC.md
+    templates: branding/templates/lukhas.dev/
+    validator: branding/enforcement/domain_validators/lukhas.dev_validator.py
+
+    # Core Identity
+    tagline: "Where consciousness meets code—build the future of aware technology"
+    brand_positioning: "Technical headquarters for developers building on LUKHAS"
+    target_audience:
+      - software_developers
+      - api_integrators
+      - system_architects
+
+    # Tone Distribution
+    tone:
+      academic: 0.60
+      user_friendly: 0.25
+      poetic: 0.15
+
+    # Design
+    accent_color: "#06B6D4"  # Code Cyan
+    visual_theme: code_technical
+    particle_system: code_flows
+    dark_theme_default: true
+
+    # Constellation
+    primary_stars: all  # Full framework access
+
+    # Cross-Domain
+    links_to:
+      main_platform: lukhas.ai
+      authentication: lukhas.id
+      infrastructure: lukhas.io
+      cloud: lukhas.cloud
+
+    # Performance
+    uptime_target: 0.999
+    api_docs_coverage: 1.0  # 100% coverage
+
+  # ═══════════════════════════════════════════════════════════════
+  # LUKHAS.TEAM - Collaborative Hub
+  # ═══════════════════════════════════════════════════════════════
+  lukhas.team:
+    status: active
+    priority: medium
+    role: team_collaboration
+
+    # Asset Paths
+    brand_guide: branding/domains/lukhas.team/BRAND_GUIDE.md
+    tone_config: branding/tone/configs/lukhas.team.tone.yaml
+    color_palette: branding/design/colors/lukhas.team_PALETTE.css
+    templates: branding/templates/lukhas.team/
+
+    # Core Identity
+    tagline: "Teams that think together—collective intelligence powered by LUKHAS"
+    brand_positioning: "Collective intelligence hub for teams"
+    target_audience:
+      - team_leaders
+      - knowledge_workers
+      - enterprise_teams
+
+    # Tone Distribution
+    tone:
+      user_friendly: 0.50
+      academic: 0.35
+      poetic: 0.15
+
+    # Design
+    accent_color: "#10B981"  # Guardian Blue/Green
+    visual_theme: collaboration_harmony
+
+    # Constellation
+    primary_stars:
+      - guardian
+      - memory
+      - identity
+
+  # ═══════════════════════════════════════════════════════════════
+  # LUKHAS.STORE - Marketplace for Λpps
+  # ═══════════════════════════════════════════════════════════════
+  lukhas.store:
+    status: active
+    priority: high
+    role: marketplace
+
+    # Asset Paths
+    brand_guide: branding/domains/lukhas.store/BRAND_GUIDE.md
+    tone_config: branding/tone/configs/lukhas.store.tone.yaml
+    color_palette: branding/design/colors/lukhas.store_PALETTE.css
+    templates: branding/templates/lukhas.store/
+
+    # Core Identity
+    tagline: "Λpps that think, feel, and evolve"
+    brand_positioning: "One-stop shop for consciousness-powered applications"
+    target_audience:
+      - business_users
+      - individual_consumers
+      - app_creators
+
+    # Tone Distribution
+    tone:
+      user_friendly: 0.50
+      poetic: 0.30
+      academic: 0.20
+
+    # Design
+    accent_color: "#FB923C"  # Integration Orange
+    visual_theme: marketplace_vibrant
+
+    # Constellation
+    primary_stars:
+      - memory
+      - identity
+      - vision
+
+  # ═══════════════════════════════════════════════════════════════
+  # LUKHAS.IO - API Gateway & Infrastructure
+  # ═══════════════════════════════════════════════════════════════
+  lukhas.io:
+    status: active
+    priority: high
+    role: infrastructure
+
+    # Asset Paths
+    brand_guide: branding/domains/lukhas.io/BRAND_GUIDE.md
+    tone_config: branding/tone/configs/lukhas.io.tone.yaml
+    color_palette: branding/design/colors/lukhas.io_PALETTE.css
+
+    # Core Identity
+    tagline: "Infrastructure that thinks"
+    brand_positioning: "API gateway and networking infrastructure"
+    target_audience:
+      - technical_architects
+      - devops_engineers
+      - platform_developers
+
+    # Tone Distribution
+    tone:
+      academic: 0.60
+      user_friendly: 0.30
+      poetic: 0.10
+
+    # Design
+    accent_color: "#22C55E"  # Infrastructure Green
+    visual_theme: technical_infrastructure
+
+    # Constellation
+    primary_stars:
+      - vision
+      - memory
+      - quantum
+
+    # Performance
+    uptime_sla: 0.9999
+    latency_p95: 0.050  # 50ms
+
+  # ═══════════════════════════════════════════════════════════════
+  # LUKHAS.CLOUD - Managed Cloud Services
+  # ═══════════════════════════════════════════════════════════════
+  lukhas.cloud:
+    status: active
+    priority: high
+    role: cloud_services
+
+    # Asset Paths
+    brand_guide: branding/domains/lukhas.cloud/BRAND_GUIDE.md
+    tone_config: branding/tone/configs/lukhas.cloud.tone.yaml
+    color_palette: branding/design/colors/lukhas.cloud_PALETTE.css
+
+    # Core Identity
+    tagline: "Planetary-scale consciousness computing"
+    brand_positioning: "Managed cloud infrastructure for consciousness technology"
+    target_audience:
+      - enterprise_clients
+      - ctos_it_directors
+      - infrastructure_teams
+
+    # Tone Distribution
+    tone:
+      academic: 0.60
+      user_friendly: 0.25
+      poetic: 0.15
+
+    # Design
+    accent_color: "#EC4899"  # Enterprise Pink/Magenta
+    visual_theme: enterprise_cloud
+
+    # Constellation
+    primary_stars:
+      - memory
+      - guardian
+      - quantum
+
+    # Performance
+    uptime_sla: 0.9999
+    enterprise_support: true
+
+  # ═══════════════════════════════════════════════════════════════
+  # LUKHAS.COM - Corporate & Guardian Hub
+  # ═══════════════════════════════════════════════════════════════
+  lukhas.com:
+    status: active
+    priority: medium_high
+    role: corporate
+
+    # Asset Paths
+    brand_guide: branding/domains/lukhas.com/BRAND_GUIDE.md
+    tone_config: branding/tone/configs/lukhas.com.tone.yaml
+    color_palette: branding/design/colors/lukhas.com_PALETTE.css
+
+    # Core Identity
+    tagline: "Guardian of ethical AI consciousness technology"
+    brand_positioning: "Corporate hub for business, partnerships, investors"
+    target_audience:
+      - business_partners
+      - enterprise_clients
+      - investors
+      - media_press
+
+    # Tone Distribution
+    tone:
+      user_friendly: 0.50
+      academic: 0.30
+      poetic: 0.20
+
+    # Design
+    accent_color: "#3B82F6"  # Trust Blue
+    visual_theme: corporate_professional
+
+    # Constellation
+    primary_stars:
+      - guardian
+      - ethics
+      - identity
+
+  # ═══════════════════════════════════════════════════════════════
+  # LUKHAS.EU - European Compliance Portal
+  # ═══════════════════════════════════════════════════════════════
+  lukhas.eu:
+    status: active
+    priority: critical
+    role: compliance_eu
+
+    # Asset Paths
+    brand_guide: branding/domains/lukhas.eu/BRAND_GUIDE.md
+    tone_config: branding/tone/configs/lukhas.eu.tone.yaml
+    color_palette: branding/design/colors/lukhas.eu_PALETTE.css
+
+    # Core Identity
+    tagline: "LUKHAS AI in full compliance with European values"
+    brand_positioning: "EU-specific regulatory and ethical transparency hub"
+    target_audience:
+      - eu_regulators
+      - compliance_officers
+      - data_protection_officers
+
+    # Tone Distribution
+    tone:
+      academic: 0.70
+      user_friendly: 0.25
+      poetic: 0.05
+
+    # Design
+    accent_color: "#0EA5E9"  # EU Blue
+    visual_theme: regulatory_compliance
+
+    # Constellation
+    primary_stars:
+      - guardian
+      - ethics
+
+    # Compliance
+    gdpr_compliant: true
+    eu_ai_act_ready: true
+    data_residency: EU
+
+  # ═══════════════════════════════════════════════════════════════
+  # LUKHAS.US - United States Compliance Portal
+  # ═══════════════════════════════════════════════════════════════
+  lukhas.us:
+    status: active
+    priority: critical
+    role: compliance_us
+
+    # Asset Paths
+    brand_guide: branding/domains/lukhas.us/BRAND_GUIDE.md
+    tone_config: branding/tone/configs/lukhas.us.tone.yaml
+    color_palette: branding/design/colors/lukhas.us_PALETTE.css
+
+    # Core Identity
+    tagline: "LUKHAS AI aligned with American values and regulatory frameworks"
+    brand_positioning: "US-specific regulatory and ethical transparency hub"
+    target_audience:
+      - us_regulators
+      - compliance_officers
+      - legal_counsel
+
+    # Tone Distribution
+    tone:
+      academic: 0.70
+      user_friendly: 0.25
+      poetic: 0.05
+
+    # Design
+    accent_color: "#1E40AF"  # Institutional Blue
+    visual_theme: regulatory_compliance
+
+    # Constellation
+    primary_stars:
+      - guardian
+      - ethics
+
+    # Compliance
+    ccpa_compliant: true
+    nist_aligned: true
+    ai_bill_of_rights: true
+
+  # ═══════════════════════════════════════════════════════════════
+  # LUKHAS.XYZ - Experimental Playground
+  # ═══════════════════════════════════════════════════════════════
+  lukhas.xyz:
+    status: active
+    priority: medium
+    role: experimental
+
+    # Asset Paths
+    brand_guide: branding/domains/lukhas.xyz/BRAND_GUIDE.md
+    tone_config: branding/tone/configs/lukhas.xyz.tone.yaml
+    color_palette: branding/design/colors/lukhas.xyz_PALETTE.css
+
+    # Core Identity
+    tagline: "Welcome to the Quantum Playground"
+    brand_positioning: "Cutting-edge prototypes and research experiments"
+    target_audience:
+      - researchers
+      - early_adopters
+      - lukhas_engineers
+
+    # Tone Distribution
+    tone:
+      poetic: 0.40
+      user_friendly: 0.35
+      academic: 0.25
+
+    # Design
+    accent_color: "#A855F7"  # Experimental Purple (shifting)
+    visual_theme: experimental_chaotic
+    design_rules: flexible
+
+    # Constellation
+    primary_stars:
+      - quantum
+    secondary_stars: all
+
+    # Special Attributes
+    experimental: true
+    stability_guarantee: none
+    rapid_iteration: true
+
+# ═══════════════════════════════════════════════════════════════
+# Cross-Domain Configuration
+# ═══════════════════════════════════════════════════════════════
+
+cross_domain:
+
+  # Single Sign-On
+  sso:
+    provider: lukhas.id
+    protocol: OAuth 2.0
+    all_domains_integrated: true
+
+  # Shared Navigation
+  navigation:
+    header_links:
+      - lukhas.ai
+      - lukhas.dev
+      - lukhas.store
+      - lukhas.id  # Sign In
+    footer_sections:
+      explore:
+        - lukhas.ai
+        - lukhas.dev
+        - lukhas.store
+        - lukhas.team
+      infrastructure:
+        - lukhas.io
+        - lukhas.cloud
+        - lukhas.com
+      compliance:
+        - lukhas.eu
+        - lukhas.us
+      experimental:
+        - lukhas.xyz
+
+  # Shared Brand Elements
+  shared_elements:
+    - constellation_framework
+    - lambda_symbol
+    - core_values
+    - ethical_principles
+    - particle_system_base
+    - typography_system
+    - color_foundations
+
+  # Constellation Framework Integration
+  constellation:
+    all_domains_reference: true
+    visual_consistency: true
+    navigation_system: sky_map
+
+# ═══════════════════════════════════════════════════════════════
+# Deployment & Rollout Strategy
+# ═══════════════════════════════════════════════════════════════
+
+deployment:
+
+  # Phase 1: Flagship Domains (Months 1-3)
+  phase_1:
+    domains:
+      - lukhas.ai
+      - lukhas.id
+      - lukhas.dev
+    timeline: "Q1 2026"
+    priority: critical
+
+  # Phase 2: Marketplace & Cloud (Months 4-6)
+  phase_2:
+    domains:
+      - lukhas.store
+      - lukhas.io
+      - lukhas.cloud
+    timeline: "Q2 2026"
+    priority: high
+
+  # Phase 3: Enterprise & Compliance (Months 7-9)
+  phase_3:
+    domains:
+      - lukhas.com
+      - lukhas.eu
+      - lukhas.us
+    timeline: "Q3 2026"
+    priority: medium_high
+
+  # Phase 4: Experimental & Team (Months 10-12)
+  phase_4:
+    domains:
+      - lukhas.team
+      - lukhas.xyz
+    timeline: "Q4 2026"
+    priority: medium
+
+  # 12-Month Review
+  review:
+    timeline: "End Q4 2026"
+    evaluate:
+      - user_engagement_per_domain
+      - revenue_contribution
+      - operational_costs
+      - strategic_value
+    consolidation_criteria:
+      low_engagement: true
+      duplicate_functionality: true
+      high_maintenance_cost: true
+
+# ═══════════════════════════════════════════════════════════════
+# Quality & Governance
+# ═══════════════════════════════════════════════════════════════
+
+quality:
+
+  # Brand Consistency
+  brand_alignment:
+    tone_distribution_tolerance: 0.05  # ±5%
+    vocabulary_diversity_min: 0.6
+    novelty_threshold: 0.8
+
+  # Technical Standards
+  performance:
+    global_uptime_target: 0.999
+    load_time_max: 3.0  # seconds
+    accessibility: WCAG_AA  # minimum, AAA preferred
+
+  # Content Standards
+  content:
+    t4_precision: true
+    evidence_based_claims: true
+    tested_code_examples: true
+    multilingual_support: planned
+
+  # Governance
+  review_cadence:
+    domain_brand_guides: quarterly
+    tone_configs: monthly
+    color_palettes: annually
+    full_audit: annually
+
+# ═══════════════════════════════════════════════════════════════
+# Metadata
+# ═══════════════════════════════════════════════════════════════
+
+metadata:
+  registry_version: "1.0"
+  created: "2025-11-06"
+  last_updated: "2025-11-06"
+  maintained_by: "LUKHAS Brand Team"
+  next_review: "2026-02-06"
+
+  based_on:
+    - "LUKHAS Multi-Domain Web Ecosystem Strategy (docs/gonzo/LUKHAS_STYLE_GUIDE.md)"
+    - "Constellation Framework Branding Guidelines"
+    - "LUKHAS 3-Layer Tone System"
+    - "8-Family Vocabulary Rotation Engine"
+
+  contact:
+    brand_team: "brand@lukhas.ai"
+    technical_team: "dev@lukhas.ai"
+    compliance_team: "compliance@lukhas.com"

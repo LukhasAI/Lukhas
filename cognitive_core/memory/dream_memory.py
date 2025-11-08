@@ -422,21 +422,20 @@ class DreamMemoryBridge:
             if memory.emotional_valence is not None:
                 emotional_sequence.append(memory.emotional_valence)
 
-        if len(emotional_sequence) >= 3:
+        if len(emotional_sequence) >= 3 and (emotional_sequence[0] < 0 and emotional_sequence[-1] > 0):
             # Look for emotional narrative arc
-            if emotional_sequence[0] < 0 and emotional_sequence[-1] > 0:
-                # Negative to positive arc
-                pattern_id = f"emotional_arc_{datetime.now(timezone.utc).strftime('%H%M%S')}"
+            # Negative to positive arc
+            pattern_id = f"emotional_arc_{datetime.now(timezone.utc).strftime('%H%M%S')}"
 
-                return DreamMemoryPattern(
-                    pattern_id=pattern_id,
-                    pattern_type=DreamInsightType.EMOTIONAL_SYNTHESIS,
-                    memory_ids=[m.id for m in sorted_memories if m.emotional_valence is not None],
-                    confidence=0.7,
-                    insight_content="Emotional transformation arc: negative to positive",
-                    emotional_tone=emotional_sequence[-1] - emotional_sequence[0],
-                    constellation_alignment={"ETHICS": 0.7, "DREAM": 0.8},
-                )
+            return DreamMemoryPattern(
+                pattern_id=pattern_id,
+                pattern_type=DreamInsightType.EMOTIONAL_SYNTHESIS,
+                memory_ids=[m.id for m in sorted_memories if m.emotional_valence is not None],
+                confidence=0.7,
+                insight_content="Emotional transformation arc: negative to positive",
+                emotional_tone=emotional_sequence[-1] - emotional_sequence[0],
+                constellation_alignment={"ETHICS": 0.7, "DREAM": 0.8},
+            )
 
         return None
 

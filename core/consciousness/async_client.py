@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -16,6 +11,8 @@ Original: async_client.py
 Advanced: async_client.py
 Integration Date: 2025-05-31T07:55:28.056913
 """
+
+from __future__ import annotations
 
 # coding=utf-8
 # Copyright 2023-present, the HuggingFace Inc. team.
@@ -39,6 +36,7 @@ Integration Date: 2025-05-31T07:55:28.056913
 # WARNING
 import asyncio
 import base64
+import logging
 import re
 import warnings
 from collections.abc import AsyncIterable
@@ -116,6 +114,11 @@ from huggingface_hub.utils._deprecation import _deprecate_method
 from core.common import get_logger
 
 from .._common import _async_yield_from, _import_aiohttp
+
+logger = logging.getLogger(__name__)
+
+
+
 
 if TYPE_CHECKING:
     import numpy as np
@@ -376,7 +379,7 @@ class AsyncInferenceClient:
                 )
                 response_error_payload = None
                 if response.status != 200:
-                    try:
+                    try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_consciousness_async_client_py_L381"}
                         response_error_payload = await response.json()  # get payload before connection closed
                     except Exception:
                         pass

@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 
 #TAG:consciousness
@@ -50,6 +48,9 @@ Dream → Memory → Reflection → Directive → Action → Drift → Evolution
 ΛTODO: Add colony discovery mechanisms for distributed deployments
 AIDEA: Implement colony consciousness evolution tracking
 """
+
+from __future__ import annotations
+
 import asyncio
 import logging
 import time
@@ -89,9 +90,7 @@ except ImportError as e:
 # Import bio-symbolic components
 try:
     from bio.core.symbolic_bio_symbolic import BioSymbolicProcessor
-    from bio.core.symbolic_bio_symbolic_orchestrator import (
-        create_bio_symbolic_orchestrator,
-    )
+    from bio.core.symbolic_bio_symbolic_orchestrator import create_bio_symbolic_orchestrator
 
     BIO_SYMBOLIC_AVAILABLE = True
 except ImportError as e:
@@ -367,7 +366,9 @@ class ColonyOrchestrator:
                 colony_id="core_oracle",
                 initial_agents=4,  # predictor, dreamer, prophet, analyzer
                 bio_symbolic_integration=True,
-                specialized_config={"capabilities": ["prediction", "prophecy", "dreams", "analysis"]},
+                specialized_config={
+                    "capabilities": ["prediction", "prophecy", "dreams", "analysis"]
+                },
             ),
             ColonyConfig(
                 colony_type=ColonyType.ETHICS,
@@ -396,7 +397,9 @@ class ColonyOrchestrator:
                 await self.spawn_colony(colony_config)
                 self.logger.info(f"Created default colony: {colony_config.colony_id}")
             except Exception as e:
-                self.logger.warning(f"Failed to create default colony {colony_config.colony_id}: {e}")
+                self.logger.warning(
+                    f"Failed to create default colony {colony_config.colony_id}: {e}"
+                )
 
     async def spawn_colony(self, colony_config: ColonyConfig) -> dict[str, Any]:
         """
@@ -579,7 +582,10 @@ class ColonyOrchestrator:
             # Validate target colonies are available
             available_colonies = []
             for colony_id in target_colonies:
-                if colony_id in self.active_colonies and self.colony_states.get(colony_id) == ColonyState.ACTIVE:
+                if (
+                    colony_id in self.active_colonies
+                    and self.colony_states.get(colony_id) == ColonyState.ACTIVE
+                ):
                     available_colonies.append(colony_id)
                 else:
                     self.logger.warning(f"Colony {colony_id} not available for task {task_id}")
@@ -618,7 +624,9 @@ class ColonyOrchestrator:
 
             return {"success": False, "error": str(e), "task_id": task.task_id}
 
-    async def _execute_bio_symbolic_task(self, task: ColonyTask, colony_ids: list[str]) -> dict[str, Any]:
+    async def _execute_bio_symbolic_task(
+        self, task: ColonyTask, colony_ids: list[str]
+    ) -> dict[str, Any]:
         """Execute task with bio-symbolic coherence processing"""
 
         start_time = time.time()
@@ -639,14 +647,18 @@ class ColonyOrchestrator:
             }
 
             # Execute through bio-symbolic orchestrator
-            bio_result = await self.bio_symbolic_orchestrator.execute_task(task.task_id, bio_symbolic_input)
+            bio_result = await self.bio_symbolic_orchestrator.execute_task(
+                task.task_id, bio_symbolic_input
+            )
 
             # Extract coherence metrics
             coherence_metrics = bio_result.get("coherence_metrics", {})
             overall_coherence = coherence_metrics.get("overall_coherence", 0.0)
 
             # Update system coherence metrics
-            self.metrics.bio_symbolic_coherence = self.metrics.bio_symbolic_coherence * 0.9 + overall_coherence * 0.1
+            self.metrics.bio_symbolic_coherence = (
+                self.metrics.bio_symbolic_coherence * 0.9 + overall_coherence * 0.1
+            )
 
             # Execute on actual colonies with coherence-enhanced processing
             colony_results = []
@@ -673,7 +685,9 @@ class ColonyOrchestrator:
                     {
                         "colony_id": colony_id,
                         "result": colony_result,
-                        "coherence_contribution": coherence_metrics.get(f"{colony_id}_coherence", 0.0),
+                        "coherence_contribution": coherence_metrics.get(
+                            f"{colony_id}_coherence", 0.0
+                        ),
                     }
                 )
 
@@ -700,7 +714,9 @@ class ColonyOrchestrator:
                 "processing_time": processing_time,
             }
 
-    async def _execute_standard_task(self, task: ColonyTask, colony_ids: list[str]) -> dict[str, Any]:
+    async def _execute_standard_task(
+        self, task: ColonyTask, colony_ids: list[str]
+    ) -> dict[str, Any]:
         """Execute task using standard colony processing"""
 
         start_time = time.time()
@@ -808,7 +824,9 @@ class ColonyOrchestrator:
 
             # Perform scaling operation (implementation would depend on colony type)
             colony = self.active_colonies[colony_id]
-            scaling_result = await self._perform_colony_scaling(colony, colony_id, current_agents, target_agents)
+            scaling_result = await self._perform_colony_scaling(
+                colony, colony_id, current_agents, target_agents
+            )
 
             if scaling_result["success"]:
                 # Update configuration and metrics
@@ -817,7 +835,9 @@ class ColonyOrchestrator:
                 self.metrics.scaling_operations += 1
                 self.colony_states[colony_id] = ColonyState.ACTIVE
 
-                self.logger.info(f"Colony scaled successfully: {colony_id} ({current_agents} → {target_agents})")
+                self.logger.info(
+                    f"Colony scaled successfully: {colony_id} ({current_agents} → {target_agents})"
+                )
             else:
                 self.colony_states[colony_id] = ColonyState.ACTIVE  # Revert state
 
@@ -882,17 +902,25 @@ class ColonyOrchestrator:
         """Start background monitoring and maintenance tasks"""
 
         # Health monitoring task
-        asyncio.create_task(self._health_monitoring_loop())
+        asyncio.create_task(
+            self._health_monitoring_loop()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_colony_orchestrator_py_L886"}
 
         # Performance monitoring task
-        asyncio.create_task(self._performance_monitoring_loop())
+        asyncio.create_task(
+            self._performance_monitoring_loop()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_colony_orchestrator_py_L890"}
 
         # Task processing loop
-        asyncio.create_task(self._task_processing_loop())
+        asyncio.create_task(
+            self._task_processing_loop()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_colony_orchestrator_py_L894"}
 
         # Auto-scaling monitoring
         if self.config.get("auto_scaling_enabled", True):
-            asyncio.create_task(self._auto_scaling_loop())
+            asyncio.create_task(
+                self._auto_scaling_loop()
+            )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_colony_orchestrator_py_L899"}
 
     async def _health_monitoring_loop(self):
         """Background task for monitoring colony health"""
@@ -961,7 +989,9 @@ class ColonyOrchestrator:
                 "tasks_processed": self.metrics.tasks_processed,
                 "tasks_successful": self.metrics.tasks_successful,
                 "tasks_failed": self.metrics.tasks_failed,
-                "success_rate": (self.metrics.tasks_successful / max(1, self.metrics.tasks_processed)),
+                "success_rate": (
+                    self.metrics.tasks_successful / max(1, self.metrics.tasks_processed)
+                ),
                 "average_response_time": self.metrics.average_response_time,
                 "bio_symbolic_coherence": self.metrics.bio_symbolic_coherence,
                 "colony_utilization": self.metrics.colony_utilization,
@@ -970,7 +1000,10 @@ class ColonyOrchestrator:
             },
             "system_info": {
                 "initialized_at": self.initialization_time.isoformat(),
-                "uptime_hours": (datetime.now(timezone.utc) - self.initialization_time).total_seconds() / 3600,
+                "uptime_hours": (
+                    datetime.now(timezone.utc) - self.initialization_time
+                ).total_seconds()
+                / 3600,
                 "bio_symbolic_available": BIO_SYMBOLIC_AVAILABLE,
                 "qi_identity_available": QUANTUM_IDENTITY_AVAILABLE,
                 "colony_system_available": COLONY_SYSTEM_AVAILABLE,
@@ -998,7 +1031,9 @@ class ColonyOrchestrator:
         current_avg = self.metrics.average_response_time
         total_tasks = self.metrics.tasks_processed
         if total_tasks > 0:
-            self.metrics.average_response_time = (current_avg * (total_tasks - 1) + new_time) / total_tasks
+            self.metrics.average_response_time = (
+                current_avg * (total_tasks - 1) + new_time
+            ) / total_tasks
         else:
             self.metrics.average_response_time = new_time
 

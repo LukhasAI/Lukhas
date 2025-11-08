@@ -18,7 +18,7 @@ import uuid
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 def _ulid_like() -> str:
@@ -26,7 +26,7 @@ def _ulid_like() -> str:
     return uuid.uuid4().hex
 
 
-def _redact(input_data: Any, consent_scopes: List[str]) -> Any:
+def _redact(input_data: Any, consent_scopes: list[str]) -> Any:
     """
     Best-effort PII redaction. If 'pii.read' is absent, scrub common fields in dicts.
     Never throws; audit must not be a point of failure.
@@ -78,18 +78,18 @@ class DecisionNode:
     decision_type: DecisionType
     input_data: Any
     input_hash: str
-    parent_nodes: List[str] = field(default_factory=list)
-    active_brains: List[BrainContext] = field(default_factory=list)
-    brain_votes: Dict[str, Any] = field(default_factory=dict)
+    parent_nodes: list[str] = field(default_factory=list)
+    active_brains: list[BrainContext] = field(default_factory=list)
+    brain_votes: dict[str, Any] = field(default_factory=dict)
     consensus_mechanism: Optional[str] = None
-    reasoning_steps: List[str] = field(default_factory=list)
-    considered_alternatives: List[Any] = field(default_factory=list)
+    reasoning_steps: list[str] = field(default_factory=list)
+    considered_alternatives: list[Any] = field(default_factory=list)
     decision_output: Any = None
     raw_confidence: float = 0.0
     calibrated_confidence: float = 0.0
-    uncertainty: Dict[str, float] = field(default_factory=dict)
+    uncertainty: dict[str, float] = field(default_factory=dict)
     confidence_level: ConfidenceLevel = ConfidenceLevel.MEDIUM
-    safety_checks: List[str] = field(default_factory=list)
+    safety_checks: list[str] = field(default_factory=list)
     safety_score: float = 1.0
     validation_status: str = "pending"
     ground_truth: Any = None
@@ -97,9 +97,9 @@ class DecisionNode:
     outcome_timestamp: Optional[float] = None
     execution_time_ms: float = 0.0
     memory_used_mb: float = 0.0
-    tags: List[str] = field(default_factory=list)
+    tags: list[str] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization"""
         return {
             "node_id": self.node_id,
@@ -151,8 +151,8 @@ class AuditTrail:
         self.ledger = self.audit_dir / "ledger.jsonl"
         self.ledger_sig = self.audit_dir / "ledger.sig.jsonl"
 
-        self.active_decisions: Dict[str, DecisionNode] = {}
-        self.completed_decisions: Dict[str, DecisionNode] = {}
+        self.active_decisions: dict[str, DecisionNode] = {}
+        self.completed_decisions: dict[str, DecisionNode] = {}
 
     def _append_ledger(self, node: DecisionNode):
         """Append canonical JSON and a tiny signature line for provenance."""
@@ -188,10 +188,10 @@ class AuditTrail:
         self,
         decision_type: DecisionType,
         input_data: Any,
-        parent_nodes: Optional[List[str]] = None,
-        active_brains: Optional[List[BrainContext]] = None,
-        tags: Optional[List[str]] = None,
-        consent_scopes: Optional[List[str]] = None
+        parent_nodes: Optional[list[str]] = None,
+        active_brains: Optional[list[BrainContext]] = None,
+        tags: Optional[list[str]] = None,
+        consent_scopes: Optional[list[str]] = None
     ) -> str:
         """
         Create a new decision node with consent-aware redaction
@@ -325,7 +325,7 @@ class AuditTrail:
         """Retrieve a decision node by ID"""
         return self.completed_decisions.get(node_id) or self.active_decisions.get(node_id)
 
-    def get_lineage(self, node_id: str) -> List[DecisionNode]:
+    def get_lineage(self, node_id: str) -> list[DecisionNode]:
         """Get the full lineage of a decision (ancestors)"""
         lineage = []
         current = self.get_decision(node_id)

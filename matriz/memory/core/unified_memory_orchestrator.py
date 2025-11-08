@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - UNIFIED MEMORY ORCHESTRATOR
@@ -19,10 +15,13 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
 import asyncio
 import contextlib
 import hashlib
 import json
+import logging
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -33,6 +32,9 @@ import numpy as np
 
 # Import logging
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
 
 logger = get_logger(__name__)
 
@@ -61,10 +63,7 @@ try:
     # Import through interface to break circular dependency
     from core.interfaces.memory_interface import get_test_module
 
-    from ..consolidation.consolidation_orchestrator import (
-        ConsolidationOrchestrator,
-        SleepStage,
-    )
+    from ..consolidation.consolidation_orchestrator import ConsolidationOrchestrator, SleepStage
     from ..hippocampal.hippocampal_buffer import HippocampalBuffer
     from ..neocortical.neocortical_network import NeocorticalNetwork
     from .colony_memory_validator import ColonyMemoryValidator, ValidationMode
@@ -206,7 +205,9 @@ class UnifiedMemoryOrchestrator:
         self.enable_distributed = enable_distributed
 
         # Core memory systems with memory limits
-        self.hippocampal_buffer: deque[MemoryTrace] = deque(maxlen=min(hippocampal_capacity, 1000))  # Limit to 1000
+        self.hippocampal_buffer: deque[MemoryTrace] = deque(
+            maxlen=min(hippocampal_capacity, 1000)
+        )  # Limit to 1000
         self.neocortical_network: dict[str, MemoryTrace] = {}
         self.working_memory: dict[str, MemoryTrace] = {}
 
@@ -599,7 +600,9 @@ class UnifiedMemoryOrchestrator:
 
     def _generate_memory_id(self, content: Any, memory_type: MemoryType) -> str:
         """Generate unique memory ID"""
-        content_str = json.dumps(content, sort_keys=True) if isinstance(content, dict) else str(content)
+        content_str = (
+            json.dumps(content, sort_keys=True) if isinstance(content, dict) else str(content)
+        )
         timestamp = datetime.now(timezone.utc).isoformat()
         hash_input = f"{memory_type.value}:{content_str}:{timestamp}"
         return hashlib.sha256(hash_input.encode()).hexdigest()[:16]
@@ -641,23 +644,27 @@ class UnifiedMemoryOrchestrator:
 
         return memory_trace
 
-    def _find_similar_memories(self, memory_trace: MemoryTrace, threshold: float = 0.7) -> list[MemoryTrace]:
+    def _find_similar_memories(
+        self, memory_trace: MemoryTrace, threshold: float = 0.7
+    ) -> list[MemoryTrace]:
         """Find memories similar to the given trace"""
         similar = []
 
         # Check recent memories in hippocampal buffer
         for existing_trace in list(self.hippocampal_buffer)[-100:]:  # Check last 100
-            if existing_trace.memory_type == memory_trace.memory_type:
+            if (
+                existing_trace.memory_type == memory_trace.memory_type
+                and existing_trace.semantic_links
+            ):
                 # Simple similarity based on semantic links overlap
-                if existing_trace.semantic_links:
-                    overlap = len(memory_trace.semantic_links & existing_trace.semantic_links)
-                    similarity = overlap / max(
-                        len(memory_trace.semantic_links),
-                        len(existing_trace.semantic_links),
-                        1,
-                    )
-                    if similarity > threshold:
-                        similar.append(existing_trace)
+                overlap = len(memory_trace.semantic_links & existing_trace.semantic_links)
+                similarity = overlap / max(
+                    len(memory_trace.semantic_links),
+                    len(existing_trace.semantic_links),
+                    1,
+                )
+                if similarity > threshold:
+                    similar.append(existing_trace)
 
         return similar
 
@@ -678,7 +685,9 @@ class UnifiedMemoryOrchestrator:
         }
 
         # Get appropriate colony for this memory type
-        proposing_colony = self.memory_colonies.get(memory_trace.memory_type, "general_memory_colony")
+        proposing_colony = self.memory_colonies.get(
+            memory_trace.memory_type, "general_memory_colony"
+        )
 
         # Request distributed validation
         validation_id = await self.swarm_consensus.distributed_memory_storage(
@@ -689,7 +698,9 @@ class UnifiedMemoryOrchestrator:
 
         return validation_id is not None
 
-    async def _validate_memory_with_colonies(self, memory_trace: MemoryTrace, tags: list[str]) -> bool:
+    async def _validate_memory_with_colonies(
+        self, memory_trace: MemoryTrace, tags: list[str]
+    ) -> bool:
         """
         Validate memory using the new colony validator system with Byzantine fault tolerance
         """
@@ -773,10 +784,14 @@ class UnifiedMemoryOrchestrator:
         # Add cross-validation from other specialized colonies
         if memory_type == MemoryType.EPISODIC:
             # Episodic memories often have emotional components
-            colonies.append(self.memory_colonies.get(MemoryType.EMOTIONAL, "emotional_memory_colony"))
+            colonies.append(
+                self.memory_colonies.get(MemoryType.EMOTIONAL, "emotional_memory_colony")
+            )
         elif memory_type == MemoryType.SEMANTIC:
             # Semantic memories might relate to procedural knowledge
-            colonies.append(self.memory_colonies.get(MemoryType.PROCEDURAL, "procedural_memory_colony"))
+            colonies.append(
+                self.memory_colonies.get(MemoryType.PROCEDURAL, "procedural_memory_colony")
+            )
 
         return colonies
 
@@ -827,7 +842,9 @@ class UnifiedMemoryOrchestrator:
         results.extend(working_results)
 
         # Search hippocampal buffer
-        hippocampal_results = await self._search_hippocampal(query, memory_types, use_pattern_completion)
+        hippocampal_results = await self._search_hippocampal(
+            query, memory_types, use_pattern_completion
+        )
         results.extend(hippocampal_results)
 
         # Search neocortical network for consolidated memories
@@ -925,7 +942,9 @@ class UnifiedMemoryOrchestrator:
 
         return results
 
-    async def _apply_pattern_completion(self, trace: MemoryTrace, query: Any, base_score: float) -> float:
+    async def _apply_pattern_completion(
+        self, trace: MemoryTrace, query: Any, base_score: float
+    ) -> float:
         """
         Apply hippocampal pattern completion to boost partial matches.
         This simulates the hippocampus's ability to recall full memories from partial cues.
@@ -1021,12 +1040,16 @@ class UnifiedMemoryOrchestrator:
             semantic_features = await self._extract_semantic_features(memory_trace)
 
             # Create distributed representation
-            neocortical_representation = await self._create_neocortical_representation(memory_trace, semantic_features)
+            neocortical_representation = await self._create_neocortical_representation(
+                memory_trace, semantic_features
+            )
 
             # Store in neocortex with gradually increasing strength
             consolidation_strength = min(
                 1.0,
-                memory_trace.encoding_strength * self.consolidation_rate * memory_trace.replay_count,
+                memory_trace.encoding_strength
+                * self.consolidation_rate
+                * memory_trace.replay_count,
             )
 
             if consolidation_strength > 0.5:  # Threshold for stable storage
@@ -1436,7 +1459,9 @@ class UnifiedMemoryOrchestrator:
                 if len(self.working_memory) > self.max_working_memory_size:
                     # Remove least recently accessed (keep only 60% of limit)
                     target_size = int(self.max_working_memory_size * 0.6)
-                    sorted_working = sorted(self.working_memory.items(), key=lambda x: x[1].last_accessed)
+                    sorted_working = sorted(
+                        self.working_memory.items(), key=lambda x: x[1].last_accessed
+                    )
                     for memory_id, _ in sorted_working[:-target_size]:
                         del self.working_memory[memory_id]
 
@@ -1566,7 +1591,9 @@ class UnifiedMemoryOrchestrator:
 
         # Average metrics
         all_traces = list(self.hippocampal_buffer) + list(self.neocortical_network.values())
-        avg_encoding_strength = np.mean([t.encoding_strength for t in all_traces]) if all_traces else 0
+        avg_encoding_strength = (
+            np.mean([t.encoding_strength for t in all_traces]) if all_traces else 0
+        )
         avg_replay_count = np.mean([t.replay_count for t in all_traces]) if all_traces else 0
         avg_access_count = np.mean([t.access_count for t in all_traces]) if all_traces else 0
 

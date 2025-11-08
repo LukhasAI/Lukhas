@@ -42,7 +42,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -85,7 +85,7 @@ class ValidationIssue:
     validation_type: ValidationType
     field_path: str
     message: str
-    details: Optional[Dict[str, Any]] = None
+    details: Optional[dict[str, Any]] = None
     suggestion: Optional[str] = None
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -96,22 +96,22 @@ class ValidationContext:
     request_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     schema_id: Optional[str] = None
     schema_version: Optional[str] = None
-    validation_tiers: Set[ValidationTier] = field(default_factory=lambda: set(ValidationTier))
+    validation_tiers: set[ValidationTier] = field(default_factory=lambda: set(ValidationTier))
     fail_fast: bool = True
     max_errors: int = 100
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class ValidationResult:
     """Result of validation operation"""
     is_valid: bool
-    issues: List[ValidationIssue] = field(default_factory=list)
+    issues: list[ValidationIssue] = field(default_factory=list)
     validation_time_ms: float = 0.0
-    tiers_validated: Set[ValidationTier] = field(default_factory=set)
+    tiers_validated: set[ValidationTier] = field(default_factory=set)
     context: Optional[ValidationContext] = None
     compliance_score: float = 1.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def has_errors(self) -> bool:
         """Check if result has any errors"""
@@ -122,12 +122,12 @@ class ValidationResult:
         """Check if result has critical errors"""
         return any(issue.severity == ValidationSeverity.CRITICAL for issue in self.issues)
 
-    def get_errors(self) -> List[ValidationIssue]:
+    def get_errors(self) -> list[ValidationIssue]:
         """Get all error-level issues"""
         return [issue for issue in self.issues
                 if issue.severity in (ValidationSeverity.ERROR, ValidationSeverity.CRITICAL)]
 
-    def get_warnings(self) -> List[ValidationIssue]:
+    def get_warnings(self) -> list[ValidationIssue]:
         """Get all warning-level issues"""
         return [issue for issue in self.issues if issue.severity == ValidationSeverity.WARNING]
 
@@ -136,7 +136,7 @@ class Validator(ABC):
     """Abstract base class for validators"""
 
     @abstractmethod
-    def validate(self, data: Any, context: ValidationContext) -> List[ValidationIssue]:
+    def validate(self, data: Any, context: ValidationContext) -> list[ValidationIssue]:
         """Validate data and return issues"""
         pass
 
@@ -147,7 +147,7 @@ class Validator(ABC):
 
     @property
     @abstractmethod
-    def validation_types(self) -> Set[ValidationType]:
+    def validation_types(self) -> set[ValidationType]:
         """Get supported validation types"""
         pass
 
@@ -171,7 +171,7 @@ class SyntaxValidator(Validator):
             dict: ["object"]
         }
 
-    def validate(self, data: Any, context: ValidationContext) -> List[ValidationIssue]:
+    def validate(self, data: Any, context: ValidationContext) -> list[ValidationIssue]:
         """Perform syntax validation"""
         issues = []
 
@@ -216,7 +216,7 @@ class SyntaxValidator(Validator):
         return tier == ValidationTier.SYNTAX
 
     @property
-    def validation_types(self) -> Set[ValidationType]:
+    def validation_types(self) -> set[ValidationType]:
         """Get supported validation types"""
         return {
             ValidationType.REQUIRED_FIELD,
@@ -225,7 +225,7 @@ class SyntaxValidator(Validator):
             ValidationType.ENUM_CHECK
         }
 
-    def _validate_decision_structure(self, decision: Any) -> List[ValidationIssue]:
+    def _validate_decision_structure(self, decision: Any) -> list[ValidationIssue]:
         """Validate Guardian decision structure"""
         issues = []
 
@@ -242,14 +242,14 @@ class SyntaxValidator(Validator):
 
         # Check required decision fields
         required_decision_fields = {"status", "policy", "timestamp"}
-        for field in required_decision_fields:
-            if field not in decision:
+        for fld in required_decision_fields:
+            if fld not in decision:
                 issues.append(ValidationIssue(
                     tier=ValidationTier.SYNTAX,
                     severity=ValidationSeverity.ERROR,
                     validation_type=ValidationType.REQUIRED_FIELD,
-                    field_path=f"decision.{field}",
-                    message=f"Decision field '{field}' is required"
+                    field_path=f"decision.{fld}",
+                    message=f"Decision field '{fld}' is required"
                 ))
 
         # Validate status enum
@@ -267,7 +267,7 @@ class SyntaxValidator(Validator):
 
         return issues
 
-    def _validate_subject_structure(self, subject: Any) -> List[ValidationIssue]:
+    def _validate_subject_structure(self, subject: Any) -> list[ValidationIssue]:
         """Validate subject structure"""
         issues = []
 
@@ -283,14 +283,14 @@ class SyntaxValidator(Validator):
 
         # Check required subject fields
         required_subject_fields = {"correlation_id", "actor", "operation"}
-        for field in required_subject_fields:
-            if field not in subject:
+        for fld in required_subject_fields:
+            if fld not in subject:
                 issues.append(ValidationIssue(
                     tier=ValidationTier.SYNTAX,
                     severity=ValidationSeverity.ERROR,
                     validation_type=ValidationType.REQUIRED_FIELD,
-                    field_path=f"subject.{field}",
-                    message=f"Subject field '{field}' is required"
+                    field_path=f"subject.{fld}",
+                    message=f"Subject field '{fld}' is required"
                 ))
 
         # Validate correlation_id pattern
@@ -320,7 +320,7 @@ class SyntaxValidator(Validator):
 class SemanticValidator(Validator):
     """Validator for semantic-level checks"""
 
-    def validate(self, data: Any, context: ValidationContext) -> List[ValidationIssue]:
+    def validate(self, data: Any, context: ValidationContext) -> list[ValidationIssue]:
         """Perform semantic validation"""
         issues = []
 
@@ -339,7 +339,7 @@ class SemanticValidator(Validator):
         return tier == ValidationTier.SEMANTIC
 
     @property
-    def validation_types(self) -> Set[ValidationType]:
+    def validation_types(self) -> set[ValidationType]:
         """Get supported validation types"""
         return {
             ValidationType.DEPENDENCY_CHECK,
@@ -347,7 +347,7 @@ class SemanticValidator(Validator):
             ValidationType.FORMAT_CHECK
         }
 
-    def _validate_decision_consistency(self, data: Dict[str, Any]) -> List[ValidationIssue]:
+    def _validate_decision_consistency(self, data: dict[str, Any]) -> list[ValidationIssue]:
         """Validate decision field consistency"""
         issues = []
 
@@ -381,7 +381,7 @@ class SemanticValidator(Validator):
 
         return issues
 
-    def _validate_timestamp_consistency(self, data: Dict[str, Any]) -> List[ValidationIssue]:
+    def _validate_timestamp_consistency(self, data: dict[str, Any]) -> list[ValidationIssue]:
         """Validate timestamp consistency"""
         issues = []
 
@@ -411,7 +411,7 @@ class SemanticValidator(Validator):
 
         return issues
 
-    def _validate_metrics_consistency(self, data: Dict[str, Any]) -> List[ValidationIssue]:
+    def _validate_metrics_consistency(self, data: dict[str, Any]) -> list[ValidationIssue]:
         """Validate metrics field consistency"""
         issues = []
 
@@ -455,7 +455,7 @@ class BusinessLogicValidator(Validator):
     def __init__(self):
         self.business_rules = self._load_business_rules()
 
-    def validate(self, data: Any, context: ValidationContext) -> List[ValidationIssue]:
+    def validate(self, data: Any, context: ValidationContext) -> list[ValidationIssue]:
         """Perform business logic validation"""
         issues = []
 
@@ -484,11 +484,11 @@ class BusinessLogicValidator(Validator):
         return tier == ValidationTier.BUSINESS_LOGIC
 
     @property
-    def validation_types(self) -> Set[ValidationType]:
+    def validation_types(self) -> set[ValidationType]:
         """Get supported validation types"""
         return {ValidationType.BUSINESS_RULE}
 
-    def _load_business_rules(self) -> Dict[str, Callable]:
+    def _load_business_rules(self) -> dict[str, Callable]:
         """Load business logic rules"""
         return {
             "guardian_authority_check": self._validate_guardian_authority,
@@ -496,7 +496,7 @@ class BusinessLogicValidator(Validator):
             "quota_validation": self._validate_quota_constraints,
         }
 
-    def _validate_guardian_authority(self, data: Dict[str, Any], context: ValidationContext) -> List[ValidationIssue]:
+    def _validate_guardian_authority(self, data: dict[str, Any], context: ValidationContext) -> list[ValidationIssue]:
         """Validate Guardian has authority for this decision"""
         issues = []
 
@@ -519,7 +519,7 @@ class BusinessLogicValidator(Validator):
 
         return issues
 
-    def _validate_tier_consistency(self, data: Dict[str, Any], context: ValidationContext) -> List[ValidationIssue]:
+    def _validate_tier_consistency(self, data: dict[str, Any], context: ValidationContext) -> list[ValidationIssue]:
         """Validate tier consistency across fields"""
         issues = []
 
@@ -541,7 +541,7 @@ class BusinessLogicValidator(Validator):
 
         return issues
 
-    def _validate_quota_constraints(self, data: Dict[str, Any], context: ValidationContext) -> List[ValidationIssue]:
+    def _validate_quota_constraints(self, data: dict[str, Any], context: ValidationContext) -> list[ValidationIssue]:
         """Validate quota and rate limiting constraints"""
         issues = []
 
@@ -571,7 +571,7 @@ class ConstitutionalAIValidator(Validator):
         self.constitutional_principles = self._load_constitutional_principles()
         self.ethical_guidelines = self._load_ethical_guidelines()
 
-    def validate(self, data: Any, context: ValidationContext) -> List[ValidationIssue]:
+    def validate(self, data: Any, context: ValidationContext) -> list[ValidationIssue]:
         """Perform Constitutional AI validation"""
         issues = []
 
@@ -590,11 +590,11 @@ class ConstitutionalAIValidator(Validator):
         return tier == ValidationTier.CONSTITUTIONAL
 
     @property
-    def validation_types(self) -> Set[ValidationType]:
+    def validation_types(self) -> set[ValidationType]:
         """Get supported validation types"""
         return {ValidationType.CONSTITUTIONAL_AI}
 
-    def _load_constitutional_principles(self) -> List[str]:
+    def _load_constitutional_principles(self) -> list[str]:
         """Load Constitutional AI principles"""
         return [
             "transparency",
@@ -607,7 +607,7 @@ class ConstitutionalAIValidator(Validator):
             "non_maleficence"
         ]
 
-    def _load_ethical_guidelines(self) -> Dict[str, Any]:
+    def _load_ethical_guidelines(self) -> dict[str, Any]:
         """Load ethical guidelines"""
         return {
             "decision_explanation": "All decisions should be explainable",
@@ -617,7 +617,7 @@ class ConstitutionalAIValidator(Validator):
             "human_oversight": "Critical decisions require human oversight"
         }
 
-    def _validate_constitutional_compliance(self, data: Dict[str, Any]) -> List[ValidationIssue]:
+    def _validate_constitutional_compliance(self, data: dict[str, Any]) -> list[ValidationIssue]:
         """Validate constitutional compliance"""
         issues = []
 
@@ -648,7 +648,7 @@ class ConstitutionalAIValidator(Validator):
 
         return issues
 
-    def _validate_ethical_guidelines(self, data: Dict[str, Any]) -> List[ValidationIssue]:
+    def _validate_ethical_guidelines(self, data: dict[str, Any]) -> list[ValidationIssue]:
         """Validate ethical guidelines"""
         issues = []
 
@@ -672,7 +672,7 @@ class ConstitutionalAIValidator(Validator):
 
         return issues
 
-    def _validate_transparency_requirements(self, data: Dict[str, Any]) -> List[ValidationIssue]:
+    def _validate_transparency_requirements(self, data: dict[str, Any]) -> list[ValidationIssue]:
         """Validate transparency requirements"""
         issues = []
 
@@ -698,7 +698,7 @@ class ValidationFramework:
     """Multi-tier validation framework with Constitutional AI compliance"""
 
     def __init__(self):
-        self.validators: Dict[ValidationTier, List[Validator]] = {
+        self.validators: dict[ValidationTier, list[Validator]] = {
             ValidationTier.SYNTAX: [SyntaxValidator()],
             ValidationTier.SEMANTIC: [SemanticValidator()],
             ValidationTier.BUSINESS_LOGIC: [BusinessLogicValidator()],
@@ -711,7 +711,7 @@ class ValidationFramework:
         self,
         data: Any,
         context: Optional[ValidationContext] = None,
-        tiers: Optional[Set[ValidationTier]] = None
+        tiers: Optional[set[ValidationTier]] = None
     ) -> ValidationResult:
         """Validate data using specified tiers"""
         start_time = time.perf_counter()
@@ -825,11 +825,11 @@ class ValidationFramework:
             self.validators[tier].append(validator)
             logger.info(f"Added validator for tier {tier.name}")
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get validation framework metrics"""
         return self._metrics.get_stats()
 
-    def _calculate_compliance_score(self, issues: List[ValidationIssue]) -> float:
+    def _calculate_compliance_score(self, issues: list[ValidationIssue]) -> float:
         """Calculate Constitutional AI compliance score"""
         if not issues:
             return 1.0
@@ -881,7 +881,7 @@ class ValidationMetrics:
         """Record validation error"""
         self.error_count += 1
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get validation statistics"""
         uptime = time.time() - self.start_time
         avg_time = (

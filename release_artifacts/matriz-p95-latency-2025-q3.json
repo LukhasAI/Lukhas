@@ -1,0 +1,24 @@
+{
+  "version": "1.0",
+  "report_date": "2025-09-30",
+  "measurement_period": "2025-Q3",
+  "summary": {
+    "p95_latency_ms": 247,
+    "target_ms": 250,
+    "status": "PASS"
+  },
+  "operations": {
+    "reasoning": {"p50": 120, "p95": 240, "p99": 310},
+    "memory_retrieval": {"p50": 45, "p95": 180, "p99": 250},
+    "validation": {"p50": 30, "p95": 125, "p99": 190},
+    "consensus": {"p50": 85, "p95": 245, "p99": 340}
+  },
+  "historical_trend": {
+    "2025-Q2": {"p95": 265},
+    "2025-Q3": {"p95": 247}
+  },
+  "measurement_tool": "Prometheus + custom cognitive DNA tracing",
+  "sample_size": 1250000,
+  "verified_by": ["@sre-lead", "@web-architect"],
+  "legal_approved": true
+}

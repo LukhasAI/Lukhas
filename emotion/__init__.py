@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
-
 
 """
 LUKHAS AI Emotion Module
@@ -29,6 +27,8 @@ Architecture:
 Version: 2.0.0
 Status: OPERATIONAL
 """
+
+from __future__ import annotations
 
 import logging
 import os

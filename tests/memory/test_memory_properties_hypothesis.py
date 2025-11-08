@@ -38,7 +38,7 @@ Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 import pytest
 
@@ -73,7 +73,7 @@ class MemoryOperation:
     """Represents a memory operation for property testing"""
     op_type: str  # 'store', 'recall', 'fold'
     content: str
-    embedding: List[float]
+    embedding: list[float]
     importance: float
     timestamp: float
     expected_latency_ms: float = 100.0  # Budget threshold
@@ -171,8 +171,8 @@ class MemorySystemStateMachine(RuleBasedStateMachine):
         super().__init__()
         self.memory_system = AdaptiveMemorySystem(max_items=15000, enable_embeddings=True)
         self.fold_manager = FoldManager()
-        self.stored_items: Dict[str, Any] = {}
-        self.operation_latencies: List[float] = []
+        self.stored_items: dict[str, Any] = {}
+        self.operation_latencies: list[float] = []
         self.cascade_events = 0
 
     stored_memories = Bundle('stored_memories')
@@ -516,7 +516,7 @@ def test_memory_system_stateful_properties(data):
 
     # Execute state machine test
     for _ in range(steps):
-        try:
+        try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_memory_test_memory_properties_hypothesis_py_L518"}
             # Let Hypothesis choose what to do next
             state_machine.step(data)
         except Exception:

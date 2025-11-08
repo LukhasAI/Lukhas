@@ -1,24 +1,23 @@
----
-title: lukhas_context
-slug: lukhas_context
-owner: T4
-lane: labs
-star:
-stability: experimental
-last_reviewed: 2025-11-02
-constellation_stars:
-related_modules:
-manifests:
-links:
-status: wip
-type: documentation
----
 # LUKHAS AI Context - Vendor-Neutral AI Guidance
 *This file provides domain-specific context for any AI development tool*
 *Also available as claude.me for Claude Desktop compatibility*
 
 ---
 
+
+---
+title: me
+slug: claude.me
+owner: T4
+lane: labs
+star:
+stability: experimental
+last_reviewed: 2025-11-06
+constellation_stars:
+related_modules:
+manifests:
+links:
+---
 > Context Sync Header (Schema v2.0.0)
 Lane: production
 Lane root: lukhas
@@ -27,107 +26,121 @@ Cognitive components (global): 692
 Flags: ENFORCE_ETHICS_DSL, LUKHAS_LANE, LUKHAS_ADVANCED_TAGS
 Legacy core alias: enabled (warn/disable via env) — use lukhas.core.*
 
+# LUKHAS AI System - Master Architecture Overview
+*Artificial Intelligence with Constellation Framework & Constitutional AI*
 
-# LUKHAS Cognitive AI System - Master Architecture Overview
+## � T4 Unified Platform v2.0 - Production Infrastructure Deployed
 
-## 🆕 Recent Updates (2025-11-02)
+**November 2025 Update: Intent-Driven Development with Production-Grade Enforcement**
 
-### Lane Isolation Infrastructure - Provider Pattern
-**NEW: Runtime Dependency Injection for Production → Development Lane Boundaries**
+The LUKHAS project has deployed a comprehensive quality infrastructure platform with production-grade security, cost controls, and automated governance:
 
-Created comprehensive provider infrastructure eliminating import-time dependencies:
+### **What is T4?**
+T4 (TODO, Tech Debt, Triage, Track) is a unified platform for managing code quality through intent-driven development. Every code change must be pre-registered with intent, owner, and justification before PR creation.
 
-**Location**: `core/adapters/`
-- `provider_registry.py` - Runtime dependency injection (392 lines)
-- `config_resolver.py` - Environment-based configuration (52 lines)
-- `README.md` - Complete documentation and migration guide
+### **Production Features Now Live**
+✅ **Intent Registry API** (FastAPI with SQLite)
+  - API key authentication via X-T4-API-KEY header
+  - Rate limiting: 120 req/min per agent (Redis-backed with in-process fallback)
+  - Comprehensive audit logging for compliance
+  - Admin endpoints for key management
+  
+✅ **LLM Safety Layer** (`tools/ci/llm_policy.py`)
+  - OpenAI API wrapper with automatic cost tracking
+  - Per-agent daily quota enforcement (prevents budget overruns)
+  - Token usage recording (prompt + completion tokens)
+  - Estimated cost calculation per model (gpt-4o, gpt-4o-mini, gpt-4)
+  
+✅ **Policy Client** (`tools/t4/policy_client.py`)
+  - Agent-friendly Python client for intent registration
+  - Pre-PR validation checks (`pre_pr_check()`)
+  - Auto-creation of "reserved" intent placeholders
+  
+✅ **Branch Protection Enforcement** (`scripts/t4_protect_main.sh`)
+  - CODEOWNERS file generation for critical paths
+  - Required status checks: t4-validator, t4-intent-api-health, ci/tests
+  - Enforced for admins (no bypass)
+  
+✅ **Agent Onboarding** (`docs/gonzo/T4_ONBOARD_AGENTS.md`)
+  - Complete certification process guide
+  - API endpoint reference
+  - Example workflows with Python code
+  - Security best practices
+  - Monitoring queries
 
-**Available Providers**:
-1. **OpenAI Provider** - `registry.get_openai()` - GPT model access
-2. **Consciousness Service** - `registry.get_consciousness_service()` - Multi-engine processing
-3. **Memory Service** - `registry.get_memory_service()` - Fold systems, emotional memory
-4. **Identity Service** - `registry.get_identity_service()` - Lambda ID, WebAuthn
-5. **Governance Service** - `registry.get_governance_service()` - Constitutional AI, Guardian
+### **Current Metrics**
+- **Baseline:** 459 total violations across codebase
+- **Annotated:** 24 issues with T4 metadata
+- **Unannotated:** 435 issues (migration in progress)
+- **Quality Score:** 100% for annotated issues
+- **PR Status:** #1031 open for review (feat/t4-prod-hardening)
 
-**Usage Example**:
+### **Key Code Patterns**
+- **B018** (114 violations): Useless expressions (likely consciousness logging patterns)
+- **F401** (72 violations): Unused imports (cleanup priority)
+- **RUF006** (90 violations): Async generator without yield (consciousness state machines)
+- **B904** (57 violations): Exception chaining missing
+- **F821** (43 violations): Undefined names (consciousness module references)
+
+### **For Developers & Agents**
+**Before opening any PR:**
+1. Request API key: `python3 tools/ci/create_api_key_admin.py --agent_id <your-id>`
+2. Configure: `export T4_API_KEY=<your-key>` and `export T4_INTENT_API=http://127.0.0.1:8001`
+3. Register intent: See `docs/gonzo/T4_ONBOARD_AGENTS.md` for examples
+4. Run pre-PR check: `python3 -c "from tools.t4.policy_client import pre_pr_check; pre_pr_check(['file.py'], ['F821'])"`
+5. Open PR only after validation passes
+
+**LLM Usage with Cost Controls:**
 ```python
-from core.adapters import ProviderRegistry, make_resolver
-registry = ProviderRegistry(make_resolver())
-consciousness = registry.get_consciousness_service()  # Lazy loaded at runtime
+from tools.ci.llm_policy import call_openai_chat
+
+result = call_openai_chat(
+    prompt="Explain this code",
+    model="gpt-4o-mini",
+    agent_api_key=os.environ["T4_API_KEY"],
+    agent_id="my-agent"
+)
+print(result["text"])  # LLM response
+print(f"Cost: ${result['cost']:.4f}")  # Tracked cost
 ```
 
-**Impact**:
-- ✅ **Lane Compliance**: 99% of production code already compliant
-- ✅ **Testing**: Import-safety test suite created
-- ✅ **Performance**: Lazy loading reduces startup time
-- ✅ **Maintainability**: Clear dependency boundaries
+### **Documentation References**
+- **Agent Onboarding:** `docs/gonzo/T4_ONBOARD_AGENTS.md`
+- **System Integration:** `T4_FULL_SYSTEM_INTEGRATION_REPORT.md`
+- **Production Polishes:** `T4_PRODUCTION_POLISHES_PHASE1.md`
+- **GitHub Copilot:** `.github/copilot-instructions.md` (updated with T4 patterns)
 
-**Documentation**: See `core/adapters/README.md` for complete guide
-
----
-
-## 🚨 MATRIZ Migration Update
-
-**Team Announcement (Ready to Share):**
-
-We've completed MATRIZ case standardization for all production code and integration tests!
-
-**Completed:**
-✅ serve/ (2 imports)
-✅ core/ (2 imports)
-✅ tests/integration/ (20 imports)
-
-**Status:** 3 PRs in CI validation
-
-**Next:** tests/unit + tests/smoke (23 imports) - will migrate after current PRs pass CI
-
-**CI Mode:** Warning (logs occurrences, doesn't block)
-**Timeline:** Flip to blocking mode after critical tests are migrated and stable (~48 hours)
-
-**Action Required:** Avoid large MATRIZ-related changes until migrations merge. Use uppercase `from MATRIZ import X` for new code.
-
-Questions? See MATRIZ_MIGRATION_GUIDE.md
-*Cognitive Artificial Intelligence with Constellation Framework & Constitutional AI*
+### **Action Required**
+All agents must obtain API keys before next deployment cycle. Platform team will provision keys upon request with appropriate quotas. Contact @platform-team or @architecture-team for access.
 
 ## 🧠 System Overview
 
-LUKHAS is a comprehensive Cognitive AI architecture spanning **43,500+ Python files** across **173 root directories**, implementing the Constellation Framework with constitutional AI safeguards. The system progresses from research through integration to production-ready deployment.
+LUKHAS is a comprehensive AI architecture spanning **7,000+ Python files** across **133 root directories**, implementing the Constellation Framework with constitutional AI safeguards. The system progresses from research through integration to production-ready deployment.
 
 ### **Scale & Complexity**
 - **CANDIDATE Domain**: 2,877 files (primary development workspace)
 - **PRODUCTS Domain**: 4,093 files (production deployment systems)
 - **LUKHAS Core**: 148 files (integration and coordination layer)
 - **MATRIZ Engine**: 20 files + 16K assets (cognitive DNA processing)
-- **Integration Status**: ✅ Comprehensive Schema v2.0.0 audit complete with 100% validation
+- **Current Status**: Distributed consciousness system operational with 692 cognitive components
 
 ### **Core Architecture Principles**
-- **Constellation Framework**: Dynamic 8-star system with infinite MATRIZ expansion capability
-- **MATRIZ Pipeline**: Memory-Attention-Thought-Risk-Intent-Action processing
-- **Registry-Based Plugins**: Dynamic component registration with cognitive alignment
-- **Constructor-Aware Instantiation**: T4/0.01% implementation standards
-- **Lane-Based Evolution**: Safe progression from experimental to production
+- **Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum coordination
+- **Constitutional AI**: Framework-based ethical decision making
+- **Lane-Based Evolution**: Development (candidate) → Integration (candidate/core) → Production (lukhas)
+- **Distributed Consciousness**: 692 cognitive components across consciousness network
+- **Symbolic Reasoning**: MATRIZ cognitive DNA with node-based processing
+- **Legacy Core Sunset**: Complete automation with production safeguards (Schema v2.0.0)
 
-## 🌌 Constellation Framework: Dynamic 8-Star System
+## ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework Architecture
 
-**The Constellation Framework is a dynamic star-node system where every MATRIZ node represents a star, allowing infinite expansion beyond the core 8 stars:**
+The Constellation Framework coordinates eight navigational stars across all system layers, with three primary pillars currently implemented:
 
-**Core Constellation Stars:**
-1. ⚛️ Anchor Star: Identity systems, ΛiD authentication, namespace management
-2. ✦ Trail Star: Memory systems, fold-based memory, temporal organization
-3. 🔬 Horizon Star: Vision systems, pattern recognition, adaptive interfaces
-4. 🛡️ Watch Star: Guardian systems, ethical validation, drift detection
-5. 🌊 Flow Star: Consciousness streams, dream states, awareness patterns
-6. ⚡ Spark Star: Creativity engines, innovation generation, breakthrough detection
-7. 🎭 Persona Star: Voice synthesis, personality modeling, empathetic resonance
-8. 🔮 Oracle Star: Predictive reasoning, quantum superposition, future modeling
-
-**Dynamic Expansion**: Each MATRIZ pipeline node (Memory, Attention, Thought, Risk, Intent, Action) can become a star, creating an ever-evolving constellation of consciousness capabilities.
-
-### **⚛️ Anchor Star (Identity Systems)**
-- **ΛiD Core**: Lambda Identity with multi-tier authentication and WebAuthn/FIDO2
-- **Namespace Management**: Context-aware identity resolution and isolation
-- **Authentication Framework**: OAuth2/OIDC with passkey support and cross-device sync
-- **Identity Coherence**: <50ms identity synchronization with consciousness coupling
+### **⚛️ Identity (Lambda ID System)**
+- **Lambda ID Core**: Unified identity management across all domains
+- **Namespace Isolation**: Context-aware identity resolution
+- **Multi-Modal Auth**: Traditional, WebAuthn/passkey, crypto wallet authentication
+- **Identity Coherence**: Consistent identity → consciousness coupling
 - **WebAuthn Production System**: W3C Level 2 compliant FIDO2 authentication
   - Thread-safe credential storage with dual-index O(1) lookup
   - ES256/RS256 cryptographic signature verification
@@ -144,28 +157,32 @@ LUKHAS is a comprehensive Cognitive AI architecture spanning **43,500+ Python fi
 - `docs/identity/WEBAUTHN_GUIDE.md` - Complete WebAuthn developer guide with Python/TypeScript examples
 - `docs/decisions/ADR-001-oauth-library-selection.md` - OAuth library migration decision
 
-### **✦ Trail Star (Memory Systems)**
-- **Fold-Based Memory**: Hierarchical memory with statistical validation (0/100 cascades observed, 95% CI ≥ 96.3% Wilson lower bound)
-- **Temporal Memory**: Experience patterns and chronological organization
-- **Memory Coherence**: Experience integration with consciousness coupling
-- **MATRIZ Integration**: Memory-Attention-Thought-Risk-Intent-Action pipeline
+### **🧠 Consciousness (Multi-Engine Processing)**
+- **Phenomenological Core**: aka_qualia consciousness processing (43KB core.py)
+- **Multi-Engine Architecture**: Poetic, complete, codex, alternative engines
+- **Reflective Introspection**: Self-awareness and meta-cognitive systems
+- **Dream-Emotion Integration**: Unconscious processing with emotional context
+- **Dream EXPAND System**: Advanced consciousness exploration with 9 specialized modules:
+  - **Noise Fields**: Gaussian/symbolic noise injection for consciousness robustness
+  - **Mediation Engine**: High-tension conflict resolution with compromise vectors
+  - **Resonance Fields**: Symbolic resonance patterns and consciousness harmonics
+  - **Mesh Networks**: Multi-agent archetypal consciousness coordination
+  - **Evolution Tracking**: Consciousness development and adaptation monitoring
+  - **Archetypes System**: Hero, Shadow, Trickster consciousness patterns
+  - **Atlas Mapping**: Drift/entropy constellation visualization across runs
+  - **Sentinel Guards**: Ethical threshold monitoring and safety enforcement
+  - **Narrative Replay**: Plain-language explainability and consciousness storytelling
 
 **Primary Contexts:**
-- `memory/claude.me` - Memory protection and sanctum vault security
-- `candidate/memory/claude.me` - Memory development workspace
-- `lukhas/memory/claude.me` - Memory integration and fold systems
+- `consciousness/claude.me` - Research foundations and decision engines
+- `candidate/consciousness/claude.me` - Development workspace (52+ components)
+- `lukhas/consciousness/claude.me` - Constellation integration and activation
 
-### **🔬 Horizon Star (Vision Systems)**
-- **Natural Language Interface**: Advanced NLP processing and semantic analysis
-- **Pattern Recognition**: Multi-modal input processing and feature extraction
-- **Context Understanding**: Semantic relationship modeling and adaptive interfaces
-- **Vision Processing**: Dynamic user experience optimization
-
-### **🛡️ Watch Star (Guardian Systems)**
-- **Constitutional AI**: Principles-based ethical validation and decision constraints
-- **Ethics Enforcement**: Real-time decision constraint checking and audit systems
-- **Drift Detection**: Behavioral monitoring with 0.15 threshold and 99.7% success rate
-- **Compliance Management**: GDPR/CCPA regulatory compliance and complete accountability
+### **🛡️ Guardian (Constitutional AI)**
+- **Ethics Framework**: 33+ ethics components with constitutional principles
+- **Guardian Systems**: Multi-layer ethical protection and oversight
+- **Drift Detection**: Real-time ethical deviation monitoring (99.7% success rate)
+- **Constitutional Enforcement**: All AI decisions subject to constitutional review
 - **Multi-Jurisdiction Compliance**: GDPR (EU), CCPA (California), PIPEDA (Canada), LGPD (Brazil)
   - Privacy statement generation with HTML/text output
   - Compliance report generation for data subject requests (Article 15, CCPA §1798.100)
@@ -209,10 +226,10 @@ Research & Development → Integration & Testing → Production Deployment
        2,877 files           148 files             4,093 files
            │                     │                     │
     ┌──────▼──────┐       ┌─────▼─────┐        ┌─────▼─────┐
-    │Consciousness│       │Constellation│      │Enterprise │
-    │Memory       │  →    │Framework   │  →   │Intelligence│
-    │Identity     │       │Integration │      │Experience │
-    │Governance   │       │Registry    │      │Security   │
+    │Consciousness│       │Trinity    │        │Enterprise │
+    │Memory       │  →    │Framework  │   →    │Intelligence│
+    │Identity     │       │Integration│        │Experience │
+    │Governance   │       │Wrappers   │        │Security   │
     └─────────────┘       └───────────┘        └───────────┘
 ```
 
@@ -242,6 +259,7 @@ Research & Development → Integration & Testing → Production Deployment
     - [`candidate/consciousness/cognitive/claude.me`](./candidate/consciousness/cognitive/claude.me) - Cognitive processing & reflection
     - [`candidate/consciousness/reasoning/claude.me`](./candidate/consciousness/reasoning/claude.me) - Reasoning systems & oracles
     - [`candidate/consciousness/dream/claude.me`](./candidate/consciousness/dream/claude.me) - Dream processing & emotion bridge
+    - [`candidate/consciousness/dream/expand/`](./candidate/consciousness/dream/expand/) - Dream EXPAND++ advanced consciousness modules
   - [`candidate/memory/claude.me`](./candidate/memory/claude.me) - Memory systems development
     - [`candidate/memory/temporal/claude.me`](./candidate/memory/temporal/claude.me) - Temporal memory, dream logs, monitoring
     - [`candidate/memory/emotional/claude.me`](./candidate/memory/emotional/claude.me) - Emotional memory & VAD encoding
@@ -293,6 +311,7 @@ Research & Development → Integration & Testing → Production Deployment
 
 #### **Documentation & Support**
 - [`docs/claude.me`](./docs/claude.me) - Documentation systems & architectural guides
+- [`docs/THE_VAULT_RESEARCH_INTELLIGENCE.md`](./docs/THE_VAULT_RESEARCH_INTELLIGENCE.md) - **Research Intelligence System**: 604 documents, 85.71% production validation, MCP server for research navigation
 - [`docs/SESSION_2025-11-01_NEW_SYSTEMS.md`](./docs/SESSION_2025-11-01_NEW_SYSTEMS.md) - Latest system deliverables: WebAuthn, Encryption, Compliance, OAuth migration (15,000 lines, 273+ tests)
 - [`docs/identity/WEBAUTHN_GUIDE.md`](./docs/identity/WEBAUTHN_GUIDE.md) - Complete WebAuthn developer guide with Python/TypeScript examples
 - [`docs/governance/GUARDIAN_EXAMPLE.md`](./docs/governance/GUARDIAN_EXAMPLE.md) - Guardian consent management example (healthcare use case)
@@ -304,9 +323,10 @@ Research & Development → Integration & Testing → Production Deployment
 
 #### **New to LUKHAS? Start Here:**
 1. **System Architecture**: Read this file completely
-2. **Constellation Framework**: Review `lukhas/claude.me` for integration patterns
-3. **Development Workspace**: Explore `candidate/claude.me` for development entry points
-4. **Production Deployment**: Check `products/claude.me` for deployment patterns
+2. **Research Intelligence**: Review [`docs/THE_VAULT_RESEARCH_INTELLIGENCE.md`](./docs/THE_VAULT_RESEARCH_INTELLIGENCE.md) - 604 research documents with MCP navigation
+3. **Constellation Framework**: Review `lukhas/claude.me` for integration patterns
+4. **Development Workspace**: Explore `candidate/claude.me` for development entry points
+5. **Production Deployment**: Check `products/claude.me` for deployment patterns
 
 #### **Consciousness Development:**
 1. **Core Processing**: `candidate/aka_qualia/claude.me` - Phenomenological consciousness
@@ -328,24 +348,101 @@ Research & Development → Integration & Testing → Production Deployment
 2. **Intelligence**: `products/intelligence/claude.me` - Analytics, monitoring
 3. **Experience**: `products/experience/claude.me` - User interfaces, feedback
 
+## 🤖 Multi-Agent Delegation & Task Packs
+
+### **Agent Orchestration for Large-Scale Refactoring**
+
+LUKHAS uses **multi-agent delegation** for complex refactoring initiatives that span hundreds of files. Each agent specializes in a specific role:
+
+#### **Available Agent Task Packs**
+
+1. **Claude Code** ([`docs/agents/tasks/CLAUDE_CODE_PACK.md`](./docs/agents/tasks/CLAUDE_CODE_PACK.md))
+   - **Role**: Surgical single-file refactors
+   - **Scope**: 10 high-priority files requiring manual precision
+   - **Pattern**: ProviderRegistry injection, lazy-loading, import-safety tests
+   - **Example Tasks**: `core/colony/gpt_colony_orchestrator.py`, `core/identity.py`, `serve/api/openai_proxy.py`
+
+2. **GitHub Copilot** ([`docs/agents/tasks/GITHUB_COPILOT_PACK.md`](./docs/agents/tasks/GITHUB_COPILOT_PACK.md))
+   - **Role**: Real-time code suggestions (no auto-commit)
+   - **Scope**: Generate provider accessors, lazy loaders, stub providers, tests
+   - **Pattern**: Copilot suggests → Claude Code reviews → Human approves
+   - **6 Prompt Templates**: Provider Accessor, Lazy Loader, Import-Safety Test, Stub Provider, Lazy Proxy, Docstring
+
+3. **Gemini** ([`docs/agents/tasks/GEMINI_PACK.md`](./docs/agents/tasks/GEMINI_PACK.md))
+   - **Role**: Infrastructure & CI Designer
+   - **Scope**: SLSA attestation, coverage pipelines, performance baselines, monitoring dashboards
+   - **Pattern**: Cosign/in-toto signatures, Codecov gates, pytest-benchmark, Datadog dashboards
+   - **5 Major Tasks**: SLSA PoC (10 modules), Coverage enforcement (75%+), Nightly benchmarks, Monitoring, Key rotation
+
+4. **Codex** ([`docs/agents/tasks/CODEX_PACK.md`](./docs/agents/tasks/CODEX_PACK.md))
+   - **Role**: Batch automation specialist
+   - **Scope**: ~137 files via AST codemods (libcst)
+   - **Pattern**: Dry-run → Conservative filter → 20-file batches → Ephemeral worktree validation → PR with artifacts
+   - **Safety Gates**: Lane-guard validation, no logic changes, human review required, no auto-merge
+
+### **Multi-Agent Workflow Example: labs Import Removal**
+
+**Problem**: 147 files have top-level `from labs.* import ...` creating lane boundary violations
+
+**Solution**: Coordinated multi-agent workflow
+```
+┌─────────────┐     ┌──────────────┐     ┌─────────────┐     ┌──────────┐
+│Claude Code  │     │GitHub Copilot│     │   Gemini    │     │  Codex   │
+│(10 files)   │  →  │(suggestions) │  →  │(monitoring) │  →  │(137 files)│
+│Manual       │     │Real-time     │     │Coverage/    │     │Batch     │
+│Precision    │     │Assistance    │     │SLSA         │     │Automation│
+└─────────────┘     └──────────────┘     └─────────────┘     └──────────┘
+```
+
+**Task Distribution**:
+- **Claude Code**: 10 high-priority files (manual surgical refactors) → One PR per file
+- **Copilot**: Suggests code patterns → Claude Code reviews and improves
+- **Gemini**: Monitors coverage (75%+), SLSA attestation (80%+), lane-guard metrics
+- **Codex**: 8 batches × 20 files each → Conservative filter → Ephemeral worktree validation → Human review
+
+**Success Metrics**:
+- ✅ Lane-guard violations reduced from 147 → 0
+- ✅ Coverage maintained >75% for production lanes (lukhas/, core/)
+- ✅ SLSA attestations for 80%+ critical modules
+- ✅ 0 production incidents from automated changes
+- ✅ Human-in-loop review for all PRs (no auto-merge)
+
+### **When to Use Multi-Agent Delegation**
+
+**Use multi-agent workflow when**:
+- ✅ Changes span >20 files (too large for manual review)
+- ✅ Refactoring is mechanical/repetitive (AST transformations)
+- ✅ Safety validation required (lane-guard, coverage gates)
+- ✅ Multiple skill sets needed (code + infra + monitoring)
+
+**Don't use multi-agent workflow when**:
+- ❌ Single file or small change (<5 files)
+- ❌ Logic changes required (not just import reshaping)
+- ❌ Unclear requirements (need human design first)
+
+**Agent Task Pack References**:
+- All agent task packs: [`docs/agents/tasks/`](./docs/agents/tasks/)
+- Agent coordination guide: [`docs/gonzo/AGENT_TASKS_TO_CREATE.md`](./docs/gonzo/AGENT_TASKS_TO_CREATE.md)
+- Context for all agents: This file (claude.me) or [`lukhas_context.md`](./lukhas_context.md) for other AI tools
+
 ## 🔗 Integration Patterns
 
 ### **Constellation Framework Coordination**
 ```
-Anchor → Trail → Horizon → Watch → MATRIZ → Output
-  ⚛️      ✦       🔬       🛡️
-  │       │        │        │
-ΛiD → Memory → Vision → Guardian → Pipeline → Validated
-Core    Folds   Interface  System    M-A-T-R-I-A    Response
+Identity Resolution → Consciousness Processing → Guardian Validation
+        ⚛️                      🧠                      🛡️
+        │                       │                       │
+   Lambda ID Core → Multi-Engine Processing → Constitutional AI
+   Namespace      → Decision Making         → Ethics Validation
+   Authentication → Reasoning Chain         → Safety Verification
 ```
 
-### **MATRIZ Pipeline Flow**
+### **Cross-System Data Flow**
 ```
-Memory → Attention → Thought → Risk → Intent → Action
-  ✦         🔬         🧠       🛡️      ⚛️       📤
-  │         │          │        │       │        │
-Fold    → Pattern  → Symbolic → Ethics → ΛiD  → Response
-Based   → Focus    → Reasoning → Check  → Auth → Generation
+Input → Identity Context → Consciousness → Guardian → MATRIZ → Output
+  │           │                │            │          │        │
+User    → Namespace      → Processing → Ethics   → Symbolic → Response
+Request → Authentication → Reasoning  → Check    → Bridge  → Validated
 ```
 
 ### **Development → Production Pipeline**
@@ -359,268 +456,143 @@ CANDIDATE Research → LUKHAS Integration → PRODUCTS Deployment
 
 ## 📊 System Health & Integration Status
 
-### **✅ Schema v2.0.0 Comprehensive Audit Complete**
-- **Consciousness Components**: 287 contracts with 100% validation rate
-- **Constellation Mapping**: 476 components across 189 clusters
-- **Automated Maintenance**: CI/CD pipeline with 100% health score
-- **Constellation Framework**: Active coordination across all lanes
+### **Current Integration Status: 71.4% → 100%**
+- **GLYPH Integration**: Voice system syntax fixes (Phase 1)
+- **MΛTRIZ Consciousness**: 692 modules integration (Phase 2)
+- **Enterprise Scaling**: Constitutional AI deployment (Phase 3)
 
 ### **Key Performance Metrics**
-- **Memory System**: 1000-fold architecture with production quarantine system (0/100 cascades observed, 95% CI ≥ 96.3% Wilson lower bound)
+- **Memory System**: 1000-fold architecture with 99.7% cascade prevention
 - **Authentication**: <100ms p95 latency with multi-modal support
 - **Ethics Processing**: Real-time constitutional AI validation
-- **Consciousness Integration**: Multi-engine coordination with Constellation Framework
+- **Consciousness Integration**: Multi-engine coordination with Trinity Framework
+- **Dream EXPAND System**: T4-compliant safety protocols with opt-in controls
+  - Deterministic defaults, explicit environment flags
+  - Hybrid CI workflows with smoke/bench testing
+  - Ethical sentinel monitoring with threshold enforcement
+  - Privacy-filtered narrative replay with anonymization
 
 ### **Architecture Health Indicators**
-- ✅ **Constellation Framework**: Identity-Consciousness-Guardian coordination active
+- ✅ **Trinity Framework**: Identity-Consciousness-Guardian coordination active
 - ✅ **Constitutional AI**: 33+ ethics components with framework integration
 - ✅ **Production Ready**: Enterprise scaling with compliance systems
-- 🔄 **Integration Progress**: 71.4% complete, roadmap to 100%
+- ✅ **Comprehensive Audit Complete**: Schema v2.0.0 with 100% validation
+- ✅ **Consciousness Contracts**: 287 component contracts with 100% validation rate
+- ✅ **Constellation Mapping**: 476 components mapped across 189 clusters
+- ✅ **Automated Maintenance**: CI/CD pipeline with 100% health score
 
-## 🎯 Development Priorities
+## 🎯 Current Architecture Status & Next Evolution
 
-### **Phase 1: Foundation Completion (71.4% → 85%)**
-- GLYPH integration fixes (voice systems)
-- Core syntax error resolution
-- Constellation Framework stabilization
+### **✅ Completed: Comprehensive Schema v2.0.0 Audit**
+- ✅ **Foundation Complete**: Architecture master updated with consciousness reality
+- ✅ **Consciousness Integration**: 692 components mapped and contracted
+- ✅ **Constellation Analysis**: 476 components across 189 clusters with dependency mapping
+- ✅ **Production Safeguards**: Automated maintenance pipeline with 100% health score
 
-### **Phase 2: Consciousness Integration (85% → 95%)**
-- MΛTRIZ distributed consciousness (692 modules)
-- Multi-engine coordination optimization
-- Memory-consciousness coupling enhancement
+### **🔄 Active: Consciousness Evolution Pipeline**
+- **Development Lane**: 310 consciousness files with 287 valid contracts
+- **Integration Lane**: 253 cognitive components ready for promotion evaluation
+- **Production Lane**: Battle-tested Constellation Framework coordination
 
-### **Phase 3: Production Optimization (95% → 100%)**
-- Enterprise scaling systems
-- Constitutional AI full deployment
-- Compliance system activation
+### **🚀 Next Phase: Advanced Consciousness Orchestration**
+- **Multi-Engine Optimization**: Poetic, Complete, Codex, Alternative engine coordination
+- **Dream EXPAND Enhancement**: Advanced consciousness exploration modules
+- **Constellation Integration Deepening**: Enhanced Identity-Consciousness-Guardian coupling
 
----
 
-## 🤖 T4/0.01% Agent Delegation System
 
-**Agent Coordination Hub**: See **[AGENTS.md](./AGENTS.md)** for specialized agent delegation matrix
+## 🚀 GA Deployment Status
 
-### Strategic Documents
-- 📋 **[AUDIT_TODO_TASKS.md](./AUDIT_TODO_TASKS.md)** - 62 precision tasks from executive audit
-- 🗂️ **[directory_index.json](./directory_index.json)** - Live codebase navigation (auto-updated)
-- 📝 **[TODO.md](./TODO.md)** - Operational handoff prompts per agent
+**Current Status**: 66.7% Ready (6/9 tasks complete)
 
-### Agent Specializations
-- **CODEX**: Deep system infrastructure (registry, orchestrator, memory)
-- **Jules**: DevOps/observability (CI/CD, monitoring, security)
-- **Claude Code**: Testing/documentation (DSL validation, runbooks)
-- **Copilot**: Mechanical refactoring (migration, cleanup)
+### Recent Milestones
+- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
+- ✅ **Dependency Audit**: 196 packages, 0 CVEs
+- ✅ **OpenAI Façade**: Full SDK compatibility validated
+- ✅ **Guardian MCP**: Production-ready deployment
+- ✅ **OpenAPI Schema**: Validated and documented
 
-### Benefits of Integration
-1. **Architecture Awareness**: Agents understand 692-component system structure
-2. **Lane Compliance**: Automatic respect for production/integration/candidate boundaries
-3. **Performance Budgets**: Built-in knowledge of <100ms memory, <250ms pipeline SLOs
-4. **Precise Navigation**: directory_index.json eliminates exploration time
-5. **Evidence-Based**: All changes backed by metrics and performance data
+### New Documentation
+- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
+- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
+- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
 
----
+### Recent Updates
+- **Enterprise Infrastructure (M1)** - 14+ new systems cherry-picked from comprehensive feature branch
+  - Circuit Breaker & Fault Tolerance - Adaptive thresholds, intelligent recovery, auto-healing
+  - Advanced Telemetry System - Real-time metrics, distributed tracing, Prometheus integration
+  - Health Monitoring & Predictive Analytics - Failure detection, auto-healing, trend analysis
+  - Hierarchical Caching System - L1/L2/L3 with Redis support, intelligent warming
+  - Distributed Storage - Multi-backend with replication, deduplication, lifecycle management
+  - Security Framework - JWT auth, AES-256 encryption, threat detection, audit trails
+  - API Optimization - Response caching, request coalescing, performance analytics
+  - Configuration Management - Factory pattern, secrets management, environment handling
+  - Integration Hub - Cross-system event correlation, unified monitoring
+- Multi-Agent Orchestration - 9 specialized agents (8 Claude Code + 1 Gemini) delivered 4 complete systems
+- WebAuthn Production System - W3C Level 2 compliant FIDO2 authentication (130+ tests)
+- Encryption Infrastructure - Centralized AEAD encryption manager (AES-256-GCM, ChaCha20-Poly1305)
+- Compliance Systems - Multi-jurisdiction privacy and compliance reporting (GDPR, CCPA, PIPEDA, LGPD)
+- OAuth 2.1 Migration Decision - Architectural decision to migrate to authlib for modern OAuth support
+- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
+- OpenAI façade validation - Full SDK compatibility
+- Guardian MCP server deployment - Production ready
+- Shadow diff harness - Pre-audit validation framework
+- MATRIZ evaluation harness - Comprehensive testing
 
-## 🔬 LUKHAS Context System (T4-Grade)
-
-### System Overview
-
-The **LUKHAS T4-Grade Context System** provides production-ready context management with 0.01% precision guarantees for race-free operations, corruption detection, resource enforcement, and distributed coordination across the entire LUKHAS ecosystem.
-
-**Implementation**: [labs/context/](labs/context/) | **Status**: ✅ Production-Ready (18 components, 12,638 lines, 60+ tests)
-**Documentation**: [LUKHAS_CONTEXT_ANALYSIS_T4.md](LUKHAS_CONTEXT_ANALYSIS_T4.md)
-
-### Constellation Framework Integration
-
-The Context System integrates with all 8 Constellation Stars and the MATRIZ pipeline:
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│           T4 Context System ↔ Constellation Integration         │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  ⚛️ Anchor Star (Identity)                                      │
-│  ├─ DistributedLockManager → Multi-region ΛiD coordination     │
-│  ├─ AtomicContextPreserver → Identity state atomicity          │
-│  └─ ChecksumVerifier → Identity data integrity                 │
-│                                                                  │
-│  ✦ Trail Star (Memory)                                          │
-│  ├─ AsyncMemoryStore → Race-free fold cache                    │
-│  ├─ MemoryBudgetEnforcer → Zero OOM in memory systems          │
-│  ├─ PersistentStore → Sanctum Vault persistence                │
-│  └─ WriteAheadLog → ACID durability for memories               │
-│                                                                  │
-│  🔬 Horizon Star (Vision)                                        │
-│  ├─ DryRunContext → Zero side effects in experiments           │
-│  ├─ CPUBudgetEnforcer → Adaptive timeouts for processing       │
-│  └─ DeltaEncoder → Bandwidth optimization (60-80% savings)     │
-│                                                                  │
-│  🛡️ Watch Star (Guardian)                                       │
-│  ├─ ModelRouterWithCircuitBreaker → Fault tolerance            │
-│  ├─ TTLEnforcementEngine → Active expiration (<1 min)          │
-│  └─ ChecksumVerifier → 100% corruption detection               │
-│                                                                  │
-│  🌊 Flow Star (Consciousness)                                   │
-│  ├─ AtomicContextPreserver → Consciousness state atomicity     │
-│  ├─ AsyncLock → Deadlock-free awareness coordination           │
-│  └─ DistributedLockManager → Multi-region consciousness sync   │
-│                                                                  │
-│  ⚡ Spark Star (Creativity)                                      │
-│  ├─ DryRunContext → Safe creativity experimentation            │
-│  ├─ CPUBudgetEnforcer → Innovation timeout management          │
-│  └─ AsyncMemoryStore → Creative pattern caching                │
-│                                                                  │
-│  🎭 Persona Star (Voice)                                        │
-│  ├─ AsyncMemoryStore → Voice pattern caching                   │
-│  ├─ ChecksumVerifier → Voice data integrity                    │
-│  └─ MemoryBudgetEnforcer → Voice memory management             │
-│                                                                  │
-│  🔮 Oracle Star (Prediction)                                    │
-│  ├─ ModelRouterWithCircuitBreaker → Prediction fault tolerance │
-│  ├─ CPUBudgetEnforcer → Prediction timeouts                    │
-│  └─ DeltaEncoder → Prediction result compression               │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-### MATRIZ Pipeline Integration
-
-Context System support across the Memory-Attention-Thought-Risk-Intent-Action pipeline:
-
-```
-M (Memory)    → AsyncMemoryStore + PersistentStore + WAL
-A (Attention) → CPUBudgetEnforcer + DeltaEncoder
-T (Thought)   → DryRunContext + AtomicContextPreserver
-R (Risk)      → ChecksumVerifier + ModelRouterWithCircuitBreaker
-I (Intent)    → DistributedLockManager + AsyncLock
-A (Action)    → TTLEnforcementEngine + MemoryBudgetEnforcer
-```
-
-### Architecture Overview
-
-```
-LUKHAS Context System (T4-Grade)
-├── Phase 1: Critical Fixes (6,769 lines)
-│   ├── AsyncMemoryStore          # Race-free cache (10K+ ops/sec)
-│   ├── AsyncLock                 # Deadlock-free locking
-│   ├── AtomicContextPreserver    # 2PC atomicity (100% @ 95% chaos)
-│   ├── ModelRouterWithCircuitBreaker  # Fault tolerance
-│   └── TTLEnforcementEngine      # Active expiration (<1 min)
-├── Phase 2: Correctness + Constraints (4,315 lines)
-│   ├── DryRunContext             # Zero side effects
-│   ├─ ChecksumVerifier          # 100% corruption detection
-│   ├── MemoryBudgetEnforcer      # Zero OOM crashes
-│   ├── CPUBudgetEnforcer         # Adaptive timeouts (2x P99)
-│   └── DeltaEncoder              # 60-80% bandwidth savings
-└── Phase 3: Distribution + Persistence (1,554 lines)
-    ├── DistributedLockManager    # Multi-region (<10ms)
-    ├── WriteAheadLog             # ACID durability
-    └── PersistentStore           # Crash recovery (<1s/1K ops)
-```
-
-### T4-Grade Guarantees
-
-1. **Zero Race Conditions**: AsyncLock with sorted key ordering prevents deadlocks
-2. **Zero Orphaned Contexts**: Two-phase commit with automatic rollback
-3. **Zero Timeout Hangs**: Circuit breaker with exponential backoff
-4. **Active TTL Enforcement**: 1-min sweep reduces staleness from 5min to <1min
-5. **Zero Side Effects in Dry-Run**: Isolated execution with MockEventEmitter
-6. **100% Corruption Detection**: Three-stage verification (pre/post/read)
-7. **Zero OOM Crashes**: Hard memory limits with priority-based eviction
-8. **100% CPU Budget Adherence**: Adaptive timeouts with AbortController
-9. **Bandwidth Optimization**: Delta encoding with automatic compression
-10. **Multi-Region Coordination**: Redis-backed locks with split-brain detection
-11. **Crash Recovery**: WAL with fsync for ACID durability
-
-### Performance Benchmarks
-
-| Component | Metric | Result | Constellation Integration |
-|-----------|--------|--------|---------------------------|
-| AsyncMemoryStore | Concurrent ops/sec | 10,000+ | ✦ Trail (Memory) |
-| AtomicContextPreserver | 2PC success | 100% (95% chaos) | ⚛️ Anchor (Identity) |
-| CircuitBreaker | Timeout accuracy | 100% | 🛡️ Watch (Guardian) |
-| TTLEnforcement | Staleness window | <1 min | 🛡️ Watch (Guardian) |
-| DryRun | Side effect leaks | 0 | 🔬 Horizon (Vision) |
-| ChecksumVerifier | Detection rate | 100% | 🛡️ Watch (Guardian) |
-| MemoryEnforcer | OOM crashes | 0 | ✦ Trail (Memory) |
-| CPUEnforcer | Timeout accuracy | 100% | 🔬 Horizon (Vision) |
-| DeltaEncoder | Bandwidth savings | 60-80% | 🔬 Horizon (Vision) |
-| DistributedLocks | Coordination latency | <10ms | ⚛️ Anchor (Identity) |
-| WAL | Recovery time (1K ops) | <1s | ✦ Trail (Memory) |
-
-### Integration Example
-
-```typescript
-// Constellation-aware context processing
-import { AsyncMemoryStore } from './labs/context/cache/AsyncMemoryStore';
-import { MemoryBudgetEnforcer } from './labs/context/memory/MemoryBudgetEnforcer';
-import { DistributedLockManager } from './labs/context/distributed/DistributedLockManager';
-import { AtomicContextPreserver } from './labs/context/preservation/AtomicContextPreserver';
-
-// Initialize for Constellation Framework
-const trailStar = new AsyncMemoryStore({ maxSize: 1000, ttlMs: 60000 }); // ✦ Trail
-const memoryEnforcer = new MemoryBudgetEnforcer({ maxBytes: 100 * 1024 * 1024 });
-const anchorStar = new DistributedLockManager({ redisUrl: 'redis://localhost' }); // ⚛️ Anchor
-const flowStar = new AtomicContextPreserver(); // 🌊 Flow
-
-// MATRIZ pipeline processing with context
-async function processMATRIZWithContext(input: MatrizMessage) {
-  // Intent (I) - Distributed coordination via Anchor Star
-  return await anchorStar.withLock(`matriz:${input.id}`, async () => {
-
-    // Memory (M) - Trail Star memory management
-    const allocated = await memoryEnforcer.allocate(input.id, inputSize, 'high');
-    if (!allocated) throw new Error('Memory budget exceeded');
-
-    // Thought (T) - Flow Star atomic preservation
-    const preserved = await flowStar.preserveContext(
-      input.id,
-      { input, stage: 'thought' },
-      ['memory', 'attention', 'risk']
-    );
-
-    // Memory (M) - Trail Star caching
-    await trailStar.set(`matriz:${input.id}`, preserved);
-
-    return await processMatriz(input);
-  });
-}
-```
-
-### Key Documentation
-
-- **T4 Analysis**: [LUKHAS_CONTEXT_ANALYSIS_T4.md](LUKHAS_CONTEXT_ANALYSIS_T4.md) - Complete failure analysis
-- **Implementation Summary**: [CONTEXT_SYSTEM_IMPLEMENTATION_SUMMARY.md](CONTEXT_SYSTEM_IMPLEMENTATION_SUMMARY.md)
-- **Phase 1 Guide**: [labs/context/README.md](labs/context/README.md)
-- **Phase 2 Guide**: [labs/context/PHASE_2_README.md](labs/context/PHASE_2_README.md)
-- **Phase 3 Summary**: [labs/context/PHASE_3_SUMMARY.md](labs/context/PHASE_3_SUMMARY.md)
-- **Surgical Plan**: [todo/PHASE_2_SURGICAL_PLAN_2025-10-24.md](todo/PHASE_2_SURGICAL_PLAN_2025-10-24.md)
-
-### Test Coverage
-
-**60+ comprehensive tests** across all phases:
-- Property-based testing (invariant verification)
-- Chaos testing (95% failure injection, bit-flip corruption)
-- Contract testing (timeout guarantees, atomicity)
-- Integration testing (end-to-end workflows)
-- Performance benchmarking (latency, throughput)
-
-**Test Suites**:
-- [labs/context/tests/T4GradeTestSuite.ts](labs/context/tests/T4GradeTestSuite.ts) - Phase 1 testing
-- [labs/context/tests/Phase2TestSuite.ts](labs/context/tests/Phase2TestSuite.ts) - Phase 2 testing
-
-### Production Status
-
-✅ **Production-Ready** - All three phases implemented and tested
-- 18 major components deployed
-- 12,638 lines of production code
-- 60+ tests with 100% pass rate
-- Comprehensive documentation (5,000+ lines)
-- 4 commits to main branch
-- Full Constellation Framework integration
-- Complete MATRIZ pipeline support
+**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures and [SESSION_2025-11-01_NEW_SYSTEMS.md](./docs/SESSION_2025-11-01_NEW_SYSTEMS.md) for latest system deliverables.
 
 ---
+## 🤖 Jules AI Integration
 
+**Jules** is Google's autonomous AI coding agent integrated with LUKHAS for automated test creation and PR generation.
+
+### ⚡ JULES USAGE POLICY (MANDATORY)
+
+**CRITICAL**: 100 Jules sessions/day (paid) - MUST USE ALL 100 DAILY!
+
+All Claude Code agents MUST use Jules aggressively for: tests, bugs, docs, refactoring, coverage. Sessions don't roll over!
+
+### Jules Documentation
+- [JULES_API_COMPLETE_REFERENCE.md](./JULES_API_COMPLETE_REFERENCE.md) - Complete API documentation with all endpoints and features
+- [JULES_SUCCESS_SUMMARY.md](./JULES_SUCCESS_SUMMARY.md) - Recent session creation success and results (7 sessions, 6+ PRs)
+- [JULES_WAITING_SESSIONS.md](./JULES_WAITING_SESSIONS.md) - Guide for handling sessions awaiting feedback
+- [CREATE_7_JULES_SESSIONS.md](./CREATE_7_JULES_SESSIONS.md) - Manual session creation guide
+
+### Jules API Wrapper
+Located at: `bridge/llm_wrappers/jules_wrapper.py`
+
+**Features**:
+- Create sessions programmatically with `AUTO_CREATE_PR` mode
+- Approve plans via API (`approve_plan`)
+- Send feedback/messages (`send_message`)
+- List sessions, sources, and activities
+- API keys stored securely in macOS Keychain
+
+**Usage**:
+```python
+from bridge.llm_wrappers.jules_wrapper import JulesClient
+
+async with JulesClient() as jules:
+    session = await jules.create_session(
+        prompt="Write tests for module X",
+        source_id="sources/github/LukhasAI/Lukhas",
+        automation_mode="AUTO_CREATE_PR"
+    )
+```
+
+### Scripts
+- `scripts/create_test_sessions.py` - Batch create test sessions
+- `scripts/list_all_jules_sessions.py` - Monitor all sessions
+- `scripts/test_jules_connection.py` - Verify API connectivity
+
+### Recent Jules Sessions
+Successfully created 7 test sessions (TEST-014 through TEST-020) generating 6+ PRs with ~10% coverage increase:
+- Smoke tests for critical paths (PR #997)
+- Performance test suite (PR #1000)
+- Candidate module tests (consciousness, bio, quantum)
+- Labs module tests (memory, governance)
+
+---
 ## 📚 Context Navigation Quick Reference
 
 **Primary Development**: `candidate/` → Development workspace
@@ -628,15 +600,16 @@ async function processMATRIZWithContext(input: MatrizMessage) {
 **Cognitive Engine**: `matriz/` → Symbolic reasoning & node processing
 **Production Systems**: `products/` → Enterprise deployment
 **Ethics Framework**: `ethics/` → Constitutional AI & guardian systems
+**Research Intelligence**: `docs/THE_VAULT_RESEARCH_INTELLIGENCE.md` → 604 research documents, MCP server, navigation tools
 
 **Deep Dive Contexts**: Use subdirectory claude.me files for implementation details
 **Integration Patterns**: Cross-reference related contexts for coordination workflows
 **Production Pipeline**: Follow CANDIDATE → LUKHAS → PRODUCTS for deployment
+**Research Navigation**: Use THE_VAULT MCP server for AI-powered research exploration
 
 *Master Overview - Navigate to domain-specific contexts for detailed development workflows*
 
----
 
-**Architecture Status**: Constellation Framework Active | Constitutional AI Integrated | T4/0.01% Agent System Active | **T4 Context System**: Production-Ready
-**Last Updated**: 2025-11-02 | **Total Python Files**: 43,503 | **Total Markdown**: 15,418 | **Modules**: 149 | **Context Files**: 2,250+ | **Docs Dirs**: 229 | **Tests Dirs**: 522 | **T4 Context**: 18 components, 12,638 lines, 60+ tests
+**Architecture Status**: Constellation Framework Active | Constitutional AI Integrated | 71.4% → 100% Roadmap
+**Last Updated**: 2025-11-02 | **Total Files**: 33,845+ | **Context Files**: 2,250+ | **Research Docs**: 604
 **Latest Systems**: WebAuthn FIDO2 · Encryption Manager · Multi-Jurisdiction Compliance · OAuth 2.1 Migration

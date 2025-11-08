@@ -14,7 +14,7 @@ import hashlib
 import time
 import uuid
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -26,13 +26,13 @@ class QSymbol:
     """Compressed symbolic representation of perception-action cycles"""
 
     q_id: str = field(default_factory=lambda: f"Q-{uuid.uuid4().hex[:8]}")
-    origin_symbols: List[str] = field(default_factory=list)
+    origin_symbols: list[str] = field(default_factory=list)
     compression_ratio: float = 1.0
     semantic_density: float = 0.5
     observation_cycles: int = 0
     stability_metric: float = 0.0
 
-    def compress(self, symbols: List[VisualSymbol]) -> str:
+    def compress(self, symbols: list[VisualSymbol]) -> str:
         """Compress multiple symbols into Q-representation"""
         hasher = hashlib.sha256()
         for symbol in symbols:
@@ -50,7 +50,7 @@ class SymbolicDrift:
     """Tracks how symbols evolve over time"""
 
     symbol_id: str
-    drift_trajectory: List[Dict[str, float]] = field(default_factory=list)
+    drift_trajectory: list[dict[str, float]] = field(default_factory=list)
     drift_rate: float = 0.01
     stability_threshold: float = 0.95
 
@@ -74,7 +74,7 @@ class SymbolicDrift:
 class ContradictionEntropy:
     """Resolves paradoxes through entropy management"""
 
-    contradictions: List[Tuple[str, str]] = field(default_factory=list)
+    contradictions: list[tuple[str, str]] = field(default_factory=list)
     entropy_level: float = 0.0
     resolution_threshold: float = 0.7
 
@@ -98,12 +98,12 @@ class ContradictionEntropy:
 class BootstrapParadox:
     """Implements self-creating symbolic systems"""
 
-    seed_symbols: Set[str] = field(default_factory=set)
-    emergent_symbols: Dict[str, EmergentSymbol] = field(default_factory=dict)
+    seed_symbols: set[str] = field(default_factory=set)
+    emergent_symbols: dict[str, EmergentSymbol] = field(default_factory=dict)
     generation: int = 0
     emergence_threshold: int = 5
 
-    def bootstrap_cycle(self, symbols: List[VisualSymbol]) -> Optional[EmergentSymbol]:
+    def bootstrap_cycle(self, symbols: list[VisualSymbol]) -> Optional[EmergentSymbol]:
         """Execute bootstrap cycle to create emergent symbols"""
         if len(symbols) < 2:
             return None
@@ -137,14 +137,14 @@ class RecursiveSymbolicEngine:
 
     def __init__(self, recursion_depth: int = 10):
         self.recursion_depth = recursion_depth
-        self.q_symbols: Dict[str, QSymbol] = {}
-        self.drift_trackers: Dict[str, SymbolicDrift] = {}
+        self.q_symbols: dict[str, QSymbol] = {}
+        self.drift_trackers: dict[str, SymbolicDrift] = {}
         self.contradiction_entropy = ContradictionEntropy()
         self.bootstrap = BootstrapParadox()
         self.observation_count = 0
-        self.emergence_events: List[Dict[str, Any]] = []
+        self.emergence_events: list[dict[str, Any]] = []
 
-    def observe_recursive(self, symbol: VisualSymbol, depth: int = 0) -> Dict[str, Any]:
+    def observe_recursive(self, symbol: VisualSymbol, depth: int = 0) -> dict[str, Any]:
         """Recursively observe symbol, triggering emergence"""
         if depth >= self.recursion_depth:
             return {"recursion_limit": True}
@@ -191,7 +191,7 @@ class RecursiveSymbolicEngine:
 
         return result
 
-    def compress_symbols(self, symbols: List[VisualSymbol]) -> QSymbol:
+    def compress_symbols(self, symbols: list[VisualSymbol]) -> QSymbol:
         """Compress symbols into Q-symbol"""
         q_symbol = QSymbol()
         q_id = q_symbol.compress(symbols)
@@ -248,7 +248,7 @@ class RecursiveSymbolicEngine:
 
         return None
 
-    def measure_emergence_potential(self, symbols: List[VisualSymbol]) -> float:
+    def measure_emergence_potential(self, symbols: list[VisualSymbol]) -> float:
         """Calculate potential for new symbol emergence"""
         if len(symbols) < 2:
             return 0.0
@@ -285,7 +285,7 @@ class RecursiveSymbolicEngine:
             1.0, self.contradiction_entropy.entropy_level
         )
 
-    def to_matriz_node(self) -> Dict[str, Any]:
+    def to_matriz_node(self) -> dict[str, Any]:
         """Convert engine state to MATRIZ format"""
         return {
             "node_id": f"rse_{int(time.time() * 1000)}",

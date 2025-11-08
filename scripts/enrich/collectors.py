@@ -14,7 +14,7 @@ import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 from enrich.review_queue import ReviewQueue
 
@@ -23,9 +23,9 @@ from enrich.review_queue import ReviewQueue
 class Signal:
     """Extracted signal with full T4/0.01% provenance"""
     value: Any
-    provenance: List[str]
+    provenance: list[str]
     confidence: str  # "high" | "medium" | "low"
-    reasons: List[str]
+    reasons: list[str]
     extracted_at: str
     sha: str | None = None
 
@@ -70,7 +70,7 @@ class Vocab:
         data = json.loads(path.read_text())
         return set(data.get("allowed", []))
 
-    def _build_synonym_map(self) -> Dict[str, str]:
+    def _build_synonym_map(self) -> dict[str, str]:
         """Build mapping from synonyms to canonical keys"""
         mapping = {}
         for canonical, meta in self.features.items():
@@ -214,7 +214,7 @@ class ClaudeExtractor:
     def description(
         self,
         claude_me: Path,
-        features: List[str],
+        features: list[str],
         components_count: int
     ) -> Signal:
         """
@@ -330,20 +330,18 @@ class InitExtractor:
         for node in ast.walk(tree):
             if isinstance(node, ast.Assign):
                 for target in node.targets:
-                    if isinstance(target, ast.Name) and target.id == "__all__":
-                        if isinstance(node.value, (ast.List, ast.Tuple)):
-                            for elem in node.value.elts:
-                                if isinstance(elem, (ast.Str, ast.Constant)):
-                                    val = getattr(elem, "s", None) or getattr(elem, "value", None)
-                                    if val:
-                                        exports.add(val)
+                    if (isinstance(target, ast.Name) and target.id == '__all__') and isinstance(node.value, (ast.List, ast.Tuple)):
+                        for elem in node.value.elts:
+                            if isinstance(elem, (ast.Str, ast.Constant)):
+                                val = getattr(elem, "s", None) or getattr(elem, "value", None)
+                                if val:
+                                    exports.add(val)
 
         # Fallback: public class/function defs
         if not exports:
             for node in tree.body:
-                if isinstance(node, (ast.ClassDef, ast.FunctionDef)):
-                    if not node.name.startswith("_"):
-                        exports.add(node.name)
+                if isinstance(node, (ast.ClassDef, ast.FunctionDef)) and (not node.name.startswith('_')):
+                    exports.add(node.name)
 
         # Build API metadata
         apis = {}
@@ -390,7 +388,7 @@ class ImportVerifier:
         self,
         pkg_root: Path,
         module_dir: Path,
-        apis: Dict[str, Dict]
+        apis: dict[str, Dict]
     ) -> Signal:
         """
         Verify each API is importable by checking:

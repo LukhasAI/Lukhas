@@ -1,6 +1,5 @@
----
-title: me
-slug: claude.me
+title: lukhas_context
+slug: lukhas_context
 owner: T4
 lane: labs
 star:
@@ -10,14 +9,12 @@ constellation_stars:
 related_modules:
 manifests:
 links:
-contracts: "[]"
-domain: brain
-stars: "[Flow]"
-status: active
-tier: T1
-updated: 2025-10-18
----
-# Agent Module - Claude AI Context
+status: wip
+type: documentation
+# Agent Module Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
+
 
 **Module**: agent
 **Purpose**: Real LUKHAS agents for internal consciousness operations
@@ -25,7 +22,6 @@ updated: 2025-10-18
 **Language**: Python
 **Last Updated**: 2025-10-18
 
----
 
 ## Module Overview
 
@@ -37,20 +33,11 @@ The agent module provides real LUKHAS agents for internal consciousness operatio
 - **Agent Interfaces**: Standardized agent communication interfaces
 - **Agent System Status**: System-wide agent health and status monitoring
 
-## ⭐ Constellation Stars
+### Constellation Framework Integration
+- **🧠 Flow Star (Consciousness)**: Consciousness-driven agent operations
+- **⚛️ Anchor Star (Identity)**: Agent identity and authentication
+- **🛡️ Watch Star (Guardian)**: Agent ethics and behavior monitoring
 
-This module aligns with:
-
-### Flow (Consciousness) 🧠
-Enables consciousness-driven agent operations, allowing agents to act as extensions of the core consciousness.
-
-### Anchor (Identity) ⚛️
-Provides agents with a secure and verifiable identity, ensuring all actions are auditable and authorized.
-
-### Watch (Guardian) 🛡️
-Monitors agent behavior to ensure ethical compliance and alignment with system-wide safety protocols.
-
----
 
 ## Architecture
 
@@ -67,7 +54,6 @@ from agent.intelligence_bridge import is_available as intelligence_bridge_availa
 from agent.interfaces import is_available as interfaces_available
 ```
 
----
 
 ## Agent Systems
 
@@ -110,7 +96,6 @@ if is_available:
     pass
 ```
 
----
 
 ## System Status
 
@@ -127,7 +112,6 @@ status = get_agent_system_status()
 # }
 ```
 
----
 
 ## Development Guidelines
 
@@ -154,7 +138,6 @@ else:
 - Integration tests for multi-agent scenarios
 - Behavior tests for ethics compliance
 
----
 
 ## MATRIZ Pipeline Integration
 
@@ -167,7 +150,6 @@ This module operates within the MATRIZ cognitive framework:
 - **I (Intent)**: Agent goal and intention tracking
 - **A (Action)**: Agent action execution and monitoring
 
----
 
 ## Related Modules
 
@@ -175,7 +157,6 @@ This module operates within the MATRIZ cognitive framework:
 - **Identity** ([../identity/](../identity/)) - Agent identity and authentication
 - **Governance** ([../governance/](../governance/)) - Agent ethics and behavior
 
----
 
 ## Documentation
 
@@ -184,38 +165,9 @@ This module operates within the MATRIZ cognitive framework:
 - **Tests**: [agent/tests/](tests/) - Agent test suites
 - **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#agent)
 
----
 
 **Status**: Integration Lane (L2)
 **Manifest**: ✓ module.manifest.json (schema v3.0.0)
 **Team**: Core
 **Code Owners**: @lukhas-core
 **Last Updated**: 2025-10-18
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

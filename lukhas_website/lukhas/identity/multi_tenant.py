@@ -23,7 +23,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable
 from uuid import uuid4
 
 from opentelemetry import trace
@@ -83,9 +83,9 @@ class TenantSecurityPolicy:
     min_tier_level: TierLevel = TierLevel.PUBLIC
     max_session_duration_hours: int = 8
     require_fresh_auth_minutes: int = 60
-    allowed_ip_ranges: List[str] = field(default_factory=list)
-    blocked_ip_ranges: List[str] = field(default_factory=list)
-    password_policy: Dict[str, Any] = field(default_factory=dict)
+    allowed_ip_ranges: list[str] = field(default_factory=list)
+    blocked_ip_ranges: list[str] = field(default_factory=list)
+    password_policy: dict[str, Any] = field(default_factory=dict)
     audit_all_actions: bool = True
     cross_tenant_access_enabled: bool = False
 
@@ -114,8 +114,8 @@ class TenantMetadata:
     # Configuration
     namespace: str = ""  # Auto-generated from tenant_id if empty
     domain: str | None = None
-    custom_claims: Dict[str, Any] = field(default_factory=dict)
-    tags: Dict[str, str] = field(default_factory=dict)
+    custom_claims: dict[str, Any] = field(default_factory=dict)
+    tags: dict[str, str] = field(default_factory=dict)
 
     # Resource management
     quotas: TenantQuotas = field(default_factory=TenantQuotas)
@@ -123,7 +123,7 @@ class TenantMetadata:
 
     # Audit and compliance
     created_by: str | None = None
-    compliance_flags: Dict[str, bool] = field(default_factory=dict)
+    compliance_flags: dict[str, bool] = field(default_factory=dict)
     audit_retention_days: int = 90
 
     def __post_init__(self):
@@ -147,13 +147,13 @@ class TenantUser:
     tenant_id: str
     username: str
     email: str
-    roles: List[str] = field(default_factory=list)
-    permissions: List[str] = field(default_factory=list)
+    roles: list[str] = field(default_factory=list)
+    permissions: list[str] = field(default_factory=list)
     max_tier_level: TierLevel = TierLevel.ELEVATED
     status: str = "active"
     last_login: datetime | None = None
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class TenantManager:
@@ -177,9 +177,9 @@ class TenantManager:
         self.storage_provider = storage_provider or self._default_storage
 
         # In-memory storage for demo (replace with persistent storage)
-        self._tenants: Dict[str, TenantMetadata] = {}
-        self._tenant_users: Dict[str, List[TenantUser]] = {}
-        self._tenant_index: Dict[str, str] = {}  # namespace -> tenant_id mapping
+        self._tenants: dict[str, TenantMetadata] = {}
+        self._tenant_users: dict[str, list[TenantUser]] = {}
+        self._tenant_index: dict[str, str] = {}  # namespace -> tenant_id mapping
 
         self.logger = logging.getLogger(f"{__name__}.TenantManager")
         self.logger.info("TenantManager initialized with multi-tenant isolation")
@@ -290,7 +290,7 @@ class TenantManager:
     async def update_tenant(
         self,
         tenant_id: str,
-        updates: Dict[str, Any],
+        updates: dict[str, Any],
         updater_user_id: str | None = None
     ) -> TenantMetadata:
         """
@@ -316,9 +316,9 @@ class TenantManager:
             await self._guardian_validate_tenant_update(tenant, updates, updater_user_id)
 
         # Apply updates (with validation)
-        for field, value in updates.items():
-            if hasattr(tenant, field):
-                setattr(tenant, field, value)
+        for attr, value in updates.items():
+            if hasattr(tenant, attr):
+                setattr(tenant, attr, value)
 
         tenant.updated_at = datetime.now(timezone.utc)
 
@@ -337,7 +337,7 @@ class TenantManager:
         tenant_id: str,
         user_id: str,
         tier_level: TierLevel = TierLevel.AUTHENTICATED,
-        custom_claims: Dict[str, Any] | None = None,
+        custom_claims: dict[str, Any] | None = None,
         expires_in_seconds: int = 3600
     ) -> str:
         """
@@ -428,7 +428,7 @@ class TenantManager:
         self,
         token: str,
         required_tenant: str | None = None,
-        required_permissions: List[str] | None = None
+        required_permissions: list[str] | None = None
     ) -> ValidationResult:
         """
         Validate tenant-scoped token with namespace verification.
@@ -505,8 +505,8 @@ class TenantManager:
         user_id: str,
         username: str,
         email: str,
-        roles: List[str] | None = None,
-        permissions: List[str] | None = None,
+        roles: list[str] | None = None,
+        permissions: list[str] | None = None,
         max_tier_level: TierLevel = TierLevel.ELEVATED
     ) -> TenantUser:
         """
@@ -605,7 +605,7 @@ class TenantManager:
         tenant_id: str,
         limit: int = 100,
         offset: int = 0
-    ) -> List[TenantUser]:
+    ) -> list[TenantUser]:
         """
         List users in tenant with pagination.
 
@@ -620,7 +620,7 @@ class TenantManager:
         users = self._tenant_users.get(tenant_id, [])
         return users[offset:offset + limit]
 
-    async def get_user_tenants(self, user_id: str) -> List[TenantMetadata]:
+    async def get_user_tenants(self, user_id: str) -> list[TenantMetadata]:
         """
         Get all tenants a user belongs to.
 
@@ -656,7 +656,7 @@ class TenantManager:
     async def _guardian_validate_tenant_update(
         self,
         tenant: TenantMetadata,
-        updates: Dict[str, Any],
+        updates: dict[str, Any],
         updater_user_id: str | None
     ) -> None:
         """Guardian validation for tenant updates."""
@@ -671,7 +671,7 @@ class TenantManager:
         self,
         tenant: TenantMetadata,
         user: TenantUser,
-        claims: Dict[str, Any]
+        claims: dict[str, Any]
     ) -> None:
         """Guardian validation for token generation."""
         if self.guardian:
@@ -685,7 +685,7 @@ class TenantManager:
     async def _guardian_validate_token_access(
         self,
         tenant: TenantMetadata,
-        claims: Dict[str, Any]
+        claims: dict[str, Any]
     ) -> None:
         """Guardian validation for token access."""
         if self.guardian:
@@ -714,7 +714,7 @@ class TenantManager:
         self,
         event: str,
         tenant: TenantMetadata,
-        context: Dict[str, Any] | None = None
+        context: dict[str, Any] | None = None
     ) -> None:
         """Guardian monitoring for tenant events."""
         if self.guardian:

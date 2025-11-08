@@ -20,6 +20,7 @@ from typing import Any
 
 # Import for synchronization
 from bio.core.symbolic_mito_ethics_sync import MitoEthicsSync
+from core.common import get_logger
 from ethics.compliance.engine import ComplianceEngine
 from ethics.governor.dao_controller import DAOController
 from ethics.governor.lambda_governor import LambdaGovernor
@@ -34,7 +35,6 @@ from ethics.self_reflective_debugger import EnhancedSelfReflectiveDebugger as Se
 from ethics.sentinel.ethical_drift_sentinel import EthicalDriftSentinel
 from ethics.service import EthicsService
 from ethics.stabilization.tuner import StabilizationTuner
-from core.common import get_logger
 
 logger = get_logger(__name__)
 

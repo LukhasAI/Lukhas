@@ -27,7 +27,7 @@ import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -79,17 +79,17 @@ class Permission:
     resource_type: ResourceType
     action: ActionType
     resource_pattern: str = "*"
-    conditions: Dict[str, Any] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    conditions: dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 @dataclass
 class Role:
     """Role definition with permissions."""
     name: str
     description: str
-    permissions: List[Permission] = field(default_factory=list)
-    parent_roles: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    permissions: list[Permission] = field(default_factory=list)
+    parent_roles: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     is_active: bool = True
 
@@ -98,8 +98,8 @@ class Subject:
     """Subject (user/service/system) for access control."""
     id: str
     type: str  # user, service, system, api_key
-    roles: List[str] = field(default_factory=list)
-    attributes: Dict[str, Any] = field(default_factory=dict)
+    roles: list[str] = field(default_factory=list)
+    attributes: dict[str, Any] = field(default_factory=dict)
     session_id: Optional[str] = None
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     last_active: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -110,10 +110,10 @@ class Resource:
     """Resource definition."""
     id: str
     type: ResourceType
-    attributes: Dict[str, Any] = field(default_factory=dict)
+    attributes: dict[str, Any] = field(default_factory=dict)
     owner: Optional[str] = None
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 @dataclass
 class AccessRequest:
@@ -121,7 +121,7 @@ class AccessRequest:
     subject: Subject
     resource: Resource
     action: ActionType
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     session_id: Optional[str] = None
 
@@ -132,7 +132,7 @@ class ABACPolicy:
     name: str
     description: str
     effect: Effect
-    target: Dict[str, Any]  # Matching criteria
+    target: dict[str, Any]  # Matching criteria
     condition: Optional[str] = None  # Policy expression
     priority: int = 0
     is_active: bool = True
@@ -144,12 +144,12 @@ class AccessDecisionInfo:
     """Detailed access decision with reasoning."""
     decision: AccessDecision
     reason: str
-    matched_policies: List[str] = field(default_factory=list)
-    matched_permissions: List[Permission] = field(default_factory=list)
+    matched_policies: list[str] = field(default_factory=list)
+    matched_permissions: list[Permission] = field(default_factory=list)
     evaluation_time_ms: float = 0.0
     confidence_score: float = 1.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    warnings: List[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
+    warnings: list[str] = field(default_factory=list)
 
 class AccessControlSystem:
     """Comprehensive RBAC/ABAC access control system."""
@@ -164,14 +164,14 @@ class AccessControlSystem:
         self.audit_enabled = audit_enabled
 
         # Core data stores
-        self.roles: Dict[str, Role] = {}
-        self.subjects: Dict[str, Subject] = {}
-        self.resources: Dict[str, Resource] = {}
-        self.abac_policies: Dict[str, ABACPolicy] = {}
+        self.roles: dict[str, Role] = {}
+        self.subjects: dict[str, Subject] = {}
+        self.resources: dict[str, Resource] = {}
+        self.abac_policies: dict[str, ABACPolicy] = {}
 
         # Performance optimization
-        self.policy_cache: Dict[str, Tuple[AccessDecision, float]] = {}
-        self.permission_cache: Dict[str, List[Permission]] = {}
+        self.policy_cache: dict[str, tuple[AccessDecision, float]] = {}
+        self.permission_cache: dict[str, list[Permission]] = {}
 
         # Statistics
         self.access_requests = 0
@@ -316,7 +316,7 @@ class AccessControlSystem:
                     subject_id: str,
                     resource_id: str,
                     action: ActionType,
-                    context: Optional[Dict[str, Any]] = None) -> AccessDecisionInfo:
+                    context: Optional[dict[str, Any]] = None) -> AccessDecisionInfo:
         """
         Check access for a subject to perform an action on a resource.
 
@@ -523,7 +523,7 @@ class AccessControlSystem:
             logger.warning(f"Policy {policy.id} evaluation error: {e}")
             return False
 
-    def _match_target_criterion(self, key: str, criterion: Dict[str, Any], context: Dict[str, Any]) -> bool:
+    def _match_target_criterion(self, key: str, criterion: dict[str, Any], context: dict[str, Any]) -> bool:
         """Match a single target criterion."""
         # Navigate to the value using dot notation
         value = self._get_nested_value(context, key)
@@ -553,7 +553,7 @@ class AccessControlSystem:
 
         return False
 
-    def _get_nested_value(self, data: Dict[str, Any], key: str) -> Any:
+    def _get_nested_value(self, data: dict[str, Any], key: str) -> Any:
         """Get nested value using dot notation."""
         keys = key.split('.')
         current = data
@@ -568,7 +568,7 @@ class AccessControlSystem:
 
         return current
 
-    def _evaluate_policy_condition(self, condition: str, context: Dict[str, Any]) -> bool:
+    def _evaluate_policy_condition(self, condition: str, context: dict[str, Any]) -> bool:
         """Safely evaluate policy condition."""
         # Simple condition evaluation - in production would use a secure expression evaluator
         # For security, only allow basic comparisons and no function calls
@@ -606,9 +606,8 @@ class AccessControlSystem:
             return False
 
         # Check resource pattern
-        if permission.resource_pattern != "*":
-            if not self._match_resource_pattern(permission.resource_pattern, request.resource.id):
-                return False
+        if permission.resource_pattern != '*' and (not self._match_resource_pattern(permission.resource_pattern, request.resource.id)):
+            return False
 
         # Check conditions
         for condition_key, condition_value in permission.conditions.items():
@@ -640,7 +639,7 @@ class AccessControlSystem:
 
         return True
 
-    def _get_subject_permissions(self, subject_id: str) -> List[Permission]:
+    def _get_subject_permissions(self, subject_id: str) -> list[Permission]:
         """Get all permissions for a subject (including inherited)."""
         if subject_id in self.permission_cache:
             return self.permission_cache[subject_id]
@@ -701,7 +700,7 @@ class AccessControlSystem:
 
         return decision
 
-    def _assess_risk_factors(self, request: AccessRequest) -> Dict[str, float]:
+    def _assess_risk_factors(self, request: AccessRequest) -> dict[str, float]:
         """Assess risk factors for Guardian evaluation."""
         risk_factors = {
             "unusual_time": 0.0,
@@ -733,7 +732,7 @@ class AccessControlSystem:
 
         return risk_factors
 
-    def _get_cache_key(self, subject_id: str, resource_id: str, action: ActionType, context: Dict[str, Any]) -> str:
+    def _get_cache_key(self, subject_id: str, resource_id: str, action: ActionType, context: dict[str, Any]) -> str:
         """Generate cache key for access decision."""
         context_str = json.dumps(context, sort_keys=True)
         key_data = f"{subject_id}:{resource_id}:{action.value}:{context_str}"
@@ -776,7 +775,7 @@ class AccessControlSystem:
 
         logger.info(f"ACCESS_AUDIT: {json.dumps(audit_record)}")
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get access control statistics."""
         if self.access_requests == 0:
             return {"no_requests": True}
@@ -821,7 +820,7 @@ def require_permission(resource_type: ResourceType, action: ActionType, access_c
     return decorator
 
 # Factory functions
-def create_access_control_system(config: Optional[Dict[str, Any]] = None) -> AccessControlSystem:
+def create_access_control_system(config: Optional[dict[str, Any]] = None) -> AccessControlSystem:
     """Create access control system with configuration."""
     config = config or {}
 

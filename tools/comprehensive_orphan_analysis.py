@@ -250,9 +250,8 @@ class ComprehensiveOrphanAnalyzer:
                     for alias in node.names:
                         if not self.is_library_import(alias.name):
                             imports.add(alias.name)
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module and not self.is_library_import(node.module):
-                        imports.add(node.module)
+                elif isinstance(node, ast.ImportFrom) and (node.module and (not self.is_library_import(node.module))):
+                    imports.add(node.module)
 
         except (SyntaxError, UnicodeDecodeError, FileNotFoundError):
             pass
@@ -340,11 +339,8 @@ class ComprehensiveOrphanAnalyzer:
 
         for file in files:
             parts = Path(file).parts
-            if len(parts) > 1:
-                # Use first-level directory
-                category = parts[0]
-            else:
-                category = "root"
+            # Use first-level directory
+            category = parts[0] if len(parts) > 1 else "root"
             categories[category].append(file)
 
         # Sort files within each category

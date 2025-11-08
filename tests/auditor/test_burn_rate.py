@@ -8,7 +8,7 @@ Production-ready monitoring for Guardian (<100ms), Memory (<1ms), Orchestrator (
 import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 import pytest
 
@@ -26,13 +26,13 @@ class SLOMetric:
 class BurnRateCalculator:
     """Production burn rate calculator with T4 excellence thresholds"""
 
-    SLO_TARGETS = {
+    SLO_TARGETS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_auditor_test_burn_rate_py_L29"}
         "guardian_latency": SLOMetric("guardian_latency", 100.0, 0.01, 4.0, 2.0),
         "memory_latency": SLOMetric("memory_latency", 1000.0, 0.01, 4.0, 2.0),
         "orchestrator_latency": SLOMetric("orchestrator_latency", 250000.0, 0.01, 4.0, 2.0),
     }
 
-    def __init__(self, metrics_store: Optional[Dict[str, List[Tuple[datetime, float]]]] = None):
+    def __init__(self, metrics_store: Optional[dict[str, list[tuple[datetime, float]]]] = None):
         self.metrics_store = metrics_store or {}
 
     def add_metric(self, metric_name: str, timestamp: datetime, value_ms: float):
@@ -67,7 +67,7 @@ class BurnRateCalculator:
         # Burn rate = current error rate / error budget
         return error_rate / slo.error_budget if slo.error_budget > 0 else float('inf')
 
-    def check_burn_rate_violation(self, metric_name: str) -> Dict[str, bool]:
+    def check_burn_rate_violation(self, metric_name: str) -> dict[str, bool]:
         """Check if burn rate exceeds thresholds"""
         slo = self.SLO_TARGETS[metric_name]
 

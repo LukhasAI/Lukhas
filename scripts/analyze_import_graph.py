@@ -45,14 +45,14 @@ for py in Path(ROOT).rglob("*.py"):
             edges[m].add(imp)
 
 # find cycles (simple DFS)
-seen=set(); stack=set(); order=[]
+seen=set(); stack=set(); order=[]  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_analyze_import_graph_py_L48"}
 cycles=[]
 def dfs(u):
-    seen.add(u); stack.add(u)
+    seen.add(u); stack.add(u)  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_analyze_import_graph_py_L51"}
     for v in edges[u]:
         if v not in seen: dfs(v)
         elif v in stack: cycles.append((u,v))
-    stack.remove(u); order.append(u)
+    stack.remove(u); order.append(u)  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_analyze_import_graph_py_L55"}
 
 for m in mods:
     if m not in seen: dfs(m)

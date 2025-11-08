@@ -44,7 +44,7 @@ def main():
         content = f.read()
 
     core, total = count_errors(content)
-    now = datetime.datetime.utcnow().isoformat(timespec="seconds") + "Z"
+    now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     sha = git(["rev-parse", "--short", "HEAD"])
     branch = git(["rev-parse", "--abbrev-ref", "HEAD"])
 

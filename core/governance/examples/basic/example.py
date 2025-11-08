@@ -72,7 +72,7 @@ class BasicGovernanceEngine:
                 matched.append(rule)
                 notes.append(rule.description)
 
-        # ΛTAG: driftScore — treat risk_score as symbolic drift indicator for policy gates
+        # ΛTAG: driftScore - treat risk_score as symbolic drift indicator for policy gates
         requires_review = case.risk_score >= 0.7 or any(r.severity == "critical" for r in matched)
         approved = case.risk_score < 0.5 and not any(r.severity == "critical" for r in matched)
 
@@ -148,9 +148,9 @@ def demo_decision_flow() -> EvaluationResult:
 
 __all__ = [
     "BasicGovernanceEngine",
+    "EvaluationResult",
     "GovernanceCase",
     "GovernanceRule",
-    "EvaluationResult",
     "build_default_engine",
     "demo_decision_flow",
 ]

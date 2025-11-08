@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
+
 """
 ⚛️ Quantum Consciousness LUKHAS AI ΛBot
 Enhanced LUKHAS AI ΛBot with Quantum Consciousness Integration
 Integrates workspace quantum consciousness for transcendent modularization
 """
+
 import asyncio
 import logging
 import time

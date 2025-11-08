@@ -1,14 +1,15 @@
+import contextlib
 import logging
+import time
+import uuid
+
+import pytest
 
 logger = logging.getLogger(__name__)
 # Phase C: Sustainable Coverage Strategy - High Impact Working Modules
 # Target: 35% coverage by focusing on modules that consistently import and test well
 
-import contextlib
-import time
-import uuid
 
-import pytest
 
 
 def test_core_common_comprehensive():

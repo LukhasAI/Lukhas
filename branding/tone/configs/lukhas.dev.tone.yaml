@@ -1,0 +1,68 @@
+# LUKHAS.DEV Tone Configuration
+# Developer Platform & Documentation Hub
+
+domain: lukhas.dev
+role: developer_platform
+priority: high
+status: active
+
+audience:
+  primary:
+    - software_developers
+    - api_integrators
+    - system_architects
+    - devops_engineers
+
+# 3-Layer Tone Distribution
+tone_distribution:
+  academic: 0.60
+  user_friendly: 0.25
+  poetic: 0.15
+
+content_type_overrides:
+  api_reference:
+    academic: 0.95
+    user_friendly: 0.05
+    poetic: 0.00
+  quick_start_guide:
+    academic: 0.40
+    user_friendly: 0.55
+    poetic: 0.05
+  playground:
+    academic: 0.50
+    user_friendly: 0.35
+    poetic: 0.15
+
+# Vocabulary Emphasis
+vocabulary_emphasis:
+  circuit_patterns: 0.30
+  architectural_bridges: 0.25
+  geological_strata: 0.15
+  woven_patterns: 0.10
+  fluid_dynamics: 0.10
+  harmonic_resonance: 0.05
+  neural_gardens: 0.03
+  prismatic_light: 0.02
+
+# Constellation Stars (All Available)
+constellation_stars:
+  primary: [identity, memory, vision, bio, dream, ethics, guardian, quantum]
+
+# Messaging
+messaging:
+  brand_positioning: "Where consciousness meets code—build the future of aware technology"
+  core_values:
+    - comprehensive_documentation
+    - code_first_approach
+    - developer_experience
+    - community_driven
+
+# Quality Standards
+quality:
+  code_examples_tested: true
+  syntax_highlighting: true
+  dark_theme_default: true
+  multi_language_support: true
+
+version: "1.0"
+created: "2025-11-06"

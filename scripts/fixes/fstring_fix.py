@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-fstring_fix.py — Conservative auto-fixer for common f-string brace syntax errors.
+fstring_fix.py - Conservative auto-fixer for common f-string brace syntax errors.
 
 What it does (safe cases only):
   - Finds f-strings like: f"Hello {name"  → adds the missing "}" at the end

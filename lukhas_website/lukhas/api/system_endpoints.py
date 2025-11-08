@@ -13,7 +13,7 @@ Usage:
 
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict
 
 try:
@@ -29,7 +29,7 @@ except ImportError:
     ROUTER_AVAILABLE = False
 
 
-def get_plugins_status() -> Dict[str, Any]:
+def get_plugins_status() -> dict[str, Any]:
     """
     GET /system/plugins endpoint
 
@@ -43,7 +43,7 @@ def get_plugins_status() -> Dict[str, Any]:
         return {
             "status": "unavailable",
             "error": "Registry module not available",
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
     # Get plugin registry instance
@@ -90,7 +90,7 @@ def get_plugins_status() -> Dict[str, Any]:
 
     return {
         "status": "operational",
-        "timestamp": datetime.utcnow().isoformat(),
+    "timestamp": datetime.now(timezone.utc).isoformat(),
         "discovery": discovery_status,
         "registry": {
             "total_plugins": len(registered_plugins),
@@ -103,7 +103,7 @@ def get_plugins_status() -> Dict[str, Any]:
     }
 
 
-def get_system_health() -> Dict[str, Any]:
+def get_system_health() -> dict[str, Any]:
     """
     GET /system/health endpoint
 
@@ -127,7 +127,7 @@ def get_system_health() -> Dict[str, Any]:
 
     return {
         "status": overall_health,
-        "timestamp": datetime.utcnow().isoformat(),
+    "timestamp": datetime.now(timezone.utc).isoformat(),
         "components": health_checks,
         "summary": {
             "healthy_components": healthy_components,
@@ -137,7 +137,7 @@ def get_system_health() -> Dict[str, Any]:
     }
 
 
-def get_feature_flags() -> Dict[str, Any]:
+def get_feature_flags() -> dict[str, Any]:
     """
     GET /system/flags endpoint
 
@@ -162,7 +162,7 @@ def get_feature_flags() -> Dict[str, Any]:
 
     return {
         "status": "operational",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "config_flags": feature_flags,
         "env_flags": env_flags,
         "active_lane": env_flags["LUKHAS_LANE"],
@@ -191,7 +191,7 @@ def _check_plugin_health(plugin: Any) -> bool:
         return False
 
 
-def _check_registry_health() -> Dict[str, Any]:
+def _check_registry_health() -> dict[str, Any]:
     """Check registry system health"""
     if not REGISTRY_AVAILABLE:
         return {"status": "unavailable", "error": "Registry not available"}
@@ -216,7 +216,7 @@ def _check_registry_health() -> Dict[str, Any]:
         return {"status": "error", "error": str(e)}
 
 
-def _check_router_health() -> Dict[str, Any]:
+def _check_router_health() -> dict[str, Any]:
     """Check import router health"""
     if not ROUTER_AVAILABLE:
         return {"status": "unavailable", "error": "Router not available"}
@@ -237,7 +237,7 @@ def _check_router_health() -> Dict[str, Any]:
         return {"status": "error", "error": str(e)}
 
 
-def _check_feature_flags() -> Dict[str, Any]:
+def _check_feature_flags() -> dict[str, Any]:
     """Check feature flag system health"""
     try:
         flags = get_feature_flags()
@@ -257,7 +257,7 @@ def _check_feature_flags() -> Dict[str, Any]:
         return {"status": "error", "error": str(e)}
 
 
-def _check_governance_health() -> Dict[str, Any]:
+def _check_governance_health() -> dict[str, Any]:
     """Check governance system health"""
     try:
         # Check for guardian emergency disable file

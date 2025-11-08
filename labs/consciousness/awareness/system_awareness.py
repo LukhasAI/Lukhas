@@ -47,15 +47,18 @@
 """
 from __future__ import annotations
 
-
 from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
-
 from core.common import get_logger
 
-from ..bio_core.bio_symbolic import CardiolipinEncoder, CristaFilter, ProtonGradient, QIAttentionGate
+from ..bio_core.bio_symbolic import (
+    CardiolipinEncoder,
+    CristaFilter,
+    ProtonGradient,
+    QIAttentionGate,
+)
 
 logger = get_logger(__name__)
 

@@ -81,7 +81,7 @@ class ModuleInfo:
     permissions: set[str] = field(default_factory=set)
     dependencies: list[str] = field(default_factory=list)
     health_status: str = "unknown"
-    registered_at: datetime = field(default_factory=datetime.utcnow)
+    registered_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     last_accessed: datetime | None = None
     access_count: int = 0
 
@@ -92,7 +92,7 @@ class ModuleRegistry:
     """
 
     # Module tier requirements mapping
-    MODULE_TIER_REQUIREMENTS = {
+    MODULE_TIER_REQUIREMENTS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_module_registry_py_L95"}
         # Core modules
         "memory": TierLevel.VISITOR,  # Tier 1
         "consciousness": TierLevel.VISITOR,  # Tier 1
@@ -144,6 +144,8 @@ class ModuleRegistry:
         Returns:
             bool: True if registration successful
         """
+        if module_id in self.modules:
+            raise ValueError(f"Module {module_id} already registered")
         try:
             # Determine minimum tier
             if min_tier is None:

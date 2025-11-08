@@ -1,6 +1,5 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
+
 """
 LUKHΛS T4 Dynamic QRGLYPH Engine
 ================================
@@ -19,6 +18,9 @@ Author: LUKHΛS AI Systems
 Version: 3.1.0 - Quantum GLYPH Revolution
 Created: 2025-08-03
 """
+
+from __future__ import annotations
+
 import asyncio
 import base64
 import hashlib
@@ -284,7 +286,9 @@ class DynamicQRGLYPHEngine:
                 return False, {"error": "QRGLYPH expired"}
 
             # Verify signature
-            if not self._verify_signature(qrglyph.payload, qrglyph.signature, qrglyph.ed448_public_key):
+            if not self._verify_signature(
+                qrglyph.payload, qrglyph.signature, qrglyph.ed448_public_key
+            ):
                 return False, {"error": "Invalid signature"}
 
             # Verify user binding
@@ -292,7 +296,9 @@ class DynamicQRGLYPHEngine:
                 return False, {"error": "User mismatch"}
 
             # Verify consciousness binding
-            if not self._verify_consciousness_binding(qrglyph.metadata.consciousness_binding, consciousness_state):
+            if not self._verify_consciousness_binding(
+                qrglyph.metadata.consciousness_binding, consciousness_state
+            ):
                 return False, {"error": "Consciousness state mismatch"}
 
             # Verify biometric binding
@@ -318,7 +324,9 @@ class DynamicQRGLYPHEngine:
             return True, {
                 "glyph_id": qrglyph.glyph_id,
                 "glyph_type": qrglyph.metadata.glyph_type.value,
-                "consciousness_coherence": qrglyph.metadata.consciousness_binding.get("coherence_level", 0),
+                "consciousness_coherence": qrglyph.metadata.consciousness_binding.get(
+                    "coherence_level", 0
+                ),
                 "cultural_symbols": qrglyph.metadata.cultural_symbols,
                 "rotation_count": qrglyph.metadata.rotation_count,
                 "remaining_lifetime": (
@@ -330,7 +338,9 @@ class DynamicQRGLYPHEngine:
             logger.error(f"❌ QRGLYPH validation error: {e}")
             return False, {"error": str(e)}
 
-    async def generate_zk_proof(self, qrglyph: DynamicQRGLYPH, private_witness: dict[str, Any]) -> ZKProof:
+    async def generate_zk_proof(
+        self, qrglyph: DynamicQRGLYPH, private_witness: dict[str, Any]
+    ) -> ZKProof:
         """
         Generate zero-knowledge proof for QRGLYPH authentication
         """
@@ -406,14 +416,17 @@ class DynamicQRGLYPHEngine:
         # Create new GLYPH with incremented rotation count
         new_payload = old_glyph.payload.copy()
         new_payload["rotation_sequence"] = self._generate_rotation_sequence()
-        new_payload["previous_glyph_hash"] = hashlib.sha256(old_glyph.to_base64().encode()).hexdigest()
+        new_payload["previous_glyph_hash"] = hashlib.sha256(
+            old_glyph.to_base64().encode()
+        ).hexdigest()
 
         new_signature = self._sign_payload(new_payload)
 
         new_metadata = GLYPHMetadata(
             glyph_type=old_glyph.metadata.glyph_type,
             creation_time=datetime.now(tz=timezone.utc),
-            expiration_time=datetime.now(tz=timezone.utc) + self._get_glyph_lifetime(old_glyph.metadata.glyph_type),
+            expiration_time=datetime.now(tz=timezone.utc)
+            + self._get_glyph_lifetime(old_glyph.metadata.glyph_type),
             consciousness_binding=old_glyph.metadata.consciousness_binding,
             cultural_symbols=old_glyph.metadata.cultural_symbols,
             biometric_hash=old_glyph.metadata.biometric_hash,
@@ -472,8 +485,12 @@ class DynamicQRGLYPHEngine:
         universal_symbols = self.cultural_symbols["universal"]
 
         # Mix regional and universal symbols using list comprehensions for speed
-        regional_selected = [secrets.choice(regional_symbols) for _ in range(min(3, len(regional_symbols)))]
-        universal_selected = [secrets.choice(universal_symbols) for _ in range(min(2, len(universal_symbols)))]
+        regional_selected = [
+            secrets.choice(regional_symbols) for _ in range(min(3, len(regional_symbols)))
+        ]
+        universal_selected = [
+            secrets.choice(universal_symbols) for _ in range(min(2, len(universal_symbols)))
+        ]
 
         selected = regional_selected + universal_selected
         return selected[:5]  # Return up to 5 symbols
@@ -519,7 +536,9 @@ class DynamicQRGLYPHEngine:
         payload_bytes = json.dumps(payload, sort_keys=True).encode()
         return self.ed448_private_key.sign(payload_bytes)
 
-    def _verify_signature(self, payload: dict[str, Any], signature: bytes, public_key_bytes: bytes) -> bool:
+    def _verify_signature(
+        self, payload: dict[str, Any], signature: bytes, public_key_bytes: bytes
+    ) -> bool:
         """Verify Ed448 signature"""
         try:
             public_key = ed448.Ed448PublicKey.from_public_bytes(public_key_bytes)
@@ -553,11 +572,15 @@ class DynamicQRGLYPHEngine:
         # Check coherence level
         return binding.get("coherence_level", 0) >= 0.6
 
-    async def _generate_zk_commitment(self, payload: dict[str, Any], consciousness_binding: dict[str, Any]) -> str:
+    async def _generate_zk_commitment(
+        self, payload: dict[str, Any], consciousness_binding: dict[str, Any]
+    ) -> str:
         """Generate ZK commitment for QRGLYPH"""
         commitment_data = {
             "payload_hash": hashlib.sha256(json.dumps(payload).encode()).hexdigest(),
-            "consciousness_hash": hashlib.sha256(json.dumps(consciousness_binding).encode()).hexdigest(),
+            "consciousness_hash": hashlib.sha256(
+                json.dumps(consciousness_binding).encode()
+            ).hexdigest(),
             "timestamp": datetime.now(tz=timezone.utc).isoformat(),
         }
 
@@ -619,7 +642,9 @@ async def main():
     print(f"🎭 Type: {qrglyph.metadata.glyph_type.value}")
     print(f"🧠 Consciousness: {qrglyph.metadata.consciousness_binding['state']}")
     print(f"🌏 Cultural Symbols: {' '.join(qrglyph.metadata.cultural_symbols)}")
-    print(f"⏱️ Expires in: {(qrglyph.metadata.expiration_time - datetime.now(tz=timezone.utc)).seconds} seconds")
+    print(
+        f"⏱️ Expires in: {(qrglyph.metadata.expiration_time - datetime.now(tz=timezone.utc)).seconds} seconds"
+    )
 
     # Serialize to base64
     qrglyph_base64 = qrglyph.to_base64()

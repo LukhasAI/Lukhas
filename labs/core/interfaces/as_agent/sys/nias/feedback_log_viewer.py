@@ -6,8 +6,6 @@ Integration Date: 2025-05-31T07:55:30.503626
 """
 from __future__ import annotations
 
-
-
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮
 │                    LUCΛS :: FEEDBACK LOG VIEWER (CLI)                        │
@@ -17,7 +15,7 @@ from __future__ import annotations
 
 DESCRIPTION:
     This tool reads symbolic feedback stored in feedback_log.jsonl and prints
-    meaningful insight — such as emoji reactions, resonance scores, and notes.
+    meaningful insight - such as emoji reactions, resonance scores, and notes.
 
     You may sort or filter by score, emoji, or keywords in future extensions.
 
@@ -70,7 +68,7 @@ if __name__ == "__main__":
         limit = int(limit_input) if limit_input else 10
 
         emoji_filter = input("🔘 Filter by emoji (e.g., 🌙, ⚠️, 🧡) or press ENTER to skip: ").strip() or None
-        score_input = input("🔢 Minimum score (1–5) or press ENTER to skip: ").strip()
+        score_input = input("🔢 Minimum score (1-5) or press ENTER to skip: ").strip()
         score_filter = int(score_input) if score_input else None
     except Exception as e:
         print("⚠️ Invalid input:", e)

@@ -6,13 +6,11 @@ Integration Date: 2025-05-31T07:55:27.735633
 """
 from __future__ import annotations
 
-
 # ╔════════════════════════════════════════════════════════════╗
 # ║ 🌿 LUKHAS Cognitive AI MAIN INTERFACE - symbolic_brainstem v1.0      ║
 # ║ 🧠 CLI | GUI | SOCKET | VOICE | DAO-SAFE ENTRY             ║
 # ║ 📦 Designed by LUKHAS Systems • Inspired by Sam + Steve     ║
 # ╚════════════════════════════════════════════════════════════╝
-
 import argparse
 import os
 import platform
@@ -20,7 +18,6 @@ import subprocess
 from datetime import datetime
 
 import pyfiglet
-
 from core.interfaces.voice.edge_voice import speak
 
 LOG_PATH = "core/logging/symbolic_output_log.jsonl"
@@ -122,7 +119,7 @@ def main():
             print("🌙 Exiting Lukhas. Your symbolic trace ends here.")
             break
         else:
-            print("⚠️ Unknown option. Try 1–5 or type q to quit.")
+            print("⚠️ Unknown option. Try 1-5 or type q to quit.")
 
 
 if __name__ == "__main__":

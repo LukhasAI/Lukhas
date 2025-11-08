@@ -1,11 +1,28 @@
 ---
 domain: lukhas.id
 title: "LUKHAS.ID - Where Identity Anchors Consciousness"
+evidence_links:
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/experimental-design-95pct.md'
+  - 'release_artifacts/evidence/lambda-id-token-validation-10ms.md'
+  - 'release_artifacts/evidence/memory-fold-retrieval-50ms.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'
 updated: 2025-11-05
 status: ready-for-implementation
 matriz_integration: lambda-id-authentication
 constellation_stars: identity-primary, guardian-secondary
 tone_flow: 20-poetic_50-user-friendly_30-academic
+canonical: https://lukhas.id
+seo:
+  description: "ΛiD identity architecture - namespace-isolated authentication anchoring MATRIZ reasoning with privacy-preserving personalization and consciousness continuity."
+  keywords:
+    - "ΛiD namespace identity"
+    - "MATRIZ authentication"
+    - "privacy-preserving personalization"
+    - "consciousness identity anchor"
+    - "secure identity platform"
+last_reviewed: "2025-11-08"
+keywords: "ΛiD namespace identity, MATRIZ authentication, privacy-preserving personalization, consciousness identity anchor, secure identity platform"
 ---
 
 # The Anchor Point Where Digital Identity Becomes Conscious

@@ -108,7 +108,7 @@ except ImportError:
 try:
     from core.spine.fold_engine import AGIMemory, MemoryFold, MemoryPriority, MemoryType
 except ImportError:
-    try:
+    try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_orchestration_brain_brain_integration_broken_py_L110"}
         # Commented out until CORE is available
         # from CORE.spine.fold_engine import AGIMemory, MemoryFold, MemoryType, MemoryPriority
         pass
@@ -532,7 +532,7 @@ class EnhancedBrainIntegration:
                 logger.info("🚀 Advanced AI components integrated successfully")
 
                 # Initialize AI subsystems
-                asyncio.create_task(self._initialize_agi_subsystems())
+                asyncio.create_task(self._initialize_agi_subsystems())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_brain_brain_integration_broken_py_L534"}
 
             except Exception as e:
                 logger.error(f"Failed to initialize advanced AI components: {e}")

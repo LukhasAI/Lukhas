@@ -19,11 +19,10 @@ TaskIDs:
 """
 from __future__ import annotations
 
-
 import hashlib
 import logging
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, AsyncIterator, Dict, List, Optional, Union
 
@@ -644,7 +643,7 @@ class OpenAIModulatedService:
             logger.warning("Vector store not configured")
             return VectorSearchResult(matches=[])
 
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
 
         # Generate query embedding if text provided
         if isinstance(request.query, str):
@@ -665,7 +664,7 @@ class OpenAIModulatedService:
             namespace=request.namespace,
         )
 
-        search_time_ms = (datetime.utcnow() - start_time).total_seconds() * 1000
+        search_time_ms = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
         return VectorSearchResult(
             matches=matches,

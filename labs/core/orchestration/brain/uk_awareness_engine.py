@@ -40,8 +40,6 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from pydantic import Field
-
 # Import global framework
 from identity.backend.app.institution_manager import (
     GlobalInstitutionalInput,
@@ -50,8 +48,9 @@ from identity.backend.app.institution_manager import (
     Jurisdiction,
     global_timestamp,
 )
+from pydantic import Field
 
-# ——— UK-Specific Regulatory Framework ——————————————————————————— #
+# --- UK-Specific Regulatory Framework --------------------------- #
 
 
 class UKGDPRLawfulBasis(Enum):
@@ -257,7 +256,7 @@ def uk_audit_log(event: str, data: dict[str, Any], sector: str = "general"):
     logging.getLogger("uk_institutional_audit").info(json.dumps(audit_entry, ensure_ascii=False))
 
 
-# ——— UK Institutional Awareness Modules ——————————————————————— #
+# --- UK Institutional Awareness Modules ----------------------- #
 
 
 class UKPrivacyModule(GlobalInstitutionalModule):
@@ -566,7 +565,7 @@ class UKPrivacyModule(GlobalInstitutionalModule):
         ]
 
 
-# ——— Main UK Awareness Engine ——————————————————————————————— #
+# --- Main UK Awareness Engine ------------------------------- #
 
 
 class UKAwarenessEngine:
@@ -637,7 +636,7 @@ class UKAwarenessEngine:
             raise
 
 
-# ——— Compliance Certification ——————————————————————————————————— #
+# --- Compliance Certification ----------------------------------- #
 
 
 def certify_uk_compliance() -> dict[str, Any]:

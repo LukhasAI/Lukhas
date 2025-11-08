@@ -1,5 +1,26 @@
+"""
+
+#TAG:qim
+#TAG:qi_states
+#TAG:neuroplastic
+#TAG:colony
+
+
+Demonstration script for the LUKHAS Abstract Reasoning Brain.
+
+This script showcases its integration and capabilities, including bio-quantum
+symbolic reasoning and multi-brain orchestration. It serves as an example of
+how to interact with the abstract reasoning components.
+"""
+
+import asyncio
 import logging
-from datetime import timezone
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any  # Added Optional
+
+import structlog  # Replaced logging with structlog
 
 logger = logging.getLogger(__name__)
 # ██╗      ██████╗  ██████╗ ██╗  ██╗ █████╗ ███████╗
@@ -24,28 +45,8 @@ logger = logging.getLogger(__name__)
 # Contact: contact@ai
 # Website: https://ai
 #
-"""
-
-#TAG:qim
-#TAG:qi_states
-#TAG:neuroplastic
-#TAG:colony
 
 
-Demonstration script for the LUKHAS Abstract Reasoning Brain.
-
-This script showcases its integration and capabilities, including bio-quantum
-symbolic reasoning and multi-brain orchestration. It serves as an example of
-how to interact with the abstract reasoning components.
-"""
-
-import asyncio
-import sys
-from datetime import datetime
-from pathlib import Path
-from typing import Any  # Added Optional
-
-import structlog  # Replaced logging with structlog
 
 # Initialize ΛTRACE logger for this demo script using structlog
 logger = structlog.get_logger("ΛTRACE.reasoning.abstract_reasoning_demo", timezone)

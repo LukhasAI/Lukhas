@@ -52,7 +52,7 @@ class ChatRequest(BaseModel):
     user_id: Optional[str] = Field(None, description="User identifier")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_consciousness_chat_api_py_L54"}
             "example": {
                 "message": "How aware are you right now?",
                 "session_id": "session_123",
@@ -70,7 +70,7 @@ class ChatResponse(BaseModel):
     metadata: Optional[dict[str, Any]] = Field(None, description="Additional response metadata")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_consciousness_chat_api_py_L72"}
             "example": {
                 "response": "My current awareness level is 85%. I'm highly aware and focused on our conversation.",
                 "session_id": "session_123",
@@ -211,7 +211,7 @@ async def chat(request: ChatRequest):
 
     except Exception as e:
         logger.error(f"Error processing chat request: {e}")
-        raise HTTPException(status_code=500, detail=f"Error processing request: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Error processing request: {e!s}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "api_consciousness_chat_api_py_L213"}
 
 
 @app.get("/sessions", response_model=list[SessionInfo], tags=["Sessions"])

@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
-
-import logging
-from datetime import datetime, timezone
 
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -41,8 +37,13 @@ from datetime import datetime, timezone
 ║ Trace: #ΛTRACE: ENABLED
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
+from __future__ import annotations
+
 import json
+import logging
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 

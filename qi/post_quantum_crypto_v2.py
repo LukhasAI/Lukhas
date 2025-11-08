@@ -26,12 +26,6 @@ Licensed under the LUKHAS Enterprise License.
 
 For documentation and support: https://ai/docs
 """
-log = logging.getLogger(__name__)  # TODO: logging
-
-__module_name__ = "Quantum Post Quantum Crypto Enhanced"
-__version__ = "2.0.0"
-__tier__ = 2
-
 
 import base64
 import hashlib
@@ -43,6 +37,14 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional, Union
+
+log = logging.getLogger(__name__)  # TODO: logging
+
+__module_name__ = "Quantum Post Quantum Crypto Enhanced"
+__version__ = "2.0.0"
+__tier__ = 2
+
+
 
 try:
     from cryptography.hazmat.backends import default_backend
@@ -286,7 +288,7 @@ class PostQuantumCryptoEngine:
         self.config = config or SecurityConfig()
         self.key_manager = QIResistantKeyManager(self.config)
         self.session_cache: dict[str, dict[str, Any]] = {}
-        self.active_sessions: Set[str] = set()  # TODO: Set
+        self.active_sessions: Set[str] = set()  # noqa: F821  # TODO: Set
 
         # Initialize secure memory manager
         self.secure_memory = SecureMemoryManager(self.config)

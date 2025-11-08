@@ -30,15 +30,15 @@ import json
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict
 from urllib.request import Request, urlopen
 
 
-def sh(cmd: List[str], check=True) -> subprocess.CompletedProcess:
+def sh(cmd: list[str], check=True) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, capture_output=True, text=True, check=check)
 
 
-def fetch_url(url: str, headers: Dict[str, str] | None = None) -> str:
+def fetch_url(url: str, headers: dict[str, str] | None = None) -> str:
     req = Request(url, headers=headers or {})
     with urlopen(req) as resp:
         return resp.read().decode("utf-8")
@@ -48,7 +48,7 @@ def ensure_dir(p: Path) -> None:
     p.mkdir(parents=True, exist_ok=True)
 
 
-def list_remote_branches() -> List[str]:
+def list_remote_branches() -> list[str]:
     cp = sh(["git", "ls-remote", "--heads", "origin"])
     branches = []
     for line in cp.stdout.splitlines():
@@ -84,7 +84,7 @@ def git_checkout_new(base: str, name: str) -> bool:
     return cp.returncode == 0
 
 
-def try_git_apply(patch_path: Path) -> Tuple[bool, str]:
+def try_git_apply(patch_path: Path) -> tuple[bool, str]:
     # Try -p0/-p1/-p2 with --check first
     for p in ("0", "1", "2"):
         cp = sh(["git", "apply", "--check", f"-p{p}", str(patch_path)], check=False)
@@ -107,7 +107,7 @@ def create_commit(default_message: str) -> None:
         sh(["git", "commit", "-m", default_message])
 
 
-def push_and_create_pr(branch: str, base: str, title: str, body: str, labels: List[str]) -> Tuple[bool, str]:
+def push_and_create_pr(branch: str, base: str, title: str, body: str, labels: list[str]) -> tuple[bool, str]:
     sh(["git", "push", "-u", "origin", branch], check=False)
     args = [
         "gh", "pr", "create",
@@ -148,7 +148,7 @@ def main() -> int:
     patches_dir = artifacts_dir / "patches"
     ensure_dir(patches_dir)
 
-    tasks: List[Dict] = []
+    tasks: list[Dict] = []
     if args.manifest:
         data = json.loads(Path(args.manifest).read_text(encoding="utf-8"))
         # Support either {"tasks":[...]} or a raw list
@@ -162,7 +162,7 @@ def main() -> int:
                 "patch_path": str(p),
             })
 
-    log_entries: List[Dict] = []
+    log_entries: list[Dict] = []
     for t in tasks:
         tid = t.get("id") or t.get("task_id") or t.get("title")
         branch = t.get("branch") or f"{args.branch_prefix}{tid}"
@@ -171,7 +171,7 @@ def main() -> int:
         patch_path = t.get("patch_path")
         patch_url = t.get("patch_url")
         commit_message = t.get("commit_message") or f"chore(cloud): apply Codex Cloud Task {tid}"
-        pr_title = t.get("pr_title") or f"codex: {tid} — cloud task"
+        pr_title = t.get("pr_title") or f"codex: {tid} - cloud task"
         pr_body = t.get("pr_body") or (
             f"Automated PR for Codex Cloud Task `{tid}`.\n\n"
             f"- Base: `{base}`\n- Branch: `{branch}`\n"
@@ -209,7 +209,7 @@ def main() -> int:
                 # Obtain patch content to a file
                 if not patch_path and patch_url:
                     # Build headers map if provided
-                    headers: Dict[str, str] = {}
+                    headers: dict[str, str] = {}
                     if args.header:
                         for h in args.header:
                             if ":" in h:

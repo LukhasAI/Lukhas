@@ -11,7 +11,7 @@ ACADEMIC REFERENCES & IMPLEMENTATION SOURCES:
 
 1. VIVOX Research Framework:
    - Source: /Users/cognitive_dev/LOCAL-REPOS/research/vivox_research_pack/README.md
-   - Z(t) Collapse Function: z(t) = A(t) * [e^(iθ(t)) + e^(i(π·θ(t)))] × W(ΔS(t))
+   - Z(t) Collapse Function: z(t) = A(t) * [e^(iθ(t)) + e^(i(π·θ(t)))] x W(ΔS(t))
    - Components: CIL, MAE, ME, ERN/EVRN systems
    - Paper Citation: "VIVOX: Virtuous Intelligence with eXpandable Consciousness" (Genesis Phase, 2025)
 
@@ -363,7 +363,7 @@ class AdvancedConsciousnessEngine:
 
         Implements continuous event processing with mesh synapse integration.
         """
-        asyncio.create_task(self._consciousness_processing_loop())
+        asyncio.create_task(self._consciousness_processing_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_consciousness_advanced_consciousness_engine_py_L366"}
         self.logger.info("Consciousness processing loop started")
 
     async def _consciousness_processing_loop(self):
@@ -532,7 +532,7 @@ class AdvancedConsciousnessEngine:
         Stage 2: Consciousness Interpretation Layer (VIVOX CIL).
 
         Implements quantum-inspired decision making using Z(t) collapse function.
-        Reference: VIVOX Research Framework - Z(t) = A(t) * [e^(iθ(t)) + e^(i(π·θ(t)))] × W(ΔS(t))
+        Reference: VIVOX Research Framework - Z(t) = A(t) * [e^(iθ(t)) + e^(i(π·θ(t)))] x W(ΔS(t))
         """
         # Calculate quantum consciousness state using Z(t) function
         amplitude = self.vivox_cil_state  # A(t)

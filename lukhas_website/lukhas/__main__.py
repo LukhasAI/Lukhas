@@ -8,9 +8,13 @@ Usage:
   python -m lukhas
   LUKHAS_PROM_PORT=9095 python -m lukhas
 """
+
 import logging
 import os
 import sys
+
+# Enable runtime exporters at startup
+from core.metrics_exporters import enable_runtime_exporters
 
 # Initialize logging
 logging.basicConfig(
@@ -18,8 +22,6 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 
-# Enable runtime exporters at startup
-from core.metrics_exporters import enable_runtime_exporters
 
 enable_runtime_exporters()
 

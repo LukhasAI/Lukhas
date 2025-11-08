@@ -22,7 +22,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, Tuple
+from typing import Any
 
 
 class EncryptionAlgorithm(str, Enum):
@@ -76,7 +76,7 @@ class EncryptionResult:
     tag: bytes | None
     algorithm: EncryptionAlgorithm
     key_id: str
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -87,7 +87,7 @@ class DecryptionResult:
     algorithm: EncryptionAlgorithm
     verified: bool
     key_id: str
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class EncryptionManager:
@@ -121,7 +121,7 @@ class EncryptionManager:
         self.password_iterations = password_iterations
         self.password_salt_size = password_salt_size
 
-        self.allowed_algorithms: Tuple[EncryptionAlgorithm, ...]
+        self.allowed_algorithms: tuple[EncryptionAlgorithm, ...]
         if allowed_algorithms:
             coerced = tuple(self._coerce_algorithm(alg) for alg in allowed_algorithms)
             if not coerced:
@@ -138,8 +138,8 @@ class EncryptionManager:
                 self.allowed_algorithms = (*self.allowed_algorithms, coerced_default)
             self.default_algorithm = coerced_default
 
-        self.keys: Dict[str, KeyMetadata] = {}
-        self._key_material: Dict[str, bytes] = {}
+        self.keys: dict[str, KeyMetadata] = {}
+        self._key_material: dict[str, bytes] = {}
         self.operation_count = 0
         self.total_time_ms = 0.0
 
@@ -298,7 +298,7 @@ class EncryptionManager:
     # ------------------------------------------------------------------
     # Metrics
     # ------------------------------------------------------------------
-    def get_performance_stats(self) -> Dict[str, Any]:
+    def get_performance_stats(self) -> dict[str, Any]:
         """Return aggregated performance statistics for encryption ops."""
 
         if self.operation_count == 0:
@@ -368,7 +368,7 @@ class EncryptionManager:
         self.total_time_ms += elapsed
 
 
-def create_encryption_manager(config: Dict[str, Any] | None = None) -> EncryptionManager:
+def create_encryption_manager(config: dict[str, Any] | None = None) -> EncryptionManager:
     """Factory used by the tests to obtain an :class:`EncryptionManager`."""
 
     config = config or {}

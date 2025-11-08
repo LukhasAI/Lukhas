@@ -9,7 +9,7 @@ import json
 import logging
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import yaml
 
@@ -21,7 +21,7 @@ class MatrixTestGenerator:
     """Generates test matrices for all Matrix contracts based on their identity configurations."""
 
     # Tier mapping with numeric values
-    TIER_MAPPING = {
+    TIER_MAPPING = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_matrix_test_generator_py_L24"}
         'guest': 0,
         'visitor': 1,
         'friend': 2,
@@ -31,7 +31,7 @@ class MatrixTestGenerator:
     }
 
     # All possible tiers in order
-    ALL_TIERS = ['guest', 'visitor', 'friend', 'trusted', 'inner_circle', 'root_dev']
+    ALL_TIERS = ['guest', 'visitor', 'friend', 'trusted', 'inner_circle', 'root_dev']  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_matrix_test_generator_py_L34"}
 
     def __init__(self, lukhas_root: Optional[Path] = None):
         """Initialize the generator with paths to lukhas contracts."""
@@ -45,14 +45,14 @@ class MatrixTestGenerator:
         logger.info(f"  Lukhas root: {self.lukhas_root}")
         logger.info(f"  Output dir: {self.output_dir}")
 
-    def find_matrix_contracts(self) -> List[Path]:
+    def find_matrix_contracts(self) -> list[Path]:
         """Find all matrix contract files."""
         pattern = str(self.lukhas_root / "**" / "matrix_*.json")
         contracts = [Path(p) for p in glob.glob(pattern, recursive=True)]
         logger.info(f"Found {len(contracts)} matrix contracts")
         return contracts
 
-    def extract_identity_config(self, contract_path: Path) -> Optional[Dict[str, Any]]:
+    def extract_identity_config(self, contract_path: Path) -> Optional[dict[str, Any]]:
         """Extract identity configuration from a matrix contract."""
         try:
             with open(contract_path) as f:
@@ -84,7 +84,7 @@ class MatrixTestGenerator:
             logger.error(f"Error parsing {contract_path}: {e}")
             return None
 
-    def determine_module_scopes(self, module_name: str, identity_config: Dict[str, Any]) -> List[str]:
+    def determine_module_scopes(self, module_name: str, identity_config: dict[str, Any]) -> list[str]:
         """Determine the scopes for a module based on its identity configuration."""
         configured_scopes = identity_config.get('scopes', [])
         if configured_scopes:
@@ -95,7 +95,7 @@ class MatrixTestGenerator:
         base_module = module_name.split('.')[-1]
         return [f"{base_module}.read", f"{base_module}.write"]
 
-    def extract_public_functions(self, public_api: List[Dict[str, Any]]) -> List[str]:
+    def extract_public_functions(self, public_api: list[dict[str, Any]]) -> list[str]:
         """Extract function signatures from public API."""
         functions = []
         for api_item in public_api:
@@ -131,7 +131,7 @@ class MatrixTestGenerator:
 
         return functions
 
-    def generate_test_cases(self, module_config: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def generate_test_cases(self, module_config: dict[str, Any]) -> list[dict[str, Any]]:
         """Generate test cases for a module based on its identity configuration."""
         module_name = module_config['module']
         identity = module_config['identity']
@@ -307,7 +307,7 @@ class MatrixTestGenerator:
 
         return test_cases
 
-    def generate_matrix_yaml(self, module_config: Dict[str, Any]) -> str:
+    def generate_matrix_yaml(self, module_config: dict[str, Any]) -> str:
         """Generate YAML test matrix for a module."""
         module_name = module_config['module']
         test_cases = self.generate_test_cases(module_config)
@@ -320,7 +320,7 @@ class MatrixTestGenerator:
 
         return yaml.dump(matrix_data, default_flow_style=False, sort_keys=False)
 
-    def generate_all_matrices(self) -> Tuple[int, int]:
+    def generate_all_matrices(self) -> tuple[int, int]:
         """Generate test matrices for all modules."""
         contracts = self.find_matrix_contracts()
         generated_count = 0

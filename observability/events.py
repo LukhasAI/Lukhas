@@ -12,7 +12,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 
 class EventType(str, Enum):
@@ -46,7 +46,7 @@ class RunEvent:
     step_id: str = ""
     model: str = ""
     latency_ms: float = 0.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def to_json(self) -> str:
         """Serialize to JSON string."""
@@ -55,7 +55,7 @@ class RunEvent:
         data["timestamp_iso"] = datetime.fromtimestamp(self.timestamp, tz=timezone.utc).isoformat()
         return json.dumps(data, ensure_ascii=False)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return asdict(self)
 
@@ -87,7 +87,7 @@ class EventLogger:
         with open(log_file, "a", encoding="utf-8") as f:
             f.write(event.to_json() + "\n")
 
-    def log_dict(self, event_data: Dict[str, Any]) -> None:
+    def log_dict(self, event_data: dict[str, Any]) -> None:
         """Log from dictionary (convenience method)."""
         event = RunEvent(
             event_type=event_data.get("event_type", "unknown"),

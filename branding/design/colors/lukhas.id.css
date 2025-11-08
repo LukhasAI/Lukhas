@@ -1,0 +1,57 @@
+/**
+ * LUKHAS.ID Color Palette
+ * Identity & Authentication Portal - Security & Trust
+ * Generated from MASTER_PALETTE.yaml
+ */
+
+:root {
+  /* Domain Primary Accent */
+  --lukhas-id-primary: #9333EA;
+  --lukhas-id-primary-rgb: 147, 51, 234;
+  --lukhas-id-primary-hsl: 272, 82%, 56%;
+
+  /* Base Constellation Colors */
+  --consciousness-deep: #1A1A2E;
+  --awareness-silver: #E8E8F0;
+  --identity-quantum: #6C5CE7;
+  --consciousness-neural: #00B894;
+  --guardian-shield: #E17055;
+  --lambda-gold: #FFB347;
+  --whisper-pearl: #F8F9FA;
+
+  /* Gradients */
+  --security-trust-gradient: linear-gradient(135deg, #9333EA 0%, #7C3AED 100%);
+
+  /* Semantic Colors */
+  --verified: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #3B82F6;
+
+  /* Biometric Particle Colors */
+  --biometric-primary: var(--lukhas-id-primary);
+  --biometric-accent: var(--lambda-gold);
+  --biometric-pulse: rgba(147, 51, 234, 0.5);
+}
+
+[data-theme="dark"] {
+  --bg-primary: var(--consciousness-deep);
+  --bg-secondary: hsl(240, 28%, 18%);
+  --text-primary: var(--awareness-silver);
+  --accent: var(--lukhas-id-primary);
+}
+
+[data-theme="light"] {
+  --bg-primary: #FFFFFF;
+  --bg-secondary: var(--whisper-pearl);
+  --text-primary: var(--consciousness-deep);
+  --accent: var(--lukhas-id-primary);
+}
+
+.bg-security-gradient {
+  background: var(--security-trust-gradient);
+}
+
+.text-lukhas-id {
+  color: var(--lukhas-id-primary);
+}

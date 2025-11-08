@@ -14,7 +14,7 @@ import pytest
 project_root = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(project_root))
 
-from core.identity.matriz_consciousness_identity_signals import (
+from core.identity.matriz_consciousness_identity_signals import (  # noqa: E402 - tests require sys.path injection
     ConsciousnessIdentitySignalProcessor,
     CorrelationMatrix,
     IdentitySignalType,

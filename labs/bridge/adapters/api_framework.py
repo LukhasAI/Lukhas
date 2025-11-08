@@ -18,11 +18,11 @@ TaskIDs:
 """
 from __future__ import annotations
 
-
 import hashlib
 import logging
+import os
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 
@@ -182,6 +182,11 @@ class JWTAdapter:
         self.leeway = leeway
         self.lambda_id_integration = lambda_id_integration
 
+        # Key management - Load from environment if not provided
+        secret_key = secret_key or os.getenv("JWT_SECRET_KEY")
+        public_key = public_key or os.getenv("JWT_PUBLIC_KEY")
+        private_key = private_key or os.getenv("JWT_PRIVATE_KEY")
+
         # Key management
         if algorithm == JWTAlgorithm.HS256:
             if not secret_key:
@@ -229,7 +234,7 @@ class JWTAdapter:
         Returns:
             Encoded JWT token string
         """
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
 
         # Determine TTL
         if custom_ttl:
@@ -527,7 +532,7 @@ class JWTAdapter:
             return {"error": "Invalid token format"}
 
         exp = payload.get("exp")
-        now = datetime.utcnow().timestamp()
+        now = datetime.now(timezone.utc).timestamp()
 
         return {
             "subject": payload.get("sub"),

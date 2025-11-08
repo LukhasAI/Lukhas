@@ -122,7 +122,7 @@ class LUKHASDNALink:
                     f.write(json.dumps(memory_record) + "\n")
                 return f"🧠 Term '{unknown_term}' learned and stored."
             else:
-                return "❌ Learning aborted — Lukhas did not receive confirmation."
+                return "❌ Learning aborted - Lukhas did not receive confirmation."
         except Exception as e:
             return f"[Learn Loop Error] {e!s}"
 

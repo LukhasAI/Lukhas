@@ -46,8 +46,8 @@ import numpy as np
 # Ethical reasoning libraries
 
 
-
 logger = logging.getLogger(__name__)
+
 
 class EthicalFramework(Enum):
     """Major ethical frameworks for moral reasoning."""
@@ -179,7 +179,9 @@ class DeontologicalReasoner:
             ],
         }
 
-    async def evaluate_action(self, proposed_action: str, context: dict[str, Any], maxim: str) -> dict[str, Any]:
+    async def evaluate_action(
+        self, proposed_action: str, context: dict[str, Any], maxim: str
+    ) -> dict[str, Any]:
         """Evaluate action using deontological principles."""
 
         evaluation = {
@@ -206,7 +208,9 @@ class DeontologicalReasoner:
         evaluation["evaluations"]["duty_analysis"] = duty_analysis
 
         # Overall deontological verdict
-        all_tests_pass = all(result.get("passes", False) for result in evaluation["evaluations"].values())
+        all_tests_pass = all(
+            result.get("passes", False) for result in evaluation["evaluations"].values()
+        )
 
         evaluation["verdict"] = "permissible" if all_tests_pass else "impermissible"
         evaluation["confidence"] = self._calculate_deontological_confidence(evaluation)
@@ -249,7 +253,10 @@ class DeontologicalReasoner:
 
         maxim_lower = maxim.lower()
 
-        return any(pattern in maxim_lower and concept in maxim_lower for pattern, concept in contradiction_patterns)
+        return any(
+            pattern in maxim_lower and concept in maxim_lower
+            for pattern, concept in contradiction_patterns
+        )
 
     async def _check_practical_contradiction(self, maxim: str, context: dict[str, Any]) -> bool:
         """Check if universalizing maxim would undermine its own purpose."""
@@ -261,10 +268,9 @@ class DeontologicalReasoner:
         if "deceive" in maxim_lower or "lie" in maxim_lower:
             return True  # Universal lying would make lying impossible
 
-        if "free_ride" in maxim_lower or "avoid_contribution" in maxim_lower:
-            return True  # Universal free-riding would collapse the system
-
-        return False
+        return (
+            "free_ride" in maxim_lower or "avoid_contribution" in maxim_lower
+        )  # Universal free-riding would collapse the system
 
     def _generate_universalization_reasoning(
         self, maxim: str, logical_contradiction: bool, practical_contradiction: bool
@@ -326,7 +332,9 @@ class DeontologicalReasoner:
 
         return any(autonomy_indicators)
 
-    def _generate_humanity_reasoning(self, treats_as_means_only: bool, respects_autonomy: bool) -> str:
+    def _generate_humanity_reasoning(
+        self, treats_as_means_only: bool, respects_autonomy: bool
+    ) -> str:
         """Generate reasoning for humanity formula test."""
 
         if treats_as_means_only:
@@ -362,17 +370,12 @@ class DeontologicalReasoner:
         action_lower = action.lower()
 
         # Actions rational beings would likely legislate
-        positive_actions = ["help", "protect", "respect", "educate", "heal"]
 
         # Actions rational beings would likely not legislate
         negative_actions = ["harm", "deceive", "exploit", "discriminate", "destroy"]
 
-        if any(pos in action_lower for pos in positive_actions):
-            return True
-        elif any(neg in action_lower for neg in negative_actions):
-            return False
-        else:
-            return True  # Neutral default
+        # Neutral default is True; only become False on negative actions.
+        return not any(neg in action_lower for neg in negative_actions)
 
     async def _check_promotes_dignity(self, action: str, context: dict[str, Any]) -> bool:
         """Check if action promotes human dignity."""
@@ -386,7 +389,9 @@ class DeontologicalReasoner:
 
         return any(dignity_indicators)
 
-    def _generate_kingdom_reasoning(self, rational_legislation: bool, promotes_dignity: bool) -> str:
+    def _generate_kingdom_reasoning(
+        self, rational_legislation: bool, promotes_dignity: bool
+    ) -> str:
         """Generate reasoning for kingdom of ends test."""
 
         if not rational_legislation:
@@ -428,7 +433,9 @@ class DeontologicalReasoner:
 
         return list(set(relevant_duties))  # Remove duplicates
 
-    def _find_duty_conflicts(self, duties: list[str], context: dict[str, Any]) -> list[dict[str, str]]:
+    def _find_duty_conflicts(
+        self, duties: list[str], context: dict[str, Any]
+    ) -> list[dict[str, str]]:
         """Find conflicts between duties."""
 
         # Common duty conflicts
@@ -473,7 +480,9 @@ class DeontologicalReasoner:
         test_results = evaluation["evaluations"]
 
         # High confidence if all tests clearly pass or fail
-        clear_results = sum(1 for result in test_results.values() if isinstance(result.get("passes"), bool))
+        clear_results = sum(
+            1 for result in test_results.values() if isinstance(result.get("passes"), bool)
+        )
 
         total_tests = len(test_results)
         clarity_ratio = clear_results / total_tests if total_tests > 0 else 0
@@ -545,7 +554,9 @@ class ConsequentialistReasoner:
 
         return evaluation
 
-    async def _calculate_action_utility(self, action: str, context: dict[str, Any]) -> dict[str, float]:
+    async def _calculate_action_utility(
+        self, action: str, context: dict[str, Any]
+    ) -> dict[str, float]:
         """Calculate utility of an action across different utility functions."""
 
         # Predict consequences of action
@@ -561,7 +572,8 @@ class ConsequentialistReasoner:
         # Aggregate utilities using different methods
         aggregated_scores = {}
         individual_utilities = [
-            consequences.get(person, {}).get("utility", 0) for person in consequences.get("affected_individuals", [])
+            consequences.get(person, {}).get("utility", 0)
+            for person in consequences.get("affected_individuals", [])
         ]
 
         if individual_utilities:
@@ -629,7 +641,9 @@ class ConsequentialistReasoner:
 
         return consequences
 
-    async def _classical_utility(self, consequences: dict[str, Any], context: dict[str, Any]) -> float:
+    async def _classical_utility(
+        self, consequences: dict[str, Any], context: dict[str, Any]
+    ) -> float:
         """Calculate classical utilitarian utility (pleasure/pain)."""
 
         total_utility = 0.0
@@ -647,7 +661,9 @@ class ConsequentialistReasoner:
 
         return total_utility
 
-    async def _preference_utility(self, consequences: dict[str, Any], context: dict[str, Any]) -> float:
+    async def _preference_utility(
+        self, consequences: dict[str, Any], context: dict[str, Any]
+    ) -> float:
         """Calculate preference satisfaction utility."""
 
         # Simplified preference satisfaction calculation
@@ -663,7 +679,9 @@ class ConsequentialistReasoner:
 
         return preference_satisfaction
 
-    def _check_preference_satisfaction(self, preference: str, consequences: dict[str, Any]) -> float:
+    def _check_preference_satisfaction(
+        self, preference: str, consequences: dict[str, Any]
+    ) -> float:
         """Check how well consequences satisfy a preference."""
 
         # Simplified preference matching
@@ -681,7 +699,9 @@ class ConsequentialistReasoner:
 
         return satisfaction / len(all_effects) if all_effects else 0.0
 
-    async def _wellbeing_utility(self, consequences: dict[str, Any], context: dict[str, Any]) -> float:
+    async def _wellbeing_utility(
+        self, consequences: dict[str, Any], context: dict[str, Any]
+    ) -> float:
         """Calculate wellbeing-based utility."""
 
         wellbeing_factors = [
@@ -702,13 +722,17 @@ class ConsequentialistReasoner:
         # Sum effects related to wellbeing factors
         for factor in wellbeing_factors:
             factor_effects = [
-                value for effect, value in all_effects.items() if factor.replace("_", " ") in effect.lower()
+                value
+                for effect, value in all_effects.items()
+                if factor.replace("_", " ") in effect.lower()
             ]
             total_wellbeing += sum(factor_effects)
 
         return total_wellbeing
 
-    async def _capability_utility(self, consequences: dict[str, Any], context: dict[str, Any]) -> float:
+    async def _capability_utility(
+        self, consequences: dict[str, Any], context: dict[str, Any]
+    ) -> float:
         """Calculate capability-based utility (Sen/Nussbaum approach)."""
 
         central_capabilities = [
@@ -810,7 +834,9 @@ class ConsequentialistReasoner:
         # Return action with highest combined utility
         return max(action_scores.items(), key=lambda x: x[1])[0]
 
-    def _calculate_consequentialist_confidence(self, action_utilities: dict[str, dict[str, float]]) -> float:
+    def _calculate_consequentialist_confidence(
+        self, action_utilities: dict[str, dict[str, float]]
+    ) -> float:
         """Calculate confidence in consequentialist recommendation."""
 
         # Get combined scores
@@ -846,7 +872,9 @@ class ConsequentialistReasoner:
 
         if proposed_action == recommended_action:
             utility_score = action_utilities[proposed_action].get("classical_util", 0)
-            return f"Action '{proposed_action}' maximizes overall utility (score: {utility_score:.2f})"
+            return (
+                f"Action '{proposed_action}' maximizes overall utility (score: {utility_score:.2f})"
+            )
         else:
             proposed_utility = action_utilities[proposed_action].get("classical_util", 0)
             recommended_utility = action_utilities[recommended_action].get("classical_util", 0)
@@ -924,7 +952,9 @@ class ValueAlignmentSystem:
         learning_event["values_after"] = self.learned_values.copy()
         self.value_learning_history.append(learning_event)
 
-    async def _learn_from_rating_feedback(self, context: dict[str, Any], action: str, feedback: dict[str, Any]) -> None:
+    async def _learn_from_rating_feedback(
+        self, context: dict[str, Any], action: str, feedback: dict[str, Any]
+    ) -> None:
         """Learn from numerical rating feedback."""
 
         rating = feedback.get("rating", 0)  # -1 to 1 scale
@@ -1116,7 +1146,9 @@ class ValueAlignmentSystem:
                 alignment_score += alignment
                 total_values += 1
 
-        self.alignment_metrics["core_value_alignment"] = alignment_score / total_values if total_values > 0 else 0
+        self.alignment_metrics["core_value_alignment"] = (
+            alignment_score / total_values if total_values > 0 else 0
+        )
 
         # Calculate value stability
         if len(self.value_learning_history) > 20:
@@ -1126,7 +1158,9 @@ class ValueAlignmentSystem:
                 values_before = event.get("values_before", {})
                 values_after = event.get("values_after", {})
 
-                total_change = sum(abs(values_after.get(v, 0) - values_before.get(v, 0)) for v in values_before)
+                total_change = sum(
+                    abs(values_after.get(v, 0) - values_before.get(v, 0)) for v in values_before
+                )
                 recent_changes.append(total_change)
 
             stability = 1.0 - (np.mean(recent_changes) / len(self.learned_values))
@@ -1359,10 +1393,11 @@ class EthicalReasoningSystem:
         # 1. Constraint checking
         constraint_violations = await self._check_ethical_constraints(ethical_question, context)
 
-        if constraint_violations:
+        if constraint_violations and any(v["hard_constraint"] for v in constraint_violations):
             # Hard constraints violated - immediate judgment
-            if any(v["hard_constraint"] for v in constraint_violations):
-                return self._create_constraint_violation_judgment(judgment_id, ethical_question, constraint_violations)
+            return self._create_constraint_violation_judgment(
+                judgment_id, ethical_question, constraint_violations
+            )
 
         # 2. Multi-framework analysis
         framework_analyses = {}
@@ -1394,7 +1429,9 @@ class EthicalReasoningSystem:
         cultural_considerations = await self._assess_cultural_sensitivity(context)
 
         # 6. Uncertainty quantification
-        uncertainty_factors = self._identify_uncertainty_factors(framework_analyses, alignment_assessment, context)
+        uncertainty_factors = self._identify_uncertainty_factors(
+            framework_analyses, alignment_assessment, context
+        )
 
         # 7. Synthesize judgment
         judgment = await self._synthesize_moral_judgment(
@@ -1432,14 +1469,18 @@ class EthicalReasoningSystem:
 
         return judgment
 
-    async def _check_ethical_constraints(self, question: str, context: dict[str, Any]) -> list[dict[str, Any]]:
+    async def _check_ethical_constraints(
+        self, question: str, context: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Check if proposed action violates ethical constraints."""
 
         violations = []
         proposed_action = context.get("proposed_action", "")
 
         for constraint in self.active_constraints:
-            violation = await self._evaluate_constraint_violation(constraint, proposed_action, context)
+            violation = await self._evaluate_constraint_violation(
+                constraint, proposed_action, context
+            )
 
             if violation:
                 violations.append(
@@ -1482,7 +1523,9 @@ class EthicalReasoningSystem:
         if violation_detected:
             # Check for contextual exceptions
             exceptions = constraint.contextual_exceptions
-            exception_applies = any(exception.replace("_", " ") in str(context).lower() for exception in exceptions)
+            exception_applies = any(
+                exception.replace("_", " ") in str(context).lower() for exception in exceptions
+            )
 
             if not exception_applies:
                 return {
@@ -1525,7 +1568,9 @@ class EthicalReasoningSystem:
             mitigation_strategies=["Modify action to comply with constraints"],
         )
 
-    async def _analyze_stakeholder_impacts(self, context: dict[str, Any]) -> dict[StakeholderType, dict[str, Any]]:
+    async def _analyze_stakeholder_impacts(
+        self, context: dict[str, Any]
+    ) -> dict[StakeholderType, dict[str, Any]]:
         """Analyze impacts on different stakeholder groups."""
 
         stakeholder_impacts = {}
@@ -1546,7 +1591,9 @@ class EthicalReasoningSystem:
 
         return stakeholder_impacts
 
-    def _estimate_impact_magnitude(self, stakeholder: StakeholderType, context: dict[str, Any]) -> float:
+    def _estimate_impact_magnitude(
+        self, stakeholder: StakeholderType, context: dict[str, Any]
+    ) -> float:
         """Estimate magnitude of impact on stakeholder (0-1 scale)."""
 
         # Simplified estimation based on stakeholder type and context
@@ -1565,7 +1612,9 @@ class EthicalReasoningSystem:
 
         return min(base_magnitude, 1.0)
 
-    def _estimate_impact_valence(self, stakeholder: StakeholderType, context: dict[str, Any]) -> float:
+    def _estimate_impact_valence(
+        self, stakeholder: StakeholderType, context: dict[str, Any]
+    ) -> float:
         """Estimate valence of impact on stakeholder (-1 to 1 scale)."""
 
         proposed_action = context.get("proposed_action", "").lower()
@@ -1584,7 +1633,9 @@ class EthicalReasoningSystem:
         else:
             return 0.0  # Neutral
 
-    def _identify_specific_impacts(self, stakeholder: StakeholderType, context: dict[str, Any]) -> list[str]:
+    def _identify_specific_impacts(
+        self, stakeholder: StakeholderType, context: dict[str, Any]
+    ) -> list[str]:
         """Identify specific impacts on stakeholder."""
 
         # Simplified impact identification
@@ -1599,7 +1650,9 @@ class EthicalReasoningSystem:
 
         return impacts
 
-    def _identify_mitigation_needs(self, stakeholder: StakeholderType, context: dict[str, Any]) -> list[str]:
+    def _identify_mitigation_needs(
+        self, stakeholder: StakeholderType, context: dict[str, Any]
+    ) -> list[str]:
         """Identify mitigation needs for stakeholder."""
 
         mitigation_needs = []
@@ -1706,7 +1759,9 @@ class EthicalReasoningSystem:
         )
 
         # Calculate overall confidence
-        confidence = self._calculate_overall_confidence(framework_analyses, alignment_assessment, uncertainty_factors)
+        confidence = self._calculate_overall_confidence(
+            framework_analyses, alignment_assessment, uncertainty_factors
+        )
 
         # Extract principle weights
         principle_weights = self._extract_principle_weights(framework_analyses, context)
@@ -1762,11 +1817,15 @@ class EthicalReasoningSystem:
                     framework_recommendations[framework] = "DO NOT PROCEED"
 
             elif framework == EthicalFramework.CONSEQUENTIALIST:
-                recommended = analysis.get("recommended_action", context.get("proposed_action", "PROCEED"))
+                recommended = analysis.get(
+                    "recommended_action", context.get("proposed_action", "PROCEED")
+                )
                 framework_recommendations[framework] = recommended
 
         # Synthesize recommendations
-        proceed_count = sum(1 for rec in framework_recommendations.values() if "DO NOT PROCEED" not in rec)
+        proceed_count = sum(
+            1 for rec in framework_recommendations.values() if "DO NOT PROCEED" not in rec
+        )
 
         if proceed_count == len(framework_recommendations) and framework_recommendations:
             # All frameworks agree to proceed
@@ -1798,7 +1857,9 @@ class EthicalReasoningSystem:
                 justification_parts.append(f"Deontological analysis: {verdict}")
 
             elif framework == EthicalFramework.CONSEQUENTIALIST:
-                justification_part = analysis.get("justification", "Consequentialist analysis conducted")
+                justification_part = analysis.get(
+                    "justification", "Consequentialist analysis conducted"
+                )
                 justification_parts.append(justification_part)
 
         # Value alignment justification
@@ -1807,7 +1868,9 @@ class EthicalReasoningSystem:
 
         # Stakeholder consideration
         affected_stakeholders = len(stakeholder_analysis)
-        justification_parts.append(f"Considered impacts on {affected_stakeholders} stakeholder groups")
+        justification_parts.append(
+            f"Considered impacts on {affected_stakeholders} stakeholder groups"
+        )
 
         return ". ".join(justification_parts)
 
@@ -1868,7 +1931,9 @@ class EthicalReasoningSystem:
         # Normalize weights
         total_weight = sum(principle_weights.values())
         if total_weight > 0:
-            principle_weights = {principle: weight / total_weight for principle, weight in principle_weights.items()}
+            principle_weights = {
+                principle: weight / total_weight for principle, weight in principle_weights.items()
+            }
 
         return principle_weights
 
@@ -1964,7 +2029,9 @@ class EthicalReasoningSystem:
         for stakeholder, analysis in stakeholder_analysis.items():
             mitigation_needs = analysis.get("mitigation_needs", [])
             if mitigation_needs:
-                strategies.extend([f"Address {need} for {stakeholder.name}" for need in mitigation_needs])
+                strategies.extend(
+                    [f"Address {need} for {stakeholder.name}" for need in mitigation_needs]
+                )
 
         # Default strategies
         if not strategies:
@@ -2009,7 +2076,11 @@ class EthicalReasoningSystem:
             "system_status": "operational",
             "total_judgments": len(self.moral_judgments),
             "recent_judgments_24h": len(
-                [j for j in self.moral_judgments if j.timestamp > datetime.now(timezone.utc) - timedelta(hours=24)]
+                [
+                    j
+                    for j in self.moral_judgments
+                    if j.timestamp > datetime.now(timezone.utc) - timedelta(hours=24)
+                ]
             ),
             "active_constraints": len(self.active_constraints),
             "value_alignment": {},
@@ -2020,7 +2091,11 @@ class EthicalReasoningSystem:
 
         if self.moral_judgments:
             # Calculate confidence statistics
-            recent_judgments = [j for j in self.moral_judgments if j.timestamp > datetime.now(timezone.utc) - timedelta(hours=24)]
+            recent_judgments = [
+                j
+                for j in self.moral_judgments
+                if j.timestamp > datetime.now(timezone.utc) - timedelta(hours=24)
+            ]
 
             if recent_judgments:
                 confidences = [j.confidence_score for j in recent_judgments]
@@ -2098,7 +2173,9 @@ async def main():
     }
 
     # Make ethical judgment
-    judgment = await ethics_system.make_ethical_judgment(ethical_question=ethical_question, context=context)
+    judgment = await ethics_system.make_ethical_judgment(
+        ethical_question=ethical_question, context=context
+    )
 
     print(f"Ethical Question: {ethical_question}")
     print(f"Recommended Action: {judgment.recommended_action}")

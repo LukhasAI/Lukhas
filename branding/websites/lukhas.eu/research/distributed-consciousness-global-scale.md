@@ -1,5 +1,34 @@
 ---
 title: "Distributed Consciousness Coordination at Global Scale"
+domain: "lukhas.eu"
+owner: "@web-architect"
+audience: "researchers|infrastructure-engineers|regulators"
+tone:
+  poetic: 0.05
+  user_friendly: 0.40
+  academic: 0.55
+canonical: https://lukhas.eu/research/distributed-consciousness-global-scale
+source: "branding/websites/lukhas.eu/research/distributed-consciousness-global-scale.md"
+evidence_links:
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/matriz-completion-87pct.md'
+  - 'release_artifacts/evidence/privacy-compliance-999pct.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'
+claims_verified_by: ["@web-architect", "@legal"]
+claims_verified_date: "2025-11-05"
+claims_approval: true
+seo:
+  title: "Distributed Consciousness at Global Scale - LUKHAS Cloud Research"
+  description: "ACM SoCC 2024 research on distributed consciousness achieving <100ms global latency, 99.9997% data residency compliance across 12 regions, and 99.95% uptime with EU data sovereignty."
+  keywords:
+    - "distributed consciousness"
+    - "global scale AI"
+    - "data residency"
+    - "lukhas.cloud"
+    - "edge computing"
+hreflang: ["en-US", "en-GB"]
+last_reviewed: "2025-11-05"
+tags: ["research", "distributed-systems", "cloud", "data-residency"]
 authors: "LUKHAS Research Team"
 publication_date: 2024-11
 venue: "ACM Symposium on Cloud Computing (SoCC 2024)"

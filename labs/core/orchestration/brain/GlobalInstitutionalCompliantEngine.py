@@ -115,12 +115,11 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from pydantic import BaseModel, Field
-
 # Import all regional frameworks
 from identity.backend.app.institution_manager import Jurisdiction, global_timestamp
+from pydantic import BaseModel, Field
 
-# ——— Global Institutional Compliance Framework ——————————————————————— #
+# --- Global Institutional Compliance Framework ----------------------- #
 
 
 class InstitutionalComplianceLevel(Enum):
@@ -524,7 +523,7 @@ def institutional_compliance_audit_log(
         getattr(logger_privacy, level.lower())(audit_json)
 
 
-# ——— Global Institutional Compliant Reasoner ——————————————————————— #
+# --- Global Institutional Compliant Reasoner ----------------------- #
 
 
 class InstitutionalCompliantReasoner:
@@ -894,7 +893,7 @@ class InstitutionalCompliantReasoner:
         return {"enabled": True, "apps": "all"}
 
 
-# ——— Main Global Institutional Compliant Engine ——————————————————— #
+# --- Main Global Institutional Compliant Engine ------------------- #
 
 
 class GlobalInstitutionalCompliantEngine:
@@ -1201,7 +1200,7 @@ class GlobalInstitutionalCompliantEngine:
             raise ValueError("Government-grade compliance required but not achieved")
 
 
-# ——— Institutional Compliance Certification ——————————————————————————— #
+# --- Institutional Compliance Certification --------------------------- #
 
 
 def certify_global_institutional_compliance(

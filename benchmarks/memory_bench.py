@@ -6,7 +6,7 @@ import random
 import time
 from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 from memory.adaptive_memory import AdaptiveMemorySystem, MemoryType
 from memory.fold_system import FoldManager
@@ -17,9 +17,9 @@ from memory.fold_system import FoldManager
 @dataclass
 class BenchmarkResult:
     name: str
-    samples: List[float]
+    samples: list[float]
 
-    def summary(self) -> Dict[str, Any]:
+    def summary(self) -> dict[str, Any]:
         if not self.samples:
             return {"name": self.name, "avg_ms": 0.0, "p95_ms": 0.0, "max_ms": 0.0}
         sorted_samples = sorted(self.samples)
@@ -33,8 +33,8 @@ class BenchmarkResult:
         }
 
 
-def _time_ops(iterations: int, func: callable) -> List[float]:
-    latencies: List[float] = []
+def _time_ops(iterations: int, func: callable) -> list[float]:
+    latencies: list[float] = []
     for _ in range(iterations):
         start = time.perf_counter()
         func()
@@ -81,7 +81,7 @@ def benchmark_adaptive_memory(item_count: int, recalls: int) -> BenchmarkResult:
     return BenchmarkResult("adaptive_memory_recall", latencies)
 
 
-def run_benchmarks(smoke: bool = False) -> List[BenchmarkResult]:
+def run_benchmarks(smoke: bool = False) -> list[BenchmarkResult]:
     create_count = 500 if smoke else 5000
     recall_iterations = 100 if smoke else 1000
     item_count = 500 if smoke else 4000

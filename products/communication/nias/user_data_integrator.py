@@ -8,7 +8,6 @@ consent management and privacy protection.
 """
 from __future__ import annotations
 
-
 import asyncio
 import hashlib
 import json

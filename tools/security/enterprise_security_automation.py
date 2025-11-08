@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
-import logging
-
-logger = logging.getLogger(__name__)
 """
 LUKHAS Enterprise Security Automation
 Comprehensive automated security scanning, monitoring, and remediation
@@ -12,7 +8,10 @@ This module implements enterprise-grade security automation that maintains
 the <0.15 constitutional drift threshold while ensuring zero security vulnerabilities.
 """
 
+from __future__ import annotations
+
 import asyncio
+import logging
 import re
 import time
 from dataclasses import dataclass, field
@@ -20,6 +19,11 @@ from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any
+
+from core.common.logger import get_logger
+
+logger = logging.getLogger(__name__)
+
 
 # Import production security modules
 try:
@@ -40,7 +44,6 @@ try:
 except ImportError:
     PRODUCTION_MODULES_AVAILABLE = False
 
-from core.common.logger import get_logger
 
 logger = get_logger(__name__)
 

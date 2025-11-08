@@ -5,9 +5,15 @@ ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from tools.ci.build_manifest import TodoManifestBuilder
-from tools.ci.lock_batches import BatchLocker
-from tools.ci.split_batches import BatchSplitter
+from tools.ci.build_manifest import (
+    TodoManifestBuilder,  # - repository root must be on sys.path before import
+)
+from tools.ci.lock_batches import (
+    BatchLocker,  # - repository root must be on sys.path before import
+)
+from tools.ci.split_batches import (
+    BatchSplitter,  # - repository root must be on sys.path before import
+)
 
 
 def test_extract_todo_text_handles_language_block():

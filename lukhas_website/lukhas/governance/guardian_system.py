@@ -20,7 +20,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .guardian.core import EthicalSeverity
 
@@ -118,7 +118,7 @@ class GuardianSubject:
     canary_percent: Optional[float] = None
     actor_tier: Optional[str] = None
     operation_resource: Optional[str] = None
-    operation_parameters: Optional[Dict[str, Any]] = None
+    operation_parameters: Optional[dict[str, Any]] = None
 
 
 @dataclass
@@ -139,14 +139,14 @@ class GuardianMetrics:
     risk_score: Optional[float] = None
     drift_score: Optional[float] = None
     quota_remaining: Optional[int] = None
-    counters: Optional[Dict[str, int]] = None
+    counters: Optional[dict[str, int]] = None
 
 
 @dataclass
 class GuardianEnforcement:
     """Guardian enforcement configuration."""
     mode: EnforcementMode
-    actions: Optional[List[str]] = None
+    actions: Optional[list[str]] = None
 
 
 @dataclass
@@ -155,7 +155,7 @@ class GuardianAudit:
     event_id: str
     timestamp: str
     source_system: Optional[str] = None
-    audit_trail: Optional[List[Dict[str, Any]]] = None
+    audit_trail: Optional[list[dict[str, Any]]] = None
 
 
 class GuardianSystem:
@@ -209,13 +209,13 @@ class GuardianSystem:
         metrics: GuardianMetrics,
         enforcement: GuardianEnforcement,
         audit: GuardianAudit,
-        reasons: Optional[List[Dict[str, Any]]] = None,
-        rule_evaluations: Optional[List[Dict[str, Any]]] = None,
-        approvals: Optional[List[Dict[str, Any]]] = None,
-        redactions: Optional[Dict[str, str]] = None,
-        extensions: Optional[Dict[str, Any]] = None,
-        debug: Optional[Dict[str, str]] = None
-    ) -> Dict[str, Any]:
+        reasons: Optional[list[dict[str, Any]]] = None,
+        rule_evaluations: Optional[list[dict[str, Any]]] = None,
+        approvals: Optional[list[dict[str, Any]]] = None,
+        redactions: Optional[dict[str, str]] = None,
+        extensions: Optional[dict[str, Any]] = None,
+        debug: Optional[dict[str, str]] = None
+    ) -> dict[str, Any]:
         """
         Serialize Guardian decision into T4/0.01% compliant envelope.
 
@@ -324,7 +324,7 @@ class GuardianSystem:
 
         return envelope
 
-    def _compute_integrity(self, envelope: Dict[str, Any]) -> Dict[str, Any]:
+    def _compute_integrity(self, envelope: dict[str, Any]) -> dict[str, Any]:
         """
         Compute tamper-evident integrity hash and optional signature.
 
@@ -359,7 +359,7 @@ class GuardianSystem:
 
         return integrity
 
-    def _sign_content(self, content: bytes) -> Dict[str, str]:
+    def _sign_content(self, content: bytes) -> dict[str, str]:
         """
         Sign content with ED25519 private key.
 
@@ -399,7 +399,7 @@ class GuardianSystem:
             logger.error(f"Signing failed: {e}")
             raise
 
-    def verify_integrity(self, envelope: Dict[str, Any]) -> bool:
+    def verify_integrity(self, envelope: dict[str, Any]) -> bool:
         """
         Verify tamper-evident integrity of Guardian envelope.
 
@@ -440,10 +440,9 @@ class GuardianSystem:
 
             # Verify signature if present
             signature = integrity.get("signature")
-            if signature and CRYPTO_AVAILABLE:
-                if not self._verify_signature(canonical_json, signature):
-                    logger.warning("Guardian signature verification failed")
-                    return False  # Signature verification failed
+            if (signature and CRYPTO_AVAILABLE) and (not self._verify_signature(canonical_json, signature)):
+                logger.warning("Guardian signature verification failed")
+                return False  # Signature verification failed
 
             return True
 
@@ -451,7 +450,7 @@ class GuardianSystem:
             logger.error(f"Guardian integrity verification error: {e}")
             return False  # Fail-closed on error
 
-    def _verify_signature(self, content: bytes, signature: Dict[str, str]) -> bool:
+    def _verify_signature(self, content: bytes, signature: dict[str, str]) -> bool:
         """
         Verify cryptographic signature.
 
@@ -483,7 +482,7 @@ class GuardianSystem:
             logger.error(f"Signature verification error: {e}")
             return False
 
-    def _validate_envelope(self, envelope: Dict[str, Any]) -> bool:
+    def _validate_envelope(self, envelope: dict[str, Any]) -> bool:
         """
         Validate envelope against T4 Guardian schema.
 
@@ -504,7 +503,7 @@ class GuardianSystem:
             logger.error(f"Guardian envelope schema validation failed: {e}")
             raise ValueError(f"Guardian envelope validation failed: {e.message}")
 
-    def is_decision_allow(self, envelope: Dict[str, Any]) -> bool:
+    def is_decision_allow(self, envelope: dict[str, Any]) -> bool:
         """
         Determine if Guardian decision allows the operation (fail-closed).
 
@@ -515,7 +514,19 @@ class GuardianSystem:
             True only if decision is explicitly "allow", False otherwise (fail-closed)
         """
         try:
-            # Verify envelope integrity first
+            # Check file-based emergency kill-switch FIRST (highest priority)
+            default_kill_switch = "/tmp/guardian_emergency_disable"
+            custom_kill_switch = envelope.get("context", {}).get("features", {}).get("kill_switch_path")
+
+            if os.path.exists(default_kill_switch):
+                logger.critical(f"🚨 EMERGENCY KILL-SWITCH ACTIVATED: {default_kill_switch} exists - DENYING ALL")
+                return False  # Emergency kill-switch blocks ALL operations
+
+            if custom_kill_switch and os.path.exists(custom_kill_switch):
+                logger.critical(f"🚨 EMERGENCY KILL-SWITCH ACTIVATED: {custom_kill_switch} exists - DENYING ALL")
+                return False  # Custom kill-switch blocks ALL operations
+
+            # Verify envelope integrity
             if not self.verify_integrity(envelope):
                 logger.warning("Guardian envelope failed integrity check - denying")
                 return False  # Fail-closed on integrity failure
@@ -526,10 +537,10 @@ class GuardianSystem:
                 logger.info("Guardian enforcement disabled - allowing")
                 return True  # Enforcement disabled
 
-            # Check emergency kill switch
+            # Check emergency kill switch (envelope-based)
             emergency_active = envelope.get("context", {}).get("features", {}).get("emergency_active", False)
             if emergency_active:
-                logger.warning("Guardian emergency mode active - denying all")
+                logger.warning("Guardian emergency mode active (envelope) - denying all")
                 return False  # Emergency mode blocks all
 
             # Get decision status
@@ -564,7 +575,7 @@ def create_simple_decision(
     region: str = "us-east-1",
     runtime: RuntimeEnvironment = RuntimeEnvironment.PROD,
     latency_ms: float = 0.0
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Create a simple Guardian decision envelope for common use cases.
 
@@ -627,6 +638,108 @@ def create_simple_decision(
     )
 
 
+
+# Emergency Kill-Switch Management Functions
+def activate_kill_switch(reason: str = "Emergency shutdown", custom_path: Optional[str] = None) -> bool:
+    """
+    Activate Guardian emergency kill-switch.
+
+    Creates a file that immediately stops ALL Guardian-protected operations.
+    This is a fail-safe mechanism for emergency situations.
+
+    Args:
+        reason: Reason for activation (logged for audit)
+        custom_path: Optional custom kill-switch file path (defaults to /tmp/guardian_emergency_disable)
+
+    Returns:
+        True if kill-switch activated successfully, False otherwise
+    """
+    kill_switch_path = custom_path or "/tmp/guardian_emergency_disable"
+
+    try:
+        with open(kill_switch_path, 'w', encoding='utf-8') as f:
+            timestamp = datetime.now(timezone.utc).isoformat()
+            f.write("GUARDIAN EMERGENCY KILL-SWITCH ACTIVATED\n")
+            f.write(f"Timestamp: {timestamp}\n")
+            f.write(f"Reason: {reason}\n")
+            f.write("\n")
+            f.write("WARNING: ALL Guardian-protected operations are BLOCKED\n")
+            f.write(f"To deactivate: rm {kill_switch_path}\n")
+
+        logger.critical("GUARDIAN KILL-SWITCH ACTIVATED: %s", kill_switch_path)
+        logger.critical("Reason: %s", reason)
+        return True
+
+    except Exception as e:
+        logger.error(f"Failed to activate kill-switch: {e}")
+        return False
+
+
+def deactivate_kill_switch(approver: str, custom_path: Optional[str] = None) -> bool:
+    """
+    Deactivate Guardian emergency kill-switch.
+
+    Removes the kill-switch file to restore normal operations.
+    Requires dual approval in production (see runbook).
+
+    Args:
+        approver: Name/ID of person deactivating (logged for audit)
+        custom_path: Optional custom kill-switch file path
+
+    Returns:
+        True if kill-switch deactivated successfully, False otherwise
+    """
+    kill_switch_path = custom_path or "/tmp/guardian_emergency_disable"
+
+    try:
+        if not os.path.exists(kill_switch_path):
+            logger.warning(f"Kill-switch not active at {kill_switch_path}")
+            return False
+
+        os.remove(kill_switch_path)
+        logger.warning(f"✅ GUARDIAN KILL-SWITCH DEACTIVATED by {approver}")
+        logger.warning("Normal Guardian operations restored")
+        return True
+
+    except Exception as e:
+        logger.error(f"Failed to deactivate kill-switch: {e}")
+        return False
+
+
+def check_kill_switch_status(custom_path: Optional[str] = None) -> dict[str, Any]:
+    """
+    Check Guardian kill-switch status.
+
+    Returns:
+        Dict with status, path, active state, and details if active
+    """
+    kill_switch_path = custom_path or "/tmp/guardian_emergency_disable"
+
+    if os.path.exists(kill_switch_path):
+        try:
+            with open(kill_switch_path) as f:
+                content = f.read()
+            return {
+                "active": True,
+                "path": kill_switch_path,
+                "details": content,
+                "message": "🚨 KILL-SWITCH ACTIVE - All Guardian operations blocked"
+            }
+        except Exception as e:
+            return {
+                "active": True,
+                "path": kill_switch_path,
+                "error": str(e),
+                "message": "🚨 KILL-SWITCH ACTIVE (unable to read details)"
+            }
+    else:
+        return {
+            "active": False,
+            "path": kill_switch_path,
+            "message": "✅ Kill-switch not active - Normal operations"
+        }
+
+
 # Export public API
 __all__ = [
     "ActorType",
@@ -641,5 +754,8 @@ __all__ = [
     "GuardianSystem",
     "RuntimeEnvironment",
     "create_guardian_system",
-    "create_simple_decision"
+    "create_simple_decision",
+    "activate_kill_switch",
+    "deactivate_kill_switch",
+    "check_kill_switch_status"
 ]

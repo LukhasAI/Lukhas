@@ -37,6 +37,9 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 class QIEntanglement:
     """
@@ -106,15 +109,18 @@ class QIEntanglement:
         # Implement specific quantum-inspired processing
         # This is a placeholder that should be enhanced based on requirements
 
-        if category == "consciousness":  # TODO: category
+        # Extract category from data or use default
+        category = data.get("category", "generic") if isinstance(data, dict) else "generic"
+
+        if category == "consciousness":
             return await self._process_consciousness(data)
-        elif category == "governance":  # TODO: category
+        elif category == "governance":
             return await self._process_governance(data)
-        elif category == "voice":  # TODO: category
+        elif category == "voice":
             return await self._process_voice(data)
-        elif category == "identity":  # TODO: category
+        elif category == "identity":
             return await self._process_identity(data)
-        elif category == "quantum":  # TODO: category
+        elif category == "quantum":
             return await self._process_quantum(data)
         else:
             return await self._process_generic(data)
@@ -181,7 +187,9 @@ class QIEntanglement:
 
 
 # Factory function for easy instantiation
-def create_quantum_component(config: Optional[dict] = None) -> ΛQuantumEntanglement:  # TODO: ΛQuantumEntanglement
+def create_quantum_component(
+    config: Optional[dict] = None,
+) -> ΛQuantumEntanglement:  # TODO: ΛQuantumEntanglement
     """Create and return a quantum component instance"""
     return ΛQuantumEntanglement(config)  # TODO: ΛQuantumEntanglement
 

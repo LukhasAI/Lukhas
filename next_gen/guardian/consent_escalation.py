@@ -94,7 +94,7 @@ class ConsentEscalationResolver:
     """
 
     # Default escalation rules
-    DEFAULT_RULES = [
+    DEFAULT_RULES = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_guardian_consent_escalation_py_L97"}
         EscalationRule(
             rule_id="high_value_resource",
             condition="request.permission_type in ['admin', 'root', 'critical'] and request.trust_score < 0.8",
@@ -138,7 +138,7 @@ class ConsentEscalationResolver:
     ]
 
     # Symbolic patterns for trust path analysis
-    TRUST_PATTERNS = {
+    TRUST_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_guardian_consent_escalation_py_L141"}
         "direct_trust": {
             "pattern": ["🔐", "🤝", "✅"],
             "strength_modifier": 1.0,

@@ -672,8 +672,9 @@ class EnergyAwareExecutionPlanner:
                 # Perform periodic optimization
                 if (
                     len(self.optimization_history) == 0
-                    or " + "(
-                        datetime.now(timezone.utc) - datetime.fromisoformat(self.optimization_history[-1]["timestamp"])
+                    or (
+                        datetime.now(timezone.utc)
+                        - datetime.fromisoformat(self.optimization_history[-1]["timestamp"])
                     ).total_seconds()
                     > self.config["optimization_interval"]
                 ):
@@ -744,11 +745,7 @@ class EnergyAwareExecutionPlanner:
 
         try:
             # Simulate task execution with energy consumption
-            if task.callback:
-                result = task.callback(task)
-            else:
-                # Default simulation
-                result = self._simulate_task_execution(task)
+            result = task.callback(task) if task.callback else self._simulate_task_execution(task)
 
             # Calculate actual energy consumption
             energy_consumed = energy_start - self.energy_budget.current_available
@@ -881,7 +878,7 @@ class EnergyAwareExecutionPlanner:
 
             # Start distributed coordination
             self.coordination_active = True
-            asyncio.create_task(self._distributed_coordination_loop())
+            asyncio.create_task(self._distributed_coordination_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_utils_orchestration_energy_aware_execution_planner_py_L881"}
 
             self.logger.info(
                 "Joined energy cluster",
@@ -1334,32 +1331,6 @@ def create_eaxp_instance(
 
 
 # Distributed Energy Coordination Classes
-
-
-@dataclass
-class DistributedEnergyTask:
-    """Energy task designed for distributed execution"""
-
-    task_id: str
-    name: str
-    components: list[dict] = field(default_factory=list)
-    total_energy_estimate: float = 0.0
-    parallelizable: bool = True
-    node_preferences: list[str] = field(default_factory=list)
-
-    def estimate_total_energy(self) -> float:
-        """Estimate total energy needed across all components"""
-        if self.total_energy_estimate > 0:
-            return self.total_energy_estimate
-
-        return sum(component.get("energy_requirement", 0) for component in self.components)
-
-    def split_into_components(self, max_components: int = 4) -> list[dict]:
-        """Split task into distributable components"""
-        if not self.parallelizable:
-            return self.components[:1]  # Single component only
-
-        return self.components[:max_components]
 
 
 class DistributedNodeRegistry:

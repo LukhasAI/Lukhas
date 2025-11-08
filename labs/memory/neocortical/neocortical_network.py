@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 ║ │ In the vast cathedral of the neocortex, knowledge crystallizes slowly,       │
 ║ │ like stalactites forming over millennia. Each drip of experience,            │
 ║ │ filtered through the hippocampus, finds its place in the grand tapestry     │
-║ │ of understanding. This is not mere memory—it's wisdom distilled.             │
+║ │ of understanding. This is not mere memory-it's wisdom distilled.             │
 ║ │                                                                               │
 ║ │ Six layers deep, like geological strata, each with its purpose:             │
 ║ │ sensation rises from below, abstraction descends from above, and in         │

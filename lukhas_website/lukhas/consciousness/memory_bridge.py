@@ -10,9 +10,9 @@ import time
 import uuid
 from collections import defaultdict, deque
 from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Callable, Optional
 
 from consciousness.types import AwarenessSnapshot, ConsciousnessState, DreamTrace, ReflectionReport
 from memory.consciousness_memory_integration import (
@@ -61,7 +61,7 @@ class MemoryConsciousnessEvent:
     event_type: str  # "memory_to_consciousness" or "consciousness_to_memory"
     source_component: str
     target_component: str
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     timestamp: datetime
     priority: int = 1  # 1=low, 5=high
     requires_sync: bool = True
@@ -95,16 +95,16 @@ class MemoryConsciousnessBridge:
         self.consciousness_to_memory_queue: deque = deque(maxlen=max_queue_size)
 
         # Active consciousness sessions
-        self.consciousness_sessions: Dict[str, Dict[str, Any]] = {}
-        self.session_memory_mappings: Dict[str, Set[str]] = {}  # session_id -> fold_ids
+        self.consciousness_sessions: dict[str, dict[str, Any]] = {}
+        self.session_memory_mappings: dict[str, set[str]] = {}  # session_id -> fold_ids
 
         # Memory-consciousness correlation
-        self.memory_consciousness_map: Dict[str, str] = {}  # fold_id -> consciousness_context
-        self.consciousness_memory_map: Dict[str, Set[str]] = {}  # consciousness_context -> fold_ids
+        self.memory_consciousness_map: dict[str, str] = {}  # fold_id -> consciousness_context
+        self.consciousness_memory_map: dict[str, set[str]] = {}  # consciousness_context -> fold_ids
 
         # Event handlers
-        self.memory_event_handlers: Dict[str, List[Callable]] = defaultdict(list)
-        self.consciousness_event_handlers: Dict[str, List[Callable]] = defaultdict(list)
+        self.memory_event_handlers: dict[str, list[Callable]] = defaultdict(list)
+        self.consciousness_event_handlers: dict[str, list[Callable]] = defaultdict(list)
 
         # Performance tracking
         self.sync_history: deque = deque(maxlen=1000)
@@ -158,7 +158,7 @@ class MemoryConsciousnessBridge:
     async def create_consciousness_session(self,
                                          session_id: str,
                                          consciousness_state: ConsciousnessState,
-                                         context: Optional[Dict[str, Any]] = None) -> bool:
+                                         context: Optional[dict[str, Any]] = None) -> bool:
         """Create a new consciousness session with memory integration"""
 
         if session_id in self.consciousness_sessions:
@@ -170,8 +170,8 @@ class MemoryConsciousnessBridge:
             "session_id": session_id,
             "consciousness_state": asdict(consciousness_state),
             "context": context or {},
-            "created_at": datetime.utcnow(),
-            "last_updated": datetime.utcnow(),
+            "created_at": datetime.now(timezone.utc),
+            "last_updated": datetime.now(timezone.utc),
             "memory_folds": set(),
             "sync_count": 0
         }
@@ -193,7 +193,7 @@ class MemoryConsciousnessBridge:
                 "session_id": session_id,
                 "consciousness_state": asdict(consciousness_state)
             },
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             priority=3,
             correlation_id=session_id
         )
@@ -217,7 +217,7 @@ class MemoryConsciousnessBridge:
 
         session = self.consciousness_sessions[session_id]
         session["consciousness_state"] = asdict(consciousness_state)
-        session["last_updated"] = datetime.utcnow()
+        session["last_updated"] = datetime.now(timezone.utc)
 
         # Create memory folds for significant updates
         memory_events = []
@@ -250,7 +250,7 @@ class MemoryConsciousnessBridge:
                     "memory_events": memory_events,
                     "consciousness_state": asdict(consciousness_state)
                 },
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 priority=2,
                 correlation_id=session_id
             )
@@ -263,7 +263,7 @@ class MemoryConsciousnessBridge:
     async def query_consciousness_relevant_memories(self,
                                                   session_id: str,
                                                   consciousness_context: str,
-                                                  max_results: int = 10) -> List[Tuple[str, MemoryFold, float]]:
+                                                  max_results: int = 10) -> list[tuple[str, MemoryFold, float]]:
         """Query memories relevant to current consciousness context"""
 
         if session_id not in self.consciousness_sessions:
@@ -301,7 +301,7 @@ class MemoryConsciousnessBridge:
                 "query": query,
                 "result_count": len(results)
             },
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             priority=2,
             correlation_id=session_id
         )
@@ -347,7 +347,7 @@ class MemoryConsciousnessBridge:
                 "fold_type": memory_fold.fold_type.value,
                 "emotional_context": asdict(memory_fold.emotional_context)
             },
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             priority=3,
             correlation_id=session_id
         )
@@ -384,7 +384,7 @@ class MemoryConsciousnessBridge:
                 "sync_latency_ms": sync_latency,
                 "consciousness_fold_id": consciousness_fold_id,
                 "memory_sync_count": memory_sync_count,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat()
             }
             self.sync_history.append(sync_record)
 
@@ -398,7 +398,7 @@ class MemoryConsciousnessBridge:
             error_record = {
                 "session_id": session_id,
                 "error": str(e),
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat()
             }
             self.error_history.append(error_record)
 
@@ -542,7 +542,7 @@ class MemoryConsciousnessBridge:
             "session_id": session_id,
             "sync_type": "consciousness_to_memory",
             "consciousness_state": consciousness_state,
-            "sync_timestamp": datetime.utcnow().isoformat()
+            "sync_timestamp": datetime.now(timezone.utc).isoformat()
         }
 
         fold_id = await self.memory_integrator.create_consciousness_memory_fold(
@@ -608,7 +608,7 @@ class MemoryConsciousnessBridge:
         self.consciousness_event_handlers["consciousness_state_changed"].append(self._handle_consciousness_state_changed)
         self.consciousness_event_handlers["decision_made"].append(self._handle_decision_made)
 
-    async def _handle_memory_fold_created(self, event_data: Dict[str, Any]):
+    async def _handle_memory_fold_created(self, event_data: dict[str, Any]):
         """Handle memory fold creation events"""
         fold_id = event_data.get("fold_id")
         consciousness_context = event_data.get("consciousness_context")
@@ -621,21 +621,21 @@ class MemoryConsciousnessBridge:
                 self.consciousness_memory_map[consciousness_context] = set()
             self.consciousness_memory_map[consciousness_context].add(fold_id)
 
-    async def _handle_memory_recalled(self, event_data: Dict[str, Any]):
+    async def _handle_memory_recalled(self, event_data: dict[str, Any]):
         """Handle memory recall events"""
         event_data.get("session_id")
         result_count = event_data.get("result_count", 0)
 
         self.metrics.memory_write_rate = result_count / max(1, self.sync_interval_ms / 1000)
 
-    async def _handle_consciousness_state_changed(self, event_data: Dict[str, Any]):
+    async def _handle_consciousness_state_changed(self, event_data: dict[str, Any]):
         """Handle consciousness state change events"""
         session_id = event_data.get("session_id")
 
         if session_id and session_id in self.consciousness_sessions:
             self.metrics.consciousness_update_rate += 1
 
-    async def _handle_decision_made(self, event_data: Dict[str, Any]):
+    async def _handle_decision_made(self, event_data: dict[str, Any]):
         """Handle decision-making events"""
         session_id = event_data.get("session_id")
         decision_data = event_data.get("decision_data", {})
@@ -767,7 +767,7 @@ class MemoryConsciousnessBridge:
 
     async def _cleanup_old_sessions(self):
         """Clean up old consciousness sessions"""
-        cutoff_time = datetime.utcnow() - timedelta(hours=24)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=24)
         sessions_to_remove = []
 
         for session_id, session_data in self.consciousness_sessions.items():
@@ -793,7 +793,7 @@ class MemoryConsciousnessBridge:
         self.metrics.active_consciousness_sessions = max(0, self.metrics.active_consciousness_sessions - 1)
         logger.debug(f"🗑️ Removed consciousness session: {session_id}")
 
-    def get_bridge_metrics(self) -> Dict[str, Any]:
+    def get_bridge_metrics(self) -> dict[str, Any]:
         """Get comprehensive bridge metrics"""
         return {
             "bridge_state": self.state.value,

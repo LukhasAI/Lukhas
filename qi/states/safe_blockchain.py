@@ -1,13 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
-
-import logging
-from collections.abc import Mapping
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import Any
-
-logger = logging.getLogger(__name__)
 
 """
 
@@ -43,12 +34,23 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
+from __future__ import annotations
+
+import logging
+from collections.abc import Mapping
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from hashlib import sha3_256
+from typing import Any
+
+logger = logging.getLogger(__name__)
+
+
 __module_name__ = "Quantum Safe Blockchain"
 __version__ = "2.0.0"
 __tier__ = 2
 
 
-from hashlib import sha3_256
 
 try:
     import rlp

@@ -41,7 +41,7 @@ def test_tags_lazy_attribute_access():
     """Test that accessing tag system attributes works when labs is available."""
     import core.tags
 
-    try:
+    try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_core_test_tags_init_importsafe_py_L44"}
         # Try to access a tag system component
         # This should trigger the lazy import of labs.core.tags
         pass

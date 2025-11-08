@@ -29,7 +29,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -78,9 +78,9 @@ class ComplianceControl:
     description: str
     standard: ComplianceStandard
     category: str  # e.g., "Access Control", "Data Protection"
-    requirements: List[str] = field(default_factory=list)
+    requirements: list[str] = field(default_factory=list)
     implementation_guidance: str = ""
-    testing_procedures: List[str] = field(default_factory=list)
+    testing_procedures: list[str] = field(default_factory=list)
     automation_possible: bool = False
     frequency: str = "annual"  # daily, weekly, monthly, quarterly, annual
     risk_level: RiskLevel = RiskLevel.MEDIUM
@@ -88,7 +88,7 @@ class ComplianceControl:
     status: ControlStatus = ControlStatus.NOT_IMPLEMENTED
     last_tested: Optional[datetime] = None
     next_test_due: Optional[datetime] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 @dataclass
 class ComplianceEvidence:
@@ -105,7 +105,7 @@ class ComplianceEvidence:
     collected_by: Optional[str] = None
     collected_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     valid_until: Optional[datetime] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 @dataclass
 class ComplianceAssessment:
@@ -114,14 +114,14 @@ class ComplianceAssessment:
     control_id: str
     assessment_type: str  # "automated", "manual", "walkthrough"
     result: ControlStatus
-    findings: List[str] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
-    evidence_ids: List[str] = field(default_factory=list)
+    findings: list[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
+    evidence_ids: list[str] = field(default_factory=list)
     assessed_by: Optional[str] = None
     assessed_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     next_assessment: Optional[datetime] = None
     confidence_score: float = 1.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 @dataclass
 class RiskAssessment:
@@ -135,27 +135,27 @@ class RiskAssessment:
     inherent_risk: RiskLevel
     residual_risk: RiskLevel
     risk_owner: Optional[str] = None
-    mitigation_controls: List[str] = field(default_factory=list)
+    mitigation_controls: list[str] = field(default_factory=list)
     treatment_plan: Optional[str] = None
     assessed_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     review_date: Optional[datetime] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 @dataclass
 class ComplianceReport:
     """Compliance status report."""
     id: str
     standard: ComplianceStandard
-    reporting_period: Tuple[datetime, datetime]
+    reporting_period: tuple[datetime, datetime]
     overall_status: str
-    controls_summary: Dict[str, int] = field(default_factory=dict)
-    findings: List[str] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
-    risk_summary: Dict[str, int] = field(default_factory=dict)
+    controls_summary: dict[str, int] = field(default_factory=dict)
+    findings: list[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
+    risk_summary: dict[str, int] = field(default_factory=dict)
     evidence_count: int = 0
     generated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     generated_by: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 class ComplianceFramework:
     """Comprehensive compliance management system."""
@@ -168,16 +168,16 @@ class ComplianceFramework:
         self.guardian_integration = guardian_integration
 
         # Core data stores
-        self.controls: Dict[str, ComplianceControl] = {}
-        self.evidence: Dict[str, ComplianceEvidence] = {}
-        self.assessments: Dict[str, ComplianceAssessment] = {}
-        self.risk_assessments: Dict[str, RiskAssessment] = {}
+        self.controls: dict[str, ComplianceControl] = {}
+        self.evidence: dict[str, ComplianceEvidence] = {}
+        self.assessments: dict[str, ComplianceAssessment] = {}
+        self.risk_assessments: dict[str, RiskAssessment] = {}
 
         # Compliance frameworks
-        self.standards: Dict[ComplianceStandard, Dict[str, Any]] = {}
+        self.standards: dict[ComplianceStandard, dict[str, Any]] = {}
 
         # Automation handlers
-        self.automation_handlers: Dict[str, callable] = {}
+        self.automation_handlers: dict[str, callable] = {}
 
         # Performance tracking
         self.assessment_count = 0
@@ -704,7 +704,7 @@ class ComplianceFramework:
         """
         risk_id = f"RISK-{int(time.time())}-{str(uuid.uuid4())[:8]}"
 
-        # Calculate inherent risk (likelihood × impact)
+        # Calculate inherent risk (likelihood x impact)
         risk_matrix = {
             (RiskLevel.LOW, RiskLevel.LOW): RiskLevel.LOW,
             (RiskLevel.LOW, RiskLevel.MEDIUM): RiskLevel.LOW,
@@ -836,17 +836,17 @@ class ComplianceFramework:
         logger.info(f"Compliance report generated: {report_id} - {overall_status}")
         return report
 
-    def get_controls_by_standard(self, standard: ComplianceStandard) -> List[ComplianceControl]:
+    def get_controls_by_standard(self, standard: ComplianceStandard) -> list[ComplianceControl]:
         """Get all controls for a specific standard."""
         return [c for c in self.controls.values() if c.standard == standard]
 
-    def get_overdue_controls(self) -> List[ComplianceControl]:
+    def get_overdue_controls(self) -> list[ComplianceControl]:
         """Get controls that are overdue for testing."""
         now = datetime.now(timezone.utc)
         return [c for c in self.controls.values()
                 if c.next_test_due and c.next_test_due < now]
 
-    def get_compliance_dashboard_data(self) -> Dict[str, Any]:
+    def get_compliance_dashboard_data(self) -> dict[str, Any]:
         """Get data for compliance dashboard."""
         datetime.now(timezone.utc)
 
@@ -895,7 +895,7 @@ class ComplianceFramework:
         }
 
 # Factory function
-def create_compliance_framework(config: Optional[Dict[str, Any]] = None) -> ComplianceFramework:
+def create_compliance_framework(config: Optional[dict[str, Any]] = None) -> ComplianceFramework:
     """Create compliance framework with configuration."""
     config = config or {}
 
@@ -905,7 +905,7 @@ def create_compliance_framework(config: Optional[Dict[str, Any]] = None) -> Comp
     )
 
 # Example automation handlers
-def example_access_control_handler(control: ComplianceControl) -> Dict[str, Any]:
+def example_access_control_handler(control: ComplianceControl) -> dict[str, Any]:
     """Example automation handler for access control testing."""
     # This would integrate with actual access control systems
     # For demonstration, return mock results

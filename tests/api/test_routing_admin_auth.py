@@ -8,6 +8,10 @@ from importlib import import_module
 import pytest
 from fastapi import HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials
+from lukhas_website.lukhas.api.routing_admin import (
+    ADMIN_PERMISSION,
+    get_admin_user,
+)
 from starlette.requests import Request
 
 # Provide lightweight bridges by reusing the repository implementation when available.
@@ -128,10 +132,6 @@ def _build_request(headers: list[tuple[bytes, bytes]] | None = None) -> Request:
 
     return Request(scope, receive)
 
-from lukhas_website.lukhas.api.routing_admin import (
-    ADMIN_PERMISSION,
-    get_admin_user,
-)
 
 
 @pytest.mark.asyncio

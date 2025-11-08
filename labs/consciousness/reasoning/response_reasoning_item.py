@@ -43,8 +43,6 @@ within a larger AI response.
 
 from typing import Optional
 
-from typing_extensions import Literal
-
 # Initialize ΛTRACE logger for this module
 # AIMPORT_TODO: Verify the location of `_models.BaseModel`.
 # ΛAUTO_GEN_PATH: This relative import `from core.models import BaseModel` is likely from auto-generation.
@@ -53,6 +51,7 @@ from typing_extensions import Literal
 # (e.g., `from core_framework.core.models import BaseModel`) would be more robust.
 # ΛCAUTION: Fragile import path can lead to runtime errors and maintenance issues.
 from core.models import BaseModel
+from typing_extensions import Literal
 
 logger.info(
     "ΛTRACE: Initializing response_reasoning_item.py module (Data Model Definition).",

@@ -40,9 +40,9 @@ def render_widget_preview(widget):
                 border-radius: 20px; padding: 20px; background: #1e1e2f; color: white;
                 {glow} opacity: {opacity}; transition: all 0.4s ease;">
         <div style="font-size: 32px;">{icon} <b>{widget["title"]}</b></div>
-        <div style="margin-top: 12px;">Vendor: <b>{widget.get("vendor", "—")}</b></div>
-        <div>Price: <b>{widget.get("price", "—")}</b> LUX</div>
-        <div style="color: #66ffcc;">Ethics Score: {widget.get("ethics_score", "—")}</div>
+        <div style="margin-top: 12px;">Vendor: <b>{widget.get("vendor", "-")}</b></div>
+        <div>Price: <b>{widget.get("price", "-")}</b> LUX</div>
+        <div style="color: #66ffcc;">Ethics Score: {widget.get("ethics_score", "-")}</div>
         <button style="margin-top: 16px; padding: 10px 20px; border-radius: 8px;
                        border: none; background: #22ffaa; color: #000; font-weight: bold;">
             {widget["cta"]}

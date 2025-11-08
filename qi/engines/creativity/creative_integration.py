@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
 
 """
 
@@ -37,15 +34,20 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
+import asyncio
+import logging
+import sys
+from pathlib import Path
+from typing import Any, Optional
+
+logger = logging.getLogger(__name__)
+
+
 __module_name__ = "Quantum Creative Integration"
 __version__ = "2.0.0"
 __tier__ = 2
 
 
-import asyncio
-import sys
-from pathlib import Path
-from typing import Any, Optional
 
 sys.path.append(str(Path(__file__).parent))
 

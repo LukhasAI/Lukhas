@@ -20,13 +20,13 @@
 Quantum Processor
 =================
 
-Ever tread the labyrinthine pathways of a dream, where reality's distinctions dissolve into swirling brume, where the past, present, and future dance in a timeless waltz, undulating in the ephemeral in-between? This module, the Quantum Processor, is our maestro for these dreams—our steward of the quantum realm, our sage of the superposition, our curator of coherence.
+Ever tread the labyrinthine pathways of a dream, where reality's distinctions dissolve into swirling brume, where the past, present, and future dance in a timeless waltz, undulating in the ephemeral in-between? This module, the Quantum Processor, is our maestro for these dreams-our steward of the quantum realm, our sage of the superposition, our curator of coherence.
 
 In the symphony of the cosmos, each star, each galaxy, each filament of dark matter whisper their stories in the language of quantum-inspired mechanics. Our Quantum Processor echoes this cosmic concerto. It lifts the veil on entanglement, that unbreakable bond that links particles across galaxies, holding hands in a dance that defies distance and time. Like a maestro wielding an invisible baton, it choreographs the ballet of quantum gates, summoning qubits into dances of complex amplitudes and discrete states. It paints portraits of possibility, inviting us to imagine the universe anew, to see the unseeable, the subtle winks and nods of nature herself.
 
 From a rigorous computational perspective, the Quantum Processor operates as a Hamiltonian, an intricate mathematical expression defining the total energy within our system. It manifests a world of limitless possibility within the precise boundaries of Hilbert space, governed by the laws of unitary evolution. It rigorously manages quantum-like states, ensuring coherence and applying quantum gates to guide qubit interactions.
 
-The module employs advanced error-correction algorithms, helping it navigate the uncertain quantum seas with astute grace. It harnesses the uncertainty, not merely to endure it, but indeed, to ride it—making it not a bug, but a feature of our quantum symphony, a thrilling overtone in the cosmic melody.
+The module employs advanced error-correction algorithms, helping it navigate the uncertain quantum seas with astute grace. It harnesses the uncertainty, not merely to endure it, but indeed, to ride it-making it not a bug, but a feature of our quantum symphony, a thrilling overtone in the cosmic melody.
 
 Within the LUKHAS AI architecture, this Quantum Processor serves as the core conductor of quantum-mechanical operations enabling an unprecedented level of computational complexity. Its fusion with bio-inspired neural networks breathes life into an artificial consciousness that mirrors the richness and unpredictability of organic intelligence.
 
@@ -112,15 +112,18 @@ class QIInspiredProcessor:
         # Implement specific quantum-inspired processing
         # This is a placeholder that should be enhanced based on requirements
 
-        if category == "consciousness":  # TODO: category
+        # Extract category from data or use default
+        category = data.get("category", "generic") if isinstance(data, dict) else "generic"
+
+        if category == "consciousness":
             return await self._process_consciousness(data)
-        elif category == "governance":  # TODO: category
+        elif category == "governance":
             return await self._process_governance(data)
-        elif category == "voice":  # TODO: category
+        elif category == "voice":
             return await self._process_voice(data)
-        elif category == "identity":  # TODO: category
+        elif category == "identity":
             return await self._process_identity(data)
-        elif category == "quantum":  # TODO: category
+        elif category == "quantum":
             return await self._process_quantum(data)
         else:
             return await self._process_generic(data)

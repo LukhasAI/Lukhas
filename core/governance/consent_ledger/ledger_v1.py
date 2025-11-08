@@ -22,6 +22,7 @@ requirements with sub-second validation performance.
 
 Integrates with ΛID system, GLYPH communication protocol, and Constellation Framework (🌌 8-star navigation).
 """
+
 import hashlib
 import hmac
 import importlib as _importlib
@@ -432,7 +433,6 @@ class ConsentLedgerV1:
 
     def _init_validation_methods(self):
         """Initialize validation helper methods"""
-        pass
 
     def _validate_consent_preconditions(self, lid: str, resource_type: str) -> bool:
         """Validate preconditions for consent granting"""
@@ -663,7 +663,11 @@ class ConsentLedgerV1:
                     time.time(),
                     trace.glyph_signature,
                     (1 if trace.constellation_validation.get("identity_verified", False) else 0),
-                    (1 if trace.constellation_validation.get("consciousness_aligned", False) else 0),
+                    (
+                        1
+                        if trace.constellation_validation.get("consciousness_aligned", False)
+                        else 0
+                    ),
                     (1 if trace.constellation_validation.get("guardian_approved", False) else 0),
                     json.dumps(trace.compliance_flags),
                     trace.chain_integrity,
@@ -765,7 +769,9 @@ class ConsentLedgerV1:
         with self._lock:  # Thread safety
             try:
                 # Validate Constellation Framework requirements
-                if self.enable_trinity and not self._validate_consent_preconditions(lid, resource_type):
+                if self.enable_trinity and not self._validate_consent_preconditions(
+                    lid, resource_type
+                ):
                     raise ValueError("Constellation Framework validation failed for consent grant")
 
                 # GDPR compliance checks
@@ -804,10 +810,14 @@ class ConsentLedgerV1:
                 # Calculate expiration with GDPR storage limitation
                 expires_at = None
                 if expires_in_days:
-                    expires_at = (datetime.now(timezone.utc) + timedelta(days=expires_in_days)).isoformat()
+                    expires_at = (
+                        datetime.now(timezone.utc) + timedelta(days=expires_in_days)
+                    ).isoformat()
                 elif consent_type == ConsentType.EXPLICIT and not expires_in_days:
                     # GDPR best practice: explicit consent should have reasonable expiration
-                    expires_at = (datetime.now(timezone.utc) + timedelta(days=365)).isoformat()  # 1 year default
+                    expires_at = (
+                        datetime.now(timezone.utc) + timedelta(days=365)
+                    ).isoformat()  # 1 year default
 
                 # Set up data subject rights
                 default_rights = [
@@ -817,7 +827,9 @@ class ConsentLedgerV1:
                     DataSubjectRights.RESTRICT_PROCESSING,
                 ]
                 if lawful_basis == "consent":
-                    default_rights.extend([DataSubjectRights.DATA_PORTABILITY, DataSubjectRights.OBJECT])
+                    default_rights.extend(
+                        [DataSubjectRights.DATA_PORTABILITY, DataSubjectRights.OBJECT]
+                    )
                 if automated_decision_making:
                     default_rights.append(DataSubjectRights.AUTOMATED_DECISION)
 
@@ -966,7 +978,9 @@ class ConsentLedgerV1:
             },
         )
 
-    def check_consent(self, lid: str, resource_type: str, action: str, context: Optional[dict] = None) -> dict:
+    def check_consent(
+        self, lid: str, resource_type: str, action: str, context: Optional[dict] = None
+    ) -> dict:
         """Check if action is allowed under current consent"""
 
         conn = sqlite3.connect(str(self.db_path))
@@ -1156,7 +1170,9 @@ class PolicyEngine:
             }
 
         # Check consent
-        consent_check = self.ledger.check_consent(lid, context.get("resource_type", ""), action, context)
+        consent_check = self.ledger.check_consent(
+            lid, context.get("resource_type", ""), action, context
+        )
 
         if not consent_check["allowed"]:
             return {
@@ -1202,10 +1218,7 @@ class PolicyEngine:
 
         # Check for rapid deletion pattern
         recent_deletes = context.get("recent_delete_count", 0)
-        if recent_deletes > 5:  # More than 5 deletes in session
-            return True
-
-        return False
+        return recent_deletes > 5  # More than 5 deletes in session
 
     def _detect_jailbreak(self, input_text: str) -> bool:
         """Detect jailbreak attempts in user input"""

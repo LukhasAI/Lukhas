@@ -476,7 +476,7 @@ def _record_stage_error(
 
 
 @contextmanager
-def stage_span(stage: str, attrs: Optional[Dict[str, Any]] = None):
+def stage_span(stage: str, attrs: Optional[dict[str, Any]] = None):
     """
     Simple stage span helper for basic tracing.
 
@@ -495,7 +495,7 @@ def stage_span(stage: str, attrs: Optional[Dict[str, Any]] = None):
     with _tracer.start_as_current_span(f"matriz.{stage.lower()}") as sp:
         if attrs:
             for k, v in attrs.items():
-                try:
+                try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_observability_otel_instrumentation_py_L498"}
                     sp.set_attribute(f"matriz.{k}", v)
                 except Exception:
                     # Ignore attribute setting errors
@@ -503,7 +503,7 @@ def stage_span(stage: str, attrs: Optional[Dict[str, Any]] = None):
         yield sp
 
 
-def get_instrumentation_status() -> Dict[str, Any]:
+def get_instrumentation_status() -> dict[str, Any]:
     """Get current instrumentation status and configuration"""
     return {
         "otel_available": OTEL_AVAILABLE,

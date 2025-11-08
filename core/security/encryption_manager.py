@@ -51,7 +51,9 @@ Example Usage:
 from __future__ import annotations
 
 import secrets
-from typing import Any, Dict
+from typing import Any
+
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM, ChaCha20Poly1305
 
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM, ChaCha20Poly1305
 
@@ -110,7 +112,7 @@ class EncryptionManager:
 
     def __init__(self) -> None:
         """Initialize the EncryptionManager."""
-        self._cipher_cache: Dict[str, Any] = {}
+        self._cipher_cache: dict[str, Any] = {}
 
     def encrypt(
         self,
@@ -118,7 +120,7 @@ class EncryptionManager:
         algorithm: EncryptionAlgorithm,
         key: bytes | None = None,
         associated_data: bytes | None = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Encrypt data using specified AEAD algorithm.
 
@@ -203,7 +205,7 @@ class EncryptionManager:
 
     def decrypt(
         self,
-        encrypted_data: Dict[str, Any],
+        encrypted_data: dict[str, Any],
         key: bytes,
         associated_data: bytes | None = None,
     ) -> bytes:
@@ -325,7 +327,7 @@ class EncryptionManager:
         self,
         old_key_id: str,
         new_algorithm: EncryptionAlgorithm,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate new key for key rotation.
 

@@ -18,8 +18,8 @@ import threading
 from collections import deque
 from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import datetime, timedelta
-from typing import Any, Dict, List
+from datetime import datetime, timedelta, timezone
+from typing import Any
 from uuid import UUID, uuid4
 
 try:
@@ -67,7 +67,7 @@ class Event:
     kind: str        # "intention", "action", "memory_write", "reward", "breakthrough"
     lane: str        # "experimental", "candidate", "prod"
     glyph_id: UUID   # GLYPH identity for traceability
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
 
     @classmethod
     def create(
@@ -75,7 +75,7 @@ class Event:
         kind: str,
         lane: str,
         glyph_id: UUID,
-        payload: Dict[str, Any],
+        payload: dict[str, Any],
         *,
         ts: datetime | None = None,
         event_id: UUID | None = None
@@ -83,14 +83,14 @@ class Event:
         """Create a new event with automatic ID and timestamp."""
         return cls(
             id=event_id or uuid4(),
-            ts=ts or datetime.utcnow(),
+            ts=ts or datetime.now(timezone.utc),
             kind=kind,
             lane=lane,
             glyph_id=glyph_id,
             payload=payload.copy() if payload else {}
         )
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert event to dictionary for serialization."""
         return {
             "id": str(self.id),
@@ -102,7 +102,7 @@ class Event:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> Event:
+    def from_dict(cls, data: dict[str, Any]) -> Event:
         """Restore event from dictionary."""
         return cls(
             id=UUID(data["id"]),
@@ -130,8 +130,8 @@ class EventStore:
         self._lock = threading.RLock()
 
         # Indexes for fast lookups
-        self._glyph_index: Dict[UUID, List[Event]] = {}
-        self._kind_index: Dict[str, List[Event]] = {}
+        self._glyph_index: dict[UUID, list[Event]] = {}
+        self._kind_index: dict[str, list[Event]] = {}
 
     def append(self, event: Event) -> None:
         """Append event to store with automatic indexing and metrics."""
@@ -156,7 +156,7 @@ class EventStore:
         kind: str | None = None,
         lane: str | None = None,
         since: datetime | None = None
-    ) -> List[Event]:
+    ) -> list[Event]:
         """Query recent events with optional filtering."""
         query_type = f"recent_{kind or 'all'}_{lane or 'all'}"
 
@@ -183,7 +183,7 @@ class EventStore:
         glyph_id: UUID,
         limit: int = 100,
         since: datetime | None = None
-    ) -> List[Event]:
+    ) -> list[Event]:
         """Query events for specific glyph ID (for replay)."""
         query_type = "by_glyph"
 
@@ -207,9 +207,9 @@ class EventStore:
         self,
         window_seconds: int = 300,  # 5 minutes default
         kind: str | None = None
-    ) -> List[Event]:
+    ) -> list[Event]:
         """Query events within sliding time window for replay analysis."""
-        since = datetime.utcnow() - timedelta(seconds=window_seconds)
+        since = datetime.now(timezone.utc) - timedelta(seconds=window_seconds)
         return self.query_recent(limit=1000, kind=kind, since=since)
 
     def replay_sequence(
@@ -222,7 +222,7 @@ class EventStore:
         # Reverse to get chronological order (oldest first)
         yield from reversed(events)
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get store statistics for monitoring."""
         with self._lock:
             return {

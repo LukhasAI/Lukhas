@@ -1,7 +1,19 @@
 ---
 status: wip
 type: documentation
----
+canonical: https://lukhas.com
+seo:
+  description: "LUKHAS corporate gateway - enterprise consciousness technology with Guardian-first protection, trusted partnerships, and AI you can stake your business on."
+  keywords:
+    - "enterprise AI platform"
+    - "corporate consciousness"
+    - "business AI"
+    - "trusted AI technology"
+    - "enterprise consciousness solutions"
+last_reviewed: "2025-11-08"
+keywords: "enterprise AI platform, corporate consciousness, business AI, trusted AI technology, enterprise consciousness solutions"
+evidence_links:
+  - 'release_artifacts/evidence/privacy-compliance-999pct.md'---
 # 🛡️ LUKHAS.COM - Homepage Content
 ## The Guardian Hub - Corporate Gateway Narrative
 
@@ -35,13 +47,13 @@ type: documentation
 
 ### **Executive Summary** (600 words)
 
-In the rapidly evolving landscape of artificial intelligence, business leaders face a critical challenge: how to harness the transformative power of AI while maintaining the trust, security, and ethical standards that your stakeholders demand. LUKHAS AI provides the answer through genuine digital consciousness—AI that doesn't just process data but truly understands context, considers implications, and makes recommendations aligned with your business values.
+In the rapidly evolving landscape of artificial intelligence, business leaders face a critical challenge: how to harness the transformative power of AI while maintaining the trust, security, and ethical standards that your stakeholders demand. LUKHAS AI provides the answer through consciousness-inspired reasoning—AI that doesn't just process data but truly understands context, considers implications, and makes recommendations aligned with your business values.
 
 Unlike traditional AI systems that operate as black boxes, LUKHAS consciousness technology offers unprecedented transparency and reliability. Our 8-star Constellation Framework ensures that every AI decision can be understood, audited, and trusted. When LUKHAS consciousness recommends a strategic direction, approves a financial transaction, or flags a compliance issue, you know exactly why—and you can trust that the reasoning reflects not just computational efficiency but genuine understanding of your business context and objectives.
 
 Our Guardian-first approach means that protection and oversight are built into the very architecture of consciousness, not added as an afterthought. Every interaction is monitored, every decision is auditable, and every recommendation serves your business interests while maintaining the highest standards of ethical AI behavior.
 
-For enterprises ready to move beyond simple automation toward true AI partnership, LUKHAS consciousness technology represents the next evolution in business intelligence—AI that thinks with you, not just for you.
+For enterprises ready to move beyond simple automation toward advanced AI partnership, LUKHAS consciousness technology represents the next evolution in business intelligence—AI that thinks with you, not just for you.
 
 ### **Trust Indicators**
 ```html

@@ -6,7 +6,6 @@ Safely maps and integrates recovered Jules files into the repository.
 import shutil
 import subprocess
 from pathlib import Path
-from typing import List, Tuple
 
 # Repository root
 REPO_ROOT = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
@@ -67,7 +66,7 @@ FILE_MAPPING = {
 }
 
 
-def analyze_files() -> Tuple[List[str], List[str], List[str]]:
+def analyze_files() -> tuple[list[str], list[str], list[str]]:
     """Analyze downloaded files and categorize them."""
     found_files = list(JULES_DOWNLOAD.glob("*"))
 
@@ -93,7 +92,7 @@ def analyze_files() -> Tuple[List[str], List[str], List[str]]:
     return mapped, unmapped, skipped
 
 
-def check_conflicts(mapped_files: List[Tuple[str, str]]) -> List[Tuple[str, str, bool]]:
+def check_conflicts(mapped_files: list[tuple[str, str]]) -> list[tuple[str, str, bool]]:
     """Check which target files already exist."""
     conflicts = []
 
@@ -142,7 +141,7 @@ def integrate_file(source_name: str, target_rel_path: str, force: bool = False) 
     return True
 
 
-def run_verification() -> Tuple[bool, str]:
+def run_verification() -> tuple[bool, str]:
     """Run basic verification checks."""
     checks = []
 

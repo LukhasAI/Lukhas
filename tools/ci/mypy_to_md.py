@@ -52,7 +52,7 @@ for _line_num, line in enumerate(content.splitlines(), 1):
 counts = Counter(e["code"] for e in errors)
 
 with open(OUT, "w", encoding="utf-8") as f:
-    f.write("# Mypy Strict — Summary\n\n")
+    f.write("# Mypy Strict - Summary\n\n")
     f.write(f"- Total errors: {len(errors)}\n")
     f.write(f"- Core (lukhas/MATRIZ) errors: {core_violations}\n\n")
     if counts:
