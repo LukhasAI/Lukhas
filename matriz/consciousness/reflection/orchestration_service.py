@@ -102,12 +102,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 # Import message bus for cross-module communication
 message_bus_available = True
 try:
-    from bridge.message_bus import (
-        Message,
-        MessageBus,
-        MessagePriority,
-        MessageType,
-    )
+    from bridge.message_bus import Message, MessageBus, MessagePriority, MessageType
 except ImportError:
     message_bus_available = False
     print("⚠️ Message bus not available - using basic communication fallbacks")
@@ -115,9 +110,7 @@ except ImportError:
 # Import performance orchestrator - COMPLETED #8 integration with Constellation Framework
 performance_orchestrator_available = True
 try:
-    from core.performance.performance_orchestrator import (
-        PerformanceOrchestrator,
-    )
+    from core.performance.performance_orchestrator import PerformanceOrchestrator
 except ImportError:
     performance_orchestrator_available = False
     print("⚠️ Performance orchestrator not available - performance features disabled")

@@ -20,7 +20,9 @@ class SymbolicNode(CognitiveNode):
     """
 
     def __init__(self):
-        super().__init__(node_name="symbolic_node", capabilities=["symbolic_reasoning", "formal_proof"])
+        super().__init__(
+            node_name="symbolic_node", capabilities=["symbolic_reasoning", "formal_proof"]
+        )
 
     def process(self, node_input: dict) -> dict:
         """

@@ -1,4 +1,9 @@
+from __future__ import annotations
+
 #!/usr/bin/env python3
+import logging
+
+logger = logging.getLogger(__name__)
 
 """
 
@@ -30,11 +35,13 @@ The Quantum Awareness System isn't just an isolated module in the mighty LUKHAS 
 
 """
 
-from __future__ import annotations
+__module_name__ = "Quantum Awareness System"
+__version__ = "2.0.0"
+__tier__ = 2
+
 
 import asyncio
 import json
-import logging
 from dataclasses import (
     asdict,  # ΛTRACE_CHANGE: Added field and asdict
     dataclass,
@@ -53,16 +60,6 @@ from qi.processing_core import QIProcessingCore
 from consciousness.awareness.awareness_engine import AwarenessEngine
 from core.unified.integration import UnifiedIntegration
 from ethics.engine import EthicalFramework, EthicalRiskLevel, QIEthics
-
-logger = logging.getLogger(__name__)
-
-
-__module_name__ = "Quantum Awareness System"
-__version__ = "2.0.0"
-__tier__ = 2
-
-
-
 
 
 @dataclass
@@ -210,7 +207,7 @@ class QIAwarenessSystem:
 
             # Start consciousness integration if available
             if self.config.consciousness_sync_interval > 0:
-                asyncio.create_task(self._consciousness_sync_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_awareness_system_py_L212"}
+                asyncio.create_task(self._consciousness_sync_loop())
 
             # Start dream-based training if enabled
             if self.config.dream_cycle_enabled:
@@ -798,7 +795,7 @@ class QIAwarenessSystem:
             self.current_state.learning_efficiency = 0.5
 
             # Start neuroplasticity monitoring
-            asyncio.create_task(self._neuroplasticity_monitor())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_awareness_system_py_L801"}
+            asyncio.create_task(self._neuroplasticity_monitor())
 
             log.info("Neuroplasticity system initialized with safety constraints.")
 
