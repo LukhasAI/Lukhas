@@ -3,11 +3,13 @@ Unit tests for OpenAIModulatedService and VectorStoreAdapter
 
 TaskID: TODO-HIGH-BRIDGE-LLM-m7n8o9p0
 """
+import sys
+import types
+
 import pytest
 from unittest.mock import MagicMock, AsyncMock, patch
 
-# No longer mocking sys.modules, as it causes issues with package-level imports.
-# We will patch specific clients and flags instead.
+# Provide a lightweight chromadb stub so tests do not require the real dependency.
 
 from labs.bridge.llm_wrappers.openai_modulated_service import (
     OpenAIModulatedService,
@@ -19,6 +21,28 @@ from labs.bridge.llm_wrappers.openai_modulated_service import (
     CompletionRequest,
     ModelTier,
 )
+
+@pytest.fixture(autouse=True)
+def stub_chromadb(monkeypatch):
+    """Ensure chromadb imports succeed without the real package."""
+    chromadb_module = types.ModuleType("chromadb")
+    chromadb_module.Client = MagicMock(name="ChromadbClient")
+    chromadb_module.PersistentClient = MagicMock(name="ChromadbPersistentClient")
+    chromadb_module.EphemeralClient = MagicMock(name="ChromadbEphemeralClient")
+
+    config_module = types.ModuleType("chromadb.config")
+
+    class DummySettings:
+        def __init__(self, **kwargs):
+            self.kwargs = kwargs
+
+    config_module.Settings = DummySettings
+
+    monkeypatch.setitem(sys.modules, "chromadb", chromadb_module)
+    monkeypatch.setitem(sys.modules, "chromadb.config", config_module)
+    yield chromadb_module, config_module
+    monkeypatch.delitem(sys.modules, "chromadb", raising=False)
+    monkeypatch.delitem(sys.modules, "chromadb.config", raising=False)
 
 @pytest.fixture
 def vector_store_config():
@@ -48,7 +72,7 @@ def openai_modulated_service(vector_store_config):
             return service
 
 @pytest.mark.asyncio
-async def test_vector_store_adapter_initialization(vector_store_config):
+async def test_vector_store_adapter_initialization(vector_store_config, stub_chromadb):
     """Test that the VectorStoreAdapter initializes correctly for ChromaDB."""
     adapter = VectorStoreAdapter(vector_store_config)
     # Patch the ChromaDB client to avoid a real connection.
@@ -57,6 +81,11 @@ async def test_vector_store_adapter_initialization(vector_store_config):
         mock_chroma_client.return_value.get_or_create_collection.return_value = mock_collection
 
         await adapter.initialize()
+
+        call_args = mock_chroma_client.call_args
+        settings = call_args.args[0]
+        assert settings.kwargs["chroma_server_host"] == "localhost"
+        assert settings.kwargs["chroma_server_http_port"] == 8000
 
         mock_chroma_client.return_value.get_or_create_collection.assert_called_with(
             name="test-index",

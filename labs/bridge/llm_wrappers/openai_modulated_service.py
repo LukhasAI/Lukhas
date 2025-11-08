@@ -26,6 +26,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, AsyncIterator, Dict, List, Optional, Union
+from urllib.parse import urlparse
 
 logger = logging.getLogger(__name__)
 
@@ -252,14 +253,34 @@ class VectorStoreAdapter:
             import chromadb
             from chromadb.config import Settings
 
-            # Use ephemeral client for in-memory storage, suitable for testing
-            # For persistent storage, configure with a path:
-            # self._client = chromadb.PersistentClient(path="/path/to/db")
-            self._client = chromadb.Client(Settings(
-                chroma_api_impl="rest",
-                chroma_server_host="localhost",
-                chroma_server_http_port="8000"
-            ))
+            endpoint = (self.config.endpoint or "").strip()
+
+            # Default to an in-process client unless a REST endpoint is explicitly provided
+            if endpoint.startswith(("http://", "https://")):
+                parsed = urlparse(endpoint)
+                settings_kwargs = {
+                    "chroma_api_impl": "rest",
+                    "chroma_server_host": parsed.hostname or "localhost",
+                    "chroma_server_http_port": parsed.port or (443 if parsed.scheme == "https" else 80),
+                }
+                if parsed.scheme == "https":
+                    settings_kwargs["chroma_server_ssl_enabled"] = True
+                self._client = chromadb.Client(Settings(**settings_kwargs))
+            elif endpoint:
+                if hasattr(chromadb, "PersistentClient"):
+                    self._client = chromadb.PersistentClient(path=endpoint)
+                else:
+                    self._client = chromadb.Client(
+                        Settings(
+                            chroma_db_impl="duckdb+parquet",
+                            persist_directory=endpoint,
+                        )
+                    )
+            else:
+                if hasattr(chromadb, "EphemeralClient"):
+                    self._client = chromadb.EphemeralClient()
+                else:
+                    self._client = chromadb.Client(Settings())
 
             # Create or get collection - this ensures the collection exists
             self._client.get_or_create_collection(
