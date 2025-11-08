@@ -75,7 +75,7 @@ def find_critical_tests(base_dir: Path) -> List[str]:
     if tests_dir.exists():
         # Find smoke tests
         for file_path in tests_dir.rglob('*.py'):
-            if 'smoke' in str(file_path) and not '__pycache__' in str(file_path):
+            if 'smoke' in str(file_path) and '__pycache__' not in str(file_path):
                 files.append(str(file_path.relative_to(base_dir)))
 
     return files
@@ -173,7 +173,7 @@ def extract_imports_from_file(file_path: Path) -> Set[str]:
     imports = set()
 
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
 
         # Simple regex-based import extraction
@@ -192,7 +192,7 @@ def extract_imports_from_file(file_path: Path) -> Set[str]:
                 if top_module in ['lukhas', 'matriz', 'core', 'candidate']:
                     imports.add(top_module)
 
-    except Exception as e:
+    except Exception:
         pass  # Skip files with encoding issues
 
     return imports

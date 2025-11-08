@@ -32,7 +32,7 @@ CLAIM_PATTERNS = [
 
 def extract_front_matter(file_path: Path) -> Dict[str, Any]:
     """Extract YAML front-matter from markdown file."""
-    with open(file_path, 'r', encoding='utf-8') as f:
+    with open(file_path, encoding='utf-8') as f:
         content = f.read()
 
     if not content.startswith('---'):
@@ -54,7 +54,7 @@ def extract_claims(file_path: Path) -> List[Dict[str, Any]]:
     claims = []
 
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             lines = f.readlines()
     except UnicodeDecodeError:
         print(f"Warning: Could not read {file_path} (encoding issue)")

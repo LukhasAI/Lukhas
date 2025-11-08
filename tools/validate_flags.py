@@ -69,7 +69,7 @@ class FlagValidator:
 
         # Load YAML
         try:
-            with open(self.config_path, "r") as f:
+            with open(self.config_path) as f:
                 self.config = yaml.safe_load(f)
         except yaml.YAMLError as e:
             self.errors.append(f"Invalid YAML: {e}")
@@ -294,7 +294,7 @@ class FlagValidator:
 
         if len(self.errors) == 0 and len(self.warnings) == 0:
             print(f"{GREEN}✓ Validation passed!{RESET}")
-            print(f"  All flags are valid.")
+            print("  All flags are valid.")
         else:
             if len(self.errors) > 0:
                 print(f"{RED}✗ Validation failed with {len(self.errors)} error(s):{RESET}")
@@ -314,7 +314,7 @@ class FlagValidator:
             enabled_flags = sum(
                 1 for flag in self.config["flags"].values() if flag.get("enabled", False)
             )
-            print(f"Summary:")
+            print("Summary:")
             print(f"  Total flags: {total_flags}")
             print(f"  Enabled flags: {enabled_flags}")
             print(f"  Disabled flags: {total_flags - enabled_flags}")

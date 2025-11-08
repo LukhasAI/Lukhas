@@ -4,8 +4,6 @@ Resolve merge conflicts in branding markdown files.
 Merges SEO front-matter from main with evidence_links from PR #1128.
 """
 
-import re
-from pathlib import Path
 
 # Get list of conflicted files
 conflicted_files = [
@@ -28,7 +26,7 @@ conflicted_files = [
 
 def resolve_conflict(filepath):
     """Resolve conflict by merging both front-matter sections."""
-    with open(filepath, 'r') as f:
+    with open(filepath) as f:
         content = f.read()
 
     # Find conflict markers

@@ -380,7 +380,7 @@ class TestGuardianSystem:
     def test_load_schema_failure_logs_error(self, caplog):
         """Verify that a failure to load the schema is logged."""
         with patch("os.path.exists", return_value=True), \
-             patch("builtins.open", side_effect=IOError("File not found")):
+             patch("builtins.open", side_effect=OSError("File not found")):
             with caplog.at_level(logging.ERROR):
                 GuardianSystem(schema_path="/invalid/path")
                 assert "Failed to load Guardian schema" in caplog.text

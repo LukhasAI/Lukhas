@@ -452,7 +452,7 @@ class PrivacyAnalyticsClient:
             self._circuit_breaker.record_success()
             return True
 
-        except Exception as e:
+        except Exception:
             self._circuit_breaker.record_failure()
 
             # Implement exponential backoff

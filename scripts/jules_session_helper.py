@@ -93,7 +93,7 @@ async def approve_plan(session_id: str):
 
         try:
             result = await jules.approve_plan(session_id)
-            print(f"✅ Plan approved successfully!")
+            print("✅ Plan approved successfully!")
             print(f"   URL: https://jules.google.com/session/{session_id}")
         except Exception as e:
             print(f"❌ Error: {e}")
@@ -107,7 +107,7 @@ async def send_message(session_id: str, message: str):
 
         try:
             result = await jules.send_message(session_id, message)
-            print(f"✅ Message sent successfully!")
+            print("✅ Message sent successfully!")
             print(f"   URL: https://jules.google.com/session/{session_id}")
         except Exception as e:
             print(f"❌ Error: {e}")

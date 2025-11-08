@@ -10,7 +10,7 @@ from typing import Dict, List, Tuple
 
 def parse_duplicate_report(report_path: str) -> List[Dict]:
     """Parse the SHA256 duplicate report."""
-    with open(report_path, 'r') as f:
+    with open(report_path) as f:
         content = f.read()
 
     duplicate_groups = []

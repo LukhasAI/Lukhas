@@ -35,7 +35,7 @@ CLAIM_TO_EVIDENCE = {
 def load_claims_registry():
     """Load the claims registry."""
     registry_path = Path("branding/governance/claims_registry.json")
-    with open(registry_path, 'r') as f:
+    with open(registry_path) as f:
         return json.load(f)
 
 
@@ -51,13 +51,13 @@ def add_evidence_links_to_file(filepath, evidence_links):
 
     # Check if file has front-matter
     if not content.startswith('---'):
-        print(f"  ⚠️  No front-matter found, skipping")
+        print("  ⚠️  No front-matter found, skipping")
         return False
 
     # Split front-matter and body
     parts = content.split('---', 2)
     if len(parts) < 3:
-        print(f"  ⚠️  Invalid front-matter format, skipping")
+        print("  ⚠️  Invalid front-matter format, skipping")
         return False
 
     front_matter = parts[1]
@@ -169,10 +169,10 @@ def main():
             print(f"    - {eid}")
 
         if add_evidence_links_to_file(filepath, evidence_ids):
-            print(f"  ✅ Updated")
+            print("  ✅ Updated")
             updated_count += 1
         else:
-            print(f"  ❌ Failed")
+            print("  ❌ Failed")
             skipped_count += 1
         print()
 

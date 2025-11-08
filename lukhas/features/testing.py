@@ -5,9 +5,10 @@ Provides context managers and fixtures for overriding feature flags in tests.
 """
 
 import tempfile
+from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, Dict, Iterator, Optional
+from typing import Any, Dict, Optional
 
 import pytest
 import yaml

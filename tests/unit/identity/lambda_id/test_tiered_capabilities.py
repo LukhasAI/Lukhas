@@ -326,7 +326,7 @@ def test_no_permissions_defined_for_scope(tier_system, mock_user_tier):
 def test_log_elevation_exception(tier_system, mock_user_tier):
     mock_user_tier(TierLevel.AUTHENTICATED)
     with patch('builtins.open', mock_open()) as mock_file:
-        mock_file.side_effect = IOError("Failed to write")
+        mock_file.side_effect = OSError("Failed to write")
         result = tier_system.elevate_session("s1", TierLevel.ELEVATED, "j")
         assert result["success"]
 

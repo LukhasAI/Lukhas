@@ -9,7 +9,7 @@ from typing import Any, Dict, List
 
 def load_duplicate_report(report_path: str) -> Dict[str, Any]:
     """Load the duplicate report JSON."""
-    with open(report_path, 'r') as f:
+    with open(report_path) as f:
         return json.load(f)
 
 def categorize_duplicates(duplicates: List[Dict]) -> Dict[str, List[Dict]]:

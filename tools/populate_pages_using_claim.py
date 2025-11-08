@@ -38,7 +38,7 @@ def main():
 
     # Load claims registry
     registry_path = Path("branding/governance/claims_registry.json")
-    with open(registry_path, 'r') as f:
+    with open(registry_path) as f:
         registry = json.load(f)
 
     # Build evidence -> pages mapping

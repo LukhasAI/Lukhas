@@ -176,13 +176,13 @@ Safety:
             )
 
             session_id = session['name'].split('/')[-1]
-            print(f"\n✅ Created Session")
+            print("\n✅ Created Session")
             print(f"   Session ID: {session_id}")
             print(f"   URL: https://jules.google.com/session/{session_id}")
-            print(f"\nJules will either:")
-            print(f"  1. Run the existing script (fastest)")
-            print(f"  2. Enhance the codemod (if improvements needed)")
-            print(f"  3. Create PR when complete")
+            print("\nJules will either:")
+            print("  1. Run the existing script (fastest)")
+            print("  2. Enhance the codemod (if improvements needed)")
+            print("  3. Create PR when complete")
 
             return session_id
 

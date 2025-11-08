@@ -339,7 +339,7 @@ class ConsentFlowTester:
         return self.test(
             "Opt-out works correctly",
             initially_granted and now_denied,
-            f"Expected consent change from granted to denied",
+            "Expected consent change from granted to denied",
         )
 
     def test_functional_cannot_be_disabled(self) -> bool:

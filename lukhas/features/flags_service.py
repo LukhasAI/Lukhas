@@ -269,7 +269,7 @@ class FeatureFlagsService:
                 self.flags = {}
                 return
 
-            with open(self.config_path, "r") as f:
+            with open(self.config_path) as f:
                 config = yaml.safe_load(f)
 
             # Parse flags

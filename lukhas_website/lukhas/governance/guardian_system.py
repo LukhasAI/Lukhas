@@ -717,7 +717,7 @@ def check_kill_switch_status(custom_path: Optional[str] = None) -> dict[str, Any
 
     if os.path.exists(kill_switch_path):
         try:
-            with open(kill_switch_path, 'r') as f:
+            with open(kill_switch_path) as f:
                 content = f.read()
             return {
                 "active": True,

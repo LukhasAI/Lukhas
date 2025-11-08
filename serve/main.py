@@ -7,11 +7,8 @@ import uuid
 from collections.abc import Awaitable
 from typing import Any, Callable, Optional
 
-from fastapi import FastAPI, Header, HTTPException, Request, Response
+from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from labs.core.security.auth import get_auth_system
-from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.routing import Match
 
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False
