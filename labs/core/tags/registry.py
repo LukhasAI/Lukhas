@@ -637,16 +637,49 @@ class TagRegistry:
             json.dump(export_data, f, indent=2)
 
 
-# Global registry instance
-_tag_registry: Optional[TagRegistry] = None
+_tag_registry_instance: Optional["TagRegistry"] = None
 
+def __getattr__(name: str) -> Any:
+    """
+    Lazy load the TagRegistry and other module-level attributes.
+    This defers the cost of initializing the registry until it's first used.
+    """
+    global _tag_registry_instance
 
-def get_tag_registry() -> TagRegistry:
-    """Get the global tag registry instance"""
-    global _tag_registry
-    if _tag_registry is None:
-        _tag_registry = TagRegistry()
-    return _tag_registry
+    if name == "get_tag_registry":
+        def get_tag_registry() -> "TagRegistry":
+            """Get the global tag registry instance, creating it if it doesn't exist."""
+            global _tag_registry_instance
+            if _tag_registry_instance is None:
+                _tag_registry_instance = TagRegistry()
+            return _tag_registry_instance
+        globals()[name] = get_tag_registry
+        return get_tag_registry
+
+    if name == "TagRegistry":
+        # The class itself is requested, just return it.
+        # Note: This doesn't trigger registry instantiation.
+        return TagRegistry
+
+    if name in ("explain_tag", "get_decision_tags", "get_hormone_tags"):
+        # The convenience functions depend on the registry.
+        # When one is called, it will in turn call get_tag_registry().
+        registry_dependent_functions = {
+            "explain_tag": explain_tag,
+            "get_decision_tags": get_decision_tags,
+            "get_hormone_tags": get_hormone_tags
+        }
+        return registry_dependent_functions[name]
+
+    # For Enum and Dataclass, which are typically needed for type hinting
+    # and don't carry a high import cost.
+    if name == "TagCategory":
+        return TagCategory
+
+    if name == "TagDefinition":
+        return TagDefinition
+
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
 # Convenience functions
