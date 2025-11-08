@@ -1,0 +1,246 @@
+name: 🛡️ Architectural Guardian (T4 Lint Platform)
+
+# LUKHAS Architectural Guardian - T4 Lint Platform Integration
+#
+# This workflow enforces LUKHAS Trinity Framework architectural principles using
+# the T4 Lint Platform with structured inline annotations.
+#
+# Rules:
+# - LUKHAS001: Trinity import boundary violations (candidate/ → lukhas/)
+# - LUKHAS003: TODO comments requiring task tracking
+#
+# T4 Integration:
+# - Creates TODO[T4-LINT-ISSUE] inline annotations
+# - Logs violations to Intent Registry (reports/todos/lint_issues.jsonl)
+# - Enqueues CRITICAL violations to Redis for Jules automated fixes
+# - Fails PR if LUKHAS001 violations detected (CRITICAL)
+#
+# Workflow:
+# 1. Run LUKHAS T4 linter (lukhas_t4_linter.py)
+# 2. Annotate violations with T4-LINT-ISSUE tags
+# 3. Report violations as PR comments
+# 4. Enqueue CRITICAL violations for automated remediation
+# 5. Fail CI if CRITICAL violations present
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '**.py'
+      - 'candidate/**'
+      - 'lukhas/**'
+      - 'core/**'
+      - 'bridge/**'
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - '**.py'
+      - 'candidate/**'
+      - 'lukhas/**'
+      - 'core/**'
+      - 'bridge/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write  # For committing T4 annotations
+  pull-requests: write  # For PR comments
+  checks: write  # For status checks
+
+jobs:
+  lukhas-t4-lint:
+    name: 🛡️ LUKHAS T4 Architectural Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 📦 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || pip install pydantic aiohttp redis
+
+      - name: 🔍 Run LUKHAS T4 Linter
+        id: lukhas_lint
+        continue-on-error: true
+        run: |
+          # Create reports directory
+          mkdir -p reports/todos
+
+          # Run LUKHAS T4 linter in dry-run mode for CI
+          python3 tools/ci/lukhas_t4_linter.py \
+            --paths candidate lukhas core bridge \
+            --dry-run \
+            --strict > lint_output.txt 2>&1 || echo "violations=true" >> $GITHUB_OUTPUT
+
+          # Show output
+          cat lint_output.txt
+
+      - name: 📊 Parse violations
+        if: steps.lukhas_lint.outputs.violations == 'true'
+        run: |
+          # Extract violation counts
+          LUKHAS001_COUNT=$(grep -c "LUKHAS001" lint_output.txt || echo "0")
+          LUKHAS003_COUNT=$(grep -c "LUKHAS003" lint_output.txt || echo "0")
+
+          echo "lukhas001=$LUKHAS001_COUNT" >> $GITHUB_ENV
+          echo "lukhas003=$LUKHAS003_COUNT" >> $GITHUB_ENV
+
+          # Extract violation details
+          grep "LUKHAS001" lint_output.txt > lukhas001_violations.txt || touch lukhas001_violations.txt
+          grep "LUKHAS003" lint_output.txt > lukhas003_violations.txt || touch lukhas003_violations.txt
+
+      - name: 💬 Comment PR with violations
+        if: github.event_name == 'pull_request' && steps.lukhas_lint.outputs.violations == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            let body = '## 🛡️ LUKHAS Architectural Guardian Report (T4 Lint)\n\n';
+
+            const lukhas001 = process.env.lukhas001 || '0';
+            const lukhas003 = process.env.lukhas003 || '0';
+
+            if (lukhas001 !== '0') {
+              body += '### ❌ CRITICAL: Trinity Framework Violations (LUKHAS001)\n\n';
+              body += `**${lukhas001} violation(s) detected**\n\n`;
+              body += '**Trinity Framework Rule**:\n';
+              body += '- `candidate/` (Development) → CAN import: `core/`, `matriz/`, `universal_language/`\n';
+              body += '- `candidate/` (Development) → CANNOT import: `lukhas/` (production)\n\n';
+              body += '**Violations**:\n```\n';
+              try {
+                body += fs.readFileSync('lukhas001_violations.txt', 'utf8');
+              } catch {}
+              body += '\n```\n\n';
+              body += '**Remediation**: Use registry pattern for dynamic loading or move code to `core/`\n\n';
+            }
+
+            if (lukhas003 !== '0') {
+              body += '### ⚠️  TODO Comments Requiring Tracking (LUKHAS003)\n\n';
+              body += `**${lukhas003} TODO comment(s) flagged**\n\n`;
+              body += 'TODO/FIXME/HACK comments in production code should be tracked:\n';
+              body += '1. Convert to `TODO[T4-LINT-ISSUE]` annotation with owner/ticket\n';
+              body += '2. Create GitHub issue for tracking\n\n';
+            }
+
+            body += '### 📋 T4 Lint Platform Integration\n\n';
+            body += 'Violations are tracked using T4 inline annotations:\n';
+            body += '```python\n';
+            body += '# TODO[T4-LINT-ISSUE]: {"id":"t4-lukhas-abc123","code":"LUKHAS001",...}\n';
+            body += 'from lukhas.core import something  # Violating import\n';
+            body += '```\n\n';
+
+            if (lukhas001 !== '0') {
+              body += '### 🤖 Automated Remediation\n\n';
+              body += 'CRITICAL violations (LUKHAS001) have been enqueued to Redis for Jules automated fixes.\n';
+              body += 'A Jules session will be created to refactor imports and resolve boundary violations.\n';
+            }
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+      - name: 📤 Enqueue CRITICAL violations to Redis
+        if: steps.lukhas_lint.outputs.violations == 'true' && env.lukhas001 != '0'
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL || 'http://localhost:8080/webhook/ai-status' }}
+        run: |
+          python3 << 'EOF'
+          import json
+          import os
+          import sys
+          from urllib import request
+
+          webhook_url = os.getenv('WEBHOOK_URL')
+          pr_number = None
+
+          # Extract PR number from GitHub ref
+          github_ref = os.getenv('GITHUB_REF', '')
+          if 'pull' in github_ref:
+              try:
+                  pr_number = int(github_ref.split('/')[-2])
+              except:
+                  pass
+
+          lukhas001_count = int(os.getenv('lukhas001', '0'))
+
+          if lukhas001_count > 0:
+              payload = {
+                  "agent": "jules",
+                  "status": "error",
+                  "message": f"LUKHAS001: {lukhas001_count} Trinity Framework import boundary violations detected",
+                  "error": "candidate/ lane importing from lukhas/ production lane",
+                  "pr_number": pr_number,
+                  "context": {
+                      "ci": "github_actions",
+                      "workflow": "architectural-guardian-t4",
+                      "violation_count": lukhas001_count
+                  }
+              }
+
+              try:
+                  req = request.Request(
+                      webhook_url,
+                      data=json.dumps(payload).encode(),
+                      headers={'Content-Type': 'application/json'}
+                  )
+                  response = request.urlopen(req, timeout=10)
+                  print(f"✅ Enqueued {lukhas001_count} CRITICAL violation(s) to Redis")
+                  print(f"   Response status: {response.status}")
+              except Exception as e:
+                  print(f"⚠️ Could not enqueue to webhook: {e}", file=sys.stderr)
+                  print("   (Expected if webhook receiver not deployed yet)")
+          EOF
+
+      - name: ❌ Fail on CRITICAL violations
+        if: steps.lukhas_lint.outputs.violations == 'true' && env.lukhas001 != '0'
+        run: |
+          echo "::error::CRITICAL architectural violations detected!"
+          echo "::error::LUKHAS001: Trinity Framework import boundaries violated"
+          echo ""
+          echo "Trinity Framework violation count: ${{ env.lukhas001 }}"
+          echo ""
+          echo "See PR comment for detailed report and automated remediation plan."
+          exit 1
+
+      - name: ✅ Success
+        if: steps.lukhas_lint.outputs.violations != 'true'
+        run: |
+          echo "✅ All LUKHAS architectural principles maintained!"
+          echo "🛡️ Architectural Guardian (T4): PASSED"
+          echo ""
+          echo "No Trinity Framework violations detected."
+          echo "No untracked TODO comments in production code."
+
+  guardian-summary:
+    name: 🛡️ Guardian Summary
+    runs-on: ubuntu-latest
+    needs: lukhas-t4-lint
+    if: always()
+
+    steps:
+      - name: Check Guardian status
+        run: |
+          if [ "${{ needs.lukhas-t4-lint.result }}" == "success" ]; then
+            echo "✅ LUKHAS Architectural Guardian (T4): PASSED"
+            exit 0
+          else
+            echo "❌ LUKHAS Architectural Guardian (T4): FAILED"
+            echo "   See lukhas-t4-lint job for detailed violation report"
+            exit 1
+          fi

@@ -36,7 +36,7 @@ import time
 import unittest
 from contextlib import contextmanager
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from unittest import mock
 
 # Add project root to path for imports
@@ -117,7 +117,7 @@ class PerformanceBenchmark:
             elapsed_ms = (end_time - start_time) * 1000
             self.measurements.append(elapsed_ms)
 
-    def get_stats(self) -> Dict[str, float]:
+    def get_stats(self) -> dict[str, float]:
         """Get benchmark statistics."""
         if not self.measurements:
             return {"no_data": True}
@@ -789,7 +789,7 @@ class SecurityTestRunner:
         self.suite = SecurityTestSuite()
         self.results = {}
 
-    def run_all_tests(self) -> Dict[str, Any]:
+    def run_all_tests(self) -> dict[str, Any]:
         """Run all security tests."""
         print("🛡️ LUKHAS Security Test Suite")
         print("=" * 50)
@@ -879,7 +879,7 @@ class SecurityTestRunner:
         finally:
             self.suite.teardown_test_environment()
 
-    def generate_report(self, results: Dict[str, Any], output_file: Optional[str] = None) -> str:
+    def generate_report(self, results: dict[str, Any], output_file: Optional[str] = None) -> str:
         """Generate test report."""
         if not output_file:
             output_file = f"security_test_report_{int(time.time())}.html"
@@ -893,7 +893,7 @@ class SecurityTestRunner:
         print(f"\n📄 Test report generated: {output_file}")
         return output_file
 
-    def _generate_html_report(self, results: Dict[str, Any]) -> str:
+    def _generate_html_report(self, results: dict[str, Any]) -> str:
         """Generate HTML test report."""
         summary = results.get("summary", {})
         test_results = results.get("test_results", {})

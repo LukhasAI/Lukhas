@@ -22,7 +22,7 @@ import logging
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .enhanced_awareness_engine import EnhancedAwarenessEngine, EnhancedAwarenessSnapshot
 from .enhanced_thought_node import EnhancedThoughtNode
@@ -49,14 +49,14 @@ class ProcessingStage(Enum):
 class MATRIZProcessingContext:
     """Complete context for MATRIZ thought loop processing"""
     query: str
-    memory_signals: List[Dict[str, Any]]
+    memory_signals: list[dict[str, Any]]
     consciousness_state: Optional[ConsciousnessState]
-    processing_config: Dict[str, Any]
+    processing_config: dict[str, Any]
     session_id: str
     tenant: str = "default"
     time_budget_ms: float = 240.0  # Total budget for complete processing
     enable_all_features: bool = True
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -76,24 +76,24 @@ class MATRIZThoughtLoopResult:
     cognitive_load: float
 
     # Meta-cognitive assessment
-    meta_assessment: Optional[Dict[str, Any]]
+    meta_assessment: Optional[dict[str, Any]]
     self_awareness_score: float
-    cognitive_adjustments: List[str]
+    cognitive_adjustments: list[str]
 
     # Performance metrics
     processing_time_ms: float
-    stage_timings: Dict[ProcessingStage, float]
+    stage_timings: dict[ProcessingStage, float]
     t4_compliant: bool
     success: bool
 
     # Supporting data
-    supporting_memory_ids: List[str]
+    supporting_memory_ids: list[str]
     awareness_snapshot: Optional[EnhancedAwarenessSnapshot]
-    recommendations: List[str]
+    recommendations: list[str]
 
     # Error tracking
-    errors_encountered: List[str]
-    warnings: List[str]
+    errors_encountered: list[str]
+    warnings: list[str]
     error_message: Optional[str] = None
 
 
@@ -261,7 +261,7 @@ class MATRIZThoughtLoop:
             self._update_loop_stats(error_result, success=False)
             return error_result
 
-    async def _stage_initialization(self, context: MATRIZProcessingContext) -> Dict[str, Any]:
+    async def _stage_initialization(self, context: MATRIZProcessingContext) -> dict[str, Any]:
         """Initialize processing session and validate inputs."""
         session_id = context.session_id or f"matriz_session_{int(time.time())}_{self.session_counter}"
         self.session_counter += 1
@@ -287,7 +287,7 @@ class MATRIZThoughtLoop:
             'memory_signal_count': len(context.memory_signals)
         }
 
-    async def _stage_enhanced_thought_synthesis(self, context: MATRIZProcessingContext) -> Dict[str, Any]:
+    async def _stage_enhanced_thought_synthesis(self, context: MATRIZProcessingContext) -> dict[str, Any]:
         """Perform enhanced thought synthesis with all advanced features."""
 
         # Prepare input for enhanced thought node
@@ -316,8 +316,8 @@ class MATRIZThoughtLoop:
     async def _stage_memory_validation(
         self,
         context: MATRIZProcessingContext,
-        thought_result: Dict[str, Any]
-    ) -> Optional[Dict[str, Any]]:
+        thought_result: dict[str, Any]
+    ) -> Optional[dict[str, Any]]:
         """Validate memory-reasoning consistency."""
 
         if not context.memory_signals:
@@ -368,9 +368,9 @@ class MATRIZThoughtLoop:
     async def _stage_awareness_update(
         self,
         context: MATRIZProcessingContext,
-        thought_result: Dict[str, Any],
-        memory_validation_result: Optional[Dict[str, Any]]
-    ) -> Optional[Dict[str, Any]]:
+        thought_result: dict[str, Any],
+        memory_validation_result: Optional[dict[str, Any]]
+    ) -> Optional[dict[str, Any]]:
         """Update awareness with comprehensive cognitive assessment."""
 
         if not context.consciousness_state:
@@ -442,10 +442,10 @@ class MATRIZThoughtLoop:
     async def _stage_finalization(
         self,
         context: MATRIZProcessingContext,
-        thought_result: Dict[str, Any],
-        memory_validation_result: Optional[Dict[str, Any]],
-        awareness_result: Optional[Dict[str, Any]],
-        stage_timings: Dict[ProcessingStage, float],
+        thought_result: dict[str, Any],
+        memory_validation_result: Optional[dict[str, Any]],
+        awareness_result: Optional[dict[str, Any]],
+        stage_timings: dict[ProcessingStage, float],
         start_time: float
     ) -> MATRIZThoughtLoopResult:
         """Finalize processing and create comprehensive result."""
@@ -581,7 +581,7 @@ class MATRIZThoughtLoop:
             if len(self.loop_stats['stage_performance'][stage]) > 100:
                 self.loop_stats['stage_performance'][stage].pop(0)
 
-    def get_comprehensive_stats(self) -> Dict[str, Any]:
+    def get_comprehensive_stats(self) -> dict[str, Any]:
         """Get comprehensive performance statistics."""
         base_stats = dict(self.loop_stats)
 

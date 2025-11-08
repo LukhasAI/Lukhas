@@ -4,7 +4,7 @@
 import logging
 import os
 import time
-from typing import Any, Dict
+from typing import Any
 
 import uvicorn
 from jose import JWTError, jwt
@@ -72,7 +72,7 @@ async def health_check(request):
         "server": "LUKHAS OAuth MCP Server"
     })
 
-def list_directory_tool(path: str) -> Dict[str, Any]:
+def list_directory_tool(path: str) -> dict[str, Any]:
     """List files and directories in the given path."""
     try:
         # Security: Only allow paths under allowed roots
@@ -96,7 +96,7 @@ def list_directory_tool(path: str) -> Dict[str, Any]:
     except Exception as e:
         return {"error": str(e)}
 
-def read_file_tool(path: str, max_lines: int = 100) -> Dict[str, Any]:
+def read_file_tool(path: str, max_lines: int = 100) -> dict[str, Any]:
     """Read the contents of a text file."""
     try:
         # Security: Only allow paths under allowed roots

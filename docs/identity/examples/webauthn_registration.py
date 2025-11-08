@@ -26,14 +26,14 @@ W3C WebAuthn Level 2 Specification: https://www.w3.org/TR/webauthn-2/
 """
 import base64
 import secrets
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Dict, List, Optional, Tuple
-from dataclasses import dataclass
 
 # External dependencies
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 # WebAuthn library
 from webauthn import verify_registration_response
@@ -41,15 +41,16 @@ from webauthn.helpers import base64url_to_bytes
 
 # LUKHAS imports
 try:
-    from lukhas.identity.webauthn_credential import WebAuthnCredentialStore
     from lukhas_website.lukhas.identity.webauthn_types import (
+        AuthenticatorSelectionCriteria,
         CredentialCreationOptions,
         PublicKeyCredentialCreation,
+        PublicKeyCredentialParameters,
         PublicKeyCredentialRpEntity,
         PublicKeyCredentialUserEntity,
-        PublicKeyCredentialParameters,
-        AuthenticatorSelectionCriteria,
     )
+
+    from lukhas.identity.webauthn_credential import WebAuthnCredentialStore
 except ImportError:
     print("Note: LUKHAS modules not available. Using simplified types.")
     # Fallback type definitions for testing without LUKHAS installed

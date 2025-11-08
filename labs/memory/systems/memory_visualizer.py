@@ -15,10 +15,10 @@ Enhanced REM and memory visualization system combining prot1's visualization
 capabilities with prot2's quantum features.
 """
 
-import streamlit as st
 from dataclasses import dataclass
 from typing import Any, Optional
 
+import streamlit as st
 from core.common import get_logger
 
 try:

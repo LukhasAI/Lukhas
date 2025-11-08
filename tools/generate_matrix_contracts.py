@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 # Repository structure
 ROOT = Path(__file__).resolve().parents[1]
@@ -74,7 +74,7 @@ SCOPE_PATTERNS = {
     "default": ["read", "write", "execute", "admin"]
 }
 
-def get_module_tiers(module_name: str) -> Tuple[List[str], List[int]]:
+def get_module_tiers(module_name: str) -> tuple[list[str], list[int]]:
     """Determine appropriate tiers for a module based on its type."""
     # Check for specific module patterns
     for pattern, tiers in MODULE_TIERS.items():
@@ -87,7 +87,7 @@ def get_module_tiers(module_name: str) -> Tuple[List[str], List[int]]:
     numeric = [TIER_MAPPINGS[t] for t in default_tiers]
     return default_tiers, numeric
 
-def get_module_scopes(module_name: str) -> List[str]:
+def get_module_scopes(module_name: str) -> list[str]:
     """Generate appropriate scopes for a module."""
     base_name = module_name.split(".")[-1] if "." in module_name else module_name
 
@@ -99,7 +99,7 @@ def get_module_scopes(module_name: str) -> List[str]:
     # Default scopes
     return [f"{base_name}.{scope}" for scope in SCOPE_PATTERNS["default"]]
 
-def should_require_webauthn(module_name: str, tiers: List[str]) -> bool:
+def should_require_webauthn(module_name: str, tiers: list[str]) -> bool:
     """Determine if module should require WebAuthn."""
     # Critical modules always require WebAuthn
     critical_patterns = ["identity", "auth", "security", "governance", "wallet", "passkey"]
@@ -109,7 +109,7 @@ def should_require_webauthn(module_name: str, tiers: List[str]) -> bool:
     # High-tier modules require WebAuthn
     return bool("inner_circle" in tiers or "root_dev" in tiers)
 
-def generate_contract(module_path: Path, module_name: str) -> Dict[str, Any]:
+def generate_contract(module_path: Path, module_name: str) -> dict[str, Any]:
     """Generate a complete Matrix contract for a module."""
     # Extract simple module name
     simple_name = module_name.split(".")[-1] if "." in module_name else module_name
@@ -293,7 +293,7 @@ def generate_contract(module_path: Path, module_name: str) -> Dict[str, Any]:
 
     return contract
 
-def discover_modules() -> List[Tuple[Path, str]]:
+def discover_modules() -> list[tuple[Path, str]]:
     """Discover all LUKHAS modules that need contracts."""
     modules = []
 
@@ -313,7 +313,7 @@ def discover_modules() -> List[Tuple[Path, str]]:
 
     return sorted(modules, key=lambda x: x[1])
 
-def validate_contract_against_schema(contract: Dict[str, Any]) -> bool:
+def validate_contract_against_schema(contract: dict[str, Any]) -> bool:
     """Basic validation of contract structure."""
     required_fields = ["schema_version", "module", "owner", "gates"]
     for field in required_fields:

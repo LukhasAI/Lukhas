@@ -12,7 +12,7 @@ Usage:
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 
 @dataclass
@@ -60,7 +60,7 @@ class TerminologyAuditor:
         self.scanned_files = 0
         self.total_lines = 0
 
-    def scan_file(self, file_path: Path) -> List[TerminologyIssue]:
+    def scan_file(self, file_path: Path) -> list[TerminologyIssue]:
         """Scan a single file for terminology issues"""
         issues = []
 
@@ -111,7 +111,7 @@ class TerminologyAuditor:
 
         return issues
 
-    def scan_directory(self, directory: Path, extensions: Optional[Set[str]] = None) -> None:
+    def scan_directory(self, directory: Path, extensions: Optional[set[str]] = None) -> None:
         """Scan directory recursively for terminology issues"""
         if extensions is None:
             extensions = {'.py', '.md', '.yml', '.yaml', '.json', '.sh', '.js', '.ts'}
@@ -127,7 +127,7 @@ class TerminologyAuditor:
                 file_issues = self.scan_file(file_path)
                 self.issues.extend(file_issues)
 
-    def check_context_counts(self) -> Dict[str, Any]:
+    def check_context_counts(self) -> dict[str, Any]:
         """Check for auto-generated context counts"""
         context_patterns = [
             r"context.*count.*\d+",
@@ -154,7 +154,7 @@ class TerminologyAuditor:
             "auto_generated": len(context_files) > 5  # Heuristic
         }
 
-    def generate_report(self) -> Dict[str, Any]:
+    def generate_report(self) -> dict[str, Any]:
         """Generate comprehensive terminology audit report"""
 
         # Categorize issues by severity

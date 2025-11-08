@@ -81,7 +81,7 @@ async def check_sessions():
                     if a.get("type") == "PLAN"
                 ]
                 if plan_activities:
-                    print(f"   ⚠️  This session has a plan awaiting approval!")
+                    print("   ⚠️  This session has a plan awaiting approval!")
                     print(f"      Use: await jules.approve_plan('{session_id}')")
                     print()
 

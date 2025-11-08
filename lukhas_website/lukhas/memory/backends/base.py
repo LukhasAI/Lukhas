@@ -10,9 +10,10 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
+
 from governance.schema_registry import get_lane_enum
 
 
@@ -35,13 +36,13 @@ class VectorDocument:
     id: str
     content: str
     embedding: np.ndarray
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     # LUKHAS-specific fields
     identity_id: Optional[str] = None
     lane: str = field(default_factory=lambda: get_lane_enum()[0])  # Use canonical lane enum
     fold_id: Optional[str] = None
-    tags: List[str] = field(default_factory=list)
+    tags: list[str] = field(default_factory=list)
 
     # Lifecycle fields
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -83,7 +84,7 @@ class VectorDocument:
         self.last_accessed = datetime.now(timezone.utc)
         self.updated_at = datetime.now(timezone.utc)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for storage"""
         return {
             "id": self.id,
@@ -102,7 +103,7 @@ class VectorDocument:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'VectorDocument':
+    def from_dict(cls, data: dict[str, Any]) -> 'VectorDocument':
         """Create from dictionary"""
         doc = cls(
             id=data["id"],
@@ -168,8 +169,8 @@ class StorageStats:
     compression_ratio: float   # Storage compression ratio
 
     # LUKHAS-specific metrics
-    documents_by_lane: Dict[str, int]
-    documents_by_fold: Dict[str, int]
+    documents_by_lane: dict[str, int]
+    documents_by_fold: dict[str, int]
     avg_dimension: float
 
 
@@ -232,7 +233,7 @@ class AbstractVectorStore(ABC):
         pass
 
     @abstractmethod
-    async def bulk_add(self, documents: List[VectorDocument]) -> List[bool]:
+    async def bulk_add(self, documents: list[VectorDocument]) -> list[bool]:
         """
         Add multiple documents in batch.
 
@@ -299,9 +300,9 @@ class AbstractVectorStore(ABC):
         self,
         query_vector: np.ndarray,
         k: int = 10,
-        filters: Optional[Dict[str, Any]] = None,
+        filters: Optional[dict[str, Any]] = None,
         include_metadata: bool = True
-    ) -> List[SearchResult]:
+    ) -> list[SearchResult]:
         """
         Vector similarity search.
 
@@ -323,8 +324,8 @@ class AbstractVectorStore(ABC):
         self,
         query_text: str,
         k: int = 10,
-        filters: Optional[Dict[str, Any]] = None
-    ) -> List[SearchResult]:
+        filters: Optional[dict[str, Any]] = None
+    ) -> list[SearchResult]:
         """
         Text-based similarity search (requires embedding model).
 
@@ -344,7 +345,7 @@ class AbstractVectorStore(ABC):
         self,
         as_of: datetime,
         batch_size: int = 1000
-    ) -> List[VectorDocument]:
+    ) -> list[VectorDocument]:
         """
         List expired documents for lifecycle processing.
 
@@ -362,7 +363,7 @@ class AbstractVectorStore(ABC):
         self,
         identity_id: str,
         limit: int = 1000
-    ) -> List[VectorDocument]:
+    ) -> list[VectorDocument]:
         """
         List all documents for a specific identity (for GDPR compliance).
 
@@ -406,7 +407,7 @@ class AbstractVectorStore(ABC):
         pass
 
     @abstractmethod
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """
         Health check for monitoring systems.
 
@@ -416,7 +417,7 @@ class AbstractVectorStore(ABC):
         pass
 
     # LUKHAS-specific operations
-    async def list_by_fold(self, fold_id: str, limit: int = 100) -> List[VectorDocument]:
+    async def list_by_fold(self, fold_id: str, limit: int = 100) -> list[VectorDocument]:
         """
         List documents by fold ID.
 
@@ -433,7 +434,7 @@ class AbstractVectorStore(ABC):
         results = await self.search(dummy_vector, k=limit, filters=filters)
         return [result.document for result in results]
 
-    async def list_by_identity(self, identity_id: str, limit: int = 100) -> List[VectorDocument]:
+    async def list_by_identity(self, identity_id: str, limit: int = 100) -> list[VectorDocument]:
         """
         List documents by identity ID.
 
@@ -449,7 +450,7 @@ class AbstractVectorStore(ABC):
         results = await self.search(dummy_vector, k=limit, filters=filters)
         return [result.document for result in results]
 
-    async def list_by_lane(self, lane: str, limit: int = 100) -> List[VectorDocument]:
+    async def list_by_lane(self, lane: str, limit: int = 100) -> list[VectorDocument]:
         """
         List documents by lane.
 

@@ -6,7 +6,6 @@ Integration Date: 2025-05-31T07:55:30.613572
 """
 from __future__ import annotations
 
-
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮
 │                   LUCΛS :: Dream Export Streamlit Dashboard                 │
@@ -15,9 +14,10 @@ from __future__ import annotations
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
 
-import streamlit as st
 import json
 import os
+
+import streamlit as st
 
 DREAM_LOG_PATH = "core/logs/dream_log.jsonl"
 EXPORT_PATH = "exports/filtered_dreams.jsonl"

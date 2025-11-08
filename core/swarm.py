@@ -12,7 +12,7 @@ import time
 from contextlib import contextmanager
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 try:
     from core.fault_tolerance import SupervisionStrategy
@@ -341,7 +341,7 @@ class SwarmHub:
 class TraceEvent:
     name: str
     duration_ms: float
-    attributes: Dict[str, Any]
+    attributes: dict[str, Any]
 
 
 class TraceCollector:
@@ -404,7 +404,7 @@ class Supervisor:
 
     def __init__(self, strategy: SupervisionStrategy = SupervisionStrategy.RESTART):
         self.strategy = strategy
-        self.children: Dict[str, Actor] = {}
+        self.children: dict[str, Actor] = {}
 
     def add_child(self, child_id: str, actor: Actor) -> None:
         self.children[child_id] = actor

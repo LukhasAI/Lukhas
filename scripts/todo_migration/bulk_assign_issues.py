@@ -22,7 +22,7 @@ import sys
 import tempfile
 import time
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
 def load_json(p: str) -> Any:
@@ -51,7 +51,7 @@ def ensure_artifacts_dir() -> Path:
     return outdir
 
 
-def run_cmd(cmd: List[str]) -> subprocess.CompletedProcess:
+def run_cmd(cmd: list[str]) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, check=True, capture_output=True, text=True)
 
 
@@ -64,8 +64,8 @@ def main() -> int:
     ap.add_argument("--sleep", type=float, default=0.2, help="Sleep seconds between issues")
     args = ap.parse_args()
 
-    mapping: Dict[str, Dict[str, Any]] = load_json(args.map)
-    assignees_map: Dict[str, List[str]] = {}
+    mapping: dict[str, dict[str, Any]] = load_json(args.map)
+    assignees_map: dict[str, list[str]] = {}
     if args.assignees_json:
         assignees_map = load_json(args.assignees_json)
 
@@ -84,7 +84,7 @@ def main() -> int:
         path_line = k
         area = area_for_path(path_line.split(":")[0])
         title = entry.get("title", "")
-        assigned: List[str] = []
+        assigned: list[str] = []
         comment_posted = False
         err: str = ""
 

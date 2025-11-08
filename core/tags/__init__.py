@@ -18,7 +18,7 @@ def __getattr__(name: str) -> Any:
     return getattr(_mod, name)
 
 
-def __dir__() -> List[str]:
+def __dir__() -> list[str]:
     """Provide directory listing that includes lazily-loaded tag system exports."""
     try:
         _mod = importlib.import_module("labs.core.tags")

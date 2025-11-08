@@ -16,7 +16,7 @@ Usage:
 import asyncio
 import time
 from dataclasses import dataclass
-from typing import Any, Dict
+from typing import Any
 
 # Import OTEL instrumentation
 try:
@@ -46,7 +46,7 @@ class FiveStageProcessor:
         self.stage_results = []
 
     @instrument_matriz_stage("intent_processing", "intent", slo_target_ms=50.0)
-    async def stage_1_intent_processing(self, user_input: str) -> Dict[str, Any]:
+    async def stage_1_intent_processing(self, user_input: str) -> dict[str, Any]:
         """Stage 1: Intent Processing - Understand user intent"""
         await asyncio.sleep(0.01)  # Simulate processing
 
@@ -67,7 +67,7 @@ class FiveStageProcessor:
         return intent_result
 
     @instrument_matriz_stage("decision_making", "reasoning", slo_target_ms=75.0)
-    async def stage_2_decision_making(self, intent_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def stage_2_decision_making(self, intent_data: dict[str, Any]) -> dict[str, Any]:
         """Stage 2: Decision Making - Choose processing strategy"""
         await asyncio.sleep(0.015)  # Simulate reasoning
 
@@ -88,7 +88,7 @@ class FiveStageProcessor:
         return decision_result
 
     @instrument_matriz_stage("processing_execution", "processing", slo_target_ms=100.0)
-    async def stage_3_processing_execution(self, decision_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def stage_3_processing_execution(self, decision_data: dict[str, Any]) -> dict[str, Any]:
         """Stage 3: Processing/Execution - Execute the chosen strategy"""
         await asyncio.sleep(0.025)  # Simulate execution
 
@@ -115,7 +115,7 @@ class FiveStageProcessor:
         return processing_result
 
     @instrument_matriz_stage("validation", "validation", slo_target_ms=30.0)
-    async def stage_4_validation(self, processing_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def stage_4_validation(self, processing_data: dict[str, Any]) -> dict[str, Any]:
         """Stage 4: Validation - Validate results and check quality"""
         await asyncio.sleep(0.008)  # Simulate validation
 
@@ -140,7 +140,7 @@ class FiveStageProcessor:
         return validation_result
 
     @instrument_matriz_stage("reflection", "reflection", slo_target_ms=40.0)
-    async def stage_5_reflection(self, validation_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def stage_5_reflection(self, validation_data: dict[str, Any]) -> dict[str, Any]:
         """Stage 5: Reflection - Learn from the process and improve"""
         await asyncio.sleep(0.012)  # Simulate reflection
 
@@ -167,7 +167,7 @@ class FiveStageProcessor:
 
         return reflection_result
 
-    async def execute_full_pipeline(self, user_input: str) -> Dict[str, Any]:
+    async def execute_full_pipeline(self, user_input: str) -> dict[str, Any]:
         """Execute all 5 stages in sequence with pipeline span"""
 
         with matriz_pipeline_span("five_stage_test", user_input, target_slo_ms=250.0):

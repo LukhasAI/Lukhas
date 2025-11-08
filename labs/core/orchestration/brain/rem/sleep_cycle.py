@@ -13,7 +13,6 @@ Logs a memory trace, folds it, seeds a dream, and stores the dream output.
 """
 
 from dream_log import log_dream
-
 from modules.dream_seed import seed_dream
 from modules.fold_token import fold_trace
 from modules.memoria import log_trace

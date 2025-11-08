@@ -18,6 +18,7 @@ Last Updated: July 5, 2025
 """
 import base64
 import json
+import os
 import secrets
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
@@ -25,7 +26,6 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-import os
 import jwt
 
 PLACEHOLDER_JWT_SECRET = os.environ.get("JWT_SECRET", "your-jwt-secret-key-here") # nosec B105

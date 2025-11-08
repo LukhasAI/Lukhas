@@ -4,10 +4,9 @@ from typing import Any
 import numpy as np
 import torch
 import torch.nn as nn
-from learning.meta_adaptive import MetaLearner
-
 from core.colonies.base_colony import BaseColony
 from core.swarm import SwarmAgent
+from learning.meta_adaptive import MetaLearner
 
 
 class LearningAgent(SwarmAgent):

@@ -13,7 +13,7 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import requests
 
@@ -36,9 +36,9 @@ class JulesClient:
         self,
         method: str,
         endpoint: str,
-        data: Optional[Dict[str, Any]] = None,
+        data: Optional[dict[str, Any]] = None,
         timeout: int = 30
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Make HTTP request to Jules API."""
         url = f"{self.base_url}/{endpoint}"
 
@@ -69,7 +69,7 @@ class JulesClient:
             print(f"❌ Request failed: {e}", file=sys.stderr)
             sys.exit(1)
 
-    def list_sources(self) -> Dict[str, Any]:
+    def list_sources(self) -> dict[str, Any]:
         """List available GitHub sources."""
         print("📋 Listing Jules sources...")
         return self._make_request("GET", "sources")
@@ -79,7 +79,7 @@ class JulesClient:
         prompt: str,
         source_id: str = "github/LukhasAI/Lukhas",
         ref: str = "main"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create a new Jules session."""
         print(f"🚀 Creating Jules session for source {source_id}...")
 
@@ -91,17 +91,17 @@ class JulesClient:
 
         return self._make_request("POST", "sessions", data=payload, timeout=60)
 
-    def list_sessions(self) -> Dict[str, Any]:
+    def list_sessions(self) -> dict[str, Any]:
         """List all Jules sessions."""
         print("📋 Listing Jules sessions...")
         return self._make_request("GET", "sessions")
 
-    def get_session(self, session_id: str) -> Dict[str, Any]:
+    def get_session(self, session_id: str) -> dict[str, Any]:
         """Get details of a specific session."""
         print(f"🔍 Getting session {session_id}...")
         return self._make_request("GET", f"sessions/{session_id}")
 
-    def list_activities(self, session_id: str) -> Dict[str, Any]:
+    def list_activities(self, session_id: str) -> dict[str, Any]:
         """List activities for a session."""
         print(f"📊 Listing activities for session {session_id}...")
         return self._make_request("GET", f"sessions/{session_id}/activities")

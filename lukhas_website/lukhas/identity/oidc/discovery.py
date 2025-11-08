@@ -25,7 +25,7 @@ import os
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any
 from urllib.parse import urlparse
 
 import structlog
@@ -44,15 +44,15 @@ class DiscoveryDocument:
     token_endpoint: str
     jwks_uri: str
     userinfo_endpoint: str
-    response_types_supported: List[str]
-    subject_types_supported: List[str]
-    id_token_signing_alg_values_supported: List[str]
+    response_types_supported: list[str]
+    subject_types_supported: list[str]
+    id_token_signing_alg_values_supported: list[str]
 
     # OAuth2 Authorization Server metadata (RFC 8414)
-    scopes_supported: List[str]
-    token_endpoint_auth_methods_supported: List[str]
-    code_challenge_methods_supported: List[str]
-    grant_types_supported: List[str]
+    scopes_supported: list[str]
+    token_endpoint_auth_methods_supported: list[str]
+    code_challenge_methods_supported: list[str]
+    grant_types_supported: list[str]
 
     # LUKHAS-specific extensions
     lukhas_tier_claim: str = "lukhas_tier"
@@ -69,7 +69,7 @@ class DiscoveryDocument:
     generated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc), init=False)
     expires_at: datetime | None = field(default=None, init=False)
     security_validated: bool = field(default=False, init=False)
-    validation_errors: List[str] = field(default_factory=list, init=False)
+    validation_errors: list[str] = field(default_factory=list, init=False)
 
     def validate_security(self) -> bool:
         """Validate security configuration of discovery document."""
@@ -145,7 +145,7 @@ class DiscoveryDocument:
 
         return False
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to OpenID Connect Discovery JSON format with security metadata."""
         result = {}
 
@@ -208,7 +208,7 @@ class DiscoveryProvider:
     - Production monitoring and metrics
     """
 
-    def __init__(self, base_url: str, custom_config: Dict[str, Any] | None = None):
+    def __init__(self, base_url: str, custom_config: dict[str, Any] | None = None):
         """
         Initialize discovery provider with security validation.
 
@@ -226,7 +226,7 @@ class DiscoveryProvider:
         self._cache_ttl = timedelta(minutes=self.custom_config.get('cache_ttl_minutes', 30))
 
         # Security tracking
-        self._security_events: List[Dict[str, Any]] = []
+        self._security_events: list[dict[str, Any]] = []
         self._validation_failures = 0
 
         logger.info("DiscoveryProvider initialized",
@@ -378,7 +378,7 @@ class DiscoveryProvider:
 
         return document
 
-    def _validate_custom_config(self, custom_config: Dict[str, Any]) -> Dict[str, Any]:
+    def _validate_custom_config(self, custom_config: dict[str, Any]) -> dict[str, Any]:
         """Validate custom configuration for security compliance."""
         safe_config = {}
         security_violations = []
@@ -436,7 +436,7 @@ class DiscoveryProvider:
         self._cache_timestamp = None
         logger.info("Discovery document cache invalidated")
 
-    async def validate_client_metadata(self, client_metadata: Dict[str, Any]) -> Dict[str, Any]:
+    async def validate_client_metadata(self, client_metadata: dict[str, Any]) -> dict[str, Any]:
         """Validate client metadata against discovery document."""
         discovery_doc = await self.get_discovery_document()
         validation_result = {
@@ -483,7 +483,7 @@ class DiscoveryProvider:
 
         return validation_result
 
-    async def get_security_metrics(self) -> Dict[str, Any]:
+    async def get_security_metrics(self) -> dict[str, Any]:
         """Get security metrics for monitoring."""
         return {
             'validation_failures': self._validation_failures,

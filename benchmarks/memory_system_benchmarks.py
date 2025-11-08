@@ -18,7 +18,7 @@ import random
 import statistics
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 import pytest
 
@@ -28,7 +28,7 @@ class MemoryItem:
     """Test memory item for benchmarking"""
     id: str
     content: str
-    embedding: List[float]
+    embedding: list[float]
     timestamp: float
     importance: float = 1.0
 
@@ -42,7 +42,7 @@ class MockMemorySystem:
 
     def __init__(self, capacity: int = 10000):
         self.capacity = capacity
-        self.items: Dict[str, MemoryItem] = {}
+        self.items: dict[str, MemoryItem] = {}
         self.access_count = 0
         self.cascade_prevented_count = 0
         self.total_operations = 0
@@ -68,7 +68,7 @@ class MockMemorySystem:
         self.last_timestamps[item.id] = item.timestamp
         return True
 
-    async def recall_topk(self, query_embedding: List[float], k: int = 10) -> List[MemoryItem]:
+    async def recall_topk(self, query_embedding: list[float], k: int = 10) -> list[MemoryItem]:
         """Recall top-K most similar items"""
         self.access_count += 1
         time.perf_counter()
@@ -130,7 +130,7 @@ class MemorySystemBenchmarks:
         self.memory_system = MockMemorySystem()
         self.test_items = []
 
-    def generate_test_data(self, count: int = 10000) -> List[MemoryItem]:
+    def generate_test_data(self, count: int = 10000) -> list[MemoryItem]:
         """Generate test memory items"""
         print(f"📊 Generating {count} test memory items...")
 
@@ -149,7 +149,7 @@ class MemorySystemBenchmarks:
         print(f"✅ Generated {len(items)} test items")
         return items
 
-    async def benchmark_recall_latency(self, num_queries: int = 100) -> Dict[str, Any]:
+    async def benchmark_recall_latency(self, num_queries: int = 100) -> dict[str, Any]:
         """Benchmark top-K recall latency - SLO: <100ms p95"""
         print(f"⚡ Benchmarking recall latency with {num_queries} queries...")
 
@@ -203,7 +203,7 @@ class MemorySystemBenchmarks:
 
         return results
 
-    async def benchmark_cascade_prevention(self, stress_operations: int = 5000) -> Dict[str, Any]:
+    async def benchmark_cascade_prevention(self, stress_operations: int = 5000) -> dict[str, Any]:
         """Benchmark cascade prevention - SLO: >99.7% success rate"""
         print(f"🛡️ Benchmarking cascade prevention with {stress_operations} operations...")
 
@@ -262,7 +262,7 @@ class MemorySystemBenchmarks:
 
         return results
 
-    async def benchmark_consolidation_schedules(self) -> Dict[str, Any]:
+    async def benchmark_consolidation_schedules(self) -> dict[str, Any]:
         """Benchmark different consolidation schedules"""
         print("🔄 Benchmarking consolidation schedules...")
 
@@ -327,7 +327,7 @@ class MemorySystemBenchmarks:
         }
         return recommendations.get(schedule_name, "General purpose")
 
-    async def benchmark_stress_test(self, target_items: int = 10000) -> Dict[str, Any]:
+    async def benchmark_stress_test(self, target_items: int = 10000) -> dict[str, Any]:
         """Stress test with large dataset"""
         print(f"💪 Running stress test with {target_items} items...")
 

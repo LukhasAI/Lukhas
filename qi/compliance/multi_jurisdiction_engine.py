@@ -5,7 +5,7 @@ from __future__ import annotations
 import copy
 from collections.abc import Iterable, Mapping, MutableMapping
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 from .jurisdictions import CCPAModule, GDPRModule, LGPDModule, PIPEDAModule
 from .jurisdictions.base import BaseJurisdictionModule
@@ -51,7 +51,7 @@ class MultiJurisdictionComplianceEngine:
 
     # ------------------------------------------------------------------
     @staticmethod
-    def _default_modules() -> List[BaseJurisdictionModule]:
+    def _default_modules() -> list[BaseJurisdictionModule]:
         return [
             GDPRModule(),
             CCPAModule(),
@@ -60,10 +60,10 @@ class MultiJurisdictionComplianceEngine:
         ]
 
     # ------------------------------------------------------------------
-    def detect_applicable_jurisdictions(self, user_data: Mapping[str, Any]) -> List[JurisdictionDecision]:
+    def detect_applicable_jurisdictions(self, user_data: Mapping[str, Any]) -> list[JurisdictionDecision]:
         """Detect all jurisdictions that apply to *user_data*."""
 
-        decisions: List[JurisdictionDecision] = []
+        decisions: list[JurisdictionDecision] = []
         per_j_overrides = self._resolve_overrides().get("jurisdictions", {})
 
         for module in self.jurisdiction_modules:
@@ -94,7 +94,7 @@ class MultiJurisdictionComplianceEngine:
         self,
         user_data: Mapping[str, Any],
         overrides: Mapping[str, Any] | None = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Return the effective policy across all applicable jurisdictions."""
 
         decisions = self.detect_applicable_jurisdictions(user_data)
@@ -111,8 +111,8 @@ class MultiJurisdictionComplianceEngine:
         }
 
     # ------------------------------------------------------------------
-    def _aggregate_policies(self, decisions: Iterable[JurisdictionDecision]) -> Dict[str, Any]:
-        aggregated: Dict[str, Any] = {}
+    def _aggregate_policies(self, decisions: Iterable[JurisdictionDecision]) -> dict[str, Any]:
+        aggregated: dict[str, Any] = {}
         for decision in decisions:
             for key, value in decision.policy.items():
                 aggregator = getattr(self, f"_aggregate_{key}", None)
@@ -171,8 +171,8 @@ class MultiJurisdictionComplianceEngine:
         return {str(current), str(new_value)}
 
     # ------------------------------------------------------------------
-    def _resolve_overrides(self, overrides: Mapping[str, Any] | None = None) -> Dict[str, Dict[str, Any]]:
-        resolved: Dict[str, Dict[str, Any]] = {"global": {}, "jurisdictions": {}}
+    def _resolve_overrides(self, overrides: Mapping[str, Any] | None = None) -> dict[str, dict[str, Any]]:
+        resolved: dict[str, dict[str, Any]] = {"global": {}, "jurisdictions": {}}
         for source in (self._base_overrides, overrides or {}):
             if not source:
                 continue
@@ -188,7 +188,7 @@ class MultiJurisdictionComplianceEngine:
         return resolved
 
     @staticmethod
-    def _apply_jurisdiction_overrides(record: PolicyRecord, overrides: Mapping[str, Any] | None) -> Dict[str, Any]:
+    def _apply_jurisdiction_overrides(record: PolicyRecord, overrides: Mapping[str, Any] | None) -> dict[str, Any]:
         policy_rules: MutableMapping[str, Any] = copy.deepcopy(dict(record.rules))
         if overrides:
             PolicyEngine.apply_overrides(policy_rules, dict(overrides))

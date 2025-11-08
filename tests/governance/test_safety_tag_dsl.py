@@ -25,7 +25,7 @@ import json
 import logging
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import pytest
 
@@ -68,7 +68,7 @@ class SafetyTag:
         level: str,
         category: str,
         description: str,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[dict[str, Any]] = None
     ):
         self.level = level
         self.category = category
@@ -77,7 +77,7 @@ class SafetyTag:
         self.timestamp = datetime.now(timezone.utc)
         self.tag_id = str(uuid.uuid4())
 
-    def to_dsl(self) -> Dict[str, Any]:
+    def to_dsl(self) -> dict[str, Any]:
         """Convert to Guardian DSL format"""
         return {
             "tag_id": self.tag_id,
@@ -101,7 +101,7 @@ class SafetyTagCollection:
     """Collection of safety tags with DSL operations"""
 
     def __init__(self):
-        self.tags: List[SafetyTag] = []
+        self.tags: list[SafetyTag] = []
 
     def add_tag(self, tag: SafetyTag) -> None:
         """Add a safety tag to the collection"""
@@ -127,11 +127,11 @@ class SafetyTagCollection:
         """Check if collection contains any CRITICAL level tags"""
         return any(tag.level == SafetyLevel.CRITICAL for tag in self.tags)
 
-    def get_tags_by_category(self, category: str) -> List[SafetyTag]:
+    def get_tags_by_category(self, category: str) -> list[SafetyTag]:
         """Get all tags for a specific category"""
         return [tag for tag in self.tags if tag.category == category]
 
-    def to_dsl(self) -> Dict[str, Any]:
+    def to_dsl(self) -> dict[str, Any]:
         """Convert entire collection to Guardian DSL format"""
         return {
             "safety_tags": [tag.to_dsl() for tag in self.tags],

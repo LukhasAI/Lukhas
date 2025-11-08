@@ -22,7 +22,7 @@ import logging
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -107,7 +107,7 @@ class ComprehensiveCoreAuditor:
             }
         }
 
-    def run_comprehensive_audit(self) -> Dict[str, Any]:
+    def run_comprehensive_audit(self) -> dict[str, Any]:
         """Execute complete audit of all core directories"""
         logger.info("🔍 Starting comprehensive core audit...")
 
@@ -196,7 +196,7 @@ class ComprehensiveCoreAuditor:
 
         return any(pattern in str(file_path) for pattern in skip_patterns)
 
-    def _analyze_file(self, file_path: Path) -> Dict[str, Any]:
+    def _analyze_file(self, file_path: Path) -> dict[str, Any]:
         """Analyze a single file for categorization"""
         try:
             with open(file_path, encoding="utf-8") as f:
@@ -224,7 +224,7 @@ class ComprehensiveCoreAuditor:
                 "error": str(e)
             }
 
-    def _extract_imports(self, content: str) -> List[str]:
+    def _extract_imports(self, content: str) -> list[str]:
         """Extract import statements from file content"""
         import re
         imports = []
@@ -243,7 +243,7 @@ class ComprehensiveCoreAuditor:
 
         return imports
 
-    def _extract_classes(self, content: str) -> List[str]:
+    def _extract_classes(self, content: str) -> list[str]:
         """Extract class names from file content"""
         import re
         classes = []
@@ -253,7 +253,7 @@ class ComprehensiveCoreAuditor:
 
         return classes
 
-    def _extract_functions(self, content: str) -> List[str]:
+    def _extract_functions(self, content: str) -> list[str]:
         """Extract function names from file content"""
         import re
         functions = []
@@ -263,7 +263,7 @@ class ComprehensiveCoreAuditor:
 
         return functions
 
-    def _find_keywords(self, content: str) -> Dict[str, List[str]]:
+    def _find_keywords(self, content: str) -> dict[str, list[str]]:
         """Find category keywords in content"""
         found_keywords = defaultdict(list)
 
@@ -274,7 +274,7 @@ class ComprehensiveCoreAuditor:
 
         return dict(found_keywords)
 
-    def _categorize_component(self, file_info: Dict[str, Any]) -> Optional[str]:
+    def _categorize_component(self, file_info: dict[str, Any]) -> Optional[str]:
         """Categorize a component based on analysis"""
         if "error" in file_info:
             return None

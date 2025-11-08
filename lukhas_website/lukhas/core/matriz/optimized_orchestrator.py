@@ -17,10 +17,11 @@ import time
 from collections import OrderedDict
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator, StageResult, StageType
 from matriz.core.node_interface import CognitiveNode
+
 from observability.matriz_instrumentation import (
     cognitive_pipeline_span,
     initialize_cognitive_instrumentation,
@@ -56,7 +57,7 @@ class LRUCache:
     def __init__(self, max_size: int = 1000, default_ttl: float = 60.0):
         self.max_size = max_size
         self.default_ttl = default_ttl
-        self._cache: OrderedDict[str, CacheEntry] = OrderedDict()
+        self._cache: collections.collections.OrderedDict[str, CacheEntry] = OrderedDict()
         self._hits = 0
         self._misses = 0
 
@@ -119,7 +120,7 @@ class LRUCache:
         self._hits = 0
         self._misses = 0
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get cache performance statistics"""
         total_requests = self._hits + self._misses
         hit_rate = self._hits / total_requests if total_requests > 0 else 0.0
@@ -138,8 +139,8 @@ class NodePool:
     """Optimized node pool with health-based routing"""
 
     def __init__(self):
-        self.nodes: Dict[str, CognitiveNode] = {}
-        self.node_stats: Dict[str, Dict[str, float]] = {}
+        self.nodes: dict[str, CognitiveNode] = {}
+        self.node_stats: dict[str, dict[str, float]] = {}
         self._node_cache = LRUCache(max_size=100, default_ttl=300)  # 5 min TTL
 
     def register_node(self, name: str, node: CognitiveNode) -> None:
@@ -251,8 +252,8 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
 
     def __init__(
         self,
-        stage_timeouts: Optional[Dict[StageType, float]] = None,
-        stage_critical: Optional[Dict[StageType, bool]] = None,
+        stage_timeouts: Optional[dict[StageType, float]] = None,
+        stage_critical: Optional[dict[StageType, bool]] = None,
         total_timeout: float = 0.240,  # 240ms for safety margin
         cache_enabled: bool = True,
         metrics_enabled: bool = True,
@@ -331,7 +332,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
         # Keep compatibility with parent class
         super().register_node(name, node)
 
-    async def process_query(self, user_input: str) -> Dict[str, Any]:
+    async def process_query(self, user_input: str) -> dict[str, Any]:
         """
         Optimized process_query with caching, fast paths, and cognitive observability.
 
@@ -350,7 +351,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
         else:
             return await self._process_query_with_observability(user_input)
 
-    async def _process_query_with_observability(self, user_input: str) -> Dict[str, Any]:
+    async def _process_query_with_observability(self, user_input: str) -> dict[str, Any]:
         """Internal process query method with observability hooks"""
         start_time = time.perf_counter()
 
@@ -396,7 +397,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
                 "optimization_metrics": self.optimization_metrics.copy()
             }
 
-    async def _execute_optimized_pipeline(self, user_input: str, start_time: float) -> Dict[str, Any]:
+    async def _execute_optimized_pipeline(self, user_input: str, start_time: float) -> dict[str, Any]:
         """Execute pipeline with all optimizations enabled"""
         stage_results = []
         time.perf_counter()
@@ -470,7 +471,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             }
 
     @instrument_cognitive_stage("attention", node_id="intent_analyzer", slo_target_ms=30.0)
-    async def _optimized_analyze_intent(self, user_input: str, context: Dict[str, Any]) -> StageResult:
+    async def _optimized_analyze_intent(self, user_input: str, context: dict[str, Any]) -> StageResult:
         """Optimized intent analysis with caching and cognitive observability"""
         stage_start = time.perf_counter()
 
@@ -538,7 +539,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
         )
 
     @instrument_cognitive_stage("decision", node_id="node_selector", slo_target_ms=40.0)
-    async def _optimized_select_node(self, context: Dict[str, Any]) -> StageResult:
+    async def _optimized_select_node(self, context: dict[str, Any]) -> StageResult:
         """Optimized node selection using health-based routing with cognitive observability"""
         stage_start = time.perf_counter()
 
@@ -577,7 +578,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             )
 
     @instrument_cognitive_stage("thought", node_id="thought_processor", slo_target_ms=100.0)
-    async def _optimized_process_node(self, context: Dict[str, Any]) -> StageResult:
+    async def _optimized_process_node(self, context: dict[str, Any]) -> StageResult:
         """Optimized node processing with reduced overhead and cognitive metrics"""
         stage_start = time.perf_counter()
         selected_node_name = context["selected_node"]
@@ -665,7 +666,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
         if self.circuit_breaker_state["failure_count"] >= self.circuit_breaker_state["timeout_threshold"]:
             self.circuit_breaker_state["open"] = True
 
-    def _build_circuit_breaker_response(self, user_input: str, start_time: float) -> Dict[str, Any]:
+    def _build_circuit_breaker_response(self, user_input: str, start_time: float) -> dict[str, Any]:
         """Build response when circuit breaker is open"""
         total_ms = (time.perf_counter() - start_time) * 1000
 
@@ -681,10 +682,10 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
 
     def _build_optimized_success_response(
         self,
-        context: Dict[str, Any],
-        stage_results: List[StageResult],
+        context: dict[str, Any],
+        stage_results: list[StageResult],
         total_duration_ms: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Build optimized success response with minimal object creation"""
 
         result = context["processing_result"] or {"answer": "No answer"}
@@ -715,9 +716,9 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
     def _build_optimized_error_response(
         self,
         error: str,
-        stage_results: List[StageResult],
+        stage_results: list[StageResult],
         start_time: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Build optimized error response"""
         total_ms = (time.perf_counter() - start_time) * 1000
 
@@ -732,7 +733,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             "optimization_metrics": self.optimization_metrics.copy()
         }
 
-    def _serialize_stage_result(self, result: StageResult) -> Dict[str, Any]:
+    def _serialize_stage_result(self, result: StageResult) -> dict[str, Any]:
         """Efficiently serialize stage result"""
         return {
             "stage_type": result.stage_type.value,
@@ -742,7 +743,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             "error": getattr(result, 'error', None)
         }
 
-    async def _execute_optional_stages(self, context: Dict[str, Any], stage_results: List[StageResult]) -> None:
+    async def _execute_optional_stages(self, context: dict[str, Any], stage_results: list[StageResult]) -> None:
         """Execute validation and reflection stages with fast skipping"""
 
         # Skip non-critical stages if we're approaching timeout
@@ -780,7 +781,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
                 # Skip if timeout
                 pass
 
-    async def _quick_validate(self, result: Dict[str, Any]) -> StageResult:
+    async def _quick_validate(self, result: dict[str, Any]) -> StageResult:
         """Quick validation with minimal overhead"""
         stage_start = time.perf_counter()
 
@@ -808,7 +809,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
                 duration_ms=duration_ms
             )
 
-    async def _quick_reflect(self, context: Dict[str, Any]) -> StageResult:
+    async def _quick_reflect(self, context: dict[str, Any]) -> StageResult:
         """Quick reflection with minimal processing"""
         stage_start = time.perf_counter()
 
@@ -837,7 +838,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
                 duration_ms=duration_ms
             )
 
-    def _get_cache_stats(self) -> Dict[str, Any]:
+    def _get_cache_stats(self) -> dict[str, Any]:
         """Get comprehensive cache statistics"""
         if not self.cache_enabled:
             return {}
@@ -848,7 +849,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
 
         return stats
 
-    def get_optimization_report(self) -> Dict[str, Any]:
+    def get_optimization_report(self) -> dict[str, Any]:
         """Get detailed optimization performance report"""
         node_stats = {}
         for name, stats in self.node_pool.node_stats.items():
@@ -872,7 +873,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             }
         }
 
-    async def warmup_caches(self, test_queries: List[str]) -> Dict[str, Any]:
+    async def warmup_caches(self, test_queries: list[str]) -> dict[str, Any]:
         """Warm up caches with test queries for optimal performance"""
         if not self.cache_enabled:
             return {"status": "caching_disabled"}

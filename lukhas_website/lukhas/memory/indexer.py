@@ -18,9 +18,10 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any
 
 import numpy as np
+
 from core.logging import get_logger
 from memory.backends.base import VectorDocument
 from observability.metrics import get_metrics_collector
@@ -39,13 +40,13 @@ class IndexingResult:
     error: str | None = None
     duplicate_of: str | None = None
     processing_time_ms: float = 0.0
-    metadata_extracted: Dict[str, Any] = field(default_factory=dict)
+    metadata_extracted: dict[str, Any] = field(default_factory=dict)
 
     # Content analysis results
     word_count: int = 0
     language: str | None = None
     content_type: str = "text"
-    extracted_entities: List[str] = field(default_factory=list)
+    extracted_entities: list[str] = field(default_factory=list)
 
 
 class AbstractEmbeddingProvider(ABC):
@@ -59,7 +60,7 @@ class AbstractEmbeddingProvider(ABC):
         pass
 
     @abstractmethod
-    async def embed_batch(self, texts: List[str]) -> List[np.ndarray]:
+    async def embed_batch(self, texts: list[str]) -> list[np.ndarray]:
         """Generate embeddings for multiple texts"""
         pass
 
@@ -116,7 +117,7 @@ class OpenAIEmbeddingProvider(AbstractEmbeddingProvider):
         embeddings = await self.embed_batch([text])
         return embeddings[0]
 
-    async def embed_batch(self, texts: List[str]) -> List[np.ndarray]:
+    async def embed_batch(self, texts: list[str]) -> list[np.ndarray]:
         """Generate embeddings for multiple texts"""
         # This would integrate with OpenAI API
         # For now, return random embeddings for testing
@@ -168,7 +169,7 @@ class SentenceTransformersProvider(AbstractEmbeddingProvider):
         embedding = np.random.normal(0, 1, self.dimension).astype(np.float32)
         return embedding / np.linalg.norm(embedding)
 
-    async def embed_batch(self, texts: List[str]) -> List[np.ndarray]:
+    async def embed_batch(self, texts: list[str]) -> list[np.ndarray]:
         """Generate embeddings for multiple texts"""
         embeddings = []
         for text in texts:
@@ -190,7 +191,7 @@ class ContentExtractor:
             'date': re.compile(r'\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b')
         }
 
-    def extract_content(self, content: str, content_type: str = "text") -> Dict[str, Any]:
+    def extract_content(self, content: str, content_type: str = "text") -> dict[str, Any]:
         """
         Extract and analyze content features.
 
@@ -293,7 +294,7 @@ class DocumentIndexer:
         self.dedup_threshold = dedup_threshold
 
         # Deduplication cache: content_hash -> document_id
-        self.content_hashes: Dict[str, str] = {}
+        self.content_hashes: dict[str, str] = {}
 
         # Performance tracking
         self.stats = {
@@ -321,11 +322,11 @@ class DocumentIndexer:
         self,
         document_id: str,
         content: str,
-        metadata: Dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
         identity_id: str | None = None,
         lane: str = "candidate",
         fold_id: str | None = None,
-        tags: List[str] | None = None,
+        tags: list[str] | None = None,
         expires_at: datetime | None = None
     ) -> IndexingResult:
         """
@@ -462,8 +463,8 @@ class DocumentIndexer:
 
     async def index_batch(
         self,
-        documents: List[Dict[str, Any]]
-    ) -> List[IndexingResult]:
+        documents: list[dict[str, Any]]
+    ) -> list[IndexingResult]:
         """
         Index multiple documents in batch for better performance.
 
@@ -588,7 +589,7 @@ class DocumentIndexer:
             entries_removed=cache_size
         )
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """
         Get indexer performance statistics.
 

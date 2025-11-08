@@ -72,7 +72,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-
 from consciousness.neuroplastic_connector import ConsciousnessConnector, NeuroplasticConnector
 from core.common import get_logger
 

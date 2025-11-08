@@ -5,9 +5,10 @@ from __future__ import annotations
 import asyncio
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 import structlog
+
 from core.identity.vault.lukhas_id import (
     IdentityManager,
     IdentityVerificationError,
@@ -24,7 +25,7 @@ class DashboardWidget:
     widget_id: str
     widget_type: str  # 'metrics', 'status', 'graph', 'table'
     title: str
-    data: Dict[str, Any]
+    data: dict[str, Any]
     last_updated: float
     refresh_interval_ms: int = 1000
 
@@ -51,8 +52,8 @@ class BrainDashboard:
 
     def __init__(self, identity_manager: IdentityManager | None = None) -> None:
         self.identity_manager = identity_manager or IdentityManager()
-        self._widgets: Dict[str, DashboardWidget] = {}
-        self._widget_refresh_tasks: Dict[str, asyncio.Task] = {}
+        self._widgets: dict[str, DashboardWidget] = {}
+        self._widget_refresh_tasks: dict[str, asyncio.Task] = {}
 
     async def register_widget(
         self,
@@ -114,7 +115,7 @@ class BrainDashboard:
                     error=str(error)
                 )
                 await asyncio.sleep(5.0)  # Error backoff
-    async def get_widget_data(self, widget_id: str) -> Dict[str, Any] | None:
+    async def get_widget_data(self, widget_id: str) -> dict[str, Any] | None:
         """Get current widget data with staleness check."""
 
         widget = self._widgets.get(widget_id)
@@ -131,7 +132,7 @@ class BrainDashboard:
             "refresh_interval_ms": widget.refresh_interval_ms
         }
 
-    async def get_all_widgets(self) -> List[Dict[str, Any]]:
+    async def get_all_widgets(self) -> list[dict[str, Any]]:
         """Get all registered widgets with their current data."""
 
         widgets = []

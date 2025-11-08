@@ -148,9 +148,9 @@ def demo_decision_flow() -> EvaluationResult:
 
 __all__ = [
     "BasicGovernanceEngine",
+    "EvaluationResult",
     "GovernanceCase",
     "GovernanceRule",
-    "EvaluationResult",
     "build_default_engine",
     "demo_decision_flow",
 ]

@@ -19,7 +19,7 @@ from collections import OrderedDict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 from .adaptive_memory import MemoryFold, MemoryItem, MemoryType
 
@@ -62,8 +62,8 @@ class ScheduledFold:
     compressed_data: Optional[bytes] = None
     compression_level: CompressionLevel = CompressionLevel.NONE
     content_hash: Optional[str] = None
-    dependencies: Set[str] = field(default_factory=set)
-    tags: Set[str] = field(default_factory=set)
+    dependencies: set[str] = field(default_factory=set)
+    tags: set[str] = field(default_factory=set)
 
     def __post_init__(self):
         """Initialize fold metadata"""
@@ -201,9 +201,9 @@ class ScheduledFoldingManager:
         self.eviction_batch_size = eviction_batch_size
 
         # Storage
-        self.active_folds: OrderedDict[str, ScheduledFold] = OrderedDict()
-        self.compressed_folds: Dict[str, ScheduledFold] = {}
-        self.content_hashes: Dict[str, str] = {}  # hash -> fold_id mapping
+        self.active_folds: collections.collections.OrderedDict[str, ScheduledFold] = OrderedDict()
+        self.compressed_folds: dict[str, ScheduledFold] = {}
+        self.content_hashes: dict[str, str] = {}  # hash -> fold_id mapping
 
         # Background processing
         self._folding_thread: Optional[threading.Thread] = None
@@ -222,7 +222,7 @@ class ScheduledFoldingManager:
 
         self._start_background_folding()
 
-    def register_fold(self, fold: MemoryFold, tags: Optional[Set[str]] = None) -> str:
+    def register_fold(self, fold: MemoryFold, tags: Optional[set[str]] = None) -> str:
         """
         Register a fold for scheduled management.
 
@@ -416,7 +416,7 @@ class ScheduledFoldingManager:
             )
             self._folding_thread.start()
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get folding manager status"""
         with self._lock:
             total_folds = len(self.active_folds) + len(self.compressed_folds)
@@ -441,7 +441,7 @@ class ScheduledFoldingManager:
                 }
             }
 
-    def find_folds_by_tags(self, tags: Set[str]) -> List[str]:
+    def find_folds_by_tags(self, tags: set[str]) -> list[str]:
         """Find fold IDs matching given tags"""
         with self._lock:
             matching_ids = []

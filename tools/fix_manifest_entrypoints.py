@@ -19,10 +19,10 @@ import json
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing importList, Tuple
 
 
-def get_historical_entrypoints(repo_root: Path) -> Dict[str, List[str]]:
+def get_historical_entrypoints(repo_root: Path) -> dict[str, list[str]]:
     """Extract entrypoints from git commit 1d6383f45."""
     print("📚 Extracting entrypoints from git history (commit 1d6383f45)...")
 
@@ -71,7 +71,7 @@ def get_historical_entrypoints(repo_root: Path) -> Dict[str, List[str]]:
     return entrypoints_by_module
 
 
-def validate_entrypoint(entrypoint: str, module_dir: Path) -> Tuple[bool, str, str]:
+def validate_entrypoint(entrypoint: str, module_dir: Path) -> tuple[bool, str, str]:
     """
     Validate an entrypoint exists in the code.
 
@@ -133,9 +133,9 @@ def validate_entrypoint(entrypoint: str, module_dir: Path) -> Tuple[bool, str, s
 
 def fix_manifest_entrypoints(
     manifest_path: Path,
-    historical_entrypoints: List[str],
+    historical_entrypoints: list[str],
     dry_run: bool = False
-) -> Tuple[int, int, int]:
+) -> tuple[int, int, int]:
     """
     Fix entrypoints in a manifest file.
 

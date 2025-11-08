@@ -36,7 +36,7 @@ import sys
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Tuple
+from typing importTuple
 
 # Ensure ``scripts/`` is importable so we can reuse the SBOM generator.
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -57,7 +57,7 @@ SBOM_INDEX_PATH = Path("security/sboms/index.json")
 ATTESTATION_INDEX_PATH = Path("security/attestations/index.json")
 
 # Module prefixes that should receive attestation + telemetry overlays.
-PRIORITY_PREFIXES: Tuple[str, ...] = (
+PRIORITY_PREFIXES: tuple[str, ...] = (
     "lukhas.core",
     "lukhas.governance",
     "lukhas.consciousness",
@@ -69,7 +69,7 @@ PRIORITY_PREFIXES: Tuple[str, ...] = (
     "lukhas.matriz",
 )
 
-TELEMETRY_PRIORITY_PREFIXES: Tuple[str, ...] = (
+TELEMETRY_PRIORITY_PREFIXES: tuple[str, ...] = (
     "lukhas.api",
     "lukhas.orchestration",
     "lukhas.memory",
@@ -101,10 +101,10 @@ def _utc_now() -> dt.datetime:
     return dt.datetime.now(dt.timezone.utc).replace(microsecond=0)
 
 
-def _collect_modules(pattern: str) -> List[ModuleEntry]:
+def _collect_modules(pattern: str) -> list[ModuleEntry]:
     """Discover Matrix modules from contract files."""
 
-    modules: List[ModuleEntry] = []
+    modules: list[ModuleEntry] = []
     for path in PROJECT_ROOT.glob(pattern):
         if path.is_dir():
             continue
@@ -417,7 +417,7 @@ def _validate_artifacts(modules: Sequence[ModuleEntry]) -> int:
     attestation_index = _load_existing_index(PROJECT_ROOT / ATTESTATION_INDEX_PATH)
     telemetry_index = _load_existing_index(PROJECT_ROOT / TELEMETRY_INDEX_PATH)
 
-    errors: List[str] = []
+    errors: list[str] = []
 
     for module in modules:
         sbom_entry = sbom_index.get(module.name)

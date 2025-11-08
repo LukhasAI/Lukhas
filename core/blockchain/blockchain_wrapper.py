@@ -7,7 +7,7 @@ import logging
 from collections.abc import Mapping
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, List
+from typing import Any
 
 logger = logging.getLogger("blockchain_wrapper")
 
@@ -27,7 +27,7 @@ class BlockchainWrapper:
     """In-memory blockchain helper for dashboard integrations."""
 
     def __init__(self) -> None:
-        self._chain: List[BlockchainTransaction] = []
+        self._chain: list[BlockchainTransaction] = []
         # ΛTAG: collapseHash - ensures sequential immutability for audit entries
         logger.debug("BlockchainWrapper initialized", extra={"length": 0})
 
@@ -49,7 +49,7 @@ class BlockchainWrapper:
         )
         return transaction
 
-    def get_transactions(self) -> List[BlockchainTransaction]:
+    def get_transactions(self) -> list[BlockchainTransaction]:
         """Return a copy of the blockchain transactions."""
 
         return list(self._chain)

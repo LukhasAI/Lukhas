@@ -8,7 +8,7 @@ Provides T4 architecture compliant service discovery and initialization.
 # Schedule auto-initialization
 import asyncio
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from core.registry import register, resolve
 
@@ -28,7 +28,7 @@ class IdentityServiceRegistry:
     def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize service registry"""
         self.config = config or {}
-        self._services: Dict[str, Any] = {}
+        self._services: dict[str, Any] = {}
         self._initialized = False
 
     async def initialize(self):
@@ -110,7 +110,7 @@ class IdentityServiceRegistry:
         """Get service by name"""
         return self._services.get(service_name) or resolve(service_name)
 
-    async def get_health_status(self) -> Dict[str, Any]:
+    async def get_health_status(self) -> dict[str, Any]:
         """Get health status of all services"""
         if not self._initialized:
             return {"initialized": False}

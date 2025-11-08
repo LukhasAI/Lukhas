@@ -4,9 +4,7 @@ LUKHAS Pre-Launch Audit - Phase 8: Must-Keep Registry
 Identifies critical files that must be preserved for system operation.
 """
 
-import ast
 import json
-import os
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path

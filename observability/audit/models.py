@@ -4,7 +4,7 @@ All models are Pydantic for validation and JSON serialization.
 """
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -18,7 +18,7 @@ class DecisionTrace(BaseModel):
     started_at: float
     finished_at: float
     latency_ms: int
-    final_outcome: Dict[str, Any]
+    final_outcome: dict[str, Any]
     confidence: float = 0.0
     policy_version: str = "v1"
     git_sha: str = "unknown"
@@ -45,7 +45,7 @@ class EvidenceLink(BaseModel):
     sha256: str
     excerpt: str | None = None
     consent_scope: str = "default"  # per ΛID policy
-    pii_tags: List[str] = Field(default_factory=list)
+    pii_tags: list[str] = Field(default_factory=list)
     redacted: bool = False
 
 
@@ -56,7 +56,7 @@ class GovernanceEvent(BaseModel):
     rule_id: str
     decision: str  # ALLOW | DENY | REDACT | WARN
     justification: str
-    feature_flags_snapshot: Dict[str, Any] = Field(default_factory=dict)
+    feature_flags_snapshot: dict[str, Any] = Field(default_factory=dict)
 
 
 class FeedbackEvent(BaseModel):
@@ -65,6 +65,6 @@ class FeedbackEvent(BaseModel):
     trace_id: str
     rating_0_10: int
     text: str
-    labels: Dict[str, float] = Field(default_factory=dict)  # taxonomy → weight
+    labels: dict[str, float] = Field(default_factory=dict)  # taxonomy → weight
     sentiment: str | None = None
-    followup_state: Dict[str, Any] = Field(default_factory=dict)
+    followup_state: dict[str, Any] = Field(default_factory=dict)

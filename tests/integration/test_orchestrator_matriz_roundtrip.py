@@ -24,10 +24,11 @@ import asyncio
 import logging
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 from unittest.mock import Mock, patch
 
 import pytest
+
 from consciousness.matriz_thought_loop import MATRIZThoughtLoop, matrizProcessingContext
 from consciousness.types import ConsciousnessState
 from governance.guardian_serializer import GuardianEnvelopeSerializer
@@ -46,16 +47,16 @@ class IntegrationTestResult:
     test_name: str
     success: bool
     total_time_ms: float
-    component_timings: Dict[str, float]
+    component_timings: dict[str, float]
     jwt_claims_propagated: bool
     guardian_decision_valid: bool
     identity_tier_checked: bool
     matriz_processing_successful: bool
     orchestrator_routing_successful: bool
     performance_target_met: bool
-    errors: List[str]
-    warnings: List[str]
-    metadata: Dict[str, Any]
+    errors: list[str]
+    warnings: list[str]
+    metadata: dict[str, Any]
 
 
 class CrossStackIntegrationTester:
@@ -96,7 +97,7 @@ class CrossStackIntegrationTester:
         orchestrator = Mock()
 
         # Mock routing response
-        async def mock_route_request(request: RoutingRequest) -> Dict[str, Any]:
+        async def mock_route_request(request: RoutingRequest) -> dict[str, Any]:
             await asyncio.sleep(0.05)  # 50ms routing time
             return {
                 'success': True,
@@ -128,7 +129,7 @@ class CrossStackIntegrationTester:
         orchestrator.route_request = mock_route_request
         return orchestrator
 
-    def create_mock_jwt_claims(self) -> Dict[str, Any]:
+    def create_mock_jwt_claims(self) -> dict[str, Any]:
         """Create mock JWT claims for testing."""
         return {
             'sub': 'user_123',
@@ -143,7 +144,7 @@ class CrossStackIntegrationTester:
             'session_id': 'session_789'
         }
 
-    async def simulate_orchestrator_routing(self, query: str, jwt_claims: Dict[str, Any]) -> Dict[str, Any]:
+    async def simulate_orchestrator_routing(self, query: str, jwt_claims: dict[str, Any]) -> dict[str, Any]:
         """Simulate orchestrator multi-AI routing."""
         start_time = time.perf_counter()
 
@@ -191,7 +192,7 @@ class CrossStackIntegrationTester:
                 'processing_time_ms': processing_time_ms
             }
 
-    async def simulate_matriz_processing(self, orchestrator_result: Dict[str, Any], jwt_claims: Dict[str, Any]) -> Dict[str, Any]:
+    async def simulate_matriz_processing(self, orchestrator_result: dict[str, Any], jwt_claims: dict[str, Any]) -> dict[str, Any]:
         """Simulate MATRIZ thought loop processing."""
         start_time = time.perf_counter()
 
@@ -265,7 +266,7 @@ class CrossStackIntegrationTester:
                 'processing_time_ms': processing_time_ms
             }
 
-    async def simulate_guardian_validation(self, matriz_result: Dict[str, Any], jwt_claims: Dict[str, Any]) -> Dict[str, Any]:
+    async def simulate_guardian_validation(self, matriz_result: dict[str, Any], jwt_claims: dict[str, Any]) -> dict[str, Any]:
         """Simulate Guardian decision validation."""
         start_time = time.perf_counter()
 
@@ -346,7 +347,7 @@ class CrossStackIntegrationTester:
                 'processing_time_ms': processing_time_ms
             }
 
-    async def simulate_identity_tier_check(self, jwt_claims: Dict[str, Any]) -> Dict[str, Any]:
+    async def simulate_identity_tier_check(self, jwt_claims: dict[str, Any]) -> dict[str, Any]:
         """Simulate Identity tier gate checking."""
         start_time = time.perf_counter()
 
@@ -390,7 +391,7 @@ class CrossStackIntegrationTester:
                 'processing_time_ms': processing_time_ms
             }
 
-    async def run_complete_roundtrip_test(self, test_query: str, jwt_claims: Dict[str, Any]) -> IntegrationTestResult:
+    async def run_complete_roundtrip_test(self, test_query: str, jwt_claims: dict[str, Any]) -> IntegrationTestResult:
         """Run complete cross-stack integration test."""
         total_start_time = time.perf_counter()
         component_timings = {}

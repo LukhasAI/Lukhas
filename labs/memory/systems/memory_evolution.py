@@ -50,7 +50,6 @@ import time
 from typing import Optional
 
 import numpy as np
-
 from core.common import get_logger
 
 # Lukhas core imports

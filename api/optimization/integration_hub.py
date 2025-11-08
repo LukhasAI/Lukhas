@@ -20,7 +20,7 @@ from contextlib import asynccontextmanager, suppress
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -41,8 +41,11 @@ try:
         RequestMetadata,
         create_middleware_pipeline,
     )
-
-    from .analytics_dashboard import AnalyticsDashboard, TimeWindow, create_analytics_dashboard  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_integration_hub_py_L46"}
+    from .analytics_dashboard import (  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_integration_hub_py_L46"}
+        AnalyticsDashboard,
+        TimeWindow,
+        create_analytics_dashboard,
+    )
     OPTIMIZATION_COMPONENTS_AVAILABLE = True
 except ImportError:
     OPTIMIZATION_COMPONENTS_AVAILABLE = False
@@ -124,9 +127,9 @@ class SystemHealth:
     """Overall system health status."""
     status: HealthStatus
     score: float  # 0-100
-    components: Dict[str, HealthStatus] = field(default_factory=dict)
-    issues: List[str] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
+    components: dict[str, HealthStatus] = field(default_factory=dict)
+    issues: list[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
     last_check: datetime = field(default_factory=datetime.now)
 
 
@@ -138,7 +141,7 @@ class IntelligentRoutingEngine:
         self.routing_rules = []
         self.adaptive_rules = {}
 
-    async def route_request(self, context: RequestContext) -> Dict[str, Any]:
+    async def route_request(self, context: RequestContext) -> dict[str, Any]:
         """Intelligently route request based on patterns."""
         endpoint_key = f"{context.method}:{context.endpoint}"
 
@@ -201,7 +204,7 @@ class PredictiveCacheManager:
         self.cache_predictions = {}
         self.effectiveness_scores = {}
 
-    async def predict_cache_needs(self, context: RequestContext) -> Dict[str, Any]:
+    async def predict_cache_needs(self, context: RequestContext) -> dict[str, Any]:
         """Predict if request should be cached and for how long."""
         endpoint_key = f"{context.method}:{context.endpoint}"
 
@@ -275,7 +278,7 @@ class PredictiveCacheManager:
             else:
                 pattern["temporal_pattern"] = "sporadic"
 
-    def _get_related_endpoints(self, endpoint_key: str) -> List[str]:
+    def _get_related_endpoints(self, endpoint_key: str) -> list[str]:
         """Get related endpoints for prefetching."""
         # Simple related endpoint detection
         # In production, this would use more sophisticated ML
@@ -305,7 +308,7 @@ class AutoScalingManager:
             "cooldown_minutes": 5         # 5 minute cooldown
         }
 
-    async def evaluate_scaling(self, metrics: APIPerformanceMetrics) -> Dict[str, Any]:
+    async def evaluate_scaling(self, metrics: APIPerformanceMetrics) -> dict[str, Any]:
         """Evaluate if scaling is needed."""
         current_load = self._calculate_load_factor(metrics)
 
@@ -508,10 +511,10 @@ class LUKHASAPIOptimizationHub:
         logger.info("Cache manager integration initialized")
 
     async def process_api_request(self, endpoint: str, method: str,
-                                headers: Optional[Dict[str, str]] = None,
-                                params: Optional[Dict[str, Any]] = None,
+                                headers: Optional[dict[str, str]] = None,
+                                params: Optional[dict[str, Any]] = None,
                                 user_id: Optional[str] = None,
-                                api_key: Optional[str] = None) -> Tuple[bool, Dict[str, Any]]:
+                                api_key: Optional[str] = None) -> tuple[bool, dict[str, Any]]:
         """Process API request through optimization pipeline."""
         if not self.is_initialized:
             return False, {"error": "Optimization hub not initialized", "status": 503}
@@ -628,7 +631,7 @@ class LUKHASAPIOptimizationHub:
                 "processing_time_ms": error_time
             }
 
-    async def complete_api_request(self, request_id: str, response_data: Dict[str, Any],
+    async def complete_api_request(self, request_id: str, response_data: dict[str, Any],
                                  status_code: int):
         """Complete API request processing."""
         try:
@@ -653,7 +656,7 @@ class LUKHASAPIOptimizationHub:
         except Exception as e:
             logger.error(f"Error completing API request {request_id}: {e}")
 
-    async def get_optimization_status(self) -> Dict[str, Any]:
+    async def get_optimization_status(self) -> dict[str, Any]:
         """Get comprehensive optimization status."""
         status = {
             "hub": {
@@ -844,7 +847,7 @@ class LUKHASAPIOptimizationHub:
         return APITier.FREE
 
     def _get_applied_optimizations(self, optimizer_result: Dict,
-                                 middleware_result: Dict) -> List[str]:
+                                 middleware_result: Dict) -> list[str]:
         """Get list of applied optimizations."""
         optimizations = []
 
@@ -862,7 +865,7 @@ class LUKHASAPIOptimizationHub:
 
         return optimizations
 
-    def _get_performance_summary(self) -> Dict[str, Any]:
+    def _get_performance_summary(self) -> dict[str, Any]:
         """Get performance summary."""
         return {
             "total_requests": self.performance_metrics.total_requests,

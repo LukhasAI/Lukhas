@@ -14,13 +14,14 @@ from typing import Any, Callable, Optional
 sys.path.append(str(Path(__file__).parent.parent))
 
 try:
+    from enforcement.real_time_validator import RealTimeBrandValidator
+    from intelligence.brand_monitor import BrandIntelligenceMonitor
+    from intelligence.sentiment_engine import BrandSentimentEngine
+
     from adapters.creativity_adapter import BrandCreativityAdapter
     from adapters.monitoring_adapter import BrandMonitoringAdapter
     from adapters.personality_adapter import BrandPersonalityAdapter
     from adapters.voice_adapter import BrandVoiceAdapter
-    from enforcement.real_time_validator import RealTimeBrandValidator
-    from intelligence.brand_monitor import BrandIntelligenceMonitor
-    from intelligence.sentiment_engine import BrandSentimentEngine
 except ImportError as e:
     print(f"Warning: Could not import all branding modules: {e}")
     # Mock implementations for development/testing

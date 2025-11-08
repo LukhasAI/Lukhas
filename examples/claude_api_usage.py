@@ -24,9 +24,8 @@ from pathlib import Path
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from anthropic import APIError, APITimeoutError, RateLimitError
 from bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
-from anthropic import APIError, RateLimitError, APITimeoutError
-
 
 # ============================================================================
 # Example 1: Basic Usage
@@ -192,7 +191,7 @@ async def example_error_handling():
     response, model = await safe_generate(prompt)
 
     if response:
-        print(f"✅ Success!")
+        print("✅ Success!")
         print(f"Model: {model}")
         print(f"Response: {response}")
     else:
@@ -287,7 +286,7 @@ async def example_usage_tracking():
             model="claude-3-5-sonnet-20241022",
             max_tokens=100
         )
-        print(f"✅ Completed\n")
+        print("✅ Completed\n")
 
     # Generate report
     tracker.report()
@@ -334,7 +333,7 @@ Format as structured output.
     )
 
     print(f"Query: {query}")
-    print(f"\nReasoning Trace:")
+    print("\nReasoning Trace:")
     print(response)
     print()
 
@@ -363,7 +362,7 @@ Be concise and specific.
     )
 
     print(f"Content: {content_to_validate}")
-    print(f"\nValidation Result:")
+    print("\nValidation Result:")
     print(response)
     print()
 

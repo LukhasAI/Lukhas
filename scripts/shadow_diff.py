@@ -16,7 +16,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import requests
 
@@ -78,11 +78,11 @@ INTERESTING_HEADERS = {
 class CallResult:
     status: int | None
     json_body: Any | None
-    headers: Dict[str, Any]
+    headers: dict[str, Any]
     error: str | None = None
 
 
-def lower_dict(data: Iterable[tuple[str, Any]]) -> Dict[str, Any]:
+def lower_dict(data: Iterable[tuple[str, Any]]) -> dict[str, Any]:
     return {k.lower(): v for k, v in data}
 
 
@@ -99,7 +99,7 @@ def json_signature(payload: Any) -> Any:
 def perform_request(
     base_url: str,
     api_key: str | None,
-    req: Dict[str, Any],
+    req: dict[str, Any],
     provider: str,
     timeout: int = 30,
 ) -> CallResult:
@@ -136,8 +136,8 @@ def perform_request(
         return CallResult(None, None, {}, str(exc))
 
 
-def compare_responses(lukhas_result: CallResult, openai_result: CallResult | None) -> Dict[str, Any]:
-    comparison: Dict[str, Any] = {}
+def compare_responses(lukhas_result: CallResult, openai_result: CallResult | None) -> dict[str, Any]:
+    comparison: dict[str, Any] = {}
     comparison["lukhas_status"] = lukhas_result.status
     comparison["openai_status"] = openai_result.status if openai_result else None
     comparison["status_match"] = (
@@ -166,7 +166,7 @@ def compare_responses(lukhas_result: CallResult, openai_result: CallResult | Non
     return comparison
 
 
-def build_markdown(report: Dict[str, Any]) -> str:
+def build_markdown(report: dict[str, Any]) -> str:
     rows = []
     for item in report["requests"]:
         name = item["name"]

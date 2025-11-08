@@ -12,7 +12,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 from identity.observability import IdentityObservability
 from identity.token_generator import TokenGenerator
@@ -50,8 +50,8 @@ class DeviceInfo:
     registered_at: datetime
     last_seen: datetime
     trust_level: float = 0.5  # 0.0 to 1.0
-    capabilities: Set[str] = field(default_factory=set)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    capabilities: set[str] = field(default_factory=set)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -67,8 +67,8 @@ class SessionInfo:
     ip_address: str
     user_agent: str
     tier_level: int
-    scopes: Set[str] = field(default_factory=set)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    scopes: set[str] = field(default_factory=set)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     @property
     def is_valid(self) -> bool:
@@ -107,11 +107,11 @@ class SessionManager:
         self.max_devices_per_user = max_devices_per_user
 
         # In-memory stores (production would use Redis/PostgreSQL)
-        self.sessions: Dict[str, SessionInfo] = {}
-        self.devices: Dict[str, DeviceInfo] = {}
-        self.user_sessions: Dict[str, Set[str]] = {}  # lambda_id -> session_ids
-        self.user_devices: Dict[str, Set[str]] = {}   # lambda_id -> device_ids
-        self.device_sessions: Dict[str, Set[str]] = {}  # device_id -> session_ids
+        self.sessions: dict[str, SessionInfo] = {}
+        self.devices: dict[str, DeviceInfo] = {}
+        self.user_sessions: dict[str, set[str]] = {}  # lambda_id -> session_ids
+        self.user_devices: dict[str, set[str]] = {}   # lambda_id -> device_ids
+        self.device_sessions: dict[str, set[str]] = {}  # device_id -> session_ids
 
         # Cleanup task
         self._cleanup_task: Optional[asyncio.Task] = None
@@ -135,7 +135,7 @@ class SessionManager:
                             device_name: str,
                             user_agent: str,
                             ip_address: str,
-                            capabilities: Optional[Set[str]] = None) -> DeviceInfo:
+                            capabilities: Optional[set[str]] = None) -> DeviceInfo:
         """Register a new device for a user"""
 
         # Check device limits
@@ -189,7 +189,7 @@ class SessionManager:
                            ip_address: str,
                            user_agent: str,
                            tier_level: int,
-                           scopes: Optional[Set[str]] = None,
+                           scopes: Optional[set[str]] = None,
                            custom_ttl: Optional[int] = None) -> SessionInfo:
         """Create a new session for authenticated user"""
 
@@ -340,7 +340,7 @@ class SessionManager:
         logger.info(f"Device unregistered: {device_id} for user {lambda_id}")
         return True
 
-    async def get_user_sessions(self, lambda_id: str, active_only: bool = True) -> List[SessionInfo]:
+    async def get_user_sessions(self, lambda_id: str, active_only: bool = True) -> list[SessionInfo]:
         """Get all sessions for a user"""
         user_sessions = self.user_sessions.get(lambda_id, set())
         sessions = []
@@ -352,7 +352,7 @@ class SessionManager:
 
         return sorted(sessions, key=lambda s: s.last_activity, reverse=True)
 
-    async def get_user_devices(self, lambda_id: str) -> List[DeviceInfo]:
+    async def get_user_devices(self, lambda_id: str) -> list[DeviceInfo]:
         """Get all registered devices for a user"""
         user_devices = self.user_devices.get(lambda_id, set())
         devices = []
@@ -436,7 +436,7 @@ class SessionManager:
         if expired_sessions:
             logger.info(f"Cleaned up {len(expired_sessions)} expired sessions")
 
-    async def get_session_stats(self) -> Dict[str, Any]:
+    async def get_session_stats(self) -> dict[str, Any]:
         """Get session management statistics"""
         datetime.now(timezone.utc)
         active_sessions = sum(1 for s in self.sessions.values() if s.is_valid)
@@ -470,7 +470,7 @@ class SessionRegistry:
         # Implementation would handle distributed coordination
         pass
 
-    async def sync_session_state(self, session_id: str, state_update: Dict[str, Any]):
+    async def sync_session_state(self, session_id: str, state_update: dict[str, Any]):
         """Synchronize session state across instances"""
         # Implementation would handle cross-instance sync
         pass

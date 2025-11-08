@@ -14,6 +14,7 @@ import os
 import re
 import subprocess
 import sys
+from typing import Optional
 
 
 def print_header(text: str):
@@ -29,7 +30,7 @@ def validate_api_key(key: str) -> bool:
     return bool(re.match(pattern, key))
 
 
-def get_current_key() -> str | None:
+def get_current_key() -> Optional[str]:
     """Get current key from keychain"""
     try:
         result = subprocess.run(
