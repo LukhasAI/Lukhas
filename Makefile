@@ -1887,6 +1887,16 @@ t4-codemod-apply: ## Apply codemod with backup
 	@echo "✅ Codemod complete! Backups: *.bak"
 
 # ============================================================================
+# SEO Technical Hygiene
+# ============================================================================
+
+sitemaps:  ## Generate XML sitemaps for all domains
+	python3 tools/generate_sitemaps.py
+
+seo-validate:  ## Validate SEO compliance (canonical URLs, meta descriptions)
+	python3 tools/validate_seo.py
+
+# ============================================================================
 # Claude Code PR Review Integration
 # ============================================================================
 
