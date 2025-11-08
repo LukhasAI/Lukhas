@@ -16,8 +16,10 @@ import re
 import sys
 from collections import Counter, defaultdict
 
-# Try cleaned file first, fallback to original
-RuffJsonPath = pathlib.Path("/tmp/ruff_f821_clean.json")
+# Try updated file first, then cleaned, then original
+RuffJsonPath = pathlib.Path("/tmp/ruff_f821_updated.json")
+if not RuffJsonPath.exists():
+    RuffJsonPath = pathlib.Path("/tmp/ruff_f821_clean.json")
 if not RuffJsonPath.exists():
     RuffJsonPath = pathlib.Path("/tmp/ruff_f821.json")
     
