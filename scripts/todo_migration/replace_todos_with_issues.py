@@ -16,6 +16,7 @@ import os
 import re
 import shutil
 from pathlib import Path
+from typing import Tuple
 
 TODO_REGEX = re.compile(r"(?P<indent>\s*)#\s*TODO(\[.*?\])?\s*[:\-]?\s*(?P<msg>.*)$", re.IGNORECASE)
 

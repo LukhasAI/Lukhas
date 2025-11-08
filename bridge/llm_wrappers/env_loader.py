@@ -53,21 +53,19 @@ MODULE_VERSION = "1.0.0"
 MODULE_NAME = "env_loader"
 
 
-ENV_FILE_PATHS = [
-    "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/.env",
-    "./.env",
-    "../.env",
-    "~/.lukhas/.env",
-]
-
-
 def load_lukhas_env() -> dict[str, str]:
     """Load environment variables from Lukhas .env file (local paths only)"""
     # FIXED: Removed iCloud dependency, using only local paths
+    env_files = [
+        "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/.env",
+        "./.env",
+        "../.env",
+        "~/.lukhas/.env",
+    ]
 
     env_vars = {}
 
-    for env_file in ENV_FILE_PATHS:
+    for env_file in env_files:
         if os.path.exists(env_file):
             try:
                 with open(env_file) as f:
