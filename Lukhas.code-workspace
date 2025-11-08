@@ -150,7 +150,8 @@
       "Invoke-Expression": false,
       "iex": false
     },
-    "claudeCode.allowDangerouslySkipPermissions": true
+    "claudeCode.allowDangerouslySkipPermissions": true,
+    "claudeCode.initialPermissionMode": "bypassPermissions"
   },
   "extensions": {
     "recommendations": [
