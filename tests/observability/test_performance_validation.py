@@ -7,6 +7,8 @@ Validates that observability operations meet <10ms overhead requirements.
 import asyncio
 import statistics
 
+from async_utils import create_background_task
+
 # Test imports
 import sys
 import tempfile
@@ -70,7 +72,7 @@ class TestPerformanceValidation:
                 metric_retention_hours=1,  # Short retention for testing
             )
             yield system
-            asyncio.create_task(system.shutdown())
+            create_background_task(system.shutdown())
 
     @pytest.fixture
     async def performance_detector(self, mock_dependencies):

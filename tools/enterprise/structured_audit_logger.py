@@ -18,6 +18,8 @@ import aiofiles
 import aiofiles.os
 import structlog
 from cryptography.fernet import Fernet
+
+from async_utils import create_background_task
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from pydantic import BaseModel, Field, validator
@@ -233,8 +235,8 @@ class AuditLogger:
 
     def _start_background_tasks(self):
         """Start background tasks for flushing and cleanup"""
-        asyncio.create_task(self._flush_loop())
-        asyncio.create_task(self._cleanup_loop())
+        create_background_task(self._flush_loop())
+        create_background_task(self._cleanup_loop())
 
     async def _flush_loop(self):
         """Periodically flush buffer to disk"""

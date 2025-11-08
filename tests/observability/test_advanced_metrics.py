@@ -7,6 +7,8 @@ Comprehensive tests for advanced metrics, anomaly detection, and performance mon
 import asyncio
 import statistics
 
+from async_utils import create_background_task
+
 # Test imports
 import sys
 from datetime import datetime, timedelta, timezone
@@ -51,7 +53,7 @@ def advanced_metrics_system(mock_prometheus_metrics):
         )
         yield system
         # Cleanup
-        asyncio.create_task(system.shutdown())
+        create_background_task(system.shutdown())
 
 
 class TestAdvancedMetricsSystem:
