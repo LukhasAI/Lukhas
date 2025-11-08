@@ -790,6 +790,13 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 
 ## 🛡️ Security & Governance
 
+### Ethics & Governance
+
+LUKHAS AI operates under strict ethical guidelines:
+- [Ethics Disclosure](docs/governance/ETHICS_DISCLOSURE.md)
+- [Guardian System](docs/governance/GUARDIAN_SYSTEM.md)
+- [Responsible Usage](docs/guides/SAFE_AI_USAGE.md)
+
 ### Guardian System
 The **Guardian System v1.0.0** provides comprehensive ethical oversight:
 - **Constitutional AI**: Principles-based decision validation

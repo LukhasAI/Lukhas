@@ -23,6 +23,13 @@ governance/
 │   ├── GAPS_ANALYSIS.md          # 19 missing components
 │   ├── 90_DAY_ROADMAP.md         # Week-by-week execution plan
 │   └── INNOVATION_PIPELINE.md    # Breakthrough ideas
+├── launch/                   # Launch playbooks & coordination (GAPS A3)
+│   ├── PLAYBOOK_TEMPLATE.md      # Comprehensive launch workflow
+│   ├── FEATURE_CHECKLIST.md      # Readiness checklist (tech, marketing, legal)
+│   ├── TIMELINE_TEMPLATE.md      # Gantt chart format for milestones
+│   ├── LAUNCH_TYPES.md           # 4 launch types (product, feature, infra, content)
+│   └── examples/
+│       └── reasoning_lab_launch.md  # Real-world example
 ├── tools/                    # Validation & automation scripts
 │   ├── CONTENT_LINTING.md   # Front-matter, evidence, vocab linting
 │   └── GOVERNANCE_ARTIFACTS.md  # Additional governance tools
@@ -71,6 +78,75 @@ Comprehensive external audit evaluating LUKHAS branding across 8 dimensions (Con
 
 ---
 
+## 🚀 Launch Playbooks & Coordination
+
+**Status**: ✅ **COMPLETED** (2025-11-08)
+**GAPS Item**: A3 - Launch Playbooks
+
+### Overview
+
+Launch playbooks provide standardized templates and checklists for coordinating cross-functional launches (product, feature, infrastructure, content). These ensure smooth alignment between marketing and engineering teams.
+
+**Location**: [launch/](launch/)
+
+**Key Documents**:
+1. **[PLAYBOOK_TEMPLATE.md](launch/PLAYBOOK_TEMPLATE.md)** - Comprehensive launch workflow
+   - Pre-launch checklist (T-30, T-14, T-7, T-1 days)
+   - Launch day runbook with rollback procedures
+   - Post-launch review template
+   - Cross-functional stakeholder map (engineering, marketing, legal, security)
+   - Communication templates (internal announcements, external blog posts, social)
+   - Success metrics and KPI tracking
+
+2. **[FEATURE_CHECKLIST.md](launch/FEATURE_CHECKLIST.md)** - Readiness checklist
+   - Technical readiness (tests, docs, monitoring, feature flags)
+   - Marketing readiness (landing page, blog post, social assets)
+   - Legal/compliance readiness (privacy review, claims approval, evidence pages)
+   - Security readiness (audit, penetration testing, compliance)
+   - Analytics readiness (event tracking, dashboards, alerts)
+
+3. **[TIMELINE_TEMPLATE.md](launch/TIMELINE_TEMPLATE.md)** - Gantt chart format
+   - Milestone tracking (alpha, beta, GA)
+   - Dependencies and blockers tracking
+   - Risk assessment and mitigation
+
+4. **[LAUNCH_TYPES.md](launch/LAUNCH_TYPES.md)** - Launch type definitions
+   - Major product launch (e.g., Reasoning Lab)
+   - Feature launch (e.g., new API endpoint)
+   - Infrastructure launch (e.g., new region)
+   - Content launch (e.g., evidence pages, documentation)
+
+### Example Launch
+
+**[Reasoning Lab Launch](launch/examples/reasoning_lab_launch.md)** - Real-world example showing how to use the playbook template for a major product launch.
+
+### Validation
+
+```bash
+# Validate all launch playbooks
+make launch-validate
+
+# Validate specific playbook
+python3 tools/validate_launch.py --playbook branding/governance/launch/examples/reasoning_lab_launch.md
+
+# Strict mode (warnings = errors)
+python3 tools/validate_launch.py --strict
+```
+
+**Tool**: `tools/validate_launch.py` validates:
+- Required front-matter fields (launch name, type, date, lead, sponsor)
+- Stakeholder map completeness
+- Checklist presence (technical, marketing, legal)
+- Rollback procedure documentation
+- Success metrics and KPI definitions
+- Risk register
+- Communication templates
+- Evidence page links for claims
+
+**CI Integration**: Launch validation runs automatically in `.github/workflows/content-lint.yml` on all PRs.
+
+---
+
 ## 🔧 Validation Tools
 
 ### Core Linters
@@ -98,6 +174,12 @@ Comprehensive external audit evaluating LUKHAS branding across 8 dimensions (Con
    - Validates assistive mode presence for critical pages
    - Checks Flesch-Kincaid grade ≤ 8
    - Ensures readability compliance
+
+5. **validate_flags.py** (NEW - GAPS B5)
+   - Validates feature flags configuration
+   - Ensures privacy compliance (no PII in configs)
+   - Checks flag schema and type-specific validation
+   - Integrated into CI/CD pipeline
 
 ### Additional Tools
 
@@ -245,6 +327,44 @@ make claims-strict
 
 ---
 
+## 🎯 Feature Flags System (GAPS B5)
+
+**Status**: ✅ **COMPLETED** (2025-11-08)
+
+**Location**: `branding/features/FEATURE_FLAGS_GUIDE.md`
+
+Privacy-first feature flags system for controlled rollouts, A/B testing, and safe experimentation.
+
+**Key Features**:
+- 5 flag types: boolean, percentage, user targeting, time-based, environment-based
+- Zero third-party dependencies (no LaunchDarkly, Split.io)
+- Privacy-preserving (no user tracking without consent)
+- Gradual rollouts: 0% → 1% → 10% → 50% → 100%
+- Built-in A/B testing support
+
+**Usage**:
+
+```bash
+# Validate feature flags
+make flags-validate
+
+# Migrate from old format
+make flags-migrate INPUT=old.yaml OUTPUT=new.yaml
+```
+
+**Configuration**: `branding/features/flags.yaml`
+
+**Components**:
+- Backend service: `lukhas/features/flags_service.py`
+- API endpoints: `lukhas/api/features.py`
+- React hook: `products/frontend/hooks/useFeatureFlag.ts`
+- Admin UI: `products/frontend/pages/admin/features.tsx`
+- Testing utilities: `lukhas/features/testing.py`
+
+**CI Integration**: Automated validation in `content-lint.yml` workflow
+
+---
+
 ## 📊 Monitoring & Dashboards
 
 ### Domain Health Dashboard
@@ -277,6 +397,7 @@ python3 tools/front_matter_lint.py
 python3 tools/evidence_check.py
 python3 tools/branding_vocab_lint.py
 python3 tools/assistive_validate.py
+python3 tools/validate_flags.py
 
 # Check links
 markdown-link-check "branding/**/*.md"

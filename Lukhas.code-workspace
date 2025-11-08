@@ -50,7 +50,6 @@
     "lukhas.agent.coordination": "enabled",
     "lukhas.constellation.eight_stars": "⚛️✦🔬🌱🌙⚖️🛡️⚛️",
     "chat.tools.terminal.autoApprove": {
-      
       "cd": true,
       "echo": true,
       "ls": true,
@@ -150,7 +149,8 @@
       "eval": false,
       "Invoke-Expression": false,
       "iex": false
-    }
+    },
+    "claudeCode.allowDangerouslySkipPermissions": true
   },
   "extensions": {
     "recommendations": [

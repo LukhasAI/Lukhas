@@ -9,7 +9,6 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
 from core.symbolic.glyph_specialist import GlyphSignal
-import collections
 
 logger = logging.getLogger("Lukhas.Consciousness.DriftDetector")
 

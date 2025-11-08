@@ -125,9 +125,8 @@ Successfully completed Phase 1 of the LUKHAS Branding Governance implementation 
 
 ### 🔴 Remaining (14 items)
 
-**Priority 0** (6 critical items):
+**Priority 0** (5 critical items):
 - **A2**: SEO Pillars + Content Clusters (3 weeks)
-- **A3**: Launch Playbooks (1 week)
 - **B4**: Reasoning Lab Safety Controls (2 weeks)
 - **B6**: 5-minute Reproducible Demo (2 weeks)
 - **E12**: DPA/DPIA Templates (2 weeks)

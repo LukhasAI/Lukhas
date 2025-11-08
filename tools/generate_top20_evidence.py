@@ -3,7 +3,6 @@
 Generate evidence pages for top 20 high-priority claims.
 """
 
-import json
 from pathlib import Path
 from datetime import datetime
 
