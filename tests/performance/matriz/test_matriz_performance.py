@@ -49,7 +49,7 @@ def test_matriz_latency(benchmark, cognitive_orchestrator):
 
     # pytest-benchmark automatically fails if stats are worse than last time.
     # We add an explicit check for our target.
-    p95_latency_ms = statistics.quantiles(benchmark.stats.stats.data, n=100)[94] * 1000
+    p95_latency_ms = statistics.quantiles(benchmark.stats.data, n=100)[94] * 1000
     assert p95_latency_ms < P95_LATENCY_TARGET_MS, f"P95 latency {p95_latency_ms:.2f}ms exceeds target of {P95_LATENCY_TARGET_MS}ms"
 
 
@@ -91,7 +91,7 @@ def test_matriz_throughput(benchmark, cognitive_orchestrator):
 
     benchmark(run_engine)
 
-    ops_per_second = benchmark.stats.get('ops')
+    ops_per_second = benchmark.stats.stats["ops"]
     assert ops_per_second > THROUGHPUT_TARGET_OPS_PER_SEC, f"Throughput of {ops_per_second:.2f} ops/sec is below target of {THROUGHPUT_TARGET_OPS_PER_SEC}"
 
 
