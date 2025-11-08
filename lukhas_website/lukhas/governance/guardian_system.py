@@ -657,17 +657,17 @@ def activate_kill_switch(reason: str = "Emergency shutdown", custom_path: Option
     kill_switch_path = custom_path or "/tmp/guardian_emergency_disable"
 
     try:
-        with open(kill_switch_path, 'w') as f:
+        with open(kill_switch_path, 'w', encoding='utf-8') as f:
             timestamp = datetime.now(timezone.utc).isoformat()
             f.write(f"GUARDIAN EMERGENCY KILL-SWITCH ACTIVATED\n")
             f.write(f"Timestamp: {timestamp}\n")
             f.write(f"Reason: {reason}\n")
             f.write(f"\n")
-            f.write(f"⚠️  ALL Guardian-protected operations are BLOCKED\n")
+            f.write("WARNING: ALL Guardian-protected operations are BLOCKED\n")
             f.write(f"To deactivate: rm {kill_switch_path}\n")
 
-        logger.critical(f"🚨 GUARDIAN KILL-SWITCH ACTIVATED: {kill_switch_path}")
-        logger.critical(f"Reason: {reason}")
+        logger.critical("GUARDIAN KILL-SWITCH ACTIVATED: %s", kill_switch_path)
+        logger.critical("Reason: %s", reason)
         return True
 
     except Exception as e:
