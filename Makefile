@@ -21,7 +21,7 @@
 .PHONY: lint-json lint-fix lint-delta f401-tests import-map imports-abs imports-graph ruff-heatmap ruff-ratchet f821-suggest f706-detect f811-detect todos todos-issues codemod-dry codemod-apply check-legacy-imports
 .PHONY: state-sweep shadow-diff plan-colony-renames integration-manifest
 .PHONY: t4-init t4-migrate t4-migrate-dry t4-validate t4-dashboard t4-api t4-parallel t4-parallel-dry t4-codemod-dry t4-codemod-apply
-.PHONY: evidence-pages evidence-validate evidence-validate-strict branding-vocab-lint branding-claims-fix flags-validate flags-migrate launch-validate
+.PHONY: evidence-pages evidence-validate evidence-validate-strict branding-vocab-lint branding-claims-fix flags-validate flags-migrate launch-validate reasoning-lab-safety-check
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1978,4 +1978,13 @@ launch-validate: ## Validate launch playbook completeness
 	@echo "🚀 Validating launch playbooks..."
 	@python3 tools/validate_launch.py
 	@echo "✅ Launch playbook validation complete"
+
+# ============================================================================
+# Reasoning Lab Safety Controls Validation (GAPS B4)
+# ============================================================================
+
+reasoning-lab-safety-check: ## Validate reasoning lab safety controls compliance
+	@echo "🔒 Validating reasoning lab safety controls..."
+	@python3 tools/validate_reasoning_lab_safety.py
+	@echo "✅ Reasoning lab safety validation complete"
 
