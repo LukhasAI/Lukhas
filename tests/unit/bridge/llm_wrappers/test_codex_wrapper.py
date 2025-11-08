@@ -1,8 +1,6 @@
 
 import asyncio
 import os
-import runpy
-import sys
 from datetime import datetime
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -10,11 +8,6 @@ import aiohttp
 import pytest
 from aioresponses import aioresponses
 from pydantic import ValidationError
-
-# Mock the keychain manager as it's an optional dependency.
-# This needs to happen before the import from codex_wrapper.
-mock_keychain_manager_module = MagicMock()
-sys.modules['core.security.keychain_manager'] = mock_keychain_manager_module
 
 # Now we can import the module under test
 from bridge.llm_wrappers.codex_wrapper import (
