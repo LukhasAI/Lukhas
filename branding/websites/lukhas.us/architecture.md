@@ -12,7 +12,11 @@ seo:
     - "US market AI solutions"
 last_reviewed: "2025-11-08"
 keywords: "American AI platform, US consciousness technology, ethical AI US, American innovation, US market AI solutions"
----
+evidence_links:
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/experimental-design-95pct.md'
+  - 'release_artifacts/evidence/privacy-compliance-999pct.md'---
 # 🇺🇸 LUKHAS.US - The American Consciousness Hub
 ## Website Architecture & Regional Consciousness Technology Deployment
 

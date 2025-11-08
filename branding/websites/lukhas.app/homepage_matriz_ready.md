@@ -1,6 +1,14 @@
 ---
 domain: lukhas.app
 title: "LUKHAS.APP - Where Consciousness Becomes Tangible"
+evidence_links:
+  - 'release_artifacts/evidence/api-proxy-pattern-30ms.md'
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/matriz-completion-87pct.md'
+  - 'release_artifacts/evidence/matriz-deployment-ready-production.md'
+  - 'release_artifacts/evidence/matriz-p95-latency-250ms.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'
+  - 'release_artifacts/evidence/user-satisfaction-94pct.md'
 updated: 2025-11-05
 status: ready-for-implementation
 matriz_integration: interactive-reasoning-playground

@@ -12,7 +12,8 @@ seo:
     - "enterprise consciousness technology"
 last_reviewed: "2025-11-08"
 keywords: "enterprise AI, corporate consciousness, business AI solutions, Guardian Hub, enterprise consciousness technology"
----
+evidence_links:
+  - 'release_artifacts/evidence/user-satisfaction-94pct.md'---
 # 🛡️ LUKHAS.COM - The Guardian Hub
 ## Website Architecture & Corporate Strategy
 

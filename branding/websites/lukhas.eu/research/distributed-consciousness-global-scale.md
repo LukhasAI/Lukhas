@@ -10,8 +10,10 @@ tone:
 canonical: https://lukhas.eu/research/distributed-consciousness-global-scale
 source: "branding/websites/lukhas.eu/research/distributed-consciousness-global-scale.md"
 evidence_links:
-  - "release_artifacts/global-latency-benchmarks-2024.json"
-  - "release_artifacts/data-residency-compliance-audit.pdf"
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/matriz-completion-87pct.md'
+  - 'release_artifacts/evidence/privacy-compliance-999pct.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'
 claims_verified_by: ["@web-architect", "@legal"]
 claims_verified_date: "2025-11-05"
 claims_approval: true
