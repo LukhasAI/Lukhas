@@ -713,13 +713,15 @@ class OpenAIModulatedService:
 
         try:
             if request.stream:
-                return self.async_client.chat.completions.create(
+                stream_response = await self.async_client.chat.completions.create(
                     model=request.model.value,
                     messages=request.messages,
                     temperature=request.temperature,
                     max_tokens=request.max_tokens,
                     stream=True,
                 )
+
+                return stream_response
             else:
                 response = await self.async_client.chat.completions.create(
                     model=request.model.value,
