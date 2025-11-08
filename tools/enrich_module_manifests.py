@@ -11,6 +11,11 @@ import json
 from pathlib import Path
 from typing import Any
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 def load_json(path: Path) -> dict[str, Any]:
     """Load JSON file safely"""

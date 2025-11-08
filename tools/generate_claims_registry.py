@@ -184,13 +184,13 @@ def generate_registry(output_path: Path):
         json.dump(registry, f, indent=2, ensure_ascii=False)
 
     print(f"\n✅ Claims registry generated: {output_path}")
-    print(f"\n📊 Summary:")
+    print("\n📊 Summary:")
     print(f"   Total files scanned: {registry['summary']['total_files_scanned']}")
     print(f"   Total claims: {registry['summary']['total_claims']}")
     print(f"   ✅ Verified: {registry['summary']['verified']}")
     print(f"   ⚠️  Missing evidence: {registry['summary']['missing_evidence']}")
     print(f"   ❌ Not approved: {registry['summary']['not_approved']}")
-    print(f"\n📈 By Type:")
+    print("\n📈 By Type:")
     for claim_type, count in sorted(registry['summary']['by_type'].items()):
         print(f"   {claim_type}: {count}")
 

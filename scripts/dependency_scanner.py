@@ -10,6 +10,11 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Dict
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 class DependencyScanner:
     def __init__(self, root_path: str):

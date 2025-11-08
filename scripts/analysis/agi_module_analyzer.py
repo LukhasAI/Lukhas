@@ -14,6 +14,11 @@ from pathlib import Path
 
 import networkx as nx
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 @dataclass
 class ModuleAnalysis:

@@ -12,6 +12,11 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 class LUKHASMaintenancePipeline:
     def __init__(self, root_path: str):

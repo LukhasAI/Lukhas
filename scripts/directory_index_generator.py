@@ -10,6 +10,11 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, Optional
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 class DirectoryIndexGenerator:
     def __init__(self, root_path: str):

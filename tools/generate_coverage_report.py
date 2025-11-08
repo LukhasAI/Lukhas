@@ -12,6 +12,11 @@ import glob
 import json
 from pathlib import Path
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 def main():
     """Generate the coverage report."""

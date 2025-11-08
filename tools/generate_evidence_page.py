@@ -432,19 +432,19 @@ def main():
     generator = EvidencePageGenerator(registry_path=args.registry)
 
     if args.claim_id:
-        print(f"⚠️  Single claim ID generation not yet implemented")
-        print(f"💡 Run without --claim-id to generate all pages")
+        print("⚠️  Single claim ID generation not yet implemented")
+        print("💡 Run without --claim-id to generate all pages")
         sys.exit(1)
 
     # Generate all pages
     generated = generator.generate_all(force=args.force)
 
     if generated:
-        print(f"\n📝 Next steps:")
+        print("\n📝 Next steps:")
         print(f"   1. Review generated pages in {EVIDENCE_DIR}")
-        print(f"   2. Fill in methodology sections with actual data")
-        print(f"   3. Link artifacts and calculate SHA256 hashes")
-        print(f"   4. Run: python3 tools/validate_evidence_pages.py")
+        print("   2. Fill in methodology sections with actual data")
+        print("   3. Link artifacts and calculate SHA256 hashes")
+        print("   4. Run: python3 tools/validate_evidence_pages.py")
 
 
 if __name__ == "__main__":

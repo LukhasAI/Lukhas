@@ -26,6 +26,11 @@ import pytest
 from hypothesis import assume, given, note, settings
 from hypothesis.stateful import Bundle, RuleBasedStateMachine, initialize, invariant, rule
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from ledger.consent_handlers import IdempotentConsentHandler, IdempotentTraceHandler

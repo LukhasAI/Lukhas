@@ -12,6 +12,11 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 def utc() -> str:
     """Return current UTC timestamp."""

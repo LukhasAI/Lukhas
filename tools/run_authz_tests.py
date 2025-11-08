@@ -17,6 +17,11 @@ from typing import Any
 
 import yaml
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 class AuthzTestRunner:
     """Runs authorization test matrices."""

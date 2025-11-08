@@ -15,6 +15,11 @@ from typing import Any
 
 import pytest
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 try:
     from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
     from matriz.core.node_interface import CognitiveNode

@@ -37,6 +37,9 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 class QIEntanglement:
     """

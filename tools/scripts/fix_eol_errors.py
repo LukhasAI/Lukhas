@@ -4,6 +4,11 @@
 import ast
 from pathlib import Path
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 def fix_eol_in_file(file_path):
     """Fix EOL string literal errors in a specific file"""

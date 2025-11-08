@@ -1173,8 +1173,8 @@ async def create_all_sessions(limit: int = None):
 
     print(f"🚀 Creating {len(tasks)} Jules Test Sessions")
     print("=" * 70)
-    print(f"Target: Maximum test coverage automation")
-    print(f"Mode: AUTO_CREATE_PR")
+    print("Target: Maximum test coverage automation")
+    print("Mode: AUTO_CREATE_PR")
     print()
 
     async with JulesClient() as jules:

@@ -44,8 +44,8 @@ def validate_claims(strict=False):
                 warnings.append(('not_approved', claim))
 
     # Report
-    print(f"📊 Claims Validation Report")
-    print(f"=" * 60)
+    print("📊 Claims Validation Report")
+    print("=" * 60)
     print(f"Total claims: {summary['total_claims']}")
     print(f"✅ Verified: {summary['verified']}")
     print(f"⚠️  Missing evidence: {summary['missing_evidence']}")
@@ -82,11 +82,11 @@ def validate_claims(strict=False):
         print(f"\n⚠️  WARNINGS ({len(warnings)}) - Not approved but has evidence:")
         for warning_type, warning in warnings[:5]:
             print(f"   {warning['file']}: {warning['claim']}")
-        print(f"\n✅ PASSED (warnings in non-strict mode)")
+        print("\n✅ PASSED (warnings in non-strict mode)")
         sys.exit(0)
 
     else:
-        print(f"\n✅ ALL CLAIMS VALIDATED")
+        print("\n✅ ALL CLAIMS VALIDATED")
         print(f"   {summary['verified']} claims verified with evidence and approval")
         sys.exit(0)
 

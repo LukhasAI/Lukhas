@@ -11,6 +11,11 @@ from dataclasses import asdict, dataclass
 from enum import Enum
 from typing import Any
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 # Import LUKHAS core systems
 try:
     from consciousness.unified.auto_consciousness import AutoConsciousness

@@ -9,6 +9,11 @@ import ast
 import re
 from pathlib import Path
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 def fix_fstring_parentheses(content: str) -> tuple[str, int]:
     """Fix f-string parenthesis mismatches systematically"""

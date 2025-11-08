@@ -21,6 +21,11 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import jwt
 import pytest
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 # ============================================================================
 # Fixtures
 # ============================================================================

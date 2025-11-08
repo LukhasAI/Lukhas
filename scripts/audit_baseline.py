@@ -24,6 +24,11 @@ from typing import Any, Optional
 
 import psutil
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 # Add project root to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 

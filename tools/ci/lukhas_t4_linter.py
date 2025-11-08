@@ -36,7 +36,7 @@ import sys
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Iterator
+from collections.abc import Iterator
 
 REPO = Path(__file__).resolve().parents[2]
 LOG = REPO / "reports" / "todos" / "lint_issues.jsonl"
@@ -304,8 +304,8 @@ def main():
     errors = [v for v in all_violations if v["code"] == "LUKHAS001"]
     warnings = [v for v in all_violations if v["code"] == "LUKHAS003"]
 
-    print(f"\n🛡️ LUKHAS T4 Architectural Linter Results")
-    print(f"=" * 60)
+    print("\n🛡️ LUKHAS T4 Architectural Linter Results")
+    print("=" * 60)
 
     # Annotate violations
     edits = 0
@@ -363,7 +363,7 @@ def main():
     print(f"Annotations created: {edits}")
 
     if errors:
-        print(f"\n❌ CRITICAL architectural violations detected!")
+        print("\n❌ CRITICAL architectural violations detected!")
         print(f"   {len(errors)} Trinity Framework import boundary violations")
 
         if args.strict:

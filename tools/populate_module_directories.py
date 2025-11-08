@@ -14,6 +14,11 @@ from typing import Dict
 
 import yaml
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 class ModuleDirectoryPopulator:
     """Populate module directories with real content based on module analysis."""

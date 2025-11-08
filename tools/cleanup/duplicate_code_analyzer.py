@@ -11,6 +11,11 @@ import os
 from collections import defaultdict
 from pathlib import Path
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 class DuplicateCodeAnalyzer:
     """Analyzes codebase for duplicates and conflicts"""

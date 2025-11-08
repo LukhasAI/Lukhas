@@ -447,7 +447,7 @@ class EvidencePageValidator:
 
         # Summary
         print("\n" + "=" * 60)
-        print(f"📊 Validation Summary:")
+        print("📊 Validation Summary:")
         print(f"   Errors:   {len(self.errors)}")
         print(f"   Warnings: {len(self.warnings)}")
         print(f"   Info:     {len(self.info)}")
