@@ -94,7 +94,7 @@ The **Reasoning Lab** is an interactive interface that allows users to watch MΛ
 
 ### T-14 Days: Development & Content Creation 🟡 In Progress
 
-#### Technical Completion 🟡
+#### Technical Readiness 🟡
 - [x] **Backend API complete** - `/v1/traces/:id`, `/v1/traces/latest` endpoints live
 - [x] **Frontend UI complete** - React visualization component deployed
 - [x] **Database migrations** - Trace metadata schema deployed
@@ -104,7 +104,7 @@ The **Reasoning Lab** is an interactive interface that allows users to watch MΛ
 - [ ] **Security audit scheduled** - Scheduled for 2025-12-10
 - [ ] **Performance testing scheduled** - Scheduled for 2025-12-11
 
-#### Marketing Assets 🟡
+#### Marketing Readiness 🟡
 - [x] **Landing page designed** - `/features/reasoning-lab` mockup approved
 - [ ] **Landing page built** - In progress, 70% complete (due 2025-12-12)
 - [x] **Blog post drafted** - "Introducing Reasoning Lab: Watch MΛTRIZ Think" (draft)
@@ -134,7 +134,7 @@ The **Reasoning Lab** is an interactive interface that allows users to watch MΛ
 - [x] **Cross-browser testing complete** - Chrome, Firefox, Safari, Edge verified
 - [x] **Mobile responsiveness verified** - Works on iOS/Android, simplified view
 
-#### Legal & Compliance 🔴
+#### Legal/Compliance Readiness 🔴
 - [ ] **Claims approved by legal** - In review (5 claims pending approval)
   - **Claim 1**: "Watch MΛTRIZ build reasoning chains step-by-step" (operational claim)
   - **Claim 2**: "P95 latency < 250ms" (performance claim)

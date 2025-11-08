@@ -78,6 +78,75 @@ Comprehensive external audit evaluating LUKHAS branding across 8 dimensions (Con
 
 ---
 
+## 🚀 Launch Playbooks & Coordination
+
+**Status**: ✅ **COMPLETED** (2025-11-08)
+**GAPS Item**: A3 - Launch Playbooks
+
+### Overview
+
+Launch playbooks provide standardized templates and checklists for coordinating cross-functional launches (product, feature, infrastructure, content). These ensure smooth alignment between marketing and engineering teams.
+
+**Location**: [launch/](launch/)
+
+**Key Documents**:
+1. **[PLAYBOOK_TEMPLATE.md](launch/PLAYBOOK_TEMPLATE.md)** - Comprehensive launch workflow
+   - Pre-launch checklist (T-30, T-14, T-7, T-1 days)
+   - Launch day runbook with rollback procedures
+   - Post-launch review template
+   - Cross-functional stakeholder map (engineering, marketing, legal, security)
+   - Communication templates (internal announcements, external blog posts, social)
+   - Success metrics and KPI tracking
+
+2. **[FEATURE_CHECKLIST.md](launch/FEATURE_CHECKLIST.md)** - Readiness checklist
+   - Technical readiness (tests, docs, monitoring, feature flags)
+   - Marketing readiness (landing page, blog post, social assets)
+   - Legal/compliance readiness (privacy review, claims approval, evidence pages)
+   - Security readiness (audit, penetration testing, compliance)
+   - Analytics readiness (event tracking, dashboards, alerts)
+
+3. **[TIMELINE_TEMPLATE.md](launch/TIMELINE_TEMPLATE.md)** - Gantt chart format
+   - Milestone tracking (alpha, beta, GA)
+   - Dependencies and blockers tracking
+   - Risk assessment and mitigation
+
+4. **[LAUNCH_TYPES.md](launch/LAUNCH_TYPES.md)** - Launch type definitions
+   - Major product launch (e.g., Reasoning Lab)
+   - Feature launch (e.g., new API endpoint)
+   - Infrastructure launch (e.g., new region)
+   - Content launch (e.g., evidence pages, documentation)
+
+### Example Launch
+
+**[Reasoning Lab Launch](launch/examples/reasoning_lab_launch.md)** - Real-world example showing how to use the playbook template for a major product launch.
+
+### Validation
+
+```bash
+# Validate all launch playbooks
+make launch-validate
+
+# Validate specific playbook
+python3 tools/validate_launch.py --playbook branding/governance/launch/examples/reasoning_lab_launch.md
+
+# Strict mode (warnings = errors)
+python3 tools/validate_launch.py --strict
+```
+
+**Tool**: `tools/validate_launch.py` validates:
+- Required front-matter fields (launch name, type, date, lead, sponsor)
+- Stakeholder map completeness
+- Checklist presence (technical, marketing, legal)
+- Rollback procedure documentation
+- Success metrics and KPI definitions
+- Risk register
+- Communication templates
+- Evidence page links for claims
+
+**CI Integration**: Launch validation runs automatically in `.github/workflows/content-lint.yml` on all PRs.
+
+---
+
 ## 🔧 Validation Tools
 
 ### Core Linters
