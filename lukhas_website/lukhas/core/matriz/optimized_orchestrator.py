@@ -22,7 +22,6 @@ from typing import Any, Optional
 from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator, StageResult, StageType
 from matriz.core.node_interface import CognitiveNode
 from observability.matriz_instrumentation import (
-import collections
     cognitive_pipeline_span,
     initialize_cognitive_instrumentation,
     instrument_cognitive_stage,

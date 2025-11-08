@@ -210,6 +210,7 @@ exclude = [
     "docs",
     "tests/fixtures",
     "scripts/migrations",
+    "scripts/Codex_Files.py",  # Documentation bundle with embedded code - not executable Python
     ".git",
     ".venv",
     ".ruff_cache",

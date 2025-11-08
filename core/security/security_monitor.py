@@ -21,7 +21,6 @@ from time import perf_counter
 from typing import Any
 
 from observability import counter, gauge, histogram
-import collections
 
 __all__ = [
     "EventSeverity",

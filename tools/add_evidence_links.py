@@ -4,7 +4,6 @@ Add evidence_links to branding pages for top 20 claims.
 """
 
 import json
-import re
 from pathlib import Path
 from collections import defaultdict
 
