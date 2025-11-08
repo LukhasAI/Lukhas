@@ -182,6 +182,11 @@ class EvidencePageGenerator:
             return claim_text
         return claim_text[:97] + "..."
 
+    @staticmethod
+    def _escape_for_yaml_double_quotes(value: str) -> str:
+        """Escape a string for safe insertion inside double-quoted YAML fields."""
+        return json.dumps(str(value))[1:-1]
+
     def prefill_template(
         self,
         claim: Dict[str, Any],
@@ -203,6 +208,9 @@ class EvidencePageGenerator:
         # Pages using this claim
         page_path = self._extract_page_path(claim)
         claim_excerpt = self._format_claim_excerpt(claims_found[0] if claims_found else "")
+
+        # Escape claim statement for YAML front-matter while keeping markdown readable.
+        escaped_claim_statement = self._escape_for_yaml_double_quotes(claim_statement)
 
         # Dates
         today = datetime.now()
@@ -318,6 +326,7 @@ class EvidencePageGenerator:
         }
 
         # Apply replacements
+        content = content.replace('"{{CLAIM_STATEMENT}}"', f'"{escaped_claim_statement}"')
         for placeholder, value in replacements.items():
             content = content.replace(placeholder, value)
 
