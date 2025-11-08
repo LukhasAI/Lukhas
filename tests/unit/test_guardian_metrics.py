@@ -5,6 +5,7 @@ Tests Prometheus metric recording for policy decisions, denial reasons,
 latency tracking, and cardinality controls.
 """
 import pytest
+
 from observability.guardian_metrics import (
     _cap_reason,
     _normalize_route,
