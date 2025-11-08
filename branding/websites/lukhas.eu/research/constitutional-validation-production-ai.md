@@ -7,17 +7,23 @@ tone:
   poetic: 0.05
   user_friendly: 0.45
   academic: 0.50
-canonical: true
+canonical: https://lukhas.eu/research/constitutional-validation-production-ai
 source: "branding/websites/lukhas.eu/research/constitutional-validation-production-ai.md"
 evidence_links:
-  - "release_artifacts/guardian-compliance-2025-Q3.pdf"
-  - "release_artifacts/drift-detection-validation.json"
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/constitutional-validation-12ms.md'
+  - 'release_artifacts/evidence/constitutional-validation-15ms.md'
+  - 'release_artifacts/evidence/constitutional-validation-8ms.md'
+  - 'release_artifacts/evidence/guardian-compliance-997pct.md'
+  - 'release_artifacts/evidence/privacy-compliance-999pct.md'
+  - 'release_artifacts/evidence/user-satisfaction-94pct.md'
+  - 'release_artifacts/evidence/validated-production-deployment-eu.md'
 claims_verified_by: ["@web-architect", "@legal"]
 claims_verified_date: "2025-11-05"
 claims_approval: true
 seo:
   title: "Constitutional AI Validation in Production Systems - Guardian Research"
-  description: "Peer-reviewed research on Guardian constitutional validation achieving 99.7% compliance across 3M production interactions with drift detection and EU AI Act compliance."
+  description: "ACM FAccT 2024 research on Guardian achieving 99.7% compliance across 3M production interactions with statistical drift detection and EU AI Act Article 13 human oversight."
   keywords:
     - "constitutional AI"
     - "value alignment"

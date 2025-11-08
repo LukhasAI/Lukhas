@@ -131,7 +131,6 @@ class CognitiveNode(ABC):
             - 'matriz_node': Complete MATRIZ format node
             - 'processing_time': Time taken in seconds
         """
-        pass
 
     @abstractmethod
     def validate_output(self, output: dict[str, Any]) -> bool:
@@ -150,7 +149,6 @@ class CognitiveNode(ABC):
         Returns:
             True if valid, False otherwise
         """
-        pass
 
     def get_trace(self) -> list[dict]:
         """

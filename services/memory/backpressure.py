@@ -22,6 +22,8 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
 
+from async_utils import create_background_task
+
 logger = logging.getLogger(__name__)
 
 
@@ -190,7 +192,7 @@ class TokenBucket:
             # Trigger adaptation check periodically
             now = time.monotonic()
             if now - self.last_adaptation >= self.config.adaptation_window_sec:
-                asyncio.create_task(self._adapt_rate())
+                create_background_task(self._adapt_rate())
 
     async def _adapt_rate(self):
         """Adapt refill rate based on observed latencies"""

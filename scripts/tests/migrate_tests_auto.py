@@ -9,6 +9,7 @@ Updates pytest collection paths.
 import subprocess
 import sys
 from pathlib import Path
+
 ART = Path("artifacts")
 
 

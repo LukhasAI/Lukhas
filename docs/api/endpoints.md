@@ -1,5 +1,8 @@
 # LUKHAS API Endpoints
 
+**Last Updated**: 2025-11-08
+
+
 This document provides a comprehensive overview of the LUKHAS API endpoints. For detailed information about each endpoint, please refer to the OpenAPI specification.
 
 ## OpenAI Compatible Endpoints

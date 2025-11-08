@@ -274,9 +274,13 @@ class MathReasoningNode(CognitiveNode):
             return float(result)
 
         except ZeroDivisionError:
-            raise ValueError("Division by zero")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_core_example_node_py_L264"}
+            raise ValueError(
+                "Division by zero"
+            )  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_core_example_node_py_L264"}
         except Exception as e:
-            raise ValueError(f"Invalid expression: {e!s}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_core_example_node_py_L267"}
+            raise ValueError(
+                f"Invalid expression: {e!s}"
+            )  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_core_example_node_py_L267"}
 
 
 # Example usage and testing

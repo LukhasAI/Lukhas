@@ -1,15 +1,16 @@
 # Tests for QRG Consciousness PKI
 
-import pytest
-import numpy as np
 from datetime import datetime, timezone
 
+import numpy as np
+import pytest
 from products.security.qrg.qrg_core import (
-    QIResonanceGlyph,
-    QIGlyphConfig,
     ConsciousnessContext,
     QIGlyph,
+    QIGlyphConfig,
+    QIResonanceGlyph,
 )
+
 
 class TestQIResonanceGlyph:
     """Tests for the QIResonanceGlyph class."""

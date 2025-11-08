@@ -390,7 +390,7 @@ def test_config_merge_flat():
 @pytest.mark.unit
 def test_config_merge_nested():
     """Test nested configuration merging."""
-    def deep_merge(base: Dict, override: Dict) -> Dict:
+    def deep_merge(base: dict, override: dict) -> dict:
         """Deep merge two dictionaries."""
         result = base.copy()
 

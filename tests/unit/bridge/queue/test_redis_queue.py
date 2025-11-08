@@ -2,12 +2,14 @@
 Unit tests for RedisTaskQueue.
 """
 import asyncio
-import pytest
 import uuid
-from unittest.mock import patch, AsyncMock
+from unittest.mock import AsyncMock, patch
+
+import fakeredis.aioredis
+import pytest
 
 from bridge.queue.redis_queue import RedisTaskQueue, Task, TaskPriority, TaskType
-import fakeredis.aioredis
+
 
 @pytest.fixture
 def mock_redis_from_url():
@@ -38,8 +40,10 @@ def create_test_task(priority: TaskPriority, task_id: str = None) -> Task:
         prompt="Test prompt",
     )
 
-from pydantic import ValidationError
 from datetime import datetime
+
+from pydantic import ValidationError
+
 
 class TestTaskModel:
     """Tests for the Task Pydantic model."""

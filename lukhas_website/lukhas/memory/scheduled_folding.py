@@ -11,6 +11,7 @@ Features:
 - Integration with adaptive memory system
 """
 
+import collections
 import hashlib
 import json
 import threading

@@ -71,7 +71,7 @@ def validate_events():
     missing = defined_events - tracked_events
     if missing:
         print(f"⚠️  Events in taxonomy but not tracked: {sorted(missing)}")
-        print(f"    (This is expected if tracking code hasn't been implemented yet)")
+        print("    (This is expected if tracking code hasn't been implemented yet)")
 
     # Success message
     if not undefined and not missing:
@@ -84,7 +84,7 @@ def validate_events():
             print(f"   Note: {len(missing)} events not yet tracked (expected during development)")
         return 0
     else:
-        print(f"❌ Event validation failed")
+        print("❌ Event validation failed")
         return 1
 
 

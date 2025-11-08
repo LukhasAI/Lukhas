@@ -7,16 +7,20 @@ Auto-generated bridge following canonical pattern:
 
 Graceful fallback to stubs if no backend available.
 """
+
 from __future__ import annotations
 
 from importlib import import_module
+
 __all__: list[str] = []
+
 
 def _try(n: str):
     try:
         return import_module(n)
     except Exception:
         return None
+
 
 # Try backends in order (exclude self to prevent recursion)
 _CANDIDATES = (
@@ -38,6 +42,7 @@ for _cand in _CANDIDATES:
 
 # Add expected symbols as stubs if not found
 # No pre-defined stubs
+
 
 def __getattr__(name: str):
     """Lazy attribute access fallback."""

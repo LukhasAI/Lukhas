@@ -2,20 +2,21 @@
 Unit and integration tests for the MATRIZ orchestration modules.
 """
 
-import pytest
-from unittest.mock import Mock, patch
-
 # It's good practice to patch modules that might not be available
 # in all test environments.
 import time
+from unittest.mock import Mock, patch
+
+import pytest
 
 try:
-    from matriz.core.orchestrator import CognitiveOrchestrator
     from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator, StageType
-    from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
     from matriz.core.example_node import MathReasoningNode
+    from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
+    from matriz.core.orchestrator import CognitiveOrchestrator
 except ImportError:
     pytest.skip("MATRIZ core components not available", allow_module_level=True)
+
 
 # A concrete implementation of the abstract CognitiveNode for testing purposes.
 class ConcreteNode(CognitiveNode):
@@ -32,7 +33,7 @@ class ConcreteNode(CognitiveNode):
                 NodeTrigger(
                     event_type="causal_link",
                     timestamp=int(time.time() * 1000),
-                    trigger_node_id=trigger_id
+                    trigger_node_id=trigger_id,
                 )
             )
         return {
@@ -44,7 +45,9 @@ class ConcreteNode(CognitiveNode):
     def validate_output(self, output):
         return "answer" in output and "matriz_node" in output
 
+
 # --- Tests for node_interface.py ---
+
 
 def test_create_matriz_node_valid():
     """Tests that a valid MATRIZ node can be created."""
@@ -58,12 +61,14 @@ def test_create_matriz_node_valid():
     assert "id" in matriz_node
     assert "version" in matriz_node
 
+
 def test_create_matriz_node_invalid_type():
     """Tests that creating a node with an invalid type raises an error."""
     node = ConcreteNode()
     state = NodeState(confidence=0.8, salience=0.7)
     with pytest.raises(ValueError):
         node.create_matriz_node("INVALID_TYPE", state)
+
 
 def test_validate_matriz_node():
     """Tests the validation of MATRIZ nodes."""
@@ -81,7 +86,9 @@ def test_validate_matriz_node():
     invalid_node_bad_confidence["state"] = {"confidence": 1.1, "salience": 0.5}
     assert not node.validate_matriz_node(invalid_node_bad_confidence)
 
+
 # --- Tests for example_node.py ---
+
 
 def test_math_reasoning_node_extract_expression():
     """Tests the expression extraction logic of the MathReasoningNode."""
@@ -91,6 +98,7 @@ def test_math_reasoning_node_extract_expression():
     assert node._extract_math_expression("solve 2**8") == "2**8"
     assert node._extract_math_expression("just some text") == ""
 
+
 def test_math_reasoning_node_safe_eval():
     """Tests the safe evaluation logic of the MathReasoningNode."""
     node = MathReasoningNode()
@@ -99,6 +107,7 @@ def test_math_reasoning_node_safe_eval():
         node._safe_eval("import os")
     with pytest.raises(ValueError, match="Unbalanced parentheses"):
         node._safe_eval("(2+2")
+
 
 def test_math_reasoning_node_valid_expression():
     """Tests the MathReasoningNode with a valid mathematical expression."""
@@ -110,6 +119,7 @@ def test_math_reasoning_node_valid_expression():
     assert "matriz_node" in result
     assert node.validate_output(result)
 
+
 def test_math_reasoning_node_no_expression():
     """Tests the MathReasoningNode with a query that doesn't contain a mathematical expression."""
     node = MathReasoningNode()
@@ -118,6 +128,7 @@ def test_math_reasoning_node_no_expression():
     assert "could not find a mathematical expression" in result["answer"]
     assert result["confidence"] < 0.2
     assert node.validate_output(result)
+
 
 def test_math_reasoning_node_invalid_expression():
     """Tests the MathReasoningNode with an invalid expression (division by zero)."""
@@ -129,7 +140,9 @@ def test_math_reasoning_node_invalid_expression():
     assert result["confidence"] < 0.3
     assert node.validate_output(result)
 
+
 # --- Tests for orchestrator.py ---
+
 
 def test_orchestrator_register_node():
     """Tests that a node can be registered with the orchestrator."""
@@ -137,6 +150,7 @@ def test_orchestrator_register_node():
     node = ConcreteNode()
     orchestrator.register_node("test_node", node)
     assert "test_node" in orchestrator.available_nodes
+
 
 def test_orchestrator_process_query_success():
     """Tests a successful query processing workflow."""
@@ -150,6 +164,7 @@ def test_orchestrator_process_query_success():
     assert "answer" in result
     assert result["answer"] == "processed"
 
+
 def test_orchestrator_process_query_no_node_available():
     """Tests processing a query when no suitable node is available."""
     orchestrator = CognitiveOrchestrator()
@@ -157,6 +172,7 @@ def test_orchestrator_process_query_no_node_available():
     result = orchestrator.process_query("1+1")
     assert "error" in result
     assert "No node available" in result["error"]
+
 
 def test_orchestrator_process_query_node_fails():
     """Tests error handling when a node fails during processing."""
@@ -169,6 +185,7 @@ def test_orchestrator_process_query_node_fails():
     assert "error" in result
     assert "failed during processing" in result["error"]
 
+
 def test_orchestrator_with_validator():
     """Tests the orchestrator's workflow when a validator node is present."""
     orchestrator = CognitiveOrchestrator()
@@ -176,15 +193,19 @@ def test_orchestrator_with_validator():
 
     # The validator will just check for the presence of an answer.
     class SimpleValidator(CognitiveNode):
-        def process(self, input_data): return {}
-        def validate_output(self, output): return "answer" in output
+        def process(self, input_data):
+            return {}
+
+        def validate_output(self, output):
+            return "answer" in output
 
     orchestrator.register_node("validator", SimpleValidator("validator", ["validation"]))
 
     result = orchestrator.process_query("1+1")
     assert "answer" in result
     # Check that a reflection node was created due to validation
-    assert any(node['type'] == 'REFLECTION' for node in result['matriz_nodes'])
+    assert any(node["type"] == "REFLECTION" for node in result["matriz_nodes"])
+
 
 def test_orchestrator_get_causal_chain():
     """Tests the retrieval of a causal chain of nodes."""
@@ -193,16 +214,18 @@ def test_orchestrator_get_causal_chain():
     result = orchestrator.process_query("1+1")
 
     # Get the ID of the last node in the graph
-    last_node_id = result['matriz_nodes'][-1]['id']
+    last_node_id = result["matriz_nodes"][-1]["id"]
     chain = orchestrator.get_causal_chain(last_node_id)
 
     # The causal chain should include the intent, decision, and processing nodes.
     assert len(chain) >= 3
-    node_types_in_chain = {node['type'] for node in chain}
+    node_types_in_chain = {node["type"] for node in chain}
     assert "INTENT" in node_types_in_chain
     assert "DECISION" in node_types_in_chain
 
+
 # --- Tests for async_orchestrator.py ---
+
 
 @pytest.mark.asyncio
 async def test_async_orchestrator_register_node():
@@ -211,6 +234,7 @@ async def test_async_orchestrator_register_node():
     node = ConcreteNode()
     orchestrator.register_node("test_node", node)
     assert "test_node" in orchestrator.available_nodes
+
 
 @pytest.mark.asyncio
 async def test_async_orchestrator_process_query_success():
@@ -225,6 +249,7 @@ async def test_async_orchestrator_process_query_success():
     assert "metrics" in result
     assert result["metrics"]["within_budget"]
 
+
 @pytest.mark.asyncio
 async def test_async_orchestrator_total_timeout():
     """Tests that the entire pipeline times out if it exceeds the total budget."""
@@ -235,9 +260,12 @@ async def test_async_orchestrator_total_timeout():
     class SlowNode(CognitiveNode):
         def process(self, input_data):
             import time
+
             time.sleep(0.1)
             return {"answer": "done", "confidence": 1.0, "matriz_node": {}}
-        def validate_output(self, output): return True
+
+        def validate_output(self, output):
+            return True
 
     orchestrator.register_node("math", SlowNode("slow", ["math"]))
 
@@ -246,28 +274,35 @@ async def test_async_orchestrator_total_timeout():
     assert "error" in result
     assert "Pipeline timeout exceeded" in result["error"]
 
+
 @pytest.mark.asyncio
 async def test_async_orchestrator_stage_timeout_and_recover():
     """Tests that a non-critical stage can time out without failing the pipeline."""
     # Set a very short timeout for a non-critical stage (validation)
     orchestrator = AsyncCognitiveOrchestrator(stage_timeouts={StageType.VALIDATION: 0.001})
     orchestrator.register_node("math", ConcreteNode())
-    orchestrator.register_node("validator", ConcreteNode()) # A validator must be present for the stage to run
+    orchestrator.register_node(
+        "validator", ConcreteNode()
+    )  # A validator must be present for the stage to run
 
     # Mock the validation stage to be slow
     async def slow_validation(*args, **kwargs):
         import asyncio
+
         await asyncio.sleep(0.1)
         return True
 
-    with patch.object(orchestrator, '_validate_async', side_effect=slow_validation):
+    with patch.object(orchestrator, "_validate_async", side_effect=slow_validation):
         result = await orchestrator.process_query("1+1")
 
     assert "answer" in result
     assert result["answer"] == "processed"
     # Check that the validation stage did indeed time out
-    validation_stage_result = next(s for s in result["stages"] if s["stage_type"] == StageType.VALIDATION)
+    validation_stage_result = next(
+        s for s in result["stages"] if s["stage_type"] == StageType.VALIDATION
+    )
     assert validation_stage_result["timeout"] is True
+
 
 @pytest.mark.asyncio
 async def test_async_orchestrator_get_performance_report():
@@ -281,6 +316,7 @@ async def test_async_orchestrator_get_performance_report():
     assert "stage_timeouts" in report
     assert "orchestrator_metrics" in report
 
+
 @pytest.mark.asyncio
 async def test_async_orchestrator_get_health_report():
     """Tests the health reporting of the async orchestrator."""
@@ -292,6 +328,7 @@ async def test_async_orchestrator_get_health_report():
     assert report["status"] == "healthy"
     assert "math" in report["available_nodes"]
 
+
 @pytest.mark.asyncio
 async def test_async_orchestrator_adaptive_routing():
     """Tests that the orchestrator can select the best node based on health."""
@@ -299,12 +336,18 @@ async def test_async_orchestrator_adaptive_routing():
     orchestrator = AsyncCognitiveOrchestrator(stage_critical={StageType.PROCESSING: False})
 
     class HealthyNode(CognitiveNode):
-        def process(self, input_data): return {"answer": "healthy", "confidence": 1.0, "matriz_node": {}}
-        def validate_output(self, output): return True
+        def process(self, input_data):
+            return {"answer": "healthy", "confidence": 1.0, "matriz_node": {}}
+
+        def validate_output(self, output):
+            return True
 
     class UnhealthyNode(CognitiveNode):
-        def process(self, input_data): raise ValueError("I am unhealthy")
-        def validate_output(self, output): return True
+        def process(self, input_data):
+            raise ValueError("I am unhealthy")
+
+        def validate_output(self, output):
+            return True
 
     orchestrator.register_node("math", UnhealthyNode("unhealthy_math", ["math"]))
     orchestrator.register_node("math_alternative", HealthyNode("healthy_math", ["math"]))

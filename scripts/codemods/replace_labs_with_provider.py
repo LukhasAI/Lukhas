@@ -16,6 +16,7 @@ Notes:
   - Adds `import importlib as _importlib` at module top if needed.
   - Skips files under tests/docs/venv/artifacts/archive folders.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -23,7 +24,6 @@ import difflib
 from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing importTuple
 
 import libcst as cst
 from libcst import MaybeSentinel
@@ -86,7 +86,9 @@ def _importfrom_to_spec(node: cst.ImportFrom) -> ImportSpec | None:
             name_node = alias.name
             nm = name_node.value if isinstance(name_node, cst.Name) else name_node.code
             asname = alias.asname
-            alias_str = asname.name.value if (asname and isinstance(asname.name, cst.Name)) else None
+            alias_str = (
+                asname.name.value if (asname and isinstance(asname.name, cst.Name)) else None
+            )
             names.append((nm, alias_str))
     if not names:
         return None
@@ -142,13 +144,13 @@ def _build_lazy_block(spec: ImportSpec, importlib_symbol: str) -> cst.Try:
     body_stmts: list[cst.BaseStatement] = []
 
     assign_mod = cst.parse_statement(
-        f"_mod = {importlib_symbol}.import_module(\"{spec.module_str}\")"
+        f'_mod = {importlib_symbol}.import_module("{spec.module_str}")'
     )
     body_stmts.append(assign_mod)
 
     for nm, alias in spec.names:
         varname = alias or nm
-        body_stmts.append(cst.parse_statement(f"{varname} = getattr(_mod, \"{nm}\")"))
+        body_stmts.append(cst.parse_statement(f'{varname} = getattr(_mod, "{nm}")'))
 
     except_body: list[cst.BaseStatement] = []
     for nm, alias in spec.names:
@@ -220,7 +222,9 @@ def rewrite_module(module: cst.Module) -> tuple[cst.Module, bool]:
         # 1) Optional module docstring at index 0
         if body and isinstance(body[0], cst.SimpleStatementLine):
             first_small = body[0].body[0]
-            if isinstance(first_small, cst.Expr) and isinstance(first_small.value, cst.SimpleString):
+            if isinstance(first_small, cst.Expr) and isinstance(
+                first_small.value, cst.SimpleString
+            ):
                 idx = 1
 
         # 2) Consecutive __future__ imports after docstring block
@@ -258,7 +262,11 @@ def process_file(path: Path) -> tuple[str, str] | None:
     new_src = new_mod.code
     diff = "\n".join(
         difflib.unified_diff(
-            src.splitlines(), new_src.splitlines(), fromfile=str(path), tofile=str(path), lineterm=""
+            src.splitlines(),
+            new_src.splitlines(),
+            fromfile=str(path),
+            tofile=str(path),
+            lineterm="",
         )
     )
     return new_src, diff
@@ -267,17 +275,20 @@ def process_file(path: Path) -> tuple[str, str] | None:
 def collect_py_files(root: Path, includes: list[str] | None = None) -> Iterable[Path]:
     root = root.resolve()
     if includes:
-        include_paths = [ (root / inc).resolve() for inc in includes ]
+        include_paths = [(root / inc).resolve() for inc in includes]
     else:
         # Default to core/ lukhas/ serve/
-        include_paths = [ (root / x).resolve() for x in ("core", "lukhas", "serve") ]
+        include_paths = [(root / x).resolve() for x in ("core", "lukhas", "serve")]
 
     for inc in include_paths:
         if not inc.exists():
             continue
         for p in inc.rglob("*.py"):
             # Skip common non-target paths
-            if any(part in p.parts for part in (".venv", "venv", "tests", "docs", "artifacts", "archive", "labs")):
+            if any(
+                part in p.parts
+                for part in (".venv", "venv", "tests", "docs", "artifacts", "archive", "labs")
+            ):
                 continue
             # Skip typical test file name patterns
             name = p.name
@@ -291,7 +302,12 @@ def main() -> None:
     ap.add_argument("--repo-root", default=".")
     ap.add_argument("--outdir", default="/tmp/codmod_patches")
     ap.add_argument("--apply", action="store_true", default=False)
-    ap.add_argument("--include", action="append", default=None, help="Include subpaths (repeatable). Defaults: core, lukhas, serve")
+    ap.add_argument(
+        "--include",
+        action="append",
+        default=None,
+        help="Include subpaths (repeatable). Defaults: core, lukhas, serve",
+    )
     args = ap.parse_args()
 
     root = Path(args.repo_root).resolve()

@@ -39,9 +39,7 @@ from security import secure_random
 
 # Import LUKHAS components
 try:
-    from core.interfaces.as_agent.core.gatekeeper import (
-        ConstitutionalGatekeeper,
-    )
+    from core.interfaces.as_agent.core.gatekeeper import ConstitutionalGatekeeper
     from governance.identity.auth.entropy_synchronizer import EntropySynchronizer
     from utils.cultural_safety_checker import CulturalSafetyChecker
 except ImportError:
@@ -97,7 +95,9 @@ class ConsciousnessQRGenerator:
             "transcendent": {"complexity": 1.0, "flow": "fractal", "rhythm": "cosmic"},
         }
 
-    def generate_consciousness_qr(self, data: str, consciousness_pattern: ConsciousnessQRPattern) -> dict[str, Any]:
+    def generate_consciousness_qr(
+        self, data: str, consciousness_pattern: ConsciousnessQRPattern
+    ) -> dict[str, Any]:
         """
         Generate QR code adapted to user's consciousness state.
 
@@ -176,9 +176,7 @@ class ConsciousnessQRGenerator:
 
     def _generate_neural_signature(self, pattern: ConsciousnessQRPattern) -> str:
         """Generate unique neural signature for consciousness state."""
-        signature_data = (
-            f"{pattern.consciousness_level}{pattern.neural_synchrony}{pattern.emotional_state}{time.time()}"
-        )
+        signature_data = f"{pattern.consciousness_level}{pattern.neural_synchrony}{pattern.emotional_state}{time.time()}"
         return hashlib.sha256(signature_data.encode()).hexdigest()[:16]
 
     def _apply_consciousness_styling(self, qr, pattern: ConsciousnessQRPattern) -> Image.Image:
@@ -210,7 +208,9 @@ class ConsciousnessQRGenerator:
         else:
             return (255, 215, 0)  # Gold - transcendent
 
-    def _apply_neural_overlay(self, img: Image.Image, pattern: ConsciousnessQRPattern) -> Image.Image:
+    def _apply_neural_overlay(
+        self, img: Image.Image, pattern: ConsciousnessQRPattern
+    ) -> Image.Image:
         """Apply neural synchrony pattern overlay."""
         # Create subtle neural pattern overlay
         overlay = Image.new("RGBA", img.size, (0, 0, 0, 0))
@@ -484,7 +484,9 @@ class SteganographicQRGenerator:
         data_bytes = data.encode()
 
         # Simple XOR encryption for demonstration
-        encrypted = bytes(a ^ b for a, b in zip(data_bytes, key_bytes * (len(data_bytes) // 32 + 1)))
+        encrypted = bytes(
+            a ^ b for a, b in zip(data_bytes, key_bytes * (len(data_bytes) // 32 + 1))
+        )
         return encrypted
 
     def _decrypt_hidden_data(self, encrypted_data: bytes, key: str) -> str:
@@ -492,7 +494,9 @@ class SteganographicQRGenerator:
         key_bytes = key.encode()[:32].ljust(32, b"0")
 
         # Simple XOR decryption for demonstration
-        decrypted = bytes(a ^ b for a, b in zip(encrypted_data, key_bytes * (len(encrypted_data) // 32 + 1)))
+        decrypted = bytes(
+            a ^ b for a, b in zip(encrypted_data, key_bytes * (len(encrypted_data) // 32 + 1))
+        )
         return decrypted.decode("utf-8", errors="ignore")
 
     def _embed_hidden_data(self, img: Image.Image, hidden_data: bytes) -> Image.Image:
@@ -510,7 +514,9 @@ class SteganographicQRGenerator:
                 for k in range(4):  # RGBA channels
                     if data_index < len(binary_data):
                         # Modify LSB
-                        img_array[i, j, k] = (img_array[i, j, k] & 0xFE) | int(binary_data[data_index])
+                        img_array[i, j, k] = (img_array[i, j, k] & 0xFE) | int(
+                            binary_data[data_index]
+                        )
                         data_index += 1
                     else:
                         break
@@ -575,7 +581,11 @@ class QIQRGenerator:
             Dictionary containing quantum-secured QR code
         """
         # Generate quantum entropy for security
-        qi_entropy = self.entropy_sync.generate_quantum_entropy(256) if self.entropy_sync else secrets.token_bytes(256)
+        qi_entropy = (
+            self.entropy_sync.generate_quantum_entropy(256)
+            if self.entropy_sync
+            else secrets.token_bytes(256)
+        )
 
         # Create quantum signature
         qi_signature = self._generate_quantum_signature(data, qi_entropy)
@@ -760,7 +770,9 @@ class LUKHASQRGManager:
         try:
             if qr_type == QRGType.CONSCIOUSNESS_ADAPTIVE:
                 consciousness_pattern = self._extract_consciousness_pattern(user_profile)
-                result = self.consciousness_qrg.generate_consciousness_qr(data, consciousness_pattern)
+                result = self.consciousness_qrg.generate_consciousness_qr(
+                    data, consciousness_pattern
+                )
 
             elif qr_type == QRGType.CULTURAL_SYMBOLIC:
                 cultural_theme = self._extract_cultural_theme(user_profile)
@@ -769,7 +781,9 @@ class LUKHASQRGManager:
             elif qr_type == QRGType.STEGANOGRAPHIC:
                 hidden_data = user_profile.get("hidden_data", "")
                 stego_key = user_profile.get("steganography_key")
-                result = self.steganographic_qrg.generate_steganographic_qr(data, hidden_data, stego_key)
+                result = self.steganographic_qrg.generate_steganographic_qr(
+                    data, hidden_data, stego_key
+                )
 
             elif qr_type == QRGType.QUANTUM_ENCRYPTED:
                 security_level = user_profile.get("qi_security_level", "standard")
@@ -778,7 +792,9 @@ class LUKHASQRGManager:
             else:
                 # Default to consciousness adaptive
                 consciousness_pattern = self._extract_consciousness_pattern(user_profile)
-                result = self.consciousness_qrg.generate_consciousness_qr(data, consciousness_pattern)
+                result = self.consciousness_qrg.generate_consciousness_qr(
+                    data, consciousness_pattern
+                )
 
             # Add generation metadata
             result["generation_metadata"] = {
@@ -845,7 +861,9 @@ class LUKHASQRGManager:
             "total_generations": total_generations,
             "qr_type_distribution": qr_types,
             "last_generation": max(entry["timestamp"] for entry in self.generation_history),
-            "most_popular_type": (max(qr_types.items(), key=lambda x: x[1])[0] if qr_types else None),
+            "most_popular_type": (
+                max(qr_types.items(), key=lambda x: x[1])[0] if qr_types else None
+            ),
         }
 
 
@@ -908,7 +926,9 @@ if __name__ == "__main__":
         "qi_security_level": "maximum",
     }
 
-    qi_qr = qrg_manager.generate_adaptive_qr("QUANTUM_SECURE_TOKEN_ABCDEF", qi_profile, QRGType.QUANTUM_ENCRYPTED)
+    qi_qr = qrg_manager.generate_adaptive_qr(
+        "QUANTUM_SECURE_TOKEN_ABCDEF", qi_profile, QRGType.QUANTUM_ENCRYPTED
+    )
 
     if "error" not in qi_qr:
         print("✅ Quantum QR generated successfully")
@@ -924,12 +944,16 @@ if __name__ == "__main__":
         "hidden_data": "SECRET_LUKHAS_DATA_FOR_AGENTS_ONLY",
     }
 
-    stego_qr = qrg_manager.generate_adaptive_qr("PUBLIC_AUTH_TOKEN_123", stego_profile, QRGType.STEGANOGRAPHIC)
+    stego_qr = qrg_manager.generate_adaptive_qr(
+        "PUBLIC_AUTH_TOKEN_123", stego_profile, QRGType.STEGANOGRAPHIC
+    )
 
     if "error" not in stego_qr:
         print("✅ Steganographic QR generated successfully")
         print(f"   🎭 Hidden data length: {stego_qr.get('hidden_data_length', 'N/A')} chars")
-        print(f"   🔑 Encryption: {stego_qr.get('steganography_metadata', {}).get('encryption_method', 'N/A')}")
+        print(
+            f"   🔑 Encryption: {stego_qr.get('steganography_metadata', {}).get('encryption_method', 'N/A')}"
+        )
     else:
         print(f"❌ Steganographic QR failed: {stego_qr['error']}")
 

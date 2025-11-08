@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 import logging
 
 import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
@@ -42,6 +43,14 @@ except ImportError as e:
     std_logging.error(f"Failed to import MΛTRIZ consciousness signal system: {e}")
     ConsciousnessSignal = None
     ConsciousnessSignalFactory = None
+
+    @dataclass
+    class BioSymbolicData:
+        pass
+
+    @dataclass
+    class ConstellationAlignmentData:
+        pass
 
 logger = std_logging.getLogger(__name__)
 

@@ -29,6 +29,7 @@
 ║ monitoring, optimization, and coordination capabilities.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -196,13 +197,17 @@ class MetaLearningEnhancementsystem:
             EnhancementMode.OPTIMIZATION_ACTIVE,
             EnhancementMode.RESEARCH_MODE,
         ]
-        self.integration_status.symbolic_feedback_active = self.integration_status.systems_enhanced > 0
+        self.integration_status.symbolic_feedback_active = (
+            self.integration_status.systems_enhanced > 0
+        )
 
         discovery_results["integration_summary"] = {
             "total_discovered": len(discovered_systems),
             "successfully_enhanced": self.integration_status.systems_enhanced,
             "enhancement_rate": (
-                self.integration_status.systems_enhanced / len(discovered_systems) if discovered_systems else 0
+                self.integration_status.systems_enhanced / len(discovered_systems)
+                if discovered_systems
+                else 0
             ),
             "monitoring_active": self.integration_status.monitoring_active,
             "federation_enabled": self.integration_status.federation_enabled,
@@ -276,7 +281,9 @@ class MetaLearningEnhancementsystem:
         }
         self.coordination_events.append(coordination_event)
 
-        logger.info(f"Enhancement operations started: {len(operations_status['operations_started'])} operations")
+        logger.info(
+            f"Enhancement operations started: {len(operations_status['operations_started'])} operations"
+        )
 
         return operations_status
 
@@ -331,11 +338,15 @@ class MetaLearningEnhancementsystem:
         enhancement_event = {
             "event_type": "enhancement_cycle_completed",
             "cycle_results": cycle_results,
-            "qi_signature": self.monitor_dashboard._generate_quantum_signature(f"cycle_{cycle_results['cycle_id']}"),
+            "qi_signature": self.monitor_dashboard._generate_quantum_signature(
+                f"cycle_{cycle_results['cycle_id']}"
+            ),
         }
         self.enhancement_history.append(enhancement_event)
 
-        logger.info(f"Enhancement cycle completed: {cycle_results['systems_processed']} systems processed")
+        logger.info(
+            f"Enhancement cycle completed: {cycle_results['systems_processed']} systems processed"
+        )
 
         return cycle_results
 
@@ -347,13 +358,16 @@ class MetaLearningEnhancementsystem:
                 "node_id": self.node_id,
                 "enhancement_mode": self.enhancement_mode.value,
                 "federation_enabled": self.enable_federation,
-                "uptime": (datetime.now(timezone.utc) - self.integration_status.last_health_check).total_seconds(),
+                "uptime": (
+                    datetime.now(timezone.utc) - self.integration_status.last_health_check
+                ).total_seconds(),
             },
             "integration_status": {
                 "meta_learning_systems_found": self.integration_status.meta_learning_systems_found,
                 "systems_enhanced": self.integration_status.systems_enhanced,
                 "enhancement_rate": (
-                    self.integration_status.systems_enhanced / self.integration_status.meta_learning_systems_found
+                    self.integration_status.systems_enhanced
+                    / self.integration_status.meta_learning_systems_found
                     if self.integration_status.meta_learning_systems_found > 0
                     else 0
                 ),
@@ -365,7 +379,9 @@ class MetaLearningEnhancementsystem:
                 "monitor_dashboard": await self._get_dashboard_status(),
                 "rate_modulator": await self._get_rate_modulator_status(),
                 "symbolic_feedback": await self._get_symbolic_feedback_status(),
-                "federated_integration": (await self._get_federation_status() if self.enable_federation else None),
+                "federated_integration": (
+                    await self._get_federation_status() if self.enable_federation else None
+                ),
             },
             "performance_metrics": {
                 "enhancement_cycles_completed": len(self.enhancement_history),
@@ -435,7 +451,9 @@ class MetaLearningEnhancementsystem:
 
             # Synchronize quantum signatures
             if hasattr(collapse_engine_instance, "qi_signature"):
-                qi_sync = self._synchronize_quantum_signatures(collapse_engine_instance.qi_signature)
+                qi_sync = self._synchronize_quantum_signatures(
+                    collapse_engine_instance.qi_signature
+                )
                 integration_result["qi_signatures_synchronized"] = qi_sync
 
             logger.info("CollapseEngine integration completed successfully")
@@ -472,7 +490,9 @@ class MetaLearningEnhancementsystem:
 
                 integration_result["intent_node_integrated"] = True
                 integration_result["intent_history_tracking"] = True
-                integration_result["symbolic_enhancement_active"] = symbolic_result["enhancement_applied"]
+                integration_result["symbolic_enhancement_active"] = symbolic_result[
+                    "enhancement_applied"
+                ]
 
             logger.info("IntentNode integration completed successfully")
 
@@ -685,7 +705,9 @@ class MetaLearningEnhancementsystem:
                 symbolic_reasoning_score=0.8,
             )
 
-            optimization = self.rate_modulator.suggest_rate_adjustment(current_rate, convergence_signal)
+            optimization = self.rate_modulator.suggest_rate_adjustment(
+                current_rate, convergence_signal
+            )
             system["performance_metrics"]["learning_rate"] = optimization["new_rate"]
             return optimization["adjustment_applied"]
         except Exception:
@@ -710,7 +732,9 @@ class MetaLearningEnhancementsystem:
         """Apply federation enhancement to a system"""
         try:
             if self.federated_integration:
-                enhancement_result = self.federated_integration.enhance_existing_meta_learning_system(system)
+                enhancement_result = (
+                    self.federated_integration.enhance_existing_meta_learning_system(system)
+                )
                 system["federation_ready"] = enhancement_result["federation_enabled"]
                 return enhancement_result["federation_enabled"]
         except Exception:
@@ -777,7 +801,9 @@ class MetaLearningEnhancementsystem:
                     "type": "cross_system_performance",
                     "average_convergence": avg_performance,
                     "recommendation": (
-                        "Increase learning rates" if avg_performance < 0.6 else "Maintain current optimization"
+                        "Increase learning rates"
+                        if avg_performance < 0.6
+                        else "Maintain current optimization"
                     ),
                 }
             )
@@ -812,7 +838,9 @@ class MetaLearningEnhancementsystem:
 
         # Check if systems are being enhanced ethically
         if cycle_results["systems_processed"] > 0:
-            enhancement_rate = cycle_results["optimizations_applied"] / cycle_results["systems_processed"]
+            enhancement_rate = (
+                cycle_results["optimizations_applied"] / cycle_results["systems_processed"]
+            )
             if enhancement_rate > 0.8:  # Too aggressive optimization
                 audit_result["issues"].append("Potentially aggressive optimization detected")
 
@@ -849,7 +877,9 @@ class MetaLearningEnhancementsystem:
         """Get rate modulator status"""
         return {
             "active": self.integration_status.rate_optimization_active,
-            "strategy": getattr(self.rate_modulator, "adaptation_strategy", AdaptationStrategy.BALANCED).value,
+            "strategy": getattr(
+                self.rate_modulator, "adaptation_strategy", AdaptationStrategy.BALANCED
+            ).value,
             "adjustments_made": len(getattr(self.rate_modulator, "adjustment_history", [])),
         }
 
@@ -884,7 +914,8 @@ class MetaLearningEnhancementsystem:
         return {
             "total_systems_enhanced": self.integration_status.systems_enhanced,
             "enhancement_success_rate": (
-                self.integration_status.systems_enhanced / self.integration_status.meta_learning_systems_found
+                self.integration_status.systems_enhanced
+                / self.integration_status.meta_learning_systems_found
                 if self.integration_status.meta_learning_systems_found > 0
                 else 0
             ),
@@ -893,7 +924,9 @@ class MetaLearningEnhancementsystem:
                 f"Enabled {len([c for c in self.coordination_events if 'started' in c['event_type']])} coordination operations",
                 f"Maintained {len([a for a in self.ethical_audit_trail if a['passed']])} ethical compliance audits",
             ],
-            "current_status": ("operational" if self.integration_status.monitoring_active else "initializing"),
+            "current_status": (
+                "operational" if self.integration_status.monitoring_active else "initializing"
+            ),
         }
 
     async def _generate_integration_analysis(self) -> dict[str, Any]:
@@ -901,7 +934,8 @@ class MetaLearningEnhancementsystem:
         return {
             "meta_learning_systems_discovered": self.integration_status.meta_learning_systems_found,
             "enhancement_coverage": (
-                self.integration_status.systems_enhanced / self.integration_status.meta_learning_systems_found
+                self.integration_status.systems_enhanced
+                / self.integration_status.meta_learning_systems_found
                 if self.integration_status.meta_learning_systems_found > 0
                 else 0
             ),
@@ -912,20 +946,25 @@ class MetaLearningEnhancementsystem:
                 "federation_coordination": self.integration_status.federation_enabled,
             },
             "integration_errors": len(self.integration_status.integration_errors),
-            "system_compatibility": ("high" if len(self.integration_status.integration_errors) < 3 else "moderate"),
+            "system_compatibility": (
+                "high" if len(self.integration_status.integration_errors) < 3 else "moderate"
+            ),
         }
 
     async def _generate_performance_analysis(self) -> dict[str, Any]:
         """Generate performance analysis for enhancement report"""
 
         recent_cycles = [
-            event for event in self.enhancement_history if event["event_type"] == "enhancement_cycle_completed"
+            event
+            for event in self.enhancement_history
+            if event["event_type"] == "enhancement_cycle_completed"
         ][
             -5:
         ]  # Last 5 cycles
 
         avg_duration = (
-            sum(cycle["cycle_results"]["duration_seconds"] for cycle in recent_cycles) / len(recent_cycles)
+            sum(cycle["cycle_results"]["duration_seconds"] for cycle in recent_cycles)
+            / len(recent_cycles)
             if recent_cycles
             else 0
         )
@@ -934,7 +973,8 @@ class MetaLearningEnhancementsystem:
             "enhancement_cycles_completed": len(self.enhancement_history),
             "average_cycle_duration": avg_duration,
             "systems_processed_per_cycle": (
-                sum(cycle["cycle_results"]["systems_processed"] for cycle in recent_cycles) / len(recent_cycles)
+                sum(cycle["cycle_results"]["systems_processed"] for cycle in recent_cycles)
+                / len(recent_cycles)
                 if recent_cycles
                 else 0
             ),
@@ -965,11 +1005,15 @@ class MetaLearningEnhancementsystem:
             "total_ethical_audits": len(self.ethical_audit_trail),
             "audits_passed": len(passed_audits),
             "ethical_compliance_rate": (
-                len(passed_audits) / len(self.ethical_audit_trail) if self.ethical_audit_trail else 1.0
+                len(passed_audits) / len(self.ethical_audit_trail)
+                if self.ethical_audit_trail
+                else 1.0
             ),
             "common_ethical_issues": self._analyze_common_ethical_issues(),
             "eu_ai_act_compliance": (
-                "compliant" if len(passed_audits) / len(self.ethical_audit_trail) >= 0.9 else "requires_attention"
+                "compliant"
+                if len(passed_audits) / len(self.ethical_audit_trail) >= 0.9
+                else "requires_attention"
             ),
             "transparency_score": 0.95,  # High transparency due to audit trails and quantum signatures
         }
@@ -986,7 +1030,8 @@ class MetaLearningEnhancementsystem:
             "federation_enabled": True,
             "active_nodes": federation_status["federation_health"]["active_nodes"],
             "federation_trust_level": federation_status["federation_health"]["average_trust_score"],
-            "coordination_effectiveness": len(self.coordination_events) / max(1, len(self.enhancement_history)),
+            "coordination_effectiveness": len(self.coordination_events)
+            / max(1, len(self.enhancement_history)),
             "privacy_compliance": (
                 "high"
                 if federation_status["privacy_and_security"]["privacy_level"] in ["high", "maximum"]
@@ -1001,7 +1046,11 @@ class MetaLearningEnhancementsystem:
         recommendations = []
 
         # Integration recommendations
-        if self.integration_status.systems_enhanced / self.integration_status.meta_learning_systems_found < 0.8:
+        if (
+            self.integration_status.systems_enhanced
+            / self.integration_status.meta_learning_systems_found
+            < 0.8
+        ):
             recommendations.append(
                 {
                     "category": "integration",
@@ -1013,9 +1062,13 @@ class MetaLearningEnhancementsystem:
 
         # Performance recommendations
         recent_cycles = [
-            event for event in self.enhancement_history if event["event_type"] == "enhancement_cycle_completed"
+            event
+            for event in self.enhancement_history
+            if event["event_type"] == "enhancement_cycle_completed"
         ][-3:]
-        if recent_cycles and all(cycle["cycle_results"]["duration_seconds"] > 30 for cycle in recent_cycles):
+        if recent_cycles and all(
+            cycle["cycle_results"]["duration_seconds"] > 30 for cycle in recent_cycles
+        ):
             recommendations.append(
                 {
                     "category": "performance",
@@ -1027,7 +1080,8 @@ class MetaLearningEnhancementsystem:
 
         # Ethical recommendations
         ethical_compliance_rate = (
-            len([audit for audit in self.ethical_audit_trail if audit["passed"]]) / len(self.ethical_audit_trail)
+            len([audit for audit in self.ethical_audit_trail if audit["passed"]])
+            / len(self.ethical_audit_trail)
             if self.ethical_audit_trail
             else 1.0
         )
@@ -1078,7 +1132,9 @@ async def initialize_meta_learning_enhancement(
     enhancement_mode: EnhancementMode = EnhancementMode.OPTIMIZATION_ACTIVE,
     enable_federation: bool = False,
     auto_discover: bool = True,
-) -> MetaLearningEnhancementSystem:  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_metalearningenhancementsystem_py_L1082"}
+) -> (
+    MetaLearningEnhancementSystem
+):  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_metalearningenhancementsystem_py_L1082"}
     """
     Initialize the Meta-Learning Enhancement System for LUKHAS
 
@@ -1102,7 +1158,9 @@ async def initialize_meta_learning_enhancement(
 
     # Start enhancement operations
     operations_status = await enhancement_system.start_enhancement_operations()
-    logger.info(f"Enhancement operations started: {len(operations_status['operations_started'])} operations active")
+    logger.info(
+        f"Enhancement operations started: {len(operations_status['operations_started'])} operations active"
+    )
 
     logger.info("Meta-Learning Enhancement System initialization completed")
 

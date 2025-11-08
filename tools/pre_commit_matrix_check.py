@@ -9,6 +9,7 @@ Provides fast feedback on contract compliance without running full CI.
 import json
 import pathlib
 import sys
+
 try:
     from jsonschema import (  # TODO: jsonschema.ValidationError; co...
         Draft202012Validator,

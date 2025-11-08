@@ -231,7 +231,9 @@ class AdvancedCircuitBreaker:
                 return True
 
             # Check slow call rate
-            slow_calls = sum(1 for _, _, duration in recent_calls if duration > self.slow_call_duration)
+            slow_calls = sum(
+                1 for _, _, duration in recent_calls if duration > self.slow_call_duration
+            )
             slow_rate = slow_calls / len(recent_calls)
 
             if slow_rate > self.slow_call_rate_threshold:
@@ -306,7 +308,9 @@ class AdvancedCircuitBreaker:
                 }
 
             errors = sum(1 for _, success, _ in self.call_stats if not success)
-            slow_calls = sum(1 for _, _, duration in self.call_stats if duration > self.slow_call_duration)
+            slow_calls = sum(
+                1 for _, _, duration in self.call_stats if duration > self.slow_call_duration
+            )
 
             return {
                 "state": self.state.value,
@@ -565,12 +569,16 @@ class ConsensusValidator:
 
         return consensus_reached, consensus_value
 
-    async def _query_actor_with_timeout(self, actor_ref: ActorRef, query: str, timeout: float) -> Any:
+    async def _query_actor_with_timeout(
+        self, actor_ref: ActorRef, query: str, timeout: float
+    ) -> Any:
         """Query an actor with timeout"""
         try:
             return await asyncio.wait_for(actor_ref.ask(query, {}), timeout=timeout)
         except asyncio.TimeoutError:
-            raise TimeoutError(f"Actor {actor_ref.actor_id} timed out")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_reflection_circuit_breaker_py_L572"}
+            raise TimeoutError(
+                f"Actor {actor_ref.actor_id} timed out"
+            )  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_reflection_circuit_breaker_py_L572"}
 
     def _analyze_responses(self, responses: list[tuple[str, Any]]) -> tuple[bool, Any]:
         """Analyze responses for consensus"""
@@ -599,7 +607,9 @@ class ConsensusValidator:
     def _create_cache_key(self, actor_refs: list[ActorRef], query: str) -> str:
         """Create cache key for consensus query"""
         sorted([ref.actor_id for ref in actor_refs])
-        return hashlib.sha256()  #  Changed from MD5 for securityf"{','.join(actor_ids)}:{query}".encode()).hexdigest()
+        return (
+            hashlib.sha256()
+        )  #  Changed from MD5 for securityf"{','.join(actor_ids)}:{query}".encode()).hexdigest()
 
 
 class CascadePreventionSystem:
@@ -610,7 +620,9 @@ class CascadePreventionSystem:
     def __init__(
         self,
         actor_system: ActorSystem,  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_circuit_breaker_py_L612"}
-        observability: ObservabilityCollector | None = None,  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_circuit_breaker_py_L614"}
+        observability: (
+            ObservabilityCollector | None
+        ) = None,  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_circuit_breaker_py_L614"}
     ):
         self.actor_system = actor_system
         self.observability = observability
@@ -675,7 +687,9 @@ class CascadePreventionSystem:
             if self.observability:
                 snapshot = await self._get_actor_snapshot(actor_ref.actor_id)
                 if snapshot:
-                    self.anomaly_detector.record_metric(actor_ref.actor_id, "mailbox_size", snapshot.mailbox_size)
+                    self.anomaly_detector.record_metric(
+                        actor_ref.actor_id, "mailbox_size", snapshot.mailbox_size
+                    )
 
             # Make the actual call
             result = await actor_ref.ask(message_type, payload, timeout=timeout)
@@ -695,11 +709,15 @@ class CascadePreventionSystem:
 
         return await cb.async_call(make_call)
 
-    async def validate_with_consensus(self, actor_refs: list[ActorRef], query: str) -> tuple[bool, Any]:
+    async def validate_with_consensus(
+        self, actor_refs: list[ActorRef], query: str
+    ) -> tuple[bool, Any]:
         """Validate a query with consensus among multiple actors"""
 
         # Filter out quarantined actors
-        valid_refs = [ref for ref in actor_refs if not self.error_tracker.is_quarantined(ref.actor_id)]
+        valid_refs = [
+            ref for ref in actor_refs if not self.error_tracker.is_quarantined(ref.actor_id)
+        ]
 
         if len(valid_refs) < self.consensus_validator.quorum_size:
             logger.error("Insufficient healthy actors for consensus")
@@ -712,7 +730,9 @@ class CascadePreventionSystem:
         self.error_tracker.record_failure(failure)
 
         # Update anomaly detection
-        self.anomaly_detector.record_metric(failure.actor_id, f"failure_{failure.failure_type.value}", failure.severity)
+        self.anomaly_detector.record_metric(
+            failure.actor_id, f"failure_{failure.failure_type.value}", failure.severity
+        )
 
         # Check for emergency conditions
         self._check_emergency_conditions()
@@ -742,13 +762,21 @@ class CascadePreventionSystem:
                 snapshot = await self._get_actor_snapshot(actor_id)
                 if snapshot:
                     # Record various metrics
-                    self.anomaly_detector.record_metric(actor_id, "message_rate", snapshot.message_rate)
+                    self.anomaly_detector.record_metric(
+                        actor_id, "message_rate", snapshot.message_rate
+                    )
                     self.anomaly_detector.record_metric(actor_id, "error_rate", snapshot.error_rate)
-                    self.anomaly_detector.record_metric(actor_id, "memory_usage", snapshot.memory_usage)
+                    self.anomaly_detector.record_metric(
+                        actor_id, "memory_usage", snapshot.memory_usage
+                    )
             except Exception as e:
                 logger.debug(f"Failed to collect metrics for {actor_id}: {e}")
 
-    async def _get_actor_snapshot(self, actor_id: str) -> ActorSnapshot | None:  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_circuit_breaker_py_L753"}
+    async def _get_actor_snapshot(
+        self, actor_id: str
+    ) -> (
+        ActorSnapshot | None
+    ):  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_circuit_breaker_py_L753"}
         """Get snapshot for an actor"""
         if not self.observability:
             return None
@@ -782,7 +810,9 @@ class CascadePreventionSystem:
 
         # Circuit breaker states
         open_circuits = sum(
-            1 for cb in self.circuit_breakers.values() if cb.state in [CircuitState.OPEN, CircuitState.FORCED_OPEN]
+            1
+            for cb in self.circuit_breakers.values()
+            if cb.state in [CircuitState.OPEN, CircuitState.FORCED_OPEN]
         )
         if self.circuit_breakers:
             cb_score = 1.0 - (open_circuits / len(self.circuit_breakers))
@@ -790,7 +820,9 @@ class CascadePreventionSystem:
 
         # Quarantined actors
         if self.actor_system.actors:
-            quarantine_score = 1.0 - (len(self.error_tracker.quarantined_actors) / len(self.actor_system.actors))
+            quarantine_score = 1.0 - (
+                len(self.error_tracker.quarantined_actors) / len(self.actor_system.actors)
+            )
             scores.append(quarantine_score)
 
         # Anomaly scores
@@ -873,7 +905,9 @@ class CascadePreventionSystem:
         return {
             "health_score": self.system_health_score,
             "emergency_mode": self.emergency_mode,
-            "circuit_breakers": {actor_id: cb.get_metrics() for actor_id, cb in self.circuit_breakers.items()},
+            "circuit_breakers": {
+                actor_id: cb.get_metrics() for actor_id, cb in self.circuit_breakers.items()
+            },
             "quarantined_actors": list(self.error_tracker.quarantined_actors),
             "infected_actors": list(self.error_tracker.infected_actors),
             "propagation_analysis": self.error_tracker.analyze_propagation_patterns(),
@@ -923,7 +957,9 @@ async def demo_cascade_prevention():
     actors = []
     for i in range(5):
         failure_rate = 0.1 if i == 2 else 0.0  # One faulty actor
-        actor_ref = await system.create_actor(TestActor, f"test-actor-{i}", failure_rate=failure_rate)
+        actor_ref = await system.create_actor(
+            TestActor, f"test-actor-{i}", failure_rate=failure_rate
+        )
         actors.append(actor_ref)
 
     # Simulate cascading failure scenario
@@ -931,7 +967,9 @@ async def demo_cascade_prevention():
         try:
             # Make protected calls
             actor_ref = actors[i % len(actors)]
-            result = await cascade_prevention.protected_call(actor_ref, "process", {"data": f"request_{i}"})
+            result = await cascade_prevention.protected_call(
+                actor_ref, "process", {"data": f"request_{i}"}
+            )
             print(f"Request {i} processed: {result}")
 
         except CircuitBreakerOpen as e:
@@ -957,7 +995,9 @@ async def demo_cascade_prevention():
     print(f"System status: {json.dumps(status, indent=2)}")
 
     # Test consensus validation
-    consensus_reached, value = await cascade_prevention.validate_with_consensus(actors[:3], "get_state")
+    consensus_reached, value = await cascade_prevention.validate_with_consensus(
+        actors[:3], "get_state"
+    )
     print(f"Consensus validation: {consensus_reached}, value: {value}")
 
     # Cleanup

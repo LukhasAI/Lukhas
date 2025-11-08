@@ -1,12 +1,12 @@
 
 import importlib
 import sys
-from datetime import datetime, timedelta, timezone
 from collections import defaultdict
+from datetime import datetime, timedelta, timezone
+from unittest.mock import MagicMock, call, patch
 
 import numpy as np
 import pytest
-from unittest.mock import MagicMock, patch, call
 
 
 @pytest.fixture(scope="module")

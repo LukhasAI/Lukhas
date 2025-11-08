@@ -350,8 +350,12 @@ class OpenAIFunctionBridge:
                         for tool_call in choice.delta.tool_calls:
                             yield {
                                 "type": "function_call",
-                                "function_name": (tool_call.function.name if tool_call.function else None),
-                                "arguments": (tool_call.function.arguments if tool_call.function else None),
+                                "function_name": (
+                                    tool_call.function.name if tool_call.function else None
+                                ),
+                                "arguments": (
+                                    tool_call.function.arguments if tool_call.function else None
+                                ),
                             }
 
         except Exception as e:
@@ -371,7 +375,9 @@ class OpenAIFunctionBridge:
             func_def = self.functions[func_call.name]
 
             # Security validation
-            if func_def.security_level == 'critical' and (not await self._validate_critical_function_call(func_call, func_def)):
+            if func_def.security_level == "critical" and (
+                not await self._validate_critical_function_call(func_call, func_def)
+            ):
                 # Additional security checks for critical functions
                 func_call.error = "Critical function validation failed"
                 return
@@ -400,7 +406,9 @@ class OpenAIFunctionBridge:
             func_call.execution_time_ms = (time.perf_counter() - execution_start) * 1000
             self.metrics["function_calls"] += 1
 
-    async def _validate_critical_function_call(self, func_call: FunctionCall, func_def: FunctionDefinition) -> bool:
+    async def _validate_critical_function_call(
+        self, func_call: FunctionCall, func_def: FunctionDefinition
+    ) -> bool:
         """Validate critical function calls with additional security"""
         try:
             # Check if confirmation is required
@@ -427,7 +435,9 @@ class OpenAIFunctionBridge:
         current_time = time.time()
 
         # Clean old requests (older than 1 minute)
-        self.request_times = [req_time for req_time in self.request_times if current_time - req_time < 60]
+        self.request_times = [
+            req_time for req_time in self.request_times if current_time - req_time < 60
+        ]
 
         # Check if we're hitting rate limit
         if len(self.request_times) >= self.max_requests_per_minute:

@@ -1,6 +1,7 @@
 """
 In-memory implementation of memory indexing systems.
 """
+
 from collections import defaultdict
 from typing import Any, Optional, TypedDict
 
@@ -12,6 +13,7 @@ class SearchResult(TypedDict):
     vector: list[float]
     metadata: dict[str, Any]
     similarity: float
+
 
 class EmbeddingIndex:
     """A simple in-memory embedding index."""
@@ -51,13 +53,16 @@ class EmbeddingIndex:
 
         results: list[SearchResult] = []
         for vector_id in sorted_ids[:top_k]:
-            results.append({
-                "id": vector_id,
-                "vector": self._vectors[vector_id].tolist(),
-                "metadata": self._metadata.get(vector_id, {}),
-                "similarity": similarities[vector_id]
-            })
+            results.append(
+                {
+                    "id": vector_id,
+                    "vector": self._vectors[vector_id].tolist(),
+                    "metadata": self._metadata.get(vector_id, {}),
+                    "similarity": similarities[vector_id],
+                }
+            )
         return results
+
 
 class IndexManager:
     """Manages embedding indexes for different tenants."""
@@ -68,6 +73,7 @@ class IndexManager:
     def get_index(self, tenant_id: str) -> EmbeddingIndex:
         """Returns the index for a given tenant."""
         return self._indexes[tenant_id]
+
 
 # Singleton instance of the IndexManager
 index_manager = IndexManager()

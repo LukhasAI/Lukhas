@@ -5,6 +5,7 @@ import logging
 from collections.abc import Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+
 logger = logging.getLogger("Lukhas.GLYPH.Specialist")
 
 

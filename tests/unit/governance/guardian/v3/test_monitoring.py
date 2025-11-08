@@ -3,12 +3,12 @@ Unit tests for EnhancedGuardianSystem monitoring methods.
 """
 
 import asyncio
+import sys
 from datetime import datetime, timedelta, timezone
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-import sys
 sys.modules['prometheus_client'] = MagicMock()
 
 
@@ -17,8 +17,8 @@ from labs.governance.guardian.guardian_system import (
     GuardianAgent,
     GuardianRole,
     GuardianStatus,
-    ThreatLevel,
     ResponseAction,
+    ThreatLevel,
 )
 
 

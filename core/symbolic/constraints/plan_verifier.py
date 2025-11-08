@@ -9,7 +9,6 @@ Rule examples:
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing importTuple
 
 
 def verify(plan: Mapping) -> tuple[bool, list[str]]:

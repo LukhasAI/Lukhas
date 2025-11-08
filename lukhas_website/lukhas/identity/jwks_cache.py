@@ -10,6 +10,7 @@ Implements intelligent caching, validation, and automatic key rotation.
 from __future__ import annotations
 
 import asyncio
+import collections
 import contextlib
 import hashlib
 import json

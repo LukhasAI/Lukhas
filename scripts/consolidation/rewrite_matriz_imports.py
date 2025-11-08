@@ -29,7 +29,6 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing importTuple
 
 # Configuration
 OLD_MODULE = "matriz"

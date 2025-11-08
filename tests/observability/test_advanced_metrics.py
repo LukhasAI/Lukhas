@@ -14,6 +14,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
+from async_utils import create_background_task
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
@@ -51,7 +52,7 @@ def advanced_metrics_system(mock_prometheus_metrics):
         )
         yield system
         # Cleanup
-        asyncio.create_task(system.shutdown())
+        create_background_task(system.shutdown())
 
 
 class TestAdvancedMetricsSystem:
