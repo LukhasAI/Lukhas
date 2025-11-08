@@ -1,13 +1,23 @@
 
-import pytest
+from __future__ import annotations
+
 import sys
+from pathlib import Path
 from unittest.mock import MagicMock, AsyncMock
 
-from labs.bridge.llm_wrappers.openai_modulated_service import (
-    VectorStoreAdapter,
-    VectorStoreConfig,
-    VectorStoreProvider,
-)
+import pytest
+
+from ._module_imports import load_openai_modulated_service
+
+_REPO_ROOT = Path(__file__).resolve().parents[3]
+_repo_root_str = str(_REPO_ROOT)
+if _repo_root_str not in sys.path:
+    sys.path.insert(0, _repo_root_str)
+
+_openai_module = load_openai_modulated_service()
+VectorStoreAdapter = _openai_module.VectorStoreAdapter
+VectorStoreConfig = _openai_module.VectorStoreConfig
+VectorStoreProvider = _openai_module.VectorStoreProvider
 
 # Test data
 TEST_EMBEDDING = [0.1, 0.2, 0.3]

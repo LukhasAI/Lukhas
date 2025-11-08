@@ -1,17 +1,28 @@
 
-import pytest
+from __future__ import annotations
+
+import sys
+from pathlib import Path
 from unittest.mock import MagicMock, AsyncMock
 
-from labs.bridge.llm_wrappers.openai_modulated_service import (
-    OpenAIModulatedService,
-    EmbeddingRequest,
-    ModelTier,
-    EmbeddingResult,
-    CompletionRequest,
-    VectorSearchRequest,
-    VectorStoreConfig,
-    VectorStoreProvider,
-)
+import pytest
+
+from ._module_imports import load_openai_modulated_service
+
+_REPO_ROOT = Path(__file__).resolve().parents[3]
+_repo_root_str = str(_REPO_ROOT)
+if _repo_root_str not in sys.path:
+    sys.path.insert(0, _repo_root_str)
+
+_openai_module = load_openai_modulated_service()
+OpenAIModulatedService = _openai_module.OpenAIModulatedService
+EmbeddingRequest = _openai_module.EmbeddingRequest
+ModelTier = _openai_module.ModelTier
+EmbeddingResult = _openai_module.EmbeddingResult
+CompletionRequest = _openai_module.CompletionRequest
+VectorSearchRequest = _openai_module.VectorSearchRequest
+VectorStoreConfig = _openai_module.VectorStoreConfig
+VectorStoreProvider = _openai_module.VectorStoreProvider
 
 @pytest.fixture
 def mock_openai_client(mocker):
@@ -120,7 +131,7 @@ async def test_chat_completion_streaming(modulated_service, mock_openai_client):
     )
 
     mock_iterator = MagicMock()
-    mock_async_client.chat.completions.create.return_value = mock_iterator
+    mock_async_client.chat.completions.create = AsyncMock(return_value=mock_iterator)
 
     result = await modulated_service.chat_completion(request)
 
