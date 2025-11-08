@@ -184,7 +184,9 @@ class QIValidator:
 
 
 # Factory function for easy instantiation
-def create_quantum_component(config: Optional[dict] = None) -> ΛQuantumValidator:  # TODO: ΛQuantumValidator
+def create_quantum_component(
+    config: Optional[dict] = None,
+) -> ΛQuantumValidator:  # TODO: ΛQuantumValidator
     """Create and return a quantum component instance"""
     return ΛQuantumValidator(config)  # TODO: ΛQuantumValidator
 
@@ -197,7 +199,9 @@ async def create_and_initialize_quantum_component(
     ΛQuantumValidator(config)  # TODO: ΛQuantumValidator
 
 
-def create_quantum_component(config: Optional[dict] = None) -> lukhasQuantumValidator:  # TODO: lukhasQuantumValidator
+def create_quantum_component(
+    config: Optional[dict] = None,
+) -> lukhasQuantumValidator:  # TODO: lukhasQuantumValidator
     """Create and return a quantum component instance"""
     return lukhasQuantumValidator(config)  # TODO: lukhasQuantumValidator
 

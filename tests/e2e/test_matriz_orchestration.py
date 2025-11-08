@@ -28,7 +28,7 @@ class MockPlugin:
         self.failure_rate = failure_rate
         self.call_count = 0
 
-    async def process(self, input_data: Dict) -> Dict:
+    async def process(self, input_data: dict) -> dict:
         """Mock processing with configurable delay and failure."""
         self.call_count += 1
         await asyncio.sleep(self.processing_time)
@@ -36,11 +36,7 @@ class MockPlugin:
         if self.failure_rate > 0 and (self.call_count * self.failure_rate) >= 1:
             raise Exception(f"Mock failure in {self.name}")
 
-        return {
-            "processed_by": self.name,
-            "input": input_data,
-            "timestamp": time.time()
-        }
+        return {"processed_by": self.name, "input": input_data, "timestamp": time.time()}
 
 
 class TestMATRIZE2E:
@@ -56,7 +52,7 @@ class TestMATRIZE2E:
             metrics=metrics,
             tracer=tracer,
             stage_timeout=0.1,  # 100ms timeout for T4 targets
-            total_timeout=0.25  # 250ms total timeout
+            total_timeout=0.25,  # 250ms total timeout
         )
 
         # Add test stages
@@ -64,23 +60,23 @@ class TestMATRIZE2E:
             PipelineStage(
                 name="preprocessing",
                 plugin=MockPlugin("preprocessor", 0.02),  # 20ms
-                critical=True
+                critical=True,
             ),
             PipelineStage(
                 name="analysis",
                 plugin=MockPlugin("analyzer", 0.03),  # 30ms
-                critical=True
+                critical=True,
             ),
             PipelineStage(
                 name="transformation",
                 plugin=MockPlugin("transformer", 0.025),  # 25ms
-                critical=False
+                critical=False,
             ),
             PipelineStage(
                 name="output",
                 plugin=MockPlugin("outputter", 0.015),  # 15ms
-                critical=True
-            )
+                critical=True,
+            ),
         ]
 
         for stage in stages:
@@ -100,14 +96,18 @@ class TestMATRIZE2E:
         total_latency = (end_time - start_time) * 1000  # Convert to ms
 
         # Verify T4 performance targets
-        assert total_latency < 250, f"Total pipeline latency {total_latency:.2f}ms exceeds 250ms target"
+        assert total_latency < 250, (
+            f"Total pipeline latency {total_latency:.2f}ms exceeds 250ms target"
+        )
         assert result.success, "Pipeline should succeed with healthy plugins"
         assert len(result.stage_results) == 4, "All stages should be processed"
 
         # Verify each stage meets latency targets
         for stage_name, stage_result in result.stage_results.items():
             stage_latency = stage_result.processing_time * 1000
-            assert stage_latency < 100, f"Stage {stage_name} latency {stage_latency:.2f}ms exceeds 100ms target"
+            assert stage_latency < 100, (
+                f"Stage {stage_name} latency {stage_latency:.2f}ms exceeds 100ms target"
+            )
 
     @pytest.mark.asyncio
     async def test_e2e_stress_performance(self, orchestrator):
@@ -146,7 +146,9 @@ class TestMATRIZE2E:
         assert p95_latency < 750, f"P95 latency {p95_latency:.2f}ms exceeds 750ms stress target"
 
         print(f"Stress test: {concurrent_requests} requests in {total_time:.2f}s")
-        print(f"Success rate: {success_rate:.3f}, Avg latency: {avg_latency:.2f}ms, P95: {p95_latency:.2f}ms")
+        print(
+            f"Success rate: {success_rate:.3f}, Avg latency: {avg_latency:.2f}ms, P95: {p95_latency:.2f}ms"
+        )
 
     @pytest.mark.asyncio
     async def test_e2e_fail_soft_behavior(self, orchestrator):
@@ -155,7 +157,7 @@ class TestMATRIZE2E:
         failing_stage = PipelineStage(
             name="optional_enhancement",
             plugin=MockPlugin("enhancer", 0.02, failure_rate=1.0),  # Always fails
-            critical=False
+            critical=False,
         )
         orchestrator.add_stage(failing_stage)
 
@@ -176,20 +178,14 @@ class TestMATRIZE2E:
 
         stages = [
             PipelineStage(
-                name="preprocessing",
-                plugin=MockPlugin("preprocessor", 0.02),
-                critical=True
+                name="preprocessing", plugin=MockPlugin("preprocessor", 0.02), critical=True
             ),
             PipelineStage(
                 name="critical_analysis",
                 plugin=MockPlugin("analyzer", 0.03, failure_rate=1.0),  # Always fails
-                critical=True
+                critical=True,
             ),
-            PipelineStage(
-                name="output",
-                plugin=MockPlugin("outputter", 0.015),
-                critical=True
-            )
+            PipelineStage(name="output", plugin=MockPlugin("outputter", 0.015), critical=True),
         ]
 
         for stage in stages:
@@ -210,7 +206,7 @@ class TestMATRIZE2E:
         slow_stage = PipelineStage(
             name="slow_processing",
             plugin=MockPlugin("slow_processor", 0.15),  # 150ms > 100ms timeout
-            critical=False
+            critical=False,
         )
         orchestrator.add_stage(slow_stage)
 
@@ -234,9 +230,9 @@ class TestMATRIZE2E:
 
         # Verify metrics were collected
         metrics = orchestrator.metrics
-        assert hasattr(metrics, 'enabled')
-        assert hasattr(metrics, 'config')
-        assert callable(getattr(metrics, 'record_matriz_pipeline', None))
+        assert hasattr(metrics, "enabled")
+        assert hasattr(metrics, "config")
+        assert callable(getattr(metrics, "record_matriz_pipeline", None))
 
         # Metrics should reflect the processing
         assert result.success, "Test request should succeed"
@@ -263,7 +259,7 @@ class TestMATRIZE2E:
         input_data = {
             "original_id": "test_123",
             "payload": {"data": "important_content"},
-            "metadata": {"source": "e2e_test"}
+            "metadata": {"source": "e2e_test"},
         }
 
         result = await orchestrator.process(input_data)
@@ -292,17 +288,14 @@ class TestMATRIZPerformanceBudgets:
 
         # Create orchestrator with realistic test stages
         orchestrator = AsyncOrchestrator(
-            metrics=metrics,
-            tracer=tracer,
-            stage_timeout=2.0,
-            total_timeout=10.0
+            metrics=metrics, tracer=tracer, stage_timeout=2.0, total_timeout=10.0
         )
 
         # Add test stages
         stages = [
             PipelineStage("validation", MockPlugin("validation"), True),
             PipelineStage("processing", MockPlugin("processing"), True),
-            PipelineStage("output", MockPlugin("output"), False)
+            PipelineStage("output", MockPlugin("output"), False),
         ]
 
         for stage in stages:

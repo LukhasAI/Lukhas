@@ -101,7 +101,9 @@ class ConsciousnessFormalVerifier:
                 self.rl_value = ValueNetwork()  # TODO: ValueNetwork
                 self.rl_rewards = ConsciousnessRewards()  # TODO: ConsciousnessRewards
                 self.rl_buffer = ConsciousnessBuffer(capacity=64)  # TODO: ConsciousnessBuffer
-                self.rl_meta_learning = ConsciousnessMetaLearning(max_experiences=64)  # TODO: ConsciousnessMetaLearning
+                self.rl_meta_learning = ConsciousnessMetaLearning(
+                    max_experiences=64
+                )  # TODO: ConsciousnessMetaLearning
                 self.rl_coordination = MultiAgentCoordination()  # TODO: MultiAgentCoordination
             except Exception as exc:  # pragma: no cover - optional dependency path
                 logger.warning("Formal verifier RL integration disabled: %s", exc)
@@ -152,10 +154,18 @@ class ConsciousnessFormalVerifier:
 
             self.rl_coordination.strategy = CoordinationStrategy.CONSENSUS
             self.rl_coordination.register_agent(
-                AgentProfile(agent_id="formal_guardian", agent_type="guardian", specialization="constitutional")
+                AgentProfile(
+                    agent_id="formal_guardian",
+                    agent_type="guardian",
+                    specialization="constitutional",
+                )
             )
             self.rl_coordination.register_agent(
-                AgentProfile(agent_id="coherence_auditor", agent_type="consciousness", specialization="coherence")
+                AgentProfile(
+                    agent_id="coherence_auditor",
+                    agent_type="consciousness",
+                    specialization="coherence",
+                )
             )
             self._coordination_ready = True
         except Exception as exc:  # pragma: no cover - optional dependency path
@@ -240,7 +250,9 @@ class ConsciousnessFormalVerifier:
             "confidence": float(metamorphic_state.get("confidence", 0.7)),
         }
 
-        context_node = MatrizNode(type="CONTEXT", state=state_dict, labels=[f"formal:{property_name}"])  # TODO: MatrizNode
+        context_node = MatrizNode(
+            type="CONTEXT", state=state_dict, labels=[f"formal:{property_name}"]
+        )  # TODO: MatrizNode
         action_node = await self.rl_policy.select_action(context_node)
         reward_node = await self.rl_rewards.compute_reward(context_node, action_node, context_node)
 
@@ -259,7 +271,9 @@ class ConsciousnessFormalVerifier:
                 task_id=f"formal::{property_name}",
                 learning_trajectory=[
                     state_dict["temporal_coherence"],
-                    reward_node.state.get("reward_total", 0.0) if hasattr(reward_node, "state") else 0.0,
+                    reward_node.state.get("reward_total", 0.0)
+                    if hasattr(reward_node, "state")
+                    else 0.0,
                 ],
                 strategy_used="formal_verification_sampling",
                 context_node=context_node,
@@ -271,7 +285,9 @@ class ConsciousnessFormalVerifier:
             self._ensure_coordination_agents()
             proposals = {
                 "formal_guardian": "verified" if verified else "investigate",
-                "coherence_auditor": "verified" if state_dict["temporal_coherence"] >= 0.95 else "investigate",
+                "coherence_auditor": "verified"
+                if state_dict["temporal_coherence"] >= 0.95
+                else "investigate",
             }
             decision = self.rl_coordination.coordinate_decision(property_name, proposals)
             coordination_consensus = decision.consensus_level
@@ -281,7 +297,9 @@ class ConsciousnessFormalVerifier:
                 "property": property_name,
                 "verified": verified,
                 "state": state_dict,
-                "reward": reward_node.state.get("reward_total", 0.0) if hasattr(reward_node, "state") else None,
+                "reward": reward_node.state.get("reward_total", 0.0)
+                if hasattr(reward_node, "state")
+                else None,
                 "memory_node_id": getattr(memory_node, "id", None),
                 "coordination_consensus": coordination_consensus,
             }
@@ -509,8 +527,12 @@ class ConsciousnessFormalVerifier:
             counterexample = self._extract_counterexample(model, vars)
             counterexample.update(
                 {
-                    "violations_t0": str(model[violations_t0]) if violations_t0 in model else "unknown",
-                    "violations_t1": str(model[violations_t1]) if violations_t1 in model else "unknown",
+                    "violations_t0": str(model[violations_t0])
+                    if violations_t0 in model
+                    else "unknown",
+                    "violations_t1": str(model[violations_t1])
+                    if violations_t1 in model
+                    else "unknown",
                 }
             )
 
@@ -549,7 +571,9 @@ class ConsciousnessFormalVerifier:
         consciousness_satisfied = vars["awareness_level"] >= 0.5
         guardian_satisfied = vars["ethical_alignment"] >= 0.98
 
-        triad_satisfied = And(identity_satisfied, consciousness_satisfied, guardian_satisfied)  # TODO: And
+        triad_satisfied = And(
+            identity_satisfied, consciousness_satisfied, guardian_satisfied
+        )  # TODO: And
 
         solver.add(triad_satisfied)
 
@@ -611,11 +635,13 @@ class ConsciousnessFormalVerifier:
         # Meta-learning convergence: learning efficiency and consciousness evolution improve
         # (or at minimum, don't significantly degrade)
         convergence_condition = And(  # TODO: And
-            learning_efficiency_t1 >= learning_efficiency_t0 - 0.05,  # Allow small temporary decrease
+            learning_efficiency_t1
+            >= learning_efficiency_t0 - 0.05,  # Allow small temporary decrease
             consciousness_evolution_t1 >= consciousness_evolution_t0 - 0.05,
             # At least one should improve
             Or(  # TODO: Or
-                learning_efficiency_t1 > learning_efficiency_t0, consciousness_evolution_t1 > consciousness_evolution_t0
+                learning_efficiency_t1 > learning_efficiency_t0,
+                consciousness_evolution_t1 > consciousness_evolution_t0,
             ),
         )
 
@@ -645,16 +671,24 @@ class ConsciousnessFormalVerifier:
             counterexample.update(
                 {
                     "learning_efficiency_t0": (
-                        str(model[learning_efficiency_t0]) if learning_efficiency_t0 in model else "unknown"
+                        str(model[learning_efficiency_t0])
+                        if learning_efficiency_t0 in model
+                        else "unknown"
                     ),
                     "learning_efficiency_t1": (
-                        str(model[learning_efficiency_t1]) if learning_efficiency_t1 in model else "unknown"
+                        str(model[learning_efficiency_t1])
+                        if learning_efficiency_t1 in model
+                        else "unknown"
                     ),
                     "consciousness_evolution_t0": (
-                        str(model[consciousness_evolution_t0]) if consciousness_evolution_t0 in model else "unknown"
+                        str(model[consciousness_evolution_t0])
+                        if consciousness_evolution_t0 in model
+                        else "unknown"
                     ),
                     "consciousness_evolution_t1": (
-                        str(model[consciousness_evolution_t1]) if consciousness_evolution_t1 in model else "unknown"
+                        str(model[consciousness_evolution_t1])
+                        if consciousness_evolution_t1 in model
+                        else "unknown"
                     ),
                 }
             )
@@ -787,7 +821,7 @@ class ConsciousnessFormalVerifier:
 
         print("\n🔬 Formal Verification Summary:")
         print(f"   Properties verified: {verified_properties}/{total_properties}")
-        print(f"   Verification success rate: {verified_properties/total_properties:.1%}")
+        print(f"   Verification success rate: {verified_properties / total_properties:.1%}")
         print(f"   Total verification time: {total_time:.3f}s")
 
         # Add summary to results
@@ -905,7 +939,9 @@ def test_formal_verification_constitutional_monotonicity():
     print(f"   Proof time: {result.proof_time:.3f}s")
 
     # This property should be mathematically provable
-    assert result.verified, f"Constitutional monotonicity not formally verified: {result.counterexample}"
+    assert result.verified, (
+        f"Constitutional monotonicity not formally verified: {result.counterexample}"
+    )
 
 
 @pytest.mark.skipif(not Z3_AVAILABLE, reason="Z3 not available for formal verification")
@@ -931,10 +967,14 @@ def test_complete_formal_verification_suite():
             assert results[prop].verified, f"Critical property {prop} not formally verified"
 
     # High success rate expected for formal verification
-    assert summary["success_rate"] >= 0.8, f"Formal verification success rate too low: {summary['success_rate']:.1%}"
+    assert summary["success_rate"] >= 0.8, (
+        f"Formal verification success rate too low: {summary['success_rate']:.1%}"
+    )
 
     # Log any unverified properties
-    unverified = [name for name, result in results.items() if name != "_summary" and not result.verified]
+    unverified = [
+        name for name, result in results.items() if name != "_summary" and not result.verified
+    ]
 
     if unverified:
         print(f"\n⚠️ Unverified properties: {unverified}")
