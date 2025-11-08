@@ -1,6 +1,17 @@
 ---
 status: wip
 type: documentation
+canonical: https://lukhas.dev/architecture
+seo:
+  description: "LUKHAS.DEV developer platform - bio-adaptive ecosystem for collaborative consciousness development with living documentation and community-driven innovation."
+  keywords:
+    - "consciousness development platform"
+    - "developer ecosystem"
+    - "AI SDK"
+    - "collaborative development"
+    - "bio-adaptive architecture"
+last_reviewed: "2025-11-08"
+keywords: "consciousness development platform, developer ecosystem, AI SDK, collaborative development, bio-adaptive architecture"
 ---
 # 🌱 LUKHAS.DEV - The Adaptive Ecosystem
 ## Website Architecture & Collaborative Development Hub

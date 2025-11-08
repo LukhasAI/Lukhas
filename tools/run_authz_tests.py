@@ -9,6 +9,7 @@ different tier/scope/action combinations.
 
 import argparse
 import json
+import logging
 import subprocess
 import sys
 import tempfile
@@ -16,6 +17,9 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 class AuthzTestRunner:

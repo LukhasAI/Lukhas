@@ -188,7 +188,7 @@ class HealthMonitor:
         self.component_health: dict[str, ComponentHealth] = {}
 
         # Metric history for trend analysis
-        self.metric_history: dict[str, collections.deque[HealthMetric]] = defaultdict(
+        self.metric_history: dict[str, deque[HealthMetric]] = defaultdict(
             lambda: deque(maxlen=history_window_size)
         )
 
@@ -197,7 +197,7 @@ class HealthMonitor:
 
         # Alerting
         self.alert_handlers: list[Callable] = []
-        self.alert_history: collections.deque[dict[str, Any]] = deque(maxlen=1000)
+        self.alert_history: deque[dict[str, Any]] = deque(maxlen=1000)
 
         # Statistics
         self.stats = {

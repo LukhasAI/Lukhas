@@ -1,0 +1,285 @@
+name: Branding Content Lint & Governance
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'branding/**/*.md'
+      - 'tools/*lint*.py'
+      - 'tools/*validate*.py'
+      - 'tools/generate_*.py'
+  push:
+    branches: [main]
+    paths:
+      - 'branding/**/*.md'
+  schedule:
+    - cron: '0 9 * * 1'  # Weekly Monday 9am UTC
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  vocabulary-lint:
+    name: Vocabulary Compliance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run vocabulary linter
+        run: |
+          python3 tools/branding_vocab_lint.py
+        continue-on-error: false
+
+  front-matter-lint:
+    name: Front-Matter Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+
+      - name: Run front-matter linter
+        run: |
+          python3 tools/front_matter_lint.py
+        continue-on-error: false
+
+  evidence-validation:
+    name: Claims & Evidence Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+
+      - name: Generate claims registry
+        run: |
+          python3 tools/generate_claims_registry.py
+
+      - name: Validate claims (non-strict)
+        run: |
+          python3 tools/validate_claims.py
+        continue-on-error: false
+
+      - name: Upload claims registry artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: claims-registry
+          path: branding/governance/claims_registry.json
+          retention-days: 30
+
+  seo-validation:
+    name: SEO Technical Hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+
+      - name: Validate SEO compliance
+        run: |
+          python3 tools/validate_seo.py
+        continue-on-error: true  # Warnings allowed
+
+  markdown-links:
+    name: Broken Link Detection
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install markdown-link-check
+        run: npm install -g markdown-link-check
+
+      - name: Check branding links
+        run: |
+          find branding -name "*.md" -exec markdown-link-check {} \;
+        continue-on-error: true
+
+  visual-regression:
+    name: Visual Regression Testing
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          npm install -g @chromatic-com/chromatic
+          # Or: npm install -g percy
+
+      - name: Build static site preview
+        run: |
+          # This assumes you have a build script for branding previews
+          # Adjust based on your static site generator (Hugo, Jekyll, etc.)
+          echo "Building static preview..."
+          # npm run build:preview || true
+
+      - name: Run visual regression (Chromatic)
+        env:
+          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        run: |
+          # chromatic --project-token=$CHROMATIC_PROJECT_TOKEN
+          echo "Visual regression would run here with Chromatic or Percy"
+          echo "Requires CHROMATIC_PROJECT_TOKEN secret in repo settings"
+        continue-on-error: true
+
+  evidence-artifacts:
+    name: Evidence Artifact Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate evidence JSON files
+        run: |
+          for file in release_artifacts/*.json; do
+            echo "Validating $file..."
+            python3 -m json.tool "$file" > /dev/null || exit 1
+          done
+
+      - name: Check artifact hashes (future)
+        run: |
+          echo "Artifact signing validation would run here (D9 in progress)"
+          # python3 tools/validate_artifact_signatures.py
+
+  analytics-privacy:
+    name: Analytics Privacy Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate analytics privacy (PII detection)
+        run: |
+          python3 tools/validate_analytics_privacy.py
+        continue-on-error: false
+
+      - name: Test consent flows
+        run: |
+          python3 tools/test_consent_flows.py
+        continue-on-error: false
+
+      - name: Validate event taxonomy
+        run: |
+          python3 -m json.tool branding/analytics/event_taxonomy.json > /dev/null
+          python3 tools/validate_events.py
+        continue-on-error: false
+
+  launch-validation:
+    name: Launch Playbook Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate launch playbooks
+        run: |
+          python3 tools/validate_launch.py
+        continue-on-error: true  # Warnings allowed
+
+  feature-flags-validation:
+    name: Feature Flags Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+
+      - name: Validate feature flags configuration
+        run: |
+          python3 tools/validate_flags.py
+        continue-on-error: false
+
+      - name: Check for flag privacy violations
+        run: |
+          # Ensure no PII in flag configurations
+          if grep -rE "(email|phone|ssn|credit.card)" branding/features/flags.yaml; then
+            echo "❌ PII detected in flag configuration!"
+            exit 1
+          fi
+          echo "✅ No PII detected in flag configuration"
+        continue-on-error: false
+
+  summary:
+    name: Validation Summary
+    runs-on: ubuntu-latest
+    needs: [vocabulary-lint, front-matter-lint, evidence-validation, seo-validation, analytics-privacy, launch-validation, feature-flags-validation]
+    if: always()
+    steps:
+      - name: Check all jobs passed
+        run: |
+          echo "Vocabulary: ${{ needs.vocabulary-lint.result }}"
+          echo "Front-Matter: ${{ needs.front-matter-lint.result }}"
+          echo "Evidence: ${{ needs.evidence-validation.result }}"
+          echo "SEO: ${{ needs.seo-validation.result }}"
+          echo "Analytics Privacy: ${{ needs.analytics-privacy.result }}"
+          echo "Launch Playbooks: ${{ needs.launch-validation.result }}"
+          echo "Feature Flags: ${{ needs.feature-flags-validation.result }}"
+
+          if [[ "${{ needs.vocabulary-lint.result }}" == "failure" ]] || \
+             [[ "${{ needs.front-matter-lint.result }}" == "failure" ]] || \
+             [[ "${{ needs.evidence-validation.result }}" == "failure" ]] || \
+             [[ "${{ needs.analytics-privacy.result }}" == "failure" ]] || \
+             [[ "${{ needs.feature-flags-validation.result }}" == "failure" ]]; then
+            echo "❌ Content validation failed - see job logs above"
+            exit 1
+          fi
+
+          echo "✅ All critical content validations passed"

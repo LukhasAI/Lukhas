@@ -40,6 +40,9 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 class QIEntanglement:
     """
@@ -285,7 +288,7 @@ def __validate_module__():
 
     failed = [k for k, v in validations.items() if not v]
     if failed:
-        logger.warning(f"Module validation warnings: {failed}")  # TODO: logger
+        logger.warning(f"Module validation warnings: {failed}")
 
     return len(failed) == 0
 

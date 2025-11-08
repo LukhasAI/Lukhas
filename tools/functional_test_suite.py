@@ -4,7 +4,11 @@
 Tests actual functionality, not just imports
 """
 
+import logging
 from datetime import datetime, timezone
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 def test_memory_functionality():

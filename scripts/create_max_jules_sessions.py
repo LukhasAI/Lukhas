@@ -24,7 +24,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from bridge.llm_wrappers.jules_wrapper import JulesClient
 
-
 # Comprehensive test task list
 TEST_TASKS = [
     # Guardian V3 Components (7 sessions)
@@ -1174,8 +1173,8 @@ async def create_all_sessions(limit: int = None):
 
     print(f"🚀 Creating {len(tasks)} Jules Test Sessions")
     print("=" * 70)
-    print(f"Target: Maximum test coverage automation")
-    print(f"Mode: AUTO_CREATE_PR")
+    print("Target: Maximum test coverage automation")
+    print("Mode: AUTO_CREATE_PR")
     print()
 
     async with JulesClient() as jules:

@@ -1,7 +1,21 @@
 ---
 status: wip
 type: documentation
----
+canonical: https://lukhas.team/architecture
+seo:
+  description: "LUKHAS.TEAM architecture for collaborative consciousness - protected team intelligence tools enabling distributed organizations to think together with privacy and collective purpose."
+  keywords:
+    - "team collaboration AI"
+    - "collective intelligence"
+    - "distributed teams"
+    - "consciousness technology collaboration"
+    - "protected team intelligence"
+last_reviewed: "2025-11-08"
+keywords: "team collaboration AI, collective intelligence, distributed teams, consciousness technology collaboration, protected team intelligence"
+evidence_links:
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/experimental-design-95pct.md'
+  - 'release_artifacts/evidence/user-satisfaction-94pct.md'---
 # 👥 LUKHAS.TEAM - The Collaborative Consciousness Hub
 ## Website Architecture & Distributed Team Intelligence Platform
 

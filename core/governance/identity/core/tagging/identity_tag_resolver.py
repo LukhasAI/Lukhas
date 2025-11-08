@@ -142,7 +142,9 @@ class TagConsensusRequest:
             return False
 
         total_weight = sum(self.vote_weights.values())
-        approve_weight = sum(weight for voter, weight in self.vote_weights.items() if self.votes.get(voter, False))
+        approve_weight = sum(
+            weight for voter, weight in self.vote_weights.items() if self.votes.get(voter, False)
+        )
 
         return approve_weight / total_weight >= self.tag.consensus_threshold
 
@@ -190,10 +192,14 @@ class IdentityTagResolver:
         await self.tag_manager.initialize()
 
         # Start consensus processor
-        asyncio.create_task(self._process_consensus_requests())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_identity_core_tagging_identity_tag_resolver_py_L193"}
+        asyncio.create_task(
+            self._process_consensus_requests()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_identity_core_tagging_identity_tag_resolver_py_L193"}
 
         # Start trust network analyzer
-        asyncio.create_task(self._analyze_trust_network())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_identity_core_tagging_identity_tag_resolver_py_L197"}
+        asyncio.create_task(
+            self._analyze_trust_network()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_identity_core_tagging_identity_tag_resolver_py_L197"}
 
         logger.info("Identity Tag Resolver initialized")
 
@@ -220,7 +226,9 @@ class IdentityTagResolver:
             tier_required=tier_level,
             consensus_required=require_consensus,
             issuer_id=issuer_id or "system",
-            expiry_time=(datetime.now(timezone.utc) + timedelta(hours=expiry_hours) if expiry_hours else None),
+            expiry_time=(
+                datetime.now(timezone.utc) + timedelta(hours=expiry_hours) if expiry_hours else None
+            ),
         )
 
         # Check if consensus is required
@@ -233,7 +241,9 @@ class IdentityTagResolver:
                 return ""
 
             # Create consensus request
-            request_id = f"consensus_{lambda_id}_{tag.name}_{int(datetime.now(timezone.utc).timestamp())}"
+            request_id = (
+                f"consensus_{lambda_id}_{tag.name}_{int(datetime.now(timezone.utc).timestamp())}"
+            )
             consensus_request = TagConsensusRequest(
                 request_id=request_id,
                 requester_id=issuer_id,
@@ -392,7 +402,9 @@ class IdentityTagResolver:
                 },
             )
 
-    def resolve_identity_permissions(self, lambda_id: str, resource: str, tier_level: int) -> dict[str, Any]:
+    def resolve_identity_permissions(
+        self, lambda_id: str, resource: str, tier_level: int
+    ) -> dict[str, Any]:
         """
         Resolve permissions for identity based on tags and trust network.
         """
@@ -416,14 +428,22 @@ class IdentityTagResolver:
             valid_tags.append(tag)
 
         # Check permission tags
-        permission_tags = [tag for tag in valid_tags if tag.name.startswith("permission:") and resource in tag.value]
+        permission_tags = [
+            tag
+            for tag in valid_tags
+            if tag.name.startswith("permission:") and resource in tag.value
+        ]
 
         if permission_tags:
             permissions["allowed"] = True
             permissions["applicable_tags"] = [tag.name for tag in permission_tags]
 
         # Check restriction tags
-        restriction_tags = [tag for tag in valid_tags if tag.name.startswith("restriction:") and resource in tag.value]
+        restriction_tags = [
+            tag
+            for tag in valid_tags
+            if tag.name.startswith("restriction:") and resource in tag.value
+        ]
 
         if restriction_tags:
             permissions["allowed"] = False
@@ -483,7 +503,9 @@ class IdentityTagResolver:
             "trust_relationships": self._count_trust_relationships(lambda_id),
         }
 
-    def _get_trust_network(self, identity_id: str, min_trust: TrustLevel = TrustLevel.LOW) -> list[str]:
+    def _get_trust_network(
+        self, identity_id: str, min_trust: TrustLevel = TrustLevel.LOW
+    ) -> list[str]:
         """Get trusted identities above threshold."""
         trusted = []
 
@@ -604,7 +626,8 @@ class IdentityTagResolver:
                                     "tag": request.tag,
                                     "action": "consensus_approved",
                                     "votes": len(request.votes),
-                                    "approval_rate": sum(1 for v in request.votes.values() if v) / len(request.votes),
+                                    "approval_rate": sum(1 for v in request.votes.values() if v)
+                                    / len(request.votes),
                                 }
                             )
 

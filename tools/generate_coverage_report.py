@@ -10,7 +10,11 @@ from __future__ import annotations
 import datetime
 import glob
 import json
+import logging
 from pathlib import Path
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 def main():

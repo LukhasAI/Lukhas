@@ -6,11 +6,15 @@ Provides automated validation, monitoring, and maintenance for LUKHAS architectu
 
 import argparse
 import json
+import logging
 import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Dict
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 class LUKHASMaintenancePipeline:

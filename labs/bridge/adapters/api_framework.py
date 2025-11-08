@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import hashlib
 import logging
+import os
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
@@ -180,6 +181,11 @@ class JWTAdapter:
         self.refresh_token_ttl = refresh_token_ttl
         self.leeway = leeway
         self.lambda_id_integration = lambda_id_integration
+
+        # Key management - Load from environment if not provided
+        secret_key = secret_key or os.getenv("JWT_SECRET_KEY")
+        public_key = public_key or os.getenv("JWT_PUBLIC_KEY")
+        private_key = private_key or os.getenv("JWT_PRIVATE_KEY")
 
         # Key management
         if algorithm == JWTAlgorithm.HS256:

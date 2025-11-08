@@ -6,9 +6,13 @@ Creates machine-readable JSON indexes for AI agent discovery and coordination
 
 import ast
 import json
+import logging
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Optional
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 class DirectoryIndexGenerator:

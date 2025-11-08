@@ -8,19 +8,15 @@ preserving the historic local implementations used by downstream tools.
 from importlib import import_module
 
 from _bridgeutils import export_from, safe_guard
-
-from lukhas.identity.webauthn_credential import (
-    WebAuthnCredential,
-    WebAuthnCredentialStore,
-)
+from lukhas.identity.webauthn_credential import WebAuthnCredential, WebAuthnCredentialStore
 from lukhas.identity.webauthn_verify import (
-    verify_assertion,
-    VerificationResult,
-    InvalidSignatureError,
-    InvalidChallengeError,
-    ReplayAttackError,
-    InvalidAssertionError,
     CredentialNotFoundError,
+    InvalidAssertionError,
+    InvalidChallengeError,
+    InvalidSignatureError,
+    ReplayAttackError,
+    VerificationResult,
+    verify_assertion,
 )
 
 __all__ = [

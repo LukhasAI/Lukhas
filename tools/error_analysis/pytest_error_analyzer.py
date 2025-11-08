@@ -14,6 +14,8 @@ import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
+
+
 class ErrorPattern:
     """Represents a categorized error pattern."""
 

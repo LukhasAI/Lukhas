@@ -7,6 +7,8 @@ Helps track template versions and edit policies.
 import pathlib
 import subprocess
 import sys
+
+
 class ProvenanceHeadersAdder:
     def __init__(self):
         self.git_commit = self._get_git_commit()

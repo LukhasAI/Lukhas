@@ -8,15 +8,13 @@
 Unit tests for trace_logs module.
 """
 
+# Import module components
+import importlib.util
 import unittest
 
 import pytest
 
-# Import module components
-try:
-    pass  #     pass  #
-    import trace_logs  # TODO: trace_logs; consider using imp...
-except ImportError:
+if importlib.util.find_spec("trace_logs") is None:
     pytest.skip("Module trace_logs not available", allow_module_level=True)
 
 

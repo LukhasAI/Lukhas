@@ -1,0 +1,31 @@
+# Canonical URL mapping for cross-domain duplicate content
+# Format: [duplicate_url] → [canonical_url]
+
+canonical_mappings:
+  # MATRIZ cognitive engine mentioned on 3 domains
+  - duplicates:
+      - https://lukhas.ai/matriz
+      - https://lukhas.eu/matriz
+      - https://lukhas.app/matriz
+    canonical: https://lukhas.ai/matriz
+
+  # Identity/authentication on 2 domains
+  - duplicates:
+      - https://lukhas.com/identity
+      - https://lukhas.dev/identity
+    canonical: https://lukhas.com/identity
+
+  # Developer documentation
+  - duplicates:
+      - https://lukhas.ai/docs
+      - https://lukhas.dev/docs
+    canonical: https://lukhas.dev/docs
+
+hreflang_groups:
+  # Multi-language content groups
+  - canonical: https://lukhas.com/about
+    alternates:
+      - url: https://lukhas.eu/about
+        lang: en-EU
+      - url: https://lukhas.com/about
+        lang: en-US
