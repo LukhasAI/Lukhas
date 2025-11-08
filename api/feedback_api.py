@@ -9,7 +9,6 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from core.common import get_logger
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from feedback.user_feedback_system import (
@@ -19,6 +18,8 @@ from feedback.user_feedback_system import (
     UserFeedbackSystem,
 )
 from pydantic import BaseModel, Field, validator
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
