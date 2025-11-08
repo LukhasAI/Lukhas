@@ -26,8 +26,12 @@ pytestmark = pytest.mark.performance
 def event_loop():
     """Create an instance of the default event loop for the module."""
     loop = asyncio.get_event_loop_policy().new_event_loop()
-    yield loop
-    loop.close()
+    asyncio.set_event_loop(loop)
+    try:
+        yield loop
+    finally:
+        loop.close()
+        asyncio.set_event_loop(None)
 
 
 @pytest.fixture(scope="module")
@@ -42,16 +46,18 @@ def orchestrator():
 class TestMatrizPerformance:
     """Performance and scalability tests for the MATRIZ Cognitive Engine."""
 
-    @pytest.mark.asyncio
-    async def test_latency_p95(self, orchestrator, benchmark):
+    def test_latency_p95(self, orchestrator, benchmark, event_loop):
         """Test p95 latency is below 250ms."""
         query = "what is 123 + 456 * 7"
 
         async def f():
             return await orchestrator.process_query(query)
 
+        def run():
+            return event_loop.run_until_complete(f())
+
         # Use pedantic to benchmark the async function correctly
-        benchmark.pedantic(f, iterations=10, rounds=5)
+        benchmark.pedantic(run, iterations=10, rounds=5)
 
         # Manually calculate p95 from raw data for robustness
         raw_data = benchmark.stats.stats.data
