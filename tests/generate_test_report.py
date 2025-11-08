@@ -3,6 +3,7 @@
 Test Report Generator for LUKHAS Test Suite
 Generates KNOWN_ISSUES.md and TEST_STATUS.md from pytest results
 """
+
 from __future__ import annotations
 
 import json
@@ -44,7 +45,13 @@ class TestReportGenerator:
 
     def _run_simple_tests(self) -> dict:
         """Fallback: Run tests with simple output parsing"""
-        cmd = ["pytest", str(self.test_dir), "--tb=no", "-v", "--co"]  # Collect only for quick analysis
+        cmd = [
+            "pytest",
+            str(self.test_dir),
+            "--tb=no",
+            "-v",
+            "--co",
+        ]  # Collect only for quick analysis
 
         result = subprocess.run(cmd, capture_output=True, text=True)
 
@@ -117,15 +124,15 @@ class TestReportGenerator:
             priority, issue_type = self.categorize_issue(failure)
 
             issue = f"""
-### ISSUE-{i:03d}: {failure['test_name'].replace('::', ' - ')}
-**Component:** `{failure['test_path']}`
+### ISSUE-{i:03d}: {failure["test_name"].replace("::", " - ")}
+**Component:** `{failure["test_path"]}`
 **Status:** 🔴 Open
 **Priority:** {priority}
 **Labels:** `{issue_type}`, `auto-generated`
 
 **Error:**
 ```
-{failure['error']}
+{failure["error"]}
 ```
 
 **Next Steps:**
@@ -153,15 +160,15 @@ class TestReportGenerator:
 
         status = f"""# LUKHAS Test Suite Status Dashboard
 
-> Auto-generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
+> Auto-generated: {datetime.now().strftime("%Y-%m-%d %H:%M")}
 
 ## 📊 Overall Health
 
 ```
 Total Tests:     {total}
-Passing:         {passed}  {'█' * int(pass_rate/5)}{'░' * (20-int(pass_rate/5))} {pass_rate:.1f}%
-Failing:         {failed}  {'█' * int(failed*20/max(total,1))}{'░' * (20-int(failed*20/max(total,1)))} {failed/max(total,1)*100:.1f}%
-Skipped:         {skipped}  {'█' * int(skipped*20/max(total,1))}{'░' * (20-int(skipped*20/max(total,1)))} {skipped/max(total,1)*100:.1f}%
+Passing:         {passed}  {"█" * int(pass_rate / 5)}{"░" * (20 - int(pass_rate / 5))} {pass_rate:.1f}%
+Failing:         {failed}  {"█" * int(failed * 20 / max(total, 1))}{"░" * (20 - int(failed * 20 / max(total, 1)))} {failed / max(total, 1) * 100:.1f}%
+Skipped:         {skipped}  {"█" * int(skipped * 20 / max(total, 1))}{"░" * (20 - int(skipped * 20 / max(total, 1)))} {skipped / max(total, 1) * 100:.1f}%
 ```
 
 ## Test Results by Category
@@ -169,12 +176,12 @@ Skipped:         {skipped}  {'█' * int(skipped*20/max(total,1))}{'░' * (20-i
 | Status | Count | Percentage |
 |--------|-------|------------|
 | ✅ Passed | {passed} | {pass_rate:.1f}% |
-| ❌ Failed | {failed} | {failed/max(total,1)*100:.1f}% |
-| ⚠️ Skipped | {skipped} | {skipped/max(total,1)*100:.1f}% |
+| ❌ Failed | {failed} | {failed / max(total, 1) * 100:.1f}% |
+| ⚠️ Skipped | {skipped} | {skipped / max(total, 1) * 100:.1f}% |
 
 ## Recent Test Run
 
-- **Duration:** {results.get('duration', 'N/A')}s
+- **Duration:** {results.get("duration", "N/A")}s
 - **Platform:** {sys.platform}
 - **Python:** {sys.version.split()[0]}
 - **Timestamp:** {datetime.now().isoformat()}

@@ -1,4 +1,5 @@
 """Operational ethics swarm colony engine for Guardian integrations."""
+
 from __future__ import annotations
 
 import hashlib
@@ -180,9 +181,7 @@ class EthicsSwarmColony:
 
         self._signals.clear()
 
-    def _decision_floor(
-        self, decision_type: EthicalDecisionType, risk_level: str
-    ) -> float:
+    def _decision_floor(self, decision_type: EthicalDecisionType, risk_level: str) -> float:
         base_threshold = self.drift_threshold
         if decision_type is EthicalDecisionType.ESCALATED:
             base_threshold -= self.escalation_penalty
@@ -211,7 +210,9 @@ class EthicsSwarmColony:
         if not self._signals:
             return 0.0
 
-        positives = [signal.value * signal.weight for signal in self._signals if signal.value >= 0.5]
+        positives = [
+            signal.value * signal.weight for signal in self._signals if signal.value >= 0.5
+        ]
         negatives = [signal.value * signal.weight for signal in self._signals if signal.value < 0.5]
         positive_avg = statistics.fmean(positives) if positives else 0.0
         negative_avg = statistics.fmean(negatives) if negatives else 0.0
