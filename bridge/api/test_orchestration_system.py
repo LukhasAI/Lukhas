@@ -29,6 +29,8 @@ from typing import Any, Optional
 try:
     import pytest  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
     import websockets  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    from httpx import AsyncClient
+
     from bridge.api.orchestration_api_bridge import (
         APIProvider,
         ComprehensiveAPIOrchestrator,
@@ -49,7 +51,6 @@ try:
         FunctionDefinition,
         OpenAIFunctionBridge,
     )
-    from httpx import AsyncClient
 
     TESTING_AVAILABLE = True
 except ImportError as e:

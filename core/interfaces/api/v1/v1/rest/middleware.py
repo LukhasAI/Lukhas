@@ -37,16 +37,17 @@ from typing import Any, Callable
 # Replaced python-jose (vulnerable) with PyJWT for secure JWT handling
 import jwt
 import structlog
+from fastapi import HTTPException, Request, status
+from fastapi.responses import JSONResponse
+from fastapi.security import HTTPBearer
+from jwt.exceptions import InvalidTokenError as JWTError
+
 from core.identity.vault.lukhas_id import (
     IdentityManager,
     IdentityRateLimitExceeded,
     IdentityVerificationError,
 )
-from fastapi import HTTPException, Request, status
-from fastapi.responses import JSONResponse
-from fastapi.security import HTTPBearer
 from governance.identity.core.id_service import get_identity_manager
-from jwt.exceptions import InvalidTokenError as JWTError
 
 logger = logging.getLogger(__name__)
 

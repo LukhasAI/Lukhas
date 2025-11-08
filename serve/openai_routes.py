@@ -21,7 +21,6 @@ import uuid
 from collections.abc import AsyncGenerator
 from typing import Any
 
-from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 from fastapi import (
     APIRouter,
     Body,
@@ -35,6 +34,7 @@ from fastapi import (
 from fastapi.responses import JSONResponse, StreamingResponse
 
 from adapters.openai import TokenClaims, require_bearer
+from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 
 from .schemas import ModulatedChatRequest, ModulatedChatResponse
 

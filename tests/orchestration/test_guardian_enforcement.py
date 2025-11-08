@@ -8,6 +8,7 @@ Validates default-on enforcement behavior for canary traffic when
 """
 
 import pytest
+
 from core.ethics.guardian_drift_bands import GuardianBand, GuardianBandResult
 from core.orchestration.plan_verifier import PlanVerifier, VerificationContext
 
