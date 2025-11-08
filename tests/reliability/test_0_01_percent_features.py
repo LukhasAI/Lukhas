@@ -10,13 +10,10 @@ import asyncio
 import time
 from unittest.mock import Mock, patch
 
-import pytest
-from core.reliability import (
-
 import logging
 
-# Module-level logger
-logger = logging.getLogger(__name__)
+import pytest
+from core.reliability import (
     AdaptiveCircuitBreaker,
     AdaptiveTimeoutManager,
     BackoffConfig,
@@ -29,6 +26,9 @@ logger = logging.getLogger(__name__)
     PerformanceRegressionDetector,
     TimeoutConfig,
 )
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 class TestAdaptiveCircuitBreaker:

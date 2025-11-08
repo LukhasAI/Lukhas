@@ -18,7 +18,6 @@ try:
         ObservationType,
         ObserverEffect,
         QuantumPerceptionField,
-        WaveFunctionCollapse,
     )
     from symbolic.core.visual_symbol import QuantumState, SymbolState, VisualSymbol
     SYMBOLIC_AVAILABLE = True
