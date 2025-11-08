@@ -15,7 +15,7 @@ import logging
 import re
 import subprocess
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -30,7 +30,7 @@ class ComprehensiveSyntaxFixer:
         self.patterns_fixed = {}
         self.files_processed = set()
 
-    def get_syntax_errors(self) -> List[Dict]:
+    def get_syntax_errors(self) -> list[Dict]:
         """Get all syntax errors from ruff"""
         try:
             result = subprocess.run(

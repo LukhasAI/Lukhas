@@ -50,7 +50,6 @@
 """
 from __future__ import annotations
 
-
 # Module imports
 import asyncio
 from datetime import datetime, timedelta, timezone

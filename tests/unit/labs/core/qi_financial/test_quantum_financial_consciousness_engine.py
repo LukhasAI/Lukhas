@@ -1,7 +1,8 @@
 """Unit tests for the Quantum Financial Consciousness Engine."""
 
-import pytest
 import random
+
+import pytest
 from labs.core.qi_financial.quantum_financial_consciousness_engine import (
     AbundanceCalculator,
     ConsciousnessTokenProtocol,

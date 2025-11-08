@@ -8,7 +8,7 @@ Factory for creating AI provider clients with feature flag gating and environmen
 
 import logging
 import os
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from .anthropic_client import AnthropicClient
 from .base_client import AIProvider, BaseAIClient
@@ -24,7 +24,7 @@ ENABLE_PROVIDER_CALLS = os.getenv("LUKHAS_ENABLE_PROVIDER_CALLS", "0") == "1"
 
 def create_provider_client(
     provider: AIProvider,
-    config: Optional[Dict[str, Any]] = None
+    config: Optional[dict[str, Any]] = None
 ) -> BaseAIClient:
     """
     Create an AI provider client with appropriate feature flag gating
@@ -78,7 +78,7 @@ def create_provider_client(
         return MockAIClient(**config)
 
 
-def get_provider_status() -> Dict[str, Dict[str, Any]]:
+def get_provider_status() -> dict[str, dict[str, Any]]:
     """
     Get status of all provider configurations
 
@@ -127,7 +127,7 @@ def get_provider_status() -> Dict[str, Dict[str, Any]]:
     return status
 
 
-def validate_provider_configuration() -> Dict[str, Any]:
+def validate_provider_configuration() -> dict[str, Any]:
     """
     Validate provider configuration and return detailed status
 
@@ -176,7 +176,7 @@ def validate_provider_configuration() -> Dict[str, Any]:
 
 
 # Convenience function for creating all standard providers
-def create_all_providers(config: Optional[Dict[str, Dict[str, Any]]] = None) -> Dict[AIProvider, BaseAIClient]:
+def create_all_providers(config: Optional[dict[str, dict[str, Any]]] = None) -> dict[AIProvider, BaseAIClient]:
     """
     Create all available providers with given configuration
 

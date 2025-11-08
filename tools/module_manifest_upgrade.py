@@ -26,7 +26,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 try:
     import jsonschema
@@ -42,7 +42,7 @@ def run_cmd(cmd: str, check: bool = False) -> subprocess.CompletedProcess:
         print(f"Error: {result.stderr}")
     return result
 
-def load_json(path: Path) -> Dict[str, Any] | None:
+def load_json(path: Path) -> dict[str, Any] | None:
     """Load JSON file safely"""
     try:
         if not path.exists():
@@ -53,7 +53,7 @@ def load_json(path: Path) -> Dict[str, Any] | None:
         print(f"⚠️  Failed to load {path}: {e}")
         return None
 
-def save_json(path: Path, data: Dict[str, Any]) -> None:
+def save_json(path: Path, data: dict[str, Any]) -> None:
     """Save JSON file with proper formatting"""
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, 'w', encoding='utf-8') as f:
@@ -95,7 +95,7 @@ def detect_code_layout(module_dir: Path) -> str:
         return "src-root"
     return "package-root"
 
-def create_manifest_defaults(module_name: str, module_dir: Path) -> Dict[str, Any]:
+def create_manifest_defaults(module_name: str, module_dir: Path) -> dict[str, Any]:
     """Create default manifest structure"""
     matrix_contract = detect_matrix_contract(module_dir)
     code_layout = detect_code_layout(module_dir)
@@ -152,7 +152,7 @@ def create_manifest_defaults(module_name: str, module_dir: Path) -> Dict[str, An
         "contracts": [matrix_contract] if matrix_contract else []
     }
 
-def merge_manifests(existing: Dict[str, Any], defaults: Dict[str, Any]) -> Dict[str, Any]:
+def merge_manifests(existing: dict[str, Any], defaults: dict[str, Any]) -> dict[str, Any]:
     """Merge existing manifest with defaults, preserving existing values"""
     result = dict(defaults)
 
@@ -171,7 +171,7 @@ def merge_manifests(existing: Dict[str, Any], defaults: Dict[str, Any]) -> Dict[
 
     return result
 
-def ensure_required_directories(module_dir: Path, manifest: Dict[str, Any]) -> List[str]:
+def ensure_required_directories(module_dir: Path, manifest: dict[str, Any]) -> list[str]:
     """Ensure required directories exist and return list of created directories"""
     created = []
     required_dirs = ["docs", "tests", "config", "schema"]
@@ -191,7 +191,7 @@ def ensure_required_directories(module_dir: Path, manifest: Dict[str, Any]) -> L
 
     return created
 
-def validate_manifest_with_schema(manifest: Dict[str, Any], schema_path: Path) -> List[str]:
+def validate_manifest_with_schema(manifest: dict[str, Any], schema_path: Path) -> list[str]:
     """Validate manifest against JSON schema"""
     if not JSONSCHEMA_AVAILABLE:
         return ["jsonschema library not available - install with: pip install jsonschema"]
@@ -211,7 +211,7 @@ def validate_manifest_with_schema(manifest: Dict[str, Any], schema_path: Path) -
     except Exception as e:
         return [f"Schema validation failed: {e}"]
 
-def discover_modules(root_dir: Path) -> Dict[str, Any]:
+def discover_modules(root_dir: Path) -> dict[str, Any]:
     """Discover all modules and their current state"""
     print("🔍 Discovering modules...")
 
@@ -246,7 +246,7 @@ def discover_modules(root_dir: Path) -> Dict[str, Any]:
 
     return discovery
 
-def upgrade_modules(root_dir: Path, force: bool = False) -> Dict[str, Any]:
+def upgrade_modules(root_dir: Path, force: bool = False) -> dict[str, Any]:
     """Upgrade all modules to new manifest format"""
     print("📦 Upgrading modules...")
 
@@ -323,7 +323,7 @@ def upgrade_modules(root_dir: Path, force: bool = False) -> Dict[str, Any]:
 
     return upgrade_log
 
-def validate_modules(root_dir: Path) -> Dict[str, Any]:
+def validate_modules(root_dir: Path) -> dict[str, Any]:
     """Validate all module manifests"""
     print("🔍 Validating modules...")
 

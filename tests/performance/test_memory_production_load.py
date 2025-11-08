@@ -17,7 +17,7 @@ import asyncio
 import os
 import statistics
 import time
-from typing import Any, Dict
+from typing import Any
 
 import psutil
 import pytest
@@ -47,7 +47,7 @@ class MemoryLoadTestFramework:
             "error_details": []
         }
 
-    async def simulate_recall_workload(self, num_operations: int, concurrency: int = 10) -> Dict[str, Any]:
+    async def simulate_recall_workload(self, num_operations: int, concurrency: int = 10) -> dict[str, Any]:
         """Simulate high-volume memory recall operations."""
         if not MEMORY_SYSTEMS_AVAILABLE:
             return {"skipped": "Memory systems not available"}
@@ -86,7 +86,7 @@ class MemoryLoadTestFramework:
 
         return self.results
 
-    def simulate_memory_fold_operations(self, num_folds: int) -> Dict[str, Any]:
+    def simulate_memory_fold_operations(self, num_folds: int) -> dict[str, Any]:
         """Test memory fold system under sustained load."""
         if not MEMORY_SYSTEMS_AVAILABLE:
             return {"skipped": "Memory systems not available"}

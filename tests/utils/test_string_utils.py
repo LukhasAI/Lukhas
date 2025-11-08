@@ -8,7 +8,7 @@ Trinity Framework: 🛡️ Guardian · 🏗️ Architecture
 """
 
 import re
-from typing import List, Optional
+from typing import Optional
 
 import pytest
 
@@ -217,7 +217,7 @@ def test_extract_between():
 @pytest.mark.unit
 def test_extract_all_between():
     """Test extracting all occurrences between delimiters."""
-    def extract_all_between(text: str, start: str, end: str) -> List[str]:
+    def extract_all_between(text: str, start: str, end: str) -> list[str]:
         """Extract all occurrences between delimiters."""
         results = []
         current_pos = 0
@@ -252,7 +252,7 @@ def test_extract_all_between():
 @pytest.mark.unit
 def test_split_preserve_quotes():
     """Test splitting while preserving quoted strings."""
-    def split_preserve_quotes(text: str, delimiter: str = ' ') -> List[str]:
+    def split_preserve_quotes(text: str, delimiter: str = ' ') -> list[str]:
         """Split text preserving quoted strings."""
         parts = []
         current = []
@@ -284,7 +284,7 @@ def test_split_preserve_quotes():
 @pytest.mark.unit
 def test_split_max_parts():
     """Test splitting with maximum parts."""
-    def split_max(text: str, delimiter: str, max_parts: int) -> List[str]:
+    def split_max(text: str, delimiter: str, max_parts: int) -> list[str]:
         """Split text with maximum number of parts."""
         return text.split(delimiter, max_parts - 1)
 
@@ -368,7 +368,7 @@ def test_fuzzy_match():
 @pytest.mark.unit
 def test_starts_with_any():
     """Test if string starts with any of the prefixes."""
-    def starts_with_any(text: str, prefixes: List[str]) -> bool:
+    def starts_with_any(text: str, prefixes: list[str]) -> bool:
         """Check if text starts with any of the prefixes."""
         return any(text.startswith(prefix) for prefix in prefixes)
 
@@ -380,7 +380,7 @@ def test_starts_with_any():
 @pytest.mark.unit
 def test_ends_with_any():
     """Test if string ends with any of the suffixes."""
-    def ends_with_any(text: str, suffixes: List[str]) -> bool:
+    def ends_with_any(text: str, suffixes: list[str]) -> bool:
         """Check if text ends with any of the suffixes."""
         return any(text.endswith(suffix) for suffix in suffixes)
 

@@ -6,7 +6,6 @@ Specialized for Spanish medication labels and elderly users
 """
 from __future__ import annotations
 
-
 import hashlib
 import logging
 import re

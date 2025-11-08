@@ -13,7 +13,7 @@ import sys
 from collections import defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict
 
 try:
     import yaml
@@ -40,7 +40,7 @@ def load_manifest() -> Dict:
         return json.load(f)
 
 
-def load_owners_map() -> Dict[str, str]:
+def load_owners_map() -> dict[str, str]:
     """Load module → owner mapping from YAML."""
     if not OWNERS_MAP_PATH.exists():
         return {}
@@ -60,7 +60,7 @@ def load_owners_map() -> Dict[str, str]:
         return mapping
 
 
-def get_git_blame_author(file_path: Path) -> Tuple[str, float] | None:
+def get_git_blame_author(file_path: Path) -> tuple[str, float] | None:
     """
     Get most frequent author from git blame.
     Returns (email, percentage) if ≥30% threshold met.
@@ -104,7 +104,7 @@ def get_git_blame_author(file_path: Path) -> Tuple[str, float] | None:
         return None
 
 
-def suggest_owner(doc: Dict, owners_map: Dict[str, str]) -> Tuple[str, str]:
+def suggest_owner(doc: Dict, owners_map: dict[str, str]) -> tuple[str, str]:
     """
     Suggest owner with reason.
     Returns (suggested_owner, reason).
@@ -131,7 +131,7 @@ def suggest_owner(doc: Dict, owners_map: Dict[str, str]) -> Tuple[str, str]:
     return (fallback, "fallback (no clear owner)")
 
 
-def generate_backlog_table(docs: List[Dict], owners_map: Dict[str, str]) -> str:
+def generate_backlog_table(docs: list[Dict], owners_map: dict[str, str]) -> str:
     """Generate OWNERS_BACKLOG.md table."""
     lines = [
         "# Documentation Ownership Backlog",
@@ -170,7 +170,7 @@ def generate_backlog_table(docs: List[Dict], owners_map: Dict[str, str]) -> str:
     return '\n'.join(lines)
 
 
-def generate_github_issue(batch_num: int, docs_batch: List[Dict], owners_map: Dict[str, str]) -> str:
+def generate_github_issue(batch_num: int, docs_batch: list[Dict], owners_map: dict[str, str]) -> str:
     """Generate GitHub issue markdown for a batch of docs."""
     sla_date = (datetime.now() + timedelta(days=SLA_DAYS)).strftime('%Y-%m-%d')
 

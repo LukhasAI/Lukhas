@@ -20,7 +20,7 @@ Features:
 import asyncio
 import logging
 import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ..cognitive_core.reasoning.contradiction_integrator import (
     ContradictionContext,
@@ -127,7 +127,7 @@ class EnhancedThoughtNode:
             f"budget={time_budget_ms}ms, contradiction_threshold={contradiction_threshold}"
         )
 
-    async def process_async(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_async(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
         Asynchronous thought processing with advanced cognitive features.
 
@@ -222,7 +222,7 @@ class EnhancedThoughtNode:
 
             return error_result
 
-    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
         Synchronous wrapper for enhanced thought processing.
 
@@ -238,8 +238,8 @@ class EnhancedThoughtNode:
     def _determine_complexity(
         self,
         query: str,
-        memory_signals: List[Dict[str, Any]],
-        input_data: Dict[str, Any]
+        memory_signals: list[dict[str, Any]],
+        input_data: dict[str, Any]
     ) -> ThoughtComplexity:
         """Determine appropriate processing complexity level."""
 
@@ -268,7 +268,7 @@ class EnhancedThoughtNode:
         else:
             return ThoughtComplexity.SIMPLE
 
-    def _extract_signals(self, input_data: Dict[str, Any], thought_result: ThoughtResult) -> Dict[str, Any]:
+    def _extract_signals(self, input_data: dict[str, Any], thought_result: ThoughtResult) -> dict[str, Any]:
         """Extract signals for awareness update."""
         return {
             "processing_queue_size": input_data.get("queue_size", 1),
@@ -306,7 +306,7 @@ class EnhancedThoughtNode:
             }
         })()
 
-    def _create_thought_summary(self, thought_result: ThoughtResult) -> Dict[str, Any]:
+    def _create_thought_summary(self, thought_result: ThoughtResult) -> dict[str, Any]:
         """Create thought summary for awareness tracking."""
         return {
             'synthesis': thought_result.synthesis,
@@ -321,12 +321,12 @@ class EnhancedThoughtNode:
 
     def _create_matriz_result(
         self,
-        input_data: Dict[str, Any],
+        input_data: dict[str, Any],
         thought_result: ThoughtResult,
         contradiction_result: Optional[Any],
         enhanced_snapshot: Optional[Any],
         start_time: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create MATRIZ-compatible result."""
 
         processing_time = (time.time() - start_time) * 1000
@@ -404,7 +404,7 @@ class EnhancedThoughtNode:
 
         return result
 
-    def _create_error_result(self, input_data: Dict[str, Any], error_message: str, processing_time: float) -> Dict[str, Any]:
+    def _create_error_result(self, input_data: dict[str, Any], error_message: str, processing_time: float) -> dict[str, Any]:
         """Create error result compatible with MATRIZ."""
         query = input_data.get("query", "")
 
@@ -458,7 +458,7 @@ class EnhancedThoughtNode:
 
         self.processing_stats["t4_compliance_rate"] = compliant_count / total
 
-    def get_performance_stats(self) -> Dict[str, Any]:
+    def get_performance_stats(self) -> dict[str, Any]:
         """Get comprehensive performance statistics."""
         base_stats = dict(self.processing_stats)
 
@@ -503,7 +503,7 @@ if MATRIZ_AVAILABLE:
             # Initialize enhanced processing
             self.enhanced_processor = EnhancedThoughtNode(tenant=tenant)
 
-        def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+        def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
             """Process with enhanced cognitive features."""
             start = self._start_timer()
 

@@ -14,10 +14,7 @@ Exit codes:
 import fnmatch
 import sys
 from pathlib import Path
-from typing import List, Set
-
-
-def load_allowlist(allowlist_path: Path) -> List[str]:
+def load_allowlist(allowlist_path: Path) -> list[str]:
     """Load patterns from .root-allowlist file."""
     if not allowlist_path.exists():
         print(f"ERROR: Allowlist file not found: {allowlist_path}", file=sys.stderr)
@@ -34,7 +31,7 @@ def load_allowlist(allowlist_path: Path) -> List[str]:
     return patterns
 
 
-def get_root_files(repo_root: Path) -> Set[str]:
+def get_root_files(repo_root: Path) -> set[str]:
     """Get all files and directories at repository root."""
     items = set()
     for item in repo_root.iterdir():
@@ -42,7 +39,7 @@ def get_root_files(repo_root: Path) -> Set[str]:
     return items
 
 
-def is_allowed(name: str, patterns: List[str]) -> bool:
+def is_allowed(name: str, patterns: list[str]) -> bool:
     """Check if a file/directory matches any allowed pattern."""
     for pattern in patterns:
         # Direct match

@@ -91,7 +91,7 @@ Output ONLY the Python test code, no markdown formatting or explanations outside
 
         print("📤 Sending request to Claude...")
         print(f"   Model: {model}")
-        print(f"   Max tokens: 4000")
+        print("   Max tokens: 4000")
         print()
 
         response = await client.messages.create(

@@ -19,7 +19,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     import faiss
@@ -62,7 +62,7 @@ class FAISSStore(AbstractVectorStore):
         self,
         dimension: int = 1536,
         index_type: str = "IVF",
-        index_params: Optional[Dict[str, Any]] = None,
+        index_params: Optional[dict[str, Any]] = None,
         persistence_path: Optional[str] = None,
         use_gpu: bool = False,
         max_memory_gb: float = 8.0
@@ -81,9 +81,9 @@ class FAISSStore(AbstractVectorStore):
 
         # FAISS index and metadata
         self.index: Optional[faiss.Index] = None
-        self.documents: Dict[str, VectorDocument] = {}
-        self.id_to_idx: Dict[str, int] = {}
-        self.idx_to_id: Dict[int, str] = {}
+        self.documents: dict[str, VectorDocument] = {}
+        self.id_to_idx: dict[str, int] = {}
+        self.idx_to_id: dict[int, str] = {}
         self.next_idx = 0
 
         # Thread safety
@@ -246,7 +246,7 @@ class FAISSStore(AbstractVectorStore):
             )
             raise VectorStoreError(f"Failed to add document: {e}") from e
 
-    async def bulk_add(self, documents: List[VectorDocument]) -> List[bool]:
+    async def bulk_add(self, documents: list[VectorDocument]) -> list[bool]:
         """Add multiple documents in batch"""
         start_time = time.perf_counter()
 
@@ -404,9 +404,9 @@ class FAISSStore(AbstractVectorStore):
         self,
         query_vector: np.ndarray,
         k: int = 10,
-        filters: Optional[Dict[str, Any]] = None,
+        filters: Optional[dict[str, Any]] = None,
         include_metadata: bool = True
-    ) -> List[SearchResult]:
+    ) -> list[SearchResult]:
         """Vector similarity search using FAISS"""
         start_time = time.perf_counter()
 
@@ -489,8 +489,8 @@ class FAISSStore(AbstractVectorStore):
         self,
         query_text: str,
         k: int = 10,
-        filters: Optional[Dict[str, Any]] = None
-    ) -> List[SearchResult]:
+        filters: Optional[dict[str, Any]] = None
+    ) -> list[SearchResult]:
         """Text-based search using simple text matching"""
         start_time = time.perf_counter()
 
@@ -544,7 +544,7 @@ class FAISSStore(AbstractVectorStore):
             )
             raise VectorStoreError(f"Failed text search: {e}") from e
 
-    def _matches_filters(self, document: VectorDocument, filters: Dict[str, Any]) -> bool:
+    def _matches_filters(self, document: VectorDocument, filters: dict[str, Any]) -> bool:
         """Check if document matches filters"""
         for key, value in filters.items():
             if key == "identity_id":
@@ -873,7 +873,7 @@ class FAISSStore(AbstractVectorStore):
                 documents_by_lane={}, documents_by_fold={}, avg_dimension=float(self.dimension)
             )
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check for monitoring"""
         try:
             with self._lock:

@@ -12,7 +12,7 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 @dataclass
@@ -23,7 +23,7 @@ class PerformanceMetric:
     value: float
     unit: str
     timestamp: datetime
-    context: Dict[str, Any]
+    context: dict[str, Any]
     baseline: Optional[float] = None
     threshold_warning: float = 0.10  # 10% degradation warning
     threshold_critical: float = 0.25  # 25% degradation critical
@@ -47,7 +47,7 @@ class ConsciousnessPerformanceAnalyzer:
 
     def __init__(self, baseline_branch: str = "origin/main"):
         self.baseline_branch = baseline_branch
-        self.metrics_history: List[PerformanceMetric] = []
+        self.metrics_history: list[PerformanceMetric] = []
         self.regression_threshold_warning = 0.15  # 15%
         self.regression_threshold_critical = 0.30  # 30%
 
@@ -59,7 +59,7 @@ class ConsciousnessPerformanceAnalyzer:
             "ethical_reasoning_time": {"warning": 0.15, "critical": 0.25},
         }
 
-    def load_baseline_data(self) -> Dict[str, float]:
+    def load_baseline_data(self) -> dict[str, float]:
         """Load performance baselines from git history."""
         try:
             # Get baseline commit
@@ -86,7 +86,7 @@ class ConsciousnessPerformanceAnalyzer:
             print(f"⚠️ Could not determine baseline commit: {e}")
             return {}
 
-    def analyze_benchmark_results(self, results_dir: Path) -> List[PerformanceMetric]:
+    def analyze_benchmark_results(self, results_dir: Path) -> list[PerformanceMetric]:
         """Parse pytest-benchmark results and extract metrics."""
         metrics = []
 
@@ -120,8 +120,8 @@ class ConsciousnessPerformanceAnalyzer:
         return metrics
 
     def statistical_regression_analysis(
-        self, current_metrics: List[PerformanceMetric], baseline_data: Dict[str, float]
-    ) -> List[RegressionReport]:
+        self, current_metrics: list[PerformanceMetric], baseline_data: dict[str, float]
+    ) -> list[RegressionReport]:
         """Perform statistical regression analysis with confidence intervals."""
         reports = []
 
@@ -175,7 +175,7 @@ class ConsciousnessPerformanceAnalyzer:
 
         return reports
 
-    def generate_consciousness_specific_insights(self, reports: List[RegressionReport]) -> Dict[str, Any]:
+    def generate_consciousness_specific_insights(self, reports: list[RegressionReport]) -> dict[str, Any]:
         """Generate consciousness-specific performance insights."""
         insights = {
             "consciousness_health": "stable",
@@ -237,7 +237,7 @@ class ConsciousnessPerformanceAnalyzer:
 
         return insights
 
-    def save_results(self, reports: List[RegressionReport], insights: Dict[str, Any], output_path: Path):
+    def save_results(self, reports: list[RegressionReport], insights: dict[str, Any], output_path: Path):
         """Save comprehensive analysis results."""
         results = {
             "timestamp": datetime.now(timezone.utc).isoformat(),

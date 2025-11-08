@@ -26,7 +26,7 @@ import statistics
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Import validation components
 try:
@@ -91,7 +91,7 @@ class T4ExcellenceValidator:
             "excellence_verdict": {}
         }
 
-    async def run_comprehensive_validation(self) -> Dict[str, Any]:
+    async def run_comprehensive_validation(self) -> dict[str, Any]:
         """Run comprehensive T4/0.01% excellence validation."""
         print("🚀 Starting I.2 T4/0.01% Excellence Validation")
         print(f"📊 Validation ID: {self.validation_id}")
@@ -211,7 +211,7 @@ class T4ExcellenceValidator:
 
         self.results["performance_validation"] = performance_results
 
-    async def _measure_tier_performance(self, tier: str, runs: int) -> List[float]:
+    async def _measure_tier_performance(self, tier: str, runs: int) -> list[float]:
         """Measure performance for a specific tier."""
         latencies = []
 
@@ -543,7 +543,7 @@ class T4ExcellenceValidator:
             print(f"      📊 Overall score: {score:.1f}%")
             print("      🚫 Production deployment not recommended")
 
-    def _percentile(self, data: List[float], percentile: float) -> float:
+    def _percentile(self, data: list[float], percentile: float) -> float:
         """Calculate percentile of dataset."""
         if not data:
             return 0.0

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 """
 ++
 |                    LUClukhasS :: FEEDBACK INSIGHT CLI (v1.0)                      |

@@ -16,7 +16,7 @@ import time
 from collections import deque
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 from core.interfaces import ICognitiveNode
 from core.registry import resolve
@@ -56,7 +56,7 @@ class StageConfig:
     max_retries: int = 2
     backoff_base_ms: int = 80
     node: str | None = None
-    fallback_nodes: Tuple[str, ...] = field(default_factory=tuple)
+    fallback_nodes: tuple[str, ...] = field(default_factory=tuple)
 
 
 class CancellationToken:
@@ -88,29 +88,29 @@ class CancellationToken:
 @dataclass
 class PipelineResult:
     success: bool
-    output: Dict[str, Any]
-    stage_results: List[Dict[str, Any]]
-    rationale: Dict[str, Any] | None = None
+    output: dict[str, Any]
+    stage_results: list[dict[str, Any]]
+    rationale: dict[str, Any] | None = None
     escalation_reason: str | None = None
 
 
 class AsyncOrchestrator:
     """Advanced async orchestrator with resilience patterns and parallel execution."""
 
-    def __init__(self, config: Dict[str, Any] | None = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         self.config = config or {}
         self.meta_controller = MetaController()
-        self.stages: List[StageConfig] = []
+        self.stages: list[StageConfig] = []
         self.enabled = self.config.get("MATRIZ_ASYNC", "1") == "1"
         self.parallel_enabled = self.config.get("MATRIZ_PARALLEL", "0") == "1"
         self.max_parallel_stages = int(self.config.get("MATRIZ_MAX_PARALLEL", "3"))
-        self.node_health: Dict[str, Dict[str, Any]] = {}  # # ΛTAG: adaptive_routing
+        self.node_health: dict[str, dict[str, Any]] = {}  # # ΛTAG: adaptive_routing
         self._health_window = 10  # Track last 10 latency samples per node
         self._circuit_breaker_penalty = 0.15  # seconds
 
-    def configure_stages(self, stages: List[Dict[str, Any]]) -> None:
+    def configure_stages(self, stages: list[dict[str, Any]]) -> None:
         """Configure pipeline stages with timeouts and retry settings."""
-        configured: List[StageConfig] = []
+        configured: list[StageConfig] = []
 
         for stage in stages:
             primary_node = stage.get("node", stage["name"])
@@ -151,9 +151,9 @@ class AsyncOrchestrator:
                 "last_error": None,
             }  # # ΛTAG: adaptive_routing
 
-    def _candidate_node_keys(self, stage_config: StageConfig, include_unhealthy: bool = False) -> List[str]:
+    def _candidate_node_keys(self, stage_config: StageConfig, include_unhealthy: bool = False) -> list[str]:
         primary = (stage_config.node or stage_config.name).lower()
-        ordered: List[str] = []
+        ordered: list[str] = []
 
         for node_key in (primary, *stage_config.fallback_nodes):
             normalized = node_key.lower()
@@ -196,7 +196,7 @@ class AsyncOrchestrator:
         duration_ms: float,
         success: bool,
         stage_config: StageConfig,
-        metadata: Dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         self._ensure_node_health_entry(node_key)
         entry = self.node_health[node_key]
@@ -239,7 +239,7 @@ class AsyncOrchestrator:
                 return False
         return True
 
-    def _resolve_node(self, node_key: str, stage_config: StageConfig) -> Tuple[ICognitiveNode | None, Dict[str, Any] | None]:
+    def _resolve_node(self, node_key: str, stage_config: StageConfig) -> tuple[ICognitiveNode | None, dict[str, Any] | None]:
         """Resolves a node from the registry, returning the node or a skip result."""
         try:
             return resolve(f"node:{node_key}"), None
@@ -259,10 +259,10 @@ class AsyncOrchestrator:
         context: Mapping[str, Any],
         cancellation: CancellationToken | None,
         span_ctx: Any,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Executes a stage with adaptive routing, handling node selection, retries, and fallbacks."""
         primary_key = (stage_config.node or stage_config.name).lower()
-        last_result: Dict[str, Any] | None = None
+        last_result: dict[str, Any] | None = None
 
         for attempt_index, node_key in enumerate(
             self._candidate_node_keys(stage_config)
@@ -379,7 +379,7 @@ class AsyncOrchestrator:
         exc: Exception,
         stage_config: StageConfig,
         attempt: int,
-    ) -> Tuple[bool, float]:
+    ) -> tuple[bool, float]:
         base_delay = (2 ** attempt) * stage_config.backoff_base_ms
 
         if getattr(exc, "transient", False) or getattr(exc, "retryable", False):
@@ -465,7 +465,7 @@ class AsyncOrchestrator:
         node: ICognitiveNode,
         context: Mapping[str, Any],
         cancellation: CancellationToken | None = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Run a single stage with timeout, retry, and observability."""
 
         # Check for oscillation
@@ -551,7 +551,7 @@ class AsyncOrchestrator:
 
     async def _arbitrate_proposals(
         self,
-        proposals: List[Dict[str, Any]]
+        proposals: list[dict[str, Any]]
     ) -> PipelineResult:
         """Use consensus arbitration to choose among competing proposals."""
         if not proposals:
@@ -621,11 +621,11 @@ class AsyncOrchestrator:
     async def _execute_and_process_stage(
         self,
         stage_config: StageConfig,
-        current_context: Dict[str, Any],
+        current_context: dict[str, Any],
         cancellation: CancellationToken | None,
         pipeline_span: Any,
         stage_index: int,
-    ) -> Tuple[Dict[str, Any] | None, PipelineResult | None]:
+    ) -> tuple[dict[str, Any] | None, PipelineResult | None]:
         """Executes a single stage and processes its result, returning the stage result and a potential final pipeline result."""
         try:
             with stage_span(
@@ -689,7 +689,7 @@ class AsyncOrchestrator:
 
     async def _finalize_pipeline_results(
         self,
-        results: List[Dict[str, Any]],
+        results: list[dict[str, Any]],
         pipeline_span: Any,
         pipeline_start_time: float,
     ) -> PipelineResult:
@@ -806,12 +806,12 @@ class AsyncOrchestrator:
 
     async def _process_parallel_batch(
         self,
-        batch: List[StageConfig],
+        batch: list[StageConfig],
         batch_index: int,
-        current_context: Dict[str, Any],
+        current_context: dict[str, Any],
         cancellation: CancellationToken | None,
         pipeline_span: Any,
-    ) -> Tuple[List[Dict[str, Any]], Dict[str, Any], PipelineResult | None]:
+    ) -> tuple[list[dict[str, Any]], dict[str, Any], PipelineResult | None]:
         """Processes a single batch of stages in parallel."""
         batch_results = []
         with stage_span(
@@ -916,7 +916,7 @@ class AsyncOrchestrator:
 
             return await self._finalize_parallel_results(all_results, pipeline_span)
 
-    def _create_stage_batches(self) -> List[List[StageConfig]]:
+    def _create_stage_batches(self) -> list[list[StageConfig]]:
         """Create batches of stages that can run in parallel.
 
         Current implementation creates simple batches based on max_parallel_stages.
@@ -946,7 +946,7 @@ class AsyncOrchestrator:
         context: Mapping[str, Any],
         batch_index: int,
         cancellation: CancellationToken | None = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Run stage with additional parallel execution context."""
         result = await self._run_stage(
             stage_config,
@@ -966,10 +966,10 @@ class AsyncOrchestrator:
 
     async def _execute_batch_with_timeout(
         self,
-        batch_tasks: List[tuple],
+        batch_tasks: list[tuple],
         batch_span: Any,
         batch_index: int,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Execute a batch of tasks with comprehensive error handling."""
         results = []
 
@@ -1035,7 +1035,7 @@ class AsyncOrchestrator:
 
         return results
 
-    def _check_batch_escalations(self, batch_results: List[Dict[str, Any]]) -> Dict[str, Any] | None:
+    def _check_batch_escalations(self, batch_results: list[dict[str, Any]]) -> dict[str, Any] | None:
         """Check if any results in the batch require escalation."""
         for result in batch_results:
             if result.get("action") == "escalate":
@@ -1044,9 +1044,9 @@ class AsyncOrchestrator:
 
     def _merge_batch_context(
         self,
-        current_context: Dict[str, Any],
-        batch_results: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        current_context: dict[str, Any],
+        batch_results: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Merge successful batch results into context for next batch."""
         merged_context = dict(current_context)
 
@@ -1063,7 +1063,7 @@ class AsyncOrchestrator:
 
     async def _finalize_parallel_results(
         self,
-        all_results: List[Dict[str, Any]],
+        all_results: list[dict[str, Any]],
         pipeline_span: Any
     ) -> PipelineResult:
         """Finalize parallel execution results with arbitration if needed."""

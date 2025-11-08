@@ -15,13 +15,13 @@ import json
 import struct
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 
 class MockIPLDNode:
     """Mock IPLD DAG-CBOR node for provenance tracking."""
 
-    def __init__(self, data: Dict[str, Any]):
+    def __init__(self, data: dict[str, Any]):
         self.data = data
         self.cid = self._generate_cid()
 
@@ -47,14 +47,14 @@ class MockCARFile:
     """Mock CAR (Content Addressable Archive) file generator."""
 
     def __init__(self):
-        self.blocks: List[Tuple[str, bytes]] = []
-        self.roots: List[str] = []
+        self.blocks: list[tuple[str, bytes]] = []
+        self.roots: list[str] = []
 
     def add_block(self, cid: str, data: bytes):
         """Add a block to the CAR file."""
         self.blocks.append((cid, data))
 
-    def set_roots(self, roots: List[str]):
+    def set_roots(self, roots: list[str]):
         """Set the root CIDs for the CAR file."""
         self.roots = roots
 
@@ -86,7 +86,7 @@ class MockCARFile:
                 f.write(data)
 
 
-def load_contracts(pattern: str) -> List[Tuple[Path, Dict[str, Any]]]:
+def load_contracts(pattern: str) -> list[tuple[Path, dict[str, Any]]]:
     """
     Load all Matrix contracts matching the pattern.
 
@@ -111,7 +111,7 @@ def load_contracts(pattern: str) -> List[Tuple[Path, Dict[str, Any]]]:
     return contracts
 
 
-def create_contract_node(contract_path: Path, contract_data: Dict[str, Any]) -> MockIPLDNode:
+def create_contract_node(contract_path: Path, contract_data: dict[str, Any]) -> MockIPLDNode:
     """
     Create an IPLD node for a Matrix contract.
 
@@ -160,7 +160,7 @@ def create_contract_node(contract_path: Path, contract_data: Dict[str, Any]) -> 
     return MockIPLDNode(node_data)
 
 
-def create_root_node(contract_nodes: List[MockIPLDNode]) -> MockIPLDNode:
+def create_root_node(contract_nodes: list[MockIPLDNode]) -> MockIPLDNode:
     """
     Create the root node linking all contract nodes.
 
@@ -200,7 +200,7 @@ def create_root_node(contract_nodes: List[MockIPLDNode]) -> MockIPLDNode:
     return MockIPLDNode(root_data)
 
 
-def generate_provenance_report(root_node: MockIPLDNode, contract_nodes: List[MockIPLDNode]) -> Dict[str, Any]:
+def generate_provenance_report(root_node: MockIPLDNode, contract_nodes: list[MockIPLDNode]) -> dict[str, Any]:
     """
     Generate a provenance report for external verification.
 

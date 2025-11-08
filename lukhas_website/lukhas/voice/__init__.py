@@ -44,7 +44,7 @@ except ImportError as e:
             return text
 
 
-def get_voice_status() -> Dict[str, Any]:
+def get_voice_status() -> dict[str, Any]:
     """Get voice systems status"""
     return {
         "voice_systems_available": VOICE_SYSTEMS_AVAILABLE,

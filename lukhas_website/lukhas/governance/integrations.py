@@ -34,7 +34,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .guardian_serializers import GuardianSerializer
 
@@ -64,9 +64,9 @@ class IntegrationContext:
     source_system: str
     target_system: str = "guardian_serializers"
     correlation_id: Optional[str] = None
-    user_context: Optional[Dict[str, Any]] = None
-    security_context: Optional[Dict[str, Any]] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    user_context: Optional[dict[str, Any]] = None
+    security_context: Optional[dict[str, Any]] = None
+    metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 
@@ -76,10 +76,10 @@ class IntegrationResult:
     success: bool
     context: IntegrationContext
     data: Optional[Any] = None
-    errors: List[str] = field(default_factory=list)
-    warnings: List[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
     execution_time_ms: float = 0.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class SystemIntegration(ABC):
@@ -229,9 +229,9 @@ class IdentityIntegration(SystemIntegration):
 
     def _validate_actor_authentication(
         self,
-        actor: Dict[str, Any],
+        actor: dict[str, Any],
         context: IntegrationContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Validate actor authentication"""
         if not self._identity_service:
             return {"valid": False, "reason": "Identity service not available"}
@@ -260,10 +260,10 @@ class IdentityIntegration(SystemIntegration):
 
     def _enhance_with_identity(
         self,
-        decision_data: Dict[str, Any],
-        auth_result: Dict[str, Any],
+        decision_data: dict[str, Any],
+        auth_result: dict[str, Any],
         context: IntegrationContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Enhance Guardian decision with Identity context"""
         enhanced_data = decision_data.copy()
 
@@ -346,9 +346,9 @@ class MemoryIntegration(SystemIntegration):
 
     def _store_guardian_decision(
         self,
-        decision_data: Dict[str, Any],
+        decision_data: dict[str, Any],
         context: IntegrationContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Store Guardian decision in memory"""
         if not self._memory_service:
             return {"success": False, "reason": "Memory service not available"}
@@ -444,9 +444,9 @@ class ConsciousnessIntegration(SystemIntegration):
 
     def _validate_ethical_decision(
         self,
-        decision_data: Dict[str, Any],
+        decision_data: dict[str, Any],
         context: IntegrationContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Validate ethical implications of Guardian decision"""
         if not self._consciousness_service:
             return {"valid": False, "reason": "Consciousness service not available"}
@@ -483,10 +483,10 @@ class ConsciousnessIntegration(SystemIntegration):
 
     def _enhance_with_consciousness(
         self,
-        decision_data: Dict[str, Any],
-        ethics_result: Dict[str, Any],
+        decision_data: dict[str, Any],
+        ethics_result: dict[str, Any],
         context: IntegrationContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Enhance Guardian decision with Consciousness context"""
         enhanced_data = decision_data.copy()
 
@@ -565,9 +565,9 @@ class ObservabilityIntegration(SystemIntegration):
 
     def _collect_guardian_metrics(
         self,
-        decision_data: Dict[str, Any],
+        decision_data: dict[str, Any],
         context: IntegrationContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Collect Guardian decision metrics"""
         if not self._observability_service:
             return {"success": False, "reason": "Observability service not available"}
@@ -603,7 +603,7 @@ class IntegrationOrchestrator:
     """Orchestrates all system integrations"""
 
     def __init__(self):
-        self.integrations: Dict[IntegrationType, SystemIntegration] = {
+        self.integrations: dict[IntegrationType, SystemIntegration] = {
             IntegrationType.IDENTITY: IdentityIntegration(),
             IntegrationType.MEMORY: MemoryIntegration(),
             IntegrationType.CONSCIOUSNESS: ConsciousnessIntegration(),
@@ -613,10 +613,10 @@ class IntegrationOrchestrator:
 
     async def process_guardian_decision(
         self,
-        decision_data: Dict[str, Any],
-        integration_types: Optional[List[IntegrationType]] = None,
+        decision_data: dict[str, Any],
+        integration_types: Optional[list[IntegrationType]] = None,
         correlation_id: Optional[str] = None
-    ) -> Dict[str, IntegrationResult]:
+    ) -> dict[str, IntegrationResult]:
         """Process Guardian decision through all integrations"""
         if integration_types is None:
             integration_types = list(self.integrations.keys())
@@ -657,7 +657,7 @@ class IntegrationOrchestrator:
 
         return results
 
-    def get_integration_health(self) -> Dict[str, Any]:
+    def get_integration_health(self) -> dict[str, Any]:
         """Get health status of all integrations"""
         health_status = {}
 
@@ -690,12 +690,12 @@ def get_integration_orchestrator() -> IntegrationOrchestrator:
 
 # Convenience functions
 async def process_guardian_with_integrations(
-    decision_data: Dict[str, Any],
+    decision_data: dict[str, Any],
     include_identity: bool = True,
     include_memory: bool = True,
     include_consciousness: bool = True,
     include_observability: bool = True
-) -> Dict[str, IntegrationResult]:
+) -> dict[str, IntegrationResult]:
     """Process Guardian decision with specified integrations"""
     orchestrator = get_integration_orchestrator()
 
@@ -714,7 +714,7 @@ async def process_guardian_with_integrations(
     )
 
 
-def get_integration_status() -> Dict[str, Any]:
+def get_integration_status() -> dict[str, Any]:
     """Get status of all system integrations"""
     orchestrator = get_integration_orchestrator()
     return orchestrator.get_integration_health()

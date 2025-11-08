@@ -25,7 +25,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 from memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator, MemoryFoldType
 
@@ -64,9 +64,9 @@ class WriteOperation:
     fold_id: Optional[str] = None
     content: Optional[str] = None
     fold_type: Optional[MemoryFoldType] = None
-    tags: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    embedding: Optional[List[float]] = None
+    tags: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
+    embedding: Optional[list[float]] = None
     ttl_seconds: Optional[int] = None
     priority: int = 1
 
@@ -75,7 +75,7 @@ class WriteOperation:
 class BatchWriteOperation:
     """Batch write operation request"""
     batch_id: str = field(default_factory=lambda: f"batch_{uuid.uuid4().hex[:8]}")
-    operations: List[WriteOperation] = field(default_factory=list)
+    operations: list[WriteOperation] = field(default_factory=list)
     atomic: bool = True  # All operations succeed or all fail
 
 
@@ -97,7 +97,7 @@ class BatchWriteResult:
     total_operations: int
     successful_operations: int
     failed_operations: int
-    results: List[WriteResult]
+    results: list[WriteResult]
     total_time_ms: float
     atomic_rollback: bool = False
 
@@ -136,7 +136,7 @@ class MemoryWriteService:
 
         # Write coordination
         self._write_semaphore = asyncio.Semaphore(max_concurrent_writes)
-        self._active_transactions: Dict[str, Set[str]] = {}
+        self._active_transactions: dict[str, set[str]] = {}
 
         # Lifecycle management
         self._ttl_cleanup_task = None
@@ -148,9 +148,9 @@ class MemoryWriteService:
                                 fold_id: Optional[str] = None,
                                 content: Optional[str] = None,
                                 fold_type: MemoryFoldType = MemoryFoldType.EPISODIC,
-                                tags: Optional[List[str]] = None,
-                                metadata: Optional[Dict[str, Any]] = None,
-                                embedding: Optional[List[float]] = None,
+                                tags: Optional[list[str]] = None,
+                                metadata: Optional[dict[str, Any]] = None,
+                                embedding: Optional[list[float]] = None,
                                 ttl_seconds: Optional[int] = None) -> WriteResult:
         """
         Upsert (insert or update) a memory fold.
@@ -452,7 +452,7 @@ class MemoryWriteService:
                 error_message=str(e)
             )
 
-    async def _generate_embedding(self, content: str) -> List[float]:
+    async def _generate_embedding(self, content: str) -> list[float]:
         """Generate embedding for content"""
         if self.consciousness_integrator:
             return await self.consciousness_integrator.generate_embedding(content)
@@ -489,7 +489,7 @@ class MemoryWriteService:
 
         self._ttl_cleanup_task = asyncio.create_task(ttl_cleanup_loop())
 
-    def get_performance_metrics(self) -> Dict[str, Any]:
+    def get_performance_metrics(self) -> dict[str, Any]:
         """Get service performance metrics"""
         return {
             **self.metrics.get_metrics(),
@@ -499,7 +499,7 @@ class MemoryWriteService:
             'active_transactions': len(self._active_transactions)
         }
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Service health check"""
         try:
             # Test vector store connection

@@ -21,7 +21,7 @@ import pathlib
 import subprocess
 import sys
 import traceback
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, Optional
 
 try:
     from jsonschema import (  # TODO: jsonschema.validate; consider ...
@@ -56,7 +56,7 @@ def try_osv_scan(sbom_path: str, output_json_path: str) -> Optional[Dict]:
     return None
 
 
-def parse_osv_result(osv_data: Optional[Dict]) -> Dict[str, Any]:
+def parse_osv_result(osv_data: Optional[Dict]) -> dict[str, Any]:
     """Parse OSV scan result, handling various failure modes."""
     if osv_data is None:
         return {"high_count": None, "scan_failed": True}
@@ -133,7 +133,7 @@ class MatrixGate:
             print(f"[WARN] Could not load run report {run_files[-1]}: {e}")
             return None
 
-    def enforce_gates(self, matrix: Dict, run: Optional[Dict], osv_info: Optional[Dict] = None) -> List[Tuple[str, Any, str]]:
+    def enforce_gates(self, matrix: Dict, run: Optional[Dict], osv_info: Optional[Dict] = None) -> list[tuple[str, Any, str]]:
         """
         Enforce gates from matrix contract against run metrics.
 
@@ -202,7 +202,7 @@ class MatrixGate:
             print(f"[WARN] Could not compare {actual} {op} {expected}: {e}")
             return False
 
-    def validate_identity_block(self, matrix: Dict, contract_path: str) -> List[str]:
+    def validate_identity_block(self, matrix: Dict, contract_path: str) -> list[str]:
         """Validate identity block in matrix contract."""
         errors = []
 
@@ -281,7 +281,7 @@ class MatrixGate:
 
         return errors
 
-    def check_policy_checksum(self) -> Tuple[bool, str]:
+    def check_policy_checksum(self) -> tuple[bool, str]:
         """Check if OPA policy bundle checksum matches canonical tier permissions."""
         try:
             # Load current tier permissions
@@ -372,7 +372,7 @@ class MatrixGate:
 
         return True
 
-    def summarize(self, results: Dict[str, Dict]) -> None:
+    def summarize(self, results: dict[str, Dict]) -> None:
         """Print summary of all gate results."""
         total = len(results)
         passed = sum(1 for r in results.values() if not r["failures"])

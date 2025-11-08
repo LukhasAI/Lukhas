@@ -6,7 +6,7 @@ Provides data analysis capabilities for LUKHAS pipelines.
 """
 
 import time
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from core.registry.plugin_registry import PluginBase, PluginInfo
 
@@ -14,7 +14,7 @@ from core.registry.plugin_registry import PluginBase, PluginInfo
 class DataAnalysisPlugin(PluginBase):
     """Plugin for data analysis operations."""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         super().__init__("DataAnalysis", "1.0.0")
         self.config = config or {}
         self.enable_statistics = self.config.get("statistics", True)
@@ -40,7 +40,7 @@ class DataAnalysisPlugin(PluginBase):
         """Initialize the analysis plugin."""
         print(f"Initializing {self.name} plugin with config: {self.config}")
 
-    async def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process data through analysis pipeline."""
         start_time = time.time()
 

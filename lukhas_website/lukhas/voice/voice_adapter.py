@@ -8,7 +8,7 @@ Constellation Framework Integration
 import logging
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 logger = logging.getLogger(__name__)
 
@@ -43,8 +43,8 @@ class AdaptationResult:
     adapted_text: str
     style_applied: str
     context_used: AdaptationContext
-    adaptation_metrics: Dict[str, float]
-    metadata: Dict[str, Any]
+    adaptation_metrics: dict[str, float]
+    metadata: dict[str, Any]
 
 
 class VoiceAdapter:
@@ -199,7 +199,7 @@ class VoiceAdapter:
     def _apply_style_adaptation(self,
                               text: str,
                               style: VoiceStyle,
-                              config: Dict[str, float],
+                              config: dict[str, float],
                               context: AdaptationContext) -> str:
         """Apply style-specific adaptation"""
         adapted = text
@@ -237,7 +237,7 @@ class VoiceAdapter:
 
         return text
 
-    def _apply_tone_adjustment(self, text: str, tone: str, config: Dict[str, float]) -> str:
+    def _apply_tone_adjustment(self, text: str, tone: str, config: dict[str, float]) -> str:
         """Apply tone-specific adjustments"""
         # Placeholder for tone adjustment implementation
         return text
@@ -277,7 +277,7 @@ class VoiceAdapter:
     def _calculate_adaptation_metrics(self,
                                     original: str,
                                     adapted: str,
-                                    config: Dict[str, float]) -> Dict[str, float]:
+                                    config: dict[str, float]) -> dict[str, float]:
         """Calculate adaptation quality metrics"""
         return {
             "adaptation_ratio": len(adapted) / max(len(original), 1),
@@ -302,7 +302,7 @@ class VoiceAdapter:
             if len(self.context_history) > 1000:
                 self.context_history = self.context_history[-800:]
 
-    def _extract_success_indicators(self, result: AdaptationResult) -> Dict[str, float]:
+    def _extract_success_indicators(self, result: AdaptationResult) -> dict[str, float]:
         """Extract success indicators from adaptation result"""
         return {
             "coherence_score": result.adaptation_metrics.get("text_coherence", 0.0),
@@ -321,11 +321,11 @@ class VoiceAdapter:
             metadata={"empty_input": True}
         )
 
-    def get_available_styles(self) -> List[str]:
+    def get_available_styles(self) -> list[str]:
         """Get list of available voice styles"""
         return [style.value for style in VoiceStyle]
 
-    def get_style_config(self, style: Union[str, VoiceStyle]) -> Optional[Dict[str, float]]:
+    def get_style_config(self, style: Union[str, VoiceStyle]) -> Optional[dict[str, float]]:
         """Get configuration for a specific style"""
         if isinstance(style, str):
             try:
@@ -334,7 +334,7 @@ class VoiceAdapter:
                 return None
         return self.style_configs.get(style)
 
-    def get_adapter_status(self) -> Dict[str, Any]:
+    def get_adapter_status(self) -> dict[str, Any]:
         """Get adapter status and metrics"""
         return {
             "initialized": self.initialized,

@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import math
 import os
-from typing import Any, Dict
+from typing import Any
 
 try:
     from prometheus_client import Counter, Gauge
@@ -103,7 +103,7 @@ class BreakthroughDetector:
                 min_n = 16
         self.min_n = max(0, int(min_n))
 
-    def step(self, novelty: float, value: float) -> Dict[str, Any]:
+    def step(self, novelty: float, value: float) -> dict[str, Any]:
         """Process new novelty and value scores, detect breakthroughs.
 
         Args:

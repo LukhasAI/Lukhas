@@ -21,7 +21,7 @@ class BuildMetricsCollector:
         self.metrics_file = self.repo_path / "reports" / "build_metrics.json"
         self.metrics_file.parent.mkdir(exist_ok=True)
 
-    def collect_makefile_metrics(self) -> Dict[str, Any]:
+    def collect_makefile_metrics(self) -> dict[str, Any]:
         """Collect Makefile performance and health metrics"""
         start_time = time.time()
 
@@ -75,7 +75,7 @@ class BuildMetricsCollector:
         metrics["collection_duration"] = round(time.time() - start_time, 2)
         return metrics
 
-    def collect_t4_metrics(self) -> Dict[str, Any]:
+    def collect_t4_metrics(self) -> dict[str, Any]:
         """Collect T4 unused imports system metrics"""
         start_time = time.time()
 
@@ -146,7 +146,7 @@ class BuildMetricsCollector:
         metrics["collection_duration"] = round(time.time() - start_time, 2)
         return metrics
 
-    def collect_system_health_metrics(self) -> Dict[str, Any]:
+    def collect_system_health_metrics(self) -> dict[str, Any]:
         """Collect overall system health metrics"""
         start_time = time.time()
 

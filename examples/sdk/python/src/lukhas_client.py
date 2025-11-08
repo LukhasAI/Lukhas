@@ -4,14 +4,12 @@ OpenAI-compatible client with type safety and async support
 """
 from __future__ import annotations
 
-
 import os
 import time
-from typing import Optional, Dict, Any, List, AsyncIterator
+from typing import Any, AsyncIterator, Dict, List, Optional
 
 import httpx
 from pydantic import BaseModel, Field
-
 
 # ==================== Request/Response Models ====================
 

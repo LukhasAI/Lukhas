@@ -14,7 +14,7 @@ import hashlib
 import json
 import re
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any
 
 
 def _normalize_consent_timestamp(value: str | datetime | None) -> str | None:
@@ -29,7 +29,7 @@ def _normalize_consent_timestamp(value: str | datetime | None) -> str | None:
     return value
 
 
-def emit_exemption(db, rec: Dict[str, Any]) -> None:
+def emit_exemption(db, rec: dict[str, Any]) -> None:
     """
     Insert into Postgres if available; otherwise no-op.
     Expect keys matching the SQL/JSON schema above.
@@ -108,8 +108,8 @@ def emit_guardian_decision(
     lambda_id: str,
     action: str,
     rule_name: str,
-    tags: List[str],
-    confidences: Dict[str, float],
+    tags: list[str],
+    confidences: dict[str, float],
     band: str,
     tenant: str = "default",
     env: str = "prod",
@@ -225,9 +225,9 @@ def redact_pii_for_exemplars(data: Any) -> Any:
 def emit_guardian_action_with_exemplar(
     action: str,
     lane: str,
-    plan: Dict[str, Any],
+    plan: dict[str, Any],
     trace_id: str | None = None,
-    confidence_scores: Dict[str, float] | None = None,
+    confidence_scores: dict[str, float] | None = None,
     emit_to_prometheus: bool = True
 ) -> None:
     """
@@ -282,7 +282,7 @@ def emit_guardian_action_with_exemplar(
 
 
 def emit_confidence_metrics(
-    tags: List[Dict[str, Any]],
+    tags: list[dict[str, Any]],
     lane: str = "unknown"
 ) -> None:
     """

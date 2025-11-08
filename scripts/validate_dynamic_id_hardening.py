@@ -18,7 +18,7 @@ import logging
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, Tuple
+from typing import Any
 
 # Add project root to path
 project_root = Path(__file__).parent.parent
@@ -33,7 +33,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def validate_dynamic_id_patterns() -> Tuple[bool, Dict[str, Any]]:
+def validate_dynamic_id_patterns() -> tuple[bool, dict[str, Any]]:
     """Validate all dynamic ID pattern detection."""
     validator = MATRIZMetricsContractValidator()
 
@@ -127,7 +127,7 @@ def validate_dynamic_id_patterns() -> Tuple[bool, Dict[str, Any]]:
     return results["detection_accuracy"] == 1.0, results
 
 
-def validate_ci_integration() -> Tuple[bool, Dict[str, Any]]:
+def validate_ci_integration() -> tuple[bool, dict[str, Any]]:
     """Validate CI integration scenarios."""
     validator = MATRIZMetricsContractValidator()
 

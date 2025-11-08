@@ -12,9 +12,8 @@ import glob
 import json
 import sys
 from dataclasses import dataclass
-from datetime import timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 
 
 def _coerce_str(value: Any) -> str:
@@ -145,7 +144,7 @@ class SecurityAlert:
     severity: str  # critical, high, medium, low
     category: str  # vulnerability, attestation, supply_chain, telemetry
     message: str
-    affected_modules: List[str]
+    affected_modules: list[str]
     remediation: str
     timestamp: str
 
@@ -155,7 +154,7 @@ class SecurityPostureMonitor:
 
     def __init__(self, verbose: bool = False):
         self.verbose = verbose
-        self.alerts: List[SecurityAlert] = []
+        self.alerts: list[SecurityAlert] = []
         self.metrics = {
             'vulnerability_exposure': 0.0,
             'attestation_coverage': 0.0,
@@ -165,10 +164,10 @@ class SecurityPostureMonitor:
         }
         self.overlays = self._load_overlay_data()
 
-    def _load_overlay_data(self) -> Dict[str, Dict[str, Dict[str, Any]]]:
+    def _load_overlay_data(self) -> dict[str, dict[str, dict[str, Any]]]:
         """Load optional overlay data for SBOM, attestation, and telemetry."""
 
-        overlays: Dict[str, Dict[str, Dict[str, Any]]] = {
+        overlays: dict[str, dict[str, dict[str, Any]]] = {
             'sboms': {},
             'attestations': {},
             'telemetry': {},
@@ -201,7 +200,7 @@ class SecurityPostureMonitor:
         if self.verbose:
             print(f"🔍 {message}")
 
-    def collect_security_telemetry(self, pattern: str = "**/matrix_*.json") -> Dict[str, Any]:
+    def collect_security_telemetry(self, pattern: str = "**/matrix_*.json") -> dict[str, Any]:
         """Collect security telemetry from all Matrix Track contracts."""
         self.log("Collecting security telemetry from Matrix Track contracts...")
 
@@ -212,7 +211,7 @@ class SecurityPostureMonitor:
             'attestation_status': {},
             'supply_chain_refs': {},
             'telemetry_coverage': {},
-            'timestamp': datetime.datetime.now(timezone.utc).isoformat()
+            'timestamp': datetime.datetime.utcnow().isoformat()
         }
 
         for contract_path in contracts:
@@ -245,7 +244,7 @@ class SecurityPostureMonitor:
 
         return telemetry
 
-    def _extract_vulnerability_data(self, contract: Dict, module: str) -> List[Dict]:
+    def _extract_vulnerability_data(self, contract: Dict, module: str) -> list[Dict]:
         """Extract vulnerability findings from contract gates."""
         findings = []
 
@@ -262,7 +261,7 @@ class SecurityPostureMonitor:
                             'package': vuln.get('package', {}).get('name', 'unknown'),
                             'fixed_version': vuln.get('fixed', ''),
                             'introduced': vuln.get('introduced', ''),
-                            'timestamp': datetime.datetime.now(timezone.utc).isoformat()
+                            'timestamp': datetime.datetime.utcnow().isoformat()
                         })
 
         return findings
@@ -442,7 +441,7 @@ class SecurityPostureMonitor:
                     message=f"Vulnerability {finding.get('vulnerability_id')} found in {finding.get('package')}",
                     affected_modules=[finding.get('module')],
                     remediation=f"Update to fixed version: {finding.get('fixed_version', 'latest')}",
-                    timestamp=datetime.datetime.now(timezone.utc).isoformat()
+                    timestamp=datetime.datetime.utcnow().isoformat()
                 ))
 
         # Score: 100 = no vulnerabilities, decreases with weighted vulnerability count
@@ -475,7 +474,7 @@ class SecurityPostureMonitor:
                     message=f"Attestation evidence collection failing for {module}",
                     affected_modules=[module],
                     remediation="Check verifier configuration and evidence collection pipeline",
-                    timestamp=datetime.datetime.now(timezone.utc).isoformat()
+                    timestamp=datetime.datetime.utcnow().isoformat()
                 ))
 
         # Coverage score based on valid attestations
@@ -508,7 +507,7 @@ class SecurityPostureMonitor:
                     message=f"Missing SBOM for {module}",
                     affected_modules=[module],
                     remediation="Generate and reference SBOM in matrix contract",
-                    timestamp=datetime.datetime.now(timezone.utc).isoformat()
+                    timestamp=datetime.datetime.utcnow().isoformat()
                 ))
 
         # Integrity score based on multiple factors
@@ -550,7 +549,7 @@ class SecurityPostureMonitor:
                     message=f"Low telemetry coverage in {module}: {data.get('instrumentation_coverage', 0)}%",
                     affected_modules=[module],
                     remediation="Increase OpenTelemetry instrumentation coverage",
-                    timestamp=datetime.datetime.now(timezone.utc).isoformat()
+                    timestamp=datetime.datetime.utcnow().isoformat()
                 ))
 
         # Compliance score based on instrumentation and export coverage
@@ -584,7 +583,7 @@ class SecurityPostureMonitor:
         """Generate comprehensive security posture report."""
         report = {
             'security_posture_report': {
-                'timestamp': datetime.datetime.now(timezone.utc).isoformat(),
+                'timestamp': datetime.datetime.utcnow().isoformat(),
                 'metrics': self.metrics,
                 'alerts': [
                     {
@@ -629,7 +628,7 @@ class SecurityPostureMonitor:
         else:
             return 'F'
 
-    def _generate_recommendations(self) -> List[str]:
+    def _generate_recommendations(self) -> list[str]:
         """Generate security improvement recommendations."""
         recommendations = []
 

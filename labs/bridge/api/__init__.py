@@ -10,7 +10,7 @@ Integrates with Trinity Framework (⚛️ Identity · 🧠 Consciousness · 🛡
 """
 
 __all__ = [
-    "onboarding",
     "api",
     "controllers",
+    "onboarding",
 ]

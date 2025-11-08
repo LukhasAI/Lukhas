@@ -30,7 +30,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Set, Tuple
+from typing import Any
 from uuid import uuid4
 
 import structlog
@@ -85,7 +85,7 @@ class BiometricTemplate:
     encryption_key_id: str = ""
     anti_spoofing_verified: bool = False
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert template to dictionary representation."""
         return {
             "template_id": self.template_id,
@@ -119,7 +119,7 @@ class BiometricSample:
     # Anti-spoofing metadata
     liveness_score: float = 0.0
     anti_spoofing_passed: bool = False
-    spoof_detection_methods: List[str] = field(default_factory=list)
+    spoof_detection_methods: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -142,7 +142,7 @@ class BiometricMatchResult:
 
     # Security factors
     anti_spoofing_score: float = 0.0
-    risk_factors: List[str] = field(default_factory=list)
+    risk_factors: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -161,7 +161,7 @@ class BiometricAttestation:
     # Security attestation
     anti_spoofing_passed: bool = False
     liveness_verified: bool = False
-    device_attestation: Dict[str, Any] = field(default_factory=dict)
+    device_attestation: dict[str, Any] = field(default_factory=dict)
 
     # Metadata
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -171,7 +171,7 @@ class BiometricAttestation:
     # Performance data
     processing_time_ms: float = 0.0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert attestation to dictionary representation."""
         return {
             "attestation_id": self.attestation_id,
@@ -216,8 +216,8 @@ class MockBiometricProvider:
         self.logger = logger.bind(component="MockBiometricProvider")
 
         # Template storage (in production, use secure encrypted database)
-        self._templates: Dict[str, BiometricTemplate] = {}
-        self._user_templates: Dict[str, List[str]] = {}
+        self._templates: dict[str, BiometricTemplate] = {}
+        self._user_templates: dict[str, list[str]] = {}
 
         # Test keys and configuration
         self._test_keys = self._generate_test_keys()
@@ -232,13 +232,13 @@ class MockBiometricProvider:
         }
 
         # Security state
-        self._used_nonces: Set[str] = set()
-        self._recent_authentications: Dict[str, List[datetime]] = {}
+        self._used_nonces: set[str] = set()
+        self._recent_authentications: dict[str, list[datetime]] = {}
 
         self.logger.info("Mock biometric provider initialized",
                         provider_id=provider_id, success_rate=base_success_rate)
 
-    def _generate_test_keys(self) -> Dict[str, str]:
+    def _generate_test_keys(self) -> dict[str, str]:
         """Generate mock test keys for biometric operations."""
         return {
             "signing_key": secrets.token_hex(32),
@@ -247,7 +247,7 @@ class MockBiometricProvider:
             "attestation_key": secrets.token_hex(32)
         }
 
-    def _generate_device_keys(self) -> Dict[str, Dict[str, str]]:
+    def _generate_device_keys(self) -> dict[str, dict[str, str]]:
         """Generate mock device attestation keys."""
         return {
             "trusted_device_1": {
@@ -267,8 +267,8 @@ class MockBiometricProvider:
         user_id: str,
         modality: BiometricModality,
         sample_data: str,
-        device_info: Dict[str, Any] | None = None
-    ) -> Tuple[bool, str]:
+        device_info: dict[str, Any] | None = None
+    ) -> tuple[bool, str]:
         """
         Enroll biometric template for user.
 
@@ -346,7 +346,7 @@ class MockBiometricProvider:
         sample_data: str,
         modality: BiometricModality,
         nonce: str,
-        device_info: Dict[str, Any] | None = None
+        device_info: dict[str, Any] | None = None
     ) -> BiometricAttestation:
         """
         Authenticate user using biometric sample.
@@ -553,7 +553,7 @@ class MockBiometricProvider:
 
         return base64.b64encode(json.dumps(template).encode()).decode()
 
-    async def _detect_liveness(self, sample: BiometricSample) -> Dict[str, Any]:
+    async def _detect_liveness(self, sample: BiometricSample) -> dict[str, Any]:
         """Mock liveness detection for anti-spoofing."""
         # Mock liveness detection with high success rate
         base_score = 0.9
@@ -580,7 +580,7 @@ class MockBiometricProvider:
     async def _find_best_match(
         self,
         sample: BiometricSample,
-        template_ids: List[str],
+        template_ids: list[str],
         modality: BiometricModality
     ) -> BiometricMatchResult:
         """Find best matching template for the sample."""
@@ -645,7 +645,7 @@ class MockBiometricProvider:
         except Exception:
             return 0.0
 
-    async def _generate_device_attestation(self, device_info: Dict[str, Any] | None) -> Dict[str, Any]:
+    async def _generate_device_attestation(self, device_info: dict[str, Any] | None) -> dict[str, Any]:
         """Generate mock device attestation."""
         if not device_info:
             return {"status": "no_device_info"}
@@ -718,7 +718,7 @@ class MockBiometricProvider:
         # Allow max 10 attempts per hour
         return len(self._recent_authentications[user_id]) >= 10
 
-    async def _guardian_validate(self, action: str, context: Dict[str, Any]) -> None:
+    async def _guardian_validate(self, action: str, context: dict[str, Any]) -> None:
         """Guardian pre-validation hook."""
         if self.guardian:
             try:
@@ -726,7 +726,7 @@ class MockBiometricProvider:
             except Exception as e:
                 self.logger.warning("Guardian validation failed", action=action, error=str(e))
 
-    async def _guardian_monitor(self, event: str, context: Dict[str, Any]) -> None:
+    async def _guardian_monitor(self, event: str, context: dict[str, Any]) -> None:
         """Guardian post-monitoring hook."""
         if self.guardian:
             try:
@@ -734,7 +734,7 @@ class MockBiometricProvider:
             except Exception as e:
                 self.logger.warning("Guardian monitoring failed", event=event, error=str(e))
 
-    def get_performance_metrics(self) -> Dict[str, Any]:
+    def get_performance_metrics(self) -> dict[str, Any]:
         """Get performance metrics for monitoring."""
         auth_times = self._performance_metrics["authentication_times"]
         enroll_times = self._performance_metrics["enrollment_times"]

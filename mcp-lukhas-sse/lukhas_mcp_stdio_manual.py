@@ -9,7 +9,7 @@ import json
 import logging
 import os
 import sys
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Configure logging to stderr (NEVER use stdout in STDIO servers)
 logging.basicConfig(
@@ -37,7 +37,7 @@ class LukhasMCPServer:
             }
         }
 
-    async def handle_initialize(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def handle_initialize(self, request: dict[str, Any]) -> dict[str, Any]:
         """Handle MCP initialization request."""
         logger.info("Handling MCP initialization request")
 
@@ -58,7 +58,7 @@ class LukhasMCPServer:
             }
         }
 
-    async def handle_tools_list(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def handle_tools_list(self, request: dict[str, Any]) -> dict[str, Any]:
         """Handle tools/list request."""
         logger.info("Handling tools/list request")
 
@@ -355,7 +355,7 @@ class LukhasMCPServer:
             logger.error(f"Error getting LUKHAS info: {e}")
             return json.dumps({"error": f"Error getting system info: {e!s}"}, indent=2)
 
-    async def handle_tools_call(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def handle_tools_call(self, request: dict[str, Any]) -> dict[str, Any]:
         """Handle tools/call request."""
         logger.info("Handling tools/call request")
 
@@ -413,7 +413,7 @@ class LukhasMCPServer:
                 }
             }
 
-    async def handle_request(self, request: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    async def handle_request(self, request: dict[str, Any]) -> Optional[dict[str, Any]]:
         """Handle JSON-RPC requests according to MCP specification."""
         method = request.get("method")
 

@@ -11,7 +11,7 @@ import logging
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import yaml
 
@@ -25,8 +25,8 @@ class LaneAssignmentValidator:
 
     def __init__(self, config_file: Optional[Path] = None):
         self.config_file = config_file or Path(__file__).parent.parent / "ops" / "lane_assignments.yaml"
-        self.config: Dict[str, Any] = {}
-        self.validation_results: Dict[str, Any] = {
+        self.config: dict[str, Any] = {}
+        self.validation_results: dict[str, Any] = {
             'valid': True,
             'issues': [],
             'warnings': [],
@@ -102,7 +102,7 @@ class LaneAssignmentValidator:
 
         return target in valid_progressions.get(current, [])
 
-    def _is_assignment_stale(self, component_config: Dict[str, Any]) -> bool:
+    def _is_assignment_stale(self, component_config: dict[str, Any]) -> bool:
         """Check if component assignment is stale (>30 days old)"""
         last_updated_str = component_config.get('last_updated')
         if not last_updated_str:
@@ -266,7 +266,7 @@ class LaneAssignmentValidator:
         alerts_dir = Path(__file__).parent.parent / "monitoring" / "alerts"
         return alerts_dir.exists() and len(list(alerts_dir.glob("*.yml"))) > 0
 
-    def validate_all(self) -> Dict[str, Any]:
+    def validate_all(self) -> dict[str, Any]:
         """Run all validations"""
         logger.info("🔍 Starting lane assignment validation...")
 

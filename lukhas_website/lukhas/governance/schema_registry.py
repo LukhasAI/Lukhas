@@ -36,7 +36,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 from weakref import WeakValueDictionary
 
 from jsonschema.validators import Draft202012Validator
@@ -55,7 +55,7 @@ class LUKHASLane(Enum):
     EXPERIMENTAL = "experimental"
 
     @classmethod
-    def get_all_values(cls) -> List[str]:
+    def get_all_values(cls) -> list[str]:
         """Return all lane values as a list"""
         return [lane.value for lane in cls]
 
@@ -65,7 +65,7 @@ class LUKHASLane(Enum):
         return lane in cls.get_all_values()
 
 
-def get_lane_enum() -> List[str]:
+def get_lane_enum() -> list[str]:
     """
     Get the canonical lane enum values.
     This is the single source of truth for LUKHAS lane taxonomy.
@@ -130,8 +130,8 @@ class ValidationLevel(Enum):
 class SchemaValidationResult:
     """Result of schema validation"""
     is_valid: bool
-    errors: List[str] = field(default_factory=list)
-    warnings: List[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
     validation_time_ms: float = 0.0
     schema_version: Optional[str] = None
     compliance_score: float = 1.0  # Constitutional AI compliance score
@@ -146,9 +146,9 @@ class SchemaMetadata:
     created_at: float
     updated_at: float
     checksum: str
-    dependencies: Set[str] = field(default_factory=set)
+    dependencies: set[str] = field(default_factory=set)
     description: Optional[str] = None
-    tags: Set[str] = field(default_factory=set)
+    tags: set[str] = field(default_factory=set)
     validation_level: ValidationLevel = ValidationLevel.STRICT
 
 
@@ -156,7 +156,7 @@ class SchemaValidator(ABC):
     """Abstract base class for schema validators"""
 
     @abstractmethod
-    def validate(self, data: Any, schema: Dict[str, Any], level: ValidationLevel) -> SchemaValidationResult:
+    def validate(self, data: Any, schema: dict[str, Any], level: ValidationLevel) -> SchemaValidationResult:
         """Validate data against schema"""
         pass
 
@@ -173,7 +173,7 @@ class JSONSchemaValidator(SchemaValidator):
         self._validator_cache: WeakValueDictionary = WeakValueDictionary()
         self._cache_lock = threading.RLock()
 
-    def validate(self, data: Any, schema: Dict[str, Any], level: ValidationLevel) -> SchemaValidationResult:
+    def validate(self, data: Any, schema: dict[str, Any], level: ValidationLevel) -> SchemaValidationResult:
         """Validate data against JSON schema"""
         start_time = time.perf_counter()
 
@@ -214,12 +214,12 @@ class JSONSchemaValidator(SchemaValidator):
         """Check if validator supports JSON Schema format"""
         return format in (SchemaFormat.JSON_SCHEMA, SchemaFormat.HYBRID)
 
-    def _hash_schema(self, schema: Dict[str, Any]) -> str:
+    def _hash_schema(self, schema: dict[str, Any]) -> str:
         """Generate hash for schema caching"""
         schema_str = json.dumps(schema, sort_keys=True, ensure_ascii=True)
         return hashlib.sha256(schema_str.encode()).hexdigest()
 
-    def _get_cached_validator(self, schema_hash: str, schema: Dict[str, Any]) -> Draft202012Validator:
+    def _get_cached_validator(self, schema_hash: str, schema: dict[str, Any]) -> Draft202012Validator:
         """Get cached validator or create new one"""
         with self._cache_lock:
             if schema_hash in self._validator_cache:
@@ -236,7 +236,7 @@ class CustomValidator(SchemaValidator):
     def __init__(self):
         self.constitutional_ai_rules = self._load_constitutional_rules()
 
-    def validate(self, data: Any, schema: Dict[str, Any], level: ValidationLevel) -> SchemaValidationResult:
+    def validate(self, data: Any, schema: dict[str, Any], level: ValidationLevel) -> SchemaValidationResult:
         """Validate data using custom LUKHAS rules"""
         start_time = time.perf_counter()
 
@@ -268,7 +268,7 @@ class CustomValidator(SchemaValidator):
         """Check if validator supports custom format"""
         return format in (SchemaFormat.CUSTOM, SchemaFormat.HYBRID)
 
-    def _validate_guardian_decision(self, decision: Dict[str, Any]) -> List[str]:
+    def _validate_guardian_decision(self, decision: dict[str, Any]) -> list[str]:
         """Validate Guardian decision structure"""
         errors = []
 
@@ -285,7 +285,7 @@ class CustomValidator(SchemaValidator):
 
         return errors
 
-    def _check_constitutional_compliance(self, data: Dict[str, Any]) -> tuple[float, List[str]]:
+    def _check_constitutional_compliance(self, data: dict[str, Any]) -> tuple[float, list[str]]:
         """Check Constitutional AI compliance"""
         warnings = []
         score = 1.0
@@ -302,7 +302,7 @@ class CustomValidator(SchemaValidator):
 
         return max(0.0, score), warnings
 
-    def _load_constitutional_rules(self) -> Dict[str, Any]:
+    def _load_constitutional_rules(self) -> dict[str, Any]:
         """Load Constitutional AI rules"""
         return {
             "ethical_principles": [
@@ -325,8 +325,8 @@ class SchemaRegistry:
 
     def __init__(self, base_path: Optional[Path] = None):
         self.base_path = base_path or Path(__file__).parent / "schemas"
-        self.schemas: Dict[str, Dict[str, SchemaMetadata]] = {}
-        self.validators: List[SchemaValidator] = [
+        self.schemas: dict[str, dict[str, SchemaMetadata]] = {}
+        self.validators: list[SchemaValidator] = [
             JSONSchemaValidator(),
             CustomValidator()
         ]
@@ -342,7 +342,7 @@ class SchemaRegistry:
         self,
         schema_id: str,
         version: str,
-        schema_definition: Dict[str, Any],
+        schema_definition: dict[str, Any],
         format: SchemaFormat = SchemaFormat.JSON_SCHEMA,
         validation_level: ValidationLevel = ValidationLevel.STRICT
     ) -> None:
@@ -372,7 +372,7 @@ class SchemaRegistry:
 
             logger.info(f"Registered schema {schema_id} version {version}")
 
-    def get_schema(self, schema_id: str, version: Optional[str] = None) -> Optional[Dict[str, Any]]:
+    def get_schema(self, schema_id: str, version: Optional[str] = None) -> Optional[dict[str, Any]]:
         """Get schema definition by ID and version"""
         with self._lock:
             if schema_id not in self.schemas:
@@ -459,7 +459,7 @@ class SchemaRegistry:
             compliance_score=min_compliance
         )
 
-    def list_schemas(self) -> Dict[str, List[str]]:
+    def list_schemas(self) -> dict[str, list[str]]:
         """List all registered schemas and versions"""
         with self._lock:
             return {
@@ -476,7 +476,7 @@ class SchemaRegistry:
         except ValueError:
             return False
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get registry performance metrics"""
         with self._lock:
             total_requests = self._cache_hits + self._cache_misses
@@ -527,7 +527,7 @@ class SchemaRegistry:
 
             return self.schemas[schema_id].get(version)
 
-    def _calculate_checksum(self, schema: Dict[str, Any]) -> str:
+    def _calculate_checksum(self, schema: dict[str, Any]) -> str:
         """Calculate schema checksum for caching"""
         schema_str = json.dumps(schema, sort_keys=True, ensure_ascii=True)
         return hashlib.sha256(schema_str.encode()).hexdigest()[:16]
@@ -570,7 +570,7 @@ def validate_guardian_decision(data: Any) -> SchemaValidationResult:
     return registry.validate_data(data, "guardian_decision")
 
 
-def register_custom_schema(schema_id: str, version: str, schema: Dict[str, Any]) -> None:
+def register_custom_schema(schema_id: str, version: str, schema: dict[str, Any]) -> None:
     """Register a custom schema"""
     registry = get_schema_registry()
     registry.register_schema(schema_id, version, schema)
@@ -593,7 +593,7 @@ class SchemaMetrics:
         if not result.is_valid:
             self.failed_validations += 1
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get validation statistics"""
         uptime = time.time() - self.start_time
         avg_time = (

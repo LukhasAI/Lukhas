@@ -18,7 +18,7 @@ import os
 import threading
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Micro-check metrics (lazy initialization to avoid registry conflicts)
 _microcheck_metrics = None
@@ -94,7 +94,7 @@ class IntegrityProbe:
         self.prev_state = {}
         self.curr_state = {}
 
-    def run_consistency_check(self, state: Optional[Dict[str, Any]] = None) -> bool:
+    def run_consistency_check(self, state: Optional[dict[str, Any]] = None) -> bool:
         """
         Runs a consistency check on the symbolic core.
 

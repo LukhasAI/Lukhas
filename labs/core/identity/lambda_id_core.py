@@ -18,7 +18,7 @@ from typing import Any, Optional, Union
 
 import jwt
 from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import ed25519, ec, padding, rsa
+from cryptography.hazmat.primitives.asymmetric import ec, ed25519, padding, rsa
 
 # Constellation Framework Integration
 logger = logging.getLogger(__name__)

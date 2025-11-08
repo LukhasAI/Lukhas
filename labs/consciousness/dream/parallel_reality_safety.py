@@ -20,7 +20,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-
 from core.common import get_logger
 from core.common.exceptions import LukhasError, ValidationError
 from core.interfaces import CoreInterface

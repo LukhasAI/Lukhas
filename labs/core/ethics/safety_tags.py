@@ -24,7 +24,6 @@ Version: 1.0.0
 """
 from __future__ import annotations
 
-
 import logging
 
 # --- BEGIN ADVANCED SAFETY TAGS (Task 13 hardening) ---------------------------
@@ -1000,16 +999,16 @@ def create_safety_tag_enricher(enable_caching: bool = True) -> SafetyTagEnricher
 
 # Export main classes
 __all__ = [
+    "ExternalCallDetector",
+    "FinancialDetector",
+    "GDPRDetector",
+    "ModelSwitchDetector",
+    "PIIDetector",
+    "PrivilegeEscalationDetector",
     "SafetyTag",
     "SafetyTagCategory",
     "SafetyTagDetector",
-    "TaggedPlan",
     "SafetyTagEnricher",
-    "PIIDetector",
-    "FinancialDetector",
-    "ModelSwitchDetector",
-    "ExternalCallDetector",
-    "PrivilegeEscalationDetector",
-    "GDPRDetector",
+    "TaggedPlan",
     "create_safety_tag_enricher"
 ]

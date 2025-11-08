@@ -23,7 +23,7 @@ from collections.abc import Awaitable
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable
 
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram
@@ -122,7 +122,7 @@ class GuardianValidationConfig:
     performance_regression_detection: bool = True
     latency_alerting_enabled: bool = True
 
-    def validate(self) -> List[str]:
+    def validate(self) -> list[str]:
         """Validate configuration parameters"""
         errors = []
 
@@ -159,7 +159,7 @@ class ConsciousnessValidationContext:
     lane: str = "consciousness"
 
     # Risk assessment
-    risk_indicators: List[str] = field(default_factory=list)
+    risk_indicators: list[str] = field(default_factory=list)
     sensitive_operation: bool = False
 
 
@@ -177,26 +177,26 @@ class GuardianValidationResult:
     drift_result: DriftResult | None = None
 
     # Guardian envelope (if generated)
-    guardian_envelope: Dict[str, Any] | None = None
+    guardian_envelope: dict[str, Any] | None = None
 
     # Performance metrics
     validation_duration_ms: float = 0.0
 
     # Compliance and audit
-    audit_trail: List[Dict[str, Any]] = field(default_factory=list)
+    audit_trail: list[dict[str, Any]] = field(default_factory=list)
     gdpr_compliant: bool = True
     consent_verified: bool = False
 
     # Reasoning and recommendations
     reason: str = ""
     confidence: float = 0.0
-    recommendations: List[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
 
     def is_approved(self) -> bool:
         """Check if validation result allows operation (fail-closed)"""
         return self.result == ValidationResult.APPROVED
 
-    def add_audit_entry(self, event_type: str, details: Dict[str, Any]):
+    def add_audit_entry(self, event_type: str, details: dict[str, Any]):
         """Add entry to audit trail"""
         entry = {
             "timestamp": time.time(),
@@ -285,16 +285,16 @@ class ConsciousnessGuardianIntegration:
         self._lane = self._metrics.lane if self._metrics else self.config.enforcement_mode
 
         # Performance tracking
-        self._validation_latencies: List[float] = []
-        self._drift_scores: List[float] = []
-        self._validation_history: List[GuardianValidationResult] = []
+        self._validation_latencies: list[float] = []
+        self._drift_scores: list[float] = []
+        self._validation_history: list[GuardianValidationResult] = []
 
         # Baseline tracking for drift detection
-        self._baseline_states: Dict[str, ConsciousnessState] = {}
-        self._state_history: List[ConsciousnessState] = []
+        self._baseline_states: dict[str, ConsciousnessState] = {}
+        self._state_history: list[ConsciousnessState] = []
 
         # Audit trail management
-        self._audit_events: List[Dict[str, Any]] = []
+        self._audit_events: list[dict[str, Any]] = []
         self._audit_retention_ms = self.config.audit_retention_days * 24 * 60 * 60 * 1000
 
         # Emergency states
@@ -613,7 +613,7 @@ class ConsciousnessGuardianIntegration:
     async def _perform_constitutional_validation(
         self,
         context: ConsciousnessValidationContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Perform Constitutional AI validation"""
 
         with tracer.start_as_current_span("guardian_constitutional_validation"):
@@ -651,7 +651,7 @@ class ConsciousnessGuardianIntegration:
     async def _perform_gdpr_validation(
         self,
         context: ConsciousnessValidationContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Perform GDPR compliance validation"""
 
         with tracer.start_as_current_span("guardian_gdpr_validation"):
@@ -752,7 +752,7 @@ class ConsciousnessGuardianIntegration:
         self,
         context: ConsciousnessValidationContext,
         result: GuardianValidationResult
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate Guardian decision envelope for approved operations"""
 
         if not self.guardian_system:
@@ -948,7 +948,7 @@ class ConsciousnessGuardianIntegration:
         if len(self._validation_latencies) > 1000:
             self._validation_latencies = self._validation_latencies[-500:]
 
-    def _add_audit_event(self, event_type: str, details: Dict[str, Any]):
+    def _add_audit_event(self, event_type: str, details: dict[str, Any]):
         """Add event to audit trail"""
 
         event = {
@@ -990,7 +990,7 @@ class ConsciousnessGuardianIntegration:
         if len(self._state_history) > 1000:
             self._state_history = self._state_history[-500:]
 
-    def get_performance_stats(self) -> Dict[str, Any]:
+    def get_performance_stats(self) -> dict[str, Any]:
         """Get comprehensive performance statistics"""
 
         if not self._validation_latencies:

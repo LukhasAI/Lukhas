@@ -8,7 +8,7 @@ module imports.
 from __future__ import annotations
 
 from collections.abc import Sequence
-from typing import Dict, Tuple, Type
+from typing importTuple, Type
 
 try:
     from prometheus_client import (  # type: ignore
@@ -56,12 +56,12 @@ __all__ = [
 ]
 
 LUKHAS_REGISTRY: CollectorRegistry = CollectorRegistry()  # auto_describe default ok
-_CACHE: Dict[Tuple[str, str, Tuple[str, ...]], object] = {}
+_CACHE: dict[tuple[str, str, tuple[str, ...]], object] = {}
 
 
 def _key(
     cls: Type, name: str, labelnames: Sequence[str] | None
-) -> Tuple[str, str, Tuple[str, ...]]:
+) -> tuple[str, str, tuple[str, ...]]:
     return (cls.__name__, name, tuple(labelnames or ()))
 
 

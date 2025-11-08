@@ -21,7 +21,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Set
+from typing import Any
 from uuid import UUID, uuid4
 
 # Optional Prometheus metrics
@@ -71,7 +71,7 @@ class ReplayDecision:
     decision_id: UUID = field(default_factory=uuid4)
     timestamp: datetime = field(default_factory=datetime.utcnow)
 
-    def to_log_entry(self) -> Dict[str, Any]:
+    def to_log_entry(self) -> dict[str, Any]:
         """Convert to deterministic log entry."""
         return {
             "decision_id": str(self.decision_id),
@@ -91,7 +91,7 @@ class LanePolicyConfig:
     max_risk_level: float = 1.0
 
     # Allowed event kinds
-    allowed_kinds: Set[str] = field(default_factory=lambda: {
+    allowed_kinds: set[str] = field(default_factory=lambda: {
         "consciousness_tick", "tick_processed", "stream_started", "stream_stopped",
         "action", "intention", "memory_write", "reward", "breakthrough"
     })
@@ -110,7 +110,7 @@ class LanePolicyConfig:
 
 
 # Default lane configurations
-DEFAULT_LANE_CONFIGS: Dict[str, LanePolicyConfig] = {
+DEFAULT_LANE_CONFIGS: dict[str, LanePolicyConfig] = {
     "experimental": LanePolicyConfig(
         max_risk_level=0.8,
         max_replay_rate=2000,
@@ -143,7 +143,7 @@ class PolicyGuard:
     risk assessment, rate limiting, and budget constraints.
     """
 
-    def __init__(self, lane: str | None = None, custom_config: Dict[str, LanePolicyConfig] | None = None):
+    def __init__(self, lane: str | None = None, custom_config: dict[str, LanePolicyConfig] | None = None):
         """
         Initialize policy guard.
 
@@ -158,18 +158,18 @@ class PolicyGuard:
         self.config = self.lane_configs.get(self.lane, DEFAULT_LANE_CONFIGS["experimental"])
 
         # Rate limiting and budget tracking
-        self._replay_counts: Dict[datetime, int] = {}  # minute -> count
-        self._budget_usage: List[datetime] = []  # replay timestamps for budget window
+        self._replay_counts: dict[datetime, int] = {}  # minute -> count
+        self._budget_usage: list[datetime] = []  # replay timestamps for budget window
 
         # Decision log for deterministic replay
-        self._decision_log: List[ReplayDecision] = []
+        self._decision_log: list[ReplayDecision] = []
 
         logger.info(f"PolicyGuard initialized: lane={self.lane}, config={self.config}")
 
     def check_replay(
         self,
         event_kind: str,
-        payload: Dict[str, Any] | None = None,
+        payload: dict[str, Any] | None = None,
         risk_level: float | None = None,
         source_lane: str | None = None
     ) -> ReplayDecision:
@@ -281,7 +281,7 @@ class PolicyGuard:
                 decision_duration = (datetime.now(timezone.utc) - start_time).total_seconds()
                 POLICY_DECISIONS.labels(lane=self.lane).observe(decision_duration)
 
-    def _compute_risk(self, payload: Dict[str, Any]) -> float:
+    def _compute_risk(self, payload: dict[str, Any]) -> float:
         """Compute risk level from event payload."""
         # Extract explicit risk indicators
         if "risk_level" in payload:
@@ -368,13 +368,13 @@ class PolicyGuard:
                     reason=decision.result.value
                 ).inc()
 
-    def get_decision_log(self, limit: int | None = None) -> List[ReplayDecision]:
+    def get_decision_log(self, limit: int | None = None) -> list[ReplayDecision]:
         """Get recent policy decisions for audit/debugging."""
         if limit is None:
             return self._decision_log.copy()
         return self._decision_log[-limit:]
 
-    def get_policy_stats(self) -> Dict[str, Any]:
+    def get_policy_stats(self) -> dict[str, Any]:
         """Get current policy statistics."""
         now = datetime.now(timezone.utc)
 
@@ -400,7 +400,7 @@ class PolicyGuard:
             "allowed_kinds": list(self.config.allowed_kinds)
         }
 
-    def get_promotion_stats(self) -> Dict[str, Any]:
+    def get_promotion_stats(self) -> dict[str, Any]:
         """Get promotion statistics for cross-lane operations."""
         now = datetime.now(timezone.utc)
 

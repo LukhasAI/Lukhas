@@ -18,7 +18,7 @@ from abc import ABC, abstractmethod
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Optional
 
 import psutil
 
@@ -91,13 +91,13 @@ class ComponentHealth:
     component_name: str
     component_type: ComponentType
     status: HealthStatus
-    metrics: Dict[str, HealthMetric]
+    metrics: dict[str, HealthMetric]
     last_check: float
     error_message: Optional[str] = None
-    recovery_suggestions: List[str] = field(default_factory=list)
-    dependencies: List[str] = field(default_factory=list)
+    recovery_suggestions: list[str] = field(default_factory=list)
+    dependencies: list[str] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
             "component_name": self.component_name,
@@ -350,7 +350,7 @@ class PredictiveAnalyzer:
 
     def __init__(self, history_size: int = 1000):
         self.history_size = history_size
-        self.metric_history: Dict[str, Dict[str, deque]] = defaultdict(
+        self.metric_history: dict[str, dict[str, deque]] = defaultdict(
             lambda: defaultdict(lambda: deque(maxlen=history_size))
         )
 
@@ -370,7 +370,7 @@ class PredictiveAnalyzer:
                            component_name: str,
                            component_type: ComponentType,
                            metric_name: str,
-                           prediction_window_minutes: float = 30.0) -> Tuple[float, List[str]]:
+                           prediction_window_minutes: float = 30.0) -> tuple[float, list[str]]:
         """
         Predict failure risk for a specific metric.
 
@@ -584,9 +584,9 @@ class HealthMonitoringSystem:
         self.enable_auto_healing = enable_auto_healing
 
         # Component management
-        self.health_checkers: Dict[str, HealthChecker] = {}
-        self.component_health: Dict[str, ComponentHealth] = {}
-        self.health_history: Dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
+        self.health_checkers: dict[str, HealthChecker] = {}
+        self.component_health: dict[str, ComponentHealth] = {}
+        self.health_history: dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
 
         # Predictive analysis
         if enable_predictive_analysis:
@@ -595,7 +595,7 @@ class HealthMonitoringSystem:
             self.predictive_analyzer = None
 
         # Auto-healing
-        self.healing_actions: List[AutoHealingAction] = []
+        self.healing_actions: list[AutoHealingAction] = []
         self.healing_history: deque = deque(maxlen=100)
 
         # Background tasks
@@ -617,7 +617,7 @@ class HealthMonitoringSystem:
         """Register an auto-healing action."""
         self.healing_actions.append(action)
 
-    async def check_all_health(self) -> Dict[str, ComponentHealth]:
+    async def check_all_health(self) -> dict[str, ComponentHealth]:
         """Check health of all registered components."""
 
         health_results = {}
@@ -739,7 +739,7 @@ class HealthMonitoringSystem:
 
         return False
 
-    async def get_system_overview(self) -> Dict[str, Any]:
+    async def get_system_overview(self) -> dict[str, Any]:
         """Get comprehensive system health overview."""
 
         # Get current health status

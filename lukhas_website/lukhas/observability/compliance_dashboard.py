@@ -19,7 +19,7 @@ from collections import defaultdict
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 from uuid import uuid4
 
 try:
@@ -55,8 +55,8 @@ class ComplianceStatus:
     retention_compliance: bool
     data_integrity_score: float
     last_assessment: datetime
-    critical_findings: List[str] = field(default_factory=list)
-    remediation_actions: List[str] = field(default_factory=list)
+    critical_findings: list[str] = field(default_factory=list)
+    remediation_actions: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -69,7 +69,7 @@ class ComplianceMetric:
     tolerance: float
     last_updated: datetime
     trend_direction: str  # "improving", "degrading", "stable"
-    historical_values: List[Tuple[datetime, float]] = field(default_factory=list)
+    historical_values: list[tuple[datetime, float]] = field(default_factory=list)
 
 
 @dataclass
@@ -84,9 +84,9 @@ class AuditReport:
     compliance_score: float
     total_evidence_examined: int
     violations_found: int
-    critical_issues: List[str]
-    recommendations: List[str]
-    report_data: Dict[str, Any]
+    critical_issues: list[str]
+    recommendations: list[str]
+    report_data: dict[str, Any]
     report_file_path: Optional[str] = None
 
 
@@ -124,9 +124,9 @@ class ComplianceDashboard:
         self.alerting_system = get_alerting_system()
 
         # Compliance state
-        self.compliance_statuses: Dict[ComplianceRegime, ComplianceStatus] = {}
-        self.compliance_metrics: Dict[str, ComplianceMetric] = {}
-        self.audit_reports: List[AuditReport] = []
+        self.compliance_statuses: dict[ComplianceRegime, ComplianceStatus] = {}
+        self.compliance_metrics: dict[str, ComplianceMetric] = {}
+        self.audit_reports: list[AuditReport] = []
 
         # Dashboard configuration
         self.dashboard_config = self._load_dashboard_config()
@@ -139,7 +139,7 @@ class ComplianceDashboard:
         self._initialize_compliance_tracking()
         self._start_background_tasks()
 
-    def _load_dashboard_config(self) -> Dict[str, Any]:
+    def _load_dashboard_config(self) -> dict[str, Any]:
         """Load dashboard configuration"""
         default_config = {
             "regulations": ["GDPR", "CCPA", "SOX", "INTERNAL"],
@@ -297,7 +297,7 @@ class ComplianceDashboard:
         self.compliance_statuses[regulation] = status
         return status
 
-    async def _assess_evidence_integrity(self, regulation: ComplianceRegime) -> Dict[str, Any]:
+    async def _assess_evidence_integrity(self, regulation: ComplianceRegime) -> dict[str, Any]:
         """Assess evidence integrity for a specific regulation"""
         total_records = 0
         verified_records = 0
@@ -461,7 +461,7 @@ class ComplianceDashboard:
         self,
         regulation: ComplianceRegime,
         report_type: str = "monthly",
-        custom_period: Optional[Tuple[datetime, datetime]] = None,
+        custom_period: Optional[tuple[datetime, datetime]] = None,
     ) -> AuditReport:
         """
         Generate comprehensive compliance audit report.
@@ -541,7 +541,7 @@ class ComplianceDashboard:
         regulation: ComplianceRegime,
         start_time: datetime,
         end_time: datetime,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Collect evidence statistics for reporting period"""
         stats = {
             "total_evidence": 0,
@@ -588,7 +588,7 @@ class ComplianceDashboard:
         regulation: ComplianceRegime,
         start_time: datetime,
         end_time: datetime,
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Get key compliance metrics for the reporting period"""
         metrics = {}
 
@@ -609,7 +609,7 @@ class ComplianceDashboard:
         regulation: ComplianceRegime,
         start_time: datetime,
         end_time: datetime,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate trend analysis for compliance metrics"""
         # This is a simplified trend analysis
         # In practice, would analyze historical compliance data
@@ -629,7 +629,7 @@ class ComplianceDashboard:
             ],
         }
 
-    def _assess_compliance_risks(self, status: ComplianceStatus) -> Dict[str, Any]:
+    def _assess_compliance_risks(self, status: ComplianceStatus) -> dict[str, Any]:
         """Assess compliance risks and provide risk ratings"""
         risks = {
             "overall_risk": "low",
@@ -726,7 +726,7 @@ class ComplianceDashboard:
         except Exception as e:
             print(f"Error generating charts: {e}")
 
-    def get_compliance_dashboard_data(self) -> Dict[str, Any]:
+    def get_compliance_dashboard_data(self) -> dict[str, Any]:
         """Get current compliance dashboard data"""
         dashboard_data = {
             "timestamp": datetime.now(timezone.utc).isoformat(),

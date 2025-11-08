@@ -9,13 +9,14 @@ from collections import deque
 from datetime import datetime, timezone
 from typing import Any
 
-# Import EthicsEngine from ethics module (uses stub implementation)
-# Import SafetyChecker from ethics module (uses stub implementation)
-from ethics import EthicsEngine, SafetyChecker
 from core.colonies.base_colony import BaseColony
 from core.efficient_communication import MessagePriority
 from core.swarm import SwarmAgent
 from core.symbolism.tags import TagScope
+
+# Import EthicsEngine from ethics module (uses stub implementation)
+# Import SafetyChecker from ethics module (uses stub implementation)
+from ethics import EthicsEngine, SafetyChecker
 
 logger = logging.getLogger(__name__)
 

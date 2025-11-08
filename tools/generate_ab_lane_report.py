@@ -11,8 +11,8 @@ Usage:
 
 import json
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Any, Dict
+from datetime import datetime
+from typing import Any
 
 
 @dataclass
@@ -24,7 +24,7 @@ class LaneMetric:
     throughput: float
     user_satisfaction: float
 
-def generate_mock_lane_data() -> Dict[str, LaneMetric]:
+def generate_mock_lane_data() -> dict[str, LaneMetric]:
     """Generate mock lane comparison data"""
 
     # Simulate realistic metrics with small variations
@@ -67,7 +67,7 @@ def calculate_delta_percentage(control_value: float, candidate_value: float, low
     # For metrics where higher is better (throughput, satisfaction), positive delta is good
     return delta
 
-def generate_ab_lane_report() -> Dict[str, Any]:
+def generate_ab_lane_report() -> dict[str, Any]:
     """Generate comprehensive A/B lane comparison report"""
 
     print("📊 A/B LANE COMPARISON REPORT")
@@ -79,7 +79,7 @@ def generate_ab_lane_report() -> Dict[str, Any]:
     candidate = lane_data["labs"]
 
     # Report metadata
-    report_time = datetime.now(timezone.utc)
+    report_time = datetime.utcnow()
     report_period = "48h"  # 48-hour observation period
 
     print(f"🕐 Report Generated: {report_time.strftime('%Y-%m-%d %H:%M:%S')} UTC")
@@ -211,7 +211,7 @@ if __name__ == "__main__":
     report = generate_ab_lane_report()
 
     # Save report to file
-    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
     filename = f"/tmp/ab_lane_report_{timestamp}.json"
 
     with open(filename, 'w') as f:

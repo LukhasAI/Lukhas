@@ -11,7 +11,7 @@ import json
 import re
 import sys
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 # Constants
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -51,7 +51,7 @@ def slugify_owner(owner: str) -> str:
     return slug
 
 
-def generate_badges(status: str, owner: str) -> List[str]:
+def generate_badges(status: str, owner: str) -> list[str]:
     """Generate badge markdown for status and owner."""
     badges = []
 

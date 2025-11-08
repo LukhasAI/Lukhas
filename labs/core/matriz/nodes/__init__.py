@@ -13,12 +13,12 @@ if _COMPAT_MODE:
     CognitiveThoughtNode = ThoughtNode
     CognitiveDecisionNode = DecisionNode
     __all__ = [
-        "MemoryNode",
-        "ThoughtNode",
-        "DecisionNode",
+        "CognitiveDecisionNode",
         "CognitiveMemoryNode",
         "CognitiveThoughtNode",
-        "CognitiveDecisionNode",
+        "DecisionNode",
+        "MemoryNode",
+        "ThoughtNode",
     ]
 else:
-    __all__ = ["MemoryNode", "ThoughtNode", "DecisionNode"]
+    __all__ = ["DecisionNode", "MemoryNode", "ThoughtNode"]

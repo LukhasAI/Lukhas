@@ -34,9 +34,15 @@ DRIFT_EMA_ALPHA = 0.3
 
 # Optional OpenTelemetry support for observability
 try:
-    from opentelemetry import metrics, trace  # noqa: F401  # TODO: opentelemetry.metrics; conside...
+    from opentelemetry import (  # noqa: F401  # TODO: opentelemetry.metrics; conside...
+        metrics,
+        trace,
+    )
     from opentelemetry.metrics import get_meter
-    from opentelemetry.trace import Status, StatusCode  # noqa: F401  # TODO: opentelemetry.trace.Status; co...
+    from opentelemetry.trace import (  # noqa: F401  # TODO: opentelemetry.trace.Status; co...
+        Status,
+        StatusCode,
+    )
     OTEL_AVAILABLE = True
 except ImportError:
     OTEL_AVAILABLE = False
@@ -576,11 +582,11 @@ if __name__ == "__main__":
 
 # Module exports
 __all__ = [
-    "SelfReflectionEngine",
-    "ReflectionReport",
-    "ContextProvider",
-    "create_reflection_engine",
-    "create_and_initialize_reflection_engine",
     "REFLECTION_ENABLED",
-    "REFLECTION_P95_TARGET_MS"
+    "REFLECTION_P95_TARGET_MS",
+    "ContextProvider",
+    "ReflectionReport",
+    "SelfReflectionEngine",
+    "create_and_initialize_reflection_engine",
+    "create_reflection_engine"
 ]

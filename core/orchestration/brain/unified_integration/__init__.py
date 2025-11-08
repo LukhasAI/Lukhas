@@ -20,7 +20,7 @@ class MessageType(Enum):
     NOTIFICATION = "notification"
 
     @classmethod
-    def from_value(cls, value: Optional[str]) -> MessageType:
+    def from_value(cls, value: str | None) -> MessageType:
         """Return the enum member matching ``value`` (case-insensitive)."""
 
         if value is None:
@@ -47,7 +47,7 @@ class Message:
     id: str
     type: MessageType
     source: str
-    target: Optional[str]
+    target: str | None
     content: Any
     metadata: dict[str, Any]
     timestamp: float
@@ -115,9 +115,9 @@ class UnifiedIntegration:
         message_type: MessageType,
         content: Any,
         source: str,
-        target: Optional[str] = None,
-        metadata: Optional[dict[str, Any]] = None,
-        message_id: Optional[str] = None,
+        target: str | None = None,
+        metadata: dict[str, Any | None] = None,
+        message_id: str | None = None,
     ) -> str:
         """Publish a message to the bus and invoke a target handler if present."""
 
@@ -145,10 +145,10 @@ class UnifiedIntegration:
         self,
         *,
         source: str,
-        target: Optional[str],
+        target: str | None,
         message_type: MessageType,
         content: Any,
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: dict[str, Any | None] = None,
     ) -> dict[str, Any]:
         """Send a message and return a lightweight delivery receipt."""
 

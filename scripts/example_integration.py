@@ -8,10 +8,10 @@ import ast
 import json
 import os
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 
-def integrate_hidden_gem(module_path: str) -> Dict[str, Any]:
+def integrate_hidden_gem(module_path: str) -> dict[str, Any]:
     """
     Complete integration process for a single hidden gem module.
 
@@ -299,7 +299,7 @@ class Test{module_name.replace("_", "").title()}:
     return str(test_path)
 
 
-def validate_module(module_path: str) -> Dict[str, Any]:
+def validate_module(module_path: str) -> dict[str, Any]:
     """Validate module MATRIZ readiness"""
 
     module_name = Path(module_path).stem

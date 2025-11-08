@@ -17,7 +17,7 @@ from collections import defaultdict, deque
 from contextlib import asynccontextmanager, suppress
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -81,12 +81,12 @@ class TelemetryEvent:
     event_type: str
     severity: SeverityLevel
     message: str
-    data: Dict[str, Any] = field(default_factory=dict)
-    tags: Dict[str, str] = field(default_factory=dict)
+    data: dict[str, Any] = field(default_factory=dict)
+    tags: dict[str, str] = field(default_factory=dict)
     trace_id: Optional[str] = None
     span_id: Optional[str] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert event to dictionary for serialization."""
         return {
             "event_id": self.event_id,
@@ -111,9 +111,9 @@ class MetricData:
     value: float
     timestamp: float
     component: str
-    tags: Dict[str, str] = field(default_factory=dict)
+    tags: dict[str, str] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert metric to dictionary for serialization."""
         return {
             "metric_name": self.metric_name,
@@ -137,8 +137,8 @@ class TraceSpan:
     start_time: float
     end_time: Optional[float] = None
     duration_ms: Optional[float] = None
-    tags: Dict[str, str] = field(default_factory=dict)
-    logs: List[Dict[str, Any]] = field(default_factory=list)
+    tags: dict[str, str] = field(default_factory=dict)
+    logs: list[dict[str, Any]] = field(default_factory=list)
     status: str = "active"  # active, completed, error
 
     def finish(self) -> None:
@@ -148,7 +148,7 @@ class TraceSpan:
             self.duration_ms = (self.end_time - self.start_time) * 1000
             self.status = "completed"
 
-    def add_log(self, message: str, data: Optional[Dict[str, Any]] = None) -> None:
+    def add_log(self, message: str, data: Optional[dict[str, Any]] = None) -> None:
         """Add log entry to span."""
         log_entry = {
             "timestamp": time.time(),
@@ -163,7 +163,7 @@ class TraceSpan:
         self.add_log(f"Error: {error}")
         self.tags["error"] = "true"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert span to dictionary for serialization."""
         return {
             "trace_id": self.trace_id,
@@ -201,16 +201,16 @@ class TelemetryCollector:
         # Event storage
         self.events: deque = deque(maxlen=max_events)
         self.metrics: deque = deque(maxlen=max_metrics)
-        self.spans: Dict[str, TraceSpan] = {}  # Active spans
+        self.spans: dict[str, TraceSpan] = {}  # Active spans
         self.completed_spans: deque = deque(maxlen=max_spans)
 
         # Real-time aggregations
-        self.metric_aggregations: Dict[str, Dict[str, Any]] = defaultdict(dict)
-        self.component_health: Dict[str, Dict[str, Any]] = defaultdict(dict)
+        self.metric_aggregations: dict[str, dict[str, Any]] = defaultdict(dict)
+        self.component_health: dict[str, dict[str, Any]] = defaultdict(dict)
 
         # Event subscribers
-        self.event_subscribers: List[Callable] = []
-        self.metric_subscribers: List[Callable] = []
+        self.event_subscribers: list[Callable] = []
+        self.metric_subscribers: list[Callable] = []
 
         # Configuration
         self.flush_interval_sec = flush_interval_sec
@@ -247,8 +247,8 @@ class TelemetryCollector:
                    event_type: str,
                    message: str,
                    severity: SeverityLevel = SeverityLevel.INFO,
-                   data: Optional[Dict[str, Any]] = None,
-                   tags: Optional[Dict[str, str]] = None,
+                   data: Optional[dict[str, Any]] = None,
+                   tags: Optional[dict[str, str]] = None,
                    trace_id: Optional[str] = None,
                    span_id: Optional[str] = None) -> TelemetryEvent:
         """Emit telemetry event."""
@@ -299,7 +299,7 @@ class TelemetryCollector:
                     metric_name: str,
                     value: float,
                     metric_type: MetricType = MetricType.GAUGE,
-                    tags: Optional[Dict[str, str]] = None) -> MetricData:
+                    tags: Optional[dict[str, str]] = None) -> MetricData:
         """Emit telemetry metric."""
 
         metric = MetricData(
@@ -331,7 +331,7 @@ class TelemetryCollector:
                    component: str,
                    parent_span_id: Optional[str] = None,
                    trace_id: Optional[str] = None,
-                   tags: Optional[Dict[str, str]] = None) -> TraceSpan:
+                   tags: Optional[dict[str, str]] = None) -> TraceSpan:
         """Start a new trace span."""
 
         if trace_id is None:
@@ -375,7 +375,7 @@ class TelemetryCollector:
                               component: str,
                               parent_span_id: Optional[str] = None,
                               trace_id: Optional[str] = None,
-                              tags: Optional[Dict[str, str]] = None):
+                              tags: Optional[dict[str, str]] = None):
         """Context manager for tracing operations."""
 
         span = self.start_span(
@@ -419,7 +419,7 @@ class TelemetryCollector:
         agg["last_value"] = metric.value
         agg["last_timestamp"] = metric.timestamp
 
-    def get_component_health(self, component: str) -> Dict[str, Any]:
+    def get_component_health(self, component: str) -> dict[str, Any]:
         """Get health metrics for a component."""
 
         # Calculate health based on recent events and metrics
@@ -457,7 +457,7 @@ class TelemetryCollector:
         self.component_health[component] = health_info
         return health_info
 
-    def get_system_overview(self) -> Dict[str, Any]:
+    def get_system_overview(self) -> dict[str, Any]:
         """Get comprehensive system overview."""
 
         # Component health

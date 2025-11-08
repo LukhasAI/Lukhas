@@ -8,7 +8,6 @@ import pytest
 argon2 = pytest.importorskip("argon2")
 from argon2.exceptions import VerifyMismatchError
 
-
 password_hasher = argon2.PasswordHasher()
 
 

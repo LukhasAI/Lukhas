@@ -1,10 +1,10 @@
 import asyncio
-import time
-import unittest
-from unittest.mock import MagicMock, AsyncMock, patch, call
 
 # Mock modules that are not available in the test environment
 import sys
+import time
+import unittest
+from unittest.mock import AsyncMock, MagicMock, call, patch
 
 sys.modules["dream.dashboard"] = MagicMock()
 sys.modules["dream.oneiric_engine.oneiric_core.utils.drift_tracker"] = MagicMock()
@@ -14,8 +14,8 @@ sys.modules["sklearn.feature_extraction.text"] = MagicMock()
 sys.modules["bio.bio_utilities"] = MagicMock()
 
 from core.consciousness.dream_reflection_loop import (
-    DreamReflectionLoop,
     DreamReflectionConfig,
+    DreamReflectionLoop,
     DreamState,
 )
 

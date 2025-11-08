@@ -481,20 +481,20 @@ def get_brand_status() -> dict[str, Any]:
 # Module exports
 __all__ = [
     "CONSCIOUSNESS_SYMBOL",
+    "CONSTELLATION_FRAMEWORK",
     "GUARDIAN_SYMBOL",
     "IDENTITY_SYMBOL",
     # Constants
     "SYSTEM_NAME",
     "SYSTEM_VERSION",
-    "CONSTELLATION_FRAMEWORK",
     "BrandContext",
     "LUKHASBrandingBridge",
     "generate_branded_content",
     "get_brand_status",
     "get_brand_voice",
     "get_bridge",
-    "get_system_signature",
     "get_constellation_context",
+    "get_system_signature",
     "initialize_branding",
     "monitor_brand_drift",
     "normalize_output_text",

@@ -23,9 +23,8 @@ Features:
 Rehabilitated: 2025-09-10 from quarantine status
 Original location: ./consciousness/unified_consciousness_engine.py
 """
-import logging
-
 import asyncio
+import logging
 import threading
 import time
 import uuid
@@ -936,10 +935,10 @@ class UnifiedConsciousnessEngine:
 
 # Export main classes
 __all__ = [
-    "ConsciousnessState",
     "AwarenessLevel",
-    "ConsciousnessModule",
-    "ConsciousnessMetrics",
     "ConsciousnessEvent",
+    "ConsciousnessMetrics",
+    "ConsciousnessModule",
+    "ConsciousnessState",
     "UnifiedConsciousnessEngine"
 ]

@@ -26,7 +26,7 @@ import logging
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, Literal, Set, cast
+from typing import Any, Literal, cast
 from uuid import uuid4
 
 import argon2
@@ -121,8 +121,8 @@ class AuthContext:
     username: str | None = None
     password: str | None = None
     totp_token: str | None = None
-    webauthn_response: Dict[str, Any] | None = None
-    biometric_attestation: Dict[str, Any] | None = None
+    webauthn_response: dict[str, Any] | None = None
+    biometric_attestation: dict[str, Any] | None = None
 
     # Session context
     session_id: str | None = None
@@ -130,7 +130,7 @@ class AuthContext:
     nonce: str | None = None
 
     # Security context
-    challenge_data: Dict[str, Any] | None = None
+    challenge_data: dict[str, Any] | None = None
     anti_replay_token: str | None = None
 
 
@@ -207,9 +207,9 @@ class TieredAuthenticator:
         self._initialize_infrastructure()
 
         # Security state tracking
-        self._failed_attempts: Dict[str, Dict[str, Any]] = {}
-        self._active_challenges: Dict[str, Dict[str, Any]] = {}
-        self._nonce_cache: Set[str] = set()
+        self._failed_attempts: dict[str, dict[str, Any]] = {}
+        self._active_challenges: dict[str, dict[str, Any]] = {}
+        self._nonce_cache: set[str] = set()
 
         self.logger.info("TieredAuthenticator initialized", policy=self.policy)
 
@@ -260,7 +260,7 @@ class TieredAuthenticator:
         correlation_id: str | None,
         ip_address: str,
         user_agent: str | None = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate a WebAuthn authentication challenge for T4 verification."""
 
         if not self.webauthn:
@@ -846,7 +846,7 @@ class TieredAuthenticator:
 
         return verification_result
 
-    async def _verify_biometric(self, username: str, attestation: Dict[str, Any]) -> bool:
+    async def _verify_biometric(self, username: str, attestation: dict[str, Any]) -> bool:
         """Verify biometric attestation (mock implementation)."""
         try:
             # Add timing normalization for consistency
