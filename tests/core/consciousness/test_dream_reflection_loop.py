@@ -1,39 +1,60 @@
 import asyncio
+import importlib
+import sys
 import time
 import unittest
-from unittest.mock import MagicMock, AsyncMock, patch, call
-
-# Mock modules that are not available in the test environment
-import sys
-
-sys.modules["dream.dashboard"] = MagicMock()
-sys.modules["dream.oneiric_engine.oneiric_core.utils.drift_tracker"] = MagicMock()
-sys.modules["memory.systems.dream_memory_fold"] = MagicMock()
-sys.modules["sklearn.cluster"] = MagicMock()
-sys.modules["sklearn.feature_extraction.text"] = MagicMock()
-sys.modules["bio.bio_utilities"] = MagicMock()
-
-from core.consciousness.dream_reflection_loop import (
-    DreamReflectionLoop,
-    DreamReflectionConfig,
-    DreamState,
-)
+from pathlib import Path
+from unittest.mock import AsyncMock, MagicMock, call, patch
 
 
-@patch(
-    "core.consciousness.dream_reflection_loop.BRAIN_INTEGRATION_AVAILABLE", True
-)
-@patch("core.consciousness.dream_reflection_loop.drift_tracker_available", True)
-@patch(
-    "core.consciousness.dream_reflection_loop.dream_memory_fold_available", True
-)
-@patch(
-    "core.consciousness.dream_reflection_loop.DREAM_CLUSTERING_AVAILABLE", True
-)
-@patch("core.consciousness.dream_reflection_loop.metrics_db_available", True)
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+
+MOCKED_MODULES = {
+    "dream.dashboard": MagicMock(),
+    "dream.oneiric_engine.oneiric_core.utils.drift_tracker": MagicMock(),
+    "memory.systems.dream_memory_fold": MagicMock(),
+    "sklearn.cluster": MagicMock(),
+    "sklearn.feature_extraction.text": MagicMock(),
+    "bio.bio_utilities": MagicMock(),
+}
+
+
 class TestDreamReflectionLoop(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls._sys_modules_patcher = patch.dict(sys.modules, MOCKED_MODULES)
+        cls._sys_modules_patcher.start()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls._sys_modules_patcher.stop()
+        for module_name in MOCKED_MODULES:
+            sys.modules.pop(module_name, None)
+
     def setUp(self):
-        self.config = DreamReflectionConfig(
+        dream_module = importlib.reload(
+            importlib.import_module("core.consciousness.dream_reflection_loop")
+        )
+
+        self.DreamReflectionLoop = dream_module.DreamReflectionLoop
+        self.DreamReflectionConfig = dream_module.DreamReflectionConfig
+        self.DreamState = dream_module.DreamState
+
+        self.module_patcher = patch.multiple(
+            "core.consciousness.dream_reflection_loop",
+            BRAIN_INTEGRATION_AVAILABLE=True,
+            drift_tracker_available=True,
+            dream_memory_fold_available=True,
+            DREAM_CLUSTERING_AVAILABLE=True,
+            metrics_db_available=True,
+        )
+        self.module_patcher.start()
+        self.addCleanup(self.module_patcher.stop)
+
+        self.config = self.DreamReflectionConfig(
             reflection_interval=0.1,
             idle_trigger_seconds=1,
             dream_cycle_minutes=0.1,
@@ -51,15 +72,13 @@ class TestDreamReflectionLoop(unittest.TestCase):
             return_value={"id": "mem_123"}
         )
 
-        # Re-import the module to apply patches
-        from core.consciousness import dream_reflection_loop
-
-        self.dream_loop = dream_reflection_loop.DreamReflectionLoop(
+        self.dream_loop = self.DreamReflectionLoop(
             config=self.config,
             bio_orchestrator=self.bio_orchestrator,
             memory_manager=self.memory_manager,
             enable_logging=False,
         )
+        self.addCleanup(self.dream_loop.stop)
         self.dream_loop.drift_tracker = MagicMock()
         self.dream_loop.metrics_db = MagicMock()
         self.dream_loop.dream_memory_fold = MagicMock()
@@ -168,19 +187,19 @@ class TestDreamReflectionLoop(unittest.TestCase):
 
     def test_extract_insights(self, *args):
         self.dream_loop.current_dreams = [
-            DreamState(
+            self.DreamState(
                 dream_id="1",
                 content={},
                 timestamp="2023-01-01",
                 metadata={"themes": ["A"]},
             ),
-            DreamState(
+            self.DreamState(
                 dream_id="2",
                 content={},
                 timestamp="2023-01-01",
                 metadata={"themes": ["A", "B"]},
             ),
-            DreamState(
+            self.DreamState(
                 dream_id="3",
                 content={},
                 timestamp="2023-01-01",
@@ -197,21 +216,21 @@ class TestDreamReflectionLoop(unittest.TestCase):
 
     def test_recognize_patterns(self, *args):
         self.dream_loop.current_dreams = [
-            DreamState(
+            self.DreamState(
                 dream_id="1",
                 content={},
                 timestamp="2023-01-01",
                 qi_coherence=0.1,
                 bio_rhythm_phase="X",
             ),
-            DreamState(
+            self.DreamState(
                 dream_id="2",
                 content={},
                 timestamp="2023-01-01",
                 qi_coherence=0.2,
                 bio_rhythm_phase="X",
             ),
-            DreamState(
+            self.DreamState(
                 dream_id="3",
                 content={},
                 timestamp="2023-01-01",
@@ -227,7 +246,7 @@ class TestDreamReflectionLoop(unittest.TestCase):
     @patch("core.consciousness.dream_reflection_loop.asyncio.run")
     def test_synthesize_dream(self, mock_asyncio_run, *args):
         self.dream_loop.current_dreams = [
-            DreamState(dream_id="1", content={}, timestamp="2023-01-01")
+            self.DreamState(dream_id="1", content={}, timestamp="2023-01-01")
         ]
         result = self.dream_loop.synthesize_dream()
         self.assertIn("dream", result)
@@ -270,7 +289,7 @@ class TestDreamReflectionLoop(unittest.TestCase):
 
         self.dream_loop.config.sadness_repair_threshold = 0.5
         self.dream_loop.current_dreams = [
-            DreamState(
+            self.DreamState(
                 dream_id="1",
                 content={"emotions": {"sadness": 0.8}},
                 timestamp="2023-01-01",
