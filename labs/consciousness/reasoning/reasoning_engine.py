@@ -23,8 +23,8 @@ Features:
 Rehabilitated: 2025-09-10 from quarantine status
 Original location: ./reasoning/reasoning_engine.py
 """
+
 import asyncio
-import logging
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -374,11 +374,11 @@ class ReasoningEngine:
 
 # Export main classes
 __all__ = [
+    "ReasoningType",
     "ConfidenceLevel",
-    "ReasoningConclusion",
-    "ReasoningEngine",
-    "ReasoningPremise",
     "ReasoningStatus",
+    "ReasoningPremise",
+    "ReasoningConclusion",
     "ReasoningTask",
-    "ReasoningType"
+    "ReasoningEngine"
 ]

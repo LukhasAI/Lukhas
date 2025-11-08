@@ -16,7 +16,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -25,8 +25,6 @@ try:
     from .advanced_api_optimizer import (
         APITier,
         LUKHASAPIOptimizer,
-        OptimizationConfig,  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_advanced_middleware_py_L28"}
-        OptimizationStrategy,  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_advanced_middleware_py_L30"}
         RequestContext,
         RequestPriority,
     )
@@ -36,11 +34,7 @@ except ImportError:
 
 # FastAPI integration
 try:
-    from fastapi import (  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_advanced_middleware_py_L41"}
-        HTTPException,
-        Request,
-        Response,
-    )
+    from fastapi import Request, Response
     from fastapi.middleware.base import BaseHTTPMiddleware
     from starlette.middleware.base import RequestResponseEndpoint
     FASTAPI_AVAILABLE = True
@@ -95,7 +89,7 @@ class MiddlewareConfig:
     max_request_size_mb: float = 100.0
     request_timeout_seconds: float = 30.0
     enable_cors: bool = True
-    cors_origins: list[str] = field(default_factory=lambda: ["*"])
+    cors_origins: List[str] = field(default_factory=lambda: ["*"])
     enable_metrics: bool = True
 
 
@@ -114,17 +108,17 @@ class RequestMetadata:
     api_key: Optional[str] = None
     tier: APITier = APITier.FREE
     priority: RequestPriority = RequestPriority.NORMAL
-    security_context: dict[str, Any] = field(default_factory=dict)
-    optimization_context: dict[str, Any] = field(default_factory=dict)
-    custom_headers: dict[str, str] = field(default_factory=dict)
-    processing_phases: list[str] = field(default_factory=list)
-    middleware_data: dict[str, Any] = field(default_factory=dict)
+    security_context: Dict[str, Any] = field(default_factory=dict)
+    optimization_context: Dict[str, Any] = field(default_factory=dict)
+    custom_headers: Dict[str, str] = field(default_factory=dict)
+    processing_phases: List[str] = field(default_factory=list)
+    middleware_data: Dict[str, Any] = field(default_factory=dict)
 
 
 class BaseMiddleware(ABC):
     """Base class for all middleware components."""
 
-    def __init__(self, name: str, middleware_type: MiddlewareType, config: Optional[dict[str, Any]] = None):
+    def __init__(self, name: str, middleware_type: MiddlewareType, config: Optional[Dict[str, Any]] = None):
         self.name = name
         self.middleware_type = middleware_type
         self.config = config or {}
@@ -138,17 +132,17 @@ class BaseMiddleware(ABC):
 
     @abstractmethod
     async def process_request(self, metadata: RequestMetadata,
-                            request_data: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
+                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
         """Process incoming request. Returns (continue, data)."""
         pass
 
     @abstractmethod
     async def process_response(self, metadata: RequestMetadata,
-                             response_data: dict[str, Any]) -> dict[str, Any]:
+                             response_data: Dict[str, Any]) -> Dict[str, Any]:
         """Process outgoing response."""
         pass
 
-    async def on_error(self, metadata: RequestMetadata, error: Exception) -> dict[str, Any]:
+    async def on_error(self, metadata: RequestMetadata, error: Exception) -> Dict[str, Any]:
         """Handle errors during processing."""
         self.metrics["errors"] += 1
         return {
@@ -156,7 +150,7 @@ class BaseMiddleware(ABC):
             "type": type(error).__name__
         }
 
-    def get_metrics(self) -> dict[str, Any]:
+    def get_metrics(self) -> Dict[str, Any]:
         """Get middleware metrics."""
         return {
             "name": self.name,
@@ -174,7 +168,7 @@ class SecurityMiddleware(BaseMiddleware):
         self.security_framework = security_framework
 
     async def process_request(self, metadata: RequestMetadata,
-                            request_data: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
+                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
         """Validate security and authenticate request."""
         start_time = time.time()
 
@@ -229,7 +223,7 @@ class SecurityMiddleware(BaseMiddleware):
             return await self.on_error(metadata, e), {}
 
     async def process_response(self, metadata: RequestMetadata,
-                             response_data: dict[str, Any]) -> dict[str, Any]:
+                             response_data: Dict[str, Any]) -> Dict[str, Any]:
         """Add security headers to response."""
         if "headers" not in response_data:
             response_data["headers"] = {}
@@ -263,7 +257,7 @@ class SecurityMiddleware(BaseMiddleware):
         return APITier.FREE
 
     async def _check_for_threats(self, metadata: RequestMetadata,
-                               request_data: dict[str, Any]) -> bool:
+                               request_data: Dict[str, Any]) -> bool:
         """Check for security threats."""
         if not self.security_framework:
             return False
@@ -291,7 +285,7 @@ class OptimizationMiddleware(BaseMiddleware):
         self.optimizer = optimizer
 
     async def process_request(self, metadata: RequestMetadata,
-                            request_data: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
+                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
         """Apply optimization strategies to request."""
         start_time = time.time()
 
@@ -344,7 +338,7 @@ class OptimizationMiddleware(BaseMiddleware):
             return await self.on_error(metadata, e), {}
 
     async def process_response(self, metadata: RequestMetadata,
-                             response_data: dict[str, Any]) -> dict[str, Any]:
+                             response_data: Dict[str, Any]) -> Dict[str, Any]:
         """Complete optimization processing."""
         try:
             if self.optimizer and "context" in metadata.optimization_context:
@@ -378,7 +372,7 @@ class ValidationMiddleware(BaseMiddleware):
         self.max_request_size_bytes = max_request_size_mb * 1024 * 1024
 
     async def process_request(self, metadata: RequestMetadata,
-                            request_data: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
+                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
         """Validate request structure and content."""
         start_time = time.time()
 
@@ -439,7 +433,7 @@ class ValidationMiddleware(BaseMiddleware):
             return await self.on_error(metadata, e), {}
 
     async def process_response(self, metadata: RequestMetadata,
-                             response_data: dict[str, Any]) -> dict[str, Any]:
+                             response_data: Dict[str, Any]) -> Dict[str, Any]:
         """Validate and sanitize response."""
         # Add validation headers
         if "headers" not in response_data:
@@ -470,7 +464,7 @@ class AnalyticsMiddleware(BaseMiddleware):
         self.request_logs = []
 
     async def process_request(self, metadata: RequestMetadata,
-                            request_data: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
+                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
         """Log request for analytics."""
         # Store request start time for duration calculation
         metadata.middleware_data["analytics_start"] = time.time()
@@ -479,7 +473,7 @@ class AnalyticsMiddleware(BaseMiddleware):
         return True, {}
 
     async def process_response(self, metadata: RequestMetadata,
-                             response_data: dict[str, Any]) -> dict[str, Any]:
+                             response_data: Dict[str, Any]) -> Dict[str, Any]:
         """Log response and calculate metrics."""
         end_time = time.time()
         start_time = metadata.middleware_data.get("analytics_start", metadata.start_time)
@@ -517,7 +511,7 @@ class AnalyticsMiddleware(BaseMiddleware):
 
         return response_data
 
-    def get_analytics_summary(self) -> dict[str, Any]:
+    def get_analytics_summary(self) -> Dict[str, Any]:
         """Get analytics summary."""
         if not self.request_logs:
             return {"message": "No analytics data available"}
@@ -537,14 +531,14 @@ class AnalyticsMiddleware(BaseMiddleware):
             "top_endpoints": self._get_top_endpoints(recent_logs)
         }
 
-    def _count_distribution(self, data: list[Any]) -> dict[Any, int]:
+    def _count_distribution(self, data: List[Any]) -> Dict[Any, int]:
         """Get count distribution."""
         counts = {}
         for item in data:
             counts[item] = counts.get(item, 0) + 1
         return counts
 
-    def _get_top_endpoints(self, logs: list[Dict]) -> list[Dict]:
+    def _get_top_endpoints(self, logs: List[Dict]) -> List[Dict]:
         """Get top endpoints by request count."""
         endpoint_counts = {}
         for log in logs:
@@ -563,7 +557,7 @@ class LUKHASMiddlewarePipeline:
 
     def __init__(self, config: MiddlewareConfig):
         self.config = config
-        self.middleware_stack: list[BaseMiddleware] = []
+        self.middleware_stack: List[BaseMiddleware] = []
         self.processing_stats = {
             "total_requests": 0,
             "successful_requests": 0,
@@ -583,7 +577,7 @@ class LUKHASMiddlewarePipeline:
         logger.info(f"Removed middleware: {name}")
 
     async def process_request(self, metadata: RequestMetadata,
-                            request_data: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
+                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
         """Process request through middleware pipeline."""
         start_time = time.time()
         self.processing_stats["total_requests"] += 1
@@ -632,7 +626,7 @@ class LUKHASMiddlewarePipeline:
             return False, {"error": f"Pipeline error: {e!s}", "status": 500}
 
     async def process_response(self, metadata: RequestMetadata,
-                             response_data: dict[str, Any]) -> dict[str, Any]:
+                             response_data: Dict[str, Any]) -> Dict[str, Any]:
         """Process response through middleware pipeline (reverse order)."""
         try:
             processed_response = dict(response_data)
@@ -656,7 +650,7 @@ class LUKHASMiddlewarePipeline:
             logger.error(f"Pipeline response processing error: {e}")
             return response_data
 
-    def get_pipeline_stats(self) -> dict[str, Any]:
+    def get_pipeline_stats(self) -> Dict[str, Any]:
         """Get comprehensive pipeline statistics."""
         middleware_stats = [m.get_metrics() for m in self.middleware_stack]
 
