@@ -198,5 +198,47 @@ class TestMatrizIntegration(unittest.TestCase):
         self.assertEqual(len(self.pipeline_orchestrator.matriz_graph), len(nodes))
 
 
+class TestMathReasoningNode(unittest.TestCase):
+    """Unit tests specifically for the MathReasoningNode."""
+
+    def setUp(self):
+        """Set up a new node for each test."""
+        self.math_node = MathReasoningNode()
+
+    def test_process_non_math_query(self):
+        """Test that the node handles non-mathematical queries gracefully."""
+        result = self.math_node.process({"query": "Hello, world!"})
+        self.assertEqual(result["confidence"], 0.1)
+        self.assertIn("No mathematical expression found", result["matriz_node"]["state"]["error"])
+
+    def test_process_evaluation_error(self):
+        """Test that the node handles errors during expression evaluation."""
+        result = self.math_node.process({"query": "1 / 0"})
+        self.assertEqual(result["confidence"], 0.2)
+        self.assertIn("Division by zero", result["matriz_node"]["state"]["error"])
+
+    def test_validate_output_valid(self):
+        """Test that the validate_output method correctly identifies valid output."""
+        valid_output = self.math_node.process({"query": "2 + 2"})
+        self.assertTrue(self.math_node.validate_output(valid_output))
+
+    def test_validate_output_invalid(self):
+        """Test that the validate_output method catches various invalid outputs."""
+        # Missing required field
+        invalid_output_1 = self.math_node.process({"query": "2 + 2"})
+        del invalid_output_1["confidence"]
+        self.assertFalse(self.math_node.validate_output(invalid_output_1))
+
+        # Invalid confidence range
+        invalid_output_2 = self.math_node.process({"query": "2 + 2"})
+        invalid_output_2["confidence"] = 99.0 # Should be between 0 and 1
+        self.assertFalse(self.math_node.validate_output(invalid_output_2))
+
+        # Mismatched confidence and result
+        invalid_output_3 = self.math_node.process({"query": "2 + 2"})
+        invalid_output_3["confidence"] = 0.1 # High confidence result with low confidence value
+        self.assertFalse(self.math_node.validate_output(invalid_output_3))
+
+
 if __name__ == '__main__':
     unittest.main()
