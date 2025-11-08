@@ -8,7 +8,6 @@ Generates XML sitemaps for all 5 LUKHAS domains with:
 - Cross-domain alternate links (hreflang)
 """
 import re
-from datetime import datetime
 from pathlib import Path
 from xml.dom import minidom
 from xml.etree.ElementTree import Element, SubElement, tostring
