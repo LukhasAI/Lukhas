@@ -250,13 +250,10 @@ class EnhancedGuardianSystem:
         self.monitoring_active = True
         self.monitoring_interval = 1.0  # seconds
 
-        # Initialize system
-        asyncio.create_task(self._initialize_guardian_system())
+        logger.info("🛡️ Enhanced Guardian System v1.0.0 constructed. Call initialize() to start.")
 
-        logger.info("🛡️ Enhanced Guardian System v1.0.0 initialized")
-
-    async def _initialize_guardian_system(self):
-        """Initialize the Guardian system with default agents"""
+    async def initialize(self):
+        """Initialize the Guardian system with default agents and start monitoring loops."""
 
         # Create default Guardian agents
         default_agents = [
