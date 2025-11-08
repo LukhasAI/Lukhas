@@ -8,6 +8,7 @@ from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
+import collections
 
 logger = logging.getLogger("lukhas_agi_orchestrator")
 
@@ -53,7 +54,7 @@ class LukhasAGIOrchestrator:
 
     def __init__(self) -> None:
         self._metrics = OrchestratorMetrics()
-        self._symbolic_trace: collections.deque[SymbolicTraceEntry] = deque(maxlen=64)
+        self._symbolic_trace: deque[SymbolicTraceEntry] = deque(maxlen=64)
         self._background_task: asyncio.Task[None] | None = None
         self._active = False
         self._initialised = False

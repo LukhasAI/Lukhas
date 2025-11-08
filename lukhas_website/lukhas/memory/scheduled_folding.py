@@ -22,6 +22,7 @@ from enum import Enum
 from typing import Any, Optional
 
 from .adaptive_memory import MemoryFold, MemoryItem, MemoryType
+import collections
 
 
 class FoldStatus(Enum):

@@ -21,6 +21,7 @@ from time import perf_counter
 from typing import Any
 
 from observability import counter, gauge, histogram
+import collections
 
 __all__ = [
     "EventSeverity",
@@ -126,7 +127,7 @@ class SecurityMonitor:
         self.config = config or SecurityMonitorConfig()
         self._metrics = _SecurityMonitorMetrics()
         self._lock = RLock()
-        self._auth_failures: MutableMapping[tuple[str, str], collections.deque[datetime]] = defaultdict(deque)
+        self._auth_failures: MutableMapping[tuple[str, str], deque[datetime]] = defaultdict(deque)
         self._active_threats: dict[str, SecurityThreat] = {}
         self._metrics_snapshot: dict[str, Any] = {
             "security_events_total": defaultdict(int),

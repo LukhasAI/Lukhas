@@ -9,6 +9,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
 from core.symbolic.glyph_specialist import GlyphSignal
+import collections
 
 logger = logging.getLogger("Lukhas.Consciousness.DriftDetector")
 
@@ -30,7 +31,7 @@ class ConsciousnessDriftDetector:
 
     def __init__(self, retention: int = 12) -> None:
         self.retention = retention
-        self._history: dict[str, collections.deque[DriftSnapshot]] = defaultdict(
+        self._history: dict[str, deque[DriftSnapshot]] = defaultdict(
             lambda: deque(maxlen=self.retention)
         )
         self._logger = logger
