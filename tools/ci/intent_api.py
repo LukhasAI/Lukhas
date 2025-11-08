@@ -19,11 +19,17 @@ Usage:
 """
 from __future__ import annotations
 
+import os
 import sqlite3
+import time
+from collections import defaultdict, deque
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from threading import Lock
+from typing import Deque, Dict
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi.security import APIKeyHeader
 from pydantic import BaseModel, Field
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -34,6 +40,64 @@ app = FastAPI(
     description="Query and manage T4 violation intents",
     version="2.0.0"
 )
+
+API_KEY_HEADER = APIKeyHeader(name="X-T4-API-KEY", auto_error=False)
+DEFAULT_ADMIN_TOKEN = "CHANGE_ME_ADMIN_TOKEN"
+ADMIN_TOKEN = os.environ.get("T4_ADMIN_TOKEN", DEFAULT_ADMIN_TOKEN)
+RATE_LIMIT_PER_MIN = int(os.environ.get("T4_INTENT_RATE_LIMIT_PER_MIN", "120"))
+ALLOWED_API_KEYS = {
+    key.strip() for key in os.environ.get("T4_INTENT_ALLOWED_KEYS", "").split(",") if key.strip()
+}
+_rate_state: Dict[str, Deque[float]] = defaultdict(deque)
+_rate_lock = Lock()
+
+
+def _is_valid_api_key(x_api_key: str) -> bool:
+    """Return whether the supplied API key is authorized."""
+    if ALLOWED_API_KEYS:
+        return x_api_key in ALLOWED_API_KEYS
+
+    conn = get_db_connection()
+    try:
+        cursor = conn.execute(
+            "SELECT 1 FROM api_keys WHERE key = ? AND revoked = 0",
+            (x_api_key,),
+        )
+        return cursor.fetchone() is not None
+    except sqlite3.OperationalError as exc:
+        raise HTTPException(status_code=503, detail="API key store not initialized") from exc
+    finally:
+        conn.close()
+
+
+def _enforce_rate_limit(x_api_key: str) -> None:
+    if RATE_LIMIT_PER_MIN <= 0:
+        return
+
+    now = time.time()
+    with _rate_lock:
+        dq = _rate_state[x_api_key]
+        cutoff = now - 60
+
+        while dq and dq[0] < cutoff:
+            dq.popleft()
+
+        dq.append(now)
+
+        if len(dq) > RATE_LIMIT_PER_MIN:
+            raise HTTPException(status_code=429, detail="Rate limit exceeded")
+
+
+def require_api_key(x_api_key: str = Depends(API_KEY_HEADER)) -> str:
+    """Validate the caller's API key and apply per-minute rate limiting."""
+    if not x_api_key:
+        raise HTTPException(status_code=401, detail="Missing X-T4-API-KEY header")
+
+    if not _is_valid_api_key(x_api_key):
+        raise HTTPException(status_code=403, detail="Invalid or revoked API key")
+
+    _enforce_rate_limit(x_api_key)
+    return x_api_key
 
 
 # Models
@@ -83,7 +147,7 @@ def dict_from_row(row: tuple, columns: list[str]) -> dict:
 
 # Endpoints
 @app.get("/metrics/summary", response_model=MetricsSummary)
-def get_metrics_summary():
+def get_metrics_summary(api_key: str = Depends(require_api_key)):
     """
     Get aggregate metrics for all intents.
 
@@ -157,7 +221,7 @@ def get_metrics_summary():
 
 
 @app.get("/intents/stale", response_model=list[Intent])
-def get_stale_intents(days: int = 30):
+def get_stale_intents(days: int = 30, api_key: str = Depends(require_api_key)):
     """
     List intents with status=planned or committed that are older than `days`.
 
@@ -188,7 +252,7 @@ def get_stale_intents(days: int = 30):
 
 
 @app.get("/intents/by_owner/{owner}", response_model=list[Intent])
-def get_intents_by_owner(owner: str):
+def get_intents_by_owner(owner: str, api_key: str = Depends(require_api_key)):
     """
     List all intents assigned to specific owner.
 
@@ -211,7 +275,7 @@ def get_intents_by_owner(owner: str):
 
 
 @app.get("/intents/{intent_id}", response_model=Intent)
-def get_intent(intent_id: str):
+def get_intent(intent_id: str, api_key: str = Depends(require_api_key)):
     """
     Get single intent by ID.
 
@@ -238,7 +302,7 @@ def get_intent(intent_id: str):
 
 
 @app.post("/intents", response_model=Intent, status_code=201)
-def create_intent(intent: Intent):
+def create_intent(intent: Intent, api_key: str = Depends(require_api_key)):
     """
     Create new intent in registry.
 
@@ -269,7 +333,7 @@ def create_intent(intent: Intent):
 
 
 @app.patch("/intents/{intent_id}", response_model=Intent)
-def update_intent(intent_id: str, update: IntentUpdate):
+def update_intent(intent_id: str, update: IntentUpdate, api_key: str = Depends(require_api_key)):
     """
     Update intent fields (status, owner, ticket, reason).
 
@@ -331,7 +395,11 @@ def update_intent(intent_id: str, update: IntentUpdate):
 
 
 @app.delete("/intents/{intent_id}", status_code=204)
-def delete_intent(intent_id: str):
+def delete_intent(
+    intent_id: str,
+    api_key: str = Depends(require_api_key),
+    admin_token: str | None = Header(default=None, alias="X-T4-ADMIN-TOKEN"),
+):
     """
     Delete intent from registry (admin only).
 
@@ -341,6 +409,12 @@ def delete_intent(intent_id: str):
     Returns:
       204 No Content
     """
+    if ADMIN_TOKEN == DEFAULT_ADMIN_TOKEN:
+        raise HTTPException(status_code=503, detail="Admin token not configured")
+
+    if admin_token != ADMIN_TOKEN:
+        raise HTTPException(status_code=403, detail="Admin token required")
+
     conn = get_db_connection()
     cursor = conn.cursor()
 
