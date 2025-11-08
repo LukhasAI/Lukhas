@@ -1,56 +1,67 @@
 
+import importlib
 import sys
-import pytest
-from unittest.mock import MagicMock, patch, call
-import numpy as np
 from datetime import datetime, timedelta, timezone
 from collections import defaultdict
 
-# Mock the modules that are not available in the test environment
-# This is necessary to be able to import the module under test
-mock_glyph = MagicMock()
-mock_glyph.EmotionVector = MagicMock()
-mock_glyph.Glyph = MagicMock()
-mock_glyph.GlyphFactory = MagicMock()
-mock_glyph.GlyphType = MagicMock()
-sys.modules['core.common.glyph'] = mock_glyph
+import numpy as np
+import pytest
+from unittest.mock import MagicMock, patch, call
 
-mock_glyphs = MagicMock()
-mock_glyphs.GLYPH_MAP = {
-    "☯": "balance",
-    "🪞": "reflection",
-    "🌪️": "chaos",
-    "🔁": "iteration",
-    "💡": "insight",
-    "🔗": "connection",
-    "🛡️": "protection",
-    "🌱": "growth",
-    "❓": "uncertainty",
-    "👁️": "awareness",
-}
-mock_glyphs.get_glyph_meaning = lambda x: mock_glyphs.GLYPH_MAP.get(x, "unknown")
-sys.modules['core.glyph.glyphs'] = mock_glyphs
 
-mock_memory_fold = MagicMock()
-mock_memory_fold.MemoryFoldConfig = MagicMock()
-mock_memory_fold.MemoryFoldSystem = MagicMock()
-sys.modules['memory.folds.memory_fold'] = mock_memory_fold
+@pytest.fixture(scope="module")
+def glyph_module():
+    """Load the glyph memory module with mocked dependencies scoped to this module."""
 
-# Now, we can import the module under test
-from core.glyph.glyph_memory_integration import (
-    GlyphBinding,
-    FoldLineage,
-    CompressionType,
-    GlyphMemoryIndex,
-    EmotionalFoldingEngine,
-    GlyphAffectCoupler,
-    DreamMemoryBridge,
-    GlyphMemorySystem,
-    get_glyph_memory_system,
-    create_glyph_memory,
-    recall_by_glyphs,
-    fold_recent_memories,
-)
+    original_module = sys.modules.get("core.glyph.glyph_memory_integration")
+
+    mock_glyph = MagicMock()
+    mock_glyph.EmotionVector = MagicMock()
+    mock_glyph.Glyph = MagicMock()
+    mock_glyph.GlyphFactory = MagicMock()
+    mock_glyph.GlyphType = MagicMock()
+
+    mock_glyphs = MagicMock()
+    mock_glyphs.GLYPH_MAP = {
+        "☯": "balance",
+        "🪞": "reflection",
+        "🌪️": "chaos",
+        "🔁": "iteration",
+        "💡": "insight",
+        "🔗": "connection",
+        "🛡️": "protection",
+        "🌱": "growth",
+        "❓": "uncertainty",
+        "👁️": "awareness",
+    }
+    mock_glyphs.get_glyph_meaning = lambda x: mock_glyphs.GLYPH_MAP.get(x, "unknown")
+
+    mock_memory_fold = MagicMock()
+    mock_memory_fold.MemoryFoldConfig = MagicMock()
+    mock_memory_fold.MemoryFoldSystem = MagicMock()
+
+    modules_to_patch = {
+        "core.common.glyph": mock_glyph,
+        "core.glyph.glyphs": mock_glyphs,
+        "memory.folds.memory_fold": mock_memory_fold,
+    }
+
+    with patch.dict(sys.modules, modules_to_patch):
+        module = importlib.import_module("core.glyph.glyph_memory_integration")
+        module = importlib.reload(module)
+
+    sys.modules["core.glyph.glyph_memory_integration"] = module
+
+    yield module
+
+    if original_module is not None:
+        sys.modules["core.glyph.glyph_memory_integration"] = original_module
+        try:
+            importlib.reload(original_module)
+        except Exception:
+            pass
+    else:
+        sys.modules.pop("core.glyph.glyph_memory_integration", None)
 
 # Test Data
 TEST_AFFECT_VECTOR_1 = np.array([0.1, 0.2, 0.3])
@@ -125,10 +136,10 @@ def mock_memory_system():
 class TestGlyphDataclasses:
     """Tests for the dataclasses."""
 
-    def test_glyph_binding(self):
+    def test_glyph_binding(self, glyph_module):
         """Test the GlyphBinding dataclass."""
         ts = datetime.utcnow()
-        binding = GlyphBinding(
+        binding = glyph_module.GlyphBinding(
             glyph="💡",
             fold_key="fold1",
             affect_vector=TEST_AFFECT_VECTOR_1,
@@ -143,10 +154,10 @@ class TestGlyphDataclasses:
         assert binding.created_at == ts
         assert binding.metadata == {"source": "test"}
 
-    def test_fold_lineage(self):
+    def test_fold_lineage(self, glyph_module):
         """Test the FoldLineage dataclass."""
         ts = datetime.utcnow()
-        lineage = FoldLineage(
+        lineage = glyph_module.FoldLineage(
             fold_key="fold_new",
             parent_key="fold1",
             emotion_delta=TEST_AFFECT_VECTOR_2,
@@ -168,8 +179,8 @@ class TestGlyphMemoryIndex:
     """Tests for the GlyphMemoryIndex class."""
 
     @pytest.fixture
-    def index(self):
-        return GlyphMemoryIndex()
+    def index(self, glyph_module):
+        return glyph_module.GlyphMemoryIndex()
 
     def test_init(self, index):
         assert isinstance(index.glyph_to_folds, defaultdict)
@@ -236,8 +247,8 @@ class TestEmotionalFoldingEngine:
     """Tests for the EmotionalFoldingEngine class."""
 
     @pytest.fixture
-    def engine(self, mock_memory_system):
-        return EmotionalFoldingEngine(mock_memory_system)
+    def engine(self, glyph_module, mock_memory_system):
+        return glyph_module.EmotionalFoldingEngine(mock_memory_system)
 
     def test_identify_foldable_memories(self, engine):
         groups = engine.identify_foldable_memories()
@@ -266,21 +277,27 @@ class TestEmotionalFoldingEngine:
         ]
         assert engine.fold_memory_group(group_no_emotion) is None
 
-    def test_compression_types(self, engine):
+    def test_compression_types(self, glyph_module, engine):
         group = [TEST_MEMORY_FOLD_1, TEST_MEMORY_FOLD_2]
 
         # CONSOLIDATION (default)
-        engine.fold_memory_group(group, compression_type=CompressionType.CONSOLIDATION)
+        engine.fold_memory_group(
+            group, compression_type=glyph_module.CompressionType.CONSOLIDATION
+        )
         call_args = engine.memory_system.create_memory_fold.call_args
         assert "Consolidated themes" in call_args[1]["context_snippet"]
 
         # ABSTRACTION
-        engine.fold_memory_group(group, compression_type=CompressionType.ABSTRACTION)
+        engine.fold_memory_group(
+            group, compression_type=glyph_module.CompressionType.ABSTRACTION
+        )
         call_args = engine.memory_system.create_memory_fold.call_args
         assert "Pattern abstraction" in call_args[1]["context_snippet"]
 
         # SYNTHESIS
-        engine.fold_memory_group(group, compression_type=CompressionType.SYNTHESIS)
+        engine.fold_memory_group(
+            group, compression_type=glyph_module.CompressionType.SYNTHESIS
+        )
         call_args = engine.memory_system.create_memory_fold.call_args
         assert "Synthesized insight" in call_args[1]["context_snippet"]
 
@@ -289,9 +306,9 @@ class TestGlyphAffectCoupler:
     """Tests for the GlyphAffectCoupler class."""
 
     @pytest.fixture
-    def coupler(self, mock_memory_system):
-        index = GlyphMemoryIndex()
-        return GlyphAffectCoupler(mock_memory_system, index)
+    def coupler(self, glyph_module, mock_memory_system):
+        index = glyph_module.GlyphMemoryIndex()
+        return glyph_module.GlyphAffectCoupler(mock_memory_system, index)
 
     def test_init(self, coupler):
         assert "💡" in coupler.glyph_affect_map
@@ -336,10 +353,10 @@ class TestDreamMemoryBridge:
     """Tests for the DreamMemoryBridge class."""
 
     @pytest.fixture
-    def bridge(self, mock_memory_system):
-        index = GlyphMemoryIndex()
-        engine = EmotionalFoldingEngine(mock_memory_system)
-        return DreamMemoryBridge(mock_memory_system, index, engine)
+    def bridge(self, glyph_module, mock_memory_system):
+        index = glyph_module.GlyphMemoryIndex()
+        engine = glyph_module.EmotionalFoldingEngine(mock_memory_system)
+        return glyph_module.DreamMemoryBridge(mock_memory_system, index, engine)
 
     def test_process_dream_state(self, bridge):
         dream_data = {
@@ -371,7 +388,7 @@ class TestGlyphMemorySystem:
     """Tests for the main GlyphMemorySystem integration class."""
 
     @pytest.fixture
-    def system(self):
+    def system(self, glyph_module):
         # Use patch to mock the dependent systems within the constructor
         with patch(
             "core.glyph.glyph_memory_integration.MemoryFoldSystem"
@@ -385,7 +402,7 @@ class TestGlyphMemorySystem:
             "core.glyph.glyph_memory_integration.DreamMemoryBridge"
         ) as MockBridge:
             # Re-initialize the system to use the mocks
-            glyph_system = GlyphMemorySystem(memory_fold_config={})
+            glyph_system = glyph_module.GlyphMemorySystem(memory_fold_config={})
             yield glyph_system
 
     def test_create_glyph_indexed_memory(self, system):
@@ -454,28 +471,30 @@ class TestConvenienceFunctions:
     """Tests for the global convenience functions."""
 
     @patch("core.glyph.glyph_memory_integration.GlyphMemorySystem")
-    def test_convenience_functions_call_system(self, MockGlyphSystem):
+    def test_convenience_functions_call_system(
+        self, MockGlyphSystem, glyph_module
+    ):
         # This ensures that get_glyph_memory_system is fresh for the test
         with patch("core.glyph.glyph_memory_integration._global_glyph_system", None):
             mock_instance = MockGlyphSystem.return_value
 
-            create_glyph_memory("joy", "context", ["💡"])
+            glyph_module.create_glyph_memory("joy", "context", ["💡"])
             mock_instance.create_glyph_indexed_memory.assert_called_with(
                 "joy", "context", ["💡"], None
             )
 
-            recall_by_glyphs(["💡"])
+            glyph_module.recall_by_glyphs(["💡"])
             mock_instance.recall_by_glyph_pattern.assert_called_with(
                 ["💡"], "any", user_tier=5, limit=50
             )
 
-            fold_recent_memories(hours=12)
+            glyph_module.fold_recent_memories(hours=12)
             mock_instance.perform_temporal_folding.assert_called_with(
                 time_window=timedelta(hours=12)
             )
 
-    def test_get_glyph_memory_system_singleton(self):
+    def test_get_glyph_memory_system_singleton(self, glyph_module):
         with patch("core.glyph.glyph_memory_integration._global_glyph_system", None):
-            system1 = get_glyph_memory_system()
-            system2 = get_glyph_memory_system()
+            system1 = glyph_module.get_glyph_memory_system()
+            system2 = glyph_module.get_glyph_memory_system()
             assert system1 is system2
