@@ -598,12 +598,22 @@ def verify_identity_token(
     # Verify tier if specified
     if result.valid and required_tier and result.claims:
         tier_order = ["alpha", "beta", "gamma", "delta"]
-        user_tier_idx = tier_order.index(result.claims.identity_tier) if result.claims.identity_tier in tier_order else -1
-        required_tier_idx = tier_order.index(required_tier) if required_tier in tier_order else -1
 
-        if user_tier_idx > required_tier_idx:
+        identity_tier = result.claims.identity_tier
+        user_tier_idx = (
+            tier_order.index(identity_tier) if identity_tier in tier_order else -1
+        )
+        required_tier_idx = (
+            tier_order.index(required_tier) if required_tier in tier_order else -1
+        )
+
+        # Unknown tiers should never satisfy a required tier. Treat both unknown
+        # user tiers and unknown required tiers as insufficient.
+        if required_tier_idx == -1 or user_tier_idx == -1 or user_tier_idx > required_tier_idx:
             result.valid = False
-            result.error = f"Insufficient identity tier: required {required_tier}, got {result.claims.identity_tier}"
+            result.error = (
+                f"Insufficient identity tier: required {required_tier}, got {identity_tier}"
+            )
             result.error_code = "INSUFFICIENT_TIER"
 
     return result

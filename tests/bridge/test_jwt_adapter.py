@@ -517,6 +517,26 @@ def test_jwt_lambda_id_tier_validation_correct_logic(hs256_adapter):
 
 
 @pytest.mark.unit
+def test_jwt_lambda_id_unknown_tier_rejected(hs256_adapter):
+    """Tokens with unknown tiers should not satisfy tier requirements."""
+    token = create_identity_token(
+        adapter=hs256_adapter,
+        lambda_id="Λ_unknown_user123",
+        identity_tier="omega",
+    )
+
+    result = verify_identity_token(
+        adapter=hs256_adapter,
+        token=token,
+        required_tier="beta",
+    )
+
+    assert result.valid is False
+    assert result.error_code == "INSUFFICIENT_TIER"
+    assert "Insufficient identity tier" in result.error
+
+
+@pytest.mark.unit
 def test_jwt_lambda_id_tier_access_control(hs256_adapter):
     """Test tier-based access control."""
     tiers = ["alpha", "beta", "gamma", "delta"]
