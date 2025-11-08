@@ -1,5 +1,8 @@
 # Orchestration Module
 
+**Last Updated**: 2025-11-08
+
+
 The Orchestration module is the heart of the LUKHAS AI system, responsible for coordinating complex workflows, managing communication between subsystems, and ensuring resilient, intelligent behavior. It is designed to handle everything from fine-grained asynchronous pipelines to high-level hybrid AI decision-making.
 
 ## Architecture

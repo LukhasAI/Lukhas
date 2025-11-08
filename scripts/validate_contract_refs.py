@@ -13,6 +13,7 @@ import pathlib
 import re
 import sys
 from difflib import get_close_matches
+from typing import Set
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MANIFESTS = [m for m in ROOT.rglob("module.manifest.json") if ".archive" not in str(m)]

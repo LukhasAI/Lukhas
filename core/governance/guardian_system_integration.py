@@ -33,13 +33,11 @@ Integrates with Constellation Framework, orchestration layer, and all LUKHAS age
 import asyncio
 import importlib as _importlib
 import logging
-import os
 import time
 import uuid
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from pathlib import Path
 from typing import Any, Callable, Optional
 
 # Guardian System Components
@@ -90,25 +88,6 @@ except ImportError:
     logging.warning("GlyphEngine not available - Constellation integration limited")
 
 logger = logging.getLogger(__name__)
-
-
-def check_emergency_killswitch() -> bool:
-    """
-    Check if emergency Guardian kill-switch is activated.
-    Returns True if Guardian should be disabled (emergency mode).
-    """
-    # Check file-based flag (no DB dependency for emergencies)
-    killswitch_path = Path("/tmp/guardian_emergency_disable")
-    if killswitch_path.exists():
-        logger.critical("GUARDIAN EMERGENCY KILL-SWITCH ACTIVATED")
-        return True
-
-    # Check environment variable fallback
-    if os.getenv("GUARDIAN_EMERGENCY_DISABLE") == "1":
-        logger.critical("GUARDIAN EMERGENCY KILL-SWITCH ACTIVATED (ENV)")
-        return True
-
-    return False
 
 
 class GuardianStatus(Enum):
@@ -278,13 +257,6 @@ class GuardianSystemIntegration:
         self.guardian_id = f"guardian_{uuid.uuid4().hex[:8]}"
         self.startup_time = datetime.now(timezone.utc)
 
-        # Ethics DSL Enforcement Flag
-        self.enforce_ethics_dsl = self.config.get("ENFORCE_ETHICS_DSL", 1) == 1
-        if self.enforce_ethics_dsl:
-            logger.info("Ethics DSL Enforcement is ACTIVE.")
-        else:
-            logger.warning("Ethics DSL Enforcement is OFF.")
-
         # System status
         self.status = GuardianStatus.MAINTENANCE
         self.metrics = GuardianSystemMetrics()
@@ -305,9 +277,12 @@ class GuardianSystemIntegration:
         # Alert system
         self.alert_handlers: dict[GuardianAlertLevel, list[Callable]] = {level: [] for level in GuardianAlertLevel}
 
-        logger.info(f"🛡️ Guardian System Integration Hub created: {self.guardian_id}")
+        # Initialize system
+        asyncio.create_task(self._initialize_guardian_system())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_integration_py_L281"}
 
-    async def initialize(self):
+        logger.info(f"🛡️ Guardian System Integration Hub initializing: {self.guardian_id}")
+
+    async def _initialize_guardian_system(self):
         """Initialize all Guardian System components"""
 
         try:
@@ -317,7 +292,7 @@ class GuardianSystemIntegration:
             if ConsentLedgerV1:
                 self.consent_ledger = ConsentLedgerV1(
                     db_path=self.config.get("consent_db_path", "candidate/governance/consent_ledger.db"),
-                    enable_trinity_validation=True,
+                    enable_constellation_validation=True,
                 )
                 logger.info("✅ Consent Ledger initialized")
 
@@ -406,12 +381,6 @@ class GuardianSystemIntegration:
         )
 
         try:
-            # Check for emergency kill-switch
-            if check_emergency_killswitch():
-                response.result = ValidationResult.EMERGENCY_STOP
-                response.reasoning = "Emergency kill-switch is active."
-                return response
-
             # Check system health
             if self.status != GuardianStatus.ACTIVE:
                 response.result = ValidationResult.EMERGENCY_STOP
@@ -435,7 +404,7 @@ class GuardianSystemIntegration:
                 validation_tasks.append(("drift", self._validate_drift(request)))
 
             # Ethics evaluation
-            if request.require_ethics_check and self.ethics_engine and self.enforce_ethics_dsl:
+            if request.require_ethics_check and self.ethics_engine:
                 component_start_times["ethics"] = time.time()
                 validation_tasks.append(("ethics", self._validate_ethics(request)))
 
@@ -1291,7 +1260,7 @@ async def validate_ai_action(
 
     if not guardian_system:
         guardian_system = GuardianSystemIntegration()
-        await guardian_system.initialize()
+        await asyncio.sleep(2)  # Allow initialization
 
     request = GuardianValidationRequest(
         request_id=f"req_{uuid.uuid4().hex[:8]}",
