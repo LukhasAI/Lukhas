@@ -39,6 +39,13 @@ LUKHAS docs module implementing specialized docs functionality with 0 components
 
 **Getting Started**: LUKHAS docs module implementing specialized docs functionality with 0 components for integrated system operations. This module integrates with the LUKHAS system to provide essential functionality.
 
+## ⚖️ Ethics & Governance
+
+LUKHAS AI operates under strict ethical guidelines:
+- [Ethics Disclosure](governance/ETHICS_DISCLOSURE.md)
+- [Guardian System](governance/GUARDIAN_SYSTEM.md)
+- [Responsible Usage](guides/SAFE_AI_USAGE.md)
+
 
 ### Installation
 
