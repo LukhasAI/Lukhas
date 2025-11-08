@@ -21,6 +21,7 @@
 .PHONY: lint-json lint-fix lint-delta f401-tests import-map imports-abs imports-graph ruff-heatmap ruff-ratchet f821-suggest f706-detect f811-detect todos todos-issues codemod-dry codemod-apply check-legacy-imports
 .PHONY: state-sweep shadow-diff plan-colony-renames integration-manifest
 .PHONY: t4-init t4-migrate t4-migrate-dry t4-validate t4-dashboard t4-api t4-parallel t4-parallel-dry t4-codemod-dry t4-codemod-apply
+.PHONY: events-validate
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1884,6 +1885,14 @@ t4-codemod-apply: ## Apply codemod with backup
 	@echo "🔧 Applying codemod (FixB904)..."
 	@python3 tools/ci/codemods/run_codemod.py --transformer FixB904 --paths lukhas core --backup
 	@echo "✅ Codemod complete! Backups: *.bak"
+
+# ============================================================================
+# Analytics Event Validation
+# ============================================================================
+
+events-validate: ## Validate event tracking implementation
+	@echo "✅ Validating event taxonomy..."
+	@python3 tools/validate_events.py
 
 # ============================================================================
 # Claude Code PR Review Integration
