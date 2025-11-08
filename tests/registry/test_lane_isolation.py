@@ -261,7 +261,7 @@ class TestLaneIsolationEnforcement:
 
                 # Mock the discovery process to respect lane isolation
                 with patch('core.registry._register_kind') as mock_register_kind:
-                    def lane_aware_register(group, name, obj):
+                    def lane_aware_register(group, name, obj, lane_name=lane_name):
                         # Only register if plugin is allowed in current lane
                         if self.isolation_manager.is_plugin_allowed_in_lane(group, lane_name):
                             lane_key = self.isolation_manager.get_lane_specific_registry_key(

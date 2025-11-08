@@ -73,7 +73,7 @@ def main():
         content = evidence_file.read_text(encoding='utf-8')
 
         # Find the pages_using_claim field and replace it
-        def replace_pages_using_claim(match):
+        def replace_pages_using_claim(match, pages=pages):
             new_section = "pages_using_claim:\n"
             for page in sorted(pages, key=lambda x: x['file']):
                 # Use relative path from evidence page to branding page

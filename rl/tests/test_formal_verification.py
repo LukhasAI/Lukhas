@@ -26,7 +26,7 @@ from typing import Any, Optional
 import pytest
 
 try:
-    from z3 import *  # noqa: F403 - Z3 solver types (Real, Int, Solver, etc.)
+    from z3 import And, Int, Not, Or, Real, Solver, sat, unsat
 
     Z3_AVAILABLE = True
 except ImportError:
