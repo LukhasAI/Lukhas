@@ -1,6 +1,11 @@
 ---
 domain: lukhas.eu
 title: "Compliance Dashboard - Regulatory Transparency and Certification"
+evidence_links:
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/guardian-compliance-997pct.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'
 page_type: compliance
 updated: 2025-11-05
 status: ready-for-implementation

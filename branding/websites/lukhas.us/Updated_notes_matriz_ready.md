@@ -14,7 +14,9 @@ seo:
     - "US market readiness"
 last_reviewed: "2025-11-08"
 keywords: "MATRIZ US compliance, American AI regulations, explainable AI USA, transparent AI audits, US market readiness"
----
+evidence_links:
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/experimental-design-95pct.md'---
 # 🇺🇸 LUKHAS.US - MATRIZ Readiness Notes
 ## Minimal Updates Required for American Market Focus
 

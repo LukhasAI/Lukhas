@@ -10,8 +10,14 @@ tone:
 canonical: https://lukhas.eu/research/constitutional-validation-production-ai
 source: "branding/websites/lukhas.eu/research/constitutional-validation-production-ai.md"
 evidence_links:
-  - "release_artifacts/guardian-compliance-2025-Q3.pdf"
-  - "release_artifacts/drift-detection-validation.json"
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/constitutional-validation-12ms.md'
+  - 'release_artifacts/evidence/constitutional-validation-15ms.md'
+  - 'release_artifacts/evidence/constitutional-validation-8ms.md'
+  - 'release_artifacts/evidence/guardian-compliance-997pct.md'
+  - 'release_artifacts/evidence/privacy-compliance-999pct.md'
+  - 'release_artifacts/evidence/user-satisfaction-94pct.md'
+  - 'release_artifacts/evidence/validated-production-deployment-eu.md'
 claims_verified_by: ["@web-architect", "@legal"]
 claims_verified_date: "2025-11-05"
 claims_approval: true
