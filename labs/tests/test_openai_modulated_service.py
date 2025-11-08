@@ -51,6 +51,8 @@ def vector_store_config():
         provider=VectorStoreProvider.CHROMA,
         endpoint="http://localhost:8000",
         index_name="test-index",
+        dimension=1024,
+        api_key="test-token",
     )
 
 @pytest.fixture
@@ -86,10 +88,12 @@ async def test_vector_store_adapter_initialization(vector_store_config, stub_chr
         settings = call_args.args[0]
         assert settings.kwargs["chroma_server_host"] == "localhost"
         assert settings.kwargs["chroma_server_http_port"] == 8000
+        assert settings.kwargs["chroma_server_headers"] == {"Authorization": "Bearer test-token"}
 
         mock_chroma_client.return_value.get_or_create_collection.assert_called_with(
             name="test-index",
-            metadata={"hnsw:space": "cosine"}
+            metadata={"hnsw:space": "cosine"},
+            dimension=1024,
         )
     assert adapter._initialized
 

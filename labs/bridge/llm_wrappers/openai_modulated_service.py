@@ -261,10 +261,16 @@ class VectorStoreAdapter:
                 settings_kwargs = {
                     "chroma_api_impl": "rest",
                     "chroma_server_host": parsed.hostname or "localhost",
-                    "chroma_server_http_port": parsed.port or (443 if parsed.scheme == "https" else 80),
+                    "chroma_server_http_port": parsed.port or (
+                        443 if parsed.scheme == "https" else 80
+                    ),
                 }
                 if parsed.scheme == "https":
                     settings_kwargs["chroma_server_ssl_enabled"] = True
+                if self.config.api_key:
+                    settings_kwargs["chroma_server_headers"] = {
+                        "Authorization": f"Bearer {self.config.api_key}"
+                    }
                 self._client = chromadb.Client(Settings(**settings_kwargs))
             elif endpoint:
                 if hasattr(chromadb, "PersistentClient"):
@@ -285,7 +291,8 @@ class VectorStoreAdapter:
             # Create or get collection - this ensures the collection exists
             self._client.get_or_create_collection(
                 name=self.config.index_name,
-                metadata={"hnsw:space": self.config.metric}
+                metadata={"hnsw:space": self.config.metric},
+                dimension=self.config.dimension,
             )
             logger.info(f"ChromaDB collection '{self.config.index_name}' ensured.")
 
