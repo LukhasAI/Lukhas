@@ -3,6 +3,17 @@ title: "LUKHAS Web Architecture — Summary"
 owner: "@gonzalo"
 audience: "all"
 updated: "2025-11-05"
+canonical: https://lukhas.ai/architecture/summary
+seo:
+  description: "LUKHAS ecosystem architecture summary - Trinity Framework, 8-star Constellation, MATRIZ cognitive DNA, and distributed consciousness platform overview."
+  keywords:
+    - "LUKHAS architecture"
+    - "Trinity Framework"
+    - "Constellation Framework"
+    - "MATRIZ engine"
+    - "consciousness platform overview"
+last_reviewed: "2025-11-08"
+keywords: "LUKHAS architecture, Trinity Framework, Constellation Framework, MATRIZ engine, consciousness platform overview"
 ---
 
 # LUKHAS Web Architecture — Quick Summary

@@ -1,6 +1,17 @@
 ---
 status: wip
 type: documentation
+canonical: https://lukhas.com
+seo:
+  description: "LUKHAS corporate gateway - enterprise consciousness technology with Guardian-first protection, trusted partnerships, and AI you can stake your business on."
+  keywords:
+    - "enterprise AI platform"
+    - "corporate consciousness"
+    - "business AI"
+    - "trusted AI technology"
+    - "enterprise consciousness solutions"
+last_reviewed: "2025-11-08"
+keywords: "enterprise AI platform, corporate consciousness, business AI, trusted AI technology, enterprise consciousness solutions"
 ---
 # 🛡️ LUKHAS.COM - Homepage Content
 ## The Guardian Hub - Corporate Gateway Narrative

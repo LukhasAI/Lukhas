@@ -1,6 +1,17 @@
 ---
 status: wip
 type: documentation
+canonical: https://lukhas.com/architecture
+seo:
+  description: "LUKHAS.COM enterprise architecture - Guardian Hub for corporate consciousness technology with business-grade security, compliance, and professional excellence."
+  keywords:
+    - "enterprise AI"
+    - "corporate consciousness"
+    - "business AI solutions"
+    - "Guardian Hub"
+    - "enterprise consciousness technology"
+last_reviewed: "2025-11-08"
+keywords: "enterprise AI, corporate consciousness, business AI solutions, Guardian Hub, enterprise consciousness technology"
 ---
 # 🛡️ LUKHAS.COM - The Guardian Hub
 ## Website Architecture & Corporate Strategy

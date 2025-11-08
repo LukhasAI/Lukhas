@@ -7,6 +7,17 @@ status: ready-for-implementation
 purpose: "Facilitate organizations integrating LUKHAS into EU grant applications"
 tone_flow: 45-user-friendly_45-academic-research_10-poetic
 target_audience: "Grant coordinators, principal investigators, consortium builders"
+canonical: https://lukhas.eu/grant-support
+seo:
+  description: "Horizon Europe grant support - MATRIZ performance evidence, TRL documentation, compliance mapping, and consortium partnership frameworks for successful EU applications."
+  keywords:
+    - "Horizon Europe grants"
+    - "EU research funding"
+    - "MATRIZ grant support"
+    - "research consortium partnerships"
+    - "European AI grants"
+last_reviewed: "2025-11-08"
+keywords: "Horizon Europe grants, EU research funding, MATRIZ grant support, research consortium partnerships, European AI grants"
 ---
 
 # Grant Support Hub: Partnering for Horizon Europe Success

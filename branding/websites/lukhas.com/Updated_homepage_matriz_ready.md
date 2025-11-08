@@ -3,6 +3,17 @@ status: ready-for-review
 type: documentation
 updated: 2025-11-05
 rollout_status: matriz-ready
+canonical: https://lukhas.com/v2
+seo:
+  description: "MATRIZ-powered enterprise AI - audit-ready consciousness with complete reasoning transparency, 99.7% ethical compliance, and explainability that passes regulatory audits."
+  keywords:
+    - "MATRIZ enterprise"
+    - "explainable AI"
+    - "audit-ready AI"
+    - "constitutional AI"
+    - "transparent enterprise intelligence"
+last_reviewed: "2025-11-08"
+keywords: "MATRIZ enterprise, explainable AI, audit-ready AI, constitutional AI, transparent enterprise intelligence"
 ---
 # 🛡️ LUKHAS.COM - Homepage Content (MATRIZ Rollout Edition)
 ## The Guardian Hub - Transparent AI for Enterprise

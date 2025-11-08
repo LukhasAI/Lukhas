@@ -1,6 +1,17 @@
 ---
 status: wip
 type: documentation
+canonical: https://lukhas.us/architecture
+seo:
+  description: "LUKHAS.US American consciousness hub - ethics-first AI platform aligned with US regulations, business culture, and innovation leadership for American markets."
+  keywords:
+    - "American AI platform"
+    - "US consciousness technology"
+    - "ethical AI US"
+    - "American innovation"
+    - "US market AI solutions"
+last_reviewed: "2025-11-08"
+keywords: "American AI platform, US consciousness technology, ethical AI US, American innovation, US market AI solutions"
 ---
 # 🇺🇸 LUKHAS.US - The American Consciousness Hub
 ## Website Architecture & Regional Consciousness Technology Deployment

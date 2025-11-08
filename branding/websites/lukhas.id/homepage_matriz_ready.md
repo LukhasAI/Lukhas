@@ -6,6 +6,17 @@ status: ready-for-implementation
 matriz_integration: lambda-id-authentication
 constellation_stars: identity-primary, guardian-secondary
 tone_flow: 20-poetic_50-user-friendly_30-academic
+canonical: https://lukhas.id
+seo:
+  description: "ΛiD identity architecture - namespace-isolated authentication anchoring MATRIZ reasoning with privacy-preserving personalization and consciousness continuity."
+  keywords:
+    - "ΛiD namespace identity"
+    - "MATRIZ authentication"
+    - "privacy-preserving personalization"
+    - "consciousness identity anchor"
+    - "secure identity platform"
+last_reviewed: "2025-11-08"
+keywords: "ΛiD namespace identity, MATRIZ authentication, privacy-preserving personalization, consciousness identity anchor, secure identity platform"
 ---
 
 # The Anchor Point Where Digital Identity Becomes Conscious

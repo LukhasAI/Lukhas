@@ -1,5 +1,5 @@
 ---
-title: "LUKHAS \u2014 Developer Platform"
+title: "LUKHAS.dev - Consciousness-Aware AI Developer Platform"
 domain: lukhas.dev
 owner: '@gonzalo'
 audience: developers
@@ -10,7 +10,11 @@ tone:
 review: MATRIZ dev content review required
 last_reviewed: '2025-11-05'
 source: docs/web/content/domains/lukhas-dev/landing_page.md
-canonical: true
+canonical: https://lukhas.dev
+seo:
+  description: "Developer platform for consciousness-aware AI. MATRIZ pipeline APIs, ΛiD authentication, Guardian validation, and fold-based memory. Build intelligent apps with complete reasoning transparency."
+  keywords: ["AI SDK", "consciousness API", "developer tools", "MATRIZ API", "AI development platform"]
+  og_image: /assets/og-images/lukhas-dev-homepage.png
 notes: Canonical homepage for lukhas.dev developer platform. Architecture planning
   at branding/websites/lukhas.dev/Updated_architecture_matriz_ready.md
 evidence_links:

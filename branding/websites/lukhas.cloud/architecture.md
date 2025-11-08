@@ -1,6 +1,17 @@
 ---
 status: wip
 type: documentation
+canonical: https://lukhas.cloud/architecture
+seo:
+  description: "LUKHAS.CLOUD infrastructure - infinite canvas for scalable consciousness deployment with Memory-powered persistence and adaptive cloud architecture."
+  keywords:
+    - "cloud consciousness"
+    - "scalable AI infrastructure"
+    - "consciousness cloud platform"
+    - "distributed AI"
+    - "cloud deployment"
+last_reviewed: "2025-11-08"
+keywords: "cloud consciousness, scalable AI infrastructure, consciousness cloud platform, distributed AI, cloud deployment"
 ---
 # ☁️ LUKHAS.CLOUD - The Infinite Canvas
 ## Website Architecture & Scalable Consciousness Infrastructure
