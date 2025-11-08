@@ -21,7 +21,6 @@ from typing import Any, Optional
 
 try:
     from prometheus_client import (
-        CONTENT_TYPE_LATEST,  # TODO: prometheus_client.CONTENT_TYPE...
         CollectorRegistry,
         Counter,
         Gauge,

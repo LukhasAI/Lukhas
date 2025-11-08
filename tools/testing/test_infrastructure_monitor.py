@@ -296,8 +296,10 @@ class TestInfrastructureMonitor:
     def _check_dependencies(self) -> bool:
         """Check if test dependencies are available"""
         try:
-            import coverage  # TODO: coverage; consider using impor...
-            import pytest  # TODO: pytest; consider using importl...
+            # Check pytest availability using importlib
+            import importlib.util
+            if importlib.util.find_spec('pytest') is None:
+                self.logger.warning('pytest not available')
             return True
         except ImportError:
             return False
