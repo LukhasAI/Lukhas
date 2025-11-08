@@ -116,10 +116,11 @@ Total reduction:        343 errors (43.9%)
 
 ## Batch 2D-Beta Infrastructure
 
-While Batch 2D-Beta found no transformable patterns, comprehensive infrastructure was created for future use:
+While Batch 2D-Beta found no applicable patterns (feature flag design is already optimal), comprehensive infrastructure was created:
 
-### LibCST Codemod (`tools/ci/codemods/convert_try_except_imports.py`)
-- **Purpose**: Conservative AST transformation for try-except ImportError patterns
+### LibCST Codemod #1: Single Imports (`tools/ci/codemods/convert_try_except_imports.py`)
+- **Purpose**: Conservative AST transformation for single-import try-except ImportError patterns
+- **Size**: 207 lines
 - **Features**:
   - Only processes top 120 lines (import region)
   - Only handles simple single-import patterns
@@ -142,6 +143,37 @@ if importlib.util.find_spec("optional_module"):
 else:
     optional_module = None
 ```
+
+### LibCST Codemod #2: Multi Imports (`tools/ci/codemods/convert_multi_try_imports.py`)
+- **Purpose**: Enhanced AST transformation for multi-import try-except ImportError patterns
+- **Size**: 293 lines
+- **Features**:
+  - Handles both `from module import a, b` and `import a, b` patterns
+  - Processes top 140 lines (extended import region)
+  - Converts multi-import blocks to individual find_spec checks
+  - Automatic `importlib.util` import injection
+  - Dry-run mode with git-style diffs
+  - Conservative matching (only simple assignment patterns)
+
+**Pattern transformation**:
+```python
+# Before:
+try:
+    from fastapi import HTTPException, Request
+except ImportError:
+    HTTPException = None
+    Request = None
+
+# After:
+import importlib.util
+if importlib.util.find_spec("fastapi"):
+    from fastapi import HTTPException, Request
+else:
+    HTTPException = None
+    Request = None
+```
+
+**Note**: This enhanced codemod expects `NAME = None` assignments in except block, NOT feature flags like `MODULE_AVAILABLE = False`.
 
 ### Runner Script (`scripts/t4_batch2d_beta_runner.sh`)
 - **Purpose**: Orchestrate codemod execution with safety features
@@ -312,9 +344,10 @@ Net:        326 errors reduced (41.7% net reduction)
 - trace_logs/tests/test_trace_logs_integration.py
 - trace_logs/tests/test_trace_logs_unit.py
 
-### Added (2)
-- scripts/t4_batch2d_beta_runner.sh
-- tools/ci/codemods/convert_try_except_imports.py
+### Added (3)
+- scripts/t4_batch2d_beta_runner.sh (190 lines)
+- tools/ci/codemods/convert_try_except_imports.py (207 lines)
+- tools/ci/codemods/convert_multi_try_imports.py (293 lines)
 
 ### Deferred (1)
 - scripts/activate_consciousness.py (manual review required)
