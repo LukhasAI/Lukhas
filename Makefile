@@ -21,6 +21,7 @@
 .PHONY: lint-json lint-fix lint-delta f401-tests import-map imports-abs imports-graph ruff-heatmap ruff-ratchet f821-suggest f706-detect f811-detect todos todos-issues codemod-dry codemod-apply check-legacy-imports
 .PHONY: state-sweep shadow-diff plan-colony-renames integration-manifest
 .PHONY: t4-init t4-migrate t4-migrate-dry t4-validate t4-dashboard t4-api t4-parallel t4-parallel-dry t4-codemod-dry t4-codemod-apply
+.PHONY: claims-registry claims-validate claims-strict
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1895,3 +1896,16 @@ claude-review: ## Request Claude Code review for current PR
 claude-setup-docs: ## Open Claude PR review setup documentation
 	@echo "📖 Claude Code PR Review Setup Guide"
 	@echo "Location: docs/development/CLAUDE_PR_REVIEW_SETUP.md"
+
+# ============================================================================
+# Claims Governance
+# ============================================================================
+
+claims-registry: ## Generate claims registry from branding content
+	python3 tools/generate_claims_registry.py
+
+claims-validate: ## Validate all claims have evidence (warnings allowed)
+	python3 tools/validate_claims.py
+
+claims-strict: ## Validate all claims (strict mode - fail on warnings)
+	python3 tools/validate_claims.py --strict
