@@ -1353,6 +1353,39 @@ Response:
 }
 ```
 
+## Ethics & Safety Endpoints
+
+### Appeal Guardian Decision
+```http
+POST /v1/guardian/appeal
+Content-Type: application/json
+
+{
+  "decision_id": "dec_abc123",
+  "justification": "The decision to block this content was incorrect because it is for educational purposes and does not pose a real-world risk."
+}
+
+Response: 202 Accepted
+{
+  "appeal_id": "appeal_xyz789",
+  "status": "pending_review",
+  "message": "Your appeal has been submitted and will be reviewed."
+}
+```
+
+### Get Decision Explanation
+```http
+GET /v1/explain/dec_abc123
+
+Response: 200 OK
+{
+  "decision_id": "dec_abc123",
+  "policy_triggered": "prevent_harmful_content",
+  "explanation": "The Guardian system blocked this request because the content was classified as potentially harmful. The decision can be appealed if you believe it was made in error.",
+  "timestamp": "2025-11-08T10:30:00.123Z"
+}
+```
+
 ## GLYPH Token Format
 
 GLYPH tokens are the symbolic communication units used internally by LUKHAS .
