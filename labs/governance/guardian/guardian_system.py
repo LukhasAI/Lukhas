@@ -156,6 +156,13 @@ class GuardianAgent:
     operational_since: datetime = field(default_factory=datetime.now)
     restart_count: int = 0
 
+    def __post_init__(self):
+        # Ensure datetimes are timezone-aware after initialization
+        if self.last_heartbeat.tzinfo is None:
+            self.last_heartbeat = self.last_heartbeat.replace(tzinfo=timezone.utc)
+        if self.operational_since.tzinfo is None:
+            self.operational_since = self.operational_since.replace(tzinfo=timezone.utc)
+
     # Constellation Framework integration
     identity_binding: Optional[str] = None  # ⚛️ Identity context
     consciousness_level: str = "standard"  # 🧠 Consciousness level
@@ -458,7 +465,7 @@ class EnhancedGuardianSystem:
             for action in actions:
                 result = await self._execute_response_action(action, threat, agent, response)
                 execution_results.append(result)
-                response.audit_trail.append(f"Executed {action.value}: {result['status']}")
+                response.audit_trail.append(f"Executed {action.value}: {'success' if result.get('success') else 'failure'}")
 
             # Evaluate response effectiveness
             response.completed_at = datetime.now(timezone.utc)
