@@ -1,0 +1,35 @@
+name: PQC Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install liboqs-python
+      - name: Install liboqs
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y astyle cmake gcc ninja-build libssl-dev python3-pytest python3-pytest-xdist unzip xsltproc doxygen graphviz python3-yaml valgrind
+          git clone -b main https://github.com/open-quantum-safe/liboqs.git
+          cd liboqs
+          mkdir build && cd build
+          cmake ..
+          make
+          sudo make install
+      - name: Run tests
+        run: pytest tests/security/test_pqc_signing.py
