@@ -61,12 +61,36 @@ This might need approval:
 
 ---
 
+## 🎉 Jules PRs Ready for Review!
+
+### PR #1142: Complete API documentation refresh
+- **URL**: https://github.com/LukhasAI/Lukhas/pull/1142
+- **Session**: API Documentation (3809108493363703079)
+- **Status**: OPEN - Ready for review
+- **Priority**: P2 - Documentation
+
+### PR #1141: Implement SLSA Provenance Workflow
+- **URL**: https://github.com/LukhasAI/Lukhas/pull/1141
+- **Session**: SLSA CI (919280777160162153)
+- **Status**: OPEN - Ready for review
+- **Priority**: P1 - Security
+
+---
+
 ## 🔧 Quick Actions
 
-### Review Completed PRs
+### Review Jules PRs
 ```bash
-# Check for new PRs from Jules
-gh pr list --author "google-labs-jules[bot]" --limit 10
+# List all Jules PRs
+gh pr list --author "google-labs-jules[bot]"
+
+# Review PR #1142 (API Docs)
+gh pr view 1142
+gh pr diff 1142
+
+# Review PR #1141 (SLSA)
+gh pr view 1141
+gh pr diff 1141
 ```
 
 ### Approve Waiting Plans
