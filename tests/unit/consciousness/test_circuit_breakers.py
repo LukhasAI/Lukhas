@@ -2,7 +2,6 @@ import asyncio
 from datetime import datetime, timedelta, timezone
 
 import pytest
-
 from consciousness.resilience.circuit_breaker_framework import (
     CircuitBreakerConfig,
     CircuitBreakerState,

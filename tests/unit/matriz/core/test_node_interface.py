@@ -4,17 +4,18 @@ Tests for the MATRIZ Cognitive Node Interface
 """
 
 import time
-import pytest
-import numpy as np
 from typing import Any
 
+import numpy as np
+import pytest
 from matriz.core.node_interface import (
     CognitiveNode,
-    NodeState,
     NodeLink,
-    NodeTrigger,
     NodeReflection,
+    NodeState,
+    NodeTrigger,
 )
+
 
 # A concrete implementation of the abstract CognitiveNode for testing purposes
 class TestNode(CognitiveNode):

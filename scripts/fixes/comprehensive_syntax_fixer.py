@@ -7,6 +7,8 @@ Fixes the most common syntax errors systematically
 import ast
 import re
 from pathlib import Path
+
+
 def is_lukhas_file(file_path: Path) -> bool:
     """Check if this is a LUKHAS project file"""
     str_path = str(file_path)

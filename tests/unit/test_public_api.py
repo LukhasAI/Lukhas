@@ -2,9 +2,8 @@ import base64
 import unittest
 
 import pytest
-from starlette.testclient import TestClient
-
 from core.security.auth import get_auth_system
+from starlette.testclient import TestClient
 
 # Import the FastAPI app and the auth system
 # Skip this test if public_api is not available

@@ -7,12 +7,13 @@ Generates XML sitemaps for all 5 LUKHAS domains with:
 - lastmod from front-matter last_reviewed
 - Cross-domain alternate links (hreflang)
 """
-import yaml
 import re
-from pathlib import Path
 from datetime import datetime
-from xml.etree.ElementTree import Element, SubElement, tostring
+from pathlib import Path
 from xml.dom import minidom
+from xml.etree.ElementTree import Element, SubElement, tostring
+
+import yaml
 
 DOMAINS = {
     "lukhas.ai": "https://lukhas.ai",

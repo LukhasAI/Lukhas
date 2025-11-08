@@ -6,7 +6,7 @@ Usage as module (driver provided separately) to run in dry-run or apply mode.
 """
 from __future__ import annotations
 
-from typing importOptional, Tuple
+from typing import Optional, Tuple
 
 import libcst as cst
 

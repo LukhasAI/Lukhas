@@ -18,17 +18,16 @@ from typing import TYPE_CHECKING, Any, Optional
 # import time. This lets the module be imported in isolation (for linting,
 # test discovery, etc.) without pulling in `labs` or other runtime deps.
 if TYPE_CHECKING:
-    from labs.consciousness.reflection.openai_modulated_service import (
-        OpenAICapability,
-        OpenAIModulatedService,
-    )
-
     from core.colonies.consensus_mechanisms import ColonyConsensus
 
     # Import our components for type checking only
     from core.colonies.enhanced_colony import (
         ConsensusResult,
         EnhancedReasoningColony,
+    )
+    from labs.consciousness.reflection.openai_modulated_service import (
+        OpenAICapability,
+        OpenAIModulatedService,
     )
     from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 else:

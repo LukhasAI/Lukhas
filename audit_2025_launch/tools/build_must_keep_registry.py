@@ -4,9 +4,10 @@ Build comprehensive must-keep file registry for LUKHAS public launch.
 """
 import json
 import os
-from pathlib import Path
-from typing import List, Set, Dict
 import subprocess
+from pathlib import Path
+from typing import Dict, List, Set
+
 
 def find_entry_points(base_dir: Path) -> List[str]:
     """Find all entry point files."""

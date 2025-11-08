@@ -1,7 +1,8 @@
-import pytest
-from unittest.mock import patch, mock_open, MagicMock
 import sys
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
+from unittest.mock import MagicMock, mock_open, patch
+
+import pytest
 
 # Mock the non-existent dependency before importing the module under test
 mock_core = MagicMock()
@@ -10,13 +11,14 @@ sys.modules['identity.core.user_tier_mapping'] = mock_core.user_tier_mapping
 
 
 from identity.tier_system import (
-    DynamicTierSystem,
-    TierLevel,
-    AccessType,
-    PermissionScope,
     AccessContext,
+    AccessType,
+    DynamicTierSystem,
+    PermissionScope,
+    TierLevel,
     lukhas_tier_required,
 )
+
 
 @pytest.fixture
 def tier_system():

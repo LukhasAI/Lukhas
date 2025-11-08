@@ -13,7 +13,7 @@ from __future__ import annotations
 import re
 from datetime import datetime
 from pathlib import Path
-from typing importTuple
+from typing import Tuple
 
 # Key metrics to update (based on latest analysis)
 METRICS = {

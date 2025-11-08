@@ -1,8 +1,16 @@
-import pytest
-from matriz.core.memory_system import MemorySystem, MemoryType, MemoryQuery, MemoryItem, MemoryPriority
-import time
 import os
+import time
+
 import psutil
+import pytest
+from matriz.core.memory_system import (
+    MemoryItem,
+    MemoryPriority,
+    MemoryQuery,
+    MemorySystem,
+    MemoryType,
+)
+
 
 # Test fixtures
 @pytest.fixture

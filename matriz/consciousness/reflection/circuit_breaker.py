@@ -25,7 +25,6 @@ from enum import Enum
 from typing import Any, Callable
 
 import numpy as np
-
 from core.common import get_logger
 
 try:

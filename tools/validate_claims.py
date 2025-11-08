@@ -11,10 +11,11 @@ Exit codes:
     1 - Claims missing evidence or not approved
 """
 
+import argparse
 import json
 import sys
 from pathlib import Path
-import argparse
+
 
 def validate_claims(strict=False):
     """Validate all claims have evidence and approval."""

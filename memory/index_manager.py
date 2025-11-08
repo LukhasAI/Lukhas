@@ -28,7 +28,7 @@ import threading
 import time
 from collections.abc import Iterable
 from dataclasses import dataclass
-from typing importList
+from typing import List
 from uuid import uuid4
 
 from memory.embedding_index import EmbeddingIndex

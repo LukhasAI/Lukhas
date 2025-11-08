@@ -6,6 +6,8 @@ import json
 from collections.abc import Iterable, Mapping, MutableMapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
+
+
 class SecurityReportError(RuntimeError):
     """Raised when security report data cannot be processed."""
 

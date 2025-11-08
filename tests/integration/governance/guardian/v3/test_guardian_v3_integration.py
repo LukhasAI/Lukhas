@@ -6,19 +6,20 @@ focusing on cross-module interactions, asynchronous workflows, and critical
 performance paths.
 """
 import asyncio
-import pytest
-import pytest_asyncio
 from unittest.mock import AsyncMock, patch
 
+import pytest
+import pytest_asyncio
 from labs.governance.guardian.guardian_system import (
     EnhancedGuardianSystem,
     GuardianAgent,
     GuardianResponse,
     GuardianStatus,
+    ResponseAction,
     ThreatDetection,
     ThreatLevel,
-    ResponseAction,
 )
+
 
 class TestableEnhancedGuardianSystem(EnhancedGuardianSystem):
     """A testable version of the EnhancedGuardianSystem with missing methods implemented."""

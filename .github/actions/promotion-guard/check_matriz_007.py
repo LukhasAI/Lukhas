@@ -15,7 +15,7 @@ Exit codes:
 import os
 import re
 import sys
-from typing importTuple
+from typing import Tuple
 
 import requests
 

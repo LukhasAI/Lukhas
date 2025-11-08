@@ -15,7 +15,6 @@ import json
 import pathlib
 
 import pytest
-
 from governance.schema_registry import LUKHASLane, get_lane_enum
 
 

@@ -19,7 +19,7 @@ import json
 import subprocess
 import sys
 from pathlib import Path
-from typing importList, Tuple
+from typing import List, Tuple
 
 
 def get_historical_entrypoints(repo_root: Path) -> dict[str, list[str]]:

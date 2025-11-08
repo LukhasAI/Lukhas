@@ -3,15 +3,17 @@
 Comprehensive tests for the Universal Language runtime.
 """
 
-import unittest
 import timeit
+import unittest
 from unittest.mock import MagicMock, patch
+
 from universal_language.compositional import (
     SymbolComposer,
     SymbolProgram,
     SymbolProgramSynthesizer,
 )
 from universal_language.multimodal import ModalityProcessor, ModalityType
+
 
 class TestSymbolProgramRuntime(unittest.TestCase):
     """Tests for the SymbolProgram class runtime behavior."""

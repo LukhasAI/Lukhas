@@ -7,7 +7,6 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import aiohttp
 import pytest
 from aioresponses import aioresponses
-from pydantic import ValidationError
 
 # Now we can import the module under test
 from bridge.llm_wrappers.codex_wrapper import (
@@ -15,6 +14,7 @@ from bridge.llm_wrappers.codex_wrapper import (
     CodexConfig,
     CodexResponse,
 )
+from pydantic import ValidationError
 
 
 @pytest.fixture

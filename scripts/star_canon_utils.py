@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
+
 # ΛTAG: star_canon
 _DEF_KEYS = ("id", "emoji", "domain")
 

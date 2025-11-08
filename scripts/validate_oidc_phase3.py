@@ -18,6 +18,8 @@ import json
 import os
 import time
 from datetime import datetime, timezone
+
+
 def validate_file_structure():
     """Validate that all required files are present"""
     print("=== File Structure Validation ===")

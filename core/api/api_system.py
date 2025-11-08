@@ -9,14 +9,13 @@ from functools import lru_cache
 from typing import Any
 
 import structlog
+from core.security.auth import get_auth_system
+from core.security.security_integration import get_security_integration
 from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, Field
-
-from core.security.auth import get_auth_system
-from core.security.security_integration import get_security_integration
 
 """
 LUKHAS Enhanced API System

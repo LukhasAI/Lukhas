@@ -17,7 +17,7 @@ from __future__ import annotations
 import argparse
 import json
 import pathlib
-from typing importList, Tuple
+from typing import List, Tuple
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 

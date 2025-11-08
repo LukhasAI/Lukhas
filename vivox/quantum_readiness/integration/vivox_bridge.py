@@ -8,7 +8,6 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
-
 from core.common import get_logger
 
 from ..coherence.qsync_events import QISynchronizer, SyncType

@@ -22,17 +22,17 @@ from lukhas_website.lukhas.governance.guardian_system import (
     ActorType,
     DecisionStatus,
     EnforcementMode,
+    EthicalSeverity,
     GuardianAudit,
     GuardianContext,
     GuardianDecision,
     GuardianEnforcement,
+    GuardianJSONEncoder,
     GuardianMetrics,
     GuardianSubject,
     GuardianSystem,
     RuntimeEnvironment,
-    EthicalSeverity,
     create_simple_decision,
-    GuardianJSONEncoder
 )
 
 # A real, valid 32-byte Ed25519 private key, base64 encoded.
@@ -396,6 +396,7 @@ class TestGuardianSystem:
         monkeypatch.setitem(sys.modules, "cryptography.exceptions", None)
         monkeypatch.setitem(sys.modules, "cryptography.hazmat.primitives", None)
         import importlib
+
         import lukhas_website.lukhas.governance.guardian_system
         importlib.reload(lukhas_website.lukhas.governance.guardian_system)
         assert not lukhas_website.lukhas.governance.guardian_system.CRYPTO_AVAILABLE
@@ -404,6 +405,7 @@ class TestGuardianSystem:
         """Test SCHEMA_VALIDATION is False when import fails."""
         monkeypatch.setitem(sys.modules, "jsonschema", None)
         import importlib
+
         import lukhas_website.lukhas.governance.guardian_system
         importlib.reload(lukhas_website.lukhas.governance.guardian_system)
         assert not lukhas_website.lukhas.governance.guardian_system.SCHEMA_VALIDATION

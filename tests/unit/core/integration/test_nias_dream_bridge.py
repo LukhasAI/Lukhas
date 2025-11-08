@@ -2,7 +2,6 @@ import sys
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
-
 from core.integration.nias_dream_bridge import NIASDreamBridge, get_nias_dream_bridge
 
 

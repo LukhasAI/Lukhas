@@ -23,7 +23,7 @@ import logging
 import re
 import sys
 from pathlib import Path
-from typing importList, Tuple
+from typing import List, Tuple
 
 import requests
 

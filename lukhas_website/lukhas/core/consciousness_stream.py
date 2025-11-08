@@ -29,12 +29,11 @@ except ImportError:
     GUARDIAN_AVAILABLE = False
     logging.warning("Guardian system not available for consciousness validation")
 
+from core.clock import Ticker
+from core.ring import DecimatingRing
 from matriz.node_contract import GLYPH, MatrizMessage
 from matriz.router import SymbolicMeshRouter
 from storage.events import Event, EventStore
-
-from core.clock import Ticker
-from core.ring import DecimatingRing
 
 # Optional metrics
 try:
