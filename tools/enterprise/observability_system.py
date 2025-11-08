@@ -21,6 +21,8 @@ from prometheus_api_client import PrometheusConnect
 from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
 
+from async_utils import create_background_task
+
 # Configure structured logging
 logger = structlog.get_logger()
 
@@ -291,9 +293,9 @@ class ObservabilitySystem:
         await self._train_anomaly_models()
 
         # Start monitoring loops
-        asyncio.create_task(self._metric_collection_loop())
-        asyncio.create_task(self._anomaly_detection_loop())
-        asyncio.create_task(self._alert_evaluation_loop())
+        create_background_task(self._metric_collection_loop())
+        create_background_task(self._anomaly_detection_loop())
+        create_background_task(self._alert_evaluation_loop())
 
         logger.info("observability_system_initialized")
 
