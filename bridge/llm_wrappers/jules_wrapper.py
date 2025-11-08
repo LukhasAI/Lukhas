@@ -46,7 +46,6 @@ from pydantic import BaseModel, Field
 # Import keychain manager for secure API key storage
 try:
     from core.security.keychain_manager import get_jules_api_key
-
     KEYCHAIN_AVAILABLE = True
 except ImportError:
     KEYCHAIN_AVAILABLE = False
@@ -59,11 +58,15 @@ class JulesConfig(BaseModel):
     """Configuration for Jules API client."""
 
     api_key: str = Field(..., description="Jules API key from Settings page")
-    base_url: str = Field(default="https://jules.googleapis.com", description="Jules API base URL")
+    base_url: str = Field(
+        default="https://jules.googleapis.com",
+        description="Jules API base URL"
+    )
     timeout: int = Field(default=300, description="Request timeout in seconds")
     max_retries: int = Field(default=3, description="Maximum retry attempts")
     auto_approve_plans: bool = Field(
-        default=False, description="Automatically approve generated plans"
+        default=False,
+        description="Automatically approve generated plans"
     )
 
 
@@ -85,7 +88,8 @@ class JulesSession(BaseModel):
     create_time: datetime = Field(..., description="Creation timestamp")
     prompt: Optional[str] = Field(None, description="Initial prompt")
     require_plan_approval: bool = Field(
-        default=False, description="Whether plan approval is required"
+        default=False,
+        description="Whether plan approval is required"
     )
 
 
@@ -98,7 +102,8 @@ class JulesActivity(BaseModel):
     originator: str = Field(..., description="Who created the activity (AGENT/USER)")
     message: Optional[str] = Field(None, description="Activity message text")
     artifacts: Optional[dict[str, Any]] = Field(
-        None, description="Activity artifacts (code changes, etc.)"
+        None,
+        description="Activity artifacts (code changes, etc.)"
     )
 
 
@@ -110,7 +115,11 @@ class JulesClient:
     and automated PR creation for AI-driven coding tasks.
     """
 
-    def __init__(self, api_key: Optional[str] = None, config: Optional[JulesConfig] = None):
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        config: Optional[JulesConfig] = None
+    ):
         """
         Initialize Jules API client.
 
@@ -153,10 +162,7 @@ class JulesClient:
                     elif KEYCHAIN_AVAILABLE:
                         try:
                             from core.security.keychain_manager import KeychainManager
-
-                            api_key = KeychainManager.get_key(
-                                "GOOGLE_API_KEY", fallback_to_env=False
-                            )
+                            api_key = KeychainManager.get_key("GOOGLE_API_KEY", fallback_to_env=False)
                             if api_key:
                                 logger.debug("Using GOOGLE_API_KEY from Keychain for Jules")
                         except Exception:
@@ -182,7 +188,7 @@ class JulesClient:
                 "X-Goog-Api-Key": self.config.api_key,
                 "Content-Type": "application/json",
             },
-            timeout=aiohttp.ClientTimeout(total=self.config.timeout),
+            timeout=aiohttp.ClientTimeout(total=self.config.timeout)
         )
         return self
 
@@ -200,7 +206,12 @@ class JulesClient:
             )
         return self._session
 
-    async def _request(self, method: str, endpoint: str, **kwargs: Any) -> dict[str, Any]:
+    async def _request(
+        self,
+        method: str,
+        endpoint: str,
+        **kwargs: Any
+    ) -> dict[str, Any]:
         """
         Make authenticated API request with retry logic.
 
@@ -222,9 +233,7 @@ class JulesClient:
                         # Try to get error details from response body
                         try:
                             error_body = await response.text()
-                            self.logger.error(
-                                f"API error response ({response.status}): {error_body}"
-                            )
+                            self.logger.error(f"API error response ({response.status}): {error_body}")
                         except (aiohttp.ClientError, UnicodeDecodeError):
                             pass
                     response.raise_for_status()
@@ -235,7 +244,7 @@ class JulesClient:
                 )
                 if attempt == self.config.max_retries - 1:
                     raise
-                await asyncio.sleep(2**attempt)  # Exponential backoff
+                await asyncio.sleep(2 ** attempt)  # Exponential backoff
 
         raise RuntimeError("Max retries exceeded")
 
@@ -278,7 +287,7 @@ class JulesClient:
         repository_url: Optional[str] = None,
         display_name: Optional[str] = None,
         automation_mode: Optional[str] = None,
-        require_plan_approval: Optional[bool] = None,
+        require_plan_approval: Optional[bool] = None
     ) -> dict[str, Any]:
         """
         Create a new Jules coding session.
@@ -318,7 +327,12 @@ class JulesClient:
         # https://developers.google.com/jules/api
         payload: dict[str, Any] = {
             "prompt": prompt,
-            "sourceContext": {"source": source_id, "githubRepoContext": {"startingBranch": "main"}},
+            "sourceContext": {
+                "source": source_id,
+                "githubRepoContext": {
+                    "startingBranch": "main"
+                }
+            }
         }
 
         # Add optional title (displayName)
@@ -336,14 +350,22 @@ class JulesClient:
             payload["requirePlanApproval"] = False
 
         self.logger.debug(f"Creating session with payload: {payload}")
-        response = await self._request("POST", "/v1alpha/sessions", json=payload)
+        response = await self._request(
+            "POST",
+            "/v1alpha/sessions",
+            json=payload
+        )
 
-        self.logger.info(f"Created Jules session: {response.get('name')} - {prompt[:100]}")
+        self.logger.info(
+            f"Created Jules session: {response.get('name')} - {prompt[:100]}"
+        )
 
         return response
 
     async def list_sessions(
-        self, page_size: int = 50, page_token: Optional[str] = None
+        self,
+        page_size: int = 50,
+        page_token: Optional[str] = None
     ) -> dict[str, Any]:
         """
         List Jules sessions with pagination.
@@ -359,7 +381,11 @@ class JulesClient:
         if page_token:
             params["pageToken"] = page_token
 
-        return await self._request("GET", "/v1alpha/sessions", params=params)
+        return await self._request(
+            "GET",
+            "/v1alpha/sessions",
+            params=params
+        )
 
     async def get_session(self, session_id: str) -> dict[str, Any]:
         """
@@ -384,9 +410,16 @@ class JulesClient:
             Updated session resource
         """
         self.logger.info(f"Approving plan for session: {session_id}")
-        return await self._request("POST", f"/v1alpha/{session_id}:approvePlan")
+        return await self._request(
+            "POST",
+            f"/v1alpha/{session_id}:approvePlan"
+        )
 
-    async def send_message(self, session_id: str, message: str) -> dict[str, Any]:
+    async def send_message(
+        self,
+        session_id: str,
+        message: str
+    ) -> dict[str, Any]:
         """
         Send a message to the Jules agent in a session.
 
@@ -399,7 +432,9 @@ class JulesClient:
         """
         self.logger.info(f"Sending message to {session_id}: {message[:100]}")
         return await self._request(
-            "POST", f"/v1alpha/{session_id}:sendMessage", json={"message": message}
+            "POST",
+            f"/v1alpha/{session_id}:sendMessage",
+            json={"message": message}
         )
 
     async def delete_session(self, session_id: str) -> dict[str, Any]:
@@ -416,7 +451,10 @@ class JulesClient:
         return await self._request("DELETE", f"/v1alpha/{session_id}")
 
     async def list_activities(
-        self, session_id: str, page_size: int = 100, page_token: Optional[str] = None
+        self,
+        session_id: str,
+        page_size: int = 100,
+        page_token: Optional[str] = None
     ) -> dict[str, Any]:
         """
         List activities for a session.
@@ -433,10 +471,17 @@ class JulesClient:
         if page_token:
             params["pageToken"] = page_token
 
-        return await self._request("GET", f"/v1alpha/{session_id}/activities", params=params)
+        return await self._request(
+            "GET",
+            f"/v1alpha/{session_id}/activities",
+            params=params
+        )
 
     async def stream_activities(
-        self, session_id: str, poll_interval: float = 2.0, timeout: Optional[float] = None
+        self,
+        session_id: str,
+        poll_interval: float = 2.0,
+        timeout: Optional[float] = None
     ) -> AsyncIterator[JulesActivity]:
         """
         Stream activities from a session with polling.
@@ -476,7 +521,9 @@ class JulesClient:
                 # Check if session is complete
                 session = await self.get_session(session_id)
                 if session.get("state") in ("COMPLETED", "FAILED", "CANCELLED"):
-                    self.logger.info(f"Session {session_id} ended with state: {session['state']}")
+                    self.logger.info(
+                        f"Session {session_id} ended with state: {session['state']}"
+                    )
                     break
 
             except Exception as e:
@@ -498,12 +545,20 @@ class JulesClient:
         Example:
             await client.approve_plan("sessions/123")
         """
-        response = await self._request("POST", f"/v1alpha/{session_id}:approvePlan", json={})
+        response = await self._request(
+            "POST",
+            f"/v1alpha/{session_id}:approvePlan",
+            json={}
+        )
 
         self.logger.info(f"Approved plan for session: {session_id}")
         return response
 
-    async def send_message(self, session_id: str, message: str) -> dict[str, Any]:
+    async def send_message(
+        self,
+        session_id: str,
+        message: str
+    ) -> dict[str, Any]:
         """
         Send a message/feedback to a Jules session.
 
@@ -526,15 +581,24 @@ class JulesClient:
         """
         payload = {"prompt": message}
 
-        response = await self._request("POST", f"/v1alpha/{session_id}:sendMessage", json=payload)
+        response = await self._request(
+            "POST",
+            f"/v1alpha/{session_id}:sendMessage",
+            json=payload
+        )
 
-        self.logger.info(f"Sent message to session {session_id}: {message[:50]}...")
+        self.logger.info(
+            f"Sent message to session {session_id}: {message[:50]}..."
+        )
         return response
 
 
 # Convenience functions for quick usage
 async def create_jules_session(
-    prompt: str, repository_url: str, api_key: Optional[str] = None, auto_create_pr: bool = True
+    prompt: str,
+    repository_url: str,
+    api_key: Optional[str] = None,
+    auto_create_pr: bool = True
 ) -> dict[str, Any]:
     """
     Convenience function to quickly create a Jules session.
@@ -552,12 +616,14 @@ async def create_jules_session(
         return await client.create_session(
             prompt=prompt,
             repository_url=repository_url,
-            automation_mode="AUTO_CREATE_PR" if auto_create_pr else None,
+            automation_mode="AUTO_CREATE_PR" if auto_create_pr else None
         )
 
 
 async def monitor_jules_session(
-    session_id: str, api_key: Optional[str] = None, timeout: Optional[float] = 3600.0
+    session_id: str,
+    api_key: Optional[str] = None,
+    timeout: Optional[float] = 3600.0
 ) -> list[JulesActivity]:
     """
     Monitor a Jules session until completion.
@@ -575,6 +641,7 @@ async def monitor_jules_session(
         async for activity in client.stream_activities(session_id, timeout=timeout):
             activities.append(activity)
             logger.info(
-                f"[{activity.type}] {activity.originator}: " f"{activity.message or 'No message'}"
+                f"[{activity.type}] {activity.originator}: "
+                f"{activity.message or 'No message'}"
             )
     return activities
