@@ -1895,3 +1895,22 @@ claude-review: ## Request Claude Code review for current PR
 claude-setup-docs: ## Open Claude PR review setup documentation
 	@echo "📖 Claude Code PR Review Setup Guide"
 	@echo "Location: docs/development/CLAUDE_PR_REVIEW_SETUP.md"
+
+# ============================================================================
+# Branding Content CI/CD
+# ============================================================================
+
+ci-lint-local: ## Run CI content linting checks locally
+	@echo "🔍 Running branding content linting checks..."
+	@python3 tools/branding_vocab_lint.py
+	@python3 tools/front_matter_lint.py
+	@python3 tools/generate_claims_registry.py
+	@python3 tools/validate_claims.py
+	@python3 tools/validate_seo.py
+	@echo "✅ All content linting checks passed"
+
+install-pre-commit: ## Install pre-commit hook for branding checks
+	@echo "📝 Installing pre-commit hook..."
+	@cp .github/hooks/pre-commit .git/hooks/pre-commit
+	@chmod +x .git/hooks/pre-commit
+	@echo "✅ Pre-commit hook installed at .git/hooks/pre-commit"

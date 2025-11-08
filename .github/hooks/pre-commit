@@ -1,0 +1,28 @@
+#!/bin/bash
+# .github/hooks/pre-commit
+# Install: cp .github/hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+echo "Running branding content pre-commit checks..."
+
+# Check if branding files are staged
+BRANDING_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '^branding/.*\.md$' || true)
+
+if [ -z "$BRANDING_FILES" ]; then
+    echo "No branding files staged, skipping checks"
+    exit 0
+fi
+
+echo "Checking vocabulary compliance..."
+python3 tools/branding_vocab_lint.py || {
+    echo "❌ Vocabulary lint failed - fix forbidden terms and try again"
+    exit 1
+}
+
+echo "Checking front-matter..."
+python3 tools/front_matter_lint.py || {
+    echo "❌ Front-matter validation failed - check YAML fields"
+    exit 1
+}
+
+echo "✅ Pre-commit checks passed"
+exit 0
