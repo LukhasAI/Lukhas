@@ -9,6 +9,7 @@ for API optimization and business intelligence.
 """
 
 import asyncio
+import importlib.util
 import logging
 import statistics
 import time
@@ -21,15 +22,8 @@ from typing import Any, Dict, List, Optional
 logger = logging.getLogger(__name__)
 
 # Optional dependencies for advanced features
-try:
-    PANDAS_AVAILABLE = True
-except ImportError:
-    PANDAS_AVAILABLE = False
-
-try:
-    SKLEARN_AVAILABLE = True
-except ImportError:
-    SKLEARN_AVAILABLE = False
+PANDAS_AVAILABLE = importlib.util.find_spec("pandas") is not None
+SKLEARN_AVAILABLE = importlib.util.find_spec("sklearn") is not None
 
 
 class MetricType(Enum):
