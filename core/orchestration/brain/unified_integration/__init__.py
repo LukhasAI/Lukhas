@@ -20,7 +20,7 @@ class MessageType(Enum):
     NOTIFICATION = "notification"
 
     @classmethod
-    def from_value(cls, value: Optional[str]) -> MessageType:
+    def from_value(cls, value: Optional[str]) -> "MessageType":
         """Return the enum member matching ``value`` (case-insensitive)."""
 
         if value is None:
@@ -75,15 +75,15 @@ class UnifiedIntegration:
     """
 
     def __init__(self) -> None:
-        self._handlers: dict[str, Callable[[Message], None]] = {}
+        self._handlers: dict[str, Callable[["Message"], None]] = {}
         self._component_types: dict[str, ComponentType] = {}
         self._message_history: list[Message] = []
 
     def register_component(
         self,
         component_id: str,
-        component_type_or_handler: ComponentType | Callable[[Message], None],
-        handler: Callable[[Message], None] | None = None,
+        component_type_or_handler: ComponentType | Callable[["Message"], None],
+        handler: Callable[["Message"], None] | None = None,
     ) -> None:
         """Register a component handler.
 

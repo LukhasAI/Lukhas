@@ -73,7 +73,7 @@ def validate_demo_script(script_path: str) -> List[str]:
         lines = content.split('\n')
         for line_num, line in enumerate(lines, 1):
             line = line.strip()
-            if (any(cmd in line for cmd in critical_commands) and (not line.startswith('#'))) and ('|| ' not in line and 'set -e' not in content):
+            if (any((cmd in line for cmd in critical_commands)) and (not line.startswith('#'))) and ('|| ' not in line and 'set -e' not in content):
                 # Check if command has error handling (|| true, or next line handles error)
                 next_line = lines[line_num] if line_num < len(lines) else ""
                 if not ('if' in next_line or 'echo' in line):

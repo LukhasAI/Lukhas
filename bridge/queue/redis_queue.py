@@ -2,6 +2,7 @@
 Redis-based Priority Task Queue for LUKHAS AI-Driven Pipeline
 Uses Redis Sorted Sets (ZADD/BZPOPMIN) for atomic priority queueing.
 """
+import asyncio
 import json
 import logging
 from datetime import datetime

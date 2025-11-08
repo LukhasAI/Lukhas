@@ -10,6 +10,7 @@ import asyncio
 import logging
 from typing import Any, Optional
 
+from core.bridges.quantum_memory_bridge import get_quantum_memory_bridge
 from qi.bio.bio_optimizer import (
     MockBioOrchestrator,
     MockQIBioCoordinator,
@@ -27,8 +28,6 @@ from qi.post_quantum_crypto_enhanced import (
     SecureMemoryManager,
 )
 from qi.quantum_security_integration import create_quantum_security_integration
-
-from core.bridges.quantum_memory_bridge import get_quantum_memory_bridge
 
 # Neuro Symbolic Integration
 try:

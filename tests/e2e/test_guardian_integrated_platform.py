@@ -7,7 +7,6 @@ Tests the integration of Guardian System ethics with NIAS economic platform.
 from unittest.mock import AsyncMock
 
 import pytest
-
 from core.business.guardian_integrated_platform import (
     GuardianIntegratedPlatform,
     GuardianSystemAdapter,

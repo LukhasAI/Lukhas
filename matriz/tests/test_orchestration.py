@@ -2,18 +2,18 @@
 Unit and integration tests for the MATRIZ orchestration modules.
 """
 
+import pytest
+from unittest.mock import Mock, patch
+
 # It's good practice to patch modules that might not be available
 # in all test environments.
 import time
-from unittest.mock import Mock, patch
-
-import pytest
 
 try:
-    from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator, StageType
-    from matriz.core.example_node import MathReasoningNode
-    from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
     from matriz.core.orchestrator import CognitiveOrchestrator
+    from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator, StageType
+    from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
+    from matriz.core.example_node import MathReasoningNode
 except ImportError:
     pytest.skip("MATRIZ core components not available", allow_module_level=True)
 

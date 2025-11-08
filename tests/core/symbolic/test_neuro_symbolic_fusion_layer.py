@@ -19,7 +19,6 @@ from unittest.mock import Mock, patch
 
 import numpy as np
 import pytest
-
 from core.symbolic.neuro_symbolic_fusion_layer import FusionPattern, NeuroSymbolicFusionLayer
 
 

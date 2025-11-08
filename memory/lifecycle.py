@@ -55,6 +55,7 @@ __all__ = [
 ]
 
 try:
+    from memory.retention import AbstractArchivalBackend, ArchivalTier  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "T4": "code=F401", "id": "memory_lifecycle_py_L58"}
     __all__.extend(
         name
         for name in ("ArchivalTier", "AbstractArchivalBackend")

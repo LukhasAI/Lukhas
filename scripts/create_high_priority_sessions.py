@@ -128,7 +128,7 @@ async def create_all_sessions():
     """Create all high-priority test sessions."""
     print("\n🚀 Creating High Priority Jules Sessions")
     print(f"📊 Creating {len(HIGH_PRIORITY_SESSIONS)} sessions")
-    print("⏰ Remaining daily quota: ~64 sessions")
+    print(f"⏰ Remaining daily quota: ~64 sessions")
     print("=" * 70)
     print()
 

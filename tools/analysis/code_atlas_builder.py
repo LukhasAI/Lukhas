@@ -189,7 +189,7 @@ class CodeAtlasBuilder:
                 self.analyze_file(py_file)
             except Exception as e:
                 # Only print errors for non-syntax issues or critical files
-                if any(pattern in str(py_file) for pattern in ['lukhas/', 'candidate/', 'core/', 'consciousness/']) and ('f-string' not in str(e) and 'invalid syntax' not in str(e)):
+                if any((pattern in str(py_file) for pattern in ['lukhas/', 'candidate/', 'core/', 'consciousness/'])) and ('f-string' not in str(e) and 'invalid syntax' not in str(e)):
                     print(f"⚠️ Error analyzing {py_file}: {e}")
 
     def analyze_file(self, file_path: Path):
@@ -547,7 +547,7 @@ class CodeAtlasBuilder:
                     break
 
             # Architecture patterns
-            if any(pattern in lower_line for pattern in ['architecture', 'design', 'pattern', 'structure']) and len(stripped) > 15:
+            if any((pattern in lower_line for pattern in ['architecture', 'design', 'pattern', 'structure'])) and len(stripped) > 15:
                 clues.append(f"ARCHITECTURE: {stripped[:100]}")
 
         return clues

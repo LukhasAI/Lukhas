@@ -6,6 +6,7 @@ Analyzes documentation completeness, quality, and identifies gaps.
 
 import hashlib
 import json
+import os
 import re
 from collections import defaultdict
 from datetime import datetime, timedelta
