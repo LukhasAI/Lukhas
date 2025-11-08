@@ -7,7 +7,6 @@ Small batches with test verification between changes.
 '''
 
 import subprocess
-import sys
 from pathlib import Path
 import os
 

@@ -9,7 +9,6 @@ Generates content cluster specifications for SEO pillar pages.
 from __future__ import annotations
 
 import argparse
-import sys
 import yaml
 from datetime import datetime
 from pathlib import Path
