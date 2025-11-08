@@ -19,7 +19,7 @@ import logging
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Set
+from typing import Any
 
 import yaml
 
@@ -63,7 +63,7 @@ class ModuleManifestValidator:
             "invalid_manifests": []
         }
 
-    def find_lukhas_modules(self) -> List[Path]:
+    def find_lukhas_modules(self) -> list[Path]:
         """Find all LUKHAS AI module directories with root-over-labs preference.
 
         Discovers modules by scanning manifests/ directory for module.manifest.json
@@ -104,7 +104,7 @@ class ModuleManifestValidator:
 
         return sorted(set(preferred.values()))
 
-    def load_module_manifest(self, module_path: Path) -> Dict[str, Any] | None:
+    def load_module_manifest(self, module_path: Path) -> dict[str, Any] | None:
         """Load a module's lane manifest if present.
 
         Args:
@@ -125,7 +125,7 @@ class ModuleManifestValidator:
             logger.error(f"Error loading manifest {manifest_path}: {e}")
             return None
 
-    def validate_manifest_structure(self, manifest: Dict[str, Any], module_path: Path) -> List[str]:
+    def validate_manifest_structure(self, manifest: dict[str, Any], module_path: Path) -> list[str]:
         """Validate manifest structure and required fields.
 
         Args:
@@ -176,7 +176,7 @@ class ModuleManifestValidator:
 
         return errors
 
-    def validate_lane_assignment_logic(self, manifest: Dict[str, Any], module_name: str) -> List[str]:
+    def validate_lane_assignment_logic(self, manifest: dict[str, Any], module_name: str) -> list[str]:
         """Validate lane assignment semantics for a module.
 
         Args:
@@ -206,7 +206,7 @@ class ModuleManifestValidator:
 
         return errors
 
-    def validate_dependencies(self, manifest: Dict[str, Any], all_modules: Set[str]) -> List[str]:
+    def validate_dependencies(self, manifest: dict[str, Any], all_modules: set[str]) -> list[str]:
         """Validate that dependencies reference known modules and basic structure.
 
         Args:
@@ -238,7 +238,7 @@ class ModuleManifestValidator:
 
         return errors
 
-    def validate_all_modules(self) -> Dict[str, Any]:
+    def validate_all_modules(self) -> dict[str, Any]:
         """Validate all modules discovered in manifests/ with comprehensive checks.
 
         Orchestrates multi-stage validation pipeline for all discovered modules:

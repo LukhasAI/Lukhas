@@ -782,7 +782,9 @@ class LUKHASCoreIntegrator:
 
 # Added for test compatibility (candidate.consciousness.reflection.core_integrator.resolve_access_tier)
 try:
-    from labs.candidate.consciousness.reflection.core_integrator import resolve_access_tier  # noqa: F401
+    from labs.candidate.consciousness.reflection.core_integrator import (
+        resolve_access_tier,  # noqa: F401
+    )
 except ImportError:
     def resolve_access_tier(*args, **kwargs):
         """Stub for resolve_access_tier."""

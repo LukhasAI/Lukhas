@@ -7,7 +7,6 @@ import subprocess
 import sys
 
 import requests
-
 from core.common import get_logger
 
 # Configure logging

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
 from .base import BaseJurisdictionModule, JurisdictionSignal
 
@@ -14,7 +14,7 @@ class CCPAModule(BaseJurisdictionModule):
     name = "California Consumer Privacy Act"
     policy_version = "2024-10-01"
 
-    def _evaluate(self, user_data: Dict[str, Any]) -> JurisdictionSignal | None:
+    def _evaluate(self, user_data: dict[str, Any]) -> JurisdictionSignal | None:
         ip_country = self._get_ip_country(user_data)
         ip_region = self._get_ip_region(user_data)
         account_country = self._get_account_country(user_data)
@@ -33,7 +33,7 @@ class CCPAModule(BaseJurisdictionModule):
             return JurisdictionSignal(True, ";".join(reasons), weight=4)
         return JurisdictionSignal(False, "no_ca_signals")
 
-    def policy_definition(self) -> Dict[str, Any]:
+    def policy_definition(self) -> dict[str, Any]:
         """Return the CCPA base compliance policy."""
 
         return {

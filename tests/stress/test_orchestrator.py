@@ -12,7 +12,7 @@ import asyncio
 import statistics
 import time
 from datetime import datetime
-from typing import Any, Dict, Tuple
+from typing import Any
 
 import pytest
 
@@ -41,7 +41,7 @@ class MockCognitiveNode:
         self.request_count = 0
         self.error_count = 0
 
-    async def process(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, context: dict[str, Any]) -> dict[str, Any]:
         """Process request with simulated latency and failure rate."""
         self.request_count += 1
 
@@ -62,7 +62,7 @@ class MockCognitiveNode:
             "request_id": context.get("request_id", "unknown")
         }
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get node statistics."""
         return {
             "name": self.name,
@@ -116,7 +116,7 @@ class TestOrchestratorStressTesting:
     def test_concurrent_request_handling(self, orchestrator, mock_cognitive_nodes):
         """Test orchestrator handling 100+ concurrent requests."""
 
-        async def single_request(request_id: int) -> Tuple[int, float, bool, str]:
+        async def single_request(request_id: int) -> tuple[int, float, bool, str]:
             """Execute single request and measure performance."""
             start_time = time.perf_counter()
 

@@ -7,9 +7,6 @@ Helps track template versions and edit policies.
 import pathlib
 import subprocess
 import sys
-from typing import Dict
-
-
 class ProvenanceHeadersAdder:
     def __init__(self):
         self.git_commit = self._get_git_commit()
@@ -106,7 +103,7 @@ human_editable: {str(is_editable).lower()}
             print(f"❌ Failed to add header to {file_path}: {e}")
             return False
 
-    def process_module_directory(self, module_path: pathlib.Path) -> Dict[str, int]:
+    def process_module_directory(self, module_path: pathlib.Path) -> dict[str, int]:
         """Process all scaffold files in a module directory."""
         results = {"processed": 0, "skipped": 0, "errors": 0}
 

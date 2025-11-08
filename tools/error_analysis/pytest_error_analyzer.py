@@ -14,9 +14,6 @@ import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
-from typing import Dict, List
-
-
 class ErrorPattern:
     """Represents a categorized error pattern."""
 
@@ -54,9 +51,9 @@ class PytestErrorAnalyzer:
 
     def __init__(self, log_file: Path):
         self.log_file = log_file
-        self.errors: List[ErrorPattern] = []
+        self.errors: list[ErrorPattern] = []
         self.error_counts: Counter = Counter()
-        self.fix_suggestions: Dict[str, List[str]] = defaultdict(list)
+        self.fix_suggestions: dict[str, list[str]] = defaultdict(list)
 
     def parse(self) -> None:
         """Parse pytest collection log for error patterns."""

@@ -18,7 +18,7 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 try:
     import zstandard as zstd
@@ -135,8 +135,8 @@ class CompressionStats:
     total_bytes_saved: int = 0
 
     # Algorithm usage
-    algorithm_usage: Dict[str, int] = field(default_factory=dict)
-    level_usage: Dict[int, int] = field(default_factory=dict)
+    algorithm_usage: dict[str, int] = field(default_factory=dict)
+    level_usage: dict[int, int] = field(default_factory=dict)
 
     @property
     def overall_space_savings_percent(self) -> float:
@@ -544,7 +544,7 @@ class AdaptiveCompressionManager:
         data: bytes,
         content_type: Optional[str] = None,
         priority: str = "balanced"  # "speed", "balanced", "ratio"
-    ) -> Tuple[CompressionAlgorithm, int]:
+    ) -> tuple[CompressionAlgorithm, int]:
         """
         Select optimal compression algorithm and level.
 
@@ -831,7 +831,7 @@ class AdaptiveCompressionManager:
 
         return result
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get comprehensive compression statistics"""
         stats_dict = {
             "operations": {
@@ -868,9 +868,9 @@ class AdaptiveCompressionManager:
     async def benchmark_algorithms(
         self,
         test_data: bytes,
-        algorithms: Optional[List[CompressionAlgorithm]] = None,
-        levels: Optional[List[int]] = None
-    ) -> Dict[str, Dict[str, Any]]:
+        algorithms: Optional[list[CompressionAlgorithm]] = None,
+        levels: Optional[list[int]] = None
+    ) -> dict[str, dict[str, Any]]:
         """
         Benchmark different algorithms and levels for given data.
 

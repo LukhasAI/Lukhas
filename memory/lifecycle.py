@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import contextlib
 
 try:
     from memory.retention import RetentionAction, RetentionRule, RetentionSeverity
@@ -54,14 +55,12 @@ __all__ = [
     "RetentionSeverity",
 ]
 
-try:
+with contextlib.suppress(Exception):
     __all__.extend(
         name
         for name in ("ArchivalTier", "AbstractArchivalBackend")
         if name not in __all__
     )
-except Exception:
-    pass
 
 
 try:

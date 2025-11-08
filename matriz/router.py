@@ -9,14 +9,14 @@ Usage:
   pytest -k router -q
 """
 import queue
-from typing import Callable, Dict
+from typing import Callable
 
 from MATRIZ.node_contract import MatrizMessage, MatrizNode
 
 
 class SymbolicMeshRouter:
     def __init__(self, log_fn: Callable[[str, dict], None]):
-        self.nodes: Dict[str, MatrizNode] = {}
+        self.nodes: dict[str, MatrizNode] = {}
         self.q = queue.Queue(maxsize=8192)
         self.log = log_fn
         self.running = False

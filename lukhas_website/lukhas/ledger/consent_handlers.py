@@ -17,7 +17,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .event_bus import AsyncEventBus, EventOffset, EventSubscriber
 from .events import (
@@ -63,7 +63,7 @@ class HandlerState:
         """Check if event was already processed (idempotency)"""
         return event_id in self.processed_event_ids
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Serialize state for persistence"""
         return {
             'handler_id': self.handler_id,
@@ -76,7 +76,7 @@ class HandlerState:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'HandlerState':
+    def from_dict(cls, data: dict[str, Any]) -> 'HandlerState':
         """Deserialize state from persistence"""
         return cls(
             handler_id=data['handler_id'],
@@ -244,7 +244,7 @@ class BaseEventHandler(EventSubscriber, ABC):
         """Process the specific event. Return True for success, False for retry."""
         pass
 
-    def get_handler_metrics(self) -> Dict[str, Any]:
+    def get_handler_metrics(self) -> dict[str, Any]:
         """Get handler performance metrics"""
         return {
             'handler_id': self.handler_id,
@@ -580,13 +580,13 @@ class ConsentHandlerOrchestrator:
 
     def __init__(self, event_bus: AsyncEventBus):
         self.event_bus = event_bus
-        self.handlers: List[BaseEventHandler] = []
+        self.handlers: list[BaseEventHandler] = []
         self.running = False
-        self._tasks: List[asyncio.Task] = []
+        self._tasks: list[asyncio.Task] = []
 
         logger.info("ConsentHandlerOrchestrator initialized")
 
-    def register_handler(self, handler: BaseEventHandler, event_types: List[EventType]):
+    def register_handler(self, handler: BaseEventHandler, event_types: list[EventType]):
         """Register handler for specific event types"""
         self.handlers.append(handler)
 
@@ -652,7 +652,7 @@ class ConsentHandlerOrchestrator:
         except Exception as e:
             logger.error(f"Error in handler {handler.handler_id} catchup: {e}")
 
-    def get_orchestrator_metrics(self) -> Dict[str, Any]:
+    def get_orchestrator_metrics(self) -> dict[str, Any]:
         """Get metrics for all handlers"""
         metrics = {
             'total_handlers': len(self.handlers),
@@ -666,7 +666,7 @@ class ConsentHandlerOrchestrator:
 
         return metrics
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check for all handlers"""
         healthy_handlers = 0
         total_processed = 0

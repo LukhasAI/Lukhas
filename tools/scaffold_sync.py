@@ -9,7 +9,7 @@ import hashlib
 import json
 import pathlib
 import sys
-from typing import Any, Dict, List
+from typing import Any
 
 try:
     from jinja2 import Environment, FileSystemLoader
@@ -33,7 +33,7 @@ def sha256_bytes(b: bytes) -> str:
     """Calculate SHA256 hash of bytes."""
     return hashlib.sha256(b).hexdigest()
 
-def load_module_manifest(module_path: pathlib.Path) -> Dict[str, Any]:
+def load_module_manifest(module_path: pathlib.Path) -> dict[str, Any]:
     """Load module manifest for template context."""
     manifest_path = module_path / "module.manifest.json"
     if manifest_path.exists():
@@ -44,7 +44,7 @@ def load_module_manifest(module_path: pathlib.Path) -> Dict[str, Any]:
             pass
     return {}
 
-def get_template_context(module_name: str, manifest: Dict[str, Any]) -> Dict[str, Any]:
+def get_template_context(module_name: str, manifest: dict[str, Any]) -> dict[str, Any]:
     """Generate template context from module data."""
     context = {
         "module": module_name,
@@ -104,7 +104,7 @@ def get_template_context(module_name: str, manifest: Dict[str, Any]) -> Dict[str
 
     return context
 
-def render_template(env: Environment, template_rel: str, context: Dict[str, Any]) -> str:
+def render_template(env: Environment, template_rel: str, context: dict[str, Any]) -> str:
     """Render template with context and add provenance header."""
     template = env.get_template(template_rel)
     content = template.render(**context).rstrip() + "\n"
@@ -126,7 +126,7 @@ def render_template(env: Environment, template_rel: str, context: Dict[str, Any]
 
     return header + content
 
-def list_template_files() -> List[str]:
+def list_template_files() -> list[str]:
     """List all template files to process."""
     if not TEMPLATES.exists():
         return []
@@ -178,9 +178,9 @@ def should_overwrite(target_path: pathlib.Path, new_content: str, force: bool = 
 
     return False  # Don't overwrite human-edited files
 
-def sync_module(module_path: pathlib.Path, templates: List[str],
+def sync_module(module_path: pathlib.Path, templates: list[str],
                 env: Environment, dry_run: bool = False,
-                force: bool = False) -> Dict[str, Any]:
+                force: bool = False) -> dict[str, Any]:
     """Sync templates to a single module."""
     module_name = module_path.name
     manifest = load_module_manifest(module_path)

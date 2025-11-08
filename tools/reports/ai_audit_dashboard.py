@@ -18,13 +18,11 @@ import os
 from collections import Counter
 from pathlib import Path
 from statistics import mean
-from typing import List, Tuple
-
 DEFAULT_INPUT = Path("reports/audit/merged/evidence_ledger.csv")
 DEFAULT_OUTPUT = Path("reports/dashboard/ai_audit_summary.md")
 
 
-def p95(values: List[float]) -> float:
+def p95(values: list[float]) -> float:
     if not values:
         return 0.0
     s = sorted(values)
@@ -33,10 +31,10 @@ def p95(values: List[float]) -> float:
     return float(s[idx])
 
 
-def load_rows(path: Path) -> List[dict]:
+def load_rows(path: Path) -> list[dict]:
     if not path.exists():
         return []
-    out: List[dict] = []
+    out: list[dict] = []
     with path.open("r", encoding="utf-8") as f:
         r = csv.DictReader(f)
         for row in r:
@@ -44,7 +42,7 @@ def load_rows(path: Path) -> List[dict]:
     return out
 
 
-def top_counts(rows: List[dict], key: str, n: int = 5) -> List[Tuple[str, int]]:
+def top_counts(rows: list[dict], key: str, n: int = 5) -> list[tuple[str, int]]:
     c = Counter(row.get(key, "") for row in rows)
     return c.most_common(n)
 

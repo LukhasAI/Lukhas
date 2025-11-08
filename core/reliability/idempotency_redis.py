@@ -1,6 +1,6 @@
 import json
 import time
-from typing import Dict, Optional, Tuple
+from typing import Dict, Optional
 
 import redis
 
@@ -12,7 +12,7 @@ class RedisIdempotencyStore(IdempotencyStore):
         self.r = redis.Redis.from_url(url, decode_responses=True)
         self.ttl = ttl_seconds
 
-    def get(self, k: str) -> Optional[Tuple[int, Dict, bytes, str]]:
+    def get(self, k: str) -> Optional[tuple[int, Dict, bytes, str]]:
         raw = self.r.get(k)
         if not raw:
             return None

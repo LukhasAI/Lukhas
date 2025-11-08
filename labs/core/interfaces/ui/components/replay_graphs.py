@@ -17,7 +17,6 @@ from collections import Counter
 
 import pandas as pd
 import streamlit as st
-
 from core.utils.symbolic_utils import tier_label
 
 st.title("🌀 Replay Queue Visualizer")

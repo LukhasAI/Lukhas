@@ -25,18 +25,6 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import memory system components
 try:
-    from constellation_framework_validator import (
-        ConstellationFrameworkValidator,  # noqa: F401  # TODO: constellation_framework_valida...
-    )
-    from episodic.episodic_memory import (
-        ConsolidatedEpisodicmemory,  # noqa: F401  # TODO: episodic.episodic_memory.Conso...
-    )
-    from fold import FoldManager, MemoryFold  # noqa: F401  # TODO: fold.FoldManager; consider usi...
-    from systems.dream_memory_manager import DreamMemoryManager  # noqa: F401  # TODO: systems.dream_memory_manager.D...
-    from systems.memory_collapse_verifier import (
-        MemoryCollapseVerifier,  # noqa: F401  # TODO: systems.memory_collapse_verifi...
-    )
-
     from consciousness.awareness_mechanism import (
         AwarenessMechanism,  # noqa: F401  # TODO: consciousness.awareness_mechan...
     )
@@ -45,6 +33,22 @@ try:
     )
     from consciousness.memory_consciousness_optimizer import (
         MemoryConsciousnessOptimizer,  # noqa: F401  # TODO: consciousness.memory_conscious...
+    )
+    from constellation_framework_validator import (
+        ConstellationFrameworkValidator,  # noqa: F401  # TODO: constellation_framework_valida...
+    )
+    from episodic.episodic_memory import (
+        ConsolidatedEpisodicmemory,  # noqa: F401  # TODO: episodic.episodic_memory.Conso...
+    )
+    from fold import (  # noqa: F401  # TODO: fold.FoldManager; consider usi...
+        FoldManager,
+        MemoryFold,
+    )
+    from systems.dream_memory_manager import (
+        DreamMemoryManager,  # noqa: F401  # TODO: systems.dream_memory_manager.D...
+    )
+    from systems.memory_collapse_verifier import (
+        MemoryCollapseVerifier,  # noqa: F401  # TODO: systems.memory_collapse_verifi...
     )
 except ImportError as e:
     print(f"Warning: Could not import some modules: {e}")
@@ -345,11 +349,10 @@ class TestMemorySystemsIntegration(unittest.TestCase):
     def test_memory_collapse_verification(self):
         """Test memory collapse verification system"""
         try:
-            from systems.memory_collapse_verifier import MemoryCollapseVerifier, MemoryNode
-
             from core.symbolic.symbolic_tracer import (
                 SymbolicTracer,  # noqa: F401  # TODO: core.symbolic.symbolic_...
             )
+            from systems.memory_collapse_verifier import MemoryCollapseVerifier, MemoryNode
 
             # Create mock tracer
             class MockTracer:
@@ -520,7 +523,10 @@ class TestMemorySystemsIntegration(unittest.TestCase):
     def _test_optimization_flow(self):
         """Test memory-consciousness optimization flow"""
         try:
-            from consciousness.memory_consciousness_optimizer import CouplingType, MemoryConsciousnessOptimizer
+            from consciousness.memory_consciousness_optimizer import (
+                CouplingType,
+                MemoryConsciousnessOptimizer,
+            )
 
             optimizer = MemoryConsciousnessOptimizer()
             loop = asyncio.new_event_loop()

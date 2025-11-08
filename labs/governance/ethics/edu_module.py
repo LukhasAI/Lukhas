@@ -24,7 +24,6 @@
 """
 from __future__ import annotations
 
-
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: edu_module.py
 # MODULE: core.base.2025-04-11_lukhas.edu.edu_module

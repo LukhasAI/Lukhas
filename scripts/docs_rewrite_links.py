@@ -8,7 +8,7 @@ Rewrites internal links to canonical paths and validates anchors.
 import json
 import re
 from pathlib import Path
-from typing import Dict, Set, Tuple
+from typing import Dict
 
 # Constants
 DOCS_ROOT = Path(__file__).parent.parent / "docs"
@@ -36,7 +36,7 @@ def load_dedupe_plan() -> Dict:
         return json.load(f)
 
 
-def build_redirect_map(dedupe_plan: Dict) -> Dict[str, str]:
+def build_redirect_map(dedupe_plan: Dict) -> dict[str, str]:
     """Build map of old path -> canonical path."""
     redirect_map = {}
 
@@ -48,7 +48,7 @@ def build_redirect_map(dedupe_plan: Dict) -> Dict[str, str]:
     return redirect_map
 
 
-def extract_headings(content: str) -> Set[str]:
+def extract_headings(content: str) -> set[str]:
     """Extract all heading anchors from content."""
     headings = set()
 
@@ -80,7 +80,7 @@ def resolve_relative_link(source_file: Path, link: str, docs_root: Path) -> Path
 
 
 def validate_link(source_file: Path, link_text: str, link_url: str,
-                  docs_by_path: Dict, redirect_map: Dict, docs_root: Path) -> Tuple[bool, str, str]:
+                  docs_by_path: Dict, redirect_map: Dict, docs_root: Path) -> tuple[bool, str, str]:
     """
     Validate a link and return (is_valid, error_msg, canonical_url).
     Returns canonical URL if redirect needed.

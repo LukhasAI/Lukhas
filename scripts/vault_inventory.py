@@ -21,7 +21,7 @@ import sys
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 try:
     import PyPDF2
@@ -283,7 +283,7 @@ def generate_vault_index(manifest: Dict, output_dir: Path):
     return index_path
 
 
-def find_duplicates(manifest: Dict) -> List[List[Dict]]:
+def find_duplicates(manifest: Dict) -> list[list[Dict]]:
     """Find duplicate files by hash."""
     by_hash = defaultdict(list)
 
@@ -296,7 +296,7 @@ def find_duplicates(manifest: Dict) -> List[List[Dict]]:
     return duplicates
 
 
-def generate_duplicates_report(duplicates: List[List[Dict]], output_dir: Path):
+def generate_duplicates_report(duplicates: list[list[Dict]], output_dir: Path):
     """Generate VAULT_DUPLICATES.md report."""
     lines = [
         "# THE_VAULT Duplicate Files Report",

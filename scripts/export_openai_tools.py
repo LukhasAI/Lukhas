@@ -14,11 +14,11 @@ import json
 import logging
 import sys
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
-def generate_parameter_schema(capability: Dict[str, Any]) -> Dict[str, Any]:
+def generate_parameter_schema(capability: dict[str, Any]) -> dict[str, Any]:
     """
     Generate OpenAI-compatible JSON Schema parameters from capability.
 
@@ -55,7 +55,7 @@ def generate_parameter_schema(capability: Dict[str, Any]) -> Dict[str, Any]:
         "required": []
     }
 
-def extract_tool_from_capability(capability: Dict[str, Any], manifest_path: Path) -> Dict[str, Any]:
+def extract_tool_from_capability(capability: dict[str, Any], manifest_path: Path) -> dict[str, Any]:
     """
     Convert a capability from a manifest into an OpenAI tool spec.
 
@@ -90,7 +90,7 @@ def extract_tool_from_capability(capability: Dict[str, Any], manifest_path: Path
         }
     }
 
-def load_manifest(path: Path) -> Dict[str, Any]:
+def load_manifest(path: Path) -> dict[str, Any]:
     """
     Load a manifest JSON file with error handling.
 

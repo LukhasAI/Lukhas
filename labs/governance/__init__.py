@@ -4,7 +4,7 @@ from __future__ import annotations
 from importlib import import_module
 from typing import Iterable
 
-__all__ = ["Guardian", "SafetyGuard", "PolicyGuard", "PolicyResult", "LUKHASLane", "get_lane_enum"]
+__all__ = ["Guardian", "LUKHASLane", "PolicyGuard", "PolicyResult", "SafetyGuard", "get_lane_enum"]
 
 _CANDIDATE_SOURCES: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("lukhas_website.governance.guardian_system", ("Guardian", "SafetyGuard", "PolicyGuard", "PolicyResult")),

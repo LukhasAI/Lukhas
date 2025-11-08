@@ -16,7 +16,7 @@ import uuid
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -84,9 +84,9 @@ class PolicyReason:
     code: str
     message: str
     severity: SeverityLevel
-    details: Dict[str, Any] | None = None
+    details: dict[str, Any] | None = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for JSON serialization."""
         result = {
             "code": self.code,
@@ -103,9 +103,9 @@ class PolicyAction:
     """Action to be taken based on policy decision."""
     type: ActionType
     target: str
-    parameters: Dict[str, Any] | None = None
+    parameters: dict[str, Any] | None = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for JSON serialization."""
         result = {
             "type": self.type.value,
@@ -124,9 +124,9 @@ class PolicyContext:
     user_id: str | None = None
     tier: str | None = None
     lane: str | None = None
-    request_data: Dict[str, Any] | None = None
+    request_data: dict[str, Any] | None = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for JSON serialization."""
         result = {"operation_type": self.operation_type, "component": self.component}
         if self.user_id:
@@ -147,12 +147,12 @@ class GuardianResponse:
     emergency_active: bool
     enforcement_enabled: bool
     decision: DecisionType
-    reasons: List[PolicyReason] = field(default_factory=list)
-    metrics: Dict[str, Any] | None = None
+    reasons: list[PolicyReason] = field(default_factory=list)
+    metrics: dict[str, Any] | None = None
     context: PolicyContext | None = None
-    actions: List[PolicyAction] = field(default_factory=list)
+    actions: list[PolicyAction] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for JSON serialization."""
         result = {
             "schema_version": self.schema_version,
@@ -184,7 +184,7 @@ class PolicyRule:
         self.enabled = enabled
         self.priority = priority
 
-    def evaluate(self, context: PolicyContext, request_data: Dict[str, Any]) -> PolicyReason | None:
+    def evaluate(self, context: PolicyContext, request_data: dict[str, Any]) -> PolicyReason | None:
         """
         Evaluate the policy rule.
 
@@ -204,7 +204,7 @@ class DriftThresholdPolicy(PolicyRule):
         super().__init__(name="drift_threshold", **kwargs)
         self.threshold = threshold
 
-    def evaluate(self, context: PolicyContext, request_data: Dict[str, Any]) -> PolicyReason | None:
+    def evaluate(self, context: PolicyContext, request_data: dict[str, Any]) -> PolicyReason | None:
         """Check if drift score exceeds threshold."""
         drift_score = request_data.get("drift_score", 0.0)
 
@@ -228,9 +228,9 @@ class RateLimitPolicy(PolicyRule):
     def __init__(self, requests_per_minute: int = 100, **kwargs):
         super().__init__(name="rate_limit", **kwargs)
         self.requests_per_minute = requests_per_minute
-        self._request_counts: Dict[str, List[float]] = {}
+        self._request_counts: dict[str, list[float]] = {}
 
-    def evaluate(self, context: PolicyContext, request_data: Dict[str, Any]) -> PolicyReason | None:
+    def evaluate(self, context: PolicyContext, request_data: dict[str, Any]) -> PolicyReason | None:
         """Check if request rate exceeds limits."""
         key = f"{context.component}:{context.operation_type}"
         current_time = time.time()
@@ -277,7 +277,7 @@ class TierAccessPolicy(PolicyRule):
             "T5": {"memory": ["read", "write", "admin"], "consciousness": ["full"], "identity": ["full"]}
         }
 
-    def evaluate(self, context: PolicyContext, request_data: Dict[str, Any]) -> PolicyReason | None:
+    def evaluate(self, context: PolicyContext, request_data: dict[str, Any]) -> PolicyReason | None:
         """Check if tier has permission for the operation."""
         if not context.tier:
             return None  # No tier restriction
@@ -310,7 +310,7 @@ class EmergencyStopPolicy(PolicyRule):
     def __init__(self, **kwargs):
         super().__init__(name="emergency_stop", priority=1, **kwargs)  # Highest priority
 
-    def evaluate(self, context: PolicyContext, request_data: Dict[str, Any]) -> PolicyReason | None:
+    def evaluate(self, context: PolicyContext, request_data: dict[str, Any]) -> PolicyReason | None:
         """Check for emergency stop conditions."""
         # Check for emergency file
         emergency_file = Path("/tmp/guardian_emergency_disable")
@@ -340,7 +340,7 @@ class GuardianPoliciesEngine:
     def __init__(self):
         """Initialize the policies engine."""
         self.schema_version = "1.0.0"
-        self.policies: Dict[str, PolicyRule] = {}
+        self.policies: dict[str, PolicyRule] = {}
         self._load_default_policies()
 
         # Performance tracking
@@ -373,7 +373,7 @@ class GuardianPoliciesEngine:
 
     def evaluate_policies(self,
                          context: PolicyContext,
-                         request_data: Dict[str, Any] | None = None) -> GuardianResponse:
+                         request_data: dict[str, Any] | None = None) -> GuardianResponse:
         """
         Evaluate all policies and return standardized Guardian response.
 
@@ -398,8 +398,8 @@ class GuardianPoliciesEngine:
             span.set_attribute("guardian.component", context.component)
             span.set_attribute("guardian.operation", context.operation_type)
 
-            reasons: List[PolicyReason] = []
-            actions: List[PolicyAction] = []
+            reasons: list[PolicyReason] = []
+            actions: list[PolicyAction] = []
 
             # Evaluate policies in priority order
             active_policies = [p for p in self.policies.values() if p.enabled]
@@ -504,7 +504,7 @@ class GuardianPoliciesEngine:
         return os.getenv("LUKHAS_GUARDIAN_ENFORCEMENT", "1") != "0"
 
     def _make_decision(self,
-                      reasons: List[PolicyReason],
+                      reasons: list[PolicyReason],
                       emergency_active: bool,
                       enforcement_enabled: bool) -> DecisionType:
         """Make final policy decision based on reasons and system state."""
@@ -528,7 +528,7 @@ class GuardianPoliciesEngine:
         else:
             return DecisionType.ALLOW  # Low severity issues don't block
 
-    def _calculate_confidence(self, reasons: List[PolicyReason], policies_evaluated: int) -> float:
+    def _calculate_confidence(self, reasons: list[PolicyReason], policies_evaluated: int) -> float:
         """Calculate confidence score for the decision."""
         if policies_evaluated == 0:
             return 0.0
@@ -546,7 +546,7 @@ class GuardianPoliciesEngine:
 
         return max(base_confidence - severe_penalty, 0.0)
 
-    def _get_severity_actions(self, reason: PolicyReason, context: PolicyContext) -> List[PolicyAction]:
+    def _get_severity_actions(self, reason: PolicyReason, context: PolicyContext) -> list[PolicyAction]:
         """Get automatic actions based on reason severity."""
         actions = []
 
@@ -581,7 +581,7 @@ class GuardianPoliciesEngine:
 
         return actions
 
-    def get_policy_stats(self) -> Dict[str, Any]:
+    def get_policy_stats(self) -> dict[str, Any]:
         """Get policy engine statistics."""
         return {
             "total_policies": len(self.policies),

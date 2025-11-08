@@ -12,7 +12,7 @@ import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -29,9 +29,9 @@ class VectorStoreType(Enum):
 class VectorDocument:
     """Document with vector embedding and metadata"""
     id: str
-    vector: List[float]
+    vector: list[float]
     content: str
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: float = field(default_factory=time.time)
 
     def __post_init__(self):
@@ -42,9 +42,9 @@ class VectorDocument:
 @dataclass
 class VectorSearchQuery:
     """Vector similarity search query"""
-    vector: List[float]
+    vector: list[float]
     top_k: int = 10
-    metadata_filter: Optional[Dict[str, Any]] = None
+    metadata_filter: Optional[dict[str, Any]] = None
     score_threshold: Optional[float] = None
     include_vectors: bool = False
     include_metadata: bool = True
@@ -61,7 +61,7 @@ class VectorSearchResult:
 @dataclass
 class VectorSearchResponse:
     """Complete search response with timing"""
-    results: List[VectorSearchResult]
+    results: list[VectorSearchResult]
     query_time_ms: float
     total_documents: int
     query_vector_dim: int
@@ -108,7 +108,7 @@ class VectorStoreBase(ABC):
     - 99.9% availability SLO
     """
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
         self.stats = VectorStoreStats(
             total_documents=0,
@@ -120,7 +120,7 @@ class VectorStoreBase(ABC):
             p99_query_time_ms=0.0,
             error_rate=0.0
         )
-        self._query_times: List[float] = []
+        self._query_times: list[float] = []
         self._max_query_history = 1000
 
     @abstractmethod
@@ -139,7 +139,7 @@ class VectorStoreBase(ABC):
         pass
 
     @abstractmethod
-    async def upsert_documents(self, documents: List[VectorDocument]) -> Dict[str, Any]:
+    async def upsert_documents(self, documents: list[VectorDocument]) -> dict[str, Any]:
         """
         Insert or update documents with vectors.
 
@@ -158,7 +158,7 @@ class VectorStoreBase(ABC):
         pass
 
     @abstractmethod
-    async def delete_documents(self, document_ids: List[str]) -> Dict[str, Any]:
+    async def delete_documents(self, document_ids: list[str]) -> dict[str, Any]:
         """
         Delete documents by ID.
 
@@ -173,12 +173,12 @@ class VectorStoreBase(ABC):
         pass
 
     @abstractmethod
-    async def count_documents(self, metadata_filter: Optional[Dict[str, Any]] = None) -> int:
+    async def count_documents(self, metadata_filter: Optional[dict[str, Any]] = None) -> int:
         """Count documents, optionally with metadata filter"""
         pass
 
     @abstractmethod
-    async def create_index(self, index_params: Dict[str, Any]) -> None:
+    async def create_index(self, index_params: dict[str, Any]) -> None:
         """Create or rebuild vector index with specified parameters"""
         pass
 
@@ -215,7 +215,7 @@ class VectorStoreBase(ABC):
         if len(self._query_times) > self._max_query_history:
             self._query_times = self._query_times[-self._max_query_history:]
 
-    async def _validate_vector_dimensions(self, vectors: List[List[float]]) -> None:
+    async def _validate_vector_dimensions(self, vectors: list[list[float]]) -> None:
         """Validate that all vectors have consistent dimensions"""
         if not vectors:
             return
@@ -248,9 +248,9 @@ class BatchVectorStoreBase(VectorStoreBase):
 
     @abstractmethod
     async def batch_upsert(self,
-                          documents: List[VectorDocument],
+                          documents: list[VectorDocument],
                           batch_size: int = 100,
-                          parallel_batches: int = 4) -> Dict[str, Any]:
+                          parallel_batches: int = 4) -> dict[str, Any]:
         """
         Efficient batch upsert with parallel processing.
 
@@ -266,8 +266,8 @@ class BatchVectorStoreBase(VectorStoreBase):
 
     @abstractmethod
     async def batch_search(self,
-                          queries: List[VectorSearchQuery],
-                          parallel_queries: int = 8) -> List[VectorSearchResponse]:
+                          queries: list[VectorSearchQuery],
+                          parallel_queries: int = 8) -> list[VectorSearchResponse]:
         """
         Execute multiple searches in parallel.
 
@@ -279,7 +279,7 @@ class BatchVectorStoreBase(VectorStoreBase):
 class VectorStoreFactory:
     """Factory for creating vector store instances"""
 
-    _stores: Dict[VectorStoreType, type] = {}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_services_memory_adapters_vector_store_base_py_L282"}
+    _stores: dict[VectorStoreType, type] = {}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_services_memory_adapters_vector_store_base_py_L282"}
 
     @classmethod
     def register(cls, store_type: VectorStoreType, store_class: type):
@@ -287,7 +287,7 @@ class VectorStoreFactory:
         cls._stores[store_type] = store_class
 
     @classmethod
-    def create(cls, store_type: VectorStoreType, config: Dict[str, Any]) -> VectorStoreBase:
+    def create(cls, store_type: VectorStoreType, config: dict[str, Any]) -> VectorStoreBase:
         """Create a vector store instance"""
         if store_type not in cls._stores:
             raise ValueError(f"Unsupported vector store type: {store_type}")
@@ -296,7 +296,7 @@ class VectorStoreFactory:
         return store_class(config)
 
     @classmethod
-    def list_available(cls) -> List[VectorStoreType]:
+    def list_available(cls) -> list[VectorStoreType]:
         """List all registered vector store types"""
         return list(cls._stores.keys())
 

@@ -5,16 +5,16 @@ WebAuthn Authentication Example (Backend)
 This script demonstrates the server-side flow for WebAuthn credential authentication.
 """
 import base64
-from webauthn import (
-    generate_authentication_options,
-    verify_authentication_response,
-)
-from webauthn.helpers.structs import AuthenticationCredential
 
 from lukhas_website.lukhas.identity.webauthn_types import (
     CredentialRequestOptions,
     PublicKeyCredentialAssertion,
 )
+from webauthn import (
+    generate_authentication_options,
+    verify_authentication_response,
+)
+from webauthn.helpers.structs import AuthenticationCredential
 
 RP_ID = "localhost"
 ORIGIN = "http://localhost:3000"

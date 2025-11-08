@@ -21,7 +21,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import structlog
 from prometheus_client import CollectorRegistry, Counter, Gauge, Histogram, generate_latest
@@ -246,7 +246,7 @@ class WebAuthnProductionMetrics:
         authenticator_type: str,
         duration_seconds: float,
         result: str,
-        additional_labels: Optional[Dict[str, str]] = None
+        additional_labels: Optional[dict[str, str]] = None
     ):
         """Record authentication attempt metrics."""
         labels = {
@@ -315,7 +315,7 @@ class WebAuthnProductionMetrics:
         self,
         policy: str,
         user_tier: str,
-        context: Optional[Dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None
     ):
         """Record false positive security detection."""
         self.false_positives_total.labels(
@@ -404,7 +404,7 @@ class WebAuthnProductionMetrics:
         error_type: str,
         error_code: str,
         operation: str,
-        context: Optional[Dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None
     ):
         """Record authentication errors."""
         self.auth_errors_total.labels(
@@ -456,7 +456,7 @@ class WebAuthnProductionMetrics:
             user_tier=user_tier
         ).inc()
 
-    def get_metrics_summary(self) -> Dict[str, Any]:
+    def get_metrics_summary(self) -> dict[str, Any]:
         """Get comprehensive metrics summary for dashboards."""
         # This would typically query the metrics backend
         # For now, returning a structure that would be populated
@@ -483,7 +483,7 @@ class WebAuthnProductionMetrics:
             }
         }
 
-    def check_slo_compliance(self) -> Dict[str, bool]:
+    def check_slo_compliance(self) -> dict[str, bool]:
         """Check SLO compliance status."""
         # This would query actual metrics and compare against thresholds
         # For now, returning structure that would be populated

@@ -12,7 +12,7 @@ import re
 import subprocess
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 # Constants
 DOCS_ROOT = Path(__file__).parent.parent / "docs"
@@ -157,7 +157,7 @@ def get_updated_at(filepath: Path) -> str:
     return datetime.fromtimestamp(mtime).strftime('%Y-%m-%d')
 
 
-def scan_docs(docs_root: Path) -> List[Dict]:
+def scan_docs(docs_root: Path) -> list[Dict]:
     """Scan all markdown files and collect metadata."""
     docs = []
 
@@ -201,7 +201,7 @@ def scan_docs(docs_root: Path) -> List[Dict]:
     return docs
 
 
-def compute_metrics(docs: List[Dict]) -> Dict:
+def compute_metrics(docs: list[Dict]) -> Dict:
     """Compute inventory metrics."""
     total = len(docs)
     missing_fm = sum(1 for d in docs if not d['has_front_matter'])

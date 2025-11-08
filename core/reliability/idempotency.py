@@ -28,13 +28,13 @@ from __future__ import annotations
 import hashlib
 import os
 import time
-from typing import Dict, Protocol, Tuple
+from typing import Dict, Protocol
 
 
 class IdempotencyStore(Protocol):
     """Abstract base class for idempotency stores."""
 
-    def get(self, key: str) -> Tuple[int, Dict, bytes, str] | None:
+    def get(self, key: str) -> tuple[int, Dict, bytes, str] | None:
         """
         Gets a cached response and its body hash.
         Returns a tuple of (status_code, headers, body, body_sha256) or None.
@@ -63,10 +63,10 @@ class InMemoryIdempotencyStore(IdempotencyStore):
     """In-memory idempotency store for testing and single-replica deployments."""
 
     def __init__(self, ttl_seconds: int = 300):
-        self._cache: Dict[str, Tuple[float, int, Dict, bytes, str]] = {}
+        self._cache: dict[str, tuple[float, int, Dict, bytes, str]] = {}
         self.ttl = ttl_seconds
 
-    def get(self, key: str) -> Tuple[int, Dict, bytes, str] | None:
+    def get(self, key: str) -> tuple[int, Dict, bytes, str] | None:
         item = self._cache.get(key)
         if not item:
             return None
@@ -128,7 +128,7 @@ _STORE: IdempotencyStore = _select_store()
 
 
 # Back-compat function shims (keeps older call sites working)
-def get(key: str) -> Tuple[int, bytes, str] | None:
+def get(key: str) -> tuple[int, bytes, str] | None:
     """
     Legacy API: Retrieve cached response if not expired.
 

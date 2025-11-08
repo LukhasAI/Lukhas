@@ -16,12 +16,12 @@ import os
 import re
 import shutil
 from pathlib import Path
-from typing import Dict, Tuple
+from typing importTuple
 
 TODO_REGEX = re.compile(r"(?P<indent>\s*)#\s*TODO(\[.*?\])?\s*[:\-]?\s*(?P<msg>.*)$", re.IGNORECASE)
 
 
-def normalize_path_key(key: str) -> Tuple[Path, int]:
+def normalize_path_key(key: str) -> tuple[Path, int]:
     # key formats supported: path:line or /abs/path:line
     parts = key.rsplit(":", 1)
     if len(parts) != 2:
@@ -49,7 +49,7 @@ def backup_file(path: Path) -> Path:
     return bak
 
 
-def replace_in_file(path: Path, mapping: Dict[str, dict], apply: bool, log: list) -> bool:
+def replace_in_file(path: Path, mapping: dict[str, dict], apply: bool, log: list) -> bool:
     changed = False
     with open(path, encoding="utf-8") as fh:
         lines = fh.readlines()
@@ -99,7 +99,7 @@ def replace_in_file(path: Path, mapping: Dict[str, dict], apply: bool, log: list
     return changed
 
 
-def load_mapping(mapfile: Path) -> Dict[str, dict]:
+def load_mapping(mapfile: Path) -> dict[str, dict]:
     data = json.loads(mapfile.read_text(encoding="utf-8"))
     # normalize keys to repo-relative when reasonable
     norm = {}

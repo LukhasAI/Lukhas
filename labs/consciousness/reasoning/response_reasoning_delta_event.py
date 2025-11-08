@@ -41,8 +41,6 @@ during a response generation process.
 # Original Stainless generation comment:
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing_extensions import Literal
-
 # Initialize ΛTRACE logger for this module
 # AIMPORT_TODO: Verify the location of `_models.BaseModel`. The relative import `from core.models import BaseModel`
 # suggests a dependency three levels up from the current `reasoning` directory.
@@ -53,6 +51,7 @@ from typing_extensions import Literal
 # and hinder maintainability, especially if this auto-generated code is
 # part of a larger system.
 from core.models import BaseModel
+from typing_extensions import Literal
 
 logger.info(
     "ΛTRACE: Initializing response_reasoning_delta_event.py module (Data Model Definition).",

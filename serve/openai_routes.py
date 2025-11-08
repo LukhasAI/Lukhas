@@ -19,7 +19,7 @@ import logging
 import time
 import uuid
 from collections.abc import AsyncGenerator
-from typing import Any, Dict, List
+from typing import Any
 
 from fastapi import (
     APIRouter,
@@ -147,7 +147,7 @@ def require_api_key(
     )
 
 
-def _rl_headers() -> Dict[str, str]:
+def _rl_headers() -> dict[str, str]:
     """Generate rate limit headers (stub values)."""
     now = int(time.time())
     return {
@@ -194,7 +194,7 @@ def list_models(
     request: Request,
     response: Response,
     _claims=Depends(require_api_key),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L196"}
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """List available models (OpenAI-compatible format)."""
     trace_id = request.headers.get("X-Request-Id") or request.headers.get("X-Trace-Id")
     _with_std_headers(response, trace_id)
@@ -205,10 +205,10 @@ def list_models(
     return {"object": "list", "data": data}
 
 
-def _hash_to_vec(text: str, dim: int = 128) -> List[float]:
+def _hash_to_vec(text: str, dim: int = 128) -> list[float]:
     """Generate deterministic embedding from text using hash expansion."""
     digest = hashlib.sha256(text.encode("utf-8")).digest()
-    nums: List[float] = []
+    nums: list[float] = []
     seed = bytearray(digest)
     idx = 0
     while len(nums) < dim:
@@ -218,8 +218,8 @@ def _hash_to_vec(text: str, dim: int = 128) -> List[float]:
     return nums[:dim]
 
 
-def _invalid_request(detail: str, param: str | None = None) -> Dict[str, Any]:
-    payload: Dict[str, Any] = {
+def _invalid_request(detail: str, param: str | None = None) -> dict[str, Any]:
+    payload: dict[str, Any] = {
         "error": {
             "type": "invalid_request_error",
             "message": detail,
@@ -261,9 +261,9 @@ def _invalid_request(detail: str, param: str | None = None) -> Dict[str, Any]:
 def create_embeddings(
     request: Request,
     response: Response,
-    payload: Dict[str, Any] = Body(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L264"}
+    payload: dict[str, Any] = Body(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L264"}
     _claims=Depends(require_api_key),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L265"}
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Create deterministic embeddings (OpenAI-compatible format)."""
     trace_id = request.headers.get("X-Request-Id") or request.headers.get("X-Trace-Id")
     _with_std_headers(response, trace_id)
@@ -302,7 +302,7 @@ def create_embeddings(
     }
 
 
-def _resolve_stream_plan(text: str, max_tokens: int | None) -> Dict[str, Any]:
+def _resolve_stream_plan(text: str, max_tokens: int | None) -> dict[str, Any]:
     """Determine chunking strategy for streaming responses."""
     normalized_len = max(len(text), 1)
     heavy_request = (max_tokens or 0) >= 1500 or normalized_len >= 200
@@ -316,10 +316,10 @@ def _resolve_stream_plan(text: str, max_tokens: int | None) -> Dict[str, Any]:
     }
 
 
-def _stream_chunks(text: str, plan: Dict[str, Any]) -> List[str]:
+def _stream_chunks(text: str, plan: dict[str, Any]) -> list[str]:
     """Build deterministic chunk payloads for SSE streaming."""
     base = text or "symbolic stream"
-    chunks: List[str] = []
+    chunks: list[str] = []
     per_chunk = plan["per_chunk_bytes"]
     for idx in range(plan["chunk_count"]):
         prefix = f"chunk-{idx}: "
@@ -355,9 +355,9 @@ def _stream_chunks(text: str, plan: Dict[str, Any]) -> List[str]:
 def create_response(
     request: Request,
     response: Response,
-    payload: Dict[str, Any] = Body(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L358"}
+    payload: dict[str, Any] = Body(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L358"}
     _claims=Depends(require_api_key),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L359"}
-) -> Dict[str, Any] | StreamingResponse:
+) -> dict[str, Any] | StreamingResponse:
     """Create response (OpenAI Responses API format, non-stream stub)."""
     trace_id = request.headers.get("X-Request-Id") or request.headers.get("X-Trace-Id")
 
