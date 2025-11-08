@@ -3,7 +3,14 @@ status: ready-for-review
 type: documentation
 updated: 2025-11-05
 rollout_status: matriz-ready
----
+
+evidence_links:
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/guardian-compliance-997pct.md'
+  - 'release_artifacts/evidence/matriz-completion-87pct.md'
+  - 'release_artifacts/evidence/matriz-p95-latency-250ms.md'
+  - 'release_artifacts/evidence/privacy-compliance-999pct.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'---
 # 🛡️ LUKHAS.COM - Homepage Content (MATRIZ Rollout Edition)
 ## The Guardian Hub - Transparent AI for Enterprise
 

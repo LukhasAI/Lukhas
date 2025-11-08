@@ -1,7 +1,11 @@
 ---
 status: wip
 type: documentation
----
+
+evidence_links:
+  - 'release_artifacts/evidence/cloud-infrastructure-200ms.md'
+  - 'release_artifacts/evidence/experimental-design-95pct.md'
+  - 'release_artifacts/evidence/global-consciousness-sync-5ms.md'---
 # ☁️ LUKHAS.CLOUD - The Infinite Canvas
 ## Website Architecture & Scalable Consciousness Infrastructure
 

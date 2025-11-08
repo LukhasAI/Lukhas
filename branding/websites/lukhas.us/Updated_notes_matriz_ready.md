@@ -3,7 +3,10 @@ status: ready-for-review
 type: documentation
 updated: 2025-11-05
 rollout_status: matriz-ready
----
+
+evidence_links:
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/experimental-design-95pct.md'---
 # 🇺🇸 LUKHAS.US - MATRIZ Readiness Notes
 ## Minimal Updates Required for American Market Focus
 

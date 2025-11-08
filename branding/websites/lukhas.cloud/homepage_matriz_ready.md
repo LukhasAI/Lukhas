@@ -1,6 +1,10 @@
 ---
 domain: lukhas.cloud
 title: "LUKHAS.CLOUD - Where Consciousness Scales Without Limits"
+evidence_links:
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/experimental-design-95pct.md'
 updated: 2025-11-05
 status: ready-for-implementation
 matriz_integration: distributed-cognitive-infrastructure

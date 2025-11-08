@@ -1,7 +1,10 @@
 ---
 status: wip
 type: documentation
----
+
+evidence_links:
+  - 'release_artifacts/evidence/experimental-design-95pct.md'
+  - 'release_artifacts/evidence/user-satisfaction-94pct.md'---
 # 🛒 LUKHAS.STORE - The Consciousness Marketplace
 ## Website Architecture & Digital Consciousness Commerce Platform
 

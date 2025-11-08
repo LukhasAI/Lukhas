@@ -10,8 +10,9 @@ tone:
 canonical: true
 source: "branding/websites/lukhas.eu/research/lambda-id-privacy-preserving-identity.md"
 evidence_links:
-  - "release_artifacts/lambda-id-security-audit-2024.pdf"
-  - "release_artifacts/gdpr-compliance-validation.json"
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/matriz-completion-87pct.md'
+  - 'release_artifacts/evidence/user-satisfaction-94pct.md'
 claims_verified_by: ["@web-architect", "@legal"]
 claims_verified_date: "2025-11-05"
 claims_approval: true

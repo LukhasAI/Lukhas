@@ -1,7 +1,9 @@
 ---
 status: wip
 type: documentation
----
+
+evidence_links:
+  - 'release_artifacts/evidence/privacy-compliance-999pct.md'---
 # 🛡️ LUKHAS.COM - Homepage Content
 ## The Guardian Hub - Corporate Gateway Narrative
 

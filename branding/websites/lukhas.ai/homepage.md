@@ -14,9 +14,16 @@ canonical: true
 notes: Canonical homepage for lukhas.ai. Full technical architecture available at
   docs/web/LUKHAS_AI_WEBSITE_ARCHITECTURE.md
 evidence_links:
-  - 'release_artifacts/matriz-87-percent-complete-2025-q4.json'
-  - 'release_artifacts/matriz-p95-latency-2025-q3.json'
-  - 'release_artifacts/guardian-compliance-2025-Q3.pdf'
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/experimental-design-95pct.md'
+  - 'release_artifacts/evidence/guardian-compliance-997pct.md'
+  - 'release_artifacts/evidence/matriz-completion-87pct.md'
+  - 'release_artifacts/evidence/matriz-deployment-ready-production.md'
+  - 'release_artifacts/evidence/matriz-p95-latency-250ms.md'
+  - 'release_artifacts/evidence/memory-fold-retrieval-50ms.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'
+  - 'release_artifacts/evidence/user-satisfaction-94pct.md'
 claims_verified_by: ['@web-architect', '@legal']
 claims_verified_date: '2025-11-06'
 claims_approval: true

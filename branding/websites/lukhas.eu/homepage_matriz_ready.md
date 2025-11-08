@@ -10,12 +10,14 @@ tone:
 canonical: true
 source: "branding/websites/lukhas.eu/homepage_matriz_ready.md"
 evidence_links:
-  - "branding/websites/lukhas.eu/research/cognitive-dna-explainable-ai.md"
-  - "branding/websites/lukhas.eu/research/constitutional-validation-production-ai.md"
-  - "branding/websites/lukhas.eu/research/lambda-id-privacy-preserving-identity.md"
-  - "branding/websites/lukhas.eu/research/distributed-consciousness-global-scale.md"
-  - "release_artifacts/matriz-p95-latency-2025-q3.json"
-  - "release_artifacts/guardian-compliance-2025-Q3.pdf"
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/guardian-compliance-997pct.md'
+  - 'release_artifacts/evidence/matriz-completion-87pct.md'
+  - 'release_artifacts/evidence/matriz-p95-latency-250ms.md'
+  - 'release_artifacts/evidence/memory-fold-retrieval-50ms.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'
+  - 'release_artifacts/evidence/validated-production-deployment-eu.md'
 claims_verified_by: ["@web-architect", "@legal", "@research-lead"]
 claims_verified_date: "2025-11-05"
 claims_approval: true

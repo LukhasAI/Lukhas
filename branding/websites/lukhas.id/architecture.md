@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
----
+
+evidence_links:
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/experimental-design-95pct.md'
+  - 'release_artifacts/evidence/privacy-compliance-999pct.md'---
 # ⚛️ LUKHAS.ID - The Identity Anchor
 ## Website Architecture & Authentication Gateway
 

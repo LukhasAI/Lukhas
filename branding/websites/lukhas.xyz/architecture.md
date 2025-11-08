@@ -1,7 +1,9 @@
 ---
 status: wip
 type: documentation
----
+
+evidence_links:
+  - 'release_artifacts/evidence/experimental-design-95pct.md'---
 # 🔬 LUKHAS.XYZ - The Experimental Frontier
 ## Website Architecture & Consciousness Technology Research Laboratory
 

@@ -1,5 +1,11 @@
 ---
 title: "LUKHAS Web Architecture — Summary"
+evidence_links:
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/guardian-compliance-997pct.md'
+  - 'release_artifacts/evidence/matriz-completion-87pct.md'
+  - 'release_artifacts/evidence/matriz-p95-latency-250ms.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'
 owner: "@gonzalo"
 audience: "all"
 updated: "2025-11-05"

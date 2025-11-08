@@ -1,6 +1,13 @@
 ---
 domain: lukhas.eu
 title: "Grant Support Hub - Horizon Europe Partnership Resources"
+evidence_links:
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/guardian-compliance-997pct.md'
+  - 'release_artifacts/evidence/matriz-completion-87pct.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'
+  - 'release_artifacts/evidence/user-satisfaction-94pct.md'
 page_type: grant-support
 updated: 2025-11-05
 status: ready-for-implementation

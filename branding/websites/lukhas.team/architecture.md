@@ -1,7 +1,11 @@
 ---
 status: wip
 type: documentation
----
+
+evidence_links:
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/experimental-design-95pct.md'
+  - 'release_artifacts/evidence/user-satisfaction-94pct.md'---
 # 👥 LUKHAS.TEAM - The Collaborative Consciousness Hub
 ## Website Architecture & Distributed Team Intelligence Platform
 

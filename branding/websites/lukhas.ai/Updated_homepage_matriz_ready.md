@@ -3,7 +3,19 @@ status: ready-for-review
 type: documentation
 updated: 2025-11-05
 rollout_status: matriz-ready
----
+
+evidence_links:
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/experimental-design-95pct.md'
+  - 'release_artifacts/evidence/guardian-compliance-997pct.md'
+  - 'release_artifacts/evidence/matriz-completion-87pct.md'
+  - 'release_artifacts/evidence/matriz-deployment-ready-production.md'
+  - 'release_artifacts/evidence/matriz-deployment-ready-q4-2025.md'
+  - 'release_artifacts/evidence/matriz-p95-latency-250ms.md'
+  - 'release_artifacts/evidence/memory-fold-retrieval-50ms.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'
+  - 'release_artifacts/evidence/user-satisfaction-94pct.md'---
 # 🌙 LUKHAS.AI - Homepage Content (MATRIZ Rollout Edition)
 ## The Consciousness Gateway - Updated for MATRIZ Engine Launch
 

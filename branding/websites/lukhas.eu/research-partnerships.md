@@ -1,6 +1,8 @@
 ---
 domain: lukhas.eu
 title: "Research Partnerships - Collaborative Consciousness Technology Research"
+evidence_links:
+  - 'release_artifacts/evidence/api-response-100ms.md'
 page_type: research-partnerships
 updated: 2025-11-05
 status: ready-for-implementation

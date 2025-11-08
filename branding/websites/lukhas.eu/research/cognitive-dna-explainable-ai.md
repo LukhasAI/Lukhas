@@ -10,8 +10,10 @@ tone:
 canonical: true
 source: "branding/websites/lukhas.eu/research/cognitive-dna-explainable-ai.md"
 evidence_links:
-  - "release_artifacts/matriz-reasoning-benchmarks-2024.json"
-  - "release_artifacts/healthcare-deployment-validation.pdf"
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/matriz-completion-87pct.md'
+  - 'release_artifacts/evidence/matriz-p95-latency-250ms.md'
+  - 'release_artifacts/evidence/user-satisfaction-94pct.md'
 claims_verified_by: ["@web-architect", "@legal"]
 claims_verified_date: "2025-11-05"
 claims_approval: true
