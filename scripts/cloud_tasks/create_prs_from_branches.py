@@ -18,6 +18,7 @@ Requires GitHub CLI (gh) and git.
 import argparse
 import subprocess
 import sys
+from typing import Tuple
 
 
 def sh(cmd: list[str], check=True) -> subprocess.CompletedProcess:

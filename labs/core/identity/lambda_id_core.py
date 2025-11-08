@@ -12,7 +12,7 @@ import json
 import logging
 import secrets
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Any, Optional, Union
 
@@ -62,49 +62,33 @@ CHALLENGE_TIMEOUT_SECONDS = 300
 MAX_PERFORMANCE_SAMPLES = 1000
 
 
-def _default_user_namespace() -> dict[str, Any]:
-    return {
+@dataclass
+class ΛIDNamespace:
+    """ΛID Namespace Schema Definition per Claude_7.yml specifications"""
+
+    USER = {
         "prefix": "USR",
         "required_fields": ["email", "display_name", "consent_id"],
         "capabilities": ["authenticate", "consent", "data_access", "feedback"],
     }
 
-
-def _default_agent_namespace() -> dict[str, Any]:
-    return {
+    AGENT = {
         "prefix": "AGT",
         "required_fields": ["agent_type", "version", "specialist_role"],
         "capabilities": ["execute", "orchestrate", "audit", "integrate"],
     }
 
-
-def _default_service_namespace() -> dict[str, Any]:
-    return {
+    SERVICE = {
         "prefix": "SVC",
         "required_fields": ["service_name", "endpoint", "oauth_provider"],
         "capabilities": ["api_access", "data_process", "token_exchange"],
     }
 
-
-def _default_system_namespace() -> dict[str, Any]:
-    return {
+    SYSTEM = {
         "prefix": "SYS",
         "required_fields": ["component", "module_path"],
         "capabilities": ["internal_ops", "kernel_access", "policy_enforce"],
     }
-
-
-@dataclass
-class ΛIDNamespace:
-    """ΛID Namespace Schema Definition per Claude_7.yml specifications"""
-
-    USER: dict[str, Any] = field(default_factory=_default_user_namespace)
-    AGENT: dict[str, Any] = field(default_factory=_default_agent_namespace)
-    SERVICE: dict[str, Any] = field(default_factory=_default_service_namespace)
-    SYSTEM: dict[str, Any] = field(default_factory=_default_system_namespace)
-
-
-_DEFAULT_NAMESPACES = ΛIDNamespace()
 
 
 class LukhasIDGenerator:
@@ -130,7 +114,7 @@ class LukhasIDGenerator:
                 raise ΛIDError("Metadata must be a dictionary")
 
             # Validate namespace
-            ns_config = getattr(_DEFAULT_NAMESPACES, namespace.upper(), None)
+            ns_config = getattr(ΛIDNamespace, namespace.upper(), None)
             if not ns_config:
                 valid_namespaces = ["USER", "AGENT", "SERVICE", "SYSTEM"]
                 raise InvalidNamespaceError(f"Invalid namespace: {namespace}. Valid options: {valid_namespaces}")
@@ -182,7 +166,7 @@ class LukhasIDGenerator:
 
             prefix = parts[0]
             for ns_name in ["USER", "AGENT", "SERVICE", "SYSTEM"]:
-                if getattr(_DEFAULT_NAMESPACES, ns_name)["prefix"] == prefix:
+                if getattr(ΛIDNamespace, ns_name)["prefix"] == prefix:
                     return ns_name.lower()
 
             raise ΛIDError(f"Unknown namespace prefix: {prefix}")
