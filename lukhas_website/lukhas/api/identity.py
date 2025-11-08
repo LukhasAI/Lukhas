@@ -31,7 +31,6 @@ from pydantic import BaseModel, Field
 try:
     from ..governance.guardian_system import GuardianSystem
     from ..identity.biometrics import (
-        BiometricAttestation,  # TODO: ..identity.biometrics.Biometri...
         BiometricModality,
         MockBiometricProvider,
         create_mock_biometric_provider,
