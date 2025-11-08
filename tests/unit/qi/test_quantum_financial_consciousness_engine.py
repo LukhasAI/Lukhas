@@ -1,4 +1,5 @@
 import pytest
+
 from core.quantum_financial.quantum_financial_consciousness_engine import (
     QuantumFinancialConsciousnessEngine,
 )

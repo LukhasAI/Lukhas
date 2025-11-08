@@ -16,11 +16,11 @@ from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from identity.auth_service import verify_token
 from opentelemetry import trace
 from pydantic import BaseModel, Field
 
 from governance.guardian import get_guardian
+from identity.auth_service import verify_token
 from observability import counter, histogram
 
 from .multi_ai_router import AIProvider, ConsensusType, RoutingRequest, get_multi_ai_router

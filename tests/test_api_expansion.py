@@ -2,8 +2,9 @@
 Unit tests for the LUKHAS API Expansion module.
 """
 
-from api.expansion_api import app
 from fastapi.testclient import TestClient
+
+from api.expansion_api import app
 
 client = TestClient(app)
 
