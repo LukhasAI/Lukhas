@@ -15,6 +15,10 @@ from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from typing import Any, Optional
 
+from resilience.circuit_breaker import (
+    CircuitBreakerConfig,
+    CircuitBreakerRegistry,
+)
 from monitoring.health_system import (
     HealthMonitoringSystem,
     RestartServiceAction,

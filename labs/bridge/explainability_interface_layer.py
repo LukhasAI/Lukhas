@@ -508,7 +508,7 @@ class ExplainabilityInterface:
         clarity = await self._calculate_clarity_score(content_str)
 
         # Consistency: Check for contradictions
-        consistency = await self._calculate_consistency_score(explanation)
+        consistency = await self._calculate_consistency_score(explanation, decision)
 
         # Overall weighted score
         overall = (
@@ -540,46 +540,60 @@ class ExplainabilityInterface:
 
     async def _calculate_clarity_score(self, text: str) -> float:
         """
-        Calculate NLP-based clarity metrics.
+        Calculate NLP-based clarity metrics using Flesch-Kincaid readability.
         
         Args:
             text: Text to analyze
         
         Returns:
-            Clarity score (0-1)
+            Clarity score (0-1), normalized from the Flesch reading ease score.
         
         Task: TODO-HIGH-BRIDGE-EXPLAIN-u3v4w5x6 (NLP clarity metrics)
         """
-        # Simplified clarity calculation
-        # Real implementation would use NLP libraries (spaCy, TextBlob, etc.)
-
-        # Factors:
-        # 1. Sentence length (shorter is clearer)
-        sentences = text.split('.')
-        avg_sentence_length = len(text) / max(len(sentences), 1)
-        length_score = 1.0 - min(avg_sentence_length / 200, 1.0)
-
-        # 2. Word complexity (simpler words are clearer)
+        # Improved clarity calculation using Flesch-Kincaid Readability test.
+        # This is a more standard NLP metric that doesn't require heavy libraries.
         words = text.split()
-        avg_word_length = sum(len(w) for w in words) / max(len(words), 1)
-        complexity_score = 1.0 - min(avg_word_length / 15, 1.0)
+        num_words = len(words)
+        num_sentences = text.count('.') + text.count('!') + text.count('?')
+        if num_sentences == 0:
+            num_sentences = 1
 
-        # 3. Readability (presence of connectors, structure)
-        connectors = ['because', 'therefore', 'thus', 'however', 'moreover', 'furthermore']
-        connector_count = sum(1 for c in connectors if c in text.lower())
-        structure_score = min(connector_count / 3, 1.0)
+        def count_syllables(word):
+            word = word.lower()
+            count = 0
+            vowels = "aeiouy"
+            if word[0] in vowels:
+                count += 1
+            for index in range(1, len(word)):
+                if word[index] in vowels and word[index - 1] not in vowels:
+                    count += 1
+            if word.endswith("e"):
+                count -= 1
+            if count == 0:
+                count += 1
+            return count
 
-        # Combined clarity score
-        clarity = (length_score * 0.4 + complexity_score * 0.3 + structure_score * 0.3)
+        num_syllables = sum(count_syllables(word) for word in words)
 
-        return max(0.0, min(1.0, clarity))
+        if num_words == 0 or num_sentences == 0:
+            return 0.0
 
-    async def _calculate_consistency_score(self, explanation: Explanation) -> float:
+        # Flesch reading ease formula
+        score = 206.835 - 1.015 * (num_words / num_sentences) - 84.6 * (num_syllables / num_words)
+
+        # Normalize score to be between 0 and 1.
+        # A score of 100 is very easy, 0 is very difficult.
+        normalized_score = max(0.0, min(1.0, score / 100.0))
+
+        return normalized_score
+
+    async def _calculate_consistency_score(self, explanation: Explanation, decision: Dict[str, Any]) -> float:
         """
         Calculate internal consistency score.
         
         Args:
             explanation: Explanation to check
+            decision: The decision being explained
         
         Returns:
             Consistency score (0-1)
@@ -599,6 +613,17 @@ class ExplainabilityInterface:
             confidences = [step.get('confidence', 1.0) for step in explanation.reasoning_trace]
             if any(c < 0 or c > 1 for c in confidences):
                 score *= 0.7
+
+        # MEG Integration for consistency validation
+        if self.meg_client:
+            meg_context = await self._get_meg_context(decision)
+            if meg_context:
+                # Example: Check if explanation contradicts past decisions
+                if meg_context.get('contradicts_past_decision'):
+                    score *= 0.6
+                if meg_context.get('is_novel_pattern'):
+                    # Could be good or bad, let's say it slightly reduces confidence until verified
+                    score *= 0.9
 
         return score
 
@@ -641,7 +666,7 @@ class ExplainabilityInterface:
         level: ExplanationLevel
     ) -> Dict[str, Any]:
         """
-        Generate multi-modal explanation (text + visual + audio).
+        Generate multi-modal explanation (text + visual + audio + symbolic).
         
         Args:
             decision: Decision data
@@ -674,11 +699,22 @@ class ExplainabilityInterface:
             'generated_at': generated_at,
         }
 
+        # Generate symbolic component
+        symbolic_text = await self._generate_symbolic_explanation(decision, level)
+        symbolic = {
+            'type': 'symbolic_trace',
+            'content': symbolic_text,
+            'format': 'text/plain',
+            'url': f"/api/symbolic/{decision.get('id')}",
+            'generated_at': generated_at,
+        }
+
         # ΛTAG: multimodal_enrichment
         return {
             'text': text_output,
             'visual': visual,
             'audio': audio,
+            'symbolic': symbolic,
         }
 
     async def _generate_text_explanation(
