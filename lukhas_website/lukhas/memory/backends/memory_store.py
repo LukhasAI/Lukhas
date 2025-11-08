@@ -14,12 +14,13 @@ Performance targets:
 import threading
 import time
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
+from scipy.spatial.distance import cosine
+
 from core.common.logger import get_logger
 from observability.service_metrics import get_metrics_collector
-from scipy.spatial.distance import cosine
 
 from .base import (
     AbstractVectorStore,
@@ -60,11 +61,11 @@ class InMemoryVectorStore(AbstractVectorStore):
         self.enable_caching = enable_caching
 
         # Document storage
-        self.documents: Dict[str, VectorDocument] = {}
-        self.embeddings: Dict[str, np.ndarray] = {}
+        self.documents: dict[str, VectorDocument] = {}
+        self.embeddings: dict[str, np.ndarray] = {}
 
         # Search cache for frequently used queries
-        self.query_cache: Dict[str, List[SearchResult]] = {}
+        self.query_cache: dict[str, list[SearchResult]] = {}
         self.cache_hits = 0
         self.cache_misses = 0
 
@@ -189,7 +190,7 @@ class InMemoryVectorStore(AbstractVectorStore):
             )
             raise VectorStoreError(f"Failed to add document: {e}") from e
 
-    async def bulk_add(self, documents: List[VectorDocument]) -> List[bool]:
+    async def bulk_add(self, documents: list[VectorDocument]) -> list[bool]:
         """Add multiple documents in batch"""
         start_time = time.perf_counter()
 
@@ -331,9 +332,9 @@ class InMemoryVectorStore(AbstractVectorStore):
         self,
         query_vector: np.ndarray,
         k: int = 10,
-        filters: Optional[Dict[str, Any]] = None,
+        filters: Optional[dict[str, Any]] = None,
         include_metadata: bool = True
-    ) -> List[SearchResult]:
+    ) -> list[SearchResult]:
         """Vector similarity search with exact computation"""
         start_time = time.perf_counter()
 
@@ -425,8 +426,8 @@ class InMemoryVectorStore(AbstractVectorStore):
         self,
         query_text: str,
         k: int = 10,
-        filters: Optional[Dict[str, Any]] = None
-    ) -> List[SearchResult]:
+        filters: Optional[dict[str, Any]] = None
+    ) -> list[SearchResult]:
         """Text-based search using exact text matching"""
         start_time = time.perf_counter()
 
@@ -517,7 +518,7 @@ class InMemoryVectorStore(AbstractVectorStore):
 
         return min(score, 1.0)
 
-    def _matches_filters(self, document: VectorDocument, filters: Dict[str, Any]) -> bool:
+    def _matches_filters(self, document: VectorDocument, filters: dict[str, Any]) -> bool:
         """Check if document matches filters"""
         for key, value in filters.items():
             if key == "identity_id":
@@ -543,7 +544,7 @@ class InMemoryVectorStore(AbstractVectorStore):
 
         return True
 
-    def _generate_cache_key(self, query_vector: np.ndarray, k: int, filters: Optional[Dict[str, Any]]) -> str:
+    def _generate_cache_key(self, query_vector: np.ndarray, k: int, filters: Optional[dict[str, Any]]) -> str:
         """Generate cache key for query"""
         # Simple hash of query vector + parameters
         vector_hash = hash(query_vector.tobytes())
@@ -704,7 +705,7 @@ class InMemoryVectorStore(AbstractVectorStore):
                 documents_by_lane={}, documents_by_fold={}, avg_dimension=float(self.dimension)
             )
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check for monitoring"""
         try:
             with self._lock:

@@ -21,7 +21,7 @@ import json
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 # Load T4 research pipeline
 # Load vocabulary rotation engine
@@ -182,7 +182,7 @@ class MonthlyVocabularyRefresh:
             "vocabulary_deployed": len(new_vocabulary) if deployment_success else 0
         }
 
-    async def _research_consciousness_developments(self) -> List[Dict]:
+    async def _research_consciousness_developments(self) -> list[Dict]:
         """Research latest consciousness technology developments."""
         # Use T4 research pipeline for consciousness developments
         research_query = """
@@ -215,7 +215,7 @@ class MonthlyVocabularyRefresh:
             print(f"⚠️ Research error: {e}")
             return []
 
-    async def _analyze_user_interactions(self) -> List[Dict]:
+    async def _analyze_user_interactions(self) -> list[Dict]:
         """Analyze user interaction patterns for vocabulary optimization."""
         # Simulate user interaction analysis
         patterns = [
@@ -248,7 +248,7 @@ class MonthlyVocabularyRefresh:
         await asyncio.sleep(0.1)  # Simulate processing time
         return patterns
 
-    async def _gather_domain_inspiration(self) -> List[Dict]:
+    async def _gather_domain_inspiration(self) -> list[Dict]:
         """Gather metaphor inspiration from various domains."""
         domains = [
             {
@@ -276,7 +276,7 @@ class MonthlyVocabularyRefresh:
         await asyncio.sleep(0.1)  # Simulate research time
         return domains
 
-    async def _identify_semantic_gaps(self) -> List[Dict]:
+    async def _identify_semantic_gaps(self) -> list[Dict]:
         """Identify areas where current vocabulary needs improvement."""
         gaps = [
             {
@@ -302,7 +302,7 @@ class MonthlyVocabularyRefresh:
         await asyncio.sleep(0.1)  # Simulate analysis time
         return gaps
 
-    async def _synthesize_vocabulary(self, research_results: Dict) -> List[Dict]:
+    async def _synthesize_vocabulary(self, research_results: Dict) -> list[Dict]:
         """Synthesize new vocabulary from research insights."""
         vocabulary = []
 
@@ -333,7 +333,7 @@ class MonthlyVocabularyRefresh:
         await asyncio.sleep(0.1)  # Simulate synthesis time
         return vocabulary
 
-    async def _validate_consciousness_alignment(self, vocabulary: List[Dict]) -> List[Dict]:
+    async def _validate_consciousness_alignment(self, vocabulary: list[Dict]) -> list[Dict]:
         """Validate vocabulary alignment with LUKHAS consciousness."""
         validated = []
 
@@ -352,7 +352,7 @@ class MonthlyVocabularyRefresh:
         await asyncio.sleep(0.1)  # Simulate validation time
         return validated
 
-    async def _validate_novelty(self, vocabulary: List[Dict]) -> List[Dict]:
+    async def _validate_novelty(self, vocabulary: list[Dict]) -> list[Dict]:
         """Validate vocabulary meets novelty threshold."""
         validated = []
 
@@ -367,7 +367,7 @@ class MonthlyVocabularyRefresh:
         await asyncio.sleep(0.1)  # Simulate validation time
         return validated
 
-    async def _integrate_into_families(self, vocabulary: List[Dict]) -> Dict:
+    async def _integrate_into_families(self, vocabulary: list[Dict]) -> Dict:
         """Integrate validated vocabulary into 8-family system."""
         family_assignments = {}
 
@@ -396,7 +396,7 @@ class MonthlyVocabularyRefresh:
         await asyncio.sleep(0.1)  # Simulate integration time
         return family_assignments
 
-    async def _simulate_ab_testing(self, vocabulary: List[Dict]) -> Dict:
+    async def _simulate_ab_testing(self, vocabulary: list[Dict]) -> Dict:
         """Simulate A/B testing of new vocabulary."""
         # Simulate testing results
         success_count = 0
@@ -422,7 +422,7 @@ class MonthlyVocabularyRefresh:
             "average_score": 0.86
         }
 
-    async def _measure_consciousness_resonance(self, vocabulary: List[Dict]) -> float:
+    async def _measure_consciousness_resonance(self, vocabulary: list[Dict]) -> float:
         """Measure consciousness resonance of new vocabulary."""
         if not vocabulary:
             return 0.0
@@ -470,7 +470,7 @@ class MonthlyVocabularyRefresh:
         with open(self.cycle_log, "a") as f:
             f.write(json.dumps(cycle_report) + "\n")
 
-    def get_cycle_history(self) -> List[Dict]:
+    def get_cycle_history(self) -> list[Dict]:
         """Get history of vocabulary refresh cycles."""
         if not self.cycle_log.exists():
             return []

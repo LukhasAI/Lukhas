@@ -21,10 +21,9 @@ from typing import Any, Optional
 from urllib.parse import urlparse
 
 import aiohttp
+import docker
 import httpx
 from bs4 import BeautifulSoup
-
-import docker
 
 logger = logging.getLogger("ΛTRACE.tools.executor")
 

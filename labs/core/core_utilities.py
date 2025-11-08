@@ -17,7 +17,6 @@ from typing import Any
 
 import psutil
 import structlog
-
 from core.swarm import AgentColony
 from core.symbolic_diagnostics.trace_repair_engine import TraceRepairEngine
 from core.tiered_state_management import StateType, TieredStateManager

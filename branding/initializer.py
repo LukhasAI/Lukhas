@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import Any, Dict
+from typing import Any
 
 try:
     from branding import APPROVED_TERMS as _APPROVED_TERMS  # type: ignore
@@ -16,7 +16,7 @@ except Exception:
     _SYSTEM_NAME = "LUKHAS"
 
 
-def initialize_branding(**overrides: Any) -> Dict[str, Any]:
+def initialize_branding(**overrides: Any) -> dict[str, Any]:
     """Ensure branding globals exist and optionally override them."""
 
     global APPROVED_TERMS, SYSTEM_NAME  # type: ignore[assignment]

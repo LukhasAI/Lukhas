@@ -5,7 +5,7 @@ import pathlib
 import subprocess
 import sys
 import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Import telemetry shim
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "tools", "mcp"))
@@ -13,7 +13,7 @@ from telemetry_shim import wrap_result
 
 CATALOG = json.loads(pathlib.Path(__file__).parent.joinpath("tooling/catalog.json").read_text())
 
-def timed_run_tool(tool: Dict[str, Any], stdin: Optional[str] = None) -> Dict[str, Any]:
+def timed_run_tool(tool: dict[str, Any], stdin: Optional[str] = None) -> dict[str, Any]:
     # Safe by default: Block unsafe tools unless explicitly enabled
     if tool.get("safe") is False and os.environ.get("ALLOW_UNSAFE_TOOLS") != "1":
         return wrap_result(tool["name"], 2, "", "blocked: unsafe tool (set ALLOW_UNSAFE_TOOLS=1)")
@@ -32,7 +32,7 @@ def timed_run_tool(tool: Dict[str, Any], stdin: Optional[str] = None) -> Dict[st
 
     return wrap_result(tool["name"], proc.returncode, proc.stdout, proc.stderr)
 
-def list_tools() -> List[Dict[str, Any]]:
+def list_tools() -> list[dict[str, Any]]:
     ns = CATALOG["namespace"]
     out = []
     for t in CATALOG["tools"]:

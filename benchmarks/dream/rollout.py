@@ -7,7 +7,7 @@ import random
 import time
 from dataclasses import asdict, dataclass
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 
 class RolloutStrategy(Enum):
@@ -40,10 +40,10 @@ class SafetyThresholds:
 class RolloutConfig:
     """Configuration for a rollout."""
     strategy: RolloutStrategy
-    target_config: Dict[str, Any]
+    target_config: dict[str, Any]
     safety_thresholds: SafetyThresholds
     canary_percentage: float = 5.0  # For canary/A-B testing
-    gradual_steps: List[float] = None  # For gradual rollout [10, 25, 50, 100]
+    gradual_steps: list[float] = None  # For gradual rollout [10, 25, 50, 100]
     rollback_threshold_violations: int = 3  # Violations before auto-rollback
     monitoring_duration_minutes: int = 30
 
@@ -52,8 +52,8 @@ class RolloutEvent:
     """Single rollout event/measurement."""
     timestamp: float
     percentage: float
-    metrics: Dict[str, float]
-    threshold_violations: List[str]
+    metrics: dict[str, float]
+    threshold_violations: list[str]
     status: RolloutStatus
 
 @dataclass
@@ -61,8 +61,8 @@ class RolloutPlan:
     """Complete rollout plan with monitoring."""
     plan_id: str
     config: RolloutConfig
-    baseline_metrics: Dict[str, float]
-    events: List[RolloutEvent]
+    baseline_metrics: dict[str, float]
+    events: list[RolloutEvent]
     current_status: RolloutStatus
     created_at: float
     completed_at: float | None = None
@@ -72,7 +72,7 @@ class RolloutManager:
 
     def __init__(self, state_file: str = "benchmarks/dream/rollout_state.json"):
         self.state_file = state_file
-        self.plans: Dict[str, RolloutPlan] = {}
+        self.plans: dict[str, RolloutPlan] = {}
         self._load_state()
 
     def _load_state(self) -> None:
@@ -163,7 +163,7 @@ class RolloutManager:
         except Exception as e:
             print(f"Warning: Failed to save rollout state: {e}")
 
-    def create_rollout_plan(self, target_config: Dict[str, Any],
+    def create_rollout_plan(self, target_config: dict[str, Any],
                            strategy: RolloutStrategy = RolloutStrategy.CANARY,
                            safety_thresholds: SafetyThresholds = None) -> str:
         """Create a new rollout plan."""
@@ -207,7 +207,7 @@ class RolloutManager:
 
         return plan_id
 
-    def _get_baseline_metrics(self) -> Dict[str, float]:
+    def _get_baseline_metrics(self) -> dict[str, float]:
         """Get baseline metrics from current system (simulated)."""
         # In real implementation, this would query production metrics
         return {
@@ -218,7 +218,7 @@ class RolloutManager:
             'stability': 1.0
         }
 
-    def _simulate_metrics(self, config: Dict[str, Any], percentage: float) -> Dict[str, float]:
+    def _simulate_metrics(self, config: dict[str, Any], percentage: float) -> dict[str, float]:
         """Simulate metrics for given config and rollout percentage."""
         # Simulate realistic metrics with some noise
         base_accuracy = 0.82 + random.gauss(0, 0.02)
@@ -246,8 +246,8 @@ class RolloutManager:
             'stability': 1.0
         }
 
-    def check_safety_thresholds(self, metrics: Dict[str, float],
-                               thresholds: SafetyThresholds) -> List[str]:
+    def check_safety_thresholds(self, metrics: dict[str, float],
+                               thresholds: SafetyThresholds) -> list[str]:
         """Check if metrics violate safety thresholds."""
         violations = []
 
@@ -310,7 +310,7 @@ class RolloutManager:
 
         return len(violations) == 0
 
-    def execute_full_rollout(self, plan_id: str) -> Dict[str, Any]:
+    def execute_full_rollout(self, plan_id: str) -> dict[str, Any]:
         """Execute complete rollout according to plan."""
         if plan_id not in self.plans:
             raise ValueError(f"Unknown plan: {plan_id}")
@@ -390,7 +390,7 @@ class RolloutManager:
 
         return True
 
-    def get_rollout_status(self, plan_id: str) -> Dict[str, Any]:
+    def get_rollout_status(self, plan_id: str) -> dict[str, Any]:
         """Get current status of a rollout plan."""
         if plan_id not in self.plans:
             raise ValueError(f"Unknown plan: {plan_id}")
@@ -412,11 +412,11 @@ class RolloutManager:
             'target_config': plan.config.target_config
         }
 
-    def list_plans(self) -> List[Dict[str, Any]]:
+    def list_plans(self) -> list[dict[str, Any]]:
         """List all rollout plans."""
         return [self.get_rollout_status(plan_id) for plan_id in self.plans]
 
-def create_and_execute_rollout(config: Dict[str, Any], strategy: str = "canary") -> Dict[str, Any]:
+def create_and_execute_rollout(config: dict[str, Any], strategy: str = "canary") -> dict[str, Any]:
     """Create and execute a rollout plan."""
     manager = RolloutManager()
 

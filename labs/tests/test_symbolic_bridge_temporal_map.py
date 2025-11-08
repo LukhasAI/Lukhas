@@ -1,10 +1,10 @@
 """Tests for the consciousness bridge token mapping utilities."""
 
-from datetime import datetime, timedelta, timezone
 import importlib.util
-from pathlib import Path
 import sys
 import types
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 import pytest
 

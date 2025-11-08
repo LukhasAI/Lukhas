@@ -27,13 +27,14 @@ from typing import Optional
 import pytest
 
 pytest.importorskip("hypothesis")
+from hypothesis import assume, given, settings, strategies as st
+
 from bridge.external_adapters.oauth_manager import (
     CircuitBreaker,
     CircuitBreakerState,
     OAuthManager,
     OAuthProvider,
 )
-from hypothesis import assume, given, settings, strategies as st
 
 # Configure Hypothesis for aggressive testing
 settings.register_profile("dev", max_examples=100)

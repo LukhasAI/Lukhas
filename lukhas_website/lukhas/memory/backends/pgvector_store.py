@@ -14,11 +14,12 @@ Performance targets:
 import json
 import time
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import asyncpg
 import numpy as np
 from asyncpg.pool import Pool
+
 from core.common.logger import get_logger
 from observability.service_metrics import get_metrics_collector
 
@@ -53,7 +54,7 @@ class PgVectorStore(AbstractVectorStore):
         table_name: str = "vector_documents",
         dimension: int = 1536,
         index_type: str = "hnsw",  # hnsw, ivfflat
-        index_params: Optional[Dict[str, Any]] = None,
+        index_params: Optional[dict[str, Any]] = None,
         pool_size: int = 10,
         max_pool_size: int = 20
     ):
@@ -286,7 +287,7 @@ class PgVectorStore(AbstractVectorStore):
             )
             raise VectorStoreError(f"Failed to add document: {e}") from e
 
-    async def bulk_add(self, documents: List[VectorDocument]) -> List[bool]:
+    async def bulk_add(self, documents: list[VectorDocument]) -> list[bool]:
         """Add multiple documents in batch"""
         start_time = time.perf_counter()
 
@@ -474,9 +475,9 @@ class PgVectorStore(AbstractVectorStore):
         self,
         query_vector: np.ndarray,
         k: int = 10,
-        filters: Optional[Dict[str, Any]] = None,
+        filters: Optional[dict[str, Any]] = None,
         include_metadata: bool = True
-    ) -> List[SearchResult]:
+    ) -> list[SearchResult]:
         """Vector similarity search using cosine similarity"""
         start_time = time.perf_counter()
 
@@ -588,8 +589,8 @@ class PgVectorStore(AbstractVectorStore):
         self,
         query_text: str,
         k: int = 10,
-        filters: Optional[Dict[str, Any]] = None
-    ) -> List[SearchResult]:
+        filters: Optional[dict[str, Any]] = None
+    ) -> list[SearchResult]:
         """Text-based search (requires external embedding service)"""
         # This would require an embedding service integration
         # For now, we'll do a simple text search as fallback
@@ -818,7 +819,7 @@ class PgVectorStore(AbstractVectorStore):
                 avg_dimension=float(self.dimension)
             )
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check for monitoring"""
         try:
             async with self.pool.acquire() as conn:

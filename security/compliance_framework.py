@@ -8,7 +8,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable
 
 
 class ControlStatus(Enum):
@@ -38,7 +38,7 @@ class RiskLevel(Enum):
     CRITICAL = "critical"
 
 
-_RISK_SCORES: Dict[RiskLevel, int] = {
+_RISK_SCORES: dict[RiskLevel, int] = {
     RiskLevel.LOW: 1,
     RiskLevel.MEDIUM: 2,
     RiskLevel.HIGH: 3,
@@ -54,9 +54,9 @@ class ControlAssessment:
     control_id: str
     result: ControlStatus
     assessment_type: str
-    findings: List[str] = field(default_factory=list)
+    findings: list[str] = field(default_factory=list)
     assessed_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     confidence: float = 0.0
 
 
@@ -95,8 +95,8 @@ class ComplianceReport:
     id: str
     generated_at: datetime
     overall_status: str
-    totals: Dict[str, Any]
-    details: Dict[str, Any]
+    totals: dict[str, Any]
+    details: dict[str, Any]
 
 
 def _normalise_control_status(value: Any) -> ControlStatus:
@@ -133,10 +133,10 @@ class ComplianceFramework:
     def __init__(self, evidence_path: str, guardian_integration: bool = True) -> None:
         self.evidence_path = evidence_path
         self.guardian_integration = guardian_integration
-        self.automation_handlers: Dict[str, Callable[[Dict[str, Any]], Dict[str, Any]]] = {}
-        self.assessments: Dict[str, ControlAssessment] = {}
-        self.evidence: Dict[str, EvidenceRecord] = {}
-        self.risk_assessments: Dict[str, RiskAssessment] = {}
+        self.automation_handlers: dict[str, Callable[[dict[str, Any]], dict[str, Any]]] = {}
+        self.assessments: dict[str, ControlAssessment] = {}
+        self.evidence: dict[str, EvidenceRecord] = {}
+        self.risk_assessments: dict[str, RiskAssessment] = {}
         self.assessment_count = 0
         self.automation_count = 0
 
@@ -146,7 +146,7 @@ class ComplianceFramework:
     # Automation
     # ------------------------------------------------------------------
     def register_automation_handler(
-        self, control_id: str, handler: Callable[[Dict[str, Any]], Dict[str, Any]]
+        self, control_id: str, handler: Callable[[dict[str, Any]], dict[str, Any]]
     ) -> None:
         """Register an automation handler for a control."""
 
@@ -157,8 +157,8 @@ class ComplianceFramework:
 
         handler = self.automation_handlers.get(control_id)
         assessment_id = str(uuid.uuid4())
-        findings: List[str] = []
-        metadata: Dict[str, Any] = {}
+        findings: list[str] = []
+        metadata: dict[str, Any] = {}
         confidence = 0.0
 
         if handler:
@@ -302,7 +302,7 @@ class ComplianceFramework:
         )
 
 
-def create_compliance_framework(config: Dict[str, Any] | None = None) -> ComplianceFramework:
+def create_compliance_framework(config: dict[str, Any] | None = None) -> ComplianceFramework:
     """Factory helper used by the test suite to build a framework instance."""
 
     config = config or {}

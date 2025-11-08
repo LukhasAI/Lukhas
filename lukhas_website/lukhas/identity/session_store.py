@@ -20,12 +20,13 @@ from abc import ABC, abstractmethod
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Dict, List, Optional, Union
+from typing import Optional, Union
 from uuid import uuid4
 
 import aioredis
-from core.logging import get_logger
 from cryptography.fernet import Fernet
+
+from core.logging import get_logger
 from observability.metrics import get_metrics_collector
 
 logger = get_logger(__name__)
@@ -41,10 +42,10 @@ class SessionData:
     created_at: datetime
     expires_at: datetime
     last_accessed: datetime
-    metadata: Dict[str, any]
+    metadata: dict[str, any]
     encrypted_data: Optional[bytes] = None
 
-    def to_dict(self) -> Dict[str, any]:
+    def to_dict(self) -> dict[str, any]:
         """Convert to dictionary for storage"""
         data = asdict(self)
         # Convert datetimes to ISO strings for JSON serialization
@@ -54,7 +55,7 @@ class SessionData:
         return data
 
     @classmethod
-    def from_dict(cls, data: Dict[str, any]) -> 'SessionData':
+    def from_dict(cls, data: dict[str, any]) -> 'SessionData':
         """Create from dictionary"""
         # Convert ISO strings back to datetimes
         for key in ['created_at', 'expires_at', 'last_accessed']:
@@ -115,12 +116,12 @@ class AbstractSessionStore(ABC):
         pass
 
     @abstractmethod
-    async def list_sessions(self, user_id: Optional[str] = None) -> List[SessionData]:
+    async def list_sessions(self, user_id: Optional[str] = None) -> list[SessionData]:
         """List sessions, optionally filtered by user"""
         pass
 
     @abstractmethod
-    async def get_stats(self) -> Dict[str, any]:
+    async def get_stats(self) -> dict[str, any]:
         """Get storage statistics"""
         pass
 
@@ -359,7 +360,7 @@ class RedisSessionStore(AbstractSessionStore):
             logger.error("Failed to sweep expired sessions", error=str(e))
             return 0
 
-    async def list_sessions(self, user_id: Optional[str] = None) -> List[SessionData]:
+    async def list_sessions(self, user_id: Optional[str] = None) -> list[SessionData]:
         """List sessions from Redis"""
         sessions = []
 
@@ -387,7 +388,7 @@ class RedisSessionStore(AbstractSessionStore):
             logger.error("Failed to list sessions", error=str(e))
             return []
 
-    async def get_stats(self) -> Dict[str, any]:
+    async def get_stats(self) -> dict[str, any]:
         """Get Redis session store statistics"""
         try:
             await self.connect()
@@ -642,7 +643,7 @@ class SQLiteSessionStore(AbstractSessionStore):
             logger.error("Failed to sweep expired sessions from SQLite", error=str(e))
             return 0
 
-    async def list_sessions(self, user_id: Optional[str] = None) -> List[SessionData]:
+    async def list_sessions(self, user_id: Optional[str] = None) -> list[SessionData]:
         """List sessions from SQLite"""
         try:
             with sqlite3.connect(str(self.db_path)) as conn:
@@ -683,7 +684,7 @@ class SQLiteSessionStore(AbstractSessionStore):
             logger.error("Failed to list sessions from SQLite", error=str(e))
             return []
 
-    async def get_stats(self) -> Dict[str, any]:
+    async def get_stats(self) -> dict[str, any]:
         """Get SQLite session store statistics"""
         try:
             with sqlite3.connect(str(self.db_path)) as conn:
@@ -752,7 +753,7 @@ class SessionManager:
         self,
         user_id: str,
         tier: str,
-        metadata: Optional[Dict[str, any]] = None,
+        metadata: Optional[dict[str, any]] = None,
         ttl_seconds: Optional[int] = None
     ) -> SessionData:
         """Create new session"""
@@ -788,7 +789,7 @@ class SessionManager:
         """Delete session"""
         return await self.store.delete(session_id)
 
-    async def list_user_sessions(self, user_id: str) -> List[SessionData]:
+    async def list_user_sessions(self, user_id: str) -> list[SessionData]:
         """List sessions for specific user"""
         return await self.store.list_sessions(user_id)
 
@@ -796,7 +797,7 @@ class SessionManager:
         """Manual cleanup of expired sessions"""
         return await self.store.sweep_expired()
 
-    async def get_statistics(self) -> Dict[str, any]:
+    async def get_statistics(self) -> dict[str, any]:
         """Get session store statistics"""
         return await self.store.get_stats()
 

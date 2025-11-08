@@ -13,6 +13,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import openai
+
 from core.orchestration.brain.spine.trait_manager import load_traits
 
 # CONFIG

@@ -10,9 +10,7 @@ Graceful fallback to stubs if no backend available.
 from __future__ import annotations
 
 from importlib import import_module
-from typing import List
-
-__all__: List[str] = []
+__all__: list[str] = []
 
 def _try(n: str):
     try:

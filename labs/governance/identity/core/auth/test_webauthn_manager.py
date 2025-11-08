@@ -3,7 +3,6 @@ import json
 from datetime import datetime, timedelta, timezone
 
 import pytest
-
 from labs.governance.identity.core.auth import webauthn_manager
 
 

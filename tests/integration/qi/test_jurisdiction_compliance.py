@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Dict
-
 import pytest
 from qi.compliance import MultiJurisdictionComplianceEngine
 
@@ -45,7 +43,7 @@ from qi.compliance import MultiJurisdictionComplianceEngine
         ),
     ],
 )
-def test_each_jurisdiction_detects_correctly(code: str, user_data: Dict[str, str]) -> None:
+def test_each_jurisdiction_detects_correctly(code: str, user_data: dict[str, str]) -> None:
     engine = MultiJurisdictionComplianceEngine()
     decisions = engine.detect_applicable_jurisdictions(user_data)
     assert any(dec.code == code for dec in decisions)

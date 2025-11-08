@@ -86,12 +86,12 @@ class AnthropicWrapper(LLMWrapper):
             return (normalize_output(fb) or fb), model
 
         try:
-            # Anthropic expects messages with roles; insert system guidance
+            # Anthropic expects system as top-level parameter, not as message role
             response = await self.async_client.messages.create(
                 model=model,
                 max_tokens=kwargs.get("max_tokens", 2000),
+                system=guidance,
                 messages=[
-                    {"role": "system", "content": guidance},
                     {"role": "user", "content": prompt},
                 ],
             )

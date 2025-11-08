@@ -3,7 +3,7 @@
 import logging
 import os
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import httpx
 import uvicorn
@@ -36,7 +36,7 @@ jwks_cache = {"keys": [], "expires_at": 0}
 
 
 class JWKSResponse(BaseModel):
-    keys: List[Dict[str, Any]]
+    keys: list[dict[str, Any]]
 
 
 class OIDCConfiguration(BaseModel):
@@ -63,7 +63,7 @@ async def fetch_jwks(jwks_uri: str) -> JWKSResponse:
         return JWKSResponse(**response.json())
 
 
-async def get_jwks_keys() -> List[Dict[str, Any]]:
+async def get_jwks_keys() -> list[dict[str, Any]]:
     """Get JWKS keys with caching."""
     import time
 
@@ -89,7 +89,7 @@ async def get_jwks_keys() -> List[Dict[str, Any]]:
         return jwks_cache["keys"]
 
 
-async def verify_jwt_token(token: str) -> Optional[Dict[str, Any]]:
+async def verify_jwt_token(token: str) -> Optional[dict[str, Any]]:
     """Verify JWT token and return payload if valid."""
     try:
         # Get JWKS keys
@@ -189,7 +189,7 @@ mcp = FastMCP("LUKHAS MCP Server")
 
 
 @mcp.tool()
-def list_dir(path: str) -> List[str]:
+def list_dir(path: str) -> list[str]:
     """List contents of a directory."""
     target_path = Path(path)
 
@@ -237,7 +237,7 @@ def read_text(path: str) -> str:
 
 
 @mcp.tool()
-def search_glob(pattern: str, root_path: str = "") -> List[str]:
+def search_glob(pattern: str, root_path: str = "") -> list[str]:
     """Search for files using glob patterns."""
     if root_path:
         search_root = Path(root_path)

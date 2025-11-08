@@ -9,11 +9,10 @@ If no backend is available, provide minimal stubs to satisfy imports in tests.
 from __future__ import annotations
 
 from importlib import import_module
-from typing import List
 from enum import Enum
 from dataclasses import dataclass
 
-__all__: List[str] = []
+__all__: list[str] = []
 
 def _try(n: str):
     try:

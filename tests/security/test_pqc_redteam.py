@@ -20,7 +20,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 
@@ -38,7 +38,7 @@ class TestPQCSignatureForgery:
     """Test resistance to signature forgery attacks."""
 
     @pytest.fixture
-    def valid_checkpoint(self) -> Dict[str, Any]:
+    def valid_checkpoint(self) -> dict[str, Any]:
         """Create a valid checkpoint for testing."""
         return {
             "registry_id": "test-node-001",

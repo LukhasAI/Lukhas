@@ -26,7 +26,7 @@ import statistics
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 import pytest
@@ -34,6 +34,7 @@ import pytest
 # LUKHAS cognitive imports
 from cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
 from cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine, InferenceType
+
 from consciousness.enhanced_thought_engine import EnhancedThoughtEngine, ThoughtComplexity
 from consciousness.meta_cognitive_assessor import MetaCognitiveAssessor
 
@@ -58,10 +59,10 @@ class CoverageTarget(Enum):
 @dataclass
 class CoverageMetrics:
     """Comprehensive coverage metrics"""
-    component_coverage: Dict[str, float] = field(default_factory=dict)
-    critical_path_coverage: Dict[str, bool] = field(default_factory=dict)
-    edge_case_coverage: Dict[str, int] = field(default_factory=dict)
-    performance_scenario_coverage: Dict[str, bool] = field(default_factory=dict)
+    component_coverage: dict[str, float] = field(default_factory=dict)
+    critical_path_coverage: dict[str, bool] = field(default_factory=dict)
+    edge_case_coverage: dict[str, int] = field(default_factory=dict)
+    performance_scenario_coverage: dict[str, bool] = field(default_factory=dict)
     integration_coverage: float = 0.0
     overall_coverage: float = 0.0
     rare_scenario_count: int = 0
@@ -74,7 +75,7 @@ class TestScenario:
     name: str
     category: str
     probability: float
-    components_tested: List[str]
+    components_tested: list[str]
     critical_path: bool
     performance_sensitive: bool
     expected_outcome: str
@@ -96,7 +97,7 @@ class ComprehensiveCoverageFramework:
         self.property_framework = PropertyBasedTestFramework()
         self.stress_infrastructure = StressTestInfrastructure()
         self.coverage_metrics = CoverageMetrics()
-        self.test_scenarios: List[TestScenario] = []
+        self.test_scenarios: list[TestScenario] = []
         self.coverage_targets = {
             CoverageTarget.INFERENCE_ENGINE: 0.95,
             CoverageTarget.THOUGHT_ENGINE: 0.93,
@@ -184,7 +185,7 @@ class ComprehensiveCoverageFramework:
 
         return scenarios
 
-    async def _generate_inference_engine_scenarios(self) -> List[TestScenario]:
+    async def _generate_inference_engine_scenarios(self) -> list[TestScenario]:
         """Generate inference engine test scenarios"""
         scenarios = []
 
@@ -236,7 +237,7 @@ class ComprehensiveCoverageFramework:
 
         return scenarios
 
-    async def _generate_thought_engine_scenarios(self) -> List[TestScenario]:
+    async def _generate_thought_engine_scenarios(self) -> list[TestScenario]:
         """Generate thought engine test scenarios"""
         scenarios = []
 
@@ -278,7 +279,7 @@ class ComprehensiveCoverageFramework:
 
         return scenarios
 
-    async def _generate_contradiction_scenarios(self) -> List[TestScenario]:
+    async def _generate_contradiction_scenarios(self) -> list[TestScenario]:
         """Generate contradiction detection scenarios"""
         scenarios = []
 
@@ -321,7 +322,7 @@ class ComprehensiveCoverageFramework:
 
         return scenarios
 
-    async def _generate_meta_cognitive_scenarios(self) -> List[TestScenario]:
+    async def _generate_meta_cognitive_scenarios(self) -> list[TestScenario]:
         """Generate meta-cognitive assessment scenarios"""
         scenarios = []
 
@@ -362,7 +363,7 @@ class ComprehensiveCoverageFramework:
 
         return scenarios
 
-    async def _generate_integration_scenarios(self) -> List[TestScenario]:
+    async def _generate_integration_scenarios(self) -> list[TestScenario]:
         """Generate integration pipeline scenarios"""
         scenarios = []
 
@@ -409,7 +410,7 @@ class ComprehensiveCoverageFramework:
 
         return scenarios
 
-    async def _generate_error_handling_scenarios(self) -> List[TestScenario]:
+    async def _generate_error_handling_scenarios(self) -> list[TestScenario]:
         """Generate error handling scenarios"""
         scenarios = []
 
@@ -447,7 +448,7 @@ class ComprehensiveCoverageFramework:
 
         return scenarios
 
-    async def _generate_performance_scenarios(self) -> List[TestScenario]:
+    async def _generate_performance_scenarios(self) -> list[TestScenario]:
         """Generate performance critical path scenarios"""
         scenarios = []
 
@@ -488,7 +489,7 @@ class ComprehensiveCoverageFramework:
 
         return scenarios
 
-    async def _generate_rare_edge_scenarios(self) -> List[TestScenario]:
+    async def _generate_rare_edge_scenarios(self) -> list[TestScenario]:
         """Generate rare edge case scenarios (<0.01% probability)"""
         scenarios = []
 
@@ -587,7 +588,7 @@ class ComprehensiveCoverageFramework:
 
         return self.coverage_metrics
 
-    async def _execute_test_scenario(self, scenario: TestScenario) -> Dict[str, Any]:
+    async def _execute_test_scenario(self, scenario: TestScenario) -> dict[str, Any]:
         """Execute individual test scenario"""
         if scenario.category == "inference_engine":
             return await self._test_inference_engine_scenario(scenario)
@@ -608,7 +609,7 @@ class ComprehensiveCoverageFramework:
         else:
             return {'success': False, 'outcome': f'unknown_category_{scenario.category}'}
 
-    async def _test_inference_engine_scenario(self, scenario: TestScenario) -> Dict[str, Any]:
+    async def _test_inference_engine_scenario(self, scenario: TestScenario) -> dict[str, Any]:
         """Test inference engine scenarios"""
         inference_engine = self.cognitive_components['inference_engine']
 
@@ -668,7 +669,7 @@ class ComprehensiveCoverageFramework:
 
         return {'success': False, 'outcome': 'unknown_inference_test'}
 
-    async def _test_thought_engine_scenario(self, scenario: TestScenario) -> Dict[str, Any]:
+    async def _test_thought_engine_scenario(self, scenario: TestScenario) -> dict[str, Any]:
         """Test thought engine scenarios"""
         thought_engine = self.cognitive_components['thought_engine']
 
@@ -717,7 +718,7 @@ class ComprehensiveCoverageFramework:
 
         return {'success': False, 'outcome': 'unknown_thought_test'}
 
-    async def _test_contradiction_scenario(self, scenario: TestScenario) -> Dict[str, Any]:
+    async def _test_contradiction_scenario(self, scenario: TestScenario) -> dict[str, Any]:
         """Test contradiction detection scenarios"""
         contradiction_integrator = self.cognitive_components['contradiction_integrator']
 
@@ -778,7 +779,7 @@ class ComprehensiveCoverageFramework:
 
         return {'success': False, 'outcome': 'unknown_contradiction_test'}
 
-    async def _test_meta_cognitive_scenario(self, scenario: TestScenario) -> Dict[str, Any]:
+    async def _test_meta_cognitive_scenario(self, scenario: TestScenario) -> dict[str, Any]:
         """Test meta-cognitive assessment scenarios"""
         meta_assessor = self.cognitive_components['meta_assessor']
 
@@ -823,7 +824,7 @@ class ComprehensiveCoverageFramework:
 
         return {'success': False, 'outcome': 'unknown_meta_cognitive_test'}
 
-    async def _test_integration_scenario(self, scenario: TestScenario) -> Dict[str, Any]:
+    async def _test_integration_scenario(self, scenario: TestScenario) -> dict[str, Any]:
         """Test integration scenarios"""
         try:
             if "complete_pipeline_integration" in scenario.name:
@@ -915,7 +916,7 @@ class ComprehensiveCoverageFramework:
 
         return {'success': False, 'outcome': 'unknown_integration_test'}
 
-    async def _test_error_handling_scenario(self, scenario: TestScenario) -> Dict[str, Any]:
+    async def _test_error_handling_scenario(self, scenario: TestScenario) -> dict[str, Any]:
         """Test error handling scenarios"""
         try:
             error_type = scenario.name.split("_")[-1]
@@ -971,7 +972,7 @@ class ComprehensiveCoverageFramework:
 
         return {'success': True, 'outcome': 'error_handled_gracefully'}
 
-    async def _test_performance_scenario(self, scenario: TestScenario) -> Dict[str, Any]:
+    async def _test_performance_scenario(self, scenario: TestScenario) -> dict[str, Any]:
         """Test performance scenarios"""
         try:
             if "t4_latency_compliance" in scenario.name:
@@ -1039,7 +1040,7 @@ class ComprehensiveCoverageFramework:
 
         return {'success': False, 'outcome': 'unknown_performance_test'}
 
-    async def _test_rare_edge_scenario(self, scenario: TestScenario) -> Dict[str, Any]:
+    async def _test_rare_edge_scenario(self, scenario: TestScenario) -> dict[str, Any]:
         """Test rare edge case scenarios"""
         try:
             if "russell_paradox_variant" in scenario.name:
@@ -1194,7 +1195,7 @@ class ComprehensiveCoverageFramework:
 
         self.coverage_metrics.overall_coverage = min(1.0, weighted_coverage)
 
-    def generate_coverage_report(self) -> Dict[str, Any]:
+    def generate_coverage_report(self) -> dict[str, Any]:
         """Generate comprehensive coverage report"""
         total_scenarios = len(self.test_scenarios)
         successful_scenarios = sum(1 for s in self.test_scenarios if s.success)
@@ -1277,7 +1278,7 @@ class ComprehensiveCoverageFramework:
 
         return report
 
-    def _generate_coverage_recommendations(self) -> List[str]:
+    def _generate_coverage_recommendations(self) -> list[str]:
         """Generate recommendations for improving coverage"""
         recommendations = []
 

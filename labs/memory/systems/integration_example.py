@@ -34,10 +34,10 @@ from consciousness.reflection.unified_memory_manager import EnhancedMemoryManage
 
 # Existing systems to integrate with
 from core.integration.connectivity_engine import ConnectivityEngine
+from memory.systems.attention_memory_layer import create_attention_orchestrator
 
 # New memory systems
 from memory.core import create_hybrid_memory_fold
-from memory.systems.attention_memory_layer import create_attention_orchestrator
 
 
 class EnhancedMemoryIntegration:

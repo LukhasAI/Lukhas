@@ -3,9 +3,7 @@
 from __future__ import annotations
 
 from importlib import import_module
-from typing import List
-
-__all__: List[str] = []
+__all__: list[str] = []
 
 _CANDIDATES = [
     "lukhas_website.governance.ethics.constitutional_ai",

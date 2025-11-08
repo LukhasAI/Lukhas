@@ -20,7 +20,7 @@ import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -51,7 +51,7 @@ class ServiceMetric:
     service: ServiceType
     metric_type: MetricType
     value: float
-    labels: Dict[str, str] = field(default_factory=dict)
+    labels: dict[str, str] = field(default_factory=dict)
     timestamp: float = field(default_factory=time.time)
     help_text: str = ""
 
@@ -91,10 +91,10 @@ class ServiceMetricsCollector:
     """
 
     def __init__(self):
-        self.metrics: Dict[str, ServiceMetric] = {}
-        self.metric_history: Dict[str, deque] = defaultdict(lambda: deque(maxlen=10000))
-        self.slo_burn_rates: Dict[str, SLOBurnRate] = {}
-        self.t4_compliance: Dict[str, T4ComplianceMetrics] = {}
+        self.metrics: dict[str, ServiceMetric] = {}
+        self.metric_history: dict[str, deque] = defaultdict(lambda: deque(maxlen=10000))
+        self.slo_burn_rates: dict[str, SLOBurnRate] = {}
+        self.t4_compliance: dict[str, T4ComplianceMetrics] = {}
 
         # Service configurations
         self.service_configs = self._initialize_service_configs()
@@ -107,7 +107,7 @@ class ServiceMetricsCollector:
 
         logger.info("ServiceMetricsCollector initialized")
 
-    def _initialize_service_configs(self) -> Dict[ServiceType, Dict[str, Any]]:
+    def _initialize_service_configs(self) -> dict[ServiceType, dict[str, Any]]:
         """Initialize service-specific configurations"""
         return {
             ServiceType.MEMORY: {
@@ -182,7 +182,7 @@ class ServiceMetricsCollector:
                               component: Optional[str] = None,
                               operation: Optional[str] = None,
                               provider: Optional[str] = None,
-                              **custom_labels) -> Dict[str, str]:
+                              **custom_labels) -> dict[str, str]:
         """Create standardized Prometheus labels for T4/0.01% compliance"""
         labels = {}
 
@@ -206,7 +206,7 @@ class ServiceMetricsCollector:
                      value: float,
                      service: ServiceType,
                      metric_type: MetricType = MetricType.GAUGE,
-                     labels: Optional[Dict[str, str]] = None,
+                     labels: Optional[dict[str, str]] = None,
                      help_text: str = "",
                      lane: Optional[str] = None,
                      component: Optional[str] = None,
@@ -405,7 +405,7 @@ class ServiceMetricsCollector:
             'timestamp': metric.timestamp
         }
 
-    def get_service_metrics(self, service: ServiceType) -> Dict[str, ServiceMetric]:
+    def get_service_metrics(self, service: ServiceType) -> dict[str, ServiceMetric]:
         """Get all metrics for a specific service"""
         with self._lock:
             return {
@@ -413,7 +413,7 @@ class ServiceMetricsCollector:
                 if metric.service == service
             }
 
-    def get_t4_compliance_report(self) -> Dict[str, Dict[str, Any]]:
+    def get_t4_compliance_report(self) -> dict[str, dict[str, Any]]:
         """Get T4/0.01% excellence compliance report"""
         with self._lock:
             report = {}
@@ -435,7 +435,7 @@ class ServiceMetricsCollector:
 
             return report
 
-    def get_burn_rate_status(self) -> Dict[str, Dict[str, Any]]:
+    def get_burn_rate_status(self) -> dict[str, dict[str, Any]]:
         """Get current burn rate status for all services"""
         with self._lock:
             status = {}
@@ -476,7 +476,7 @@ class ServiceMetricsCollector:
             days = hours_to_exhaustion / 24
             return f"{days:.1f}d"
 
-    def get_alerts(self) -> List[Dict[str, Any]]:
+    def get_alerts(self) -> list[dict[str, Any]]:
         """Get current alerts based on burn rates and T4 compliance"""
         alerts = []
 
@@ -533,7 +533,7 @@ class ServiceMetricsCollector:
 
         return "\n".join(lines)
 
-    def get_service_health_summary(self) -> Dict[str, Dict[str, Any]]:
+    def get_service_health_summary(self) -> dict[str, dict[str, Any]]:
         """Get overall health summary for all services"""
         summary = {}
 
@@ -608,7 +608,7 @@ def record_service_operation(service: ServiceType,
         )
 
 
-def get_service_health() -> Dict[str, Any]:
+def get_service_health() -> dict[str, Any]:
     """Get overall service health status"""
     collector = get_metrics_collector()
     return {

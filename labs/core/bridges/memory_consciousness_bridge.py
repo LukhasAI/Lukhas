@@ -23,6 +23,7 @@ class MemoryConsciousnessBridge:
             from consciousness.reflection.consciousness_hub import (
                 get_consciousness_hub,
             )
+
             from consciousness.reflection.memory_hub import get_memory_hub
 
             self.memory_hub = get_memory_hub()

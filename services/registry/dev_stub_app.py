@@ -29,7 +29,7 @@ import json
 import os
 import time
 import uuid
-from typing import Any, Dict
+from typing import Any
 
 from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
@@ -56,7 +56,7 @@ app = FastAPI(
 )
 
 # In-memory storage (ephemeral)
-_registry: Dict[str, Dict[str, Any]] = {}
+_registry: dict[str, dict[str, Any]] = {}
 
 # Mock NodeSpec schema (simplified for dev stub)
 MOCK_SCHEMA = {

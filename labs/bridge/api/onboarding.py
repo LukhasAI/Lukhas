@@ -746,10 +746,10 @@ class OnboardingAPI:
 
 # Export public API
 __all__ = [
+    "ConsentRecord",
     "OnboardingAPI",
     "OnboardingSession",
     "OnboardingStatus",
     "OnboardingTier",
-    "ConsentRecord",
     "TierConfiguration",
 ]

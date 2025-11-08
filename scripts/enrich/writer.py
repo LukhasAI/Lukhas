@@ -93,7 +93,7 @@ def compute_content_hash(path: Path) -> str:
     return hashlib.sha256(path.read_text().encode()).hexdigest()
 
 
-def has_source_changed(module_dir: Path, last_hashes: Dict[str, str]) -> bool:
+def has_source_changed(module_dir: Path, last_hashes: dict[str, str]) -> bool:
     """
     Check if any source files (claude.me, __init__.py, bench config) changed.
 

@@ -10,7 +10,6 @@ from enum import Enum
 
 import pytest
 
-
 # ---------------------------------------------------------------------------
 # Stub modules required for importing the labs.core.governance.guardian_integration
 # module inside the test environment. These stubs provide the minimal surface

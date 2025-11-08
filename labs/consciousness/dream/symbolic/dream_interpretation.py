@@ -7,7 +7,6 @@
 """
 from __future__ import annotations
 
-
 import logging
 from datetime import datetime, timezone
 from enum import Enum
@@ -497,4 +496,4 @@ class DreamInterpretationEngine:
         }
 
 
-__all__ = ["DreamInterpretationEngine", "InterpretationMethod", "InterpretationDepth", "InterpretationConfidence"]
+__all__ = ["DreamInterpretationEngine", "InterpretationConfidence", "InterpretationDepth", "InterpretationMethod"]

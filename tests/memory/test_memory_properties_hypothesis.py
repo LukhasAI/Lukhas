@@ -38,7 +38,7 @@ Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 import pytest
 
@@ -53,6 +53,7 @@ except ImportError:
 # Memory system imports
 try:
     from labs.memory.fold_system import FoldManager, get_fold_manager
+
     from memory.adaptive_memory import AdaptiveMemorySystem, MemoryType
     from memory.scheduled_folding import ScheduledFoldingManager, get_folding_manager
     MEMORY_SYSTEMS_AVAILABLE = True
@@ -72,7 +73,7 @@ class MemoryOperation:
     """Represents a memory operation for property testing"""
     op_type: str  # 'store', 'recall', 'fold'
     content: str
-    embedding: List[float]
+    embedding: list[float]
     importance: float
     timestamp: float
     expected_latency_ms: float = 100.0  # Budget threshold
@@ -170,8 +171,8 @@ class MemorySystemStateMachine(RuleBasedStateMachine):
         super().__init__()
         self.memory_system = AdaptiveMemorySystem(max_items=15000, enable_embeddings=True)
         self.fold_manager = FoldManager()
-        self.stored_items: Dict[str, Any] = {}
-        self.operation_latencies: List[float] = []
+        self.stored_items: dict[str, Any] = {}
+        self.operation_latencies: list[float] = []
         self.cascade_events = 0
 
     stored_memories = Bundle('stored_memories')

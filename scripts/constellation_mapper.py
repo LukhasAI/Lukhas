@@ -8,7 +8,7 @@ import ast
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Set
+from typing import Dict
 
 import networkx as nx
 
@@ -21,7 +21,7 @@ class ConstellationMapper:
         self.graph = nx.DiGraph()
         self.component_map = {}
 
-    def extract_imports_from_file(self, file_path: Path) -> Set[str]:
+    def extract_imports_from_file(self, file_path: Path) -> set[str]:
         """Extract import dependencies from a Python file"""
         imports = set()
         try:

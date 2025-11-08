@@ -5,8 +5,6 @@ import logging
 from collections.abc import Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import List
-
 logger = logging.getLogger("Lukhas.GLYPH.Specialist")
 
 
@@ -29,8 +27,8 @@ class GlyphConsensusResult:
     driftScore: float
     affect_delta: float
     agreement_ratio: float
-    dissenting_layers: List[str]
-    glyph_signature: List[str]
+    dissenting_layers: list[str]
+    glyph_signature: list[str]
     evaluated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 

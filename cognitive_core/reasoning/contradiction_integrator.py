@@ -26,7 +26,7 @@ import uuid
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 sys.path.append(str(Path(__file__).parent.parent.parent / "candidate" / "consciousness" / "reasoning"))
 
@@ -69,14 +69,14 @@ except ImportError:
     @dataclass
     class SymbolicFragment:
         content: str
-        context: Dict[str, Any] = None
+        context: dict[str, Any] = None
         confidence: float = 0.5
 
     @dataclass
     class ContradictionReport:
         conflict_type: ConflictType
         severity: ConflictSeverity
-        fragments: List[SymbolicFragment]
+        fragments: list[SymbolicFragment]
         description: str
         confidence: float = 0.5
 
@@ -84,7 +84,7 @@ except ImportError:
     class ConflictResolutionResult:
         success: bool
         resolution_strategy: ResolutionMode
-        resolved_fragments: List[SymbolicFragment]
+        resolved_fragments: list[SymbolicFragment]
         confidence: float = 0.5
 
 logger = logging.getLogger(__name__)
@@ -105,11 +105,11 @@ class ContradictionContext:
     scope: ContradictionScope
     source_component: str
     reasoning_depth: int
-    confidence_levels: List[float]
+    confidence_levels: list[float]
     processing_time_budget_ms: float
     enable_resolution: bool = True
     resolution_strategy: Optional[ResolutionMode] = None
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
 
     def __post_init__(self):
         if self.metadata is None:
@@ -120,13 +120,13 @@ class ContradictionContext:
 class ContradictionDetectionResult:
     """Result of contradiction detection process"""
     contradictions_found: int
-    contradiction_reports: List[Any]  # ContradictionReport objects
-    resolution_results: List[Any]     # ConflictResolutionResult objects
+    contradiction_reports: list[Any]  # ContradictionReport objects
+    resolution_results: list[Any]     # ConflictResolutionResult objects
     detection_accuracy: float
     processing_time_ms: float
-    scope_coverage: Dict[ContradictionScope, int]
-    recommendations: List[str]
-    meta_assessment: Dict[str, Any]
+    scope_coverage: dict[ContradictionScope, int]
+    recommendations: list[str]
+    meta_assessment: dict[str, Any]
     success: bool
     error_message: Optional[str] = None
 
@@ -188,7 +188,7 @@ class ContradictionIntegrator:
 
     async def check_inference_contradictions(
         self,
-        inference_steps: List[Any],  # InferenceStep objects
+        inference_steps: list[Any],  # InferenceStep objects
         context: ContradictionContext
     ) -> ContradictionDetectionResult:
         """
@@ -243,8 +243,8 @@ class ContradictionIntegrator:
     async def check_thought_contradictions(
         self,
         thought_synthesis: str,
-        supporting_reasoning: List[Any],
-        memory_context: List[Dict[str, Any]],
+        supporting_reasoning: list[Any],
+        memory_context: list[dict[str, Any]],
         context: ContradictionContext
     ) -> ContradictionDetectionResult:
         """
@@ -310,9 +310,9 @@ class ContradictionIntegrator:
 
     async def _convert_steps_to_fragments(
         self,
-        inference_steps: List[Any],
+        inference_steps: list[Any],
         context: ContradictionContext
-    ) -> List[SymbolicFragment]:
+    ) -> list[SymbolicFragment]:
         """Convert inference steps to symbolic fragments."""
         fragments = []
 
@@ -378,9 +378,9 @@ class ContradictionIntegrator:
 
     async def _convert_reasoning_to_fragments(
         self,
-        reasoning_chains: List[Any],
+        reasoning_chains: list[Any],
         context: ContradictionContext
-    ) -> List[SymbolicFragment]:
+    ) -> list[SymbolicFragment]:
         """Convert reasoning chains to fragments."""
         fragments = []
 
@@ -421,9 +421,9 @@ class ContradictionIntegrator:
 
     def _convert_memory_to_fragments(
         self,
-        memory_context: List[Dict[str, Any]],
+        memory_context: list[dict[str, Any]],
         context: ContradictionContext
-    ) -> List[SymbolicFragment]:
+    ) -> list[SymbolicFragment]:
         """Convert memory context to fragments."""
         fragments = []
 
@@ -458,7 +458,7 @@ class ContradictionIntegrator:
 
     async def _detect_contradictions_batch(
         self,
-        fragments: List[SymbolicFragment],
+        fragments: list[SymbolicFragment],
         context: ContradictionContext,
         start_time: float
     ) -> ContradictionDetectionResult:
@@ -531,7 +531,7 @@ class ContradictionIntegrator:
 
     async def _multi_scope_detection(
         self,
-        all_fragments: List[SymbolicFragment],
+        all_fragments: list[SymbolicFragment],
         context: ContradictionContext,
         start_time: float
     ) -> ContradictionDetectionResult:
@@ -594,8 +594,8 @@ class ContradictionIntegrator:
         )
 
     def _group_fragments_by_source(
-        self, fragments: List[SymbolicFragment]
-    ) -> Dict[str, List[SymbolicFragment]]:
+        self, fragments: list[SymbolicFragment]
+    ) -> dict[str, list[SymbolicFragment]]:
         """Group fragments by their source module."""
         groups = {}
         for fragment in fragments:
@@ -607,9 +607,9 @@ class ContradictionIntegrator:
 
     def _select_fragments_for_scope(
         self,
-        fragment_groups: Dict[str, List[SymbolicFragment]],
+        fragment_groups: dict[str, list[SymbolicFragment]],
         scope: ContradictionScope
-    ) -> List[SymbolicFragment]:
+    ) -> list[SymbolicFragment]:
         """Select relevant fragments for a specific detection scope."""
 
         if scope == ContradictionScope.STEP_LEVEL:
@@ -690,9 +690,9 @@ class ContradictionIntegrator:
 
     def _generate_recommendations(
         self,
-        contradiction_reports: List[ContradictionReport],
-        resolution_results: List[Any]
-    ) -> List[str]:
+        contradiction_reports: list[ContradictionReport],
+        resolution_results: list[Any]
+    ) -> list[str]:
         """Generate recommendations based on contradiction findings."""
 
         recommendations = []
@@ -727,10 +727,10 @@ class ContradictionIntegrator:
 
     def _assess_detection_quality(
         self,
-        contradiction_reports: List[Any],
-        resolution_results: List[Any],
+        contradiction_reports: list[Any],
+        resolution_results: list[Any],
         processing_time: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Assess quality of contradiction detection process."""
 
         assessment = {
@@ -760,10 +760,10 @@ class ContradictionIntegrator:
 
     def _generate_multi_scope_recommendations(
         self,
-        scope_coverage: Dict[ContradictionScope, int],
-        all_reports: List[Any],
-        all_resolutions: List[Any]
-    ) -> List[str]:
+        scope_coverage: dict[ContradictionScope, int],
+        all_reports: list[Any],
+        all_resolutions: list[Any]
+    ) -> list[str]:
         """Generate recommendations for multi-scope detection."""
 
         recommendations = []
@@ -790,7 +790,7 @@ class ContradictionIntegrator:
 
         return recommendations
 
-    def _calculate_multi_scope_accuracy(self, scope_coverage: Dict[ContradictionScope, int]) -> float:
+    def _calculate_multi_scope_accuracy(self, scope_coverage: dict[ContradictionScope, int]) -> float:
         """Calculate accuracy across multiple detection scopes."""
         # Simplified accuracy calculation
         len(ContradictionScope)
@@ -804,9 +804,9 @@ class ContradictionIntegrator:
 
     def _assess_multi_scope_quality(
         self,
-        scope_coverage: Dict[ContradictionScope, int],
+        scope_coverage: dict[ContradictionScope, int],
         processing_time: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Assess quality of multi-scope detection."""
 
         return {
@@ -859,7 +859,7 @@ class ContradictionIntegrator:
                 (current_accuracy * (total - 1) + result.detection_accuracy) / total
             )
 
-    def get_performance_stats(self) -> Dict[str, Any]:
+    def get_performance_stats(self) -> dict[str, Any]:
         """Get current detection performance statistics."""
         total_checks = max(1, self.detection_stats["total_checks"])
 

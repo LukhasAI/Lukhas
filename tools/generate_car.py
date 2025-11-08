@@ -14,7 +14,7 @@ import argparse
 import hashlib
 import json
 import pathlib
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Dict, Optional
 
 
@@ -83,7 +83,7 @@ def generate_provenance_car(
     block = {
         "@context": "https://ai/provenance/v1",
         "module": module,
-    "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "timestamp": datetime.utcnow().isoformat() + "Z",
         "schema_version": "1.0.0",
         "provenance": {
             "generated_by": "matrix_gate.py",
@@ -123,7 +123,7 @@ def generate_provenance_car(
     }
 
     # Generate CAR
-    car_path = f"artifacts/{module}_provenance_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.car"
+    car_path = f"artifacts/{module}_provenance_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.car"
     pathlib.Path("artifacts").mkdir(exist_ok=True)
 
     car = MockCAR(car_path)
@@ -168,7 +168,7 @@ def update_contract_cid(module: str, cid: str, lamport_time: int):
             contract["causal_provenance"]["ipld_root_cid"] = cid
             contract["causal_provenance"]["car_uri"] = f"ipfs://{cid}"
             contract["causal_provenance"]["lamport_time"] = lamport_time
-            contract["causal_provenance"]["last_updated"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+            contract["causal_provenance"]["last_updated"] = datetime.utcnow().isoformat() + "Z"
 
             # Write back
             with open(contract_path, 'w') as f:

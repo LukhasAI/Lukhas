@@ -23,12 +23,12 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-from openai import AsyncOpenAI
-
 from contracts import ProcessingResult
 from core.common import get_logger
-from orchestration.brain.consciousness_core import ConsciousnessCore
+from openai import AsyncOpenAI
 from qi.attention_economics import QIAttentionEconomics
+
+from orchestration.brain.consciousness_core import ConsciousnessCore
 
 logger = get_logger(__name__)
 

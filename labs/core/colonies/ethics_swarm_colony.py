@@ -58,7 +58,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-
 from core.colonies.base_colony import BaseColony
 
 logger = logging.getLogger("ΛTRACE.ethics_swarm_colony")

@@ -29,7 +29,7 @@ import logging
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Set
+from typing import Any
 
 import pytest
 
@@ -56,12 +56,12 @@ class SchemaEvolutionGuard:
         self.schema_file = self.project_root / "MATRIZ" / "schemas" / "matriz_schema.json"
         self.snapshots_dir = self.project_root / "tests" / "matriz" / "snapshots"
 
-    def load_current_schema(self) -> Dict[str, Any]:
+    def load_current_schema(self) -> dict[str, Any]:
         """Load current MATRIZ schema."""
         with open(self.schema_file, encoding='utf-8') as f:
             return json.load(f)
 
-    def load_baseline_schema(self) -> Dict[str, Any]:
+    def load_baseline_schema(self) -> dict[str, Any]:
         """Load baseline schema snapshot."""
         baseline_file = self.snapshots_dir / "matriz_schema_1.0.0.json"
 
@@ -75,7 +75,7 @@ class SchemaEvolutionGuard:
         canonical_schema_str = snapshot_data["integrity"]["canonical_schema"]
         return json.loads(canonical_schema_str)
 
-    def extract_required_fields(self, schema: Dict[str, Any], path: str = "") -> Set[str]:
+    def extract_required_fields(self, schema: dict[str, Any], path: str = "") -> set[str]:
         """Extract all required fields from schema recursively."""
         required_fields = set()
 
@@ -96,7 +96,7 @@ class SchemaEvolutionGuard:
 
         return required_fields
 
-    def extract_enum_values(self, schema: Dict[str, Any], path: str = "") -> Dict[str, List[Any]]:
+    def extract_enum_values(self, schema: dict[str, Any], path: str = "") -> dict[str, list[Any]]:
         """Extract all enum values from schema recursively."""
         enum_values = {}
 
@@ -115,7 +115,7 @@ class SchemaEvolutionGuard:
 
         return enum_values
 
-    def extract_constraints(self, schema: Dict[str, Any], path: str = "") -> Dict[str, Dict[str, Any]]:
+    def extract_constraints(self, schema: dict[str, Any], path: str = "") -> dict[str, dict[str, Any]]:
         """Extract constraints (minLength, maxLength, minimum, maximum, etc.)."""
         constraints = {}
 
@@ -144,7 +144,7 @@ class SchemaEvolutionGuard:
 
         return constraints
 
-    def detect_violations(self, baseline: Dict[str, Any], current: Dict[str, Any]) -> List[EvolutionViolation]:
+    def detect_violations(self, baseline: dict[str, Any], current: dict[str, Any]) -> list[EvolutionViolation]:
         """Detect schema evolution violations."""
         violations = []
 
@@ -213,7 +213,7 @@ class SchemaEvolutionGuard:
 
         return violations
 
-    def simulate_required_field_removal(self, schema: Dict[str, Any]) -> Dict[str, Any]:
+    def simulate_required_field_removal(self, schema: dict[str, Any]) -> dict[str, Any]:
         """Simulate removal of a required field for testing."""
         modified_schema = copy.deepcopy(schema)
 
@@ -224,7 +224,7 @@ class SchemaEvolutionGuard:
 
         return modified_schema
 
-    def simulate_enum_value_removal(self, schema: Dict[str, Any]) -> Dict[str, Any]:
+    def simulate_enum_value_removal(self, schema: dict[str, Any]) -> dict[str, Any]:
         """Simulate removal of enum values for testing."""
         modified_schema = copy.deepcopy(schema)
 
@@ -238,7 +238,7 @@ class SchemaEvolutionGuard:
 
         return modified_schema
 
-    def simulate_constraint_tightening(self, schema: Dict[str, Any]) -> Dict[str, Any]:
+    def simulate_constraint_tightening(self, schema: dict[str, Any]) -> dict[str, Any]:
         """Simulate constraint tightening for testing."""
         modified_schema = copy.deepcopy(schema)
 

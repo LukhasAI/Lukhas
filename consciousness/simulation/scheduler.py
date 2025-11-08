@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict
+from typing import Any
 
 
 @dataclass
@@ -17,9 +17,9 @@ class JobStatus:
     budget_tokens: int = 0
     budget_seconds: float = 0.0
     progress: float = 0.0
-    seed: Dict[str, Any] = field(default_factory=dict)
+    seed: dict[str, Any] = field(default_factory=dict)
 
-    def model_dump(self) -> Dict[str, Any]:
+    def model_dump(self) -> dict[str, Any]:
         return {
             "job_id": self.job_id,
             "state": self.state,
@@ -34,12 +34,12 @@ class JobStatus:
 
 class SimulationScheduler:
     def __init__(self) -> None:
-        self._jobs: Dict[str, JobStatus] = {}
-        self._events: Dict[str, asyncio.Event] = {}
+        self._jobs: dict[str, JobStatus] = {}
+        self._events: dict[str, asyncio.Event] = {}
         self._queue: asyncio.Queue[str] = asyncio.Queue()
         self._runner_task: asyncio.Task | None = None
 
-    async def enqueue(self, job_id: str, seed: Dict[str, Any], trace_id: str) -> None:
+    async def enqueue(self, job_id: str, seed: dict[str, Any], trace_id: str) -> None:
         budgets = seed.get("constraints", {}).get("budgets", {})
         js = JobStatus(
             job_id=job_id,

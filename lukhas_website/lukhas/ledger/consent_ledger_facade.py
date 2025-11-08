@@ -23,7 +23,7 @@ import threading
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, Optional
 
 # Import original types for compatibility
 from ..governance.consent_ledger_impl import (
@@ -157,13 +157,13 @@ class ConsentLedgerV2:
         self,
         lid: str,
         resource_type: str,
-        scopes: List[str],
+        scopes: list[str],
         purpose: str,
         lawful_basis: str = "consent",
         consent_type: ConsentType = ConsentType.EXPLICIT,
-        data_categories: Optional[List[str]] = None,
-        third_parties: Optional[List[str]] = None,
-        processing_locations: Optional[List[str]] = None,
+        data_categories: Optional[list[str]] = None,
+        third_parties: Optional[list[str]] = None,
+        processing_locations: Optional[list[str]] = None,
         expires_in_days: Optional[int] = None,
         retention_period: Optional[int] = None,
         automated_decision_making: bool = False,
@@ -331,7 +331,7 @@ class ConsentLedgerV2:
                 logger.error(f"Failed to revoke consent {consent_id}: {e}")
                 return False
 
-    def check_consent(self, lid: str, resource_type: str, action: str, context: Optional[Dict] = None) -> Dict[str, Any]:
+    def check_consent(self, lid: str, resource_type: str, action: str, context: Optional[Dict] = None) -> dict[str, Any]:
         """
         Check consent with event sourcing.
         Maintains ConsentLedgerV1 API compatibility.
@@ -484,7 +484,7 @@ class ConsentLedgerV2:
         logger.info(f"Agent callback registration: {agent_name} (event-driven mode)")
         # In event-driven mode, agents subscribe to events via the event bus
 
-    def get_health_status(self) -> Dict[str, Any]:
+    def get_health_status(self) -> dict[str, Any]:
         """Get health status including event sourcing components"""
         try:
             # Get event bus health

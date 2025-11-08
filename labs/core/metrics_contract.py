@@ -149,13 +149,13 @@ def assert_router_contract(stats: Dict[str, Any]) -> None:
 
 # Export for easy access
 __all__ = [
-    "BioProcessorStats",
-    "RouterStats",
-    "NetworkMetrics",
     "LEGACY_ALIASES",
+    "BioProcessorStats",
+    "NetworkMetrics",
+    "RouterStats",
+    "assert_bio_processor_contract",
+    "assert_router_contract",
     "normalize_metrics",
     "validate_bio_processor_stats",
     "validate_router_stats",
-    "assert_bio_processor_contract",
-    "assert_router_contract",
 ]

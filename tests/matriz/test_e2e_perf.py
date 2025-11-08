@@ -26,7 +26,7 @@ import logging
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 from unittest.mock import Mock, patch
 
 import numpy as np
@@ -64,7 +64,7 @@ class PerformanceMeasurement:
     duration_ms: float
     success: bool
     timestamp: float
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
 
 @dataclass
@@ -91,13 +91,13 @@ class PerformanceEvidence:
     """Comprehensive performance evidence for auditing."""
     test_timestamp: str
     git_sha: str
-    configuration: Dict[str, Any]
-    statistical_results: Dict[str, StatisticalResult]
+    configuration: dict[str, Any]
+    statistical_results: dict[str, StatisticalResult]
     overall_compliance: bool
     total_test_duration_ms: float
-    environment_info: Dict[str, Any]
-    budget_violations: List[str]
-    recommendations: List[str]
+    environment_info: dict[str, Any]
+    budget_violations: list[str]
+    recommendations: list[str]
 
 
 class MATRIZPerformanceValidator:
@@ -105,7 +105,7 @@ class MATRIZPerformanceValidator:
 
     def __init__(self):
         """Initialize performance validator."""
-        self.measurements: Dict[str, List[PerformanceMeasurement]] = {
+        self.measurements: dict[str, list[PerformanceMeasurement]] = {
             "tick": [],
             "reflect": [],
             "decide": []
@@ -323,7 +323,7 @@ class MATRIZPerformanceValidator:
 
         logger.info("Performance measurement collection completed")
 
-    def calculate_bootstrap_ci(self, values: List[float], statistic_func, n_bootstrap: int = 1000, confidence_level: float = 0.95) -> tuple:
+    def calculate_bootstrap_ci(self, values: list[float], statistic_func, n_bootstrap: int = 1000, confidence_level: float = 0.95) -> tuple:
         """Calculate bootstrap confidence interval."""
         if not values:
             return 0.0, 0.0
@@ -347,7 +347,7 @@ class MATRIZPerformanceValidator:
 
         return ci_lower, ci_upper
 
-    def analyze_performance_statistics(self) -> Dict[str, StatisticalResult]:
+    def analyze_performance_statistics(self) -> dict[str, StatisticalResult]:
         """Analyze performance measurements with bootstrap CI."""
         results = {}
 
@@ -406,7 +406,7 @@ class MATRIZPerformanceValidator:
 
         return results
 
-    def generate_performance_evidence(self, statistical_results: Dict[str, StatisticalResult], test_duration_ms: float) -> PerformanceEvidence:
+    def generate_performance_evidence(self, statistical_results: dict[str, StatisticalResult], test_duration_ms: float) -> PerformanceEvidence:
         """Generate comprehensive performance evidence."""
         # Overall compliance check
         overall_compliance = all(result.budget_compliant for result in statistical_results.values())

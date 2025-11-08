@@ -7,7 +7,7 @@ import json
 import pathlib
 import subprocess
 import sys
-from typing import Dict, List
+from typing import Dict
 
 
 def run_git_mv(source: str, target: str) -> bool:
@@ -30,7 +30,7 @@ def run_git_mv(source: str, target: str) -> bool:
         print(f"   Error: {e.stderr}")
         return False
 
-def load_plan(plan_file: str) -> List[Dict]:
+def load_plan(plan_file: str) -> list[Dict]:
     """Load promotion plan from JSONL file"""
     plan = []
     with open(plan_file) as f:
@@ -39,7 +39,7 @@ def load_plan(plan_file: str) -> List[Dict]:
                 plan.append(json.loads(line))
     return plan
 
-def execute_promotions(plan: List[Dict], dry_run: bool = False) -> Dict:
+def execute_promotions(plan: list[Dict], dry_run: bool = False) -> Dict:
     """Execute all promotions in the plan"""
     results = {
         "successful": [],

@@ -7,7 +7,7 @@ Validates directory indexes and integrates with context sync system
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict
 
 import jsonschema
 
@@ -25,7 +25,7 @@ class DirectoryIndexValidator:
         except Exception as e:
             return {"error": f"Failed to load schema: {e}"}
 
-    def validate_index(self, index_path: Path) -> Tuple[bool, List[str]]:
+    def validate_index(self, index_path: Path) -> tuple[bool, list[str]]:
         """Validate a single directory index"""
         schema = self.load_schema()
         if "error" in schema:
@@ -45,7 +45,7 @@ class DirectoryIndexValidator:
         except Exception as e:
             return False, [f"Unexpected error: {e}"]
 
-    def find_all_indexes(self) -> List[Path]:
+    def find_all_indexes(self) -> list[Path]:
         """Find all directory_index.json files"""
         return list(self.root_path.rglob("directory_index.json"))
 

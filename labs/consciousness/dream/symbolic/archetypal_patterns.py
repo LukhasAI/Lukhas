@@ -7,7 +7,6 @@
 """
 from __future__ import annotations
 
-
 import logging
 from datetime import datetime, timezone
 from enum import Enum
@@ -605,4 +604,4 @@ class ArchetypalPatternRecognizer:
         }
 
 
-__all__ = ["ArchetypalPatternRecognizer", "ArchetypalDomain", "ArchetypalRole", "ArchetypalResonance"]
+__all__ = ["ArchetypalDomain", "ArchetypalPatternRecognizer", "ArchetypalResonance", "ArchetypalRole"]

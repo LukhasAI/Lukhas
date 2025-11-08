@@ -35,7 +35,7 @@ import os
 import time
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 import jsonschema
 from fastapi import FastAPI, HTTPException, Request
@@ -79,7 +79,7 @@ else:
     NODE_SCHEMA = None
 
 # In-memory store for runtime (persisted to REGISTRY_STORE on changes)
-_store: Dict[str, Dict[str, Any]] = {}
+_store: dict[str, dict[str, Any]] = {}
 
 
 class StaleCheckpointError(RuntimeError):
@@ -96,7 +96,7 @@ def _purge_checkpoint_artifacts() -> None:
             continue
 
 
-def _normalize_nodespec_payload(payload: Dict[str, Any]) -> Dict[str, Any]:
+def _normalize_nodespec_payload(payload: dict[str, Any]) -> dict[str, Any]:
     """Extract NodeSpec from payload allowing legacy wrapper format."""
 
     if "node_spec" in payload and isinstance(payload["node_spec"], dict):
@@ -104,7 +104,7 @@ def _normalize_nodespec_payload(payload: Dict[str, Any]) -> Dict[str, Any]:
     return payload
 
 
-def _canonicalize_payload(payload: Dict[str, Any]) -> bytes:
+def _canonicalize_payload(payload: dict[str, Any]) -> bytes:
     """Return canonical JSON bytes used for signing."""
 
     return json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
@@ -117,8 +117,8 @@ def _compute_legacy_hmac(payload_bytes: bytes) -> str:
 
 
 def _build_signature_bundle(
-    payload: Dict[str, Any]
-) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    payload: dict[str, Any]
+) -> tuple[dict[str, Any], dict[str, Any]]:
     """
     Build signature bundle and metadata for checkpoint payload.
 
@@ -127,7 +127,7 @@ def _build_signature_bundle(
 
     payload_bytes = _canonicalize_payload(payload)
 
-    bundle: Dict[str, Any] = {
+    bundle: dict[str, Any] = {
         "version": payload["version"],
         "timestamp": payload["ts"],
         "signer_id": SIGNER_ID,
@@ -184,7 +184,7 @@ def _verify_timestamp(timestamp: float) -> None:
         )
 
 
-def _read_signature_bundle(payload: Dict[str, Any] | None = None) -> Dict[str, Any]:
+def _read_signature_bundle(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     """Read signature bundle from disk, tolerating legacy formats."""
 
     raw = REGISTRY_SIG.read_text().strip()
@@ -210,8 +210,8 @@ def _read_signature_bundle(payload: Dict[str, Any] | None = None) -> Dict[str, A
 
 
 def _verify_signature_bundle(
-    payload: Dict[str, Any],
-    bundle: Dict[str, Any],
+    payload: dict[str, Any],
+    bundle: dict[str, Any],
     raw_payload_bytes: bytes | None = None,
 ) -> None:
     """Verify Dilithium2/HMAC signatures for stored checkpoint."""
@@ -248,7 +248,7 @@ def _verify_signature_bundle(
             raise RuntimeError("Dilithium2 signature verification failed")
 
 
-def save_checkpoint() -> Dict[str, Any]:
+def save_checkpoint() -> dict[str, Any]:
     payload = {"version": int(time.time()), "ts": time.time(), "entries": _store}
     REGISTRY_STORE.parent.mkdir(parents=True, exist_ok=True)
     REGISTRY_STORE.write_text(json.dumps(payload, indent=2))
@@ -361,7 +361,7 @@ async def register_node(req: Request):
 @app.get("/api/v1/registry/query")
 async def query_registry(signal: str | None = None, capability: str | None = None):
     """Query by signal or capability (simple contains-based match for stub)."""
-    results: List[Dict[str, Any]] = []
+    results: list[dict[str, Any]] = []
     for rid, entry in _store.items():
         spec = entry["node_spec"]
         sigs = spec.get("interfaces", {}).get("signals", {}) or {}

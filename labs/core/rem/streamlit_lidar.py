@@ -5,6 +5,7 @@ Streamlit interface for visualizing Lucs' symbolic dreams and LiDAR-derived emot
 """
 
 import streamlit as st
+
 # Mock implementations for missing functions
 
 
