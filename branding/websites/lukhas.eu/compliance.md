@@ -1,12 +1,28 @@
 ---
 domain: lukhas.eu
 title: "Compliance Dashboard - Regulatory Transparency and Certification"
+evidence_links:
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/guardian-compliance-997pct.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'
 page_type: compliance
 updated: 2025-11-05
 status: ready-for-implementation
 purpose: "Demonstrate regulatory compliance with live metrics and independent validation"
 tone_flow: 50-academic-research_40-user-friendly_10-poetic
 target_audience: "Compliance officers, legal teams, regulators, grant evaluators"
+canonical: https://lukhas.eu/compliance
+seo:
+  description: "EU AI Act & GDPR compliance dashboard - 99.7% constitutional validation, TÜV SÜD certified, zero DPA findings with production transparency through technical architecture."
+  keywords:
+    - "EU AI Act compliance"
+    - "GDPR certification"
+    - "TÜV SÜD audit"
+    - "constitutional AI compliance"
+    - "European regulatory transparency"
+last_reviewed: "2025-11-08"
+keywords: "EU AI Act compliance, GDPR certification, TÜV SÜD audit, constitutional AI compliance, European regulatory transparency"
 ---
 
 # Compliance Dashboard: Transparency Through Technical Architecture

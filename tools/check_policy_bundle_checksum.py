@@ -7,9 +7,12 @@ Validates that OPA policy bundles haven't drifted from canonical sources.
 
 import hashlib
 import json
+import logging
 import sys
 from pathlib import Path
-from typing import Dict
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 # Repository structure
 ROOT = Path(__file__).resolve().parents[1]
@@ -28,7 +31,7 @@ def compute_file_hash(file_path: Path) -> str:
     except FileNotFoundError:
         return ""
 
-def compute_bundle_hash() -> Dict[str, str]:
+def compute_bundle_hash() -> dict[str, str]:
     """Compute hashes for all policy files."""
     hashes = {}
 
@@ -54,7 +57,7 @@ def compute_bundle_hash() -> Dict[str, str]:
     hashes["aggregate"] = aggregate.hexdigest()
     return hashes
 
-def load_stored_checksum() -> Dict[str, str]:
+def load_stored_checksum() -> dict[str, str]:
     """Load stored checksums."""
     if CHECKSUM_FILE.exists():
         try:
@@ -64,7 +67,7 @@ def load_stored_checksum() -> Dict[str, str]:
             return {}
     return {}
 
-def save_checksum(hashes: Dict[str, str]):
+def save_checksum(hashes: dict[str, str]):
     """Save checksums to file."""
     CHECKSUM_FILE.parent.mkdir(parents=True, exist_ok=True)
     CHECKSUM_FILE.write_text(json.dumps(hashes, indent=2, sort_keys=True))

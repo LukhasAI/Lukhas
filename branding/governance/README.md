@@ -18,6 +18,18 @@ This directory contains governance tools, policies, and automation for maintaini
 ```
 governance/
 ├── README.md (this file)
+├── strategic/                # Strategic planning & audit results
+│   ├── T4_STRATEGIC_AUDIT.md     # Executive audit summary
+│   ├── GAPS_ANALYSIS.md          # 19 missing components
+│   ├── 90_DAY_ROADMAP.md         # Week-by-week execution plan
+│   └── INNOVATION_PIPELINE.md    # Breakthrough ideas
+├── launch/                   # Launch playbooks & coordination (GAPS A3)
+│   ├── PLAYBOOK_TEMPLATE.md      # Comprehensive launch workflow
+│   ├── FEATURE_CHECKLIST.md      # Readiness checklist (tech, marketing, legal)
+│   ├── TIMELINE_TEMPLATE.md      # Gantt chart format for milestones
+│   ├── LAUNCH_TYPES.md           # 4 launch types (product, feature, infra, content)
+│   └── examples/
+│       └── reasoning_lab_launch.md  # Real-world example
 ├── tools/                    # Validation & automation scripts
 │   ├── CONTENT_LINTING.md   # Front-matter, evidence, vocab linting
 │   └── GOVERNANCE_ARTIFACTS.md  # Additional governance tools
@@ -25,6 +37,113 @@ governance/
 ├── policies/                 # Governance policies
 └── research/                 # User research & testing plans
 ```
+
+---
+
+## 📊 Strategic Planning & Audit Results
+
+**Status**: ✅ **COMPLETED** (2025-11-06)
+
+### T4 Strategic Audit
+
+**Location**: [strategic/T4_STRATEGIC_AUDIT.md](strategic/T4_STRATEGIC_AUDIT.md)
+
+Comprehensive external audit evaluating LUKHAS branding across 8 dimensions (Content, UX, Design, Technical, Legal, Community, Operations, Measurement). Overall score: **6.0/10** - Strong foundation with operational gaps.
+
+**Key Findings**:
+- ✅ Excellent governance frameworks and assistive systems
+- ⚠️ 19 missing components blocking enterprise readiness
+- ⚠️ Legal compliance gaps (EU DPA/DPIA, privacy analytics)
+- ⚠️ Evidence operationalization needed
+
+### Implementation Plans
+
+1. **[GAPS_ANALYSIS.md](strategic/GAPS_ANALYSIS.md)** - Complete analysis of 19 missing components
+   - Priority distribution: 11 P0 (critical), 5 P1 (high), 3 P2 (medium)
+   - Owner assignments and deliverables
+   - Dependencies and sequencing
+
+2. **[90_DAY_ROADMAP.md](strategic/90_DAY_ROADMAP.md)** - Week-by-week execution plan
+   - 4 phases: Foundations → Product Experience → Trust & Legal → Scale & Growth
+   - Weekly check-in agenda
+   - Success metrics and risk mitigation
+
+3. **[INNOVATION_PIPELINE.md](strategic/INNOVATION_PIPELINE.md)** - 4 breakthrough ideas
+   - Audit-as-a-Service (AaaS)
+   - Reasoning Graph Marketplace
+   - Explainability-as-a-Standard
+   - MATRIZ Research Fellowship
+
+**Next Steps**: Execute 90-day roadmap starting with evidence pages, artifact signing, and SEO hygiene.
+
+---
+
+## 🚀 Launch Playbooks & Coordination
+
+**Status**: ✅ **COMPLETED** (2025-11-08)
+**GAPS Item**: A3 - Launch Playbooks
+
+### Overview
+
+Launch playbooks provide standardized templates and checklists for coordinating cross-functional launches (product, feature, infrastructure, content). These ensure smooth alignment between marketing and engineering teams.
+
+**Location**: [launch/](launch/)
+
+**Key Documents**:
+1. **[PLAYBOOK_TEMPLATE.md](launch/PLAYBOOK_TEMPLATE.md)** - Comprehensive launch workflow
+   - Pre-launch checklist (T-30, T-14, T-7, T-1 days)
+   - Launch day runbook with rollback procedures
+   - Post-launch review template
+   - Cross-functional stakeholder map (engineering, marketing, legal, security)
+   - Communication templates (internal announcements, external blog posts, social)
+   - Success metrics and KPI tracking
+
+2. **[FEATURE_CHECKLIST.md](launch/FEATURE_CHECKLIST.md)** - Readiness checklist
+   - Technical readiness (tests, docs, monitoring, feature flags)
+   - Marketing readiness (landing page, blog post, social assets)
+   - Legal/compliance readiness (privacy review, claims approval, evidence pages)
+   - Security readiness (audit, penetration testing, compliance)
+   - Analytics readiness (event tracking, dashboards, alerts)
+
+3. **[TIMELINE_TEMPLATE.md](launch/TIMELINE_TEMPLATE.md)** - Gantt chart format
+   - Milestone tracking (alpha, beta, GA)
+   - Dependencies and blockers tracking
+   - Risk assessment and mitigation
+
+4. **[LAUNCH_TYPES.md](launch/LAUNCH_TYPES.md)** - Launch type definitions
+   - Major product launch (e.g., Reasoning Lab)
+   - Feature launch (e.g., new API endpoint)
+   - Infrastructure launch (e.g., new region)
+   - Content launch (e.g., evidence pages, documentation)
+
+### Example Launch
+
+**[Reasoning Lab Launch](launch/examples/reasoning_lab_launch.md)** - Real-world example showing how to use the playbook template for a major product launch.
+
+### Validation
+
+```bash
+# Validate all launch playbooks
+make launch-validate
+
+# Validate specific playbook
+python3 tools/validate_launch.py --playbook branding/governance/launch/examples/reasoning_lab_launch.md
+
+# Strict mode (warnings = errors)
+python3 tools/validate_launch.py --strict
+```
+
+**Tool**: `tools/validate_launch.py` validates:
+- Required front-matter fields (launch name, type, date, lead, sponsor)
+- Stakeholder map completeness
+- Checklist presence (technical, marketing, legal)
+- Rollback procedure documentation
+- Success metrics and KPI definitions
+- Risk register
+- Communication templates
+- Evidence page links for claims
+
+**CI Integration**: Launch validation runs automatically in `.github/workflows/content-lint.yml` on all PRs.
 
 ---
 
@@ -56,18 +175,57 @@ governance/
    - Checks Flesch-Kincaid grade ≤ 8
    - Ensures readability compliance
 
+5. **validate_flags.py** (NEW - GAPS B5)
+   - Validates feature flags configuration
+   - Ensures privacy compliance (no PII in configs)
+   - Checks flag schema and type-specific validation
+   - Integrated into CI/CD pipeline
+
 ### Additional Tools
 
 **Location**: [tools/GOVERNANCE_ARTIFACTS.md](tools/GOVERNANCE_ARTIFACTS.md)
 
-5. **generate_claims_registry.py**
-   - Scans markdown for claims
-   - Generates `release_artifacts/claims_registry.yaml`
-   - Creates audit trail for legal compliance
-
-6. **markdown-link-check**
+5. **markdown-link-check**
    - Validates internal and external links
    - Configured via `.mlc.json`
+
+### Claims Registry
+
+**Tools**: `tools/generate_claims_registry.py`, `tools/validate_claims.py`
+
+Generate and validate claims across all branding content:
+
+```bash
+# Generate claims registry
+make claims-registry
+
+# Validate claims have evidence
+make claims-validate
+
+# Strict validation (fail on warnings)
+make claims-strict
+```
+
+**Registry Location**: `branding/governance/claims_registry.json`
+
+**Prerequisites**: Evidence artifacts must exist (created in PR #1102)
+
+**Claim Types Detected**:
+- Percentages: 99.7%, 87%
+- Latencies: <250ms, <100ms
+- Counts: 340K+ users, 3M interactions
+- Multipliers: 2x faster, 50% improvement
+- Operational: deployment-ready, validated production
+
+**Output**: Generates a comprehensive JSON registry with:
+- Claim text and type
+- Source file and line number
+- Evidence validation status
+- Missing evidence warnings
+- Claims approval tracking
+- Verification trail (verified_by, verified_date)
+
+**CI Integration**: Use `make claims-strict` in CI to fail builds on unapproved claims.
 
 ---
 
@@ -169,6 +327,44 @@ governance/
 
 ---
 
+## 🎯 Feature Flags System (GAPS B5)
+
+**Status**: ✅ **COMPLETED** (2025-11-08)
+
+**Location**: `branding/features/FEATURE_FLAGS_GUIDE.md`
+
+Privacy-first feature flags system for controlled rollouts, A/B testing, and safe experimentation.
+
+**Key Features**:
+- 5 flag types: boolean, percentage, user targeting, time-based, environment-based
+- Zero third-party dependencies (no LaunchDarkly, Split.io)
+- Privacy-preserving (no user tracking without consent)
+- Gradual rollouts: 0% → 1% → 10% → 50% → 100%
+- Built-in A/B testing support
+
+**Usage**:
+
+```bash
+# Validate feature flags
+make flags-validate
+
+# Migrate from old format
+make flags-migrate INPUT=old.yaml OUTPUT=new.yaml
+```
+
+**Configuration**: `branding/features/flags.yaml`
+
+**Components**:
+- Backend service: `lukhas/features/flags_service.py`
+- API endpoints: `lukhas/api/features.py`
+- React hook: `products/frontend/hooks/useFeatureFlag.ts`
+- Admin UI: `products/frontend/pages/admin/features.tsx`
+- Testing utilities: `lukhas/features/testing.py`
+
+**CI Integration**: Automated validation in `content-lint.yml` workflow
+
+---
+
 ## 📊 Monitoring & Dashboards
 
 ### Domain Health Dashboard
@@ -201,6 +397,7 @@ python3 tools/front_matter_lint.py
 python3 tools/evidence_check.py
 python3 tools/branding_vocab_lint.py
 python3 tools/assistive_validate.py
+python3 tools/validate_flags.py
 
 # Check links
 markdown-link-check "branding/**/*.md"
@@ -249,6 +446,18 @@ markdown-link-check "branding/**/*.md"
 ---
 
 ## 🔍 Finding Information
+
+**"What's the strategic plan for LUKHAS branding?"**
+→ [strategic/T4_STRATEGIC_AUDIT.md](strategic/T4_STRATEGIC_AUDIT.md) - Full audit and strategic vision
+
+**"What are the missing components and priorities?"**
+→ [strategic/GAPS_ANALYSIS.md](strategic/GAPS_ANALYSIS.md) - 19-item analysis with owners
+
+**"What's the 90-day execution plan?"**
+→ [strategic/90_DAY_ROADMAP.md](strategic/90_DAY_ROADMAP.md) - Week-by-week roadmap
+
+**"What breakthrough ideas should we consider?"**
+→ [strategic/INNOVATION_PIPELINE.md](strategic/INNOVATION_PIPELINE.md) - 4 visionary opportunities
 
 **"How do I validate my content before submitting?"**
 → [tools/CONTENT_LINTING.md](tools/CONTENT_LINTING.md) - Run all linters

@@ -48,10 +48,10 @@ class GuardianSentinel:
     """
 
     # Severity thresholds
-    SEVERITY_LEVELS = {"low": 0.3, "medium": 0.5, "high": 0.7, "critical": 0.9}
+    SEVERITY_LEVELS = {"low": 0.3, "medium": 0.5, "high": 0.7, "critical": 0.9}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_guardian_sentinel_py_L51"}
 
     # Monitoring thresholds
-    THRESHOLDS = {
+    THRESHOLDS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_guardian_sentinel_py_L54"}
         "drift_rate": 0.1,  # Max drift change per minute
         "entropy_spike": 0.3,  # Max entropy increase
         "pattern_disruption": 0.5,  # Pattern coherence threshold

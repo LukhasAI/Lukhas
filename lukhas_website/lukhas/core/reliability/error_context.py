@@ -14,7 +14,7 @@ from contextlib import contextmanager
 from contextvars import ContextVar
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from observability.opentelemetry_tracing import LUKHASTracer
 from observability.prometheus_metrics import LUKHASMetrics
@@ -48,21 +48,21 @@ class ErrorContext:
     severity: ErrorSeverity
     message: str
     exception_type: str
-    stack_trace: List[str]
+    stack_trace: list[str]
     operation: str
     user_id: Optional[str] = None
     session_id: Optional[str] = None
     request_id: Optional[str] = None
-    causal_chain: List[str] = field(default_factory=list)
-    context_data: Dict[str, Any] = field(default_factory=dict)
-    system_state: Dict[str, Any] = field(default_factory=dict)
-    related_errors: List[str] = field(default_factory=list)
+    causal_chain: list[str] = field(default_factory=list)
+    context_data: dict[str, Any] = field(default_factory=dict)
+    system_state: dict[str, Any] = field(default_factory=dict)
+    related_errors: list[str] = field(default_factory=list)
 
 
 # Context variables for correlation
 _correlation_id: ContextVar[Optional[str]] = ContextVar('correlation_id', default=None)
-_causal_chain: ContextVar[List[str]] = ContextVar('causal_chain', default=[])
-_operation_context: ContextVar[Dict[str, Any]] = ContextVar('operation_context', default={})
+_causal_chain: ContextVar[list[str]] = ContextVar('causal_chain', default=[])
+_operation_context: ContextVar[dict[str, Any]] = ContextVar('operation_context', default={})
 
 
 class ErrorContextManager:
@@ -77,9 +77,9 @@ class ErrorContextManager:
     """
 
     def __init__(self):
-        self.error_history: List[ErrorContext] = []
-        self.error_patterns: Dict[str, int] = {}
-        self.correlation_map: Dict[str, List[str]] = {}
+        self.error_history: list[ErrorContext] = []
+        self.error_patterns: dict[str, int] = {}
+        self.correlation_map: dict[str, list[str]] = {}
 
         self.metrics = LUKHASMetrics()
         self.tracer = LUKHASTracer()
@@ -92,7 +92,7 @@ class ErrorContextManager:
         self,
         exception: Exception,
         operation: str,
-        additional_context: Optional[Dict[str, Any]] = None,
+        additional_context: Optional[dict[str, Any]] = None,
         user_id: Optional[str] = None,
         session_id: Optional[str] = None,
         request_id: Optional[str] = None
@@ -239,7 +239,7 @@ class ErrorContextManager:
         # Default to low
         return ErrorSeverity.LOW
 
-    def _capture_system_state(self) -> Dict[str, Any]:
+    def _capture_system_state(self) -> dict[str, Any]:
         """Capture relevant system state at error time."""
         try:
             import os
@@ -298,7 +298,7 @@ class ErrorContextManager:
         if self.error_patterns[pattern_key] >= self.pattern_threshold:
             print(f"🔍 Error pattern detected: {pattern_key} (occurred {self.error_patterns[pattern_key]} times)")
 
-    def get_related_errors(self, correlation_id: str) -> List[ErrorContext]:
+    def get_related_errors(self, correlation_id: str) -> list[ErrorContext]:
         """Get all errors related to a correlation ID."""
         if correlation_id not in self.correlation_map:
             return []
@@ -309,7 +309,7 @@ class ErrorContextManager:
             if error.error_id in error_ids
         ]
 
-    def get_error_summary(self, hours: int = 24) -> Dict[str, Any]:
+    def get_error_summary(self, hours: int = 24) -> dict[str, Any]:
         """Get error summary for the specified time window."""
         cutoff_time = time.time() - (hours * 3600)
         recent_errors = [
@@ -429,13 +429,13 @@ def enhanced_error_handler(operation_name: str):
     return decorator
 
 
-def get_error_summary(hours: int = 24) -> Dict[str, Any]:
+def get_error_summary(hours: int = 24) -> dict[str, Any]:
     """Get comprehensive error summary."""
     manager = get_error_manager()
     return manager.get_error_summary(hours)
 
 
-def find_related_errors(correlation_id: str) -> List[ErrorContext]:
+def find_related_errors(correlation_id: str) -> list[ErrorContext]:
     """Find all errors related to a correlation ID."""
     manager = get_error_manager()
     return manager.get_related_errors(correlation_id)

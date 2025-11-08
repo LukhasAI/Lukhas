@@ -6,10 +6,14 @@ Helps identify naming inconsistencies, misplaced files, and organizational issue
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 from collections import defaultdict
 from pathlib import Path
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 class CodebaseAnalyzer:
@@ -294,15 +298,14 @@ class CodebaseAnalyzer:
 
         for file_info in self.files:
             for pattern in doc_patterns:
-                if re.search(pattern, str(file_info["relative_path"]), re.IGNORECASE):
+                if re.search(pattern, str(file_info['relative_path']), re.IGNORECASE) and 'docs' not in str(file_info['relative_path']):
                     # Skip if already in docs directory
-                    if "docs" not in str(file_info["relative_path"]):
-                        self.issues["documentation_in_code"].append(
-                            {
-                                "file": str(file_info["relative_path"]),
-                                "type": "documentation file in code directory",
-                            }
-                        )
+                    self.issues["documentation_in_code"].append(
+                        {
+                            "file": str(file_info["relative_path"]),
+                            "type": "documentation file in code directory",
+                        }
+                    )
 
     def _generate_report(self) -> dict:
         """Generate comprehensive analysis report"""

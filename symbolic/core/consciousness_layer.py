@@ -10,7 +10,7 @@ Purpose: Integrate visual symbols with consciousness framework
 
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -24,7 +24,7 @@ try:
 except ImportError:
     # Fallback for environments without memory fold bridge
     class MemoryFoldBridge:
-        def publish_fold_event(self, event_type: str, payload: Dict[str, Any]) -> bool:
+        def publish_fold_event(self, event_type: str, payload: dict[str, Any]) -> bool:
             return False
     MEMORY_FOLD_AVAILABLE = False
 
@@ -35,18 +35,18 @@ class ObserverContext:
     observer_id: str
     consciousness_level: float
     intent: Optional[str] = None
-    emotional_state: Dict[str, float] = field(default_factory=dict)
-    observation_history: List[str] = field(default_factory=list)
+    emotional_state: dict[str, float] = field(default_factory=dict)
+    observation_history: list[str] = field(default_factory=list)
 
 
 @dataclass
 class TemporalRecursion:
     """Manages temporal recursion in consciousness"""
-    past_states: List[Dict[str, Any]] = field(default_factory=list)
+    past_states: list[dict[str, Any]] = field(default_factory=list)
     recursion_depth: int = 5
     temporal_influence: float = 0.3
 
-    def add_state(self, state: Dict[str, Any]):
+    def add_state(self, state: dict[str, Any]):
         self.past_states.append(state)
         if len(self.past_states) > self.recursion_depth:
             self.past_states.pop(0)
@@ -63,7 +63,7 @@ class TemporalRecursion:
 class MemoryCorrelationTensor:
     """Links visual symbols to memory states"""
     correlations: np.ndarray = field(default_factory=lambda: np.zeros((100, 100)))
-    symbol_indices: Dict[str, int] = field(default_factory=dict)
+    symbol_indices: dict[str, int] = field(default_factory=dict)
     next_index: int = 0
 
     def add_correlation(self, symbol_a: str, symbol_b: str, strength: float):
@@ -87,9 +87,9 @@ class SyntheticEmotion:
     arousal: float = 0.0
     dominance: float = 0.5
     expression_intensity: float = 0.5
-    trigger_symbols: List[str] = field(default_factory=list)
+    trigger_symbols: list[str] = field(default_factory=list)
 
-    def express(self) -> Dict[str, float]:
+    def express(self) -> dict[str, float]:
         return {
             "valence": self.valence * self.expression_intensity,
             "arousal": self.arousal * self.expression_intensity,
@@ -103,7 +103,7 @@ class ConsciousnessIntegration:
     def __init__(
         self,
         matriz_compatible: bool = True,
-        constellation_stars: Optional[List[str]] = None
+        constellation_stars: Optional[list[str]] = None
     ):
         self.matriz_compatible = matriz_compatible
         self.constellation_stars = constellation_stars or [
@@ -111,16 +111,16 @@ class ConsciousnessIntegration:
             "dream", "ethics", "guardian", "quantum"
         ]
 
-        self.observer_contexts: Dict[str, ObserverContext] = {}
+        self.observer_contexts: dict[str, ObserverContext] = {}
         self.temporal_recursion = TemporalRecursion()
         self.memory_tensor = MemoryCorrelationTensor()
-        self.synthetic_emotions: List[SyntheticEmotion] = []
+        self.synthetic_emotions: list[SyntheticEmotion] = []
         self.perception_field: Optional[QuantumPerceptionField] = None
 
         # Memory fold bridge integration
         self.memory_fold_bridge: Optional[MemoryFoldBridge] = None
         self.fold_bridge_enabled: bool = False
-        self.fold_event_throttle: Dict[str, float] = {}
+        self.fold_event_throttle: dict[str, float] = {}
         self.throttle_window: float = 1.0  # seconds
         self.max_fold_events_per_window: int = 10
         self.fold_event_count: int = 0
@@ -146,7 +146,7 @@ class ConsciousnessIntegration:
         self,
         symbol: VisualSymbol,
         observer_id: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Process symbol through consciousness"""
         if observer_id not in self.observer_contexts:
             self.register_observer(observer_id)
@@ -215,7 +215,7 @@ class ConsciousnessIntegration:
         symbol: VisualSymbol,
         context: ObserverContext,
         emotion: SyntheticEmotion
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Calculate ΛTAG affect_delta for consciousness processing"""
         # Base consciousness affect
         consciousness_intensity = context.consciousness_level * symbol.measure_consciousness()
@@ -268,9 +268,9 @@ class ConsciousnessIntegration:
         symbol: VisualSymbol,
         observer_id: str,
         context: ObserverContext,
-        affect_delta: Dict[str, float],
-        temporal_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        affect_delta: dict[str, float],
+        temporal_state: dict[str, Any]
+    ) -> dict[str, Any]:
         """Create deterministic payload for memory fold bridge"""
         return {
             'lambda_tag': 'consciousness_processing',
@@ -318,7 +318,7 @@ class ConsciousnessIntegration:
             correlation_strength
         )
 
-    def integrate_with_constellation(self, symbol: VisualSymbol) -> Dict[str, float]:
+    def integrate_with_constellation(self, symbol: VisualSymbol) -> dict[str, float]:
         """Integrate symbol with Constellation Framework stars"""
         integration = {}
 
@@ -345,7 +345,7 @@ class ConsciousnessIntegration:
 
         return integration
 
-    def measure_collective_consciousness(self, symbols: List[VisualSymbol]) -> float:
+    def measure_collective_consciousness(self, symbols: list[VisualSymbol]) -> float:
         """Measure collective consciousness of symbol group"""
         if not symbols:
             return 0.0
@@ -361,7 +361,7 @@ class ConsciousnessIntegration:
         collective = np.mean(individual_consciousness) * (1.0 + entanglement_bonus * 0.2)
         return min(1.0, collective)
 
-    def to_matriz_node(self) -> Dict[str, Any]:
+    def to_matriz_node(self) -> dict[str, Any]:
         """Convert to MATRIZ format"""
         return {
             "node_id": f"consciousness_{int(time.time()*1000)}",

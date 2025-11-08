@@ -133,7 +133,7 @@ class ConsentService:
     Handles consent grants, capability tokens, and audit trails.
     """
 
-    DEFAULT_ESCALATION_RULES = [
+    DEFAULT_ESCALATION_RULES = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_consent_service_py_L136"}
         {
             "name": "high_privilege_access",
             "condition": "permission_type in ['admin', 'root', 'critical'] and trust_score < 0.8",

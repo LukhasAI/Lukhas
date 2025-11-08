@@ -14,7 +14,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from bridge.llm_wrappers.jules_wrapper import JulesClient
 
-
 # High-priority sessions from TEST_ASSIGNMENT_REPORT.md
 HIGH_PRIORITY_SESSIONS = [
     {
@@ -129,7 +128,7 @@ async def create_all_sessions():
     """Create all high-priority test sessions."""
     print("\n🚀 Creating High Priority Jules Sessions")
     print(f"📊 Creating {len(HIGH_PRIORITY_SESSIONS)} sessions")
-    print(f"⏰ Remaining daily quota: ~64 sessions")
+    print("⏰ Remaining daily quota: ~64 sessions")
     print("=" * 70)
     print()
 

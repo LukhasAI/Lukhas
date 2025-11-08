@@ -12,24 +12,25 @@ Performance targets:
 """
 
 import asyncio
+
+# Use standard Python logging instead of custom logger
+import contextlib
 import gzip
 import json
 import logging
 import time
+import uuid
 from abc import ABC, abstractmethod
+from contextvars import ContextVar
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 # Import base classes directly to avoid circular imports
 import numpy as np
 
-# Use standard Python logging instead of custom logger
-import contextlib
-import uuid
-from contextvars import ContextVar
 
 # Define minimal VectorDocument interface for lifecycle management
 @dataclass
@@ -38,11 +39,11 @@ class VectorDocument:
     id: str
     content: str
     embedding: np.ndarray
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     identity_id: Optional[str] = None
     lane: str = "candidate"
     fold_id: Optional[str] = None
-    tags: List[str] = field(default_factory=list)
+    tags: list[str] = field(default_factory=list)
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     expires_at: Optional[datetime] = None
@@ -67,7 +68,7 @@ class VectorDocument:
             return False
         return datetime.now(timezone.utc) > self.expires_at
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for storage"""
         return {
             "id": self.id,
@@ -100,12 +101,12 @@ class AbstractVectorStore(ABC):
         pass
 
     @abstractmethod
-    async def list_expired_documents(self, cutoff_time: datetime, limit: int) -> List[VectorDocument]:
+    async def list_expired_documents(self, cutoff_time: datetime, limit: int) -> list[VectorDocument]:
         """List expired documents"""
         pass
 
     @abstractmethod
-    async def list_by_identity(self, identity_id: str, limit: int) -> List[VectorDocument]:
+    async def list_by_identity(self, identity_id: str, limit: int) -> list[VectorDocument]:
         """List documents by identity"""
         pass
 
@@ -165,7 +166,7 @@ class RetentionRule:
     """
     name: str
     policy: RetentionPolicy
-    conditions: Dict[str, Any] = field(default_factory=dict)
+    conditions: dict[str, Any] = field(default_factory=dict)
 
     # Retention periods
     active_retention_days: int = 30
@@ -201,7 +202,7 @@ class GDPRTombstone:
     identity_id: Optional[str] = None
     requested_by: Optional[str] = None
     original_fold_id: Optional[str] = None
-    original_tags: List[str] = field(default_factory=list)
+    original_tags: list[str] = field(default_factory=list)
     content_hash: str = ""
     word_count: int = 0
     language: Optional[str] = None
@@ -211,7 +212,7 @@ class GDPRTombstone:
     legal_basis_removed: Optional[str] = None
     retention_rule: Optional[str] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for storage"""
         return {
             "document_id": self.document_id,
@@ -232,7 +233,7 @@ class GDPRTombstone:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'GDPRTombstone':
+    def from_dict(cls, data: dict[str, Any]) -> 'GDPRTombstone':
         """Create from dictionary"""
         return cls(
             document_id=data["document_id"],
@@ -280,7 +281,7 @@ class LifecycleStats:
     explicit_deletions: int = 0
 
     # Policy effectiveness
-    retention_rules_applied: Dict[str, int] = field(default_factory=dict)
+    retention_rules_applied: dict[str, int] = field(default_factory=dict)
     policy_violations: int = 0
 
 
@@ -456,7 +457,7 @@ class AbstractTombstoneStore(ABC):
         self,
         identity_id: str,
         limit: int = 100
-    ) -> List[GDPRTombstone]:
+    ) -> list[GDPRTombstone]:
         """List tombstones for an identity"""
         pass
 
@@ -478,7 +479,7 @@ class FileTombstoneStore(AbstractTombstoneStore):
     def __init__(self, base_path: str = "artifacts"):
         self.base_path = Path(base_path)
         self.base_path.mkdir(parents=True, exist_ok=True)
-        self.tombstones: Dict[str, GDPRTombstone] = {}
+        self.tombstones: dict[str, GDPRTombstone] = {}
         logger.info(f"FileTombstoneStore initialized at {self.base_path}")
 
     def _get_audit_filename(self) -> str:
@@ -490,7 +491,7 @@ class FileTombstoneStore(AbstractTombstoneStore):
         self,
         event_type: str,
         tombstone: GDPRTombstone,
-        additional_data: Optional[Dict[str, Any]] = None
+        additional_data: Optional[dict[str, Any]] = None
     ):
         """Write audit event to artifacts directory"""
         audit_data = {
@@ -577,7 +578,7 @@ class FileTombstoneStore(AbstractTombstoneStore):
         self,
         identity_id: str,
         limit: int = 100
-    ) -> List[GDPRTombstone]:
+    ) -> list[GDPRTombstone]:
         """List tombstones for an identity"""
         matching_tombstones = [
             tombstone for tombstone in self.tombstones.values()
@@ -657,7 +658,7 @@ class AbstractTombstoneStore(ABC):
         self,
         identity_id: str,
         limit: int = 100
-    ) -> List[GDPRTombstone]:
+    ) -> list[GDPRTombstone]:
         """List tombstones for an identity"""
         pass
 
@@ -691,7 +692,7 @@ class MemoryLifecycleManager:
         self.default_retention_days = default_retention_days
 
         # Retention rules registry
-        self.retention_rules: Dict[str, RetentionRule] = {}
+        self.retention_rules: dict[str, RetentionRule] = {}
 
         # Statistics
         self.stats = LifecycleStats()
@@ -783,7 +784,7 @@ class MemoryLifecycleManager:
     def _document_matches_conditions(
         self,
         document: VectorDocument,
-        conditions: Dict[str, Any]
+        conditions: dict[str, Any]
     ) -> bool:
         """Check if document matches rule conditions"""
         for key, value in conditions.items():
@@ -1248,7 +1249,7 @@ class MemoryLifecycleManager:
         identity_id: str,
         requested_by: str,
         legal_basis_removed: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Process GDPR right-to-be-forgotten request.
 
@@ -1459,7 +1460,7 @@ class MemoryLifecycleManager:
                     error=str(e)
                 )
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get comprehensive lifecycle statistics"""
         stats = {
             "operations": {

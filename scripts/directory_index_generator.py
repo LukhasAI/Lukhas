@@ -6,9 +6,13 @@ Creates machine-readable JSON indexes for AI agent discovery and coordination
 
 import ast
 import json
+import logging
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, Optional
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 class DirectoryIndexGenerator:
@@ -66,7 +70,7 @@ class DirectoryIndexGenerator:
                 "exports": []
             }
 
-    def classify_component_type(self, file_path: Path, content: str, classes: List[str], functions: List[str]) -> str:
+    def classify_component_type(self, file_path: Path, content: str, classes: list[str], functions: list[str]) -> str:
         """Classify the type of component based on file analysis"""
         path_str = str(file_path).lower()
         content.lower()
@@ -126,7 +130,7 @@ class DirectoryIndexGenerator:
 
         return contract_path if contract_path.exists() else None
 
-    def analyze_documentation(self, directory: Path) -> List[Dict]:
+    def analyze_documentation(self, directory: Path) -> list[Dict]:
         """Analyze documentation files in a directory"""
         docs = []
 
@@ -172,7 +176,7 @@ class DirectoryIndexGenerator:
         else:
             return "development"  # Default
 
-    def determine_trinity_roles(self, directory: Path) -> List[str]:
+    def determine_trinity_roles(self, directory: Path) -> list[str]:
         """Determine Constellation Framework roles for a directory"""
         path_str = str(directory).lower()
         roles = []
@@ -186,7 +190,7 @@ class DirectoryIndexGenerator:
 
         return roles
 
-    def generate_agent_guidance(self, directory: Path, python_files: List[Dict], docs: List[Dict]) -> Dict:
+    def generate_agent_guidance(self, directory: Path, python_files: list[Dict], docs: list[Dict]) -> Dict:
         """Generate agent guidance for working in this directory"""
         path_str = str(directory).lower()
 

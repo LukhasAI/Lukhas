@@ -6,7 +6,11 @@ This module is part of the LUKHAS repository.
 Add detailed documentation and examples as needed.
 """
 
+import logging
 import os
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 # Get all stub directories
 stub_dirs = []

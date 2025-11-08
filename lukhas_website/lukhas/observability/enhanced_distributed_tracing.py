@@ -20,7 +20,7 @@ import os
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from uuid import uuid4
 
 try:
@@ -119,7 +119,7 @@ class TraceConfig:
     sampling_ratio: float = 1.0
     enable_auto_instrumentation: bool = True
     enable_baggage_propagation: bool = True
-    custom_propagators: List[str] = field(default_factory=lambda: ["tracecontext", "baggage"])
+    custom_propagators: list[str] = field(default_factory=lambda: ["tracecontext", "baggage"])
     span_batch_size: int = 512
     span_export_timeout_ms: int = 30000
     enable_performance_tracing: bool = True
@@ -159,7 +159,7 @@ class EnhancedLUKHASTracer:
         )
 
         # Trace correlation tracking
-        self._correlation_map: Dict[str, str] = {}
+        self._correlation_map: dict[str, str] = {}
 
     def _setup_tracing(self):
         """Setup OpenTelemetry tracing with custom configuration"""
@@ -259,7 +259,7 @@ class EnhancedLUKHASTracer:
                 AsyncioInstrumentor().instrument()
 
             # Database instrumentation (when available)
-            try:
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_observability_enhanced_distributed_tracing_py_L262"}
                 SQLAlchemyInstrumentor().instrument()
             except Exception:
                 pass  # SQLAlchemy not available
@@ -273,8 +273,8 @@ class EnhancedLUKHASTracer:
         operation_name: str,
         component: str,
         operation_type: str = "generic",
-        attributes: Optional[Dict[str, Any]] = None,
-        baggage_items: Optional[Dict[str, str]] = None,
+        attributes: Optional[dict[str, Any]] = None,
+        baggage_items: Optional[dict[str, str]] = None,
     ):
         """
         Context manager for tracing LUKHAS operations.
@@ -538,7 +538,7 @@ class EnhancedLUKHASTracer:
 
         return correlation_id
 
-    def get_current_trace_context(self) -> Dict[str, str]:
+    def get_current_trace_context(self) -> dict[str, str]:
         """Get current trace context for propagation"""
         if not self.enabled:
             return {}
@@ -547,7 +547,7 @@ class EnhancedLUKHASTracer:
         propagate.inject(carrier)
         return carrier
 
-    def set_trace_context(self, carrier: Dict[str, str]):
+    def set_trace_context(self, carrier: dict[str, str]):
         """Set trace context from propagation carrier"""
         if not self.enabled or not carrier:
             return None
@@ -558,7 +558,7 @@ class EnhancedLUKHASTracer:
     def add_span_event(
         self,
         event_name: str,
-        attributes: Optional[Dict[str, Any]] = None,
+        attributes: Optional[dict[str, Any]] = None,
         timestamp: Optional[datetime] = None,
     ):
         """Add an event to the current span"""
@@ -576,7 +576,7 @@ class EnhancedLUKHASTracer:
                 timestamp=int(event_timestamp.timestamp() * 1_000_000_000),  # nanoseconds
             )
 
-    def get_trace_statistics(self) -> Dict[str, Any]:
+    def get_trace_statistics(self) -> dict[str, Any]:
         """Get tracing statistics"""
         return {
             "enabled": self.enabled,
@@ -700,13 +700,13 @@ def create_correlation_id(correlation_type: str = "request") -> str:
     return tracer.create_correlation_id(correlation_type)
 
 
-def propagate_trace_context() -> Dict[str, str]:
+def propagate_trace_context() -> dict[str, str]:
     """Get current trace context for HTTP header propagation"""
     tracer = get_enhanced_tracer()
     return tracer.get_current_trace_context()
 
 
-def extract_trace_context(carrier: Dict[str, str]):
+def extract_trace_context(carrier: dict[str, str]):
     """Extract and set trace context from HTTP headers"""
     tracer = get_enhanced_tracer()
     return tracer.set_trace_context(carrier)
@@ -735,7 +735,7 @@ def shutdown_enhanced_tracing():
 def trace_with_evidence_collection(
     operation_name: str,
     evidence_type: str,
-    evidence_payload: Dict[str, Any],
+    evidence_payload: dict[str, Any],
     correlation_id: Optional[str] = None,
 ):
     """

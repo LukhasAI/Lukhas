@@ -10,10 +10,10 @@ Scans PRs 241-257 and maps them to batch tasks for progress tracking.
 import json
 import subprocess
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
-def get_pr_info(pr_number: int) -> Dict[str, Any]:
+def get_pr_info(pr_number: int) -> dict[str, Any]:
     """Get PR information from GitHub CLI"""
     try:
         result = subprocess.run(
@@ -27,7 +27,7 @@ def get_pr_info(pr_number: int) -> Dict[str, Any]:
         return {}
 
 
-def analyze_pr_completion(pr_info: Dict[str, Any]) -> Dict[str, Any]:
+def analyze_pr_completion(pr_info: dict[str, Any]) -> dict[str, Any]:
     """Analyze PR to determine what work was completed"""
     title = pr_info.get("title", "")
     body = pr_info.get("body", "")
@@ -77,7 +77,7 @@ def analyze_pr_completion(pr_info: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-def match_pr_to_tasks(pr_analysis: Dict[str, Any], all_batch_tasks: List[Dict[str, Any]]) -> List[str]:
+def match_pr_to_tasks(pr_analysis: dict[str, Any], all_batch_tasks: list[dict[str, Any]]) -> list[str]:
     """Match PR work to specific batch tasks across all batches"""
     matched_tasks = []
     keywords = pr_analysis["keywords"]
@@ -145,7 +145,7 @@ def match_pr_to_tasks(pr_analysis: Dict[str, Any], all_batch_tasks: List[Dict[st
     return matched_tasks
 
 
-def update_batch_files(batch_dir: Path, completed_tasks: Dict[str, List[str]]):
+def update_batch_files(batch_dir: Path, completed_tasks: dict[str, list[str]]):
     """Update batch files with completed task status"""
     updates_made = 0
 

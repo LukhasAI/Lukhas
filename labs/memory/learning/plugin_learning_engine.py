@@ -9,6 +9,8 @@ Implements core integration patterns for connecting with Lukhas's systems.
 from enum import Enum
 from typing import Any, Optional
 
+from core.common import get_logger
+
 # Import Lukhas interfaces (these would be provided by Lukhas AI)
 from lucas_core import (
     LucasBioOscillatorInterface,
@@ -19,8 +21,6 @@ from lucas_core import (
     LUKHASIdentityInterface,
 )
 from pydantic import BaseModel
-
-from core.common import get_logger
 
 from .content_generation_engine.doc_generator import DocGenerator
 from .symbolic_knowledge_core.knowledge_graph import SystemKnowledgeGraph

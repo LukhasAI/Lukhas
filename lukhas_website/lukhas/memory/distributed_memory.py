@@ -14,7 +14,7 @@ from collections import deque
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, Optional, Set
+from typing import Any, Callable, Optional
 
 from memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator
 from memory.fold_system import MemoryFold
@@ -56,13 +56,13 @@ class DistributedNode:
     address: str
     port: int
     state: NodeState
-    capabilities: Set[str]
+    capabilities: set[str]
     last_heartbeat: datetime
     memory_capacity: int = 1000  # Max memory folds
     current_load: int = 0
     sync_latency_ms: float = 0.0
     reputation_score: float = 1.0  # 0.0 to 1.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -70,7 +70,7 @@ class ReplicationRecord:
     """Memory fold replication record"""
     fold_id: str
     primary_node: str
-    replica_nodes: Set[str]
+    replica_nodes: set[str]
     replication_factor: int
     created_at: datetime
     last_verified: datetime
@@ -85,8 +85,8 @@ class SyncOperation:
     operation_type: str  # "create", "update", "delete", "sync"
     fold_id: str
     source_node: str
-    target_nodes: Set[str]
-    payload: Dict[str, Any]
+    target_nodes: set[str]
+    payload: dict[str, Any]
     timestamp: datetime
     priority: int = 1
     retry_count: int = 0
@@ -99,9 +99,9 @@ class ConsensusResult:
     """Result of consensus operation"""
     operation_id: str
     consensus_reached: bool
-    participating_nodes: Set[str]
-    confirming_nodes: Set[str]
-    rejecting_nodes: Set[str]
+    participating_nodes: set[str]
+    confirming_nodes: set[str]
+    rejecting_nodes: set[str]
     consensus_time_ms: float
     error_message: Optional[str] = None
 
@@ -136,30 +136,30 @@ class DistributedMemoryOrchestrator:
         )
 
         # Distributed topology
-        self.known_nodes: Dict[str, DistributedNode] = {}
-        self.active_nodes: Set[str] = set()
-        self.trusted_nodes: Set[str] = set()
+        self.known_nodes: dict[str, DistributedNode] = {}
+        self.active_nodes: set[str] = set()
+        self.trusted_nodes: set[str] = set()
 
         # Memory storage
-        self.local_memory_folds: Dict[str, MemoryFold] = {}
-        self.replication_records: Dict[str, ReplicationRecord] = {}
-        self.pending_operations: Dict[str, SyncOperation] = {}
+        self.local_memory_folds: dict[str, MemoryFold] = {}
+        self.replication_records: dict[str, ReplicationRecord] = {}
+        self.pending_operations: dict[str, SyncOperation] = {}
 
         # Consensus tracking
-        self.consensus_operations: Dict[str, ConsensusResult] = {}
+        self.consensus_operations: dict[str, ConsensusResult] = {}
         self.vote_history: deque = deque(maxlen=1000)
 
         # Synchronization state
         self.sync_queue: deque = deque()
-        self.sync_in_progress: Set[str] = set()
+        self.sync_in_progress: set[str] = set()
         self.last_global_sync: Optional[datetime] = None
 
         # Network and protocol handlers
-        self.message_handlers: Dict[str, Callable] = {}
-        self.consensus_handlers: Dict[ConsensusProtocol, Callable] = {}
+        self.message_handlers: dict[str, Callable] = {}
+        self.consensus_handlers: dict[ConsensusProtocol, Callable] = {}
 
         # Performance tracking
-        self.sync_metrics: Dict[str, Any] = {
+        self.sync_metrics: dict[str, Any] = {
             "total_operations": 0,
             "successful_syncs": 0,
             "failed_syncs": 0,
@@ -358,7 +358,7 @@ class DistributedMemoryOrchestrator:
         logger.info(f"🗑️ Memory fold queued for deletion: {fold_id}")
         return True
 
-    async def synchronize_with_network(self) -> Dict[str, Any]:
+    async def synchronize_with_network(self) -> dict[str, Any]:
         """Perform full synchronization with network"""
 
         sync_start = time.time()
@@ -423,7 +423,7 @@ class DistributedMemoryOrchestrator:
         logger.info(f"🤝 Added trusted node: {node_id} at {address}:{port}")
         return True
 
-    async def get_network_status(self) -> Dict[str, Any]:
+    async def get_network_status(self) -> dict[str, Any]:
         """Get current network status"""
 
         return {
@@ -451,7 +451,7 @@ class DistributedMemoryOrchestrator:
             "performance": self.sync_metrics
         }
 
-    def _select_replica_nodes(self, fold_id: str) -> Set[str]:
+    def _select_replica_nodes(self, fold_id: str) -> set[str]:
         """Select nodes for memory fold replication"""
 
         available_nodes = self.active_nodes - {self.node_id}
@@ -481,7 +481,7 @@ class DistributedMemoryOrchestrator:
 
         return set()
 
-    def _serialize_memory_fold(self, memory_fold: MemoryFold) -> Dict[str, Any]:
+    def _serialize_memory_fold(self, memory_fold: MemoryFold) -> dict[str, Any]:
         """Serialize memory fold for network transmission"""
         try:
             # Convert dataclass to dict
@@ -511,7 +511,7 @@ class DistributedMemoryOrchestrator:
         content_str = json.dumps(fold_data, sort_keys=True)
         return hashlib.sha256(content_str.encode()).hexdigest()
 
-    async def _create_replication_record(self, fold_id: str, replica_nodes: Set[str]):
+    async def _create_replication_record(self, fold_id: str, replica_nodes: set[str]):
         """Create replication record for memory fold"""
 
         memory_fold = self.local_memory_folds.get(fold_id)
@@ -557,7 +557,7 @@ class DistributedMemoryOrchestrator:
         # For now, return None (would implement actual network protocol)
         return None
 
-    async def _collect_network_memory_state(self) -> Dict[str, Any]:
+    async def _collect_network_memory_state(self) -> dict[str, Any]:
         """Collect memory state from all network nodes"""
 
         network_state = {}
@@ -578,7 +578,7 @@ class DistributedMemoryOrchestrator:
 
         return network_state
 
-    async def _synchronize_memory_fold(self, fold_id: str, fold_data: Dict[str, Any]):
+    async def _synchronize_memory_fold(self, fold_id: str, fold_data: dict[str, Any]):
         """Synchronize individual memory fold"""
 
         fold_data.get("source_node")
@@ -597,7 +597,7 @@ class DistributedMemoryOrchestrator:
             # Would deserialize and store the fold
             pass
 
-    async def _resolve_memory_conflict(self, fold_id: str, remote_fold_data: Dict[str, Any]):
+    async def _resolve_memory_conflict(self, fold_id: str, remote_fold_data: dict[str, Any]):
         """Resolve conflict between local and remote memory fold"""
 
         # Simple conflict resolution: newest wins
@@ -662,20 +662,20 @@ class DistributedMemoryOrchestrator:
             ConsensusProtocol.STRONG_CONSISTENCY: self._handle_strong_consistency
         }
 
-    async def _handle_heartbeat(self, node_id: str, message: Dict[str, Any]):
+    async def _handle_heartbeat(self, node_id: str, message: dict[str, Any]):
         """Handle heartbeat message from node"""
 
         if node_id in self.known_nodes:
             self.known_nodes[node_id].last_heartbeat = datetime.now(timezone.utc)
             self.active_nodes.add(node_id)
 
-    async def _handle_sync_request(self, node_id: str, message: Dict[str, Any]):
+    async def _handle_sync_request(self, node_id: str, message: dict[str, Any]):
         """Handle synchronization request"""
 
         # Placeholder for sync request handling
         pass
 
-    async def _handle_consensus_vote(self, node_id: str, message: Dict[str, Any]):
+    async def _handle_consensus_vote(self, node_id: str, message: dict[str, Any]):
         """Handle consensus vote message"""
 
         operation_id = message.get("operation_id")
@@ -687,7 +687,7 @@ class DistributedMemoryOrchestrator:
             if consensus_handler:
                 await consensus_handler(operation_id, node_id, vote)
 
-    async def _handle_memory_fold_request(self, node_id: str, message: Dict[str, Any]):
+    async def _handle_memory_fold_request(self, node_id: str, message: dict[str, Any]):
         """Handle memory fold request"""
 
         fold_id = message.get("fold_id")
@@ -703,7 +703,7 @@ class DistributedMemoryOrchestrator:
             # Would send response via network
             logger.debug(f"📤 Sending memory fold {fold_id} to {node_id}")
 
-    async def _handle_memory_fold_response(self, node_id: str, message: Dict[str, Any]):
+    async def _handle_memory_fold_response(self, node_id: str, message: dict[str, Any]):
         """Handle memory fold response"""
 
         fold_id = message.get("fold_id")
@@ -713,7 +713,7 @@ class DistributedMemoryOrchestrator:
         # Would deserialize and store the fold
         logger.debug(f"📥 Received memory fold {fold_id} from {node_id}")
 
-    async def _handle_node_introduction(self, node_id: str, message: Dict[str, Any]):
+    async def _handle_node_introduction(self, node_id: str, message: dict[str, Any]):
         """Handle node introduction message"""
 
         node_info = message.get("node_info", {})
@@ -733,7 +733,7 @@ class DistributedMemoryOrchestrator:
 
             logger.info(f"👋 New node introduced: {node_id}")
 
-    async def _handle_node_shutdown(self, node_id: str, message: Dict[str, Any]):
+    async def _handle_node_shutdown(self, node_id: str, message: dict[str, Any]):
         """Handle node shutdown message"""
 
         if node_id in self.known_nodes:

@@ -29,7 +29,6 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import List, Tuple
 
 # Configuration
 OLD_MODULE = "matriz"
@@ -68,7 +67,7 @@ class ImportRewriter(ast.NodeTransformer):
         return node
 
 
-def rewrite_file(filepath: Path, dry_run: bool = False) -> Tuple[bool, List[str]]:
+def rewrite_file(filepath: Path, dry_run: bool = False) -> tuple[bool, list[str]]:
     """
     Rewrite imports in a single file.
 
@@ -121,15 +120,14 @@ def rewrite_file(filepath: Path, dry_run: bool = False) -> Tuple[bool, List[str]
     return True, rewriter.changes
 
 
-def find_python_files(root_path: Path, exclude_patterns: List[str]) -> List[Path]:
+def find_python_files(root_path: Path, exclude_patterns: list[str]) -> list[Path]:
     """Find all Python files, excluding specified patterns."""
     python_files = []
 
     # Handle single file case
     if root_path.is_file():
-        if root_path.suffix == ".py":
-            if not any(excl in str(root_path) for excl in exclude_patterns):
-                python_files.append(root_path)
+        if root_path.suffix == '.py' and (not any(excl in str(root_path) for excl in exclude_patterns)):
+            python_files.append(root_path)
         return python_files
 
     # Handle directory case

@@ -21,21 +21,14 @@ import time
 import uuid
 from typing import Any, cast
 
-from bridge.llm_wrappers.tool_executor import (
-    execute_tool as bridged_execute_tool,
-)
-
 from branding.policy.terminology import normalize_chunk, normalize_output
+from bridge.llm_wrappers.tool_executor import execute_tool as bridged_execute_tool
 from openai.tooling import build_tools_from_allowlist, get_all_tools
-
-from metrics import get_metrics_collector
-from orchestration.signals.homeostasis import (
-    HomeostasisController,
-    ModulationParams,
-    SystemEvent,
-)
+from orchestration.signals.homeostasis import HomeostasisController, ModulationParams, SystemEvent
 from orchestration.signals.modulator import PromptModulation, PromptModulator
 from orchestration.signals.signal_bus import Signal, get_signal_bus
+
+from metrics import get_metrics_collector
 
 from .unified_openai_client import UnifiedOpenAIClient
 
@@ -44,9 +37,6 @@ from .unified_openai_client import UnifiedOpenAIClient
 
 def get_analytics():
     return lambda *args, **kwargs: None  # Mock analytics function
-
-
-
 
 
 logger = logging.getLogger("ΛTRACE.bridge.openai_modulated_service")
@@ -118,7 +108,10 @@ class OpenAIModulatedService:
                 context = dict(context or {})
                 ctx_add = (context.get("additional_context") or "").strip()
                 context["additional_context"] = (
-                    ctx_add + ("\n\n" if ctx_add else "") + "Retrieved Notes:\n" + "\n".join(retrieved)
+                    ctx_add
+                    + ("\n\n" if ctx_add else "")
+                    + "Retrieved Notes:\n"
+                    + "\n".join(retrieved)
                 ).strip()
                 # Rebuild modulation with enriched context
                 modulation = self.modulator.modulate(prompt, signals, params, context)
@@ -388,7 +381,10 @@ class OpenAIModulatedService:
                 context = dict(context or {})
                 ctx_add = (context.get("additional_context") or "").strip()
                 context["additional_context"] = (
-                    ctx_add + ("\n\n" if ctx_add else "") + "Retrieved Notes:\n" + "\n".join(retrieved)
+                    ctx_add
+                    + ("\n\n" if ctx_add else "")
+                    + "Retrieved Notes:\n"
+                    + "\n".join(retrieved)
                 ).strip()
                 modulation = self.modulator.modulate(prompt, signals, params, context)
 
@@ -587,9 +583,11 @@ class OpenAIModulatedService:
                 "use",
             }
 
-            keywords = [word for word in re.findall(r"\\b\\w+\\b", text) if len(word) > 3 and word not in stop_words][
-                :top_k
-            ]
+            keywords = [
+                word
+                for word in re.findall(r"\\b\\w+\\b", text)
+                if len(word) > 3 and word not in stop_words
+            ][:top_k]
 
             # Search memory service for relevant content
             context_notes = []
@@ -606,7 +604,9 @@ class OpenAIModulatedService:
 
                 except Exception:
                     # If memory service fails, create placeholder context
-                    context_notes.append(f"Context for '{keyword}': Relevant information about {keyword} processing.")
+                    context_notes.append(
+                        f"Context for '{keyword}': Relevant information about {keyword} processing."
+                    )
 
             # If no keywords found, provide general context
             if not context_notes:
@@ -799,7 +799,9 @@ async def _run_modulated_completion_impl(
         full_prompt = f"Context:\n{context_str}\n\nQuery: {user_msg}"
 
     # Run generation
-    result = await service.generate(prompt=full_prompt, params=params, signals=signals, task=audit_id)
+    result = await service.generate(
+        prompt=full_prompt, params=params, signals=signals, task=audit_id
+    )
 
     # Log audit
     if _audit_log_write:  # type: ignore
@@ -917,9 +919,8 @@ def resume_with_tools(
     import asyncio
     import json
 
-    from tools.tool_executor import get_tool_executor
-
     from audit.tool_analytics import get_analytics
+    from tools.tool_executor import get_tool_executor
 
     analytics = get_analytics()
     executor = get_tool_executor()
@@ -972,7 +973,9 @@ def resume_with_tools(
                 text = loop.run_until_complete(executor.execute(name, args_json))
             if loop_running:
                 # If already in async context
-                text = asyncio.run_coroutine_threadsafe(executor.execute(name, args_json), loop).result()
+                text = asyncio.run_coroutine_threadsafe(
+                    executor.execute(name, args_json), loop
+                ).result()
             if not text:
                 text = ""
 

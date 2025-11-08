@@ -15,7 +15,7 @@ import functools
 import os
 import time
 from contextlib import contextmanager
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 try:
     from opentelemetry import metrics, trace
@@ -230,7 +230,7 @@ class LUKHASTracer:
     def trace_operation(
         self,
         operation_name: str,
-        attributes: Optional[Dict[str, Any]] = None,
+        attributes: Optional[dict[str, Any]] = None,
         record_exception: bool = True,
     ):
         """
@@ -466,7 +466,7 @@ class LUKHASTracer:
 
 def trace_function(
     operation_name: Optional[str] = None,
-    attributes: Optional[Dict[str, Any]] = None,
+    attributes: Optional[dict[str, Any]] = None,
 ):
     """
     Decorator for tracing function execution.

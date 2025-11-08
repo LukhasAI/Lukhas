@@ -14,7 +14,7 @@ import json
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import pkg_resources
 
@@ -26,7 +26,7 @@ class VulnerabilityInfo:
     severity: str
     score: Optional[float]
     description: str
-    references: List[str]
+    references: list[str]
 
 
 @dataclass
@@ -46,9 +46,9 @@ class ComponentInfo:
     name: str
     version: str
     scope: str
-    hashes: List[Dict[str, str]]
-    licenses: List[LicenseInfo]
-    vulnerabilities: List[VulnerabilityInfo]
+    hashes: list[dict[str, str]]
+    licenses: list[LicenseInfo]
+    vulnerabilities: list[VulnerabilityInfo]
     supplier: Optional[str] = None
     description: Optional[str] = None
 
@@ -57,24 +57,24 @@ class LUKHASSecuritySBOMGenerator:
     """Generate comprehensive SBOM with security analysis"""
 
     # Approved licenses for LUKHAS project
-    APPROVED_LICENSES = {
+    APPROVED_LICENSES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_security_sbom_generator_py_L60"}
         'MIT', 'Apache-2.0', 'BSD-3-Clause', 'BSD-2-Clause',
         'Python-2.0', 'PSF-2.0', 'ISC', 'Unlicense'
     }
 
     # Critical CVE patterns to flag
-    CRITICAL_CVE_PATTERNS = {
+    CRITICAL_CVE_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_security_sbom_generator_py_L66"}
         'remote_code_execution', 'sql_injection', 'xss',
         'authentication_bypass', 'privilege_escalation'
     }
 
     def __init__(self, project_root: Path):
         self.project_root = project_root
-        self.components: List[ComponentInfo] = []
+        self.components: list[ComponentInfo] = []
         self.timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
         self.vulnerabilities_cache = {}
 
-    def generate_component_hash(self, name: str, version: str) -> List[Dict[str, str]]:
+    def generate_component_hash(self, name: str, version: str) -> list[dict[str, str]]:
         """Generate component hashes for integrity verification"""
         try:
             # Try to get package info from installed packages
@@ -97,7 +97,7 @@ class LUKHASSecuritySBOMGenerator:
             "content": hashlib.sha256(content).hexdigest()
         }]
 
-    def get_license_info(self, name: str, version: str) -> List[LicenseInfo]:
+    def get_license_info(self, name: str, version: str) -> list[LicenseInfo]:
         """Get license information for package"""
         try:
             dist = pkg_resources.get_distribution(name)
@@ -120,7 +120,7 @@ class LUKHASSecuritySBOMGenerator:
             approved=False
         )]
 
-    def get_vulnerability_info(self, name: str, version: str) -> List[VulnerabilityInfo]:
+    def get_vulnerability_info(self, name: str, version: str) -> list[VulnerabilityInfo]:
         """Get vulnerability information (mock implementation for demo)"""
         # In production, this would integrate with CVE databases like:
         # - NIST National Vulnerability Database
@@ -256,7 +256,7 @@ class LUKHASSecuritySBOMGenerator:
         except Exception as e:
             print(f"Error analyzing installed packages: {e}")
 
-    def generate_cyclone_dx_sbom(self) -> Dict[str, Any]:
+    def generate_cyclone_dx_sbom(self) -> dict[str, Any]:
         """Generate CycloneDX format SBOM"""
 
         # Calculate security metrics
@@ -360,7 +360,7 @@ class LUKHASSecuritySBOMGenerator:
 
         return sbom
 
-    def generate_sbom_file(self, output_path: Path) -> Dict[str, Any]:
+    def generate_sbom_file(self, output_path: Path) -> dict[str, Any]:
         """Generate SBOM and save to file"""
         print("🔍 Analyzing project dependencies...")
 

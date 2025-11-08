@@ -183,7 +183,9 @@ class AwarenessModule(ABC):
                 sustainability_score=sustainability_score,
                 processing_time_ms=processing_time,
                 qi_signature=(
-                    self._generate_quantum_signature(result) if self.config.enable_quantum_processing else None
+                    self._generate_quantum_signature(result)
+                    if self.config.enable_quantum_processing
+                    else None
                 ),
             )
 
@@ -400,7 +402,9 @@ class EnhancedEnvReasoner:
         """Return confidence level based on data quality and quantum analysis."""
         return 0.92  # High confidence for environmental sensors
 
-    def _calculate_sustainability_metrics(self, inputs: EnvironmentalAwarenessInput) -> dict[str, Any]:
+    def _calculate_sustainability_metrics(
+        self, inputs: EnvironmentalAwarenessInput
+    ) -> dict[str, Any]:
         """Calculate comprehensive sustainability metrics."""
         metrics = {
             "carbon_efficiency": 1.0,
@@ -420,7 +424,9 @@ class EnhancedEnvReasoner:
 
         return metrics
 
-    def _identify_optimization_opportunities(self, inputs: EnvironmentalAwarenessInput) -> list[str]:
+    def _identify_optimization_opportunities(
+        self, inputs: EnvironmentalAwarenessInput
+    ) -> list[str]:
         """Identify specific optimization opportunities."""
         opportunities = []
 
@@ -453,7 +459,9 @@ def is_sustainable_location(location: tuple[float, float]) -> bool:
         (47.6062, -122.3321),  # Seattle (example)
     ]
 
-    return any(abs(lat - s_lat) < 0.1 and abs(lon - s_lon) < 0.1 for s_lat, s_lon in sustainable_zones)
+    return any(
+        abs(lat - s_lat) < 0.1 and abs(lon - s_lon) < 0.1 for s_lat, s_lon in sustainable_zones
+    )
 
 
 def is_indoor_location(location: tuple[float, float]) -> bool:
@@ -533,7 +541,9 @@ class EnvironmentalAwarenessModule(AwarenessModule):
 
         # Quantum-enhanced recommendations
         if self.config.enable_quantum_processing and result.get("qi_confidence", 1.0) < 0.8:
-            recommendations.append("Quantum analysis indicates environmental instability - monitor closely")
+            recommendations.append(
+                "Quantum analysis indicates environmental instability - monitor closely"
+            )
 
         return recommendations
 
@@ -570,8 +580,12 @@ class CognitiveAwarenessInput(AwarenessInput):
     information_overload: bool = Field(default=False)
     stress_indicators: list[str] = Field(default_factory=list)
     task_urgency: int = Field(..., ge=1, le=5, description="Task urgency 1-5")
-    working_memory_capacity: float = Field(default=0.7, ge=0, le=1, description="Working memory capacity 0-1")
-    cognitive_flexibility: float = Field(default=0.5, ge=0, le=1, description="Cognitive flexibility 0-1")
+    working_memory_capacity: float = Field(
+        default=0.7, ge=0, le=1, description="Working memory capacity 0-1"
+    )
+    cognitive_flexibility: float = Field(
+        default=0.5, ge=0, le=1, description="Cognitive flexibility 0-1"
+    )
 
 
 class EnhancedCognitiveReasoner:
@@ -609,7 +623,9 @@ class EnhancedCognitiveReasoner:
         efficiency = max(0.0, min(efficiency, 1.0))
 
         # Decision quality prediction with multiple factors
-        decision_quality = efficiency * 0.7 + inputs.attention_level * 0.15 + inputs.cognitive_flexibility * 0.15
+        decision_quality = (
+            efficiency * 0.7 + inputs.attention_level * 0.15 + inputs.cognitive_flexibility * 0.15
+        )
 
         # Meta-learning score based on cognitive patterns
         meta_learning_score = self._calculate_meta_learning(inputs, efficiency)
@@ -683,7 +699,9 @@ class EnhancedCognitiveReasoner:
         else:
             return "normal_function"
 
-    def _recommend_cognitive_strategies(self, inputs: CognitiveAwarenessInput, efficiency: float) -> list[str]:
+    def _recommend_cognitive_strategies(
+        self, inputs: CognitiveAwarenessInput, efficiency: float
+    ) -> list[str]:
         """Recommend cognitive strategies based on current state."""
         strategies = []
 
@@ -713,7 +731,9 @@ class EnhancedCognitiveReasoner:
 
         return strategies
 
-    def _forecast_productivity(self, inputs: CognitiveAwarenessInput, efficiency: float) -> dict[str, Any]:
+    def _forecast_productivity(
+        self, inputs: CognitiveAwarenessInput, efficiency: float
+    ) -> dict[str, Any]:
         """Forecast productivity based on cognitive state."""
         base_productivity = efficiency * 100
 
@@ -787,7 +807,9 @@ class CognitiveAwarenessModule(AwarenessModule):
         base_score += self_awareness * 8
 
         # Decision support penalty if needed but not available
-        if result.get("decision_support_needed") and not inputs.context_data.get("support_available", False):
+        if result.get("decision_support_needed") and not inputs.context_data.get(
+            "support_available", False
+        ):
             base_score -= 15
 
         # Productivity forecast factor
@@ -808,10 +830,14 @@ class CognitiveAwarenessModule(AwarenessModule):
 
         # Add state-specific recommendations
         if result.get("recommended_break"):
-            recommendations.append("Take a cognitive break to restore mental clarity and efficiency")
+            recommendations.append(
+                "Take a cognitive break to restore mental clarity and efficiency"
+            )
 
         if result.get("information_filtering_needed"):
-            recommendations.append("Apply systematic information filtering to reduce cognitive load")
+            recommendations.append(
+                "Apply systematic information filtering to reduce cognitive load"
+            )
 
         if result.get("decision_support_needed"):
             recommendations.append("Seek decision support tools or expert consultation")
@@ -825,7 +851,9 @@ class CognitiveAwarenessModule(AwarenessModule):
         elif timing == "process_information_first":
             recommendations.append("Process and organize information before making decisions")
         elif timing == "address_stress_first":
-            recommendations.append("Address stress indicators before proceeding with complex decisions")
+            recommendations.append(
+                "Address stress indicators before proceeding with complex decisions"
+            )
 
         # Add productivity recommendations
         productivity = result.get("productivity_forecast", {})
@@ -834,7 +862,9 @@ class CognitiveAwarenessModule(AwarenessModule):
 
         time_to_peak = productivity.get("time_to_peak", "")
         if time_to_peak and time_to_peak != "current_peak":
-            recommendations.append(f"Estimated time to peak performance: {time_to_peak.replace('_', ' ')}")
+            recommendations.append(
+                f"Estimated time to peak performance: {time_to_peak.replace('_', ' ')}"
+            )
 
         return recommendations
 
@@ -867,14 +897,22 @@ class EmotionalAwarenessInput(AwarenessInput):
         default_factory=dict,
         description="Emotional vector (joy, sadness, anger, fear, etc.)",
     )
-    personality_traits: dict[str, float] = Field(default_factory=dict, description="Big5 personality traits")
+    personality_traits: dict[str, float] = Field(
+        default_factory=dict, description="Big5 personality traits"
+    )
     mood_stability: float = Field(default=0.5, ge=0.0, le=1.0, description="Mood stability 0-1")
     empathy_level: float = Field(default=0.5, ge=0.0, le=1.0, description="Empathy level 0-1")
-    emotional_intelligence: float = Field(default=0.5, ge=0.0, le=1.0, description="Emotional intelligence 0-1")
+    emotional_intelligence: float = Field(
+        default=0.5, ge=0.0, le=1.0, description="Emotional intelligence 0-1"
+    )
     stress_level: float = Field(default=0.0, ge=0.0, le=1.0, description="Current stress level 0-1")
     social_energy: float = Field(default=0.5, ge=0.0, le=1.0, description="Social energy level 0-1")
-    widget_animation_preference: str = Field(default="smooth", description="Animation style preference")
-    emotional_triggers: list[str] = Field(default_factory=list, description="Known emotional triggers")
+    widget_animation_preference: str = Field(
+        default="smooth", description="Animation style preference"
+    )
+    emotional_triggers: list[str] = Field(
+        default_factory=list, description="Known emotional triggers"
+    )
 
 
 class EnhancedEmotionalReasoner:
@@ -885,19 +923,25 @@ class EnhancedEmotionalReasoner:
 
         # Calculate emotional balance with multiple factors
         positive_emotions = sum(
-            inputs.emotional_state.get(emotion, 0) for emotion in ["joy", "happiness", "contentment", "excitement"]
+            inputs.emotional_state.get(emotion, 0)
+            for emotion in ["joy", "happiness", "contentment", "excitement"]
         )
         negative_emotions = sum(
-            inputs.emotional_state.get(emotion, 0) for emotion in ["sadness", "anger", "fear", "anxiety", "frustration"]
+            inputs.emotional_state.get(emotion, 0)
+            for emotion in ["sadness", "anger", "fear", "anxiety", "frustration"]
         )
 
-        emotional_balance = self._calculate_emotional_balance(positive_emotions, negative_emotions, inputs)
+        emotional_balance = self._calculate_emotional_balance(
+            positive_emotions, negative_emotions, inputs
+        )
 
         # Assess emotional regulation capability
         emotional_regulation = self._assess_emotional_regulation(inputs)
 
         # Personality-driven analysis
-        personality_insights = self._generate_comprehensive_personality_insights(inputs.personality_traits)
+        personality_insights = self._generate_comprehensive_personality_insights(
+            inputs.personality_traits
+        )
 
         # Widget customization based on personality and emotional state
         widget_customization = self._create_advanced_widget_customization(inputs)
@@ -928,7 +972,9 @@ class EnhancedEmotionalReasoner:
     def get_confidence(self) -> float:
         return 0.88
 
-    def _calculate_emotional_balance(self, positive: float, negative: float, inputs: EmotionalAwarenessInput) -> float:
+    def _calculate_emotional_balance(
+        self, positive: float, negative: float, inputs: EmotionalAwarenessInput
+    ) -> float:
         """Calculate comprehensive emotional balance."""
         # Base balance from positive/negative ratio
         total_intensity = positive + negative
@@ -942,7 +988,9 @@ class EnhancedEmotionalReasoner:
         # Stress penalty
         stress_penalty = inputs.stress_level * 0.3
 
-        final_balance = base_balance + stability_factor + ei_factor + empathy_factor - stress_penalty
+        final_balance = (
+            base_balance + stability_factor + ei_factor + empathy_factor - stress_penalty
+        )
         return max(0.0, min(final_balance, 1.0))
 
     def _assess_emotional_regulation(self, inputs: EmotionalAwarenessInput) -> dict[str, float]:
@@ -950,7 +998,8 @@ class EnhancedEmotionalReasoner:
         return {
             "self_awareness": inputs.emotional_intelligence * 0.7 + inputs.empathy_level * 0.3,
             "impulse_control": inputs.mood_stability * 0.8 + (1 - inputs.stress_level) * 0.2,
-            "adaptability": inputs.personality_traits.get("openness", 0.5) * 0.6 + inputs.emotional_intelligence * 0.4,
+            "adaptability": inputs.personality_traits.get("openness", 0.5) * 0.6
+            + inputs.emotional_intelligence * 0.4,
             "stress_management": (1 - inputs.stress_level) * 0.7 + inputs.mood_stability * 0.3,
         }
 
@@ -1002,7 +1051,9 @@ class EnhancedEmotionalReasoner:
 
         return insights
 
-    def _create_advanced_widget_customization(self, inputs: EmotionalAwarenessInput) -> dict[str, Any]:
+    def _create_advanced_widget_customization(
+        self, inputs: EmotionalAwarenessInput
+    ) -> dict[str, Any]:
         """Create comprehensive widget customization based on emotional and personality state."""
         base_preference = inputs.widget_animation_preference
         traits = inputs.personality_traits
@@ -1128,7 +1179,11 @@ class EnhancedEmotionalReasoner:
         personality_resilience = inputs.personality_traits.get("conscientiousness", 0.5) * 0.1
 
         return min(
-            stability_factor + ei_factor + stress_resilience + social_support + personality_resilience,
+            stability_factor
+            + ei_factor
+            + stress_resilience
+            + social_support
+            + personality_resilience,
             1.0,
         )
 
@@ -1138,10 +1193,13 @@ class EnhancedEmotionalReasoner:
             "social_energy": inputs.social_energy,
             "empathy_availability": inputs.empathy_level * (1 - inputs.stress_level),
             "communication_readiness": inputs.emotional_intelligence * inputs.mood_stability,
-            "conflict_management": inputs.empathy_level * inputs.personality_traits.get("agreeableness", 0.5),
+            "conflict_management": inputs.empathy_level
+            * inputs.personality_traits.get("agreeableness", 0.5),
         }
 
-    def _generate_social_interaction_recommendations(self, inputs: EmotionalAwarenessInput) -> list[str]:
+    def _generate_social_interaction_recommendations(
+        self, inputs: EmotionalAwarenessInput
+    ) -> list[str]:
         """Generate social interaction recommendations."""
         recommendations = []
 
@@ -1161,7 +1219,9 @@ class EnhancedEmotionalReasoner:
 
         return recommendations
 
-    def _identify_emotional_growth_opportunities(self, inputs: EmotionalAwarenessInput) -> list[str]:
+    def _identify_emotional_growth_opportunities(
+        self, inputs: EmotionalAwarenessInput
+    ) -> list[str]:
         """Identify opportunities for emotional growth."""
         opportunities = []
 
@@ -1237,7 +1297,9 @@ class EnhancedEmotionalReasoner:
             "recommended_interventions": self._recommend_mood_interventions(trajectory, inputs),
         }
 
-    def _recommend_mood_interventions(self, trajectory: str, inputs: EmotionalAwarenessInput) -> list[str]:
+    def _recommend_mood_interventions(
+        self, trajectory: str, inputs: EmotionalAwarenessInput
+    ) -> list[str]:
         """Recommend mood interventions based on trajectory."""
         interventions = {
             "declining_requires_attention": [
@@ -1257,11 +1319,14 @@ class EnhancedEmotionalReasoner:
             ],
         }
 
-        return interventions.get(trajectory, [
-            "Continue current emotional wellness practices",
-            "Monitor for any significant changes",
-            "Maintain good emotional hygiene",
-        ])
+        return interventions.get(
+            trajectory,
+            [
+                "Continue current emotional wellness practices",
+                "Monitor for any significant changes",
+                "Maintain good emotional hygiene",
+            ],
+        )
 
 
 class EmotionalAwarenessModule(AwarenessModule):
@@ -1284,13 +1349,17 @@ class EmotionalAwarenessModule(AwarenessModule):
 
         # Social readiness factor
         social_readiness = result.get("social_interaction_readiness", {})
-        social_factor = sum(social_readiness.values()) / len(social_readiness) * 8 if social_readiness else 0
+        social_factor = (
+            sum(social_readiness.values()) / len(social_readiness) * 8 if social_readiness else 0
+        )
 
         # Personality alignment (balanced personality traits)
         personality_profile = result.get("personality_profile", {})
         if personality_profile:
             # Balanced personalities score higher in institutional settings
-            trait_balance = 1.0 - abs(0.5 - sum(personality_profile.values()) / len(personality_profile))
+            trait_balance = 1.0 - abs(
+                0.5 - sum(personality_profile.values()) / len(personality_profile)
+            )
             personality_bonus = trait_balance * 12
         else:
             personality_bonus = 0
@@ -1302,7 +1371,9 @@ class EmotionalAwarenessModule(AwarenessModule):
         elif mood_forecast.get("trajectory") == "stable_positive":
             base_score += 8
 
-        total_score = base_score + regulation_bonus + resilience_bonus + social_factor + personality_bonus
+        total_score = (
+            base_score + regulation_bonus + resilience_bonus + social_factor + personality_bonus
+        )
         return max(0.0, min(total_score, 100.0))
 
     def generate_recommendations(self, result: dict[str, Any], inputs: AwarenessInput) -> list[str]:
@@ -1323,12 +1394,16 @@ class EmotionalAwarenessModule(AwarenessModule):
         widget_customization = result.get("widget_customization", {})
         adaptive_features = widget_customization.get("adaptive_features", [])
         if adaptive_features:
-            recommendations.append(f"Recommended adaptive features: {', '.join(adaptive_features[:3])}")
+            recommendations.append(
+                f"Recommended adaptive features: {', '.join(adaptive_features[:3])}"
+            )
 
         # Add accessibility recommendations
         accessibility = widget_customization.get("accessibility_adjustments", [])
         if accessibility:
-            recommendations.append(f"Accessibility adjustments available: {', '.join(accessibility[:2])}")
+            recommendations.append(
+                f"Accessibility adjustments available: {', '.join(accessibility[:2])}"
+            )
 
         # Add trigger management if needed
         trigger_analysis = result.get("trigger_analysis", {})
@@ -1366,9 +1441,13 @@ class SocialAwarenessInput(AwarenessInput):
     """Social awareness inputs for interpersonal dynamics."""
 
     social_context: str = Field(default="individual", description="Current social context")
-    interaction_quality: float = Field(default=0.5, ge=0.0, le=1.0, description="Interaction quality 0-1")
+    interaction_quality: float = Field(
+        default=0.5, ge=0.0, le=1.0, description="Interaction quality 0-1"
+    )
     group_dynamics: dict[str, Any] = Field(default_factory=dict, description="Group dynamics data")
-    communication_style: str = Field(default="balanced", description="Communication style preference")
+    communication_style: str = Field(
+        default="balanced", description="Communication style preference"
+    )
     social_energy: float = Field(default=0.5, ge=0.0, le=1.0, description="Social energy level 0-1")
 
 
@@ -1384,7 +1463,9 @@ class SocialReasoner:
             "social_harmony": social_harmony,
             "interaction_recommendations": self._generate_social_recommendations(inputs),
             "group_analysis": self._analyze_group_dynamics(inputs.group_dynamics),
-            "communication_optimization": self._optimize_communication_style(inputs.communication_style),
+            "communication_optimization": self._optimize_communication_style(
+                inputs.communication_style
+            ),
         }
 
     def _generate_social_recommendations(self, inputs: SocialAwarenessInput) -> list[str]:
@@ -1446,21 +1527,29 @@ class LukhasAwarenessEngine:
         """Initialize awareness modules with enhanced reasoners."""
         # Environmental Module with enhanced reasoner
         env_reasoner = EnhancedEnvReasoner()
-        self.modules[AwarenessType.ENVIRONMENTAL] = EnvironmentalAwarenessModule(env_reasoner, self.config)
+        self.modules[AwarenessType.ENVIRONMENTAL] = EnvironmentalAwarenessModule(
+            env_reasoner, self.config
+        )
 
         # Cognitive Module with meta-learning reasoner
-        cog_reasoner = CognitiveReasoner()
+        cog_reasoner = (
+            CognitiveReasoner()
+        )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_awareness_awareness_engine_elevated_py_L1452"}
         self.modules[AwarenessType.COGNITIVE] = CognitiveAwarenessModule(cog_reasoner, self.config)
 
         # Emotional Module with personality integration
-        emo_reasoner = EmotionalReasoner()
+        emo_reasoner = (
+            EmotionalReasoner()
+        )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_awareness_awareness_engine_elevated_py_L1457"}
         self.modules[AwarenessType.EMOTIONAL] = EmotionalAwarenessModule(emo_reasoner, self.config)
 
         # Social Module with interpersonal dynamics reasoner
         soc_reasoner = SocialReasoner()
         self.modules[AwarenessType.SOCIAL] = SocialAwarenessModule(soc_reasoner, self.config)
 
-    def process_awareness(self, awareness_type: AwarenessType, inputs: AwarenessInput) -> AwarenessOutput:
+    def process_awareness(
+        self, awareness_type: AwarenessType, inputs: AwarenessInput
+    ) -> AwarenessOutput:
         """Process awareness data through appropriate module."""
         if awareness_type not in self.modules:
             raise ValueError(f"Awareness type {awareness_type} not supported")
@@ -1474,7 +1563,9 @@ class LukhasAwarenessEngine:
         tasks = []
         for awareness_type, inputs in awareness_data.items():
             if awareness_type in self.modules:
-                task = asyncio.create_task(asyncio.to_thread(self.process_awareness, awareness_type, inputs))
+                task = asyncio.create_task(
+                    asyncio.to_thread(self.process_awareness, awareness_type, inputs)
+                )
                 tasks.append((awareness_type, task))
 
         results = {}

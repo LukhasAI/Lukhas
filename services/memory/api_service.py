@@ -19,7 +19,7 @@ Features:
 import logging
 import time
 from contextlib import asynccontextmanager
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import uvicorn
 from fastapi import Depends, FastAPI, HTTPException, Request, status
@@ -44,10 +44,10 @@ class SearchRequest(BaseModel):
     query: str = Field(..., min_length=1, max_length=10000)
     search_type: SearchType = SearchType.HYBRID
     top_k: int = Field(default=10, ge=1, le=1000)
-    metadata_filter: Optional[Dict[str, Any]] = None
+    metadata_filter: Optional[dict[str, Any]] = None
     include_content: bool = True
     include_vectors: bool = False
-    fold_ids: Optional[List[str]] = None
+    fold_ids: Optional[list[str]] = None
     min_score: Optional[float] = Field(None, ge=0.0, le=1.0)
 
 
@@ -55,20 +55,20 @@ class UpsertRequest(BaseModel):
     """Memory upsert request"""
     fold_id: Optional[str] = None
     content: str = Field(..., min_length=1, max_length=100000)
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
     ttl_seconds: Optional[int] = Field(None, gt=0, le=86400*30)  # Max 30 days
-    embedding: Optional[List[float]] = None
+    embedding: Optional[list[float]] = None
 
 
 class BatchUpsertRequest(BaseModel):
     """Batch memory upsert request"""
-    operations: List[UpsertRequest] = Field(..., min_items=1, max_items=1000)
+    operations: list[UpsertRequest] = Field(..., min_items=1, max_items=1000)
     atomic: bool = True
 
 
 class DeleteRequest(BaseModel):
     """Memory delete request"""
-    fold_ids: List[str] = Field(..., min_items=1, max_items=1000)
+    fold_ids: list[str] = Field(..., min_items=1, max_items=1000)
     soft_delete: bool = True
 
 
@@ -77,15 +77,15 @@ class HealthResponse(BaseModel):
     status: str
     timestamp: float
     version: str
-    components: Dict[str, Any]
+    components: dict[str, Any]
 
 
 class MetricsResponse(BaseModel):
     """Metrics response"""
     timestamp: float
-    t4_compliance: Dict[str, Any]
-    circuit_breakers: Dict[str, Any]
-    backpressure: Dict[str, Any]
+    t4_compliance: dict[str, Any]
+    circuit_breakers: dict[str, Any]
+    backpressure: dict[str, Any]
 
 
 # Global service instances
@@ -342,7 +342,7 @@ async def get_metrics():
 @app.post("/v1/memory/search", response_model=SearchResponse)
 async def search_memory(
     request: SearchRequest,
-    services = Depends(get_services)
+    services = Depends(get_services)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_services_memory_api_service_py_L345"}
 ) -> SearchResponse:
     """Search memory with semantic, keyword, or hybrid search"""
     read_svc, _ = services
@@ -375,7 +375,7 @@ async def search_memory(
 @app.post("/v1/memory/upsert", response_model=WriteResult)
 async def upsert_memory(
     request: UpsertRequest,
-    services = Depends(get_services)
+    services = Depends(get_services)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_services_memory_api_service_py_L378"}
 ) -> WriteResult:
     """Upsert memory fold with content and metadata"""
     _, write_svc = services
@@ -403,7 +403,7 @@ async def upsert_memory(
 @app.post("/v1/memory/batch-upsert")
 async def batch_upsert_memory(
     request: BatchUpsertRequest,
-    services = Depends(get_services)
+    services = Depends(get_services)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_services_memory_api_service_py_L406"}
 ):
     """Batch upsert multiple memory folds"""
     _, write_svc = services
@@ -441,7 +441,7 @@ async def batch_upsert_memory(
 @app.delete("/v1/memory/delete")
 async def delete_memory(
     request: DeleteRequest,
-    services = Depends(get_services)
+    services = Depends(get_services)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_services_memory_api_service_py_L444"}
 ):
     """Delete memory folds by ID"""
     _, write_svc = services
@@ -467,7 +467,7 @@ async def delete_memory(
 async def get_memory_fold(
     fold_id: str,
     include_vector: bool = False,
-    services = Depends(get_services)
+    services = Depends(get_services)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_services_memory_api_service_py_L470"}
 ):
     """Get memory fold by ID"""
     read_svc, _ = services
@@ -495,7 +495,7 @@ async def get_memory_fold(
 
 
 @app.get("/v1/memory/stats")
-async def get_memory_stats(services = Depends(get_services)):
+async def get_memory_stats(services = Depends(get_services)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_services_memory_api_service_py_L498"}
     """Get memory service statistics"""
     read_svc, write_svc = services
 

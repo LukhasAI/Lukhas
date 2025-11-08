@@ -210,6 +210,7 @@ exclude = [
     "docs",
     "tests/fixtures",
     "scripts/migrations",
+    "scripts/Codex_Files.py",  # Documentation bundle with embedded code - not executable Python
     ".git",
     ".venv",
     ".ruff_cache",
@@ -271,6 +272,11 @@ combine-as-imports = true
 [tool.ruff.lint.per-file-ignores]
 "**/__init__.py" = ["F401", "F403", "I001", "TID252"]
 "tests/**/*.py" = ["F401", "F403"]
+# T4 Unified Platform - Tool exclusions
+"tools/ci/t4_dashboard.py" = ["E501"]  # Allow long HTML strings
+"tools/ci/migrate_annotations.py" = ["E501"]  # Allow long git blame lines
+"tools/ci/intent_api.py" = ["B008"]  # FastAPI Depends() pattern
+"tools/ci/codemods/*.py" = ["E501"]  # Allow long AST patterns
 
 [tool.interrogate]
 ignore-init-method = true
@@ -336,6 +342,35 @@ exclude = [
     "*.pyc"
 ]
 report_only = true
+
+# T4 Unified Platform Configuration
+[tool.t4]
+# Annotation format: TODO[T4-ISSUE](code:message){owner}
+annotation_pattern = "TODO\\[T4-ISSUE\\]\\((\\w+):(.+?)\\)\\{([^}]+)\\}"
+quality_threshold = 95.0  # Minimum quality score percentage
+max_violations_per_file = 10  # Trigger refactoring above this limit
+intent_registry_db = "reports/todos/intent_registry.db"
+dashboard_output = "reports/t4_dashboard.html"
+metrics_history = "reports/t4_metrics_history.json"
+parallel_worktrees = 5  # Number of parallel batches
+batch_size = 25  # Max files per batch
+
+# T4 Validator paths (default scan locations)
+[tool.t4.paths]
+default = ["lukhas", "core", "api", "consciousness", "memory", "identity", "MATRIZ"]
+exclude = ["archive", "quarantine", "tests/fixtures", ".venv", "node_modules"]
+
+# T4 Quality score weights (how violations impact quality)
+[tool.t4.weights]
+F401 = 1.0   # Unused imports
+F821 = 3.0   # Undefined names (critical)
+RUF006 = 2.0 # Async task tracking
+RUF012 = 1.5 # Mutable class attributes
+B904 = 1.5   # Exception chaining
+B008 = 1.0   # Function calls in defaults
+SIM105 = 0.5 # Simplification suggestions
+E702 = 0.5   # Formatting issues
+B018 = 1.0   # Useless expressions
 
 # T4 Lane Isolation Enforcement
 [tool.importlinter]

@@ -38,6 +38,7 @@
 ║ Symbolic Tags: {ΛENV}, {ΛSECURITY}, {ΛCONFIG}, {ΛAPI}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 from __future__ import annotations
 
 import logging
@@ -85,8 +86,48 @@ def load_lukhas_env() -> dict[str, str]:
     return env_vars
 
 
+def get_from_keychain(service_name: str) -> str | None:
+    """
+    Retrieve API key from macOS Keychain
+
+    Args:
+        service_name: Keychain service name
+
+    Returns:
+        API key if found, None otherwise
+    """
+    try:
+        import subprocess
+
+        result = subprocess.run(
+            ["security", "find-generic-password", "-s", service_name, "-w"],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        return result.stdout.strip()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
+    except Exception as e:
+        logger.debug(f"Keychain retrieval failed for {service_name}: {e}")
+        return None
+
+
 def get_api_key(service: str) -> str | None:
-    """Get API key for a specific service"""
+    """
+    Get API key for a specific service
+
+    Priority order:
+    1. Environment variable from .env file
+    2. macOS Keychain (if available)
+    3. None if not found
+
+    Args:
+        service: Service name (e.g., 'anthropic', 'openai')
+
+    Returns:
+        API key if found, None otherwise
+    """
     # First try to load from .env file
     load_lukhas_env()
 
@@ -106,9 +147,29 @@ def get_api_key(service: str) -> str | None:
         "elevenlabs": "ELEVENLABS_API_KEY",
     }
 
+    # Keychain service name mapping
+    keychain_mapping = {
+        "anthropic": "LUKHASAI.ANTHROPIC_API_KEY",
+        "openai": "LUKHASAI.OPENAI_API_KEY",
+    }
+
     env_key = key_mapping.get(service.lower())
+
+    # Priority 1: Environment variable
     if env_key:
-        return os.getenv(env_key)
+        api_key = os.getenv(env_key)
+        if api_key and api_key != "sk-ant-REPLACE_WITH_YOUR_KEY":
+            return api_key
+
+    # Priority 2: macOS Keychain (fallback)
+    keychain_service = keychain_mapping.get(service.lower())
+    if keychain_service:
+        keychain_key = get_from_keychain(keychain_service)
+        if keychain_key:
+            # Also set in environment for consistency
+            if env_key:
+                os.environ[env_key] = keychain_key
+            return keychain_key
 
     return None
 

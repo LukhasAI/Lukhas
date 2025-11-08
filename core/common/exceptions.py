@@ -38,4 +38,4 @@ except Exception:
             """Error in GLYPH token processing."""
             pass
 
-    __all__ = ["ConfigurationError", "DependencyMissing", "LukhasError", "GLYPHTokenError"]
+    __all__ = ["ConfigurationError", "DependencyMissing", "GLYPHTokenError", "LukhasError"]

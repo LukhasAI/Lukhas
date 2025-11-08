@@ -6,7 +6,6 @@ Integration Date: 2025-05-31T07:55:30.537549
 """
 from __future__ import annotations
 
-
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮
 │                LUCΛS DREAM EXPORT DASHBOARD - STREAMLIT MODULE               │
@@ -18,9 +17,10 @@ Symbolic Dream Exporter for LUCΛS - filters by tier, tags, emoji, or narration
 intent and allows selective exporting to a .jsonl file.
 """
 
-import streamlit as st
 import json
 from pathlib import Path
+
+import streamlit as st
 
 DATA_PATH = Path("core/sample_payloads/sample_payload_batch_dreams.json")
 EXPORT_PATH = Path("exports/filtered_dreams_export.jsonl")

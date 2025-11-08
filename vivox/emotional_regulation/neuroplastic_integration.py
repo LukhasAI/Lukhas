@@ -3,10 +3,9 @@ VIVOX.ERN Neuroplastic & Tag System Integration
 Connects emotional regulation to neuroplastic learning and tag propagation
 """
 
-import logging
-
 import hashlib
 import json
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Optional

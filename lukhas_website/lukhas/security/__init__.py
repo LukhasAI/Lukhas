@@ -284,7 +284,7 @@ class LUKHASSecuritySystem:
     # Core Security API methods would go here...
     # [Abbreviated for length - full implementation available in separate files]
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get overall security system status."""
         return {
             "enabled": self.config.enabled,

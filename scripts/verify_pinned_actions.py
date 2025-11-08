@@ -23,7 +23,6 @@ import logging
 import re
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 import requests
 
@@ -57,7 +56,7 @@ APPROVED_ACTIONS = {
 # Pattern to match GitHub Actions usage
 ACTION_PATTERN = re.compile(r'uses:\s*([^@\s]+)@([^\s]+)')
 
-def find_workflow_files(workflows_dir: Path) -> List[Path]:
+def find_workflow_files(workflows_dir: Path) -> list[Path]:
     """Find all GitHub Actions workflow files."""
     workflow_files = []
 
@@ -67,7 +66,7 @@ def find_workflow_files(workflows_dir: Path) -> List[Path]:
 
     return workflow_files
 
-def parse_workflow_actions(workflow_file: Path) -> List[Tuple[str, str, int]]:
+def parse_workflow_actions(workflow_file: Path) -> list[tuple[str, str, int]]:
     """Parse GitHub Actions from workflow file."""
     actions = []
 
@@ -119,7 +118,7 @@ def get_latest_sha_for_tag(action_name: str, tag: str) -> str:
 
     return None
 
-def verify_workflow_security(workflow_file: Path, fix_issues: bool = False) -> Dict[str, any]:
+def verify_workflow_security(workflow_file: Path, fix_issues: bool = False) -> dict[str, any]:
     """Verify security of actions in workflow file."""
     actions = parse_workflow_actions(workflow_file)
 

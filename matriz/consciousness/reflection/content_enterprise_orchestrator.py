@@ -21,17 +21,15 @@
 
 from __future__ import annotations
 
-import logging
-from datetime import timezone
-
 import asyncio
 import json
+import logging
 import os
 import time
 import uuid
 from collections import defaultdict, deque
 from dataclasses import asdict, dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable
 
@@ -103,6 +101,7 @@ except ImportError:
 
 # Configure logger
 logger = logging.getLogger(__name__)
+
 
 class ServiceStatus(Enum):
     """Service health status"""
@@ -213,7 +212,9 @@ class ServiceRegistry:
             except (ImportError, ConnectionError, Exception) as e:
                 logger.warning(f"Failed to initialize etcd client: {e}")
 
-    def register_service(self, name: str, host: str, port: int, metadata: dict[str, Any] | None = None) -> bool:
+    def register_service(
+        self, name: str, host: str, port: int, metadata: dict[str, Any] | None = None
+    ) -> bool:
         """Register a service"""
         service_info = {
             "name": name,
@@ -519,7 +520,9 @@ class TaskQueue:
             return None
 
         # Sort by priority
-        sorted_tasks = sorted(self.tasks, key=lambda t: self._get_priority_value(t.priority), reverse=True)
+        sorted_tasks = sorted(
+            self.tasks, key=lambda t: self._get_priority_value(t.priority), reverse=True
+        )
 
         task = sorted_tasks[0]
         self.tasks.remove(task)
@@ -687,41 +690,59 @@ class ContentEnterpriseOrchestrator:
         try:
             # Initialize core modules
             if self.config["services"]["content_bot"]["enabled"]:
-                self.enterprise_modules["content_bot"] = lukhasContentAutomationBot_ChatGPT()
+                self.enterprise_modules["content_bot"] = (
+                    lukhasContentAutomationBot_ChatGPT()
+                )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_content_enterprise_orchestrator_py_L688"}
                 self.logger.info("✅ Content Bot module initialized")
 
             if self.config["services"]["api_gateway"]["enabled"]:
-                self.enterprise_modules["api_gateway"] = lukhasContentAPIGateway()
+                self.enterprise_modules["api_gateway"] = (
+                    lukhasContentAPIGateway()
+                )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_content_enterprise_orchestrator_py_L693"}
                 self.logger.info("✅ API Gateway module initialized")
 
             if self.config["services"]["collaboration"]["enabled"]:
-                self.enterprise_modules["collaboration"] = lukhasContentCollaborationEngine()
+                self.enterprise_modules["collaboration"] = (
+                    lukhasContentCollaborationEngine()
+                )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_content_enterprise_orchestrator_py_L698"}
                 self.logger.info("✅ Collaboration Engine initialized")
 
             if self.config["services"]["performance_monitor"]["enabled"]:
-                self.enterprise_modules["performance_monitor"] = lukhasContentPerformanceMonitor()
+                self.enterprise_modules["performance_monitor"] = (
+                    lukhasContentPerformanceMonitor()
+                )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_content_enterprise_orchestrator_py_L703"}
                 self.logger.info("✅ Performance Monitor initialized")
 
             if self.config["services"]["security_compliance"]["enabled"]:
-                self.enterprise_modules["security_compliance"] = lukhasContentSecurityCompliance()
+                self.enterprise_modules["security_compliance"] = (
+                    lukhasContentSecurityCompliance()
+                )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_content_enterprise_orchestrator_py_L708"}
                 self.logger.info("✅ Security Compliance initialized")
 
             # Initialize new enterprise modules
             if self.config["services"].get("performance_intelligence", {}).get("enabled", True):
-                self.enterprise_modules["performance_intelligence"] = ContentPerformanceIntelligence()
+                self.enterprise_modules["performance_intelligence"] = (
+                    ContentPerformanceIntelligence()
+                )
                 self.logger.info("✅ Performance Intelligence module initialized")
 
             if self.config["services"].get("communication_hub", {}).get("enabled", True):
-                self.enterprise_modules["communication_hub"] = lukhasContentCommunicationHub()
+                self.enterprise_modules["communication_hub"] = (
+                    lukhasContentCommunicationHub()
+                )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_content_enterprise_orchestrator_py_L718"}
                 self.logger.info("✅ Communication Hub module initialized")
 
             if self.config["services"].get("localization_engine", {}).get("enabled", True):
-                self.enterprise_modules["localization_engine"] = lukhasContentGlobalLocalizationEngine()
+                self.enterprise_modules["localization_engine"] = (
+                    lukhasContentGlobalLocalizationEngine()
+                )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_content_enterprise_orchestrator_py_L723"}
                 self.logger.info("✅ Global Localization Engine initialized")
 
             # Create circuit breakers for each module
             for service_name in self.enterprise_modules:
-                self.circuit_breakers[service_name] = CircuitBreaker(failure_threshold=5, timeout=60)
+                self.circuit_breakers[service_name] = CircuitBreaker(
+                    failure_threshold=5, timeout=60
+                )
 
         except Exception as e:
             self.logger.error(f"❌ Failed to initialize enterprise modules: {e}")
@@ -913,7 +934,9 @@ class ContentEnterpriseOrchestrator:
     async def _execute_scaling_decision(self, decision: ScalingDecision):
         """Execute auto-scaling decision"""
         try:
-            self.logger.info(f"🔄 Executing scaling decision for {decision.service_name}: {decision.action.value}")
+            self.logger.info(
+                f"🔄 Executing scaling decision for {decision.service_name}: {decision.action.value}"
+            )
 
             # Create scaling task
             scaling_task = OrchestrationTask(
@@ -1007,7 +1030,9 @@ class ContentEnterpriseOrchestrator:
     def get_orchestration_status(self) -> dict[str, Any]:
         """Get current orchestration status"""
         total_services = len(self.enterprise_modules)
-        healthy_services = sum(1 for health in self.service_health.values() if health.status == ServiceStatus.HEALTHY)
+        healthy_services = sum(
+            1 for health in self.service_health.values() if health.status == ServiceStatus.HEALTHY
+        )
 
         return {
             "orchestrator_status": "running" if self.running else "stopped",
@@ -1028,7 +1053,9 @@ class ContentEnterpriseOrchestrator:
             "metrics_summary": {
                 name: {
                     "cpu_avg": (sum(m.cpu_usage for m in metrics) / len(metrics) if metrics else 0),
-                    "memory_avg": (sum(m.memory_usage for m in metrics) / len(metrics) if metrics else 0),
+                    "memory_avg": (
+                        sum(m.memory_usage for m in metrics) / len(metrics) if metrics else 0
+                    ),
                     "error_rate": metrics[-1].error_rate if metrics else 0,
                 }
                 for name, metrics in self.service_metrics.items()
@@ -1069,7 +1096,9 @@ async def main():
 
     args = parser.parse_args()
 
-    orchestrator = lukhasContentEnterpriseOrchestrator(args.config)
+    orchestrator = lukhasContentEnterpriseOrchestrator(
+        args.config
+    )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_content_enterprise_orchestrator_py_L1077"}
 
     if args.action == "start":
         print("🚀 Starting lukhas Content Enterprise Orchestrator...")

@@ -82,7 +82,7 @@ class ModuleVocabularyLoader:
 
         return None
 
-    def get_available_modules(self) -> List[str]:
+    def get_available_modules(self) -> list[str]:
         """Get list of modules with available vocabularies."""
         return list(self.vocabularies.keys())
 
@@ -122,7 +122,7 @@ class VocabularyAwareContentGenerator:
 
         return opening
 
-    def _extract_poetic_elements(self, vocab: Dict) -> List[Dict]:
+    def _extract_poetic_elements(self, vocab: Dict) -> list[Dict]:
         """Extract poetic elements from vocabulary structure."""
         elements = []
 
@@ -396,9 +396,8 @@ def _describe_component(class_name: str, vocab: Optional[Dict]) -> str:
         for key, value in vocab.items():
             if isinstance(value, dict):
                 for _sub_key, sub_value in value.items():
-                    if isinstance(sub_value, dict) and 'name' in sub_value:
-                        if class_name.lower() in sub_value['name'].lower():
-                            return sub_value.get('technical', sub_value.get('poetic', 'Core system component'))
+                    if (isinstance(sub_value, dict) and 'name' in sub_value) and class_name.lower() in sub_value['name'].lower():
+                        return sub_value.get('technical', sub_value.get('poetic', 'Core system component'))
 
     # Fallback descriptions
     descriptions = {

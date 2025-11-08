@@ -27,13 +27,12 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import List
 
 ROOT = Path(__file__).resolve().parents[2]
 REGISTRY = ROOT / "docs" / "_generated" / "MODULE_REGISTRY.json"
 
 
-def check_module(module: dict, root: Path, verbose: bool = False) -> List[str]:
+def check_module(module: dict, root: Path, verbose: bool = False) -> list[str]:
     """
     Validate single module against filesystem.
 

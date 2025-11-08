@@ -7,9 +7,13 @@ Provides real-time consciousness state mapping to visual parameters.
 
 import asyncio
 import json
+import logging
 from dataclasses import asdict, dataclass
 from enum import Enum
 from typing import Any
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 # Import LUKHAS core systems
 try:

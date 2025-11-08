@@ -29,7 +29,6 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 import numpy as np
-
 from core.common import get_logger
 
 # from sklearn.metrics.pairwise import cosine_similarity  # Optional dependency

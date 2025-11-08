@@ -12,7 +12,7 @@ from collections import defaultdict, deque
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, List, Optional
 
 from memory.distributed_memory import DistributedMemoryOrchestrator
 
@@ -51,13 +51,13 @@ class FederationCluster:
     """Represents a cluster in the federation"""
     cluster_id: str
     coordinator_node: str
-    member_nodes: Set[str]
+    member_nodes: set[str]
     region: str
-    capabilities: Set[str]
+    capabilities: set[str]
     load_factor: float = 0.0
     health_score: float = 1.0
     last_heartbeat: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -79,8 +79,8 @@ class CrossClusterOperation:
     operation_id: str
     operation_type: str
     source_cluster: str
-    target_clusters: Set[str]
-    payload: Dict[str, Any]
+    target_clusters: set[str]
+    payload: dict[str, Any]
     priority: int
     created_at: datetime
     completed_at: Optional[datetime] = None
@@ -112,21 +112,21 @@ class FederationCoordinator:
         self.metrics = FederationMetrics()
 
         # Cluster management
-        self.clusters: Dict[str, FederationCluster] = {}
-        self.cluster_assignments: Dict[str, str] = {}  # node_id -> cluster_id
-        self.load_balancer_state: Dict[str, Any] = {}
+        self.clusters: dict[str, FederationCluster] = {}
+        self.cluster_assignments: dict[str, str] = {}  # node_id -> cluster_id
+        self.load_balancer_state: dict[str, Any] = {}
 
         # Cross-cluster operations
-        self.pending_operations: Dict[str, CrossClusterOperation] = {}
+        self.pending_operations: dict[str, CrossClusterOperation] = {}
         self.operation_history: deque = deque(maxlen=1000)
 
         # Optimization and monitoring
         self.performance_history: deque = deque(maxlen=1000)
-        self.health_checks: Dict[str, datetime] = {}
-        self.optimization_strategies: List[str] = []
+        self.health_checks: dict[str, datetime] = {}
+        self.optimization_strategies: list[str] = []
 
         # Event handlers
-        self.federation_event_handlers: Dict[str, List] = defaultdict(list)
+        self.federation_event_handlers: dict[str, List] = defaultdict(list)
 
         # Background tasks
         self.coordination_task: Optional[asyncio.Task] = None
@@ -241,7 +241,7 @@ class FederationCoordinator:
             self.state = FederationState.EMERGENCY
             return False
 
-    async def add_cluster_to_federation(self, cluster_info: Dict[str, Any]) -> bool:
+    async def add_cluster_to_federation(self, cluster_info: dict[str, Any]) -> bool:
         """Add new cluster to federation"""
 
         if len(self.clusters) >= self.max_clusters:
@@ -304,7 +304,7 @@ class FederationCoordinator:
     async def route_memory_operation(self,
                                    operation_type: str,
                                    memory_fold_id: str,
-                                   payload: Dict[str, Any],
+                                   payload: dict[str, Any],
                                    priority: int = 1) -> Optional[str]:
         """Route memory operation to optimal cluster"""
 
@@ -335,7 +335,7 @@ class FederationCoordinator:
         logger.debug(f"🔀 Routed {operation_type} operation to cluster: {target_cluster}")
         return operation_id
 
-    async def balance_federation_load(self) -> Dict[str, Any]:
+    async def balance_federation_load(self) -> dict[str, Any]:
         """Perform federation-wide load balancing"""
 
         balance_start = time.time()
@@ -386,7 +386,7 @@ class FederationCoordinator:
 
         return balance_results
 
-    async def optimize_federation_topology(self) -> Dict[str, Any]:
+    async def optimize_federation_topology(self) -> dict[str, Any]:
         """Optimize federation topology for performance"""
 
         optimization_start = time.time()
@@ -426,7 +426,7 @@ class FederationCoordinator:
 
         return optimization_results
 
-    async def get_federation_status(self) -> Dict[str, Any]:
+    async def get_federation_status(self) -> dict[str, Any]:
         """Get comprehensive federation status"""
 
         return {
@@ -476,7 +476,7 @@ class FederationCoordinator:
 
         return cluster
 
-    def _get_local_cluster_info(self) -> Dict[str, Any]:
+    def _get_local_cluster_info(self) -> dict[str, Any]:
         """Get local cluster information"""
 
         local_cluster_id = f"cluster_{self.local_orchestrator.node_id}"
@@ -500,7 +500,7 @@ class FederationCoordinator:
     async def _send_federation_join_request(self,
                                           coordinator_address: str,
                                           coordinator_port: int,
-                                          join_request: Dict[str, Any]) -> Dict[str, Any]:
+                                          join_request: dict[str, Any]) -> dict[str, Any]:
         """Send federation join request"""
 
         # Simulate network request
@@ -516,7 +516,7 @@ class FederationCoordinator:
             }
         }
 
-    async def _process_federation_topology(self, topology: Dict[str, Any]):
+    async def _process_federation_topology(self, topology: dict[str, Any]):
         """Process federation topology information"""
 
         clusters_info = topology.get("clusters", {})
@@ -533,7 +533,7 @@ class FederationCoordinator:
     async def _select_target_cluster(self,
                                    operation_type: str,
                                    memory_fold_id: str,
-                                   payload: Dict[str, Any]) -> Optional[str]:
+                                   payload: dict[str, Any]) -> Optional[str]:
         """Select target cluster based on load balancing strategy"""
 
         if not self.clusters:
@@ -579,7 +579,7 @@ class FederationCoordinator:
 
         return selected_cluster
 
-    async def _geographic_selection(self, payload: Dict[str, Any]) -> str:
+    async def _geographic_selection(self, payload: dict[str, Any]) -> str:
         """Select cluster based on geographic location"""
 
         # Placeholder for geographic routing
@@ -588,7 +588,7 @@ class FederationCoordinator:
     async def _smart_routing_selection(self,
                                      operation_type: str,
                                      memory_fold_id: str,
-                                     payload: Dict[str, Any]) -> str:
+                                     payload: dict[str, Any]) -> str:
         """Smart routing based on operation characteristics"""
 
         # Consider operation type, memory fold characteristics, etc.
@@ -602,7 +602,7 @@ class FederationCoordinator:
     async def _adaptive_selection(self,
                                 operation_type: str,
                                 memory_fold_id: str,
-                                payload: Dict[str, Any]) -> str:
+                                payload: dict[str, Any]) -> str:
         """Adaptive selection based on current conditions"""
 
         # Analyze current federation state and adapt strategy
@@ -672,7 +672,7 @@ class FederationCoordinator:
 
         return moved_count
 
-    async def _analyze_federation_topology(self) -> Dict[str, Any]:
+    async def _analyze_federation_topology(self) -> dict[str, Any]:
         """Analyze current federation topology"""
 
         analysis = {
@@ -686,7 +686,7 @@ class FederationCoordinator:
 
         return analysis
 
-    async def _generate_topology_recommendations(self, analysis: Dict[str, Any]) -> List[Dict[str, Any]]:
+    async def _generate_topology_recommendations(self, analysis: dict[str, Any]) -> list[dict[str, Any]]:
         """Generate topology optimization recommendations"""
 
         recommendations = []
@@ -717,7 +717,7 @@ class FederationCoordinator:
 
         return recommendations
 
-    async def _apply_topology_optimization(self, recommendation: Dict[str, Any]) -> bool:
+    async def _apply_topology_optimization(self, recommendation: dict[str, Any]) -> bool:
         """Apply topology optimization recommendation"""
 
         optimization_type = recommendation.get("type")

@@ -24,7 +24,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from uuid import uuid4
 
 import jwt
@@ -82,7 +82,7 @@ class SecurityEvent:
 
     # Security details
     description: str = ""
-    threat_indicators: List[str] = field(default_factory=list)
+    threat_indicators: list[str] = field(default_factory=list)
     risk_score: float = 0.0
 
     # OIDC-specific context
@@ -96,7 +96,7 @@ class SecurityEvent:
     correlation_id: Optional[str] = None
     session_id: Optional[str] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for logging/storage"""
         return {
             "event_id": self.event_id,
@@ -130,7 +130,7 @@ class ClientSecurityProfile:
     failed_requests: int = 0
     success_rate: float = 100.0
     average_request_interval: float = 0.0
-    suspicious_patterns: List[str] = field(default_factory=list)
+    suspicious_patterns: list[str] = field(default_factory=list)
     risk_score: float = 0.0
     is_blocked: bool = False
     block_until: Optional[datetime] = None
@@ -140,16 +140,16 @@ class ClientSecurityProfile:
 class OIDCSecurityHardening:
     """OIDC Security Hardening with T4/0.01% Excellence Standards"""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.fail_closed = self.config.get('fail_closed', True)
 
         # Security tracking
-        self.nonce_cache: Dict[str, datetime] = {}
-        self.authorization_codes: Dict[str, datetime] = {}
-        self.client_profiles: Dict[str, ClientSecurityProfile] = {}
-        self.rate_limits: Dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
-        self.security_events: List[SecurityEvent] = []
+        self.nonce_cache: dict[str, datetime] = {}
+        self.authorization_codes: dict[str, datetime] = {}
+        self.client_profiles: dict[str, ClientSecurityProfile] = {}
+        self.rate_limits: dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
+        self.security_events: list[SecurityEvent] = []
 
         # Configuration
         self.nonce_ttl = self.config.get('nonce_ttl_seconds', 3600)
@@ -166,11 +166,11 @@ class OIDCSecurityHardening:
                    nonce_ttl=self.nonce_ttl,
                    rate_limit_threshold=self.rate_limit_threshold)
 
-    async def validate_authorization_request(self, params: Dict[str, Any],
-                                          context: Dict[str, Any]) -> Dict[str, Any]:
+    async def validate_authorization_request(self, params: dict[str, Any],
+                                          context: dict[str, Any]) -> dict[str, Any]:
         """
         Validate authorization request with comprehensive security checks
-        Returns: {'valid': bool, 'security_response': SecurityResponse, 'events': List[SecurityEvent]}
+        Returns: {'valid': bool, 'security_response': SecurityResponse, 'events': list[SecurityEvent]}
         """
         start_time = time.perf_counter()
         client_id = params.get('client_id', '')
@@ -300,8 +300,8 @@ class OIDCSecurityHardening:
 
             return validation_result
 
-    async def validate_token_request(self, params: Dict[str, Any],
-                                   context: Dict[str, Any]) -> Dict[str, Any]:
+    async def validate_token_request(self, params: dict[str, Any],
+                                   context: dict[str, Any]) -> dict[str, Any]:
         """Validate token request with security hardening"""
         client_id = params.get('client_id', '')
 
@@ -350,7 +350,7 @@ class OIDCSecurityHardening:
             validation_result['security_response'] = SecurityResponse.BLOCK
             return validation_result
 
-    async def validate_jwt_security(self, token: str, expected_alg: str = 'RS256') -> Dict[str, Any]:
+    async def validate_jwt_security(self, token: str, expected_alg: str = 'RS256') -> dict[str, Any]:
         """Validate JWT with comprehensive security checks"""
         validation_result = {
             'valid': False,
@@ -417,7 +417,7 @@ class OIDCSecurityHardening:
 
     # Private security validation methods
 
-    async def _check_rate_limits(self, client_id: str, ip_address: str) -> Dict[str, Any]:
+    async def _check_rate_limits(self, client_id: str, ip_address: str) -> dict[str, Any]:
         """Check rate limits for client and IP"""
         current_time = time.time()
 
@@ -455,8 +455,8 @@ class OIDCSecurityHardening:
             'current_rate': max(client_rate, ip_rate)
         }
 
-    async def _validate_client_security(self, client_id: str, params: Dict[str, Any],
-                                      context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _validate_client_security(self, client_id: str, params: dict[str, Any],
+                                      context: dict[str, Any]) -> dict[str, Any]:
         """Validate client security profile and behavior"""
         events = []
         risk_score = 0.0
@@ -479,17 +479,16 @@ class OIDCSecurityHardening:
             profile.total_requests += 1
 
             # Check if client is blocked
-            if profile.is_blocked:
-                if profile.block_until and datetime.now(timezone.utc) < profile.block_until:
-                    events.append(SecurityEvent(
-                        event_type=OIDCSecurityEventType.SUSPICIOUS_CLIENT_BEHAVIOR,
-                        threat_level=SecurityThreatLevel.HIGH,
-                        response_action=SecurityResponse.BLOCK,
-                        client_id=client_id,
-                        description="Client is temporarily blocked",
-                        risk_score=100.0
-                    ))
-                    risk_score = 100.0
+            if profile.is_blocked and (profile.block_until and datetime.now(timezone.utc) < profile.block_until):
+                events.append(SecurityEvent(
+                    event_type=OIDCSecurityEventType.SUSPICIOUS_CLIENT_BEHAVIOR,
+                    threat_level=SecurityThreatLevel.HIGH,
+                    response_action=SecurityResponse.BLOCK,
+                    client_id=client_id,
+                    description="Client is temporarily blocked",
+                    risk_score=100.0
+                ))
+                risk_score = 100.0
         else:
             # New client - create profile
             self.client_profiles[client_id] = ClientSecurityProfile(
@@ -506,7 +505,7 @@ class OIDCSecurityHardening:
         }
 
     async def _validate_redirect_uri_security(self, redirect_uri: str,
-                                            client_id: str) -> Dict[str, Any]:
+                                            client_id: str) -> dict[str, Any]:
         """Validate redirect URI security"""
         events = []
         risk_score = 0.0
@@ -539,7 +538,7 @@ class OIDCSecurityHardening:
             'risk_score': risk_score
         }
 
-    async def _validate_nonce_security(self, nonce: str, client_id: str) -> Dict[str, Any]:
+    async def _validate_nonce_security(self, nonce: str, client_id: str) -> dict[str, Any]:
         """Validate nonce for replay protection"""
         events = []
         risk_score = 0.0
@@ -575,7 +574,7 @@ class OIDCSecurityHardening:
             'risk_score': risk_score
         }
 
-    async def _validate_pkce_security(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def _validate_pkce_security(self, params: dict[str, Any]) -> dict[str, Any]:
         """Validate PKCE security"""
         events = []
         risk_score = 0.0
@@ -617,7 +616,7 @@ class OIDCSecurityHardening:
             'risk_score': risk_score
         }
 
-    async def _validate_scope_security(self, scope: str, client_id: str) -> Dict[str, Any]:
+    async def _validate_scope_security(self, scope: str, client_id: str) -> dict[str, Any]:
         """Validate requested scope security"""
         events = []
         risk_score = 0.0
@@ -666,7 +665,7 @@ class OIDCSecurityHardening:
         }
 
     async def _validate_authorization_code_security(self, code: str,
-                                                  client_id: str) -> Dict[str, Any]:
+                                                  client_id: str) -> dict[str, Any]:
         """Validate authorization code security"""
         events = []
         risk_score = 0.0
@@ -692,7 +691,7 @@ class OIDCSecurityHardening:
             'risk_score': risk_score
         }
 
-    async def _validate_pkce_verifier_security(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def _validate_pkce_verifier_security(self, params: dict[str, Any]) -> dict[str, Any]:
         """Validate PKCE verifier security"""
         events = []
         risk_score = 0.0
@@ -714,8 +713,8 @@ class OIDCSecurityHardening:
             'risk_score': risk_score
         }
 
-    async def _validate_client_authentication_security(self, params: Dict[str, Any],
-                                                     context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _validate_client_authentication_security(self, params: dict[str, Any],
+                                                     context: dict[str, Any]) -> dict[str, Any]:
         """Validate client authentication security"""
         events = []
         risk_score = 0.0
@@ -772,7 +771,7 @@ class OIDCSecurityHardening:
                       description=event.description,
                       risk_score=event.risk_score)
 
-    async def get_security_metrics(self) -> Dict[str, Any]:
+    async def get_security_metrics(self) -> dict[str, Any]:
         """Get security metrics for monitoring"""
         total_events = len(self.security_events)
         if total_events == 0:

@@ -220,7 +220,7 @@ class TestMultiAIOrchestration:
                 max_latency_ms=3000,
             )
 
-            try:
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_e2e_integration_test_multi_ai_orchestration_py_L223"}
                 await orchestrator.orchestrate(request)
             except Exception:
                 pass  # Expected without real AI providers
@@ -478,7 +478,7 @@ class TestPerformanceBenchmarks:
             )
 
             start_time = time.time()
-            try:
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_e2e_integration_test_multi_ai_orchestration_py_L481"}
                 await orchestrator.orchestrate(request)
             except Exception:
                 pass  # Expected without AI providers

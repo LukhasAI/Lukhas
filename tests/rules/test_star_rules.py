@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 from typing import Optional
 
-RULES = json.loads(Path("configs/star_rules.json").read_text(encoding="utf-8"))
+RULES = json.loads(Path("config/star_rules.json").read_text(encoding="utf-8"))
 
 CANON = set(RULES["canonical_stars"])
 ALIAS = RULES.get("aliases", {})

@@ -2,6 +2,7 @@
 
 > **🎨 Complete Brand & Design System for LUKHAS Consciousness Technology Ecosystem**
 
+**Version**: 2.1
 **Last Updated**: 2025-11-06
 **Status**: Active - Canonical Documentation
 
@@ -177,6 +178,92 @@ Complete governance framework for maintaining quality and compliance:
 - Automated governance setup script
 - CI/CD integration guide
 - Enforcement workflows
+
+##### [governance/strategic/](governance/strategic/) - **Strategic Planning & T4 Audit Results**
+Complete strategic planning documents based on external T4 audit (2025-11-06):
+- **[T4_STRATEGIC_AUDIT.md](governance/strategic/T4_STRATEGIC_AUDIT.md)** - Executive summary (6.0/10 score)
+- **[GAPS_ANALYSIS.md](governance/strategic/GAPS_ANALYSIS.md)** - 19 missing components (11 P0, 5 P1, 3 P2)
+- **[90_DAY_ROADMAP.md](governance/strategic/90_DAY_ROADMAP.md)** - Week-by-week execution plan
+- **[INNOVATION_PIPELINE.md](governance/strategic/INNOVATION_PIPELINE.md)** - 4 breakthrough ideas
+
+---
+
+### 8. Design Deliverables & Specifications
+
+#### [design/LOGO_CONCEPTS.md](design/LOGO_CONCEPTS.md) - **Logo Design Concepts**
+Three bespoke lambda-based logo designs with complete specifications:
+- **Constellation Lambda** (recommended) - Network + lambda hybrid
+- **Trinity Crystal Lambda** - Negative-space lambda in crystal
+- **Cognitive Helix Lambda** - Helix representing sequential thinking
+- Each with SVG code, dark/light/assistive variants, wordmark guidelines
+
+#### [design/reasoning-lab/](design/reasoning-lab/) - **Reasoning Lab Specifications**
+Complete UX and implementation specifications for Reasoning Lab:
+- **[COMPLETE_SPEC.md](design/reasoning-lab/COMPLETE_SPEC.md)** - Full UX spec (3 modes, redaction slider, accessibility)
+- **[REDACTION_SYSTEM.md](design/reasoning-lab/REDACTION_SYSTEM.md)** - Server-side deterministic redaction
+- **[TESTING_STRATEGY.md](design/reasoning-lab/TESTING_STRATEGY.md)** - Comprehensive testing (85%+ coverage)
+
+#### [content/SEO_PILLAR_STRATEGY.md](content/SEO_PILLAR_STRATEGY.md) - **SEO Pillar Content**
+Six pillar articles for organic discovery (2000+ words each):
+1. Explainable Reasoning - What is a Reasoning Graph?
+2. MΛTRIZ - Architecting Traceable Cognition
+3. Guardian - Ethics, Policies and Constitutional AI
+4. Reasoning Lab - Hands-on Explainability
+5. Enterprise Trust - Audits, Evidence & Onboarding
+6. Developer Playbook - Quickstarts, SDKs and Patterns
+
+Target: 5k organic visitors/month at 90 days, 15k at 180 days
+
+---
+
+### 9. Brand Philosophy Research
+
+#### [../docs/research/brand_philosophy/](../docs/research/brand_philosophy/) - **Brand Research & Innovation**
+Experimental brand concepts and strategic research preserved for future consideration:
+
+##### [../docs/research/brand_philosophy/VISIONARY_ENHANCEMENTS_RESEARCH.md](../docs/research/brand_philosophy/VISIONARY_ENHANCEMENTS_RESEARCH.md)
+- **Status**: Research document (not canonical)
+- **Content**: Radical "0.01%" branding strategies
+- **Concepts**: More-Than-Human philosophy, Speculative Friction, Constitutional Identity
+- **Source**: 351 lines, 87+ citations from academic and industry research
+- **Purpose**: Preserved for strategic innovation consideration
+
+##### [../docs/research/brand_philosophy/GONZO_RECONCILIATION.md](../docs/research/brand_philosophy/GONZO_RECONCILIATION.md)
+- **Status**: Analysis document
+- **Content**: Comprehensive conflict analysis of Visionary Enhancements vs. canonical brand
+- **Decision**: Selective adoption of 3 compatible concepts (Constitutional Identity, Mindful Friction, Technical Voice)
+- **Purpose**: Documents rationale for adoption/rejection decisions
+
+##### Adopted Concepts from Research
+
+Three concepts from visionary research were selectively adopted with bounded application:
+
+###### [guardian/GUARDIAN_CONSTITUTION.md](guardian/GUARDIAN_CONSTITUTION.md) - **Constitutional Identity** ✅
+- **Concept**: Guardian's identity IS its transparent, auditable rule system
+- **Scope**: Guardian component only
+- **Implementation**: Public, versioned, user-participatory constitution
+- **Status**: ✅ ACTIVE CONSTITUTION
+- **Inspired by**: Anthropic's Constitutional AI
+
+###### [research/MINDFUL_FRICTION_PATTERNS.md](research/MINDFUL_FRICTION_PATTERNS.md) - **Mindful Friction** ✅
+- **Concept**: Intentional friction for critical operations only
+- **Scope**: Account deletion, payments, constitutional changes (NOT general UX or assistive mode)
+- **Implementation**: 5 approved patterns (typed confirmation, cooling-off, stepped disclosure, adaptive friction, impact preview)
+- **Status**: ✅ ACTIVE GUIDELINES (Limited Scope)
+
+###### [research/TECHNICAL_VOICE_GUIDELINES.md](research/TECHNICAL_VOICE_GUIDELINES.md) - **Technical Voice** ✅
+- **Concept**: Mechanical clarity for developer-facing content
+- **Scope**: API docs, error messages, system logs, developer guides (NOT marketing or general UX)
+- **Implementation**: Voice transformation table, reduced anthropomorphism in technical contexts
+- **Status**: ✅ ACTIVE GUIDELINES (Developer Content Only)
+- **Integration**: Complements existing 3-Layer Tone System by adjusting Academic layer for technical scenarios
+
+**Finding Research**:
+- **"What was the visionary research about?"** → [VISIONARY_ENHANCEMENTS_RESEARCH.md](../docs/research/brand_philosophy/VISIONARY_ENHANCEMENTS_RESEARCH.md)
+- **"Why were some concepts rejected?"** → [GONZO_RECONCILIATION.md](../docs/research/brand_philosophy/GONZO_RECONCILIATION.md) → Risk Assessment section
+- **"What are Guardian constitutional rules?"** → [guardian/GUARDIAN_CONSTITUTION.md](guardian/GUARDIAN_CONSTITUTION.md)
+- **"When should I add friction to UX?"** → [research/MINDFUL_FRICTION_PATTERNS.md](research/MINDFUL_FRICTION_PATTERNS.md) → Decision Tree
+- **"How should I write API error messages?"** → [research/TECHNICAL_VOICE_GUIDELINES.md](research/TECHNICAL_VOICE_GUIDELINES.md) → Voice Transformation Table
 
 ---
 

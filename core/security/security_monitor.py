@@ -18,7 +18,7 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from threading import RLock
 from time import perf_counter
-from typing import Any, Deque, Dict, Tuple
+from typing import Any
 
 from observability import counter, gauge, histogram
 
@@ -74,7 +74,7 @@ class SecurityThreat:
     severity: EventSeverity
     detected_at: datetime
     description: str
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
     last_updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def update_context(self, **updates: Any) -> None:
@@ -126,9 +126,9 @@ class SecurityMonitor:
         self.config = config or SecurityMonitorConfig()
         self._metrics = _SecurityMonitorMetrics()
         self._lock = RLock()
-        self._auth_failures: MutableMapping[Tuple[str, str], Deque[datetime]] = defaultdict(deque)
-        self._active_threats: Dict[str, SecurityThreat] = {}
-        self._metrics_snapshot: Dict[str, Any] = {
+        self._auth_failures: MutableMapping[tuple[str, str], deque[datetime]] = defaultdict(deque)
+        self._active_threats: dict[str, SecurityThreat] = {}
+        self._metrics_snapshot: dict[str, Any] = {
             "security_events_total": defaultdict(int),
             "processing_durations": [],
             "active_security_threats": 0,
@@ -154,18 +154,17 @@ class SecurityMonitor:
             new_threat = self._handle_anomalous_behavior(event)
         elif event.event_type is EventType.POLICY_VIOLATION:
             new_threat = self._handle_policy_violation(event)
-        elif event.event_type is EventType.QI_SECURITY_EVENT:
+        elif event.event_type is EventType.QI_SECURITY_EVENT and event.severity in {EventSeverity.HIGH, EventSeverity.CRITICAL}:
             # QI events are pass-through but still tracked as active threats when
             # flagged with high severity.
-            if event.severity in {EventSeverity.HIGH, EventSeverity.CRITICAL}:
-                new_threat = self._register_threat(
-                    threat_id=self._build_threat_id("qi", event),
-                    threat_type="qi_security",
-                    severity=event.severity,
-                    description="Quantum integrity security event",
-                    context=dict(event.metadata),
-                    timestamp=event.timestamp,
-                )
+            new_threat = self._register_threat(
+                threat_id=self._build_threat_id("qi", event),
+                threat_type="qi_security",
+                severity=event.severity,
+                description="Quantum integrity security event",
+                context=dict(event.metadata),
+                timestamp=event.timestamp,
+            )
 
         duration = perf_counter() - start
         self._metrics.observe_event(event, duration)
@@ -291,7 +290,7 @@ class SecurityMonitor:
     # ------------------------------------------------------------------
     # Threat lifecycle management
     # ------------------------------------------------------------------
-    def get_active_threats(self) -> Dict[str, SecurityThreat]:
+    def get_active_threats(self) -> dict[str, SecurityThreat]:
         with self._lock:
             return dict(self._active_threats)
 
@@ -303,7 +302,7 @@ class SecurityMonitor:
                 self._metrics.set_active_threats(len(self._active_threats))
             return removed
 
-    def get_metrics_snapshot(self) -> Dict[str, Any]:
+    def get_metrics_snapshot(self) -> dict[str, Any]:
         with self._lock:
             snapshot = {
                 "security_events_total": dict(self._metrics_snapshot["security_events_total"]),
@@ -409,7 +408,7 @@ class SecurityMonitor:
         threat_type: str,
         severity: EventSeverity,
         description: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         timestamp: datetime,
     ) -> SecurityThreat:
         if threat_id is None:
@@ -425,7 +424,7 @@ class SecurityMonitor:
         return threat
 
     @staticmethod
-    def _build_auth_key(event: SecurityEvent) -> Tuple[str, str]:
+    def _build_auth_key(event: SecurityEvent) -> tuple[str, str]:
         user = event.actor_id or event.metadata.get("user_id") or "unknown"
         ip = event.ip_address or event.metadata.get("ip_address") or "unknown"
         return user, ip

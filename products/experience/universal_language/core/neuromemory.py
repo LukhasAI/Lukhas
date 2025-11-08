@@ -7,7 +7,6 @@ Based on what Demis Hassabis/DeepMind would implement.
 """
 from __future__ import annotations
 
-
 import hashlib
 import logging
 import time

@@ -6,7 +6,7 @@ import time
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from functools import lru_cache
-from typing import Any, Dict, Tuple
+from typing import Any
 
 import structlog
 from fastapi import Depends, FastAPI, HTTPException, Request, status
@@ -211,12 +211,12 @@ class EnhancedAPISystem:
         }
 
         # Response caching (LRU cache with TTL)
-        self.response_cache: Dict[str, Tuple[Any, float]] = {}
+        self.response_cache: dict[str, tuple[Any, float]] = {}
         self.cache_ttl_seconds = 300  # 5 minutes
         self.max_cache_size = 1000
 
         # Request coalescing for duplicate concurrent requests
-        self.pending_requests: Dict[str, asyncio.Task] = {}
+        self.pending_requests: dict[str, asyncio.Task] = {}
 
         # Setup middleware and routes
         self._setup_middleware()
@@ -479,7 +479,7 @@ class EnhancedAPISystem:
         @self.app.post("/api/v2/consciousness/query", response_model=LUKHASResponse)
         async def consciousness_query(
             request: ConsciousnessRequest,
-            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_api_api_system_py_L481"}
         ):
             """Query consciousness system"""
             # Validate auth
@@ -532,7 +532,7 @@ class EnhancedAPISystem:
         async def memory_operation(
             action: str,
             request: MemoryRequest,
-            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_api_api_system_py_L534"}
         ):
             """Memory operations (store, retrieve, search, update)"""
             # Validate auth
@@ -595,7 +595,7 @@ class EnhancedAPISystem:
         @self.app.post("/api/v2/governance/check", response_model=LUKHASResponse)
         async def governance_check(
             request: GovernanceRequest,
-            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_api_api_system_py_L597"}
         ):
             """Check action proposal with Guardian system"""
             # Validate auth
@@ -639,7 +639,7 @@ class EnhancedAPISystem:
         @self.app.post("/api/v2/dream/generate", response_model=LUKHASResponse)
         async def dream_generate(
             request: DreamRequest,
-            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_api_api_system_py_L641"}
         ):
             """Generate creative content through dream engine"""
             # Validate auth
@@ -694,7 +694,7 @@ class EnhancedAPISystem:
         @self.app.post("/api/v2/process", response_model=LUKHASResponse)
         async def process_request(
             request: LUKHASRequest,
-            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_api_api_system_py_L696"}
         ):
             """Generic processing endpoint for complex operations"""
             # Validate auth
@@ -745,7 +745,7 @@ class EnhancedAPISystem:
         # System information endpoints
         @self.app.get("/api/v2/capabilities")
         async def get_capabilities(
-            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_api_api_system_py_L747"}
         ):
             """Get system capabilities"""
             # Validate auth
@@ -768,7 +768,7 @@ class EnhancedAPISystem:
 
         @self.app.get("/api/v2/metrics")
         async def get_metrics(
-            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+            auth: HTTPAuthorizationCredentials = Depends(HTTPBearer()),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_api_api_system_py_L770"}
         ):
             """Get system metrics"""
             # Validate auth

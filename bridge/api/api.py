@@ -572,7 +572,7 @@ class LukhasUnifiedAPI:
             tags=["ΛiD Management"],
         )
         async def create_lambda_id_route(
-            request_data: UserProfileRequest = Body(...),
+            request_data: UserProfileRequest = Body(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_api_py_L575"}
         ):  # Using Pydantic model for request body
             self.logger.info(f"ΛTRACE: Endpoint POST {api_v2_prefix}/create invoked.")
             return await self._create_lambda_id_endpoint_impl(request_data)
@@ -584,7 +584,7 @@ class LukhasUnifiedAPI:
             tags=["Authentication"],
         )
         async def authenticate_symbolic_route(
-            request_data: SymbolicAuthRequest = Body(...),
+            request_data: SymbolicAuthRequest = Body(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_api_py_L587"}
         ):
             self.logger.info(
                 f"ΛTRACE: Endpoint POST {api_v2_prefix}/authenticate/symbolic invoked for ΛiD: {request_data.lambda_id[:10]}..."

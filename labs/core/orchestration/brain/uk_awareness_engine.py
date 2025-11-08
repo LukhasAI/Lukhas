@@ -40,8 +40,6 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from pydantic import Field
-
 # Import global framework
 from identity.backend.app.institution_manager import (
     GlobalInstitutionalInput,
@@ -50,6 +48,7 @@ from identity.backend.app.institution_manager import (
     Jurisdiction,
     global_timestamp,
 )
+from pydantic import Field
 
 # --- UK-Specific Regulatory Framework --------------------------- #
 

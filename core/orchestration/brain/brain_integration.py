@@ -97,7 +97,7 @@ except ImportError:
 try:
     from core.spine.fold_engine import AGIMemory, MemoryFold, MemoryPriority, MemoryType
 except ImportError:
-    try:
+    try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_orchestration_brain_brain_integration_py_L99"}
         # Commented out until CORE is available
         # from CORE.spine.fold_engine import AGIMemory, MemoryFold, MemoryType, MemoryPriority
         pass
@@ -508,7 +508,7 @@ class EnhancedBrainIntegration:
                 logger.info("🚀 Advanced AI components integrated successfully")
 
                 # Initialize AI subsystems
-                asyncio.create_task(self._initialize_agi_subsystems())
+                asyncio.create_task(self._initialize_agi_subsystems())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_brain_brain_integration_py_L510"}
 
             except Exception as e:
                 logger.error(f"Failed to initialize advanced AI components: {e}")
@@ -667,13 +667,12 @@ class EnhancedBrainIntegration:
                 self.stats["symphony_processes"] += 1
 
             # Stage 7: Governance Decision Making (for major decisions)
-            if self.advanced_agi_available and context.get("requires_governance", False):
-                if hasattr(self, "dao_governance"):
-                    governance_result = await self.dao_governance.evaluate_decision(
-                        input_data, context, result
-                    )
-                    result["cognitive_enhancements"]["governance"] = governance_result
-                    self.stats["governance_decisions"] += 1
+            if (self.advanced_agi_available and context.get('requires_governance', False)) and hasattr(self, 'dao_governance'):
+                governance_result = await self.dao_governance.evaluate_decision(
+                    input_data, context, result
+                )
+                result["cognitive_enhancements"]["governance"] = governance_result
+                self.stats["governance_decisions"] += 1
 
             # Stage 8: Integration and Final Processing
             result = await self._integrate_agi_results(result, input_data, context)

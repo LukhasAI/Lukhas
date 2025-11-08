@@ -11,9 +11,9 @@ import datetime
 import glob
 import json
 import logging
-from datetime import timezone
 from pathlib import Path
 
+# Module-level logger
 logger = logging.getLogger(__name__)
 
 
@@ -50,7 +50,7 @@ def main():
     passed_tests = authz_data.get('summary', {}).get('passed', 2391)
     total_tests = authz_data.get('summary', {}).get('total_tests', 2484)
 
-    timestamp = datetime.datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+    timestamp = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
 
     # Generate report content
     report = f"""# Matrix Identity Coverage Report

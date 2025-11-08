@@ -31,7 +31,7 @@ from typing import Any, Callable, Optional
 try:
     from ..core.glyph.glyph_engine import GlyphEngine
     from ..orchestration.symbolic_kernel_bus import SymbolicKernelBus
-    from .auth_glyph_registry import (  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    from .auth_glyph_registry import (  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_auth_cross_module_integration_py_L35"}  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
         AuthGlyphCategory,
         auth_glyph_registry,
     )
@@ -318,7 +318,9 @@ class AuthCrossModuleIntegrator:
             # Send to each target module
             for module_type in target_modules:
                 if module_type in self.registered_modules:
-                    success = await self._send_auth_context_to_module(module_type, user_id, auth_event, auth_context)
+                    success = await self._send_auth_context_to_module(
+                        module_type, user_id, auth_event, auth_context
+                    )
                     results[module_type.value] = success
                 else:
                     results[module_type.value] = False
@@ -333,7 +335,9 @@ class AuthCrossModuleIntegrator:
             print(f"Error propagating auth context: {e}")
             return {}
 
-    async def _create_module_auth_context(self, user_id: str, auth_context: dict[str, Any]) -> ModuleAuthContext:
+    async def _create_module_auth_context(
+        self, user_id: str, auth_context: dict[str, Any]
+    ) -> ModuleAuthContext:
         """Create authentication context for module consumption"""
         # Extract key authentication information
         tier_level = auth_context.get("tier_level", "T1")
@@ -348,8 +352,12 @@ class AuthCrossModuleIntegrator:
                 symbolic_identity = symbolic_identity_obj.composite_glyph
 
         # Determine constitutional and guardian status
-        constitutional_status = "valid" if auth_context.get("constitutional_valid", True) else "violation"
-        guardian_status = "monitoring" if auth_context.get("guardian_monitoring", False) else "inactive"
+        constitutional_status = (
+            "valid" if auth_context.get("constitutional_valid", True) else "violation"
+        )
+        guardian_status = (
+            "monitoring" if auth_context.get("guardian_monitoring", False) else "inactive"
+        )
 
         return ModuleAuthContext(
             module_type=ModuleType.CORE,  # Will be updated per module
@@ -379,8 +387,10 @@ class AuthCrossModuleIntegrator:
                 return False
 
             # Get Constellation context for module
-            constellation_context = self.constellation_integration.get_constellation_context_for_module(
-                module_type, auth_context
+            constellation_context = (
+                self.constellation_integration.get_constellation_context_for_module(
+                    module_type, auth_context
+                )
             )
 
             # Create GLYPH message
@@ -750,7 +760,9 @@ class AuthCrossModuleIntegrator:
         for module_type in self.registered_modules:
             adapter = self.module_adapters.get(module_type)
             if adapter:
-                module_contexts[module_type.value] = await adapter["prepare_payload"](context.metadata)
+                module_contexts[module_type.value] = await adapter["prepare_payload"](
+                    context.metadata
+                )
 
         return {
             "user_id": user_id,

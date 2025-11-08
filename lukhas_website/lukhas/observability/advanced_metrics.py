@@ -19,7 +19,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 from uuid import uuid4
 
 try:
@@ -58,10 +58,10 @@ class MetricAnomaly:
     anomaly_type: AnomalyType
     severity: MetricSeverity
     value: float
-    expected_range: Tuple[float, float]
+    expected_range: tuple[float, float]
     confidence: float
     timestamp: datetime
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
     resolved: bool = False
     resolution_timestamp: Optional[datetime] = None
 
@@ -89,7 +89,7 @@ class ComplianceMetric:
     is_compliant: bool
     violation_count: int = 0
     last_violation: Optional[datetime] = None
-    remediation_actions: List[str] = field(default_factory=list)
+    remediation_actions: list[str] = field(default_factory=list)
 
 
 class AdvancedMetricsSystem:
@@ -126,20 +126,20 @@ class AdvancedMetricsSystem:
         self.prometheus_metrics = get_lukhas_metrics()
 
         # Advanced metrics storage
-        self.metric_history: Dict[str, deque] = defaultdict(lambda: deque(maxlen=10000))
-        self.metric_timestamps: Dict[str, deque] = defaultdict(lambda: deque(maxlen=10000))
+        self.metric_history: dict[str, deque] = defaultdict(lambda: deque(maxlen=10000))
+        self.metric_timestamps: dict[str, deque] = defaultdict(lambda: deque(maxlen=10000))
 
         # Anomaly detection state
-        self.detected_anomalies: List[MetricAnomaly] = []
-        self.metric_baselines: Dict[str, Dict[str, float]] = {}
-        self.metric_thresholds: Dict[str, MetricThreshold] = {}
+        self.detected_anomalies: list[MetricAnomaly] = []
+        self.metric_baselines: dict[str, dict[str, float]] = {}
+        self.metric_thresholds: dict[str, MetricThreshold] = {}
 
         # Performance tracking
-        self.operation_timings: Dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
-        self.error_patterns: Dict[str, List[datetime]] = defaultdict(list)
+        self.operation_timings: dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
+        self.error_patterns: dict[str, list[datetime]] = defaultdict(list)
 
         # Compliance metrics
-        self.compliance_metrics: Dict[str, ComplianceMetric] = {}
+        self.compliance_metrics: dict[str, ComplianceMetric] = {}
 
         # Evidence integration
         self.evidence_metrics_enabled = True
@@ -222,7 +222,7 @@ class AdvancedMetricsSystem:
         self,
         metric_name: str,
         value: Union[int, float],
-        labels: Optional[Dict[str, str]] = None,
+        labels: Optional[dict[str, str]] = None,
         timestamp: Optional[datetime] = None,
     ):
         """
@@ -311,7 +311,7 @@ class AdvancedMetricsSystem:
         metric_name: str,
         value: float,
         timestamp: datetime,
-        history: List[float],
+        history: list[float],
     ):
         """ML-based anomaly detection using statistical methods"""
         if not NUMPY_AVAILABLE:
@@ -408,11 +408,11 @@ class AdvancedMetricsSystem:
         metric_name: str,
         anomaly_type: AnomalyType,
         value: float,
-        expected_range: Tuple[float, float],
+        expected_range: tuple[float, float],
         confidence: float,
         timestamp: datetime,
         severity: Optional[MetricSeverity] = None,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
     ):
         """Record detected anomaly"""
         if not severity:
@@ -469,7 +469,7 @@ class AdvancedMetricsSystem:
         operation: str,
         duration_ms: float,
         success: bool = True,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
     ):
         """Record operation timing for performance analysis"""
         self.operation_timings[operation].append({
@@ -526,7 +526,7 @@ class AdvancedMetricsSystem:
                     compliance_regimes=[regulation.upper()],
                 ))
 
-    def get_metric_statistics(self, metric_name: str) -> Dict[str, Any]:
+    def get_metric_statistics(self, metric_name: str) -> dict[str, Any]:
         """Get statistical analysis of a metric"""
         if metric_name not in self.metric_history:
             return {}
@@ -558,7 +558,7 @@ class AdvancedMetricsSystem:
         self,
         hours_back: int = 24,
         severity_filter: Optional[MetricSeverity] = None,
-    ) -> List[MetricAnomaly]:
+    ) -> list[MetricAnomaly]:
         """Get summary of detected anomalies"""
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours_back)
 
@@ -575,7 +575,7 @@ class AdvancedMetricsSystem:
 
         return filtered_anomalies
 
-    def get_performance_dashboard_data(self) -> Dict[str, Any]:
+    def get_performance_dashboard_data(self) -> dict[str, Any]:
         """Get data for performance dashboard"""
         current_time = datetime.now(timezone.utc)
 

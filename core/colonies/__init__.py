@@ -18,8 +18,6 @@ from .oracle_colony import (
 __all__ = [
     "BaseColony",
     "ConsensusResult",
-    "Tag",
-    "TagScope",
     "EthicalDecisionRequest",
     "EthicalDecisionResponse",
     "EthicalDecisionType",
@@ -27,10 +25,12 @@ __all__ = [
     "EthicsSwarmColony",
     "MeshAgent",
     "MeshTopologyService",
-    "get_mesh_topology_service",
     "OracleAgent",
     "OracleColony",
     "OracleQuery",
     "OracleResponse",
+    "Tag",
+    "TagScope",
+    "get_mesh_topology_service",
     "get_oracle_colony",
 ]

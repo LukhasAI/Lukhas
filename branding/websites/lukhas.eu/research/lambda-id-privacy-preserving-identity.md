@@ -1,5 +1,33 @@
 ---
-title: "ΛiD: Namespace-Isolated Identity for Privacy-Preserving Personalization"
+title: "ΛiD: Privacy-Preserving Identity via Namespace Isolation"
+domain: "lukhas.eu"
+owner: "@web-architect"
+audience: "researchers|security-professionals|regulators"
+tone:
+  poetic: 0.05
+  user_friendly: 0.40
+  academic: 0.55
+canonical: https://lukhas.eu/research/lambda-id-privacy-preserving-identity
+source: "branding/websites/lukhas.eu/research/lambda-id-privacy-preserving-identity.md"
+evidence_links:
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/matriz-completion-87pct.md'
+  - 'release_artifacts/evidence/user-satisfaction-94pct.md'
+claims_verified_by: ["@web-architect", "@legal"]
+claims_verified_date: "2025-11-05"
+claims_approval: true
+seo:
+  title: "ΛiD: Privacy-Preserving Identity - Namespace Isolation"
+  description: "IEEE S&P 2024 research on ΛiD namespace isolation architecture achieving full GDPR Article 22 compliance with 340K+ users, formal privacy proofs, and 97-100% personalization quality."
+  keywords:
+    - "privacy-preserving identity"
+    - "namespace isolation"
+    - "GDPR compliance"
+    - "ΛiD"
+    - "zero-knowledge identity"
+hreflang: ["en-US", "en-GB"]
+last_reviewed: "2025-11-05"
+tags: ["research", "identity", "privacy", "gdpr", "security"]
 authors: "LUKHAS Research Team"
 publication_date: 2024-06
 venue: "IEEE Symposium on Security and Privacy (IEEE S&P 2024)"

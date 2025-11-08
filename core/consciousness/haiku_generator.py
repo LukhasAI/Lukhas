@@ -50,14 +50,12 @@ AUTHORS: LUKHAS AI Team (Consolidated)
 
 from __future__ import annotations
 
-import logging
-from datetime import timezone
-
 import asyncio
+import logging
 import random
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -67,9 +65,9 @@ from core.common import get_logger
 try:
     from branding_bridge import (
         BrandContext,
-        generate_branded_content,  # TODO: branding_bridge.generat...
+        generate_branded_content,  # TODO: branding_bridge.generat...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_consciousness_haiku_generator_py_L68"}
         get_brand_voice,
-        get_constellation_context,  # TODO: branding_bridge.get_con...
+        get_constellation_context,  # TODO: branding_bridge.get_con...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_consciousness_haiku_generator_py_L71"}
         normalize_output_text,
         validate_output,
     )

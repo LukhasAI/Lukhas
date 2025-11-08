@@ -7,12 +7,11 @@ import os
 import re
 import sys
 from collections.abc import Iterable
-from typing import Tuple
 
 OPT_PATTERN = re.compile(r"(\b[A-Za-z_][A-Za-z0-9_.]*\b)\s*\|\s*None\b")
 
 
-def fix_text(source: str) -> Tuple[str, bool]:
+def fix_text(source: str) -> tuple[str, bool]:
     """Return rewritten source and whether a change was made."""
 
     changed = False

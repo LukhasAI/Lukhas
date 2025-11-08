@@ -11,7 +11,6 @@ import logging
 import os
 import re
 from pathlib import Path
-from typing import List, Tuple
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
@@ -153,7 +152,7 @@ class TrinityToConstellationMigrator:
 
         return True
 
-    def migrate_file(self, file_path: Path) -> Tuple[bool, int]:
+    def migrate_file(self, file_path: Path) -> tuple[bool, int]:
         """Migrate Trinity references in a single file"""
         try:
             with open(file_path, encoding='utf-8') as f:
@@ -184,7 +183,7 @@ class TrinityToConstellationMigrator:
             self.stats['errors'].append(error_msg)
             return False, 0
 
-    def scan_directory(self, directory: Path) -> List[Path]:
+    def scan_directory(self, directory: Path) -> list[Path]:
         """Recursively scan directory for files to process"""
         files_to_process = []
 
@@ -199,7 +198,7 @@ class TrinityToConstellationMigrator:
 
         return files_to_process
 
-    def preview_changes(self, file_path: Path) -> List[Tuple[str, str, str]]:
+    def preview_changes(self, file_path: Path) -> list[tuple[str, str, str]]:
         """Preview changes that would be made to a file"""
         try:
             with open(file_path, encoding='utf-8') as f:

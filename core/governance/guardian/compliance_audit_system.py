@@ -358,11 +358,21 @@ class ComplianceAuditSystem:
         self.monitoring_active = True
 
         # Start monitoring loops
-        asyncio.create_task(self._consent_monitoring_loop())
-        asyncio.create_task(self._subject_rights_processing_loop())
-        asyncio.create_task(self._compliance_violation_detection_loop())
-        asyncio.create_task(self._data_retention_enforcement_loop())
-        asyncio.create_task(self._audit_cleanup_loop())
+        asyncio.create_task(
+            self._consent_monitoring_loop()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_compliance_audit_system_py_L361"}
+        asyncio.create_task(
+            self._subject_rights_processing_loop()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_compliance_audit_system_py_L363"}
+        asyncio.create_task(
+            self._compliance_violation_detection_loop()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_compliance_audit_system_py_L365"}
+        asyncio.create_task(
+            self._data_retention_enforcement_loop()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_compliance_audit_system_py_L367"}
+        asyncio.create_task(
+            self._audit_cleanup_loop()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_compliance_audit_system_py_L369"}
 
         logger.info("⚖️ Compliance monitoring started")
 
@@ -428,7 +438,10 @@ class ComplianceAuditSystem:
             audit_event.drift_score_at_time = metadata.get("drift_score")
 
             # Check if ethics review is required
-            if audit_event.drift_score_at_time and audit_event.drift_score_at_time > self.ethics_review_threshold:
+            if (
+                audit_event.drift_score_at_time
+                and audit_event.drift_score_at_time > self.ethics_review_threshold
+            ):
                 audit_event.ethics_review_required = True
 
         # Assess compliance status
@@ -494,7 +507,9 @@ class ComplianceAuditSystem:
 
         # Guardian System validation (🛡️)
         if self.guardian_integration_enabled:
-            consent_record.guardian_approved = await self._validate_consent_with_guardian(consent_record)
+            consent_record.guardian_approved = await self._validate_consent_with_guardian(
+                consent_record
+            )
             consent_record.ethics_score = metadata.get("ethics_score")
 
         # Store consent record
@@ -514,7 +529,9 @@ class ComplianceAuditSystem:
 
         return consent_id
 
-    async def withdraw_consent(self, consent_id: str, withdrawal_method: str = "user_request", **metadata) -> bool:
+    async def withdraw_consent(
+        self, consent_id: str, withdrawal_method: str = "user_request", **metadata
+    ) -> bool:
         """
         Withdraw consent and trigger data processing cessation.
 
@@ -698,7 +715,9 @@ class ComplianceAuditSystem:
 
         # Filter audit events by date range and regulation
         filtered_events = [
-            e for e in self.audit_events if (start_date <= e.timestamp <= end_date and e.regulation == regulation)
+            e
+            for e in self.audit_events
+            if (start_date <= e.timestamp <= end_date and e.regulation == regulation)
         ]
 
         # Event statistics
@@ -711,7 +730,11 @@ class ComplianceAuditSystem:
 
         # Consent analysis
         active_consents = len(
-            [c for c in self.consent_records.values() if c.active and start_date <= c.timestamp <= end_date]
+            [
+                c
+                for c in self.consent_records.values()
+                if c.active and start_date <= c.timestamp <= end_date
+            ]
         )
 
         withdrawn_consents = len(
@@ -723,10 +746,16 @@ class ComplianceAuditSystem:
         )
 
         # Subject rights requests
-        requests_in_period = [r for r in self.subject_requests.values() if start_date <= r.timestamp <= end_date]
+        requests_in_period = [
+            r for r in self.subject_requests.values() if start_date <= r.timestamp <= end_date
+        ]
 
         completed_requests = [r for r in requests_in_period if r.status == "completed"]
-        overdue_requests = [r for r in requests_in_period if r.due_date < datetime.now(timezone.utc) and r.status != "completed"]
+        overdue_requests = [
+            r
+            for r in requests_in_period
+            if r.due_date < datetime.now(timezone.utc) and r.status != "completed"
+        ]
 
         # Compliance violations
         violations_in_period = [
@@ -754,7 +783,11 @@ class ComplianceAuditSystem:
                 "total_events": len(filtered_events),
                 "by_type": dict(events_by_type),
                 "by_compliance_status": dict(events_by_status),
-                "compliance_rate": ((events_by_status["compliant"] / len(filtered_events)) if filtered_events else 1.0),
+                "compliance_rate": (
+                    (events_by_status["compliant"] / len(filtered_events))
+                    if filtered_events
+                    else 1.0
+                ),
             },
             # Consent management
             "consent_management": {
@@ -772,8 +805,14 @@ class ComplianceAuditSystem:
                 "total_requests": len(requests_in_period),
                 "completed_requests": len(completed_requests),
                 "overdue_requests": len(overdue_requests),
-                "completion_rate": ((len(completed_requests) / len(requests_in_period)) if requests_in_period else 1.0),
-                "average_response_time_days": self._calculate_average_response_time(completed_requests),
+                "completion_rate": (
+                    (len(completed_requests) / len(requests_in_period))
+                    if requests_in_period
+                    else 1.0
+                ),
+                "average_response_time_days": self._calculate_average_response_time(
+                    completed_requests
+                ),
                 "requests_by_type": self._analyze_requests_by_type(requests_in_period),
             },
             # Compliance violations
@@ -785,24 +824,34 @@ class ComplianceAuditSystem:
             # Data processing activities
             "processing_activities": {
                 "registered_activities": len(self.processing_activities),
-                "cross_border_transfers": len([e for e in filtered_events if e.cross_border_transfer]),
+                "cross_border_transfers": len(
+                    [e for e in filtered_events if e.cross_border_transfer]
+                ),
                 "data_categories_processed": self._analyze_data_categories(filtered_events),
             },
             # Privacy impact assessments
             "privacy_assessments": {
                 "total_pias": len(self.privacy_assessments),
-                "pending_review": len([p for p in self.privacy_assessments.values() if p.status == "review"]),
-                "approved_pias": len([p for p in self.privacy_assessments.values() if p.status == "approved"]),
+                "pending_review": len(
+                    [p for p in self.privacy_assessments.values() if p.status == "review"]
+                ),
+                "approved_pias": len(
+                    [p for p in self.privacy_assessments.values() if p.status == "approved"]
+                ),
             },
             # Guardian System integration (🛡️)
             "guardian_integration": {
                 "validated_events": guardian_validated_events,
-                "validation_rate": ((guardian_validated_events / len(filtered_events)) if filtered_events else 0.0),
+                "validation_rate": (
+                    (guardian_validated_events / len(filtered_events)) if filtered_events else 0.0
+                ),
                 "ethics_reviews_required": ethics_reviews_required,
                 "average_drift_score": self._calculate_average_drift_score(filtered_events),
             },
             # Recommendations
-            "recommendations": await self._generate_compliance_recommendations(regulation, filtered_events),
+            "recommendations": await self._generate_compliance_recommendations(
+                regulation, filtered_events
+            ),
         }
 
     # Background monitoring loops
@@ -881,7 +930,9 @@ class ComplianceAuditSystem:
         while self.monitoring_active:
             try:
                 # Clean up old audit events beyond retention period
-                cutoff_date = datetime.now(timezone.utc) - timedelta(days=self.audit_retention_years * 365)
+                cutoff_date = datetime.now(timezone.utc) - timedelta(
+                    days=self.audit_retention_years * 365
+                )
 
                 # Keep audit events within retention period
                 retained_events = deque(maxlen=self.max_audit_events)
@@ -899,7 +950,9 @@ class ComplianceAuditSystem:
 
     # Helper methods (implementation details)
 
-    def _determine_lawful_basis(self, purpose: DataProcessingPurpose, regulation: ComplianceRegulation) -> str:
+    def _determine_lawful_basis(
+        self, purpose: DataProcessingPurpose, regulation: ComplianceRegulation
+    ) -> str:
         """Determine lawful basis for processing."""
 
         if regulation == ComplianceRegulation.GDPR:
@@ -944,7 +997,9 @@ class ComplianceAuditSystem:
         return DataCategory.SPECIAL_CATEGORY not in consent_record.data_categories
         # Require additional review for special category data
 
-    async def _assess_compliance_status(self, audit_event: ComplianceAuditEvent) -> ComplianceStatus:
+    async def _assess_compliance_status(
+        self, audit_event: ComplianceAuditEvent
+    ) -> ComplianceStatus:
         """Assess compliance status for audit event."""
 
         # Basic compliance assessment logic

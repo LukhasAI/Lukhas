@@ -7,7 +7,6 @@ from collections import defaultdict, deque
 from collections.abc import Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Deque, Dict, List
 
 from core.symbolic.glyph_specialist import GlyphSignal
 
@@ -31,7 +30,7 @@ class ConsciousnessDriftDetector:
 
     def __init__(self, retention: int = 12) -> None:
         self.retention = retention
-        self._history: Dict[str, Deque[DriftSnapshot]] = defaultdict(
+        self._history: dict[str, deque[DriftSnapshot]] = defaultdict(
             lambda: deque(maxlen=self.retention)
         )
         self._logger = logger
@@ -64,7 +63,7 @@ class ConsciousnessDriftDetector:
         )
         return snapshot
 
-    def build_glyph_signals(self) -> List[GlyphSignal]:
+    def build_glyph_signals(self) -> list[GlyphSignal]:
         """Create GLYPH signals from the most recent snapshots."""
         latest_snapshots = [snapshots[-1] for snapshots in self._history.values() if snapshots]
         signals = [

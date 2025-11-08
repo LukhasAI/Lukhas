@@ -15,19 +15,19 @@ import asyncio
 import base64
 import hashlib
 import logging
+
+# Import for compatibility
+import random
 import secrets
 import time
 from collections import defaultdict, deque
 from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Set
+from typing import Any
 
 import bcrypt
 import jwt
-
-# Import for compatibility
-import random
 
 logger = logging.getLogger(__name__)
 
@@ -86,7 +86,7 @@ class SecurityConfig:
     # Rate Limiting
     rate_limit_requests_per_minute: int = 100
     rate_limit_burst_size: int = 20
-    rate_limit_whitelist: List[str] = field(default_factory=list)
+    rate_limit_whitelist: list[str] = field(default_factory=list)
 
     # Audit Configuration
     audit_retention_days: int = 90
@@ -121,8 +121,8 @@ class UserPrincipal:
     username: str
     email: str
     security_level: SecurityLevel
-    permissions: Set[str]
-    roles: Set[str]
+    permissions: set[str]
+    roles: set[str]
     authentication_method: AuthenticationMethod
     session_id: str
     issued_at: float
@@ -155,7 +155,7 @@ class UserPrincipal:
         }
         return level_hierarchy[self.security_level] >= level_hierarchy[required_level]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
             "user_id": self.user_id,
@@ -190,10 +190,10 @@ class SecurityAuditEvent:
     resource: str
     action: str
     outcome: str  # success, failure, blocked
-    details: Dict[str, Any]
+    details: dict[str, Any]
     risk_score: float = 0.0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
             "event_id": self.event_id,
@@ -302,7 +302,7 @@ class JWTService:
 
         return jwt.encode(payload, self.config.jwt_secret_key, algorithm=self.config.jwt_algorithm)
 
-    def verify_token(self, token: str) -> Dict[str, Any] | None:
+    def verify_token(self, token: str) -> dict[str, Any] | None:
         """Verify and decode JWT token."""
 
         try:
@@ -344,8 +344,8 @@ class RateLimiter:
 
     def __init__(self, config: SecurityConfig):
         self.config = config
-        self.request_history: Dict[str, deque] = defaultdict(lambda: deque())
-        self.blocked_ips: Dict[str, float] = {}  # IP -> unblock_time
+        self.request_history: dict[str, deque] = defaultdict(lambda: deque())
+        self.blocked_ips: dict[str, float] = {}  # IP -> unblock_time
 
     def is_allowed(self, identifier: str, current_time: float | None = None) -> bool:
         """Check if request is allowed under rate limits."""
@@ -382,7 +382,7 @@ class RateLimiter:
         history.append(current_time)
         return True
 
-    def get_rate_limit_status(self, identifier: str) -> Dict[str, Any]:
+    def get_rate_limit_status(self, identifier: str) -> dict[str, Any]:
         """Get current rate limit status for identifier."""
 
         current_time = time.time()
@@ -409,9 +409,9 @@ class ThreatDetector:
 
     def __init__(self, config: SecurityConfig):
         self.config = config
-        self.failed_attempts: Dict[str, List[float]] = defaultdict(list)
-        self.suspicious_patterns: Dict[str, int] = defaultdict(int)
-        self.risk_scores: Dict[str, float] = defaultdict(float)
+        self.failed_attempts: dict[str, list[float]] = defaultdict(list)
+        self.suspicious_patterns: dict[str, int] = defaultdict(int)
+        self.risk_scores: dict[str, float] = defaultdict(float)
 
     def analyze_request(self,
                        ip_address: str,
@@ -521,7 +521,7 @@ class SecurityAuditor:
                           session_id: str | None = None,
                           ip_address: str | None = None,
                           user_agent: str | None = None,
-                          details: Dict[str, Any] | None = None,
+                          details: dict[str, Any] | None = None,
                           risk_score: float = 0.0) -> SecurityAuditEvent:
         """Log security audit event."""
 
@@ -562,7 +562,7 @@ class SecurityAuditor:
 
         return event
 
-    def _sanitize_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _sanitize_data(self, data: dict[str, Any]) -> dict[str, Any]:
         """Sanitize sensitive data from audit logs."""
 
         if not isinstance(data, dict):
@@ -587,7 +587,7 @@ class SecurityAuditor:
                         end_time: float | None = None,
                         event_type: str | None = None,
                         user_id: str | None = None,
-                        severity: ThreatLevel | None = None) -> List[SecurityAuditEvent]:
+                        severity: ThreatLevel | None = None) -> list[SecurityAuditEvent]:
         """Get filtered audit events."""
 
         filtered_events = []
@@ -615,7 +615,7 @@ class SecurityAuditor:
 
         return filtered_events
 
-    def generate_compliance_report(self) -> Dict[str, Any]:
+    def generate_compliance_report(self) -> dict[str, Any]:
         """Generate compliance report."""
 
         current_time = time.time()
@@ -662,7 +662,7 @@ class LUKHASSecurityFramework:
         self.auditor = SecurityAuditor(self.config)
 
         # Active sessions
-        self.active_sessions: Dict[str, UserPrincipal] = {}
+        self.active_sessions: dict[str, UserPrincipal] = {}
 
         # Integration with telemetry
         try:
@@ -896,7 +896,7 @@ class LUKHASSecurityFramework:
 
         return False
 
-    def get_security_status(self) -> Dict[str, Any]:
+    def get_security_status(self) -> dict[str, Any]:
         """Get current security framework status."""
 
         return {

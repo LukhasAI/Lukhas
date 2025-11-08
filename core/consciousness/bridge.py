@@ -47,9 +47,8 @@ AIDEA: Add emotional intelligence integration for empathetic decisions
 
 from __future__ import annotations
 
-import logging
-
 import json
+import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
@@ -69,10 +68,10 @@ try:
     )
 
     from core.integration.neuro_symbolic_fusion_layer import (
-        NeuroSymbolicFusionLayer,  # TODO: core.integration.neuro_...
+        NeuroSymbolicFusionLayer,  # TODO: core.integration.neuro_...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_consciousness_bridge_py_L67"}
     )
     from core.utils.orchestration_energy_aware_execution_planner import (
-        EnergyAwareExecutionPlanner,  # TODO: core.utils.orchestratio...
+        EnergyAwareExecutionPlanner,  # TODO: core.utils.orchestratio...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_consciousness_bridge_py_L71"}
     )
     from memory.governance.ethical_drift_governor import (
         EthicalDriftGovernor,  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)

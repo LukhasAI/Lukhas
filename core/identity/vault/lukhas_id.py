@@ -8,7 +8,7 @@ import os
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 import structlog
 
@@ -427,7 +427,7 @@ def log_access(
 class IdentityManager:
     """High-level identity orchestrator bridging orchestration and API layers."""
 
-    RATE_LIMITS_PER_MINUTE = {
+    RATE_LIMITS_PER_MINUTE = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_identity_vault_lukhas_id_py_L430"}
         TierLevel.PUBLIC.value: 30,
         TierLevel.AUTHENTICATED.value: 60,
         TierLevel.ELEVATED.value: 120,
@@ -493,7 +493,7 @@ class IdentityManager:
         memory_id: str,
         required_tier: int | TierLevel,
         action: str,
-        metadata: Dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Ensure the caller meets the required tier and log the attempt."""
 

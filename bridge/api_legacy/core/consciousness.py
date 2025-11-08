@@ -240,7 +240,7 @@ async def synthesize_consciousness(request: PatternSynthesisRequest):
 
 @router.post("/integrate", response_model=APIResponse)
 async def integrate_patterns(
-    patterns: list[str] = Query(..., description="Patterns to integrate"),
+    patterns: list[str] = Query(..., description="Patterns to integrate"),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_legacy_core_consciousness_py_L243"}
     integration_depth: int = Query(3, description="Integration depth", ge=1, le=5),
     user_id: str = Query("lukhas_admin", description="User identifier"),
 ):

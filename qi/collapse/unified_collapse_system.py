@@ -9,9 +9,8 @@
 Consolidated module for better performance
 """
 
-import logging
-
 import asyncio
+import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 

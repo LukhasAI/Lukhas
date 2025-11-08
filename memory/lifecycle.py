@@ -55,7 +55,6 @@ __all__ = [
 ]
 
 try:
-    from memory.retention import AbstractArchivalBackend, ArchivalTier
     __all__.extend(
         name
         for name in ("ArchivalTier", "AbstractArchivalBackend")

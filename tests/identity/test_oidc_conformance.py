@@ -638,7 +638,7 @@ class TestOIDCMetricsIntegration(OIDCConformanceTestSuite):
                 'client_secret': test_client.client_secret
             }
 
-            try:
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_identity_test_oidc_conformance_py_L640"}
                 await oidc_provider.handle_token_request(token_params)
             except Exception:
                 pass  # We expect some to fail, we're testing metrics collection

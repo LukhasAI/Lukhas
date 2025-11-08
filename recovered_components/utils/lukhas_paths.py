@@ -5,10 +5,10 @@ LUKHAS AI Path Manager
 Provides standardized path constants for all scripts and applications
 """
 
-from lukhas_paths import paths
-
 from pathlib import Path
 from typing import Optional, Union
+
+from lukhas_paths import paths
 
 # Get project root directory
 PROJECT_ROOT = Path(__file__).parent

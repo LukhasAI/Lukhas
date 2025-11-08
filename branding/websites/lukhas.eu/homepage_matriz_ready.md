@@ -1,11 +1,43 @@
 ---
-domain: lukhas.eu
-title: "LUKHAS.EU - Compliance-First Consciousness Technology for Europe"
+domain: "lukhas.eu"
+title: "LUKHAS.EU - EU-Compliant Consciousness Technology"
+owner: "@web-architect"
+audience: "regulators|researchers|enterprise|grant-reviewers"
+tone:
+  poetic: 0.10
+  user_friendly: 0.45
+  academic: 0.45
+canonical: https://lukhas.eu
+source: "branding/websites/lukhas.eu/homepage_matriz_ready.md"
+evidence_links:
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/guardian-compliance-997pct.md'
+  - 'release_artifacts/evidence/matriz-completion-87pct.md'
+  - 'release_artifacts/evidence/matriz-p95-latency-250ms.md'
+  - 'release_artifacts/evidence/memory-fold-retrieval-50ms.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'
+  - 'release_artifacts/evidence/validated-production-deployment-eu.md'
+claims_verified_by: ["@web-architect", "@legal", "@research-lead"]
+claims_verified_date: "2025-11-05"
+claims_approval: true
+seo:
+  title: "LUKHAS.EU - EU-Compliant Consciousness Technology"
+  description: "Trustworthy AI for Europe with EU AI Act compliance, GDPR alignment, and peer-reviewed research. MATRIZ cognitive DNA for transparent, explainable AI with 99.7% Guardian compliance."
+  keywords:
+    - "EU AI Act compliance"
+    - "GDPR AI systems"
+    - "explainable AI Europe"
+    - "consciousness technology"
+    - "MATRIZ"
+    - "Horizon Europe"
+hreflang: ["en-US", "en-GB", "en-EU"]
+last_reviewed: "2025-11-05"
+tags: ["homepage", "eu-compliance", "research", "matriz", "guardian"]
 updated: 2025-11-05
 status: ready-for-implementation
 matriz_integration: eu-constitutional-ai-compliance
 constellation_stars: guardian-primary, ethics-secondary
-tone_flow: 10-poetic_45-user-friendly_45-academic-research
 research_backed: true
 grant_positioning: horizon-europe-ready
 ---

@@ -13,11 +13,17 @@ from bridge.external_adapters.dropbox_adapter import DropboxAdapter, DropboxCont
 # criticality: P1
 
 
-
 _PROJECT_ROOT = _Path(__file__).resolve().parents[3]
 if str(_PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(_PROJECT_ROOT))
 
+
+class ConcreteDropboxAdapter(DropboxAdapter):
+    async def fetch_resource(
+        self, lid: str, resource_id: str, capability_token: CapabilityToken
+    ) -> dict:
+        """Dummy implementation for the abstract method."""
+        return {"mock": "resource"}
 
 
 @pytest.mark.tier3
@@ -31,7 +37,7 @@ class TestDropboxAdapterUnit:
     @pytest.fixture
     def adapter(self):
         """Returns a DropboxAdapter instance."""
-        adapter = DropboxAdapter()
+        adapter = ConcreteDropboxAdapter()
         adapter.check_consent = AsyncMock(return_value=True)
         adapter.oauth_tokens["user123"] = {"access_token": "fake_token"}
         return adapter
@@ -58,13 +64,24 @@ class TestDropboxAdapterUnit:
 
     @patch.object(DropboxAdapter, "search_files", new_callable=AsyncMock)
     @pytest.mark.asyncio
-    async def test_context_integration_workflow(self, mock_search_files, adapter: DropboxAdapter):
+    async def test_context_integration_workflow(
+        self, mock_search_files, adapter: DropboxAdapter
+    ):
         """Tests the DropboxContextIntegration workflow."""
         mock_search_files.return_value = {
-            "matches": [{"name": "travel_guide.pdf", "type": "file", "id": "id:456", "path": "/travel_guide.pdf"}]
+            "matches": [
+                {
+                    "name": "travel_guide.pdf",
+                    "type": "file",
+                    "id": "id:456",
+                    "path": "/travel_guide.pdf",
+                }
+            ]
         }
         integration = DropboxContextIntegration(adapter)
-        result = await integration.workflow_fetch_travel_files(lid="user123", context={})
+        result = await integration.workflow_fetch_travel_files(
+            lid="user123", context={}
+        )
 
         assert "travel_files" in result
         assert len(result["travel_files"]) == 1
@@ -81,18 +98,24 @@ class TestDropboxAdapterUnit:
             ("random_file.txt", "travel_file"),
         ],
     )
-    def test_classify_travel_file(self, filename, expected_type, adapter: DropboxAdapter):
+    def test_classify_travel_file(
+        self, filename, expected_type, adapter: DropboxAdapter
+    ):
         """Tests the _classify_travel_file method."""
         integration = DropboxContextIntegration(adapter)
         assert integration._classify_travel_file(filename) == expected_type
 
     @patch.object(DropboxAdapter, "search_files", new_callable=AsyncMock)
     @pytest.mark.asyncio
-    async def test_context_integration_workflow_error(self, mock_search_files, adapter: DropboxAdapter):
+    async def test_context_integration_workflow_error(
+        self, mock_search_files, adapter: DropboxAdapter
+    ):
         """Tests an error in the DropboxContextIntegration workflow."""
         mock_search_files.return_value = {"error": "search_failed"}
         integration = DropboxContextIntegration(adapter)
-        result = await integration.workflow_fetch_travel_files(lid="user123", context={})
+        result = await integration.workflow_fetch_travel_files(
+            lid="user123", context={}
+        )
         assert result["error"] == "search_failed"
 
     @pytest.mark.asyncio
@@ -125,7 +148,9 @@ class TestDropboxAdapterUnit:
             issued_at="2025-01-01T00:00:00Z",
             signature="invalid-sig",
         )
-        result = await adapter.list_folder(lid="user123", capability_token=invalid_token)
+        result = await adapter.list_folder(
+            lid="user123", capability_token=invalid_token
+        )
         assert result["error"] == "invalid_capability_token"
 
     @pytest.mark.asyncio
@@ -149,7 +174,9 @@ class TestDropboxAdapterUnit:
             issued_at="2025-01-01T00:00:00Z",
             signature="invalid-sig",
         )
-        result = await adapter.download_file(lid="user123", path="/test.txt", capability_token=invalid_token)
+        result = await adapter.download_file(
+            lid="user123", path="/test.txt", capability_token=invalid_token
+        )
         assert result["error"] == "invalid_capability_token"
 
     @pytest.mark.asyncio
@@ -167,7 +194,10 @@ class TestDropboxAdapterUnit:
             signature="invalid-sig",
         )
         result = await adapter.upload_file(
-            lid="user123", path="/test.txt", content=b"test", capability_token=invalid_token
+            lid="user123",
+            path="/test.txt",
+            content=b"test",
+            capability_token=invalid_token,
         )
         assert result["error"] == "invalid_capability_token"
 
@@ -185,7 +215,9 @@ class TestDropboxAdapterUnit:
             issued_at="2025-01-01T00:00:00Z",
             signature="invalid-sig",
         )
-        result = await adapter.search_files(lid="user123", query="test", capability_token=invalid_token)
+        result = await adapter.search_files(
+            lid="user123", query="test", capability_token=invalid_token
+        )
         assert result["error"] == "invalid_capability_token"
 
     @pytest.mark.asyncio
@@ -199,7 +231,9 @@ class TestDropboxAdapterUnit:
     async def test_upload_file_consent_required(self, adapter: DropboxAdapter):
         """Tests that consent is required for uploading a file."""
         adapter.check_consent = AsyncMock(return_value=False)
-        result = await adapter.upload_file(lid="user123", path="/test.txt", content=b"test")
+        result = await adapter.upload_file(
+            lid="user123", path="/test.txt", content=b"test"
+        )
         assert result["error"] == "consent_required"
 
     @pytest.mark.asyncio
@@ -216,3 +250,14 @@ class TestDropboxAdapterUnit:
         revoked = await adapter.revoke_access(lid="user123")
         assert revoked is True
         assert "user123" not in adapter.oauth_tokens
+
+    @pytest.mark.asyncio
+    async def test_list_folder_api_error(self, adapter: DropboxAdapter):
+        """Test API error when listing a folder."""
+        from aioresponses import aioresponses
+
+        with aioresponses() as m:
+            m.post(f"{adapter.base_url}/files/list_folder", status=500)
+            result = await adapter.list_folder(lid="user123", path="/test")
+
+        assert result == {"error": "api_error_500"}

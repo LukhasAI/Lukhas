@@ -14,15 +14,9 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import (
     Any,
-    List,  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
     Optional,
 )
 
-import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-
-from consciousness.qi import (
-    qi,  # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
-)
 from core.container.service_container import ServiceContainer
 from core.interfaces import CoreInterface
 from core.symbolic_engine import SymbolicEffect, SymbolicEvent

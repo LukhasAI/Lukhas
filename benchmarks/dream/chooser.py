@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 
 class Environment(Enum):
@@ -28,8 +28,8 @@ class ConfigProfile:
     name: str
     environment: Environment
     priority: Priority
-    config: Dict[str, Any]
-    performance_targets: Dict[str, float]
+    config: dict[str, Any]
+    performance_targets: dict[str, float]
     rationale: str
 
 @dataclass
@@ -48,7 +48,7 @@ class ConfigChooser:
     def __init__(self):
         self.profiles = self._define_profiles()
 
-    def _define_profiles(self) -> List[ConfigProfile]:
+    def _define_profiles(self) -> list[ConfigProfile]:
         """Define standard configuration profiles."""
         return [
             ConfigProfile(
@@ -155,7 +155,7 @@ class ConfigChooser:
             )
         ]
 
-    def extract_metrics(self, benchmark_results: List[Dict[str, Any]]) -> Dict[str, PerformanceMetrics]:
+    def extract_metrics(self, benchmark_results: list[dict[str, Any]]) -> dict[str, PerformanceMetrics]:
         """Extract performance metrics from benchmark results."""
         metrics_by_config = {}
 
@@ -175,7 +175,7 @@ class ConfigChooser:
 
         return metrics_by_config
 
-    def score_config(self, metrics: PerformanceMetrics, profile: ConfigProfile) -> Tuple[float, Dict[str, float]]:
+    def score_config(self, metrics: PerformanceMetrics, profile: ConfigProfile) -> tuple[float, dict[str, float]]:
         """Score a configuration against a profile's targets."""
         targets = profile.performance_targets
         priority = profile.priority
@@ -201,7 +201,7 @@ class ConfigChooser:
 
         return composite_score, scores
 
-    def _get_priority_weights(self, priority: Priority) -> Dict[str, float]:
+    def _get_priority_weights(self, priority: Priority) -> dict[str, float]:
         """Get weights for different priorities."""
         if priority == Priority.ACCURACY:
             return {'accuracy': 0.5, 'coverage': 0.3, 'latency': 0.1, 'stability': 0.1}
@@ -215,7 +215,7 @@ class ConfigChooser:
             return {'accuracy': 0.3, 'latency': 0.3, 'coverage': 0.2, 'stability': 0.2}
 
     def recommend_config(self, benchmark_path: str, environment: Environment,
-                        priority: Priority = Priority.BALANCED) -> Dict[str, Any]:
+                        priority: Priority = Priority.BALANCED) -> dict[str, Any]:
         """Recommend best configuration based on benchmark results."""
         # Load benchmark results
         with open(benchmark_path) as f:
@@ -295,7 +295,7 @@ class ConfigChooser:
 
         return recommendation
 
-    def validate_config(self, config: Dict[str, Any]) -> Dict[str, Any]:
+    def validate_config(self, config: dict[str, Any]) -> dict[str, Any]:
         """Validate configuration parameters."""
         issues = []
         warnings = []
@@ -340,7 +340,7 @@ class ConfigChooser:
             "warnings": warnings
         }
 
-def load_and_recommend(benchmark_path: str, environment: str, priority: str = "balanced") -> Dict[str, Any]:
+def load_and_recommend(benchmark_path: str, environment: str, priority: str = "balanced") -> dict[str, Any]:
     """Load benchmark results and generate recommendation."""
     try:
         env = Environment(environment.lower())

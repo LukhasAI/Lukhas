@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import inspect
+from importlib import import_module
 
 from core.common import get_logger
 
@@ -31,6 +34,11 @@ def freeze_protection_check(module):
 
 
 if __name__ == "__main__":
-    # SYNTAX_ERROR_FIXED:     from personality.brain_orchestrator import
-    # BrainOrchestrator cognitive_brain_orchestrator
-    freeze_protection_check(orchestration.cognitive_brain_orchestrator)  # TODO: orchestration
+    module_path = "core.orchestration.brain.orchestration.core"
+    try:
+        orchestration_module = import_module(module_path)
+    except ModuleNotFoundError:
+        logger.warning("Orchestration module '%s' not available; skipping check", module_path)
+    else:
+        target = getattr(orchestration_module, "cognitive_brain_orchestrator", orchestration_module)
+        freeze_protection_check(target)

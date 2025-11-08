@@ -3,7 +3,7 @@ LUKHAS AI Bio-Symbolic Architecture Analyzer
 Provides tools to analyze and design bio-symbolic system integrations.
 """
 
-from typing import Any, Dict, NamedTuple
+from typing import Any, NamedTuple
 
 
 # Placeholder type definitions for clarity in method signatures
@@ -15,7 +15,7 @@ class HierarchyAnalysis(NamedTuple):
 
 class Architecture(NamedTuple):
     name: str
-    components: Dict[str, Any]
+    components: dict[str, Any]
 
 
 class IntegrationPath(NamedTuple):
@@ -25,7 +25,7 @@ class IntegrationPath(NamedTuple):
 
 class SymbolicData(NamedTuple):
     glyph: str
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
 
 
 class ProcessingResult(NamedTuple):

@@ -1,0 +1,9 @@
+{
+  "agent": "jules",
+  "session_id": "sessions/test-123",
+  "status": "waiting_for_user",
+  "message": "Plan created for Trinity Framework architectural review",
+  "pr_number": 42,
+  "file_paths": ["bridge/queue/redis_queue.py", "scripts/test_redis_queue.py"],
+  "context": {"session_url": "https://jules.app/sessions/test-123"}
+}

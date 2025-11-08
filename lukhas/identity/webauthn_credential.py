@@ -11,7 +11,6 @@ Task: #589 - WebAuthn credential storage implementation
 from __future__ import annotations
 
 import threading
-from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
 from typing_extensions import NotRequired, TypedDict

@@ -189,9 +189,8 @@ class CodeAtlasBuilder:
                 self.analyze_file(py_file)
             except Exception as e:
                 # Only print errors for non-syntax issues or critical files
-                if any(pattern in str(py_file) for pattern in ["lukhas/", "candidate/", "core/", "consciousness/"]):
-                    if "f-string" not in str(e) and "invalid syntax" not in str(e):
-                        print(f"⚠️ Error analyzing {py_file}: {e}")
+                if any(pattern in str(py_file) for pattern in ['lukhas/', 'candidate/', 'core/', 'consciousness/']) and ('f-string' not in str(e) and 'invalid syntax' not in str(e)):
+                    print(f"⚠️ Error analyzing {py_file}: {e}")
 
     def analyze_file(self, file_path: Path):
         """Analyze a single Python file."""
@@ -269,13 +268,12 @@ class CodeAtlasBuilder:
                 docstring = (
                     node.body[0].value.s[:200] + "..." if len(node.body[0].value.s) > 200 else node.body[0].value.s
                 )
-            elif node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, ast.Constant):
-                if isinstance(node.body[0].value.value, str):
-                    docstring = (
-                        node.body[0].value.value[:200] + "..."
-                        if len(node.body[0].value.value) > 200
-                        else node.body[0].value.value
-                    )
+            elif (node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, ast.Constant)) and isinstance(node.body[0].value.value, str):
+                docstring = (
+                    node.body[0].value.value[:200] + "..."
+                    if len(node.body[0].value.value) > 200
+                    else node.body[0].value.value
+                )
 
             # Check if it's a method
             is_method = False
@@ -320,13 +318,12 @@ class CodeAtlasBuilder:
                 docstring = (
                     node.body[0].value.s[:200] + "..." if len(node.body[0].value.s) > 200 else node.body[0].value.s
                 )
-            elif node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, ast.Constant):
-                if isinstance(node.body[0].value.value, str):
-                    docstring = (
-                        node.body[0].value.value[:200] + "..."
-                        if len(node.body[0].value.value) > 200
-                        else node.body[0].value.value
-                    )
+            elif (node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, ast.Constant)) and isinstance(node.body[0].value.value, str):
+                docstring = (
+                    node.body[0].value.value[:200] + "..."
+                    if len(node.body[0].value.value) > 200
+                    else node.body[0].value.value
+                )
 
             # Get methods
             methods = []
@@ -475,15 +472,14 @@ class CodeAtlasBuilder:
             else:
                 return
 
-            if isinstance(string_val, str):
+            if isinstance(string_val, str) and re.match('^[a-zA-Z_][a-zA-Z0-9_]*$', string_val):
                 # Look for function-like patterns in strings
-                if re.match(r"^[a-zA-Z_][a-zA-Z0-9_]*$", string_val):
-                    # Might be a function name
-                    caller_func = self.find_containing_function(node.lineno, module_path)
-                    if caller_func:
-                        caller_key = f"{module_path}:{caller_func}"
-                        if caller_key in self.functions:
-                            self.functions[caller_key].string_references.append(string_val)
+                # Might be a function name
+                caller_func = self.find_containing_function(node.lineno, module_path)
+                if caller_func:
+                    caller_key = f"{module_path}:{caller_func}"
+                    if caller_key in self.functions:
+                        self.functions[caller_key].string_references.append(string_val)
 
         except Exception:
             pass
@@ -494,10 +490,9 @@ class CodeAtlasBuilder:
         best_line = 0
 
         for func_info in self.functions.values():
-            if func_info.file_path == module_path:
-                if func_info.line_number <= line_no and func_info.line_number > best_line:
-                    best_match = func_info.name
-                    best_line = func_info.line_number
+            if func_info.file_path == module_path and (func_info.line_number <= line_no and func_info.line_number > best_line):
+                best_match = func_info.name
+                best_line = func_info.line_number
 
         return best_match
 
@@ -541,9 +536,8 @@ class CodeAtlasBuilder:
             stripped = line.strip()
 
             # Headers and important sections
-            if stripped.startswith("#") or stripped.startswith("=") or stripped.startswith("-"):
-                if len(stripped) > 5:
-                    clues.append(f"DOC_HEADER: {stripped[:100]}")
+            if (stripped.startswith('#') or stripped.startswith('=') or stripped.startswith('-')) and len(stripped) > 5:
+                clues.append(f"DOC_HEADER: {stripped[:100]}")
 
             # LUKHAS consciousness keywords
             lower_line = stripped.lower()
@@ -553,9 +547,8 @@ class CodeAtlasBuilder:
                     break
 
             # Architecture patterns
-            if any(pattern in lower_line for pattern in ["architecture", "design", "pattern", "structure"]):
-                if len(stripped) > 15:
-                    clues.append(f"ARCHITECTURE: {stripped[:100]}")
+            if any(pattern in lower_line for pattern in ['architecture', 'design', 'pattern', 'structure']) and len(stripped) > 15:
+                clues.append(f"ARCHITECTURE: {stripped[:100]}")
 
         return clues
 
@@ -635,9 +628,8 @@ class CodeAtlasBuilder:
                     if func_key in self.functions:
                         if issue_flag not in self.functions[affected_symbol].issues:
                             self.functions[affected_symbol].issues.append(issue_flag)
-                    elif class_key in self.classes:
-                        if issue_flag not in self.classes[affected_symbol].issues:
-                            self.classes[affected_symbol].issues.append(issue_flag)
+                    elif class_key in self.classes and issue_flag not in self.classes[affected_symbol].issues:
+                        self.classes[affected_symbol].issues.append(issue_flag)
 
     def get_issue_flag(self, rule_code: str, violation: dict) -> str:
         """Convert ruff rule code to issue flag."""

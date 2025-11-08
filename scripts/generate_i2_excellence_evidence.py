@@ -18,10 +18,10 @@ import json
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 
-def generate_evidence_bundle() -> Dict[str, Any]:
+def generate_evidence_bundle() -> dict[str, Any]:
     """Generate comprehensive evidence bundle for I.2 excellence certification."""
 
     evidence_bundle = {
@@ -305,7 +305,7 @@ def generate_evidence_bundle() -> Dict[str, Any]:
     return evidence_bundle
 
 
-def create_excellence_certification(evidence_bundle: Dict[str, Any]) -> Dict[str, Any]:
+def create_excellence_certification(evidence_bundle: dict[str, Any]) -> dict[str, Any]:
     """Create T4/0.01% excellence certification document."""
 
     certification = {

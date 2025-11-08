@@ -13,6 +13,7 @@ DEPRECATION NOTICE:
 Always use 'from MATRIZ import X' or 'import MATRIZ' in new code. The package will
 work with both cases due to aliasing, but uppercase is canonical. Migration window: Q2 2026.
 """
+
 from __future__ import annotations
 
 import importlib
@@ -51,6 +52,7 @@ if __name__ == _compat_name:
 elif __name__ == _canonical_name:
     sys.modules[_compat_name] = _this_module
 
+
 def _alias(subpkg: str) -> ModuleType | None:
     """Map both matriz.<subpkg> and MATRIZ.<subpkg> to the same module."""
     # Determine source based on how we were loaded
@@ -72,9 +74,22 @@ def _alias(subpkg: str) -> ModuleType | None:
         __all__.append(subpkg)
     return mod
 
+
 # Load and alias common subpackages
-for _name in ("core", "adapters", "runtime", "nodes", "utils", "visualization",
-              "consciousness", "orchestration", "memory", "interfaces", "docs", "tests"):
+for _name in (
+    "core",
+    "adapters",
+    "runtime",
+    "nodes",
+    "utils",
+    "visualization",
+    "consciousness",
+    "orchestration",
+    "memory",
+    "interfaces",
+    "docs",
+    "tests",
+):
     _alias(_name)
 
 # Handle node_contract module specially (it's a file, not a package)

@@ -16,7 +16,6 @@ from datetime import datetime, timezone
 from typing import Any
 
 import numpy as np
-
 from core.common import get_logger
 from core.container.service_container import ServiceContainer
 from core.interfaces import CoreInterface

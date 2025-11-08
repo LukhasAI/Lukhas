@@ -18,8 +18,6 @@ Example:
     fig.show()
 """
 
-import streamlit as st
-
 from .graph_viewer import (  # (relative imports in __init__.py are idiomatic)
     LinkTypeConfig,
     MATRIZGraphViewer,

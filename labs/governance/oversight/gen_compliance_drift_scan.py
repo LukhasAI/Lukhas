@@ -19,7 +19,6 @@
 """
 from __future__ import annotations
 
-
 # ==============================================================================
 # 🔍 USAGE GUIDE (for gen_compliance_drift_scan.py)
 #

@@ -26,7 +26,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 # Cryptographic imports
 try:
@@ -94,7 +94,7 @@ class KeyMetadata:
     hsm_backed: bool = False
     access_count: int = 0
     last_used: Optional[datetime] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 @dataclass
 class EncryptionResult:
@@ -104,7 +104,7 @@ class EncryptionResult:
     tag: Optional[bytes] = None
     key_id: str = ""
     algorithm: EncryptionAlgorithm = EncryptionAlgorithm.AES_256_GCM
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 @dataclass
 class DecryptionResult:
@@ -112,7 +112,7 @@ class DecryptionResult:
     decrypted_data: bytes
     key_id: str = ""
     verified: bool = True
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 class CryptoError(Exception):
     """Base exception for cryptographic operations."""
@@ -135,7 +135,7 @@ class EncryptionManager:
 
     def __init__(self,
                  key_store_path: Optional[str] = None,
-                 hsm_config: Optional[Dict[str, Any]] = None,
+                 hsm_config: Optional[dict[str, Any]] = None,
                  auto_rotation: bool = True,
                  key_retention_days: int = 90):
 
@@ -148,8 +148,8 @@ class EncryptionManager:
         self.key_retention_days = key_retention_days
 
         # Initialize key storage
-        self.keys: Dict[str, KeyMetadata] = {}
-        self.key_material: Dict[str, bytes] = {}  # Encrypted key storage
+        self.keys: dict[str, KeyMetadata] = {}
+        self.key_material: dict[str, bytes] = {}  # Encrypted key storage
 
         # Master key for key encryption
         self.master_key = self._get_or_create_master_key()
@@ -818,7 +818,7 @@ class EncryptionManager:
         # Implementation would use background scheduler
         pass
 
-    def get_performance_stats(self) -> Dict[str, Any]:
+    def get_performance_stats(self) -> dict[str, Any]:
         """Get encryption system performance statistics."""
         if self.operation_count == 0:
             return {"no_operations": True}
@@ -836,7 +836,7 @@ class EncryptionManager:
         }
 
 # Factory functions
-def create_encryption_manager(config: Optional[Dict[str, Any]] = None) -> EncryptionManager:
+def create_encryption_manager(config: Optional[dict[str, Any]] = None) -> EncryptionManager:
     """Create encryption manager with configuration."""
     config = config or {}
 

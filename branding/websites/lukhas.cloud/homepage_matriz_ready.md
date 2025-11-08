@@ -1,11 +1,26 @@
 ---
 domain: lukhas.cloud
 title: "LUKHAS.CLOUD - Where Consciousness Scales Without Limits"
+evidence_links:
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/experimental-design-95pct.md'
 updated: 2025-11-05
 status: ready-for-implementation
 matriz_integration: distributed-cognitive-infrastructure
 constellation_stars: bio-primary, quantum-secondary
 tone_flow: 15-poetic_55-user-friendly_30-academic
+canonical: https://lukhas.cloud
+seo:
+  description: "Deploy MATRIZ consciousness at scale - distributed cognitive infrastructure with sub-250ms latency, auto-scaling, and deployment-ready transparency across global regions."
+  keywords:
+    - "MATRIZ cloud deployment"
+    - "distributed consciousness"
+    - "cognitive infrastructure"
+    - "scalable AI"
+    - "cloud reasoning platform"
+last_reviewed: "2025-11-08"
+keywords: "MATRIZ cloud deployment, distributed consciousness, cognitive infrastructure, scalable AI, cloud reasoning platform"
 ---
 
 # Infrastructure That Thinks at Cloud Scale

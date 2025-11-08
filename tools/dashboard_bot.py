@@ -11,7 +11,7 @@ import subprocess
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 
 def run_cmd(cmd: str, check: bool = False) -> subprocess.CompletedProcess:
@@ -23,7 +23,7 @@ def run_cmd(cmd: str, check: bool = False) -> subprocess.CompletedProcess:
         sys.exit(1)
     return result
 
-def get_candidate_metrics() -> Dict[str, Any]:
+def get_candidate_metrics() -> dict[str, Any]:
     """Get candidate/ directory metrics"""
     total_files = run_cmd("find candidate/ -type f -name '*.py' | wc -l").stdout.strip()
     core_files = run_cmd("find candidate/core/ -type f -name '*.py' 2>/dev/null | wc -l").stdout.strip()
@@ -34,7 +34,7 @@ def get_candidate_metrics() -> Dict[str, Any]:
         "other_files": int(total_files) - int(core_files)
     }
 
-def get_promoted_metrics() -> Dict[str, Any]:
+def get_promoted_metrics() -> dict[str, Any]:
     """Get promoted files metrics from flat-root"""
     core_files = run_cmd("find core/ -type f -name '*.py' 2>/dev/null | wc -l").stdout.strip()
     identity_files = run_cmd("find identity/ -type f -name '*.py' 2>/dev/null | wc -l").stdout.strip()
@@ -45,7 +45,7 @@ def get_promoted_metrics() -> Dict[str, Any]:
         "total_promoted": int(core_files) + int(identity_files)
     }
 
-def get_matriz_metrics() -> Dict[str, Any]:
+def get_matriz_metrics() -> dict[str, Any]:
     """Get MATRIZ validation metrics"""
     result = run_cmd("make validate-matrix-all", check=False)
 
@@ -63,7 +63,7 @@ def get_matriz_metrics() -> Dict[str, Any]:
         "last_run": datetime.now(timezone.utc).isoformat()
     }
 
-def get_coverage_metrics() -> Dict[str, Any]:
+def get_coverage_metrics() -> dict[str, Any]:
     """Get coverage metrics (mock for now - replace with actual coverage)"""
     # Mock data - replace with actual coverage parsing
     baseline_coverage = 80.0
@@ -76,7 +76,7 @@ def get_coverage_metrics() -> Dict[str, Any]:
         "status": "maintained" if current_coverage >= baseline_coverage else "regression"
     }
 
-def get_import_health() -> Dict[str, Any]:
+def get_import_health() -> dict[str, Any]:
     """Get import health metrics"""
     if not Path("artifacts/import_failures.json").exists():
         return {
@@ -96,7 +96,7 @@ def get_import_health() -> Dict[str, Any]:
         "last_check": import_data.get("timestamp", "unknown")
     }
 
-def get_quarantine_metrics() -> Dict[str, Any]:
+def get_quarantine_metrics() -> dict[str, Any]:
     """Get AuthZ quarantine test metrics"""
     # Search for @authz_quarantine markers
     result = run_cmd("grep -r '@authz_quarantine' tests/ 2>/dev/null | wc -l", check=False)
@@ -108,7 +108,7 @@ def get_quarantine_metrics() -> Dict[str, Any]:
         "target": 0
     }
 
-def calculate_burndown_projection(candidate_files: int, weekly_velocity: int) -> Dict[str, Any]:
+def calculate_burndown_projection(candidate_files: int, weekly_velocity: int) -> dict[str, Any]:
     """Calculate completion timeline projections"""
     if weekly_velocity <= 0:
         return {"weeks_remaining": "unknown", "completion_date": "unknown"}
@@ -133,7 +133,7 @@ def get_weekly_velocity() -> int:
     # Estimate 50 files per batch (conservative)
     return batch_commits * 50
 
-def generate_dashboard_metrics() -> Dict[str, Any]:
+def generate_dashboard_metrics() -> dict[str, Any]:
     """Generate complete dashboard metrics"""
     candidate = get_candidate_metrics()
     promoted = get_promoted_metrics()
@@ -165,7 +165,7 @@ def generate_dashboard_metrics() -> Dict[str, Any]:
         }
     }
 
-def generate_pr_comment(metrics: Dict[str, Any]) -> str:
+def generate_pr_comment(metrics: dict[str, Any]) -> str:
     """Generate dashboard comment for PRs"""
     health_emoji = "🟢" if metrics["summary"]["health_status"] == "green" else "🟡"
 
@@ -202,7 +202,7 @@ def generate_pr_comment(metrics: Dict[str, Any]) -> str:
 
     return comment
 
-def generate_executive_summary(metrics: Dict[str, Any]) -> str:
+def generate_executive_summary(metrics: dict[str, Any]) -> str:
     """Generate executive summary for stakeholders"""
     return f"""# Executive Migration Summary
 

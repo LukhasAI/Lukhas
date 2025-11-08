@@ -203,7 +203,7 @@ def find_active_tests():
                             "reason": "Tier1 test",
                             "priority": "high"
                         })
-            except:
+            except OSError:
                 pass
 
     return active_tests

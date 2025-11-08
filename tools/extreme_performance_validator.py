@@ -36,14 +36,11 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 # Import extreme performance optimizations
 try:
     from enterprise.performance.extreme_auth_optimization import (
-        AuthPerformanceMetrics,  # Import available when enterprise features enabled
-        ExtremeAuthPerformanceOptimizer,  # Import available when enterprise features enabled
         get_extreme_optimizer,
     )
 
     from governance.identity.auth_backend.extreme_performance_audit_logger import (
         get_extreme_audit_logger,
-        run_audit_benchmark_extreme,  # Import available when extreme auth logging enabled
     )
     from governance.identity.extreme_performance_connector import (
         get_extreme_identity_connector,

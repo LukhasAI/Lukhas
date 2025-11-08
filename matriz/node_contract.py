@@ -22,7 +22,7 @@ import json
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Literal, Tuple
+from typing import Any, Literal
 from uuid import UUID
 
 CONTRACT_VERSION = "1.0.0"
@@ -42,7 +42,7 @@ ALLOWED_TOPICS = {t.value for t in Topic}
 
 # Lane typing (for static analyzers) and runtime constant
 LANE = Literal["experimental", "candidate", "prod"]
-LANES: Tuple[str, str, str] = ("experimental", "candidate", "prod")
+LANES: tuple[str, str, str] = ("experimental", "candidate", "prod")
 
 
 @dataclass(frozen=True)
@@ -53,10 +53,11 @@ class GLYPH:
     Each GLYPH represents a unique symbolic entity in the MATRIZ ecosystem
     with complete provenance and governance tracking.
     """
+
     id: UUID
     kind: str  # "intent", "memory", "attention", "action", "decision", "awareness"
     version: str = CONTRACT_VERSION
-    tags: Dict[str, Any] = field(default_factory=dict)
+    tags: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -67,11 +68,12 @@ class MatrizMessage:
     All communication between MATRIZ nodes uses this canonical format
     ensuring complete auditability and governance.
     """
+
     msg_id: UUID
     ts: datetime
     lane: LANE  # "experimental", "candidate", "prod"
     glyph: GLYPH
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     topic: str  # one of ALLOWED_TOPICS
     guardian_token: str = ""  # Guardian system audit token
     idempotency_key: str | None = None  # optional stable idempotency key (defaults to str(msg_id))
@@ -85,18 +87,21 @@ class MatrizResult:
     Every MATRIZ operation returns this standardized result
     with explainability traces and Guardian audit logs.
     """
+
     ok: bool
-    reasons: List[str] = field(default_factory=list)
-    payload: Dict[str, Any] = field(default_factory=dict)
-    trace: Dict[str, Any] = field(default_factory=dict)
-    guardian_log: List[str] = field(default_factory=list)
+    reasons: list[str] = field(default_factory=list)
+    payload: dict[str, Any] = field(default_factory=dict)
+    trace: dict[str, Any] = field(default_factory=dict)
+    guardian_log: list[str] = field(default_factory=list)
 
 
 # --- Helper utilities (T4 micro-upgrades) ---
 
+
 def canonical_json(obj: dict) -> str:
     """Deterministic, minimal JSON for hashing and auditing."""
     return json.dumps(obj, sort_keys=True, separators=(",", ":"))
+
 
 def message_digest(msg: MatrizMessage) -> str:
     """SHA-256 of canonical MatrizMessage (structure-only; no secrets)."""
@@ -117,6 +122,7 @@ def message_digest(msg: MatrizMessage) -> str:
     }
     return hashlib.sha256(canonical_json(as_dict).encode("utf-8")).hexdigest()
 
+
 def is_jsonable(x: Any) -> bool:
     """Return True if x can be json.dumps()'d."""
     try:
@@ -125,7 +131,8 @@ def is_jsonable(x: Any) -> bool:
     except Exception:
         return False
 
-def to_dict(msg: MatrizMessage) -> Dict[str, Any]:
+
+def to_dict(msg: MatrizMessage) -> dict[str, Any]:
     """Serialize MatrizMessage to a JSON-ready dict."""
     return {
         "msg_id": str(msg.msg_id),
@@ -143,7 +150,8 @@ def to_dict(msg: MatrizMessage) -> Dict[str, Any]:
         "idempotency_key": msg.idempotency_key,
     }
 
-def from_dict(d: Dict[str, Any]) -> MatrizMessage:
+
+def from_dict(d: dict[str, Any]) -> MatrizMessage:
     """Strict deserialization with contract enforcement for v1.0.0."""
     # Basic shape checks
     required = ["lane", "topic", "glyph", "payload"]
@@ -217,9 +225,7 @@ class MatrizNode:
         Raises:
             NotImplementedError: Must be implemented by subclasses
         """
-        raise NotImplementedError(
-            f"Node {self.name} must implement handle() method"
-        )
+        raise NotImplementedError(f"Node {self.name} must implement handle() method")
 
 
 # Contract validation utilities
@@ -268,9 +274,9 @@ def validate_result(result: MatrizResult) -> bool:
     return is_jsonable(result.payload)
 
 
-def validate_message_ex(msg: MatrizMessage) -> Tuple[bool, List[str]]:
+def validate_message_ex(msg: MatrizMessage) -> tuple[bool, list[str]]:
     """Extended validation that returns (ok, reasons)."""
-    reasons: List[str] = []
+    reasons: list[str] = []
     if not isinstance(msg.msg_id, UUID):
         reasons.append("msg_id_type")
     if not isinstance(msg.ts, datetime):

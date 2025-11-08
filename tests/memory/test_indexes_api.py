@@ -70,7 +70,7 @@ def test_index(client):
     yield index_data
 
     # Cleanup: delete index
-    try:
+    try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_memory_test_indexes_api_py_L73"}
         client.delete(f"/v1/indexes/{index_id}")
     except Exception:
         pass  # Ignore cleanup errors

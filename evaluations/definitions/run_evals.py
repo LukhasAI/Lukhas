@@ -22,7 +22,7 @@ import sys
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 try:
     import requests
@@ -34,8 +34,8 @@ except ImportError:
 class Case:
     id: str
     input: str
-    expect_contains: List[str]
-    tools: List[Dict[str, Any]]
+    expect_contains: list[str]
+    tools: list[dict[str, Any]]
 
 @dataclass
 class Result:
@@ -44,11 +44,11 @@ class Result:
     latency_ms: float
     output_text: str
 
-def load_cases(patterns: List[str]) -> List[Case]:
-    files: List[str] = []
+def load_cases(patterns: list[str]) -> list[Case]:
+    files: list[str] = []
     for pat in patterns:
         files.extend(glob.glob(pat))
-    cases: List[Case] = []
+    cases: list[Case] = []
     for fp in sorted(files):
         with open(fp, encoding="utf-8") as f:
             for line in f:
@@ -66,7 +66,7 @@ def load_cases(patterns: List[str]) -> List[Case]:
                 )
     return cases
 
-def call_responses(base_url: str, payload: Dict[str, Any]) -> Dict[str, Any]:
+def call_responses(base_url: str, payload: dict[str, Any]) -> dict[str, Any]:
     url = base_url.rstrip("/") + "/v1/responses"
     r = requests.post(url, json=payload, timeout=(5, 30))
     r.raise_for_status()
@@ -84,7 +84,7 @@ def run_case(base_url: str, case: Case) -> Result:
     ok = all(s.lower() in text.lower() for s in case.expect_contains)
     return Result(id=case.id, ok=ok, latency_ms=round(dt, 2), output_text=text[:2000])
 
-def render_md(summary: Dict[str, Any]) -> str:
+def render_md(summary: dict[str, Any]) -> str:
     lines = []
     lines.append("# Lukhas Mini-Evals\n")
     lines.append(f"**Total:** {summary['total']}  •  **Passed:** {summary['passed']}  •  **Accuracy:** {summary['accuracy']:.1%}\n")
@@ -98,7 +98,7 @@ def render_md(summary: Dict[str, Any]) -> str:
     lines.append("")
     return "\n".join(lines)
 
-def write_junit_xml(summary: Dict[str, Any], path: Path) -> None:
+def write_junit_xml(summary: dict[str, Any], path: Path) -> None:
     # Minimal JUnit for CI (optional)
     from xml.sax.saxutils import escape
     cases = summary["results"]
@@ -124,13 +124,13 @@ def main():
     ap.add_argument("--junit", action="store_true", help="also write JUnit XML")
     args = ap.parse_args()
 
-    out = Path(args.out); out.mkdir(parents=True, exist_ok=True)
+    out = Path(args.out); out.mkdir(parents=True, exist_ok=True)  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_evaluations_definitions_run_evals_py_L127"}
 
     cases = load_cases(args.cases)
     if not cases:
         print("[evals] no cases found", file=sys.stderr)
         return 2
-    results: List[Result] = []
+    results: list[Result] = []
     for c in cases:
         try:
             results.append(run_case(args.base_url, c))

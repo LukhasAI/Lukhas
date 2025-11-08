@@ -252,12 +252,24 @@ class SystemHealthMonitor:
         self.monitoring_active = True
 
         # Start monitoring loops
-        asyncio.create_task(self._health_monitoring_loop())
-        asyncio.create_task(self._cascade_detection_loop())
-        asyncio.create_task(self._api_monitoring_loop())
-        asyncio.create_task(self._constellation_monitoring_loop())
-        asyncio.create_task(self._alert_management_loop())
-        asyncio.create_task(self._reporting_loop())
+        asyncio.create_task(
+            self._health_monitoring_loop()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_health_monitor_py_L254"}
+        asyncio.create_task(
+            self._cascade_detection_loop()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_health_monitor_py_L256"}
+        asyncio.create_task(
+            self._api_monitoring_loop()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_health_monitor_py_L258"}
+        asyncio.create_task(
+            self._constellation_monitoring_loop()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_health_monitor_py_L260"}
+        asyncio.create_task(
+            self._alert_management_loop()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_health_monitor_py_L262"}
+        asyncio.create_task(
+            self._reporting_loop()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_guardian_system_health_monitor_py_L264"}
 
         logger.info("🏥 System health monitoring started")
 
@@ -334,7 +346,9 @@ class SystemHealthMonitor:
 
         while self.monitoring_active:
             try:
-                if datetime.now(timezone.utc) - self.last_report_time >= timedelta(seconds=self.report_interval):
+                if datetime.now(timezone.utc) - self.last_report_time >= timedelta(
+                    seconds=self.report_interval
+                ):
                     await self._generate_health_report()
                     self.last_report_time = datetime.now(timezone.utc)
 
@@ -415,7 +429,9 @@ class SystemHealthMonitor:
                 memory_trend = self._calculate_trend(memory_values)
 
                 # Detect cascade conditions
-                if memory_trend > 5.0 and current_memory_percent > 85.0:  # Rising rapidly  # High memory usage
+                if (
+                    memory_trend > 5.0 and current_memory_percent > 85.0
+                ):  # Rising rapidly  # High memory usage
                     cascade_risk = self._assess_cascade_risk(current_memory_percent, memory_trend)
 
                     if cascade_risk != CascadeRisk.MINIMAL:
@@ -600,7 +616,9 @@ class SystemHealthMonitor:
 
         return HealthStatus.CRITICAL
 
-    def _assess_metric_cascade_risk(self, component: str, metric_type: str, value: float) -> CascadeRisk:
+    def _assess_metric_cascade_risk(
+        self, component: str, metric_type: str, value: float
+    ) -> CascadeRisk:
         """Assess cascade risk for a metric."""
 
         # Memory metrics have higher cascade risk
@@ -624,7 +642,9 @@ class SystemHealthMonitor:
         current_time = datetime.now(timezone.utc)
 
         # Recent metrics (last 24 hours)
-        recent_metrics = [m for m in self.health_metrics if current_time - m.timestamp < timedelta(hours=24)]
+        recent_metrics = [
+            m for m in self.health_metrics if current_time - m.timestamp < timedelta(hours=24)
+        ]
 
         # Component health summary
         component_health = defaultdict(list)
@@ -639,7 +659,9 @@ class SystemHealthMonitor:
                 component_scores[component] = sum(scores) / len(scores)
 
         # Overall health calculation
-        overall_score = sum(component_scores.values()) / len(component_scores) if component_scores else 0.0
+        overall_score = (
+            sum(component_scores.values()) / len(component_scores) if component_scores else 0.0
+        )
         overall_status = self._score_to_health_status(overall_score)
 
         # Cascade prevention rate
@@ -652,7 +674,9 @@ class SystemHealthMonitor:
         )
 
         # API performance summary
-        recent_api_snapshots = [s for s in self.api_snapshots if current_time - s.timestamp < timedelta(hours=1)]
+        recent_api_snapshots = [
+            s for s in self.api_snapshots if current_time - s.timestamp < timedelta(hours=1)
+        ]
 
         avg_response_time = (
             sum(s.response_time_ms for s in recent_api_snapshots) / len(recent_api_snapshots)
@@ -668,11 +692,13 @@ class SystemHealthMonitor:
         # Constellation Framework health
         constellation_health = {}
         for framework in self.constellation_components:
-            framework_metrics = [m for m in recent_metrics if f"constellation_{framework}" in m.component]
+            framework_metrics = [
+                m for m in recent_metrics if f"constellation_{framework}" in m.component
+            ]
             if framework_metrics:
-                framework_score = sum(self._health_status_to_score(m.status) for m in framework_metrics) / len(
-                    framework_metrics
-                )
+                framework_score = sum(
+                    self._health_status_to_score(m.status) for m in framework_metrics
+                ) / len(framework_metrics)
                 constellation_health[framework] = framework_score
 
         return {
@@ -781,7 +807,9 @@ class SystemHealthMonitor:
                 trend_slope = self._calculate_trend(values)
                 trends[metric_type] = {
                     "trend": (
-                        "increasing" if trend_slope > 0.1 else ("decreasing" if trend_slope < -0.1 else "stable")
+                        "increasing"
+                        if trend_slope > 0.1
+                        else ("decreasing" if trend_slope < -0.1 else "stable")
                     ),
                     "slope": trend_slope,
                     "current": values[-1] if values else 0.0,
@@ -835,7 +863,9 @@ class SystemHealthMonitor:
         """Assess overall system health."""
         pass  # Implementation placeholder
 
-    async def _handle_cascade_event(self, cascade_risk: CascadeRisk, memory_usage: float, trend: float):
+    async def _handle_cascade_event(
+        self, cascade_risk: CascadeRisk, memory_usage: float, trend: float
+    ):
         """Handle detected cascade event."""
         pass  # Implementation placeholder
 
@@ -876,7 +906,9 @@ class SystemHealthMonitor:
         else:
             return CascadeRisk.LOW
 
-    def _assess_api_performance(self, response_time: float, error_rate: float, throughput: float) -> PerformanceTier:
+    def _assess_api_performance(
+        self, response_time: float, error_rate: float, throughput: float
+    ) -> PerformanceTier:
         """Assess API performance tier."""
         if response_time < 100 and error_rate < 0.5:
             return PerformanceTier.OPTIMAL
@@ -907,7 +939,9 @@ class SystemHealthMonitor:
             return value / 100.0
         return 0.0
 
-    def _calculate_consciousness_impact(self, component: str, metric_type: str, value: float) -> float:
+    def _calculate_consciousness_impact(
+        self, component: str, metric_type: str, value: float
+    ) -> float:
         """Calculate impact on consciousness systems (🧠)."""
         if "consciousness" in component or "memory" in component or "awareness" in component:
             return value / 100.0

@@ -24,7 +24,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 from .webauthn_production import CredentialStatus, WebAuthnCredential
 
@@ -75,7 +75,7 @@ class SecurityEvent:
     ip_address: Optional[str]
     user_agent: Optional[str]
     timestamp: datetime
-    details: Dict[str, Any] = field(default_factory=dict)
+    details: dict[str, Any] = field(default_factory=dict)
     action_taken: Optional[SecurityAction] = None
     resolved: bool = False
 
@@ -124,7 +124,7 @@ class SecurityMetrics:
     threat_events_detected: int = 0
     false_positives: int = 0
     emergency_lockdowns: int = 0
-    attack_patterns: List[str] = field(default_factory=list)
+    attack_patterns: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -165,22 +165,22 @@ class WebAuthnSecurityHardening:
             'credential_enumeration': RateLimitConfig(max_requests=10, window_seconds=300)
         }
 
-        self.request_tracking: Dict[str, Dict[str, deque]] = defaultdict(lambda: defaultdict(lambda: deque()))
+        self.request_tracking: dict[str, dict[str, deque]] = defaultdict(lambda: defaultdict(lambda: deque()))
 
         # Security event tracking
-        self.security_events: List[SecurityEvent] = []
-        self.blocked_ips: Set[str] = set()
-        self.suspicious_devices: Set[str] = set()
-        self.device_fingerprints: Dict[str, DeviceFingerprint] = {}
+        self.security_events: list[SecurityEvent] = []
+        self.blocked_ips: set[str] = set()
+        self.suspicious_devices: set[str] = set()
+        self.device_fingerprints: dict[str, DeviceFingerprint] = {}
 
         # Threat detection patterns
         self.threat_patterns = self._initialize_threat_patterns()
 
         # Geographic anomaly detection
-        self.user_locations: Dict[str, List[GeographicContext]] = defaultdict(list)
+        self.user_locations: dict[str, list[GeographicContext]] = defaultdict(list)
 
         # Credential binding validation
-        self.credential_bindings: Dict[str, Dict[str, Any]] = {}
+        self.credential_bindings: dict[str, dict[str, Any]] = {}
 
         logger.info("WebAuthnSecurityHardening initialized")
 
@@ -190,8 +190,8 @@ class WebAuthnSecurityHardening:
         user_id: Optional[str],
         ip_address: str,
         user_agent: str,
-        additional_context: Optional[Dict[str, Any]] = None
-    ) -> Tuple[bool, Optional[str], List[SecurityEvent]]:
+        additional_context: Optional[dict[str, Any]] = None
+    ) -> tuple[bool, Optional[str], list[SecurityEvent]]:
         """Validate request security and detect threats."""
         events = []
         additional_context = additional_context or {}
@@ -255,7 +255,7 @@ class WebAuthnSecurityHardening:
         request_times.append(now)
         return True
 
-    def _initialize_threat_patterns(self) -> Dict[str, Any]:
+    def _initialize_threat_patterns(self) -> dict[str, Any]:
         """Initialize threat detection patterns"""
         return {
             'suspicious_user_agents': {
@@ -281,7 +281,7 @@ class WebAuthnSecurityHardening:
                                       user_id: Optional[str],
                                       ip_address: str,
                                       user_agent: str,
-                                      additional_context: Optional[Dict[str, Any]] = None) -> Tuple[bool, Optional[str], List[SecurityEvent]]:
+                                      additional_context: Optional[dict[str, Any]] = None) -> tuple[bool, Optional[str], list[SecurityEvent]]:
         """
         Validate request security before processing WebAuthn operations.
 
@@ -368,7 +368,7 @@ class WebAuthnSecurityHardening:
                                   operation: str,
                                   user_id: Optional[str],
                                   ip_address: str,
-                                  user_agent: str) -> Tuple[bool, Optional[str], List[SecurityEvent]]:
+                                  user_agent: str) -> tuple[bool, Optional[str], list[SecurityEvent]]:
         """Validate rate limits for the operation"""
         events = []
         now = time.time()
@@ -486,9 +486,9 @@ class WebAuthnSecurityHardening:
 
     async def _validate_device_fingerprint(self,
                                          user_id: Optional[str],
-                                         fingerprint_data: Dict[str, Any],
+                                         fingerprint_data: dict[str, Any],
                                          ip_address: str,
-                                         user_agent: str) -> List[SecurityEvent]:
+                                         user_agent: str) -> list[SecurityEvent]:
         """Validate device fingerprint for anomaly detection"""
         events = []
 
@@ -556,7 +556,7 @@ class WebAuthnSecurityHardening:
 
         return events
 
-    def _analyze_device_fingerprint(self, fingerprint_data: Dict[str, Any]) -> ThreatLevel:
+    def _analyze_device_fingerprint(self, fingerprint_data: dict[str, Any]) -> ThreatLevel:
         """Analyze device fingerprint for suspicious characteristics"""
         threat_level = ThreatLevel.LOW
 
@@ -586,8 +586,8 @@ class WebAuthnSecurityHardening:
 
     async def _validate_geographic_context(self,
                                          user_id: Optional[str],
-                                         geo_info: Dict[str, Any],
-                                         ip_address: str) -> List[SecurityEvent]:
+                                         geo_info: dict[str, Any],
+                                         ip_address: str) -> list[SecurityEvent]:
         """Validate geographic context for access anomalies"""
         events = []
 
@@ -683,7 +683,7 @@ class WebAuthnSecurityHardening:
 
     async def validate_credential_binding(self,
                                         credential: WebAuthnCredential,
-                                        request_context: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
+                                        request_context: dict[str, Any]) -> tuple[bool, Optional[str]]:
         """Validate credential binding and usage context"""
 
         # Check credential status
@@ -691,9 +691,8 @@ class WebAuthnSecurityHardening:
             return False, f"Credential status is {credential.status.value}"
 
         # Check credential expiry (if applicable)
-        if hasattr(credential, 'expires_at') and credential.expires_at:
-            if datetime.now(timezone.utc) > credential.expires_at:
-                return False, "Credential has expired"
+        if (hasattr(credential, 'expires_at') and credential.expires_at) and datetime.now(timezone.utc) > credential.expires_at:
+            return False, "Credential has expired"
 
         # Validate sign count (replay attack detection)
         if credential.sign_count > 0:
@@ -744,7 +743,7 @@ class WebAuthnSecurityHardening:
 
     async def _analyze_credential_usage_pattern(self,
                                               credential: WebAuthnCredential,
-                                              request_context: Dict[str, Any]) -> Dict[str, Any]:
+                                              request_context: dict[str, Any]) -> dict[str, Any]:
         """Analyze credential usage patterns for anomalies"""
 
         # This would analyze:
@@ -767,7 +766,7 @@ class WebAuthnSecurityHardening:
                                    credential_id: Optional[str],
                                    ip_address: Optional[str],
                                    user_agent: Optional[str],
-                                   details: Dict[str, Any],
+                                   details: dict[str, Any],
                                    action_taken: Optional[SecurityAction] = None):
         """Record a security event"""
 
@@ -792,7 +791,7 @@ class WebAuthnSecurityHardening:
         elif threat_level == ThreatLevel.HIGH:
             logger.warning(f"High threat security event: {event_type.value} for user {user_id}")
 
-    async def get_security_dashboard(self) -> Dict[str, Any]:
+    async def get_security_dashboard(self) -> dict[str, Any]:
         """Get security dashboard with current threat landscape"""
 
         now = datetime.now(timezone.utc)

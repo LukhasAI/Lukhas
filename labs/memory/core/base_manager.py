@@ -67,11 +67,11 @@ that nourishes our quest for understanding in the age of LUKHAS AI.
 ══════════════════════════════════════════════════════════════════════════════════
 ```
 """
-import logging
 from __future__ import annotations
 
 import hashlib
 import json
+import logging
 import uuid
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone

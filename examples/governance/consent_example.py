@@ -7,7 +7,7 @@ This script provides a mock implementation of the Guardian system for consent ma
 
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 # Mock Database
 _consent_db: Dict[str, Dict[str, Any]] = {}

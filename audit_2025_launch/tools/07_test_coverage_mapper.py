@@ -44,11 +44,10 @@ def count_test_functions(test_file):
             tree = ast.parse(content, filename=str(test_file))
         test_count = 0
         for node in ast.walk(tree):
-            if isinstance(node, ast.FunctionDef):
-                if node.name.startswith('test_'):
-                    test_count += 1
+            if isinstance(node, ast.FunctionDef) and node.name.startswith('test_'):
+                test_count += 1
         return test_count
-    except:
+    except (OSError, SyntaxError, ValueError):
         return 0
 
 def extract_pytest_markers(test_file):
@@ -59,7 +58,7 @@ def extract_pytest_markers(test_file):
             content = f.read()
         marker_matches = re.findall(r'@pytest\.mark\.(\w+)', content)
         markers.update(marker_matches)
-    except:
+    except OSError:
         pass
     return sorted(markers)
 

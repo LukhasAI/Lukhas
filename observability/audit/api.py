@@ -5,7 +5,7 @@ Includes signed permalink generation and consent-aware redaction.
 from __future__ import annotations
 
 import os
-from typing import Any, Dict, List
+from typing import Any
 
 from fastapi import APIRouter, HTTPException, Request
 
@@ -21,7 +21,7 @@ router = APIRouter(prefix="/audit", tags=["audit"])
 
 
 @router.post("/trace", status_code=202)
-async def submit_trace(trace: DecisionTrace) -> Dict[str, Any]:
+async def submit_trace(trace: DecisionTrace) -> dict[str, Any]:
     """
     Submit a decision trace for audit storage.
 
@@ -36,7 +36,7 @@ async def submit_trace(trace: DecisionTrace) -> Dict[str, Any]:
 
 
 @router.post("/span", status_code=202)
-async def submit_span(span: TraceSpan) -> Dict[str, Any]:
+async def submit_span(span: TraceSpan) -> dict[str, Any]:
     """
     Submit a trace span for audit storage.
 
@@ -51,7 +51,7 @@ async def submit_span(span: TraceSpan) -> Dict[str, Any]:
 
 
 @router.post("/evidence", status_code=202)
-async def submit_evidence(e: EvidenceLink) -> Dict[str, Any]:
+async def submit_evidence(e: EvidenceLink) -> dict[str, Any]:
     """
     Submit evidence link for audit storage.
 
@@ -66,7 +66,7 @@ async def submit_evidence(e: EvidenceLink) -> Dict[str, Any]:
 
 
 @router.post("/governance", status_code=202)
-async def submit_governance(event: GovernanceEvent) -> Dict[str, Any]:
+async def submit_governance(event: GovernanceEvent) -> dict[str, Any]:
     """
     Submit governance event for audit storage.
 
@@ -81,7 +81,7 @@ async def submit_governance(event: GovernanceEvent) -> Dict[str, Any]:
 
 
 @router.post("/link")
-async def mint_link(body: Dict[str, Any], request: Request) -> Dict[str, Any]:
+async def mint_link(body: dict[str, Any], request: Request) -> dict[str, Any]:
     """
     Generate a short-lived signed permalink for viewing a trace.
 
@@ -109,7 +109,7 @@ async def mint_link(body: Dict[str, Any], request: Request) -> Dict[str, Any]:
 
 
 @router.get("/trace/{trace_id}")
-async def get_trace(trace_id: str, request: Request) -> Dict[str, Any]:
+async def get_trace(trace_id: str, request: Request) -> dict[str, Any]:
     """
     Retrieve complete audit trail for a trace with consent-aware redaction.
 
@@ -137,7 +137,7 @@ async def get_trace(trace_id: str, request: Request) -> Dict[str, Any]:
 
     # Extract viewer scopes from header or query
     raw_scopes = request.headers.get("X-Viewer-Scopes", DEFAULT_SCOPE)
-    viewer_scopes: List[str] = [s.strip() for s in raw_scopes.split(",") if s.strip()]
+    viewer_scopes: list[str] = [s.strip() for s in raw_scopes.split(",") if s.strip()]
 
     # Fetch trace data
     trace = await fetch_decision_trace(trace_id)
@@ -166,7 +166,7 @@ async def get_trace(trace_id: str, request: Request) -> Dict[str, Any]:
         redacted_evidence.append(e)
 
     # Group evidence by span for UI convenience
-    evidence_by_span: Dict[str, list] = {}
+    evidence_by_span: dict[str, list] = {}
     for ev in redacted_evidence:
         evidence_by_span.setdefault(ev.get("span_id", "?"), []).append(ev)
 

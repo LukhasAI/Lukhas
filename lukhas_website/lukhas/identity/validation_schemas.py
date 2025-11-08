@@ -12,7 +12,7 @@ from __future__ import annotations
 import re
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Set
+from typing import Any
 from urllib.parse import urlparse
 
 from pydantic import BaseModel, Field, root_validator, validator
@@ -101,10 +101,9 @@ class RedirectUriValidation(BaseModel):
             parsed = urlparse(v)
 
             # Security checks
-            if parsed.scheme not in ['https', 'http']:
+            if parsed.scheme not in ['https', 'http'] and parsed.hostname not in ['localhost', '127.0.0.1']:
                 # Allow http only for localhost in development
-                if parsed.hostname not in ['localhost', '127.0.0.1']:
-                    raise ValueError('Redirect URI must use HTTPS')
+                raise ValueError('Redirect URI must use HTTPS')
 
             if parsed.fragment:
                 raise ValueError('Redirect URI must not contain fragment')
@@ -134,7 +133,7 @@ class ScopeValidation(BaseModel):
 
         return ' '.join(scopes)
 
-    def get_scope_set(self) -> Set[str]:
+    def get_scope_set(self) -> set[str]:
         """Get scope as set"""
         return set(self.scope.split())
 
@@ -268,7 +267,7 @@ class WebAuthnCredentialRequestOptions(BaseRequest):
 class WebAuthnRegistrationResponse(BaseRequest):
     """WebAuthn registration response validation"""
     username: str = Field(..., min_length=1, max_length=256)
-    credential: Dict[str, Any] = Field(..., description="WebAuthn credential response")
+    credential: dict[str, Any] = Field(..., description="WebAuthn credential response")
     client_data_json: str = Field(..., max_length=4096)
     attestation_object: str = Field(..., max_length=8192)
 
@@ -290,7 +289,7 @@ class WebAuthnRegistrationResponse(BaseRequest):
 class WebAuthnAuthenticationResponse(BaseRequest):
     """WebAuthn authentication response validation"""
     username: str | None = Field(None, min_length=1, max_length=256)
-    credential: Dict[str, Any] = Field(..., description="WebAuthn credential response")
+    credential: dict[str, Any] = Field(..., description="WebAuthn credential response")
     client_data_json: str = Field(..., max_length=4096)
     authenticator_data: str = Field(..., max_length=2048)
     signature: str = Field(..., max_length=2048)
@@ -315,9 +314,9 @@ class WebAuthnAuthenticationResponse(BaseRequest):
 class ClientRegistrationRequest(BaseRequest):
     """OIDC dynamic client registration request validation"""
     client_name: str = Field(..., min_length=1, max_length=256)
-    redirect_uris: List[HttpUrl] = Field(..., min_items=1, max_items=10)
-    response_types: List[ResponseTypeEnum] = Field(default=[ResponseTypeEnum.CODE], max_items=5)
-    grant_types: List[GrantTypeEnum] = Field(default=[GrantTypeEnum.AUTHORIZATION_CODE], max_items=5)
+    redirect_uris: list[HttpUrl] = Field(..., min_items=1, max_items=10)
+    response_types: list[ResponseTypeEnum] = Field(default=[ResponseTypeEnum.CODE], max_items=5)
+    grant_types: list[GrantTypeEnum] = Field(default=[GrantTypeEnum.AUTHORIZATION_CODE], max_items=5)
     scope: str = Field(default="openid profile email", max_length=1000)
     application_type: str = Field('web', regex=r'^(web|native)$')
     token_endpoint_auth_method: str = Field('client_secret_basic',
@@ -377,11 +376,11 @@ class SecurityEvent(BaseModel):
     client_id: str | None = None
     endpoint: str | None = None
     threat_level: str = Field('low', regex=r'^(low|medium|high|critical)$')
-    indicators: List[str] = Field(default_factory=list, max_items=20)
-    metadata: Dict[str, Any] = Field(default_factory=dict)
+    indicators: list[str] = Field(default_factory=list, max_items=20)
+    metadata: dict[str, Any] = Field(default_factory=dict)
 
     class Config:
-        json_encoders = {
+        json_encoders = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_identity_validation_schemas_py_L383"}
             datetime: lambda v: v.isoformat()
         }
 

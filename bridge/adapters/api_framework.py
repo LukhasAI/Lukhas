@@ -93,7 +93,7 @@ class TimestampMixin(BaseModel):
     updated_at: Optional[datetime] = None
 
     class Config:
-        json_encoders = {datetime: lambda v: v.isoformat()}
+        json_encoders = {datetime: lambda v: v.isoformat()}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_adapters_api_framework_py_L96"}
 
 
 class RequestMetadata(BaseModel):
@@ -326,7 +326,7 @@ security = HTTPBearer()
 
 
 async def verify_token(
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials = Depends(security),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_adapters_api_framework_py_L329"}
 ) -> dict[str, Any]:
     """Verify JWT token and extract claims"""
     import os
@@ -397,7 +397,7 @@ async def verify_token(
 
 
 async def get_current_user(
-    token_data: dict[str, Any] = Depends(verify_token),
+    token_data: dict[str, Any] = Depends(verify_token),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_adapters_api_framework_py_L400"}
 ) -> dict[str, Any]:
     """Get current user from token"""
     return token_data
@@ -482,7 +482,7 @@ async def health_check() -> dict[str, Any]:
 
 @app.get("/health/detailed", tags=["Health"])
 async def detailed_health_check(
-    redis_client: redis.Redis = Depends(get_redis_client),
+    redis_client: redis.Redis = Depends(get_redis_client),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_adapters_api_framework_py_L485"}
 ) -> dict[str, Any]:
     """Detailed health check with subsystem status"""
     checks = {"api": "healthy", "redis": "unknown", "database": "unknown"}
@@ -524,7 +524,7 @@ async def get_metrics():
 )
 async def fold_memory_v1(
     request: MemoryFoldRequest,
-    user: dict[str, Any] = Depends(get_current_user),
+    user: dict[str, Any] = Depends(get_current_user),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_adapters_api_framework_py_L527"}
     req: Request = None,
 ) -> APIResponse[MemoryFoldResponse]:
     """
@@ -567,8 +567,8 @@ async def fold_memory_v1(
 )
 async def fold_memory_v2(
     request: MemoryFoldRequest,
-    user: dict[str, Any] = Depends(get_current_user),
-    background_tasks: BackgroundTasks = BackgroundTasks(),
+    user: dict[str, Any] = Depends(get_current_user),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_adapters_api_framework_py_L570"}
+    background_tasks: BackgroundTasks = BackgroundTasks(),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_adapters_api_framework_py_L571"}
     req: Request = None,
 ) -> APIResponse[MemoryFoldResponse]:
     """Fold memory with emotional context"""
@@ -616,7 +616,7 @@ async def fold_memory_v2(
 )
 async def get_fold_status(
     fold_id: str,
-    user: dict[str, Any] = Depends(get_current_user),
+    user: dict[str, Any] = Depends(get_current_user),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_adapters_api_framework_py_L619"}
     req: Request = None,
 ) -> APIResponse[MemoryFoldResponse]:
     """Get status of memory fold operation"""
@@ -642,7 +642,7 @@ async def get_fold_status(
     response_model=APIResponse[dict[str, Any]],
 )
 async def get_consciousness_state(
-    user: dict[str, Any] = Depends(get_current_user), req: Request = None
+    user: dict[str, Any] = Depends(get_current_user), req: Request = None  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_adapters_api_framework_py_L645"}
 ) -> APIResponse[dict[str, Any]]:
     """Get current consciousness state"""
 

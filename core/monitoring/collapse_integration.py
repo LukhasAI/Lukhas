@@ -160,13 +160,12 @@ class CollapseIntegration:
                 )
 
             # Request intervention if critical
-            if intervention_data.get("severity") == "HIGH":
-                if hasattr(self.ethics_sentinel, "request_intervention"):
-                    await self.ethics_sentinel.request_intervention(
-                        reason="Critical collapse risk detected",
-                        urgency="IMMEDIATE",
-                        context=violation_context,
-                    )
+            if intervention_data.get('severity') == 'HIGH' and hasattr(self.ethics_sentinel, 'request_intervention'):
+                await self.ethics_sentinel.request_intervention(
+                    reason="Critical collapse risk detected",
+                    urgency="IMMEDIATE",
+                    context=violation_context,
+                )
 
             logger.info(
                 "Ethics sentinel notified for intervention",
@@ -240,7 +239,7 @@ def integrate_collapse_tracking(orchestrator, ethics_sentinel=None) -> CollapseI
 
     # Start monitoring if orchestrator is async
     if asyncio.iscoroutinefunction(getattr(orchestrator, "run", None)):
-        asyncio.create_task(integration.monitor_system_health())
+        asyncio.create_task(integration.monitor_system_health())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_monitoring_collapse_integration_py_L242"}
 
     return integration
 

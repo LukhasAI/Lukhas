@@ -11,10 +11,15 @@ Usage:
 Produces:
  - audit-packs/<pack>.zip containing artifacts, metadata.json, and optionally metadata.json.asc (gpg signature)
 """
-import argparse, json, os, sys, shutil, hashlib
-from pathlib import Path
+import argparse
 import datetime
+import hashlib
+import json
+import shutil
 import subprocess
+import sys
+from pathlib import Path
+
 
 def sha256_file(path):
     h = hashlib.sha256()

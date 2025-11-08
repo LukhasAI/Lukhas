@@ -32,7 +32,7 @@ import logging
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable
 
 from opentelemetry import trace
 
@@ -103,7 +103,7 @@ class HealthCheckResult:
     latency_ms: float
     error: str | None = None
     timestamp: float = field(default_factory=time.time)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -135,9 +135,9 @@ class HealthMonitor:
         self.history_size = history_size
 
         # Health state
-        self.provider_health: Dict[str, ProviderHealth] = {}
-        self.health_history: Dict[str, deque] = defaultdict(lambda: deque(maxlen=history_size))
-        self.performance_metrics: Dict[str, PerformanceMetrics] = {}
+        self.provider_health: dict[str, ProviderHealth] = {}
+        self.health_history: dict[str, deque] = defaultdict(lambda: deque(maxlen=history_size))
+        self.performance_metrics: dict[str, PerformanceMetrics] = {}
 
         # SLA configuration
         self.sla_thresholds = SLAThresholds()
@@ -145,10 +145,10 @@ class HealthMonitor:
         # Monitoring state
         self.running = False
         self.monitor_task: asyncio.Task | None = None
-        self.health_change_callbacks: List[Callable] = []
+        self.health_change_callbacks: list[Callable] = []
 
         # Provider clients for health checks
-        self.provider_clients: Dict[str, Any] = {}
+        self.provider_clients: dict[str, Any] = {}
 
         logger.info("Health monitor initialized")
 
@@ -194,7 +194,7 @@ class HealthMonitor:
         """Get current health status for a provider"""
         return self.provider_health.get(provider)
 
-    async def get_all_provider_health(self) -> Dict[str, ProviderHealth]:
+    async def get_all_provider_health(self) -> dict[str, ProviderHealth]:
         """Get health status for all providers"""
         return self.provider_health.copy()
 
@@ -497,7 +497,7 @@ class HealthMonitor:
                 violation_type="error_rate"
             ).inc()
 
-    async def get_health_summary(self) -> Dict[str, Any]:
+    async def get_health_summary(self) -> dict[str, Any]:
         """Get health summary for all providers"""
         summary = {
             "timestamp": time.time(),
@@ -549,7 +549,7 @@ async def get_health_monitor() -> HealthMonitor:
     return _health_monitor
 
 
-async def get_provider_health_status() -> Dict[str, ProviderHealth]:
+async def get_provider_health_status() -> dict[str, ProviderHealth]:
     """Get current health status for all providers"""
     monitor = await get_health_monitor()
     return await monitor.get_all_provider_health()

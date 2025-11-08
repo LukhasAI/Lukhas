@@ -20,7 +20,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 from uuid import uuid4
 
 try:
@@ -69,12 +69,12 @@ class PerformanceBaseline:
     component: str
     baseline_value: float
     std_deviation: float
-    percentiles: Dict[str, float]  # p50, p95, p99
+    percentiles: dict[str, float]  # p50, p95, p99
     sample_count: int
     baseline_period_start: datetime
     baseline_period_end: datetime
-    confidence_interval: Tuple[float, float]
-    seasonal_patterns: Optional[Dict[str, float]] = None
+    confidence_interval: tuple[float, float]
+    seasonal_patterns: Optional[dict[str, float]] = None
 
 
 @dataclass
@@ -91,9 +91,9 @@ class PerformanceRegression:
     detection_timestamp: datetime
     confidence_score: float
     statistical_significance: float
-    affected_operations: List[str]
-    root_cause_candidates: List[str] = field(default_factory=list)
-    correlation_evidence: Dict[str, Any] = field(default_factory=dict)
+    affected_operations: list[str]
+    root_cause_candidates: list[str] = field(default_factory=list)
+    correlation_evidence: dict[str, Any] = field(default_factory=dict)
     resolved: bool = False
     resolution_timestamp: Optional[datetime] = None
     false_positive: bool = False
@@ -145,17 +145,17 @@ class PerformanceRegressionDetector:
         self.false_positive_learning = false_positive_learning
 
         # Core state
-        self.performance_baselines: Dict[str, PerformanceBaseline] = {}
-        self.detected_regressions: Dict[str, PerformanceRegression] = {}
-        self.performance_alerts: Dict[str, PerformanceAlert] = {}
+        self.performance_baselines: dict[str, PerformanceBaseline] = {}
+        self.detected_regressions: dict[str, PerformanceRegression] = {}
+        self.performance_alerts: dict[str, PerformanceAlert] = {}
 
         # Historical data storage
-        self.metric_timeseries: Dict[str, deque] = defaultdict(lambda: deque(maxlen=10000))
-        self.metric_timestamps: Dict[str, deque] = defaultdict(lambda: deque(maxlen=10000))
+        self.metric_timeseries: dict[str, deque] = defaultdict(lambda: deque(maxlen=10000))
+        self.metric_timestamps: dict[str, deque] = defaultdict(lambda: deque(maxlen=10000))
 
         # ML models
-        self.anomaly_models: Dict[str, Any] = {}
-        self.scalers: Dict[str, Any] = {}
+        self.anomaly_models: dict[str, Any] = {}
+        self.scalers: dict[str, Any] = {}
 
         # Detection statistics
         self.detection_stats = {
@@ -182,7 +182,7 @@ class PerformanceRegressionDetector:
         value: float,
         operation: Optional[str] = None,
         timestamp: Optional[datetime] = None,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
     ):
         """
         Record performance metric for regression detection.
@@ -302,9 +302,9 @@ class PerformanceRegressionDetector:
 
     async def _analyze_seasonal_patterns(
         self,
-        values: List[float],
-        timestamps: List[datetime],
-    ) -> Dict[str, float]:
+        values: list[float],
+        timestamps: list[datetime],
+    ) -> dict[str, float]:
         """Analyze seasonal patterns in the data"""
         if not SCIPY_AVAILABLE:
             return {}
@@ -328,7 +328,7 @@ class PerformanceRegressionDetector:
             print(f"Seasonal pattern analysis error: {e}")
             return {}
 
-    async def _train_anomaly_model(self, metric_key: str, values: List[float]):
+    async def _train_anomaly_model(self, metric_key: str, values: list[float]):
         """Train ML anomaly detection model for a metric"""
         if not self.enable_ml_detection or not SKLEARN_AVAILABLE:
             return
@@ -362,7 +362,7 @@ class PerformanceRegressionDetector:
         value: float,
         timestamp: datetime,
         operation: Optional[str] = None,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
     ):
         """Check for performance regression using multiple detection methods"""
         baseline = self.performance_baselines[metric_key]
@@ -597,13 +597,12 @@ class PerformanceRegressionDetector:
 
             # Check if any values around the same time
             for i, timestamp in enumerate(other_timestamps):
-                if abs((timestamp - current_time).total_seconds()) < 300:  # Within 5 minutes
-                    if i < len(self.metric_timeseries[other_key]):
-                        other_value = self.metric_timeseries[other_key][i]
-                        if other_key in self.performance_baselines:
-                            other_baseline = self.performance_baselines[other_key]
-                            if other_value > other_baseline.baseline_value * 1.2:  # 20% increase
-                                root_causes.append(f"Correlated regression in {other_key}")
+                if abs((timestamp - current_time).total_seconds()) < 300 and i < len(self.metric_timeseries[other_key]):  # Within 5 minutes
+                    other_value = self.metric_timeseries[other_key][i]
+                    if other_key in self.performance_baselines:
+                        other_baseline = self.performance_baselines[other_key]
+                        if other_value > other_baseline.baseline_value * 1.2:  # 20% increase
+                            root_causes.append(f"Correlated regression in {other_key}")
 
         # Check for error rate increases
         error_patterns = [
@@ -783,7 +782,7 @@ class PerformanceRegressionDetector:
         self,
         component_filter: Optional[str] = None,
         severity_filter: Optional[RegressionSeverity] = None,
-    ) -> List[PerformanceRegression]:
+    ) -> list[PerformanceRegression]:
         """Get list of active (unresolved) regressions"""
         regressions = [
             r for r in self.detected_regressions.values()
@@ -798,7 +797,7 @@ class PerformanceRegressionDetector:
 
         return sorted(regressions, key=lambda x: x.detection_timestamp, reverse=True)
 
-    def get_regression_statistics(self, hours_back: int = 24) -> Dict[str, Any]:
+    def get_regression_statistics(self, hours_back: int = 24) -> dict[str, Any]:
         """Get regression detection statistics"""
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours_back)
 

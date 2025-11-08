@@ -28,10 +28,7 @@ For documentation and support: https://ai/docs
 """
 
 import logging
-from datetime import timezone
-
-import logging
-from datetime import datetime
+from datetime import datetime, timezone
 
 import numpy as np
 import simpleaudio as sa
@@ -65,7 +62,7 @@ class GlobalComplianceFramework:
     └──────────────────────────────────────────────────────────────────────┘
     """
 
-    PROHIBITED_PRACTICES = {
+    PROHIBITED_PRACTICES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_processing_qi_oscillator_py_L65"}
         "biometric_categorization": False,
         "facial_recognition_db": False,
         "emotion_recognition": False,
@@ -76,7 +73,7 @@ class GlobalComplianceFramework:
         "africa_ai_ethics_guidelines": False,
     }
 
-    COMPLIANCE_PROFILES = {
+    COMPLIANCE_PROFILES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_processing_qi_oscillator_py_L76"}
         "Global": {
             "biometric_categorization": True,
             "facial_recognition_db": True,

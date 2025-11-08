@@ -26,14 +26,14 @@ Design notes:
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from matriz.legacy_shim import LegacyShim  # shim and interface
 
 logger = logging.getLogger(__name__)
 
 # In-memory registry of name -> LegacyShim
-_REGISTRY: Dict[str, LegacyShim] = {}
+_REGISTRY: dict[str, LegacyShim] = {}
 
 
 def register_legacy_node(name: str, legacy_node: Any) -> LegacyShim:
@@ -60,7 +60,7 @@ def register_legacy_node(name: str, legacy_node: Any) -> LegacyShim:
     return shim
 
 
-def register_many(mapping: Dict[str, Any]) -> Dict[str, LegacyShim]:
+def register_many(mapping: dict[str, Any]) -> dict[str, LegacyShim]:
     """
     Bulk-register multiple legacy nodes.
 
@@ -70,7 +70,7 @@ def register_many(mapping: Dict[str, Any]) -> Dict[str, LegacyShim]:
     Returns:
         Dict of {name: LegacyShim} that were registered.
     """
-    out: Dict[str, LegacyShim] = {}
+    out: dict[str, LegacyShim] = {}
     for name, node in mapping.items():
         out[name] = register_legacy_node(name, node)
     return out
@@ -86,7 +86,7 @@ def shim_for(name: str) -> LegacyShim | None:
     return _REGISTRY.get(name)
 
 
-def get_shimmed_nodes() -> Dict[str, LegacyShim]:
+def get_shimmed_nodes() -> dict[str, LegacyShim]:
     """
     Return a shallow copy of the current registry.
     Useful for diagnostics and router bootstrap.
@@ -95,7 +95,7 @@ def get_shimmed_nodes() -> Dict[str, LegacyShim]:
 
 
 # --- Router bootstrap utility ---
-def bootstrap_router(router: Any, mapping: Dict[str, Any]) -> Dict[str, LegacyShim]:
+def bootstrap_router(router: Any, mapping: dict[str, Any]) -> dict[str, LegacyShim]:
     """
     Bootstrap a router by registering legacy nodes through LegacyShim.
 
@@ -104,7 +104,7 @@ def bootstrap_router(router: Any, mapping: Dict[str, Any]) -> Dict[str, LegacySh
         mapping: Dict of {name: legacy_node_instance}. Each name becomes the registration key.
 
     Returns:
-        Dict[str, LegacyShim]: The shimmed nodes that were registered.
+        dict[str, LegacyShim]: The shimmed nodes that were registered.
 
     Notes:
         - This function does NOT publish or dispatch messages. It only registers handlers.

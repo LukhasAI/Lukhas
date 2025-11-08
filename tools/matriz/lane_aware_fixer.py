@@ -40,11 +40,7 @@ LANE_POLICIES_CONFIG = ROOT / "config" / "lane_fix_policies.json"
 # Import our existing fixers
 sys.path.insert(0, str(ROOT / "tools" / "automation"))
 try:
-    from diagnostic_orchestrator import (
-        DiagnosticOrchestrator,  # Bridge validation import
-    )
     from enhanced_fstring_fixer import EnhancedFStringFixer
-    from pytest_class_fixer import PytestClassFixer  # Bridge validation import
 except ImportError:
     logger.warning("Some fixing components not available")
 

@@ -39,20 +39,16 @@
 
 from __future__ import annotations
 
-import logging
-from datetime import timezone
-
 # Module imports
 import asyncio
 import json
+import logging
 import threading
 import time
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-
-from core.common import get_logger
 
 logger = logging.getLogger(__name__)
 
@@ -66,7 +62,7 @@ except Exception:
     metrics_db_available = False
 
 # Configure module logger
-logger = get_logger(__name__)
+# logger = get_logger(__name__) # Removed to prevent recursion
 
 # Module constants
 MODULE_VERSION = "3.0.0"

@@ -13,25 +13,24 @@ import pathlib
 import re
 import sys
 from difflib import get_close_matches
-from typing import Dict, Set
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MANIFESTS = [m for m in ROOT.rglob("module.manifest.json") if ".archive" not in str(m)]
 ID_RE = re.compile(r"^[A-Za-z0-9_.:/-]+@v\d+$")
 
 
-def load_contract_index() -> Dict[str, pathlib.Path]:
+def load_contract_index() -> dict[str, pathlib.Path]:
     """Build an index of available contract IDs to file paths.
 
     Returns:
-        Dict[str, pathlib.Path]: Mapping of contract ID (e.g., "foo.bar@v1") to
+        dict[str, pathlib.Path]: Mapping of contract ID (e.g., "foo.bar@v1") to
         the file path containing that contract JSON.
 
     Notes:
         - If a contract JSON omits the "id" field, the filename stem is used.
         - If no version suffix is present, "@v1" is appended.
     """
-    idx: Dict[str, pathlib.Path] = {}
+    idx: dict[str, pathlib.Path] = {}
     base = ROOT / "contracts"
     if not base.exists():
         return idx
@@ -65,8 +64,8 @@ def main():
     contracts = load_contract_index()
     failures = 0
     checked: int = 0
-    unknown: Set[str] = set()
-    bad_id: Set[str] = set()
+    unknown: set[str] = set()
+    bad_id: set[str] = set()
 
     for mf in MANIFESTS:
         try:

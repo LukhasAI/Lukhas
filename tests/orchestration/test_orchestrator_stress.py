@@ -32,7 +32,7 @@ import time
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from unittest.mock import Mock, patch
 
 import pytest
@@ -62,7 +62,7 @@ class StressTestMetrics:
     min_response_time: float = float('inf')
     concurrent_peak: int = 0
     memory_peak_mb: float = 0.0
-    error_types: Dict[str, int] = None
+    error_types: dict[str, int] = None
     throughput_qps: float = 0.0
 
     def __post_init__(self):
@@ -80,7 +80,7 @@ class MockCognitiveNode(CognitiveNode):
         self.process_count = 0
         self.last_processed = None
 
-    def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """Mock processing with configurable delay and failure rate"""
         self.process_count += 1
         self.last_processed = datetime.now(timezone.utc)
@@ -203,7 +203,7 @@ class TestOrchestratorStressScenarios:
         max_concurrent = 0
         concurrent_lock = threading.Lock()
 
-        def process_concurrent_request(query_id: int) -> Dict[str, Any]:
+        def process_concurrent_request(query_id: int) -> dict[str, Any]:
             """Process single request in concurrent scenario"""
             nonlocal concurrent_count, max_concurrent
 

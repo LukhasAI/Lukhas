@@ -9,10 +9,14 @@ meaningful content based on module type and functionality.
 from __future__ import annotations
 
 import json
+import logging
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 import yaml
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 class ModuleDirectoryPopulator:
@@ -62,27 +66,23 @@ class ModuleDirectoryPopulator:
 
         # Populate config/ directory
         config_dir = module_path / "config"
-        if config_dir.exists():
-            if self.populate_config_directory(config_dir, module_name, manifest):
-                populated = True
+        if config_dir.exists() and self.populate_config_directory(config_dir, module_name, manifest):
+            populated = True
 
         # Populate docs/ directory
         docs_dir = module_path / "docs"
-        if docs_dir.exists():
-            if self.populate_docs_directory(docs_dir, module_name, manifest):
-                populated = True
+        if docs_dir.exists() and self.populate_docs_directory(docs_dir, module_name, manifest):
+            populated = True
 
         # Populate tests/ directory
         tests_dir = module_path / "tests"
-        if tests_dir.exists():
-            if self.populate_tests_directory(tests_dir, module_name, manifest):
-                populated = True
+        if tests_dir.exists() and self.populate_tests_directory(tests_dir, module_name, manifest):
+            populated = True
 
         # Populate assets/ directory
         assets_dir = module_path / "assets"
-        if assets_dir.exists():
-            if self.populate_assets_directory(assets_dir, module_name, manifest):
-                populated = True
+        if assets_dir.exists() and self.populate_assets_directory(assets_dir, module_name, manifest):
+            populated = True
 
         return populated
 
@@ -792,7 +792,7 @@ if __name__ == "__main__":
     unittest.main()
 '''
 
-    def _generate_component_tests(self, entrypoints: List[str]) -> str:
+    def _generate_component_tests(self, entrypoints: list[str]) -> str:
         """Generate component-specific tests."""
         test_code = ""
 
@@ -898,7 +898,7 @@ if __name__ == "__main__":
     unittest.main()
 '''
 
-    def _generate_dependency_tests(self, dependencies: List[str]) -> str:
+    def _generate_dependency_tests(self, dependencies: list[str]) -> str:
         """Generate dependency integration tests."""
         test_code = ""
 

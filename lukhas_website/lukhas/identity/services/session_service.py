@@ -11,7 +11,7 @@ import time
 import uuid
 from collections import defaultdict
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from ..facades.authentication_facade import SessionManagerInterface
 
@@ -29,7 +29,7 @@ class Session:
     expires_at: float
     ip_address: Optional[str] = None
     user_agent: Optional[str] = None
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
 
     def __post_init__(self):
         self.metadata = self.metadata or {}
@@ -56,8 +56,8 @@ class SessionService(SessionManagerInterface):
     def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize session service"""
         self.config = config or {}
-        self.sessions: Dict[str, Session] = {}
-        self.user_sessions: Dict[str, set[str]] = defaultdict(set)
+        self.sessions: dict[str, Session] = {}
+        self.user_sessions: dict[str, set[str]] = defaultdict(set)
 
         # Configuration
         self.default_ttl = self.config.get("session_ttl_seconds", 3600)  # 1 hour

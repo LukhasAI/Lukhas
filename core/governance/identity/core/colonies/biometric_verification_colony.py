@@ -119,7 +119,9 @@ class BiometricVerificationAgent(SwarmAgent):
 
         logger.info(f"Biometric agent {agent_id} initialized for {specialization.value}")
 
-    async def process_biometric_sample(self, sample: BiometricSample, reference_template: bytes) -> dict[str, Any]:
+    async def process_biometric_sample(
+        self, sample: BiometricSample, reference_template: bytes
+    ) -> dict[str, Any]:
         """Process a single biometric sample."""
         start_time = time.time()
 
@@ -158,7 +160,9 @@ class BiometricVerificationAgent(SwarmAgent):
                 "processing_time": processing_time,
                 "quality_factors": {
                     "sample_quality": sample.quality_score,
-                    "environmental_impact": self._assess_environmental_impact(sample.environmental_factors),
+                    "environmental_impact": self._assess_environmental_impact(
+                        sample.environmental_factors
+                    ),
                 },
                 "agent_id": self.agent_id,
                 "specialization": self.specialization.value,
@@ -199,10 +203,14 @@ class BiometricVerificationAgent(SwarmAgent):
     async def _match_features(self, features: np.ndarray, reference: bytes) -> float:
         """Match extracted features against reference template."""
         # Extract reference features
-        ref_features = np.frombuffer(hashlib.sha256(reference).digest(), dtype=np.float32)[: len(features)]
+        ref_features = np.frombuffer(hashlib.sha256(reference).digest(), dtype=np.float32)[
+            : len(features)
+        ]
 
         # Calculate similarity score using cosine similarity
-        similarity = np.dot(features, ref_features) / (np.linalg.norm(features) * np.linalg.norm(ref_features))
+        similarity = np.dot(features, ref_features) / (
+            np.linalg.norm(features) * np.linalg.norm(ref_features)
+        )
 
         # Normalize to 0-1 range
         match_score = (similarity + 1) / 2
@@ -348,7 +356,9 @@ class BiometricVerificationColony(BaseColony):
             # Process each biometric type in parallel
             verification_tasks = []
             for biometric_type, samples in samples_by_type.items():
-                task_coro = self._verify_biometric_type(task, biometric_type, samples, reference_template)
+                task_coro = self._verify_biometric_type(
+                    task, biometric_type, samples, reference_template
+                )
                 verification_tasks.append(task_coro)
 
             # Wait for all verifications with timeout
@@ -370,7 +380,9 @@ class BiometricVerificationColony(BaseColony):
                     "participation_rate": consensus_result.participation_rate,
                     "consensus_strength": consensus_result.confidence,
                 },
-                failure_reasons=(consensus_result.dissent_reasons if not consensus_result.decision else []),
+                failure_reasons=(
+                    consensus_result.dissent_reasons if not consensus_result.decision else []
+                ),
                 verification_duration_ms=(time.time() - verification_start) * 1000,
                 agents_involved=len([r for r in results if isinstance(r, dict)]),
             )
@@ -560,7 +572,9 @@ class BiometricVerificationColony(BaseColony):
             dissent_reasons=dissent_reasons,
         )
 
-    def _group_samples_by_type(self, samples: list[BiometricSample]) -> dict[BiometricType, list[BiometricSample]]:
+    def _group_samples_by_type(
+        self, samples: list[BiometricSample]
+    ) -> dict[BiometricType, list[BiometricSample]]:
         """Group biometric samples by type."""
         grouped = {}
         for sample in samples:
@@ -602,7 +616,9 @@ class BiometricVerificationColony(BaseColony):
         else:
             return 0.8  # 80% consensus for Tier 5
 
-    def _calculate_vote_weight(self, biometric_type: str, confidence: float, tier_level: int) -> float:
+    def _calculate_vote_weight(
+        self, biometric_type: str, confidence: float, tier_level: int
+    ) -> float:
         """Calculate vote weight based on biometric type and tier."""
         # Base weights for different biometric types
         type_weights = {
@@ -618,7 +634,9 @@ class BiometricVerificationColony(BaseColony):
         base_weight = type_weights.get(biometric_type, 0.8)
 
         # Adjust weight based on tier level
-        if tier_level >= 4:
+        if (
+            tier_level >= 4
+        ):  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_governance_identity_core_colonies_biometric_verification_colony_py_L621"}
             # Higher tiers emphasize advanced biometrics
             if biometric_type in [
                 BiometricType.BRAINWAVE.value,
@@ -676,7 +694,9 @@ class BiometricVerificationColony(BaseColony):
         agent.capabilities[agent.specialization.value].proficiency *= 0.95
 
         # Schedule performance recovery
-        asyncio.create_task(self._gradual_performance_recovery(agent_id))
+        asyncio.create_task(
+            self._gradual_performance_recovery(agent_id)
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_identity_core_colonies_biometric_verification_colony_py_L679"}
 
     async def _gradual_performance_recovery(self, agent_id: str):
         """Gradually recover agent performance over time."""

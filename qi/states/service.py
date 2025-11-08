@@ -35,16 +35,14 @@ For documentation and support: https://ai/docs
 """
 
 import logging
-from datetime import timezone
-
-from consciousness.qi import qi
-
 import math
 import os
 import random
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

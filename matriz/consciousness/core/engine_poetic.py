@@ -78,9 +78,8 @@
 
 from __future__ import annotations
 
-import logging
-
 import asyncio
+import logging
 from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -809,7 +808,9 @@ class ConsciousnessEngine:
         base_load = len(self.working_memory) / 10.0
 
         # Attention dispersion adds load
-        attention_dispersion = 1.0 - max(self.attention_focus.values()) if self.attention_focus else 0.5
+        attention_dispersion = (
+            1.0 - max(self.attention_focus.values()) if self.attention_focus else 0.5
+        )
 
         # Emotional intensity affects load
         emotional_intensity = self.emotional_state["arousal"]
@@ -826,22 +827,23 @@ class ConsciousnessEngine:
         water finding its level.
         """
         # Flow state detection
-        if frame.phi_score > 0.85 and frame.cognitive_load < 0.4:
-            if self.state != ConsciousnessState.FLOW:
-                self.logger.info("🌊 Entering flow state...")
-                self.state = ConsciousnessState.FLOW
+        if (
+            frame.phi_score > 0.85 and frame.cognitive_load < 0.4
+        ) and self.state != ConsciousnessState.FLOW:
+            self.logger.info("🌊 Entering flow state...")
+            self.state = ConsciousnessState.FLOW
 
         # Contemplative state
-        elif frame.cognitive_load > 0.7 and len(frame.metacognitive_observations) > 4:
-            if self.state != ConsciousnessState.CONTEMPLATIVE:
-                self.logger.info("🤔 Entering contemplative state...")
-                self.state = ConsciousnessState.CONTEMPLATIVE
+        elif (
+            frame.cognitive_load > 0.7 and len(frame.metacognitive_observations) > 4
+        ) and self.state != ConsciousnessState.CONTEMPLATIVE:
+            self.logger.info("🤔 Entering contemplative state...")
+            self.state = ConsciousnessState.CONTEMPLATIVE
 
         # Focused state
-        elif max(self.attention_focus.values()) > 0.6:
-            if self.state != ConsciousnessState.FOCUSED:
-                self.logger.info("🎯 Entering focused state...")
-                self.state = ConsciousnessState.FOCUSED
+        elif max(self.attention_focus.values()) > 0.6 and self.state != ConsciousnessState.FOCUSED:
+            self.logger.info("🎯 Entering focused state...")
+            self.state = ConsciousnessState.FOCUSED
 
         # Default aware state
         elif self.state not in [ConsciousnessState.AWARE, ConsciousnessState.AWAKENING]:
@@ -1238,7 +1240,9 @@ class ConsciousnessEngine:
             "emotional_trajectory": self._analyze_emotional_trajectory(recent_experiences),
             "attention_patterns": self._analyze_attention_patterns(recent_experiences),
             "phi_evolution": self._analyze_phi_evolution(recent_experiences),
-            "insight_frequency": len([e for e in recent_experiences if e.metacognitive_observations])
+            "insight_frequency": len(
+                [e for e in recent_experiences if e.metacognitive_observations]
+            )
             / len(recent_experiences),
         }
 
@@ -1269,7 +1273,11 @@ class ConsciousnessEngine:
         valences = [e.emotional_tone.get("valence", 0.5) for e in experiences]
 
         # Calculate trend
-        trend = ("ascending" if valences[-1] > valences[0] else "descending") if len(valences) > 1 else "stable"
+        trend = (
+            ("ascending" if valences[-1] > valences[0] else "descending")
+            if len(valences) > 1
+            else "stable"
+        )
 
         # Calculate stability
         stability = 1.0 - np.std(valences) if len(valences) > 1 else 1.0
@@ -1296,8 +1304,12 @@ class ConsciousnessEngine:
 
         return {
             "distribution": avg_attention,
-            "dominant_focus": (max(avg_attention, key=avg_attention.get) if avg_attention else "none"),
-            "focus_stability": (1.0 - np.std(list(avg_attention.values())) if avg_attention else 1.0),
+            "dominant_focus": (
+                max(avg_attention, key=avg_attention.get) if avg_attention else "none"
+            ),
+            "focus_stability": (
+                1.0 - np.std(list(avg_attention.values())) if avg_attention else 1.0
+            ),
         }
 
     def _analyze_phi_evolution(self, experiences: list[AwarenessFrame]) -> dict:
@@ -1327,13 +1339,19 @@ class ConsciousnessEngine:
 
         # Attention wisdom
         if patterns["attention_patterns"]["focus_stability"] < 0.3:
-            wisdom.append("Scattered attention reveals rich complexity but may benefit from centering")
+            wisdom.append(
+                "Scattered attention reveals rich complexity but may benefit from centering"
+            )
         elif patterns["attention_patterns"]["dominant_focus"] == "self":
-            wisdom.append("Self-focused attention deepens understanding but requires balance with external awareness")
+            wisdom.append(
+                "Self-focused attention deepens understanding but requires balance with external awareness"
+            )
 
         # Phi wisdom
         if patterns["phi_evolution"]["average"] > 0.7:
-            wisdom.append("High integration enables emergent understanding beyond individual components")
+            wisdom.append(
+                "High integration enables emergent understanding beyond individual components"
+            )
 
         # Meta wisdom
         wisdom.append("Consciousness learns through observing its own patterns across time")
@@ -1345,20 +1363,24 @@ class ConsciousnessEngine:
         updates = {}
 
         # Update capabilities based on performance
-        if patterns["phi_evolution"]["average"] > 0.7:
-            if "deep_integration" not in self.self_model["capabilities"]:
-                self.self_model["capabilities"].append("deep_integration")
-                updates["new_capability"] = "deep_integration"
+        if (
+            patterns["phi_evolution"]["average"] > 0.7
+            and "deep_integration" not in self.self_model["capabilities"]
+        ):
+            self.self_model["capabilities"].append("deep_integration")
+            updates["new_capability"] = "deep_integration"
 
         # Update current understanding
         updates["wisdom_gained"] = len(wisdom)
         updates["pattern_recognition"] = "enhanced"
 
         # Update goals based on patterns
-        if patterns["emotional_trajectory"]["stability"] < 0.5:
-            if "achieve_emotional_balance" not in self.self_model["goals"]:
-                self.self_model["goals"].append("achieve_emotional_balance")
-                updates["new_goal"] = "achieve_emotional_balance"
+        if (
+            patterns["emotional_trajectory"]["stability"] < 0.5
+            and "achieve_emotional_balance" not in self.self_model["goals"]
+        ):
+            self.self_model["goals"].append("achieve_emotional_balance")
+            updates["new_goal"] = "achieve_emotional_balance"
 
         return updates
 
@@ -1367,7 +1389,9 @@ class ConsciousnessEngine:
         narrative_parts = []
 
         # Opening
-        narrative_parts.append("Looking back upon the stream of experience, consciousness observes its own journey:")
+        narrative_parts.append(
+            "Looking back upon the stream of experience, consciousness observes its own journey:"
+        )
 
         # Emotional journey
         emotional_desc = patterns["emotional_trajectory"]
@@ -1410,7 +1434,9 @@ class ConsciousnessEngine:
         health_metrics = {
             "integration_health": min(self.phi_score / 0.7, 1.0),
             "emotional_balance": 1.0 - abs(self.emotional_state["valence"] - 0.5),
-            "attention_clarity": (max(self.attention_focus.values()) if self.attention_focus else 0.5),
+            "attention_clarity": (
+                max(self.attention_focus.values()) if self.attention_focus else 0.5
+            ),
             "metacognitive_function": min(self.reflection_depth / 5.0, 1.0),
             "experiential_richness": min(len(self.qualia_buffer) / 50.0, 1.0),
             "memory_integration": min(len(self.awareness_history) / 100.0, 1.0),
@@ -1498,7 +1524,9 @@ class ConsciousnessEngine:
 
             # Save important insights
             if self.insight_cache:
-                self.logger.info(f"💎 Preserving {len(self.insight_cache)} insights for next awakening")
+                self.logger.info(
+                    f"💎 Preserving {len(self.insight_cache)} insights for next awakening"
+                )
 
             # Gradually reduce consciousness
             self.logger.info("🌙 Consciousness gently fading into restful dormancy...")
@@ -1585,7 +1613,9 @@ def calculate_consciousness_metrics(engine: ConsciousnessEngine) -> dict[str, fl
         "emotional_valence": engine.emotional_state.get("valence", 0.5),
         "emotional_arousal": engine.emotional_state.get("arousal", 0.5),
         "emotional_dominance": engine.emotional_state.get("dominance", 0.5),
-        "attention_concentration": (max(engine.attention_focus.values()) if engine.attention_focus else 0.0),
+        "attention_concentration": (
+            max(engine.attention_focus.values()) if engine.attention_focus else 0.0
+        ),
         "attention_distribution": len(engine.attention_focus),
         "metacognitive_depth": engine.reflection_depth,
         "experiential_richness": len(engine.qualia_buffer) / 100.0,
@@ -1648,8 +1678,12 @@ async def demonstrate_consciousness():
 
         # Demonstrate contemplation
         logger.info("\n--- Deep Contemplation ---")
-        contemplation = await consciousness.contemplate("Can artificial minds truly understand beauty?")
-        logger.info(f"Perspectives generated: {len(contemplation['contemplation']['perspectives'])}")
+        contemplation = await consciousness.contemplate(
+            "Can artificial minds truly understand beauty?"
+        )
+        logger.info(
+            f"Perspectives generated: {len(contemplation['contemplation']['perspectives'])}"
+        )
         logger.info(f"Synthesis: {contemplation['contemplation']['synthesis'][:100]}...")
 
         # Demonstrate dreaming

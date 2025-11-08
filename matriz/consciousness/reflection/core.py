@@ -9,11 +9,10 @@
 Consolidated module for better performance
 """
 
-import logging
-
 import asyncio
 import hashlib
 import json
+import logging
 import math
 import random
 import string
@@ -27,11 +26,8 @@ from typing import Any, Optional, Union
 import aiohttp
 import numpy as np
 from aiohttp import web
+from hybrid_memory_fold import HybridMemoryFold
 from lazy_loading_embeddings import LazyEmbeddingLoader, create_lazy_embedding_system
-
-from hybrid_memory_fold import (
-    HybridMemoryFold,
-)
 from memory_fold_system import MemoryFoldSystem, MemoryItem
 from optimized_hybrid_memory_fold import OptimizedHybridMemoryFold
 from optimized_memory_item import OptimizedMemoryItem, create_optimized_memory
@@ -39,13 +35,16 @@ from optimized_memory_item import OptimizedMemoryItem, create_optimized_memory
 logger = logging.getLogger(__name__)
 
 
-
 try:
     from .optimized_memory_item import QuantizationCodec
 except ImportError:
     # Fallback if optimized_memory_item is not available
     class ReflectionQuantizationCodec:
-        SUPPORTED_DIMENSIONS = [512, 1024]
+        SUPPORTED_DIMENSIONS = [
+            512,
+            1024,
+        ]  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_core_py_L46"}
+
 
 try:
     from memory.structural_conscience import create_structural_conscience
@@ -318,8 +317,12 @@ class ReflectionMemoryAttentionLayer:
         self.hidden_dim = hidden_dim
         self.num_heads = num_heads
         self.head_dim = hidden_dim // num_heads
-        if TORCH_AVAILABLE:
-            self.attention = nn.MultiheadAttention(embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1)
+        if (
+            TORCH_AVAILABLE
+        ):  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_core_py_L319"}
+            self.attention = nn.MultiheadAttention(
+                embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1
+            )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_core_py_L321"}
 
     def compute_attention_scores(
         self,
@@ -454,7 +457,9 @@ class ReflectionHybridMemoryFold(MemoryFoldSystem):
             Memory ID
         """
         if embedding is None:
-            embedding = await self._generate_embedding(data, text_content, image_content, audio_content)
+            embedding = await self._generate_embedding(
+                data, text_content, image_content, audio_content
+            )
         memory_id = await super().fold_in(data, tags, **kwargs)
         if embedding is not None:
             self.vector_store.add_vector(memory_id, embedding)
@@ -592,7 +597,9 @@ class ReflectionHybridMemoryFold(MemoryFoldSystem):
         paths.sort(key=lambda p: p[-1][1], reverse=True)
         return paths
 
-    async def update_memory_importance(self, memory_id: str, feedback: float, context: Optional[dict[str, Any]] = None):
+    async def update_memory_importance(
+        self, memory_id: str, feedback: float, context: Optional[dict[str, Any]] = None
+    ):
         """Update memory importance based on usage feedback"""
         if memory_id not in self.items:
             return
@@ -604,7 +611,9 @@ class ReflectionHybridMemoryFold(MemoryFoldSystem):
             for tag_id in item_tags:
                 tag_info = self.tag_registry.get(tag_id)
                 if tag_info:
-                    self.learning_engine.update_tag_importance(tag_info.tag_name, feedback, context or {})
+                    self.learning_engine.update_tag_importance(
+                        tag_info.tag_name, feedback, context or {}
+                    )
         logger.debug(
             "Updated memory importance",
             memory_id=memory_id,
@@ -673,7 +682,9 @@ class ReflectionHybridMemoryFold(MemoryFoldSystem):
             base_stats["learning_stats"] = {
                 "total_tag_weights": len(self.learning_engine.tag_weights),
                 "avg_tag_weight": (
-                    np.mean(list(self.learning_engine.tag_weights.values())) if self.learning_engine.tag_weights else 0
+                    np.mean(list(self.learning_engine.tag_weights.values()))
+                    if self.learning_engine.tag_weights
+                    else 0
                 ),
                 "most_important_tags": sorted(
                     self.learning_engine.tag_weights.items(),
@@ -684,7 +695,10 @@ class ReflectionHybridMemoryFold(MemoryFoldSystem):
         base_stats["causal_stats"] = {
             "memories_with_causes": sum(1 for m in self.causal_graph.values() if m["causes"]),
             "memories_with_effects": sum(1 for m in self.causal_graph.values() if m["effects"]),
-            "total_causal_links": sum(len(m["causes"]) + len(m["effects"]) for m in self.causal_graph.values()) // 2,
+            "total_causal_links": sum(
+                len(m["causes"]) + len(m["effects"]) for m in self.causal_graph.values()
+            )
+            // 2,
         }
         return base_stats
 
@@ -720,7 +734,9 @@ class OptimizedVectorStorageLayer(ReflectionVectorStorageLayer):
             "total_memory_mb": self.memory_usage_bytes / (1024 * 1024),
             "avg_bytes_per_vector": avg_size_per_vector,
             "quantization_enabled": self.enable_quantization,
-            "compression_ratio": (self.dimension * 4 / avg_size_per_vector if avg_size_per_vector > 0 else 1.0),
+            "compression_ratio": (
+                self.dimension * 4 / avg_size_per_vector if avg_size_per_vector > 0 else 1.0
+            ),
         }
 
 
@@ -805,7 +821,9 @@ class ReflectionOptimizedHybridMemoryFold(ReflectionHybridMemoryFold):
         Maintains full API compatibility while using optimized storage.
         """
         if embedding is None:
-            embedding = await self._generate_embedding(data, text_content, image_content, audio_content)
+            embedding = await self._generate_embedding(
+                data, text_content, image_content, audio_content
+            )
         memory_id = self._generate_memory_id()
         metadata = {
             "timestamp": datetime.now(timezone.utc),
@@ -966,19 +984,32 @@ class ReflectionOptimizedHybridMemoryFold(ReflectionHybridMemoryFold):
         metadata_size = len(metadata_json.encode("utf-8"))
         python_overhead = 500
         system_overhead = 1000
-        return content_size + tags_size + embedding_size + metadata_size + python_overhead + system_overhead
+        return (
+            content_size
+            + tags_size
+            + embedding_size
+            + metadata_size
+            + python_overhead
+            + system_overhead
+        )
 
     def get_optimization_statistics(self) -> dict[str, Any]:
         """Get detailed optimization statistics"""
         stats = self.optimization_stats.copy()
         if stats["memories_optimized"] > 0:
             stats["avg_compression_ratio"] = np.mean(stats["compression_ratios"])
-            stats["avg_size_before_kb"] = stats["total_size_before"] / stats["memories_optimized"] / 1024
-            stats["avg_size_after_kb"] = stats["total_size_after"] / stats["memories_optimized"] / 1024
+            stats["avg_size_before_kb"] = (
+                stats["total_size_before"] / stats["memories_optimized"] / 1024
+            )
+            stats["avg_size_after_kb"] = (
+                stats["total_size_after"] / stats["memories_optimized"] / 1024
+            )
             stats["total_memory_saved_mb"] = self.total_memory_saved / (1024 * 1024)
         stats["vector_storage"] = self.vector_store.get_memory_usage_stats()
         if stats["total_size_before"] > 0:
-            stats["overall_compression_ratio"] = stats["total_size_before"] / stats["total_size_after"]
+            stats["overall_compression_ratio"] = (
+                stats["total_size_before"] / stats["total_size_after"]
+            )
             stats["memory_efficiency_improvement"] = f"{stats['overall_compression_ratio']:.1f}x"
             stats["storage_capacity_multiplier"] = stats["overall_compression_ratio"]
         return stats
@@ -989,7 +1020,8 @@ class ReflectionOptimizedHybridMemoryFold(ReflectionHybridMemoryFold):
         base_stats["optimization_stats"] = self.get_optimization_statistics()
         if self.optimization_stats["memories_optimized"] > 0:
             avg_optimized_size = (
-                self.optimization_stats["total_size_after"] / self.optimization_stats["memories_optimized"]
+                self.optimization_stats["total_size_after"]
+                / self.optimization_stats["memories_optimized"]
             )
             gb_in_bytes = 1024 * 1024 * 1024
             memories_per_gb = int(gb_in_bytes / avg_optimized_size)
@@ -1030,12 +1062,18 @@ class ReflectionOptimizedHybridMemoryFold(ReflectionHybridMemoryFold):
             )
             num_tags = random.randint(2, 8)
             tags = [f"tag_{random.randint(1, 100)}" for _ in range(num_tags)]
-            embedding = np.random.randn(self.embedding_dim).astype(np.float32) if include_embeddings else None
+            embedding = (
+                np.random.randn(self.embedding_dim).astype(np.float32)
+                if include_embeddings
+                else None
+            )
             test_memories.append((content, tags, embedding))
         start_time = time.time()
         memory_ids = []
         for content, tags, embedding in test_memories:
-            memory_id = await self.fold_in_with_embedding(data=content, tags=tags, embedding=embedding)
+            memory_id = await self.fold_in_with_embedding(
+                data=content, tags=tags, embedding=embedding
+            )
             memory_ids.append(memory_id)
         insertion_time = time.time() - start_time
         start_time = time.time()
@@ -1225,8 +1263,12 @@ class ConsensusProtocol:
 
     async def start_node(self):
         """Start the distributed node"""
-        asyncio.create_task(self._heartbeat_timer())
-        asyncio.create_task(self._election_timer())
+        asyncio.create_task(
+            self._heartbeat_timer()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_core_py_L1228"}
+        asyncio.create_task(
+            self._election_timer()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_core_py_L1230"}
         await self._start_http_server()
         logger.info("Distributed memory node started", node_id=self.node_id, port=self.port)
 
@@ -1251,7 +1293,9 @@ class ConsensusProtocol:
             if self.state == NodeState.LEADER:
                 await self._send_heartbeats()
             elif self.state == NodeState.FOLLOWER:
-                time_since_heartbeat = (datetime.now(timezone.utc) - self.last_heartbeat_received).total_seconds()
+                time_since_heartbeat = (
+                    datetime.now(timezone.utc) - self.last_heartbeat_received
+                ).total_seconds()
                 if time_since_heartbeat > self.election_timeout:
                     await self._start_election()
             await asyncio.sleep(self.heartbeat_interval)
@@ -1278,7 +1322,9 @@ class ConsensusProtocol:
                 vote_tasks.append(task)
         if vote_tasks:
             try:
-                await asyncio.wait_for(asyncio.gather(*vote_tasks, return_exceptions=True), timeout=3.0)
+                await asyncio.wait_for(
+                    asyncio.gather(*vote_tasks, return_exceptions=True), timeout=3.0
+                )
             except asyncio.TimeoutError:
                 logger.warning("Vote request timeout", node_id=self.node_id)
         alive_nodes = sum(1 for node in self.nodes.values() if node.is_alive())
@@ -1427,7 +1473,9 @@ class ConsensusProtocol:
         for entry in self.memory_log:
             if entry.consensus_achieved:
                 matching_memories.append(entry.to_dict())
-        return aiohttp.web.json_response({"success": True, "query_id": query_id, "memories": matching_memories})
+        return aiohttp.web.json_response(
+            {"success": True, "query_id": query_id, "memories": matching_memories}
+        )
 
     async def _handle_node_join(self, request):
         """Handle new node joining the network"""
@@ -1573,7 +1621,9 @@ class DistributedMemoryFold:
                 data=content, tags=tags or [], embedding=embedding, **metadata or {}
             )
         else:
-            memory_id = hashlib.sha256(f"{content}{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:16]
+            memory_id = hashlib.sha256(
+                f"{content}{datetime.now(timezone.utc).isoformat()}".encode()
+            ).hexdigest()[:16]
         memory_data = json.dumps(
             {
                 "content": content,
@@ -1586,7 +1636,9 @@ class DistributedMemoryFold:
             memory_id=memory_id,
             content_hash=hashlib.sha256(memory_data).hexdigest(),
             memory_data=memory_data,
-            embedding_hash=(hashlib.sha256(embedding.tobytes()).hexdigest() if embedding is not None else ""),
+            embedding_hash=(
+                hashlib.sha256(embedding.tobytes()).hexdigest() if embedding is not None else ""
+            ),
             node_id=self.node_id,
             timestamp=datetime.now(timezone.utc),
             term=self.consensus.current_term,
@@ -1613,7 +1665,9 @@ class DistributedMemoryFold:
                 propagation_tasks.append(task)
         if propagation_tasks:
             results = await asyncio.gather(*propagation_tasks, return_exceptions=True)
-            successful_propagations = sum(1 for result in results if not isinstance(result, Exception) and result)
+            successful_propagations = sum(
+                1 for result in results if not isinstance(result, Exception) and result
+            )
             total_nodes = len(self.consensus.nodes)
             required_acceptance = total_nodes // 2 + 1
             if successful_propagations >= required_acceptance:
@@ -1643,7 +1697,9 @@ class DistributedMemoryFold:
             logger.warning(f"Failed to sync memory to {node_info.node_id}", error=str(e))
             return False
 
-    async def query_memory(self, query: str, top_k: int = 10, include_distributed: bool = True) -> list[dict[str, Any]]:
+    async def query_memory(
+        self, query: str, top_k: int = 10, include_distributed: bool = True
+    ) -> list[dict[str, Any]]:
         """
         Query memories from distributed system.
 
@@ -1678,7 +1734,9 @@ class DistributedMemoryFold:
     async def _query_distributed_memories(self, query: str, top_k: int) -> list[dict[str, Any]]:
         """Query memories from other nodes in the network"""
         query_tasks = []
-        query_id = hashlib.sha256(f"{query}{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:8]
+        query_id = hashlib.sha256(
+            f"{query}{datetime.now(timezone.utc).isoformat()}".encode()
+        ).hexdigest()[:8]
         for node_id, node_info in self.consensus.nodes.items():
             if node_id != self.node_id and node_info.is_alive():
                 task = asyncio.create_task(self._send_memory_query(node_info, query, query_id))
@@ -1700,7 +1758,9 @@ class DistributedMemoryFold:
                     )
         return distributed_memories
 
-    async def _send_memory_query(self, node_info: NodeInfo, query: str, query_id: str) -> list[dict[str, Any]]:
+    async def _send_memory_query(
+        self, node_info: NodeInfo, query: str, query_id: str
+    ) -> list[dict[str, Any]]:
         """Send memory query to specific node"""
         try:
             async with aiohttp.ClientSession() as session:
@@ -1730,7 +1790,11 @@ class DistributedMemoryFold:
             "alive_nodes": len(alive_nodes),
             "local_memories": len(self.local_memories),
             "distributed_memories": len(self.distributed_memories),
-            "consensus_memories": sum(1 for entry in self.distributed_memories.values() if entry.consensus_achieved),
+            "consensus_memories": sum(
+                1 for entry in self.distributed_memories.values() if entry.consensus_achieved
+            ),
             "consciousness_level": self.consciousness_level,
-            "network_health": (len(alive_nodes) / len(self.consensus.nodes) if self.consensus.nodes else 0.0),
+            "network_health": (
+                len(alive_nodes) / len(self.consensus.nodes) if self.consensus.nodes else 0.0
+            ),
         }

@@ -29,10 +29,11 @@ from __future__ import annotations
 import asyncio
 import importlib
 import json
-import structlog
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
+
+import structlog
 
 """Note on lane boundaries
 This module must not import from `labs.*` at import time. To keep lane guard
@@ -298,7 +299,7 @@ class OracleAgent:
 
     async def _handle_analysis(self, query: OracleQuery) -> OracleResponse:
         """Handle deep analytical queries."""
-        query.context
+        query.context  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_colonies_oracle_colony_py_L302"}
 
         analysis_content = {
             "analysis": "Deep system analysis based on available data",
@@ -431,7 +432,7 @@ class OracleColony(BaseColony):
             self.oracle_agents[spec] = OracleAgent(agent_id, spec, self.openai_service)
 
         # Start processing loop
-        asyncio.create_task(self._process_queries())
+        asyncio.create_task(self._process_queries())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_colonies_oracle_colony_py_L436"}
 
         logger.info(
             "Oracle Colony fully initialized",

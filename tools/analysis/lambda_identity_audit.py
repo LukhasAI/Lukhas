@@ -85,9 +85,8 @@ class LambdaIDSystemAudit:
                     "login",
                     "user_control",
                 ]
-                if any(keyword in content for keyword in identity_keywords):
-                    if py_file not in self.identity_modules:
-                        self.identity_modules.append(py_file)
+                if any(keyword in content for keyword in identity_keywords) and py_file not in self.identity_modules:
+                    self.identity_modules.append(py_file)
 
             except Exception:
                 pass
@@ -232,10 +231,9 @@ class LambdaIDSystemAudit:
                     tree = ast.parse(content)
                     for node in ast.walk(tree):
                         if isinstance(node, ast.ImportFrom):
-                            if node.module:
+                            if node.module and any(identity_part in node.module for identity_part in ['identity', 'auth']):
                                 # Check if importing from another identity module
-                                if any(identity_part in node.module for identity_part in ["identity", "auth"]):
-                                    self.dependencies[relative_path].add(node.module)
+                                self.dependencies[relative_path].add(node.module)
                         elif isinstance(node, ast.Import):
                             for alias in node.names:
                                 if any(identity_part in alias.name for identity_part in ["identity", "auth"]):

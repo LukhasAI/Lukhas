@@ -28,6 +28,5 @@ builtins.__import__ = _guard___import__
 importlib.import_module = _guard_import_module
 
 # kick off the suspect import
-import lukhas
 
 print("✅ trap finished")

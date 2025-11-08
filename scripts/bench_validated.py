@@ -21,10 +21,16 @@ logging.getLogger().setLevel(logging.CRITICAL)
 # Add project root to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from bench_core import PerformanceBenchmark
+from bench_core import (
+    PerformanceBenchmark,  # - repo root must be on sys.path before import
+)
 
-from governance.guardian_system import GuardianSystem
-from memory.memory_event import MemoryEventFactory
+from governance.guardian_system import (
+    GuardianSystem,  # - repo root must be on sys.path before import
+)
+from memory.memory_event import (
+    MemoryEventFactory,  # - repo root must be on sys.path before import
+)
 
 
 def run_validated_benchmarks():

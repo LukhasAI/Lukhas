@@ -4,6 +4,7 @@ This module provides TypedDict definitions for JWT claims (RFC 7519) and
 token introspection responses (RFC 7662), along with validation and
 utility functions.
 """
+
 from __future__ import annotations
 
 import time

@@ -34,9 +34,8 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
-import logging
-
 import asyncio
+import logging
 import sys
 from pathlib import Path
 from typing import Any, Optional

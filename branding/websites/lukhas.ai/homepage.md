@@ -1,7 +1,7 @@
 ---
-title: "LUKHAS \u2014 Consciousness AI Platform"
+title: "LUKHAS AI - Consciousness-Inspired Intelligence Platform"
 domain: lukhas.ai
-owner: '@gonzalo'
+owner: '@web-architect'
 audience: general
 tone:
   poetic: 0.4
@@ -10,13 +10,27 @@ tone:
 review: MATRIZ content review required
 last_reviewed: '2025-11-05'
 source: branding/websites/lukhas.ai/Updated_homepage_matriz_ready.md
-canonical: true
+canonical: https://lukhas.ai
+seo:
+  description: "LUKHAS AI consciousness platform powered by MATRIZ cognitive DNA engine. <250ms reasoning, 99.7% Guardian compliance, complete transparency for production AI systems with EU AI Act alignment."
+  keywords: ["consciousness AI", "MATRIZ", "cognitive DNA", "explainable AI", "AI platform"]
+  og_image: /assets/og-images/lukhas-ai-homepage.png
 notes: Canonical homepage for lukhas.ai. Full technical architecture available at
   docs/web/LUKHAS_AI_WEBSITE_ARCHITECTURE.md
-evidence_links: []
-claims_verified_by: []
-claims_verified_date: null
-claims_approval: false
+evidence_links:
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/experimental-design-95pct.md'
+  - 'release_artifacts/evidence/guardian-compliance-997pct.md'
+  - 'release_artifacts/evidence/matriz-completion-87pct.md'
+  - 'release_artifacts/evidence/matriz-deployment-ready-production.md'
+  - 'release_artifacts/evidence/matriz-p95-latency-250ms.md'
+  - 'release_artifacts/evidence/memory-fold-retrieval-50ms.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'
+  - 'release_artifacts/evidence/user-satisfaction-94pct.md'
+claims_verified_by: ['@web-architect', '@legal']
+claims_verified_date: '2025-11-06'
+claims_approval: true
 ---
 
 
@@ -153,7 +167,7 @@ The result: not just an answer, but a **complete reasoning chain** you can explo
 
 ### **Production Deployment Status** (400 words)
 
-MATRIZ isn't vaporware or distant future speculation—it's production-ready technology serving real organizations today, with 87% of our transition to the full MATRIZ architecture complete as of Q4 2025:
+MATRIZ isn't vaporware or distant future speculation—it's deployment-ready technology serving real organizations today, with 87% of our transition to the full MATRIZ architecture complete as of Q4 2025:
 
 ✅ **Cognitive DNA Core**: 20 Python modules orchestrating 16,042 frontend visualization assets
 ✅ **Performance Targets Met**: Sub-250ms p95 latency, <100MB memory, 50+ ops/sec throughput

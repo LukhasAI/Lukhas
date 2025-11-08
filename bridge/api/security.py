@@ -451,25 +451,24 @@ class ComprehensiveAPISecurity:
                 )
 
             # Healthcare-specific security checks
-            if "healthcare" in request_path and user_data.get("healthcare_approved", False):
-                if self.healthcare_ips_only and ip_address not in self.healthcare_allowed_ips:
-                    self.audit_logger.log_event(
-                        SecurityEvent(
-                            SecurityEventType.AUTHORIZATION_FAILURE,
-                            user_data["user_id"],
-                            ip_address,
-                            ThreatLevel.HIGH,
-                            {
-                                "reason": "healthcare_ip_restriction",
-                                "path": request_path,
-                            },
-                        )
+            if ('healthcare' in request_path and user_data.get('healthcare_approved', False)) and (self.healthcare_ips_only and ip_address not in self.healthcare_allowed_ips):
+                self.audit_logger.log_event(
+                    SecurityEvent(
+                        SecurityEventType.AUTHORIZATION_FAILURE,
+                        user_data["user_id"],
+                        ip_address,
+                        ThreatLevel.HIGH,
+                        {
+                            "reason": "healthcare_ip_restriction",
+                            "path": request_path,
+                        },
                     )
+                )
 
-                    raise HTTPException(
-                        status_code=status.HTTP_403_FORBIDDEN,
-                        detail="Healthcare requests require approved IP addresses",
-                    )
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail="Healthcare requests require approved IP addresses",
+                )
 
             # Log successful authentication
             auth_time_ms = (time.perf_counter() - auth_start_time) * 1000
@@ -592,16 +591,15 @@ class ComprehensiveAPISecurity:
             return False
 
         # Context-specific checks
-        if context:
+        if context and required_permission == 'healthcare':
             # Healthcare permission requires additional validation
-            if required_permission == "healthcare":
-                if not user_data.get("healthcare_approved", False):
-                    return False
+            if not user_data.get("healthcare_approved", False):
+                return False
 
-                # Check if tier supports healthcare
-                tier = user_data.get("tier", "LAMBDA_TIER_1")
-                if tier not in ["LAMBDA_TIER_3", "LAMBDA_TIER_4"]:
-                    return False
+            # Check if tier supports healthcare
+            tier = user_data.get("tier", "LAMBDA_TIER_1")
+            if tier not in ["LAMBDA_TIER_3", "LAMBDA_TIER_4"]:
+                return False
 
         return True
 

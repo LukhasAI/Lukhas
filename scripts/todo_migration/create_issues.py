@@ -15,7 +15,7 @@ import re
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 ALLOWED_PRIORITIES = {"LOW", "MED", "MEDIUM", "HIGH"}
 ALLOWED_SCOPES = {"PROD", "CANDIDATE", "DOCS"}
@@ -62,7 +62,7 @@ def validate_repo(repo: str) -> None:
         )
 
 
-def validate_row(row: Dict[str, str]) -> Dict[str, str]:
+def validate_row(row: dict[str, str]) -> dict[str, str]:
     """Validate and sanitize a TODO inventory row."""
 
     file_path = (row.get("file") or "").strip()
@@ -165,8 +165,8 @@ def main():
         print(f"Validation error: input file '{input_path}' does not exist", file=sys.stderr)
         raise SystemExit(1)
 
-    validated_rows: List[Dict[str, str]] = []
-    validation_errors: List[str] = []
+    validated_rows: list[dict[str, str]] = []
+    validation_errors: list[str] = []
 
     with input_path.open(newline="", encoding="utf-8") as fh:
         reader = csv.DictReader(fh)
@@ -183,7 +183,7 @@ def main():
             print(f"Validation error: {err}", file=sys.stderr)
         raise SystemExit(1)
 
-    mapping: Dict[str, Dict[str, object]] = {}
+    mapping: dict[str, dict[str, object]] = {}
     created = 0
     labels = "todo-migration"
 

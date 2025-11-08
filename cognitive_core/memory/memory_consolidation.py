@@ -272,12 +272,11 @@ class MemoryConsolidator:
                             memory2.related_memories.append(memory1.id)
                             result.new_associations += 1
 
-                elif similarity > self.association_threshold:
+                elif similarity > self.association_threshold and memory2.id not in memory1.related_memories:
                     # Moderately similar - strengthen association
-                    if memory2.id not in memory1.related_memories:
-                        memory1.related_memories.append(memory2.id)
-                        memory2.related_memories.append(memory1.id)
-                        result.new_associations += 1
+                    memory1.related_memories.append(memory2.id)
+                    memory2.related_memories.append(memory1.id)
+                    result.new_associations += 1
 
     async def _emotional_consolidation(
         self, memories: list[MemoryVector], job: ConsolidationJob, result: ConsolidationResult

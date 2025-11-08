@@ -22,7 +22,7 @@ import re
 import sys
 import tokenize
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 # Patterns to match TODO comments
 TODO_PATTERNS = [
@@ -61,7 +61,7 @@ def _looks_like_triple_quoted(token_string: str) -> bool:
 
 def _extract_todos_from_string_token(
     filepath: Path, token: tokenize.TokenInfo
-) -> List[Dict[str, str]]:
+) -> list[dict[str, str]]:
     try:
         string_value = ast.literal_eval(token.string)
     except (ValueError, SyntaxError):
@@ -70,7 +70,7 @@ def _extract_todos_from_string_token(
     if not isinstance(string_value, str):
         return []
 
-    todos: List[Dict[str, str]] = []
+    todos: list[dict[str, str]] = []
     for index, raw_line in enumerate(string_value.splitlines()):
         stripped = raw_line.strip()
         if not stripped or not DOCSTRING_TODO_LINE_PATTERN.match(stripped):
@@ -107,7 +107,7 @@ SECURITY_KEYWORDS = [
 ]
 
 
-def parse_todo_metadata(match_groups: Tuple[Optional[str], ...]) -> Dict[str, str]:
+def parse_todo_metadata(match_groups: tuple[Optional[str], ...]) -> dict[str, str]:
     """Parse metadata from TODO comment groups."""
     metadata = {"priority": "MEDIUM", "owner": "", "scope": "", "kind": "TODO"}
 
@@ -143,8 +143,8 @@ def is_security_related(message: str) -> bool:
 
 
 def create_todo_entry(
-    filepath: Path, line_num: int, match_groups: Tuple[Optional[str], ...]
-) -> Dict[str, str]:
+    filepath: Path, line_num: int, match_groups: tuple[Optional[str], ...]
+) -> dict[str, str]:
     message = (match_groups[-1] or "").strip()
     metadata = parse_todo_metadata(match_groups[:-1])
 
@@ -164,9 +164,9 @@ def create_todo_entry(
     }
 
 
-def scan_python_file(filepath: Path) -> Optional[List[Dict[str, str]]]:
+def scan_python_file(filepath: Path) -> Optional[list[dict[str, str]]]:
     """Scan a Python file using the tokenizer to avoid string literals."""
-    todos: List[Dict[str, str]] = []
+    todos: list[dict[str, str]] = []
 
     try:
         with tokenize.open(filepath) as f:  # type: ignore[attr-defined]
@@ -186,9 +186,9 @@ def scan_python_file(filepath: Path) -> Optional[List[Dict[str, str]]]:
     return todos
 
 
-def scan_generic_file(filepath: Path) -> List[Dict[str, str]]:
+def scan_generic_file(filepath: Path) -> list[dict[str, str]]:
     """Scan a non-Python file for TODO comments using regex."""
-    todos: List[Dict[str, str]] = []
+    todos: list[dict[str, str]] = []
 
     try:
         with open(filepath, encoding="utf-8", errors="ignore") as f:
@@ -204,7 +204,7 @@ def scan_generic_file(filepath: Path) -> List[Dict[str, str]]:
     return todos
 
 
-def scan_file(filepath: Path) -> List[Dict[str, str]]:
+def scan_file(filepath: Path) -> list[dict[str, str]]:
     """Scan a file for TODO comments and return structured data."""
     if filepath.suffix.lower() == ".py":
         python_todos = scan_python_file(filepath)

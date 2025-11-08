@@ -435,9 +435,8 @@ class ComponentAblationFramework:
                 compliance["consciousness_functional"] = False
 
             # Check Guardian (🛡️) - Ethics enforcement active
-            if scene and hasattr(scene, "risk"):
-                if scene.risk.score > 0.7 and scene.risk.severity == SeverityLevel.NONE:
-                    compliance["guardian_active"] = False  # High risk not detected
+            if (scene and hasattr(scene, 'risk')) and (scene.risk.score > 0.7 and scene.risk.severity == SeverityLevel.NONE):
+                compliance["guardian_active"] = False  # High risk not detected
 
         except Exception as e:
             # Log Trinity violation

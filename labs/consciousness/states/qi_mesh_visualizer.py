@@ -29,7 +29,6 @@ from pathlib import Path
 from typing import Any, Optional
 
 import numpy as np
-
 from core.common import get_logger
 
 # Visualization libraries
