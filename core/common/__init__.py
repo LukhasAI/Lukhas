@@ -6,12 +6,10 @@ Also provides real exceptions submodule for explicit imports.
 from __future__ import annotations
 
 from importlib import import_module
-from typing import List
-
 # Always expose our submodule path
 from . import exceptions
 
-__all__: List[str] = []
+__all__: list[str] = []
 _SRC: object | None = None
 
 def _bind(modname: str) -> bool:
@@ -28,7 +26,6 @@ def _bind(modname: str) -> bool:
     return True
 
 for _mod in (
-    "labs.core.common",
     "core.common",
     "lukhas_website.core.common",
 ):

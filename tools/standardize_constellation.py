@@ -17,18 +17,17 @@ from __future__ import annotations
 import re
 import sys
 from pathlib import Path
-from typing import List, Tuple
 
 # Canonical 8-star definition
 CANONICAL_CONSTELLATION = """Constellation Framework (8 Stars)
-\t•\t⚛️ Identity (Anchor) - ΛiD authentication, namespace management
-\t•\t✦ Memory (Trail) - Fold-based memory, temporal organization
-\t•\t🔬 Vision (Horizon) - Pattern recognition, adaptive interfaces
-\t•\t🌱 Bio (Living) - Adaptive bio-symbolic processing
-\t•\t🌙 Dream (Drift) - Creative consciousness expansion
-\t•\t⚖️ Ethics (North) - Constitutional AI, democratic oversight
-\t•\t🛡️ Guardian (Watch) - Safety compliance, cascade prevention
-\t•\t⚛️ Quantum (Ambiguity) - Quantum-inspired uncertainty"""
+\t•\t⚛️ Identity (Anchor) — ΛiD authentication, namespace management
+\t•\t✦ Memory (Trail) — Fold-based memory, temporal organization
+\t•\t🔬 Vision (Horizon) — Pattern recognition, adaptive interfaces
+\t•\t🌱 Bio (Living) — Adaptive bio-symbolic processing
+\t•\t🌙 Dream (Drift) — Creative consciousness expansion
+\t•\t⚖️ Ethics (North) — Constitutional AI, democratic oversight
+\t•\t🛡️ Guardian (Watch) — Safety compliance, cascade prevention
+\t•\t⚛️ Quantum (Ambiguity) — Quantum-inspired uncertainty"""
 
 # Alternative compact format for inline mentions
 CANONICAL_INLINE = "Constellation Framework (8 Stars: ⚛️ Identity, ✦ Memory, 🔬 Vision, 🌱 Bio, 🌙 Dream, ⚖️ Ethics, 🛡️ Guardian, ⚛️ Quantum)"
@@ -53,7 +52,7 @@ def count_stars_in_text(text: str, after_pos: int = 0) -> int:
     return found
 
 
-def find_constellation_mentions(file_path: Path) -> List[Tuple[int, str, int]]:
+def find_constellation_mentions(file_path: Path) -> list[tuple[int, str, int]]:
     """
     Find Constellation Framework mentions and count associated stars.
     Returns list of (line_num, context, star_count)
@@ -125,10 +124,14 @@ def is_incomplete_mention(line: str, star_count: int, next_lines: str) -> bool:
     ))
 
     # If there's an inline list with separators but not all 8, it's incomplete
-    return has_inline_star_list and star_count < 7
+    if has_inline_star_list and star_count < 7:
+        return True
+
+    # Simple mentions (0-2 stars) without lists are OK
+    return False
 
 
-def generate_report(root_dir: Path, exclude_patterns: List[str]) -> None:
+def generate_report(root_dir: Path, exclude_patterns: list[str]) -> None:
     """Generate report of incomplete Constellation mentions."""
     print("=" * 80)
     print("CONSTELLATION FRAMEWORK STANDARDIZATION REPORT")
@@ -229,7 +232,7 @@ def generate_diff_preview(file_path: Path, old_content: str, new_content: str) -
             break  # Show only first change per file
 
 
-def dry_run_report(root_dir: Path) -> List[Tuple[Path, str, str]]:
+def dry_run_report(root_dir: Path) -> list[tuple[Path, str, str]]:
     """Generate dry-run report showing what would be changed."""
     print("=" * 80)
     print("🔍 CONSTELLATION FRAMEWORK - DRY RUN REPORT")
@@ -333,14 +336,14 @@ def replace_incomplete_constellation(content: str, file_path: Path) -> str:
                 # Replace the line
                 result_lines.append(f"{indent}**Constellation Framework (8 Stars)**")
                 result_lines.append(f"{indent}")
-                result_lines.append(f"{indent}- **⚛️ Identity (Anchor)** - ΛiD authentication, namespace management")
-                result_lines.append(f"{indent}- **✦ Memory (Trail)** - Fold-based memory, temporal organization")
-                result_lines.append(f"{indent}- **🔬 Vision (Horizon)** - Pattern recognition, adaptive interfaces")
-                result_lines.append(f"{indent}- **🌱 Bio (Living)** - Adaptive bio-symbolic processing")
-                result_lines.append(f"{indent}- **🌙 Dream (Drift)** - Creative consciousness expansion")
-                result_lines.append(f"{indent}- **⚖️ Ethics (North)** - Constitutional AI, democratic oversight")
-                result_lines.append(f"{indent}- **🛡️ Guardian (Watch)** - Safety compliance, cascade prevention")
-                result_lines.append(f"{indent}- **⚛️ Quantum (Ambiguity)** - Quantum-inspired uncertainty")
+                result_lines.append(f"{indent}- **⚛️ Identity (Anchor)** — ΛiD authentication, namespace management")
+                result_lines.append(f"{indent}- **✦ Memory (Trail)** — Fold-based memory, temporal organization")
+                result_lines.append(f"{indent}- **🔬 Vision (Horizon)** — Pattern recognition, adaptive interfaces")
+                result_lines.append(f"{indent}- **🌱 Bio (Living)** — Adaptive bio-symbolic processing")
+                result_lines.append(f"{indent}- **🌙 Dream (Drift)** — Creative consciousness expansion")
+                result_lines.append(f"{indent}- **⚖️ Ethics (North)** — Constitutional AI, democratic oversight")
+                result_lines.append(f"{indent}- **🛡️ Guardian (Watch)** — Safety compliance, cascade prevention")
+                result_lines.append(f"{indent}- **⚛️ Quantum (Ambiguity)** — Quantum-inspired uncertainty")
 
                 # Skip old incomplete content (find end of the incomplete list)
                 j = i + 1
@@ -367,7 +370,7 @@ def replace_incomplete_constellation(content: str, file_path: Path) -> str:
     return '\n'.join(result_lines)
 
 
-def apply_standardization(root_dir: Path, changes: List[Tuple[Path, str, str]]) -> None:
+def apply_standardization(root_dir: Path, changes: list[tuple[Path, str, str]]) -> None:
     """Apply constellation standardization changes to files."""
     print("=" * 80)
     print("🔧 APPLYING CONSTELLATION FRAMEWORK STANDARDIZATION")

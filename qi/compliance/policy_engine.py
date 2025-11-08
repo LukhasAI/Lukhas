@@ -5,7 +5,7 @@ from __future__ import annotations
 import copy
 from collections.abc import Iterable, Mapping, MutableMapping
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 try:  # pragma: no cover - optional dependency
     import yaml  # type: ignore
@@ -26,8 +26,8 @@ class PolicyEngine:
     """Rule evaluation engine backed by declarative policy definitions."""
 
     def __init__(self) -> None:
-        self._policies: Dict[str, PolicyRecord] = {}
-        self._history: Dict[str, List[str]] = {}
+        self._policies: dict[str, PolicyRecord] = {}
+        self._history: dict[str, list[str]] = {}
 
     # ------------------------------------------------------------------
     def register_policy(self, code: str, policy: Mapping[str, Any], version: str | None = None) -> None:
@@ -94,7 +94,7 @@ class PolicyEngine:
             history=tuple(record.history),
         )
 
-    def list_codes(self) -> List[str]:
+    def list_codes(self) -> list[str]:
         return sorted(self._policies)
 
     # ------------------------------------------------------------------
@@ -129,8 +129,8 @@ class PolicyEngine:
 
     # ------------------------------------------------------------------
     @staticmethod
-    def _normalise_rules(policy_dict: Mapping[str, Any]) -> Dict[str, Any]:
-        normalised: Dict[str, Any] = {}
+    def _normalise_rules(policy_dict: Mapping[str, Any]) -> dict[str, Any]:
+        normalised: dict[str, Any] = {}
         for key, value in policy_dict.items():
             if key in {"code", "name", "policy_version"}:
                 continue

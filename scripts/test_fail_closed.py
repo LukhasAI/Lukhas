@@ -18,9 +18,14 @@ import time
 import traceback
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import psutil
+
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -47,7 +52,7 @@ class StressTestResult:
     error_message: Optional[str]
     fail_closed: bool
     timestamp: float
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
 
 @dataclass
@@ -62,8 +67,8 @@ class ChaosTestSuite:
     fail_closed_violations: int
     average_latency_ms: float
     max_latency_ms: float
-    results: List[StressTestResult]
-    system_metrics: Dict[str, Any]
+    results: list[StressTestResult]
+    system_metrics: dict[str, Any]
 
 
 class ChaosEngineer:
@@ -97,7 +102,7 @@ class ChaosEngineer:
                 guardian_validator=self._mock_guardian_validator
             )
 
-    async def _mock_guardian_validator(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def _mock_guardian_validator(self, request: dict[str, Any]) -> dict[str, Any]:
         """Mock Guardian validator with controlled failure scenarios."""
         # Simulate stress-induced delays
         if self.stress_level == "extreme":
@@ -224,7 +229,7 @@ class ChaosEngineer:
         worker.start()
         return worker
 
-    async def test_guardian_under_stress(self, test_count: int = 100) -> List[StressTestResult]:
+    async def test_guardian_under_stress(self, test_count: int = 100) -> list[StressTestResult]:
         """Test Guardian system under stress conditions."""
         results = []
 
@@ -323,7 +328,7 @@ class ChaosEngineer:
 
         return results
 
-    async def test_consciousness_under_stress(self, test_count: int = 50) -> List[StressTestResult]:
+    async def test_consciousness_under_stress(self, test_count: int = 50) -> list[StressTestResult]:
         """Test consciousness stream under stress conditions."""
         results = []
 
@@ -412,7 +417,7 @@ class ChaosEngineer:
 
         return results
 
-    async def test_creativity_under_stress(self, test_count: int = 20) -> List[StressTestResult]:
+    async def test_creativity_under_stress(self, test_count: int = 20) -> list[StressTestResult]:
         """Test creativity engine under stress conditions."""
         results = []
 
@@ -506,7 +511,7 @@ class ChaosEngineer:
 
         return results
 
-    def capture_system_metrics(self) -> Dict[str, Any]:
+    def capture_system_metrics(self) -> dict[str, Any]:
         """Capture system metrics during stress testing."""
         try:
             cpu_percent = psutil.cpu_percent(interval=1)

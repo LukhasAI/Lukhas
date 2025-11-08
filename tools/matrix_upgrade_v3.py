@@ -10,7 +10,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # v3 Default values for new fields (safe defaults, disabled by default)
 V3_DEFAULTS = {
@@ -67,7 +67,7 @@ V3_DEFAULTS = {
 }
 
 
-def upgrade_contract(contract_data: Dict[str, Any], dry_run: bool = False) -> bool:
+def upgrade_contract(contract_data: dict[str, Any], dry_run: bool = False) -> bool:
     """
     Upgrade a single contract with v3 placeholders.
 
@@ -129,7 +129,7 @@ def upgrade_file(file_path: Path, dry_run: bool = False) -> bool:
         return False
 
 
-def find_contract_files(pattern: str) -> List[Path]:
+def find_contract_files(pattern: str) -> list[Path]:
     """Find all contract files matching the pattern."""
     return sorted(Path(".").rglob(pattern))
 

@@ -13,7 +13,7 @@ from __future__ import annotations
 import math
 import os
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import List
 
 # Optional metrics
 try:
@@ -34,13 +34,13 @@ class DriftConfig:
     alpha: float = 0.2
     window: int = 64  # small, bounded
 
-LANE_CFG: Dict[str, DriftConfig] = {
+LANE_CFG: dict[str, DriftConfig] = {
     "experimental": DriftConfig(0.30, 0.50),
     "candidate":    DriftConfig(0.20, 0.35),
     "prod":         DriftConfig(0.15, 0.25),
 }
 
-def _cosine(a: List[float], b: List[float]) -> float:
+def _cosine(a: list[float], b: list[float]) -> float:
     if not a or not b or len(a) != len(b): return 0.0
     dot = sum(x*y for x, y in zip(a, b))
     na  = math.sqrt(sum(x*x for x in a))
@@ -56,9 +56,9 @@ class DriftMonitor:
         self.lane = (lane or os.getenv("LUKHAS_LANE", "experimental")).lower()
         self.cfg  = LANE_CFG.get(self.lane, LANE_CFG["experimental"])
         self.ema: float = 0.0
-        self._raw: List[float] = []
+        self._raw: list[float] = []
 
-    def update(self, intent: List[float], action: List[float]) -> Dict[str, object]:
+    def update(self, intent: list[float], action: list[float]) -> dict[str, object]:
         sim   = _cosine(intent, action)
         drift = 1.0 - sim
 

@@ -23,7 +23,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Dict, List, Optional, Set
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -48,7 +48,7 @@ class ConstellationCluster:
     star_primary: ConstellationStar
     star_secondary: Optional[ConstellationStar]
     component_count: int
-    components: List[str]
+    components: list[str]
     centrality_score: float
     isolation_level: str  # "isolated", "bridged", "interconnected"
     created_date: str
@@ -63,14 +63,14 @@ class ConstellationFramework:
     """Main constellation framework coordinator"""
 
     def __init__(self):
-        self.clusters: Dict[str, ConstellationCluster] = {}
-        self.isolated_components: Set[str] = set()
-        self.star_mappings: Dict[ConstellationStar, List[str]] = {
+        self.clusters: dict[str, ConstellationCluster] = {}
+        self.isolated_components: set[str] = set()
+        self.star_mappings: dict[ConstellationStar, list[str]] = {
             star: [] for star in ConstellationStar
         }
         self.framework_version = "3.0.0"
 
-    def organize_189_clusters(self) -> Dict[str, any]:
+    def organize_189_clusters(self) -> dict[str, any]:
         """
         Organize the 189 identified clusters into constellation patterns
         Based on CONSTELLATION_ANALYSIS_SUMMARY.json data
@@ -107,7 +107,7 @@ class ConstellationFramework:
             "organization_complete": True
         }
 
-    def _get_primary_components(self) -> List[str]:
+    def _get_primary_components(self) -> list[str]:
         """Get components for the primary constellation"""
         return [
             "candidate.core.common",  # Primary hub
@@ -120,7 +120,7 @@ class ConstellationFramework:
             "candidate.core.orchestration.consciousness_coordinator"
         ]
 
-    def _organize_secondary_clusters(self) -> Dict[str, ConstellationCluster]:
+    def _organize_secondary_clusters(self) -> dict[str, ConstellationCluster]:
         """Organize 188 secondary clusters by constellation star patterns"""
         clusters = {}
 
@@ -163,7 +163,7 @@ class ConstellationFramework:
 
         return clusters
 
-    def _create_star_clusters(self, star: ConstellationStar, cluster_names: List[str]) -> Dict[str, ConstellationCluster]:
+    def _create_star_clusters(self, star: ConstellationStar, cluster_names: list[str]) -> dict[str, ConstellationCluster]:
         """Create clusters for a specific constellation star"""
         clusters = {}
         base_component_count = 10  # Average cluster size from analysis
@@ -184,7 +184,7 @@ class ConstellationFramework:
 
         return clusters
 
-    def _integrate_isolated_components(self) -> Dict[str, str]:
+    def _integrate_isolated_components(self) -> dict[str, str]:
         """
         Address the 164 isolated components by integrating them into constellation clusters
         """
@@ -215,7 +215,7 @@ class ConstellationFramework:
         logger.info(f"✅ Integrated {len(integration_plan)} isolated components into constellation clusters")
         return integration_plan
 
-    def _calculate_star_distribution(self) -> Dict[str, int]:
+    def _calculate_star_distribution(self) -> dict[str, int]:
         """Calculate distribution of clusters across constellation stars"""
         distribution = {star.name: 0 for star in ConstellationStar}
 
@@ -226,7 +226,7 @@ class ConstellationFramework:
 
         return distribution
 
-    def get_constellation_health(self) -> Dict[str, any]:
+    def get_constellation_health(self) -> dict[str, any]:
         """Generate constellation framework health metrics"""
         total_components = sum(cluster.component_count for cluster in self.clusters.values())
         interconnected_clusters = len([c for c in self.clusters.values() if c.isolation_level == "interconnected"])
@@ -243,7 +243,7 @@ class ConstellationFramework:
         }
 
 
-def get_constellation_context() -> Dict[str, any]:
+def get_constellation_context() -> dict[str, any]:
     """
     Get current constellation framework context
     Dynamic 8-Star Constellation System with MATRIZ expansion capability

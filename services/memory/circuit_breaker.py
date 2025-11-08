@@ -23,7 +23,7 @@ from collections import deque
 from collections.abc import Awaitable
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -419,7 +419,7 @@ class CircuitBreakerRegistry:
     """
 
     def __init__(self):
-        self._breakers: Dict[str, AdaptiveCircuitBreaker] = {}
+        self._breakers: dict[str, AdaptiveCircuitBreaker] = {}
         self._global_config = CircuitBreakerConfig()
 
     def create_breaker(self,
@@ -441,14 +441,14 @@ class CircuitBreakerRegistry:
         """Get existing circuit breaker by name"""
         return self._breakers.get(name)
 
-    async def get_all_metrics(self) -> Dict[str, CircuitBreakerMetrics]:
+    async def get_all_metrics(self) -> dict[str, CircuitBreakerMetrics]:
         """Get metrics for all registered circuit breakers"""
         metrics = {}
         for name, breaker in self._breakers.items():
             metrics[name] = await breaker.get_metrics()
         return metrics
 
-    async def health_check_all(self) -> Dict[str, bool]:
+    async def health_check_all(self) -> dict[str, bool]:
         """Run health checks on all circuit breakers"""
         results = {}
         tasks = []

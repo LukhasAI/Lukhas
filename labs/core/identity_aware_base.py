@@ -29,7 +29,6 @@ from functools import wraps
 from typing import Any, Callable, Optional
 
 import structlog
-
 from governance.identity.interface import IdentityClient
 
 logger = structlog.get_logger(__name__)

@@ -29,6 +29,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
+import lz4.frame
 from matriz.core.node_interface import (
     CognitiveNode,
     NodeState,
@@ -61,7 +62,7 @@ class MemoryItem:
 
     id: str
     memory_type: MemoryType
-    content: dict[str, Any]
+    content: Any  # Can be dict (uncompressed) or bytes (compressed)
     confidence: float
     salience: float
     priority: MemoryPriority
@@ -72,6 +73,7 @@ class MemoryItem:
     associated_node_ids: list[str] = field(default_factory=list)
     tags: set[str] = field(default_factory=set)
     context: dict[str, Any] = field(default_factory=dict)
+    compressed: bool = False
 
 
 @dataclass
@@ -318,6 +320,7 @@ class MemorySystem(CognitiveNode):
         salience: float = 0.7,
         tags: Optional[set[str]] = None,
         context: Optional[dict[str, Any]] = None,
+        compress: bool = True,
     ) -> str:
         """
         Store a memory item.
@@ -347,12 +350,24 @@ class MemorySystem(CognitiveNode):
             else:
                 priority = MemoryPriority.LOW
 
+            # Compress content if specified
+            is_compressed = False
+            if compress:
+                try:
+                    content_bytes = json.dumps(content).encode("utf-8")
+                    content = lz4.frame.compress(content_bytes)
+                    is_compressed = True
+                except Exception:
+                    # If compression fails, store uncompressed
+                    pass
+
             memory_item = MemoryItem(
                 id=memory_id,
                 memory_type=memory_type,
                 content=content,
                 confidence=confidence,
                 salience=salience,
+                compressed=is_compressed,
                 priority=priority,
                 created_timestamp=current_time,
                 last_accessed=current_time,
@@ -413,7 +428,11 @@ class MemorySystem(CognitiveNode):
             # Apply filters
             filtered_memories = self._filter_memories(all_memories, query)
 
-            # Update access statistics
+        # Decompress content before returning
+        for memory in filtered_memories:
+            memory.content = self.decompress_content(memory)
+
+        # Update access statistics
             for memory in filtered_memories:
                 memory.last_accessed = int(time.time() * 1000)
                 memory.access_count += 1
@@ -423,6 +442,18 @@ class MemorySystem(CognitiveNode):
                 self.stats["cache_hits"] += 1
 
             return filtered_memories[: query.limit]
+
+    def decompress_content(self, memory_item: MemoryItem) -> dict[str, Any]:
+        """Decompress memory content if it is compressed."""
+        if not memory_item.compressed:
+            return memory_item.content
+
+        try:
+            decompressed_bytes = lz4.frame.decompress(memory_item.content)
+            return json.loads(decompressed_bytes.decode("utf-8"))
+        except Exception:
+            # Return raw content if decompression fails
+            return {"error": "decompression_failed", "raw_content": memory_item.content}
 
     def consolidate_memories(self) -> int:
         """
@@ -673,7 +704,8 @@ class MemorySystem(CognitiveNode):
 
             # Text similarity filter
             if query.query_text and query.similarity_search:
-                similarity = self._calculate_similarity(query.query_text, memory.content)
+                content = self.decompress_content(memory)
+                similarity = self._calculate_similarity(query.query_text, content)
                 if similarity < 0.3:  # Minimum similarity threshold
                     continue
 
@@ -799,7 +831,7 @@ class MemorySystem(CognitiveNode):
             result_memories.append(
                 {
                     "id": memory.id,
-                    "content": memory.content,
+                    "content": self.decompress_content(memory),
                     "confidence": memory.confidence,
                     "salience": memory.salience,
                     "memory_type": memory.memory_type.value,
@@ -983,6 +1015,12 @@ class MemorySystem(CognitiveNode):
 
                 # Load memories into appropriate stores
                 for memory_data in data.get("memories", []):
+                    # Convert string representations back to enums before creating the MemoryItem
+                    if "memory_type" in memory_data and isinstance(memory_data["memory_type"], str):
+                        memory_data["memory_type"] = MemoryType(memory_data["memory_type"])
+                    if "priority" in memory_data and isinstance(memory_data["priority"], str):
+                        memory_data["priority"] = MemoryPriority(memory_data["priority"])
+
                     memory_item = MemoryItem(**memory_data)
                     memory_type = memory_item.memory_type
 
@@ -1047,194 +1085,3 @@ class MemorySystem(CognitiveNode):
         """Save memories on destruction if persistence is enabled."""
         if hasattr(self, "persistence_path") and self.persistence_path:
             self._save_memories()
-
-
-# Example usage and testing
-if __name__ == "__main__":
-    # Create memory system
-    memory_system = MemorySystem(
-        context_buffer_size=50,
-        working_memory_size=10,
-        episodic_memory_size=100,
-        semantic_memory_size=200,
-        persistence_path="test_memory.json",
-    )
-
-    print("MATRIZ Memory System Test")
-    print("=" * 50)
-
-    # Test cases
-    test_cases = [
-        # Store operations
-        {
-            "operation": "store",
-            "memory_type": "episodic",
-            "content": {
-                "query": "What is 2+2?",
-                "response": "4",
-                "timestamp": time.time(),
-            },
-            "confidence": 0.9,
-            "salience": 0.8,
-            "tags": ["math", "arithmetic"],
-        },
-        {
-            "operation": "store",
-            "memory_type": "semantic",
-            "content": {
-                "concept": "addition",
-                "definition": "mathematical operation of combining numbers",
-            },
-            "confidence": 0.95,
-            "salience": 0.9,
-            "tags": ["math", "concept"],
-        },
-        {
-            "operation": "store",
-            "memory_type": "working",
-            "content": {
-                "current_task": "testing memory system",
-                "status": "in_progress",
-            },
-            "confidence": 0.8,
-            "salience": 1.0,
-            "tags": ["testing"],
-        },
-        # Retrieve operations
-        {
-            "operation": "retrieve",
-            "query": {
-                "text": "math",
-                "types": ["episodic", "semantic"],
-                "min_confidence": 0.5,
-                "limit": 5,
-            },
-        },
-        {
-            "operation": "retrieve",
-            "query": {"tags": ["arithmetic"], "min_salience": 0.7},
-        },
-        # Management operations
-        {"operation": "stats"},
-        {"operation": "consolidate"},
-        {"operation": "decay"},
-    ]
-
-    success_count = 0
-
-    for i, test_case in enumerate(test_cases, 1):
-        operation = test_case["operation"]
-        print(f"\nTest {i:2d}: {operation.upper()} operation")
-        print("-" * 30)
-
-        try:
-            # Process the operation
-            result = memory_system.process(test_case)
-
-            # Validate output
-            is_valid = memory_system.validate_output(result)
-
-            print(f"Operation: {operation}")
-            print(f"Confidence: {result['confidence']:.3f}")
-            print(f"Processing time: {result['processing_time']:.6f}s")
-            print(f"Output valid: {is_valid}")
-
-            # Show result details
-            operation_result = result["result"]
-            if isinstance(operation_result, dict):
-                if "memory_id" in operation_result:
-                    print(f"Memory ID: {operation_result['memory_id'][:8]}...")
-                if "count" in operation_result:
-                    print(f"Count: {operation_result['count']}")
-                if "error" in operation_result:
-                    print(f"Error: {operation_result['error']}")
-
-            # Show MATRIZ node details
-            matriz_node = result["matriz_node"]
-            print(f"MATRIZ Node ID: {matriz_node['id'][:8]}...")
-            print(f"Node Type: {matriz_node['type']}")
-
-            state = matriz_node["state"]
-            print(f"State: conf={state['confidence']:.3f}, sal={state['salience']:.3f}")
-
-            if matriz_node["reflections"]:
-                reflection = matriz_node["reflections"][0]
-                print(
-                    f"Reflection: {reflection['reflection_type']} - {reflection['cause'][:40]}..."
-                )
-
-            if is_valid:
-                success_count += 1
-                print("✓ PASS")
-            else:
-                print("✗ FAIL")
-
-        except Exception as e:
-            print(f"✗ EXCEPTION: {e!s}")
-
-    # Final statistics
-    print("\n" + "=" * 50)
-    print(
-        f"Test Results: {success_count}/{len(test_cases)} passed ({success_count / len(test_cases) * 100:.1f}%)"
-    )
-
-    # Show memory system statistics
-    stats_result = memory_system.process({"operation": "stats"})
-    stats = stats_result["result"]
-
-    print("\nMemory System Statistics:")
-    print(f"Memory Counts: {stats['memory_counts']}")
-    print(f"Utilization: {stats['utilization']}")
-    print(f"Operations: {stats['operations']}")
-    print(f"Processing History: {len(memory_system.get_trace())} MATRIZ nodes created")
-
-    # Test direct memory operations
-    print("\nDirect Memory Operations Test:")
-
-    # Store some memories directly
-    mem_id1 = memory_system.store_memory(
-        {"fact": "The sky is blue"},
-        MemoryType.SEMANTIC,
-        confidence=0.9,
-        tags={"color", "sky"},
-    )
-
-    mem_id2 = memory_system.store_memory(
-        {"user_query": "What color is the sky?", "response": "Blue"},
-        MemoryType.EPISODIC,
-        confidence=0.85,
-        tags={"question", "color"},
-    )
-
-    # Retrieve memories
-    query = MemoryQuery(
-        query_text="sky color",
-        memory_types=[MemoryType.SEMANTIC, MemoryType.EPISODIC],
-        min_confidence=0.8,
-        limit=5,
-    )
-
-    retrieved = memory_system.retrieve_memories(query)
-    print(f"Retrieved {len(retrieved)} memories matching 'sky color'")
-
-    for memory in retrieved:
-        print(
-            f"  - {memory.memory_type.value}: {memory.confidence:.2f} conf, {memory.salience:.2f} sal"
-        )
-        print(f"    Content: {str(memory.content)[:60]}...")
-        print(f"    Tags: {memory.tags}")
-
-    print("\nFinal memory counts:")
-    for memory_type in MemoryType:
-        if memory_type == MemoryType.CONTEXT:
-            count = len(memory_system.context_buffer)
-        elif memory_type == MemoryType.WORKING:
-            count = len(memory_system.working_memory)
-        elif memory_type == MemoryType.EPISODIC:
-            count = len(memory_system.episodic_memory)
-        elif memory_type == MemoryType.SEMANTIC:
-            count = len(memory_system.semantic_memory)
-        elif memory_type == MemoryType.CONSOLIDATED:
-            count = len(memory_system.consolidated_memory)
-
-        print(f"  {memory_type.value}: {count}")

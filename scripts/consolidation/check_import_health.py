@@ -14,7 +14,6 @@ import argparse
 import importlib
 import sys
 import warnings
-from typing import Tuple
 
 # Import paths to test
 IMPORT_TESTS = [
@@ -43,7 +42,7 @@ IMPORT_TESTS = [
 ]
 
 
-def test_import(module_name: str, description: str, verbose: bool = False) -> Tuple[bool, str]:
+def test_import(module_name: str, description: str, verbose: bool = False) -> tuple[bool, str]:
     """
     Test if a module can be imported.
 

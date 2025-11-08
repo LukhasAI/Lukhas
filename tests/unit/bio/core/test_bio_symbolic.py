@@ -4,9 +4,10 @@
 # criticality: P1
 
 import pytest
+from unittest import mock
 
 try:
-    from bio.core.bio_symbolic import BioSymbolic, BioSymbolicOrchestrator, SymbolicGlyph
+    from lukhas_website.lukhas.bio.core.bio_symbolic import BioSymbolic, BioSymbolicOrchestrator, SymbolicGlyph
 except ImportError:  # pragma: no cover
     pytest.skip("Bio symbolic module unavailable", allow_module_level=True)
 
@@ -261,3 +262,40 @@ class TestBioSymbolicOrchestrator:
         ]
         dominant_glyph = self.orchestrator.get_dominant_glyph(results)
         assert dominant_glyph in ["A", "B"]
+
+    def test_trace_generation(self):
+        """Test that the orchestrator generates a trace."""
+        inputs = [
+            {"type": "rhythm", "frequency": 0.05, "timestamp": "now"},
+            {"type": "energy", "level": 0.3},
+        ]
+        self.orchestrator.orchestrate(inputs)
+
+        assert hasattr(self.orchestrator, 'trace')
+        assert len(self.orchestrator.trace) == 2
+
+        trace_step_1 = self.orchestrator.trace[0]
+        assert trace_step_1['step'] == 1
+        assert trace_step_1['processor'] == 'RhythmProcessor'
+        assert trace_step_1['input'] == inputs[0]
+
+        trace_step_2 = self.orchestrator.trace[1]
+        assert trace_step_2['step'] == 2
+        assert trace_step_2['processor'] == 'EnergyProcessor'
+        assert trace_step_2['input'] == inputs[1]
+
+    def test_visualize_trace(self, mocker):
+        """Test that the visualize_trace method can be called."""
+        # Mock the visualize_trace method to avoid displaying a plot
+        mocker.patch.object(self.orchestrator, 'visualize_trace')
+
+        inputs = [{"type": "energy", "level": 0.9, "timestamp": "now"}]
+        self.orchestrator.orchestrate(inputs)
+
+        # Check if orchestrator has the visualize_trace method
+        assert hasattr(self.orchestrator, 'visualize_trace')
+
+        self.orchestrator.visualize_trace()
+
+        # Verify that the mocked visualize_trace function was called
+        self.orchestrator.visualize_trace.assert_called_once_with()

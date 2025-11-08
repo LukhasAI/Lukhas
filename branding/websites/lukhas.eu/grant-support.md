@@ -1,12 +1,30 @@
 ---
 domain: lukhas.eu
 title: "Grant Support Hub - Horizon Europe Partnership Resources"
+evidence_links:
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/guardian-compliance-997pct.md'
+  - 'release_artifacts/evidence/matriz-completion-87pct.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'
+  - 'release_artifacts/evidence/user-satisfaction-94pct.md'
 page_type: grant-support
 updated: 2025-11-05
 status: ready-for-implementation
 purpose: "Facilitate organizations integrating LUKHAS into EU grant applications"
 tone_flow: 45-user-friendly_45-academic-research_10-poetic
 target_audience: "Grant coordinators, principal investigators, consortium builders"
+canonical: https://lukhas.eu/grant-support
+seo:
+  description: "Horizon Europe grant support - MATRIZ performance evidence, TRL documentation, compliance mapping, and consortium partnership frameworks for successful EU applications."
+  keywords:
+    - "Horizon Europe grants"
+    - "EU research funding"
+    - "MATRIZ grant support"
+    - "research consortium partnerships"
+    - "European AI grants"
+last_reviewed: "2025-11-08"
+keywords: "Horizon Europe grants, EU research funding, MATRIZ grant support, research consortium partnerships, European AI grants"
 ---
 
 # Grant Support Hub: Partnering for Horizon Europe Success

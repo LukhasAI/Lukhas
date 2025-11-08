@@ -2,13 +2,12 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import Dict, List
 
 # ΛTAG: star_canon
 _DEF_KEYS = ("id", "emoji", "domain")
 
 
-def _derive_label(entry: Dict[str, str]) -> str:
+def _derive_label(entry: dict[str, str]) -> str:
     """Construct the canonical label string from a star definition entry."""
     emoji = (entry.get("emoji") or "").strip()
     star_id = (entry.get("id") or "").strip()
@@ -18,7 +17,7 @@ def _derive_label(entry: Dict[str, str]) -> str:
     return f"{emoji} {star_id}".strip()
 
 
-def extract_canon_labels(canon: Dict[str, object]) -> List[str]:
+def extract_canon_labels(canon: dict[str, object]) -> list[str]:
     """Return normalized label strings from a star canon payload."""
     labels = canon.get("labels")
     if isinstance(labels, list):
@@ -29,7 +28,7 @@ def extract_canon_labels(canon: Dict[str, object]) -> List[str]:
     return []
 
 
-def normalize_star_label(name: str, canon: Dict[str, object]) -> str:
+def normalize_star_label(name: str, canon: dict[str, object]) -> str:
     """Normalize a star name using canon labels and aliases."""
     if not name:
         return name
@@ -42,7 +41,7 @@ def normalize_star_label(name: str, canon: Dict[str, object]) -> str:
     return name
 
 
-def iter_star_definitions(canon: Dict[str, object]) -> Iterable[Dict[str, str]]:
+def iter_star_definitions(canon: dict[str, object]) -> Iterable[dict[str, str]]:
     """Yield structured star definitions if present."""
     stars = canon.get("stars", [])
     if isinstance(stars, list):

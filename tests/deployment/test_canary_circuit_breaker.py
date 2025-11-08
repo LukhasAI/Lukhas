@@ -23,7 +23,7 @@ import statistics
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import pytest
 
@@ -80,11 +80,11 @@ class MATRIZCanaryCircuitBreaker:
         """Initialize circuit breaker."""
         self.config = config
         self.state = CanaryState.INITIALIZING
-        self.metrics_history: List[CanaryMetrics] = []
-        self.rollback_triggers: List[RollbackTrigger] = []
+        self.metrics_history: list[CanaryMetrics] = []
+        self.rollback_triggers: list[RollbackTrigger] = []
         self.baseline_throughput: Optional[float] = None
         self.slo_latency_p95: float = 100.0  # 100ms SLO
-        self.rollback_decisions: List[Dict[str, Any]] = []
+        self.rollback_decisions: list[dict[str, Any]] = []
 
     def set_baseline_metrics(self, throughput_rps: float, latency_p95_ms: float):
         """Set baseline metrics for comparison."""
@@ -92,7 +92,7 @@ class MATRIZCanaryCircuitBreaker:
         self.slo_latency_p95 = latency_p95_ms  # This becomes the SLO
         logger.info(f"Baseline set: {throughput_rps} RPS, {latency_p95_ms}ms P95 SLO")
 
-    def evaluate_circuit_breaker(self, current_metrics: CanaryMetrics) -> Tuple[bool, Optional[RollbackTrigger], Dict[str, Any]]:
+    def evaluate_circuit_breaker(self, current_metrics: CanaryMetrics) -> tuple[bool, Optional[RollbackTrigger], dict[str, Any]]:
         """Evaluate if circuit breaker should trigger rollback."""
         start_time = time.perf_counter()
 
@@ -165,7 +165,7 @@ class MATRIZCanaryCircuitBreaker:
         self.rollback_decisions.append(evaluation_details)
         return rollback_needed, trigger, evaluation_details
 
-    def _evaluate_error_rate(self, metrics: CanaryMetrics) -> Dict[str, Any]:
+    def _evaluate_error_rate(self, metrics: CanaryMetrics) -> dict[str, Any]:
         """Evaluate error rate breach."""
         duration_cutoff = metrics.timestamp - (self.config.error_rate_duration_minutes * 60)
         recent_metrics = [m for m in self.metrics_history if m.timestamp >= duration_cutoff]
@@ -191,7 +191,7 @@ class MATRIZCanaryCircuitBreaker:
             "sustained_breach": sustained_breach
         }
 
-    def _evaluate_latency(self, metrics: CanaryMetrics) -> Dict[str, Any]:
+    def _evaluate_latency(self, metrics: CanaryMetrics) -> dict[str, Any]:
         """Evaluate latency breach."""
         latency_threshold = self.slo_latency_p95 * self.config.latency_multiplier_threshold
         duration_cutoff = metrics.timestamp - (self.config.latency_duration_minutes * 60)
@@ -218,7 +218,7 @@ class MATRIZCanaryCircuitBreaker:
             "sustained_breach": sustained_breach
         }
 
-    def _evaluate_throughput(self, metrics: CanaryMetrics) -> Dict[str, Any]:
+    def _evaluate_throughput(self, metrics: CanaryMetrics) -> dict[str, Any]:
         """Evaluate throughput drop."""
         if not self.baseline_throughput:
             return {
@@ -253,7 +253,7 @@ class MATRIZCanaryCircuitBreaker:
             "sustained_drop": sustained_drop
         }
 
-    def _evaluate_matriz_health(self, metrics: CanaryMetrics) -> Dict[str, Any]:
+    def _evaluate_matriz_health(self, metrics: CanaryMetrics) -> dict[str, Any]:
         """Evaluate MATRIZ decision health."""
         matriz_threshold = self.config.matriz_failure_tolerance
 
@@ -268,7 +268,7 @@ class MATRIZCanaryCircuitBreaker:
             "fail_closed_triggered": trigger_rollback
         }
 
-    def simulate_burn_rate_scenario(self, scenario_name: str, metrics_sequence: List[CanaryMetrics]) -> Dict[str, Any]:
+    def simulate_burn_rate_scenario(self, scenario_name: str, metrics_sequence: list[CanaryMetrics]) -> dict[str, Any]:
         """Simulate a burn-rate scenario and track rollback decision."""
         logger.info(f"Simulating burn-rate scenario: {scenario_name}")
 
@@ -618,7 +618,7 @@ class TestMATRIZCanaryCircuitBreaker:
 
         logger.info(f"✅ Comprehensive burn-rate scenarios: {passed_scenarios}/{len(test_scenarios)} passed")
 
-    def _generate_scenario_metrics(self, scenario_name: str) -> List[CanaryMetrics]:
+    def _generate_scenario_metrics(self, scenario_name: str) -> list[CanaryMetrics]:
         """Generate metrics sequence for specific scenario."""
         base_time = time.time()
         metrics = []

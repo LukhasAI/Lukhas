@@ -27,7 +27,6 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
-
 from bio.core.symbolic_adaptive_threshold_colony import create_threshold_colony
 from bio.core.symbolic_anomaly_filter_colony import create_anomaly_filter_colony
 from bio.core.symbolic_contextual_mapping_colony import create_mapping_colony

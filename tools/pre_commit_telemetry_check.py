@@ -8,10 +8,9 @@ attributes before commit. Ensures semconv compliance is maintained.
 
 import json
 import sys
-from typing import List
 
 
-def validate_telemetry_fixture(fixture_path: str) -> List[str]:
+def validate_telemetry_fixture(fixture_path: str) -> list[str]:
     """Validate telemetry fixture has required semconv attributes."""
     errors = []
 

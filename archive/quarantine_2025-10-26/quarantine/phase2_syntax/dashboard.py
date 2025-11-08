@@ -11,16 +11,16 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+from core.identity.lambda_id_core import LukhasIdentityService
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
-from pydantic import BaseModel
-
-from core.identity.lambda_id_core import LukhasIdentityService
-from governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyEngine
 from orchestration.context_bus_enhanced import (
     ContextBusOrchestrator,
     WorkflowPipelines,
 )
+from pydantic import BaseModel
+
+from governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyEngine
 
 # Initialize FastAPI app
 app = FastAPI(

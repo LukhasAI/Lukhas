@@ -6,6 +6,11 @@ Tests actual functionality, not just imports
 
 from datetime import datetime, timezone
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 def test_memory_functionality():
     """Test memory system actual functionality"""

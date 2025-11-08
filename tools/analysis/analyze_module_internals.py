@@ -10,6 +10,11 @@ import json
 import os
 from pathlib import Path
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 class ModuleInternalAnalyzer:
     def __init__(self):

@@ -24,6 +24,11 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 # Exclusion patterns (external, tests, build artifacts)
 EXCLUDE_PATTERNS = {
     'tests', 'docs', '__pycache__', 'node_modules', '.venv', 'venv',

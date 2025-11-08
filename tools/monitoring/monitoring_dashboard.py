@@ -16,7 +16,7 @@ Features:
 import asyncio
 import sqlite3
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any
 
 try:
     import uvicorn
@@ -86,7 +86,7 @@ class MonitoringDashboard:
         async def get_metrics_history(hours: int = 24):
             return self._get_metrics_history(hours)
 
-    async def _get_system_status(self) -> Dict[str, Any]:
+    async def _get_system_status(self) -> dict[str, Any]:
         """Get overall system status"""
         summary = self.alerting_system.get_alert_summary()
         metrics = await self.monitoring_integration.collect_enhanced_metrics()
@@ -108,7 +108,7 @@ class MonitoringDashboard:
             "timestamp": metrics.timestamp.isoformat()
         }
 
-    async def _get_current_metrics(self) -> Dict[str, Any]:
+    async def _get_current_metrics(self) -> dict[str, Any]:
         """Get current system metrics"""
         metrics = await self.monitoring_integration.collect_enhanced_metrics()
         return {
@@ -124,7 +124,7 @@ class MonitoringDashboard:
             "active_connections": metrics.active_connections
         }
 
-    def _get_alerts(self) -> List[Dict[str, Any]]:
+    def _get_alerts(self) -> list[dict[str, Any]]:
         """Get current alerts"""
         alerts = []
         for alert in self.alerting_system.active_alerts.values():
@@ -143,7 +143,7 @@ class MonitoringDashboard:
             })
         return alerts
 
-    def _get_metrics_history(self, hours: int = 24) -> List[Dict[str, Any]]:
+    def _get_metrics_history(self, hours: int = 24) -> list[dict[str, Any]]:
         """Get historical metrics"""
         try:
             since = datetime.now(timezone.utc) - timedelta(hours=hours)

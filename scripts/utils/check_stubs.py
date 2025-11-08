@@ -8,6 +8,11 @@ Add detailed documentation and examples as needed.
 
 import os
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 # Get all stub directories
 stub_dirs = []
 for dir_name in os.listdir("."):

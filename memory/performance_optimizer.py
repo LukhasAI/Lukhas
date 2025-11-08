@@ -14,7 +14,7 @@ import hashlib
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 from weakref import WeakSet
 
 try:
@@ -80,7 +80,7 @@ class OptimizationResult:
     compression_ratio: float
     optimization_time_ms: float
     cache_efficiency: float
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class FoldPerformanceOptimizer:
@@ -105,14 +105,14 @@ class FoldPerformanceOptimizer:
 
         # Caching system
         self.cache_size = cache_size
-        self.fold_cache: Dict[str, Tuple[Any, float]] = {}  # fold_id -> (data, timestamp)
-        self.result_cache: Dict[str, Tuple[Any, float]] = {}  # operation_hash -> (result, timestamp)
+        self.fold_cache: dict[str, tuple[Any, float]] = {}  # fold_id -> (data, timestamp)
+        self.result_cache: dict[str, tuple[Any, float]] = {}  # operation_hash -> (result, timestamp)
         self.cache_ttl_sec = 300.0  # 5 minutes
 
         # Batch processing
         self.batch_threshold = batch_threshold
-        self.pending_operations: Dict[str, List[Any]] = defaultdict(list)
-        self.batch_timer_tasks: Dict[str, asyncio.Task] = {}
+        self.pending_operations: dict[str, list[Any]] = defaultdict(list)
+        self.batch_timer_tasks: dict[str, asyncio.Task] = {}
 
         # Optimization scheduling
         self.optimization_interval_sec = optimization_interval_sec
@@ -148,7 +148,7 @@ class FoldPerformanceOptimizer:
             task.cancel()
         self.batch_timer_tasks.clear()
 
-    def _generate_operation_hash(self, operation: str, params: Dict[str, Any]) -> str:
+    def _generate_operation_hash(self, operation: str, params: dict[str, Any]) -> str:
         """Generate hash for caching operation results."""
 
         # Create deterministic hash from operation and parameters
@@ -248,7 +248,7 @@ class FoldPerformanceOptimizer:
 
         return result
 
-    async def _optimize_items_batch(self, items: List[MemoryItem]) -> List[MemoryItem]:
+    async def _optimize_items_batch(self, items: list[MemoryItem]) -> list[MemoryItem]:
         """Optimize memory items using batch processing."""
 
         if len(items) < self.batch_threshold:
@@ -268,17 +268,17 @@ class FoldPerformanceOptimizer:
 
         return optimized_items
 
-    async def _optimize_items_single(self, items: List[MemoryItem]) -> List[MemoryItem]:
+    async def _optimize_items_single(self, items: list[MemoryItem]) -> list[MemoryItem]:
         """Optimize small sets of memory items."""
 
         # Simple optimization for small sets
         return [item for item in items if self._is_item_worth_keeping(item)]
 
-    def _group_items_by_similarity(self, items: List[MemoryItem]) -> List[List[MemoryItem]]:
+    def _group_items_by_similarity(self, items: list[MemoryItem]) -> list[list[MemoryItem]]:
         """Group items by content similarity for batch optimization."""
 
         # Simple similarity grouping based on content type
-        groups: Dict[str, List[MemoryItem]] = defaultdict(list)
+        groups: dict[str, list[MemoryItem]] = defaultdict(list)
 
         for item in items:
             # Group by content type or tags
@@ -293,7 +293,7 @@ class FoldPerformanceOptimizer:
 
         return list(groups.values())
 
-    async def _optimize_similar_items(self, items: List[MemoryItem]) -> List[MemoryItem]:
+    async def _optimize_similar_items(self, items: list[MemoryItem]) -> list[MemoryItem]:
         """Optimize a group of similar items."""
 
         # Remove duplicates and low-importance items
@@ -384,7 +384,7 @@ class FoldPerformanceOptimizer:
             except asyncio.TimeoutError:
                 break
 
-    async def _handle_optimization_request(self, request: Dict[str, Any]) -> None:
+    async def _handle_optimization_request(self, request: dict[str, Any]) -> None:
         """Handle individual optimization request."""
 
         # Process optimization request based on type
@@ -422,7 +422,7 @@ class FoldPerformanceOptimizer:
             if avg_batch_duration > 200:  # Too slow
                 self.batch_threshold = int(self.batch_threshold * 1.5)
 
-    def get_performance_report(self) -> Dict[str, Any]:
+    def get_performance_report(self) -> dict[str, Any]:
         """Get comprehensive performance report."""
 
         return {

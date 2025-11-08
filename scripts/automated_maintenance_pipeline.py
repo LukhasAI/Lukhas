@@ -10,7 +10,12 @@ import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Tuple
+from typing import Dict
+
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 class LUKHASMaintenancePipeline:
@@ -30,7 +35,7 @@ class LUKHASMaintenancePipeline:
         self.maintenance_log.append(log_entry)
         print(f"[{status}] {action}: {details}")
 
-    def run_script(self, script_name: str, description: str) -> Tuple[bool, str]:
+    def run_script(self, script_name: str, description: str) -> tuple[bool, str]:
         """Run a maintenance script and capture results"""
         script_path = self.scripts_dir / script_name
 

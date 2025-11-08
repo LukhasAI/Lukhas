@@ -17,7 +17,7 @@ from __future__ import annotations
 import argparse
 import json
 import pathlib
-from typing import Dict, List, Tuple
+from typing import List, Tuple
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
@@ -51,7 +51,7 @@ API_TIER_RULES = {
 }
 
 
-def analyze_api_module(manifest_path: pathlib.Path) -> Tuple[str, float, str]:
+def analyze_api_module(manifest_path: pathlib.Path) -> tuple[str, float, str]:
     """
     Analyze API module and suggest star rating.
 
@@ -79,8 +79,8 @@ def analyze_api_module(manifest_path: pathlib.Path) -> Tuple[str, float, str]:
     for cap in capabilities:
         full_text += f" {cap.get('name', '')} {cap.get('description', '')}".lower()
 
-    scores: Dict[str, float] = {}
-    reasons: List[str] = []
+    scores: dict[str, float] = {}
+    reasons: list[str] = []
 
     for star, rules in API_TIER_RULES.items():
         score = 0.0
@@ -181,7 +181,7 @@ def main():
 
     if changes:
         print("\nStar Distribution:")
-        star_counts: Dict[str, int] = {}
+        star_counts: dict[str, int] = {}
         for change in changes:
             star = change["suggested"]
             star_counts[star] = star_counts.get(star, 0) + 1

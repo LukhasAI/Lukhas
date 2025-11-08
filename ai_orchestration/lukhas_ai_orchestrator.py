@@ -20,7 +20,7 @@ import time
 from collections import deque
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from uuid import uuid4
 
 import aiohttp
@@ -125,7 +125,7 @@ class LUKHASAIOrchestrator:
         ]
         return "\n".join(context_parts)
 
-    def _load_routing_config(self) -> Dict[str, Any]:
+    def _load_routing_config(self) -> dict[str, Any]:
         """Load dynamic routing configuration from YAML file"""
         config_path = self.workspace_root / "config" / "orchestrator_routing.yaml"
 
@@ -177,7 +177,7 @@ class LUKHASAIOrchestrator:
             # Keep existing configuration
             return False
 
-    def get_routing_info(self, task_type: Optional[str] = None) -> Dict[str, Any]:
+    def get_routing_info(self, task_type: Optional[str] = None) -> dict[str, Any]:
         """Get current routing configuration info for debugging/monitoring"""
         if task_type:
             routing_rules = self.routing_config.get("routing_rules", {})
@@ -197,7 +197,7 @@ class LUKHASAIOrchestrator:
                 "available_tasks": list(self.routing_config.get("routing_rules", {}).keys())
             }
 
-    async def validate_provider_health(self, provider_name: str) -> Dict[str, Any]:
+    async def validate_provider_health(self, provider_name: str) -> dict[str, Any]:
         """Validate provider API compatibility and health with comprehensive metrics"""
         provider = self.providers.get(provider_name)
         if not provider:
@@ -280,7 +280,7 @@ class LUKHASAIOrchestrator:
             latency = time.time() - start_time
             return {"healthy": False, "error": str(e), "latency": latency}
 
-    async def get_provider_health_status(self) -> Dict[str, Dict[str, Any]]:
+    async def get_provider_health_status(self) -> dict[str, dict[str, Any]]:
         """Get health status for all providers with SLA compliance metrics"""
         health_results = {}
         tasks = []
@@ -559,7 +559,7 @@ class LUKHASAIOrchestrator:
     # Guardian Integration Methods for T4/0.01% Excellence
 
     async def select_optimal_provider_with_ethics(self, primary_provider: str,
-                                                 fallback_providers: List[str],
+                                                 fallback_providers: list[str],
                                                  task_type: str) -> str:
         """Enhanced provider selection considering ethical scores and health"""
         # Start with the standard health-based selection
@@ -616,7 +616,7 @@ class LUKHASAIOrchestrator:
         self._provider_ethical_scores[provider_name].append(result)
 
     def _create_ethical_violation_response(self, task_type: str, reason: str,
-                                         guardian_result: Dict[str, Any],
+                                         guardian_result: dict[str, Any],
                                          correlation_id: str) -> str:
         """Create response for ethically blocked requests"""
         return f"""# Ethical Validation Notice
@@ -640,7 +640,7 @@ For more information, consult the LUKHAS Constellation Framework ethical guideli
 """
 
     def _create_response_violation_notice(self, provider_name: str, reason: str,
-                                        validation_result: Dict[str, Any],
+                                        validation_result: dict[str, Any],
                                         correlation_id: str) -> str:
         """Create notice for ethically flagged AI responses"""
         return f"""# Response Validation Notice
@@ -666,7 +666,7 @@ The original AI response has been flagged for potential ethical concerns and has
 *This is an automated Guardian System response to maintain T4/0.01% ethical standards.*
 """
 
-    def get_guardian_orchestrator_status(self) -> Dict[str, Any]:
+    def get_guardian_orchestrator_status(self) -> dict[str, Any]:
         """Get comprehensive Guardian-Orchestrator integration status for monitoring"""
         if not self._guardian_integration_enabled:
             return {
@@ -755,7 +755,7 @@ The original AI response has been flagged for potential ethical concerns and has
         return "healthy"
 
     async def validate_request_ethics(self, task_type: str, content: str,
-                                    context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+                                    context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Standalone method to validate request ethics"""
         if not self._guardian_integration_enabled or not self._guardian_instance:
             return {

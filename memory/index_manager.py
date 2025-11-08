@@ -28,7 +28,6 @@ import threading
 import time
 from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Dict, List
 from uuid import uuid4
 
 from memory.embedding_index import EmbeddingIndex
@@ -58,9 +57,9 @@ class IndexManager:
 
     def __init__(self):
         """Initialize the index manager."""
-        self._indexes: Dict[str, EmbeddingIndex] = {}
-        self._metadata: Dict[str, IndexMetadata] = {}
-        self._name_to_id: Dict[str, str] = {}
+        self._indexes: dict[str, EmbeddingIndex] = {}
+        self._metadata: dict[str, IndexMetadata] = {}
+        self._name_to_id: dict[str, str] = {}
         self._lock = threading.RLock()
         logger.info("IndexManager initialized", extra={
             "ΛTAG": "memory_index_manager_init",
@@ -153,7 +152,7 @@ class IndexManager:
         with self._lock:
             return self._metadata.get(index_id)
 
-    def list_indexes(self) -> List[IndexMetadata]:
+    def list_indexes(self) -> list[IndexMetadata]:
         """
         List all indexes with metadata.
 
@@ -311,7 +310,7 @@ class IndexManager:
         index_id: str,
         query_vector: Iterable[float],
         k: int = 10
-    ) -> List[str]:
+    ) -> list[str]:
         """
         Search for nearest neighbors in an index.
 
@@ -349,7 +348,7 @@ class IndexManager:
         self,
         index_id: str,
         item_id: str
-    ) -> List[float] | None:
+    ) -> list[float] | None:
         """
         Get a vector from an index by item ID.
 

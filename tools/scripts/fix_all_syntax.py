@@ -4,6 +4,11 @@
 import ast
 from pathlib import Path
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 def fix_multiline_string_error(file_path):
     """Fix multiline string EOL errors"""

@@ -22,9 +22,6 @@ import time
 from dataclasses import asdict
 from typing import Any, Optional
 
-from identity.deployment_package import DemoOrchestrator, TestOrchestrator
-from identity.lukhus_ultimate_test_suite import UltimateTestOrchestrator
-from identity.qrg_test_suite import TestQRGCore
 from core.bridges.identity_core_bridge import IdentityCoreBridge
 from core.common import get_logger
 from governance.identity.auth_backend.trust_scorer import LukhasTrustScorer
@@ -35,6 +32,9 @@ from governance.identity.core.qrs_manager import QRSManager
 from governance.identity.core.sent.consent_manager import LambdaConsentManager
 from governance.identity.core.swarm.tier_aware_swarm_hub import TierAwareSwarmHub
 from governance.identity.interface import ConsentManager
+from identity.deployment_package import DemoOrchestrator, TestOrchestrator
+from identity.lukhus_ultimate_test_suite import UltimateTestOrchestrator
+from identity.qrg_test_suite import TestQRGCore
 
 # Agent 1 Task 3: Add enterprise authentication imports
 try:

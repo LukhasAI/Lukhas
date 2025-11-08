@@ -10,9 +10,14 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 import yaml
+
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 class ModuleDirectoryPopulator:
@@ -788,7 +793,7 @@ if __name__ == "__main__":
     unittest.main()
 '''
 
-    def _generate_component_tests(self, entrypoints: List[str]) -> str:
+    def _generate_component_tests(self, entrypoints: list[str]) -> str:
         """Generate component-specific tests."""
         test_code = ""
 
@@ -894,7 +899,7 @@ if __name__ == "__main__":
     unittest.main()
 '''
 
-    def _generate_dependency_tests(self, dependencies: List[str]) -> str:
+    def _generate_dependency_tests(self, dependencies: list[str]) -> str:
         """Generate dependency integration tests."""
         test_code = ""
 

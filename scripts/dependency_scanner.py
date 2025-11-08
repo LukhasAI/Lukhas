@@ -8,7 +8,12 @@ import ast
 import json
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, Set
+from typing import Dict
+
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 class DependencyScanner:
@@ -17,7 +22,7 @@ class DependencyScanner:
         self.dependencies = defaultdict(set)
         self.module_files = defaultdict(list)
 
-    def scan_file(self, file_path: Path) -> Set[str]:
+    def scan_file(self, file_path: Path) -> set[str]:
         """Extract imports from a Python file"""
         try:
             with open(file_path, encoding='utf-8') as f:

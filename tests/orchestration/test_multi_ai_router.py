@@ -63,7 +63,7 @@ class TestModelSelector:
             max_responses=2
         )
 
-        selected = self.selector.select_models(request)
+        selected = self.selector.select_models(_request)
         assert len(selected) == 2
         assert any(m.model_id == "gpt-4" for m in selected)
         assert any(m.model_id == "claude-3-sonnet" for m in selected)
@@ -93,7 +93,7 @@ class TestModelSelector:
         self.selector.register_model(slow_model)
 
         _request = RoutingRequest(prompt="test", max_responses=2)
-        selected = self.selector.select_models(request)
+        selected = self.selector.select_models(_request)
 
         # Should select both models, but order based on score
         assert len(selected) == 2
@@ -268,7 +268,7 @@ class TestMultiAIRouter:
 
     @pytest.mark.asyncio
     async def test_route_request_mock(self):
-        """Test multi-AI request routing with mock implementation"""
+        """Test multi-AI _request routing with mock implementation"""
         _request = RoutingRequest(
             prompt="What is the meaning of life?",
             consensus_type=ConsensusType.MAJORITY,
@@ -286,13 +286,13 @@ class TestMultiAIRouter:
         assert result is not None
         assert result.final_response is not None
         assert result.consensus_type == ConsensusType.MAJORITY
-        assert len(result.participating_models) >= request.min_responses
+        assert len(result.participating_models) >= _request.min_responses
         assert 0 <= result.confidence <= 1
         assert 0 <= result.agreement_ratio <= 1
 
     @pytest.mark.asyncio
     async def test_route_request_timeout(self):
-        """Test request timeout handling"""
+        """Test _request timeout handling"""
         _request = RoutingRequest(
             prompt="Test prompt",
             timeout=0.1,  # Very short timeout
@@ -352,14 +352,14 @@ class TestRoutingRequestValidation:
         """Test RoutingRequest default values"""
         _request = RoutingRequest(prompt="test")
 
-        assert request.prompt == "test"
-        assert request.consensus_type == ConsensusType.MAJORITY
-        assert request.min_responses == 2
-        assert request.max_responses == 3
-        assert request.timeout == 30.0
-        assert isinstance(request.context, dict)
-        assert isinstance(request.models, list)
-        assert isinstance(request.metadata, dict)
+        assert _request.prompt == "test"
+        assert _request.consensus_type == ConsensusType.MAJORITY
+        assert _request.min_responses == 2
+        assert _request.max_responses == 3
+        assert _request.timeout == 30.0
+        assert isinstance(_request.context, dict)
+        assert isinstance(_request.models, list)
+        assert isinstance(_request.metadata, dict)
 
     def test_routing_request_custom_values(self):
         """Test RoutingRequest with custom values"""
@@ -374,14 +374,14 @@ class TestRoutingRequestValidation:
             metadata={"custom": True}
         )
 
-        assert request.prompt == "custom prompt"
-        assert request.context["key"] == "value"
-        assert request.models == ["openai:gpt-4"]
-        assert request.consensus_type == ConsensusType.WEIGHTED
-        assert request.min_responses == 1
-        assert request.max_responses == 1
-        assert request.timeout == 10.0
-        assert request.metadata["custom"] is True
+        assert _request.prompt == "custom prompt"
+        assert _request.context["key"] == "value"
+        assert _request.models == ["openai:gpt-4"]
+        assert _request.consensus_type == ConsensusType.WEIGHTED
+        assert _request.min_responses == 1
+        assert _request.max_responses == 1
+        assert _request.timeout == 10.0
+        assert _request.metadata["custom"] is True
 
 
 class TestPerformanceRequirements:
@@ -416,7 +416,7 @@ class TestPerformanceRequirements:
                 latencies.append(latency)
                 assert result is not None
             except Exception as e:
-                # Log but don't fail test for individual request failures
+                # Log but don't fail test for individual _request failures
                 print(f"Request failed: {e}")
                 latencies.append(float('inf'))
 
@@ -511,7 +511,7 @@ class TestOrchestrationIntegration:
             metadata={"test": "integration"}
         )
 
-        result = await router.route_request(request)
+        result = await router.route_request(_request)
 
         # Verify result structure
         assert result.final_response is not None

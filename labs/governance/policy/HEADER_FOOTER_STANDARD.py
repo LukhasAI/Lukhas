@@ -35,7 +35,6 @@
 """
 from __future__ import annotations
 
-
 # HEADER TEMPLATE - Copy and customize for each module
 from typing import Optional
 

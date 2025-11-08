@@ -54,9 +54,9 @@ class DocumentationGenerator:
 
     def __init__(self, lukhas_root: Path):
         self.lukhas_root = lukhas_root
-        self.modules: List[ModuleInfo] = []
+        self.modules: list[ModuleInfo] = []
 
-    def scan_modules(self) -> List[ModuleInfo]:
+    def scan_modules(self) -> list[ModuleInfo]:
         """Scan all modules and assess documentation status"""
         modules = []
 

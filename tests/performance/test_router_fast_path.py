@@ -13,7 +13,6 @@ Usage:
 import asyncio
 import statistics
 import time
-from typing import Dict, List
 
 import pytest
 
@@ -32,7 +31,7 @@ class FastMockNode(CognitiveNode):
         self.latency_ms = latency_ms
         self.process_count = 0
 
-    def process(self, data: Dict) -> Dict:
+    def process(self, data: dict) -> dict:
         time.sleep(self.latency_ms / 1000.0)
         self.process_count += 1
         return {
@@ -50,7 +49,7 @@ class SlowMockNode(CognitiveNode):
         self.latency_ms = latency_ms
         self.process_count = 0
 
-    def process(self, data: Dict) -> Dict:
+    def process(self, data: dict) -> dict:
         time.sleep(self.latency_ms / 1000.0)
         self.process_count += 1
         return {'answer': f'Slow response from {self.name}', 'confidence': 0.7, 'node': self.name, 'process_count': self.process_count}
@@ -73,7 +72,7 @@ class RouterFastPathLoadTest:
         self.orchestrator.register_node('general_fast', FastMockNode('general_fast', 10.0))
         self.orchestrator.register_node('general_slow', SlowMockNode('general_slow', 40.0))
 
-    async def test_fast_path_selection_under_load(self, num_requests: int=100) -> Dict:
+    async def test_fast_path_selection_under_load(self, num_requests: int=100) -> dict:
         """Test fast-path selection under concurrent load"""
         print(f'🚀 Testing router fast-path selection with {num_requests} requests...')
         warmup_queries = ['What is 2+2?', 'What is the capital of France?', 'Hello there']
@@ -82,7 +81,7 @@ class RouterFastPathLoadTest:
                 await self.orchestrator.process_query(query)
         start_time = time.perf_counter()
 
-        async def process_request(request_id: int) -> Dict:
+        async def process_request(request_id: int) -> dict:
             query = f'Test query {request_id}: What is {request_id * 2}?'
             result = await self.orchestrator.process_query(query)
             return {
@@ -129,7 +128,7 @@ class RouterFastPathLoadTest:
         print(f"   SLO Compliance: {('✅ PASS' if fast_path_rate >= 80.0 else '❌ FAIL')}")
         return results
 
-    async def test_adaptive_routing_degradation(self) -> Dict:
+    async def test_adaptive_routing_degradation(self) -> dict:
         """Test adaptive routing when fast nodes become slow"""
         print('🔄 Testing adaptive routing under node degradation...')
         normal_results = []
@@ -171,7 +170,7 @@ class RouterFastPathLoadTest:
         print(f"   Adaptive Behavior: {('✅ YES' if routing_adaptation > 10.0 else '❌ NO')}")
         return results
 
-    def _extract_selected_node(self, result: Dict) -> str:
+    def _extract_selected_node(self, result: dict) -> str:
         """Extract selected node from orchestrator result"""
         if 'stages' in result:
             for stage in result['stages']:
@@ -186,14 +185,14 @@ class RouterFastPathLoadTest:
                 return max(active_nodes, key=lambda x: x[1])[0]
         return 'unknown'
 
-    def _analyze_node_usage(self) -> Dict[str, int]:
+    def _analyze_node_usage(self) -> dict[str, int]:
         """Analyze node usage from orchestrator health metrics"""
         usage = {}
         for (node_name, health) in self.orchestrator.node_health.items():
             usage[node_name] = health['success_count'] + health['failure_count']
         return usage
 
-    def _count_node_usage(self, node_list: List[str]) -> Dict[str, int]:
+    def _count_node_usage(self, node_list: list[str]) -> dict[str, int]:
         """Count node usage from list of selected nodes"""
         counts = {}
         for node in node_list:

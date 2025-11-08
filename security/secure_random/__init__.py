@@ -10,9 +10,7 @@ Graceful fallback to stubs if no backend available.
 from __future__ import annotations
 
 from importlib import import_module
-from typing import List
-
-__all__: List[str] = []
+__all__: list[str] = []
 
 def _try(n: str):
     try:
@@ -43,6 +41,10 @@ for _cand in _CANDIDATES:
 
 def __getattr__(name: str):
     """Lazy attribute access fallback."""
-    if _SRC and hasattr(_SRC, name):
-        return getattr(_SRC, name)
+    if _SRC is not None:
+        # Use try/except to avoid recursion from hasattr()
+        try:
+            return object.__getattribute__(_SRC, name)
+        except AttributeError:
+            pass
     raise AttributeError(f"module '{__name__}' has no attribute '{name}'")

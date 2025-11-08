@@ -126,7 +126,7 @@ class RATSCollector:
         # Default to mock for development
         return "mock-tee"
 
-    def get_code_measurements(self) -> Dict[str, str]:
+    def get_code_measurements(self) -> dict[str, str]:
         """Calculate measurements of module code."""
         measurements = {}
 
@@ -182,7 +182,7 @@ class RATSCollector:
             # Development mode
             return mock_tee.get_sev_snp_report()
 
-    def collect_evidence(self) -> Dict[str, Any]:
+    def collect_evidence(self) -> dict[str, Any]:
         """Collect comprehensive RATS evidence."""
         evidence = {
             # Standard EAT claims (RFC 8392)
@@ -217,7 +217,7 @@ class RATSCollector:
 
         return evidence
 
-    def sign_evidence(self, evidence: Dict[str, Any], private_key_path: Optional[str] = None) -> str:
+    def sign_evidence(self, evidence: dict[str, Any], private_key_path: Optional[str] = None) -> str:
         """Sign evidence as JWT using RS256."""
         # Generate mock key for development
         if not private_key_path:

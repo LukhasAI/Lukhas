@@ -4,7 +4,7 @@ Tests for QRS (Quantum Response Signature) Manager.
 Part of BATCH-COPILOT-2025-10-08-01
 TaskID: ASSIST-HIGH-TEST-QRS-e5f6g7h8
 """
-from typing import Any, Dict
+from typing import Any
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest

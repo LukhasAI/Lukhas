@@ -6,7 +6,6 @@ import hmac
 import os
 import time
 from hashlib import sha256
-from typing import Dict, Tuple
 
 SECRET = (os.getenv("AUDIT_LINK_SECRET") or "dev-secret").encode()
 
@@ -38,7 +37,7 @@ def mint_signed_query(trace_id: str, viewer_id: str, ttl_seconds: int = 300) -> 
     return payload + "&sig=" + sig
 
 
-def verify_signed_query(trace_id: str, params: Dict[str, str]) -> Tuple[bool, str]:
+def verify_signed_query(trace_id: str, params: dict[str, str]) -> tuple[bool, str]:
     """
     Verify a signed query string.
 

@@ -33,8 +33,6 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
-from pydantic import BaseModel, Field
-
 # Import global framework
 from identity.backend.app.institution_manager import (
     DataCategory,
@@ -46,6 +44,7 @@ from identity.backend.app.institution_manager import (
     global_timestamp,
     institutional_audit_log,
 )
+from pydantic import BaseModel, Field
 
 # --- US-Specific Regulatory Framework ----------------------- #
 

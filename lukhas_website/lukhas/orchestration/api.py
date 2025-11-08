@@ -12,7 +12,7 @@ Constellation Framework: Flow Star (🌊) API layer
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, List
+from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -49,13 +49,13 @@ router = APIRouter(prefix="/orchestration", tags=["orchestration"])
 class MultiAIRequest(BaseModel):
     """Multi-AI request model"""
     prompt: str = Field(..., description="The prompt to send to AI models")
-    context: Dict[str, Any] = Field(default_factory=dict, description="Additional context")
-    models: List[str] = Field(default_factory=list, description="Specific models to use")
+    context: dict[str, Any] = Field(default_factory=dict, description="Additional context")
+    models: list[str] = Field(default_factory=list, description="Specific models to use")
     consensus_type: str = Field(default="majority", description="Consensus mechanism")
     min_responses: int = Field(default=2, description="Minimum responses required")
     max_responses: int = Field(default=3, description="Maximum responses to collect")
     timeout: float = Field(default=30.0, description="Request timeout in seconds")
-    metadata: Dict[str, Any] = Field(default_factory=dict, description="Request metadata")
+    metadata: dict[str, Any] = Field(default_factory=dict, description="Request metadata")
 
 
 class MultiAIResponse(BaseModel):
@@ -63,16 +63,16 @@ class MultiAIResponse(BaseModel):
     response: str
     confidence: float
     agreement_ratio: float
-    participating_models: List[str]
+    participating_models: list[str]
     consensus_type: str
     latency: float
-    metadata: Dict[str, Any] = Field(default_factory=dict)
+    metadata: dict[str, Any] = Field(default_factory=dict)
 
 
 class OrchestrationStatus(BaseModel):
     """Orchestration system status"""
-    available_providers: List[str]
-    available_models: Dict[str, List[str]]
+    available_providers: list[str]
+    available_models: dict[str, list[str]]
     system_health: str
     active_requests: int
     total_requests: int
@@ -95,7 +95,7 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
 @router.post("/multi-ai", response_model=MultiAIResponse)
 async def route_multi_ai(
     request: MultiAIRequest,
-    current_user: Dict[str, Any] = Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_api_py_L98"}
+    current_user: dict[str, Any] = Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_api_py_L98"}
 ):
     """Route request to multiple AI models and return consensus"""
 
@@ -204,7 +204,7 @@ async def route_multi_ai(
 
 @router.get("/status", response_model=OrchestrationStatus)
 async def get_orchestration_status(
-    current_user: Dict[str, Any] = Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_api_py_L207"}
+    current_user: dict[str, Any] = Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_api_py_L207"}
 ):
     """Get orchestration system status"""
 
@@ -254,7 +254,7 @@ async def get_orchestration_status(
 
 @router.get("/models")
 async def list_available_models(
-    current_user: Dict[str, Any] = Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_api_py_L257"}
+    current_user: dict[str, Any] = Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_api_py_L257"}
 ):
     """List all available AI models with their status"""
 
@@ -298,7 +298,7 @@ async def list_available_models(
 @router.post("/models/{model_id}/enable")
 async def enable_model(
     model_id: str,
-    current_user: Dict[str, Any] = Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_api_py_L301"}
+    current_user: dict[str, Any] = Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_api_py_L301"}
 ):
     """Enable a specific AI model"""
 
@@ -349,7 +349,7 @@ async def enable_model(
 @router.post("/models/{model_id}/disable")
 async def disable_model(
     model_id: str,
-    current_user: Dict[str, Any] = Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_api_py_L352"}
+    current_user: dict[str, Any] = Depends(get_current_user)  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_api_py_L352"}
 ):
     """Disable a specific AI model"""
 

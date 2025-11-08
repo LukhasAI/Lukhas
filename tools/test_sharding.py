@@ -8,14 +8,14 @@ import argparse
 import json
 import pathlib
 import sys
-from typing import Any, Dict, List
+from typing import Any
 
 
 class TestSharding:
     def __init__(self):
         self.root_path = pathlib.Path(".")
 
-    def discover_test_files(self, pattern: str = "**/test_*.py") -> List[pathlib.Path]:
+    def discover_test_files(self, pattern: str = "**/test_*.py") -> list[pathlib.Path]:
         """Discover all test files matching the pattern."""
         test_files = []
 
@@ -63,8 +63,8 @@ class TestSharding:
         except Exception:
             return 5.0  # Default fallback
 
-    def create_balanced_shards(self, test_files: List[pathlib.Path],
-                              num_shards: int) -> List[List[pathlib.Path]]:
+    def create_balanced_shards(self, test_files: list[pathlib.Path],
+                              num_shards: int) -> list[list[pathlib.Path]]:
         """Create balanced test shards using a greedy algorithm."""
         if not test_files:
             return [[] for _ in range(num_shards)]
@@ -87,16 +87,19 @@ class TestSharding:
 
         return shards
 
-    def create_module_based_shards(self, test_files: List[pathlib.Path],
-                                  num_shards: int) -> List[List[pathlib.Path]]:
+    def create_module_based_shards(self, test_files: list[pathlib.Path],
+                                  num_shards: int) -> list[list[pathlib.Path]]:
         """Create shards based on module groupings."""
         # Group tests by module
-        module_groups: Dict[str, List[pathlib.Path]] = {}
+        module_groups: dict[str, list[pathlib.Path]] = {}
 
         for test_file in test_files:
             # Extract module name from path
             parts = test_file.parts
-            module_name = parts[0] if len(parts) >= 2 else "root"  # First directory is module
+            if len(parts) >= 2:
+                module_name = parts[0]  # First directory is module
+            else:
+                module_name = "root"
 
             if module_name not in module_groups:
                 module_groups[module_name] = []
@@ -122,7 +125,7 @@ class TestSharding:
 
         return shards
 
-    def generate_ci_config(self, shards: List[List[pathlib.Path]],
+    def generate_ci_config(self, shards: list[list[pathlib.Path]],
                           output_format: str = "github") -> str:
         """Generate CI configuration for test sharding."""
         if output_format == "github":
@@ -132,7 +135,7 @@ class TestSharding:
         else:
             raise ValueError(f"Unsupported output format: {output_format}")
 
-    def _generate_github_actions_config(self, shards: List[List[pathlib.Path]]) -> str:
+    def _generate_github_actions_config(self, shards: list[list[pathlib.Path]]) -> str:
         """Generate GitHub Actions matrix strategy."""
         config = {
             "strategy": {
@@ -152,7 +155,7 @@ class TestSharding:
 
         return json.dumps(config, indent=2)
 
-    def _generate_pytest_config(self, shards: List[List[pathlib.Path]]) -> str:
+    def _generate_pytest_config(self, shards: list[list[pathlib.Path]]) -> str:
         """Generate pytest commands for each shard."""
         commands = []
         for i, shard in enumerate(shards):
@@ -167,7 +170,7 @@ class TestSharding:
 
         return "\n".join(commands)
 
-    def analyze_test_distribution(self, test_files: List[pathlib.Path]) -> Dict[str, Any]:
+    def analyze_test_distribution(self, test_files: list[pathlib.Path]) -> dict[str, Any]:
         """Analyze current test distribution across modules."""
         module_stats = {}
         total_tests = len(test_files)

@@ -14,8 +14,8 @@ import argparse
 import glob
 import json
 import pathlib
-from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional
+from datetime import datetime, timedelta
+from typing import Any, Dict, Optional
 
 import yaml
 
@@ -27,9 +27,9 @@ class SLOMonitor:
         """Initialize with SLO configuration."""
         self.config = self._load_config(slo_config_path)
         self.measurement_window = timedelta(days=7)  # Weekly by default
-        self.timestamp = datetime.now(timezone.utc)
+        self.timestamp = datetime.utcnow()
 
-    def _load_config(self, config_path: str) -> Dict[str, Any]:
+    def _load_config(self, config_path: str) -> dict[str, Any]:
         """Load SLO configuration from YAML."""
         try:
             with open(config_path) as f:
@@ -41,7 +41,7 @@ class SLOMonitor:
             print(f"❌ Invalid YAML in SLO config: {e}")
             return {}
 
-    def calculate_gate_flakiness_rate(self) -> Dict[str, Any]:
+    def calculate_gate_flakiness_rate(self) -> dict[str, Any]:
         """
         Calculate gate flakiness rate from CI artifacts.
 
@@ -91,7 +91,7 @@ class SLOMonitor:
                 "data_points": 0
             }
 
-    def calculate_osv_mean_time_to_green(self) -> Dict[str, Any]:
+    def calculate_osv_mean_time_to_green(self) -> dict[str, Any]:
         """
         Calculate mean time to resolve high-severity vulnerabilities.
 
@@ -139,7 +139,7 @@ class SLOMonitor:
                 "data_points": 0
             }
 
-    def calculate_telemetry_compliance_rate(self) -> Dict[str, Any]:
+    def calculate_telemetry_compliance_rate(self) -> dict[str, Any]:
         """
         Calculate telemetry semconv compliance rate.
 
@@ -217,7 +217,7 @@ class SLOMonitor:
 
         return True
 
-    def generate_slo_report(self) -> Dict[str, Any]:
+    def generate_slo_report(self) -> dict[str, Any]:
         """Generate comprehensive SLO report."""
         print("📊 Calculating Matrix Tracks SLOs...")
 
@@ -242,7 +242,7 @@ class SLOMonitor:
 
         return report
 
-    def _generate_summary(self, slos: Dict[str, Any]) -> str:
+    def _generate_summary(self, slos: dict[str, Any]) -> str:
         """Generate human-readable summary of SLO status."""
         summary_lines = []
 
@@ -258,7 +258,7 @@ class SLOMonitor:
 
         return "\n".join(summary_lines)
 
-    def _generate_recommendations(self, slos: Dict[str, Any]) -> List[str]:
+    def _generate_recommendations(self, slos: dict[str, Any]) -> list[str]:
         """Generate actionable recommendations based on SLO status."""
         recommendations = []
 
@@ -279,7 +279,7 @@ class SLOMonitor:
 
         return recommendations
 
-    def save_report(self, report: Dict[str, Any], output_path: Optional[str] = None) -> str:
+    def save_report(self, report: dict[str, Any], output_path: Optional[str] = None) -> str:
         """Save SLO report to file."""
         if not output_path:
             timestamp = self.timestamp.strftime("%Y%m%d_%H%M%S")
@@ -300,7 +300,7 @@ class SLOMonitor:
 
         return output_path
 
-    def _generate_markdown_report(self, report: Dict[str, Any]) -> str:
+    def _generate_markdown_report(self, report: dict[str, Any]) -> str:
         """Generate markdown formatted SLO report."""
         content = f"""# Matrix Tracks SLO Report
 

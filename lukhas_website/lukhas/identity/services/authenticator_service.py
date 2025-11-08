@@ -10,7 +10,7 @@ import hmac
 import logging
 import os
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from ..facades.authentication_facade import AuthenticatorInterface, AuthResult
 
@@ -38,8 +38,8 @@ class PasswordAuthenticator(AuthenticatorInterface):
     def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize password authenticator"""
         self.config = config or {}
-        self.users: Dict[str, UserCredentials] = {}
-        self.failed_attempts: Dict[str, int] = {}
+        self.users: dict[str, UserCredentials] = {}
+        self.failed_attempts: dict[str, int] = {}
         self.lockout_threshold = self.config.get("lockout_threshold", 5)
         self.lockout_duration = self.config.get("lockout_duration_seconds", 300)  # 5 minutes
         self._load_users()
@@ -197,7 +197,7 @@ class ApiKeyAuthenticator(AuthenticatorInterface):
     def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize API key authenticator"""
         self.config = config or {}
-        self.api_keys: Dict[str, dict] = {}
+        self.api_keys: dict[str, dict] = {}
         self._load_api_keys()
 
     def _load_api_keys(self):

@@ -4,7 +4,7 @@ from __future__ import annotations
 import logging
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
-from typing import Callable, List
+from typing import Callable
 
 logger = logging.getLogger("accent_adapter")
 
@@ -38,7 +38,7 @@ class AccentAdapter:
             extra={"tier": tier},
         )
 
-    def get_user_memory_chain(self, user_id: str) -> List[Mapping[str, object]]:
+    def get_user_memory_chain(self, user_id: str) -> list[Mapping[str, object]]:
         """Fetch a normalized memory chain for a user."""
 
         raw_chain = list(self._memory_source(user_id))

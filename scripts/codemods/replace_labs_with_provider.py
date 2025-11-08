@@ -16,6 +16,7 @@ Notes:
   - Adds `import importlib as _importlib` at module top if needed.
   - Skips files under tests/docs/venv/artifacts/archive folders.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -23,7 +24,6 @@ import difflib
 from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Tuple
 
 import libcst as cst
 from libcst import MaybeSentinel
@@ -34,7 +34,7 @@ LABS_PREFIX = "labs"
 @dataclass
 class ImportSpec:
     module_str: str
-    names: List[Tuple[str, str | None]]  # (name, alias)
+    names: list[tuple[str, str | None]]  # (name, alias)
 
 
 def _is_top_level_stmt(stmt: cst.BaseStatement) -> bool:
@@ -77,7 +77,7 @@ def _importfrom_to_spec(node: cst.ImportFrom) -> ImportSpec | None:
     # Only handle explicit names; skip star imports
     if isinstance(node.names, MaybeSentinel):
         return None
-    names: List[Tuple[str, str | None]] = []
+    names: list[tuple[str, str | None]] = []
     for alias in node.names:
         if isinstance(alias, cst.ImportStar):
             # Skip star imports - too risky to rewrite automatically
@@ -86,21 +86,23 @@ def _importfrom_to_spec(node: cst.ImportFrom) -> ImportSpec | None:
             name_node = alias.name
             nm = name_node.value if isinstance(name_node, cst.Name) else name_node.code
             asname = alias.asname
-            alias_str = asname.name.value if (asname and isinstance(asname.name, cst.Name)) else None
+            alias_str = (
+                asname.name.value if (asname and isinstance(asname.name, cst.Name)) else None
+            )
             names.append((nm, alias_str))
     if not names:
         return None
     return ImportSpec(module_str=mod_text, names=names)
 
 
-def _try_collect_labs_specs(try_node: cst.Try) -> List[ImportSpec] | None:
+def _try_collect_labs_specs(try_node: cst.Try) -> list[ImportSpec] | None:
     """If the try-block body consists of one or more labs ImportFrom lines, collect them.
     Returns list of specs or None if pattern not matched (to avoid risky rewrites).
     """
     # Only consider trivial try blocks (no else/finally), any except allowed.
     if try_node.orelse is not None or try_node.finalbody is not None:
         return None
-    specs: List[ImportSpec] = []
+    specs: list[ImportSpec] = []
     for st in try_node.body.body:
         if not isinstance(st, cst.SimpleStatementLine) or len(st.body) != 1:
             return None
@@ -139,18 +141,18 @@ def _build_lazy_block(spec: ImportSpec, importlib_symbol: str) -> cst.Try:
     #   Name = getattr(_mod, "Name"); ...
     # except Exception:
     #   Name = None; ...
-    body_stmts: List[cst.BaseStatement] = []
+    body_stmts: list[cst.BaseStatement] = []
 
     assign_mod = cst.parse_statement(
-        f"_mod = {importlib_symbol}.import_module(\"{spec.module_str}\")"
+        f'_mod = {importlib_symbol}.import_module("{spec.module_str}")'
     )
     body_stmts.append(assign_mod)
 
     for nm, alias in spec.names:
         varname = alias or nm
-        body_stmts.append(cst.parse_statement(f"{varname} = getattr(_mod, \"{nm}\")"))
+        body_stmts.append(cst.parse_statement(f'{varname} = getattr(_mod, "{nm}")'))
 
-    except_body: List[cst.BaseStatement] = []
+    except_body: list[cst.BaseStatement] = []
     for nm, alias in spec.names:
         varname = alias or nm
         except_body.append(cst.parse_statement(f"{varname} = None"))
@@ -170,10 +172,10 @@ def _build_lazy_block(spec: ImportSpec, importlib_symbol: str) -> cst.Try:
     return try_node
 
 
-def rewrite_module(module: cst.Module) -> Tuple[cst.Module, bool]:
+def rewrite_module(module: cst.Module) -> tuple[cst.Module, bool]:
     """Return (new_module, changed?)."""
     changed = False
-    new_body: List[cst.BaseStatement] = []
+    new_body: list[cst.BaseStatement] = []
 
     # Determine existing importlib symbol (alias) if present
     importlib_symbol = _has_importlib_alias(module)
@@ -220,7 +222,9 @@ def rewrite_module(module: cst.Module) -> Tuple[cst.Module, bool]:
         # 1) Optional module docstring at index 0
         if body and isinstance(body[0], cst.SimpleStatementLine):
             first_small = body[0].body[0]
-            if isinstance(first_small, cst.Expr) and isinstance(first_small.value, cst.SimpleString):
+            if isinstance(first_small, cst.Expr) and isinstance(
+                first_small.value, cst.SimpleString
+            ):
                 idx = 1
 
         # 2) Consecutive __future__ imports after docstring block
@@ -238,13 +242,13 @@ def rewrite_module(module: cst.Module) -> Tuple[cst.Module, bool]:
                     continue
             break
 
-        new_body2: List[cst.BaseStatement] = [*body[:idx], import_stmt, *body[idx:]]
+        new_body2: list[cst.BaseStatement] = [*body[:idx], import_stmt, *body[idx:]]
         out_module = out_module.with_changes(body=new_body2)
 
     return out_module, changed
 
 
-def process_file(path: Path) -> Tuple[str, str] | None:
+def process_file(path: Path) -> tuple[str, str] | None:
     src = path.read_text(encoding="utf-8")
     try:
         module = cst.parse_module(src)
@@ -258,26 +262,33 @@ def process_file(path: Path) -> Tuple[str, str] | None:
     new_src = new_mod.code
     diff = "\n".join(
         difflib.unified_diff(
-            src.splitlines(), new_src.splitlines(), fromfile=str(path), tofile=str(path), lineterm=""
+            src.splitlines(),
+            new_src.splitlines(),
+            fromfile=str(path),
+            tofile=str(path),
+            lineterm="",
         )
     )
     return new_src, diff
 
 
-def collect_py_files(root: Path, includes: List[str] | None = None) -> Iterable[Path]:
+def collect_py_files(root: Path, includes: list[str] | None = None) -> Iterable[Path]:
     root = root.resolve()
     if includes:
-        include_paths = [ (root / inc).resolve() for inc in includes ]
+        include_paths = [(root / inc).resolve() for inc in includes]
     else:
         # Default to core/ lukhas/ serve/
-        include_paths = [ (root / x).resolve() for x in ("core", "lukhas", "serve") ]
+        include_paths = [(root / x).resolve() for x in ("core", "lukhas", "serve")]
 
     for inc in include_paths:
         if not inc.exists():
             continue
         for p in inc.rglob("*.py"):
             # Skip common non-target paths
-            if any(part in p.parts for part in (".venv", "venv", "tests", "docs", "artifacts", "archive", "labs")):
+            if any(
+                part in p.parts
+                for part in (".venv", "venv", "tests", "docs", "artifacts", "archive", "labs")
+            ):
                 continue
             # Skip typical test file name patterns
             name = p.name
@@ -291,7 +302,12 @@ def main() -> None:
     ap.add_argument("--repo-root", default=".")
     ap.add_argument("--outdir", default="/tmp/codmod_patches")
     ap.add_argument("--apply", action="store_true", default=False)
-    ap.add_argument("--include", action="append", default=None, help="Include subpaths (repeatable). Defaults: core, lukhas, serve")
+    ap.add_argument(
+        "--include",
+        action="append",
+        default=None,
+        help="Include subpaths (repeatable). Defaults: core, lukhas, serve",
+    )
     args = ap.parse_args()
 
     root = Path(args.repo_root).resolve()

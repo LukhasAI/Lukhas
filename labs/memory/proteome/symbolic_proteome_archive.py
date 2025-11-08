@@ -36,7 +36,6 @@ BIOINSPIRED ARCHITECTURE:
 """
 from __future__ import annotations
 
-
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -135,11 +134,11 @@ class MemoryProtein:
 
 # Export classes and functions
 __all__ = [
-    "SymbolicProteome",
-    "MemoryProtein",
-    "SymbolicAminoAcid",
     "FoldingState",
+    "MemoryProtein",
     "SecondaryStructure",
+    "SymbolicAminoAcid",
+    "SymbolicProteome",
 ]
 
 

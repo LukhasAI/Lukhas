@@ -31,13 +31,12 @@ import threading
 import time
 import unittest
 
-from qrg_integration import LukhusQRGIntegrator, QRGType
-
 from qi.steganographic_demo import (
     GlyphStyle,
     QIQRInfluencer,
     SteganographicGlyphGenerator,
 )
+from qrg_integration import LukhusQRGIntegrator, QRGType
 
 # Add current directory to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))

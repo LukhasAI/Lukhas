@@ -8,7 +8,7 @@ import argparse
 import json
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class SpecializedBatchCreator:
@@ -61,18 +61,18 @@ class SpecializedBatchCreator:
             },
         }
 
-    def _load_manifest(self, manifest_file: str) -> Dict[str, Any]:
+    def _load_manifest(self, manifest_file: str) -> dict[str, Any]:
         """Load the task manifest."""
         with open(manifest_file) as f:
             return json.load(f)
 
-    def _find_unallocated_todos(self) -> List[Dict[str, Any]]:
+    def _find_unallocated_todos(self) -> list[dict[str, Any]]:
         """Find tasks that aren't assigned to any existing batch."""
         # For now, return all open tasks as we're creating new specialized batches
         # In a real implementation, this would check against existing batch allocations
         return [todo for todo in self.manifest["todos"] if todo.get("status") == "open"]
 
-    def _score_todo_for_agent(self, todo: Dict[str, Any], agent_spec: Dict[str, Any]) -> int:
+    def _score_todo_for_agent(self, todo: dict[str, Any], agent_spec: dict[str, Any]) -> int:
         """Score how well a task matches an agent's capabilities."""
         score = 0
         todo_text = (todo.get("title", "") + " " + todo.get("file", "") + " " + todo.get("module", "")).lower()
@@ -104,7 +104,7 @@ class SpecializedBatchCreator:
 
         return score
 
-    def create_batch(self, agent_id: str, output_dir: str) -> Optional[Dict[str, Any]]:
+    def create_batch(self, agent_id: str, output_dir: str) -> Optional[dict[str, Any]]:
         """Create a specialized batch for the given agent"""
         if agent_id not in self.agent_specs:
             print(f"Unknown agent: {agent_id}")
@@ -166,7 +166,7 @@ class SpecializedBatchCreator:
 
         return batch
 
-    def _count_by_priority(self, todos: List[Dict[str, Any]]) -> Dict[str, int]:
+    def _count_by_priority(self, todos: list[dict[str, Any]]) -> dict[str, int]:
         """Count tasks by priority."""
         counts = {}
         for todo in todos:
@@ -174,7 +174,7 @@ class SpecializedBatchCreator:
             counts[priority] = counts.get(priority, 0) + 1
         return counts
 
-    def _count_by_type(self, todos: List[Dict[str, Any]]) -> Dict[str, int]:
+    def _count_by_type(self, todos: list[dict[str, Any]]) -> dict[str, int]:
         """Count tasks by type."""
         counts = {}
         for todo in todos:
@@ -182,7 +182,7 @@ class SpecializedBatchCreator:
             counts[todo_type] = counts.get(todo_type, 0) + 1
         return counts
 
-    def _count_by_risk(self, todos: List[Dict[str, Any]]) -> Dict[str, int]:
+    def _count_by_risk(self, todos: list[dict[str, Any]]) -> dict[str, int]:
         """Count tasks by risk level."""
         counts = {}
         for todo in todos:

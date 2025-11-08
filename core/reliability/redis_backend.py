@@ -12,7 +12,7 @@ import logging
 import math
 import os
 import time
-from typing import Optional, Tuple
+from typing import Optional
 
 from core.reliability.quota_resolver import QuotaResolver
 
@@ -122,7 +122,7 @@ class RedisRateLimitBackend:
             logger.error(f"Failed to register Lua script: {e}")
             raise
 
-    def check_limit(self, key: str, tokens: int = 1) -> Tuple[bool, float]:
+    def check_limit(self, key: str, tokens: int = 1) -> tuple[bool, float]:
         """
         Check rate limit and consume tokens if allowed.
 

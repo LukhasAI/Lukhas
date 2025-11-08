@@ -13,6 +13,11 @@ from unittest.mock import Mock, patch
 import pytest
 
 from core.reliability import (
+
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
     AdaptiveCircuitBreaker,
     AdaptiveTimeoutManager,
     BackoffConfig,

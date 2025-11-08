@@ -12,7 +12,7 @@ import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import yaml
 
@@ -22,7 +22,7 @@ def fix_later(
     *,
     file_path: Optional[Path] = None,
     error: Optional[Exception] = None,
-    metadata: Optional[Dict[str, Any]] = None,
+    metadata: Optional[dict[str, Any]] = None,
     log_path: Optional[Path] = None,
 ) -> str:
     """Record graceful fallback diagnostics for Keatsian replacements.

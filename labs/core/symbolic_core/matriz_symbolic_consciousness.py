@@ -791,10 +791,10 @@ symbolic_consciousness_processor = MatrizSymbolicConsciousnessProcessor()
 
 # Export key classes
 __all__ = [
+    "MatrizSymbolicConsciousnessProcessor",
+    "ProcessingState",
     "SymbolicElement",
     "SymbolicPattern",
     "SymbolicType",
-    "ProcessingState",
-    "MatrizSymbolicConsciousnessProcessor",
     "symbolic_consciousness_processor",
 ]

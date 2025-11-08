@@ -21,10 +21,9 @@ import time
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+from core.budget.token_controller import TokenBudgetController
 from github_vulnerability_manager import GitHubVulnerabilityManager
 from lambda_bot_batch_processor import BatchableIssue, BatchProcessor
-
-from core.budget.token_controller import TokenBudgetController
 
 
 class FullyAutonomousAGI:

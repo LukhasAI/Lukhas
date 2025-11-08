@@ -6,12 +6,11 @@ Usage as module (driver provided separately) to run in dry-run or apply mode.
 """
 from __future__ import annotations
 
-from typing import List, Optional, Tuple
 
 import libcst as cst
 
 
-def _is_call(node: Optional[cst.BaseExpression]) -> bool:
+def _is_call(node: cst.BaseExpression | None) -> bool:
     return isinstance(node, cst.Call)
 
 
@@ -47,9 +46,9 @@ class FixB008Transformer(cst.CSTTransformer):
         params = updated_node.params
 
         # helper to process a list of Param nodes and produce new ones plus fixes
-        def process_param_list(param_list: List[cst.Param]) -> Tuple[List[cst.Param], List[Tuple[str, cst.BaseExpression]]]:
+        def process_param_list(param_list: list[cst.Param]) -> tuple[list[cst.Param], list[tuple[str, cst.BaseExpression]]]:
             new_params = []
-            fixes: List[Tuple[str, cst.BaseExpression]] = []
+            fixes: list[tuple[str, cst.BaseExpression]] = []
             for p in param_list:
                 if p.default and _is_call(p.default):
                     # Skip if default already 'None' or if it's a simple literal
@@ -83,7 +82,7 @@ class FixB008Transformer(cst.CSTTransformer):
         if not isinstance(body, cst.IndentedBlock):
             return updated_node
 
-        prepend_stmts: List[cst.BaseSmallStatement] = []
+        prepend_stmts: list[cst.BaseSmallStatement] = []
         for param_name, orig_default in all_fixes:
             # Avoid adding None-check if it already exists
             if _has_existing_none_check(param_name, body):

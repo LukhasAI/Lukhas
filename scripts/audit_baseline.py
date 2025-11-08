@@ -20,9 +20,14 @@ import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import psutil
+
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 # Add project root to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -62,11 +67,11 @@ class AuditEnvironment:
     thread_count: int
 
     # Environment variables
-    env_vars: Dict[str, str]
+    env_vars: dict[str, str]
 
     # Hardware fingerprint
-    cpu_info: Dict[str, Any]
-    memory_info: Dict[str, Any]
+    cpu_info: dict[str, Any]
+    memory_info: dict[str, Any]
 
     # Git information
     git_commit: Optional[str]
@@ -81,7 +86,7 @@ class BenchmarkResult:
     latency_us: float
     success: bool
     timestamp: float
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
 
 @dataclass
@@ -93,16 +98,16 @@ class AuditResults:
     duration_seconds: float
 
     # Core performance measurements
-    guardian_latency_us: List[float]
-    memory_latency_us: List[float]
-    orchestrator_latency_us: List[float]
-    creativity_latency_us: List[float]
+    guardian_latency_us: list[float]
+    memory_latency_us: list[float]
+    orchestrator_latency_us: list[float]
+    creativity_latency_us: list[float]
 
     # Statistical summaries
-    guardian_stats: Dict[str, float]
-    memory_stats: Dict[str, float]
-    orchestrator_stats: Dict[str, float]
-    creativity_stats: Dict[str, float]
+    guardian_stats: dict[str, float]
+    memory_stats: dict[str, float]
+    orchestrator_stats: dict[str, float]
+    creativity_stats: dict[str, float]
 
     # Quality metrics
     success_rate: float
@@ -121,7 +126,7 @@ class AuditFramework:
         self.environment_type = environment_type
         self.chaos_type = chaos_type
         self.audit_id = str(uuid.uuid4())[:8]
-        self.results: List[BenchmarkResult] = []
+        self.results: list[BenchmarkResult] = []
 
         # Initialize components if available
         self.guardian = None
@@ -155,7 +160,7 @@ class AuditFramework:
             guardian_validator=self._mock_guardian_validator
         )
 
-    async def _mock_guardian_validator(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def _mock_guardian_validator(self, request: dict[str, Any]) -> dict[str, Any]:
         """Mock Guardian validator for testing."""
         # Simulate Guardian processing time
         await asyncio.sleep(0.000150)  # 150μs baseline
@@ -539,7 +544,7 @@ class AuditFramework:
 
         return results
 
-    def _calculate_stats(self, latencies: List[float]) -> Dict[str, float]:
+    def _calculate_stats(self, latencies: list[float]) -> dict[str, float]:
         """Calculate comprehensive statistics for latency measurements."""
         if not latencies:
             return {"count": 0}

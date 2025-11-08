@@ -13,7 +13,7 @@ import shutil
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Optional, Set
+from typing import Dict, Optional
 
 
 class SecurityPostureFixer:
@@ -24,10 +24,10 @@ class SecurityPostureFixer:
         self.output_dir = output_dir or Path("reports/security_fixes")
         self.sbom_path = Path("reports/sbom/cyclonedx.json")
         self.missing_sbom_modules = set()
-        self.module_aliases: Set[str] = set()
+        self.module_aliases: set[str] = set()
         self.fixed_contracts = []
-        self.existing_modules: Set[str] = set()
-        self.existing_module_aliases: Set[str] = set()
+        self.existing_modules: set[str] = set()
+        self.existing_module_aliases: set[str] = set()
         self.sbom_checksum = ""
 
     def load_sbom(self) -> Dict:
@@ -38,7 +38,7 @@ class SecurityPostureFixer:
         with open(self.sbom_path) as f:
             return json.load(f)
 
-    def identify_missing_sbom_modules(self) -> Set[str]:
+    def identify_missing_sbom_modules(self) -> set[str]:
         """Identify modules mentioned in security alert that are missing SBOM references."""
         # Based on the security alert, these are the affected modules
         affected_modules = {
@@ -71,16 +71,16 @@ class SecurityPostureFixer:
 
         return affected_modules
 
-    def build_module_aliases(self) -> Set[str]:
+    def build_module_aliases(self) -> set[str]:
         """Build alias set for quick membership checks."""
-        aliases: Set[str] = set()
+        aliases: set[str] = set()
         for module in self.missing_sbom_modules:
             aliases.add(module)
             aliases.add(module.replace(".", "_"))
             aliases.add(module.split(".")[-1])
         return aliases
 
-    def find_matrix_contracts(self) -> List[Path]:
+    def find_matrix_contracts(self) -> list[Path]:
         """Find all matrix contract files in the repository."""
         matrix_files = []
 

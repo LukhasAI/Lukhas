@@ -48,7 +48,7 @@ if "Settings" not in globals():
         env: str = "dev"
         debug: bool = False
 
-        def dict(self) -> Dict[str, Any]:
+        def dict(self) -> dict[str, Any]:
             return {"env": self.env, "debug": self.debug}
 
 

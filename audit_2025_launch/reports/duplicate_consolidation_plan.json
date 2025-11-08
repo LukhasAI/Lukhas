@@ -1,0 +1,716 @@
+{
+  "summary": {
+    "total_duplicate_groups": 50,
+    "total_duplicate_files": 845,
+    "total_wasted_space_mb": 0.32,
+    "by_category": {
+      "init_files": {
+        "groups": 22,
+        "files": 716,
+        "wasted_mb": 0.03
+      },
+      "python_code": {
+        "groups": 8,
+        "files": 80,
+        "wasted_mb": 0.21
+      },
+      "test_files": {
+        "groups": 1,
+        "files": 7,
+        "wasted_mb": 0.01
+      },
+      "legacy_markers": {
+        "groups": 19,
+        "files": 42,
+        "wasted_mb": 0.07
+      }
+    }
+  },
+  "actions": [
+    {
+      "hash": "eff90836cf3d4fbb",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 481,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 24000,
+      "keep": "/lukhas_website/lukhas/core/plugins/__init__.py",
+      "archive": [
+        "/tests/e2e/lukhas/core/__init__.py",
+        "/lukhas_website/lukhas/core/orchestration/integration/__init__.py",
+        "/lukhas_website/lukhas/core/orchestration/brain/consciousness/__init__.py",
+        "/lukhas_website/lukhas/core/orchestration/brain/unified_integration/__init__.py",
+        "/lukhas_website/lukhas/core/orchestration/brain/unified_integration/adapters/__init__.py"
+      ],
+      "archive_count": 480
+    },
+    {
+      "hash": "e3b0c44298fc1c14",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 104,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 5150,
+      "keep": "/lukhas_website/lukhas/core/__init__.py",
+      "archive": [
+        "/lukhas_website/lukhas/core/guardian_sentinel.py",
+        "/lukhas_website/lukhas/core/contracts.py",
+        "/lukhas_website/lukhas/core/decorators.py",
+        "/lukhas_website/lukhas/core/policy/__init__.py",
+        "/lukhas_website/lukhas/__init__.py"
+      ],
+      "archive_count": 103
+    },
+    {
+      "hash": "184cdd0261f389e8",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 81,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 4000,
+      "keep": "/labs/core/adapters/__init__.py",
+      "archive": [
+        "/labs/core/container/__init__.py",
+        "/labs/core/engines/__init__.py",
+        "/labs/core/examples/__init__.py",
+        "/labs/core/meta_learning/__init__.py",
+        "/labs/core/events/__init__.py"
+      ],
+      "archive_count": 80
+    },
+    {
+      "hash": "4e9c75f347cf89d7",
+      "category": "python_code",
+      "action": "INVESTIGATE_SYSTEMATIC",
+      "file_count": 65,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 196608,
+      "keep": "/core/orchestration/brain/unified_integration/adapters/__init__.py",
+      "archive": [
+        "/labs/core/net/__init__.py",
+        "/labs/core/spine/__init__.py",
+        "/labs/core/output/__init__.py",
+        "/labs/core/rem/__init__.py",
+        "/labs/core/user_interface_manager/__init__.py"
+      ],
+      "archive_count": 64
+    },
+    {
+      "hash": "740255ac9368c51b",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 8,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 350,
+      "keep": "/examples/__init__.py",
+      "archive": [
+        "/bridge/examples/__init__.py",
+        "/qi/examples/__init__.py",
+        "/deployment/platforms/consciousness_platform/examples/__init__.py",
+        "/labs/memory/examples/__init__.py",
+        "/labs/consciousness/examples/__init__.py"
+      ],
+      "archive_count": 7
+    },
+    {
+      "hash": "b773eb0504c34478",
+      "category": "test_files",
+      "action": "CONSOLIDATE",
+      "file_count": 7,
+      "estimated_size_bytes": 2048,
+      "wasted_bytes": 12288,
+      "keep": "/matriz/tests/test_unit.py",
+      "archive": [
+        "/memory/tests/test_unit.py",
+        "/identity/tests/test_unit.py",
+        "/consciousness/tests/test_unit.py",
+        "/governance/tests/test_unit.py",
+        "/templates/tests/test_unit.py"
+      ],
+      "archive_count": 6
+    },
+    {
+      "hash": "d947ffa8c057648f",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 4,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 150,
+      "keep": "/tools/__init__.py",
+      "archive": [
+        "/branding/tone/tools/__init__.py",
+        "/agents_external/CLAUDE/workspaces/special-ops-secrets-kms-legacy/tools/__init__.py",
+        "/labs/tools/__init__.py"
+      ],
+      "archive_count": 3
+    },
+    {
+      "hash": "cb3c3b3e0483f900",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 4,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 9216,
+      "keep": "/labs/core/symbolic_core/vocabularies/emotion_vocabulary.py",
+      "archive": [
+        "/branding/vocabularies/emotion_vocabulary.py",
+        "/symbolic/vocabularies/emotion_vocabulary.py",
+        "/labs/core/symbolic_legacy/vocabularies/emotion_vocabulary.py"
+      ],
+      "archive_count": 3
+    },
+    {
+      "hash": "16a05a5e4451eda2",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 3,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 100,
+      "keep": "/qi/coordination/orchestration/__init__.py",
+      "archive": [
+        "/labs/bio/systems/orchestration/__init__.py",
+        "/labs/orchestration/brain/orchestration/__init__.py"
+      ],
+      "archive_count": 2
+    },
+    {
+      "hash": "0b3f261b1aaebdbd",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 3,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 6144,
+      "keep": "/labs/core/colonies/swarm_simulation.py",
+      "archive": [
+        "/labs/core/symbolic_core/swarm_tag_simulation.py",
+        "/labs/core/symbolic_legacy/swarm_tag_simulation.py"
+      ],
+      "archive_count": 2
+    },
+    {
+      "hash": "b5992ccc2ce8af62",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 3,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 6144,
+      "keep": "/labs/core/symbolic_core/bio/crista_optimizer.py",
+      "archive": [
+        "/qi/bio/symbolic/crista_optimizer.py",
+        "/labs/core/symbolic_legacy/bio/crista_optimizer.py"
+      ],
+      "archive_count": 2
+    },
+    {
+      "hash": "47bdf52b143a5125",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 3,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 100,
+      "keep": "/labs/core/symbolic_core/processing/__init__.py",
+      "archive": [
+        "/labs/core/orchestration/processing/__init__.py",
+        "/labs/core/symbolic_legacy/processing/__init__.py"
+      ],
+      "archive_count": 2
+    },
+    {
+      "hash": "56e75376b61c5db6",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 3,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 100,
+      "keep": "/tools/security/__init__.py",
+      "archive": [
+        "/next_gen/security/__init__.py",
+        "/ethics/security/__init__.py"
+      ],
+      "archive_count": 2
+    },
+    {
+      "hash": "2ff1130a2fe2496b",
+      "category": "python_code",
+      "action": "CONSOLIDATE",
+      "file_count": 3,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 6144,
+      "keep": "/tools/scripts/syntax_doctor.py",
+      "archive": [
+        "/tools/healing/syntax_doctor.py",
+        "/tools/automation/syntax_doctor.py"
+      ],
+      "archive_count": 2
+    },
+    {
+      "hash": "dc531280b344aa5e",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 3,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 100,
+      "keep": "/sdk/python/src/__init__.py",
+      "archive": [
+        "/agents_external/CLAUDE/workspaces/identity-auth-specialist/src/__init__.py",
+        "/agents_external/CLAUDE/workspaces/consent-compliance-specialist/src/__init__.py"
+      ],
+      "archive_count": 2
+    },
+    {
+      "hash": "622a5c98228177e3",
+      "category": "python_code",
+      "action": "REVIEW_SIMPLE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/core/interfaces/api/v1/v1/grpc/lukhas_pb2.py",
+      "archive": [
+        "/lukhas_pb2.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "0cbe609c7c45172c",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 2,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 50,
+      "keep": "/labs/bio/quantum_inspired_layer/__init__.py",
+      "archive": [
+        "/labs/bio/qi_layer/__init__.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "4ee313ab3ec7540b",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 2,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 50,
+      "keep": "/labs/bio/qi_bio_components/__init__.py",
+      "archive": [
+        "/labs/bio/quantum_bio_components/__init__.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "bd0b0490855c6f47",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 2,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 50,
+      "keep": "/labs/bio/advanced_quantum_bio/__init__.py",
+      "archive": [
+        "/labs/bio/advanced_qi_bio/__init__.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "223418cd30c59547",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/symbolic_core/symbolic_glyph_hash.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/symbolic_glyph_hash.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "aaac6637a6a1df1a",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/symbolic_core/vocabularies/vocabulary_template.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/vocabularies/vocabulary_template.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "ad41c47217613f68",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/symbolic_core/bio/mito_qi_attention.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/bio/mito_qi_attention.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "c92c0ede84825a63",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/symbolic_core/bio/bio_symbolic_architectures.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/bio/bio_symbolic_architectures.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "9b6c626c8fc3003d",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/symbolic_core/bio/bio_systems_inspiration.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/bio/bio_systems_inspiration.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "90beed6d1979fec9",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/symbolic_core/bio/mito_ethics_sync.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/bio/mito_ethics_sync.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "85dcfe0e35f106e5",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 2,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 50,
+      "keep": "/labs/core/symbolic_core/bio/__init__.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/bio/__init__.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "7bef17450019af85",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/symbolic_core/bio/stress_gate.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/bio/stress_gate.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "5a9758ab0d8d16fd",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/symbolic_core/bio/glyph_id_hash.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/bio/glyph_id_hash.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "b4078305524bf3eb",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/symbolic_core/bio/qi_attention.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/bio/qi_attention.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "97e63b0459a4bebf",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/symbolic_core/bio/mito_qi_attention_adapter.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/bio/mito_qi_attention_adapter.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "2dcf96b1602e95fd",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/symbolic_core/bio/bio_symbolic.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/bio/bio_symbolic.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "590f09729da3329c",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 2,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 50,
+      "keep": "/labs/core/symbolic_core/integration/__init__.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/integration/__init__.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "355b08f9d758ee48",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/symbolic_core/features/trace_verifier.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/features/trace_verifier.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "9124f9cd2c96dd9c",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 2,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 50,
+      "keep": "/labs/core/symbolic_core/features/security/__init__.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/features/security/__init__.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "a94e32b5417b1ef4",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/symbolic_core/features/security/main.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/features/security/main.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "0ef90b9244d13ecf",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 2,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 50,
+      "keep": "/labs/core/symbolic_core/features/drift/__init__.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/features/drift/__init__.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "cca5ca029e75acb6",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/symbolic_core/features/drift/score.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/features/drift/score.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "c23c3f4f70da6c71",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/symbolic_core/features/memoria/recall_hooks.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/features/memoria/recall_hooks.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "0c8ccce61a4b2293",
+      "category": "legacy_markers",
+      "action": "ARCHIVE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/symbolic_core/utils/symbolic_utils.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/utils/symbolic_utils.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "e8b95a2f1f19d145",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 2,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 50,
+      "keep": "/labs/core/symbolic_core/utils/__init__.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/utils/__init__.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "969de239ac133dee",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 2,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 50,
+      "keep": "/labs/core/symbolic_core/reasoning/__init__.py",
+      "archive": [
+        "/labs/core/symbolic_legacy/reasoning/__init__.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "b7d304d7077aba43",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 2,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 50,
+      "keep": "/labs/core/quantum_financial/__init__.py",
+      "archive": [
+        "/labs/core/qi_financial/__init__.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "d152fe82b9354658",
+      "category": "python_code",
+      "action": "REVIEW_SIMPLE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/core/identity/matriz_consciousness_identity.py",
+      "archive": [
+        "/labs/core/identity/matriz_consciousness_identity.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "104dc7e0c912d3c6",
+      "category": "python_code",
+      "action": "REVIEW_SIMPLE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/core/identity/consciousness_namespace_isolation.py",
+      "archive": [
+        "/labs/core/identity/consciousness_namespace_isolation.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "6f3639180a6aca4e",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 2,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 50,
+      "keep": "/labs/core/config/__init__.py",
+      "archive": [
+        "/qi/config/__init__.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "dbd562c985797498",
+      "category": "python_code",
+      "action": "REVIEW_SIMPLE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/qi_biometrics/quantum_biometrics_engine.py",
+      "archive": [
+        "/labs/core/quantum_biometrics/quantum_biometrics_engine.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "1ae09a8fdd39bee4",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 2,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 50,
+      "keep": "/labs/core/qi_biometrics/__init__.py",
+      "archive": [
+        "/labs/core/quantum_biometrics/__init__.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "b97be20a96a84d7a",
+      "category": "init_files",
+      "action": "KEEP_ALL",
+      "file_count": 2,
+      "estimated_size_bytes": 50,
+      "wasted_bytes": 50,
+      "keep": "/labs/core/quantum_empathy/__init__.py",
+      "archive": [
+        "/labs/core/qi_empathy/__init__.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "f02bde1314549e61",
+      "category": "python_code",
+      "action": "REVIEW_SIMPLE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/quantum_empathy/quantum_empathy_engine.py",
+      "archive": [
+        "/labs/core/qi_empathy/quantum_empathy_engine.py"
+      ],
+      "archive_count": 1
+    },
+    {
+      "hash": "a5095cbecef3f8ec",
+      "category": "python_code",
+      "action": "REVIEW_SIMPLE",
+      "file_count": 2,
+      "estimated_size_bytes": 3072,
+      "wasted_bytes": 3072,
+      "keep": "/labs/core/orchestration/monitoring/emotional_oscillator.py",
+      "archive": [
+        "/labs/core/orchestration/brain/orchestration/emotional_oscillator.py"
+      ],
+      "archive_count": 1
+    }
+  ]
+}

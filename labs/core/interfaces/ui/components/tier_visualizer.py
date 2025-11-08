@@ -14,10 +14,9 @@ Integration Date: 2025-05-31T07:55:31.353251
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
 
-import streamlit as st
-
-
 import json
+
+import streamlit as st
 
 st.title("🔐 Symbolic Tier Visualizer")
 st.caption("Access structure and ethical boundaries for LUCΛS symbolic modules.")

@@ -11,6 +11,11 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 class CodebaseAnalyzer:
     def __init__(self, root_path: str):

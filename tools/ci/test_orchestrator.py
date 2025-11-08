@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 
 class TestTier(Enum):
@@ -30,8 +30,8 @@ class TestSelection:
     """Represents a selected set of tests with execution metadata."""
 
     tier: TestTier
-    test_files: List[Path]
-    test_markers: List[str]
+    test_files: list[Path]
+    test_markers: list[str]
     estimated_duration: int  # seconds
     risk_score: float
     reasoning: str
@@ -45,9 +45,9 @@ class TestResult:
     success: bool
     duration: int
     coverage_percent: float
-    failures: List[str]
-    performance_data: Dict[str, float]
-    advanced_metrics: Optional[Dict[str, any]] = None
+    failures: list[str]
+    performance_data: dict[str, float]
+    advanced_metrics: Optional[dict[str, any]] = None
 
 
 class IntelligentTestOrchestrator:
@@ -105,7 +105,7 @@ class IntelligentTestOrchestrator:
             "tests": 0.1,
         }
 
-    def _load_test_history(self) -> Dict[str, any]:
+    def _load_test_history(self) -> dict[str, any]:
         """Load historical test execution data for intelligent selection."""
         history_file = self.base_path / "reports" / "test_history.json"
         if history_file.exists():
@@ -116,7 +116,7 @@ class IntelligentTestOrchestrator:
                 pass
         return {"executions": [], "failure_patterns": {}, "performance_trends": {}}
 
-    def analyze_code_changes(self, base_ref: str = "origin/main") -> Tuple[List[Path], float]:
+    def analyze_code_changes(self, base_ref: str = "origin/main") -> tuple[list[Path], float]:
         """Analyze git changes to determine test selection and risk score."""
         try:
             # Get changed files
@@ -146,7 +146,7 @@ class IntelligentTestOrchestrator:
             print("⚠️ Could not analyze git changes, defaulting to high risk")
             return [], 1.0
 
-    def select_tests_for_tier(self, tier: TestTier, changed_files: List[Path], risk_score: float) -> TestSelection:
+    def select_tests_for_tier(self, tier: TestTier, changed_files: list[Path], risk_score: float) -> TestSelection:
         """Select appropriate tests for the given tier based on changes and risk."""
         config = self.tier_configs[tier]
 
@@ -188,7 +188,7 @@ class IntelligentTestOrchestrator:
             reasoning=reasoning,
         )
 
-    def _get_smoke_tests(self) -> List[Path]:
+    def _get_smoke_tests(self) -> list[Path]:
         """Get critical smoke tests that must always pass."""
         smoke_tests = []
         test_dirs = [self.base_path / "tests" / "smoke", self.base_path / "tests" / "contract"]
@@ -199,14 +199,14 @@ class IntelligentTestOrchestrator:
 
         return smoke_tests
 
-    def _get_unit_tests(self) -> List[Path]:
+    def _get_unit_tests(self) -> list[Path]:
         """Get all unit tests."""
         unit_test_dir = self.base_path / "tests" / "unit"
         if unit_test_dir.exists():
             return list(unit_test_dir.rglob("test_*.py"))
         return []
 
-    def _get_integration_tests_for_files(self, changed_files: List[Path]) -> List[Path]:
+    def _get_integration_tests_for_files(self, changed_files: list[Path]) -> list[Path]:
         """Get integration tests relevant to changed files."""
         integration_tests = []
         integration_dir = self.base_path / "tests" / "integration"
@@ -237,7 +237,7 @@ class IntelligentTestOrchestrator:
 
         return list(set(integration_tests))  # Remove duplicates
 
-    def _get_standard_test_suite(self) -> List[Path]:
+    def _get_standard_test_suite(self) -> list[Path]:
         """Get the standard test suite (unit + integration + contract)."""
         tests = []
         for test_type in ["unit", "integration", "contract"]:
@@ -246,7 +246,7 @@ class IntelligentTestOrchestrator:
                 tests.extend(test_dir.rglob("test_*.py"))
         return tests
 
-    def _get_advanced_test_suite(self) -> List[Path]:
+    def _get_advanced_test_suite(self) -> list[Path]:
         """Get the 0.001% advanced testing suite."""
         advanced_tests = []
 
@@ -263,7 +263,7 @@ class IntelligentTestOrchestrator:
 
         return advanced_tests
 
-    def _filter_advanced_tests_by_risk(self, test_files: List[Path], changed_files: List[Path]) -> List[Path]:
+    def _filter_advanced_tests_by_risk(self, test_files: list[Path], changed_files: list[Path]) -> list[Path]:
         """Filter advanced tests to focus on high-risk areas."""
         if not changed_files:
             return test_files
@@ -287,7 +287,7 @@ class IntelligentTestOrchestrator:
         consciousness_tests = [t for t in test_files if "consciousness" in str(t).lower()]
         return list(set(relevant_tests + consciousness_tests))
 
-    def _get_all_tests(self) -> List[Path]:
+    def _get_all_tests(self) -> list[Path]:
         """Get all available tests."""
         all_tests = []
         test_root = self.base_path / "tests"
@@ -301,7 +301,7 @@ class IntelligentTestOrchestrator:
 
         return all_tests
 
-    def _estimate_duration(self, test_files: List[Path], tier: TestTier) -> int:
+    def _estimate_duration(self, test_files: list[Path], tier: TestTier) -> int:
         """Estimate test execution duration based on historical data."""
         # Base estimates (seconds per test file)
         base_estimates = {
@@ -442,7 +442,7 @@ class IntelligentTestOrchestrator:
                 pass
         return 0.0
 
-    def _parse_failures(self, stdout: str, stderr: str) -> List[str]:
+    def _parse_failures(self, stdout: str, stderr: str) -> list[str]:
         """Parse test failures from pytest output."""
         failures = []
 
@@ -457,7 +457,7 @@ class IntelligentTestOrchestrator:
 
         return failures[:10]  # Limit to first 10 failures
 
-    def _collect_performance_metrics(self) -> Dict[str, float]:
+    def _collect_performance_metrics(self) -> dict[str, float]:
         """Collect performance metrics from test execution."""
         metrics = {}
 

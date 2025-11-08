@@ -8,7 +8,7 @@ import os
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 import structlog
 
@@ -493,7 +493,7 @@ class IdentityManager:
         memory_id: str,
         required_tier: int | TierLevel,
         action: str,
-        metadata: Dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Ensure the caller meets the required tier and log the attempt."""
 

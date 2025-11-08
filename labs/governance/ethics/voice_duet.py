@@ -25,7 +25,6 @@
 """
 from __future__ import annotations
 
-
 from core.lukhas_emotion_log import get_emotion_state
 
 

@@ -13,7 +13,7 @@ import os
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Protocol, Type
+from typing import Any, Optional, Protocol, Type
 
 from observability.opentelemetry_tracing import LUKHASTracer
 from observability.prometheus_metrics import LUKHASMetrics
@@ -30,11 +30,11 @@ class LUKHASPlugin(Protocol):
         """Shutdown the plugin."""
         ...
 
-    async def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process data through the plugin."""
         ...
 
-    def get_info(self) -> Dict[str, Any]:
+    def get_info(self) -> dict[str, Any]:
         """Get plugin information."""
         ...
 
@@ -47,9 +47,9 @@ class PluginInfo:
     description: str
     author: str
     category: str
-    dependencies: List[str]
-    config_schema: Optional[Dict[str, Any]] = None
-    performance_profile: Optional[Dict[str, Any]] = None
+    dependencies: list[str]
+    config_schema: Optional[dict[str, Any]] = None
+    performance_profile: Optional[dict[str, Any]] = None
 
 
 class PluginBase(ABC):
@@ -107,7 +107,7 @@ class PluginBase(ABC):
         pass
 
     @abstractmethod
-    async def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process data through the plugin."""
         pass
 
@@ -125,7 +125,7 @@ class PluginRegistry:
 
     def __init__(
         self,
-        search_paths: Optional[List[str]] = None,
+        search_paths: Optional[list[str]] = None,
         metrics: Optional[LUKHASMetrics] = None,
         tracer: Optional[LUKHASTracer] = None,
     ):
@@ -148,14 +148,14 @@ class PluginRegistry:
         self.metrics = metrics or LUKHASMetrics()
         self.tracer = tracer or LUKHASTracer()
 
-        self.discovered_plugins: Dict[str, Type[PluginBase]] = {}
-        self.instantiated_plugins: Dict[str, PluginBase] = {}
-        self.plugin_metadata: Dict[str, PluginInfo] = {}
+        self.discovered_plugins: dict[str, Type[PluginBase]] = {}
+        self.instantiated_plugins: dict[str, PluginBase] = {}
+        self.plugin_metadata: dict[str, PluginInfo] = {}
 
         self._last_discovery = 0
         self._discovery_cache_duration = 300  # 5 minutes
 
-    def discover_plugins(self, force_refresh: bool = False) -> Dict[str, Type[PluginBase]]:
+    def discover_plugins(self, force_refresh: bool = False) -> dict[str, Type[PluginBase]]:
         """
         Discover plugins from configured search paths.
 
@@ -258,7 +258,7 @@ class PluginRegistry:
     def instantiate_plugin(
         self,
         plugin_name: str,
-        config: Optional[Dict[str, Any]] = None
+        config: Optional[dict[str, Any]] = None
     ) -> PluginBase:
         """
         Instantiate a plugin by name.
@@ -326,7 +326,7 @@ class PluginRegistry:
         """Get an instantiated plugin by name."""
         return self.instantiated_plugins.get(plugin_name)
 
-    def list_plugins(self) -> Dict[str, PluginInfo]:
+    def list_plugins(self) -> dict[str, PluginInfo]:
         """List all available plugins with their metadata."""
         # Ensure discovery is up to date
         self.discover_plugins()
@@ -360,7 +360,7 @@ class PluginRegistry:
 
             self.instantiated_plugins.clear()
 
-    def health_check(self) -> Dict[str, Any]:
+    def health_check(self) -> dict[str, Any]:
         """Perform health check on plugin registry and all plugins."""
         health_data = {
             "registry_healthy": True,

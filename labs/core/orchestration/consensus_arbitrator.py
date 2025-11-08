@@ -36,6 +36,10 @@ def choose(proposals: Iterable[Proposal]) -> Tuple[Proposal | None, dict]:
     for p in proposals:
         ranked.append((p, score(p)))
     ranked.sort(key=lambda t: t[1], reverse=True)
-    winner = ranked[0][0] if ranked else None
+
+    winner = None
+    if ranked and ranked[0][1] > -math.inf:
+        winner = ranked[0][0]
+
     rationale = {"ranking": [(p.id, s) for p, s in ranked[:5]]}
     return winner, rationale

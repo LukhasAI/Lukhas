@@ -31,10 +31,10 @@ from . import business
 
 __all__ = [
     "CONSCIOUSNESS_SYMBOL",
+    "CONSTELLATION_FRAMEWORK",
     "CORE_BRANDING_AVAILABLE",
     "GUARDIAN_SYMBOL",
     "IDENTITY_SYMBOL",
-    "CONSTELLATION_FRAMEWORK",
     # Business modules
     "business",
     # Constellation Framework integration

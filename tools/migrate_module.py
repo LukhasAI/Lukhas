@@ -11,6 +11,11 @@ import shutil
 import sys
 from pathlib import Path
 
+import logging
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 class ModuleMigrator:
     def __init__(self, root_path: Path | None = None):

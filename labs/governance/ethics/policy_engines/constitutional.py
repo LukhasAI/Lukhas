@@ -5,7 +5,6 @@ Constitutional AI policy evaluation with Constellation Framework integration
 """
 from __future__ import annotations
 
-
 import logging
 import re
 from typing import Any, Dict, List

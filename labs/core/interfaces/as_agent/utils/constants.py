@@ -1,5 +1,6 @@
-import logging
 from __future__ import annotations
+
+import logging
 
 # core/interfaces/as_agent/utils/constants.py
 # ΛAGENT: Jules-[01]

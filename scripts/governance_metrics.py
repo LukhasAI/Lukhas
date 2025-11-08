@@ -15,7 +15,7 @@ import sys
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 # Constants
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -33,7 +33,7 @@ def load_manifest() -> Dict:
         return json.load(f)
 
 
-def load_metrics_history() -> List[Dict]:
+def load_metrics_history() -> list[Dict]:
     """Load historical metrics (last 10 runs)."""
     if not METRICS_PATH.exists():
         return []
@@ -119,7 +119,7 @@ def calculate_metrics(manifest: Dict) -> Dict:
     return metrics
 
 
-def generate_sparkline(values: List[float], width: int = 6) -> str:
+def generate_sparkline(values: list[float], width: int = 6) -> str:
     """Generate ASCII sparkline from values."""
     if not values or len(values) < 2:
         return '▂' * width
@@ -143,7 +143,7 @@ def generate_sparkline(values: List[float], width: int = 6) -> str:
     return sparkline
 
 
-def generate_dashboard(current_metrics: Dict, history: List[Dict]) -> str:
+def generate_dashboard(current_metrics: Dict, history: list[Dict]) -> str:
     """Generate markdown dashboard with trends."""
     lines = [
         "---",
@@ -312,7 +312,7 @@ def generate_dashboard(current_metrics: Dict, history: List[Dict]) -> str:
     return '\n'.join(lines)
 
 
-def save_metrics(metrics: Dict, history: List[Dict]):
+def save_metrics(metrics: Dict, history: list[Dict]):
     """Save metrics to JSON file with history."""
     # Add current metrics to history
     history.append(metrics)

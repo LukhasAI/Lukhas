@@ -43,7 +43,6 @@ from functools import wraps
 from typing import Any, Callable, Optional, TypeVar, Union
 
 import numpy as np
-
 from core.common import get_logger
 
 # Set up logging

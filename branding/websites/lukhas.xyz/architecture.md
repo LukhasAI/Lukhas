@@ -1,7 +1,19 @@
 ---
 status: wip
 type: documentation
----
+canonical: https://lukhas.xyz/architecture
+seo:
+  description: "LUKHAS.XYZ experimental frontier - quantum consciousness research lab embracing uncertainty for breakthrough discovery with superposition-based exploration."
+  keywords:
+    - "quantum consciousness"
+    - "experimental AI"
+    - "consciousness research lab"
+    - "quantum computing AI"
+    - "uncertainty-driven innovation"
+last_reviewed: "2025-11-08"
+keywords: "quantum consciousness, experimental AI, consciousness research lab, quantum computing AI, uncertainty-driven innovation"
+evidence_links:
+  - 'release_artifacts/evidence/experimental-design-95pct.md'---
 # 🔬 LUKHAS.XYZ - The Experimental Frontier
 ## Website Architecture & Consciousness Technology Research Laboratory
 
