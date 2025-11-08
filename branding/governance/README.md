@@ -23,6 +23,13 @@ governance/
 │   ├── GAPS_ANALYSIS.md          # 19 missing components
 │   ├── 90_DAY_ROADMAP.md         # Week-by-week execution plan
 │   └── INNOVATION_PIPELINE.md    # Breakthrough ideas
+├── launch/                   # Launch playbooks & coordination (GAPS A3)
+│   ├── PLAYBOOK_TEMPLATE.md      # Comprehensive launch workflow
+│   ├── FEATURE_CHECKLIST.md      # Readiness checklist (tech, marketing, legal)
+│   ├── TIMELINE_TEMPLATE.md      # Gantt chart format for milestones
+│   ├── LAUNCH_TYPES.md           # 4 launch types (product, feature, infra, content)
+│   └── examples/
+│       └── reasoning_lab_launch.md  # Real-world example
 ├── tools/                    # Validation & automation scripts
 │   ├── CONTENT_LINTING.md   # Front-matter, evidence, vocab linting
 │   └── GOVERNANCE_ARTIFACTS.md  # Additional governance tools
@@ -98,6 +105,12 @@ Comprehensive external audit evaluating LUKHAS branding across 8 dimensions (Con
    - Validates assistive mode presence for critical pages
    - Checks Flesch-Kincaid grade ≤ 8
    - Ensures readability compliance
+
+5. **validate_flags.py** (NEW - GAPS B5)
+   - Validates feature flags configuration
+   - Ensures privacy compliance (no PII in configs)
+   - Checks flag schema and type-specific validation
+   - Integrated into CI/CD pipeline
 
 ### Additional Tools
 
@@ -245,6 +258,44 @@ make claims-strict
 
 ---
 
+## 🎯 Feature Flags System (GAPS B5)
+
+**Status**: ✅ **COMPLETED** (2025-11-08)
+
+**Location**: `branding/features/FEATURE_FLAGS_GUIDE.md`
+
+Privacy-first feature flags system for controlled rollouts, A/B testing, and safe experimentation.
+
+**Key Features**:
+- 5 flag types: boolean, percentage, user targeting, time-based, environment-based
+- Zero third-party dependencies (no LaunchDarkly, Split.io)
+- Privacy-preserving (no user tracking without consent)
+- Gradual rollouts: 0% → 1% → 10% → 50% → 100%
+- Built-in A/B testing support
+
+**Usage**:
+
+```bash
+# Validate feature flags
+make flags-validate
+
+# Migrate from old format
+make flags-migrate INPUT=old.yaml OUTPUT=new.yaml
+```
+
+**Configuration**: `branding/features/flags.yaml`
+
+**Components**:
+- Backend service: `lukhas/features/flags_service.py`
+- API endpoints: `lukhas/api/features.py`
+- React hook: `products/frontend/hooks/useFeatureFlag.ts`
+- Admin UI: `products/frontend/pages/admin/features.tsx`
+- Testing utilities: `lukhas/features/testing.py`
+
+**CI Integration**: Automated validation in `content-lint.yml` workflow
+
+---
+
 ## 📊 Monitoring & Dashboards
 
 ### Domain Health Dashboard
@@ -277,6 +328,7 @@ python3 tools/front_matter_lint.py
 python3 tools/evidence_check.py
 python3 tools/branding_vocab_lint.py
 python3 tools/assistive_validate.py
+python3 tools/validate_flags.py
 
 # Check links
 markdown-link-check "branding/**/*.md"
