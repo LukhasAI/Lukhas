@@ -7,8 +7,13 @@ Validates that OPA policy bundles haven't drifted from canonical sources.
 
 import hashlib
 import json
+import logging
 import sys
 from pathlib import Path
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 # Repository structure
 ROOT = Path(__file__).resolve().parents[1]
 POLICIES_DIR = ROOT / "policies" / "matrix"

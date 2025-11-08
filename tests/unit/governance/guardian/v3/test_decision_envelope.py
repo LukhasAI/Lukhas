@@ -22,17 +22,17 @@ from lukhas_website.lukhas.governance.guardian_system import (
     ActorType,
     DecisionStatus,
     EnforcementMode,
+    EthicalSeverity,
     GuardianAudit,
     GuardianContext,
     GuardianDecision,
     GuardianEnforcement,
+    GuardianJSONEncoder,
     GuardianMetrics,
     GuardianSubject,
     GuardianSystem,
     RuntimeEnvironment,
-    EthicalSeverity,
     create_simple_decision,
-    GuardianJSONEncoder
 )
 
 # A real, valid 32-byte Ed25519 private key, base64 encoded.
@@ -380,7 +380,7 @@ class TestGuardianSystem:
     def test_load_schema_failure_logs_error(self, caplog):
         """Verify that a failure to load the schema is logged."""
         with patch("os.path.exists", return_value=True), \
-             patch("builtins.open", side_effect=IOError("File not found")):
+             patch("builtins.open", side_effect=OSError("File not found")):
             with caplog.at_level(logging.ERROR):
                 GuardianSystem(schema_path="/invalid/path")
                 assert "Failed to load Guardian schema" in caplog.text
@@ -396,6 +396,7 @@ class TestGuardianSystem:
         monkeypatch.setitem(sys.modules, "cryptography.exceptions", None)
         monkeypatch.setitem(sys.modules, "cryptography.hazmat.primitives", None)
         import importlib
+
         import lukhas_website.lukhas.governance.guardian_system
         importlib.reload(lukhas_website.lukhas.governance.guardian_system)
         assert not lukhas_website.lukhas.governance.guardian_system.CRYPTO_AVAILABLE
@@ -404,6 +405,7 @@ class TestGuardianSystem:
         """Test SCHEMA_VALIDATION is False when import fails."""
         monkeypatch.setitem(sys.modules, "jsonschema", None)
         import importlib
+
         import lukhas_website.lukhas.governance.guardian_system
         importlib.reload(lukhas_website.lukhas.governance.guardian_system)
         assert not lukhas_website.lukhas.governance.guardian_system.SCHEMA_VALIDATION

@@ -14,6 +14,8 @@ Exit codes:
 import fnmatch
 import sys
 from pathlib import Path
+
+
 def load_allowlist(allowlist_path: Path) -> list[str]:
     """Load patterns from .root-allowlist file."""
     if not allowlist_path.exists():

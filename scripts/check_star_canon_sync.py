@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
+
 from star_canon_utils import extract_canon_labels, iter_star_definitions
 
 ROOT = Path(__file__).resolve().parents[1]

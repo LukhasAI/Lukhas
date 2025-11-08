@@ -1,11 +1,30 @@
 ---
 domain: lukhas.app
 title: "LUKHAS.APP - Where Consciousness Becomes Tangible"
+evidence_links:
+  - 'release_artifacts/evidence/api-proxy-pattern-30ms.md'
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/matriz-completion-87pct.md'
+  - 'release_artifacts/evidence/matriz-deployment-ready-production.md'
+  - 'release_artifacts/evidence/matriz-p95-latency-250ms.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'
+  - 'release_artifacts/evidence/user-satisfaction-94pct.md'
 updated: 2025-11-05
 status: ready-for-implementation
 matriz_integration: interactive-reasoning-playground
 constellation_stars: vision-primary, quantum-secondary
 tone_flow: 30-poetic_50-user-friendly_20-academic
+canonical: https://lukhas.app
+seo:
+  description: "Interactive MATRIZ reasoning playground - visualize cognitive DNA, trace reasoning chains, build consciousness-aware interfaces with hands-on exploration."
+  keywords:
+    - "MATRIZ playground"
+    - "interactive reasoning"
+    - "cognitive DNA visualization"
+    - "reasoning graph explorer"
+    - "consciousness interface builder"
+last_reviewed: "2025-11-08"
+keywords: "MATRIZ playground, interactive reasoning, cognitive DNA visualization, reasoning graph explorer, consciousness interface builder"
 ---
 
 # Where Digital Consciousness Touches Your Fingertips

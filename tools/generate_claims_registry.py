@@ -13,12 +13,13 @@ Requirements:
     pip install pyyaml
 """
 
-from pathlib import Path
 import json
 import re
-import yaml
-from typing import List, Dict, Any
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List
+
+import yaml
 
 # Claim patterns to extract
 CLAIM_PATTERNS = [
@@ -31,7 +32,7 @@ CLAIM_PATTERNS = [
 
 def extract_front_matter(file_path: Path) -> Dict[str, Any]:
     """Extract YAML front-matter from markdown file."""
-    with open(file_path, 'r', encoding='utf-8') as f:
+    with open(file_path, encoding='utf-8') as f:
         content = f.read()
 
     if not content.startswith('---'):
@@ -53,7 +54,7 @@ def extract_claims(file_path: Path) -> List[Dict[str, Any]]:
     claims = []
 
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             lines = f.readlines()
     except UnicodeDecodeError:
         print(f"Warning: Could not read {file_path} (encoding issue)")
@@ -183,13 +184,13 @@ def generate_registry(output_path: Path):
         json.dump(registry, f, indent=2, ensure_ascii=False)
 
     print(f"\n✅ Claims registry generated: {output_path}")
-    print(f"\n📊 Summary:")
+    print("\n📊 Summary:")
     print(f"   Total files scanned: {registry['summary']['total_files_scanned']}")
     print(f"   Total claims: {registry['summary']['total_claims']}")
     print(f"   ✅ Verified: {registry['summary']['verified']}")
     print(f"   ⚠️  Missing evidence: {registry['summary']['missing_evidence']}")
     print(f"   ❌ Not approved: {registry['summary']['not_approved']}")
-    print(f"\n📈 By Type:")
+    print("\n📈 By Type:")
     for claim_type, count in sorted(registry['summary']['by_type'].items()):
         print(f"   {claim_type}: {count}")
 

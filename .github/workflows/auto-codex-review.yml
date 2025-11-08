@@ -2,21 +2,49 @@ name: Auto Request Codex Review
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, reopened, ready_for_review, synchronized]
 
 jobs:
   request-codex-review:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.user.login == 'google-labs-jules'
 
     steps:
-      - name: Request Codex Review
+      - name: Ensure codex reviews and owns the PR
         uses: actions/github-script@v7
         with:
           script: |
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: '@codex please review this PR'
+            const reviewer = 'codex';
+            const prPayload = context.payload.pull_request;
+            if (!prPayload) {
+              throw new Error('This workflow requires pull request context.');
+            }
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const pull_number = prPayload.number;
+
+            const { data: pr } = await github.rest.pulls.get({
+              owner,
+              repo,
+              pull_number,
             });
+
+            const currentlyRequested = pr.requested_reviewers.map(r => r.login);
+            if (!currentlyRequested.includes(reviewer)) {
+              await github.rest.pulls.requestReviewers({
+                owner,
+                repo,
+                pull_number,
+                reviewers: [reviewer],
+              });
+            }
+
+            const currentAssignees = pr.assignees.map(a => a.login);
+            if (!currentAssignees.includes(reviewer)) {
+              await github.rest.issues.addAssignees({
+                owner,
+                repo,
+                issue_number: pull_number,
+                assignees: [reviewer],
+              });
+            }

@@ -181,10 +181,86 @@ jobs:
           echo "Artifact signing validation would run here (D9 in progress)"
           # python3 tools/validate_artifact_signatures.py
 
+  analytics-privacy:
+    name: Analytics Privacy Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate analytics privacy (PII detection)
+        run: |
+          python3 tools/validate_analytics_privacy.py
+        continue-on-error: false
+
+      - name: Test consent flows
+        run: |
+          python3 tools/test_consent_flows.py
+        continue-on-error: false
+
+      - name: Validate event taxonomy
+        run: |
+          python3 -m json.tool branding/analytics/event_taxonomy.json > /dev/null
+          python3 tools/validate_events.py
+        continue-on-error: false
+
+  launch-validation:
+    name: Launch Playbook Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate launch playbooks
+        run: |
+          python3 tools/validate_launch.py
+        continue-on-error: true  # Warnings allowed
+
+  feature-flags-validation:
+    name: Feature Flags Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+
+      - name: Validate feature flags configuration
+        run: |
+          python3 tools/validate_flags.py
+        continue-on-error: false
+
+      - name: Check for flag privacy violations
+        run: |
+          # Ensure no PII in flag configurations
+          if grep -rE "(email|phone|ssn|credit.card)" branding/features/flags.yaml; then
+            echo "❌ PII detected in flag configuration!"
+            exit 1
+          fi
+          echo "✅ No PII detected in flag configuration"
+        continue-on-error: false
+
   summary:
     name: Validation Summary
     runs-on: ubuntu-latest
-    needs: [vocabulary-lint, front-matter-lint, evidence-validation, seo-validation]
+    needs: [vocabulary-lint, front-matter-lint, evidence-validation, seo-validation, analytics-privacy, launch-validation, feature-flags-validation]
     if: always()
     steps:
       - name: Check all jobs passed
@@ -193,10 +269,15 @@ jobs:
           echo "Front-Matter: ${{ needs.front-matter-lint.result }}"
           echo "Evidence: ${{ needs.evidence-validation.result }}"
           echo "SEO: ${{ needs.seo-validation.result }}"
+          echo "Analytics Privacy: ${{ needs.analytics-privacy.result }}"
+          echo "Launch Playbooks: ${{ needs.launch-validation.result }}"
+          echo "Feature Flags: ${{ needs.feature-flags-validation.result }}"
 
           if [[ "${{ needs.vocabulary-lint.result }}" == "failure" ]] || \
              [[ "${{ needs.front-matter-lint.result }}" == "failure" ]] || \
-             [[ "${{ needs.evidence-validation.result }}" == "failure" ]]; then
+             [[ "${{ needs.evidence-validation.result }}" == "failure" ]] || \
+             [[ "${{ needs.analytics-privacy.result }}" == "failure" ]] || \
+             [[ "${{ needs.feature-flags-validation.result }}" == "failure" ]]; then
             echo "❌ Content validation failed - see job logs above"
             exit 1
           fi

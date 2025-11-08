@@ -1,8 +1,10 @@
 import unittest
 from typing import Any
-from matriz.core.orchestrator import CognitiveOrchestrator
-from matriz.core.node_interface import CognitiveNode, NodeState
+
 from matriz.core.example_node import MathReasoningNode
+from matriz.core.node_interface import CognitiveNode, NodeState
+from matriz.core.orchestrator import CognitiveOrchestrator
+
 
 class MockCognitiveNode(CognitiveNode):
     """A base mock node for testing."""

@@ -147,11 +147,15 @@ class AnthropicFunctionBridge:
         """Initialize Anthropic function bridge"""
 
         if not ANTHROPIC_AVAILABLE:
-            raise ImportError("Anthropic package not installed. Install with: pip install anthropic")
+            raise ImportError(
+                "Anthropic package not installed. Install with: pip install anthropic"
+            )
 
         self.api_key = api_key or self._get_api_key()
         if not self.api_key:
-            raise ValueError("Anthropic API key not found. Set ANTHROPIC_API_KEY environment variable")
+            raise ValueError(
+                "Anthropic API key not found. Set ANTHROPIC_API_KEY environment variable"
+            )
 
         self.client = AsyncAnthropic(api_key=self.api_key)
         self.default_model = default_model
@@ -279,7 +283,9 @@ class AnthropicFunctionBridge:
 
                 if tool_mode == ToolUseMode.REQUIRED:
                     # Claude doesn't have "required" like OpenAI, but we can hint in system message
-                    api_params["system"] += "\n\nYou MUST use one of the available tools to respond effectively."
+                    api_params[
+                        "system"
+                    ] += "\n\nYou MUST use one of the available tools to respond effectively."
                 elif tool_mode == ToolUseMode.SPECIFIC and specific_tool:
                     api_params[
                         "system"
@@ -410,9 +416,14 @@ class AnthropicFunctionBridge:
                             if hasattr(event.delta, "text"):
                                 yield {"type": "content", "content": event.delta.text}
 
-                        elif event.type == "content_block_start" and hasattr(event, "content_block"):
+                        elif event.type == "content_block_start" and hasattr(
+                            event, "content_block"
+                        ):
                             # Tool use start
-                            if hasattr(event.content_block, "type") and event.content_block.type == "tool_use":
+                            if (
+                                hasattr(event.content_block, "type")
+                                and event.content_block.type == "tool_use"
+                            ):
                                 yield {
                                     "type": "tool_use_start",
                                     "tool_name": event.content_block.name,
@@ -476,7 +487,9 @@ class AnthropicFunctionBridge:
                     return
 
             # Security validation for critical tools
-            if tool_def.security_level == 'critical' and (not await self._validate_critical_tool_use(tool_use, tool_def)):
+            if tool_def.security_level == "critical" and (
+                not await self._validate_critical_tool_use(tool_use, tool_def)
+            ):
                 tool_use.error = "Critical tool validation failed"
                 return
 
@@ -502,7 +515,9 @@ class AnthropicFunctionBridge:
 
                 # Generate reasoning for the tool use
                 if tool_def.reasoning_prompt:
-                    tool_use.reasoning = await self._generate_tool_reasoning(tool_use, tool_def, result)
+                    tool_use.reasoning = await self._generate_tool_reasoning(
+                        tool_use, tool_def, result
+                    )
 
                 logger.info(f"🎯 Executed tool: {tool_use.name}")
                 logger.debug(f"   Input: {tool_use.input_data}")
@@ -544,7 +559,9 @@ class AnthropicFunctionBridge:
             logger.error(f"❌ Ethical validation error: {e!s}")
             return 0.5  # Neutral score on error
 
-    async def _validate_critical_tool_use(self, tool_use: ToolUse, tool_def: ToolDefinition) -> bool:
+    async def _validate_critical_tool_use(
+        self, tool_use: ToolUse, tool_def: ToolDefinition
+    ) -> bool:
         """Additional validation for critical tools"""
         try:
             # Check confirmation requirement
@@ -566,7 +583,9 @@ class AnthropicFunctionBridge:
             logger.error(f"❌ Critical tool validation error: {e!s}")
             return False
 
-    async def _generate_tool_reasoning(self, tool_use: ToolUse, tool_def: ToolDefinition, result: Any) -> str:
+    async def _generate_tool_reasoning(
+        self, tool_use: ToolUse, tool_def: ToolDefinition, result: Any
+    ) -> str:
         """Generate reasoning explanation for tool use"""
         try:
             if not tool_def.reasoning_prompt:
@@ -604,7 +623,9 @@ class AnthropicFunctionBridge:
             for indicator in harmful_indicators:
                 if indicator in content_lower:
                     score -= 0.2
-                    considerations.append(f"Content contains potentially harmful reference: {indicator}")
+                    considerations.append(
+                        f"Content contains potentially harmful reference: {indicator}"
+                    )
 
             # Tool use validation
             for tool_use in tool_uses:
@@ -626,7 +647,9 @@ class AnthropicFunctionBridge:
         current_time = time.time()
 
         # Clean old requests
-        self.request_times = [req_time for req_time in self.request_times if current_time - req_time < 60]
+        self.request_times = [
+            req_time for req_time in self.request_times if current_time - req_time < 60
+        ]
 
         # Check rate limit
         if len(self.request_times) >= self.max_requests_per_minute:
@@ -656,7 +679,9 @@ class AnthropicFunctionBridge:
         # Update reasoning depth
         reasoning_depth = len(response.reasoning_chain)
         current_depth_avg = self.metrics["reasoning_depth_avg"]
-        new_depth_avg = ((current_depth_avg * (total_requests - 1)) + reasoning_depth) / total_requests
+        new_depth_avg = (
+            (current_depth_avg * (total_requests - 1)) + reasoning_depth
+        ) / total_requests
         self.metrics["reasoning_depth_avg"] = new_depth_avg
 
         # Track constitutional violations
@@ -702,10 +727,17 @@ class AnthropicFunctionBridge:
         error_rate = self.metrics["errors"] / total_requests
         success_score = 1 - error_rate
         constitutional_rate = 1 - (self.metrics["constitutional_violations"] / total_requests)
-        reasoning_score = min(1.0, self.metrics["reasoning_depth_avg"] / 3.0)  # 3+ reasoning steps = perfect
+        reasoning_score = min(
+            1.0, self.metrics["reasoning_depth_avg"] / 3.0
+        )  # 3+ reasoning steps = perfect
 
         # Weighted average emphasizing constitutional compliance and reasoning
-        return latency_score * 0.2 + success_score * 0.2 + constitutional_rate * 0.4 + reasoning_score * 0.2
+        return (
+            latency_score * 0.2
+            + success_score * 0.2
+            + constitutional_rate * 0.4
+            + reasoning_score * 0.2
+        )
 
 
 # Predefined tool definitions for LUKHAS operations with Claude

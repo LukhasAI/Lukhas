@@ -29,11 +29,8 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-from matriz.core.node_interface import (
-    CognitiveNode,
-    NodeState,
-    NodeTrigger,
-)
+import lz4.frame
+from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 
 
 class MemoryType(Enum):
@@ -61,7 +58,7 @@ class MemoryItem:
 
     id: str
     memory_type: MemoryType
-    content: dict[str, Any]
+    content: Any  # Can be dict (uncompressed) or bytes (compressed)
     confidence: float
     salience: float
     priority: MemoryPriority
@@ -72,6 +69,7 @@ class MemoryItem:
     associated_node_ids: list[str] = field(default_factory=list)
     tags: set[str] = field(default_factory=set)
     context: dict[str, Any] = field(default_factory=dict)
+    compressed: bool = False
 
 
 @dataclass
@@ -318,6 +316,7 @@ class MemorySystem(CognitiveNode):
         salience: float = 0.7,
         tags: Optional[set[str]] = None,
         context: Optional[dict[str, Any]] = None,
+        compress: bool = True,
     ) -> str:
         """
         Store a memory item.
@@ -347,12 +346,24 @@ class MemorySystem(CognitiveNode):
             else:
                 priority = MemoryPriority.LOW
 
+            # Compress content if specified
+            is_compressed = False
+            if compress:
+                try:
+                    content_bytes = json.dumps(content).encode("utf-8")
+                    content = lz4.frame.compress(content_bytes)
+                    is_compressed = True
+                except Exception:
+                    # If compression fails, store uncompressed
+                    pass
+
             memory_item = MemoryItem(
                 id=memory_id,
                 memory_type=memory_type,
                 content=content,
                 confidence=confidence,
                 salience=salience,
+                compressed=is_compressed,
                 priority=priority,
                 created_timestamp=current_time,
                 last_accessed=current_time,
@@ -413,6 +424,10 @@ class MemorySystem(CognitiveNode):
             # Apply filters
             filtered_memories = self._filter_memories(all_memories, query)
 
+        # Decompress content before returning
+        for memory in filtered_memories:
+            memory.content = self.decompress_content(memory)
+
             # Update access statistics
             for memory in filtered_memories:
                 memory.last_accessed = int(time.time() * 1000)
@@ -423,6 +438,18 @@ class MemorySystem(CognitiveNode):
                 self.stats["cache_hits"] += 1
 
             return filtered_memories[: query.limit]
+
+    def decompress_content(self, memory_item: MemoryItem) -> dict[str, Any]:
+        """Decompress memory content if it is compressed."""
+        if not memory_item.compressed:
+            return memory_item.content
+
+        try:
+            decompressed_bytes = lz4.frame.decompress(memory_item.content)
+            return json.loads(decompressed_bytes.decode("utf-8"))
+        except Exception:
+            # Return raw content if decompression fails
+            return {"error": "decompression_failed", "raw_content": memory_item.content}
 
     def consolidate_memories(self) -> int:
         """
@@ -673,7 +700,8 @@ class MemorySystem(CognitiveNode):
 
             # Text similarity filter
             if query.query_text and query.similarity_search:
-                similarity = self._calculate_similarity(query.query_text, memory.content)
+                content = self.decompress_content(memory)
+                similarity = self._calculate_similarity(query.query_text, content)
                 if similarity < 0.3:  # Minimum similarity threshold
                     continue
 
@@ -799,7 +827,7 @@ class MemorySystem(CognitiveNode):
             result_memories.append(
                 {
                     "id": memory.id,
-                    "content": memory.content,
+                    "content": self.decompress_content(memory),
                     "confidence": memory.confidence,
                     "salience": memory.salience,
                     "memory_type": memory.memory_type.value,

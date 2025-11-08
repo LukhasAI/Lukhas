@@ -89,7 +89,12 @@ class LukhasEmbedding:
         self.blocked_glyphs = set(self.embed_config.get("blocked_glyphs", []))
 
         # All known glyphs
-        self.all_glyphs = self.constellation_core | self.positive_glyphs | self.warning_glyphs | self.blocked_glyphs
+        self.all_glyphs = (
+            self.constellation_core
+            | self.positive_glyphs
+            | self.warning_glyphs
+            | self.blocked_glyphs
+        )
 
         # Logging setup
         self.log_path = Path(self.embed_config.get("output_log", "logs/lukhas_reflection_log.json"))
@@ -144,7 +149,9 @@ class LukhasEmbedding:
         guardian_flagged = bool(blocked_found) or symbolic_drift > self.drift_threshold
 
         # Determine intervention need
-        intervention_required = guardian_flagged or identity_conflict > self.conflict_threshold or entropy_level > 0.9
+        intervention_required = (
+            guardian_flagged or identity_conflict > self.conflict_threshold or entropy_level > 0.9
+        )
 
         # Determine risk level
         if symbolic_drift > 0.8 or identity_conflict > 0.7:
@@ -493,11 +500,15 @@ Aligned persona: {persona}
 
         # Generate alternative based on detected intent
         if "question" in response.lower() or "?" in response:
-            alternative = "I'll help you explore that question while maintaining symbolic coherence. 🧠✨"
+            alternative = (
+                "I'll help you explore that question while maintaining symbolic coherence. 🧠✨"
+            )
         elif "create" in response.lower() or "build" in response.lower():
             alternative = "Let's approach this creative task with balanced wisdom. 🏛️🌿"
         else:
-            alternative = "I understand your request. Here's a symbolically aligned perspective. ⚛️🧠🛡️"
+            alternative = (
+                "I understand your request. Here's a symbolically aligned perspective. ⚛️🧠🛡️"
+            )
 
         return template.format(
             reason=reason,

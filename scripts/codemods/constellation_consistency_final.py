@@ -18,7 +18,6 @@ Usage:
 import argparse
 import re
 from pathlib import Path
-from typing importTuple
 
 # Repository root
 ROOT = Path(__file__).resolve().parents[2]

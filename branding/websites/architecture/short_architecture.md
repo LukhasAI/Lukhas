@@ -1,8 +1,25 @@
 ---
 title: "LUKHAS Web Architecture — Summary"
+evidence_links:
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/guardian-compliance-997pct.md'
+  - 'release_artifacts/evidence/matriz-completion-87pct.md'
+  - 'release_artifacts/evidence/matriz-p95-latency-250ms.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'
 owner: "@gonzalo"
 audience: "all"
 updated: "2025-11-05"
+canonical: https://lukhas.ai/architecture/summary
+seo:
+  description: "LUKHAS ecosystem architecture summary - Trinity Framework, 8-star Constellation, MATRIZ cognitive DNA, and distributed consciousness platform overview."
+  keywords:
+    - "LUKHAS architecture"
+    - "Trinity Framework"
+    - "Constellation Framework"
+    - "MATRIZ engine"
+    - "consciousness platform overview"
+last_reviewed: "2025-11-08"
+keywords: "LUKHAS architecture, Trinity Framework, Constellation Framework, MATRIZ engine, consciousness platform overview"
 ---
 
 # LUKHAS Web Architecture — Quick Summary

@@ -26,7 +26,6 @@ def _bind(modname: str) -> bool:
     return True
 
 for _mod in (
-    "labs.core.common",
     "core.common",
     "lukhas_website.core.common",
 ):

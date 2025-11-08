@@ -21,7 +21,7 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 try:
     import yaml
@@ -447,7 +447,7 @@ class EvidencePageValidator:
 
         # Summary
         print("\n" + "=" * 60)
-        print(f"📊 Validation Summary:")
+        print("📊 Validation Summary:")
         print(f"   Errors:   {len(self.errors)}")
         print(f"   Warnings: {len(self.warnings)}")
         print(f"   Info:     {len(self.info)}")

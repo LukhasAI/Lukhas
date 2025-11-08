@@ -1,5 +1,8 @@
 # LUKHAS API - Golden Postman Flows
 
+**Last Updated**: 2025-11-08
+
+
 **Production-Ready API Testing Collections**
 
 This directory contains **golden Postman flows** that validate critical LUKHAS API behaviors:

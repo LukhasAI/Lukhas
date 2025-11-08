@@ -6,15 +6,15 @@ Tests critical performance requirements for LUKHAS MATRIZ cognitive architecture
 import asyncio
 import gc
 import os
-import psutil
 import statistics
 import time
 
+import psutil
 import pytest
+from matriz.core.example_node import MathReasoningNode
 
 # Use the actual MATRIZ components
 from matriz.core.orchestrator import CognitiveOrchestrator
-from matriz.core.example_node import MathReasoningNode
 
 # Performance targets
 P95_LATENCY_TARGET_MS = 250

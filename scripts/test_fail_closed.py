@@ -9,6 +9,7 @@ Implements chaos engineering principles with controlled stress testing.
 import argparse
 import asyncio
 import json
+import logging
 import multiprocessing
 import os
 import random
@@ -21,6 +22,9 @@ from pathlib import Path
 from typing import Any, Optional
 
 import psutil
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))

@@ -8,11 +8,15 @@ from __future__ import annotations
 
 import ast
 import json
+import logging
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 
 import networkx as nx
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 @dataclass

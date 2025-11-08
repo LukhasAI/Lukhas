@@ -9,9 +9,11 @@ Validates SEO compliance:
 - No duplicate canonical URLs across domains
 - Schema.org markup present
 """
-import yaml
 import re
 from pathlib import Path
+
+import yaml
+
 
 def validate_seo():
     """Run SEO validation checks."""

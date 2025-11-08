@@ -2,7 +2,11 @@
 """Fix all remaining syntax errors in Python files"""
 
 import ast
+import logging
 from pathlib import Path
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 def fix_multiline_string_error(file_path):

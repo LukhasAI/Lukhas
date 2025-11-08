@@ -514,7 +514,19 @@ class GuardianSystem:
             True only if decision is explicitly "allow", False otherwise (fail-closed)
         """
         try:
-            # Verify envelope integrity first
+            # Check file-based emergency kill-switch FIRST (highest priority)
+            default_kill_switch = "/tmp/guardian_emergency_disable"
+            custom_kill_switch = envelope.get("context", {}).get("features", {}).get("kill_switch_path")
+
+            if os.path.exists(default_kill_switch):
+                logger.critical(f"🚨 EMERGENCY KILL-SWITCH ACTIVATED: {default_kill_switch} exists - DENYING ALL")
+                return False  # Emergency kill-switch blocks ALL operations
+
+            if custom_kill_switch and os.path.exists(custom_kill_switch):
+                logger.critical(f"🚨 EMERGENCY KILL-SWITCH ACTIVATED: {custom_kill_switch} exists - DENYING ALL")
+                return False  # Custom kill-switch blocks ALL operations
+
+            # Verify envelope integrity
             if not self.verify_integrity(envelope):
                 logger.warning("Guardian envelope failed integrity check - denying")
                 return False  # Fail-closed on integrity failure
@@ -525,10 +537,10 @@ class GuardianSystem:
                 logger.info("Guardian enforcement disabled - allowing")
                 return True  # Enforcement disabled
 
-            # Check emergency kill switch
+            # Check emergency kill switch (envelope-based)
             emergency_active = envelope.get("context", {}).get("features", {}).get("emergency_active", False)
             if emergency_active:
-                logger.warning("Guardian emergency mode active - denying all")
+                logger.warning("Guardian emergency mode active (envelope) - denying all")
                 return False  # Emergency mode blocks all
 
             # Get decision status
@@ -626,6 +638,108 @@ def create_simple_decision(
     )
 
 
+
+# Emergency Kill-Switch Management Functions
+def activate_kill_switch(reason: str = "Emergency shutdown", custom_path: Optional[str] = None) -> bool:
+    """
+    Activate Guardian emergency kill-switch.
+
+    Creates a file that immediately stops ALL Guardian-protected operations.
+    This is a fail-safe mechanism for emergency situations.
+
+    Args:
+        reason: Reason for activation (logged for audit)
+        custom_path: Optional custom kill-switch file path (defaults to /tmp/guardian_emergency_disable)
+
+    Returns:
+        True if kill-switch activated successfully, False otherwise
+    """
+    kill_switch_path = custom_path or "/tmp/guardian_emergency_disable"
+
+    try:
+        with open(kill_switch_path, 'w', encoding='utf-8') as f:
+            timestamp = datetime.now(timezone.utc).isoformat()
+            f.write("GUARDIAN EMERGENCY KILL-SWITCH ACTIVATED\n")
+            f.write(f"Timestamp: {timestamp}\n")
+            f.write(f"Reason: {reason}\n")
+            f.write("\n")
+            f.write("WARNING: ALL Guardian-protected operations are BLOCKED\n")
+            f.write(f"To deactivate: rm {kill_switch_path}\n")
+
+        logger.critical("GUARDIAN KILL-SWITCH ACTIVATED: %s", kill_switch_path)
+        logger.critical("Reason: %s", reason)
+        return True
+
+    except Exception as e:
+        logger.error(f"Failed to activate kill-switch: {e}")
+        return False
+
+
+def deactivate_kill_switch(approver: str, custom_path: Optional[str] = None) -> bool:
+    """
+    Deactivate Guardian emergency kill-switch.
+
+    Removes the kill-switch file to restore normal operations.
+    Requires dual approval in production (see runbook).
+
+    Args:
+        approver: Name/ID of person deactivating (logged for audit)
+        custom_path: Optional custom kill-switch file path
+
+    Returns:
+        True if kill-switch deactivated successfully, False otherwise
+    """
+    kill_switch_path = custom_path or "/tmp/guardian_emergency_disable"
+
+    try:
+        if not os.path.exists(kill_switch_path):
+            logger.warning(f"Kill-switch not active at {kill_switch_path}")
+            return False
+
+        os.remove(kill_switch_path)
+        logger.warning(f"✅ GUARDIAN KILL-SWITCH DEACTIVATED by {approver}")
+        logger.warning("Normal Guardian operations restored")
+        return True
+
+    except Exception as e:
+        logger.error(f"Failed to deactivate kill-switch: {e}")
+        return False
+
+
+def check_kill_switch_status(custom_path: Optional[str] = None) -> dict[str, Any]:
+    """
+    Check Guardian kill-switch status.
+
+    Returns:
+        Dict with status, path, active state, and details if active
+    """
+    kill_switch_path = custom_path or "/tmp/guardian_emergency_disable"
+
+    if os.path.exists(kill_switch_path):
+        try:
+            with open(kill_switch_path) as f:
+                content = f.read()
+            return {
+                "active": True,
+                "path": kill_switch_path,
+                "details": content,
+                "message": "🚨 KILL-SWITCH ACTIVE - All Guardian operations blocked"
+            }
+        except Exception as e:
+            return {
+                "active": True,
+                "path": kill_switch_path,
+                "error": str(e),
+                "message": "🚨 KILL-SWITCH ACTIVE (unable to read details)"
+            }
+    else:
+        return {
+            "active": False,
+            "path": kill_switch_path,
+            "message": "✅ Kill-switch not active - Normal operations"
+        }
+
+
 # Export public API
 __all__ = [
     "ActorType",
@@ -640,5 +754,8 @@ __all__ = [
     "GuardianSystem",
     "RuntimeEnvironment",
     "create_guardian_system",
-    "create_simple_decision"
+    "create_simple_decision",
+    "activate_kill_switch",
+    "deactivate_kill_switch",
+    "check_kill_switch_status"
 ]

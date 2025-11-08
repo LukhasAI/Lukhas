@@ -2,7 +2,11 @@
 """Fix EOL string literal errors in Python files"""
 
 import ast
+import logging
 from pathlib import Path
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 def fix_eol_in_file(file_path):

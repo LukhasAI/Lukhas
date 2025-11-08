@@ -17,7 +17,6 @@ from __future__ import annotations
 import re
 import sys
 from pathlib import Path
-from typing importTuple
 
 # Canonical 8-star definition
 CANONICAL_CONSTELLATION = """Constellation Framework (8 Stars)

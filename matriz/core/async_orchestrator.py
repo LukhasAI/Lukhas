@@ -59,7 +59,7 @@ try:
             logger.warning(
                 "otel_initialization_failed",
                 error=str(error),
-                msg="OpenTelemetry initialization failed, continuing without tracing"
+                msg="OpenTelemetry initialization failed, continuing without tracing",
             )
 
     _ensure_otel_initialized()
@@ -104,6 +104,7 @@ _DEFAULT_LANE = os.getenv("LUKHAS_LANE", "canary").lower()
 
 # ΛTAG: orchestrator_metrics -- async pipeline stage instrumentation
 if isinstance(Histogram, type):
+
     def _register_histogram(*args, **kwargs):
         try:
             return Histogram(*args, **kwargs)
@@ -373,7 +374,7 @@ class AsyncCognitiveOrchestrator:
                 "successful_durations": [],
                 "timeout_count": 0,
                 "total_attempts": 0,
-                "current_timeout": base_timeout
+                "current_timeout": base_timeout,
             }
 
         history = self.timeout_history[stage_key]
@@ -397,7 +398,9 @@ class AsyncCognitiveOrchestrator:
 
             # Apply learning rate for gradual adaptation
             current = history["current_timeout"]
-            history["current_timeout"] = current + self.timeout_learning_rate * (adaptive_timeout - current)
+            history["current_timeout"] = current + self.timeout_learning_rate * (
+                adaptive_timeout - current
+            )
 
             return history["current_timeout"]
 
@@ -492,9 +495,11 @@ class AsyncCognitiveOrchestrator:
         # Find nodes with required capability
         candidate_nodes = []
         for node_name, node in self.available_nodes.items():
-            if hasattr(node, 'capabilities') and required_capability in getattr(node, 'capabilities', []):
+            if hasattr(node, "capabilities") and required_capability in getattr(
+                node, "capabilities", []
+            ):
                 candidate_nodes.append(node_name)
-            elif hasattr(node, 'can_handle') and callable(node.can_handle):
+            elif hasattr(node, "can_handle") and callable(node.can_handle):
                 try:
                     if node.can_handle(required_capability):
                         candidate_nodes.append(node_name)
@@ -530,9 +535,7 @@ class AsyncCognitiveOrchestrator:
             return raw_input
 
         if not isinstance(raw_input, str):
-            raise TypeError(
-                "AsyncCognitiveOrchestrator only supports str or dict inputs for nodes"
-            )
+            raise TypeError("AsyncCognitiveOrchestrator only supports str or dict inputs for nodes")
 
         normalized = (node_name or "").lower()
 
@@ -543,9 +546,10 @@ class AsyncCognitiveOrchestrator:
             return {"question": raw_input}
 
         if "validator" in normalized:
-            raise TypeError(
-                "Validator nodes require a dict with a 'target_output' payload"
-            )
+            raise TypeError("Validator nodes require a dict with a 'target_output' payload")
+
+        if "symbolic" in normalized:
+            return {"expression": raw_input}
 
         return {"query": raw_input}
 
@@ -639,7 +643,9 @@ class AsyncCognitiveOrchestrator:
                 logger.warning(f"Selected node not available, using fallback: {selected_node_name}")
             else:
                 return self._build_error_response(
-                    f"No nodes available (requested: {selected_node_name})", stage_results, pipeline_start
+                    f"No nodes available (requested: {selected_node_name})",
+                    stage_results,
+                    pipeline_start,
                 )
 
         node = self.available_nodes[selected_node_name]
@@ -707,7 +713,9 @@ class AsyncCognitiveOrchestrator:
         await asyncio.sleep(0)  # Yield control
 
         # Simple intent detection
-        if any(op in user_input for op in ["+", "-", "*", "/", "="]):
+        if "prove" in user_input.lower():
+            detected_intent = "symbolic"
+        elif any(op in user_input for op in ["+", "-", "*", "/", "="]):
             detected_intent = "mathematical"
         elif "?" in user_input.lower():
             detected_intent = "question"
@@ -733,6 +741,7 @@ class AsyncCognitiveOrchestrator:
             "mathematical": "math",
             "question": "facts",
             "general": "facts",
+            "symbolic": "symbolic",
         }
 
         base_node = intent_map.get(intent, "facts")
@@ -887,10 +896,15 @@ class AsyncCognitiveOrchestrator:
             "node_health": self.node_health,
             "performance_summary": {
                 "total_nodes": len(self.available_nodes),
-                "healthy_nodes": sum(1 for h in self.node_health.values()
-                                   if h.get("success_count", 0) > h.get("failure_count", 0)),
-                "circuit_breaker_status": get_circuit_health() if CIRCUIT_BREAKER_AVAILABLE else "not_available"
-            }
+                "healthy_nodes": sum(
+                    1
+                    for h in self.node_health.values()
+                    if h.get("success_count", 0) > h.get("failure_count", 0)
+                ),
+                "circuit_breaker_status": (
+                    get_circuit_health() if CIRCUIT_BREAKER_AVAILABLE else "not_available"
+                ),
+            },
         }
 
     # === ENHANCED ASYNC INTERFACE FOR INTEGRATION ===
@@ -958,7 +972,7 @@ class AsyncCognitiveOrchestrator:
             "id": context_id,
             "data": context_data,
             "timestamp": time.time(),
-            "preserved_at": time.perf_counter()
+            "preserved_at": time.perf_counter(),
         }
         self.context_memory.append(context_entry)
 
@@ -986,5 +1000,5 @@ class AsyncCognitiveOrchestrator:
             "total_contexts": len(self.context_memory),
             "oldest_timestamp": min((c["timestamp"] for c in self.context_memory), default=0),
             "newest_timestamp": max((c["timestamp"] for c in self.context_memory), default=0),
-            "memory_usage_mb": len(str(self.context_memory)) / (1024 * 1024)
+            "memory_usage_mb": len(str(self.context_memory)) / (1024 * 1024),
         }

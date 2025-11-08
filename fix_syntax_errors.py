@@ -26,14 +26,14 @@ def fix_file(filepath: Path):
     """Fix malformed typing imports."""
     content = filepath.read_text(encoding='utf-8')
     original = content
-    
+
     # Fix "from typing import from"
     content = re.sub(
         r'from typing import ([^()\n]*?), from ',
         r'from typing import \1\nfrom ',
         content
     )
-    
+
     # Fix "from typing import import"
     content = re.sub(
         r'from typing import ([^()\n]*?), import ',
@@ -45,10 +45,10 @@ def fix_file(filepath: Path):
         r'import ',
         content
     )
-    
+
     # Remove empty "from typing import" lines
     content = re.sub(r'from typing import\s*\n', '', content)
-    
+
     if content != original:
         filepath.write_text(content, encoding='utf-8')
         print(f"✅ Fixed {filepath}")
@@ -58,13 +58,13 @@ def fix_file(filepath: Path):
 def main():
     base = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
     fixed_count = 0
-    
+
     for file_path in FILES_TO_FIX:
         filepath = base / file_path
         if filepath.exists():
             if fix_file(filepath):
                 fixed_count += 1
-    
+
     print(f"\n🎯 Fixed {fixed_count} files")
 
 if __name__ == '__main__':

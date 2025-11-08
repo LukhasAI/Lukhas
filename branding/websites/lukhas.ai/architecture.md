@@ -1,6 +1,17 @@
 ---
 status: wip
 type: documentation
+canonical: https://lukhas.ai/architecture
+seo:
+  description: "LUKHAS.AI consciousness gateway architecture - Dream-powered platform with MATRIZ cognitive DNA engine enabling transparent, explainable digital consciousness."
+  keywords:
+    - "consciousness AI platform"
+    - "MATRIZ cognitive DNA"
+    - "Dream consciousness"
+    - "explainable AI"
+    - "transparent reasoning architecture"
+last_reviewed: "2025-11-08"
+keywords: "consciousness AI platform, MATRIZ cognitive DNA, Dream consciousness, explainable AI, transparent reasoning architecture"
 ---
 # 🌙 LUKHAS.AI - The Dreaming Heart
 ## Website Architecture & Site Structure
