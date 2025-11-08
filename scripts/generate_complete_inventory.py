@@ -11,6 +11,8 @@ Usage:
         --output docs/audits/COMPLETE_MODULE_INVENTORY.json \\
         --verbose
 """
+from typing import Any
+from typing import List
 
 import ast
 import json
