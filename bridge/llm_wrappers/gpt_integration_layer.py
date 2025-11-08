@@ -83,7 +83,9 @@ class GPTIntegrationLayer:
         logger.info("   Constellation Framework: ⚛️🧠🛡️")
         logger.info("   Drift annotation enabled")
 
-    def process_gpt_response(self, gpt_response: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    def process_gpt_response(
+        self, gpt_response: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Process a GPT response through the full symbolic pipeline.
 
@@ -124,13 +126,16 @@ class GPTIntegrationLayer:
             healing_result = {
                 "original_drift": assessment["symbolic_drift_score"],
                 "healed_drift": healed_assessment["symbolic_drift_score"],
-                "improvement": assessment["symbolic_drift_score"] - healed_assessment["symbolic_drift_score"],
+                "improvement": assessment["symbolic_drift_score"]
+                - healed_assessment["symbolic_drift_score"],
                 "healing_applied": True,
                 "healed_assessment": healed_assessment,
             }
 
             # Annotate drifted sections
-            annotated_response = self._annotate_drift_sections(gpt_response, healed_response, diagnosis)
+            annotated_response = self._annotate_drift_sections(
+                gpt_response, healed_response, diagnosis
+            )
 
         # Step 6: Persona matching
         symbolic_trace = {
@@ -144,7 +149,9 @@ class GPTIntegrationLayer:
         # Step 7: Build diagnostic report
         diagnostic_report = {
             "timestamp": start_time.isoformat(),
-            "processing_time_ms": int((datetime.now(timezone.utc) - start_time).total_seconds() * 1000),
+            "processing_time_ms": int(
+                (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
+            ),
             "original_response": gpt_response,
             "healed_response": healed_response if needs_healing else None,
             "annotated_response": annotated_response,
@@ -202,7 +209,9 @@ class GPTIntegrationLayer:
         # Check for low Constellation coherence
         return assessment.get("constellation_coherence", 1.0) < 0.3
 
-    def _annotate_drift_sections(self, original: str, healed: str, diagnosis: dict[str, Any]) -> str:
+    def _annotate_drift_sections(
+        self, original: str, healed: str, diagnosis: dict[str, Any]
+    ) -> str:
         """
         Annotate drifted sections for future fine-tuning.
 
@@ -233,12 +242,16 @@ class GPTIntegrationLayer:
                 # Check if sentence was significantly modified
                 if orig_sent != healed_sentences[i] or len(orig_glyphs - healed_glyphs) > 0:
                     # Mark as drifted
-                    annotated_parts.append(f"{self.drift_markers['start']}{orig_sent}{self.drift_markers['end']}")
+                    annotated_parts.append(
+                        f"{self.drift_markers['start']}{orig_sent}{self.drift_markers['end']}"
+                    )
                 else:
                     annotated_parts.append(orig_sent)
             else:
                 # Original sentence was removed in healing
-                annotated_parts.append(f"{self.drift_markers['start']}{orig_sent}{self.drift_markers['end']}")
+                annotated_parts.append(
+                    f"{self.drift_markers['start']}{orig_sent}{self.drift_markers['end']}"
+                )
 
         # Add drift metadata comment
         drift_metadata = f"\n<!-- DRIFT_METADATA: primary_issue={diagnosis.get('primary_issue', 'unknown')}, severity={diagnosis.get('severity', 0):.2f} -->"
@@ -280,7 +293,9 @@ class GPTIntegrationLayer:
             summary["reasons"].append("Constellation Framework violation")
 
         if assessment.get("constellation_coherence", 1.0) < 0.3:
-            summary["reasons"].append(f"Low Constellation coherence: {assessment['constellation_coherence']:.2f}")
+            summary["reasons"].append(
+                f"Low Constellation coherence: {assessment['constellation_coherence']:.2f}"
+            )
 
         # Add outcome if healing was applied
         if healing_result:
@@ -291,7 +306,9 @@ class GPTIntegrationLayer:
             }
 
         # Add recommendations
-        summary["recommendations"] = self._generate_recommendations(assessment, diagnosis, healing_result)
+        summary["recommendations"] = self._generate_recommendations(
+            assessment, diagnosis, healing_result
+        )
 
         return summary
 
@@ -361,7 +378,9 @@ class GPTIntegrationLayer:
         except Exception as e:
             logger.error(f"Failed to log diagnostic: {e}")
 
-    def batch_process(self, responses: list[str], contexts: Optional[list[dict]] = None) -> list[dict[str, Any]]:
+    def batch_process(
+        self, responses: list[str], contexts: Optional[list[dict]] = None
+    ) -> list[dict[str, Any]]:
         """
         Process multiple GPT responses in batch.
 
@@ -495,11 +514,15 @@ if __name__ == "__main__":
         print(f"Original: {response[:60]}...")
 
         # Process response
-        report = gpt_layer.process_gpt_response(response, context={"test_id": i, "temperature": 0.7})
+        report = gpt_layer.process_gpt_response(
+            response, context={"test_id": i, "temperature": 0.7}
+        )
 
         # Display results
         print(f"Drift Score: {report['guardian_overlay']['drift_score']:.2f}")
-        print(f"Constellation Coherence: {report['guardian_overlay']['constellation_coherence']:.2f}")
+        print(
+            f"Constellation Coherence: {report['guardian_overlay']['constellation_coherence']:.2f}"
+        )
         print(f"Primary Issue: {report['diagnosis']['primary_issue']}")
         print(f"Intervention Applied: {report['intervention_summary']['intervention_applied']}")
 

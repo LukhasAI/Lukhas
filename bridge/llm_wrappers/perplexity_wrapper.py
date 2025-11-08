@@ -55,7 +55,6 @@ with warnings.catch_warnings():
     import requests
 
 
-
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.llm_wrappers.perplexity")
 

@@ -191,7 +191,11 @@ class DashboardWebSocketServer:
                 "status": "healthy",
                 "server_id": self.server_id,
                 "connected_clients": len(self.clients),
-                "uptime": ((datetime.now(timezone.utc) - self.start_time).total_seconds() if hasattr(self, "start_time") else 0),
+                "uptime": (
+                    (datetime.now(timezone.utc) - self.start_time).total_seconds()
+                    if hasattr(self, "start_time")
+                    else 0
+                ),
             }
 
         # Metrics endpoint
@@ -323,7 +327,9 @@ class DashboardWebSocketServer:
                 client_id=client_id,
                 websocket=websocket,
                 subscribed_streams=(
-                    {requested_stream} if requested_stream != StreamType.ALL_STREAMS else set(StreamType)
+                    {requested_stream}
+                    if requested_stream != StreamType.ALL_STREAMS
+                    else set(StreamType)
                 ),
                 connected_at=datetime.now(timezone.utc),
                 last_activity=datetime.now(timezone.utc),
@@ -449,7 +455,9 @@ class DashboardWebSocketServer:
         ]:
             tab_id = interaction_data.get("tab_id", "")
             if tab_id:
-                await self.tab_system.handle_user_interaction(tab_id, interaction_type, interaction_data)
+                await self.tab_system.handle_user_interaction(
+                    tab_id, interaction_type, interaction_data
+                )
 
     async def broadcast_message(
         self,
@@ -490,7 +498,10 @@ class DashboardWebSocketServer:
                             or StreamType.ALL_STREAMS in client.subscribed_streams
                         ):
                             # Check if message is targeted to specific clients
-                            if message.target_clients is None or client.client_id in message.target_clients:
+                            if (
+                                message.target_clients is None
+                                or client.client_id in message.target_clients
+                            ):
                                 target_clients.append(client)
 
                 # Broadcast to target clients
@@ -763,7 +774,9 @@ class DashboardWebSocketServer:
 # Convenience function to create and start server
 
 
-async def create_dashboard_websocket_server(host: str = "localhost", port: int = 8765) -> DashboardWebSocketServer:
+async def create_dashboard_websocket_server(
+    host: str = "localhost", port: int = 8765
+) -> DashboardWebSocketServer:
     """Create and initialize a dashboard WebSocket server."""
     server = DashboardWebSocketServer(host, port)
     await server.initialize()

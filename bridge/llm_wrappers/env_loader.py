@@ -38,6 +38,7 @@
 ║ Symbolic Tags: {ΛENV}, {ΛSECURITY}, {ΛCONFIG}, {ΛAPI}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 from __future__ import annotations
 
 import logging
@@ -99,10 +100,10 @@ def get_from_keychain(service_name: str) -> str | None:
         import subprocess
 
         result = subprocess.run(
-            ['security', 'find-generic-password', '-s', service_name, '-w'],
+            ["security", "find-generic-password", "-s", service_name, "-w"],
             capture_output=True,
             text=True,
-            check=True
+            check=True,
         )
         return result.stdout.strip()
     except (subprocess.CalledProcessError, FileNotFoundError):

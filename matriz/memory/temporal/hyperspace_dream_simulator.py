@@ -71,13 +71,8 @@ import numpy as np
 logger = logging.getLogger(__name__)
 
 
-
 try:
-    from core.integration.dynamic_modality_broker import (
-        DataType,
-        ModalityData,
-        get_dmb,
-    )
+    from core.integration.dynamic_modality_broker import DataType, ModalityData, get_dmb
 except ImportError:
     # Create placeholders if the modules don't exist
     class DataType:
@@ -114,6 +109,7 @@ except ImportError:
     # Create mock CulturalContext enum if import fails
     class CulturalContext(Enum):
         UNIVERSAL = "universal"
+
     EthicalDecision = None
     get_meg = None
 try:
@@ -267,7 +263,9 @@ class TimelineBranch:
 
         # Temporal consistency check
         if CausalConstraint.TEMPORAL_CONSISTENCY in self.constraints:
-            decision_times = [datetime.fromisoformat(d["timestamp"]) for d in self.decisions if "timestamp" in d]
+            decision_times = [
+                datetime.fromisoformat(d["timestamp"]) for d in self.decisions if "timestamp" in d
+            ]
             if len(decision_times) > 1:
                 for i in range(1, len(decision_times)):
                     if decision_times[i] < decision_times[i - 1]:
@@ -582,7 +580,9 @@ class HyperspaceDreamSimulator:
         self.tokens_used += decision_tokens
 
         # Enhanced token profiling
-        decision_profile = self._profile_decision_tokens(decision, decision_tokens, scenario_id, timeline_id)
+        decision_profile = self._profile_decision_tokens(
+            decision, decision_tokens, scenario_id, timeline_id
+        )
         self.token_profiler["decision_token_costs"].append(decision_profile)
         self.token_profiler["total_tokens_consumed"] += decision_tokens
 
@@ -666,7 +666,9 @@ class HyperspaceDreamSimulator:
             self.tokens_used += outcome_tokens
 
             # Profile outcome token costs
-            outcome_profile = self._profile_outcome_tokens(outcome, outcome_tokens, scenario_id, timeline_id)
+            outcome_profile = self._profile_outcome_tokens(
+                outcome, outcome_tokens, scenario_id, timeline_id
+            )
             self.token_profiler["outcome_token_costs"].append(outcome_profile)
             self.token_profiler["total_tokens_consumed"] += outcome_tokens
 
@@ -798,7 +800,9 @@ class HyperspaceDreamSimulator:
 
         return outcomes
 
-    def _estimate_emotional_impact(self, decision: dict[str, Any], outcome_type: str) -> dict[str, float]:
+    def _estimate_emotional_impact(
+        self, decision: dict[str, Any], outcome_type: str
+    ) -> dict[str, float]:
         """Estimate emotional impact of a decision outcome"""
         base_impact = {"valence": 0.0, "arousal": 0.0, "dominance": 0.0}
 
@@ -913,10 +917,14 @@ class HyperspaceDreamSimulator:
             "total_outcomes": sum(len(t.outcomes) for t in scenario.timelines.values()),
             "constraint_violations": sum(len(t.violations) for t in scenario.timelines.values()),
             "average_confidence": (
-                np.mean([t.confidence for t in scenario.timelines.values()]) if scenario.timelines else 0
+                np.mean([t.confidence for t in scenario.timelines.values()])
+                if scenario.timelines
+                else 0
             ),
             "average_probability": (
-                np.mean([t.probability for t in scenario.timelines.values()]) if scenario.timelines else 0
+                np.mean([t.probability for t in scenario.timelines.values()])
+                if scenario.timelines
+                else 0
             ),
         }
 
@@ -1027,11 +1035,21 @@ class HyperspaceDreamSimulator:
             "primary_risk_factors": [
                 (
                     "constraint_violations"
-                    if any(t["risk_factors"]["constraint_violations"] > 0 for t in high_risk_timelines)
+                    if any(
+                        t["risk_factors"]["constraint_violations"] > 0 for t in high_risk_timelines
+                    )
                     else None
                 ),
-                ("low_confidence" if any(t["risk_factors"]["low_confidence"] for t in high_risk_timelines) else None),
-                ("low_probability" if any(t["risk_factors"]["low_probability"] for t in high_risk_timelines) else None),
+                (
+                    "low_confidence"
+                    if any(t["risk_factors"]["low_confidence"] for t in high_risk_timelines)
+                    else None
+                ),
+                (
+                    "low_probability"
+                    if any(t["risk_factors"]["low_probability"] for t in high_risk_timelines)
+                    else None
+                ),
                 (
                     "high_uncertainty"
                     if any(t["risk_factors"]["high_uncertainty"] for t in high_risk_timelines)
@@ -1040,7 +1058,9 @@ class HyperspaceDreamSimulator:
             ],
         }
 
-    async def _generate_recommendations(self, scenario: SimulationScenario, optimal_timeline_id: Optional[str]) -> list[str]:
+    async def _generate_recommendations(
+        self, scenario: SimulationScenario, optimal_timeline_id: Optional[str]
+    ) -> list[str]:
         """Generate recommendations based on scenario analysis"""
 
         recommendations = []
@@ -1055,17 +1075,25 @@ class HyperspaceDreamSimulator:
             key_decisions = [d for d in optimal_timeline.decisions if d.get("importance", 0) > 0.7]
 
             if key_decisions:
-                recommendations.append(f"Focus on {len(key_decisions)} high-importance decisions in optimal path")
+                recommendations.append(
+                    f"Focus on {len(key_decisions)} high-importance decisions in optimal path"
+                )
 
         # Risk mitigation recommendations
-        high_risk_count = sum(1 for t in scenario.timelines.values() if len(t.violations) > 0 or t.confidence < 0.5)
+        high_risk_count = sum(
+            1 for t in scenario.timelines.values() if len(t.violations) > 0 or t.confidence < 0.5
+        )
 
         if high_risk_count > 0:
-            recommendations.append(f"Implement risk mitigation for {high_risk_count} high-risk timeline branches")
+            recommendations.append(
+                f"Implement risk mitigation for {high_risk_count} high-risk timeline branches"
+            )
 
         # Convergence recommendations
         if len(scenario.convergence_points) > 0:
-            recommendations.append("Multiple timelines converge - consider consolidating strategies")
+            recommendations.append(
+                "Multiple timelines converge - consider consolidating strategies"
+            )
 
         # Add sophisticated recommendation generation using ML models
         ml_recommendations = await self._generate_ml_based_recommendations(scenario)
@@ -1194,7 +1222,9 @@ class HyperspaceDreamSimulator:
                 "dynamic_modality_broker": self.dmb is not None,
             },
             "metrics": self.metrics.copy(),
-            "recent_scenarios": [self.get_scenario_status(sid) for sid in list(self.active_scenarios.keys())[-5:]],
+            "recent_scenarios": [
+                self.get_scenario_status(sid) for sid in list(self.active_scenarios.keys())[-5:]
+            ],
         }
 
     def _profile_decision_tokens(
@@ -1306,7 +1336,10 @@ class HyperspaceDreamSimulator:
                 self.tokens_used
                 / max(
                     1,
-                    (datetime.now(timezone.utc) - self.token_profiler["session_start"]).total_seconds() / 60,
+                    (
+                        datetime.now(timezone.utc) - self.token_profiler["session_start"]
+                    ).total_seconds()
+                    / 60,
                 ),
                 2,
             ),
@@ -1354,7 +1387,9 @@ class HyperspaceDreamSimulator:
         """
         import os
 
-        token_warning_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/trace/hds_token_warnings.jsonl"
+        token_warning_path = (
+            "/Users/cognitive_dev/Downloads/Consolidation-Repo/trace/hds_token_warnings.jsonl"
+        )
 
         try:
             os.makedirs(os.path.dirname(token_warning_path), exist_ok=True)
@@ -1411,7 +1446,12 @@ class HyperspaceDreamSimulator:
                 "outcomes_per_token": round(len(outcome_costs) / max(1, sum(outcome_costs)), 4),
                 "avg_decision_efficiency": (
                     round(
-                        np.mean([p["efficiency_ratio"] for p in self.token_profiler["decision_token_costs"]]),
+                        np.mean(
+                            [
+                                p["efficiency_ratio"]
+                                for p in self.token_profiler["decision_token_costs"]
+                            ]
+                        ),
                         4,
                     )
                     if self.token_profiler["decision_token_costs"]
@@ -1612,7 +1652,10 @@ class HyperspaceDreamSimulator:
                     continue
 
                 # Calculate Euclidean distance
-                distance = sum((position_vectors[i][k] - position_vectors[j][k]) ** 2 for k in range(3)) ** 0.5
+                distance = (
+                    sum((position_vectors[i][k] - position_vectors[j][k]) ** 2 for k in range(3))
+                    ** 0.5
+                )
 
                 if distance < convergence_threshold:
                     cluster_members.append(j)
@@ -1626,7 +1669,11 @@ class HyperspaceDreamSimulator:
                         "convergence_strength": 1.0
                         - (
                             sum(
-                                sum((position_vectors[m1][k] - position_vectors[m2][k]) ** 2 for k in range(3)) ** 0.5
+                                sum(
+                                    (position_vectors[m1][k] - position_vectors[m2][k]) ** 2
+                                    for k in range(3)
+                                )
+                                ** 0.5
                                 for m1 in cluster_members
                                 for m2 in cluster_members
                                 if m1 < m2
@@ -1634,7 +1681,8 @@ class HyperspaceDreamSimulator:
                             / max(1, len(cluster_members) * (len(cluster_members) - 1) / 2)
                         ),
                         "representative_position": [
-                            sum(position_vectors[m][k] for m in cluster_members) / len(cluster_members)
+                            sum(position_vectors[m][k] for m in cluster_members)
+                            / len(cluster_members)
                             for k in range(3)
                         ],
                     }
@@ -1660,22 +1708,28 @@ class HyperspaceDreamSimulator:
         outcome_diversity = len({outcome.get("type", "unknown") for outcome in scenario.outcomes})
 
         # Decision complexity analysis
-        decision_complexity = sum(len(str(decision)) for decision in scenario.decision_sequence) / max(
-            len(scenario.decision_sequence), 1
-        )
+        decision_complexity = sum(
+            len(str(decision)) for decision in scenario.decision_sequence
+        ) / max(len(scenario.decision_sequence), 1)
 
         # Generate recommendations based on ML patterns
         if timeline_count > 5 and outcome_diversity < 3:
-            recommendations.append("Consider exploring more diverse outcome types to improve scenario robustness")
+            recommendations.append(
+                "Consider exploring more diverse outcome types to improve scenario robustness"
+            )
 
         if decision_complexity > 200:  # Arbitrary threshold for complexity
-            recommendations.append("High decision complexity detected - consider breaking down into smaller decisions")
+            recommendations.append(
+                "High decision complexity detected - consider breaking down into smaller decisions"
+            )
 
         # Resource optimization recommendations
         if hasattr(scenario, "resource_usage"):
             resource_efficiency = getattr(scenario, "resource_efficiency", 0.7)
             if resource_efficiency < 0.6:
-                recommendations.append("Resource efficiency below optimal - recommend resource reallocation")
+                recommendations.append(
+                    "Resource efficiency below optimal - recommend resource reallocation"
+                )
 
         return recommendations
 
@@ -1688,8 +1742,12 @@ class HyperspaceDreamSimulator:
         scenario_hash = hash(scenario.scenario_id) % 100
 
         if scenario_hash > 60:
-            recommendations.append("Similar historical scenarios suggest focusing on stakeholder communication")
-            recommendations.append("Historical precedent indicates 15% buffer for timeline estimates")
+            recommendations.append(
+                "Similar historical scenarios suggest focusing on stakeholder communication"
+            )
+            recommendations.append(
+                "Historical precedent indicates 15% buffer for timeline estimates"
+            )
         elif scenario_hash < 30:
             recommendations.append("Historical patterns suggest increased risk mitigation measures")
 
@@ -1713,12 +1771,16 @@ class HyperspaceDreamSimulator:
 
         # Timeline risk analysis
         if len(scenario.timelines) > 10:
-            recommendations.append("High timeline divergence - recommend regular convergence checkpoints")
+            recommendations.append(
+                "High timeline divergence - recommend regular convergence checkpoints"
+            )
 
         # Complexity risk
         total_decisions = len(scenario.decision_sequence)
         if total_decisions > 20:
-            recommendations.append("High decision sequence complexity - recommend decision audit and simplification")
+            recommendations.append(
+                "High decision sequence complexity - recommend decision audit and simplification"
+            )
 
         return recommendations
 

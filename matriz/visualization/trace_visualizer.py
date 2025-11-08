@@ -30,8 +30,8 @@ def trace_to_graph(trace_data: list[dict]) -> nx.DiGraph:
             node_id,
             type="PROCESSING_STEP",
             label=f"Step {i+1}: {step['processor']}",
-            input=str(step['input']),
-            output=str(step['output']),
+            input=str(step["input"]),
+            output=str(step["output"]),
         )
 
         if last_node:
@@ -40,6 +40,7 @@ def trace_to_graph(trace_data: list[dict]) -> nx.DiGraph:
         last_node = node_id
 
     return graph
+
 
 def calculate_trace_metrics(trace_data: list[dict]) -> dict:
     """
@@ -52,16 +53,12 @@ def calculate_trace_metrics(trace_data: list[dict]) -> dict:
         A dictionary of metrics.
     """
     depth = len(trace_data)
-    processors = [step['processor'] for step in trace_data]
+    processors = [step["processor"] for step in trace_data]
     breadth = len(set(processors))
     complexity = depth * breadth
 
-    return {
-        "depth": depth,
-        "breadth": breadth,
-        "complexity": complexity,
-        "processors": processors
-    }
+    return {"depth": depth, "breadth": breadth, "complexity": complexity, "processors": processors}
+
 
 def visualize_trace(trace_data: list[dict]):
     """

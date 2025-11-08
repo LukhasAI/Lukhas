@@ -21,6 +21,8 @@ except ImportError:  # pragma: no cover
     st = None
     # Optional UI dependency; core runtime must not require it.
 
+from .async_orchestrator import AsyncCognitiveOrchestrator  # Export async orchestrator
+from .memory_system import MemorySystem  # Export memory system
 from .node_interface import (  # (relative imports in __init__.py are idiomatic)
     CognitiveNode,
     NodeLink,
@@ -33,8 +35,6 @@ from .orchestrator import (  # (relative imports in __init__.py are idiomatic)
     CognitiveOrchestrator,
     ExecutionTrace,
 )
-from .async_orchestrator import AsyncCognitiveOrchestrator  # Export async orchestrator
-from .memory_system import MemorySystem  # Export memory system
 
 __all__ = [
     "AsyncCognitiveOrchestrator",
