@@ -10,8 +10,8 @@ tone:
 canonical: https://lukhas.eu/research/parallel-dream-simulation-gamechanger
 source: "branding/websites/lukhas.eu/research/parallel-dream-simulation-gamechanger.md"
 evidence_links:
-  - "release_artifacts/parallel-dream-validation-2025.json"
-  - "release_artifacts/strategic-planning-benchmarks.pdf"
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/experimental-design-95pct.md'
 claims_verified_by: ["@web-architect", "@research-lead"]
 claims_verified_date: "2025-11-05"
 claims_approval: true

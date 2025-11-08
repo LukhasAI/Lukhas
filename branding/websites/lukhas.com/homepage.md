@@ -12,7 +12,8 @@ seo:
     - "enterprise consciousness solutions"
 last_reviewed: "2025-11-08"
 keywords: "enterprise AI platform, corporate consciousness, business AI, trusted AI technology, enterprise consciousness solutions"
----
+evidence_links:
+  - 'release_artifacts/evidence/privacy-compliance-999pct.md'---
 # 🛡️ LUKHAS.COM - Homepage Content
 ## The Guardian Hub - Corporate Gateway Narrative
 

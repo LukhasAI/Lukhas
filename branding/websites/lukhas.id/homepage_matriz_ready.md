@@ -1,6 +1,12 @@
 ---
 domain: lukhas.id
 title: "LUKHAS.ID - Where Identity Anchors Consciousness"
+evidence_links:
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/experimental-design-95pct.md'
+  - 'release_artifacts/evidence/lambda-id-token-validation-10ms.md'
+  - 'release_artifacts/evidence/memory-fold-retrieval-50ms.md'
+  - 'release_artifacts/evidence/system-uptime-9995pct.md'
 updated: 2025-11-05
 status: ready-for-implementation
 matriz_integration: lambda-id-authentication

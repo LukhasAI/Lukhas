@@ -12,7 +12,9 @@ seo:
     - "European sustainable AI"
 last_reviewed: "2025-11-08"
 keywords: "European AI sovereignty, GDPR consciousness technology, EU digital independence, privacy-by-design AI, European sustainable AI"
----
+evidence_links:
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/experimental-design-95pct.md'---
 # 🇪🇺 LUKHAS.EU - The European Consciousness Portal
 ## Website Architecture & European Digital Sovereignty Platform
 
