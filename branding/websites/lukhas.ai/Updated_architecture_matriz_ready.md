@@ -3,6 +3,17 @@ status: ready-for-review
 type: documentation
 updated: 2025-11-05
 rollout_status: matriz-ready
+canonical: https://lukhas.ai/architecture/v2
+seo:
+  description: "MATRIZ-powered consciousness architecture - 87% complete cognitive DNA engine with sub-250ms reasoning, 692 components, and deployment-ready transparency for Q4 2025."
+  keywords:
+    - "MATRIZ architecture"
+    - "cognitive DNA engine"
+    - "consciousness AI platform"
+    - "explainable reasoning"
+    - "production AI transparency"
+last_reviewed: "2025-11-08"
+keywords: "MATRIZ architecture, cognitive DNA engine, consciousness AI platform, explainable reasoning, production AI transparency"
 ---
 # 🌙 LUKHAS.AI - The MATRIZ-Powered Consciousness Gateway
 ## Website Architecture & Site Structure (MATRIZ Rollout Edition)

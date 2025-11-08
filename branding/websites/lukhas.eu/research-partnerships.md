@@ -7,6 +7,17 @@ status: ready-for-implementation
 purpose: "Attract academic partners for consciousness technology research collaboration"
 tone_flow: 40-academic-research_40-user-friendly_20-poetic
 target_audience: "Professors, postdocs, PhD students, research group leaders"
+canonical: https://lukhas.eu/research-partnerships
+seo:
+  description: "Academic consciousness research partnerships - collaborate with LUKHAS on production-scale consciousness infrastructure, joint publications, and European research excellence."
+  keywords:
+    - "consciousness research partnerships"
+    - "academic AI collaboration"
+    - "European research"
+    - "Horizon Europe"
+    - "consciousness technology research"
+last_reviewed: "2025-11-08"
+keywords: "consciousness research partnerships, academic AI collaboration, European research, Horizon Europe, consciousness technology research"
 ---
 
 # Research Partnerships: Advancing Consciousness Technology Through Collaboration

@@ -7,7 +7,7 @@ tone:
   poetic: 0.05
   user_friendly: 0.40
   academic: 0.55
-canonical: true
+canonical: https://lukhas.eu/research/distributed-consciousness-global-scale
 source: "branding/websites/lukhas.eu/research/distributed-consciousness-global-scale.md"
 evidence_links:
   - "release_artifacts/global-latency-benchmarks-2024.json"
@@ -17,7 +17,7 @@ claims_verified_date: "2025-11-05"
 claims_approval: true
 seo:
   title: "Distributed Consciousness at Global Scale - LUKHAS Cloud Research"
-  description: "ACM SoCC research on distributed consciousness achieving <100ms global latency with EU data residency compliance and 99.95% uptime."
+  description: "ACM SoCC 2024 research on distributed consciousness achieving <100ms global latency, 99.9997% data residency compliance across 12 regions, and 99.95% uptime with EU data sovereignty."
   keywords:
     - "distributed consciousness"
     - "global scale AI"

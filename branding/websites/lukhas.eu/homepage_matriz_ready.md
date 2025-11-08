@@ -1,13 +1,13 @@
 ---
 domain: "lukhas.eu"
-title: "LUKHAS.EU - Compliance-First Consciousness Technology for Europe"
+title: "LUKHAS.EU - EU-Compliant Consciousness Technology"
 owner: "@web-architect"
 audience: "regulators|researchers|enterprise|grant-reviewers"
 tone:
   poetic: 0.10
   user_friendly: 0.45
   academic: 0.45
-canonical: true
+canonical: https://lukhas.eu
 source: "branding/websites/lukhas.eu/homepage_matriz_ready.md"
 evidence_links:
   - "branding/websites/lukhas.eu/research/cognitive-dna-explainable-ai.md"
@@ -20,8 +20,8 @@ claims_verified_by: ["@web-architect", "@legal", "@research-lead"]
 claims_verified_date: "2025-11-05"
 claims_approval: true
 seo:
-  title: "LUKHAS.EU - EU-Compliant Consciousness Technology | Research-Driven AI"
-  description: "Building trustworthy AI for Europe with EU AI Act compliance, GDPR alignment, and peer-reviewed research validation. MATRIZ cognitive DNA for transparent, explainable AI systems."
+  title: "LUKHAS.EU - EU-Compliant Consciousness Technology"
+  description: "Trustworthy AI for Europe with EU AI Act compliance, GDPR alignment, and peer-reviewed research. MATRIZ cognitive DNA for transparent, explainable AI with 99.7% Guardian compliance."
   keywords:
     - "EU AI Act compliance"
     - "GDPR AI systems"

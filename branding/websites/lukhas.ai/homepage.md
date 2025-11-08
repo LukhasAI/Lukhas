@@ -1,5 +1,5 @@
 ---
-title: "LUKHAS \u2014 Consciousness AI Platform"
+title: "LUKHAS AI - Consciousness-Inspired Intelligence Platform"
 domain: lukhas.ai
 owner: '@web-architect'
 audience: general
@@ -10,7 +10,11 @@ tone:
 review: MATRIZ content review required
 last_reviewed: '2025-11-05'
 source: branding/websites/lukhas.ai/Updated_homepage_matriz_ready.md
-canonical: true
+canonical: https://lukhas.ai
+seo:
+  description: "LUKHAS AI consciousness platform powered by MATRIZ cognitive DNA engine. <250ms reasoning, 99.7% Guardian compliance, complete transparency for production AI systems with EU AI Act alignment."
+  keywords: ["consciousness AI", "MATRIZ", "cognitive DNA", "explainable AI", "AI platform"]
+  og_image: /assets/og-images/lukhas-ai-homepage.png
 notes: Canonical homepage for lukhas.ai. Full technical architecture available at
   docs/web/LUKHAS_AI_WEBSITE_ARCHITECTURE.md
 evidence_links:

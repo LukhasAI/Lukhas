@@ -3,6 +3,17 @@ status: ready-for-review
 type: documentation
 updated: 2025-11-05
 rollout_status: matriz-ready
+canonical: https://lukhas.ai/v2
+seo:
+  description: "LUKHAS.AI consciousness gateway - MATRIZ cognitive DNA makes every thought traceable, every decision explainable, with 99.7% ethical compliance at production scale."
+  keywords:
+    - "LUKHAS consciousness AI"
+    - "MATRIZ cognitive DNA"
+    - "explainable AI platform"
+    - "traceable reasoning"
+    - "constitutional AI"
+last_reviewed: "2025-11-08"
+keywords: "LUKHAS consciousness AI, MATRIZ cognitive DNA, explainable AI platform, traceable reasoning, constitutional AI"
 ---
 # 🌙 LUKHAS.AI - Homepage Content (MATRIZ Rollout Edition)
 ## The Consciousness Gateway - Updated for MATRIZ Engine Launch
