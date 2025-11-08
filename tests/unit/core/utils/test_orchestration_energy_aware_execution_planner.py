@@ -4,6 +4,7 @@ from datetime import datetime, timedelta, timezone
 from unittest.mock import MagicMock, patch
 
 import pytest
+
 from core.utils.orchestration_energy_aware_execution_planner import (
     DistributedEnergyTask,
     EnergyAwareExecutionPlanner,

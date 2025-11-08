@@ -45,14 +45,15 @@ from typing import Any
 
 import numpy as np
 import pytest
-from core.identity.identity_engine import QIIdentityEngine
-from core.integration.governance.__init__ import QIEthicsEngine
-from core.testing.plugin_test_framework import QITestOracle
 from qi.qi_processing_core import BaseOscillator
 from reasoning.symbolic_reasoning import SymbolicEngine
 from tools.documentation.symbolic_knowledge_core.knowledge_graph import (
     MultiverseKnowledgeWeb,
 )
+
+from core.identity.identity_engine import QIIdentityEngine
+from core.integration.governance.__init__ import QIEthicsEngine
+from core.testing.plugin_test_framework import QITestOracle
 
 logger = logging.getLogger(__name__)
 

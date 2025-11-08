@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 
 import pytest
+
 from core.colonies import MeshTopologyService
 from core.symbolic_core import colony_tag_propagation
 

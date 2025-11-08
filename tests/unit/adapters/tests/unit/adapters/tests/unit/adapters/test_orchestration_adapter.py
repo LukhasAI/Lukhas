@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from matriz.adapters.orchestration_adapter import UorchestrationAdapter
+
 from tests.util.mk_msg import mk_msg_from_json
 
 GOLDEN = Path("tests/fixtures/golden/orchestration_adapter")

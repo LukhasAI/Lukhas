@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 from typing import Optional
 
 import aiohttp
+
 from bridge.adapters.service_adapter_base import (
     BaseServiceAdapter,
     CapabilityToken,

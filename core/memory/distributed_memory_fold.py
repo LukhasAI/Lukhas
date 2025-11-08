@@ -55,6 +55,7 @@ from typing import Any
 
 import aiohttp
 import numpy as np
+
 from core.common.config import get_config
 
 logger = logging.getLogger(__name__)
