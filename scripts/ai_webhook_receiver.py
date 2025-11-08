@@ -209,7 +209,7 @@ async def queue_status():
         raise HTTPException(status_code=500, detail=str(e))
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     import argparse
 
     parser = argparse.ArgumentParser(description="LUKHAS AI Webhook Receiver")

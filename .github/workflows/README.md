@@ -160,6 +160,63 @@ Located in `/monitoring/alerts/`:
 - Review and optimize performance targets
 - Security framework updates
 
+## 📝 Content Linting Workflow (`content-lint.yml`)
+
+**Trigger**: PRs with branding changes, pushes to main, weekly schedule, manual
+**Purpose**: Automated branding content validation and governance
+
+### Jobs
+
+1. **vocabulary-lint**: Forbidden vocabulary detection
+2. **front-matter-lint**: YAML front-matter validation
+3. **evidence-validation**: Claims registry generation and validation
+4. **seo-validation**: SEO hygiene (canonical URLs, meta descriptions)
+5. **markdown-links**: Broken link detection
+6. **visual-regression**: Visual diff testing (requires Chromatic/Percy setup)
+7. **evidence-artifacts**: JSON validation for evidence files
+8. **summary**: Aggregated validation results
+
+### Local Testing
+
+Run checks locally before pushing:
+
+```bash
+# Vocabulary
+python3 tools/branding_vocab_lint.py
+
+# Front-matter
+python3 tools/front_matter_lint.py
+
+# Claims
+python3 tools/generate_claims_registry.py
+python3 tools/validate_claims.py
+
+# SEO
+python3 tools/validate_seo.py
+
+# Or run all CI checks locally
+make ci-lint-local
+```
+
+### Secrets Required
+
+- `CHROMATIC_PROJECT_TOKEN` (optional) - For visual regression with Chromatic
+- `PERCY_TOKEN` (alternative) - For visual regression with Percy
+
+### Troubleshooting
+
+**Q: Workflow fails on vocabulary-lint**
+A: Check `tools/branding_vocab_lint.py` output for forbidden terms, fix content
+
+**Q: Front-matter validation fails**
+A: Ensure all required YAML fields present (title, domain, owner, tone, canonical, evidence_links, etc.)
+
+**Q: Evidence validation fails**
+A: Add `evidence_links` in front-matter and set `claims_approval: true` after review
+
+**Q: Visual regression not running**
+A: Add `CHROMATIC_PROJECT_TOKEN` secret in repo settings → Secrets and variables → Actions
+
 ## 📚 Documentation References
 
 - [T4/0.01% Excellence Standards](https://docs.lukhas.ai/excellence/t4-standards)

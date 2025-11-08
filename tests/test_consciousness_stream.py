@@ -10,6 +10,7 @@ import time
 from uuid import UUID, uuid4
 
 import pytest
+
 from core.consciousness_stream import ConsciousnessStream, create_consciousness_stream
 
 

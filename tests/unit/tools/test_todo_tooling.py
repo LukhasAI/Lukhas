@@ -19,7 +19,7 @@ def _load_module(module_name: str, file_path: Path):
     return module
 
 
-categorize = _load_module("categorize_todos", REPO_ROOT / "TODO" / "scripts" / "categorize_todos.py")
+categorize = _load_module("categorize_todos", REPO_ROOT / "tools" / "todo_categorize.py")
 weekly_hygiene = _load_module("weekly_hygiene", REPO_ROOT / "tools" / "reports" / "weekly_hygiene.py")
 
 

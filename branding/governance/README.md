@@ -103,14 +103,47 @@ Comprehensive external audit evaluating LUKHAS branding across 8 dimensions (Con
 
 **Location**: [tools/GOVERNANCE_ARTIFACTS.md](tools/GOVERNANCE_ARTIFACTS.md)
 
-5. **generate_claims_registry.py**
-   - Scans markdown for claims
-   - Generates `release_artifacts/claims_registry.yaml`
-   - Creates audit trail for legal compliance
-
-6. **markdown-link-check**
+5. **markdown-link-check**
    - Validates internal and external links
    - Configured via `.mlc.json`
+
+### Claims Registry
+
+**Tools**: `tools/generate_claims_registry.py`, `tools/validate_claims.py`
+
+Generate and validate claims across all branding content:
+
+```bash
+# Generate claims registry
+make claims-registry
+
+# Validate claims have evidence
+make claims-validate
+
+# Strict validation (fail on warnings)
+make claims-strict
+```
+
+**Registry Location**: `branding/governance/claims_registry.json`
+
+**Prerequisites**: Evidence artifacts must exist (created in PR #1102)
+
+**Claim Types Detected**:
+- Percentages: 99.7%, 87%
+- Latencies: <250ms, <100ms
+- Counts: 340K+ users, 3M interactions
+- Multipliers: 2x faster, 50% improvement
+- Operational: deployment-ready, validated production
+
+**Output**: Generates a comprehensive JSON registry with:
+- Claim text and type
+- Source file and line number
+- Evidence validation status
+- Missing evidence warnings
+- Claims approval tracking
+- Verification trail (verified_by, verified_date)
+
+**CI Integration**: Use `make claims-strict` in CI to fail builds on unapproved claims.
 
 ---
 
