@@ -21,6 +21,7 @@
 .PHONY: lint-json lint-fix lint-delta f401-tests import-map imports-abs imports-graph ruff-heatmap ruff-ratchet f821-suggest f706-detect f811-detect todos todos-issues codemod-dry codemod-apply check-legacy-imports
 .PHONY: state-sweep shadow-diff plan-colony-renames integration-manifest
 .PHONY: t4-init t4-migrate t4-migrate-dry t4-validate t4-dashboard t4-api t4-parallel t4-parallel-dry t4-codemod-dry t4-codemod-apply
+.PHONY: evidence-pages evidence-validate evidence-validate-strict branding-vocab-lint branding-claims-fix
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1895,3 +1896,34 @@ claude-review: ## Request Claude Code review for current PR
 claude-setup-docs: ## Open Claude PR review setup documentation
 	@echo "📖 Claude Code PR Review Setup Guide"
 	@echo "Location: docs/development/CLAUDE_PR_REVIEW_SETUP.md"
+
+# ============================================================================
+# Evidence Page Template System
+# ============================================================================
+
+evidence-pages: ## Generate evidence page stubs from claims registry
+	@echo "📝 Generating evidence pages from claims registry..."
+	@python3 tools/generate_evidence_page.py
+	@echo "✅ Evidence pages generated in release_artifacts/evidence/"
+	@echo "💡 Next: Review and fill methodology sections"
+
+evidence-validate: ## Validate evidence pages for completeness
+	@echo "✅ Validating evidence pages..."
+	@python3 tools/validate_evidence_pages.py
+	@echo "💡 Use --check-bidirectional to validate page links"
+
+evidence-validate-strict: ## Validate evidence pages (strict mode, warnings = errors)
+	@echo "✅ Validating evidence pages (strict mode)..."
+	@python3 tools/validate_evidence_pages.py --strict --check-bidirectional
+
+branding-vocab-lint: ## Check branding vocabulary compliance
+	@echo "📖 Checking branding vocabulary..."
+	@if [ -f tools/branding_vocab_lint.py ]; then \
+		python3 tools/branding_vocab_lint.py; \
+	else \
+		echo "⚠️  branding_vocab_lint.py not found - skipping"; \
+	fi
+
+branding-claims-fix: ## Fix branding claims front-matter
+	@echo "🔧 Fixing branding claims front-matter..."
+	@python3 tools/fix_branding_claims.py
