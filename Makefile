@@ -665,6 +665,9 @@ test-report:
 	except Exception as e: \
 	 print('No coverage report yet:', e)"
 
+test-integration: ## Run integration tests with Docker services (postgres, redis, minio)
+	@bash scripts/run_integration.sh
+
 spec-lint:
 	@python3 tools/tests/spec_lint.py tests/specs
 

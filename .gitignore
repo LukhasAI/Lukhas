@@ -83,6 +83,9 @@ coverage.xml
 *.cover
 .hypothesis/
 
+# Track coverage baseline for ratchet mechanism
+!.coverage-baseline
+
 # defensive: never commit local junk
 *.swp
 *.log
