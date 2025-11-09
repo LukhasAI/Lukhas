@@ -55,6 +55,8 @@ except Exception:
         return _os.getenv(key, default)
 import os
 
+_MODEL_LIST_CACHE = None
+
 # ΛTAG: async_response_toggle -- optional async orchestrator integration seam
 _ASYNC_ORCH_ENV = (env_get("LUKHAS_ASYNC_ORCH", "0") or "0").strip()
 ASYNC_ORCH_ENABLED = _ASYNC_ORCH_ENV == "1"
@@ -256,11 +258,18 @@ def _hash_embed(text: str, dim: int=1536) -> list[float]:
     buf = (h * (dim // len(h) + 1))[:dim]
     return [b / 255.0 for b in buf]
 
-@app.get('/v1/models', tags=['OpenAI Compatible'])
-async def list_models() -> dict[str, Any]:
+def _build_model_list() -> dict[str, Any]:
     """OpenAI-compatible models list endpoint."""
     models = [{'id': 'lukhas-mini', 'object': 'model', 'owned_by': 'lukhas'}, {'id': 'lukhas-embed-1', 'object': 'model', 'owned_by': 'lukhas'}, {'id': 'text-embedding-ada-002', 'object': 'model', 'owned_by': 'lukhas'}, {'id': 'gpt-4', 'object': 'model', 'owned_by': 'lukhas'}]
     return {'object': 'list', 'data': models}
+
+@app.get('/v1/models', tags=['OpenAI Compatible'])
+async def list_models() -> dict[str, Any]:
+    """OpenAI-compatible models list endpoint."""
+    global _MODEL_LIST_CACHE
+    if _MODEL_LIST_CACHE is None:
+        _MODEL_LIST_CACHE = _build_model_list()
+    return _MODEL_LIST_CACHE
 
 @app.post('/v1/embeddings', tags=['OpenAI Compatible'])
 async def create_embeddings(request: dict) -> dict[str, Any]:
