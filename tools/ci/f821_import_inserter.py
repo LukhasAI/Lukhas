@@ -14,12 +14,14 @@ python3 tools/ci/f821_import_inserter.py --files $(cat /tmp/f821_first_shard.txt
 # Apply (after reviewing diffs):
 python3 tools/ci/f821_import_inserter.py --apply --files $(cat /tmp/f821_first_shard.txt)
 """
+
 import argparse
 import json
-import tempfile
-import subprocess
 import os
+import subprocess
+import tempfile
 from pathlib import Path
+
 import libcst as cst
 
 HEUR = {
@@ -36,6 +38,7 @@ HEUR = {
     "datetime": "from datetime import datetime",
 }
 
+
 def collect_targets(ruff_json_path):
     if not Path(ruff_json_path).exists():
         return {}
@@ -49,8 +52,9 @@ def collect_targets(ruff_json_path):
             if len(parts) >= 2:
                 name = parts[1]
                 if name in HEUR:
-                    files.setdefault(e['filename'], set()).add(name)
+                    files.setdefault(e["filename"], set()).add(name)
     return files
+
 
 class ImportInserter(cst.CSTTransformer):
     def __init__(self, imports_to_add):
@@ -66,7 +70,9 @@ class ImportInserter(cst.CSTTransformer):
         idx = 0
         if body and isinstance(body[0], cst.SimpleStatementLine):
             stmt = body[0].body[0]
-            if isinstance(stmt, cst.Expr) and isinstance(stmt.value, (cst.SimpleString, cst.ConcatenatedString)):
+            if isinstance(stmt, cst.Expr) and isinstance(
+                stmt.value, (cst.SimpleString, cst.ConcatenatedString)
+            ):
                 idx = 1
         # insert imports at idx
         import_nodes = []
@@ -78,6 +84,7 @@ class ImportInserter(cst.CSTTransformer):
         new_body = body[:idx] + import_nodes + body[idx:]
         self.added = True
         return updated_node.with_changes(body=new_body)
+
 
 def run_inserter_on_file(path: Path, names: set, dry_run=True):
     # build import strings
@@ -94,8 +101,11 @@ def run_inserter_on_file(path: Path, names: set, dry_run=True):
         with tempfile.NamedTemporaryFile("w", delete=False) as fh:
             fh.write(new.code)
             tmp = fh.name
-        diff = subprocess.run(["git", "diff", "--no-index", "--", str(path), tmp],
-                              capture_output=True, text=True)
+        diff = subprocess.run(
+            ["git", "diff", "--no-index", "--", str(path), tmp],
+            capture_output=True,
+            text=True,
+        )
         os.unlink(tmp)
         return True, diff.stdout
     else:
@@ -106,6 +116,7 @@ def run_inserter_on_file(path: Path, names: set, dry_run=True):
         bakname.write_text(path.read_text())
         path.write_text(new.code)
         return True, f"APPLIED imports to {path}"
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -118,7 +129,11 @@ def main():
     targets = {}
     if args.files:
         # if explicit files, use ruff json to pick relevant names per file
-        data = json.loads(Path(args.ruff_json).read_text()) if Path(args.ruff_json).exists() else []
+        data = (
+            json.loads(Path(args.ruff_json).read_text())
+            if Path(args.ruff_json).exists()
+            else []
+        )
         by_file = {}
         for e in data:
             fn = e.get("filename")
@@ -150,5 +165,6 @@ def main():
         else:
             print("No change:", f)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

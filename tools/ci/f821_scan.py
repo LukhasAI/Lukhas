@@ -10,6 +10,7 @@ Output:
     * Top undefined names (top 60)
     * Suggested heuristic shard (files to try first)
 """
+
 import json
 import pathlib
 import re
@@ -22,10 +23,12 @@ if not RuffJsonPath.exists():
     RuffJsonPath = pathlib.Path("/tmp/ruff_f821_clean.json")
 if not RuffJsonPath.exists():
     RuffJsonPath = pathlib.Path("/tmp/ruff_f821.json")
-    
+
 if not RuffJsonPath.exists():
     print("Missing /tmp/ruff_f821.json. Run:")
-    print("  python3 -m ruff check --select F821 --output-format json . > /tmp/ruff_f821.json")
+    print(
+        "  python3 -m ruff check --select F821 --output-format json . > /tmp/ruff_f821.json"
+    )
     sys.exit(1)
 
 data = json.loads(RuffJsonPath.read_text())
@@ -52,19 +55,15 @@ for rec in data:
         parts = re.findall(r"[`']([^'`]+)[`']", msg)
         nm = parts[0] if parts else msg[:30]
     by_name[nm] += 1
-    occurrences[fn].append({
-        "name": nm,
-        "msg": msg,
-        "row": row
-    })
+    occurrences[fn].append({"name": nm, "msg": msg, "row": row})
 
 # Print top files
 print("\n=== Top files by F821 count ===")
-for f,c in by_file.most_common(40):
+for f, c in by_file.most_common(40):
     print(f"{c:4d}  {f}")
 
 print("\n=== Top undefined names ===")
-for name,c in by_name.most_common(60):
+for name, c in by_name.most_common(60):
     print(f"{c:4d}  {name}")
 
 # Heuristic map for common missing imports to try first
@@ -98,20 +97,20 @@ for fname, items in occurrences.items():
 # Deduplicate and keep a reasonable shard size
 seen = set()
 heuristic_files = []
-for f,nm in heuristic_shard:
+for f, nm in heuristic_shard:
     if f in seen:
         continue
     seen.add(f)
-    heuristic_files.append((f,nm))
+    heuristic_files.append((f, nm))
     if len(heuristic_files) >= 40:
         break
 
 print("\n=== Heuristic-first candidate files (name -> suggested import) ===")
-for f,nm in heuristic_files[:40]:
+for f, nm in heuristic_files[:40]:
     print(f"{f}  ->  {nm}   ({HEUR.get(nm)})")
 
 # For convenience, create a compact suggested-shard (first 12 files)
-shard = [f for f,nm in heuristic_files[:12]]
+shard = [f for f, nm in heuristic_files[:12]]
 shard_path = pathlib.Path("/tmp/f821_first_shard.txt")
 shard_path.write_text("\n".join(shard))
 print(f"\nWrote suggested shard (first 12 heuristic files) to {shard_path}")
@@ -123,7 +122,10 @@ summary = {
     "unique_names": len(by_name),
     "top_files": by_file.most_common(40),
     "top_names": by_name.most_common(60),
-    "heuristic_shard": [{"file":f,"name":n,"suggested_import":HEUR.get(n)} for f,n in heuristic_files[:40]],
+    "heuristic_shard": [
+        {"file": f, "name": n, "suggested_import": HEUR.get(n)}
+        for f, n in heuristic_files[:40]
+    ],
     "first_shard": shard,
 }
 

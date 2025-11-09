@@ -13,13 +13,16 @@ python3 tools/ci/f821_fix_booleans.py --dry-run --files file1.py file2.py
 # Apply changes (backups saved)
 python3 tools/ci/f821_fix_booleans.py --apply --files file1.py file2.py
 """
+
 import argparse
 import json
-import tempfile
-import subprocess
 import os
+import subprocess
+import tempfile
 from pathlib import Path
+
 import libcst as cst
+
 
 class BooleanTyposTransformer(cst.CSTTransformer):
     def leave_Name(self, original_node: cst.Name, updated_node: cst.Name) -> cst.Name:
@@ -28,6 +31,7 @@ class BooleanTyposTransformer(cst.CSTTransformer):
         if original_node.value == "true":
             return cst.Name("True")
         return updated_node
+
 
 def run_on_file(path: Path, dry_run: bool = True):
     src = path.read_text()
@@ -39,8 +43,11 @@ def run_on_file(path: Path, dry_run: bool = True):
         with tempfile.NamedTemporaryFile("w", delete=False) as fh:
             fh.write(new.code)
             tmp = fh.name
-        diff = subprocess.run(["git", "diff", "--no-index", "--", str(path), tmp],
-                              capture_output=True, text=True)
+        diff = subprocess.run(
+            ["git", "diff", "--no-index", "--", str(path), tmp],
+            capture_output=True,
+            text=True,
+        )
         os.unlink(tmp)
         return True, diff.stdout
     else:
@@ -52,6 +59,7 @@ def run_on_file(path: Path, dry_run: bool = True):
         path.write_text(new.code)
         return True, f"APPLIED to {path}"
 
+
 def collect_boolean_f821_files(ruff_json_path: Path):
     if not ruff_json_path.exists():
         return []
@@ -62,6 +70,7 @@ def collect_boolean_f821_files(ruff_json_path: Path):
         if "Undefined name `false`" in msg or "Undefined name `true`" in msg:
             target_files.add(e["filename"])
     return sorted(target_files)
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -98,6 +107,7 @@ def main():
         print("\nAll applied. Run ruff/py_compile/tests to verify.")
     elif not changed_any:
         print("No changes necessary.")
+
 
 if __name__ == "__main__":
     main()
