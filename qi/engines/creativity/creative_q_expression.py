@@ -30,6 +30,56 @@ import numpy as np
 # Security imports
 from qiskit import QICircuit, QIRegister
 
+# F821: Bulk import fix - resolved undefined names
+from labs.consciousness.creativity.qi_creative_types import (
+AcetylcholineLearningBridge,
+CollaborativeSessionRequest,
+CreativeBlockchain,
+CreativeConflictHarmonizer,
+CreativeEvolutionEngine,
+CreativeRequest,
+CreativityMeshNetwork,
+CreativityMonitor,
+CreativityStyleEvolver,
+CrossCulturalSynthesizer,
+CulturalQIMemory,
+CulturalResonanceTuner,
+CulturalScaleQuantumLibrary,
+DopamineCreativityModulator,
+DopamineRewardSystem,
+EmergenceDetector,
+EmotionImageryQuantumMapper,
+EmotionalMelodyWeaver,
+EmotionalPreferenceLearner,
+HarmonicQuantumInspiredProcessor,
+KirejiQuantumSelector,
+NeuralCreativityNetwork,
+NeuralOscillator,
+NorepinephrineFocusEnhancer,
+PersonalizedCreation,
+PhoneticHarmonyAnalyzer,
+QIAestheticProfiler,
+QIChoreographer,
+QICodePoet,
+QIEmotionEncoder,
+QIIdeaSynthesizer,
+QIImaginationProcessor,
+QIStoryWeaver,
+QISyllableCounter,
+QIVisualArtist,
+QIWatermarkEmbedder,
+REMDreamSynthesizer,
+RhythmPatternSuperposer,
+SeasonalReferenceEncoder,
+SemanticEntangler,
+SerotoninMoodHarmonizer,
+SwarmCreativityOrchestrator,
+SynapticInspirationPool,
+SynapticPlasticityEngine,
+UserSession,
+ZeroKnowledgeCreativityValidator)
+from products.content.poetica.creativity_engines.qi_creative_types import Quantum3DSculptor
+
 # Quantum imports
 
 # Import comprehensive quantum creative types
