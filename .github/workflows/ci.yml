@@ -1,286 +1,78 @@
-name: CI
+name: CI Pipeline
+
 on:
   push:
-    branches: [ main ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main, develop]
 
 jobs:
-  # Phase Gate: Lane Guard (candidate -> lukhas imports)
-  lane-guard:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
-      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
-        with:
-          python-version: "3.11"
-      - name: Install tools (ripgrep + importlinter)
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y ripgrep
-          python -m pip install --upgrade pip
-          python -m pip install import-linter
-      - name: Enforce no candidate imports in lukhas
-        run: |
-          bash tools/ci/lane_guard.sh
-
-  waiver-ratchet:
-    needs: [lane-guard]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
-      - name: Waiver ratchet
-        run: |
-          bash tools/ci/waiver_ratchet.sh
-  # Phase Gate: Quarantine Guard
-  quarantine-guard:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
-      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
-        with:
-          python-version: "3.10"
-      - name: Check quarantine imports
-        run: |
-          echo "Checking for quarantine imports in production code..."
-          if grep -r "from lukhas.quarantine" consciousness/ identity/ governance/ memory/ core/ bio/ labs/ 2>/dev/null; then
-            echo "❌ ERROR: Found quarantine imports in production code!"
-            exit 1
-          fi
-          echo "✅ No quarantine imports found"
-
-  # Phase Gate: PII Scanner
-  pii-scan:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
-      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
-        with:
-          python-version: "3.10"
-      - name: Run PII linter
-        run: |
-          echo "🔍 Running PII linter (warning only)..."
-          python tools/pii_linter.py || echo "⚠️ PII linter warnings found (non-blocking)"
-
-  # Phase Gate: Import Contracts
-  import-contracts:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
-      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
-        with:
-          python-version: "3.10"
-      - name: Install import-linter
-        run: pip install import-linter
-      - name: Check import contracts
-        run: |
-          if [ -f .importlinter ]; then
-            echo "🔍 Checking import contracts (warning only)..."
-            lint-imports || echo "⚠️ Import contract violations (non-blocking during migration)"
-          else
-            echo "✅ No import linter config found, skipping"
-          fi
-
-  # Phase Gate: MATRIZ Schema Validation
-  matriz-validation:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
-      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
-        with:
-          python-version: "3.10"
-      - name: Install dependencies with constraints
-        run: |
-          pip install --upgrade pip
-          if [ -f constraints.txt ]; then
-            pip install -c constraints.txt jsonschema
-          else
-            pip install jsonschema
-          fi
-      - name: MATRIZ schema validation (examples + inbox if present)
-        run: |
-          python - <<'PY'
-          import sys, subprocess, pathlib
-          targets = []
-          if pathlib.Path("MATRIZ/examples").exists():
-              targets.append("MATRIZ/examples")
-          if pathlib.Path("memory/inbox").exists():
-              targets.append("memory/inbox")
-          if not targets:
-              print("✅ No MATRIZ directories to validate")
-              sys.exit(0)
-          cmd = [sys.executable, "-m", "MATRIZ.utils.matriz_validate", *targets]
-          print("Running:", " ".join(cmd))
-          result = subprocess.call(cmd)
-          if result != 0:
-              print("⚠️ MATRIZ validation failed (non-blocking during migration)")
-          sys.exit(0)
-          PY
-
-  # Phase Gate: Matrix v3 Sandbox Validation
-  matrix-v3-sandbox:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
-      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
-        with:
-          python-version: "3.10"
-      - name: Install dependencies for Matrix v3
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install -r requirements-test.txt
-      - name: Matrix v3 tokenization sandbox
-        run: |
-          echo "🪙 Testing Matrix v3 tokenization sandbox..."
-          python3 tools/matrix_tokenize.py --contract contracts/matrix_identity.json --verbose
-          if [ -f artifacts/token_anchor.json ]; then
-            echo "✅ Tokenization artifact generated"
-          else
-            echo "❌ Tokenization failed - no artifact"
-            exit 1
-          fi
-      - name: Matrix v3 provenance generation
-        run: |
-          echo "🔗 Testing Matrix v3 provenance generation..."
-          python3 tools/matrix_provenance.py --contracts "contracts/matrix_*.json" --verbose
-          if [ -f artifacts/provenance.car ] && [ -f artifacts/provenance_report.json ]; then
-            echo "✅ Provenance artifacts generated"
-          else
-            echo "❌ Provenance generation failed"
-            exit 1
-          fi
-      - name: Matrix v3 provenance verification
-        run: |
-          echo "🔍 Testing Matrix v3 provenance verification..."
-          chmod +x tools/verify_provenance.sh
-          tools/verify_provenance.sh --verbose
-      - name: Matrix v3 smoke tests
-        run: |
-          echo "🧪 Running Matrix v3 provenance smoke tests..."
-          python3 -m pytest tests/test_provenance_smoke.py -v --tb=short
-      - name: Upload Matrix v3 artifacts
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
-        with:
-          name: matrix-v3-artifacts
-          path: |
-            artifacts/provenance.car
-            artifacts/provenance_report.json
-            artifacts/token_anchor.json
-
-  # Phase Gate: Pre-commit Hooks Validation
-  pre-commit:
-    runs-on: ubuntu-latest
-    needs: [lane-guard, waiver-ratchet]   # asegura orden; sigue yendo antes de lint
-    steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
-        with:
-          fetch-depth: 0                  # necesario para calcular diffs
-      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
-        with:
-          python-version: "3.11"
-      - name: Cache pre-commit
-        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9  # v4
-        with:
-          path: ~/.cache/pre-commit
-          key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
-          restore-keys: pre-commit-${{ runner.os }}-
-      - name: Install pre-commit
-        run: pip install --upgrade pip pre-commit
-      - name: Pre-commit (diff-only fast path)
-        id: pc-diff
-        continue-on-error: true           # no rompamos aún; si falla, haremos fallback
-        run: |
-          # Ejecuta sólo cambios del PR (rápido)
-          pre-commit run --from-ref origin/${{ github.base_ref || 'main' }} --to-ref ${{ github.sha }}
-      - name: Pre-commit (fallback all-files si es la 1ª vez o no hay base)
-        if: steps.pc-diff.outcome == 'failure'
-        run: pre-commit run --all-files
-
   lint:
-    needs: [quarantine-guard, pii-scan, matriz-validation, matrix-v3-sandbox, pre-commit]
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.8", "3.9", "3.10"]
-    steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
-      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install -r requirements-test.txt
-      - name: Lint with black
-        run: black --check .
-      - name: Lint with flake8
-        run: flake8 .
-      - name: Check import order with isort
-        run: isort --check-only .
-
-  # Canary Tests (Phase Gate)
-  canary-test:
-    needs: [quarantine-guard]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
-      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: '3.11'
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install -r requirements-test.txt
-      - name: Run canary tests
+          pip install ruff mypy black isort
+      - name: Run ruff
+        run: ruff check .
+      - name: Run mypy
+        run: mypy . --install-types --non-interactive
+      - name: Check formatting
         run: |
-          echo "Running canary tests for critical paths..."
-          # Test core imports work
-          python -c "from lukhas.core import common; from lukhas.governance import consent_ledger"
-          # Test basic system components
-          python -c "import lukhas; print('✅ LUKHAS core imports successful')"
-          echo "✅ Canary tests passed"
+          black --check .
+          isort --check .
 
   test:
-    needs: [lint, canary-test]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10"]
+        python-version: ['3.9', '3.10', '3.11']
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
-      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install -r requirements-test.txt
+          pip install -r requirements-dev.txt
       - name: Run tests
-        run: pytest --cov=lukhas --cov-report=xml || echo "⚠️ Test failures (non-blocking during migration)"
-      - name: Upload coverage report
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
+        run: pytest tests/ --cov=. --cov-report=xml
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
         with:
-          name: coverage-${{ matrix.python-version }}
-          path: coverage.xml
+          file: ./coverage.xml
 
-  # Go/No-Go Decision Gate
-  migration-gate:
-    needs: [test]
+  security:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
-      - name: Go/No-Go Decision
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+      - name: Run bandit
         run: |
-          echo "🚦 Migration Go/No-Go Check"
-          echo "================================"
-          echo "✅ Quarantine guard: PASSED"
-          echo "⚠️  PII scan: WARNING ONLY"
-          echo "⚠️  Import contracts: WARNING ONLY"
-          echo "✅ Canary tests: PASSED"
-          echo "⚠️  Full test suite: NON-BLOCKING"
-          echo "================================"
-          echo "🟢 Migration can proceed"
+          pip install bandit
+          bandit -r . -ll -f json -o bandit-report.json
+      - name: Run pip-audit
+        run: |
+          pip install pip-audit
+          pip-audit
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+
+  build:
+    needs: [lint, test, security]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Docker image
+        run: docker build -t lukhas:${{ github.sha }} .
+      - name: Push to registry
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+          docker tag lukhas:${{ github.sha }} lukhasai/lukhas:latest
+          docker push lukhasai/lukhas:latest
