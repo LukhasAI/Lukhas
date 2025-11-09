@@ -65,3 +65,6 @@ pytest-mock>=3.11.0,<4.0.0
 greenlet==3.2.4
 lz4>=4.0.0
 lz4
+pytest-benchmark
+psutil
+numpy
