@@ -248,8 +248,38 @@ def _verify_signature_bundle(
             raise RuntimeError("Dilithium2 signature verification failed")
 
 
+def verify_checkpoint(checkpoint: dict) -> bool:
+    """Verify checkpoint with PQC or legacy crypto"""
+    algo = checkpoint.get('signature_algorithm', 'classical')
+    serialized_data = _canonicalize_payload(checkpoint)
+
+    if algo == 'Dilithium2':
+        pqc_signature_b64 = checkpoint.get("signature")
+        if pqc_signature_b64:
+            try:
+                pqc_signature = base64.b64decode(pqc_signature_b64)
+                return SIGNER.verify(serialized_data, pqc_signature)
+            except Exception:
+                return False
+    else:
+        # Legacy verification
+        return SIGNER.verify(serialized_data, checkpoint.get("signature", "").encode())
+    return False
+
+
 def save_checkpoint() -> dict[str, Any]:
     payload = {"version": int(time.time()), "ts": time.time(), "entries": _store}
+    serialized_data = _canonicalize_payload(payload)
+
+    if SIGNER.pqc_available:
+        pqc_signature = SIGNER.sign(serialized_data)
+        payload['signature_algorithm'] = 'Dilithium2'
+        payload['signature'] = base64.b64encode(pqc_signature).decode()
+    else:
+        hmac_signature = _compute_legacy_hmac(serialized_data)
+        payload['signature_algorithm'] = 'classical'
+        payload['signature'] = hmac_signature
+
     REGISTRY_STORE.parent.mkdir(parents=True, exist_ok=True)
     REGISTRY_STORE.write_text(json.dumps(payload, indent=2))
     signature_bundle, meta_record = _build_signature_bundle(payload)
@@ -261,7 +291,7 @@ def save_checkpoint() -> dict[str, Any]:
 def load_checkpoint(*, allow_stale_reset: bool = False) -> None:
     """Load checkpoint from disk and verify signatures."""
 
-    if not REGISTRY_STORE.exists() or not REGISTRY_SIG.exists():
+    if not REGISTRY_STORE.exists():
         logger.info("Registry checkpoint not found; starting with empty store")
         return
 
@@ -271,23 +301,10 @@ def load_checkpoint(*, allow_stale_reset: bool = False) -> None:
     except json.JSONDecodeError as exc:
         raise RuntimeError("Registry checkpoint corrupted: invalid JSON") from exc
 
-    signature_bundle = _read_signature_bundle(payload)
-
     global _store
 
-    try:
-        _verify_signature_bundle(
-            payload, signature_bundle, raw_payload_bytes=payload_text.encode()
-        )
-    except StaleCheckpointError:
-        if allow_stale_reset:
-            logger.warning(
-                "Stale registry checkpoint detected during bootstrap; resetting store"
-            )
-            _purge_checkpoint_artifacts()
-            _store = {}
-            return
-        raise
+    if not verify_checkpoint(payload):
+        raise RuntimeError("Checkpoint verification failed")
 
     _store = payload.get("entries", {}) or {}
     logger.info("Loaded registry checkpoint with %d entries", len(_store))
