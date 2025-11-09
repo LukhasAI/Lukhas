@@ -1,42 +1,38 @@
 """Test identity module basic functionality."""
 
 import pytest
+from importlib.util import find_spec
+
+HAS_AUTH_SERVICE = find_spec("identity.AuthenticationService") is not None
+HAS_LAMBDA_ID = find_spec("identity.lambda_id") is not None
+HAS_IDENTITY = find_spec("identity") is not None
 
 
+@pytest.mark.skipif(not HAS_AUTH_SERVICE, reason="Authentication service not available")
 def test_auth_service_import():
     """Test AuthenticationService imports and basic init."""
-    try:
-        from identity import AuthenticationService
+    from identity import AuthenticationService
 
-        # Test creation
-        service = AuthenticationService()
-        assert service is not None
-        assert hasattr(service, "authenticate_user")
-
-    except ImportError:
-        pytest.skip("Authentication service not available")
+    # Test creation
+    service = AuthenticationService()
+    assert service is not None
+    assert hasattr(service, "authenticate_user")
 
 
+@pytest.mark.skipif(not HAS_LAMBDA_ID, reason="LambdaID not available")
 def test_lambda_id_import():
     """Test LambdaID imports."""
-    try:
-        from identity.lambda_id import LambdaIDService
+    from identity.lambda_id import LambdaIDService
 
-        # Check class exists
-        assert LambdaIDService is not None
-
-    except (ImportError, AttributeError):
-        pytest.skip("LambdaID not available")
+    # Check class exists
+    assert LambdaIDService is not None
 
 
+@pytest.mark.skipif(not HAS_IDENTITY, reason="Identity module not available")
 def test_identity_exports():
     """Test identity module exports."""
-    try:
-        import identity as identity
+    import identity as identity
 
-        # Check key exports
-        assert hasattr(identity, "AuthenticationService")
-        assert hasattr(identity, "IdentityService")
-
-    except ImportError:
-        pytest.skip("Identity module not available")
+    # Check key exports
+    assert hasattr(identity, "AuthenticationService")
+    assert hasattr(identity, "IdentityService")

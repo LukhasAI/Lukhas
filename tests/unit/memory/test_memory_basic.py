@@ -1,58 +1,53 @@
 """Test memory module basic functionality."""
 
 from unittest.mock import patch
+from importlib.util import find_spec
 
 import pytest
 
+HAS_MEMORY_WRAPPER = find_spec("memory.MemoryWrapper") is not None
+HAS_FOLD_SYSTEM = find_spec("memory.fold_system") is not None
+HAS_MEMORY_CONFIG = find_spec("memory.config") is not None
+HAS_LABS_FOLD_SYSTEM = find_spec("labs.memory.fold_system") is not None
 
+
+@pytest.mark.skipif(not HAS_MEMORY_WRAPPER, reason="Memory wrapper not available")
 def test_memory_wrapper_import():
     """Test MemoryWrapper imports and basic init."""
-    try:
-        from memory import MemoryWrapper
+    from memory import MemoryWrapper
 
-        # Test creation with default config
-        wrapper = MemoryWrapper()
-        assert wrapper is not None
-        assert hasattr(wrapper, "access_memory")
-        assert hasattr(wrapper, "create_fold")
-
-    except ImportError:
-        pytest.skip("Memory wrapper not available")
+    # Test creation with default config
+    wrapper = MemoryWrapper()
+    assert wrapper is not None
+    assert hasattr(wrapper, "access_memory")
+    assert hasattr(wrapper, "create_fold")
 
 
+@pytest.mark.skipif(not HAS_FOLD_SYSTEM, reason="Fold system not available")
 def test_fold_system_import():
     """Test fold system imports."""
-    try:
-        from memory import fold_system
+    from memory import fold_system
 
-        # Check key functions and classes
-        assert hasattr(fold_system, "FoldManager")
-        assert hasattr(fold_system, "get_fold_manager")
-
-    except ImportError:
-        pytest.skip("Fold system not available")
+    # Check key functions and classes
+    assert hasattr(fold_system, "FoldManager")
+    assert hasattr(fold_system, "get_fold_manager")
 
 
+@pytest.mark.skipif(not HAS_MEMORY_CONFIG, reason="Memory config not available")
 def test_memory_config():
     """Test memory configuration."""
-    try:
-        from memory.config import MemoryConfig
+    from memory.config import MemoryConfig
 
-        # Test default config creation
-        config = MemoryConfig()
-        assert config is not None
-        assert hasattr(config, "max_folds")
-
-    except ImportError:
-        pytest.skip("Memory config not available")
+    # Test default config creation
+    config = MemoryConfig()
+    assert config is not None
+    assert hasattr(config, "max_folds")
 
 
+@pytest.mark.skipif(not HAS_LABS_FOLD_SYSTEM, reason="Fold system not available")
 def test_fold_manager_metrics_hooks():
     """Ensure FoldManager emits Prometheus hooks for key operations."""
-    try:
-        from labs.memory.fold_system import FoldManager
-    except ImportError:
-        pytest.skip("Fold system not available")
+    from labs.memory.fold_system import FoldManager
 
     with (
         patch("memory.fold_system.observe_fold_count") as mock_count,
