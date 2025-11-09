@@ -55,6 +55,11 @@ from ..identity.validation_schemas import (
     ErrorResponse,
     sanitize_correlation_id,
 )
+from prometheus_client import Counter
+
+# Auto-generated Prometheus counters (F821 fix)
+oidc_api_requests_total = Counter("oidc_api_requests_total", "Oidc Api Requests Total")
+
 
 # Initialize components
 logger = logging.getLogger(__name__)
