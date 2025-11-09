@@ -26,7 +26,7 @@ if flt_spec.loader is not None:
     flt_spec.loader.exec_module(flt_module)
 
 
-from memory.fold_lineage_tracker import (  # noqa: E402 - test constructs in-memory package before import
+from memory.fold_lineage_tracker import (
     CausationType,
     FoldLineageTracker,
 )

@@ -24,7 +24,7 @@ from typing import Any
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from observability.service_metrics import (  # noqa: E402 - project root must be injected before import
+from observability.service_metrics import (
     MetricType,
     ServiceType,
 )

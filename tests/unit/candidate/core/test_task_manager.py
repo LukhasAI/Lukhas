@@ -11,7 +11,7 @@ if str(ROOT) not in sys.path:
 for module_name in ["labs", "labs.core", "labs.core.task_manager"]:
     sys.modules.pop(module_name, None)
 
-from labs.core.task_manager import (  # noqa: E402 - repo root must be on sys.path before import
+from labs.core.task_manager import (
     LukhλsTaskManager,
     TaskPriority,
 )
