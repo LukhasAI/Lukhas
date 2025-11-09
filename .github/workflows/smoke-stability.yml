@@ -1,0 +1,151 @@
+name: Smoke Test Stability
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # 2 AM UTC nightly
+  workflow_dispatch:
+
+jobs:
+  smoke-test-runs:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        run: [1, 2, 3]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install pytest pytest-json-report
+
+      - name: Run smoke tests (run ${{ matrix.run }})
+        continue-on-error: true
+        run: |
+          pytest -q tests/smoke -m "smoke" --maxfail=1 --disable-warnings \
+            --json-report --json-report-file=smoke_test_report_run_${{ matrix.run }}.json \
+            --json-report-indent=2
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smoke-test-results-run-${{ matrix.run }}
+          path: smoke_test_report_run_${{ matrix.run }}.json
+          retention-days: 7
+
+  analyze-stability:
+    needs: smoke-test-runs
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Download all test results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: smoke-test-results-run-*
+          merge-multiple: true
+
+      - name: Analyze test stability
+        id: analyze
+        run: |
+          python scripts/analyze_test_stability.py \
+            smoke_test_report_run_1.json \
+            smoke_test_report_run_2.json \
+            smoke_test_report_run_3.json
+
+      - name: Upload stability report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stability-report
+          path: |
+            stability_report.md
+            stability_metrics.json
+          retention-days: 30
+
+      - name: Create issue on flakiness detected
+        if: steps.analyze.outputs.flaky_tests_found == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const reportPath = 'stability_report.md';
+            const report = fs.existsSync(reportPath) ? fs.readFileSync(reportPath, 'utf8') : 'No report generated';
+
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '⚠️ Flaky Tests Detected in Smoke Test Suite',
+              labels: ['testing', 'flaky-test', 'needs-investigation'],
+              body: report
+            });
+
+      - name: Comment on recent PRs if flakiness detected
+        if: steps.analyze.outputs.flaky_tests_found == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const metricsPath = 'stability_metrics.json';
+            if (!fs.existsSync(metricsPath)) {
+              console.log('No metrics file found');
+              return;
+            }
+
+            const metrics = JSON.parse(fs.readFileSync(metricsPath, 'utf8'));
+            const flakyTests = metrics.flaky_tests || [];
+
+            if (flakyTests.length === 0) {
+              return;
+            }
+
+            // Get recent merged PRs
+            const prs = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed',
+              sort: 'updated',
+              direction: 'desc',
+              per_page: 5
+            });
+
+            const comment = `## 🔍 Smoke Test Stability Alert
+
+            The nightly stability check has detected ${flakyTests.length} flaky test(s) in the smoke test suite:
+
+            ${flakyTests.map(test => `- \`${test.name}\` (passed ${test.pass_count}/${test.total_runs} runs)`).join('\n')}
+
+            This may indicate intermittent issues introduced by recent changes. Please review the [stability report](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) for details.`;
+
+            for (const pr of prs.data) {
+              if (pr.merged_at) {
+                try {
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: pr.number,
+                    body: comment
+                  });
+                  console.log(`Commented on PR #${pr.number}`);
+                  break; // Only comment on the most recent merged PR
+                } catch (error) {
+                  console.log(`Failed to comment on PR #${pr.number}: ${error.message}`);
+                }
+              }
+            }
