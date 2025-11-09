@@ -18,7 +18,7 @@ sys.modules["dream.core.dream_snapshot"] = dream_core_snapshot_module
 dream_core_pkg.dream_snapshot = dream_core_snapshot_module
 dream_pkg.core = dream_core_pkg
 
-from consciousness.dream.core.dream_feedback_controller import (  # noqa: E402 - stub modules must be registered before import
+from consciousness.dream.core.dream_feedback_controller import (
     DreamFeedbackController,
 )
 
