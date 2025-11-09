@@ -28,7 +28,7 @@ def _default_state_dir() -> Path:
     return Path(os.path.expanduser(state_env))
 
 
-@dataclass(slots=True)
+@dataclass
 class TokenMetadata:
     """Container representing persisted token information."""
 

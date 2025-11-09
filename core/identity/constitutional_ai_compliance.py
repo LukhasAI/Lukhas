@@ -219,7 +219,7 @@ class ConstitutionalValidationResult:
     validation_version: str = "1.0"
 
 
-@dataclass(slots=True)
+@dataclass
 class ComplianceMonitoringResult:
     """Outcome of monitoring a single AI action."""
 
@@ -228,7 +228,7 @@ class ComplianceMonitoringResult:
     is_compliant: bool
 
 
-@dataclass(slots=True)
+@dataclass
 class EnforcementRecord:
     """Enforcement decision captured by the compliance monitor."""
 
@@ -238,7 +238,7 @@ class EnforcementRecord:
     reason: str
 
 
-@dataclass(slots=True)
+@dataclass
 class DetectedViolation:
     """Recorded violation triggered by non-compliant actions."""
 

@@ -36,6 +36,7 @@ from fastapi import (
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from opentelemetry import trace
+from prometheus_client import Counter
 from pydantic import ValidationError
 
 from ..identity.jwks_cache import get_jwks_cache
@@ -87,6 +88,13 @@ metrics_collector = get_metrics_collector()
 rate_limiter = get_rate_limiter()
 jwks_cache = get_jwks_cache()
 security_manager = create_security_hardening_manager()
+
+# Prometheus metrics
+oidc_api_requests_total = Counter(
+    'oidc_api_requests_total',
+    'Total OIDC API requests',
+    ['endpoint', 'method', 'status']
+)
 
 # Production domains for CORS
 PRODUCTION_DOMAINS = [
@@ -1081,7 +1089,7 @@ async def list_clients(
 
     For debugging and administration purposes.
     """
-    with tracer.start_span("api.oidc.list_clients"):
+    with tracer.start_span("api.oidc.list_clients") as span:
         try:
             clients = provider.client_registry.list_clients()
 
@@ -1102,7 +1110,7 @@ async def list_clients(
             }
 
         except Exception as e:
-            span.set_attribute("error", str(e))  # TODO: span
+            span.set_attribute("error", str(e))
             raise HTTPException(status_code=500, detail="Internal server error")
 
 
@@ -1115,7 +1123,7 @@ async def provider_stats(
 
     For monitoring and debugging purposes.
     """
-    with tracer.start_span("api.oidc.stats"):
+    with tracer.start_span("api.oidc.stats") as span:
         try:
             token_stats = provider.token_manager.get_stats()
             client_count = len(provider.client_registry.list_clients())
@@ -1132,7 +1140,7 @@ async def provider_stats(
             }
 
         except Exception as e:
-            span.set_attribute("error", str(e))  # TODO: span
+            span.set_attribute("error", str(e))
             raise HTTPException(status_code=500, detail="Internal server error")
 
 

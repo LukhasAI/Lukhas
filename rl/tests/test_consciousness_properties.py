@@ -24,8 +24,7 @@ import numpy as np
 import pytest
 
 try:
-    pass  #     from hypothesis import HealthCheck, given, settings
-    from hypothesis import strategies as st
+    from hypothesis import HealthCheck, given, settings, strategies as st
     from hypothesis.stateful import RuleBasedStateMachine, initialize, invariant, rule
 except ModuleNotFoundError as exc:  # pragma: no cover - optional dependency
     pytest.skip(f"Hypothesis dependency not available: {exc}", allow_module_level=True)

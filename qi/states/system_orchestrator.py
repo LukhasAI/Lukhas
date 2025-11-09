@@ -69,7 +69,7 @@ except ImportError:  # pragma: no cover - use in-repo implementation when shim m
 try:  # pragma: no cover - fallback for optional voice enhancer shim
     from qi.voice_enhancer import QIVoiceEnhancer, VoiceQuantumConfig
 except ImportError:  # pragma: no cover - provide lightweight stub when dependencies unavailable
-    @dataclass(slots=True)
+    @dataclass
     class VoiceQuantumConfig:  # type: ignore[override]
         coherence_threshold: float = 0.85
         entanglement_threshold: float = 0.95

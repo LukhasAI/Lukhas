@@ -546,3 +546,11 @@ except NameError:
 if "ΛBot_consciousness_monitor" not in __all__:
     __all__.append("ΛBot_consciousness_monitor")
 
+# Bridge export for consciousness.dream
+try:
+    from . import dream
+except ImportError:
+    dream = None
+
+if dream is not None and "dream" not in __all__:
+    __all__.append("dream")

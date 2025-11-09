@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import ClassVar
 
 
-@dataclass(slots=True)
+@dataclass
 class Flags:
     """Minimal feature flag facade to unblock candidate level tests."""
 

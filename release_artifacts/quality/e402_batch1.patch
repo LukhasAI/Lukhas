@@ -1,0 +1,182 @@
+From 019ae1fa883cfdb0243a2e8470bf0041854dac6e Mon Sep 17 00:00:00 2001
+From: LukhasAI <dev@lukhasai.com>
+Date: Sat, 8 Nov 2025 23:02:15 +0000
+Subject: [PATCH] chore(lint): e402 batch1 (dry-run)
+
+---
+ bridge/llm_wrappers/openai_modulated_service.py     | 7 +++----
+ core/interfaces/api/v1/v1/rest/middleware.py        | 3 +--
+ matriz/consciousness/reflection/awareness_system.py | 5 ++---
+ qi/states/phase_qi_integration.py                   | 7 +++----
+ scripts/bench_validated.py                          | 1 -
+ tests/core/bridge/test_dream_commerce.py            | 5 ++---
+ tests/security/test_keychain_manager.py             | 1 -
+ tests/unit/bridge/queue/test_redis_queue.py         | 1 -
+ vivox/encrypted_perception/vivox_evrn_core.py       | 1 -
+ 9 files changed, 11 insertions(+), 20 deletions(-)
+
+diff --git a/bridge/llm_wrappers/openai_modulated_service.py b/bridge/llm_wrappers/openai_modulated_service.py
+index 5eb2aee50..e879b581d 100644
+--- a/bridge/llm_wrappers/openai_modulated_service.py
++++ b/bridge/llm_wrappers/openai_modulated_service.py
+@@ -33,8 +33,6 @@ def get_analytics():
+ 
+ from branding.policy.terminology import normalize_chunk, normalize_output
+ from openai.tooling import build_tools_from_allowlist, get_all_tools
+-
+-from metrics import get_metrics_collector
+ from orchestration.signals.homeostasis import (
+     HomeostasisController,
+     ModulationParams,
+@@ -43,6 +41,8 @@ from orchestration.signals.homeostasis import (
+ from orchestration.signals.modulator import PromptModulation, PromptModulator
+ from orchestration.signals.signal_bus import Signal, get_signal_bus
+ 
++from metrics import get_metrics_collector
++
+ from .unified_openai_client import UnifiedOpenAIClient
+ 
+ logger = logging.getLogger("ΛTRACE.bridge.openai_modulated_service")
+@@ -918,9 +918,8 @@ def resume_with_tools(
+     import asyncio
+     import json
+ 
+-    from tools.tool_executor import get_tool_executor
+-
+     from audit.tool_analytics import get_analytics
++    from tools.tool_executor import get_tool_executor
+ 
+     analytics = get_analytics()
+     executor = get_tool_executor()
+diff --git a/core/interfaces/api/v1/v1/rest/middleware.py b/core/interfaces/api/v1/v1/rest/middleware.py
+index 28053648f..09431ea02 100644
+--- a/core/interfaces/api/v1/v1/rest/middleware.py
++++ b/core/interfaces/api/v1/v1/rest/middleware.py
+@@ -41,9 +41,8 @@ import structlog
+ from fastapi import HTTPException, Request, status
+ from fastapi.responses import JSONResponse
+ from fastapi.security import HTTPBearer
+-from jwt.exceptions import InvalidTokenError as JWTError
+-
+ from governance.identity.core.id_service import get_identity_manager
++from jwt.exceptions import InvalidTokenError as JWTError
+ 
+ # Import centralized decorators and tier system
+ 
+diff --git a/matriz/consciousness/reflection/awareness_system.py b/matriz/consciousness/reflection/awareness_system.py
+index 326c11fd5..e653b21ba 100644
+--- a/matriz/consciousness/reflection/awareness_system.py
++++ b/matriz/consciousness/reflection/awareness_system.py
+@@ -54,12 +54,11 @@ from typing import Any
+ import numpy as np  # ΛTRACE_ADD: For neuroplasticity calculations
+ from bio.qi_layer import QIBioOscillator
+ from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
+-from dream.core import DreamPhase
+-from qi.processing_core import QIProcessingCore
+-
+ from consciousness.awareness.awareness_engine import AwarenessEngine
+ from core.unified.integration import UnifiedIntegration
++from dream.core import DreamPhase
+ from ethics.engine import EthicalFramework, EthicalRiskLevel, QIEthics
++from qi.processing_core import QIProcessingCore
+ 
+ 
+ @dataclass
+diff --git a/qi/states/phase_qi_integration.py b/qi/states/phase_qi_integration.py
+index d56fd2200..09d1069fb 100644
+--- a/qi/states/phase_qi_integration.py
++++ b/qi/states/phase_qi_integration.py
+@@ -37,16 +37,15 @@ Licensed under the LUKHAS Enterprise License.
+ For documentation and support: https://ai/docs
+ """
+ 
++from core.identity.identity_engine import QIIdentityEngine
++from core.integration.governance.__init__ import QIEthicsEngine
++from core.testing.plugin_test_framework import QITestOracle
+ from qi.qi_processing_core import BaseOscillator
+ from reasoning.symbolic_reasoning import SymbolicEngine
+ from tools.documentation.symbolic_knowledge_core.knowledge_graph import (
+     MultiverseKnowledgeWeb,
+ )
+ 
+-from core.identity.identity_engine import QIIdentityEngine
+-from core.integration.governance.__init__ import QIEthicsEngine
+-from core.testing.plugin_test_framework import QITestOracle
+-
+ __module_name__ = "Quantum Phase Quantum Integration"
+ __version__ = "2.0.0"
+ __tier__ = 2
+diff --git a/scripts/bench_validated.py b/scripts/bench_validated.py
+index 7dfb38bcc..5937b54c6 100644
+--- a/scripts/bench_validated.py
++++ b/scripts/bench_validated.py
+@@ -22,7 +22,6 @@ logging.getLogger().setLevel(logging.CRITICAL)
+ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+ 
+ from bench_core import PerformanceBenchmark
+-
+ from governance.guardian_system import GuardianSystem
+ from memory.memory_event import MemoryEventFactory
+ 
+diff --git a/tests/core/bridge/test_dream_commerce.py b/tests/core/bridge/test_dream_commerce.py
+index 6689a2658..e241c9be7 100644
+--- a/tests/core/bridge/test_dream_commerce.py
++++ b/tests/core/bridge/test_dream_commerce.py
+@@ -11,9 +11,6 @@ sys.modules['privacy.zkp_dream_validator'] = MagicMock()
+ sys.modules['core.event_bus'] = MagicMock()
+ 
+ import pytest
+-from fastapi import FastAPI
+-from fastapi.testclient import TestClient
+-
+ from core.bridge.dream_commerce import (
+     ConsentLevel,
+     DreamCommerceEngine,
+@@ -24,6 +21,8 @@ from core.bridge.dream_commerce import (
+     RevenueModel,
+     router,
+ )
++from fastapi import FastAPI
++from fastapi.testclient import TestClient
+ 
+ 
+ @pytest.fixture
+diff --git a/tests/security/test_keychain_manager.py b/tests/security/test_keychain_manager.py
+index 2ad28b545..bdd158edb 100644
+--- a/tests/security/test_keychain_manager.py
++++ b/tests/security/test_keychain_manager.py
+@@ -1,7 +1,6 @@
+ from unittest.mock import MagicMock, patch
+ 
+ import pytest
+-
+ from core.security.keychain_manager import KeychainManager
+ 
+ 
+diff --git a/tests/unit/bridge/queue/test_redis_queue.py b/tests/unit/bridge/queue/test_redis_queue.py
+index 08473c6fe..00628fb29 100644
+--- a/tests/unit/bridge/queue/test_redis_queue.py
++++ b/tests/unit/bridge/queue/test_redis_queue.py
+@@ -7,7 +7,6 @@ from unittest.mock import AsyncMock, patch
+ 
+ import fakeredis.aioredis
+ import pytest
+-
+ from bridge.queue.redis_queue import RedisTaskQueue, Task, TaskPriority, TaskType
+ 
+ 
+diff --git a/vivox/encrypted_perception/vivox_evrn_core.py b/vivox/encrypted_perception/vivox_evrn_core.py
+index ae38f3441..22f1a8fa6 100644
+--- a/vivox/encrypted_perception/vivox_evrn_core.py
++++ b/vivox/encrypted_perception/vivox_evrn_core.py
+@@ -16,7 +16,6 @@ from enum import Enum
+ from typing import Any, Optional, Union
+ 
+ import numpy as np
+-
+ from core.common import get_logger
+ 
+ logger = get_logger(__name__)
+-- 
+2.50.1 (Apple Git-155)
+

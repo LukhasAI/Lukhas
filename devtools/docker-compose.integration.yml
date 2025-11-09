@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: test
+  redis:
+    image: redis:7-alpine
+  minio:
+    image: minio/minio
+    command: server /data

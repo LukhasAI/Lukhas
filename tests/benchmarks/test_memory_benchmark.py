@@ -2,7 +2,6 @@
 
 import numpy as np
 import pytest
-
 from memory.index_manager import IndexManager
 
 

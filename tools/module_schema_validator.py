@@ -4,7 +4,7 @@
   "title": "LUKHAS Module Manifest (T4/0.01% hardened)",
   "description": "Schema for LUKHAS module manifest files that define module metadata, ownership, structure, SLOs, and integration requirements. Hardened with conditional constraints and reusable $defs.",
   "type": "object",
-  "additionalProperties": false,  # TODO: false
+  "additionalProperties": false
   "required": ["schema_version", "module", "ownership", "layout", "links"],
   "$defs": {
     "semver": {
@@ -47,7 +47,7 @@
 
     "ownership": {
       "type": "object",
-      "additionalProperties": false,  # TODO: false
+      "additionalProperties": false
       "required": ["team", "codeowners"],
       "properties": {
         "team": { "type": "string", "minLength": 1 },
@@ -58,13 +58,13 @@
 
     "layout": {
       "type": "object",
-      "additionalProperties": false,  # TODO: false
+      "additionalProperties": false
       "required": ["code_layout"],
       "properties": {
         "code_layout": { "type": "string", "enum": ["src-root", "package-root"] },
         "paths": {
           "type": "object",
-          "additionalProperties": false,  # TODO: false
+          "additionalProperties": false
           "properties": {
             "code": { "$ref": "#/$defs/relpath" },
             "config": { "$ref": "#/$defs/relpath" },
@@ -78,7 +78,7 @@
 
     "runtime": {
       "type": "object",
-      "additionalProperties": false,  # TODO: false
+      "additionalProperties": false
       "properties": {
         "language": { "type": "string", "enum": ["python", "typescript", "other"] },
         "entrypoints": { "type": "array", "items": { "type": "string" } }
@@ -87,7 +87,7 @@
 
     "matrix": {
       "type": "object",
-      "additionalProperties": false,  # TODO: false
+      "additionalProperties": false
       "properties": {
         "contract": { "$ref": "#/$defs/relpath" },
         "lane": { "$ref": "#/$defs/lane" },
@@ -97,9 +97,9 @@
 
     "identity": {
       "type": "object",
-      "additionalProperties": false,  # TODO: false
+      "additionalProperties": false
       "properties": {
-        "requires_auth": { "type": "boolean", "default": false },  # TODO: false
+        "requires_auth": { "type": "boolean", "default": false }
         "tiers": { "type": "array", "items": { "$ref": "#/$defs/tier" } },
         "scopes": { "type": "array", "items": { "type": "string", "minLength": 1 } }
       }
@@ -107,7 +107,7 @@
 
     "links": {
       "type": "object",
-      "additionalProperties": false,  # TODO: false
+      "additionalProperties": false
       "required": ["repo", "docs", "issues"],
       "properties": {
         "repo": { "$ref": "#/$defs/uri" },
@@ -121,18 +121,18 @@
 
     "observability": {
       "type": "object",
-      "additionalProperties": false,  # TODO: false
+      "additionalProperties": false
       "properties": {
-        "required_spans": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },  # TODO: true
+        "required_spans": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
         "otel_semconv_version": { "$ref": "#/$defs/otelSemconv", "default": "1.37.0" }
       }
     },
 
     "tokenization": {
       "type": "object",
-      "additionalProperties": false,  # TODO: false
+      "additionalProperties": false
       "properties": {
-        "enabled": { "type": "boolean", "default": false },  # TODO: false
+        "enabled": { "type": "boolean", "default": false }
         "chain": { "type": "string", "enum": ["solana", "evm", "none"], "default": "none" },
         "asset_id": { "type": "string" },
         "proof_uri": { "oneOf": [ { "$ref": "#/$defs/uri" }, { "$ref": "#/$defs/relpath" } ] }
@@ -145,7 +145,7 @@
 
     "metadata": {
       "type": "object",
-      "additionalProperties": false,  # TODO: false
+      "additionalProperties": false
       "properties": {
         "created": { "type": "string", "format": "date" },
         "updated": { "type": "string", "format": "date" },
@@ -156,11 +156,11 @@
 
     "performance": {
       "type": "object",
-      "additionalProperties": false,  # TODO: false
+      "additionalProperties": false
       "properties": {
         "sla": {
           "type": "object",
-          "additionalProperties": false,  # TODO: false
+          "additionalProperties": false
           "properties": {
             "availability": { "type": "number", "minimum": 0, "maximum": 100 },
             "latency_p95_ms": { "type": "integer", "minimum": 1 },
@@ -170,7 +170,7 @@
         },
         "resource_limits": {
           "type": "object",
-          "additionalProperties": false,  # TODO: false
+          "additionalProperties": false
           "properties": {
             "memory_mb": { "type": "integer", "minimum": 1 },
             "cpu_cores": { "type": "number", "minimum": 0.1 },
@@ -182,7 +182,7 @@
 
     "testing": {
       "type": "object",
-      "additionalProperties": false,  # TODO: false
+      "additionalProperties": false
       "properties": {
         "coverage_target": { "type": "integer", "minimum": 0, "maximum": 100 },
         "test_frameworks": { "type": "array", "items": { "type": "string", "enum": ["pytest", "unittest", "jest", "mocha", "other"] } },
@@ -199,11 +199,11 @@
       "then": { "properties": { "runtime": { "required": ["entrypoints"], "properties": { "entrypoints": { "minItems": 1 } } } } }
     },
     {
-      "if": { "properties": { "identity": { "properties": { "requires_auth": { "const": true } }, "required": ["requires_auth"] } } },  # TODO: true
+      "if": { "properties": { "identity": { "properties": { "requires_auth": { "const": true } }, "required": ["requires_auth"] } } }
       "then": { "properties": { "identity": { "required": ["tiers"], "properties": { "tiers": { "minItems": 1 } } } } }
     },
     {
-      "if": { "properties": { "tokenization": { "properties": { "enabled": { "const": true } }, "required": ["enabled"] } } },  # TODO: true
+      "if": { "properties": { "tokenization": { "properties": { "enabled": { "const": true } }, "required": ["enabled"] } } }
       "then": { "properties": { "tokenization": { "required": ["chain", "asset_id", "proof_uri"], "properties": { "chain": { "enum": ["solana", "evm"] } } } } }
     },
     {

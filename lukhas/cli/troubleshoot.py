@@ -8,17 +8,17 @@ Auto-detects common issues and suggests fixes.
 
 from __future__ import annotations
 
-import sys
 import shutil
-import subprocess
 import socket
+import subprocess
+import sys
 from pathlib import Path
 from typing import Any
 
 try:
     from rich.console import Console
-    from rich.table import Table
     from rich.panel import Panel
+    from rich.table import Table
 
     HAS_RICH = True
 except ImportError:

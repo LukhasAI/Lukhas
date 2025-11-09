@@ -24,7 +24,6 @@ from io import StringIO
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
-
 from core.common import (
     get_logger,
 )

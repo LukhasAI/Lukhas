@@ -26,7 +26,6 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 import numpy as np
-
 from core.common import get_logger
 
 logger = logging.getLogger(__name__)

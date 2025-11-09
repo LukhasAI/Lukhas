@@ -1,0 +1,2271 @@
+
+==================================== ERRORS ====================================
+____________ ERROR collecting tests/api/test_optimization_system.py ____________
+tests/api/test_optimization_system.py:21: in <module>
+    from api.optimization.advanced_api_optimizer import (
+api/__init__.py:23: in <module>
+    from .consciousness_chat_api import app as consciousness_chat_app
+api/consciousness_chat_api.py:17: in <module>
+    from consciousness.interfaces.natural_language_interface import (
+consciousness/__init__.py:71: in <module>
+    from labs.consciousness import awareness
+labs/consciousness/awareness/__init__.py:24: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+____________ ERROR collecting tests/api/test_routing_admin_auth.py _____________
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:303: in _eval_type_backport
+    return _eval_type(value, globalns, localns, type_params)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:332: in _eval_type
+    return typing._eval_type(  # type: ignore
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/typing.py:290: in _eval_type
+    return t._evaluate(globalns, localns, recursive_guard)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/typing.py:546: in _evaluate
+    eval(self.__forward_code__, globalns, localns),
+<string>:1: in <module>
+    ???
+E   TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+
+The above exception was the direct cause of the following exception:
+tests/api/test_routing_admin_auth.py:11: in <module>
+    from lukhas_website.lukhas.api.routing_admin import (
+lukhas_website/lukhas/api/routing_admin.py:39: in <module>
+    from identity.auth_service import verify_token
+lukhas_website/lukhas/api/identity.py:62: in <module>
+    class TierAuthenticationRequest(BaseModel):
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_model_construction.py:219: in __new__
+    set_model_fields(cls, bases, config_wrapper, types_namespace)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_model_construction.py:512: in set_model_fields
+    fields, class_vars = collect_model_fields(cls, bases, config_wrapper, types_namespace, typevars_map=typevars_map)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_fields.py:105: in collect_model_fields
+    type_hints = get_cls_type_hints_lenient(cls, types_namespace)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:245: in get_cls_type_hints_lenient
+    hints[name] = eval_type_lenient(value, globalns, localns)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:257: in eval_type_lenient
+    return eval_type_backport(value, globalns, localns)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:279: in eval_type_backport
+    return _eval_type_backport(value, globalns, localns, type_params)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:311: in _eval_type_backport
+    raise TypeError(
+E   TypeError: Unable to evaluate type annotation 'str | None'. If you are making use of the new typing syntax (unions using `|` since Python 3.10 or builtins subscripting since Python 3.9), you should either replace the use of new syntax with the existing `typing` constructs or install the `eval_type_backport` package.
+------------------------------- Captured stdout --------------------------------
+2025-11-08 23:02:35 [warning  ] Identity system components not available
+________________ ERROR collecting tests/benchmarks/test_mesh.py ________________
+tests/benchmarks/test_mesh.py:8: in <module>
+    from consciousness.dream.expand.mesh import (
+consciousness/__init__.py:71: in <module>
+    from labs.consciousness import awareness
+labs/consciousness/awareness/__init__.py:24: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+_________ ERROR collecting tests/candidate/qi/test_qi_entanglement.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/qi/test_qi_entanglement.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/candidate/qi/test_qi_entanglement.py:5: in <module>
+    from qi.qi_entanglement import (
+E   ModuleNotFoundError: No module named 'qi.qi_entanglement'
+_________ ERROR collecting tests/capabilities/test_governance_suite.py _________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/capabilities/test_governance_suite.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/capabilities/test_governance_suite.py:19: in <module>
+    from core.policy_guard import PolicyGuard, PolicyResult
+core/policy_guard/__init__.py:8: in <module>
+    from lukhas_website.core.policy_guard import PolicyGuard, PolicyResult, ReplayDecision
+E   ModuleNotFoundError: No module named 'lukhas_website.core'
+_ ERROR collecting tests/cognitive/property_based/test_reasoning_edge_cases.py _
+tests/cognitive/property_based/test_reasoning_edge_cases.py:36: in <module>
+    from cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
+cognitive_core/reasoning/__init__.py:12: in <module>
+    from .chain_of_thought import ChainOfThought
+cognitive_core/reasoning/chain_of_thought.py:19: in <module>
+    from symbolic.vocabularies.dream_vocabulary import DreamVocabulary
+symbolic/__init__.py:6: in <module>
+    from . import vocabularies
+symbolic/vocabularies/__init__.py:85: in <module>
+    from .voice_vocabulary import voice_vocabulary as VOICE_SYMBOLIC_VOCABULARY
+symbolic/vocabularies/voice_vocabulary.py:12: in <module>
+    from ..core import VoiceEmotion, VoiceProvider
+symbolic/core/__init__.py:61: in <module>
+    from .consciousness_layer import (
+symbolic/core/consciousness_layer.py:22: in <module>
+    from memory.fold.bridge import MemoryFoldBridge
+memory/fold.py:4: in <module>
+    from labs.memory.fold import *
+labs/memory/__init__.py:20: in <module>
+    from .core import MemoryCore
+labs/memory/core/__init__.py:11: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+_ ERROR collecting tests/cognitive/stress/test_cognitive_load_infrastructure.py _
+tests/cognitive/stress/test_cognitive_load_infrastructure.py:38: in <module>
+    from cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
+cognitive_core/reasoning/__init__.py:12: in <module>
+    from .chain_of_thought import ChainOfThought
+cognitive_core/reasoning/chain_of_thought.py:46: in <module>
+    CONSCIOUSNESS_AVAILABLE, ConsciousnessWrapper = _load_consciousness_wrapper()
+cognitive_core/reasoning/chain_of_thought.py:35: in _load_consciousness_wrapper
+    if find_spec("consciousness.consciousness_wrapper") is None:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/util.py:94: in find_spec
+    parent = __import__(parent_name, fromlist=['__path__'])
+consciousness/__init__.py:71: in <module>
+    from labs.consciousness import awareness
+labs/consciousness/awareness/__init__.py:24: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+_______ ERROR collecting tests/cognitive/test_comprehensive_coverage.py ________
+tests/cognitive/test_comprehensive_coverage.py:35: in <module>
+    from cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
+cognitive_core/reasoning/__init__.py:12: in <module>
+    from .chain_of_thought import ChainOfThought
+cognitive_core/reasoning/chain_of_thought.py:46: in <module>
+    CONSCIOUSNESS_AVAILABLE, ConsciousnessWrapper = _load_consciousness_wrapper()
+cognitive_core/reasoning/chain_of_thought.py:35: in _load_consciousness_wrapper
+    if find_spec("consciousness.consciousness_wrapper") is None:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/util.py:94: in find_spec
+    parent = __import__(parent_name, fromlist=['__path__'])
+consciousness/__init__.py:71: in <module>
+    from labs.consciousness import awareness
+labs/consciousness/awareness/__init__.py:24: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+___ ERROR collecting tests/consciousness/simulation/test_simulation_lane.py ____
+tests/consciousness/simulation/test_simulation_lane.py:7: in <module>
+    from consciousness.simulation import api
+consciousness/__init__.py:71: in <module>
+    from labs.consciousness import awareness
+labs/consciousness/awareness/__init__.py:24: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+___ ERROR collecting tests/consciousness/test_advanced_cognitive_features.py ___
+tests/consciousness/test_advanced_cognitive_features.py:28: in <module>
+    from cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
+cognitive_core/reasoning/__init__.py:12: in <module>
+    from .chain_of_thought import ChainOfThought
+cognitive_core/reasoning/chain_of_thought.py:46: in <module>
+    CONSCIOUSNESS_AVAILABLE, ConsciousnessWrapper = _load_consciousness_wrapper()
+cognitive_core/reasoning/chain_of_thought.py:35: in _load_consciousness_wrapper
+    if find_spec("consciousness.consciousness_wrapper") is None:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/util.py:94: in find_spec
+    parent = __import__(parent_name, fromlist=['__path__'])
+consciousness/__init__.py:71: in <module>
+    from labs.consciousness import awareness
+labs/consciousness/awareness/__init__.py:24: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+___ ERROR collecting tests/consciousness/test_c1_consciousness_components.py ___
+tests/consciousness/test_c1_consciousness_components.py:20: in <module>
+    from consciousness import (
+consciousness/__init__.py:71: in <module>
+    from labs.consciousness import awareness
+labs/consciousness/awareness/__init__.py:24: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+________ ERROR collecting tests/consciousness/test_creativity_engine.py ________
+tests/consciousness/test_creativity_engine.py:14: in <module>
+    from consciousness.creativity_engine import CreativityEngine
+consciousness/__init__.py:71: in <module>
+    from labs.consciousness import awareness
+labs/consciousness/awareness/__init__.py:24: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+______ ERROR collecting tests/consciousness/test_guardian_integration.py _______
+tests/consciousness/test_guardian_integration.py:22: in <module>
+    from consciousness.guardian_integration import (
+consciousness/__init__.py:71: in <module>
+    from labs.consciousness import awareness
+labs/consciousness/awareness/__init__.py:24: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+____ ERROR collecting tests/consciousness/test_lukhas_reflection_engine.py _____
+tests/consciousness/test_lukhas_reflection_engine.py:20: in <module>
+    from consciousness.reflection_engine import ReflectionConfig, ReflectionEngine
+consciousness/__init__.py:71: in <module>
+    from labs.consciousness import awareness
+labs/consciousness/awareness/__init__.py:24: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+________ ERROR collecting tests/consciousness/test_reflection_engine.py ________
+tests/consciousness/test_reflection_engine.py:28: in <module>
+    from consciousness.reflection.self_reflection_engine import (
+consciousness/__init__.py:71: in <module>
+    from labs.consciousness import awareness
+labs/consciousness/awareness/__init__.py:24: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+_____________ ERROR collecting tests/contract/candidate/aka_qualia _____________
+tests/contract/candidate/aka_qualia/conftest.py:24: in <module>
+    from aka_qualia.core import AkaQualia
+E   ModuleNotFoundError: No module named 'aka_qualia.core'
+______________ ERROR collecting tests/core/api/test_api_system.py ______________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/core/api/test_api_system.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/core/api/test_api_system.py:28: in <module>
+    from core.api.api_system import (
+core/api/api_system.py:19: in <module>
+    from core.security.security_integration import get_security_integration
+E   ModuleNotFoundError: No module named 'core.security.security_integration'
+_ ERROR collecting tests/core/consciousness/test_advanced_consciousness_engine.py _
+tests/core/consciousness/test_advanced_consciousness_engine.py:27: in <module>
+    from core.consciousness.advanced_consciousness_engine import (
+core/consciousness/advanced_consciousness_engine.py:87: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+____ ERROR collecting tests/core/identity/test_advanced_identity_manager.py ____
+tests/core/identity/test_advanced_identity_manager.py:23: in <module>
+    from core.identity.manager import (
+core/identity/__init__.py:3: in <module>
+    from core.identity import constitutional_ai_compliance
+core/identity/constitutional_ai_compliance.py:222: in <module>
+    @dataclass(slots=True)
+E   TypeError: dataclass() got an unexpected keyword argument 'slots'
+________ ERROR collecting tests/core/identity/test_identity_manager.py _________
+tests/core/identity/test_identity_manager.py:5: in <module>
+    from core.identity.vault.lukhas_id import (
+core/identity/__init__.py:3: in <module>
+    from core.identity import constitutional_ai_compliance
+core/identity/constitutional_ai_compliance.py:222: in <module>
+    @dataclass(slots=True)
+E   TypeError: dataclass() got an unexpected keyword argument 'slots'
+_________ ERROR collecting tests/core/modules/test_voice_narration.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/core/modules/test_voice_narration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/core/modules/test_voice_narration.py:32: in <module>
+    from core.modules.nias import (
+core/modules/nias/__init__.py:16: in <module>
+    from core.interfaces.as_agent.sys.nias.narration_controller import (
+E   ModuleNotFoundError: No module named 'core.interfaces.as_agent.sys.nias.narration_controller'
+_ ERROR collecting tests/core/orchestration/brain/spine/test_healix_integration.py _
+tests/core/orchestration/brain/spine/test_healix_integration.py:7: in <module>
+    from core.identity.vault import get_access_log, reset_registry
+core/identity/__init__.py:3: in <module>
+    from core.identity import constitutional_ai_compliance
+core/identity/constitutional_ai_compliance.py:222: in <module>
+    @dataclass(slots=True)
+E   TypeError: dataclass() got an unexpected keyword argument 'slots'
+_______ ERROR collecting tests/core/orchestration/test_dream_adapter.py ________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/core/orchestration/test_dream_adapter.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/core/orchestration/test_dream_adapter.py:33: in <module>
+    from core.orchestration.brain.unified_integration.adapters.dream_adapter import DreamEngineAdapter
+core/orchestration/brain/unified_integration/adapters/dream_adapter.py:14: in <module>
+    from ..unified_integration import UnifiedIntegration
+E   ModuleNotFoundError: No module named 'core.orchestration.brain.unified_integration.unified_integration'
+_____ ERROR collecting tests/core/orchestration/test_orchestration_core.py _____
+tests/core/orchestration/test_orchestration_core.py:22: in <module>
+    from core.orchestration.core import OrchestrationCore
+core/orchestration/core.py:59: in <module>
+    from memory.basic import MemoryManager
+memory/basic.py:4: in <module>
+    from labs.memory.basic import *
+labs/memory/__init__.py:20: in <module>
+    from .core import MemoryCore
+labs/memory/core/__init__.py:11: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+___________ ERROR collecting tests/core/symbolic/test_dast_engine.py ___________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/core/symbolic/test_dast_engine.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/core/symbolic/test_dast_engine.py:5: in <module>
+    from core.symbolic.dast_engine import (
+core/symbolic/dast_engine.py:23: in <module>
+    from ethics.core import EthicalDecision, get_shared_ethics_engine
+E   ModuleNotFoundError: No module named 'ethics.core'
+___ ERROR collecting tests/core/symbolic/test_neuro_symbolic_fusion_layer.py ___
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/core/symbolic/test_neuro_symbolic_fusion_layer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/core/symbolic/test_neuro_symbolic_fusion_layer.py:23: in <module>
+    from core.symbolic.neuro_symbolic_fusion_layer import FusionPattern, NeuroSymbolicFusionLayer
+E   ImportError: cannot import name 'FusionPattern' from 'core.symbolic.neuro_symbolic_fusion_layer' (/Users/agi_dev/LOCAL-REPOS/Lukhas/core/symbolic/neuro_symbolic_fusion_layer.py)
+------------------------------- Captured stdout --------------------------------
+2025-11-08 23:02:37 [warning  ] Missing dependencies: No module named 'core.symbolic_core.bio'
+__________________ ERROR collecting tests/core/test_common.py __________________
+tests/core/test_common.py:28: in <module>
+    from core.common import (
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+_______ ERROR collecting tests/core/test_consciousness_signal_router.py ________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/core/test_consciousness_signal_router.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/core/test_consciousness_signal_router.py:24: in <module>
+    from core.consciousness_signal_router import (
+E   ImportError: cannot import name 'CascadePrevention' from 'core.consciousness_signal_router' (/Users/agi_dev/LOCAL-REPOS/Lukhas/core/consciousness_signal_router.py)
+_____________ ERROR collecting tests/core/test_module_registry.py ______________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/core/test_module_registry.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/core/test_module_registry.py:27: in <module>
+    from core.module_registry import (
+E   ImportError: cannot import name 'ModuleAccessError' from 'core.module_registry' (/Users/agi_dev/LOCAL-REPOS/Lukhas/core/module_registry.py)
+_________ ERROR collecting tests/dashboard/test_widget_integration.py __________
+tests/dashboard/test_widget_integration.py:18: in <module>
+    from core.identity.vault.lukhas_id import IdentityManager, IdentityVerificationError
+core/identity/__init__.py:3: in <module>
+    from core.identity import constitutional_ai_compliance
+core/identity/constitutional_ai_compliance.py:222: in <module>
+    @dataclass(slots=True)
+E   TypeError: dataclass() got an unexpected keyword argument 'slots'
+_______ ERROR collecting tests/deployment/test_blue_green_deployment.py ________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/deployment/test_blue_green_deployment.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/deployment/test_blue_green_deployment.py:23: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:7: in <module>
+    from urllib3.exceptions import HTTPError as BaseHTTPError
+E   ImportError: cannot import name 'HTTPError' from 'urllib3.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/exceptions.py)
+____________ ERROR collecting tests/drift/test_drift_acceptance.py _____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/drift/test_drift_acceptance.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/drift/test_drift_acceptance.py:24: in <module>
+    from monitoring.drift_manager import DriftManager
+E   ModuleNotFoundError: No module named 'monitoring.drift_manager'
+____________ ERROR collecting tests/drift/test_drift_autorepair.py _____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/drift/test_drift_autorepair.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/drift/test_drift_autorepair.py:28: in <module>
+    from trace.TraceRepairEngine import RepairMethod, TraceRepairEngine
+E   ImportError: cannot import name 'RepairMethod' from 'trace.TraceRepairEngine' (/Users/agi_dev/LOCAL-REPOS/Lukhas/trace/TraceRepairEngine/__init__.py)
+______________ ERROR collecting tests/drift/test_drift_manager.py ______________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/drift/test_drift_manager.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/drift/test_drift_manager.py:19: in <module>
+    from monitoring.drift_manager import DriftKind, DriftManager
+E   ModuleNotFoundError: No module named 'monitoring.drift_manager'
+_________ ERROR collecting tests/drift/test_drift_task15_acceptance.py _________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/drift/test_drift_task15_acceptance.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/drift/test_drift_task15_acceptance.py:23: in <module>
+    from monitoring.drift_manager import DriftManager
+E   ModuleNotFoundError: No module named 'monitoring.drift_manager'
+_______________ ERROR collecting tests/e2e/candidate/aka_qualia ________________
+tests/e2e/candidate/aka_qualia/conftest.py:22: in <module>
+    from aka_qualia.core import AkaQualia
+E   ModuleNotFoundError: No module named 'aka_qualia.core'
+________ ERROR collecting tests/e2e/core/test_exceptions_additional.py _________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/e2e/core/test_exceptions_additional.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/e2e/core/test_exceptions_additional.py:11: in <module>
+    from core.common.exceptions import (
+E   ImportError: cannot import name 'GLYPHTokenError' from 'core.common.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/core/common/exceptions.py)
+____________ ERROR collecting tests/e2e/governance/test_guardian.py ____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/e2e/governance/test_guardian.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/e2e/governance/test_guardian.py:3: in <module>
+    from governance.guardian.core import EthicalSeverity, GovernanceAction
+E   ModuleNotFoundError: No module named 'governance.guardian'
+___________ ERROR collecting tests/e2e/lukhas/test_consciousness.py ____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/e2e/lukhas/test_consciousness.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/e2e/lukhas/test_consciousness.py:29: in <module>
+    from consciousness import (
+E   ImportError: cannot import name 'AwarenessLevel' from 'consciousness' (/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/consciousness/__init__.py)
+------------------------------- Captured stdout --------------------------------
+2025-11-08 23:02:38 [info     ] core.ethics module initialized
+_______ ERROR collecting tests/e2e/phase2/test_performance_benchmarks.py _______
+tests/e2e/phase2/test_performance_benchmarks.py:41: in <module>
+    from labs.memory.service import MemoryService
+labs/memory/__init__.py:20: in <module>
+    from .core import MemoryCore
+labs/memory/core/__init__.py:11: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+____________ ERROR collecting tests/e2e/rl/test_consciousness_rl.py ____________
+tests/e2e/rl/test_consciousness_rl.py:20: in <module>
+    from rl.coordination.multi_agent_trainer import (
+rl/__init__.py:20: in <module>
+    from .engine.consciousness_environment import ConsciousnessEnvironment, ConsciousnessState, MatrizNode
+rl/engine/__init__.py:9: in <module>
+    from .consciousness_environment import ConsciousnessEnvironment
+rl/engine/consciousness_environment.py:32: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+__________ ERROR collecting tests/e2e/security/test_authentication.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/e2e/security/test_authentication.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/e2e/security/test_authentication.py:40: in <module>
+    from core.interfaces.api.v1.common.auth import (
+E   ImportError: cannot import name 'generate_api_key' from 'core.interfaces.api.v1.common.auth' (/Users/agi_dev/LOCAL-REPOS/Lukhas/core/interfaces/api/v1/common/auth.py)
+_______ ERROR collecting tests/e2e/test_async_reliability_integration.py _______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/e2e/test_async_reliability_integration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/e2e/test_async_reliability_integration.py:13: in <module>
+    from async_manager import (
+E   ModuleNotFoundError: No module named 'async_manager'
+_______ ERROR collecting tests/e2e/test_guardian_integrated_platform.py ________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/e2e/test_guardian_integrated_platform.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/e2e/test_guardian_integrated_platform.py:11: in <module>
+    from core.business.guardian_integrated_platform import (
+E   ModuleNotFoundError: No module named 'core.business.guardian_integrated_platform'
+___________ ERROR collecting tests/e2e/test_matriz_orchestration.py ____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/e2e/test_matriz_orchestration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/e2e/test_matriz_orchestration.py:17: in <module>
+    from core.matriz.async_orchestrator import AsyncOrchestrator
+E   ModuleNotFoundError: No module named 'core.matriz'
+________________ ERROR collecting tests/ethics/test_dsl_eval.py ________________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/ethics/test_dsl_eval.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/ethics/test_dsl_eval.py:19: in <module>
+    from core.ethics.logic.dsl_lite import (
+E   ModuleNotFoundError: No module named 'core.ethics.logic.dsl_lite'
+____________ ERROR collecting tests/ethics/test_tags_preprocess.py _____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/ethics/test_tags_preprocess.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/ethics/test_tags_preprocess.py:9: in <module>
+    from core.ethics.safety_tags import preprocess_text
+E   ModuleNotFoundError: No module named 'core.ethics.safety_tags'
+__________ ERROR collecting tests/examples/test_governance_example.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/examples/test_governance_example.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/examples/test_governance_example.py:9: in <module>
+    from examples.governance.consent_example import (
+E   ModuleNotFoundError: No module named 'examples.governance'
+_____________ ERROR collecting tests/governance/test_governance.py _____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/governance/test_governance.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/governance/test_governance.py:23: in <module>
+    _compliance_mod = _importlib.import_module("labs.governance.ethics.compliance_monitor")
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'labs.governance.ethics.compliance_monitor'
+_________ ERROR collecting tests/governance/test_guardian_defaults.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/governance/test_guardian_defaults.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/governance/test_guardian_defaults.py:16: in <module>
+    from governance.guardian_system import GuardianSystem
+E   ModuleNotFoundError: No module named 'governance.guardian_system'
+__________ ERROR collecting tests/governance/test_lane_consistency.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/governance/test_lane_consistency.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/governance/test_lane_consistency.py:19: in <module>
+    from governance.schema_registry import LUKHASLane, get_lane_enum
+E   ModuleNotFoundError: No module named 'governance.schema_registry'
+_________________ ERROR collecting tests/guardian/test_pdp.py __________________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/guardian/test_pdp.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/guardian/test_pdp.py:10: in <module>
+    from adapters.openai.policy_models import Context
+E   ModuleNotFoundError: No module named 'adapters.openai.policy_models'
+_________ ERROR collecting tests/guardian/test_policy_format_compat.py _________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/guardian/test_policy_format_compat.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/guardian/test_policy_format_compat.py:3: in <module>
+    from adapters.openai.policy_pdp import PDP
+E   ModuleNotFoundError: No module named 'adapters.openai.policy_pdp'
+______ ERROR collecting tests/identity/test_enhanced_identity_service.py _______
+tests/identity/test_enhanced_identity_service.py:18: in <module>
+    from core.identity.vault.lukhas_id import (
+core/identity/__init__.py:3: in <module>
+    from core.identity import constitutional_ai_compliance
+core/identity/constitutional_ai_compliance.py:222: in <module>
+    @dataclass(slots=True)
+E   TypeError: dataclass() got an unexpected keyword argument 'slots'
+____________________ ERROR collecting tests/integration/api ____________________
+tests/integration/api/conftest.py:7: in <module>
+    from serve.reference_api.public_api_reference import app as dreams_app, verify_api_key
+serve/reference_api/public_api_reference.py:39: in <module>
+    from slowapi import Limiter, _rate_limit_exceeded_handler
+E   ModuleNotFoundError: No module named 'slowapi'
+_______ ERROR collecting tests/integration/bio/test_bio_architecture.py ________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/bio/test_bio_architecture.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/bio/test_bio_architecture.py:9: in <module>
+    from bio.core.architecture_analyzer import (
+E   ImportError: cannot import name 'Architecture' from 'bio.core.architecture_analyzer' (/Users/agi_dev/LOCAL-REPOS/Lukhas/./bio/core/architecture_analyzer/__init__.py)
+_____ ERROR collecting tests/integration/bio/test_spirulina_atp_system.py ______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/bio/test_spirulina_atp_system.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/bio/test_spirulina_atp_system.py:9: in <module>
+    from bio.energy.spirulina_atp_system import (
+E   ModuleNotFoundError: No module named 'bio.energy.spirulina_atp_system'
+___ ERROR collecting tests/integration/bridge/adapters/test_gmail_adapter.py ___
+tests/integration/bridge/adapters/test_gmail_adapter.py:10: in <module>
+    from bridge.adapters.gmail_adapter import GmailAdapter
+bridge/adapters/gmail_adapter.py:13: in <module>
+    from bridge.adapters.service_adapter_base import (
+bridge/adapters/service_adapter_base.py:59: in <module>
+    from memory.service import MemoryService
+memory/service.py:4: in <module>
+    from labs.memory.service import *
+labs/memory/__init__.py:20: in <module>
+    from .core import MemoryCore
+labs/memory/core/__init__.py:11: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+_ ERROR collecting tests/integration/bridge/api_gateway/test_unified_api_gateway_integration.py _
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:303: in _eval_type_backport
+    return _eval_type(value, globalns, localns, type_params)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:332: in _eval_type
+    return typing._eval_type(  # type: ignore
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/typing.py:290: in _eval_type
+    return t._evaluate(globalns, localns, recursive_guard)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/typing.py:546: in _evaluate
+    eval(self.__forward_code__, globalns, localns),
+<string>:1: in <module>
+    ???
+E   TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+
+The above exception was the direct cause of the following exception:
+tests/integration/bridge/api_gateway/test_unified_api_gateway_integration.py:13: in <module>
+    from bridge.api_gateway.unified_api_gateway import UnifiedAPIGateway
+bridge/api_gateway/unified_api_gateway.py:70: in <module>
+    class ChatRequest(BaseModel):
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_model_construction.py:219: in __new__
+    set_model_fields(cls, bases, config_wrapper, types_namespace)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_model_construction.py:512: in set_model_fields
+    fields, class_vars = collect_model_fields(cls, bases, config_wrapper, types_namespace, typevars_map=typevars_map)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_fields.py:105: in collect_model_fields
+    type_hints = get_cls_type_hints_lenient(cls, types_namespace)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:245: in get_cls_type_hints_lenient
+    hints[name] = eval_type_lenient(value, globalns, localns)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:257: in eval_type_lenient
+    return eval_type_backport(value, globalns, localns)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:279: in eval_type_backport
+    return _eval_type_backport(value, globalns, localns, type_params)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:311: in _eval_type_backport
+    raise TypeError(
+E   TypeError: Unable to evaluate type annotation 'str | None'. If you are making use of the new typing syntax (unions using `|` since Python 3.10 or builtins subscripting since Python 3.9), you should either replace the use of new syntax with the existing `typing` constructs or install the `eval_type_backport` package.
+____ ERROR collecting tests/integration/bridge/test_service_integration.py _____
+tests/integration/bridge/test_service_integration.py:11: in <module>
+    from bridge.adapters.service_adapter_base import AdapterState, ResilienceManager, with_resilience
+bridge/adapters/service_adapter_base.py:59: in <module>
+    from memory.service import MemoryService
+memory/service.py:4: in <module>
+    from labs.memory.service import *
+labs/memory/__init__.py:20: in <module>
+    from .core import MemoryCore
+labs/memory/core/__init__.py:11: in <module>
+    from core.common import get_logger
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+core/common/__init__.py:40: in __getattr__
+    return getattr(_SRC, name)
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+___________ ERROR collecting tests/integration/candidate/aka_qualia ____________
+tests/integration/candidate/aka_qualia/conftest.py:22: in <module>
+    from aka_qualia.core import AkaQualia
+E   ModuleNotFoundError: No module named 'aka_qualia.core'
+_ ERROR collecting tests/integration/candidate/core/collective/test_collective_intelligence.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/candidate/core/collective/test_collective_intelligence.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/candidate/core/collective/test_collective_intelligence.py:7: in <module>
+    from core.collective.clusters.consciousness_clusters import (
+E   ModuleNotFoundError: No module named 'core.collective.clusters.consciousness_clusters'
+_ ERROR collecting tests/integration/candidate/core/test_nias_transcendence.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/candidate/core/test_nias_transcendence.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/candidate/core/test_nias_transcendence.py:7: in <module>
+    from core.collective.collective_ad_mind import CollectiveAdMind
+E   ModuleNotFoundError: No module named 'core.collective.collective_ad_mind'
+___ ERROR collecting tests/integration/candidate/tools/test_tool_executor.py ___
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/candidate/tools/test_tool_executor.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/candidate/tools/test_tool_executor.py:3: in <module>
+    import docker
+../../Library/Python/3.9/lib/python/site-packages/docker/__init__.py:1: in <module>
+    from .api import APIClient
+../../Library/Python/3.9/lib/python/site-packages/docker/api/__init__.py:1: in <module>
+    from .client import APIClient
+../../Library/Python/3.9/lib/python/site-packages/docker/api/client.py:6: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:7: in <module>
+    from urllib3.exceptions import HTTPError as BaseHTTPError
+E   ImportError: cannot import name 'HTTPError' from 'urllib3.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/exceptions.py)
+__ ERROR collecting tests/integration/end_to_end/test_authentication_flow.py ___
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/end_to_end/test_authentication_flow.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/end_to_end/test_authentication_flow.py:9: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:7: in <module>
+    from urllib3.exceptions import HTTPError as BaseHTTPError
+E   ImportError: cannot import name 'HTTPError' from 'urllib3.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/exceptions.py)
+__ ERROR collecting tests/integration/end_to_end/test_consciousness_memory.py __
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/end_to_end/test_consciousness_memory.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/end_to_end/test_consciousness_memory.py:10: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:7: in <module>
+    from urllib3.exceptions import HTTPError as BaseHTTPError
+E   ImportError: cannot import name 'HTTPError' from 'urllib3.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/exceptions.py)
+___ ERROR collecting tests/integration/end_to_end/test_decision_pipeline.py ____
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/end_to_end/test_decision_pipeline.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/end_to_end/test_decision_pipeline.py:9: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:7: in <module>
+    from urllib3.exceptions import HTTPError as BaseHTTPError
+E   ImportError: cannot import name 'HTTPError' from 'urllib3.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/exceptions.py)
+_ ERROR collecting tests/integration/end_to_end/test_governance_orchestration.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/end_to_end/test_governance_orchestration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/end_to_end/test_governance_orchestration.py:9: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:7: in <module>
+    from urllib3.exceptions import HTTPError as BaseHTTPError
+E   ImportError: cannot import name 'HTTPError' from 'urllib3.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/exceptions.py)
+_ ERROR collecting tests/integration/end_to_end/test_multi_component_workflows.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/end_to_end/test_multi_component_workflows.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/end_to_end/test_multi_component_workflows.py:9: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:7: in <module>
+    from urllib3.exceptions import HTTPError as BaseHTTPError
+E   ImportError: cannot import name 'HTTPError' from 'urllib3.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/exceptions.py)
+_ ERROR collecting tests/integration/governance/guardian/v3/test_guardian_v3_integration.py _
+tests/integration/governance/guardian/v3/test_guardian_v3_integration.py:24: in <module>
+    class TestableEnhancedGuardianSystem(EnhancedGuardianSystem):
+tests/integration/governance/guardian/v3/test_guardian_v3_integration.py:36: in TestableEnhancedGuardianSystem
+    async def _analyze_identity_impact(self, threat_data: dict[str, any], context: dict[str, any]) -> str | None:
+E   TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+__ ERROR collecting tests/integration/identity/test_authentication_server.py ___
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/identity/test_authentication_server.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/identity/test_authentication_server.py:12: in <module>
+    from governance.identity.auth_backend.authentication_server import (
+E   ModuleNotFoundError: No module named 'governance.identity'
+_____ ERROR collecting tests/integration/matriz/test_matriz_integration.py _____
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/matriz/test_matriz_integration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/matriz/test_matriz_integration.py:4: in <module>
+    from matriz.core.example_node import MathReasoningNode
+MATRIZ/core/__init__.py:25: in <module>
+    from .memory_system import MemorySystem  # Export memory system
+MATRIZ/core/memory_system.py:32: in <module>
+    import lz4.frame
+E   ModuleNotFoundError: No module named 'lz4'
+_ ERROR collecting tests/integration/products/communication/test_abas_engine.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/products/communication/test_abas_engine.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+products/communication/abas_candidate/core/abas_engine.py:10: in <module>
+    from ethics.core import get_shared_ethics_engine  # ΛTAG: ethics_bridge
+E   ModuleNotFoundError: No module named 'ethics.core'
+
+During handling of the above exception, another exception occurred:
+tests/integration/products/communication/test_abas_engine.py:4: in <module>
+    from products.communication.abas_candidate.core.abas_engine import ABASRegistry
+products/communication/abas_candidate/__init__.py:1: in <module>
+    from .core.abas_engine import (
+products/communication/abas_candidate/core/abas_engine.py:12: in <module>
+    from governance.ethics.shared_ethics_engine import get_shared_ethics_engine
+E   ModuleNotFoundError: No module named 'governance.ethics'
+____ ERROR collecting tests/integration/qi/test_jurisdiction_compliance.py _____
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/qi/test_jurisdiction_compliance.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/qi/test_jurisdiction_compliance.py:6: in <module>
+    from qi.compliance import MultiJurisdictionComplianceEngine
+E   ModuleNotFoundError: No module named 'qi.compliance'
+_ ERROR collecting tests/integration/security/test_security_monitor_integration.py _
+tests/integration/security/test_security_monitor_integration.py:10: in <module>
+    from core.security.security_monitor import EventSeverity, SecurityMonitor, SecurityMonitorConfig
+core/security/security_monitor.py:55: in <module>
+    @dataclass(slots=True)
+E   TypeError: dataclass() got an unexpected keyword argument 'slots'
+____________ ERROR collecting tests/integration/test_aka_qualia.py _____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/test_aka_qualia.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/test_aka_qualia.py:14: in <module>
+    from aka_qualia.core import AkaQualia
+E   ModuleNotFoundError: No module named 'aka_qualia.core'
+___________ ERROR collecting tests/integration/test_async_manager.py ___________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/test_async_manager.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/test_async_manager.py:11: in <module>
+    from async_manager import (
+E   ModuleNotFoundError: No module named 'async_manager'
+__________ ERROR collecting tests/integration/test_cross_component.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/test_cross_component.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/test_cross_component.py:3: in <module>
+    from matriz.core.memory_system import MemoryQuery, MemorySystem, MemoryType
+MATRIZ/core/__init__.py:25: in <module>
+    from .memory_system import MemorySystem  # Export memory system
+MATRIZ/core/memory_system.py:32: in <module>
+    import lz4.frame
+E   ModuleNotFoundError: No module named 'lz4'
+______ ERROR collecting tests/integration/test_full_system_integration.py ______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/test_full_system_integration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/test_full_system_integration.py:13: in <module>
+    from consciousness.consciousness_stream import ConsciousnessStream
+E   ModuleNotFoundError: No module named 'consciousness.consciousness_stream'
+___ ERROR collecting tests/integration/test_matriz_complete_thought_loop.py ____
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/test_matriz_complete_thought_loop.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/test_matriz_complete_thought_loop.py:28: in <module>
+    from consciousness.matriz_thought_loop import matrizThoughtLoop
+E   ModuleNotFoundError: No module named 'consciousness.matriz_thought_loop'
+_____ ERROR collecting tests/integration/test_openai_facade_integration.py _____
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/test_openai_facade_integration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/test_openai_facade_integration.py:21: in <module>
+    from adapters.openai.api import get_app
+E   ModuleNotFoundError: No module named 'adapters.openai.api'
+_ ERROR collecting tests/integration/test_orchestration_webauthn_integration.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/test_orchestration_webauthn_integration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/test_orchestration_webauthn_integration.py:18: in <module>
+    from orchestration.multi_ai_router import (
+E   ModuleNotFoundError: No module named 'orchestration.multi_ai_router'
+___ ERROR collecting tests/integration/test_orchestrator_matriz_roundtrip.py ___
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/test_orchestrator_matriz_roundtrip.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/test_orchestrator_matriz_roundtrip.py:32: in <module>
+    from consciousness.matriz_thought_loop import MATRIZThoughtLoop, matrizProcessingContext
+E   ModuleNotFoundError: No module named 'consciousness.matriz_thought_loop'
+______ ERROR collecting tests/integration/test_parallel_orchestration.py _______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/test_parallel_orchestration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/test_parallel_orchestration.py:18: in <module>
+    from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
+E   ModuleNotFoundError: No module named 'labs.core.orchestration.async_orchestrator'
+__________ ERROR collecting tests/integration/test_production_main.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/test_production_main.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/test_production_main.py:11: in <module>
+    from scripts.production_main import LUKHASProduction
+E   ModuleNotFoundError: No module named 'scripts.production_main'
+______ ERROR collecting tests/integration/tools/test_dependency_hasher.py ______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/tools/test_dependency_hasher.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/tools/test_dependency_hasher.py:14: in <module>
+    from tools.security.dependency_hasher import DependencyHasher
+tools/security/dependency_hasher.py:21: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:7: in <module>
+    from urllib3.exceptions import HTTPError as BaseHTTPError
+E   ImportError: cannot import name 'HTTPError' from 'urllib3.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/exceptions.py)
+___ ERROR collecting tests/labs/core/bridges/test_consciousness_qi_bridge.py ___
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/labs/core/bridges/test_consciousness_qi_bridge.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/labs/core/bridges/test_consciousness_qi_bridge.py:11: in <module>
+    from labs.core.bridges.consciousness_qi_bridge import ConsciousnessQIBridge, get_consciousness_quantum_bridge
+labs/core/bridges/__init__.py:11: in <module>
+    from .nias_dream_bridge import get_nias_dream_bridge
+E   ModuleNotFoundError: No module named 'labs.core.bridges.nias_dream_bridge'
+_ ERROR collecting tests/labs/core/governance/test_guardian_integration_middleware.py _
+../../Library/Python/3.9/lib/python/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+../../Library/Python/3.9/lib/python/site-packages/_pytest/pathlib.py:549: in import_path
+    mod = _import_module_using_spec(
+../../Library/Python/3.9/lib/python/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+../../Library/Python/3.9/lib/python/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+tests/labs/core/governance/test_guardian_integration_middleware.py:167: in <module>
+    from labs.core.governance.guardian_integration import (  # noqa: E402  (import after stubs)
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/governance/guardian_integration.py", line 287
+E       for field in ("explanation", "confidence", "max_risk_level", "processing_time_ms"):
+E       ^
+E   SyntaxError: invalid syntax
+_______ ERROR collecting tests/ledger/test_event_sourcing_properties.py ________
+tests/ledger/test_event_sourcing_properties.py:35: in <module>
+    from ledger.consent_handlers import IdempotentConsentHandler, IdempotentTraceHandler
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+ledger/consent_handlers/__init__.py:44: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+ledger/consent_handlers/__init__.py:44: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+______________ ERROR collecting tests/memory/test_indexes_api.py _______________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/memory/test_indexes_api.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/memory/test_indexes_api.py:18: in <module>
+    from adapters.openai.api import get_app
+E   ModuleNotFoundError: No module named 'adapters.openai.api'
+_______________ ERROR collecting tests/memory/test_lifecycle.py ________________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/memory/test_lifecycle.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/memory/test_lifecycle.py:26: in <module>
+    from memory.lifecycle import (
+E   ImportError: cannot import name 'ArchivalTier' from 'memory.lifecycle' (/Users/agi_dev/LOCAL-REPOS/Lukhas/memory/lifecycle.py)
+____________ ERROR collecting tests/memory/test_memory_backends.py _____________
+tests/memory/test_memory_backends.py:18: in <module>
+    from memory.backends.base import (
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+memory/backends/base/__init__.py:44: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+memory/backends/base/__init__.py:44: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+____________ ERROR collecting tests/memory/test_memory_lifecycle.py ____________
+tests/memory/test_memory_lifecycle.py:15: in <module>
+    from memory.backends.base import AbstractVectorStore, VectorDocument
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+memory/backends/base/__init__.py:44: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+memory/backends/base/__init__.py:44: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+_______________ ERROR collecting tests/obs/test_metrics_smoke.py _______________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/obs/test_metrics_smoke.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/obs/test_metrics_smoke.py:2: in <module>
+    from lukhas import metrics
+E   ImportError: cannot import name 'metrics' from 'lukhas' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/__init__.py)
+___________ ERROR collecting tests/observability/test_integration.py ___________
+tests/observability/test_integration.py:21: in <module>
+    from observability.compliance_dashboard import ComplianceDashboard
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+observability/compliance_dashboard/__init__.py:44: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+observability/compliance_dashboard/__init__.py:44: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+_________ ERROR collecting tests/observability/test_label_contracts.py _________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/observability/test_label_contracts.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/observability/test_label_contracts.py:25: in <module>
+    from governance.schema_registry import LUKHASLane
+E   ModuleNotFoundError: No module named 'governance.schema_registry'
+_ ERROR collecting tests/observability/test_matriz_cognitive_instrumentation.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/observability/test_matriz_cognitive_instrumentation.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/observability/test_matriz_cognitive_instrumentation.py:23: in <module>
+    from core.matriz.optimized_orchestrator import OptimizedAsyncOrchestrator
+E   ModuleNotFoundError: No module named 'core.matriz'
+_____ ERROR collecting tests/observability/test_matriz_metrics_contract.py _____
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/observability/test_matriz_metrics_contract.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/observability/test_matriz_metrics_contract.py:25: in <module>
+    from governance.schema_registry import LUKHASLane
+E   ModuleNotFoundError: No module named 'governance.schema_registry'
+______ ERROR collecting tests/observability/test_opentelemetry_tracing.py ______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/observability/test_opentelemetry_tracing.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/observability/test_opentelemetry_tracing.py:17: in <module>
+    from observability.opentelemetry_tracing import (
+E   ImportError: cannot import name 'OTEL_AVAILABLE' from 'observability.opentelemetry_tracing' (/Users/agi_dev/LOCAL-REPOS/Lukhas/observability/opentelemetry_tracing/__init__.py)
+_____ ERROR collecting tests/observability/test_performance_validation.py ______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/observability/test_performance_validation.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/observability/test_performance_validation.py:30: in <module>
+    from observability.security_hardening import ObservabilitySecurityHardening
+E   ModuleNotFoundError: No module named 'observability.security_hardening'
+___ ERROR collecting tests/orchestration/test_async_orchestrator_metrics.py ____
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/orchestration/test_async_orchestrator_metrics.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/orchestration/test_async_orchestrator_metrics.py:13: in <module>
+    from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
+E   ModuleNotFoundError: No module named 'labs.core.orchestration.async_orchestrator'
+______ ERROR collecting tests/orchestration/test_externalized_routing.py _______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/orchestration/test_externalized_routing.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/orchestration/test_externalized_routing.py:30: in <module>
+    from orchestration.context_preservation import (
+E   ModuleNotFoundError: No module named 'orchestration.context_preservation'
+______ ERROR collecting tests/orchestration/test_guardian_enforcement.py _______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/orchestration/test_guardian_enforcement.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/orchestration/test_guardian_enforcement.py:12: in <module>
+    from core.ethics.guardian_drift_bands import GuardianBand, GuardianBandResult
+E   ModuleNotFoundError: No module named 'core.ethics.guardian_drift_bands'
+___________ ERROR collecting tests/orchestration/test_killswitch.py ____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/orchestration/test_killswitch.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/orchestration/test_killswitch.py:11: in <module>
+    from core.ethics.guardian_drift_bands import GuardianBand, GuardianBandResult
+E   ModuleNotFoundError: No module named 'core.ethics.guardian_drift_bands'
+_________ ERROR collecting tests/orchestration/test_multi_ai_router.py _________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/orchestration/test_multi_ai_router.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/orchestration/test_multi_ai_router.py:15: in <module>
+    from orchestration.multi_ai_router import (
+E   ModuleNotFoundError: No module named 'orchestration.multi_ai_router'
+_______ ERROR collecting tests/orchestration/test_orchestrator_stress.py _______
+tests/orchestration/test_orchestrator_stress.py:73: in <module>
+    class MockCognitiveNode(CognitiveNode):
+E   TypeError: NoneType takes no arguments
+__________ ERROR collecting tests/orchestration/test_plan_verifier.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/orchestration/test_plan_verifier.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/orchestration/test_plan_verifier.py:22: in <module>
+    from core.orchestration.plan_verifier import PlanVerifier, VerificationContext, get_plan_verifier
+E   ModuleNotFoundError: No module named 'core.orchestration.plan_verifier'
+_________ ERROR collecting tests/perf/test_async_orchestrator_perf.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/perf/test_async_orchestrator_perf.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/perf/test_async_orchestrator_perf.py:12: in <module>
+    from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
+E   ModuleNotFoundError: No module named 'labs.core.orchestration.async_orchestrator'
+_____ ERROR collecting tests/performance/matriz/test_matriz_performance.py _____
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/performance/matriz/test_matriz_performance.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/performance/matriz/test_matriz_performance.py:14: in <module>
+    from matriz.core.example_node import MathReasoningNode
+MATRIZ/core/__init__.py:25: in <module>
+    from .memory_system import MemorySystem  # Export memory system
+MATRIZ/core/memory_system.py:32: in <module>
+    import lz4.frame
+E   ModuleNotFoundError: No module named 'lz4'
+________ ERROR collecting tests/performance/test_performance_budgets.py ________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/performance/test_performance_budgets.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/performance/test_performance_budgets.py:22: in <module>
+    from observability.opentelemetry_tracing import LUKHASTracer
+E   ImportError: cannot import name 'LUKHASTracer' from 'observability.opentelemetry_tracing' (/Users/agi_dev/LOCAL-REPOS/Lukhas/observability/opentelemetry_tracing/__init__.py)
+_______ ERROR collecting tests/reliability/test_0_01_percent_features.py _______
+../../Library/Python/3.9/lib/python/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+../../Library/Python/3.9/lib/python/site-packages/_pytest/pathlib.py:549: in import_path
+    mod = _import_module_using_spec(
+../../Library/Python/3.9/lib/python/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+../../Library/Python/3.9/lib/python/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+../../Library/Python/3.9/lib/python/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
+    return compile(source, filename, mode, flags,
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/reliability/test_0_01_percent_features.py", line 17
+E       import logging
+E       ^
+E   SyntaxError: invalid syntax
+__________ ERROR collecting tests/resilience/test_circuit_breaker.py ___________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/resilience/test_circuit_breaker.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/resilience/test_circuit_breaker.py:16: in <module>
+    from resilience.circuit_breaker import (
+E   ImportError: cannot import name 'RestartServiceAction' from 'resilience.circuit_breaker' (/Users/agi_dev/LOCAL-REPOS/Lukhas/resilience/circuit_breaker.py)
+__________ ERROR collecting tests/scripts/test_agi_module_analyzer.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/scripts/test_agi_module_analyzer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/scripts/test_agi_module_analyzer.py:5: in <module>
+    from scripts.analysis.agi_module_analyzer import AGIModuleAnalyzer, ModuleAnalysis
+E   ModuleNotFoundError: No module named 'scripts.analysis'
+________ ERROR collecting tests/scripts/test_generate_todo_inventory.py ________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/scripts/test_generate_todo_inventory.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/scripts/test_generate_todo_inventory.py:10: in <module>
+    from scripts.todo_migration.generate_todo_inventory import scan_file
+E   ModuleNotFoundError: No module named 'scripts.todo_migration'
+_____________ ERROR collecting tests/security/test_pqc_redteam.py ______________
+'redteam' not found in `markers` configuration option
+___________ ERROR collecting tests/security/test_security_monitor.py ___________
+tests/security/test_security_monitor.py:9: in <module>
+    from core.security.security_monitor import (
+core/security/security_monitor.py:55: in <module>
+    @dataclass(slots=True)
+E   TypeError: dataclass() got an unexpected keyword argument 'slots'
+________ ERROR collecting tests/soak/test_guardian_matriz_throughput.py ________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/soak/test_guardian_matriz_throughput.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/soak/test_guardian_matriz_throughput.py:36: in <module>
+    from consciousness.matriz_thought_loop import MATRIZThoughtLoop, matrizProcessingContext
+E   ModuleNotFoundError: No module named 'consciousness.matriz_thought_loop'
+__________ ERROR collecting tests/system/integration/test_failover.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/system/integration/test_failover.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/system/integration/test_failover.py:12: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:7: in <module>
+    from urllib3.exceptions import HTTPError as BaseHTTPError
+E   ImportError: cannot import name 'HTTPError' from 'urllib3.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/exceptions.py)
+______ ERROR collecting tests/system/integration/test_system_lifecycle.py ______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/system/integration/test_system_lifecycle.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/system/integration/test_system_lifecycle.py:12: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:7: in <module>
+    from urllib3.exceptions import HTTPError as BaseHTTPError
+E   ImportError: cannot import name 'HTTPError' from 'urllib3.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/exceptions.py)
+_______________ ERROR collecting tests/test_backpressure_ring.py _______________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_backpressure_ring.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_backpressure_ring.py:10: in <module>
+    from core.ring import DecimatingRing, Ring
+E   ModuleNotFoundError: No module named 'core.ring'
+__________________ ERROR collecting tests/test_chatgpt_mcp.py __________________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_chatgpt_mcp.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_chatgpt_mcp.py:7: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:7: in <module>
+    from urllib3.exceptions import HTTPError as BaseHTTPError
+E   ImportError: cannot import name 'HTTPError' from 'urllib3.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/exceptions.py)
+_____________________ ERROR collecting tests/test_clock.py _____________________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_clock.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_clock.py:14: in <module>
+    from core.clock import Ticker, create_consciousness_ticker
+E   ImportError: cannot import name 'Ticker' from 'core.clock' (/Users/agi_dev/LOCAL-REPOS/Lukhas/core/clock/__init__.py)
+_____________ ERROR collecting tests/test_consciousness_stream.py ______________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_consciousness_stream.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_consciousness_stream.py:14: in <module>
+    from core.consciousness_stream import ConsciousnessStream, create_consciousness_stream
+E   ImportError: cannot import name 'create_consciousness_stream' from 'core.consciousness_stream' (/Users/agi_dev/LOCAL-REPOS/Lukhas/core/consciousness_stream/__init__.py)
+______________ ERROR collecting tests/test_consciousness_tick.py _______________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_consciousness_tick.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_consciousness_tick.py:11: in <module>
+    from core.consciousness_ticker import ConsciousnessTicker
+E   ImportError: cannot import name 'ConsciousnessTicker' from 'core.consciousness_ticker' (/Users/agi_dev/LOCAL-REPOS/Lukhas/core/consciousness_ticker/__init__.py)
+_____________________ ERROR collecting tests/test_drift.py _____________________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_drift.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_drift.py:11: in <module>
+    from core.drift import LANE_CFG, DriftMonitor, _cosine
+E   ModuleNotFoundError: No module named 'core.drift'
+________________ ERROR collecting tests/test_guardian_quick.py _________________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_guardian_quick.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_guardian_quick.py:13: in <module>
+    from governance.guardian_system import GuardianSystem
+E   ModuleNotFoundError: No module named 'governance.guardian_system'
+_____________ ERROR collecting tests/test_guardian_serializers.py ______________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_guardian_serializers.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_guardian_serializers.py:40: in <module>
+    from governance.guardian_serializers import (
+E   ModuleNotFoundError: No module named 'governance.guardian_serializers'
+______________ ERROR collecting tests/test_hidden_gems_summary.py ______________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_hidden_gems_summary.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_hidden_gems_summary.py:5: in <module>
+    from scripts.hidden_gems_summary import (
+E   ModuleNotFoundError: No module named 'scripts.hidden_gems_summary'
+______________ ERROR collecting tests/test_mcp_enhanced_tools.py _______________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_mcp_enhanced_tools.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_mcp_enhanced_tools.py:6: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:7: in <module>
+    from urllib3.exceptions import HTTPError as BaseHTTPError
+E   ImportError: cannot import name 'HTTPError' from 'urllib3.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/exceptions.py)
+___________________ ERROR collecting tests/test_mcp_fetch.py ___________________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_mcp_fetch.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_mcp_fetch.py:6: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:7: in <module>
+    from urllib3.exceptions import HTTPError as BaseHTTPError
+E   ImportError: cannot import name 'HTTPError' from 'urllib3.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/exceptions.py)
+__________________ ERROR collecting tests/test_mcp_minimal.py __________________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_mcp_minimal.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_mcp_minimal.py:6: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:7: in <module>
+    from urllib3.exceptions import HTTPError as BaseHTTPError
+E   ImportError: cannot import name 'HTTPError' from 'urllib3.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/exceptions.py)
+__________________ ERROR collecting tests/test_memory_sync.py __________________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_memory_sync.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_memory_sync.py:17: in <module>
+    from memory.sync import MemorySynchronizer, SyncBudgetConfig, SyncResult, create_memory_synchronizer
+E   ModuleNotFoundError: No module named 'memory.sync'
+_________________ ERROR collecting tests/test_policy_guard.py __________________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_policy_guard.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_policy_guard.py:14: in <module>
+    from core.policy_guard import (
+core/policy_guard/__init__.py:8: in <module>
+    from lukhas_website.core.policy_guard import PolicyGuard, PolicyResult, ReplayDecision
+E   ModuleNotFoundError: No module named 'lukhas_website.core'
+___________ ERROR collecting tests/test_security_caching_storage.py ____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_security_caching_storage.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_security_caching_storage.py:31: in <module>
+    from storage.distributed_storage import (
+storage/distributed_storage.py:29: in <module>
+    import aiofiles
+E   ModuleNotFoundError: No module named 'aiofiles'
+_____________ ERROR collecting tests/tools/test_wavec_snapshot.py ______________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/tools/test_wavec_snapshot.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/tools/test_wavec_snapshot.py:4: in <module>
+    from scripts.wavec_snapshot import create_snapshot
+E   ModuleNotFoundError: No module named 'scripts.wavec_snapshot'
+________ ERROR collecting tests/unit/behavior/test_behavioral_utils.py _________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/behavior/test_behavioral_utils.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/behavior/test_behavioral_utils.py:5: in <module>
+    from scripts.consciousness_wordsmith_fixed import fix_later, register_fix_later
+E   ModuleNotFoundError: No module named 'scripts.consciousness_wordsmith_fixed'
+______ ERROR collecting tests/unit/bridge/adapters/test_drive_adapter.py _______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/bridge/adapters/test_drive_adapter.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/bridge/adapters/test_drive_adapter.py:6: in <module>
+    from aioresponses import aioresponses
+E   ModuleNotFoundError: No module named 'aioresponses'
+______ ERROR collecting tests/unit/bridge/adapters/test_gmail_adapter.py _______
+tests/unit/bridge/adapters/test_gmail_adapter.py:12: in <module>
+    from bridge.adapters.gmail_adapter import GmailAdapter, GmailContextIntegration
+bridge/adapters/gmail_adapter.py:21: in <module>
+    class GmailAdapter(BaseServiceAdapter):
+bridge/adapters/gmail_adapter.py:143: in GmailAdapter
+    async def _fetch_email_details(self, session: aiohttp.ClientSession, message_id: str, headers: dict) -> dict:
+E   AttributeError: module 'aiohttp' has no attribute 'ClientSession'
+__ ERROR collecting tests/unit/bridge/adapters/test_oauth_manager_advanced.py __
+'metamorphic' not found in `markers` configuration option
+__ ERROR collecting tests/unit/bridge/api_gateway/test_unified_api_gateway.py __
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:303: in _eval_type_backport
+    return _eval_type(value, globalns, localns, type_params)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:332: in _eval_type
+    return typing._eval_type(  # type: ignore
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/typing.py:290: in _eval_type
+    return t._evaluate(globalns, localns, recursive_guard)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/typing.py:546: in _evaluate
+    eval(self.__forward_code__, globalns, localns),
+<string>:1: in <module>
+    ???
+E   TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+
+The above exception was the direct cause of the following exception:
+tests/unit/bridge/api_gateway/test_unified_api_gateway.py:11: in <module>
+    from bridge.api_gateway.unified_api_gateway import UnifiedAPIGateway
+bridge/api_gateway/unified_api_gateway.py:70: in <module>
+    class ChatRequest(BaseModel):
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_model_construction.py:219: in __new__
+    set_model_fields(cls, bases, config_wrapper, types_namespace)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_model_construction.py:512: in set_model_fields
+    fields, class_vars = collect_model_fields(cls, bases, config_wrapper, types_namespace, typevars_map=typevars_map)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_fields.py:105: in collect_model_fields
+    type_hints = get_cls_type_hints_lenient(cls, types_namespace)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:245: in get_cls_type_hints_lenient
+    hints[name] = eval_type_lenient(value, globalns, localns)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:257: in eval_type_lenient
+    return eval_type_backport(value, globalns, localns)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:279: in eval_type_backport
+    return _eval_type_backport(value, globalns, localns, type_params)
+../../Library/Python/3.9/lib/python/site-packages/pydantic/_internal/_typing_extra.py:311: in _eval_type_backport
+    raise TypeError(
+E   TypeError: Unable to evaluate type annotation 'str | None'. If you are making use of the new typing syntax (unions using `|` since Python 3.10 or builtins subscripting since Python 3.9), you should either replace the use of new syntax with the existing `typing` constructs or install the `eval_type_backport` package.
+__ ERROR collecting tests/unit/bridge/external_adapters/test_gmail_adapter.py __
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/bridge/external_adapters/test_gmail_adapter.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../Library/Python/3.9/lib/python/site-packages/google/auth/transport/requests.py:26: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:7: in <module>
+    from urllib3.exceptions import HTTPError as BaseHTTPError
+E   ImportError: cannot import name 'HTTPError' from 'urllib3.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/exceptions.py)
+
+The above exception was the direct cause of the following exception:
+tests/unit/bridge/external_adapters/test_gmail_adapter.py:12: in <module>
+    from bridge.external_adapters.gmail_adapter import GmailAdapter, GmailMessage
+bridge/external_adapters/gmail_adapter.py:48: in <module>
+    from google.auth.transport.requests import Request
+../../Library/Python/3.9/lib/python/site-packages/google/auth/transport/requests.py:28: in <module>
+    raise ImportError(
+E   ImportError: The requests library is not installed from please install the requests package to use the requests transport.
+____ ERROR collecting tests/unit/bridge/llm_wrappers/test_codex_wrapper.py _____
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/bridge/llm_wrappers/test_codex_wrapper.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/bridge/llm_wrappers/test_codex_wrapper.py:9: in <module>
+    from aioresponses import aioresponses
+E   ModuleNotFoundError: No module named 'aioresponses'
+_________ ERROR collecting tests/unit/bridge/queue/test_redis_queue.py _________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/bridge/queue/test_redis_queue.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/bridge/queue/test_redis_queue.py:8: in <module>
+    import fakeredis.aioredis
+E   ModuleNotFoundError: No module named 'fakeredis'
+___________ ERROR collecting tests/unit/bridge/test_audio_engine.py ____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/bridge/test_audio_engine.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/bridge/test_audio_engine.py:2: in <module>
+    from products.experience.voice.bridge.audio_engine import create_audio_engine
+products/experience/voice/bridge/audio_engine.py:23: in <module>
+    from ._logging import BRIDGE_LOGGER as logger, get_voice_bridge_logger
+products/experience/voice/bridge/_logging.py:8: in <module>
+    from core.common.logger import get_logger
+E   ModuleNotFoundError: No module named 'core.common.logger'; 'core.common' is not a package
+_________ ERROR collecting tests/unit/bridge/test_direct_ai_router.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/bridge/test_direct_ai_router.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/bridge/test_direct_ai_router.py:4: in <module>
+    from bridge.api.direct_ai_router import DirectAIRouter
+bridge/api/direct_ai_router.py:18: in <module>
+    from core.common.config import config
+E   ModuleNotFoundError: No module named 'core.common.config'; 'core.common' is not a package
+_______________ ERROR collecting tests/unit/candidate/aka_qualia _______________
+tests/unit/candidate/aka_qualia/conftest.py:25: in <module>
+    from aka_qualia.core import AkaQualia
+E   ModuleNotFoundError: No module named 'aka_qualia.core'
+_ ERROR collecting tests/unit/candidate/consciousness/dream/test_dream_feedback_controller.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/candidate/consciousness/dream/test_dream_feedback_controller.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/candidate/consciousness/dream/test_dream_feedback_controller.py:21: in <module>
+    from consciousness.dream.core.dream_feedback_controller import (  # noqa: E402 - stub modules must be registered before import
+E   ModuleNotFoundError: No module named 'consciousness.dream'
+_ ERROR collecting tests/unit/candidate/consciousness/test_decision_engine.py __
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/candidate/consciousness/test_decision_engine.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/candidate/consciousness/test_decision_engine.py:8: in <module>
+    from decision_engine import ConsciousnessDecisionEngine
+E   ModuleNotFoundError: No module named 'decision_engine'
+_ ERROR collecting tests/unit/candidate/core/identity/test_constitutional_ai_compliance.py _
+tests/unit/candidate/core/identity/test_constitutional_ai_compliance.py:6: in <module>
+    from core.identity.constitutional_ai_compliance import (
+core/identity/__init__.py:3: in <module>
+    from core.identity import constitutional_ai_compliance
+core/identity/constitutional_ai_compliance.py:222: in <module>
+    @dataclass(slots=True)
+E   TypeError: dataclass() got an unexpected keyword argument 'slots'
+______ ERROR collecting tests/unit/candidate/qi/bio/test_bio_optimizer.py ______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/candidate/qi/bio/test_bio_optimizer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/candidate/qi/bio/test_bio_optimizer.py:2: in <module>
+    from qi.bio.bio_optimizer import (
+E   ModuleNotFoundError: No module named 'qi.bio'
+_ ERROR collecting tests/unit/candidate/qi/engines/identity/test_consolidate_identity_qi_secure.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/candidate/qi/engines/identity/test_consolidate_identity_qi_secure.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/candidate/qi/engines/identity/test_consolidate_identity_qi_secure.py:3: in <module>
+    from qi.engines.identity.consolidate_identity_qi_secure import consolidate_identities
+E   ModuleNotFoundError: No module named 'qi.engines'
+_ ERROR collecting tests/unit/candidate/qi/test_qi_financial_consciousness_engine.py _
+tests/unit/candidate/qi/test_qi_financial_consciousness_engine.py:40: in <module>
+    AbundanceCalculator = _engine_module.AbundanceCalculator
+E   AttributeError: module 'labs.core.qi_financial.qi_financial_consciousness_engine' has no attribute 'AbundanceCalculator'
+___ ERROR collecting tests/unit/consciousness/qrg/test_consciousness_pki.py ____
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/consciousness/qrg/test_consciousness_pki.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/consciousness/qrg/test_consciousness_pki.py:7: in <module>
+    from products.security.qrg.qrg_core import (
+products/security/qrg/__init__.py:14: in <module>
+    from .circular_engine import CircularQREngine
+products/security/qrg/circular_engine.py:24: in <module>
+    import cv2
+E   ModuleNotFoundError: No module named 'cv2'
+___ ERROR collecting tests/unit/consciousness/test_awareness_engine_setup.py ___
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/consciousness/test_awareness_engine_setup.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/consciousness/test_awareness_engine_setup.py:3: in <module>
+    from consciousness.awareness.awareness_engine import AwarenessEngine
+E   ModuleNotFoundError: No module named 'consciousness.awareness'
+_ ERROR collecting tests/unit/consciousness/test_awareness_log_synchronizer.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/consciousness/test_awareness_log_synchronizer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/consciousness/test_awareness_log_synchronizer.py:4: in <module>
+    from tiers import GlobalTier
+E   ModuleNotFoundError: No module named 'tiers'
+______ ERROR collecting tests/unit/consciousness/test_circuit_breakers.py ______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/consciousness/test_circuit_breakers.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/consciousness/test_circuit_breakers.py:6: in <module>
+    from consciousness.resilience.circuit_breaker_framework import (
+E   ModuleNotFoundError: No module named 'consciousness.resilience'
+_ ERROR collecting tests/unit/consciousness/test_core_integrator_access_tier.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/consciousness/test_core_integrator_access_tier.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/consciousness/test_core_integrator_access_tier.py:4: in <module>
+    from tiers import GlobalTier, TierMappingError
+E   ModuleNotFoundError: No module named 'tiers'
+___ ERROR collecting tests/unit/consciousness/test_ethical_drift_sentinel.py ___
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/consciousness/test_ethical_drift_sentinel.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/consciousness/test_ethical_drift_sentinel.py:4: in <module>
+    from consciousness.reflection.ethical_drift_sentinel import (
+E   ModuleNotFoundError: No module named 'consciousness.reflection'
+_ ERROR collecting tests/unit/consciousness/test_registry_activation_order.py __
+tests/unit/consciousness/test_registry_activation_order.py:1: in <module>
+    from lukhas_website.lukhas.consciousness.registry import (
+lukhas_website/lukhas/consciousness/__init__.py:13: in <module>
+    from .consciousness_stream import ConsciousnessStream
+lukhas_website/lukhas/consciousness/consciousness_stream.py:31: in <module>
+    from .reflection_engine import ReflectionEngine
+lukhas_website/lukhas/consciousness/reflection_engine.py:36: in <module>
+    from memory.backends.base import MemoryBackend
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+memory/backends/base/__init__.py:44: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+memory/backends/base/__init__.py:44: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+_______________ ERROR collecting tests/unit/core/test_time_tz.py _______________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/core/test_time_tz.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/core/test_time_tz.py:3: in <module>
+    from core.common.logger import JSONFormatter
+E   ModuleNotFoundError: No module named 'core.common.logger'; 'core.common' is not a package
+_________ ERROR collecting tests/unit/dream/expand/test_archetypes.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/dream/expand/test_archetypes.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/dream/expand/test_archetypes.py:1: in <module>
+    from consciousness.dream.expand import archetypes
+E   ModuleNotFoundError: No module named 'consciousness.dream'
+____________ ERROR collecting tests/unit/dream/expand/test_atlas.py ____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/dream/expand/test_atlas.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/dream/expand/test_atlas.py:1: in <module>
+    from consciousness.dream.expand import atlas
+E   ModuleNotFoundError: No module named 'consciousness.dream'
+__________ ERROR collecting tests/unit/dream/expand/test_mediation.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/dream/expand/test_mediation.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/dream/expand/test_mediation.py:1: in <module>
+    from consciousness.dream.expand import mediation
+E   ModuleNotFoundError: No module named 'consciousness.dream'
+___________ ERROR collecting tests/unit/dream/expand/test_replay.py ____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/dream/expand/test_replay.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/dream/expand/test_replay.py:1: in <module>
+    from consciousness.dream.expand import replay
+E   ModuleNotFoundError: No module named 'consciousness.dream'
+__________ ERROR collecting tests/unit/dream/expand/test_sentinel.py ___________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/dream/expand/test_sentinel.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/dream/expand/test_sentinel.py:1: in <module>
+    from consciousness.dream.expand import sentinel
+E   ModuleNotFoundError: No module named 'consciousness.dream'
+_____________ ERROR collecting tests/unit/dream/test_evolution.py ______________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/dream/test_evolution.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/dream/test_evolution.py:8: in <module>
+    from consciousness.dream.expand.evolution import (
+E   ModuleNotFoundError: No module named 'consciousness.dream'
+_______________ ERROR collecting tests/unit/dream/test_noise.py ________________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/dream/test_noise.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/dream/test_noise.py:8: in <module>
+    from consciousness.dream.expand.noise import get_noise_config, inject_noise, validate_noise_output
+E   ModuleNotFoundError: No module named 'consciousness.dream'
+_____________ ERROR collecting tests/unit/dream/test_resonance.py ______________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/dream/test_resonance.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/dream/test_resonance.py:8: in <module>
+    from consciousness.dream.expand.resonance import (
+E   ModuleNotFoundError: No module named 'consciousness.dream'
+_ ERROR collecting tests/unit/governance/ethics/test_candidate_constitutional_ai.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/ethics/test_candidate_constitutional_ai.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/governance/ethics/test_candidate_constitutional_ai.py:3: in <module>
+    from governance.ethics.constitutional_ai import (
+E   ModuleNotFoundError: No module named 'governance.ethics'
+___ ERROR collecting tests/unit/governance/ethics/test_constitutional_ai.py ____
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/ethics/test_constitutional_ai.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/governance/ethics/test_constitutional_ai.py:7: in <module>
+    from governance.ethics.constitutional_ai import (
+E   ModuleNotFoundError: No module named 'governance.ethics'
+_ ERROR collecting tests/unit/governance/ethics/test_enhanced_ethical_guardian.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/ethics/test_enhanced_ethical_guardian.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/governance/ethics/test_enhanced_ethical_guardian.py:11: in <module>
+    from governance.ethics.enhanced_ethical_guardian import EnhancedEthicalGuardian
+E   ModuleNotFoundError: No module named 'governance.ethics'
+_ ERROR collecting tests/unit/governance/ethics/test_enhanced_ethical_guardian_audit.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/ethics/test_enhanced_ethical_guardian_audit.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/governance/ethics/test_enhanced_ethical_guardian_audit.py:6: in <module>
+    from governance.ethics.enhanced_ethical_guardian import EnhancedEthicalGuardian
+E   ModuleNotFoundError: No module named 'governance.ethics'
+__ ERROR collecting tests/unit/governance/ethics/test_guardian_kill_switch.py __
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/ethics/test_guardian_kill_switch.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/governance/ethics/test_guardian_kill_switch.py:7: in <module>
+    from governance.ethics.ethics_engine import (
+E   ModuleNotFoundError: No module named 'governance.ethics'
+_ ERROR collecting tests/unit/governance/ethics/test_guardian_reflector_imports.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/ethics/test_guardian_reflector_imports.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/governance/ethics/test_guardian_reflector_imports.py:3: in <module>
+    from labs.governance.ethics.guardian_reflector import (
+E   ModuleNotFoundError: No module named 'labs.governance.ethics.guardian_reflector'
+__ ERROR collecting tests/unit/governance/ethics/test_moral_agent_template.py __
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/ethics/test_moral_agent_template.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/governance/ethics/test_moral_agent_template.py:4: in <module>
+    from governance.ethics.moral_agent_template import MoralAgentTemplate
+E   ModuleNotFoundError: No module named 'governance.ethics'
+__ ERROR collecting tests/unit/governance/guardian/v3/test_constitutional.py ___
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/guardian/v3/test_constitutional.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/governance/guardian/v3/test_constitutional.py:7: in <module>
+    from labs.core.governance.guardian_system_2 import (
+E   ImportError: cannot import name 'ConstitutionalPrinciple' from 'labs.core.governance.guardian_system_2' (unknown location)
+_ ERROR collecting tests/unit/governance/guardian/v3/test_decision_envelope.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/guardian/v3/test_decision_envelope.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/governance/guardian/v3/test_decision_envelope.py:21: in <module>
+    from lukhas_website.lukhas.governance.guardian_system import (
+lukhas_website/lukhas/governance/guardian_system.py:25: in <module>
+    from .guardian.core import EthicalSeverity
+lukhas_website/lukhas/governance/guardian/__init__.py:24: in <module>
+    from governance.guardian.core import (
+E   ModuleNotFoundError: No module named 'governance.guardian'
+------------------------------- Captured stdout --------------------------------
+Phase 7 Guardian Serializers not available: No module named 'lz4'
+ LUKHAS AI Governance Module loaded: Phase 7 - Guardian Schema Serializers
+< Constellation Framework: Identity-Consciousness-Guardian
+ Phase 7 ID Integration: Available
+____ ERROR collecting tests/unit/governance/test_consent_history_manager.py ____
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/test_consent_history_manager.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/governance/test_consent_history_manager.py:1: in <module>
+    from governance.identity.core.sent.consent_history import ConsentHistoryManager
+E   ModuleNotFoundError: No module named 'governance.identity'
+_ ERROR collecting tests/unit/governance/test_consolidate_guardian_governance.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/test_consolidate_guardian_governance.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/governance/test_consolidate_guardian_governance.py:4: in <module>
+    from governance.oversight.consolidate_guardian_governance import (
+E   ModuleNotFoundError: No module named 'governance.oversight'
+___ ERROR collecting tests/unit/governance/test_constitutional_ai_safety.py ____
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/test_constitutional_ai_safety.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/governance/test_constitutional_ai_safety.py:6: in <module>
+    from governance.safety.constitutional_ai_safety import (
+E   ModuleNotFoundError: No module named 'governance.safety'
+_ ERROR collecting tests/unit/governance/test_guardian_integration_middleware.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/test_guardian_integration_middleware.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/governance/test_guardian_integration_middleware.py:128: in <module>
+    from labs.core.governance.constitutional_ai import DecisionContext, ViolationSeverity
+E   ImportError: cannot import name 'ViolationSeverity' from 'labs.core.governance.constitutional_ai' (unknown location)
+_ ERROR collecting tests/unit/governance/test_guardian_schema_standardization.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/test_guardian_schema_standardization.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/governance/test_guardian_schema_standardization.py:21: in <module>
+    from governance.guardian_system import GuardianSystem
+E   ModuleNotFoundError: No module named 'governance.guardian_system'
+_______ ERROR collecting tests/unit/governance/test_jules03_identity.py ________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/test_jules03_identity.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/governance/test_jules03_identity.py:14: in <module>
+    from labs.governance.guardian_sentinel import GuardianSentinel
+labs/governance/guardian_sentinel.py:14: in <module>
+    from ..guardian_shadow_filter import GuardianShadowFilter
+E   ModuleNotFoundError: No module named 'labs.guardian_shadow_filter'
+_________ ERROR collecting tests/unit/governance/test_qrg_generator.py _________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/test_qrg_generator.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/governance/test_qrg_generator.py:1: in <module>
+    from governance.identity.core.qrs.qrg_generator import QRGGenerator
+E   ModuleNotFoundError: No module named 'governance.identity'
+________ ERROR collecting tests/unit/governance/test_symbolic_scopes.py ________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/test_symbolic_scopes.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/governance/test_symbolic_scopes.py:1: in <module>
+    from governance.identity.core.sent.symbolic_scopes import SymbolicScopesManager
+E   ModuleNotFoundError: No module named 'governance.identity'
+_ ERROR collecting tests/unit/identity/test_matriz_consciousness_identity_signals.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/identity/test_matriz_consciousness_identity_signals.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/identity/test_matriz_consciousness_identity_signals.py:17: in <module>
+    from core.identity.matriz_consciousness_identity_signals import (  # noqa: E402 - tests require sys.path injection
+E   ImportError: cannot import name 'ConsciousnessIdentitySignalProcessor' from 'core.identity.matriz_consciousness_identity_signals' (/Users/agi_dev/LOCAL-REPOS/Lukhas/core/identity/matriz_consciousness_identity_signals.py)
+______ ERROR collecting tests/unit/identity/test_token_types_aud_list.py _______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/identity/test_token_types_aud_list.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/identity/test_token_types_aud_list.py:3: in <module>
+    from lukhas.identity.token_types import aud_as_list, get_aud_list, validate_token_claims
+E   ImportError: cannot import name 'aud_as_list' from 'lukhas.identity.token_types' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/token_types.py)
+____ ERROR collecting tests/unit/identity/test_token_types_expiry_guard.py _____
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/identity/test_token_types_expiry_guard.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/identity/test_token_types_expiry_guard.py:7: in <module>
+    from lukhas.identity.token_types import ensure_not_expired, mk_exp, validate_token_claims
+E   ImportError: cannot import name 'ensure_not_expired' from 'lukhas.identity.token_types' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/token_types.py)
+_______ ERROR collecting tests/unit/identity/test_token_types_helpers.py _______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/identity/test_token_types_helpers.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/identity/test_token_types_helpers.py:5: in <module>
+    from lukhas.identity.token_types import mk_exp, validate_token_claims
+E   ImportError: cannot import name 'mk_exp' from 'lukhas.identity.token_types' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/token_types.py)
+_________ ERROR collecting tests/unit/identity/test_token_types_iat.py _________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/identity/test_token_types_iat.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/identity/test_token_types_iat.py:5: in <module>
+    from lukhas.identity.token_types import mk_iat
+E   ImportError: cannot import name 'mk_iat' from 'lukhas.identity.token_types' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/token_types.py)
+_ ERROR collecting tests/unit/labs/core/identity/test_matriz_consciousness_identity.py _
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/unittest/mock.py:1227: in _dot_lookup
+    return getattr(thing, comp)
+E   AttributeError: module 'labs.core' has no attribute 'identity'
+
+During handling of the above exception, another exception occurred:
+tests/unit/labs/core/identity/test_matriz_consciousness_identity.py:11: in <module>
+    patch('labs.core.identity.matriz_consciousness_identity_signals.BioSymbolicData', BioSymbolicData, create=True).start()
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/unittest/mock.py:1541: in start
+    result = self.__enter__()
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/unittest/mock.py:1389: in __enter__
+    self.target = self.getter()
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/unittest/mock.py:1564: in <lambda>
+    getter = lambda: _importer(target)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/unittest/mock.py:1240: in _importer
+    thing = _dot_lookup(thing, comp, import_path)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/unittest/mock.py:1230: in _dot_lookup
+    return getattr(thing, comp)
+E   AttributeError: module 'labs.core' has no attribute 'identity'
+________ ERROR collecting tests/unit/matriz/core/test_memory_system.py _________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/matriz/core/test_memory_system.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/matriz/core/test_memory_system.py:6: in <module>
+    from matriz.core.memory_system import (
+MATRIZ/core/__init__.py:25: in <module>
+    from .memory_system import MemorySystem  # Export memory system
+MATRIZ/core/memory_system.py:32: in <module>
+    import lz4.frame
+E   ModuleNotFoundError: No module named 'lz4'
+____________ ERROR collecting tests/unit/memory/test_fold_engine.py ____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/memory/test_fold_engine.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/memory/test_fold_engine.py:10: in <module>
+    from memory.fakes.agimemory_fake import AGIMemoryFake
+E   ModuleNotFoundError: No module named 'memory.fakes.agimemory_fake'
+__________ ERROR collecting tests/unit/memory/test_memory_manager.py ___________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/memory/test_memory_manager.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/memory/test_memory_manager.py:10: in <module>
+    from memory.fakes.agimemory_fake import AGIMemoryFake
+E   ModuleNotFoundError: No module named 'memory.fakes.agimemory_fake'
+____ ERROR collecting tests/unit/memory/test_unified_memory_orchestrator.py ____
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/memory/test_unified_memory_orchestrator.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/memory/test_unified_memory_orchestrator.py:8: in <module>
+    from memory.core.unified_memory_orchestrator import (
+E   ModuleNotFoundError: No module named 'memory.core.unified_memory_orchestrator'
+_______ ERROR collecting tests/unit/monitoring/test_monitoring_basic.py ________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/monitoring/test_monitoring_basic.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/monitoring/test_monitoring_basic.py:4: in <module>
+    from monitoring import (
+E   ImportError: cannot import name 'MONITORING_DOMAINS' from 'monitoring' (/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/monitoring/__init__.py)
+______ ERROR collecting tests/unit/orchestration/test_kernel_bus_smoke.py ______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/orchestration/test_kernel_bus_smoke.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/orchestration/test_kernel_bus_smoke.py:1: in <module>
+    from orchestration.kernel_bus import KernelBus
+E   ModuleNotFoundError: No module named 'orchestration.kernel_bus'
+__ ERROR collecting tests/unit/products/experience/test_experience_modules.py __
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/products/experience/test_experience_modules.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/products/experience/test_experience_modules.py:12: in <module>
+    from products.experience.voice.bridge.adaptation_module import (
+products/experience/voice/bridge/adaptation_module.py:22: in <module>
+    from ._logging import BRIDGE_LOGGER as logger, get_voice_bridge_logger
+products/experience/voice/bridge/_logging.py:8: in <module>
+    from core.common.logger import get_logger
+E   ModuleNotFoundError: No module named 'core.common.logger'; 'core.common' is not a package
+_________ ERROR collecting tests/unit/qi/test_bio_coordinator_smoke.py _________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/qi/test_bio_coordinator_smoke.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/qi/test_bio_coordinator_smoke.py:2: in <module>
+    from qi.bio.bio_coordinator import QIBioCoordinator
+E   ModuleNotFoundError: No module named 'qi.bio'
+_______________ ERROR collecting tests/unit/qi/test_budgeter.py ________________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/qi/test_budgeter.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/qi/test_budgeter.py:6: in <module>
+    from qi.ops import budgeter as budgeter_mod
+E   ModuleNotFoundError: No module named 'qi.ops'
+___________ ERROR collecting tests/unit/qi/test_compliance_report.py ___________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/qi/test_compliance_report.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/qi/test_compliance_report.py:11: in <module>
+    from qi.compliance.compliance_report import (
+E   ModuleNotFoundError: No module named 'qi.compliance'
+_______ ERROR collecting tests/unit/qi/test_multi_jurisdiction_engine.py _______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/qi/test_multi_jurisdiction_engine.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/qi/test_multi_jurisdiction_engine.py:5: in <module>
+    from qi.compliance import MultiJurisdictionComplianceEngine
+E   ModuleNotFoundError: No module named 'qi.compliance'
+___________ ERROR collecting tests/unit/qi/test_privacy_statement.py ___________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/qi/test_privacy_statement.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/qi/test_privacy_statement.py:10: in <module>
+    from qi.compliance.privacy_statement import (
+E   ModuleNotFoundError: No module named 'qi.compliance'
+__________ ERROR collecting tests/unit/qi/test_system_orchestrator.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/qi/test_system_orchestrator.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/qi/test_system_orchestrator.py:129: in <module>
+    QIAGISystem = importlib.import_module("qi.states.system_orchestrator").QIAGISystem
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+qi/states/system_orchestrator.py:51: in <module>
+    from qi.security import (
+E   ImportError: cannot import name 'DEFAULT_COMPLIANCE_FRAMEWORKS' from 'qi.security' (/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/security/__init__.py)
+------------------------------- Captured stdout --------------------------------
+2025-11-08 23:02:50 [error    ] Failed to import lukhas_core components for QIBioOptimizationAdapter. Using mock fallbacks. error_message="No module named 'bio.symbolic.architectures'" tip='Ensure LUKHAS project structure and PYTHONPATH are correctly set.'
+[31m╭─[0m[31m──────────────────────────────[0m[31m [0m[1;31mTraceback [0m[1;2;31m(most recent call last)[0m[31m [0m[31m───────────────────────────────[0m[31m─╮[0m
+[31m│[0m [2m/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/bio/[0m[1mbio_optimizer.py[0m:129 in <module>                        [31m│[0m
+[31m│[0m                                                                                                  [31m│[0m
+[31m│[0m   [2m126 [0mQIBioCoordinator = Any  [2m# Placeholder[0m                                                      [31m│[0m
+[31m│[0m   [2m127 [0m                                                                                           [31m│[0m
+[31m│[0m   [2m128 [0m[94mtry[0m:                                                                                       [31m│[0m
+[31m│[0m [31m❱ [0m129 [2m│   [0m[94mfrom[0m[90m [0m[4;96mbio[0m[4;96m.[0m[4;96msymbolic[0m[4;96m.[0m[4;96marchitectures[0m[90m [0m[94mimport[0m BioSymbolicOrchestrator [94mas[0m BioOrchestrator      [31m│[0m
+[31m│[0m   [2m130 [0m[2m│   [0m[94mfrom[0m[90m [0m[4;96mqi[0m[4;96m.[0m[4;96mqi_awareness_system[0m[90m [0m[94mimport[0m QIAwarenessSystem  [2m# type: ignore[0m                   [31m│[0m
+[31m│[0m   [2m131 [0m[2m│   [0m                                                                                       [31m│[0m
+[31m│[0m   [2m132 [0m[2m│   [0m[2m# AIMPORT_TODO: Review this path for QIBioCoordinator. If it's part[0m                    [31m│[0m
+[31m│[0m                                                                                                  [31m│[0m
+[31m│[0m [34m╭─[0m[34m──────────────────────────────────────────[0m[34m locals [0m[34m──────────────────────────────────────────[0m[34m─╮[0m [31m│[0m
+[31m│[0m [34m│[0m                      [3;33mannotations[0m[31m =[0m [1;35m_Feature[0m[1m([0m[1m([0m[1;36m3[0m, [1;36m7[0m, [1;36m0[0m, [32m'beta'[0m, [1;36m1[0m[1m)[0m, [1m([0m[1;36m3[0m, [1;36m10[0m, [1;36m0[0m, [32m'alpha'[0m, [1;36m0[0m[1m)[0m,    [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                                    [1;36m16777216[0m[1m)[0m                                                 [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                              [3;33mAny[0m[31m =[0m typing.Any                                                [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                          [3;33masyncio[0m[31m =[0m [1m<[0m[1;95mmodule[0m[39m [0m[32m'asyncio'[0m[39m from [0m                                   [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                                    [32m'/Library/Developer/CommandLineTools/Library/Frameworks/…[0m [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                  [3;33mBioOrchestrator[0m[31m =[0m typing.Any                                                [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                                [3;33me[0m[31m =[0m [1;35mModuleNotFoundError[0m[1m([0m[32m"No module named [0m                     [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                                    [32m'bio.symbolic.architectures'"[0m[1m)[0m                            [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                          [3;33mhashlib[0m[31m =[0m [1m<[0m[1;95mmodule[0m[39m [0m[32m'hashlib'[0m[39m from [0m                                   [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                                    [32m'/Library/Developer/CommandLineTools/Library/Frameworks/…[0m [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                             [3;33mjson[0m[31m =[0m [1m<[0m[1;95mmodule[0m[39m [0m[32m'json'[0m[39m from [0m                                      [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                                    [32m'/Library/Developer/CommandLineTools/Library/Frameworks/…[0m [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                              [3;33mlog[0m[31m =[0m [1m<[0m[1;35mBoundLoggerLazyProxy[0m[1;39m([0m[33mlogger[0m[39m=[0m[3;35mNone[0m[39m, [0m[33mwrapper_class[0m[39m=[0m[3;35mNone[0m[39m, [0m   [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                                    [33mprocessors[0m[39m=[0m[3;35mNone[0m[39m, [0m[33mcontext_class[0m[39m=[0m[3;35mNone[0m[39m, [0m[33minitial_values[0m[39m=[0m[1;39m{[0m[1;39m}[0m[39m, [0m  [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                                    [33mlogger_factory_args[0m[39m=[0m[1;39m([0m[32m'qi.bio.bio_optimizer'[0m[39m,[0m[1;39m)[0m[1;39m)[0m[1m>[0m           [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                           [3;33mlogger[0m[31m =[0m [1m<[0m[1;95mLogger[0m[39m qi.bio.bio_optimizer [0m[1;39m([0m[39mCRITICAL[0m[1;39m)[0m[1m>[0m                  [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                          [3;33mlogging[0m[31m =[0m [1m<[0m[1;95mmodule[0m[39m [0m[32m'logging'[0m[39m from [0m                                   [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                                    [32m'/Library/Developer/CommandLineTools/Library/Frameworks/…[0m [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m [3;33mLUKHAS_CORE_COMPONENTS_AVAILABLE[0m[31m =[0m [3;91mFalse[0m                                                     [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                               [3;33mnp[0m[31m =[0m [1m<[0m[1;95mmodule[0m[39m [0m[32m'numpy'[0m[39m from [0m                                     [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                                    [32m'/Users/agi_dev/Library/Python/3.9/lib/python/site-packa…[0m [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                [3;33mQIAwarenessSystem[0m[31m =[0m typing.Any                                                [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                 [3;33mQIBioCoordinator[0m[31m =[0m typing.Any                                                [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                  [3;33mQIBioOscillator[0m[31m =[0m typing.Any                                                [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                         [3;33mQIConfig[0m[31m =[0m typing.Any                                                [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                   [3;33mQIDreamAdapter[0m[31m =[0m typing.Any                                                [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                      [3;33mQILikeState[0m[31m =[0m typing.Any                                                [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                        [3;33mstructlog[0m[31m =[0m [1m<[0m[1;95mmodule[0m[39m [0m[32m'structlog'[0m[39m from [0m                                 [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                                    [32m'/Users/agi_dev/Library/Python/3.9/lib/python/site-packa…[0m [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m                             [3;33mtime[0m[31m =[0m [1m<[0m[1;95mmodule[0m[39m [0m[32m'time'[0m[39m [0m[1;39m([0m[39mbuilt-in[0m[1;39m)[0m[1m>[0m                                [34m│[0m [31m│[0m
+[31m│[0m [34m│[0m             [3;33mUnifiedQuantumSystem[0m[31m =[0m typing.Any                                                [34m│[0m [31m│[0m
+[31m│[0m [34m╰──────────────────────────────────────────────────────────────────────────────────────────────╯[0m [31m│[0m
+[31m╰──────────────────────────────────────────────────────────────────────────────────────────────────╯[0m
+[1;91mModuleNotFoundError: [0mNo module named [32m'bio.symbolic.architectures'[0m
+
+2025-11-08 23:02:50 [warning  ] Module validation warnings: ['neuroplasticity_enabled']
+_______ ERROR collecting tests/unit/scripts/test_ai_webhook_receiver.py ________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/scripts/test_ai_webhook_receiver.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/scripts/test_ai_webhook_receiver.py:11: in <module>
+    from scripts.ai_webhook_receiver import app, map_status_to_priority, map_status_to_task_type
+E   ModuleNotFoundError: No module named 'scripts.ai_webhook_receiver'
+_ ERROR collecting tests/unit/security/test_bio_oscillator_session_validation.py _
+tests/unit/security/test_bio_oscillator_session_validation.py:87: in <module>
+    BioOscillator, SessionTokenStore, SecurityContext = _load_modules()
+tests/unit/security/test_bio_oscillator_session_validation.py:46: in _load_modules
+    token_spec.loader.exec_module(token_module)
+<frozen importlib._bootstrap_external>:850: in exec_module
+    ???
+<frozen importlib._bootstrap>:228: in _call_with_frames_removed
+    ???
+qi/security/token_store.py:31: in <module>
+    @dataclass(slots=True)
+E   TypeError: dataclass() got an unexpected keyword argument 'slots'
+__________ ERROR collecting tests/unit/security/test_secure_random.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/security/test_secure_random.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/security/test_secure_random.py:5: in <module>
+    from security.secure_random import (
+security/__init__.py:3: in <module>
+    from .encryption_manager import (
+E   ImportError: cannot import name 'EncryptionError' from 'security.encryption_manager' (/Users/agi_dev/LOCAL-REPOS/Lukhas/security/encryption_manager.py)
+________ ERROR collecting tests/unit/security/test_security_monitor.py _________
+tests/unit/security/test_security_monitor.py:9: in <module>
+    from core.security.security_monitor import (
+core/security/security_monitor.py:55: in <module>
+    @dataclass(slots=True)
+E   TypeError: dataclass() got an unexpected keyword argument 'slots'
+____________ ERROR collecting tests/unit/test_awareness_protocol.py ____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/test_awareness_protocol.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/test_awareness_protocol.py:2: in <module>
+    from tiers import GlobalTier, TierMappingError
+E   ModuleNotFoundError: No module named 'tiers'
+___________ ERROR collecting tests/unit/test_guardian_kill_switch.py ___________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/test_guardian_kill_switch.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/test_guardian_kill_switch.py:13: in <module>
+    from governance.guardian_system import GuardianSystem
+E   ModuleNotFoundError: No module named 'governance.guardian_system'
+____________ ERROR collecting tests/unit/test_idempotency_redis.py _____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/test_idempotency_redis.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/test_idempotency_redis.py:4: in <module>
+    import fakeredis
+E   ModuleNotFoundError: No module named 'fakeredis'
+_____________ ERROR collecting tests/unit/test_quota_hierarchy.py ______________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/test_quota_hierarchy.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/test_quota_hierarchy.py:12: in <module>
+    from core.reliability.ratelimit import QuotaConfig, RateLimiter
+E   ImportError: cannot import name 'QuotaConfig' from 'core.reliability.ratelimit' (/Users/agi_dev/LOCAL-REPOS/Lukhas/core/reliability/ratelimit.py)
+____________ ERROR collecting tests/unit/test_ratelimit_headers.py _____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/test_ratelimit_headers.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/test_ratelimit_headers.py:13: in <module>
+    from adapters.openai.api import get_app
+E   ModuleNotFoundError: No module named 'adapters.openai.api'
+____________ ERROR collecting tests/unit/test_ratelimit_metrics.py _____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/test_ratelimit_metrics.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/test_ratelimit_metrics.py:11: in <module>
+    from adapters.openai.api import get_app
+E   ModuleNotFoundError: No module named 'adapters.openai.api'
+__________ ERROR collecting tests/unit/tools/test_categorize_todos.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/tools/test_categorize_todos.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/tools/test_categorize_todos.py:5: in <module>
+    from TODO.scripts import categorize_todos
+E   ImportError: cannot import name 'categorize_todos' from 'TODO.scripts' (unknown location)
+________ ERROR collecting tests/unit/universal_language/test_runtime.py ________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/universal_language/test_runtime.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/universal_language/test_runtime.py:10: in <module>
+    from universal_language.compositional import (
+E   ModuleNotFoundError: No module named 'universal_language.compositional'; 'universal_language' is not a package
+=========================== short test summary info ============================
+SKIPPED [1] tests/e2e/phase2/test_orchestration_integration.py:45: Phase 2 modules not available: cannot import name 'WorkflowExecution' from 'labs.orchestration.multi_model_orchestration' (/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/orchestration/multi_model_orchestration.py)
+SKIPPED [1] tests/e2e/phase2/test_tool_execution_safety.py:35: Tool execution modules not available: cannot import name 'HTTPError' from 'urllib3.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/exceptions.py)
+SKIPPED [1] tests/integration/ai_orchestration/test_lukhas_mcp_server.py:3: could not import 'mcp': No module named 'mcp'
+SKIPPED [1] tests/integration/bridge/adapters/test_dropbox_adapter.py:8: could not import 'dropbox': No module named 'dropbox'
+SKIPPED [1] tests/integration/phase2/test_security_compliance.py:44: Security modules not available: No module named 'compliance'
+SKIPPED [1] tests/matriz/conftest.py:4: labs async orchestrator not available in default dev env
+SKIPPED [1] tests/unit/aka_qualia/test_metrics.py:22: Aka Qualia metrics not available
+SKIPPED [1] tests/unit/candidate/core/ethics/test_guardian_drift_bands.py:41: Guardian Drift Bands not available
+SKIPPED [1] tests/unit/candidate/core/ethics/test_safety_tags.py:49: Safety Tags not available
+SKIPPED [1] tests/unit/test_qi_creative_types.py:13: Quantum creative types unavailable: non-default argument 'notes' follows default argument
+ERROR tests/api/test_optimization_system.py - RecursionError: maximum recursi...
+ERROR tests/api/test_routing_admin_auth.py - TypeError: Unable to evaluate ty...
+ERROR tests/benchmarks/test_mesh.py - RecursionError: maximum recursion depth...
+ERROR tests/candidate/qi/test_qi_entanglement.py
+ERROR tests/capabilities/test_governance_suite.py
+ERROR tests/cognitive/property_based/test_reasoning_edge_cases.py - Recursion...
+ERROR tests/cognitive/stress/test_cognitive_load_infrastructure.py - Recursio...
+ERROR tests/cognitive/test_comprehensive_coverage.py - RecursionError: maximu...
+ERROR tests/consciousness/simulation/test_simulation_lane.py - RecursionError...
+ERROR tests/consciousness/test_advanced_cognitive_features.py - RecursionErro...
+ERROR tests/consciousness/test_c1_consciousness_components.py - RecursionErro...
+ERROR tests/consciousness/test_creativity_engine.py - RecursionError: maximum...
+ERROR tests/consciousness/test_guardian_integration.py - RecursionError: maxi...
+ERROR tests/consciousness/test_lukhas_reflection_engine.py - RecursionError: ...
+ERROR tests/consciousness/test_reflection_engine.py - RecursionError: maximum...
+ERROR tests/contract/candidate/aka_qualia - ModuleNotFoundError: No module na...
+ERROR tests/core/api/test_api_system.py
+ERROR tests/core/consciousness/test_advanced_consciousness_engine.py - Recurs...
+ERROR tests/core/identity/test_advanced_identity_manager.py - TypeError: data...
+ERROR tests/core/identity/test_identity_manager.py - TypeError: dataclass() g...
+ERROR tests/core/modules/test_voice_narration.py
+ERROR tests/core/orchestration/brain/spine/test_healix_integration.py - TypeE...
+ERROR tests/core/orchestration/test_dream_adapter.py
+ERROR tests/core/orchestration/test_orchestration_core.py - RecursionError: m...
+ERROR tests/core/symbolic/test_dast_engine.py
+ERROR tests/core/symbolic/test_neuro_symbolic_fusion_layer.py
+ERROR tests/core/test_common.py - RecursionError: maximum recursion depth exc...
+ERROR tests/core/test_consciousness_signal_router.py
+ERROR tests/core/test_module_registry.py
+ERROR tests/dashboard/test_widget_integration.py - TypeError: dataclass() got...
+ERROR tests/deployment/test_blue_green_deployment.py
+ERROR tests/drift/test_drift_acceptance.py
+ERROR tests/drift/test_drift_autorepair.py
+ERROR tests/drift/test_drift_manager.py
+ERROR tests/drift/test_drift_task15_acceptance.py
+ERROR tests/e2e/candidate/aka_qualia - ModuleNotFoundError: No module named '...
+ERROR tests/e2e/core/test_exceptions_additional.py
+ERROR tests/e2e/governance/test_guardian.py
+ERROR tests/e2e/lukhas/test_consciousness.py
+ERROR tests/e2e/phase2/test_performance_benchmarks.py - RecursionError: maxim...
+ERROR tests/e2e/rl/test_consciousness_rl.py - RecursionError: maximum recursi...
+ERROR tests/e2e/security/test_authentication.py
+ERROR tests/e2e/test_async_reliability_integration.py
+ERROR tests/e2e/test_guardian_integrated_platform.py
+ERROR tests/e2e/test_matriz_orchestration.py
+ERROR tests/ethics/test_dsl_eval.py
+ERROR tests/ethics/test_tags_preprocess.py
+ERROR tests/examples/test_governance_example.py
+ERROR tests/governance/test_governance.py
+ERROR tests/governance/test_guardian_defaults.py
+ERROR tests/governance/test_lane_consistency.py
+ERROR tests/guardian/test_pdp.py
+ERROR tests/guardian/test_policy_format_compat.py
+ERROR tests/identity/test_enhanced_identity_service.py - TypeError: dataclass...
+ERROR tests/integration/api - ModuleNotFoundError: No module named 'slowapi'
+ERROR tests/integration/bio/test_bio_architecture.py
+ERROR tests/integration/bio/test_spirulina_atp_system.py
+ERROR tests/integration/bridge/adapters/test_gmail_adapter.py - RecursionErro...
+ERROR tests/integration/bridge/api_gateway/test_unified_api_gateway_integration.py
+ERROR tests/integration/bridge/test_service_integration.py - RecursionError: ...
+ERROR tests/integration/candidate/aka_qualia - ModuleNotFoundError: No module...
+ERROR tests/integration/candidate/core/collective/test_collective_intelligence.py
+ERROR tests/integration/candidate/core/test_nias_transcendence.py
+ERROR tests/integration/candidate/tools/test_tool_executor.py
+ERROR tests/integration/end_to_end/test_authentication_flow.py
+ERROR tests/integration/end_to_end/test_consciousness_memory.py
+ERROR tests/integration/end_to_end/test_decision_pipeline.py
+ERROR tests/integration/end_to_end/test_governance_orchestration.py
+ERROR tests/integration/end_to_end/test_multi_component_workflows.py
+ERROR tests/integration/governance/guardian/v3/test_guardian_v3_integration.py
+ERROR tests/integration/identity/test_authentication_server.py
+ERROR tests/integration/matriz/test_matriz_integration.py
+ERROR tests/integration/products/communication/test_abas_engine.py
+ERROR tests/integration/qi/test_jurisdiction_compliance.py
+ERROR tests/integration/security/test_security_monitor_integration.py - TypeE...
+ERROR tests/integration/test_aka_qualia.py
+ERROR tests/integration/test_async_manager.py
+ERROR tests/integration/test_cross_component.py
+ERROR tests/integration/test_full_system_integration.py
+ERROR tests/integration/test_matriz_complete_thought_loop.py
+ERROR tests/integration/test_openai_facade_integration.py
+ERROR tests/integration/test_orchestration_webauthn_integration.py
+ERROR tests/integration/test_orchestrator_matriz_roundtrip.py
+ERROR tests/integration/test_parallel_orchestration.py
+ERROR tests/integration/test_production_main.py
+ERROR tests/integration/tools/test_dependency_hasher.py
+ERROR tests/labs/core/bridges/test_consciousness_qi_bridge.py
+ERROR tests/labs/core/governance/test_guardian_integration_middleware.py
+ERROR tests/ledger/test_event_sourcing_properties.py - RecursionError: maximu...
+ERROR tests/memory/test_indexes_api.py
+ERROR tests/memory/test_lifecycle.py
+ERROR tests/memory/test_memory_backends.py - RecursionError: maximum recursio...
+ERROR tests/memory/test_memory_lifecycle.py - RecursionError: maximum recursi...
+ERROR tests/obs/test_metrics_smoke.py
+ERROR tests/observability/test_integration.py - RecursionError: maximum recur...
+ERROR tests/observability/test_label_contracts.py
+ERROR tests/observability/test_matriz_cognitive_instrumentation.py
+ERROR tests/observability/test_matriz_metrics_contract.py
+ERROR tests/observability/test_opentelemetry_tracing.py
+ERROR tests/observability/test_performance_validation.py
+ERROR tests/orchestration/test_async_orchestrator_metrics.py
+ERROR tests/orchestration/test_externalized_routing.py
+ERROR tests/orchestration/test_guardian_enforcement.py
+ERROR tests/orchestration/test_killswitch.py
+ERROR tests/orchestration/test_multi_ai_router.py
+ERROR tests/orchestration/test_orchestrator_stress.py - TypeError: NoneType t...
+ERROR tests/orchestration/test_plan_verifier.py
+ERROR tests/perf/test_async_orchestrator_perf.py
+ERROR tests/performance/matriz/test_matriz_performance.py
+ERROR tests/performance/test_performance_budgets.py
+ERROR tests/reliability/test_0_01_percent_features.py
+ERROR tests/resilience/test_circuit_breaker.py
+ERROR tests/scripts/test_agi_module_analyzer.py
+ERROR tests/scripts/test_generate_todo_inventory.py
+ERROR tests/security/test_pqc_redteam.py - Failed: 'redteam' not found in `ma...
+ERROR tests/security/test_security_monitor.py - TypeError: dataclass() got an...
+ERROR tests/soak/test_guardian_matriz_throughput.py
+ERROR tests/system/integration/test_failover.py
+ERROR tests/system/integration/test_system_lifecycle.py
+ERROR tests/test_backpressure_ring.py
+ERROR tests/test_chatgpt_mcp.py
+ERROR tests/test_clock.py
+ERROR tests/test_consciousness_stream.py
+ERROR tests/test_consciousness_tick.py
+ERROR tests/test_drift.py
+ERROR tests/test_guardian_quick.py
+ERROR tests/test_guardian_serializers.py
+ERROR tests/test_hidden_gems_summary.py
+ERROR tests/test_mcp_enhanced_tools.py
+ERROR tests/test_mcp_fetch.py
+ERROR tests/test_mcp_minimal.py
+ERROR tests/test_memory_sync.py
+ERROR tests/test_policy_guard.py
+ERROR tests/test_security_caching_storage.py
+ERROR tests/tools/test_wavec_snapshot.py
+ERROR tests/unit/behavior/test_behavioral_utils.py
+ERROR tests/unit/bridge/adapters/test_drive_adapter.py
+ERROR tests/unit/bridge/adapters/test_gmail_adapter.py - AttributeError: modu...
+ERROR tests/unit/bridge/adapters/test_oauth_manager_advanced.py - Failed: 'me...
+ERROR tests/unit/bridge/api_gateway/test_unified_api_gateway.py - TypeError: ...
+ERROR tests/unit/bridge/external_adapters/test_gmail_adapter.py
+ERROR tests/unit/bridge/llm_wrappers/test_codex_wrapper.py
+ERROR tests/unit/bridge/queue/test_redis_queue.py
+ERROR tests/unit/bridge/test_audio_engine.py
+ERROR tests/unit/bridge/test_direct_ai_router.py
+ERROR tests/unit/candidate/aka_qualia - ModuleNotFoundError: No module named ...
+ERROR tests/unit/candidate/consciousness/dream/test_dream_feedback_controller.py
+ERROR tests/unit/candidate/consciousness/test_decision_engine.py
+ERROR tests/unit/candidate/core/identity/test_constitutional_ai_compliance.py
+ERROR tests/unit/candidate/qi/bio/test_bio_optimizer.py
+ERROR tests/unit/candidate/qi/engines/identity/test_consolidate_identity_qi_secure.py
+ERROR tests/unit/candidate/qi/test_qi_financial_consciousness_engine.py - Att...
+ERROR tests/unit/consciousness/qrg/test_consciousness_pki.py
+ERROR tests/unit/consciousness/test_awareness_engine_setup.py
+ERROR tests/unit/consciousness/test_awareness_log_synchronizer.py
+ERROR tests/unit/consciousness/test_circuit_breakers.py
+ERROR tests/unit/consciousness/test_core_integrator_access_tier.py
+ERROR tests/unit/consciousness/test_ethical_drift_sentinel.py
+ERROR tests/unit/consciousness/test_registry_activation_order.py - RecursionE...
+ERROR tests/unit/core/test_time_tz.py
+ERROR tests/unit/dream/expand/test_archetypes.py
+ERROR tests/unit/dream/expand/test_atlas.py
+ERROR tests/unit/dream/expand/test_mediation.py
+ERROR tests/unit/dream/expand/test_replay.py
+ERROR tests/unit/dream/expand/test_sentinel.py
+ERROR tests/unit/dream/test_evolution.py
+ERROR tests/unit/dream/test_noise.py
+ERROR tests/unit/dream/test_resonance.py
+ERROR tests/unit/governance/ethics/test_candidate_constitutional_ai.py
+ERROR tests/unit/governance/ethics/test_constitutional_ai.py
+ERROR tests/unit/governance/ethics/test_enhanced_ethical_guardian.py
+ERROR tests/unit/governance/ethics/test_enhanced_ethical_guardian_audit.py
+ERROR tests/unit/governance/ethics/test_guardian_kill_switch.py
+ERROR tests/unit/governance/ethics/test_guardian_reflector_imports.py
+ERROR tests/unit/governance/ethics/test_moral_agent_template.py
+ERROR tests/unit/governance/guardian/v3/test_constitutional.py
+ERROR tests/unit/governance/guardian/v3/test_decision_envelope.py
+ERROR tests/unit/governance/test_consent_history_manager.py
+ERROR tests/unit/governance/test_consolidate_guardian_governance.py
+ERROR tests/unit/governance/test_constitutional_ai_safety.py
+ERROR tests/unit/governance/test_guardian_integration_middleware.py
+ERROR tests/unit/governance/test_guardian_schema_standardization.py
+ERROR tests/unit/governance/test_jules03_identity.py
+ERROR tests/unit/governance/test_qrg_generator.py
+ERROR tests/unit/governance/test_symbolic_scopes.py
+ERROR tests/unit/identity/test_matriz_consciousness_identity_signals.py
+ERROR tests/unit/identity/test_token_types_aud_list.py
+ERROR tests/unit/identity/test_token_types_expiry_guard.py
+ERROR tests/unit/identity/test_token_types_helpers.py
+ERROR tests/unit/identity/test_token_types_iat.py
+ERROR tests/unit/labs/core/identity/test_matriz_consciousness_identity.py - A...
+ERROR tests/unit/matriz/core/test_memory_system.py
+ERROR tests/unit/memory/test_fold_engine.py
+ERROR tests/unit/memory/test_memory_manager.py
+ERROR tests/unit/memory/test_unified_memory_orchestrator.py
+ERROR tests/unit/monitoring/test_monitoring_basic.py
+ERROR tests/unit/orchestration/test_kernel_bus_smoke.py
+ERROR tests/unit/products/experience/test_experience_modules.py
+ERROR tests/unit/qi/test_bio_coordinator_smoke.py
+ERROR tests/unit/qi/test_budgeter.py
+ERROR tests/unit/qi/test_compliance_report.py
+ERROR tests/unit/qi/test_multi_jurisdiction_engine.py
+ERROR tests/unit/qi/test_privacy_statement.py
+ERROR tests/unit/qi/test_system_orchestrator.py
+ERROR tests/unit/scripts/test_ai_webhook_receiver.py
+ERROR tests/unit/security/test_bio_oscillator_session_validation.py - TypeErr...
+ERROR tests/unit/security/test_secure_random.py
+ERROR tests/unit/security/test_security_monitor.py - TypeError: dataclass() g...
+ERROR tests/unit/test_awareness_protocol.py
+ERROR tests/unit/test_guardian_kill_switch.py
+ERROR tests/unit/test_idempotency_redis.py
+ERROR tests/unit/test_quota_hierarchy.py
+ERROR tests/unit/test_ratelimit_headers.py
+ERROR tests/unit/test_ratelimit_metrics.py
+ERROR tests/unit/tools/test_categorize_todos.py
+ERROR tests/unit/universal_language/test_runtime.py
+!!!!!!!!!!!!!!!!!! Interrupted: 216 errors during collection !!!!!!!!!!!!!!!!!!!
+10 skipped, 28 deselected, 31 warnings, 216 errors in 17.00s

@@ -63,7 +63,7 @@ except ModuleNotFoundError:  # pragma: no cover - fallback for test environments
     rlp = _RLPStub()  # type: ignore[assignment]
 
 
-@dataclass(slots=True)
+@dataclass
 class ComplianceReport:
     """Structured compliance report for QI safe blockchain audits."""
 
