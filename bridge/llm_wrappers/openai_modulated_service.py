@@ -23,6 +23,7 @@ from typing import Any, cast
 from bridge.llm_wrappers.tool_executor import (
     execute_tool as bridged_execute_tool,
 )
+from caching.cache_system import cache_operation
 
 # from audit.tool_analytics import get_analytics  # Module not available, using mock
 
@@ -77,6 +78,7 @@ class OpenAIModulatedService:
             if function_name:
                 self._function_to_allowlist_map[function_name] = allowlist_name
 
+    @cache_operation(cache_key="modulated_generate", ttl_seconds=600)
     async def generate(
         self,
         prompt: str,

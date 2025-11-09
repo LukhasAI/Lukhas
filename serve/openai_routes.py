@@ -35,6 +35,7 @@ from fastapi import (
 from fastapi.responses import JSONResponse, StreamingResponse
 
 from adapters.openai import TokenClaims, require_bearer
+from caching.cache_system import cache_operation
 
 from .schemas import ModulatedChatRequest, ModulatedChatResponse
 
@@ -190,6 +191,7 @@ def _with_std_headers(resp: Response, trace_id: str | None) -> None:
         },
     },
 )
+@cache_operation(cache_key="list_models", ttl_seconds=3600)
 def list_models(
     request: Request,
     response: Response,
@@ -258,6 +260,7 @@ def _invalid_request(detail: str, param: str | None = None) -> dict[str, Any]:
         400: {"description": "Invalid request"},
     },
 )
+@cache_operation(cache_key="create_embeddings", ttl_seconds=600)
 def create_embeddings(
     request: Request,
     response: Response,
