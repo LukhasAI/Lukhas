@@ -1,5 +1,6 @@
 import base64
 import unittest
+from importlib.util import find_spec
 
 import pytest
 from starlette.testclient import TestClient
@@ -8,12 +9,10 @@ from core.security.auth import get_auth_system
 
 # Import the FastAPI app and the auth system
 # Skip this test if public_api is not available
-try:
+API_AVAILABLE = find_spec("public_api") is not None
+if API_AVAILABLE:
     from public_api import app
-
-    API_AVAILABLE = True
-except ImportError:
-    API_AVAILABLE = False
+else:
     app = None
 
 

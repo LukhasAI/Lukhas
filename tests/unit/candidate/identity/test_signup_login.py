@@ -10,11 +10,13 @@ from datetime import datetime, timezone
 
 PLACEHOLDER_PASSWORD = "a-secure-password"  # nosec B105
 
+from importlib.util import find_spec
+
 # Using identity or creating stubs for missing functions
-try:
+if find_spec("identity_legacy_backup") is not None:
     from identity_legacy_backup.identity_core import validate_symbolic_token
     from identity_legacy_backup.login import login_user, signup, validate_password
-except ImportError:
+else:
     # Create stub functions for testing
     def signup(email, password):
         """Mock fallback for signup"""

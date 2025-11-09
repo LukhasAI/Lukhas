@@ -22,7 +22,13 @@ from unittest.mock import Mock, patch
 import pytest
 
 # Import test targets
-try:
+from importlib.util import find_spec
+
+SAFETY_TAGS_AVAILABLE = find_spec("core.ethics.safety_tags") is not None
+
+if not SAFETY_TAGS_AVAILABLE:
+    pytest.skip("Safety Tags not available", allow_module_level=True)
+else:
     from core.ethics.logic.dsl_lite import (
         has_category,
         has_tag,
@@ -43,10 +49,6 @@ try:
         TaggedPlan,
         create_safety_tag_enricher,
     )
-    SAFETY_TAGS_AVAILABLE = True
-except ImportError:
-    SAFETY_TAGS_AVAILABLE = False
-    pytest.skip("Safety Tags not available", allow_module_level=True)
 
 
 class TestSafetyTag:
