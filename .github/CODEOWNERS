@@ -1,103 +1,177 @@
 # LUKHAS AI Code Ownership
-# Critical paths require human review from domain experts and bots
+# This file defines code ownership rules for the Lukhas AI project.
+# Code owners are automatically requested for review when someone opens a pull request
+# that modifies files they own.
 
-# === CRITICAL PATHS ===
+# ================================================================================
+# CORE SYSTEMS
+# ================================================================================
+# Core functionality, cognitive systems, and fundamental AI components
 
-# Ethics & Safety Systems (highest priority)
-/ethics/**                         @gonzo.dominguez @security-team
-/candidate/core/ethics/**          @gonzo.dominguez @security-team
-/candidate/core/governance/**      @gonzo.dominguez @governance-team
-/governance/**                     @gonzo.dominguez @governance-team
+/lukhas/**                          @lukhas-core-team
+/cognitive/**                       @lukhas-core-team
+/cognitive_core/**                  @lukhas-core-team
+/consciousness/**                   @lukhas-core-team
+/core/**                            @lukhas-core-team
+/aka_qualia/**                      @lukhas-core-team
+/reasoning/**                       @lukhas-core-team
+/matriz/**                          @lukhas-core-team
+/symbolic/**                        @lukhas-core-team
+/brain/**                           @lukhas-core-team
+/qi/**                              @lukhas-core-team
 
-# Identity & Authentication Systems
-/identity/**                       @gonzo.dominguez @identity-team
-/candidate/governance/identity/**  @gonzo.dominguez @identity-team
-/lukhas/identity/**               @gonzo.dominguez @identity-team
+# ================================================================================
+# SECURITY COMPONENTS
+# ================================================================================
+# Security-critical systems, ethics enforcement, and safety mechanisms
 
-# Orchestration & Brain Hub (coordination)
-/orchestrator/**                   @gonzo.dominguez @orchestration-team
-/candidate/core/orchestration/**  @gonzo.dominguez @orchestration-team
-/lukhas/orchestration/**          @gonzo.dominguez @orchestration-team
+/security/**                        @security-team
+/ethics/**                          @security-team
+/governance/**                      @security-team
+/guardian/**                        @security-team
+/identity/**                        @security-team
+/consent/**                         @security-team
+/enforcement/**                     @security-team
+/.gitleaks.toml                     @security-team
+/.secrets.baseline                  @security-team
+/SECURITY.md                        @security-team
+/docs/security/**                   @security-team
+/docs/governance/**                 @security-team
 
-# Oneiric/Dream Systems (experimental)
-/oneiric/**                        @gonzo.dominguez @consciousness-team
-/candidate/consciousness/dream/**  @gonzo.dominguez @consciousness-team
+# ================================================================================
+# MEMORY SYSTEMS
+# ================================================================================
+# Memory management, storage, and persistence layers
 
-# === CORE SYSTEMS ===
+/memory/**                          @memory-team
+/storage/**                         @memory-team
+/caching/**                         @memory-team
+/ledger/**                          @memory-team
 
-# LUKHAS Core & GLYPH Engine
-/lukhas/core/**                    @gonzo.dominguez @core-team
-/lukhas/**                         @gonzo.dominguez @core-team
+# ================================================================================
+# INFRASTRUCTURE
+# ================================================================================
+# Platform, API, DevOps, and operational infrastructure
 
-# MATRIZ Symbolic Processing
-/MATRIZ/**                         @gonzo.dominguez @matriz-team
+# Platform & Configuration
+/config/**                          @platform-team @devops-team
+/pyproject.toml                     @platform-team @devops-team
+/requirements*.txt                  @platform-team @devops-team
+/requirements*.in                   @platform-team @devops-team
+/constraints.txt                    @platform-team @devops-team
+/.env.example                       @platform-team @devops-team
+/.env.*                             @platform-team @devops-team
+/Dockerfile                         @platform-team @devops-team
+/docker-compose.yml                 @platform-team @devops-team
+/docker/**                          @platform-team @devops-team
 
-# Memory Systems
-/candidate/memory/**               @gonzo.dominguez @memory-team
-/lukhas/memory/**                 @gonzo.dominguez @memory-team
-
-# Consciousness Systems
-/candidate/consciousness/**        @gonzo.dominguez @consciousness-team
-
-# === INFRASTRUCTURE ===
-
-# Configuration & Environment
-/.env.example                      @gonzo.dominguez @platform-team
-/pyproject.toml                    @gonzo.dominguez @platform-team
-/requirements.txt                  @gonzo.dominguez @platform-team
-/ENV_VARS.md                       @gonzo.dominguez @platform-team
-
-# Monitoring & Observability
-/monitoring/**                     @gonzo.dominguez @platform-team
-/samples/logs/**                   @gonzo.dominguez @platform-team
-/lukhas/observability/**           @gonzo.dominguez @platform-team
-/lukhas/observability/alerts/**    @gonzo.dominguez @platform-team
-/lukhas/core/reliability/**        @gonzo.dominguez @platform-team
-
-# OpenAI Facade & Public API (Phase 3)
-/lukhas/adapters/openai/**         @gonzo.dominguez @platform-team
-/docs/openapi/**                   @gonzo.dominguez @platform-team
-/scripts/generate_openapi.py       @gonzo.dominguez @platform-team
-/scripts/diff_openapi.py           @gonzo.dominguez @platform-team
+# API Systems
+/api/**                             @api-team @platform-team
+/serve/**                           @api-team @platform-team
+/server/**                          @api-team @platform-team
+/services/**                        @api-team @platform-team
+/adapters/**                        @api-team @platform-team
 
 # CI/CD & Automation
-/.github/workflows/**              @gonzo.dominguez @platform-team
-/tools/ci/**                       @gonzo.dominguez @platform-team
+/.github/workflows/**               @devops-team @platform-team
+/.github/actions/**                 @devops-team @platform-team
+/scripts/**                         @devops-team @platform-team
+/tools/**                           @devops-team @platform-team
+/Makefile                           @devops-team @platform-team
+/Justfile                           @devops-team @platform-team
 
-# === TESTING ===
+# Monitoring & Observability
+/monitoring/**                      @platform-team @devops-team
+/observability/**                   @platform-team @devops-team
+/telemetry/**                       @platform-team @devops-team
+/prometheus/**                      @platform-team @devops-team
+/grafana/**                         @platform-team @devops-team
+/analytics/**                       @platform-team @devops-team
+/alerts/**                          @platform-team @devops-team
 
-# Tests and fixtures require human review
-/tests/**                          @gonzo.dominguez @qa-team
-/**/tests/**                       @gonzo.dominguez @qa-team
-/mocks/**                          @gonzo.dominguez @qa-team
-/**/conftest.py                    @gonzo.dominguez @qa-team
-/pytest.ini                        @gonzo.dominguez @qa-team
+# Deployment & Operations
+/deployment/**                      @devops-team @platform-team
+/ops/**                             @devops-team @platform-team
+/infrastructure/**                  @devops-team @platform-team
+/manifests/**                       @devops-team @platform-team
 
-# === DOCUMENTATION ===
+# ================================================================================
+# DOCUMENTATION
+# ================================================================================
+# All documentation, guides, and knowledge base content
 
-# Architecture & Design
-/docs/architecture/**              @gonzo.dominguez @architecture-team
-/ARCHITECTURE.md                   @gonzo.dominguez @architecture-team
-/SEARCH_MAP.md                     @gonzo.dominguez @architecture-team
+/docs/**                            @docs-team @brand-team
+/README.md                          @docs-team @brand-team
+/CONTRIBUTING.md                    @docs-team @brand-team
+/CODE_OF_CONDUCT.md                 @docs-team @brand-team
+/*.md                               @docs-team @brand-team
 
-# Security Documentation
-/docs/security/**                  @gonzo.dominguez @security-team
+# Branding & Design
+/branding/**                        @brand-team @docs-team
+/branding_bridge/**                 @brand-team @docs-team
+/design_system/**                   @brand-team @docs-team
+/assets/**                          @brand-team @docs-team
+/legal/**                           @brand-team @docs-team
 
-# === LEGACY SUNSET ===
+# Architecture Documentation
+/docs/architecture/**               @docs-team @lukhas-core-team
+/ARCHITECTURE.md                    @docs-team @lukhas-core-team
 
-# Legacy core sunset components - platform team ownership
-core/__init__.py                              @platform-team
-scripts/codemod_legacy_core.py                @platform-team
-.github/workflows/legacy-*                    @platform-team
-monitoring/legacy_core_sunset_alerts.yml      @platform-team
+# ================================================================================
+# TESTING
+# ================================================================================
+# Test suites, fixtures, and quality assurance
 
-# Phase 2 Import Codemod (hygiene)
-/scripts/codemod_imports.py                   @gonzo.dominguez @platform-team
-/tests/tools/test_codemod_imports.py          @gonzo.dominguez @platform-team
-/experimental/**                              @gonzo.dominguez @platform-team
-/labs/**                                      @gonzo.dominguez @core-team
+/tests/**                           @test-team
+/**/test_*.py                       @test-team
+/**/*_test.py                       @test-team
+/conftest.py                        @test-team
+/**/conftest.py                     @test-team
+/pytest.ini                         @test-team
+/mypy.ini                           @test-team
+/.pre-commit-config.yaml            @test-team @devops-team
+/test_data/**                       @test-team
+/test_results/**                    @test-team
+/benchmarks/**                      @test-team
+/evaluations/**                     @test-team
 
-# === CATCH-ALL ===
+# ================================================================================
+# SPECIALIZED SYSTEMS
+# ================================================================================
 
+# AI Orchestration
+/orchestration/**                   @lukhas-core-team @api-team
+/ai_orchestration/**                @lukhas-core-team @api-team
+/agent/**                           @lukhas-core-team
+/agents/**                          @lukhas-core-team
+/agents_external/**                 @lukhas-core-team
+
+# Machine Learning & Models
+/models/**                          @lukhas-core-team
+/rl/**                              @lukhas-core-team
+/quantum/**                         @lukhas-core-team
+
+# Products & Services
+/products/**                        @platform-team @api-team
+/sdk/**                             @platform-team @api-team
+
+# Experimental & Labs
+/experimental/**                    @lukhas-core-team
+/labs/**                            @lukhas-core-team
+/demos/**                           @lukhas-core-team
+
+# ================================================================================
+# GOVERNANCE & COMPLIANCE
+# ================================================================================
+
+/.github/CODEOWNERS                 @security-team @devops-team
+/.github/BRANCH_PROTECTION.md       @security-team @devops-team
+/.github/branch_protection.yml      @security-team @devops-team
+/docs/governance/branch_protection.md @security-team @devops-team @docs-team
+
+# ================================================================================
+# CATCH-ALL
+# ================================================================================
 # Default reviewers for everything else
-*                                  @gonzo.dominguez
+
+*                                   @lukhas-core-team
