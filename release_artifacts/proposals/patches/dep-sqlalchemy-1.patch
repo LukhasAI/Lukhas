@@ -1,0 +1,10 @@
+# Proposal: Add missing dependency: sqlalchemy
+# Confidence: 0.9
+# Affected files: 1
+
+# Add to requirements.txt or pyproject.toml
+sqlalchemy
+
+# Or install directly:
+# uv pip install sqlalchemy
+# pip install sqlalchemy

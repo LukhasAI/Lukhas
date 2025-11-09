@@ -1,0 +1,10 @@
+# Proposal: Add missing dependency: pydantic
+# Confidence: 0.9
+# Affected files: 3
+
+# Add to requirements.txt or pyproject.toml
+pydantic
+
+# Or install directly:
+# uv pip install pydantic
+# pip install pydantic

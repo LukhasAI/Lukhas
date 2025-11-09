@@ -1,0 +1,57 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.14, pytest-8.4.2, pluggy-1.6.0 -- /root/.local/share/uv/tools/pytest/bin/python
+cachedir: .pytest_cache
+rootdir: /home/user/Lukhas/tests/unit
+configfile: pytest.ini
+collecting ... collected 0 items / 8 errors
+
+==================================== ERRORS ====================================
+_ ERROR collecting tests/unit/adapters/test_bio_adapter.py _
+ImportError while importing test module '/home/user/Lukhas/tests/unit/adapters/test_bio_adapter.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/root/.local/share/uv/tools/pytest/lib/python3.11/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+tests/unit/adapters/test_bio_adapter.py:4: in <module>
+    from matriz.adapters.bio_adapter import BioAdapter
+matriz/adapters/__init__.py:19: in <module>
+    from pydantic import BaseModel, Field
+E   ModuleNotFoundError: No module named 'pydantic'
+_ ERROR collecting tests/unit/adapters/test_bridge_adapter.py _
+ImportError while importing test module '/home/user/Lukhas/tests/unit/adapters/test_bridge_adapter.py'.
+Traceback:
+tests/unit/adapters/test_bridge_adapter.py:4: in <module>
+    from matriz.adapters.bridge_adapter import BridgeAdapter
+matriz/adapters/__init__.py:19: in <module>
+    from pydantic import BaseModel, Field
+E   ModuleNotFoundError: No module named 'pydantic'
+_ ERROR collecting tests/unit/adapters/test_compliance_adapter.py _
+ImportError while importing test module '/home/user/Lukhas/tests/unit/adapters/test_compliance_adapter.py'.
+Traceback:
+tests/unit/adapters/test_compliance_adapter.py:4: in <module>
+    from matriz.adapters.compliance_adapter import ComplianceAdapter
+matriz/adapters/__init__.py:19: in <module>
+    from pydantic import BaseModel, Field
+E   ModuleNotFoundError: No module named 'pydantic'
+_ ERROR collecting tests/unit/core/test_engine.py _
+ImportError while importing test module.
+E   ImportError: cannot import name 'EngineCore' from 'matriz.core'
+_ ERROR collecting tests/integration/test_api_integration.py _
+ImportError while importing test module.
+E   ModuleNotFoundError: No module named 'requests'
+_ ERROR collecting tests/integration/test_database.py _
+ImportError while importing test module.
+E   ModuleNotFoundError: No module named 'sqlalchemy'
+FAILED tests/unit/bridge/test_api.py::test_authentication - AttributeError: 'NoneType' object has no attribute 'token'
+FAILED tests/unit/bridge/test_api.py::test_authorization - AssertionError: Expected 200, got 403
+=========================== short test summary info ============================
+ERROR tests/unit/adapters/test_bio_adapter.py
+ERROR tests/unit/adapters/test_bridge_adapter.py
+ERROR tests/unit/adapters/test_compliance_adapter.py
+ERROR tests/unit/core/test_engine.py
+ERROR tests/integration/test_api_integration.py
+ERROR tests/integration/test_database.py
+FAILED tests/unit/bridge/test_api.py::test_authentication
+FAILED tests/unit/bridge/test_api.py::test_authorization
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 8 failures !!!!!!!!!!!!!!!!!!!!!!!!
+============================== 8 errors in 1.71s ===============================
