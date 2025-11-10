@@ -251,47 +251,6 @@ def metrics() -> Response:
     metrics_output = f'# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.\n# TYPE process_cpu_seconds_total counter\nprocess_cpu_seconds_total {time.process_time()}\n\n# HELP http_requests_total Total HTTP requests processed\n# TYPE http_requests_total counter\nhttp_requests_total{{method="GET",endpoint="/healthz",status="200"}} 1\n\n# HELP lukhas_api_info LUKHAS API version information\n# TYPE lukhas_api_info gauge\nlukhas_api_info{{version="1.0.0"}} 1\n'
     return Response(content=metrics_output, media_type='text/plain')
 
-def _hash_embed(text: str, dim: int=1536) -> list[float]:
-    """Generate deterministic embedding from text using hash expansion."""
-    import hashlib
-    h = hashlib.sha256(str(text).encode()).digest()
-    buf = (h * (dim // len(h) + 1))[:dim]
-    return [b / 255.0 for b in buf]
-
-def _build_model_list() -> dict[str, Any]:
-    """OpenAI-compatible models list endpoint."""
-    models = [{'id': 'lukhas-mini', 'object': 'model', 'owned_by': 'lukhas'}, {'id': 'lukhas-embed-1', 'object': 'model', 'owned_by': 'lukhas'}, {'id': 'text-embedding-ada-002', 'object': 'model', 'owned_by': 'lukhas'}, {'id': 'gpt-4', 'object': 'model', 'owned_by': 'lukhas'}]
-    return {'object': 'list', 'data': models}
-
-@app.get('/v1/models', tags=['OpenAI Compatible'])
-async def list_models() -> dict[str, Any]:
-    """OpenAI-compatible models list endpoint."""
-    global _MODEL_LIST_CACHE
-    if _MODEL_LIST_CACHE is None:
-        _MODEL_LIST_CACHE = _build_model_list()
-    return _MODEL_LIST_CACHE
-
-@app.post('/v1/embeddings', tags=['OpenAI Compatible'])
-async def create_embeddings(request: dict) -> dict[str, Any]:
-    """OpenAI-compatible embeddings endpoint with unique deterministic vectors."""
-    input_text = request.get("input", "")
-    model = request.get("model", "text-embedding-ada-002")
-    dimensions = request.get("dimensions", 1536)
-
-    # Generate unique deterministic embedding based on input
-    embedding = _hash_embed(input_text, dimensions)
-    return {'object': 'list', 'data': [{'object': 'embedding', 'embedding': embedding, 'index': 0}], 'model': model, 'usage': {'prompt_tokens': len(str(input_text).split()), 'total_tokens': len(str(input_text).split())}}
-
-@app.post('/v1/chat/completions', tags=['OpenAI Compatible'])
-async def create_chat_completion(request: dict) -> dict[str, Any]:
-    """OpenAI-compatible chat completions endpoint (stub for RC soak testing)."""
-    messages = request.get('messages', [])
-    model = request.get('model', 'gpt-4')
-    request.get('max_tokens', 100)
-    import time
-    response_text = 'This is a stub response for RC soak testing.'
-    return {'id': f'chatcmpl-{int(time.time())}', 'object': 'chat.completion', 'created': int(time.time()), 'model': model, 'choices': [{'index': 0, 'message': {'role': 'assistant', 'content': response_text}, 'finish_reason': 'stop'}], 'usage': {'prompt_tokens': sum(len(str(m.get('content', '')).split()) for m in messages), 'completion_tokens': len(response_text.split()), 'total_tokens': sum(len(str(m.get('content', '')).split()) for m in messages) + len(response_text.split())}}
-
 async def _stream_generator(request: dict) -> str:
     """SSE stream generator for OpenAI-compatible streaming responses."""
     import asyncio
