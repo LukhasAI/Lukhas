@@ -25,6 +25,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel, Field
 
 from lukhas.api import analytics
+from lukhas.api.auth_helpers import has_role
 from lukhas.features.flags_service import (
     FeatureFlagsService,
     FlagEvaluationContext,
@@ -129,18 +130,18 @@ def get_feature_flags_service() -> FeatureFlagsService:
     return get_service()
 
 
-def get_current_user(request: Request) -> str:
+def get_current_user(request: Request) -> Dict:
     """
     Get current authenticated user.
 
     In production, this would verify JWT tokens, API keys, etc.
-    For now, returns a placeholder user ID.
+    For now, returns a placeholder user object.
 
     Args:
         request: FastAPI request object
 
     Returns:
-        User ID
+        User object as a dictionary
 
     Raises:
         HTTPException: If authentication fails
@@ -154,33 +155,29 @@ def get_current_user(request: Request) -> str:
             detail="Authentication required",
         )
 
-    # Placeholder user ID based on API key
-    # In production, validate API key and return actual user ID
-    return f"user_{api_key[:8]}"
+    # Placeholder user ID and role based on API key
+    user_id = f"user_{api_key[:8]}"
+    role = "guest"
+    if api_key.startswith("admin"):
+        role = "admin"
+    elif api_key.startswith("moderator"):
+        role = "moderator"
+    elif api_key.startswith("user"):
+        role = "user"
+
+    return {"id": user_id, "role": role}
 
 
-def require_admin(user_id: str = Depends(get_current_user)) -> str:
-    """
-    Require admin role for endpoint.
-
-    Args:
-        user_id: Current user ID
-
-    Returns:
-        User ID
-
-    Raises:
-        HTTPException: If user is not admin
-    """
-    # TODO: Implement actual role checking
-    # For now, check if user_id starts with "admin_"
-    if not user_id.startswith("admin_"):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Admin access required",
-        )
-
-    return user_id
+def require_role(required_role: str):
+    async def role_checker(current_user: dict = Depends(get_current_user)):
+        user_role = current_user.get("role") or "guest"
+        if not has_role(user_role, required_role):
+            raise HTTPException(
+                status_code=403,
+                detail=f"Requires {required_role} role"
+            )
+        return current_user
+    return role_checker
 
 
 # API Endpoints
@@ -188,7 +185,7 @@ def require_admin(user_id: str = Depends(get_current_user)) -> str:
 
 @router.get("/", response_model=FlagListResponse)
 async def list_flags(
-    user_id: str = Depends(require_admin),
+    current_user: dict = Depends(require_role("admin")),
     service: FeatureFlagsService = Depends(get_feature_flags_service),
 ) -> FlagListResponse:
     """
@@ -226,7 +223,7 @@ async def list_flags(
 @router.get("/{flag_name}", response_model=FlagInfo)
 async def get_flag(
     flag_name: str,
-    user_id: str = Depends(get_current_user),
+    current_user: dict = Depends(get_current_user),
     service: FeatureFlagsService = Depends(get_feature_flags_service),
 ) -> FlagInfo:
     """
@@ -270,7 +267,7 @@ async def get_flag(
 async def evaluate_flag(
     flag_name: str,
     request_data: FlagEvaluationRequest,
-    user_id: str = Depends(get_current_user),
+    current_user: dict = Depends(get_current_user),
     service: FeatureFlagsService = Depends(get_feature_flags_service),
 ) -> FlagEvaluationResponse:
     """
@@ -283,6 +280,7 @@ async def evaluate_flag(
     Returns:
         Flag evaluation result
     """
+    user_id = current_user["id"]
     # Check rate limit
     if not check_rate_limit(user_id):
         raise HTTPException(
@@ -343,7 +341,7 @@ async def evaluate_flag(
 async def update_flag(
     flag_name: str,
     update_data: FlagUpdateRequest,
-    user_id: str = Depends(require_admin),
+    current_user: dict = Depends(require_role("admin")),
     service: FeatureFlagsService = Depends(get_feature_flags_service),
 ) -> FlagInfo:
     """
@@ -356,6 +354,7 @@ async def update_flag(
     Returns:
         Updated flag information
     """
+    user_id = current_user["id"]
     try:
         # Get flag
         flag = service.get_flag(flag_name)
@@ -413,7 +412,7 @@ async def update_flag(
 @router.post("/{flag_name}/reload")
 async def reload_flag(
     flag_name: str,
-    user_id: str = Depends(require_admin),
+    current_user: dict = Depends(require_role("admin")),
     service: FeatureFlagsService = Depends(get_feature_flags_service),
 ) -> Dict[str, str]:
     """
@@ -425,6 +424,7 @@ async def reload_flag(
     Returns:
         Success message
     """
+    user_id = current_user["id"]
     try:
         # Reload all flags
         service.reload()
