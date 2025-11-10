@@ -1,13 +1,13 @@
 # Prompts for Claude Code Web - Core Wiring Remaining Tasks
 
-> **📖 COMPANION DOCUMENT**: See [PROMPTS_FOR_CLAUDE_CODE_WEB_ENHANCED.md](PROMPTS_FOR_CLAUDE_CODE_WEB_ENHANCED.md) for:
+> **📖 MASTER DOCUMENT**: See [CLAUDE_CODE_WEB_MASTER_PROMPT.md](CLAUDE_CODE_WEB_MASTER_PROMPT.md) for:
 > - **LUKHAS Test Surgeon** system prompt (MANDATORY for all tasks)
 > - **Security requirements** (authentication, user isolation, tier access, rate limiting)
 > - **T4 guidelines** (Sam, Dario, Steve, Demis alignment)
 > - **Testing standards** (6 mandatory test types)
 > - **PR templates** and artifact requirements
 >
-> **RELATIONSHIP**: This file contains specific task prompts for ongoing work (Tasks 3-8). The ENHANCED file contains system-level guidance and security patterns that MUST be applied to ALL tasks.
+> **RELATIONSHIP**: This file contains specific task prompts for ongoing work (Tasks 3-8). The MASTER file contains system-level guidance and security patterns that MUST be applied to ALL tasks.
 
 **Date**: 2025-11-10
 **Session**: Handoff from Claude Code Desktop
