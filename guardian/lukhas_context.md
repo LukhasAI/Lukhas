@@ -5,7 +5,7 @@ owner: T4
 lane: L2
 star: "🛡️ Watch Star"
 stability: production
-last_reviewed: 2025-10-24
+last_reviewed: 2025-11-10
 constellation_stars: "🛡️ Watch · ⚛️ Anchor · ✦ Trail"
 related_modules: "matriz, governance, identity, ethics"
 manifests: "module.manifest.json"
@@ -15,7 +15,7 @@ domain: security, governance, ethics
 stars: "[Watch]"
 status: active
 tier: L2
-updated: 2025-10-24
+updated: 2025-11-10
 version: 3.0.0
 schema_version: 3.0.0
 ---
