@@ -1,4 +1,6 @@
 """Bridge module for core.adaptive_ux_engine → labs.core.adaptive_ux_engine"""
 from __future__ import annotations
 
-from labs.core.adaptive_ux_engine import *
+from labs.core.adaptive_ux_engine import ExportFormat, InterfaceMode, UserContext
+
+__all__ = ["ExportFormat", "InterfaceMode", "UserContext"]
