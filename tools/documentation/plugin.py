@@ -7,6 +7,8 @@ import logging
 from enum import Enum
 from typing import Any, Optional
 
+from pydantic import BaseModel
+
 # Import Lukhas interfaces (these would be provided by Lukhas AGI)
 from core import (
     LUKHASBioOscillatorInterface,
@@ -16,7 +18,6 @@ from core import (
     LUKHASPlugin,
     LUKHASVoiceInterface,
 )
-from pydantic import BaseModel
 
 from .content_generation_engine.doc_generator import DocGenerator
 from .symbolic_knowledge_core.knowledge_graph import SystemKnowledgeGraph

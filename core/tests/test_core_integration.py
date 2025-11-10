@@ -42,9 +42,8 @@ class TestCoreEndToEnd:
     def test_consciousness_system_integration(self):
         """Test integration with full consciousness system."""
         try:
-            from core import CoreCore
-
             from consciousness import ConsciousnessCore
+            from core import CoreCore
             from memory import MemoryCore
 
             # Initialize full system stack

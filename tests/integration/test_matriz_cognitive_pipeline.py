@@ -1,7 +1,9 @@
-import pytest
-from matriz.core.orchestrator import CognitiveOrchestrator
-from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 import time
+
+import pytest
+from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
+from matriz.core.orchestrator import CognitiveOrchestrator
+
 
 class MockCognitiveNode(CognitiveNode):
     def __init__(self, node_name, capabilities):

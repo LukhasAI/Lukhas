@@ -1,9 +1,12 @@
+import asyncio
+import time
 import unittest
 from unittest.mock import MagicMock, patch
-import time
-import asyncio
-from matriz.core.orchestrator import CognitiveOrchestrator, ExecutionTrace
+
 from matriz.core.node_interface import CognitiveNode
+from matriz.core.orchestrator import CognitiveOrchestrator, ExecutionTrace
+
+
 class TestCognitiveOrchestrator(unittest.TestCase):
     def setUp(self):
         self.orchestrator = CognitiveOrchestrator()
