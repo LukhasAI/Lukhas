@@ -1,0 +1,137 @@
+.PHONY: help install dev test lint format clean docker
+
+# Default target
+help: ## Show this help message
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+
+# Development
+install: ## Install dependencies
+	@make -f Makefile.lukhas install
+
+dev: ## Start development environment
+	@make -f Makefile.lukhas dev
+
+shell: ## Start Python shell with LUKHAS loaded
+	@echo "Starting Python shell..."
+	@ipython -i -c "from lukhas import *"
+
+# Testing
+test: ## Run all tests
+	@make -f Makefile.lukhas test-all
+
+test-fast: ## Run fast tests only
+	@make -f Makefile.lukhas test-fast
+
+test-integration: ## Run integration tests
+	@make -f Makefile.lukhas it
+
+test-e2e: ## Run end-to-end tests
+	@make -f Makefile.lukhas e2e
+
+test-watch: ## Run tests in watch mode
+	@echo "Watching for changes... (requires 'pip install ptw')"
+	@ptw -- -m "not integration and not e2e"
+
+# Code Quality
+lint: ## Run all linters
+	@make -f Makefile.lukhas lint
+
+lint-fix: ## Auto-fix linting issues
+	@make -f Makefile.lukhas fix
+
+format: ## Format code
+	@make -f Makefile.lukhas format
+
+type-check: ## Type checking only
+	@make -f Makefile.lukhas types-core
+
+# Security
+security: ## Run security checks
+	@make -f Makefile.lukhas audit-validate-ledger
+	@make -f Makefile.lukhas check-legacy-imports
+
+# Database
+db-migrate: ## Run database migrations
+	@make -f Makefile.lukhas migrate-run
+
+db-reset: ## Reset database
+	@make -f Makefile.lukhas migrate-dry
+	@make -f Makefile.lukhas migrate-run
+
+db-seed: ## Seed database with test data
+	@echo "Seeding database... (no-op, see scripts/seed_database.py)"
+
+# Docker
+docker-build: ## Build Docker image
+	@docker build -t lukhas:latest .
+
+docker-run: ## Run Docker container
+	@docker run -p 8000:8000 lukhas:latest
+
+docker-compose-up: ## Start all services
+	@docker-compose up -d
+
+docker-compose-down: ## Stop all services
+	@docker-compose down
+
+# CI/CD
+ci: lint test security ## Run CI pipeline locally
+	@make -f Makefile.lukhas ci-validate
+
+release: ## Create release
+	@echo "Creating release... (see scripts/create_release.py)"
+
+# Documentation
+docs-build: ## Build documentation
+	@make -f Makefile.lukhas docs-map
+	@make -f Makefile.lukhas docs-migrate-auto
+
+docs-serve: ## Serve documentation locally
+	@echo "Serving documentation... (see scripts for details)"
+
+docs-api: ## Generate API documentation
+	@make -f Makefile.lukhas openapi-spec
+
+# Cleanup
+clean: ## Clean build artifacts
+	@make -f Makefile.lukhas clean
+
+clean-deep: clean ## Deep clean including venv
+	@make -f Makefile.lukhas deep-clean
+
+# Utilities
+count-lines: ## Count lines of code
+	@find . -name "*.py" -not -path "./.venv/*" -not -path "./tests/*" | xargs wc -l | tail -1
+
+check-todos: ## List all TODO comments
+	@make -f Makefile.lukhas todos
+
+check-coverage: ## Check test coverage percentage
+	@make -f Makefile.lukhas test-report
+
+# Git hooks
+setup-hooks: ## Setup git pre-commit hooks
+	@make -f Makefile.lukhas setup-hooks
+
+# LUKHAS Specific
+matriz-test: ## Test MATRIZ cognitive engine
+	@make -f Makefile.lukhas smoke-matriz
+
+guardian-test: ## Test Guardian system
+	@make -f Makefile.lukhas validate-matrix-all
+
+memory-test: ## Test memory system
+	@make -f Makefile.lukhas test-tier1
+
+smoke: ## Run smoke tests
+	@make -f Makefile.lukhas smoke
+
+lane-guard: ## Validate lane boundaries
+	@make -f Makefile.lukhas lane-guard
+
+# Performance
+bench: ## Run benchmarks
+	@make -f Makefile.lukhas perf
+
+profile: ## Profile application
+	@echo "Profiling application... (see 'k6' targets in Makefile.lukhas)"
