@@ -341,12 +341,33 @@ if RL_AVAILABLE:
         # ΛTAG: rl_harness
         def __init__(self) -> None:
             try:
+# T4: code=F821 | ticket=SKELETON-70D5F1FE | owner=testing-team | status=skeleton
+# reason: Undefined ConsciousnessEnvironment in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 self.environment = ConsciousnessEnvironment()  # TODO: ConsciousnessEnvironment
+# T4: code=F821 | ticket=SKELETON-DD95F63F | owner=testing-team | status=skeleton
+# reason: Undefined PolicyNetwork in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 self.policy = PolicyNetwork()  # TODO: PolicyNetwork
+# T4: code=F821 | ticket=SKELETON-FDF33263 | owner=testing-team | status=skeleton
+# reason: Undefined ValueNetwork in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 self.value_network = ValueNetwork()  # TODO: ValueNetwork
+# T4: code=F821 | ticket=SKELETON-B9E64E54 | owner=testing-team | status=skeleton
+# reason: Undefined ConsciousnessRewards in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 self.rewards = ConsciousnessRewards()  # TODO: ConsciousnessRewards
+# T4: code=F821 | ticket=SKELETON-488E99B3 | owner=testing-team | status=skeleton
+# reason: Undefined ConsciousnessBuffer in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 self.buffer = ConsciousnessBuffer(capacity=128)  # TODO: ConsciousnessBuffer
+# T4: code=F821 | ticket=SKELETON-69508953 | owner=testing-team | status=skeleton
+# reason: Undefined ConsciousnessMetaLearning in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 self.meta_learning = ConsciousnessMetaLearning(max_experiences=128)  # TODO: ConsciousnessMetaLearning
+# T4: code=F821 | ticket=SKELETON-8B984B8F | owner=testing-team | status=skeleton
+# reason: Undefined MultiAgentCoordination in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 self.coordination = MultiAgentCoordination()  # TODO: MultiAgentCoordination
                 self._coordination_ready = False
             except Exception as exc:  # pragma: no cover - optional dependency path
@@ -406,11 +427,17 @@ if RL_AVAILABLE:
 
             context_state = await self.environment.observe_consciousness()
             state_dict = self._prepare_state_dict(context_state)
+# T4: code=F821 | ticket=SKELETON-063D97B3 | owner=testing-team | status=skeleton
+# reason: Undefined MatrizNode in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             context_node = MatrizNode(type="CONTEXT", state=state_dict, labels=["oracle:harness"])  # TODO: MatrizNode
 
             action_node = await self.policy.select_action(context_node)
             next_state = await self.environment.observe_consciousness()
             next_state_dict = self._prepare_state_dict(next_state)
+# T4: code=F821 | ticket=SKELETON-063D97B3 | owner=testing-team | status=skeleton
+# reason: Undefined MatrizNode in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             next_node = MatrizNode(type="CONTEXT", state=next_state_dict, labels=["oracle:harness:next"])  # TODO: MatrizNode
             reward_node = await self.rewards.compute_reward(context_node, action_node, next_node)
 

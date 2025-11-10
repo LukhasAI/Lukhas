@@ -308,6 +308,9 @@ class TestIntegrityProbeIntegration:
             'confidence': 0.9,
             'metadata': {}
         }
+# T4: code=F821 | ticket=SKELETON-4251755D | owner=testing-team | status=skeleton
+# reason: Undefined mock_get_manager in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         mock_get_manager.return_value = mock_manager  # TODO: mock_get_manager
 
         # Create probe with mocked dependencies
