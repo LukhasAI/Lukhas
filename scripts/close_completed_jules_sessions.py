@@ -79,12 +79,18 @@ async def close_completed_sessions(dry_run: bool = True):
 
                 if has_pr and pr_url:
                     print(f"  ✅ Has PR: {pr_url}")
+                    print(f"  🔒 PRESERVING: Sessions with PRs should be kept for audit trail")
+                    skipped_count += 1
+                    continue
                 elif has_pr:
                     print(f"  ✅ Has PR (URL not found)")
+                    print(f"  🔒 PRESERVING: Sessions with PRs should be kept for audit trail")
+                    skipped_count += 1
+                    continue
                 else:
                     print(f"  ℹ️  No PR found (may be a failed or manual session)")
 
-                # Always show option to delete completed sessions
+                # Only delete sessions WITHOUT PRs
                 if dry_run:
                     print(f"  🔍 Would delete: sessions/{session_id}")
                     deleted_count += 1
