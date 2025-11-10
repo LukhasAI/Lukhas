@@ -63,9 +63,8 @@ class TestCoreCore:
     def test_error_handling(self):
         """Test proper error handling patterns."""
         try:
-            from core.exceptions import LUKHASException
-
             from core import CoreCore
+            from core.exceptions import LUKHASException
 
             component = CoreCore()
 
@@ -82,8 +81,9 @@ class TestCoreIntegration:
     def test_consciousness_integration(self):
         """Test integration with consciousness system."""
         try:
-            from consciousness import ConsciousnessCore
             from core import CoreCore
+
+            from consciousness import ConsciousnessCore
 
             consciousness = ConsciousnessCore()
             component = CoreCore()
@@ -175,7 +175,6 @@ class TestCorePerformance:
             import os
 
             import psutil
-
             from core import CoreCore
 
             component = CoreCore()

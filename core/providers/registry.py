@@ -3,6 +3,7 @@ from __future__ import annotations
 import threading
 from typing import Any, Callable, List, Optional
 
+
 class ProviderRegistry:
     """Central registry for optional providers and components."""
 

@@ -1,7 +1,8 @@
 """Test bio modules use UTC timestamps correctly."""
 
-import pytest
 from importlib.util import find_spec
+
+import pytest
 
 HAS_BIO_SYMBOLIC = find_spec("bio.core.bio_symbolic") is not None
 HAS_BIO_UTILITIES = find_spec("bio.utilities") is not None

@@ -1,7 +1,8 @@
 """Strategic coverage test for branding_bridge.py - 213 lines, 22% -> target 60%"""
 
-import pytest
 from importlib.util import find_spec
+
+import pytest
 
 HAS_BRANDING_BRIDGE = find_spec("branding_bridge") is not None
 

@@ -76,9 +76,8 @@ try:
     # Attempt to import components. Paths might need adjustment based on
     # actual structure within abstract_reasoning
     # Assuming bio_qi_engine and confidence_calibrator are submodules or files
-    from interface import AbstractReasoningBrainInterface, reason_about
-
     from core import AbstractReasoningBrainCore
+    from interface import AbstractReasoningBrainInterface, reason_about
 
     logger.info("ΛTRACE: Successfully imported components from 'abstract_reasoning' package.")
     ABSTRACT_REASONING_COMPONENTS_AVAILABLE = True

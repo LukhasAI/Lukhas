@@ -12,7 +12,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from bridge.llm_wrappers.jules_wrapper import JulesClient
 
-
 BATCH4_SESSIONS = [
     {
         "title": "🔧 P1: Implement Symbolic Reasoning Adapter TODOs (9 TODOs)",
@@ -1299,7 +1298,7 @@ async def create_batch4():
 
             except Exception as e:
                 if "429" in str(e) or "Too Many Requests" in str(e):
-                    print(f"⏸️  Rate limit hit - stopping here")
+                    print("⏸️  Rate limit hit - stopping here")
                     failed.append(session_config)
                     break
                 else:

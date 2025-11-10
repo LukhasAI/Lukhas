@@ -7,11 +7,11 @@ top-tier systems from merely good ones.
 """
 
 import asyncio
+import logging
 import time
 from unittest.mock import Mock, patch
 
 import pytest
-import logging
 from core.reliability import (
     AdaptiveCircuitBreaker,
     AdaptiveTimeoutManager,

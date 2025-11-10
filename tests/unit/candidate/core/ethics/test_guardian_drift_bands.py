@@ -19,12 +19,12 @@ Task 12: Comprehensive testing for Guardian Drift Bands including:
 
 import time
 from datetime import datetime, timedelta, timezone
-from unittest.mock import Mock, patch
-
-import pytest
 
 # Import test targets
 from importlib.util import find_spec
+from unittest.mock import Mock, patch
+
+import pytest
 
 GUARDIAN_AVAILABLE = find_spec("core.ethics.guardian_drift_bands") is not None
 

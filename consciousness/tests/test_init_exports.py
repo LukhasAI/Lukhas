@@ -7,11 +7,12 @@ and coverage tools. This test suite achieves 77% coverage, which is the highest
 level reached after multiple attempts with different strategies.
 """
 
-import unittest
-from unittest.mock import patch, MagicMock
-import sys
 import importlib
+import sys
 import types
+import unittest
+from unittest.mock import MagicMock
+
 
 class TestConsciousnessInit(unittest.TestCase):
     """Test suite for consciousness.__init__."""

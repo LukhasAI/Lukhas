@@ -1,7 +1,8 @@
 """Test identity module basic functionality."""
 
-import pytest
 from importlib.util import find_spec
+
+import pytest
 
 HAS_AUTH_SERVICE = find_spec("identity.AuthenticationService") is not None
 HAS_LAMBDA_ID = find_spec("identity.lambda_id") is not None

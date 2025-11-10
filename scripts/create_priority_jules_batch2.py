@@ -1045,7 +1045,7 @@ Related: #492 (CI provisioning)
     "LOW": [
         {
             "title": "🟢 P3: Improve Documentation - Manifest Coverage (Issue #436)",
-            "prompt": """**LOW PRIORITY: Achieve 99% Manifest Coverage**
+            "prompt": r"""**LOW PRIORITY: Achieve 99% Manifest Coverage**
 
 **Objective**: Create 363 missing module manifests to reach 99% documentation coverage
 

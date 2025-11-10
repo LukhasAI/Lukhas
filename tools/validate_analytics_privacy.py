@@ -302,7 +302,7 @@ def main():
     validator.print_results()
 
     # Exit code
-    if validator.errors or args.strict and validator.warnings:
+    if validator.errors or (args.strict and validator.warnings):
         sys.exit(1)
     else:
         sys.exit(0)

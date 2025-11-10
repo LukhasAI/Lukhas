@@ -1,9 +1,10 @@
 
-import unittest
 import json
-from unittest.mock import MagicMock, call
+import unittest
+from unittest.mock import MagicMock
 
 from memory.backends.pgvector_store import PgVectorStore, VectorDoc
+
 
 class TestPgVectorStore(unittest.TestCase):
 

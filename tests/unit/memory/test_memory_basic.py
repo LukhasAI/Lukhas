@@ -1,7 +1,7 @@
 """Test memory module basic functionality."""
 
-from unittest.mock import patch
 from importlib.util import find_spec
+from unittest.mock import patch
 
 import pytest
 

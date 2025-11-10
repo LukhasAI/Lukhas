@@ -1,8 +1,7 @@
+from importlib.util import find_spec
 from unittest.mock import patch
 
 import pytest
-
-from importlib.util import find_spec
 
 if find_spec("ai_orchestration.mcp_operational_support") is None:
     pytest.skip("ai_orchestration.mcp_operational_support not available", allow_module_level=True)

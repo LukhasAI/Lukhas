@@ -1,7 +1,8 @@
 """Smoke test for MATRIZ orchestrator (if importable)."""
 
-import pytest
 from importlib.util import find_spec
+
+import pytest
 
 HAS_PRIMARY_HUB = find_spec("orchestration.brain.primary_hub") is not None
 HAS_ORCHESTRATION = find_spec("orchestration") is not None

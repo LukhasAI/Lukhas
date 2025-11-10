@@ -1,7 +1,8 @@
 """Strategic coverage test for vivox_wrapper.py - 286 lines, 0% -> target 25%"""
 
-import pytest
 from importlib.util import find_spec
+
+import pytest
 
 HAS_VIVOX_WRAPPER = find_spec("vivox.vivox_wrapper") is not None
 

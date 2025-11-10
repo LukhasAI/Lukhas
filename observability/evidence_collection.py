@@ -5,8 +5,8 @@ until one of its members is accessed. This improves startup time and
 allows for optional dependency graceful degradation.
 """
 import importlib
-from types import ModuleType
 from enum import Enum
+from types import ModuleType
 
 # List of all attributes that this module is expected to export.
 __all__ = [
@@ -14,8 +14,8 @@ __all__ = [
     "EvidenceCollectionEngine",
     "EvidenceType",
     "collect_evidence",
-    "initialize_evidence_collection",
     "get_evidence_engine",
+    "initialize_evidence_collection",
 ]
 
 _loaded_module = None

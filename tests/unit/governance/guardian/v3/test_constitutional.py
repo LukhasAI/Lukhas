@@ -229,7 +229,7 @@ def test_format_safety_issues(engine):
     ]
     # Use sorted to make the comparison order-independent, as sets are used internally
     actual = sorted(engine._format_safety_issues(violations).split(', '))
-    expected = sorted("type_a, type_b".split(', '))
+    expected = sorted(["type_a", "type_b"])
     assert actual == expected
 
 def test_get_caution_factors(engine, mock_decision):

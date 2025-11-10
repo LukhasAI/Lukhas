@@ -1,5 +1,6 @@
 import unittest
 
+
 class TestGovernanceInit(unittest.TestCase):
 
     def test_import_ethics(self):

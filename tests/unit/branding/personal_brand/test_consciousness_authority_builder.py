@@ -1,9 +1,8 @@
 import unittest
+from importlib.util import find_spec
 from unittest.mock import Mock
 
 import pytest
-
-from importlib.util import find_spec
 
 if find_spec("branding.personal_brand.consciousness_authority_builder") is None:
     pytest.skip("branding.personal_brand.consciousness_authority_builder unavailable", allow_module_level=True)

@@ -6,11 +6,11 @@ import time
 import numpy as np
 import psutil
 import pytest
-from pytest_benchmark.fixture import BenchmarkFixture
 
 # Use the lowercase 'matriz' import path as per memory to avoid ModuleNotFoundError
 from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
 from matriz.core.example_node import MathReasoningNode
+from pytest_benchmark.fixture import BenchmarkFixture
 
 # Performance Targets from the user request
 P95_LATENCY_TARGET_MS = 250

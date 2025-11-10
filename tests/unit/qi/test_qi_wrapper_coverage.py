@@ -1,7 +1,8 @@
 """Strategic coverage test for qi_wrapper.py - 331 lines, 0% -> target 30%"""
 
-import pytest
 from importlib.util import find_spec
+
+import pytest
 
 HAS_QI_WRAPPER = find_spec("qi.qi_wrapper") is not None
 

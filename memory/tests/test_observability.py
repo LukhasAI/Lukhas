@@ -2,7 +2,8 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
-from memory.observability import PrometheusMetrics, MemoryTracer, MemorySpan
+from memory.observability import MemorySpan, MemoryTracer, PrometheusMetrics
+
 
 class TestPrometheusMetrics(unittest.TestCase):
 
