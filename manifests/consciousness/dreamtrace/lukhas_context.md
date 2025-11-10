@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.consciousness.dreamtrace
 
 **Star**: 🌊 Flow (Consciousness)

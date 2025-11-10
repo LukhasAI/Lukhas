@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.consciousness_ticker
 
 **Star**: 🌊 Flow (Consciousness)

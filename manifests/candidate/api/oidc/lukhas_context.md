@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.api.oidc
 
 **Star**: 🛡️ Watch (Guardian)

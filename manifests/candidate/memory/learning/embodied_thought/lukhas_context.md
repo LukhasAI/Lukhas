@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.memory.learning.embodied_thought
 
 **Star**: ✦ Trail (Memory)

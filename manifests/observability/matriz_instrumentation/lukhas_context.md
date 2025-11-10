@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.observability.matriz_instrumentation
 
 **Star**: Supporting

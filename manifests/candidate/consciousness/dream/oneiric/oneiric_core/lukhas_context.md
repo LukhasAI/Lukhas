@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.consciousness.dream.oneiric.oneiric_core
 
 **Star**: 🌊 Flow (Consciousness)

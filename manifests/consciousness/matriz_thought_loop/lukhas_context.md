@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.consciousness.matriz_thought_loop
 
 **Star**: 🌊 Flow (Consciousness)

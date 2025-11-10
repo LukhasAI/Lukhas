@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.dream.dream_hub
 
 **Star**: 🌊 Flow (Consciousness)

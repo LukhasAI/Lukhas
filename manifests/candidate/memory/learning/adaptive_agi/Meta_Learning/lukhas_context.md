@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.memory.learning.adaptive_agi.Meta_Learning
 
 **Star**: ✦ Trail (Memory)

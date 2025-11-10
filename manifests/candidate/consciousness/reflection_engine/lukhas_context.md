@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.consciousness.reflection_engine
 
 **Star**: 🌊 Flow (Consciousness)

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.bio.quantum_bio_components
 
 **Star**: 🔮 Oracle (Quantum)

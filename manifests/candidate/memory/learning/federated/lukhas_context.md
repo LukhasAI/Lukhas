@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.memory.learning.federated
 
 **Star**: ✦ Trail (Memory)

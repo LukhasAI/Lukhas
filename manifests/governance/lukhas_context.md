@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.governance
 
 **Star**: 🛡️ Watch (Guardian)

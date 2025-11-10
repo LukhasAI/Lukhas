@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.governance.ethics
 
 **Star**: 🛡️ Watch (Guardian)

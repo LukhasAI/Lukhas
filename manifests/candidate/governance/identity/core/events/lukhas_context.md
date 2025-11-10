@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.governance.identity.core.events
 
 **Star**: ⚛️ Anchor (Identity)

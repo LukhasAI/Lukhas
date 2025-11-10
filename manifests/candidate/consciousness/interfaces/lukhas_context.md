@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.consciousness.interfaces
 
 **Star**: 🔬 Horizon (Vision)

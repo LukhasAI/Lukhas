@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.bridge.adapters.service_adapter_base
 
 **Star**: Supporting

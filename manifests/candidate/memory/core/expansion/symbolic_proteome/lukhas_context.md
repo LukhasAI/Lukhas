@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.memory.core.expansion.symbolic_proteome
 
 **Star**: ✦ Trail (Memory)

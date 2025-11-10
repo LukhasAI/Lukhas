@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.interfaces.voice.integrations.elevenlabs
 
 **Star**: 🔬 Horizon (Vision)

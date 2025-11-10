@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.consciousness.guardian_integration
 
 **Star**: 🛡️ Watch (Guardian)

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.interfaces.as_agent.agent_logic
 
 **Star**: 🔬 Horizon (Vision)

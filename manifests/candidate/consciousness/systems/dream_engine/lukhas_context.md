@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.consciousness.systems.dream_engine
 
 **Star**: 🌊 Flow (Consciousness)
