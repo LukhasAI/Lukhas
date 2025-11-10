@@ -18,7 +18,10 @@ DEFAULT_WEIGHTS = {"low_coverage": 0.55, "hotness": 0.30, "tier_bias": 0.15}
 DEFAULT_TIERS = {"serve": 1, "lukhas": 1, "matriz": 2, "core": 3}
 
 PR_TEMPLATE = """\
-title: test({module}): add coverage for {path_basename}
+title: "test({module}): add coverage for {path_basename}"
+labels:
+  - labot
+  - type:tests
 body: |
   # Test Request (ΛBot)
 
@@ -35,6 +38,8 @@ body: |
   ## Notes
   - Protected surface must not be edited.
   - Use the prompt in `prompts/labot/{slug}.md`.
+
+  **Status**: Draft - requires human review before merging
 """
 
 PROMPT_TEMPLATE_SERVE = """\
@@ -219,7 +224,12 @@ def open_pr_shell(slug: str):
           title = line[len("title:"):].strip()
           break
   body = data.split("body:", 1)[-1].strip() if "body:" in data else ""
-  os.system(f"gh pr create --title {json.dumps(title or 'test: add tests')} --body {json.dumps(body)}")
+  # Create a DRAFT PR and add the 'labot' label. Support dry-run via env var LABOT_DRY_RUN=1
+  cmd = f"gh pr create --draft --title {json.dumps(title or 'test: add tests')} --body {json.dumps(body)} --label labot"
+  if os.environ.get("LABOT_DRY_RUN", "0") == "1":
+      print("LABOT DRY RUN:", cmd)
+  else:
+      os.system(cmd)
   print(f"Opened PR for {slug} on branch {branch}")
 
 def main():
