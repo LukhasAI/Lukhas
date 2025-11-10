@@ -133,6 +133,12 @@ class CognitiveNode(ABC):
         """
 
     @abstractmethod
+    def can_handle(self, intent: str) -> bool:
+        """
+        Check if the node can handle a given intent
+        """
+
+    @abstractmethod
     def validate_output(self, output: dict[str, Any]) -> bool:
         """
         Validate the output of this node's processing.
