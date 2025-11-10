@@ -32,6 +32,20 @@ jobs:
             --max-lines 40 \
             || echo "::warning::Policy guard failed - review required"
 
+      - name: Install OPA
+        run: |
+          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
+          chmod +x opa
+          sudo install -m 755 opa /usr/local/bin/opa
+
+      - name: Evaluate OPA policies
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          python .policy/diff_to_json.py > /tmp/diff.json
+          opa eval --format pretty --fail-defined --data .policy --input /tmp/diff.json "data.rules.deny[_]"
+
       - name: Lint check (changed Python files only)
         run: |
           BASE_SHA="${{ github.event.pull_request.base.sha || github.event.before }}"

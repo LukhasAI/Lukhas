@@ -52,7 +52,7 @@ from cachetools import TTLCache
 
 # Streamlit Imports / LUKHAS Placeholders
 try:
-from fromfromfromcandidate.core.common import get_logger  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+from candidate.core.common import get_logger  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
 
 #     from streamlit.runtime.caching import cache_utils  # TODO: Install or implement streamlit
 # from streamlit.runtime.caching.storage.cache_storage_protocol import (

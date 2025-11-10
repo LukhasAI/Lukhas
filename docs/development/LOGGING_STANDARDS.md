@@ -232,7 +232,54 @@ def process_data(data, user):
 3.  String formatting was replaced with key-value pairs.
 4.  `log.exception()` is used inside the `except` block, which automatically captures the stack trace.
 
-## 8. Troubleshooting Common Issues
+## 8. Automated Checks and Tools
+
+### Checking for Duplicate Loggers
+
+Run this command to find files with multiple logger definitions:
+
+```bash
+# Find potential duplicate logger definitions
+grep -r "logger = " --include="*.py" . | \
+  awk -F: '{print $1}' | sort | uniq -c | \
+  awk '$1 > 1 {print "⚠️  " $2 " has " $1 " logger definitions"}'
+```
+
+### Automated Fix Script
+
+Use `scripts/fix_duplicate_loggers.py` to automatically fix common logging issues:
+
+```bash
+# Dry run - shows what would be changed
+python scripts/fix_duplicate_loggers.py --dry-run
+
+# Apply fixes
+python scripts/fix_duplicate_loggers.py
+
+# Fix specific directory
+python scripts/fix_duplicate_loggers.py --path lukhas/core
+```
+
+The script will:
+- Remove duplicate logger definitions in the same file
+- Replace `logging.warn` with `logging.warning`
+- Replace root logger calls with module-level loggers
+- Standardize to `logger = logging.getLogger(__name__)` pattern
+
+### Running Linting Checks
+
+```bash
+# Check logging standards with ruff
+ruff check --select G,LOG .
+
+# Auto-fix where possible
+ruff check --select G,LOG --fix .
+
+# Run as part of pre-commit
+pre-commit run ruff --all-files
+```
+
+## 9. Troubleshooting Common Issues
 
 ### Duplicate Log Messages
 
@@ -241,3 +288,24 @@ def process_data(data, user):
     1.  **NEVER** call `logging.basicConfig()` or `logger.addHandler()` in library code (i.e., any module that isn't the main entry point of an application).
     2.  Configuration should happen **ONCE** at the application's startup.
     3.  Ensure `propagate = False` is set on a logger if you are giving it a specific handler and want to prevent its messages from also going to the parent handlers.
+
+### Logger Not Found / Import Errors
+
+-   **Cause:** Incorrect import statement or logger instantiation
+-   **Solution:** Always use the standard pattern:
+    ```python
+    import logging
+    logger = logging.getLogger(__name__)  # At module level
+    ```
+
+### Performance Impact of Logging
+
+-   **Cause:** Expensive string formatting in log calls, especially at DEBUG level in production
+-   **Solution:** Use lazy formatting and appropriate log levels
+    ```python
+    # GOOD: Lazy evaluation
+    logger.debug("Processing %d items", len(items))
+
+    # AVOID: Eager string formatting
+    logger.debug(f"Processing {len(items)} items")  # Evaluated even if DEBUG disabled
+    ```

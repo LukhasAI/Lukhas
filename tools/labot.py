@@ -1,12 +1,19 @@
 from __future__ import annotations
-import argparse, json, os, subprocess, sys, textwrap
-from pathlib import Path
+
+import argparse
+import json
+import os
+import subprocess
+import sys
+from contextlib import suppress
 from fnmatch import fnmatch
+from pathlib import Path
 
 try:
     import yaml  # type: ignore
 except Exception:
-    print("Please: pip install pyyaml", file=sys.stderr); sys.exit(2)
+    print("Please: pip install pyyaml", file=sys.stderr)
+    sys.exit(2)
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORTS = ROOT / "reports"
@@ -130,18 +137,19 @@ def cov_map() -> dict[str, float]:
           fn = pkg.get("filename")
           ln_rate = pkg.get("line-rate")
           if fn and ln_rate is not None:
-              try:
+              with suppress(Exception):
                   res[fn] = float(ln_rate) * 100.0
-              except Exception:
-                  pass
       return res
   except Exception:
       return {}
 
 def tier_for(path: str, tiers: dict[str,int]) -> int:
-  if path.startswith("serve/"): return tiers.get("serve", 1)
-  if path.startswith("lukhas/"): return tiers.get("lukhas", 1)
-  if path.startswith("matriz/"): return tiers.get("matriz", 2)
+  if path.startswith("serve/"):
+      return tiers.get("serve", 1)
+  if path.startswith("lukhas/"):
+      return tiers.get("lukhas", 1)
+  if path.startswith("matriz/"):
+      return tiers.get("matriz", 2)
   return tiers.get("core", 3)
 
 def score(path: str, cov: float, hot: int, tier: int, w: dict[str,float]) -> float:
@@ -180,7 +188,8 @@ def plan(top_n: int, cfg):
   files = list_py_files()
   scored = []
   for f in files:
-      if excluded(f, excludes): continue
+      if excluded(f, excludes):
+          continue
       c = cov.get(f, 0.0)
       h = blame_lines(f)
       t = tier_for(f, tiers)
@@ -192,7 +201,7 @@ def plan(top_n: int, cfg):
 def gen_requests(candidates: list[tuple[float,str,float,int,int]]):
   ensure_dirs()
   created = []
-  for s, path, cov, hot, tier in candidates:
+  for _score, path, _cov, _hot, tier in candidates:
       tpl, suite = prompt_template_for(path)
       slug = slugify(path)
       module = path.split("/")[0]
@@ -204,10 +213,11 @@ def gen_requests(candidates: list[tuple[float,str,float,int,int]]):
       created.append({"path": path, "prompt": str(PROMPTS_DIR / f"{slug}.md"), "pr": str(REQUESTS_DIR / f"{slug}.pr.yml")})
   return created
 
-def open_pr_shell(slug: str):
+def open_pr_shell(slug: str, *, dry_run: bool = False, assume_yes: bool = False):
   pr_file = REQUESTS_DIR / f"{slug}.pr.yml"
   if not pr_file.exists():
-      print(f"Request missing: {pr_file}", file=sys.stderr); sys.exit(1)
+      print(f"Request missing: {pr_file}", file=sys.stderr)
+      sys.exit(1)
   data = pr_file.read_text()
   # write a placeholder change to make a PR (docs-only change)
   changes = ROOT / "docs" / "labot" / f"{slug}.md"
@@ -225,8 +235,20 @@ def open_pr_shell(slug: str):
           break
   body = data.split("body:", 1)[-1].strip() if "body:" in data else ""
   # Create a DRAFT PR and add the 'labot' label. Support dry-run via env var LABOT_DRY_RUN=1
-  cmd = f"gh pr create --draft --title {json.dumps(title or 'test: add tests')} --body {json.dumps(body)} --label labot"
-  if os.environ.get("LABOT_DRY_RUN", "0") == "1":
+  cmd_parts = [
+      "gh",
+      "pr",
+      "create",
+      "--draft",
+      f"--title {json.dumps(title or 'test: add tests')}",
+      f"--body {json.dumps(body)}",
+      "--label labot",
+  ]
+  if assume_yes:
+      cmd_parts.append("--assume-yes")
+  cmd = " ".join(cmd_parts)
+  env_dry_run = os.environ.get("LABOT_DRY_RUN", "0") == "1"
+  if dry_run or env_dry_run:
       print("LABOT DRY RUN:", cmd)
   else:
       os.system(cmd)
@@ -237,6 +259,12 @@ def main():
   ap.add_argument("--mode", choices=["plan","gen","plan+gen","open-pr"], default="plan")
   ap.add_argument("--top", type=int, default=None, help="override top_n")
   ap.add_argument("--slug", help="slug to open PR shell (for --mode open-pr)")
+  ap.add_argument("--dry-run", action="store_true", help="print PR command without executing it")
+  ap.add_argument(
+      "--assume-yes",
+      action="store_true",
+      help="pass --assume-yes to gh when creating PRs",
+  )
   args = ap.parse_args()
 
   cfg = read_config()
@@ -251,7 +279,8 @@ def main():
 
   if args.mode in ("gen","plan+gen"):
       if not (REPORTS / "evolve_candidates.json").exists():
-          print("No candidates file; run --mode plan first", file=sys.stderr); sys.exit(1)
+          print("No candidates file; run --mode plan first", file=sys.stderr)
+          sys.exit(1)
       cands = json.loads((REPORTS / "evolve_candidates.json").read_text())
       tuples = [(c["score"], c["path"], c["coverage"], c["hot_lines"], c["tier"]) for c in cands]
       created = gen_requests(tuples)
@@ -259,8 +288,9 @@ def main():
 
   if args.mode == "open-pr":
       if not args.slug:
-          print("--slug required for open-pr", file=sys.stderr); sys.exit(1)
-      open_pr_shell(args.slug)
+          print("--slug required for open-pr", file=sys.stderr)
+          sys.exit(1)
+      open_pr_shell(args.slug, dry_run=args.dry_run, assume_yes=args.assume_yes)
 
 if __name__ == "__main__":
   main()

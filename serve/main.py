@@ -8,6 +8,9 @@ from typing import Any, Callable, Optional
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
+from serve.middleware.prometheus import PrometheusMiddleware
+from serve.metrics import matriz_operations_total, matriz_operation_duration_ms, active_thoughts, cache_hits_total, cache_misses_total
+from async_lru import alru_cache
 
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False
@@ -64,13 +67,15 @@ _RUN_ASYNC_ORCH: Optional[Callable[[str], Awaitable[dict[str, Any]]]] = None
 if ASYNC_ORCH_ENABLED:
     try:
         from MATRIZ.orchestration.service_async import (
-            run_async_matriz as _RUN_ASYNC_ORCH,  # type: ignore[assignment]
+            run_async_matriz,
         )
+        _RUN_ASYNC_ORCH = alru_cache(maxsize=128)(run_async_matriz)
     except Exception:
         try:
             from matriz.orchestration.service_async import (  # type: ignore
-                run_async_matriz as _RUN_ASYNC_ORCH,  # type: ignore[assignment]
+                run_async_matriz,
             )
+            _RUN_ASYNC_ORCH = alru_cache(maxsize=128)(run_async_matriz)
         except Exception:
             ASYNC_ORCH_ENABLED = False
             logging.getLogger(__name__).warning('LUKHAS_ASYNC_ORCH=1 but async MATRIZ orchestrator unavailable; falling back to stub')
@@ -96,6 +101,19 @@ matriz_traces_router = (
     _safe_import_router('MATRIZ.traces_router', 'router')
     or _safe_import_router('matriz.traces_router', 'router')
 )
+
+# Core wiring routers (feature-flag gated)
+dreams_router = None
+if (env_get('LUKHAS_DREAMS_ENABLED', '0') or '0').strip() == '1':
+    dreams_router = _safe_import_router('lukhas_website.lukhas.api.dreams', 'router')
+
+glyphs_router = None
+if (env_get('LUKHAS_GLYPHS_ENABLED', '0') or '0').strip() == '1':
+    glyphs_router = _safe_import_router('lukhas_website.lukhas.api.glyphs', 'router')
+
+drift_router = None
+if (env_get('LUKHAS_DRIFT_ENABLED', '0') or '0').strip() == '1':
+    drift_router = _safe_import_router('lukhas_website.lukhas.api.drift', 'router')
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -105,40 +123,8 @@ def require_api_key(x_api_key: Optional[str]=Header(default=None)) -> Optional[s
     if expected_key and x_api_key != expected_key:
         raise HTTPException(status_code=401, detail='Unauthorized')
     return x_api_key
+from lukhas_website.lukhas.api.middleware.strict_auth import StrictAuthMiddleware
 app = FastAPI(title='LUKHAS API', version='1.0.0', description='Governed tool loop, auditability, feedback LUT, and safety modes.', contact={'name': 'LUKHAS AI Team', 'url': 'https://github.com/LukhasAI/Lukhas'}, license_info={'name': 'MIT', 'url': 'https://opensource.org/licenses/MIT'}, servers=[{'url': 'http://localhost:8000', 'description': 'Local development'}, {'url': 'https://api.ai', 'description': 'Production'}])
-
-class StrictAuthMiddleware(BaseHTTPMiddleware):
-    """
-    Enforce authentication in strict policy mode.
-
-    When LUKHAS_POLICY_MODE=strict, validates Bearer token on all /v1/* endpoints.
-    Returns 401 with OpenAI-compatible error envelope on auth failure.
-    """
-
-    def __init__(self, app):
-        super().__init__(app)
-
-    async def dispatch(self, request: Request, call_next):
-        policy_mode = env_get('LUKHAS_POLICY_MODE', 'strict') or 'strict'
-        strict_enabled = policy_mode == 'strict'
-        if not strict_enabled or not request.url.path.startswith('/v1/'):
-            return await call_next(request)
-        auth_header = request.headers.get('Authorization', '')
-        if not auth_header:
-            return self._auth_error('Missing Authorization header')
-        if not auth_header.startswith('Bearer '):
-            return self._auth_error('Authorization header must use Bearer scheme')
-        token = auth_header[7:].strip()
-        if not token:
-            return self._auth_error('Bearer token is empty')
-        return await call_next(request)
-
-    def _auth_error(self, message: str) -> Response:
-        """Return OpenAI-compatible 401 error envelope."""
-        from fastapi.responses import JSONResponse
-        error_detail = {'type': 'invalid_api_key', 'message': f'Invalid authentication credentials. {message}', 'code': 'invalid_api_key'}
-        error_response = {'error': {'message': {'error': error_detail}, 'type': error_detail['type'], 'code': error_detail['code']}}
-        return JSONResponse(status_code=401, content=error_response)
 
 class HeadersMiddleware(BaseHTTPMiddleware):
     """Add OpenAI-compatible headers to all responses."""
@@ -156,6 +142,7 @@ class HeadersMiddleware(BaseHTTPMiddleware):
         response.headers['x-ratelimit-reset-requests'] = str(int(time.time()) + 60)
         return response
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
+app.add_middleware(PrometheusMiddleware)
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
 app.add_middleware(StrictAuthMiddleware)
 app.add_middleware(HeadersMiddleware)
@@ -181,6 +168,13 @@ if consciousness_router is not None:
     app.include_router(consciousness_router)
 if guardian_router is not None:
     app.include_router(guardian_router)
+# Core wiring routers (feature-flag gated)
+if dreams_router is not None:
+    app.include_router(dreams_router)
+if glyphs_router is not None:
+    app.include_router(glyphs_router)
+if drift_router is not None:
+    app.include_router(drift_router)
 
 def voice_core_available() -> bool:
     try:
@@ -246,10 +240,12 @@ def readyz() -> dict[str, Any]:
 
 @app.get('/metrics', include_in_schema=False)
 def metrics() -> Response:
-    """Prometheus-style metrics endpoint (stub for monitoring compatibility)."""
-    import time
-    metrics_output = f'# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.\n# TYPE process_cpu_seconds_total counter\nprocess_cpu_seconds_total {time.process_time()}\n\n# HELP http_requests_total Total HTTP requests processed\n# TYPE http_requests_total counter\nhttp_requests_total{{method="GET",endpoint="/healthz",status="200"}} 1\n\n# HELP lukhas_api_info LUKHAS API version information\n# TYPE lukhas_api_info gauge\nlukhas_api_info{{version="1.0.0"}} 1\n'
-    return Response(content=metrics_output, media_type='text/plain')
+    """Prometheus metrics endpoint"""
+    from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+    return Response(
+        content=generate_latest(),
+        media_type=CONTENT_TYPE_LATEST
+    )
 
 def _hash_embed(text: str, dim: int=1536) -> list[float]:
     """Generate deterministic embedding from text using hash expansion."""
@@ -380,7 +376,25 @@ async def create_response(request: dict) -> Response:
     response_text = f"[stub] {content}".strip()
     orchestrator_result: Optional[dict[str, Any]] = None
     if ASYNC_ORCH_ENABLED and _RUN_ASYNC_ORCH is not None:
-        orchestrator_result = await _RUN_ASYNC_ORCH(content)
+        active_thoughts.inc()
+        start_time = time.time()
+        try:
+            orchestrator_result = await _RUN_ASYNC_ORCH(content)
+            duration = (time.time() - start_time) * 1000  # milliseconds
+            matriz_operations_total.labels(operation_type='chat_completion', status='success').inc()
+            matriz_operation_duration_ms.labels(operation_type='chat_completion').observe(duration)
+        except Exception:
+            duration = (time.time() - start_time) * 1000  # milliseconds
+            matriz_operations_total.labels(operation_type='chat_completion', status='error').inc()
+            matriz_operation_duration_ms.labels(operation_type='chat_completion').observe(duration)
+            raise
+        finally:
+            active_thoughts.dec()
+
+        cache_info = _RUN_ASYNC_ORCH.cache_info()
+        cache_hits_total.labels(cache_name='matriz_orchestrator').set(cache_info.hits)
+        cache_misses_total.labels(cache_name='matriz_orchestrator').set(cache_info.misses)
+
         metrics_snapshot = orchestrator_result.get('orchestrator_metrics') if isinstance(orchestrator_result, dict) else None
         if metrics_snapshot:
             logger.debug('Async MATRIZ orchestrator metrics: %s', metrics_snapshot)

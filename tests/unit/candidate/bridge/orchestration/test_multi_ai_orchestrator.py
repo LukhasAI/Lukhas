@@ -3,6 +3,7 @@ from unittest.mock import AsyncMock, patch
 import pytest
 from bridge.llm_wrappers.base import LLMProvider, LLMWrapper
 from bridge.orchestration.multi_ai_orchestrator import ModelOrchestrator
+from typing import Tuple
 
 
 class MockLLMWrapper(LLMWrapper):
@@ -15,7 +16,7 @@ class MockLLMWrapper(LLMWrapper):
     def is_available(self) -> bool:
         return self._is_available
 
-    async def generate_response(self, prompt: str, model: str, **kwargs) -> tuple[str, str]:
+    async def generate_response(self, prompt: str, model: str, **kwargs) -> Tuple[str, str]:
         # This is a bit of a hack to make the mock work with the abstract method
         if "return_value" in self.generate_response.__dict__:
             return self.generate_response.return_value

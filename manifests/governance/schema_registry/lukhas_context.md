@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.governance.schema_registry
 
 **Star**: 🛡️ Watch (Guardian)

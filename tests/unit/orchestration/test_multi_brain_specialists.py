@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Dict, Optional
 
 import pytest
 from core.orchestration.brain.integration.brain_integration import MultiBrain
@@ -13,7 +14,7 @@ class DummySpecialist:
         self.name = name
         self.messages = []
 
-    def handle_message(self, message: dict, origin: str | None = None):
+    def handle_message(self, message: Dict, origin: Optional[str] = None):
         self.messages.append((message, origin, datetime.now()))
         return {"handled_by": self.name, "origin": origin}
 

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.observability.opentelemetry_tracing
 
 **Star**: Supporting
