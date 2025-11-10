@@ -1,7 +1,4 @@
-title: "test(core): add coverage for metrics.py"
-labels:
-  - labot
-  - type:tests
+title: test(core): add coverage for metrics.py
 body: |
   # Test Request (ΛBot)
 
@@ -18,4 +15,3 @@ body: |
   ## Notes
   - Protected surface must not be edited.
   - Use the prompt in `prompts/labot/core_monitoring_metrics.md`.
-  - This PR is a **draft** from ΛBot and requires human review before merging.

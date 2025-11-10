@@ -1,7 +1,4 @@
-title: "test(matriz): add coverage for engine.py"
-labels:
-  - labot
-  - type:tests
+title: test(matriz): add coverage for engine.py
 body: |
   # Test Request (ΛBot)
 
@@ -18,4 +15,3 @@ body: |
   ## Notes
   - Protected surface must not be edited.
   - Use the prompt in `prompts/labot/matriz_core_engine.md`.
-  - This PR is a **draft** from ΛBot and requires human review before merging.
