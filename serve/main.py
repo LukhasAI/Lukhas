@@ -8,6 +8,9 @@ from typing import Any, Callable, Optional
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
+from serve.middleware.prometheus import PrometheusMiddleware
+from serve.metrics import matriz_operations_total, matriz_operation_duration_ms, active_thoughts, cache_hits_total, cache_misses_total
+from async_lru import alru_cache
 
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False
@@ -64,13 +67,15 @@ _RUN_ASYNC_ORCH: Optional[Callable[[str], Awaitable[dict[str, Any]]]] = None
 if ASYNC_ORCH_ENABLED:
     try:
         from MATRIZ.orchestration.service_async import (
-            run_async_matriz as _RUN_ASYNC_ORCH,  # type: ignore[assignment]
+            run_async_matriz,
         )
+        _RUN_ASYNC_ORCH = alru_cache(maxsize=128)(run_async_matriz)
     except Exception:
         try:
             from matriz.orchestration.service_async import (  # type: ignore
-                run_async_matriz as _RUN_ASYNC_ORCH,  # type: ignore[assignment]
+                run_async_matriz,
             )
+            _RUN_ASYNC_ORCH = alru_cache(maxsize=128)(run_async_matriz)
         except Exception:
             ASYNC_ORCH_ENABLED = False
             logging.getLogger(__name__).warning('LUKHAS_ASYNC_ORCH=1 but async MATRIZ orchestrator unavailable; falling back to stub')
@@ -156,6 +161,7 @@ class HeadersMiddleware(BaseHTTPMiddleware):
         response.headers['x-ratelimit-reset-requests'] = str(int(time.time()) + 60)
         return response
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
+app.add_middleware(PrometheusMiddleware)
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
 app.add_middleware(StrictAuthMiddleware)
 app.add_middleware(HeadersMiddleware)
@@ -246,10 +252,12 @@ def readyz() -> dict[str, Any]:
 
 @app.get('/metrics', include_in_schema=False)
 def metrics() -> Response:
-    """Prometheus-style metrics endpoint (stub for monitoring compatibility)."""
-    import time
-    metrics_output = f'# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.\n# TYPE process_cpu_seconds_total counter\nprocess_cpu_seconds_total {time.process_time()}\n\n# HELP http_requests_total Total HTTP requests processed\n# TYPE http_requests_total counter\nhttp_requests_total{{method="GET",endpoint="/healthz",status="200"}} 1\n\n# HELP lukhas_api_info LUKHAS API version information\n# TYPE lukhas_api_info gauge\nlukhas_api_info{{version="1.0.0"}} 1\n'
-    return Response(content=metrics_output, media_type='text/plain')
+    """Prometheus metrics endpoint"""
+    from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+    return Response(
+        content=generate_latest(),
+        media_type=CONTENT_TYPE_LATEST
+    )
 
 def _hash_embed(text: str, dim: int=1536) -> list[float]:
     """Generate deterministic embedding from text using hash expansion."""
@@ -380,7 +388,25 @@ async def create_response(request: dict) -> Response:
     response_text = f"[stub] {content}".strip()
     orchestrator_result: Optional[dict[str, Any]] = None
     if ASYNC_ORCH_ENABLED and _RUN_ASYNC_ORCH is not None:
-        orchestrator_result = await _RUN_ASYNC_ORCH(content)
+        active_thoughts.inc()
+        start_time = time.time()
+        try:
+            orchestrator_result = await _RUN_ASYNC_ORCH(content)
+            duration = (time.time() - start_time) * 1000  # milliseconds
+            matriz_operations_total.labels(operation_type='chat_completion', status='success').inc()
+            matriz_operation_duration_ms.labels(operation_type='chat_completion').observe(duration)
+        except Exception:
+            duration = (time.time() - start_time) * 1000  # milliseconds
+            matriz_operations_total.labels(operation_type='chat_completion', status='error').inc()
+            matriz_operation_duration_ms.labels(operation_type='chat_completion').observe(duration)
+            raise
+        finally:
+            active_thoughts.dec()
+
+        cache_info = _RUN_ASYNC_ORCH.cache_info()
+        cache_hits_total.labels(cache_name='matriz_orchestrator').set(cache_info.hits)
+        cache_misses_total.labels(cache_name='matriz_orchestrator').set(cache_info.misses)
+
         metrics_snapshot = orchestrator_result.get('orchestrator_metrics') if isinstance(orchestrator_result, dict) else None
         if metrics_snapshot:
             logger.debug('Async MATRIZ orchestrator metrics: %s', metrics_snapshot)
