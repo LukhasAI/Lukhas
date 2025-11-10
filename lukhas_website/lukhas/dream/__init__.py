@@ -21,23 +21,45 @@ _parallel_dreams_module: Optional[Any] = None
 
 def get_dream_engine() -> Any:
     """
-    Get dream engine if enabled.
+    Get dream engine based on feature flags.
 
     Returns:
-        DreamEngine instance
+        - DreamEngine with mode="sequential" if PARALLEL_DREAMS_ENABLED=false
+        - DreamEngine with mode="parallel" if PARALLEL_DREAMS_ENABLED=true
 
     Raises:
-        RuntimeError: If dreams not enabled or not available
+        RuntimeError: If DREAMS_ENABLED=false or module not available
     """
     global _dream_engine
 
-    if not DREAMS_ENABLED:
+    # Re-read flags from environment to support runtime changes
+    dreams_enabled = os.environ.get("DREAMS_ENABLED", "false").lower() in ("true", "1", "yes", "on")
+    parallel_dreams_enabled = os.environ.get("PARALLEL_DREAMS_ENABLED", "false").lower() in ("true", "1", "yes", "on")
+
+    if not dreams_enabled:
         raise RuntimeError("Dreams subsystem not enabled (set DREAMS_ENABLED=true)")
 
-    if _dream_engine is None:
+    # Determine desired mode based on flag
+    desired_mode = "parallel" if parallel_dreams_enabled else "sequential"
+
+    # Check if engine needs to be created or recreated
+    needs_creation = _dream_engine is None
+    needs_recreation = False
+
+    if not needs_creation:
+        # Check if current engine mode matches desired mode
+        current_mode = getattr(_dream_engine, "config", {}).get("mode", "unknown")
+        if current_mode != desired_mode:
+            needs_recreation = True
+
+    if needs_creation or needs_recreation:
         try:
             from lukhas_website.lukhas.consciousness.dream_engine import DreamEngine
-            _dream_engine = DreamEngine()
+
+            # Create engine with appropriate mode configuration
+            config = {"mode": desired_mode}
+            _dream_engine = DreamEngine(config=config)
+
         except ImportError as e:
             raise RuntimeError(f"Dreams module not available: {e}") from e
 
