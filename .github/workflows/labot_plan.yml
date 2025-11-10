@@ -1,0 +1,23 @@
+name: ΛBot Planner
+
+on:
+  schedule:
+    - cron: "23 2 * * *"  # daily 02:23 UTC
+  workflow_dispatch: {}
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python -m pip install --upgrade pip pyyaml
+      - run: pytest --cov=. --cov-report=xml:reports/coverage.xml -q || true
+      - run: python tools/labot.py --mode plan
+      - name: Upload plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: labot-plan
+          path: reports/evolve_candidates.json
