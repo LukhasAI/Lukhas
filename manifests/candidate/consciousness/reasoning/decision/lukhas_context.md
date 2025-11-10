@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.consciousness.reasoning.decision
 
 **Star**: 🌊 Flow (Consciousness)

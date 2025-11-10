@@ -1,1 +1,5 @@
-# serve/__init__.py
+"""
+LUKHAS Commercial API
+"""
+
+__version__ = "1.0.0"

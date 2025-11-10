@@ -15,6 +15,7 @@ import statistics
 import time
 
 import pytest
+from typing import Dict, List
 
 try:
     from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
@@ -185,14 +186,14 @@ class RouterFastPathLoadTest:
                 return max(active_nodes, key=lambda x: x[1])[0]
         return 'unknown'
 
-    def _analyze_node_usage(self) -> dict[str, int]:
+    def _analyze_node_usage(self) -> Dict[str, int]:
         """Analyze node usage from orchestrator health metrics"""
         usage = {}
         for (node_name, health) in self.orchestrator.node_health.items():
             usage[node_name] = health['success_count'] + health['failure_count']
         return usage
 
-    def _count_node_usage(self, node_list: list[str]) -> dict[str, int]:
+    def _count_node_usage(self, node_list: List[str]) -> Dict[str, int]:
         """Count node usage from list of selected nodes"""
         counts = {}
         for node in node_list:

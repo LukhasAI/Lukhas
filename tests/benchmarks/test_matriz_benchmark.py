@@ -1,6 +1,7 @@
 """Benchmarks for the MATRIZ Cognitive Engine."""
 
 import asyncio
+from typing import List, Dict, Optional
 
 import pytest
 from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
@@ -10,7 +11,7 @@ from matriz.core.node_interface import CognitiveNode
 class MockCognitiveNode(CognitiveNode):
     """A mock cognitive node for benchmarking."""
 
-    def __init__(self, node_name: str = "mock_node", capabilities: list[str] = None):
+    def __init__(self, node_name: str = "mock_node", capabilities: Optional[List[str]] = None):
         """Initializes the mock node."""
         super().__init__(node_name, capabilities or ["mock"])
 

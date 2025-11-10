@@ -5,7 +5,7 @@ for type-safe dependency injection without requiring actual OpenAI clients.
 """
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Dict, List, Optional, Union
 
 import pytest
 from core.ports import ChatCompletionResponse, ChatMessage, OpenAIProvider
@@ -20,19 +20,19 @@ class MockOpenAIProvider:
 
     def __init__(self, mock_response: str = "Mock response"):
         self.mock_response = mock_response
-        self.last_call_args: dict[str, Any] = {}
+        self.last_call_args: Dict[str, Any] = {}
 
     def create_chat_completion(
         self,
         *,
         model: str,
-        messages: list[ChatMessage],
+        messages: List[ChatMessage],
         temperature: float = 0.7,
-        max_tokens: int | None = None,
+        max_tokens: Optional[int] = None,
         top_p: float = 1.0,
         frequency_penalty: float = 0.0,
         presence_penalty: float = 0.0,
-        stop: str | list[str] | None = None,
+        stop: Optional[Union[str, List[str]]] = None,
         stream: bool = False,
         **kwargs: Any,
     ) -> ChatCompletionResponse:
@@ -60,7 +60,7 @@ class MockOpenAIProvider:
         self,
         *,
         model: str,
-        messages: list[ChatMessage],
+        messages: List[ChatMessage],
         **kwargs: Any,
     ) -> ChatCompletionResponse:
         """Mock async chat completion."""
@@ -70,9 +70,9 @@ class MockOpenAIProvider:
         self,
         *,
         model: str,
-        input: str | list[str],
+        input: Union[str, List[str]],
         **kwargs: Any,
-    ) -> dict[str, Any]:
+    ) -> Dict[str, Any]:
         """Mock embedding creation."""
         return {
             "object": "list",
@@ -85,9 +85,9 @@ class MockOpenAIProvider:
         self,
         *,
         model: str,
-        input: str | list[str],
+        input: Union[str, List[str]],
         **kwargs: Any,
-    ) -> dict[str, Any]:
+    ) -> Dict[str, Any]:
         """Mock async embedding creation."""
         return self.create_embedding(model=model, input=input, **kwargs)
 

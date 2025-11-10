@@ -1,4 +1,5 @@
 from lukhas_website.lukhas.consciousness.registry import (
+from typing import List, Optional
     ComponentType,
     ConsciousnessComponentRegistry,
 )
@@ -8,7 +9,7 @@ def _register_component(
     registry: ConsciousnessComponentRegistry,
     component_id: str,
     *,
-    dependencies: list[str] | None = None,
+    dependencies: Optional[List[str]] = None,
     priority: int = 50,
 ) -> None:
     registry.register_component(

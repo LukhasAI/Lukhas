@@ -1,0 +1,130 @@
+name: OpenAPI Drift Detection
+
+on:
+  pull_request:
+    paths:
+      - 'api/**/*.json'
+      - 'api/**/*.yaml'
+      - 'serve/**/*.py'
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  check-api-drift:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for baseline comparison
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install deepdiff
+      
+      - name: Check for baseline spec
+        id: check_baseline
+        run: |
+          if [ -f "api/openapi_baseline.json" ]; then
+            echo "baseline_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "baseline_exists=false" >> $GITHUB_OUTPUT
+            echo "⚠️  No baseline spec found - skipping drift detection"
+          fi
+      
+      - name: Generate current OpenAPI spec
+        if: steps.check_baseline.outputs.baseline_exists == 'true'
+        run: |
+          # Generate current OpenAPI spec from running API
+          # This assumes you have a command to export the spec
+          # Adjust based on your actual implementation
+          python -m serve.main --export-openapi > api/openapi_current.json || echo "{}" > api/openapi_current.json
+      
+      - name: Check for API drift
+        if: steps.check_baseline.outputs.baseline_exists == 'true'
+        id: drift_check
+        continue-on-error: true
+        run: |
+          python tools/check_openapi_drift.py \
+            --baseline api/openapi_baseline.json \
+            --current api/openapi_current.json \
+            --format json \
+            --output drift_report.json \
+            --fail-on-breaking
+      
+      - name: Upload drift report
+        if: always() && steps.check_baseline.outputs.baseline_exists == 'true'
+        uses: actions/upload-artifact@v3
+        with:
+          name: api-drift-report
+          path: drift_report.json
+      
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && steps.drift_check.outcome == 'failure'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('drift_report.json', 'utf8'));
+            
+            const breaking = report.summary.breaking_changes;
+            const compatible = report.summary.compatible_changes;
+            const total = report.summary.total_changes;
+            
+            let emoji = '✅';
+            let title = 'No Breaking Changes';
+            
+            if (breaking > 0) {
+              emoji = '🚨';
+              title = `${breaking} Breaking Change${breaking > 1 ? 's' : ''} Detected`;
+            } else if (total > 0) {
+              emoji = '⚠️';
+              title = 'API Changes Detected';
+            }
+            
+            const comment = `## ${emoji} OpenAPI Drift Report
+            
+            **${title}**
+            
+            - 🚨 Breaking Changes: ${breaking}
+            - ✅ Compatible Changes: ${compatible}
+            - ℹ️ Total Changes: ${total}
+            
+            ${breaking > 0 ? `
+            ### Breaking Changes
+            ${report.changes.filter(c => c.severity === 'breaking').map(c => 
+              `- **${c.change_type}**: \`${c.path}\` - ${c.description}`
+            ).join('\n')}
+            
+            ⚠️ **Action Required**: These changes may break existing API clients. Please review carefully.
+            ` : ''}
+            
+            <details>
+            <summary>Full Drift Report (JSON)</summary>
+            
+            \`\`\`json
+            ${JSON.stringify(report, null, 2)}
+            \`\`\`
+            </details>
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+      
+      - name: Fail if breaking changes
+        if: steps.drift_check.outcome == 'failure'
+        run: |
+          echo "❌ Breaking API changes detected. Please review the drift report."
+          exit 1

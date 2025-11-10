@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.emotion.examples
 
 **Star**: Supporting

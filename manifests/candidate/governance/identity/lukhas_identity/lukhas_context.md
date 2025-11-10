@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.governance.identity.lukhas_identity
 
 **Star**: ⚛️ Anchor (Identity)

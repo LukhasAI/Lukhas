@@ -18,6 +18,7 @@ import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
+from typing import Dict, Optional
 
 
 @pytest.fixture
@@ -26,7 +27,7 @@ def client() -> TestClient:
     return TestClient(app)
 
 
-def _auth_headers(extra: dict[str, str] | None = None) -> dict[str, str]:
+def _auth_headers(extra: Optional[Dict[str, str]] = None) -> Dict[str, str]:
     headers = GOLDEN_AUTH_HEADERS
     if extra:
         headers.update(extra)
