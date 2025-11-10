@@ -1,0 +1,59 @@
+name: Self-Healing CI
+
+on:
+  pull_request:
+    branches: ["**"]
+  workflow_dispatch: {}
+
+jobs:
+  self-heal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps (test & tooling)
+        run: |
+          python -m pip install --upgrade pip
+          pip install \
+            -r requirements.txt || true
+          pip install \
+            pytest pytest-xdist pytest-randomly pytest-timeout pytest-rerunfailures \
+            coverage[toml] mutmut ruff mypy \
+            lz4 fakeredis aioresponses mcp dropbox slowapi typing_extensions freezegun
+
+      - name: Make reports dir
+        run: mkdir -p reports
+
+      - name: Run tests (JUnit + coverage)
+        run: |
+          pytest -q --junitxml=reports/junit.xml
+          pytest --cov=. --cov-report=xml:reports/coverage.xml
+
+      - name: Normalize JUnit → events
+        run: |
+          python tools/normalize_junit.py --in reports/junit.xml --out reports/events.ndjson \
+            --suite unit --commit "${{ github.sha }}" --branch "${{ github.head_ref || github.ref_name }}"
+
+      - name: Guard patch (patch caps, protected files, risky patterns)
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          python tools/guard_patch.py --protected .lukhas/protected-files.yml --max-files 2 --max-lines 40
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: self-heal-artifacts
+          path: |
+            reports/junit.xml
+            reports/coverage.xml
+            reports/events.ndjson

@@ -1,0 +1,5 @@
+# Files or globs the self-healer may NOT modify without two-key approval.
+- serve/identity_api.py
+- serve/middleware/strict_auth.py
+- lukhas/identity/**
+- core/security/**

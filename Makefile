@@ -1979,3 +1979,33 @@ launch-validate: ## Validate launch playbook completeness
 	@python3 tools/validate_launch.py
 	@echo "✅ Launch playbook validation complete"
 
+# ============================================================================
+# Self-Healing Test Loop (Memory Healix v0.1)
+# ============================================================================
+
+.PHONY: test-heal heal canary policy artifacts
+
+# Variables for self-healing test infrastructure
+PY=python3
+TEST=pytest -q
+COVER=pytest --cov=. --cov-report=xml:reports/coverage.xml
+JUNIT=--junitxml=reports/junit.xml
+
+test-heal: ## Run tests with JUnit XML and coverage for self-healing loop
+	@mkdir -p reports
+	$(TEST) $(JUNIT)
+	$(COVER)
+
+heal: ## Normalize JUnit XML to NDJSON events for Memory Healix
+	@mkdir -p reports
+	$(PY) tools/normalize_junit.py --in reports/junit.xml --out reports/events.ndjson
+
+canary: ## Run smoke tests (canary validation)
+	$(TEST) tests/smoke -q
+
+policy: ## Validate PR against patch size, protected files, and risky patterns
+	$(PY) tools/guard_patch.py --protected .lukhas/protected-files.yml --max-files 2 --max-lines 40
+
+artifacts: test-heal heal ## Generate all self-healing artifacts (junit.xml, coverage.xml, events.ndjson)
+	@echo "✅ Artifacts in ./reports: junit.xml, coverage.xml, events.ndjson"
+
