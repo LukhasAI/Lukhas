@@ -22,7 +22,7 @@ from dataclasses import dataclass  # For placeholder OpenAI response objects
 from typing import Any, Dict, List, Optional
 
 import structlog
-from fromfromfromcandidate.core.common import get_logger
+from candidate.core.common import get_logger
 
 # Module imports
 from core.common import (GuardianRejectionError, LukhasError,

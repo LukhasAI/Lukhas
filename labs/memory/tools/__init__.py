@@ -6,7 +6,7 @@ Tools Module
 Auto-generated module initialization file
 """
 
-from fromfromfromcandidate.core.common import (
+from candidate.core.common import (
     GuardianRejectionError,
     LukhasError,
     MemoryDriftError,
