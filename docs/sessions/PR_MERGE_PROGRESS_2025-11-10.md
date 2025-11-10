@@ -90,11 +90,21 @@
 
 ## Remaining PRs
 
-### Deferred
+### Split and Extracted
 
-**PR #1197**: Makefile Refactor (59 files)
-- **Reason**: Too large, requires careful human review
-- **Recommendation**: Request PR split or defer for manual testing
+**PR #1197**: Makefile Refactor (59 files) → **SPLIT**
+- **Status**: Converted to draft
+- **Action Taken**: Split into 2 separate concerns
+- **Result**:
+  - ✅ **PR #1289 Created**: Makefile restructuring only (3 files, high value)
+    - New architecture: Makefile router + Makefile.dx (simplified) + Makefile.lukhas (complete)
+    - Includes self-healing test loop integration
+    - Backward compatible, ready for review
+  - ⏸️ **Import Cleanup Deferred**: 56 Python files not extracted
+    - Low value vs risk (overlaps with PR #1181)
+    - No clear improvement metrics
+    - Can be resubmitted separately if needed
+- **Original PR**: Converted to draft with comment explaining split
 
 ## Impact Metrics
 
