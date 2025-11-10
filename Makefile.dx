@@ -1,4 +1,4 @@
-.PHONY: help install dev test lint format clean docker
+.PHONY: help install dev test lint format clean docker test-heal heal canary policy artifacts
 
 # Default target
 help: ## Show this help message
@@ -135,3 +135,19 @@ bench: ## Run benchmarks
 
 profile: ## Profile application
 	@echo "Profiling application... (see 'k6' targets in Makefile.lukhas)"
+
+# Self-Healing Test Loop (Memory Healix)
+test-heal: ## Run tests with JUnit XML and coverage
+	@make -f Makefile.lukhas test-heal
+
+heal: ## Normalize test results for Memory Healix
+	@make -f Makefile.lukhas heal
+
+canary: ## Run canary/smoke validation
+	@make -f Makefile.lukhas canary
+
+policy: ## Validate PR against policy guard
+	@make -f Makefile.lukhas policy
+
+artifacts: ## Generate all CI/test artifacts
+	@make -f Makefile.lukhas artifacts
