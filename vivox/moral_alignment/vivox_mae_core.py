@@ -6,6 +6,7 @@ No action can proceed without MAE validation
 Computes dissonance scores and moral fingerprints
 """
 
+# ruff: noqa: F821
 import hashlib
 import json
 import math

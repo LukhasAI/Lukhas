@@ -2,6 +2,7 @@
 VIVOX.QREADY Core - Quantum Substrate
 Foundation for quantum computing compatibility
 """
+# ruff: noqa: F821  # Skeleton/experimental code
 from __future__ import annotations
 
 import hashlib

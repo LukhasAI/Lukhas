@@ -16,6 +16,7 @@ Features:
 - Rate limiting and abuse protection
 """
 
+# ruff: noqa: B008
 import logging
 import time
 from contextlib import asynccontextmanager

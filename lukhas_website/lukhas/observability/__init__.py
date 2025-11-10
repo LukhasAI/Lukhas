@@ -14,6 +14,7 @@ Phase 5 Implementation Features:
 """
 
 # Core observability (Phase 0-4)
+import asyncio
 from .advanced_metrics import (
     AdvancedMetricsSystem,
     AnomalyType,

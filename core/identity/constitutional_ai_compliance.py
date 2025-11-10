@@ -27,7 +27,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 # Import MΛTRIZ consciousness components
 try:
@@ -146,11 +146,11 @@ class ConstitutionalValidationContext:
 
     # Previous decisions and precedent
     related_decisions: list[dict[str, Any]] = field(default_factory=list)
-    precedent_analysis: Optional[dict[str, Any]] = None
+    precedent_analysis: dict[str, Any] | None = None
 
     # Temporal factors
-    decision_deadline: Optional[datetime] = None
-    review_period: Optional[timedelta] = None
+    decision_deadline: datetime | None = None
+    review_period: timedelta | None = None
 
 
 @dataclass
@@ -208,11 +208,11 @@ class ConstitutionalValidationResult:
     # Transparency and explanation
     explanation_summary: str = ""
     detailed_explanation: dict[str, str] = field(default_factory=dict)
-    public_explanation: Optional[str] = None
+    public_explanation: str | None = None
 
     # Follow-up requirements
     monitoring_requirements: list[str] = field(default_factory=list)
-    review_schedule: Optional[list[datetime]] = None
+    review_schedule: list[datetime] | None = None
     appeals_process_available: bool = True
 
     # Metadata

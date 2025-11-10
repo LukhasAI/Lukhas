@@ -10,6 +10,7 @@ Endpoints:
 - POST /api/v1/dreams/mesh - Run parallel dream mesh
 - GET /api/v1/dreams/{dream_id} - Retrieve dream by ID
 """
+# ruff: noqa: B008
 import logging
 import time
 from typing import Any, Optional

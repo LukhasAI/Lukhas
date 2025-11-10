@@ -14,6 +14,7 @@ Features:
 - Request/response logging and tracing
 """
 
+# ruff: noqa: B008
 import logging
 import os
 import time

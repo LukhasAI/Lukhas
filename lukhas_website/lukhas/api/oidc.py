@@ -13,6 +13,7 @@ Implements discovery, authorization, token, and userinfo endpoints with:
 - Sub-100ms p95 latency performance
 """
 
+# ruff: noqa: B008
 from __future__ import annotations
 
 import asyncio

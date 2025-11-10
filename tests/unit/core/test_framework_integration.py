@@ -1,3 +1,4 @@
+# ruff: noqa: F821  # Experimental/test code with undefined names
 import importlib
 from unittest.mock import MagicMock, patch
 

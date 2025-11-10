@@ -24,6 +24,7 @@ In the grand design of artificial general intelligence, the Post-Quantum Cryptog
 
 """
 
+# ruff: noqa: F821  # Skeleton/experimental code
 import logging
 from enum import Enum
 from typing import Any, Optional

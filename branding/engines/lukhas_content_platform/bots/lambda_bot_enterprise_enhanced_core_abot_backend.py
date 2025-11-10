@@ -2,6 +2,7 @@
 """
 Enhanced Core LUKHAS AI ΛBot Backend - Social Media & Content Creation Platfrom Comprehensive backend with authentication, ChatGPT integration, and compliance
 """
+# ruff: noqa: B008
 from __future__ import annotations
 
 import logging

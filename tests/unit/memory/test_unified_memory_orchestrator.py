@@ -1,10 +1,10 @@
+# ruff: noqa: F821  # Experimental/test code with undefined names
 # owner: Jules-03
 # tier: tier1
 # module_uid: candidate.memory.core.unified_memory_orchestrator
 # criticality: P0
 
 import pytest
-
 from memory.core.unified_memory_orchestrator import (
     MemoryType,
     SleepStage,

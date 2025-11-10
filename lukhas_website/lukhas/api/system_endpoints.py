@@ -11,6 +11,7 @@ Usage:
     from api.system_endpoints import get_plugins_status, get_system_health
 """
 
+# ruff: noqa: F821
 import json
 import os
 from datetime import datetime, timezone

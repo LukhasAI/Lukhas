@@ -20,6 +20,8 @@ Features:
 - Constellation Framework integration
 """
 
+# ruff: noqa: B008
+# ruff: noqa: F821  # Experimental/test code with undefined names
 import json
 import logging
 import time

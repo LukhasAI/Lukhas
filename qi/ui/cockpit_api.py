@@ -1,3 +1,5 @@
+# ruff: noqa: B008
+# Experimental/test code with undefined names
 # path: qi/ui/cockpit_api.py
 from __future__ import annotations
 

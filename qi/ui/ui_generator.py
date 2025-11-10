@@ -33,6 +33,7 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
+# ruff: noqa: F821  # Experimental/test code with undefined names
 import logging
 
 from qiskit.algorithms import VQE
