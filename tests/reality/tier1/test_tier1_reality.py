@@ -11,7 +11,7 @@ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 import json
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict, List
 
 import pytest
 
@@ -25,23 +25,23 @@ class Tier1RealityTester:
         self.contracts_dir = self.test_root / "audit" / "NODE_CONTRACTS"
         self.signal_registry = {}
 
-    def load_golden_trace(self, trace_name: str) -> dict[str, Any]:
+    def load_golden_trace(self, trace_name: str) -> Dict[str, Any]:
         """Load a golden trace for validation"""
         trace_file = self.golden_dir / f"{trace_name}.json"
         with open(trace_file) as f:
             return json.load(f)
 
-    def load_contract(self, module_name: str) -> dict[str, Any]:
+    def load_contract(self, module_name: str) -> Dict[str, Any]:
         """Load signal contract for module"""
         contract_file = self.contracts_dir / f"{module_name}.json"
         with open(contract_file) as f:
             return json.load(f)
 
-    def setup_signal_monitoring(self, expected_signals: list[str]):
+    def setup_signal_monitoring(self, expected_signals: List[str]):
         """Mock signal emission monitoring"""
         self.signal_registry = {signal: [] for signal in expected_signals}
 
-    def emit_signal(self, signal_name: str, payload: dict[str, Any]):
+    def emit_signal(self, signal_name: str, payload: Dict[str, Any]):
         """Mock signal emission"""
         if signal_name in self.signal_registry:
             self.signal_registry[signal_name].append({"payload": payload, "timestamp": time.time() * 1000})

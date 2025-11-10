@@ -691,9 +691,8 @@ def test_system():
         # Test imports
         from audit_logger import AuditLogger
         from block_builder import BlockBuilder
-        from markdown_parser import MarkdownParser
-
         from core.config_manager import ConfigManager
+        from markdown_parser import MarkdownParser
 
         print("✅ All imports successful")
 

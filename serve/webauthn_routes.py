@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
+from core.identity.adapters import webauthn_adapter
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, ConfigDict, Field
-
-from core.identity.adapters import webauthn_adapter
 
 # ΛTAG: webauthn_routes
 

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.consciousness.enhanced_thought_engine
 
 **Star**: 🌊 Flow (Consciousness)

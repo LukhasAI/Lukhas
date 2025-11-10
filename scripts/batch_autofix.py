@@ -6,10 +6,10 @@ Runs: autoflake → isort → black → ruff --fix
 Small batches with test verification between changes.
 '''
 
-import subprocess
-import sys
-from pathlib import Path
 import os
+import subprocess
+from pathlib import Path
+
 
 def run_autofix_batch(module_path: str) -> bool:
     """Run autofix tools on module and verify tests pass"""

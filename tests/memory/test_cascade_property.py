@@ -8,7 +8,7 @@ that the 99.7% cascade prevention rate is maintained.
 
 import asyncio
 import time
-from typing import Any
+from typing import Any, Dict
 
 import pytest
 
@@ -19,12 +19,12 @@ class MemoryFoldSimulator:
 
     def __init__(self, max_folds: int = 1000):
         self.max_folds = max_folds
-        self.folds: dict[str, dict[str, Any]] = {}
+        self.folds: Dict[str, Dict[str, Any]] = {}
         self.cascade_count = 0
         self.operation_count = 0
         self.cascade_detection_enabled = True
 
-    def set_fold(self, fold_id: str, data: dict[str, Any]) -> bool:
+    def set_fold(self, fold_id: str, data: Dict[str, Any]) -> bool:
         """Set data in a memory fold with cascade detection."""
         self.operation_count += 1
 
@@ -46,7 +46,7 @@ class MemoryFoldSimulator:
         }
         return True
 
-    def get_fold(self, fold_id: str) -> dict[str, Any]:
+    def get_fold(self, fold_id: str) -> Dict[str, Any]:
         """Get data from a memory fold."""
         self.operation_count += 1
 
@@ -55,7 +55,7 @@ class MemoryFoldSimulator:
             return self.folds[fold_id]
         return {}
 
-    def _would_cause_cascade(self, fold_id: str, data: dict[str, Any]) -> bool:
+    def _would_cause_cascade(self, fold_id: str, data: Dict[str, Any]) -> bool:
         """Detect potential cascade conditions (conservative approach)."""
         # Cascade condition 1: Circular references
         if self._has_circular_reference(fold_id, data):
@@ -73,7 +73,7 @@ class MemoryFoldSimulator:
 
         return False
 
-    def _has_circular_reference(self, fold_id: str, data: dict[str, Any]) -> bool:
+    def _has_circular_reference(self, fold_id: str, data: Dict[str, Any]) -> bool:
         """Check for circular references in data."""
         def check_refs(obj, visited=None):
             if visited is None:

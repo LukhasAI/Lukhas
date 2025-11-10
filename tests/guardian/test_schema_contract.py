@@ -16,7 +16,7 @@ import hashlib
 import json
 import pathlib
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict
 
 import pytest
 
@@ -30,13 +30,13 @@ class TestGuardianSchemaContract:
     """T4/0.01% Guardian schema validation tests."""
 
     @pytest.fixture
-    def schema(self) -> dict[str, Any]:
+    def schema(self) -> Dict[str, Any]:
         """Load T4 Guardian schema."""
         schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
         return json.loads(schema_path.read_text())
 
     @pytest.fixture
-    def valid_envelope(self) -> dict[str, Any]:
+    def valid_envelope(self) -> Dict[str, Any]:
         """Valid T4 Guardian decision envelope for testing."""
         return {
             "schema_version": "2.1.0",
@@ -123,11 +123,11 @@ class TestGuardianSchemaContract:
             "debug": {"trace_id": "tr-abc123", "span_id": "sp-xyz789"}
         }
 
-    def test_valid_envelope_passes_validation(self, schema: dict[str, Any], valid_envelope: dict[str, Any]):
+    def test_valid_envelope_passes_validation(self, schema: Dict[str, Any], valid_envelope: Dict[str, Any]):
         """Test that valid T4 envelope passes schema validation."""
         jsonschema.validate(instance=valid_envelope, schema=schema)
 
-    def test_fail_closed_on_error_status(self, schema: dict[str, Any], valid_envelope: dict[str, Any]):
+    def test_fail_closed_on_error_status(self, schema: Dict[str, Any], valid_envelope: Dict[str, Any]):
         """Test fail-closed behavior: 'error' status must be treated as deny."""
         error_envelope = dict(valid_envelope)
         error_envelope["decision"] = dict(error_envelope["decision"], status="error")
@@ -139,7 +139,7 @@ class TestGuardianSchemaContract:
         assert error_envelope["decision"]["status"] == "error"
         # Implementation should treat this as deny in fail-closed manner
 
-    def test_enforcement_enabled_defaults_to_true(self, schema: dict[str, Any], valid_envelope: dict[str, Any]):
+    def test_enforcement_enabled_defaults_to_true(self, schema: Dict[str, Any], valid_envelope: Dict[str, Any]):
         """Test fail-closed default: missing enforcement_enabled should be treated as True."""
         envelope = dict(valid_envelope)
         del envelope["context"]["features"]["enforcement_enabled"]
@@ -151,7 +151,7 @@ class TestGuardianSchemaContract:
         enforcement_enabled = envelope["context"]["features"].get("enforcement_enabled", True)
         assert enforcement_enabled is True
 
-    def test_missing_required_fields_fail_validation(self, schema: dict[str, Any], valid_envelope: dict[str, Any]):
+    def test_missing_required_fields_fail_validation(self, schema: Dict[str, Any], valid_envelope: Dict[str, Any]):
         """Test that missing required fields fail validation (strict schema)."""
         test_cases = [
             ("schema_version", "schema_version is required"),
@@ -171,7 +171,7 @@ class TestGuardianSchemaContract:
             with pytest.raises(jsonschema.ValidationError, match=field):
                 jsonschema.validate(instance=invalid_envelope, schema=schema)
 
-    def test_additional_properties_forbidden(self, schema: dict[str, Any], valid_envelope: dict[str, Any]):
+    def test_additional_properties_forbidden(self, schema: Dict[str, Any], valid_envelope: Dict[str, Any]):
         """Test that additional properties are forbidden (strict schema)."""
         invalid_envelope = dict(valid_envelope)
         invalid_envelope["unknown_field"] = "should_fail"
@@ -179,7 +179,7 @@ class TestGuardianSchemaContract:
         with pytest.raises(jsonschema.ValidationError, match="additional"):
             jsonschema.validate(instance=invalid_envelope, schema=schema)
 
-    def test_decision_status_enum_validation(self, schema: dict[str, Any], valid_envelope: dict[str, Any]):
+    def test_decision_status_enum_validation(self, schema: Dict[str, Any], valid_envelope: Dict[str, Any]):
         """Test that decision status must be one of allowed values."""
         invalid_envelope = dict(valid_envelope)
         invalid_envelope["decision"]["status"] = "maybe"  # Invalid status
@@ -187,7 +187,7 @@ class TestGuardianSchemaContract:
         with pytest.raises(jsonschema.ValidationError):
             jsonschema.validate(instance=invalid_envelope, schema=schema)
 
-    def test_tier_validation(self, schema: dict[str, Any], valid_envelope: dict[str, Any]):
+    def test_tier_validation(self, schema: Dict[str, Any], valid_envelope: Dict[str, Any]):
         """Test T1-T5 tier validation."""
         valid_tiers = ["T1", "T2", "T3", "T4", "T5"]
         invalid_tiers = ["T0", "T6", "tier1", "t1", "1"]
@@ -205,7 +205,7 @@ class TestGuardianSchemaContract:
             with pytest.raises(jsonschema.ValidationError):
                 jsonschema.validate(instance=envelope, schema=schema)
 
-    def test_lane_validation(self, schema: dict[str, Any], valid_envelope: dict[str, Any]):
+    def test_lane_validation(self, schema: Dict[str, Any], valid_envelope: Dict[str, Any]):
         """Test lane enum validation."""
         valid_lanes = ["labs", "integration", "production", "canary"]
         invalid_lanes = ["dev", "test", "staging", "prod"]
@@ -223,7 +223,7 @@ class TestGuardianSchemaContract:
             with pytest.raises(jsonschema.ValidationError):
                 jsonschema.validate(instance=envelope, schema=schema)
 
-    def test_extensions_field_allows_forward_compatibility(self, schema: dict[str, Any], valid_envelope: dict[str, Any]):
+    def test_extensions_field_allows_forward_compatibility(self, schema: Dict[str, Any], valid_envelope: Dict[str, Any]):
         """Test that extensions field allows forward compatibility."""
         envelope = dict(valid_envelope)
         envelope["extensions"]["experimental_feature"] = {"enabled": True, "version": "0.1.0"}
@@ -232,7 +232,7 @@ class TestGuardianSchemaContract:
         # Should validate successfully (forward compatibility)
         jsonschema.validate(instance=envelope, schema=schema)
 
-    def test_correlation_id_format_validation(self, schema: dict[str, Any], valid_envelope: dict[str, Any]):
+    def test_correlation_id_format_validation(self, schema: Dict[str, Any], valid_envelope: Dict[str, Any]):
         """Test correlation ID format validation."""
         valid_ids = [
             "6f1d2b8a-77b1-4d7c-9c41-1a2b3c4d5e6f",  # UUID format
@@ -260,7 +260,7 @@ class TestGuardianSchemaContract:
             with pytest.raises(jsonschema.ValidationError):
                 jsonschema.validate(instance=envelope, schema=schema)
 
-    def test_confidence_score_bounds(self, schema: dict[str, Any], valid_envelope: dict[str, Any]):
+    def test_confidence_score_bounds(self, schema: Dict[str, Any], valid_envelope: Dict[str, Any]):
         """Test confidence score must be between 0.0 and 1.0."""
         # Valid confidence scores
         valid_scores = [0.0, 0.5, 1.0, 0.996]
@@ -279,7 +279,7 @@ class TestGuardianSchemaContract:
             with pytest.raises(jsonschema.ValidationError):
                 jsonschema.validate(instance=envelope, schema=schema)
 
-    def test_signature_algorithm_validation(self, schema: dict[str, Any], valid_envelope: dict[str, Any]):
+    def test_signature_algorithm_validation(self, schema: Dict[str, Any], valid_envelope: Dict[str, Any]):
         """Test signature algorithm enum validation."""
         valid_algorithms = ["ed25519", "es256", "rs256"]
         invalid_algorithms = ["sha256", "rsa", "ecdsa", "hmac"]
@@ -310,18 +310,18 @@ class TestSchemaSnapshotProtection:
     """Schema drift protection tests with comprehensive snapshot comparison."""
 
     @pytest.fixture
-    def schema(self) -> dict[str, Any]:
+    def schema(self) -> Dict[str, Any]:
         """Load current Guardian schema."""
         schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
         return json.loads(schema_path.read_text())
 
     @pytest.fixture
-    def schema_snapshot(self) -> dict[str, Any]:
+    def schema_snapshot(self) -> Dict[str, Any]:
         """Load baseline schema snapshot."""
         snapshot_path = pathlib.Path(__file__).parent / "__snapshots__" / "guardian_schema_v2.json"
         return json.loads(snapshot_path.read_text())
 
-    def test_schema_hash_unchanged(self, schema: dict[str, Any]):
+    def test_schema_hash_unchanged(self, schema: Dict[str, Any]):
         """Test that schema content hash matches locked baseline."""
         schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
         schema_content = schema_path.read_bytes()
@@ -347,7 +347,7 @@ class TestSchemaSnapshotProtection:
                 f"python -c \"import json; s=json.load(open('{snapshot_path}')); s['schema_hash']='{actual_hash}'; json.dump(s, open('{snapshot_path}', 'w'), indent=2)\""
             )
 
-    def test_critical_properties_unchanged(self, schema: dict[str, Any], schema_snapshot: dict[str, Any]):
+    def test_critical_properties_unchanged(self, schema: Dict[str, Any], schema_snapshot: Dict[str, Any]):
         """Test that critical schema properties haven't changed."""
         critical = schema_snapshot["critical_properties"]
 
@@ -394,7 +394,7 @@ class TestSchemaSnapshotProtection:
             f"additionalProperties policy changed: {schema['additionalProperties']} != {critical['additionalProperties']}"
         )
 
-    def test_schema_structure_preserved(self, schema: dict[str, Any], schema_snapshot: dict[str, Any]):
+    def test_schema_structure_preserved(self, schema: Dict[str, Any], schema_snapshot: Dict[str, Any]):
         """Test that essential schema structure is preserved."""
         structure = schema_snapshot["schema_structure"]
 
@@ -415,7 +415,7 @@ class TestSchemaSnapshotProtection:
         # Extensions exist for forward compatibility
         assert "extensions" in schema["properties"], "Missing extensions for forward compatibility"
 
-    def test_fail_closed_compliance_preserved(self, schema: dict[str, Any], schema_snapshot: dict[str, Any]):
+    def test_fail_closed_compliance_preserved(self, schema: Dict[str, Any], schema_snapshot: Dict[str, Any]):
         """Test that fail-closed behavior compliance is preserved."""
         schema_snapshot["schema_structure"]["fail_closed_defaults"]
 
@@ -429,7 +429,7 @@ class TestSchemaSnapshotProtection:
         enforcement_ref = schema["properties"]["enforcement"]["$ref"]
         assert enforcement_ref == "#/$defs/Enforcement", "Enforcement reference changed"
 
-    def test_no_breaking_changes_detected(self, schema: dict[str, Any], schema_snapshot: dict[str, Any]):
+    def test_no_breaking_changes_detected(self, schema: Dict[str, Any], schema_snapshot: Dict[str, Any]):
         """Test for potential breaking changes in the schema."""
         breaking_changes = []
 
@@ -456,14 +456,14 @@ class TestSchemaSnapshotProtection:
 
         assert not breaking_changes, f"Breaking changes detected: {'; '.join(breaking_changes)}"
 
-    def test_schema_version_is_v2_constellation(self, schema: dict[str, Any]):
+    def test_schema_version_is_v2_constellation(self, schema: Dict[str, Any]):
         """Test that schema enforces v2.x.x versioning for Constellation Framework era."""
         version_pattern = schema["properties"]["schema_version"]["pattern"]
         assert version_pattern == "^2\\.\\d+\\.\\d+$", (
             f"Schema should enforce v2.x.x versioning for Constellation era, got: {version_pattern}"
         )
 
-    def test_generate_drift_report(self, schema: dict[str, Any], schema_snapshot: dict[str, Any]):
+    def test_generate_drift_report(self, schema: Dict[str, Any], schema_snapshot: Dict[str, Any]):
         """Generate comprehensive schema drift report for CI."""
         schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
         schema_content = schema_path.read_bytes()
@@ -520,13 +520,13 @@ class TestIntegrityValidation:
     """Tamper-evident integrity validation tests."""
 
     @pytest.fixture
-    def schema(self) -> dict[str, Any]:
+    def schema(self) -> Dict[str, Any]:
         """Load T4 Guardian schema."""
         schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
         return json.loads(schema_path.read_text())
 
     @pytest.fixture
-    def valid_envelope(self) -> dict[str, Any]:
+    def valid_envelope(self) -> Dict[str, Any]:
         """Valid T4 Guardian decision envelope for testing."""
         return {
             "schema_version": "2.1.0",
@@ -610,7 +610,7 @@ class TestIntegrityValidation:
         }
 
     @staticmethod
-    def canonical_json(obj: dict[str, Any]) -> bytes:
+    def canonical_json(obj: Dict[str, Any]) -> bytes:
         """RFC 8785-ish canonical JSON serialization."""
         return json.dumps(
             obj,
@@ -619,7 +619,7 @@ class TestIntegrityValidation:
             ensure_ascii=False
         ).encode("utf-8")
 
-    def test_content_hash_validation(self, valid_envelope: dict[str, Any]):
+    def test_content_hash_validation(self, valid_envelope: Dict[str, Any]):
         """Test content hash integrity validation."""
         # Extract envelope without integrity for hashing
         envelope_for_hash = dict(valid_envelope)
@@ -638,7 +638,7 @@ class TestIntegrityValidation:
         assert len(computed_hash) == 64, "SHA256 hash should be 64 hex characters"
         assert all(c in "0123456789abcdef" for c in computed_hash), "Hash should be valid hex"
 
-    def test_tamper_detection(self, valid_envelope: dict[str, Any]):
+    def test_tamper_detection(self, valid_envelope: Dict[str, Any]):
         """Test that tampering is detected via integrity mismatch."""
         # Tamper with the envelope
         tampered_envelope = dict(valid_envelope)
@@ -658,7 +658,7 @@ class TestIntegrityValidation:
         # Hash should be different (tampering detected)
         assert tampered_hash != original_integrity["content_sha256"], "Tampering should change content hash"
 
-    def test_signature_structure_validation(self, valid_envelope: dict[str, Any]):
+    def test_signature_structure_validation(self, valid_envelope: Dict[str, Any]):
         """Test signature structure validation."""
         signature = valid_envelope["integrity"]["signature"]
 
@@ -681,13 +681,13 @@ class TestFailClosedBehavior:
     """Fail-closed behavior contract tests."""
 
     @pytest.fixture
-    def schema(self) -> dict[str, Any]:
+    def schema(self) -> Dict[str, Any]:
         """Load T4 Guardian schema."""
         schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
         return json.loads(schema_path.read_text())
 
     @pytest.fixture
-    def valid_envelope(self) -> dict[str, Any]:
+    def valid_envelope(self) -> Dict[str, Any]:
         """Valid T4 Guardian decision envelope for testing."""
         return {
             "schema_version": "2.1.0",
@@ -770,13 +770,13 @@ class TestFailClosedBehavior:
             "debug": {"trace_id": "trace-abc123", "span_id": "span-def456"}
         }
 
-    def test_error_status_treated_as_deny(self, valid_envelope: dict[str, Any]):
+    def test_error_status_treated_as_deny(self, valid_envelope: Dict[str, Any]):
         """Test consumer contract: error status must be treated as deny."""
         error_envelope = dict(valid_envelope)
         error_envelope["decision"]["status"] = "error"
 
         # Consumer implementation should treat this as deny
-        def guardian_decision_consumer(envelope: dict[str, Any]) -> bool:
+        def guardian_decision_consumer(envelope: Dict[str, Any]) -> bool:
             """Example consumer that implements fail-closed behavior."""
             status = envelope["decision"]["status"]
             if status == "allow":
@@ -789,25 +789,25 @@ class TestFailClosedBehavior:
         # Error should be treated as deny (False)
         assert guardian_decision_consumer(error_envelope) is False
 
-    def test_missing_enforcement_enabled_fails_closed(self, valid_envelope: dict[str, Any]):
+    def test_missing_enforcement_enabled_fails_closed(self, valid_envelope: Dict[str, Any]):
         """Test that missing enforcement_enabled defaults to True (fail-closed)."""
         envelope = dict(valid_envelope)
         del envelope["context"]["features"]["enforcement_enabled"]
 
         # Consumer should default to enforcement enabled
-        def is_enforcement_enabled(envelope: dict[str, Any]) -> bool:
+        def is_enforcement_enabled(envelope: Dict[str, Any]) -> bool:
             return envelope["context"]["features"].get("enforcement_enabled", True)
 
         assert is_enforcement_enabled(envelope) is True  # Fail-closed default
 
-    def test_integrity_mismatch_fails_closed(self, valid_envelope: dict[str, Any]):
+    def test_integrity_mismatch_fails_closed(self, valid_envelope: Dict[str, Any]):
         """Test that integrity mismatch should fail closed."""
         # Corrupt the integrity hash
         corrupted_envelope = dict(valid_envelope)
         corrupted_envelope["integrity"]["content_sha256"] = "0000000000000000000000000000000000000000000000000000000000000000"
 
         # Consumer should reject envelope with integrity mismatch
-        def verify_integrity(envelope: dict[str, Any]) -> bool:
+        def verify_integrity(envelope: Dict[str, Any]) -> bool:
             """Example integrity verification (simplified)."""
             try:
                 # In real implementation, would recompute hash and compare

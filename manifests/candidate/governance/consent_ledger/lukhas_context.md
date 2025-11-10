@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.governance.consent_ledger
 
 **Star**: 🛡️ Watch (Guardian)

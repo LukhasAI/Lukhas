@@ -2,7 +2,8 @@
 import importlib as _importlib
 
 try:
-    from governance.identity import *
+    from governance.identity import GovernanceIdentity, IdentityGovernor, govern_identity
+    __all__ = ["GovernanceIdentity", "IdentityGovernor", "govern_identity"]
 except ImportError:
     try:
         _mod = _importlib.import_module("labs.governance.identity")

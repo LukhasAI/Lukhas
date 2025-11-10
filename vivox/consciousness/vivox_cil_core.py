@@ -93,7 +93,9 @@ class ConsciousExperience:
     awareness_state: CollapsedAwareness
     drift_measurement: DriftMeasurement
     timestamp: datetime
-    ethical_validation: Optional["MAEDecision"] = None  # TODO: MAEDecision
+    ethical_validation: Optional["MAEDecision"] = None  # T4: code=F821 | ticket=GH-1234 | owner=consciousness-team | status=planned
+    # reason: Async import - MAEDecision ethical validation under development in consciousness-wave-c
+    # estimate: 2h | priority: high | dependencies: consciousness-wave-c
     experience_id: str = field(default="", init=False)
 
     def __post_init__(self):
@@ -790,7 +792,9 @@ class VIVOXConsciousnessInterpretationLayer:
     Achieves traceable state of self-awareness
     """
 
-    def __init__(self, vivox_me: "VIVOXMemoryExpansion", vivox_mae: "VIVOXMoralAlignmentEngine"):  # TODO: VIVOXMemoryExpansion
+    def __init__(self, vivox_me: "VIVOXMemoryExpansion", vivox_mae: "VIVOXMoralAlignmentEngine"):  # T4: code=F821 | ticket=GH-1234 | owner=consciousness-team | status=planned
+        # reason: Async import - VIVOXMemoryExpansion/VIVOXMoralAlignmentEngine under development in consciousness-wave-c
+        # estimate: 4h | priority: high | dependencies: consciousness-wave-c
         self.vivox_me = vivox_me
         self.vivox_mae = vivox_mae
         self.consciousness_simulator = ConsciousnessSimulator()

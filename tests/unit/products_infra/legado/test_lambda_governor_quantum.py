@@ -5,6 +5,7 @@ from unittest.mock import MagicMock
 
 import pytest
 from products.infrastructure.legado.legacy_systems.governor.lambda_governor import (
+from typing import List, Tuple
     EscalationPriority,
     EscalationSignal,
     EscalationSource,
@@ -23,7 +24,7 @@ sys.path.insert(0, str(path_obj.parents[4]))
 class _DeterministicRouter:
     def __init__(self, router_id: str) -> None:
         self.router_id = router_id
-        self.calls: list[tuple[dict, str]] = []
+        self.calls: List[Tuple[dict, str]] = []
 
     async def verify_arbitration(self, payload: dict, collapse_hash: str) -> bool:
         self.calls.append((payload, collapse_hash))

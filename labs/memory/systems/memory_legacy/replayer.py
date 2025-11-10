@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-log = logging.getLogger(__name__)
 import logging
 import streamlit as st
 import time
-logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - LUKHAS REPLAYER
@@ -31,6 +29,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 import structlog
+from candidate.core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -58,15 +57,15 @@ try:
     from symbolic.personas.lukhas_visualizer import display_visual_traits
 
     LUKHAS_SYMBOLIC_COMPONENTS_REPLAYER_AVAILABLE_FLAG = True
-    log.debug("LUKHAS symbolic_ai components for Replayer imported (if paths were valid).")
+    logger.debug("LUKHAS symbolic_ai components for Replayer imported (if paths were valid).")
 except ImportError as e_sym_replay_imp:
-    log.warning(
+    logger.warning(
         "Failed to import LUKHAS symbolic_ai components for Replayer. Using placeholders.",
         error_msg=str(e_sym_replay_imp),
     )
 
     def load_traits() -> dict[str, Any]:
-        log.warning("PLACEHOLDER: load_traits() in Replayer.")
+        logger.warning("PLACEHOLDER: load_traits() in Replayer.")
         return {"voice_pitch_factor_ph": 1.05}
 
     def speak(
@@ -74,7 +73,7 @@ except ImportError as e_sym_replay_imp:
         emotion: Optional[dict[str, Any]] = None,
         traits: Optional[dict[str, Any]] = None,
     ) -> None:
-        log.info(
+        logger.info(
             "PLACEHOLDER: speak() called.",
             text_preview=text[:60] + "...",
             emotion_data_ph=emotion,
@@ -82,21 +81,21 @@ except ImportError as e_sym_replay_imp:
         )
 
     def log_symbolic_ai_memory_event(module_name: str, payload: dict[str, Any]) -> None:
-        log.info(
+        logger.info(
             "PLACEHOLDER: log_symbolic_ai_memory_event() called.",
             module_ph=module_name,
             payload_keys_ph=list(payload.keys()),
         )
 
     def display_visual_traits() -> None:
-        log.info("PLACEHOLDER: display_visual_traits() called.")
+        logger.info("PLACEHOLDER: display_visual_traits() called.")
 
 
 try:
     DREAM_LOGS_REPLAYER_DIR = Path(os.getenv("LUKHAS_DREAM_LOGS_PATH_CONFIG", "./.lukhas_logs/memoria_dreams"))
     DREAM_LOGS_REPLAYER_DIR.mkdir(parents=True, exist_ok=True)
 except Exception as e_path_replay_cfg:
-    log.error(
+    logger.error(
         "Failed to configure dream log directory for Replayer. Using fallback.",
         error_details=str(e_path_replay_cfg),
     )
@@ -112,7 +111,7 @@ def load_recent_dream_logs(
     specific_log_file: Optional[Path] = None,
 ) -> list[dict[str, Any]]:
     """Loads recent dream log entries from core.common dream logs."""
-    log.debug(
+    logger.debug(
         "Loading recent dream logs for replay.",
         load_limit=limit,
         date_filter_iso=log_date.isoformat() if log_date else "today",
@@ -122,7 +121,7 @@ def load_recent_dream_logs(
         DREAM_LOGS_REPLAYER_DIR / f"dreams_log_{(log_date or datetime.now(timezone.utc)).strftime('%Y-%m-%d')}.jsonl"
     )
     if not target_log.exists():
-        log.warning("Dream log file not found for replay.", path=str(target_log))
+        logger.warning("Dream log file not found for replay.", path=str(target_log))
         return []
 
     loaded_logs: list[dict[str, Any]] = []
@@ -133,21 +132,21 @@ def load_recent_dream_logs(
             try:
                 loaded_logs.append(json.loads(line_str))
             except json.JSONDecodeError as jde:
-                log.error(
+                logger.error(
                     "Failed to decode JSON from dream log line (Replayer).",
                     path=str(target_log),
                     json_error=str(jde),
                     line_content_preview=line_str[:100],
                 )
         loaded_logs.reverse()  # Most recent first
-        log.info(
+        logger.info(
             "Recent dream logs loaded for replay.",
             count=len(loaded_logs),
             source=str(target_log),
         )
         return loaded_logs
     except Exception as e:
-        log.error(
+        logger.error(
             "Error loading dream logs for replay.",
             path=str(target_log),
             error_msg=str(e),
@@ -158,34 +157,34 @@ def load_recent_dream_logs(
 
 def replay_dreams_with_current_state() -> None:
     """Loads recent dreams, re-narrates them using current traits/voice, and logs the replay."""
-    log.info("Initiating LUKHAS Dream Replay Mode.")
+    logger.info("Initiating LUKHAS Dream Replay Mode.")
     recent_dream_logs = load_recent_dream_logs(limit=3)
     if not recent_dream_logs:
-        log.info("No recent dreams found to replay.")
+        logger.info("No recent dreams found to replay.")
         return
 
     try:
         current_lukhas_traits = load_traits()
-        log.debug(
+        logger.debug(
             "Current LUKHAS traits loaded for replay.",
             traits_preview=str(current_lukhas_traits)[:100],
         )
     except Exception as e:
-        log.error("Failed to load LUKHAS traits for replay. Using default.", error=str(e))
+        logger.error("Failed to load LUKHAS traits for replay. Using default.", error=str(e))
         current_lukhas_traits = {"default_trait_active_ph": True}
     try:
         display_visual_traits()
     except Exception as e:
-        log.warning("Failed to call display_visual_traits (placeholder or error).", error=str(e))
+        logger.warning("Failed to call display_visual_traits (placeholder or error).", error=str(e))
 
-    log.info(f"Beginning replay of {len(recent_dream_logs)} dream(s)...")
+    logger.info(f"Beginning replay of {len(recent_dream_logs)} dream(s)...")
     for i, dream_log_item in enumerate(recent_dream_logs, 1):
         narrative = dream_log_item.get("dream_narrative_text", "[Narrative Missing]")
         original_emo = dream_log_item.get("additional_metadata", {}).get(
             "emotional_tone", {"primary": "neutral_replay_tone"}
         )
         replay_intro = f"Replaying LUKHAS Dream {i} (ID: {dream_log_item.get('dream_log_id', 'Unknown')}):"
-        log.info(replay_intro, dream_preview=narrative[:80] + "...")
+        logger.info(replay_intro, dream_preview=narrative[:80] + "...")
         try:
             speak(
                 f"{replay_intro} {narrative}",
@@ -193,7 +192,7 @@ def replay_dreams_with_current_state() -> None:
                 traits=current_lukhas_traits,
             )
         except Exception as e:
-            log.error(
+            logger.error(
                 "Error during LUKHAS dream narration (speak function call).",
                 error=str(e),
                 exc_info=True,
@@ -209,12 +208,12 @@ def replay_dreams_with_current_state() -> None:
             }
             log_symbolic_ai_memory_event("lukhas_dream_replay_event", replay_log_data)
         except Exception as e:
-            log.error(
+            logger.error(
                 "Failed to log dream replay event via symbolic_ai.memoria.",
                 error=str(e),
                 exc_info=True,
             )
-    log.info("LUKHAS Dream Replay Mode finished.")
+    logger.info("LUKHAS Dream Replay Mode finished.")
 
 
 if __name__ == "__main__":
@@ -229,9 +228,9 @@ if __name__ == "__main__":
             wrapper_class=structlog.stdlib.BoundLogger,
             cache_logger_on_first_use=True,
         )
-    log.info("--- Running LUKHAS Dream Replayer Script (Manual Execution) ---")
+    logger.info("--- Running LUKHAS Dream Replayer Script (Manual Execution) ---")
     if not LUKHAS_SYMBOLIC_COMPONENTS_REPLAYER_AVAILABLE_FLAG:  # If using placeholders
-        log.warning("Replayer example running with placeholders for symbolic_ai components.")
+        logger.warning("Replayer example running with placeholders for symbolic_ai components.")
         dummy_log_file_path = (
             DREAM_LOGS_REPLAYER_DIR / f"dreams_log_{datetime.now(timezone.utc).strftime('%Y-%m-%d')}.jsonl"
         )
@@ -246,11 +245,11 @@ if __name__ == "__main__":
                         "additional_metadata": {"emotional_tone": {"primary": "nostalgic_ph"},
                     }
                     f.write(json.dumps(dummy_dream_entry) + "\n")
-                log.info(f"Created dummy dream log for replayer example: {dummy_log_file_path}")
+                logger.info(f"Created dummy dream log for replayer example: {dummy_log_file_path}")
             except Exception as e_dummy:
-                log.error(f"Could not create dummy dream log for replayer: {e_dummy}")
+                logger.error(f"Could not create dummy dream log for replayer: {e_dummy}")
     replay_dreams_with_current_state()
-    log.info("--- Manual Dream Replayer Script Execution Finished ---")
+    logger.info("--- Manual Dream Replayer Script Execution Finished ---")
 
 # --- LUKHAS AI System Footer ---
 # File Origin: LUKHAS Memoria Subsystem - Dream Replay & Auditory Recall

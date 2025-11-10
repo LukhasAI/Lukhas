@@ -9,9 +9,10 @@ Validates pillar pages and content clusters for SEO compliance.
 from __future__ import annotations
 
 import sys
-import yaml
 from pathlib import Path
 from typing import Any
+
+import yaml
 
 
 class ContentStrategyValidator:

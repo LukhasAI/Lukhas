@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.core.reliability.circuit_breaker
 
 **Star**: 🔬 Horizon (Vision)

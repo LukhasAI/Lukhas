@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.migrate_orchestrators
 
 **Star**: Supporting

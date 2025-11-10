@@ -20,8 +20,6 @@ from datetime import datetime, timedelta, timezone
 
 import bcrypt
 import jwt
-from flask import Flask
-
 from bridge.api.flows import (
     JWT_ALGORITHM,
     JWT_SECRET_KEY,
@@ -43,6 +41,7 @@ from core.interfaces.api.v1.common.auth import (
     _verify_key_signature,
     generate_api_key,
 )
+from flask import Flask
 
 PLACEHOLDER_PASSWORD_SECURE = "a-secure-password"  # nosec
 PLACEHOLDER_PASSWORD_WEAK = "a-weak-password"  # nosec

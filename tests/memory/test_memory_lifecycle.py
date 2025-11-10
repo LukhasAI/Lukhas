@@ -11,7 +11,6 @@ from unittest.mock import patch
 
 import numpy as np
 import pytest
-
 from memory.backends.base import AbstractVectorStore, VectorDocument
 from memory.lifecycle import (
     AbstractArchivalBackend,

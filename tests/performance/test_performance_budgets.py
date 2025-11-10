@@ -18,7 +18,6 @@ from dataclasses import dataclass
 
 import psutil
 import pytest
-
 from observability.opentelemetry_tracing import LUKHASTracer
 from observability.prometheus_metrics import LUKHASMetrics
 

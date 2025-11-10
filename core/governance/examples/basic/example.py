@@ -16,7 +16,7 @@ class CasePredicate(Protocol):
         """Return ``True`` when a rule matches the provided case."""
 
 
-@dataclass(slots=True)
+@dataclass
 class GovernanceCase:
     """Describe a governance decision request."""
 
@@ -27,7 +27,7 @@ class GovernanceCase:
     metadata: dict[str, str] = field(default_factory=dict)
 
 
-@dataclass(slots=True)
+@dataclass
 class GovernanceRule:
     """Simple governance rule for demonstration purposes."""
 

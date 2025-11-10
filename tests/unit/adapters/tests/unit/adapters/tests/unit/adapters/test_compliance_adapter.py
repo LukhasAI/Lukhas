@@ -2,7 +2,6 @@ import json
 from pathlib import Path
 
 from matriz.adapters.compliance_adapter import ComplianceAdapter
-
 from tests.util.mk_msg import mk_msg_from_json
 
 GOLDEN = Path("tests/fixtures/golden/compliance_adapter")

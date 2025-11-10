@@ -9,6 +9,7 @@ for API optimization and business intelligence.
 """
 
 import asyncio
+import importlib.util
 import logging
 import statistics
 import time
@@ -16,28 +17,13 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
 # Optional dependencies for advanced features
-try:
-    import numpy as np  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_analytics_dashboard_py_L25"}
-    import pandas as pd  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_analytics_dashboard_py_L28"}
-    PANDAS_AVAILABLE = True
-except ImportError:
-    PANDAS_AVAILABLE = False
-
-try:
-    from sklearn.cluster import (
-        KMeans,  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_analytics_dashboard_py_L35"}
-    )
-    from sklearn.preprocessing import (
-        StandardScaler,  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_analytics_dashboard_py_L38"}
-    )
-    SKLEARN_AVAILABLE = True
-except ImportError:
-    SKLEARN_AVAILABLE = False
+PANDAS_AVAILABLE = importlib.util.find_spec("pandas") is not None
+SKLEARN_AVAILABLE = importlib.util.find_spec("sklearn") is not None
 
 
 class MetricType(Enum):
@@ -73,8 +59,8 @@ class MetricPoint:
     """Individual metric data point."""
     timestamp: float
     value: float
-    labels: dict[str, str] = field(default_factory=dict)
-    metadata: dict[str, Any] = field(default_factory=dict)
+    labels: Dict[str, str] = field(default_factory=dict)
+    metadata: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -90,7 +76,7 @@ class Alert:
     timestamp: datetime
     resolved: bool = False
     resolution_time: Optional[datetime] = None
-    metadata: dict[str, Any] = field(default_factory=dict)
+    metadata: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -103,7 +89,7 @@ class BusinessInsight:
     confidence: float  # 0-1
     impact: str  # "high", "medium", "low"
     recommendation: str
-    supporting_data: dict[str, Any]
+    supporting_data: Dict[str, Any]
     timestamp: datetime
 
 
@@ -132,14 +118,14 @@ class MetricsCollector:
 
     def __init__(self, max_points: int = 100000):
         self.max_points = max_points
-        self.metrics: dict[str, deque] = defaultdict(lambda: deque(maxlen=max_points))
-        self.endpoint_metrics: dict[str, APIEndpointMetrics] = {}
-        self.user_metrics: dict[str, dict[str, Any]] = defaultdict(dict)
-        self.system_metrics: dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
+        self.metrics: Dict[str, deque] = defaultdict(lambda: deque(maxlen=max_points))
+        self.endpoint_metrics: Dict[str, APIEndpointMetrics] = {}
+        self.user_metrics: Dict[str, Dict[str, Any]] = defaultdict(dict)
+        self.system_metrics: Dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
 
     async def record_metric(self, metric_name: str, value: float,
-                          labels: Optional[dict[str, str]] = None,
-                          metadata: Optional[dict[str, Any]] = None):
+                          labels: Optional[Dict[str, str]] = None,
+                          metadata: Optional[Dict[str, Any]] = None):
         """Record a metric point."""
         point = MetricPoint(
             timestamp=time.time(),
@@ -223,7 +209,7 @@ class MetricsCollector:
             user_data["last_seen"] = datetime.now()
 
     async def get_metrics(self, metric_name: str,
-                         time_window: TimeWindow = TimeWindow.LAST_HOUR) -> list[MetricPoint]:
+                         time_window: TimeWindow = TimeWindow.LAST_HOUR) -> List[MetricPoint]:
         """Get metrics for specified time window."""
         if metric_name not in self.metrics:
             return []
@@ -233,7 +219,7 @@ class MetricsCollector:
                 if point.timestamp >= cutoff_time]
 
     async def get_endpoint_metrics(self, endpoint: Optional[str] = None,
-                                 method: Optional[str] = None) -> dict[str, APIEndpointMetrics]:
+                                 method: Optional[str] = None) -> Dict[str, APIEndpointMetrics]:
         """Get endpoint metrics."""
         if endpoint and method:
             endpoint_key = f"{method}:{endpoint}"
@@ -268,8 +254,8 @@ class AlertManager:
     """Manages alerts and notifications."""
 
     def __init__(self):
-        self.alerts: dict[str, Alert] = {}
-        self.alert_rules: list[dict[str, Any]] = []
+        self.alerts: Dict[str, Alert] = {}
+        self.alert_rules: List[Dict[str, Any]] = []
         self.alert_history: deque = deque(maxlen=1000)
 
     def add_alert_rule(self, metric_name: str, threshold: float,
@@ -290,7 +276,7 @@ class AlertManager:
         for rule in self.alert_rules:
             await self._check_rule(rule, metrics_collector)
 
-    async def _check_rule(self, rule: dict[str, Any], metrics_collector: MetricsCollector):
+    async def _check_rule(self, rule: Dict[str, Any], metrics_collector: MetricsCollector):
         """Check individual alert rule."""
         metric_name = rule["metric_name"]
         threshold = rule["threshold"]
@@ -343,11 +329,11 @@ class AlertManager:
 
                 logger.info(f"Alert resolved: {alert.title}")
 
-    def get_active_alerts(self) -> list[Alert]:
+    def get_active_alerts(self) -> List[Alert]:
         """Get all active alerts."""
         return list(self.alerts.values())
 
-    def get_alert_history(self, limit: int = 100) -> list[Alert]:
+    def get_alert_history(self, limit: int = 100) -> List[Alert]:
         """Get alert history."""
         return list(self.alert_history)[-limit:]
 
@@ -356,10 +342,10 @@ class IntelligenceEngine:
     """Provides intelligent insights and recommendations."""
 
     def __init__(self):
-        self.insights_cache: dict[str, BusinessInsight] = {}
+        self.insights_cache: Dict[str, BusinessInsight] = {}
         self.pattern_history: deque = deque(maxlen=10000)
 
-    async def generate_insights(self, metrics_collector: MetricsCollector) -> list[BusinessInsight]:
+    async def generate_insights(self, metrics_collector: MetricsCollector) -> List[BusinessInsight]:
         """Generate business insights from metrics data."""
         insights = []
 
@@ -381,7 +367,7 @@ class IntelligenceEngine:
 
         return insights
 
-    async def _analyze_performance(self, metrics_collector: MetricsCollector) -> list[BusinessInsight]:
+    async def _analyze_performance(self, metrics_collector: MetricsCollector) -> List[BusinessInsight]:
         """Analyze performance patterns."""
         insights = []
 
@@ -446,7 +432,7 @@ class IntelligenceEngine:
 
         return insights
 
-    async def _analyze_usage_patterns(self, metrics_collector: MetricsCollector) -> list[BusinessInsight]:
+    async def _analyze_usage_patterns(self, metrics_collector: MetricsCollector) -> List[BusinessInsight]:
         """Analyze usage patterns."""
         insights = []
 
@@ -514,7 +500,7 @@ class IntelligenceEngine:
 
         return insights
 
-    async def _analyze_error_patterns(self, metrics_collector: MetricsCollector) -> list[BusinessInsight]:
+    async def _analyze_error_patterns(self, metrics_collector: MetricsCollector) -> List[BusinessInsight]:
         """Analyze error patterns."""
         insights = []
 
@@ -549,7 +535,7 @@ class IntelligenceEngine:
 
         return insights
 
-    async def _analyze_business_impact(self, metrics_collector: MetricsCollector) -> list[BusinessInsight]:
+    async def _analyze_business_impact(self, metrics_collector: MetricsCollector) -> List[BusinessInsight]:
         """Analyze business impact."""
         insights = []
 
@@ -640,7 +626,7 @@ class AnalyticsDashboard:
             await self.metrics_collector.record_metric("api.error_rate",
                                                      (status_code >= 400) * 100)
 
-    async def get_dashboard_data(self, time_window: TimeWindow = TimeWindow.LAST_HOUR) -> dict[str, Any]:
+    async def get_dashboard_data(self, time_window: TimeWindow = TimeWindow.LAST_HOUR) -> Dict[str, Any]:
         """Get comprehensive dashboard data."""
 
         # Get endpoint metrics
@@ -724,7 +710,7 @@ class AnalyticsDashboard:
             "time_window": time_window.value
         }
 
-    async def get_endpoint_details(self, endpoint: str, method: str) -> dict[str, Any]:
+    async def get_endpoint_details(self, endpoint: str, method: str) -> Dict[str, Any]:
         """Get detailed metrics for specific endpoint."""
         endpoint_key = f"{method}:{endpoint}"
         endpoint_metrics = await self.metrics_collector.get_endpoint_metrics(endpoint, method)

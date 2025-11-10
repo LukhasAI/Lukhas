@@ -16,7 +16,6 @@ from pathlib import Path
 from typing import Any, Optional
 
 import aiofiles
-
 from core.common import get_logger
 
 from .dna_healix import MemoryHelix, RepairMethod
