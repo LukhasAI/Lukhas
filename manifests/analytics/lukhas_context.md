@@ -9,7 +9,7 @@ type: documentation
 **Colony**: -
 
 ## What it does
-_TODO: short description (2–3 sentences). Add links to demos, notebooks, or dashboards._
+This document provides context for the analytics module of the LUKHAS AI system.
 
 ## Contracts
 - **Publishes**: _e.g., `topic.name@v1`_

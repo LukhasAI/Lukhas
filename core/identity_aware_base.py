@@ -1,4 +1,6 @@
 """Bridge module for core.identity_aware_base → labs.core.identity_aware_base"""
 from __future__ import annotations
 
-from labs.core.identity_aware_base import *
+from labs.core.identity_aware_base import IdentityAwareBase, IdentityMixin
+
+__all__ = ["IdentityAwareBase", "IdentityMixin"]

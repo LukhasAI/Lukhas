@@ -1,6 +1,6 @@
 """Bridge module for bio.matriz_adapter → labs.bio.matriz_adapter"""
 from __future__ import annotations
 
-from labs.bio.matriz_adapter import BioMatrizAdapter
+from labs.bio.matriz_adapter import BioMatrizAdapter, adapt_bio_matriz
 
-__all__ = ["BioMatrizAdapter"]
+__all__ = ["BioMatrizAdapter", "adapt_bio_matriz"]

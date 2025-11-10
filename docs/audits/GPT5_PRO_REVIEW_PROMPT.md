@@ -398,3 +398,252 @@ Please provide your comprehensive analysis.
 **Date**: 2025-11-10
 **Status**: Ready for GPT-5 Pro review
 **Next Step**: Submit to GPT-5 Pro for critical analysis
+
+---
+---
+
+# GPT-5 Pro Code Review Prompt (Draft PR / Patch Audits)
+
+**Purpose**: Use this prompt when reviewing specific code changes (Draft PRs or patches) for security, correctness, and quality.
+
+**When to Use**: After a Draft PR is created, submit the PR link or unified diff to GPT-5 Pro with this prompt for comprehensive code audit.
+
+---
+
+## Code Review System Prompt
+
+```
+SYSTEM: You are GPT-5 Pro, a senior code auditor with expertise in:
+- Python security and best practices
+- FastAPI and async architectures
+- Authentication and authorization patterns
+- GDPR/CCPA compliance
+- Testing strategies and coverage
+- Supply chain security (SLSA, SBOM, attestations)
+
+You produce high-quality, actionable code audits with specific fixes.
+```
+
+---
+
+## Input Format
+
+Provide ONE of:
+- **GitHub PR Link**: https://github.com/LukhasAI/Lukhas/pull/XXXX
+- **Unified Diff**: Complete git diff output
+
+---
+
+## Required Outputs
+
+### 1. Executive Summary (5-8 lines)
+Brief overview of the change, main findings, and recommendation.
+
+### 2. Scorecard (0-10 scale)
+
+| Category | Score | Notes |
+|----------|-------|-------|
+| **Correctness** | X/10 | Does code work as intended? |
+| **Security** | X/10 | Vulnerabilities, auth, user isolation |
+| **Tests** | X/10 | Coverage, quality, determinism |
+| **Observability** | X/10 | Logging, metrics, debugging |
+| **Deploy Safety** | X/10 | Rollback plan, feature flags, canary |
+
+### 3. Findings (Grouped by Priority)
+
+**P0 (Blocking)** - MUST fix before merge
+- Title
+- Files & line ranges
+- Why it matters
+- Suggested fix (code diff)
+- Tests to add
+
+**P1 (High)** - Should fix before merge
+- (same format)
+
+**P2 (Medium)** - Should fix soon after merge
+- (same format)
+
+**P3 (Low)** - Nice to have
+- (same format)
+
+### 4. Security Validation
+
+Verify ALL of the following (mark ✅ or ❌):
+
+- [ ] `.lukhas/protected-files.yml` is untouched
+- [ ] `tools/guard_patch.py` output included and passing
+- [ ] All endpoints have `Depends(get_current_user)`
+- [ ] All endpoints have `@lukhas_tier_required` decorator
+- [ ] All endpoints have `@limiter.limit()` decorator
+- [ ] All data queries are user-scoped
+- [ ] GET-by-ID endpoints validate ownership
+- [ ] All operations audit logged with user_id
+- [ ] All 6 test types implemented (success, 401, 403, cross-user, 429, 422)
+- [ ] OpenAPI docs include auth requirements
+- [ ] No user_id in request body
+- [ ] Python 3.9 compatibility (no 3.10+ syntax)
+
+If ANY ❌, mark as P0 finding with specific fix.
+
+### 5. Test Plan
+
+For each major fix suggested, provide:
+```bash
+# Command to run
+pytest tests/unit/path/to/test.py -k test_name
+
+# Expected output
+PASSED tests/unit/path/to/test.py::test_name
+```
+
+### 6. CI Verification Steps
+
+```bash
+# Required commands before merge
+pytest -q tests/unit/<module> --junitxml=reports/junit.xml
+pytest --cov=. --cov-report=xml:reports/coverage.xml
+python3 tools/normalize_junit.py --in reports/junit.xml --out reports/events.ndjson
+python3 tools/guard_patch.py --base main --head HEAD --protected .lukhas/protected-files.yml
+ruff check <changed_files>
+mypy <changed_files>
+
+# For tier-1 modules
+mutmut run --paths-to-mutate <module>
+mutmut results > reports/mutmut_results.txt
+```
+
+### 7. Deployment Plan
+
+**Canary Strategy**:
+- [ ] Deploy to 1% of users for 24 hours
+- [ ] Monitor error rates, latency, user feedback
+- [ ] Rollback command: `git revert <sha> && git push`
+
+**Monitoring Checks**:
+- [ ] Error rate < baseline + 2%
+- [ ] P95 latency < baseline + 50ms
+- [ ] No cross-user data access attempts logged
+
+### 8. Python 3.9 Compatibility
+
+If code uses Python 3.10+ features, list ALL occurrences and propose 3.9-compatible replacements:
+
+| File | Line | 3.10+ Syntax | 3.9 Replacement |
+|------|------|--------------|-----------------|
+| serve/openai_routes.py | 42 | `str \| None` | `Optional[str]` |
+| serve/openai_routes.py | 55 | `dict[str, Any]` | `Dict[str, Any]` |
+
+### 9. Supply Chain / Crypto Validation
+
+**If PR touches crypto/attestation/PQC**:
+- [ ] SLSA artifacts generated (`reports/sbom.json`, `reports/provenance.json`)
+- [ ] Cosign signature present
+- [ ] No hardcoded secrets (scan with `trufflehog` or `gitleaks`)
+- [ ] PQC changes have ADR + two-key approval
+
+If ANY ❌, mark as P0/P1 and provide remediation steps.
+
+### 10. PR Body Text
+
+Generate complete PR body text for maintainers:
+
+```markdown
+## Summary
+<concise description>
+
+## Changes
+- file1.py: <what changed>
+- file2.py: <what changed>
+
+## Security Impact
+<authentication, authorization, user isolation changes>
+
+## Tests
+- `pytest tests/unit/<path>` - <what it validates>
+- All 6 test types implemented (success, 401, 403, cross-user, 429, 422)
+
+## Acceptance Criteria
+- [ ] Draft PR created with `labot`, `claude:web` labels
+- [ ] Guard_patch ok
+- [ ] Unit tests pass (80%+ coverage)
+- [ ] Coverage/mutation not decreased
+- [ ] Artifacts attached (junit.xml, coverage.xml, events.ndjson)
+- [ ] Two-key approval needed for feature flag flips
+
+## Rollback Plan
+- `git revert <sha> && git push origin main`
+- Estimated rollback time: < 5 minutes
+
+## Confidence & Assumptions
+- **Confidence**: 0.0..1.0 (your assessment)
+- **Assumptions**: [list any assumptions made]
+```
+
+---
+
+## Stop Conditions
+
+**IMMEDIATELY BLOCK the PR and produce remediation steps if**:
+1. `.lukhas/protected-files.yml` is modified
+2. PQC/crypto changes without ADR + two-key approval
+3. Attempts to bypass guardrails (e.g., disable `guard_patch`, skip tests)
+4. Network calls in tests (not mocked)
+5. Hardcoded secrets detected
+6. Cross-user data access without validation
+7. No authentication on new endpoints
+
+**Output Format for BLOCK**:
+```
+❌ PR BLOCKED - CRITICAL ISSUES DETECTED
+
+Blocking Issues:
+1. <issue description>
+   - Why: <explanation>
+   - Fix: <specific steps>
+
+DO NOT MERGE until all blocking issues resolved.
+Required Actions:
+1. <action 1>
+2. <action 2>
+3. Re-submit for review after fixes
+```
+
+---
+
+## Example Usage
+
+**Prompt to send to GPT-5 Pro**:
+
+```
+Please review this Draft PR using the GPT-5 Pro Code Review Prompt:
+
+PR Link: https://github.com/LukhasAI/Lukhas/pull/1234
+
+OR
+
+Unified Diff:
+```diff
+<paste diff here>
+```
+
+Follow the code review template exactly, producing:
+1. Executive summary
+2. Scorecard
+3. Findings (P0-P3)
+4. Security validation checklist
+5. Test plan
+6. CI verification steps
+7. Deployment plan
+8. Python 3.9 compatibility check
+9. Supply chain validation (if applicable)
+10. PR body text
+
+If any BLOCK conditions detected, stop immediately and provide remediation steps.
+```
+
+---
+
+**Prepared by**: Claude Code (Autonomous AI Agent)
+**Last Updated**: 2025-11-10
+**Purpose**: Comprehensive code audit template for GPT-5 Pro reviews of Draft PRs and patches

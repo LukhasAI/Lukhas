@@ -1,4 +1,6 @@
 """Bridge module for core.api_diff_analyzer → labs.core.api_diff_analyzer"""
 from __future__ import annotations
 
-from labs.core.api_diff_analyzer import *
+from labs.core.api_diff_analyzer import APIDiffAnalyzer, analyze_api_diff
+
+__all__ = ["APIDiffAnalyzer", "analyze_api_diff"]

@@ -6,7 +6,9 @@ Please update imports to: accepted.adapters.base
 
 import warnings
 
-from adapters.base import *
+from adapters.base import BaseAdapter, AdapterRegistry, create_adapter
+
+__all__ = ["BaseAdapter", "AdapterRegistry", "create_adapter"]
 
 warnings.warn(
     "Import 'bridge.adapter' is deprecated and will be removed on 2025-11-01. "
