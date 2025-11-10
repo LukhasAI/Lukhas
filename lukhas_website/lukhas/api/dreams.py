@@ -18,7 +18,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 
 from lukhas_website.lukhas.api.auth_helpers import get_current_user, lukhas_tier_required
-from identity.tier_system import TierLevel, PermissionScope
+from lukhas.identity.tier_system import TierLevel, PermissionScope
 
 
 logger = logging.getLogger(__name__)
