@@ -118,40 +118,8 @@ def require_api_key(x_api_key: Optional[str]=Header(default=None)) -> Optional[s
     if expected_key and x_api_key != expected_key:
         raise HTTPException(status_code=401, detail='Unauthorized')
     return x_api_key
+from lukhas_website.lukhas.api.middleware.strict_auth import StrictAuthMiddleware
 app = FastAPI(title='LUKHAS API', version='1.0.0', description='Governed tool loop, auditability, feedback LUT, and safety modes.', contact={'name': 'LUKHAS AI Team', 'url': 'https://github.com/LukhasAI/Lukhas'}, license_info={'name': 'MIT', 'url': 'https://opensource.org/licenses/MIT'}, servers=[{'url': 'http://localhost:8000', 'description': 'Local development'}, {'url': 'https://api.ai', 'description': 'Production'}])
-
-class StrictAuthMiddleware(BaseHTTPMiddleware):
-    """
-    Enforce authentication in strict policy mode.
-
-    When LUKHAS_POLICY_MODE=strict, validates Bearer token on all /v1/* endpoints.
-    Returns 401 with OpenAI-compatible error envelope on auth failure.
-    """
-
-    def __init__(self, app):
-        super().__init__(app)
-
-    async def dispatch(self, request: Request, call_next):
-        policy_mode = env_get('LUKHAS_POLICY_MODE', 'strict') or 'strict'
-        strict_enabled = policy_mode == 'strict'
-        if not strict_enabled or not request.url.path.startswith('/v1/'):
-            return await call_next(request)
-        auth_header = request.headers.get('Authorization', '')
-        if not auth_header:
-            return self._auth_error('Missing Authorization header')
-        if not auth_header.startswith('Bearer '):
-            return self._auth_error('Authorization header must use Bearer scheme')
-        token = auth_header[7:].strip()
-        if not token:
-            return self._auth_error('Bearer token is empty')
-        return await call_next(request)
-
-    def _auth_error(self, message: str) -> Response:
-        """Return OpenAI-compatible 401 error envelope."""
-        from fastapi.responses import JSONResponse
-        error_detail = {'type': 'invalid_api_key', 'message': f'Invalid authentication credentials. {message}', 'code': 'invalid_api_key'}
-        error_response = {'error': {'message': {'error': error_detail}, 'type': error_detail['type'], 'code': error_detail['code']}}
-        return JSONResponse(status_code=401, content=error_response)
 
 class HeadersMiddleware(BaseHTTPMiddleware):
     """Add OpenAI-compatible headers to all responses."""
