@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.bio.endocrine_integration
 
 **Star**: Supporting

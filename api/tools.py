@@ -1,4 +1,6 @@
 """Bridge module for api.tools → labs.api.tools"""
 from __future__ import annotations
 
-from labs.api.tools import *
+from labs.api.tools import router
+
+__all__ = ["router"]

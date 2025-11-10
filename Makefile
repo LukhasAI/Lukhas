@@ -2009,20 +2009,3 @@ policy: ## Validate PR against patch size, protected files, and risky patterns
 artifacts: test-heal heal ## Generate all self-healing artifacts (junit.xml, coverage.xml, events.ndjson)
 	@echo "✅ Artifacts in ./reports: junit.xml, coverage.xml, events.ndjson"
 
-# ============================================================================
-# ΛBot - Stage A Test Planner (Systematic Test Enrichment)
-# ============================================================================
-
-.PHONY: labot-plan labot-gen labot-all labot-open
-
-labot-plan: ## Find top test targets (ranked by coverage + hotness)
-	$(PY) tools/labot.py --mode plan
-
-labot-gen: ## Generate agent-ready prompts for test targets
-	$(PY) tools/labot.py --mode plan+gen
-
-labot-all: labot-gen ## Alias for labot-gen
-
-labot-open: ## Open PR shell for a target (usage: make labot-open slug=serve_main)
-	$(PY) tools/labot.py --mode open-pr --slug $(slug)
-

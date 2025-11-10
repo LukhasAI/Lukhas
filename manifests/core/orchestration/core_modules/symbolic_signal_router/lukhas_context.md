@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.core.orchestration.core_modules.symbolic_signal_router
 
 **Star**: Supporting

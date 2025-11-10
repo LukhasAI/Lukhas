@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.consciousness.reasoning.advanced_engines
 
 **Star**: 🌊 Flow (Consciousness)

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.governance.identity.core.commercial
 
 **Star**: ⚛️ Anchor (Identity)

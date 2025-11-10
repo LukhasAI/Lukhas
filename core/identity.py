@@ -11,10 +11,12 @@ from typing import Any
 
 # Prefer the top-level identity package if available (no labs edge)
 try:  # pragma: no cover - import-time availability
-    from identity import *  # type: ignore
+    from identity import IdentityManager, LambdaIdentity, authenticate_identity  # type: ignore
     _HAS_PRIMARY = True
+    __all__ = ["IdentityManager", "LambdaIdentity", "authenticate_identity"]
 except Exception:  # pragma: no cover
     _HAS_PRIMARY = False
+    __all__ = []
 
 
 def __getattr__(name: str) -> Any:  # pragma: no cover - lazy path

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.symbolic_legacy.features.collapse
 
 **Star**: Supporting

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.brain.orchestration.emotional_oscillator
 
 **Star**: Supporting

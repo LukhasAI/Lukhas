@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.interfaces.nias
 
 **Star**: 🔬 Horizon (Vision)

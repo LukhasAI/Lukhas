@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.cognitive_core.reasoning
 
 **Star**: Supporting

@@ -1,7 +1,4 @@
-title: "test(serve): add coverage for identity_middleware.py"
-labels:
-  - labot
-  - type:tests
+title: test(serve): add coverage for identity_middleware.py
 body: |
   # Test Request (ΛBot)
 
@@ -18,4 +15,3 @@ body: |
   ## Notes
   - Protected surface must not be edited.
   - Use the prompt in `prompts/labot/serve_identity_middleware.md`.
-  - This PR is a **draft** from ΛBot and requires human review before merging.

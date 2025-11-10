@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.consciousness.systems.cognitive_systems
 
 **Star**: 🌊 Flow (Consciousness)

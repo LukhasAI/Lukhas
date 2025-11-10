@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.aka_qualia.router_client
 
 **Star**: Supporting
@@ -5,7 +9,7 @@
 **Colony**: -
 
 ## What it does
-_TODO: short description (2–3 sentences). Add links to demos, notebooks, or dashboards._
+This document provides context for the router_client component within the aka_qualia module of the LUKHAS AI system.
 
 ## Contracts
 - **Publishes**: _e.g., `topic.name@v1`_

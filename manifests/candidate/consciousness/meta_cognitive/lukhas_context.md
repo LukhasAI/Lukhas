@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.consciousness.meta_cognitive
 
 **Star**: 🌊 Flow (Consciousness)

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.rl.coordination.multi_agent_trainer
 
 **Star**: Supporting

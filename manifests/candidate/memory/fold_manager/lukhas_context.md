@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.memory.fold_manager
 
 **Star**: ✦ Trail (Memory)

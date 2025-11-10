@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.aka_qualia.observability
 
 **Star**: Supporting

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.interfaces.as_agent.sys.dast
 
 **Star**: 🔬 Horizon (Vision)

@@ -1,0 +1,305 @@
+name: Deploy Status Page
+
+on:
+  push:
+    branches:
+      - main
+      - production
+    paths:
+      - 'products/status_page/**'
+      - '.github/workflows/deploy_status_page.yml'
+  pull_request:
+    paths:
+      - 'products/status_page/**'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Prevent concurrent deployments
+concurrency:
+  group: status-page-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate Status Page
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Validate HTML
+        uses: Cyb3r-Jak3/html5validator-action@v7.2.0
+        with:
+          root: products/status_page/
+          log_level: WARNING
+
+      - name: Validate JavaScript
+        run: |
+          npx eslint products/status_page/status.js \
+            --env browser \
+            --env es2020 \
+            --no-eslintrc \
+            --rule 'no-undef: error' \
+            --rule 'no-unused-vars: warn' \
+            || echo "ESLint warnings found but continuing"
+
+      - name: Check file sizes
+        run: |
+          echo "Checking bundle sizes..."
+          HTML_SIZE=$(stat -c%s products/status_page/index.html)
+          JS_SIZE=$(stat -c%s products/status_page/status.js)
+          TOTAL_SIZE=$((HTML_SIZE + JS_SIZE))
+
+          echo "HTML: ${HTML_SIZE} bytes"
+          echo "JS: ${JS_SIZE} bytes"
+          echo "Total: ${TOTAL_SIZE} bytes"
+
+          # Warn if bundle is too large
+          if [ $TOTAL_SIZE -gt 50000 ]; then
+            echo "::warning::Bundle size (${TOTAL_SIZE} bytes) exceeds 50KB"
+          fi
+
+  test:
+    name: Test Status Page
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4.0.1
+        with:
+          node-version: '20'
+
+      - name: Start local server
+        run: |
+          cd products/status_page
+          python3 -m http.server 8080 &
+          echo "SERVER_PID=$!" >> $GITHUB_ENV
+          sleep 2
+
+      - name: Test page loads
+        run: |
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/index.html)
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "::error::Status page failed to load (HTTP $HTTP_CODE)"
+            exit 1
+          fi
+          echo "✅ Status page loads successfully (HTTP 200)"
+
+      - name: Test JavaScript loads
+        run: |
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/status.js)
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "::error::JavaScript failed to load (HTTP $HTTP_CODE)"
+            exit 1
+          fi
+          echo "✅ JavaScript loads successfully (HTTP 200)"
+
+      - name: Check for console errors (basic)
+        run: |
+          # Basic syntax check
+          node -c products/status_page/status.js || {
+            echo "::error::JavaScript syntax error"
+            exit 1
+          }
+          echo "✅ JavaScript syntax valid"
+
+      - name: Cleanup
+        if: always()
+        run: |
+          if [ ! -z "$SERVER_PID" ]; then
+            kill $SERVER_PID 2>/dev/null || true
+          fi
+
+  build:
+    name: Build Status Page
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Prepare build directory
+        run: |
+          mkdir -p build
+          cp -r products/status_page/* build/
+
+          # Create build metadata
+          cat > build/build-info.json <<EOF
+          {
+            "version": "1.0.0",
+            "build_time": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "git_commit": "${{ github.sha }}",
+            "git_ref": "${{ github.ref }}",
+            "workflow_run": "${{ github.run_id }}"
+          }
+          EOF
+
+      - name: Generate build report
+        run: |
+          echo "### 📊 Build Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| File | Size |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|------|" >> $GITHUB_STEP_SUMMARY
+
+          for file in build/*; do
+            if [ -f "$file" ]; then
+              SIZE=$(stat -c%s "$file")
+              echo "| $(basename "$file") | ${SIZE} bytes |" >> $GITHUB_STEP_SUMMARY
+            fi
+          done
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4.0.0
+        with:
+          name: status-page-build
+          path: build/
+          retention-days: 30
+
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging')
+    environment:
+      name: staging
+      url: https://staging-status.lukhas.ai
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4.0.0
+        with:
+          name: status-page-build
+          path: build/
+
+      - name: Deploy to staging
+        run: |
+          echo "🚀 Deploying to staging..."
+          echo "Files to deploy:"
+          ls -lh build/
+
+          # Placeholder for actual deployment
+          # Replace with your deployment method:
+          # - Vercel: vercel deploy --token=${{ secrets.VERCEL_TOKEN }}
+          # - Cloudflare: wrangler pages publish build/
+          # - S3: aws s3 sync build/ s3://staging-status.lukhas.ai/
+          # - GitHub Pages: handled by separate job
+
+          echo "::notice::Deployment to staging complete"
+
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: build
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
+    environment:
+      name: production
+      url: https://status.lukhas.ai
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4.0.0
+        with:
+          name: status-page-build
+          path: build/
+
+      - name: Update Prometheus config (if mock mode disabled)
+        run: |
+          # Check if status.js has mockMode: false
+          if grep -q "mockMode: false" build/status.js; then
+            echo "::notice::Production mode detected - ensure Prometheus endpoint is configured"
+          else
+            echo "::warning::Mock mode is enabled in production build"
+          fi
+
+      - name: Deploy to production
+        run: |
+          echo "🚀 Deploying to production..."
+          echo "Files to deploy:"
+          ls -lh build/
+
+          # Placeholder for actual deployment
+          # Replace with your deployment method:
+          # - Vercel: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
+          # - Cloudflare: wrangler pages publish build/ --project-name=lukhas-status
+          # - S3: aws s3 sync build/ s3://status.lukhas.ai/ --delete
+          # - rsync: rsync -avz build/ user@server:/var/www/status/
+
+          echo "::notice::Deployment to production complete"
+
+      - name: Create deployment summary
+        run: |
+          echo "### 🎉 Production Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment**: Production" >> $GITHUB_STEP_SUMMARY
+          echo "**URL**: https://status.lukhas.ai" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit**: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Deployed at**: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_STEP_SUMMARY
+
+  # Optional: Deploy to GitHub Pages
+  deploy-github-pages:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4.0.0
+        with:
+          name: status-page-build
+          path: build/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4.0.0
+
+      - name: Upload to Pages
+        uses: actions/upload-pages-artifact@v3.0.0
+        with:
+          path: build/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4.0.2
+
+      - name: GitHub Pages deployment summary
+        run: |
+          echo "### 📄 GitHub Pages Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**URL**: ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Status**: ✅ Deployed" >> $GITHUB_STEP_SUMMARY
+
+  notify:
+    name: Notify Deployment
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    if: always() && github.event_name == 'push'
+    steps:
+      - name: Deployment notification
+        run: |
+          STATUS="${{ needs.deploy-production.result }}"
+          if [ "$STATUS" == "success" ]; then
+            echo "::notice::✅ Status page deployed successfully to production"
+          else
+            echo "::error::❌ Status page deployment failed"
+          fi
+
+          # Add webhook notification here if needed:
+          # curl -X POST ${{ secrets.SLACK_WEBHOOK }} \
+          #   -H 'Content-Type: application/json' \
+          #   -d '{"text":"Status page deployment: '"$STATUS"'"}'

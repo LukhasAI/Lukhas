@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.agent_orchestrator
 
 **Star**: Supporting

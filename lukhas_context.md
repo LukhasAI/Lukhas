@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Context - Vendor-Neutral AI Guidance
 *This file provides domain-specific context for any AI development tool*
 *Also available as claude.me for Claude Desktop compatibility*
@@ -465,7 +469,7 @@ CANDIDATE Research → LUKHAS Integration → PRODUCTS Deployment
 - **Memory System**: 1000-fold architecture with 99.7% cascade prevention
 - **Authentication**: <100ms p95 latency with multi-modal support
 - **Ethics Processing**: Real-time constitutional AI validation
-- **Consciousness Integration**: Multi-engine coordination with Trinity Framework
+- **Consciousness Integration**: Multi-engine coordination with Constellation Framework
 - **Dream EXPAND System**: T4-compliant safety protocols with opt-in controls
   - Deterministic defaults, explicit environment flags
   - Hybrid CI workflows with smoke/bench testing
@@ -473,7 +477,7 @@ CANDIDATE Research → LUKHAS Integration → PRODUCTS Deployment
   - Privacy-filtered narrative replay with anonymization
 
 ### **Architecture Health Indicators**
-- ✅ **Trinity Framework**: Identity-Consciousness-Guardian coordination active
+- ✅ **Constellation Framework**: Identity-Consciousness-Guardian coordination active
 - ✅ **Constitutional AI**: 33+ ethics components with framework integration
 - ✅ **Production Ready**: Enterprise scaling with compliance systems
 - ✅ **Comprehensive Audit Complete**: Schema v2.0.0 with 100% validation
@@ -611,5 +615,5 @@ Successfully created 7 test sessions (TEST-014 through TEST-020) generating 6+ P
 
 
 **Architecture Status**: Constellation Framework Active | Constitutional AI Integrated | 71.4% → 100% Roadmap
-**Last Updated**: 2025-11-02 | **Total Files**: 33,845+ | **Context Files**: 2,250+ | **Research Docs**: 604
+**Last Updated**: 2025-11-07 | **Total Files**: 33,845+ | **Context Files**: 2,250+ | **Research Docs**: 604
 **Latest Systems**: WebAuthn FIDO2 · Encryption Manager · Multi-Jurisdiction Compliance · OAuth 2.1 Migration

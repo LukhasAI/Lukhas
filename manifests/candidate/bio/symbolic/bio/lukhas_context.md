@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.bio.symbolic.bio
 
 **Star**: Supporting
