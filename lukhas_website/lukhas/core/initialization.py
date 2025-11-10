@@ -189,15 +189,19 @@ def _initialize_glyphs() -> None:
     Initialize glyphs subsystem.
 
     Lazy imports to avoid loading unless enabled.
+    Uses the new glyphs wrapper module for feature flag control.
     """
     try:
-        # Lazy import
-        from lukhas_website.lukhas.core.common.glyph import GLYPHToken, GLYPHRouter
+        # Lazy import from glyphs wrapper module
+        from lukhas_website.lukhas.glyphs import get_glyph_token_class, get_glyph_router_class
 
-        # Verify import succeeded
+        # Verify import succeeded and classes are available
+        GLYPHToken = get_glyph_token_class()
+        GLYPHRouter = get_glyph_router_class()
+
         if GLYPHToken and GLYPHRouter:
             _INITIALIZATION_STATE["initialized_systems"].append("glyphs")
-    except ImportError as e:
+    except (ImportError, RuntimeError) as e:
         _INITIALIZATION_STATE["warnings"].append(f"Glyphs import failed: {e}")
 
 
