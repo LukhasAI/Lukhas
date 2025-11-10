@@ -1,0 +1,3 @@
+Codex scaffold marker for Guard_patch enhancements
+Branch: codex/guard-patch-enhancements
+Request: codex_artifacts/requests/02-guard-patch-enhancements.md
