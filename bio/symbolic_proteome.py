@@ -1,4 +1,11 @@
 """Bridge module for bio.symbolic_proteome → labs.bio.symbolic_proteome"""
 from __future__ import annotations
 
-from labs.bio.symbolic_proteome import *
+from labs.bio.symbolic_proteome import (
+    FoldingState,
+    MemoryCodon,
+    PostTranslationalModification,
+    ProteinType,
+)
+
+__all__ = ["FoldingState", "MemoryCodon", "PostTranslationalModification", "ProteinType"]
