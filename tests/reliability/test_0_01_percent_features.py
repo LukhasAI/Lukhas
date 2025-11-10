@@ -7,17 +7,13 @@ top-tier systems from merely good ones.
 """
 
 import asyncio
+import logging
 import time
 from unittest.mock import Mock, patch
 
 import pytest
 
 from core.reliability import (
-
-import logging
-
-# Module-level logger
-logger = logging.getLogger(__name__)
     AdaptiveCircuitBreaker,
     AdaptiveTimeoutManager,
     BackoffConfig,
@@ -30,6 +26,9 @@ logger = logging.getLogger(__name__)
     PerformanceRegressionDetector,
     TimeoutConfig,
 )
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 class TestAdaptiveCircuitBreaker:
