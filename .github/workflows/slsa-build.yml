@@ -105,7 +105,7 @@ jobs:
           python-version: '3.11'
 
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.1.8  # Security: CVE fix
         with:
           name: dist
           path: dist/
