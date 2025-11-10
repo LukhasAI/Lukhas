@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order (avoid self to prevent recursion)
 _CANDIDATES = (
-    "lukhas_website.consciousness.meta_cognitive_assessor",
+    "lukhas_website.lukhas.consciousness.meta_cognitive_assessor",
     "candidate.consciousness.meta_cognitive_assessor",
 )
 

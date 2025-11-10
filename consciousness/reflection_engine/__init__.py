@@ -6,7 +6,7 @@ from importlib import import_module
 __all__: list[str] = []
 
 for _candidate in (
-    "lukhas_website.consciousness.reflection_engine",
+    "lukhas_website.lukhas.consciousness.reflection_engine",
     "consciousness.reflection_engine",
     "candidate.consciousness.reflection_engine",
 ):

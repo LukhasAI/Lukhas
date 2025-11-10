@@ -36,8 +36,20 @@ for _mod in (
     if _bind(_mod):
         break
 else:
-    # Minimal fallback (package still presents `exceptions` submodule)
-    pass
+    # Minimal fallback - load from shadowed core/common.py file
+    import importlib.util
+    import sys
+    from pathlib import Path
+    _common_file = Path(__file__).parent.parent / "common.py"
+    if _common_file.exists():
+        spec = importlib.util.spec_from_file_location("core._common_module", _common_file)
+        if spec and spec.loader:
+            _common_mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(_common_mod)
+            _SRC = _common_mod
+            __all__ = [n for n in dir(_common_mod) if not n.startswith("_")]
+            if "exceptions" not in __all__:
+                __all__.append("exceptions")
 
 if _SRC is not None:
     def __getattr__(name: str):
