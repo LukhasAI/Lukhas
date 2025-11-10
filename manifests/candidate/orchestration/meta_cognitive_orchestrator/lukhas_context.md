@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.meta_cognitive_orchestrator
 
 **Star**: Supporting

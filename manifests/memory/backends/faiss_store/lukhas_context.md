@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.memory.backends.faiss_store
 
 **Star**: ✦ Trail (Memory)

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.memory.core.brain.core.memory_brain_core
 
 **Star**: ✦ Trail (Memory)

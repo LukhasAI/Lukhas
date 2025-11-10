@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.interfaces.orchestration_protocol
 
 **Star**: 🔬 Horizon (Vision)

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.bridge.external_adapters.gmail_adapter
 
 **Star**: Supporting

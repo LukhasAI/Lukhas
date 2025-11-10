@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.observability.enhanced_distributed_tracing
 
 **Star**: Supporting

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.consciousness.consciousness_stream
 
 **Star**: 🌊 Flow (Consciousness)

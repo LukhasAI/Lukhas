@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.integration.innovation_orchestrator
 
 **Star**: Supporting

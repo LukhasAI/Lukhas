@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.colony_orchestrator
 
 **Star**: Supporting

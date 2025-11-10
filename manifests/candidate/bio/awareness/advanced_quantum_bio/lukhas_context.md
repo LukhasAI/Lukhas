@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.bio.awareness.advanced_quantum_bio
 
 **Star**: 🌊 Flow (Consciousness)

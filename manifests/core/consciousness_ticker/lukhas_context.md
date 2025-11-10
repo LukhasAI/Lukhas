@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.core.consciousness_ticker
 
 **Star**: 🌊 Flow (Consciousness)

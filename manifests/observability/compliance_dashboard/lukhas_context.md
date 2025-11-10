@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.observability.compliance_dashboard
 
 **Star**: Supporting

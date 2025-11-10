@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.planetary_consciousness
 
 **Star**: 🌊 Flow (Consciousness)

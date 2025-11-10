@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.consciousness.dream.base.dream_refold
 
 **Star**: ✦ Trail (Memory)

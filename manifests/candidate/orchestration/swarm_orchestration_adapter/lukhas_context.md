@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.swarm_orchestration_adapter
 
 **Star**: Supporting

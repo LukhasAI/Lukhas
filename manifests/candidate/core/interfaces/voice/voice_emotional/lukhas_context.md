@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.interfaces.voice.voice_emotional
 
 **Star**: 🔬 Horizon (Vision)

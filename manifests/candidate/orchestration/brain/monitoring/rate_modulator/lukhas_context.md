@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.brain.monitoring.rate_modulator
 
 **Star**: Supporting

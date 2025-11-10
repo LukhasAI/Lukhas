@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.tools.claude_integration
 
 **Star**: Supporting

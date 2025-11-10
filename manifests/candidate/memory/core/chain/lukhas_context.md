@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.memory.core.chain
 
 **Star**: ✦ Trail (Memory)

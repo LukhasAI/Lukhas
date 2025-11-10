@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.brain.spine.trait_manager
 
 **Star**: Supporting

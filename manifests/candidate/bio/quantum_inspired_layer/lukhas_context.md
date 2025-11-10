@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.bio.quantum_inspired_layer
 
 **Star**: 🔮 Oracle (Quantum)
