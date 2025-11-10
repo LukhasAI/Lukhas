@@ -6,7 +6,6 @@ to maintain the expected import path: from core.security.auth import ...
 
 # Re-export all authentication functionality from labs
 try:
-    from labs.core.security.auth import *
     from labs.core.security.auth import (
         AuthMethod,
         AuthSession,
