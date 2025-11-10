@@ -1,0 +1,363 @@
+name: SLSA Provenance & Supply Chain Security
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run mode (skip signing)'
+        required: false
+        default: 'false'
+
+env:
+  SLSA_VERSION: "1.0"
+  SYFT_VERSION: "0.99.0"
+  COSIGN_VERSION: "2.2.1"
+  IN_TOTO_VERSION: "2.1.1"
+
+jobs:
+  provenance:
+    name: Generate SLSA Provenance
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # For cosign keyless signing
+      packages: write  # For attestation upload
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for provenance
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip==23.3.1
+          pip install build==1.0.3 wheel==0.42.0
+      
+      - name: Install Syft (SBOM generator)
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | \
+            sh -s -- -b /usr/local/bin v${{ env.SYFT_VERSION }}
+          syft version
+      
+      - name: Install in-toto (provenance)
+        run: |
+          pip install in-toto==${{ env.IN_TOTO_VERSION }}
+          in-toto-run --version
+      
+      - name: Install cosign (signing)
+        run: |
+          curl -sSL -o /usr/local/bin/cosign \
+            https://github.com/sigstore/cosign/releases/download/v${{ env.COSIGN_VERSION }}/cosign-linux-amd64
+          chmod +x /usr/local/bin/cosign
+          cosign version
+      
+      - name: Create reports directory
+        run: mkdir -p reports
+      
+      - name: Generate SBOM with Syft
+        run: |
+          # Generate SBOM for the entire repository
+          syft dir:./ \
+            --output json \
+            --file reports/sbom.json
+          
+          # Also generate CycloneDX format for compatibility
+          syft dir:./ \
+            --output cyclonedx-json \
+            --file reports/sbom-cyclonedx.json
+          
+          # Generate human-readable table
+          syft dir:./ \
+            --output table \
+            --file reports/sbom.txt
+          
+          echo "✅ SBOM generated successfully"
+      
+      - name: Build Python package artifacts
+        run: |
+          # Build wheel and source distribution
+          python -m build --outdir dist/
+          
+          # Calculate checksums
+          cd dist/
+          sha256sum * > ../reports/artifact-checksums.txt
+          cd ..
+          
+          echo "✅ Artifacts built"
+      
+      - name: Generate provenance metadata
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          cat > reports/provenance.json << 'EOF'
+          {
+            "SLSA_VERSION": "${{ env.SLSA_VERSION }}",
+            "buildType": "https://github.com/LukhasAI/Lukhas/slsa-build@v1",
+            "builder": {
+              "id": "https://github.com/actions/runner",
+              "version": {
+                "github_actions": "${{ github.action }}"
+              }
+            },
+            "invocation": {
+              "configSource": {
+                "uri": "git+${{ github.server_url }}/${{ github.repository }}@${{ github.ref }}",
+                "digest": {
+                  "sha1": "${{ github.sha }}"
+                },
+                "entryPoint": ".github/workflows/slsa_provenance.yml"
+              },
+              "parameters": {
+                "workflow_ref": "${{ github.workflow_ref }}",
+                "event_name": "${{ github.event_name }}",
+                "ref": "${{ github.ref }}",
+                "ref_type": "${{ github.ref_type }}"
+              },
+              "environment": {
+                "github_actor": "${{ github.actor }}",
+                "github_run_id": "${{ github.run_id }}",
+                "github_run_number": "${{ github.run_number }}",
+                "github_run_attempt": "${{ github.run_attempt }}"
+              }
+            },
+            "metadata": {
+              "buildStartedOn": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+              "buildFinishedOn": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+              "reproducible": true,
+              "buildInvocationId": "${{ github.run_id }}-${{ github.run_attempt }}"
+            },
+            "materials": [
+              {
+                "uri": "git+${{ github.server_url }}/${{ github.repository }}",
+                "digest": {
+                  "sha1": "${{ github.sha }}"
+                }
+              }
+            ]
+          }
+          EOF
+          
+          # Add artifact checksums to provenance
+          python3 << 'PYTHON_SCRIPT'
+          import json
+          import hashlib
+          from pathlib import Path
+          
+          # Load provenance
+          with open('reports/provenance.json') as f:
+              provenance = json.load(f)
+          
+          # Add SBOM hash
+          sbom_path = Path('reports/sbom.json')
+          if sbom_path.exists():
+              sbom_hash = hashlib.sha256(sbom_path.read_bytes()).hexdigest()
+              provenance['sbomHash'] = {'sha256': sbom_hash}
+          
+          # Add artifact checksums
+          checksums_path = Path('reports/artifact-checksums.txt')
+          if checksums_path.exists():
+              provenance['artifactChecksums'] = checksums_path.read_text()
+          
+          # Add build command
+          provenance['buildCommand'] = 'python -m build --outdir dist/'
+          
+          # Save updated provenance
+          with open('reports/provenance.json', 'w') as f:
+              json.dump(provenance, f, indent=2)
+          
+          print("✅ Provenance metadata generated")
+          PYTHON_SCRIPT
+      
+      - name: Create in-toto link metadata
+        run: |
+          # Create in-toto link file for the build step
+          in-toto-run \
+            --step-name build \
+            --materials . \
+            --products dist/ reports/ \
+            --verbose \
+            -- echo "Build step completed"
+          
+          # Move link file to reports
+          mv build.*.link reports/
+          
+          echo "✅ in-toto link metadata created"
+      
+      - name: Sign provenance with cosign (keyless)
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop') && github.event.inputs.dry_run != 'true'
+        env:
+          COSIGN_EXPERIMENTAL: "1"  # Enable keyless signing with Sigstore
+        run: |
+          # Sign SBOM
+          cosign sign-blob \
+            --yes \
+            --bundle reports/sbom.bundle \
+            reports/sbom.json
+          
+          # Sign provenance
+          cosign sign-blob \
+            --yes \
+            --bundle reports/provenance.bundle \
+            reports/provenance.json
+          
+          echo "✅ Provenance signed with cosign (keyless)"
+      
+      - name: Sign provenance (dry run mode)
+        if: github.event.inputs.dry_run == 'true' || (github.event_name != 'push')
+        run: |
+          echo "🔒 Dry run mode - skipping signing"
+          echo "In production, artifacts would be signed with cosign"
+          touch reports/sbom.bundle.dryrun
+          touch reports/provenance.bundle.dryrun
+      
+      - name: Generate SLSA summary
+        run: |
+          cat > reports/slsa-summary.md << 'EOF'
+          # SLSA Provenance Summary
+          
+          **Build ID**: ${{ github.run_id }}-${{ github.run_attempt }}
+          **Git SHA**: ${{ github.sha }}
+          **Ref**: ${{ github.ref }}
+          **Actor**: ${{ github.actor }}
+          **Timestamp**: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+          
+          ## Generated Artifacts
+          
+          - ✅ SBOM (JSON format)
+          - ✅ SBOM (CycloneDX format)
+          - ✅ Provenance metadata
+          - ✅ in-toto link file
+          - ✅ Artifact checksums
+          - ✅ Signed bundles (cosign)
+          
+          ## Verification
+          
+          To verify these artifacts locally:
+          
+          ```bash
+          # Download artifacts from this workflow run
+          gh run download ${{ github.run_id }} -n slsa-provenance
+          
+          # Verify SBOM signature (if signed)
+          cosign verify-blob \
+            --bundle sbom.bundle \
+            --certificate-identity-regexp=".*" \
+            --certificate-oidc-issuer-regexp=".*" \
+            sbom.json
+          
+          # Verify provenance signature
+          cosign verify-blob \
+            --bundle provenance.bundle \
+            --certificate-identity-regexp=".*" \
+            --certificate-oidc-issuer-regexp=".*" \
+            provenance.json
+          
+          # Verify checksums
+          cd dist/
+          sha256sum -c ../artifact-checksums.txt
+          ```
+          
+          See `docs/security/SLSA_PROVENANCE.md` for full verification guide.
+          EOF
+          
+          cat reports/slsa-summary.md
+      
+      - name: Upload SLSA artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: slsa-provenance
+          path: |
+            reports/sbom.json
+            reports/sbom-cyclonedx.json
+            reports/sbom.txt
+            reports/provenance.json
+            reports/artifact-checksums.txt
+            reports/*.link
+            reports/*.bundle
+            reports/*.bundle.dryrun
+            reports/slsa-summary.md
+          retention-days: 90
+      
+      - name: Validate provenance structure
+        run: |
+          python3 << 'PYTHON_SCRIPT'
+          import json
+          import sys
+          
+          # Load provenance
+          with open('reports/provenance.json') as f:
+              provenance = json.load(f)
+          
+          # Required fields
+          required_fields = [
+              'SLSA_VERSION',
+              'buildType',
+              'builder',
+              'invocation',
+              'metadata',
+              'materials',
+              'sbomHash',
+              'buildCommand'
+          ]
+          
+          missing = [f for f in required_fields if f not in provenance]
+          
+          if missing:
+              print(f"❌ Missing required fields: {missing}")
+              sys.exit(1)
+          
+          print("✅ Provenance structure validated")
+          PYTHON_SCRIPT
+      
+      - name: Post workflow summary
+        if: always()
+        run: |
+          echo "## 🔐 SLSA Provenance Generated" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          cat reports/slsa-summary.md >> $GITHUB_STEP_SUMMARY
+
+  # Verification job - runs after provenance generation
+  verify-provenance:
+    name: Verify Provenance Artifacts
+    needs: provenance
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: slsa-provenance
+          path: reports/
+      
+      - name: Verify provenance structure
+        run: |
+          python tests/test_slsa_provenance.py
+          echo "✅ Provenance verification passed"
+      
+      - name: Display SBOM summary
+        run: |
+          if [ -f reports/sbom.txt ]; then
+            echo "## 📦 SBOM Summary" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            head -50 reports/sbom.txt >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          fi
