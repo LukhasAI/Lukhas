@@ -1,4 +1,6 @@
 """Bridge module for orchestration.migrate_to_kernel_bus → labs.orchestration.migrate_to_kernel_bus"""
 from __future__ import annotations
 
-from labs.orchestration.migrate_to_kernel_bus import *
+from labs.orchestration.migrate_to_kernel_bus import KernelBusMigrator, MigrationManager, migrate_to_bus
+
+__all__ = ["KernelBusMigrator", "MigrationManager", "migrate_to_bus"]

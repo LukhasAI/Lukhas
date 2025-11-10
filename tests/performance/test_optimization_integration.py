@@ -15,9 +15,8 @@ from unittest.mock import AsyncMock, Mock, patch
 import pytest
 
 try:
-    from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator, StageType
-
     from core.api.api_system import EnhancedAPISystem
+    from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator, StageType
     from memory.performance_optimizer import FoldPerformanceOptimizer, OptimizationResult
     PERFORMANCE_MODULES_AVAILABLE = True
 except ImportError:

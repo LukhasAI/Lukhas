@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.memory.tombstones
 
 **Star**: ✦ Trail (Memory)

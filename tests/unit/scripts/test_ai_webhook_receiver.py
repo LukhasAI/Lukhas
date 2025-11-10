@@ -8,9 +8,8 @@ from fastapi.testclient import TestClient
 # Add project root to path to allow relative imports in the script
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
-from scripts.ai_webhook_receiver import app, map_status_to_priority, map_status_to_task_type
-
 from bridge.queue.redis_queue import Task, TaskPriority, TaskType
+from scripts.ai_webhook_receiver import app, map_status_to_priority, map_status_to_task_type
 
 
 @pytest.fixture

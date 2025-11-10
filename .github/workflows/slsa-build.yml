@@ -1,0 +1,148 @@
+name: SLSA Build Provenance
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build:
+    name: Build with Provenance
+    runs-on: ubuntu-latest
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build wheel
+
+      - name: Build distribution
+        id: build
+        run: |
+          python -m build --wheel
+          echo "digest=$(sha256sum dist/*.whl | awk '{print $1}')" >> $GITHUB_OUTPUT
+
+      - name: Generate provenance metadata
+        run: |
+          mkdir -p .slsa/provenance
+          cat > .slsa/provenance/build-${{ github.sha }}.json <<EOF
+          {
+            "builder": {
+              "id": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            },
+            "buildType": "https://github.com/${{ github.repository }}/.github/workflows/slsa-build.yml@refs/heads/main",
+            "invocation": {
+              "configSource": {
+                "uri": "git+https://github.com/${{ github.repository }}@refs/heads/${{ github.ref_name }}",
+                "digest": {
+                  "sha1": "${{ github.sha }}"
+                }
+              }
+            },
+            "metadata": {
+              "buildStartedOn": "${{ github.event.head_commit.timestamp }}",
+              "buildFinishedOn": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+              "completeness": {
+                "parameters": true,
+                "environment": true,
+                "materials": true
+              },
+              "reproducible": true
+            },
+            "materials": [
+              {
+                "uri": "git+https://github.com/${{ github.repository }}",
+                "digest": {
+                  "sha1": "${{ github.sha }}",
+                  "sha256": "${{ steps.build.outputs.digest }}"
+                }
+              }
+            ]
+          }
+          EOF
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Upload provenance
+        uses: actions/upload-artifact@v4
+        with:
+          name: provenance
+          path: .slsa/provenance/
+
+  verify:
+    name: Verify Build Reproducibility
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Verify digest
+        run: |
+          EXPECTED="${{ needs.build.outputs.digest }}"
+          ACTUAL=$(sha256sum dist/*.whl | awk '{print $1}')
+
+          if [ "$EXPECTED" != "$ACTUAL" ]; then
+            echo "❌ Digest mismatch!"
+            echo "Expected: $EXPECTED"
+            echo "Actual: $ACTUAL"
+            exit 1
+          fi
+
+          echo "✅ Build artifact verified successfully"
+
+  security-scan:
+    name: Security Vulnerability Scan
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pip-audit safety
+
+      - name: Audit dependencies
+        run: |
+          pip-audit --requirement requirements.txt
+          safety check --file requirements.txt

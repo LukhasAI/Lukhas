@@ -13,7 +13,6 @@ from unittest.mock import patch
 from uuid import uuid4
 
 import pytest
-
 from memory.sync import MemorySynchronizer, SyncBudgetConfig, SyncResult, create_memory_synchronizer
 
 

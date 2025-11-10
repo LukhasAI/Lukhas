@@ -24,14 +24,14 @@ pytestmark = pytest.mark.skipif(
     sys.version_info < (3, 10), reason="matriz module requires Python 3.10+"
 )
 
-try:
+from importlib.util import find_spec
+
+MATRIZ_AVAILABLE = find_spec("matriz") is not None
+
+if MATRIZ_AVAILABLE:
     from matriz.core.node_interface import CognitiveNode, NodeState
     from matriz.core.orchestrator import CognitiveOrchestrator, ExecutionTrace
-
-    MATRIZ_AVAILABLE = True
-except ImportError:
-    MATRIZ_AVAILABLE = False
-
+else:
     # Create minimal mocks for test discovery
     class CognitiveOrchestrator:
         pass

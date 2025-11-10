@@ -9,7 +9,6 @@ from pathlib import Path
 
 import pandas as pd
 import streamlit as st
-
 from core.tracing import trace_tools  # assuming trace_tools.py is importable
 
 LOG_PATH = "logs/emergency_log.jsonl"

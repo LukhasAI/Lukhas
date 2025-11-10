@@ -1,7 +1,6 @@
 import time
 
 import pytest
-
 from core.colonies.mesh_topology import (
     MeshAgent,
     MeshTopologyService,

@@ -18,7 +18,6 @@ import time
 
 import pytest
 from sqlalchemy import text
-
 from tests.e2e.candidate.aka_qualia.conftest import (
     create_test_glyph,
     create_test_scene,

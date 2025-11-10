@@ -31,7 +31,7 @@ except ImportError:  # pragma: no cover - fallback when memory lane unavailable
 
 
 # ΛTAG: identity_profile_model
-@dataclass(slots=True)
+@dataclass
 class IdentityProfile:
     """Represents a cached identity record sourced from the vault."""
 
@@ -55,7 +55,7 @@ class IdentityProfile:
         }
 
 
-@dataclass(slots=True)
+@dataclass
 class AccessLogEntry:
     """Structured log entry for vault access events."""
 

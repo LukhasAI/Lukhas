@@ -1,9 +1,10 @@
 from products.content.poetica.creativity_engines.personality.brain import LUKHASBrain
+from typing import Dict
 
 
 class _StubCore:
     def __init__(self) -> None:
-        self.components: dict[str, object] = {}
+        self.components: Dict[str, object] = {}
 
     def register_component(self, name: str, component: object) -> None:
         self.components[name] = component

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.observability.intelligent_alerting
 
 **Star**: Supporting

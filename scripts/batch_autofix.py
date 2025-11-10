@@ -6,9 +6,10 @@ Runs: autoflake → isort → black → ruff --fix
 Small batches with test verification between changes.
 '''
 
+import os
 import subprocess
 from pathlib import Path
-import os
+
 
 def run_autofix_batch(module_path: str) -> bool:
     """Run autofix tools on module and verify tests pass"""
@@ -43,72 +44,36 @@ def run_autofix_batch(module_path: str) -> bool:
         module_path
     ], check=True)
 
-    # Step 4: ruff --fix (auto-fixable issues)
+    # Step 4: ruff --fix
     print("\n4. Running ruff --fix...")
     subprocess.run([
-        "python3", "-m", "ruff", "check",
+        "ruff",
+        "check",
         "--fix",
         module_path
-    ], check=False)  # Don't fail on remaining issues
+    ], check=True)
 
-    # Step 5: Verify tests still pass
+    # Step 5: Run tests to verify no breakage
     print("\n5. Running tests...")
-    test_dir = Path(f"tests/unit/{module_path}")
+    test_result = subprocess.run([
+        "pytest",
+        f"tests/unit/test_{Path(module_path).stem}.py",
+        "-v"
+    ])
 
-    if not test_dir.is_dir() or not any(test_dir.iterdir()):
-        print("🟡 No tests found, skipping test run.")
-        return True
-
-    env = os.environ.copy()
-    env["PYTHONPATH"] = "."
-
-    # Create a local pytest.ini to avoid conflicts
-    pytest_ini_path = test_dir / "pytest.ini"
-    pytest_ini_content = "[pytest]\ntestpaths = .\nasyncio_mode = auto\n"
-
-    # Create the directory if it doesn't exist
-    test_dir.mkdir(parents=True, exist_ok=True)
-
-    with open(pytest_ini_path, "w") as f:
-        f.write(pytest_ini_content)
-
-    result = subprocess.run([
-        "python3", "-m", "pytest",
-        str(test_dir),
-        "-q"
-    ], capture_output=True, text=True, env=env)
-
-    # Clean up the local pytest.ini
-    os.remove(pytest_ini_path)
-
-    if result.returncode == 0:
-        print("✅ Tests passed")
-        return True
-    else:
-        print("❌ Tests failed - changes need review")
-        print("--- begin test output ---")
-        print(result.stdout)
-        print(result.stderr)
-        print("--- end test output ---")
+    if test_result.returncode != 0:
+        print(f"\n⚠️  Tests failed for {module_path}")
         return False
 
-# Priority modules for autofix (small batches)
-MODULES = [
-    "matriz",
-]
+    print(f"\n✅ Autofix batch complete for {module_path}")
+    return True
 
-def main():
-    results = {}
-
-    for module in MODULES:
-        success = run_autofix_batch(module)
-        results[module] = "✅" if success else "❌"
-
-    print("\n" + "="*60)
-    print("Autofix Summary")
-    print("="*60)
-    for module, status in results.items():
-        print(f"{status} {module}")
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    parser = argparse.ArgumentParser(description="Run batch autofix")
+    parser.add_argument("module", help="Module path to autofix")
+    args = parser.parse_args()
+
+    success = run_autofix_batch(args.module)
+    exit(0 if success else 1)

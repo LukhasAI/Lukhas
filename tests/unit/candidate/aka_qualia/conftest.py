@@ -15,7 +15,7 @@ import contextlib
 import tempfile
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict
 from unittest.mock import Mock
 
 import pytest
@@ -304,7 +304,7 @@ def metrics_collector_mock():
 # === Utility Functions ===
 
 
-def create_test_scene(**overrides) -> dict[str, Any]:
+def create_test_scene(**overrides) -> Dict[str, Any]:
     """Create test scene data with optional overrides"""
     default = {
         "proto": {
@@ -336,12 +336,12 @@ def create_test_scene(**overrides) -> dict[str, Any]:
     return default
 
 
-def create_test_glyph(key: str = "test:glyph", **attrs) -> dict[str, Any]:
+def create_test_glyph(key: str = "test:glyph", **attrs) -> Dict[str, Any]:
     """Create test glyph data"""
     return {"key": key, "attrs": {"tone": 0.0, "risk_score": 0.1, **attrs}}
 
 
-def create_varying_scene(scene_id: str) -> dict[str, Any]:
+def create_varying_scene(scene_id: str) -> Dict[str, Any]:
     """Create scene with varying data for performance tests"""
     import hashlib
 

@@ -9,10 +9,11 @@ Generates content cluster specifications for SEO pillar pages.
 from __future__ import annotations
 
 import argparse
-import yaml
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
+import yaml
 
 
 class ContentClusterGenerator:

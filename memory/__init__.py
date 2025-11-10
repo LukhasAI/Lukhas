@@ -1,6 +1,8 @@
 """Bridge: memory (namespace) with preserved submodule search path."""
 from __future__ import annotations
 
+__version__ = "0.1.0"
+
 from importlib import import_module
 from collections.abc import Iterable
 from pathlib import Path

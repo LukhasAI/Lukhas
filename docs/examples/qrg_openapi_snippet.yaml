@@ -1,0 +1,505 @@
+openapi: 3.0.3
+info:
+  title: QRG (Quantum Reality Generation) API
+  version: 0.1.0
+  description: |
+    QRG API for generating consciousness-aware symbolic artifacts with safety gates,
+    provenance tracking, and mesh consensus support.
+
+    **Phase 0 Status**: Specification-only (no production implementation)
+
+    **See also**:
+    - [QRG Specification](../specs/QRG_SPEC.md)
+    - [QRG ADR](../ADR/000-qrg-spec-adr.md)
+  contact:
+    name: LUKHAS Security Team
+    email: security@lukhas.ai
+  license:
+    name: Proprietary
+servers:
+  - url: https://api.lukhas.ai/v1
+    description: Production API (Phase 2+)
+  - url: https://api-staging.lukhas.ai/v1
+    description: Staging API (Phase 2)
+  - url: http://localhost:8000/v1
+    description: Local development (Phase 1)
+
+tags:
+  - name: qrg
+    description: Quantum Reality Generation endpoints
+  - name: health
+    description: Health and monitoring endpoints
+
+paths:
+  /qrg/generate:
+    post:
+      tags:
+        - qrg
+      summary: Generate QRG artifact
+      description: |
+        Generate a consciousness-aware symbolic quantum reality artifact from a seed and context.
+
+        **Safety Gates**:
+        - ConstitutionalGatekeeper (Guardian system)
+        - CulturalSafetyChecker (symbolic content safety)
+        - CognitiveLoadEstimator (user overload prevention)
+
+        **Provenance**:
+        - SLSA Level 3 provenance (production)
+        - SBOM generation (syft)
+        - Cosign attestations
+      operationId: generateQRG
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QRGRequest'
+            examples:
+              basic:
+                summary: Basic generation with minimal context
+                value:
+                  user_id: "lid:abc123def456"
+                  seed: "quantum-seed-2025-11-10-xyz"
+                  context:
+                    tier_level: 4
+              consciousness:
+                summary: Generation with consciousness state
+                value:
+                  user_id: "lid:abc123def456"
+                  seed: "quantum-seed-consciousness-aware"
+                  context:
+                    consciousness_state:
+                      emotional_valence: 0.7
+                      cognitive_load: 0.3
+                      attention_focus: 0.8
+                    cultural_context:
+                      languages: ["en", "es"]
+                      regions: ["US", "MX"]
+                    tier_level: 4
+                  options:
+                    entropy_source: "pseudo_rng"
+                    timeout_ms: 5000
+      responses:
+        '200':
+          description: QRG artifact generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QRGResponse'
+              examples:
+                success:
+                  summary: Successful generation
+                  value:
+                    qrg_id: "qrg:550e8400-e29b-41d4-a716-446655440000"
+                    seed: "quantum-seed-2025-11-10-xyz"
+                    artifact:
+                      type: "symbolic"
+                      location: "s3://lukhas-qrg/artifacts/550e8400.json"
+                      hash: "sha256:a3b2c1d4e5f6..."
+                      size_bytes: 2048
+                      content_type: "application/json"
+                    symbolic_payload:
+                      tokens: ["quantum", "consciousness", "resonance"]
+                      affect_vector: [0.7, 0.3, 0.8, 0.5]
+                      metadata:
+                        dimensionality: 4
+                        entropy_bits: 256
+                    safety:
+                      status: "approved"
+                      gate_checks:
+                        ConstitutionalGatekeeper:
+                          status: "approved"
+                          reason: "Passes all constitutional principles"
+                          score: 0.95
+                      warnings: []
+                    provenance:
+                      builder_id: "lukhas-qrg-service-prod-us-east-1"
+                      build_time: "2025-11-10T15:30:00Z"
+                      slsa_level: 3
+                    metrics:
+                      total_time_ms: 580
+        '400':
+          description: Invalid request (missing required fields, invalid seed format, etc.)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "invalid_request"
+                message: "Missing required field: user_id"
+                details:
+                  field: "user_id"
+                  reason: "required"
+        '403':
+          description: Blocked by safety gates (Constitutional, Cultural, or Cognitive)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SafetyRejectionResponse'
+              example:
+                error: "safety_rejection"
+                message: "Artifact rejected by ConstitutionalGatekeeper"
+                safety:
+                  status: "rejected"
+                  gate_checks:
+                    ConstitutionalGatekeeper:
+                      status: "rejected"
+                      reason: "Violates constitutional principle: user_consent_required"
+                      score: 0.3
+                  warnings: []
+        '401':
+          description: Unauthorized (missing or invalid auth token)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "unauthorized"
+                message: "Missing or invalid authentication token"
+        '429':
+          description: Rate limit exceeded (too many requests)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "rate_limit_exceeded"
+                message: "Rate limit: 10 requests per minute for tier 4 users"
+                details:
+                  limit: 10
+                  window: "60s"
+                  retry_after: 45
+        '500':
+          description: Internal server error (generation failure, dependency unavailable)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "internal_error"
+                message: "QRG generation failed due to internal error"
+                request_id: "req_abc123"
+        '504':
+          description: Gateway timeout (generation exceeded timeout_ms)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "timeout"
+                message: "QRG generation exceeded timeout of 5000ms"
+
+  /qrg/health:
+    get:
+      tags:
+        - health
+      summary: QRG adapter health check
+      description: |
+        Check QRG adapter and service health.
+        Returns status of safety gates, provenance services, and artifact storage.
+      operationId: qrgHealth
+      responses:
+        '200':
+          description: Health check results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              examples:
+                healthy:
+                  summary: All systems healthy
+                  value:
+                    status: "healthy"
+                    checks:
+                      safety_gates: "ok"
+                      provenance_service: "ok"
+                      artifact_storage: "ok"
+                    version: "0.1.0"
+                degraded:
+                  summary: Degraded (provenance service slow)
+                  value:
+                    status: "degraded"
+                    checks:
+                      safety_gates: "ok"
+                      provenance_service: "degraded"
+                      artifact_storage: "ok"
+                    version: "0.1.0"
+                    warnings:
+                      - "Provenance service latency >500ms"
+        '503':
+          description: Service unhealthy (critical dependency unavailable)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              example:
+                status: "unhealthy"
+                checks:
+                  safety_gates: "error"
+                  provenance_service: "ok"
+                  artifact_storage: "ok"
+                version: "0.1.0"
+                errors:
+                  - "ConstitutionalGatekeeper unavailable"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token from LUKHAS identity system (Lambda ID)
+
+  schemas:
+    QRGRequest:
+      type: object
+      required:
+        - user_id
+        - seed
+      properties:
+        user_id:
+          type: string
+          description: Lambda ID or internal user identifier
+          pattern: '^lid:[a-zA-Z0-9_-]+$'
+          example: "lid:abc123def456"
+        seed:
+          type: string
+          description: Cryptographic seed for deterministic artifact generation
+          minLength: 16
+          maxLength: 256
+          example: "quantum-seed-2025-11-10-xyz"
+        context:
+          type: object
+          description: Contextual metadata for artifact generation
+          properties:
+            consciousness_state:
+              type: object
+              properties:
+                emotional_valence:
+                  type: number
+                  minimum: -1.0
+                  maximum: 1.0
+                  description: "Emotional state: -1.0 (negative) to 1.0 (positive)"
+                cognitive_load:
+                  type: number
+                  minimum: 0.0
+                  maximum: 1.0
+                  description: "Cognitive load: 0.0 (low) to 1.0 (high)"
+                attention_focus:
+                  type: number
+                  minimum: 0.0
+                  maximum: 1.0
+                  description: "Attention focus: 0.0 (distracted) to 1.0 (focused)"
+            cultural_context:
+              type: object
+              properties:
+                languages:
+                  type: array
+                  items:
+                    type: string
+                  description: "ISO 639-1 language codes"
+                regions:
+                  type: array
+                  items:
+                    type: string
+                  description: "ISO 3166-1 alpha-2 country codes"
+            tier_level:
+              type: integer
+              minimum: 1
+              maximum: 5
+              description: "User tier level (1-5)"
+        options:
+          type: object
+          properties:
+            entropy_source:
+              type: string
+              enum: ["pseudo_rng", "quantum_rng"]
+              default: "pseudo_rng"
+            consensus_required:
+              type: boolean
+              default: false
+            timeout_ms:
+              type: integer
+              minimum: 100
+              maximum: 30000
+              default: 5000
+
+    QRGResponse:
+      type: object
+      required:
+        - qrg_id
+        - seed
+        - artifact
+        - safety
+        - provenance
+      properties:
+        qrg_id:
+          type: string
+          pattern: '^qrg:[a-f0-9-]+$'
+          description: "Unique identifier for this QRG artifact"
+        seed:
+          type: string
+          description: "Echo of the original seed for verification"
+        artifact:
+          type: object
+          required:
+            - type
+            - location
+            - hash
+          properties:
+            type:
+              type: string
+              enum: ["symbolic", "visual", "audio", "multimodal"]
+            location:
+              type: string
+              format: uri
+            hash:
+              type: string
+              pattern: '^(sha256|sha3-256|blake3):[a-f0-9]+$'
+            size_bytes:
+              type: integer
+              minimum: 0
+            content_type:
+              type: string
+        symbolic_payload:
+          type: object
+          properties:
+            tokens:
+              type: array
+              items:
+                type: string
+            affect_vector:
+              type: array
+              items:
+                type: number
+            metadata:
+              type: object
+        safety:
+          type: object
+          required:
+            - status
+            - gate_checks
+          properties:
+            status:
+              type: string
+              enum: ["approved", "rejected", "flagged"]
+            gate_checks:
+              type: object
+            warnings:
+              type: array
+              items:
+                type: string
+        provenance:
+          type: object
+          required:
+            - builder_id
+            - build_time
+          properties:
+            builder_id:
+              type: string
+            build_time:
+              type: string
+              format: date-time
+            sbom_ref:
+              type: string
+              format: uri
+            attestation_ref:
+              type: string
+              format: uri
+            slsa_level:
+              type: integer
+              minimum: 0
+              maximum: 4
+        metrics:
+          type: object
+          properties:
+            generation_time_ms:
+              type: integer
+            safety_check_time_ms:
+              type: integer
+            total_time_ms:
+              type: integer
+
+    SafetyRejectionResponse:
+      type: object
+      required:
+        - error
+        - message
+        - safety
+      properties:
+        error:
+          type: string
+          example: "safety_rejection"
+        message:
+          type: string
+          example: "Artifact rejected by safety gates"
+        safety:
+          type: object
+          required:
+            - status
+            - gate_checks
+          properties:
+            status:
+              type: string
+              enum: ["rejected"]
+            gate_checks:
+              type: object
+            warnings:
+              type: array
+              items:
+                type: string
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: "Error code"
+        message:
+          type: string
+          description: "Human-readable error message"
+        details:
+          type: object
+          description: "Additional error details"
+        request_id:
+          type: string
+          description: "Request ID for troubleshooting"
+
+    HealthResponse:
+      type: object
+      required:
+        - status
+        - checks
+        - version
+      properties:
+        status:
+          type: string
+          enum: ["healthy", "degraded", "unhealthy"]
+        checks:
+          type: object
+          properties:
+            safety_gates:
+              type: string
+              enum: ["ok", "degraded", "error"]
+            provenance_service:
+              type: string
+              enum: ["ok", "degraded", "error"]
+            artifact_storage:
+              type: string
+              enum: ["ok", "degraded", "error"]
+        version:
+          type: string
+        warnings:
+          type: array
+          items:
+            type: string
+        errors:
+          type: array
+          items:
+            type: string

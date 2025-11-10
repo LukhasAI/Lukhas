@@ -26,10 +26,11 @@ from pathlib import Path
 from typing import Any, Dict
 
 import psutil
-from bench_core import (
 
-# Module-level logger
-logger = logging.getLogger(__name__)
+# Add project root to path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
+from bench_core import (
     PerformanceBenchmark,  # - requires sys.path manipulation before import
 )
 from preflight_check import (
@@ -39,8 +40,8 @@ from preflight_check import (
 # Suppress verbose logging
 logging.getLogger().setLevel(logging.CRITICAL)
 
-# Add project root to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 

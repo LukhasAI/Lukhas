@@ -1,95 +1,78 @@
-"""Stub: observability.evidence_collection"""
-
-from __future__ import annotations
-
-import importlib as _importlib
+"""
+Lazy-loading proxy for the evidence collection system.
+This module defers the import of the actual evidence collection engine
+until one of its members is accessed. This improves startup time and
+allows for optional dependency graceful degradation.
+"""
+import importlib
+from types import ModuleType
 from enum import Enum
 
-# Minimal stub for test collection
-__all__ = []
+# List of all attributes that this module is expected to export.
+__all__ = [
+    "ComplianceRegime",
+    "EvidenceCollectionEngine",
+    "EvidenceType",
+    "collect_evidence",
+    "initialize_evidence_collection",
+    "get_evidence_engine",
+]
 
-# Add ComplianceRegime for test compatibility
-try:
-    _mod = _importlib.import_module("labs.observability.evidence_collection")
-    ComplianceRegime = _mod.ComplianceRegime
+_loaded_module = None
 
-    __all__.append("ComplianceRegime")
-except Exception:
-    # Stub enum
-    class ComplianceRegime(Enum):
-        """Stub compliance regime enum."""
+def _load_module():
+    """Loads the real implementation module or a stub if not found."""
+    global _loaded_module
+    if _loaded_module is not None:
+        return _loaded_module
 
-        STRICT = "strict"
-        BALANCED = "balanced"
-        PERMISSIVE = "permissive"
+    try:
+        # The real implementation is located here.
+        _loaded_module = importlib.import_module("lukhas_website.lukhas.observability.evidence_collection")
+    except ImportError:
+        # If the real module is not found, create a stub module.
+        _stub = ModuleType("evidence_collection_stub")
 
-    __all__.append("ComplianceRegime")
+        class ComplianceRegime(Enum):
+            STRICT = "strict"
+            BALANCED = "balanced"
+            PERMISSIVE = "permissive"
 
-# Add EvidenceCollectionEngine for test compatibility
-try:
-    _mod = _importlib.import_module("labs.observability.evidence_collection")
-    EvidenceCollectionEngine = _mod.EvidenceCollectionEngine
+        class EvidenceCollectionEngine:
+            def __init__(self, *args, **kwargs): pass
+            async def collect_evidence(self, *args, **kwargs): return ""
+            def verify_evidence(self, *args, **kwargs): return True
+            async def shutdown(self): pass
 
-    __all__.append("EvidenceCollectionEngine")
-except Exception:
-    # Stub class
-    class EvidenceCollectionEngine:
-        """Stub evidence collection engine."""
+        class EvidenceType(Enum):
+            METRIC = "metric"
+            LOG = "log"
 
-        def __init__(self, *args, **kwargs):
-            pass
+        async def collect_evidence(*args, **kwargs): return ""
+        def initialize_evidence_collection(*args, **kwargs): return EvidenceCollectionEngine()
+        def get_evidence_engine(*args, **kwargs): return EvidenceCollectionEngine()
 
-        def collect(self, *args, **kwargs):
-            return []
+        _stub.ComplianceRegime = ComplianceRegime
+        _stub.EvidenceCollectionEngine = EvidenceCollectionEngine
+        _stub.EvidenceType = EvidenceType
+        _stub.collect_evidence = collect_evidence
+        _stub.initialize_evidence_collection = initialize_evidence_collection
+        _stub.get_evidence_engine = get_evidence_engine
 
-    __all__.append("EvidenceCollectionEngine")
+        _loaded_module = _stub
 
-# Add EvidenceType for test compatibility
-try:
-    _mod = _importlib.import_module("labs.observability.evidence_collection")
-    EvidenceType = _mod.EvidenceType
+    return _loaded_module
 
-    __all__.append("EvidenceType")
-except Exception:
-    # Stub enum
-    class EvidenceType(Enum):
-        """Stub evidence type enum."""
+def __getattr__(name: str):
+    """
+    Lazily loads an attribute from the backing module on first access.
+    """
+    module = _load_module()
 
-        METRIC = "metric"
-        LOG = "log"
-        TRACE = "trace"
-        EVENT = "event"
-
-    __all__.append("EvidenceType")
-
-# Add collect_evidence for test compatibility
-try:
-    _mod = _importlib.import_module("labs.observability.evidence_collection")
-    collect_evidence = _mod.collect_evidence
-
-    __all__.append("collect_evidence")
-except Exception:
-
-    def collect_evidence(*args, **kwargs):
-        """Stub evidence collection function."""
-        return []
-
-    __all__.append("collect_evidence")
-
-# Added for test compatibility (observability.evidence_collection.initialize_evidence_collection)
-try:
-    _mod = _importlib.import_module("labs.observability.evidence_collection")
-    initialize_evidence_collection = _mod.initialize_evidence_collection
-except Exception:
-
-    def initialize_evidence_collection(*args, **kwargs):
-        """Stub for initialize_evidence_collection."""
-        return None
-
-
-try:
-    __all__  # type: ignore[name-defined]
-except NameError:
-    __all__ = []
-if "initialize_evidence_collection" not in __all__:
-    __all__.append("initialize_evidence_collection")
+    try:
+        attr = getattr(module, name)
+        # Cache the loaded attribute in the current module's globals
+        globals()[name] = attr
+        return attr
+    except AttributeError:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

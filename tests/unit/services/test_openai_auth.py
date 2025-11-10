@@ -5,10 +5,10 @@ import json
 from collections.abc import Iterator
 
 import pytest
+from core.interfaces.api.v1.v1.common.api_key_cache import api_key_cache
 from fastapi import HTTPException
 
 from adapters.openai import TokenClaims, require_bearer, verify_token_with_policy
-from core.interfaces.api.v1.v1.common.api_key_cache import api_key_cache
 
 _REGISTRY_FIXTURE = {
     "api_keys": [

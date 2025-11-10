@@ -5,7 +5,6 @@ Basic unit tests for BreakthroughDetector - novelty x value scoring with z-score
 Covers core functionality and edge cases.
 """
 import pytest
-
 from core.breakthrough import BreakthroughDetector
 
 

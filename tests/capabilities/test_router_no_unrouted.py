@@ -5,7 +5,6 @@ This test ensures no signals go unrouted during normal operation,
 preventing silent routing failures that could degrade system performance.
 """
 import pytest
-
 from core.matriz_consciousness_integration import create_matriz_consciousness_system
 from core.metrics import router_no_rule_total
 
