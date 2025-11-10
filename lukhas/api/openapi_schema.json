@@ -1,0 +1,688 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "LUKHAS API",
+    "version": "1.0.0",
+    "description": "Governed tool loop, auditability, feedback LUT, and safety modes."
+  },
+  "servers": [
+    {
+      "url": "https://api.lukhas.ai",
+      "description": "Production"
+    }
+  ],
+  "paths": {
+    "/api/v1/identity/authenticate": {
+      "post": {
+        "summary": "Authenticate User",
+        "description": "Authenticate a user and return their status.",
+        "responses": {
+          "200": {
+            "description": "User authenticated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "authenticated"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/identity/verify": {
+      "get": {
+        "summary": "Verify User",
+        "description": "Verify a user and return their status.",
+        "responses": {
+          "200": {
+            "description": "User verified successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "verified"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/identity/tier-check": {
+      "get": {
+        "summary": "Check User Tier",
+        "description": "Check the tier of a user.",
+        "responses": {
+          "200": {
+            "description": "User tier retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tier": {
+                      "type": "string",
+                      "example": "premium"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/id/webauthn/challenge": {
+      "post": {
+        "summary": "Create WebAuthn Challenge",
+        "description": "Generate deterministic PublicKeyCredentialRequestOptions.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_id": {
+                    "type": "string",
+                    "description": "Canonical user identifier"
+                  },
+                  "rp_id": {
+                    "type": "string",
+                    "description": "Relying party identifier"
+                  },
+                  "origin": {
+                    "type": "string",
+                    "description": "Origin expected by the client"
+                  }
+                },
+                "required": ["user_id", "rp_id", "origin"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "WebAuthn challenge created successfully."
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/id/webauthn/verify": {
+      "post": {
+        "summary": "Verify WebAuthn Response",
+        "description": "Verify a deterministic WebAuthn response.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "response": {
+                    "type": "object",
+                    "description": "Client-provided assertion payload"
+                  },
+                  "expected_challenge": {
+                    "type": "string",
+                    "description": "Optional challenge to enforce deterministic matching"
+                  }
+                },
+                "required": ["response"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "WebAuthn response verified successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "user_verified": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/v1/dreams/simulate": {
+      "post": {
+        "summary": "Simulate Dream",
+        "description": "Simulate a dream based on seed and context.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DreamSimulationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dream simulation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DreamSimulationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Parallel dreams not enabled"
+          },
+          "503": {
+            "description": "Dreams subsystem not enabled"
+          }
+        }
+      }
+    },
+    "/api/v1/dreams/mesh": {
+      "post": {
+        "summary": "Run Parallel Dream Mesh",
+        "description": "Run parallel dream mesh with multiple seeds and consensus.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParallelDreamMeshRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Parallel dream mesh successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParallelDreamMeshResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Parallel dreams not enabled"
+          }
+        }
+      }
+    },
+    "/api/v1/dreams/{dream_id}": {
+      "get": {
+        "summary": "Retrieve Dream by ID",
+        "description": "Retrieve a dream by its ID.",
+        "parameters": [
+          {
+            "name": "dream_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dream retrieved successfully."
+          },
+          "404": {
+            "description": "Dream not found"
+          }
+        }
+      }
+    },
+    "/api/v1/glyphs/encode": {
+      "post": {
+        "summary": "Encode GLYPH",
+        "description": "Encode a concept into a Universal Symbol GLYPH.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GlyphEncodeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "GLYPH encoding successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlyphEncodeResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "GLYPHs subsystem not enabled"
+          }
+        }
+      }
+    },
+    "/api/v1/glyphs/bind": {
+      "post": {
+        "summary": "Bind GLYPH",
+        "description": "Bind a GLYPH to a memory with authorization and safety checks.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GlyphBindRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "GLYPH binding successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlyphBindResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid GLYPH data"
+          },
+          "503": {
+            "description": "GLYPHs subsystem not enabled"
+          }
+        }
+      }
+    },
+    "/api/v1/glyphs/bindings/{binding_id}": {
+      "get": {
+        "summary": "Retrieve GLYPH Binding",
+        "description": "Retrieve a GLYPH binding by its ID.",
+        "parameters": [
+          {
+            "name": "binding_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "GLYPH binding retrieved successfully."
+          },
+          "404": {
+            "description": "Binding not found"
+          }
+        }
+      }
+    },
+    "/api/v1/glyphs/validate": {
+      "post": {
+        "summary": "Validate GLYPH",
+        "description": "Validate GLYPH data structure and content.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GlyphValidateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "GLYPH validation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlyphValidateResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/glyphs/stats": {
+      "get": {
+        "summary": "Get GLYPH Stats",
+        "description": "Get GLYPH subsystem statistics.",
+        "responses": {
+          "200": {
+            "description": "GLYPH stats retrieved successfully."
+          }
+        }
+      }
+    },
+    "/v1/embeddings": {
+      "post": {
+        "summary": "Create Embeddings",
+        "description": "Create deterministic embeddings (OpenAI-compatible format).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "input": {
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ]
+                  },
+                  "model": {
+                    "type": "string"
+                  }
+                },
+                "required": ["input"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Embeddings created successfully."
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/v1/models": {
+      "get": {
+        "summary": "List Models",
+        "description": "List available models (OpenAI-compatible format).",
+        "responses": {
+          "200": {
+            "description": "A list of available models."
+          }
+        }
+      }
+    },
+    "/v1/responses": {
+      "post": {
+        "summary": "Create Response",
+        "description": "Create response (OpenAI Responses API format).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "input": {
+                    "type": "string"
+                  },
+                  "model": {
+                    "type": "string"
+                  },
+                  "stream": {
+                    "type": "boolean"
+                  }
+                },
+                "required": ["input"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response created successfully."
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DreamSimulationRequest": {
+        "type": "object",
+        "properties": {
+          "seed": {
+            "type": "string",
+            "description": "Dream seed/prompt"
+          },
+          "context": {
+            "type": "object",
+            "description": "Optional context dictionary"
+          },
+          "parallel": {
+            "type": "boolean",
+            "description": "Use parallel processing"
+          }
+        },
+        "required": ["seed"]
+      },
+      "DreamSimulationResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "dream_id": {
+            "type": "string"
+          },
+          "seed": {
+            "type": "string"
+          },
+          "result": {
+            "type": "object"
+          },
+          "metadata": {
+            "type": "object"
+          },
+          "error": {
+            "type": "string"
+          }
+        }
+      },
+      "ParallelDreamMeshRequest": {
+        "type": "object",
+        "properties": {
+          "seeds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of dream seeds (2-10)"
+          },
+          "consensus_threshold": {
+            "type": "number",
+            "format": "float",
+            "description": "Consensus threshold"
+          }
+        },
+        "required": ["seeds"]
+      },
+      "ParallelDreamMeshResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "mesh_id": {
+            "type": "string"
+          },
+          "seeds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "consensus_threshold": {
+            "type": "number",
+            "format": "float"
+          },
+          "dreams": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "consensus": {
+            "type": "object"
+          },
+          "metadata": {
+            "type": "object"
+          },
+          "error": {
+            "type": "string"
+          }
+        }
+      },
+      "GlyphEncodeRequest": {
+        "type": "object",
+        "properties": {
+          "concept": {
+            "type": "string",
+            "description": "Concept to encode"
+          },
+          "emotion": {
+            "type": "object",
+            "description": "Emotional context (0.0-1.0)"
+          },
+          "modalities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Symbol modalities"
+          },
+          "domains": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Symbol domains"
+          },
+          "source_module": {
+            "type": "string",
+            "description": "Source module name"
+          }
+        },
+        "required": ["concept"]
+      },
+      "GlyphEncodeResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "symbol": {
+            "type": "object"
+          },
+          "error": {
+            "type": "string"
+          }
+        }
+      },
+      "GlyphBindRequest": {
+        "type": "object",
+        "properties": {
+          "glyph_data": {
+            "type": "object",
+            "description": "GLYPH data to bind"
+          },
+          "memory_id": {
+            "type": "string",
+            "description": "Target memory identifier"
+          },
+          "user_id": {
+            "type": "string",
+            "description": "User identifier"
+          }
+        },
+        "required": ["glyph_data", "memory_id"]
+      },
+      "GlyphBindResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "binding_id": {
+            "type": "string"
+          },
+          "glyph_data": {
+            "type": "object"
+          },
+          "memory_id": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          }
+        }
+      },
+      "GlyphValidateRequest": {
+        "type": "object",
+        "properties": {
+          "glyph_data": {
+            "type": "object",
+            "description": "GLYPH data to validate"
+          }
+        },
+        "required": ["glyph_data"]
+      },
+      "GlyphValidateResponse": {
+        "type": "object",
+        "properties": {
+          "valid": {
+            "type": "boolean"
+          },
+          "error": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
