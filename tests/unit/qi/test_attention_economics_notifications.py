@@ -5,6 +5,7 @@ import types
 from pathlib import Path
 
 import pytest
+from typing import Dict, List, Tuple
 
 QI_PACKAGE_PATH = Path(__file__).resolve().parents[3] / "qi"
 
@@ -30,9 +31,9 @@ QIAttentionEconomics = attention_economics.QIAttentionEconomics
 
 class RecordingMessenger:
     def __init__(self):
-        self.calls: list[tuple[str, dict[str, object]]] = []
+        self.calls: List[Tuple[str, Dict[str, object]]] = []
 
-    async def send_notification(self, channel: str, payload: dict[str, object]) -> bool:
+    async def send_notification(self, channel: str, payload: Dict[str, object]) -> bool:
         self.calls.append((channel, payload))
         return True
 

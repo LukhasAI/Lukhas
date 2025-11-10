@@ -16,7 +16,7 @@ REALITY CHECK: Testing 22+ major systems beyond the initial 8
 """
 
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict
 
 # Test environment setup
 TEST_MODE = True
@@ -29,7 +29,7 @@ class SystemDiscovery:
         self.base_path = Path(base_path)
         self.discovered_systems = {}
 
-    def discover_all_systems(self) -> dict[str, Any]:
+    def discover_all_systems(self) -> Dict[str, Any]:
         """Discover all major system areas with key files"""
 
         system_areas = {
@@ -203,7 +203,7 @@ class TestConsciousnessIntelligence:
             print(f"    ❌ Consciousness core test failed: {e}")
             return False
 
-    def run_all_tests(self) -> dict[str, Any]:
+    def run_all_tests(self) -> Dict[str, Any]:
         """Run all consciousness and intelligence tests"""
         print("🧠 TESTING CONSCIOUSNESS & INTELLIGENCE SYSTEMS")
         print("=" * 60)
@@ -332,7 +332,7 @@ class TestMemoryDataSystems:
             print(f"    ❌ Data analytics test failed: {e}")
             return False
 
-    def run_all_tests(self) -> dict[str, Any]:
+    def run_all_tests(self) -> Dict[str, Any]:
         """Run all memory and data tests"""
         print("💾 TESTING MEMORY & DATA SYSTEMS")
         print("=" * 50)
@@ -471,7 +471,7 @@ class TestSecurityGovernance:
             print(f"    ❌ Security infrastructure test failed: {e}")
             return False
 
-    def run_all_tests(self) -> dict[str, Any]:
+    def run_all_tests(self) -> Dict[str, Any]:
         """Run all security and governance tests"""
         print("🔐 TESTING SECURITY & GOVERNANCE SYSTEMS")
         print("=" * 60)
@@ -600,7 +600,7 @@ class TestProductIntegration:
             print(f"    ❌ MATRIZ systems test failed: {e}")
             return False
 
-    def run_all_tests(self) -> dict[str, Any]:
+    def run_all_tests(self) -> Dict[str, Any]:
         """Run all product and integration tests"""
         print("🌐 TESTING PRODUCT & INTEGRATION SYSTEMS")
         print("=" * 60)
@@ -726,7 +726,7 @@ class TestInfrastructureOps:
             print(f"    ❌ Agent systems test failed: {e}")
             return False
 
-    def run_all_tests(self) -> dict[str, Any]:
+    def run_all_tests(self) -> Dict[str, Any]:
         """Run all infrastructure and operations tests"""
         print("🔧 TESTING INFRASTRUCTURE & OPERATIONS")
         print("=" * 60)
@@ -860,7 +860,7 @@ class TestAdvancedFeatures:
             print(f"    ❌ Emotion & modulation test failed: {e}")
             return False
 
-    def run_all_tests(self) -> dict[str, Any]:
+    def run_all_tests(self) -> Dict[str, Any]:
         """Run all advanced feature tests"""
         print("🚀 TESTING ADVANCED FEATURE SYSTEMS")
         print("=" * 60)

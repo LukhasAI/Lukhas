@@ -1,7 +1,7 @@
 """Regression tests for the T2 Argon2id verification scaffold."""
 
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Tuple
 
 import pytest
 
@@ -20,7 +20,7 @@ class DummyContext:
     credentials: Optional[dict] = None
 
 
-def _run_scaffold_logic(ctx: DummyContext) -> tuple[bool, str]:
+def _run_scaffold_logic(ctx: DummyContext) -> Tuple[bool, str]:
     """Mirror the documentation snippet to keep behaviour covered by tests."""
 
     start_ok = False

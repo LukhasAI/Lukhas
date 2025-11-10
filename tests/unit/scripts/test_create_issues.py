@@ -4,6 +4,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
+from typing import Dict, List
 
 CREATE = "scripts/todo_migration/create_issues.py"
 
@@ -14,7 +15,7 @@ def clean_artifacts():
         shutil.rmtree(art)
 
 
-def write_inventory(path: Path, rows: list[dict[str, str]]) -> None:
+def write_inventory(path: Path, rows: List[Dict[str, str]]) -> None:
     header = ["file", "line", "kind", "priority", "owner", "scope", "message"]
     with path.open("w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=header)

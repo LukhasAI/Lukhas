@@ -3,14 +3,14 @@ import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from types import ModuleType
-from typing import Any
+from typing import Any, Dict, List, Tuple
 
 import pytest
 
 if "_bridgeutils" not in sys.modules:
     bridgeutils = ModuleType("_bridgeutils")
 
-    def bridge_from_candidates(*_args: Any, **_kwargs: Any) -> tuple[tuple[str, ...], dict[str, Any]]:
+    def bridge_from_candidates(*_args: Any, **_kwargs: Any) -> Tuple[Tuple[str, ...], Dict[str, Any]]:
         return (), {}
 
     bridgeutils.bridge_from_candidates = bridge_from_candidates  # type: ignore[attr-defined]
@@ -19,7 +19,7 @@ if "_bridgeutils" not in sys.modules:
 from branding.apis.platform_integrations import PlatformAPIManager
 
 
-def _write_credentials(path: Path, overrides: dict[str, Any]) -> None:
+def _write_credentials(path: Path, overrides: Dict[str, Any]) -> None:
     credentials = {
         "linkedin": {
             "platform": "linkedin",
@@ -71,7 +71,7 @@ async def test_ensure_linkedin_access_token_refreshes_when_expired(tmp_path: Pat
         def __init__(self, *_args: Any, **_kwargs: Any) -> None:
             self.refresh_calls = []
 
-        def refresh_token(self, token_url: str, **kwargs: Any) -> dict[str, Any]:
+        def refresh_token(self, token_url: str, **kwargs: Any) -> Dict[str, Any]:
             self.refresh_calls.append((token_url, kwargs))
             return {
                 "access_token": "refreshed-token",
@@ -82,7 +82,7 @@ async def test_ensure_linkedin_access_token_refreshes_when_expired(tmp_path: Pat
     dummy_session = DummyOAuthSession()
     manager.oauth_session_factory = lambda *args, **kwargs: dummy_session
 
-    persisted_states: list[dict[str, Any]] = []
+    persisted_states: List[Dict[str, Any]] = []
 
     def fake_persist() -> None:
         persisted_states.append({"access_token": linkedin_creds.access_token, "token": linkedin_creds.token_expires_at})

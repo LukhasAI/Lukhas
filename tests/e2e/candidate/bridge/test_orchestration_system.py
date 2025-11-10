@@ -25,7 +25,7 @@ import logging
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any, Dict, Optional
 
 try:
     import pytest
@@ -70,7 +70,7 @@ class TestResultData:
     success: bool
     latency_ms: float = 0.0
     error: str = ""
-    metrics: dict[str, Any] = field(default_factory=dict)
+    metrics: Dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 
@@ -94,7 +94,7 @@ class OrchestrationTestSuite:
 
         logger.info("🧪 LUKHAS Orchestration Test Suite initialized")
 
-    def _setup_test_functions(self) -> dict[str, dict[str, Any]]:
+    def _setup_test_functions(self) -> Dict[str, Dict[str, Any]]:
         """Setup test functions for validation"""
         return {
             "test_calculator": {
@@ -152,7 +152,7 @@ class OrchestrationTestSuite:
             },
         }
 
-    async def _test_calculator_handler(self, expression: str, precision: int = 2, **kwargs) -> dict[str, Any]:
+    async def _test_calculator_handler(self, expression: str, precision: int = 2, **kwargs) -> Dict[str, Any]:
         """Test calculator function"""
         try:
             # Safe evaluation of simple mathematical expressions
@@ -171,7 +171,7 @@ class OrchestrationTestSuite:
 
     async def _test_memory_handler(
         self, key: str, action: str, value: Optional[str] = None, **kwargs
-    ) -> dict[str, Any]:
+    ) -> Dict[str, Any]:
         """Test memory storage function"""
         if not hasattr(self, "_test_memory"):
             self._test_memory = {}
@@ -194,7 +194,7 @@ class OrchestrationTestSuite:
         else:
             return {"error": f"Invalid action: {action}"}
 
-    async def _test_latency_handler(self, delay_ms: int = 0, **kwargs) -> dict[str, Any]:
+    async def _test_latency_handler(self, delay_ms: int = 0, **kwargs) -> Dict[str, Any]:
         """Test latency measurement function"""
         start_time = time.perf_counter()
 
@@ -210,7 +210,7 @@ class OrchestrationTestSuite:
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    async def run_all_tests(self) -> dict[str, Any]:
+    async def run_all_tests(self) -> Dict[str, Any]:
         """
         Run complete test suite and return comprehensive results.
 
@@ -280,7 +280,7 @@ class OrchestrationTestSuite:
 
         return summary
 
-    async def _test_function_calling(self) -> dict[str, Any]:
+    async def _test_function_calling(self) -> Dict[str, Any]:
         """Test function calling capabilities"""
         results = {"passed": 0, "failed": 0, "total": 0}
 
@@ -420,7 +420,7 @@ class OrchestrationTestSuite:
             )
             return False
 
-    async def _test_consensus_algorithms(self) -> dict[str, Any]:
+    async def _test_consensus_algorithms(self) -> Dict[str, Any]:
         """Test multi-model consensus algorithms"""
         results = {"passed": 0, "failed": 0, "total": 0}
 
@@ -492,7 +492,7 @@ class OrchestrationTestSuite:
             )
             return False
 
-    async def _test_streaming_capabilities(self) -> dict[str, Any]:
+    async def _test_streaming_capabilities(self) -> Dict[str, Any]:
         """Test streaming capabilities"""
         results = {"passed": 0, "failed": 0, "total": 0}
 
@@ -561,7 +561,7 @@ class OrchestrationTestSuite:
             )
             return False
 
-    async def _test_performance_benchmarks(self) -> dict[str, Any]:
+    async def _test_performance_benchmarks(self) -> Dict[str, Any]:
         """Test performance benchmarks"""
         results = {"passed": 0, "failed": 0, "total": 0}
 
@@ -681,7 +681,7 @@ class OrchestrationTestSuite:
             )
             return False
 
-    async def _test_security_validation(self) -> dict[str, Any]:
+    async def _test_security_validation(self) -> Dict[str, Any]:
         """Test security validation"""
         results = {"passed": 0, "failed": 0, "total": 0}
 
@@ -757,7 +757,7 @@ class OrchestrationTestSuite:
             )
             return False
 
-    async def _test_api_integration(self) -> dict[str, Any]:
+    async def _test_api_integration(self) -> Dict[str, Any]:
         """Test API integration"""
         results = {"passed": 0, "failed": 0, "total": 0}
 
@@ -814,7 +814,7 @@ class OrchestrationTestSuite:
 
 
 # Main test execution
-async def run_orchestration_tests() -> dict[str, Any]:
+async def run_orchestration_tests() -> Dict[str, Any]:
     """Run orchestration test suite"""
     if not TESTING_AVAILABLE:
         return {

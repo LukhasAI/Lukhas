@@ -18,7 +18,7 @@ GOAL: Push from 50% to 80%+ coverage by testing remaining major areas
 """
 
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict
 
 # Test environment setup
 TEST_MODE = True
@@ -117,7 +117,7 @@ class TestSymbolicLanguageSystems:
             print(f"    ❌ Vocabulary systems test failed: {e}")
             return False
 
-    def run_all_tests(self) -> dict[str, Any]:
+    def run_all_tests(self) -> Dict[str, Any]:
         """Run all symbolic and language tests"""
         print("🔤 TESTING SYMBOLIC & LANGUAGE SYSTEMS")
         print("=" * 60)
@@ -215,7 +215,7 @@ class TestDreamsPersonalitySystems:
             print(f"    ❌ Personality systems test failed: {e}")
             return False
 
-    def run_all_tests(self) -> dict[str, Any]:
+    def run_all_tests(self) -> Dict[str, Any]:
         """Run all dreams and personality tests"""
         print("🌙 TESTING DREAMS & PERSONALITY SYSTEMS")
         print("=" * 60)
@@ -376,7 +376,7 @@ class TestIntegrationAdapterSystems:
             print(f"    ❌ Ops systems test failed: {e}")
             return False
 
-    def run_all_tests(self) -> dict[str, Any]:
+    def run_all_tests(self) -> Dict[str, Any]:
         """Run all integration and adapter tests"""
         print("🔌 TESTING INTEGRATION & ADAPTER SYSTEMS")
         print("=" * 60)
@@ -546,7 +546,7 @@ class TestToolsUtilitiesSystems:
             print(f"    ❌ Trace & monitoring tools test failed: {e}")
             return False
 
-    def run_all_tests(self) -> dict[str, Any]:
+    def run_all_tests(self) -> Dict[str, Any]:
         """Run all tools and utilities tests"""
         print("🔧 TESTING TOOLS & UTILITIES SYSTEMS")
         print("=" * 60)
@@ -703,7 +703,7 @@ class TestDeploymentOperationsSystems:
             print(f"    ❌ Config & environment test failed: {e}")
             return False
 
-    def run_all_tests(self) -> dict[str, Any]:
+    def run_all_tests(self) -> Dict[str, Any]:
         """Run all deployment and operations tests"""
         print("🚀 TESTING DEPLOYMENT & OPERATIONS SYSTEMS")
         print("=" * 60)
@@ -843,7 +843,7 @@ class TestDocumentationComplianceSystems:
             print(f"    ❌ Testing infrastructure test failed: {e}")
             return False
 
-    def run_all_tests(self) -> dict[str, Any]:
+    def run_all_tests(self) -> Dict[str, Any]:
         """Run all documentation and compliance tests"""
         print("📚 TESTING DOCUMENTATION & COMPLIANCE SYSTEMS")
         print("=" * 60)
@@ -942,7 +942,7 @@ class TestWebFrontendSystems:
             print(f"    ❌ Frontend src systems test failed: {e}")
             return False
 
-    def run_all_tests(self) -> dict[str, Any]:
+    def run_all_tests(self) -> Dict[str, Any]:
         """Run all web and frontend tests"""
         print("🌐 TESTING WEB & FRONTEND SYSTEMS")
         print("=" * 60)

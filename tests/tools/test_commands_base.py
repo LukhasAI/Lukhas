@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import pytest
 from tools.commands.base import BaseCommand, CommandExecutionError
+from typing import List
 
 
 class _RecorderCommand(BaseCommand):
@@ -11,9 +12,9 @@ class _RecorderCommand(BaseCommand):
 
     def __init__(self) -> None:
         super().__init__(name="recorder", description="Test command")
-        self.invocations: list[list[str]] = []
+        self.invocations: List[List[str]] = []
 
-    async def execute(self, args: list[str]) -> bool:
+    async def execute(self, args: List[str]) -> bool:
         self.invocations.append(list(args))
         return True
 
@@ -21,9 +22,9 @@ class _RecorderCommand(BaseCommand):
 @pytest.mark.asyncio()
 async def test_dispatch_to_registered_subcommand() -> None:
     command = _RecorderCommand()
-    captured: list[list[str]] = []
+    captured: List[List[str]] = []
 
-    def _echo(args: list[str]) -> bool:
+    def _echo(args: List[str]) -> bool:
         captured.append(args)
         return True
 
@@ -45,7 +46,7 @@ async def test_dispatch_falls_back_to_execute() -> None:
 @pytest.mark.asyncio()
 async def test_run_wraps_exceptions() -> None:
     class _BrokenCommand(BaseCommand):
-        async def execute(self, args: list[str]) -> bool:  # pragma: no cover - exercised in test
+        async def execute(self, args: List[str]) -> bool:  # pragma: no cover - exercised in test
             raise RuntimeError("boom")
 
     broken = _BrokenCommand()

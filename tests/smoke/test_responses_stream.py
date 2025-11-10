@@ -19,6 +19,7 @@ import time
 import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
+from typing import List
 
 AUTH_HEADERS = {"Authorization": "Bearer sk-lukhas-test-1234567890abcdef"}
 
@@ -36,7 +37,7 @@ def test_streaming_responses_sse_protocol(client: TestClient) -> None:
         assert r.status_code == 200
         assert r.headers.get("content-type", "").startswith("text/event-stream")
 
-        data_frames: list[str] = []
+        data_frames: List[str] = []
         done_received = False
 
         for line in r.iter_lines():

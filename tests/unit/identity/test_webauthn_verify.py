@@ -15,7 +15,7 @@ import hashlib
 import json
 import struct
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, Tuple
 
 import pytest
 from cryptography.hazmat.primitives import hashes, serialization
@@ -44,7 +44,7 @@ from lukhas.identity.webauthn_verify import (
 # Test fixtures
 
 @pytest.fixture
-def ec_key_pair() -> tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]:
+def ec_key_pair() -> Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]:
     """Generate an ES256 (P-256) key pair for testing."""
     private_key = ec.generate_private_key(ec.SECP256R1())
     public_key = private_key.public_key()
@@ -52,7 +52,7 @@ def ec_key_pair() -> tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey
 
 
 @pytest.fixture
-def rsa_key_pair() -> tuple[rsa.RSAPrivateKey, rsa.RSAPublicKey]:
+def rsa_key_pair() -> Tuple[rsa.RSAPrivateKey, rsa.RSAPublicKey]:
     """Generate an RS256 (RSA) key pair for testing."""
     private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
     public_key = private_key.public_key()
@@ -135,7 +135,7 @@ def _create_assertion_es256(
     sign_count: int,
     credential_id: str = "test_credential_id",
     user_verified: bool = False,
-) -> tuple[dict[str, Any], str]:
+) -> Tuple[Dict[str, Any], str]:
     """Create a valid ES256 WebAuthn assertion for testing.
 
     Returns:
@@ -188,7 +188,7 @@ def _create_assertion_rs256(
     rp_id: str,
     sign_count: int,
     credential_id: str = "test_credential_id",
-) -> tuple[dict[str, Any], str]:
+) -> Tuple[Dict[str, Any], str]:
     """Create a valid RS256 WebAuthn assertion for testing.
 
     Returns:
@@ -231,7 +231,7 @@ def _create_assertion_rs256(
 
 @pytest.fixture
 def sample_credential_es256(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]
 ) -> WebAuthnCredential:
     """Create a sample WebAuthn credential with ES256 key."""
     _, public_key = ec_key_pair
@@ -380,7 +380,7 @@ def test_parse_client_data_json_missing_origin() -> None:
 # Test: ES256 signature verification
 
 def test_verify_signature_es256_valid(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]
 ) -> None:
     """Test ES256 signature verification with valid signature."""
     private_key, public_key = ec_key_pair
@@ -400,7 +400,7 @@ def test_verify_signature_es256_valid(
 
 
 def test_verify_signature_es256_invalid_signature(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]
 ) -> None:
     """Test ES256 signature verification with invalid signature."""
     _private_key, public_key = ec_key_pair
@@ -421,7 +421,7 @@ def test_verify_signature_es256_invalid_signature(
 
 
 def test_verify_signature_es256_wrong_data(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]
 ) -> None:
     """Test ES256 signature verification with modified data."""
     private_key, public_key = ec_key_pair
@@ -455,7 +455,7 @@ def test_verify_signature_es256_invalid_public_key() -> None:
 # Test: RS256 signature verification
 
 def test_verify_signature_rs256_valid(
-    rsa_key_pair: tuple[rsa.RSAPrivateKey, rsa.RSAPublicKey]
+    rsa_key_pair: Tuple[rsa.RSAPrivateKey, rsa.RSAPublicKey]
 ) -> None:
     """Test RS256 signature verification with valid signature."""
     private_key, public_key = rsa_key_pair
@@ -475,7 +475,7 @@ def test_verify_signature_rs256_valid(
 
 
 def test_verify_signature_rs256_invalid_signature(
-    rsa_key_pair: tuple[rsa.RSAPrivateKey, rsa.RSAPublicKey]
+    rsa_key_pair: Tuple[rsa.RSAPrivateKey, rsa.RSAPublicKey]
 ) -> None:
     """Test RS256 signature verification with invalid signature."""
     _private_key, public_key = rsa_key_pair
@@ -508,7 +508,7 @@ def test_verify_signature_rs256_invalid_public_key() -> None:
 # Test: verify_assertion (ES256)
 
 def test_verify_assertion_es256_success(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
     test_challenge: str,
     test_origin: str,
     test_rp_id: str,
@@ -542,7 +542,7 @@ def test_verify_assertion_es256_success(
 
 
 def test_verify_assertion_es256_with_user_verification(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
     test_challenge: str,
     test_origin: str,
     test_rp_id: str,
@@ -573,7 +573,7 @@ def test_verify_assertion_es256_with_user_verification(
 
 
 def test_verify_assertion_rs256_success(
-    rsa_key_pair: tuple[rsa.RSAPrivateKey, rsa.RSAPublicKey],
+    rsa_key_pair: Tuple[rsa.RSAPrivateKey, rsa.RSAPublicKey],
     test_challenge: str,
     test_origin: str,
     test_rp_id: str,
@@ -650,7 +650,7 @@ def test_verify_assertion_missing_client_data_json(
 
 
 def test_verify_assertion_invalid_type(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
     test_challenge: str,
     test_origin: str,
     test_rp_id: str,
@@ -704,7 +704,7 @@ def test_verify_assertion_invalid_type(
 
 
 def test_verify_assertion_origin_mismatch(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
     test_challenge: str,
     test_origin: str,
     test_rp_id: str,
@@ -735,7 +735,7 @@ def test_verify_assertion_origin_mismatch(
 
 
 def test_verify_assertion_challenge_mismatch(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
     test_challenge: str,
     test_origin: str,
     test_rp_id: str,
@@ -766,7 +766,7 @@ def test_verify_assertion_challenge_mismatch(
 
 
 def test_verify_assertion_rp_id_mismatch(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
     test_challenge: str,
     test_origin: str,
     test_rp_id: str,
@@ -797,7 +797,7 @@ def test_verify_assertion_rp_id_mismatch(
 
 
 def test_verify_assertion_sign_counter_replay_attack(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
     test_challenge: str,
     test_origin: str,
     test_rp_id: str,
@@ -829,7 +829,7 @@ def test_verify_assertion_sign_counter_replay_attack(
 
 
 def test_verify_assertion_sign_counter_rollback(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
     test_challenge: str,
     test_origin: str,
     test_rp_id: str,
@@ -860,7 +860,7 @@ def test_verify_assertion_sign_counter_rollback(
 
 
 def test_verify_assertion_sign_counter_from_zero(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
     test_challenge: str,
     test_origin: str,
     test_rp_id: str,
@@ -894,7 +894,7 @@ def test_verify_assertion_sign_counter_from_zero(
 
 
 def test_verify_assertion_invalid_signature(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
     test_challenge: str,
     test_origin: str,
     test_rp_id: str,
@@ -927,7 +927,7 @@ def test_verify_assertion_invalid_signature(
 
 
 def test_verify_assertion_user_presence_not_set(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
     test_challenge: str,
     test_origin: str,
     test_rp_id: str,
@@ -985,7 +985,7 @@ def test_verify_assertion_user_presence_not_set(
 # Test: Integration with WebAuthnCredentialStore
 
 def test_verify_assertion_integration_with_store(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
     test_challenge: str,
     test_origin: str,
     test_rp_id: str,
@@ -1053,7 +1053,7 @@ def test_verify_assertion_integration_with_store(
 
 
 def test_verify_assertion_multiple_authentications(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
     test_challenge: str,
     test_origin: str,
     test_rp_id: str,
@@ -1096,7 +1096,7 @@ def test_verify_assertion_multiple_authentications(
 
 
 def test_verify_assertion_backup_flags(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
     test_challenge: str,
     test_origin: str,
     test_rp_id: str,
@@ -1181,7 +1181,7 @@ def test_verify_assertion_malformed_base64(
 
 
 def test_verify_assertion_short_authenticator_data(
-    ec_key_pair: tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
+    ec_key_pair: Tuple[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
     test_challenge: str,
     test_origin: str,
     test_rp_id: str,

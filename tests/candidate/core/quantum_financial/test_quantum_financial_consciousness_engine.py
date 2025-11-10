@@ -2,7 +2,7 @@
 import random
 from contextlib import nullcontext
 from dataclasses import asdict, is_dataclass
-from typing import Any
+from typing import Any, Dict
 from unittest.mock import AsyncMock, patch
 
 import pytest
@@ -44,7 +44,7 @@ def _token_field(token: Any, field: str, *aliases: str) -> Any:
     return getattr(token, field)
 
 
-def _as_dict(value: Any) -> dict[str, Any]:
+def _as_dict(value: Any) -> Dict[str, Any]:
     """Convert dataclass / namespace objects into dictionaries for assertions."""
 
     if isinstance(value, dict):

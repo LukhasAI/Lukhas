@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 import pytest
+from typing import Dict, List, Tuple
 
 
 def _find_repo_root(start: Path) -> Path:
@@ -48,20 +49,20 @@ ConsciousnessQIBridge = consciousness_qi_bridge.ConsciousnessQIBridge
 
 
 class _StubSystem:
-    def __init__(self, name: str, state: dict[str, object]):
+    def __init__(self, name: str, state: Dict[str, object]):
         self.name = name
         self.state = state
-        self.events: list[tuple[str, dict[str, object]]] = []
-        self.patches: list[dict[str, object]] = []
+        self.events: List[Tuple[str, Dict[str, object]]] = []
+        self.patches: List[Dict[str, object]] = []
 
-    async def process_event(self, event_type: str, payload: dict[str, object]):
+    async def process_event(self, event_type: str, payload: Dict[str, object]):
         self.events.append((event_type, payload))
         return {"status": "ok", "event_type": event_type, "source": self.name}
 
     def get_state(self):
         return self.state
 
-    async def apply_state_patch(self, payload: dict[str, object]):
+    async def apply_state_patch(self, payload: Dict[str, object]):
         self.patches.append(payload)
 
 

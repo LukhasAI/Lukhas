@@ -18,7 +18,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 # Import VectorDocument directly without importing from backends package
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 
 import numpy as np
 import pytest
@@ -41,11 +41,11 @@ class VectorDocument:
     id: str
     content: str
     embedding: np.ndarray
-    metadata: dict[str, Any] = field(default_factory=dict)
+    metadata: Dict[str, Any] = field(default_factory=dict)
     identity_id: Optional[str] = None
     lane: str = "labs"
     fold_id: Optional[str] = None
-    tags: list[str] = field(default_factory=list)
+    tags: List[str] = field(default_factory=list)
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     expires_at: Optional[datetime] = None
@@ -70,7 +70,7 @@ class VectorDocument:
             return False
         return datetime.now(timezone.utc) > self.expires_at
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for storage"""
         return {
             "id": self.id,
@@ -93,7 +93,7 @@ class MockVectorStore:
     """Mock vector store for testing lifecycle operations"""
 
     def __init__(self):
-        self.documents: dict[str, VectorDocument] = {}
+        self.documents: Dict[str, VectorDocument] = {}
 
     async def delete(self, doc_id: str) -> bool:
         """Delete document from store"""
@@ -107,7 +107,7 @@ class MockVectorStore:
         self.documents[document.id] = document
         return True
 
-    async def list_expired_documents(self, cutoff_time: datetime, limit: int) -> list[VectorDocument]:
+    async def list_expired_documents(self, cutoff_time: datetime, limit: int) -> List[VectorDocument]:
         """List documents that have expired"""
         expired = []
         for doc in self.documents.values():
@@ -117,7 +117,7 @@ class MockVectorStore:
                     break
         return expired
 
-    async def list_by_identity(self, identity_id: str, limit: int) -> list[VectorDocument]:
+    async def list_by_identity(self, identity_id: str, limit: int) -> List[VectorDocument]:
         """List documents by identity"""
         matching = [
             doc for doc in self.documents.values()

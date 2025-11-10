@@ -13,7 +13,7 @@ import random
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional, Set
 
 import pytest
 
@@ -36,11 +36,11 @@ class TestMemoryItem:
     """Test memory item with known properties for verification"""
     id: str
     content: str
-    embedding: list[float]
+    embedding: List[float]
     category: str
     timestamp: float
     priority: int
-    metadata: dict[str, Any]
+    metadata: Dict[str, Any]
 
     def similarity_to(self, other: 'TestMemoryItem') -> float:
         """Calculate cosine similarity for testing"""
@@ -64,13 +64,13 @@ class MemorySafeguardTestFramework:
         """Initialize with deterministic seed for reproducible tests"""
         self.seed = seed
         self.rng = random.Random(seed)
-        self.memory_items: list[TestMemoryItem] = []
+        self.memory_items: List[TestMemoryItem] = []
         self.memory_system = None
 
         if MEMORY_SYSTEMS_AVAILABLE:
             self.memory_system = AdaptiveMemorySystem(max_items=50000)
 
-    def generate_test_dataset(self, size: int = 10000) -> list[TestMemoryItem]:
+    def generate_test_dataset(self, size: int = 10000) -> List[TestMemoryItem]:
         """Generate deterministic test dataset with known properties"""
         categories = ["tech", "science", "history", "art", "literature"]
 
@@ -102,7 +102,7 @@ class MemorySafeguardTestFramework:
         self.memory_items = items
         return items
 
-    def store_test_items(self, items: list[TestMemoryItem]) -> dict[str, Any]:
+    def store_test_items(self, items: List[TestMemoryItem]) -> Dict[str, Any]:
         """Store test items in memory system and track storage"""
         if not MEMORY_SYSTEMS_AVAILABLE or not self.memory_system:
             return {"skipped": "Memory systems not available"}
@@ -140,8 +140,8 @@ class MemorySafeguardTestFramework:
         self,
         query_item: TestMemoryItem,
         k: int = 10,
-        expected_results: Optional[set[str]] = None
-    ) -> dict[str, Any]:
+        expected_results: Optional[Set[str]] = None
+    ) -> Dict[str, Any]:
         """Verify top-K recall returns correct results"""
         if not MEMORY_SYSTEMS_AVAILABLE or not self.memory_system:
             return {"skipped": "Memory systems not available"}
@@ -206,7 +206,7 @@ class MemorySafeguardTestFramework:
         self,
         operation_count: int = 1000,
         concurrency: int = 10
-    ) -> dict[str, Any]:
+    ) -> Dict[str, Any]:
         """Test memory operations under concurrent stress"""
         if not MEMORY_SYSTEMS_AVAILABLE:
             return {"skipped": "Memory systems not available"}
@@ -230,7 +230,7 @@ class MemorySafeguardTestFramework:
             min(operation_count, len(self.memory_items))
         )
 
-        def perform_recall_operation(item: TestMemoryItem) -> dict[str, Any]:
+        def perform_recall_operation(item: TestMemoryItem) -> Dict[str, Any]:
             try:
                 verification = self.verify_topk_recall_integrity(item, k=5)
                 return verification
@@ -291,7 +291,7 @@ class MemorySafeguardTestFramework:
 
         return results
 
-    def test_memory_consistency_under_load(self, iterations: int = 100) -> dict[str, Any]:
+    def test_memory_consistency_under_load(self, iterations: int = 100) -> Dict[str, Any]:
         """Test that memory remains consistent under repeated operations"""
         if not MEMORY_SYSTEMS_AVAILABLE:
             return {"skipped": "Memory systems not available"}

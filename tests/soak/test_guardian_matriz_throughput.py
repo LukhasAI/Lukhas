@@ -27,7 +27,7 @@ import logging
 import statistics
 import time
 from dataclasses import dataclass
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 from unittest.mock import patch
 
 import pytest
@@ -75,9 +75,9 @@ class SoakTestResult:
     success_rate: float
     performance_targets_met: bool
     memory_stable: bool
-    errors: list[str]
-    warnings: list[str]
-    detailed_metrics: dict[str, Any]
+    errors: List[str]
+    warnings: List[str]
+    detailed_metrics: Dict[str, Any]
 
 
 class GuardianMATRIZSoakTester:
@@ -95,7 +95,7 @@ class GuardianMATRIZSoakTester:
             enable_advanced_features=False  # Simplified for load testing
         )
 
-        self.measurements: dict[str, list[PerformanceMeasurement]] = {
+        self.measurements: Dict[str, List[PerformanceMeasurement]] = {
             "guardian_serialize": [],
             "guardian_validate": [],
             "matriz_tick": []
@@ -104,7 +104,7 @@ class GuardianMATRIZSoakTester:
         # Memory tracking
         self.memory_samples = []
 
-    def create_test_decision_envelope(self, operation_id: str) -> dict[str, Any]:
+    def create_test_decision_envelope(self, operation_id: str) -> Dict[str, Any]:
         """Create test Guardian decision envelope."""
         return {
             "schema_version": "2.1.0",

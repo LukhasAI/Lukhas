@@ -5,7 +5,7 @@ from __future__ import annotations
 import importlib
 import sys
 from collections.abc import Callable
-from typing import Any
+from typing import Any, Optional
 
 import pytest
 from fastapi.testclient import TestClient
@@ -14,10 +14,10 @@ from fastapi.testclient import TestClient
 
 
 @pytest.fixture(name="load_app")
-def fixture_load_app(monkeypatch: pytest.MonkeyPatch) -> Callable[[str | None], Any]:
+def fixture_load_app(monkeypatch: pytest.MonkeyPatch) -> Callable[[Optional[str]], Any]:
     """Reload ``serve.main`` with the provided WebAuthn environment toggle."""
 
-    def _loader(flag_value: str | None) -> Any:
+    def _loader(flag_value: Optional[str]) -> Any:
         if flag_value is None:
             monkeypatch.delenv("LUKHAS_WEBAUTHN", raising=False)
         else:
@@ -33,7 +33,7 @@ def fixture_load_app(monkeypatch: pytest.MonkeyPatch) -> Callable[[str | None], 
     return _loader
 
 
-def test_webauthn_roundtrip(load_app: Callable[[str | None], Any]) -> None:
+def test_webauthn_roundtrip(load_app: Callable[[Optional[str]], Any]) -> None:
     """Happy-path challenge creation and verification."""
 
     app = load_app("1")
@@ -66,7 +66,7 @@ def test_webauthn_roundtrip(load_app: Callable[[str | None], Any]) -> None:
         }
 
 
-def test_webauthn_routes_disabled(load_app: Callable[[str | None], Any]) -> None:
+def test_webauthn_routes_disabled(load_app: Callable[[Optional[str]], Any]) -> None:
     """Routes should be unavailable when the feature flag is not enabled."""
 
     app = load_app(None)

@@ -4,7 +4,7 @@ import importlib.util
 import sys
 from pathlib import Path
 from types import ModuleType
-from typing import Any
+from typing import Any, Tuple, Dict
 
 
 def _load_vocabulary_module() -> ModuleType:
@@ -13,7 +13,7 @@ def _load_vocabulary_module() -> ModuleType:
     if "_bridgeutils" not in sys.modules:
         bridgeutils = ModuleType("_bridgeutils")
 
-        def bridge_from_candidates(*_args: Any, **_kwargs: Any) -> tuple[tuple[str, ...], dict[str, Any]]:
+        def bridge_from_candidates(*_args: Any, **_kwargs: Any) -> Tuple[Tuple[str, ...], Dict[str, Any]]:
             return (), {}
 
         bridgeutils.bridge_from_candidates = bridge_from_candidates  # type: ignore[attr-defined]
