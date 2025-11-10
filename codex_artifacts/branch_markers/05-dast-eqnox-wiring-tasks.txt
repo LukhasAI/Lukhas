@@ -1,0 +1,3 @@
+Codex scaffold marker for DAST / EQNOX wiring tasks
+Branch: codex/dast-eqnox-wiring-tasks
+Request: codex_artifacts/requests/05-dast-eqnox-wiring-tasks.md
