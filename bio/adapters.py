@@ -1,6 +1,6 @@
 """Bridge module for bio.adapters → labs.bio.adapters"""
 from __future__ import annotations
 
-# Note: labs.bio.adapters is currently empty - no explicit imports needed
+from labs.bio.adapters import BioAdapter, AdapterManager, adapt_bio_systems
 
-__all__ = []
+__all__ = ["BioAdapter", "AdapterManager", "adapt_bio_systems"]
