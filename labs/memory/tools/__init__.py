@@ -1,18 +1,15 @@
 import logging
-
-logger = logging.getLogger(__name__)
 """
 Tools Module
 Auto-generated module initialization file
 """
 
-from fromfromfromcandidate.core.common import (
+from candidate.core.common import (
     GuardianRejectionError,
     LukhasError,
     MemoryDriftError,
+    get_logger,
 )
-
-from core.common import get_logger
 
 logger = get_logger(__name__)
 
