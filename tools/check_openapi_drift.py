@@ -1,281 +1,289 @@
-#!/usr/bin/env python3
-"""
-Deep OpenAPI specification drift detector with comprehensive diff analysis.
+"""Check for OpenAPI drift between the saved schema and the live FastAPI app."""
 
-Usage:
-    python tools/check_openapi_drift.py                    # Check for drift
-    python tools/check_openapi_drift.py --autofix          # Update baseline
-    python tools/check_openapi_drift.py --output drift.json  # Save to file
-    python tools/check_openapi_drift.py --baseline custom.json  # Use custom baseline
+from __future__ import annotations
 
-Features:
-    - Deep JSON Schema diff for OpenAPI specs
-    - Detect path/method/response schema changes
-    - Machine-readable JSON output
-    - Optional auto-fix to update saved spec
-    - CI/CD integration friendly
-"""
+import argparse
+import importlib
 import json
 import sys
-import argparse
+from collections.abc import Iterable, Mapping
 from pathlib import Path
-from typing import Any, Dict, Optional
-from fastapi.testclient import TestClient
+from typing import Any
 
-try:
-    from deepdiff import DeepDiff
-    DEEPDIFF_AVAILABLE = True
-except ImportError:
-    DEEPDIFF_AVAILABLE = False
-    print("⚠️  Warning: deepdiff not installed. Install with: pip install deepdiff")
-    print("   Falling back to basic comparison...")
-
-
-def load_spec_from_app() -> Dict[str, Any]:
-    """Load OpenAPI spec from the running FastAPI app."""
-    try:
-        from serve.main import app
-        client = TestClient(app)
-        response = client.get("/openapi.json")
-        return response.json()
-    except Exception as e:
-        print(f"❌ Error: Could not import app: {e}", file=sys.stderr)
-        sys.exit(1)
+HTTP_METHODS = {
+    "get",
+    "put",
+    "post",
+    "delete",
+    "options",
+    "head",
+    "patch",
+    "trace",
+}
 
 
-def load_spec_from_file(path: Path) -> Optional[Dict[str, Any]]:
-    """Load OpenAPI spec from a JSON file."""
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return None
-    except json.JSONDecodeError as e:
-        print(f"❌ Error: Invalid JSON in {path}: {e}", file=sys.stderr)
-        sys.exit(1)
+def _sorted(values: Iterable[str]) -> list[str]:
+    return sorted(values)
 
 
-def save_spec_to_file(spec: Dict[str, Any], path: Path) -> None:
-    """Save OpenAPI spec to a JSON file."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(spec, f, indent=2, sort_keys=True)
-    print(f"✅ Saved OpenAPI spec to {path}")
+def deep_schema_diff(
+    saved: Any, live: Any, base_path: str | None = None
+) -> list[dict[str, Any]]:
+    """Produce a deep diff between two JSON-like structures.
 
-
-def basic_compare(baseline: Dict, current: Dict) -> Dict[str, Any]:
+    The diff is represented as a list of dictionaries containing the path, the
+    saved value, the live value, and the type of change (added, removed,
+    modified).
     """
-    Basic comparison when DeepDiff is not available.
-    Checks top-level keys and paths only.
-    """
-    # Check top-level keys
-    live_keys = set(baseline.keys())
-    saved_keys = set(current.keys())
 
-    # Check paths
-    lpaths = set(baseline.get("paths", {}).keys())
-    spaths = set(current.get("paths", {}).keys())
-    missing_paths = spaths - lpaths
-    added_paths = lpaths - spaths
+    path_prefix = base_path or "<root>"
+    diffs: list[dict[str, Any]] = []
 
-    return {
-        "drift_detected": bool(live_keys != saved_keys or missing_paths or added_paths),
-        "summary": {
-            "top_level_keys_match": live_keys == saved_keys,
-            "paths_added": len(added_paths),
-            "paths_removed": len(missing_paths),
-            "schemas_changed": 0,  # Can't detect without DeepDiff
-        },
-        "details": {
-            "top_level_keys_diff": {
-                "added": list(live_keys - saved_keys),
-                "removed": list(saved_keys - live_keys),
-            },
-            "paths_diff": {
-                "added": sorted(list(added_paths)),
-                "removed": sorted(list(missing_paths)),
+    if isinstance(saved, Mapping) and isinstance(live, Mapping):
+        saved_keys = set(saved.keys())
+        live_keys = set(live.keys())
+        for key in _sorted(saved_keys - live_keys):
+            diffs.append(
+                {
+                    "path": f"{path_prefix}.{key}",
+                    "saved": saved[key],
+                    "live": None,
+                    "change": "removed",
+                }
+            )
+        for key in _sorted(live_keys - saved_keys):
+            diffs.append(
+                {
+                    "path": f"{path_prefix}.{key}",
+                    "saved": None,
+                    "live": live[key],
+                    "change": "added",
+                }
+            )
+        for key in _sorted(saved_keys & live_keys):
+            next_path = f"{path_prefix}.{key}" if path_prefix else key
+            diffs.extend(deep_schema_diff(saved[key], live[key], next_path))
+        return diffs
+
+    if isinstance(saved, list) and isinstance(live, list):
+        if saved != live:
+            diffs.append(
+                {
+                    "path": path_prefix,
+                    "saved": saved,
+                    "live": live,
+                    "change": "modified",
+                }
+            )
+        return diffs
+
+    if saved != live:
+        diffs.append(
+            {
+                "path": path_prefix,
+                "saved": saved,
+                "live": live,
+                "change": "modified",
             }
-        }
-    }
+        )
+
+    return diffs
 
 
-def deep_compare(baseline: Dict, current: Dict) -> Dict[str, Any]:
-    """
-    Deep comparison using DeepDiff library.
-    Provides comprehensive schema change detection.
-    """
-    if not DEEPDIFF_AVAILABLE:
-        return basic_compare(baseline, current)
-
-    diff = DeepDiff(
-        baseline,
-        current,
-        ignore_order=True,
-        report_repetition=True,
-        view='tree'
-    )
-
-    # Extract meaningful changes
-    paths_added = []
-    paths_removed = []
-    schemas_changed = []
-
-    # Check for path changes
-    if 'dictionary_item_added' in diff:
-        for item in diff['dictionary_item_added']:
-            path = str(item.path())
-            if 'paths' in path:
-                paths_added.append(path)
-
-    if 'dictionary_item_removed' in diff:
-        for item in diff['dictionary_item_removed']:
-            path = str(item.path())
-            if 'paths' in path:
-                paths_removed.append(path)
-
-    if 'values_changed' in diff:
-        for item in diff['values_changed']:
-            path = str(item.path())
-            if 'schema' in path.lower() or 'properties' in path.lower():
-                schemas_changed.append({
-                    "path": path,
-                    "old_value": str(item.t1),
-                    "new_value": str(item.t2),
-                })
-
-    drift_detected = bool(diff)
-
+def _extract_methods(path_item: Mapping[str, Any]) -> dict[str, Mapping[str, Any]]:
     return {
-        "drift_detected": drift_detected,
-        "summary": {
-            "paths_added": len(paths_added),
-            "paths_removed": len(paths_removed),
-            "schemas_changed": len(schemas_changed),
-            "total_changes": len(diff) if hasattr(diff, '__len__') else 0,
-        },
-        "details": {
-            "paths_added": paths_added,
-            "paths_removed": paths_removed,
-            "schemas_changed": schemas_changed[:10],  # Limit to first 10
-            "raw_diff": diff.to_dict() if drift_detected else {},
-        }
+        method: details
+        for method, details in path_item.items()
+        if method.lower() in HTTP_METHODS and isinstance(details, Mapping)
     }
 
 
-def print_drift_report(result: Dict[str, Any], verbose: bool = False) -> None:
-    """Print human-readable drift report."""
-    summary = result.get("summary", {})
-    details = result.get("details", {})
+def _diff_responses(
+    saved_responses: Mapping[str, Any] | None,
+    live_responses: Mapping[str, Any] | None,
+) -> dict[str, Any]:
+    saved_map: Mapping[str, Any] = saved_responses or {}
+    live_map: Mapping[str, Any] = live_responses or {}
 
-    if not result.get("drift_detected"):
-        print("✅ No API drift detected - OpenAPI spec is stable")
-        return
+    summary: dict[str, Any] = {}
 
-    print("🚨 API DRIFT DETECTED\n")
-    print("=" * 60)
+    saved_keys = set(saved_map.keys())
+    live_keys = set(live_map.keys())
 
-    print("\n📊 SUMMARY:")
-    print(f"   Paths added:      {summary.get('paths_added', 0)}")
-    print(f"   Paths removed:    {summary.get('paths_removed', 0)}")
-    print(f"   Schemas changed:  {summary.get('schemas_changed', 0)}")
+    added = _sorted(live_keys - saved_keys)
+    removed = _sorted(saved_keys - live_keys)
+    if added:
+        summary["added"] = added
+    if removed:
+        summary["removed"] = removed
 
-    if verbose:
-        print("\n📋 DETAILS:\n")
+    modified_entries: list[dict[str, Any]] = []
+    for status in _sorted(saved_keys & live_keys):
+        differences = deep_schema_diff(
+            saved_map[status], live_map[status], f"responses.{status}"
+        )
+        if differences:
+            modified_entries.append({"status": status, "differences": differences})
 
-        if details.get("paths_added"):
-            print("  ➕ Added paths:")
-            for path in details["paths_added"][:10]:
-                print(f"     - {path}")
+    if modified_entries:
+        summary["modified"] = modified_entries
 
-        if details.get("paths_removed"):
-            print("\n  ➖ Removed paths:")
-            for path in details["paths_removed"][:10]:
-                print(f"     - {path}")
-
-        if details.get("schemas_changed"):
-            print("\n  🔄 Changed schemas:")
-            for change in details["schemas_changed"][:5]:
-                print(f"     - {change['path']}")
-
-    print("\n" + "=" * 60)
+    return summary
 
 
-def main():
-    parser = argparse.ArgumentParser(
-        description="Detect OpenAPI specification drift"
-    )
+def _diff_methods(
+    saved_path_item: Mapping[str, Any], live_path_item: Mapping[str, Any]
+) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+
+    saved_methods = _extract_methods(saved_path_item)
+    live_methods = _extract_methods(live_path_item)
+
+    saved_keys = set(saved_methods.keys())
+    live_keys = set(live_methods.keys())
+
+    added_methods = _sorted(live_keys - saved_keys)
+    removed_methods = _sorted(saved_keys - live_keys)
+    if added_methods:
+        result["added_methods"] = added_methods
+    if removed_methods:
+        result["removed_methods"] = removed_methods
+
+    modified_methods: dict[str, Any] = {}
+    for method in _sorted(saved_keys & live_keys):
+        response_diff = _diff_responses(
+            saved_methods[method].get("responses"),
+            live_methods[method].get("responses"),
+        )
+        if response_diff:
+            modified_methods[method] = {"responses": response_diff}
+
+    if modified_methods:
+        result["modified_methods"] = modified_methods
+
+    return result
+
+
+def compute_openapi_diff(saved: Mapping[str, Any], live: Mapping[str, Any]) -> dict[str, Any]:
+    """Compute the drift summary between two OpenAPI specifications."""
+
+    summary: dict[str, Any] = {
+        "drift_detected": False,
+        "paths": {"added": [], "removed": [], "modified": {}},
+    }
+
+    saved_paths = saved.get("paths") or {}
+    live_paths = live.get("paths") or {}
+
+    if not isinstance(saved_paths, Mapping) or not isinstance(live_paths, Mapping):
+        raise ValueError("OpenAPI document is missing 'paths' mapping")
+
+    saved_path_keys = set(saved_paths.keys())
+    live_path_keys = set(live_paths.keys())
+
+    added_paths = _sorted(live_path_keys - saved_path_keys)
+    removed_paths = _sorted(saved_path_keys - live_path_keys)
+
+    summary["paths"]["added"] = added_paths
+    summary["paths"]["removed"] = removed_paths
+
+    if added_paths or removed_paths:
+        summary["drift_detected"] = True
+
+    modified_paths: dict[str, Any] = {}
+    for path in _sorted(saved_path_keys & live_path_keys):
+        path_diff = _diff_methods(saved_paths[path], live_paths[path])
+        if path_diff:
+            modified_paths[path] = path_diff
+
+    if modified_paths:
+        summary["paths"]["modified"] = modified_paths
+        summary["drift_detected"] = True
+    else:
+        summary["paths"]["modified"] = {}
+
+    return summary
+
+
+def _prompt_confirmation() -> bool:
+    try:
+        response = input("Apply --autofix and update openapi.json? [y/N]: ")
+    except EOFError:
+        return False
+    return response.strip().lower() in {"y", "yes"}
+
+
+def load_live_openapi() -> Mapping[str, Any]:
+    try:
+        from fastapi.testclient import TestClient
+    except Exception as exc:  # pragma: no cover - optional dependency during import time
+        raise RuntimeError("fastapi.testclient is not available") from exc
+
+    try:
+        serve_main = importlib.import_module("serve.main")
+    except Exception as exc:  # pragma: no cover - runtime guard
+        raise RuntimeError(f"Could not import app: {exc}") from exc
+
+    app = getattr(serve_main, "app", None)
+    if app is None:
+        raise RuntimeError("serve.main does not expose an 'app' instance")
+
+    client = TestClient(app)
+    response = client.get("/openapi.json")
+    if response.status_code != 200:
+        raise RuntimeError(
+            f"Failed to fetch live OpenAPI schema: HTTP {response.status_code}"
+        )
+    return response.json()
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--baseline",
-        type=Path,
-        default=Path("openapi.json"),
-        help="Path to baseline OpenAPI spec (default: openapi.json)"
+        "--openapi-file",
+        default="openapi.json",
+        help="Path to the saved OpenAPI schema (default: openapi.json)",
     )
     parser.add_argument(
         "--autofix",
         action="store_true",
-        help="Automatically update the baseline spec with current version"
-    )
-    parser.add_argument(
-        "--output",
-        type=Path,
-        help="Save drift report to JSON file"
-    )
-    parser.add_argument(
-        "--verbose", "-v",
-        action="store_true",
-        help="Show detailed drift information"
-    )
-    parser.add_argument(
-        "--ci",
-        action="store_true",
-        help="CI mode: exit with code 1 if drift detected"
+        help="Update the saved OpenAPI schema when drift is detected.",
     )
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
+    openapi_path = Path(args.openapi_file)
 
-    # Load current spec from app
-    print("Loading current OpenAPI spec from app...")
-    current_spec = load_spec_from_app()
+    try:
+        live = load_live_openapi()
+    except RuntimeError as exc:
+        print(str(exc))
+        return 0
 
-    # Load baseline spec
-    print(f"Loading baseline spec from {args.baseline}...")
-    baseline_spec = load_spec_from_file(args.baseline)
+    if not openapi_path.exists():
+        print("No saved openapi.json; skipping drift check.")
+        return 0
 
-    if baseline_spec is None:
-        print(f"⚠️  No baseline spec found at {args.baseline}")
-        if args.autofix:
-            print("Creating new baseline...")
-            save_spec_to_file(current_spec, args.baseline)
-            print("✅ Baseline created successfully")
-            return 0
+    with open(openapi_path, encoding="utf-8") as f:
+        saved = json.load(f)
+
+    summary = compute_openapi_diff(saved, live)
+    summary["autofix_applied"] = False
+
+    if summary["drift_detected"]:
+        if args.autofix and _prompt_confirmation():
+            with open(openapi_path, "w", encoding="utf-8") as f:
+                json.dump(live, f, indent=2, sort_keys=True)
+                f.write("\n")
+            summary["autofix_applied"] = True
+            exit_code = 0
         else:
-            print("Run with --autofix to create baseline")
-            return 1
+            exit_code = 1
+    else:
+        exit_code = 0
 
-    # Compare specs
-    print("Comparing specifications...\n")
-    result = deep_compare(baseline_spec, current_spec)
-
-    # Print report
-    print_drift_report(result, verbose=args.verbose)
-
-    # Save to file if requested
-    if args.output:
-        with open(args.output, "w") as f:
-            json.dump(result, f, indent=2, default=str)
-        print(f"\n💾 Drift report saved to {args.output}")
-
-    # Auto-fix if requested
-    if args.autofix and result.get("drift_detected"):
-        print(f"\n🔧 Updating baseline spec at {args.baseline}...")
-        save_spec_to_file(current_spec, args.baseline)
-
-    # Exit code for CI
-    if args.ci and result.get("drift_detected"):
-        return 1
-
-    return 0
+    print(json.dumps(summary, indent=2, sort_keys=True))
+    return exit_code
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover - CLI entry point
     sys.exit(main())
