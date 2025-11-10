@@ -76,6 +76,9 @@ class PostQuantumCryptoEngine:
                 side_channel_protection=True,
             ),
             "backup": Classic_McEliece(security_level=SecurityLevel.NIST_5),
+# T4: code=F821 | ticket=SKELETON-2341E56E | owner=lukhas-platform | status=skeleton
+# reason: Undefined FrodoKEM in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             "experimental": FrodoKEM(parameter_set="FrodoKEM-1344"),  # TODO: FrodoKEM
         }
 
@@ -86,6 +89,9 @@ class PostQuantumCryptoEngine:
                 side_channel_protection=True,
             ),
             "backup": SPHINCS_Plus(parameter_set=ParameterSets.SPHINCS_256),
+# T4: code=F821 | ticket=SKELETON-C122265A | owner=lukhas-platform | status=skeleton
+# reason: Undefined Falcon in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             "lightweight": Falcon(  # TODO: Falcon
                 parameter_set=ParameterSets.FALCON_1024,
                 constant_time=True,
@@ -101,13 +107,25 @@ class PostQuantumCryptoEngine:
 
         # Hybrid classical-PQC for transition period
         self.hybrid_mode = config.get("enable_hybrid_crypto", True)
+# T4: code=F821 | ticket=SKELETON-B61418BC | owner=lukhas-platform | status=skeleton
+# reason: Undefined QIKeyRotationScheduler in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self.key_rotation_scheduler = QIKeyRotationScheduler(  # TODO: QIKeyRotationScheduler
             rotation_interval=config.get("rotation_interval", 3600),  # 1 hour default
             timestamp_service=self.timestamp_service,
         )
 
     async def create_quantum_secure_session(
+# T4: code=F821 | ticket=SKELETON-DACBA5B3 | owner=lukhas-platform | status=skeleton
+# reason: Undefined SessionRequirements in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+# T4: code=F821 | ticket=SKELETON-F83F717A | owner=lukhas-platform | status=skeleton
+# reason: Undefined PeerIdentity in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self, peer_identity: PeerIdentity, session_requirements: SessionRequirements  # TODO: PeerIdentity
+# T4: code=F821 | ticket=SKELETON-1C33AE0E | owner=lukhas-platform | status=skeleton
+# reason: Undefined QISecureSession in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     ) -> QISecureSession:  # TODO: QISecureSession
         """
         Establish quantum-secure communication session
@@ -131,12 +149,18 @@ class PostQuantumCryptoEngine:
         )
 
         # 5. Set up authenticated encryption
+# T4: code=F821 | ticket=SKELETON-5A3AB632 | owner=lukhas-platform | status=skeleton
+# reason: Undefined QISafeAEAD in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         cipher = QISafeAEAD(  # TODO: QISafeAEAD
             algorithm="AES-256-GCM",  # Still quantum-safe for symmetric
             key=session_keys.encryption_key,
             additional_quantum_protection=True,
         )
 
+# T4: code=F821 | ticket=SKELETON-1C33AE0E | owner=lukhas-platform | status=skeleton
+# reason: Undefined QISecureSession in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         return QISecureSession(  # TODO: QISecureSession
             session_id=self._generate_session_id(),
             cipher=cipher,
@@ -148,8 +172,14 @@ class PostQuantumCryptoEngine:
     async def sign_with_quantum_resistance(
         self,
         data: bytes,
+# T4: code=F821 | ticket=SKELETON-1A3F41BB | owner=lukhas-platform | status=skeleton
+# reason: Undefined QISigningKey in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         signing_key: QISigningKey,  # TODO: QISigningKey
         include_timestamp: bool = True,
+# T4: code=F821 | ticket=SKELETON-59D14357 | owner=lukhas-platform | status=skeleton
+# reason: Undefined QISignature in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     ) -> QISignature:  # TODO: QISignature
         """
         Create quantum-resistant digital signature
@@ -174,6 +204,9 @@ class PostQuantumCryptoEngine:
         else:
             signature_data = primary_signature
 
+# T4: code=F821 | ticket=SKELETON-59D14357 | owner=lukhas-platform | status=skeleton
+# reason: Undefined QISignature in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         return QISignature(  # TODO: QISignature
             algorithm_id=self.signature_algorithms["primary"].algorithm_id,
             signature_data=signature_data,

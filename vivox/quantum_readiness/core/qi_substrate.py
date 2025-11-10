@@ -102,14 +102,26 @@ class QIEnvironment:
     gate_fidelity: float = 0.99  # Single-qubit gate fidelity
     measurement_fidelity: float = 0.97  # Measurement accuracy
     connectivity: dict[int, list[int]] = field(default_factory=dict)  # Qubit connectivity
+# T4: code=F821 | ticket=SKELETON-F03EB412 | owner=lukhas-platform | status=skeleton
+# reason: Undefined QuantumNoiseType in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     noise_model: dict[QuantumNoiseType, float] = field(default_factory=dict)  # TODO: QuantumNoiseType
 
     def __post_init__(self):
         """Initialize default noise model if not provided"""
         if not self.noise_model:
             self.noise_model = {
+# T4: code=F821 | ticket=SKELETON-F03EB412 | owner=lukhas-platform | status=skeleton
+# reason: Undefined QuantumNoiseType in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 QuantumNoiseType.DECOHERENCE: 0.01,  # TODO: QuantumNoiseType
+# T4: code=F821 | ticket=SKELETON-F03EB412 | owner=lukhas-platform | status=skeleton
+# reason: Undefined QuantumNoiseType in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 QuantumNoiseType.DEPHASING: 0.005,  # TODO: QuantumNoiseType
+# T4: code=F821 | ticket=SKELETON-F03EB412 | owner=lukhas-platform | status=skeleton
+# reason: Undefined QuantumNoiseType in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 QuantumNoiseType.DEPOLARIZING: 0.001,  # TODO: QuantumNoiseType
             }
 
@@ -129,6 +141,9 @@ class QISubstrate:
         self.config = config or self._default_config()
 
         # Quantum environment
+# T4: code=F821 | ticket=SKELETON-2FFABE4E | owner=lukhas-platform | status=skeleton
+# reason: Undefined QuantumEnvironment in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self.environment = QuantumEnvironment(**self.config.get("environment", {}))  # TODO: QuantumEnvironment
 
         # State management
@@ -219,6 +234,9 @@ class QISubstrate:
 
         # Apply different noise channels
         for noise_type, strength in self.environment.noise_model.items():
+# T4: code=F821 | ticket=SKELETON-F03EB412 | owner=lukhas-platform | status=skeleton
+# reason: Undefined QuantumNoiseType in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             if noise_type == QuantumNoiseType.DECOHERENCE:  # TODO: QuantumNoiseType
                 # Amplitude damping
                 decay = np.exp(-time_evolution / self.environment.coherence_time)
@@ -226,11 +244,17 @@ class QISubstrate:
                 # Add ground state population
                 noisy_state[0] += np.sqrt(1 - decay**2) * np.linalg.norm(state.state_vector)
 
+# T4: code=F821 | ticket=SKELETON-F03EB412 | owner=lukhas-platform | status=skeleton
+# reason: Undefined QuantumNoiseType in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             elif noise_type == QuantumNoiseType.DEPHASING:  # TODO: QuantumNoiseType
                 # Random phase errors
                 phases = np.exp(1j * np.random.normal(0, strength * time_evolution, len(noisy_state)))
                 noisy_state *= phases
 
+# T4: code=F821 | ticket=SKELETON-F03EB412 | owner=lukhas-platform | status=skeleton
+# reason: Undefined QuantumNoiseType in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             elif noise_type == QuantumNoiseType.DEPOLARIZING:  # TODO: QuantumNoiseType
                 # Mix with maximally mixed state
                 p_error = 1 - np.exp(-strength * time_evolution)

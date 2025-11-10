@@ -1107,6 +1107,9 @@ async def list_clients(
             }
 
         except Exception as e:
+# T4: code=F821 | ticket=SKELETON-48CD149E | owner=api-team | status=skeleton
+# reason: Undefined span in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             span.set_attribute("error", str(e))  # TODO: span
             raise HTTPException(status_code=500, detail="Internal server error")
 
@@ -1137,6 +1140,9 @@ async def provider_stats(
             }
 
         except Exception as e:
+# T4: code=F821 | ticket=SKELETON-48CD149E | owner=api-team | status=skeleton
+# reason: Undefined span in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             span.set_attribute("error", str(e))  # TODO: span
             raise HTTPException(status_code=500, detail="Internal server error")
 

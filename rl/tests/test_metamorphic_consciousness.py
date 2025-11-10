@@ -329,9 +329,21 @@ class MetamorphicConsciousnessTesting:
 
     def __init__(self):
         try:
+# T4: code=F821 | ticket=SKELETON-5A82FFEE | owner=testing-team | status=skeleton
+# reason: Undefined ConsciousnessEnvironment in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             self.environment = ConsciousnessEnvironment()  # TODO: ConsciousnessEnvironment
+# T4: code=F821 | ticket=SKELETON-3E996C53 | owner=testing-team | status=skeleton
+# reason: Undefined PolicyNetwork in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             self.policy = PolicyNetwork()  # TODO: PolicyNetwork
+# T4: code=F821 | ticket=SKELETON-891A0550 | owner=testing-team | status=skeleton
+# reason: Undefined ValueNetwork in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             self.value_network = ValueNetwork()  # TODO: ValueNetwork
+# T4: code=F821 | ticket=SKELETON-85B0CAA5 | owner=testing-team | status=skeleton
+# reason: Undefined ConsciousnessRewards in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             self.rewards = ConsciousnessRewards()  # TODO: ConsciousnessRewards
             self.real_system = True
         except Exception as exc:  # pragma: no cover - fallback for optional deps
@@ -354,16 +366,25 @@ class MetamorphicConsciousnessTesting:
 
         if self.real_system:
             try:
+# T4: code=F821 | ticket=SKELETON-7F969C55 | owner=testing-team | status=skeleton
+# reason: Undefined ConsciousnessBuffer in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 self.buffer = ConsciousnessBuffer(capacity=256)  # TODO: ConsciousnessBuffer
             except Exception as exc:  # pragma: no cover - optional dependency path
                 logger.warning("ConsciousnessBuffer unavailable, continuing without memory integration: %s", exc)
 
             try:
+# T4: code=F821 | ticket=SKELETON-42A1111B | owner=testing-team | status=skeleton
+# reason: Undefined ConsciousnessMetaLearning in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 self.meta_learning = ConsciousnessMetaLearning(max_experiences=128)  # TODO: ConsciousnessMetaLearning
             except Exception as exc:  # pragma: no cover - optional dependency path
                 logger.warning("ConsciousnessMetaLearning unavailable: %s", exc)
 
             try:
+# T4: code=F821 | ticket=SKELETON-7671C2BA | owner=testing-team | status=skeleton
+# reason: Undefined MultiAgentCoordination in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 self.coordination = MultiAgentCoordination()  # TODO: MultiAgentCoordination
             except Exception as exc:  # pragma: no cover - optional dependency path
                 logger.warning("MultiAgentCoordination unavailable: %s", exc)
@@ -559,6 +580,9 @@ class MetamorphicConsciousnessTesting:
 
         if self.real_system:
             # ΛTAG: metamorphic_node
+# T4: code=F821 | ticket=SKELETON-EC7EE006 | owner=testing-team | status=skeleton
+# reason: Undefined ConsciousnessState in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             consciousness_state = ConsciousnessState(  # TODO: ConsciousnessState
                 module_states={"metamorphic_suite": dict(state_data)},
                 temporal_coherence=state_data.get("temporal_coherence", 0.95),
@@ -576,6 +600,9 @@ class MetamorphicConsciousnessTesting:
             node_state = dict(state_data)
             node_state["consciousness_state"] = consciousness_state
             node_state["metamorphic_tag"] = "relation_testing"
+# T4: code=F821 | ticket=SKELETON-05207B2B | owner=testing-team | status=skeleton
+# reason: Undefined MatrizNode in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             return MatrizNode(  # TODO: MatrizNode
                 type="CONTEXT",
                 state=node_state,

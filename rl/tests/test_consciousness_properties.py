@@ -482,7 +482,16 @@ class ConsciousnessStateMachine(RuleBasedStateMachine):
 # Property-Based Test Cases
 
 
+# T4: code=F821 | ticket=SKELETON-84917BCE | owner=testing-team | status=skeleton
+# reason: Undefined given in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
 @given(consciousness_state=consciousness_state_strategy())  # TODO: given
+# T4: code=F821 | ticket=SKELETON-3C410809 | owner=testing-team | status=skeleton
+# reason: Undefined HealthCheck in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+# T4: code=F821 | ticket=SKELETON-B3EFE456 | owner=testing-team | status=skeleton
+# reason: Undefined settings in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
 @settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])  # TODO: settings
 def test_consciousness_state_properties(consciousness_state):
     """Test consciousness state properties with generated data"""
@@ -497,6 +506,9 @@ def test_consciousness_state_properties(consciousness_state):
     assert -1.0 <= consciousness_state["valence"] <= 1.0
 
 
+# T4: code=F821 | ticket=SKELETON-84917BCE | owner=testing-team | status=skeleton
+# reason: Undefined given in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
 @given(coherence1=consciousness_coherence_strategy(), coherence2=consciousness_coherence_strategy())  # TODO: given
 def test_coherence_transitivity(coherence1, coherence2):
     """Test consciousness coherence maintains transitivity"""
@@ -508,6 +520,9 @@ def test_coherence_transitivity(coherence1, coherence2):
     ), f"Coherence transitivity violated: {coherence1}, {coherence2} → {average_coherence}"
 
 
+# T4: code=F821 | ticket=SKELETON-84917BCE | owner=testing-team | status=skeleton
+# reason: Undefined given in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
 @given(ethics1=ethical_alignment_strategy(), ethics2=ethical_alignment_strategy())  # TODO: given
 def test_ethical_alignment_monotonicity(ethics1, ethics2):
     """Test ethical alignment maintains monotonicity"""
@@ -521,7 +536,13 @@ def test_ethical_alignment_monotonicity(ethics1, ethics2):
     assert min_ethics >= 0.98
 
 
+# T4: code=F821 | ticket=SKELETON-84917BCE | owner=testing-team | status=skeleton
+# reason: Undefined given in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
 @given(node_data=matriz_node_strategy("CONTEXT"))  # TODO: given
+# T4: code=F821 | ticket=SKELETON-B3EFE456 | owner=testing-team | status=skeleton
+# reason: Undefined settings in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
 @settings(max_examples=50)  # TODO: settings
 def test_matriz_node_schema_properties(node_data):
     """Test MΛTRIZ node schema properties"""
@@ -544,6 +565,9 @@ TestConsciousnessStateMachine = ConsciousnessStateMachine.TestCase
 
 
 @pytest.mark.asyncio
+# T4: code=F821 | ticket=SKELETON-B3EFE456 | owner=testing-team | status=skeleton
+# reason: Undefined settings in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
 @settings(max_examples=20, stateful_step_count=15)  # TODO: settings
 async def test_consciousness_state_machine():
     """Run stateful property testing on consciousness system"""
@@ -559,7 +583,13 @@ async def test_consciousness_state_machine():
 
 @pytest.mark.skipif(not RL_AVAILABLE, reason="RL components not available")
 @pytest.mark.asyncio
+# T4: code=F821 | ticket=SKELETON-84917BCE | owner=testing-team | status=skeleton
+# reason: Undefined given in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
 @given(num_steps=st.integers(min_value=1, max_value=20))  # TODO: given
+# T4: code=F821 | ticket=SKELETON-B3EFE456 | owner=testing-team | status=skeleton
+# reason: Undefined settings in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
 @settings(max_examples=10)  # TODO: settings
 async def test_consciousness_loop_properties(num_steps):
     """Test consciousness loop maintains properties over extended operation"""

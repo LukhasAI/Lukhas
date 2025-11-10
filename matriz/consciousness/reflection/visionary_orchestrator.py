@@ -176,22 +176,40 @@ class VisionaryAGIOrchestrator:
 
         # Core components (will be initialized in startup)
         self.core_integrator: Optional[EnhancedCoreIntegrator] = None
+# T4: code=F821 | ticket=SKELETON-82D5E72C | owner=lukhas-platform | status=skeleton
+# reason: Undefined lukhasAgent in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self.lukhas_agent: Optional[lukhasAgent] = (
             None  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L181"}
         )
         self.memory_manager: Optional[MemoryManager] = None
+# T4: code=F821 | ticket=SKELETON-E5716048 | owner=lukhas-platform | status=skeleton
+# reason: Undefined VoiceEngine in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self.voice_engine: Optional[VoiceEngine] = (
             None  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L184"}
         )
+# T4: code=F821 | ticket=SKELETON-0922E263 | owner=lukhas-platform | status=skeleton
+# reason: Undefined DreamEngine in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self.dream_engine: Optional[DreamEngine] = (
             None  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L186"}
         )
+# T4: code=F821 | ticket=SKELETON-ED335179 | owner=lukhas-platform | status=skeleton
+# reason: Undefined EmotionalResonanceEngine in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self.emotional_engine: Optional[EmotionalResonanceEngine] = (
             None  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L188"}
         )
+# T4: code=F821 | ticket=SKELETON-6F0C8F6C | owner=lukhas-platform | status=skeleton
+# reason: Undefined IdentitySystem in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self.identity_system: Optional[IdentitySystem] = (
             None  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L190"}
         )
+# T4: code=F821 | ticket=SKELETON-E2737B4B | owner=lukhas-platform | status=skeleton
+# reason: Undefined QIEngine in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self.qi_engine: Optional[QIEngine] = (
             None  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L192"}
         )
@@ -400,6 +418,9 @@ class VisionaryAGIOrchestrator:
             self.core_integrator = EnhancedCoreIntegrator(config=self.config, safety_mode=True)
 
             # Initialize main agent
+# T4: code=F821 | ticket=SKELETON-82D5E72C | owner=lukhas-platform | status=skeleton
+# reason: Undefined lukhasAgent in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             self.lukhas_agent = lukhasAgent(  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L393"}
                 integrator=self.core_integrator,
                 consciousness_level=self.current_consciousness_level,
@@ -407,18 +428,33 @@ class VisionaryAGIOrchestrator:
 
             # Initialize cognitive modules
             self.memory_manager = MemoryManager(config=self.config["consciousness"])
+# T4: code=F821 | ticket=SKELETON-E5716048 | owner=lukhas-platform | status=skeleton
+# reason: Undefined VoiceEngine in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             self.voice_engine = VoiceEngine(
                 config=self.config["user_experience"]
             )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L401"}
+# T4: code=F821 | ticket=SKELETON-0922E263 | owner=lukhas-platform | status=skeleton
+# reason: Undefined DreamEngine in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             self.dream_engine = DreamEngine(
                 config=self.config["consciousness"]
             )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L403"}
+# T4: code=F821 | ticket=SKELETON-ED335179 | owner=lukhas-platform | status=skeleton
+# reason: Undefined EmotionalResonanceEngine in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             self.emotional_engine = EmotionalResonanceEngine(
                 config=self.config["consciousness"]
             )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L405"}
+# T4: code=F821 | ticket=SKELETON-6F0C8F6C | owner=lukhas-platform | status=skeleton
+# reason: Undefined IdentitySystem in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             self.identity_system = IdentitySystem(
                 config=self.config["consciousness"]
             )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L407"}
+# T4: code=F821 | ticket=SKELETON-E2737B4B | owner=lukhas-platform | status=skeleton
+# reason: Undefined QIEngine in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             self.qi_engine = QIEngine(
                 config=self.config["consciousness"]
             )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L409"}
@@ -552,6 +588,9 @@ class VisionaryAGIOrchestrator:
             Dict containing the response and metadata
         """
         if not self.is_running:
+# T4: code=F821 | ticket=SKELETON-D065A77C | owner=lukhas-platform | status=skeleton
+# reason: Undefined lukhasException in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             raise lukhasException(
                 "AI system is not running"
             )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L541"}
@@ -989,6 +1028,9 @@ async def create_visionary_agi(
     if await ai.initialize():
         return ai
     else:
+# T4: code=F821 | ticket=SKELETON-D065A77C | owner=lukhas-platform | status=skeleton
+# reason: Undefined lukhasException in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         raise lukhasException(
             "Failed to initialize Visionary AI Orchestrator"
         )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_visionary_orchestrator_py_L965"}

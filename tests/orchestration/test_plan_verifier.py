@@ -455,6 +455,9 @@ class TestPlanVerifierGlobalInstance:
     def test_get_plan_verifier_singleton(self):
         """Test that get_plan_verifier returns singleton."""
         # Clear any existing instance
+# T4: code=F821 | ticket=SKELETON-3B182A51 | owner=testing-team | status=skeleton
+# reason: Undefined candidate in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         candidate.core.orchestration.plan_verifier._plan_verifier_instance = None  # TODO: candidate
 
         verifier1 = get_plan_verifier()

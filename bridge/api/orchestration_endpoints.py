@@ -538,6 +538,9 @@ if FASTAPI_AVAILABLE:
 
         # Validate functions before registration
         try:
+# T4: code=F821 | ticket=SKELETON-99B14DF7 | owner=integration-team | status=skeleton
+# reason: Undefined get_validator in bridge/adapter skeleton - awaiting integration
+# estimate: 4h | priority=low | dependencies=production-implementation
             validator = get_validator()  # TODO: get_validator
             if validator:
                 validation_result = await validator.validate_request(

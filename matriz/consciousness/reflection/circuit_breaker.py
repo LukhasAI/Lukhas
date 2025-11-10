@@ -619,8 +619,14 @@ class CascadePreventionSystem:
 
     def __init__(
         self,
+# T4: code=F821 | ticket=SKELETON-6C710F5F | owner=lukhas-platform | status=skeleton
+# reason: Undefined ActorSystem in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         actor_system: ActorSystem,  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_circuit_breaker_py_L612"}
         observability: (
+# T4: code=F821 | ticket=SKELETON-FD316535 | owner=lukhas-platform | status=skeleton
+# reason: Undefined ObservabilityCollector in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             ObservabilityCollector | None
         ) = None,  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_circuit_breaker_py_L614"}
     ):
@@ -775,6 +781,9 @@ class CascadePreventionSystem:
     async def _get_actor_snapshot(
         self, actor_id: str
     ) -> (
+# T4: code=F821 | ticket=SKELETON-BA82117E | owner=lukhas-platform | status=skeleton
+# reason: Undefined ActorSnapshot in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         ActorSnapshot | None
     ):  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_circuit_breaker_py_L753"}
         """Get snapshot for an actor"""

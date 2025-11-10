@@ -1649,6 +1649,9 @@ class EthicalReasoningSystem:
         self.logger.info(
             f"ΛTRACE ({req_id}): Ethical judgment completed (ID: {judgment.judgment_id}). Action: '{judgment.recommended_action}', Confidence: {judgment.confidence_score:.2f}"
         )
+# T4: code=F821 | ticket=SKELETON-65B444DE | owner=lukhas-platform | status=skeleton
+# reason: Undefined slogger in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         slogger.info(  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_ethical_reasoning_system_py_L1506"}
             "Ethical judgment completed (Structlog)",
             judgment_id=judgment.judgment_id,
@@ -2198,6 +2201,9 @@ class EthicalReasoningSystem:
                     self.logger.warning(
                         f"ΛTRACE: Ethical drift DETECTED. Confidence drift: {conf_drift:.3f} (Recent: {avg_recent_conf:.3f}, Earlier: {avg_earlier_conf:.3f})"
                     )
+# T4: code=F821 | ticket=SKELETON-65B444DE | owner=lukhas-platform | status=skeleton
+# reason: Undefined slogger in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                     slogger.warning(  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_ethical_reasoning_system_py_L2019"}
                         "Ethical drift detected (Structlog)",
                         confidence_drift=conf_drift,
@@ -2380,6 +2386,9 @@ async def main_ethics_test():  # Renamed to avoid conflict if 'main' is generic
     logger.info(f"ΛTRACE_TEST: Moral Justification: {judgment.moral_justification}")
     # Using slogger (structlog) for structured output of complex objects if
     # preferred for testing
+# T4: code=F821 | ticket=SKELETON-65B444DE | owner=lukhas-platform | status=skeleton
+# reason: Undefined slogger in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     slogger.info(  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_ethical_reasoning_system_py_L2192"}
         "Ethical Judgment Result (Structlog)",
         judgment_id=judgment.judgment_id,
@@ -2410,6 +2419,9 @@ async def main_ethics_test():  # Renamed to avoid conflict if 'main' is generic
     logger.info(
         f"ΛTRACE_TEST: System Report - Total Judgments: {report.get('total_judgments_processed')}, Alignment Score: {report.get('value_alignment_summary', {}).get('core_value_alignment'):.3f}"
     )
+# T4: code=F821 | ticket=SKELETON-65B444DE | owner=lukhas-platform | status=skeleton
+# reason: Undefined slogger in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     slogger.info(  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_ethical_reasoning_system_py_L2223"}
         "Ethical System Report (Structlog)",
         report_timestamp=report.get("timestamp"),

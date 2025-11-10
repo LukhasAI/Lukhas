@@ -378,6 +378,9 @@ class ObservabilitySecurityHardening:
         }
 
         # Generate integrity hash
+# T4: code=F821 | ticket=SKELETON-D25182CE | owner=lukhas-platform | status=skeleton
+# reason: Undefined json in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         evidence_json = json.dumps(evidence_data, sort_keys=True, default=str)  # TODO: json
         integrity_hash = self._compute_integrity_hash(evidence_json.encode())
         security_metadata["integrity_hash"] = integrity_hash
@@ -419,6 +422,9 @@ class ObservabilitySecurityHardening:
         """
         try:
             # Verify integrity hash
+# T4: code=F821 | ticket=SKELETON-D25182CE | owner=lukhas-platform | status=skeleton
+# reason: Undefined json in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             evidence_json = json.dumps(evidence_data, sort_keys=True, default=str)  # TODO: json
             computed_hash = self._compute_integrity_hash(evidence_json.encode())
 

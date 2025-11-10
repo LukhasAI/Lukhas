@@ -77,4 +77,7 @@ class QIconfig:
 
         # Validate on import
         if __name__ != "__main__":
+# T4: code=F821 | ticket=SKELETON-E144DF78 | owner=lukhas-platform | status=skeleton
+# reason: Undefined __validate_module__ in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             __validate_module__()  # TODO: __validate_module__

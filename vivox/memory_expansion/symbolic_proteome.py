@@ -444,6 +444,9 @@ class VIVOXSymbolicProteome:
         self.protein_database: dict[str, ProteinFold] = {}
 
     async def fold_memory_protein(
+# T4: code=F821 | ticket=SKELETON-57DAEAEA | owner=lukhas-platform | status=skeleton
+# reason: Undefined MemoryHelixEntry in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self, memory_entry: "MemoryHelixEntry", emotional_context: dict[str, Any]  # TODO: MemoryHelixEntry
     ) -> ProteinFold:
         """
@@ -543,6 +546,9 @@ class VIVOXSymbolicProteome:
         """Retrieve protein fold by ID"""
         return self.protein_database.get(protein_id)
 
+# T4: code=F821 | ticket=SKELETON-57DAEAEA | owner=lukhas-platform | status=skeleton
+# reason: Undefined MemoryHelixEntry in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     async def _memory_to_amino_sequence(self, memory_entry: "MemoryHelixEntry") -> AminoSequence:  # TODO: MemoryHelixEntry
         """Convert memory entry to symbolic amino acid sequence"""
         # Map decision components to amino acids

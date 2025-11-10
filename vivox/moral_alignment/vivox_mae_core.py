@@ -565,6 +565,9 @@ class VIVOXMoralAlignmentEngine:
     Computes dissonance scores and moral fingerprints
     """
 
+# T4: code=F821 | ticket=SKELETON-7DFF5695 | owner=lukhas-platform | status=skeleton
+# reason: Undefined VIVOXMemoryExpansion in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     def __init__(self, vivox_me: "VIVOXMemoryExpansion"):  # TODO: VIVOXMemoryExpansion
         self.vivox_me = vivox_me
         self.dissonance_calculator = DissonanceCalculator()

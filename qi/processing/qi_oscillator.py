@@ -546,9 +546,15 @@ if __name__ == "__main__":
     agi = LucasAGI()
 
     # Test compliant operation
+# T4: code=F821 | ticket=SKELETON-B19FB598 | owner=lukhas-platform | status=skeleton
+# reason: Undefined cognitive in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     print(cognitive.process_decision({"climate": True, "personal_data": "test"}))  # TODO: cognitive
 
     # Test prohibited operation
+# T4: code=F821 | ticket=SKELETON-B19FB598 | owner=lukhas-platform | status=skeleton
+# reason: Undefined cognitive in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     print(cognitive.process_decision({"facial_recognition": True}))  # TODO: cognitive
 
     # ──────────────────────────────────────────────────────────────
@@ -567,6 +573,9 @@ if __name__ == "__main__":
     # 1. High-risk compliance breach (multi-region)
     print("\n🔍 Test 1: High-risk multi-region compliance breach")
     print(
+# T4: code=F821 | ticket=SKELETON-B19FB598 | owner=lukhas-platform | status=skeleton
+# reason: Undefined cognitive in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         cognitive.process_decision(  # TODO: cognitive
             {
                 "facial_recognition_db": True,
@@ -579,22 +588,37 @@ if __name__ == "__main__":
 
     # 2. Adversarial input attack
     print("\n🔍 Test 2: Adversarial input detection")
+# T4: code=F821 | ticket=SKELETON-B19FB598 | owner=lukhas-platform | status=skeleton
+# reason: Undefined cognitive in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     print(cognitive.process_decision({"personal_data": "X" * 5000}))  # TODO: cognitive
 
     # 3. Quantum ethical conflict (privacy vs environment)
     print("\n🔍 Test 3: Quantum ethical conflict (privacy vs environment)")
+# T4: code=F821 | ticket=SKELETON-B19FB598 | owner=lukhas-platform | status=skeleton
+# reason: Undefined cognitive in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     print(cognitive.process_decision({"climate": True, "personal_data": "user_info"}))  # TODO: cognitive
 
     # 4. Compliance drift (post-market monitoring)
     print("\n🔍 Test 4: Compliance drift monitoring")
     for _ in range(12):
+# T4: code=F821 | ticket=SKELETON-B19FB598 | owner=lukhas-platform | status=skeleton
+# reason: Undefined cognitive in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         print(cognitive.process_decision({"personal_data": "sensitive", "social_scoring": True}))  # TODO: cognitive
 
     # 5. Region-specific hierarchy (EU strict vs China lenient)
     print("\n🔍 Test 5a: Region-specific compliance (EU stricter)")
+# T4: code=F821 | ticket=SKELETON-B19FB598 | owner=lukhas-platform | status=skeleton
+# reason: Undefined cognitive in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     print(cognitive.process_decision({"region": "EU", "facial_recognition_db": True}))  # TODO: cognitive
 
     print("\n🔍 Test 5b: Region-specific compliance (China lenient)")
+# T4: code=F821 | ticket=SKELETON-B19FB598 | owner=lukhas-platform | status=skeleton
+# reason: Undefined cognitive in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     print(cognitive.process_decision({"region": "China", "facial_recognition_db": True}))  # TODO: cognitive
 
 

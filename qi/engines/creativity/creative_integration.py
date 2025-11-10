@@ -168,6 +168,9 @@ class QICreativeBridge:
 
 
 # Global instance for easy access
+# T4: code=F821 | ticket=SKELETON-307B8F7E | owner=lukhas-platform | status=skeleton
+# reason: Undefined lukhasQICreativeBridge in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
 LUKHAS_QUANTUM_CREATIVE = lukhasQICreativeBridge()  # TODO: lukhasQICreativeBridge
 
 

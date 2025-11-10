@@ -189,31 +189,55 @@ class QIValidator:
 # Factory function for easy instantiation
 def create_quantum_component(
     config: Optional[dict] = None,
+# T4: code=F821 | ticket=SKELETON-59105DFB | owner=lukhas-platform | status=skeleton
+# reason: Undefined ΛQuantumValidator in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
 ) -> ΛQuantumValidator:  # TODO: ΛQuantumValidator
     """Create and return a quantum component instance"""
+# T4: code=F821 | ticket=SKELETON-59105DFB | owner=lukhas-platform | status=skeleton
+# reason: Undefined ΛQuantumValidator in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     return ΛQuantumValidator(config)  # TODO: ΛQuantumValidator
 
 
 # Async factory function
 async def create_and_initialize_quantum_component(
     config: Optional[dict] = None,
+# T4: code=F821 | ticket=SKELETON-59105DFB | owner=lukhas-platform | status=skeleton
+# reason: Undefined ΛQuantumValidator in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
 ) -> ΛQuantumValidator:  # TODO: ΛQuantumValidator
     """Create, initialize and return a quantum component instance"""
+# T4: code=F821 | ticket=SKELETON-59105DFB | owner=lukhas-platform | status=skeleton
+# reason: Undefined ΛQuantumValidator in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     ΛQuantumValidator(config)  # TODO: ΛQuantumValidator
 
 
 def create_quantum_component(
     config: Optional[dict] = None,
+# T4: code=F821 | ticket=SKELETON-B7EE3848 | owner=lukhas-platform | status=skeleton
+# reason: Undefined lukhasQuantumValidator in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
 ) -> lukhasQuantumValidator:  # TODO: lukhasQuantumValidator
     """Create and return a quantum component instance"""
+# T4: code=F821 | ticket=SKELETON-B7EE3848 | owner=lukhas-platform | status=skeleton
+# reason: Undefined lukhasQuantumValidator in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     return lukhasQuantumValidator(config)  # TODO: lukhasQuantumValidator
 
 
 # Async factory function
 async def create_and_initialize_quantum_component(
     config: Optional[dict] = None,
+# T4: code=F821 | ticket=SKELETON-B7EE3848 | owner=lukhas-platform | status=skeleton
+# reason: Undefined lukhasQuantumValidator in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
 ) -> lukhasQuantumValidator:  # TODO: lukhasQuantumValidator
     """Create, initialize and return a quantum component instance"""
+# T4: code=F821 | ticket=SKELETON-B7EE3848 | owner=lukhas-platform | status=skeleton
+# reason: Undefined lukhasQuantumValidator in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     component = lukhasQuantumValidator(config)  # TODO: lukhasQuantumValidator
     await component.initialize()
     return component
@@ -224,7 +248,13 @@ if __name__ == "__main__":
     import asyncio
 
     async def main():
+# T4: code=F821 | ticket=SKELETON-59105DFB | owner=lukhas-platform | status=skeleton
+# reason: Undefined ΛQuantumValidator in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         component = ΛQuantumValidator()  # TODO: ΛQuantumValidator
+# T4: code=F821 | ticket=SKELETON-B7EE3848 | owner=lukhas-platform | status=skeleton
+# reason: Undefined lukhasQuantumValidator in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         component = lukhasQuantumValidator()  # TODO: lukhasQuantumValidator
 
         # Initialize

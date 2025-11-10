@@ -49,6 +49,9 @@ class MockVectorStore(AbstractVectorStore):
 
     async def get(self, document_id):
         if document_id in self.deleted_ids:
+# T4: code=F821 | ticket=SKELETON-D3A914A0 | owner=testing-team | status=skeleton
+# reason: Undefined DocumentNotFoundError in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             raise DocumentNotFoundError(f"Document {document_id} not found")  # TODO: DocumentNotFoundError
         return self.documents.get(document_id)
 

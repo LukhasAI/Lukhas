@@ -5,12 +5,22 @@ Uses ledger plurality voting to rewrite only proven-reliable imports.
 Supports dry-run (default) and --apply mode with backups.
 """
 import argparse
+import json
 import re
 import shutil
 from collections import Counter, defaultdict
 from pathlib import Path
 
 LEDGER = Path("artifacts/lukhas_import_ledger.ndjson")
+
+
+def read_ledger():
+    """Read events from the NDJSON ledger file."""
+    with open(LEDGER, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                yield json.loads(line)
 
 IMPORT_RE = re.compile(
     r'^(?P<indent>\s*)(from\s+|import\s+)(?P<mod>lukhas(?:\.[A-Za-z0-9_]+)+)',
@@ -28,7 +38,7 @@ def build_mapping(threshold=3):
             if lukhas_mod and real_mod:
                 pairs[lukhas_mod][real_mod] += 1
     mapping = {}
-    for lukhas_mod, counts in votes.items():
+    for lukhas_mod, counts in pairs.items():
         best, n = counts.most_common(1)[0]
         if n >= threshold:  # only rewrite if we have strong evidence
             mapping[lukhas_mod] = best

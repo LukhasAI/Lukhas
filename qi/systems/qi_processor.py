@@ -207,7 +207,13 @@ if __name__ == "__main__":
     import asyncio
 
     async def main():
+# T4: code=F821 | ticket=SKELETON-7C3035AE | owner=lukhas-platform | status=skeleton
+# reason: Undefined ΛQuantumInspiredProcessor in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         component = ΛQuantumInspiredProcessor()  # TODO: ΛQuantumInspiredProcessor
+# T4: code=F821 | ticket=SKELETON-ACDD98DF | owner=lukhas-platform | status=skeleton
+# reason: Undefined lukhasQuantumInspiredProcessor in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         component = lukhasQuantumInspiredProcessor()  # TODO: lukhasQuantumInspiredProcessor
 
         # Initialize

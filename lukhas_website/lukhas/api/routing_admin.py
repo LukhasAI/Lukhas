@@ -592,12 +592,18 @@ async def manage_circuit_breaker(
         elif request.action == "open":
             # Force open circuit breaker
             if provider in routing_engine.circuit_breakers:
+# T4: code=F821 | ticket=SKELETON-7EDF28A7 | owner=api-team | status=skeleton
+# reason: Undefined CircuitBreakerState in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 routing_engine.circuit_breakers[provider].state = CircuitBreakerState.OPEN  # TODO: CircuitBreakerState
             return {"message": f"Circuit breaker opened for {provider}"}
 
         elif request.action == "close":
             # Force close circuit breaker
             if provider in routing_engine.circuit_breakers:
+# T4: code=F821 | ticket=SKELETON-7EDF28A7 | owner=api-team | status=skeleton
+# reason: Undefined CircuitBreakerState in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 routing_engine.circuit_breakers[provider].state = CircuitBreakerState.CLOSED  # TODO: CircuitBreakerState
                 routing_engine.circuit_breakers[provider].failure_count = 0
             return {"message": f"Circuit breaker closed for {provider}"}

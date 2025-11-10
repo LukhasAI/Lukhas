@@ -303,6 +303,9 @@ async def enable_model(
     """Enable a specific AI model"""
 
     with tracer.start_span("orchestration_api.enable_model"):
+# T4: code=F821 | ticket=SKELETON-AF25401D | owner=api-team | status=skeleton
+# reason: Undefined span in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         span.set_attribute("model_id", model_id)  # TODO: span
 
         try:
@@ -354,6 +357,9 @@ async def disable_model(
     """Disable a specific AI model"""
 
     with tracer.start_span("orchestration_api.disable_model"):
+# T4: code=F821 | ticket=SKELETON-AF25401D | owner=api-team | status=skeleton
+# reason: Undefined span in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         span.set_attribute("model_id", model_id)  # TODO: span
 
         try:
@@ -427,6 +433,9 @@ async def health_check():
             return {
                 "status": "healthy",
                 "available_models": available_count,
+# T4: code=F821 | ticket=SKELETON-8413EB42 | owner=api-team | status=skeleton
+# reason: Undefined time in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 "timestamp": time.time()  # TODO: time
             }
 

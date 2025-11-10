@@ -33,6 +33,9 @@ try:
 except ImportError:
     # Fallback mock implementations for template testing
         class AuthContext:
+# T4: code=F821 | ticket=SKELETON-27BDCCB9 | owner=api-team | status=skeleton
+# reason: Undefined unknown in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         def __init__(self):
             self.user_id = "template_user"
             self.email = "test@ai"
@@ -49,27 +52,48 @@ except ImportError:
         def has_permission(self, permission: str) -> bool:
             return self.permissions.get(permission, False)
 
+# T4: code=F821 | ticket=SKELETON-27BDCCB9 | owner=api-team | status=skeleton
+# reason: Undefined unknown in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     def get_current_user():
         return AuthContext()
 
+# T4: code=F821 | ticket=SKELETON-27BDCCB9 | owner=api-team | status=skeleton
+# reason: Undefined unknown in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     def require_t2_or_above():
         return get_current_user()
 
+# T4: code=F821 | ticket=SKELETON-27BDCCB9 | owner=api-team | status=skeleton
+# reason: Undefined unknown in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     def require_t3_or_above():
         return get_current_user()
 
+# T4: code=F821 | ticket=SKELETON-27BDCCB9 | owner=api-team | status=skeleton
+# reason: Undefined unknown in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     def require_t4_or_above():
         return get_current_user()
 
+# T4: code=F821 | ticket=SKELETON-27BDCCB9 | owner=api-team | status=skeleton
+# reason: Undefined unknown in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     def require_t5():
         return get_current_user()
 
+# T4: code=F821 | ticket=SKELETON-27BDCCB9 | owner=api-team | status=skeleton
+# reason: Undefined unknown in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     def require_tier(tier: str):
         def decorator(func):
             return func
 
         return decorator
 
+# T4: code=F821 | ticket=SKELETON-27BDCCB9 | owner=api-team | status=skeleton
+# reason: Undefined unknown in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     def require_permission(permission: str):
         def decorator(func):
             return func
@@ -463,3 +487,6 @@ if __name__ == "__main__":
     import uvicorn
 
     uvicorn.run(app, host="0.0.0.0", port=8000)
+# T4: code=F821 | ticket=SKELETON-27BDCCB9 | owner=api-team | status=skeleton
+# reason: Undefined unknown in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation

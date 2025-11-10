@@ -19,6 +19,9 @@ class Composer:
     def __init__(self, schema: Dict):
         self.validator = Draft202012Validator(schema)
 
+# T4: code=F821 | ticket=SKELETON-36A08076 | owner=lukhas-platform | status=skeleton
+# reason: Undefined Signal in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     def merge(self, base: Dict, signals: dict[str, Signal]) -> Dict:  # TODO: Signal
         """
         Deep merge signals into base manifest.

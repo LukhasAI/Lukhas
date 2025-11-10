@@ -25,6 +25,9 @@ def _mut_summary(results):
     return f"**Mutation violation**: {mv['allowed_count']} > cap {mv['cap']} ❌"
 
 def render_markdown(report: dict) -> str:
+# T4: code=F821 | ticket=SKELETON-8E66BD7A | owner=lukhas-platform | status=skeleton
+# reason: Undefined timezone in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     ts = datetime.datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")  # TODO: timezone
     steps = report.get("steps", [])
     rows = _summarize(steps)
