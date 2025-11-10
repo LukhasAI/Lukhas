@@ -10,7 +10,7 @@ from typing import Any
 
 # Prefer the in-repo package if available (no labs edge)
 try:  # pragma: no cover
-    from core.registry import *  # type: ignore
+    from core.registry import Registry, RegistryManager, create_registry  # type: ignore
     _HAS_PRIMARY = True
 except Exception:  # pragma: no cover
     _HAS_PRIMARY = False
