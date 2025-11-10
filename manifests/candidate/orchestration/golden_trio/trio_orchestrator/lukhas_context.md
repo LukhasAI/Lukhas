@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.golden_trio.trio_orchestrator
 
 **Star**: Supporting

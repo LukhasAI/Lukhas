@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.memory.retention
 
 **Star**: ✦ Trail (Memory)

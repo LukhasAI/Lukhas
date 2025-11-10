@@ -6,6 +6,7 @@ import importlib.util
 import os
 import sys
 import types
+from typing import Optional
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", ".."))
 NODES_PATH = os.path.join(PROJECT_ROOT, "labs", "core", "matriz", "nodes")
@@ -16,7 +17,7 @@ if PROJECT_ROOT not in sys.path:
 PACKAGE_PREFIX = "lukhas_candidate"
 
 
-def _ensure_package(name: str, path: str | None = None) -> types.ModuleType:
+def _ensure_package(name: str, path: Optional[str] = None) -> types.ModuleType:
     module = sys.modules.get(name)
     if module is None:
         module = types.ModuleType(name)

@@ -49,6 +49,188 @@ You are an expert in API design, external service integration, and multi-AI orch
 - **Perplexity**: Search API, web knowledge
 - **Custom Models**: Hugging Face, local LLMs
 
+## New Features Available (2025-01-08)
+
+### API Caching System
+
+Use the `@cache_operation` decorator to cache expensive API operations and reduce latency:
+
+```python
+from caching.cache_system import cache_operation
+
+@cache_operation(cache_key="ai_completions", ttl_seconds=3600)
+async def get_ai_completion(model: str, prompt: str):
+    # Expensive AI API call
+    return await external_ai_service.complete(model, prompt)
+```
+
+**Benefits:**
+- 90%+ latency reduction for cached responses
+- Automatic cache invalidation with TTL
+- Hierarchical caching (L1 memory + L2 Redis)
+- Built-in cache hit/miss metrics
+
+**Testing:**
+```python
+# tests/test_cache_performance.py
+import pytest
+from caching.cache_system import get_cache_manager
+
+@pytest.mark.asyncio
+async def test_api_caching():
+    cache_manager = get_cache_manager()
+    await cache_manager.clear()
+
+    # Test cache miss then hit
+    result1 = await get_ai_completion("gpt-4", "Hello")
+    result2 = await get_ai_completion("gpt-4", "Hello")
+
+    stats = await cache_manager.get_statistics()
+    assert stats.hit_ratio > 0
+```
+
+### Prometheus Metrics
+
+All new API endpoints should include Prometheus metrics for observability:
+
+```python
+from observability import counter, histogram, gauge
+
+api_requests = counter(
+    "api_requests_total",
+    "Total API requests",
+    labelnames=("endpoint", "method", "status")
+)
+
+api_duration = histogram(
+    "api_request_duration_seconds",
+    "API request duration"
+)
+
+@app.get("/api/completion")
+async def completion_endpoint(request: CompletionRequest):
+    with api_duration.time():
+        try:
+            result = await process_completion(request)
+            api_requests.labels(
+                endpoint="/api/completion",
+                method="GET",
+                status="success"
+            ).inc()
+            return result
+        except Exception as e:
+            api_requests.labels(
+                endpoint="/api/completion",
+                method="GET",
+                status="error"
+            ).inc()
+            raise
+```
+
+**Monitoring:**
+```promql
+# Average response time
+rate(api_request_duration_seconds_sum[5m]) /
+rate(api_request_duration_seconds_count[5m])
+
+# Error rate
+rate(api_requests_total{status="error"}[5m])
+```
+
+### Task Manager Orchestration
+
+Use TaskManager for complex multi-step API workflows:
+
+```python
+from labs.core.task_manager import LukhλsTaskManager, TaskPriority
+
+tm = LukhλsTaskManager()
+
+# Create multi-step AI orchestration task
+task_id = tm.create_task(
+    name="Multi-AI Consensus",
+    handler="ai_consensus_handler",
+    parameters={
+        "prompt": "Explain quantum computing",
+        "models": ["gpt-4", "claude-3", "gemini-pro"]
+    },
+    priority=TaskPriority.HIGH
+)
+
+# Execute with automatic retries and monitoring
+result = await tm.execute_task(task_id)
+```
+
+### Logging Standards
+
+Always use the standard logger pattern for consistent, structured logging:
+
+```python
+import logging
+
+logger = logging.getLogger(__name__)  # ✅ CORRECT - At module level
+
+async def api_handler(request):
+    logger.info(
+        "API request received",
+        extra={
+            "endpoint": request.url,
+            "method": request.method,
+            "request_id": request.id
+        }
+    )
+
+    try:
+        result = await process_request(request)
+        logger.info("API request completed", extra={"status": 200})
+        return result
+    except Exception as e:
+        logger.exception("API request failed")  # Auto-captures traceback
+        raise
+```
+
+**Anti-Patterns to Avoid:**
+```python
+# ❌ INCORRECT - Don't use root logger
+import logging
+logging.info("API request")  # Bad
+
+# ❌ INCORRECT - Don't create logger in function
+def handler():
+    logger = logging.getLogger(__name__)  # Bad - create at module level
+```
+
+### OpenAPI Drift Detection
+
+Ensure API stability by detecting schema changes:
+
+```bash
+# Check for API drift
+python tools/check_openapi_drift.py
+
+# Auto-update baseline after intentional changes
+python tools/check_openapi_drift.py --autofix
+
+# CI integration
+python tools/check_openapi_drift.py --ci --output drift.json
+```
+
+## Best Practices
+
+1. **Always cache expensive operations** - Use `@cache_operation` for external AI calls
+2. **Instrument all endpoints** - Add Prometheus metrics to every API route
+3. **Use structured logging** - Include request_id, user_id, and context
+4. **Implement circuit breakers** - Protect against cascading failures
+5. **Version your APIs** - Use semantic versioning (v1, v2, etc.)
+6. **Document with OpenAPI** - Keep OpenAPI specs up-to-date and check for drift
+
+## Performance Targets
+
+- **API Latency**: <100ms p95 (use caching to achieve)
+- **Cache Hit Rate**: >80% for frequent queries
+- **Error Rate**: <0.1% for all endpoints
+- **Uptime**: 99.9%+ availability
+
 ### LUKHAS Integration
 - **API Module**: FastAPI implementation
 - **Bridge Module**: External AI connections

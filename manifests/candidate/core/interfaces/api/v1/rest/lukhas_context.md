@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.interfaces.api.v1.rest
 
 **Star**: 🔬 Horizon (Vision)

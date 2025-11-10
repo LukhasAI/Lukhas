@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.brain.collapse_chain_integrity
 
 **Star**: Supporting

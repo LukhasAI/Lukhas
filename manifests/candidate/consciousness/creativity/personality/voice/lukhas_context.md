@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.consciousness.creativity.personality.voice
 
 **Star**: 🌊 Flow (Consciousness)

@@ -329,10 +329,21 @@ class MetamorphicConsciousnessTesting:
 
     def __init__(self):
         try:
-            self.environment = ConsciousnessEnvironment()  # TODO: ConsciousnessEnvironment
-            self.policy = PolicyNetwork()  # TODO: PolicyNetwork
-            self.value_network = ValueNetwork()  # TODO: ValueNetwork
-            self.rewards = ConsciousnessRewards()  # TODO: ConsciousnessRewards
+            self.environment = ConsciousnessEnvironment()  # T4: code=F821 | ticket=GH-1234 | owner=consciousness-team | status=planned
+            # reason: Async import - ConsciousnessEnvironment under development in consciousness-wave-c
+            # estimate: 6h | priority: high | dependencies: consciousness-wave-c
+            
+            self.policy = PolicyNetwork()  # T4: code=F821 | ticket=GH-1234 | owner=consciousness-team | status=planned
+            # reason: Async import - PolicyNetwork RL system under development in consciousness-wave-c
+            # estimate: 4h | priority: high | dependencies: consciousness-wave-c
+            
+            self.value_network = ValueNetwork()  # T4: code=F821 | ticket=GH-1234 | owner=consciousness-team | status=planned
+            # reason: Async import - ValueNetwork RL evaluation under development in consciousness-wave-c
+            # estimate: 4h | priority: high | dependencies: consciousness-wave-c
+            
+            self.rewards = ConsciousnessRewards()  # T4: code=F821 | ticket=GH-1234 | owner=consciousness-team | status=planned
+            # reason: Async import - ConsciousnessRewards system under development in consciousness-wave-c
+            # estimate: 3h | priority: high | dependencies: consciousness-wave-c
             self.real_system = True
         except Exception as exc:  # pragma: no cover - fallback for optional deps
             # Use mock system for testing
@@ -354,17 +365,23 @@ class MetamorphicConsciousnessTesting:
 
         if self.real_system:
             try:
-                self.buffer = ConsciousnessBuffer(capacity=256)  # TODO: ConsciousnessBuffer
+                self.buffer = ConsciousnessBuffer(capacity=256)  # T4: code=F821 | ticket=GH-1234 | owner=consciousness-team | status=planned
+                # reason: Async import - ConsciousnessBuffer memory system under development in consciousness-wave-c
+                # estimate: 3h | priority: high | dependencies: consciousness-wave-c
             except Exception as exc:  # pragma: no cover - optional dependency path
                 logger.warning("ConsciousnessBuffer unavailable, continuing without memory integration: %s", exc)
 
             try:
-                self.meta_learning = ConsciousnessMetaLearning(max_experiences=128)  # TODO: ConsciousnessMetaLearning
+                self.meta_learning = ConsciousnessMetaLearning(max_experiences=128)  # T4: code=F821 | ticket=GH-1234 | owner=consciousness-team | status=planned
+                # reason: Async import - ConsciousnessMetaLearning system under development in consciousness-wave-c
+                # estimate: 5h | priority: high | dependencies: consciousness-wave-c
             except Exception as exc:  # pragma: no cover - optional dependency path
                 logger.warning("ConsciousnessMetaLearning unavailable: %s", exc)
 
             try:
-                self.coordination = MultiAgentCoordination()  # TODO: MultiAgentCoordination
+                self.coordination = MultiAgentCoordination()  # T4: code=F821 | ticket=GH-1234 | owner=consciousness-team | status=planned
+                # reason: Async import - MultiAgentCoordination system under development in consciousness-wave-c
+                # estimate: 4h | priority: high | dependencies: consciousness-wave-c
             except Exception as exc:  # pragma: no cover - optional dependency path
                 logger.warning("MultiAgentCoordination unavailable: %s", exc)
 
@@ -559,7 +576,9 @@ class MetamorphicConsciousnessTesting:
 
         if self.real_system:
             # ΛTAG: metamorphic_node
-            consciousness_state = ConsciousnessState(  # TODO: ConsciousnessState
+            consciousness_state = ConsciousnessState(  # T4: code=F821 | ticket=GH-1234 | owner=consciousness-team | status=planned
+                # reason: Async import - ConsciousnessState data structure under development in consciousness-wave-c
+                # estimate: 2h | priority: high | dependencies: consciousness-wave-c
                 module_states={"metamorphic_suite": dict(state_data)},
                 temporal_coherence=state_data.get("temporal_coherence", 0.95),
                 reflection_depth=3,
@@ -576,7 +595,9 @@ class MetamorphicConsciousnessTesting:
             node_state = dict(state_data)
             node_state["consciousness_state"] = consciousness_state
             node_state["metamorphic_tag"] = "relation_testing"
-            return MatrizNode(  # TODO: MatrizNode
+            return MatrizNode(  # T4: code=F821 | ticket=GH-1234 | owner=matriz-team | status=planned
+                # reason: Async import - MatrizNode MATRIZ system under development in matrix-orchestration
+                # estimate: 3h | priority: high | dependencies: matrix-orchestration
                 type="CONTEXT",
                 state=node_state,
                 labels=["metamorphic:test@1"],

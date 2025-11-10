@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.bio.qi_bio_components
 
 **Star**: Supporting

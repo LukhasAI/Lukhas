@@ -28,7 +28,7 @@ import logging
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 import pytest
 
@@ -69,8 +69,8 @@ class MATRIZDecisionTrace:
     """MATRIZ decision trace with memory references."""
     trace_id: str
     decision_timestamp: float
-    referenced_memories: list[str]  # fragment_ids
-    decision_output: dict[str, Any]
+    referenced_memories: List[str]  # fragment_ids
+    decision_output: Dict[str, Any]
     user_context: Optional[str] = None
     is_sanitized: bool = False
 
@@ -92,10 +92,10 @@ class MATRIZGDPRBridge:
 
     def __init__(self):
         """Initialize GDPR bridge."""
-        self.memory_fragments: dict[str, MemoryFragment] = {}
-        self.decision_traces: dict[str, MATRIZDecisionTrace] = {}
-        self.tombstone_index: dict[str, set[str]] = {}  # user_id -> fragment_ids
-        self.violations: list[GDPRViolation] = []
+        self.memory_fragments: Dict[str, MemoryFragment] = {}
+        self.decision_traces: Dict[str, MATRIZDecisionTrace] = {}
+        self.tombstone_index: Dict[str, Set[str]] = {}  # user_id -> fragment_ids
+        self.violations: List[GDPRViolation] = []
         self.compliance_metrics = {
             "tombstone_checks": 0,
             "violation_detections": 0,
@@ -114,7 +114,7 @@ class MATRIZGDPRBridge:
         if fragment.tombstone_status != TombstoneStatus.ACTIVE:
             self.tombstone_index[fragment.user_id].add(fragment.fragment_id)
 
-    def tombstone_user_memories(self, user_id: str) -> dict[str, Any]:
+    def tombstone_user_memories(self, user_id: str) -> Dict[str, Any]:
         """Tombstone all memories for a user (GDPR right-to-be-forgotten)."""
         start_time = time.perf_counter()
 
@@ -154,7 +154,7 @@ class MATRIZGDPRBridge:
             "trace_ids": purged_traces
         }
 
-    def validate_memory_access(self, fragment_id: str, context: str = "matriz_query") -> tuple[bool, Optional[GDPRViolation]]:
+    def validate_memory_access(self, fragment_id: str, context: str = "matriz_query") -> Tuple[bool, Optional[GDPRViolation]]:
         """Validate that memory access respects tombstone status."""
         start_time = time.perf_counter()
 
@@ -194,9 +194,9 @@ class MATRIZGDPRBridge:
 
     def matriz_decision_with_memory_query(
         self,
-        decision_context: dict[str, Any],
-        memory_fragments_needed: list[str]
-    ) -> tuple[dict[str, Any], list[GDPRViolation]]:
+        decision_context: Dict[str, Any],
+        memory_fragments_needed: List[str]
+    ) -> Tuple[Dict[str, Any], List[GDPRViolation]]:
         """Simulate MATRIZ decision process with memory queries and GDPR validation."""
         start_time = time.perf_counter()
 
@@ -261,7 +261,7 @@ class MATRIZGDPRBridge:
 
         logger.info(f"Sanitized decision trace: {trace_id}")
 
-    def audit_gdpr_compliance(self) -> dict[str, Any]:
+    def audit_gdpr_compliance(self) -> Dict[str, Any]:
         """Comprehensive GDPR compliance audit."""
         audit_timestamp = time.time()
 

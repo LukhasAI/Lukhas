@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.orchestration.brain.dream_engine.cli
 
 **Star**: 🌊 Flow (Consciousness)

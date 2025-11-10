@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.memory.scheduled_folding
 
 **Star**: ✦ Trail (Memory)

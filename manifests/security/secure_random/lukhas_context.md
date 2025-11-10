@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.security.secure_random
 
 **Star**: Supporting

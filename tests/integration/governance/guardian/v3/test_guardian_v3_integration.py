@@ -6,6 +6,7 @@ focusing on cross-module interactions, asynchronous workflows, and critical
 performance paths.
 """
 import asyncio
+from typing import Dict, List, Optional, Any
 from unittest.mock import AsyncMock, patch
 
 import pytest
@@ -30,13 +31,13 @@ class TestableEnhancedGuardianSystem(EnhancedGuardianSystem):
     async def _initialize_agent_handlers(self, agent: "GuardianAgent"):
         pass
 
-    async def _capture_system_state(self) -> dict[str, any]:
+    async def _capture_system_state(self) -> Dict[str, Any]:
         return {}
 
-    async def _analyze_identity_impact(self, threat_data: dict[str, any], context: dict[str, any]) -> str | None:
+    async def _analyze_identity_impact(self, threat_data: Dict[str, Any], context: Dict[str, Any]) -> Optional[str]:
         return None
 
-    async def _analyze_consciousness_impact(self, threat_data: dict[str, any], context: dict[str, any]) -> str | None:
+    async def _analyze_consciousness_impact(self, threat_data: Dict[str, Any], context: Dict[str, Any]) -> Optional[str]:
         return None
 
     async def _determine_guardian_priority(self, detection: "ThreatDetection") -> str:
@@ -51,7 +52,7 @@ class TestableEnhancedGuardianSystem(EnhancedGuardianSystem):
     async def _calculate_response_effectiveness(self, response: "GuardianResponse", execution_results: list) -> float:
         return 1.0
 
-    async def _assess_collateral_impact(self, response: "GuardianResponse", execution_results: list) -> str | None:
+    async def _assess_collateral_impact(self, response: "GuardianResponse", execution_results: list) -> Optional[str]:
         return None
 
     async def _update_agent_performance(self, agent: "GuardianAgent", response: "GuardianResponse"):

@@ -11,14 +11,15 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 
 from core.reliability.ratelimit import QuotaConfig, RateLimiter
 from core.reliability.ratelimit_backends import LimiterBackend
+from typing import Dict, Tuple
 
 
 # A simple in-memory backend for predictable testing that handles multiple keys
 class InMemoryLimiterForTesting(LimiterBackend):
     def __init__(self):
-        self.buckets: dict[str, dict[str, float]] = {} # Store buckets per key
+        self.buckets: Dict[str, Dict[str, float]] = {} # Store buckets per key
 
-    def allow(self, key: str, rate: float, burst: int) -> tuple[bool, int, float]:
+    def allow(self, key: str, rate: float, burst: int) -> Tuple[bool, int, float]:
         now = 1.0 # Use a fixed time for predictability
         if key not in self.buckets:
             self.buckets[key] = {"tokens": float(burst)}

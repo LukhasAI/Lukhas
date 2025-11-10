@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.identity.device_registry
 
 **Star**: ⚛️ Anchor (Identity)

@@ -1,0 +1,17 @@
+title: test(matriz): add coverage for engine.py
+body: |
+  # Test Request (ΛBot)
+
+  **Target file:** `matriz/core/engine.py`
+  **Tier:** 2
+  **Rationale:** low coverage + high usage signal
+
+  ## Requirements
+  - Deterministic tests (freeze time, seeds; no sleeps)
+  - Mock external IO (network, LLMs, stores)
+  - Focus edge cases + error contracts
+  - Coverage target: 70%
+
+  ## Notes
+  - Protected surface must not be edited.
+  - Use the prompt in `prompts/labot/matriz_core_engine.md`.

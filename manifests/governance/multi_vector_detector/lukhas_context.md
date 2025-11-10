@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.governance.multi_vector_detector
 
 **Star**: 🛡️ Watch (Guardian)
