@@ -1,0 +1,3 @@
+Codex scaffold marker for Make labot PRs draft by default
+Branch: codex/make-labot-prs-draft-by-default
+Request: codex_artifacts/requests/01-make-labot-prs-draft-by-default.md
