@@ -2,12 +2,70 @@
 
 **Purpose**: This document lists all modules without test coverage, prioritized for delegation to Claude.ai (claude.ai/code) for comprehensive test creation.
 
-**Total Modules Without Tests**: 391
+**Total Modules Without Tests**: 401
 - **lukhas/**: 11 files (production API/features)
 - **serve/**: 20 files (FastAPI routes/middleware)
-- **matriz/**: 87 files (cognitive engine)
+- **matriz/**: 97 files (cognitive engine)
 - **core/**: 273 files (integration layer)
 
+---
+
+## 🚀 Priority: Enable Self‑Healing Loop First
+
+Do these **before** delegating large batches so the loop can learn from day one.
+
+1) **Install test infra deps**
+   ```bash
+   pip install \
+     lz4 fakeredis aioresponses mcp dropbox slowapi typing_extensions \
+     freezegun hypothesis pytest-xdist pytest-randomly pytest-timeout \
+     pytest-rerunfailures coverage[toml] mutmut
+   ```
+2) **Protect critical surface**
+   ```yaml
+   # .lukhas/protected-files.yml
+   - serve/identity_api.py
+   - serve/middleware/strict_auth.py
+   - lukhas/identity/**
+   - core/security/**
+   ```
+3) **CI artifacts for learning**
+   - PyTest JUnit: `pytest -q --junitxml=reports/junit.xml`
+   - Coverage XML: `pytest --cov=. --cov-report=xml:reports/coverage.xml`
+   - Normalize to events: `python tools/normalize_junit.py > reports/events.ndjson`
+
+4) **Guardrails on the bot**
+   - Patch ≤ **40 LOC** and ≤ **2 files** for auto‑merge eligibility  
+   - **Two‑key approvals** on protected modules  
+   - Rate‑limit auto‑PRs to **≤ 5/day**; exponential backoff on repeats
+
+5) **Delegation prompt**
+   Use the **“LUKHΛS Test Surgeon”** system prompt in the *Self‑Healing Test & Patch Loop (MHeL v0.1)* section below when asking Claude Code Web to fix or add tests.
+
+---
+
+## 🧪 Self‑Healing Feature Set v0.1 — Build These First
+- [ ] **Test‑gap discovery**: uncover critical paths with low/no coverage and open “add tests” PRs  
+- [ ] **Spec drift detector**: OpenAPI/JSONSchema vs. handlers; auto PR on drift  
+- [ ] **Dependency flake radar**: correlate failures with version deltas → pin/constraints PRs  
+- [ ] **Auto‑minimized repro**: attach a tiny local repro script to each failing signature  
+- [ ] **Failure Field Notes**: weekly digest of new patterns & fixes  
+- [ ] **Risk‑based queue**: prioritize by user impact × blast radius
+
+---
+
+## 🧬 0.01% Enhancements (Elite Reliability Mode)
+For the “Ferrari package” when the basics hum:
+- **Formal invariants & metamorphic testing** for critical modules; invariant registry required for merges
+- **Shadow & differential testing**: replay sanitized prod traces; backward‑compat diffs for OpenAI‑compatible endpoints
+- **Semantic risk scoring**: import‑graph + runtime traces → higher mutation‑score uplift on high‑risk patches
+- **Hermetic CI**: pinned toolchain (uv/rye or Nix), containerized runners, **SLSA** provenance, osv/pip‑audit on diffs
+- **Auto‑bisect & RCA**: recurring signatures trigger automated `git bisect`, stack fingerprinting, cross‑run correlation
+- **Property fuzzing**: Atheris for parsers/schemas/JWT/WebAuthn; schema‑derived corpora, crash triage → playbooks
+- **Perf sentinels**: noise‑aware benchmarks with change‑point detection; per‑endpoint performance budgets
+- **Chaos/fault injection**: latency, timeouts, partial IO; invariants must hold under stress
+- **Observability by default**: OpenTelemetry spans per test; PRs link to traces; artifact bundle (junit, coverage, repro.py, logs)
+- **Policy‑as‑code**: OPA/Rego forbids try/except widening, test deletion, snapshot laxing; blocks risk‑increasing merges
 ---
 
 ## 📋 How to Use This Guide
@@ -429,7 +487,10 @@ Fix RecursionError and TypeError issues preventing test collection.
 3. Add `from typing import Optional, Dict, List, Union`
 4. Install missing test dependencies:
    ```bash
-   pip install lz4 fakeredis aioresponses mcp dropbox slowapi
+   pip install \
+     lz4 fakeredis aioresponses mcp dropbox slowapi typing_extensions \
+     freezegun hypothesis pytest-xdist pytest-randomly pytest-timeout \
+     pytest-rerunfailures coverage[toml] mutmut
    ```
 5. Fix module imports (aka_qualia, ethics.core paths)
 
@@ -549,6 +610,152 @@ After completing this delegation:
 - ✅ **70%+ coverage** for matriz/
 - ✅ **All smoke tests passing** (0 failures)
 - ✅ **CI/CD pipeline green** (all checks pass)
+
+---
+
+---
+
+## 🛠️ Self‑Healing Test & Patch Loop (MHeL v0.1)
+
+**Goal**: Turn failing tests into structured learning signals. Normalize errors → triage → propose **minimal, safe** patches → gate through human/automated checks → learn from outcomes in the **Memory Healix**.
+
+### Architecture (first pass)
+1) **Ingest**: Collect pytest JUnit XML, stdout/stderr, coverage, flaky markers.
+2) **Normalize**: Convert raw logs into canonical events.
+3) **Triage**: Cluster by signature; compute risk & flake scores; map to owners.
+4) **Decide**: Apply **playbook** fixes if known; else draft an **LLM patch plan**.
+5) **Propose**: Open a PR with failing test first, then minimal code change.
+6) **Gate**: Run guard suite → approvals → canary → merge or roll back.
+7) **Learn**: Record outcome to Memory Healix; update playbooks and risk model.
+
+### Error Normalization Event (JSON)
+```json
+{
+  "test_id": "tests/unit/serve/test_main.py::test_healthz",
+  "suite": "unit",
+  "file": "serve/main.py",
+  "error_class": "AssertionError",
+  "message": "Expected 200, got 500",
+  "stack": "...trimmed...",
+  "repro_cmd": "pytest tests/unit/serve/test_main.py::test_healthz -q",
+  "seed": 1337,
+  "env": {"PYTHONHASHSEED": "0", "TZ": "UTC"},
+  "dep_versions": {"fastapi": "0.115.0", "pydantic": "1.10.15"},
+  "flake_score": 0.12,
+  "first_seen": "2025-11-08T21:12:03Z",
+  "frequency": 5,
+  "commit": "abc1234",
+  "branch": "main"
+}
+```
+
+### Memory Healix: Minimal Schema (tables & roles)
+- **signatures**(hash, error_class, file, func, line, fingerprint, first_seen, last_seen)
+- **events**(signature_hash, test_id, message, repro_cmd, env, dep_versions, seed, run_id)
+- **playbooks**(signature_hash, fix_kind, patch_example, confidence)
+- **patches**(pr, diff_hash, files_touched, risk, author, status)
+- **outcomes**(pr, passed, rollback, time_to_fix, mutation_delta, coverage_delta)
+- **invariants**(name, spec_ref, assertions, golden_artifacts)
+
+### Delegation: System Prompt for Claude Code Web
+> **Role**: LUKHΛS Test Surgeon
+>
+> **Objective**: Produce a **minimal, safe patch** that makes the failing test pass **without** reducing coverage or weakening assertions.
+>
+> **Constraints**:
+> - Prefer fixing tests unless product spec or invariant proves a real bug.
+> - Do **not** widen `try/except`, delete tests, or lower global timeouts.
+> - Only touch files outside the **Protected List** below.
+> - All fixes must include a **repro test first**, then the code change.
+> - Provide a PR body with: Root Cause, Risk Surface, Safe Change, Alternatives, Rollback Plan.
+>
+> **Protected List**: `serve/identity_api.py`, `serve/middleware/strict_auth.py`, `lukhas/identity/*`, `lukhas/features/flags_service.py`, `core/security/*`.
+>
+> **Required Checks (pre‑PR)**:
+> - `pytest -q --maxfail=1 --disable-warnings -ra`
+> - `pytest -q tests/<affected> --seed=1337`
+> - Coverage for changed files **not lower** than baseline
+> - `mutmut run --paths-to-mutate <changed-module>` (no drop in mutation score)
+> - `ruff check` & `mypy` clean for changed files
+
+### PR Template: Self‑Healing Patch
+```markdown
+title: fix(<module>): minimal repair for <signature_id>
+
+## Root Cause
+<one paragraph> (link to signature hash)
+
+## Safe Change
+- Minimal diff summary
+- Why it cannot mask errors
+
+## Tests
+- New/adjusted test: <path>
+- Repro steps: `pytest <::node> -q`
+- Coverage delta: +X%
+- Mutation delta: +Y
+
+## Risk & Rollback
+- Risk surface: <files, behaviors>
+- Canary: <job link>
+- Rollback: `git revert <sha>` (no data migrations)
+```
+
+### Human Safeguards & Limitations (must‑have)
+1. **Two‑key rule** for protected modules: maintainer + steward approval.
+2. **Patch size limit** (e.g., ≤ 40 LOC; ≤ 2 files) for auto‑merge eligibility.
+3. **Spec/Invariant alignment**: if invariant missing, block auto‑merge and request spec.
+4. **Canary suite**: run smoke + top 200 critical paths before merge.
+5. **Rollback automation**: one‑click revert if post‑merge failures > threshold.
+6. **Rate limits**: ≤ 5 auto‑PRs/day; exponential backoff on repeated failures.
+7. **Security scans**: secret detection, SAST on diffs, dependency diff review.
+8. **Determinism budget**: freeze time, seeds, and network; forbid wall‑clock sleeps.
+9. **Flake quarantine**: auto‑detect & quarantine flaky tests; forbid `@pytest.mark.skip` without owner sign‑off.
+10. **Protected APIs**: no behavioral change in public endpoints without ADR.
+
+### What else can this feature do?
+- **Test‑gap discovery**: map failing signatures to **uncovered** critical code; auto‑open “add tests” PRs.
+- **Spec drift detector**: diff OpenAPI/JSONSchema vs. route handlers; open PRs when responses drift.
+- **Dependency flake radar**: correlate failures with version deltas; propose pin/constraints PRs.
+- **Auto‑minimized repro**: generate a tiny repro script for each failure for local debugging.
+- **Education loop**: publish weekly “Failure Field Notes” summarizing new patterns & fixes.
+- **Risk‑based order**: re‑prioritize queues by user impact + blast radius.
+
+### KPIs to track
+- **MTTR** for failing signatures; **escape rate** (post‑merge incidents);
+- **Coverage & mutation deltas** per PR; **flake rate** trend;
+- **Auto‑PR acceptance** vs. rollback rate.
+
+### Make it real (commands & config)
+- Generate JUnit XML: `pytest -q --junitxml=reports/junit.xml`
+- Coverage baseline: `pytest --cov=. --cov-report=xml:reports/coverage.xml`
+- Normalize:
+
+  ```python
+  # tools/normalize_junit.py (sketch)
+  import xml.etree.ElementTree as ET, json
+  def normalize(path):
+    root = ET.parse(path).getroot()
+    for tc in root.iter('testcase'):
+      fail = next(iter(tc.iter('failure')), None)
+      if not fail:
+        continue
+      yield {
+        "test_id": f"{tc.get('classname')}::{tc.get('name')}",
+        "error_class": fail.get('type') or 'Failure',
+        "message": (fail.get('message') or '')[:512],
+      }
+  print('\n'.join(json.dumps(e) for e in normalize('reports/junit.xml')))
+  ```
+
+- Protected files (example):
+  ```yaml
+  # .lukhas/protected-files.yml
+  - serve/identity_api.py
+  - serve/middleware/strict_auth.py
+  - lukhas/identity/**
+  - core/security/**
+  ```
 
 ---
 
