@@ -68,3 +68,4 @@ lz4
 pytest-benchmark
 psutil
 numpy
+async-lru
