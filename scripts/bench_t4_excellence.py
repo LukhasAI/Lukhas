@@ -27,14 +27,14 @@ from typing import Any, Dict
 
 import psutil
 from bench_core import (
-
-# Module-level logger
-logger = logging.getLogger(__name__)
     PerformanceBenchmark,  # - requires sys.path manipulation before import
 )
 from preflight_check import (
     PreflightValidator,  # - requires sys.path manipulation before import
 )
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 # Suppress verbose logging
 logging.getLogger().setLevel(logging.CRITICAL)
