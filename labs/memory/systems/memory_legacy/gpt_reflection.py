@@ -44,52 +44,53 @@ try:
     from openai import APIError, OpenAI
     OPENAI_AVAILABLE = True
 except ImportError:
-   log_init_fallback.warning(
+   logger.warning(
        "OpenAI library not found. `generate_gpt_reflection` will use placeholder.",
        component="GPTReflection")
    OPENAI_AVAILABLE = False
    # Define placeholder classes to mimic openai library structure if not available
+   from dataclasses import field
 
    @dataclass
    class _MockChoiceContent:
-        content: str = "Placeholder GPT reflection: System is processing symbols effectively."
+       content: str = "Placeholder GPT reflection: System is processing symbols effectively."
 
-    @dataclass
-    class _MockMessage:
-        message: _MockChoiceContent = field(default_factory=_MockChoiceContent)
+   @dataclass
+   class _MockMessage:
+       message: _MockChoiceContent = field(default_factory=_MockChoiceContent)
 
-    @dataclass
-    class _MockResponse:
-        choices: List[_MockMessage] = field(default_factory=lambda: [_MockMessage()])
-        model: str = "placeholder_model"
+   @dataclass
+   class _MockResponse:
+       choices: List[_MockMessage] = field(default_factory=lambda: [_MockMessage()])
+       model: str = "placeholder_model"
 
-    class _MockChatCompletions:
-        def create(self, **kwargs: Any) -> _MockResponse:
-            log_placeholder.info(
-                "Placeholder: client.chat.completions.create invoked.",
-                model_requested=kwargs.get("model"))
-            return _MockResponse(model=kwargs.get("model", "placeholder_model"))
+   class _MockChatCompletions:
+       def create(self, **kwargs: Any) -> _MockResponse:
+           logger.info(
+               "Placeholder: client.chat.completions.create invoked.",
+               model_requested=kwargs.get("model"))
+           return _MockResponse(model=kwargs.get("model", "placeholder_model"))
 
-    class OpenAI:  # type: ignore:
-        chat: Any  # To hold an instance of _MockChat
+   class OpenAI:  # type: ignore:
+       chat: Any  # To hold an instance of _MockChat
 
-        def __init__(self, api_key: Optional[str]):
-            if not OPENAI_AVAILABLE and not api_key:  # Only log if truly using placeholder due to missing lib:
-                _log_placeholder_init.debug(
-                    "OpenAI placeholder client initialized (no API key needed/checked for placeholder).")
-            self.chat = type(
-                '_MockChat', (), {
-                    'completions': _MockChatCompletions()})()  # Assign instance
+       def __init__(self, api_key: Optional[str]):
+           if not OPENAI_AVAILABLE and not api_key:  # Only log if truly using placeholder due to missing lib:
+                logger.debug(
+                   "OpenAI placeholder client initialized (no API key needed/checked for placeholder).")
+           self.chat = type(
+               '_MockChat', (), {
+                   'completions': _MockChatCompletions()})()  # Assign instance
 
-    class APIError(LukhasError):
-        pass  # type: ignore
+   class APIError(LukhasError):
+       pass  # type: ignore
 
 
 OPENAI_API_KEY_ENV_VAR_NAME = "OPENAI_API_KEY_LUKHAS"
 OPENAI_API_KEY_VALUE = os.getenv(OPENAI_API_KEY_ENV_VAR_NAME)
 
 if not OPENAI_API_KEY_VALUE and OPENAI_AVAILABLE:  # Only warn if real library is there but key is missing:
-    log.warning(
+    logger.warning(
         f"{OPENAI_API_KEY_ENV_VAR_NAME} environment variable not set. Real OpenAI calls will fail.",
         component="GPTReflection")
 
@@ -98,24 +99,24 @@ lukhas_openai_client: Optional[OpenAI] = None  # type: ignore
 if OPENAI_AVAILABLE and OPENAI_API_KEY_VALUE:
     try:
         lukhas_openai_client = OpenAI(api_key=OPENAI_API_KEY_VALUE)
-        log.debug("Real OpenAI client initialized for GPT Reflection.")
+        logger.debug("Real OpenAI client initialized for GPT Reflection.")
     except Exception as e_client_init:
-        log.error(
+        logger.error(
     "Failed to initialize real OpenAI client.",
      error_details=str(e_client_init))
         lukhas_openai_client = None
 elif not OPENAI_AVAILABLE:  # Library missing, use placeholder:
     lukhas_openai_client = OpenAI(api_key="placeholder_key_not_used_by_mock")
-    log.debug("Using placeholder OpenAI client due to missing library.")
+    logger.debug("Using placeholder OpenAI client due to missing library.")
 else:  # Library present, key missing
-    log.warning(
+    logger.warning(
         "OpenAI library is available but API key is missing. GPT Reflection features requiring real OpenAI will be disabled.")
     lukhas_openai_client = None
 
 LUKHAS_GPT_REFLECTION_FUNCTION_TIER = 2
 
 
-def generate_gpt_reflection(:
+def generate_gpt_reflection(
     traits_summary: Optional[str] = None, recent_reflections: Optional[str] = None,
     model_to_use: str = "gpt-4-turbo-preview", max_tokens_for_response: int = 700,  # Increased tokens
     temperature_for_generation: float = 0.68  # Slightly adjusted temperature
@@ -125,9 +126,9 @@ def generate_gpt_reflection(:
     Returns: GPT-generated reflection string, or None on error/misconfiguration.
     """
     if lukhas_openai_client is None:
-        log.error("OpenAI client for LUKHAS is not available. Cannot generate GPT reflection.")
+        logger.error("OpenAI client for LUKHAS is not available. Cannot generate GPT reflection.")
         return None
-    log.debug(
+    logger.debug(
         "Generating GPT reflection.",
         model_name=model_to_use,
         temperature=temperature_for_generation,
@@ -151,7 +152,7 @@ def generate_gpt_reflection(:
         "role": "user", "content": final_user_prompt}]
 
     try:
-        log.info(
+        logger.info(
             "Sending self-reflection prompt to OpenAI API.",
             target_model=model_to_use,
             user_prompt_length=len(final_user_prompt))
@@ -162,7 +163,7 @@ def generate_gpt_reflection(:
             max_tokens=max_tokens_for_response)  # type: ignore
 
         generated_reflection = api_response.choices[0].message.content
-        log.info(
+        logger.info(
             "GPT self-reflection generated successfully.",
             model_used_by_api=api_response.model,
             output_text_length=len(
@@ -172,7 +173,7 @@ def generate_gpt_reflection(:
         # self-modification cycles.
         return generated_reflection.strip() if generated_reflection else None
     except APIError as e_openai_api:
-        log.error(
+        logger.error(
             "OpenAI API error during GPT reflection.",
             error_type=type(e_openai_api).__name__,
             status_code_if_any=e_openai_api.status_code if hasattr(
@@ -181,7 +182,7 @@ def generate_gpt_reflection(:
             message_detail=str(e_openai_api),
             exc_info=True)
     except Exception as e_general:
-        log.error(
+        logger.error(
             "Unexpected error during GPT reflection generation process.",
             error_msg=str(e_general),
             exc_info=True)
@@ -192,7 +193,7 @@ def generate_gpt_reflection(:
 # --- Example Usage (Commented Out & Standardized) ---
 def example_run_gpt_reflection_main():
     if not structlog.get_config(): structlog.configure(processors=[structlog.dev.ConsoleRenderer()]) # Basic setup for demo:
-    log.info("--- LUKHAS GPT Self-Reflection Example ---")
+    logger.info("--- LUKHAS GPT Self-Reflection Example ---")
     # For real OpenAI, ensure OPENAI_API_KEY_LUKHAS is set in environment.
 
     current_traits_example = ("- Symbolic Core Version: 4.0.1 (Quantum Entanglement Phase)\n"
@@ -209,9 +210,9 @@ def example_run_gpt_reflection_main():
     )
 
     if lukhas_reflection_output:
-        log.info("LUKHAS Generated Self-Reflection Output:", reflection_text_from_gpt=lukhas_reflection_output)
+        logger.info("LUKHAS Generated Self-Reflection Output:", reflection_text_from_gpt=lukhas_reflection_output)
     else:
-        log.error("LUKHAS self-reflection generation failed in example run.")
+        logger.error("LUKHAS self-reflection generation failed in example run.")
 
 if __name__ == "__main__":
     # To run this example:

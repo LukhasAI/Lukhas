@@ -1,11 +1,10 @@
 from __future__ import annotations
-
-log = logging.getLogger(__name__)
-import logging
-
+from candidate.core.common import get_logger
 import streamlit as st
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
+log = logger # alias for compatibility
+
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - MEMORIA INIT
@@ -22,11 +21,6 @@ logger = logging.getLogger(__name__)
 ║ Initialize memoria subsystem
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-
-# Module imports
-
-# Configure module logger
-logger = get_logger(__name__)
 
 # Module constants
 
