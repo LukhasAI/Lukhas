@@ -21,10 +21,11 @@ import logging
 import time
 from typing import Dict, List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 
 from lukhas.api import analytics
+from lukhas.api.auth_helpers import get_current_user, require_feature_access
 from lukhas.features.flags_service import (
     FeatureFlagsService,
     FlagEvaluationContext,
@@ -129,66 +130,12 @@ def get_feature_flags_service() -> FeatureFlagsService:
     return get_service()
 
 
-def get_current_user(request: Request) -> str:
-    """
-    Get current authenticated user.
-
-    In production, this would verify JWT tokens, API keys, etc.
-    For now, returns a placeholder user ID.
-
-    Args:
-        request: FastAPI request object
-
-    Returns:
-        User ID
-
-    Raises:
-        HTTPException: If authentication fails
-    """
-    # TODO: Implement actual authentication
-    # For now, check for API key in headers
-    api_key = request.headers.get("X-API-Key")
-    if not api_key:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Authentication required",
-        )
-
-    # Placeholder user ID based on API key
-    # In production, validate API key and return actual user ID
-    return f"user_{api_key[:8]}"
-
-
-def require_admin(user_id: str = Depends(get_current_user)) -> str:
-    """
-    Require admin role for endpoint.
-
-    Args:
-        user_id: Current user ID
-
-    Returns:
-        User ID
-
-    Raises:
-        HTTPException: If user is not admin
-    """
-    # TODO: Implement actual role checking
-    # For now, check if user_id starts with "admin_"
-    if not user_id.startswith("admin_"):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Admin access required",
-        )
-
-    return user_id
-
-
 # API Endpoints
 
 
 @router.get("/", response_model=FlagListResponse)
 async def list_flags(
-    user_id: str = Depends(require_admin),
+    current_user: dict = Depends(require_feature_access("admin_feature")),
     service: FeatureFlagsService = Depends(get_feature_flags_service),
 ) -> FlagListResponse:
     """
@@ -226,7 +173,7 @@ async def list_flags(
 @router.get("/{flag_name}", response_model=FlagInfo)
 async def get_flag(
     flag_name: str,
-    user_id: str = Depends(get_current_user),
+    current_user: dict = Depends(get_current_user),
     service: FeatureFlagsService = Depends(get_feature_flags_service),
 ) -> FlagInfo:
     """
@@ -270,7 +217,7 @@ async def get_flag(
 async def evaluate_flag(
     flag_name: str,
     request_data: FlagEvaluationRequest,
-    user_id: str = Depends(get_current_user),
+    current_user: dict = Depends(get_current_user),
     service: FeatureFlagsService = Depends(get_feature_flags_service),
 ) -> FlagEvaluationResponse:
     """
@@ -284,7 +231,7 @@ async def evaluate_flag(
         Flag evaluation result
     """
     # Check rate limit
-    if not check_rate_limit(user_id):
+    if not check_rate_limit(current_user["username"]):
         raise HTTPException(
             status_code=status.HTTP_429_TOO_MANY_REQUESTS,
             detail="Rate limit exceeded (100 requests/min)",
@@ -318,7 +265,7 @@ async def evaluate_flag(
         # Track analytics event
         analytics.track_feature_evaluation(
             flag_name=flag_name,
-            user_id=user_id,
+            user_id=current_user["username"],
             enabled=enabled,
             context=context,
         )
@@ -343,7 +290,7 @@ async def evaluate_flag(
 async def update_flag(
     flag_name: str,
     update_data: FlagUpdateRequest,
-    user_id: str = Depends(require_admin),
+    current_user: dict = Depends(require_feature_access("admin_feature")),
     service: FeatureFlagsService = Depends(get_feature_flags_service),
 ) -> FlagInfo:
     """
@@ -379,15 +326,15 @@ async def update_flag(
 
         # Audit log
         logger.info(
-            f"Flag updated by {user_id}: {flag_name} "
+            f"Flag updated by {current_user['username']}: {flag_name} "
             f"(enabled={flag.enabled}, percentage={flag.percentage})"
         )
 
         # Track analytics event
         analytics.track_feature_update(
             flag_name=flag_name,
-            admin_id=user_id,
-            changes=update_data.dict(exclude_unset=True),
+            admin_id=current_user["username"],
+            changes=update_data.model_dump(exclude_unset=True),
         )
 
         return FlagInfo(
@@ -413,7 +360,7 @@ async def update_flag(
 @router.post("/{flag_name}/reload")
 async def reload_flag(
     flag_name: str,
-    user_id: str = Depends(require_admin),
+    current_user: dict = Depends(require_feature_access("admin_feature")),
     service: FeatureFlagsService = Depends(get_feature_flags_service),
 ) -> Dict[str, str]:
     """
@@ -436,7 +383,7 @@ async def reload_flag(
                 detail=f"Flag not found after reload: {flag_name}",
             )
 
-        logger.info(f"Flag reloaded by {user_id}: {flag_name}")
+        logger.info(f"Flag reloaded by {current_user['username']}: {flag_name}")
 
         return {"message": f"Flag reloaded successfully: {flag_name}"}
 
