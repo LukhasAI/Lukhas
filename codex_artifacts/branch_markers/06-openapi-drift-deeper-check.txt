@@ -1,0 +1,3 @@
+Codex scaffold marker for OpenAPI drift deeper check
+Branch: codex/openapi-drift-deeper-check
+Request: codex_artifacts/requests/06-openapi-drift-deeper-check.md
