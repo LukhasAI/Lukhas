@@ -1,0 +1,3 @@
+Codex scaffold marker for OPA policy + CI integration
+Branch: codex/opa-policy-ci-integration
+Request: codex_artifacts/requests/04-opa-policy-ci-integration.md
