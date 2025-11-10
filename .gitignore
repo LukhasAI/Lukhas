@@ -379,3 +379,8 @@ lukhas_website_with_carousel_and_palette/
 artifacts/reports/
 artifacts/manual-ci/
 release_artifacts/repo_audit_v2/security/bandit.json
+
+# SSL certificates
+ssl/*.crt
+ssl/*.key
+ssl/*.pem
