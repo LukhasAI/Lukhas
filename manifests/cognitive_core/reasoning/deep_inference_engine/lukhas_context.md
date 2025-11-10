@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.cognitive_core.reasoning.deep_inference_engine
 
 **Star**: Supporting

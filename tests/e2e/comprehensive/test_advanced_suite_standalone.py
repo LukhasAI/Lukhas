@@ -11,7 +11,7 @@ import statistics
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Tuple
 
 print("🧬 MΛTRIZ Advanced Testing Suite - Standalone Validation")
 print("=" * 60)
@@ -31,7 +31,7 @@ class PerformanceMetric:
     unit: str
     timestamp: datetime
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> Dict[str, Any]:
         return {"name": self.name, "value": self.value, "unit": self.unit, "timestamp": self.timestamp.isoformat()}
 
 
@@ -39,7 +39,7 @@ class PerformanceTracker:
     """Tracks consciousness performance over time"""
 
     def __init__(self):
-        self.metrics: list[PerformanceMetric] = []
+        self.metrics: List[PerformanceMetric] = []
 
     def record_metric(self, name: str, value: float, unit: str):
         """Record a performance metric"""
@@ -47,7 +47,7 @@ class PerformanceTracker:
         self.metrics.append(metric)
         return metric
 
-    def detect_regression(self, name: str, current_value: float) -> tuple[bool, str]:
+    def detect_regression(self, name: str, current_value: float) -> Tuple[bool, str]:
         """Detect performance regression"""
         recent = [m for m in self.metrics if m.name == name][-10:]  # Last 10
 
@@ -111,13 +111,13 @@ class ConsciousnessFunctionSamples:
     """Sample consciousness functions for testing"""
 
     @staticmethod
-    def check_temporal_coherence(state: dict[str, float]) -> bool:
+    def check_temporal_coherence(state: Dict[str, float]) -> bool:
         """Check temporal coherence >= 95% threshold"""
         coherence = state.get("temporal_coherence", 0.0)
         return coherence >= 0.95  # Critical consciousness threshold
 
     @staticmethod
-    def validate_ethics(action: dict[str, Any]) -> bool:
+    def validate_ethics(action: Dict[str, Any]) -> bool:
         """Validate ethical alignment >= 98% for high-impact actions"""
         alignment = action.get("ethical_alignment", 0.0)
         impact = action.get("impact_score", 0.0)
@@ -139,7 +139,7 @@ class MutationTester:
             Mutation("and", "or", 1, "Boolean logic flipped"),
         ]
 
-    def test_function_with_mutations(self, func, test_cases: list[tuple]) -> dict[str, Any]:
+    def test_function_with_mutations(self, func, test_cases: List[tuple]) -> Dict[str, Any]:
         """Test function against mutations to validate test quality"""
         results = {"mutations_tested": 0, "mutations_killed": 0, "details": []}
 
@@ -160,7 +160,7 @@ class MutationTester:
 
         return results
 
-    def _simulate_mutation_test(self, func, mutation: Mutation, test_cases: list[tuple]) -> bool:
+    def _simulate_mutation_test(self, func, mutation: Mutation, test_cases: List[tuple]) -> bool:
         """Simulate testing a mutated function"""
         # For demo purposes, assume some mutations are caught by tests
         mutation_detection_rate = {
@@ -238,7 +238,7 @@ class ChaosEngineer:
                 print(f"🔧 Recovering from {failure_type}")
 
 
-def simulate_consciousness_system(chaos_active: bool = False) -> dict[str, float]:
+def simulate_consciousness_system(chaos_active: bool = False) -> Dict[str, float]:
     """Simulate consciousness system under normal or chaotic conditions"""
     base_coherence = 0.98
     base_ethics = 0.97
@@ -293,7 +293,7 @@ def test_chaos_engineering():
 # ============================================================================
 
 
-def consciousness_awareness_scaling(base_state: dict[str, float], scale_factor: float) -> dict[str, float]:
+def consciousness_awareness_scaling(base_state: Dict[str, float], scale_factor: float) -> Dict[str, float]:
     """Scale consciousness awareness while preserving coherence ratios"""
     scaled_state = base_state.copy()
     scaled_state["awareness"] = min(1.0, base_state.get("awareness", 0.5) * scale_factor)
@@ -354,7 +354,7 @@ def test_metamorphic_relationships():
 # ============================================================================
 
 
-def generate_consciousness_states(count: int = 100) -> list[dict[str, float]]:
+def generate_consciousness_states(count: int = 100) -> List[Dict[str, float]]:
     """Generate diverse consciousness states for testing"""
     states = []
     for _ in range(count):
@@ -368,7 +368,7 @@ def generate_consciousness_states(count: int = 100) -> list[dict[str, float]]:
     return states
 
 
-def check_consciousness_invariants(state: dict[str, float]) -> tuple[bool, str]:
+def check_consciousness_invariants(state: Dict[str, float]) -> Tuple[bool, str]:
     """Check consciousness invariants that must ALWAYS hold"""
     temporal_coherence = state.get("temporal_coherence", 0.0)
     ethical_alignment = state.get("ethical_alignment", 0.0)

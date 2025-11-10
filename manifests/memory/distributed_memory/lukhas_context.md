@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.memory.distributed_memory
 
 **Star**: ✦ Trail (Memory)

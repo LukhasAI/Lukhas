@@ -25,7 +25,7 @@ Architecture: Field-theoretic consciousness model with unified integration layer
 import asyncio
 import time
 import unittest
-from typing import Any
+from typing import Any, Dict
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -43,7 +43,7 @@ class MockUnifiedIntegration:
         """Register a component with the integration layer"""
         self.components[component_id] = handler
 
-    def send_message(self, component_id: str, content: dict[str, Any]) -> None:
+    def send_message(self, component_id: str, content: Dict[str, Any]) -> None:
         """Send a message through the integration layer"""
         self.messages.append({
             "component_id": component_id,

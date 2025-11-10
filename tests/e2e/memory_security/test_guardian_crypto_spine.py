@@ -18,7 +18,7 @@ This test suite ensures:
 
 import os
 import time
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 
 import pytest
 
@@ -56,7 +56,7 @@ class MockGuardianSignature:
         self.nonce = nonce
         self.metadata = metadata or {}
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> Dict[str, Any]:
         return {
             "operation_type": self.operation_type,
             "timestamp": self.timestamp,
@@ -75,7 +75,7 @@ class MockMemorySecurityContext:
         user_id: str,
         session_id: str,
         security_level: int,
-        permissions: list[str],
+        permissions: List[str],
         cfg_version: str = "guardian@1.0.0",
     ):
         self.user_id = user_id
@@ -84,7 +84,7 @@ class MockMemorySecurityContext:
         self.permissions = permissions
         self.cfg_version = cfg_version
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> Dict[str, Any]:
         return {
             "user_id": self.user_id,
             "session_id": self.session_id,
@@ -108,7 +108,7 @@ class MockGuardianCryptoSpine:
         operation_type: str,
         memory_data: Any,
         security_context: MockMemorySecurityContext,
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: Optional[Dict[str, Any]] = None,
     ) -> MockGuardianSignature:
         """Mock signature creation"""
         timestamp = time.time()
@@ -156,7 +156,7 @@ class MockGuardianCryptoSpine:
         # Check timestamp (not older than 1 hour for test)
         return not time.time() - signature.timestamp > 3600
 
-    def get_audit_log(self) -> list[dict[str, Any]]:
+    def get_audit_log(self) -> List[Dict[str, Any]]:
         """Get audit log entries"""
         return self.audit_log.copy()
 
@@ -169,7 +169,7 @@ class MemorySecurityValidator:
         self.security_violations = []
         self.compliance_score = 1.0
 
-    async def validate_memory_store(self, user_id: str, memory_data: dict[str, Any]) -> dict[str, Any]:
+    async def validate_memory_store(self, user_id: str, memory_data: Dict[str, Any]) -> Dict[str, Any]:
         """Validate secure memory storage operation"""
 
         security_context = MockMemorySecurityContext(
@@ -204,7 +204,7 @@ class MemorySecurityValidator:
 
         return validation_result
 
-    async def validate_memory_retrieve(self, user_id: str, memory_key: str) -> dict[str, Any]:
+    async def validate_memory_retrieve(self, user_id: str, memory_key: str) -> Dict[str, Any]:
         """Validate secure memory retrieval operation"""
 
         security_context = MockMemorySecurityContext(
@@ -232,7 +232,7 @@ class MemorySecurityValidator:
             "compliance_status": "COMPLIANT" if verification_result else "VIOLATION",
         }
 
-    async def validate_fold_operations(self, user_id: str, fold_data: dict[str, Any]) -> dict[str, Any]:
+    async def validate_fold_operations(self, user_id: str, fold_data: Dict[str, Any]) -> Dict[str, Any]:
         """Validate Guardian crypto spine integration with memory fold operations"""
 
         security_context = MockMemorySecurityContext(
@@ -274,7 +274,7 @@ class MemorySecurityValidator:
             "compliance_status": "COMPLIANT" if (create_valid and access_valid) else "VIOLATION",
         }
 
-    async def validate_cascade_deletion(self, user_id: str, deletion_targets: list[str]) -> dict[str, Any]:
+    async def validate_cascade_deletion(self, user_id: str, deletion_targets: List[str]) -> Dict[str, Any]:
         """Validate secure cascade deletion with Guardian signatures"""
 
         security_context = MockMemorySecurityContext(
@@ -317,7 +317,7 @@ class MemorySecurityValidator:
             "compliance_status": "COMPLIANT" if all_deletions_secure else "VIOLATION",
         }
 
-    def get_compliance_report(self) -> dict[str, Any]:
+    def get_compliance_report(self) -> Dict[str, Any]:
         """Generate Guardian compliance report for memory operations"""
 
         audit_log = self.crypto_spine.get_audit_log()

@@ -1,33 +1,54 @@
 #!/bin/bash
-set -eo pipefail
+# Reproduce CI environment locally for SLSA compliance
+set -euo pipefail
 
-# This script builds a container image and runs the build process inside it.
-# This allows for a reproducible build environment that matches CI.
+echo "🐳 Running LUKHAS build in containerized environment..."
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-PROJECT_ROOT=$( cd -- "${SCRIPT_DIR}/.." &> /dev/null && pwd )
-DOCKERFILE_PATH="${PROJECT_ROOT}/.github/docker/Dockerfile"
-IMAGE_NAME="lukhas-build-hermetic:latest"
-CONTAINER_NAME="lukhas-temp-builder"
+# Build image
+docker build -t lukhas-reproducible:latest \
+  --build-arg PYTHON_VERSION=3.11 \
+  .
 
-echo "Building container image with current source code..."
-# We build the image from the project root context
-docker build -t "${IMAGE_NAME}" -f "${DOCKERFILE_PATH}" "${PROJECT_ROOT}"
+echo "✅ Image built successfully"
 
-echo "Running build and extracting artifacts..."
-# Ensure the dist directory is clean before we copy new artifacts
-rm -rf "${PROJECT_ROOT}/dist"
+# Run tests
+echo "🧪 Running tests..."
+docker run --rm \
+  -v "$(pwd):/workspace" \
+  -w /workspace \
+  lukhas-reproducible:latest \
+  bash -c "
+    pip install --upgrade pip
+    pip install -r requirements.txt -r requirements-test.txt
+    pytest -q --junitxml=reports/junit.xml --cov=. --cov-report=xml
+  "
 
-# Run the build in a new container. The container will stop after the build command completes.
-# We remove any previous container with the same name to ensure a clean run.
-docker rm -f "${CONTAINER_NAME}" &>/dev/null || true
-docker run --name "${CONTAINER_NAME}" "${IMAGE_NAME}"
+echo "✅ Tests passed"
 
-# Copy the build artifacts from the stopped container to the host's dist/ directory
-docker cp "${CONTAINER_NAME}:/home/builder/dist" "${PROJECT_ROOT}/"
+# Build wheel
+echo "📦 Building distribution..."
+docker run --rm \
+  -v "$(pwd):/workspace" \
+  -w /workspace \
+  lukhas-reproducible:latest \
+  bash -c "
+    pip install build wheel
+    python -m build --wheel
+  "
 
-# Clean up the container
-docker rm -v "${CONTAINER_NAME}"
+echo "✅ Build complete"
 
-echo "Build complete. Artifacts are in the '${PROJECT_ROOT}/dist' directory."
-ls -l "${PROJECT_ROOT}/dist"
+# Generate checksums
+echo "🔒 Generating checksums..."
+sha256sum dist/*.whl > dist/SHA256SUMS
+
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "✅ Reproducible build completed successfully"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "Artifacts:"
+ls -lh dist/
+echo ""
+echo "Checksums:"
+cat dist/SHA256SUMS

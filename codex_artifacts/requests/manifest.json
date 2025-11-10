@@ -1,0 +1,62 @@
+[
+  {
+    "number": 1,
+    "title": "Make labot PRs draft by default",
+    "slug": "01-make-labot-prs-draft-by-default",
+    "request_file": "codex_artifacts/requests/01-make-labot-prs-draft-by-default.md",
+    "branch": "codex/make-labot-prs-draft-by-default",
+    "labels": [
+      "codex:review"
+    ]
+  },
+  {
+    "number": 2,
+    "title": "Guard_patch enhancements",
+    "slug": "02-guard-patch-enhancements",
+    "request_file": "codex_artifacts/requests/02-guard-patch-enhancements.md",
+    "branch": "codex/guard-patch-enhancements",
+    "labels": [
+      "codex:review"
+    ]
+  },
+  {
+    "number": 3,
+    "title": "Split import script & safe reimport",
+    "slug": "03-split-import-script-safe-reimport",
+    "request_file": "codex_artifacts/requests/03-split-import-script-safe-reimport.md",
+    "branch": "codex/split-import-script-safe-reimport",
+    "labels": [
+      "codex:review"
+    ]
+  },
+  {
+    "number": 4,
+    "title": "OPA policy + CI integration",
+    "slug": "04-opa-policy-ci-integration",
+    "request_file": "codex_artifacts/requests/04-opa-policy-ci-integration.md",
+    "branch": "codex/opa-policy-ci-integration",
+    "labels": [
+      "codex:review"
+    ]
+  },
+  {
+    "number": 5,
+    "title": "DAST / EQNOX wiring tasks",
+    "slug": "05-dast-eqnox-wiring-tasks",
+    "request_file": "codex_artifacts/requests/05-dast-eqnox-wiring-tasks.md",
+    "branch": "codex/dast-eqnox-wiring-tasks",
+    "labels": [
+      "codex:review"
+    ]
+  },
+  {
+    "number": 6,
+    "title": "OpenAPI drift deeper check",
+    "slug": "06-openapi-drift-deeper-check",
+    "request_file": "codex_artifacts/requests/06-openapi-drift-deeper-check.md",
+    "branch": "codex/openapi-drift-deeper-check",
+    "labels": [
+      "codex:review"
+    ]
+  }
+]
