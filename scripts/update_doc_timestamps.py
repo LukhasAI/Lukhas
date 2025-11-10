@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 def update_timestamps(doc_dir: Path):
-    today = datetime.now().strftime("%Y-%m-%d")
+    datetime.now().strftime("%Y-%m-%d")
     pattern = re.compile(r"Last [Uu]pdated:?\s*\d{4}-\d{2}-\d{2}")
 
     for md_file in doc_dir.rglob("*.md"):

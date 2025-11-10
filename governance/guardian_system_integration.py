@@ -2,7 +2,10 @@
 import importlib as _importlib
 
 try:
-    from governance.guardian_system_integration import GuardianSystemIntegrator, integrate_guardian_system
+    from governance.guardian_system_integration import (
+        GuardianSystemIntegrator,
+        integrate_guardian_system,
+    )
     __all__ = ["GuardianSystemIntegrator", "integrate_guardian_system"]
 except ImportError:
     try:

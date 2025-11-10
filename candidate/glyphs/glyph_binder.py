@@ -3,10 +3,11 @@ Glyph Binder
 """
 import hashlib
 import time
-from typing import Dict, Any
+from typing import Any, Dict
 
 # Import the shared in-memory store from the retriever
 from .glyph_retriever import _bindings
+
 
 class GlyphBinder:
     async def bind(self, glyph_id: str, context: Dict[str, Any], user_id: str) -> Dict[str, Any]:

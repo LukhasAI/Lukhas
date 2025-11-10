@@ -65,7 +65,7 @@ async def get_session_activities(session_ids: list[str]):
                             else:
                                 print(f"     {message}")
                         else:
-                            print(f"     (No message text)")
+                            print("     (No message text)")
                     else:
                         print(f"  👤 USER [{activity_type}] ({created}):")
                         if message:

@@ -331,7 +331,7 @@ def generate_docs_report():
 
     # Catalog READMEs
     print("[5/7] Cataloging README files...")
-    readmes, readmes_by_dir = find_readme_files(all_docs)
+    readmes, _readmes_by_dir = find_readme_files(all_docs)
 
     # Categorize by purpose
     print("[6/7] Categorizing documentation...")

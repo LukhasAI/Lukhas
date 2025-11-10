@@ -24,7 +24,6 @@ from collections.abc import Sequence
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-import os
 
 
 def now_iso() -> str:

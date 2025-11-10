@@ -71,16 +71,15 @@ def mock_services():
 def app(mock_services):
     """Create test FastAPI app with mocked services"""
     # Import after mocks are set up
-    from serve.api.integrated_consciousness_api import app as fastapi_app
+    # Manually set global instances for testing
+    import serve.api.integrated_consciousness_api as api_module
     from serve.api.integrated_consciousness_api import (
+        app as fastapi_app,
         conversation_manager,
         dashboard,
         feedback_system,
         nl_interface,
     )
-
-    # Manually set global instances for testing
-    import serve.api.integrated_consciousness_api as api_module
     api_module.nl_interface = mock_services["nl_interface"]
     api_module.feedback_system = mock_services["feedback_system"]
     api_module.dashboard = mock_services["dashboard"]
@@ -282,7 +281,7 @@ class TestFeedbackEndpoint:
             ("quick", FeedbackType.QUICK),
         ]
 
-        for feedback_type_str, expected_enum in test_cases:
+        for feedback_type_str, _expected_enum in test_cases:
             feedback_data = {
                 "action_id": "action_123",
                 "user_id": "user_456",

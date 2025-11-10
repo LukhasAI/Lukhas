@@ -4,7 +4,6 @@ from unittest.mock import MagicMock, Mock, patch
 import pytest
 from fastapi import FastAPI, Request
 from fastapi.testclient import TestClient
-
 from serve.middleware.strict_auth import StrictAuthMiddleware
 
 

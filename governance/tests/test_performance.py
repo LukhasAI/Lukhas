@@ -1,4 +1,3 @@
-import pytest
 
 def test_ethics_import_performance(benchmark):
     """Benchmark the import time of the 'ethics' module."""

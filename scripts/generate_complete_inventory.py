@@ -11,15 +11,12 @@ Usage:
         --output docs/audits/COMPLETE_MODULE_INVENTORY.json \\
         --verbose
 """
-from typing import Any
-from typing import List
-
 import ast
 import json
 import os
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict
+from typing import Any, Dict, List
 
 
 class ModuleInventoryGenerator:

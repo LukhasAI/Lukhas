@@ -4,6 +4,7 @@ from unittest.mock import MagicMock, patch
 
 from memory.indexer import Embeddings, Indexer
 
+
 class TestEmbeddings(unittest.TestCase):
 
     def test_initialization_with_default_provider(self):

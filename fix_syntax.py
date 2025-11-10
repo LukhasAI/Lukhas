@@ -1,5 +1,5 @@
 # Read and fix the malformed import section
-with open('scripts/bench_t4_excellence.py', 'r') as f:
+with open('scripts/bench_t4_excellence.py') as f:
     content = f.read()
 
 # Replace the broken section

@@ -11,8 +11,9 @@ Benchmarks for dreams, glyphs, and drift APIs to ensure performance targets:
 Run with: pytest tests/performance/test_core_wiring_benchmarks.py -v --benchmark-only
 """
 import time
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
 
 # Skip if pytest-benchmark not available
 pytest_benchmark = pytest.importorskip("pytest_benchmark")
@@ -135,7 +136,7 @@ class TestGlyphsPerformance:
             "emotion": {"joy": 0.5, "calm": 0.6}
         }
 
-        is_valid, error = benchmark(
+        is_valid, _error = benchmark(
             validate_glyph,
             glyph_data
         )
@@ -191,7 +192,7 @@ class TestDriftPerformance:
         monitor = drift_available(lane="prod")
 
         # Pre-populate with some history
-        for i in range(50):
+        for _i in range(50):
             monitor.update([1.0, 0.0], [0.9, 0.1])
 
         # Benchmark the update with history
@@ -248,7 +249,7 @@ class TestMemoryAndResourceUsage:
         monitor = DriftMonitor(lane="experimental")
 
         # Add many updates
-        for i in range(1000):
+        for _i in range(1000):
             monitor.update([1.0, 0.0], [0.9, 0.1])
 
         # Window should be bounded to 64 (from config)

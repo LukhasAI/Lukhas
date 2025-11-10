@@ -9,7 +9,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from bridge.llm_wrappers.jules_wrapper import JulesClient
 
-
 # Standard LUKHAS import guidance
 LUKHAS_IMPORT_GUIDANCE = """
 **LUKHAS Import System Guidance**
@@ -204,8 +203,8 @@ async def batch_respond():
             print(f"URL: https://jules.google.com/session/{session_id}")
 
             try:
-                result = await jules.send_message(f"sessions/{session_id}", message)
-                print(f"  ✅ Message sent successfully!")
+                await jules.send_message(f"sessions/{session_id}", message)
+                print("  ✅ Message sent successfully!")
             except Exception as e:
                 print(f"  ❌ Error: {e}")
 

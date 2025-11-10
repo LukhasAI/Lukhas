@@ -15,7 +15,7 @@ from labs.tools.performance_monitor import (
 # Export main classes for backward compatibility
 __all__ = [
     "PerformanceAlert",
-    "PerformanceAnalyzer", 
+    "PerformanceAnalyzer",
     "PerformanceCollector",
     "PerformanceMetric",
     "PerformanceMonitor",

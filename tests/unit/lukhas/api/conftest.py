@@ -1,11 +1,13 @@
 """Pytest fixtures for API tests."""
+from unittest.mock import MagicMock, patch
+
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-from unittest.mock import MagicMock, patch
 
 from lukhas.api.features import router as features_router
-from lukhas.features.flags_service import FeatureFlagsService, FeatureFlag, FlagType
+from lukhas.features.flags_service import FeatureFlag, FeatureFlagsService, FlagType
+
 
 @pytest.fixture(scope="module")
 def mock_flags():

@@ -839,7 +839,4 @@ class VIVOXSelfReflectiveMemory:
             return False
 
         # Time filter
-        if (time_range and hasattr(entry, 'timestamp')) and (entry.timestamp < time_range[0] or entry.timestamp > time_range[1]):
-            return False
-
-        return True
+        return not ((time_range and hasattr(entry, 'timestamp')) and (entry.timestamp < time_range[0] or entry.timestamp > time_range[1]))

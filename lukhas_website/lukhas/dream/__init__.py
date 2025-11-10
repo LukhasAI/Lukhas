@@ -128,9 +128,9 @@ __framework__ = "Constellation Framework - Flow Star (🌊)"
 __all__ = [
     "DREAMS_ENABLED",
     "PARALLEL_DREAMS_ENABLED",
+    "__framework__",
+    "__version__",
     "get_dream_engine",
     "get_parallel_dreams",
     "parallel_dreams",
-    "__version__",
-    "__framework__",
 ]

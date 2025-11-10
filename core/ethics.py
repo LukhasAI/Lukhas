@@ -9,9 +9,13 @@ import importlib
 from typing import Any
 
 try:  # pragma: no cover
-    from core.ethics import EthicsEngine, EthicalValidator, validate_ethical_compliance  # type: ignore
+    from core.ethics import (  # type: ignore
+        EthicalValidator,
+        EthicsEngine,
+        validate_ethical_compliance,
+    )
     _HAS_PRIMARY = True
-    __all__ = ["EthicsEngine", "EthicalValidator", "validate_ethical_compliance"]
+    __all__ = ["EthicalValidator", "EthicsEngine", "validate_ethical_compliance"]
 except Exception:  # pragma: no cover
     _HAS_PRIMARY = False
     __all__ = []

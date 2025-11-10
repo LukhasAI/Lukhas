@@ -110,7 +110,7 @@ class QIEnvironment:
         if not self.noise_model:
             self.noise_model = {
                 QuantumNoiseType.DECOHERENCE: 0.01,  # T4: code=F821 | ticket=GH-1234 | owner=qi-team | status=planned
-                QuantumNoiseType.DEPHASING: 0.005,  # T4: code=F821 | ticket=GH-1234 | owner=qi-team | status=planned  
+                QuantumNoiseType.DEPHASING: 0.005,  # T4: code=F821 | ticket=GH-1234 | owner=qi-team | status=planned
                 QuantumNoiseType.DEPOLARIZING: 0.001,  # T4: code=F821 | ticket=GH-1234 | owner=qi-team | status=planned
                 # reason: Async import - QuantumNoiseType enum constants under development in quantum-inspiration-wave
                 # estimate: 2h | priority: high | dependencies: quantum-inspiration-wave
@@ -234,7 +234,7 @@ class QISubstrate:
                 noisy_state[0] += np.sqrt(1 - decay**2) * np.linalg.norm(state.state_vector)
 
             elif noise_type == QuantumNoiseType.DEPHASING:  # T4: code=F821 | ticket=GH-1234 | owner=qi-team | status=planned
-                # reason: Async import - QuantumNoiseType.DEPHASING under development in quantum-inspiration-wave  
+                # reason: Async import - QuantumNoiseType.DEPHASING under development in quantum-inspiration-wave
                 # estimate: 2h | priority: high | dependencies: quantum-inspiration-wave
                 # Random phase errors
                 phases = np.exp(1j * np.random.normal(0, strength * time_evolution, len(noisy_state)))

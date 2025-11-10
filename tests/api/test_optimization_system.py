@@ -9,8 +9,8 @@ import statistics
 """
 
 import asyncio
-import statistics
 import json
+import statistics
 import tempfile
 import time
 from datetime import datetime, timedelta

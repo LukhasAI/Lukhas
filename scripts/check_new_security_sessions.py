@@ -9,7 +9,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from bridge.llm_wrappers.jules_wrapper import JulesClient
 
-
 NEW_SESSION_IDS = [
     "9341665105078240778",  # Category 1: StrictAuthMiddleware
     "4881210246989891433",  # Category 2: serve/routes.py security
@@ -41,13 +40,13 @@ async def check_sessions():
 
                 # If waiting for approval, print that
                 if state == "WAITING_FOR_USER":
-                    print(f"  ⏳ WAITING FOR APPROVAL - Ready to approve plan")
+                    print("  ⏳ WAITING FOR APPROVAL - Ready to approve plan")
                 elif state == "PLANNING":
-                    print(f"  🔄 PLANNING - Jules is working on the plan")
+                    print("  🔄 PLANNING - Jules is working on the plan")
                 elif state == "IN_PROGRESS":
-                    print(f"  ⚙️ IN_PROGRESS - Jules is implementing")
+                    print("  ⚙️ IN_PROGRESS - Jules is implementing")
                 elif state == "COMPLETED":
-                    print(f"  ✅ COMPLETED")
+                    print("  ✅ COMPLETED")
 
                 print()
 

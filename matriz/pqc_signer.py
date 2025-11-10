@@ -1,5 +1,6 @@
 from oqs import Signature
 
+
 class PQCCheckpointSigner:
     def __init__(self):
         self.sig = Signature('Dilithium2')

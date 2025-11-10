@@ -183,9 +183,8 @@ class FlagMigrator:
             if "disable_after" in flag_config:
                 new_flag["disable_after"] = flag_config["disable_after"]
 
-        elif flag_type == "environment":
-            if "allowed_environments" in flag_config:
-                new_flag["allowed_environments"] = flag_config["allowed_environments"]
+        elif flag_type == "environment" and "allowed_environments" in flag_config:
+            new_flag["allowed_environments"] = flag_config["allowed_environments"]
 
         return new_flag
 

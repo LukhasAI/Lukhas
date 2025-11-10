@@ -6,7 +6,6 @@ Runs: autoflake → isort → black → ruff --fix
 Small batches with test verification between changes.
 '''
 
-import os
 import subprocess
 from pathlib import Path
 

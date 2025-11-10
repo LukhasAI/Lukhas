@@ -228,9 +228,9 @@ def test_module_imports_correct_opentelemetry_components(tracing_module):
 
 def test_setup_tracing_signature():
     """Test setup_tracing has correct function signature."""
-    from serve.tracing import setup_tracing
-
     import inspect
+
+    from serve.tracing import setup_tracing
 
     sig = inspect.signature(setup_tracing)
     params = list(sig.parameters.keys())
@@ -308,45 +308,43 @@ def test_setup_tracing_uses_correct_service_name():
 def test_setup_tracing_uses_batch_span_processor():
     """Test setup_tracing uses BatchSpanProcessor (not SimpleSpanProcessor)."""
     # BatchSpanProcessor is required for production - it batches spans for efficiency
-    with mock.patch("serve.tracing.Resource"):
-        with mock.patch("serve.tracing.trace") as mock_trace:
-            with mock.patch("serve.tracing.TracerProvider"):
-                with mock.patch(
-                    "serve.tracing.BatchSpanProcessor"
-                ) as mock_batch_processor:
-                    with mock.patch("serve.tracing.OTLPSpanExporter"):
-                        with mock.patch("serve.tracing.FastAPIInstrumentor"):
-                            from serve.tracing import setup_tracing
+    with mock.patch("serve.tracing.Resource"), mock.patch("serve.tracing.trace") as mock_trace:
+        with mock.patch("serve.tracing.TracerProvider"):
+            with mock.patch(
+                "serve.tracing.BatchSpanProcessor"
+            ) as mock_batch_processor:
+                with mock.patch("serve.tracing.OTLPSpanExporter"):
+                    with mock.patch("serve.tracing.FastAPIInstrumentor"):
+                        from serve.tracing import setup_tracing
 
-                            mock_provider = mock.MagicMock()
-                            mock_trace.get_tracer_provider.return_value = mock_provider
-                            mock_app = mock.MagicMock()
+                        mock_provider = mock.MagicMock()
+                        mock_trace.get_tracer_provider.return_value = mock_provider
+                        mock_app = mock.MagicMock()
 
-                            setup_tracing(mock_app)
+                        setup_tracing(mock_app)
 
-                            # Verify BatchSpanProcessor was used
-                            mock_batch_processor.assert_called_once()
-                            mock_provider.add_span_processor.assert_called_once()
+                        # Verify BatchSpanProcessor was used
+                        mock_batch_processor.assert_called_once()
+                        mock_provider.add_span_processor.assert_called_once()
 
 
 def test_setup_tracing_uses_otlp_grpc_exporter():
     """Test setup_tracing uses OTLP gRPC exporter."""
     # OTLP gRPC is the standard protocol for telemetry data
-    with mock.patch("serve.tracing.Resource"):
-        with mock.patch("serve.tracing.trace"):
-            with mock.patch("serve.tracing.TracerProvider"):
-                with mock.patch("serve.tracing.BatchSpanProcessor"):
-                    with mock.patch(
-                        "serve.tracing.OTLPSpanExporter"
-                    ) as mock_otlp_exporter:
-                        with mock.patch("serve.tracing.FastAPIInstrumentor"):
-                            from serve.tracing import setup_tracing
+    with mock.patch("serve.tracing.Resource"), mock.patch("serve.tracing.trace"):
+        with mock.patch("serve.tracing.TracerProvider"):
+            with mock.patch("serve.tracing.BatchSpanProcessor"):
+                with mock.patch(
+                    "serve.tracing.OTLPSpanExporter"
+                ) as mock_otlp_exporter:
+                    with mock.patch("serve.tracing.FastAPIInstrumentor"):
+                        from serve.tracing import setup_tracing
 
-                            mock_app = mock.MagicMock()
-                            setup_tracing(mock_app)
+                        mock_app = mock.MagicMock()
+                        setup_tracing(mock_app)
 
-                            # Verify OTLPSpanExporter was created
-                            mock_otlp_exporter.assert_called_once_with()
+                        # Verify OTLPSpanExporter was created
+                        mock_otlp_exporter.assert_called_once_with()
 
 
 # ============================================================================

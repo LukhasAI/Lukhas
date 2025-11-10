@@ -1,9 +1,10 @@
 
-import unittest
 import json
-from unittest.mock import MagicMock, call
+import unittest
+from unittest.mock import MagicMock
 
 from memory.backends.pgvector_store import PgVectorStore, VectorDoc
+
 
 class TestPgVectorStore(unittest.TestCase):
 
@@ -44,7 +45,7 @@ class TestPgVectorStore(unittest.TestCase):
 
         self.assertEqual(result_ids, ["doc1", "doc2"])
         self.mock_cursor.execute.assert_called_once()
-        query, params = self.mock_cursor.execute.call_args[0]
+        query, _params = self.mock_cursor.execute.call_args[0]
         self.assertIn("VALUES (%s, %s, %s, %s), (%s, %s, %s, %s)", query)
 
     def test_bulk_add_with_no_docs(self):

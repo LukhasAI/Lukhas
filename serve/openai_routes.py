@@ -7,21 +7,22 @@ import json
 import time
 import uuid
 from collections.abc import AsyncGenerator
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List
 
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
 from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
-from matriz.core.memory_system import MemorySystem, MemoryQuery, MemoryType
-from adapters.openai import require_bearer, TokenClaims
+from matriz.core.memory_system import MemoryQuery, MemorySystem, MemoryType
+
+from adapters.openai import TokenClaims, require_bearer
 
 from .openai_schemas import (
     ChatCompletionRequest,
     ChatCompletionResponse,
     ChatCompletionResponseChoice,
+    Embedding,
     EmbeddingRequest,
     EmbeddingResponse,
-    Embedding,
     Usage,
 )
 
@@ -46,7 +47,8 @@ def _hash_to_vec(text: str, dim: int = 1536) -> List[float]:
     """Generate a deterministic embedding from text using SHA-256."""
     h = hashlib.sha256(text.encode("utf-8")).digest()
     seed = int.from_bytes(h, "big")
-    rng = lambda s: (s * 1103515245 + 12345) & 0x7FFFFFFF
+    def rng(s):
+        return (s * 1103515245 + 12345) & 0x7FFFFFFF
     vec = []
     for _ in range(dim):
         seed = rng(seed)

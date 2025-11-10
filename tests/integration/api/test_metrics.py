@@ -5,6 +5,7 @@ client = TestClient(app)
 
 from prometheus_client.parser import text_string_to_metric_families
 
+
 def test_metrics_endpoint():
     response = client.get("/metrics")
     assert response.status_code == 200

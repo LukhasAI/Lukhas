@@ -22,6 +22,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from typing import Optional
+
 from bridge.llm_wrappers.jules_wrapper import JulesClient
 
 # Comprehensive test task list
@@ -1167,7 +1169,7 @@ Save to: tests/integration/monitoring/test_monitoring_integration.py"""
 ]
 
 
-async def create_all_sessions(limit: int = None):
+async def create_all_sessions(limit: Optional[int] = None):
     """Create all Jules sessions up to limit."""
     tasks = TEST_TASKS[:limit] if limit else TEST_TASKS
 

@@ -14,7 +14,6 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 from fastapi.testclient import TestClient
-
 from serve.consciousness_api import dream, memory, query, router
 
 

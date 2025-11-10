@@ -296,13 +296,13 @@ def main():
 
     # Validate
     validator = AnalyticsPrivacyValidator(strict=args.strict)
-    all_valid = validator.validate_events(events)
+    validator.validate_events(events)
 
     # Print results
     validator.print_results()
 
     # Exit code
-    if validator.errors or args.strict and validator.warnings:
+    if validator.errors or (args.strict and validator.warnings):
         sys.exit(1)
     else:
         sys.exit(0)

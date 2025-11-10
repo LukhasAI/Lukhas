@@ -11,9 +11,9 @@ References:
 """
 
 import re
-from pathlib import Path
-from typing import List, Dict, Tuple
 from datetime import datetime
+from pathlib import Path
+from typing import Dict, List, Tuple
 
 
 class BrandingValidator:
@@ -57,7 +57,7 @@ class BrandingValidator:
         """Validate a lukhas_context.md file for branding compliance"""
         issues = []
 
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
 
         # Check for deprecated terms
@@ -93,7 +93,7 @@ class BrandingValidator:
 
     def fix_file(self, file_path: Path, dry_run: bool = False) -> bool:
         """Fix branding violations in a file"""
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
 
         original_content = content

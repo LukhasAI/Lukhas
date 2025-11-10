@@ -12,7 +12,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from bridge.llm_wrappers.jules_wrapper import JulesClient
 
-
 BATCH5_SESSIONS = [
     {
         "title": "🏗️ P1: Implement Proper Logging Infrastructure",
@@ -829,7 +828,7 @@ Usage: docker-compose up -d
     },
     {
         "title": "📝 P2: Create CONTRIBUTING.md Guide",
-        "prompt": """**MEDIUM PRIORITY: Comprehensive Contribution Guide**
+        "prompt": r"""**MEDIUM PRIORITY: Comprehensive Contribution Guide**
 
 **Objective**: Create detailed CONTRIBUTING.md for open source contributors
 
@@ -1141,7 +1140,7 @@ async def create_batch5():
 
             except Exception as e:
                 if "429" in str(e):
-                    print(f"⏸️  Rate limit - stopping")
+                    print("⏸️  Rate limit - stopping")
                     failed.append(session_config)
                     break
                 print(f"❌ Failed: {e}")

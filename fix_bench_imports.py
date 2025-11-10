@@ -1,7 +1,6 @@
-import re
 
 # Read the file
-with open('scripts/bench_t4_excellence.py', 'r') as f:
+with open('scripts/bench_t4_excellence.py') as f:
     content = f.read()
 
 # Fix the broken import structure - move logger declaration after imports

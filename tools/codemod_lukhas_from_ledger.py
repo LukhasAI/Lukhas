@@ -16,7 +16,7 @@ LEDGER = Path("artifacts/lukhas_import_ledger.ndjson")
 
 def read_ledger():
     """Read events from the NDJSON ledger file."""
-    with open(LEDGER, 'r') as f:
+    with open(LEDGER) as f:
         for line in f:
             line = line.strip()
             if line:

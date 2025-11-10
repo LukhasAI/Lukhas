@@ -389,7 +389,7 @@ class TestGuardianSystem:
         """Test the custom JSON encoder's fallback to super().default()."""
         encoder = GuardianJSONEncoder()
         with pytest.raises(TypeError):
-            encoder.default(set([1, 2, 3]))
+            encoder.default({1, 2, 3})
 
     def test_import_fallback_crypto(self, monkeypatch):
         """Test CRYPTO_AVAILABLE is False when import fails."""

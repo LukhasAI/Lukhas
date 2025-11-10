@@ -1,8 +1,9 @@
-import pytest
-from fastapi.testclient import TestClient
-from unittest.mock import MagicMock, patch
 import os
 import time
+from unittest.mock import MagicMock, patch
+
+import pytest
+from fastapi.testclient import TestClient
 
 # Set env var for testing
 os.environ['LUKHAS_LANE'] = 'test-lane'
@@ -26,8 +27,9 @@ patch.dict('sys.modules', {
 }).start()
 
 # Now import the app and its module
-from matriz.interfaces.api_server import app, websocket_connections, run_server
 import matriz.interfaces.api_server as api_server
+from matriz.interfaces.api_server import app, run_server, websocket_connections
+
 
 @pytest.fixture
 def client(mocker):

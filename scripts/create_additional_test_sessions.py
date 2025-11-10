@@ -9,7 +9,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from bridge.llm_wrappers.jules_wrapper import JulesClient
 
-
 # Additional high-value test coverage tasks
 ADDITIONAL_TASKS = [
     # Core Infrastructure Tests
@@ -562,11 +561,11 @@ async def create_additional_sessions():
 
         total_hours = sum(int(s["time"].rstrip("h")) for s in created_sessions)
         print(f"Total estimated work: {total_hours} hours")
-        print(f"Expected deliverables:")
-        print(f"  - 400+ comprehensive tests")
-        print(f"  - 13 test suites")
-        print(f"  - 75%+ coverage across core systems")
-        print(f"  - Security and performance validation")
+        print("Expected deliverables:")
+        print("  - 400+ comprehensive tests")
+        print("  - 13 test suites")
+        print("  - 75%+ coverage across core systems")
+        print("  - Security and performance validation")
 
         return created_sessions
 

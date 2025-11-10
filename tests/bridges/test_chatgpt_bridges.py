@@ -10,9 +10,9 @@ from __future__ import annotations
 
 import importlib
 import sys
+from typing import List
 
 import pytest
-from typing import List
 
 
 @pytest.mark.parametrize(

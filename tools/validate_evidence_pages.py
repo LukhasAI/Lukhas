@@ -316,7 +316,7 @@ class EvidencePageValidator:
             return True
 
         valid = True
-        evidence_id = front_matter.get("evidence_id", "")
+        front_matter.get("evidence_id", "")
         pages_using_claim = front_matter.get("pages_using_claim", [])
 
         if not pages_using_claim:

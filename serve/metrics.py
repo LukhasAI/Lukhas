@@ -1,5 +1,6 @@
 import sys
-from prometheus_client import Counter, Histogram, Gauge, Info
+
+from prometheus_client import Counter, Gauge, Histogram, Info
 
 # Define metrics
 http_requests_total = Counter(
@@ -60,8 +61,9 @@ system_info.info({
     'deployment': 'production'
 })
 
-from prometheus_client.core import GaugeMetricFamily
 from prometheus_client import REGISTRY
+from prometheus_client.core import GaugeMetricFamily
+
 
 class LUKHASCollector:
     '''Custom collector for LUKHAS metrics'''

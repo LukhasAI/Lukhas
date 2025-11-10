@@ -5,12 +5,18 @@ import uuid
 from collections.abc import Awaitable
 from typing import Any, Callable, Optional
 
+from async_lru import alru_cache
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.middleware.base import BaseHTTPMiddleware
+from serve.metrics import (
+    active_thoughts,
+    cache_hits_total,
+    cache_misses_total,
+    matriz_operation_duration_ms,
+    matriz_operations_total,
+)
 from serve.middleware.prometheus import PrometheusMiddleware
-from serve.metrics import matriz_operations_total, matriz_operation_duration_ms, active_thoughts, cache_hits_total, cache_misses_total
-from async_lru import alru_cache
+from starlette.middleware.base import BaseHTTPMiddleware
 
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False
@@ -124,6 +130,7 @@ def require_api_key(x_api_key: Optional[str]=Header(default=None)) -> Optional[s
         raise HTTPException(status_code=401, detail='Unauthorized')
     return x_api_key
 from lukhas_website.lukhas.api.middleware.strict_auth import StrictAuthMiddleware
+
 app = FastAPI(title='LUKHAS API', version='1.0.0', description='Governed tool loop, auditability, feedback LUT, and safety modes.', contact={'name': 'LUKHAS AI Team', 'url': 'https://github.com/LukhasAI/Lukhas'}, license_info={'name': 'MIT', 'url': 'https://opensource.org/licenses/MIT'}, servers=[{'url': 'http://localhost:8000', 'description': 'Local development'}, {'url': 'https://api.ai', 'description': 'Production'}])
 
 class HeadersMiddleware(BaseHTTPMiddleware):
@@ -241,7 +248,7 @@ def readyz() -> dict[str, Any]:
 @app.get('/metrics', include_in_schema=False)
 def metrics() -> Response:
     """Prometheus metrics endpoint"""
-    from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+    from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
     return Response(
         content=generate_latest(),
         media_type=CONTENT_TYPE_LATEST

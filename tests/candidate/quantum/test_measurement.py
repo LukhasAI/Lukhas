@@ -46,7 +46,7 @@ class TestQuantumMeasurement(unittest.TestCase):
 
     def test_decoherence(self):
         context = {"decoherence": 0.5}
-        initial_norm = sum(abs(amp) ** 2 for amp in self.state.amplitudes)
+        sum(abs(amp) ** 2 for amp in self.state.amplitudes)
         result = self.measurement.collapse(self.state, context)
         final_norm = sum(abs(amp) ** 2 for amp in result.post_state.amplitudes)
         self.assertAlmostEqual(final_norm, 1.0) # Should be renormalized

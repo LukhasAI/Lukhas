@@ -4,10 +4,9 @@
 # criticality: P1
 
 import math
+from importlib.util import find_spec
 
 import pytest
-
-from importlib.util import find_spec
 
 if find_spec("aka_qualia.metrics") is None or find_spec("aka_qualia.models") is None:
     pytest.skip("Aka Qualia metrics not available", allow_module_level=True)

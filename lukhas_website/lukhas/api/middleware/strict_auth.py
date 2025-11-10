@@ -3,7 +3,6 @@ Strict Authentication Middleware
 """
 
 import logging
-from typing import Optional
 
 from fastapi import Request, Response
 from fastapi.responses import JSONResponse

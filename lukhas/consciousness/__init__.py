@@ -141,9 +141,9 @@ def get_network_metrics() -> dict[str, Any]:
 
 # Public API
 __all__ = [
-    "is_enabled",
-    "get_consciousness_state",
     "create_state",
-    "get_orchestrator",
+    "get_consciousness_state",
     "get_network_metrics",
+    "get_orchestrator",
+    "is_enabled",
 ]

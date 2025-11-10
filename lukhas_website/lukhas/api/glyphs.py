@@ -15,7 +15,7 @@ Endpoints:
 import logging
 from typing import Any, Optional
 
-from fastapi import APIRouter, HTTPException, Header, status
+from fastapi import APIRouter, Header, HTTPException, status
 from pydantic import BaseModel, Field, validator
 
 logger = logging.getLogger(__name__)
@@ -23,12 +23,12 @@ logger = logging.getLogger(__name__)
 # Import wrapper module
 try:
     from lukhas.glyphs import (
-        is_enabled,
-        encode_concept,
         bind_glyph,
+        encode_concept,
         get_binding,
-        validate_glyph,
         get_glyph_stats,
+        is_enabled,
+        validate_glyph,
     )
     GLYPHS_WRAPPER_AVAILABLE = True
 except ImportError as e:
@@ -163,7 +163,7 @@ async def encode_glyph_concept(request: GlyphEncodeRequest) -> GlyphEncodeRespon
         logger.error(f"Error encoding GLYPH: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"GLYPH encoding failed: {str(e)}"
+            detail=f"GLYPH encoding failed: {e!s}"
         )
 
 
@@ -227,7 +227,7 @@ async def bind_glyph_to_memory(
         logger.error(f"Error binding GLYPH: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"GLYPH binding failed: {str(e)}"
+            detail=f"GLYPH binding failed: {e!s}"
         )
 
 
@@ -269,7 +269,7 @@ async def get_glyph_binding(binding_id: str) -> dict[str, Any]:
         logger.error(f"Error retrieving binding {binding_id}: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to retrieve binding: {str(e)}"
+            detail=f"Failed to retrieve binding: {e!s}"
         )
 
 
@@ -294,7 +294,7 @@ async def validate_glyph_data(request: GlyphValidateRequest) -> GlyphValidateRes
         logger.error(f"Error validating GLYPH: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Validation failed: {str(e)}"
+            detail=f"Validation failed: {e!s}"
         )
 
 
@@ -327,7 +327,7 @@ async def get_stats() -> dict[str, Any]:
         logger.error(f"Error getting GLYPH stats: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to retrieve stats: {str(e)}"
+            detail=f"Failed to retrieve stats: {e!s}"
         )
 
 

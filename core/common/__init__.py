@@ -18,6 +18,10 @@ def _bind(modname: str) -> bool:
         m = import_module(modname)
     except Exception:
         return False
+    # Skip if we imported ourselves (circular reference protection)
+    import sys
+    if m is sys.modules.get(__name__):
+        return False
     _SRC = m
     __all__ = [n for n in dir(m) if not n.startswith("_")]
     # Guarantee `exceptions` symbol is present for `from core.common import exceptions`
@@ -37,4 +41,9 @@ else:
 
 if _SRC is not None:
     def __getattr__(name: str):
-        return getattr(_SRC, name)
+        if _SRC is None:
+            raise AttributeError(f"module 'core.common' has no attribute '{name}'")
+        try:
+            return getattr(_SRC, name)
+        except AttributeError:
+            raise AttributeError(f"module 'core.common' has no attribute '{name}'") from None

@@ -7,13 +7,14 @@ Enables hybrid AI decision-making with both centralized and distributed intellig
 Based on GPT5 audit recommendations for parallel AI orchestration.
 """
 import asyncio
+import importlib
 import logging
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from enum import Enum
-import importlib
-from typing import TYPE_CHECKING, Any, Optional
+from typing import Any, Optional
+
 
 def __getattr__(name: str) -> object:
     """

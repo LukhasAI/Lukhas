@@ -1,8 +1,8 @@
-import sys
-import os
-from unittest.mock import MagicMock, patch, AsyncMock
-import unittest
 import asyncio
+import os
+import sys
+import unittest
+from unittest.mock import AsyncMock, MagicMock, patch
 
 # --- Pre-emptive Mocking ---
 MOCK_MODULES = {
@@ -32,6 +32,7 @@ os.environ["LUKHAS_DREAMS_ENABLED"] = "1"
 os.environ["LUKHAS_PARALLEL_DREAMS"] = "1"
 
 import lukhas.dream
+
 
 class TestDreamApi(unittest.TestCase):
 

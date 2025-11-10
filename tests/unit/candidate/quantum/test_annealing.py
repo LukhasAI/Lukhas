@@ -3,7 +3,7 @@ import random
 import unittest
 from unittest.mock import MagicMock, patch
 
-from candidate.quantum.annealing import QuantumAnnealer, AnnealingResult
+from candidate.quantum.annealing import AnnealingResult, QuantumAnnealer
 
 
 class TestQuantumAnnealer(unittest.TestCase):
@@ -55,7 +55,8 @@ class TestQuantumAnnealer(unittest.TestCase):
         # A high tunneling rate should allow jumping out of local minima
         high_tunnel_annealer = QuantumAnnealer(rng=random.Random(42))
         constraints = {"tunneling_rate": 1.0, "max_iterations": 10} # high tunneling
-        objective = lambda state: abs(state["x"] - 5) # minimum is at x=5
+        def objective(state):
+            return abs(state["x"] - 5) # minimum is at x=5
         search_space = [{"x": i} for i in range(10)]
 
         # Mock random to control acceptance probability
@@ -83,7 +84,8 @@ class TestQuantumAnnealer(unittest.TestCase):
 
 
     def test_energy_landscape_traversal(self):
-        objective = lambda state: (state["x"] - 5) ** 2
+        def objective(state):
+            return (state["x"] - 5) ** 2
         result = self.annealer.anneal(objective, search_space=self.search_space)
         self.assertGreater(len(result.history), 1)
         self.assertTrue(all(e >= 0 for e in result.history))
@@ -108,7 +110,8 @@ class TestQuantumAnnealer(unittest.TestCase):
 
     def test_convergence_to_best_solution(self):
         # A landscape with a clear global minimum
-        objective = lambda state: (state["x"] - 7) ** 2
+        def objective(state):
+            return (state["x"] - 7) ** 2
         search_space = [{"x": i} for i in range(50)]
         result = self.annealer.anneal(objective, search_space=search_space, constraints={"max_iterations": 500})
         self.assertEqual(result.solution["x"], 7)
@@ -128,7 +131,8 @@ class TestQuantumAnnealer(unittest.TestCase):
         self.assertEqual(result.explored, 128) # Explores the same state repeatedly
 
     def test_non_numeric_objective_values(self):
-        objective = lambda state: "not a number"
+        def objective(state):
+            return "not a number"
         with self.assertRaises(ValueError):
             self.annealer.anneal(objective, search_space=self.search_space)
 

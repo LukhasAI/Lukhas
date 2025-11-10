@@ -3,10 +3,10 @@ from __future__ import annotations
 
 import asyncio
 import math
+from typing import Dict
 
 import pytest
 from core.orchestration.integration_hub import QIAGISystem
-from typing import Dict
 
 
 def test_create_superposition_generates_normalized_state() -> None:

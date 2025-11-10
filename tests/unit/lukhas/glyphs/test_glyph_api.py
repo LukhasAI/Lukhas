@@ -1,26 +1,28 @@
 
-import pytest
-from unittest.mock import patch, AsyncMock, MagicMock
-import copy
 import asyncio
+import copy
+from unittest.mock import AsyncMock, MagicMock, patch
+
+import pytest
+
+from candidate.glyphs.glyph_binder import GlyphBinder
+from candidate.glyphs.glyph_retriever import GlyphRetriever
+
+# Implementation classes that will be mocked
+from candidate.glyphs.glyph_verifier import GlyphVerifier
 
 # Main API functions to test
 from lukhas.glyphs import (
     bind_glyph,
-    get_binding,
-    is_enabled,
-    get_glyph_engine,
-    encode_concept,
     decode_symbol,
-    validate_glyph,
+    encode_concept,
+    get_binding,
+    get_glyph_engine,
     get_glyph_stats,
+    is_enabled,
+    validate_glyph,
     verify_glyph_token,
 )
-
-# Implementation classes that will be mocked
-from candidate.glyphs.glyph_verifier import GlyphVerifier
-from candidate.glyphs.glyph_binder import GlyphBinder
-from candidate.glyphs.glyph_retriever import GlyphRetriever
 
 # --- Test Suite Setup ---
 

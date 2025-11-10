@@ -2,7 +2,7 @@ import random
 import unittest
 from unittest.mock import MagicMock, patch
 
-from candidate.quantum.measurement import QuantumMeasurement, MeasurementResult
+from candidate.quantum.measurement import MeasurementResult, QuantumMeasurement
 from candidate.quantum.superposition_engine import SuperpositionState
 
 

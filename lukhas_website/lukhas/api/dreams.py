@@ -15,22 +15,20 @@ import time
 from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel, Field
-
+from identity.tier_system import PermissionScope, TierLevel
 from lukhas_website.lukhas.api.auth_helpers import get_current_user, lukhas_tier_required
-from identity.tier_system import TierLevel, PermissionScope
-
+from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
 
 # Import wrapper module
 try:
     from lukhas.dream import (
+        get_dream_by_id,
         is_enabled,
         is_parallel_enabled,
-        simulate_dream,
-        get_dream_by_id,
         parallel_dream_mesh,
+        simulate_dream,
     )
     DREAMS_WRAPPER_AVAILABLE = True
 except ImportError as e:
@@ -147,7 +145,7 @@ async def create_dream_simulation(
         logger.error(f"Error in dream simulation: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Dream simulation failed: {str(e)}"
+            detail=f"Dream simulation failed: {e!s}"
         )
 
 
@@ -192,7 +190,7 @@ async def create_parallel_dream_mesh(
         logger.error(f"Error in parallel dream mesh: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Parallel dream mesh failed: {str(e)}"
+            detail=f"Parallel dream mesh failed: {e!s}"
         )
 
 
@@ -245,7 +243,7 @@ async def get_dream(
         logger.error(f"Error retrieving dream {dream_id}: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to retrieve dream: {str(e)}"
+            detail=f"Failed to retrieve dream: {e!s}"
         )
 
 

@@ -490,8 +490,8 @@ def test_require_api_key_valid(client, monkeypatch):
 
 def test_require_api_key_invalid(client, monkeypatch):
     """Test require_api_key rejects incorrect key"""
-    from serve.main import require_api_key
     from fastapi import HTTPException
+    from serve.main import require_api_key
 
     monkeypatch.setenv("LUKHAS_API_KEY", "secret-key")
 
@@ -512,6 +512,7 @@ def test_safe_import_router_success():
 def test_streaming_generator_with_messages():
     """Test _stream_generator with messages format"""
     import asyncio
+
     from serve.main import _stream_generator
 
     request = {
@@ -537,6 +538,7 @@ def test_streaming_generator_with_messages():
 def test_streaming_generator_with_input():
     """Test _stream_generator with direct input"""
     import asyncio
+
     from serve.main import _stream_generator
 
     request = {
@@ -557,6 +559,7 @@ def test_streaming_generator_with_input():
 def test_streaming_generator_empty_input():
     """Test _stream_generator with empty input"""
     import asyncio
+
     from serve.main import _stream_generator
 
     request = {"model": "lukhas-mini"}

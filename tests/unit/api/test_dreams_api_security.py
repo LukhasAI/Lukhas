@@ -13,13 +13,15 @@ Target: 90+/100 security score (vs current 55-70/100)
 """
 import os
 import sys
-import pytest
-from unittest.mock import Mock, patch, MagicMock
-from fastapi import FastAPI, HTTPException, status
-from fastapi.testclient import TestClient
 
 # Mock problematic imports before other imports
 from enum import Enum
+from unittest.mock import MagicMock, Mock, patch
+
+import pytest
+from fastapi import FastAPI, HTTPException, status
+from fastapi.testclient import TestClient
+
 
 class MockTierLevel(Enum):
     AUTHENTICATED = 1
