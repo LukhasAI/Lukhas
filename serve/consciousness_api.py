@@ -13,11 +13,18 @@ class ConsciousnessEngine:
     """
     async def process_query(self, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         await asyncio.sleep(0.008)
-        return {"response": "The current awareness level is high."}
+        return {
+            "response": "The current awareness level is high.",
+            "context": context
+        }
 
     async def initiate_dream(self, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         await asyncio.sleep(0.02)
-        return {"dream_id": "dream-123", "status": "generating"}
+        return {
+            "dream_id": "dream-123",
+            "status": "generating",
+            "context": context
+        }
 
     async def retrieve_memory_state(self) -> Dict[str, Any]:
         await asyncio.sleep(0.004)
@@ -35,7 +42,18 @@ class ConsciousnessEngine:
             return {"last_query": "awareness"}
         return None
 
+# --- Dependency Injection ---
+
+def get_consciousness_engine() -> ConsciousnessEngine:
+    """Provide consciousness engine instance for dependency injection."""
+    return ConsciousnessEngine()
+
 # --- Pydantic Models ---
+
+class QueryRequest(BaseModel):
+    """Request model for consciousness queries."""
+    context: Optional[Dict[str, Any]] = None
+    user_id: Optional[str] = None
 
 class StateModel(BaseModel):
     user_id: str
@@ -44,7 +62,6 @@ class StateModel(BaseModel):
 # --- API Router Setup ---
 
 router = APIRouter()
-engine = ConsciousnessEngine()
 
 # --- API Endpoints ---
 
@@ -52,37 +69,51 @@ engine = ConsciousnessEngine()
     "/api/v1/consciousness/query",
     summary="Query Consciousness State",
 )
-async def query():
-    """Get the current awareness level of the consciousness."""
-    return await engine.process_query()
+async def query(
+    request: QueryRequest = Body(...),
+    engine: ConsciousnessEngine = Depends(get_consciousness_engine)
+):
+    """Query consciousness state with optional context."""
+    return await engine.process_query(context=request.context)
 
 @router.post(
     "/api/v1/consciousness/dream",
     summary="Initiate a Dream Sequence",
 )
-async def dream():
-    """Start a new dream sequence in the consciousness."""
-    return await engine.initiate_dream()
+async def dream(
+    request: QueryRequest = Body(...),
+    engine: ConsciousnessEngine = Depends(get_consciousness_engine)
+):
+    """Initiate dream sequence with optional context."""
+    return await engine.initiate_dream(context=request.context)
 
 @router.get(
     "/api/v1/consciousness/memory",
     summary="Get Consciousness Memory State",
 )
-async def memory():
-    """Retrieve the current memory state of the consciousness."""
+async def memory(
+    engine: ConsciousnessEngine = Depends(get_consciousness_engine)
+):
+    """Retrieve current memory state."""
     return await engine.retrieve_memory_state()
 
 # The following endpoints are added to facilitate the comprehensive tests requested.
 
 @router.post("/api/v1/consciousness/state", summary="Save User State")
-async def save_state(payload: StateModel):
-    """Save the state for a specific user."""
+async def save_state(
+    payload: StateModel = Body(...),
+    engine: ConsciousnessEngine = Depends(get_consciousness_engine)
+):
+    """Save user-specific consciousness state."""
     await engine.save_user_state(payload.user_id, payload.state_data)
     return {"status": "success", "user_id": payload.user_id}
 
 @router.get("/api/v1/consciousness/state/{user_id}", summary="Retrieve User State")
-async def get_state(user_id: str):
-    """Retrieve the state for a specific user."""
+async def get_state(
+    user_id: str,
+    engine: ConsciousnessEngine = Depends(get_consciousness_engine)
+):
+    """Retrieve user-specific consciousness state."""
     state = await engine.get_user_state(user_id)
     if not state:
         raise HTTPException(status_code=404, detail="State not found for user")
