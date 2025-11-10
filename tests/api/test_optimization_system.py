@@ -4,10 +4,12 @@ Comprehensive Test Suite for LUKHAS API Optimization System
 
 Tests for advanced API optimizer, middleware pipeline, and analytics dashboard.
 
+import statistics
 # ΛTAG: api_optimization_tests, performance_testing, middleware_testing, analytics_testing
 """
 
 import asyncio
+import statistics
 import json
 import tempfile
 import time

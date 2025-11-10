@@ -28,6 +28,7 @@ from typing import Any
 from unittest.mock import Mock, patch
 
 import pytest
+from consciousness.matriz_thought_loop import MATRIZProcessingContext
 
 from consciousness.matriz_thought_loop import MATRIZThoughtLoop, matrizProcessingContext
 from consciousness.types import ConsciousnessState
