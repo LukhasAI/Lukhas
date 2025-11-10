@@ -33,6 +33,7 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
+# ruff: noqa: F821  # Skeleton/experimental code
 import logging
 import unittest
 

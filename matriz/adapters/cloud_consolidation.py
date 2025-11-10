@@ -13,6 +13,7 @@ System-wide guardrails applied:
 ACK GUARDRAILS
 """
 
+# ruff: noqa: B008
 import asyncio
 import hashlib
 from collections import defaultdict

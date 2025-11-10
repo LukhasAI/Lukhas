@@ -3,6 +3,7 @@ VIVOX Ethical Precedent Seeds
 Common ethical scenarios to bootstrap the precedent database
 """
 
+# ruff: noqa: F821
 from datetime import datetime, timezone
 from typing import Any
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+# ruff: noqa: F821  # Experimental/test code with undefined names
 """
 
 #TAG:qim

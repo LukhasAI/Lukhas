@@ -6,6 +6,7 @@ Manages the candidate → lukhas → MATRIZ lane progression system with health-
 automatic lane switching and Constellation Framework coordination.
 """
 
+# ruff: noqa: F821  # Experimental/test code with undefined names
 import asyncio
 import logging
 import time

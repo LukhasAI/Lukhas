@@ -106,9 +106,8 @@ def test_consciousness_core_import_safety():
 def test_adapter_infrastructure_import_safety():
     """Test core.adapters can be imported safely."""
     try:
-        from core.adapters import Config, ProviderRegistry, make_resolver
-
         from core import adapters
+        from core.adapters import Config, ProviderRegistry, make_resolver
 
         assert adapters is not None
         assert ProviderRegistry is not None

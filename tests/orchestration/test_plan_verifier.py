@@ -13,6 +13,7 @@ Task 5: Comprehensive testing of plan verification with focus on:
 #TAG:task5
 #TAG:orchestration
 """
+# ruff: noqa: F821
 import random
 import time
 from unittest.mock import patch

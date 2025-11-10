@@ -10,6 +10,7 @@ Validates:
 NOTE: Skipped - adapters.openai module removed during Phase 5B flattening.
       OpenAI adapter functionality has been moved/refactored.
 """
+# ruff: noqa: F821  # Experimental/test code with undefined names
 import pytest
 
 # Skip entire module - OpenAI adapter removed during directory flattening

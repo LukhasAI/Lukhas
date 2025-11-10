@@ -1,6 +1,7 @@
 """
 OpenAI-compatible API routes for LUKHAS.
 """
+# ruff: noqa: B008
 import asyncio
 import hashlib
 import json

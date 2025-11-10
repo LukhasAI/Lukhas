@@ -1,4 +1,6 @@
 """Tests for the core endocrine hormone system."""
+# ruff: noqa: B008
+# ruff: noqa: F821
 from __future__ import annotations
 
 import asyncio

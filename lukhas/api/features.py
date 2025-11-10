@@ -16,6 +16,7 @@ ENDPOINTS:
 - PATCH /api/features/{flag_name} - Update flag (admin only)
 """
 
+# ruff: noqa: B008
 import logging
 import time
 from typing import Dict, List, Optional

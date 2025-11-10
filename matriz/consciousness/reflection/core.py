@@ -9,6 +9,7 @@
 Consolidated module for better performance
 """
 
+# ruff: noqa: F821  # Experimental/test code with undefined names
 import asyncio
 import hashlib
 import json

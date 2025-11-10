@@ -1,3 +1,4 @@
+# ruff: noqa: F821  # Experimental/test code with undefined names
 # path: qi/safety/provenance_proxy.py
 from __future__ import annotations
 

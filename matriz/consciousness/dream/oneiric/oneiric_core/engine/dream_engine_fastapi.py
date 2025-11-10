@@ -12,6 +12,7 @@ This module combines the best features from both prototypes:
 ΛCANONICAL: Consolidated FastAPI-enabled dream engine
 """
 
+# ruff: noqa: B008
 import logging
 from datetime import datetime, timezone
 from functools import wraps

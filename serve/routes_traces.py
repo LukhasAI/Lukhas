@@ -3,6 +3,7 @@ Enhanced trace endpoint with TraceMemoryLogger integration.
 Provides structured API for retrieving trace data with proper error handling and authentication.
 """
 
+# ruff: noqa: B008
 import logging
 import uuid
 from typing import Optional, Union

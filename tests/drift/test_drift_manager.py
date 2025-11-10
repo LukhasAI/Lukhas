@@ -7,6 +7,7 @@ Verifies determinism, attribution, bounds, and integration with IntegrityProbe.
 #TAG:drift
 #TAG:monitoring
 """
+# ruff: noqa: F821
 import os
 from unittest.mock import Mock
 

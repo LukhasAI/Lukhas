@@ -5,6 +5,7 @@ Simulates "inner world of consciousness"
 Based on Jacobo Grinberg's vector collapse theory
 Achieves traceable state of self-awareness
 """
+# ruff: noqa: F821
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum

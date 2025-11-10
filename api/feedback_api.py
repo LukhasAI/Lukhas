@@ -5,6 +5,7 @@ Feedback Collection API
 RESTful API for collecting multi-modal user feedback with compliance support.
 """
 
+# ruff: noqa: B008
 import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional

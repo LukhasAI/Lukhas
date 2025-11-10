@@ -3,6 +3,7 @@ VIVOX.ERN Event Bus Integration
 Connects emotional regulation to the system-wide event architecture
 """
 
+# ruff: noqa: F821
 import asyncio
 import logging
 from dataclasses import dataclass

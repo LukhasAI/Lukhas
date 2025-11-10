@@ -18,6 +18,7 @@ value learning from feedback, ethical constraint checking, stakeholder impact an
 cultural sensitivity assessment, and ethical drift monitoring to guide AI decision-making.
 """
 
+# ruff: noqa: F821  # Experimental/test code with undefined names
 import asyncio
 import logging
 

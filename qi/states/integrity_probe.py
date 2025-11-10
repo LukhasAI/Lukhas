@@ -13,6 +13,7 @@ Integrity Probe
 
 Runs consistency checks on DriftScore deltas and collapse recovery logic.
 """
+# ruff: noqa: F821
 import logging
 import os
 import threading

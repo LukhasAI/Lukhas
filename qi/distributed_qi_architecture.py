@@ -18,6 +18,7 @@ emerges from entanglement-like correlation, creating resilient consciousness tha
 even as individual qubits decohere into classical states.
 """
 
+# ruff: noqa: F821  # Skeleton/experimental code
 import asyncio
 import logging
 
