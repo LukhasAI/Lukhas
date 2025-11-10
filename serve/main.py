@@ -107,6 +107,7 @@ matriz_traces_router = (
     _safe_import_router('MATRIZ.traces_router', 'router')
     or _safe_import_router('matriz.traces_router', 'router')
 )
+websocket_router = _safe_import_router('.websocket_routes', 'router')
 
 # Core wiring routers (feature-flag gated)
 dreams_router = None
@@ -137,6 +138,9 @@ class HeadersMiddleware(BaseHTTPMiddleware):
     """Add OpenAI-compatible headers to all responses."""
 
     async def dispatch(self, request: Request, call_next):
+        if request.scope["type"] == "websocket":
+            return await call_next(request)
+
         response = await call_next(request)
         trace_id = str(uuid.uuid4()).replace('-', '')
         response.headers['X-Trace-Id'] = trace_id
@@ -182,6 +186,8 @@ if glyphs_router is not None:
     app.include_router(glyphs_router)
 if drift_router is not None:
     app.include_router(drift_router)
+if websocket_router is not None:
+    app.include_router(websocket_router)
 
 def voice_core_available() -> bool:
     try:
