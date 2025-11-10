@@ -19,7 +19,7 @@ import logging
 import time
 import uuid
 from collections.abc import AsyncGenerator
-from typing import Any
+from typing import Any, Dict, List, Optional, Union
 
 from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 from fastapi import (
@@ -135,8 +135,8 @@ async def openai_metrics() -> JSONResponse:
 # ΛTAG: openai_facade
 
 def require_api_key(
-    authorization: str | None = Header(None),
-    x_lukhas_project: str | None = Header(default=None, alias="X-Lukhas-Project"),
+    authorization: Optional[str] = Header(None),
+    x_lukhas_project: Optional[str] = Header(default=None, alias="X-Lukhas-Project"),
 ) -> TokenClaims:
     """Validate Bearer tokens using PolicyGuard-backed dependency."""
 
@@ -160,7 +160,7 @@ def _rl_headers() -> dict[str, str]:
     }
 
 
-def _with_std_headers(resp: Response, trace_id: str | None) -> None:
+def _with_std_headers(resp: Response, trace_id: Optional[str]) -> None:
     """Apply standard headers to response (RL + trace ID)."""
     for key, value in _rl_headers().items():
         resp.headers[key] = value
@@ -194,7 +194,7 @@ def list_models(
     request: Request,
     response: Response,
     _claims=Depends(require_api_key),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L196"}
-) -> dict[str, Any]:
+) -> Dict[str, Any]:
     """List available models (OpenAI-compatible format)."""
     trace_id = request.headers.get("X-Request-Id") or request.headers.get("X-Trace-Id")
     _with_std_headers(response, trace_id)
@@ -218,8 +218,8 @@ def _hash_to_vec(text: str, dim: int = 128) -> list[float]:
     return nums[:dim]
 
 
-def _invalid_request(detail: str, param: str | None = None) -> dict[str, Any]:
-    payload: dict[str, Any] = {
+def _invalid_request(detail: str, param: Optional[str] = None) -> Dict[str, Any]:
+    payload: Dict[str, Any] = {
         "error": {
             "type": "invalid_request_error",
             "message": detail,
@@ -261,9 +261,9 @@ def _invalid_request(detail: str, param: str | None = None) -> dict[str, Any]:
 def create_embeddings(
     request: Request,
     response: Response,
-    payload: dict[str, Any] = Body(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L264"}
+    payload: Dict[str, Any] = Body(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L264"}
     _claims=Depends(require_api_key),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L265"}
-) -> dict[str, Any]:
+) -> Dict[str, Any]:
     """Create deterministic embeddings (OpenAI-compatible format)."""
     trace_id = request.headers.get("X-Request-Id") or request.headers.get("X-Trace-Id")
     _with_std_headers(response, trace_id)
@@ -302,7 +302,7 @@ def create_embeddings(
     }
 
 
-def _resolve_stream_plan(text: str, max_tokens: int | None) -> dict[str, Any]:
+def _resolve_stream_plan(text: str, max_tokens: Optional[int]) -> Dict[str, Any]:
     """Determine chunking strategy for streaming responses."""
     normalized_len = max(len(text), 1)
     heavy_request = (max_tokens or 0) >= 1500 or normalized_len >= 200
@@ -316,10 +316,10 @@ def _resolve_stream_plan(text: str, max_tokens: int | None) -> dict[str, Any]:
     }
 
 
-def _stream_chunks(text: str, plan: dict[str, Any]) -> list[str]:
+def _stream_chunks(text: str, plan: Dict[str, Any]) -> List[str]:
     """Build deterministic chunk payloads for SSE streaming."""
     base = text or "symbolic stream"
-    chunks: list[str] = []
+    chunks: List[str] = []
     per_chunk = plan["per_chunk_bytes"]
     for idx in range(plan["chunk_count"]):
         prefix = f"chunk-{idx}: "
@@ -355,9 +355,9 @@ def _stream_chunks(text: str, plan: dict[str, Any]) -> list[str]:
 def create_response(
     request: Request,
     response: Response,
-    payload: dict[str, Any] = Body(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L358"}
+    payload: Dict[str, Any] = Body(...),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Function call in default argument - needs review for refactoring","estimate":"30m","priority":"medium","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L358"}
     _claims=Depends(require_api_key),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_openai_routes_py_L359"}
-) -> dict[str, Any] | StreamingResponse:
+) -> Union[Dict[str, Any], StreamingResponse]:
     """Create response (OpenAI Responses API format, non-stream stub)."""
     trace_id = request.headers.get("X-Request-Id") or request.headers.get("X-Trace-Id")
 
