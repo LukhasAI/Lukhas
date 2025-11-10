@@ -11,7 +11,7 @@ Validates Guardian safety mechanisms, authentication, and vulnerability detectio
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict
 from unittest.mock import Mock
 
 import pytest
@@ -52,7 +52,7 @@ class SecurityTestFramework:
         }
         self.vulnerabilities_found.append(vulnerability)
 
-    def get_vulnerability_report(self) -> dict[str, Any]:
+    def get_vulnerability_report(self) -> Dict[str, Any]:
         """Generate vulnerability report."""
         severity_counts = {}
         category_counts = {}

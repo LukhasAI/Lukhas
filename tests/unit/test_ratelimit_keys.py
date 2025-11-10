@@ -17,9 +17,9 @@ from core.reliability.ratelimit import RateLimiter
 
 def _mock_request(
     path: str = "/v1/embeddings",
-    auth: str | None = None,
+    auth: Optional[str] = None,
     ip: str = "1.2.3.4",
-    xff: str | None = None
+    xff: Optional[str] = None
 ):
     """
     Create mock FastAPI Request object for testing.

@@ -6,6 +6,7 @@ import math
 
 import pytest
 from core.orchestration.integration_hub import QIAGISystem
+from typing import Dict
 
 
 def test_create_superposition_generates_normalized_state() -> None:
@@ -67,7 +68,7 @@ def test_quantum_anneal_finds_low_energy_state() -> None:
         {"id": "global", "energy": 1.0},
     ]
 
-    def energy_function(state: dict[str, float]) -> float:
+    def energy_function(state: Dict[str, float]) -> float:
         return float(state["energy"])
 
     result = asyncio.run(

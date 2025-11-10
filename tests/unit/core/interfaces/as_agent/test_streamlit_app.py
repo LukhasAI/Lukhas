@@ -4,7 +4,7 @@ import importlib
 import sys
 import types
 from collections.abc import Sequence
-from typing import Any
+from typing import Any, List, Tuple
 
 import pytest
 
@@ -85,7 +85,7 @@ class _StreamlitStub(types.ModuleType):
     def json(self, *args: Any, **kwargs: Any) -> None:
         return None
 
-    def columns(self, count: int) -> tuple[_ColumnContext, ...]:
+    def columns(self, count: int) -> Tuple[_ColumnContext, ...]:
         return tuple(_ColumnContext() for _ in range(count))
 
     def subheader(self, *args: Any, **kwargs: Any) -> None:
@@ -110,7 +110,7 @@ def _install_streamlit_stub(monkeypatch: pytest.MonkeyPatch) -> None:
 def _install_dashboard_settings_stub(monkeypatch: pytest.MonkeyPatch) -> None:
     dashboard_stub = types.ModuleType("core.dashboard_settings")
 
-    def get_paired_apps(user_id: str) -> list[str]:
+    def get_paired_apps(user_id: str) -> List[str]:
         return [f"demo_app_for_{user_id}"]
 
     dashboard_stub.get_paired_apps = get_paired_apps  # type: ignore[attr-defined]

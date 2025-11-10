@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import asyncio
 from collections.abc import Mapping
-from typing import Any
+from typing import Any, Optional
 
 import pytest
 from core.interfaces import CognitiveNodeBase
@@ -16,7 +16,7 @@ from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
 from prometheus_client import REGISTRY
 
 
-def _collect_metric_value(metric_name: str, labels: Mapping[str, str], sample_suffix: str | None = "total") -> float:
+def _collect_metric_value(metric_name: str, labels: Mapping[str, str], sample_suffix: Optional[str] = "total") -> float:
     """Return the current metric sample value for the provided labels."""
     if sample_suffix is None or (metric_name.endswith("_total") and sample_suffix == "total"):
         target_sample = metric_name

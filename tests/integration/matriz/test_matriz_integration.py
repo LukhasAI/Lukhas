@@ -1,5 +1,5 @@
 import unittest
-from typing import Any
+from typing import Any, Dict, List
 
 from matriz.core.example_node import MathReasoningNode
 from matriz.core.node_interface import CognitiveNode, NodeState
@@ -9,12 +9,12 @@ from matriz.core.orchestrator import CognitiveOrchestrator
 class MockCognitiveNode(CognitiveNode):
     """A base mock node for testing."""
 
-    def __init__(self, node_name: str, capabilities: list[str]):
+    def __init__(self, node_name: str, capabilities: List[str]):
         super().__init__(node_name, capabilities)
         self.call_count = 0
         self.last_input = None
 
-    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
+    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         self.call_count += 1
         self.last_input = input_data
         state = NodeState(confidence=0.9, salience=0.9)
@@ -29,7 +29,7 @@ class MockCognitiveNode(CognitiveNode):
             "matriz_node": matriz_node,
         }
 
-    def validate_output(self, output: dict[str, Any]) -> bool:
+    def validate_output(self, output: Dict[str, Any]) -> bool:
         return True
 
 class MockMemoryNode(MockCognitiveNode):
@@ -62,7 +62,7 @@ class PipelineOrchestrator(CognitiveOrchestrator):
 
     PIPELINE = ["memory", "attention", "thought", "risk", "intent", "action"]
 
-    def process_query(self, user_input: str) -> dict[str, Any]:
+    def process_query(self, user_input: str) -> Dict[str, Any]:
         """Overrides the base method to run a fixed pipeline."""
 
         last_output = {"query": user_input}
@@ -147,7 +147,7 @@ class TestMatrizIntegration(unittest.TestCase):
         """Test that the orchestrator handles node processing errors."""
 
         class FailingNode(MockCognitiveNode):
-            def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
+            def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
                 raise ValueError("This node always fails")
 
         failing_node = FailingNode("failing", ["failing"])

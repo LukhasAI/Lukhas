@@ -4,7 +4,7 @@ Tests for the MATRIZ Cognitive Node Interface
 """
 
 import time
-from typing import Any
+from typing import Any, Dict
 
 import numpy as np
 import pytest
@@ -28,7 +28,7 @@ class TestNode(CognitiveNode):
             tenant=tenant
         )
 
-    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
+    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """A simple process implementation for testing."""
         start_time = time.time()
         state = NodeState(confidence=0.9, salience=0.8)
@@ -44,7 +44,7 @@ class TestNode(CognitiveNode):
             "processing_time": time.time() - start_time,
         }
 
-    def validate_output(self, output: dict[str, Any]) -> bool:
+    def validate_output(self, output: Dict[str, Any]) -> bool:
         """A simple validation for testing."""
         return "answer" in output and self.validate_matriz_node(output.get("matriz_node", {}))
 
@@ -175,7 +175,7 @@ class TestNodeInterface:
 # Mock M-A-T-R-I-A Pipeline Nodes
 class PipelineNode(TestNode):
     __test__ = False
-    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
+    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """A simple process implementation for testing."""
         start_time = time.time()
         state = NodeState(confidence=0.9, salience=0.8)

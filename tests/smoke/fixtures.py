@@ -29,7 +29,7 @@ Phase 3: Added for test reliability polish (Task 6).
 """
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Dict, Optional
 
 # =============================================================================
 # Golden Authentication Tokens
@@ -57,7 +57,7 @@ INVALID_TOKEN_WRONG_PREFIX = "sk-openai-wrong-prefix-12345678"
 # Header Builders
 # =============================================================================
 
-def golden_auth_headers(extra: dict[str, str] | None = None) -> dict[str, str]:
+def golden_auth_headers(extra: Optional[Dict[str, str]] = None) -> Dict[str, str]:
     """
     Build auth headers with golden token.
 
@@ -76,7 +76,7 @@ def golden_auth_headers(extra: dict[str, str] | None = None) -> dict[str, str]:
     return headers
 
 
-def tier_auth_headers(tier: int, extra: dict[str, str] | None = None) -> dict[str, str]:
+def tier_auth_headers(tier: int, extra: Optional[Dict[str, str]] = None) -> Dict[str, str]:
     """
     Build auth headers for specific tier.
 
@@ -103,7 +103,7 @@ def tier_auth_headers(tier: int, extra: dict[str, str] | None = None) -> dict[st
     return headers
 
 
-def org_auth_headers(org_id: int, extra: dict[str, str] | None = None) -> dict[str, str]:
+def org_auth_headers(org_id: int, extra: Optional[Dict[str, str]] = None) -> Dict[str, str]:
     """
     Build auth headers for specific org.
 
@@ -128,7 +128,7 @@ def org_auth_headers(org_id: int, extra: dict[str, str] | None = None) -> dict[s
     return headers
 
 
-def invalid_auth_headers(token_type: str = "short") -> dict[str, str]:
+def invalid_auth_headers(token_type: str = "short") -> Dict[str, str]:
     """
     Build headers with intentionally invalid token for negative testing.
 
@@ -168,7 +168,7 @@ VALID_TOKEN = GOLDEN_TOKEN
 # Golden Test Data
 # =============================================================================
 
-def golden_embed_payload(input_text: str = "hello world") -> dict[str, Any]:
+def golden_embed_payload(input_text: str = "hello world") -> Dict[str, Any]:
     """
     Build standard embeddings payload.
 
@@ -192,7 +192,7 @@ def golden_response_payload(
     input_text: str = "hi",
     stream: bool = False,
     model: str = "lukhas-response"
-) -> dict[str, Any]:
+) -> Dict[str, Any]:
     """
     Build standard responses payload.
 
@@ -215,7 +215,7 @@ def golden_response_payload(
     }
 
 
-def golden_dream_payload(prompt: str = "test dream") -> dict[str, Any]:
+def golden_dream_payload(prompt: str = "test dream") -> Dict[str, Any]:
     """
     Build standard dreams payload.
 
@@ -262,7 +262,7 @@ def unique_idempotency_key(test_name: str, iteration: int = 0) -> str:
     return hashlib.sha256(data.encode()).hexdigest()[:32]
 
 
-def golden_trace_header(test_name: str) -> dict[str, str]:
+def golden_trace_header(test_name: str) -> Dict[str, str]:
     """
     Generate consistent trace header for test.
 

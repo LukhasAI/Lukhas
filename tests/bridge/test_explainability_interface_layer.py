@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Dict, List, Optional
 
 import pytest
 from labs.bridge.explainability_interface_layer import (
@@ -18,7 +19,7 @@ from labs.bridge.explainability_interface_layer import (
 class _SymbolicEngineStub:
     """Stub symbolic engine returning deterministic traces."""
 
-    async def trace_reasoning(self, decision: dict[str, object]) -> list[dict[str, object]]:
+    async def trace_reasoning(self, decision: Dict[str, object]) -> List[Dict[str, object]]:
         return [
             {
                 "step_id": 1,
@@ -34,12 +35,12 @@ class _SymbolicEngineStub:
 class _MegClientStub:
     """Stub MEG client returning a minimal context payload."""
 
-    async def get_context(self, decision_id: str | None) -> dict[str, object]:  # pragma: no cover - simple stub
+    async def get_context(self, decision_id: Optional[str]) -> Dict[str, object]:  # pragma: no cover - simple stub
         return {"decision_id": decision_id, "memory": ["contextual insight"]}
 
 
 @pytest.fixture()
-def decision_payload() -> dict[str, object]:
+def decision_payload() -> Dict[str, object]:
     return {
         "id": "decision-1",
         "result": "approve",
@@ -63,7 +64,7 @@ def decision_payload() -> dict[str, object]:
 
 
 @pytest.mark.asyncio
-async def test_text_explanation_has_completeness(decision_payload: dict[str, object]) -> None:
+async def test_text_explanation_has_completeness(decision_payload: Dict[str, object]) -> None:
     interface = ExplainabilityInterface()
     explanation = await interface.explain(decision_payload, ExplanationMode.TEXT, ExplanationLevel.DETAILED)
 
@@ -74,7 +75,7 @@ async def test_text_explanation_has_completeness(decision_payload: dict[str, obj
 
 
 @pytest.mark.asyncio
-async def test_cache_records_hits(decision_payload: dict[str, object]) -> None:
+async def test_cache_records_hits(decision_payload: Dict[str, object]) -> None:
     interface = ExplainabilityInterface()
     await interface.explain(decision_payload)  # miss
     await interface.explain(decision_payload)  # hit
@@ -85,7 +86,7 @@ async def test_cache_records_hits(decision_payload: dict[str, object]) -> None:
 
 
 @pytest.mark.asyncio
-async def test_formal_proof_contains_conclusion(decision_payload: dict[str, object]) -> None:
+async def test_formal_proof_contains_conclusion(decision_payload: Dict[str, object]) -> None:
     interface = ExplainabilityInterface()
     proof = await interface.generate_formal_proof(decision_payload)
 
@@ -96,7 +97,7 @@ async def test_formal_proof_contains_conclusion(decision_payload: dict[str, obje
 
 
 @pytest.mark.asyncio
-async def test_multimodal_response_includes_audio(decision_payload: dict[str, object]) -> None:
+async def test_multimodal_response_includes_audio(decision_payload: Dict[str, object]) -> None:
     interface = ExplainabilityInterface()
     content = await interface.explain(
         decision_payload,
@@ -109,7 +110,7 @@ async def test_multimodal_response_includes_audio(decision_payload: dict[str, ob
 
 
 @pytest.mark.asyncio
-async def test_symbolic_trace_uses_stubs(decision_payload: dict[str, object]) -> None:
+async def test_symbolic_trace_uses_stubs(decision_payload: Dict[str, object]) -> None:
     interface = ExplainabilityInterface(
         symbolic_engine=_SymbolicEngineStub(),
         meg_client=_MegClientStub(),
@@ -127,7 +128,7 @@ async def test_symbolic_trace_uses_stubs(decision_payload: dict[str, object]) ->
 
 
 @pytest.mark.asyncio
-async def test_signature_generation(decision_payload: dict[str, object]) -> None:
+async def test_signature_generation(decision_payload: Dict[str, object]) -> None:
     interface = ExplainabilityInterface()
     explanation = await interface.explain(
         decision_payload,
@@ -140,7 +141,7 @@ async def test_signature_generation(decision_payload: dict[str, object]) -> None
 
 
 @pytest.mark.asyncio
-async def test_template_loading_from_json(tmp_path: Path, decision_payload: dict[str, object]) -> None:
+async def test_template_loading_from_json(tmp_path: Path, decision_payload: Dict[str, object]) -> None:
     template_dir = tmp_path / "templates"
     template_dir.mkdir()
 

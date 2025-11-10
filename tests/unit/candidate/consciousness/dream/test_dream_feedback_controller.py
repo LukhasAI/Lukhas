@@ -19,6 +19,7 @@ dream_core_pkg.dream_snapshot = dream_core_snapshot_module
 dream_pkg.core = dream_core_pkg
 
 from consciousness.dream.core.dream_feedback_controller import (  # noqa: E402 - stub modules must be registered before import
+from typing import List, Optional, Tuple
     DreamFeedbackController,
 )
 
@@ -26,7 +27,7 @@ from consciousness.dream.core.dream_feedback_controller import (  # noqa: E402 -
 class StubSnapshotStore:
     def __init__(self, snapshots):
         self._snapshots = snapshots
-        self.requested_user_id: str | None = None
+        self.requested_user_id: Optional[str] = None
 
     def get_recent_snapshots(self, user_id: str):
         self.requested_user_id = user_id
@@ -35,7 +36,7 @@ class StubSnapshotStore:
 
 class StubEmotionalMemory:
     def __init__(self) -> None:
-        self.calls: list[tuple[tuple, dict]] = []
+        self.calls: List[Tuple[tuple, dict]] = []
 
     def affect_delta(self, *args, **kwargs):  # pragma: no cover - stub only
         self.calls.append((args, kwargs))

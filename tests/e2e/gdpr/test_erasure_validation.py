@@ -17,7 +17,7 @@ import time
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict, List
 
 import pytest
 
@@ -38,14 +38,14 @@ class UserDataFootprint:
     """Represents all data associated with a user across LUKHAS systems"""
 
     user_id: str
-    aka_qualia_scenes: list[str] = None
-    aka_qualia_glyphs: list[str] = None
-    memory_folds: list[str] = None
-    consent_entries: list[str] = None
-    audit_logs: list[str] = None
-    vector_embeddings: list[str] = None
-    cached_responses: list[str] = None
-    session_data: dict[str, Any] = None
+    aka_qualia_scenes: List[str] = None
+    aka_qualia_glyphs: List[str] = None
+    memory_folds: List[str] = None
+    consent_entries: List[str] = None
+    audit_logs: List[str] = None
+    vector_embeddings: List[str] = None
+    cached_responses: List[str] = None
+    session_data: Dict[str, Any] = None
 
     def __post_init__(self):
         # Initialize empty lists if None
@@ -243,7 +243,7 @@ class MockDataStore:
         self.connection.commit()
         return footprint
 
-    def erase_user_data(self, user_id: str) -> dict[str, int]:
+    def erase_user_data(self, user_id: str) -> Dict[str, int]:
         """Perform GDPR-compliant data erasure for a user"""
         cursor = self.connection.cursor()
         erasure_counts = {}
@@ -274,7 +274,7 @@ class MockDataStore:
         self.connection.commit()
         return erasure_counts
 
-    def verify_user_data_erased(self, user_id: str) -> dict[str, Any]:
+    def verify_user_data_erased(self, user_id: str) -> Dict[str, Any]:
         """Verify that all user data has been properly erased"""
         cursor = self.connection.cursor()
         verification_results = {}
@@ -327,7 +327,7 @@ class GDPRErasureValidator:
     def __init__(self, data_store: MockDataStore):
         self.data_store = data_store
 
-    async def validate_complete_erasure(self, user_id: str) -> dict[str, Any]:
+    async def validate_complete_erasure(self, user_id: str) -> Dict[str, Any]:
         """Validate complete GDPR-compliant data erasure"""
 
         # Step 1: Create comprehensive user data footprint
@@ -361,9 +361,9 @@ class GDPRErasureValidator:
         self,
         user_id: str,
         footprint: UserDataFootprint,
-        erasure_counts: dict[str, int],
-        verification_results: dict[str, Any],
-    ) -> dict[str, Any]:
+        erasure_counts: Dict[str, int],
+        verification_results: Dict[str, Any],
+    ) -> Dict[str, Any]:
         """Assess GDPR compliance of the erasure process"""
 
         violations = []

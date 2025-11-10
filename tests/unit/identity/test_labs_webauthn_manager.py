@@ -2,6 +2,7 @@ import base64
 
 import pytest
 from labs.governance.identity.core.auth import webauthn_manager
+from typing import Dict
 
 
 class FakeEnum(str):
@@ -50,10 +51,10 @@ class FakeStructs:
 
 
 class FakeOptions:
-    def __init__(self, payload: dict[str, object]):
+    def __init__(self, payload: Dict[str, object]):
         self._payload = payload
 
-    def model_dump(self) -> dict[str, object]:
+    def model_dump(self) -> Dict[str, object]:
         return self._payload
 
 

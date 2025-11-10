@@ -61,7 +61,7 @@ class _GuardianDecision:
     drift_severity: str
     timestamp: datetime
     processing_time_ms: float
-    context: dict[str, object] = field(default_factory=dict)
+    context: Dict[str, object] = field(default_factory=dict)
     explanation: str = ""
 
 
@@ -119,7 +119,7 @@ class _ComplianceCheck:
     compliant: bool
     compliance_score: float
     confidence: float
-    violations_detected: list[dict[str, object]] = field(default_factory=list)
+    violations_detected: List[Dict[str, object]] = field(default_factory=list)
 
 
 @dataclass
@@ -132,13 +132,13 @@ class _ComplianceResult:
     regulatory_compliance: dict = field(default_factory=dict)
     total_violations: int = 0
     critical_violations: int = 0
-    max_risk_level: _ViolationSeverity | None = None
+    max_risk_level: Optional[_ViolationSeverity] = None
     decision_allowed: bool = True
     confidence_in_decision: float = 1.0
-    required_actions: list[_RemediationAction] = field(default_factory=list)
+    required_actions: List[_RemediationAction] = field(default_factory=list)
     evaluation_time: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     total_processing_time_ms: float = 0.0
-    audit_trail: list[dict[str, object]] = field(default_factory=list)
+    audit_trail: List[Dict[str, object]] = field(default_factory=list)
     human_review_required: bool = False
     compliance_explanation: str = ""
     violation_summary: str = ""
@@ -165,6 +165,7 @@ sys.modules.setdefault("labs.core.governance.constitutional_compliance_engine", 
 
 
 from labs.core.governance.guardian_integration import (  # noqa: E402  (import after stubs)
+from typing import Dict, List, Optional
     GuardianIntegrationMiddleware,
     IntegrationConfig,
 )
@@ -181,7 +182,7 @@ class StubGuardianSystem(_GuardianSystem2):
 class StubComplianceEngine(_ConstitutionalComplianceEngine):
     def __init__(self, result: _ComplianceResult):
         self.result = result
-        self.calls: list[tuple] = []
+        self.calls: List[tuple] = []
 
     async def check_constitutional_compliance(self, *args) -> _ComplianceResult:
         self.calls.append(args)

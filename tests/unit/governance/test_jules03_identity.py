@@ -8,7 +8,7 @@ import sys
 import types
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict, List, Optional, Tuple
 
 import pytest
 from governance.healthcare.decision_support import ClinicalDecisionSupport
@@ -75,7 +75,7 @@ healthcare_pkg = types.ModuleType("governance.healthcare")
 
 
 class _ClinicalDecisionSupport:
-    def __init__(self, config: dict | None = None):
+    def __init__(self, config: Optional[dict] = None):
         self._audit_sink = (config or {}).get("governance_sink", lambda payload: None)
 
     async def analyze_case(self, case_data: dict) -> dict:
@@ -120,10 +120,10 @@ sys.modules["governance.identity.core.sing"] = core_sing_pkg
 
 
 class _SessionReplayManager:
-    def __init__(self, config: dict | None = None):
-        self._sessions: dict[str, dict] = {}
+    def __init__(self, config: Optional[dict] = None):
+        self._sessions: Dict[str, dict] = {}
 
-    def create_replay_session(self, user_id: str, devices: tuple[str, str]) -> dict:
+    def create_replay_session(self, user_id: str, devices: Tuple[str, str]) -> dict:
         session_id = f"session-{secrets.token_hex(4)}"
         self._sessions[session_id] = {
             "user_id": user_id,
@@ -180,12 +180,12 @@ class _AuthQRGBridge:
 class _AuthWalletBridge:
     def __init__(self, integration):
         self._integration = integration
-        self._vault_store: dict[str, list[str]] = {}
+        self._vault_store: Dict[str, List[str]] = {}
 
     async def initialize(self) -> dict:
         return {"status": "initialized"}
 
-    async def store_auth_symbols(self, user_id: str, symbols: list[str]) -> dict:
+    async def store_auth_symbols(self, user_id: str, symbols: List[str]) -> dict:
         hashed = [hashlib.sha256(symbol.encode()).hexdigest() for symbol in symbols]
         self._vault_store[user_id] = hashed
         return {"stored": True}
@@ -240,7 +240,7 @@ def test_session_replay_lifecycle():
 
 
 def test_lambda_sso_engine_symbolic_and_sync():
-    notifications: list[dict[str, str]] = []
+    notifications: List[Dict[str, str]] = []
 
     def token_hook(payload: dict):
         notifications.append(payload)
@@ -430,7 +430,7 @@ async def test_wallet_bridge_storage_and_auth():
 
 @pytest.mark.asyncio
 async def test_clinical_decision_support_analysis():
-    audit_entries: list[dict[str, Any]] = []
+    audit_entries: List[Dict[str, Any]] = []
 
     support = ClinicalDecisionSupport({"governance_sink": audit_entries.append})
 

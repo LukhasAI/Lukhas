@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from types import SimpleNamespace
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 
 import pytest
 
@@ -81,11 +81,11 @@ if "labs.core.governance.guardian_system_2" not in sys.modules:
         processing_time_ms: float
         explanation: str = ""
         explanation_type: ExplanationType = ExplanationType.STANDARD
-        violated_principles: list[str] = field(default_factory=list)
-        drift_factors: list[str] = field(default_factory=list)
-        safety_violations: list[str] = field(default_factory=list)
-        risk_factors: list[str] = field(default_factory=list)
-        context: dict[str, Any] = field(default_factory=dict)
+        violated_principles: List[str] = field(default_factory=list)
+        drift_factors: List[str] = field(default_factory=list)
+        safety_violations: List[str] = field(default_factory=list)
+        risk_factors: List[str] = field(default_factory=list)
+        context: Dict[str, Any] = field(default_factory=dict)
         identity_impact: Optional[float] = None
         consciousness_impact: Optional[float] = None
         guardian_priority: str = "normal"
@@ -95,8 +95,8 @@ if "labs.core.governance.guardian_system_2" not in sys.modules:
             self,
             *,
             decision_type: DecisionType,
-            decision_data: dict[str, Any],
-            context: dict[str, Any],
+            decision_data: Dict[str, Any],
+            context: Dict[str, Any],
             user_id: Optional[str],
             explanation_type: ExplanationType,
         ) -> GuardianDecision:
@@ -135,7 +135,7 @@ from labs.core.governance.guardian_system_2 import DecisionType, SafetyLevel
 
 class _DummyGuardianSystem:
     def __init__(self):
-        self.calls: list[dict] = []
+        self.calls: List[dict] = []
 
     async def evaluate_decision(self, *, decision_type, decision_data, context, user_id, explanation_type):
         self.calls.append(
@@ -189,7 +189,7 @@ class _AllowedComplianceResult:
     confidence_in_decision = 0.93
     compliance_explanation = "Constitutional review passed"
     violation_summary = ""
-    required_actions: list[str] = ["request_human_review"]  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_unit_governance_test_guardian_integration_middleware_py_L192"}
+    required_actions: List[str] = ["request_human_review"]  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_unit_governance_test_guardian_integration_middleware_py_L192"}
     max_risk_level = ViolationSeverity.LOW
     total_processing_time_ms = 6.0
     principle_checks = {}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_unit_governance_test_guardian_integration_middleware_py_L195"}
@@ -212,7 +212,7 @@ async def test_guardian_monitor_blocks_when_compliance_denies(monkeypatch):
     middleware = GuardianIntegrationMiddleware(IntegrationConfig())
     middleware.guardian_system = _BlockingGuardianSystem()
 
-    captured_contexts: list[DecisionContext] = []
+    captured_contexts: List[DecisionContext] = []
 
     class _ComplianceEngine:
         async def check_constitutional_compliance(self, decision_context, decision_data, user_id=None):
