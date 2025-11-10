@@ -12,6 +12,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
 from matriz.core.memory_system import MemorySystem, MemoryQuery, MemoryType
+from adapters.openai import require_bearer, TokenClaims
 
 from .openai_schemas import (
     ChatCompletionRequest,
@@ -73,7 +74,10 @@ class OpenAIErrorHandler:
         }
 
 @router.post("/chat/completions", response_model=ChatCompletionResponse)
-async def chat_completions(request: ChatCompletionRequest):
+async def chat_completions(
+    request: ChatCompletionRequest,
+    token: TokenClaims = Depends(require_bearer),
+):
     """OpenAI-compatible chat completions endpoint."""
     if not request.messages:
         raise HTTPException(
@@ -184,7 +188,10 @@ async def list_models():
 
 
 @router.post("/embeddings", response_model=EmbeddingResponse)
-async def create_embeddings(request: EmbeddingRequest):
+async def create_embeddings(
+    request: EmbeddingRequest,
+    token: TokenClaims = Depends(require_bearer),
+):
     """Generate embeddings for a given input."""
     inputs = (
         request.input if isinstance(request.input, list) else [request.input]
