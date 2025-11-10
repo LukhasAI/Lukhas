@@ -23,6 +23,7 @@ from typing import Dict, List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel, Field
 
+from lukhas.api import analytics
 from lukhas.features.flags_service import (
     FeatureFlagsService,
     FlagEvaluationContext,
@@ -313,6 +314,14 @@ async def evaluate_flag(
             f"(type={flag.flag_type.value}, env={context.environment})"
         )
 
+        # Track analytics event
+        analytics.track_feature_evaluation(
+            flag_name=flag_name,
+            user_id=user_id,
+            enabled=enabled,
+            context=context,
+        )
+
         return FlagEvaluationResponse(
             flag_name=flag_name,
             enabled=enabled,
@@ -371,6 +380,13 @@ async def update_flag(
         logger.info(
             f"Flag updated by {user_id}: {flag_name} "
             f"(enabled={flag.enabled}, percentage={flag.percentage})"
+        )
+
+        # Track analytics event
+        analytics.track_feature_update(
+            flag_name=flag_name,
+            admin_id=user_id,
+            changes=update_data.dict(exclude_unset=True),
         )
 
         return FlagInfo(
