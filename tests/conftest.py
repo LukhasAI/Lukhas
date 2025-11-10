@@ -76,6 +76,7 @@ def _block_network(monkeypatch):
     yield
     monkeypatch.setattr(socket, "socket", real_socket)
 
+@pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     # Capture failures for Memory Healix
     outcome = yield
