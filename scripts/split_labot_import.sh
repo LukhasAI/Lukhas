@@ -1,18 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Split large ΛBot import into policy-compliant draft PRs
-# Usage: ./scripts/split_labot_import.sh [group_size]
+# Split a large commit into policy-compliant draft PRs
+# Usage: ./scripts/split_labot_import.sh <commit_hash> [group_size]
 
-GROUP_SIZE=${1:-2}
-ARTIFACTS_COMMIT="cb5d4cc01"
-POLISH_COMMIT="1fa806988"
-DOCS_COMMIT="8de9174cb"
+COMMIT_HASH=${1:?Please provide a commit hash}
+GROUP_SIZE=${2:-2}
 
 echo "═══════════════════════════════════════════════════════════"
-echo "ΛBot Import Splitter - Creating Draft PRs"
+echo "Commit Splitter - Creating Draft PRs"
+echo "Commit: $COMMIT_HASH"
 echo "Group size: $GROUP_SIZE files per PR"
 echo "═══════════════════════════════════════════════════════════"
+
+# Get the list of files changed in the commit
+FILES=($(git show --pretty="" --name-only "$COMMIT_HASH"))
 
 # Function to create PR for a group of files
 create_pr_for_group() {
@@ -47,7 +49,7 @@ create_pr_for_group() {
     if ! git diff --cached --quiet 2>/dev/null; then
         # Files are already staged by git checkout, don't add extra files
         # git add . would pick up unrelated working directory changes
-        git commit -m "chore(labot): import ΛBot files (group $group_num)
+        git commit -m "chore(import): import files (group $group_num)
 
 Imported from commit $commit:
 $(printf '- %s\n' "${files[@]}")
@@ -63,17 +65,17 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
         git push -u origin "$branch"
 
         # Create draft PR
-        local pr_title="chore(labot): import ΛBot artifacts (group $group_num)"
-        local pr_body="# ΛBot Import - Group $group_num
+        local pr_title="chore(import): import artifacts (group $group_num)"
+        local pr_body="# Import - Group $group_num
 
 **Source commit**: \`$commit\`
 **Files**: ${#files[@]}
 
 ## Files in this PR
-$(printf '- `%s`\n' "${files[@]}")
+$(printf '- `%s\n' "${files[@]}")
 
 ## Context
-This draft PR is part of splitting the large ΛBot infrastructure import into policy-compliant chunks (≤2 files, ≤40 lines per PR).
+This draft PR is part of splitting a large import into policy-compliant chunks (≤2 files, ≤40 lines per PR).
 
 ## Review checklist
 - [ ] No production code modified (tests/prompts/config only)
@@ -95,161 +97,20 @@ This draft PR is part of splitting the large ΛBot infrastructure import into po
     git checkout main
 }
 
-# Process artifacts commit (cb5d4cc01)
-echo ""
-echo "Processing artifacts commit: $ARTIFACTS_COMMIT"
-artifacts_files=(
-    ".labot/config.yml"
-    "tools/labot.py"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-infra" 1 "${artifacts_files[@]}"
-
-artifacts_files2=(
-    "scripts/run_labot.sh"
-    ".github/workflows/labot_plan.yml"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-infra" 2 "${artifacts_files2[@]}"
-
-# Prompts (serve)
-serve_prompts=(
-    "prompts/labot/serve_main.md"
-    "prompts/labot/serve_identity_middleware.md"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-prompts" 3 "${serve_prompts[@]}"
-
-serve_prompts2=(
-    "prompts/labot/serve_responses.md"
-    "prompts/labot/serve_streaming.md"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-prompts" 4 "${serve_prompts2[@]}"
-
-serve_prompts3=(
-    "prompts/labot/serve_error_handling.md"
-    "prompts/labot/serve_middleware_cors.md"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-prompts" 5 "${serve_prompts3[@]}"
-
-# Prompts (lukhas)
-lukhas_prompts=(
-    "prompts/labot/lukhas_identity_core.md"
-    "prompts/labot/lukhas_identity_webauthn.md"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-prompts" 6 "${lukhas_prompts[@]}"
-
-lukhas_prompts2=(
-    "prompts/labot/lukhas_governance_guardian.md"
-)
-matriz_prompts=(
-    "prompts/labot/matriz_core_engine.md"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-prompts" 7 "${lukhas_prompts2[@]}" "${matriz_prompts[@]}"
-
-# Prompts (matriz, core)
-matriz_prompts2=(
-    "prompts/labot/matriz_adapters_llm_adapter.md"
-    "prompts/labot/matriz_memory_context.md"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-prompts" 8 "${matriz_prompts2[@]}"
-
-matriz_prompts3=(
-    "prompts/labot/matriz_bio_adaptation.md"
-)
-core_prompts=(
-    "prompts/labot/core_monitoring_metrics.md"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-prompts" 9 "${matriz_prompts3[@]}" "${core_prompts[@]}"
-
-core_prompts2=(
-    "prompts/labot/core_security_encryption.md"
-)
-reports=(
-    "reports/evolve_candidates.json"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-prompts" 10 "${core_prompts2[@]}" "${reports[@]}"
-
-# PR requests (serve)
-serve_requests=(
-    "requests/labot/serve_main.pr.yml"
-    "requests/labot/serve_identity_middleware.pr.yml"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-requests" 11 "${serve_requests[@]}"
-
-serve_requests2=(
-    "requests/labot/serve_responses.pr.yml"
-    "requests/labot/serve_streaming.pr.yml"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-requests" 12 "${serve_requests2[@]}"
-
-serve_requests3=(
-    "requests/labot/serve_error_handling.pr.yml"
-    "requests/labot/serve_middleware_cors.pr.yml"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-requests" 13 "${serve_requests3[@]}"
-
-# PR requests (lukhas, matriz, core)
-lukhas_requests=(
-    "requests/labot/lukhas_identity_core.pr.yml"
-    "requests/labot/lukhas_identity_webauthn.pr.yml"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-requests" 14 "${lukhas_requests[@]}"
-
-lukhas_requests2=(
-    "requests/labot/lukhas_governance_guardian.pr.yml"
-)
-matriz_requests=(
-    "requests/labot/matriz_core_engine.pr.yml"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-requests" 15 "${lukhas_requests2[@]}" "${matriz_requests[@]}"
-
-matriz_requests2=(
-    "requests/labot/matriz_adapters_llm_adapter.pr.yml"
-    "requests/labot/matriz_memory_context.pr.yml"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-requests" 16 "${matriz_requests2[@]}"
-
-matriz_requests3=(
-    "requests/labot/matriz_bio_adaptation.pr.yml"
-)
-core_requests=(
-    "requests/labot/core_monitoring_metrics.pr.yml"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-requests" 17 "${matriz_requests3[@]}" "${core_requests[@]}"
-
-core_requests2=(
-    "requests/labot/core_security_encryption.pr.yml"
-)
-create_pr_for_group "$ARTIFACTS_COMMIT" "labot/import-requests" 18 "${core_requests2[@]}"
-
-# Process polish commit (1fa806988)
-echo ""
-echo "Processing polish commit: $POLISH_COMMIT"
-polish_files=(
-    "tools/labot.py"
-    ".github/PULL_REQUEST_TEMPLATE.md"
-)
-create_pr_for_group "$POLISH_COMMIT" "labot/import-polish" 19 "${polish_files[@]}"
-
-polish_files2=(
-    ".github/workflows/labot_audit.yml"
-    "prompts/_templates/test_surgeon_system_prompt.md"
-)
-create_pr_for_group "$POLISH_COMMIT" "labot/import-polish" 20 "${polish_files2[@]}"
-
-# Process docs commit (8de9174cb)
-echo ""
-echo "Processing docs commit: $DOCS_COMMIT"
-docs_files=(
-    "LABOT_DEPLOYMENT_COMPLETE.md"
-)
-create_pr_for_group "$DOCS_COMMIT" "labot/import-docs" 21 "${docs_files[@]}"
+# Split the files into groups and create PRs
+GROUP_NUM=1
+for (( i=0; i<${#FILES[@]}; i+=GROUP_SIZE )); do
+  GROUP_FILES=("${FILES[@]:i:GROUP_SIZE}")
+  create_pr_for_group "$COMMIT_HASH" "import/split" "$GROUP_NUM" "${GROUP_FILES[@]}"
+  ((GROUP_NUM++))
+done
 
 echo ""
 echo "═══════════════════════════════════════════════════════════"
 echo "✅ Import splitting complete!"
-echo "Created ~21 draft PRs for systematic review and merge"
+echo "Created draft PRs for systematic review and merge"
 echo ""
 echo "Next steps:"
 echo "1. Review draft PRs on GitHub"
-echo "2. Merge in order: infra → prompts → requests → polish → docs"
-echo "3. PR #1203 (serve/main.py pilot) continues unchanged"
+echo "2. Merge in a safe order"
 echo "═══════════════════════════════════════════════════════════"
