@@ -45,7 +45,8 @@ create_pr_for_group() {
 
     # Check if we have changes
     if ! git diff --cached --quiet 2>/dev/null; then
-        git add .
+        # Files are already staged by git checkout, don't add extra files
+        # git add . would pick up unrelated working directory changes
         git commit -m "chore(labot): import ΛBot files (group $group_num)
 
 Imported from commit $commit:
