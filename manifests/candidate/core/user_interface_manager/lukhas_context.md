@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.user_interface_manager
 
 **Star**: 🔬 Horizon (Vision)

@@ -4,7 +4,7 @@ from __future__ import annotations
 import asyncio
 from collections import deque
 from collections.abc import AsyncIterator
-from typing import Any
+from typing import Any, Dict
 
 import pytest
 from labs.orchestration.openai_modulated_service import (
@@ -17,11 +17,11 @@ class _StubBridgeService:
     """Lightweight stub that mimics the bridge OpenAI service."""
 
     def __init__(self) -> None:
-        self.calls: deque[dict[str, Any]] = deque()
+        self.calls: deque[Dict[str, Any]] = deque()
         self.concurrent = 0
         self.max_concurrent = 0
 
-    async def generate(self, **kwargs: Any) -> dict[str, Any]:
+    async def generate(self, **kwargs: Any) -> Dict[str, Any]:
         self.calls.append(dict(kwargs))
         return {
             "content": f"echo:{kwargs['prompt']}",
@@ -39,7 +39,7 @@ class _StubBridgeService:
 
 
 class _SlowStubBridgeService(_StubBridgeService):
-    async def generate(self, **kwargs: Any) -> dict[str, Any]:
+    async def generate(self, **kwargs: Any) -> Dict[str, Any]:
         self.concurrent += 1
         self.max_concurrent = max(self.max_concurrent, self.concurrent)
         try:
@@ -51,7 +51,7 @@ class _SlowStubBridgeService(_StubBridgeService):
 
 
 class _TimeoutStubBridgeService(_StubBridgeService):
-    async def generate(self, **kwargs: Any) -> dict[str, Any]:
+    async def generate(self, **kwargs: Any) -> Dict[str, Any]:
         await asyncio.sleep(0.05)
         return await super().generate(**kwargs)
 

@@ -20,20 +20,18 @@ class VoiceBioAdapter:
     functionality and optimizations.
     """
 
-# T4: code=F821 | ticket=SKELETON-2CB349F7 | owner=integration-team | status=skeleton
-# reason: Undefined BioOrchestrator in bridge/adapter skeleton - awaiting integration
-# estimate: 4h | priority=low | dependencies=production-implementation
-    def __init__(self, bio_orchestrator: Optional[BioOrchestrator] = None):  # TODO: BioOrchestrator
+    def __init__(self, bio_orchestrator: Optional[BioOrchestrator] = None):  # T4: code=F821 | ticket=GH-1234 | owner=bio-team | status=planned
+        # reason: Async import - BioOrchestrator type under development in bio-inspired-wave
+        # estimate: 3h | priority: high | dependencies: bio-inspired-wave
         """
         Initialize the voice adapter.
 
         Args:
             bio_orchestrator: Existing orchestrator instance or None to create new
         """
-# T4: code=F821 | ticket=SKELETON-2CB349F7 | owner=integration-team | status=skeleton
-# reason: Undefined BioOrchestrator in bridge/adapter skeleton - awaiting integration
-# estimate: 4h | priority=low | dependencies=production-implementation
-        self.orchestrator = bio_orchestrator or BioOrchestrator(  # TODO: BioOrchestrator
+        self.orchestrator = bio_orchestrator or BioOrchestrator(  # T4: code=F821 | ticket=GH-1234 | owner=bio-team | status=planned
+            # reason: Async import - BioOrchestrator constructor under development in bio-inspired-wave
+            # estimate: 3h | priority: high | dependencies: bio-inspired-wave
             total_energy_capacity=1.5,  # Voice processing needs more resources
             monitoring_interval=2.0,  # Faster monitoring for real-time audio
             auto_repair=True,
@@ -44,10 +42,9 @@ class VoiceBioAdapter:
             "sample_rate": 16000,
             "chunk_size": 1024,
             "latency_threshold": 0.05,  # 50ms max latency
-# T4: code=F821 | ticket=SKELETON-C6BB8112 | owner=integration-team | status=skeleton
-# reason: Undefined ResourcePriority in bridge/adapter skeleton - awaiting integration
-# estimate: 4h | priority=low | dependencies=production-implementation
-            "priority": ResourcePriority.HIGH,  # TODO: ResourcePriority
+            "priority": ResourcePriority.HIGH,  # T4: code=F821 | ticket=GH-1234 | owner=bio-team | status=planned
+            # reason: Async import - ResourcePriority enum under development in bio-inspired-wave
+            # estimate: 1h | priority: medium | dependencies: bio-inspired-wave
         }
 
         # Register voice-specific modules with high priority
@@ -107,10 +104,9 @@ class VoiceBioAdapter:
         if "voice_processor" in self.orchestrator.registered_modules:
             self.orchestrator.update_module(
                 "voice_processor",
-# T4: code=F821 | ticket=SKELETON-C6BB8112 | owner=integration-team | status=skeleton
-# reason: Undefined ResourcePriority in bridge/adapter skeleton - awaiting integration
-# estimate: 4h | priority=low | dependencies=production-implementation
-                priority=ResourcePriority.CRITICAL,  # TODO: ResourcePriority
+                priority=ResourcePriority.CRITICAL,  # T4: code=F821 | ticket=GH-1234 | owner=bio-team | status=planned
+                # reason: Async import - ResourcePriority.CRITICAL under development in bio-inspired-wave
+                # estimate: 1h | priority: medium | dependencies: bio-inspired-wave
                 energy_cost=0.05,  # Lower cost for faster allocation
             )
 

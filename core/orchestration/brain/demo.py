@@ -41,20 +41,19 @@ try:
     from backend.core.neuro_symbolic_engine import NeuroSymbolicEngine
     from backend.identity.identity_manager import IdentityManager
     from backend.security.privacy_manager import PrivacyManager
-    from voice.speech_processor import SpeechProcessor
-
     from frontend.interface.adaptive_interface_generator import AdaptiveInterfaceGenerator
     from frontend.multimodal.image_generator import AdaptiveImageGenerator
+    from voice.speech_processor import SpeechProcessor
 
     # Root components
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     from compliance_engine import ComplianceEngine
-    from memory_manager import MemoryManager
-    from voice.modulator import VoiceModulator
-    from voice.safety.voice_safety_guard import VoiceSafetyGuard
 
     # Utils and config
     from core.orchestration.brain.config.settings import load_settings
+    from memory_manager import MemoryManager
+    from voice.modulator import VoiceModulator
+    from voice.safety.voice_safety_guard import VoiceSafetyGuard
 
 except ImportError as e:
     logger.critical(f"Failed to import required components: {e}")

@@ -1,42 +1,38 @@
 """Test orchestration module basic functionality."""
 
 import pytest
+from importlib.util import find_spec
+
+HAS_KERNEL_BUS = find_spec("orchestration.KernelBus") is not None
+HAS_CONTEXT_BUS = find_spec("labs.orchestration.context_bus") is not None
+HAS_ORCHESTRATION = find_spec("orchestration") is not None
 
 
+@pytest.mark.skipif(not HAS_KERNEL_BUS, reason="Kernel bus not available")
 def test_kernel_bus_import():
     """Test KernelBus imports and basic init."""
-    try:
-        from orchestration import KernelBus
+    from orchestration import KernelBus
 
-        # Test creation
-        bus = KernelBus()
-        assert bus is not None
-        assert hasattr(bus, "emit")
-        assert hasattr(bus, "subscribe")
-
-    except ImportError:
-        pytest.skip("Kernel bus not available")
+    # Test creation
+    bus = KernelBus()
+    assert bus is not None
+    assert hasattr(bus, "emit")
+    assert hasattr(bus, "subscribe")
 
 
+@pytest.mark.skipif(not HAS_CONTEXT_BUS, reason="Context bus not available")
 def test_context_bus_import():
     """Test context bus imports."""
-    try:
-        from labs.orchestration.context_bus import ContextBus
+    from labs.orchestration.context_bus import ContextBus
 
-        # Check class exists
-        assert ContextBus is not None
-
-    except (ImportError, AttributeError):
-        pytest.skip("Context bus not available")
+    # Check class exists
+    assert ContextBus is not None
 
 
+@pytest.mark.skipif(not HAS_ORCHESTRATION, reason="Orchestration module not available")
 def test_orchestration_exports():
     """Test orchestration module exports."""
-    try:
-        import orchestration as orchestration
+    import orchestration as orchestration
 
-        # Check key exports
-        assert hasattr(orchestration, "KernelBus")
-
-    except ImportError:
-        pytest.skip("Orchestration module not available")
+    # Check key exports
+    assert hasattr(orchestration, "KernelBus")

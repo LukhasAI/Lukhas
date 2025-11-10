@@ -24,8 +24,7 @@ import time
 from unittest.mock import patch
 
 import pytest
-
-from consciousness.matriz_thought_loop import MATRIZThoughtLoop, matrizThoughtLoop
+from consciousness.matriz_thought_loop import matrizThoughtLoop
 from consciousness.meta_cognitive_assessor import CognitiveLoadLevel, MetaCognitiveAssessment
 
 # Gate heavy dependency: if consciousness.types is not wired in this environment,

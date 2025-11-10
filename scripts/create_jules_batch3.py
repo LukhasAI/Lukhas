@@ -7,12 +7,10 @@ Focus: Maximize automation coverage with remaining 70+ quota
 import asyncio
 import sys
 from pathlib import Path
-from typing import Optional
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from bridge.llm_wrappers.jules_wrapper import JulesClient
-
 
 BATCH3_SESSIONS = [
     # HIGH PRIORITY - Test Coverage

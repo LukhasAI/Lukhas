@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.brain.consciousness_core
 
 **Star**: 🌊 Flow (Consciousness)

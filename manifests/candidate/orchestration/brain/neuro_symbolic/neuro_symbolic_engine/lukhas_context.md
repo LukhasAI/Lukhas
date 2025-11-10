@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.brain.neuro_symbolic.neuro_symbolic_engine
 
 **Star**: Supporting

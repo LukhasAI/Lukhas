@@ -127,6 +127,13 @@ QIBioCoordinator = Any  # Placeholder
 
 try:
     from bio.symbolic.architectures import BioSymbolicOrchestrator as BioOrchestrator
+
+    # type: ignore
+    from core.bio_systems.qi_layer import (  # type: ignore
+        QIBioOscillator,
+        QIConfig,
+        QILikeState,
+    )
     from qi.qi_awareness_system import QIAwarenessSystem  # type: ignore
 
     # AIMPORT_TODO: Review this path for QIBioCoordinator. If it's part
@@ -135,13 +142,6 @@ try:
     from qi.qi_dream_adapter import QIDreamAdapter  # type: ignore
     from qi.qi_unified_system import (
         UnifiedQuantumSystem,  # type: ignore  # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
-    )
-
-    # type: ignore
-    from core.bio_systems.qi_layer import (  # type: ignore
-        QIBioOscillator,
-        QIConfig,
-        QILikeState,
     )
 
     LUKHAS_CORE_COMPONENTS_AVAILABLE = True

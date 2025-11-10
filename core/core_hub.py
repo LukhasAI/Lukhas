@@ -1,4 +1,6 @@
 """Bridge module for core.core_hub → labs.core.core_hub"""
 from __future__ import annotations
 
-from labs.core.core_hub import *
+from labs.core.core_hub import CoreHub, HubManager
+
+__all__ = ["CoreHub", "HubManager"]

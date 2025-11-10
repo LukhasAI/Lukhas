@@ -23,7 +23,6 @@ from datetime import datetime, timezone
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
-
 from core.consciousness.advanced_consciousness_engine import (
     AdvancedConsciousnessEngine,
     ConsciousnessMetrics,

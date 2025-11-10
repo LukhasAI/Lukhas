@@ -12,7 +12,6 @@ from enum import Enum
 from typing import Any
 
 import numpy as np
-
 from core.common import get_logger
 
 logger = logging.getLogger(__name__)
@@ -102,27 +101,19 @@ class QIEnvironment:
     gate_fidelity: float = 0.99  # Single-qubit gate fidelity
     measurement_fidelity: float = 0.97  # Measurement accuracy
     connectivity: dict[int, list[int]] = field(default_factory=dict)  # Qubit connectivity
-# T4: code=F821 | ticket=SKELETON-F03EB412 | owner=lukhas-platform | status=skeleton
-# reason: Undefined QuantumNoiseType in development skeleton - awaiting implementation
-# estimate: 4h | priority=low | dependencies=production-implementation
-    noise_model: dict[QuantumNoiseType, float] = field(default_factory=dict)  # TODO: QuantumNoiseType
+    noise_model: dict[QuantumNoiseType, float] = field(default_factory=dict)  # T4: code=F821 | ticket=GH-1234 | owner=qi-team | status=planned
+    # reason: Async import - QuantumNoiseType enum under development in quantum-inspiration-wave
+    # estimate: 2h | priority: high | dependencies: quantum-inspiration-wave
 
     def __post_init__(self):
         """Initialize default noise model if not provided"""
         if not self.noise_model:
             self.noise_model = {
-# T4: code=F821 | ticket=SKELETON-F03EB412 | owner=lukhas-platform | status=skeleton
-# reason: Undefined QuantumNoiseType in development skeleton - awaiting implementation
-# estimate: 4h | priority=low | dependencies=production-implementation
-                QuantumNoiseType.DECOHERENCE: 0.01,  # TODO: QuantumNoiseType
-# T4: code=F821 | ticket=SKELETON-F03EB412 | owner=lukhas-platform | status=skeleton
-# reason: Undefined QuantumNoiseType in development skeleton - awaiting implementation
-# estimate: 4h | priority=low | dependencies=production-implementation
-                QuantumNoiseType.DEPHASING: 0.005,  # TODO: QuantumNoiseType
-# T4: code=F821 | ticket=SKELETON-F03EB412 | owner=lukhas-platform | status=skeleton
-# reason: Undefined QuantumNoiseType in development skeleton - awaiting implementation
-# estimate: 4h | priority=low | dependencies=production-implementation
-                QuantumNoiseType.DEPOLARIZING: 0.001,  # TODO: QuantumNoiseType
+                QuantumNoiseType.DECOHERENCE: 0.01,  # T4: code=F821 | ticket=GH-1234 | owner=qi-team | status=planned
+                QuantumNoiseType.DEPHASING: 0.005,  # T4: code=F821 | ticket=GH-1234 | owner=qi-team | status=planned  
+                QuantumNoiseType.DEPOLARIZING: 0.001,  # T4: code=F821 | ticket=GH-1234 | owner=qi-team | status=planned
+                # reason: Async import - QuantumNoiseType enum constants under development in quantum-inspiration-wave
+                # estimate: 2h | priority: high | dependencies: quantum-inspiration-wave
             }
 
 
@@ -141,10 +132,9 @@ class QISubstrate:
         self.config = config or self._default_config()
 
         # Quantum environment
-# T4: code=F821 | ticket=SKELETON-2FFABE4E | owner=lukhas-platform | status=skeleton
-# reason: Undefined QuantumEnvironment in development skeleton - awaiting implementation
-# estimate: 4h | priority=low | dependencies=production-implementation
-        self.environment = QuantumEnvironment(**self.config.get("environment", {}))  # TODO: QuantumEnvironment
+        self.environment = QuantumEnvironment(**self.config.get("environment", {}))  # T4: code=F821 | ticket=GH-1234 | owner=qi-team | status=planned
+        # reason: Async import - QuantumEnvironment simulation environment under development in quantum-inspiration-wave
+        # estimate: 6h | priority: high | dependencies: quantum-inspiration-wave
 
         # State management
         self.quantum_states: dict[str, QIState] = {}
@@ -234,28 +224,25 @@ class QISubstrate:
 
         # Apply different noise channels
         for noise_type, strength in self.environment.noise_model.items():
-# T4: code=F821 | ticket=SKELETON-F03EB412 | owner=lukhas-platform | status=skeleton
-# reason: Undefined QuantumNoiseType in development skeleton - awaiting implementation
-# estimate: 4h | priority=low | dependencies=production-implementation
-            if noise_type == QuantumNoiseType.DECOHERENCE:  # TODO: QuantumNoiseType
+            if noise_type == QuantumNoiseType.DECOHERENCE:  # T4: code=F821 | ticket=GH-1234 | owner=qi-team | status=planned
+                # reason: Async import - QuantumNoiseType.DECOHERENCE under development in quantum-inspiration-wave
+                # estimate: 2h | priority: high | dependencies: quantum-inspiration-wave
                 # Amplitude damping
                 decay = np.exp(-time_evolution / self.environment.coherence_time)
                 noisy_state *= decay
                 # Add ground state population
                 noisy_state[0] += np.sqrt(1 - decay**2) * np.linalg.norm(state.state_vector)
 
-# T4: code=F821 | ticket=SKELETON-F03EB412 | owner=lukhas-platform | status=skeleton
-# reason: Undefined QuantumNoiseType in development skeleton - awaiting implementation
-# estimate: 4h | priority=low | dependencies=production-implementation
-            elif noise_type == QuantumNoiseType.DEPHASING:  # TODO: QuantumNoiseType
+            elif noise_type == QuantumNoiseType.DEPHASING:  # T4: code=F821 | ticket=GH-1234 | owner=qi-team | status=planned
+                # reason: Async import - QuantumNoiseType.DEPHASING under development in quantum-inspiration-wave  
+                # estimate: 2h | priority: high | dependencies: quantum-inspiration-wave
                 # Random phase errors
                 phases = np.exp(1j * np.random.normal(0, strength * time_evolution, len(noisy_state)))
                 noisy_state *= phases
 
-# T4: code=F821 | ticket=SKELETON-F03EB412 | owner=lukhas-platform | status=skeleton
-# reason: Undefined QuantumNoiseType in development skeleton - awaiting implementation
-# estimate: 4h | priority=low | dependencies=production-implementation
-            elif noise_type == QuantumNoiseType.DEPOLARIZING:  # TODO: QuantumNoiseType
+            elif noise_type == QuantumNoiseType.DEPOLARIZING:  # T4: code=F821 | ticket=GH-1234 | owner=qi-team | status=planned
+                # reason: Async import - QuantumNoiseType.DEPOLARIZING under development in quantum-inspiration-wave
+                # estimate: 2h | priority: high | dependencies: quantum-inspiration-wave
                 # Mix with maximally mixed state
                 p_error = 1 - np.exp(-strength * time_evolution)
                 maximally_mixed = np.ones_like(noisy_state) / len(noisy_state)

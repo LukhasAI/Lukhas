@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.symbolic_core.reasoning
 
 **Star**: Supporting

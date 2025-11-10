@@ -7,7 +7,11 @@ import math
 
 import pytest
 
-try:
+from importlib.util import find_spec
+
+if find_spec("aka_qualia.metrics") is None or find_spec("aka_qualia.models") is None:
+    pytest.skip("Aka Qualia metrics not available", allow_module_level=True)
+else:
     from aka_qualia.metrics import AkaQualiaMetrics, MetricsConfig
     from aka_qualia.models import (
         AgencyFeel,
@@ -18,8 +22,6 @@ try:
         SeverityLevel,
         TemporalFeel,
     )
-except ImportError:  # pragma: no cover
-    pytest.skip("Aka Qualia metrics not available", allow_module_level=True)
 
 # --- Test Fixtures and Helpers ---
 

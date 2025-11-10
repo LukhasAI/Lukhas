@@ -7,14 +7,16 @@ from unittest import mock
 
 import pytest
 
-try:
+from importlib.util import find_spec
+
+if find_spec("lukhas_website.lukhas.bio.core.bio_symbolic") is None:
+    pytest.skip("Bio symbolic module unavailable", allow_module_level=True)
+else:
     from lukhas_website.lukhas.bio.core.bio_symbolic import (
         BioSymbolic,
         BioSymbolicOrchestrator,
         SymbolicGlyph,
     )
-except ImportError:  # pragma: no cover
-    pytest.skip("Bio symbolic module unavailable", allow_module_level=True)
 
 
 @pytest.mark.tier3

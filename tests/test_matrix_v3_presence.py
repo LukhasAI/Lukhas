@@ -9,7 +9,7 @@ with expected types and default values.
 import glob
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict, List
 
 import pytest
 
@@ -68,12 +68,12 @@ V3_SECTIONS = {
 }
 
 
-def get_all_contracts() -> list[Path]:
+def get_all_contracts() -> List[Path]:
     """Get all Matrix contract files."""
     return [Path(p) for p in sorted(glob.glob("contracts/matrix_*.json"))]
 
 
-def load_contract(contract_path: Path) -> dict[str, Any]:
+def load_contract(contract_path: Path) -> Dict[str, Any]:
     """Load a contract file as JSON."""
     with open(contract_path, encoding='utf-8') as f:
         return json.load(f)

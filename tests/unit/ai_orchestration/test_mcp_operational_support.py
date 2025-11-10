@@ -2,15 +2,17 @@ from unittest.mock import patch
 
 import pytest
 
-try:
+from importlib.util import find_spec
+
+if find_spec("ai_orchestration.mcp_operational_support") is None:
+    pytest.skip("ai_orchestration.mcp_operational_support not available", allow_module_level=True)
+else:
     from ai_orchestration.mcp_operational_support import (
         LUKHASMCPOperationalSupport,
         MCPServerContext,
         OperationalMetrics,
         SupportIncident,
     )
-except ImportError:  # pragma: no cover - module optional in this lane
-    pytest.skip("ai_orchestration.mcp_operational_support not available", allow_module_level=True)
 
 
 @pytest.fixture

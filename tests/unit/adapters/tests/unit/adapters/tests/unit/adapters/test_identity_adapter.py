@@ -2,7 +2,6 @@ import json
 from pathlib import Path
 
 from matriz.adapters.identity_adapter import UidentityAdapter
-
 from tests.util.mk_msg import mk_msg_from_json
 
 GOLDEN = Path("tests/fixtures/golden/identity_adapter")

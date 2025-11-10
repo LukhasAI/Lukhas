@@ -11,7 +11,6 @@ import types
 from contextlib import contextmanager
 
 import pytest
-
 from utils.similarity import _cosine
 from utils.time import utc_now
 

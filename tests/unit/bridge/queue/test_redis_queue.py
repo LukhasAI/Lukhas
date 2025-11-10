@@ -7,7 +7,6 @@ from unittest.mock import AsyncMock, patch
 
 import fakeredis.aioredis
 import pytest
-
 from bridge.queue.redis_queue import RedisTaskQueue, Task, TaskPriority, TaskType
 
 
