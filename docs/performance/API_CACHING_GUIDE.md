@@ -273,7 +273,124 @@ You should configure alerts in your monitoring system (e.g., Grafana, Alertmanag
   - A cache invalidation event has cleared a large number of popular items.
   - The application is trying to access a very large variety of keys that don't fit in the cache (low data locality).
 
-## 7. Advanced Usage and Best Practices
+## 7. Testing Cache Performance
+
+### Writing Tests for Cached Operations
+
+It's critical to test cached functions to ensure they behave correctly. Here are examples using `pytest`:
+
+```python
+# tests/test_cache_performance.py
+import pytest
+import asyncio
+from caching.cache_system import cache_operation, get_cache_manager
+
+@pytest.fixture
+async def clean_cache():
+    """Ensure clean cache state for each test."""
+    cache_manager = get_cache_manager()
+    await cache_manager.clear()
+    yield
+    await cache_manager.clear()
+
+@cache_operation(cache_key="test_operation", ttl_seconds=60)
+async def expensive_operation(value: int) -> int:
+    """Simulated expensive operation."""
+    await asyncio.sleep(0.1)  # Simulate delay
+    return value * 2
+
+@pytest.mark.asyncio
+async def test_cache_hit_performance(clean_cache):
+    """Test that cached operations are faster on subsequent calls."""
+    import time
+
+    # First call - should be slow (cache miss)
+    start = time.time()
+    result1 = await expensive_operation(42)
+    first_call_time = time.time() - start
+
+    # Second call - should be fast (cache hit)
+    start = time.time()
+    result2 = await expensive_operation(42)
+    second_call_time = time.time() - start
+
+    assert result1 == result2 == 84
+    assert second_call_time < first_call_time / 10  # Should be 10x faster
+
+@pytest.mark.asyncio
+async def test_cache_statistics(clean_cache):
+    """Test that cache statistics are tracked correctly."""
+    cache_manager = get_cache_manager()
+
+    # Generate some cache activity
+    await expensive_operation(1)  # miss
+    await expensive_operation(1)  # hit
+    await expensive_operation(2)  # miss
+
+    stats = await cache_manager.get_statistics()
+    assert stats.hits >= 1
+    assert stats.misses >= 2
+    assert stats.hit_ratio > 0
+```
+
+### Performance Benchmark Script
+
+Create `scripts/benchmark_cache.py` to measure cache performance:
+
+```python
+#!/usr/bin/env python3
+"""Benchmark script for cache performance analysis."""
+import asyncio
+import time
+import statistics
+from caching.cache_system import cache_operation, get_cache_manager
+
+@cache_operation(cache_key="benchmark_op", ttl_seconds=300)
+async def benchmark_operation(value: int) -> dict:
+    """Simulate a 5KB data fetch with 100ms latency."""
+    await asyncio.sleep(0.1)  # Simulate backend delay
+    return {"data": "x" * 5000, "value": value}
+
+async def run_benchmark(iterations: int = 1000):
+    """Run cache performance benchmark."""
+    cache_manager = get_cache_manager()
+    await cache_manager.clear()
+
+    uncached_times = []
+    cached_times = []
+
+    # Benchmark uncached operations
+    for i in range(iterations):
+        await cache_manager.clear()
+        start = time.time()
+        await benchmark_operation(i)
+        uncached_times.append((time.time() - start) * 1000)
+
+    # Benchmark cached operations
+    await cache_manager.clear()
+    for i in range(iterations):
+        start = time.time()
+        await benchmark_operation(i % 100)  # Reuse 100 values
+        cached_times.append((time.time() - start) * 1000)
+
+    # Calculate statistics
+    print("# Cache Performance Benchmark Results\n")
+    print(f"| Metric | Uncached | Cached | Improvement |")
+    print(f"|--------|----------|--------|-------------|")
+    print(f"| p50 | {statistics.median(uncached_times):.2f}ms | {statistics.median(cached_times):.2f}ms | {((1 - statistics.median(cached_times)/statistics.median(uncached_times)) * 100):.1f}% |")
+    print(f"| p95 | {sorted(uncached_times)[int(0.95*iterations)]:.2f}ms | {sorted(cached_times)[int(0.95*iterations)]:.2f}ms | {((1 - sorted(cached_times)[int(0.95*iterations)]/sorted(uncached_times)[int(0.95*iterations)]) * 100):.1f}% |")
+    print(f"| p99 | {sorted(uncached_times)[int(0.99*iterations)]:.2f}ms | {sorted(cached_times)[int(0.99*iterations)]:.2f}ms | {((1 - sorted(cached_times)[int(0.99*iterations)]/sorted(uncached_times)[int(0.99*iterations)]) * 100):.1f}% |")
+
+    stats = await cache_manager.get_statistics()
+    print(f"\n**Cache Hit Ratio:** {stats.hit_ratio * 100:.1f}%")
+
+if __name__ == "__main__":
+    asyncio.run(run_benchmark())
+```
+
+Run with: `python scripts/benchmark_cache.py > reports/cache_performance.md`
+
+## 8. Advanced Usage and Best Practices
 
 ### Cache Warming Strategies
 Cache warming is the process of pre-populating the cache with data before it is requested by users. This can significantly improve the performance for the first users who access a resource after a deployment or cache flush.
