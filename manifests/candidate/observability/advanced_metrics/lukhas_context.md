@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.observability.advanced_metrics
 
 **Star**: Supporting

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.orchestration.brain.governance
 
 **Star**: 🛡️ Watch (Guardian)

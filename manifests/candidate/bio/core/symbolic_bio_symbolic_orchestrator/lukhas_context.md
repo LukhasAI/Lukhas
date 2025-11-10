@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.bio.core.symbolic_bio_symbolic_orchestrator
 
 **Star**: Supporting

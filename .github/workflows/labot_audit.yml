@@ -1,0 +1,96 @@
+name: ΛBot Audit
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+  workflow_dispatch: {}
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+
+      - run: python -m pip install --upgrade pip
+      - run: pip install ruff mypy safety pip-audit pyyaml
+
+      - name: Run guard_patch
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          python tools/guard_patch.py \
+            --base $BASE_SHA \
+            --head $HEAD_SHA \
+            --protected .lukhas/protected-files.yml \
+            --max-files 2 \
+            --max-lines 40 \
+            || echo "::warning::Policy guard failed - review required"
+
+      - name: Install OPA
+        run: |
+          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
+          chmod +x opa
+          sudo install -m 755 opa /usr/local/bin/opa
+
+      - name: Evaluate OPA policies
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          python .policy/diff_to_json.py > /tmp/diff.json
+          opa eval --format pretty --fail-defined --data .policy --input /tmp/diff.json "data.rules.deny[_]"
+
+      - name: Lint check (changed Python files only)
+        run: |
+          BASE_SHA="${{ github.event.pull_request.base.sha || github.event.before }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha || github.sha }}"
+          CHANGED=$(git diff --name-only $BASE_SHA $HEAD_SHA | grep -E '\.py$' || true)
+          if [ -n "$CHANGED" ]; then
+            echo "Linting changed files: $CHANGED"
+            ruff check $CHANGED || echo "::warning::Ruff linting found issues"
+            mypy $CHANGED || echo "::warning::MyPy type checking found issues"
+          else
+            echo "No Python files changed"
+          fi
+
+      - name: Security scan (pip-audit)
+        run: |
+          pip-audit --quiet || echo "::warning::pip-audit found vulnerabilities"
+
+      - name: Validate YAML files
+        run: |
+          python3 -c "
+import yaml
+import sys
+from pathlib import Path
+
+failed = []
+for f in Path('.').rglob('*.yml'):
+    if '.git' in str(f) or 'node_modules' in str(f):
+        continue
+    try:
+        yaml.safe_load(f.read_text())
+    except Exception as e:
+        failed.append(f'{f}: {e}')
+
+if failed:
+    print('::error::YAML validation failed:')
+    for err in failed[:10]:
+        print(f'::error::{err}')
+    sys.exit(1)
+else:
+    print('✅ All YAML files are valid')
+" || echo "::warning::Some YAML files have syntax issues"
+
+      - name: Check for secrets
+        run: |
+          git diff ${{ github.event.pull_request.base.sha || github.event.before }} \
+                   ${{ github.event.pull_request.head.sha || github.sha }} \
+            | grep -Ei 'api[_-]?key|secret|password|token|bearer' \
+            && echo "::error::Potential secrets detected in diff" && exit 1 || true

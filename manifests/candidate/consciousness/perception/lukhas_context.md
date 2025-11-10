@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.consciousness.perception
 
 **Star**: 🌊 Flow (Consciousness)

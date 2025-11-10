@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.bio.core.systems_mitochondria_model
 
 **Star**: Supporting

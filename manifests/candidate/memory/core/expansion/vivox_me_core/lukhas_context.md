@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.memory.core.expansion.vivox_me_core
 
 **Star**: ✦ Trail (Memory)

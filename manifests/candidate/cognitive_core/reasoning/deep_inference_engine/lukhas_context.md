@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.cognitive_core.reasoning.deep_inference_engine
 
 **Star**: Supporting

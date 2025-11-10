@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.governance.features
 
 **Star**: 🛡️ Watch (Guardian)

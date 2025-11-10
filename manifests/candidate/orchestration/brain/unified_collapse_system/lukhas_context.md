@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.brain.unified_collapse_system
 
 **Star**: Supporting

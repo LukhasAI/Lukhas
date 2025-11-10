@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.signal_router
 
 **Star**: Supporting

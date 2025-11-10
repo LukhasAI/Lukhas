@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.brain.dynamic_adaptive_dashboard
 
 **Star**: Supporting

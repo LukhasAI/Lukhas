@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.governance.identity.wearables_integration
 
 **Star**: ⚛️ Anchor (Identity)

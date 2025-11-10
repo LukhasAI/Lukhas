@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LUKHAS AI System Status - Real-time monitoring">
+    <title>LUKHAS AI Status</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        .status-healthy { background-color: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
+        .status-degraded { background-color: #f59e0b; box-shadow: 0 0 10px rgba(245, 158, 11, 0.5); }
+        .status-down { background-color: #ef4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        .metric-card { transition: transform 0.2s, box-shadow 0.2s; }
+        .metric-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">LUKHAS AI</h1>
+                    <p class="text-gray-500 mt-1">System Status</p>
+                </div>
+                <div id="overall-status" class="flex items-center px-4 py-2 rounded-lg">
+                    <span class="status-indicator status-healthy"></span>
+                    <span class="text-lg font-semibold">All Systems Operational</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Services</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- API Server -->
+                <div class="metric-card bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold">API Server</h3>
+                        <span class="status-indicator status-healthy"></span>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Uptime:</span>
+                            <span id="api-uptime" class="font-mono">99.99%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Response (p95):</span>
+                            <span id="api-p95" class="font-mono">45ms</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Database -->
+                <div class="metric-card bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold">Database</h3>
+                        <span class="status-indicator status-healthy"></span>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Status:</span>
+                            <span id="db-status" class="font-mono">Healthy</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cache -->
+                <div class="metric-card bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold">Cache</h3>
+                        <span class="status-indicator status-healthy"></span>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Hit Rate:</span>
+                            <span id="cache-hit-rate" class="font-mono">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Recent Activity</h2>
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-start">
+                    <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="font-medium text-gray-900">All systems operational</p>
+                        <p class="text-sm text-gray-500">No incidents in the last 7 days</p>
+                        <p class="text-xs text-gray-400 mt-1">Last checked: <span id="last-checked">--</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-white border-t mt-16">
+        <div class="max-w-7xl mx-auto px-4 py-6">
+            <p class="text-sm text-gray-500">
+                Last updated: <span id="last-updated" class="font-mono">--</span>
+            </p>
+        </div>
+    </footer>
+
+    <script src="status.js"></script>
+</body>
+</html>

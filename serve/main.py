@@ -96,6 +96,19 @@ matriz_traces_router = (
     _safe_import_router('MATRIZ.traces_router', 'router')
     or _safe_import_router('matriz.traces_router', 'router')
 )
+
+# Core wiring routers (feature-flag gated)
+dreams_router = None
+if (env_get('LUKHAS_DREAMS_ENABLED', '0') or '0').strip() == '1':
+    dreams_router = _safe_import_router('lukhas_website.lukhas.api.dreams', 'router')
+
+glyphs_router = None
+if (env_get('LUKHAS_GLYPHS_ENABLED', '0') or '0').strip() == '1':
+    glyphs_router = _safe_import_router('lukhas_website.lukhas.api.glyphs', 'router')
+
+drift_router = None
+if (env_get('LUKHAS_DRIFT_ENABLED', '0') or '0').strip() == '1':
+    drift_router = _safe_import_router('lukhas_website.lukhas.api.drift', 'router')
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -181,6 +194,13 @@ if consciousness_router is not None:
     app.include_router(consciousness_router)
 if guardian_router is not None:
     app.include_router(guardian_router)
+# Core wiring routers (feature-flag gated)
+if dreams_router is not None:
+    app.include_router(dreams_router)
+if glyphs_router is not None:
+    app.include_router(glyphs_router)
+if drift_router is not None:
+    app.include_router(drift_router)
 
 def voice_core_available() -> bool:
     try:

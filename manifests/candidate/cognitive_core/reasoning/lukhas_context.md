@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.cognitive_core.reasoning
 
 **Star**: Supporting

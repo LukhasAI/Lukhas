@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.agents.builtin
 
 **Star**: 🔬 Horizon (Vision)

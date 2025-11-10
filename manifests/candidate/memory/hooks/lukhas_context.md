@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.memory.hooks
 
 **Star**: ✦ Trail (Memory)

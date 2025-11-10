@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.interfaces.as_agent.streamlit.components
 
 **Star**: 🔬 Horizon (Vision)

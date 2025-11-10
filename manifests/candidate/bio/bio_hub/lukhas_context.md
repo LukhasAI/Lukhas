@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.bio.bio_hub
 
 **Star**: Supporting

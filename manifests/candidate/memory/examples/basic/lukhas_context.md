@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.memory.examples.basic
 
 **Star**: ✦ Trail (Memory)

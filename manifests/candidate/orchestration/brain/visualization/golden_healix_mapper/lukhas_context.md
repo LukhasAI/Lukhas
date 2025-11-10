@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.orchestration.brain.visualization.golden_healix_mapper
 
 **Star**: Supporting

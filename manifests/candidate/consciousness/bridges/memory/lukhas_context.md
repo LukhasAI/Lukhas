@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.consciousness.bridges.memory
 
 **Star**: ✦ Trail (Memory)
