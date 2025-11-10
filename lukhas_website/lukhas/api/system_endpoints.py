@@ -197,13 +197,31 @@ def _check_registry_health() -> dict[str, Any]:
         return {"status": "unavailable", "error": "Registry not available"}
 
     try:
+# T4: code=F821 | ticket=SKELETON-B1A886F8 | owner=api-team | status=skeleton
+# reason: Undefined _REG in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+# T4: code=F821 | ticket=SKELETON-B1A886F8 | owner=api-team | status=skeleton
+# reason: Undefined _REG in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         plugin_count = len(_REG) if _REG else 0  # TODO: _REG
+# T4: code=F821 | ticket=SKELETON-54286D67 | owner=api-team | status=skeleton
+# reason: Undefined _DISCOVERY_FLAG in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         discovery_mode = _DISCOVERY_FLAG  # TODO: _DISCOVERY_FLAG
 
         # Registry is healthy if it can store/retrieve plugins
         test_key = "_health_check_test"
+# T4: code=F821 | ticket=SKELETON-B1A886F8 | owner=api-team | status=skeleton
+# reason: Undefined _REG in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         _REG[test_key] = "test_value"  # TODO: _REG
+# T4: code=F821 | ticket=SKELETON-B1A886F8 | owner=api-team | status=skeleton
+# reason: Undefined _REG in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         can_write = _REG.get(test_key) == "test_value"  # TODO: _REG
+# T4: code=F821 | ticket=SKELETON-B1A886F8 | owner=api-team | status=skeleton
+# reason: Undefined _REG in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         del _REG[test_key]  # TODO: _REG
 
         return {

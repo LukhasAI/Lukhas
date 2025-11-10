@@ -92,14 +92,23 @@ except ImportError:  # pragma: no cover - provide lightweight stub when dependen
 class QIAGISystem:
     """Top-level orchestrator for the entire quantum-safe AI system"""
 
+# T4: code=F821 | ticket=SKELETON-6D862185 | owner=lukhas-platform | status=skeleton
+# reason: Undefined SystemConfig in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     def __init__(self, config: SystemConfig):  # TODO: SystemConfig
         # Security infrastructure
         security_mesh = getattr(config, "security_mesh", None)
         if security_mesh is None:
             security_mesh = MultiJurisdictionComplianceEngine(
                 # See: https://github.com/LukhasAI/Lukhas/issues/605
+# T4: code=F821 | ticket=SKELETON-8BD385A6 | owner=lukhas-platform | status=skeleton
+# reason: Undefined PostQuantumCryptoEngine in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 pqc_engine=PostQuantumCryptoEngine(config.crypto_config),  # TODO: PostQuantumCryptoEngine
                 # See: https://github.com/LukhasAI/Lukhas/issues/606
+# T4: code=F821 | ticket=SKELETON-DBC1521D | owner=lukhas-platform | status=skeleton
+# reason: Undefined QISafeAuditBlockchain in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 audit_blockchain=QISafeAuditBlockchain(),  # TODO: QISafeAuditBlockchain
                 # See: https://github.com/LukhasAI/Lukhas/issues/607
                 frameworks=getattr(config, "compliance_frameworks", DEFAULT_COMPLIANCE_FRAMEWORKS),
@@ -119,14 +128,29 @@ class QIAGISystem:
         self.security_mesh = security_mesh
 
         # Core components with quantum enhancement
+# T4: code=F821 | ticket=SKELETON-BB86D6F0 | owner=lukhas-platform | status=skeleton
+# reason: Undefined QINeuralSymbolicProcessor in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self.qi_neural_core = QINeuralSymbolicProcessor(config.qi_security_config)  # TODO: QINeuralSymbolicProcessor
+# T4: code=F821 | ticket=SKELETON-A0CD23FC | owner=lukhas-platform | status=skeleton
+# reason: Undefined DistributedQuantumSafeOrchestrator in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self.distributed_orchestrator = DistributedQuantumSafeOrchestrator(config.cluster_config)  # TODO: DistributedQuantumSafeOrchestr...
 
         # Advanced capabilities
+# T4: code=F821 | ticket=SKELETON-BE5C85E2 | owner=lukhas-platform | status=skeleton
+# reason: Undefined QIUIOptimizer in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self.qi_ui_optimizer = QIUIOptimizer()  # TODO: QIUIOptimizer
+# T4: code=F821 | ticket=SKELETON-76F11C87 | owner=lukhas-platform | status=skeleton
+# reason: Undefined QIAssociativeMemoryBank in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self.qi_memory = QIAssociativeMemoryBank()  # TODO: QIAssociativeMemoryBank
 
         # Monitoring and telemetry
+# T4: code=F821 | ticket=SKELETON-DFFD44E6 | owner=lukhas-platform | status=skeleton
+# reason: Undefined QISafeTelemetry in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self.qi_telemetry = QISafeTelemetry(export_endpoint=config.telemetry_endpoint, encryption_level="homomorphic")  # TODO: QISafeTelemetry
 
         # Regulatory compliance
@@ -179,6 +203,15 @@ class QIAGISystem:
             # Fallback if voice/bio components not available
             self.voice_enhancer = None
 
+# T4: code=F821 | ticket=SKELETON-3B320F7B | owner=lukhas-platform | status=skeleton
+# reason: Undefined SecureResponse in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+# T4: code=F821 | ticket=SKELETON-5E974BE8 | owner=lukhas-platform | status=skeleton
+# reason: Undefined QISecureSession in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+# T4: code=F821 | ticket=SKELETON-45017DD0 | owner=lukhas-platform | status=skeleton
+# reason: Undefined UserRequest in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     async def process_user_request(self, request: UserRequest, qi_session: QISecureSession) -> SecureResponse:  # TODO: UserRequest
         """End-to-end processing with full quantum security"""
 
@@ -356,6 +389,9 @@ class QIAGISystem:
             qi_metrics = await self.qi_telemetry.get_quantum_advantage_metrics()
 
             # Optimize quantum circuit compilation
+# T4: code=F821 | ticket=SKELETON-B1FE3662 | owner=lukhas-platform | status=skeleton
+# reason: Undefined threshold in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             if qi_metrics.circuit_depth > threshold:  # TODO: threshold
                 await self.qi_neural_core.optimize_circuits()
 

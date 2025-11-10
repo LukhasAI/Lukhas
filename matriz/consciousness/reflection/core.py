@@ -318,8 +318,14 @@ class ReflectionMemoryAttentionLayer:
         self.num_heads = num_heads
         self.head_dim = hidden_dim // num_heads
         if (
+# T4: code=F821 | ticket=SKELETON-D7397356 | owner=lukhas-platform | status=skeleton
+# reason: Undefined TORCH_AVAILABLE in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             TORCH_AVAILABLE
         ):  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_core_py_L319"}
+# T4: code=F821 | ticket=SKELETON-40802ABC | owner=lukhas-platform | status=skeleton
+# reason: Undefined nn in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             self.attention = nn.MultiheadAttention(
                 embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1
             )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_core_py_L321"}
