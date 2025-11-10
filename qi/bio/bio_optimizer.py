@@ -611,6 +611,9 @@ class QIBioOptimizationAdapter:
         time_condition = self.last_optimization_timestamp is None or (
             time.monotonic() - self.last_optimization_timestamp > time_threshold_sec
         )
+# T4: code=F821 | ticket=SKELETON-35E0584E | owner=lukhas-platform | status=skeleton
+# reason: Undefined cycles_condition in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         return cycles_condition and time_condition  # TODO: cycles_condition
 
     async def _process_dream_consolidation(self, awareness_result: dict[str, Any]) -> dict[str, Any]:

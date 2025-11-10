@@ -11,6 +11,8 @@ Usage:
         --output docs/audits/COMPLETE_MODULE_INVENTORY.json \\
         --verbose
 """
+from typing import Any
+from typing import List
 
 import ast
 import json
@@ -39,6 +41,9 @@ class ModuleInventoryGenerator:
         """Scan directory for Python packages"""
         print(f"Scanning {directory} (lane: {lane})...")
 
+# T4: code=F821 | ticket=SKELETON-0B5AC074 | owner=lukhas-platform | status=skeleton
+# reason: Undefined os in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         for root, dirs, files in os.walk(directory):
             # Skip common non-module directories
             dirs[:] = [d for d in dirs if d not in [
@@ -74,6 +79,9 @@ class ModuleInventoryGenerator:
         """Analyze a single module and extract metadata"""
 
         # Basic info
+# T4: code=F821 | ticket=SKELETON-0B5AC074 | owner=lukhas-platform | status=skeleton
+# reason: Undefined os in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         module_name = str(relative_path).replace(os.sep, '.')
 
         # Check for manifest

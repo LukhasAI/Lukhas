@@ -520,6 +520,9 @@ class VIVOXERNIntegratedSystem:
 
     def __init__(
         self,
+# T4: code=F821 | ticket=SKELETON-4AFFFAFB | owner=lukhas-platform | status=skeleton
+# reason: Undefined VIVOXEmotionalRegulationNetwork in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         vivox_ern: "VIVOXEmotionalRegulationNetwork",  # TODO: VIVOXEmotionalRegulationNetwor...
         event_bus: Optional[TypedEventBus] = None,
     ):

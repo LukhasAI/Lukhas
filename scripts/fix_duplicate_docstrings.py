@@ -23,6 +23,9 @@ def has_duplicate_docstring(content: str) -> bool:
 
 
 def fix_file(path: Path, dry_run: bool = False) -> bool:
+    content = path.read_text()
+    lines = content.splitlines()
+    
     # Try to remove it
     fixed_lines = []
     i = 0

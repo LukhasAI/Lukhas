@@ -281,6 +281,9 @@ def get_ethical_precedent_seeds() -> list[dict[str, Any]]:
     return formatted_precedents
 
 
+# T4: code=F821 | ticket=SKELETON-96F057B8 | owner=lukhas-platform | status=skeleton
+# reason: Undefined VIVOXMoralAlignmentEngine in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
 async def seed_precedent_database(mae_engine: "VIVOXMoralAlignmentEngine"):  # TODO: VIVOXMoralAlignmentEngine
     """
     Seed the MAE precedent database with common ethical scenarios

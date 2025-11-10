@@ -14,8 +14,12 @@ import logging
 import time
 from typing import Any, Optional
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
+
+from lukhas_website.lukhas.api.auth_helpers import get_current_user, lukhas_tier_required
+from identity.tier_system import TierLevel, PermissionScope
+
 
 logger = logging.getLogger(__name__)
 
@@ -95,7 +99,11 @@ router = APIRouter(
 
 
 @router.post("/simulate", response_model=DreamSimulationResponse, status_code=status.HTTP_200_OK)
-async def create_dream_simulation(request: DreamSimulationRequest) -> DreamSimulationResponse:
+@lukhas_tier_required(TierLevel.AUTHENTICATED, PermissionScope.MEMORY_FOLD)
+async def create_dream_simulation(
+    request: DreamSimulationRequest,
+    current_user: dict = Depends(get_current_user)
+) -> DreamSimulationResponse:
     """
     Simulate a dream based on seed and context.
 
@@ -144,7 +152,11 @@ async def create_dream_simulation(request: DreamSimulationRequest) -> DreamSimul
 
 
 @router.post("/mesh", response_model=ParallelDreamMeshResponse, status_code=status.HTTP_200_OK)
-async def create_parallel_dream_mesh(request: ParallelDreamMeshRequest) -> ParallelDreamMeshResponse:
+@lukhas_tier_required(TierLevel.AUTHENTICATED, PermissionScope.MEMORY_FOLD)
+async def create_parallel_dream_mesh(
+    request: ParallelDreamMeshRequest,
+    current_user: dict = Depends(get_current_user)
+) -> ParallelDreamMeshResponse:
     """
     Run parallel dream mesh with multiple seeds and consensus.
 
@@ -185,7 +197,11 @@ async def create_parallel_dream_mesh(request: ParallelDreamMeshRequest) -> Paral
 
 
 @router.get("/{dream_id}", status_code=status.HTTP_200_OK)
-async def get_dream(dream_id: str) -> dict[str, Any]:
+@lukhas_tier_required(TierLevel.AUTHENTICATED, PermissionScope.MEMORY_FOLD)
+async def get_dream(
+    dream_id: str,
+    current_user: dict = Depends(get_current_user)
+) -> dict[str, Any]:
     """
     Retrieve a dream by its ID.
 
@@ -212,6 +228,13 @@ async def get_dream(dream_id: str) -> dict[str, Any]:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Dream not found: {dream_id}"
+            )
+
+        # Security check: Ensure user can only access their own dreams
+        if dream.get("owner_id") != current_user["user_id"]:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Not authorized to access this resource"
             )
 
         return dream
