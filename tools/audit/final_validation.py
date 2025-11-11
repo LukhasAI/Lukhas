@@ -15,7 +15,7 @@ Usage:
 
 import json
 from pathlib import Path
-from typing import Dict
+# from typing import Dict  # UP035: Use built-in dict
 
 
 def validate_github_actions_hardening() -> Dict:
