@@ -69,4 +69,3 @@ pytest-benchmark
 psutil
 numpy
 async-lru
-fakeredis
