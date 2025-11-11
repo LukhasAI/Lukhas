@@ -714,8 +714,7 @@ RUN chmod +x {filename}
                 "Upgrade-Insecure-Requests": "1",
             }
 
-            async with aiohttp.ClientSession(connector=connector, timeout=timeout, headers=headers) as session:
-                async with session.get(url, allow_redirects=True, max_redirects=3) as response:
+            async with aiohttp.ClientSession(connector=connector, timeout=timeout, headers=headers) as session, session.get(url, allow_redirects=True, max_redirects=3) as response:
                     # Check content size
                     content_length = response.headers.get("content-length")
                     if content_length and int(content_length) > self.security_config["max_content_size"]:
