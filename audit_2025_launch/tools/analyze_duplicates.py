@@ -4,7 +4,7 @@ Analyze duplicate files from previous audit and generate actionable recommendati
 """
 import json
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
 def load_duplicate_report(report_path: str) -> Dict[str, Any]:

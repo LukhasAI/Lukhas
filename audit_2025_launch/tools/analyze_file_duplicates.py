@@ -5,7 +5,7 @@ Analyze file-level duplicates from Nov 3 audit and generate consolidation plan.
 import json
 import re
 from pathlib import Path
-from typing import Dict, List, Tuple
+# UP035: Use built-in dict, list, tuple
 
 
 def parse_duplicate_report(report_path: str) -> List[Dict]:

@@ -17,7 +17,7 @@ import argparse
 import json
 import shutil
 from pathlib import Path
-from typing import Dict, List
+# UP035: Use built-in dict instead of typing.Dict
 
 import libcst as cst
 

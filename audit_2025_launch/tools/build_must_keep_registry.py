@@ -4,7 +4,7 @@ Build comprehensive must-keep file registry for LUKHAS public launch.
 """
 import json
 from pathlib import Path
-from typing import List, Set
+# UP035: Use built-in list instead of typing.List
 
 
 def find_entry_points(base_dir: Path) -> List[str]:

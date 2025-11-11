@@ -10,7 +10,7 @@ import subprocess
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+# UP035: Use built-in dict instead of typing.Dict
 
 
 class BuildMetricsCollector:
