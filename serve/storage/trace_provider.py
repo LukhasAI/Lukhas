@@ -29,35 +29,46 @@ class TraceStorageProvider(ABC):
     """
 
     @abstractmethod
-    async def get_trace_by_id(self, trace_id: str) -> Optional[dict[str, Any]]:
+    async def get_trace_by_id(self, trace_id: str, user_id: str) -> Optional[dict[str, Any]]:
         """
-        Retrieve a trace by its unique identifier.
+        Retrieve a trace by its unique identifier for a specific user.
 
         Args:
             trace_id: UUID of the trace to retrieve
+            user_id: User identifier (REQUIRED for data isolation)
 
         Returns:
-            Trace data if found, None otherwise
+            Trace data if found and owned by user, None otherwise
+
+        Security:
+            Only returns traces belonging to the authenticated user.
+            Returns None if trace exists but belongs to different user.
         """
         pass
 
     @abstractmethod
     async def get_recent_traces(
         self,
+        user_id: str,
         limit: int = 10,
         level: Optional[int] = None,
         tag: Optional[str] = None,
     ) -> list[dict[str, Any]]:
         """
-        Get recent traces with optional filtering.
+        Get recent traces for a specific user with optional filtering.
 
         Args:
+            user_id: User identifier (REQUIRED for data isolation)
             limit: Maximum number of traces to return
             level: Filter by trace level
             tag: Filter by specific tag
 
         Returns:
-            List of trace entries
+            List of trace entries belonging to the specified user
+
+        Security:
+            Only returns traces belonging to the authenticated user.
+            User cannot access other users' traces.
         """
         pass
 
@@ -127,45 +138,93 @@ class FileTraceStorageProvider(TraceStorageProvider):
 
         return self._trace_logger
 
-    async def get_trace_by_id(self, trace_id: str) -> Optional[dict[str, Any]]:
+    async def get_trace_by_id(self, trace_id: str, user_id: str) -> Optional[dict[str, Any]]:
         """
-        Retrieve a trace by its unique identifier.
+        Retrieve a trace by its unique identifier for a specific user.
 
         Args:
             trace_id: UUID of the trace to retrieve
+            user_id: User identifier (REQUIRED for data isolation)
 
         Returns:
-            Trace data if found, None otherwise
+            Trace data if found and owned by user, None otherwise
+
+        Security:
+            Only returns traces belonging to the authenticated user.
+            Returns None if trace exists but belongs to different user.
         """
         try:
+            # Validate user_id is provided
+            if not user_id:
+                raise ValueError("user_id is required for data isolation")
+
             trace_logger = self._get_trace_logger()
-            return trace_logger.get_trace_by_id(trace_id)
+            trace = trace_logger.get_trace_by_id(trace_id)
+
+            if not trace:
+                return None
+
+            # Validate ownership - only return if trace belongs to this user
+            trace_user_id = trace.get("user_id")
+
+            # If trace has no user_id (legacy trace), don't return it to maintain security
+            # New traces should always have user_id set
+            if not trace_user_id:
+                logger.warning(f"Trace {trace_id} has no user_id (legacy trace) - denying access")
+                return None
+
+            # Check ownership
+            if trace_user_id != user_id:
+                logger.warning(f"User {user_id} attempted to access trace {trace_id} owned by {trace_user_id}")
+                return None
+
+            return trace
         except Exception as e:
-            logger.error(f"Error retrieving trace {trace_id}: {e}")
+            logger.error(f"Error retrieving trace {trace_id} for user {user_id}: {e}")
             raise
 
     async def get_recent_traces(
         self,
+        user_id: str,
         limit: int = 10,
         level: Optional[int] = None,
         tag: Optional[str] = None,
     ) -> list[dict[str, Any]]:
         """
-        Get recent traces with optional filtering.
+        Get recent traces for a specific user with optional filtering.
 
         Args:
+            user_id: User identifier (REQUIRED for data isolation)
             limit: Maximum number of traces to return
             level: Filter by trace level
             tag: Filter by specific tag
 
         Returns:
-            List of trace entries
+            List of trace entries belonging to the specified user
+
+        Security:
+            Only returns traces belonging to the authenticated user.
+            User cannot access other users' traces.
         """
         try:
+            # Validate user_id is provided
+            if not user_id:
+                raise ValueError("user_id is required for data isolation")
+
             trace_logger = self._get_trace_logger()
-            return trace_logger.get_recent_traces(limit=limit, level=level, tag=tag)
+            all_traces = trace_logger.get_recent_traces(limit=limit * 2, level=level, tag=tag)
+
+            # Filter by user ownership
+            # Only return traces belonging to this user
+            user_traces = [
+                t for t in all_traces
+                if t.get("user_id") == user_id
+            ]
+
+            # Respect limit after filtering
+            return user_traces[:limit]
         except Exception as e:
-            logger.error(f"Error retrieving recent traces: {e}")
+            logger.error(f"Error retrieving recent traces for user {user_id}: {e}")
             raise
 
     async def health_check(self) -> dict[str, Any]:
