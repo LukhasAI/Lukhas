@@ -357,8 +357,7 @@ class TestDreamEngineAdapterErrorHandling(unittest.TestCase):
         }
 
         # Mock method to raise exception
-        with patch.object(self.adapter, '_handle_start_cycle', side_effect=Exception("Test error")):
-            with patch('logging.Logger.error') as mock_error:
+        with patch.object(self.adapter, '_handle_start_cycle', side_effect=Exception("Test error")), patch('logging.Logger.error') as mock_error:
                 self.adapter.handle_message(message)
                 mock_error.assert_called_once()
 

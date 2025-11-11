@@ -227,8 +227,7 @@ class TestConsciousnessSignalRouter:
     def test_adaptive_routing(self, router, sample_signal):
         """Test adaptive routing strategy."""
         # Mock network conditions
-        with patch.object(router.health_monitor, 'get_network_load', return_value=0.8):
-            with patch.object(router.health_monitor, 'get_coherence_score', return_value=0.6):
+        with patch.object(router.health_monitor, 'get_network_load', return_value=0.8), patch.object(router.health_monitor, 'get_coherence_score', return_value=0.6):
                 handler_called = False
 
                 def adaptive_handler(signal):

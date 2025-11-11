@@ -97,8 +97,7 @@ class TestMemorySpan(unittest.TestCase):
 
     def test_span_error_exit(self):
         """Test the context manager exit on an exception."""
-        with self.assertRaises(ValueError):
-            with MemorySpan(self.mock_span, self.mock_metrics, "test_op"):
+        with self.assertRaises(ValueError), MemorySpan(self.mock_span, self.mock_metrics, "test_op"):
                 raise ValueError("test error")
 
         self.mock_span.set_status.assert_called_once()

@@ -577,8 +577,7 @@ class TestAPISystem:
 
     def test_service_fallback_behavior(self, test_client, mock_auth_token):
         """Test fallback behavior when services are unavailable."""
-        with patch('core.api.api_system.SymbolicEngine', side_effect=ImportError("Service unavailable")):
-            with patch('core.api.api_system.get_auth_system') as mock_get_auth:
+        with patch('core.api.api_system.SymbolicEngine', side_effect=ImportError("Service unavailable")), patch('core.api.api_system.get_auth_system') as mock_get_auth:
                 mock_auth = Mock()
                 mock_auth.validate_token.return_value = {"valid": True, "user_id": "test"}
                 mock_get_auth.return_value = mock_auth
