@@ -50,6 +50,22 @@ cache_misses_total = Gauge(
     ['cache_name']
 )
 
+# Dream and WaveC metrics
+dream_total = Counter(
+    'dream_total',
+    'Total number of dreams generated'
+)
+
+dream_with_regret_total = Counter(
+    'dream_with_regret_total',
+    'Total number of dreams with regret signatures'
+)
+
+wavec_rollbacks_total = Counter(
+    'wavec_rollbacks_total',
+    'Total number of WaveC rollbacks due to drift'
+)
+
 system_info = Info(
     'lukhas_system',
     'LUKHAS system information'
