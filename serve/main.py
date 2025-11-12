@@ -143,6 +143,10 @@ class HeadersMiddleware(BaseHTTPMiddleware):
     """Add OpenAI-compatible headers to all responses."""
 
     async def dispatch(self, request: Request, call_next):
+        # Bypass middleware for WebSocket connections
+        if request.scope["type"] == "websocket":
+            return await call_next(request)
+
         response = await call_next(request)
         trace_id = str(uuid.uuid4()).replace('-', '')
         response.headers['X-Trace-Id'] = trace_id
