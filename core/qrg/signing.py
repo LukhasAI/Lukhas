@@ -1,8 +1,12 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for QRG signing
+# estimate: 5min | priority: high | dependencies: none
+
 # core/qrg/signing.py
 import base64
 import json
 from datetime import datetime
-from typing import Optional, Tuple
+from typing import Optional
 from hashlib import sha256
 
 from cryptography.hazmat.primitives import hashes, serialization

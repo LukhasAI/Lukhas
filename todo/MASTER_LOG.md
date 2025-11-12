@@ -11,18 +11,18 @@
 
 **Task Overview:**
 ```
-Total Tasks: 84
-├─ Completed:  11 (13.1%)
-├─ Active:     73 (86.9%)
+Total Tasks: 98
+├─ Completed:  11 (11.2%)
+├─ Active:     87 (88.8%)
 └─ Blocked:    0  (0%)
 ```
 
 **Priority Breakdown:**
 ```
-P0 (Critical):  6 tasks  ( 7.1%) ⚠️  NEEDS IMMEDIATE ATTENTION
-P1 (High):     26 tasks  (31.0%) 🔥 Current sprint
-P2 (Medium):   27 tasks  (32.1%) 📋 Next sprint
-P3 (Low):      14 tasks  (16.7%) 💭 Backlog
+P0 (Critical):  6 tasks  ( 6.1%) ⚠️  NEEDS IMMEDIATE ATTENTION
+P1 (High):     31 tasks  (31.6%) 🔥 Current sprint
+P2 (Medium):   34 tasks  (34.7%) 📋 Next sprint
+P3 (Low):      16 tasks  (16.3%) 💭 Backlog
 ```
 
 **Agent Workload:**
@@ -87,8 +87,13 @@ Copilot:      5 tasks ( 7.8%)  - Mechanical edits, cleanup
 | LM002 | Implement canary deployment | Jules | PENDING | M | - | Gradual rollout |
 | TP002 | Implement performance benchmarks | CODEX | PENDING | M | - | Benchmark suite |
 | T20251112009 | Implement Dream-validation gate (pre-merge) | - | PENDING | M | - | CI gate: drift>0.15 ⇒ block PR (script ready, GH Action needed) |
+| T20251112022 | Run MATRIZ import inventory | - | PENDING | S | - | scripts/migration/matriz_inventory.sh → /tmp/matriz_imports.lst |
+| T20251112023 | Ensure MATRIZ compatibility shim exists & tested | - | PENDING | S | - | MATRIZ/__init__.py; make smoke must pass |
+| T20251112024 | Migrate serve/ to MATRIZ (AST codemod) | - | PENDING | S | - | scripts/migration/prepare_matriz_migration_prs.sh --dry-run |
+| T20251112025 | Migrate core/ to MATRIZ (AST codemod) | - | PENDING | S | - | Depends on T20251112024 |
+| T20251112026 | Migrate orchestrator/ to MATRIZ (AST codemod) | - | PENDING | S | - | Depends on T20251112025 |
 
-**P1 Summary**: 26 high-priority tasks for current sprint (1 week deadline). ✅ TP007, T20251112008, T20251112010, T20251112011 completed.
+**P1 Summary**: 31 high-priority tasks for current sprint (1 week deadline). ✅ TP007, T20251112008, T20251112010, T20251112011 completed. +5 MATRIZ migration prep tasks.
 
 ---
 
@@ -124,8 +129,15 @@ Copilot:      5 tasks ( 7.8%)  - Mechanical edits, cleanup
 | T20251112014 | Create Alignment SLO dashboard | - | PENDING | S | - | drift μ/σ, qrg coverage, mesh coherence |
 | T20251112016 | Implement CI alignment attestation | - | PENDING | S | - | Upload alignment.json artifact |
 | T20251112020 | Create GH Action YAML for dream-validation PR gate | - | PENDING | S | - | .github/workflows/dream-validate.yml |
+| T20251112027 | Migrate lukhas_website/ to MATRIZ (AST codemod) | - | PENDING | S | - | Depends on T20251112026 |
+| T20251112028 | Migrate core/colonies/ to MATRIZ (AST codemod) | - | PENDING | S | - | Oracle/reflection layer |
+| T20251112029 | Migrate core/tags/ & core/endocrine/ to MATRIZ | - | PENDING | S | - | Smaller modules batch |
+| T20251112030 | Migrate tests/integration/ to MATRIZ | - | PENDING | M | - | Split into 2 PRs if needed; after prod code merged |
+| T20251112031 | Migrate tests/unit/ to MATRIZ | - | PENDING | M | - | After prod code merged |
+| T20251112032 | Migrate tests/smoke/ & tests/benchmarks/ to MATRIZ | - | PENDING | S | - | Final test migration |
+| T20251112033 | Remove MATRIZ/__init__ compatibility shim | - | PENDING | S | - | Wait 48-72hrs after all migrations; keep rollback PR ready |
 
-**P2 Summary**: 27 medium-priority tasks for next sprint (2-4 weeks). ✅ T20251112012, T20251112015 completed.
+**P2 Summary**: 34 medium-priority tasks for next sprint (2-4 weeks). ✅ T20251112012, T20251112015 completed. +7 MATRIZ migration tasks.
 
 ---
 
@@ -147,8 +159,10 @@ Copilot:      5 tasks ( 7.8%)  - Mechanical edits, cleanup
 | T20251112018 | Create LUKHAS Manifesto (v0) | - | PENDING | S | - | 4 pillars + threat model |
 | T20251112019 | Draft QRG standard proposal | - | PENDING | S | - | Standardization seed for QRG format |
 | T20251112021 | Implement hardened QRG keystore | - | PENDING | M | - | File-based ephemeral keys + gh secret integration |
+| T20251112034 | Regenerate module registry and update docs | - | PENDING | S | - | After MATRIZ migration complete; docs/REPOSITORY_STATE_*.md |
+| T20251112035 | Archive migration scripts and create rollback docs | - | PENDING | S | - | migration_artifacts/ archive; rollback procedures |
 
-**P3 Summary**: 14 low-priority backlog tasks (1+ month timeline). +1 QRG hardening task added.
+**P3 Summary**: 16 low-priority backlog tasks (1+ month timeline). +2 MATRIZ cleanup tasks added.
 
 ---
 
@@ -190,6 +204,18 @@ For complete task details, see:
 ---
 
 ## Recent Changes
+
+### 2025-11-12 (Late Evening - MATRIZ Migration Planning)
+- Added 14 MATRIZ migration tasks (T20251112022-035):
+  - Phase 0: Inventory + shim validation (T20251112022-023)
+  - Phase 1: Production packages (serve, core, orchestrator) (T20251112024-029)
+  - Phase 2: Test migrations (integration, unit, smoke) (T20251112030-032)
+  - Phase 3: Shim removal (T20251112033)
+  - Phase 4: Cleanup & docs (T20251112034-035)
+- Created migration scripts:
+  - scripts/migration/prepare_matriz_migration_prs.sh (AST rewriter wrapper)
+  - scripts/migration/matriz_inventory.sh (import inventory tool)
+- Updated stats: 84→98 total tasks (+14), distributed P1(+5), P2(+7), P3(+2)
 
 ### 2025-11-12 (Evening Update)
 - ✅ Completed 5 alignment substrate implementations:
@@ -237,12 +263,12 @@ For complete task details, see:
 
 ## Task ID Generator
 
-**Next Task ID**: `T20251112022`
+**Next Task ID**: `T20251112036`
 
 **Format**: `T{YYYY}{MM}{DD}{sequential}`
 - Today's date: 2025-11-12
-- Last used: T20251112021
-- Next sequential: 022
+- Last used: T20251112035
+- Next sequential: 036
 
 **To generate**:
 ```bash
