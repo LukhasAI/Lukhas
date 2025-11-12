@@ -11,18 +11,18 @@
 
 **Task Overview:**
 ```
-Total Tasks: 70
-├─ Completed:  6  (8.6%)
-├─ Active:     64 (91.4%)
+Total Tasks: 82
+├─ Completed:  6  (7.3%)
+├─ Active:     76 (92.7%)
 └─ Blocked:    0  (0%)
 ```
 
 **Priority Breakdown:**
 ```
-P0 (Critical):  6 tasks  ( 8.6%) ⚠️  NEEDS IMMEDIATE ATTENTION
-P1 (High):     25 tasks  (35.7%) 🔥 Current sprint
-P2 (Medium):   24 tasks  (34.3%) 📋 Next sprint
-P3 (Low):      10 tasks  (14.3%) 💭 Backlog
+P0 (Critical):  6 tasks  ( 7.3%) ⚠️  NEEDS IMMEDIATE ATTENTION
+P1 (High):     29 tasks  (35.4%) 🔥 Current sprint
+P2 (Medium):   29 tasks  (35.4%) 📋 Next sprint
+P3 (Low):      13 tasks  (15.9%) 💭 Backlog
 ```
 
 **Agent Workload:**
@@ -86,8 +86,12 @@ Copilot:      5 tasks ( 7.8%)  - Mechanical edits, cleanup
 | LM001 | Enforce lane import restrictions | CODEX | PENDING | S | - | Import linter |
 | LM002 | Implement canary deployment | Jules | PENDING | M | - | Gradual rollout |
 | TP002 | Implement performance benchmarks | CODEX | PENDING | M | - | Benchmark suite |
+| T20251112008 | Implement QRG decision signatures (MVP) | - | PENDING | M | - | ECDSA sign/verify; attach to Decision events |
+| T20251112009 | Implement Dream-validation gate (pre-merge) | - | PENDING | M | - | CI gate: drift>0.15 ⇒ block PR |
+| T20251112010 | Implement WaveC dynamic thresholds + rollback | - | PENDING | M | - | Rolling μ,σ; threshold=μ+3σ; rehearsal |
+| T20251112011 | Implement Guardian+QRG+Dream bridge policy | - | PENDING | S | - | Veto requires QRG; link dream verdict |
 
-**P1 Summary**: 24 high-priority tasks for current sprint (1 week deadline). ✅ TP007 completed.
+**P1 Summary**: 29 high-priority tasks for current sprint (1 week deadline). ✅ TP007 completed. +4 alignment substrate tasks added.
 
 ---
 
@@ -119,8 +123,13 @@ Copilot:      5 tasks ( 7.8%)  - Mechanical edits, cleanup
 | T20251112002 | Add import-safe test for hyperspace_dream_simulator | Claude Code | PENDING | S | - | matriz/memory/temporal/hyperspace_dream_simulator.py |
 | T20251112003 | Add import-safe test for core/adapters/__init__ | Claude Code | PENDING | S | - | Lazy-load verification |
 | T20251112004 | Add import-safe test for core/governance/__init__ | Claude Code | PENDING | S | - | Lazy-load verification |
+| T20251112012 | Implement Mesh resonance snapshots + log-only mode | - | PENDING | S | - | LOG_ONLY; emit ResonanceSnapshot events |
+| T20251112013 | Embed Identity/Consent into QRG claims | - | PENDING | S | - | consent hash in signed payload |
+| T20251112014 | Create Alignment SLO dashboard | - | PENDING | S | - | drift μ/σ, qrg coverage, mesh coherence |
+| T20251112015 | Create "Proof of Consciousness" demo harness | - | PENDING | M | - | Regret memory → different choice demo |
+| T20251112016 | Implement CI alignment attestation | - | PENDING | S | - | Upload alignment.json artifact |
 
-**P2 Summary**: 24 medium-priority tasks for next sprint (2-4 weeks).
+**P2 Summary**: 29 medium-priority tasks for next sprint (2-4 weeks). +5 alignment substrate tasks added.
 
 ---
 
@@ -138,8 +147,11 @@ Copilot:      5 tasks ( 7.8%)  - Mechanical edits, cleanup
 | T20251112005 | Add import-safe test for labs/core/tags/registry | Claude Code | PENDING | S | - | Labs layer lazy-load |
 | T20251112006 | Investigate and fix serve/api/openai_proxy import safety | CODEX | PENDING | M | - | File may be relocated/renamed |
 | T20251112007 | Investigate and fix lukhas_website/api import safety | CODEX | PENDING | M | - | File may be relocated/renamed |
+| T20251112017 | Implement QRG-signed ops events | - | PENDING | S | - | Sign release notes & policy flips |
+| T20251112018 | Create LUKHAS Manifesto (v0) | - | PENDING | S | - | 4 pillars + threat model |
+| T20251112019 | Draft QRG standard proposal | - | PENDING | S | - | Standardization seed for QRG format |
 
-**P3 Summary**: 10 low-priority backlog tasks (1+ month timeline).
+**P3 Summary**: 13 low-priority backlog tasks (1+ month timeline). +3 alignment substrate tasks added.
 
 ---
 
@@ -178,9 +190,10 @@ For complete task details, see:
 ## Recent Changes
 
 ### 2025-11-12
+- Added 12 alignment substrate tasks (T20251112008-019): QRG signatures, Dream gates, WaveC, Guardian policy, alignment dashboard, demo harness, manifesto
 - Added 7 lazy-load/import-safe test tasks (T20251112001-007)
-- Updated stats: 63→70 total tasks
-- Balanced workload: CODEX and Claude Code now equal at 22 tasks each
+- Updated stats: 63→82 total tasks (+19)
+- New task categories: Alignment SLOs (drift≤0.15, mesh≥0.90, qrg=100%)
 
 ### 2025-11-11
 - Created MASTER_LOG.md consolidating 62 audit tasks
@@ -211,12 +224,12 @@ For complete task details, see:
 
 ## Task ID Generator
 
-**Next Task ID**: `T20251112008`
+**Next Task ID**: `T20251112020`
 
 **Format**: `T{YYYY}{MM}{DD}{sequential}`
 - Today's date: 2025-11-12
-- Last used: T20251112007
-- Next sequential: 008
+- Last used: T20251112019
+- Next sequential: 020
 
 **To generate**:
 ```bash
