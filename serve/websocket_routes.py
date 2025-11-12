@@ -7,15 +7,16 @@ from .dream_engine import DreamEngine
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
-# In a real application, this would be a database or a shared cache
-users = {"valid-token": {"id": "user123"}, "another-token": {"id": "user456"}}
+# TODO: Integrate proper authentication (e.g., database, cache, or external provider)
+# Remove mock credentials from production code. See CodeQL rule: hardcoded credentials.
 
 
 async def authenticate_websocket(token: str) -> dict | None:
-    """Mock authentication logic for WebSocket connections."""
-    return users.get(token)
-
-
+    """Authentication logic for WebSocket connections.
+    TODO: Implement real authentication. This is a placeholder.
+    """
+    # raise NotImplementedError("Authentication integration required")
+    return None  # Always fails until proper authentication is implemented
 async def get_token(websocket: WebSocket) -> str:
     """Dependency to extract and validate token from query params."""
     token = websocket.query_params.get("token")
