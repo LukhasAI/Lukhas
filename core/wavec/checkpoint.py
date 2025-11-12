@@ -1,5 +1,9 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict, List imports to native types in WaveC checkpoint
+# estimate: 10min | priority: medium | dependencies: core-wavec-system
+
 """WaveC checkpoint system with drift-based branching metadata."""
-from typing import Dict, Any, Optional, List
+from typing import Any, Optional
 from datetime import datetime
 from copy import deepcopy
 import hashlib
@@ -12,8 +16,8 @@ class CheckpointSnapshot:
     def __init__(
         self,
         snapshot_id: str,
-        state: Dict[str, Any],
-        metadata: Optional[Dict[str, Any]] = None,
+        state: dict[str, Any],
+        metadata: Optional[dict[str, Any]] = None,
         timestamp: Optional[datetime] = None
     ):
         """
@@ -62,14 +66,14 @@ class WaveCCheckpoint:
             drift_threshold: Threshold for drift-based branching (0.0 to 1.0)
         """
         self.drift_threshold = drift_threshold
-        self.snapshots: List[CheckpointSnapshot] = []
-        self.current_state: Dict[str, Any] = {}
-        self.branch_history: List[Dict[str, Any]] = []
+        self.snapshots: list[CheckpointSnapshot] = []
+        self.current_state: dict[str, Any] = {}
+        self.branch_history: list[dict[str, Any]] = []
 
     def create_snapshot(
         self,
-        state: Dict[str, Any],
-        metadata: Optional[Dict[str, Any]] = None
+        state: dict[str, Any],
+        metadata: Optional[dict[str, Any]] = None
     ) -> CheckpointSnapshot:
         """
         Create a new checkpoint snapshot.
@@ -87,7 +91,7 @@ class WaveCCheckpoint:
         self.current_state = deepcopy(state)
         return snapshot
 
-    def detect_drift(self, current_state: Dict[str, Any], reference_state: Dict[str, Any]) -> float:
+    def detect_drift(self, current_state: dict[str, Any], reference_state: dict[str, Any]) -> float:
         """
         Detect drift between current and reference states.
 
@@ -121,7 +125,7 @@ class WaveCCheckpoint:
 
     def check_and_rollback(
         self,
-        current_state: Dict[str, Any],
+        current_state: dict[str, Any],
         reference_snapshot: Optional[CheckpointSnapshot] = None
     ) -> Optional[CheckpointSnapshot]:
         """
@@ -154,7 +158,7 @@ class WaveCCheckpoint:
 
     def _perform_rollback(
         self,
-        current_state: Dict[str, Any],
+        current_state: dict[str, Any],
         reference_snapshot: CheckpointSnapshot,
         drift_value: float
     ) -> CheckpointSnapshot:
@@ -199,7 +203,7 @@ class WaveCCheckpoint:
 
         return rollback_snapshot
 
-    def _hash_state(self, state: Dict[str, Any]) -> str:
+    def _hash_state(self, state: dict[str, Any]) -> str:
         """Hash a state dictionary."""
         state_str = json.dumps(state, sort_keys=True)
         return hashlib.sha256(state_str.encode()).hexdigest()
@@ -208,7 +212,7 @@ class WaveCCheckpoint:
         """Get the most recent snapshot."""
         return self.snapshots[-1] if self.snapshots else None
 
-    def get_branch_history(self) -> List[Dict[str, Any]]:
+    def get_branch_history(self) -> list[dict[str, Any]]:
         """Get complete branch history."""
         return deepcopy(self.branch_history)
 
