@@ -18,6 +18,10 @@ import time
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernized typing imports - Dict->dict, List->list, Tuple->tuple for Python 3.9+ compatibility
+# estimate: 5min | priority: high | dependencies: none
+
 from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
@@ -154,7 +158,7 @@ class BaseMiddleware(ABC):
             "type": type(error).__name__
         }
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get middleware metrics."""
         return {
             "name": self.name,
@@ -172,7 +176,7 @@ class SecurityMiddleware(BaseMiddleware):
         self.security_framework = security_framework
 
     async def process_request(self, metadata: RequestMetadata,
-                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
+                            request_data: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
         """Validate security and authenticate request."""
         start_time = time.time()
 
@@ -227,7 +231,7 @@ class SecurityMiddleware(BaseMiddleware):
             return await self.on_error(metadata, e), {}
 
     async def process_response(self, metadata: RequestMetadata,
-                             response_data: Dict[str, Any]) -> Dict[str, Any]:
+                             response_data: dict[str, Any]) -> dict[str, Any]:
         """Add security headers to response."""
         if "headers" not in response_data:
             response_data["headers"] = {}
@@ -261,7 +265,7 @@ class SecurityMiddleware(BaseMiddleware):
         return APITier.FREE
 
     async def _check_for_threats(self, metadata: RequestMetadata,
-                               request_data: Dict[str, Any]) -> bool:
+                               request_data: dict[str, Any]) -> bool:
         """Check for security threats."""
         if not self.security_framework:
             return False
@@ -289,7 +293,7 @@ class OptimizationMiddleware(BaseMiddleware):
         self.optimizer = optimizer
 
     async def process_request(self, metadata: RequestMetadata,
-                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
+                            request_data: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
         """Apply optimization strategies to request."""
         start_time = time.time()
 
