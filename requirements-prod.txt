@@ -1257,9 +1257,9 @@ multidict==6.7.0 \
     # via
     #   aiohttp
     #   yarl
-narwhals==2.10.0 \
-    --hash=sha256:1c05bbef2048a4045263de7d98c3d06140583eb13d796dd733b2157f05d24485 \
-    --hash=sha256:baed44e8fc38e800e3a585e3fa9843a7079a6fad5fbffbecee4348d6ac52298c
+narwhals==2.11.0 \
+    --hash=sha256:a9795e1e44aa94e5ba6406ef1c5ee4c172414ced4f1aea4a79e5894f0c7378d4 \
+    --hash=sha256:d23f3ea7efc6b4d0355444a72de6b8fa3011175585246c3400c894a7583964af
     # via altair
 networkx==3.2.1 \
     --hash=sha256:9f1bb5cf3409bf324e0a722c20bdb4c20ee39bf1c30ce8ae499c8502b0b5e0c6 \
