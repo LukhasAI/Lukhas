@@ -5,7 +5,7 @@ owner: T4
 lane: labs
 star: "⚖️ Ethics Star"
 stability: experimental
-last_reviewed: 2025-10-24
+last_reviewed: 2025-11-10
 constellation_stars: "⚖️ Ethics · 🛡️ Watch · ⚛️ Anchor"
 related_modules: "matriz, guardian, identity, ethics"
 manifests: "module.manifest.json"
@@ -15,7 +15,7 @@ domain: governance, policy, ethics
 stars: "[Ethics]"
 status: active
 tier: T2
-updated: 2025-10-24
+updated: 2025-11-10
 version: 1.0.0
 ---
 # Governance & Policy Framework ⚖️

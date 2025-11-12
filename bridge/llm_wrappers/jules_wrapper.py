@@ -38,7 +38,7 @@ import logging
 import os
 from collections.abc import AsyncIterator
 from datetime import datetime, timezone
-from typing import Any, Optional, Union, Dict
+from typing import Any, Dict, Optional
 
 import aiohttp
 from pydantic import BaseModel, Field
