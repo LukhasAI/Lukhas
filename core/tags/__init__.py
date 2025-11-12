@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Remove unused deprecated List import in tags lazy proxy module
+# estimate: 5min | priority: medium | dependencies: core-tags
+
 # TODO: migrate to ProviderRegistry
 """
 Lazy proxy for LUKHAS Tag System from labs.core.tags
@@ -6,7 +10,7 @@ This is an interim safety pattern that provides lazy loading of tag system
 components from labs.core.tags without importing them at module import time.
 """
 import importlib
-from typing import Any, List
+from typing import Any
 
 
 def __getattr__(name: str) -> Any:
