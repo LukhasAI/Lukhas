@@ -1,5 +1,5 @@
 import { Header, HeaderLogo, HeaderNav, HeaderNavLink, HeaderActions, Footer, Button, GlassCard } from '@lukhas/ui'
-import { Check, Sparkles, Zap, Building2, HelpCircle } from 'lucide-react'
+import { Check, Sparkles, Zap, Building2, HelpCircle, Rocket } from 'lucide-react'
 import { useState } from 'react'
 
 const tiers = [
@@ -10,6 +10,7 @@ const tiers = [
     description: 'Perfect for exploring consciousness technology',
     color: 'dream-ethereal',
     icon: Sparkles,
+    badge: 'Planned',
     features: [
       '1,000 API calls per month',
       'Access to Dream & Vision stars',
@@ -18,7 +19,7 @@ const tiers = [
       'Public playground access',
       'Open-source examples'
     ],
-    cta: 'Start Free',
+    cta: 'Join Waitlist',
     ctaLink: 'https://lukhas.id/signup',
     popular: false
   },
@@ -29,6 +30,7 @@ const tiers = [
     description: 'For developers building conscious applications',
     color: 'lambda-gold',
     icon: Zap,
+    badge: 'Early Access',
     features: [
       '100,000 API calls per month',
       'All 8 cognitive stars',
@@ -40,7 +42,7 @@ const tiers = [
       'Private workspace',
       'Team collaboration (up to 5)'
     ],
-    cta: 'Start Pro Trial',
+    cta: 'Request Early Access',
     ctaLink: 'https://lukhas.id/signup?tier=pro',
     popular: true
   },
@@ -51,6 +53,7 @@ const tiers = [
     description: 'For organizations scaling consciousness technology',
     color: 'consciousness-neural',
     icon: Building2,
+    badge: 'Partnership',
     features: [
       'Unlimited API calls',
       'Dedicated infrastructure',
@@ -63,7 +66,7 @@ const tiers = [
       'Custom integrations',
       'Architecture consulting'
     ],
-    cta: 'Contact Sales',
+    cta: 'Discuss Partnership',
     ctaLink: 'https://lukhas.com/#contact',
     popular: false
   }
@@ -72,35 +75,35 @@ const tiers = [
 const faqs = [
   {
     question: 'How does the Free tier work?',
-    answer: 'The Free tier provides 1,000 API calls per month with access to Dream and Vision cognitive stars. Perfect for exploring LUKHAS consciousness technology, prototyping ideas, and learning how the system works. No credit card required.'
+    answer: 'The Free tier is planned to provide 1,000 API calls per month with access to Dream and Vision cognitive stars. Perfect for exploring LUKHAS consciousness technology, prototyping ideas, and learning how the system works. No credit card required to join early access.'
   },
   {
     question: 'What happens if I exceed my API call limit?',
-    answer: 'API calls beyond your tier limit will receive throttled responses. You can upgrade your tier at any time to increase your limit. Enterprise customers have unlimited calls with SLA guarantees.'
+    answer: 'When the platform launches, API calls beyond your tier limit will receive throttled responses. You will be able to upgrade your tier at any time to increase your limit. Enterprise customers will have unlimited calls with SLA guarantees.'
   },
   {
     question: 'Can I switch between tiers?',
-    answer: 'Yes, you can upgrade or downgrade at any time. Upgrades take effect immediately, while downgrades apply at the start of your next billing cycle. Your data and configurations are preserved across tier changes.'
+    answer: 'Yes, when the platform is live, you will be able to upgrade or downgrade at any time. Upgrades will take effect immediately, while downgrades will apply at the start of your next billing cycle. Your data and configurations will be preserved across tier changes.'
   },
   {
     question: 'What payment methods do you accept?',
-    answer: 'We accept all major credit cards (Visa, Mastercard, American Express) and ACH transfers for annual plans. Enterprise customers can also arrange invoicing and purchase orders.'
+    answer: 'At launch, we plan to accept all major credit cards (Visa, Mastercard, American Express) and ACH transfers for annual plans. Enterprise customers will also be able to arrange invoicing and purchase orders.'
   },
   {
     question: 'Is there a free trial for Pro?',
-    answer: 'Yes! Pro tier includes a 14-day free trial with full access to all features and 100,000 API calls. No credit card required to start the trial.'
+    answer: 'Yes! Pro tier will include a 14-day free trial with full access to all features and 100,000 API calls. No credit card required during early access exploration.'
   },
   {
     question: 'What is included in Enterprise support?',
-    answer: 'Enterprise support includes a dedicated account manager, priority bug fixes, architecture review sessions, custom integration assistance, and 24/7 incident response with guaranteed SLA times.'
+    answer: 'Enterprise support will include a dedicated account manager, priority bug fixes, architecture review sessions, custom integration assistance, and 24/7 incident response with guaranteed SLA times. Contact us to discuss specific enterprise requirements.'
   },
   {
     question: 'How is API usage calculated?',
-    answer: 'Each API request to LUKHAS cognitive stars counts as one call, regardless of complexity. Batch operations count as multiple calls. We provide real-time usage dashboards so you can monitor consumption.'
+    answer: 'Each API request to LUKHAS cognitive stars will count as one call, regardless of complexity. Batch operations will count as multiple calls. We are developing real-time usage dashboards so you can monitor consumption.'
   },
   {
     question: 'Do you offer academic or non-profit discounts?',
-    answer: 'Yes! We provide significant discounts for academic institutions, research organizations, and registered non-profits. Contact our sales team with your .edu email or non-profit documentation.'
+    answer: 'Yes! We plan to provide significant discounts for academic institutions, research organizations, and registered non-profits. Contact our team with your .edu email or non-profit documentation to discuss early access partnerships.'
   }
 ]
 
@@ -135,11 +138,20 @@ export default function PricingPage() {
       {/* Hero */}
       <section className="pt-32 pb-16 px-6">
         <div className="max-w-7xl mx-auto text-center">
+          <div className="mb-6 flex justify-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-lambda-gold/20 border border-lambda-gold/40">
+              <Rocket className="w-5 h-5 text-lambda-gold" strokeWidth={1.5} />
+              <span className="text-sm font-medium text-lambda-gold">Early Access Pricing</span>
+            </div>
+          </div>
           <h1 className="text-5xl md:text-6xl font-light tracking-[0.15em] mb-6 text-awareness-silver">
             Choose Your <span className="text-transparent bg-clip-text bg-dream-gradient">Consciousness Tier</span>
           </h1>
-          <p className="text-xl text-awareness-silver/80 max-w-3xl mx-auto">
+          <p className="text-xl text-awareness-silver/80 max-w-3xl mx-auto mb-4">
             From exploration to enterprise deployment, we have a plan that scales with your consciousness technology needs
+          </p>
+          <p className="text-sm text-awareness-silver/60 max-w-2xl mx-auto">
+            Platform currently under active development. Pricing and features subject to change as we refine consciousness technology systems.
           </p>
         </div>
       </section>
@@ -169,10 +181,15 @@ export default function PricingPage() {
                       <div className={`p-3 rounded-lg bg-${tier.color}/10`}>
                         <Icon className={`w-8 h-8 text-${tier.color}`} strokeWidth={1.5} />
                       </div>
-                      <div>
-                        <h3 className="text-2xl font-light tracking-wide text-awareness-silver">
-                          {tier.name}
-                        </h3>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="text-2xl font-light tracking-wide text-awareness-silver">
+                            {tier.name}
+                          </h3>
+                          <span className={`text-xs px-2 py-0.5 rounded-full bg-${tier.color}/20 text-${tier.color} border border-${tier.color}/40`}>
+                            {tier.badge}
+                          </span>
+                        </div>
                         <p className="text-sm text-awareness-silver/60">{tier.description}</p>
                       </div>
                     </div>
