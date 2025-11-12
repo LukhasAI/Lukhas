@@ -250,8 +250,11 @@ class AwarenessEngine:
     def _validate_consciousness_coherence(self, state: dict) -> bool:
         """Validate consciousness state coherence."""
         try:
-            awareness = state.get("awareness_level", 0.0)
-            temporal = state.get("temporal_coherence", 0.0)
+            awareness = state.get("awareness_level")
+            temporal = state.get("temporal_coherence")
+
+            if awareness is None or temporal is None:
+                return False
 
             # Check coherence thresholds
             coherence_valid = abs(awareness - temporal) < 0.3
@@ -265,6 +268,8 @@ class AwarenessEngine:
     def _validate_symbolic_integration(self, patterns: set) -> bool:
         """Validate symbolic pattern integration."""
         try:
+            if not isinstance(patterns, set):
+                return False
             # Check pattern coherence and size limits
             return len(patterns) <= 100  # Prevent pattern overflow
 

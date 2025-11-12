@@ -18,8 +18,8 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Protocol
 
-from consciousness.systems.state import ConsciousnessState
-from core.common.logger import get_logger
+from labs.consciousness.systems.state import ConsciousnessState
+from core.common import get_logger
 
 # Feature flag configuration
 REFLECTION_ENABLED = os.getenv("CONSC_REFLECTION_ENABLED", "1").lower() in ("1", "true", "on")
@@ -112,7 +112,7 @@ class SelfReflectionEngine:
 
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         self.config = config or {}
-        self.logger = get_logger(__name__, "CONSCIOUSNESS")
+        self.logger = get_logger(__name__)
         self.is_initialized = False
         self.status = "inactive"
 
@@ -213,11 +213,13 @@ class SelfReflectionEngine:
             ReflectionReport with coherence analysis and anomalies
         """
         if not self.is_initialized or self.status != "active":
-            return ReflectionReport(
-                correlation_id=f"reflection_{int(time.time() * 1000)}",
-                anomalies=[{"type": "engine_error", "severity": "high",
-                          "details": "Engine not initialized", "timestamp": time.time()}]
+            report = ReflectionReport(correlation_id=f"reflection_{int(time.time() * 1000)}")
+            report.add_anomaly(
+                anomaly_type="engine_error",
+                severity="high",
+                details="Engine not initialized",
             )
+            return report
 
         start_time = time.perf_counter()
         correlation_id = f"reflection_{int(time.time() * 1000000)}"
@@ -322,7 +324,7 @@ class SelfReflectionEngine:
         emotion_delta = 0.1 if curr_state.emotional_tone != prev_state.emotional_tone else 0.0
 
         # Combined delta magnitude
-        return level_delta + awareness_delta + emotion_delta
+        return abs(level_delta + awareness_delta + emotion_delta)
 
     def _calculate_coherence_score(self, delta: float) -> float:
         """Calculate coherence score based on state stability"""
