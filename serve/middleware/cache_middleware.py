@@ -34,7 +34,13 @@ class CacheMiddleware(BaseHTTPMiddleware):
                 return response
 
             ttl_header = request.headers.get("X-Test-Cache-TTL")
-            ttl = int(ttl_header) if ttl_header else None
+            if ttl_header:
+                try:
+                    ttl = int(ttl_header)
+                except ValueError:
+                    ttl = None  # fallback to default TTL
+            else:
+                ttl = None
 
             await self.set_cached(cache_key, body_json, ttl=ttl)
 
