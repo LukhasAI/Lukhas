@@ -8,17 +8,17 @@ PRIVACY REQUIREMENTS:
 - Audit logging for flag evaluations
 - Rate limiting (100 requests/min per user)
 - No PII in responses
-
-ENDPOINTS:
-- GET /api/features - List all flags (admin only)
-- GET /api/features/{flag_name} - Get flag state
 - POST /api/features/{flag_name}/evaluate - Evaluate for user
 - PATCH /api/features/{flag_name} - Update flag (admin only)
 """
 
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for features API
+# estimate: 15min | priority: high | dependencies: none
+
 # ruff: noqa: B008
 import logging
-from typing import Dict, List, Optional
+from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
@@ -83,7 +83,7 @@ class FlagUpdateRequest(BaseModel):
 class FlagListResponse(BaseModel):
     """Response with list of all flags."""
 
-    flags: List[FlagInfo] = Field(..., description="List of all feature flags")
+    flags: list[FlagInfo] = Field(..., description="List of all feature flags")
     total: int = Field(..., description="Total number of flags")
 
 
@@ -367,7 +367,7 @@ async def reload_flag(
     flag_name: str,
     current_user: dict = Depends(require_role("admin")),
     service: FeatureFlagsService = Depends(get_feature_flags_service),
-) -> Dict[str, str]:
+) -> dict[str, str]:
     """
     Force reload flag from configuration (admin only).
 

@@ -1,7 +1,10 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for auth helpers
+# estimate: 10min | priority: high | dependencies: none
+
 import os
 import time
 from functools import lru_cache
-from typing import Dict, List
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -14,7 +17,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "a_very_secret_key")
 # --- Role Hierarchy for RBAC ---
 # Higher roles have more permissions.
 # A user with a certain role has all permissions of the roles below it.
-ROLE_HIERARCHY: Dict[str, int] = {
+ROLE_HIERARCHY: dict[str, int] = {
     "guest": 0,
     "user": 1,
     "moderator": 2,
@@ -24,7 +27,7 @@ ROLE_HIERARCHY: Dict[str, int] = {
 # --- Rate Limiting (In-Memory Placeholder) ---
 # TODO: Replace with a more robust solution (e.g., Redis-based) for production.
 # This implementation is not suitable for multi-process or multi-server deployments.
-_rate_limit_store: Dict[str, List[float]] = {}
+_rate_limit_store: dict[str, list[float]] = {}
 _RATE_LIMIT = 100  # requests per minute
 _RATE_LIMIT_WINDOW = 60  # seconds
 
@@ -78,7 +81,7 @@ def check_rate_limit(identifier: str) -> bool:
 # --- Session Management (In-Memory Placeholder) ---
 # TODO: Replace with a persistent session store (e.g., Redis) for production.
 # This implementation is not suitable for multi-process or multi-server deployments.
-_sessions: Dict[str, dict] = {}
+_sessions: dict[str, dict] = {}
 
 def create_session(user_id: str, session_data: dict) -> str:
     """Creates a new session for a user."""

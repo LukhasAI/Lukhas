@@ -1,8 +1,12 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for WaveC checkpoint management
+# estimate: 10min | priority: high | dependencies: none
+
 # core/wavec/checkpoint.py
 import json
 import gzip
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from hashlib import sha256
 import time
 import os
@@ -18,7 +22,7 @@ class WaveC:
         if not self.stats_file.exists():
             self.stats_file.write_text(json.dumps({"count":0,"mean":0.0,"m2":0.0}))
 
-    def snapshot(self, memory_state: Dict[str,Any], cycle_index: int) -> Dict[str,Any]:
+    def snapshot(self, memory_state: dict[str, Any], cycle_index: int) -> dict[str, Any]:
         """Save a gzipped snapshot and return metadata with sha256"""
         payload = json.dumps(memory_state, separators=(",", ":"), sort_keys=True).encode("utf-8")
         gz = gzip.compress(payload)
@@ -29,7 +33,7 @@ class WaveC:
         meta = {"path": str(p), "sha256": h, "timestamp": time.time(), "cycle_index": cycle_index}
         return meta
 
-    def measure_and_update_stats(self, drift_value: float) -> Dict[str,Any]:
+    def measure_and_update_stats(self, drift_value: float) -> dict[str, Any]:
         # Welford's online algorithm
         stats = json.loads(self.stats_file.read_text())
         count = stats.get("count", 0)
@@ -55,7 +59,7 @@ class WaveC:
         std = (stats["m2"]/(count-1))**0.5
         return mean + sigma_multiplier * std
 
-    def rollback_to_snapshot(self, snapshot_meta: Dict[str,Any]) -> bool:
+    def rollback_to_snapshot(self, snapshot_meta: dict[str, Any]) -> bool:
         """
         Placeholder: load snapshot file and replace memory state.
         This stub returns True if file exists.
