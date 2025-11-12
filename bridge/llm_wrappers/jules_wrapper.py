@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict import to native dict type in Jules wrapper
+# estimate: 5min | priority: medium | dependencies: bridge-llm-wrappers
+
 #!/usr/bin/env python3
 """
 Jules API Wrapper for LUKHAS AI Agent Integration
@@ -38,7 +42,7 @@ import logging
 import os
 from collections.abc import AsyncIterator
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import aiohttp
 from pydantic import BaseModel, Field
