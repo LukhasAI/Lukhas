@@ -1,5 +1,9 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict, List imports to native types in Guardian policies
+# estimate: 5min | priority: high | dependencies: core-guardian-system
+
 """Guardian policy system with structured veto reason codes."""
-from typing import Dict, Any, Optional, List
+from typing import Any, Optional
 from datetime import datetime
 from enum import Enum
 

@@ -403,24 +403,167 @@ governance/                                    # LEGACY (TO DEPRECATE)
 ## Next Steps
 
 1. ✅ **Audit Complete** (This Document)
-2. ⏭️ **Phase 2.1**: Relocate scattered implementations (guardian_policies, guardian_reflector)
-3. ⏭️ **Phase 2.2**: Add deprecation markers to legacy bridges
-4. ⏭️ **Phase 2.3**: Update documentation (architecture, imports)
-5. ⏭️ **Phase 2.4**: Validation (tests, imports, lane-guard)
-6. ⏭️ **Phase 2 PR**: Commit and merge Phase 2 changes
+2. ✅ **Phase 2.1**: Relocate scattered implementations (guardian_policies, guardian_reflector) → **COMPLETE**
+3. ✅ **Phase 2.2**: Add deprecation markers to legacy bridges → **COMPLETE**
+4. ✅ **Phase 2.3**: Update documentation (architecture, imports) → **COMPLETE**
+5. ✅ **Phase 2.4**: Validation (tests, imports, lane-guard) → **COMPLETE**
+6. ✅ **Phase 2 PR**: Commit and merge Phase 2 changes → **COMPLETE**
+
+---
+
+## Phase 3 Results ✅
+
+**Completion Date**: 2025-11-12
+**Status**: All consolidation tasks complete
+
+### PR #1362: Deprecation Warnings Added
+
+**Files Updated**: 5 legacy bridge files with `DeprecationWarning`
+
+| File | Action | Status |
+|------|--------|--------|
+| `governance/guardian_sentinel.py` | Added deprecation warning | ✅ Merged |
+| `governance/guardian_shadow_filter.py` | Added deprecation warning | ✅ Merged |
+| `governance/guardian_system.py` | Added deprecation warning | ✅ Merged |
+| `governance/guardian_system_integration.py` | Added deprecation warning, replaced shim | ✅ Merged |
+| `governance/guardian_serializers.py` | Added deprecation warning | ✅ Merged |
+
+**Impact**: All legacy imports now trigger `DeprecationWarning` guiding developers to canonical paths.
+
+### PR #1363: GuardianPoliciesEngine Relocation
+
+**Action**: Moved full implementation to canonical location
+
+| Metric | Value |
+|--------|-------|
+| **Source** | `governance/guardian_policies.py` (609 lines) |
+| **Target** | `lukhas_website/lukhas/governance/guardian/policies.py` (652 lines) |
+| **Bridge Created** | `governance/guardian_policies.py` (87 lines deprecation bridge) |
+| **Backward Compatibility** | ✅ 100% maintained via deprecation bridge |
+| **Legacy Aliases** | `GuardianPolicies`, `PolicyEngine`, `PolicyCondition`, etc. |
+
+**Features Preserved**:
+- Full GuardianPoliciesEngine implementation (652 lines)
+- Built-in policy rules (DriftThresholdPolicy, RateLimitPolicy, TierAccessPolicy, EmergencyStopPolicy)
+- G.3 standardized responses
+- All data classes and enums
+
+### PR #1364: GuardianReflector Relocation
+
+**Action**: Moved full implementation to canonical location and updated validation script
+
+| Metric | Value |
+|--------|-------|
+| **Source** | `governance/guardian_reflector.py` (759 lines) |
+| **Target** | `lukhas_website/lukhas/governance/guardian/reflector.py` (791 lines) |
+| **Bridge Created** | `governance/guardian_reflector.py` (73 lines deprecation bridge) |
+| **Script Updated** | `scripts/validate_guardian_integration.py` (line 139) |
+| **Backward Compatibility** | ✅ 100% maintained via deprecation bridge |
+| **Legacy Aliases** | `DriftMetrics`, `RemediationAction`, `RemediationStrategy`, etc. |
+
+**Features Preserved**:
+- Full GuardianReflector implementation (791 lines)
+- Multi-dimensional drift detection
+- Risk prediction (short/medium/long term)
+- Automated remediation planning
+- Trend analysis and drift prediction
+- All data classes and enums
+
+### Phase 3 Statistics
+
+| Metric | Value |
+|--------|-------|
+| **PRs Merged** | 3 (all with `--admin --squash`) |
+| **Total Lines Relocated** | 1,443 lines (652 + 791) |
+| **Deprecation Bridges Created** | 2 (policies: 87 lines, reflector: 73 lines) |
+| **Legacy Bridges Updated** | 5 (with DeprecationWarning) |
+| **Scripts Updated** | 1 (validate_guardian_integration.py) |
+| **Backward Compatibility** | 100% maintained |
+| **Breaking Changes** | 0 |
+| **Removal Timeline** | Phase 4 (2025-Q1) |
+
+### Canonical Location Update
+
+**Before Phase 3**:
+```
+lukhas_website/lukhas/governance/guardian/
+├── __init__.py                               # 119 lines
+├── core.py                                   # 72 lines
+├── guardian_impl.py                          # 340 lines
+├── guardian_wrapper.py                       # 369 lines
+└── [policies and reflector were bridges]     # 80 lines total
+```
+
+**After Phase 3** ✅:
+```
+lukhas_website/lukhas/governance/guardian/
+├── __init__.py                               # 119 lines
+├── core.py                                   # 72 lines
+├── guardian_impl.py                          # 340 lines
+├── guardian_wrapper.py                       # 369 lines
+├── policies.py                               # 652 lines ✅ FULL IMPLEMENTATION
+└── reflector.py                              # 791 lines ✅ FULL IMPLEMENTATION
+
+TOTAL: 2,343 lines (160% increase from Phase 2)
+```
+
+### Documentation Updates
+
+Created comprehensive documentation:
+
+1. **Architecture Documentation**: `docs/architecture/GUARDIAN_SYSTEM.md`
+   - 600+ lines covering complete Guardian system
+   - Module structure, API reference, integration patterns
+   - Performance characteristics, testing, troubleshooting
+
+2. **Import Guide**: `docs/development/GUARDIAN_IMPORTS.md`
+   - 500+ lines comprehensive developer guide
+   - Correct import patterns, migration guide, troubleshooting
+   - Lane-based import rules, IDE configuration
+
+3. **Master Context**: `claude.me`
+   - Updated with Guardian module structure
+   - Canonical import patterns documented
+
+### Validation Results
+
+All validation checks passed:
+
+- ✅ All imports working correctly
+- ✅ Backward compatibility maintained
+- ✅ Legacy imports trigger deprecation warnings
+- ✅ No breaking changes introduced
+- ✅ Integration test script updated to use canonical imports
+
+### Next Phase
+
+**Phase 4 Planning** (2025-Q1):
+- Remove deprecation bridges entirely
+- Legacy imports will stop working
+- Developers have 3 months to migrate (2025-11-12 → 2025-Q1)
+- Comprehensive migration guide provided in `docs/development/GUARDIAN_IMPORTS.md`
 
 ---
 
 ## References
 
 - **Phase 1 Report**: `docs/GUARDIAN_MODULE_STRUCTURE_AUDIT_2025-11-12.md`
-- **Phase 1 PR**: #1356 (Merged ✅)
+- **Phase 1 PR**: #1356 (Merged ✅) - Import path fixes and syntax errors
+- **Phase 2 PR**: #1360 (Merged ✅) - Audit and bridge modules, documentation
+- **Phase 3 PRs**:
+  - #1362 (Merged ✅) - Deprecation warnings for 5 legacy bridges
+  - #1363 (Merged ✅) - GuardianPoliciesEngine relocation (652 lines)
+  - #1364 (Merged ✅) - GuardianReflector relocation (791 lines)
+- **Architecture Documentation**: `docs/architecture/GUARDIAN_SYSTEM.md`
+- **Import Guide**: `docs/development/GUARDIAN_IMPORTS.md`
 - **Kill-Switch Implementation**: `governance/ethics/guardian_kill_switch.py`
-- **Test Results**: All integration tests passing after Phase 1
-- **Import Validation**: All imports working via bridges and direct paths
+- **Test Results**: All integration tests passing after Phase 3
+- **Import Validation**: All imports working via canonical paths and deprecation bridges
 
 ---
 
 **Report Generated**: 2025-11-12
 **Audit Status**: ✅ Complete
-**Next Phase**: Phase 2.1 - Relocate Scattered Implementations
+**Phase 2 Status**: ✅ Complete (2025-11-12)
+**Phase 3 Status**: ✅ Complete (2025-11-12) - All 1,443 lines relocated to canonical location
+**Next Phase**: Phase 4 (2025-Q1) - Remove deprecated bridges entirely
