@@ -11,6 +11,9 @@ from typing import Optional, Union
 from fastapi import APIRouter, Depends, Header, HTTPException
 from fastapi.responses import JSONResponse
 
+# DEPENDENCY: Requires Task 1.2 (PR #1319) - Auth dependencies
+from lukhas.governance.auth import get_current_user_id
+
 from .models.trace_models import (
     ExecutionTraceResponse,
     TraceErrorResponse,
@@ -100,28 +103,34 @@ async def trace_health(storage: TraceStorageProvider = None):
 @r.get(
     "/v1/matriz/trace/recent",
     response_model=list[ExecutionTraceResponse],
-    summary="Get recent traces",
-    description="Retrieve recent traces with optional filtering by level or tag",
+    summary="Get recent traces for authenticated user",
+    description="Retrieve recent traces for the authenticated user with optional filtering by level or tag",
 )
 async def get_recent_traces(
     limit: int = 50,
     level: Optional[int] = None,
     tag: Optional[str] = None,
+    user_id: str = Depends(get_current_user_id),  # From JWT token
     _api_key: str = Depends(require_api_key),
     storage: TraceStorageProvider = Depends(get_trace_storage_provider),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_routes_traces_py_L110"}
 ) -> list[ExecutionTraceResponse]:
     """
-    Retrieve recent traces with optional filtering.
+    Retrieve recent traces for the authenticated user with optional filtering.
+
+    Security:
+        - Only returns traces belonging to the authenticated user (from JWT token)
+        - User cannot access other users' traces
 
     Args:
-        limit: Maximum number of traces to return (default: 10, max: 100)
+        limit: Maximum number of traces to return (default: 50, max: 100)
         level: Filter by trace level (0-7)
         tag: Filter by specific tag
+        user_id: User ID from authenticated JWT token (injected by dependency)
         api_key: API key for authentication (from header)
         storage: Trace storage provider instance (injected)
 
     Returns:
-        List of recent trace entries
+        List of recent trace entries belonging to the authenticated user
     """
     try:
         # Limit the maximum number of traces to prevent resource issues
@@ -139,10 +148,10 @@ async def get_recent_traces(
                 },
             )
 
-        logger.info(f"Recent traces request: limit={limit}, level={level}, tag={tag}")
+        logger.info(f"Recent traces request for user {user_id}: limit={limit}, level={level}, tag={tag}")
 
-        # Get recent traces from storage
-        traces_data = await storage.get_recent_traces(limit=limit, level=level, tag=tag)
+        # Get recent traces from storage (filtered by user_id)
+        traces_data = await storage.get_recent_traces(user_id=user_id, limit=limit, level=level, tag=tag)
 
         # Convert to response models
         responses = []
@@ -184,30 +193,38 @@ async def get_recent_traces(
         },
         400: {"description": "Invalid trace ID format", "model": TraceValidationErrorResponse},
         401: {"description": "Unauthorized - invalid API key", "model": TraceErrorResponse},
-        404: {"description": "Trace not found", "model": TraceNotFoundResponse},
+        403: {"description": "Forbidden - trace belongs to different user", "model": TraceErrorResponse},
+        404: {"description": "Trace not found or access denied", "model": TraceNotFoundResponse},
         500: {"description": "Internal server error", "model": TraceErrorResponse},
     },
-    summary="Get trace by ID",
-    description="Retrieve a specific trace by its unique identifier. Requires valid API key if configured.",
+    summary="Get trace by ID for authenticated user",
+    description="Retrieve a specific trace by its unique identifier. Only returns traces belonging to the authenticated user.",
 )
 async def get_trace(
     trace_id: str,
+    user_id: str = Depends(get_current_user_id),  # From JWT token
     _api_key: str = Depends(require_api_key),
     storage: TraceStorageProvider = Depends(get_trace_storage_provider),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_routes_traces_py_L195"}
 ) -> Union[ExecutionTraceResponse, JSONResponse]:
     """
-    Retrieve a trace by its unique identifier.
+    Retrieve a trace by its unique identifier for the authenticated user.
 
     This endpoint integrates with the TraceStorageProvider to provide structured access
-    to trace data with proper error handling and authentication.
+    to trace data with proper error handling, authentication, and ownership validation.
+
+    Security:
+        - Only returns traces belonging to the authenticated user (from JWT token)
+        - Returns 404 if trace doesn't exist OR belongs to different user
+        - User cannot access other users' traces
 
     Args:
         trace_id: UUID of the trace to retrieve
+        user_id: User ID from authenticated JWT token (injected by dependency)
         api_key: API key for authentication (from header)
         storage: Trace storage provider instance (injected)
 
     Returns:
-        ExecutionTraceResponse: The trace data if found
+        ExecutionTraceResponse: The trace data if found and owned by user
 
     Raises:
         HTTPException: For various error conditions (400, 401, 404, 500)
@@ -217,14 +234,14 @@ async def get_trace(
 
     try:
         # Log the API request
-        logger.info(f"Trace lookup request for ID: {trace_id}")
+        logger.info(f"Trace lookup request for ID: {trace_id}, user: {user_id}")
 
-        # Attempt to retrieve the trace using storage provider
-        trace_data = await storage.get_trace_by_id(trace_id)
+        # Attempt to retrieve the trace using storage provider (with ownership validation)
+        trace_data = await storage.get_trace_by_id(trace_id, user_id)
 
         if trace_data is None:
-            # Trace not found
-            logger.info(f"Trace not found: {trace_id}")
+            # Trace not found or access denied (don't reveal which to prevent info leak)
+            logger.info(f"Trace not found or access denied for user {user_id}: {trace_id}")
             error_response = TraceNotFoundResponse(message=f"No trace found with ID: {trace_id}", trace_id=trace_id)
             return JSONResponse(status_code=404, content=error_response.model_dump())
 

@@ -55,6 +55,9 @@ except Exception:
     class _ObsStack:
         opentelemetry_enabled = False
     obs_stack = _ObsStack()
+
+from lukhas.api.auth_routes import router as auth_router
+
 try:
     from config.env import get as env_get
 except Exception:
@@ -100,6 +103,7 @@ webauthn_router = None
 if (env_get('LUKHAS_WEBAUTHN', '0') or '0').strip() == '1':
     webauthn_router = _safe_import_router('.webauthn_routes', 'router')
 openai_router = _safe_import_router('.openai_routes', 'router')
+websocket_router = _safe_import_router('.websocket_routes', 'router')
 orchestration_router = _safe_import_router('.orchestration_routes', 'router')
 routes_router = _safe_import_router('.routes', 'router')
 traces_router = _safe_import_router('.routes_traces', 'router')
@@ -131,6 +135,8 @@ def require_api_key(x_api_key: Optional[str]=Header(default=None)) -> Optional[s
     return x_api_key
 from lukhas_website.lukhas.api.middleware.strict_auth import StrictAuthMiddleware
 
+from lukhas.governance.rate_limit import RateLimitConfig, RateLimitMiddleware
+
 app = FastAPI(title='LUKHAS API', version='1.0.0', description='Governed tool loop, auditability, feedback LUT, and safety modes.', contact={'name': 'LUKHAS AI Team', 'url': 'https://github.com/LukhasAI/Lukhas'}, license_info={'name': 'MIT', 'url': 'https://opensource.org/licenses/MIT'}, servers=[{'url': 'http://localhost:8000', 'description': 'Local development'}, {'url': 'https://api.ai', 'description': 'Production'}])
 
 class HeadersMiddleware(BaseHTTPMiddleware):
@@ -141,22 +147,22 @@ class HeadersMiddleware(BaseHTTPMiddleware):
         trace_id = str(uuid.uuid4()).replace('-', '')
         response.headers['X-Trace-Id'] = trace_id
         response.headers['X-Request-Id'] = trace_id
-        response.headers['X-RateLimit-Limit'] = '60'
-        response.headers['X-RateLimit-Remaining'] = '59'
-        response.headers['X-RateLimit-Reset'] = str(int(time.time()) + 60)
-        response.headers['x-ratelimit-limit-requests'] = '60'
-        response.headers['x-ratelimit-remaining-requests'] = '59'
-        response.headers['x-ratelimit-reset-requests'] = str(int(time.time()) + 60)
+        # Rate limit headers now added by RateLimitMiddleware
         return response
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
 app.add_middleware(PrometheusMiddleware)
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
 app.add_middleware(StrictAuthMiddleware)
+# Add rate limiting after auth middleware (requires user_id from request.state)
+app.add_middleware(RateLimitMiddleware, config=RateLimitConfig())
 app.add_middleware(HeadersMiddleware)
+app.include_router(auth_router)
 if routes_router is not None:
     app.include_router(routes_router)
 if openai_router is not None:
     app.include_router(openai_router)
+if websocket_router is not None:
+    app.include_router(websocket_router)
 if feedback_router is not None:
     app.include_router(feedback_router)
 if traces_router is not None:
@@ -259,7 +265,6 @@ async def _stream_generator(request: dict) -> str:
     import asyncio
     import hashlib
     import json
-    import time
 
     model = request.get("model", "lukhas-mini")
     content = ""
@@ -313,7 +318,6 @@ async def create_response(request: dict) -> Response:
     """LUKHAS responses endpoint (OpenAI-compatible format)."""
     import hashlib
     import json
-    import time
 
     from fastapi.responses import StreamingResponse
 

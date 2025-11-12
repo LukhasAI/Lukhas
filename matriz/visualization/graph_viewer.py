@@ -40,9 +40,9 @@ try:
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
 except ImportError as e:
-    raise ImportError(  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_visualization_graph_viewer_py_L43"}
+    raise ImportError(
         f"Missing required dependencies: {e}. Please install with: pip install networkx plotly pandas numpy"
-    )
+    ) from e
 
 # Configure logging
 logging.basicConfig(
@@ -55,7 +55,7 @@ class NodeTypeConfig:
     """Configuration for MATRIZ node type visualization."""
 
     # Color scheme for different node types
-    COLORS: ClassVar[dict[str, str]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L56"}
+    COLORS: ClassVar[dict[str, str]] = {
         "SENSORY_IMG": "#FF6B6B",  # Red - visual input
         "SENSORY_AUD": "#4ECDC4",  # Teal - audio input
         "SENSORY_VID": "#45B7D1",  # Blue - video input
@@ -78,7 +78,7 @@ class NodeTypeConfig:
     }
 
     # Shapes for different node types
-    SHAPES: ClassVar[dict[str, str]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L79"}
+    SHAPES: ClassVar[dict[str, str]] = {
         "SENSORY_IMG": "square",
         "SENSORY_AUD": "circle",
         "SENSORY_VID": "diamond",
@@ -101,7 +101,7 @@ class NodeTypeConfig:
     }
 
     # Size scaling based on node importance
-    SIZE_MULTIPLIER: ClassVar[dict[str, float]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L102"}
+    SIZE_MULTIPLIER: ClassVar[dict[str, float]] = {
         "DECISION": 1.5,
         "EMOTION": 1.3,
         "AWARENESS": 1.4,
@@ -130,7 +130,7 @@ class LinkTypeConfig:
     """Configuration for MATRIZ link type visualization."""
 
     # Colors for different link types
-    COLORS: ClassVar[dict[str, str]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L131"}
+    COLORS: ClassVar[dict[str, str]] = {
         "temporal": "#74B9FF",  # Blue - time-based connections
         "causal": "#E17055",  # Orange-red - cause-effect
         "semantic": "#00B894",  # Green - meaning-based
@@ -141,7 +141,7 @@ class LinkTypeConfig:
     }
 
     # Line styles for different link types
-    STYLES: ClassVar[dict[str, str]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L142"}
+    STYLES: ClassVar[dict[str, str]] = {
         "temporal": "solid",
         "causal": "dash",
         "semantic": "dot",
@@ -152,7 +152,7 @@ class LinkTypeConfig:
     }
 
     # Width scaling based on link importance
-    WIDTH_MULTIPLIER: ClassVar[dict[str, float]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_visualization_graph_viewer_py_L153"}
+    WIDTH_MULTIPLIER: ClassVar[dict[str, float]] = {
         "causal": 1.5,
         "temporal": 1.3,
         "evidence": 1.2,
@@ -175,1016 +175,25 @@ class LinkTypeConfig:
         return cls.WIDTH_MULTIPLIER.get(link_type, 1.0)
 
 
-class MATRIZGraphViewer:
-    """
-    Production-ready interactive visualization system for MATRIZ cognitive graphs.
+class RenderingHelper:
+    """Helper class for rendering MATRIZ graphs."""
 
-    This class provides comprehensive graph visualization capabilities including:
-    - Interactive node and edge exploration
-    - Temporal evolution tracking and animation
-    - Multiple layout algorithms
-    - Statistical analysis and metrics
-    - Export capabilities
-    - Real-time filtering and search
-    """
-
-    def __init__(
-        self,
-        width: int = 1200,
-        height: int = 800,
-        show_labels: bool = True,
-        enable_physics: bool = True,
-    ):
+    def __init__(self, viewer: "MATRIZGraphViewer"):
         """
-        Initialize the MATRIZ graph viewer.
+        Initialize the rendering helper.
 
         Args:
-            width: Plot width in pixels
-            height: Plot height in pixels
-            show_labels: Whether to show node labels by default
-            enable_physics: Whether to enable physics simulation for layouts
+            viewer: The MATRIZGraphViewer instance.
         """
-        self.width = width
-        self.height = height
-        self.show_labels = show_labels
-        self.enable_physics = enable_physics
+        self.viewer = viewer
 
-        # Core graph structure
-        self.graph = nx.DiGraph()
-        self.node_data = {}  # Store full MATRIZ node data
-        self.temporal_snapshots = {}  # Time-based graph snapshots
-        self.layout_cache = {}  # Cache computed layouts
-
-        # Visualization state
-        self.selected_nodes = set()
-        self.filtered_node_types = set()
-        self.filtered_link_types = set()
-        self.time_range = None
-
-        # Analysis results cache
-        self._analysis_cache = {}
-        self._cache_timestamp = 0
-
-        logger.info(f"Initialized MATRIZ Graph Viewer ({width}x{height})")
-
-    def add_node(self, matriz_node: dict[str, Any]) -> None:
-        """
-        Add a MATRIZ node to the graph.
-
-        Args:
-            matriz_node: Complete MATRIZ format node dictionary
-
-        Raises:
-            ValueError: If node format is invalid
-        """
-        try:
-            # Validate node structure
-            if not self._validate_matriz_node(matriz_node):
-                raise ValueError("Invalid MATRIZ node format")
-
-            node_id = matriz_node["id"]
-            node_type = matriz_node["type"]
-            state = matriz_node["state"]
-            timestamps = matriz_node["timestamps"]
-
-            # Store full node data
-            self.node_data[node_id] = matriz_node
-
-            # Add node to graph with computed attributes
-            self.graph.add_node(
-                node_id,
-                type=node_type,
-                confidence=state.get("confidence", 0.5),
-                salience=state.get("salience", 0.5),
-                valence=state.get("valence"),
-                arousal=state.get("arousal"),
-                created_ts=timestamps.get("created_ts", int(time.time() * 1000)),
-                label=self._generate_node_label(matriz_node),
-                size=self._calculate_node_size(matriz_node),
-                color=NodeTypeConfig.get_color(node_type),
-                shape=NodeTypeConfig.get_shape(node_type),
-            )
-
-            # Add links from this node
-            for link in matriz_node.get("links", []):
-                self._add_link(node_id, link)
-
-            # Update temporal snapshots
-            self._update_temporal_snapshots(node_id, timestamps.get("created_ts"))
-
-            # Clear analysis cache
-            self._invalidate_cache()
-
-            logger.debug(f"Added node {node_id[:8]}... (type: {node_type})")
-
-        except Exception as e:
-            logger.error(f"Failed to add node: {e}")
-            raise
-
-    def add_nodes_batch(self, matriz_nodes: list[dict[str, Any]]) -> tuple[int, int]:
-        """
-        Add multiple MATRIZ nodes efficiently.
-
-        Args:
-            matriz_nodes: List of MATRIZ node dictionaries
-
-        Returns:
-            Tuple of (successful_adds, failed_adds)
-        """
-        successful = 0
-        failed = 0
-
-        for node in matriz_nodes:
-            try:
-                self.add_node(node)
-                successful += 1
-            except Exception as e:
-                logger.warning(f"Failed to add node {node.get('id', 'unknown')}: {e}")
-                failed += 1
-
-        logger.info(f"Batch add complete: {successful} success, {failed} failed")
-        return successful, failed
-
-    def remove_node(self, node_id: str) -> bool:
-        """
-        Remove a node from the graph.
-
-        Args:
-            node_id: ID of node to remove
-
-        Returns:
-            True if node was removed, False if not found
-        """
-        try:
-            if node_id in self.graph:
-                self.graph.remove_node(node_id)
-                if node_id in self.node_data:
-                    del self.node_data[node_id]
-                self.selected_nodes.discard(node_id)
-                self._invalidate_cache()
-                logger.debug(f"Removed node {node_id[:8]}...")
-                return True
-            return False
-        except Exception as e:
-            logger.error(f"Failed to remove node {node_id}: {e}")
-            return False
-
-    def get_node_details(self, node_id: str) -> Optional[dict[str, Any]]:
-        """
-        Get complete details for a specific node.
-
-        Args:
-            node_id: ID of node to inspect
-
-        Returns:
-            Complete node data or None if not found
-        """
-        return self.node_data.get(node_id)
-
-    def search_nodes(
-        self,
-        node_type: Optional[str] = None,
-        min_confidence: Optional[float] = None,
-        max_confidence: Optional[float] = None,
-        min_salience: Optional[float] = None,
-        max_salience: Optional[float] = None,
-        time_range: Optional[tuple[int, int]] = None,
-        has_links: Optional[bool] = None,
-    ) -> list[str]:
-        """
-        Search for nodes matching specified criteria.
-
-        Args:
-            node_type: Filter by node type
-            min_confidence: Minimum confidence threshold
-            max_confidence: Maximum confidence threshold
-            min_salience: Minimum salience threshold
-            max_salience: Maximum salience threshold
-            time_range: (start_ts, end_ts) in epoch milliseconds
-            has_links: Filter nodes with/without links
-
-        Returns:
-            List of matching node IDs
-        """
-        matching_nodes = []
-
-        for node_id, data in self.graph.nodes(data=True):
-            # Type filter
-            if node_type and data.get("type") != node_type:
-                continue
-
-            # Confidence filters
-            confidence = data.get("confidence", 0)
-            if min_confidence is not None and confidence < min_confidence:
-                continue
-            if max_confidence is not None and confidence > max_confidence:
-                continue
-
-            # Salience filters
-            salience = data.get("salience", 0)
-            if min_salience is not None and salience < min_salience:
-                continue
-            if max_salience is not None and salience > max_salience:
-                continue
-
-            # Time range filter
-            if time_range:
-                created_ts = data.get("created_ts", 0)
-                if not (time_range[0] <= created_ts <= time_range[1]):
-                    continue
-
-            # Links filter
-            if has_links is not None:
-                has_any_links = (
-                    self.graph.in_degree(node_id) > 0 or self.graph.out_degree(node_id) > 0
-                )
-                if has_links != has_any_links:
-                    continue
-
-            matching_nodes.append(node_id)
-
-        logger.info(f"Search found {len(matching_nodes)} matching nodes")
-        return matching_nodes
-
-    def create_interactive_plot(
-        self,
-        layout: str = "force_directed",
-        show_node_info: bool = True,
-        show_link_weights: bool = False,
-        highlight_critical_path: bool = False,
-        title: str = "MATRIZ Cognitive Graph",
-    ) -> go.Figure:
-        """
-        Create an interactive Plotly visualization of the graph.
-
-        Args:
-            layout: Layout algorithm ('force_directed', 'hierarchical', 'circular', 'spiral')
-            show_node_info: Whether to show detailed node information on hover
-            show_link_weights: Whether to display link weights
-            highlight_critical_path: Whether to highlight high-importance paths
-            title: Plot title
-
-        Returns:
-            Plotly Figure object
-        """
-        try:
-            if self.graph.number_of_nodes() == 0:
-                return self._create_empty_plot(title)
-
-            # Compute layout positions
-            pos = self._compute_layout(layout)
-
-            # Create figure
-            fig = go.Figure()
-
-            # Add edges first (so they appear behind nodes)
-            self._add_edges_to_plot(fig, pos, show_link_weights, highlight_critical_path)
-
-            # Add nodes
-            self._add_nodes_to_plot(fig, pos, show_node_info)
-
-            # Configure layout
-            fig.update_layout(
-                title={
-                    "text": title,
-                    "x": 0.5,
-                    "font": {"size": 20, "color": "#2C3E50"},
-                },
-                width=self.width,
-                height=self.height,
-                showlegend=True,
-                hovermode="closest",
-                margin={"b": 20, "l": 5, "r": 5, "t": 40},
-                annotations=[
-                    {
-                        "text": f"Nodes: {self.graph.number_of_nodes()}, Edges: {self.graph.number_of_edges()}",
-                        "showarrow": False,
-                        "xref": "paper",
-                        "yref": "paper",
-                        "x": 0.005,
-                        "y": -0.002,
-                        "xanchor": "left",
-                        "yanchor": "bottom",
-                        "font": {"size": 12, "color": "#7F8C8D"},
-                    }
-                ],
-                xaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
-                yaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
-                plot_bgcolor="white",
-                paper_bgcolor="white",
-            )
-
-            # Add legend for node types
-            self._add_node_type_legend(fig)
-
-            logger.info(f"Created interactive plot with {self.graph.number_of_nodes()} nodes")
-            return fig
-
-        except Exception as e:
-            logger.error(f"Failed to create interactive plot: {e}")
-            return self._create_error_plot(str(e))
-
-    def create_temporal_animation(
-        self,
-        time_step_ms: int = 1000,
-        layout: str = "force_directed",
-        title: str = "MATRIZ Temporal Evolution",
-    ) -> go.Figure:
-        """
-        Create an animated visualization showing temporal evolution of the graph.
-
-        Args:
-            time_step_ms: Time step in milliseconds for animation frames
-            layout: Layout algorithm to use
-            title: Animation title
-
-        Returns:
-            Plotly Figure with animation frames
-        """
-        try:
-            if not self.temporal_snapshots:
-                return self._create_empty_plot(title)
-
-            # Create time-ordered snapshots
-            timestamps = sorted(self.temporal_snapshots.keys())
-            frames = []
-
-            # Compute stable layout using full graph
-            base_pos = self._compute_layout(layout)
-
-            for i, timestamp in enumerate(timestamps):
-                # Get nodes active up to this timestamp
-                active_nodes = set()
-                for ts in timestamps[: i + 1]:
-                    active_nodes.update(self.temporal_snapshots[ts])
-
-                # Create subgraph
-                subgraph = self.graph.subgraph(active_nodes)
-
-                # Filter positions for active nodes
-                frame_pos = {node: base_pos[node] for node in active_nodes if node in base_pos}
-
-                # Create frame
-                frame_data = []
-
-                # Add edges for this frame
-                edge_trace = self._create_edge_trace(subgraph, frame_pos)
-                if edge_trace:
-                    frame_data.append(edge_trace)
-
-                # Add nodes for this frame
-                node_trace = self._create_node_trace(subgraph, frame_pos, show_info=True)
-                if node_trace:
-                    frame_data.append(node_trace)
-
-                frames.append(
-                    go.Frame(
-                        data=frame_data,
-                        name=str(timestamp),
-                        layout={
-                            "title": f"{title} - {datetime.fromtimestamp(timestamp / 1000, tz=timezone.utc).strftime('%H:%M:%S')}"
-                        },
-                    )
-                )
-
-            # Create initial figure with first frame
-            fig = go.Figure(data=frames[0].data if frames else [], frames=frames)
-
-            # Add animation controls
-            fig.update_layout(
-                title=title,
-                width=self.width,
-                height=self.height,
-                updatemenus=[
-                    {
-                        "type": "buttons",
-                        "buttons": [
-                            {
-                                "label": "Play",
-                                "method": "animate",
-                                "args": [
-                                    None,
-                                    {
-                                        "frame": {
-                                            "duration": time_step_ms,
-                                            "redraw": True,
-                                        },
-                                        "fromcurrent": True,
-                                        "transition": {"duration": 300},
-                                    },
-                                ],
-                            },
-                            {
-                                "label": "Pause",
-                                "method": "animate",
-                                "args": [
-                                    [None],
-                                    {
-                                        "frame": {"duration": 0, "redraw": False},
-                                        "mode": "immediate",
-                                        "transition": {"duration": 0},
-                                    },
-                                ],
-                            },
-                        ],
-                        "x": 0.1,
-                        "y": 0,
-                        "xanchor": "right",
-                        "yanchor": "top",
-                    }
-                ],
-                sliders=[
-                    {
-                        "steps": [
-                            {
-                                "args": [
-                                    [frame.name],
-                                    {
-                                        "frame": {"duration": 300, "redraw": True},
-                                        "mode": "immediate",
-                                        "transition": {"duration": 300},
-                                    },
-                                ],
-                                "label": datetime.fromtimestamp(
-                                    int(frame.name, tz=timezone.utc) / 1000
-                                ).strftime("%H:%M:%S"),
-                                "method": "animate",
-                            }
-                            for frame in frames
-                        ],
-                        "x": 0.1,
-                        "len": 0.9,
-                        "xanchor": "left",
-                        "y": 0,
-                        "yanchor": "top",
-                    }
-                ],
-                xaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
-                yaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
-                plot_bgcolor="white",
-                paper_bgcolor="white",
-            )
-
-            logger.info(f"Created temporal animation with {len(frames)} frames")
-            return fig
-
-        except Exception as e:
-            logger.error(f"Failed to create temporal animation: {e}")
-            return self._create_error_plot(str(e))
-
-    def create_statistics_dashboard(self) -> go.Figure:
-        """
-        Create a comprehensive statistics dashboard for the graph.
-
-        Returns:
-            Plotly Figure with multiple subplots showing graph statistics
-        """
-        try:
-            if self.graph.number_of_nodes() == 0:
-                return self._create_empty_plot("Graph Statistics Dashboard")
-
-            # Create subplots
-            fig = make_subplots(
-                rows=2,
-                cols=3,
-                subplot_titles=[
-                    "Node Type Distribution",
-                    "Confidence Distribution",
-                    "Salience Distribution",
-                    "Link Type Distribution",
-                    "Temporal Activity",
-                    "Network Metrics",
-                ],
-                specs=[
-                    [{"type": "pie"}, {"type": "histogram"}, {"type": "histogram"}],
-                    [{"type": "pie"}, {"type": "scatter"}, {"type": "table"}],
-                ],
-            )
-
-            # Node type distribution (pie chart)
-            node_types = [data["type"] for _, data in self.graph.nodes(data=True)]
-            type_counts = Counter(node_types)
-
-            fig.add_trace(
-                go.Pie(
-                    labels=list(type_counts.keys()),
-                    values=list(type_counts.values()),
-                    marker_colors=[NodeTypeConfig.get_color(t) for t in type_counts],
-                    name="Node Types",
-                ),
-                row=1,
-                col=1,
-            )
-
-            # Confidence distribution (histogram)
-            confidences = [data.get("confidence", 0) for _, data in self.graph.nodes(data=True)]
-            fig.add_trace(
-                go.Histogram(x=confidences, nbinsx=20, name="Confidence", marker_color="#3498DB"),
-                row=1,
-                col=2,
-            )
-
-            # Salience distribution (histogram)
-            saliences = [data.get("salience", 0) for _, data in self.graph.nodes(data=True)]
-            fig.add_trace(
-                go.Histogram(x=saliences, nbinsx=20, name="Salience", marker_color="#E74C3C"),
-                row=1,
-                col=3,
-            )
-
-            # Link type distribution (pie chart)
-            link_types = []
-            for _, _, data in self.graph.edges(data=True):
-                link_types.append(data.get("link_type", "unknown"))
-
-            if link_types:
-                link_counts = Counter(link_types)
-                fig.add_trace(
-                    go.Pie(
-                        labels=list(link_counts.keys()),
-                        values=list(link_counts.values()),
-                        marker_colors=[LinkTypeConfig.get_color(t) for t in link_counts],
-                        name="Link Types",
-                    ),
-                    row=2,
-                    col=1,
-                )
-
-            # Temporal activity (scatter plot)
-            if self.temporal_snapshots:
-                timestamps = list(self.temporal_snapshots.keys())
-                activity_counts = [len(nodes) for nodes in self.temporal_snapshots.values()]
-
-                fig.add_trace(
-                    go.Scatter(
-                        x=[datetime.fromtimestamp(ts / 1000, tz=timezone.utc) for ts in timestamps],
-                        y=activity_counts,
-                        mode="lines+markers",
-                        name="Activity",
-                        line={"color": "#2ECC71", "width": 2},
-                        marker={"size": 6},
-                    ),
-                    row=2,
-                    col=2,
-                )
-
-            # Network metrics (table)
-            metrics = self.calculate_graph_metrics()
-            fig.add_trace(
-                go.Table(
-                    header={
-                        "values": ["Metric", "Value"],
-                        "fill_color": "#F8F9FA",
-                        "align": "left",
-                        "font": {"size": 12},
-                    },
-                    cells={
-                        "values": [
-                            list(metrics.keys()),
-                            [
-                                f"{v:.3f}" if isinstance(v, float) else str(v)
-                                for v in metrics.values()
-                            ],
-                        ],
-                        "fill_color": "white",
-                        "align": "left",
-                        "font": {"size": 11},
-                    },
-                ),
-                row=2,
-                col=3,
-            )
-
-            # Update layout
-            fig.update_layout(
-                title={
-                    "text": "MATRIZ Graph Statistics Dashboard",
-                    "x": 0.5,
-                    "font": {"size": 20, "color": "#2C3E50"},
-                },
-                width=self.width,
-                height=self.height,
-                showlegend=False,
-            )
-
-            logger.info("Created statistics dashboard")
-            return fig
-
-        except Exception as e:
-            logger.error(f"Failed to create statistics dashboard: {e}")
-            return self._create_error_plot(str(e))
-
-    def calculate_graph_metrics(self) -> dict[str, Union[int, float]]:
-        """
-        Calculate comprehensive graph analysis metrics.
-
-        Returns:
-            Dictionary of calculated metrics
-        """
-        if not self.graph.nodes():
-            return {}
-
-        cache_key = "graph_metrics"
-        current_time = time.time()
-
-        # Check cache
-        if (
-            cache_key in self._analysis_cache and current_time - self._cache_timestamp < 300
-        ):  # 5 minute cache
-            return self._analysis_cache[cache_key]
-
-        try:
-            metrics = {}
-
-            # Basic graph properties
-            metrics["Nodes"] = self.graph.number_of_nodes()
-            metrics["Edges"] = self.graph.number_of_edges()
-            metrics["Density"] = nx.density(self.graph)
-
-            # Convert to undirected for some metrics
-            undirected_graph = self.graph.to_undirected()
-
-            # Connectivity
-            if nx.is_connected(undirected_graph):
-                metrics["Connected Components"] = 1
-                metrics["Average Path Length"] = nx.average_shortest_path_length(undirected_graph)
-                metrics["Diameter"] = nx.diameter(undirected_graph)
-            else:
-                components = list(nx.connected_components(undirected_graph))
-                metrics["Connected Components"] = len(components)
-                metrics["Largest Component Size"] = len(max(components, key=len))
-
-            # Centrality measures (sample for performance)
-            sample_size = min(100, self.graph.number_of_nodes())
-            sample_nodes = list(self.graph.nodes())[:sample_size]
-
-            if sample_nodes:
-                # Degree centrality
-                degree_centrality = nx.degree_centrality(self.graph)
-                metrics["Avg Degree Centrality"] = np.mean(
-                    [degree_centrality[n] for n in sample_nodes]
-                )
-
-                # Betweenness centrality (expensive, so sample)
-                if len(sample_nodes) <= 50:
-                    between_centrality = nx.betweenness_centrality(
-                        self.graph, k=min(20, len(sample_nodes))
-                    )
-                    metrics["Avg Betweenness Centrality"] = np.mean(
-                        list(between_centrality.values())
-                    )
-
-                # Clustering coefficient
-                clustering = nx.clustering(undirected_graph)
-                metrics["Avg Clustering Coefficient"] = np.mean(
-                    [clustering[n] for n in sample_nodes]
-                )
-
-            # Confidence and salience statistics
-            confidences = [data.get("confidence", 0) for _, data in self.graph.nodes(data=True)]
-            saliences = [data.get("salience", 0) for _, data in self.graph.nodes(data=True)]
-
-            if confidences:
-                metrics["Avg Confidence"] = np.mean(confidences)
-                metrics["Confidence Std"] = np.std(confidences)
-
-            if saliences:
-                metrics["Avg Salience"] = np.mean(saliences)
-                metrics["Salience Std"] = np.std(saliences)
-
-            # Node type diversity
-            node_types = [data["type"] for _, data in self.graph.nodes(data=True)]
-            metrics["Node Type Diversity"] = len(set(node_types))
-
-            # Cache results
-            self._analysis_cache[cache_key] = metrics
-            self._cache_timestamp = current_time
-
-            logger.info(f"Calculated {len(metrics)} graph metrics")
-            return metrics
-
-        except Exception as e:
-            logger.error(f"Failed to calculate graph metrics: {e}")
-            return {"Error": str(e)}
-
-    def export_graph(
-        self,
-        filepath: Union[str, Path],
-        format: str = "json",
-        include_layout: bool = True,
-        layout_type: str = "force_directed",
-    ) -> bool:
-        """
-        Export the graph to various formats.
-
-        Args:
-            filepath: Output file path
-            format: Export format ('json', 'gexf', 'graphml', 'edgelist')
-            include_layout: Whether to include layout positions
-            layout_type: Layout algorithm to use for positions
-
-        Returns:
-            True if export successful, False otherwise
-        """
-        try:
-            filepath = Path(filepath)
-            filepath.parent.mkdir(parents=True, exist_ok=True)
-
-            # Prepare graph for export
-            export_graph = self.graph.copy()
-
-            # Add layout positions if requested
-            if include_layout:
-                pos = self._compute_layout(layout_type)
-                for node, (x, y) in pos.items():
-                    if node in export_graph:
-                        export_graph.nodes[node]["x"] = float(x)
-                        export_graph.nodes[node]["y"] = float(y)
-
-            # Export based on format
-            if format.lower() == "json":
-                # Custom JSON format with full MATRIZ data
-                export_data = {
-                    "graph": nx.node_link_data(export_graph),
-                    "matriz_nodes": self.node_data,
-                    "metadata": {
-                        "created_at": datetime.now(timezone.utc).isoformat(),
-                        "node_count": export_graph.number_of_nodes(),
-                        "edge_count": export_graph.number_of_edges(),
-                        "layout_type": layout_type if include_layout else None,
-                    },
-                }
-
-                with open(filepath, "w", encoding="utf-8") as f:
-                    json.dump(export_data, f, indent=2, ensure_ascii=False)
-
-            elif format.lower() == "gexf":
-                nx.write_gexf(export_graph, filepath)
-
-            elif format.lower() == "graphml":
-                nx.write_graphml(export_graph, filepath)
-
-            elif format.lower() == "edgelist":
-                nx.write_edgelist(export_graph, filepath, data=True)
-
-            else:
-                raise ValueError(f"Unsupported format: {format}")
-
-            logger.info(f"Exported graph to {filepath} ({format} format)")
-            return True
-
-        except Exception as e:
-            logger.error(f"Failed to export graph: {e}")
-            return False
-
-    def import_graph(self, filepath: Union[str, Path], format: str = "json") -> bool:
-        """
-        Import graph from file.
-
-        Args:
-            filepath: Input file path
-            format: Import format ('json', 'gexf', 'graphml', 'edgelist')
-
-        Returns:
-            True if import successful, False otherwise
-        """
-        try:
-            filepath = Path(filepath)
-
-            if format.lower() == "json":
-                with open(filepath, encoding="utf-8") as f:
-                    data = json.load(f)
-
-                # Import graph structure
-                self.graph = nx.node_link_graph(data["graph"], directed=True)
-
-                # Import MATRIZ node data if available
-                if "matriz_nodes" in data:
-                    self.node_data = data["matriz_nodes"]
-
-                # Rebuild temporal snapshots
-                self._rebuild_temporal_snapshots()
-
-            elif format.lower() == "gexf":
-                self.graph = nx.read_gexf(filepath, node_type=str)
-
-            elif format.lower() == "graphml":
-                self.graph = nx.read_graphml(filepath)
-
-            elif format.lower() == "edgelist":
-                self.graph = nx.read_edgelist(filepath, create_using=nx.DiGraph(), data=True)
-
-            else:
-                raise ValueError(f"Unsupported format: {format}")
-
-            self._invalidate_cache()
-            logger.info(f"Imported graph from {filepath} ({format} format)")
-            return True
-
-        except Exception as e:
-            logger.error(f"Failed to import graph: {e}")
-            return False
-
-    def export_visualization(
-        self,
-        filepath: Union[str, Path],
-        format: str = "html",
-        layout: str = "force_directed",
-        **kwargs,
-    ) -> bool:
-        """
-        Export visualization to file.
-
-        Args:
-            filepath: Output file path
-            format: Export format ('html', 'png', 'jpg', 'pdf', 'svg')
-            layout: Layout algorithm to use
-            **kwargs: Additional arguments for plot creation
-
-        Returns:
-            True if export successful, False otherwise
-        """
-        try:
-            filepath = Path(filepath)
-            filepath.parent.mkdir(parents=True, exist_ok=True)
-
-            # Create the plot
-            fig = self.create_interactive_plot(layout=layout, **kwargs)
-
-            # Export based on format
-            if format.lower() == "html":
-                fig.write_html(str(filepath))
-            elif format.lower() in ["png", "jpg", "jpeg", "pdf", "svg"]:
-                fig.write_image(str(filepath), format=format.lower())
-            else:
-                raise ValueError(f"Unsupported format: {format}")
-
-            logger.info(f"Exported visualization to {filepath} ({format} format)")
-            return True
-
-        except Exception as e:
-            logger.error(f"Failed to export visualization: {e}")
-            return False
-
-    def clear_graph(self) -> None:
-        """Clear all graph data."""
-        self.graph.clear()
-        self.node_data.clear()
-        self.temporal_snapshots.clear()
-        self.layout_cache.clear()
-        self.selected_nodes.clear()
-        self._invalidate_cache()
-        logger.info("Cleared all graph data")
-
-    def get_summary(self) -> dict[str, Any]:
-        """
-        Get a comprehensive summary of the graph.
-
-        Returns:
-            Dictionary containing graph summary information
-        """
-        summary = {
-            "basic_stats": {
-                "nodes": self.graph.number_of_nodes(),
-                "edges": self.graph.number_of_edges(),
-                "density": nx.density(self.graph) if self.graph.nodes() else 0,
-            },
-            "node_types": {},
-            "link_types": {},
-            "temporal_range": None,
-            "metrics": self.calculate_graph_metrics(),
-        }
-
-        # Node type distribution
-        if self.graph.nodes():
-            node_types = [data["type"] for _, data in self.graph.nodes(data=True)]
-            summary["node_types"] = dict(Counter(node_types))
-
-        # Link type distribution
-        if self.graph.edges():
-            link_types = [
-                data.get("link_type", "unknown") for _, _, data in self.graph.edges(data=True)
-            ]
-            summary["link_types"] = dict(Counter(link_types))
-
-        # Temporal range
-        if self.temporal_snapshots:
-            timestamps = list(self.temporal_snapshots.keys())
-            summary["temporal_range"] = {
-                "start": min(timestamps),
-                "end": max(timestamps),
-                "duration_ms": max(timestamps) - min(timestamps),
-            }
-
-        return summary
-
-    # Private helper methods
-
-    def _validate_matriz_node(self, node: dict[str, Any]) -> bool:
-        """Validate MATRIZ node format."""
-        required_fields = ["id", "type", "state", "timestamps", "provenance"]
-        for field in required_fields:
-            if field not in node:
-                return False
-
-        state = node.get("state", {})
-        return not ("confidence" not in state or "salience" not in state)
-
-    def _add_link(self, source_id: str, link: dict[str, Any]) -> None:
-        """Add a link to the graph."""
-        target_id = link.get("target_node_id")
-        link_type = link.get("link_type", "unknown")
-        weight = link.get("weight", 1.0)
-
-        if target_id and target_id in self.node_data:
-            self.graph.add_edge(
-                source_id,
-                target_id,
-                link_type=link_type,
-                weight=weight,
-                explanation=link.get("explanation", ""),
-                direction=link.get("direction", "unidirectional"),
-                color=LinkTypeConfig.get_color(link_type),
-                style=LinkTypeConfig.get_style(link_type),
-            )
-
-    def _generate_node_label(self, matriz_node: dict[str, Any]) -> str:
-        """Generate a display label for a node."""
-        node_type = matriz_node["type"]
-        node_id = matriz_node["id"][:8]
-        confidence = matriz_node["state"].get("confidence", 0)
-
-        return f"{node_type}\n{node_id}...\nConf: {confidence:.2f}"
-
-    def _calculate_node_size(self, matriz_node: dict[str, Any]) -> float:
-        """Calculate node size based on importance."""
-        base_size = 20
-
-        # Size based on confidence and salience
-        confidence = matriz_node["state"].get("confidence", 0.5)
-        salience = matriz_node["state"].get("salience", 0.5)
-        importance = (confidence + salience) / 2
-
-        # Type-based multiplier
-        node_type = matriz_node["type"]
-        type_multiplier = NodeTypeConfig.get_size_multiplier(node_type)
-
-        return base_size * (0.5 + importance) * type_multiplier
-
-    def _update_temporal_snapshots(self, node_id: str, timestamp: Optional[int]) -> None:
-        """Update temporal snapshots with new node."""
-        if timestamp:
-            if timestamp not in self.temporal_snapshots:
-                self.temporal_snapshots[timestamp] = set()
-            self.temporal_snapshots[timestamp].add(node_id)
-
-    def _rebuild_temporal_snapshots(self) -> None:
-        """Rebuild temporal snapshots from existing nodes."""
-        self.temporal_snapshots.clear()
-        for node_id, data in self.graph.nodes(data=True):
-            timestamp = data.get("created_ts")
-            if timestamp:
-                self._update_temporal_snapshots(node_id, timestamp)
-
-    def _compute_layout(self, layout_type: str) -> dict[str, tuple[float, float]]:
-        """Compute node positions using specified layout algorithm."""
-        cache_key = f"{layout_type}_{self.graph.number_of_nodes()}_{self.graph.number_of_edges()}"
-
-        if cache_key in self.layout_cache:
-            return self.layout_cache[cache_key]
-
-        try:
-            if layout_type == "force_directed":
-                pos = nx.spring_layout(self.graph, k=1, iterations=50)
-            elif layout_type == "hierarchical":
-                pos = (
-                    nx.nx_agraph.graphviz_layout(self.graph, prog="dot")
-                    if "nx_agraph" in dir(nx)
-                    else nx.spring_layout(self.graph)
-                )
-            elif layout_type == "circular":
-                pos = nx.circular_layout(self.graph)
-            elif layout_type == "spiral":
-                pos = nx.spiral_layout(self.graph)
-            else:
-                pos = nx.spring_layout(self.graph)
-
-            self.layout_cache[cache_key] = pos
-            return pos
-
-        except Exception as e:
-            logger.warning(f"Layout computation failed, using fallback: {e}")
-            pos = nx.spring_layout(self.graph)
-            self.layout_cache[cache_key] = pos
-            return pos
-
-    def _add_edges_to_plot(
+    def add_edges_to_plot(
         self, fig: go.Figure, pos: dict, show_weights: bool, highlight_critical: bool
     ) -> None:
         """Add edges to the plot."""
         edge_traces = defaultdict(list)
 
-        for source, target, data in self.graph.edges(data=True):
+        for source, target, data in self.viewer.graph.edges(data=True):
             if source not in pos or target not in pos:
                 continue
 
@@ -1208,7 +217,7 @@ class MATRIZGraphViewer:
             edge_traces[trace_key].extend([y0, y1, None])
 
         # Add edge traces
-        for (link_type, width, color), coords in edge_traces.items():
+        for (_link_type, width, color), coords in edge_traces.items():
             if len(coords) >= 6:  # At least one edge
                 x_coords = coords[::3]  # Every 3rd element starting from 0
                 y_coords = coords[1::3]  # Every 3rd element starting from 1
@@ -1224,13 +233,13 @@ class MATRIZGraphViewer:
                     )
                 )
 
-    def _add_nodes_to_plot(self, fig: go.Figure, pos: dict, show_info: bool) -> None:
+    def add_nodes_to_plot(self, fig: go.Figure, pos: dict, show_info: bool) -> None:
         """Add nodes to the plot grouped by type."""
         node_traces = defaultdict(
             lambda: {"x": [], "y": [], "text": [], "hovertext": [], "size": []}
         )
 
-        for node_id, data in self.graph.nodes(data=True):
+        for node_id, data in self.viewer.graph.nodes(data=True):
             if node_id not in pos:
                 continue
 
@@ -1243,7 +252,7 @@ class MATRIZGraphViewer:
             node_traces[node_type]["size"].append(data.get("size", 20))
 
             if show_info:
-                hover_text = self._create_hover_text(node_id, data)
+                hover_text = self.create_hover_text(node_id, data)
                 node_traces[node_type]["hovertext"].append(hover_text)
 
         # Add node traces
@@ -1253,14 +262,14 @@ class MATRIZGraphViewer:
                     go.Scatter(
                         x=trace_data["x"],
                         y=trace_data["y"],
-                        mode="markers+text" if self.show_labels else "markers",
+                        mode="markers+text" if self.viewer.show_labels else "markers",
                         marker={
                             "size": trace_data["size"],
                             "color": NodeTypeConfig.get_color(node_type),
                             "symbol": NodeTypeConfig.get_shape(node_type),
                             "line": {"width": 1, "color": "white"},
                         },
-                        text=trace_data["text"] if self.show_labels else None,
+                        text=trace_data["text"] if self.viewer.show_labels else None,
                         textposition="middle center",
                         textfont={"size": 8, "color": "white"},
                         hovertext=trace_data["hovertext"] if show_info else None,
@@ -1270,7 +279,7 @@ class MATRIZGraphViewer:
                     )
                 )
 
-    def _create_hover_text(self, node_id: str, data: dict) -> str:
+    def create_hover_text(self, node_id: str, data: dict) -> str:
         """Create detailed hover text for a node."""
         lines = [
             f"<b>{data.get('type', 'Unknown')}</b>",
@@ -1286,13 +295,13 @@ class MATRIZGraphViewer:
             lines.append(f"Arousal: {data['arousal']:.3f}")
 
         # Add connection info
-        in_degree = self.graph.in_degree(node_id)
-        out_degree = self.graph.out_degree(node_id)
+        in_degree = self.viewer.graph.in_degree(node_id)
+        out_degree = self.viewer.graph.out_degree(node_id)
         lines.append(f"Connections: {in_degree} in, {out_degree} out")
 
         return "<br>".join(lines)
 
-    def _create_node_trace(
+    def create_node_trace(
         self, graph: nx.DiGraph, pos: dict, show_info: bool
     ) -> Optional[go.Scatter]:
         """Create a single node trace for animation frames."""
@@ -1316,7 +325,7 @@ class MATRIZGraphViewer:
             sizes.append(data.get("size", 20))
 
             if show_info:
-                hover_texts.append(self._create_hover_text(node_id, data))
+                hover_texts.append(self.create_hover_text(node_id, data))
 
         if not x_coords:
             return None
@@ -1335,7 +344,7 @@ class MATRIZGraphViewer:
             showlegend=False,
         )
 
-    def _create_edge_trace(self, graph: nx.DiGraph, pos: dict) -> Optional[go.Scatter]:
+    def create_edge_trace(self, graph: nx.DiGraph, pos: dict) -> Optional[go.Scatter]:
         """Create a single edge trace for animation frames."""
         if not graph.edges():
             return None
@@ -1365,11 +374,11 @@ class MATRIZGraphViewer:
             showlegend=False,
         )
 
-    def _add_node_type_legend(self, fig: go.Figure) -> None:
+    def add_node_type_legend(self, fig: go.Figure) -> None:
         """Add a legend showing node type colors."""
         # This is handled automatically by the node traces
 
-    def _create_empty_plot(self, title: str) -> go.Figure:
+    def create_empty_plot(self, title: str) -> go.Figure:
         """Create an empty plot with instructions."""
         fig = go.Figure()
 
@@ -1387,8 +396,8 @@ class MATRIZGraphViewer:
 
         fig.update_layout(
             title=title,
-            width=self.width,
-            height=self.height,
+            width=self.viewer.width,
+            height=self.viewer.height,
             xaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
             yaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
             plot_bgcolor="white",
@@ -1397,7 +406,7 @@ class MATRIZGraphViewer:
 
         return fig
 
-    def _create_error_plot(self, error_message: str) -> go.Figure:
+    def create_error_plot(self, error_message: str) -> go.Figure:
         """Create an error plot."""
         fig = go.Figure()
 
@@ -1415,8 +424,8 @@ class MATRIZGraphViewer:
 
         fig.update_layout(
             title="Visualization Error",
-            width=self.width,
-            height=self.height,
+            width=self.viewer.width,
+            height=self.viewer.height,
             xaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
             yaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
             plot_bgcolor="white",
@@ -1425,10 +434,396 @@ class MATRIZGraphViewer:
 
         return fig
 
+
+class MATRIZGraphViewer:
+    """
+    Production-ready interactive visualization system for MATRIZ cognitive graphs.
+    """
+
+    def __init__(
+        self,
+        width: int = 1200,
+        height: int = 800,
+        show_labels: bool = True,
+        enable_physics: bool = True,
+    ):
+        self.width = width
+        self.height = height
+        self.show_labels = show_labels
+        self.enable_physics = enable_physics
+        self.graph = nx.DiGraph()
+        self.node_data = {}
+        self.temporal_snapshots = {}
+        self.layout_cache = {}
+        self.selected_nodes = set()
+        self.filtered_node_types = set()
+        self.filtered_link_types = set()
+        self.time_range = None
+        self._analysis_cache = {}
+        self._cache_timestamp = 0
+        self.renderer = RenderingHelper(self)
+        logger.info(f"Initialized MATRIZ Graph Viewer ({width}x{height})")
+
+    def add_node(self, matriz_node: dict[str, Any]) -> None:
+        if not self._validate_matriz_node(matriz_node):
+            raise ValueError("Invalid MATRIZ node format")
+        node_id = matriz_node["id"]
+        self.node_data[node_id] = matriz_node
+        self._add_node_to_graph(matriz_node)
+        for link in matriz_node.get("links", []):
+            self._add_link(node_id, link)
+        self._update_temporal_snapshots(node_id, matriz_node["timestamps"].get("created_ts"))
+        self._invalidate_cache()
+        logger.debug(f"Added node {node_id[:8]}... (type: {matriz_node['type']})")
+
+    def add_nodes_batch(self, matriz_nodes: list[dict[str, Any]]) -> tuple[int, int]:
+        successful, failed = 0, 0
+        for node in matriz_nodes:
+            try:
+                self.add_node(node)
+                successful += 1
+            except Exception as e:
+                logger.warning(f"Failed to add node {node.get('id', 'unknown')}: {e}")
+                failed += 1
+        logger.info(f"Batch add complete: {successful} success, {failed} failed")
+        return successful, failed
+
+    def remove_node(self, node_id: str) -> bool:
+        if node_id not in self.graph:
+            return False
+        self.graph.remove_node(node_id)
+        if node_id in self.node_data:
+            del self.node_data[node_id]
+        self.selected_nodes.discard(node_id)
+        self._invalidate_cache()
+        logger.debug(f"Removed node {node_id[:8]}...")
+        return True
+
+    def get_node_details(self, node_id: str) -> Optional[dict[str, Any]]:
+        return self.node_data.get(node_id)
+
+    def search_nodes(self, **criteria) -> list[str]:
+        return [
+            node_id
+            for node_id, data in self.graph.nodes(data=True)
+            if self._node_matches_criteria(node_id, data, criteria)
+        ]
+
+    def create_interactive_plot(self, **kwargs) -> go.Figure:
+        if not self.graph.nodes():
+            return self.renderer.create_empty_plot(kwargs.get("title", "MATRIZ Cognitive Graph"))
+        pos = self._compute_layout(kwargs.get("layout", "force_directed"))
+        fig = go.Figure()
+        self.renderer.add_edges_to_plot(fig, pos, kwargs.get("show_link_weights", False), kwargs.get("highlight_critical_path", False))
+        self.renderer.add_nodes_to_plot(fig, pos, kwargs.get("show_node_info", True))
+        self._configure_plot_layout(fig, kwargs.get("title", "MATRIZ Cognitive Graph"))
+        return fig
+
+    def create_temporal_animation(self, **kwargs) -> go.Figure:
+        if not self.temporal_snapshots:
+            return self.renderer.create_empty_plot(kwargs.get("title", "MATRIZ Temporal Evolution"))
+        timestamps = sorted(self.temporal_snapshots.keys())
+        base_pos = self._compute_layout(kwargs.get("layout", "force_directed"))
+        frames = [self._create_animation_frame(ts, base_pos, timestamps) for ts in timestamps]
+        fig = go.Figure(data=frames[0].data if frames else [], frames=frames)
+        self._configure_animation_layout(fig, frames, kwargs.get("time_step_ms", 1000), kwargs.get("title", "MATRIZ Temporal Evolution"))
+        return fig
+
+    def create_statistics_dashboard(self) -> go.Figure:
+        if not self.graph.nodes():
+            return self.renderer.create_empty_plot("Graph Statistics Dashboard")
+        fig = make_subplots(
+            rows=2,
+            cols=3,
+            subplot_titles=("Node Type Distribution", "Confidence Distribution", "Salience Distribution", "Link Type Distribution", "Temporal Activity", "Network Metrics"),
+            specs=[[{"type": "pie"}, {"type": "histogram"}, {"type": "histogram"}], [{"type": "pie"}, {"type": "scatter"}, {"type": "table"}]]
+        )
+        self._add_dashboard_traces(fig)
+        fig.update_layout(title_text="MATRIZ Graph Statistics Dashboard", showlegend=False)
+        return fig
+
+    def calculate_graph_metrics(self) -> dict[str, Union[int, float]]:
+        if not self.graph.nodes():
+            return {}
+        cache_key = "graph_metrics"
+        if self._is_cache_valid(cache_key):
+            return self._analysis_cache[cache_key]
+        metrics = self._compute_graph_metrics()
+        self._analysis_cache[cache_key] = metrics
+        self._cache_timestamp = time.time()
+        return metrics
+
+    def export_graph(self, filepath: Union[str, Path], **kwargs) -> bool:
+        try:
+            filepath = Path(filepath)
+            filepath.parent.mkdir(parents=True, exist_ok=True)
+            export_graph = self.graph.copy()
+            if kwargs.get("include_layout", True):
+                self._add_layout_to_graph(export_graph, kwargs.get("layout_type", "force_directed"))
+            self._write_graph_to_file(export_graph, filepath, kwargs.get("format", "json"))
+            logger.info(f"Exported graph to {filepath} ({kwargs.get('format', 'json')} format)")
+            return True
+        except Exception as e:
+            logger.error(f"Failed to export graph: {e}")
+            return False
+
+    def import_graph(self, filepath: Union[str, Path], format: str = "json") -> bool:
+        try:
+            self.graph = self._read_graph_from_file(Path(filepath), format)
+            self._invalidate_cache()
+            logger.info(f"Imported graph from {filepath} ({format} format)")
+            return True
+        except Exception as e:
+            logger.error(f"Failed to import graph: {e}")
+            return False
+
+    def export_visualization(self, filepath: Union[str, Path], **kwargs) -> bool:
+        try:
+            filepath = Path(filepath)
+            filepath.parent.mkdir(parents=True, exist_ok=True)
+            fig = self.create_interactive_plot(**kwargs)
+            self._write_visualization_to_file(fig, filepath, kwargs.get("format", "html"))
+            logger.info(f"Exported visualization to {filepath} ({kwargs.get('format', 'html')} format)")
+            return True
+        except Exception as e:
+            logger.error(f"Failed to export visualization: {e}")
+            return False
+
+    def clear_graph(self) -> None:
+        self.graph.clear()
+        self.node_data.clear()
+        self.temporal_snapshots.clear()
+        self.layout_cache.clear()
+        self.selected_nodes.clear()
+        self._invalidate_cache()
+        logger.info("Cleared all graph data")
+
+    def get_summary(self) -> dict[str, Any]:
+        return {
+            "basic_stats": self._get_basic_stats(),
+            "node_types": dict(Counter(nx.get_node_attributes(self.graph, "type").values())),
+            "link_types": dict(Counter(nx.get_edge_attributes(self.graph, "link_type").values())),
+            "temporal_range": self._get_temporal_range(),
+            "metrics": self.calculate_graph_metrics(),
+        }
+
+    def _validate_matriz_node(self, node: dict[str, Any]) -> bool:
+        required = ["id", "type", "state", "timestamps", "provenance"]
+        return all(k in node for k in required) and all(k in node["state"] for k in ("confidence", "salience"))
+
+    def _add_node_to_graph(self, node: dict[str, Any]):
+        self.graph.add_node(
+            node["id"],
+            type=node["type"],
+            confidence=node["state"].get("confidence", 0.5),
+            salience=node["state"].get("salience", 0.5),
+            valence=node["state"].get("valence"),
+            arousal=node["state"].get("arousal"),
+            created_ts=node["timestamps"].get("created_ts", int(time.time() * 1000)),
+            label=self._generate_node_label(node),
+            size=self._calculate_node_size(node),
+            color=NodeTypeConfig.get_color(node["type"]),
+            shape=NodeTypeConfig.get_shape(node["type"]),
+        )
+
+    def _add_link(self, source_id: str, link: dict[str, Any]) -> None:
+        target_id = link.get("target_node_id")
+        if target_id and target_id in self.node_data:
+            self.graph.add_edge(source_id, target_id, **self._extract_link_attributes(link))
+
+    def _extract_link_attributes(self, link: dict[str, Any]) -> dict:
+        link_type = link.get("link_type", "unknown")
+        return {
+            "link_type": link_type,
+            "weight": link.get("weight", 1.0),
+            "explanation": link.get("explanation", ""),
+            "direction": link.get("direction", "unidirectional"),
+            "color": LinkTypeConfig.get_color(link_type),
+            "style": LinkTypeConfig.get_style(link_type),
+        }
+
+    def _generate_node_label(self, node: dict[str, Any]) -> str:
+        return f"{node['type']}\n{node['id'][:8]}...\nConf: {node['state'].get('confidence', 0):.2f}"
+
+    def _calculate_node_size(self, node: dict[str, Any]) -> float:
+        base_size = 20
+        importance = (node["state"].get("confidence", 0.5) + node["state"].get("salience", 0.5)) / 2
+        multiplier = NodeTypeConfig.get_size_multiplier(node["type"])
+        return base_size * (0.5 + importance) * multiplier
+
+    def _update_temporal_snapshots(self, node_id: str, timestamp: Optional[int]) -> None:
+        if timestamp:
+            self.temporal_snapshots.setdefault(timestamp, set()).add(node_id)
+
+    def _rebuild_temporal_snapshots(self) -> None:
+        self.temporal_snapshots.clear()
+        for node_id, data in self.graph.nodes(data=True):
+            if ts := data.get("created_ts"):
+                self._update_temporal_snapshots(node_id, ts)
+
+    def _compute_layout(self, layout_type: str) -> dict:
+        cache_key = f"{layout_type}_{self.graph.number_of_nodes()}_{self.graph.number_of_edges()}"
+        if cache_key in self.layout_cache:
+            return self.layout_cache[cache_key]
+        try:
+            layout_func = getattr(nx, f"{layout_type}_layout", nx.spring_layout)
+            pos = layout_func(self.graph)
+        except Exception as e:
+            logger.warning(f"Layout '{layout_type}' failed, fallback to spring: {e}")
+            pos = nx.spring_layout(self.graph)
+        self.layout_cache[cache_key] = pos
+        return pos
+
     def _invalidate_cache(self) -> None:
-        """Invalidate analysis cache."""
         self._analysis_cache.clear()
         self._cache_timestamp = 0
+
+    def _node_matches_criteria(self, node_id, data, criteria) -> bool:
+        for key, value in criteria.items():
+            if key == "node_type" and data.get("type") != value:
+                return False
+            if key == "min_confidence" and data.get("confidence", 0) < value:
+                return False
+            if key == "max_confidence" and data.get("confidence", 0) > value:
+                return False
+            if key == "min_salience" and data.get("salience", 0) < value:
+                return False
+            if key == "max_salience" and data.get("salience", 0) > value:
+                return False
+            if key == "time_range" and not (value[0] <= data.get("created_ts", 0) <= value[1]):
+                return False
+            if key == "has_links":
+                has = self.graph.in_degree(node_id) > 0 or self.graph.out_degree(node_id) > 0
+                if value != has:
+                    return False
+        return True
+
+    def _configure_plot_layout(self, fig, title):
+        fig.update_layout(
+            title=title,
+            width=self.width,
+            height=self.height,
+            showlegend=True,
+            hovermode="closest",
+            margin={"b": 20, "l": 5, "r": 5, "t": 40},
+            xaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
+            yaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
+        )
+
+    def _create_animation_frame(self, timestamp, base_pos, all_timestamps):
+        active_nodes = {n for ts in all_timestamps if ts <= timestamp for n in self.temporal_snapshots[ts]}
+        subgraph = self.graph.subgraph(active_nodes)
+        frame_pos = {n: base_pos[n] for n in active_nodes if n in base_pos}
+        edge_trace = self.renderer.create_edge_trace(subgraph, frame_pos)
+        node_trace = self.renderer.create_node_trace(subgraph, frame_pos, show_info=True)
+        return go.Frame(data=[edge_trace, node_trace] if edge_trace and node_trace else [], name=str(timestamp))
+
+    def _configure_animation_layout(self, fig, frames, time_step, title):
+        fig.update_layout(
+            title=title,
+            updatemenus=[{"type": "buttons", "buttons": [{"label": "Play", "method": "animate", "args": [None, {"frame": {"duration": time_step, "redraw": True}, "fromcurrent": True}]}, {"label": "Pause", "method": "animate", "args": [[None], {"frame": {"duration": 0, "redraw": False}, "mode": "immediate"}]}]}],
+            sliders=[{"steps": [{"args": [[f.name], {"frame": {"duration": 300, "redraw": True}, "mode": "immediate"}], "label": datetime.fromtimestamp(int(f.name) / 1000).strftime('%H:%M:%S'), "method": "animate"} for f in frames]}],
+        )
+
+    def _add_dashboard_traces(self, fig):
+        node_types = list(nx.get_node_attributes(self.graph, "type").values())
+        confidences = list(nx.get_node_attributes(self.graph, "confidence").values())
+        saliences = list(nx.get_node_attributes(self.graph, "salience").values())
+        link_types = list(nx.get_edge_attributes(self.graph, "link_type").values())
+
+        if node_types:
+            fig.add_trace(go.Pie(labels=list(Counter(node_types).keys()), values=list(Counter(node_types).values()), name="Node Types"), row=1, col=1)
+        if confidences:
+            fig.add_trace(go.Histogram(x=confidences, name="Confidence"), row=1, col=2)
+        if saliences:
+            fig.add_trace(go.Histogram(x=saliences, name="Salience"), row=1, col=3)
+        if link_types:
+            fig.add_trace(go.Pie(labels=list(Counter(link_types).keys()), values=list(Counter(link_types).values()), name="Link Types"), row=2, col=1)
+        if self.temporal_snapshots:
+            timestamps = sorted(self.temporal_snapshots.keys())
+            fig.add_trace(go.Scatter(x=[datetime.fromtimestamp(ts/1000) for ts in timestamps], y=[len(self.temporal_snapshots[ts]) for ts in timestamps], mode='lines+markers', name='Activity'), row=2, col=2)
+        metrics = self.calculate_graph_metrics()
+        if metrics:
+            fig.add_trace(go.Table(header={"values":['Metric', 'Value']}, cells={"values":[list(metrics.keys()), [f"{v:.3f}" if isinstance(v, float) else v for v in metrics.values()]]}), row=2, col=3)
+
+    def _is_cache_valid(self, key):
+        return key in self._analysis_cache and (time.time() - self._cache_timestamp) < 300
+
+    def _compute_graph_metrics(self):
+        metrics = self._get_basic_stats()
+        metrics.update(self._get_connectivity_metrics())
+        metrics.update(self._get_centrality_metrics())
+        metrics.update(self._get_node_attribute_metrics())
+        return metrics
+
+    def _get_basic_stats(self):
+        return {"Nodes": self.graph.number_of_nodes(), "Edges": self.graph.number_of_edges(), "Density": nx.density(self.graph)}
+
+    def _get_connectivity_metrics(self):
+        if not self.graph.nodes():
+            return {}
+        undirected = self.graph.to_undirected()
+        if nx.is_connected(undirected):
+            return {"Connected Components": 1, "Average Path Length": nx.average_shortest_path_length(undirected), "Diameter": nx.diameter(undirected)}
+        components = list(nx.connected_components(undirected))
+        return {"Connected Components": len(components), "Largest Component Size": len(max(components, key=len))}
+
+    def _get_centrality_metrics(self):
+        if not self.graph.nodes():
+            return {}
+        sample = self.graph.nodes()
+        if len(sample) > 100:
+            sample = list(sample)[:100]
+        return {
+            "Avg Degree Centrality": np.mean(list(nx.degree_centrality(self.graph).values())),
+            "Avg Betweenness Centrality": np.mean(list(nx.betweenness_centrality(self.graph, k=min(20, len(sample))).values())),
+            "Avg Clustering Coefficient": np.mean(list(nx.clustering(self.graph.to_undirected()).values())),
+        }
+
+    def _get_node_attribute_metrics(self):
+        metrics = {}
+        confidences = list(nx.get_node_attributes(self.graph, 'confidence').values())
+        saliences = list(nx.get_node_attributes(self.graph, 'salience').values())
+        if confidences:
+            metrics.update({"Avg Confidence": np.mean(confidences), "Confidence Std": np.std(confidences)})
+        if saliences:
+            metrics.update({"Avg Salience": np.mean(saliences), "Salience Std": np.std(saliences)})
+        metrics["Node Type Diversity"] = len(set(nx.get_node_attributes(self.graph, 'type').values()))
+        return metrics
+
+    def _add_layout_to_graph(self, graph, layout_type):
+        pos = self._compute_layout(layout_type)
+        for node, (x, y) in pos.items():
+            graph.nodes[node]['x'], graph.nodes[node]['y'] = x, y
+
+    def _write_graph_to_file(self, graph, filepath, format):
+        if format == "json":
+            data = {"graph": nx.node_link_data(graph), "matriz_nodes": self.node_data, "metadata": {"created_at": datetime.now(timezone.utc).isoformat()}}
+            with open(filepath, "w") as f:
+                json.dump(data, f, indent=2)
+        else:
+            getattr(nx, f"write_{format}")(graph, str(filepath))
+
+    def _read_graph_from_file(self, filepath, format):
+        if format == "json":
+            with open(filepath) as f:
+                data = json.load(f)
+            self.node_data = data.get("matriz_nodes", {})
+            self._rebuild_temporal_snapshots()
+            return nx.node_link_graph(data["graph"])
+        return getattr(nx, f"read_{format}")(str(filepath))
+
+    def _write_visualization_to_file(self, fig, filepath, format):
+        if format == "html":
+            fig.write_html(str(filepath))
+        else:
+            fig.write_image(str(filepath))
+
+    def _get_temporal_range(self):
+        if not self.temporal_snapshots:
+            return None
+        start, end = min(self.temporal_snapshots), max(self.temporal_snapshots)
+        return {"start": start, "end": end, "duration_ms": end - start}
 
 
 # Example usage and testing
@@ -1565,7 +960,7 @@ if __name__ == "__main__":
 
         # Export graph
         export_path = Path("demo_export.json")
-        if viewer.export_graph(export_path, format="json"):
+        if viewer.export_graph(filepath=export_path, format="json"):
             print(f"✓ Exported graph to {export_path}")
 
         # Save visualizations
