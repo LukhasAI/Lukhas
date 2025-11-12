@@ -291,7 +291,7 @@ class AkaQualia:
             scene: PhenomenalScene to convert to glyphs
 
         Returns:
-            List[PhenomenalGlyph]: Normalized symbolic representations
+            list[PhenomenalGlyph]: Normalized symbolic representations
         """
         # Use deterministic Wave C glyph mapper
         raw_glyphs = map_scene_to_glyphs(scene)
@@ -327,7 +327,7 @@ class AkaQualia:
             energy_before: Energy snapshot before regulation
 
         Returns:
-            Tuple[RegulationPolicy, RegulationAuditEntry]: Policy and audit trail
+            tuple[RegulationPolicy, RegulationAuditEntry]: Policy and audit trail
         """
         return self.regulation_engine.generate_policy(scene, guardian_state, energy_before)
 

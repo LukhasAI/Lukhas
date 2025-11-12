@@ -19,7 +19,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass  # For placeholder OpenAI response objects
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import structlog
 from candidate.core.common import get_logger
@@ -61,7 +61,7 @@ except ImportError:
 
    @dataclass
    class _MockResponse:
-       choices: List[_MockMessage] = field(default_factory=lambda: [_MockMessage()])
+       choices: list[_MockMessage] = field(default_factory=lambda: [_MockMessage()])
        model: str = "placeholder_model"
 
    class _MockChatCompletions:

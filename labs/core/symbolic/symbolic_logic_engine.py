@@ -1,7 +1,7 @@
 import logging
 import streamlit as st
 import time
-from typing import Dict
+
 from consciousness.qi import qi
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
@@ -404,7 +404,7 @@ class SymbolicLogicEngine:
             result: SymbolicEvaluation containing path analysis results
 
         Returns:
-            Dict[str, Any]: GLYPH feedback signals for system integration
+            dict[str, Any]: GLYPH feedback signals for system integration
         """
         return self.emit_feedback_glyphs_internal(result.path_state, result.attractor_strength, result.glyph_signals)
 

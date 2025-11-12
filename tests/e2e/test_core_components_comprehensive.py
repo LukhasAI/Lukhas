@@ -32,7 +32,6 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 if not os.getenv("DEBUG_TESTS"):
     logging.getLogger().setLevel(logging.CRITICAL)
 
-
 class TestActorSystem:
     """Test the Actor System for real message passing and state management."""
 
@@ -171,7 +170,6 @@ class TestActorSystem:
         except Exception as e:
             self.results.append(f"❌ Global actor system failed: {e}")
             return False
-
 
 class TestTierSystem:
     """Test the Tier System for access control and elevation functionality."""
@@ -366,7 +364,6 @@ class TestTierSystem:
             self.results.append(f"❌ Session elevation failed: {e}")
             return False
 
-
 class TestMemorySQL:
     """Test the SQL Memory System for database operations and privacy features."""
 
@@ -543,7 +540,6 @@ class TestMemorySQL:
         finally:
             self.cleanup_test_database()
 
-
 class TestMainApplication:
     """Test the main application entry point and bootstrap functionality."""
 
@@ -653,7 +649,6 @@ class TestMainApplication:
 # Skip experimental aka_qualia tests
 pytestmark: ClassVar[Any] = pytest.mark.skip(reason="aka_qualia is experimental")
 
-
             # Check that project root is in path
             project_root: ClassVar[Any] = os.path.dirname(os.path.abspath(__file__))
             any(os.path.samefile(path, project_root) for path in sys.path if os.path.exists(path))
@@ -677,7 +672,6 @@ pytestmark: ClassVar[Any] = pytest.mark.skip(reason="aka_qualia is experimental"
         except Exception as e:
             self.results.append(f"❌ System path configuration failed: {e}")
             return False
-
 
 def run_comprehensive_tests():
     """Run all comprehensive component tests."""
@@ -790,7 +784,6 @@ def run_comprehensive_tests():
         print(f"  {result}")
 
     return success_rate >= 80
-
 
 if __name__ == "__main__":
     success = run_comprehensive_tests()

@@ -15,7 +15,7 @@ Usage:
 import json
 import os
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 try:
     from core.registry import get_plugin_registry
@@ -28,7 +28,6 @@ try:
     ROUTER_AVAILABLE = True
 except ImportError:
     ROUTER_AVAILABLE = False
-
 
 def get_plugins_status() -> dict[str, Any]:
     """
@@ -103,7 +102,6 @@ def get_plugins_status() -> dict[str, Any]:
         "total_plugin_count": len(plugin_details)
     }
 
-
 def get_system_health() -> dict[str, Any]:
     """
     GET /system/health endpoint
@@ -136,7 +134,6 @@ def get_system_health() -> dict[str, Any]:
             "health_percentage": (healthy_components / total_components) * 100
         }
     }
-
 
 def get_feature_flags() -> dict[str, Any]:
     """
@@ -171,7 +168,6 @@ def get_feature_flags() -> dict[str, Any]:
         "canary_percentage": int(feature_flags.get("LUKHAS_CANARY_PERCENT", env_flags["LUKHAS_CANARY_PERCENT"]))
     }
 
-
 def _check_plugin_health(plugin: Any) -> bool:
     """Check if a plugin appears healthy"""
     try:
@@ -190,7 +186,6 @@ def _check_plugin_health(plugin: Any) -> bool:
         return True  # Default to healthy if no issues detected
     except Exception:
         return False
-
 
 def _check_registry_health() -> dict[str, Any]:
     """Check registry system health"""
@@ -234,7 +229,6 @@ def _check_registry_health() -> dict[str, Any]:
     except Exception as e:
         return {"status": "error", "error": str(e)}
 
-
 def _check_router_health() -> dict[str, Any]:
     """Check import router health"""
     if not ROUTER_AVAILABLE:
@@ -255,7 +249,6 @@ def _check_router_health() -> dict[str, Any]:
     except Exception as e:
         return {"status": "error", "error": str(e)}
 
-
 def _check_feature_flags() -> dict[str, Any]:
     """Check feature flag system health"""
     try:
@@ -274,7 +267,6 @@ def _check_feature_flags() -> dict[str, Any]:
         }
     except Exception as e:
         return {"status": "error", "error": str(e)}
-
 
 def _check_governance_health() -> dict[str, Any]:
     """Check governance system health"""
@@ -296,7 +288,6 @@ def _check_governance_health() -> dict[str, Any]:
     except Exception as e:
         return {"status": "error", "error": str(e)}
 
-
 def _estimate_registry_size(registry: Dict) -> int:
     """Estimate registry memory usage in bytes"""
     try:
@@ -309,22 +300,18 @@ def _estimate_registry_size(registry: Dict) -> int:
     except Exception:
         return 0
 
-
 # Flask/FastAPI-compatible route handlers
 def plugins_endpoint():
     """Flask/FastAPI route handler for /system/plugins"""
     return get_plugins_status()
 
-
 def health_endpoint():
     """Flask/FastAPI route handler for /system/health"""
     return get_system_health()
 
-
 def flags_endpoint():
     """Flask/FastAPI route handler for /system/flags"""
     return get_feature_flags()
-
 
 # Simple test server for standalone testing
 if __name__ == "__main__":

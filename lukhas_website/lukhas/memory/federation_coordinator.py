@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
 """
 M.2 Federation Coordinator - Advanced distributed memory federation
 Coordinates multiple distributed memory clusters with advanced governance and optimization.
@@ -12,12 +16,11 @@ from collections import defaultdict, deque
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, List, Optional
+from typing import Any, Optional
 
 from memory.distributed_memory import DistributedMemoryOrchestrator
 
 logger = logging.getLogger(__name__)
-
 
 class FederationState(Enum):
     """Federation states"""
@@ -28,7 +31,6 @@ class FederationState(Enum):
     DEGRADED = "degraded"
     EMERGENCY = "emergency"
 
-
 class LoadBalancingStrategy(Enum):
     """Load balancing strategies for federation"""
     ROUND_ROBIN = "round_robin"
@@ -37,14 +39,12 @@ class LoadBalancingStrategy(Enum):
     SMART_ROUTING = "smart_routing"
     ADAPTIVE = "adaptive"
 
-
 class FederationRole(Enum):
     """Node roles in federation"""
     COORDINATOR = "coordinator"
     WORKER = "worker"
     OBSERVER = "observer"
     BACKUP_COORDINATOR = "backup_coordinator"
-
 
 @dataclass
 class FederationCluster:
@@ -59,7 +59,6 @@ class FederationCluster:
     last_heartbeat: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     metadata: dict[str, Any] = field(default_factory=dict)
 
-
 @dataclass
 class FederationMetrics:
     """Federation-wide metrics"""
@@ -71,7 +70,6 @@ class FederationMetrics:
     success_rate: float = 1.0
     federation_health: float = 1.0
     load_distribution_variance: float = 0.0
-
 
 @dataclass
 class CrossClusterOperation:
@@ -86,7 +84,6 @@ class CrossClusterOperation:
     completed_at: Optional[datetime] = None
     status: str = "pending"  # "pending", "executing", "completed", "failed"
     retry_count: int = 0
-
 
 class FederationCoordinator:
     """

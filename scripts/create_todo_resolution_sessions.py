@@ -1090,12 +1090,12 @@ async def create_todo_sessions():
             int(s["time"].rstrip("h")) for s in created_sessions
         )
         print(f"Total estimated work: {total_hours} hours")
-        print(f"\nSession breakdown:")
-        print(f"  - T4-ISSUE linting fixes: 4 sessions (6 hours)")
-        print(f"  - Implementation TODOs: 5 sessions (22 hours)")
-        print(f"  - Code quality: 5 sessions (25 hours)")
-        print(f"  - Security & validation: 3 sessions (19 hours)")
-        print(f"  - New features: 3 sessions (21 hours)")
+        print("\nSession breakdown:")
+        print("  - T4-ISSUE linting fixes: 4 sessions (6 hours)")
+        print("  - Implementation TODOs: 5 sessions (22 hours)")
+        print("  - Code quality: 5 sessions (25 hours)")
+        print("  - Security & validation: 3 sessions (19 hours)")
+        print("  - New features: 3 sessions (21 hours)")
 
         return created_sessions
 

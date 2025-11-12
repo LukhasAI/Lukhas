@@ -10,7 +10,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from core.common import get_logger
+from lukhas.core.common import get_logger
 
 from .vivox_ern_core import RegulationResponse, RegulationStrategy, VADVector
 
@@ -20,8 +20,8 @@ logger = logging.getLogger(__name__)
 
 # Import tag system
 try:
-    from core.tags import get_tag_registry
-    from core.tags.registry import TagCategory, TagDefinition, TagRegistry
+    from lukhas.core.tags import get_tag_registry
+    from lukhas.core.tags.registry import TagCategory, TagDefinition, TagRegistry
 
     TAG_SYSTEM_AVAILABLE = True
 except ImportError:

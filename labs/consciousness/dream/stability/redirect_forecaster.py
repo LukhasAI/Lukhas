@@ -20,7 +20,7 @@ class RedirectForecaster:
         Initializes the RedirectForecaster.
 
         Args:
-            config (Optional[Dict[str, Any]], optional): Configuration options. Defaults to None.
+            config (Optional[dict[str, Any]], optional): Configuration options. Defaults to None.
         """
         self.config = config or {}
         self.history_weight = self.config.get("history_weight", 0.5)
@@ -31,10 +31,10 @@ class RedirectForecaster:
         Predicts the likelihood of a redirect being needed in the next cycle.
 
         Args:
-            historical_drift (List[float]): A list of historical drift scores.
+            historical_drift (list[float]): A list of historical drift scores.
 
         Returns:
-            Dict[str, Any]: A forecast vector.
+            dict[str, Any]: A forecast vector.
         """
         if not historical_drift:
             return {

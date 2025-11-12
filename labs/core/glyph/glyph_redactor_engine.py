@@ -122,7 +122,7 @@ class GlyphRedactorEngine:  # #ΛPSEUDOCODE
             Initializes the engine with the current access context and a glyph metadata source.
             #ΛTRACE: GlyphRedactorEngine initialized.
             Args:
-                access_context (Dict[str, Any]): Contains information about the entity requesting access,
+                access_context (dict[str, Any]): Contains information about the entity requesting access,
                                                  e.g., {'user_tier': 'G1_DEV_DEBUG',
         'agent_id': 'dev_console_01'}.
                 glyph_metadata_provider (IGlyphMetadataProvider): Service to get glyph sensitivity.

@@ -30,11 +30,11 @@ HEUR = {
     "torch": "import torch",
     "plt": "from matplotlib import pyplot as plt",
     "Path": "from pathlib import Path",
-    "Optional": "from typing import Optional",
-    "List": "from typing import List",
-    "Dict": "from typing import Dict",
-    "Any": "from typing import Any",
-    "Tuple": "from typing import Tuple",
+    "Optional": "from typing import Optional"
+    "List": "from typing import",
+    "Dict": "from typing import",
+    "Any": "from typing import Any"
+    "Tuple": "from typing import",
     "datetime": "from datetime import datetime",
 }
 

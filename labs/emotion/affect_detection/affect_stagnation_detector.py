@@ -42,7 +42,7 @@ class AffectStagnationDetector:
             user_id (str): User requesting stagnation check
 
         Returns:
-            Optional[Dict[str, Any]]: A symbolic prompt if stagnation is detected.
+            Optional[dict[str, Any]]: A symbolic prompt if stagnation is detected.
         """
         # Verify user has appropriate tier for emotion monitoring
         if not verify_access(user_id, "LAMBDA_TIER_2"):

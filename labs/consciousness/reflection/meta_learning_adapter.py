@@ -45,7 +45,7 @@ Date: 2025-01-27
 from dataclasses import dataclass, field
 from datetime import datetime  # timedelta not used
 from enum import Enum
-from typing import Any, Optional  # Union, Tuple not used
+from typing import Optional  # Union not used
 
 import numpy as np
 

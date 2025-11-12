@@ -1,3 +1,8 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
+
 """
 LUKHAS AI Bio-Symbolic Architecture Analyzer
 Provides tools to analyze and design bio-symbolic system integrations.

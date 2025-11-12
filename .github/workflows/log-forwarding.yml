@@ -1,0 +1,71 @@
+# GitHub Actions Workflow for Log Forwarding
+#
+# This workflow is a template for forwarding logs from GitHub Actions to a
+# log aggregation service like Grafana Loki. It demonstrates how to capture
+# logs from a job and send them to an external endpoint.
+
+name: Log Forwarding
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-forward-logs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run application and capture logs
+        id: run_app
+        run: |
+          # In a real-world scenario, you would run your application here.
+          # For this example, we'll just generate some sample log messages.
+          echo '{"level": "info", "event": "Application starting...", "timestamp": "2023-10-27T10:00:00Z"}' > app.log
+          echo '{"level": "warning", "event": "Configuration value is deprecated.", "timestamp": "2023-10-27T10:00:01Z"}' >> app.log
+          echo '{"level": "error", "event": "Failed to connect to database.", "timestamp": "2023-10-27T10:00:02Z"}' >> app.log
+
+      - name: Forward logs to Loki
+        env:
+          LOKI_URL: ${{ secrets.LOKI_URL }} # URL of your Loki instance
+          LOKI_USERNAME: ${{ secrets.LOKI_USERNAME }} # Optional: Loki username
+          LOKI_PASSWORD: ${{ secrets.LOKI_PASSWORD }} # Optional: Loki password
+        run: |
+          if [ -z "$LOKI_URL" ]; then
+            echo "LOKI_URL secret is not set. Skipping log forwarding."
+          else
+            echo "Forwarding logs to $LOKI_URL"
+
+            # Prepare the JSON payload for Loki by processing each log line.
+            VALUES=""
+            while IFS= read -r line; do
+              # Escape special characters for JSON
+              escaped_line=$(echo "$line" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | sed 's/\//\\\//g' | sed 's/\b/\\b/g' | sed 's/\f/\\f/g' | sed 's/\n/\\n/g' | sed 's/\r/\\r/g' | sed 's/\t/\\t/g')
+              timestamp=$(date +%s%N)
+              if [ -n "$VALUES" ]; then
+                VALUES="$VALUES,"
+              fi
+              VALUES="$VALUES[\"$timestamp\", \"$escaped_line\"]"
+            done < app.log
+
+            PAYLOAD=$(cat <<EOF
+            {
+              "streams": [
+                {
+                  "stream": {
+                    "job": "github-actions",
+                    "workflow": "${{ github.workflow }}",
+                    "run_id": "${{ github.run_id }}"
+                  },
+                  "values": [ $VALUES ]
+                }
+              ]
+            }
+EOF
+            )
+
+            curl -u "$LOKI_USERNAME:$LOKI_PASSWORD" -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$LOKI_URL/loki/api/v1/push"
+          fi

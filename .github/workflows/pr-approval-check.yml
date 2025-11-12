@@ -1,0 +1,81 @@
+name: PR Approval Check
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - labeled
+      - unlabeled
+
+permissions:
+  pull-requests: read
+  teams: read
+
+jobs:
+  approval-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check for Label and Approvals
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const labels = pr.labels.map(label => label.name);
+            const hasLabel = labels.includes('migration/matriz');
+
+            if (hasLabel) {
+              const requiredTeams = ['owner_core', 'security_team'];
+
+              const allReviews = await github.paginate(github.rest.pulls.listReviews, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+              });
+
+              const approvingUsers = new Set(allReviews
+                .filter(review => review.state === 'APPROVED')
+                .map(review => review.user.login));
+
+              if (approvingUsers.size === 0) {
+                core.setFailed('No approvals found on this PR.');
+                return;
+              }
+
+              let missingTeams = [];
+
+              for (const teamSlug of requiredTeams) {
+                let approvedByTeam = false;
+                try {
+                  const teamMembers = await github.paginate(github.rest.teams.listMembersInOrg, {
+                    org: context.repo.owner,
+                    team_slug: teamSlug,
+                  });
+
+                  for (const member of teamMembers) {
+                    if (approvingUsers.has(member.login)) {
+                      approvedByTeam = true;
+                      break;
+                    }
+                  }
+                } catch (error) {
+                  // If team doesn't exist or other API error, fail safely
+                  core.warning(`Could not check team membership for ${teamSlug}: ${error.message}`);
+                  approvedByTeam = false;
+                }
+
+                if (!approvedByTeam) {
+                  missingTeams.push(`@${context.repo.owner}/${teamSlug}`);
+                }
+              }
+
+              if (missingTeams.length > 0) {
+                core.setFailed(`Missing approvals from required teams: ${missingTeams.join(', ')}`);
+              } else {
+                console.log('All required team approvals are present.');
+              }
+            } else {
+              console.log('Label "migration/matriz" not found. Skipping approval check.');
+            }

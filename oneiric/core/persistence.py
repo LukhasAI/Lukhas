@@ -1,8 +1,8 @@
 """Dream persistence with memory fold linkage."""
-from typing import Dict, Any, Optional, List
-from datetime import datetime
 import hashlib
 import json
+from datetime import datetime
+from typing import Any, Dict, List, Optional
 
 
 class DreamRecord:
@@ -46,7 +46,7 @@ class DreamRecord:
     def from_dict(cls, data: Dict[str, Any]) -> "DreamRecord":
         """Create record from dictionary."""
         timestamp = None
-        if "timestamp" in data and data["timestamp"]:
+        if data.get("timestamp"):
             timestamp = datetime.fromisoformat(data["timestamp"])
 
         return cls(

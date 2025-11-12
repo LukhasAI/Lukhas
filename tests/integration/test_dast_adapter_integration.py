@@ -5,7 +5,7 @@ from typing import Annotated, Any
 from fastapi import Depends, FastAPI
 from fastapi.testclient import TestClient
 
-from lukhas.adapters.dast_adapter import DASTAdapter, DASTOrchestrator
+from lukhas.adapters.dast_adapter import DASTAdapter, DASTOrchestrator, TaskResponse
 
 app = FastAPI()
 
@@ -37,7 +37,7 @@ def test_dependency_override_for_dast_adapter() -> None:
         def __init__(self) -> None:
             self.dispatched: list[dict[str, Any]] = []
 
-        def dispatch(self, message: dict[str, Any]) -> dict[str, Any]:  # pragma: no cover - Protocol compatibility
+        def dispatch(self, message: dict[str, Any]) -> TaskResponse:  # pragma: no cover - Protocol compatibility
             self.dispatched.append(message)
             return {
                 "task_id": message["task_id"],

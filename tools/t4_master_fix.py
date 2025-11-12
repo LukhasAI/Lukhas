@@ -207,13 +207,13 @@ class T4MasterFixer:
             "asyncio": "import asyncio",
             "timezone": "from datetime import timezone",
             "sqlalchemy": "import sqlalchemy",
-            "Optional": "from typing import Optional",
-            "List": "from typing import List",
-            "Dict": "from typing import Dict",
-            "Any": "from typing import Any",
-            "Tuple": "from typing import Tuple",
-            "Union": "from typing import Union",
-            "Set": "from typing import Set",
+            "Optional": "from typing import Optional"
+            "List": "from typing import List"
+            "Dict": "from typing import Dict"
+            "Any": "from typing import Any"
+            "Tuple": "from typing import Tuple"
+            "Union": "from typing import Union"
+            "Set": "from typing import Set"
             "dataclass": "from dataclasses import dataclass",
             "field": "from dataclasses import field",
             "Path": "from pathlib import Path",

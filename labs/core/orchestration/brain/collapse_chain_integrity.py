@@ -39,7 +39,7 @@ class CollapseChainIntegrity:
         Validates the integrity of the symbolic collapse chain.
 
         Args:
-            symbolic_trace (List[Dict[str, Any]]): The symbolic trace to validate.
+            symbolic_trace (list[dict[str, Any]]): The symbolic trace to validate.
 
         Returns:
             bool: True if the trace is valid, False otherwise.

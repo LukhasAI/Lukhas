@@ -4,7 +4,7 @@ import logging
 import streamlit as st
 import random
 import time
-from typing import List
+
 from consciousness.qi import qi
 logger = logging.getLogger(__name__)
 """
@@ -1123,7 +1123,7 @@ class DreamTraceLinker:
         self,
         dream_id: str,
         dream_content: str,
-        parallel_memory_streams: List[dict] = None,
+        parallel_memory_streams: list[dict] = None,
     ) -> dict[str, Any]:
         """
         Detect quantum-level dream resonance across parallel memory streams.
@@ -1213,7 +1213,7 @@ class DreamTraceLinker:
 
         return quantum_analysis
 
-    async def _discover_parallel_memory_streams(self, dream_id: str) -> List[dict]:
+    async def _discover_parallel_memory_streams(self, dream_id: str) -> list[dict]:
         """Discover parallel memory streams related to the dream"""
         streams = []
 

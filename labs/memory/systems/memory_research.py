@@ -31,14 +31,14 @@ Original Location: brain/legacy/memory.py
 Moved to Research: 2025-01-27 (QC Session)
 Research Category: Memory Architecture & Streaming Patterns
 """
-from typing import Dict
+
 import streamlit as st
 
 import warnings
 from collections import OrderedDict, deque
 from dataclasses import dataclass, field
 from types import TracebackType
-from typing import Generic, NamedTuple, TypeVar
+from typing import NamedTupleVar
 
 from .. import BrokenResourceError, ClosedResourceError, EndOfStream, WouldBlock
 from .._core._testing import TaskInfo, get_current_task
@@ -80,10 +80,10 @@ class MemoryObjectStreamState(Generic[T_Item]):
     buffer: deque[T_Item] = field(init=False, default_factory=deque)
     open_send_channels: int = field(init=False, default=0)
     open_receive_channels: int = field(init=False, default=0)
-    waiting_receivers: OrderedDict[Event, MemoryObjectItemReceiver[T_Item]] = field(
+    waiting_receivers: Ordereddict[Event, MemoryObjectItemReceiver[T_Item]] = field(
         init=False, default_factory=OrderedDict
     )
-    waiting_senders: OrderedDict[Event, T_Item] = field(init=False, default_factory=OrderedDict)
+    waiting_senders: Ordereddict[Event, T_Item] = field(init=False, default_factory=OrderedDict)
 
     def statistics(self) -> MemoryObjectStreamStatistics:
         return MemoryObjectStreamStatistics(

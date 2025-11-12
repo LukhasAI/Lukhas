@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict, List, Tuple imports to native types in audit decision engine
+# estimate: 10min | priority: high | dependencies: core-audit-system
+
 #!/usr/bin/env python3
 """
 Audit Decision Embedding Engine
@@ -13,13 +17,9 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-try:
-    from typing import Dict, List, Tuple
-except ImportError:
-    # For Python 3.8 compatibility
-    Tuple = tuple
-    Dict = dict
-    List = list
+# Modern native types (Python 3.9+)
+# Removed legacy compatibility layer for Dict, List, Tuple
+
 try:
     _mod = _importlib.import_module("labs.governance.ethics.shared_ethics_engine")
     SharedEthicsEngine = _mod.SharedEthicsEngine
