@@ -37,17 +37,18 @@ from lukhas_website.lukhas.governance.guardian.guardian_wrapper import (
     get_guardian_status,
 )
 
+# Guardian implementation (available for direct import)
+from lukhas_website.lukhas.governance.guardian.guardian_impl import GuardianSystemImpl
+
 # Feature flag for Guardian system
 GUARDIAN_ACTIVE = os.environ.get("GUARDIAN_ACTIVE", "false").lower() == "true"
 
-# Guardian system imports (conditional)
+# Guardian system instance (conditional)
 _guardian_system = None
 if GUARDIAN_ACTIVE:
     try:
-        from lukhas_website.lukhas.governance.guardian.guardian_impl import GuardianSystemImpl
-
         _guardian_system = GuardianSystemImpl()
-    except ImportError:
+    except Exception:
         pass
 
 # Legacy compatibility bridge
@@ -110,6 +111,7 @@ __all__ = [
     "EthicalSeverity",
     "GovernanceAction",
     "GuardianSystem",  # Legacy compatibility
+    "GuardianSystemImpl",  # Canonical implementation
     "SafetyResult",
     "check_safety",
     "detect_drift",
