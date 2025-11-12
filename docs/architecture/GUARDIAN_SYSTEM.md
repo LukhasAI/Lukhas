@@ -76,8 +76,8 @@ lukhas_website/lukhas/governance/guardian/
 ├── core.py               # Core types (DriftResult, EthicalDecision, etc.)
 ├── guardian_impl.py      # GuardianSystemImpl implementation
 ├── guardian_wrapper.py   # Wrapper functions (detect_drift, evaluate_ethics, etc.)
-├── policies.py           # [Bridge] GuardianPolicies (→ governance.guardian_policies)
-└── reflector.py          # [Bridge] GuardianReflector (→ governance.guardian_reflector)
+├── policies.py           # ✅ GuardianPoliciesEngine (relocated Phase 3)
+└── reflector.py          # ✅ GuardianReflector (relocated Phase 3)
 ```
 
 **File Sizes**:
@@ -85,10 +85,10 @@ lukhas_website/lukhas/governance/guardian/
 - `core.py`: 72 lines - Core type definitions
 - `guardian_impl.py`: 340 lines - Full Guardian implementation
 - `guardian_wrapper.py`: 369 lines - Wrapper functions with dry-run mode
-- `policies.py`: 40 lines - Bridge to policy engine (609 lines actual)
-- `reflector.py`: 40 lines - Bridge to drift reflector (759 lines actual)
+- `policies.py`: 652 lines - ✅ Full GuardianPoliciesEngine implementation
+- `reflector.py`: 791 lines - ✅ Full GuardianReflector implementation
 
-**Total**: ~900 lines canonical + 1,368 lines bridged implementations
+**Total**: ~2,343 lines in canonical location (Phase 3 complete)
 
 ### Experimental Development Lane
 
@@ -597,14 +597,26 @@ print(status)
 
 ## Future Enhancements
 
-### Phase 3 Roadmap (Current)
+### Phase 3 Completion ✅ (2025-11-12)
 
-- [ ] Relocate scattered implementations to canonical location
-- [ ] Add deprecation warnings to legacy bridges
-- [ ] Create comprehensive developer import guide
-- [ ] Update CLAUDE.md with Guardian module structure
+- ✅ **Relocated scattered implementations to canonical location** (PR #1363, #1364)
+  - `governance/guardian_policies.py` → `lukhas_website/lukhas/governance/guardian/policies.py` (652 lines)
+  - `governance/guardian_reflector.py` → `lukhas_website/lukhas/governance/guardian/reflector.py` (791 lines)
+- ✅ **Added deprecation warnings to legacy bridges** (PR #1362)
+  - `governance/guardian_sentinel.py`, `guardian_shadow_filter.py`, `guardian_system.py`
+  - `governance/guardian_system_integration.py`, `guardian_serializers.py`
+- ✅ **Created comprehensive developer import guide** (PR #1360)
+  - `docs/development/GUARDIAN_IMPORTS.md` (500+ lines)
+- ✅ **Updated CLAUDE.md with Guardian module structure** (PR #1360)
+  - Master context file updated with canonical paths
 
-### Beyond Phase 3
+**Phase 3 Results**:
+- 3 PRs merged with admin flag
+- 1,443 lines relocated to canonical location
+- Full backward compatibility maintained via deprecation bridges
+- Removal timeline: Phase 4 (2025-Q1)
+
+### Phase 4 Planning (2025-Q1)
 
 - [ ] Machine learning-based drift detection
 - [ ] Real-time Guardian dashboard (Grafana/Prometheus)
@@ -618,8 +630,13 @@ print(status)
 
 - **Phase 1 PR**: #1356 - Import path fixes and syntax errors
 - **Phase 2 PR**: #1360 - Audit and bridge modules
+- **Phase 3 PRs**:
+  - #1362 - Deprecation warnings for legacy bridges
+  - #1363 - GuardianPoliciesEngine relocation to canonical location
+  - #1364 - GuardianReflector relocation to canonical location
 - **Phase 1 Audit**: `docs/GUARDIAN_MODULE_STRUCTURE_AUDIT_2025-11-12.md`
 - **Phase 2 Audit**: `docs/GUARDIAN_STRUCTURE_CONSOLIDATION_AUDIT_2025-11-12.md`
+- **Import Guide**: `docs/development/GUARDIAN_IMPORTS.md`
 - **Kill-Switch Documentation**: `docs/GUARDIAN_EMERGENCY_KILLSWITCH.md`
 - **Integration Test Report**: `docs/GUARDIAN_KILLSWITCH_INTEGRATION_TEST_REPORT.md`
 
@@ -633,7 +650,8 @@ print(status)
 
 ---
 
-**Document Status**: ✅ Complete
+**Document Status**: ✅ Complete (Phase 3 Final)
 **Last Reviewed**: 2025-11-12
-**Next Review**: Phase 3 completion
+**Phase 3 Completion**: 2025-11-12
+**Next Review**: Phase 4 planning (2025-Q1)
 **Maintainer**: LUKHAS AI Governance Team
