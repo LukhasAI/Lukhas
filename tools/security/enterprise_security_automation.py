@@ -20,7 +20,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any
 
-from core.common.logger import get_logger
+from lukhas.core.common.logger import get_logger
 
 logger = logging.getLogger(__name__)
 
