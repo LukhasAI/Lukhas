@@ -5,8 +5,8 @@ owner: T4
 lane: labs
 star:
 stability: experimental
-last_reviewed: 2025-10-18
-constellation_stars:
+last_reviewed: 2025-11-10
+constellation_stars: "⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum"
 related_modules:
 manifests:
 links:

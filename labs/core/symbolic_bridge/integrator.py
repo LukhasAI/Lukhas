@@ -1,8 +1,12 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict, List, Set imports to native types in symbolic bridge
+# estimate: 10min | priority: medium | dependencies: consciousness-system
+
 import logging
 import uuid
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 # GLYPH Consciousness Communication - Symbolic Bridge Integrator
@@ -37,7 +41,7 @@ class DreamSeed:
         self.origin_node = origin_node
         self.timestamp = datetime.now(timezone.utc)
         self.emotional_vector = emotional_vector or {}
-        self.propagation_path: List[str] = []
+        self.propagation_path: list[str] = []
         self.creativity_score = 0.0
 
     def propagate_to(self, target_node: str, transformation_applied: bool = False):
