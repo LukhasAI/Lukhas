@@ -271,8 +271,10 @@ def readyz() -> dict[str, Any]:
 def metrics() -> Response:
     """Prometheus metrics endpoint"""
     from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
+    from observability.prometheus_registry import LUKHAS_REGISTRY
+
     return Response(
-        content=generate_latest(),
+        content=generate_latest(LUKHAS_REGISTRY),
         media_type=CONTENT_TYPE_LATEST
     )
 
