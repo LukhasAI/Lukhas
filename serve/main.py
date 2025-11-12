@@ -55,6 +55,9 @@ except Exception:
     class _ObsStack:
         opentelemetry_enabled = False
     obs_stack = _ObsStack()
+
+from lukhas.api.auth_routes import router as auth_router
+
 try:
     from config.env import get as env_get
 except Exception:
@@ -152,6 +155,7 @@ app.add_middleware(StrictAuthMiddleware)
 # Add rate limiting after auth middleware (requires user_id from request.state)
 app.add_middleware(RateLimitMiddleware, config=RateLimitConfig())
 app.add_middleware(HeadersMiddleware)
+app.include_router(auth_router)
 if routes_router is not None:
     app.include_router(routes_router)
 if openai_router is not None:
