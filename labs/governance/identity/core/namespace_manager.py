@@ -583,12 +583,13 @@ class NamespaceManager:
 
     def _resolve_by_pattern(self, identifier: str, context: Optional[dict] = None) -> Optional[IdentityNamespace]:
         """Resolve namespace by pattern matching"""
-        # Try exact match first
-        for namespace_id, namespace in self.namespaces.items():
+        # Try exact match first, sorted by length to find the most specific match
+        sorted_namespace_ids = sorted(self.namespaces.keys(), key=len, reverse=True)
+        for namespace_id in sorted_namespace_ids:
             if identifier == namespace_id or identifier.endswith(f".{namespace_id}"):
-                return namespace
+                return self.namespaces[namespace_id]
 
-        # Try subdomain matching
+        # Try subdomain matching if no endswith match is found
         parts = identifier.split(".")
         if len(parts) >= 2:
             # Look for parent domains
