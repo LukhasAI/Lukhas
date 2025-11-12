@@ -120,7 +120,7 @@ class BioAdaptationEngine:
         # Attention analysis
         patterns["attention"] = {
             "focus_level": attention,
-            "status": ("high" if attention > 0.8 else "medium" if attention > 0.5 else "low"),
+            "status": ("high" if attention >= 0.8 else "medium" if attention > 0.5 else "low"),
             "recommendation": ("focus_enhancement" if attention < 0.6 else "maintain_focus"),
         }
 
@@ -139,17 +139,24 @@ class BioAdaptationEngine:
             + patterns["sleep"]["quality_score"] * 0.2
         )
 
+        bad_statuses = {
+            "heart_rate": ["elevated", "low"],
+            "stress": ["high", "low"],
+            "attention": ["low"],
+            "sleep": ["poor"],
+        }
+        priority_areas = [
+            key
+            for key, pattern in patterns.items()
+            if key in bad_statuses and "status" in pattern and pattern["status"] in bad_statuses[key]
+        ]
         return {
             "user_id": user_id,
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "patterns": patterns,
             "overall_score": overall_score,
-            "adaptation_needed": overall_score < 0.7,
-            "priority_areas": [
-                key
-                for key, value in patterns.items()
-                if "status" in value and value["status"] in ["high", "low", "poor"]
-            ],
+            "adaptation_needed": overall_score < 0.7 or len(priority_areas) > 0,
+            "priority_areas": priority_areas,
         }
 
     async def adapt_dream_parameters(
@@ -186,8 +193,7 @@ class BioAdaptationEngine:
             adapted_params["duration"] = min(base_duration * 1.2, 120)
 
         # Adapt type based on overall state
-        adapted_params.get("type", "free")
-        if stress_level > 0.8:
+        if stress_level >= 0.8:
             adapted_params["type"] = "guided"  # More structure for high stress
         elif attention > 0.9 and stress_level < 0.3:
             adapted_params["type"] = "lucid"  # Allow more control for optimal state
