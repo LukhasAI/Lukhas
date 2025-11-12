@@ -1,5 +1,6 @@
 import { Header, HeaderLogo, HeaderNav, HeaderNavLink, HeaderActions, Footer, Button, GlassCard } from '@lukhas/ui'
 import { Link } from 'react-router-dom'
+import { Plug, Cloud, RefreshCw, BarChart3, Lock, Shield, Target, BookOpen, Wrench } from 'lucide-react'
 
 export default function EnterprisePage() {
   return (
@@ -59,7 +60,9 @@ export default function EnterprisePage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <GlassCard>
               <div className="p-8">
-                <div className="text-4xl mb-4">🔌</div>
+                <div className="mb-4">
+                  <Plug className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-trust-blue">
                   API-First Integration
                 </h3>
@@ -76,7 +79,9 @@ export default function EnterprisePage() {
 
             <GlassCard>
               <div className="p-8">
-                <div className="text-4xl mb-4">☁️</div>
+                <div className="mb-4">
+                  <Cloud className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-trust-blue">
                   Cloud & On-Premise
                 </h3>
@@ -93,7 +98,9 @@ export default function EnterprisePage() {
 
             <GlassCard>
               <div className="p-8">
-                <div className="text-4xl mb-4">🔄</div>
+                <div className="mb-4">
+                  <RefreshCw className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-trust-blue">
                   Data Synchronization
                 </h3>
@@ -110,7 +117,9 @@ export default function EnterprisePage() {
 
             <GlassCard>
               <div className="p-8">
-                <div className="text-4xl mb-4">📊</div>
+                <div className="mb-4">
+                  <BarChart3 className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-trust-blue">
                   Monitoring & Analytics
                 </h3>
@@ -127,7 +136,9 @@ export default function EnterprisePage() {
 
             <GlassCard>
               <div className="p-8">
-                <div className="text-4xl mb-4">🔒</div>
+                <div className="mb-4">
+                  <Lock className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-trust-blue">
                   Security Framework
                 </h3>
@@ -144,7 +155,9 @@ export default function EnterprisePage() {
 
             <GlassCard>
               <div className="p-8">
-                <div className="text-4xl mb-4">🛡️</div>
+                <div className="mb-4">
+                  <Shield className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-trust-blue">
                   Compliance Ready
                 </h3>
@@ -245,7 +258,9 @@ export default function EnterprisePage() {
           <div className="grid md:grid-cols-3 gap-8">
             <GlassCard>
               <div className="p-8 text-center">
-                <div className="text-4xl mb-4">🎯</div>
+                <div className="mb-4 flex justify-center">
+                  <Target className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-awareness-silver">
                   Dedicated Support Team
                 </h3>
@@ -260,7 +275,9 @@ export default function EnterprisePage() {
 
             <GlassCard>
               <div className="p-8 text-center">
-                <div className="text-4xl mb-4">📚</div>
+                <div className="mb-4 flex justify-center">
+                  <BookOpen className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-awareness-silver">
                   Training & Onboarding
                 </h3>
@@ -275,7 +292,9 @@ export default function EnterprisePage() {
 
             <GlassCard>
               <div className="p-8 text-center">
-                <div className="text-4xl mb-4">🔧</div>
+                <div className="mb-4 flex justify-center">
+                  <Wrench className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-awareness-silver">
                   Custom Development
                 </h3>

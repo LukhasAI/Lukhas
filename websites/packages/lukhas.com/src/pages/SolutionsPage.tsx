@@ -1,5 +1,6 @@
 import { Header, HeaderLogo, HeaderNav, HeaderNavLink, HeaderActions, Footer, Button, GlassCard } from '@lukhas/ui'
 import { Link } from 'react-router-dom'
+import { Building2, Heart, Factory, Laptop } from 'lucide-react'
 
 export default function SolutionsPage() {
   return (
@@ -50,7 +51,7 @@ export default function SolutionsPage() {
             <GlassCard>
               <div className="p-10">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="text-5xl">🏦</div>
+                  <Building2 className="w-12 h-12 text-trust-blue" strokeWidth={1.5} />
                   <h2 className="text-3xl font-light tracking-wide text-trust-blue">
                     Financial Services
                   </h2>
@@ -93,7 +94,7 @@ export default function SolutionsPage() {
             <GlassCard>
               <div className="p-10">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="text-5xl">⚕️</div>
+                  <Heart className="w-12 h-12 text-trust-blue" strokeWidth={1.5} />
                   <h2 className="text-3xl font-light tracking-wide text-trust-blue">
                     Healthcare
                   </h2>
@@ -136,7 +137,7 @@ export default function SolutionsPage() {
             <GlassCard>
               <div className="p-10">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="text-5xl">🏭</div>
+                  <Factory className="w-12 h-12 text-trust-blue" strokeWidth={1.5} />
                   <h2 className="text-3xl font-light tracking-wide text-trust-blue">
                     Manufacturing
                   </h2>
@@ -179,7 +180,7 @@ export default function SolutionsPage() {
             <GlassCard>
               <div className="p-10">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="text-5xl">💻</div>
+                  <Laptop className="w-12 h-12 text-trust-blue" strokeWidth={1.5} />
                   <h2 className="text-3xl font-light tracking-wide text-trust-blue">
                     Technology
                   </h2>

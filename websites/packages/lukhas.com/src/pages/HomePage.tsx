@@ -2,6 +2,7 @@ import { Canvas } from '@react-three/fiber'
 import { MorphingParticles } from '@lukhas/ui'
 import { Button, GlassCard, Header, HeaderLogo, HeaderNav, HeaderNavLink, HeaderActions, Footer } from '@lukhas/ui'
 import { Link } from 'react-router-dom'
+import { Shield, Handshake, Globe, BarChart3, Building2, Heart, Factory, Laptop, TrendingUp, ShoppingCart, Lock, CheckCircle } from 'lucide-react'
 
 export default function HomePage() {
   return (
@@ -50,7 +51,7 @@ export default function HomePage() {
         {/* Hero Content */}
         <div className="relative z-10 text-center px-6 max-w-6xl mx-auto">
           <div className="mb-6 flex justify-center">
-            <div className="text-6xl">🛡️</div>
+            <Shield className="w-16 h-16 text-trust-blue" strokeWidth={1.5} />
           </div>
 
           <h1 className="text-5xl md:text-7xl font-light tracking-[0.15em] mb-6 text-awareness-silver">
@@ -62,7 +63,7 @@ export default function HomePage() {
           </h1>
 
           <p className="text-xl md:text-2xl font-light tracking-wide mb-4 text-awareness-silver/80 max-w-4xl mx-auto">
-            Enterprise-grade consciousness technology trusted by Fortune 500 companies
+            Enterprise-ready consciousness technology for next-generation business intelligence
           </p>
 
           <p className="text-lg md:text-xl font-light tracking-wide mb-12 text-awareness-silver/60 max-w-4xl mx-auto">
@@ -87,15 +88,15 @@ export default function HomePage() {
           <div className="flex flex-wrap justify-center gap-8 text-sm text-awareness-silver/70 tracking-wide">
             <span className="flex items-center gap-2">
               <span className="inline-block w-2 h-2 bg-trust-blue rounded-full"></span>
-              Fortune 500 Trusted
+              Enterprise-Ready
             </span>
             <span className="flex items-center gap-2">
               <span className="inline-block w-2 h-2 bg-trust-blue rounded-full"></span>
-              SOC 2 Type II Certified
+              SOC 2 Type II Ready
             </span>
             <span className="flex items-center gap-2">
               <span className="inline-block w-2 h-2 bg-trust-blue rounded-full"></span>
-              ISO 27001 Compliant
+              ISO 27001 Ready
             </span>
             <span className="flex items-center gap-2">
               <span className="inline-block w-2 h-2 bg-trust-blue rounded-full"></span>
@@ -121,7 +122,9 @@ export default function HomePage() {
           <div className="grid md:grid-cols-4 gap-6">
             <GlassCard>
               <div className="p-6 text-center">
-                <div className="text-4xl mb-4">🛡️</div>
+                <div className="mb-4 flex justify-center">
+                  <Shield className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-lg font-light tracking-wide mb-2 text-awareness-silver">
                   Ethical Leadership
                 </h3>
@@ -133,19 +136,23 @@ export default function HomePage() {
 
             <GlassCard>
               <div className="p-6 text-center">
-                <div className="text-4xl mb-4">🤝</div>
+                <div className="mb-4 flex justify-center">
+                  <Handshake className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-lg font-light tracking-wide mb-2 text-awareness-silver">
                   Enterprise Partnership
                 </h3>
                 <p className="text-sm text-awareness-silver/70">
-                  Trusted by Fortune 500 to transform industries
+                  Building the future of enterprise AI together
                 </p>
               </div>
             </GlassCard>
 
             <GlassCard>
               <div className="p-6 text-center">
-                <div className="text-4xl mb-4">🌍</div>
+                <div className="mb-4 flex justify-center">
+                  <Globe className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-lg font-light tracking-wide mb-2 text-awareness-silver">
                   Global Innovation
                 </h3>
@@ -157,7 +164,9 @@ export default function HomePage() {
 
             <GlassCard>
               <div className="p-6 text-center">
-                <div className="text-4xl mb-4">📊</div>
+                <div className="mb-4 flex justify-center">
+                  <BarChart3 className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-lg font-light tracking-wide mb-2 text-awareness-silver">
                   Transparent Governance
                 </h3>
@@ -185,7 +194,9 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <GlassCard>
               <div className="p-8">
-                <div className="text-4xl mb-4">🏦</div>
+                <div className="mb-4">
+                  <Building2 className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-2xl font-light tracking-wide mb-4 text-trust-blue">
                   Financial Services
                 </h3>
@@ -212,7 +223,9 @@ export default function HomePage() {
 
             <GlassCard>
               <div className="p-8">
-                <div className="text-4xl mb-4">⚕️</div>
+                <div className="mb-4">
+                  <Heart className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-2xl font-light tracking-wide mb-4 text-trust-blue">
                   Healthcare
                 </h3>
@@ -239,7 +252,9 @@ export default function HomePage() {
 
             <GlassCard>
               <div className="p-8">
-                <div className="text-4xl mb-4">🏭</div>
+                <div className="mb-4">
+                  <Factory className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-2xl font-light tracking-wide mb-4 text-trust-blue">
                   Manufacturing
                 </h3>
@@ -266,7 +281,9 @@ export default function HomePage() {
 
             <GlassCard>
               <div className="p-8">
-                <div className="text-4xl mb-4">💻</div>
+                <div className="mb-4">
+                  <Laptop className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-2xl font-light tracking-wide mb-4 text-trust-blue">
                   Technology
                 </h3>
@@ -293,7 +310,9 @@ export default function HomePage() {
 
             <GlassCard>
               <div className="p-8">
-                <div className="text-4xl mb-4">📈</div>
+                <div className="mb-4">
+                  <TrendingUp className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-2xl font-light tracking-wide mb-4 text-trust-blue">
                   Consulting
                 </h3>
@@ -320,7 +339,9 @@ export default function HomePage() {
 
             <GlassCard>
               <div className="p-8">
-                <div className="text-4xl mb-4">🛒</div>
+                <div className="mb-4">
+                  <ShoppingCart className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-2xl font-light tracking-wide mb-4 text-trust-blue">
                   Retail & E-Commerce
                 </h3>
@@ -371,7 +392,9 @@ export default function HomePage() {
           <div className="grid md:grid-cols-3 gap-8">
             <GlassCard>
               <div className="p-8 text-center">
-                <div className="text-4xl mb-4">🔒</div>
+                <div className="mb-4 flex justify-center">
+                  <Lock className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-awareness-silver">
                   Multi-Layer Security
                 </h3>
@@ -388,7 +411,9 @@ export default function HomePage() {
 
             <GlassCard>
               <div className="p-8 text-center">
-                <div className="text-4xl mb-4">✅</div>
+                <div className="mb-4 flex justify-center">
+                  <CheckCircle className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-awareness-silver">
                   Global Compliance
                 </h3>
@@ -405,7 +430,9 @@ export default function HomePage() {
 
             <GlassCard>
               <div className="p-8 text-center">
-                <div className="text-4xl mb-4">🛡️</div>
+                <div className="mb-4 flex justify-center">
+                  <Shield className="w-10 h-10 text-trust-blue" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-awareness-silver">
                   Guardian Oversight
                 </h3>
@@ -430,7 +457,7 @@ export default function HomePage() {
             Ready to Transform Your Enterprise?
           </h2>
           <p className="text-xl text-white/90 mb-12">
-            Join Fortune 500 companies leveraging LUKHAS consciousness technology
+            Discover enterprise-grade consciousness technology built for the future
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/contact">
