@@ -12,7 +12,7 @@ Usage:
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 
 import yaml
 
@@ -31,8 +31,8 @@ RESET = "\033[0m"
 class FlagValidator:
     """Validator for feature flags configuration."""
 
-    REQUIRED_FIELDS = ["type", "enabled", "description", "owner", "created_at"]
-    OPTIONAL_FIELDS = [
+    REQUIRED_FIELDS: ClassVar[list[str]] = ["type", "enabled", "description", "owner", "created_at"]
+    OPTIONAL_FIELDS: ClassVar[list[str]] = [
         "jira_ticket",
         "fallback",
         "percentage",

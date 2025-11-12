@@ -11,13 +11,14 @@ import importlib
 import sys
 import types
 import unittest
+from typing import ClassVar
 from unittest.mock import MagicMock
 
 
 class TestConsciousnessInit(unittest.TestCase):
     """Test suite for consciousness.__init__."""
 
-    MODULES_TO_TEST = [
+    MODULES_TO_TEST: ClassVar[list[str]] = [
         '_dict_learning', 'actor_system', 'advanced_consciousness_engine', 'auto_consciousness',
         'awareness', 'bio_system', 'circuit_breaker_framework', 'consciousness',
         'consciousness_colony_integration', 'consciousness_hub',

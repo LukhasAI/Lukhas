@@ -9,6 +9,7 @@ from __future__ import annotations
 import ast
 import re
 import sys
+from typing import ClassVar
 from pathlib import Path
 
 # Add project root to path
@@ -20,7 +21,7 @@ class ImportFixer:
     """Fixes common import issues"""
 
     # Import mappings for moved/renamed modules
-    IMPORT_MAPPINGS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_scripts_fix_imports_py_L23"}
+    IMPORT_MAPPINGS: ClassVar[dict[str, str]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_scripts_fix_imports_py_L23"}
         # lukhas. prefix removal
         "core": "core",
         "memory": "memory",
@@ -51,7 +52,7 @@ class ImportFixer:
     }
 
     # Modules that should be commented out (not available)
-    COMMENT_OUT_IMPORTS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_scripts_fix_imports_py_L54"}
+    COMMENT_OUT_IMPORTS: ClassVar[set[str]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_scripts_fix_imports_py_L54"}
         "edge_tts",
         "streamlit",
         "gradio",

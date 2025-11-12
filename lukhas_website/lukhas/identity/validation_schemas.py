@@ -12,7 +12,7 @@ from __future__ import annotations
 import re
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, ClassVar
 from urllib.parse import urlparse
 
 from pydantic import BaseModel, Field, root_validator, validator
@@ -380,7 +380,7 @@ class SecurityEvent(BaseModel):
     metadata: dict[str, Any] = Field(default_factory=dict)
 
     class Config:
-        json_encoders = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_identity_validation_schemas_py_L383"}
+        json_encoders: ClassVar[dict[type[Any], Any]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_identity_validation_schemas_py_L383"}
             datetime: lambda v: v.isoformat()
         }
 

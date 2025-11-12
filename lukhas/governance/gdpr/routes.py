@@ -1,6 +1,6 @@
 """FastAPI routes for GDPR compliance endpoints."""
 
-from typing import List, Optional
+from typing import Any, ClassVar, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
@@ -55,7 +55,7 @@ class DataExportRequest(BaseModel):
     include_metadata: bool = True
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict[str, Any]] = {
             "example": {
                 "data_sources": ["user_profile", "feedback_cards", "traces"],
                 "include_metadata": True
@@ -74,7 +74,7 @@ class DataExportResponse(BaseModel):
     metadata: dict
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict[str, Any]] = {
             "example": {
                 "export_id": "550e8400-e29b-41d4-a716-446655440000",
                 "user_id": "user_abc",
@@ -99,7 +99,7 @@ class DataDeletionRequest(BaseModel):
     confirm: bool = False
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict[str, Any]] = {
             "example": {
                 "data_sources": ["feedback_cards", "traces"],
                 "confirm": True
@@ -119,7 +119,7 @@ class DataDeletionResponse(BaseModel):
     metadata: dict
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict[str, Any]] = {
             "example": {
                 "deletion_id": "660e9511-f3ac-52e5-b827-557766551111",
                 "user_id": "user_abc",

@@ -12,7 +12,7 @@ import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable, ClassVar, Optional
 
 from core.bio_symbolic_processor import get_bio_symbolic_processor
 from core.matriz_consciousness_signals import (
@@ -144,7 +144,7 @@ class ConsciousnessSignalRouter:
         self.boot_sanity_check()
 
     # Required signal types for minimal viable routing coverage
-    REQUIRED_SIGNAL_TYPES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_consciousness_signal_router_py_L147"}
+    REQUIRED_SIGNAL_TYPES: ClassVar[set[str]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_consciousness_signal_router_py_L147"}
         "AWARENESS", "REFLECTION", "EVOLUTION", "INTEGRATION",
         "BIO_ADAPTATION", "TRINITY_SYNC", "NETWORK_PULSE"
     }
