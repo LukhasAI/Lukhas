@@ -1,1 +1,1 @@
-"""Governance module for LUKHAS AI security and compliance."""
+# This file makes the 'governance' directory a Python package.
