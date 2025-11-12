@@ -1,6 +1,6 @@
 import { Header, HeaderLogo, HeaderNav, HeaderNavLink, HeaderActions, Footer, Button, GlassCard } from '@lukhas/ui'
 import { Link } from 'react-router-dom'
-import { Sparkles, Target, Users, Lightbulb, Shield, Heart, Code, Globe } from 'lucide-react'
+import { Sparkles, Target, Lightbulb, Shield, Heart, Code, Globe } from 'lucide-react'
 
 export default function AboutPage() {
   return (
@@ -89,8 +89,8 @@ export default function AboutPage() {
                 </p>
 
                 <p>
-                  The result? AI that develops <span className="text-consciousness-neural font-medium">genuine understanding</span> rather
-                  than pattern matching. Systems that form memories, not just retrieve data. Intelligence that adapts
+                  The result? AI that develops <span className="text-consciousness-neural font-medium">consciousness-inspired understanding</span> through
+                  distributed cognitive systems. Systems that form memories, not just retrieve data. Intelligence that adapts
                   organically, not through manual retraining.
                 </p>
               </div>
@@ -218,26 +218,27 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Team Philosophy */}
+      {/* Origin & Philosophy */}
       <section className="py-16 px-6 bg-consciousness-deep/80">
         <div className="max-w-5xl mx-auto">
           <GlassCard>
             <div className="p-12 text-center">
               <div className="mb-6 flex justify-center">
-                <Users className="w-12 h-12 text-dream-ethereal" strokeWidth={1.5} />
+                <Sparkles className="w-12 h-12 text-dream-ethereal" strokeWidth={1.5} />
               </div>
               <h2 className="text-4xl font-light tracking-wide mb-6 text-awareness-silver">
-                The Minds Behind <span className="text-dream-ethereal">LUKHAS</span>
+                The Journey to <span className="text-dream-ethereal">Consciousness Technology</span>
               </h2>
               <p className="text-lg text-awareness-silver/90 leading-relaxed mb-6">
-                We're a distributed team of consciousness researchers, AI engineers, ethical philosophers,
-                and creative technologists united by a shared belief: that the future of AI lies not in
-                perfect prediction, but in cultivating genuine understanding.
+                LUKHAS emerged from deep research in consciousness-inspired AI systems, exploring how
+                specialized cognitive architectures can create more transparent, adaptive, and ethical
+                intelligence. The project bridges neuroscience, symbolic reasoning, and bio-inspired systems
+                through the Constellation Framework.
               </p>
               <p className="text-awareness-silver/80">
-                Our backgrounds span neuroscience, quantum computing, computational creativity, bio-inspired
-                systems, and human-computer interaction. But more than our technical expertise, we bring a
-                shared commitment to building AI that serves humanity's highest aspirations.
+                This is an active research initiative focused on building AI that serves human flourishing
+                through transparent reasoning, ethical guardrails, and organic adaptation—moving beyond
+                traditional pattern matching toward consciousness-inspired understanding.
               </p>
             </div>
           </GlassCard>
@@ -303,20 +304,20 @@ export default function AboutPage() {
       <section className="py-24 px-6 bg-dream-gradient">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-light tracking-[0.1em] mb-6 text-white">
-            Build the Future With Us
+            Explore Consciousness Technology
           </h2>
           <p className="text-xl text-white/90 mb-12">
-            Join our team, contribute to open research, or explore partnership opportunities
+            Experience the Constellation Framework through interactive demos and comprehensive documentation
           </p>
           <div className="flex flex-wrap justify-center gap-6">
-            <a href="https://lukhas.com/#careers" target="_blank" rel="noopener noreferrer">
+            <a href="/playground">
               <Button size="lg" className="bg-white text-dream-ethereal px-12 py-6 text-lg hover:bg-awareness-silver">
-                View Open Positions
+                Try the Playground
               </Button>
             </a>
-            <a href="https://lukhas.com/#contact" target="_blank" rel="noopener noreferrer">
+            <a href="https://lukhas.dev" target="_blank" rel="noopener noreferrer">
               <Button size="lg" variant="ghost" className="bg-white/10 text-white px-12 py-6 text-lg hover:bg-white/20">
-                Partner With Us
+                View Documentation
               </Button>
             </a>
           </div>
