@@ -1,6 +1,10 @@
 """FastAPI routes for GDPR compliance endpoints."""
 
-from typing import List, Optional
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for GDPR routes
+# estimate: 10min | priority: high | dependencies: none
+
+from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
@@ -51,7 +55,7 @@ def get_current_user_id(request: Request) -> str:
 class DataExportRequest(BaseModel):
     """Request to export user data."""
 
-    data_sources: Optional[List[str]] = None
+    data_sources: Optional[list[str]] = None
     include_metadata: bool = True
 
     class Config:
@@ -95,7 +99,7 @@ class DataExportResponse(BaseModel):
 class DataDeletionRequest(BaseModel):
     """Request to delete user data."""
 
-    data_sources: Optional[List[str]] = None
+    data_sources: Optional[list[str]] = None
     confirm: bool = False
 
     class Config:
@@ -115,7 +119,7 @@ class DataDeletionResponse(BaseModel):
     deletion_timestamp: float
     success: bool
     items_deleted: dict
-    errors: List[str]
+    errors: list[str]
     metadata: dict
 
     class Config:
@@ -145,7 +149,7 @@ class PrivacyPolicyResponse(BaseModel):
     data_processing: dict
     data_subject_rights: dict
     data_categories: dict
-    data_recipients: List[str]
+    data_recipients: list[str]
     international_transfers: dict
     automated_decision_making: dict
     contact: dict

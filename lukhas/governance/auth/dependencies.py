@@ -10,14 +10,18 @@ Security:
 - StrictAuthMiddleware must be installed for these dependencies to work
 """
 
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for auth dependencies
+# estimate: 10min | priority: high | dependencies: none
+
 from fastapi import Depends, HTTPException, Request
-from typing import Dict, Any
+from typing import Any
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-async def get_current_user(request: Request) -> Dict[str, Any]:
+async def get_current_user(request: Request) -> dict[str, Any]:
     """
     Extract and validate current user from JWT token.
 

@@ -1,9 +1,13 @@
 """GDPR service for data export, deletion, and privacy management."""
 
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for GDPR service
+# estimate: 15min | priority: high | dependencies: none
+
 import json
 import time
 from dataclasses import asdict, dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from uuid import uuid4
 
 try:
@@ -35,10 +39,10 @@ class DataExport:
     user_id: str = ""
     export_timestamp: float = field(default_factory=time.time)
     data_controller: str = "LUKHAS AI"
-    data: Dict[str, Any] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    data: dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert export to dictionary.
 
         Returns:
@@ -77,10 +81,10 @@ class DeletionResult:
     deletion_timestamp: float = field(default_factory=time.time)
     success: bool = True
     items_deleted: Dict[str, int] = field(default_factory=dict)
-    errors: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    errors: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert result to dictionary.
 
         Returns:
@@ -140,7 +144,7 @@ class GDPRService:
     async def export_user_data(
         self,
         user_id: str,
-        data_sources: Optional[List[str]] = None,
+        data_sources: Optional[list[str]] = None,
         include_metadata: bool = True,
     ) -> DataExport:
         """Export all user data (GDPR Article 15 - Right to Access).
@@ -215,7 +219,7 @@ class GDPRService:
     async def delete_user_data(
         self,
         user_id: str,
-        data_sources: Optional[List[str]] = None,
+        data_sources: Optional[list[str]] = None,
         confirm: bool = False,
     ) -> DeletionResult:
         """Delete all user data (GDPR Article 17 - Right to Erasure).
@@ -289,7 +293,7 @@ class GDPRService:
 
         return result
 
-    def get_privacy_policy(self) -> Dict[str, Any]:
+    def get_privacy_policy(self) -> dict[str, Any]:
         """Get privacy policy information (GDPR Article 13/14).
 
         Returns information that must be provided when collecting personal data.

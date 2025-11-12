@@ -1,7 +1,10 @@
 """GDPR configuration for compliance and data protection."""
 
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for GDPR config
+# estimate: 5min | priority: high | dependencies: none
+
 from dataclasses import dataclass
-from typing import List
 
 
 @dataclass
@@ -36,7 +39,7 @@ class GDPRConfig:
     include_audit_logs: bool = True
     soft_delete: bool = True  # Mark as deleted, don't remove immediately
     anonymize_instead_of_delete: bool = False
-    data_sources: List[str] = None
+    data_sources: list[str] = None
 
     def __post_init__(self):
         """Validate configuration and set defaults."""
