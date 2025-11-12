@@ -1,0 +1,31 @@
+name: "Pull Request Labeler"
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/labeler@v4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          config-path: ".github/labeler.yml"
+
+  request_review:
+    runs-on: ubuntu-latest
+    needs: label
+    steps:
+      - name: "Request review"
+        uses: actions/github-script@v6
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          script: |
+            const { owner, repo, number } = github.context.issue;
+            github.rest.pulls.requestReviewers({
+              owner,
+              repo,
+              pull_number: number,
+              reviewers: ["owner_core", "security_team"]
+            });
