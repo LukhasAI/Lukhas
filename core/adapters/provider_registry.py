@@ -1,391 +1,155 @@
-"""
-Provider Registry
-=================
-Runtime provider injection to eliminate import-time dependencies.
+"""Provider Registry - Runtime dependency injection for optional providers.
 
-This module enables lazy loading of candidate/labs modules only when needed,
-preventing import-time violations in the lane isolation architecture.
+Enables production modules to use optional 'labs' features without
+import-time dependencies. Providers are resolved at runtime with
+graceful degradation when unavailable.
 
-Architecture:
-- lukhas/ (production) MUST NOT import candidate/ or labs/ at module load time
-- Providers are loaded lazily at runtime via importlib
-- Configuration is resolved from environment or test overrides
+Usage:
+    from core.adapters.provider_registry import ProviderRegistry
+    from core.adapters.config_resolver import make_resolver
+
+    registry = ProviderRegistry(make_resolver())
+    openai = registry.get_openai()
+    if openai is None:
+        raise RuntimeError("OpenAI provider unavailable")
 """
 
 import importlib
 import logging
-from typing import TYPE_CHECKING, Any, Optional
-
-from core.adapters.config_resolver import Config
+from typing import Any, Dict, Optional
 
 logger = logging.getLogger(__name__)
 
-if TYPE_CHECKING:
-    # Import types for static analysis only
-    from labs.consciousness.reflection.openai_modulated_service import OpenAIModulatedService
-
 
 class ProviderRegistry:
+    """Central registry for runtime provider injection.
+
+    Resolves optional dependencies (labs modules) at runtime
+    without requiring import-time availability.
     """
-    Registry for runtime dependency injection.
 
-    Provides lazy loading of candidate/labs modules to prevent import-time
-    dependencies from production code.
-    """
-
-    def __init__(self, config: Config):
-        """
-        Initialize provider registry.
+    def __init__(self, config_resolver):
+        """Initialize registry with configuration resolver.
 
         Args:
-            config: Configuration resolver
+            config_resolver: Configuration resolver instance
         """
-        self.config = config
-        self._providers: dict[str, Any] = {}
-        self._initialized: dict[str, bool] = {}
+        self.config = config_resolver
+        self._cache: Dict[str, Optional[Any]] = {}
 
-        logger.debug(f"ProviderRegistry initialized (env={config.environment}, mock={config.mock_providers})")
-
-    def get_openai(self) -> "OpenAIModulatedService":
-        """
-        Get OpenAI provider instance (lazy loaded).
+    def get_openai(self) -> Optional[Any]:
+        """Get OpenAI provider instance.
 
         Returns:
-            OpenAIModulatedService instance from labs
-
-        Raises:
-            ImportError: If labs module is not available
+            OpenAI client or None if unavailable
         """
-        provider_key = "openai"
-
-        if provider_key in self._providers:
-            return self._providers[provider_key]
-
-        try:
-            # Lazy import at runtime
-            module = importlib.import_module("labs.consciousness.reflection.openai_modulated_service")
-            OpenAIModulatedService = module.OpenAIModulatedService
-
-            # Create instance
-            instance = OpenAIModulatedService(
-                api_key=self.config.openai_api_key,
-                model=self.config.openai_model,
-                temperature=self.config.openai_temperature,
+        if "openai" not in self._cache:
+            self._cache["openai"] = self._load_provider(
+                "labs.providers.openai",
+                "OpenAIProvider"
             )
+        return self._cache["openai"]
 
-            self._providers[provider_key] = instance
-            self._initialized[provider_key] = True
-
-            logger.info(f"Loaded OpenAI provider: {self.config.openai_model}")
-
-            return instance
-
-        except ImportError as e:
-            logger.error(f"Failed to load OpenAI provider: {e}")
-            raise ImportError(  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_adapters_provider_registry_py_L85"}
-                f"Cannot import OpenAI provider from labs. "
-                f"Ensure labs.consciousness.reflection.openai_modulated_service is available. "
-                f"Error: {e}"
-            )
-
-    def get_consciousness_service(self) -> Any:
-        """
-        Get consciousness service provider (lazy loaded).
-
-        This provider loads the unified consciousness service from candidate/
-        at runtime, enabling consciousness processing without import-time
-        dependencies.
+    def get_anthropic(self) -> Optional[Any]:
+        """Get Anthropic provider instance.
 
         Returns:
-            UnifiedConsciousnessService instance from candidate
-
-        Raises:
-            ImportError: If candidate.consciousness module is not available
+            Anthropic client or None if unavailable
         """
-        provider_key = "consciousness"
-
-        if provider_key in self._providers:
-            return self._providers[provider_key]
-
-        try:
-            # Try multiple possible locations for consciousness service
-            possible_modules = [
-                "candidate.consciousness.unified_consciousness_service",
-                "candidate.consciousness.consciousness_service",
-                "labs.consciousness.consciousness_service",
-            ]
-
-            service_class = None
-            loaded_module_name = None
-
-            for module_name in possible_modules:
-                try:
-                    module = importlib.import_module(module_name)
-                    # Try different class names
-                    for class_name in ["UnifiedConsciousnessService", "ConsciousnessService"]:
-                        service_class = getattr(module, class_name, None)
-                        if service_class:
-                            loaded_module_name = module_name
-                            break
-                    if service_class:
-                        break
-                except ImportError:
-                    continue
-
-            if not service_class:
-                raise ImportError(
-                    f"Could not find consciousness service in any of: {possible_modules}"
-                )
-
-            instance = service_class()
-
-            self._providers[provider_key] = instance
-            self._initialized[provider_key] = True
-
-            logger.info(f"Loaded consciousness service provider from {loaded_module_name}")
-
-            return instance
-
-        except ImportError as e:
-            logger.error(f"Failed to load consciousness service: {e}")
-            raise ImportError(  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_adapters_provider_registry_py_L152"}
-                f"Cannot import consciousness service from labs. "
-                f"Ensure candidate.consciousness is available. "
-                f"Error: {e}"
+        if "anthropic" not in self._cache:
+            self._cache["anthropic"] = self._load_provider(
+                "labs.providers.anthropic",
+                "AnthropicProvider"
             )
+        return self._cache["anthropic"]
 
-    def get_memory_service(self) -> Any:
-        """
-        Get memory service provider (lazy loaded).
-
-        This provider loads memory system services from candidate/ at runtime,
-        enabling memory operations (fold systems, emotional memory, temporal
-        memory) without import-time dependencies.
+    def get_memory(self) -> Optional[Any]:
+        """Get memory provider instance.
 
         Returns:
-            MemoryService instance from candidate
-
-        Raises:
-            ImportError: If candidate.memory module is not available
+            Memory provider or None if unavailable
         """
-        provider_key = "memory"
-
-        if provider_key in self._providers:
-            return self._providers[provider_key]
-
-        try:
-            # Try multiple possible locations for memory service
-            possible_modules = [
-                "candidate.memory.memory_service",
-                "candidate.memory.unified_memory",
-                "labs.memory.memory_service",
-            ]
-
-            service_class = None
-            loaded_module_name = None
-
-            for module_name in possible_modules:
-                try:
-                    module = importlib.import_module(module_name)
-                    # Try different class names
-                    for class_name in ["MemoryService", "UnifiedMemory", "MemorySystem"]:
-                        service_class = getattr(module, class_name, None)
-                        if service_class:
-                            loaded_module_name = module_name
-                            break
-                    if service_class:
-                        break
-                except ImportError:
-                    continue
-
-            if not service_class:
-                raise ImportError(
-                    f"Could not find memory service in any of: {possible_modules}"
-                )
-
-            instance = service_class()
-
-            self._providers[provider_key] = instance
-            self._initialized[provider_key] = True
-
-            logger.info(f"Loaded memory service provider from {loaded_module_name}")
-
-            return instance
-
-        except ImportError as e:
-            logger.error(f"Failed to load memory service: {e}")
-            raise ImportError(  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_adapters_provider_registry_py_L219"}
-                f"Cannot import memory service from labs. "
-                f"Ensure candidate.memory is available. "
-                f"Error: {e}"
+        if "memory" not in self._cache:
+            self._cache["memory"] = self._load_provider(
+                "labs.memory.fold_system.memory_fold_system",
+                "MemoryFoldSystem"
             )
+        return self._cache["memory"]
 
-    def get_provider(self, name: str) -> Optional[Any]:
+    def get_guardian(self) -> Optional[Any]:
+        """Get guardian provider instance.
+
+        Returns:
+            Guardian provider or None if unavailable
         """
-        Get a registered provider by name.
+        if "guardian" not in self._cache:
+            self._cache["guardian"] = self._load_provider(
+                "labs.governance.guardian_sentinel",
+                "GuardianSentinel"
+            )
+        return self._cache["guardian"]
+
+    def get_provider(self, provider_name: str) -> Optional[Any]:
+        """Get provider by name with caching.
 
         Args:
-            name: Provider name
+            provider_name: Name of the provider
 
         Returns:
-            Provider instance if registered, None otherwise
+            Provider instance or None if unavailable
         """
-        return self._providers.get(name)
+        if provider_name not in self._cache:
+            # Try to load from config
+            module_path = self.config.get(f"providers.{provider_name}.module")
+            class_name = self.config.get(f"providers.{provider_name}.class")
 
-    def register_provider(self, name: str, instance: Any) -> None:
-        """
-        Register a custom provider instance.
+            if module_path and class_name:
+                self._cache[provider_name] = self._load_provider(
+                    module_path,
+                    class_name
+                )
+            else:
+                logger.warning(f"Provider '{provider_name}' not configured")
+                self._cache[provider_name] = None
+
+        return self._cache[provider_name]
+
+    def _load_provider(
+        self,
+        module_path: str,
+        class_name: str
+    ) -> Optional[Any]:
+        """Load provider class dynamically.
 
         Args:
-            name: Provider name
-            instance: Provider instance
-        """
-        self._providers[name] = instance
-        self._initialized[name] = True
-        logger.info(f"Registered custom provider: {name}")
-
-    def is_initialized(self, name: str) -> bool:
-        """Check if a provider is initialized."""
-        return self._initialized.get(name, False)
-
-    def get_identity_service(self) -> Any:
-        """
-        Get identity service provider (lazy loaded).
-
-        This provider loads the Lambda ID identity system from candidate/
-        at runtime, enabling identity operations (Lambda ID, namespace
-        isolation, multi-modal auth) without import-time dependencies.
+            module_path: Python module path
+            class_name: Class name to import
 
         Returns:
-            Identity service instance from candidate
-
-        Raises:
-            ImportError: If candidate.identity module is not available
+            Provider instance or None if load fails
         """
-        provider_key = "identity"
-
-        if provider_key in self._providers:
-            return self._providers[provider_key]
-
         try:
-            # Try multiple possible locations for identity service
-            possible_modules = [
-                "candidate.identity.lambda_id",
-                "candidate.identity.identity_service",
-                "lukhas.identity.lambda_id",
-            ]
-
-            service_class = None
-            loaded_module_name = None
-
-            for module_name in possible_modules:
-                try:
-                    module = importlib.import_module(module_name)
-                    # Try different class names
-                    for class_name in ["LambdaIDService", "IdentityService", "LambdaID"]:
-                        service_class = getattr(module, class_name, None)
-                        if service_class:
-                            loaded_module_name = module_name
-                            break
-                    if service_class:
-                        break
-                except ImportError:
-                    continue
-
-            if not service_class:
-                raise ImportError(
-                    f"Could not find identity service in any of: {possible_modules}"
-                )
-
-            instance = service_class()
-
-            self._providers[provider_key] = instance
-            self._initialized[provider_key] = True
-
-            logger.info(f"Loaded identity service provider from {loaded_module_name}")
-
-            return instance
-
-        except ImportError as e:
-            logger.error(f"Failed to load identity service: {e}")
-            raise ImportError(  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_adapters_provider_registry_py_L314"}
-                f"Cannot import identity service from labs. "
-                f"Ensure candidate.identity is available. "
-                f"Error: {e}"
+            module = importlib.import_module(module_path)
+            provider_class = getattr(module, class_name)
+            return provider_class()
+        except (ImportError, AttributeError) as e:
+            logger.debug(
+                f"Provider {class_name} from {module_path} unavailable: {e}"
             )
+            return None
 
-    def get_governance_service(self) -> Any:
-        """
-        Get governance service provider (lazy loaded).
+    def clear_cache(self):
+        """Clear provider cache (useful for testing)."""
+        self._cache.clear()
 
-        This provider loads governance and Guardian systems from candidate/
-        at runtime, enabling constitutional AI and ethics validation without
-        import-time dependencies.
+    def is_available(self, provider_name: str) -> bool:
+        """Check if provider is available.
+
+        Args:
+            provider_name: Name of the provider
 
         Returns:
-            Governance service instance from candidate
-
-        Raises:
-            ImportError: If governance module is not available
+            True if provider is available, False otherwise
         """
-        provider_key = "governance"
-
-        if provider_key in self._providers:
-            return self._providers[provider_key]
-
-        try:
-            # Try multiple possible locations for governance service
-            possible_modules = [
-                "candidate.governance.unified_constitutional_ai",
-                "candidate.governance.governance_service",
-                "labs.governance.guardian_service",
-            ]
-
-            service_class = None
-            loaded_module_name = None
-
-            for module_name in possible_modules:
-                try:
-                    module = importlib.import_module(module_name)
-                    # Try different class names
-                    for class_name in [
-                        "UnifiedConstitutionalAI",
-                        "GovernanceService",
-                        "GuardianService",
-                    ]:
-                        service_class = getattr(module, class_name, None)
-                        if service_class:
-                            loaded_module_name = module_name
-                            break
-                    if service_class:
-                        break
-                except ImportError:
-                    continue
-
-            if not service_class:
-                raise ImportError(
-                    f"Could not find governance service in any of: {possible_modules}"
-                )
-
-            instance = service_class()
-
-            self._providers[provider_key] = instance
-            self._initialized[provider_key] = True
-
-            logger.info(f"Loaded governance service provider from {loaded_module_name}")
-
-            return instance
-
-        except ImportError as e:
-            logger.error(f"Failed to load governance service: {e}")
-            raise ImportError(  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_adapters_provider_registry_py_L385"}
-                f"Cannot import governance service. "
-                f"Ensure governance modules are available. "
-                f"Error: {e}"
-            )
-
-    def clear(self) -> None:
-        """Clear all providers (useful for testing)."""
-        self._providers.clear()
-        self._initialized.clear()
-        logger.debug("Cleared all providers")
+        provider = self.get_provider(provider_name)
+        return provider is not None
