@@ -22,7 +22,7 @@ import re
 import sys
 from collections import Counter
 from pathlib import Path
-from typing import List, Dict, Set, Tuple
+from typing import Dict, List, Set
 
 # ANSI colors for output
 RED = "\033[91m"
@@ -194,7 +194,7 @@ class MasterLogValidator:
     def print_results(self):
         """Print validation results."""
         print(f"\n{'='*70}")
-        print(f"MASTER_LOG Validation Results")
+        print("MASTER_LOG Validation Results")
         print(f"{'='*70}\n")
 
         print(f"Tasks found: {len(self.tasks)}")

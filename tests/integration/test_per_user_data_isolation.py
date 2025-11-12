@@ -9,10 +9,12 @@ These tests verify that users can only access their own data:
 Security: Prevents cross-user data access (OWASP A01 mitigation)
 """
 
-import pytest
 import tempfile
-from pathlib import Path
 from datetime import timedelta
+from pathlib import Path
+
+import pytest
+
 
 # Feedback system tests
 class TestFeedbackSystemIsolation:
@@ -25,7 +27,10 @@ class TestFeedbackSystemIsolation:
 
     def test_submit_feedback_requires_user_id(self):
         """Verify submit_feedback() requires user_id parameter."""
-        from products.experience.feedback.core.feedback_cards import FeedbackCardsManager, FeedbackCategory
+        from products.experience.feedback.core.feedback_cards import (
+            FeedbackCardsManager,
+            FeedbackCategory,
+        )
 
         manager = FeedbackCardsManager(db_path=self.db_path)
 
@@ -55,7 +60,10 @@ class TestFeedbackSystemIsolation:
 
     def test_get_cards_for_training_filters_by_user(self):
         """Verify get_cards_for_training() only returns user's own cards."""
-        from products.experience.feedback.core.feedback_cards import FeedbackCardsManager, FeedbackCategory
+        from products.experience.feedback.core.feedback_cards import (
+            FeedbackCardsManager,
+            FeedbackCategory,
+        )
 
         manager = FeedbackCardsManager(db_path=self.db_path)
 
@@ -89,7 +97,10 @@ class TestFeedbackSystemIsolation:
 
     def test_get_statistics_scoped_to_user(self):
         """Verify get_statistics() only returns user's own statistics."""
-        from products.experience.feedback.core.feedback_cards import FeedbackCardsManager, FeedbackCategory
+        from products.experience.feedback.core.feedback_cards import (
+            FeedbackCardsManager,
+            FeedbackCategory,
+        )
 
         manager = FeedbackCardsManager(db_path=self.db_path)
 
@@ -123,7 +134,10 @@ class TestFeedbackSystemIsolation:
 
     def test_mark_as_applied_only_affects_own_cards(self):
         """Verify mark_as_applied() only marks user's own cards."""
-        from products.experience.feedback.core.feedback_cards import FeedbackCardsManager, FeedbackCategory
+        from products.experience.feedback.core.feedback_cards import (
+            FeedbackCardsManager,
+            FeedbackCategory,
+        )
 
         manager = FeedbackCardsManager(db_path=self.db_path)
 
@@ -165,9 +179,10 @@ class TestTraceSystemIsolation:
     @pytest.mark.asyncio
     async def test_get_trace_by_id_filters_by_user(self):
         """Verify get_trace_by_id() only returns user's own traces."""
-        from serve.storage.trace_provider import FileTraceStorageProvider
-        import tempfile
         import json
+        import tempfile
+
+        from serve.storage.trace_provider import FileTraceStorageProvider
 
         temp_dir = tempfile.mkdtemp()
         provider = FileTraceStorageProvider(storage_location=temp_dir)
@@ -216,8 +231,9 @@ class TestTraceSystemIsolation:
     @pytest.mark.asyncio
     async def test_get_recent_traces_filters_by_user(self):
         """Verify get_recent_traces() only returns user's own traces."""
-        from serve.storage.trace_provider import FileTraceStorageProvider
         import tempfile
+
+        from serve.storage.trace_provider import FileTraceStorageProvider
 
         temp_dir = tempfile.mkdtemp()
         provider = FileTraceStorageProvider(storage_location=temp_dir)
@@ -254,8 +270,12 @@ class TestCompleteUserIsolation:
 
     def test_user_cannot_access_other_user_feedback(self):
         """Verify User A cannot access any of User B's feedback data."""
-        from products.experience.feedback.core.feedback_cards import FeedbackCardsManager, FeedbackCategory
         import tempfile
+
+        from products.experience.feedback.core.feedback_cards import (
+            FeedbackCardsManager,
+            FeedbackCategory,
+        )
 
         temp_dir = tempfile.mkdtemp()
         db_path = Path(temp_dir) / "test_isolation.db"
@@ -286,9 +306,10 @@ class TestCompleteUserIsolation:
     @pytest.mark.asyncio
     async def test_legacy_traces_without_user_id_denied(self):
         """Verify legacy traces without user_id are denied for security."""
-        from serve.storage.trace_provider import FileTraceStorageProvider
-        import tempfile
         import json
+        import tempfile
+
+        from serve.storage.trace_provider import FileTraceStorageProvider
 
         temp_dir = tempfile.mkdtemp()
         provider = FileTraceStorageProvider(storage_location=temp_dir)

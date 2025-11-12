@@ -1,13 +1,14 @@
 import asyncio
-import pytest
-from prometheus_client import REGISTRY
 
+import pytest
 from matriz.monitoring.prometheus_exporter import (
+    execute_operation,
+    memory_usage,
     operation_latency,
     operation_total,
-    memory_usage,
-    execute_operation,
 )
+from prometheus_client import REGISTRY
+
 
 # Mock node and operation classes
 class MockNode:

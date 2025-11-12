@@ -53,7 +53,7 @@ async def check_all():
                         create_time = msg.get('createTime', '')[:19]
                         print(f'  🤖 [{create_time}]: {text}...')
                     print()
-            except Exception as e:
+            except Exception:
                 pass
 
         print('\n' + '='*70)

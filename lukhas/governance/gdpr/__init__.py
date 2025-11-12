@@ -22,8 +22,8 @@ from lukhas.governance.gdpr.service import GDPRService, DataExport, DeletionResu
 from lukhas.governance.gdpr.config import GDPRConfig
 
 __all__ = [
-    "GDPRService",
     "DataExport",
     "DeletionResult",
     "GDPRConfig",
+    "GDPRService",
 ]

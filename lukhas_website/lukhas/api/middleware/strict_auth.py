@@ -12,7 +12,7 @@ from fastapi import Request, Response
 from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from lukhas.governance.audit import AuditLogger, AuditEventType
+from lukhas.governance.audit import AuditEventType, AuditLogger
 from lukhas.governance.audit.config import get_default_config
 
 logger = logging.getLogger(__name__)
@@ -214,7 +214,7 @@ class StrictAuthMiddleware(BaseHTTPMiddleware):
         except Exception as e:
             logger.warning(
                 f"Token validation error: {request.method} {request.url.path} "
-                f"from {client_ip or 'unknown'} - {str(e)}",
+                f"from {client_ip or 'unknown'} - {e!s}",
                 exc_info=True
             )
             # Log authentication failure

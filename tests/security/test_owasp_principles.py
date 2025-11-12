@@ -10,13 +10,14 @@ OWASP A07: Identification and Authentication Failures
 OWASP A09: Security Logging and Monitoring Failures
 """
 
-import pytest
-import jwt
-import secrets
 import hashlib
 import os
+import secrets
 from datetime import datetime, timedelta
-from typing import Dict, Any
+from typing import Any, Dict
+
+import jwt
+import pytest
 
 
 class TestOWASPA01Principles:

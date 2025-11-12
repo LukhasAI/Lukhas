@@ -1,9 +1,11 @@
-import unittest
-import os
 import datetime as dt
+import os
+import unittest
 from unittest.mock import patch
-from sqlalchemy import create_engine
+
 from lukhas_website.lukhas.aka_qualia.memory_sql import SqlMemory
+from sqlalchemy import create_engine
+
 
 class TestSqlInjection(unittest.TestCase):
     def setUp(self):

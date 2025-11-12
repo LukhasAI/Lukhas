@@ -1,6 +1,8 @@
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 import asyncio
 import logging
+
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+
 
 class DreamEvent:
     def __init__(self, event_type, data, progress_percent):

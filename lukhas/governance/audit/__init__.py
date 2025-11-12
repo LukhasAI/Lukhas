@@ -23,11 +23,11 @@ from lukhas.governance.audit.logger import AuditLogger
 from lukhas.governance.audit.storage import AuditStorage, FileAuditStorage, InMemoryAuditStorage
 
 __all__ = [
-    "AuditLogger",
+    "AuditConfig",
     "AuditEvent",
     "AuditEventType",
-    "AuditConfig",
+    "AuditLogger",
     "AuditStorage",
-    "InMemoryAuditStorage",
     "FileAuditStorage",
+    "InMemoryAuditStorage",
 ]

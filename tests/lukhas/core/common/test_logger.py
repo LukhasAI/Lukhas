@@ -1,11 +1,11 @@
 
-import unittest
-import logging
 import json
+import logging
 import os
 import sys
+import unittest
 from io import StringIO
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
 # This is a hack to get the import to work.
 # The test runner's working directory might not be the project root.
@@ -14,14 +14,14 @@ from unittest.mock import patch, MagicMock
 # For now, this will have to do.
 sys.path.insert(0, os.path.abspath("./lukhas_website"))
 
+from lukhas.core.common import logger as logger_module
 from lukhas.core.common.logger import (
-    LukhasFormatter,
     JSONFormatter,
+    LukhasFormatter,
     configure_logging,
     get_logger,
     get_module_logger,
 )
-from lukhas.core.common import logger as logger_module
 
 TEST_LOG_FILE = "test_logger.log"
 
@@ -123,7 +123,7 @@ class TestLogger(unittest.TestCase):
                 handler.flush()
 
         self.assertTrue(os.path.exists(TEST_LOG_FILE))
-        with open(TEST_LOG_FILE, "r") as f:
+        with open(TEST_LOG_FILE) as f:
             file_content = f.read()
         self.assertIn("log to file", file_content)
 

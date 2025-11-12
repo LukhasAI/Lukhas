@@ -22,8 +22,9 @@ sys.modules['lukhas_website.lukhas.identity.auth_service'] = MagicMock()
 # Ensure the module under test can be imported
 # The file path is `lukhas_website/lukhas/identity/lambda_id.py`.
 # Assuming `lukhas_website` is in the python path or the CWD.
-from lukhas_website.lukhas.identity.lambda_id import LambdaIDService
 from labs.governance.identity.core.namespace_manager import NamespaceManager, NamespaceType
+from lukhas_website.lukhas.identity.lambda_id import LambdaIDService
+
 
 class TestLambdaIDService(unittest.TestCase):
 
