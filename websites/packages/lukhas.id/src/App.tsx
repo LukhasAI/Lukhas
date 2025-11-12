@@ -1,7 +1,19 @@
 import { Routes, Route } from 'react-router-dom'
 import HomePage from './pages/HomePage'
+import PrivacyPage from './pages/PrivacyPage'
+import TermsPage from './pages/TermsPage'
+import ContactPage from './pages/ContactPage'
+import CookiePolicyPage from './pages/CookiePolicyPage'
 import LoginPage from './pages/LoginPage'
+import PrivacyPage from './pages/PrivacyPage'
+import TermsPage from './pages/TermsPage'
+import ContactPage from './pages/ContactPage'
+import CookiePolicyPage from './pages/CookiePolicyPage'
 import RegisterPage from './pages/RegisterPage'
+import PrivacyPage from './pages/PrivacyPage'
+import TermsPage from './pages/TermsPage'
+import ContactPage from './pages/ContactPage'
+import CookiePolicyPage from './pages/CookiePolicyPage'
 
 function App() {
   return (
@@ -10,6 +22,10 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/cookies" element={<CookiePolicyPage />} />
       </Routes>
     </div>
   )
