@@ -77,7 +77,7 @@ export default function RegisterPage() {
                 placeholder="your@email.com"
               />
               <p className="mt-2 text-xs text-awareness-silver/60">
-                This will be your unique ΛiD identifier
+                Your account email - a unique ΛiD will be generated upon registration
               </p>
             </div>
 
