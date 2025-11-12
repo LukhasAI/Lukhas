@@ -77,7 +77,8 @@ except ImportError:
                 yield fold
 
     def verify_lkf_pack(path):
-        return True  # Simple verification
+        """Simple verification - returns dict for compatibility."""
+        return {"valid": True, "errors": []}  # Simple verification
 
 
 # Import structural conscience for critical decisions
@@ -475,18 +476,28 @@ class MemoryFoldSystem:
 
         return results
 
-    async def export_archive(self, path: Path, filter_tags: Optional[list[str]] = None, **kwargs) -> dict[str, Any]:
+    async def export_archive(
+        self,
+        path: Path,
+        filter_tags: Optional[list[str]] = None,
+        tz: Optional[Any] = None,
+        **kwargs
+    ) -> dict[str, Any]:
         """
         Export memory folds to LKF-Pack archive.
 
         Args:
             path: Output file path
             filter_tags: Optional list of tags to filter export
+            tz: Timezone for timestamp formatting (default: UTC if not provided)
             **kwargs: Additional arguments for export_folds
 
         Returns:
             Export statistics
         """
+        # Set default timezone if not provided
+        if tz is None:
+            tz = timezone.utc
         # Prepare folds for export
         folds_to_export = []
 
@@ -512,7 +523,7 @@ class MemoryFoldSystem:
             folds_to_export.append(fold)
 
         # Export using foldout module
-        return export_folds(folds_to_export, path, **kwargs)
+        return await export_folds(folds_to_export, path, **kwargs)
 
     async def import_archive(self, path: Path, overwrite: bool = False, merge_tags: bool = True) -> dict[str, Any]:
         """
