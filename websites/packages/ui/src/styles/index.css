@@ -1,0 +1,292 @@
+/**
+ * LUKHAS Design System - Main Style Export
+ *
+ * Import this in your app entry point:
+ * import '@lukhas/ui/styles'
+ */
+
+/* Tailwind Base */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design System Variables */
+@import './variables.css';
+@import './animations.css';
+
+/* ==================== BASE STYLES ==================== */
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    font-family: var(--font-display);
+    font-size: 16px;
+    line-height: var(--leading-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--lukhas-deep-space);
+    color: var(--lukhas-text-primary);
+    min-height: 100vh;
+  }
+
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: var(--font-light);
+    letter-spacing: var(--tracking-heading);
+    line-height: var(--leading-tight);
+  }
+
+  h1 {
+    font-size: var(--text-5xl);
+  }
+
+  h2 {
+    font-size: var(--text-4xl);
+  }
+
+  h3 {
+    font-size: var(--text-3xl);
+  }
+
+  h4 {
+    font-size: var(--text-2xl);
+  }
+
+  h5 {
+    font-size: var(--text-xl);
+  }
+
+  h6 {
+    font-size: var(--text-lg);
+  }
+
+  p {
+    letter-spacing: var(--tracking-body);
+    line-height: var(--leading-relaxed);
+  }
+
+  a {
+    color: var(--lukhas-lambda-blue);
+    text-decoration: none;
+    transition: color var(--timing-fast) var(--easing-lukhas);
+  }
+
+  a:hover {
+    color: var(--lukhas-quantum-green);
+  }
+
+  /* Code */
+  code, pre {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+  }
+
+  code {
+    background-color: var(--lukhas-card-bg);
+    padding: 2px 6px;
+    border-radius: var(--border-radius-sm);
+  }
+
+  pre {
+    background-color: var(--lukhas-card-bg);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-lg);
+    overflow-x: auto;
+  }
+
+  pre code {
+    background-color: transparent;
+    padding: 0;
+  }
+
+  /* Selection */
+  ::selection {
+    background-color: var(--lukhas-lambda-blue);
+    color: var(--lukhas-deep-space);
+  }
+
+  ::-moz-selection {
+    background-color: var(--lukhas-lambda-blue);
+    color: var(--lukhas-deep-space);
+  }
+}
+
+/* ==================== COMPONENT STYLES ==================== */
+
+@layer components {
+  /* Glass Card Pattern */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: var(--border-width-thin) solid var(--glass-border);
+    border-radius: var(--border-radius-glass);
+    transition: all var(--timing-normal) var(--easing-lukhas);
+  }
+
+  .glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--lukhas-lambda-blue);
+  }
+
+  /* Button Base */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-family: var(--font-display);
+    font-weight: var(--font-normal);
+    font-size: var(--text-base);
+    border-radius: var(--border-radius-pill);
+    transition: all var(--timing-normal) var(--easing-lukhas);
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--lukhas-lambda-blue);
+    outline-offset: 2px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--lukhas-lambda-blue) 0%, #0099cc 100%);
+    color: var(--lukhas-deep-space);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 50px rgba(26, 54, 93, 0.3);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border: var(--border-width-thin) solid var(--lukhas-border);
+    color: var(--lukhas-text-primary);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--lukhas-lambda-blue);
+    background: var(--glass-bg);
+  }
+
+  /* Input Fields */
+  .input {
+    width: 100%;
+    padding: var(--spacing-md);
+    background-color: var(--lukhas-card-bg);
+    border: var(--border-width-thin) solid var(--lukhas-border);
+    border-radius: var(--border-radius-md);
+    color: var(--lukhas-text-primary);
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    transition: all var(--timing-fast) var(--easing-lukhas);
+  }
+
+  .input:focus {
+    outline: none;
+    border-color: var(--lukhas-lambda-blue);
+    box-shadow: var(--glow-blue);
+  }
+
+  .input::placeholder {
+    color: var(--lukhas-text-secondary);
+  }
+
+  /* Header Pattern */
+  .header-fixed {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    z-index: var(--z-fixed);
+    border-bottom: var(--border-width-thin) solid var(--lukhas-border);
+  }
+
+  /* Container */
+  .container-lukhas {
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--spacing-lg);
+    padding-right: var(--spacing-lg);
+  }
+
+  /* Scrollbar Styling */
+  .scrollbar-lukhas::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-lukhas::-webkit-scrollbar-track {
+    background: var(--lukhas-card-bg);
+  }
+
+  .scrollbar-lukhas::-webkit-scrollbar-thumb {
+    background: var(--lukhas-border);
+    border-radius: var(--border-radius-md);
+  }
+
+  .scrollbar-lukhas::-webkit-scrollbar-thumb:hover {
+    background: var(--lukhas-lambda-blue);
+  }
+}
+
+/* ==================== UTILITY STYLES ==================== */
+
+@layer utilities {
+  /* Text Gradients */
+  .text-gradient-blue {
+    background: linear-gradient(135deg, var(--lukhas-lambda-blue) 0%, var(--lukhas-quantum-green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-consciousness {
+    background: linear-gradient(135deg, #764ba2 0%, #f23645 25%, #ff9800 50%, var(--lukhas-quantum-green) 75%, var(--lukhas-lambda-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Thin Capitals */
+  .thin-capitals {
+    font-weight: var(--font-thin);
+    letter-spacing: var(--tracking-thin-capitals);
+    text-transform: uppercase;
+  }
+
+  /* Focus Visible */
+  .focus-ring:focus-visible {
+    outline: 2px solid var(--lukhas-lambda-blue);
+    outline-offset: 2px;
+  }
+
+  /* Backdrop Blur Utilities */
+  .backdrop-blur-lukhas {
+    backdrop-filter: blur(var(--glass-blur));
+  }
+
+  /* Hide/Show Utilities */
+  .hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -15,9 +15,13 @@ import statistics
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernized typing imports - Dict->dict, List->list for Python 3.9+ compatibility
+# estimate: 5min | priority: high | dependencies: none
+
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -59,8 +63,8 @@ class MetricPoint:
     """Individual metric data point."""
     timestamp: float
     value: float
-    labels: Dict[str, str] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    labels: dict[str, str] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -76,7 +80,7 @@ class Alert:
     timestamp: datetime
     resolved: bool = False
     resolution_time: Optional[datetime] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -89,7 +93,7 @@ class BusinessInsight:
     confidence: float  # 0-1
     impact: str  # "high", "medium", "low"
     recommendation: str
-    supporting_data: Dict[str, Any]
+    supporting_data: dict[str, Any]
     timestamp: datetime
 
 
@@ -118,14 +122,14 @@ class MetricsCollector:
 
     def __init__(self, max_points: int = 100000):
         self.max_points = max_points
-        self.metrics: Dict[str, deque] = defaultdict(lambda: deque(maxlen=max_points))
-        self.endpoint_metrics: Dict[str, APIEndpointMetrics] = {}
-        self.user_metrics: Dict[str, Dict[str, Any]] = defaultdict(dict)
-        self.system_metrics: Dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
+        self.metrics: dict[str, deque] = defaultdict(lambda: deque(maxlen=max_points))
+        self.endpoint_metrics: dict[str, APIEndpointMetrics] = {}
+        self.user_metrics: dict[str, dict[str, Any]] = defaultdict(dict)
+        self.system_metrics: dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
 
     async def record_metric(self, metric_name: str, value: float,
-                          labels: Optional[Dict[str, str]] = None,
-                          metadata: Optional[Dict[str, Any]] = None):
+                          labels: Optional[dict[str, str]] = None,
+                          metadata: Optional[dict[str, Any]] = None):
         """Record a metric point."""
         point = MetricPoint(
             timestamp=time.time(),
@@ -209,7 +213,7 @@ class MetricsCollector:
             user_data["last_seen"] = datetime.now()
 
     async def get_metrics(self, metric_name: str,
-                         time_window: TimeWindow = TimeWindow.LAST_HOUR) -> List[MetricPoint]:
+                         time_window: TimeWindow = TimeWindow.LAST_HOUR) -> list[MetricPoint]:
         """Get metrics for specified time window."""
         if metric_name not in self.metrics:
             return []
@@ -219,7 +223,7 @@ class MetricsCollector:
                 if point.timestamp >= cutoff_time]
 
     async def get_endpoint_metrics(self, endpoint: Optional[str] = None,
-                                 method: Optional[str] = None) -> Dict[str, APIEndpointMetrics]:
+                                 method: Optional[str] = None) -> dict[str, APIEndpointMetrics]:
         """Get endpoint metrics."""
         if endpoint and method:
             endpoint_key = f"{method}:{endpoint}"

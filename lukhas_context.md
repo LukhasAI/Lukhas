@@ -72,6 +72,42 @@ T4 (TODO, Tech Debt, Triage, Track) is a unified platform for managing code qual
   - Security best practices
   - Monitoring queries
 
+---
+
+## 🔒 CI/CD Security & Cost Optimization (2025-11-10)
+
+**Status**: ✅ Critical Security Complete | 🔄 Week 1 Pilot Ready
+
+### Security Audit Results
+✅ **127 GitHub Actions workflows** audited (24,708 lines YAML)
+✅ **Critical fix applied**: Unknown hash `c14a0b9e` removed from 2 MATRIZ workflows
+✅ **All download-artifact references** verified safe (v3.0.2, v4.1.8)
+✅ **Verification tooling** created: `scripts/ci/verify_download_artifact_hashes.sh`
+
+### Cost Optimization Opportunity
+**Estimated Savings**: 30-40% reduction in CI minutes
+
+**Quick Wins Identified**:
+1. **Concurrency controls** (30-40% reduction) - Add `cancel-in-progress` to workflows
+2. **Path filters** (20-30% reduction) - Run workflows only on relevant file changes
+3. **Artifact retention** (storage savings) - Reduce from 90-day default to 7-14 days
+4. **Matrix optimization** (40-60% on test workflows) - Strategic combination selection
+
+**Implementation Timeline**:
+- ✅ **Phase 0 (DONE)**: Critical security fix for unknown hash
+- 🔄 **Phase 1 (Week 1)**: Pilot optimization on `coverage-gates.yml`
+- 📅 **Phase 2 (Week 2-3)**: Batch apply to remaining 126 workflows
+- 📅 **Phase 3 (Week 4)**: Monitor and validate savings
+
+**Documentation**:
+- **Executive Brief**: `docs/CI_OPTIMIZATION_BRIEF_2025-11-10.md` (TL;DR, timeline, stakeholder actions)
+- **Implementation Plan**: `docs/CI_OPTIMIZATION_FINDINGS_2025-11-10.md` (detailed transformations, scripts)
+- **Complete Audit**: `docs/GITHUB_ACTIONS_REVIEW_2025-11-10.md` (127-workflow categorization)
+
+**For AI Agents**: When assigned workflow optimization tasks, reference `CI_OPTIMIZATION_FINDINGS` for transformation patterns and validation requirements.
+
+---
+
 ### **Current Metrics**
 - **Baseline:** 459 total violations across codebase
 - **Annotated:** 24 issues with T4 metadata

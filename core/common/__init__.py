@@ -19,7 +19,6 @@ def _bind(modname: str) -> bool:
     except Exception:
         return False
     # Skip if we imported ourselves (circular reference protection)
-    import sys
     if m is sys.modules.get(__name__):
         return False
     _SRC = m

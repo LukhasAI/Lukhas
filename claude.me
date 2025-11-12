@@ -116,6 +116,21 @@ The Constellation Framework coordinates eight navigational stars across all syst
 - **Guardian Systems**: Multi-layer ethical protection and oversight
 - **Drift Detection**: Real-time ethical deviation monitoring (99.7% success rate)
 - **Constitutional Enforcement**: All AI decisions subject to constitutional review
+- **Module Structure** (Post-Phase 3 Consolidation - Complete ✅):
+  - **Canonical Production**: `lukhas_website/lukhas/governance/guardian/` (2,343 lines)
+    - `core.py` - Core types (DriftResult, EthicalDecision, SafetyResult, etc.)
+    - `guardian_impl.py` - GuardianSystemImpl implementation (340 lines)
+    - `guardian_wrapper.py` - Wrapper functions (detect_drift, evaluate_ethics, check_safety)
+    - `policies.py` - ✅ GuardianPoliciesEngine full implementation (652 lines, Phase 3)
+    - `reflector.py` - ✅ GuardianReflector full implementation (791 lines, Phase 3)
+  - **Experimental Labs**: `labs/governance/guardian/` (13 files, 7,564 lines)
+    - Advanced drift algorithms, monitoring dashboards, self-repair systems
+  - **Bridge Modules**: `governance/guardian/` - Convenience import paths (Phase 1)
+  - **Legacy Bridges**: `governance/guardian_*.py` - Deprecated with warnings (Phase 3, removal: 2025-Q1)
+- **Feature Flag System**: `GUARDIAN_ACTIVE=true` enables live enforcement (default: dry-run)
+- **Emergency Kill-Switch**: File-based bypass at `/tmp/guardian_emergency_disable`
+  - 37 unit tests + 8 integration tests (all passing ✅)
+- **MATRIZ Instrumentation**: All Guardian operations tracked with @instrument decorators
 - **Multi-Jurisdiction Compliance**: GDPR (EU), CCPA (California), PIPEDA (Canada), LGPD (Brazil)
   - Privacy statement generation with HTML/text output
   - Compliance report generation for data subject requests (Article 15, CCPA §1798.100)
@@ -125,12 +140,31 @@ The Constellation Framework coordinates eight navigational stars across all syst
 - **Consent Management Example**: Healthcare use case demonstrating policy definition, consent collection, verification, and audit trail
 
 **Primary Contexts:**
+- `docs/architecture/GUARDIAN_SYSTEM.md` - Complete Guardian architecture (600+ lines)
+- `docs/development/GUARDIAN_IMPORTS.md` - Developer import guide (500+ lines)
 - `ethics/claude.me` - Ethics framework overview (33+ components)
 - `ethics/guardian/claude.me` - Guardian systems and constitutional AI
 - `candidate/governance/claude.me` - Governance development workspace
 - `qi/compliance/` - Privacy statement and compliance report systems
 - `docs/governance/GUARDIAN_EXAMPLE.md` - Healthcare consent management example
 - `examples/governance/` - Working Guardian system examples
+
+**Import Patterns** (Post-Phase 3):
+```python
+# Canonical imports (recommended) - Phase 3 complete
+from lukhas_website.lukhas.governance.guardian import (
+    detect_drift, evaluate_ethics, check_safety,
+    GuardianPoliciesEngine, GuardianReflector  # Full implementations (Phase 3)
+)
+
+# Bridge imports (convenience) - Phase 1
+from governance.guardian.core import DriftResult, EthicalDecision
+from governance.guardian.guardian_wrapper import detect_drift
+
+# DEPRECATED: Legacy imports trigger DeprecationWarning (Phase 3, removal: 2025-Q1)
+# from governance.guardian_policies import GuardianPolicies  # ⚠️
+# from governance.guardian_reflector import GuardianReflector  # ⚠️
+```
 
 ### **🔒 Security (Encryption & Cryptography)**
 - **Centralized Encryption Manager**: Unified AEAD (Authenticated Encryption with Associated Data) interface for all LUKHAS components

@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict import to native dict type in dream stability benchmarks
+# estimate: 5min | priority: medium | dependencies: dream-benchmarks
+
 from __future__ import annotations
 
 import json
@@ -6,7 +10,7 @@ import pathlib
 import statistics
 import subprocess
 import sys
-from typing import Any, Dict
+from typing import Any
 
 SEEDS = [1, 7, 13, 42, 123, 999]
 
@@ -29,7 +33,7 @@ def load_results(path: str) -> list[dict[str, Any]]:
                 results.append(json.loads(line))
     return results
 
-def analyze_stability(results_by_seed: dict[int, list[Dict]]) -> dict[str, Any]:
+def analyze_stability(results_by_seed: dict[int, list[dict]]) -> dict[str, Any]:
     """Analyze stability across seeds."""
     if not results_by_seed:
         return {"error": "No results to analyze"}
