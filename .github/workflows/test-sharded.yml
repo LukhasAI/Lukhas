@@ -65,7 +65,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Download all coverage
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.1.8  # Security: CVE fix
         with:
           pattern: coverage-shard-*
           merge-multiple: true

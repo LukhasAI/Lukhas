@@ -508,6 +508,41 @@ async def create_and_initialize_awareness_component(
 
 
 # Human-readable comment: Example usage block for demonstration and testing.
+async def demo_main():  # Renamed from main
+    logger.info("ΛTRACE: --- AwarenessEngine Demo Starting ---")
+    # Use the factory function, passing a user_id for context
+    test_user = "demo_user_awareness"
+    awareness_component = await create_and_initialize_awareness_component(user_id=test_user)
+
+    print(f"ΛTRACE Demo - Initialization: {'success' if awareness_component.is_initialized else 'failed'}")
+
+    if awareness_component.is_initialized:
+        # Process some data
+        test_data = {
+            "category": "consciousness_stream",
+            "payload": "example sensory data",
+        }
+        logger.info(f"ΛTRACE: Demo: Processing test data: {test_data}")
+        processing_result = await awareness_component.process(test_data, user_id=test_user)
+        print(f"ΛTRACE Demo - Processing result: {processing_result}")
+
+        # Validate
+        logger.info("ΛTRACE: Demo: Validating component.")
+        is_valid = await awareness_component.validate(user_id=test_user)
+        print(f"ΛTRACE Demo - Validation: {'passed' if is_valid else 'failed'}")
+
+        # Get status
+        logger.info("ΛTRACE: Demo: Getting component status.")
+        component_status = awareness_component.get_status(user_id=test_user)
+        print(f"ΛTRACE Demo - Status: {component_status}")
+
+        # Shutdown
+        logger.info("ΛTRACE: Demo: Shutting down component.")
+        await awareness_component.shutdown(user_id=test_user)
+        print(f"ΛTRACE Demo - Shutdown complete. Final status: {awareness_component.get_status(user_id=test_user)}")
+    logger.info("ΛTRACE: --- AwarenessEngine Demo Finished ---")
+
+
 if __name__ == "__main__":
     # Basic logging setup for standalone execution
     if not logging.getLogger("ΛTRACE").handlers:
@@ -517,40 +552,6 @@ if __name__ == "__main__":
         )
 
     logger.info("ΛTRACE: awareness_engine.py executed as __main__ for demonstration.")
-
-    async def demo_main():  # Renamed from main
-        logger.info("ΛTRACE: --- AwarenessEngine Demo Starting ---")
-        # Use the factory function, passing a user_id for context
-        test_user = "demo_user_awareness"
-        awareness_component = await create_and_initialize_awareness_component(user_id=test_user)
-
-        print(f"ΛTRACE Demo - Initialization: {'success' if awareness_component.is_initialized else 'failed'}")
-
-        if awareness_component.is_initialized:
-            # Process some data
-            test_data = {
-                "category": "consciousness_stream",
-                "payload": "example sensory data",
-            }
-            logger.info(f"ΛTRACE: Demo: Processing test data: {test_data}")
-            processing_result = await awareness_component.process(test_data, user_id=test_user)
-            print(f"ΛTRACE Demo - Processing result: {processing_result}")
-
-            # Validate
-            logger.info("ΛTRACE: Demo: Validating component.")
-            is_valid = await awareness_component.validate(user_id=test_user)
-            print(f"ΛTRACE Demo - Validation: {'passed' if is_valid else 'failed'}")
-
-            # Get status
-            logger.info("ΛTRACE: Demo: Getting component status.")
-            component_status = awareness_component.get_status(user_id=test_user)
-            print(f"ΛTRACE Demo - Status: {component_status}")
-
-            # Shutdown
-            logger.info("ΛTRACE: Demo: Shutting down component.")
-            await awareness_component.shutdown(user_id=test_user)
-            print(f"ΛTRACE Demo - Shutdown complete. Final status: {awareness_component.get_status(user_id=test_user)}")
-        logger.info("ΛTRACE: --- AwarenessEngine Demo Finished ---")
 
     asyncio.run(demo_main())
 

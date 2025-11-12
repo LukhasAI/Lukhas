@@ -274,30 +274,41 @@ class FeedbackCardsManager:
     def submit_feedback(
         self,
         card_id: str,
+        user_id: str,
         rating: Optional[int] = None,
         preference: Optional[str] = None,
         correction: Optional[str] = None,
         annotation: Optional[str] = None,
         validated: Optional[bool] = None,
         freeform_text: Optional[str] = None,
-        user_id: Optional[str] = None,
     ) -> bool:
         """
         Submit feedback for a card.
 
         Args:
             card_id: Card identifier
+            user_id: User identifier (REQUIRED for security - from JWT token)
             rating: 1-5 star rating
             preference: A/B/Equal preference
             correction: Corrected response
             annotation: User notes
             validated: Yes/No validation
             freeform_text: Open feedback
-            user_id: User identifier
 
         Returns:
             True if feedback was recorded
+
+        Raises:
+            ValueError: If user_id is empty or None
+
+        Security:
+            user_id must be provided from authenticated JWT token only.
+            Never accept user_id from client request body.
         """
+        # Validate user_id is provided
+        if not user_id:
+            raise ValueError("user_id is required and must not be empty")
+
         if card_id not in self.active_cards:
             return False
 
@@ -323,9 +334,8 @@ class FeedbackCardsManager:
         if freeform_text:
             card.freeform_text = freeform_text
 
-        # Set user
-        if user_id:
-            card.user_id = user_id
+        # Set user (from validated JWT token)
+        card.user_id = user_id
 
         # Calculate impact score
         card.impact_score = self._calculate_impact_score(card)
@@ -559,32 +569,46 @@ class FeedbackCardsManager:
 
     def get_cards_for_training(
         self,
+        user_id: str,
         min_impact: float = 0.3,
         limit: int = 100,
         categories: Optional[list[FeedbackCategory]] = None,
     ) -> list[FeedbackCard]:
         """
-        Get feedback cards ready for training.
+        Get feedback cards ready for training for a specific user.
 
         Args:
+            user_id: User identifier (REQUIRED for data isolation)
             min_impact: Minimum impact score
             limit: Maximum number of cards
             categories: Filter by categories
 
         Returns:
-            List of feedback cards
+            List of feedback cards belonging to the specified user
+
+        Raises:
+            ValueError: If user_id is empty or None
+
+        Security:
+            Only returns feedback cards belonging to the authenticated user.
+            User cannot access other users' feedback cards.
         """
+        # Validate user_id is provided
+        if not user_id:
+            raise ValueError("user_id is required for data isolation")
+
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
         query = """
             SELECT * FROM feedback_cards
-            WHERE processed = 0
+            WHERE user_id = ?
+            AND processed = 0
             AND impact_score >= ?
             AND applied_to_training = 0
         """
 
-        params = [min_impact]
+        params = [user_id, min_impact]
 
         if categories:
             placeholders = ",".join("?" * len(categories))
@@ -635,41 +659,74 @@ class FeedbackCardsManager:
         )
         return card
 
-    def mark_as_applied(self, card_ids: list[str]):
-        """Mark cards as applied to training"""
+    def mark_as_applied(self, user_id: str, card_ids: list[str]):
+        """
+        Mark cards as applied to training for a specific user.
+
+        Args:
+            user_id: User identifier (REQUIRED for ownership validation)
+            card_ids: List of card identifiers to mark as applied
+
+        Raises:
+            ValueError: If user_id is empty or None
+
+        Security:
+            Only marks cards belonging to the authenticated user.
+            Prevents users from modifying other users' feedback cards.
+        """
+        # Validate user_id is provided
+        if not user_id:
+            raise ValueError("user_id is required for ownership validation")
+
+        if not card_ids:
+            return  # Nothing to update
+
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
         placeholders = ",".join("?" * len(card_ids))
+        # Add user_id filter to ensure ownership
         cursor.execute(
-            f"UPDATE feedback_cards SET applied_to_training = 1 WHERE card_id IN ({placeholders})",
-            card_ids,
+            f"UPDATE feedback_cards SET applied_to_training = 1 WHERE user_id = ? AND card_id IN ({placeholders})",
+            [user_id] + card_ids,
         )
 
         conn.commit()
         conn.close()
 
-    def get_statistics(self, time_window: Optional[timedelta] = None) -> dict[str, Any]:
+    def get_statistics(self, user_id: str, time_window: Optional[timedelta] = None) -> dict[str, Any]:
         """
-        Get feedback statistics.
+        Get feedback statistics for a specific user.
 
         Args:
+            user_id: User identifier (REQUIRED for data isolation)
             time_window: Optional time window for stats
 
         Returns:
-            Statistics dictionary
+            Statistics dictionary for the specified user
+
+        Raises:
+            ValueError: If user_id is empty or None
+
+        Security:
+            Only returns statistics for the authenticated user's feedback.
+            User cannot access other users' statistics.
         """
+        # Validate user_id is provided
+        if not user_id:
+            raise ValueError("user_id is required for data isolation")
+
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
-        # Base query
-        base_where = "1=1"
-        params = []
+        # Base query - always filter by user_id
+        base_where = "user_id = ?"
+        params = [user_id]
 
         if time_window:
             cutoff = time.time() - time_window.total_seconds()
-            base_where = "timestamp >= ?"
-            params = [cutoff]
+            base_where += " AND timestamp >= ?"
+            params.append(cutoff)
 
         # Total cards
         cursor.execute(f"SELECT COUNT(*) FROM feedback_cards WHERE {base_where}", params)
@@ -721,12 +778,37 @@ class FeedbackCardsManager:
         }
 
     def _load_stats(self):
-        """Load statistics from database"""
-        self.stats = self.get_statistics()
+        """Initialize statistics tracking (per-user stats loaded on-demand)"""
+        # Stats are now per-user, so just initialize empty tracking
+        # Use get_statistics(user_id) to get actual user stats
+        self.stats = {
+            "total_cards": 0,
+            "completed_cards": 0,
+            "average_rating": 0.0,
+            "categories": {},
+            "impact_scores": [],
+        }
 
-    def generate_feedback_summary(self) -> str:
-        """Generate human-readable feedback summary"""
-        stats = self.get_statistics(time_window=timedelta(days=7))
+    def generate_feedback_summary(self, user_id: str) -> str:
+        """
+        Generate human-readable feedback summary for a specific user.
+
+        Args:
+            user_id: User identifier (REQUIRED for data isolation)
+
+        Returns:
+            Human-readable summary of user's feedback statistics
+
+        Raises:
+            ValueError: If user_id is empty or None
+
+        Security:
+            Only returns summary for the authenticated user's feedback.
+        """
+        if not user_id:
+            raise ValueError("user_id is required for data isolation")
+
+        stats = self.get_statistics(user_id=user_id, time_window=timedelta(days=7))
 
         summary = f"""
 📊 Feedback Summary (Last 7 Days)
@@ -824,14 +906,14 @@ if __name__ == "__main__":
     )
     print(f"Created rating card: {card1.card_id}")
 
-    # Submit feedback
+    # Submit feedback (user_id is now required parameter)
     manager.submit_feedback(
         card1.card_id,
+        user_id="demo-user",  # Required for security
         rating=4,
         annotation="Good explanation but could use more examples",
-        user_id="demo-user",
     )
-    print("Submitted feedback (5 stars)")
+    print("Submitted feedback (4 stars)")
 
     # Create a comparison card
     card2 = manager.create_comparison_card(
@@ -843,15 +925,15 @@ if __name__ == "__main__":
     )
     print(f"Created comparison card: {card2.card_id}")
 
-    # Submit preference
-    manager.submit_feedback(card2.card_id, preference="B", user_id="demo-user")
+    # Submit preference (user_id is now required parameter)
+    manager.submit_feedback(card2.card_id, user_id="demo-user", preference="B")
     print("Submitted preference (chose B)")
 
-    # Get statistics
-    print("\n" + manager.generate_feedback_summary())
+    # Get statistics (user_id is now required parameter)
+    print("\n" + manager.generate_feedback_summary(user_id="demo-user"))
 
-    # Get cards for training
-    training_cards = manager.get_cards_for_training(min_impact=0.2)
+    # Get cards for training (user_id is now required parameter)
+    training_cards = manager.get_cards_for_training(user_id="demo-user", min_impact=0.2)
     print(f"\nCards ready for training: {len(training_cards)}")
     for card in training_cards[:3]:
         print(f"  • {card.card_id}: impact={card.impact_score:.2f}")

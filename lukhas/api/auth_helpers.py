@@ -1,101 +1,102 @@
-from fastapi import Depends, HTTPException, Security
-from fastapi.security import APIKeyHeader
-from starlette import status
-import logging
+import time
+from typing import Dict, List
+from functools import lru_cache
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+from fastapi import HTTPException, status, Depends
+from fastapi.security import OAuth2PasswordBearer
 
-# --- In-memory user data (replace with actual database) ---
-# --- This is a placeholder for demonstration purposes. ---
-# --- In a real application, fetch user data from a database. ---
-# --- and use a secure method for API key validation. ---
-USERS_DATA = {
-    "user_free_123": {"username": "user_free", "tier": "free", "api_key": "free_key"},
-    "user_pro_456": {"username": "user_pro", "tier": "pro", "api_key": "pro_key"},
-    "user_premium_789": {
-        "username": "user_premium",
-        "tier": "premium",
-        "api_key": "premium_key",
-    },
-    "admin_user_001": {
-        "username": "admin_user",
-        "tier": "admin",
-        "api_key": "admin_key",
-    },
-}
+import os
+from lukhas.api.auth import AuthManager
 
-# --- Feature access control ---
-# --- Define which tiers have access to which features. ---
-# --- This could be loaded from a configuration file. ---
-FEATURE_ACCESS = {
-    "free": ["feature1", "feature2"],
-    "pro": ["feature1", "feature2", "feature3"],
-    "premium": ["feature1", "feature2", "feature3", "feature4"],
-    "admin": ["feature1", "feature2", "feature3", "feature4", "admin_feature"],
-}
+# --- Constants ---
+SECRET_KEY = os.environ.get("SECRET_KEY", "a_very_secret_key")
 
-# --- API Key Authentication ---
-api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
+# --- Rate Limiting (In-Memory Placeholder) ---
+# TODO: Replace with a more robust solution (e.g., Redis-based) for production.
+# This implementation is not suitable for multi-process or multi-server deployments.
+_rate_limit_store: Dict[str, List[float]] = {}
+_RATE_LIMIT = 100  # requests per minute
+_RATE_LIMIT_WINDOW = 60  # seconds
 
 
-async def require_api_key(api_key: str = Security(api_key_header)):
+def check_rate_limit(identifier: str) -> bool:
     """
-    Dependency to verify the API key.
-    """
-    if not api_key or api_key not in [
-        user["api_key"] for user in USERS_DATA.values()
-    ]:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or missing API key"
-        )
-    return api_key
+    Check if a given identifier has exceeded the rate limit.
 
+    Args:
+        identifier: A unique identifier (e.g., user ID, IP address).
 
-async def get_current_user(api_key: str = Depends(require_api_key)):
+    Returns:
+        True if within the rate limit, False otherwise.
     """
-    Get the current user based on the API key.
-    """
-    for user_id, user_data in USERS_DATA.items():
-        if user_data["api_key"] == api_key:
-            return user_data
-    return None  # Should not be reached due to require_api_key dependency
+    now = time.time()
+    if identifier not in _rate_limit_store:
+        _rate_limit_store[identifier] = []
 
+    # Remove timestamps outside the current window
+    valid_timestamps = [
+        ts for ts in _rate_limit_store[identifier] if now - ts < _RATE_LIMIT_WINDOW
+    ]
+    _rate_limit_store[identifier] = valid_timestamps
 
-def has_feature_access(user_tier: str, feature: str) -> bool:
-    """
-    Check if a user's tier has access to a specific feature.
-    """
-    if user_tier in FEATURE_ACCESS:
-        return feature in FEATURE_ACCESS[user_tier]
+    if len(valid_timestamps) >= _RATE_LIMIT:
+        return False
+
+    _rate_limit_store[identifier].append(now)
+    return True
+
+# --- Session Management (In-Memory Placeholder) ---
+# TODO: Replace with a persistent session store (e.g., Redis) for production.
+# This implementation is not suitable for multi-process or multi-server deployments.
+_sessions: Dict[str, dict] = {}
+
+def create_session(user_id: str, session_data: dict) -> str:
+    """Creates a new session for a user."""
+    session_id = f"session_{user_id}_{time.time()}"
+    _sessions[session_id] = session_data
+    return session_id
+
+def get_session(session_id: str) -> dict | None:
+    """Retrieves session data."""
+    return _sessions.get(session_id)
+
+def invalidate_session(session_id: str) -> bool:
+    """Invalidates a user session."""
+    if session_id in _sessions:
+        del _sessions[session_id]
+        return True
     return False
 
 
-def require_feature_access(feature: str):
-    """
-    Factory for a dependency that checks if the current user has access to a feature.
-    """
+# --- Dependencies ---
 
-    async def _feature_access_dependency(
-        current_user: dict = Depends(get_current_user),
-    ):
-        """
-        Inner dependency that checks for feature access.
-        """
-        if not current_user:
+@lru_cache()
+def get_auth_manager() -> AuthManager:
+    """Dependency to get the AuthManager instance."""
+    return AuthManager(secret_key=SECRET_KEY)
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+def get_current_user_from_token(
+    token: str = Depends(oauth2_scheme),
+    auth_manager: AuthManager = Depends(get_auth_manager),
+) -> dict:
+    """
+    Dependency to verify JWT and get the current user.
+    """
+    try:
+        payload = auth_manager.verify_token(token)
+        username: str | None = payload.get("sub")
+        if username is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Authentication required",
+                detail="Invalid token: no subject",
+                headers={"WWW-Authenticate": "Bearer"},
             )
-
-        user_tier = current_user.get("tier", "free")
-        if not has_feature_access(user_tier, feature):
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Insufficient permissions",
-            )
-
-        return current_user
-
-    return _feature_access_dependency
+        return {"username": username}
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=str(e),
+            headers={"WWW-Authenticate": "Bearer"},
+        )

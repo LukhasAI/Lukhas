@@ -298,7 +298,7 @@ jobs:
           python -m pip install -U pip
           pip install -r requirements.txt -r requirements-dev.txt
       - name: Download all artifacts
-        uses: actions/download-artifact@c14a0b9e72d31fbb7b7f3466e2a4f96c6498a1b0  # v4
+        uses: actions/download-artifact@v4.1.8  # Security: fixed unknown hash (was c14a0b9e)
         with:
           path: artifacts/
       - name: Build final evidence bundle
