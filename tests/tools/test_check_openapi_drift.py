@@ -138,3 +138,20 @@ def test_deep_schema_diff_handles_scalar_and_list_changes():
 
     assert diff_map["schema.required"]["change"] == "modified"
     assert diff_map["schema.nullable"]["change"] == "modified"
+
+
+def test_deep_schema_diff_builds_paths_when_base_path_missing():
+    saved = {"properties": {"name": {"type": "string"}}}
+    live = {
+        "properties": {
+            "name": {"type": "integer"},
+            "id": {"type": "string"},
+        }
+    }
+
+    diffs = deep_schema_diff(saved, live)
+
+    diff_map = {entry["path"]: entry for entry in diffs}
+
+    assert diff_map["properties.name.type"]["change"] == "modified"
+    assert diff_map["properties.id"]["change"] == "added"
