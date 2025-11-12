@@ -18,14 +18,17 @@ ENDPOINTS:
 
 # ruff: noqa: B008
 import logging
-import time
 from typing import Dict, List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 
 from lukhas.api import analytics
-from lukhas.api.auth_helpers import has_role
+from lukhas.api.auth_helpers import (
+    check_rate_limit,
+    get_current_user_from_token,
+    has_role,
+)
 from lukhas.features.flags_service import (
     FeatureFlagsService,
     FlagEvaluationContext,
@@ -84,44 +87,6 @@ class FlagListResponse(BaseModel):
     total: int = Field(..., description="Total number of flags")
 
 
-# Rate limiting (simple in-memory implementation)
-_rate_limit_store: Dict[str, List[float]] = {}
-_RATE_LIMIT = 100  # requests per minute
-_RATE_LIMIT_WINDOW = 60  # seconds
-
-
-def check_rate_limit(user_id: str) -> bool:
-    """
-    Check if user has exceeded rate limit.
-
-    Args:
-        user_id: User identifier
-
-    Returns:
-        True if within rate limit, False otherwise
-    """
-    now = time.time()
-
-    # Get user's request history
-    if user_id not in _rate_limit_store:
-        _rate_limit_store[user_id] = []
-
-    # Remove old requests outside the window
-    _rate_limit_store[user_id] = [
-        req_time
-        for req_time in _rate_limit_store[user_id]
-        if now - req_time < _RATE_LIMIT_WINDOW
-    ]
-
-    # Check if over limit
-    if len(_rate_limit_store[user_id]) >= _RATE_LIMIT:
-        return False
-
-    # Add current request
-    _rate_limit_store[user_id].append(now)
-    return True
-
-
 # Dependency injection
 
 
@@ -130,47 +95,35 @@ def get_feature_flags_service() -> FeatureFlagsService:
     return get_service()
 
 
-def get_current_user(request: Request) -> Dict:
+def get_current_user(user: dict = Depends(get_current_user_from_token)) -> dict:
     """
-    Get current authenticated user.
+    Dependency to get the current user dict from the verified token.
 
-    In production, this would verify JWT tokens, API keys, etc.
-    For now, returns a placeholder user object.
-
-    Args:
-        request: FastAPI request object
-
-    Returns:
-        User object as a dictionary
-
-    Raises:
-        HTTPException: If authentication fails
+    TODO: Extract role from JWT claims once role-based JWT is implemented.
+    For now, infer role from username prefix (admin_* = admin, etc.)
     """
-    # TODO: Implement actual authentication
-    # For now, check for API key in headers
-    api_key = request.headers.get("X-API-Key")
-    if not api_key:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Authentication required",
-        )
-
-    # Placeholder user ID and role based on API key
-    user_id = f"user_{api_key[:8]}"
-    role = "guest"
-    if api_key.startswith("admin"):
+    # Infer role from username (temporary until JWT includes roles)
+    username = user.get("username", "")
+    if username.startswith("admin_"):
         role = "admin"
-    elif api_key.startswith("moderator"):
+    elif username.startswith("moderator_"):
         role = "moderator"
-    elif api_key.startswith("user"):
+    elif username.startswith("user_"):
         role = "user"
+    else:
+        role = "guest"
 
-    return {"id": user_id, "role": role}
+    return {**user, "role": role, "id": username}
 
 
 def require_role(required_role: str):
+    """
+    Factory for a dependency that checks if the current user has the required role.
+
+    Uses the RBAC role hierarchy from auth_helpers.
+    """
     async def role_checker(current_user: dict = Depends(get_current_user)):
-        user_role = current_user.get("role") or "guest"
+        user_role = current_user.get("role", "guest")
         if not has_role(user_role, required_role):
             raise HTTPException(
                 status_code=403,

@@ -931,10 +931,8 @@ class ValidatorNode(CognitiveNode):
                 return int(result)
             return result
 
-        except Exception:
-            raise ValueError(
-                "Cannot evaluate expression"
-            )  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_nodes_validator_node_py_L914"}
+        except Exception as e:
+            raise ValueError("Cannot evaluate expression") from e
 
     def _eval_ast_node(self, node: ast.AST) -> float | int:
         """Recursively evaluate AST node safely."""
