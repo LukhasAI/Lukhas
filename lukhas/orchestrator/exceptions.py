@@ -26,13 +26,23 @@ class NodeTimeoutException(TimeoutException):
         super().__init__(f"Node '{node_id}' exceeded timeout of {timeout_ms}ms")
 
 
+from typing import Any, Dict
+
+
 class PipelineTimeoutException(TimeoutException):
     """Raised when entire pipeline exceeds its timeout."""
 
-    def __init__(self, pipeline_id: str, timeout_ms: int, completed_nodes: list[str]):
+    def __init__(
+        self,
+        pipeline_id: str,
+        timeout_ms: int,
+        completed_nodes: list[str],
+        partial_results: Dict[str, Any],
+    ):
         self.pipeline_id = pipeline_id
         self.timeout_ms = timeout_ms
         self.completed_nodes = completed_nodes
+        self.partial_results = partial_results
         super().__init__(
             f"Pipeline '{pipeline_id}' exceeded timeout of {timeout_ms}ms "
             f"(completed {len(completed_nodes)} nodes)"
