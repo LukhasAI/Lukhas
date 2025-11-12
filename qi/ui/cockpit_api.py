@@ -73,7 +73,7 @@ def get_safety_card(
         md = to_markdown(card)
         return {"card": card, "markdown": md, "generated_at": time.time()}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Safety card generation failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Safety card generation failed: {e!s}") from e
 
 
 @app.get("/cockpit/safety_card.json")
@@ -107,7 +107,7 @@ def get_safety_card_json(
 
         return card
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Safety card JSON generation failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Safety card JSON generation failed: {e!s}") from e
 
 
 @app.get("/cockpit/safety_card.md")
@@ -132,7 +132,7 @@ def get_safety_card_markdown(
         md = to_markdown(card)
         return HTMLResponse(content=md, media_type="text/plain")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Safety card markdown generation failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Safety card markdown generation failed: {e!s}") from e
 
 
 @app.get("/cockpit/safety_card.pdf")
@@ -146,7 +146,7 @@ def get_safety_card_pdf(
         # Mock PDF response - requires weasyprint
         raise HTTPException(status_code=404, detail="PDF generation requires weasyprint installation")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"PDF generation failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"PDF generation failed: {e!s}") from e
 
 
 @app.get("/cockpit/calibration.svg", response_class=HTMLResponse)
@@ -179,7 +179,7 @@ def calibration_refit(source: str = Query("eval"), token: str | None = Header(No
             }
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Calibration refit failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Calibration refit failed: {e!s}") from e
 
 
 @app.get("/cockpit/nightly-report")
@@ -200,7 +200,7 @@ def get_nightly_report(
             "recent_receipts_count": len(_recent_receipts(window)),
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Report generation failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Report generation failed: {e!s}") from e
 
 
 @app.post("/cockpit/generate-report")
@@ -215,7 +215,7 @@ def generate_full_report(
         path = generate_report(policy_root, overlays, window)
         return {"report_path": path, "generated_at": time.time()}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Full report generation failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Full report generation failed: {e!s}") from e
 
 
 # ------------- Panel 2: Adaptive Learning Proposals -------------
@@ -229,7 +229,7 @@ def analyze_adaptive_performance(window: int = Query(2000), token: str | None = 
         patterns = engine.analyze_performance_patterns(window=window)
         return {"analysis": patterns, "window": window}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Adaptive analysis failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Adaptive analysis failed: {e!s}") from e
 
 
 @app.get("/cockpit/adaptive/candidates")
@@ -251,7 +251,7 @@ def get_adaptive_candidates(token: str | None = Header(None, alias="X-Auth-Token
             "count": len(candidates),
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Candidate retrieval failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Candidate retrieval failed: {e!s}") from e
 
 
 @app.post("/cockpit/adaptive/promote")
@@ -265,7 +265,7 @@ def promote_adaptive_candidates(
         proposal_ids = engine.propose_best(config_targets=targets)
         return {"queued_proposals": proposal_ids, "count": len(proposal_ids)}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Adaptive promotion failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Adaptive promotion failed: {e!s}") from e
 
 
 @app.post("/cockpit/adaptive/evolve-params")
@@ -285,7 +285,7 @@ def evolve_adaptive_parameters(
             "target_file": target_file,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Parameter evolution failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Parameter evolution failed: {e!s}") from e
 
 
 @app.post("/cockpit/adaptive/discover-tools")
@@ -305,7 +305,7 @@ def discover_tool_combinations(
             "target_file": target_file,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Tool discovery failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Tool discovery failed: {e!s}") from e
 
 
 @app.post("/cockpit/adaptive/propose-best")
@@ -324,7 +324,7 @@ def propose_best_adaptive(
             "config_targets": targets,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Adaptive proposal failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Adaptive proposal failed: {e!s}") from e
 
 
 # ------------- Panel 3: Human Adaptation Proposals -------------
@@ -338,7 +338,7 @@ def analyze_human_satisfaction(window: int = Query(1000), token: str | None = He
         patterns = engine.analyze_satisfaction_patterns(window=window)
         return {"analysis": patterns, "window": window}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Human satisfaction analysis failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Human satisfaction analysis failed: {e!s}") from e
 
 
 @app.get("/cockpit/human/proposals")
@@ -354,7 +354,7 @@ def get_human_proposals(
         )
         return {"proposals": proposals, "count": len(proposals), "user_focus": user}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Human proposal retrieval failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Human proposal retrieval failed: {e!s}") from e
 
 
 @app.post("/cockpit/human/promote")
@@ -373,7 +373,7 @@ def promote_human_adaptations(
             "count": len(submitted_ids),
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Human promotion failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Human promotion failed: {e!s}") from e
 
 
 @app.post("/cockpit/human-adapt/propose-tone")
@@ -393,7 +393,7 @@ def propose_tone_adaptations(
             "user_focus": user_focus,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Tone adaptation proposal failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Tone adaptation proposal failed: {e!s}") from e
 
 
 @app.post("/cockpit/human-adapt/submit")
@@ -412,7 +412,7 @@ def submit_human_adaptations(
             "config_targets": targets,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Human adaptation submission failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Human adaptation submission failed: {e!s}") from e
 
 
 # ------------- Panel 4: Centralized Approvals -------------
@@ -458,7 +458,7 @@ def list_all_proposals(
             "limit": limit,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Proposal listing failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Proposal listing failed: {e!s}") from e
 
 
 @app.get("/cockpit/proposals")
@@ -468,7 +468,7 @@ def get_proposals_simplified(token: str | None = Header(None, alias="X-Auth-Toke
         proposals = list_proposals()
         return {"items": proposals, "count": len(proposals)}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Proposal retrieval failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Proposal retrieval failed: {e!s}") from e
 
 
 @app.post("/cockpit/proposals/{proposal_id}/approve")
@@ -488,7 +488,7 @@ def approve_proposal_by_id(
             "reason": reason,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Approval failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Approval failed: {e!s}") from e
 
 
 @app.post("/cockpit/proposals/{proposal_id}/reject")
@@ -509,7 +509,7 @@ def reject_proposal_by_id(
             "reason": reason,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Rejection failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Rejection failed: {e!s}") from e
 
 
 @app.post("/cockpit/proposals/{proposal_id}/apply")
@@ -528,7 +528,7 @@ def apply_proposal_by_id(
             "receipt_id": result.get("receipt_id"),
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Application failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Application failed: {e!s}") from e
 
 
 @app.post("/cockpit/approvals/{proposal_id}/approve")
@@ -548,7 +548,7 @@ def approve_proposal_unified(
             "reason": reason,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Approval failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Approval failed: {e!s}") from e
 
 
 @app.post("/cockpit/approvals/{proposal_id}/apply")
@@ -562,7 +562,7 @@ def apply_proposal_unified(
         result = apply(proposal_id, as_user)
         return {"proposal_id": proposal_id, "result": result, "as_user": as_user}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Application failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Application failed: {e!s}") from e
 
 
 @app.get("/cockpit/approvals/stats")
@@ -613,7 +613,7 @@ def get_approval_stats(days_back: int = Query(7), token: str | None = Header(Non
 
         return {"stats": stats, "days_back": days_back, "generated_at": time.time()}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Stats generation failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Stats generation failed: {e!s}") from e
 
 
 # ------------- Panel 5: Receipts & Provenance -------------
@@ -664,7 +664,7 @@ def get_recent_receipts(
             "task_filter": task_filter,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Receipt retrieval failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Receipt retrieval failed: {e!s}") from e
 
 
 @app.get("/cockpit/receipts")
@@ -687,7 +687,7 @@ def get_receipts_simplified(limit: int = Query(20), token: str | None = Header(N
 
         return {"items": items, "count": len(items)}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Receipt retrieval failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Receipt retrieval failed: {e!s}") from e
 
 
 @app.get("/cockpit/receipts/{receipt_id}/replay.json")
@@ -711,7 +711,7 @@ def replay_receipt_json(
             "overlays": overlays,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Receipt replay failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Receipt replay failed: {e!s}") from e
 
 
 @app.get("/cockpit/receipts/{receipt_id}/trace.svg")
@@ -735,7 +735,7 @@ def get_receipt_trace_svg(
 
         return HTMLResponse(content=svg, media_type="image/svg+xml")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Trace generation failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Trace generation failed: {e!s}") from e
 
 
 @app.get("/cockpit/receipts/{receipt_id}/neighbors")
@@ -755,7 +755,7 @@ def get_receipt_neighbors_unified(
             "limit": limit,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Neighbor retrieval failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Neighbor retrieval failed: {e!s}") from e
 
 
 @app.get("/cockpit/receipts/sample")
@@ -769,7 +769,7 @@ def get_receipt_sample_unified(
         sample = receipt_sample(task_filter, limit)
         return {"sample": sample, "task_filter": task_filter, "limit": limit}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Sample retrieval failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Sample retrieval failed: {e!s}") from e
 
 
 # ------------- Panel 6: Feedback System -------------
@@ -812,7 +812,7 @@ def get_feedback_list(
             },
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Feedback retrieval failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Feedback retrieval failed: {e!s}") from e
 
 
 @app.get("/cockpit/feedback/clusters")
@@ -832,7 +832,7 @@ def get_feedback_clusters(
 
         return {"clusters": clusters, "count": len(clusters), "filter": {"task": task}}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Cluster retrieval failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Cluster retrieval failed: {e!s}") from e
 
 
 @app.post("/cockpit/feedback/cluster")
@@ -846,7 +846,7 @@ def run_feedback_clustering(limit: int = Query(1000), token: str | None = Header
 
         return {"status": "completed", "stats": stats, "timestamp": time.time()}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Clustering failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Clustering failed: {e!s}") from e
 
 
 @app.post("/cockpit/feedback/promote")
@@ -880,7 +880,7 @@ def promote_feedback_to_proposal(
             "timestamp": time.time(),
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Promotion failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Promotion failed: {e!s}") from e
 
 
 # ------------- Dashboard & Health -------------
@@ -971,7 +971,7 @@ def get_dashboard_summary(token: str | None = Header(None, alias="X-Auth-Token")
 
         return {"dashboard": dashboard}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Dashboard generation failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Dashboard generation failed: {e!s}") from e
 
 
 # ------------- Static Files (if needed) -------------
