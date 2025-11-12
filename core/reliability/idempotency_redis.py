@@ -1,6 +1,10 @@
+# T4: code=F821+UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Fixed deprecated Dict imports and undefined Dict usage in Redis backend
+# estimate: 3min | priority: high | dependencies: none
+
 import json
 import time
-from typing import Dict, Optional
+from typing import Optional
 
 import redis
 
@@ -12,7 +16,7 @@ class RedisIdempotencyStore(IdempotencyStore):
         self.r = redis.Redis.from_url(url, decode_responses=True)
         self.ttl = ttl_seconds
 
-    def get(self, k: str) -> Optional[tuple[int, Dict, bytes, str]]:
+    def get(self, k: str) -> Optional[tuple[int, dict, bytes, str]]:
         raw = self.r.get(k)
         if not raw:
             return None
@@ -35,7 +39,7 @@ class RedisIdempotencyStore(IdempotencyStore):
             # Handle cases where the data is malformed or missing keys
             return None
 
-    def put(self, k: str, status: int, headers: Dict, body: bytes) -> None:
+    def put(self, k: str, status: int, headers: dict, body: bytes) -> None:
         body_sha256 = self._hash_body(body)
         payload = {
             "status": status,

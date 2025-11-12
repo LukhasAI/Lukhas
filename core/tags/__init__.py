@@ -6,7 +6,7 @@ This is an interim safety pattern that provides lazy loading of tag system
 components from labs.core.tags without importing them at module import time.
 """
 import importlib
-from typing import Any, List
+from typing import Any
 
 
 def __getattr__(name: str) -> Any:

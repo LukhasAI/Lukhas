@@ -1,3 +1,7 @@
+# T4: code=F821+UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Fixed deprecated Dict imports and undefined Dict names - modern typing patterns
+# estimate: 5min | priority: high | dependencies: none
+
 """
 Idempotency-Key support for safe request replays.
 
@@ -28,20 +32,20 @@ from __future__ import annotations
 import hashlib
 import os
 import time
-from typing import Dict, Protocol
+from typing import Protocol
 
 
 class IdempotencyStore(Protocol):
     """Abstract base class for idempotency stores."""
 
-    def get(self, key: str) -> tuple[int, Dict, bytes, str] | None:
+    def get(self, key: str) -> tuple[int, dict, bytes, str] | None:
         """
         Gets a cached response and its body hash.
         Returns a tuple of (status_code, headers, body, body_sha256) or None.
         """
         ...
 
-    def put(self, key: str, status: int, headers: Dict, body: bytes) -> None:
+    def put(self, key: str, status: int, headers: dict, body: bytes) -> None:
         """
         Stores a response. The implementation should hash the body.
         """
@@ -63,10 +67,10 @@ class InMemoryIdempotencyStore(IdempotencyStore):
     """In-memory idempotency store for testing and single-replica deployments."""
 
     def __init__(self, ttl_seconds: int = 300):
-        self._cache: dict[str, tuple[float, int, Dict, bytes, str]] = {}
+        self._cache: dict[str, tuple[float, int, dict, bytes, str]] = {}
         self.ttl = ttl_seconds
 
-    def get(self, key: str) -> tuple[int, Dict, bytes, str] | None:
+    def get(self, key: str) -> tuple[int, dict, bytes, str] | None:
         item = self._cache.get(key)
         if not item:
             return None
@@ -78,7 +82,7 @@ class InMemoryIdempotencyStore(IdempotencyStore):
 
         return status, headers, body, body_sha256
 
-    def put(self, key: str, status: int, headers: Dict, body: bytes) -> None:
+    def put(self, key: str, status: int, headers: dict, body: bytes) -> None:
         body_sha256 = self._hash_body(body)
         self._cache[key] = (time.time(), status, headers, body, body_sha256)
 
