@@ -8,7 +8,7 @@ Constellation Framework: Spark Star (⚡) - Inter-module communication
 """
 
 import os
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 # Feature flag
 GLYPHS_ENABLED = os.environ.get("GLYPHS_ENABLED", "false").lower() in ("true", "1", "yes", "on")
@@ -73,8 +73,8 @@ def create_glyph(
     symbol: Union[str, Any],
     source: str,
     target: str,
-    payload: Optional[Dict[str, Any]] = None,
-    context: Optional[Union[Dict[str, Any], Any]] = None,
+    payload: Optional[dict[str, Any]] = None,
+    context: Optional[Union[dict[str, Any], Any]] = None,
     priority: Union[str, Any] = "NORMAL",
     **metadata: Any,
 ) -> Any:
@@ -108,7 +108,7 @@ def create_glyph(
     )
 
 
-def parse_glyph(data: Union[str, Dict[str, Any]]) -> Any:
+def parse_glyph(data: Union[str, dict[str, Any]]) -> Any:
     """
     Parse GLYPH token from JSON string or dictionary.
 
@@ -145,7 +145,7 @@ def validate_glyph(token: Any) -> bool:
 def create_response_glyph(
     request: Any,
     symbol: Union[str, Any],
-    payload: Optional[Dict[str, Any]] = None,
+    payload: Optional[dict[str, Any]] = None,
     **metadata: Any,
 ) -> Any:
     """
@@ -176,7 +176,7 @@ def create_error_glyph(
     request: Any,
     error_message: str,
     error_code: Optional[str] = None,
-    details: Optional[Dict[str, Any]] = None,
+    details: Optional[dict[str, Any]] = None,
 ) -> Any:
     """
     Create an error GLYPH token.

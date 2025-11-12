@@ -8,7 +8,7 @@ import tempfile
 from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Optional
 
 import pytest
 import yaml
@@ -61,7 +61,7 @@ def override_flag(
 
 @contextmanager
 def override_flags(
-    flags: Dict[str, bool],
+    flags: dict[str, bool],
     service: Optional[FeatureFlagsService] = None,
 ) -> Iterator[None]:
     """
@@ -104,7 +104,7 @@ def override_flags(
 
 
 @contextmanager
-def temp_flags_config(flags_config: Dict[str, Any]) -> Iterator[FeatureFlagsService]:
+def temp_flags_config(flags_config: dict[str, Any]) -> Iterator[FeatureFlagsService]:
     """
     Context manager to create a temporary flags configuration.
 
