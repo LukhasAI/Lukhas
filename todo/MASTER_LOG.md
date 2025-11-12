@@ -2,7 +2,7 @@
 
 > **Single Source of Truth for All Tasks**
 >
-> Last Updated: 2025-11-12 23:15
+> Last Updated: 2025-11-12 23:45
 > Status: Active
 
 ---
@@ -12,8 +12,8 @@
 **Task Overview:**
 ```
 Total Tasks: 111
-├─ Completed:  64 (57.7%)
-├─ Active:     47 (42.3%)
+├─ Completed:  65 (58.6%)
+├─ Active:     46 (41.4%)
 └─ Blocked:     0 ( 0%)
 ```
 
@@ -52,9 +52,9 @@ Claude Code:  9 tasks (15.0%)  - Testing, documentation
 | MP001 | Complete async orchestrator timeouts | claude-code | ASSIGNED | M | - | Timeout handling |
 | MS001 | Implement missing MATRIZ cognitive nodes | claude-code | ASSIGNED | L | - | Complete node registry |
 | T20251112040 | Verify CI Simplification & Tier1 Active | Jules | DONE | S | #1401, #1411 | ✅ Completed (Jules PRs #1401, #1411). Tier1 CI verification report + concurrency/retention configs |
-| T20251112041 | Create Rollback PR for Shim Removal | agi_dev | PENDING | S | - | Create draft PR `revert/matriz-shim` that reinstates `MATRIZ/__init__.py` with `git revert <placeholder>` command and runbook. Attach PR link. ETA: 1 day |
+| T20251112041 | Create Rollback PR for Shim Removal | @Claude | DONE | S | #1461 | ✅ Completed (Draft PR #1461). Emergency rollback infrastructure with comprehensive runbook (3 execution options), validation matrix, troubleshooting guide, and communication templates |
 
-**P0 Summary**: 8 critical tasks (4 completed, 2 assigned, 2 pending). ✅ Completed: SG001, SC003, SG006, SG002, T20251112040 (3 by Jules Batch 3, 1 by Claude Code, 1 by Jules Batch 1). Jules completed all P0 security tasks. +2 MATRIZ migration prerequisites.
+**P0 Summary**: 8 critical tasks (6 completed, 2 assigned, 0 pending). ✅ Completed: SG001, SC003, SG006, SG002, T20251112040, T20251112041 (3 by Jules Batch 3, 2 by Claude Code, 1 by Jules Batch 1). All P0 MATRIZ migration prerequisites complete.
 
 ---
 
