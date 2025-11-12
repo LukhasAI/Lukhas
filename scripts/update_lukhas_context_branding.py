@@ -13,14 +13,14 @@ References:
 import re
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import ClassVar, Dict, List, Tuple
 
 
 class BrandingValidator:
     """Validates and fixes branding violations in lukhas_context.md files"""
 
     # Branding standards from BRANDING_POLICY.md
-    DEPRECATED_TERMS = {
+    DEPRECATED_TERMS: ClassVar[dict[str, object]] = {
         "LUKHAS Cognitive AI": "LUKHAS AI",
         "Cognitive AI technology": "consciousness technology",
         "MATADA": "MATRIZ",
@@ -31,7 +31,7 @@ class BrandingValidator:
     }
 
     # Prohibited terms that should trigger warnings
-    PROHIBITED_TERMS = [
+    PROHIBITED_TERMS: ClassVar[list[object]] = [
         "production-ready",
         "guaranteed",
         "flawless",

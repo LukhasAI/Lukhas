@@ -1,5 +1,5 @@
 import unittest
-from typing import Any, Dict, List
+from typing import Any, ClassVar, Dict, List
 
 from matriz.core.example_node import MathReasoningNode
 from matriz.core.node_interface import CognitiveNode, NodeState
@@ -60,7 +60,7 @@ class MockActionNode(MockCognitiveNode):
 class PipelineOrchestrator(CognitiveOrchestrator):
     """A test orchestrator that runs a fixed pipeline."""
 
-    PIPELINE = ["memory", "attention", "thought", "risk", "intent", "action"]
+    PIPELINE: ClassVar[list[object]] = ["memory", "attention", "thought", "risk", "intent", "action"]
 
     def process_query(self, user_input: str) -> Dict[str, Any]:
         """Overrides the base method to run a fixed pipeline."""

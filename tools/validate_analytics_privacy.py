@@ -20,13 +20,13 @@ import json
 import re
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, ClassVar, Dict, List
 
 
 class PIIDetector:
     """Detects PII in event properties."""
 
-    PATTERNS = {
+    PATTERNS: ClassVar[dict[str, object]] = {
         "email": r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b',
         "phone": r'\+?[1-9]\d{1,14}|\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}',
         "ip": r'\b(?:\d{1,3}\.){3}\d{1,3}\b',
@@ -53,7 +53,7 @@ class AnalyticsPrivacyValidator:
     """Validates analytics events for privacy compliance."""
 
     # Allowed event names from taxonomy
-    ALLOWED_EVENTS = {
+    ALLOWED_EVENTS: ClassVar[set[object]] = {
         "page_view",
         "quickstart_started",
         "quickstart_completed",
@@ -66,7 +66,7 @@ class AnalyticsPrivacyValidator:
     }
 
     # Forbidden property names (likely to contain PII)
-    FORBIDDEN_PROPERTIES = {
+    FORBIDDEN_PROPERTIES: ClassVar[set[object]] = {
         "email",
         "phone",
         "name",

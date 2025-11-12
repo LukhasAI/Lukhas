@@ -12,7 +12,7 @@ import random
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Optional
+from typing import ClassVar, Optional
 
 import websockets
 from websockets.server import WebSocketServerProtocol
@@ -69,7 +69,7 @@ class ConsciousnessBroadcaster:
     """
 
     # Consciousness states and their symbolic representations
-    STATES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_stream_consciousness_broadcaster_py_L72"}
+    STATES: ClassVar[dict[str, object]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_stream_consciousness_broadcaster_py_L72"}
         "focused": "🎯",
         "creative": "🎨",
         "analytical": "🔬",
@@ -81,7 +81,7 @@ class ConsciousnessBroadcaster:
     }
 
     # State transition probabilities (for simulation)
-    TRANSITIONS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_stream_consciousness_broadcaster_py_L84"}
+    TRANSITIONS: ClassVar[dict[str, object]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_stream_consciousness_broadcaster_py_L84"}
         "focused": ["analytical", "flow_state", "creative"],
         "creative": ["dreaming", "flow_state", "focused"],
         "analytical": ["focused", "meditative", "turbulent"],

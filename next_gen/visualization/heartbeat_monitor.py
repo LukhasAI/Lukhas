@@ -12,6 +12,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import ClassVar
 
 
 # Console control sequences
@@ -53,7 +54,7 @@ class HeartbeatVisualizer:
     """
 
     # Consciousness state to heartbeat mapping
-    HEARTBEAT_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_visualization_heartbeat_monitor_py_L56"}
+    HEARTBEAT_PATTERNS: ClassVar[dict[str, object]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_visualization_heartbeat_monitor_py_L56"}
         "focused": {
             "glyph": "💎",
             "color": Console.BLUE,
@@ -113,7 +114,7 @@ class HeartbeatVisualizer:
     }
 
     # Default pattern for unknown states
-    DEFAULT_PATTERN = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_visualization_heartbeat_monitor_py_L116"}
+    DEFAULT_PATTERN: ClassVar[dict[str, object]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_visualization_heartbeat_monitor_py_L116"}
         "glyph": "💓",
         "color": Console.WHITE,
         "bpm": 60,

@@ -17,7 +17,7 @@ Endpoints:
 import logging
 import os
 import time
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel, Field
@@ -55,7 +55,7 @@ class DriftUpdateRequest(BaseModel):
     lane: Optional[str] = Field(default=None, description="Lane (experimental/candidate/prod)")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict[str, object]] = {
             "example": {
                 "user_id": "user_123",
                 "intent": [1.0, 0.0, 0.5],

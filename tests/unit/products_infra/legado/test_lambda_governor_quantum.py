@@ -6,8 +6,9 @@ from pathlib import Path
 from unittest.mock import MagicMock
 
 import pytest
-from products.infrastructure.legado.legacy_systems.governor.lambda_governor import (
 from typing import List, Tuple
+
+from products.infrastructure.legado.legacy_systems.governor.lambda_governor import (
     EscalationPriority,
     EscalationSignal,
     EscalationSource,

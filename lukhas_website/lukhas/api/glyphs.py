@@ -13,7 +13,7 @@ Endpoints:
 - GET /api/v1/glyphs/stats - Get GLYPH subsystem statistics
 """
 import logging
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 from fastapi import APIRouter, Header, HTTPException, status
 from pydantic import BaseModel, Field, validator
@@ -56,7 +56,7 @@ class GlyphEncodeRequest(BaseModel):
         return v
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict[str, object]] = {
             "example": {
                 "concept": "morning_gratitude",
                 "emotion": {"joy": 0.8, "calm": 0.6},
@@ -79,7 +79,7 @@ class GlyphBindRequest(BaseModel):
     user_id: Optional[str] = Field(default=None, max_length=100, description="User identifier")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict[str, object]] = {
             "example": {
                 "glyph_data": {
                     "concept": "important_insight",

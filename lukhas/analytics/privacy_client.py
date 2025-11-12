@@ -17,7 +17,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, ClassVar, Dict, List, Optional, Set
 
 
 class ConsentMode(Enum):
@@ -210,7 +210,7 @@ class IPAnonymizer:
 class UserAgentNormalizer:
     """Normalizes User-Agent to browser family only."""
 
-    BROWSER_FAMILIES = {
+    BROWSER_FAMILIES: ClassVar[dict[str, object]] = {
         'chrome': ['chrome', 'chromium', 'crios'],
         'firefox': ['firefox', 'fxios'],
         'safari': ['safari'],

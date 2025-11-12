@@ -12,7 +12,7 @@ from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 import psutil
 
@@ -54,7 +54,7 @@ class EnergyManager:
     """
 
     # Energy profiles from most efficient to most intensive
-    ENERGY_PROFILES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_stream_energy_mode_py_L57"}
+    ENERGY_PROFILES: ClassVar[dict[str, object]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_stream_energy_mode_py_L57"}
         "deep_sleep": EnergyProfile(
             profile_name="deep_sleep",
             cpu_threshold=0.05,
@@ -98,7 +98,7 @@ class EnergyManager:
     }
 
     # Automatic switching thresholds
-    SWITCH_THRESHOLDS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_stream_energy_mode_py_L101"}
+    SWITCH_THRESHOLDS: ClassVar[dict[str, object]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_stream_energy_mode_py_L101"}
         "cpu_high": 0.8,  # Switch to lower profile
         "cpu_low": 0.3,  # Switch to higher profile
         "memory_high": 0.9,

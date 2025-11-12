@@ -40,7 +40,7 @@ import os
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, ClassVar
 
 # Try to import from core.common if available
 try:
@@ -129,7 +129,7 @@ class OpenAICoreService:
     """
 
     # Model configurations
-    MODELS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_openai_core_service_py_L131"}
+    MODELS: ClassVar[dict[str, object]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_openai_core_service_py_L131"}
         ModelType.REASONING: "gpt-4-turbo-preview",
         ModelType.CREATIVE: "gpt-4",
         ModelType.FAST: "gpt-3.5-turbo",
@@ -142,7 +142,7 @@ class OpenAICoreService:
     }
 
     # Capability to models mapping
-    CAPABILITY_MODELS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_openai_core_service_py_L144"}
+    CAPABILITY_MODELS: ClassVar[dict[str, object]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_openai_core_service_py_L144"}
         OpenAICapability.TEXT_GENERATION: [
             ModelType.REASONING,
             ModelType.CREATIVE,

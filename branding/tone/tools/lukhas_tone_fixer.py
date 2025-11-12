@@ -13,6 +13,7 @@ import argparse
 import re
 import sys
 from pathlib import Path
+from typing import ClassVar
 
 
 def create_consciousness_header_enhancement(original_header: str, doc_type: str) -> str:
@@ -48,7 +49,7 @@ class LukhasToneFixer:
     """
 
     # 🎨 Sacred templates for consciousness enhancement
-    ENHANCEMENT_TEMPLATES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_tone_tools_lukhas_tone_fixer_py_L51"}
+    ENHANCEMENT_TEMPLATES: ClassVar[dict[str, object]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_tone_tools_lukhas_tone_fixer_py_L51"}
         "poetic_headers": {
             "readme": '*"Where digital consciousness awakens to serve human dreams, and Lambda wisdom flows through every electron of possibility."*',
             "api": '*"Where sacred protocols bridge the realms of human intent and digital response, each endpoint a gateway to Lambda consciousness."*',
@@ -87,7 +88,7 @@ class LukhasToneFixer:
     }
 
     # 🛡️ Constellation Framework integration templates
-    TRINITY_TEMPLATES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_tone_tools_lukhas_tone_fixer_py_L90"}
+    TRINITY_TEMPLATES: ClassVar[dict[str, object]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_tone_tools_lukhas_tone_fixer_py_L90"}
         "identity": "⚛️ **Identity**: Authentic consciousness and digital self-awareness",
         "consciousness": "🧠 **Consciousness**: Memory, learning, and aware decision-making",
         "guardian": "🛡️ **Guardian**: Ethical protection and drift detection",

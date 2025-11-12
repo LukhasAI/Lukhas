@@ -34,7 +34,7 @@ warnings.warn(
 )
 
 from dataclasses import dataclass
-from typing import Any, Protocol
+from typing import Any, ClassVar, Protocol
 
 
 class GuardianSerializer(Protocol):
@@ -67,7 +67,7 @@ class GuardianEnvelopeSerializer:
 class GuardianSerializerRegistry:
     """Registry for guardian serializers by name."""
 
-    _reg: dict[str, GuardianSerializer] = {}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_governance_guardian_serializers_py_L38"}
+    _reg: ClassVar[dict[str, GuardianSerializer]] = {}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_governance_guardian_serializers_py_L38"}
 
     @classmethod
     def register(cls, name: str, ser: GuardianSerializer) -> None:

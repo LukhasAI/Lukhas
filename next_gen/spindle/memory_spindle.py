@@ -10,7 +10,7 @@ from collections import Counter, deque
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
+from typing import ClassVar, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -53,14 +53,14 @@ class MemorySpindle:
     """
 
     # Entropy to spin speed mapping
-    ENTROPY_SPIN_MAP = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_spindle_memory_spindle_py_L56"}
+    ENTROPY_SPIN_MAP: ClassVar[dict[str, object]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_spindle_memory_spindle_py_L56"}
         "stable": (0.1, 0.3),  # Slow, steady spin
         "neutral": (0.3, 0.7),  # Moderate spin
         "unstable": (0.7, 1.0),  # Fast, chaotic spin
     }
 
     # Pattern emergence thresholds
-    PATTERN_THRESHOLDS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_spindle_memory_spindle_py_L63"}
+    PATTERN_THRESHOLDS: ClassVar[dict[str, object]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_spindle_memory_spindle_py_L63"}
         "weak": 0.3,
         "moderate": 0.5,
         "strong": 0.7,

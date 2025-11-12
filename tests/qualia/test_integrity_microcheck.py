@@ -14,6 +14,9 @@ import time
 
 import pytest
 
+# Skip experimental aka_qualia tests
+pytestmark = pytest.mark.skip(reason="aka_qualia is experimental")
+
 # Set experimental flags before imports (deterministic test env)
 os.environ.setdefault("LUKHAS_EXPERIMENTAL", "1")
 os.environ.setdefault("LUKHAS_LANE", "labs")
@@ -318,9 +321,6 @@ def test_microcheck_with_rate_limiting():
         return original_on_exceed(kind, score, ctx)
 
     import types
-
-# Skip experimental aka_qualia tests
-pytestmark = pytest.mark.skip(reason="aka_qualia is experimental")
 
     dm.on_exceed = types.MethodType(lambda self, kind, score, ctx: rate_limit_tracking_on_exceed(kind, score, ctx), dm)
 

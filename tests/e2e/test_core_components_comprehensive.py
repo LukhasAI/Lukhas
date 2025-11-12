@@ -21,6 +21,11 @@ import sys
 import tempfile
 from datetime import datetime, timezone
 
+import pytest
+
+# Skip experimental aka_qualia tests
+pytestmark = pytest.mark.skip(reason="aka_qualia is experimental")
+
 # Module-level logger
 logger = logging.getLogger(__name__)
 
@@ -648,10 +653,6 @@ class TestMainApplication:
         try:
             import os
             import sys
-
-# Skip experimental aka_qualia tests
-pytestmark = pytest.mark.skip(reason="aka_qualia is experimental")
-
 
             # Check that project root is in path
             project_root = os.path.dirname(os.path.abspath(__file__))

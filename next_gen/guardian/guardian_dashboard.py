@@ -15,6 +15,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import yaml
+from typing import ClassVar
 
 
 # Console control for visualization
@@ -193,7 +194,7 @@ class GuardianDashboard:
     """
 
     # Threat type configurations
-    THREAT_CONFIGS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_guardian_guardian_dashboard_py_L196"}
+    THREAT_CONFIGS: ClassVar[dict[str, object]] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_guardian_guardian_dashboard_py_L196"}
         "drift_spike": {
             "symbol": "🌪️",
             "color": Console.YELLOW,

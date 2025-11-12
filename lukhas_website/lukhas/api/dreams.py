@@ -13,7 +13,7 @@ Endpoints:
 # ruff: noqa: B008
 import logging
 import time
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from identity.tier_system import PermissionScope, TierLevel
@@ -45,7 +45,7 @@ class DreamSimulationRequest(BaseModel):
     parallel: bool = Field(default=False, description="Use parallel processing")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict[str, object]] = {
             "example": {
                 "seed": "morning_reflection",
                 "context": {"mood": "calm", "time": "06:00"},
@@ -70,7 +70,7 @@ class ParallelDreamMeshRequest(BaseModel):
     consensus_threshold: float = Field(default=0.7, ge=0.0, le=1.0, description="Consensus threshold")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict[str, object]] = {
             "example": {
                 "seeds": ["morning_gratitude", "evening_reflection", "midday_clarity"],
                 "consensus_threshold": 0.7

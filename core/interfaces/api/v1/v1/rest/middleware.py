@@ -33,7 +33,7 @@ from collections import defaultdict
 from collections.abc import Awaitable
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Callable, Dict
+from typing import Any, Callable, ClassVar, Dict
 
 # Replaced python-jose (vulnerable) with PyJWT for secure JWT handling
 import jwt
@@ -182,7 +182,7 @@ class RateLimitConfig:
 class RateLimitMiddleware:
     """Rate limiting middleware with tier-based policies."""
 
-    DEFAULT_LIMITS: Dict[int, RateLimitConfig] = {
+    DEFAULT_LIMITS: ClassVar[Dict[int, RateLimitConfig]] = {
         0: RateLimitConfig(limit=1000, window_seconds=3600),
         1: RateLimitConfig(limit=5000, window_seconds=3600),
     }
