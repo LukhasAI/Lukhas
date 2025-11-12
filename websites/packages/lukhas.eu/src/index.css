@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* lukhas.store marketplace color system */
+    --consciousness-deep: #1a1a2e;
+    --awareness-silver: #e8e8f0;
+    --integration-orange: #fb923c;
+    --integration-orange-dark: #f97316;
+    --lambda-gold: #ffb347;
+    --trust-blue: #3b82f6;
+
+    --success-green: #10b981;
+    --warning-amber: #f59e0b;
+    --error-red: #ef4444;
+    --info-blue: #3b82f6;
+  }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--consciousness-deep);
+    color: var(--awareness-silver);
+  }
+
+  code {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Monaco', Menlo, Consolas, 'Courier New',
+      monospace;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+}
