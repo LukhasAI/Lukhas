@@ -10,8 +10,8 @@ Example: "Action 'file download' is 75% complete, on track, no errors"
 
 import time
 import uuid
-from typing import Any, Dict, List
 from dataclasses import dataclass
+from typing import Any, Dict, List
 
 from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 

@@ -10,8 +10,8 @@ Example: "If I had taken the earlier train, I would have arrived on time"
 
 import time
 import uuid
-from typing import Any, Dict, List, Tuple
 from dataclasses import dataclass
+from typing import Any, Dict, List, Tuple
 
 from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 

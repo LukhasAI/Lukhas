@@ -1,7 +1,7 @@
 import asyncio
 import os
 import time
-from unittest.mock import patch, AsyncMock, MagicMock
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 from fastapi.testclient import TestClient
@@ -12,6 +12,7 @@ os.environ["LUKHAS_PARALLEL_DREAMS"] = "1"
 
 # Mock core.common to prevent RecursionError during test collection
 import sys
+
 sys.modules['core.common'] = MagicMock()
 
 # Since we're setting environment variables, we need to import the app after setting them

@@ -42,7 +42,7 @@ class ProviderRegistry:
         with self._lock:
             return name in self._providers.get(namespace, {})
 
-    def list_providers(self, namespace: str | None = None) -> List[str]:
+    def list_providers(self, namespace: str | None = None) -> list[str]:
         """
         List all registered providers in a given namespace.
         """

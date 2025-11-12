@@ -57,6 +57,19 @@ Copilot:      5 tasks ( 7.8%)  - Mechanical edits, cleanup
 
 ---
 
+## Pre-Migration Checklist (required before any MATRIZ migration)
+> **All items below MUST be satisfied and validated before starting a production package migration.**
+- **CI Simplification merged**: `chore/simplify-ci-pr` (Tier1 CI active).  *(Blocking)*
+- **Compatibility shim validated**: `MATRIZ/__init__.py` present and `make smoke` passes on macOS-like environment. Attach smoke log.
+- **AST rewriter dry-run attached**: Dry patch for the package must be present in `migration_artifacts/matriz/<package>/`. Reviewer must inspect before apply.
+- **Local validations pass**: `make smoke`, `./scripts/run_lane_guard_worktree.sh` (worktree) must PASS locally. Attach `lane_guard_run_localfix.log`.
+- **Usage monitor active**: `.github/workflows/usage-monitor.yml` added and last weekly run is OK (no >75% warning) or mitigations planned.
+- **Rollback plan prepared**: pre-created rollback PR that reinstates `MATRIZ/__init__` shim and reverts the migration commit. Provide `git revert` command in the PR description.
+- **Owner & Reviewer assigned**: Each migration PR must list an owner and at least one reviewer with merge rights (e.g., `@owner_core`).
+- **Risk note**: If any step fails, abort the migration, revert any partial commits, and record failure notes in the PR.
+
+---
+
 ## Priority 1 (High - Current Sprint) 🔥
 
 | ID | Task | Owner | Status | Effort | PR | Notes |
@@ -86,12 +99,24 @@ Copilot:      5 tasks ( 7.8%)  - Mechanical edits, cleanup
 | LM001 | Enforce lane import restrictions | CODEX | PENDING | S | - | Import linter |
 | LM002 | Implement canary deployment | Jules | PENDING | M | - | Gradual rollout |
 | TP002 | Implement performance benchmarks | CODEX | PENDING | M | - | Benchmark suite |
-| T20251112009 | Implement Dream-validation gate (pre-merge) | - | PENDING | M | - | CI gate: drift>0.15 ⇒ block PR (script ready, GH Action needed) |
-| T20251112022 | Run MATRIZ import inventory | - | PENDING | S | - | scripts/migration/matriz_inventory.sh → /tmp/matriz_imports.lst |
-| T20251112023 | Ensure MATRIZ compatibility shim exists & tested | - | PENDING | S | - | MATRIZ/__init__.py; make smoke must pass |
-| T20251112024 | Migrate serve/ to MATRIZ (AST codemod) | - | PENDING | S | - | scripts/migration/prepare_matriz_migration_prs.sh --dry-run |
-| T20251112025 | Migrate core/ to MATRIZ (AST codemod) | - | PENDING | S | - | Depends on T20251112024 |
-| T20251112026 | Migrate orchestrator/ to MATRIZ (AST codemod) | - | PENDING | S | - | Depends on T20251112025 |
+| T20251112009 | Implement Dream-validation gate (pre-merge) | agi_dev | PENDING | M | - | CI gate: drift>0.15 ⇒ block PR. Script: `scripts/dream_validate_pr.py`. GH Action: `.github/workflows/dream-validate.yml` |
+| T20251112022 | Run MATRIZ import inventory | agi_dev | PENDING | S | - | scripts/migration/matriz_inventory.sh → /tmp/matriz_imports.lst |
+| T20251112023 | Ensure MATRIZ compatibility shim exists & tested | agi_dev | PENDING | S | - | MATRIZ/__init__.py; make smoke must pass |
+| T20251112024 | Migrate serve/ to MATRIZ (AST codemod) | agi_dev | PENDING | S | - | **PRE**: CI simplification merged; shim validated; dry-run attached; local smoke & lane-guard PASS. **ACTION**: Run `scripts/consolidation/rewrite_matriz_imports.py --path serve --dry-run` and attach `/tmp/matriz_serve_dry.patch` to PR. **POST**: make smoke, lane-guard, push PR. **ROLLBACK**: `git revert <commit>` + re-enable shim. |
+| T20251112025 | Migrate core/ to MATRIZ (AST codemod) | agi_dev | PENDING | S | - | Depends on T20251112024. Follow PRE/POST/ROLLBACK checklist. |
+| T20251112026 | Migrate orchestrator/ to MATRIZ (AST codemod) | agi_dev | PENDING | S | - | Depends on T20251112025. Follow PRE/POST/ROLLBACK checklist. |
+
+## CI Policy (applies to all migration & core infra PRs)
+- **Concurrency**: All workflows must include:
+```yaml
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+```
+- **Timeouts**: Jobs with heavy tests must set `timeout-minutes: 60` (or value agreed for that job).
+- **Artifact retention**: Default `retention-days: 7` for transient artifacts; **90 days** for SLSA/attestation artifacts.
+- **Matrix pruning**: Replace Cartesian matrices with `strategy.matrix.include` for meaningful combos only.
+- **PR Requirements**: Every migration PR must attach: dry-run patch, `smoke.log`, `lane_guard_run_localfix.log`, and a rollback line in the PR body.
 
 **P1 Summary**: 31 high-priority tasks for current sprint (1 week deadline). ✅ TP007, T20251112008, T20251112010, T20251112011 completed. +5 MATRIZ migration prep tasks.
 
@@ -125,19 +150,20 @@ Copilot:      5 tasks ( 7.8%)  - Mechanical edits, cleanup
 | T20251112002 | Add import-safe test for hyperspace_dream_simulator | Claude Code | PENDING | S | - | matriz/memory/temporal/hyperspace_dream_simulator.py |
 | T20251112003 | Add import-safe test for core/adapters/__init__ | Claude Code | PENDING | S | - | Lazy-load verification |
 | T20251112004 | Add import-safe test for core/governance/__init__ | Claude Code | PENDING | S | - | Lazy-load verification |
-| T20251112013 | Embed Identity/Consent into QRG claims | - | PENDING | S | - | consent hash in signed payload |
-| T20251112014 | Create Alignment SLO dashboard | - | PENDING | S | - | drift μ/σ, qrg coverage, mesh coherence |
-| T20251112016 | Implement CI alignment attestation | - | PENDING | S | - | Upload alignment.json artifact |
-| T20251112020 | Create GH Action YAML for dream-validation PR gate | - | PENDING | S | - | .github/workflows/dream-validate.yml |
-| T20251112027 | Migrate lukhas_website/ to MATRIZ (AST codemod) | - | PENDING | S | - | Depends on T20251112026 |
-| T20251112028 | Migrate core/colonies/ to MATRIZ (AST codemod) | - | PENDING | S | - | Oracle/reflection layer |
-| T20251112029 | Migrate core/tags/ & core/endocrine/ to MATRIZ | - | PENDING | S | - | Smaller modules batch |
-| T20251112030 | Migrate tests/integration/ to MATRIZ | - | PENDING | M | - | Split into 2 PRs if needed; after prod code merged |
-| T20251112031 | Migrate tests/unit/ to MATRIZ | - | PENDING | M | - | After prod code merged |
-| T20251112032 | Migrate tests/smoke/ & tests/benchmarks/ to MATRIZ | - | PENDING | S | - | Final test migration |
-| T20251112033 | Remove MATRIZ/__init__ compatibility shim | - | PENDING | S | - | Wait 48-72hrs after all migrations; keep rollback PR ready |
+| T20251112013 | Embed Identity/Consent into QRG claims | agi_dev | PENDING | S | - | consent hash in signed payload |
+| T20251112014 | Create Alignment SLO dashboard | Jules | PENDING | S | - | drift μ/σ, qrg coverage, mesh coherence - Grafana dashboard |
+| T20251112016 | Implement CI alignment attestation | agi_dev | PENDING | S | - | Upload alignment.json artifact to GH Action runs |
+| T20251112020 | Create GH Action YAML for dream-validation PR gate | agi_dev | PENDING | S | - | .github/workflows/dream-validate.yml - calls scripts/dream_validate_pr.py |
+| T20251112027 | Migrate lukhas_website/ to MATRIZ (AST codemod) | agi_dev | PENDING | S | - | Depends on T20251112026. Follow PRE/POST/ROLLBACK checklist. |
+| T20251112028 | Migrate core/colonies/ to MATRIZ (AST codemod) | agi_dev | PENDING | S | - | Oracle/reflection layer. Follow PRE/POST/ROLLBACK checklist. |
+| T20251112029 | Migrate core/tags/ & core/endocrine/ to MATRIZ | agi_dev | PENDING | S | - | Smaller modules batch. Follow PRE/POST/ROLLBACK checklist. |
+| T20251112030a | Migrate tests/integration/ high-value to MATRIZ | agi_dev | PENDING | M | - | High-value integration tests first; after prod code merged |
+| T20251112030b | Migrate tests/integration/ remaining to MATRIZ | agi_dev | PENDING | M | - | Lower-priority integration tests; depends on T20251112030a |
+| T20251112031 | Migrate tests/unit/ to MATRIZ | agi_dev | PENDING | M | - | After prod code merged. Follow PRE/POST/ROLLBACK checklist. |
+| T20251112032 | Migrate tests/smoke/ & tests/benchmarks/ to MATRIZ | agi_dev | PENDING | S | - | Final test migration. Follow PRE/POST/ROLLBACK checklist. |
+| T20251112033 | Remove MATRIZ/__init__ compatibility shim | agi_dev | PENDING | S | - | Wait 48-72hrs after all migrations; keep rollback PR ready. Run dream-gate-full, benchmarks-nightly first. |
 
-**P2 Summary**: 34 medium-priority tasks for next sprint (2-4 weeks). ✅ T20251112012, T20251112015 completed. +7 MATRIZ migration tasks.
+**P2 Summary**: 35 medium-priority tasks for next sprint (2-4 weeks). ✅ T20251112012, T20251112015 completed. +8 MATRIZ migration tasks (test split added: 030a, 030b).
 
 ---
 

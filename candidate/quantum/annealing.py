@@ -43,12 +43,12 @@ def exponential_schedule(
 class AdaptiveScheduler:
     """Computes adaptive schedules for quantum annealing."""
 
-    def __init__(self, drift_metrics: "DriftMetrics"):
+    def __init__(self, drift_metrics: DriftMetrics):
         self.drift_metrics = drift_metrics
         self.schedule_history: list[list[float]] = []
 
     def compute_adaptive_schedule(
-        self, initial_temp: float, energy_landscape: "EnergyLandscape"
+        self, initial_temp: float, energy_landscape: EnergyLandscape
     ) -> list[float]:
         """Analyzes drift patterns and adjusts the cooling schedule."""
         drift_rate = self.drift_metrics.get_current_rate()

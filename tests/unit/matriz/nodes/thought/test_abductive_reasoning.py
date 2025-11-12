@@ -1,6 +1,7 @@
 import pytest
 from matriz.nodes.thought.abductive_reasoning import AbductiveReasoningNode
 
+
 def test_abductive_reasoning_basic():
     """Test basic abductive reasoning functionality."""
     node = AbductiveReasoningNode()

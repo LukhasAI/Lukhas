@@ -4,10 +4,9 @@ from unittest.mock import AsyncMock, MagicMock
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-from starlette.testclient import TestClient
-
 from serve.middleware.cache_middleware import CacheMiddleware
 from serve.utils.cache_manager import CacheManager
+from starlette.testclient import TestClient
 
 
 class TestCacheMiddleware(unittest.TestCase):

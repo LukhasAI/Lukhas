@@ -17,7 +17,6 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-
 from governance.guardian.emergency_killswitch import (
     KILLSWITCH_PATH,
     activate_killswitch,

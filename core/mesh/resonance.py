@@ -3,10 +3,12 @@
 # estimate: 10min | priority: high | dependencies: none
 
 # core/mesh/resonance.py
-import numpy as np
+import hashlib
 import json
 from typing import Any
-import hashlib
+
+import numpy as np
+
 
 def glyph_hash(glyph: dict[str, Any]) -> str:
     s = json_canonical(glyph)

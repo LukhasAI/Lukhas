@@ -3,9 +3,8 @@
 # estimate: 10min | priority: medium | dependencies: dast-orchestration
 
 """DAST orchestrator with directive memory for continuity."""
-from typing import Any, Optional
 from datetime import datetime
-from collections import defaultdict
+from typing import Any, Optional
 
 
 class Directive:

@@ -1,6 +1,7 @@
 import pytest
 from matriz.nodes.thought.counterfactual_reasoning import CounterfactualReasoningNode
 
+
 def test_counterfactual_reasoning_basic():
     """Test basic counterfactual reasoning functionality."""
     node = CounterfactualReasoningNode()

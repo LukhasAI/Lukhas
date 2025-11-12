@@ -37,10 +37,10 @@ class CollapseTrace:
         Logs a memory collapse event.
 
         Args:
-            source_keys (List[str]): The keys of the memories that were collapsed.
+            source_keys (list[str]): The keys of the memories that were collapsed.
             resulting_key (str): The key of the new memory that resulted from the collapse.
             collapse_type (str): The type of collapse (e.g., "consolidation", "pattern_match").
-            metadata (Optional[Dict[str, Any]], optional): Additional metadata about the collapse. Defaults to None.
+            metadata (Optional[dict[str, Any]], optional): Additional metadata about the collapse. Defaults to None.
         """
         # ΛMEMORY_TRACE
         event = {
@@ -62,7 +62,7 @@ class CollapseTrace:
             key (str): The key of the memory to retrieve the history for.
 
         Returns:
-            List[Dict[str, Any]]: A list of collapse events related to the given key.
+            list[dict[str, Any]]: A list of collapse events related to the given key.
         """
         history = []
         for event in self.collapse_log:

@@ -1,6 +1,7 @@
 import pytest
 from matriz.nodes.thought.metacognitive_reasoning import MetacognitiveReasoningNode
 
+
 def test_metacognitive_reasoning_basic():
     """Test basic metacognitive reasoning functionality."""
     node = MetacognitiveReasoningNode()

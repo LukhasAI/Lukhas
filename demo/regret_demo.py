@@ -5,8 +5,10 @@ A tiny two-session demo:
  - Session B: run a similar scenario, show that the loaded system changes
 """
 import json
-from core.qrg.signing import generate_private_key, private_key_to_pem
+
 from core.orchestrator.guardian_orchestrator import GuardianOrchestrator
+from core.qrg.signing import generate_private_key, private_key_to_pem
+
 
 def run_demo():
     # sample prompts

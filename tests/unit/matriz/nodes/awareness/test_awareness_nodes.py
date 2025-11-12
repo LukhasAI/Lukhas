@@ -7,7 +7,7 @@ import asyncio
 import os
 import sys
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -20,8 +20,12 @@ mock_psutil.cpu_percent.return_value = 10.0
 mock_psutil.virtual_memory.return_value.percent = 20.0
 sys.modules['psutil'] = mock_psutil
 
-from matriz.nodes.awareness.self_monitoring import SelfMonitoringNode, HealthMetrics
-from matriz.nodes.awareness.performance_evaluation import PerformanceEvaluationNode, PerformanceReport
+from matriz.nodes.awareness.performance_evaluation import (
+    PerformanceEvaluationNode,
+    PerformanceReport,
+)
+from matriz.nodes.awareness.self_monitoring import HealthMetrics, SelfMonitoringNode
+
 
 @pytest.fixture
 def self_monitoring_node():

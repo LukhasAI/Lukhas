@@ -72,7 +72,7 @@ def build_user_context(user_id: str) -> dict[str, Any]:
     # ΛARGS:
     #   user_id (str): Unique symbolic ID of the user/session.
     # ΛRETURNS:
-    #   Dict[str, Any]: A symbolic context representation (tier, emotion, tags, etc.).
+    #   dict[str, Any]: A symbolic context representation (tier, emotion, tags, etc.).
     # AIO_NODE: Placeholder for future interaction with data sources.
     # ΛEXPOSE: Provides a structured view of the user's current state.
     # ΛSYMBOLIC_ECHO: Reflects the aggregated understanding of the user.

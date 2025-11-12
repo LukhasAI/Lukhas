@@ -11,9 +11,9 @@ from core.qrg.signing import (
 
 __all__ = [
     "QRGSignature",
-    "qrg_sign",
-    "qrg_verify",
     "generate_private_key",
     "private_key_to_pem",
     "public_key_to_pem",
+    "qrg_sign",
+    "qrg_verify",
 ]

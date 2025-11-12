@@ -9,7 +9,7 @@ vs. expected outcomes, and identifies opportunities for improvement.
 import asyncio
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from matriz.core.node_interface import CognitiveNode, NodeState
 

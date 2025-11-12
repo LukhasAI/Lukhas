@@ -84,7 +84,7 @@ def can_delegate(intent: str, tier: int, emotion_score: float) -> tuple[bool, st
     #   tier (int): The user's trust tier.
     #   emotion_score (float): Current emotional intensity (0.0 to 1.0).
     # ΛRETURNS:
-    #   Tuple[bool, str]: (permission_granted, reason_message)
+    #   tuple[bool, str]: (permission_granted, reason_message)
     # ΛEXPOSE: Core logic for determining if delegation is permissible.
     """
     # ΛCAUTION: Uses hardcoded thresholds for tier and emotion score.
@@ -131,9 +131,9 @@ def delegate_action(intent: str, context: Any, user_profile: dict[str, Any]) -> 
     # ΛARGS:
     #   intent (str): The user's desired task.
     #   context (Any): Optional situation or task-specific info.
-    #   user_profile (Dict[str, Any]): Includes tier and emotion state. Expected keys: "tier" (int), "emotion" (float).
+    #   user_profile (dict[str, Any]): Includes tier and emotion state. Expected keys: "tier" (int), "emotion" (float).
     # ΛRETURNS:
-    #   Dict[str, Any]: Result status, reasoning, and fallback guidance.
+    #   dict[str, Any]: Result status, reasoning, and fallback guidance.
     # ΛEXPOSE: Main function to attempt a delegated action.
     # AINTEROP: Interacts with user profile data and simulated action execution.
     # ΛSYMBOLIC_ECHO: Reflects the agent's decision-making process for delegation.

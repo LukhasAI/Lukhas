@@ -1,5 +1,11 @@
 import pytest
-from products.communication.abas.bio_adaptation_engine import BioAdaptationEngine, BiometricProfile, BiometricType, AdaptationRecommendation
+from products.communication.abas.bio_adaptation_engine import (
+    AdaptationRecommendation,
+    BioAdaptationEngine,
+    BiometricProfile,
+    BiometricType,
+)
+
 
 @pytest.fixture
 def engine():

@@ -14,9 +14,10 @@ Security:
 # reason: Modernizing deprecated typing imports to native Python 3.9+ types for auth dependencies
 # estimate: 10min | priority: high | dependencies: none
 
-from fastapi import Depends, HTTPException, Request
-from typing import Any
 import logging
+from typing import Any
+
+from fastapi import HTTPException, Request
 
 logger = logging.getLogger(__name__)
 

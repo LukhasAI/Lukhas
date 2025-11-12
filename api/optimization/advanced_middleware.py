@@ -12,16 +12,16 @@ import asyncio
 import json
 import logging
 import time
+
 # T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
 # reason: Modernized typing imports - Dict->dict, List->list, Tuple->tuple for Python 3.9+ compatibility
 # estimate: 5min | priority: high | dependencies: none
-
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
+
 # T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
 # reason: Modernized typing imports - Dict->dict, List->list, Tuple->tuple for Python 3.9+ compatibility
 # estimate: 5min | priority: high | dependencies: none
-
 from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
@@ -346,7 +346,7 @@ class OptimizationMiddleware(BaseMiddleware):
             return await self.on_error(metadata, e), {}
 
     async def process_response(self, metadata: RequestMetadata,
-                             response_data: Dict[str, Any]) -> Dict[str, Any]:
+                             response_data: dict[str, Any]) -> dict[str, Any]:
         """Complete optimization processing."""
         try:
             if self.optimizer and "context" in metadata.optimization_context:
@@ -380,7 +380,7 @@ class ValidationMiddleware(BaseMiddleware):
         self.max_request_size_bytes = max_request_size_mb * 1024 * 1024
 
     async def process_request(self, metadata: RequestMetadata,
-                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
+                            request_data: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
         """Validate request structure and content."""
         start_time = time.time()
 
@@ -441,7 +441,7 @@ class ValidationMiddleware(BaseMiddleware):
             return await self.on_error(metadata, e), {}
 
     async def process_response(self, metadata: RequestMetadata,
-                             response_data: Dict[str, Any]) -> Dict[str, Any]:
+                             response_data: dict[str, Any]) -> dict[str, Any]:
         """Validate and sanitize response."""
         # Add validation headers
         if "headers" not in response_data:
@@ -472,7 +472,7 @@ class AnalyticsMiddleware(BaseMiddleware):
         self.request_logs = []
 
     async def process_request(self, metadata: RequestMetadata,
-                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
+                            request_data: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
         """Log request for analytics."""
         # Store request start time for duration calculation
         metadata.middleware_data["analytics_start"] = time.time()
@@ -481,7 +481,7 @@ class AnalyticsMiddleware(BaseMiddleware):
         return True, {}
 
     async def process_response(self, metadata: RequestMetadata,
-                             response_data: Dict[str, Any]) -> Dict[str, Any]:
+                             response_data: dict[str, Any]) -> dict[str, Any]:
         """Log response and calculate metrics."""
         end_time = time.time()
         start_time = metadata.middleware_data.get("analytics_start", metadata.start_time)
@@ -519,7 +519,7 @@ class AnalyticsMiddleware(BaseMiddleware):
 
         return response_data
 
-    def get_analytics_summary(self) -> Dict[str, Any]:
+    def get_analytics_summary(self) -> dict[str, Any]:
         """Get analytics summary."""
         if not self.request_logs:
             return {"message": "No analytics data available"}
@@ -539,14 +539,14 @@ class AnalyticsMiddleware(BaseMiddleware):
             "top_endpoints": self._get_top_endpoints(recent_logs)
         }
 
-    def _count_distribution(self, data: List[Any]) -> Dict[Any, int]:
+    def _count_distribution(self, data: list[Any]) -> dict[Any, int]:
         """Get count distribution."""
         counts = {}
         for item in data:
             counts[item] = counts.get(item, 0) + 1
         return counts
 
-    def _get_top_endpoints(self, logs: List[Dict]) -> List[Dict]:
+    def _get_top_endpoints(self, logs: list[Dict]) -> list[Dict]:
         """Get top endpoints by request count."""
         endpoint_counts = {}
         for log in logs:
@@ -565,7 +565,7 @@ class LUKHASMiddlewarePipeline:
 
     def __init__(self, config: MiddlewareConfig):
         self.config = config
-        self.middleware_stack: List[BaseMiddleware] = []
+        self.middleware_stack: list[BaseMiddleware] = []
         self.processing_stats = {
             "total_requests": 0,
             "successful_requests": 0,
@@ -585,7 +585,7 @@ class LUKHASMiddlewarePipeline:
         logger.info(f"Removed middleware: {name}")
 
     async def process_request(self, metadata: RequestMetadata,
-                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
+                            request_data: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
         """Process request through middleware pipeline."""
         start_time = time.time()
         self.processing_stats["total_requests"] += 1
@@ -634,7 +634,7 @@ class LUKHASMiddlewarePipeline:
             return False, {"error": f"Pipeline error: {e!s}", "status": 500}
 
     async def process_response(self, metadata: RequestMetadata,
-                             response_data: Dict[str, Any]) -> Dict[str, Any]:
+                             response_data: dict[str, Any]) -> dict[str, Any]:
         """Process response through middleware pipeline (reverse order)."""
         try:
             processed_response = dict(response_data)
@@ -658,7 +658,7 @@ class LUKHASMiddlewarePipeline:
             logger.error(f"Pipeline response processing error: {e}")
             return response_data
 
-    def get_pipeline_stats(self) -> Dict[str, Any]:
+    def get_pipeline_stats(self) -> dict[str, Any]:
         """Get comprehensive pipeline statistics."""
         middleware_stats = [m.get_metrics() for m in self.middleware_stack]
 

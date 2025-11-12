@@ -16,8 +16,8 @@ from serve.metrics import (
     matriz_operation_duration_ms,
     matriz_operations_total,
 )
-from serve.middleware.prometheus import PrometheusMiddleware
 from serve.middleware.cache_middleware import CacheMiddleware
+from serve.middleware.prometheus import PrometheusMiddleware
 from serve.utils.cache_manager import CacheManager
 from starlette.middleware.base import BaseHTTPMiddleware
 
@@ -281,7 +281,6 @@ async def _stream_generator(request: dict) -> str:
     import asyncio
     import hashlib
     import json
-    import time
 
     model = request.get("model", "lukhas-mini")
     content = ""
@@ -335,7 +334,6 @@ async def create_response(request: dict) -> Response:
     """LUKHAS responses endpoint (OpenAI-compatible format)."""
     import hashlib
     import json
-    import time
 
     from fastapi.responses import StreamingResponse
 

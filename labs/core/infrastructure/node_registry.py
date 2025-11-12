@@ -4,8 +4,8 @@ Original: node_registry.py
 Advanced: node_registry.py
 Integration Date: 2025-05-31T07:55:28.134078
 """
-from typing import List
-from typing import Dict
+
+
 import streamlit as st
 
 """
@@ -45,13 +45,13 @@ class NodeRegistry:
             cognitive_system: Reference to the main Cognitive system
         """
         self.agi = cognitive_system
-        self.nodes = {}  # type: Dict[str, Any]
-        self.node_types = {}  # type: Dict[str, Type]
-        self.node_relationships = {}  # type: Dict[str, Dict[str, List[str]]]
+        self.nodes = {}  # type: dict[str, Any]
+        self.node_types = {}  # type: dict[str, Type]
+        self.node_relationships = {}  # type: dict[str, dict[str, list[str]]]
         self.message_bus = MessageBus(self)
 
         # Node execution metrics
-        self.node_execution_stats = {}  # type: Dict[str, Dict[str, Any]]
+        self.node_execution_stats = {}  # type: dict[str, dict[str, Any]]
 
         logger.info("Node Registry initialized")
 

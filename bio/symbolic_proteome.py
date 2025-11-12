@@ -2,23 +2,23 @@
 from __future__ import annotations
 
 from labs.bio.symbolic_proteome import (
+    FoldingState,
     MemoryCodon,
     MemoryProtein,
-    ProteinComplex,
     MolecularChaperone,
-    SymbolicProteome,
-    ProteinType,
-    FoldingState,
     PostTranslationalModification,
+    ProteinComplex,
+    ProteinType,
+    SymbolicProteome,
 )
 
 __all__ = [
+    "FoldingState",
     "MemoryCodon",
     "MemoryProtein",
-    "ProteinComplex",
     "MolecularChaperone",
-    "SymbolicProteome",
-    "ProteinType",
-    "FoldingState",
     "PostTranslationalModification",
+    "ProteinComplex",
+    "ProteinType",
+    "SymbolicProteome",
 ]

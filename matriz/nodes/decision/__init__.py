@@ -10,7 +10,7 @@ from matriz.nodes.decision.risk_assessment import RiskAssessmentNode
 from matriz.nodes.decision.ethical_constraint import EthicalConstraintNode
 
 __all__ = [
-    "UtilityMaximizationNode",
-    "RiskAssessmentNode",
     "EthicalConstraintNode",
+    "RiskAssessmentNode",
+    "UtilityMaximizationNode",
 ]

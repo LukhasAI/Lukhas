@@ -15,10 +15,10 @@ import statistics
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
+
 # T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
 # reason: Modernized typing imports - Dict->dict, List->list for Python 3.9+ compatibility
 # estimate: 5min | priority: high | dependencies: none
-
 from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
@@ -258,8 +258,8 @@ class AlertManager:
     """Manages alerts and notifications."""
 
     def __init__(self):
-        self.alerts: Dict[str, Alert] = {}
-        self.alert_rules: List[Dict[str, Any]] = []
+        self.alerts: dict[str, Alert] = {}
+        self.alert_rules: list[dict[str, Any]] = []
         self.alert_history: deque = deque(maxlen=1000)
 
     def add_alert_rule(self, metric_name: str, threshold: float,
@@ -280,7 +280,7 @@ class AlertManager:
         for rule in self.alert_rules:
             await self._check_rule(rule, metrics_collector)
 
-    async def _check_rule(self, rule: Dict[str, Any], metrics_collector: MetricsCollector):
+    async def _check_rule(self, rule: dict[str, Any], metrics_collector: MetricsCollector):
         """Check individual alert rule."""
         metric_name = rule["metric_name"]
         threshold = rule["threshold"]
@@ -333,11 +333,11 @@ class AlertManager:
 
                 logger.info(f"Alert resolved: {alert.title}")
 
-    def get_active_alerts(self) -> List[Alert]:
+    def get_active_alerts(self) -> list[Alert]:
         """Get all active alerts."""
         return list(self.alerts.values())
 
-    def get_alert_history(self, limit: int = 100) -> List[Alert]:
+    def get_alert_history(self, limit: int = 100) -> list[Alert]:
         """Get alert history."""
         return list(self.alert_history)[-limit:]
 
@@ -346,10 +346,10 @@ class IntelligenceEngine:
     """Provides intelligent insights and recommendations."""
 
     def __init__(self):
-        self.insights_cache: Dict[str, BusinessInsight] = {}
+        self.insights_cache: dict[str, BusinessInsight] = {}
         self.pattern_history: deque = deque(maxlen=10000)
 
-    async def generate_insights(self, metrics_collector: MetricsCollector) -> List[BusinessInsight]:
+    async def generate_insights(self, metrics_collector: MetricsCollector) -> list[BusinessInsight]:
         """Generate business insights from metrics data."""
         insights = []
 
@@ -371,7 +371,7 @@ class IntelligenceEngine:
 
         return insights
 
-    async def _analyze_performance(self, metrics_collector: MetricsCollector) -> List[BusinessInsight]:
+    async def _analyze_performance(self, metrics_collector: MetricsCollector) -> list[BusinessInsight]:
         """Analyze performance patterns."""
         insights = []
 
@@ -436,7 +436,7 @@ class IntelligenceEngine:
 
         return insights
 
-    async def _analyze_usage_patterns(self, metrics_collector: MetricsCollector) -> List[BusinessInsight]:
+    async def _analyze_usage_patterns(self, metrics_collector: MetricsCollector) -> list[BusinessInsight]:
         """Analyze usage patterns."""
         insights = []
 
@@ -504,7 +504,7 @@ class IntelligenceEngine:
 
         return insights
 
-    async def _analyze_error_patterns(self, metrics_collector: MetricsCollector) -> List[BusinessInsight]:
+    async def _analyze_error_patterns(self, metrics_collector: MetricsCollector) -> list[BusinessInsight]:
         """Analyze error patterns."""
         insights = []
 
@@ -539,7 +539,7 @@ class IntelligenceEngine:
 
         return insights
 
-    async def _analyze_business_impact(self, metrics_collector: MetricsCollector) -> List[BusinessInsight]:
+    async def _analyze_business_impact(self, metrics_collector: MetricsCollector) -> list[BusinessInsight]:
         """Analyze business impact."""
         insights = []
 
@@ -630,7 +630,7 @@ class AnalyticsDashboard:
             await self.metrics_collector.record_metric("api.error_rate",
                                                      (status_code >= 400) * 100)
 
-    async def get_dashboard_data(self, time_window: TimeWindow = TimeWindow.LAST_HOUR) -> Dict[str, Any]:
+    async def get_dashboard_data(self, time_window: TimeWindow = TimeWindow.LAST_HOUR) -> dict[str, Any]:
         """Get comprehensive dashboard data."""
 
         # Get endpoint metrics
@@ -714,7 +714,7 @@ class AnalyticsDashboard:
             "time_window": time_window.value
         }
 
-    async def get_endpoint_details(self, endpoint: str, method: str) -> Dict[str, Any]:
+    async def get_endpoint_details(self, endpoint: str, method: str) -> dict[str, Any]:
         """Get detailed metrics for specific endpoint."""
         endpoint_key = f"{method}:{endpoint}"
         endpoint_metrics = await self.metrics_collector.get_endpoint_metrics(endpoint, method)

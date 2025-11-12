@@ -10,8 +10,8 @@ Example: "To make coffee: 1) Fill water 2) Add grounds 3) Brew"
 
 import time
 import uuid
-from typing import Any, Dict, List
 from dataclasses import dataclass
+from typing import Any, Dict, List
 
 from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 

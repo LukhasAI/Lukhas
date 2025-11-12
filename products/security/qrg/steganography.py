@@ -274,7 +274,7 @@ class QISteganographyEngine:
             qi_entangle: Enable quantum entanglement
 
         Returns:
-            Tuple[np.ndarray, SteganographicPayload]: Embedded image and payload record
+            tuple[np.ndarray, SteganographicPayload]: Embedded image and payload record
         """
         embedding_mode = mode or self.default_mode
 

@@ -6,15 +6,13 @@
 import base64
 import json
 from datetime import datetime
-from typing import Optional
 from hashlib import sha256
-
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import ec, utils
-from cryptography.hazmat.primitives.asymmetric.utils import Prehashed
-from cryptography.hazmat.backends import default_backend
+from typing import Optional
 
 from core.qrg.model import QRGSignature
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric import ec
 
 # NOTE: Use a KMS/HSM for production. This demo uses in-memory PEM keys.
 

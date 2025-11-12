@@ -41,17 +41,17 @@ class F821MassEliminator:
             },
             "Dict": {
                 "usage_patterns": [r"\bDict\[", r"\bDict\b"],
-                "import_fix": "from typing import Dict",
+                "import_fix": "from typing import Dict"
                 "import_check": ["from typing import", "Dict"],
             },
             "List": {
                 "usage_patterns": [r"\bList\[", r"\bList\b"],
-                "import_fix": "from typing import List",
+                "import_fix": "from typing import List"
                 "import_check": ["from typing import", "List"],
             },
             "Optional": {
                 "usage_patterns": [r"\bOptional\[", r"\bOptional\b"],
-                "import_fix": "from typing import Optional",
+                "import_fix": "from typing import Optional"
                 "import_check": ["from typing import", "Optional"],
             },
             "logger": {

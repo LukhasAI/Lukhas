@@ -10,8 +10,8 @@ Example: "Action violates privacy principle → BLOCKED by ethical constraint"
 
 import time
 import uuid
-from typing import Any, Dict, List
 from dataclasses import dataclass
+from typing import Any, Dict, List
 
 from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 

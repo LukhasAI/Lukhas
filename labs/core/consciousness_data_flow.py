@@ -95,7 +95,7 @@ class ConsciousnessDataFlowManager:
     def __init__(self, adapter: Optional[EnhancedMatrizAdapter] = None):
         self.adapter = adapter or enhanced_matriz_adapter
         self.flow_state = FlowState.INITIALIZING
-        self.routing_table = {}  # source_module -> List[ConsciousnessRoute]
+        self.routing_table = {}  # source_module -> list[ConsciousnessRoute]
         self.active_connections = {}  # module_id -> connection_info
         self.signal_queue = asyncio.Queue(maxsize=10000)  # High-throughput queue
         self.state_synchronizers = {}  # consciousness_id -> synchronizer

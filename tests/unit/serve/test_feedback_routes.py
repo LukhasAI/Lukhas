@@ -98,6 +98,7 @@ def feedback_routes_module(mock_feedback_system):
 def test_app(feedback_routes_module):
     """Create FastAPI test client with feedback routes and mocked auth."""
     from fastapi import FastAPI
+
     from lukhas.governance.auth import get_current_user_id
 
     app = FastAPI()

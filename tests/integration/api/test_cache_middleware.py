@@ -5,11 +5,10 @@ from unittest.mock import MagicMock
 
 import pytest
 import pytest_asyncio
+from fakeredis import aioredis as fake_aioredis
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from httpx import ASGITransport, AsyncClient
-
-from fakeredis import aioredis as fake_aioredis
 from serve.middleware.cache_middleware import CacheMiddleware
 from serve.middleware.strict_auth import StrictAuthMiddleware
 

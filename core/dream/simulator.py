@@ -7,10 +7,11 @@
 A deterministic, small dream simulator for validation/demos.
 Replace the embedding stub with a real embedding model in prod.
 """
-import numpy as np
-from typing import Any
 import hashlib
-import json
+from typing import Any
+
+import numpy as np
+
 
 def _deterministic_vector(text: str, dim: int = 128, seed: int = 0) -> np.ndarray:
     # seed derived from text to make repeatable pseudo-embeddings
@@ -34,7 +35,7 @@ class DreamCycle:
         self.response = None
         self.embedding = None
 
-    def run(self) -> Dict[str, Any]:
+    def run(self) -> dict[str, Any]:
         # Simplified: "dream" = seed-influenced paraphrase (placeholder)
         self.response = f"DREAM_RESPONSE({self.prompt[:60]})_seed={self.seed}"
         self.embedding = _deterministic_vector(self.response, seed=self.seed)
@@ -48,7 +49,7 @@ class DreamSimulator:
         c = DreamCycle(prompt, seed)
         return c.run()
 
-def measure_drift(responses_a: List[np.ndarray], responses_b: List[np.ndarray]) -> float:
+def measure_drift(responses_a: list[np.ndarray], responses_b: list[np.ndarray]) -> float:
     # compute mean pairwise distance between corresponding embeddings
     if not responses_a or not responses_b or len(responses_a) != len(responses_b):
         raise ValueError("Need two same-length lists of embeddings")

@@ -3,9 +3,10 @@
 # estimate: 10min | priority: high | dependencies: lid-token-system
 
 """ΛiD token management with GDPR consent stamp support."""
-from typing import Any, Optional
-from datetime import datetime, timedelta
 import json
+from datetime import datetime, timedelta
+from typing import Any, Optional
+
 import jwt
 
 

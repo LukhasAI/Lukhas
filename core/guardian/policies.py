@@ -3,9 +3,9 @@
 # estimate: 5min | priority: high | dependencies: core-guardian-system
 
 """Guardian policy system with structured veto reason codes."""
-from typing import Any, Optional
 from datetime import datetime
 from enum import Enum
+from typing import Any, Optional
 
 
 class ReasonCode(str, Enum):
@@ -59,7 +59,7 @@ class VetoEvent:
         self,
         reason_code: ReasonCode,
         policy_name: str,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
         message: Optional[str] = None,
         timestamp: Optional[datetime] = None
     ):
@@ -79,7 +79,7 @@ class VetoEvent:
         self.message = message
         self.timestamp = timestamp or datetime.utcnow()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert veto event to dictionary."""
         return {
             "reason_code": self.reason_code.value,
@@ -105,7 +105,7 @@ class Policy:
         self.reason_code = reason_code
         self.enabled = True
 
-    def evaluate(self, context: Dict[str, Any]) -> Optional[VetoEvent]:
+    def evaluate(self, context: dict[str, Any]) -> Optional[VetoEvent]:
         """
         Evaluate the policy against a context.
 
@@ -124,7 +124,7 @@ class Policy:
 
         return None
 
-    def _check_violation(self, context: Dict[str, Any]) -> Optional[str]:
+    def _check_violation(self, context: dict[str, Any]) -> Optional[str]:
         """
         Check if the policy is violated.
 
@@ -137,7 +137,7 @@ class Policy:
         # Override in subclasses
         return None
 
-    def _create_veto_event(self, context: Dict[str, Any], violation: str) -> VetoEvent:
+    def _create_veto_event(self, context: dict[str, Any], violation: str) -> VetoEvent:
         """Create a veto event for this policy."""
         return VetoEvent(
             reason_code=self.reason_code,
@@ -153,7 +153,7 @@ class SafeContentPolicy(Policy):
     def __init__(self):
         super().__init__("SafeContentPolicy", ReasonCode.UNSAFE_CONTENT)
 
-    def _check_violation(self, context: Dict[str, Any]) -> Optional[str]:
+    def _check_violation(self, context: dict[str, Any]) -> Optional[str]:
         """Check for unsafe content."""
         content = context.get("content", "")
         if not content:
@@ -176,7 +176,7 @@ class PrivacyPolicy(Policy):
     def __init__(self):
         super().__init__("PrivacyPolicy", ReasonCode.PRIVACY_VIOLATION)
 
-    def _check_violation(self, context: Dict[str, Any]) -> Optional[str]:
+    def _check_violation(self, context: dict[str, Any]) -> Optional[str]:
         """Check for privacy violations."""
         # Check for PII exposure
         content = context.get("content", "")
@@ -198,9 +198,9 @@ class RateLimitPolicy(Policy):
     def __init__(self, max_requests: int = 100):
         super().__init__("RateLimitPolicy", ReasonCode.RATE_LIMIT_EXCEEDED)
         self.max_requests = max_requests
-        self.request_counts: Dict[str, int] = {}
+        self.request_counts: dict[str, int] = {}
 
-    def _check_violation(self, context: Dict[str, Any]) -> Optional[str]:
+    def _check_violation(self, context: dict[str, Any]) -> Optional[str]:
         """Check for rate limit violations."""
         user_id = context.get("user_id", "anonymous")
 
@@ -220,7 +220,7 @@ class ConsentPolicy(Policy):
     def __init__(self):
         super().__init__("ConsentPolicy", ReasonCode.MISSING_CONSENT)
 
-    def _check_violation(self, context: Dict[str, Any]) -> Optional[str]:
+    def _check_violation(self, context: dict[str, Any]) -> Optional[str]:
         """Check for missing consent."""
         consent_given = context.get("consent_given", False)
         requires_consent = context.get("requires_consent", True)
@@ -236,8 +236,8 @@ class PolicyEngine:
 
     def __init__(self):
         """Initialize the policy engine."""
-        self.policies: List[Policy] = []
-        self.veto_history: List[VetoEvent] = []
+        self.policies: list[Policy] = []
+        self.veto_history: list[VetoEvent] = []
 
     def register_policy(self, policy: Policy) -> None:
         """
@@ -248,7 +248,7 @@ class PolicyEngine:
         """
         self.policies.append(policy)
 
-    def evaluate(self, context: Dict[str, Any]) -> Optional[VetoEvent]:
+    def evaluate(self, context: dict[str, Any]) -> Optional[VetoEvent]:
         """
         Evaluate all policies against a context.
 
@@ -266,11 +266,11 @@ class PolicyEngine:
 
         return None
 
-    def get_veto_history(self) -> List[Dict[str, Any]]:
+    def get_veto_history(self) -> list[dict[str, Any]]:
         """Get complete veto history."""
         return [veto.to_dict() for veto in self.veto_history]
 
-    def get_vetoes_by_reason(self, reason_code: ReasonCode) -> List[Dict[str, Any]]:
+    def get_vetoes_by_reason(self, reason_code: ReasonCode) -> list[dict[str, Any]]:
         """Get all vetoes for a specific reason code."""
         return [
             veto.to_dict()

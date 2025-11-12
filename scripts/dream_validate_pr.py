@@ -16,6 +16,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from core.orchestrator.guardian_orchestrator import GuardianOrchestrator
 from core.qrg.signing import generate_private_key, private_key_to_pem
 
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--prompts", required=True)

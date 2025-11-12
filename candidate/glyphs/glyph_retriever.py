@@ -19,7 +19,7 @@ class GlyphRetriever:
         return _bindings.get(binding_id)
 
     @staticmethod
-    async def _add_binding_for_testing(binding_id: str, data: Dict[str, Any]):
+    async def _add_binding_for_testing(binding_id: str, data: dict[str, Any]):
         """Helper to add a binding for testing purposes."""
         _bindings[binding_id] = data
 

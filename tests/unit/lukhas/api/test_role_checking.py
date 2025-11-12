@@ -1,10 +1,11 @@
 import pytest
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.testclient import TestClient
-from fastapi import FastAPI, Depends, HTTPException
 
 # Import the code to be tested
-from lukhas.api.auth_helpers import has_role, ROLE_HIERARCHY
-from lukhas.api.features import require_role, get_current_user
+from lukhas.api.auth_helpers import ROLE_HIERARCHY, has_role
+from lukhas.api.features import get_current_user, require_role
+
 
 # Basic Test: has_role function
 def test_has_role_direct_access():

@@ -124,8 +124,9 @@ class TestIdentitySpoofingPrevention:
 
     def test_user_id_removed_from_feedback_request_model(self):
         """Verify FeedbackRequest model has no user_id field."""
-        from serve.feedback_routes import FeedbackRequest
         import inspect
+
+        from serve.feedback_routes import FeedbackRequest
 
         # Get model fields
         model_fields = FeedbackRequest.model_fields
@@ -141,8 +142,9 @@ class TestIdentitySpoofingPrevention:
 
     def test_user_id_removed_from_consciousness_request_model(self):
         """Verify QueryRequest model has no user_id field."""
-        from serve.consciousness_api import QueryRequest
         import inspect
+
+        from serve.consciousness_api import QueryRequest
 
         model_fields = QueryRequest.model_fields
 
@@ -155,8 +157,9 @@ class TestIdentitySpoofingPrevention:
 
     def test_user_id_removed_from_state_model(self):
         """Verify StateModel has no user_id field."""
-        from serve.consciousness_api import StateModel
         import inspect
+
+        from serve.consciousness_api import StateModel
 
         model_fields = StateModel.model_fields
 
@@ -173,8 +176,9 @@ class TestEndpointSecuritySignatures:
 
     def test_consciousness_endpoints_use_dependency(self):
         """Verify consciousness endpoints use get_current_user_id dependency."""
-        from serve.consciousness_api import query, dream, memory, save_state, get_state
         import inspect
+
+        from serve.consciousness_api import dream, get_state, memory, query, save_state
 
         # Check query endpoint
         sig = inspect.signature(query)
@@ -200,8 +204,13 @@ class TestEndpointSecuritySignatures:
 
     def test_feedback_endpoints_use_dependency(self):
         """Verify feedback endpoints use get_current_user_id dependency."""
-        from serve.feedback_routes import capture_feedback, capture_batch_feedback, get_learning_report
         import inspect
+
+        from serve.feedback_routes import (
+            capture_batch_feedback,
+            capture_feedback,
+            get_learning_report,
+        )
 
         # Check capture_feedback endpoint
         sig = inspect.signature(capture_feedback)

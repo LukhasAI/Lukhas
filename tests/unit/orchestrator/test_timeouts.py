@@ -260,7 +260,7 @@ async def test_pipeline_tracks_completed_nodes(timeout_config):
 
     try:
         await executor.execute_pipeline("test_pipeline", nodes, {})
-    except NodeTimeoutException as e:
+    except NodeTimeoutException:
         # Pipeline should have completed node1 and node2
         pass  # Expected
     except PipelineTimeoutException as e:

@@ -10,8 +10,8 @@ Example: "Stated 90% confidence but only 70% accuracy → Overconfident, calibra
 
 import time
 import uuid
-from typing import Any, Dict, List
 from dataclasses import dataclass
+from typing import Any, Dict, List
 
 from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 

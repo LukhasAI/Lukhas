@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
 #!/usr/bin/env python3
 """
 OpenTelemetry Instrumentation for MATRIZ Stages
@@ -28,7 +32,7 @@ import logging
 import os
 import time
 from contextlib import contextmanager
-from typing import Any, Callable, Dict, Optional
+from typing import  Callable, Optional
 
 # Optional OpenTelemetry imports
 try:
@@ -130,7 +134,6 @@ def initialize_otel_instrumentation(
         logger.error(f"Failed to initialize OTel instrumentation: {e}")
         return False
 
-
 def instrument_matriz_stage(
     stage_name: str,
     stage_type: str = "processing",
@@ -175,7 +178,6 @@ def instrument_matriz_stage(
             return sync_wrapper
 
     return decorator
-
 
 async def _execute_instrumented_stage(
     func: Callable,
@@ -276,7 +278,6 @@ async def _execute_instrumented_stage(
             )
 
             raise
-
 
 @contextmanager
 def matriz_pipeline_span(
@@ -396,7 +397,6 @@ def matriz_pipeline_span(
 
             raise
 
-
 def _record_stage_success(
     stage_name: str,
     stage_type: str,
@@ -430,7 +430,6 @@ def _record_stage_success(
             "outcome": "success"
         }
     )
-
 
 def _record_stage_error(
     stage_name: str,
@@ -474,7 +473,6 @@ def _record_stage_error(
         }
     )
 
-
 @contextmanager
 def stage_span(stage: str, attrs: Optional[dict[str, Any]] = None):
     """
@@ -502,7 +500,6 @@ def stage_span(stage: str, attrs: Optional[dict[str, Any]] = None):
                     pass
         yield sp
 
-
 def get_instrumentation_status() -> dict[str, Any]:
     """Get current instrumentation status and configuration"""
     return {
@@ -518,7 +515,6 @@ def get_instrumentation_status() -> dict[str, Any]:
             "error_counter": _error_counter is not None,
         }
     }
-
 
 def instrument_cognitive_event(
     event_name: str,
@@ -576,7 +572,6 @@ def instrument_cognitive_event(
             return sync_wrapper
 
     return decorator
-
 
 async def _execute_cognitive_event_instrumented(
     func: Callable,
@@ -708,7 +703,6 @@ async def _execute_cognitive_event_instrumented(
 
             raise
 
-
 def _record_cognitive_event_success(
     event_name: str,
     stage: str,
@@ -745,7 +739,6 @@ def _record_cognitive_event_success(
             "outcome": "success"
         }
     )
-
 
 def _record_cognitive_event_error(
     event_name: str,
@@ -792,7 +785,6 @@ def _record_cognitive_event_error(
             "lane": lane
         }
     )
-
 
 # Auto-initialize if running in production environment
 if os.getenv("LUKHAS_LANE") in ["production", "candidate"] and OTEL_AVAILABLE:

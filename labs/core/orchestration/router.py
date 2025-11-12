@@ -13,7 +13,7 @@ the orchestration flow for fail-closed safety.
 """
 import logging
 import time
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from .plan_verifier import VerificationContext, get_plan_verifier
 
@@ -28,7 +28,7 @@ class OrchestrationRouter:
     before execution through the PlanVerifier.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize orchestration router.
 
@@ -54,9 +54,9 @@ class OrchestrationRouter:
 
     async def execute_plan(
         self,
-        plan: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        plan: dict[str, Any],
+        context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Execute action plan with pre-execution verification.
 
@@ -162,7 +162,7 @@ class OrchestrationRouter:
                 } if verification_outcome or should_verify else None
             }
 
-    def _should_verify_plan(self, plan: Dict[str, Any]) -> bool:
+    def _should_verify_plan(self, plan: dict[str, Any]) -> bool:
         """
         Determine if plan should go through verification.
 
@@ -187,9 +187,9 @@ class OrchestrationRouter:
 
     async def _execute_action(
         self,
-        plan: Dict[str, Any],
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        plan: dict[str, Any],
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Execute the verified action plan.
 
@@ -218,7 +218,7 @@ class OrchestrationRouter:
         else:
             return await self._execute_generic_action(action, params)
 
-    async def _execute_external_call(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def _execute_external_call(self, params: dict[str, Any]) -> dict[str, Any]:
         """Simulate external API call execution."""
         url = params.get('url', '')
         method = params.get('method', 'GET')
@@ -235,7 +235,7 @@ class OrchestrationRouter:
             'simulated': True
         }
 
-    async def _execute_data_processing(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def _execute_data_processing(self, params: dict[str, Any]) -> dict[str, Any]:
         """Simulate data processing execution."""
         batch_size = params.get('batch_size', 1)
 
@@ -249,7 +249,7 @@ class OrchestrationRouter:
             'simulated': True
         }
 
-    async def _execute_batch_processing(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def _execute_batch_processing(self, params: dict[str, Any]) -> dict[str, Any]:
         """Simulate batch processing execution."""
         batch_size = params.get('batch_size', 100)
 
@@ -263,7 +263,7 @@ class OrchestrationRouter:
             'simulated': True
         }
 
-    async def _execute_safe_action(self, action: str, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def _execute_safe_action(self, action: str, params: dict[str, Any]) -> dict[str, Any]:
         """Execute safe actions that bypass verification."""
         return {
             'type': 'safe_action',
@@ -273,7 +273,7 @@ class OrchestrationRouter:
             'simulated': True
         }
 
-    async def _execute_generic_action(self, action: str, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def _execute_generic_action(self, action: str, params: dict[str, Any]) -> dict[str, Any]:
         """Execute generic actions."""
         await self._simulate_delay(0.1)  # Small delay
 
@@ -291,7 +291,7 @@ class OrchestrationRouter:
         delay = min(seconds, 0.01)  # Cap at 10ms for tests
         await asyncio.sleep(delay)
 
-    def get_verifier_stats(self) -> Dict[str, Any]:
+    def get_verifier_stats(self) -> dict[str, Any]:
         """Get plan verifier statistics."""
         return {
             'ledger_entries': len(self.plan_verifier.verification_ledger),
@@ -305,7 +305,7 @@ class OrchestrationRouter:
 
 
 # Factory function for easy integration
-def create_orchestration_router(config: Optional[Dict[str, Any]] = None) -> OrchestrationRouter:
+def create_orchestration_router(config: Optional[dict[str, Any]] = None) -> OrchestrationRouter:
     """
     Create orchestration router with plan verification.
 

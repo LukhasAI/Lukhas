@@ -10,8 +10,8 @@ Example: "Action X has 30% risk of failure with high impact → Risk level: HIGH
 
 import time
 import uuid
-from typing import Any, Dict, List
 from dataclasses import dataclass
+from typing import Any, Dict, List
 
 from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 

@@ -12,7 +12,6 @@ Validates Phase 3 consolidation:
 """
 import sys
 import warnings
-from io import StringIO
 
 
 def test_legacy_imports_trigger_warnings():
@@ -46,11 +45,11 @@ def test_legacy_imports_trigger_warnings():
                 deprecation_warnings = [warning for warning in w if issubclass(warning.category, DeprecationWarning)]
 
                 if deprecation_warnings:
-                    print(f"  ✅ DeprecationWarning triggered")
+                    print("  ✅ DeprecationWarning triggered")
                     print(f"     Message: {deprecation_warnings[0].message}")
                     results.append((module_name, True, "DeprecationWarning raised"))
                 else:
-                    print(f"  ❌ No DeprecationWarning (expected warning!)")
+                    print("  ❌ No DeprecationWarning (expected warning!)")
                     results.append((module_name, False, "No DeprecationWarning"))
 
             except ImportError as e:
@@ -90,10 +89,10 @@ def test_canonical_imports_no_warnings():
                 deprecation_warnings = [warning for warning in w if issubclass(warning.category, DeprecationWarning)]
 
                 if deprecation_warnings:
-                    print(f"  ❌ Unexpected DeprecationWarning")
+                    print("  ❌ Unexpected DeprecationWarning")
                     results.append((import_stmt, False, "Unexpected warning"))
                 else:
-                    print(f"  ✅ Import successful, no warnings")
+                    print("  ✅ Import successful, no warnings")
                     results.append((import_stmt, True, "No warnings"))
 
             except ImportError as e:
@@ -118,7 +117,7 @@ def test_relocated_implementations():
         from lukhas_website.lukhas.governance.guardian.policies import GuardianPoliciesEngine
 
         engine = GuardianPoliciesEngine()
-        print(f"  ✅ GuardianPoliciesEngine instantiated")
+        print("  ✅ GuardianPoliciesEngine instantiated")
         print(f"     Schema version: {engine.schema_version}")
         print(f"     Policies loaded: {len(engine.policies)}")
         results.append(("GuardianPoliciesEngine", True, f"{len(engine.policies)} policies"))
@@ -133,7 +132,7 @@ def test_relocated_implementations():
         from lukhas_website.lukhas.governance.guardian.reflector import GuardianReflector
 
         reflector = GuardianReflector(drift_threshold=0.15)
-        print(f"  ✅ GuardianReflector instantiated")
+        print("  ✅ GuardianReflector instantiated")
         print(f"     Drift threshold: {reflector.drift_threshold}")
         print(f"     History size: {len(reflector.drift_history)}")
         results.append(("GuardianReflector", True, f"threshold={reflector.drift_threshold}"))
@@ -168,7 +167,7 @@ def test_backward_compatibility():
                 exec(f"from {module_name} import {class_name}")
                 exec(f"instance = {class_name}() if callable({class_name}) else None")
 
-                print(f"  ✅ Import successful, functionality preserved")
+                print("  ✅ Import successful, functionality preserved")
                 print(f"     Type: {expected}")
                 results.append((module_name, True, "Backward compatible"))
 
@@ -179,7 +178,7 @@ def test_backward_compatibility():
                 print(f"  ❌ Error during instantiation: {e}")
                 # Still count as success if import worked
                 if "import" not in str(e).lower():
-                    print(f"     (Import succeeded, instantiation issue)")
+                    print("     (Import succeeded, instantiation issue)")
                     results.append((module_name, True, "Import OK, instantiation failed"))
                 else:
                     results.append((module_name, False, str(e)))
@@ -213,10 +212,10 @@ def test_bridge_imports():
                 deprecation_warnings = [warning for warning in w if issubclass(warning.category, DeprecationWarning)]
 
                 if deprecation_warnings:
-                    print(f"  ⚠️  Unexpected DeprecationWarning (bridges should not warn)")
+                    print("  ⚠️  Unexpected DeprecationWarning (bridges should not warn)")
                     results.append((import_stmt, False, "Unexpected warning"))
                 else:
-                    print(f"  ✅ Bridge import successful")
+                    print("  ✅ Bridge import successful")
                     results.append((import_stmt, True, "Bridge OK"))
 
             except ImportError as e:

@@ -9,6 +9,6 @@ from matriz.nodes.awareness.metacognitive_monitoring import MetacognitiveMonitor
 from matriz.nodes.awareness.confidence_calibration import ConfidenceCalibrationNode
 
 __all__ = [
-    "MetacognitiveMonitoringNode",
     "ConfidenceCalibrationNode",
+    "MetacognitiveMonitoringNode",
 ]

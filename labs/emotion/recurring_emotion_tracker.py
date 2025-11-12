@@ -44,7 +44,7 @@ class RecurringEmotionTracker:
         Checks for recurring emotional states and stagnation.
 
         Returns:
-            Optional[Dict[str, Any]]: A symbolic prompt if recurrence or stagnation is detected.
+            Optional[dict[str, Any]]: A symbolic prompt if recurrence or stagnation is detected.
         """
         # ΛTRACE: Checking for emotion recurrence and stagnation.
         log.info("Checking for emotion recurrence and stagnation.")

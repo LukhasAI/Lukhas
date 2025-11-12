@@ -4,9 +4,10 @@ import random
 import unittest
 from unittest.mock import MagicMock, patch
 
-from candidate.quantum.entanglement import EntanglementEngine, EntangledSystem
-from candidate.quantum.superposition_engine import SuperpositionState, QuantumSuperpositionEngine
-from candidate.quantum.measurement import QuantumMeasurement, MeasurementResult
+from candidate.quantum.entanglement import EntangledSystem, EntanglementEngine
+from candidate.quantum.measurement import MeasurementResult, QuantumMeasurement
+from candidate.quantum.superposition_engine import QuantumSuperpositionEngine, SuperpositionState
+
 
 def create_simple_superposition_state(n_options=2, label="s") -> SuperpositionState:
     """Helper function to create a basic SuperpositionState."""

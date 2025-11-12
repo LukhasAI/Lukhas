@@ -14,16 +14,16 @@ from __future__ import annotations
 
 from typing import Any
 
+from governance.guardian.emergency_killswitch import (
+    get_killswitch_status,
+    is_emergency_killswitch_active,
+)
 from lukhas_website.lukhas.governance.guardian.core import (
     DriftResult,
     EthicalDecision,
     EthicalSeverity,
     GovernanceAction,
     SafetyResult,
-)
-from governance.guardian.emergency_killswitch import (
-    get_killswitch_status,
-    is_emergency_killswitch_active,
 )
 
 

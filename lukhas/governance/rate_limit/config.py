@@ -5,10 +5,10 @@ Defines rate limit rules for different endpoints and user tiers.
 """
 
 from dataclasses import dataclass
+
 # T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
 # reason: Modernizing deprecated typing imports to native Python 3.9+ types for rate limiting
 # estimate: 10min | priority: high | dependencies: none
-
 from typing import Optional
 
 

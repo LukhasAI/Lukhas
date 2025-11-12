@@ -6,8 +6,9 @@ by StrictAuthMiddleware.
 """
 
 import pytest
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.testclient import TestClient
+
 from lukhas.governance.auth.dependencies import get_current_user, get_current_user_id
 
 

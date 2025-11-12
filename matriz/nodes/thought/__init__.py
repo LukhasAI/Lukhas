@@ -20,10 +20,10 @@ from .abductive_reasoning import AbductiveReasoningNode
 from .metacognitive_reasoning import MetacognitiveReasoningNode
 
 __all__ = [
+    "AbductiveReasoningNode",
     "AnalogicalReasoningNode",
     "CausalReasoningNode",
     "CounterfactualReasoningNode",
-    "AbductiveReasoningNode",
     "MetacognitiveReasoningNode",
 ]
 

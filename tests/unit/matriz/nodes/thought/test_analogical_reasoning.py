@@ -1,6 +1,7 @@
 import pytest
 from matriz.nodes.thought.analogical_reasoning import AnalogicalReasoningNode
 
+
 def test_analogical_reasoning_solar_system_atom():
     """Test classic solar system → atom analogy."""
     node = AnalogicalReasoningNode()

@@ -1,6 +1,7 @@
 import pytest
 from matriz.nodes.thought.causal_reasoning import CausalReasoningNode
 
+
 def test_causal_reasoning_basic():
     """Test basic causal reasoning functionality."""
     node = CausalReasoningNode()

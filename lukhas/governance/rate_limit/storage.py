@@ -10,7 +10,6 @@ from abc import ABC, abstractmethod
 from collections import defaultdict, deque
 from dataclasses import dataclass
 from threading import Lock
-from typing import Dict
 
 
 @dataclass

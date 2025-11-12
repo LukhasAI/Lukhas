@@ -1,11 +1,9 @@
 import json
-from typing import Optional
 
 from fastapi import Request
+from serve.utils.cache_manager import CacheManager
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import JSONResponse
-
-from serve.utils.cache_manager import CacheManager
 
 
 class CacheMiddleware(BaseHTTPMiddleware):

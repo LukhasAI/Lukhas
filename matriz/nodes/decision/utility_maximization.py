@@ -10,8 +10,8 @@ Example: "Option A: 70% chance of $100 (utility 70), Option B: $50 guaranteed (u
 
 import time
 import uuid
-from typing import Any, Dict, List
 from dataclasses import dataclass
+from typing import Any, Dict, List
 
 from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 

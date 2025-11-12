@@ -5,8 +5,8 @@ from .measurement import QuantumMeasurement
 from .superposition_engine import QuantumSuperpositionEngine
 
 __all__ = [
-    "QuantumAnnealer",
     "EntanglementEngine",
+    "QuantumAnnealer",
     "QuantumMeasurement",
     "QuantumSuperpositionEngine",
 ]

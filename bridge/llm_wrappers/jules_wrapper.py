@@ -105,7 +105,7 @@ class JulesActivity(BaseModel):
     create_time: datetime = Field(..., description="Creation timestamp")
     originator: str = Field(..., description="Who created the activity (AGENT/USER)")
     message: Optional[str] = Field(None, description="Activity message text")
-    artifacts: Optional[Dict[str, Any]] = Field(
+    artifacts: Optional[dict[str, Any]] = Field(
         None,
         description="Activity artifacts (code changes, etc.)"
     )

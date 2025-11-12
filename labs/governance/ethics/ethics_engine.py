@@ -814,7 +814,7 @@ class EthicsEngine:
             action_data: Data representing the rejected action
 
         Returns:
-            List[str]: List of alternative suggestions
+            list[str]: List of alternative suggestions
         """
         self._extract_action_type(action_data)
         content = self._extract_content(action_data)

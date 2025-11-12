@@ -12,9 +12,9 @@ from matriz.nodes.action.resource_allocation import ResourceAllocationNode
 from matriz.nodes.action.execution_monitoring import ExecutionMonitoringNode
 
 __all__ = [
-    "PlanGenerationNode",
     "ActionSelectionNode",
-    "GoalPrioritizationNode",
-    "ResourceAllocationNode",
     "ExecutionMonitoringNode",
+    "GoalPrioritizationNode",
+    "PlanGenerationNode",
+    "ResourceAllocationNode",
 ]

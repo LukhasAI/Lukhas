@@ -8,8 +8,6 @@ from collections import defaultdict
 from collections.abc import Mapping
 from typing import Any
 
-import numpy as np
-
 from .superposition_engine import SuperpositionState
 
 
@@ -43,7 +41,7 @@ class MeasurementHistory:
 
     def estimate_future_bias(
         self, state: SuperpositionState, context: Mapping[str, Any]
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         state_id = self._get_state_id(state)
         context_id = self._get_context_id(context)
 

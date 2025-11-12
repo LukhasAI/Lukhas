@@ -1,21 +1,19 @@
 """
 Unit tests for the Symbolic Proteome system in labs/bio/symbolic_proteome.py
 """
-import asyncio
-import time
 import unittest
-from unittest.mock import MagicMock, patch, ANY
+from unittest.mock import MagicMock, patch
 
 # The module is in 'labs', but bridged from 'bio'
 from bio.symbolic_proteome import (
+    FoldingState,
     MemoryCodon,
     MemoryProtein,
-    ProteinComplex,
     MolecularChaperone,
-    SymbolicProteome,
-    ProteinType,
-    FoldingState,
     PostTranslationalModification,
+    ProteinComplex,
+    ProteinType,
+    SymbolicProteome,
 )
 
 

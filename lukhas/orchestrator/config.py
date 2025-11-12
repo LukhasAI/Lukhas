@@ -5,7 +5,6 @@ Timeout and configuration management for cognitive pipeline orchestration.
 """
 
 from dataclasses import dataclass
-from typing import Optional
 
 
 @dataclass

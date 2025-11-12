@@ -3,13 +3,13 @@
 # estimate: 10min | priority: high | dependencies: none
 
 # core/wavec/checkpoint.py
-import json
 import gzip
-from pathlib import Path
-from typing import Any, Optional
-from hashlib import sha256
+import json
 import time
-import os
+from hashlib import sha256
+from pathlib import Path
+from typing import Any
+
 
 class WaveC:
     def __init__(self, storage_dir: str = "/tmp/wavec"):

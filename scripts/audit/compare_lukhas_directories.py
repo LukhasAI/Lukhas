@@ -13,11 +13,10 @@ Reference: docs/audit/LUKHAS_WEBSITE_DIRECTORY_AUDIT_2025-11-12.md
 """
 
 import json
-import os
 import sys
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
+from typing import Dict
 
 
 class DirectoryComparator:
@@ -138,7 +137,7 @@ def print_report(results: Dict):
     print("=" * 80)
 
     summary = results["summary"]
-    print(f"\n📊 SUMMARY:")
+    print("\n📊 SUMMARY:")
     print(f"  Production /lukhas/: {summary['prod_total_modules']} modules")
     print(f"  Website /lukhas_website/lukhas/: {summary['website_total_modules']} modules")
     print(f"  Production-only: {summary['prod_only_count']} modules")

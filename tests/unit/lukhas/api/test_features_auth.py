@@ -1,11 +1,11 @@
-import pytest
-from fastapi import FastAPI, Depends
-from fastapi.testclient import TestClient
-from unittest.mock import MagicMock, patch
-
 # Make sure the app can find the auth_helpers module
 import sys
 from pathlib import Path
+from unittest.mock import MagicMock, patch
+
+import pytest
+from fastapi import Depends, FastAPI
+from fastapi.testclient import TestClient
 
 # Add the project root to the path
 # This is a bit of a hack for the test environment, in a real project you'd have a proper package structure
@@ -14,10 +14,10 @@ project_root = current_dir.parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
 from lukhas.api.auth_helpers import (
-    require_feature_access,
-    get_current_user,
-    USERS_DATA,
     FEATURE_ACCESS,
+    USERS_DATA,
+    get_current_user,
+    require_feature_access,
 )
 from lukhas.api.features import router as features_router
 
