@@ -1,5 +1,9 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict, List imports to native types in ΛiD token management
+# estimate: 10min | priority: high | dependencies: lid-token-system
+
 """ΛiD token management with GDPR consent stamp support."""
-from typing import Dict, Any, Optional, List
+from typing import Any, Optional
 from datetime import datetime, timedelta
 import json
 import jwt
@@ -12,8 +16,8 @@ class ConsentStamp:
         self,
         version: str,
         timestamp: datetime,
-        scope: List[str],
-        purposes: Optional[List[str]] = None
+        scope: list[str],
+        purposes: Optional[list[str]] = None
     ):
         """
         Initialize a consent stamp.
@@ -29,7 +33,7 @@ class ConsentStamp:
         self.scope = scope
         self.purposes = purposes or []
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert consent stamp to dictionary."""
         return {
             "version": self.version,
@@ -39,7 +43,7 @@ class ConsentStamp:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "ConsentStamp":
+    def from_dict(cls, data: dict[str, Any]) -> "ConsentStamp":
         """Create consent stamp from dictionary."""
         timestamp = datetime.fromisoformat(data["ts"])
         return cls(
@@ -56,7 +60,7 @@ class LidToken:
     def __init__(
         self,
         user_id: str,
-        claims: Optional[Dict[str, Any]] = None,
+        claims: Optional[dict[str, Any]] = None,
         consent: Optional[ConsentStamp] = None,
         expires_in: int = 3600
     ):
@@ -75,7 +79,7 @@ class LidToken:
         self.issued_at = datetime.utcnow()
         self.expires_at = self.issued_at + timedelta(seconds=expires_in)
 
-    def get_payload(self) -> Dict[str, Any]:
+    def get_payload(self) -> dict[str, Any]:
         """
         Get the complete token payload.
 
@@ -185,7 +189,7 @@ class TokenManager:
     def create_token(
         self,
         user_id: str,
-        claims: Optional[Dict[str, Any]] = None,
+        claims: Optional[dict[str, Any]] = None,
         consent: Optional[ConsentStamp] = None,
         expires_in: Optional[int] = None
     ) -> str:
@@ -227,8 +231,8 @@ class TokenManager:
     def create_consent_stamp(
         self,
         version: str,
-        scope: List[str],
-        purposes: Optional[List[str]] = None
+        scope: list[str],
+        purposes: Optional[list[str]] = None
     ) -> ConsentStamp:
         """
         Create a new consent stamp.
