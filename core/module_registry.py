@@ -98,10 +98,18 @@ class ModuleRegistry:
         "consciousness": TierLevel.VISITOR,  # Tier 1
         "reasoning": TierLevel.VISITOR,  # Tier 1
         "emotion": TierLevel.VISITOR,  # Tier 1
+        # New modules from PR #1404 (Tier 1 - Open access)
+        "oneiric": TierLevel.VISITOR,  # Dream generation and regret signatures
+        "lid": TierLevel.VISITOR,  # Lambda Identity (ΛiD) authentication
+        "dast": TierLevel.VISITOR,  # Decision & Action State Tracker
+        "eqnox": TierLevel.VISITOR,  # EQNOX glyph integrity and routing
         # Advanced modules
         "ethics": TierLevel.FRIEND,  # Tier 2
         "creativity": TierLevel.FRIEND,  # Tier 2
         "learning": TierLevel.FRIEND,  # Tier 2
+        # New modules from PR #1404 (Tier 2 - Advanced access)
+        "matriz_analysis": TierLevel.FRIEND,  # MATRIZ signal analysis tools
+        "matriz_tools": TierLevel.FRIEND,  # MATRIZ diagnostic probes
         # Restricted modules
         "quantum": TierLevel.TRUSTED,  # Tier 3
         "orchestration": TierLevel.TRUSTED,  # Tier 3
