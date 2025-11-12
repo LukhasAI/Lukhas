@@ -5,6 +5,7 @@
 import os
 import time
 from functools import lru_cache
+from typing import Dict, List, Optional
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -17,7 +18,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "a_very_secret_key")
 # --- Role Hierarchy for RBAC ---
 # Higher roles have more permissions.
 # A user with a certain role has all permissions of the roles below it.
-ROLE_HIERARCHY: dict[str, int] = {
+ROLE_HIERARCHY: Dict[str, int] = {
     "guest": 0,
     "user": 1,
     "moderator": 2,
@@ -27,7 +28,7 @@ ROLE_HIERARCHY: dict[str, int] = {
 # --- Rate Limiting (In-Memory Placeholder) ---
 # TODO: Replace with a more robust solution (e.g., Redis-based) for production.
 # This implementation is not suitable for multi-process or multi-server deployments.
-_rate_limit_store: dict[str, list[float]] = {}
+_rate_limit_store: Dict[str, List[float]] = {}
 _RATE_LIMIT = 100  # requests per minute
 _RATE_LIMIT_WINDOW = 60  # seconds
 
@@ -81,7 +82,7 @@ def check_rate_limit(identifier: str) -> bool:
 # --- Session Management (In-Memory Placeholder) ---
 # TODO: Replace with a persistent session store (e.g., Redis) for production.
 # This implementation is not suitable for multi-process or multi-server deployments.
-_sessions: dict[str, dict] = {}
+_sessions: Dict[str, dict] = {}
 
 def create_session(user_id: str, session_data: dict) -> str:
     """Creates a new session for a user."""
@@ -89,7 +90,7 @@ def create_session(user_id: str, session_data: dict) -> str:
     _sessions[session_id] = session_data
     return session_id
 
-def get_session(session_id: str) -> dict | None:
+def get_session(session_id: str) -> Optional[dict]:
     """Retrieves session data."""
     return _sessions.get(session_id)
 
@@ -116,6 +117,9 @@ def get_current_user_from_token(
 ) -> dict:
     """
     Dependency to verify JWT and get the current user.
+
+    Returns:
+        User dict with 'username' and optional 'role' from JWT claims
     """
     try:
         payload = auth_manager.verify_token(token)
@@ -126,7 +130,13 @@ def get_current_user_from_token(
                 detail="Invalid token: no subject",
                 headers={"WWW-Authenticate": "Bearer"},
             )
-        return {"username": username}
+
+        # Extract role from JWT if present
+        user_data = {"username": username}
+        if "role" in payload:
+            user_data["role"] = payload["role"]
+
+        return user_data
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
