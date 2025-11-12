@@ -1,8 +1,9 @@
-import unittest
-from unittest.mock import MagicMock, AsyncMock
 import asyncio
+import unittest
+from unittest.mock import AsyncMock, MagicMock
 
-from labs.memory.memory_optimization import TieredMemoryCache, MemoryTier, MemoryOptimizer
+from labs.memory.memory_optimization import MemoryOptimizer, MemoryTier, TieredMemoryCache
+
 
 class TestTieredMemoryCache(unittest.TestCase):
 

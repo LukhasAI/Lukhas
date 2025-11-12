@@ -9,11 +9,21 @@
 
 ## Quick Stats
 
-- **P0 (Critical)**: 0 tasks
+- **P0 (Critical)**: 3 tasks
 - **P1 (High)**: 0 tasks
 - **P2 (Medium)**: 0 tasks
 - **P3 (Low)**: 0 tasks
-- **Total**: 0 tasks
+- **Total**: 3 tasks
+
+---
+
+## Priority 0 (Critical - Drop Everything) ⚠️
+
+| ID | Task | Status | Effort | Notes |
+|----|------|--------|--------|-------|
+| SG002 | Implement Guardian emergency kill-switch | ASSIGNED | S | /tmp/guardian_emergency_disable |
+| MP001 | Complete async orchestrator timeouts | ASSIGNED | M | Timeout handling |
+| MS001 | Implement missing MATRIZ cognitive nodes | ASSIGNED | L | Complete node registry |
 
 ---
 

@@ -1,11 +1,12 @@
 """FastAPI routes for GDPR compliance endpoints."""
 
-from fastapi import APIRouter, Depends, HTTPException, Request
-from pydantic import BaseModel
 from typing import List, Optional
 
-from lukhas.governance.gdpr.service import GDPRService, DataExport, DeletionResult
+from fastapi import APIRouter, Depends, HTTPException, Request
+from pydantic import BaseModel
+
 from lukhas.governance.gdpr.config import get_default_config
+from lukhas.governance.gdpr.service import GDPRService
 
 # Create router
 router = APIRouter(prefix="/api/v1/gdpr", tags=["GDPR"])
@@ -209,7 +210,7 @@ async def export_user_data(
     except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail=f"Failed to export user data: {str(e)}"
+            detail=f"Failed to export user data: {e!s}"
         )
 
 
@@ -282,7 +283,7 @@ async def delete_user_data(
     except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail=f"Failed to delete user data: {str(e)}"
+            detail=f"Failed to delete user data: {e!s}"
         )
 
 

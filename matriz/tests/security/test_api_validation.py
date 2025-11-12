@@ -1,6 +1,7 @@
 
-import pytest
 from unittest.mock import patch
+
+import pytest
 
 # --- Test Payloads ---
 SQL_INJECTION_ATTEMPT = {"node_type": "math", "config": {"expression": "<>'\"&"}}

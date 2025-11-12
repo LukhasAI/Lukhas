@@ -248,7 +248,7 @@ async def test_dream_state_persistence(tmp_path):
     await simulator.complete_scenario(scenario_id)
     expected_file = trace_dir / f"scenario_{scenario_id}.json"
     assert expected_file.exists()
-    with open(expected_file, "r") as f:
+    with open(expected_file) as f:
         data = json.load(f)
         assert data["scenario"]["scenario_id"] == scenario_id
 

@@ -1,9 +1,15 @@
-import pytest
-from unittest.mock import patch
 from datetime import timedelta
+from unittest.mock import patch
+
+import pytest
 
 from lukhas.api.auth import AuthManager
-from lukhas.api.auth_helpers import check_rate_limit, create_session, get_session, invalidate_session
+from lukhas.api.auth_helpers import (
+    check_rate_limit,
+    create_session,
+    get_session,
+    invalidate_session,
+)
 
 # --- Fixtures ---
 
@@ -155,7 +161,7 @@ def test_token_tampering(auth_manager):
 # Additional Rate Limiting Tests
 def test_rate_limit_window_resets():
     """Test that the rate limit window correctly resets after time passes."""
-    from lukhas.api.auth_helpers import _rate_limit_store, _RATE_LIMIT_WINDOW
+    from lukhas.api.auth_helpers import _RATE_LIMIT_WINDOW, _rate_limit_store
     user = "rate_limit_window_user"
     _rate_limit_store[user] = []
 

@@ -1,11 +1,11 @@
+import os
 import time
-from typing import Dict, List
 from functools import lru_cache
+from typing import Dict, List
 
-from fastapi import HTTPException, status, Depends
+from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
-import os
 from lukhas.api.auth import AuthManager
 
 # --- Constants ---
@@ -100,7 +100,7 @@ def invalidate_session(session_id: str) -> bool:
 
 # --- Dependencies ---
 
-@lru_cache()
+@lru_cache
 def get_auth_manager() -> AuthManager:
     """Dependency to get the AuthManager instance."""
     return AuthManager(secret_key=SECRET_KEY)

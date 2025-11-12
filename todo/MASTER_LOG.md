@@ -111,7 +111,7 @@ Copilot:      5 tasks ( 8.6%)  - Mechanical edits, cleanup
 | LM003 | Create lane promotion checklist | Claude Code | PENDING | S | - | Promotion criteria |
 | LM004 | Add lane labels to metrics | CODEX | PENDING | S | - | Lane tagging |
 | LM005 | Document lane architecture | Claude Code | PENDING | S | - | Architecture docs |
-| DC001 | Complete Trinity→Constellation migration | CODEX | PENDING | S | - | Naming migration |
+| DC001 | Complete Trinity→Constellation migration | CODEX | COMPLETE | S | 2025-11-12 | Deprecated both terms - using "LUKHAS AI" |
 | TP004 | Implement chaos testing | Claude Code | PENDING | L | - | Chaos engineering |
 | TP005 | Create test data generators | Claude Code | PENDING | M | - | Data fixtures |
 | TP006 | Add contract testing | Claude Code | PENDING | M | - | API contracts |

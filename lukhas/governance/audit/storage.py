@@ -6,7 +6,6 @@ import os
 import time
 from abc import ABC, abstractmethod
 from collections import deque
-from pathlib import Path
 from threading import Lock
 from typing import Any, Deque, Dict, Optional
 
@@ -400,7 +399,7 @@ class FileAuditStorage(AuditStorage):
                 removed_count = 0
                 kept_count = 0
 
-                with open(self.log_file, "r", encoding="utf-8") as infile:
+                with open(self.log_file, encoding="utf-8") as infile:
                     with open(temp_file, "w", encoding="utf-8") as outfile:
                         for line in infile:
                             if not line.strip():
@@ -466,7 +465,7 @@ class FileAuditStorage(AuditStorage):
                 success_count = 0
                 failure_count = 0
 
-                with open(self.log_file, "r", encoding="utf-8") as f:
+                with open(self.log_file, encoding="utf-8") as f:
                     for line in f:
                         if not line.strip():
                             continue
@@ -577,7 +576,7 @@ class FileAuditStorage(AuditStorage):
         if not self.log_file.exists():
             return []
 
-        with open(self.log_file, "r", encoding="utf-8") as f:
+        with open(self.log_file, encoding="utf-8") as f:
             lines = f.readlines()
 
         return list(reversed(lines))

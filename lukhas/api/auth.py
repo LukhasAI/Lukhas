@@ -1,7 +1,8 @@
+from datetime import datetime, timedelta
+
+import jwt
 from passlib.context import CryptContext
 from passlib.exc import UnknownHashError
-from datetime import datetime, timedelta
-import jwt
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

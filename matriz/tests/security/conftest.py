@@ -1,9 +1,10 @@
 
-import pytest
 from unittest.mock import MagicMock
-from fastapi.testclient import TestClient
 
+import pytest
+from fastapi.testclient import TestClient
 from matriz.interfaces.api_server import app, get_orchestrator
+
 
 @pytest.fixture(scope="module")
 def mock_orchestrator():

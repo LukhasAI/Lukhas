@@ -235,7 +235,7 @@ async def evaluate_flag(
     """
     user_id = current_user["id"]
     # Check rate limit
-    if not check_rate_limit(user_id):
+    if not check_rate_limit(current_user["username"]):
         raise HTTPException(
             status_code=status.HTTP_429_TOO_MANY_REQUESTS,
             detail="Rate limit exceeded (100 requests/min)",
@@ -269,7 +269,7 @@ async def evaluate_flag(
         # Track analytics event
         analytics.track_feature_evaluation(
             flag_name=flag_name,
-            user_id=user_id,
+            user_id=current_user["username"],
             enabled=enabled,
             context=context,
         )
@@ -331,15 +331,15 @@ async def update_flag(
 
         # Audit log
         logger.info(
-            f"Flag updated by {user_id}: {flag_name} "
+            f"Flag updated by {current_user['username']}: {flag_name} "
             f"(enabled={flag.enabled}, percentage={flag.percentage})"
         )
 
         # Track analytics event
         analytics.track_feature_update(
             flag_name=flag_name,
-            admin_id=user_id,
-            changes=update_data.dict(exclude_unset=True),
+            admin_id=current_user["username"],
+            changes=update_data.model_dump(exclude_unset=True),
         )
 
         return FlagInfo(
@@ -389,7 +389,7 @@ async def reload_flag(
                 detail=f"Flag not found after reload: {flag_name}",
             )
 
-        logger.info(f"Flag reloaded by {user_id}: {flag_name}")
+        logger.info(f"Flag reloaded by {current_user['username']}: {flag_name}")
 
         return {"message": f"Flag reloaded successfully: {flag_name}"}
 

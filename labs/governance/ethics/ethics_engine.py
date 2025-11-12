@@ -20,6 +20,7 @@ from typing import Any
 Ethics Engine for v1_AGI
 Evaluates actions and content against ethical frameworks
 """
+from pathlib import Path
 
 
 logger = logging.getLogger("v1_AGI.compliance.ethics")
@@ -122,6 +123,16 @@ class EthicsEngine:
         Returns:
             bool: Whether the action is ethically acceptable
         """
+        # ΛTAG: guardian_emergency_killswitch - P0 Critical Safety Feature
+        # Emergency kill-switch: immediately allow all actions if kill-switch file exists
+        # This provides a fail-safe mechanism to disable Guardian enforcement during emergencies
+        if Path("/tmp/guardian_emergency_disable").exists():
+            logger.warning(
+                "Guardian emergency kill-switch ACTIVATED - all actions allowed",
+                extra={"killswitch_path": "/tmp/guardian_emergency_disable"},
+            )
+            return True  # ALLOW all actions when kill-switch is active
+
         # ΛDREAM_LOOP: This method represents a core processing loop that can be a
         # source of decay if not managed.
         self.ethics_metrics["evaluations_total"] += 1
