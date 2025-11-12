@@ -1,33 +1,35 @@
+#!/usr/bin/env python3
 """
-LUKHAS Tag Registry System
-Comprehensive registry of all tags with meanings, relationships, and human interpretability
+MATRIZ Cognitive Node for Tag System
 """
-
 import json
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
+from matriz.core.node_interface import CognitiveNode, NodeState
+
 
 class TagCategory(Enum):
     """Categories of tags for semantic grouping"""
 
-    CORE = "core"  # Core system functionality
-    NEUROPLASTIC = "neuroplastic"  # Adaptive/reorganizing components
-    COLONY = "colony"  # Self-propagating modules
-    EMOTION = "emotion"  # Emotional processing
-    CONSCIOUSNESS = "consciousness"  # Awareness and reflection
-    MEMORY = "memory"  # Memory systems
-    DREAM = "dream"  # Dream processing
-    QUANTUM = "quantum"  # Quantum-inspired operations
-    GOVERNANCE = "governance"  # Ethics and control
-    BRIDGE = "bridge"  # Integration components
-    DECISION = "decision"  # Decision-making
-    LEARNING = "learning"  # Learning and adaptation
-    HORMONE = "hormone"  # Endocrine signals
-    SYMBOLIC = "symbolic"  # Symbolic processing
-    BIO = "bio"  # Biological simulation
+    CORE = "core"
+    NEUROPLASTIC = "neuroplastic"
+    COLONY = "colony"
+    EMOTION = "emotion"
+    CONSCIOUSNESS = "consciousness"
+    MEMORY = "memory"
+    DREAM = "dream"
+    QUANTUM = "quantum"
+    GOVERNANCE = "governance"
+    BRIDGE = "bridge"
+    DECISION = "decision"
+    LEARNING = "learning"
+    HORMONE = "hormone"
+    SYMBOLIC = "symbolic"
+    BIO = "bio"
 
 
 @dataclass
@@ -637,82 +639,86 @@ class TagRegistry:
             json.dump(export_data, f, indent=2)
 
 
-_tag_registry_instance: Optional["TagRegistry"] = None
-
-def __getattr__(name: str) -> Any:
+class TagRegistryNode(CognitiveNode):
     """
-    Lazy load the TagRegistry and other module-level attributes.
-    This defers the cost of initializing the registry until it's first used.
+    MATRIZ Cognitive Node for the Tag Registry System.
     """
-    global _tag_registry_instance
 
-    if name == "get_tag_registry":
-        def get_tag_registry() -> "TagRegistry":
-            """Get the global tag registry instance, creating it if it doesn't exist."""
-            global _tag_registry_instance
-            if _tag_registry_instance is None:
-                _tag_registry_instance = TagRegistry()
-            return _tag_registry_instance
-        globals()[name] = get_tag_registry
-        return get_tag_registry
+    def __init__(self, tenant: str = "default"):
+        super().__init__(
+            node_name="tag_registry",
+            capabilities=[
+                "get_tag",
+                "get_tags_by_category",
+                "explain_tag",
+                "generate_tag_report",
+            ],
+            tenant=tenant,
+        )
+        self.registry = TagRegistry()
 
-    if name == "TagRegistry":
-        # The class itself is requested, just return it.
-        # Note: This doesn't trigger registry instantiation.
-        return TagRegistry
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
+        """
+        Process a query related to the tag registry.
+        """
+        start_time = time.time()
+        query = input_data.get("query", {})
+        operation = query.get("operation")
+        args = query.get("args", {})
 
-    if name in ("explain_tag", "get_decision_tags", "get_hormone_tags"):
-        # The convenience functions depend on the registry.
-        # When one is called, it will in turn call get_tag_registry().
-        registry_dependent_functions = {
-            "explain_tag": explain_tag,
-            "get_decision_tags": get_decision_tags,
-            "get_hormone_tags": get_hormone_tags
+        handler = getattr(self, f"_handle_{operation}", self._handle_unknown)
+        result, confidence, additional_data = handler(args)
+
+        state = NodeState(confidence=confidence, salience=0.8)
+        matriz_node = self.create_matriz_node(
+            node_type="VALIDATION",
+            state=state,
+            trace_id=input_data.get("trace_id"),
+            additional_data=additional_data,
+        )
+
+        return {
+            "answer": result,
+            "confidence": confidence,
+            "matriz_node": matriz_node,
+            "processing_time": time.time() - start_time,
         }
-        return registry_dependent_functions[name]
 
-    # For Enum and Dataclass, which are typically needed for type hinting
-    # and don't carry a high import cost.
-    if name == "TagCategory":
-        return TagCategory
+    def _handle_get_tag(self, args: dict) -> tuple[Any, float, dict]:
+        tag_name = args.get("tag_name")
+        tag = self.registry.get_tag(tag_name)
+        if tag:
+            return tag.__dict__, 0.95, {"tag_name": tag_name}
+        return None, 0.5, {"tag_name": tag_name, "error": "Tag not found"}
 
-    if name == "TagDefinition":
-        return TagDefinition
+    def _handle_get_tags_by_category(self, args: dict) -> tuple[Any, float, dict]:
+        category_name = args.get("category")
+        try:
+            category = TagCategory[category_name.upper()]
+            tags = self.registry.get_tags_by_category(category)
+            return [t.__dict__ for t in tags], 0.95, {"category": category_name}
+        except KeyError:
+            return None, 0.2, {"category": category_name, "error": "Invalid category"}
 
-    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    def _handle_explain_tag(self, args: dict) -> tuple[Any, float, dict]:
+        tag_name = args.get("tag_name")
+        context = args.get("context")
+        tag = self.registry.get_tag(tag_name)
+        if not tag:
+            return f"Unknown tag: {tag_name}", 0.5, {"tag_name": tag_name}
+        if context:
+            explanation = self.registry.explain_tag_activation(tag_name, context)
+        else:
+            explanation = tag.to_human_readable()
+        return explanation, 0.9, {"tag_name": tag_name}
 
+    def _handle_generate_tag_report(self, args: dict) -> tuple[Any, float, dict]:
+        report = self.registry.generate_tag_report()
+        return report, 0.99, {}
 
-# Convenience functions
+    def _handle_unknown(self, args: dict) -> tuple[Any, float, dict]:
+        return "Unknown operation", 0.1, {"args": args}
 
-
-def explain_tag(tag_name: str, context: Optional[dict[str, Any]] = None) -> str:
-    """Get human explanation for a tag"""
-    registry = get_tag_registry()
-    tag = registry.get_tag(tag_name)
-
-    if not tag:
-        return f"Unknown tag: {tag_name}"
-
-    if context:
-        return registry.explain_tag_activation(tag_name, context)
-    else:
-        return tag.to_human_readable()
-
-
-def get_decision_tags(decision_type: str) -> list[str]:
-    """Get tags relevant to a decision"""
-    registry = get_tag_registry()
-    return registry.get_decision_tags(decision_type)
-
-
-def get_hormone_tags() -> list[str]:
-    """Get all hormone-related tags"""
-    registry = get_tag_registry()
-    return [tag.name for tag in registry.get_tags_by_category(TagCategory.HORMONE)]
-
-
-# Neuroplastic tags
-# TAG:core
-# TAG:registry
-# TAG:interpretability
-# TAG:professional_architecture
+    def validate_output(self, output: dict[str, Any]) -> bool:
+        """Validate the output of this node's processing."""
+        return self.validate_matriz_node(output.get("matriz_node", {}))
