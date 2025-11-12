@@ -12,8 +12,8 @@
 **Task Overview:**
 ```
 Total Tasks: 111
-├─ Completed:  63 (56.8%)
-├─ Active:     48 (43.2%)
+├─ Completed:  64 (57.7%)
+├─ Active:     47 (42.3%)
 └─ Blocked:     0 ( 0%)
 ```
 
@@ -186,7 +186,7 @@ concurrency:
 | DC002 | Automate context header updates | Jules | DONE | S | #1456 | ✅ Completed (Jules PR #1456). Context header automation script |
 | DC004 | Update architecture documentation | Jules | DONE | M | #1441 | ✅ Completed (Jules PR #1441). Updated docs/architecture/ with current LUKHAS system design: Constellation Framework, MATRIZ engine, Guardian system, lane architecture |
 | DC005 | Create API documentation | Jules | ASSIGNED | M | Jules-9204859221380625368 | Jules session created (Batch 3). OpenAPI 3.0 spec for all lukhas.api endpoints with Swagger UI integration |
-| DC006 | Audit and consolidate agent documentation | Jules | ASSIGNED | L | Jules-10689349520528214290 | Jules session created (Batch 4). Agent documentation consolidation and migration |
+| DC006 | Audit and consolidate agent documentation | Jules | DONE | L | #1459 | ✅ Completed (Jules PR #1459). Migrated agent docs from agents/docs/ to docs/ai-agents/ with consolidated README catalog |
 | TP003 | Add load testing | Jules | ASSIGNED | M | Jules-6590748944165485795 | Jules session created (Batch 3). Locust load tests for API endpoints (100 RPS target, p95 <500ms) |
 | TP008 | Create test environment management | Jules | ASSIGNED | M | Jules-8455445537760675845 | Jules session created (Batch 4). Test environment management with Docker compose |
 | T20251112005 | Add import-safe test for labs/core/tags/registry | Jules | DONE | S | #1458 | ✅ Completed (Jules PR #1458). Import safety test for labs/core/tags/registry |
@@ -200,7 +200,7 @@ concurrency:
 | T20251112035 | Archive migration scripts and create rollback docs | - | PENDING | S | - | migration_artifacts/ archive; rollback procedures |
 | T20251112052 | Post-Migration Clean-up: Archive Codemod Scripts | agi_dev | PENDING | S | - | After shim removal + 2 weeks stability: move codemod scripts to `tools/codemods/deprecated/` or keep as evergreen with docs. ETA: 1-2 days |
 
-**P3 Summary**: 17 low-priority backlog tasks (4 completed, 4 assigned, 9 pending). ✅ Completed: DC002 (Jules PR #1456), DC004 (Jules PR #1441), MP012 (Jules PR #1452), T20251112005 (Jules PR #1458). 🔄 Assigned: DC005, DC006, TP003, TP008 (Jules Batch 3 + Batch 4 sessions). +3 MATRIZ cleanup/post-migration tasks (T20251112034, T20251112035, T20251112052).
+**P3 Summary**: 17 low-priority backlog tasks (5 completed, 3 assigned, 9 pending). ✅ Completed: DC002 (Jules PR #1456), DC004 (Jules PR #1441), DC006 (Jules PR #1459), MP012 (Jules PR #1452), T20251112005 (Jules PR #1458). 🔄 Assigned: DC005, TP003, TP008 (Jules Batch 3 + Batch 4 sessions). +3 MATRIZ cleanup/post-migration tasks (T20251112034, T20251112035, T20251112052).
 
 ---
 
