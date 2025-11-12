@@ -293,11 +293,14 @@ export default function TechnologyPage() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-xl font-light text-awareness-silver mb-4">Performance Targets</h3>
+                  <h3 className="text-xl font-light text-awareness-silver mb-4">Research Performance Targets</h3>
+                  <p className="text-xs text-awareness-silver/60 mb-4 italic">
+                    Architecture targets for production deployment (under active research and optimization)
+                  </p>
                   <div className="space-y-4">
                     <div>
                       <div className="flex justify-between text-sm mb-2">
-                        <span className="text-awareness-silver/70">Latency (p95)</span>
+                        <span className="text-awareness-silver/70">Target Latency (p95)</span>
                         <span className="text-lambda-gold">&lt;250ms</span>
                       </div>
                       <div className="w-full h-2 bg-consciousness-deep rounded-full">
@@ -306,7 +309,7 @@ export default function TechnologyPage() {
                     </div>
                     <div>
                       <div className="flex justify-between text-sm mb-2">
-                        <span className="text-awareness-silver/70">Memory Usage</span>
+                        <span className="text-awareness-silver/70">Target Memory Usage</span>
                         <span className="text-success-green">&lt;100MB</span>
                       </div>
                       <div className="w-full h-2 bg-consciousness-deep rounded-full">
@@ -315,7 +318,7 @@ export default function TechnologyPage() {
                     </div>
                     <div>
                       <div className="flex justify-between text-sm mb-2">
-                        <span className="text-awareness-silver/70">Throughput</span>
+                        <span className="text-awareness-silver/70">Target Throughput</span>
                         <span className="text-info-blue">50+ ops/sec</span>
                       </div>
                       <div className="w-full h-2 bg-consciousness-deep rounded-full">
