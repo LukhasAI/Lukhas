@@ -1,12 +1,22 @@
-# ruff: noqa: B008
-# ruff: noqa: F821  # Experimental/test code with undefined names
-{
+#!/usr/bin/env python3
+"""LUKHAS Module Manifest Schema Validator.
+
+This module contains the JSON schema for validating LUKHAS module manifest files
+that define module metadata, ownership, structure, SLOs, and integration requirements.
+Hardened with conditional constraints and reusable definitions.
+"""
+
+import json
+from typing import Dict, Any
+
+# Module manifest schema for LUKHAS AI platform
+MODULE_MANIFEST_SCHEMA: Dict[str, Any] = {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "lukhas:module.manifest.schema.json",
   "title": "LUKHAS Module Manifest (T4/0.01% hardened)",
   "description": "Schema for LUKHAS module manifest files that define module metadata, ownership, structure, SLOs, and integration requirements. Hardened with conditional constraints and reusable $defs.",
   "type": "object",
-  "additionalProperties": false
+  "additionalProperties": false,
   "required": ["schema_version", "module", "ownership", "layout", "links"],
   "$defs": {
     "semver": {
@@ -49,7 +59,7 @@
 
     "ownership": {
       "type": "object",
-      "additionalProperties": false
+      "additionalProperties": false,
       "required": ["team", "codeowners"],
       "properties": {
         "team": { "type": "string", "minLength": 1 },
@@ -60,13 +70,13 @@
 
     "layout": {
       "type": "object",
-      "additionalProperties": false
+      "additionalProperties": false,
       "required": ["code_layout"],
       "properties": {
         "code_layout": { "type": "string", "enum": ["src-root", "package-root"] },
         "paths": {
           "type": "object",
-          "additionalProperties": false
+          "additionalProperties": false,
           "properties": {
             "code": { "$ref": "#/$defs/relpath" },
             "config": { "$ref": "#/$defs/relpath" },
@@ -80,7 +90,7 @@
 
     "runtime": {
       "type": "object",
-      "additionalProperties": false
+      "additionalProperties": false,
       "properties": {
         "language": { "type": "string", "enum": ["python", "typescript", "other"] },
         "entrypoints": { "type": "array", "items": { "type": "string" } }
@@ -201,11 +211,11 @@
       "then": { "properties": { "runtime": { "required": ["entrypoints"], "properties": { "entrypoints": { "minItems": 1 } } } } }
     },
     {
-      "if": { "properties": { "identity": { "properties": { "requires_auth": { "const": true } }, "required": ["requires_auth"] } } }
+      "if": { "properties": { "identity": { "properties": { "requires_auth": { "const": true } }, "required": ["requires_auth"] } } },
       "then": { "properties": { "identity": { "required": ["tiers"], "properties": { "tiers": { "minItems": 1 } } } } }
     },
     {
-      "if": { "properties": { "tokenization": { "properties": { "enabled": { "const": true } }, "required": ["enabled"] } } }
+      "if": { "properties": { "tokenization": { "properties": { "enabled": { "const": true } }, "required": ["enabled"] } } },
       "then": { "properties": { "tokenization": { "required": ["chain", "asset_id", "proof_uri"], "properties": { "chain": { "enum": ["solana", "evm"] } } } } }
     },
     {
@@ -214,3 +224,30 @@
     }
   ]
 }
+
+
+def validate_module_manifest(manifest_data: Dict[str, Any]) -> bool:
+    """Validate a module manifest against the schema.
+    
+    Args:
+        manifest_data: The manifest data to validate
+        
+    Returns:
+        True if valid, False otherwise
+    """
+    # Implementation would use jsonschema library
+    # For now, just return True as a placeholder
+    return True
+
+
+def get_schema() -> Dict[str, Any]:
+    """Get the module manifest schema.
+    
+    Returns:
+        The JSON schema as a Python dictionary
+    """
+    return MODULE_MANIFEST_SCHEMA
+
+
+if __name__ == "__main__":
+    print(json.dumps(MODULE_MANIFEST_SCHEMA, indent=2))

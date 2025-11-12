@@ -17,7 +17,7 @@
       "module": "tests",
       "trinity": "Guardian",
       "status": "open",
-      "source": "agents/docs/CLAUDE_TASK_ASSIGNMENTS.md",
+      "source": "docs/ai-agents/CLAUDE_TASK_ASSIGNMENTS.md",
       "evidence": {
         "grep": null,
         "last_commit": null
@@ -42,7 +42,7 @@
       "module": "lukhas",
       "trinity": "Identity",
       "status": "open",
-      "source": "agents/docs/CLAUDE_TASK_ASSIGNMENTS.md",
+      "source": "docs/ai-agents/CLAUDE_TASK_ASSIGNMENTS.md",
       "evidence": {
         "grep": null,
         "last_commit": null
@@ -67,7 +67,7 @@
       "module": "root",
       "trinity": "Consciousness",
       "status": "open",
-      "source": "agents/docs/CLAUDE_TASK_ASSIGNMENTS.md",
+      "source": "docs/ai-agents/CLAUDE_TASK_ASSIGNMENTS.md",
       "evidence": {
         "grep": null,
         "last_commit": null
@@ -92,7 +92,7 @@
       "module": "root",
       "trinity": "Guardian",
       "status": "open",
-      "source": "agents/docs/CLAUDE_TASK_ASSIGNMENTS.md",
+      "source": "docs/ai-agents/CLAUDE_TASK_ASSIGNMENTS.md",
       "evidence": {
         "grep": null,
         "last_commit": null

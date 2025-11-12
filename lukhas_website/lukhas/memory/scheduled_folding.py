@@ -202,7 +202,7 @@ class ScheduledFoldingManager:
         self.eviction_batch_size = eviction_batch_size
 
         # Storage
-        self.active_folds: collections.collections.OrderedDict[str, ScheduledFold] = OrderedDict()
+        self.active_folds: collections.collections.Ordereddict[str, ScheduledFold] = OrderedDict()
         self.compressed_folds: dict[str, ScheduledFold] = {}
         self.content_hashes: dict[str, str] = {}  # hash -> fold_id mapping
 

@@ -145,9 +145,9 @@ from orchestration import something
 from symbolic import something
 
 # NEW
-from core.architectures import something
-from core.orchestration import something
-from core.symbolic_core import something
+from lukhas.core.architectures import something
+from lukhas.core.orchestration import something
+from lukhas.core.symbolic_core import something
 ```
 
 ### From root to consciousness module:

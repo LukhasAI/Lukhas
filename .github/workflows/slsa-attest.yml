@@ -1,47 +1,62 @@
-name: SLSA Attestations
+# .github/workflows/slsa-attest.yml
+name: SLSA Attestation (Weekly)
 
 on:
-  push:
-    branches: [ main, "feat/*", "task/*" ]
+  schedule:
+    # Runs at 00:00 UTC on Sunday
+    - cron: '0 0 * * 0'
+  workflow_dispatch: # Allows manual triggering
+
+permissions:
+  id-token: write
+  contents: read
+  actions: read
+  attestations: write
 
 jobs:
-  attest:
+  build:
+    name: Build Artifact
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      digest: ${{ steps.hash.outputs.digest }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-      - name: Install build deps
+
+      - name: Create source tarball
         run: |
-          python -m pip install --upgrade pip setuptools wheel
-          pip install in-toto cosign
-      - name: Build artifact (example: wheel)
-        run: python -m pip wheel . -w dist
-      - name: Create in-toto step
-        env:
-          IN_TOTO_KEY: ${{ secrets.IN_TOTO_KEY }}
+          tar -czf source.tar.gz .
+
+      - name: Hash artifact
+        id: hash
         run: |
-          set -euo pipefail
-          echo "$IN_TOTO_KEY" > builder.key
-          trap 'shred -u builder.key 2>/dev/null || rm -f builder.key' EXIT
-          in-toto-run \
-            -n build \
-            --key builder.key \
-            --products dist/*.whl \
-            -- python -m pip wheel . -w dist
-      - name: Sign artifacts
-        env:
-          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-        run: |
-          for file in dist/*.whl; do
-            cosign sign --key ${{ secrets.COSIGN_KEY }} "$file"
-          done
-      - name: Upload attestations
+          echo "digest=$(sha256sum source.tar.gz | base64 -w0)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: slsa-attest
-          path: dist/*
+          name: source-artifact
+          path: source.tar.gz
+          retention-days: 90
+
+  provenance:
+    name: Generate SLSA Provenance
+    needs: [build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      id-token: write
+      actions: read
+      contents: write
+      attestations: write
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: source-artifact
+          path: .
+
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-path: 'source.tar.gz'

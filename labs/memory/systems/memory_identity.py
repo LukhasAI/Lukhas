@@ -236,7 +236,7 @@ class MemoryIdentityIntegration:
             user_id: User ID to get shared memories for
 
         Returns:
-            List[str]: Keys of shared memories
+            list[str]: Keys of shared memories
         """
         return list(self.shared_memories.get(user_id, set()))
 
@@ -249,7 +249,7 @@ class MemoryIdentityIntegration:
             memory_content: Memory content to encrypt
 
         Returns:
-            Dict[str, Any]: Encrypted memory content
+            dict[str, Any]: Encrypted memory content
         """
         # Only encrypt if memory is registered with encryption key
         if memory_key not in self.encryption_keys:
@@ -292,7 +292,7 @@ class MemoryIdentityIntegration:
             encrypted_memory: Encrypted memory content
 
         Returns:
-            Dict[str, Any]: Decrypted memory content
+            dict[str, Any]: Decrypted memory content
         """
         # Check if memory is actually encrypted
         if not encrypted_memory.get("_meta", {}).get("encrypted"):

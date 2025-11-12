@@ -15,17 +15,15 @@ import sqlite3
 import tempfile
 from datetime import datetime
 from pathlib import Path
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
 import pytest
-
 from storage.distributed_storage import (
     DataClassification,
     SQLiteMetadataStore,
     StorageObject,
     StoragePolicy,
 )
-
 
 # A collection of common SQL injection payloads
 SQL_INJECTION_PAYLOADS = [

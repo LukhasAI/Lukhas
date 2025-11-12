@@ -20,8 +20,8 @@ import os
 import uuid
 from typing import Any
 
-from governance.guardian.core import GovernanceAction
-from observability.matriz_decorators import instrument
+from lukhas_website.lukhas.governance.guardian.core import GovernanceAction
+from lukhas_website.lukhas.observability.matriz_decorators import instrument
 
 # Feature flag for Guardian system
 GUARDIAN_ACTIVE = os.environ.get("GUARDIAN_ACTIVE", "false").lower() == "true"
@@ -33,7 +33,7 @@ DRIFT_THRESHOLD = float(os.environ.get("DRIFT_THRESHOLD", "0.15"))
 _guardian_instance = None
 if GUARDIAN_ACTIVE:
     try:
-        from governance.guardian.guardian_impl import GuardianSystemImpl
+        from lukhas_website.lukhas.governance.guardian.guardian_impl import GuardianSystemImpl
 
         _guardian_instance = GuardianSystemImpl(drift_threshold=DRIFT_THRESHOLD)
     except ImportError:

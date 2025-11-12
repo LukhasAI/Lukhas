@@ -5,7 +5,11 @@ Defines rate limit rules for different endpoints and user tiers.
 """
 
 from dataclasses import dataclass
-from typing import Optional, Dict, List
+
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for rate limiting
+# estimate: 10min | priority: high | dependencies: none
+from typing import Optional, List
 
 
 @dataclass
@@ -50,8 +54,8 @@ class RateLimitConfig:
     per_user_rules: List[RateLimitRule] = None
     per_ip_rules: List[RateLimitRule] = None
     burst_multiplier: float = 1.5
-    blocked_ips: List[str] = None
-    whitelisted_ips: List[str] = None
+    blocked_ips: list[str] = None
+    whitelisted_ips: list[str] = None
 
     def __post_init__(self):
         """Initialize default rules if not provided."""

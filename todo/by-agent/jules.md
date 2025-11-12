@@ -9,11 +9,11 @@
 
 ## Quick Stats
 
-- **P0 (Critical)**: 2 tasks
+- **P0 (Critical)**: 3 tasks
 - **P1 (High)**: 8 tasks
 - **P2 (Medium)**: 5 tasks
 - **P3 (Low)**: 1 tasks
-- **Total**: 16 tasks
+- **Total**: 17 tasks
 
 ---
 
@@ -21,8 +21,9 @@
 
 | ID | Task | Status | Effort | Notes |
 |----|------|--------|--------|-------|
-| SG006 | Gradual Guardian enforcement rollout | PENDING | M | Gradual rollout strategy |
-| SC003 | Add secret scanning | PENDING | S | Gitleaks integration |
+| SG001 | Enable Guardian DSL enforcement in canary mode | ASSIGNED | S | 10% canary traffic |
+| SC003 | Add secret scanning | ASSIGNED | S | Gitleaks integration |
+| SG006 | Gradual Guardian enforcement rollout | ASSIGNED | M | Gradual rollout strategy |
 
 ---
 

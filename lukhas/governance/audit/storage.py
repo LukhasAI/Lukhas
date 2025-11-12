@@ -1,14 +1,17 @@
 """Audit log storage backends with retention and rotation."""
 
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for audit storage
+# estimate: 15min | priority: high | dependencies: none
+
 import json
 import logging
 import os
 import time
 from abc import ABC, abstractmethod
 from collections import deque
-from pathlib import Path
 from threading import Lock
-from typing import Any, Deque, Dict, Optional
+from typing import Any, Optional
 
 from lukhas.governance.audit.events import AuditEvent, AuditEventType
 
@@ -77,7 +80,7 @@ class AuditStorage(ABC):
         self,
         start_time: Optional[float] = None,
         end_time: Optional[float] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get audit log statistics.
 
         Args:
@@ -110,7 +113,7 @@ class InMemoryAuditStorage(AuditStorage):
         """
         self.config = config
         self.max_events = max_events
-        self._events: Deque[AuditEvent] = deque(maxlen=max_events)
+        self._events: deque[AuditEvent] = deque(maxlen=max_events)
         self._lock = Lock()
 
     def store_event(self, event: AuditEvent) -> None:
@@ -206,7 +209,7 @@ class InMemoryAuditStorage(AuditStorage):
         self,
         start_time: Optional[float] = None,
         end_time: Optional[float] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get audit log statistics.
 
         Args:
@@ -400,7 +403,7 @@ class FileAuditStorage(AuditStorage):
                 removed_count = 0
                 kept_count = 0
 
-                with open(self.log_file, "r", encoding="utf-8") as infile:
+                with open(self.log_file, encoding="utf-8") as infile:
                     with open(temp_file, "w", encoding="utf-8") as outfile:
                         for line in infile:
                             if not line.strip():
@@ -435,7 +438,7 @@ class FileAuditStorage(AuditStorage):
         self,
         start_time: Optional[float] = None,
         end_time: Optional[float] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get audit log statistics.
 
         Args:
@@ -466,7 +469,7 @@ class FileAuditStorage(AuditStorage):
                 success_count = 0
                 failure_count = 0
 
-                with open(self.log_file, "r", encoding="utf-8") as f:
+                with open(self.log_file, encoding="utf-8") as f:
                     for line in f:
                         if not line.strip():
                             continue
@@ -577,12 +580,12 @@ class FileAuditStorage(AuditStorage):
         if not self.log_file.exists():
             return []
 
-        with open(self.log_file, "r", encoding="utf-8") as f:
+        with open(self.log_file, encoding="utf-8") as f:
             lines = f.readlines()
 
         return list(reversed(lines))
 
-    def _dict_to_event(self, data: Dict[str, Any]) -> AuditEvent:
+    def _dict_to_event(self, data: dict[str, Any]) -> AuditEvent:
         """Convert dictionary to AuditEvent.
 
         Args:

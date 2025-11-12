@@ -1,3 +1,8 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
+
 """Strict authentication middleware enforcing auth on all routes except allowlist.
 
 SECURITY: OWASP A01 (Broken Access Control) mitigation
@@ -6,13 +11,12 @@ a minimal allowlist of public endpoints. This is a critical security control.
 """
 
 import logging
-from typing import Set
 
 from fastapi import Request, Response
 from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from lukhas.governance.audit import AuditLogger, AuditEventType
+from lukhas.governance.audit import AuditEventType, AuditLogger
 from lukhas.governance.audit.config import get_default_config
 
 logger = logging.getLogger(__name__)
@@ -45,7 +49,7 @@ class StrictAuthMiddleware(BaseHTTPMiddleware):
 
     # PUBLIC ENDPOINTS ONLY (minimal surface area)
     # Each endpoint must have clear justification for being public
-    ALLOWED_PATHS: Set[str] = {
+    ALLOWED_PATHS: set[str] = {
         "/health",              # Health check for monitoring/load balancers
         "/healthz",             # Kubernetes health probe
         "/readyz",              # Kubernetes readiness probe
@@ -214,7 +218,7 @@ class StrictAuthMiddleware(BaseHTTPMiddleware):
         except Exception as e:
             logger.warning(
                 f"Token validation error: {request.method} {request.url.path} "
-                f"from {client_ip or 'unknown'} - {str(e)}",
+                f"from {client_ip or 'unknown'} - {e!s}",
                 exc_info=True
             )
             # Log authentication failure

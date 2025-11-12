@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
+
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Tuple import to native tuple type in annotation fixer
+# estimate: 5min | priority: low | dependencies: dev-scripts
+
 """Script to fix Python 3.9 compatibility issues in test files."""
 
 import re
 import sys
 from pathlib import Path
-from typing import Tuple
 
 
-def fix_type_annotations(content: str) -> Tuple[str, int]:
+def fix_type_annotations(content: str) -> tuple[str, int]:
     """Fix type annotations to be Python 3.9 compatible.
 
     Returns:

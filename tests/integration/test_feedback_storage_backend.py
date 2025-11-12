@@ -19,7 +19,6 @@ from pathlib import Path
 from uuid import uuid4
 
 import pytest
-
 from products.experience.feedback.core.storage_backend import (
     ConnectionPool,
     FeedbackStorageBackend,

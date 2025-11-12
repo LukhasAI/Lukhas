@@ -460,7 +460,7 @@ class EmotionalMemory:
         activates fail-safe mechanisms to maintain system stability.
 
         Args:
-            identity_delta (Dict[str, Any]): Changes in identity-related folds
+            identity_delta (dict[str, Any]): Changes in identity-related folds
             emotion_volatility (float): Current emotional volatility metric
 
         Returns:
@@ -812,7 +812,7 @@ class EmotionalMemory:
             emotion_change (EmotionVector): The change in emotional state to apply
 
         Returns:
-            Dict[str, Any]: Delta information including drift metrics
+            dict[str, Any]: Delta information including drift metrics
         """
         # ΛTRACE: Computing affect delta
         log.info(f"Computing affect delta. trigger_event={trigger_event}")
@@ -879,7 +879,7 @@ class EmotionalMemory:
             depth (int): Number of recent affect changes to trace
 
         Returns:
-            Dict[str, Any]: Symbolic trace data with drift patterns
+            dict[str, Any]: Symbolic trace data with drift patterns
         """
         # ΛTRACE: Generating symbolic affect trace
         log.info(f"Generating symbolic affect trace. depth={depth}")
@@ -997,7 +997,7 @@ class EmotionalMemory:
         Args:
             content (str): The content of the memory.
             emotion (EmotionVector): The emotion associated with the memory.
-            metadata (Optional[Dict[str, Any]], optional): Additional metadata. Defaults to None.
+            metadata (Optional[dict[str, Any]], optional): Additional metadata. Defaults to None.
         """
         ts_utc = datetime.now(timezone.utc)
         ts_iso = ts_utc.isoformat()

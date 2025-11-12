@@ -48,6 +48,10 @@ permissions:
   pull-requests: write  # For PR comments
   checks: write  # For status checks
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lukhas-t4-lint:
     name: 🛡️ LUKHAS T4 Architectural Lint

@@ -1,8 +1,9 @@
 
-import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
+import pytest
 from bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
+
 
 @pytest.mark.xfail(reason="Test environment missing anthropic dependencies or has version conflicts")
 @patch('bridge.llm_wrappers.anthropic_wrapper.anthropic')

@@ -1,10 +1,14 @@
 """Audit event definitions and types."""
 
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for governance audit events
+# estimate: 10min | priority: high | dependencies: none
+
 import json
 import time
 from dataclasses import asdict, dataclass, field
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from uuid import uuid4
 
 
@@ -123,9 +127,9 @@ class AuditEvent:
     action: str = ""
     success: bool = True
     error_message: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert audit event to dictionary for JSON serialization.
 
         Returns:

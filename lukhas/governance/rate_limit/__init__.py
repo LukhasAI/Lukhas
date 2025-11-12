@@ -12,9 +12,9 @@ from .storage import RateLimitStorage, InMemoryRateLimitStorage
 from .config import RateLimitConfig, RateLimitRule
 
 __all__ = [
-    "RateLimitMiddleware",
-    "RateLimitStorage",
     "InMemoryRateLimitStorage",
     "RateLimitConfig",
+    "RateLimitMiddleware",
     "RateLimitRule",
+    "RateLimitStorage",
 ]

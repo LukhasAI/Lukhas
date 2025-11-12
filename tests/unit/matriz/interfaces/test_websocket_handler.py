@@ -7,9 +7,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 from fastapi.testclient import TestClient
-from starlette.websockets import WebSocketDisconnect
-
 from matriz.interfaces.api_server import app, orchestrator, websocket_connections
+from starlette.websockets import WebSocketDisconnect
 
 
 @pytest.fixture

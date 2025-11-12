@@ -1,5 +1,6 @@
 """Entry point for LUKHAS commercial API"""
 import logging
+import os
 import time
 import uuid
 from collections.abc import Awaitable
@@ -15,7 +16,9 @@ from serve.metrics import (
     matriz_operation_duration_ms,
     matriz_operations_total,
 )
+from serve.middleware.cache_middleware import CacheMiddleware
 from serve.middleware.prometheus import PrometheusMiddleware
+from serve.utils.cache_manager import CacheManager
 from starlette.middleware.base import BaseHTTPMiddleware
 
 MATRIZ_AVAILABLE = False
@@ -55,9 +58,6 @@ except Exception:
     class _ObsStack:
         opentelemetry_enabled = False
     obs_stack = _ObsStack()
-
-from lukhas.api.auth_routes import router as auth_router
-
 try:
     from config.env import get as env_get
 except Exception:
@@ -65,7 +65,11 @@ except Exception:
 
     def env_get(key: str, default: Optional[str]=None) -> Optional[str]:
         return _os.getenv(key, default)
-import os
+
+# Cache configuration
+REDIS_URL = env_get("REDIS_URL", "redis://localhost:6379")
+CACHE_ENABLED = env_get("CACHE_ENABLED", "true").lower() == "true"
+DEFAULT_CACHE_TTL = int(env_get("CACHE_TTL", "300"))
 
 _MODEL_LIST_CACHE = None
 
@@ -103,7 +107,6 @@ webauthn_router = None
 if (env_get('LUKHAS_WEBAUTHN', '0') or '0').strip() == '1':
     webauthn_router = _safe_import_router('.webauthn_routes', 'router')
 openai_router = _safe_import_router('.openai_routes', 'router')
-websocket_router = _safe_import_router('.websocket_routes', 'router')
 orchestration_router = _safe_import_router('.orchestration_routes', 'router')
 routes_router = _safe_import_router('.routes', 'router')
 traces_router = _safe_import_router('.routes_traces', 'router')
@@ -134,14 +137,19 @@ def require_api_key(x_api_key: Optional[str]=Header(default=None)) -> Optional[s
         raise HTTPException(status_code=401, detail='Unauthorized')
     return x_api_key
 from lukhas_website.lukhas.api.middleware.strict_auth import StrictAuthMiddleware
-from lukhas.governance.rate_limit import RateLimitMiddleware, RateLimitConfig
 
 app = FastAPI(title='LUKHAS API', version='1.0.0', description='Governed tool loop, auditability, feedback LUT, and safety modes.', contact={'name': 'LUKHAS AI Team', 'url': 'https://github.com/LukhasAI/Lukhas'}, license_info={'name': 'MIT', 'url': 'https://opensource.org/licenses/MIT'}, servers=[{'url': 'http://localhost:8000', 'description': 'Local development'}, {'url': 'https://api.ai', 'description': 'Production'}])
+app.add_middleware(PrometheusMiddleware)
+
 
 class HeadersMiddleware(BaseHTTPMiddleware):
     """Add OpenAI-compatible headers to all responses."""
 
     async def dispatch(self, request: Request, call_next):
+        # Bypass middleware for WebSocket connections
+        if request.scope["type"] == "websocket":
+            return await call_next(request)
+
         response = await call_next(request)
         trace_id = str(uuid.uuid4()).replace('-', '')
         response.headers['X-Trace-Id'] = trace_id
@@ -149,19 +157,22 @@ class HeadersMiddleware(BaseHTTPMiddleware):
         # Rate limit headers now added by RateLimitMiddleware
         return response
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
-app.add_middleware(PrometheusMiddleware)
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
 app.add_middleware(StrictAuthMiddleware)
-# Add rate limiting after auth middleware (requires user_id from request.state)
-app.add_middleware(RateLimitMiddleware, config=RateLimitConfig())
+
+cache_manager: Optional[CacheManager] = None
+if CACHE_ENABLED:
+    cache_manager = CacheManager(redis_url=REDIS_URL, default_ttl=DEFAULT_CACHE_TTL)
+    app.add_middleware(
+        CacheMiddleware, cache_manager=cache_manager, default_ttl=DEFAULT_CACHE_TTL
+    )
+
 app.add_middleware(HeadersMiddleware)
-app.include_router(auth_router)
+
 if routes_router is not None:
     app.include_router(routes_router)
 if openai_router is not None:
     app.include_router(openai_router)
-if websocket_router is not None:
-    app.include_router(websocket_router)
 if feedback_router is not None:
     app.include_router(feedback_router)
 if traces_router is not None:
@@ -195,6 +206,13 @@ def voice_core_available() -> bool:
         return True
     except Exception:
         return False
+
+@app.delete("/api/cache/{pattern}", status_code=204)
+async def invalidate_cache(pattern: str):
+    """Manually invalidate cache entries matching a pattern."""
+    if cache_manager:
+        await cache_manager.invalidate(pattern)
+    return Response(status_code=204)
 
 def _get_health_status() -> dict[str, Any]:
     """Get health status for both /health and /healthz endpoints."""
@@ -254,8 +272,10 @@ def readyz() -> dict[str, Any]:
 def metrics() -> Response:
     """Prometheus metrics endpoint"""
     from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
+    from observability.prometheus_registry import LUKHAS_REGISTRY
+
     return Response(
-        content=generate_latest(),
+        content=generate_latest(LUKHAS_REGISTRY),
         media_type=CONTENT_TYPE_LATEST
     )
 
@@ -264,7 +284,6 @@ async def _stream_generator(request: dict) -> str:
     import asyncio
     import hashlib
     import json
-    import time
 
     model = request.get("model", "lukhas-mini")
     content = ""
@@ -318,7 +337,6 @@ async def create_response(request: dict) -> Response:
     """LUKHAS responses endpoint (OpenAI-compatible format)."""
     import hashlib
     import json
-    import time
 
     from fastapi.responses import StreamingResponse
 

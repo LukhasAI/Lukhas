@@ -1,9 +1,9 @@
 ---
 module: unknown
 moved_at: '2025-10-06T13:03:39'
-moved_to: ../../agents/docs/CLAUDE.md
+moved_to: ../../docs/ai-agents/CLAUDE.md
 redirect: true
 type: documentation
 ---
-> This document was moved to `../../agents/docs/CLAUDE.md` to colocate module docs.
+> This document was moved to `../../docs/ai-agents/CLAUDE.md` to colocate module docs.
 > Redirect created by T4/0.01% migration toolchain.

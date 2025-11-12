@@ -1,22 +1,55 @@
-import time
-from typing import Dict, List
-from functools import lru_cache
-
-from fastapi import HTTPException, status, Depends
-from fastapi.security import OAuth2PasswordBearer
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for auth helpers
+# estimate: 10min | priority: high | dependencies: none
 
 import os
+import time
+from functools import lru_cache
+
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+
 from lukhas.api.auth import AuthManager
 
 # --- Constants ---
 SECRET_KEY = os.environ.get("SECRET_KEY", "a_very_secret_key")
 
+# --- Role Hierarchy for RBAC ---
+# Higher roles have more permissions.
+# A user with a certain role has all permissions of the roles below it.
+ROLE_HIERARCHY: dict[str, int] = {
+    "guest": 0,
+    "user": 1,
+    "moderator": 2,
+    "admin": 3,
+}
+
 # --- Rate Limiting (In-Memory Placeholder) ---
 # TODO: Replace with a more robust solution (e.g., Redis-based) for production.
 # This implementation is not suitable for multi-process or multi-server deployments.
-_rate_limit_store: Dict[str, List[float]] = {}
+_rate_limit_store: dict[str, list[float]] = {}
 _RATE_LIMIT = 100  # requests per minute
 _RATE_LIMIT_WINDOW = 60  # seconds
+
+
+def has_role(user_role: str, required_role: str) -> bool:
+    """
+    Check if a user's role meets the required role level.
+
+    Args:
+        user_role: The role of the current user.
+        required_role: The minimum role required for the feature.
+
+    Returns:
+        True if the user has the required role, False otherwise.
+    """
+    user_level = ROLE_HIERARCHY.get(user_role, -1)
+    required_level = ROLE_HIERARCHY.get(required_role, -1)
+
+    if user_level == -1 or required_level == -1:
+        return False  # Invalid role provided
+
+    return user_level >= required_level
 
 
 def check_rate_limit(identifier: str) -> bool:
@@ -48,7 +81,7 @@ def check_rate_limit(identifier: str) -> bool:
 # --- Session Management (In-Memory Placeholder) ---
 # TODO: Replace with a persistent session store (e.g., Redis) for production.
 # This implementation is not suitable for multi-process or multi-server deployments.
-_sessions: Dict[str, dict] = {}
+_sessions: dict[str, dict] = {}
 
 def create_session(user_id: str, session_data: dict) -> str:
     """Creates a new session for a user."""
@@ -70,7 +103,7 @@ def invalidate_session(session_id: str) -> bool:
 
 # --- Dependencies ---
 
-@lru_cache()
+@lru_cache
 def get_auth_manager() -> AuthManager:
     """Dependency to get the AuthManager instance."""
     return AuthManager(secret_key=SECRET_KEY)

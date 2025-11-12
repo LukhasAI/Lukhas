@@ -112,7 +112,7 @@ class JWKSCache:
         self.enable_compression = enable_compression
 
         # Thread-safe cache storage (LRU)
-        self._cache: collections.collections.OrderedDict[str, JWKSCacheEntry] = OrderedDict()
+        self._cache: collections.collections.Ordereddict[str, JWKSCacheEntry] = OrderedDict()
         self._lock = threading.RLock()
 
         # Statistics

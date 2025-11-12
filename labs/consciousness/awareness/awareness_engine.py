@@ -104,7 +104,7 @@ class AwarenessEngine:
         """
         Initializes the AwarenessEngine.
         Args:
-            config (Optional[Dict[str, Any]]): Configuration dictionary.
+            config (Optional[dict[str, Any]]): Configuration dictionary.
             user_id_context (Optional[str]): User ID for contextual logging.
         """
         self.user_id_context = user_id_context
@@ -250,8 +250,11 @@ class AwarenessEngine:
     def _validate_consciousness_coherence(self, state: dict) -> bool:
         """Validate consciousness state coherence."""
         try:
-            awareness = state.get("awareness_level", 0.0)
-            temporal = state.get("temporal_coherence", 0.0)
+            awareness = state.get("awareness_level")
+            temporal = state.get("temporal_coherence")
+
+            if awareness is None or temporal is None:
+                return False
 
             # Check coherence thresholds
             coherence_valid = abs(awareness - temporal) < 0.3
@@ -265,6 +268,8 @@ class AwarenessEngine:
     def _validate_symbolic_integration(self, patterns: set) -> bool:
         """Validate symbolic pattern integration."""
         try:
+            if not isinstance(patterns, set):
+                return False
             # Check pattern coherence and size limits
             return len(patterns) <= 100  # Prevent pattern overflow
 
@@ -296,7 +301,7 @@ class AwarenessEngine:
             data (Any): The input data to process. Expected to be a dict with 'category'.
             user_id (Optional[str]): User ID for tier checking and contextual processing.
         Returns:
-            Dict[str, Any]: A dictionary containing the processing result or an error.
+            dict[str, Any]: A dictionary containing the processing result or an error.
         """
         log_user_id = user_id or self.user_id_context  # Prioritize passed user_id
         self.instance_logger.info(
@@ -440,7 +445,7 @@ class AwarenessEngine:
         Args:
             user_id (Optional[str]): User ID for tier checking.
         Returns:
-            Dict[str, Any]: Dictionary containing component status.
+            dict[str, Any]: Dictionary containing component status.
         """
         log_user_id = user_id or self.user_id_context
         self.instance_logger.debug(f"ΛTRACE: Getting status for AwarenessEngine (user context '{log_user_id}').")
@@ -478,7 +483,7 @@ def create_awareness_component(
     """
     Factory function to create an AwarenessEngine instance.
     Args:
-        config (Optional[Dict[str, Any]]): Configuration for the engine.
+        config (Optional[dict[str, Any]]): Configuration for the engine.
         user_id (Optional[str]): User ID for tier checking and context.
     Returns:
         AwarenessEngine: A new instance of the AwarenessEngine.
@@ -496,7 +501,7 @@ async def create_and_initialize_awareness_component(
     """
     Async factory function to create and initialize an AwarenessEngine instance.
     Args:
-        config (Optional[Dict[str, Any]]): Configuration for the engine.
+        config (Optional[dict[str, Any]]): Configuration for the engine.
         user_id (Optional[str]): User ID for tier checking and context.
     Returns:
         AwarenessEngine: A new, initialized instance of the AwarenessEngine.

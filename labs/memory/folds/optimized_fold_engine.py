@@ -14,7 +14,7 @@ Performance Features:
 - Memory-mapped storage for large datasets
 - Asynchronous I/O operations
 """
-from typing import Dict
+
 import random
 import streamlit as st
 
@@ -129,7 +129,7 @@ class FoldIndex:
         self.by_key: dict[str, OptimizedMemoryFold] = {}
         self.by_hash: dict[str, set[str]] = defaultdict(set)  # Content deduplication
         self.by_tag: dict[str, set[str]] = defaultdict(set)
-        self.by_time: OrderedDict[float, set[str]] = OrderedDict()
+        self.by_time: Ordereddict[float, set[str]] = OrderedDict()
 
         # Bloom filter for fast existence checks
         if use_bloom_filter and BloomFilter:

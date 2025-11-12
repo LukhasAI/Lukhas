@@ -4,7 +4,6 @@ from unittest.mock import patch
 
 import pytest
 import yaml
-
 from config.env import EnvironmentConfig, LUKHASConfig, get_config
 
 
@@ -46,9 +45,8 @@ class TestEnvironmentConfig(unittest.TestCase):
             self.config.get("REQUIRED_VAR", required=True)
 
     def test_get_required_with_empty_string(self):
-        with patch.dict(os.environ, {"REQUIRED_VAR": ""}):
-            with self.assertRaises(ValueError):
-                self.config.get("REQUIRED_VAR", required=True)
+        with patch.dict(os.environ, {"REQUIRED_VAR": ""}), self.assertRaises(ValueError):
+            self.config.get("REQUIRED_VAR", required=True)
 
     def test_get_required_from_env(self):
         with patch.dict(os.environ, {"REQUIRED_VAR": "value"}):

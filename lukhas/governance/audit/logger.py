@@ -1,7 +1,11 @@
 """Audit event logger with structured JSON logging."""
 
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for audit logger
+# estimate: 10min | priority: high | dependencies: none
+
 import time
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from lukhas.governance.audit.config import AuditConfig
 from lukhas.governance.audit.events import AuditEvent, AuditEventType
@@ -80,7 +84,7 @@ class AuditLogger:
         user_agent: Optional[str] = None,
         success: bool = True,
         error_message: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> None:
         """Log an authentication event.
 
@@ -119,7 +123,7 @@ class AuditLogger:
         user_agent: Optional[str] = None,
         success: bool = True,
         error_message: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> None:
         """Log a data access event.
 
@@ -162,7 +166,7 @@ class AuditLogger:
         resource_id: Optional[str] = None,
         success: bool = True,
         error_message: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> None:
         """Log a security event.
 
@@ -206,7 +210,7 @@ class AuditLogger:
         resource_id: Optional[str] = None,
         success: bool = True,
         error_message: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> None:
         """Log an administrative action.
 
@@ -295,7 +299,7 @@ class AuditLogger:
         self,
         start_time: Optional[float] = None,
         end_time: Optional[float] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get audit log statistics for monitoring.
 
         Args:

@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict, List imports to native types in credential manager
+# estimate: 10min | priority: high | dependencies: security-system
+
 """
 Secure Credential Management System for LUKHAS AI
 ================================================
@@ -13,7 +17,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 try:
     from .enhanced_crypto import (  # noqa: F401  # TODO: .enhanced_crypto.CryptoAlgorit...
@@ -62,9 +66,9 @@ class CredentialMetadata:
     expires_at: Optional[datetime] = None
     rotation_interval_days: Optional[int] = None
     status: CredentialStatus = CredentialStatus.ACTIVE
-    tags: List[str] = field(default_factory=list)
-    access_policy: Dict[str, Any] = field(default_factory=dict)
-    audit_trail: List[Dict[str, Any]] = field(default_factory=list)
+    tags: list[str] = field(default_factory=list)
+    access_policy: dict[str, Any] = field(default_factory=dict)
+    audit_trail: list[dict[str, Any]] = field(default_factory=list)
 
     def is_expired(self) -> bool:
         """Check if credential has expired"""
@@ -80,7 +84,7 @@ class CredentialMetadata:
         rotation_due = self.created_at + timedelta(days=self.rotation_interval_days)
         return datetime.now(timezone.utc) > rotation_due
 
-    def add_audit_entry(self, action: str, details: Optional[Dict[str, Any]] = None):
+    def add_audit_entry(self, action: str, details: Optional[dict[str, Any]] = None):
         """Add entry to audit trail"""
         entry = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -93,7 +97,7 @@ class CredentialMetadata:
         if len(self.audit_trail) > 100:
             self.audit_trail = self.audit_trail[-100:]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization"""
         return {
             "credential_id": self.credential_id,
@@ -133,7 +137,7 @@ class SecureCredentialManager:
         self.crypto = get_encryption_manager()
 
         # In-memory credential metadata cache
-        self.credentials: Dict[str, CredentialMetadata] = {}
+        self.credentials: dict[str, CredentialMetadata] = {}
 
         # Load existing credentials
         self._load_credentials()
@@ -141,7 +145,7 @@ class SecureCredentialManager:
         # Security settings
         self.max_access_attempts = 3
         self.access_attempt_window_minutes = 15
-        self.failed_access_attempts: Dict[str, List[datetime]] = {}
+        self.failed_access_attempts: dict[str, list[datetime]] = {}
 
         logger.info(f"Secure credential manager initialized with storage: {self.storage_path}")
 
@@ -149,8 +153,8 @@ class SecureCredentialManager:
                               credential_value: Union[str, bytes], environment: str = "prod",
                               owner: str = "system", expires_at: Optional[datetime] = None,
                               rotation_interval_days: Optional[int] = None,
-                              tags: Optional[List[str]] = None,
-                              access_policy: Optional[Dict[str, Any]] = None) -> str:
+                              tags: Optional[list[str]] = None,
+                              access_policy: Optional[dict[str, Any]] = None) -> str:
         """Store credential securely"""
 
         credential_id = self._generate_credential_id(service_name, credential_type)
@@ -353,7 +357,7 @@ class SecureCredentialManager:
     def list_credentials(self, environment: Optional[str] = None,
                         service_name: Optional[str] = None,
                         credential_type: Optional[CredentialType] = None,
-                        include_inactive: bool = False) -> List[Dict[str, Any]]:
+                        include_inactive: bool = False) -> list[dict[str, Any]]:
         """List credentials with filtering"""
 
         results = []
@@ -375,14 +379,14 @@ class SecureCredentialManager:
 
         return results
 
-    def get_credentials_needing_rotation(self) -> List[str]:
+    def get_credentials_needing_rotation(self) -> list[str]:
         """Get list of credentials that need rotation"""
         return [
             cred_id for cred_id, metadata in self.credentials.items()
             if metadata.needs_rotation() and metadata.status == CredentialStatus.ACTIVE
         ]
 
-    def get_expired_credentials(self) -> List[str]:
+    def get_expired_credentials(self) -> list[str]:
         """Get list of expired credentials"""
         return [
             cred_id for cred_id, metadata in self.credentials.items()
