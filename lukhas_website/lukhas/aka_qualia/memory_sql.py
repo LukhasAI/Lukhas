@@ -20,18 +20,18 @@ from urllib.parse import urlparse
 try:
     import sqlalchemy as sa
     from sqlalchemy import (
-        create_engine,
         Column,
-        String,
-        Float,
-        Text,
-        ForeignKey,
         DateTime,
+        Float,
+        ForeignKey,
+        String,
+        Text,
+        create_engine,
         desc,
         func,
     )
-    from sqlalchemy.orm import sessionmaker, relationship, declarative_base
     from sqlalchemy.engine import Engine
+    from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 except ImportError:
     raise ImportError("SQLAlchemy required. Install with: pip install sqlalchemy")
 

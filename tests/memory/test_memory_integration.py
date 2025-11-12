@@ -1,14 +1,14 @@
-import unittest
-from unittest.mock import MagicMock, AsyncMock
 import asyncio
 import time
+import unittest
+from unittest.mock import AsyncMock, MagicMock
 
+from labs.memory.fold import FoldManager, MemoryFold
+from labs.memory.memory_optimization import MemoryTier
+from labs.memory.symbol_aware_tiered_memory import SymbolAwareTieredMemory
+from memory.memory_orchestrator import MemoryOrchestrator
 from prometheus_client import REGISTRY
 
-from memory.memory_orchestrator import MemoryOrchestrator
-from labs.memory.fold import FoldManager, MemoryFold
-from labs.memory.symbol_aware_tiered_memory import SymbolAwareTieredMemory
-from labs.memory.memory_optimization import MemoryTier
 
 class TestShortTermMemory(unittest.TestCase):
 

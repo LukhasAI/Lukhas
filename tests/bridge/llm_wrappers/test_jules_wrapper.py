@@ -1,12 +1,16 @@
 
-import pytest
 import asyncio
-from unittest.mock import AsyncMock, patch, MagicMock
+from unittest.mock import AsyncMock, MagicMock, patch
 
-from aioresponses import aioresponses
 import aiohttp
-
-from bridge.llm_wrappers.jules_wrapper import JulesClient, JulesConfig, create_jules_session, monitor_jules_session
+import pytest
+from aioresponses import aioresponses
+from bridge.llm_wrappers.jules_wrapper import (
+    JulesClient,
+    JulesConfig,
+    create_jules_session,
+    monitor_jules_session,
+)
 
 BASE_URL = "https://jules.googleapis.com"
 
