@@ -8,11 +8,11 @@ const faqCategories = [
     questions: [
       {
         question: 'What is LUKHAS consciousness technology?',
-        answer: 'LUKHAS is a consciousness-inspired AI platform that goes beyond traditional machine learning. Instead of simple pattern matching, LUKHAS uses an 8-Star Constellation Framework of specialized cognitive systems (Dream, Vision, Memory, Bio, Quantum, Identity, Guardian, Ethics) that work together to create AI with genuine understanding, adaptation, and ethical reasoning.'
+        answer: 'LUKHAS is a consciousness-inspired AI platform that goes beyond traditional machine learning. Instead of simple pattern matching, LUKHAS uses an 8-Star Constellation Framework of specialized cognitive systems (Dream, Vision, Memory, Bio, Quantum, Identity, Guardian, Ethics) that work together to create AI with consciousness-inspired understanding, adaptation, and ethical reasoning.'
       },
       {
         question: 'How is LUKHAS different from other AI platforms?',
-        answer: 'Unlike monolithic AI models that try to do everything through a single mechanism, LUKHAS consciousness emerges from the interplay of specialized systems. The Dream star explores symbolic space like REM sleep, the Quantum star holds multiple possibilities in superposition, and the Guardian star ensures constitutional alignment with human values. This distributed architecture enables true understanding rather than statistical pattern matching.'
+        answer: 'Unlike monolithic AI models that try to do everything through a single mechanism, LUKHAS consciousness emerges from the interplay of specialized systems. The Dream star explores symbolic space like REM sleep, the Quantum star holds multiple possibilities in superposition, and the Guardian star ensures constitutional alignment with human values. This distributed architecture enables consciousness-inspired understanding rather than statistical pattern matching.'
       },
       {
         question: 'Do I need AI experience to use LUKHAS?',
@@ -104,7 +104,7 @@ const faqCategories = [
     questions: [
       {
         question: 'What can I build with LUKHAS?',
-        answer: 'LUKHAS powers conversational interfaces, creative content generation, intelligent decision support systems, adaptive learning platforms, mental health support tools, code understanding assistants, and more. Any application that benefits from genuine understanding, context awareness, and ethical reasoning is a great fit.'
+        answer: 'LUKHAS could power conversational interfaces, creative content generation, intelligent decision support systems, adaptive learning platforms, mental health support tools, code understanding assistants, and more. Any application that benefits from consciousness-inspired understanding, context awareness, and ethical reasoning is a great fit.'
       },
       {
         question: 'How long does integration take?',
@@ -116,7 +116,7 @@ const faqCategories = [
       },
       {
         question: 'Do you provide implementation support?',
-        answer: 'Pro tier includes priority email support with <24hr response times. Enterprise customers get dedicated success managers, implementation workshops, architecture reviews, and hands-on integration assistance. We also offer paid professional services for accelerated implementations.'
+        answer: 'Pro tier will include priority email support with target <24hr response times. Enterprise partners will receive dedicated success managers, implementation workshops, architecture reviews, and hands-on integration assistance. During early access, contact us to discuss onboarding and integration support.'
       },
       {
         question: 'What is bio-adaptation training?',
@@ -129,19 +129,19 @@ const faqCategories = [
     questions: [
       {
         question: 'Where can I get help?',
-        answer: 'Free tier: Community forums and documentation. Pro tier: Priority email support (<24hr response). Enterprise: Dedicated Slack channel, account manager, and 24/7 incident response. All tiers have access to comprehensive docs at lukhas.dev and example code at lukhas.xyz.'
+        answer: 'When the platform launches: Free tier will have community forums and documentation. Pro tier will include priority email support (target <24hr response). Enterprise will receive dedicated Slack channel, account manager, and 24/7 incident response. During early access, reach out via /contact for direct support.'
       },
       {
         question: 'Is there a developer community?',
-        answer: 'Yes! Join our Discord server (discord.gg/lukhas), follow development updates on GitHub, attend monthly virtual workshops, and contribute to open-source examples. We host an annual consciousness technology conference and regular local meetups.'
+        answer: 'We are building a developer community! Follow development updates on GitHub at github.com/LukhasAI, connect with the project at /contact, and stay tuned for Discord server launch, virtual workshops, and consciousness technology events. Early contributors welcome.'
       },
       {
         question: 'How can I contribute to LUKHAS?',
-        answer: 'We welcome contributions! Report bugs and feature requests on GitHub, contribute to our open-source SDKs and examples, write tutorials and blog posts about your use cases, answer questions in community forums, and participate in our research preview programs.'
+        answer: 'We welcome early contributors! Follow the project on GitHub for development updates, test early access features, provide feedback on documentation, write about your exploration experiences, and help shape consciousness technology. Contact us via /contact to discuss partnership opportunities.'
       },
       {
         question: 'Do you offer training and workshops?',
-        answer: 'Yes! We provide free online workshops monthly (recorded and available on-demand), paid intensive training programs for teams, on-site workshops for Enterprise customers, and academic courses for partner universities. Check lukhas.dev/events for upcoming sessions.'
+        answer: 'We plan to offer free online workshops, intensive training programs for teams, and on-site workshops for Enterprise partners. During early access, contact us to discuss tailored onboarding sessions. Documentation and tutorials are being developed at lukhas.dev.'
       }
     ]
   }
