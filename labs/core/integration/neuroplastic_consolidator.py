@@ -141,7 +141,7 @@ Neuroplastic Connector for {module} Module
 Auto-generated connector that integrates isolated components
 """
 
-from typing import Dict, Any, List, Optional
+from typing import Optional
 import logging
 
 logger = logging.getLogger(__name__)
@@ -162,7 +162,7 @@ class {module.title()}Connector:
         """Emit hormone signal for neuroplastic response"""
         self.hormone_tags[hormone] = intensity
 
-    def get_stress_response(self) -> Dict[str, float]:
+    def get_stress_response(self) -> dict[str, float]:
         """Get current stress hormones for neuroplastic reorganization"""
         return {{
             'cortisol': self.hormone_tags.get('cortisol', 0.0),
@@ -271,7 +271,7 @@ Neuroplastic Module Bridge
 Enables cross-module communication with hormone-based signaling
 """
 
-from typing import Dict, Optional, Any
+from typing import Any
 import asyncio
 from collections import defaultdict
 
@@ -301,7 +301,7 @@ class NeuroplasticBridge:
         self.connections[module_a].append(module_b)
         self.connections[module_b].append(module_a)
 
-    def get_network_state(self) -> Dict[str, Any]:
+    def get_network_state(self) -> dict[str, Any]:
         """Get current state of the neural network"""
         return {
             'modules': list(self.modules.keys()),

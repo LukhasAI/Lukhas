@@ -910,7 +910,7 @@ class MemoryConsciousnessOptimizer:
 
             # Optimize degraded couplings
             for degraded in health_report['degraded_couplings']:
-                coupling_type = CouplingType[degraded['coupling_type']]
+                coupling_type = Couplingtype[degraded['coupling_type']]
                 await self.optimize_coupling(coupling_type)
 
     async def _calculate_coupling_health(self, metrics: CouplingMetrics) -> float:

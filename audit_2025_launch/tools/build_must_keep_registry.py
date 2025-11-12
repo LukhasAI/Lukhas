@@ -2,12 +2,15 @@
 """
 Build comprehensive must-keep file registry for LUKHAS public launch.
 """
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernized typing imports - List->list, Set->set for Python 3.9+ compatibility
+# estimate: 3min | priority: high | dependencies: none
+
 import json
 from pathlib import Path
-from typing import List, Set
 
 
-def find_entry_points(base_dir: Path) -> List[str]:
+def find_entry_points(base_dir: Path) -> list[str]:
     """Find all entry point files."""
     entry_points = []
 
@@ -31,7 +34,7 @@ def find_entry_points(base_dir: Path) -> List[str]:
 
     return entry_points
 
-def find_production_lane_files(base_dir: Path) -> List[str]:
+def find_production_lane_files(base_dir: Path) -> list[str]:
     """Find all production lane (lukhas/) files."""
     files = []
     lukhas_dir = base_dir / 'lukhas'
@@ -43,7 +46,7 @@ def find_production_lane_files(base_dir: Path) -> List[str]:
 
     return files
 
-def find_matriz_engine_files(base_dir: Path) -> List[str]:
+def find_matriz_engine_files(base_dir: Path) -> list[str]:
     """Find MATRIZ cognitive engine files."""
     files = []
     matriz_dir = base_dir / 'matriz'
@@ -55,7 +58,7 @@ def find_matriz_engine_files(base_dir: Path) -> List[str]:
 
     return files
 
-def find_core_integration_files(base_dir: Path) -> List[str]:
+def find_core_integration_files(base_dir: Path) -> list[str]:
     """Find core integration layer files."""
     files = []
     core_dir = base_dir / 'core'
@@ -67,7 +70,7 @@ def find_core_integration_files(base_dir: Path) -> List[str]:
 
     return files
 
-def find_critical_tests(base_dir: Path) -> List[str]:
+def find_critical_tests(base_dir: Path) -> list[str]:
     """Find smoke tests and tier1 tests (critical for launch)."""
     files = []
     tests_dir = base_dir / 'tests'
@@ -80,7 +83,7 @@ def find_critical_tests(base_dir: Path) -> List[str]:
 
     return files
 
-def find_branding_assets(base_dir: Path) -> List[str]:
+def find_branding_assets(base_dir: Path) -> list[str]:
     """Find branding assets critical for public launch."""
     files = []
     branding_dir = base_dir / 'branding'
@@ -95,7 +98,7 @@ def find_branding_assets(base_dir: Path) -> List[str]:
 
     return files
 
-def find_mcp_servers(base_dir: Path) -> List[str]:
+def find_mcp_servers(base_dir: Path) -> list[str]:
     """Find MCP server implementations."""
     files = []
     mcp_dir = base_dir / 'mcp-servers'
@@ -107,7 +110,7 @@ def find_mcp_servers(base_dir: Path) -> List[str]:
 
     return files
 
-def find_critical_configs(base_dir: Path) -> List[str]:
+def find_critical_configs(base_dir: Path) -> list[str]:
     """Find critical configuration files (non-secret)."""
     files = []
 
@@ -133,7 +136,7 @@ def find_critical_configs(base_dir: Path) -> List[str]:
 
     return files
 
-def find_critical_documentation(base_dir: Path) -> List[str]:
+def find_critical_documentation(base_dir: Path) -> list[str]:
     """Find critical documentation for launch."""
     files = []
 
@@ -168,7 +171,7 @@ def find_critical_documentation(base_dir: Path) -> List[str]:
 
     return files
 
-def extract_imports_from_file(file_path: Path) -> Set[str]:
+def extract_imports_from_file(file_path: Path) -> set[str]:
     """Extract Python imports from a file."""
     imports = set()
 
@@ -197,7 +200,7 @@ def extract_imports_from_file(file_path: Path) -> Set[str]:
 
     return imports
 
-def build_dependency_map(base_dir: Path, root_files: List[str]) -> Set[str]:
+def build_dependency_map(base_dir: Path, root_files: list[str]) -> set[str]:
     """Build transitive dependency map from root files."""
     dependencies = set(root_files)
     to_process = list(root_files)

@@ -362,7 +362,7 @@ Unified LUKHAS Configuration System
 import yaml
 import json
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
 
 class LukhasConfig:
     \"\"\"Unified configuration with tier support\"\"\"
@@ -413,7 +413,7 @@ config = LukhasConfig()
 LUKHAS 2030 DNA-like Memory Helix
 Immutable, emotional, forensically compliant
 \"\"\"
-from typing import List, Dict, Any, Optional
+from typing import Optional
 from datetime import datetime
 import hashlib
 

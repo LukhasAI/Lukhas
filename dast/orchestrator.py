@@ -1,7 +1,10 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict, Tuple imports to native types in DAST orchestrator
+# estimate: 10min | priority: medium | dependencies: dast-orchestration
+
 """DAST orchestrator with directive memory for continuity."""
-from typing import Dict, Any, Optional, Tuple
 from datetime import datetime
-from collections import defaultdict
+from typing import Any, Optional
 
 
 class Directive:
@@ -13,7 +16,7 @@ class Directive:
         content: str,
         user_id: str,
         session_id: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
         timestamp: Optional[datetime] = None
     ):
         """
@@ -46,7 +49,7 @@ class Directive:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "Directive":
+    def from_dict(cls, data: dict[str, Any]) -> "Directive":
         """Create directive from dictionary."""
         timestamp = datetime.fromisoformat(data["timestamp"])
         return cls(
@@ -65,10 +68,10 @@ class DirectiveMemory:
     def __init__(self):
         """Initialize directive memory."""
         # Store last directive per (user_id, session_id)
-        self._user_session_directives: Dict[Tuple[str, str], Directive] = {}
+        self._user_session_directives: dict[tuple[str, str], Directive] = {}
 
         # Store last directive per user_id (across all sessions)
-        self._user_directives: Dict[str, Directive] = {}
+        self._user_directives: dict[str, Directive] = {}
 
         # Complete directive history
         self._history: list[Directive] = []
@@ -177,7 +180,7 @@ class Orchestrator:
     def __init__(self):
         """Initialize the orchestrator."""
         self.directive_memory = DirectiveMemory()
-        self.active_tasks: Dict[str, Any] = {}
+        self.active_tasks: dict[str, Any] = {}
         self._directive_counter = 0
 
     def process_directive(

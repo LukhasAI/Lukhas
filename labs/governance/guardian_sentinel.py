@@ -11,8 +11,8 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from ..guardian_shadow_filter import GuardianShadowFilter
-from .ethics.guardian_reflector import GuardianReflector
+from .guardian_shadow_filter import GuardianShadowFilter
+from lukhas_website.lukhas.governance.guardian.reflector import GuardianReflector
 
 # Import guardian components
 from .guardian.guardian import GuardianSystem

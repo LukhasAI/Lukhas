@@ -16,7 +16,7 @@ import json
 import pathlib
 import platform
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import jwt
 from cryptography.hazmat.primitives import serialization

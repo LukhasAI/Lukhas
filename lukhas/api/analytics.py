@@ -11,8 +11,12 @@ PRIVACY REQUIREMENTS:
 - Events are sent in batches to reduce network traffic
 """
 
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for analytics API
+# estimate: 10min | priority: high | dependencies: none
+
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -25,7 +29,7 @@ def track_feature_evaluation(flag_name: str, user_id: str, enabled: bool, contex
     """Placeholder for tracking feature evaluation."""
     logger.info(f"Tracking feature evaluation for {flag_name}")
 
-def track_feature_update(flag_name: str, admin_id: str, changes: Dict[str, Any]):
+def track_feature_update(flag_name: str, admin_id: str, changes: dict[str, Any]):
     """Placeholder for tracking feature updates."""
     logger.info(f"Tracking feature update for {flag_name}")
 
@@ -35,13 +39,13 @@ def track_feature_update(flag_name: str, admin_id: str, changes: Dict[str, Any])
 class AnalyticsEvent(BaseModel):
     """Represents a single analytics event."""
     event: str = Field(..., description="Event name (e.g., 'feature_evaluated')")
-    properties: Dict[str, Any] = Field(..., description="Event properties")
+    properties: dict[str, Any] = Field(..., description="Event properties")
     timestamp: str = Field(..., description="ISO 8601 timestamp")
 
 class AnalyticsBatch(BaseModel):
     """Represents a batch of analytics events."""
     user_id_hash: str = Field(..., description="Anonymized user ID (SHA-256)")
-    events: List[AnalyticsEvent] = Field(..., max_length=100)
+    events: list[AnalyticsEvent] = Field(..., max_length=100)
     sent_at: str = Field(..., description="ISO 8601 timestamp")
 
     @field_validator('events')

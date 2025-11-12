@@ -154,12 +154,7 @@ class ConfigLoader:
         """Load global LUKHAS configuration"""
         self.load_env()
 
-        global_config = {
-            "project_root": str(self.root_path),
-            "environment": os.getenv("LUKHAS_ENV", "development"),
-            "debug": os.getenv("LUKHAS_DEBUG", "false").lower() == "true",
-            "log_level": os.getenv("LUKHAS_LOG_LEVEL", "INFO"),
-        }
+        global_config = {}
 
         # Load from main config file
         main_config_paths = [
@@ -184,6 +179,13 @@ class ConfigLoader:
 
                 global_config.update(data)
                 break
+
+        # Apply environment variables, overriding file config
+        global_config["project_root"] = str(self.root_path)
+        global_config["environment"] = os.getenv("LUKHAS_ENV", global_config.get("environment", "development"))
+        global_config["debug"] = os.getenv("LUKHAS_DEBUG", str(global_config.get("debug", "false"))).lower() == "true"
+        global_config["log_level"] = os.getenv("LUKHAS_LOG_LEVEL", global_config.get("log_level", "INFO"))
+
 
         return global_config
 

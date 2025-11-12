@@ -7,7 +7,6 @@ import json
 import pathlib
 import subprocess
 import sys
-from typing import Dict
 
 
 def run_git_mv(source: str, target: str) -> bool:

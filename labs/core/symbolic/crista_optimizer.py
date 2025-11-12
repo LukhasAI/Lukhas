@@ -116,7 +116,7 @@ class SymbolicNode:
         Args:
             style (str): Descriptive style of splitting (e.g., 'crista_junction').
         Returns:
-            List[SymbolicNode]: A list containing the two new child nodes.
+            list[SymbolicNode]: A list containing the two new child nodes.
         """
         self.logger.info(
             f"ΛTRACE: Attempting to split SymbolicNode '{self.node_id}' using style '{style}'."
@@ -388,7 +388,7 @@ class TopologyManager:
         """
         Analyzes the current state of the network topology and returns key metrics.
         Returns:
-            Dict[str, float]: A dictionary of topology metrics.
+            dict[str, float]: A dictionary of topology metrics.
         """
         self.logger.debug("ΛTRACE: Analyzing network topology.")
         num_nodes = len(self.network.nodes)
@@ -418,7 +418,7 @@ class TopologyManager:
         Recommends an optimization strategy (FISSION, FUSION, STABILIZATION)
         based on the provided network metrics.
         Args:
-            metrics (Dict[str, float]): Current network topology metrics.
+            metrics (dict[str, float]): Current network topology metrics.
         Returns:
             OptimizationMode: The recommended optimization mode.
         """
@@ -488,9 +488,9 @@ class CristaOptimizer:
         the magnitude of an error signal and optional contextual information.
         Args:
             error_signal (float): Represents deviation from expected symbolic coherence or performance.
-            context (Optional[Dict[str, Any]]): Additional contextual data for optimization decisions.
+            context (Optional[dict[str, Any]]): Additional contextual data for optimization decisions.
         Returns:
-            Dict[str, Any]: A dictionary containing results and metrics of the optimization cycle.
+            dict[str, Any]: A dictionary containing results and metrics of the optimization cycle.
         """
         self.optimization_cycles += 1
         self.logger.info(
@@ -702,7 +702,7 @@ class CristaOptimizer:
         Retrieves a comprehensive summary of the optimizer's performance,
         including cycle counts, operation statistics, and current network health.
         Returns:
-            Dict[str, Any]: A dictionary containing performance metrics.
+            dict[str, Any]: A dictionary containing performance metrics.
         """
         self.logger.debug("ΛTRACE: Getting performance summary.")
         current_metrics = self.topology_manager.analyze_topology()  # Already logs
@@ -723,7 +723,7 @@ class CristaOptimizer:
         """
             Assesses the overall health of the network based on provided metrics.
             Args:
-                metrics (Dict[str, float]): Current network topology metrics.
+                metrics (dict[str, float]): Current network topology metrics.
             Returns:
                 str: A string descriptor of network health (e.g., "excellent", "good",
         "fair", "poor").

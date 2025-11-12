@@ -1,0 +1,64 @@
+name: Canary Deployment
+
+on:
+  push:
+    tags:
+      - 'v*.*.*-rc*'
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.docker_build.outputs.digest }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Azure Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.ACR_NAME }}.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build and push Docker image
+        id: docker_build
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./deployment/docker/Dockerfile.production
+          push: true
+          tags: ${{ secrets.ACR_NAME }}.azurecr.io/lukhas-ai:${{ github.sha }}
+
+  canary_deploy:
+    runs-on: ubuntu-latest
+    needs: build_and_push
+    environment: production
+    env:
+      ACR_NAME: ${{ secrets.ACR_NAME }}
+      IMAGE_TAG: ${{ github.sha }}
+      RESOURCE_GROUP: Lukhas
+      CONTAINER_APP_NAME: lukhas-ai
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Update Container App with new image
+        run: |
+          az containerapp update \
+            --name ${{ env.CONTAINER_APP_NAME }} \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --image ${{ secrets.ACR_NAME }}.azurecr.io/lukhas-ai:${{ github.sha }}
+
+      - name: Deploy Canary and Shift Traffic
+        run: |
+          chmod +x scripts/deployment/canary_deploy.sh
+          scripts/deployment/canary_deploy.sh

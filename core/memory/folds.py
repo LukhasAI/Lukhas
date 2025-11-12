@@ -1,7 +1,11 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict, List imports to native types in memory folds
+# estimate: 5min | priority: medium | dependencies: core-memory-system
+
 """Memory fold implementations with immutability support."""
-from typing import Dict, Any, Optional, List
-from datetime import datetime
 from copy import deepcopy
+from datetime import datetime
+from typing import Any, Optional
 
 
 class FoldSealedError(Exception):
@@ -12,7 +16,7 @@ class FoldSealedError(Exception):
 class MemoryFold:
     """Base class for memory folds."""
 
-    def __init__(self, fold_id: str, data: Optional[Dict[str, Any]] = None):
+    def __init__(self, fold_id: str, data: Optional[dict[str, Any]] = None):
         """
         Initialize a memory fold.
 
@@ -49,7 +53,7 @@ class MemoryFold:
         """
         return self.data.get(key, default)
 
-    def update(self, updates: Dict[str, Any]) -> None:
+    def update(self, updates: dict[str, Any]) -> None:
         """
         Update multiple values.
 
@@ -70,7 +74,7 @@ class MemoryFold:
             del self.data[key]
             self.updated_at = datetime.utcnow()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert fold to dictionary representation."""
         return {
             "fold_id": self.fold_id,
@@ -88,7 +92,7 @@ class WriteOnceFold(MemoryFold):
     This ensures immutability for auditing and compliance purposes.
     """
 
-    def __init__(self, fold_id: str, data: Optional[Dict[str, Any]] = None):
+    def __init__(self, fold_id: str, data: Optional[dict[str, Any]] = None):
         """
         Initialize a write-once memory fold.
 
@@ -140,7 +144,7 @@ class WriteOnceFold(MemoryFold):
         self._check_sealed()
         super().set(key, value)
 
-    def update(self, updates: Dict[str, Any]) -> None:
+    def update(self, updates: dict[str, Any]) -> None:
         """
         Update multiple values.
 
@@ -166,7 +170,7 @@ class WriteOnceFold(MemoryFold):
         self._check_sealed()
         super().delete(key)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert fold to dictionary representation."""
         result = super().to_dict()
         result["sealed"] = self._sealed
@@ -186,9 +190,9 @@ class FoldManager:
             immutability: If True, use WriteOnceFold for new folds
         """
         self.immutability = immutability
-        self.folds: Dict[str, MemoryFold] = {}
+        self.folds: dict[str, MemoryFold] = {}
 
-    def create_fold(self, fold_id: str, data: Optional[Dict[str, Any]] = None) -> MemoryFold:
+    def create_fold(self, fold_id: str, data: Optional[dict[str, Any]] = None) -> MemoryFold:
         """
         Create a new memory fold.
 
@@ -233,7 +237,7 @@ class FoldManager:
         if seal_if_write_once and isinstance(fold, WriteOnceFold):
             fold.seal()
 
-    def list_folds(self) -> List[str]:
+    def list_folds(self) -> list[str]:
         """List all fold IDs."""
         return list(self.folds.keys())
 

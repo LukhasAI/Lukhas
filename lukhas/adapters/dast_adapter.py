@@ -24,7 +24,7 @@ class TaskResponse(TypedDict):
 
     task_id: str
     status: str
-    result: NotRequired[dict[str, Any]]
+    result: NotRequired[Any]
     error: NotRequired[str]
     metadata: NotRequired[dict[str, Any]]
 
@@ -33,7 +33,7 @@ class TaskResponse(TypedDict):
 class DASTOrchestrator(Protocol):
     """Protocol describing the minimal orchestrator surface used by the adapter."""
 
-    def dispatch(self, message: TaskEnvelope) -> Mapping[str, Any]:
+    def dispatch(self, message: TaskEnvelope) -> TaskResponse:
         """Dispatch a normalized task to the orchestrator."""
 
 
@@ -44,7 +44,7 @@ class DASTAdapter:
     orchestrator: DASTOrchestrator
     default_metadata: Mapping[str, Any] | None = None
 
-    def send_task(self, task: dict[str, Any]) -> dict[str, Any]:
+    def send_task(self, task: dict[str, Any]) -> TaskResponse:
         """Normalize *task* and forward it to the orchestrator."""
 
         normalized = _normalize_task(task, self.default_metadata)
@@ -82,11 +82,11 @@ def _normalize_task(
     return normalized
 
 
-def _normalize_response(response: Mapping[str, Any]) -> dict[str, Any]:
+def _normalize_response(response: Mapping[str, Any]) -> TaskResponse:
     if "task_id" not in response or "status" not in response:
         raise ValueError("Orchestrator response must include 'task_id' and 'status'")
 
-    normalized: dict[str, Any] = {
+    normalized: TaskResponse = {
         "task_id": str(response["task_id"]),
         "status": str(response["status"]),
     }

@@ -1,12 +1,12 @@
 from __future__ import annotations
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
-from typing import Dict, List, Any, Optional, Tuple
+
 import uuid
 import time
 
 class Task:
-    def __init__(self, task_type: str, priority: int = 0, dependencies: Optional[List[str]] = None, max_retries: int = 3, id: Optional[str] = None):
+    def __init__(self, task_type: str, priority: int = 0, dependencies: Optional[list[str]] = None, max_retries: int = 3, id: Optional[str] = None):
         self.id = id if id else str(uuid.uuid4())
         self.type = task_type
         self.state = 'pending'
@@ -42,12 +42,12 @@ class TaskManager:
     '''Manage LUKHAS cognitive tasks'''
 
     def __init__(self):
-        self.active_tasks: Dict[str, Task] = {}
-        self.completed_tasks: Dict[str, Task] = {}
+        self.active_tasks: dict[str, Task] = {}
+        self.completed_tasks: dict[str, Task] = {}
         self.task_queue: asyncio.PriorityQueue = asyncio.PriorityQueue()
         self.executor = ThreadPoolExecutor(max_workers=4)
         self.completed_task_ids = set()
-        self.running_async_tasks: Dict[str, asyncio.Task] = {}
+        self.running_async_tasks: dict[str, asyncio.Task] = {}
 
     async def submit_task(self, task: Task) -> str:
         '''Submit task for execution'''

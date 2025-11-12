@@ -19,4 +19,4 @@ class DependencyWarning(Warning):
     """Placeholder warning for urllib3 dependency issues."""
 
 
-__all__ = ["HTTPError", "InsecureRequestWarning", "NotOpenSSLWarning", "DependencyWarning"]
+__all__ = ["DependencyWarning", "HTTPError", "InsecureRequestWarning", "NotOpenSSLWarning"]

@@ -14,10 +14,9 @@ Usage:
 
 import argparse
 import re
-from pathlib import Path
 from datetime import date
-from typing import Dict, List, Tuple
-import yaml
+from pathlib import Path
+from typing import List, Tuple
 
 # Full 8-star Constellation Framework
 CONSTELLATION_8_STARS = "⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum"
@@ -72,7 +71,7 @@ class ContextFileUpdater:
                 return False
 
         except Exception as e:
-            self.conflicts.append((filepath, f"Error: {str(e)}"))
+            self.conflicts.append((filepath, f"Error: {e!s}"))
             return False
 
     def _has_conflicts(self, content: str, filepath: Path) -> bool:

@@ -16,29 +16,15 @@ import os
 import time
 from dataclasses import asdict, dataclass, field
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, ClassVar, Dict, Optional
 
 from matriz.core.node_interface import CognitiveNode
 
-try:
-    from prometheus_client import REGISTRY, Counter, Histogram
-except Exception:  # pragma: no cover - metrics optional in tests
-
-    class _NoopMetric:
-        def __init__(self, *_, **__):  # pragma: no cover - test shim
-            pass
-
-        def labels(self, *_, **__):  # type: ignore[return-value]
-            return self
-
-        def observe(self, *_, **__):
-            return None
-
-        def inc(self, *_, **__):
-            return None
-
-    Counter = Histogram = _NoopMetric  # type: ignore
-    REGISTRY = None  # type: ignore
+# LUKHAS lane metrics integration
+from lukhas.orchestration.stage_metrics import (
+    record_pipeline_metrics as _record_pipeline_metrics_lukhas,
+    record_stage_metrics as _record_stage_metrics_lukhas,
+)
 
 # OpenTelemetry instrumentation
 try:
@@ -100,99 +86,29 @@ except ImportError:
         return {}
 
 
-_DEFAULT_LANE = os.getenv("LUKHAS_LANE", "canary").lower()
-
-# ΛTAG: orchestrator_metrics -- async pipeline stage instrumentation
-if isinstance(Histogram, type):
-
-    def _register_histogram(*args, **kwargs):
-        try:
-            return Histogram(*args, **kwargs)
-        except ValueError:
-            if REGISTRY is not None:
-                existing = getattr(REGISTRY, "_names_to_collectors", {}).get(args[0])
-                if isinstance(existing, Histogram):
-                    return existing
-            raise
-
-    def _register_counter(*args, **kwargs):
-        try:
-            return Counter(*args, **kwargs)
-        except ValueError:
-            if REGISTRY is not None:
-                existing = getattr(REGISTRY, "_names_to_collectors", {}).get(args[0])
-                if isinstance(existing, Counter):
-                    return existing
-            raise
-
-    _ASYNC_PIPELINE_DURATION = _register_histogram(
-        "lukhas_matriz_async_pipeline_duration_seconds",
-        "Async MATRIZ pipeline duration",
-        ["lane", "status", "within_budget"],
-        buckets=[0.01, 0.05, 0.1, 0.15, 0.2, 0.25, 0.35, 0.5, 1.0],
-    )
-    _ASYNC_PIPELINE_TOTAL = _register_counter(
-        "lukhas_matriz_async_pipeline_total",
-        "Async MATRIZ pipeline executions",
-        ["lane", "status", "within_budget"],
-    )
-    _ASYNC_STAGE_DURATION = _register_histogram(
-        "lukhas_matriz_async_stage_duration_seconds",
-        "Async MATRIZ stage duration",
-        ["lane", "stage", "outcome"],
-        buckets=[0.001, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5],
-    )
-    _ASYNC_STAGE_TOTAL = _register_counter(
-        "lukhas_matriz_async_stage_total",
-        "Async MATRIZ stage executions",
-        ["lane", "stage", "outcome"],
-    )
-else:  # pragma: no cover
-    _ASYNC_PIPELINE_DURATION = Histogram()
-    _ASYNC_PIPELINE_TOTAL = Counter()
-    _ASYNC_STAGE_DURATION = Histogram()
-    _ASYNC_STAGE_TOTAL = Counter()
-
-
-def _lane_value() -> str:
-    """Resolve the current lane label for orchestrator metrics."""
-    lane = os.getenv("LUKHAS_LANE", _DEFAULT_LANE).lower()
-    return lane or "unknown"
+PIPELINE_NAME = "matriz_async_cognitive"
 
 
 def _record_stage_metrics(stage_type: "StageType", duration_ms: float, outcome: str) -> None:
-    """Record Prometheus metrics for individual stages."""
-    outcome_label = outcome if outcome in {"success", "timeout", "error"} else "unknown"
-    lane = _lane_value()
-    _ASYNC_STAGE_DURATION.labels(
-        lane=lane,
-        stage=stage_type.value,
-        outcome=outcome_label,
-    ).observe(max(duration_ms, 0.0) / 1000.0)
-    _ASYNC_STAGE_TOTAL.labels(
-        lane=lane,
-        stage=stage_type.value,
-        outcome=outcome_label,
-    ).inc()
+    """Record Prometheus metrics for individual stages via the LUKHAS metrics module."""
+    _record_stage_metrics_lukhas(
+        pipeline_name=PIPELINE_NAME,
+        stage_name=stage_type.value,
+        duration_sec=duration_ms / 1000.0,
+        outcome=outcome,
+    )
 
 
 def _record_pipeline_metrics(
     duration_ms: float, status: str, within_budget: Optional[bool]
 ) -> None:
-    """Record Prometheus metrics for full pipeline runs."""
-    status_label = status if status in {"success", "error", "timeout"} else "unknown"
-    within_label = "unknown" if within_budget is None else str(within_budget).lower()
-    lane = _lane_value()
-    _ASYNC_PIPELINE_DURATION.labels(
-        lane=lane,
-        status=status_label,
-        within_budget=within_label,
-    ).observe(max(duration_ms, 0.0) / 1000.0)
-    _ASYNC_PIPELINE_TOTAL.labels(
-        lane=lane,
-        status=status_label,
-        within_budget=within_label,
-    ).inc()
+    """Record Prometheus metrics for full pipeline runs via the LUKHAS metrics module."""
+    # The new module does not have a `within_budget` label, so we discard it.
+    _record_pipeline_metrics_lukhas(
+        pipeline_name=PIPELINE_NAME,
+        duration_sec=duration_ms / 1000.0,
+        status=status,
+    )
 
 
 logger = logging.getLogger(__name__)
@@ -211,7 +127,7 @@ class StageType(Enum):
 class StageConfig:
     """Configuration for stage execution"""
 
-    DEFAULT_TIMEOUTS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_core_async_orchestrator_py_L213"}
+    DEFAULT_TIMEOUTS: ClassVar[dict[StageType, float]] = {
         StageType.INTENT: 0.05,  # 50ms for intent analysis
         StageType.DECISION: 0.10,  # 100ms for decision
         StageType.PROCESSING: 0.12,  # 120ms for main processing
@@ -219,7 +135,7 @@ class StageConfig:
         StageType.REFLECTION: 0.03,  # 30ms for reflection
     }
 
-    DEFAULT_CRITICAL = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_core_async_orchestrator_py_L221"}
+    DEFAULT_CRITICAL: ClassVar[dict[StageType, bool]] = {
         StageType.INTENT: True,  # Critical - must understand intent
         StageType.DECISION: True,  # Critical - must select node
         StageType.PROCESSING: True,  # Critical - main work

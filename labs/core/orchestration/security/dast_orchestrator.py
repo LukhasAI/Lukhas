@@ -167,8 +167,8 @@ class EnhancedDASTOrchestrator:
 # - symbolic_ai.assistant.assistant_node
 # - symbolic_ai.filter.check_intent
 # INTERFACES:
-# - Input: intent (Dict[str, Any])
-# - Output: result (Dict[str, Any])
+# - Input: intent (dict[str, Any])
+# - Output: result (dict[str, Any])
 # ERROR HANDLING:
 # - Exceptions are caught and logged.
 # - Ethical blocks and high dissonance are handled.

@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
 """
 LUKHAS Consent Ledger v2.0.0 - Event-Driven Facade
 ===================================================
@@ -23,7 +27,7 @@ import threading
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Callable, Dict, Optional
+from typing import  Callable, Optional
 
 # Import original types for compatibility
 from ..governance.consent_ledger_impl import (
@@ -49,7 +53,6 @@ from .events import (
 from .metrics import get_metrics, time_append_operation
 
 logger = logging.getLogger(__name__)
-
 
 class ConsentLedgerV2:
     """
@@ -540,7 +543,6 @@ class ConsentLedgerV2:
         except Exception as e:
             logger.error(f"Shutdown error: {e}")
 
-
 # Factory function to maintain backward compatibility
 def ConsentLedgerV1(*args, **kwargs):
     """
@@ -548,7 +550,6 @@ def ConsentLedgerV1(*args, **kwargs):
     Returns ConsentLedgerV2 but maintains V1 interface.
     """
     return ConsentLedgerV2(*args, **kwargs)
-
 
 # For complete backward compatibility, we can also expose the original class name
 class ConsentLedgerV1(ConsentLedgerV2):
