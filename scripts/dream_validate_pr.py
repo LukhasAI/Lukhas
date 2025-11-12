@@ -14,20 +14,25 @@ from pathlib import Path
 # Add parent to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-# Mock missing modules as per user's instruction
+# Mock missing modules with robust fallback handling
 try:
     from lukhas.orchestrator.guardian_orchestrator import GuardianOrchestrator
     from lukhas.qrg.signing import generate_private_key, private_key_to_pem
 except ImportError:
-    from unittest.mock import MagicMock
-    sys.modules['lukhas'] = MagicMock()
-    sys.modules['lukhas.orchestrator'] = MagicMock()
-    sys.modules['lukhas.orchestrator.guardian_orchestrator'] = MagicMock()
-    sys.modules['lukhas.qrg'] = MagicMock()
-    sys.modules['lukhas.qrg.signing'] = MagicMock()
-    GuardianOrchestrator = MagicMock()
-    generate_private_key = MagicMock()
-    private_key_to_pem = MagicMock()
+    try:
+        from core.orchestrator.guardian_orchestrator import GuardianOrchestrator
+        from core.qrg.signing import generate_private_key, private_key_to_pem
+    except ImportError:
+        # Final fallback with unittest.mock for robustness
+        from unittest.mock import MagicMock
+        sys.modules['lukhas'] = MagicMock()
+        sys.modules['lukhas.orchestrator'] = MagicMock()
+        sys.modules['lukhas.orchestrator.guardian_orchestrator'] = MagicMock()
+        sys.modules['lukhas.qrg'] = MagicMock()
+        sys.modules['lukhas.qrg.signing'] = MagicMock()
+        GuardianOrchestrator = MagicMock()
+        generate_private_key = MagicMock()
+        private_key_to_pem = MagicMock()
 
 
 def main():
