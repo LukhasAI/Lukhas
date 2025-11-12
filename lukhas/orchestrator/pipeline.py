@@ -25,10 +25,10 @@ class PipelineContext:
     """Context for pipeline execution."""
 
     pipeline_id: str
-    nodes: List[str]
+    nodes: list[str]
     cancellation_token: asyncio.Event
     start_time: float
-    completed_nodes: List[str]
+    completed_nodes: list[str]
 
 
 class PipelineExecutor:
@@ -41,7 +41,7 @@ class PipelineExecutor:
     async def execute_pipeline(
         self,
         pipeline_id: str,
-        nodes: List[tuple[str, Callable]],
+        nodes: list[tuple[str, Callable]],
         initial_input: Any,
     ) -> Any:
         """
@@ -114,7 +114,7 @@ class PipelineExecutor:
     async def _execute_nodes(
         self,
         context: PipelineContext,
-        nodes: List[tuple[str, Callable]],
+        nodes: list[tuple[str, Callable]],
         initial_input: Any,
     ) -> Any:
         """Execute pipeline nodes sequentially."""

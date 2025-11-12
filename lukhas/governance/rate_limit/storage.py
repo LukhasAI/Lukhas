@@ -99,7 +99,7 @@ class InMemoryRateLimitStorage(RateLimitStorage):
     def __init__(self):
         """Initialize in-memory storage."""
         # Key -> deque of timestamps
-        self._windows: Dict[str, deque] = defaultdict(deque)
+        self._windows: dict[str, deque] = defaultdict(deque)
 
         # Lock for thread safety
         self._lock = Lock()
@@ -224,7 +224,7 @@ class InMemoryRateLimitStorage(RateLimitStorage):
             self._last_cleanup = current_time
             return len(keys_to_remove)
 
-    def get_stats(self) -> Dict[str, int]:
+    def get_stats(self) -> dict[str, int]:
         """
         Get storage statistics.
 
