@@ -1,68 +1,83 @@
 import json
+from typing import Optional
+
 from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import JSONResponse
-from redis.asyncio import Redis
+
+from serve.utils.cache_manager import CacheManager
+
 
 class CacheMiddleware(BaseHTTPMiddleware):
-    def __init__(self, app):
+    """A caching middleware that uses a CacheManager to cache responses."""
+
+    def __init__(self, app, cache_manager: CacheManager, default_ttl: int = 300):
         super().__init__(app)
-        self.redis = Redis(host="localhost", port=6379, decode_responses=True)
-        self.default_ttl = 300  # 5 minutes
+        self.cache_manager = cache_manager
+        self.default_ttl = default_ttl
 
     async def dispatch(self, request: Request, call_next):
-        user_id = getattr(request.state, "user_id", None)
-        cache_key = f"cache:{user_id}:{request.url.path}?{request.query_params}"
+        """Cache GET requests and invalidate cache for other methods."""
+        if request.method != "GET":
+            # Invalidate cache for mutating methods
+            if request.method in ["POST", "PUT", "DELETE", "PATCH"]:
+                await self.invalidate_related_caches(request)
+            return await call_next(request)
 
-        if request.method == "GET":
-            cached_response = await self.get_cached(cache_key)
-            if cached_response:
-                return JSONResponse(content=cached_response, status_code=200)
+        # Skip caching for authenticated users unless explicitly enabled
+        if hasattr(request.state, "user_id") and not request.headers.get(
+            "X-Cache-Authenticated"
+        ):
+            return await call_next(request)
+
+        cache_key = self.generate_cache_key(request)
+        cached_response = await self.cache_manager.get(cache_key)
+        if cached_response:
+            return JSONResponse(content=cached_response)
 
         response = await call_next(request)
 
-        if request.method == "GET" and response.status_code == 200:
+        if response.status_code == 200:
             response_body = b""
             async for chunk in response.body_iterator:
                 response_body += chunk
-
-            # Decode bytes to string before JSON parsing
             try:
                 body_json = json.loads(response_body.decode())
+                ttl = self.get_ttl_for_endpoint(request)
+                if ttl > 0:
+                    await self.cache_manager.set(cache_key, body_json, ttl=ttl)
+                return JSONResponse(content=body_json, headers=dict(response.headers))
             except (json.JSONDecodeError, UnicodeDecodeError):
-                # Not a valid JSON response, don't cache
-                return response
-
-            ttl_header = request.headers.get("X-Test-Cache-TTL")
-            if ttl_header:
-                try:
-                    ttl = int(ttl_header)
-                except ValueError:
-                    ttl = None  # fallback to default TTL
-            else:
-                ttl = None
-
-            await self.set_cached(cache_key, body_json, ttl=ttl)
-
-            # Return a new response as the body_iterator has been consumed
-            return JSONResponse(content=body_json, status_code=response.status_code, headers=dict(response.headers))
-
-        if request.method in ["POST", "PUT", "DELETE"]:
-            # Invalidate caches for this user
-            await self.invalidate(f"cache:{user_id}:{request.url.path}")
+                pass  # Don't cache non-JSON responses
 
         return response
 
-    async def get_cached(self, key: str):
-        cached = await self.redis.get(key)
-        if cached:
-            return json.loads(cached)
-        return None
+    def generate_cache_key(self, request: Request) -> str:
+        """Generate a cache key from the request path, query params, and headers."""
+        user_id = getattr(request.state, "user_id", "anonymous")
+        headers = sorted(request.headers.items())
+        header_str = "&".join([f"{k}={v}" for k, v in headers])
+        return f"cache:user:{user_id}:{request.url.path}?{request.query_params}&headers={header_str}"
 
-    async def set_cached(self, key: str, value: dict, ttl: int = None):
-        await self.redis.setex(key, ttl or self.default_ttl, json.dumps(value))
+    def get_ttl_for_endpoint(self, request: Request) -> int:
+        """Get the cache TTL for a specific endpoint."""
+        path = request.url.path
+        if path in ["/health", "/healthz"]:
+            return 60
+        if path == "/metrics":
+            return 30
+        if path.startswith("/feedback/report/"):
+            return 300
+        if path == "/memory-dump/":
+            return 300
+        return self.default_ttl
 
-    async def invalidate(self, pattern: str):
-        keys = [key async for key in self.redis.scan_iter(f"cache:*{pattern}*")]
-        if keys:
-            await self.redis.delete(*keys)
+    async def invalidate_related_caches(self, request: Request):
+        """Invalidate caches related to a mutating request."""
+        path = request.url.path
+        if path == "/feedback/capture":
+            user_id = getattr(request.state, "user_id", None)
+            if user_id:
+                await self.cache_manager.invalidate(f"/feedback/report/{user_id}")
+        else:
+            await self.cache_manager.invalidate(path)

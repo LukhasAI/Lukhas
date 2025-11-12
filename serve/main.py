@@ -1,5 +1,6 @@
 """Entry point for LUKHAS commercial API"""
 import logging
+import os
 import time
 import uuid
 from collections.abc import Awaitable
@@ -17,6 +18,7 @@ from serve.metrics import (
 )
 from serve.middleware.prometheus import PrometheusMiddleware
 from serve.middleware.cache_middleware import CacheMiddleware
+from serve.utils.cache_manager import CacheManager
 from starlette.middleware.base import BaseHTTPMiddleware
 
 MATRIZ_AVAILABLE = False
@@ -63,7 +65,11 @@ except Exception:
 
     def env_get(key: str, default: Optional[str]=None) -> Optional[str]:
         return _os.getenv(key, default)
-import os
+
+# Cache configuration
+REDIS_URL = env_get("REDIS_URL", "redis://localhost:6379")
+CACHE_ENABLED = env_get("CACHE_ENABLED", "true").lower() == "true"
+DEFAULT_CACHE_TTL = int(env_get("CACHE_TTL", "300"))
 
 _MODEL_LIST_CACHE = None
 
@@ -152,11 +158,16 @@ frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http:/
 app.add_middleware(PrometheusMiddleware)
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
 app.add_middleware(StrictAuthMiddleware)
-# Add rate limiting after auth middleware (requires user_id from request.state)
-app.add_middleware(RateLimitMiddleware, config=RateLimitConfig())
-app.add_middleware(CacheMiddleware)
+
+cache_manager: Optional[CacheManager] = None
+if CACHE_ENABLED:
+    cache_manager = CacheManager(redis_url=REDIS_URL, default_ttl=DEFAULT_CACHE_TTL)
+    app.add_middleware(
+        CacheMiddleware, cache_manager=cache_manager, default_ttl=DEFAULT_CACHE_TTL
+    )
+
 app.add_middleware(HeadersMiddleware)
-app.include_router(auth_router)
+
 if routes_router is not None:
     app.include_router(routes_router)
 if openai_router is not None:
@@ -194,6 +205,13 @@ def voice_core_available() -> bool:
         return True
     except Exception:
         return False
+
+@app.delete("/api/cache/{pattern}", status_code=204)
+async def invalidate_cache(pattern: str):
+    """Manually invalidate cache entries matching a pattern."""
+    if cache_manager:
+        await cache_manager.invalidate(pattern)
+    return Response(status_code=204)
 
 def _get_health_status() -> dict[str, Any]:
     """Get health status for both /health and /healthz endpoints."""
