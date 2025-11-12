@@ -1,24 +1,26 @@
-# Soft-Delete Functionality in Embedding Index
+# Soft-Delete Pattern for Memory Entries
+
+This document outlines the soft-delete pattern implemented in the `lukhas/memory` module.
 
 ## Overview
 
-This document describes the soft-delete functionality implemented in the `SoftDeleteEmbeddingIndex` class. This feature allows for marking items as "deleted" without permanently removing them from the index, providing a way to recover them later if needed.
+The soft-delete pattern allows memory entries to be marked as deleted without being permanently removed from the system. This provides a mechanism for data recovery and auditing.
 
-## Implementation Details
+## Implementation
 
-The `SoftDeleteEmbeddingIndex` class inherits from the `EmbeddingIndex` class and extends its functionality with the following features:
+The implementation consists of the following components:
 
-- **`soft_delete(vector_id)`**: Marks a vector as deleted by setting an `is_deleted` flag to `True` in its metadata and recording the deletion time in a `deleted_at` field.
+- **`SoftDeletable` mixin**: A mixin class in `lukhas/memory/soft_delete.py` that provides the core soft-delete logic, including `is_deleted` and `deleted_at` attributes and `soft_delete()` and `restore()` methods.
 
-- **`restore(vector_id)`**: Reverses a soft-delete by setting the `is_deleted` flag back to `False` and clearing the `deleted_at` field.
+- **`MemoryEntry` class**: A class in `lukhas/memory/index.py` that represents a single entry in the embedding index. It inherits from the `SoftDeletable` mixin to gain soft-delete capabilities.
 
-- **`search(query_vector, top_k, include_deleted)`**: By default, this method now excludes soft-deleted items from search results. To include them, the `include_deleted` parameter can be set to `True`.
+### `EmbeddingIndex` Class
 
-## Metadata Fields
+The `EmbeddingIndex` class in `lukhas/memory/index.py` manages `MemoryEntry` objects and has been updated to include the following methods for managing soft-deletes:
 
-The soft-delete functionality relies on two metadata fields:
+- `soft_delete(vector_id)`: Marks a vector as deleted by calling the `soft_delete()` method on the corresponding `MemoryEntry` object.
+- `restore(vector_id)`: Restores a soft-deleted vector by calling the `restore()` method on the corresponding `MemoryEntry` object.
+- `is_deleted(vector_id)`: Checks if a vector is soft-deleted.
+- `get_deleted_at(vector_id)`: Returns the deletion timestamp for a vector.
 
-- **`is_deleted` (bool)**: `True` if the item is soft-deleted, `False` otherwise.
-- **`deleted_at` (str)**: An ISO 8601 formatted timestamp indicating when the item was soft-deleted.
-
-These fields are automatically added to the metadata of each new item added to the index.
+The `search` method has also been updated to exclude soft-deleted entries from search results.

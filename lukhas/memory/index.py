@@ -1,12 +1,13 @@
 """
 In-memory implementation of memory indexing systems.
 """
-
+import datetime
 from collections import defaultdict
-from functools import lru_cache
-from typing import Any, Optional, Tuple, TypedDict
+from typing import Any, Optional, TypedDict
 
 import numpy as np
+
+from lukhas.memory.soft_delete import SoftDeletable
 
 
 class SearchResult(TypedDict):
@@ -16,90 +17,86 @@ class SearchResult(TypedDict):
     similarity: float
 
 
-class EmbeddingIndex:
-    """A simple in-memory embedding index with caching."""
+class MemoryEntry(SoftDeletable):
+    """Represents a single entry in the embedding index."""
+    def __init__(self, vector: list[float], metadata: Optional[dict[str, Any]] = None):
+        super().__init__()
+        self.vector_np = np.array(vector)
+        self.metadata = metadata if metadata else {}
 
-    def __init__(self, max_cache_size: int = 128):
-        self._vectors: dict[str, np.ndarray] = {}
-        self._metadata: dict[str, dict[str, Any]] = {}
-        self._vector_matrix: Optional[np.ndarray] = None
-        self._vector_ids: list[str] = []
-        self._dirty = True
-        # The internal search function is cached
-        self._search_internal = lru_cache(maxsize=max_cache_size)(self._search_implementation)
+    @property
+    def vector(self) -> list[float]:
+        return self.vector_np.tolist()
+
+
+class EmbeddingIndex:
+    """A simple in-memory embedding index."""
+
+    def __init__(self):
+        self._entries: dict[str, MemoryEntry] = {}
 
     def add(self, vector_id: str, vector: list[float], metadata: Optional[dict[str, Any]] = None):
-        """Adds a vector to the index and clears the cache."""
-        self._vectors[vector_id] = np.array(vector)
-        if metadata:
-            self._metadata[vector_id] = metadata
-        self._dirty = True
-        self._search_internal.cache_clear()
+        """Adds a vector to the index."""
+        self._entries[vector_id] = MemoryEntry(vector, metadata)
 
-    def _rebuild_matrix(self):
-        """Rebuilds the cached vector matrix if it's dirty."""
-        if self._dirty:
-            if not self._vectors:
-                self._vector_matrix = None
-                self._vector_ids = []
-            else:
-                self._vector_ids = list(self._vectors.keys())
-                self._vector_matrix = np.array([self._vectors[vid] for vid in self._vector_ids])
-            self._dirty = False
+    def soft_delete(self, vector_id: str):
+        """Marks a vector as deleted."""
+        if entry := self._entries.get(vector_id):
+            entry.soft_delete()
+
+    def restore(self, vector_id: str):
+        """Restores a soft-deleted vector."""
+        if entry := self._entries.get(vector_id):
+            entry.restore()
+
+    def is_deleted(self, vector_id: str) -> bool:
+        """Checks if a vector is soft-deleted."""
+        if entry := self._entries.get(vector_id):
+            return entry.is_deleted
+        return False
+
+    def get_deleted_at(self, vector_id: str) -> Optional[datetime.datetime]:
+        """Gets the deletion timestamp for a vector."""
+        if entry := self._entries.get(vector_id):
+            return entry.deleted_at
+        return None
 
     def search(self, query_vector: list[float], top_k: int = 5) -> list[SearchResult]:
         """
-        Performs a vectorized cosine similarity search, using a cache.
+        Performs a cosine similarity search.
         """
-        # Convert list to tuple to make it hashable for the cache
-        return self._search_internal(tuple(query_vector), top_k)
-
-    def _search_implementation(
-        self, query_vector: Tuple[float, ...], top_k: int = 5
-    ) -> list[SearchResult]:
-        """
-        The actual implementation of the search, which is cached.
-        """
-        self._rebuild_matrix()
-
-        if self._vector_matrix is None or len(self._vector_ids) == 0:
+        if not self._entries:
             return []
 
         query_np = np.array(query_vector)
 
-        # Normalize the query vector and the matrix
-        query_norm = np.linalg.norm(query_np)
-        if query_norm == 0:
-            return []
+        # Calculate cosine similarity
+        similarities = {}
+        for vector_id, entry in self._entries.items():
+            if entry.is_deleted:
+                continue
 
-        normalized_query = query_np / query_norm
+            vector = entry.vector_np
+            norm_query = np.linalg.norm(query_np)
+            norm_vector = np.linalg.norm(vector)
+            if norm_query == 0 or norm_vector == 0:
+                similarity = 0.0
+            else:
+                similarity = np.dot(query_np, vector) / (norm_query * norm_vector)
+            similarities[vector_id] = similarity
 
-        matrix_norms = np.linalg.norm(self._vector_matrix, axis=1)
-        non_zero_norms_mask = matrix_norms > 0
-        normalized_matrix = np.zeros_like(self._vector_matrix, dtype=np.float32)
-
-        # Use np.newaxis to ensure correct broadcasting for division
-        normalized_matrix[non_zero_norms_mask] = self._vector_matrix[non_zero_norms_mask] / matrix_norms[non_zero_norms_mask, np.newaxis]
-
-        similarities = np.dot(normalized_matrix, normalized_query)
-
-        # Get the indices of the top_k results
-        num_vectors = len(self._vector_ids)
-        if top_k >= num_vectors:
-            top_k_indices = np.argsort(similarities)[::-1][:top_k]
-        else:
-            top_k_indices_unsorted = np.argpartition(similarities, -top_k)[-top_k:]
-            top_k_indices = top_k_indices_unsorted[np.argsort(similarities[top_k_indices_unsorted])[::-1]]
+        # Sort by similarity and return top_k results
+        sorted_ids = sorted(similarities.keys(), key=lambda x: similarities[x], reverse=True)
 
         results: list[SearchResult] = []
-        for i in top_k_indices:
-            vector_id = self._vector_ids[i]
+        for vector_id in sorted_ids[:top_k]:
+            entry = self._entries[vector_id]
             results.append(
                 {
                     "id": vector_id,
-                    "vector": self._vectors[vector_id].tolist(),
-                    "metadata": self._metadata.get(vector_id, {}),
-                    "similarity": float(similarities[i]),
+                    "vector": entry.vector,
+                    "metadata": entry.metadata,
+                    "similarity": similarities[vector_id],
                 }
             )
         return results
