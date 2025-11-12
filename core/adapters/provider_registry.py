@@ -1,62 +1,155 @@
-"""Provider registry with token bucket rate limiting."""
-import time
-from typing import Dict, Any, Optional
-from dataclasses import dataclass
+"""Provider Registry - Runtime dependency injection for optional providers.
 
+Enables production modules to use optional 'labs' features without
+import-time dependencies. Providers are resolved at runtime with
+graceful degradation when unavailable.
 
-@dataclass
-class TokenBucket:
-    """Simple token bucket for rate limiting."""
-    capacity: int
-    refill_rate: float
-    tokens: float = 0.0
-    last_refill: float = 0.0
+Usage:
+    from core.adapters.provider_registry import ProviderRegistry
+    from core.adapters.config_resolver import make_resolver
 
-    def __post_init__(self):
-        self.tokens = self.capacity
-        self.last_refill = time.time()
+    registry = ProviderRegistry(make_resolver())
+    openai = registry.get_openai()
+    if openai is None:
+        raise RuntimeError("OpenAI provider unavailable")
+"""
 
-    def refill(self) -> None:
-        """Refill tokens based on elapsed time."""
-        now = time.time()
-        elapsed = now - self.last_refill
-        self.tokens = min(self.capacity, self.tokens + elapsed * self.refill_rate)
-        self.last_refill = now
+import importlib
+import logging
+from typing import Any, Dict, Optional
 
-    def consume(self, tokens: int = 1) -> bool:
-        """Try to consume tokens."""
-        self.refill()
-        if self.tokens >= tokens:
-            self.tokens -= tokens
-            return True
-        return False
+logger = logging.getLogger(__name__)
 
 
 class ProviderRegistry:
-    """Registry for external providers with rate limiting."""
+    """Central registry for runtime provider injection.
 
-    def __init__(self, default_capacity: int = 100, default_refill_rate: float = 10.0):
-        self.providers: Dict[str, Any] = {}
-        self.buckets: Dict[str, TokenBucket] = {}
-        self.default_capacity = default_capacity
-        self.default_refill_rate = default_refill_rate
+    Resolves optional dependencies (labs modules) at runtime
+    without requiring import-time availability.
+    """
 
-    def register(self, name: str, provider: Any, capacity: Optional[int] = None, refill_rate: Optional[float] = None) -> None:
-        """Register a provider with rate limiting."""
-        self.providers[name] = provider
-        self.buckets[name] = TokenBucket(
-            capacity=capacity or self.default_capacity,
-            refill_rate=refill_rate or self.default_refill_rate
-        )
+    def __init__(self, config_resolver):
+        """Initialize registry with configuration resolver.
 
-    def call(self, name: str, *args, **kwargs) -> Any:
-        """Call provider through rate limit."""
-        if name not in self.providers:
-            raise ValueError(f"Provider '{name}' not registered")
-        bucket = self.buckets[name]
-        if not bucket.consume():
-            raise RuntimeError(f"Rate limit exceeded for provider '{name}'")
-        provider = self.providers[name]
-        if callable(provider):
-            return provider(*args, **kwargs)
-        return provider
+        Args:
+            config_resolver: Configuration resolver instance
+        """
+        self.config = config_resolver
+        self._cache: Dict[str, Optional[Any]] = {}
+
+    def get_openai(self) -> Optional[Any]:
+        """Get OpenAI provider instance.
+
+        Returns:
+            OpenAI client or None if unavailable
+        """
+        if "openai" not in self._cache:
+            self._cache["openai"] = self._load_provider(
+                "labs.providers.openai",
+                "OpenAIProvider"
+            )
+        return self._cache["openai"]
+
+    def get_anthropic(self) -> Optional[Any]:
+        """Get Anthropic provider instance.
+
+        Returns:
+            Anthropic client or None if unavailable
+        """
+        if "anthropic" not in self._cache:
+            self._cache["anthropic"] = self._load_provider(
+                "labs.providers.anthropic",
+                "AnthropicProvider"
+            )
+        return self._cache["anthropic"]
+
+    def get_memory(self) -> Optional[Any]:
+        """Get memory provider instance.
+
+        Returns:
+            Memory provider or None if unavailable
+        """
+        if "memory" not in self._cache:
+            self._cache["memory"] = self._load_provider(
+                "labs.memory.fold_system.memory_fold_system",
+                "MemoryFoldSystem"
+            )
+        return self._cache["memory"]
+
+    def get_guardian(self) -> Optional[Any]:
+        """Get guardian provider instance.
+
+        Returns:
+            Guardian provider or None if unavailable
+        """
+        if "guardian" not in self._cache:
+            self._cache["guardian"] = self._load_provider(
+                "labs.governance.guardian_sentinel",
+                "GuardianSentinel"
+            )
+        return self._cache["guardian"]
+
+    def get_provider(self, provider_name: str) -> Optional[Any]:
+        """Get provider by name with caching.
+
+        Args:
+            provider_name: Name of the provider
+
+        Returns:
+            Provider instance or None if unavailable
+        """
+        if provider_name not in self._cache:
+            # Try to load from config
+            module_path = self.config.get(f"providers.{provider_name}.module")
+            class_name = self.config.get(f"providers.{provider_name}.class")
+
+            if module_path and class_name:
+                self._cache[provider_name] = self._load_provider(
+                    module_path,
+                    class_name
+                )
+            else:
+                logger.warning(f"Provider '{provider_name}' not configured")
+                self._cache[provider_name] = None
+
+        return self._cache[provider_name]
+
+    def _load_provider(
+        self,
+        module_path: str,
+        class_name: str
+    ) -> Optional[Any]:
+        """Load provider class dynamically.
+
+        Args:
+            module_path: Python module path
+            class_name: Class name to import
+
+        Returns:
+            Provider instance or None if load fails
+        """
+        try:
+            module = importlib.import_module(module_path)
+            provider_class = getattr(module, class_name)
+            return provider_class()
+        except (ImportError, AttributeError) as e:
+            logger.debug(
+                f"Provider {class_name} from {module_path} unavailable: {e}"
+            )
+            return None
+
+    def clear_cache(self):
+        """Clear provider cache (useful for testing)."""
+        self._cache.clear()
+
+    def is_available(self, provider_name: str) -> bool:
+        """Check if provider is available.
+
+        Args:
+            provider_name: Name of the provider
+
+        Returns:
+            True if provider is available, False otherwise
+        """
+        provider = self.get_provider(provider_name)
+        return provider is not None
