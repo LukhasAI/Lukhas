@@ -104,7 +104,7 @@ export default function HomePage() {
               What is <span className="text-security-purple">ΛiD</span>?
             </h2>
             <p className="text-xl text-awareness-silver/80 max-w-3xl mx-auto">
-              ΛiD (Lambda ID) is your unified identity for the LUKHAS consciousness ecosystem.
+              ΛiD is your unified identity for the LUKHAS consciousness ecosystem.
               One identity, infinite possibilities.
             </p>
           </div>
