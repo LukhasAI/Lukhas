@@ -1,3 +1,4 @@
+from typing import ClassVar
 #!/usr/bin/env python3
 """
 Analytics Privacy Validation Tool
@@ -26,7 +27,7 @@ from typing import Any
 class PIIDetector:
     """Detects PII in event properties."""
 
-    PATTERNS = {
+    PATTERNS: ClassVar[dict] = {
         "email": r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b',
         "phone": r'\+?[1-9]\d{1,14}|\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}',
         "ip": r'\b(?:\d{1,3}\.){3}\d{1,3}\b',
@@ -53,7 +54,7 @@ class AnalyticsPrivacyValidator:
     """Validates analytics events for privacy compliance."""
 
     # Allowed event names from taxonomy
-    ALLOWED_EVENTS = {
+    ALLOWED_EVENTS: ClassVar[dict] = {
         "page_view",
         "quickstart_started",
         "quickstart_completed",
@@ -66,7 +67,7 @@ class AnalyticsPrivacyValidator:
     }
 
     # Forbidden property names (likely to contain PII)
-    FORBIDDEN_PROPERTIES = {
+    FORBIDDEN_PROPERTIES: ClassVar[dict] = {
         "email",
         "phone",
         "name",

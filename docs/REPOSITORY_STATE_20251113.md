@@ -1,4 +1,4 @@
-# Repository State as of 2025-11-12
+# Repository State as of 2025-11-13
 
 ## Project Overview
 - **Name**: lukhas-ai
@@ -52,9 +52,20 @@
 | `lukhas.identity.webauthn_verify` | N/A | LUKHAS | `__future__, base64, cryptography, hashlib, hmac, json, lukhas, struct, typing, typing_extensions` |
 | `lukhas.memory` | N/A | LUKHAS |   |
 | `lukhas.memory.index` | N/A | LUKHAS | `collections, numpy, typing` |
+| `lukhas.memory.prometheus_metrics` | N/A | LUKHAS | `__future__, logging, lukhas` |
+| `lukhas.observability` | N/A | LUKHAS |   |
+| `lukhas.observability.custom_metrics` | N/A | Unknown |   |
+| `lukhas.observability.distributed_tracing` | N/A | LUKHAS | `__future__, asyncio, functools, opentelemetry, typing` |
+| `lukhas.observability.lane_metrics` | N/A | Unknown |   |
+| `lukhas.observability.log_aggregation` | N/A | LUKHAS | `logging, logging_loki, lukhas, os, structlog, sys, unittest` |
+| `lukhas.observability.otel_config` | N/A | LUKHAS | `fastapi, logging, lukhas, opentelemetry, typing` |
+| `lukhas.observability.prometheus_config` | N/A | Unknown |   |
+| `lukhas.observability.slo_monitoring` | N/A | LUKHAS | `lukhas, unittest` |
 | `lukhas.orchestrator` | N/A | LUKHAS | `lukhas` |
-| `lukhas.orchestrator.cancellation` | N/A | LUKHAS | `asyncio, datetime, typing` |
+| `lukhas.orchestrator.cancellation` | N/A | LUKHAS | `asyncio, datetime, logging, typing` |
 | `lukhas.orchestrator.config` | N/A | LUKHAS | `dataclasses` |
-| `lukhas.orchestrator.exceptions` | N/A | LUKHAS |   |
+| `lukhas.orchestrator.exceptions` | N/A | LUKHAS | `typing` |
 | `lukhas.orchestrator.executor` | N/A | LUKHAS | `asyncio, logging, lukhas, typing` |
-| `lukhas.orchestrator.pipeline` | N/A | LUKHAS | `asyncio, dataclasses, logging, lukhas, typing` |
+| `lukhas.orchestrator.health` | N/A | LUKHAS | `asyncio, lukhas, sys, typing, unittest` |
+| `lukhas.orchestrator.interfaces` | N/A | LUKHAS | `typing` |
+| `lukhas.orchestrator.pipeline` | N/A | LUKHAS | `asyncio, logging, lukhas, typing` |

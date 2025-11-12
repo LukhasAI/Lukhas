@@ -1,3 +1,4 @@
+from typing import ClassVar
 """
 Privacy-first analytics client with GDPR compliance.
 
@@ -214,7 +215,7 @@ class IPAnonymizer:
 class UserAgentNormalizer:
     """Normalizes User-Agent to browser family only."""
 
-    BROWSER_FAMILIES = {
+    BROWSER_FAMILIES: ClassVar[dict] = {
         'chrome': ['chrome', 'chromium', 'crios'],
         'firefox': ['firefox', 'fxios'],
         'safari': ['safari'],

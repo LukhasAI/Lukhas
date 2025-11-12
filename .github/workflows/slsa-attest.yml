@@ -11,47 +11,52 @@ permissions:
   id-token: write
   contents: read
   actions: read
+  attestations: write
 
 jobs:
   build:
+    name: Build Artifact
     runs-on: ubuntu-latest
     timeout-minutes: 30
     outputs:
       digest: ${{ steps.hash.outputs.digest }}
     steps:
       - uses: actions/checkout@v4
-      - name: Placeholder Build Step
+
+      - name: Create source tarball
         run: |
-          echo "This is a placeholder build step." > artifact.txt
+          tar -czf source.tar.gz .
+
       - name: Hash artifact
         id: hash
         run: |
-          # The SLSA generator needs a hash of the artifact.
-          # We'll generate a sha256sum of the artifact.
-          echo "digest=$(sha256sum artifact.txt | base64 -w0)" >> "$GITHUB_OUTPUT"
+          echo "digest=$(sha256sum source.tar.gz | base64 -w0)" >> "$GITHUB_OUTPUT"
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: artifact
-          path: artifact.txt
+          name: source-artifact
+          path: source.tar.gz
+          retention-days: 90
 
   provenance:
+    name: Generate SLSA Provenance
     needs: [build]
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
-      id-token: write # Required for signing.
-      actions: read # Required for retrieving workflow history.
-      contents: write # Required for uploading attestations.
+      id-token: write
+      actions: read
+      contents: write
+      attestations: write
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: artifact
+          name: source-artifact
           path: .
-      - name: Generate SLSA Provenance
-        uses: slsa-framework/slsa-github-generator@v1.10.0
+
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v3
         with:
-          subject-path: "artifact.txt"
-          subject-digest: "${{ needs.build.outputs.digest }}"
-          # The SLSA generator will automatically create and upload the attestation.
+          subject-path: 'source.tar.gz'

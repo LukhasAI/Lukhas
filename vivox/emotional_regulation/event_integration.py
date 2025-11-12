@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from core.common import get_logger
+from lukhas.core.common import get_logger
 
 from .vivox_ern_core import RegulationResponse, VADVector
 
@@ -20,12 +20,12 @@ logger = logging.getLogger(__name__)
 
 # Import event system
 try:
-    from core.events.contracts import (
+    from lukhas.core.events.contracts import (
         DomainEvent,
         EmotionalRegulationApplied,
         EmotionalStateChanged,
     )
-    from core.events.typed_event_bus import TypedEventBus
+    from lukhas.core.events.typed_event_bus import TypedEventBus
 
     EVENT_SYSTEM_AVAILABLE = True
 except ImportError:

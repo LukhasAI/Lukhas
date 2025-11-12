@@ -1,3 +1,4 @@
+from typing import ClassVar
 import unittest
 from typing import Any, Dict, List
 
@@ -60,7 +61,7 @@ class MockActionNode(MockCognitiveNode):
 class PipelineOrchestrator(CognitiveOrchestrator):
     """A test orchestrator that runs a fixed pipeline."""
 
-    PIPELINE = ["memory", "attention", "thought", "risk", "intent", "action"]
+    PIPELINE: ClassVar[list] = ["memory", "attention", "thought", "risk", "intent", "action"]
 
     def process_query(self, user_input: str) -> Dict[str, Any]:
         """Overrides the base method to run a fixed pipeline."""

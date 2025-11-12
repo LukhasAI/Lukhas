@@ -16,7 +16,7 @@ import os
 import time
 from dataclasses import asdict, dataclass, field
 from enum import Enum
-from typing import Any, ClassVar, Dict, Optional
+from typing import Any, Dict, Optional
 
 from matriz.core.node_interface import CognitiveNode
 
@@ -211,7 +211,7 @@ class StageType(Enum):
 class StageConfig:
     """Configuration for stage execution"""
 
-    DEFAULT_TIMEOUTS: ClassVar[dict[StageType, float]] = {
+    DEFAULT_TIMEOUTS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_core_async_orchestrator_py_L213"}
         StageType.INTENT: 0.05,  # 50ms for intent analysis
         StageType.DECISION: 0.10,  # 100ms for decision
         StageType.PROCESSING: 0.12,  # 120ms for main processing
@@ -219,7 +219,7 @@ class StageConfig:
         StageType.REFLECTION: 0.03,  # 30ms for reflection
     }
 
-    DEFAULT_CRITICAL: ClassVar[dict[StageType, bool]] = {
+    DEFAULT_CRITICAL: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_core_async_orchestrator_py_L221"}
         StageType.INTENT: True,  # Critical - must understand intent
         StageType.DECISION: True,  # Critical - must select node
         StageType.PROCESSING: True,  # Critical - main work

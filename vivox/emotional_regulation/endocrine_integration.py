@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from core.common import get_logger
+from lukhas.core.common import get_logger
 
 from .vivox_ern_core import RegulationResponse, RegulationStrategy, VADVector
 
@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 # Import endocrine system
 try:
-    from core.endocrine.hormone_system import HormoneSystem, HormoneType
+    from lukhas.core.endocrine.hormone_system import HormoneSystem, HormoneType
 
     ENDOCRINE_AVAILABLE = True
 except ImportError:

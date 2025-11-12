@@ -1,16 +1,17 @@
+#!/usr/bin/env python3
 """
-LUKHAS Endocrine System
-Simulates hormonal signaling for system-wide behavioral modulation
+MATRIZ Cognitive Node for the Endocrine System.
 """
 import asyncio
 import contextlib
 import logging
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
 
-from core.events.contracts import SystemStressLevelChanged
+from matriz.core.node_interface import CognitiveNode, NodeState
 
 logger = logging.getLogger(__name__)
 
@@ -391,22 +392,6 @@ class EndocrineSystem:
                 except Exception as e:
                     logger.error(f"Error in hormone receptor {module_name}: {e}")
 
-        # Check for significant state changes
-        if effects["stress_level"] > 0.8:
-            await self._emit_stress_event(effects["stress_level"])
-
-    async def _emit_stress_event(self, stress_level: float):
-        """Emit a stress level change event"""
-        # This would integrate with the event system
-        SystemStressLevelChanged(
-            source_module="endocrine",
-            previous_level=self.active_effects.get("stress_level", 0.5),
-            current_level=stress_level,
-            stress_source="hormonal",
-            hormone_levels={hormone.value: level.level for hormone, level in self.hormones.items()},
-        )
-        # Event would be published through event bus
-
     def _log_significant_changes(self):
         """Log significant hormone changes"""
         for hormone_type, hormone in self.hormones.items():
@@ -499,41 +484,67 @@ class EndocrineSystem:
         return summary
 
 
-# Global endocrine system instance
-_endocrine_system: Optional[EndocrineSystem] = None
+class EndocrineNode(CognitiveNode):
+    """
+    MATRIZ Cognitive Node for the Endocrine System.
+    """
 
+    def __init__(self, tenant: str = "default"):
+        super().__init__(
+            node_name="endocrine_system",
+            capabilities=[
+                "trigger_stress",
+                "trigger_reward",
+                "get_hormone_profile",
+            ],
+            tenant=tenant,
+        )
+        self.endocrine_system = EndocrineSystem()
 
-def get_endocrine_system() -> EndocrineSystem:
-    """Get the global endocrine system instance"""
-    global _endocrine_system
-    if _endocrine_system is None:
-        _endocrine_system = EndocrineSystem()
-    return _endocrine_system
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
+        """
+        Process a query related to the endocrine system.
+        """
+        start_time = time.time()
+        query = input_data.get("query", {})
+        operation = query.get("operation")
+        args = query.get("args", {})
 
+        handler = getattr(self, f"_handle_{operation}", self._handle_unknown)
+        result, confidence, additional_data = handler(args)
 
-# Convenience functions
+        state = NodeState(confidence=confidence, salience=0.9)
+        matriz_node = self.create_matriz_node(
+            node_type="VALIDATION",
+            state=state,
+            trace_id=input_data.get("trace_id"),
+            additional_data=additional_data,
+        )
 
+        return {
+            "answer": result,
+            "confidence": confidence,
+            "matriz_node": matriz_node,
+            "processing_time": time.time() - start_time,
+        }
 
-async def trigger_stress(intensity: float = 0.5):
-    """Trigger a stress response in the system"""
-    system = get_endocrine_system()
-    system.trigger_stress_response(intensity)
+    def _handle_trigger_stress(self, args: dict) -> tuple[Any, float, dict]:
+        intensity = args.get("intensity", 0.5)
+        self.endocrine_system.trigger_stress_response(intensity)
+        return "Stress response triggered", 0.95, {"intensity": intensity}
 
+    def _handle_trigger_reward(self, args: dict) -> tuple[Any, float, dict]:
+        intensity = args.get("intensity", 0.5)
+        self.endocrine_system.trigger_reward_response(intensity)
+        return "Reward response triggered", 0.95, {"intensity": intensity}
 
-async def trigger_reward(intensity: float = 0.5):
-    """Trigger a reward response in the system"""
-    system = get_endocrine_system()
-    system.trigger_reward_response(intensity)
+    def _handle_get_hormone_profile(self, args: dict) -> tuple[Any, float, dict]:
+        profile = self.endocrine_system.get_hormone_profile()
+        return profile, 0.99, {}
 
+    def _handle_unknown(self, args: dict) -> tuple[Any, float, dict]:
+        return "Unknown operation", 0.1, {"args": args}
 
-def get_neuroplasticity() -> float:
-    """Get current neuroplasticity level"""
-    system = get_endocrine_system()
-    return system._calculate_neuroplasticity()
-
-
-# Neuroplastic tags
-# ΛTAG:core
-# ΛTAG:hormone
-# ΛTAG:endocrine
-# ΛTAG:neuroplastic
+    def validate_output(self, output: dict[str, Any]) -> bool:
+        """Validate the output of this node's processing."""
+        return self.validate_matriz_node(output.get("matriz_node", {}))
