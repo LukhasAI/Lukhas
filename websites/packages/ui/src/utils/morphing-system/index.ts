@@ -4,9 +4,7 @@
  * Adapted from PR0T3US Voice-Modulated Morphing System
  */
 
-export { Morp
-
-hingEngine } from './MorphingEngine'
+export { MorphingEngine } from './MorphingEngine'
 export type {
   Vector3,
   VoiceData,

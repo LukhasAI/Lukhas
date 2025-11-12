@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUKHAS Design System Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./packages/ui/src/styles/variables.css">
+  <link rel="stylesheet" href="./packages/ui/src/styles/animations.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--lukhas-deep-space);
+      color: var(--lukhas-text-primary);
+      font-family: var(--font-display);
+      line-height: var(--leading-normal);
+      padding: var(--spacing-xl);
+      overflow-x: hidden;
+    }
+
+    .demo-section {
+      margin-bottom: var(--spacing-xxxl);
+      animation: fade-in-up 0.6s ease-out;
+    }
+
+    .demo-section h1 {
+      font-size: var(--text-5xl);
+      font-weight: var(--font-thin);
+      letter-spacing: var(--tracking-thin-capitals);
+      text-transform: uppercase;
+      margin-bottom: var(--spacing-lg);
+      background: linear-gradient(135deg, var(--lukhas-lambda-blue), var(--lukhas-quantum-green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .demo-section h2 {
+      font-size: var(--text-3xl);
+      font-weight: var(--font-light);
+      letter-spacing: var(--tracking-heading);
+      text-transform: uppercase;
+      margin-bottom: var(--spacing-md);
+      color: var(--lukhas-lambda-blue);
+    }
+
+    .demo-section p {
+      color: var(--lukhas-text-secondary);
+      margin-bottom: var(--spacing-lg);
+      max-width: 800px;
+    }
+
+    /* Color Grid */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .color-swatch {
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius-glass);
+      border: var(--border-width-thin) solid var(--glass-border);
+      backdrop-filter: blur(var(--glass-blur));
+      background: var(--glass-bg);
+      transition: transform var(--timing-normal) var(--easing-lukhas);
+    }
+
+    .color-swatch:hover {
+      transform: translateY(-4px);
+    }
+
+    .color-preview {
+      width: 100%;
+      height: 100px;
+      border-radius: var(--border-radius-md);
+      margin-bottom: var(--spacing-sm);
+      border: var(--border-width-thin) solid var(--lukhas-border);
+    }
+
+    .color-name {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      color: var(--lukhas-text-primary);
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .color-value {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--lukhas-text-secondary);
+    }
+
+    /* Animation Grid */
+    .animation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--spacing-lg);
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .animation-demo {
+      padding: var(--spacing-xl);
+      border-radius: var(--border-radius-glass);
+      border: var(--border-width-thin) solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      text-align: center;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-md);
+    }
+
+    .animation-demo h3 {
+      font-size: var(--text-lg);
+      font-weight: var(--font-light);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-logo);
+      color: var(--lukhas-lambda-blue);
+    }
+
+    .animation-shape {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--lukhas-lambda-blue), var(--lukhas-quantum-green));
+      border-radius: var(--border-radius-md);
+    }
+
+    /* Typography Showcase */
+    .typography-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-lg);
+      padding: var(--spacing-xl);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      border-radius: var(--border-radius-glass);
+      border: var(--border-width-thin) solid var(--glass-border);
+    }
+
+    .thin-capitals {
+      font-weight: var(--font-thin);
+      font-size: var(--text-6xl);
+      letter-spacing: var(--tracking-thin-capitals);
+      text-transform: uppercase;
+      line-height: var(--leading-none);
+    }
+
+    /* Shape Morphing Canvas */
+    .canvas-container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      height: 500px;
+      margin: var(--spacing-xl) auto;
+      border-radius: var(--border-radius-glass);
+      border: var(--border-width-thin) solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      overflow: hidden;
+    }
+
+    #morphCanvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .shape-controls {
+      display: flex;
+      gap: var(--spacing-sm);
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: var(--spacing-lg);
+    }
+
+    .shape-button {
+      padding: var(--spacing-sm) var(--spacing-lg);
+      background: var(--glass-bg);
+      border: var(--border-width-thin) solid var(--lukhas-border);
+      border-radius: var(--border-radius-pill);
+      color: var(--lukhas-text-primary);
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: var(--font-light);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-logo);
+      cursor: pointer;
+      transition: all var(--timing-normal) var(--easing-lukhas);
+      backdrop-filter: blur(var(--glass-blur));
+    }
+
+    .shape-button:hover {
+      background: var(--lukhas-lambda-blue);
+      border-color: var(--lukhas-lambda-blue);
+      transform: translateY(-2px);
+      box-shadow: var(--glow-blue);
+    }
+
+    .shape-button.active {
+      background: var(--lukhas-quantum-green);
+      border-color: var(--lukhas-quantum-green);
+      box-shadow: var(--glow-green);
+    }
+
+    /* Glass Card Examples */
+    .glass-card-examples {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--spacing-lg);
+    }
+
+    .glass-card {
+      padding: var(--spacing-xl);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      border-radius: var(--border-radius-glass);
+      border: var(--border-width-thin) solid var(--glass-border);
+      transition: all var(--timing-normal) var(--easing-lukhas);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--lukhas-border-bright);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .glass-card h3 {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-light);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-logo);
+      margin-bottom: var(--spacing-md);
+      color: var(--lukhas-lambda-blue);
+    }
+
+    .glass-card p {
+      color: var(--lukhas-text-secondary);
+      margin-bottom: 0;
+    }
+
+    /* Domain Accent Examples */
+    .domain-accent-id {
+      border-left: 4px solid var(--domain-id-purple);
+    }
+
+    .domain-accent-com {
+      border-left: 4px solid var(--domain-com-trust-blue);
+    }
+
+    .domain-accent-us {
+      border-left: 4px solid var(--domain-us-institutional);
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: var(--spacing-md);
+      }
+
+      .demo-section h1 {
+        font-size: var(--text-3xl);
+      }
+
+      .thin-capitals {
+        font-size: var(--text-4xl);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <div class="demo-section">
+    <h1 class="animate-fade-in-up">LUKHAS Design System</h1>
+    <p>Interactive demonstration of the LUKHAS consciousness-inspired design language. This demo showcases our CSS variables, animations, typography system, and morphing engine.</p>
+  </div>
+
+  <!-- Color Palette -->
+  <div class="demo-section">
+    <h2>Color Palette</h2>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="color-preview" style="background: var(--lukhas-deep-space);"></div>
+        <div class="color-name">Deep Space</div>
+        <div class="color-value">#0a0a0a</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-preview" style="background: var(--lukhas-lambda-blue);"></div>
+        <div class="color-name">Lambda Blue</div>
+        <div class="color-value">#00d4ff</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-preview" style="background: var(--lukhas-quantum-green);"></div>
+        <div class="color-name">Quantum Green</div>
+        <div class="color-value">#00ff88</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-preview" style="background: var(--lukhas-luke-gold);"></div>
+        <div class="color-name">Luke Gold</div>
+        <div class="color-value">#d4af37</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-preview" style="background: var(--domain-id-purple);"></div>
+        <div class="color-name">Identity Purple</div>
+        <div class="color-value">#9333EA</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-preview" style="background: var(--domain-com-trust-blue);"></div>
+        <div class="color-name">Trust Blue</div>
+        <div class="color-value">#3B82F6</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Typography -->
+  <div class="demo-section">
+    <h2>Typography System</h2>
+    <div class="typography-showcase">
+      <div class="thin-capitals">LUKHAS</div>
+      <div style="font-size: var(--text-4xl); font-weight: var(--font-light); letter-spacing: var(--tracking-heading); text-transform: uppercase;">
+        Consciousness-Aware AI
+      </div>
+      <div style="font-size: var(--text-2xl); font-weight: var(--font-extralight); letter-spacing: var(--tracking-logo); text-transform: uppercase; color: var(--lukhas-text-secondary);">
+        Distributed Cognitive Architecture
+      </div>
+      <div style="font-family: var(--font-mono); font-size: var(--text-base); color: var(--lukhas-quantum-green);">
+        // Production-ready consciousness patterns
+      </div>
+    </div>
+  </div>
+
+  <!-- Animations -->
+  <div class="demo-section">
+    <h2>Consciousness-Inspired Animations</h2>
+    <div class="animation-grid">
+      <div class="animation-demo">
+        <h3>Breathe</h3>
+        <div class="animation-shape animate-breathe"></div>
+      </div>
+      <div class="animation-demo">
+        <h3>Consciousness Pulse</h3>
+        <div class="animation-shape animate-consciousness-pulse"></div>
+      </div>
+      <div class="animation-demo">
+        <h3>Neural Glow</h3>
+        <div class="animation-shape animate-neural-glow" style="border-radius: 50%;"></div>
+      </div>
+      <div class="animation-demo">
+        <h3>Float</h3>
+        <div class="animation-shape animate-float" style="border-radius: 50%;"></div>
+      </div>
+      <div class="animation-demo">
+        <h3>Drift</h3>
+        <div class="animation-shape animate-drift"></div>
+      </div>
+      <div class="animation-demo">
+        <h3>Glass Shimmer</h3>
+        <div class="animation-shape animate-glass-shimmer" style="background: var(--glass-bg); backdrop-filter: blur(var(--glass-blur));"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shape Morphing -->
+  <div class="demo-section">
+    <h2>Morphing Engine (Simplified 2D Demo)</h2>
+    <p>Click buttons to morph between Constellation Framework shapes. Full 3D implementation uses React Three Fiber.</p>
+    <div class="canvas-container">
+      <canvas id="morphCanvas"></canvas>
+    </div>
+    <div class="shape-controls">
+      <button class="shape-button active" data-shape="sphere">Sphere</button>
+      <button class="shape-button" data-shape="consciousness">Consciousness</button>
+      <button class="shape-button" data-shape="guardian">Guardian</button>
+      <button class="shape-button" data-shape="identity">Identity</button>
+      <button class="shape-button" data-shape="neural">Neural</button>
+      <button class="shape-button" data-shape="quantum">Quantum</button>
+    </div>
+  </div>
+
+  <!-- Glass Cards -->
+  <div class="demo-section">
+    <h2>Glassmorphism Components</h2>
+    <div class="glass-card-examples">
+      <div class="glass-card domain-accent-id">
+        <h3>lukhas.id</h3>
+        <p>Identity management with WebAuthn passkey authentication. Lambda-inspired secure access.</p>
+      </div>
+      <div class="glass-card domain-accent-com">
+        <h3>lukhas.com</h3>
+        <p>Corporate presence with morphing constellation orbs. Consciousness-aware platform showcase.</p>
+      </div>
+      <div class="glass-card domain-accent-us">
+        <h3>lukhas.us</h3>
+        <p>Compliance and governance. Breathing Lambda glyph with institutional trust signals.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simplified 2D morphing visualization (not the full MorphingEngine)
+    const canvas = document.getElementById('morphCanvas');
+    const ctx = canvas.getContext('2d');
+    let currentShape = 'sphere';
+    let targetShape = 'sphere';
+    let morphProgress = 0;
+    let animationTime = 0;
+
+    // Set canvas size
+    function resizeCanvas() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Shape generators (2D projection of 3D concepts)
+    const shapes = {
+      sphere: (angle, time) => {
+        const radius = 120;
+        return {
+          x: Math.cos(angle) * radius,
+          y: Math.sin(angle) * radius
+        };
+      },
+      consciousness: (angle, time) => {
+        const radius = 120;
+        const pulse = Math.sin(time * 0.5) * 20;
+        const r = radius + pulse;
+        return {
+          x: Math.cos(angle) * r,
+          y: Math.sin(angle) * r
+        };
+      },
+      guardian: (angle, time) => {
+        const radius = 120;
+        const glow = Math.sin(time * 2) * 10;
+        const side = Math.cos(angle) > 0 ? 1.2 : 0.6;
+        return {
+          x: Math.cos(angle) * (radius * side + glow),
+          y: Math.sin(angle) * (radius + glow)
+        };
+      },
+      identity: (angle, time) => {
+        const radius = 120;
+        const breath = Math.sin(time * 1.5) * 8;
+        const y = Math.sin(angle);
+        const heightMod = y > 0.7 ? 1.4 : (y < -0.5 ? 0.8 : 1);
+        const widthMod = y > 0.7 ? 0.6 : (y < -0.5 ? 1.2 : 1);
+        return {
+          x: Math.cos(angle) * (radius * widthMod + breath),
+          y: Math.sin(angle) * (radius * heightMod + breath)
+        };
+      },
+      neural: (angle, time) => {
+        const radius = 120;
+        const pulse1 = Math.sin(time * 2 + angle * 5) * 15;
+        const pulse2 = Math.cos(time * 1.5 + angle * 3) * 15;
+        const r = radius + (pulse1 + pulse2) / 2;
+        return {
+          x: Math.cos(angle) * r,
+          y: Math.sin(angle) * r
+        };
+      },
+      quantum: (angle, time) => {
+        const radius = 120;
+        const wave1 = Math.sin(time * 3 + angle * 8) * 20;
+        const wave2 = Math.cos(time * 2.5 + angle * 6) * 20;
+        const r = radius + wave1 + wave2;
+        return {
+          x: Math.cos(angle) * r,
+          y: Math.sin(angle) * r
+        };
+      }
+    };
+
+    // Lerp function
+    function lerp(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    // Draw function
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+
+      // Update morph progress
+      if (currentShape !== targetShape) {
+        morphProgress = Math.min(1.0, morphProgress + 0.02);
+        if (morphProgress >= 1.0) {
+          currentShape = targetShape;
+          morphProgress = 0;
+        }
+      }
+
+      // Generate points
+      const points = [];
+      const numPoints = 64;
+      for (let i = 0; i < numPoints; i++) {
+        const angle = (i / numPoints) * Math.PI * 2;
+        const current = shapes[currentShape](angle, animationTime);
+        const target = shapes[targetShape](angle, animationTime);
+        points.push({
+          x: lerp(current.x, target.x, morphProgress),
+          y: lerp(current.y, target.y, morphProgress)
+        });
+      }
+
+      // Draw shape
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length; i++) {
+        ctx.lineTo(points[i].x, points[i].y);
+      }
+      ctx.closePath();
+
+      // Gradient fill
+      const gradient = ctx.createLinearGradient(-150, -150, 150, 150);
+      gradient.addColorStop(0, '#00d4ff');
+      gradient.addColorStop(0.5, '#00ff88');
+      gradient.addColorStop(1, '#00d4ff');
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      // Glow effect
+      ctx.strokeStyle = '#00d4ff';
+      ctx.lineWidth = 2;
+      ctx.shadowBlur = 20;
+      ctx.shadowColor = '#00d4ff';
+      ctx.stroke();
+
+      ctx.restore();
+
+      animationTime += 0.016; // ~60fps
+      requestAnimationFrame(draw);
+    }
+
+    // Shape button controls
+    document.querySelectorAll('.shape-button').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.shape-button').forEach(b => b.classList.remove('active'));
+        button.classList.add('active');
+        targetShape = button.dataset.shape;
+      });
+    });
+
+    // Start animation
+    draw();
+  </script>
+
+</body>
+</html>
