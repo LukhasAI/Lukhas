@@ -43,7 +43,7 @@ class CacheMiddleware(BaseHTTPMiddleware):
 
         if request.method in ["POST", "PUT", "DELETE"]:
             # Invalidate caches for this user
-            await self.invalidate(f"{user_id}:{request.url.path}")
+            await self.invalidate(f"cache:{user_id}:{request.url.path}")
 
         return response
 
