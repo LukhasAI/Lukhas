@@ -56,3 +56,11 @@ export type {
   FooterSectionProps,
   FooterLinkProps,
 } from './Footer'
+
+// Morphing Particles (React Three Fiber)
+export { MorphingParticles } from './MorphingParticles'
+export type {
+  MorphingShape,
+  VoiceData,
+  MorphingParticlesProps,
+} from './MorphingParticles'
