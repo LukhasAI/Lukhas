@@ -11,18 +11,18 @@
 
 **Task Overview:**
 ```
-Total Tasks: 98
-├─ Completed:  11 (11.2%)
-├─ Active:     87 (88.8%)
-└─ Blocked:    0  (0%)
+Total Tasks: 111
+├─ Completed:  11 ( 9.9%)
+├─ Active:    100 (90.1%)
+└─ Blocked:    0  ( 0%)
 ```
 
 **Priority Breakdown:**
 ```
-P0 (Critical):  6 tasks  ( 6.1%) ⚠️  NEEDS IMMEDIATE ATTENTION
-P1 (High):     31 tasks  (31.6%) 🔥 Current sprint
-P2 (Medium):   34 tasks  (34.7%) 📋 Next sprint
-P3 (Low):      16 tasks  (16.3%) 💭 Backlog
+P0 (Critical):  8 tasks  ( 7.2%) ⚠️  NEEDS IMMEDIATE ATTENTION
+P1 (High):     35 tasks  (31.5%) 🔥 Current sprint
+P2 (Medium):   41 tasks  (36.9%) 📋 Next sprint
+P3 (Low):      17 tasks  (15.3%) 💭 Backlog
 ```
 
 **Agent Workload:**
@@ -52,8 +52,10 @@ Copilot:      5 tasks ( 7.8%)  - Mechanical edits, cleanup
 | SG002 | Implement Guardian emergency kill-switch | claude-code | ASSIGNED | S | - | /tmp/guardian_emergency_disable |
 | MP001 | Complete async orchestrator timeouts | claude-code | ASSIGNED | M | - | Timeout handling |
 | MS001 | Implement missing MATRIZ cognitive nodes | claude-code | ASSIGNED | L | - | Complete node registry |
+| T20251112040 | Verify CI Simplification & Tier1 Active | jules | PENDING | S | - | Verify `chore/simplify-ci-pr` merged OR PR exists. Confirm Tier1 workflows present with concurrency/retention. Attach run IDs. **BLOCKING** for MATRIZ migrations. ETA: 1-2 days |
+| T20251112041 | Create Rollback PR for Shim Removal | agi_dev | PENDING | S | - | Create draft PR `revert/matriz-shim` that reinstates `MATRIZ/__init__.py` with `git revert <placeholder>` command and runbook. Attach PR link. ETA: 1 day |
 
-**P0 Summary**: 6 critical tasks now assigned. Jules: 3 tasks (CI/CD/security). Claude Code: 3 tasks (implementation/testing).
+**P0 Summary**: 8 critical tasks (6 assigned, 2 pending). Jules: 4 tasks. Claude Code: 3 tasks. agi_dev: 1 task. +2 MATRIZ migration prerequisites.
 
 ---
 
@@ -105,6 +107,10 @@ Copilot:      5 tasks ( 7.8%)  - Mechanical edits, cleanup
 | T20251112024 | Migrate serve/ to MATRIZ (AST codemod) | agi_dev | PENDING | S | - | **PRE**: CI simplification merged; shim validated; dry-run attached; local smoke & lane-guard PASS. **ACTION**: Run `scripts/consolidation/rewrite_matriz_imports.py --path serve --dry-run` and attach `/tmp/matriz_serve_dry.patch` to PR. **POST**: make smoke, lane-guard, push PR. **ROLLBACK**: `git revert <commit>` + re-enable shim. |
 | T20251112025 | Migrate core/ to MATRIZ (AST codemod) | agi_dev | PENDING | S | - | Depends on T20251112024. Follow PRE/POST/ROLLBACK checklist. |
 | T20251112026 | Migrate orchestrator/ to MATRIZ (AST codemod) | agi_dev | PENDING | S | - | Depends on T20251112025. Follow PRE/POST/ROLLBACK checklist. |
+| T20251112042 | Add migration PR template | Claude Code | PENDING | S | - | Create `.github/PULL_REQUEST_TEMPLATE/migration.md` enforcing dry-run, smoke.log, lane_guard log, rollback snippet, reviewer assignment. Verify with test PR. ETA: 1-2 days |
+| T20251112043 | Create Label Automation & Default Reviewers | jules | PENDING | S | - | Create labels `migration/matriz`, `needs-shim-review`, `migration/smoke-checked`. Add GH Action auto-applying labels and requesting `@owner_core`, `@security_team` review. ETA: 2 days |
+| T20251112044 | Ensure GH CLI & Secrets Availability | agi_dev | PENDING | S | - | Create `GH_CLI_CHECK.md` with required tokens/permissions. Run `gh auth status` on runner, attach output. Set `GITHUB_TOKEN` in repo secrets. ETA: 1 day |
+| T20251112045 | Attach Dry-Run Artifact Automation Script | Claude Code | PENDING | S | - | Create `scripts/migration/attach_dry_run_artifact.sh` copying patches to `migration_artifacts/matriz/<pkg>/` with git add/commit. Test with serve dry-run. ETA: 1-2 days |
 
 ## CI Policy (applies to all migration & core infra PRs)
 - **Concurrency**: All workflows must include:
@@ -118,7 +124,7 @@ concurrency:
 - **Matrix pruning**: Replace Cartesian matrices with `strategy.matrix.include` for meaningful combos only.
 - **PR Requirements**: Every migration PR must attach: dry-run patch, `smoke.log`, `lane_guard_run_localfix.log`, and a rollback line in the PR body.
 
-**P1 Summary**: 31 high-priority tasks for current sprint (1 week deadline). ✅ TP007, T20251112008, T20251112010, T20251112011 completed. +5 MATRIZ migration prep tasks.
+**P1 Summary**: 35 high-priority tasks for current sprint (1 week deadline). ✅ TP007, T20251112008, T20251112010, T20251112011 completed. +9 MATRIZ migration prep/automation tasks (T20251112022-026, T20251112042-045).
 
 ---
 
@@ -162,8 +168,14 @@ concurrency:
 | T20251112031 | Migrate tests/unit/ to MATRIZ | agi_dev | PENDING | M | - | After prod code merged. Follow PRE/POST/ROLLBACK checklist. |
 | T20251112032 | Migrate tests/smoke/ & tests/benchmarks/ to MATRIZ | agi_dev | PENDING | S | - | Final test migration. Follow PRE/POST/ROLLBACK checklist. |
 | T20251112033 | Remove MATRIZ/__init__ compatibility shim | agi_dev | PENDING | S | - | Wait 48-72hrs after all migrations; keep rollback PR ready. Run dream-gate-full, benchmarks-nightly first. |
+| T20251112046 | Provision Self-Hosted Azure Linux Runner | Jules | PENDING | M | - | Create Azure VM, register as self-hosted runner. Test with `runs-on: [self-hosted, linux]`. Document cost/perf. ETA: 3-5 days |
+| T20251112047 | Flaky Test Detector & Quarantine Workflow | Claude Code | PENDING | M | - | Workflow re-runs failing tests 2x, marks flaky in `tests/flaky.yml`, opens ticket. Add pytest plugin for flaky tagging. ETA: 3-4 days |
+| T20251112048 | Archive-Restore Helper for Workflows | CODEX | PENDING | S | - | Script `scripts/ci/restore_archived_workflows.sh` moves `.github/workflows.archived/` back, opens PR. Dry-run mode. ETA: 1-2 days |
+| T20251112049 | Nightly Full Dream-Gate + SLSA Weekly Attestation | agi_dev | PENDING | M | - | Add `dream-gate-full.yml` (nightly), `slsa-attest.yml` (weekly). 90-day artifact retention. Attach test run artifacts. ETA: 2-3 days |
+| T20251112050 | Module Registry Regen & Publish Script | CODEX | PENDING | S | - | Script `scripts/registry/regenerate_module_registry.py` generates `docs/REPOSITORY_STATE_YYYYMMDD.md`. Run and commit. ETA: 1-2 days |
+| T20251112051 | PR Approval & Label Enforcement Workflow | jules | PENDING | S | - | GH Action blocks merge of `migration/matriz` PRs without `@owner_core` + `@security_team` approvals. Test with draft PR. ETA: 2 days |
 
-**P2 Summary**: 35 medium-priority tasks for next sprint (2-4 weeks). ✅ T20251112012, T20251112015 completed. +8 MATRIZ migration tasks (test split added: 030a, 030b).
+**P2 Summary**: 41 medium-priority tasks for next sprint (2-4 weeks). ✅ T20251112012, T20251112015 completed. +14 MATRIZ migration/automation tasks (T20251112027-033, T20251112046-051).
 
 ---
 
@@ -187,8 +199,9 @@ concurrency:
 | T20251112021 | Implement hardened QRG keystore | - | PENDING | M | - | File-based ephemeral keys + gh secret integration |
 | T20251112034 | Regenerate module registry and update docs | - | PENDING | S | - | After MATRIZ migration complete; docs/REPOSITORY_STATE_*.md |
 | T20251112035 | Archive migration scripts and create rollback docs | - | PENDING | S | - | migration_artifacts/ archive; rollback procedures |
+| T20251112052 | Post-Migration Clean-up: Archive Codemod Scripts | agi_dev | PENDING | S | - | After shim removal + 2 weeks stability: move codemod scripts to `tools/codemods/deprecated/` or keep as evergreen with docs. ETA: 1-2 days |
 
-**P3 Summary**: 16 low-priority backlog tasks (1+ month timeline). +2 MATRIZ cleanup tasks added.
+**P3 Summary**: 17 low-priority backlog tasks (1+ month timeline). +3 MATRIZ cleanup/post-migration tasks (T20251112034, T20251112035, T20251112052).
 
 ---
 
@@ -230,6 +243,16 @@ For complete task details, see:
 ---
 
 ## Recent Changes
+
+### 2025-11-12 (Night - Migration Automation & Safety Tasks)
+- Added 13 migration automation and safety tasks (T20251112040-052):
+  - **P0 (+2)**: CI verification (T40), Rollback PR creation (T41)
+  - **P1 (+4)**: PR template (T42), Label automation (T43), GH CLI setup (T44), Dry-run artifact script (T45)
+  - **P2 (+6)**: Azure self-hosted runner (T46), Flaky test detector (T47), Archive-restore helper (T48), Nightly dream-gate + SLSA (T49), Module registry script (T50), PR approval enforcement (T51)
+  - **P3 (+1)**: Post-migration codemod cleanup (T52)
+- These tasks convert procedural checklists into concrete, auditable automation
+- Key focus areas: rollback safety, artifact automation, CI enforcement, operational readiness
+- Updated stats: 98→111 total tasks (+13), P0(6→8), P1(31→35), P2(35→41), P3(16→17)
 
 ### 2025-11-12 (Late Evening - MATRIZ Migration Planning)
 - Added 14 MATRIZ migration tasks (T20251112022-035):
@@ -289,12 +312,12 @@ For complete task details, see:
 
 ## Task ID Generator
 
-**Next Task ID**: `T20251112036`
+**Next Task ID**: `T20251112053`
 
 **Format**: `T{YYYY}{MM}{DD}{sequential}`
 - Today's date: 2025-11-12
-- Last used: T20251112035
-- Next sequential: 036
+- Last used: T20251112052
+- Next sequential: 053
 
 **To generate**:
 ```bash
