@@ -1,7 +1,7 @@
 # Guardian Import Guide for Developers
-**Version**: 1.0.0
+**Version**: 1.1.0
 **Last Updated**: 2025-11-12
-**Applies To**: Phase 2+ (Post-consolidation)
+**Applies To**: Phase 3+ (Consolidation Complete)
 
 ## Quick Reference
 
@@ -28,10 +28,10 @@ from lukhas_website.lukhas.governance.guardian import (
 # Implementation (canonical)
 from lukhas_website.lukhas.governance.guardian import GuardianSystemImpl
 
-# Policies and reflector (canonical)
+# Policies and reflector (canonical - Phase 3 relocated implementations)
 from lukhas_website.lukhas.governance.guardian import (
-    GuardianPolicies,
-    GuardianReflector,
+    GuardianPoliciesEngine,  # Full implementation (652 lines)
+    GuardianReflector,        # Full implementation (791 lines)
 )
 
 # Via bridge modules (convenience)
@@ -40,16 +40,20 @@ from governance.guardian.guardian_wrapper import detect_drift
 from governance.guardian.guardian_impl import GuardianSystemImpl
 ```
 
-### ⚠️ Legacy Import Patterns (Still Work, But Not Recommended)
+### ⚠️ Legacy Import Patterns (Deprecated - Will Show Warnings)
 
 ```python
-# Legacy bridges (pre-Phase 2)
-from governance.guardian_system import GuardianSystem
-from governance.guardian_sentinel import GuardianSentinel
-from governance.guardian_shadow_filter import GuardianShadowFilter
-from governance.guardian_policies import GuardianPolicies
-from governance.guardian_reflector import GuardianReflector
+# DEPRECATED: Legacy bridges (pre-Phase 2)
+# Phase 3 added DeprecationWarning to these imports
+# Will be removed in Phase 4 (2025-Q1)
+from governance.guardian_system import GuardianSystem           # ⚠️ DeprecationWarning
+from governance.guardian_sentinel import GuardianSentinel       # ⚠️ DeprecationWarning
+from governance.guardian_shadow_filter import GuardianShadowFilter  # ⚠️ DeprecationWarning
+from governance.guardian_policies import GuardianPolicies       # ⚠️ DeprecationWarning
+from governance.guardian_reflector import GuardianReflector     # ⚠️ DeprecationWarning
 ```
+
+**Note**: These imports still work but trigger `DeprecationWarning` as of Phase 3. Migrate to canonical imports before Phase 4 (2025-Q1) when these will be removed.
 
 ### ❌ Incorrect Import Patterns
 
@@ -154,11 +158,13 @@ lukhas_website/lukhas/governance/guardian/
 ├── core.py               ← Core types
 ├── guardian_impl.py      ← GuardianSystemImpl
 ├── guardian_wrapper.py   ← Wrapper functions
-├── policies.py           ← GuardianPolicies (bridge until Phase 3)
-└── reflector.py          ← GuardianReflector (bridge until Phase 3)
+├── policies.py           ← ✅ GuardianPoliciesEngine (652 lines - Phase 3 relocated)
+└── reflector.py          ← ✅ GuardianReflector (791 lines - Phase 3 relocated)
 ```
 
 **Import from**: `lukhas_website.lukhas.governance.guardian`
+
+**Phase 3 Consolidation Complete**: All implementations now in canonical location (~2,343 lines total).
 
 ### Bridge Modules (Convenience)
 
@@ -321,20 +327,20 @@ from lukhas_website.lukhas.governance.guardian import (
 
 ## Migration Guide
 
-### From Legacy Imports (Pre-Phase 2)
+### From Legacy Imports (Pre-Phase 2 → Phase 3)
 
-**Before**:
+**Before** (Legacy - triggers DeprecationWarning):
 ```python
 from governance.guardian_policies import GuardianPolicies
 from governance.guardian_reflector import GuardianReflector
 from governance.guardian_system import GuardianSystem
 ```
 
-**After** (Phase 2+):
+**After** (Phase 3 - Canonical):
 ```python
 from lukhas_website.lukhas.governance.guardian import (
-    GuardianPolicies,
-    GuardianReflector,
+    GuardianPoliciesEngine,  # ✅ Full implementation (652 lines)
+    GuardianReflector,        # ✅ Full implementation (791 lines)
 )
 # Note: GuardianSystem is deprecated, use GuardianSystemImpl
 from lukhas_website.lukhas.governance.guardian import GuardianSystemImpl
@@ -342,10 +348,16 @@ from lukhas_website.lukhas.governance.guardian import GuardianSystemImpl
 
 **Migration Steps**:
 1. Search for old import patterns: `grep -r "from governance.guardian_" .`
-2. Replace with canonical imports
-3. Update GuardianSystem → GuardianSystemImpl if needed
-4. Run tests: `pytest tests/guardian/`
-5. Validate: `make imports-guard`
+2. Replace with canonical imports (see examples above)
+3. Update `GuardianPolicies` → `GuardianPoliciesEngine` for clarity
+4. Update `GuardianSystem` → `GuardianSystemImpl` if needed
+5. Run tests: `pytest tests/guardian/`
+6. Validate: `make imports-guard`
+7. Verify no deprecation warnings: `python -W error::DeprecationWarning your_script.py`
+
+**Phase 3 Migration Timeline**:
+- **Now (2025-11-12)**: Legacy imports trigger `DeprecationWarning` but still work
+- **Phase 4 (2025-Q1)**: Legacy imports will be removed entirely
 
 ### From Direct Implementation Imports
 
@@ -668,7 +680,8 @@ ModuleNotFoundError: No module named 'governance.guardian.core'
 
 ---
 
-**Document Status**: ✅ Complete
+**Document Status**: ✅ Complete (Phase 3 Final)
 **Last Reviewed**: 2025-11-12
-**Next Review**: Phase 3 completion
+**Phase 3 Completion**: 2025-11-12 (All implementations relocated to canonical locations)
+**Next Review**: Phase 4 planning (2025-Q1 - legacy import removal)
 **Maintainer**: LUKHAS AI Governance Team
