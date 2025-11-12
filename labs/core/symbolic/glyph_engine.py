@@ -22,7 +22,7 @@ def generate_glyph(state_dict: dict[str, Any]) -> str:
 
     Parameters
     ----------
-    state_dict: Dict[str, Any]
+    state_dict: dict[str, Any]
         Input symbolic state metrics.
 
     Returns
@@ -160,7 +160,7 @@ def detect_attractors(
 
     Returns
     -------
-    List[Dict[str, Any]]
+    list[dict[str, Any]]
         List of detected attractors with their properties.
     """
     # DONE: implement attractor detection (# ΛTAG: attractor_detection)

@@ -133,7 +133,7 @@ Each agent has a comprehensive initiation prompt:
 ### Architecture Docs
 - `/docs/gonzo/PLANNING_TODO.md` - T4 allocation playbook
 - `/docs/project_status/JULES_TODO_BATCHES.md` - Batch history
-- `/agents/docs/AGENT_NAVIGATION_GUIDE.md` - Directory map
+- `/docs/ai-agents/AGENT_NAVIGATION_GUIDE.md` - Directory map
 - `/AGENTS.md` - Root coordination (just created)
 
 ### Key Schemas

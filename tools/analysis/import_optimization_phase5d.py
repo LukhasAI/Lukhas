@@ -57,8 +57,8 @@ def create_import_fixing_patterns() -> dict[str, str]:
     return {
         # Common undefined name fixes (conservative patterns only)
         r"\bOptional\b": "Optional",  # Ensure from typing import Optional
-        r"\bDict\b": "Dict",  # Ensure from typing import Dict
-        r"\bList\b": "List",  # Ensure from typing import List
+        r"\bDict\b": "Dict",  # Ensure
+        r"\bList\b": "List",  # Ensure
         r"\bAny\b": "Any",  # Ensure from typing import Any
         r"\bUnion\b": "Union",  # Ensure from typing import Union
         r"\bCallable\b": "Callable",  # Ensure from typing import Callable

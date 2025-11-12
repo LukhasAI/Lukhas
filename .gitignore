@@ -384,3 +384,4 @@ release_artifacts/repo_audit_v2/security/bandit.json
 ssl/*.crt
 ssl/*.key
 ssl/*.pem
+trace_logs/

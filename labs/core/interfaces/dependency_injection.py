@@ -8,7 +8,7 @@ import asyncio
 import functools
 import inspect
 import logging
-from typing import Any, Callable, Optional, TypeVar, Union
+from typing import OptionalVar, Union
 
 T = TypeVar("T")
 

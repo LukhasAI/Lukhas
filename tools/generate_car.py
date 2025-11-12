@@ -15,7 +15,7 @@ import hashlib
 import json
 import pathlib
 from datetime import datetime
-from typing import Dict, Optional
+from typing import Optional
 
 
 class MockIPLD:

@@ -1,0 +1,4 @@
+# Glob patterns that describe modules where controlled import sweeps are allowed
+# to exceed guard_patch file/line limits. Keep this list small and reviewed.
+- labs/imports/**
+- tools/importers/**

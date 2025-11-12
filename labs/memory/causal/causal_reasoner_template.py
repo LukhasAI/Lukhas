@@ -36,8 +36,8 @@ class CausalReasonerTemplate:
     def __init__(self, confidence_threshold: float = 0.7):
         self.confidence_threshold = confidence_threshold
 
-    # LUKHAS_INPUT: input_data:Dict[str, Any]
-    # LUKHAS_OUTPUT: reasoning_result:Dict[str, Any]
+    # LUKHAS_INPUT: input_data:dict[str, Any]
+    # LUKHAS_OUTPUT: reasoning_result:dict[str, Any]
     def reason(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
         Performs causal reasoning on the input data.

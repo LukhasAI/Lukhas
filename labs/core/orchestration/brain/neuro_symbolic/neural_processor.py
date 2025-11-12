@@ -4,8 +4,8 @@ Original: neural_processor.py
 Advanced: neural_processor.py
 Integration Date: 2025-05-31T07:55:28.233694
 """
-from typing import List
-from typing import Dict
+
+
 import streamlit as st
 
 """
@@ -104,7 +104,7 @@ class NeuralProcessor:
             text: Input text to embed
 
         Returns:
-            List[float]: Vector embedding representation
+            list[float]: Vector embedding representation
         """
         # Cache check to avoid redundant embedding generation
         if text in self.embedding_cache:

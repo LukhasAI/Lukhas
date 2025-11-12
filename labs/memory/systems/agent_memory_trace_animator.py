@@ -3,8 +3,8 @@ import logging
 import streamlit as st
 import random
 import time
-from typing import Dict
-from typing import List
+
+
 from consciousness.qi import qi
 logger = logging.getLogger(__name__)
 # ===========================================================================
@@ -385,7 +385,7 @@ class AgentMemoryTraceAnimator:
         # RECALL: Iterates through trace nodes for graph data.
         # AIDENTITY: Uses node.agent_id.
         # DRIFT_POINT: Node positioning uses hash, changes to hash logic or canvas size would alter layout.
-        # SYNTAX_ERROR_FIXED:     async def _generate_symbolic_graph(self, trace: MemoryTrace) -> Dict[str, Any]]:
+        # SYNTAX_ERROR_FIXED:     async def _generate_symbolic_graph(self, trace: MemoryTrace) -> dict[str, Any]]:
         # TRACE: Generating symbolic graph data.
         log.debug(
             "Generating symbolic graph data.",

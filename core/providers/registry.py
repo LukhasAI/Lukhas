@@ -1,7 +1,11 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated List import to native list type in providers registry
+# estimate: 5min | priority: medium | dependencies: core-providers
+
 from __future__ import annotations
 
 import threading
-from typing import Any, Callable, List
+from typing import Any, Callable
 
 
 class ProviderRegistry:
@@ -38,7 +42,7 @@ class ProviderRegistry:
         with self._lock:
             return name in self._providers.get(namespace, {})
 
-    def list_providers(self, namespace: str | None = None) -> List[str]:
+    def list_providers(self, namespace: str | None = None) -> list[str]:
         """
         List all registered providers in a given namespace.
         """

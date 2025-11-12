@@ -26,6 +26,12 @@ def _sorted(values: Iterable[str]) -> list[str]:
     return sorted(values)
 
 
+def _join_path(base: str | None, key: str) -> str:
+    if base:
+        return f"{base}.{key}"
+    return key
+
+
 def deep_schema_diff(
     saved: Any, live: Any, base_path: str | None = None
 ) -> list[dict[str, Any]]:
@@ -36,7 +42,7 @@ def deep_schema_diff(
     modified).
     """
 
-    path_prefix = base_path or "<root>"
+    path_prefix = base_path or ""
     diffs: list[dict[str, Any]] = []
 
     if isinstance(saved, Mapping) and isinstance(live, Mapping):
@@ -45,7 +51,7 @@ def deep_schema_diff(
         for key in _sorted(saved_keys - live_keys):
             diffs.append(
                 {
-                    "path": f"{path_prefix}.{key}",
+                    "path": _join_path(path_prefix, key),
                     "saved": saved[key],
                     "live": None,
                     "change": "removed",
@@ -54,14 +60,14 @@ def deep_schema_diff(
         for key in _sorted(live_keys - saved_keys):
             diffs.append(
                 {
-                    "path": f"{path_prefix}.{key}",
+                    "path": _join_path(path_prefix, key),
                     "saved": None,
                     "live": live[key],
                     "change": "added",
                 }
             )
         for key in _sorted(saved_keys & live_keys):
-            next_path = f"{path_prefix}.{key}" if path_prefix else key
+            next_path = _join_path(path_prefix, key)
             diffs.extend(deep_schema_diff(saved[key], live[key], next_path))
         return diffs
 
@@ -69,7 +75,7 @@ def deep_schema_diff(
         if saved != live:
             diffs.append(
                 {
-                    "path": path_prefix,
+                    "path": path_prefix or "<root>",
                     "saved": saved,
                     "live": live,
                     "change": "modified",
@@ -80,7 +86,7 @@ def deep_schema_diff(
     if saved != live:
         diffs.append(
             {
-                "path": path_prefix,
+                "path": path_prefix or "<root>",
                 "saved": saved,
                 "live": live,
                 "change": "modified",

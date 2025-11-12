@@ -78,12 +78,12 @@ def fix_typing_imports_in_file(filepath: Path, cleanup_only: bool = False) -> tu
                 # Single-line imports
                 content = re.sub(
                     rf"from typing import ([^()\n]*?){old_type},\s*",
-                    r"from typing import \1",
+                    r"from typing import \1"
                     content,
                 )
                 content = re.sub(
                     rf"from typing import ([^()\n]*?),\s*{old_type}\b",
-                    r"from typing import \1",
+                    r"from typing import \1"
                     content,
                 )
                 # Only import
@@ -102,7 +102,7 @@ def fix_typing_imports_in_file(filepath: Path, cleanup_only: bool = False) -> tu
             if needs_collections_import(replacements_used):
                 if "import collections" not in content and "from collections import" not in content:
                     content = re.sub(
-                        r"(from typing import [^\n]+\n)",
+                        r"(from typing import [^\n]+\n)"
                         r"\1from collections.abc import deque, defaultdict, OrderedDict, Counter, ChainMap\n",
                         content,
                         count=1,

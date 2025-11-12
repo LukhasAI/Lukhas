@@ -1,3 +1,8 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
+
 """
 Async utility functions for LUKHAS consciousness architecture.
 
@@ -10,7 +15,7 @@ import logging
 from collections.abc import Awaitable
 from contextlib import asynccontextmanager
 from functools import wraps
-from typing import Callable, Optional, TypeVar
+from typing import Optional
 
 from .async_manager import (
     ConsciousnessTaskManager,

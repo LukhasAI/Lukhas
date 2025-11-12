@@ -11,6 +11,7 @@ class TraceResponse(BaseModel):
     """Response model for a single trace entry."""
 
     trace_id: str = Field(..., description="Unique trace identifier")
+    user_id: Optional[str] = Field(None, description="User ID who owns this trace (for data isolation)")
     timestamp: str = Field(..., description="ISO 8601 timestamp when trace was created")
     unix_time: float = Field(..., description="Unix timestamp for efficient sorting")
     level: int = Field(..., description="Trace level (0-7)")
@@ -27,6 +28,7 @@ class ExecutionTraceResponse(BaseModel):
     """Enhanced response model for execution trace entries with full context."""
 
     trace_id: str = Field(..., description="Unique trace identifier")
+    user_id: Optional[str] = Field(None, description="User ID who owns this trace (for data isolation)")
     timestamp: str = Field(..., description="ISO 8601 timestamp when trace was created")
     unix_time: float = Field(..., description="Unix timestamp for efficient sorting")
     level: int = Field(..., description="Trace level (0-7)")

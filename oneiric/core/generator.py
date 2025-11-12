@@ -1,6 +1,6 @@
 """Dream generation with regret signature emission."""
-from typing import Dict, Any, Optional
 from datetime import datetime
+from typing import Any, Dict, Optional
 
 
 class DreamRegretSignature:
