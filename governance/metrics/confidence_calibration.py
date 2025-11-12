@@ -1,3 +1,7 @@
+# T4: code=F821+UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Fixed Dict import and usage in confidence calibration metrics
+# estimate: 4min | priority: high | dependencies: numpy
+
 """
 LUKHAS Confidence Calibration - Adaptive Calibration System
 
@@ -10,7 +14,6 @@ Provides:
 
 from collections import deque
 from dataclasses import dataclass
-from typing import Dict
 
 import numpy as np
 
@@ -268,7 +271,7 @@ class AdaptiveConfidenceCalibrator:
         self.recent_outcomes.clear()
         self.prediction_count = 0
 
-    def export_state(self) -> Dict:
+    def export_state(self) -> dict:
         """Export calibration state for persistence"""
         return {
             "temperature": self.temperature,
@@ -281,7 +284,7 @@ class AdaptiveConfidenceCalibrator:
             "recent_outcomes": list(self.recent_outcomes)
         }
 
-    def import_state(self, state: Dict):
+    def import_state(self, state: dict):
         """Import calibration state from persistence"""
         self.temperature = state.get("temperature", 1.0)
         self.platt_a = state.get("platt_a", 1.0)

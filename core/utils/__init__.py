@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Removed unused Dict import from core utilities module
+# estimate: 2min | priority: high | dependencies: none
+
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py
 # MODULE: core.lukhas_utils
@@ -10,7 +14,7 @@
 
 import logging
 import uuid
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import streamlit as st
 import structlog
