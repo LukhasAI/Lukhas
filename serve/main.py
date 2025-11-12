@@ -16,6 +16,7 @@ from serve.metrics import (
     matriz_operations_total,
 )
 from serve.middleware.prometheus import PrometheusMiddleware
+from serve.middleware.cache_middleware import CacheMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 
 MATRIZ_AVAILABLE = False
@@ -149,6 +150,7 @@ class HeadersMiddleware(BaseHTTPMiddleware):
         response.headers['x-ratelimit-reset-requests'] = str(int(time.time()) + 60)
         return response
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
+app.add_middleware(CacheMiddleware)
 app.add_middleware(PrometheusMiddleware)
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
 app.add_middleware(StrictAuthMiddleware)
