@@ -1,3 +1,6 @@
+# T4: code=UP035x2 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Fixed Dict+List deprecated typing in API features
+
 """
 Feature Flags API for LUKHAS AI.
 
@@ -19,7 +22,7 @@ ENDPOINTS:
 # ruff: noqa: B008
 import logging
 import time
-from typing import Dict, List, Optional
+from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel, Field
@@ -79,12 +82,12 @@ class FlagUpdateRequest(BaseModel):
 class FlagListResponse(BaseModel):
     """Response with list of all flags."""
 
-    flags: List[FlagInfo] = Field(..., description="List of all feature flags")
+    flags: list[FlagInfo] = Field(..., description="List of all feature flags")
     total: int = Field(..., description="Total number of flags")
 
 
 # Rate limiting (simple in-memory implementation)
-_rate_limit_store: Dict[str, List[float]] = {}
+_rate_limit_store: dict[str, list[float]] = {}
 _RATE_LIMIT = 100  # requests per minute
 _RATE_LIMIT_WINDOW = 60  # seconds
 
@@ -415,7 +418,7 @@ async def reload_flag(
     flag_name: str,
     user_id: str = Depends(require_admin),
     service: FeatureFlagsService = Depends(get_feature_flags_service),
-) -> Dict[str, str]:
+) -> dict[str, str]:
     """
     Force reload flag from configuration (admin only).
 

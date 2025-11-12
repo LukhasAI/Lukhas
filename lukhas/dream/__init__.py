@@ -1,3 +1,6 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Fixed List deprecated typing in dream module
+
 """
 LUKHAS Dream Engine Wrapper Module
 ===================================
@@ -16,7 +19,7 @@ import logging
 import os
 import time
 import uuid
-from typing import Any, List, Optional
+from typing import Any, Optional
 from collections.abc import Coroutine
 
 logger = logging.getLogger(__name__)
@@ -191,7 +194,7 @@ def get_dream_by_id(dream_id: str, user_id: str) -> Optional[dict]:
 
 
 async def _parallel_dream_mesh_async(
-    seeds: List[str],
+    seeds: list[str],
     user_id: str,
     consensus_threshold: float = 0.7
 ) -> dict[str, Any]:

@@ -1,3 +1,6 @@
+# T4: code=UP035x2 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Fixed Dict+List deprecated typing in feature flags
+
 """
 Privacy-first feature flags service for LUKHAS AI.
 
@@ -26,7 +29,7 @@ import time
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import yaml
 
@@ -93,7 +96,7 @@ class FlagEvaluationContext:
 class FeatureFlag:
     """Represents a feature flag configuration."""
 
-    def __init__(self, name: str, config: Dict[str, Any]):
+    def __init__(self, name: str, config: dict[str, Any]):
         """
         Initialize feature flag.
 
@@ -246,7 +249,7 @@ class FeatureFlagsService:
         """
         self.config_path = config_path or self._get_default_config_path()
         self.cache_ttl = cache_ttl
-        self.flags: Dict[str, FeatureFlag] = {}
+        self.flags: dict[str, FeatureFlag] = {}
         self._cache_timestamp: float = 0
         self._load_flags()
 
@@ -342,7 +345,7 @@ class FeatureFlagsService:
 
         return self.flags.get(flag_name)
 
-    def list_flags(self) -> List[str]:
+    def list_flags(self) -> list[str]:
         """
         List all flag names.
 
@@ -354,7 +357,7 @@ class FeatureFlagsService:
 
         return list(self.flags.keys())
 
-    def get_all_flags(self) -> Dict[str, FeatureFlag]:
+    def get_all_flags(self) -> dict[str, FeatureFlag]:
         """
         Get all flag configurations.
 
