@@ -1,9 +1,10 @@
 
 import os
 import time
+
 import jwt
 import numpy as np
-from locust import HttpUser, task, between, events
+from locust import HttpUser, between, events, task
 
 # --- Configuration ---
 API_KEY = os.getenv("LUKHAS_API_KEY", "your-lukhas-api-key-here")
@@ -34,7 +35,7 @@ def on_test_stop(environment, **kwargs):
         p95_latency = np.percentile(latencies, 95)
         p99_latency = np.percentile(latencies, 99)
 
-        print(f"--- Test run finished ---")
+        print("--- Test run finished ---")
         print(f"P50 Latency: {p50_latency:.2f} ms")
         print(f"P95 Latency: {p95_latency:.2f} ms")
         print(f"P99 Latency: {p99_latency:.2f} ms")

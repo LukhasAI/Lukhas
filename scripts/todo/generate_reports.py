@@ -17,10 +17,8 @@ Options:
 """
 
 import argparse
-from collections import Counter, defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, List
 
 # ANSI colors
 GREEN = "\033[92m"

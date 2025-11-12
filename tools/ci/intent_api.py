@@ -8,7 +8,7 @@ import sqlite3
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.security import APIKeyHeader

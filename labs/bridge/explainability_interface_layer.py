@@ -20,7 +20,7 @@ from collections import OrderedDict
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Union
 
 import yaml
 
@@ -59,11 +59,11 @@ class ExplanationTemplate:
     mode: ExplanationMode
     level: ExplanationLevel
     template: str
-    variables: List[str]
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    variables: list[str]
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'ExplanationTemplate':
+    def from_dict(cls, data: dict[str, Any]) -> 'ExplanationTemplate':
         """Create from dictionary."""
         return cls(
             template_id=data['template_id'],
@@ -81,14 +81,14 @@ class FormalProof:
     """Formal proof structure."""
     proof_id: str
     system: ProofSystem
-    premises: List[str]
+    premises: list[str]
     conclusion: str
-    steps: List[Dict[str, Any]]
+    steps: list[dict[str, Any]]
     valid: bool
     timestamp: int
     signature: Optional[str] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         result = asdict(self)
         result['system'] = self.system.value
@@ -103,9 +103,9 @@ class CompletenessMetrics:
     clarity_score: float   # 0-1: Readability/understandability
     consistency_score: float  # 0-1: Internal consistency
     overall_score: float   # Weighted average
-    missing_elements: List[str] = field(default_factory=list)
+    missing_elements: list[str] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return asdict(self)
 
@@ -116,15 +116,15 @@ class Explanation:
     explanation_id: str
     mode: ExplanationMode
     level: ExplanationLevel
-    content: Union[str, Dict[str, Any]]
-    metadata: Dict[str, Any]
+    content: Union[str, dict[str, Any]]
+    metadata: dict[str, Any]
     completeness: Optional[CompletenessMetrics] = None
     formal_proof: Optional[FormalProof] = None
-    reasoning_trace: Optional[List[Dict[str, Any]]] = None
+    reasoning_trace: Optional[list[dict[str, Any]]] = None
     timestamp: int = field(default_factory=lambda: int(time.time()))
     signature: Optional[str] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         result = {
             'explanation_id': self.explanation_id,
@@ -159,7 +159,7 @@ class ExplainabilityCache:
             max_size: Maximum number of cached explanations
         """
         self.max_size = max_size
-        self._cache: OrderedDict[str, Explanation] = OrderedDict()
+        self._cache: Ordereddict[str, Explanation] = OrderedDict()
         self._stats = {'hits': 0, 'misses': 0, 'evictions': 0}
 
     def get(self, key: str) -> Optional[Explanation]:
@@ -205,7 +205,7 @@ class ExplainabilityCache:
         """Clear cache."""
         self._cache.clear()
 
-    def stats(self) -> Dict[str, int]:
+    def stats(self) -> dict[str, int]:
         """Get cache statistics."""
         return self._stats.copy()
 
@@ -251,13 +251,13 @@ class ExplainabilityInterface:
         self.meg_client = meg_client
 
         # Load templates
-        self.templates: Dict[str, ExplanationTemplate] = {}
+        self.templates: dict[str, ExplanationTemplate] = {}
         if template_dir and template_dir.exists():
             self._load_templates()
 
     async def explain(
         self,
-        decision: Dict[str, Any],
+        decision: dict[str, Any],
         mode: ExplanationMode = ExplanationMode.TEXT,
         level: ExplanationLevel = ExplanationLevel.DETAILED,
         include_proof: bool = False,
@@ -339,7 +339,7 @@ class ExplainabilityInterface:
 
     async def generate_formal_proof(
         self,
-        decision: Dict[str, Any],
+        decision: dict[str, Any],
         system: ProofSystem = ProofSystem.FIRST_ORDER
     ) -> FormalProof:
         """
@@ -407,8 +407,8 @@ class ExplainabilityInterface:
 
     async def generate_reasoning_trace(
         self,
-        decision: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        decision: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """
         Generate symbolic reasoning trace.
         
@@ -420,7 +420,7 @@ class ExplainabilityInterface:
         
         Task: TODO-HIGH-BRIDGE-EXPLAIN-m5n6o7p8 (Symbolic engine integration)
         """
-        trace: List[Dict[str, Any]] = []
+        trace: list[dict[str, Any]] = []
 
         # Use symbolic engine if available
         if self.symbolic_engine:
@@ -462,7 +462,7 @@ class ExplainabilityInterface:
     async def calculate_completeness(
         self,
         explanation: Explanation,
-        decision: Dict[str, Any]
+        decision: dict[str, Any]
     ) -> CompletenessMetrics:
         """
         Calculate explanation completeness metrics.
@@ -587,7 +587,7 @@ class ExplainabilityInterface:
 
         return normalized_score
 
-    async def _calculate_consistency_score(self, explanation: Explanation, decision: Dict[str, Any]) -> float:
+    async def _calculate_consistency_score(self, explanation: Explanation, decision: dict[str, Any]) -> float:
         """
         Calculate internal consistency score.
         
@@ -662,9 +662,9 @@ class ExplainabilityInterface:
 
     async def _generate_multimodal_explanation(
         self,
-        decision: Dict[str, Any],
+        decision: dict[str, Any],
         level: ExplanationLevel
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate multi-modal explanation (text + visual + audio + symbolic).
         
@@ -719,7 +719,7 @@ class ExplainabilityInterface:
 
     async def _generate_text_explanation(
         self,
-        decision: Dict[str, Any],
+        decision: dict[str, Any],
         level: ExplanationLevel
     ) -> str:
         """Generate text-based explanation."""
@@ -743,7 +743,7 @@ class ExplainabilityInterface:
 
     async def _generate_formal_proof_explanation(
         self,
-        decision: Dict[str, Any]
+        decision: dict[str, Any]
     ) -> str:
         """Generate formal proof as explanation."""
         proof = await self.generate_formal_proof(decision)
@@ -764,7 +764,7 @@ class ExplainabilityInterface:
 
     async def _generate_symbolic_explanation(
         self,
-        decision: Dict[str, Any],
+        decision: dict[str, Any],
         level: ExplanationLevel
     ) -> str:
         """Generate symbolic logic explanation."""
@@ -778,7 +778,7 @@ class ExplainabilityInterface:
 
         return '\n'.join(lines)
 
-    async def _get_meg_context(self, decision: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    async def _get_meg_context(self, decision: dict[str, Any]) -> Optional[dict[str, Any]]:
         """
         Integrate with MEG for episodic memory context.
         
@@ -828,7 +828,7 @@ class ExplainabilityInterface:
 
     def _generate_cache_key(
         self,
-        decision: Dict[str, Any],
+        decision: dict[str, Any],
         mode: ExplanationMode,
         level: ExplanationLevel
     ) -> str:
@@ -838,7 +838,7 @@ class ExplainabilityInterface:
 
     def _validate_proof_steps(
         self,
-        steps: List[Dict[str, Any]],
+        steps: list[dict[str, Any]],
         system: ProofSystem
     ) -> bool:
         """
@@ -868,7 +868,7 @@ class ExplainabilityInterface:
 
 # Convenience functions
 async def explain_decision(
-    decision: Dict[str, Any],
+    decision: dict[str, Any],
     mode: ExplanationMode = ExplanationMode.TEXT,
     level: ExplanationLevel = ExplanationLevel.DETAILED,
     **kwargs

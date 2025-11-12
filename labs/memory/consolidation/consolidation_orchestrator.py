@@ -42,7 +42,7 @@ import random
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, Iterable, List, Optional, Protocol
+from typing import Any, Protocol
 
 # -------------------- Enums -------------------- #
 
@@ -61,11 +61,11 @@ class ConsolidationMode(Enum):
 
 class MemoryStoreProtocol(Protocol):
     def iter_recent_traces(self, limit: int) -> Iterable["MemoryTrace"]: ...
-    def write_long_term(self, folds: List["MemoryFold"]) -> None: ...
-    def mark_consolidated(self, trace_ids: List[str]) -> None: ...
+    def write_long_term(self, folds: list["MemoryFold"]) -> None: ...
+    def mark_consolidated(self, trace_ids: list[str]) -> None: ...
 
 class ConsciousnessAdapter(Protocol):
-    def publish_event(self, event: str, payload: Dict[str, Any]) -> None: ...
+    def publish_event(self, event: str, payload: dict[str, Any]) -> None: ...
 
 # -------------------- Data Models -------------------- #
 
@@ -74,15 +74,15 @@ class MemoryTrace:
     trace_id: str
     salience: float  # 0..1
     domain: str      # e.g., "episodic", "semantic", "procedural"
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
 
 @dataclass
 class MemoryFold:
     fold_id: str
-    origin_trace_ids: List[str]
+    origin_trace_ids: list[str]
     quality: float       # 0..1 heuristic after consolidation
     domain: str
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 # -------------------- Default Minimal Implementations -------------------- #
 
@@ -90,9 +90,9 @@ class InMemoryStore:
     """Demo store for local validation and tests.
     Replace with your production stores (e.g., hippocampal-cache + cortex DB).
     """
-    def __init__(self, short_term: List[MemoryTrace] | None = None):
+    def __init__(self, short_term: list[MemoryTrace] | None = None):
         self.short_term = short_term or []
-        self.long_term: List[MemoryFold] = []
+        self.long_term: list[MemoryFold] = []
 
     @classmethod
     def seed_demo(cls, n: int = 32, seed: int | None = None) -> "InMemoryStore":
@@ -112,14 +112,14 @@ class InMemoryStore:
         # Sort by salience desc (keep stable randomness for demo)
         return sorted(self.short_term, key=lambda t: t.salience, reverse=True)[:limit]
 
-    def write_long_term(self, folds: List[MemoryFold]) -> None:
+    def write_long_term(self, folds: list[MemoryFold]) -> None:
         self.long_term.extend(folds)
 
-    def mark_consolidated(self, trace_ids: List[str]) -> None:
+    def mark_consolidated(self, trace_ids: list[str]) -> None:
         self.short_term = [t for t in self.short_term if t.trace_id not in trace_ids]
 
 class BasicConsciousnessAdapter:
-    def publish_event(self, event: str, payload: Dict[str, Any]) -> None:
+    def publish_event(self, event: str, payload: dict[str, Any]) -> None:
         # Replace with event bus / logger / ethics pipeline
         print(f"[consciousness] {event}: {payload}")
 
@@ -173,7 +173,7 @@ class ConsolidationOrchestrator:
             self._metrics["last_run_s"] = round(time.perf_counter() - start, 4)
             self.consciousness.publish_event("consolidation_end", {"cycles": self.cycle_count, **self._metrics})
 
-    def metrics_snapshot(self) -> Dict[str, Any]:
+    def metrics_snapshot(self) -> dict[str, Any]:
         return dict(self._metrics)
 
     # -------- Internal mechanics -------- #
@@ -222,7 +222,7 @@ class ConsolidationOrchestrator:
             # Light stabilization; no heavy writes
             self.consciousness.publish_event("stage_stabilize", {"stage": stage.value})
 
-    def _select_batch(self) -> List[MemoryTrace]:
+    def _select_batch(self) -> list[MemoryTrace]:
         base = {
             ConsolidationMode.STANDARD: 12,
             ConsolidationMode.INTENSIVE: 24,
@@ -233,10 +233,10 @@ class ConsolidationOrchestrator:
         random.shuffle(traces)
         return traces
 
-    def _consolidate_batch(self, traces: List[MemoryTrace]) -> List[MemoryFold]:
-        folds: List[MemoryFold] = []
+    def _consolidate_batch(self, traces: list[MemoryTrace]) -> list[MemoryFold]:
+        folds: list[MemoryFold] = []
         # Group by domain; simple demo logic-replace with your fold engine
-        by_domain: Dict[str, List[MemoryTrace]] = {}
+        by_domain: dict[str, list[MemoryTrace]] = {}
         for t in traces:
             by_domain.setdefault(t.domain, []).append(t)
 

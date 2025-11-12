@@ -28,7 +28,7 @@ import time
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -145,7 +145,7 @@ class VerificationContext:
     session_id: Optional[str] = None
     request_id: Optional[str] = None
     timestamp: Optional[float] = None
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
 
     def __post_init__(self):
         if self.timestamp is None:
@@ -158,19 +158,19 @@ class VerificationContext:
 class VerificationOutcome:
     """Result of plan verification."""
     allow: bool
-    reasons: List[str]
+    reasons: list[str]
     context: VerificationContext
     plan_hash: str
     verification_time_ms: float
     # Guardian Drift Bands integration (Task 12)
     guardian_band: Optional[str] = None
     drift_score: Optional[float] = None
-    guardrails: Optional[List[str]] = None
-    human_requirements: Optional[List[str]] = None
+    guardrails: Optional[list[str]] = None
+    human_requirements: Optional[list[str]] = None
     # Safety Tags integration (Task 13)
-    safety_tags: Optional[List[str]] = None
+    safety_tags: Optional[list[str]] = None
     tag_enrichment_time_ms: Optional[float] = None
-    counterfactual_decisions: Optional[List[Dict[str, Any]]] = None
+    counterfactual_decisions: Optional[list[dict[str, Any]]] = None
 
     @property
     def result(self) -> VerificationResult:
@@ -193,7 +193,7 @@ class PlanVerifier:
     ethical compliance, resource bounds, and operational safety.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize plan verifier with configuration.
 
@@ -319,7 +319,7 @@ class PlanVerifier:
             'guardian_enforced_lanes',
             os.getenv('LUKHAS_GUARDIAN_ENFORCED_LANES', 'labs')
         )
-        self.guardian_enforced_lanes: Set[str] = {
+        self.guardian_enforced_lanes: set[str] = {
             lane.strip().lower()
             for lane in str(lanes_config).split(',')
             if lane and lane.strip()
@@ -340,7 +340,7 @@ class PlanVerifier:
                    f"max_memory={self.max_memory_mb}MB, max_loops={self.max_loop_iterations}, "
                    f"domains={len(self.allowed_external_domains)}")
 
-    def verify(self, plan: Dict[str, Any], ctx: VerificationContext) -> VerificationOutcome:
+    def verify(self, plan: dict[str, Any], ctx: VerificationContext) -> VerificationOutcome:
         """
         Verify action plan against all constraints.
 
@@ -420,7 +420,7 @@ class PlanVerifier:
 
             # 3. Ethics and Guardian Drift Bands evaluation (Task 11 + Task 12)
             guardian_result = None
-            counterfactual_decisions: List[Dict[str, Any]] = []
+            counterfactual_decisions: list[dict[str, Any]] = []
             guardian_enforced = False
             guardian_lane = self._determine_lane(ctx)
             if ctx.metadata is None:
@@ -625,7 +625,7 @@ class PlanVerifier:
         guardian_result,
         lane: str,
         plan_hash: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Record counterfactual Guardian decisions for audit logging."""
         counterfactual = {
             "lane": lane,
@@ -655,7 +655,7 @@ class PlanVerifier:
 
         return counterfactual
 
-    def _hash_plan(self, plan: Dict[str, Any], ctx: VerificationContext) -> str:
+    def _hash_plan(self, plan: dict[str, Any], ctx: VerificationContext) -> str:
         """Generate deterministic hash of plan and relevant context."""
         # Create normalized representation for hashing
         normalized = {
@@ -669,7 +669,7 @@ class PlanVerifier:
         plan_str = repr(sorted(normalized.items()))
         return hashlib.sha256(plan_str.encode()).hexdigest()
 
-    def _check_plan_structure(self, plan: Dict[str, Any]) -> List[str]:
+    def _check_plan_structure(self, plan: dict[str, Any]) -> list[str]:
         """Validate basic plan structure."""
         violations = []
 
@@ -689,7 +689,7 @@ class PlanVerifier:
 
         return violations
 
-    def _check_ethics_constraints(self, plan: Dict[str, Any], ctx: VerificationContext) -> List[str]:
+    def _check_ethics_constraints(self, plan: dict[str, Any], ctx: VerificationContext) -> list[str]:
         """Check ethics constraints using DSL engine or legacy rules."""
         violations = []
 
@@ -747,7 +747,7 @@ class PlanVerifier:
 
         return violations
 
-    def _check_resource_constraints(self, plan: Dict[str, Any]) -> List[str]:
+    def _check_resource_constraints(self, plan: dict[str, Any]) -> list[str]:
         """Check resource limit constraints."""
         violations = []
 
@@ -770,7 +770,7 @@ class PlanVerifier:
 
         return violations
 
-    def _check_loop_constraints(self, plan: Dict[str, Any]) -> List[str]:
+    def _check_loop_constraints(self, plan: dict[str, Any]) -> list[str]:
         """Check for loop limit violations."""
         violations = []
 
@@ -788,7 +788,7 @@ class PlanVerifier:
 
         return violations
 
-    def _check_external_call_constraints(self, plan: Dict[str, Any]) -> List[str]:
+    def _check_external_call_constraints(self, plan: dict[str, Any]) -> list[str]:
         """Check external call whitelist constraints."""
         violations = []
 
@@ -855,7 +855,7 @@ class PlanVerifier:
 # Global instance for router integration
 _plan_verifier_instance = None
 
-def get_plan_verifier(config: Optional[Dict[str, Any]] = None) -> PlanVerifier:
+def get_plan_verifier(config: Optional[dict[str, Any]] = None) -> PlanVerifier:
     """Get or create global plan verifier instance."""
     global _plan_verifier_instance
     if _plan_verifier_instance is None:

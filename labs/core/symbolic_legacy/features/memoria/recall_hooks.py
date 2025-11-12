@@ -47,10 +47,10 @@ class RecallHooks:
         Executes all pre-recall hooks.
 
         Args:
-            recall_query (Dict[str, Any]): The original recall query.
+            recall_query (dict[str, Any]): The original recall query.
 
         Returns:
-            Dict[str, Any]: The modified recall query.
+            dict[str, Any]: The modified recall query.
         """
         # ΛMEMORY_TRACE
         modified_query = recall_query
@@ -65,10 +65,10 @@ class RecallHooks:
         Executes all post-recall hooks.
 
         Args:
-            recall_results (List[Dict[str, Any]]): The original recall results.
+            recall_results (list[dict[str, Any]]): The original recall results.
 
         Returns:
-            List[Dict[str, Any]]: The modified recall results.
+            list[dict[str, Any]]: The modified recall results.
         """
         # ΛMEMORY_TRACE
         modified_results = recall_results

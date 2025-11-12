@@ -12,7 +12,6 @@ Usage:
 import argparse
 import re
 from pathlib import Path
-from typing import List
 
 # Known action SHA mappings (as of Sep 2024)
 ACTION_SHA_MAP = {

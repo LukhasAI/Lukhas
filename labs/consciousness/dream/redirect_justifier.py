@@ -26,10 +26,10 @@ class RedirectJustifier:
         Args:
             drift_delta (float): The drift delta that triggered the redirect.
             emotion_conflict (float): The emotion conflict that triggered the redirect.
-            snapshot_context (Dict[str, Any]): The context of the snapshot that triggered the redirect.
+            snapshot_context (dict[str, Any]): The context of the snapshot that triggered the redirect.
 
         Returns:
-            Dict[str, Any]: A symbolic summary of the redirect.
+            dict[str, Any]: A symbolic summary of the redirect.
         """
         summary = (
             f"Redirect triggered due to high drift ({drift_delta:.2f}) and emotion conflict ({emotion_conflict:.2f})."

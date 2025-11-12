@@ -13,7 +13,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, AsyncIterator, Dict, List, Optional, Sequence
+from typing import AsyncIterator, Sequence
 
 try:
     import openai
@@ -34,7 +34,7 @@ except ImportError:  # pragma: no cover - fallback for minimal test envs
         signal_type: Any
         source_module: str
         target_module: str
-        payload: Dict[str, Any]
+        payload: dict[str, Any]
         timestamp: float
 
     class SignalType(str, Enum):  # type: ignore[override]
@@ -74,7 +74,7 @@ class AIModelResponse:
     token_count: int
     processing_time_ms: float
     confidence_score: Optional[float] = None
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
 
 
 class OpenAIModulatedService:
@@ -185,9 +185,9 @@ class OpenAIModulatedService:
     async def process_with_consensus(
         self,
         prompt: str,
-        models: Optional[List[str]] = None,
-        context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        models: Optional[list[str]] = None,
+        context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Process prompt with multiple models for consensus
 
@@ -274,7 +274,7 @@ class OpenAIModulatedService:
         self,
         prompt: str,
         model_name: str,
-        context: Optional[Dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None
     ) -> AIModelResponse:
         """
         Process prompt with a single model
@@ -335,7 +335,7 @@ class OpenAIModulatedService:
             logger.error(f"Model {model_name} processing failed: {e}")
             raise
 
-    async def _generate_consensus(self, responses: List[AIModelResponse]) -> Dict[str, Any]:
+    async def _generate_consensus(self, responses: list[AIModelResponse]) -> dict[str, Any]:
         """
         Generate consensus from multiple model responses
 
@@ -381,7 +381,7 @@ class OpenAIModulatedService:
             ]
         }
 
-    def _find_common_themes(self, texts: List[str]) -> List[str]:
+    def _find_common_themes(self, texts: list[str]) -> list[str]:
         """Find common themes across response texts (simplified implementation)"""
         # This is a basic implementation - in production, use more sophisticated NLP
         word_counts = {}
@@ -396,7 +396,7 @@ class OpenAIModulatedService:
         common_words = [word for word, count in word_counts.items() if count >= common_threshold]
         return sorted(common_words, key=lambda w: word_counts[w], reverse=True)[:10]
 
-    def _calculate_consensus_confidence(self, responses: List[AIModelResponse]) -> float:
+    def _calculate_consensus_confidence(self, responses: list[AIModelResponse]) -> float:
         """Calculate confidence in consensus based on response similarity"""
         if len(responses) < 2:
             return 1.0
@@ -410,7 +410,7 @@ class OpenAIModulatedService:
         confidence = max(0.0, 1.0 - (variance / (avg_length ** 2)))
         return confidence
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Perform health check on the service"""
         try:
             if not self.is_initialized:
@@ -440,7 +440,7 @@ class OpenAIModulatedService:
                 "last_check": datetime.now(timezone.utc).isoformat()
             }
 
-    def get_performance_metrics(self) -> Dict[str, Any]:
+    def get_performance_metrics(self) -> dict[str, Any]:
         """Get service performance metrics"""
         if self.performance_metrics["total_requests"] > 0:
             success_rate = (
@@ -519,8 +519,8 @@ async def simple_openai_request(prompt: str, model: str = "gpt-3.5-turbo") -> st
 
 async def multi_model_consensus(
     prompt: str,
-    models: Optional[List[str]] = None
-) -> Dict[str, Any]:
+    models: Optional[list[str]] = None
+) -> dict[str, Any]:
     """
     Get consensus from multiple models
 
@@ -545,9 +545,9 @@ class OrchestratedOpenAIRequest:
 
     prompt: str
     task: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     model: Optional[str] = None
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -555,7 +555,7 @@ class OrchestratedOpenAIResponse:
     """Normalized response object for orchestration integrations."""
 
     content: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
     raw: Any
 
 
@@ -569,7 +569,7 @@ class OpenAIOrchestrationService:
         context_bus: Optional[ContextBusOrchestrator] = None,
     ) -> None:
         self._service = service or OpenAIModulatedService(context_bus=context_bus)
-        self._metrics: Dict[str, int] = {"requests": 0, "timeouts": 0, "streams": 0}
+        self._metrics: dict[str, int] = {"requests": 0, "timeouts": 0, "streams": 0}
         self._default_model = "gpt-4"
         # ΛTAG: orchestration_metrics -- track adapter level telemetry deterministically
 
@@ -599,7 +599,7 @@ class OpenAIOrchestrationService:
         *,
         concurrency: int = 4,
         timeout: Optional[float] = None,
-    ) -> List[OrchestratedOpenAIResponse]:
+    ) -> list[OrchestratedOpenAIResponse]:
         """Execute multiple requests respecting a concurrency limit."""
 
         limit = max(1, int(concurrency))
@@ -654,7 +654,7 @@ class OpenAIOrchestrationService:
 
         return _fallback()
 
-    def get_metrics(self) -> Dict[str, int]:
+    def get_metrics(self) -> dict[str, int]:
         """Expose adapter metrics for tests and diagnostics."""
 
         return dict(self._metrics)
@@ -686,7 +686,7 @@ class OpenAIOrchestrationService:
     ) -> OrchestratedOpenAIResponse:
         if isinstance(raw, AIModelResponse):
             content = raw.response_text
-            metadata: Dict[str, Any] = dict(raw.metadata or {})
+            metadata: dict[str, Any] = dict(raw.metadata or {})
             metadata.setdefault("model", raw.model_name)
             metadata.setdefault("token_usage", raw.token_count)
         else:
@@ -701,16 +701,16 @@ class OpenAIOrchestrationService:
 
         return OrchestratedOpenAIResponse(content=content, metadata=metadata, raw=raw)
 
-    def _orchestration_metadata(self, request: OrchestratedOpenAIRequest) -> Dict[str, Any]:
-        orchestration: Dict[str, Any] = {}
+    def _orchestration_metadata(self, request: OrchestratedOpenAIRequest) -> dict[str, Any]:
+        orchestration: dict[str, Any] = {}
         if request.task:
             orchestration["task"] = request.task
         if request.metadata:
             orchestration.update(request.metadata)
         return orchestration
 
-    def _build_payload(self, request: OrchestratedOpenAIRequest) -> Dict[str, Any]:
-        payload: Dict[str, Any] = {"prompt": request.prompt}
+    def _build_payload(self, request: OrchestratedOpenAIRequest) -> dict[str, Any]:
+        payload: dict[str, Any] = {"prompt": request.prompt}
         if request.context:
             payload["context"] = request.context
         if request.model:

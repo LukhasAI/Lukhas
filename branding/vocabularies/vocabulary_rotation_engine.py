@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict import to native dict type in vocabulary rotation
+# estimate: 5min | priority: medium | dependencies: branding-vocabularies
+
 #!/usr/bin/env python3
 """
 T4/0.01% Vocabulary Rotation Engine - Standalone Module
@@ -22,7 +26,7 @@ import json
 import random
 import time
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Optional
 
 
 class VocabularyRotationEngine:

@@ -210,7 +210,7 @@ class LambdaIDValidator:
             lambda_id: The ΛiD string to validate
 
         Returns:
-            Tuple[ValidationResult, Dict]: Validation result and details
+            tuple[ValidationResult, Dict]: Validation result and details
         """
         validation_details = {
             "lambda_id": lambda_id,

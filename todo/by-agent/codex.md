@@ -9,22 +9,11 @@
 
 ## Quick Stats
 
-- **P0 (Critical)**: 4 tasks
+- **P0 (Critical)**: 0 tasks
 - **P1 (High)**: 9 tasks
 - **P2 (Medium)**: 6 tasks
 - **P3 (Low)**: 0 tasks
-- **Total**: 19 tasks
-
----
-
-## Priority 0 (Critical - Drop Everything) ⚠️
-
-| ID | Task | Status | Effort | Notes |
-|----|------|--------|--------|-------|
-| SG001 | Enable Guardian DSL enforcement in canary mode | PENDING | S | 10% canary traffic |
-| SG002 | Implement Guardian emergency kill-switch | PENDING | S | /tmp/guardian_emergency_disable |
-| MS001 | Implement missing MATRIZ cognitive nodes | PENDING | L | Complete node registry |
-| MP001 | Complete async orchestrator timeouts | PENDING | M | Timeout handling |
+- **Total**: 15 tasks
 
 ---
 

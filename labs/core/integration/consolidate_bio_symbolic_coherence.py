@@ -144,7 +144,7 @@ Part of LUKHAS Constellation Framework
 """
 
 from abc import ABC, abstractmethod
-from typing import Dict, List, Any, Optional
+from typing import Optional
 from datetime import datetime, timezone
 
 {interface_code.get("IBioSymbolicCoherence", "")}
@@ -163,7 +163,7 @@ class {filename.replace('.py', '').title().replace('_', '')}:
         self.coherence_level = 0.0
         self.last_update = datetime.now(timezone.utc)
 
-    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process bio-symbolic coherence data"""
         # Implementation placeholder - extend based on specific needs
         return {{

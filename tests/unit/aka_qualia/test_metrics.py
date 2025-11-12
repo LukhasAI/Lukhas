@@ -68,7 +68,6 @@ def create_phenomenal_scene(**kwargs) -> PhenomenalScene:
     defaults.update(kwargs)
     return PhenomenalScene(**defaults)
 
-
 # --- Test Class for AkaQualiaMetrics ---
 
 @pytest.mark.tier3
@@ -341,7 +340,6 @@ class TestAkaQualiaMetrics:
 
 # Skip experimental aka_qualia tests
 pytestmark = pytest.mark.skip(reason="aka_qualia is experimental")
-
 
         # Create a repeating glyph pattern
         glyphs = [PhenomenalGlyph(key="aka:loop", attrs={})]

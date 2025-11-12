@@ -1,25 +1,29 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, cast
 
 import pytest
 
-from lukhas.adapters.dast_adapter import DASTAdapter, DASTOrchestrator
+from lukhas.adapters.dast_adapter import (
+    DASTAdapter,
+    DASTOrchestrator,
+    TaskResponse,
+)
 
 
 class _RecordingOrchestrator:
-    def __init__(self, response: dict[str, Any]) -> None:
+    def __init__(self, response: TaskResponse) -> None:
         self._response = response
         self.messages: list[dict[str, Any]] = []
 
-    def dispatch(self, message: dict[str, Any]) -> dict[str, Any]:  # pragma: no cover - Protocol compatibility
+    def dispatch(self, message: dict[str, Any]) -> TaskResponse:  # pragma: no cover - Protocol compatibility
         self.messages.append(message)
         return self._response
 
 
 class _InvalidResponseOrchestrator:
-    def dispatch(self, message: dict[str, Any]) -> dict[str, Any]:  # pragma: no cover - Protocol compatibility
-        return {}
+    def dispatch(self, message: dict[str, Any]) -> TaskResponse:  # pragma: no cover - Protocol compatibility
+        return cast(TaskResponse, {})
 
 
 def test_send_task_merges_metadata() -> None:

@@ -51,7 +51,7 @@ class BasicGovernanceEngine:
     """Evaluate governance cases with deterministic sample rules."""
 
     def __init__(self, rules: Iterable[GovernanceRule]):
-        self._rules: List[GovernanceRule] = list(rules)
+        self._rules: list[GovernanceRule] = list(rules)
         if not self._rules:
             raise ValueError("At least one governance rule must be provided")
 

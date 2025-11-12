@@ -16,7 +16,7 @@ import time
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, Protocol
 
 from consciousness.systems.state import ConsciousnessState
 from core.common.logger import get_logger
@@ -64,7 +64,7 @@ class ReflectionReport:
     state_delta_magnitude: float = 0.0
 
     # Anomaly detection
-    anomalies: List[Dict[str, Any]] = field(default_factory=list)
+    anomalies: list[dict[str, Any]] = field(default_factory=list)
     anomaly_count: int = 0
 
     # Performance metrics
@@ -90,7 +90,7 @@ class ReflectionReport:
 
 class ContextProvider(Protocol):
     """Protocol for context providers (memory, emotion readers)"""
-    async def get_context(self) -> Dict[str, Any]:
+    async def get_context(self) -> dict[str, Any]:
         """Retrieve context data for reflection"""
         ...
 
@@ -110,22 +110,22 @@ class SelfReflectionEngine:
     Constellation Framework: Flow Star (🌊) - Real-time consciousness processing
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.logger = get_logger(__name__, "CONSCIOUSNESS")
         self.is_initialized = False
         self.status = "inactive"
 
         # Context providers (injected during init)
-        self.context_providers: List[ContextProvider] = []
+        self.context_providers: list[ContextProvider] = []
 
         # State tracking for coherence analysis
         self.previous_state: Optional[ConsciousnessState] = None
         self.drift_ema = 0.0
-        self.reflection_history: List[float] = []
+        self.reflection_history: list[float] = []
 
         # Performance monitoring
-        self.performance_buffer: List[float] = []
+        self.performance_buffer: list[float] = []
         self.anomaly_counter = 0
 
         # Observability setup
@@ -159,7 +159,7 @@ class SelfReflectionEngine:
             self.meter = None
             self.logger.warning("OTEL not available - reflection observability disabled")
 
-    async def init(self, context_providers: List[ContextProvider]) -> bool:
+    async def init(self, context_providers: list[ContextProvider]) -> bool:
         """
         Initialize reflection engine with context providers.
 
@@ -367,7 +367,7 @@ class SelfReflectionEngine:
                 f"Consciousness level {state.level} outside valid range [0.0, 1.0]"
             )
 
-    async def _gather_context(self) -> Dict[str, Any]:
+    async def _gather_context(self) -> dict[str, Any]:
         """Gather context from injected providers for enhanced reflection"""
         context = {}
 
@@ -463,7 +463,7 @@ class SelfReflectionEngine:
             self.logger.error(f"Validation failed: {e}")
             return False
 
-    def get_performance_stats(self) -> Dict[str, Any]:
+    def get_performance_stats(self) -> dict[str, Any]:
         """Get current performance statistics for monitoring"""
         if not self.performance_buffer:
             return {"status": "no_data"}
@@ -486,7 +486,7 @@ class SelfReflectionEngine:
 
         return stats
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get comprehensive reflection engine status"""
         base_status = {
             "component": "SelfReflectionEngine",
@@ -518,14 +518,14 @@ class SelfReflectionEngine:
 
 
 # Factory functions
-def create_reflection_engine(config: Optional[Dict[str, Any]] = None) -> SelfReflectionEngine:
+def create_reflection_engine(config: Optional[dict[str, Any]] = None) -> SelfReflectionEngine:
     """Create and return a reflection engine instance"""
     return SelfReflectionEngine(config)
 
 
 async def create_and_initialize_reflection_engine(
-    config: Optional[Dict[str, Any]] = None,
-    context_providers: Optional[List[ContextProvider]] = None
+    config: Optional[dict[str, Any]] = None,
+    context_providers: Optional[list[ContextProvider]] = None
 ) -> SelfReflectionEngine:
     """Create, initialize and return a reflection engine instance"""
     engine = SelfReflectionEngine(config)

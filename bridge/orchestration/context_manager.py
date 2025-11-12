@@ -104,8 +104,8 @@ class ContextManager:
         self.handoff_target_ms = self.config.get("handoff_target_ms", 250)
 
         # In-memory storage with LRU eviction
-        self.context_cache: OrderedDict[str, list[ContextEntry]] = OrderedDict()
-        self.summary_cache: OrderedDict[str, list[ContextSummary]] = OrderedDict()
+        self.context_cache: Ordereddict[str, list[ContextEntry]] = OrderedDict()
+        self.summary_cache: Ordereddict[str, list[ContextSummary]] = OrderedDict()
 
         # Performance tracking
         self.handoff_times: list[float] = []
