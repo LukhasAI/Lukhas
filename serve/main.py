@@ -107,6 +107,7 @@ matriz_traces_router = (
     _safe_import_router('MATRIZ.traces_router', 'router')
     or _safe_import_router('matriz.traces_router', 'router')
 )
+auth_router = _safe_import_router('lukhas.api.auth_routes', 'router')
 
 # Core wiring routers (feature-flag gated)
 dreams_router = None
@@ -182,6 +183,8 @@ if glyphs_router is not None:
     app.include_router(glyphs_router)
 if drift_router is not None:
     app.include_router(drift_router)
+if auth_router is not None:
+	app.include_router(auth_router)
 
 def voice_core_available() -> bool:
     try:

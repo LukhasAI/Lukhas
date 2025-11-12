@@ -22,9 +22,11 @@ import time
 from typing import Dict, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi.security import HTTPBearer
 from pydantic import BaseModel, Field
 
 from lukhas.api import analytics
+from lukhas.api.auth_helpers import get_current_user
 from lukhas.features.flags_service import (
     FeatureFlagsService,
     FlagEvaluationContext,
@@ -123,40 +125,11 @@ def check_rate_limit(user_id: str) -> bool:
 
 # Dependency injection
 
+reusable_oauth2 = HTTPBearer(scheme_name="Bearer")
 
 def get_feature_flags_service() -> FeatureFlagsService:
     """Get feature flags service instance."""
     return get_service()
-
-
-def get_current_user(request: Request) -> str:
-    """
-    Get current authenticated user.
-
-    In production, this would verify JWT tokens, API keys, etc.
-    For now, returns a placeholder user ID.
-
-    Args:
-        request: FastAPI request object
-
-    Returns:
-        User ID
-
-    Raises:
-        HTTPException: If authentication fails
-    """
-    # TODO: Implement actual authentication
-    # For now, check for API key in headers
-    api_key = request.headers.get("X-API-Key")
-    if not api_key:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Authentication required",
-        )
-
-    # Placeholder user ID based on API key
-    # In production, validate API key and return actual user ID
-    return f"user_{api_key[:8]}"
 
 
 def require_admin(user_id: str = Depends(get_current_user)) -> str:
