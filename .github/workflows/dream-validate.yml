@@ -28,3 +28,12 @@ jobs:
       - name: Run dream validation
         run: |
           python scripts/dream_validate_pr.py --prompts bench/prompts_fixed.json --max-drift 0.15
+      - name: Generate alignment attestation
+        id: alignment_attestation
+        run: |
+          python scripts/ci/upload_alignment_attestation.py
+      - name: Upload alignment attestation
+        uses: actions/upload-artifact@v4
+        with:
+          name: alignment-attestation
+          path: artifacts/alignment.json
