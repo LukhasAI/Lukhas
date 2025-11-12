@@ -27,6 +27,7 @@ from lukhas.api import analytics
 from lukhas.api.auth_helpers import (
     check_rate_limit,
     get_current_user_from_token,
+    has_role,
 )
 from lukhas.features.flags_service import (
     FeatureFlagsService,
@@ -97,32 +98,39 @@ def get_feature_flags_service() -> FeatureFlagsService:
 def get_current_user(user: dict = Depends(get_current_user_from_token)) -> dict:
     """
     Dependency to get the current user dict from the verified token.
+
+    TODO: Extract role from JWT claims once role-based JWT is implemented.
+    For now, infer role from username prefix (admin_* = admin, etc.)
     """
-    return user
+    # Infer role from username (temporary until JWT includes roles)
+    username = user.get("username", "")
+    if username.startswith("admin_"):
+        role = "admin"
+    elif username.startswith("moderator_"):
+        role = "moderator"
+    elif username.startswith("user_"):
+        role = "user"
+    else:
+        role = "guest"
+
+    return {**user, "role": role, "id": username}
 
 
-def require_admin(user: dict = Depends(get_current_user)) -> dict:
+def require_role(required_role: str):
     """
-    Require admin role for endpoint.
+    Factory for a dependency that checks if the current user has the required role.
 
-    Args:
-        user: Current user dict
-
-    Returns:
-        User dict
-
-    Raises:
-        HTTPException: If user is not admin
+    Uses the RBAC role hierarchy from auth_helpers.
     """
-    # TODO: Implement actual role checking
-    # For now, check if username starts with "admin_"
-    if not user["username"].startswith("admin_"):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Admin access required",
-        )
-
-    return user
+    async def role_checker(current_user: dict = Depends(get_current_user)):
+        user_role = current_user.get("role", "guest")
+        if not has_role(user_role, required_role):
+            raise HTTPException(
+                status_code=403,
+                detail=f"Requires {required_role} role"
+            )
+        return current_user
+    return role_checker
 
 
 # API Endpoints
@@ -130,7 +138,7 @@ def require_admin(user: dict = Depends(get_current_user)) -> dict:
 
 @router.get("/", response_model=FlagListResponse)
 async def list_flags(
-    current_user: dict = Depends(require_admin),
+    current_user: dict = Depends(require_role("admin")),
     service: FeatureFlagsService = Depends(get_feature_flags_service),
 ) -> FlagListResponse:
     """
@@ -225,6 +233,7 @@ async def evaluate_flag(
     Returns:
         Flag evaluation result
     """
+    user_id = current_user["id"]
     # Check rate limit
     if not check_rate_limit(current_user["username"]):
         raise HTTPException(
@@ -285,7 +294,7 @@ async def evaluate_flag(
 async def update_flag(
     flag_name: str,
     update_data: FlagUpdateRequest,
-    current_user: dict = Depends(require_admin),
+    current_user: dict = Depends(require_role("admin")),
     service: FeatureFlagsService = Depends(get_feature_flags_service),
 ) -> FlagInfo:
     """
@@ -298,6 +307,7 @@ async def update_flag(
     Returns:
         Updated flag information
     """
+    user_id = current_user["id"]
     try:
         # Get flag
         flag = service.get_flag(flag_name)
@@ -355,7 +365,7 @@ async def update_flag(
 @router.post("/{flag_name}/reload")
 async def reload_flag(
     flag_name: str,
-    current_user: dict = Depends(require_admin),
+    current_user: dict = Depends(require_role("admin")),
     service: FeatureFlagsService = Depends(get_feature_flags_service),
 ) -> Dict[str, str]:
     """
@@ -367,6 +377,7 @@ async def reload_flag(
     Returns:
         Success message
     """
+    user_id = current_user["id"]
     try:
         # Reload all flags
         service.reload()
