@@ -12,3 +12,12 @@ __all__ = [
     "ConfidenceCalibrationNode",
     "MetacognitiveMonitoringNode",
 ]
+
+# Additional awareness nodes
+from matriz.nodes.awareness.performance_evaluation import PerformanceEvaluationNode
+from matriz.nodes.awareness.self_monitoring import SelfMonitoringNode
+
+__all__.extend([
+    "PerformanceEvaluationNode",
+    "SelfMonitoringNode",
+])

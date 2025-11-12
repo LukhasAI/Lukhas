@@ -1,3 +1,8 @@
+# .github/labeler.yml
+
+# Auto-label PRs related to the MATRIZ migration
 "migration/matriz":
-  - "lukhas/**"
-  - "matriz/**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "matriz/**"
+      - "MATRIZ/**"

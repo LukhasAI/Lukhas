@@ -15,6 +15,17 @@ http_request_duration_seconds = Histogram(
     ['method', 'endpoint']
 )
 
+http_requests_errors_total = Counter(
+    'http_requests_errors_total',
+    'Total HTTP requests with errors',
+    ['method', 'endpoint', 'status']
+)
+
+http_active_connections = Gauge(
+    'http_active_connections',
+    'Number of active HTTP connections'
+)
+
 matriz_operations_total = Counter(
     'matriz_operations_total',
     'Total MATRIZ cognitive operations',

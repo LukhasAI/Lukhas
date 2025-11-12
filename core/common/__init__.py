@@ -5,6 +5,7 @@ Also provides real exceptions submodule for explicit imports.
 """
 from __future__ import annotations
 
+import sys
 from importlib import import_module
 # Always expose our submodule path
 from . import exceptions
