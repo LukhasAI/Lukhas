@@ -18,7 +18,11 @@ from lukhas.governance.audit import (
     FileAuditStorage,
     InMemoryAuditStorage,
 )
-from lukhas.governance.audit.config import get_default_config, get_development_config, get_testing_config
+from lukhas.governance.audit.config import (
+    get_default_config,
+    get_development_config,
+    get_testing_config,
+)
 
 
 class TestAuditEvent:

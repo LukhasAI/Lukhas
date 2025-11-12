@@ -189,7 +189,7 @@ class GDPRService:
             except Exception as e:
                 export.data[source] = {"error": str(e)}
                 export.metadata["errors"] = export.metadata.get("errors", [])
-                export.metadata["errors"].append(f"{source}: {str(e)}")
+                export.metadata["errors"].append(f"{source}: {e!s}")
 
         export.metadata["total_records_exported"] = total_records
         export.metadata["sources_exported"] = list(export.data.keys())
@@ -263,7 +263,7 @@ class GDPRService:
                 result.items_deleted[source] = count
                 total_deleted += count
             except Exception as e:
-                result.errors.append(f"{source}: {str(e)}")
+                result.errors.append(f"{source}: {e!s}")
                 result.success = False
 
         result.metadata["total_items_deleted"] = total_deleted

@@ -1,8 +1,9 @@
-import pytest
 import asyncio
+from unittest.mock import AsyncMock, patch
+
+import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-from unittest.mock import patch, AsyncMock
 from serve.main import app as main_app
 from serve.websocket_routes import DreamEvent, router as websocket_router
 
@@ -59,9 +60,8 @@ def test_websocket_unauthorized(client):
             ws.receive_json()
 
 def test_websocket_missing_token(client):
-    with pytest.raises(Exception):
-        with client.websocket_connect("/ws/dreams/stream") as ws:
-            ws.receive_json()
+    with pytest.raises(Exception), client.websocket_connect("/ws/dreams/stream") as ws:
+        ws.receive_json()
 
 @pytest.mark.parametrize("scenario, dream_events", dream_scenarios)
 def test_websocket_dream_scenarios(client, scenario, dream_events):

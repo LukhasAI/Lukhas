@@ -61,7 +61,7 @@ async def find_all_questions():
                         print(f'\n  🤖 [{q["time"]}]:')
                         print(f'     {q["message"][:300]}')
                         if len(q["message"]) > 300:
-                            print(f'     ...(truncated)')
+                            print('     ...(truncated)')
 
             except Exception as e:
                 print(f'Error checking session {session_id}: {e}')

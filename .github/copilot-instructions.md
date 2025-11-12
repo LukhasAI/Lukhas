@@ -6,7 +6,7 @@ last_updated: 2025-11-06
 ````instructions
 # 🤖 GitHub Copilot Instructions for LUKHAS AI Platform
 
-**Consciousness-Aware AI Development Platform with Trinity Framework**
+**Consciousness-Aware AI Development Platform**
 
 LUKHAS AI is a sophisticated cognitive architecture implementing consciousness-inspired patterns for advanced AI applications. This platform features modular lane-based development, strict import boundaries, and comprehensive testing infrastructure with specialized multi-agent development support.
 
@@ -86,7 +86,7 @@ python3 tools/ci/migrate_annotations.py --paths <file> --dry-run
 
 ## 🧠 Architecture Overview
 
-LUKHAS implements a **Trinity Framework** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) across ~7,000 Python files in a modular lane-based architecture:
+LUKHAS implements a **multi-domain cognitive architecture** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) across ~7,000 Python files in a modular lane-based architecture:
 
 - **⚛️ Identity**: Lambda ID system, authentication, symbolic self-representation
 - **🧠 Consciousness**: 692-module cognitive processing, memory systems, awareness
@@ -101,7 +101,7 @@ LUKHAS implements a **Trinity Framework** (⚛️ Identity · ✦ Memory · 🔬
 ├── core/                      # Core symbolic logic systems
 ├── tests/                     # Comprehensive test suites (775+ tests)
 ├── mcp-servers/               # Model Context Protocol servers (5 servers)
-├── branding/                  # Trinity Framework branding & messaging
+├── branding/                  # LUKHAS AI branding & messaging
 └── products/                  # Production deployment systems (4,093 files)
 ```
 
@@ -171,7 +171,7 @@ Every major directory contains both `claude.me` and `lukhas_context.md` files wi
 - **Content**: Identical information in both files, choose based on your AI tool
 
 - **Domain Architecture**: Component relationships and data flows
-- **Integration Patterns**: How each domain connects to the Trinity Framework
+- **Integration Patterns**: How each domain connects to the LUKHAS AI platform
 - **Development Context**: Key files, entry points, and testing approaches
 - **Historical Context**: Evolution and current state of each domain
 
@@ -182,7 +182,7 @@ Every major directory contains both `claude.me` and `lukhas_context.md` files wi
 - **MATRIZ Engine**: [`matriz/claude.me`](matriz/claude.me) / [`matriz/lukhas_context.md`](matriz/lukhas_context.md) - Cognitive DNA processing
 - **T4 Platform**: [`docs/gonzo/T4_ONBOARD_AGENTS.md`](docs/gonzo/T4_ONBOARD_AGENTS.md) - Agent onboarding guide **[NEW]**
 
-### **Trinity Framework Navigation (Dual Format)**
+### **Core System Navigation (Dual Format)**
 - **⚛️ Identity Systems**:
   - [`identity/claude.me`](identity/claude.me) / [`identity/lukhas_context.md`](identity/lukhas_context.md) - Lambda ID foundation
   - [`candidate/core/identity/claude.me`](candidate/core/identity/claude.me) / [`candidate/core/identity/lukhas_context.md`](candidate/core/identity/lukhas_context.md) - Identity development
@@ -190,7 +190,7 @@ Every major directory contains both `claude.me` and `lukhas_context.md` files wi
 - **🧠 Consciousness Systems**:
   - [`consciousness/claude.me`](consciousness/claude.me) / [`consciousness/lukhas_context.md`](consciousness/lukhas_context.md) - Research foundations
   - [`candidate/consciousness/claude.me`](candidate/consciousness/claude.me) / [`candidate/consciousness/lukhas_context.md`](candidate/consciousness/lukhas_context.md) - 52+ components
-  - [`lukhas/consciousness/claude.me`](lukhas/consciousness/claude.me) / [`lukhas/consciousness/lukhas_context.md`](lukhas/consciousness/lukhas_context.md) - Trinity activation
+  - [`lukhas/consciousness/claude.me`](lukhas/consciousness/claude.me) / [`lukhas/consciousness/lukhas_context.md`](lukhas/consciousness/lukhas_context.md) - Consciousness activation
 - **🛡️ Guardian Systems**:
   - [`ethics/claude.me`](ethics/claude.me) / [`ethics/lukhas_context.md`](ethics/lukhas_context.md) - Ethical frameworks
   - [`governance/claude.me`](governance/claude.me) / [`governance/lukhas_context.md`](governance/lukhas_context.md) - Governance systems
@@ -217,9 +217,9 @@ Every major directory contains both `claude.me` and `lukhas_context.md` files wi
 - Do NOT state or imply that any part of the system is "ready for production" or "production-ready" unless this has been explicitly approved by project leadership. This applies to code, documentation, commit messages, and internal/external communications.
 - Do NOT include any price predictions, revenue forecasts, or financial projections in code, documentation, commit messages, or internal notes. Remove any such content if found.
 
-**Trinity Tone & Messaging:**
+**LUKHAS AI Tone & Messaging:**
 
-- All Copilot-generated code, comments, and documentation must reflect the Trinity Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):
+- All Copilot-generated code, comments, and documentation must reflect the LUKHAS AI cognitive architecture (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):
   - ⚛️ Identity (authenticity, consciousness, symbolic self)
   - 🧠 Consciousness (memory, learning, dream states, neural processing)
   - 🛡️ Guardian (ethics, drift detection, repair)

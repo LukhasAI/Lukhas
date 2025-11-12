@@ -8,9 +8,11 @@ Part of the 21-day AGI implementation roadmap.
 import logging
 from typing import Any, Optional
 
-from fastapi import APIRouter, BackgroundTasks, HTTPException
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from feedback.card_system import FeedbackCardSystem
 from pydantic import BaseModel, Field
+
+from lukhas.governance.auth import get_current_user_id
 
 logger = logging.getLogger(__name__)
 
@@ -22,14 +24,17 @@ feedback_system = FeedbackCardSystem(storage_path="feedback_data")
 
 
 class FeedbackRequest(BaseModel):
-    """Request model for capturing feedback."""
+    """Request model for capturing feedback.
+
+    Note: user_id is NOT included in request body.
+    It's derived from authenticated JWT token via get_current_user_id() dependency.
+    """
 
     action_id: str = Field(..., description="ID of the action being rated")
     rating: int = Field(..., ge=1, le=5, description="Rating from 1-5")
     note: Optional[str] = Field(None, description="Optional text feedback")
     symbols: Optional[list[str]] = Field(default_factory=list, description="User-selected symbols")
     context: Optional[dict[str, Any]] = Field(default_factory=dict, description="Additional context")
-    user_id: Optional[str] = Field(None, description="User ID (will be hashed)")
 
 
 class FeedbackResponse(BaseModel):
@@ -88,22 +93,27 @@ class SystemMetricsResponse(BaseModel):
         500: {"description": "Internal Server Error"},
     },
 )
-async def capture_feedback(request: FeedbackRequest):
+async def capture_feedback(
+    request: FeedbackRequest,
+    user_id: str = Depends(get_current_user_id)
+):
     """
     Capture user feedback for an AI action.
 
     This endpoint allows users to rate AI responses and provide feedback,
     which is used for continuous alignment and learning.
+
+    Security: user_id derived from authenticated JWT token only.
     """
     try:
-        # Capture the feedback
+        # Capture the feedback with validated user_id from auth token
         card = feedback_system.capture_feedback(
             action_id=request.action_id,
             rating=request.rating,
             note=request.note,
             symbols=request.symbols,
             context=request.context,
-            user_id=request.user_id,
+            user_id=user_id,  # From JWT token, not request body
         )
 
         logger.info(f"Captured feedback card {card.card_id} with rating {request.rating}")
@@ -143,11 +153,17 @@ async def capture_feedback(request: FeedbackRequest):
         500: {"description": "Internal Server Error"},
     },
 )
-async def capture_batch_feedback(requests: list[FeedbackRequest]):
+async def capture_batch_feedback(
+    requests: list[FeedbackRequest],
+    user_id: str = Depends(get_current_user_id)
+):
     """
     Capture multiple feedback cards at once.
 
     Useful for batch processing of user feedback sessions.
+    All feedback in the batch is attributed to the authenticated user.
+
+    Security: user_id derived from authenticated JWT token only.
     """
     responses = []
 
@@ -159,7 +175,7 @@ async def capture_batch_feedback(requests: list[FeedbackRequest]):
                 note=request.note,
                 symbols=request.symbols,
                 context=request.context,
-                user_id=request.user_id,
+                user_id=user_id,  # From JWT token, not request body
             )
 
             responses.append(
@@ -179,10 +195,10 @@ async def capture_batch_feedback(requests: list[FeedbackRequest]):
 
 
 @router.get(
-    "/report/{user_id}",
+    "/report/{path_user_id}",
     response_model=LearningReportResponse,
     summary="Get Learning Report",
-    description="Get a learning report for a specific user.",
+    description="Get a learning report for authenticated user.",
     responses={
         200: {
             "description": "Learning report generated successfully.",
@@ -200,18 +216,32 @@ async def capture_batch_feedback(requests: list[FeedbackRequest]):
                 }
             },
         },
+        403: {"description": "Forbidden - Cannot access other user's report"},
         500: {"description": "Internal Server Error"},
     },
 )
-async def get_learning_report(user_id: str):
+async def get_learning_report(
+    path_user_id: str,
+    auth_user_id: str = Depends(get_current_user_id)
+):
     """
-    Get a learning report for a specific user.
+    Get a learning report for authenticated user.
 
     This report explains what the system has learned from the user's feedback,
     including preferences, patterns, and recommendations.
+
+    Security: Validates that path parameter matches authenticated user's ID.
+    Users can only access their own learning reports.
     """
+    # Validate ownership: path user_id must match authenticated user_id
+    if path_user_id != auth_user_id:
+        raise HTTPException(
+            status_code=403,
+            detail="Cannot access other user's learning report"
+        )
+
     try:
-        report = feedback_system.explain_learning(user_id)
+        report = feedback_system.explain_learning(auth_user_id)
 
         # Format recommendations
         recommendations = report.recommended_adjustments or {}

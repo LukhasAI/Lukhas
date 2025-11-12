@@ -1,11 +1,12 @@
 """Integration tests for GDPR compliance features."""
 
 import json
-import pytest
 import time
 from unittest.mock import AsyncMock, MagicMock
 
-from lukhas.governance.gdpr import GDPRService, DataExport, DeletionResult, GDPRConfig
+import pytest
+
+from lukhas.governance.gdpr import DataExport, DeletionResult, GDPRConfig, GDPRService
 from lukhas.governance.gdpr.config import get_default_config, get_testing_config
 
 

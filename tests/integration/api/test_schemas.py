@@ -1,5 +1,14 @@
 import pytest
 from pydantic import ValidationError
+from serve.openai_schemas import (
+    ChatCompletionRequest,
+    ChatCompletionResponse,
+    ChatCompletionResponseChoice,
+    Embedding,
+    EmbeddingRequest,
+    EmbeddingResponse,
+    Usage,
+)
 
 # Import the models to be tested
 from serve.schemas import (
@@ -7,22 +16,13 @@ from serve.schemas import (
     DreamResponse,
     GlyphFeedbackRequest,
     GlyphFeedbackResponse,
-    TierAuthRequest,
-    TierAuthResponse,
-    PluginLoadRequest,
-    PluginLoadResponse,
     MemoryDumpResponse,
     ModulatedChatRequest,
     ModulatedChatResponse,
-)
-from serve.openai_schemas import (
-    ChatCompletionRequest,
-    ChatCompletionResponse,
-    ChatCompletionResponseChoice,
-    Usage,
-    EmbeddingRequest,
-    Embedding,
-    EmbeddingResponse,
+    PluginLoadRequest,
+    PluginLoadResponse,
+    TierAuthRequest,
+    TierAuthResponse,
 )
 
 

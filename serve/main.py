@@ -134,7 +134,8 @@ def require_api_key(x_api_key: Optional[str]=Header(default=None)) -> Optional[s
         raise HTTPException(status_code=401, detail='Unauthorized')
     return x_api_key
 from lukhas_website.lukhas.api.middleware.strict_auth import StrictAuthMiddleware
-from lukhas.governance.rate_limit import RateLimitMiddleware, RateLimitConfig
+
+from lukhas.governance.rate_limit import RateLimitConfig, RateLimitMiddleware
 
 app = FastAPI(title='LUKHAS API', version='1.0.0', description='Governed tool loop, auditability, feedback LUT, and safety modes.', contact={'name': 'LUKHAS AI Team', 'url': 'https://github.com/LukhasAI/Lukhas'}, license_info={'name': 'MIT', 'url': 'https://opensource.org/licenses/MIT'}, servers=[{'url': 'http://localhost:8000', 'description': 'Local development'}, {'url': 'https://api.ai', 'description': 'Production'}])
 
@@ -264,7 +265,6 @@ async def _stream_generator(request: dict) -> str:
     import asyncio
     import hashlib
     import json
-    import time
 
     model = request.get("model", "lukhas-mini")
     content = ""
@@ -318,7 +318,6 @@ async def create_response(request: dict) -> Response:
     """LUKHAS responses endpoint (OpenAI-compatible format)."""
     import hashlib
     import json
-    import time
 
     from fastapi.responses import StreamingResponse
 

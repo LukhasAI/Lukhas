@@ -5,7 +5,7 @@ Defines rate limit rules for different endpoints and user tiers.
 """
 
 from dataclasses import dataclass
-from typing import Optional, Dict, List
+from typing import List, Optional
 
 
 @dataclass
