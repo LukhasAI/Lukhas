@@ -8,6 +8,7 @@ import asyncio
 
 import pytest
 
+from lukhas.orchestrator.cancellation import CancellationRegistry
 from lukhas.orchestrator.config import OrchestratorConfig, TimeoutConfig
 from lukhas.orchestrator.exceptions import (
     CancellationException,
@@ -26,6 +27,12 @@ def timeout_config():
         pipeline_timeout_ms=300,  # 300ms
         cleanup_grace_ms=50,  # 50ms
     )
+
+
+@pytest.fixture
+def registry():
+    """Cancellation registry for pipeline testing."""
+    return CancellationRegistry()
 
 
 @pytest.mark.asyncio
@@ -83,35 +90,37 @@ async def test_node_cancellation_via_token(timeout_config):
 
 
 @pytest.mark.asyncio
-async def test_pipeline_timeout(timeout_config):
+async def test_pipeline_timeout(timeout_config, registry):
     """Test pipeline timeout when nodes take too long collectively."""
     config = OrchestratorConfig(timeouts=timeout_config)
-    executor = PipelineExecutor(config)
+    executor = PipelineExecutor(config, registry)
 
     async def medium_node(input_data):
-        await asyncio.sleep(0.15)  # 150ms each
+        await asyncio.sleep(0.08)  # 80ms each - under node timeout but adds up
         return input_data
 
-    # 3 nodes × 150ms = 450ms total > 300ms pipeline timeout
+    # 4 nodes × 80ms = 320ms total > 300ms pipeline timeout
+    # Each node is under 100ms node timeout, so pipeline timeout should fire first
     nodes = [
         ("node1", medium_node),
         ("node2", medium_node),
         ("node3", medium_node),
+        ("node4", medium_node),
     ]
 
     with pytest.raises(PipelineTimeoutException) as exc_info:
         await executor.execute_pipeline("test_pipeline", nodes, {})
 
-    # Should complete at least 1 node before timeout
-    assert len(exc_info.value.completed_nodes) >= 1
+    # Should complete at least 2-3 nodes before pipeline timeout
+    assert len(exc_info.value.completed_nodes) >= 2
     assert exc_info.value.timeout_ms == 300
 
 
 @pytest.mark.asyncio
-async def test_pipeline_succeeds_within_timeout(timeout_config):
+async def test_pipeline_succeeds_within_timeout(timeout_config, registry):
     """Test pipeline succeeds when all nodes complete within timeout."""
     config = OrchestratorConfig(timeouts=timeout_config)
-    executor = PipelineExecutor(config)
+    executor = PipelineExecutor(config, registry)
 
     async def fast_node(input_data):
         await asyncio.sleep(0.02)  # 20ms each
@@ -154,10 +163,10 @@ async def test_node_timeout_cancels_task(timeout_config):
 
 
 @pytest.mark.asyncio
-async def test_pipeline_propagates_node_timeout(timeout_config):
+async def test_pipeline_propagates_node_timeout(timeout_config, registry):
     """Test that node timeout in pipeline propagates correctly."""
     config = OrchestratorConfig(timeouts=timeout_config)
-    executor = PipelineExecutor(config)
+    executor = PipelineExecutor(config, registry)
 
     async def fast_node(input_data):
         await asyncio.sleep(0.01)
@@ -217,10 +226,10 @@ async def test_node_execution_with_exception(timeout_config):
 
 
 @pytest.mark.asyncio
-async def test_pipeline_stops_on_node_failure(timeout_config):
+async def test_pipeline_stops_on_node_failure(timeout_config, registry):
     """Test that pipeline stops when a node fails."""
     config = OrchestratorConfig(timeouts=timeout_config)
-    executor = PipelineExecutor(config)
+    executor = PipelineExecutor(config, registry)
 
     async def good_node(input_data):
         return input_data + 1
@@ -239,10 +248,10 @@ async def test_pipeline_stops_on_node_failure(timeout_config):
 
 
 @pytest.mark.asyncio
-async def test_pipeline_tracks_completed_nodes(timeout_config):
+async def test_pipeline_tracks_completed_nodes(timeout_config, registry):
     """Test that pipeline correctly tracks which nodes completed."""
     config = OrchestratorConfig(timeouts=timeout_config)
-    executor = PipelineExecutor(config)
+    executor = PipelineExecutor(config, registry)
 
     async def fast_node(input_data):
         await asyncio.sleep(0.01)
