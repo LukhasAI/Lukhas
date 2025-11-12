@@ -12,11 +12,15 @@ import asyncio
 import json
 import logging
 import time
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernized typing imports - Dict->dict, List->list, Tuple->tuple for Python 3.9+ compatibility
+# estimate: 5min | priority: high | dependencies: none
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -89,7 +93,7 @@ class MiddlewareConfig:
     max_request_size_mb: float = 100.0
     request_timeout_seconds: float = 30.0
     enable_cors: bool = True
-    cors_origins: List[str] = field(default_factory=lambda: ["*"])
+    cors_origins: list[str] = field(default_factory=lambda: ["*"])
     enable_metrics: bool = True
 
 
@@ -108,17 +112,17 @@ class RequestMetadata:
     api_key: Optional[str] = None
     tier: APITier = APITier.FREE
     priority: RequestPriority = RequestPriority.NORMAL
-    security_context: Dict[str, Any] = field(default_factory=dict)
-    optimization_context: Dict[str, Any] = field(default_factory=dict)
-    custom_headers: Dict[str, str] = field(default_factory=dict)
-    processing_phases: List[str] = field(default_factory=list)
-    middleware_data: Dict[str, Any] = field(default_factory=dict)
+    security_context: dict[str, Any] = field(default_factory=dict)
+    optimization_context: dict[str, Any] = field(default_factory=dict)
+    custom_headers: dict[str, str] = field(default_factory=dict)
+    processing_phases: list[str] = field(default_factory=list)
+    middleware_data: dict[str, Any] = field(default_factory=dict)
 
 
 class BaseMiddleware(ABC):
     """Base class for all middleware components."""
 
-    def __init__(self, name: str, middleware_type: MiddlewareType, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, name: str, middleware_type: MiddlewareType, config: Optional[dict[str, Any]] = None):
         self.name = name
         self.middleware_type = middleware_type
         self.config = config or {}
@@ -132,17 +136,17 @@ class BaseMiddleware(ABC):
 
     @abstractmethod
     async def process_request(self, metadata: RequestMetadata,
-                            request_data: Dict[str, Any]) -> Tuple[bool, Dict[str, Any]]:
+                            request_data: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
         """Process incoming request. Returns (continue, data)."""
         pass
 
     @abstractmethod
     async def process_response(self, metadata: RequestMetadata,
-                             response_data: Dict[str, Any]) -> Dict[str, Any]:
+                             response_data: dict[str, Any]) -> dict[str, Any]:
         """Process outgoing response."""
         pass
 
-    async def on_error(self, metadata: RequestMetadata, error: Exception) -> Dict[str, Any]:
+    async def on_error(self, metadata: RequestMetadata, error: Exception) -> dict[str, Any]:
         """Handle errors during processing."""
         self.metrics["errors"] += 1
         return {
