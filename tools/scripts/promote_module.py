@@ -116,7 +116,7 @@ def create_shim(shim_direction: str | None, src: Path, dst: Path, dry: bool) -> 
     shim_file: Path
     if shim_direction == "candidate->lukhas":
         # Create a candidate shim that re-exports from lukhas
-        # Example: candidate/core/orchestration/__init__.py -> from core.orchestration import *
+        # Example: candidate/core/orchestration/__init__.py -> from lukhas.core.orchestration import *
         shim_file = src / "__init__.py"
         content = _shim_content("lukhas", src)
     else:

@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from fastapi import Header, HTTPException, status
 
 try:
-    from core.interfaces.api.v1.v1.common.api_key_cache import (  # type: ignore
+    from lukhas.core.interfaces.api.v1.v1.common.api_key_cache import (  # type: ignore
         ApiKeyMetadata,
         api_key_cache,
     )
@@ -19,7 +19,7 @@ except ModuleNotFoundError:  # pragma: no cover - offline fallback
     api_key_cache = None  # type: ignore[assignment]
 
 try:
-    from core.policy_guard import PolicyGuard  # type: ignore
+    from lukhas.core.policy_guard import PolicyGuard  # type: ignore
 except ModuleNotFoundError:  # pragma: no cover - offline fallback
     class _StubDecision:
         def __init__(self, allow: bool = True, reason: str = "policy guard stub allow") -> None:
