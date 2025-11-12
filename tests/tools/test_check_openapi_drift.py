@@ -128,6 +128,47 @@ def test_compute_openapi_diff_reports_method_and_response_changes():
     )
 
 
+def test_compute_openapi_diff_reports_removed_methods_and_responses():
+    saved = {
+        "paths": {
+            "/delta": {
+                "get": {
+                    "responses": {
+                        "200": {"description": "Stable", "content": {}},
+                        "500": {"description": "Error", "content": {}},
+                    }
+                },
+                "delete": {
+                    "responses": {
+                        "204": {"description": "Deleted", "content": {}}
+                    }
+                },
+            }
+        }
+    }
+    live = {
+        "paths": {
+            "/delta": {
+                "get": {
+                    "responses": {
+                        "200": {"description": "Stable", "content": {}}
+                    }
+                }
+            }
+        }
+    }
+
+    summary = compute_openapi_diff(saved, live)
+
+    assert summary["drift_detected"] is True
+    modified_path = summary["paths"]["modified"]["/delta"]
+    assert modified_path["removed_methods"] == ["delete"]
+
+    responses = modified_path["modified_methods"]["get"]["responses"]
+    assert responses["removed"] == ["500"]
+    assert "modified" not in responses
+
+
 def test_deep_schema_diff_handles_scalar_and_list_changes():
     saved = {"type": "object", "required": ["id"], "nullable": False}
     live = {"type": "object", "required": ["id", "name"], "nullable": True}
