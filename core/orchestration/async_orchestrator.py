@@ -39,6 +39,8 @@ from metrics import (
     stage_timeouts,
 )
 
+from lukhas.observability.distributed_tracing import extract_context, inject_context
+
 from .consensus_arbitrator import Proposal, choose
 from .meta_controller import MetaController
 from .otel import stage_span
@@ -666,7 +668,10 @@ class AsyncOrchestrator:
                     )
 
                 if isinstance(stage_result, dict):
+                    trace_context = stage_result.pop("_trace_context", None)
                     current_context.update(stage_result)
+                    if trace_context:
+                        current_context["_trace_context"] = trace_context
                 return stage_result, None
         except asyncio.CancelledError:
             return None, await self._handle_pipeline_cancellation(
@@ -753,8 +758,12 @@ class AsyncOrchestrator:
         cancellation: CancellationToken | None = None,
     ) -> PipelineResult:
         """Process a query through the async pipeline with comprehensive tracing."""
+        trace_carrier = context.get("_trace_context", {})
+        parent_context = extract_context(trace_carrier)
+
         with stage_span(
             "matriz_pipeline",
+            context=parent_context,
             pipeline_enabled=self.enabled,
             stage_count=len(self.stages),
             query_length=len(str(context.get("query", ""))),
@@ -870,8 +879,12 @@ class AsyncOrchestrator:
         cancellation: CancellationToken | None = None,
     ) -> PipelineResult:
         """Process query with parallel stage execution where possible."""
+        trace_carrier = context.get("_trace_context", {})
+        parent_context = extract_context(trace_carrier)
+
         with stage_span(
             "matriz_parallel_pipeline",
+            context=parent_context,
             pipeline_enabled=self.enabled and self.parallel_enabled,
             stage_count=len(self.stages),
             max_parallel_stages=self.max_parallel_stages,
