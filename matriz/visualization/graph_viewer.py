@@ -29,7 +29,7 @@ import warnings
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Any, ClassVar, Optional, Union
 
 # Suppress Plotly warnings for cleaner output
 warnings.filterwarnings("ignore", category=UserWarning, module="plotly")

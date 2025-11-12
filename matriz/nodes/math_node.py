@@ -18,7 +18,7 @@ import math
 import operator
 import re
 import time
-from typing import Any, Optional, Union
+from typing import Any, ClassVar, Optional, Union
 
 from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 
