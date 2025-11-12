@@ -1,0 +1,28 @@
+name: SLSA Attestation
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Runs every Sunday at midnight UTC
+  workflow_dispatch: # Allows manual triggering
+
+permissions:
+  id-token: write
+  contents: read
+  attestations: write
+
+jobs:
+  attest:
+    name: Generate SLSA Attestation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create source tarball
+        run: |
+          tar -czf source.tar.gz .
+
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-path: 'source.tar.gz'
