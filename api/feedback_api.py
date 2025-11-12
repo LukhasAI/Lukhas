@@ -56,7 +56,7 @@ class FeedbackRequest(BaseModel):
     region: Optional[ComplianceRegion] = Field(ComplianceRegion.GLOBAL, description="User's regulatory region")
 
     class Config:
-        json_schema_extra = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_feedback_api_py_L58"}
+        json_schema_extra: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_feedback_api_py_L58"}
             "example": {
                 "user_id": "user_123",
                 "session_id": "session_456",
@@ -81,7 +81,7 @@ class QuickFeedbackRequest(BaseModel):
     session_id: Optional[str] = None
 
     class Config:
-        json_schema_extra = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_feedback_api_py_L83"}
+        json_schema_extra: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_feedback_api_py_L83"}
             "example": {
                 "user_id": "user_123",
                 "action_id": "decision_789",

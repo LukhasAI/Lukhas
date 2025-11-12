@@ -11,6 +11,7 @@ processing loop and can detect drift and trigger autonomous repair.
 """
 import os
 import time
+from typing import ClassVar
 
 import pytest
 
@@ -322,7 +323,7 @@ def test_microcheck_with_rate_limiting():
 # Skip experimental aka_qualia tests
 pytestmark = pytest.mark.skip(reason="aka_qualia is experimental")
 
-    dm.on_exceed = types.MethodType(lambda self, kind, score, ctx: rate_limit_tracking_on_exceed(kind, score, ctx), dm)
+    dm.on_exceed: ClassVar[Any] = types.MethodType(lambda self, kind, score, ctx: rate_limit_tracking_on_exceed(kind, score, ctx), dm)
 
     # Force consistent drift detection
     def always_critical_drift_compute(kind, prev, curr):
@@ -344,5 +345,5 @@ pytestmark = pytest.mark.skip(reason="aka_qualia is experimental")
     assert len(ethical_attempts) <= 3, f"Rate limiting not working: {len(ethical_attempts)} attempts > 3 limit"
 
 
-if __name__ == '__main__':
+if __name__: ClassVar[Any] = = '__main__':
     pytest.main([__file__, '-v'])

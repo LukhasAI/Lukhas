@@ -20,6 +20,7 @@ import os
 import sys
 import tempfile
 from datetime import datetime, timezone
+from typing import ClassVar
 
 # Module-level logger
 logger = logging.getLogger(__name__)
@@ -650,11 +651,11 @@ class TestMainApplication:
             import sys
 
 # Skip experimental aka_qualia tests
-pytestmark = pytest.mark.skip(reason="aka_qualia is experimental")
+pytestmark: ClassVar[Any] = pytest.mark.skip(reason="aka_qualia is experimental")
 
 
             # Check that project root is in path
-            project_root = os.path.dirname(os.path.abspath(__file__))
+            project_root: ClassVar[Any] = os.path.dirname(os.path.abspath(__file__))
             any(os.path.samefile(path, project_root) for path in sys.path if os.path.exists(path))
 
             # Test that core modules are accessible

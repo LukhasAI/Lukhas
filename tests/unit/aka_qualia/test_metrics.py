@@ -5,6 +5,7 @@
 
 import math
 from importlib.util import find_spec
+from typing import ClassVar
 
 import pytest
 
@@ -344,7 +345,7 @@ pytestmark = pytest.mark.skip(reason="aka_qualia is experimental")
 
 
         # Create a repeating glyph pattern
-        glyphs = [PhenomenalGlyph(key="aka:loop", attrs={})]
+        glyphs: ClassVar[list] = [PhenomenalGlyph(key="aka:loop", attrs={})]
         scene = create_phenomenal_scene()
 
         # Calculate risk with a repetitive pattern but no glyphs
