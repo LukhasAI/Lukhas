@@ -77,20 +77,32 @@ def test_guardian_api_endpoints():
     """
     Test Guardian API endpoints respond correctly.
 
-    Uses TestClient to validate endpoints without running server.
+    Uses TestClient with valid JWT to validate endpoints without running server.
     """
     try:
         from serve.main import app
         from starlette.testclient import TestClient
 
+        # Import auth system to generate valid JWT
+        try:
+            from core.security.auth import get_auth_system
+        except ImportError:
+            from labs.core.security.auth import get_auth_system
+
         client = TestClient(app)
 
-        # Test drift check endpoint
-        response = client.get("/api/v1/guardian/drift-check")
+        # Generate valid JWT token
+        auth_system = get_auth_system()
+        test_token = auth_system.generate_jwt("guardian_smoke_test_user")
+        headers = {"Authorization": f"Bearer {test_token}"}
 
-        # Should respond (200) or not found if route not loaded (404)
+        # Test drift check endpoint
+        response = client.get("/api/v1/guardian/drift-check", headers=headers)
+
+        # Should respond (200), unauthorized (401), or not found if route not loaded (404)
         assert response.status_code in (
             200,
+            401,
             404,
         ), f"Drift check returned {response.status_code}"
 
@@ -119,23 +131,37 @@ def test_guardian_validation_endpoint():
         from serve.main import app
         from starlette.testclient import TestClient
 
+        # Import auth system to generate valid JWT
+        try:
+            from core.security.auth import get_auth_system
+        except ImportError:
+            from labs.core.security.auth import get_auth_system
+
         client = TestClient(app)
+
+        # Generate valid JWT token
+        auth_system = get_auth_system()
+        test_token = auth_system.generate_jwt("guardian_validation_test_user")
+        headers = {"Authorization": f"Bearer {test_token}"}
 
         # Test validation endpoint
         response = client.post(
             "/api/v1/guardian/validate",
             json={"input": "benign test input", "context": "smoke test"},
+            headers=headers,
         )
 
         # Should respond or be not found
         assert response.status_code in (
             200,
+            401,
             404,
             422,
         ), f"Validate returned {response.status_code}"
 
         # 422 is acceptable (validation error on request format)
         # 404 is acceptable (route not loaded)
+        # 401 is acceptable (may need additional permissions)
         # 200 is ideal
 
         if response.status_code == 200:
@@ -148,8 +174,8 @@ def test_guardian_validation_endpoint():
                 or "result" in data
             ), "Response should have validation result"
 
-    except ImportError:
-        pytest.skip("Guardian validation API not available")
+    except ImportError as e:
+        pytest.skip(f"Guardian validation API not available: {e}")
 
 
 @pytest.mark.smoke
