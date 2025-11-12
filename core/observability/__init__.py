@@ -51,10 +51,15 @@ Usage:
 #TAG:dashboard
 #TAG:constellation
 #TAG:guardian
+
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict import to native dict type in observability module
+# estimate: 5min | priority: medium | dependencies: core-observability
+
 """
 import logging
 import time
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import streamlit as st
 
