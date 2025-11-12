@@ -2,13 +2,16 @@
 """
 Analyze file-level duplicates from Nov 3 audit and generate consolidation plan.
 """
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernized typing imports - Dict->dict, List->list, Tuple->tuple for Python 3.9+ compatibility
+# estimate: 2min | priority: high | dependencies: none
+
 import json
 import re
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 
-def parse_duplicate_report(report_path: str) -> List[Dict]:
+def parse_duplicate_report(report_path: str) -> list[dict]:
     """Parse the SHA256 duplicate report."""
     with open(report_path) as f:
         content = f.read()
@@ -47,7 +50,7 @@ def parse_duplicate_report(report_path: str) -> List[Dict]:
 
     return duplicate_groups
 
-def categorize_duplicate(files: List[str]) -> str:
+def categorize_duplicate(files: list[str]) -> str:
     """Categorize a duplicate group by file type and location."""
     if not files:
         return 'unknown'
@@ -71,7 +74,7 @@ def categorize_duplicate(files: List[str]) -> str:
     else:
         return 'other'
 
-def prioritize_files(files: List[str]) -> Tuple[str, List[str]]:
+def prioritize_files(files: list[str]) -> tuple[str, list[str]]:
     """Determine which file to keep and which to archive."""
     scored_files = []
 
@@ -109,7 +112,7 @@ def prioritize_files(files: List[str]) -> Tuple[str, List[str]]:
 
     return keep_file, archive_files
 
-def determine_action(category: str, file_count: int, files: List[str]) -> str:
+def determine_action(category: str, file_count: int, files: list[str]) -> str:
     """Determine recommended action."""
     if category == 'init_files':
         return 'KEEP_ALL'

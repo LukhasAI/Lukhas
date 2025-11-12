@@ -55,16 +55,12 @@ emotional_state: dict[str, float]
 # --- OpenAI Modulated Service Schemas ---
 class ModulatedChatRequest(BaseModel):
     prompt: str
-
-
-context: Optional[dict[str, Any]] = None
-task: Optional[str] = None
+    context: Optional[dict[str, Any]] = None
+    task: Optional[str] = None
 
 
 class ModulatedChatResponse(BaseModel):
     content: str
-
-
-raw: dict[str, Any]
-modulation: dict[str, Any]
-metadata: dict[str, Any]
+    raw: dict[str, Any]
+    modulation: dict[str, Any]
+    metadata: dict[str, Any]

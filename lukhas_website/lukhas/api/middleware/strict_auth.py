@@ -12,6 +12,9 @@ from fastapi import Request, Response
 from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
+from lukhas.governance.audit import AuditEventType, AuditLogger
+from lukhas.governance.audit.config import get_default_config
+
 logger = logging.getLogger(__name__)
 
 try:
@@ -63,6 +66,8 @@ class StrictAuthMiddleware(BaseHTTPMiddleware):
         super().__init__(app)
         # Initialize the authentication system singleton to handle JWT operations
         self.auth_system = get_auth_system()
+        # Initialize audit logger for authentication events
+        self.audit_logger = AuditLogger(config=get_default_config())
         logger.info(
             f"StrictAuthMiddleware initialized with {len(self.ALLOWED_PATHS)} "
             f"public endpoints: {sorted(self.ALLOWED_PATHS)}"
@@ -79,18 +84,42 @@ class StrictAuthMiddleware(BaseHTTPMiddleware):
         auth_header = request.headers.get("Authorization")
 
         if not auth_header:
+            client_ip = request.client.host if request.client else None
             logger.warning(
                 f"Missing auth header: {request.method} {request.url.path} "
-                f"from {request.client.host if request.client else 'unknown'}"
+                f"from {client_ip or 'unknown'}"
+            )
+            # Log authentication failure
+            self.audit_logger.log_security_event(
+                event_type=AuditEventType.UNAUTHORIZED_ACCESS,
+                ip_address=client_ip,
+                user_agent=request.headers.get("User-Agent"),
+                resource_type="endpoint",
+                resource_id=request.url.path,
+                success=False,
+                error_message="Missing Authorization header",
+                metadata={"method": request.method}
             )
             return self._unauthorized_response(
                 "Authentication required. Include 'Authorization: Bearer <token>' header."
             )
 
         if not auth_header.startswith("Bearer "):
+            client_ip = request.client.host if request.client else None
             logger.warning(
                 f"Invalid auth format: {request.method} {request.url.path} "
-                f"from {request.client.host if request.client else 'unknown'}"
+                f"from {client_ip or 'unknown'}"
+            )
+            # Log authentication failure
+            self.audit_logger.log_security_event(
+                event_type=AuditEventType.UNAUTHORIZED_ACCESS,
+                ip_address=client_ip,
+                user_agent=request.headers.get("User-Agent"),
+                resource_type="endpoint",
+                resource_id=request.url.path,
+                success=False,
+                error_message="Invalid Authorization header format",
+                metadata={"method": request.method}
             )
             return self._unauthorized_response(
                 "Invalid authorization header format. Use 'Bearer <token>'."
@@ -100,20 +129,43 @@ class StrictAuthMiddleware(BaseHTTPMiddleware):
         token = auth_header.split(" ", 1)[-1].strip()
 
         if not token:
+            client_ip = request.client.host if request.client else None
             logger.warning(
                 f"Empty token: {request.method} {request.url.path} "
-                f"from {request.client.host if request.client else 'unknown'}"
+                f"from {client_ip or 'unknown'}"
+            )
+            # Log authentication failure
+            self.audit_logger.log_security_event(
+                event_type=AuditEventType.UNAUTHORIZED_ACCESS,
+                ip_address=client_ip,
+                user_agent=request.headers.get("User-Agent"),
+                resource_type="endpoint",
+                resource_id=request.url.path,
+                success=False,
+                error_message="Empty Bearer token",
+                metadata={"method": request.method}
             )
             return self._unauthorized_response("Bearer token is empty")
 
         # Validate token using existing ΛiD system
+        client_ip = request.client.host if request.client else None
         try:
             claims = self.auth_system.verify_jwt(token)
 
             if not claims:
                 logger.warning(
                     f"Token validation failed: {request.method} {request.url.path} "
-                    f"from {request.client.host if request.client else 'unknown'}"
+                    f"from {client_ip or 'unknown'}"
+                )
+                # Log authentication failure
+                self.audit_logger.log_authentication_event(
+                    user_id="unknown",
+                    event_type=AuditEventType.LOGIN_FAILURE,
+                    ip_address=client_ip,
+                    user_agent=request.headers.get("User-Agent"),
+                    success=False,
+                    error_message="Invalid or expired token",
+                    metadata={"method": request.method, "path": request.url.path}
                 )
                 return self._unauthorized_response(
                     "Invalid or expired authentication token."
@@ -131,15 +183,49 @@ class StrictAuthMiddleware(BaseHTTPMiddleware):
                 logger.warning(
                     f"JWT missing user_id claim: {request.method} {request.url.path}"
                 )
+                # Log authentication failure
+                self.audit_logger.log_authentication_event(
+                    user_id="unknown",
+                    event_type=AuditEventType.LOGIN_FAILURE,
+                    ip_address=client_ip,
+                    user_agent=request.headers.get("User-Agent"),
+                    success=False,
+                    error_message="Missing user_id claim",
+                    metadata={"method": request.method, "path": request.url.path}
+                )
                 return self._unauthorized_response(
                     "Invalid token: missing user_id claim"
                 )
 
+            # Log successful authentication
+            self.audit_logger.log_authentication_event(
+                user_id=request.state.user_id,
+                event_type=AuditEventType.LOGIN_SUCCESS,
+                ip_address=client_ip,
+                user_agent=request.headers.get("User-Agent"),
+                success=True,
+                metadata={
+                    "method": request.method,
+                    "path": request.url.path,
+                    "tier": request.state.user_tier
+                }
+            )
+
         except Exception as e:
             logger.warning(
                 f"Token validation error: {request.method} {request.url.path} "
-                f"from {request.client.host if request.client else 'unknown'} - {str(e)}",
+                f"from {client_ip or 'unknown'} - {e!s}",
                 exc_info=True
+            )
+            # Log authentication failure
+            self.audit_logger.log_authentication_event(
+                user_id="unknown",
+                event_type=AuditEventType.LOGIN_FAILURE,
+                ip_address=client_ip,
+                user_agent=request.headers.get("User-Agent"),
+                success=False,
+                error_message=str(e),
+                metadata={"method": request.method, "path": request.url.path}
             )
             return self._unauthorized_response(
                 "Invalid or expired authentication token."

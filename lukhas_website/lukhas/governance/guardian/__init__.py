@@ -20,8 +20,8 @@ import os
 
 import streamlit as st
 
-# Re-export core types
-from governance.guardian.core import (
+# Re-export core types from local module
+from lukhas_website.lukhas.governance.guardian.core import (
     DriftResult,
     EthicalDecision,
     EthicalSeverity,
@@ -29,8 +29,8 @@ from governance.guardian.core import (
     SafetyResult,
 )
 
-# Main interface functions
-from governance.guardian.guardian_wrapper import (
+# Main interface functions from local module
+from lukhas_website.lukhas.governance.guardian.guardian_wrapper import (
     check_safety,
     detect_drift,
     evaluate_ethics,
@@ -44,7 +44,7 @@ GUARDIAN_ACTIVE = os.environ.get("GUARDIAN_ACTIVE", "false").lower() == "true"
 _guardian_system = None
 if GUARDIAN_ACTIVE:
     try:
-        from governance.guardian.guardian_impl import GuardianSystemImpl
+        from lukhas_website.lukhas.governance.guardian.guardian_impl import GuardianSystemImpl
 
         _guardian_system = GuardianSystemImpl()
     except ImportError:

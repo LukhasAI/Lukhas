@@ -530,7 +530,7 @@ Conversion tracking: Compare AI-heavy vs human-edited pages
 Disclosure Policy:
 
 Footer on all content pages:
-"Content developed with AI assistance.
+"Content developed with AI assistance. 
 Technical accuracy certified by [Role], last reviewed [Date].
 Report inaccuracies: docs@lukhas.ai"
 6. COMPLIANCE DOCUMENTATION GAPS
@@ -952,7 +952,7 @@ The novelty/freshness detection you're targeting?
 The connection to Constellation Framework stars?
 These answers will help me propose solutions that preserve the poetic dimension while addressing the readability and authenticity concerns I identified.
 
-Its filling the gap between user language and academic, Some people dont get it ( I know ) but for those who get it  it really hits home in another level.
+Its filling the gap between user language and academic, Some people dont get it ( I know ) but for those who get it  it really hits home in another level. 
 The poetic layer in the 3 tone system is optional and only used for public used, when introducing new lukhas concetps and explainng anything, its another layer (not understood by all but apppreaciated by many) in some occasions where the context requieres it we only use 2 or only 1 of the layers.
  All is on the table ready for a fresh start.
 Ah, this completely reframes everything! You're right - I was evaluating the poetic layer as a problem to solve when it's actually a deliberate filtering mechanism and a brand signature. Let me rebuild my recommendations from this foundation.
@@ -1118,7 +1118,7 @@ Crisp transition connecting vision to function
 Clear explanations, concrete examples, practical benefits
 Zero poetry - maximum clarity
 
-[TECHNICAL SPECIFICATIONS - 400-600 words]
+[TECHNICAL SPECIFICATIONS - 400-600 words]  
 Pure precision - benchmarks, architecture, standards
 Zero poetry - maximum accuracy
 
@@ -1129,31 +1129,31 @@ Example for lukhas.id:
 
 markdown
 [POETIC HERO]
-Identity persists. Across conversations, contexts, time—you remain
-coherent even as facets shift. Healthcare you differs from shopping
-you differs from financial you, yet all are authentically you.
+Identity persists. Across conversations, contexts, time—you remain 
+coherent even as facets shift. Healthcare you differs from shopping 
+you differs from financial you, yet all are authentically you. 
 This paradox—singular identity expressed through separated contexts—
 is what ΛiD makes computationally real.
 
-Not credentials that authenticate once then expire. Not permissions
-that grant access without understanding. Identity that remembers,
-adapts, protects. Consciousness technology requires conscious
+Not credentials that authenticate once then expire. Not permissions 
+that grant access without understanding. Identity that remembers, 
+adapts, protects. Consciousness technology requires conscious 
 identity architecture.
 
 [TECHNICAL BRIDGE]
-ΛiD implements namespace isolation: separate identity contexts for
+ΛiD implements namespace isolation: separate identity contexts for 
 separate purposes, connected only when you authorize bridging.
 
 [USER-FRIENDLY CORE]
-Your healthcare provider sees your medical identity—diagnosis
-history, treatment responses, medication allergies. They don't see
-your shopping preferences, social connections, or financial status.
-Not because data is encrypted (it is), but because those namespaces
+Your healthcare provider sees your medical identity—diagnosis 
+history, treatment responses, medication allergies. They don't see 
+your shopping preferences, social connections, or financial status. 
+Not because data is encrypted (it is), but because those namespaces 
 simply don't connect.
 
-When you shop for ergonomic chairs after a back injury diagnosis,
-you can authorize ΛiD to bridge healthcare→shopping namespaces
-temporarily. The recommendation engine uses injury context to suggest
+When you shop for ergonomic chairs after a back injury diagnosis, 
+you can authorize ΛiD to bridge healthcare→shopping namespaces 
+temporarily. The recommendation engine uses injury context to suggest 
 appropriate products. When you're done, namespaces separate again.
 
 [Technical specs continue...]
@@ -2305,7 +2305,7 @@ Generic Claim Detection:
 Pattern: [LUKHAS/System] [capability verb] [vague outcome]
 Examples to FLAG:
 - "LUKHAS understands context"
-- "System learns from users"
+- "System learns from users"  
 - "AI adapts to preferences"
 - "Platform processes data intelligently"
 Specificity Requirement:
@@ -2870,23 +2870,23 @@ class ConsciousnessVocabularyValidator:
         self.repo_path = repo_path
         self.blocked_terms = self._load_blocked_terms()
         self.required_terms = self._load_required_terms()
-
+        
     def _load_blocked_terms(self) -> Dict:
         """Load blocked terms from JSON"""
         path = self.repo_path / "branding/enforcement/blocked_terms.json"
         with open(path) as f:
             return json.load(f)
-
+    
     def _load_required_terms(self) -> Dict:
         """Load required constellation vocabulary from JSON"""
         path = self.repo_path / "branding/enforcement/required_terms.json"
         with open(path) as f:
             return json.load(f)
-
+    
     def validate_content(self, content: str, domain: str = None) -> Dict:
         """
         Validate content against consciousness vocabulary rules
-
+        
         Returns dict with:
         - decorative_density: percentage of blocked terms
         - blocked_instances: list of (term, line_number, suggestion)
@@ -2902,10 +2902,10 @@ class ConsciousnessVocabularyValidator:
             "recommendations": [],
             "passes": True
         }
-
+        
         lines = content.split('\n')
         word_count = len(content.split())
-
+        
         # Check for Tier 1 blocked terms
         for term in self.blocked_terms["tier_1_immediate_rejection"]:
             pattern = rf'\b{term}\w*\b'  # Match word boundaries
@@ -2921,11 +2921,11 @@ class ConsciousnessVocabularyValidator:
                         "context": line.strip(),
                         "suggestions": suggestions
                     })
-
+        
         # Calculate decorative density
         blocked_count = len(results["blocked_instances"])
         results["decorative_density"] = (blocked_count / word_count * 100) if word_count > 0 else 0
-
+        
         # Check Tier 2 conditional terms (need mechanism explanation)
         for term, requirement in self.blocked_terms["tier_2_conditional"].items():
             pattern = rf'\b{term}\w*\b'
@@ -2935,11 +2935,11 @@ class ConsciousnessVocabularyValidator:
                     context = line
                     if i < len(lines):
                         context += " " + lines[i]
-
+                    
                     # Simple heuristic: look for "through", "via", "by", "using"
-                    has_mechanism = any(word in context.lower() for word in
+                    has_mechanism = any(word in context.lower() for word in 
                                       ["through", "via", "by", "using", "implements", "executes"])
-
+                    
                     if not has_mechanism:
                         results["conditional_issues"].append({
                             "term": term,
@@ -2947,29 +2947,29 @@ class ConsciousnessVocabularyValidator:
                             "requirement": requirement,
                             "context": line.strip()
                         })
-
+        
         # Check for LUKHAS-specific architectural terms
         lukhas_specific_terms = [
             "matriz", "λid", "constellation", "guardian", "namespace",
             "reasoning graph", "cognitive dna", "constitutional validation",
             "memory fold", "trinity framework"
         ]
-
-        lukhas_count = sum(1 for term in lukhas_specific_terms
+        
+        lukhas_count = sum(1 for term in lukhas_specific_terms 
                           if term.lower() in content.lower())
-
+        
         # Generic AI terms that should be avoided
         generic_terms = [
             "ai that understands", "learns from users", "intelligent system",
             "smart algorithm", "advanced ai", "powerful ml"
         ]
-
-        generic_count = sum(1 for term in generic_terms
+        
+        generic_count = sum(1 for term in generic_terms 
                            if term.lower() in content.lower())
-
+        
         total_ai_refs = lukhas_count + generic_count
         results["specificity_score"] = (lukhas_count / total_ai_refs * 100) if total_ai_refs > 0 else 0
-
+        
         # Generate recommendations
         if results["decorative_density"] > 0.5:
             results["passes"] = False
@@ -2977,31 +2977,31 @@ class ConsciousnessVocabularyValidator:
                 f"FAIL: Decorative density {results['decorative_density']:.1f}% exceeds 0.5% threshold. "
                 f"Replace {blocked_count} blocked terms with architectural vocabulary."
             )
-
+        
         if results["conditional_issues"]:
             results["passes"] = False
             results["recommendations"].append(
                 f"WARNING: {len(results['conditional_issues'])} terms need mechanism explanation. "
                 "Add HOW/WHAT details in same or next sentence."
             )
-
+        
         if results["specificity_score"] < 80:
             results["passes"] = False
             results["recommendations"].append(
                 f"FAIL: Specificity score {results['specificity_score']:.0f}% below 80% threshold. "
                 "Add LUKHAS-specific architectural details."
             )
-
+        
         if results["passes"]:
             results["recommendations"].append("✓ Content passes consciousness vocabulary standards")
-
+        
         return results
-
+    
     def validate_file(self, file_path: Path) -> Dict:
         """Validate a markdown file"""
         with open(file_path) as f:
             content = f.read()
-
+        
         # Try to determine domain from path
         domain = None
         if "lukhas.dev" in str(file_path):
@@ -3011,11 +3011,11 @@ class ConsciousnessVocabularyValidator:
         elif "lukhas.eu" in str(file_path):
             domain = "lukhas.eu"
         # ... etc
-
+        
         results = self.validate_content(content, domain)
         results["file"] = str(file_path)
         return results
-
+    
     def generate_report(self, results: Dict) -> str:
         """Generate human-readable report"""
         report = f"""
@@ -3036,39 +3036,39 @@ class ConsciousnessVocabularyValidator:
 """
         for rec in results['recommendations']:
             report += f"- {rec}\n"
-
+        
         if results['blocked_instances']:
             report += "\n## Blocked Terms to Replace\n\n"
             for instance in results['blocked_instances'][:10]:  # Show first 10
                 report += f"- Line {instance['line']}: `{instance['term']}`\n"
                 report += f"  Context: {instance['context']}\n"
                 report += f"  Suggestions: {', '.join(instance['suggestions'])}\n\n"
-
+        
         if results['conditional_issues']:
             report += "\n## Terms Needing Mechanism Explanation\n\n"
             for issue in results['conditional_issues'][:10]:
                 report += f"- Line {issue['line']}: `{issue['term']}`\n"
                 report += f"  Requirement: {issue['requirement']}\n"
                 report += f"  Context: {issue['context']}\n\n"
-
+        
         return report
 
 
 if __name__ == "__main__":
     import sys
-
+    
     if len(sys.argv) < 2:
         print("Usage: python vocabulary_validator.py <file_path>")
         sys.exit(1)
-
+    
     repo_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
     validator = ConsciousnessVocabularyValidator(repo_path)
-
+    
     file_path = Path(sys.argv[1])
     results = validator.validate_file(file_path)
-
+    
     print(validator.generate_report(results))
-
+    
     sys.exit(0 if results['passes'] else 1)
 Location: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/enforcement/vocabulary_validator.py
 
@@ -3093,7 +3093,7 @@ markdown
   - Priority: CRITICAL
   - Owner: Legal team
   - Due: [Date]
-
+  
 [Continue with all checklist items...]
 
 ## EU AI Act Requirements
@@ -3256,7 +3256,7 @@ Passing criteria:
 
 **Week 1-2**: Core documentation + homepages
 - lukhas.ai homepage
-- lukhas.dev homepage
+- lukhas.dev homepage  
 - lukhas.id homepage
 
 **Week 3-4**: Product pages + critical paths
@@ -3290,3 +3290,4 @@ Track these monthly:
 **Audit by**: Claude 4.5 (Sonnet)
 **Implementation**: Claude Code
 Location: /Users/agi_dev/LOCAL-REPOS/Lukhas/README_TONE_SYSTEM_UPDATE.md
+

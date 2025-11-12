@@ -138,23 +138,25 @@ class HeadersMiddleware(BaseHTTPMiddleware):
     """Add OpenAI-compatible headers to all responses."""
 
     async def dispatch(self, request: Request, call_next):
+        # Bypass middleware for WebSocket connections
+        if request.scope["type"] == "websocket":
+            return await call_next(request)
+
         response = await call_next(request)
         trace_id = str(uuid.uuid4()).replace('-', '')
         response.headers['X-Trace-Id'] = trace_id
         response.headers['X-Request-Id'] = trace_id
-        response.headers['X-RateLimit-Limit'] = '60'
-        response.headers['X-RateLimit-Remaining'] = '59'
-        response.headers['X-RateLimit-Reset'] = str(int(time.time()) + 60)
-        response.headers['x-ratelimit-limit-requests'] = '60'
-        response.headers['x-ratelimit-remaining-requests'] = '59'
-        response.headers['x-ratelimit-reset-requests'] = str(int(time.time()) + 60)
+        # Rate limit headers now added by RateLimitMiddleware
         return response
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
 app.add_middleware(PrometheusMiddleware)
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
 app.add_middleware(StrictAuthMiddleware)
+# Add rate limiting after auth middleware (requires user_id from request.state)
+app.add_middleware(RateLimitMiddleware, config=RateLimitConfig())
 app.add_middleware(CacheMiddleware)
 app.add_middleware(HeadersMiddleware)
+app.include_router(auth_router)
 if routes_router is not None:
     app.include_router(routes_router)
 if openai_router is not None:
