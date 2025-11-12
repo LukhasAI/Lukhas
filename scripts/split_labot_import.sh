@@ -52,6 +52,9 @@ DOCS_COMMIT="8de9174cb"
 echo "═══════════════════════════════════════════════════════════"
 echo "ΛBot Import Splitter - Creating Draft PRs"
 echo "Group size: $GROUP_SIZE files per PR"
+if [[ "$DRY_RUN" == true ]]; then
+    echo "Mode: dry run (no branches or commits will be created)"
+fi
 echo "═══════════════════════════════════════════════════════════"
 
 # Function to create PR for a group of files
@@ -290,11 +293,16 @@ create_pr_for_group "$DOCS_COMMIT" "labot/import-docs" 21 "${docs_files[@]}"
 
 echo ""
 echo "═══════════════════════════════════════════════════════════"
-echo "✅ Import splitting complete!"
-echo "Created ~21 draft PRs for systematic review and merge"
-echo ""
-echo "Next steps:"
-echo "1. Review draft PRs on GitHub"
-echo "2. Merge in order: infra → prompts → requests → polish → docs"
-echo "3. PR #1203 (serve/main.py pilot) continues unchanged"
+if [[ "$DRY_RUN" == true ]]; then
+    echo "✅ Dry run complete!"
+    echo "Reviewed planned branches without making changes"
+else
+    echo "✅ Import splitting complete!"
+    echo "Created ~21 draft PRs for systematic review and merge"
+    echo ""
+    echo "Next steps:"
+    echo "1. Review draft PRs on GitHub"
+    echo "2. Merge in order: infra → prompts → requests → polish → docs"
+    echo "3. PR #1203 (serve/main.py pilot) continues unchanged"
+fi
 echo "═══════════════════════════════════════════════════════════"
