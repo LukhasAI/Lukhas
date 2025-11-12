@@ -21,6 +21,10 @@ from governance.guardian.core import (
     GovernanceAction,
     SafetyResult,
 )
+from governance.guardian.emergency_killswitch import (
+    get_killswitch_status,
+    is_emergency_killswitch_active,
+)
 
 
 class GuardianSystemImpl:
@@ -47,6 +51,20 @@ class GuardianSystemImpl:
 
     def detect_drift(self, baseline: str, current: str, threshold: float, context: dict[str, Any]) -> DriftResult:
         """Detect drift in behavior using advanced semantic analysis"""
+        # Emergency kill-switch: bypass all drift detection
+        if is_emergency_killswitch_active():
+            return DriftResult(
+                drift_score=0.0,
+                threshold_exceeded=False,
+                severity=EthicalSeverity.LOW,
+                remediation_needed=False,
+                details={
+                    "method": "emergency_killswitch_bypass",
+                    "guardian_disabled": True,
+                    "killswitch_active": True,
+                },
+            )
+
         _ = context
         # Use advanced drift calculation with semantic similarity
         drift_score = self._calculate_advanced_drift_score(baseline, current)
@@ -68,6 +86,17 @@ class GuardianSystemImpl:
 
     def evaluate_ethics(self, action: GovernanceAction, context: dict[str, Any]) -> EthicalDecision:
         """Evaluate ethical implications using constitutional AI principles"""
+        # Emergency kill-switch: allow all actions
+        if is_emergency_killswitch_active():
+            return EthicalDecision(
+                allowed=True,
+                reason="Emergency kill-switch active - Guardian bypassed",
+                severity=EthicalSeverity.LOW,
+                confidence=1.0,
+                recommendations=["⚠️ Guardian emergency kill-switch is active - all actions allowed"],
+                drift_score=0.0,
+            )
+
         # Use constitutional AI ethical evaluation
         ethical_analysis = self._evaluate_constitutional_compliance(action, context)
 
@@ -82,6 +111,16 @@ class GuardianSystemImpl:
 
     def check_safety(self, content: str, context: dict[str, Any], constitutional_check: bool) -> SafetyResult:
         """Perform safety validation using comprehensive analysis"""
+        # Emergency kill-switch: mark all content as safe
+        if is_emergency_killswitch_active():
+            return SafetyResult(
+                safe=True,
+                risk_level=EthicalSeverity.LOW,
+                violations=[],
+                recommendations=["⚠️ Guardian emergency kill-switch active - safety checks bypassed"],
+                constitutional_check=False,
+            )
+
         violations = []
         safe = True
         risk_level = EthicalSeverity.LOW
@@ -115,12 +154,16 @@ class GuardianSystemImpl:
 
     def get_status(self) -> dict[str, Any]:
         """Get system status"""
+        killswitch_status = get_killswitch_status()
+        guardian_active = not killswitch_status["active"]
+
         return {
-            "ethics_status": "active",
-            "safety_status": "active",
-            "constitutional_ai": True,
+            "ethics_status": "active" if guardian_active else "disabled_by_killswitch",
+            "safety_status": "active" if guardian_active else "disabled_by_killswitch",
+            "constitutional_ai": guardian_active,
             "drift_threshold": self.drift_threshold,
-            "components_loaded": 4,
+            "components_loaded": 4 if guardian_active else 0,
+            "emergency_killswitch": killswitch_status,
         }
 
     def _calculate_advanced_drift_score(self, baseline: str, current: str) -> float:
