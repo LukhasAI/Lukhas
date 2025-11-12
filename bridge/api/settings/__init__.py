@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from importlib import import_module
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Optional
 
 __all__ = [
     "ENV",
