@@ -123,7 +123,7 @@ concurrency:
 - **Matrix pruning**: Replace Cartesian matrices with `strategy.matrix.include` for meaningful combos only.
 - **PR Requirements**: Every migration PR must attach: dry-run patch, `smoke.log`, `lane_guard_run_localfix.log`, and a rollback line in the PR body.
 
-**P1 Summary**: 35 high-priority tasks (23 completed, 8 assigned, 4 pending). ✅ Completed: SG002, SG004, SG007, SG008, MS008, MP003, MP006, MP007, OB001, OB002, SC001, SC002, SC006, TP002, TP007, LM001, T20251112008, T20251112009, T20251112010, T20251112011, T20251112042, T20251112043, T20251112045 (7 by Claude Code, 16 by Jules). 🔄 Assigned: MP004, OB005, LM002 + 5 more Jules sessions (8 total). +9 MATRIZ migration prep/automation tasks.
+**P1 Summary**: 35 high-priority tasks (25 completed, 7 assigned, 3 pending). ✅ Completed: SG002, SG004, SG007, SG008, MS003, MS008, MP003, MP004, MP006, MP007, OB001, OB002, SC001, SC002, SC006, TP002, TP007, LM001, T20251112008, T20251112009, T20251112010, T20251112011, T20251112042, T20251112043, T20251112045 (8 by Claude Code, 17 by Jules). 🔄 Assigned: OB005, LM002 + 5 more Jules sessions (7 total). +9 MATRIZ migration prep/automation tasks.
 
 ---
 
