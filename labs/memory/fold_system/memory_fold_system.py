@@ -545,7 +545,7 @@ class MemoryFoldSystem:
             raise ValueError(f"Invalid LKF-Pack file: {verification['errors']}")
 
         # Import folds
-        for fold in import_folds(path):
+        async for fold in import_folds(path):
             try:
                 # Check if item already exists
                 existing_id = None
