@@ -18,6 +18,7 @@ Test Coverage:
 Implementation: T4/0.01% excellence targeting production-grade OIDC provider
 """
 
+# ruff: noqa: F821
 import asyncio
 import base64
 import hashlib

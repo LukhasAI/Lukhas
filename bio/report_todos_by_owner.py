@@ -9,10 +9,11 @@ Usage:
 
 import os
 import re
-import yaml
-from pathlib import Path
 from collections import defaultdict
 from functools import lru_cache
+from pathlib import Path
+
+import yaml
 
 
 def parse_frontmatter(content: str) -> dict:
@@ -38,7 +39,7 @@ def find_owner(start_path: Path, repo_root: Path) -> str:
         if context_file.exists():
             content = context_file.read_text(encoding="utf-8")
             frontmatter = parse_frontmatter(content)
-            if "owner" in frontmatter and frontmatter["owner"]:
+            if frontmatter.get("owner"):
                 return str(frontmatter["owner"])
         if current_dir == repo_root:
             break
@@ -49,7 +50,7 @@ def find_owner(start_path: Path, repo_root: Path) -> str:
 def find_todos(repo_root: Path) -> dict:
     """Finds all TODOs and groups them by owner and file."""
     todos_by_owner = defaultdict(lambda: defaultdict(list))
-    
+
     # Regex to find TODO comments, case-insensitive
     todo_regex = re.compile(r".*TODO:(.*)", re.IGNORECASE)
 
@@ -67,7 +68,7 @@ def find_todos(repo_root: Path) -> dict:
                 continue
 
             try:
-                with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                with open(file_path, encoding="utf-8", errors="ignore") as f:
                     file_todos = []
                     for i, line in enumerate(f, 1):
                         match = todo_regex.match(line)
@@ -76,7 +77,7 @@ def find_todos(repo_root: Path) -> dict:
                                 "line": i,
                                 "text": match.group(1).strip()
                             })
-                
+
                 if file_todos:
                     owner = find_owner(file_path, repo_root)
                     relative_path = file_path.relative_to(repo_root)
@@ -105,7 +106,7 @@ def main():
         owner_total = sum(len(items) for items in owner_todos.values())
         total_todos += owner_total
         print(f"\n## Owner: {owner} ({owner_total} TODOs)")
-        
+
         sorted_files = sorted(owner_todos.keys())
         for file_path in sorted_files:
             todos = owner_todos[file_path]

@@ -12,8 +12,7 @@ This module combines the best features from both prototypes:
 ΛCANONICAL: Consolidated FastAPI-enabled dream engine
 """
 
-import asyncio
-import contextlib
+# ruff: noqa: B008
 import logging
 from datetime import datetime, timezone
 from functools import wraps
@@ -308,7 +307,7 @@ class EnhancedDreamEngine:
         # In a real implementation, this would fetch from a database with pagination.
         return [{"id": f"dream_{i}", "content": "A dream."} for i in range(offset, offset + limit)]
 
-    async def process_dream(self, dream: dict[str, Any], user_id: str = None) -> dict:
+    async def process_dream(self, dream: dict[str, Any], user_id: Optional[str] = None) -> dict:
         """Process a single dream"""
         try:
             dream["state"] = "processing"

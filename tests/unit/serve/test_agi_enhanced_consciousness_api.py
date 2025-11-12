@@ -187,7 +187,7 @@ class TestConsciousnessQueryEndpoint:
         }
 
         response = client.post("/api/v2/consciousness/query", json=request_data)
-        data = response.json()
+        response.json()
 
         assert response.status_code == 200
 
@@ -572,8 +572,8 @@ class TestHelperFunctions:
     @pytest.mark.asyncio
     async def test_get_query_embedding(self):
         """Test query embedding generation"""
-        from serve.agi_enhanced_consciousness_api import _get_query_embedding
         import serve.agi_enhanced_consciousness_api as api_module
+        from serve.agi_enhanced_consciousness_api import _get_query_embedding
 
         # Mock memory
         mock_memory = Mock()
@@ -587,8 +587,8 @@ class TestHelperFunctions:
     @pytest.mark.asyncio
     async def test_get_query_embedding_without_memory(self):
         """Test query embedding when memory unavailable"""
-        from serve.agi_enhanced_consciousness_api import _get_query_embedding
         import serve.agi_enhanced_consciousness_api as api_module
+        from serve.agi_enhanced_consciousness_api import _get_query_embedding
 
         api_module.agi_memory = None
 

@@ -12,6 +12,7 @@ Based on Tier 5 system integration with all modules connected and verified.
 Note: OpenAI-based synthesis temporarily disabled due to project configuration.
 """
 
+# ruff: noqa: B008
 import logging
 from datetime import datetime, timezone
 from typing import Any, Optional

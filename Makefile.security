@@ -1,0 +1,144 @@
+# OWASP Security Test Suite - Makefile
+# Run with: make -f Makefile.security <target>
+
+.PHONY: help test-security test-security-fast test-security-verbose
+.PHONY: test-a01 test-a05 test-a07 test-a09 test-integration
+.PHONY: test-security-strict test-security-timing test-security-all
+.DEFAULT_GOAL := help
+
+# Colors for output
+CYAN := \033[0;36m
+GREEN := \033[0;32m
+YELLOW := \033[0;33m
+RED := \033[0;31m
+NC := \033[0m # No Color
+
+help: ## Show this help message
+	@echo "$(CYAN)OWASP Security Test Suite$(NC)"
+	@echo ""
+	@echo "$(GREEN)Available targets:$(NC)"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(CYAN)%-25s$(NC) %s\n", $$1, $$2}'
+
+# Basic test targets
+test-security: ## Run OWASP security principles tests
+	@echo "$(GREEN)Running OWASP security tests...$(NC)"
+	pytest tests/security/test_owasp_principles.py -v
+
+test-security-fast: ## Run tests in parallel (requires pytest-xdist)
+	@echo "$(GREEN)Running OWASP tests (parallel)...$(NC)"
+	pytest tests/security/test_owasp_principles.py -n auto -v
+
+test-security-verbose: ## Run tests with verbose output
+	@echo "$(GREEN)Running OWASP tests (verbose)...$(NC)"
+	pytest tests/security/test_owasp_principles.py -vv --tb=long
+
+# OWASP category-specific tests
+test-a01: ## Run OWASP A01 (Broken Access Control) tests
+	@echo "$(GREEN)Testing OWASP A01: Broken Access Control$(NC)"
+	pytest tests/security/test_owasp_principles.py::TestOWASPA01Principles -v
+
+test-a05: ## Run OWASP A05 (Security Misconfiguration) tests
+	@echo "$(GREEN)Testing OWASP A05: Security Misconfiguration$(NC)"
+	pytest tests/security/test_owasp_principles.py::TestOWASPA05Principles -v
+
+test-a07: ## Run OWASP A07 (Authentication Failures) tests
+	@echo "$(GREEN)Testing OWASP A07: Identification and Authentication Failures$(NC)"
+	pytest tests/security/test_owasp_principles.py::TestOWASPA07Principles -v
+
+test-a09: ## Run OWASP A09 (Logging Failures) tests
+	@echo "$(GREEN)Testing OWASP A09: Security Logging and Monitoring Failures$(NC)"
+	pytest tests/security/test_owasp_principles.py::TestOWASPA09Principles -v
+
+test-integration: ## Run integration security tests
+	@echo "$(GREEN)Testing Security Principles Integration$(NC)"
+	pytest tests/security/test_owasp_principles.py::TestSecurityPrinciplesIntegration -v
+
+# Advanced test targets
+test-security-strict: ## Run tests in strict mode (warnings as errors)
+	@echo "$(YELLOW)Running OWASP tests (strict mode)...$(NC)"
+	pytest tests/security/test_owasp_principles.py -v --strict-markers --strict-config -W error
+
+test-security-timing: ## Run tests with performance timing
+	@echo "$(YELLOW)Running OWASP tests (with timing)...$(NC)"
+	pytest tests/security/test_owasp_principles.py -v --durations=10
+
+test-security-quiet: ## Run tests in quiet mode
+	@echo "$(GREEN)Running OWASP tests (quiet)...$(NC)"
+	pytest tests/security/test_owasp_principles.py -q
+
+# Comprehensive test targets
+test-security-all: ## Run all OWASP test scenarios
+	@echo "$(GREEN)Running comprehensive OWASP security test suite...$(NC)"
+	@echo ""
+	@echo "$(CYAN)=== Scenario 1: Basic Tests ===$(NC)"
+	pytest tests/security/test_owasp_principles.py -v
+	@echo ""
+	@echo "$(CYAN)=== Scenario 2: Strict Mode ===$(NC)"
+	pytest tests/security/test_owasp_principles.py -v --strict-markers
+	@echo ""
+	@echo "$(CYAN)=== Scenario 3: Performance Timing ===$(NC)"
+	pytest tests/security/test_owasp_principles.py -v --durations=5
+	@echo ""
+	@echo "$(CYAN)=== Scenario 4: Individual Categories ===$(NC)"
+	pytest tests/security/test_owasp_principles.py::TestOWASPA01Principles -v
+	pytest tests/security/test_owasp_principles.py::TestOWASPA05Principles -v
+	pytest tests/security/test_owasp_principles.py::TestOWASPA07Principles -v
+	pytest tests/security/test_owasp_principles.py::TestOWASPA09Principles -v
+	@echo ""
+	@echo "$(GREEN)✅ All OWASP security test scenarios completed!$(NC)"
+
+# Watch mode (requires pytest-watch)
+test-security-watch: ## Run tests in watch mode (requires pytest-watch)
+	@echo "$(YELLOW)Watching OWASP tests for changes...$(NC)"
+	ptw tests/security/test_owasp_principles.py -- -v
+
+# CI/CD simulation
+test-security-ci: ## Simulate CI/CD pipeline testing
+	@echo "$(CYAN)Simulating CI/CD pipeline...$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Step 1: Linting (skipped)$(NC)"
+	@echo "$(YELLOW)Step 2: Running tests...$(NC)"
+	pytest tests/security/test_owasp_principles.py -v --tb=short
+	@echo ""
+	@echo "$(YELLOW)Step 3: Performance check...$(NC)"
+	pytest tests/security/test_owasp_principles.py --durations=5
+	@echo ""
+	@echo "$(GREEN)✅ CI/CD simulation completed!$(NC)"
+
+# Reporting
+test-security-report: ## Generate test report (requires pytest-html)
+	@echo "$(GREEN)Generating OWASP security test report...$(NC)"
+	pytest tests/security/test_owasp_principles.py -v --html=reports/owasp_security_report.html --self-contained-html
+	@echo "$(GREEN)Report saved to: reports/owasp_security_report.html$(NC)"
+
+# Cleanup
+clean-reports: ## Clean test reports
+	@echo "$(YELLOW)Cleaning test reports...$(NC)"
+	rm -rf reports/owasp_test_results/*.log
+	rm -rf reports/owasp_test_results/*.json
+	rm -rf reports/owasp_security_report.html
+	@echo "$(GREEN)Reports cleaned!$(NC)"
+
+# Installation helpers
+install-test-deps: ## Install test dependencies
+	@echo "$(GREEN)Installing test dependencies...$(NC)"
+	pip install pytest pytest-cov pytest-xdist pytest-html pytest-watch
+	pip install pyjwt cryptography
+	@echo "$(GREEN)Dependencies installed!$(NC)"
+
+# Documentation
+docs-tests: ## Show test documentation
+	@echo "$(CYAN)OWASP Security Test Suite Documentation$(NC)"
+	@echo ""
+	@echo "$(GREEN)Test Coverage:$(NC)"
+	@echo "  - OWASP A01 (Broken Access Control): 3 tests"
+	@echo "  - OWASP A05 (Security Misconfiguration): 3 tests"
+	@echo "  - OWASP A07 (Authentication Failures): 5 tests"
+	@echo "  - OWASP A09 (Logging Failures): 4 tests"
+	@echo "  - Integration tests: 2 tests"
+	@echo ""
+	@echo "$(GREEN)Total: 17 security principle tests$(NC)"
+	@echo ""
+	@echo "For more information, see:"
+	@echo "  - tests/security/OWASP_SECURITY_TESTS.md"
+	@echo "  - tests/security/__init__.py"

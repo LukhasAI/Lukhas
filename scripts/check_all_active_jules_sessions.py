@@ -3,8 +3,8 @@
 
 import asyncio
 import sys
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -39,7 +39,7 @@ async def check_active_sessions():
         print("\n" + "="*70)
 
         # Show details for non-completed sessions
-        active_states = [s for s in by_state.keys() if s != "COMPLETED"]
+        active_states = [s for s in by_state if s != "COMPLETED"]
 
         if not active_states:
             print("\n✅ All sessions are COMPLETED!")
@@ -66,14 +66,14 @@ async def check_active_sessions():
 
                 # Suggest actions based on state
                 if state == "WAITING_FOR_USER":
-                    print(f"      ⏳ ACTION: Approve plan or send message")
+                    print("      ⏳ ACTION: Approve plan or send message")
                     print(f"      Code: jules.approve_plan('sessions/{session_id}')")
                 elif state == "PLANNING":
-                    print(f"      🔄 STATUS: Jules is creating implementation plan")
+                    print("      🔄 STATUS: Jules is creating implementation plan")
                 elif state == "IN_PROGRESS":
-                    print(f"      ⚙️ STATUS: Jules is implementing")
+                    print("      ⚙️ STATUS: Jules is implementing")
                 elif state == "BLOCKED":
-                    print(f"      🚫 ACTION: Check error and provide guidance")
+                    print("      🚫 ACTION: Check error and provide guidance")
 
             if len(sessions) > 10:
                 print(f"\n  ... and {len(sessions) - 10} more {state} sessions")

@@ -1,7 +1,7 @@
 """
 Glyph Retriever
 """
-from typing import Optional, Dict, Any
+from typing import Any, Dict, Optional
 
 # In-memory store for bindings.
 # This is shared with the GlyphBinder to make the feature functional.

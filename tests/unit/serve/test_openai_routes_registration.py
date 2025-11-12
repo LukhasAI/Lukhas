@@ -7,6 +7,7 @@ at module import time (route registration). This validates Python 3.9 compatibil
 after fixing type annotation syntax.
 """
 import importlib
+
 import pytest
 
 

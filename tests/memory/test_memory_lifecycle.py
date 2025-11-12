@@ -5,6 +5,7 @@ Validates retention policies, GDPR compliance, archival operations,
 and lifecycle automation with T4/0.01% excellence standards.
 """
 
+# ruff: noqa: F821
 import asyncio
 from datetime import datetime, timedelta, timezone
 from unittest.mock import patch

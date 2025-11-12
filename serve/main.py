@@ -5,12 +5,18 @@ import uuid
 from collections.abc import Awaitable
 from typing import Any, Callable, Optional
 
+from async_lru import alru_cache
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.middleware.base import BaseHTTPMiddleware
+from serve.metrics import (
+    active_thoughts,
+    cache_hits_total,
+    cache_misses_total,
+    matriz_operation_duration_ms,
+    matriz_operations_total,
+)
 from serve.middleware.prometheus import PrometheusMiddleware
-from serve.metrics import matriz_operations_total, matriz_operation_duration_ms, active_thoughts, cache_hits_total, cache_misses_total
-from async_lru import alru_cache
+from starlette.middleware.base import BaseHTTPMiddleware
 
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False
@@ -49,6 +55,9 @@ except Exception:
     class _ObsStack:
         opentelemetry_enabled = False
     obs_stack = _ObsStack()
+
+from lukhas.api.auth_routes import router as auth_router
+
 try:
     from config.env import get as env_get
 except Exception:
@@ -94,6 +103,7 @@ webauthn_router = None
 if (env_get('LUKHAS_WEBAUTHN', '0') or '0').strip() == '1':
     webauthn_router = _safe_import_router('.webauthn_routes', 'router')
 openai_router = _safe_import_router('.openai_routes', 'router')
+websocket_router = _safe_import_router('.websocket_routes', 'router')
 orchestration_router = _safe_import_router('.orchestration_routes', 'router')
 routes_router = _safe_import_router('.routes', 'router')
 traces_router = _safe_import_router('.routes_traces', 'router')
@@ -124,6 +134,8 @@ def require_api_key(x_api_key: Optional[str]=Header(default=None)) -> Optional[s
         raise HTTPException(status_code=401, detail='Unauthorized')
     return x_api_key
 from lukhas_website.lukhas.api.middleware.strict_auth import StrictAuthMiddleware
+from lukhas.governance.rate_limit import RateLimitMiddleware, RateLimitConfig
+
 app = FastAPI(title='LUKHAS API', version='1.0.0', description='Governed tool loop, auditability, feedback LUT, and safety modes.', contact={'name': 'LUKHAS AI Team', 'url': 'https://github.com/LukhasAI/Lukhas'}, license_info={'name': 'MIT', 'url': 'https://opensource.org/licenses/MIT'}, servers=[{'url': 'http://localhost:8000', 'description': 'Local development'}, {'url': 'https://api.ai', 'description': 'Production'}])
 
 class HeadersMiddleware(BaseHTTPMiddleware):
@@ -134,22 +146,22 @@ class HeadersMiddleware(BaseHTTPMiddleware):
         trace_id = str(uuid.uuid4()).replace('-', '')
         response.headers['X-Trace-Id'] = trace_id
         response.headers['X-Request-Id'] = trace_id
-        response.headers['X-RateLimit-Limit'] = '60'
-        response.headers['X-RateLimit-Remaining'] = '59'
-        response.headers['X-RateLimit-Reset'] = str(int(time.time()) + 60)
-        response.headers['x-ratelimit-limit-requests'] = '60'
-        response.headers['x-ratelimit-remaining-requests'] = '59'
-        response.headers['x-ratelimit-reset-requests'] = str(int(time.time()) + 60)
+        # Rate limit headers now added by RateLimitMiddleware
         return response
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
 app.add_middleware(PrometheusMiddleware)
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
 app.add_middleware(StrictAuthMiddleware)
+# Add rate limiting after auth middleware (requires user_id from request.state)
+app.add_middleware(RateLimitMiddleware, config=RateLimitConfig())
 app.add_middleware(HeadersMiddleware)
+app.include_router(auth_router)
 if routes_router is not None:
     app.include_router(routes_router)
 if openai_router is not None:
     app.include_router(openai_router)
+if websocket_router is not None:
+    app.include_router(websocket_router)
 if feedback_router is not None:
     app.include_router(feedback_router)
 if traces_router is not None:
@@ -241,7 +253,7 @@ def readyz() -> dict[str, Any]:
 @app.get('/metrics', include_in_schema=False)
 def metrics() -> Response:
     """Prometheus metrics endpoint"""
-    from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+    from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
     return Response(
         content=generate_latest(),
         media_type=CONTENT_TYPE_LATEST

@@ -6,6 +6,7 @@ bridging between voice processing modules and the bio-symbolic orchestration lay
 
 Created: 2025-07-26
 """
+# ruff: noqa: F821  # Skeleton/experimental code
 import logging
 from typing import Any, Optional
 

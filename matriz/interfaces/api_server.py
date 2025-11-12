@@ -14,6 +14,7 @@ Features:
 - Request/response logging and tracing
 """
 
+# ruff: noqa: B008
 import logging
 import os
 import time
@@ -21,9 +22,10 @@ import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from typing import Any, Optional
-
+import re
+from collections import defaultdict
 import uvicorn
-from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, WebSocket, WebSocketDisconnect, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field, validator
@@ -45,6 +47,41 @@ logger = logging.getLogger(__name__)
 orchestrator: Optional[CognitiveOrchestrator] = None
 websocket_connections: list[WebSocket] = []
 
+# --- Security and Validation Constants ---
+MAX_REQUEST_SIZE = 1024 * 1024  # 1 MB
+RATE_LIMIT_DURATION = 60  # seconds
+RATE_LIMIT_REQUESTS = 100  # requests per client_ip per duration
+ALLOWED_NODE_TYPES = {"math", "facts", "validator"}
+rate_limit_data = defaultdict(list)
+
+def get_depth(d):
+    if not isinstance(d, dict) or not d:
+        return 0
+    return 1 + max(get_depth(v) for v in d.values())
+
+class NodeCreationRequest(BaseModel):
+    node_type: str = Field(..., max_length=100, pattern="^[a-zA-Z0-9_]+$")
+    config: dict = Field(..., max_items=50)
+
+    @validator("node_type")
+    def validate_node_type(cls, v):
+        if v not in ALLOWED_NODE_TYPES:
+            raise ValueError(f"Invalid node type: {v}")
+        return v
+
+    @validator("config")
+    def validate_config(cls, v):
+        if get_depth(v) > 10:
+            raise ValueError("Config too deeply nested")
+        sanitized_config = {}
+        for key, value in v.items():
+            if isinstance(value, str):
+                sanitized_value = re.sub(r'[<>"\'&]', '', value).strip()
+                if sanitized_value:
+                    sanitized_config[key] = sanitized_value
+            else:
+                sanitized_config[key] = value
+        return sanitized_config
 
 # Pydantic models for request/response validation
 class QueryRequest(BaseModel):
@@ -275,6 +312,24 @@ app = FastAPI(
         },
     ],
 )
+
+# --- Security Middleware ---
+@app.middleware("http")
+async def security_middleware(request: Request, call_next):
+    if "content-length" in request.headers and int(request.headers["content-length"]) > MAX_REQUEST_SIZE:
+        return JSONResponse(status_code=413, content={"detail": "Request too large"})
+
+    client_ip = request.client.host
+    now = time.time()
+    rate_limit_data[client_ip] = [t for t in rate_limit_data[client_ip] if now - t < RATE_LIMIT_DURATION]
+    if len(rate_limit_data[client_ip]) >= RATE_LIMIT_REQUESTS:
+        return JSONResponse(status_code=429, content={"detail": "Rate limit exceeded"})
+    rate_limit_data[client_ip].append(now)
+
+    if "/system" in request.url.path and "Authorization" not in request.headers:
+        return JSONResponse(status_code=401, content={"detail": "Unauthorized"})
+
+    return await call_next(request)
 
 # Configure CORS
 app.add_middleware(
@@ -544,10 +599,33 @@ async def get_execution_trace(
     }
 
 
+@app.post("/system/nodes", status_code=201, tags=["System"])
+async def create_node(request: NodeCreationRequest, orch: CognitiveOrchestrator = Depends(get_orchestrator)):
+    try:
+        if not request.config:
+            raise ValueError("Configuration cannot be empty after sanitization.")
+
+        node_map = {"math": MathNode, "facts": FactNode, "validator": ValidatorNode}
+        node_class = node_map[request.node_type]
+
+        if request.node_type == 'validator':
+            node = node_class(tenant="api_server", schema=request.config.get('schema', {}), rule=request.config.get('rule', ''))
+        else:
+            node = node_class(tenant="api_server", **request.config)
+
+        node_name = f"{request.node_type}_{uuid.uuid4().hex[:8]}"
+        orch.register_node(node_name, node)
+        return {"status": "created", "node_name": node_name}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        logger.error(f"Node creation failed: {e!s}")
+        raise HTTPException(status_code=400, detail=f"Invalid config for node type: {request.node_type}")
+
 @app.get("/system/causal/{node_id}", tags=["System"])
 async def get_causal_chain(
     node_id: str, orch: CognitiveOrchestrator = Depends(get_orchestrator)
-):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_interfaces_api_server_py_L538"}
+):
     """Get the causal chain for a specific MATRIZ node"""
     chain = orch.get_causal_chain(node_id)
     return {"node_id": node_id, "chain_length": len(chain), "causal_chain": chain}

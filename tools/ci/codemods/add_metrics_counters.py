@@ -61,11 +61,10 @@ class MetricsCounterTransformer(cst.CSTTransformer):
             stmt = body[i]
             if not isinstance(stmt, (cst.SimpleStatementLine, cst.EmptyLine)):
                 break
-            if isinstance(stmt, cst.SimpleStatementLine):
-                if not any(
-                    isinstance(s, (cst.Import, cst.ImportFrom)) for s in stmt.body
-                ):
-                    break
+            if isinstance(stmt, cst.SimpleStatementLine) and not any(
+                isinstance(s, (cst.Import, cst.ImportFrom)) for s in stmt.body
+            ):
+                break
             insert_idx = i + 1
 
         new_statements = []

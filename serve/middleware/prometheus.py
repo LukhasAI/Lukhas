@@ -1,7 +1,9 @@
 import time
+
+from serve.metrics import http_request_duration_seconds, http_requests_total
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
-from serve.metrics import http_requests_total, http_request_duration_seconds
+
 
 class PrometheusMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):

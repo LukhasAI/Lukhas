@@ -13,7 +13,7 @@ from labs.orchestration.context_bus import (
 # Export main classes for backward compatibility
 __all__ = [
     "ContextBusOrchestrator",
-    "ContextHandoff", 
+    "ContextHandoff",
     "RateLimiter",
     "WorkflowPipelines",
     "WorkflowState",

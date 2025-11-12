@@ -9,10 +9,11 @@ Usage:
 """
 
 import os
-from pathlib import Path
-from datetime import datetime
-import yaml
 import re
+from datetime import datetime
+from pathlib import Path
+
+import yaml
 
 
 def parse_frontmatter(content: str) -> dict:
@@ -30,7 +31,7 @@ def audit_file(path: Path) -> dict:
     """Audits a single context file."""
     content = path.read_text()
     frontmatter = parse_frontmatter(content)
-    
+
     last_reviewed_str = frontmatter.get('last_reviewed', '1970-01-01')
     try:
         last_reviewed_date = datetime.strptime(str(last_reviewed_str), '%Y-%m-%d').date()
@@ -71,7 +72,7 @@ def main():
     for report in audits:
         age = report['days_since_review']
         age_marker = "🔴" if age > 365 else "🟡" if age > 180 else "✅"
-        
+
         # Make path relative for cleaner output
         relative_path = os.path.relpath(report['path'], repo_root)
 

@@ -4,7 +4,6 @@
 import asyncio
 import sys
 from pathlib import Path
-from typing import Any
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -79,16 +78,16 @@ async def close_completed_sessions(dry_run: bool = True):
 
                 if has_pr and pr_url:
                     print(f"  ✅ Has PR: {pr_url}")
-                    print(f"  🔒 PRESERVING: Sessions with PRs should be kept for audit trail")
+                    print("  🔒 PRESERVING: Sessions with PRs should be kept for audit trail")
                     skipped_count += 1
                     continue
                 elif has_pr:
-                    print(f"  ✅ Has PR (URL not found)")
-                    print(f"  🔒 PRESERVING: Sessions with PRs should be kept for audit trail")
+                    print("  ✅ Has PR (URL not found)")
+                    print("  🔒 PRESERVING: Sessions with PRs should be kept for audit trail")
                     skipped_count += 1
                     continue
                 else:
-                    print(f"  ℹ️  No PR found (may be a failed or manual session)")
+                    print("  ℹ️  No PR found (may be a failed or manual session)")
 
                 # Only delete sessions WITHOUT PRs
                 if dry_run:
@@ -107,13 +106,13 @@ async def close_completed_sessions(dry_run: bool = True):
         print("\n" + "="*70)
 
         if dry_run:
-            print(f"\n🔍 DRY RUN Summary:")
+            print("\n🔍 DRY RUN Summary:")
             print(f"  Would delete: {deleted_count} sessions")
             print(f"  Would skip: {skipped_count} sessions (errors)")
-            print(f"\nTo actually delete sessions, run:")
-            print(f"  python3 scripts/close_completed_jules_sessions.py --delete")
+            print("\nTo actually delete sessions, run:")
+            print("  python3 scripts/close_completed_jules_sessions.py --delete")
         else:
-            print(f"\n✅ Deletion Summary:")
+            print("\n✅ Deletion Summary:")
             print(f"  Deleted: {deleted_count} sessions")
             print(f"  Skipped: {skipped_count} sessions (errors)")
             print(f"\nRemaining sessions: {len(all_sessions) - deleted_count}")

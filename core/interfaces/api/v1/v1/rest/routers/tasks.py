@@ -1,3 +1,4 @@
+# ruff: noqa: B008
 from typing import Any
 
 try:

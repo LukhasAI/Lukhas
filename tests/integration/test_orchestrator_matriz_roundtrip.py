@@ -20,6 +20,7 @@ Success Criteria: All components integrate seamlessly with proper claim propagat
 Constellation Framework: 🌊 Complete Stack Integration
 """
 
+# ruff: noqa: F821
 import asyncio
 import logging
 import time

@@ -52,10 +52,10 @@ async def check_waiting_sessions():
 
                 # Check if there's a plan waiting for approval
                 if "plan" in str(details).lower():
-                    print(f"⏳ Status: Plan waiting for approval")
+                    print("⏳ Status: Plan waiting for approval")
                     print(f"   Action: Approve with: jules.approve_plan('sessions/{session_id}')")
                 else:
-                    print(f"⏳ Status: Waiting for user message")
+                    print("⏳ Status: Waiting for user message")
                     print(f"   Action: Send message with: jules.send_message('sessions/{session_id}', 'your message')")
 
             except Exception as e:

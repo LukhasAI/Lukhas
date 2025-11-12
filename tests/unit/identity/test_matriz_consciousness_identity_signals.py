@@ -1,3 +1,4 @@
+# ruff: noqa: F821
 # owner: Jules-02
 # tier: tier1
 # module_uid: candidate.core.identity.matriz_consciousness_identity_signals

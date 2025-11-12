@@ -4,9 +4,9 @@ from __future__ import annotations
 import importlib.util
 import sys
 from pathlib import Path
+from typing import Dict, List, Tuple
 
 import pytest
-from typing import Dict, List, Tuple
 
 
 def _find_repo_root(start: Path) -> Path:

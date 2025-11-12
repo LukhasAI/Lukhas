@@ -254,7 +254,7 @@ class FeatureFlagsService:
         """Get default config path relative to repository root."""
         # Try to find repo root
         current = Path(__file__).resolve()
-        for parent in [current] + list(current.parents):
+        for parent in [current, *list(current.parents)]:
             if (parent / "branding" / "features").exists():
                 return str(parent / "branding" / "features" / "flags.yaml")
 

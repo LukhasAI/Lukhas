@@ -6,6 +6,7 @@ PIPEDA, and LGPD with comprehensive coverage of all report sections.
 
 import json
 from datetime import datetime, timedelta, timezone
+from typing import Tuple
 
 import pytest
 from qi.compliance.compliance_report import (
@@ -18,7 +19,6 @@ from qi.compliance.compliance_report import (
     LegalBasis,
 )
 from qi.compliance.privacy_statement import Jurisdiction
-from typing import Tuple
 
 
 @pytest.fixture

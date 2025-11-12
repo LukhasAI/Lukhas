@@ -1,13 +1,19 @@
-"""
-Strict Authentication Middleware
+"""Strict authentication middleware enforcing auth on all routes except allowlist.
+
+SECURITY: OWASP A01 (Broken Access Control) mitigation
+This middleware enforces authentication on ALL routes by default, with only
+a minimal allowlist of public endpoints. This is a critical security control.
 """
 
 import logging
-from typing import Optional
+from typing import Set
 
 from fastapi import Request, Response
 from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
+
+from lukhas.governance.audit import AuditLogger, AuditEventType
+from lukhas.governance.audit.config import get_default_config
 
 logger = logging.getLogger(__name__)
 
@@ -23,74 +29,217 @@ except ImportError:
 
 class StrictAuthMiddleware(BaseHTTPMiddleware):
     """
-    Validates JWT Bearer tokens for protected routes and attaches user context to the request.
+    Enforce authentication on all routes except explicit allowlist.
 
-    - Enforces JWT validation for all /v1/* and /api/* paths.
-    - Bypasses authentication for health and metrics endpoints.
-    - Extracts user_id, tier, and permissions from valid JWT claims.
-    - Attaches user context to request.state.
-    - Returns a 401 Unauthorized response for missing or invalid tokens.
+    Security Policy:
+    - ALL routes require valid JWT token by default
+    - ONLY allowlisted paths are public
+    - Invalid/missing tokens return 401
+    - Logs all auth failures for monitoring
+    - Attaches validated user context to request.state for downstream use
+
+    This middleware addresses OWASP A01 (Broken Access Control) by implementing
+    a secure-by-default policy where every endpoint requires authentication
+    unless explicitly marked as public.
     """
+
+    # PUBLIC ENDPOINTS ONLY (minimal surface area)
+    # Each endpoint must have clear justification for being public
+    ALLOWED_PATHS: Set[str] = {
+        "/health",              # Health check for monitoring/load balancers
+        "/healthz",             # Kubernetes health probe
+        "/readyz",              # Kubernetes readiness probe
+        "/metrics",             # Prometheus metrics endpoint
+        "/docs",                # OpenAPI documentation UI
+        "/openapi.json",        # OpenAPI schema
+        "/redoc",               # Alternative API documentation UI
+        # Authentication endpoints (must be public to allow login/registration)
+        "/api/v1/auth/login",
+        "/api/v1/auth/register",
+        "/api/v1/identity/authenticate",  # Identity authentication endpoint
+        # WebAuthn endpoints (required for passwordless authentication)
+        "/id/webauthn/challenge",
+        "/id/webauthn/verify",
+    }
 
     def __init__(self, app):
         super().__init__(app)
         # Initialize the authentication system singleton to handle JWT operations
         self.auth_system = get_auth_system()
-        # Define a set of paths that bypass authentication checks
-        self.bypassed_paths = {"/healthz", "/health", "/readyz", "/metrics"}
-        # Define prefixes for paths that require authentication
-        self.protected_prefixes = ("/v1/", "/api/")
+        # Initialize audit logger for authentication events
+        self.audit_logger = AuditLogger(config=get_default_config())
+        logger.info(
+            f"StrictAuthMiddleware initialized with {len(self.ALLOWED_PATHS)} "
+            f"public endpoints: {sorted(self.ALLOWED_PATHS)}"
+        )
 
     async def dispatch(self, request: Request, call_next):
-        """
-        The middleware entrypoint. It processes the request, performs authentication,
-        and then passes it to the next handler in the chain.
-        """
-        # Bypass authentication for configured health and metrics endpoints
-        if request.url.path in self.bypassed_paths:
+        """Check authentication for all non-allowlisted routes."""
+
+        # Allow public endpoints (bypass authentication)
+        if request.url.path in self.ALLOWED_PATHS:
             return await call_next(request)
 
-        # Enforce authentication only for protected paths
-        if not request.url.path.startswith(self.protected_prefixes):
-            return await call_next(request)
-
-        # Extract the Authorization header
+        # Require authentication for everything else
         auth_header = request.headers.get("Authorization")
+
         if not auth_header:
-            return self._unauthorized_response("Authorization header is missing")
+            client_ip = request.client.host if request.client else None
+            logger.warning(
+                f"Missing auth header: {request.method} {request.url.path} "
+                f"from {client_ip or 'unknown'}"
+            )
+            # Log authentication failure
+            self.audit_logger.log_security_event(
+                event_type=AuditEventType.UNAUTHORIZED_ACCESS,
+                ip_address=client_ip,
+                user_agent=request.headers.get("User-Agent"),
+                resource_type="endpoint",
+                resource_id=request.url.path,
+                success=False,
+                error_message="Missing Authorization header",
+                metadata={"method": request.method}
+            )
+            return self._unauthorized_response(
+                "Authentication required. Include 'Authorization: Bearer <token>' header."
+            )
 
-        # Validate the Bearer token scheme
         if not auth_header.startswith("Bearer "):
-            return self._unauthorized_response("Authorization header must use Bearer scheme")
+            client_ip = request.client.host if request.client else None
+            logger.warning(
+                f"Invalid auth format: {request.method} {request.url.path} "
+                f"from {client_ip or 'unknown'}"
+            )
+            # Log authentication failure
+            self.audit_logger.log_security_event(
+                event_type=AuditEventType.UNAUTHORIZED_ACCESS,
+                ip_address=client_ip,
+                user_agent=request.headers.get("User-Agent"),
+                resource_type="endpoint",
+                resource_id=request.url.path,
+                success=False,
+                error_message="Invalid Authorization header format",
+                metadata={"method": request.method}
+            )
+            return self._unauthorized_response(
+                "Invalid authorization header format. Use 'Bearer <token>'."
+            )
 
-        token = auth_header.split(" ")[-1].strip()
+        # Extract token
+        token = auth_header.split(" ", 1)[-1].strip()
+
         if not token:
+            client_ip = request.client.host if request.client else None
+            logger.warning(
+                f"Empty token: {request.method} {request.url.path} "
+                f"from {client_ip or 'unknown'}"
+            )
+            # Log authentication failure
+            self.audit_logger.log_security_event(
+                event_type=AuditEventType.UNAUTHORIZED_ACCESS,
+                ip_address=client_ip,
+                user_agent=request.headers.get("User-Agent"),
+                resource_type="endpoint",
+                resource_id=request.url.path,
+                success=False,
+                error_message="Empty Bearer token",
+                metadata={"method": request.method}
+            )
             return self._unauthorized_response("Bearer token is empty")
 
-        # Verify the JWT using the authentication system
-        claims = self.auth_system.verify_jwt(token)
-        if not claims:
-            return self._unauthorized_response("JWT is invalid, expired, or malformed")
-
-        # Attach user context to the request state for use in downstream endpoints
+        # Validate token using existing ΛiD system
+        client_ip = request.client.host if request.client else None
         try:
-            # The prompt mentions `sub` claim, but the codebase's `generate_jwt` uses `user_id`.
-            # We will adhere to the existing implementation which uses the `user_id` claim.
-            # If the JWT format standardizes on `sub`, `generate_jwt` should be updated.
-            request.state.user_id = claims["user_id"]
+            claims = self.auth_system.verify_jwt(token)
+
+            if not claims:
+                logger.warning(
+                    f"Token validation failed: {request.method} {request.url.path} "
+                    f"from {client_ip or 'unknown'}"
+                )
+                # Log authentication failure
+                self.audit_logger.log_authentication_event(
+                    user_id="unknown",
+                    event_type=AuditEventType.LOGIN_FAILURE,
+                    ip_address=client_ip,
+                    user_agent=request.headers.get("User-Agent"),
+                    success=False,
+                    error_message="Invalid or expired token",
+                    metadata={"method": request.method, "path": request.url.path}
+                )
+                return self._unauthorized_response(
+                    "Invalid or expired authentication token."
+                )
+
+            # Store validated user context in request state for downstream use
+            # Using existing claim structure (user_id, not sub)
+            request.state.user_id = claims.get("user_id")
             request.state.user_tier = claims.get("tier", 0)
             request.state.user_permissions = claims.get("permissions", [])
-        except KeyError:
-            logger.warning("JWT is valid but missing the 'user_id' claim.")
-            return self._unauthorized_response("JWT is missing the required 'user_id' claim")
+            request.state.user = claims  # Full claims for advanced use cases
 
-        # Proceed to the next middleware or the endpoint itself
+            # Validation: ensure required claims exist
+            if not request.state.user_id:
+                logger.warning(
+                    f"JWT missing user_id claim: {request.method} {request.url.path}"
+                )
+                # Log authentication failure
+                self.audit_logger.log_authentication_event(
+                    user_id="unknown",
+                    event_type=AuditEventType.LOGIN_FAILURE,
+                    ip_address=client_ip,
+                    user_agent=request.headers.get("User-Agent"),
+                    success=False,
+                    error_message="Missing user_id claim",
+                    metadata={"method": request.method, "path": request.url.path}
+                )
+                return self._unauthorized_response(
+                    "Invalid token: missing user_id claim"
+                )
+
+            # Log successful authentication
+            self.audit_logger.log_authentication_event(
+                user_id=request.state.user_id,
+                event_type=AuditEventType.LOGIN_SUCCESS,
+                ip_address=client_ip,
+                user_agent=request.headers.get("User-Agent"),
+                success=True,
+                metadata={
+                    "method": request.method,
+                    "path": request.url.path,
+                    "tier": request.state.user_tier
+                }
+            )
+
+        except Exception as e:
+            logger.warning(
+                f"Token validation error: {request.method} {request.url.path} "
+                f"from {client_ip or 'unknown'} - {str(e)}",
+                exc_info=True
+            )
+            # Log authentication failure
+            self.audit_logger.log_authentication_event(
+                user_id="unknown",
+                event_type=AuditEventType.LOGIN_FAILURE,
+                ip_address=client_ip,
+                user_agent=request.headers.get("User-Agent"),
+                success=False,
+                error_message=str(e),
+                metadata={"method": request.method, "path": request.url.path}
+            )
+            return self._unauthorized_response(
+                "Invalid or expired authentication token."
+            )
+
+        # Authentication successful, proceed with request
         response = await call_next(request)
         return response
 
     def _unauthorized_response(self, message: str) -> Response:
         """
         Creates and returns a standardized 401 Unauthorized JSON response.
+
+        Error format follows OpenAI API convention for compatibility.
         """
         return JSONResponse(
             status_code=401,

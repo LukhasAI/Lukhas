@@ -16,14 +16,18 @@ ENDPOINTS:
 - PATCH /api/features/{flag_name} - Update flag (admin only)
 """
 
+# ruff: noqa: B008
 import logging
-import time
 from typing import Dict, List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 
 from lukhas.api import analytics
+from lukhas.api.auth_helpers import (
+    check_rate_limit,
+    get_current_user_from_token,
+)
 from lukhas.features.flags_service import (
     FeatureFlagsService,
     FlagEvaluationContext,
@@ -82,44 +86,6 @@ class FlagListResponse(BaseModel):
     total: int = Field(..., description="Total number of flags")
 
 
-# Rate limiting (simple in-memory implementation)
-_rate_limit_store: Dict[str, List[float]] = {}
-_RATE_LIMIT = 100  # requests per minute
-_RATE_LIMIT_WINDOW = 60  # seconds
-
-
-def check_rate_limit(user_id: str) -> bool:
-    """
-    Check if user has exceeded rate limit.
-
-    Args:
-        user_id: User identifier
-
-    Returns:
-        True if within rate limit, False otherwise
-    """
-    now = time.time()
-
-    # Get user's request history
-    if user_id not in _rate_limit_store:
-        _rate_limit_store[user_id] = []
-
-    # Remove old requests outside the window
-    _rate_limit_store[user_id] = [
-        req_time
-        for req_time in _rate_limit_store[user_id]
-        if now - req_time < _RATE_LIMIT_WINDOW
-    ]
-
-    # Check if over limit
-    if len(_rate_limit_store[user_id]) >= _RATE_LIMIT:
-        return False
-
-    # Add current request
-    _rate_limit_store[user_id].append(now)
-    return True
-
-
 # Dependency injection
 
 
@@ -128,34 +94,11 @@ def get_feature_flags_service() -> FeatureFlagsService:
     return get_service()
 
 
-def get_current_user(request: Request) -> str:
+def get_current_user(user: dict = Depends(get_current_user_from_token)) -> str:
     """
-    Get current authenticated user.
-
-    In production, this would verify JWT tokens, API keys, etc.
-    For now, returns a placeholder user ID.
-
-    Args:
-        request: FastAPI request object
-
-    Returns:
-        User ID
-
-    Raises:
-        HTTPException: If authentication fails
+    Dependency to get the current user's ID from the verified token.
     """
-    # TODO: Implement actual authentication
-    # For now, check for API key in headers
-    api_key = request.headers.get("X-API-Key")
-    if not api_key:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Authentication required",
-        )
-
-    # Placeholder user ID based on API key
-    # In production, validate API key and return actual user ID
-    return f"user_{api_key[:8]}"
+    return user["username"]
 
 
 def require_admin(user_id: str = Depends(get_current_user)) -> str:

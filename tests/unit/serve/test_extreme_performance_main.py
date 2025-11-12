@@ -531,8 +531,8 @@ class TestAPIKeyAuthentication:
 
     def test_require_api_key_with_invalid_key(self):
         """Test API key validation with invalid key"""
-        from serve.extreme_performance_main import require_api_key
         from fastapi import HTTPException
+        from serve.extreme_performance_main import require_api_key
 
         with patch("serve.extreme_performance_main.env_get") as mock_env:
             mock_env.return_value = "expected_key"

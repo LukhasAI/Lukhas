@@ -16,6 +16,7 @@ Features:
 - OpenAPI 3.0 documentation
 """
 
+# ruff: noqa: B008
 from __future__ import annotations
 
 import time

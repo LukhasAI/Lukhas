@@ -24,7 +24,7 @@ async def send_message(session_id: str, message: str):
 
         try:
             result = await jules.send_message(f"sessions/{session_id}", message)
-            print(f"✅ Message sent successfully!")
+            print("✅ Message sent successfully!")
             print(f"Result: {result}")
             print(f"\nURL: https://jules.google.com/session/{session_id}")
         except Exception as e:

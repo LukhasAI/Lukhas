@@ -294,14 +294,14 @@ async def verify_glyph_token(token: str, user_id: str) -> bool:
 
 # Public API
 __all__ = [
-    "is_enabled",
-    "get_glyph_engine",
-    "encode_concept",
-    "decode_symbol",
     "bind_glyph",
+    "decode_symbol",
+    "encode_concept",
     "get_binding",
-    "validate_glyph",
+    "get_glyph_engine",
     "get_glyph_stats",
+    "is_enabled",
+    "validate_glyph",
     "verify_glyph_token", # Exposing the async version is fine for new consumers
 ]
 

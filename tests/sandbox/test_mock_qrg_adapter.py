@@ -18,9 +18,10 @@ Run tests:
     pytest tests/sandbox/test_mock_qrg_adapter.py -v
 """
 
-import pytest
 import sys
 from pathlib import Path
+
+import pytest
 
 # Add docs/examples to path for importing MockQRGAdapter
 docs_examples_path = Path(__file__).parent.parent.parent / "docs" / "examples"

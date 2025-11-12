@@ -66,6 +66,7 @@ def client(test_env, mock_token_claims):
             with mock.patch("serve.openai_routes.require_bearer", return_value=mock_token_claims):
                 # Re-import to apply mocks
                 import importlib
+
                 import serve.openai_routes as routes_module
                 importlib.reload(routes_module)
 
@@ -93,6 +94,7 @@ def openai_routes_module():
         "bridge.llm_wrappers.openai_modulated_service": mock.MagicMock(),
     }):
         import importlib
+
         import serve.openai_routes as routes_module
         importlib.reload(routes_module)
         yield routes_module

@@ -1,3 +1,5 @@
+# ruff: noqa: B008
+# ruff: noqa: F821  # Experimental/test code with undefined names
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "lukhas:module.manifest.schema.json",

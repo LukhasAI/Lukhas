@@ -13,7 +13,6 @@ Tests Pydantic schema models including:
 
 import pytest
 from pydantic import ValidationError
-
 from serve.schemas import (
     DreamRequest,
     DreamResponse,

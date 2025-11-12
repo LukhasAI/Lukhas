@@ -4,6 +4,7 @@ Unit tests for lukhas wrapper modules (consciousness, dreams, glyphs).
 Tests feature flag control and lazy loading for production-lane wrappers.
 """
 import os
+
 import pytest
 
 
@@ -52,6 +53,7 @@ class TestDreamsWrapper:
 
         # Need to reimport to pick up new env var
         import importlib
+
         import lukhas_website.lukhas.dream
         importlib.reload(lukhas_website.lukhas.dream)
 
@@ -62,6 +64,7 @@ class TestDreamsWrapper:
         """Test that get_dream_engine raises when disabled"""
         # Reload module to ensure DREAMS_ENABLED=false
         import importlib
+
         import lukhas_website.lukhas.dream
         importlib.reload(lukhas_website.lukhas.dream)
 
@@ -75,6 +78,7 @@ class TestDreamsWrapper:
         """Test that parallel_dreams is None when disabled"""
         # Reload module to ensure DREAMS_ENABLED=false
         import importlib
+
         import lukhas_website.lukhas.dream
         importlib.reload(lukhas_website.lukhas.dream)
 
@@ -86,6 +90,7 @@ class TestDreamsWrapper:
         os.environ["PARALLEL_DREAMS_ENABLED"] = "true"
 
         import importlib
+
         import lukhas_website.lukhas.dream
         importlib.reload(lukhas_website.lukhas.dream)
 
@@ -115,6 +120,7 @@ class TestGlyphsWrapper:
         os.environ["GLYPHS_ENABLED"] = "true"
 
         import importlib
+
         import lukhas_website.lukhas.glyphs
         importlib.reload(lukhas_website.lukhas.glyphs)
 
@@ -125,6 +131,7 @@ class TestGlyphsWrapper:
         """Test that create_glyph raises when disabled"""
         # Reload module to ensure GLYPHS_ENABLED=false
         import importlib
+
         import lukhas_website.lukhas.glyphs
         importlib.reload(lukhas_website.lukhas.glyphs)
 
@@ -137,6 +144,7 @@ class TestGlyphsWrapper:
         """Test that get_glyph_token_class raises when disabled"""
         # Reload module to ensure GLYPHS_ENABLED=false
         import importlib
+
         import lukhas_website.lukhas.glyphs
         importlib.reload(lukhas_website.lukhas.glyphs)
 
@@ -150,13 +158,14 @@ class TestGlyphsWrapper:
         os.environ["GLYPHS_ENABLED"] = "true"
 
         import importlib
+
         import lukhas_website.lukhas.glyphs
         importlib.reload(lukhas_website.lukhas.glyphs)
 
         from lukhas_website.lukhas.glyphs import (
-            get_glyph_token_class,
-            get_glyph_router_class,
             create_glyph,
+            get_glyph_router_class,
+            get_glyph_token_class,
         )
 
         # Should not raise
@@ -194,6 +203,7 @@ class TestConsciousnessWrapper:
         os.environ["CONSCIOUSNESS_ENABLED"] = "true"
 
         import importlib
+
         import lukhas_website.lukhas.consciousness
         importlib.reload(lukhas_website.lukhas.consciousness)
 
@@ -220,8 +230,8 @@ class TestConsciousnessWrapper:
     def test_consciousness_classes_importable(self):
         """Test that consciousness classes can be imported for type hints"""
         from lukhas_website.lukhas.consciousness import (
-            ConsciousnessStream,
             AwarenessEngine,
+            ConsciousnessStream,
             CreativityEngine,
             DreamEngine,
         )
@@ -273,6 +283,7 @@ class TestWrapperIntegration:
     def test_initialization_with_dreams_enabled(self):
         """Test initialization with DREAMS_ENABLED"""
         import importlib
+
         import lukhas_website.lukhas.core.initialization as initialization
         import lukhas_website.lukhas.dream
 
@@ -303,6 +314,7 @@ class TestWrapperIntegration:
             os.environ["GLYPHS_ENABLED"] = value
 
             import importlib
+
             import lukhas_website.lukhas.glyphs
             importlib.reload(lukhas_website.lukhas.glyphs)
 

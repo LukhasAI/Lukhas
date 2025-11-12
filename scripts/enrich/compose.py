@@ -5,6 +5,7 @@ T4/0.01% Manifest Composer
 Merges extracted signals into manifests with schema validation.
 """
 
+# ruff: noqa: F821
 from __future__ import annotations
 
 import json

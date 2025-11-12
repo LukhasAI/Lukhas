@@ -16,7 +16,8 @@ import logging
 import os
 import time
 import uuid
-from typing import Any, Coroutine, List, Optional
+from typing import Any, List, Optional
+from collections.abc import Coroutine
 
 logger = logging.getLogger(__name__)
 
@@ -238,12 +239,12 @@ def parallel_dream_mesh(
 
 # Public API
 __all__ = [
+    "get_dream_by_id",
+    "get_dream_engine",
     "is_enabled",
     "is_parallel_enabled",
-    "get_dream_engine",
-    "simulate_dream",
-    "get_dream_by_id",
     "parallel_dream_mesh",
+    "simulate_dream",
 ]
 
 # Expose feature flag status for testing

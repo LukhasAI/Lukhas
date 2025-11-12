@@ -1,3 +1,4 @@
+# ruff: noqa: B008
 # path: qi/glyphs/signer_service.py
 """
 LUKHAS AI GLYPH Signer Service

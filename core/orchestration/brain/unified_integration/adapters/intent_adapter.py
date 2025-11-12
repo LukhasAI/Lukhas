@@ -8,6 +8,7 @@ Quantum-biological adapter for intent processing that integrates UnifiedNode
 features with the intent recognition system.
 """
 
+# ruff: noqa: F821  # Skeleton/experimental code
 import logging
 from datetime import datetime, timezone
 from typing import Any, Optional

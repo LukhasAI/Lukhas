@@ -9,7 +9,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from bridge.llm_wrappers.jules_wrapper import JulesClient
 
-
 SESSIONS_TO_APPROVE = [
     "8833127221412567236",   # Category 6: Dream/consciousness isolation
     "18029788532764900686",  # Category 5: Memory user isolation
@@ -28,7 +27,7 @@ async def approve_plans():
             try:
                 result = await jules.approve_plan(f"sessions/{session_id}")
 
-                print(f"  ✅ Plan approved!")
+                print("  ✅ Plan approved!")
                 print(f"  Result: {result}")
                 print(f"  URL: https://jules.google.com/session/{session_id}\n")
 

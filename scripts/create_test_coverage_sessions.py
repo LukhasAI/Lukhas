@@ -9,7 +9,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from bridge.llm_wrappers.jules_wrapper import JulesClient
 
-
 # High-priority test coverage tasks
 TEST_COVERAGE_TASKS = [
     # Serve API routes (high traffic, need tests)
@@ -334,7 +333,7 @@ async def create_test_sessions():
 
         total_hours = sum(int(s["time"].rstrip("h")) for s in created_sessions)
         print(f"Total estimated work: {total_hours} hours")
-        print(f"Expected tests: 250+ comprehensive tests")
+        print("Expected tests: 250+ comprehensive tests")
 
         return created_sessions
 

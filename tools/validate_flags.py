@@ -136,9 +136,8 @@ class FlagValidator:
                 )
 
         # Validate enabled field
-        if "enabled" in flag_config:
-            if not isinstance(flag_config["enabled"], bool):
-                self.errors.append(f"{prefix} 'enabled' must be a boolean")
+        if "enabled" in flag_config and not isinstance(flag_config["enabled"], bool):
+            self.errors.append(f"{prefix} 'enabled' must be a boolean")
 
         # Validate description
         if "description" in flag_config:

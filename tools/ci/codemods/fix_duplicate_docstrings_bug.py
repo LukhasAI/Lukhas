@@ -6,8 +6,9 @@ The fix_file function uses 'lines' without reading the file or defining it.
 This codemod adds the missing file read and line split.
 """
 
-import libcst as cst
 from pathlib import Path
+
+import libcst as cst
 
 
 class FixDuplicateDocstringsBugTransformer(cst.CSTTransformer):
@@ -74,28 +75,28 @@ class FixDuplicateDocstringsBugTransformer(cst.CSTTransformer):
 
 def main():
     target_file = Path("scripts/fix_duplicate_docstrings.py")
-    
+
     if not target_file.exists():
         print(f"❌ File not found: {target_file}")
         return 1
 
     # Read source
     source_code = target_file.read_text()
-    
+
     # Parse
     source_tree = cst.parse_module(source_code)
-    
+
     # Transform
     transformer = FixDuplicateDocstringsBugTransformer()
     modified_tree = source_tree.visit(transformer)
-    
+
     # Write back
     target_file.write_text(modified_tree.code)
-    
-    print(f"✅ Fixed fix_duplicate_docstrings.py - added missing file read")
-    print(f"   Added: content = path.read_text()")
-    print(f"   Added: lines = content.splitlines()")
-    
+
+    print("✅ Fixed fix_duplicate_docstrings.py - added missing file read")
+    print("   Added: content = path.read_text()")
+    print("   Added: lines = content.splitlines()")
+
     return 0
 
 

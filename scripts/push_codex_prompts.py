@@ -18,13 +18,13 @@ Notes:
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
-import subprocess
 import re
+import subprocess
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable
-
 
 ROOT = Path(__file__).resolve().parents[1]
 PROMPTS_MD = ROOT / "tasks" / "CODEX_PROMPTS.md"
@@ -314,7 +314,7 @@ def main() -> int:
                 f"git checkout -B {t.branch} $BASE",
                 "# Rebase on remote if exists to avoid push rejection; autostash local changes",
                 f"git pull --rebase --autostash origin {t.branch} || true",
-                f"mkdir -p codex_artifacts/branch_markers",
+                "mkdir -p codex_artifacts/branch_markers",
                 f"printf '%s\n' 'Codex scaffold marker for {t.title}' 'Branch: {t.branch}' 'Request: codex_artifacts/requests/{t.slug}.md' > {mk}",
                 f"git add {mk}",
                 f"git commit -m 'codex: scaffold {t.slug}' || true",
@@ -332,10 +332,8 @@ def main() -> int:
             ]
         script_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
         # Best effort to make executable
-        try:
+        with contextlib.suppress(Exception):
             script_path.chmod(0o755)
-        except Exception:
-            pass
         print(f"Emitted shell: {script_path.relative_to(ROOT)}")
     return 0
 

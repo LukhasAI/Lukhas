@@ -1,4 +1,4 @@
-with open('scripts/bench_t4_excellence.py', 'r') as f:
+with open('scripts/bench_t4_excellence.py') as f:
     lines = f.readlines()
 
 # Find where the imports should be and rebuild correctly
@@ -7,7 +7,7 @@ in_bad_section = False
 
 for i, line in enumerate(lines):
     line_num = i + 1
-    
+
     # Skip the entire malformed section (lines 29-42 approximately)
     if line_num >= 29 and 'from bench_core import (' in line:
         # Start our clean import section
@@ -15,7 +15,7 @@ for i, line in enumerate(lines):
             'from bench_core import (\n',
             '    PerformanceBenchmark,  # - requires sys.path manipulation before import\n',
             ')\n',
-            'from preflight_check import (\n', 
+            'from preflight_check import (\n',
             '    PreflightValidator,  # - requires sys.path manipulation before import\n',
             ')\n',
             '\n',
@@ -25,14 +25,14 @@ for i, line in enumerate(lines):
         ])
         in_bad_section = True
         continue
-    
+
     # Skip lines in the bad section until we find "# Suppress verbose logging"
     if in_bad_section:
         if '# Suppress verbose logging' in line:
             in_bad_section = False
             new_lines.append(line)  # Include this line
         continue
-    
+
     # Keep all other lines
     new_lines.append(line)
 

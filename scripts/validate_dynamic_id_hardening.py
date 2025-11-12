@@ -36,7 +36,7 @@ logger = logging.getLogger(__name__)
 # TODO: This validator class needs to be properly implemented
 class MATRIZMetricsContractValidator:
     """Stub implementation for metrics contract validation."""
-    
+
     def record_and_validate_matriz_metric(self, name: str, **kwargs) -> list:
         """Stub method that needs actual implementation."""
         # This is a placeholder - actual implementation needed

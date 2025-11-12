@@ -4,7 +4,7 @@ import importlib.util
 import sys
 from pathlib import Path
 from types import ModuleType
-from typing import Any, Tuple, Dict
+from typing import Any, Dict, Tuple
 
 
 def _load_vocabulary_module() -> ModuleType:

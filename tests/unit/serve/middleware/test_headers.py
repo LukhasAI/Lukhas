@@ -9,13 +9,13 @@ Tests:
 - UUID format validation
 - Header presence on all responses
 """
-import pytest
 import re
 import time
 from unittest.mock import patch
+
+import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-
 from serve.middleware.headers import HeadersMiddleware
 
 

@@ -4,8 +4,9 @@ Comprehensive tests for the OpenAI API compatibility entrypoint.
 Tests the get_app() factory function and import delegation.
 """
 
+from unittest.mock import MagicMock, Mock, patch
+
 import pytest
-from unittest.mock import Mock, patch, MagicMock
 
 
 class TestGetApp:
@@ -43,8 +44,9 @@ class TestGetApp:
 
     def test_get_app_no_arguments(self):
         """Test that get_app takes no arguments."""
-        from lukhas.adapters.openai.api import get_app
         import inspect
+
+        from lukhas.adapters.openai.api import get_app
 
         sig = inspect.signature(get_app)
         # Should have no required parameters
@@ -206,8 +208,9 @@ class TestEdgeCases:
 
     def test_get_app_return_type_annotation(self):
         """Test that get_app has correct return type annotation."""
-        from lukhas.adapters.openai.api import get_app
         import inspect
+
+        from lukhas.adapters.openai.api import get_app
 
         sig = inspect.signature(get_app)
         # Return type should be Any (since it's a compatibility layer)
@@ -217,10 +220,8 @@ class TestEdgeCases:
     def test_module_can_be_imported_multiple_times(self):
         """Test that module can be safely imported multiple times."""
         # First import
-        from lukhas.adapters.openai import api as api1
-
         # Second import
-        from lukhas.adapters.openai import api as api2
+        from lukhas.adapters.openai import api as api1, api as api2
 
         # Should be the same module
         assert api1 is api2
@@ -288,7 +289,7 @@ class TestUsagePatterns:
             module = importlib.import_module('lukhas.adapters.openai.api')
 
             # Get the factory function
-            factory = getattr(module, 'get_app')
+            factory = module.get_app
 
             # Call it (uvicorn would do this)
             app = factory()
@@ -301,17 +302,19 @@ class TestTypeHints:
 
     def test_get_app_has_return_type(self):
         """Test that get_app has return type annotation."""
-        from lukhas.adapters.openai.api import get_app
         import inspect
+
+        from lukhas.adapters.openai.api import get_app
 
         sig = inspect.signature(get_app)
         assert sig.return_annotation is not inspect.Signature.empty
 
     def test_return_type_is_any(self):
         """Test that return type is Any (for flexibility)."""
-        from lukhas.adapters.openai.api import get_app
-        from typing import Any
         import inspect
+        from typing import Any
+
+        from lukhas.adapters.openai.api import get_app
 
         sig = inspect.signature(get_app)
         # The function returns Any to maintain flexibility
@@ -355,8 +358,9 @@ class TestCodeQuality:
 
     def test_function_is_simple(self):
         """Test that get_app function is simple (single purpose)."""
-        from lukhas.adapters.openai.api import get_app
         import inspect
+
+        from lukhas.adapters.openai.api import get_app
 
         source = inspect.getsource(get_app)
         lines = [line for line in source.split('\n') if line.strip() and not line.strip().startswith('#')]
@@ -366,8 +370,9 @@ class TestCodeQuality:
 
     def test_no_complex_logic(self):
         """Test that function has no complex logic."""
-        from lukhas.adapters.openai.api import get_app
         import inspect
+
+        from lukhas.adapters.openai.api import get_app
 
         source = inspect.getsource(get_app)
 
@@ -378,8 +383,9 @@ class TestCodeQuality:
 
     def test_single_responsibility(self):
         """Test that function has single responsibility (delegation)."""
-        from lukhas.adapters.openai.api import get_app
         import inspect
+
+        from lukhas.adapters.openai.api import get_app
 
         source = inspect.getsource(get_app)
 

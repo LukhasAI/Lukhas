@@ -5,6 +5,7 @@ import base64
 import json
 import time
 
+
 class GlyphVerifier:
     """
     Simulates a JWE-like token verification.
@@ -28,10 +29,7 @@ class GlyphVerifier:
             if token_data.get("user_id") != user_id:
                 return False
 
-            if time.time() > token_data.get("expires_at", 0):
-                return False
-
-            return True
+            return not time.time() > token_data.get("expires_at", 0)
 
         except (TypeError, ValueError, base64.binascii.Error, json.JSONDecodeError):
             # If any decoding or parsing error occurs, the token is invalid.

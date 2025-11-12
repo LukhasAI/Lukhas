@@ -35,10 +35,15 @@ This directory contains comprehensive documentation of LUKHAS AI's system archit
 ## 🎯 **Architecture Principles**
 
 ### **Constellation Framework Integration**
-All LUKHAS AI architecture follows the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):
-- **⚛️ Identity**: Authentic consciousness characteristics
-- **🧠 Consciousness**: Memory, learning, neural processing
-- **🛡️ Guardian**: Ethics, drift detection, safety
+All LUKHAS AI architecture follows the Constellation Framework (8 Stars):
+- **⚛️ Identity (Anchor)**: Authentication, ΛiD system, namespace management
+- **✦ Memory (Trail)**: Fold-based memory, temporal organization, cascade prevention
+- **🔬 Vision (Horizon)**: Pattern recognition, perception, adaptive interfaces
+- **🌱 Bio (Living)**: Adaptive bio-symbolic processing, organic growth patterns
+- **🌙 Dream (Drift)**: Creative consciousness expansion, unconscious processing
+- **⚖️ Ethics (North)**: Constitutional AI, moral reasoning, value alignment
+- **🛡️ Guardian (Watch)**: Safety compliance, drift detection, cascade prevention
+- **⚛️ Quantum (Oracle)**: Quantum-inspired algorithms, superposition, uncertainty
 
 ### **Key Design Patterns**
 - **Modular Consciousness**: Semi-autonomous consciousness subsystems
@@ -49,4 +54,4 @@ All LUKHAS AI architecture follows the Constellation Framework (⚛️ Identity 
 ---
 
 **Directory Status**: ✅ **Organized**
-**Last Updated**: August 25, 2025
+**Last Updated**: November 10, 2025

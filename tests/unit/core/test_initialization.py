@@ -4,6 +4,7 @@ Unit tests for lukhas/core/initialization.py
 Tests the global initialization system for consciousness, dreams, and glyphs.
 """
 import os
+
 import pytest
 
 
@@ -180,8 +181,8 @@ class TestInitializeGlobalSystem:
     def test_get_initialization_status(self):
         """Test that get_initialization_status() returns current state"""
         from lukhas_website.lukhas.core.initialization import (
-            initialize_global_system,
             get_initialization_status,
+            initialize_global_system,
         )
 
         # Before initialization

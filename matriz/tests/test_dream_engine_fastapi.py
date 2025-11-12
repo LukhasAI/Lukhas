@@ -1,10 +1,11 @@
+from unittest.mock import MagicMock, patch
+
 import pytest
 from fastapi.testclient import TestClient
-from unittest.mock import patch, MagicMock
 from matriz.consciousness.dream.oneiric.oneiric_core.engine.dream_engine_fastapi import (
+    User,
     app,
     get_current_user,
-    User,
 )
 
 client = TestClient(app)

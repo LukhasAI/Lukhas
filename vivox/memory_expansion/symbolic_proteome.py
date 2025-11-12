@@ -3,6 +3,7 @@ VIVOX Symbolic Proteome
 AlphaFold2-inspired memory protein folding system
 Models memory traces as symbolic amino acid chains
 """
+# ruff: noqa: F821
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum

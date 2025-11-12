@@ -1,14 +1,15 @@
 
-import pytest
 import time
+
+import pytest
 from fastapi import FastAPI, Request, Response
-from httpx import AsyncClient, ASGITransport
+from httpx import ASGITransport, AsyncClient
+
+# Import the authentication system to generate tokens for testing
+from labs.core.security.auth import EnhancedAuthenticationSystem, get_auth_system
 
 # Adjust the import path based on the actual location of the middleware
 from lukhas_website.lukhas.api.middleware.strict_auth import StrictAuthMiddleware
-
-# Import the authentication system to generate tokens for testing
-from labs.core.security.auth import get_auth_system, EnhancedAuthenticationSystem
 
 # --- Test Setup ---
 
@@ -169,7 +170,7 @@ async def test_bearer_token_with_wrong_signature_returns_401(auth_system: Enhanc
         "lukhas_website.lukhas.api.middleware.strict_auth.get_auth_system",
         lambda: auth_system,
     )
-    token = auth_system.generate_jwt("user-sig-test")
+    auth_system.generate_jwt("user-sig-test")
 
     # Create another auth system with a different secret to simulate a wrong signature
     attacker_auth_system = EnhancedAuthenticationSystem()

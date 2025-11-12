@@ -57,7 +57,7 @@ INVALID_TOKEN_WRONG_PREFIX = "sk-openai-wrong-prefix-12345678"
 # Header Builders
 # =============================================================================
 
-def golden_auth_headers(extra: Optional[Dict[str, str]] = None) -> Dict[str, str]:
+def golden_auth_headers(extra: Dict[str, str] | None = None) -> Dict[str, str]:
     """
     Build auth headers with golden token.
 
@@ -76,7 +76,7 @@ def golden_auth_headers(extra: Optional[Dict[str, str]] = None) -> Dict[str, str
     return headers
 
 
-def tier_auth_headers(tier: int, extra: Optional[Dict[str, str]] = None) -> Dict[str, str]:
+def tier_auth_headers(tier: int, extra: Dict[str, str] | None = None) -> Dict[str, str]:
     """
     Build auth headers for specific tier.
 
@@ -103,7 +103,7 @@ def tier_auth_headers(tier: int, extra: Optional[Dict[str, str]] = None) -> Dict
     return headers
 
 
-def org_auth_headers(org_id: int, extra: Optional[Dict[str, str]] = None) -> Dict[str, str]:
+def org_auth_headers(org_id: int, extra: Dict[str, str] | None = None) -> Dict[str, str]:
     """
     Build auth headers for specific org.
 

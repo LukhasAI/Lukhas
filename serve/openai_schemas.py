@@ -1,8 +1,9 @@
 """
 Pydantic models for OpenAI API compatibility.
 """
-from typing import List, Optional, Dict, Any, Union
-from pydantic import BaseModel, Field
+from typing import Dict, List, Optional, Union
+
+from pydantic import BaseModel
 
 
 class ChatCompletionRequest(BaseModel):

@@ -31,7 +31,7 @@ def intents_by_file(file: str):
     return r.json()
 
 
-def pre_pr_check(files: list, critical_codes: list = None, auto_create_reserved: bool = True):
+def pre_pr_check(files: list, critical_codes: list | None = None, auto_create_reserved: bool = True):
     missing = []
     for f in files:
         intents = intents_by_file(f)

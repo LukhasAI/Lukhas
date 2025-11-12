@@ -3,6 +3,7 @@
 LUKHAS Enterprise API Framework
 Production-grade API with versioning, type safety, and OpenAPI documentation
 """
+# ruff: noqa: B008
 import asyncio
 import hashlib
 import logging

@@ -61,9 +61,8 @@ def main():
 
     for file_path in FILES_TO_FIX:
         filepath = base / file_path
-        if filepath.exists():
-            if fix_file(filepath):
-                fixed_count += 1
+        if filepath.exists() and fix_file(filepath):
+            fixed_count += 1
 
     print(f"\n🎯 Fixed {fixed_count} files")
 

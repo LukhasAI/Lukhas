@@ -1,7 +1,8 @@
 
+from unittest.mock import AsyncMock, MagicMock
+
 import pytest
 from fastapi.testclient import TestClient
-from unittest.mock import AsyncMock, MagicMock
 from serve.api.integrated_consciousness_api import app
 
 client = TestClient(app)

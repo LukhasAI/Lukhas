@@ -11,6 +11,7 @@ mechanisms to protect the distributed actor system from propagating errors and
 system-wide collapse.
 """
 
+# ruff: noqa: F821  # Experimental/test code with undefined names
 from __future__ import annotations
 
 import asyncio

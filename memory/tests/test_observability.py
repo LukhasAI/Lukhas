@@ -2,7 +2,8 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
-from memory.observability import PrometheusMetrics, MemoryTracer, MemorySpan
+from memory.observability import MemorySpan, MemoryTracer, PrometheusMetrics
+
 
 class TestPrometheusMetrics(unittest.TestCase):
 
@@ -10,7 +11,7 @@ class TestPrometheusMetrics(unittest.TestCase):
     @patch('memory.observability.Counter')
     def test_initialization(self, MockCounter, MockHistogram):
         """Test that metrics are initialized correctly."""
-        metrics = PrometheusMetrics()
+        PrometheusMetrics()
         MockHistogram.assert_called_once_with(
             'memory_query_duration_ms',
             'Memory query latency in milliseconds',
@@ -54,7 +55,7 @@ class TestMemoryTracer(unittest.TestCase):
     @patch('memory.observability.trace.get_tracer')
     def test_tracer_initialization(self, mock_get_tracer, mock_prometheus_metrics):
         """Test that the tracer is initialized correctly."""
-        tracer = MemoryTracer(service_name="test-service")
+        MemoryTracer(service_name="test-service")
         mock_get_tracer.assert_called_once_with("test-service")
         # Verify that a PrometheusMetrics object is instantiated
         mock_prometheus_metrics.assert_called_once()

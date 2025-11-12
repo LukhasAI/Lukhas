@@ -30,11 +30,11 @@ _DRIFT_ENABLED = (os.getenv("LUKHAS_DRIFT_ENABLED", "0") or "0").strip() == "1"
 # Import drift monitor safely
 _DRIFT_AVAILABLE = False
 try:
-    from lukhas_website.lukhas.core.drift import DriftMonitor, LANE_CFG
+    from lukhas_website.lukhas.core.drift import LANE_CFG, DriftMonitor
     _DRIFT_AVAILABLE = True
 except ImportError:
     try:
-        from lukhas.core.drift import DriftMonitor, LANE_CFG
+        from lukhas.core.drift import LANE_CFG, DriftMonitor
         _DRIFT_AVAILABLE = True
     except ImportError as e:
         logger.warning(f"Drift module unavailable: {e}")
@@ -183,7 +183,7 @@ async def update_drift(request: DriftUpdateRequest) -> DriftUpdateResponse:
         logger.error(f"Error updating drift for {request.user_id}: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Drift update failed: {str(e)}"
+            detail=f"Drift update failed: {e!s}"
         )
 
 
@@ -240,7 +240,7 @@ async def get_drift_score(user_id: str) -> DriftScoreResponse:
         logger.error(f"Error getting drift score for {user_id}: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to get drift score: {str(e)}"
+            detail=f"Failed to get drift score: {e!s}"
         )
 
 
@@ -317,7 +317,7 @@ async def get_drift_trends(
         logger.error(f"Error getting drift trends for {user_id}: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to get drift trends: {str(e)}"
+            detail=f"Failed to get drift trends: {e!s}"
         )
 
 
@@ -357,7 +357,7 @@ async def get_drift_config(lane: str) -> DriftConfigResponse:
         logger.error(f"Error getting drift config for {lane}: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to get drift config: {str(e)}"
+            detail=f"Failed to get drift config: {e!s}"
         )
 
 

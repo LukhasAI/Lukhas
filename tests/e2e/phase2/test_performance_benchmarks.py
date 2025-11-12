@@ -29,11 +29,11 @@ import os
 import statistics
 import time
 from dataclasses import dataclass
+from typing import Tuple
 from unittest.mock import AsyncMock, Mock
 
 import psutil
 import pytest
-from typing import Tuple
 
 PLACEHOLDER_PASSWORD = "a-secure-password"  # nosec B105
 
