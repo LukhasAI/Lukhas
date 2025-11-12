@@ -33,7 +33,11 @@ from collections import defaultdict
 from collections.abc import Awaitable
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Callable, Dict
+from typing import Any, Callable
+
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict import to native dict type in API middleware
+# estimate: 5min | priority: high | dependencies: core-api-interfaces
 
 # Replaced python-jose (vulnerable) with PyJWT for secure JWT handling
 import jwt

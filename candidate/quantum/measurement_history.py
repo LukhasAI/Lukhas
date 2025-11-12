@@ -1,7 +1,12 @@
 
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict, List, Mapping imports to native types in quantum measurement
+# estimate: 10min | priority: medium | dependencies: candidate-quantum
+
 import time
 from collections import defaultdict
-from typing import Any, Dict, List, Mapping
+from collections.abc import Mapping
+from typing import Any
 
 import numpy as np
 
@@ -10,7 +15,7 @@ from .superposition_engine import SuperpositionState
 
 class MeasurementHistory:
     def __init__(self, max_history: int = 1000):
-        self.measurements: List[Dict[str, Any]] = []
+        self.measurements: list[dict[str, Any]] = []
         self.max_history = max_history
 
     def record_measurement(

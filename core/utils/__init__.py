@@ -10,7 +10,11 @@
 
 import logging
 import uuid
-from typing import Any, Dict, Optional
+from typing import Any, Optional
+
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Remove unused deprecated Dict import in core utils module
+# estimate: 5min | priority: medium | dependencies: core-utils
 
 import streamlit as st
 import structlog

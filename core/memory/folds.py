@@ -1,5 +1,9 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict, List imports to native types in memory folds
+# estimate: 5min | priority: medium | dependencies: core-memory-system
+
 """Memory fold implementations with immutability support."""
-from typing import Dict, Any, Optional, List
+from typing import Any, Optional
 from datetime import datetime
 from copy import deepcopy
 
@@ -12,7 +16,7 @@ class FoldSealedError(Exception):
 class MemoryFold:
     """Base class for memory folds."""
 
-    def __init__(self, fold_id: str, data: Optional[Dict[str, Any]] = None):
+    def __init__(self, fold_id: str, data: Optional[dict[str, Any]] = None):
         """
         Initialize a memory fold.
 
