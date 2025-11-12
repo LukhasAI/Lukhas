@@ -576,53 +576,67 @@
           }
 
           vec3 catShape(vec3 pos, float intensity) {
-            // Recognizable cat shape with ears, head, body, legs, tail
+            // Extreme cat transformation - forget sphere, make actual cat!
+            // Use angular position for front/side view emphasis
+            float theta = atan(pos.z, pos.x);
             float r = length(vec2(pos.x, pos.z));
 
-            // EARS - Two triangular points at top
-            if (pos.y > 0.8) {
-              float earSeparation = abs(pos.x) - 0.3;
-              if (earSeparation > 0.0 && abs(pos.x) > 0.2) {
-                // Pointed ears
-                pos.y *= 1.3 + intensity * 0.1;
-                pos.x *= 0.7;
-                pos.z *= 0.7;
-              } else {
-                // Space between ears
-                pos.y *= 0.9;
-              }
+            // COMPRESSION: Flatten Z to create side-profile effect
+            pos.z *= 0.4;
+
+            // TWO POINTED EARS (most critical feature!)
+            // Left ear at x=-0.5, right ear at x=0.5, both at y=1.0+
+            float leftEarDist = length(vec2(pos.x + 0.5, pos.y - 1.0));
+            float rightEarDist = length(vec2(pos.x - 0.5, pos.y - 1.0));
+
+            if (leftEarDist < 0.4 || rightEarDist < 0.4) {
+              // Inside an ear cone - make it pointed
+              float earDist = min(leftEarDist, rightEarDist);
+              float earHeight = 1.0 - (earDist / 0.4);
+
+              // Push upward into sharp point
+              pos.y = 1.0 + earHeight * 1.0;
+
+              // Narrow to point
+              float earCenter = (leftEarDist < rightEarDist) ? -0.5 : 0.5;
+              pos.x = mix(pos.x, earCenter, earHeight * 0.7);
+              pos.z *= 1.0 - earHeight * 0.6;
             }
-            // HEAD - Round area below ears
-            else if (pos.y > 0.4 && pos.y <= 0.8) {
-              pos.x *= 1.1;
-              pos.z *= 1.1;
+
+            // HEAD (round below ears at y: 0.4 to 0.8)
+            else if (pos.y > 0.4 && pos.y < 0.9) {
+              float headFactor = sin((pos.y - 0.4) / 0.5 * 3.14159);
+              pos.x *= 0.7 + headFactor * 0.2;
+              pos.z *= 0.7 + headFactor * 0.2;
             }
-            // BODY - Wider middle section
-            else if (pos.y > -0.2 && pos.y <= 0.4) {
-              pos.x *= 1.3;
-              pos.z *= 1.2;
+
+            // BODY (oval, wider, y: -0.3 to 0.4)
+            else if (pos.y > -0.3 && pos.y <= 0.4) {
+              float bodyWidth = 1.0 + (0.4 - abs(pos.y)) * 0.5;
+              pos.x *= bodyWidth;
+              pos.z *= bodyWidth * 0.6;
             }
-            // LEGS - Four legs at bottom
-            else if (pos.y <= -0.2) {
-              // Create leg structure
-              float legX = abs(mod(pos.x + 0.5, 1.0) - 0.5);
-              if (legX < 0.15 && abs(pos.z) < 0.4) {
-                pos.y *= 1.2; // Extend legs down
-              } else {
-                pos.y *= 0.8; // Compress between legs
-              }
-              pos.x *= 0.9;
+
+            // HAUNCHES/BASE (sitting position, y < -0.3)
+            else if (pos.y <= -0.3) {
+              // Very wide, flat base (cat sitting)
+              pos.x *= 1.4 + abs(pos.y) * 0.3;
               pos.z *= 0.9;
+              pos.y *= 0.5; // Compress height
             }
 
-            // TAIL - Extend backwards
-            if (pos.z < -0.8 && abs(pos.x) < 0.3 && abs(pos.y) < 0.2) {
-              pos.z *= 1.3;
-              pos.x *= 0.6;
-              pos.y *= 0.6;
+            // TAIL (curves from back upward)
+            // Particles near back-bottom get pulled into tail curve
+            if (r > 1.0 && pos.y < 0.2 && theta > 2.0) {
+              float tailFactor = (r - 1.0) * 2.0;
+              tailFactor = min(tailFactor, 1.0);
+
+              // Curve tail upward and around
+              pos.y += tailFactor * 1.5;
+              pos.x += tailFactor * 0.5;
             }
 
-            return pos;
+            return pos * (1.0 + intensity * 0.1);
           }
 
           vec3 morphTarget(vec3 base, float shape, float intensity) {
