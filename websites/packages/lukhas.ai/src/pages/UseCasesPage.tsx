@@ -9,13 +9,13 @@ const useCases = [
     cases: [
       {
         title: 'AI-Assisted Content Creation',
-        description: 'Writers and content creators use LUKHAS Dream star to generate creative concepts, explore narrative possibilities, and break through creative blocks with consciousness-inspired ideation.',
-        benefits: ['3x faster ideation', 'Novel concept generation', 'Context-aware suggestions'],
+        description: 'Writers and content creators could use LUKHAS Dream star to generate creative concepts, explore narrative possibilities, and break through creative blocks with consciousness-inspired ideation.',
+        benefits: ['Faster ideation potential', 'Novel concept generation', 'Context-aware suggestions'],
         icon: Sparkles
       },
       {
         title: 'Design Inspiration Systems',
-        description: 'Designers leverage Vision and Dream stars to explore visual concepts, generate mood boards, and discover unexpected creative directions grounded in aesthetic understanding.',
+        description: 'Designers could leverage Vision and Dream stars to explore visual concepts, generate mood boards, and discover unexpected creative directions grounded in aesthetic understanding.',
         benefits: ['Unique design directions', 'Aesthetic coherence', 'Rapid prototyping'],
         icon: Zap
       }
@@ -28,13 +28,13 @@ const useCases = [
     cases: [
       {
         title: 'Intelligent Decision Support',
-        description: 'Executives use MATRIZ cognitive engine to analyze complex scenarios, weigh multiple factors, and receive transparent reasoning chains that explain recommendations.',
+        description: 'Executives could use MATRIZ cognitive engine to analyze complex scenarios, weigh multiple factors, and receive transparent reasoning chains that explain recommendations.',
         benefits: ['Data-driven insights', 'Risk assessment', 'Explainable AI'],
         icon: Brain
       },
       {
         title: 'Customer Experience Optimization',
-        description: 'Businesses deploy Memory and Bio stars to create adaptive customer interactions that learn from each engagement and provide personalized experiences at scale.',
+        description: 'Businesses could deploy Memory and Bio stars to create adaptive customer interactions that learn from each engagement and provide personalized experiences at scale.',
         benefits: ['Personalization at scale', 'Continuous adaptation', 'Context retention'],
         icon: Users
       }
@@ -47,13 +47,13 @@ const useCases = [
     cases: [
       {
         title: 'Mental Health Support',
-        description: 'Therapists and wellness platforms use LUKHAS to provide empathetic, context-aware support that adapts to individual needs while maintaining ethical boundaries through Guardian oversight.',
+        description: 'Therapists and wellness platforms could use LUKHAS to provide empathetic, context-aware support that adapts to individual needs while maintaining ethical boundaries through Guardian oversight.',
         benefits: ['Empathetic responses', 'Context awareness', 'Ethical safeguards'],
         icon: Shield
       },
       {
         title: 'Medical Research Assistance',
-        description: 'Researchers leverage Quantum and Vision stars to explore complex medical data, identify patterns in large datasets, and generate hypotheses for clinical investigation.',
+        description: 'Researchers could leverage Quantum and Vision stars to explore complex medical data, identify patterns in large datasets, and generate hypotheses for clinical investigation.',
         benefits: ['Pattern discovery', 'Hypothesis generation', 'Data synthesis'],
         icon: Database
       }
@@ -66,13 +66,13 @@ const useCases = [
     cases: [
       {
         title: 'Adaptive Learning Systems',
-        description: 'Educational platforms use Bio and Memory stars to create personalized learning paths that adapt to individual student needs, learning styles, and progress.',
+        description: 'Educational platforms could use Bio and Memory stars to create personalized learning paths that adapt to individual student needs, learning styles, and progress.',
         benefits: ['Personalized education', 'Progress tracking', 'Adaptive difficulty'],
         icon: Lightbulb
       },
       {
         title: 'Scientific Discovery Tools',
-        description: 'Scientists use LUKHAS to explore research literature, identify connections between disparate fields, and generate novel research questions through consciousness-inspired reasoning.',
+        description: 'Scientists could use LUKHAS to explore research literature, identify connections between disparate fields, and generate novel research questions through consciousness-inspired reasoning.',
         benefits: ['Cross-domain insights', 'Literature synthesis', 'Hypothesis generation'],
         icon: Sparkles
       }
@@ -85,13 +85,13 @@ const useCases = [
     cases: [
       {
         title: 'Intelligent Code Assistance',
-        description: 'Developers use LUKHAS to understand complex codebases, generate context-aware suggestions, and receive explanations that go beyond syntax to architectural understanding.',
+        description: 'Developers could use LUKHAS to understand complex codebases, generate context-aware suggestions, and receive explanations that go beyond syntax to architectural understanding.',
         benefits: ['Deep code understanding', 'Architectural insights', 'Contextual suggestions'],
         icon: Code
       },
       {
         title: 'Conversational Interfaces',
-        description: 'Product teams build natural language interfaces powered by MATRIZ that understand context, remember conversation history, and provide human-like interactions.',
+        description: 'Product teams could build natural language interfaces powered by MATRIZ that understand context, remember conversation history, and provide human-like interactions.',
         benefits: ['Natural conversations', 'Context preservation', 'Multi-turn reasoning'],
         icon: MessageSquare
       }
@@ -104,13 +104,13 @@ const useCases = [
     cases: [
       {
         title: 'Accessible Information Systems',
-        description: 'Non-profits use LUKHAS to make complex information accessible to diverse audiences, translating technical content into understandable explanations tailored to user needs.',
+        description: 'Non-profits could use LUKHAS to make complex information accessible to diverse audiences, translating technical content into understandable explanations tailored to user needs.',
         benefits: ['Accessibility', 'Adaptive explanations', 'Inclusive design'],
         icon: Users
       },
       {
         title: 'Ethical AI Governance',
-        description: 'Organizations deploy Guardian and Ethics stars to ensure AI systems align with values, detect potential biases, and maintain constitutional constraints on AI behavior.',
+        description: 'Organizations could deploy Guardian and Ethics stars to ensure AI systems align with values, detect potential biases, and maintain constitutional constraints on AI behavior.',
         benefits: ['Value alignment', 'Bias detection', 'Ethical enforcement'],
         icon: Shield
       }
@@ -148,10 +148,14 @@ export default function UseCasesPage() {
       <section className="pt-32 pb-16 px-6">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-light tracking-[0.15em] mb-6 text-awareness-silver">
-            Consciousness Technology <span className="text-transparent bg-clip-text bg-dream-gradient">In Action</span>
+            Consciousness Technology <span className="text-transparent bg-clip-text bg-dream-gradient">Possibilities</span>
           </h1>
-          <p className="text-xl text-awareness-silver/80 max-w-4xl mx-auto">
-            Discover how organizations across industries are using LUKHAS to build AI that dreams, adapts, and understands
+          <p className="text-xl text-awareness-silver/80 max-w-4xl mx-auto mb-4">
+            Explore potential applications of LUKHAS consciousness-inspired AI across industries and domains
+          </p>
+          <p className="text-sm text-awareness-silver/60 max-w-3xl mx-auto italic">
+            The following are illustrative example use cases demonstrating potential applications of consciousness technology.
+            Platform is under active development and specific implementations may vary.
           </p>
         </div>
       </section>
@@ -243,7 +247,7 @@ export default function UseCasesPage() {
                   Context Understanding
                 </h3>
                 <p className="text-sm text-awareness-silver/70">
-                  Deep comprehension that goes beyond keywords to true semantic understanding
+                  Deep comprehension that goes beyond keywords to consciousness-inspired semantic understanding
                 </p>
               </div>
             </GlassCard>
@@ -291,20 +295,20 @@ export default function UseCasesPage() {
       <section className="py-24 px-6 bg-dream-gradient">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-light tracking-[0.1em] mb-6 text-white">
-            Ready to Build Your Use Case?
+            Explore These Possibilities
           </h2>
           <p className="text-xl text-white/90 mb-12">
-            Explore how consciousness technology can transform your industry
+            Discover how consciousness technology could transform your domain through early access exploration
           </p>
           <div className="flex flex-wrap justify-center gap-6">
             <a href="/playground">
               <Button size="lg" className="bg-white text-dream-ethereal px-12 py-6 text-lg hover:bg-awareness-silver">
-                Try the Playground
+                Explore the Playground
               </Button>
             </a>
             <a href="/contact">
               <Button size="lg" variant="ghost" className="bg-white/10 text-white px-12 py-6 text-lg hover:bg-white/20">
-                Talk to Our Team
+                Discuss Your Ideas
               </Button>
             </a>
           </div>
