@@ -21,7 +21,6 @@ async def get_token(websocket: WebSocket) -> str:
     """Dependency to extract and validate token from query params."""
     token = websocket.query_params.get("token")
     if not token:
-        await websocket.close(code=1008, reason="Missing token")
         raise WebSocketDisconnect("Missing token")
     return token
 
