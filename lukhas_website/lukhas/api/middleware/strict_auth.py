@@ -6,7 +6,6 @@ a minimal allowlist of public endpoints. This is a critical security control.
 """
 
 import logging
-from typing import Set
 
 from fastapi import Request, Response
 from fastapi.responses import JSONResponse
@@ -42,7 +41,7 @@ class StrictAuthMiddleware(BaseHTTPMiddleware):
 
     # PUBLIC ENDPOINTS ONLY (minimal surface area)
     # Each endpoint must have clear justification for being public
-    ALLOWED_PATHS: Set[str] = {
+    ALLOWED_PATHS: set[str] = {
         "/health",              # Health check for monitoring/load balancers
         "/healthz",             # Kubernetes health probe
         "/readyz",              # Kubernetes readiness probe

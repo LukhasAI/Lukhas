@@ -15,7 +15,7 @@ Usage:
 import json
 import os
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 try:
     from core.registry import get_plugin_registry

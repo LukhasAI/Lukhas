@@ -13,7 +13,7 @@ import os
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Optional, Protocol, Type
+from typing import Any, Optional, Protocol
 
 from observability.opentelemetry_tracing import LUKHASTracer
 from observability.prometheus_metrics import LUKHASMetrics
@@ -148,14 +148,14 @@ class PluginRegistry:
         self.metrics = metrics or LUKHASMetrics()
         self.tracer = tracer or LUKHASTracer()
 
-        self.discovered_plugins: dict[str, Type[PluginBase]] = {}
+        self.discovered_plugins: dict[str, type[PluginBase]] = {}
         self.instantiated_plugins: dict[str, PluginBase] = {}
         self.plugin_metadata: dict[str, PluginInfo] = {}
 
         self._last_discovery = 0
         self._discovery_cache_duration = 300  # 5 minutes
 
-    def discover_plugins(self, force_refresh: bool = False) -> dict[str, Type[PluginBase]]:
+    def discover_plugins(self, force_refresh: bool = False) -> dict[str, type[PluginBase]]:
         """
         Discover plugins from configured search paths.
 
@@ -229,7 +229,7 @@ class PluginRegistry:
 
         return discovered_count
 
-    def _load_plugin_from_file(self, file_path: str) -> Optional[Type[PluginBase]]:
+    def _load_plugin_from_file(self, file_path: str) -> Optional[type[PluginBase]]:
         """Load a plugin class from a Python file."""
         try:
             # Create module spec
@@ -403,7 +403,7 @@ def get_plugin_registry() -> PluginRegistry:
     return _plugin_registry
 
 
-def register_plugin(plugin_class: Type[PluginBase]) -> None:
+def register_plugin(plugin_class: type[PluginBase]) -> None:
     """Register a plugin class with the global registry."""
     registry = get_plugin_registry()
     registry.discovered_plugins[plugin_class.__name__] = plugin_class
