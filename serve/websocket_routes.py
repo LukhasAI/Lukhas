@@ -27,12 +27,14 @@ async def get_token(websocket: WebSocket) -> str:
 
 @router.websocket("/ws/dreams/stream")
 async def dream_stream_websocket(websocket: WebSocket, token: str = Depends(get_token)):
-    # Authenticate
+    # Authenticate before accepting connection
     user = await authenticate_websocket(token)
     if not user:
+        # Close without accepting for unauthenticated connections
         await websocket.close(code=1008, reason="Authentication failed")
         return
 
+    # Only accept authenticated connections
     await websocket.accept()
 
     try:
