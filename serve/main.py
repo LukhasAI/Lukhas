@@ -100,6 +100,7 @@ webauthn_router = None
 if (env_get('LUKHAS_WEBAUTHN', '0') or '0').strip() == '1':
     webauthn_router = _safe_import_router('.webauthn_routes', 'router')
 openai_router = _safe_import_router('.openai_routes', 'router')
+websocket_router = _safe_import_router('.websocket_routes', 'router')
 orchestration_router = _safe_import_router('.orchestration_routes', 'router')
 routes_router = _safe_import_router('.routes', 'router')
 traces_router = _safe_import_router('.routes_traces', 'router')
@@ -155,6 +156,8 @@ if routes_router is not None:
     app.include_router(routes_router)
 if openai_router is not None:
     app.include_router(openai_router)
+if websocket_router is not None:
+    app.include_router(websocket_router)
 if feedback_router is not None:
     app.include_router(feedback_router)
 if traces_router is not None:
