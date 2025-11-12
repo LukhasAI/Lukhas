@@ -53,6 +53,8 @@ def test_guard_patch_respects_whitelist(tmp_path: Path, monkeypatch: pytest.Monk
     assert payload["counted_files"] == 1
     assert payload["counted_lines"] == 10
     assert payload["whitelisted_files"] == ["foo.py"]
+    assert payload["allow_large_imports"] is False
+    assert payload["large_import_whitelisted_files"] == []
     assert payload["changed_files"] == 2
     assert payload["changed_lines"] == 40
 
@@ -89,3 +91,65 @@ def test_guard_patch_enforces_limits_without_whitelist(
     assert payload["counted_files"] == 2
     assert payload["counted_lines"] == 40
     assert payload["whitelisted_files"] == []
+    assert payload["allow_large_imports"] is False
+
+
+def test_guard_patch_allows_large_import_whitelist(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    large_whitelist = tmp_path / "large.yml"
+    large_whitelist.write_text("- foo.py\n")
+
+    monkeypatch.setattr(guard_patch, "DEFAULT_LARGE_IMPORT_WHITELIST", str(large_whitelist))
+
+    changed = ["foo.py", "bar.py"]
+    line_map = {"foo.py": 30, "bar.py": 10}
+
+    _patch_guard_patch(monkeypatch, changed=changed, line_map=line_map)
+
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "guard_patch",
+            "--max-files",
+            "1",
+            "--max-lines",
+            "20",
+            "--allow-large-imports",
+        ],
+    )
+
+    with pytest.raises(SystemExit) as exc:
+        guard_patch.main()
+
+    assert exc.value.code == 0
+
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["status"] == "ok"
+    assert payload["counted_files"] == 1
+    assert payload["counted_lines"] == 10
+    assert payload["allow_large_imports"] is True
+    assert payload["large_import_whitelisted_files"] == ["foo.py"]
+
+
+def test_guard_patch_large_import_toggle_requires_whitelist(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(guard_patch, "DEFAULT_LARGE_IMPORT_WHITELIST", "nonexistent.yml")
+    _patch_guard_patch(monkeypatch, changed=[], line_map={})
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "guard_patch",
+            "--allow-large-imports",
+        ],
+    )
+
+    with pytest.raises(SystemExit) as exc:
+        guard_patch.main()
+
+    assert exc.value.code == 2
