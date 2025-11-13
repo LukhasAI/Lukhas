@@ -1,0 +1,1076 @@
+# DAST + NIAS + ABAS + Security Headers for FastAPI app
+
+Comprehensive plan to add Dynamic Application Security Testing (DAST), Neuro-Introspective Audit System (NIAS), Adaptive Behavior/Access Shield (ABAS), and security headers to your FastAPI app in a structured, grounded manner.
+
+
+
+Execution order (5 days, parallelizable)
+	1.	DAST (CI + nightly): ZAP baseline on PRs → ZAP Full/API + Schemathesis on nightly → export HTML/JSON/SARIF. Grounded.
+	2.	NIAS (runtime audit): request/response introspection middleware + JSONL event stream + hooks to drift metrics. Speculative but minimal; aligned with repo’s drift/ + audits/.
+	3.	ABAS (policy enforcement): OPA‑backed decision gate (Rego), FastAPI middleware PDP call, and policy tests. Grounded re: OPA + FastAPI middleware.
+	4.	Security headers sanity test to tighten browser‑facing risk surface. Grounded.
+
+⸻
+
+1) DAST — CI pipelines you can paste today
+
+✅ TODO D1 — PR Gate: ZAP Baseline against local API (fast)
+
+Acceptance criteria
+	•	On every PR, repo spins up uvicorn, runs ZAP Baseline against http://localhost:8000, uploads HTML report as artifact, fails on Highs unless allowed. Grounded.
+
+Create .github/workflows/dast-zap-baseline.yml
+
+name: DAST - ZAP Baseline (PR)
+on:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  zap-baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    services:
+      postgres:
+        image: postgres:15
+        ports: ['5432:5432']
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=5s --health-timeout=5s --health-retries=10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Install app
+        run: |
+          pip install -e .
+      - name: Boot API (background)
+        run: |
+          nohup python -m uvicorn lukhas.adapters.openai.api:get_app --factory --host 0.0.0.0 --port 8000 &
+          for i in {1..60}; do curl -fsS http://127.0.0.1:8000/ || { sleep 2; continue; }; exit 0; done
+          echo "API failed to start" && exit 1
+      - name: ZAP Baseline
+        uses: zaproxy/action-baseline@v0.11.0
+        with:
+          target: 'http://127.0.0.1:8000'
+          rules_file_name: 'dast/.zap/rules.tsv'
+          allow_issue_writing: false
+          cmd_options: '-a -m 5' # aggressive passive scan, 5 min max
+      - name: Upload ZAP report
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-baseline-report
+          path: |
+            report_html.html
+            owasp_zap_log.txt
+
+Optional allow‑list: Create dast/.zap/rules.tsv
+
+10054  IGNORE   Ignoring overly broad CSP until ABAS policies ship
+
+✅ TODO D2 — Nightly ZAP Full + API scans (deeper, active)
+
+Acceptance criteria
+	•	Nightly job runs ZAP Full spider+active scan and ZAP API scan via /openapi.json; upload artifacts; fails on Highs. Grounded.
+
+Create .github/workflows/dast-zap-full-api.yml
+
+name: DAST - ZAP Full & API (nightly)
+on:
+  schedule: [{ cron: '0 2 * * *' }]
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: pip install -e .
+      - name: Boot API
+        run: |
+          nohup python -m uvicorn lukhas.adapters.openai.api:get_app --factory --host 0.0.0.0 --port 8000 &
+          for i in {1..60}; do curl -fsS http://127.0.0.1:8000/openapi.json && break || sleep 2; done
+
+      - name: ZAP Full Scan (site)
+        uses: zaproxy/action-full-scan@v0.8.0
+        with:
+          target: 'http://127.0.0.1:8000'
+          cmd_options: '-m 15'   # 15 min cap
+
+      - name: ZAP API Scan (OpenAPI)
+        uses: zaproxy/action-api-scan@v0.7.0
+        with:
+          target: 'http://127.0.0.1:8000/openapi.json'
+          rules_file_name: 'dast/.zap/rules.tsv'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zap-full-api-artifacts
+          path: |
+            report_html.html
+            zap_scan.log
+            owasp_zap_log.txt
+
+✅ TODO D3 — Schemathesis fuzzing from OpenAPI (catches logic bugs fast)
+
+Acceptance criteria
+	•	CI job generates randomized property‑based requests against /openapi.json; findings exported as JUnit + HTML. Grounded.
+
+Create .github/workflows/dast-schemathesis.yml
+
+name: DAST - Schemathesis
+on:
+  schedule: [{ cron: '0 3 * * *' }]
+  workflow_dispatch:
+
+jobs:
+  schemathesis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: |
+          pip install -e .
+          pip install "schemathesis[all]"
+      - name: Boot API
+        run: |
+          nohup python -m uvicorn lukhas.adapters.openai.api:get_app --factory --host 0.0.0.0 --port 8000 &
+          for i in {1..60}; do curl -fsS http://127.0.0.1:8000/openapi.json && break || sleep 2; done
+      - name: Run Schemathesis
+        run: |
+          schemathesis run http://127.0.0.1:8000/openapi.json \
+            --checks all --hypothesis-deadline=1000 --workers=4 \
+            --target-ascii --generic-charset --stateful=links \
+            --junit-xml=schemathesis.junit.xml \
+            --report=schemathesis-report.html
+      - uses: actions/upload-artifact@v4
+        with:
+          name: schemathesis-artifacts
+          path: |
+            schemathesis.junit.xml
+            schemathesis-report.html
+
+✅ TODO D4 — Local power kit (optional)
+
+Create docker/docker-compose.dast.yml to run API + ZAP locally while you iterate:
+
+services:
+  api:
+    build: .
+    command: uvicorn lukhas.adapters.openai.api:get_app --factory --host 0.0.0.0 --port 8000
+    ports: ["8000:8000"]
+  zap:
+    image: owasp/zap2docker-stable
+    command: zap-baseline.py -t http://api:8000 -m 10 -a
+    depends_on: [api]
+
+(Use when exploring locally; CI already covers scans.)
+
+⸻
+
+2) NIAS — Neuro‑Introspective Audit System (runtime audit)
+
+Speculative (conservative): A thin audit layer to produce stable JSONL events for later analytics; leverages existing drift/ + audits/ directories.
+
+✅ TODO N1 — Event schema + middleware
+
+Acceptance criteria
+	•	Every request writes one NIASAuditEvent to audits/nias_events.jsonl with identity, route, timing, result summary, and optional drift_score.
+	•	<2ms p50 overhead; failure‑safe (never blocks responses).
+
+Create lukhas/guardian/nias/models.py
+
+from __future__ import annotations
+from pydantic import BaseModel, Field
+from typing import Optional, Dict, Any
+from datetime import datetime
+
+class NIASAuditEvent(BaseModel):
+    ts: datetime = Field(default_factory=datetime.utcnow)
+    trace_id: Optional[str] = None
+    route: str
+    method: str
+    status_code: int
+    duration_ms: float
+    caller: Optional[str] = None  # ΛiD / tenant
+    drift_score: Optional[float] = None
+    request_meta: Dict[str, Any] = {}
+    response_meta: Dict[str, Any] = {}
+    notes: Optional[str] = None
+
+Create lukhas/guardian/nias/middleware.py
+
+import json, os, time
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
+from starlette.responses import Response
+from .models import NIASAuditEvent
+
+LOG_PATH = os.getenv("NIAS_LOG_PATH", "audits/nias_events.jsonl")
+os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
+
+def _estimate_drift(request: Request) -> float | None:
+    # Placeholder: if you have drift module, call it here.
+    # e.g., from drift.metrics import request_drift_score
+    # return request_drift_score(request)
+    return None
+
+class NIASMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        t0 = time.perf_counter()
+        try:
+            response: Response = await call_next(request)
+            status = response.status_code
+        except Exception:
+            status = 500
+            raise
+        finally:
+            dur_ms = (time.perf_counter() - t0) * 1000.0
+            evt = NIASAuditEvent(
+                route=str(request.url.path),
+                method=request.method,
+                status_code=status,
+                duration_ms=dur_ms,
+                caller=request.headers.get("OpenAI-Organization") or request.headers.get("X-Caller"),
+                trace_id=request.headers.get("X-Trace-Id") or request.headers.get("X-Request-Id"),
+                drift_score=_estimate_drift(request),
+                request_meta={
+                    "content_type": request.headers.get("content-type"),
+                    "accept": request.headers.get("accept"),
+                },
+                response_meta={
+                    "ratelimit": {
+                        "limit": response.headers.get("x-ratelimit-limit-requests"),
+                        "remaining": response.headers.get("x-ratelimit-remaining-requests"),
+                    }
+                },
+            )
+            with open(LOG_PATH, "a", encoding="utf-8") as f:
+                f.write(evt.model_dump_json() + "\n")
+        return response
+
+Wire it (patch) in lukhas/adapters/openai/api.py (or wherever get_app() lives):
+
+# after app creation
+from lukhas.guardian.nias.middleware import NIASMiddleware
+app.add_middleware(NIASMiddleware)
+
+FastAPI middleware pattern is standard.
+
+✅ TODO N2 — Tests
+
+Create tests/nias/test_nias_middleware.py
+
+import json, os, time
+from fastapi.testclient import TestClient
+from lukhas.adapters.openai.api import get_app
+
+def test_nias_event_written(tmp_path):
+    os.environ["NIAS_LOG_PATH"] = str(tmp_path / "nias.jsonl")
+    app = get_app()
+    client = TestClient(app)
+    r = client.get("/v1/models")  # pick any cheap route that exists
+    assert r.status_code < 500
+    time.sleep(0.05)
+    with open(os.environ["NIAS_LOG_PATH"], "r", encoding="utf-8") as f:
+        line = f.readline()
+        evt = json.loads(line)
+        assert evt["route"]
+        assert "duration_ms" in evt
+
+
+⸻
+
+3) ABAS — Adaptive Behavior/Access Shield (policy enforcement via OPA)
+
+Grounded core (OPA + Rego PDP); Speculative mapping to your naming. This gives you a Policy Decision Point that blocks risky requests before handlers run. OPA is the right fit here.
+
+✅ TODO A1 — Minimal Rego policy (deny risky routes unless claims OK)
+
+Acceptance criteria
+	•	Requests to sensitive endpoints require caller + verified header; block by default; unit tests pass (opa test).
+	•	NIAS event includes decision so audits line up.
+
+Create enforcement/abas/policy.rego
+
+package abas.authz
+
+default allow = false
+default reason = "default-deny"
+
+is_sensitive {
+  startswith(input.request.path, "/v1/responses")
+} or {
+  startswith(input.request.path, "/admin")
+}
+
+# Basic allow for admin callers
+allow {
+  input.caller != null
+  input.caller_role == "admin"
+}
+
+# Allow non-sensitive routes by default
+allow {
+  not is_sensitive
+}
+
+# Require verified caller on sensitive routes
+allow {
+  is_sensitive
+  input.caller_verified == true
+}
+
+reason := msg {
+  not allow
+  msg := "blocked: unverified caller for sensitive path"
+}
+
+✅ TODO A2 — ABAS middleware (FastAPI → OPA PDP)
+
+Create enforcement/abas/middleware.py
+
+import json, os, httpx
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
+from starlette.responses import JSONResponse
+
+OPA_URL = os.getenv("OPA_URL", "http://127.0.0.1:8181/v1/data/abas/authz/allow")
+OPA_REASON_URL = os.getenv("OPA_REASON_URL", "http://127.0.0.1:8181/v1/data/abas/authz/reason")
+
+class ABASMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        caller = request.headers.get("OpenAI-Organization") or request.headers.get("X-Caller")
+        caller_role = request.headers.get("X-Caller-Role")  # e.g., admin|user
+        caller_verified = request.headers.get("X-Caller-Verified") == "true"
+        payload = {
+            "input": {
+                "request": {"path": str(request.url.path), "method": request.method},
+                "caller": caller, "caller_role": caller_role, "caller_verified": caller_verified
+            }
+        }
+        async with httpx.AsyncClient(timeout=2.0) as client:
+            try:
+                allow = (await client.post(OPA_URL, json=payload)).json().get("result", False)
+                if not allow:
+                    reason = (await client.post(OPA_REASON_URL, json=payload)).json().get("result", "blocked")
+                    return JSONResponse({"error": {"message": reason, "type": "policy_denied"}}, status_code=403)
+            except Exception:
+                # fail closed for sensitive paths; otherwise pass-through
+                if str(request.url.path).startswith(("/v1/responses", "/admin")):
+                    return JSONResponse({"error": {"message": "policy unavailable", "type": "policy_error"}}, status_code=503)
+
+        return await call_next(request)
+
+Wire it after NIAS in your get_app():
+
+from enforcement.abas.middleware import ABASMiddleware
+app.add_middleware(ABASMiddleware)
+
+Run OPA locally (simple):
+opa run --server -a :8181 -c enforcement/abas/opa.yaml (bundles optional). OPA overview & policy language docs if needed.
+
+✅ TODO A3 — OPA tests + CI
+
+Create enforcement/abas/policy_test.rego
+
+package abas.authz
+
+test_non_sensitive_default_allow {
+  data.abas.authz.allow with input as {"request": {"path": "/metrics", "method":"GET"}}
+}
+
+test_sensitive_needs_verified {
+  not data.abas.authz.allow with input as {"request": {"path": "/v1/responses", "method":"POST"}, "caller":"c", "caller_role":"user", "caller_verified": false}
+}
+
+test_sensitive_ok_when_verified {
+  data.abas.authz.allow with input as {"request": {"path": "/v1/responses", "method":"POST"}, "caller":"c", "caller_role":"user", "caller_verified": true}
+}
+
+Create .github/workflows/policy-opa.yml
+
+name: ABAS - OPA Policy Tests
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  opa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install OPA
+        run: |
+          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
+          chmod +x opa && sudo mv opa /usr/local/bin/opa
+      - name: Test Rego
+        run: opa test enforcement/abas -v
+
+
+⸻
+
+4) Security headers quick check (cheap, high value)
+
+Acceptance criteria
+	•	Basic OWASP security headers present; test enforces. Grounded.
+
+Create lukhas/middleware/security_headers.py
+
+from starlette.middleware.base import BaseHTTPMiddleware
+
+class SecurityHeaders(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        resp = await call_next(request)
+        resp.headers.setdefault("X-Frame-Options", "DENY")
+        resp.headers.setdefault("X-Content-Type-Options", "nosniff")
+        resp.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+        resp.headers.setdefault("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+        # Minimal CSP; tune once Swagger and UI assets are set
+        resp.headers.setdefault("Content-Security-Policy", "default-src 'self'; object-src 'none'; frame-ancestors 'none'")
+        return resp
+
+Wire it in get_app():
+
+from lukhas.middleware.security_headers import SecurityHeaders
+app.add_middleware(SecurityHeaders)
+
+Create tests/dast/test_security_headers.py
+
+from fastapi.testclient import TestClient
+from lukhas.adapters.openai.api import get_app
+
+def test_security_headers_present():
+    app = get_app()
+    c = TestClient(app)
+    r = c.get("/v1/models")
+    assert r.headers.get("X-Content-Type-Options") == "nosniff"
+    assert "default-src" in r.headers.get("Content-Security-Policy", "")
+
+
+⸻
+
+How to drop this in (Claude Code Web friendly)
+	•	Paste the YAML workflows under .github/workflows/… (D1, D2, D3, A3).
+	•	Add middleware & models files as given, then add the three app.add_middleware(...) lines to your get_app() factory (order: SecurityHeaders → ABASMiddleware → NIASMiddleware so policy runs before audit writes success).
+	•	Commit, push; PRs will immediately run D1 + A3. Nightlies kick D2/D3.
+
+⸻
+
+Why these choices (and what’s grounded)
+	•	ZAP Baseline/Full/API are standard, maintained GitHub Actions that work well with a FastAPI app behind uvicorn; you already have dast/ so this aligns with your structure.
+	•	Schemathesis fuzzes from your /openapi.json without extra scaffolding—very cost‑effective for your $1k token window.
+	•	OPA (ABAS) gives you decoupled, testable policies; the middleware pattern is idiomatic FastAPI.
+	•	Security headers are OWASP‑recommended minimums; tune CSP once you finalize docs/UI hosting.
+	•	The repo’s README shows uvicorn factory target and security posture—so spinning the app in CI for DAST is natural.  ￼
+
+⸻
+
+Stretch (optional, if you want to use up tokens)
+	•	RapiDAST alt job (one file config + GH Action) if you want a simpler DAST control surface alongside ZAP.
+	•	SARIF upload for ZAP → GitHub Code Scanning UI (add github/codeql-action/upload-sarif).
+	•	ABAS PII exfil rule: add a Rego rule to block prompts containing obvious secrets/PII patterns before /v1/responses.
+	•	NIAS → Postgres/pgvector: swap JSONL sink for a table nias_events and store optional embedding of request.prompt GLYPHs for drift analysis (only if privacy model allows).
+
+⸻
+
+Sanity checklist (short)
+	•	Add four workflows (D1, D2, D3, A3).
+	•	Add three middlewares + event models; wire into get_app().
+	•	Commit and open a PR: confirm ZAP Baseline and OPA tests run.
+	•	Merge; verify nightly runs produce artifacts (HTML, JUnit).
+	•	Review dast/.zap/rules.tsv to suppress accepted false positives only.
+
+⸻
+# Summary: DAST + NIAS + ABAS + Security Headers for FastAPI app
+## Overview
+
+This plan adds comprehensive security tooling to your FastAPI app, including:
+1. **DAST**: Dynamic Application Security Testing with ZAP (Baseline + Full/API) and Schemathesis fuzzing.
+2. **NIAS**: Neuro-Introspective Audit System for runtime request/response auditing.  
+3. **ABAS**: Adaptive Behavior/Access Shield using OPA for policy enforcement on sensitive routes.
+4. **Security Headers**: Basic OWASP-recommended headers to harden browser-facing surfaces.
+
+---
+
+## What you’ll get
+
+1. **DAST** pipelines (ZAP + Schemathesis)
+2. **ABAS** (OPA/Rego) **consent & minors gates for ads**
+3. **NIAS core** (consent extraction + contextual fallback)
+4. **NIAS_AUDIT** (privacy‑safe event stream)
+5. **Security headers**
+6. **Docs** (NIAS_PLAN.md + EU_COMPLIANCE.md)
+7. **Ready‑to‑paste GitHub Issues** with acceptance criteria
+
+Repo fit: I see `dast/` and `consent/` directories in your repo—perfect places to drop this in. ([GitHub][1])
+
+---
+
+## Compliance guardrails we enforce (Grounded)
+
+* **EU DSA**: no targeted ads to minors; no ads based on **special categories** (e.g., sexual orientation, religion). ([European Commission][2])
+* **TCF v2.2**: **no LI** (legitimate interest) for Purposes **3–6** (ad/content personalization) → require **explicit consent**; standardized TC string. ([support.usercentrics.com][3])
+* **ePrivacy Art. 5(3)**: consent required for storing/reading device identifiers (cookies, fingerprinting, similar tech). ([National Law Review][4])
+* **EDPB 2024 LI guidance**: if you try to lean on LI, you must pass a strict 3‑part test and document it; we don’t rely on LI for personalization in EU. ([EDPB][5])
+* **TCF tech spec** (TC String & GVL) + **Python decoder** (`iab-tcf`) for server‑side parsing. ([GitHub][6])
+
+> **Design stance:** EU traffic defaults to **contextual‑only** unless a valid TCF v2.2 **consent string** explicitly enables P3/P4; **minors always get contextual**; **special‑category‑based targeting is denied**.
+
+---
+
+# A) ABAS — policy gate for ad requests (OPA/Rego)
+
+**Create:** `enforcement/abas/policy.rego`
+*(Grounded, uses DSA + TCF v2.2 consent semantics.)*
+
+```rego
+package abas.ads
+
+# Input shape (from middleware):
+# input: {
+#   region: "EU" | "ROW",
+#   targeting_mode: "contextual" | "personalized",
+#   is_minor: bool,
+#   using_sensitive_signals: bool,
+#   consent: {
+#     tcf_present: bool,
+#     p3: bool,   # create personalized ads profile
+#     p4: bool,   # select personalized ads
+#     storage_p1: bool,   # store/access info on device
+#     vendors_ok: {string: bool}, # optional check list
+#   }
+# }
+
+default allow = false
+default reason = "default-deny"
+
+# Contextual ads are allowed unless sensitive signals or minors constraints trip.
+allow {
+  input.targeting_mode == "contextual"
+  not input.using_sensitive_signals         # never allow sensitive-signals targeting in EU
+  not block_minors
+}
+
+# Personalized ads allowed only when lawful in the region and consent is explicit.
+allow {
+  input.targeting_mode == "personalized"
+  not block_minors
+  not block_sensitive
+  legal_basis_ok
+}
+
+block_minors {
+  input.is_minor == true
+  # DSA: complete ban on targeted ads to children
+}
+
+block_sensitive {
+  input.using_sensitive_signals == true
+  # DSA: prohibit ads based on special categories of data
+}
+
+legal_basis_ok {
+  # EU strict consent for P3/P4; ePrivacy needs P1 for device storage/read
+  input.region == "EU"
+  input.consent.tcf_present == true
+  input.consent.p3 == true
+  input.consent.p4 == true
+  input.consent.storage_p1 == true
+}
+
+# Outside EU: still deny if minors or sensitive, otherwise allow personalized
+# (Adjust if you choose stricter global posture)
+legal_basis_ok {
+  input.region != "EU"
+  not block_minors
+  not block_sensitive
+}
+
+reason := msg {
+  not allow
+  msg := cond_msg
+}
+
+cond_msg := "blocked: minors cannot receive targeted ads" { block_minors }
+cond_msg := "blocked: sensitive data cannot be used for ads" { block_sensitive }
+cond_msg := "blocked: consent missing for personalization (TCF v2.2 P3/P4/P1)" {
+  input.region == "EU"
+}
+cond_msg := "blocked: default-deny"
+```
+
+**Create:** `.github/workflows/policy-opa.yml`
+
+```yaml
+name: ABAS - OPA Policy Tests
+on: [pull_request, workflow_dispatch]
+jobs:
+  opa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install OPA
+        run: |
+          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
+          chmod +x opa && sudo mv opa /usr/local/bin/opa
+      - name: Test Rego
+        run: opa test enforcement/abas -v
+```
+
+**Create:** `enforcement/abas/policy_test.rego`
+
+```rego
+package abas.ads
+
+test_contextual_ok {
+  data.abas.ads.allow with input as {"region":"EU","targeting_mode":"contextual","is_minor":false,"using_sensitive_signals":false}
+}
+
+test_personalized_denied_without_consent_EU {
+  not data.abas.ads.allow with input as {"region":"EU","targeting_mode":"personalized","is_minor":false,"using_sensitive_signals":false,
+    "consent":{"tcf_present": false}}
+}
+
+test_personalized_ok_with_consent_EU {
+  data.abas.ads.allow with input as {"region":"EU","targeting_mode":"personalized","is_minor":false,"using_sensitive_signals":false,
+    "consent":{"tcf_present": true,"p3":true,"p4":true,"storage_p1":true}}
+}
+
+test_minors_denied_personalized {
+  not data.abas.ads.allow with input as {"region":"EU","targeting_mode":"personalized","is_minor":true,"using_sensitive_signals":false,
+    "consent":{"tcf_present": true,"p3":true,"p4":true,"storage_p1":true}}
+}
+```
+
+**Why:** DSA bans targeted ads to minors and use of special categories; TCF v2.2 drops LI for personalization, requiring consent. ([European Commission][2])
+
+---
+
+# B) NIAS core — consent parser + FastAPI wiring + contextual fallback
+
+**Create:** `nias/core/consent.py`
+*(Grounded on TCF v2.2 + `iab-tcf` Python library; includes safe fallback if the lib isn’t installed.)* ([PyPI][7])
+
+```python
+from __future__ import annotations
+from dataclasses import dataclass
+from typing import Optional, Dict
+import os
+import base64
+import http.cookies
+
+@dataclass
+class ConsentContext:
+    region: str = "EU"  # "EU" | "ROW" (plumb from Geo-IP / config)
+    tcf_present: bool = False
+    p3: bool = False
+    p4: bool = False
+    storage_p1: bool = False
+    vendors_ok: Dict[str, bool] = None
+    is_minor: bool = False
+    using_sensitive_signals: bool = False
+
+def _parse_cookie_header(cookie_header: Optional[str]) -> Dict[str, str]:
+    if not cookie_header:
+        return {}
+    c = http.cookies.SimpleCookie()
+    c.load(cookie_header)
+    return {k: morsel.value for k, morsel in c.items()}
+
+def _decode_tcf(tc_string: str):
+    """Return (p1, p3, p4) booleans using iab-tcf lib if available; else naive False."""
+    try:
+        from iab_tcf import decode_v2  # pip install iab-tcf
+        consent = decode_v2(tc_string)
+        # Purposes are in consent.core.purposes_consent (dict[int->bool]) for v2 libs
+        p = getattr(consent.core, "purposes_consent", {}) or {}
+        return (bool(p.get(1)), bool(p.get(3)), bool(p.get(4)))
+    except Exception:
+        return (False, False, False)
+
+def consent_from_request(headers: Dict[str, str]) -> ConsentContext:
+    region = headers.get("X-Region", os.getenv("NIAS_DEFAULT_REGION", "EU")).upper()
+    is_minor = headers.get("X-Age-Verified") == "minor"
+    tc = (headers.get("X-IABTCF_TCString")
+          or headers.get("X-TCF-String")
+          or _parse_cookie_header(headers.get("cookie", "")).get("euconsent-v2"))
+    p1, p3, p4 = _decode_tcf(tc) if tc else (False, False, False)
+    # device storage consent (P1) required for cookies/fp under ePrivacy
+    return ConsentContext(
+        region=region,
+        tcf_present=bool(tc),
+        p3=p3, p4=p4, storage_p1=p1,
+        is_minor=is_minor,
+        using_sensitive_signals=(headers.get("X-Using-Sensitive") == "true"),
+        vendors_ok={}
+    )
+```
+
+**Create:** `nias/middleware.py` (ABAS callout + request shaping)
+
+```python
+import os, json, httpx
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
+from starlette.responses import JSONResponse
+from .core.consent import consent_from_request
+
+OPA_URL = os.getenv("OPA_URL", "http://127.0.0.1:8181/v1/data/abas/ads/allow")
+OPA_REASON_URL = os.getenv("OPA_REASON_URL", "http://127.0.0.1:8181/v1/data/abas/ads/reason")
+
+class NIASPolicyMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        # Only guard NIAS-related routes; cheap early exit:
+        path = request.url.path
+        if not (path.startswith("/nias/") or path.startswith("/ads/")):
+            return await call_next(request)
+
+        targeting_mode = request.headers.get("X-Targeting-Mode", "contextual")  # contextual|personalized
+        cctx = consent_from_request(dict(request.headers))
+
+        payload = {
+            "input": {
+                "region": cctx.region,
+                "targeting_mode": targeting_mode,
+                "is_minor": cctx.is_minor,
+                "using_sensitive_signals": cctx.using_sensitive_signals,
+                "consent": {
+                    "tcf_present": cctx.tcf_present,
+                    "p3": cctx.p3,
+                    "p4": cctx.p4,
+                    "storage_p1": cctx.storage_p1
+                }
+            }
+        }
+
+        async with httpx.AsyncClient(timeout=2.0) as client:
+            try:
+                allow = (await client.post(OPA_URL, json=payload)).json().get("result", False)
+                if not allow:
+                    reason = (await client.post(OPA_REASON_URL, json=payload)).json().get("result", "blocked")
+                    # High-integrity message but non‑revealing:
+                    return JSONResponse({"error": {"message": reason, "type": "policy_denied"}}, status_code=403)
+            except Exception:
+                # Fail closed for personalized; degrade to contextual if configured:
+                if targeting_mode == "personalized":
+                    if os.getenv("NIAS_FAILCLOSE_PERSONALIZED", "true") == "true":
+                        return JSONResponse({"error": {"message":"policy unavailable","type":"policy_error"}}, status_code=503)
+
+        return await call_next(request)
+```
+
+**Create:** `nias/endpoints.py` (contextual fallback, no PII)
+
+```python
+from fastapi import APIRouter, Header
+from typing import Optional, List, Dict, Any
+
+router = APIRouter(prefix="/nias", tags=["nias"])
+
+@router.get("/ping")
+def ping(): return {"ok": True}
+
+@router.post("/serve")
+def serve_ad(
+    X_Targeting_Mode: Optional[str] = Header(default="contextual"),
+    slot_ids: Optional[List[str]] = None,
+    page_context: Optional[Dict[str, Any]] = None
+):
+    # This is intentionally minimal and contextual; your real selector plugs in later.
+    # DO NOT read cookies/ids here—gated by ABAS+consent middleware.
+    # Speculative: a tiny scoring using only page context (no user profile).
+    topic = (page_context or {}).get("topic", "general")
+    return {
+        "mode": X_Targeting_Mode,
+        "creative": f"contextual-{topic}",
+        "explanations": ["contextual targeting only (EU-safe)"],
+    }
+```
+
+**Wire it into your app factory** (wherever your FastAPI `get_app()` lives):
+
+```python
+from fastapi import FastAPI
+from nias.middleware import NIASPolicyMiddleware
+from nias.endpoints import router as nias_router
+
+def setup_middlewares(app: FastAPI):
+    # Security headers first
+    from lukhas.middleware.security_headers import SecurityHeaders
+    app.add_middleware(SecurityHeaders)
+    # NIAS policy gate (calls OPA / ABAS)
+    app.add_middleware(NIASPolicyMiddleware)
+    return app
+
+def get_app() -> FastAPI:
+    app = FastAPI()
+    setup_middlewares(app)
+    app.include_router(nias_router)
+    return app
+```
+
+**Tests:** `tests/nias/test_policy.py`
+
+```python
+from fastapi.testclient import TestClient
+from api.app import get_app  # adapt if your factory path differs
+
+def test_personalized_denied_in_eu_without_consent(monkeypatch):
+    app = get_app()
+    c = TestClient(app)
+    # Simulate OPA deny via missing policy server => NIAS_FAILCLOSE_PERSONALIZED=true
+    r = c.post("/nias/serve", headers={"X-Region":"EU","X-Targeting-Mode":"personalized"})
+    assert r.status_code in (403, 503)
+
+def test_contextual_ok(monkeypatch):
+    app = get_app()
+    c = TestClient(app)
+    r = c.post("/nias/serve", headers={"X-Region":"EU"}, json={"page_context":{"topic":"tech"}})
+    assert r.status_code == 200
+    assert r.json()["mode"] == "contextual"
+```
+
+> **Grounded:** TCF v2.2 parsing, consent requirements; **Speculative:** the exact header names and the placeholder `/nias/serve` route (safe defaults, easy to replace). ([support.usercentrics.com][3])
+
+---
+
+# C) NIAS_AUDIT — privacy‑safe telemetry (no raw PII)
+
+**Create:** `audits/nias_audit.py`
+
+```python
+from __future__ import annotations
+from pydantic import BaseModel, Field
+from datetime import datetime
+from typing import Optional, Dict, Any
+import hashlib, hmac, os, json
+
+_SALT = os.getenv("NIAS_AUDIT_SALT", "rotate-me")
+
+def _pseudonymize(s: str) -> str:
+    return hmac.new(_SALT.encode(), s.encode(), hashlib.sha256).hexdigest()[:16]
+
+class NIASAuditEvent(BaseModel):
+    ts: datetime = Field(default_factory=datetime.utcnow)
+    route: str
+    mode: str
+    region: str
+    policy: str
+    status_code: int
+    slot_count: int = 0
+
+def write_event(evt: NIASAuditEvent):
+    path = os.getenv("NIAS_AUDIT_LOG", "audits/nias_events.jsonl")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "a", encoding="utf-8") as f:
+        f.write(evt.model_dump_json() + "\n")
+```
+
+**Integrate**: Call `write_event(...)` at the end of `/nias/serve` handler (only aggregate metadata—no user IDs).
+
+> **Note:** Pseudonymization keys should be rotated; **never** log TC strings or raw identifiers.
+
+---
+
+# D) Security headers (OWASP minimum)
+
+**Create:** `lukhas/middleware/security_headers.py` *(Grounded)*
+
+```python
+from starlette.middleware.base import BaseHTTPMiddleware
+class SecurityHeaders(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        resp = await call_next(request)
+        resp.headers.setdefault("X-Frame-Options", "DENY")
+        resp.headers.setdefault("X-Content-Type-Options", "nosniff")
+        resp.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+        resp.headers.setdefault("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+        resp.headers.setdefault("Content-Security-Policy", "default-src 'self'; object-src 'none'; frame-ancestors 'none'")
+        return resp
+```
+
+---
+
+# E) DAST (unchanged idea, trimmed here)
+
+* **ZAP Baseline (PR)**, **ZAP Full & API (nightly)**, **Schemathesis** from `/openapi.json`. Paste the three workflows from my previous message and keep them. *(Grounded.)*
+* If your Swagger is private, set `ZAP_AUTH_HEADER` to avoid false positives.
+* These jobs are safe—they don’t collect user data.
+
+(ZAP, Schemathesis) ([GitHub][1])
+
+---
+
+# F) Docs you can paste
+
+**Create:** `docs/nias/NIAS_PLAN.md` *(Grounded+speculative mapping; short and strict)*
+
+````md
+# NIAS (Non‑Intrusive Ad System) — Plan
+
+**Purpose:** Deliver ads that respect EU law by default. Personalization is opt‑in via TCF v2.2; minors get contextual only.
+
+## Modes
+- **Contextual** (default, EU-safe): page/topic/time signals only. No IDs.  
+- **Personalized** (guarded): requires TCF v2.2 consent for Purposes **3 & 4** and **P1**; never for minors; never using special categories.
+
+## Architecture (mermaid)
+```mermaid
+flowchart LR
+  Client -->|TC String / Headers| NIAS_MW[NIASPolicyMiddleware]
+  NIAS_MW -->|input| OPA[ABAS/OPA]
+  OPA -->|allow/deny| NIAS_MW
+  NIAS_MW --> App
+  App -->|/nias/serve| Selector
+  Selector --> ContextualOnly
+  App --> Audit[NIAS_AUDIT JSONL]
+````
+
+## Legal anchors
+
+* DSA bans targeted ads to minors + sensitive categories.
+* ePrivacy requires consent for storage/access.
+* TCF v2.2 removes LI for Purposes 3–6; use consent.
+
+## Data handling
+
+* **No raw PII** in logs; pseudonymize if absolutely necessary.
+* **EU_STRICT**: `NIAS_FAILCLOSE_PERSONALIZED=true`.
+
+## MVP metrics
+
+* Policy denials per 1k ad calls
+* % traffic in contextual vs personalized (EU/ROW)
+* ZAP/Schemathesis regressions = 0 before release
+
+````
+
+*(Grounded cites: DSA, ePrivacy, TCF v2.2.)* :contentReference[oaicite:11]{index=11}
+
+**Create:** `docs/nias/EU_COMPLIANCE.md` *(Grounded; non‑legal guidance)*
+```md
+# EU Compliance Notes (non-legal)
+
+- **DSA**: no targeted ads to minors; no ads using special categories.  
+- **GDPR/ePrivacy**: consent needed for tracking; avoid fingerprinting.  
+- **TCF v2.2**: consent is mandatory for Purposes 3–6; rely on TC String server-side via `iab-tcf`.
+
+Implementation hooks:
+- ABAS Rego denies personalized when P3/P4/P1 missing, or minor, or sensitive signals flagged.
+- NIAS defaults to contextual in EU when consent absent or ambiguous.
+- Keep a DPIA log in `/audits/dpia/` (template pending).
+
+**References**: EC/DSA explainer; EDPB 2024 LI guidance; IAB Europe TCF v2.2; ePrivacy tracking consent scope. 
+````
+
+([European Commission][2])
+
+---
+
+# G) GitHub Issues (paste as separate issues)
+
+> **Labels**: `area:nias` `type:policy` `security` `compliance` `good-first-review`
+
+### 1) ABAS: EU consent & minors gate for ads
+
+**Why:** DSA + TCF v2.2 compliance.
+**Done when:** Rego policy from `enforcement/abas/policy.rego` passes tests; personalized denied if `EU && !P3||!P4||!P1` or `is_minor` or `using_sensitive_signals`.
+**Files:** `enforcement/abas/policy.rego`, `enforcement/abas/policy_test.rego`, workflow `policy-opa.yml`.
+**Links:** DSA minors/sensitive ban; TCF v2.2. ([European Commission][2])
+
+### 2) NIAS middleware → OPA PDP (policy enforce)
+
+**Done when:** `NIASPolicyMiddleware` blocks/503s as specified; contextual passes.
+**Files:** `nias/middleware.py`, app factory wiring.
+
+### 3) Consent parsing (TCF v2.2, server‑side)
+
+**Done when:** `ConsentContext` resolves P1/P3/P4 from TC String; unit test passes with and without `iab-tcf` installed.
+**Files:** `nias/core/consent.py`.
+**Links:** `iab-tcf` lib, TCF spec. ([PyPI][7])
+
+### 4) Contextual fallback endpoint
+
+**Done when:** `POST /nias/serve` returns contextual creative with **no user IDs**; policy denies personalized in EU without consent.
+**Files:** `nias/endpoints.py`, tests `tests/nias/test_policy.py`.
+
+### 5) NIAS_AUDIT event stream (privacy‑safe)
+
+**Done when:** JSONL events write minimal metadata; no TC string or PII; salted HMAC pseudonyms only if needed.
+**Files:** `audits/nias_audit.py`.
+
+### 6) Security headers (OWASP)
+
+**Done when:** tests confirm CSP/nosniff/permissions‑policy present on `/nias/ping`.
+**Files:** `lukhas/middleware/security_headers.py`, `tests/dast/test_security_headers.py`.
+
+### 7) DAST: ZAP baseline (PR), Full+API (nightly), Schemathesis (nightly)
+
+**Done when:** artifacts upload; build fails on High; Schemathesis produces JUnit/HTML.
+**Files:** three workflows under `.github/workflows/…` *(use the ones already provided).*
+
+### 8) Docs: NIAS_PLAN.md + EU_COMPLIANCE.md
+
+**Done when:** both docs merged with architecture diagram and references.
+**Files:** `docs/nias/NIAS_PLAN.md`, `docs/nias/EU_COMPLIANCE.md`.
+
+---
+
+## Risk notes (EU wording & coding)
+
+* **Never** infer sensitive categories to enable targeting—DSA bans ads “based on” such data; even inference can qualify. **We refuse those requests at the policy layer.** ([European Commission][2])
+* **TCF v2.2**: no fallback to LI for personalization (P3–P6 removed LI). If TC string is missing/invalid → contextual‑only. ([support.usercentrics.com][3])
+* **Consent proofs**: Don’t store TC strings in logs; if you must retain, store **hash‑with‑salt** references & short TTL.
+* **Cookie access**: treat even hashed IDs as “tracking tech”—still needs consent under ePrivacy. ([National Law Review][4])
+
+---
+
+## Drop‑in environment flags
+
+```
+NIAS_DEFAULT_REGION=EU
+NIAS_FAILCLOSE_PERSONALIZED=true
+OPA_URL=http://127.0.0.1:8181/v1/data/abas/ads/allow
+OPA_REASON_URL=http://127.0.0.1:8181/v1/data/abas/ads/reason
+NIAS_AUDIT_SALT=rotate-me
+```
+
+---
+
+## Quick test script (manual smoke)
+
+```bash
+# 1) run OPA
+opa run --server -a :8181
+
+# 2) run app (adjust to your entrypoint)
+uvicorn api.app:get_app --factory --port 8000
+
+# 3) contextual (EU, no consent) => 200
+curl -X POST http://127.0.0.1:8000/nias/serve -H 'X-Region: EU' -d '{"page_context":{"topic":"tech"}}'
+
+# 4) personalized (EU, no consent) => 403/503
+curl -X POST http://127.0.0.1:8000/nias/serve -H 'X-Region: EU' -H 'X-Targeting-Mode: personalized'
+```
+
+---
+
+## What’s grounded vs speculative
+
+* **Grounded:** DSA minors/sensitive bans; ePrivacy consent scope; TCF v2.2 (no LI for P3–P6); `iab-tcf` parsing; security headers; your repo has `dast/` + `consent/`. ([European Commission][2])
+* **Speculative (conservative):** exact header names, `/nias/serve` shape, and internal directory names under `nias/…` (kept minimal and easy to rename to match **NIAS_PLAN.md**).
+
+---

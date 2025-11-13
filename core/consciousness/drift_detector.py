@@ -415,3 +415,7 @@ def get_drift_archive_backend(backend_type: str = "file", **kwargs) -> DriftArch
         return SQLiteDriftArchive(db_path)
     else:
         raise ValueError(f"Unknown backend type: {backend_type}")
+
+
+# Backwards compatibility alias
+DriftDetector = ConsciousnessDriftDetector
