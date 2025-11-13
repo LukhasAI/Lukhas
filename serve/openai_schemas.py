@@ -1,13 +1,13 @@
 """
 Pydantic models for OpenAI API compatibility.
 """
-from typing import Dict, List, Optional, Union
+from typing import Optional, Union
 
 from pydantic import BaseModel
 
 
 class ChatCompletionRequest(BaseModel):
-    messages: List[Dict[str, str]]
+    messages: list[dict[str, str]]
     model: str
     temperature: Optional[float] = 1.0
     max_tokens: Optional[int] = 1024
@@ -16,7 +16,7 @@ class ChatCompletionRequest(BaseModel):
 
 class ChatCompletionResponseChoice(BaseModel):
     index: int
-    message: Dict[str, str]
+    message: dict[str, str]
     finish_reason: str
 
 
@@ -31,23 +31,23 @@ class ChatCompletionResponse(BaseModel):
     object: str
     created: int
     model: str
-    choices: List[ChatCompletionResponseChoice]
+    choices: list[ChatCompletionResponseChoice]
     usage: Usage
 
 
 class EmbeddingRequest(BaseModel):
-    input: Union[str, List[str]]
+    input: Union[str, list[str]]
     model: str
 
 
 class Embedding(BaseModel):
     object: str
-    embedding: List[float]
+    embedding: list[float]
     index: int
 
 
 class EmbeddingResponse(BaseModel):
     object: str
-    data: List[Embedding]
+    data: list[Embedding]
     model: str
     usage: Usage

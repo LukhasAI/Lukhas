@@ -5,7 +5,7 @@
 import os
 import time
 from functools import lru_cache
-from typing import Dict, Optional
+from typing import Optional
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -18,7 +18,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "a_very_secret_key")
 # --- Role Hierarchy for RBAC ---
 # Higher roles have more permissions.
 # A user with a certain role has all permissions of the roles below it.
-ROLE_HIERARCHY: Dict[str, int] = {
+ROLE_HIERARCHY: dict[str, int] = {
     "guest": 0,
     "user": 1,
     "moderator": 2,

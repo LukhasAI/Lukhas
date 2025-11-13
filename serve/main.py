@@ -1,4 +1,5 @@
 """Entry point for LUKHAS commercial API"""
+import json
 import logging
 import time
 import uuid
@@ -134,24 +135,44 @@ class StrictAuthMiddleware(BaseHTTPMiddleware):
     def _auth_error(self, message: str) -> Response:
         """Return OpenAI-compatible 401 error envelope."""
         from fastapi.responses import JSONResponse
-        error_detail = {'type': 'invalid_api_key', 'message': f'Invalid authentication credentials. {message}', 'code': 'invalid_api_key'}
-        error_response = {'error': {'message': {'error': error_detail}, 'type': error_detail['type'], 'code': error_detail['code']}}
+        error_response = {
+            'error': {
+                'type': 'invalid_api_key',
+                'message': f'Invalid authentication credentials. {message}. Provide a valid Bearer token in the Authorization header.',
+                'code': 'invalid_api_key'
+            }
+        }
         return JSONResponse(status_code=401, content=error_response)
 
 class HeadersMiddleware(BaseHTTPMiddleware):
     """Add OpenAI-compatible headers to all responses."""
 
     async def dispatch(self, request: Request, call_next):
+        start_time = time.time()
         response = await call_next(request)
+
+        # Request tracking
         trace_id = str(uuid.uuid4()).replace('-', '')
         response.headers['X-Trace-Id'] = trace_id
         response.headers['X-Request-Id'] = trace_id
+
+        # Processing time (OpenAI compatibility)
+        processing_ms = int((time.time() - start_time) * 1000)
+        response.headers['OpenAI-Processing-Ms'] = str(processing_ms)
+
+        # Rate limiting
         response.headers['X-RateLimit-Limit'] = '60'
         response.headers['X-RateLimit-Remaining'] = '59'
         response.headers['X-RateLimit-Reset'] = str(int(time.time()) + 60)
         response.headers['x-ratelimit-limit-requests'] = '60'
         response.headers['x-ratelimit-remaining-requests'] = '59'
         response.headers['x-ratelimit-reset-requests'] = str(int(time.time()) + 60)
+
+        # Security headers (OWASP best practices)
+        response.headers['X-Content-Type-Options'] = 'nosniff'
+        response.headers['X-Frame-Options'] = 'DENY'
+        response.headers['Referrer-Policy'] = 'no-referrer'
+
         return response
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
@@ -286,11 +307,14 @@ def invalidate_model_cache() -> None:
     _CACHE_TIMESTAMP = None
 
 @app.get('/v1/models', tags=['OpenAI Compatible'])
-async def list_models() -> dict[str, Any]:
+async def list_models() -> Response:
     """OpenAI-compatible models list endpoint with deterministic caching.
 
     Returns a cached response to ensure identical JSON output across requests,
     enabling CDN/proxy caching and reducing response variance.
+
+    Returns:
+        Response with Cache-Control header (1 hour cache)
     """
     global _MODEL_LIST_CACHE, _CACHE_TIMESTAMP
 
@@ -299,7 +323,12 @@ async def list_models() -> dict[str, Any]:
         _CACHE_TIMESTAMP = int(time.time())
         _MODEL_LIST_CACHE = _build_model_list(_CACHE_TIMESTAMP)
 
-    return _MODEL_LIST_CACHE
+    # Add Cache-Control header for CDN/proxy caching (models rarely change)
+    return Response(
+        content=json.dumps(_MODEL_LIST_CACHE),
+        media_type='application/json',
+        headers={'Cache-Control': 'public, max-age=3600'}  # Cache for 1 hour
+    )
 
 @app.post('/v1/embeddings', tags=['OpenAI Compatible'])
 async def create_embeddings(request: dict) -> dict[str, Any]:

@@ -18,7 +18,7 @@ PRIVACY REQUIREMENTS:
 
 # ruff: noqa: B008
 import logging
-from typing import Dict, List, Optional
+from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
@@ -83,7 +83,7 @@ class FlagUpdateRequest(BaseModel):
 class FlagListResponse(BaseModel):
     """Response with list of all flags."""
 
-    flags: List[FlagInfo] = Field(..., description="List of all feature flags")
+    flags: list[FlagInfo] = Field(..., description="List of all feature flags")
     total: int = Field(..., description="Total number of flags")
 
 
@@ -371,7 +371,7 @@ async def reload_flag(
     flag_name: str,
     current_user: dict = Depends(require_role("admin")),
     service: FeatureFlagsService = Depends(get_feature_flags_service),
-) -> Dict[str, str]:
+) -> dict[str, str]:
     """
     Force reload flag from configuration (admin only).
 
