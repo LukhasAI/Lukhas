@@ -11,7 +11,7 @@ import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 from urllib.parse import urlencode
 
 logger = logging.getLogger(__name__)
@@ -80,7 +80,7 @@ class SSOBridge:
     """
 
     # Standard claim to glyph mappings
-    STANDARD_GLYPH_MAPPINGS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_bridge_sso_bridge_py_L83"}
+    STANDARD_GLYPH_MAPPINGS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_bridge_sso_bridge_py_L83"}
         # OAuth2 / OpenID Connect standard claims
         "admin": "🔐",
         "user": "🔓",

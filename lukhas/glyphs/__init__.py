@@ -13,8 +13,10 @@ Usage:
     if is_enabled():
         symbol = encode_concept("morning_reflection")
 """
+import asyncio
 import logging
 import os
+import time
 from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
@@ -141,77 +143,63 @@ def bind_glyph(
     token: Optional[str] = None
 ) -> dict[str, Any]:
     """
-    Bind a GLYPH to a memory with safety checks.
+    Bind a GLYPH to a memory with safety checks. This is a synchronous wrapper
+    around the asynchronous backend logic.
 
     Args:
         glyph_data: GLYPH data to bind
-        memory_id: Target memory identifier
+        memory_id: Target memory identifier (used as glyph_id)
         user_id: User identifier for authorization
         token: Authorization token
 
     Returns:
-        Dictionary with binding result:
-        {
-            "success": bool,
-            "binding_id": str,
-            "error": str (if failed)
-        }
+        Dictionary with binding result.
     """
     if not is_enabled():
-        return {
-            "success": False,
-            "error": "GLYPH subsystem not enabled"
-        }
+        return {"success": False, "error": "GLYPH subsystem not enabled"}
 
     try:
         # Validate inputs
         if not glyph_data or not isinstance(glyph_data, dict):
-            return {
-                "success": False,
-                "error": "Invalid glyph_data: must be non-empty dictionary"
-            }
-
+            return {"success": False, "error": "Invalid glyph_data: must be non-empty dictionary"}
         if not memory_id or not isinstance(memory_id, str):
-            return {
-                "success": False,
-                "error": "Invalid memory_id: must be non-empty string"
-            }
+            return {"success": False, "error": "Invalid memory_id: must be non-empty string"}
+        if not user_id:
+            return {"success": False, "error": "user_id is required for binding"}
 
-        # TODO: Implement actual token verification
-        # if token:
-        #     verify_token(token, user_id)
+        # Implement actual token verification
+        if token:
+            is_valid = asyncio.run(verify_glyph_token(token, user_id))
+            if not is_valid:
+                return {"success": False, "error": "Invalid or expired token"}
 
-        # TODO: Implement actual binding logic
-        import hashlib
-        import time
+        # Implement actual binding logic
+        from candidate.glyphs.glyph_binder import GlyphBinder
+        binder = GlyphBinder()
+        context = {"glyph_data": glyph_data, "original_memory_id": memory_id}
 
-        binding_id = hashlib.sha256(
-            f"{memory_id}{time.time()}".encode()
-        ).hexdigest()[:16]
+        # Run the async binder in a sync context
+        result = asyncio.run(binder.bind(glyph_id=memory_id, context=context, user_id=user_id))
 
-        result = {
-            "success": True,
-            "binding_id": binding_id,
-            "glyph_data": glyph_data,
-            "memory_id": memory_id,
-            "user_id": user_id,
-            "timestamp": time.time()
-        }
-
-        logger.info(f"GLYPH bound successfully: {binding_id}")
+        # Maintain backward compatibility of the response structure if successful
+        if result.get("success"):
+            logger.info(f"GLYPH bound successfully: {result.get('binding_id')}")
+            result.update({
+                "glyph_data": glyph_data,
+                "memory_id": memory_id,
+                "user_id": user_id,
+                "timestamp": time.time(),
+            })
         return result
 
     except Exception as e:
         logger.error(f"Error binding GLYPH: {e}")
-        return {
-            "success": False,
-            "error": str(e)
-        }
+        return {"success": False, "error": str(e)}
 
 
 def get_binding(binding_id: str) -> Optional[dict]:
     """
-    Retrieve a GLYPH binding by its ID.
+    Retrieve a GLYPH binding by its ID. This is a synchronous wrapper.
 
     Args:
         binding_id: Binding identifier
@@ -224,9 +212,10 @@ def get_binding(binding_id: str) -> Optional[dict]:
         return None
 
     try:
-        # TODO: Implement actual retrieval logic
-        logger.debug(f"Retrieving binding: {binding_id}")
-        return None
+        from candidate.glyphs.glyph_retriever import GlyphRetriever
+        retriever = GlyphRetriever()
+        # Run the async retriever in a sync context
+        return asyncio.run(retriever.retrieve(binding_id))
     except Exception as e:
         logger.error(f"Error retrieving binding: {e}")
     return None
@@ -283,38 +272,37 @@ def get_glyph_stats() -> dict[str, Any]:
         Dictionary with stats
     """
     if not is_enabled():
-        return {
-            "enabled": False,
-            "available": False
-        }
+        return {"enabled": False, "available": False}
 
     try:
         if _glyph_engine and hasattr(_glyph_engine, "stats"):
-            return {
-                "enabled": True,
-                "available": True,
-                "stats": _glyph_engine.stats
-            }
+            return {"enabled": True, "available": True, "stats": _glyph_engine.stats}
     except Exception as e:
         logger.error(f"Error getting GLYPH stats: {e}")
 
-    return {
-        "enabled": True,
-        "available": True,
-        "stats": {}
-    }
+    return {"enabled": True, "available": True, "stats": {}}
+
+
+async def verify_glyph_token(token: str, user_id: str) -> bool:
+    """
+    Asynchronously verifies a glyph token by delegating to the GlyphVerifier.
+    """
+    from candidate.glyphs.glyph_verifier import GlyphVerifier
+    verifier = GlyphVerifier()
+    return await verifier.verify(token, user_id)
 
 
 # Public API
 __all__ = [
-    "is_enabled",
-    "get_glyph_engine",
-    "encode_concept",
-    "decode_symbol",
     "bind_glyph",
+    "decode_symbol",
+    "encode_concept",
     "get_binding",
-    "validate_glyph",
+    "get_glyph_engine",
     "get_glyph_stats",
+    "is_enabled",
+    "validate_glyph",
+    "verify_glyph_token", # Exposing the async version is fine for new consumers
 ]
 
 # Expose feature flag status for testing

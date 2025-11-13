@@ -388,10 +388,10 @@ def main():
     try:
         if args.playbook:
             # Validate specific playbook
-            success = validator.validate_playbook(args.playbook)
+            validator.validate_playbook(args.playbook)
         else:
             # Validate all playbooks
-            success = validator.validate_all_playbooks(args.dir)
+            validator.validate_all_playbooks(args.dir)
 
         # Print summary
         final_success = validator.print_summary()

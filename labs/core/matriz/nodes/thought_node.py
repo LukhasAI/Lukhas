@@ -1,5 +1,5 @@
 """MATRIZ ThoughtNode implementation."""
-from typing import Any, Dict, List
+from typing import Any
 
 from matriz.core.node_interface import NodeState
 
@@ -16,10 +16,10 @@ class ThoughtNode(BaseMatrixNode):
             tenant=tenant,
         )
 
-    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:  # type: ignore[override]
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:  # type: ignore[override]
         start = self._start_timer()
         query = str(input_data.get("query", "")).strip()
-        memory_signals: List[Dict[str, Any]] = input_data.get("recall_matches") or input_data.get("memory_recall") or []
+        memory_signals: list[dict[str, Any]] = input_data.get("recall_matches") or input_data.get("memory_recall") or []
         if not isinstance(memory_signals, list):
             memory_signals = []
 
@@ -63,7 +63,7 @@ class ThoughtNode(BaseMatrixNode):
         result["affect_delta"] = affect_delta
         return result
 
-    def _compose_thought(self, query: str, memories: List[Dict[str, Any]]) -> str:
+    def _compose_thought(self, query: str, memories: list[dict[str, Any]]) -> str:
         if not memories:
             return f"Reflecting on '{query or 'input'}' with no direct memory matches."
 

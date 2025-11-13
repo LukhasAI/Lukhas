@@ -5,6 +5,7 @@ Stores all collapses, hesitations, and moral rejections
 "Remembers not just what it did - but what it chose not to do"
 Forensically sound audit log of ethical cognition
 """
+# ruff: noqa: F821
 import json
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -484,6 +485,9 @@ class VIVOXSelfReflectiveMemory:
     Forensically sound audit log of ethical cognition
     """
 
+# T4: code=F821 | ticket=SKELETON-3F9A93CC | owner=lukhas-platform | status=skeleton
+# reason: Undefined VIVOXMemoryExpansion in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     def __init__(self, vivox_me: "VIVOXMemoryExpansion"):  # TODO: VIVOXMemoryExpansion
         self.vivox_me = vivox_me
         self.collapse_archive = CollapseArchive()
@@ -836,7 +840,4 @@ class VIVOXSelfReflectiveMemory:
             return False
 
         # Time filter
-        if (time_range and hasattr(entry, 'timestamp')) and (entry.timestamp < time_range[0] or entry.timestamp > time_range[1]):
-            return False
-
-        return True
+        return not ((time_range and hasattr(entry, 'timestamp')) and (entry.timestamp < time_range[0] or entry.timestamp > time_range[1]))

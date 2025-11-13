@@ -6,12 +6,11 @@ from __future__ import annotations
 
 import os
 import random
-from typing import Dict
 
 LEVEL = os.getenv("LUKHAS_NOISE_LEVEL", "off")  # off|low|med|high
 INTENSITY = {"low": 0.05, "med": 0.15, "high": 0.3}.get(LEVEL, 0.0)
 
-def inject_noise(em: Dict[str, float]) -> Dict[str, float]:
+def inject_noise(em: dict[str, float]) -> dict[str, float]:
     """
     Inject controlled noise into emotion vector.
 
@@ -32,7 +31,7 @@ def inject_noise(em: Dict[str, float]) -> Dict[str, float]:
 
     return noisy_em
 
-def get_noise_config() -> Dict[str, any]:
+def get_noise_config() -> dict[str, any]:
     """Get current noise configuration for debugging."""
     return {
         "level": LEVEL,
@@ -40,7 +39,7 @@ def get_noise_config() -> Dict[str, any]:
         "enabled": INTENSITY > 0
     }
 
-def validate_noise_output(original: Dict[str, float], noisy: Dict[str, float]) -> bool:
+def validate_noise_output(original: dict[str, float], noisy: dict[str, float]) -> bool:
     """
     Validate that noise injection maintains safety constraints.
 

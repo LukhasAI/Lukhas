@@ -320,7 +320,7 @@ Tests: All performance targets met
     # MEDIUM PRIORITY - Documentation
     {
         "title": "📚 P2: Create Getting Started Guides for LUKHAS Platform",
-        "prompt": """**MEDIUM PRIORITY: Getting Started Documentation**
+        "prompt": r"""**MEDIUM PRIORITY: Getting Started Documentation**
 
 **Objective**: Create comprehensive onboarding documentation for new developers
 
@@ -428,7 +428,7 @@ Docs: 5 guides, all examples tested
     },
     {
         "title": "📚 P2: Update API Documentation with New Endpoints",
-        "prompt": """**MEDIUM PRIORITY: API Documentation Refresh**
+        "prompt": r"""**MEDIUM PRIORITY: API Documentation Refresh**
 
 **Objective**: Update API docs to reflect current endpoints and features
 

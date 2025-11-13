@@ -331,7 +331,7 @@ class LambdaVaultCore:
             # Restore Lambda vault structure
             self.vault_id = backup_data["λ_vault_id"]
             self.lambda_id = backup_data["λ_lambda_id"]
-            self.vault_type = LambdaVaultType[backup_data["λ_vault_type"]]
+            self.vault_type = LambdaVaulttype[backup_data["λ_vault_type"]]
             self.access_layers = backup_data["λ_access_layers"]
             self.lambda_signature = backup_data["λ_lambda_signature"]
             self.qi_secured = backup_data.get("λ_quantum_secured", False)

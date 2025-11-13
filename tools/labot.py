@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import shlex
 import subprocess
 import sys
 from contextlib import suppress
@@ -228,30 +229,31 @@ def open_pr_shell(slug: str, *, dry_run: bool = False, assume_yes: bool = False)
   os.system(f"git add {changes} {pr_file} prompts/labot/{slug}.md")
   os.system(f"git commit -m 'chore(labot): request tests for {slug}'")
   # requires gh CLI
-  title, body = None, None
+  title = None
   for line in data.splitlines():
       if line.startswith("title:"):
           title = line[len("title:"):].strip()
           break
   body = data.split("body:", 1)[-1].strip() if "body:" in data else ""
-  # Create a DRAFT PR and add the 'labot' label. Support dry-run via env var LABOT_DRY_RUN=1
-  cmd_parts = [
+  cmd = [
       "gh",
       "pr",
       "create",
       "--draft",
-      f"--title {json.dumps(title or 'test: add tests')}",
-      f"--body {json.dumps(body)}",
-      "--label labot",
+      "--title",
+      title or "test: add tests",
+      "--body",
+      body,
+      "--label",
+      "labot",
   ]
   if assume_yes:
-      cmd_parts.append("--assume-yes")
-  cmd = " ".join(cmd_parts)
+      cmd.append("--assume-yes")
   env_dry_run = os.environ.get("LABOT_DRY_RUN", "0") == "1"
   if dry_run or env_dry_run:
-      print("LABOT DRY RUN:", cmd)
+      print("LABOT DRY RUN:", shlex.join(cmd))
   else:
-      os.system(cmd)
+      subprocess.run(cmd, check=True, cwd=ROOT)
   print(f"Opened PR for {slug} on branch {branch}")
 
 def main():

@@ -5,6 +5,7 @@ FastAPI endpoints for multi-modal language processing,
 high-entropy password generation, and OpenAI integration.
 """
 
+# ruff: noqa: B008
 import logging
 import math
 from datetime import datetime, timezone

@@ -117,15 +117,15 @@ class LoggingStandardFixer:
 
         print("\n" + "=" * 60)
         if self.dry_run:
-            print(f"🔍 DRY RUN SUMMARY:")
+            print("🔍 DRY RUN SUMMARY:")
             print(f"   Would modify {len(modified_files)} files")
         else:
-            print(f"✅ SUMMARY:")
+            print("✅ SUMMARY:")
             print(f"   Modified {self.files_modified} files")
             print(f"   Fixed {self.issues_fixed} issues")
 
         if modified_files:
-            print(f"\n📋 Modified files:")
+            print("\n📋 Modified files:")
             for f in modified_files[:10]:
                 print(f"   - {f.relative_to(Path.cwd())}")
             if len(modified_files) > 10:

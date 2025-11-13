@@ -9,8 +9,9 @@ Validates that consciousness, dream, and glyph wrappers:
 - Gracefully degrade when subsystems unavailable
 """
 import os
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
 
 
 class TestConsciousnessWrapper:
@@ -30,6 +31,7 @@ class TestConsciousnessWrapper:
 
             # Reimport to get clean state
             import importlib
+
             import lukhas.consciousness
             importlib.reload(lukhas.consciousness)
 
@@ -104,6 +106,7 @@ class TestDreamWrapper:
                 del os.environ['LUKHAS_DREAMS_ENABLED']
 
             import importlib
+
             import lukhas.dream
             importlib.reload(lukhas.dream)
 
@@ -200,6 +203,7 @@ class TestGlyphsWrapper:
                 del os.environ['LUKHAS_GLYPHS_ENABLED']
 
             import importlib
+
             import lukhas.glyphs
             importlib.reload(lukhas.glyphs)
 
@@ -372,6 +376,7 @@ class TestFeatureFlags:
 
             # Reload all modules
             import importlib
+
             import lukhas.consciousness
             import lukhas.dream
             import lukhas.glyphs
@@ -391,6 +396,7 @@ class TestFeatureFlags:
         for value in test_cases:
             with patch.dict(os.environ, {'LUKHAS_DREAMS_ENABLED': value}):
                 import importlib
+
                 import lukhas.dream
                 importlib.reload(lukhas.dream)
 

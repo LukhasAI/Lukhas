@@ -4,7 +4,6 @@ import time
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-
 from serve.identity_api import router
 
 

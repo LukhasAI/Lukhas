@@ -6,7 +6,7 @@ from labs.memory.memory_core import CoreMemoryComponent, CoreMemoryConfig
 # Also import consciousness interfaces if available
 try:
     from labs.memory.memory_core import ConsciousnessPhase, QIMindInterface
-    __all__ = ["CoreMemoryComponent", "CoreMemoryConfig", "ConsciousnessPhase", "QIMindInterface"]
+    __all__ = ["ConsciousnessPhase", "CoreMemoryComponent", "CoreMemoryConfig", "QIMindInterface"]
 except ImportError:
     # Fallback for basic memory functionality
     __all__ = ["CoreMemoryComponent", "CoreMemoryConfig"]

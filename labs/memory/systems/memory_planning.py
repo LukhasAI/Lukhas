@@ -714,7 +714,7 @@ class MemoryPlanner:
         DeallocFromPoolLine.is_last_pool_usage fields so that pools
         are created/destroyed.
         """
-        seen = OrderedSet[AllocationPool]()
+        seen = Orderedset[AllocationPool]()
         for line in lines:
             if isinstance(line, AllocFromPoolLine):
                 assert line.group.allocation
@@ -724,7 +724,7 @@ class MemoryPlanner:
                     line.is_first_pool_usage = True
                     seen.add(pool)
 
-        seen = OrderedSet[AllocationPool]()
+        seen = Orderedset[AllocationPool]()
         for line in reversed(lines):
             if isinstance(line, DeallocFromPoolLine):
                 assert line.group.allocation

@@ -1,8 +1,10 @@
 # Jules API Complete Reference & Feature Discovery
 
-**Last Updated**: 2025-11-06
+**Last Updated**: 2025-11-10
 **API Version**: v1alpha (experimental - subject to change)
 **Official Docs**: https://developers.google.com/jules/api
+
+**NEW**: Activity inspection & batch response automation for debugging Jules sessions
 
 ---
 
@@ -413,6 +415,235 @@ Google provides command-line tools for Jules management.
 
 ---
 
+## 🔍 Session Activity Inspection & Response
+
+### Understanding Session Activities
+
+Every Jules session maintains a complete conversation history via activities. This is **critical** for:
+- Seeing what Jules is asking/blocked on
+- Debugging import errors and environment issues
+- Providing context-specific guidance
+- Tracking implementation progress
+
+### Activity Types & Structure
+
+**Key Activity Fields**:
+```python
+{
+  "name": "sessions/123/activities/456",
+  "createTime": "2025-11-10T16:30:05Z",
+  "originator": "agent" | "user",
+
+  # Jules asking a question
+  "agentMessaged": {
+    "agentMessage": "I'm having trouble with imports..."
+  },
+
+  # Progress update
+  "progressUpdated": {
+    "title": "Ran bash command",
+    "description": "Command output..."
+  },
+
+  # Code changes
+  "artifacts": [{
+    "bashOutput": {...},
+    "codeChanges": {...}
+  }]
+}
+```
+
+### Finding Jules' Questions
+
+**Problem**: API shows session as COMPLETED but Jules asked questions during execution.
+
+**Solution**: Inspect activities for `agentMessaged` entries:
+
+```python
+from bridge.llm_wrappers.jules_wrapper import JulesClient
+
+async with JulesClient() as jules:
+    # Get all activities
+    activities = await jules.list_activities(
+        f"sessions/{session_id}",
+        page_size=100
+    )
+
+    # Find Jules' messages
+    for activity in activities.get("activities", []):
+        if "agentMessaged" in activity:
+            message = activity["agentMessaged"]["agentMessage"]
+            print(f"Jules asked: {message}")
+```
+
+### Automation Scripts (Complete Toolkit)
+
+LUKHAS provides **9 comprehensive automation scripts**:
+
+#### 1. Session Creation
+```bash
+# Batch create sessions for tasks
+python3 scripts/create_security_hardening_sessions.py
+```
+
+#### 2. Session Monitoring
+```bash
+# View all active sessions
+python3 scripts/check_all_active_jules_sessions.py
+
+# Find sessions waiting for approval/feedback
+python3 scripts/check_waiting_jules_sessions.py
+
+# Track specific sessions
+python3 scripts/check_new_security_sessions.py
+```
+
+#### 3. Plan Approval
+```bash
+# Batch approve waiting plans
+python3 scripts/approve_waiting_jules_plans.py
+```
+
+#### 4. Session Cleanup
+```bash
+# Dry run (see what would be deleted)
+python3 scripts/close_completed_jules_sessions.py
+
+# Delete sessions WITHOUT PRs (preserves PR sessions for audit trail)
+python3 scripts/close_completed_jules_sessions.py --delete
+```
+
+#### 5. Activity Inspection (NEW!)
+```bash
+# View conversation for specific session
+python3 scripts/get_jules_session_activities.py 12640991174544438084
+
+# Check all active sessions for questions
+python3 scripts/get_jules_session_activities.py
+```
+
+#### 6. Single Message Response (NEW!)
+```bash
+# Send message to specific session
+python3 scripts/send_jules_message.py <session_id> "Your guidance here"
+
+# Example:
+python3 scripts/send_jules_message.py 123 "Use lukhas.* imports"
+```
+
+#### 7. Batch Response Automation (NEW!)
+```bash
+# Respond to multiple sessions at once
+python3 scripts/batch_respond_to_jules.py
+```
+
+### Common Jules Questions & Responses
+
+**Import Errors** (Most Common):
+```python
+# Jules' Question:
+"I'm having trouble with ImportError for 'get_metrics_collector'"
+
+# Your Response:
+"""
+LUKHAS uses a lane-based architecture. Import from candidate lane:
+
+from candidate.monitoring.metrics_collector import get_metrics_collector
+
+OR mock it in tests:
+from unittest.mock import patch
+@patch('serve.openai_routes.get_metrics_collector')
+def test_endpoint(mock_metrics):
+    ...
+"""
+```
+
+**Test Path Issues**:
+```python
+# Jules' Question:
+"AttributeError: module 'serve' has no attribute 'routes'"
+
+# Your Response:
+"""
+Use correct import path:
+from serve.routes import router  # NOT serve.routes.router
+
+Run tests from project root:
+pytest tests/unit/api/test_file.py
+"""
+```
+
+**Environment Setup**:
+```python
+# Jules' Question:
+"Can't find modules - need guidance on project structure"
+
+# Your Response:
+"""
+LUKHAS Lane Architecture:
+- lukhas/ (production) ← imports from core/, matriz/
+- candidate/ (development) ← imports from core/, matriz/ ONLY
+- serve/ (API routes) ← imports from lukhas/, core/, bridge/
+
+Mock unavailable modules in tests. Focus on implementing the tests!
+"""
+```
+
+### Batch Response Pattern
+
+**Scenario**: 22 sessions with Jules questions found.
+
+**Solution**:
+1. **Inspect all sessions** for `agentMessaged` activities
+2. **Group by question type** (import errors, test issues, etc.)
+3. **Create batch response** with standardized guidance
+4. **Send to all sessions** at once
+
+**Example**:
+```python
+SESSIONS_TO_RESPOND = [
+    {"id": "123", "message": "Import guidance..."},
+    {"id": "456", "message": "Test path fix..."},
+    # ... more sessions
+]
+
+async def batch_respond():
+    async with JulesClient() as jules:
+        for item in SESSIONS_TO_RESPOND:
+            await jules.send_message(
+                f"sessions/{item['id']}",
+                item['message']
+            )
+```
+
+### Complete Session Interaction Workflow
+
+```python
+# 1. Check for sessions with questions
+python3 scripts/get_jules_session_activities.py
+
+# 2. Identify Jules' questions in output
+# Look for: "🤖 JULES [MESSAGE]" entries
+
+# 3. Respond individually or in batch
+python3 scripts/send_jules_message.py <session_id> "your response"
+# OR
+python3 scripts/batch_respond_to_jules.py
+
+# 4. Monitor Jules' continued progress
+python3 scripts/check_all_active_jules_sessions.py
+```
+
+### Key Learnings from Activity Inspection
+
+1. **Sessions show COMPLETED but had questions** - Activities reveal the full story
+2. **Import errors are common** - Jules' environment differs from local dev
+3. **Mock problematic imports** - Tests shouldn't depend on complex setup
+4. **Lane architecture needs explanation** - Jules doesn't auto-discover LUKHAS structure
+5. **Batch responses save time** - Standard guidance works for similar issues
+
+---
+
 ## 📝 Example Workflows
 
 ### Complete Session Workflow
@@ -463,6 +694,9 @@ async def run_jules_task():
 4. **Free tier is generous** - 15 sessions/day = lots of automation
 5. **Memory is automatic** - Jules learns from corrections
 6. **API is alpha** - Expect changes and new features
+7. **Activity inspection is essential** - Sessions may COMPLETE with unresolved questions
+8. **Import errors dominate** - Jules' environment needs mocking guidance
+9. **Batch responses scale** - Standard guidance works for similar issues across sessions
 
 ---
 

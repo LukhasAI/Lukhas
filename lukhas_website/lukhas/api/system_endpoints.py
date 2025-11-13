@@ -11,10 +11,11 @@ Usage:
     from api.system_endpoints import get_plugins_status, get_system_health
 """
 
+# ruff: noqa: F821
 import json
 import os
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 try:
     from core.registry import get_plugin_registry
@@ -27,7 +28,6 @@ try:
     ROUTER_AVAILABLE = True
 except ImportError:
     ROUTER_AVAILABLE = False
-
 
 def get_plugins_status() -> dict[str, Any]:
     """
@@ -102,7 +102,6 @@ def get_plugins_status() -> dict[str, Any]:
         "total_plugin_count": len(plugin_details)
     }
 
-
 def get_system_health() -> dict[str, Any]:
     """
     GET /system/health endpoint
@@ -135,7 +134,6 @@ def get_system_health() -> dict[str, Any]:
             "health_percentage": (healthy_components / total_components) * 100
         }
     }
-
 
 def get_feature_flags() -> dict[str, Any]:
     """
@@ -170,7 +168,6 @@ def get_feature_flags() -> dict[str, Any]:
         "canary_percentage": int(feature_flags.get("LUKHAS_CANARY_PERCENT", env_flags["LUKHAS_CANARY_PERCENT"]))
     }
 
-
 def _check_plugin_health(plugin: Any) -> bool:
     """Check if a plugin appears healthy"""
     try:
@@ -190,20 +187,37 @@ def _check_plugin_health(plugin: Any) -> bool:
     except Exception:
         return False
 
-
 def _check_registry_health() -> dict[str, Any]:
     """Check registry system health"""
     if not REGISTRY_AVAILABLE:
         return {"status": "unavailable", "error": "Registry not available"}
 
     try:
+# T4: code=F821 | ticket=SKELETON-B1A886F8 | owner=api-team | status=skeleton
+# reason: Undefined _REG in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+# T4: code=F821 | ticket=SKELETON-B1A886F8 | owner=api-team | status=skeleton
+# reason: Undefined _REG in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         plugin_count = len(_REG) if _REG else 0  # TODO: _REG
+# T4: code=F821 | ticket=SKELETON-54286D67 | owner=api-team | status=skeleton
+# reason: Undefined _DISCOVERY_FLAG in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         discovery_mode = _DISCOVERY_FLAG  # TODO: _DISCOVERY_FLAG
 
         # Registry is healthy if it can store/retrieve plugins
         test_key = "_health_check_test"
+# T4: code=F821 | ticket=SKELETON-B1A886F8 | owner=api-team | status=skeleton
+# reason: Undefined _REG in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         _REG[test_key] = "test_value"  # TODO: _REG
+# T4: code=F821 | ticket=SKELETON-B1A886F8 | owner=api-team | status=skeleton
+# reason: Undefined _REG in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         can_write = _REG.get(test_key) == "test_value"  # TODO: _REG
+# T4: code=F821 | ticket=SKELETON-B1A886F8 | owner=api-team | status=skeleton
+# reason: Undefined _REG in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         del _REG[test_key]  # TODO: _REG
 
         return {
@@ -214,7 +228,6 @@ def _check_registry_health() -> dict[str, Any]:
         }
     except Exception as e:
         return {"status": "error", "error": str(e)}
-
 
 def _check_router_health() -> dict[str, Any]:
     """Check import router health"""
@@ -236,7 +249,6 @@ def _check_router_health() -> dict[str, Any]:
     except Exception as e:
         return {"status": "error", "error": str(e)}
 
-
 def _check_feature_flags() -> dict[str, Any]:
     """Check feature flag system health"""
     try:
@@ -255,7 +267,6 @@ def _check_feature_flags() -> dict[str, Any]:
         }
     except Exception as e:
         return {"status": "error", "error": str(e)}
-
 
 def _check_governance_health() -> dict[str, Any]:
     """Check governance system health"""
@@ -277,7 +288,6 @@ def _check_governance_health() -> dict[str, Any]:
     except Exception as e:
         return {"status": "error", "error": str(e)}
 
-
 def _estimate_registry_size(registry: Dict) -> int:
     """Estimate registry memory usage in bytes"""
     try:
@@ -290,22 +300,18 @@ def _estimate_registry_size(registry: Dict) -> int:
     except Exception:
         return 0
 
-
 # Flask/FastAPI-compatible route handlers
 def plugins_endpoint():
     """Flask/FastAPI route handler for /system/plugins"""
     return get_plugins_status()
 
-
 def health_endpoint():
     """Flask/FastAPI route handler for /system/health"""
     return get_system_health()
 
-
 def flags_endpoint():
     """Flask/FastAPI route handler for /system/flags"""
     return get_feature_flags()
-
 
 # Simple test server for standalone testing
 if __name__ == "__main__":

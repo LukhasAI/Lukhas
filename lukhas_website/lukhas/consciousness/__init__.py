@@ -163,13 +163,13 @@ __framework__ = "Constellation Framework - Flow Star (🌊)"
 
 # Export all public interfaces
 __all__ = [
+    # Feature flag
+    "CONSCIOUSNESS_ENABLED",
     # Configuration
     "DEFAULT_AWARENESS_CONFIG",
     "DEFAULT_CREATIVITY_CONFIG",
     "DEFAULT_DREAM_CONFIG",
     "DEFAULT_REFLECTION_CONFIG",
-    # Feature flag
-    "CONSCIOUSNESS_ENABLED",
     "AnomalySeverity",
     "AutoConsciousness",
     # Core engines (classes for direct instantiation)
@@ -193,11 +193,6 @@ __all__ = [
     "DreamState",
     "DreamTrace",
     "EngineState",
-    # Wrapper functions (recommended for production use)
-    "get_awareness_engine",
-    "get_consciousness_stream",
-    "get_creativity_engine",
-    "get_dream_engine",
     # Supporting types
     "GuardianResponse",
     "ImaginationMode",
@@ -208,5 +203,10 @@ __all__ = [
     "__framework__",
     "__schema_version__",
     # Metadata
-    "__version__"
+    "__version__",
+    # Wrapper functions (recommended for production use)
+    "get_awareness_engine",
+    "get_consciousness_stream",
+    "get_creativity_engine",
+    "get_dream_engine"
 ]

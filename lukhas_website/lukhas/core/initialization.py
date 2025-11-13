@@ -131,10 +131,7 @@ def initialize_global_system() -> dict[str, Any]:
     _INITIALIZATION_STATE["initialized"] = True
 
     # Determine status
-    if _INITIALIZATION_STATE["warnings"]:
-        status = "partial"
-    else:
-        status = "success"
+    status = "partial" if _INITIALIZATION_STATE["warnings"] else "success"
 
     return {
         "status": status,
@@ -193,7 +190,7 @@ def _initialize_glyphs() -> None:
     """
     try:
         # Lazy import from glyphs wrapper module
-        from lukhas_website.lukhas.glyphs import get_glyph_token_class, get_glyph_router_class
+        from lukhas_website.lukhas.glyphs import get_glyph_router_class, get_glyph_token_class
 
         # Verify import succeeded and classes are available
         GLYPHToken = get_glyph_token_class()

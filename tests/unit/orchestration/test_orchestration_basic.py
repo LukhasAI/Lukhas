@@ -1,7 +1,8 @@
 """Test orchestration module basic functionality."""
 
-import pytest
 from importlib.util import find_spec
+
+import pytest
 
 HAS_KERNEL_BUS = find_spec("orchestration.KernelBus") is not None
 HAS_CONTEXT_BUS = find_spec("labs.orchestration.context_bus") is not None

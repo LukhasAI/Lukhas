@@ -136,7 +136,7 @@ class GuardianChaosEngine:
         print("🌪️  Starting drift injection chaos")
 
         try:
-            from governance.guardian_reflector import GuardianReflector
+            from lukhas_website.lukhas.governance.guardian.reflector import GuardianReflector
 
             # Create reflector with artificial drift
             reflector = GuardianReflector()

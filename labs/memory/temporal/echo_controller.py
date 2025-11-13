@@ -116,7 +116,7 @@ class EchoController:
 # DECORATORS: None
 # DEPENDENCIES: None
 # INTERFACES:
-# - Input: agent_id (str), data (Dict[str, Any])
+# - Input: agent_id (str), data (dict[str, Any])
 # - Output: None
 # ERROR HANDLING: None
 # LOGGING: ΛTRACE_ENABLED

@@ -355,7 +355,7 @@ class TestRateLimiting:
         success_count = 0
         rate_limited_count = 0
 
-        for i in range(110):  # More than limit of 100
+        for _i in range(110):  # More than limit of 100
             response = client.post(
                 "/api/features/test_boolean/evaluate",
                 headers={"X-API-Key": api_key},

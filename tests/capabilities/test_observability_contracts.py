@@ -49,8 +49,9 @@ def test_prometheus_exporter_starts_and_exposes_metrics(monkeypatch):
     # Import modules to register metrics first
     try:
         import core.breakthrough  # Register breakthrough metrics
-        import memory.folds  # Register memory metrics
         import storage.events  # Register event metrics
+
+        import memory.folds  # Register memory metrics
     except ImportError:
         pytest.skip("Phase 3 modules not available")
 

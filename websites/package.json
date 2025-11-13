@@ -1,0 +1,30 @@
+{
+  "name": "@lukhas/websites",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LUKHAS Website Monorepo - Identity, Corporate, and Compliance Sites",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LukhasAI/Lukhas.git",
+    "directory": "websites"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "format": "prettier --write \"packages/**/*.{js,jsx,ts,tsx,md,css}\"",
+    "clean": "turbo run clean && rm -rf node_modules .turbo"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "prettier": "^3.1.0",
+    "turbo": "^1.11.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.12.0"
+}

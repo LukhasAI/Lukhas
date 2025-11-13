@@ -11,8 +11,9 @@ Lightweight smoke tests that run quickly in CI to validate:
 Run with: pytest tests/smoke/test_core_wiring_smoke.py -v
 """
 import os
-import pytest
 from unittest.mock import patch
+
+import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 

@@ -1,0 +1,24 @@
+name: License Check
+
+on:
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  license-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pip-licenses
+        run: pip install pip-licenses
+
+      - name: Run license check
+        run: python scripts/security/check_licenses.py

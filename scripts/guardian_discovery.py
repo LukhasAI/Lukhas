@@ -37,7 +37,7 @@ def find_py_files(root: str, exclude_dirs=None):
         or [".git", "__pycache__", "venv", "env", "node_modules", ".venv", "archive", "backup"]
     )
     py_files = []
-    for dirpath, dirnames, filenames in os.walk(root):
+    for dirpath, _dirnames, filenames in os.walk(root):
         # skip excluded dirs
         parts = dirpath.split(os.sep)
         if any(p in exclude_dirs for p in parts):
@@ -98,7 +98,7 @@ def extract_functions_from_ast(tree: ast.AST, source_text: str, file_path: str):
             self.class_stack.pop()
 
         def visit_FunctionDef(self, node: ast.FunctionDef):
-            qual = ".".join(self.class_stack + [node.name]) if self.class_stack else node.name
+            qual = ".".join([*self.class_stack, node.name]) if self.class_stack else node.name
             try:
                 src_seg = ast.get_source_segment(source_text, node) or ""
             except Exception:

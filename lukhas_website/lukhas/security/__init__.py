@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
 #!/usr/bin/env python3
 """
 LUKHAS Security - Phase 6 Security Hardening Integration
@@ -30,7 +34,7 @@ import time
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Union
 
 try:
     from .secure_random import (

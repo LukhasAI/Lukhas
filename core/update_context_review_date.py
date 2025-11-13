@@ -6,10 +6,11 @@ Usage:
     python scripts/update_context_review_date.py <path_to_file>
 """
 
-import sys
-from pathlib import Path
-from datetime import datetime
 import re
+import sys
+from datetime import datetime
+from pathlib import Path
+
 
 def update_review_date(file_path: Path):
     """Finds and updates the last_reviewed field in the frontmatter."""
@@ -40,7 +41,7 @@ def main():
     if len(sys.argv) != 2:
         print(__doc__)
         sys.exit(1)
-    
+
     file_path = Path(sys.argv[1])
     update_review_date(file_path)
 

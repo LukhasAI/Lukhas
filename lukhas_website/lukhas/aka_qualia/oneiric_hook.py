@@ -81,7 +81,7 @@ class OneiricHook:
             Dict containing control hints:
             - tempo: float [0.1, 2.0] - temporal pace adjustment
             - palette_hint: str - suggested colorfield for grounding
-            - ops: List[str] - regulation operations to perform
+            - ops: list[str] - regulation operations to perform
             - anchors: Dict - symbolic anchors when grounding needed
         """
         self.policies_applied += 1

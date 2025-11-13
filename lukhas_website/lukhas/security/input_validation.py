@@ -1,3 +1,8 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
+
 #!/usr/bin/env python3
 """
 LUKHAS Security - Input Validation Framework
@@ -25,7 +30,7 @@ import unicodedata
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, TypeVar
+from typing import Callable
 
 # AI-specific validation imports
 try:

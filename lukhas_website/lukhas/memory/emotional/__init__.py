@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
 """
 LUKHAS AI Emotional Memory Module
 Emotional memory management and processing
@@ -9,12 +13,11 @@ This module consolidates emotional memory functionality from various locations.
 import logging
 import time
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import streamlit as st
 
 logger = logging.getLogger(__name__)
-
 
 class EmotionalMemory:
     """
@@ -46,7 +49,6 @@ class EmotionalMemory:
     def trigger_replay(self, emotion_type: str, threshold: float = 0.5) -> list[dict]:
         """Trigger replay of emotional memories above threshold"""
         return [m for m in self.memories if m["emotion_type"] == emotion_type and m["intensity"] >= threshold]
-
 
 class EmotionalMemoryManager:
     """
@@ -290,10 +292,8 @@ class EmotionalMemoryManager:
                 if emotion_type in self.emotion_patterns and memory["id"] in self.emotion_patterns[emotion_type]:
                     self.emotion_patterns[emotion_type].remove(memory["id"])
 
-
 # Global instance for convenience
 _emotional_memory_manager = None
-
 
 def get_emotional_memory_manager() -> EmotionalMemoryManager:
     """Get or create the global emotional memory manager."""
@@ -302,19 +302,16 @@ def get_emotional_memory_manager() -> EmotionalMemoryManager:
         _emotional_memory_manager = EmotionalMemoryManager()
     return _emotional_memory_manager
 
-
 # Convenience functions
 def store_emotion(content: Any, emotion: str, intensity: float, context: Optional[dict] = None) -> str:
     """Store an emotional memory."""
     manager = get_emotional_memory_manager()
     return manager.store_emotional_memory(content, emotion, intensity, context)
 
-
 def get_emotional_state() -> dict[str, float]:
     """Get current emotional state."""
     manager = get_emotional_memory_manager()
     return manager.get_recent_emotional_state()
-
 
 # Export public interface
 __all__ = [

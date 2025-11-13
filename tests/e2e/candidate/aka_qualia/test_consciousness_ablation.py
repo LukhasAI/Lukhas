@@ -24,7 +24,7 @@ Production Readiness Criteria:
 
 import asyncio
 import time
-from typing import Any
+from typing import Any, Dict, List
 
 import pytest
 from aka_qualia.core import AkaQualia
@@ -49,9 +49,9 @@ class ComponentAblationFramework:
     def __init__(self, baseline_akaq: AkaQualia):
         """Initialize with baseline AkaQualia for comparison"""
         self.baseline = baseline_akaq
-        self.ablation_history: list[dict[str, Any]] = []
-        self.triad_violations: list[dict[str, Any]] = []
-        self.emergency_activations: list[dict[str, Any]] = []
+        self.ablation_history: List[Dict[str, Any]] = []
+        self.triad_violations: List[Dict[str, Any]] = []
+        self.emergency_activations: List[Dict[str, Any]] = []
 
     def ablate_component(
         self, component: str, ablation_type: str = "disable", degradation_factor: float = 1.0
@@ -95,7 +95,7 @@ class ComponentAblationFramework:
 
         return ablated_akaq
 
-    def _ablate_pls(self, ablation_type: str, factor: float, config: dict[str, Any]) -> AkaQualia:
+    def _ablate_pls(self, ablation_type: str, factor: float, config: Dict[str, Any]) -> AkaQualia:
         """Ablate PLS (Phenomenal Latent Space) component"""
 
         if ablation_type == "disable":
@@ -177,7 +177,7 @@ class ComponentAblationFramework:
             config=config,
         )
 
-    def _ablate_teq(self, ablation_type: str, factor: float, config: dict[str, Any]) -> AkaQualia:
+    def _ablate_teq(self, ablation_type: str, factor: float, config: Dict[str, Any]) -> AkaQualia:
         """Ablate TEQ Guardian ethical oversight"""
 
         if ablation_type == "disable":
@@ -240,7 +240,7 @@ class ComponentAblationFramework:
             config=config,
         )
 
-    def _ablate_router(self, ablation_type: str, factor: float, config: dict[str, Any]) -> AkaQualia:
+    def _ablate_router(self, ablation_type: str, factor: float, config: Dict[str, Any]) -> AkaQualia:
         """Ablate GLYPH routing system"""
 
         # Disable routing in config
@@ -283,7 +283,7 @@ class ComponentAblationFramework:
             config=config_copy,
         )
 
-    def _ablate_memory(self, ablation_type: str, factor: float, config: dict[str, Any]) -> AkaQualia:
+    def _ablate_memory(self, ablation_type: str, factor: float, config: Dict[str, Any]) -> AkaQualia:
         """Ablate memory persistence system"""
 
         config_copy = config.copy()
@@ -351,7 +351,7 @@ class ComponentAblationFramework:
             config=config_copy,
         )
 
-    def _ablate_vivox(self, ablation_type: str, factor: float, config: dict[str, Any]) -> AkaQualia:
+    def _ablate_vivox(self, ablation_type: str, factor: float, config: Dict[str, Any]) -> AkaQualia:
         """Ablate VIVOX consciousness monitoring"""
 
         config_copy = config.copy()
@@ -394,7 +394,7 @@ class ComponentAblationFramework:
             config=config_copy,
         )
 
-    def validate_triad_compliance(self, ablated_akaq: AkaQualia, test_signals: dict[str, Any]) -> dict[str, bool]:
+    def validate_triad_compliance(self, ablated_akaq: AkaQualia, test_signals: Dict[str, Any]) -> Dict[str, bool]:
         """
         Validate Constellation Framework (⚛️🧠🛡️) compliance under ablation.
 
@@ -459,8 +459,8 @@ class ComponentAblationFramework:
         return compliance
 
     def measure_degradation_impact(
-        self, baseline_result: dict[str, Any], ablated_result: dict[str, Any]
-    ) -> dict[str, float]:
+        self, baseline_result: Dict[str, Any], ablated_result: Dict[str, Any]
+    ) -> Dict[str, float]:
         """
         Measure quantitative impact of ablation on system performance.
 
@@ -514,7 +514,7 @@ class ComponentAblationFramework:
 
         return impact
 
-    def test_emergency_protocols(self, ablated_akaq: AkaQualia) -> dict[str, Any]:
+    def test_emergency_protocols(self, ablated_akaq: AkaQualia) -> Dict[str, Any]:
         """
         Test emergency stabilization protocols under extreme conditions.
 
@@ -581,7 +581,7 @@ class ComponentAblationFramework:
 
         return emergency_results
 
-    def get_ablation_report(self) -> dict[str, Any]:
+    def get_ablation_report(self) -> Dict[str, Any]:
         """Generate comprehensive ablation test report"""
         return {
             "total_ablations_tested": len(self.ablation_history),

@@ -231,7 +231,7 @@ def handle_api_error(error: Exception, endpoint: str, user_id: Optional[str]) ->
         endpoint (str): The API endpoint path where the error occurred.
         user_id (Optional[str]): The ID of the user making the request, if available.
     Returns:
-        Dict[str, Any]: A standardized error response dictionary.
+        dict[str, Any]: A standardized error response dictionary.
     """
     error_message = str(error)
     error_type_name = type(error).__name__

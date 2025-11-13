@@ -1,3 +1,4 @@
+from typing import ClassVar
 """
 LUKHAS Dreams API Endpoints
 ============================
@@ -10,11 +11,14 @@ Endpoints:
 - POST /api/v1/dreams/mesh - Run parallel dream mesh
 - GET /api/v1/dreams/{dream_id} - Retrieve dream by ID
 """
+# ruff: noqa: B008
 import logging
 import time
 from typing import Any, Optional
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
+from identity.tier_system import PermissionScope, TierLevel
+from lukhas_website.lukhas.api.auth_helpers import get_current_user, lukhas_tier_required
 from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
@@ -22,11 +26,11 @@ logger = logging.getLogger(__name__)
 # Import wrapper module
 try:
     from lukhas.dream import (
+        get_dream_by_id,
         is_enabled,
         is_parallel_enabled,
-        simulate_dream,
-        get_dream_by_id,
         parallel_dream_mesh,
+        simulate_dream,
     )
     DREAMS_WRAPPER_AVAILABLE = True
 except ImportError as e:
@@ -42,7 +46,7 @@ class DreamSimulationRequest(BaseModel):
     parallel: bool = Field(default=False, description="Use parallel processing")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict] = {
             "example": {
                 "seed": "morning_reflection",
                 "context": {"mood": "calm", "time": "06:00"},
@@ -67,7 +71,7 @@ class ParallelDreamMeshRequest(BaseModel):
     consensus_threshold: float = Field(default=0.7, ge=0.0, le=1.0, description="Consensus threshold")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict] = {
             "example": {
                 "seeds": ["morning_gratitude", "evening_reflection", "midday_clarity"],
                 "consensus_threshold": 0.7
@@ -95,7 +99,11 @@ router = APIRouter(
 
 
 @router.post("/simulate", response_model=DreamSimulationResponse, status_code=status.HTTP_200_OK)
-async def create_dream_simulation(request: DreamSimulationRequest) -> DreamSimulationResponse:
+@lukhas_tier_required(TierLevel.AUTHENTICATED, PermissionScope.MEMORY_FOLD)
+async def create_dream_simulation(
+    request: DreamSimulationRequest,
+    current_user: dict = Depends(get_current_user)
+) -> DreamSimulationResponse:
     """
     Simulate a dream based on seed and context.
 
@@ -139,12 +147,16 @@ async def create_dream_simulation(request: DreamSimulationRequest) -> DreamSimul
         logger.error(f"Error in dream simulation: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Dream simulation failed: {str(e)}"
+            detail=f"Dream simulation failed: {e!s}"
         )
 
 
 @router.post("/mesh", response_model=ParallelDreamMeshResponse, status_code=status.HTTP_200_OK)
-async def create_parallel_dream_mesh(request: ParallelDreamMeshRequest) -> ParallelDreamMeshResponse:
+@lukhas_tier_required(TierLevel.AUTHENTICATED, PermissionScope.MEMORY_FOLD)
+async def create_parallel_dream_mesh(
+    request: ParallelDreamMeshRequest,
+    current_user: dict = Depends(get_current_user)
+) -> ParallelDreamMeshResponse:
     """
     Run parallel dream mesh with multiple seeds and consensus.
 
@@ -180,12 +192,16 @@ async def create_parallel_dream_mesh(request: ParallelDreamMeshRequest) -> Paral
         logger.error(f"Error in parallel dream mesh: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Parallel dream mesh failed: {str(e)}"
+            detail=f"Parallel dream mesh failed: {e!s}"
         )
 
 
 @router.get("/{dream_id}", status_code=status.HTTP_200_OK)
-async def get_dream(dream_id: str) -> dict[str, Any]:
+@lukhas_tier_required(TierLevel.AUTHENTICATED, PermissionScope.MEMORY_FOLD)
+async def get_dream(
+    dream_id: str,
+    current_user: dict = Depends(get_current_user)
+) -> dict[str, Any]:
     """
     Retrieve a dream by its ID.
 
@@ -214,6 +230,13 @@ async def get_dream(dream_id: str) -> dict[str, Any]:
                 detail=f"Dream not found: {dream_id}"
             )
 
+        # Security check: Ensure user can only access their own dreams
+        if dream.get("owner_id") != current_user["user_id"]:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Not authorized to access this resource"
+            )
+
         return dream
 
     except HTTPException:
@@ -222,7 +245,7 @@ async def get_dream(dream_id: str) -> dict[str, Any]:
         logger.error(f"Error retrieving dream {dream_id}: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to retrieve dream: {str(e)}"
+            detail=f"Failed to retrieve dream: {e!s}"
         )
 
 

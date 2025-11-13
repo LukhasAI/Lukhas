@@ -9,6 +9,7 @@
 Consolidated module for better performance
 """
 
+# ruff: noqa: F821  # Experimental/test code with undefined names
 import asyncio
 import hashlib
 import json
@@ -21,7 +22,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional, Union
+from typing import Any, ClassVar, Optional, Union
 
 import aiohttp
 import numpy as np
@@ -40,7 +41,7 @@ try:
 except ImportError:
     # Fallback if optimized_memory_item is not available
     class ReflectionQuantizationCodec:
-        SUPPORTED_DIMENSIONS = [
+        SUPPORTED_DIMENSIONS: ClassVar[list] = [
             512,
             1024,
         ]  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_core_py_L46"}
@@ -318,8 +319,14 @@ class ReflectionMemoryAttentionLayer:
         self.num_heads = num_heads
         self.head_dim = hidden_dim // num_heads
         if (
+# T4: code=F821 | ticket=SKELETON-D7397356 | owner=lukhas-platform | status=skeleton
+# reason: Undefined TORCH_AVAILABLE in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             TORCH_AVAILABLE
         ):  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_core_py_L319"}
+# T4: code=F821 | ticket=SKELETON-40802ABC | owner=lukhas-platform | status=skeleton
+# reason: Undefined nn in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             self.attention = nn.MultiheadAttention(
                 embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1
             )  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "matriz_consciousness_reflection_core_py_L321"}

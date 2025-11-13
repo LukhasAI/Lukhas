@@ -50,15 +50,15 @@ class ImportErrorFixer:
         # Common fix patterns
         self.import_fixes = {
             # Core module fixes
-            "core.common": "from core.common import",
+            "core.common": "from lukhas.core.common import",
             "memory.core": "from memory.core import",
             "consciousness.unified": "from consciousness.unified import",
             "governance.guardian_system": "from governance.guardian_system import",
             "qi.algorithms": "from qi.algorithms import",
             "orchestration.brain": "from orchestration.brain import",
             # Interface fixes
-            "core.interfaces": "from core.interfaces import",
-            "core.interfaces.dependency_injection": "from core.interfaces.dependency_injection import",
+            "core.interfaces": "from lukhas.core.interfaces import",
+            "core.interfaces.dependency_injection": "from lukhas.core.interfaces.dependency_injection import",
             # Common replacements
             "lukhas_core": "core",
             "core": "core",
@@ -395,10 +395,10 @@ class ImportErrorFixer:
 
         common_fixes = [
             # Core imports
-            ("from core.common import", "from core.common import"),
-            ("from core.common import", "from core.common import"),
-            ("from core.common.logger import", "from core.common.logger import"),
-            ("from core.common.config import", "from core.common.config import"),
+            ("from lukhas.core.common import", "from lukhas.core.common import"),
+            ("from lukhas.core.common import", "from lukhas.core.common import"),
+            ("from lukhas.core.common.logger import", "from lukhas.core.common.logger import"),
+            ("from lukhas.core.common.config import", "from lukhas.core.common.config import"),
             # Memory imports
             ("from memory.core import", "from memory.core import"),
             (
@@ -415,7 +415,7 @@ class ImportErrorFixer:
                 "from consciousness.unified.auto_consciousness import",
             ),
             # Interface imports
-            ("from core.interfaces import", "from core.interfaces import"),
+            ("from lukhas.core.interfaces import", "from lukhas.core.interfaces import"),
         ]
 
         for py_file in self.root_path.rglob("*.py"):

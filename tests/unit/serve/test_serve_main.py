@@ -45,9 +45,10 @@ def client(test_env):
     }):
         # Re-import to apply mocks
         import importlib
+
         import serve.main as main_module
         importlib.reload(main_module)
-        
+
         yield TestClient(main_module.app)
 
 
@@ -58,11 +59,11 @@ def client(test_env):
 def test_hash_embed_deterministic():
     """Test that _hash_embed produces deterministic embeddings"""
     from serve.main import _hash_embed
-    
+
     text = "test input"
     embed1 = _hash_embed(text, dim=1536)
     embed2 = _hash_embed(text, dim=1536)
-    
+
     assert embed1 == embed2, "Embeddings must be deterministic"
     assert len(embed1) == 1536, "Embedding dimension must match requested dim"
     assert all(0 <= v <= 1 for v in embed1), "Embedding values must be normalized [0,1]"
@@ -71,19 +72,19 @@ def test_hash_embed_deterministic():
 def test_hash_embed_unique():
     """Test that different inputs produce different embeddings"""
     from serve.main import _hash_embed
-    
+
     embed1 = _hash_embed("input one", dim=128)
     embed2 = _hash_embed("input two", dim=128)
-    
+
     assert embed1 != embed2, "Different inputs must produce different embeddings"
 
 
 def test_get_health_status_basic(test_env):
     """Test _get_health_status returns expected structure"""
     from serve.main import _get_health_status
-    
+
     status = _get_health_status()
-    
+
     assert status["status"] == "ok"
     assert "voice_mode" in status
     assert "matriz" in status
@@ -96,11 +97,11 @@ def test_get_health_status_basic(test_env):
 def test_get_health_status_voice_degraded(test_env, monkeypatch):
     """Test health status when voice is required but unavailable"""
     monkeypatch.setenv("LUKHAS_VOICE_REQUIRED", "true")
-    
+
     with mock.patch("serve.main.voice_core_available", return_value=False):
         from serve.main import _get_health_status
         status = _get_health_status()
-        
+
         assert status["voice_mode"] == "degraded"
         assert "degraded_reasons" in status
         assert "voice" in status["degraded_reasons"]
@@ -113,7 +114,7 @@ def test_get_health_status_voice_degraded(test_env, monkeypatch):
 def test_healthz_endpoint(client):
     """Test /healthz endpoint returns 200 and correct structure"""
     response = client.get("/healthz")
-    
+
     assert response.status_code == 200
     data = response.json()
     assert data["status"] == "ok"
@@ -125,14 +126,14 @@ def test_health_alias_endpoint(client):
     """Test /health endpoint (alias) returns same as /healthz"""
     healthz_resp = client.get("/healthz").json()
     health_resp = client.get("/health").json()
-    
+
     assert healthz_resp == health_resp, "/health must be alias of /healthz"
 
 
 def test_readyz_endpoint_ready(client):
     """Test /readyz endpoint when system is ready"""
     response = client.get("/readyz")
-    
+
     assert response.status_code == 200
     data = response.json()
     assert data["status"] == "ready"
@@ -141,10 +142,10 @@ def test_readyz_endpoint_ready(client):
 def test_metrics_endpoint(client):
     """Test /metrics endpoint returns Prometheus-style metrics"""
     response = client.get("/metrics")
-    
+
     assert response.status_code == 200
     assert response.headers["content-type"] == "text/plain; charset=utf-8"
-    
+
     content = response.text
     assert "# HELP" in content
     assert "# TYPE" in content
@@ -166,7 +167,7 @@ def test_strict_auth_allows_non_v1_paths(client):
 def test_strict_auth_requires_bearer_token(client):
     """Test that /v1/ endpoints require Bearer token"""
     response = client.get("/v1/models")
-    
+
     assert response.status_code == 401
     data = response.json()
     assert "error" in data
@@ -177,7 +178,7 @@ def test_strict_auth_rejects_empty_bearer(client):
     """Test that empty Bearer token is rejected"""
     headers = {"Authorization": "Bearer "}
     response = client.get("/v1/models", headers=headers)
-    
+
     assert response.status_code == 401
     data = response.json()
     assert "Bearer token is empty" in str(data)
@@ -187,7 +188,7 @@ def test_strict_auth_rejects_non_bearer_scheme(client):
     """Test that non-Bearer auth schemes are rejected"""
     headers = {"Authorization": "Basic dGVzdDp0ZXN0"}
     response = client.get("/v1/models", headers=headers)
-    
+
     assert response.status_code == 401
     data = response.json()
     assert "Bearer scheme" in str(data)
@@ -197,20 +198,21 @@ def test_strict_auth_accepts_valid_bearer(client):
     """Test that valid Bearer token allows access"""
     headers = {"Authorization": "Bearer valid-token"}
     response = client.get("/v1/models", headers=headers)
-    
+
     assert response.status_code == 200, "Valid Bearer token should allow access"
 
 
 def test_strict_auth_disabled_in_permissive_mode(client, monkeypatch):
     """Test that strict auth can be disabled via LUKHAS_POLICY_MODE"""
     monkeypatch.setenv("LUKHAS_POLICY_MODE", "permissive")
-    
+
     # Need to reload to apply env change
     import importlib
+
     import serve.main as main_module
     importlib.reload(main_module)
     client_permissive = TestClient(main_module.app)
-    
+
     response = client_permissive.get("/v1/models")
     assert response.status_code == 200, "Permissive mode should allow access without token"
 
@@ -222,13 +224,13 @@ def test_strict_auth_disabled_in_permissive_mode(client, monkeypatch):
 def test_headers_middleware_adds_trace_ids(client):
     """Test that HeadersMiddleware adds X-Trace-Id and X-Request-Id"""
     response = client.get("/healthz")
-    
+
     assert "x-trace-id" in response.headers
     assert "x-request-id" in response.headers
-    
+
     trace_id = response.headers["x-trace-id"]
     request_id = response.headers["x-request-id"]
-    
+
     assert trace_id == request_id, "Trace and Request IDs should match"
     assert len(trace_id) == 32, "Trace ID should be 32 chars (UUID without dashes)"
 
@@ -236,14 +238,14 @@ def test_headers_middleware_adds_trace_ids(client):
 def test_headers_middleware_adds_rate_limit_headers(client):
     """Test that rate limit headers are added"""
     response = client.get("/healthz")
-    
+
     assert "x-ratelimit-limit" in response.headers
     assert "x-ratelimit-remaining" in response.headers
     assert "x-ratelimit-reset" in response.headers
     assert "x-ratelimit-limit-requests" in response.headers
     assert "x-ratelimit-remaining-requests" in response.headers
     assert "x-ratelimit-reset-requests" in response.headers
-    
+
     assert response.headers["x-ratelimit-limit"] == "60"
     assert response.headers["x-ratelimit-remaining"] == "59"
 
@@ -256,14 +258,14 @@ def test_list_models_endpoint(client):
     """Test GET /v1/models returns model list"""
     headers = {"Authorization": "Bearer test-token"}
     response = client.get("/v1/models", headers=headers)
-    
+
     assert response.status_code == 200
     data = response.json()
-    
+
     assert data["object"] == "list"
     assert "data" in data
     assert len(data["data"]) > 0
-    
+
     # Check model structure
     model = data["data"][0]
     assert "id" in model
@@ -275,10 +277,10 @@ def test_list_models_endpoint(client):
 def test_list_models_caching(client):
     """Test that model list is cached"""
     headers = {"Authorization": "Bearer test-token"}
-    
+
     response1 = client.get("/v1/models", headers=headers)
     response2 = client.get("/v1/models", headers=headers)
-    
+
     assert response1.json() == response2.json(), "Model list should be cached"
 
 
@@ -289,12 +291,12 @@ def test_create_embeddings_basic(client):
         "input": "test text",
         "model": "text-embedding-ada-002"
     }
-    
+
     response = client.post("/v1/embeddings", headers=headers, json=payload)
-    
+
     assert response.status_code == 200
     data = response.json()
-    
+
     assert data["object"] == "list"
     assert len(data["data"]) == 1
     assert data["data"][0]["object"] == "embedding"
@@ -312,9 +314,9 @@ def test_create_embeddings_custom_dimensions(client):
         "model": "text-embedding-ada-002",
         "dimensions": 768
     }
-    
+
     response = client.post("/v1/embeddings", headers=headers, json=payload)
-    
+
     assert response.status_code == 200
     data = response.json()
     assert len(data["data"][0]["embedding"]) == 768
@@ -329,12 +331,12 @@ def test_create_chat_completion_basic(client):
             {"role": "user", "content": "Hello"}
         ]
     }
-    
+
     response = client.post("/v1/chat/completions", headers=headers, json=payload)
-    
+
     assert response.status_code == 200
     data = response.json()
-    
+
     assert "id" in data
     assert data["object"] == "chat.completion"
     assert "created" in data
@@ -353,12 +355,12 @@ def test_create_response_basic(client):
         "input": "test input",
         "model": "lukhas-mini"
     }
-    
+
     response = client.post("/v1/responses", headers=headers, json=payload)
-    
+
     assert response.status_code == 200
     data = response.json()
-    
+
     assert "id" in data
     assert data["object"] == "chat.completion"
     assert "created" in data
@@ -376,9 +378,9 @@ def test_create_response_with_messages(client):
         ],
         "model": "lukhas-mini"
     }
-    
+
     response = client.post("/v1/responses", headers=headers, json=payload)
-    
+
     assert response.status_code == 200
     data = response.json()
     assert "content" in data["choices"][0]["message"]
@@ -388,9 +390,9 @@ def test_create_response_missing_input(client):
     """Test that missing input returns 400"""
     headers = {"Authorization": "Bearer test-token"}
     payload = {"model": "lukhas-mini"}
-    
+
     response = client.post("/v1/responses", headers=headers, json=payload)
-    
+
     assert response.status_code == 400
     data = response.json()
     assert "error" in data["detail"]
@@ -400,9 +402,9 @@ def test_create_response_empty_input(client):
     """Test that empty input returns 400"""
     headers = {"Authorization": "Bearer test-token"}
     payload = {"input": "", "model": "lukhas-mini"}
-    
+
     response = client.post("/v1/responses", headers=headers, json=payload)
-    
+
     assert response.status_code == 400
 
 
@@ -418,21 +420,21 @@ def test_create_response_streaming(client):
         "model": "lukhas-mini",
         "stream": True
     }
-    
+
     response = client.post("/v1/responses", headers=headers, json=payload)
-    
+
     assert response.status_code == 200
     assert response.headers["content-type"] == "text/event-stream; charset=utf-8"
-    
+
     # Parse SSE stream
     content = response.text
     assert "data: " in content
     assert "[DONE]" in content
-    
+
     # Check chunks format
     chunks = [line for line in content.split("\n") if line.startswith("data: ")]
     assert len(chunks) > 0
-    
+
     # Parse first chunk (should be JSON)
     first_chunk = chunks[0].replace("data: ", "")
     if first_chunk != "[DONE]":
@@ -446,9 +448,9 @@ def test_create_response_streaming_missing_input(client):
     """Test that streaming without input/messages returns 400"""
     headers = {"Authorization": "Bearer test-token"}
     payload = {"stream": True, "model": "lukhas-mini"}
-    
+
     response = client.post("/v1/responses", headers=headers, json=payload)
-    
+
     assert response.status_code == 400
 
 
@@ -456,9 +458,9 @@ def test_create_response_streaming_empty_input(client):
     """Test that streaming with empty input returns 400"""
     headers = {"Authorization": "Bearer test-token"}
     payload = {"input": "", "stream": True}
-    
+
     response = client.post("/v1/responses", headers=headers, json=payload)
-    
+
     assert response.status_code == 400
 
 
@@ -469,10 +471,10 @@ def test_create_response_streaming_empty_input(client):
 def test_openapi_export(client):
     """Test GET /openapi.json returns valid OpenAPI spec"""
     response = client.get("/openapi.json")
-    
+
     assert response.status_code == 200
     data = response.json()
-    
+
     assert "openapi" in data
     assert "info" in data
     assert data["info"]["title"] == "LUKHAS API"
@@ -516,12 +518,12 @@ def test_cors_preflight(client):
 def test_require_api_key_function():
     """Test require_api_key dependency function"""
     from serve.main import require_api_key
-    
+
     # Test with valid key
     with mock.patch("serve.main.env_get", return_value="expected-key"):
         result = require_api_key(x_api_key="expected-key")
         assert result == "expected-key"
-    
+
     # Test with invalid key
     with mock.patch("serve.main.env_get", return_value="expected-key"):
         from fastapi import HTTPException
@@ -543,7 +545,7 @@ def test_voice_core_available_false():
         if name == "bridge.voice":
             raise ImportError("Module not found")
         return mock.MagicMock()
-    
+
     with mock.patch("importlib.import_module", side_effect=mock_import):
         from serve.main import voice_core_available
         assert voice_core_available() is False
@@ -552,11 +554,11 @@ def test_voice_core_available_false():
 def test_safe_import_router_success():
     """Test _safe_import_router with successful import"""
     from serve.main import _safe_import_router
-    
+
     mock_module = mock.MagicMock()
     mock_router = mock.MagicMock()
     mock_module.router = mock_router
-    
+
     with mock.patch("builtins.__import__", return_value=mock_module):
         result = _safe_import_router("test_module", "router")
         assert result == mock_router
@@ -565,7 +567,7 @@ def test_safe_import_router_success():
 def test_safe_import_router_failure():
     """Test _safe_import_router returns None on import error"""
     from serve.main import _safe_import_router
-    
+
     with mock.patch("builtins.__import__", side_effect=ImportError("Module not found")):
         result = _safe_import_router("nonexistent_module")
         assert result is None

@@ -6,6 +6,7 @@ import unittest
 
 from core.providers.registry import ProviderRegistry, registry
 
+
 class TestProviderRegistry(unittest.TestCase):
     def setUp(self):
         # Use a fresh registry for each test to ensure isolation
