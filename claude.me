@@ -578,6 +578,50 @@ Successfully created 7 test sessions (TEST-014 through TEST-020) generating 6+ P
 - Labs module tests (memory, governance)
 
 ---
+## 🛠️ Claude Desktop Troubleshooting
+
+### Filesystem Error: write_file "content: undefined"
+
+**Problem**: Error message `Invalid arguments for write_file [{ "code": "invalid_type", "expected": "string", "received": "undefined", "path": [ "content" ], "message": "Required" }]`
+
+**Root Cause**: Claude Desktop web interface bug where `write_file` tool is called with undefined content parameter. This is NOT an MCP server issue - the Filesystem MCP server works correctly. The error occurs during tool call construction before reaching the MCP server.
+
+**Common Triggers**:
+- Large content generation (content gets truncated)
+- Streaming interruptions (content generation stopped mid-stream)
+- UI race conditions (write triggered before content ready)
+
+**Immediate Workarounds**:
+
+1. **Use edit_file instead of write_file**:
+   ```
+   "Can you edit the file instead of writing it from scratch?"
+   ```
+
+2. **Break large operations into chunks**:
+   ```
+   "Can you write this file in smaller sections?"
+   ```
+
+3. **Restart the conversation**:
+   - Error often persists in conversation context
+   - Starting fresh conversation in Claude Desktop usually resolves it
+
+4. **Full Claude Desktop restart**:
+   - Quit Claude Desktop (Cmd+Q)
+   - Reopen and try again
+
+**Diagnostic Tool**: Run `/Users/agi_dev/LOCAL-REPOS/Lukhas/tools/diagnose_claude_desktop_filesystem.sh` for comprehensive diagnostics
+
+**System Verification**:
+- ✅ Filesystem MCP server working correctly (no errors in logs)
+- ✅ All 6 LUKHAS MCP servers operational
+- ✅ Configuration: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- ✅ Logs: `~/Library/Logs/Claude/mcp-server-Filesystem.log`
+
+**Reporting**: If error persists after workarounds, report to https://github.com/anthropics/anthropic-sdk-typescript/issues with diagnostic output
+
+---
 ## 📚 Context Navigation Quick Reference
 
 **Primary Development**: `candidate/` → Development workspace
@@ -596,5 +640,5 @@ Successfully created 7 test sessions (TEST-014 through TEST-020) generating 6+ P
 
 
 **Architecture Status**: Constellation Framework Active (All 8 Stars) | Constitutional AI Integrated | 71.4% → 100% Roadmap
-**Last Updated**: 2025-11-10 | **Python Files**: 21,497 | **Test Files**: 964 | **Context Files**: 1,757 (165 claude.me + 1,592 lukhas_context.md) | **Research Docs**: 604
-**Latest Systems**: Performance Testing Suite · Consciousness API (Body/Depends) · MATRIZ Test Expansion · Ruff Lint Progress (43% reduction) · DX Improvements
+**Last Updated**: 2025-11-13 | **Python Files**: 21,497 | **Test Files**: 964 | **Context Files**: 1,757 (165 claude.me + 1,592 lukhas_context.md) | **Research Docs**: 604
+**Latest Systems**: Performance Testing Suite · Consciousness API (Body/Depends) · MATRIZ Test Expansion · Ruff Lint Progress (43% reduction) · DX Improvements · Claude Desktop Troubleshooting
