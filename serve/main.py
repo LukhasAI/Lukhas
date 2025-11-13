@@ -73,6 +73,15 @@ if ASYNC_ORCH_ENABLED:
             ASYNC_ORCH_ENABLED = False
             logging.getLogger(__name__).warning('LUKHAS_ASYNC_ORCH=1 but async MATRIZ orchestrator unavailable; falling back to stub')
 
+# ABAS policy middleware configuration (opt-in)
+ABAS_ENABLED = (env_get('ABAS_ENABLED', 'false') or 'false').strip().lower() == 'true'
+if ABAS_ENABLED:
+    try:
+        from enforcement.abas.middleware import ABASMiddleware
+    except ImportError:
+        logger.warning('ABAS_ENABLED=true but enforcement.abas.middleware not available')
+        ABAS_ENABLED = False
+
 def _safe_import_router(module_path: str, attr: str='router') -> Optional[Any]:
     try:
         mod = __import__(module_path, fromlist=[attr])
@@ -154,8 +163,13 @@ class HeadersMiddleware(BaseHTTPMiddleware):
         response.headers['x-ratelimit-reset-requests'] = str(int(time.time()) + 60)
         return response
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
+
+# Middleware order: CORS → Auth → ABAS → Headers
+# ABAS runs before Headers to enforce policy before audit/logging
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
 app.add_middleware(StrictAuthMiddleware)
+if ABAS_ENABLED:
+    app.add_middleware(ABASMiddleware)  # Policy enforcement before downstream processing
 app.add_middleware(HeadersMiddleware)
 if routes_router is not None:
     app.include_router(routes_router)
