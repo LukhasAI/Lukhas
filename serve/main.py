@@ -5,32 +5,23 @@ import time
 import uuid
 from collections.abc import Awaitable
 from typing import Any, Callable, Optional
-
 from async_lru import alru_cache
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from serve.metrics import (
-    active_thoughts,
-    cache_hits_total,
-    cache_misses_total,
-    matriz_operation_duration_ms,
-    matriz_operations_total,
-)
+from serve.metrics import active_thoughts, cache_hits_total, cache_misses_total, matriz_operation_duration_ms, matriz_operations_total
 from serve.middleware.cache_middleware import CacheMiddleware
 from serve.middleware.prometheus import PrometheusMiddleware
 from serve.utils.cache_manager import CacheManager
 from starlette.middleware.base import BaseHTTPMiddleware
-
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False
 try:
     import importlib as _importlib
-    _MATRIZ = _importlib.import_module("MATRIZ")
+    _MATRIZ = _importlib.import_module('MATRIZ')
     MATRIZ_AVAILABLE = True
 except Exception:
     try:
-        # Fallback to compatibility shim (deprecated)
-        _MATRIZ = _importlib.import_module("matriz")  # type: ignore
+        _MATRIZ = _importlib.import_module('matriz')
         MATRIZ_AVAILABLE = True
     except Exception:
         pass
@@ -65,29 +56,20 @@ except Exception:
 
     def env_get(key: str, default: Optional[str]=None) -> Optional[str]:
         return _os.getenv(key, default)
-
-# Cache configuration
-REDIS_URL = env_get("REDIS_URL", "redis://localhost:6379")
-CACHE_ENABLED = env_get("CACHE_ENABLED", "true").lower() == "true"
-DEFAULT_CACHE_TTL = int(env_get("CACHE_TTL", "300"))
-
+REDIS_URL = env_get('REDIS_URL', 'redis://localhost:6379')
+CACHE_ENABLED = env_get('CACHE_ENABLED', 'true').lower() == 'true'
+DEFAULT_CACHE_TTL = int(env_get('CACHE_TTL', '300'))
 _MODEL_LIST_CACHE = None
-
-# ΛTAG: async_response_toggle -- optional async orchestrator integration seam
-_ASYNC_ORCH_ENV = (env_get("LUKHAS_ASYNC_ORCH", "0") or "0").strip()
-ASYNC_ORCH_ENABLED = _ASYNC_ORCH_ENV == "1"
+_ASYNC_ORCH_ENV = (env_get('LUKHAS_ASYNC_ORCH', '0') or '0').strip()
+ASYNC_ORCH_ENABLED = _ASYNC_ORCH_ENV == '1'
 _RUN_ASYNC_ORCH: Optional[Callable[[str], Awaitable[dict[str, Any]]]] = None
 if ASYNC_ORCH_ENABLED:
     try:
-        from MATRIZ.orchestration.service_async import (
-            run_async_matriz,
-        )
+        from MATRIZ.orchestration.service_async import run_async_matriz
         _RUN_ASYNC_ORCH = alru_cache(maxsize=128)(run_async_matriz)
     except Exception:
         try:
-            from matriz.orchestration.service_async import (  # type: ignore
-                run_async_matriz,
-            )
+            from MATRIZ.orchestration.service_async import run_async_matriz
             _RUN_ASYNC_ORCH = alru_cache(maxsize=128)(run_async_matriz)
         except Exception:
             ASYNC_ORCH_ENABLED = False
@@ -110,20 +92,13 @@ openai_router = _safe_import_router('.openai_routes', 'router')
 orchestration_router = _safe_import_router('.orchestration_routes', 'router')
 routes_router = _safe_import_router('.routes', 'router')
 traces_router = _safe_import_router('.routes_traces', 'router')
-matriz_traces_router = (
-    _safe_import_router('MATRIZ.traces_router', 'router')
-    or _safe_import_router('matriz.traces_router', 'router')
-)
-
-# Core wiring routers (feature-flag gated)
+matriz_traces_router = _safe_import_router('MATRIZ.traces_router', 'router') or _safe_import_router('matriz.traces_router', 'router')
 dreams_router = None
 if (env_get('LUKHAS_DREAMS_ENABLED', '0') or '0').strip() == '1':
     dreams_router = _safe_import_router('lukhas_website.lukhas.api.dreams', 'router')
-
 glyphs_router = None
 if (env_get('LUKHAS_GLYPHS_ENABLED', '0') or '0').strip() == '1':
     glyphs_router = _safe_import_router('lukhas_website.lukhas.api.glyphs', 'router')
-
 drift_router = None
 if (env_get('LUKHAS_DRIFT_ENABLED', '0') or '0').strip() == '1':
     drift_router = _safe_import_router('lukhas_website.lukhas.api.drift', 'router')
@@ -137,38 +112,28 @@ def require_api_key(x_api_key: Optional[str]=Header(default=None)) -> Optional[s
         raise HTTPException(status_code=401, detail='Unauthorized')
     return x_api_key
 from lukhas_website.lukhas.api.middleware.strict_auth import StrictAuthMiddleware
-
 app = FastAPI(title='LUKHAS API', version='1.0.0', description='Governed tool loop, auditability, feedback LUT, and safety modes.', contact={'name': 'LUKHAS AI Team', 'url': 'https://github.com/LukhasAI/Lukhas'}, license_info={'name': 'MIT', 'url': 'https://opensource.org/licenses/MIT'}, servers=[{'url': 'http://localhost:8000', 'description': 'Local development'}, {'url': 'https://api.ai', 'description': 'Production'}])
 app.add_middleware(PrometheusMiddleware)
-
 
 class HeadersMiddleware(BaseHTTPMiddleware):
     """Add OpenAI-compatible headers to all responses."""
 
     async def dispatch(self, request: Request, call_next):
-        # Bypass middleware for WebSocket connections
-        if request.scope["type"] == "websocket":
+        if request.scope['type'] == 'websocket':
             return await call_next(request)
-
         response = await call_next(request)
         trace_id = str(uuid.uuid4()).replace('-', '')
         response.headers['X-Trace-Id'] = trace_id
         response.headers['X-Request-Id'] = trace_id
-        # Rate limit headers now added by RateLimitMiddleware
         return response
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
 app.add_middleware(StrictAuthMiddleware)
-
 cache_manager: Optional[CacheManager] = None
 if CACHE_ENABLED:
     cache_manager = CacheManager(redis_url=REDIS_URL, default_ttl=DEFAULT_CACHE_TTL)
-    app.add_middleware(
-        CacheMiddleware, cache_manager=cache_manager, default_ttl=DEFAULT_CACHE_TTL
-    )
-
+    app.add_middleware(CacheMiddleware, cache_manager=cache_manager, default_ttl=DEFAULT_CACHE_TTL)
 app.add_middleware(HeadersMiddleware)
-
 if routes_router is not None:
     app.include_router(routes_router)
 if openai_router is not None:
@@ -191,7 +156,6 @@ if consciousness_router is not None:
     app.include_router(consciousness_router)
 if guardian_router is not None:
     app.include_router(guardian_router)
-# Core wiring routers (feature-flag gated)
 if dreams_router is not None:
     app.include_router(dreams_router)
 if glyphs_router is not None:
@@ -207,7 +171,7 @@ def voice_core_available() -> bool:
     except Exception:
         return False
 
-@app.delete("/api/cache/{pattern}", status_code=204)
+@app.delete('/api/cache/{pattern}', status_code=204)
 async def invalidate_cache(pattern: str):
     """Manually invalidate cache entries matching a pattern."""
     if cache_manager:
@@ -273,117 +237,76 @@ def metrics() -> Response:
     """Prometheus metrics endpoint"""
     from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
     from observability.prometheus_registry import LUKHAS_REGISTRY
-
-    return Response(
-        content=generate_latest(LUKHAS_REGISTRY),
-        media_type=CONTENT_TYPE_LATEST
-    )
+    return Response(content=generate_latest(LUKHAS_REGISTRY), media_type=CONTENT_TYPE_LATEST)
 
 async def _stream_generator(request: dict) -> str:
     """SSE stream generator for OpenAI-compatible streaming responses."""
     import asyncio
     import hashlib
     import json
-
-    model = request.get("model", "lukhas-mini")
-    content = ""
-    if "input" in request:
-        content = str(request["input"])
-    elif request.get("messages"):
-        msgs = request["messages"]
-        content = next((m.get("content", "") for m in reversed(msgs) if m.get("role") == "user"), "")
-
-    response_id = "resp_" + hashlib.sha256(json.dumps(request, sort_keys=True).encode()).hexdigest()[:12]
+    model = request.get('model', 'lukhas-mini')
+    content = ''
+    if 'input' in request:
+        content = str(request['input'])
+    elif request.get('messages'):
+        msgs = request['messages']
+        content = next((m.get('content', '') for m in reversed(msgs) if m.get('role') == 'user'), '')
+    response_id = 'resp_' + hashlib.sha256(json.dumps(request, sort_keys=True).encode()).hexdigest()[:12]
     created_time = int(time.time())
-
-    # Simulate streaming chunks from the original response text
-    response_text = f"[stub] {content}".strip() if content else "[stub] empty input"
+    response_text = f'[stub] {content}'.strip() if content else '[stub] empty input'
     words = response_text.split()
-
     for i, word in enumerate(words):
-        chunk_text = f" {word}" if i > 0 else word
-        chunk = {
-            "id": response_id,
-            "object": "chat.completion.chunk",
-            "created": created_time,
-            "model": model,
-            "choices": [{
-                "index": 0,
-                "delta": {"content": chunk_text},
-                "finish_reason": None
-            }]
-        }
-        yield f"data: {json.dumps(chunk)}\n\n"
+        chunk_text = f' {word}' if i > 0 else word
+        chunk = {'id': response_id, 'object': 'chat.completion.chunk', 'created': created_time, 'model': model, 'choices': [{'index': 0, 'delta': {'content': chunk_text}, 'finish_reason': None}]}
+        yield f'data: {json.dumps(chunk)}\n\n'
         await asyncio.sleep(0.05)
-
-    # Send final chunk with finish_reason
-    final_chunk = {
-        "id": response_id,
-        "object": "chat.completion.chunk",
-        "created": created_time,
-        "model": model,
-        "choices": [{
-            "index": 0,
-            "delta": {},
-            "finish_reason": "stop"
-        }]
-    }
-    yield f"data: {json.dumps(final_chunk)}\n\n"
-    yield "data: [DONE]\n\n"
-
+    final_chunk = {'id': response_id, 'object': 'chat.completion.chunk', 'created': created_time, 'model': model, 'choices': [{'index': 0, 'delta': {}, 'finish_reason': 'stop'}]}
+    yield f'data: {json.dumps(final_chunk)}\n\n'
+    yield 'data: [DONE]\n\n'
 
 @app.post('/v1/responses', tags=['OpenAI Compatible'])
 async def create_response(request: dict) -> Response:
     """LUKHAS responses endpoint (OpenAI-compatible format)."""
     import hashlib
     import json
-
     from fastapi.responses import StreamingResponse
-
-    stream = request.get("stream", False)
+    stream = request.get('stream', False)
     if stream:
-        if "input" not in request and "messages" not in request:
-            raise HTTPException(status_code=400, detail={"error": "Missing 'input' or 'messages' field"})
-        if not request.get("input") and not request.get("messages"):
-             raise HTTPException(status_code=400, detail={"error": "'input' or 'messages' field cannot be empty"})
-        return StreamingResponse(_stream_generator(request), media_type="text/event-stream")
-
-    model = request.get("model", "lukhas-mini")
-
-    content = ""
-    if "input" in request:
-        content = str(request["input"])
-    elif request.get("messages"):
-        msgs = request["messages"]
-        content = next((m.get("content", "") for m in reversed(msgs) if m.get("role") == "user"), "")
-
+        if 'input' not in request and 'messages' not in request:
+            raise HTTPException(status_code=400, detail={'error': "Missing 'input' or 'messages' field"})
+        if not request.get('input') and (not request.get('messages')):
+            raise HTTPException(status_code=400, detail={'error': "'input' or 'messages' field cannot be empty"})
+        return StreamingResponse(_stream_generator(request), media_type='text/event-stream')
+    model = request.get('model', 'lukhas-mini')
+    content = ''
+    if 'input' in request:
+        content = str(request['input'])
+    elif request.get('messages'):
+        msgs = request['messages']
+        content = next((m.get('content', '') for m in reversed(msgs) if m.get('role') == 'user'), '')
     if not content:
-        raise HTTPException(status_code=400, detail={"error": "Input content cannot be empty"})
-
-    rid = "resp_" + hashlib.sha256(json.dumps(request, sort_keys=True).encode()).hexdigest()[:12]
-
-    response_text = f"[stub] {content}".strip()
+        raise HTTPException(status_code=400, detail={'error': 'Input content cannot be empty'})
+    rid = 'resp_' + hashlib.sha256(json.dumps(request, sort_keys=True).encode()).hexdigest()[:12]
+    response_text = f'[stub] {content}'.strip()
     orchestrator_result: Optional[dict[str, Any]] = None
     if ASYNC_ORCH_ENABLED and _RUN_ASYNC_ORCH is not None:
         active_thoughts.inc()
         start_time = time.time()
         try:
             orchestrator_result = await _RUN_ASYNC_ORCH(content)
-            duration = (time.time() - start_time) * 1000  # milliseconds
+            duration = (time.time() - start_time) * 1000
             matriz_operations_total.labels(operation_type='chat_completion', status='success').inc()
             matriz_operation_duration_ms.labels(operation_type='chat_completion').observe(duration)
         except Exception:
-            duration = (time.time() - start_time) * 1000  # milliseconds
+            duration = (time.time() - start_time) * 1000
             matriz_operations_total.labels(operation_type='chat_completion', status='error').inc()
             matriz_operation_duration_ms.labels(operation_type='chat_completion').observe(duration)
             raise
         finally:
             active_thoughts.dec()
-
         cache_info = _RUN_ASYNC_ORCH.cache_info()
         cache_hits_total.labels(cache_name='matriz_orchestrator').set(cache_info.hits)
         cache_misses_total.labels(cache_name='matriz_orchestrator').set(cache_info.misses)
-
         metrics_snapshot = orchestrator_result.get('orchestrator_metrics') if isinstance(orchestrator_result, dict) else None
         if metrics_snapshot:
             logger.debug('Async MATRIZ orchestrator metrics: %s', metrics_snapshot)
@@ -392,16 +315,8 @@ async def create_response(request: dict) -> Response:
             response_text = orchestrator_answer
         elif isinstance(orchestrator_result, dict) and orchestrator_result.get('error'):
             logger.info('Async MATRIZ orchestrator returned error; retaining stub response: %s', orchestrator_result['error'])
-
     from fastapi.responses import JSONResponse
-    return JSONResponse(content={
-        'id': rid,
-        'object': 'chat.completion',
-        'created': int(time.time()),
-        'model': model,
-        'choices': [{'index': 0, 'message': {'role': 'assistant', 'content': response_text}, 'finish_reason': 'stop'}],
-        'usage': {'prompt_tokens': len(content.split()), 'completion_tokens': len(response_text.split()), 'total_tokens': len(content.split()) + len(response_text.split())}
-    })
+    return JSONResponse(content={'id': rid, 'object': 'chat.completion', 'created': int(time.time()), 'model': model, 'choices': [{'index': 0, 'message': {'role': 'assistant', 'content': response_text}, 'finish_reason': 'stop'}], 'usage': {'prompt_tokens': len(content.split()), 'completion_tokens': len(response_text.split()), 'total_tokens': len(content.split()) + len(response_text.split())}})
 
 @app.get('/openapi.json', include_in_schema=False)
 def openapi_export() -> dict[str, Any]:
@@ -409,7 +324,6 @@ def openapi_export() -> dict[str, Any]:
     return app.openapi()
 if __name__ == '__main__':
     import os
-
     import uvicorn
     host = os.getenv('LUKHAS_BIND_HOST', '127.0.0.1')
     port = int(os.getenv('LUKHAS_BIND_PORT', '8000'))

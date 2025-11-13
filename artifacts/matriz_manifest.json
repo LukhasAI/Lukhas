@@ -1,12 +1,20 @@
 {
-  "timestamp": "2025-10-28T11:16:58.286504",
-  "mode": "dry-run",
+  "timestamp": "2025-11-13T01:53:31.743568",
+  "mode": "live",
   "old_module": "matriz",
   "new_module": "MATRIZ",
-  "root_path": "/private/var/folders/x0/nwzv169j7vs2bp580bwfrd480000gn/T/pytest-of-agi_dev/pytest-11/test_no_changes_for_strings0/mod2.py",
-  "files_scanned": 1,
-  "files_changed": [],
-  "total_changes": 0,
+  "root_path": "/home/user/Lukhas/lukhas_website",
+  "files_scanned": 481,
+  "files_changed": [
+    "/home/user/Lukhas/lukhas_website/lukhas/core/trace.py",
+    "/home/user/Lukhas/lukhas_website/lukhas/core/consciousness_stream.py",
+    "/home/user/Lukhas/lukhas_website/lukhas/core/matriz/optimized_orchestrator.py",
+    "/home/user/Lukhas/lukhas_website/lukhas/consciousness/enhanced_thought_node.py",
+    "/home/user/Lukhas/lukhas_website/lukhas/observability/matriz_emit.py",
+    "/home/user/Lukhas/lukhas_website/lukhas/matriz/__init__.py",
+    "/home/user/Lukhas/lukhas_website/lukhas/bio/core/bio_symbolic.py"
+  ],
+  "total_changes": 9,
   "files_skipped": 0,
   "files_with_errors": 0
 }
