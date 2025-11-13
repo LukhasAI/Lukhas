@@ -162,7 +162,7 @@ class PreflightValidator:
 
         try:
             # Try timedatectl first (systemd systems)
-            ret, out, err = self.run_command(["timedatectl", "status"])
+            ret, out, _err = self.run_command(["timedatectl", "status"])
             if ret == 0:
                 synchronized = False
                 ntp_active = False
