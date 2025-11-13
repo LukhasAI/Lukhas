@@ -1,17 +1,31 @@
 #!/usr/bin/env python3
 """Unit tests for Guardian Emergency Kill-Switch System"""
 
+import atexit
+import os
+import shutil
+import tempfile
 import unittest
-from pathlib import Path
-from guardian.emergency import trigger_kill_switch, is_kill_switch_active, clear_kill_switch
+
+_TEST_STATE_DIR = tempfile.mkdtemp(prefix="guardian-emergency-tests-")
+os.environ["GUARDIAN_EMERGENCY_STATE_DIR"] = _TEST_STATE_DIR
+atexit.register(lambda: shutil.rmtree(_TEST_STATE_DIR, ignore_errors=True))
+
+from guardian.emergency import (
+    KILL_SWITCH_FILE,
+    KILL_SWITCH_REASON_FILE,
+    clear_kill_switch,
+    is_kill_switch_active,
+    trigger_kill_switch,
+)
 
 
 class TestGuardianEmergency(unittest.TestCase):
     """Test Guardian emergency kill-switch functionality"""
 
     def setUp(self):
-        self.kill_switch_file = Path("/tmp/guardian_emergency_disable")
-        self.reason_file = Path("/tmp/guardian_emergency_reason.txt")
+        self.kill_switch_file = KILL_SWITCH_FILE
+        self.reason_file = KILL_SWITCH_REASON_FILE
         self._cleanup()
 
     def tearDown(self):
