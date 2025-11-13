@@ -4,9 +4,14 @@ import warnings
 from importlib import import_module
 from pathlib import Path
 
+# CRITICAL: Suppress Pydantic V2 warnings BEFORE any imports
+# This must be at the TOP of conftest.py to catch warnings during module imports
+warnings.filterwarnings("ignore", category=DeprecationWarning, message=".*Pydantic V1 style.*")
+
 # Allow optional pydantic imports for warning suppression without hard dependency
 try:
     from pydantic.warnings import PydanticDeprecatedSince20
+    warnings.filterwarnings("ignore", category=PydanticDeprecatedSince20)
 except ModuleNotFoundError:  # pragma: no cover - pydantic not installed
     PydanticDeprecatedSince20 = DeprecationWarning  # type: ignore[assignment]
 
