@@ -187,7 +187,7 @@ class TestConsciousnessQueryEndpoint:
         }
 
         response = client.post("/api/v2/consciousness/query", json=request_data)
-        data = response.json()
+        response.json()
 
         assert response.status_code == 200
 

@@ -190,7 +190,7 @@ class TestErrorHandling:
 
         try:
             # This may fail if labs.consciousness not available
-            provider = registry.get_openai()
+            registry.get_openai()
             # If it succeeds, verify it's cached
             assert registry.is_initialized("openai")
         except ImportError as e:
@@ -204,7 +204,7 @@ class TestErrorHandling:
         registry = ProviderRegistry(config)
 
         try:
-            provider = registry.get_consciousness_service()
+            registry.get_consciousness_service()
             assert registry.is_initialized("consciousness")
         except ImportError as e:
             # Should try multiple locations
@@ -217,7 +217,7 @@ class TestErrorHandling:
         registry = ProviderRegistry(config)
 
         try:
-            provider = registry.get_memory_service()
+            registry.get_memory_service()
             assert registry.is_initialized("memory")
         except ImportError as e:
             assert "Cannot import memory service" in str(e)
@@ -229,7 +229,7 @@ class TestErrorHandling:
         registry = ProviderRegistry(config)
 
         try:
-            provider = registry.get_identity_service()
+            registry.get_identity_service()
             assert registry.is_initialized("identity")
         except ImportError as e:
             assert "Cannot import identity service" in str(e)
@@ -241,7 +241,7 @@ class TestErrorHandling:
         registry = ProviderRegistry(config)
 
         try:
-            provider = registry.get_governance_service()
+            registry.get_governance_service()
             assert registry.is_initialized("governance")
         except ImportError as e:
             assert "Cannot import governance service" in str(e)

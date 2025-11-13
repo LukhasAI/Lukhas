@@ -6,7 +6,7 @@ A cognitive node for assessing the current state and providing a summary.
 """
 
 import time
-from typing import Any
+from typing import Any, Optional
 
 from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 
@@ -144,11 +144,13 @@ class StateAssessmentNode(CognitiveNode):
         trace_id: str,
         start_time: float,
         triggers: list[NodeTrigger],
-        state_to_assess: dict[str, Any] = {},
+        state_to_assess: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Create standardized error response with MATRIZ node.
         """
+        if state_to_assess is None:
+            state_to_assess = {}
         confidence = 0.1
         state = NodeState(
             confidence=confidence,

@@ -169,11 +169,7 @@ def is_safe_to_move_import(lines: List[str], import_line: int) -> bool:
         'sys.path'
     ]
 
-    for pattern in unsafe_patterns:
-        if pattern in context:
-            return False
-
-    return True
+    return all(pattern not in context for pattern in unsafe_patterns)
 
 def reorganize_imports(lines: List[str], import_start: int, misplaced_imports: List[Tuple[int, str]]) -> List[str]:
     """Reorganize the file to move imports to proper position."""

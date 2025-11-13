@@ -122,12 +122,10 @@ class SafetyValidator:
             (RedactionMode.BLUR, "*"),
         ]
 
-        all_passed = True
         for mode, expected_marker in modes:
             redacted = self.redactor.redact(text, detections, mode)
 
             if expected_marker not in redacted:
-                all_passed = False
                 self.results.append(ValidationResult(
                     f"Redaction Mode: {mode.value}",
                     False,

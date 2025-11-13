@@ -4,6 +4,11 @@ from .attention_controller import AttentionController
 from .episodic_memory import EpisodicMemory
 
 __all__ = [
-    "Node", "NodeContext", "NodeRegistry", "NodeMetrics",
-    "WorkingMemory", "AttentionController", "EpisodicMemory",
+    "AttentionController",
+    "EpisodicMemory",
+    "Node",
+    "NodeContext",
+    "NodeMetrics",
+    "NodeRegistry",
+    "WorkingMemory",
 ]

@@ -138,7 +138,6 @@ class TestHealthEndpoints:
         # Mock _get_health_status to return unhealthy
         from serve import main
 
-        original_health = main._get_health_status
 
         def mock_unhealthy():
             return {"status": "unhealthy", "error": "test error"}
@@ -326,7 +325,7 @@ class TestAsyncOrchestrator:
 
     def test_v1_responses_with_async_orch(self):
         """Test responses with async orchestrator."""
-        mock_orch = Mock(return_value={"answer": "orchestrated response"})
+        Mock(return_value={"answer": "orchestrated response"})
 
         with patch.dict("os.environ", {"LUKHAS_ASYNC_ORCH": "0"}):
             from serve.main import app

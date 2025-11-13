@@ -191,14 +191,12 @@ class TestTempFlagsConfig:
             }
         }
 
-        temp_path = None
         with patch('tempfile.NamedTemporaryFile') as mock_temp:
             mock_file = MagicMock()
             mock_file.name = '/tmp/test_config.yaml'
             mock_file.__enter__ = Mock(return_value=mock_file)
             mock_file.__exit__ = Mock(return_value=None)
             mock_temp.return_value = mock_file
-            temp_path = mock_file.name
 
             with patch('lukhas.features.testing.FeatureFlagsService'):
                 with patch('pathlib.Path.unlink') as mock_unlink:
@@ -255,7 +253,7 @@ class TestTempFlagsConfig:
         }
 
         try:
-            with temp_flags_config(config) as service:
+            with temp_flags_config(config):
                 raise ValueError("Test error")
         except ValueError:
             pass

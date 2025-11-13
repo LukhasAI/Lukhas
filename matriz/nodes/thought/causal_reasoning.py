@@ -152,10 +152,7 @@ class CausalReasoningNode(CognitiveNode):
         if not 0.0 <= output["confidence"] <= 1.0:
             return False
 
-        if "causal_links" not in output["answer"]:
-            return False
-
-        return True
+        return "causal_links" in output["answer"]
 
     def _identify_potential_causes(
         self,

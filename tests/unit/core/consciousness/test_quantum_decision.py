@@ -242,7 +242,7 @@ class TestDecisionMakingBridgeQuantumIntegration:
 
         strategies = [MockDecisionStrategy(f"s{i}") for i in range(3)]
 
-        chosen_strategy, confidence, metadata = bridge.evaluate_with_quantum_superposition(
+        chosen_strategy, _confidence, metadata = bridge.evaluate_with_quantum_superposition(
             decision_id="test_no_interference",
             strategies=strategies,
             context={},
@@ -264,7 +264,7 @@ class TestDecisionMakingBridgeQuantumIntegration:
         )
 
         # Second decision entangled with first
-        chosen_strategy, confidence, metadata = bridge.evaluate_with_quantum_superposition(
+        _chosen_strategy, _confidence, _metadata = bridge.evaluate_with_quantum_superposition(
             decision_id="decision_B",
             strategies=strategies,
             context={},
@@ -324,7 +324,7 @@ class TestQuantumDecisionEdgeCases:
 
         # Should handle gracefully
         with pytest.raises((ValueError, IndexError)):
-            state = engine.create_superposition([])
+            engine.create_superposition([])
 
     def test_zero_probabilities_handling(self):
         """Test entropy calculation with zero probabilities."""

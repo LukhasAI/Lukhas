@@ -1,7 +1,10 @@
 from __future__ import annotations
+
 import types
+
 from lukhas.orchestrator.matriz_phase1 import compose_phase1, run_phase1_cycle
 from MATRIZ.nodes.phase1.events import wavec_checkpoint
+
 
 def test_compose_and_run_smoke(monkeypatch):
     reg = compose_phase1()

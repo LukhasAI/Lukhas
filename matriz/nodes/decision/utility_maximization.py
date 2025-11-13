@@ -69,7 +69,7 @@ class UtilityMaximizationNode(CognitiveNode):
         options = input_data.get("options", [])
         utility_function = input_data.get("utility_function", {"type": "linear"})
         risk_preference = input_data.get("risk_preference", 0.0)  # 0 = neutral
-        constraints = input_data.get("constraints", {})
+        input_data.get("constraints", {})
 
         # Calculate utilities for all options
         utility_options = self._calculate_utilities(
@@ -159,10 +159,7 @@ class UtilityMaximizationNode(CognitiveNode):
         if not 0.0 <= output["confidence"] <= 1.0:
             return False
 
-        if "optimal_choice" not in output["answer"]:
-            return False
-
-        return True
+        return "optimal_choice" in output["answer"]
 
     def _calculate_utilities(
         self,

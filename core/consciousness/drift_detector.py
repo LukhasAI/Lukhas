@@ -10,7 +10,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import List, Optional, Protocol
+from typing import List, Protocol
 
 from core.symbolic.glyph_specialist import GlyphSignal
 
@@ -229,9 +229,8 @@ class SQLiteDriftArchive:
                 snapshot = json.loads(snapshot_json)
 
                 # Additional layer filter (not indexed)
-                if layer:
-                    if layer not in snapshot.get("layers", {}):
-                        continue
+                if layer and layer not in snapshot.get("layers", {}):
+                    continue
 
                 results.append(
                     {"archive_id": archive_id, "archived_at": archived_at, "snapshot": snapshot}

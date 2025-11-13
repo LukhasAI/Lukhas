@@ -6,7 +6,7 @@ A cognitive node for selecting and using tools.
 """
 
 import time
-from typing import Any
+from typing import Any, Optional
 
 from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 
@@ -154,11 +154,13 @@ class ToolUsageNode(CognitiveNode):
         start_time: float,
         triggers: list[NodeTrigger],
         tool_name: str = "",
-        tool_params: dict[str, Any] = {},
+        tool_params: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Create standardized error response with MATRIZ node.
         """
+        if tool_params is None:
+            tool_params = {}
         confidence = 0.1
         state = NodeState(
             confidence=confidence,

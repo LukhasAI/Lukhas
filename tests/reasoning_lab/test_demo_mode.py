@@ -160,8 +160,8 @@ class TestDemoMode:
     def test_get_statistics(self):
         """Test statistics generation."""
         demo = DemoMode()
-        session_id1 = demo.create_session("192.168.1.1")
-        session_id2 = demo.create_session("192.168.1.2")
+        demo.create_session("192.168.1.1")
+        demo.create_session("192.168.1.2")
 
         stats = demo.get_statistics()
 

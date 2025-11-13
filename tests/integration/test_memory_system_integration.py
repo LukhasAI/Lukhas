@@ -16,8 +16,8 @@ from pathlib import Path
 
 import pytest
 
-from MATRIZ.core.memory_system import MemorySystem
 from lukhas.memory.fold_system import MemoryFoldSystem
+from MATRIZ.core.memory_system import MemorySystem
 
 
 class TestMemorySystemIntegration:
@@ -121,7 +121,7 @@ class TestMemoryMATRIZIntegration:
         """Test that MATRIZ can store and retrieve memories."""
         from matriz.core.orchestrator import Orchestrator
 
-        orchestrator = Orchestrator()
+        Orchestrator()
         memory = MemorySystem()
 
         # MATRIZ creates a memory
@@ -150,7 +150,7 @@ class TestMemoryMATRIZIntegration:
         # Create memory that should trigger cascade prevention
         try:
             # Intentionally create problematic memory
-            fold_id = await system.create_fold(
+            await system.create_fold(
                 content={"recursive": "reference", "self": fold_id},
                 tags=["cascade_test"]
             )
@@ -175,11 +175,11 @@ class TestMemoryPersistence:
 
         try:
             # Create test memories
-            fold_id_1 = await system.create_fold(
+            await system.create_fold(
                 content="Test memory 1",
                 tags=["export_test", "first"]
             )
-            fold_id_2 = await system.create_fold(
+            await system.create_fold(
                 content="Test memory 2",
                 tags=["export_test", "second"]
             )

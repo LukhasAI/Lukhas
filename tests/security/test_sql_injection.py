@@ -24,7 +24,7 @@ class TestSqlInjection(unittest.TestCase):
         metrics = {}
         cfg_version = "1.0"
 
-        scene_id = self.memory.save(user_id=user_id, scene=scene, glyphs=glyphs, policy=policy, metrics=metrics, cfg_version=cfg_version)
+        self.memory.save(user_id=user_id, scene=scene, glyphs=glyphs, policy=policy, metrics=metrics, cfg_version=cfg_version)
 
         retrieved_scene = self.memory.history(user_id=user_id, limit=1)[0]
         self.assertEqual(retrieved_scene["subject"], "' OR 1=1; --")
@@ -83,7 +83,7 @@ class TestSqlInjection(unittest.TestCase):
         metrics = {}
         cfg_version = "1.0"
 
-        scene_id = self.memory.save(user_id=user_id, scene=scene, glyphs=glyphs, policy=policy, metrics=metrics, cfg_version=cfg_version)
+        self.memory.save(user_id=user_id, scene=scene, glyphs=glyphs, policy=policy, metrics=metrics, cfg_version=cfg_version)
 
         retrieved_scene = self.memory.history(user_id=user_id, limit=1)[0]
         self.assertNotIn("unsafe_field", retrieved_scene["context"])

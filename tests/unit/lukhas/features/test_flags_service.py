@@ -636,7 +636,7 @@ class TestFeatureFlagsService:
         """Test manually reloading flags."""
         service = FeatureFlagsService(config_path=temp_config)
 
-        initial_flags = len(service.flags)
+        len(service.flags)
 
         # Modify config file
         config = {

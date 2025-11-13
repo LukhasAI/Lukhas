@@ -1,7 +1,10 @@
 from __future__ import annotations
+
 import time
-from MATRIZ.nodes.phase1.working_memory import WorkingMemory
+
 from MATRIZ.nodes.phase1.base import NodeContext
+from MATRIZ.nodes.phase1.working_memory import WorkingMemory
+
 
 def test_wm_capacity_and_eviction():
     wm = WorkingMemory(capacity=3)

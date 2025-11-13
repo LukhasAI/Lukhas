@@ -640,7 +640,7 @@ class TestObservabilityIntegration:
     def test_generate_dream_traced(self, app_client):
         """Test generate_dream is traced."""
         with patch("serve.routes.obs_stack") as mock_obs:
-            mock_trace = MagicMock()
+            MagicMock()
             mock_obs.trace.return_value = lambda f: f
 
             response = app_client.post(
@@ -653,7 +653,7 @@ class TestObservabilityIntegration:
     def test_glyph_feedback_traced(self, app_client):
         """Test glyph_feedback is traced."""
         with patch("serve.routes.obs_stack") as mock_obs:
-            mock_trace = MagicMock()
+            MagicMock()
             mock_obs.trace.return_value = lambda f: f
 
             response = app_client.post(

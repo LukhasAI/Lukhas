@@ -9,10 +9,10 @@ from lukhas.api.features import get_current_user, require_role
 
 # Basic Test: has_role function
 def test_has_role_direct_access():
-    assert has_role("admin", "admin") == True
-    assert has_role("admin", "user") == True
-    assert has_role("user", "admin") == False
-    assert has_role("guest", "user") == False
+    assert has_role("admin", "admin")
+    assert has_role("admin", "user")
+    assert not has_role("user", "admin")
+    assert not has_role("guest", "user")
 
 # Setup a dummy FastAPI app for testing dependencies
 app = FastAPI()

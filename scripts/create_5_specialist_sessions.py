@@ -3,6 +3,7 @@
 
 import asyncio
 import sys
+
 sys.path.insert(0, '/Users/agi_dev/LOCAL-REPOS/Lukhas')
 
 from bridge.llm_wrappers.jules_wrapper import JulesClient

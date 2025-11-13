@@ -149,7 +149,7 @@ def _to_vector(obj: Any) -> np.ndarray:
 
 def _to_sequence(obj: Any) -> list:
     """Convert object to sequence."""
-    if isinstance(obj, (list, tuple)) or isinstance(obj, str):
+    if isinstance(obj, (list, tuple, str)):
         return list(obj)
     elif isinstance(obj, dict):
         return list(obj.values())

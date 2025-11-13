@@ -9,6 +9,7 @@ Tests cover:
 - Edge cases and validation
 """
 
+import contextlib
 import json
 import os
 import tempfile
@@ -44,10 +45,8 @@ def temp_key_file():
     yield key_path
 
     # Cleanup
-    try:
+    with contextlib.suppress(Exception):
         os.unlink(key_path)
-    except Exception:
-        pass
 
 
 @pytest.fixture

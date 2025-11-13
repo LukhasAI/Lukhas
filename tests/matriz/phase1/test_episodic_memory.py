@@ -1,6 +1,8 @@
 from __future__ import annotations
+
 from MATRIZ.nodes.phase1 import episodic_memory as epi_mod
 from MATRIZ.nodes.phase1.base import NodeContext
+
 
 def test_epi_append_and_query(monkeypatch):
     epi = epi_mod.EpisodicMemory()

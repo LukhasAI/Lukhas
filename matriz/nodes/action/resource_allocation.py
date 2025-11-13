@@ -157,10 +157,7 @@ class ResourceAllocationNode(CognitiveNode):
         if not 0.0 <= output["confidence"] <= 1.0:
             return False
 
-        if "allocations" not in output["answer"]:
-            return False
-
-        return True
+        return "allocations" in output["answer"]
 
     def _allocate_resources(
         self,

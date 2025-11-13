@@ -156,7 +156,6 @@ class TestDemo:
             cli.demo(None)
 
         # Verify all examples are available
-        expected_demos = ["hello", "reasoning", "memory", "ethics", "full"]
         # Implementation contains all these demos
 
     def test_demo_invalid_name(self, cli):

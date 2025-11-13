@@ -169,10 +169,7 @@ class RiskAssessmentNode(CognitiveNode):
         if not 0.0 <= output["confidence"] <= 1.0:
             return False
 
-        if "risk_factors" not in output["answer"]:
-            return False
-
-        return True
+        return "risk_factors" in output["answer"]
 
     def _identify_risks(
         self,

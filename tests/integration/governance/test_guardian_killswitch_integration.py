@@ -100,7 +100,7 @@ class TestKillswitchGuardianIntegration:
         )
 
         # First, verify normal ethics evaluation might flag this
-        result_normal = guardian.evaluate_ethics(action, context={"risk_indicators": ["privacy_violation"]})
+        guardian.evaluate_ethics(action, context={"risk_indicators": ["privacy_violation"]})
         # We expect this might be flagged, but let's not make assumptions about the implementation
 
         # Activate kill-switch
@@ -205,7 +205,7 @@ class TestKillswitchGuardianIntegration:
         # Step 1: Guardian blocks deployment (normal behavior)
         baseline = "Stable production system v1.0"
         current = "New production system v2.0 with major changes"
-        drift_check = guardian.detect_drift(baseline, current, threshold=0.15, context={})
+        guardian.detect_drift(baseline, current, threshold=0.15, context={})
         # Might flag drift
 
         # Step 2: Incident: Activate kill-switch for emergency deployment

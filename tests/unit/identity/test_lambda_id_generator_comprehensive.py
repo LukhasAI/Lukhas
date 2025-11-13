@@ -298,8 +298,8 @@ class TestTimestampHashGeneration(unittest.TestCase):
         time.sleep(0.001)  # Sleep 1ms
         id2 = self.generator.generate_lambda_id(TierLevel.FRIEND)
 
-        timestamp1 = id1.split("-")[1]
-        timestamp2 = id2.split("-")[1]
+        id1.split("-")[1]
+        id2.split("-")[1]
 
         # Timestamps should be different (or very rarely same due to collision)
         # Allow for rare collisions

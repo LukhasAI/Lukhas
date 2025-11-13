@@ -1,6 +1,6 @@
 import logging
-from typing import Any
 from datetime import datetime
+from typing import Any
 
 import networkx as nx
 from core.colonies import BaseColony, ConsensusResult, Tag, TagScope
@@ -256,7 +256,7 @@ class SymbolicReasoningColony(BaseColony):
             dict with 'decision' and 'strength' keys.
         """
         # Get agent's consciousness type and mesh generation
-        consciousness_type = agent_data.get("consciousness_type", "symbolic_reasoning")
+        agent_data.get("consciousness_type", "symbolic_reasoning")
         agent_mesh_gen = agent_data.get("mesh_generation", 0)
 
         # Calculate vote based on:
