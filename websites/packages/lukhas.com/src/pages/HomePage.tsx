@@ -418,11 +418,11 @@ export default function HomePage() {
                   Global Compliance
                 </h3>
                 <p className="text-awareness-silver/70 mb-4">
-                  Certified and compliant with international data protection standards
+                  Target compliance with international data protection standards
                 </p>
                 <div className="space-y-1 text-sm text-awareness-silver/60">
-                  <p>SOC 2 Type II</p>
-                  <p>ISO 27001</p>
+                  <p>SOC 2 Type II target</p>
+                  <p>ISO 27001 target</p>
                   <p>GDPR, CCPA, HIPAA ready</p>
                 </div>
               </div>

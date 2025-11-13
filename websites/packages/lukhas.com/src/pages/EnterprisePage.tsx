@@ -39,7 +39,7 @@ export default function EnterprisePage() {
           </h1>
           <p className="text-xl text-awareness-silver/80 max-w-4xl mx-auto">
             Seamless deployment, enterprise-grade security, and white-glove support for
-            Fortune 500 consciousness technology implementations
+            large-scale consciousness technology implementations
           </p>
         </div>
       </section>
@@ -166,7 +166,7 @@ export default function EnterprisePage() {
                 </p>
                 <ul className="space-y-2 text-sm text-awareness-silver/70">
                   <li>• GDPR, CCPA, HIPAA</li>
-                  <li>• SOC 2, ISO 27001</li>
+                  <li>• SOC 2, ISO 27001 target</li>
                   <li>• Industry-specific standards</li>
                 </ul>
               </div>
