@@ -1,121 +1,79 @@
 ---
 status: wip
 type: documentation
-owner: unknown
-module: root
-redirect: false
-moved_to: null
 ---
 
 ![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
 
-# 📦 Docs
+# 📚 LUKHAS AI Documentation
 
-_Within the grand architecture of LUKHAS, docs emerges—LUKHAS docs module implementing, purpose refined to essence, functionality elevated to art._
-
-**LUKHAS docs module implementing specialized docs functionality with 0 components for integrated system operations.**
+> Comprehensive technical documentation for the LUKHAS consciousness-inspired AI platform
 
 ## Overview
 
-LUKHAS docs module implementing specialized docs functionality with 0 components for integrated system operations.
+This directory contains all documentation for the LUKHAS AI platform, including:
+- Development guides and workflows
+- Architecture documentation
+- Integration guides
+- Research papers and analysis
+- Domain strategy and branding
 
+**Status**: Experimental research project under active development
 
+## 📋 Documentation Index
 
-**Technical Foundation**: Core docs module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
+### Essential Reading
+- **[../README.md](../README.md)** - Main project README with current status
+- **[../ROADMAP.md](../ROADMAP.md)** - Development roadmap and realistic timelines
+- **[../SECURITY.md](../SECURITY.md)** - Security policy and vulnerability reporting
+- **[../LICENSE](../LICENSE)** - Proprietary license information
 
-## Lane Position
+### Development Documentation
+- **[development/README.md](development/README.md)** - Developer guides and workflows
+- **[development/QUICK_REFERENCE.md](development/QUICK_REFERENCE.md)** - Essential commands
+- **[development/MAKEFILE_USER_GUIDE.md](development/MAKEFILE_USER_GUIDE.md)** - Build system (50+ targets)
 
-- **Lane**: `unknown`
-- **Module ID**: `unknown`
-- **Constellation**: Core System Component
+### Architecture & Design
+- **[constellation/](constellation/)** - Constellation Framework documentation
+- **[matriz/](matriz/)** - MATRIZ cognitive engine documentation
+- **[identity/](identity/)** - ΛiD authentication system
+- **[consciousness/](consciousness/)** - Consciousness processing modules
 
-## Features
+### Integration Guides
+- **[integration/README.md](integration/README.md)** - Integration documentation
+- **[bridge/](bridge/)** - External API integrations
+- **[apis/](apis/)** - API reference documentation
 
-- ✅ Core functionality
-- ✅ API integration
-- ✅ Testing support
+### Governance & Ethics
+- **[governance/](governance/)** - Ethical guidelines and compliance
+- **[security/](security/)** - Security documentation
 
-## Quick Start
+## ⚠️ Documentation Status
 
-**Getting Started**: LUKHAS docs module implementing specialized docs functionality with 0 components for integrated system operations. This module integrates with the LUKHAS system to provide essential functionality.
+Many documentation files in this directory:
+- Reference aspirational features not yet implemented
+- Contain outdated claims from earlier development phases
+- Describe experimental systems still under development
 
-## ⚖️ Ethics & Governance
+Always cross-reference with the main [README.md](../README.md) for current project status.
 
-LUKHAS AI operates under strict ethical guidelines:
-- [Ethics Disclosure](governance/ETHICS_DISCLOSURE.md)
-- [Guardian System](governance/GUARDIAN_SYSTEM.md)
-- [Responsible Usage](guides/SAFE_AI_USAGE.md)
+## 🤝 Contributing to Documentation
 
+To contribute to documentation:
+1. Read the main [README.md](../README.md) for current project status
+2. Follow professional, honest tone - focus on obstacles over achievements
+3. Avoid claims of "production-ready" or "complete implementation"
+4. Use realistic language for experimental features
+5. Contact licensing@lukhas.ai to discuss contributions
 
-### Installation
+## Related Documentation
 
-```python
-# Import from unknown lane
-from docs import Docs
-
-# Initialize
-system = Docs()
-result = system.process(input_data)
-print(f"Result: {result}")
-```
-
-## API Reference
-
-See code docstrings and inline documentation.
-
-## Dependencies
-
-- No external dependencies
-
-## Provides
-
-- Core module functionality
-
-## Architecture
-
-```
-docs/
-├── __init__.py          # Module initialization
-├── core.py              # Core functionality
-├── api.py               # API interfaces
-├── tests/               # Test suite
-└── docs/                # Documentation
-```
-
-## Testing
-
-```bash
-# Run module tests
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/tests/ -v
-
-# Run with coverage
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/tests/ --cov=docs --cov-report=html
-```
-
-## Performance
-
-- Performance targets: Follow LUKHAS system SLOs
-
-## Documentation
-
-- **Module Manifest**: [`module.manifest.json`](module.manifest.json)
-- **Detailed Docs**: [`docs/`](docs/)
-- **API Examples**: See code docstrings and `docs/` directory
-
-## Contributing
-
-Follow LUKHAS development guidelines:
-1. Respect lane boundaries
-2. Maintain T4/0.01% quality standards
-3. Add comprehensive tests
-4. Update documentation
-
-## Related Modules
-
-- See main [LUKHAS README](../../README.md) for system overview
+- **Main README**: [../README.md](../README.md)
+- **Roadmap**: [../ROADMAP.md](../ROADMAP.md)
+- **License**: [../LICENSE](../LICENSE)
 
 ---
 
-**Version**: 1.0.0
-**Lane**: unknown
+**Last Updated**: November 13, 2025
+**Status**: Active Development
 **Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
