@@ -26,7 +26,7 @@ jobs:
 
       - name: Run tests with coverage
         run: |
-          pytest --cov=lukhas --cov=MATRIZ --cov=core \
+          pytest --cov=lukhas --cov=matriz --cov=core \
                  --cov-report=xml \
                  --cov-report=term \
                  --cov-report=html \
