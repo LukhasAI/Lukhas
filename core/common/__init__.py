@@ -5,6 +5,7 @@ Also provides real exceptions submodule for explicit imports.
 """
 from __future__ import annotations
 
+import sys
 from importlib import import_module
 # Always expose our submodule path
 from . import exceptions
@@ -19,7 +20,6 @@ def _bind(modname: str) -> bool:
     except Exception:
         return False
     # Skip if we imported ourselves (circular reference protection)
-    import sys
     if m is sys.modules.get(__name__):
         return False
     _SRC = m

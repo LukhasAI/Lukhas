@@ -14,7 +14,7 @@ import time
 from collections import defaultdict, deque
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Optional
+from typing import ClassVar, Optional
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -78,7 +78,7 @@ class SymbolicThresholdAutotuner:
     """
 
     # Default threshold configurations
-    DEFAULT_THRESHOLDS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_guardian_threshold_autotuner_py_L81"}
+    DEFAULT_THRESHOLDS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_guardian_threshold_autotuner_py_L81"}
         "entropy_warning": ThresholdConfig(
             name="entropy_warning",
             current_value=0.6,
@@ -170,7 +170,7 @@ class SymbolicThresholdAutotuner:
     }
 
     # Symbolic patterns for different adjustment types
-    ADJUSTMENT_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_guardian_threshold_autotuner_py_L173"}
+    ADJUSTMENT_PATTERNS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_guardian_threshold_autotuner_py_L173"}
         "increase_sensitivity": {
             "pattern": ["📈", "🔍", "⚡"],
             "description": "Increasing sensitivity to detect more threats",

@@ -5,7 +5,7 @@ Tests the core provider pattern implementation including all available
 providers, configuration management, and error handling.
 """
 
-from core.adapters import Config, ProviderRegistry, make_resolver
+from core.adapters import ProviderRegistry, Config, make_resolver
 
 
 class TestProviderRegistry:
@@ -155,7 +155,7 @@ class TestImportSafety:
     def test_registry_import_safety(self):
         """Test registry can be imported without candidate/labs."""
         try:
-            from core.adapters import Config, ProviderRegistry, make_resolver
+            from core.adapters import ProviderRegistry, Config, make_resolver
 
             assert ProviderRegistry is not None
             assert Config is not None
@@ -190,7 +190,7 @@ class TestErrorHandling:
 
         try:
             # This may fail if labs.consciousness not available
-            registry.get_openai()
+            provider = registry.get_openai()
             # If it succeeds, verify it's cached
             assert registry.is_initialized("openai")
         except ImportError as e:
@@ -204,7 +204,7 @@ class TestErrorHandling:
         registry = ProviderRegistry(config)
 
         try:
-            registry.get_consciousness_service()
+            provider = registry.get_consciousness_service()
             assert registry.is_initialized("consciousness")
         except ImportError as e:
             # Should try multiple locations
@@ -217,7 +217,7 @@ class TestErrorHandling:
         registry = ProviderRegistry(config)
 
         try:
-            registry.get_memory_service()
+            provider = registry.get_memory_service()
             assert registry.is_initialized("memory")
         except ImportError as e:
             assert "Cannot import memory service" in str(e)
@@ -229,7 +229,7 @@ class TestErrorHandling:
         registry = ProviderRegistry(config)
 
         try:
-            registry.get_identity_service()
+            provider = registry.get_identity_service()
             assert registry.is_initialized("identity")
         except ImportError as e:
             assert "Cannot import identity service" in str(e)
@@ -241,7 +241,7 @@ class TestErrorHandling:
         registry = ProviderRegistry(config)
 
         try:
-            registry.get_governance_service()
+            provider = registry.get_governance_service()
             assert registry.is_initialized("governance")
         except ImportError as e:
             assert "Cannot import governance service" in str(e)

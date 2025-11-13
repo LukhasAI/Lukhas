@@ -20,7 +20,7 @@ import uuid
 from dataclasses import asdict, dataclass, field  # asdict unused
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional  # Union, Tuple unused
+from typing import Optional  # Union unused
 
 # Third-Party Imports
 import structlog

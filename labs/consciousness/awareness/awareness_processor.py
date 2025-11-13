@@ -79,7 +79,7 @@ class AwarenessProcessor:
         """
         Initializes the AwarenessProcessor.
         Args:
-            config (Optional[Dict[str, Any]]): Configuration dictionary.
+            config (Optional[dict[str, Any]]): Configuration dictionary.
             user_id_context (Optional[str]): User ID for contextual logging.
         """
         self.user_id_context = user_id_context
@@ -143,7 +143,7 @@ class AwarenessProcessor:
             data (Any): The input data to process. Expected to be a dict with 'category'.
             user_id (Optional[str]): User ID for tier checking and contextual processing.
         Returns:
-            Dict[str, Any]: A dictionary containing the processing result or an error.
+            dict[str, Any]: A dictionary containing the processing result or an error.
         """
         log_user_id = user_id or self.user_id_context
         self.instance_logger.info(
@@ -278,7 +278,7 @@ class AwarenessProcessor:
         Args:
             user_id (Optional[str]): User ID for tier checking.
         Returns:
-            Dict[str, Any]: Dictionary containing component status.
+            dict[str, Any]: Dictionary containing component status.
         """
         log_user_id = user_id or self.user_id_context
         self.instance_logger.debug(f"ΛTRACE: Getting status for AwarenessProcessor (user context '{log_user_id}').")
@@ -598,7 +598,7 @@ def create_awareness_processor(
     """
     Factory function to create an AwarenessProcessor instance.
     Args:
-        config (Optional[Dict[str, Any]]): Configuration for the processor.
+        config (Optional[dict[str, Any]]): Configuration for the processor.
         user_id (Optional[str]): User ID for tier checking and context.
     Returns:
         AwarenessProcessor: A new instance of the AwarenessProcessor.
@@ -616,7 +616,7 @@ async def create_and_initialize_awareness_processor(
     """
     Async factory function to create and initialize an AwarenessProcessor instance.
     Args:
-        config (Optional[Dict[str, Any]]): Configuration for the processor.
+        config (Optional[dict[str, Any]]): Configuration for the processor.
         user_id (Optional[str]): User ID for tier checking and context.
     Returns:
         AwarenessProcessor: A new, initialized instance of the AwarenessProcessor.

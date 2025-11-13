@@ -1,7 +1,5 @@
 """Unit tests for DreamFeedbackController symbolic redirect scoring."""
 
-# ruff: noqa: B008
-# ruff: noqa: F821  # Experimental/test code with undefined names
 from __future__ import annotations
 
 import importlib
@@ -20,8 +18,7 @@ sys.modules["dream.core.dream_snapshot"] = dream_core_snapshot_module
 dream_core_pkg.dream_snapshot = dream_core_snapshot_module
 dream_pkg.core = dream_core_pkg
 
-from consciousness.dream.core.dream_feedback_controller import (  # noqa: E402 - stub modules must be registered before import
-from typing import List, Optional, Tuple
+from consciousness.dream.core.dream_feedback_controller import (
     DreamFeedbackController,
 )
 
@@ -29,7 +26,7 @@ from typing import List, Optional, Tuple
 class StubSnapshotStore:
     def __init__(self, snapshots):
         self._snapshots = snapshots
-        self.requested_user_id: Optional[str] = None
+        self.requested_user_id: str | None = None
 
     def get_recent_snapshots(self, user_id: str):
         self.requested_user_id = user_id
@@ -38,7 +35,7 @@ class StubSnapshotStore:
 
 class StubEmotionalMemory:
     def __init__(self) -> None:
-        self.calls: List[Tuple[tuple, dict]] = []
+        self.calls: list[tuple[tuple, dict]] = []
 
     def affect_delta(self, *args, **kwargs):  # pragma: no cover - stub only
         self.calls.append((args, kwargs))

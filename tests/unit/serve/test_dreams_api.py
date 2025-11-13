@@ -7,10 +7,10 @@ Tests:
 - Dream generation with seed and constraints
 """
 import os
-
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
+
 from serve.dreams_api import router
 
 

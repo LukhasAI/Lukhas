@@ -4,7 +4,7 @@
 import re
 import sys
 from pathlib import Path
-from typing import Tuple
+from typing import List, Tuple
 
 
 def fix_type_annotations(content: str) -> Tuple[str, int]:
@@ -61,7 +61,7 @@ def fix_type_annotations(content: str) -> Tuple[str, int]:
         # If there's already a typing import, update it
         typing_import_match = re.search(r'from typing import ([^\n]+)', content)
         if typing_import_match:
-            existing_imports = {i.strip() for i in typing_import_match.group(1).split(',')}
+            existing_imports = set(i.strip() for i in typing_import_match.group(1).split(','))
             new_imports = existing_imports.copy()
 
             if needs_dict and 'Dict' not in existing_imports:

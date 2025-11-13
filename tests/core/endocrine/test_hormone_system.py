@@ -1,6 +1,4 @@
 """Tests for the core endocrine hormone system."""
-# ruff: noqa: B008
-# ruff: noqa: F821
 from __future__ import annotations
 
 import asyncio
@@ -8,6 +6,7 @@ from typing import Dict, List
 
 import pytest
 from core.endocrine.hormone_system import (
+from typing import Dict, List
     EndocrineSystem,
     HormoneType,
 )

@@ -3,9 +3,10 @@ import importlib.util
 import sys
 import types
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Any
 
 import pytest
+from typing import Dict, List, Tuple
 
 QI_PACKAGE_PATH = Path(__file__).resolve().parents[3] / "qi"
 

@@ -10,7 +10,7 @@ vocabularies, 3-Layer Tone System, and MATRIZ pipeline integration.
 import json
 import random
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 import yaml
 

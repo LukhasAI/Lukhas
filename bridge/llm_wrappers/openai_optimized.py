@@ -111,7 +111,7 @@ class OptimizedOpenAIClient:
         self.cache_strategy = cache_strategy
         self.cache_ttl = cache_ttl
         self.cache_size = cache_size
-        self.cache: OrderedDict[str, CacheEntry] = OrderedDict()
+        self.cache: Ordereddict[str, CacheEntry] = OrderedDict()
         self.cache_dir = cache_dir or Path("data/openai_cache")
 
         # Rate limiting

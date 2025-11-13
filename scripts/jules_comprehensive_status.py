@@ -56,18 +56,18 @@ async def get_comprehensive_status():
                             'id': session_id,
                             'title': title
                         })
-                except Exception as e:
+                except Exception:
                     no_pr_sessions.append({
                         'id': session_id,
                         'title': title
                     })
 
-        print(f'\n📝 PR Generation (COMPLETED sessions only):')
+        print('\n📝 PR Generation (COMPLETED sessions only):')
         print(f'  Sessions with PRs: {len(pr_sessions)}')
         print(f'  Sessions without PRs: {len(no_pr_sessions)}')
 
         if no_pr_sessions:
-            print(f'\n⚠️  COMPLETED sessions without PRs (candidates for cleanup):')
+            print('\n⚠️  COMPLETED sessions without PRs (candidates for cleanup):')
             for s in no_pr_sessions[:10]:
                 print(f'  - {s["title"][:60]}... (ID: {s["id"]})')
             if len(no_pr_sessions) > 10:
@@ -76,7 +76,7 @@ async def get_comprehensive_status():
         # Check recently created sessions (today)
         recent = [s for s in sessions if '2025-11-10T1' in s.get('createTime', '')]
         if recent:
-            print(f'\n🆕 Recent Sessions (created today afternoon):')
+            print('\n🆕 Recent Sessions (created today afternoon):')
             for s in sorted(recent, key=lambda x: x.get('createTime', ''), reverse=True)[:15]:
                 title = s.get('title', 'Untitled')[:50]
                 state = s.get('state', 'UNKNOWN')

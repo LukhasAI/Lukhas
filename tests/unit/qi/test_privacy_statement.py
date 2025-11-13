@@ -7,6 +7,7 @@ PIPEDA, and LGPD compliance.
 # ruff: noqa: B008
 # ruff: noqa: F821  # Experimental/test code with undefined names
 from datetime import datetime
+from typing import ClassVar
 
 import pytest
 from qi.compliance.privacy_statement import (
@@ -17,7 +18,6 @@ from typing import List
     PrivacyStatement,
     PrivacyStatementGenerator,
 )
-
 
 @pytest.fixture
 def sample_organization() -> OrganizationInfo:
@@ -32,7 +32,6 @@ def sample_organization() -> OrganizationInfo:
         website="https://lukhas.ai",
     )
 
-
 @pytest.fixture
 def sample_data_types() -> List[str]:
     """Create sample data types for testing."""
@@ -44,12 +43,10 @@ def sample_data_types() -> List[str]:
         "IP address and location data",
     ]
 
-
 @pytest.fixture
 def generator() -> PrivacyStatementGenerator:
     """Create a privacy statement generator."""
     return PrivacyStatementGenerator()
-
 
 class TestPrivacyStatementGenerator:
     """Test PrivacyStatementGenerator class."""
@@ -765,7 +762,6 @@ class TestPrivacyStatementGenerator:
         # Should have reasonable length
         assert len(content) > 500
 
-
 class TestOrganizationInfo:
     """Test OrganizationInfo dataclass."""
 
@@ -803,7 +799,6 @@ class TestOrganizationInfo:
         assert org.dpo_email == "dpo@complete.com"
         assert org.website == "https://complete.com"
 
-
 class TestPrivacyStatement:
     """Test PrivacyStatement dataclass."""
 
@@ -831,7 +826,6 @@ class TestPrivacyStatement:
         assert statement.version == "1.0"
         assert statement.language == "en"
 
-
 class TestJurisdictionEnum:
     """Test Jurisdiction enum."""
 
@@ -845,7 +839,6 @@ class TestJurisdictionEnum:
     def test_jurisdiction_count(self) -> None:
         """Test correct number of jurisdictions."""
         assert len(list(Jurisdiction)) == 4
-
 
 class TestOutputFormatEnum:
     """Test OutputFormat enum."""

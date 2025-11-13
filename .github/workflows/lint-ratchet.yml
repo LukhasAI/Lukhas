@@ -1,0 +1,99 @@
+name: Lint Ratchet (E402/F821)
+
+on:
+  pull_request:
+    paths:
+      - '**.py'
+      - '.github/workflows/lint-ratchet.yml'
+      - 'scripts/check_lint_ratchet.py'
+
+jobs:
+  lint-ratchet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff
+
+      - name: Get changed Python files
+        id: changed-files
+        run: |
+          # Get the base branch (usually main)
+          BASE_BRANCH="${{ github.base_ref }}"
+          echo "Base branch: $BASE_BRANCH"
+
+          # Get list of changed Python files
+          git diff --name-only --diff-filter=AM origin/$BASE_BRANCH...HEAD | grep '\.py$' > /tmp/changed_files.txt || echo "No Python files changed"
+
+          echo "Changed Python files:"
+          cat /tmp/changed_files.txt || echo "None"
+
+      - name: Check current violations on changed files
+        run: |
+          mkdir -p /tmp/ratchet
+
+          # Check E402/F821 violations in changed files only
+          if [ -s /tmp/changed_files.txt ]; then
+            while IFS= read -r file; do
+              if [ -f "$file" ]; then
+                ruff check "$file" --select E402,F821 --output-format json >> /tmp/ratchet/current_violations.json 2>/dev/null || true
+              fi
+            done < /tmp/changed_files.txt
+          fi
+
+          # Ensure we have valid JSON
+          if [ ! -s /tmp/ratchet/current_violations.json ]; then
+            echo "[]" > /tmp/ratchet/current_violations.json
+          fi
+
+      - name: Checkout main branch
+        run: |
+          git fetch origin main
+          git checkout origin/main
+
+      - name: Check baseline violations on same files
+        run: |
+          # Check violations in the same files on main branch
+          if [ -s /tmp/changed_files.txt ]; then
+            while IFS= read -r file; do
+              if [ -f "$file" ]; then
+                ruff check "$file" --select E402,F821 --output-format json >> /tmp/ratchet/baseline_violations.json 2>/dev/null || true
+              fi
+            done < /tmp/changed_files.txt
+          fi
+
+          # Ensure we have valid JSON
+          if [ ! -s /tmp/ratchet/baseline_violations.json ]; then
+            echo "[]" > /tmp/ratchet/baseline_violations.json
+          fi
+
+      - name: Return to PR branch
+        run: |
+          git checkout ${{ github.sha }}
+
+      - name: Run ratchet check
+        run: |
+          python scripts/check_lint_ratchet.py \
+            --current /tmp/ratchet/current_violations.json \
+            --baseline /tmp/ratchet/baseline_violations.json \
+            --codes E402 F821
+
+      - name: Upload violation reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-ratchet-reports
+          path: |
+            /tmp/ratchet/current_violations.json
+            /tmp/ratchet/baseline_violations.json

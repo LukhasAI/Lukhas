@@ -15,6 +15,17 @@ http_request_duration_seconds = Histogram(
     ['method', 'endpoint']
 )
 
+http_requests_errors_total = Counter(
+    'http_requests_errors_total',
+    'Total HTTP requests with errors',
+    ['method', 'endpoint', 'status']
+)
+
+http_active_connections = Gauge(
+    'http_active_connections',
+    'Number of active HTTP connections'
+)
+
 matriz_operations_total = Counter(
     'matriz_operations_total',
     'Total MATRIZ cognitive operations',
@@ -48,6 +59,22 @@ cache_misses_total = Gauge(
     'cache_misses_total',
     'Total cache misses',
     ['cache_name']
+)
+
+# Dream and WaveC metrics
+dream_total = Counter(
+    'dream_total',
+    'Total number of dreams generated'
+)
+
+dream_with_regret_total = Counter(
+    'dream_with_regret_total',
+    'Total number of dreams with regret signatures'
+)
+
+wavec_rollbacks_total = Counter(
+    'wavec_rollbacks_total',
+    'Total number of WaveC rollbacks due to drift'
 )
 
 system_info = Info(

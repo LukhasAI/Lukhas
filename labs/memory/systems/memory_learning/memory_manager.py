@@ -234,7 +234,7 @@ class MemoryManager:
         and generate new insights. Integrated from oxn_dream engine.
 
         Returns:
-            Dict[str, Any]: Results of dream processing
+            dict[str, Any]: Results of dream processing
         """
         now = datetime.now(timezone.utc)
 
@@ -559,7 +559,7 @@ class MemoryManager:
             user_identity: User identity for access control
 
         Returns:
-            Dict[str, bool]: Keys mapped to their removal status
+            dict[str, bool]: Keys mapped to their removal status
         """
         results = {}
 

@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict import to native dict type in dream calibration benchmarks
+# estimate: 5min | priority: medium | dependencies: dream-benchmarks
+
 from __future__ import annotations
 
 import json
@@ -5,7 +9,7 @@ import os
 import pathlib
 import subprocess
 import sys
-from typing import Any, Dict
+from typing import Any
 
 # Threshold sweep ranges
 ALIGNMENT_THRESHOLDS = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
@@ -35,7 +39,7 @@ def load_results(path: str) -> list[dict[str, Any]]:
                 results.append(json.loads(line))
     return results
 
-def evaluate_threshold_performance(results: list[Dict]) -> dict[str, float]:
+def evaluate_threshold_performance(results: list[dict]) -> dict[str, float]:
     """Evaluate performance metrics for given results."""
     if not results:
         return {"accuracy": 0.0, "coverage": 0.0, "avg_latency": 0.0}

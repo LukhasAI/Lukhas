@@ -4,21 +4,20 @@ Comprehensive tests for feature flag testing utilities.
 Tests context managers, fixtures, and temporary configuration handling.
 """
 
+import pytest
 import tempfile
 from pathlib import Path
-from unittest.mock import MagicMock, Mock, patch
-
-import pytest
+from unittest.mock import Mock, patch, MagicMock
 import yaml
 
 from lukhas.features.testing import (
+    override_flag,
+    override_flags,
+    temp_flags_config,
     feature_flags,
     flag_context,
-    override_flag,
     override_flag_fixture,
-    override_flags,
     override_flags_fixture,
-    temp_flags_config,
 )
 
 
@@ -191,12 +190,14 @@ class TestTempFlagsConfig:
             }
         }
 
+        temp_path = None
         with patch('tempfile.NamedTemporaryFile') as mock_temp:
             mock_file = MagicMock()
             mock_file.name = '/tmp/test_config.yaml'
             mock_file.__enter__ = Mock(return_value=mock_file)
             mock_file.__exit__ = Mock(return_value=None)
             mock_temp.return_value = mock_file
+            temp_path = mock_file.name
 
             with patch('lukhas.features.testing.FeatureFlagsService'):
                 with patch('pathlib.Path.unlink') as mock_unlink:
@@ -253,7 +254,7 @@ class TestTempFlagsConfig:
         }
 
         try:
-            with temp_flags_config(config):
+            with temp_flags_config(config) as service:
                 raise ValueError("Test error")
         except ValueError:
             pass

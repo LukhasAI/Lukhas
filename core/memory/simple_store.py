@@ -150,7 +150,7 @@ class UnifiedMemoryManager:
         self.storage_path.mkdir(parents=True, exist_ok=True)
 
         # LRU cache for fast access (user_id -> OrderedDict of memories)
-        self.lru_cache: dict[str, OrderedDict[str, MemoryEntry]] = {}
+        self.lru_cache: dict[str, Ordereddict[str, MemoryEntry]] = {}
         self.cache_access_times: dict[str, float] = {}
 
         # Memory indices for fast querying

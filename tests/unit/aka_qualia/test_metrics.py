@@ -5,6 +5,7 @@
 
 import math
 from importlib.util import find_spec
+from typing import ClassVar
 
 import pytest
 
@@ -67,7 +68,6 @@ def create_phenomenal_scene(**kwargs) -> PhenomenalScene:
 
     defaults.update(kwargs)
     return PhenomenalScene(**defaults)
-
 
 # --- Test Class for AkaQualiaMetrics ---
 
@@ -342,9 +342,8 @@ class TestAkaQualiaMetrics:
 # Skip experimental aka_qualia tests
 pytestmark = pytest.mark.skip(reason="aka_qualia is experimental")
 
-
         # Create a repeating glyph pattern
-        glyphs = [PhenomenalGlyph(key="aka:loop", attrs={})]
+        glyphs: ClassVar[list] = [PhenomenalGlyph(key="aka:loop", attrs={})]
         scene = create_phenomenal_scene()
 
         # Calculate risk with a repetitive pattern but no glyphs

@@ -30,18 +30,18 @@ def fix_file(filepath: Path):
     # Fix "from typing import from"
     content = re.sub(
         r'from typing import ([^()\n]*?), from ',
-        r'from typing import \1\nfrom ',
+        r'from typing import \1\nfrom '
         content
     )
 
     # Fix "from typing import import"
     content = re.sub(
         r'from typing import ([^()\n]*?), import ',
-        r'from typing import \1\nimport ',
+        r'from typing import \1\nimport '
         content
     )
     content = re.sub(
-        r'from typing import import ',
+        r'from typing import import '
         r'import ',
         content
     )

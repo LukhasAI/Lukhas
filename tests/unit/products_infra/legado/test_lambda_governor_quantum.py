@@ -4,6 +4,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import MagicMock
+from typing import ClassVar
 
 import pytest
 from products.infrastructure.legado.legacy_systems.governor.lambda_governor import (
@@ -21,8 +22,6 @@ if tests_unit_path in sys.path:
 
 sys.path.insert(0, str(path_obj.parents[4]))
 
-
-
 class _DeterministicRouter:
     def __init__(self, router_id: str) -> None:
         self.router_id = router_id
@@ -31,7 +30,6 @@ class _DeterministicRouter:
     async def verify_arbitration(self, payload: dict, collapse_hash: str) -> bool:
         self.calls.append((payload, collapse_hash))
         return True
-
 
 @pytest.mark.asyncio
 async def test_lambda_governor_generates_quantum_safe_record(monkeypatch):

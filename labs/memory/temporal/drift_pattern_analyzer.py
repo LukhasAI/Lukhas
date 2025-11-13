@@ -42,7 +42,7 @@ class DriftPatternAnalyzer:
         Analyzes drift patterns in the LUKHAS brain.
 
         Returns:
-            List[Dict[str, Any]]: A list of drift motifs.
+            list[dict[str, Any]]: A list of drift motifs.
         """
         logger.info("Analyzing drift patterns.")
 

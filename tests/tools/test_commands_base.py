@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
-from typing import List
+
 
 import pytest
 from tools.commands.base import BaseCommand, CommandExecutionError
+from typing import List
 
 
 class _RecorderCommand(BaseCommand):

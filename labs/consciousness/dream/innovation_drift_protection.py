@@ -629,7 +629,7 @@ class InnovationDriftProtection(CoreInterface):
             ("TEMPORAL", drift_score.temporal_decay),
             ("ENTROPY", drift_score.entropy_delta),
         )
-        return DriftType[max_drift[0]]
+        return Drifttype[max_drift[0]]
 
     def _identify_affected_components(self, drift_score: DriftScore) -> list[str]:
         """Identify components affected by drift"""

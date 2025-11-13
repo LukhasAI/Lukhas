@@ -1,3 +1,4 @@
+from typing import ClassVar
 """
 LUKHAS Drift Monitoring API Endpoints
 ======================================
@@ -55,7 +56,7 @@ class DriftUpdateRequest(BaseModel):
     lane: Optional[str] = Field(default=None, description="Lane (experimental/candidate/prod)")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict] = {
             "example": {
                 "user_id": "user_123",
                 "intent": [1.0, 0.0, 0.5],

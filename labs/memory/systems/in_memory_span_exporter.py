@@ -54,7 +54,7 @@ class InMemorySpanExporter(SpanExporter):  # type: ignore:
     """
 
     def __init__(self) -> None:
-        self._finished_spans: typing.List[ReadableSpan] = []
+        self._finished_spans: typing.list[ReadableSpan] = []
         self._stopped = False
         self._lock = threading.Lock()
 
@@ -63,7 +63,7 @@ class InMemorySpanExporter(SpanExporter):  # type: ignore:
         with self._lock:
             self._finished_spans.clear()
 
-    def get_finished_spans(self) -> typing.Tuple[ReadableSpan, ...]:
+    def get_finished_spans(self) -> typing.tuple[ReadableSpan, ...]:
         """Returns a tuple of all ReadableSpan objects collected so far."""
         with self._lock:
             return tuple(self._finished_spans)
