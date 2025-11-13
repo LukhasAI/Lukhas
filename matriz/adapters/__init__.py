@@ -66,7 +66,9 @@ class WatchRequest(BaseModel):
     resource_id: Optional[str] = Field(None, description="Specific resource to watch")
     resource_type: Optional[str] = Field(None, description="Type of resources to watch")
     webhook_url: str = Field(..., description="Webhook URL for notifications")
-    events: list[str] = Field(default=["created", "updated", "deleted"], description="Events to watch")
+    events: list[str] = Field(
+        default=["created", "updated", "deleted"], description="Events to watch"
+    )
 
 
 class OperationResult(BaseModel):
@@ -96,14 +98,12 @@ class ServiceAdapter(ABC):
     @abstractmethod
     async def initialize(self, config: dict[str, Any]) -> None:
         """Initialize the adapter with configuration"""
-        pass
 
     @abstractmethod
     async def verify_capability_token(
         self, token: str, required_scopes: list[str], resource_id: Optional[str] = None
     ) -> dict[str, Any]:
         """Verify capability token has required scopes for operation"""
-        pass
 
     # Core operations (all require capability token verification)
 
@@ -116,17 +116,18 @@ class ServiceAdapter(ABC):
         limit: int = 100,
     ) -> list[ResourceMetadata]:
         """List resources with metadata only (requires metadata scope)"""
-        pass
 
     @abstractmethod
-    async def get_resource_metadata(self, capability_token: str, resource_id: str) -> ResourceMetadata:
+    async def get_resource_metadata(
+        self, capability_token: str, resource_id: str
+    ) -> ResourceMetadata:
         """Get detailed metadata for specific resource (requires metadata scope)"""
-        pass
 
     @abstractmethod
-    async def get_resource_content(self, capability_token: str, resource_id: str) -> ResourceContent:
+    async def get_resource_content(
+        self, capability_token: str, resource_id: str
+    ) -> ResourceContent:
         """Get full resource content (requires content scope)"""
-        pass
 
     @abstractmethod
     async def put_resource(
@@ -138,7 +139,6 @@ class ServiceAdapter(ABC):
         content_type: str,
     ) -> OperationResult:
         """Create or update resource (requires write scope)"""
-        pass
 
     @abstractmethod
     async def move_resource(
@@ -149,22 +149,20 @@ class ServiceAdapter(ABC):
         new_name: Optional[str] = None,
     ) -> OperationResult:
         """Move resource to different location (requires move scope)"""
-        pass
 
     @abstractmethod
-    async def search_resources(self, capability_token: str, query: SearchQuery) -> list[ResourceMetadata]:
+    async def search_resources(
+        self, capability_token: str, query: SearchQuery
+    ) -> list[ResourceMetadata]:
         """Search resources (requires appropriate scope based on search depth)"""
-        pass
 
     @abstractmethod
     async def watch_resources(self, capability_token: str, watch_request: WatchRequest) -> str:
         """Set up real-time resource watching (requires watch scope)"""
-        pass
 
     @abstractmethod
     async def unwatch_resources(self, capability_token: str, watch_id: str) -> OperationResult:
         """Remove resource watch (requires watch scope)"""
-        pass
 
     # Helper methods
 
@@ -189,7 +187,9 @@ class ServiceAdapter(ABC):
         }
         print(f"AUDIT: {log_entry}")  # In production: send to audit service
 
-    def _extract_required_scopes(self, operation: str, resource_type: Optional[str] = None) -> list[str]:
+    def _extract_required_scopes(
+        self, operation: str, resource_type: Optional[str] = None
+    ) -> list[str]:
         """Extract required scopes based on operation and resource type"""
         scope_map = {
             "list": [f"{resource_type or 'files'}.list.metadata"],

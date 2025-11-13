@@ -16,7 +16,7 @@ class CasePredicate(Protocol):
         """Return ``True`` when a rule matches the provided case."""
 
 
-@dataclass(slots=True)
+@dataclass
 class GovernanceCase:
     """Describe a governance decision request."""
 
@@ -27,7 +27,7 @@ class GovernanceCase:
     metadata: dict[str, str] = field(default_factory=dict)
 
 
-@dataclass(slots=True)
+@dataclass
 class GovernanceRule:
     """Simple governance rule for demonstration purposes."""
 
@@ -51,7 +51,7 @@ class BasicGovernanceEngine:
     """Evaluate governance cases with deterministic sample rules."""
 
     def __init__(self, rules: Iterable[GovernanceRule]):
-        self._rules: List[GovernanceRule] = list(rules)
+        self._rules: list[GovernanceRule] = list(rules)
         if not self._rules:
             raise ValueError("At least one governance rule must be provided")
 

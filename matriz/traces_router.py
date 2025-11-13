@@ -186,7 +186,8 @@ async def get_latest_trace() -> Response:
     except Exception as e:
         logger.error(f"Error retrieving latest trace: {e}")
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error retrieving trace"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error retrieving trace",
         ) from e
 
 
@@ -244,14 +245,17 @@ async def get_trace_by_id(trace_id: str) -> Response:
                 headers={"Cache-Control": "no-store"},
             )
 
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Trace '{trace_id}' not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Trace '{trace_id}' not found"
+        )
 
     except HTTPException:
         raise
     except Exception as e:
         logger.error(f"Error retrieving trace {trace_id}: {e}")
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error retrieving trace"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error retrieving trace",
         ) from e
 
 
@@ -332,5 +336,6 @@ async def list_traces(
     except Exception as e:
         logger.error(f"Error listing traces: {e}")
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error listing traces"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error listing traces",
         ) from e

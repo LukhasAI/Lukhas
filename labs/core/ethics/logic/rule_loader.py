@@ -18,7 +18,7 @@ Features:
 """
 import logging
 import os
-from typing import Dict, List, Optional
+from typing import Optional
 
 import yaml
 
@@ -135,7 +135,7 @@ def _parse_rule_config(config: Dict) -> EthicsRule:
     return rule
 
 
-def _create_fallback_rules() -> List[EthicsRule]:
+def _create_fallback_rules() -> list[EthicsRule]:
     """Create minimal fallback rules for fail-closed safety."""
     return [
         EthicsRule(

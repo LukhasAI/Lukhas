@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+from typing import ClassVar
 
+import logging
+
+logger = logging.getLogger(__name__)
 """
 ════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - API AUTHENTICATION MIDDLEWARE
@@ -21,11 +26,8 @@
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
-from __future__ import annotations
-
 import asyncio
 import functools
-import logging
 import os
 import time
 from collections import defaultdict
@@ -34,23 +36,17 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Callable
 
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict import to native dict type in API middleware
+# estimate: 5min | priority: high | dependencies: core-api-interfaces
 # Replaced python-jose (vulnerable) with PyJWT for secure JWT handling
 import jwt
 import structlog
-from core.identity.vault.lukhas_id import (
-    IdentityManager,
-    IdentityRateLimitExceeded,
-    IdentityVerificationError,
-)
 from fastapi import HTTPException, Request, status
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer
 from governance.identity.core.id_service import get_identity_manager
 from jwt.exceptions import InvalidTokenError as JWTError
-
-logger = logging.getLogger(__name__)
-
-
 
 # Import centralized decorators and tier system
 
@@ -65,6 +61,11 @@ except ImportError:
         return len(api_key) >= 32
 
 
+from core.identity.vault.lukhas_id import (
+    IdentityManager,
+    IdentityRateLimitExceeded,
+    IdentityVerificationError,
+)
 
 logger = structlog.get_logger(__name__)
 
@@ -185,7 +186,7 @@ class RateLimitConfig:
 class RateLimitMiddleware:
     """Rate limiting middleware with tier-based policies."""
 
-    DEFAULT_LIMITS: dict[int, RateLimitConfig] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_interfaces_api_v1_v1_rest_middleware_py_L188"}
+    DEFAULT_LIMITS: dict[int, RateLimitConfig] = {
         0: RateLimitConfig(limit=1000, window_seconds=3600),
         1: RateLimitConfig(limit=5000, window_seconds=3600),
     }

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.orchestration.brain.symbolic_engine
 
 **Star**: Supporting

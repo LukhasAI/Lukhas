@@ -1,22 +1,18 @@
-from opentelemetry import trace
-from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
-from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
-from opentelemetry.sdk.resources import Resource
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
+# serve/tracing.py
 
+try:
+    from lukhas.observability.otel_config import setup_telemetry
+except ImportError:
+    # If the central config is not found, define a no-op function
+    # to ensure the application can still run.
+    def setup_telemetry(*args, **kwargs):
+        # You could add a log warning here that tracing is not configured.
+        pass
 
 def setup_tracing(app):
-    resource = Resource(attributes={
-        "service.name": "lukhas-api"
-    })
-
-    trace.set_tracer_provider(
-        TracerProvider(resource=resource)
-    )
-
-    trace.get_tracer_provider().add_span_processor(
-        BatchSpanProcessor(OTLPSpanExporter())
-    )
-
-    FastAPIInstrumentor.instrument_app(app)
+    """
+    Sets up OpenTelemetry tracing for the FastAPI application.
+    This is a wrapper around the centralized telemetry setup function.
+    """
+    # The service name is hardcoded here, but could be read from config
+    setup_telemetry(app, service_name="lukhas-api")

@@ -9,6 +9,7 @@ authentication tiers and device management.
 Constellation Framework: Identity ⚛️ API layer
 """
 
+# ruff: noqa: B008
 from __future__ import annotations
 
 import logging

@@ -5,12 +5,15 @@ Data Integration Map
 Shows exactly how data flows from lukhas__modules into the monitoring system
 """
 
-from dataclasses import dataclass, field
-from typing import Any
+from dataclasses import dataclass
 
 
-def _default_consciousness_sources() -> dict[str, dict[str, Any]]:
-    return {
+@dataclass
+class DataIntegrationMap:
+    """Complete mapping of LUKHAS  data sources to monitoring system"""
+
+    # 🧠 CONSCIOUSNESS MODULE DATA
+    consciousness_sources = {
         "auto_consciousness.py": {
             "methods": [
                 "assess_awareness()",
@@ -37,9 +40,8 @@ def _default_consciousness_sources() -> dict[str, dict[str, Any]]:
         },
     }
 
-
-def _default_memory_sources() -> dict[str, dict[str, Any]]:
-    return {
+    # 🧬 MEMORY MODULE DATA
+    memory_sources = {
         "memoria.py": {
             "methods": [
                 "get_memory_load()",
@@ -69,9 +71,8 @@ def _default_memory_sources() -> dict[str, dict[str, Any]]:
         },
     }
 
-
-def _default_emotion_sources() -> dict[str, dict[str, Any]]:
-    return {
+    # 💭 EMOTION MODULE DATA
+    emotion_sources = {
         "service.py": {
             "methods": [
                 "get_current_state()",
@@ -96,9 +97,8 @@ def _default_emotion_sources() -> dict[str, dict[str, Any]]:
         },
     }
 
-
-def _default_reasoning_sources() -> dict[str, dict[str, Any]]:
-    return {
+    # 🧮 REASONING MODULE DATA
+    reasoning_sources = {
         "causal_inference.py": {
             "methods": [
                 "get_processing_depth()",
@@ -127,9 +127,8 @@ def _default_reasoning_sources() -> dict[str, dict[str, Any]]:
         },
     }
 
-
-def _default_biological_sources() -> dict[str, dict[str, Any]]:
-    return {
+    # 🧬 BIOLOGICAL MODULE DATA
+    biological_sources = {
         "endocrine_integration.py": {
             "methods": [
                 "get_hormone_levels()",
@@ -159,9 +158,8 @@ def _default_biological_sources() -> dict[str, dict[str, Any]]:
         },
     }
 
-
-def _default_creativity_sources() -> dict[str, dict[str, Any]]:
-    return {
+    # 🎨 CREATIVITY MODULE DATA
+    creativity_sources = {
         "dream_engine.py": {
             "methods": [
                 "get_creativity_level()",
@@ -176,9 +174,8 @@ def _default_creativity_sources() -> dict[str, dict[str, Any]]:
         }
     }
 
-
-def _default_governance_sources() -> dict[str, dict[str, Any]]:
-    return {
+    # 🏛️ GOVERNANCE MODULE DATA
+    governance_sources = {
         "audit_trail.py": {
             "methods": [
                 "get_system_stability()",
@@ -193,9 +190,8 @@ def _default_governance_sources() -> dict[str, dict[str, Any]]:
         }
     }
 
-
-def _default_orchestration_sources() -> dict[str, dict[str, Any]]:
-    return {
+    # 🔄 ORCHESTRATION MODULE DATA
+    orchestration_sources = {
         "signal_bus.py": {
             "methods": [
                 "get_signal_statistics()",
@@ -221,52 +217,6 @@ def _default_orchestration_sources() -> dict[str, dict[str, Any]]:
             "trigger_influence": "State instability → resilience_building triggers",
         },
     }
-
-
-@dataclass
-class DataIntegrationMap:
-    """Complete mapping of LUKHAS  data sources to monitoring system"""
-
-    # 🧠 CONSCIOUSNESS MODULE DATA
-    consciousness_sources: dict[str, dict[str, Any]] = field(
-        default_factory=_default_consciousness_sources
-    )
-
-    # 🧬 MEMORY MODULE DATA
-    memory_sources: dict[str, dict[str, Any]] = field(
-        default_factory=_default_memory_sources
-    )
-
-    # 💭 EMOTION MODULE DATA
-    emotion_sources: dict[str, dict[str, Any]] = field(
-        default_factory=_default_emotion_sources
-    )
-
-    # 🧮 REASONING MODULE DATA
-    reasoning_sources: dict[str, dict[str, Any]] = field(
-        default_factory=_default_reasoning_sources
-    )
-
-    # 🧬 BIOLOGICAL MODULE DATA
-    biological_sources: dict[str, dict[str, Any]] = field(
-        default_factory=_default_biological_sources
-    )
-
-    # 🎨 CREATIVITY MODULE DATA
-    creativity_sources: dict[str, dict[str, Any]] = field(
-        default_factory=_default_creativity_sources
-    )
-
-    # 🏛️ GOVERNANCE MODULE DATA
-    governance_sources: dict[str, dict[str, Any]] = field(
-        default_factory=_default_governance_sources
-    )
-
-    # 🔄 ORCHESTRATION MODULE DATA
-    orchestration_sources: dict[str, dict[str, Any]] = field(
-        default_factory=_default_orchestration_sources
-    )
-
 
 
 def show_data_flow_example():

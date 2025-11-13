@@ -21,7 +21,6 @@ from time import perf_counter
 from typing import Any
 
 from observability import counter, gauge, histogram
-import collections
 
 __all__ = [
     "EventSeverity",
@@ -53,7 +52,7 @@ class EventSeverity(str, Enum):
     CRITICAL = "critical"
 
 
-@dataclass(slots=True)
+@dataclass
 class SecurityEvent:
     """Normalized security event."""
 
@@ -66,7 +65,7 @@ class SecurityEvent:
     metadata: Mapping[str, Any] = field(default_factory=dict)
 
 
-@dataclass(slots=True)
+@dataclass
 class SecurityThreat:
     """Active security threat detected by the monitor."""
 

@@ -124,16 +124,12 @@ class QIConsciousnessValidator:
             ConsciousnessState.FLOW_STATE: {"attention": 0.9, "creativity": 0.7},
         }
 
-    async def validate_consciousness_state(
-        self, context: UnifiedAuthContext
-    ) -> dict[str, Any]:
+    async def validate_consciousness_state(self, context: UnifiedAuthContext) -> dict[str, Any]:
         """Validate user's consciousness state for authentication"""
         if not context.consciousness_state or not context.attention_metrics:
             return {"valid": False, "reason": "Insufficient consciousness data"}
 
-        required_thresholds = self.consciousness_thresholds.get(
-            context.consciousness_state, {}
-        )
+        required_thresholds = self.consciousness_thresholds.get(context.consciousness_state, {})
 
         for metric, threshold in required_thresholds.items():
             user_value = context.attention_metrics.get(metric, 0.0)
@@ -141,9 +137,7 @@ class QIConsciousnessValidator:
                 return {
                     "valid": False,
                     "reason": f"Consciousness state mismatch: {metric} below threshold",
-                    "suggested_state": self._suggest_optimal_state(
-                        context.attention_metrics
-                    ),
+                    "suggested_state": self._suggest_optimal_state(context.attention_metrics),
                 }
 
         return {
@@ -175,9 +169,7 @@ class QIConsciousnessValidator:
         else:
             return ConsciousnessState.FOCUSED
 
-    def _get_optimal_auth_methods(
-        self, context: UnifiedAuthContext
-    ) -> list[AuthMethod]:
+    def _get_optimal_auth_methods(self, context: UnifiedAuthContext) -> list[AuthMethod]:
         """Get optimal authentication methods for current consciousness state"""
         state_to_methods = {
             ConsciousnessState.FOCUSED: [
@@ -205,9 +197,7 @@ class QIConsciousnessValidator:
                 AuthMethod.QUANTUM_GLYPH,
             ],
         }
-        return state_to_methods.get(
-            context.consciousness_state, [AuthMethod.EMOJI_CONSCIOUSNESS]
-        )
+        return state_to_methods.get(context.consciousness_state, [AuthMethod.EMOJI_CONSCIOUSNESS])
 
 
 class CulturalIntelligenceEngine:
@@ -335,9 +325,7 @@ class DreamStateAuthenticator:
             "hypnagogic": {"coherence": 0.4, "creativity": 0.7},
         }
 
-    async def authenticate_dream_state(
-        self, context: UnifiedAuthContext
-    ) -> dict[str, Any]:
+    async def authenticate_dream_state(self, context: UnifiedAuthContext) -> dict[str, Any]:
         """Authenticate based on dream state indicators"""
         if not context.dream_state_indicators:
             return {"success": False, "reason": "No dream state data"}
@@ -377,17 +365,12 @@ class DreamStateAuthenticator:
             return "rem_sleep"
         elif indicators.get("meditation_depth", 0) > 0.6:
             return "meditation"
-        elif (
-            indicators.get("coherence", 0) > 0.8
-            and indicators.get("awareness", 0) < 0.3
-        ):
+        elif indicators.get("coherence", 0) > 0.8 and indicators.get("awareness", 0) < 0.3:
             return "deep_stillness"  # Fallback for meditative states
         else:
             return "hypnagogic"
 
-    def _generate_dream_token(
-        self, context: UnifiedAuthContext, dream_type: str
-    ) -> str:
+    def _generate_dream_token(self, context: UnifiedAuthContext, dream_type: str) -> str:
         """Generate a dream-state specific authentication token"""
         dream_data = {
             "user_id": context.user_id,
@@ -452,9 +435,7 @@ class RevolutionaryAuthManager:
 
         logger.info("🌟 Revolutionary Authentication Manager initialized")
 
-    async def revolutionary_authenticate(
-        self, context: UnifiedAuthContext
-    ) -> dict[str, Any]:
+    async def revolutionary_authenticate(self, context: UnifiedAuthContext) -> dict[str, Any]:
         """
         Revolutionary authentication that adapts to consciousness, culture, and dreams
         """
@@ -462,8 +443,8 @@ class RevolutionaryAuthManager:
 
         try:
             # Phase 1: Consciousness State Validation
-            consciousness_result = (
-                await self.consciousness_validator.validate_consciousness_state(context)
+            consciousness_result = await self.consciousness_validator.validate_consciousness_state(
+                context
             )
             if not consciousness_result["valid"]:
                 return {
@@ -477,19 +458,12 @@ class RevolutionaryAuthManager:
                 }
 
             # Phase 2: Cultural Intelligence Adaptation
-            cultural_adaptation = await self.cultural_engine.adapt_authentication(
-                context
-            )
+            cultural_adaptation = await self.cultural_engine.adapt_authentication(context)
 
             # Phase 3: Dream State Authentication (if applicable)
             dream_result = None
-            if (
-                context.auth_method == AuthMethod.BIOMETRIC_DREAM
-                and context.dream_state_indicators
-            ):
-                dream_result = await self.dream_authenticator.authenticate_dream_state(
-                    context
-                )
+            if context.auth_method == AuthMethod.BIOMETRIC_DREAM and context.dream_state_indicators:
+                dream_result = await self.dream_authenticator.authenticate_dream_state(context)
                 if not dream_result["success"]:
                     return {
                         "success": False,
@@ -507,9 +481,7 @@ class RevolutionaryAuthManager:
             lambda_credentials = await self._prepare_revolutionary_credentials(
                 context, optimal_tier
             )
-            lambda_result = self.lambda_id_system.authenticate(
-                optimal_tier, lambda_credentials
-            )
+            lambda_result = self.lambda_id_system.authenticate(optimal_tier, lambda_credentials)
 
             if not lambda_result.get("success"):
                 return {
@@ -535,9 +507,7 @@ class RevolutionaryAuthManager:
                 context, consciousness_result
             )
 
-            logger.info(
-                f"✅ Revolutionary authentication successful - Tier: {optimal_tier.value}"
-            )
+            logger.info(f"✅ Revolutionary authentication successful - Tier: {optimal_tier.value}")
 
             return {
                 "success": True,
@@ -552,15 +522,9 @@ class RevolutionaryAuthManager:
                 "dream_state_data": dream_result,
                 "qi_signature": lambda_result.get("crypto_version"),
                 # Adaptive recommendations
-                "optimal_auth_methods": consciousness_result.get(
-                    "optimal_auth_methods", []
-                ),
-                "recommended_methods": cultural_adaptation.get(
-                    "recommended_methods", []
-                ),
-                "consciousness_score": consciousness_result.get(
-                    "consciousness_score", 0.0
-                ),
+                "optimal_auth_methods": consciousness_result.get("optimal_auth_methods", []),
+                "recommended_methods": cultural_adaptation.get("recommended_methods", []),
+                "consciousness_score": consciousness_result.get("consciousness_score", 0.0),
                 "cultural_compatibility": cultural_adaptation.get(
                     "cultural_compatibility_score", 0.0
                 ),
@@ -629,9 +593,7 @@ class RevolutionaryAuthManager:
                     "emoji_sequence": context.credentials.get("emoji_sequence"),
                     "keyword": context.credentials.get("keyword"),
                     "consciousness_state": (
-                        context.consciousness_state.value
-                        if context.consciousness_state
-                        else None
+                        context.consciousness_state.value if context.consciousness_state else None
                     ),
                 }
 
@@ -648,46 +610,35 @@ class RevolutionaryAuthManager:
         elif context.auth_method == AuthMethod.QUANTUM_GLYPH:
             primary_auth = {
                 "qrglyph": context.qrglyph_token or "mock_qrglyph_token",
-                "qi_entropy": context.qi_entropy_source
-                or "mock_quantum_entropy",
+                "qi_entropy": context.qi_entropy_source or "mock_quantum_entropy",
                 "consciousness_state": (
-                    context.consciousness_state.value
-                    if context.consciousness_state
-                    else None
+                    context.consciousness_state.value if context.consciousness_state else None
                 ),
                 "biometric_template": (
                     context.biometric_hashes.get("primary")
                     if context.biometric_hashes
                     else "mock_biometric_template"
                 ),
-                "consent_hash": context.credentials.get(
-                    "consent_hash", "mock_consent_hash"
-                ),
+                "consent_hash": context.credentials.get("consent_hash", "mock_consent_hash"),
             }
 
         elif context.auth_method == AuthMethod.CULTURAL_RESONANCE:
             primary_auth = {
                 "cultural_pattern": context.cultural_context,
                 "emoji_sequence": context.credentials.get("emoji_sequence"),
-                "cultural_challenge_response": context.credentials.get(
-                    "cultural_response"
-                ),
+                "cultural_challenge_response": context.credentials.get("cultural_response"),
             }
 
         elif context.auth_method == AuthMethod.CONSTITUTIONAL_CHALLENGE:
             primary_auth = {
                 "ethical_challenge_response": context.ethical_challenge_response,
-                "constitutional_alignment": context.credentials.get(
-                    "constitutional_score"
-                ),
+                "constitutional_alignment": context.credentials.get("constitutional_score"),
             }
 
         elif context.auth_method == AuthMethod.HYBRID_MULTIMODAL:
             primary_auth = {
                 "zk_proof": context.credentials.get("zk_proof", {"verified": True}),
-                "constitutional_score": context.credentials.get(
-                    "constitutional_score", 0.9
-                ),
+                "constitutional_score": context.credentials.get("constitutional_score", 0.9),
                 "biometric_template": (
                     context.biometric_hashes.get("primary")
                     if context.biometric_hashes
@@ -701,9 +652,7 @@ class RevolutionaryAuthManager:
                 "biometric_template": context.biometric_hashes.get(
                     "secondary", "mock_secondary_biometric"
                 ),
-                "bio_hash": context.biometric_hashes.get(
-                    "secondary_hash", "mock_secondary_hash"
-                ),
+                "bio_hash": context.biometric_hashes.get("secondary_hash", "mock_secondary_hash"),
             }
 
         return AuthCredentials(
@@ -711,9 +660,7 @@ class RevolutionaryAuthManager:
             primary_auth=primary_auth,
             secondary_auth=secondary_auth if secondary_auth else None,
             biometric_hash=(
-                context.biometric_hashes.get(
-                    "primary_hash", "mock_primary_biometric_hash"
-                )
+                context.biometric_hashes.get("primary_hash", "mock_primary_biometric_hash")
                 if context.biometric_hashes
                 else "mock_biometric_hash"
             ),
@@ -737,14 +684,12 @@ class RevolutionaryAuthManager:
 
         # Generate quantum-enhanced session token
         secrets.token_bytes(64)
-        consciousness_hash = hashlib.sha256(
-            str(consciousness_result).encode()
-        ).hexdigest()[:16]
-        cultural_hash = hashlib.sha256(str(cultural_adaptation).encode()).hexdigest()[
-            :16
-        ]
+        consciousness_hash = hashlib.sha256(str(consciousness_result).encode()).hexdigest()[:16]
+        cultural_hash = hashlib.sha256(str(cultural_adaptation).encode()).hexdigest()[:16]
 
-        session_token = f"REV_{tier.value}_{consciousness_hash}_{cultural_hash}_{secrets.token_urlsafe(32)}"
+        session_token = (
+            f"REV_{tier.value}_{consciousness_hash}_{cultural_hash}_{secrets.token_urlsafe(32)}"
+        )
 
         # Calculate revolutionary session duration
         base_duration = timedelta(hours=4)
@@ -765,14 +710,10 @@ class RevolutionaryAuthManager:
             "tier": tier.value,
             "auth_method": context.auth_method.value,
             "consciousness_state": (
-                context.consciousness_state.value
-                if context.consciousness_state
-                else None
+                context.consciousness_state.value if context.consciousness_state else None
             ),
             "consciousness_score": consciousness_result.get("consciousness_score", 0.0),
-            "cultural_compatibility": cultural_adaptation.get(
-                "cultural_compatibility_score", 0.0
-            ),
+            "cultural_compatibility": cultural_adaptation.get("cultural_compatibility_score", 0.0),
             "dream_authentication": bool(dream_result and dream_result.get("success")),
             "qi_signature": lambda_result.get("crypto_version"),
             "created_at": datetime.now(timezone.utc).isoformat(),
@@ -906,9 +847,7 @@ async def main():
         print("✅ SUCCESS! Revolutionary authentication completed")
         print(f"🎯 Tier: {result['tier']} ({result.get('authentication_type')})")
         print(f"🧠 Consciousness Score: {result.get('consciousness_score', 0.0):.2f}")
-        print(
-            f"🌍 Cultural Compatibility: {result.get('cultural_compatibility', 0.0):.2f}"
-        )
+        print(f"🌍 Cultural Compatibility: {result.get('cultural_compatibility', 0.0):.2f}")
         print(f"⚡ Session expires: {result.get('expires_at')}")
 
         if result.get("next_steps"):

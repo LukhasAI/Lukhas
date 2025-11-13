@@ -380,7 +380,7 @@ class TestGuardianSystem:
     def test_load_schema_failure_logs_error(self, caplog):
         """Verify that a failure to load the schema is logged."""
         with patch("os.path.exists", return_value=True), \
-             patch("builtins.open", side_effect=IOError("File not found")):
+             patch("builtins.open", side_effect=OSError("File not found")):
             with caplog.at_level(logging.ERROR):
                 GuardianSystem(schema_path="/invalid/path")
                 assert "Failed to load Guardian schema" in caplog.text
@@ -389,7 +389,7 @@ class TestGuardianSystem:
         """Test the custom JSON encoder's fallback to super().default()."""
         encoder = GuardianJSONEncoder()
         with pytest.raises(TypeError):
-            encoder.default(set([1, 2, 3]))
+            encoder.default({1, 2, 3})
 
     def test_import_fallback_crypto(self, monkeypatch):
         """Test CRYPTO_AVAILABLE is False when import fails."""

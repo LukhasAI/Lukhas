@@ -11,7 +11,6 @@ Contract:
 - Safety: Guardian pre/post moderation hooks
 - Outputs: normalized response dict with content and metadata
 """
-
 from __future__ import annotations
 
 import asyncio
@@ -21,10 +20,19 @@ import time
 import uuid
 from typing import Any, cast
 
-from branding.policy.terminology import normalize_chunk, normalize_output
 from bridge.llm_wrappers.tool_executor import (
     execute_tool as bridged_execute_tool,
 )
+from caching.cache_system import cache_operation
+
+# from audit.tool_analytics import get_analytics  # Module not available, using mock
+
+
+def get_analytics():
+    return lambda *args, **kwargs: None  # Mock analytics function
+
+
+from branding.policy.terminology import normalize_chunk, normalize_output
 from openai.tooling import build_tools_from_allowlist, get_all_tools
 from orchestration.signals.homeostasis import (
     HomeostasisController,
@@ -37,16 +45,6 @@ from orchestration.signals.signal_bus import Signal, get_signal_bus
 from metrics import get_metrics_collector
 
 from .unified_openai_client import UnifiedOpenAIClient
-
-# from audit.tool_analytics import get_analytics  # Module not available, using mock
-
-
-def get_analytics():
-    return lambda *args, **kwargs: None  # Mock analytics function
-
-
-
-
 
 logger = logging.getLogger("ΛTRACE.bridge.openai_modulated_service")
 
@@ -80,6 +78,7 @@ class OpenAIModulatedService:
             if function_name:
                 self._function_to_allowlist_map[function_name] = allowlist_name
 
+    @cache_operation(cache_key="modulated_generate", ttl_seconds=600)
     async def generate(
         self,
         prompt: str,
@@ -302,7 +301,12 @@ class OpenAIModulatedService:
                     logger.error(f"Tool execution failed: {tool_name}", exc_info=e)
 
         # Use final response or last response
-        response = final_response if final_response is not None else {}  # type: ignore[assignment]
+        if final_response is not None:
+            response = final_response
+        else:
+            # Ensure response is defined
+            # Assign empty dict if response wasn't set in loop
+            response = {}  # type: ignore[assignment]
 
         # Normalize to dict if streaming iterator was returned
         if not isinstance(response, dict) and hasattr(response, "__aiter__"):

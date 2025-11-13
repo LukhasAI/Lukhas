@@ -10738,7 +10738,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:39'",
-        "moved_to": "../../agents/docs/AGENT_ARMY_SETUP.md",
+        "moved_to": "../../docs/ai-agents/AGENT_ARMY_SETUP.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -10754,7 +10754,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:39'",
-        "moved_to": "../../agents/docs/AGENTS_EXPANDED.md",
+        "moved_to": "../../docs/ai-agents/AGENTS_EXPANDED.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -10777,7 +10777,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:39'",
-        "moved_to": "../../agents/docs/CLAUDE_KNOWLEDGE_BASE.md",
+        "moved_to": "../../docs/ai-agents/CLAUDE_KNOWLEDGE_BASE.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -10793,7 +10793,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:40'",
-        "moved_to": "../../agents/docs/QUICK_AGENT_BRIEFS.md",
+        "moved_to": "../../docs/ai-agents/QUICK_AGENT_BRIEFS.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -10830,7 +10830,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:39'",
-        "moved_to": "../../agents/docs/AGENT_NAVIGATION_GUIDE.md",
+        "moved_to": "../../docs/ai-agents/AGENT_NAVIGATION_GUIDE.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -10853,7 +10853,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:39'",
-        "moved_to": "../../agents/docs/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md",
+        "moved_to": "../../docs/ai-agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -10869,7 +10869,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:40'",
-        "moved_to": "../../agents/docs/JULES_IMPORT_FIX_TASKS.md",
+        "moved_to": "../../docs/ai-agents/JULES_IMPORT_FIX_TASKS.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -10892,7 +10892,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:39'",
-        "moved_to": "../../agents/docs/AGENT_DEVELOPMENT_GUIDE.md",
+        "moved_to": "../../docs/ai-agents/AGENT_DEVELOPMENT_GUIDE.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -10908,7 +10908,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:39'",
-        "moved_to": "../../agents/docs/CLAUDE_CODE_PROMPTS.md",
+        "moved_to": "../../docs/ai-agents/CLAUDE_CODE_PROMPTS.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -10924,7 +10924,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:39'",
-        "moved_to": "../../agents/docs/CLAUDE_TASK_ASSIGNMENTS.md",
+        "moved_to": "../../docs/ai-agents/CLAUDE_TASK_ASSIGNMENTS.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -10940,7 +10940,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:40'",
-        "moved_to": "../../agents/docs/MULTI_AI_ORCHESTRATION_SYSTEM.md",
+        "moved_to": "../../docs/ai-agents/MULTI_AI_ORCHESTRATION_SYSTEM.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -10963,7 +10963,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:39'",
-        "moved_to": "../../agents/docs/CLAUDE_CODE_SYSTEM_GUIDE.md",
+        "moved_to": "../../docs/ai-agents/CLAUDE_CODE_SYSTEM_GUIDE.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -10979,7 +10979,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:39'",
-        "moved_to": "../../agents/docs/AGENT_IMPLEMENTATION_FINAL_STATUS.md",
+        "moved_to": "../../docs/ai-agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -10995,7 +10995,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:40'",
-        "moved_to": "../../agents/docs/LUKHAS_SEMANTIC_INDEX.md",
+        "moved_to": "../../docs/ai-agents/LUKHAS_SEMANTIC_INDEX.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11032,7 +11032,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:40'",
-        "moved_to": "../../agents/docs/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md",
+        "moved_to": "../../docs/ai-agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11062,7 +11062,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:39'",
-        "moved_to": "../../agents/docs/CLAUDE_CODE_MCP.md",
+        "moved_to": "../../docs/ai-agents/CLAUDE_CODE_MCP.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11085,7 +11085,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:39'",
-        "moved_to": "../../agents/docs/AGENT_CRITICAL_WARNING.md",
+        "moved_to": "../../docs/ai-agents/AGENT_CRITICAL_WARNING.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11101,7 +11101,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:40'",
-        "moved_to": "../../agents/docs/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md",
+        "moved_to": "../../docs/ai-agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11131,7 +11131,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:40'",
-        "moved_to": "../../agents/docs/PHASE_1_2_ACHIEVEMENTS.md",
+        "moved_to": "../../docs/ai-agents/PHASE_1_2_ACHIEVEMENTS.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11147,7 +11147,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:40'",
-        "moved_to": "../../agents/docs/JULES_PR_INTEGRATION_PLAN.md",
+        "moved_to": "../../docs/ai-agents/JULES_PR_INTEGRATION_PLAN.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11184,7 +11184,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:39'",
-        "moved_to": "../../agents/docs/CLAUDE_CODE_SESSION_PLAN.md",
+        "moved_to": "../../docs/ai-agents/CLAUDE_CODE_SESSION_PLAN.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11214,7 +11214,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:39'",
-        "moved_to": "../../agents/docs/CLAUDE_AGENT_COMPLIANCE_TASKS.md",
+        "moved_to": "../../docs/ai-agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11230,7 +11230,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:39'",
-        "moved_to": "../../agents/docs/CLAUDE.md",
+        "moved_to": "../../docs/ai-agents/CLAUDE.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11246,7 +11246,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:39'",
-        "moved_to": "../../agents/docs/AGENT_WORKFLOWS.md",
+        "moved_to": "../../docs/ai-agents/AGENT_WORKFLOWS.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11262,7 +11262,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:40'",
-        "moved_to": "../../agents/docs/STAGE_1_IMPLEMENTATION_REPORT.md",
+        "moved_to": "../../docs/ai-agents/STAGE_1_IMPLEMENTATION_REPORT.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11285,7 +11285,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:40'",
-        "moved_to": "../../../agents/docs/007_AKA_QUALIA_PHENOMENOLOGICAL.md",
+        "moved_to": "../../../docs/ai-agents/007_AKA_QUALIA_PHENOMENOLOGICAL.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11301,7 +11301,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:40'",
-        "moved_to": "../../../agents/docs/003_MULTI_MODEL_ORCHESTRATION.md",
+        "moved_to": "../../../docs/ai-agents/003_MULTI_MODEL_ORCHESTRATION.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11317,7 +11317,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:40'",
-        "moved_to": "../../../agents/docs/006_EMOTION_HUB.md",
+        "moved_to": "../../../docs/ai-agents/006_EMOTION_HUB.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11333,7 +11333,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:40'",
-        "moved_to": "../../../agents/docs/004_UNIFIED_MEMORY_ORCHESTRATOR.md",
+        "moved_to": "../../../docs/ai-agents/004_UNIFIED_MEMORY_ORCHESTRATOR.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11363,7 +11363,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:40'",
-        "moved_to": "../../../agents/docs/005_DREAM_ORCHESTRATOR.md",
+        "moved_to": "../../../docs/ai-agents/005_DREAM_ORCHESTRATOR.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11379,7 +11379,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:40'",
-        "moved_to": "../../../agents/docs/001_MASTER_ORCHESTRATOR.md",
+        "moved_to": "../../../docs/ai-agents/001_MASTER_ORCHESTRATOR.md",
         "redirect": true,
         "type": "documentation"
       },
@@ -11402,7 +11402,7 @@
       "front_matter": {
         "module": "unknown",
         "moved_at": "'2025-10-06T13:03:40'",
-        "moved_to": "../../../agents/docs/002_SYMBOLIC_KERNEL_BUS.md",
+        "moved_to": "../../../docs/ai-agents/002_SYMBOLIC_KERNEL_BUS.md",
         "redirect": true,
         "type": "documentation"
       },

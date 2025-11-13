@@ -286,9 +286,7 @@ def generate_must_keep_report():
             }
         },
         "files": all_must_keep,
-        "by_category": {
-            cat: items for cat, items in by_category.items()
-        }
+        "by_category": dict(by_category.items())
     }
 
     # Save report

@@ -6,7 +6,7 @@ import inspect
 import logging
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Any, Callable, Optional, TypeVar, Union
+from typing import OptionalVar, Union
 
 logger = logging.getLogger(__name__)
 

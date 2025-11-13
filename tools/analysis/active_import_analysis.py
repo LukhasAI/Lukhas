@@ -10,7 +10,7 @@ import importlib.util
 import sys
 from collections import defaultdict
 from pathlib import Path
-from typing import Optional
+from typing import ClassVar, Optional
 
 # Add project root to path
 PROJECT_ROOT = Path(__file__).parent.parent.parent
@@ -21,7 +21,7 @@ class ActiveImportAnalyzer:
     """Analyzes Python imports in active code only"""
 
     # Directories to exclude from analysis
-    EXCLUDE_DIRS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_analysis_active_import_analysis_py_L24"}
+    EXCLUDE_DIRS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_analysis_active_import_analysis_py_L24"}
         "._cleanup_archive",
         "archive",
         "__pycache__",
@@ -35,7 +35,7 @@ class ActiveImportAnalyzer:
     }
 
     # Active module directories
-    ACTIVE_MODULES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_analysis_active_import_analysis_py_L38"}
+    ACTIVE_MODULES: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_analysis_active_import_analysis_py_L38"}
         "api",
         "architectures",
         "bio",

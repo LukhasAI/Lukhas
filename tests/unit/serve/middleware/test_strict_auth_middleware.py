@@ -1,10 +1,11 @@
 
-import pytest
 from unittest.mock import MagicMock, patch
+
+import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-
 from serve.middleware.strict_auth import StrictAuthMiddleware
+
 
 @pytest.fixture
 def mock_auth_system():

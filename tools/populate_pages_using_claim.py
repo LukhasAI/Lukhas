@@ -5,8 +5,8 @@ Populate pages_using_claim in evidence pages based on claims registry.
 
 import json
 import re
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 # Map claim texts to evidence IDs
 CLAIM_TO_EVIDENCE = {
@@ -38,7 +38,7 @@ def main():
 
     # Load claims registry
     registry_path = Path("branding/governance/claims_registry.json")
-    with open(registry_path, 'r') as f:
+    with open(registry_path) as f:
         registry = json.load(f)
 
     # Build evidence -> pages mapping
@@ -73,7 +73,7 @@ def main():
         content = evidence_file.read_text(encoding='utf-8')
 
         # Find the pages_using_claim field and replace it
-        def replace_pages_using_claim(match):
+        def replace_pages_using_claim(match, pages=pages):
             new_section = "pages_using_claim:\n"
             for page in sorted(pages, key=lambda x: x['file']):
                 # Use relative path from evidence page to branding page

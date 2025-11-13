@@ -24,6 +24,7 @@
 ║ primary gateway for all identity-related operations.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+# ruff: noqa: B008
 from __future__ import annotations
 
 import logging

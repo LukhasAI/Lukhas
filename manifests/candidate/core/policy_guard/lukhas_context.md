@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.policy_guard
 
 **Star**: Supporting

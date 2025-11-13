@@ -1,3 +1,4 @@
+from typing import ClassVar
 """
 Privacy-first analytics client with GDPR compliance.
 
@@ -11,13 +12,17 @@ Features:
 - Zero PII collection by design
 """
 
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for privacy analytics
+# estimate: 15min | priority: high | dependencies: none
+
 import hashlib
 import re
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 
 class ConsentMode(Enum):
@@ -40,7 +45,7 @@ class ConsentCategory(Enum):
 class EventBatch:
     """Batch of events for sending."""
 
-    events: List[Dict[str, Any]] = field(default_factory=list)
+    events: list[dict[str, Any]] = field(default_factory=list)
     created_at: datetime = field(default_factory=datetime.utcnow)
     retry_count: int = 0
 
@@ -163,7 +168,7 @@ class PIIDetector:
         return text
 
     @classmethod
-    def sanitize_properties(cls, properties: Dict[str, Any]) -> Dict[str, Any]:
+    def sanitize_properties(cls, properties: dict[str, Any]) -> dict[str, Any]:
         """Sanitize event properties to remove PII."""
         sanitized = {}
 
@@ -210,7 +215,7 @@ class IPAnonymizer:
 class UserAgentNormalizer:
     """Normalizes User-Agent to browser family only."""
 
-    BROWSER_FAMILIES = {
+    BROWSER_FAMILIES: ClassVar[dict] = {
         'chrome': ['chrome', 'chromium', 'crios'],
         'firefox': ['firefox', 'fxios'],
         'safari': ['safari'],
@@ -277,7 +282,7 @@ class PrivacyAnalyticsClient:
         self.retention_days = retention_days
 
         # Consent state (default: denied per GDPR)
-        self._consent: Dict[ConsentCategory, ConsentMode] = {
+        self._consent: dict[ConsentCategory, ConsentMode] = {
             ConsentCategory.ANALYTICS: ConsentMode.DENIED,
             ConsentCategory.MARKETING: ConsentMode.DENIED,
             ConsentCategory.FUNCTIONAL: ConsentMode.GRANTED,  # Essential
@@ -285,7 +290,7 @@ class PrivacyAnalyticsClient:
 
         # Event batching
         self._current_batch = EventBatch()
-        self._pending_batches: List[EventBatch] = []
+        self._pending_batches: list[EventBatch] = []
 
         # Circuit breaker
         self._circuit_breaker = CircuitBreakerState()
@@ -294,7 +299,7 @@ class PrivacyAnalyticsClient:
         self._respect_dnt = True
 
         # Allowed event types (from taxonomy)
-        self._allowed_events: Set[str] = {
+        self._allowed_events: set[str] = {
             "page_view",
             "quickstart_started",
             "quickstart_completed",
@@ -344,7 +349,7 @@ class PrivacyAnalyticsClient:
     def track(
         self,
         event_name: str,
-        properties: Optional[Dict[str, Any]] = None,
+        properties: Optional[dict[str, Any]] = None,
         force: bool = False
     ) -> bool:
         """
@@ -452,7 +457,7 @@ class PrivacyAnalyticsClient:
             self._circuit_breaker.record_success()
             return True
 
-        except Exception as e:
+        except Exception:
             self._circuit_breaker.record_failure()
 
             # Implement exponential backoff
@@ -469,7 +474,7 @@ class PrivacyAnalyticsClient:
         self._current_batch = EventBatch()
         self._pending_batches.clear()
 
-    def export_data(self) -> Dict[str, Any]:
+    def export_data(self) -> dict[str, Any]:
         """
         Export user's analytics data (GDPR right to portability).
 

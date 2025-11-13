@@ -36,7 +36,6 @@ import sys
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-from collections.abc import Iterator
 
 REPO = Path(__file__).resolve().parents[2]
 LOG = REPO / "reports" / "todos" / "lint_issues.jsonl"

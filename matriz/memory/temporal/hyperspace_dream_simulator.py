@@ -71,13 +71,8 @@ import numpy as np
 logger = logging.getLogger(__name__)
 
 
-
 try:
-    from core.integration.dynamic_modality_broker import (
-        DataType,
-        ModalityData,
-        get_dmb,
-    )
+    from core.integration.dynamic_modality_broker import DataType, ModalityData, get_dmb
 except ImportError:
     # Create placeholders if the modules don't exist
     class DataType:
@@ -99,21 +94,25 @@ except ImportError:
     def get_srd():
         return None
 
-    def instrument_reasoning(*args, **kwargs):
-        return None
+    def instrument_reasoning(f):
+        return f
 
 
 # Lukhas Core Integration
 try:
-    from labs.consciousness.dream.core.dream_feedback_controller import DreamFeedbackPropagator
+    from labs.consciousness.dream.core.dream_feedback_controller import (
+        DreamFeedbackPropagator,
+    )
 except ImportError:
     DreamFeedbackPropagator = None
 try:
     from ethics.meta_ethics_governor import CulturalContext, EthicalDecision, get_meg
 except ImportError:
+
     # Create mock CulturalContext enum if import fails
     class CulturalContext(Enum):
         UNIVERSAL = "universal"
+
     EthicalDecision = None
     get_meg = None
 try:
@@ -182,10 +181,14 @@ class HyperspaceVector:
         if not common_dims:
             return float("inf")
 
-        diff_sum = sum((self.dimensions[dim] - other.dimensions[dim]) ** 2 for dim in common_dims)
+        diff_sum = sum(
+            (self.dimensions[dim] - other.dimensions[dim]) ** 2 for dim in common_dims
+        )
         return np.sqrt(diff_sum)
 
-    def interpolate(self, other: "HyperspaceVector", alpha: float) -> "HyperspaceVector":
+    def interpolate(
+        self, other: "HyperspaceVector", alpha: float
+    ) -> "HyperspaceVector":
         """Interpolate between this and another vector"""
         common_dims = set(self.dimensions.keys()) & set(other.dimensions.keys())
         new_dims = {}
@@ -227,6 +230,9 @@ class TimelineBranch:
     context: dict[str, Any] = field(default_factory=dict)
     tags: list[str] = field(default_factory=list)
 
+    def _validate_logical_coherence(self) -> list:
+        return []
+
     def add_decision(self, decision: dict[str, Any]) -> None:
         """Add a decision point to this timeline"""
         decision["timestamp"] = datetime.now(timezone.utc).isoformat()
@@ -239,9 +245,11 @@ class TimelineBranch:
 
         logger.debug(
             "ΛHDS: Decision added to timeline",
-            branch_id=self.branch_id,
-            decision_type=decision.get("type"),
-            confidence=self.confidence,
+            extra={
+                "branch_id": self.branch_id,
+                "decision_type": decision.get("type"),
+                "confidence": self.confidence,
+            },
         )
 
     def add_outcome(self, outcome: dict[str, Any]) -> None:
@@ -256,9 +264,11 @@ class TimelineBranch:
 
         logger.debug(
             "ΛHDS: Outcome added to timeline",
-            branch_id=self.branch_id,
-            outcome_type=outcome.get("type"),
-            probability=self.probability,
+            extra={
+                "branch_id": self.branch_id,
+                "outcome_type": outcome.get("type"),
+                "probability": self.probability,
+            },
         )
 
     def check_constraints(self) -> list[str]:
@@ -267,7 +277,11 @@ class TimelineBranch:
 
         # Temporal consistency check
         if CausalConstraint.TEMPORAL_CONSISTENCY in self.constraints:
-            decision_times = [datetime.fromisoformat(d["timestamp"]) for d in self.decisions if "timestamp" in d]
+            decision_times = [
+                datetime.fromisoformat(d["timestamp"])
+                for d in self.decisions
+                if "timestamp" in d
+            ]
             if len(decision_times) > 1:
                 for i in range(1, len(decision_times)):
                     if decision_times[i] < decision_times[i - 1]:
@@ -282,7 +296,9 @@ class TimelineBranch:
 
         # Resource limit check
         if CausalConstraint.RESOURCE_LIMITS in self.constraints:
-            total_resource_use = sum(outcome.get("resource_cost", 0) for outcome in self.outcomes)
+            total_resource_use = sum(
+                outcome.get("resource_cost", 0) for outcome in self.outcomes
+            )
             if total_resource_use > self.context.get("resource_budget", float("inf")):
                 violations.append("Resource limit exceeded")
 
@@ -304,6 +320,8 @@ class SimulationScenario:
     timelines: dict[str, TimelineBranch] = field(default_factory=dict)
     root_timeline: str = ""
     active_timelines: set[str] = field(default_factory=set)
+    outcomes: list[dict[str, Any]] = field(default_factory=list)
+    decision_sequence: list[dict[str, Any]] = field(default_factory=list)
 
     # Simulation parameters
     max_timeline_depth: int = 10
@@ -324,9 +342,7 @@ class SimulationScenario:
         """Add a timeline branch to the scenario"""
         if len(self.timelines) >= self.max_timeline_branches:
             logger.warning(
-                "ΛHDS: Maximum timeline branches reached",
-                scenario_id=self.scenario_id,
-                max_branches=self.max_timeline_branches,
+                f"ΛHDS: Maximum timeline branches reached for scenario {self.scenario_id}"
             )
             return False
 
@@ -337,22 +353,17 @@ class SimulationScenario:
             self.root_timeline = timeline.branch_id
 
         logger.info(
-            "ΛHDS: Timeline added to scenario",
-            scenario_id=self.scenario_id,
-            timeline_id=timeline.branch_id,
-            total_timelines=len(self.timelines),
+            f"ΛHDS: Timeline {timeline.branch_id} added to scenario {self.scenario_id}"
         )
 
         return True
 
-    def branch_timeline(self, parent_id: str, branching_decision: dict[str, Any]) -> Optional[str]:
+    def branch_timeline(
+        self, parent_id: str, branching_decision: dict[str, Any]
+    ) -> Optional[str]:
         """Create a new branch from an existing timeline"""
         if parent_id not in self.timelines:
-            logger.error(
-                "ΛHDS: Parent timeline not found for branching",
-                parent_id=parent_id,
-                scenario_id=self.scenario_id,
-            )
+            logger.error(f"ΛHDS: Parent timeline {parent_id} not found for branching")
             return None
 
         parent = self.timelines[parent_id]
@@ -377,10 +388,7 @@ class SimulationScenario:
 
         if self.add_timeline(new_branch):
             logger.info(
-                "ΛHDS: Timeline branched successfully",
-                parent_id=parent_id,
-                new_branch_id=new_branch.branch_id,
-                decision_type=branching_decision.get("type"),
+                f"ΛHDS: Timeline branched from {parent_id} to {new_branch.branch_id}"
             )
             return new_branch.branch_id
 
@@ -409,12 +417,7 @@ class SimulationScenario:
                 best_timeline = timeline_id
 
         self.optimal_timeline = best_timeline
-        logger.info(
-            "ΛHDS: Optimal timeline identified",
-            scenario_id=self.scenario_id,
-            optimal_timeline=best_timeline,
-            score=best_score,
-        )
+        logger.info(f"ΛHDS: Optimal timeline identified: {best_timeline}")
 
         return best_timeline
 
@@ -481,9 +484,7 @@ class HyperspaceDreamSimulator:
         self._running = False
 
         logger.info(
-            "ΛHDS: Hyperspace Dream Simulator initialized",
-            trace_dir=str(self.trace_dir),
-            integration_mode=integration_mode,
+            f"ΛHDS: Hyperspace Dream Simulator initialized, integration_mode={integration_mode}"
         )
 
     async def initialize_integrations(self):
@@ -494,7 +495,9 @@ class HyperspaceDreamSimulator:
         try:
             # Initialize emotional memory for dream integration
             self.emotional_memory = EmotionalMemory()
-            self.dream_feedback_propagator = DreamFeedbackPropagator(self.emotional_memory)
+            self.dream_feedback_propagator = DreamFeedbackPropagator(
+                self.emotional_memory
+            )
 
             # Get governance and modality systems
             self.meg = await get_meg()
@@ -505,8 +508,8 @@ class HyperspaceDreamSimulator:
 
         except Exception as e:
             logger.warning(
-                "ΛHDS: Some integrations failed, running in standalone mode",
-                error=str(e),
+                "ΛHDS: Some integrations failed, running in standalone mode: %s",
+                str(e),
             )
             self.integration_mode = False
 
@@ -521,13 +524,17 @@ class HyperspaceDreamSimulator:
     ) -> str:
         """Create a new simulation scenario"""
 
+        # To prevent deadlock, we check for capacity, release the lock,
+        # and then call complete_scenario which takes its own lock.
+        oldest_scenario_id = None
         async with self._lock:
             if len(self.active_scenarios) >= self.max_concurrent_scenarios:
-                oldest_scenario = min(
+                oldest_scenario_id = min(
                     self.active_scenarios.keys(),
                     key=lambda sid: self.active_scenarios[sid].created_at,
                 )
-                await self.complete_scenario(oldest_scenario)
+        if oldest_scenario_id:
+            await self.complete_scenario(oldest_scenario_id)
 
         self.tokens_used = 0
         # Create scenario
@@ -556,13 +563,7 @@ class HyperspaceDreamSimulator:
             self.active_scenarios[scenario.scenario_id] = scenario
             self.metrics["scenarios_run"] += 1
 
-        logger.info(
-            "ΛHDS: Simulation scenario created",
-            scenario_id=scenario.scenario_id,
-            name=name,
-            type=simulation_type.value,
-            cultural_context=cultural_context.value,
-        )
+        logger.info(f"ΛHDS: Simulation scenario created: {scenario.scenario_id}")
 
         return scenario.scenario_id
 
@@ -582,7 +583,9 @@ class HyperspaceDreamSimulator:
         self.tokens_used += decision_tokens
 
         # Enhanced token profiling
-        decision_profile = self._profile_decision_tokens(decision, decision_tokens, scenario_id, timeline_id)
+        decision_profile = self._profile_decision_tokens(
+            decision, decision_tokens, scenario_id, timeline_id
+        )
         self.token_profiler["decision_token_costs"].append(decision_profile)
         self.token_profiler["total_tokens_consumed"] += decision_tokens
 
@@ -593,25 +596,13 @@ class HyperspaceDreamSimulator:
         if self.tokens_used > self.token_profiler["critical_threshold"]:
             self._emit_token_warning("critical", scenario_id, timeline_id, decision_profile)
 
-        logger.bind(drift_level=recursion_depth)
         if self.tokens_used > self.max_tokens:
             self._emit_token_warning("budget_exceeded", scenario_id, timeline_id, decision_profile)
-            logger.warning(
-                "ΛHDS: Token budget exceeded, halting simulation",
-                scenario_id=scenario_id,
-                timeline_id=timeline_id,
-                tokens_used=self.tokens_used,
-                token_profile=decision_profile,
-            )
+            logger.warning(f"ΛHDS: Token budget exceeded for scenario {scenario_id}")
             return []
 
         if recursion_depth > MAX_RECURSION_DEPTH:
-            logger.warning(
-                "ΛHDS: Max recursion depth exceeded, breaking loop",
-                scenario_id=scenario_id,
-                timeline_id=timeline_id,
-                recursion_depth=recursion_depth,
-            )
+            logger.warning(f"ΛHDS: Max recursion depth exceeded for scenario {scenario_id}")
             return []
 
         if scenario_id not in self.active_scenarios:
@@ -638,10 +629,7 @@ class HyperspaceDreamSimulator:
             if evaluation.verdict.value in ["rejected", "legal_violation"]:
                 self.metrics["ethical_violations"] += 1
                 logger.warning(
-                    "ΛHDS: Decision rejected by ethical evaluation",
-                    scenario_id=scenario_id,
-                    timeline_id=timeline_id,
-                    verdict=evaluation.verdict.value,
+                    f"ΛHDS: Decision rejected by ethical evaluation in scenario {scenario_id}"
                 )
                 return []
 
@@ -666,7 +654,9 @@ class HyperspaceDreamSimulator:
             self.tokens_used += outcome_tokens
 
             # Profile outcome token costs
-            outcome_profile = self._profile_outcome_tokens(outcome, outcome_tokens, scenario_id, timeline_id)
+            outcome_profile = self._profile_outcome_tokens(
+                outcome, outcome_tokens, scenario_id, timeline_id
+            )
             self.token_profiler["outcome_token_costs"].append(outcome_profile)
             self.token_profiler["total_tokens_consumed"] += outcome_tokens
 
@@ -675,21 +665,22 @@ class HyperspaceDreamSimulator:
         if violations:
             self.metrics["constraint_violations"] += len(violations)
             logger.warning(
-                "ΛHDS: Constraint violations detected",
-                scenario_id=scenario_id,
-                timeline_id=timeline_id,
-                violations=violations,
+                f"ΛHDS: Constraint violations detected in scenario {scenario_id}: {violations}"
             )
 
         # Create alternative timeline branches if requested
         alternative_timelines = []
         if explore_alternatives and len(outcomes) > 1:
-            for i, outcome in enumerate(outcomes[1:], 1):  # Skip first outcome (main timeline)
+            for i, outcome in enumerate(
+                outcomes[1:], 1
+            ):  # Skip first outcome (main timeline)
                 alternative_decision = decision.copy()
                 alternative_decision["alternative_index"] = i
                 alternative_decision["primary_outcome"] = outcome
 
-                alt_timeline_id = scenario.branch_timeline(timeline_id, alternative_decision)
+                alt_timeline_id = scenario.branch_timeline(
+                    timeline_id, alternative_decision
+                )
                 if alt_timeline_id:
                     alternative_timelines.append(alt_timeline_id)
                     # Add the outcome to the alternative timeline
@@ -722,13 +713,7 @@ class HyperspaceDreamSimulator:
 
             self.dream_feedback_propagator.propagate(dream_data)
 
-        logger.info(
-            "ΛHDS: Decision simulation completed",
-            scenario_id=scenario_id,
-            timeline_id=timeline_id,
-            outcomes_generated=len(outcomes),
-            alternatives_created=len(alternative_timelines),
-        )
+        logger.info(f"ΛHDS: Decision simulation completed for scenario {scenario_id}")
 
         return [timeline_id, *alternative_timelines]
 
@@ -793,12 +778,16 @@ class HyperspaceDreamSimulator:
 
         # Use historical data and ML patterns for outcome prediction
         if hasattr(self, "historical_patterns"):
-            pattern_based_outcomes = self._generate_pattern_based_outcomes(decision, outcomes)
+            pattern_based_outcomes = self._generate_pattern_based_outcomes(
+                decision, outcomes
+            )
             outcomes.extend(pattern_based_outcomes)
 
         return outcomes
 
-    def _estimate_emotional_impact(self, decision: dict[str, Any], outcome_type: str) -> dict[str, float]:
+    def _estimate_emotional_impact(
+        self, decision: dict[str, Any], outcome_type: str
+    ) -> dict[str, float]:
         """Estimate emotional impact of a decision outcome"""
         base_impact = {"valence": 0.0, "arousal": 0.0, "dominance": 0.0}
 
@@ -822,7 +811,9 @@ class HyperspaceDreamSimulator:
 
         return base_impact
 
-    def _extract_emotional_context(self, outcomes: list[dict[str, Any]]) -> dict[str, float]:
+    def _extract_emotional_context(
+        self, outcomes: list[dict[str, Any]]
+    ) -> dict[str, float]:
         """Extract emotional context from outcomes"""
         if not outcomes:
             return {}
@@ -838,7 +829,9 @@ class HyperspaceDreamSimulator:
             impact = outcome.get("emotional_impact", {})
 
             for emotion, value in impact.items():
-                emotional_context[emotion] = emotional_context.get(emotion, 0) + value * weight
+                emotional_context[emotion] = (
+                    emotional_context.get(emotion, 0) + value * weight
+                )
 
         return emotional_context
 
@@ -880,10 +873,7 @@ class HyperspaceDreamSimulator:
         timeline.trajectory.append(timeline.current_position)
 
         logger.debug(
-            "ΛHDS: Hyperspace position updated",
-            timeline_id=timeline.branch_id,
-            new_position=timeline.current_position.dimensions,
-            uncertainty=timeline.current_position.uncertainty,
+            f"ΛHDS: Hyperspace position updated for timeline {timeline.branch_id}"
         )
 
     async def analyze_scenario(self, scenario_id: str) -> dict[str, Any]:
@@ -909,14 +899,22 @@ class HyperspaceDreamSimulator:
         performance_analysis = {
             "total_timelines": len(scenario.timelines),
             "active_timelines": len(scenario.active_timelines),
-            "total_decisions": sum(len(t.decisions) for t in scenario.timelines.values()),
+            "total_decisions": sum(
+                len(t.decisions) for t in scenario.timelines.values()
+            ),
             "total_outcomes": sum(len(t.outcomes) for t in scenario.timelines.values()),
-            "constraint_violations": sum(len(t.violations) for t in scenario.timelines.values()),
+            "constraint_violations": sum(
+                len(t.violations) for t in scenario.timelines.values()
+            ),
             "average_confidence": (
-                np.mean([t.confidence for t in scenario.timelines.values()]) if scenario.timelines else 0
+                np.mean([t.confidence for t in scenario.timelines.values()])
+                if scenario.timelines
+                else 0
             ),
             "average_probability": (
-                np.mean([t.probability for t in scenario.timelines.values()]) if scenario.timelines else 0
+                np.mean([t.probability for t in scenario.timelines.values()])
+                if scenario.timelines
+                else 0
             ),
         }
 
@@ -926,18 +924,15 @@ class HyperspaceDreamSimulator:
             "convergence_analysis": convergence_analysis,
             "risk_analysis": risk_analysis,
             "performance_analysis": performance_analysis,
-            "recommendations": self._generate_recommendations(scenario, optimal_timeline_id),
+            "recommendations": await self._generate_recommendations(
+                scenario, optimal_timeline_id
+            ),
             "analysis_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         scenario.analysis_results = analysis_results
 
-        logger.info(
-            "ΛHDS: Scenario analysis completed",
-            scenario_id=scenario_id,
-            optimal_timeline=optimal_timeline_id,
-            total_timelines=len(scenario.timelines),
-        )
+        logger.info(f"ΛHDS: Scenario analysis completed for {scenario_id}")
 
         return analysis_results
 
@@ -954,7 +949,9 @@ class HyperspaceDreamSimulator:
 
         # Perform convergence clustering analysis
         if len(timeline_positions) > 1:
-            convergence_analysis = self._perform_convergence_clustering(timeline_positions)
+            convergence_analysis = self._perform_convergence_clustering(
+                timeline_positions
+            )
             convergence_points.extend(convergence_analysis.get("clusters", []))
 
         # Simple convergence detection based on position similarity
@@ -974,7 +971,8 @@ class HyperspaceDreamSimulator:
 
         return {
             "convergence_points": convergence_points,
-            "convergence_ratio": len(convergence_points) / max(1, len(timeline_positions) ** 2),
+            "convergence_ratio": len(convergence_points)
+            / max(1, len(timeline_positions) ** 2),
             "average_distance": (
                 np.mean(
                     [
@@ -1023,24 +1021,40 @@ class HyperspaceDreamSimulator:
 
         return {
             "high_risk_timelines": high_risk_timelines,
-            "overall_risk_level": len(high_risk_timelines) / max(1, len(scenario.timelines)),
+            "overall_risk_level": len(high_risk_timelines)
+            / max(1, len(scenario.timelines)),
             "primary_risk_factors": [
                 (
                     "constraint_violations"
-                    if any(t["risk_factors"]["constraint_violations"] > 0 for t in high_risk_timelines)
+                    if any(
+                        t["risk_factors"]["constraint_violations"] > 0
+                        for t in high_risk_timelines
+                    )
                     else None
                 ),
-                ("low_confidence" if any(t["risk_factors"]["low_confidence"] for t in high_risk_timelines) else None),
-                ("low_probability" if any(t["risk_factors"]["low_probability"] for t in high_risk_timelines) else None),
+                (
+                    "low_confidence"
+                    if any(t["risk_factors"]["low_confidence"] for t in high_risk_timelines)
+                    else None
+                ),
+                (
+                    "low_probability"
+                    if any(t["risk_factors"]["low_probability"] for t in high_risk_timelines)
+                    else None
+                ),
                 (
                     "high_uncertainty"
-                    if any(t["risk_factors"]["high_uncertainty"] for t in high_risk_timelines)
+                    if any(
+                        t["risk_factors"]["high_uncertainty"] for t in high_risk_timelines
+                    )
                     else None
                 ),
             ],
         }
 
-    async def _generate_recommendations(self, scenario: SimulationScenario, optimal_timeline_id: Optional[str]) -> list[str]:
+    async def _generate_recommendations(
+        self, scenario: SimulationScenario, optimal_timeline_id: Optional[str]
+    ) -> list[str]:
         """Generate recommendations based on scenario analysis"""
 
         recommendations = []
@@ -1052,20 +1066,32 @@ class HyperspaceDreamSimulator:
             )
 
             # Extract key decisions from optimal timeline
-            key_decisions = [d for d in optimal_timeline.decisions if d.get("importance", 0) > 0.7]
+            key_decisions = [
+                d for d in optimal_timeline.decisions if d.get("importance", 0) > 0.7
+            ]
 
             if key_decisions:
-                recommendations.append(f"Focus on {len(key_decisions)} high-importance decisions in optimal path")
+                recommendations.append(
+                    f"Focus on {len(key_decisions)} high-importance decisions in optimal path"
+                )
 
         # Risk mitigation recommendations
-        high_risk_count = sum(1 for t in scenario.timelines.values() if len(t.violations) > 0 or t.confidence < 0.5)
+        high_risk_count = sum(
+            1
+            for t in scenario.timelines.values()
+            if len(t.violations) > 0 or t.confidence < 0.5
+        )
 
         if high_risk_count > 0:
-            recommendations.append(f"Implement risk mitigation for {high_risk_count} high-risk timeline branches")
+            recommendations.append(
+                f"Implement risk mitigation for {high_risk_count} high-risk timeline branches"
+            )
 
         # Convergence recommendations
         if len(scenario.convergence_points) > 0:
-            recommendations.append("Multiple timelines converge - consider consolidating strategies")
+            recommendations.append(
+                "Multiple timelines converge - consider consolidating strategies"
+            )
 
         # Add sophisticated recommendation generation using ML models
         ml_recommendations = await self._generate_ml_based_recommendations(scenario)
@@ -1073,7 +1099,9 @@ class HyperspaceDreamSimulator:
 
         # Generate pattern-based recommendations from historical outcomes
         if hasattr(scenario, "historical_data"):
-            historical_recommendations = self._generate_historical_recommendations(scenario)
+            historical_recommendations = self._generate_historical_recommendations(
+                scenario
+            )
             recommendations.extend(historical_recommendations)
 
         # Risk-aware recommendations
@@ -1138,12 +1166,7 @@ class HyperspaceDreamSimulator:
                 default=str,
             )
 
-        logger.info(
-            "ΛHDS: Scenario completed and archived",
-            scenario_id=scenario_id,
-            trace_file=str(trace_file),
-            final_analysis=final_analysis,
-        )
+        logger.info(f"ΛHDS: Scenario completed and archived: {scenario_id}")
 
         return final_analysis
 
@@ -1163,7 +1186,9 @@ class HyperspaceDreamSimulator:
             "created_at": scenario.created_at.isoformat(),
             "total_timelines": len(scenario.timelines),
             "active_timelines": len(scenario.active_timelines),
-            "total_decisions": sum(len(t.decisions) for t in scenario.timelines.values()),
+            "total_decisions": sum(
+                len(t.decisions) for t in scenario.timelines.values()
+            ),
             "total_outcomes": sum(len(t.outcomes) for t in scenario.timelines.values()),
             "optimal_timeline": scenario.optimal_timeline,
             "recent_activity": [
@@ -1194,7 +1219,10 @@ class HyperspaceDreamSimulator:
                 "dynamic_modality_broker": self.dmb is not None,
             },
             "metrics": self.metrics.copy(),
-            "recent_scenarios": [self.get_scenario_status(sid) for sid in list(self.active_scenarios.keys())[-5:]],
+            "recent_scenarios": [
+                self.get_scenario_status(sid)
+                for sid in list(self.active_scenarios.keys())[-5:]
+            ],
         }
 
     def _profile_decision_tokens(
@@ -1236,7 +1264,9 @@ class HyperspaceDreamSimulator:
             "cumulative_tokens": self.tokens_used,
         }
 
-        logger.debug("ΛHDS_TOKEN_PROFILE: Decision token usage profiled", profile=profile)
+        logger.debug(
+            "ΛHDS_TOKEN_PROFILE: Decision token usage profiled", extra={"profile": profile}
+        )
 
         return profile
 
@@ -1306,7 +1336,10 @@ class HyperspaceDreamSimulator:
                 self.tokens_used
                 / max(
                     1,
-                    (datetime.now(timezone.utc) - self.token_profiler["session_start"]).total_seconds() / 60,
+                    (
+                        datetime.now(timezone.utc) - self.token_profiler["session_start"]
+                    ).total_seconds()
+                    / 60,
                 ),
                 2,
             ),
@@ -1330,7 +1363,7 @@ class HyperspaceDreamSimulator:
 
         logger.warning(
             f"ΛHDS_TOKEN_WARNING: {warning_type.upper()} threshold reached",
-            warning_data=warning_data,
+            extra={"warning_data": warning_data},
         )
 
     def _determine_system_status(self) -> str:
@@ -1354,7 +1387,7 @@ class HyperspaceDreamSimulator:
         """
         import os
 
-        token_warning_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/trace/hds_token_warnings.jsonl"
+        token_warning_path = self.trace_dir / "hds_token_warnings.jsonl"
 
         try:
             os.makedirs(os.path.dirname(token_warning_path), exist_ok=True)
@@ -1372,8 +1405,12 @@ class HyperspaceDreamSimulator:
         session_duration = datetime.now(timezone.utc) - self.token_profiler["session_start"]
 
         # Calculate decision token statistics
-        decision_costs = [p["token_cost"] for p in self.token_profiler["decision_token_costs"]]
-        outcome_costs = [p["token_cost"] for p in self.token_profiler["outcome_token_costs"]]
+        decision_costs = [
+            p["token_cost"] for p in self.token_profiler["decision_token_costs"]
+        ]
+        outcome_costs = [
+            p["token_cost"] for p in self.token_profiler["outcome_token_costs"]
+        ]
 
         decision_stats = {
             "total_decisions": len(decision_costs),
@@ -1393,12 +1430,15 @@ class HyperspaceDreamSimulator:
 
         report = {
             "session_summary": {
-                "session_duration_hours": round(session_duration.total_seconds() / 3600, 2),
+                "session_duration_hours": round(
+                    session_duration.total_seconds() / 3600, 2
+                ),
                 "total_tokens_used": self.tokens_used,
                 "token_budget": self.max_tokens,
                 "usage_percentage": round((self.tokens_used / self.max_tokens) * 100, 2),
                 "tokens_per_hour": round(
-                    self.tokens_used / max(1, session_duration.total_seconds() / 3600),
+                    self.tokens_used
+                    / max(1, session_duration.total_seconds() / 3600),
                     2,
                 ),
                 "system_status": self._determine_system_status(),
@@ -1407,11 +1447,20 @@ class HyperspaceDreamSimulator:
             "outcome_analysis": outcome_stats,
             "peak_usage": self.token_profiler["peak_usage_scenario"],
             "efficiency_metrics": {
-                "decisions_per_token": round(len(decision_costs) / max(1, sum(decision_costs)), 4),
-                "outcomes_per_token": round(len(outcome_costs) / max(1, sum(outcome_costs)), 4),
+                "decisions_per_token": round(
+                    len(decision_costs) / max(1, sum(decision_costs)), 4
+                ),
+                "outcomes_per_token": round(
+                    len(outcome_costs) / max(1, sum(outcome_costs)), 4
+                ),
                 "avg_decision_efficiency": (
                     round(
-                        np.mean([p["efficiency_ratio"] for p in self.token_profiler["decision_token_costs"]]),
+                        np.mean(
+                            [
+                                p["efficiency_ratio"]
+                                for p in self.token_profiler["decision_token_costs"]
+                            ]
+                        ),
                         4,
                     )
                     if self.token_profiler["decision_token_costs"]
@@ -1612,7 +1661,13 @@ class HyperspaceDreamSimulator:
                     continue
 
                 # Calculate Euclidean distance
-                distance = sum((position_vectors[i][k] - position_vectors[j][k]) ** 2 for k in range(3)) ** 0.5
+                distance = (
+                    sum(
+                        (position_vectors[i][k] - position_vectors[j][k]) ** 2
+                        for k in range(3)
+                    )
+                    ** 0.5
+                )
 
                 if distance < convergence_threshold:
                     cluster_members.append(j)
@@ -1626,7 +1681,12 @@ class HyperspaceDreamSimulator:
                         "convergence_strength": 1.0
                         - (
                             sum(
-                                sum((position_vectors[m1][k] - position_vectors[m2][k]) ** 2 for k in range(3)) ** 0.5
+                                sum(
+                                    (position_vectors[m1][k] - position_vectors[m2][k])
+                                    ** 2
+                                    for k in range(3)
+                                )
+                                ** 0.5
                                 for m1 in cluster_members
                                 for m2 in cluster_members
                                 if m1 < m2
@@ -1634,14 +1694,17 @@ class HyperspaceDreamSimulator:
                             / max(1, len(cluster_members) * (len(cluster_members) - 1) / 2)
                         ),
                         "representative_position": [
-                            sum(position_vectors[m][k] for m in cluster_members) / len(cluster_members)
+                            sum(position_vectors[m][k] for m in cluster_members)
+                            / len(cluster_members)
                             for k in range(3)
                         ],
                     }
                 )
                 cluster_id += 1
 
-        convergence_score = len(clusters) / max(1, len(positions) / 2)  # Normalize score
+        convergence_score = len(clusters) / max(
+            1, len(positions) / 2
+        )  # Normalize score
 
         return {
             "clusters": clusters,
@@ -1650,36 +1713,48 @@ class HyperspaceDreamSimulator:
             "clustered_positions": sum(c["member_count"] for c in clusters),
         }
 
-    async def _generate_ml_based_recommendations(self, scenario: SimulationScenario) -> list[str]:
+    async def _generate_ml_based_recommendations(
+        self, scenario: SimulationScenario
+    ) -> list[str]:
         """Generate ML-based recommendations for scenario optimization"""
 
         recommendations = []
 
         # Analyze scenario characteristics for ML insights
         timeline_count = len(scenario.timelines)
-        outcome_diversity = len({outcome.get("type", "unknown") for outcome in scenario.outcomes})
+        outcome_diversity = len(
+            {outcome.get("type", "unknown") for outcome in scenario.outcomes}
+        )
 
         # Decision complexity analysis
-        decision_complexity = sum(len(str(decision)) for decision in scenario.decision_sequence) / max(
-            len(scenario.decision_sequence), 1
-        )
+        decision_complexity = sum(
+            len(str(decision)) for decision in scenario.decision_sequence
+        ) / max(len(scenario.decision_sequence), 1)
 
         # Generate recommendations based on ML patterns
         if timeline_count > 5 and outcome_diversity < 3:
-            recommendations.append("Consider exploring more diverse outcome types to improve scenario robustness")
+            recommendations.append(
+                "Consider exploring more diverse outcome types to improve scenario robustness"
+            )
 
         if decision_complexity > 200:  # Arbitrary threshold for complexity
-            recommendations.append("High decision complexity detected - consider breaking down into smaller decisions")
+            recommendations.append(
+                "High decision complexity detected - consider breaking down into smaller decisions"
+            )
 
         # Resource optimization recommendations
         if hasattr(scenario, "resource_usage"):
             resource_efficiency = getattr(scenario, "resource_efficiency", 0.7)
             if resource_efficiency < 0.6:
-                recommendations.append("Resource efficiency below optimal - recommend resource reallocation")
+                recommendations.append(
+                    "Resource efficiency below optimal - recommend resource reallocation"
+                )
 
         return recommendations
 
-    def _generate_historical_recommendations(self, scenario: SimulationScenario) -> list[str]:
+    def _generate_historical_recommendations(
+        self, scenario: SimulationScenario
+    ) -> list[str]:
         """Generate recommendations based on historical data patterns"""
 
         recommendations = []
@@ -1688,14 +1763,22 @@ class HyperspaceDreamSimulator:
         scenario_hash = hash(scenario.scenario_id) % 100
 
         if scenario_hash > 60:
-            recommendations.append("Similar historical scenarios suggest focusing on stakeholder communication")
-            recommendations.append("Historical precedent indicates 15% buffer for timeline estimates")
+            recommendations.append(
+                "Similar historical scenarios suggest focusing on stakeholder communication"
+            )
+            recommendations.append(
+                "Historical precedent indicates 15% buffer for timeline estimates"
+            )
         elif scenario_hash < 30:
-            recommendations.append("Historical patterns suggest increased risk mitigation measures")
+            recommendations.append(
+                "Historical patterns suggest increased risk mitigation measures"
+            )
 
         return recommendations
 
-    def _generate_risk_aware_recommendations(self, scenario: SimulationScenario) -> list[str]:
+    def _generate_risk_aware_recommendations(
+        self, scenario: SimulationScenario
+    ) -> list[str]:
         """Generate risk-aware recommendations for scenario management"""
 
         recommendations = []
@@ -1708,17 +1791,25 @@ class HyperspaceDreamSimulator:
         ]
 
         if high_risk_outcomes:
-            recommendations.append(f"Monitor {len(high_risk_outcomes)} high-risk outcomes closely")
-            recommendations.append("Consider developing contingency plans for negative outcomes")
+            recommendations.append(
+                f"Monitor {len(high_risk_outcomes)} high-risk outcomes closely"
+            )
+            recommendations.append(
+                "Consider developing contingency plans for negative outcomes"
+            )
 
         # Timeline risk analysis
         if len(scenario.timelines) > 10:
-            recommendations.append("High timeline divergence - recommend regular convergence checkpoints")
+            recommendations.append(
+                "High timeline divergence - recommend regular convergence checkpoints"
+            )
 
         # Complexity risk
         total_decisions = len(scenario.decision_sequence)
         if total_decisions > 20:
-            recommendations.append("High decision sequence complexity - recommend decision audit and simplification")
+            recommendations.append(
+                "High decision sequence complexity - recommend decision audit and simplification"
+            )
 
         return recommendations
 
@@ -1816,17 +1907,16 @@ async def quick_scenario_simulation(
 # 🔗 RELATED COMPONENTS:
 # • dream/dream_feedback_propagator.py - Dream→memory causality tracking
 # • trace/hds_token_warnings.jsonl - Resource usage audit trail
-# • lukhas/logs/stability_patch_claude_report.md - Implementation documentation
+# • lukhas/logs/stability_patch_clade_report.md - Implementation documentation
 # • memory/core_memory/emotional_memory.py - Emotional state integration
 #
 # 💫 END OF HYPERSPACE DREAM SIMULATOR - ENTERPRISE RESOURCE EDITION 💫
 # ═══════════════════════════════════════════════════════════════════════════════════
 # ═══════════════════════════════════════════════════════════════════════════════════
-# • lukhas/logs/stability_patch_claude_report.md - Implementation documentation
+# • lukhas/logs/stability_patch_clade_report.md - Implementation documentation
 # • memory/core_memory/emotional_memory.py - Emotional state integration
 #
 # 💫 END OF HYPERSPACE DREAM SIMULATOR - ENTERPRISE RESOURCE EDITION 💫
-# ═══════════════════════════════════════════════════════════════════════════════════
 # ═══════════════════════════════════════════════════════════════════════════════════
 # ═══════════════════════════════════════════════════════════════════════════════════
 # ═══════════════════════════════════════════════════════════════════════════════════

@@ -13,6 +13,7 @@ T4/0.01% excellence compliance testing.
 
 import asyncio
 import json
+import logging
 import os
 
 # Import our ledger components
@@ -25,8 +26,6 @@ import hypothesis.strategies as st
 import pytest
 from hypothesis import assume, given, note, settings
 from hypothesis.stateful import Bundle, RuleBasedStateMachine, initialize, invariant, rule
-
-import logging
 
 # Module-level logger
 logger = logging.getLogger(__name__)

@@ -38,6 +38,7 @@
 ║ Symbolic Tags: {ΛENV}, {ΛSECURITY}, {ΛCONFIG}, {ΛAPI}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 from __future__ import annotations
 
 import logging
@@ -53,21 +54,19 @@ MODULE_VERSION = "1.0.0"
 MODULE_NAME = "env_loader"
 
 
-ENV_FILE_PATHS = [
-    "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/.env",
-    "./.env",
-    "../.env",
-    "~/.lukhas/.env",
-]
-
-
 def load_lukhas_env() -> dict[str, str]:
     """Load environment variables from Lukhas .env file (local paths only)"""
     # FIXED: Removed iCloud dependency, using only local paths
+    env_files = [
+        "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/.env",
+        "./.env",
+        "../.env",
+        "~/.lukhas/.env",
+    ]
 
     env_vars = {}
 
-    for env_file in ENV_FILE_PATHS:
+    for env_file in env_files:
         if os.path.exists(env_file):
             try:
                 with open(env_file) as f:
@@ -101,10 +100,10 @@ def get_from_keychain(service_name: str) -> str | None:
         import subprocess
 
         result = subprocess.run(
-            ['security', 'find-generic-password', '-s', service_name, '-w'],
+            ["security", "find-generic-password", "-s", service_name, "-w"],
             capture_output=True,
             text=True,
-            check=True
+            check=True,
         )
         return result.stdout.strip()
     except (subprocess.CalledProcessError, FileNotFoundError):

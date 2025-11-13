@@ -1,3 +1,8 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
+
 """
 Production-grade async task lifecycle management for LUKHAS consciousness architecture.
 
@@ -14,7 +19,7 @@ from collections.abc import Awaitable
 from contextlib import asynccontextmanager, suppress
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional, TypeVar
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 

@@ -330,9 +330,9 @@ class ModelCommunicationEngine(nn.Module):
 
         Returns
         -------
-        cache : Dict[nn.Module, torch.Tensor]
+        cache : dict[nn.Module, torch.Tensor]
             A dictionary object mapping the key/value projection modules to its cache
-        hooks : List[RemovableHandle]
+        hooks : list[RemovableHandle]
             List of PyTorch RemovableHandle objects to stop the hooks to be called
         """
         cache = {**cache} if cache is not None else {}

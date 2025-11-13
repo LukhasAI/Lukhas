@@ -50,7 +50,7 @@ class OrchestrationBridge:
         self.brain_components[name] = component
         logger.info(f"Registered brain component: {name}")
 
-    def think(self, thought: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    def think(self, thought: dict[str, Any]) -> Optional[dict[str, Any]]:
         """Process a thought through brain components"""
         # Route through relevant brain components
         results = {}
@@ -150,7 +150,7 @@ class IdentityGovernance:
 
         return False
 
-    def enforce_gdpr(self, user_id: str, action: str) -> Dict[str, Any]:
+    def enforce_gdpr(self, user_id: str, action: str) -> dict[str, Any]:
         """Enforce GDPR compliance for user actions"""
         return {
             'allowed': True,
@@ -231,7 +231,7 @@ async def health_check():
 
 # Core endpoints
 @router.post("/process")
-async def process_request(data: Dict[str, Any]):
+async def process_request(data: dict[str, Any]):
     """Process a request through LUKHAS"""
     try:
         # Route to appropriate module based on request type
@@ -362,7 +362,7 @@ class LUKHASNeuralNetwork:
 
         logger.info("🧠 Neural pathways established")
 
-    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process input through the neural network"""
         if not self.active:
             raise RuntimeError("Neural network not active")

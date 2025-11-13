@@ -3,6 +3,7 @@ Unit tests for RedisTaskQueue.
 """
 import asyncio
 import uuid
+from typing import Optional
 from unittest.mock import AsyncMock, patch
 
 import fakeredis.aioredis
@@ -27,7 +28,7 @@ async def task_queue(mock_redis_from_url):
         if q.redis:
             await q.redis.flushall()
 
-def create_test_task(priority: TaskPriority, task_id: str = None) -> Task:
+def create_test_task(priority: TaskPriority, task_id: Optional[str] = None) -> Task:
     """Helper function to create a test task."""
     if task_id is None:
         task_id = str(uuid.uuid4())
@@ -120,11 +121,11 @@ class TestRedisTaskQueue:
 
     async def test_aexit_with_exception(self, mock_redis_from_url):
         """Test that __aexit__ closes the connection even if an exception occurs."""
-        mock_from_url, fake_redis = mock_redis_from_url
+        _mock_from_url, fake_redis = mock_redis_from_url
         fake_redis.aclose = AsyncMock()
         queue = RedisTaskQueue()
         with pytest.raises(ValueError, match="Test exception"):
-            async with queue as q:
+            async with queue:
                 raise ValueError("Test exception")
         fake_redis.aclose.assert_awaited_once()
 

@@ -1,14 +1,16 @@
+# ruff: noqa: B008
+# ruff: noqa: F821  # Experimental/test code with undefined names
 from lukhas_website.lukhas.consciousness.registry import (
+from typing import List, Optional
     ComponentType,
     ConsciousnessComponentRegistry,
 )
-
 
 def _register_component(
     registry: ConsciousnessComponentRegistry,
     component_id: str,
     *,
-    dependencies: list[str] | None = None,
+    dependencies: Optional[List[str]] = None,
     priority: int = 50,
 ) -> None:
     registry.register_component(
@@ -22,7 +24,6 @@ def _register_component(
         activation_priority=priority,
     )
 
-
 def test_activation_order_respects_dependencies():
     registry = ConsciousnessComponentRegistry()
 
@@ -31,7 +32,6 @@ def test_activation_order_respects_dependencies():
     _register_component(registry, "top", dependencies=["mid"], priority=10)
 
     assert registry._activation_order == ["base", "mid", "top"]
-
 
 def test_activation_order_prioritizes_dependencies_over_priority():
     registry = ConsciousnessComponentRegistry()
@@ -42,7 +42,6 @@ def test_activation_order_prioritizes_dependencies_over_priority():
 
     order = registry._activation_order
     assert order.index("slow") < order.index("dependent")
-
 
 def test_activation_order_handles_cycles_and_missing_dependencies():
     registry = ConsciousnessComponentRegistry()

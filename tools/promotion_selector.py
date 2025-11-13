@@ -72,7 +72,6 @@ import pathlib
 import re
 import sys
 import time
-from typing import List
 
 ROOT = pathlib.Path(".")
 ART = ROOT / "artifacts"

@@ -19,12 +19,18 @@ Task 12: Comprehensive testing for Guardian Drift Bands including:
 
 import time
 from datetime import datetime, timedelta, timezone
+
+# Import test targets
+from importlib.util import find_spec
 from unittest.mock import Mock, patch
 
 import pytest
 
-# Import test targets
-try:
+GUARDIAN_AVAILABLE = find_spec("core.ethics.guardian_drift_bands") is not None
+
+if not GUARDIAN_AVAILABLE:
+    pytest.skip("Guardian Drift Bands not available", allow_module_level=True)
+else:
     from core.ethics.guardian_drift_bands import (
         BandTransition,
         BandTrigger,
@@ -35,10 +41,6 @@ try:
         create_guardian_drift_bands,
     )
     from core.ethics.logic.ethics_engine import EthicsAction, EthicsEngine, EthicsResult
-    GUARDIAN_AVAILABLE = True
-except ImportError:
-    GUARDIAN_AVAILABLE = False
-    pytest.skip("Guardian Drift Bands not available", allow_module_level=True)
 
 
 class TestGuardianThresholds:

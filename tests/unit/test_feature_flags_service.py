@@ -13,10 +13,10 @@ import pytest
 import yaml
 
 from lukhas.features.flags_service import (
-    FlagEvaluationContext,
-    FlagType,
     FeatureFlag,
     FeatureFlagsService,
+    FlagEvaluationContext,
+    FlagType,
     get_service,
     is_enabled,
 )
@@ -63,7 +63,7 @@ class TestFlagEvaluationContext:
         assert user_hash == context.get_user_hash()
 
         # Should match expected hash
-        expected = hashlib.sha256("user-123".encode()).hexdigest()
+        expected = hashlib.sha256(b"user-123").hexdigest()
         assert user_hash == expected
 
     def test_get_user_hash_no_user_id(self):

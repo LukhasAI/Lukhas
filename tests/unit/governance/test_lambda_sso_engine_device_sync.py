@@ -6,8 +6,10 @@ import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+
 import pytest
 from labs.governance.identity.core.sing.sso_engine import LambdaSSOEngine
+from typing import List
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(REPO_ROOT) not in sys.path:
@@ -20,8 +22,8 @@ def _build_token(
     user_id: str,
     created_at: datetime,
     expires_at: datetime,
-    scope: list[str],
-    platforms: list[str],
+    scope: List[str],
+    platforms: List[str],
     biometric: bool,
 ) -> dict:
     return {

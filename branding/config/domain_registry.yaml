@@ -16,6 +16,33 @@ ecosystem:
     - lukhas.id  # Authentication
     - lukhas.io  # API Gateway
 
+  # Launch Phasing Strategy
+  # Phase 1 (MVP): Core platform for developers, flagship, enterprise, auth
+  # Phase 2: Marketplace, collaboration, compliance, experimental
+  launch_phases:
+    phase_1_mvp:
+      domains:
+        - lukhas.dev     # Developer adoption critical
+        - lukhas.ai      # Flagship brand presence
+        - lukhas.cloud   # Enterprise revenue
+        - lukhas.id      # Authentication infrastructure
+      target_completion: "2025-Q1"
+      documentation_target: "95%"
+      rationale: "Focus on developer acquisition and enterprise sales"
+
+    phase_2:
+      domains:
+        - lukhas.io      # API Gateway (infrastructure)
+        - lukhas.com     # Corporate hub
+        - lukhas.store   # Marketplace
+        - lukhas.team    # Collaboration
+        - lukhas.eu      # EU compliance
+        - lukhas.us      # US compliance
+        - lukhas.xyz     # Experimental
+      target_completion: "2025-Q2"
+      documentation_target: "85%"
+      rationale: "Expand ecosystem after MVP validation"
+
 # Domains Configuration
 domains:
 
@@ -26,6 +53,7 @@ domains:
     status: active
     priority: flagship
     role: main_platform
+    launch_phase: 1  # MVP
 
     # Asset Paths
     brand_guide: branding/domains/lukhas.ai/BRAND_GUIDE.md
@@ -77,6 +105,7 @@ domains:
     status: active
     priority: critical_infrastructure
     role: identity_authentication
+    launch_phase: 1  # MVP - Critical infrastructure
 
     # Asset Paths
     brand_guide: branding/domains/lukhas.id/BRAND_GUIDE.md
@@ -127,6 +156,7 @@ domains:
     status: active
     priority: high
     role: developer_platform
+    launch_phase: 1  # MVP - Developer acquisition critical
 
     # Asset Paths
     brand_guide: branding/domains/lukhas.dev/BRAND_GUIDE.md
@@ -177,6 +207,7 @@ domains:
     status: active
     priority: medium
     role: team_collaboration
+    launch_phase: 2  # Phase 2 - Post-MVP
 
     # Asset Paths
     brand_guide: branding/domains/lukhas.team/BRAND_GUIDE.md
@@ -215,6 +246,7 @@ domains:
     status: active
     priority: high
     role: marketplace
+    launch_phase: 2  # Phase 2 - Post-MVP
 
     # Asset Paths
     brand_guide: branding/domains/lukhas.store/BRAND_GUIDE.md
@@ -253,6 +285,7 @@ domains:
     status: active
     priority: high
     role: infrastructure
+    launch_phase: 2  # Phase 2 - Post-MVP
 
     # Asset Paths
     brand_guide: branding/domains/lukhas.io/BRAND_GUIDE.md
@@ -294,6 +327,7 @@ domains:
     status: active
     priority: high
     role: cloud_services
+    launch_phase: 1  # MVP - Enterprise revenue focus
 
     # Asset Paths
     brand_guide: branding/domains/lukhas.cloud/BRAND_GUIDE.md
@@ -335,6 +369,7 @@ domains:
     status: active
     priority: medium_high
     role: corporate
+    launch_phase: 2  # Phase 2 - Post-MVP
 
     # Asset Paths
     brand_guide: branding/domains/lukhas.com/BRAND_GUIDE.md
@@ -373,6 +408,7 @@ domains:
     status: active
     priority: critical
     role: compliance_eu
+    launch_phase: 2  # Phase 2 - Post-MVP
 
     # Asset Paths
     brand_guide: branding/domains/lukhas.eu/BRAND_GUIDE.md
@@ -414,6 +450,7 @@ domains:
     status: active
     priority: critical
     role: compliance_us
+    launch_phase: 2  # Phase 2 - Post-MVP
 
     # Asset Paths
     brand_guide: branding/domains/lukhas.us/BRAND_GUIDE.md
@@ -455,6 +492,7 @@ domains:
     status: active
     priority: medium
     role: experimental
+    launch_phase: 2  # Phase 2 - Post-MVP
 
     # Asset Paths
     brand_guide: branding/domains/lukhas.xyz/BRAND_GUIDE.md

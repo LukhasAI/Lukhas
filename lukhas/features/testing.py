@@ -4,17 +4,22 @@ Testing utilities for feature flags.
 Provides context managers and fixtures for overriding feature flags in tests.
 """
 
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for feature testing
+# estimate: 5min | priority: high | dependencies: none
+
 import tempfile
+from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, Dict, Iterator, Optional
+from typing import Any, Optional
 
 import pytest
 import yaml
 
 from lukhas.features.flags_service import (
-    FlagEvaluationContext,
     FeatureFlagsService,
+    FlagEvaluationContext,
     get_service,
 )
 
@@ -60,7 +65,7 @@ def override_flag(
 
 @contextmanager
 def override_flags(
-    flags: Dict[str, bool],
+    flags: dict[str, bool],
     service: Optional[FeatureFlagsService] = None,
 ) -> Iterator[None]:
     """
@@ -103,7 +108,7 @@ def override_flags(
 
 
 @contextmanager
-def temp_flags_config(flags_config: Dict[str, Any]) -> Iterator[FeatureFlagsService]:
+def temp_flags_config(flags_config: dict[str, Any]) -> Iterator[FeatureFlagsService]:
     """
     Context manager to create a temporary flags configuration.
 

@@ -950,7 +950,7 @@ python scripts/generate_module_manifests.py \
 | Document | Location | Purpose |
 |----------|----------|---------|
 | AGENTS.md | `/Users/agi_dev/LOCAL-REPOS/Lukhas/AGENTS.md` | Multi-agent coordination system |
-| Agent Navigation | `/Users/agi_dev/LOCAL-REPOS/Lukhas/agents/docs/AGENT_NAVIGATION_GUIDE.md` | Navigation guide for agents |
+| Agent Navigation | `/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/ai-agents/AGENT_NAVIGATION_GUIDE.md` | Navigation guide for agents |
 
 ---
 

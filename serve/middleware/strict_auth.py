@@ -1,8 +1,9 @@
 
 from fastapi import Request, Response
-from starlette.middleware.base import BaseHTTPMiddleware
-from labs.core.security.auth import get_auth_system
 from fastapi.responses import JSONResponse
+from labs.core.security.auth import get_auth_system
+from starlette.middleware.base import BaseHTTPMiddleware
+
 
 class StrictAuthMiddleware(BaseHTTPMiddleware):
     """
@@ -31,6 +32,15 @@ class StrictAuthMiddleware(BaseHTTPMiddleware):
         payload = self.auth_system.verify_jwt(token)
         if payload is None:
             return self._auth_error('Invalid authentication credentials')
+
+        # Attach user info to request state
+        request.state.user_id = payload.get("user_id")
+        request.state.user_tier = payload.get("tier", 0)
+        request.state.user_permissions = payload.get("permissions", [])
+        request.state.user = payload  # Full claims for advanced use cases
+
+        if not request.state.user_id:
+            return self._auth_error("Token is missing the 'user_id' claim.")
 
         return await call_next(request)
 

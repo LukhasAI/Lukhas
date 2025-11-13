@@ -10,16 +10,18 @@ Coverage:
 - User-Agent normalization
 """
 
-import pytest
 from datetime import datetime
+
+import pytest
+
 from lukhas.analytics.privacy_client import (
-    PrivacyAnalyticsClient,
-    PIIDetector,
-    IPAnonymizer,
-    UserAgentNormalizer,
-    ConsentMode,
-    ConsentCategory,
     CircuitBreakerState,
+    ConsentCategory,
+    ConsentMode,
+    IPAnonymizer,
+    PIIDetector,
+    PrivacyAnalyticsClient,
+    UserAgentNormalizer,
 )
 
 

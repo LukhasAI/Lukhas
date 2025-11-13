@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.bridge.api
 
 **Star**: Supporting

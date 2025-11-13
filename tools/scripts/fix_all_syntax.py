@@ -2,9 +2,8 @@
 """Fix all remaining syntax errors in Python files"""
 
 import ast
-from pathlib import Path
-
 import logging
+from pathlib import Path
 
 # Module-level logger
 logger = logging.getLogger(__name__)

@@ -1,8 +1,10 @@
 
 import time
 import uuid
+
 from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
+
 
 class HeadersMiddleware(BaseHTTPMiddleware):
     """Add OpenAI-compatible headers to all responses."""

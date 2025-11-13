@@ -12,11 +12,19 @@ import asyncio
 import json
 import logging
 import time
+
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernized typing imports - Dict->dict, List->list, Tuple->tuple for Python 3.9+ compatibility
+# estimate: 5min | priority: high | dependencies: none
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
+
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernized typing imports - Dict->dict, List->list, Tuple->tuple for Python 3.9+ compatibility
+# estimate: 5min | priority: high | dependencies: none
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -25,8 +33,6 @@ try:
     from .advanced_api_optimizer import (
         APITier,
         LUKHASAPIOptimizer,
-        OptimizationConfig,  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_advanced_middleware_py_L28"}
-        OptimizationStrategy,  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_advanced_middleware_py_L30"}
         RequestContext,
         RequestPriority,
     )
@@ -36,11 +42,7 @@ except ImportError:
 
 # FastAPI integration
 try:
-    from fastapi import (  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_advanced_middleware_py_L41"}
-        HTTPException,
-        Request,
-        Response,
-    )
+    from fastapi import Request, Response
     from fastapi.middleware.base import BaseHTTPMiddleware
     from starlette.middleware.base import RequestResponseEndpoint
     FASTAPI_AVAILABLE = True

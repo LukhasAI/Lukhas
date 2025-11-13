@@ -1,16 +1,17 @@
 import unittest
+from importlib.util import find_spec
 from unittest.mock import Mock
 
 import pytest
 
-try:
+if find_spec("branding.personal_brand.consciousness_authority_builder") is None:
+    pytest.skip("branding.personal_brand.consciousness_authority_builder unavailable", allow_module_level=True)
+else:
     from branding.personal_brand.consciousness_authority_builder import (
         AuthorityScore,
         ConsciousnessAuthorityBuilder,
         Strategy,
     )
-except ImportError:  # pragma: no cover
-    pytest.skip("branding.personal_brand.consciousness_authority_builder unavailable", allow_module_level=True)
 
 
 class TestConsciousnessAuthorityBuilder(unittest.TestCase):

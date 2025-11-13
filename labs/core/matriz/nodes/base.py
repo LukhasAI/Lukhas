@@ -1,7 +1,7 @@
 """Shared utilities for MATRIZ cognitive nodes."""
 import logging
 import time
-from typing import Any, Dict
+from typing import Any
 
 from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 
@@ -34,8 +34,8 @@ class BaseMatrixNode(CognitiveNode):
         started_at: float,
         answer: Any,
         confidence: float,
-        matriz_node: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        matriz_node: dict[str, Any],
+    ) -> dict[str, Any]:
         duration = time.perf_counter() - started_at
         self.processing_history.append(matriz_node)
         result = {

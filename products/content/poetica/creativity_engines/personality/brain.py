@@ -49,7 +49,7 @@ class QIAttention:
     def __init__(self) -> None:
         self._baseline_focus = 0.5
 
-    def compute_focus(self, signal_map: Dict[str, float]) -> float:
+    def compute_focus(self, signal_map: dict[str, float]) -> float:
         if not signal_map:
             return self._baseline_focus
 
@@ -65,7 +65,7 @@ class EthicsEngine:
 
     # ΛTAG: personality, ethics_guard
 
-    def evaluate(self, context: Dict[str, Any]) -> dict[str, Any]:
+    def evaluate(self, context: dict[str, Any]) -> dict[str, Any]:
         compliance_score = float(context.get("compliance", 0.75))
         approved = compliance_score >= 0.5
         evaluation = {"approved": approved, "confidence": compliance_score}

@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import asyncio
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Dict, List, Optional
 
 import pytest
 from core.security.security_monitor import EventSeverity, SecurityMonitor, SecurityMonitorConfig
@@ -15,8 +15,8 @@ class FakeAuthAttempt:
     ip: str
     success: bool
     guardian_allowed: bool = True
-    guardian_reason: str | None = None
-    anomaly_score: float | None = None
+    guardian_reason: Optional[str] = None
+    anomaly_score: Optional[float] = None
 
 
 class FakeIdentityService:
@@ -24,9 +24,9 @@ class FakeIdentityService:
 
     def __init__(self, monitor: SecurityMonitor) -> None:
         self.monitor = monitor
-        self.attempts: list[FakeAuthAttempt] = []
+        self.attempts: List[FakeAuthAttempt] = []
 
-    async def authenticate(self, attempt: FakeAuthAttempt) -> dict[str, Any]:
+    async def authenticate(self, attempt: FakeAuthAttempt) -> Dict[str, Any]:
         self.attempts.append(attempt)
         threats = self.monitor.observe_authentication_attempt(
             user_id=attempt.user_id,

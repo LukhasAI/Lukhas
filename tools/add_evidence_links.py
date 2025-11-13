@@ -4,9 +4,8 @@ Add evidence_links to branding pages for top 20 claims.
 """
 
 import json
-import re
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 # Map claim texts to evidence IDs
 CLAIM_TO_EVIDENCE = {
@@ -36,7 +35,7 @@ CLAIM_TO_EVIDENCE = {
 def load_claims_registry():
     """Load the claims registry."""
     registry_path = Path("branding/governance/claims_registry.json")
-    with open(registry_path, 'r') as f:
+    with open(registry_path) as f:
         return json.load(f)
 
 
@@ -52,13 +51,13 @@ def add_evidence_links_to_file(filepath, evidence_links):
 
     # Check if file has front-matter
     if not content.startswith('---'):
-        print(f"  ⚠️  No front-matter found, skipping")
+        print("  ⚠️  No front-matter found, skipping")
         return False
 
     # Split front-matter and body
     parts = content.split('---', 2)
     if len(parts) < 3:
-        print(f"  ⚠️  Invalid front-matter format, skipping")
+        print("  ⚠️  Invalid front-matter format, skipping")
         return False
 
     front_matter = parts[1]
@@ -71,7 +70,6 @@ def add_evidence_links_to_file(filepath, evidence_links):
         lines = front_matter.split('\n')
         new_lines = []
         in_evidence_links = False
-        evidence_links_added = False
 
         for line in lines:
             if line.strip().startswith('evidence_links:'):
@@ -80,7 +78,6 @@ def add_evidence_links_to_file(filepath, evidence_links):
                 # Add all evidence links
                 for link in sorted(set(evidence_links)):
                     new_lines.append(f"  - 'release_artifacts/evidence/{link}.md'")
-                evidence_links_added = True
             elif in_evidence_links and line.strip().startswith('-'):
                 # Skip existing evidence links
                 continue
@@ -98,7 +95,7 @@ def add_evidence_links_to_file(filepath, evidence_links):
         new_lines = []
         added = False
 
-        for i, line in enumerate(lines):
+        for _i, line in enumerate(lines):
             new_lines.append(line)
             # Add after title field
             if line.strip().startswith('title:') and not added:
@@ -170,10 +167,10 @@ def main():
             print(f"    - {eid}")
 
         if add_evidence_links_to_file(filepath, evidence_ids):
-            print(f"  ✅ Updated")
+            print("  ✅ Updated")
             updated_count += 1
         else:
-            print(f"  ❌ Failed")
+            print("  ❌ Failed")
             skipped_count += 1
         print()
 

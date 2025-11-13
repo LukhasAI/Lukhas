@@ -6,11 +6,10 @@ Scans actual Python imports to build real dependency matrix
 
 import ast
 import json
+import logging
 from collections import defaultdict
 from pathlib import Path
 from typing import Dict
-
-import logging
 
 # Module-level logger
 logger = logging.getLogger(__name__)

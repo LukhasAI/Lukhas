@@ -104,7 +104,7 @@ class DreamMemoryManager:
         Initializes the DreamMemoryManager.
 
         Args:
-            config (Optional[Dict[str, Any]]): Configuration dictionary for dream processing parameters
+            config (Optional[dict[str, Any]]): Configuration dictionary for dream processing parameters
                                                 (e.g., cycle duration, memory selection criteria).
         """
         self.config: dict[str, Any] = config or {}
@@ -173,14 +173,14 @@ class DreamMemoryManager:
         (Currently a STUB - actual logic needs implementation). #ΛCOLLAPSE_POINT (If stub remains, dream processing collapses)
 
         Args:
-            memories_for_dreaming (Optional[List[Any]]): A list of memories (or memory identifiers)
+            memories_for_dreaming (Optional[list[Any]]): A list of memories (or memory identifiers)
     selected for processing in this dream cycle.
     If None, the manager might use internal criteria.
     #ΛRECALL: Input memories are recalled for processing.
     # AIDENTITY_BRIDGE (If memories
     # are user/agent specific)
         Returns:
-            Dict[str, Any]: A dictionary containing the status and outcomes of the dream cycle,
+            dict[str, Any]: A dictionary containing the status and outcomes of the dream cycle,
                             such as new insights, consolidated memories, or errors.
         """
         if not self.active:

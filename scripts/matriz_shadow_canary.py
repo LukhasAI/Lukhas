@@ -38,6 +38,8 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
+from async_utils import create_background_task
+
 logger = logging.getLogger(__name__)
 
 
@@ -490,7 +492,7 @@ class MATRIZShadowCanary:
             # Decide if this request should be shadowed
             if self.should_shadow_request():
                 # Process shadow request (fire-and-forget)
-                asyncio.create_task(self.process_shadow_request(request_data))
+                create_background_task(self.process_shadow_request(request_data))
 
             # Update metrics and check alerts periodically
             if request_count % 50 == 0:  # Every 50 requests

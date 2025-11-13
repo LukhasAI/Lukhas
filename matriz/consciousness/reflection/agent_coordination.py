@@ -37,9 +37,6 @@ from .mailbox import MailboxActor, MailboxType, MessagePriority
 logger = logging.getLogger(__name__)
 
 
-
-
-
 # Extension methods for ActorRef serialization
 def actorref_to_dict(self):
     """Convert ActorRef to dictionary for serialization"""
@@ -98,7 +95,9 @@ class Skill:
         self.total_tasks += 1
         if success:
             # Update success rate
-            self.success_rate = ((self.success_rate * (self.total_tasks - 1)) + 1) / self.total_tasks
+            self.success_rate = (
+                (self.success_rate * (self.total_tasks - 1)) + 1
+            ) / self.total_tasks
         else:
             self.success_rate = (self.success_rate * (self.total_tasks - 1)) / self.total_tasks
 
@@ -345,10 +344,14 @@ class CoordinationHub(MailboxActor):
                     contacted.add(agent_id)
                     agent_ref = self.actor_system.get_actor_ref(agent_id)
                     if agent_ref:
-                        await agent_ref.tell(CoordinationProtocol.SKILL_QUERY, announcement.__dict__)
+                        await agent_ref.tell(
+                            CoordinationProtocol.SKILL_QUERY, announcement.__dict__
+                        )
 
             # Start group formation timer
-            asyncio.create_task(self._form_group_timeout(announcement.task_id))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_agent_coordination_py_L351"}
+            asyncio.create_task(
+                self._form_group_timeout(announcement.task_id)
+            )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_agent_coordination_py_L351"}
 
             return {"status": "announced", "candidates": len(contacted)}
 
@@ -456,7 +459,9 @@ class CoordinationHub(MailboxActor):
         if task_id in self.active_announcements:
             del self.active_announcements[task_id]
 
-        logger.info(f"Working group {group.group_id} formed for task {task_id} with {len(group.members)} members")
+        logger.info(
+            f"Working group {group.group_id} formed for task {task_id} with {len(group.members)} members"
+        )
 
     async def _handle_task_complete(self, msg: ActorMessage):
         """Handle task completion"""
@@ -484,7 +489,9 @@ class CoordinationHub(MailboxActor):
                 logger.info(f"Task {task_id} completed by group {group_id}")
 
                 # Clean up after delay
-                asyncio.create_task(self._delayed_cleanup(task_id, 60))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_agent_coordination_py_L488"}
+                asyncio.create_task(
+                    self._delayed_cleanup(task_id, 60)
+                )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_agent_coordination_py_L488"}
 
                 return {"status": "acknowledged"}
 
@@ -499,7 +506,9 @@ class CoordinationHub(MailboxActor):
                 group.status = TaskStatus.FAILED
 
                 # Could implement retry logic here
-                logger.warning(f"Task {task_id} failed in group {group_id}: {msg.payload.get('reason', 'Unknown')}")
+                logger.warning(
+                    f"Task {task_id} failed in group {group_id}: {msg.payload.get('reason', 'Unknown')}"
+                )
 
                 # Clean up
                 await self._cleanup_group(task_id)
@@ -606,7 +615,9 @@ class AutonomousAgent(MailboxActor):
         # Fallback for testing
         return ActorRef(self.actor_id, None)
 
-    async def announce_task(self, description: str, required_skills: list[tuple[str, SkillLevel]], **kwargs) -> str:
+    async def announce_task(
+        self, description: str, required_skills: list[tuple[str, SkillLevel]], **kwargs
+    ) -> str:
         """Broadcast a task need to the network"""
         task_id = str(uuid.uuid4())
 
@@ -619,7 +630,9 @@ class AutonomousAgent(MailboxActor):
         )
 
         if self.coord_hub:
-            result = await self.coord_hub.ask(CoordinationProtocol.TASK_ANNOUNCE, announcement.__dict__)
+            result = await self.coord_hub.ask(
+                CoordinationProtocol.TASK_ANNOUNCE, announcement.__dict__
+            )
             logger.info(f"Task {task_id} announced: {result}")
 
         return task_id
@@ -630,7 +643,9 @@ class AutonomousAgent(MailboxActor):
             return
 
         for skill in self.skills:
-            await self.coord_hub.tell("register_skill", {"agent_id": self.actor_id, "skill": skill.__dict__})
+            await self.coord_hub.tell(
+                "register_skill", {"agent_id": self.actor_id, "skill": skill.__dict__}
+            )
 
     async def _handle_skill_query(self, msg: ActorMessage):
         """Respond to skill query"""

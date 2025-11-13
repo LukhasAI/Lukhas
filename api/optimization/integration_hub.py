@@ -18,9 +18,13 @@ import logging
 import time
 from contextlib import asynccontextmanager, suppress
 from dataclasses import dataclass, field
+
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernized typing imports - Dict->dict, List->list, Tuple->tuple for Python 3.9+ compatibility
+# estimate: 5min | priority: high | dependencies: none
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +33,6 @@ try:
     from .advanced_api_optimizer import (
         APITier,
         LUKHASAPIOptimizer,
-        OptimizationConfig,  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_integration_hub_py_L32"}
         OptimizationStrategy,
         RequestContext,
         RequestPriority,
@@ -41,11 +44,7 @@ try:
         RequestMetadata,
         create_middleware_pipeline,
     )
-    from .analytics_dashboard import (  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_integration_hub_py_L46"}
-        AnalyticsDashboard,
-        TimeWindow,
-        create_analytics_dashboard,
-    )
+    from .analytics_dashboard import AnalyticsDashboard, create_analytics_dashboard
     OPTIMIZATION_COMPONENTS_AVAILABLE = True
 except ImportError:
     OPTIMIZATION_COMPONENTS_AVAILABLE = False
@@ -846,8 +845,8 @@ class LUKHASAPIOptimizationHub:
 
         return APITier.FREE
 
-    def _get_applied_optimizations(self, optimizer_result: Dict,
-                                 middleware_result: Dict) -> list[str]:
+    def _get_applied_optimizations(self, optimizer_result: dict,
+                                 middleware_result: dict) -> list[str]:
         """Get list of applied optimizations."""
         optimizations = []
 

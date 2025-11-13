@@ -6,40 +6,65 @@ Enables hybrid AI decision-making with both centralized and distributed intellig
 
 Based on GPT5 audit recommendations for parallel AI orchestration.
 """
+# ruff: noqa: F821  # Skeleton/experimental code
 import asyncio
+import importlib
 import logging
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import TYPE_CHECKING, Any, Optional
+from typing import Any, Optional
 
-# Use TYPE_CHECKING to avoid importing heavy/runtime-only modules at module
-# import time. This lets the module be imported in isolation (for linting,
-# test discovery, etc.) without pulling in `labs` or other runtime deps.
-if TYPE_CHECKING:
-    from core.colonies.consensus_mechanisms import ColonyConsensus
 
-    # Import our components for type checking only
-    from core.colonies.enhanced_colony import (
-        ConsensusResult,
-        EnhancedReasoningColony,
-    )
-    from labs.consciousness.reflection.openai_modulated_service import (
-        OpenAICapability,
-        OpenAIModulatedService,
-    )
-    from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
-else:
-    # Runtime fallback placeholders; modules will be imported lazily when needed
-    OpenAICapability = None
-    OpenAIModulatedService = None
-    ColonyConsensus = None
-    ConsensusResult = None
-    EnhancedReasoningColony = None
-    Signal = None
-    SignalBus = None
-    SignalType = None
+def __getattr__(name: str) -> object:
+    """
+    Lazy load modules and heavy dependencies to avoid circular imports and reduce startup time.
+    """
+    if name == "OpenAICapability":
+        OpenAICapability = importlib.import_module(
+            "labs.consciousness.reflection.openai_modulated_service"
+        ).OpenAICapability
+        globals()[name] = OpenAICapability
+        return OpenAICapability
+    elif name == "OpenAIModulatedService":
+        OpenAIModulatedService = importlib.import_module(
+            "labs.consciousness.reflection.openai_modulated_service"
+        ).OpenAIModulatedService
+        globals()[name] = OpenAIModulatedService
+        return OpenAIModulatedService
+    elif name == "ColonyConsensus":
+        ColonyConsensus = importlib.import_module(
+            "core.colonies.consensus_mechanisms"
+        ).ColonyConsensus
+        globals()[name] = ColonyConsensus
+        return ColonyConsensus
+    elif name == "ConsensusResult":
+        ConsensusResult = importlib.import_module(
+            "core.colonies.enhanced_colony"
+        ).ConsensusResult
+        globals()[name] = ConsensusResult
+        return ConsensusResult
+    elif name == "EnhancedReasoningColony":
+        EnhancedReasoningColony = importlib.import_module(
+            "core.colonies.enhanced_colony"
+        ).EnhancedReasoningColony
+        globals()[name] = EnhancedReasoningColony
+        return EnhancedReasoningColony
+    elif name == "Signal":
+        Signal = importlib.import_module("orchestration.signals.signal_bus").Signal
+        globals()[name] = Signal
+        return Signal
+    elif name == "SignalBus":
+        SignalBus = importlib.import_module("orchestration.signals.signal_bus").SignalBus
+        globals()[name] = SignalBus
+        return SignalBus
+    elif name == "SignalType":
+        SignalType = importlib.import_module("orchestration.signals.signal_bus").SignalType
+        globals()[name] = SignalType
+        return SignalType
+
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 logger = logging.getLogger(__name__)
 
@@ -95,12 +120,12 @@ class OrchestrationResult:
 
     task_id: str
     gpt_response: Optional[dict[str, Any]] = None
-    colony_response: Optional[ConsensusResult] = None
+    colony_response: Optional["ConsensusResult"] = None
     final_decision: Any = None
     confidence: float = 0.0
     processing_time: float = 0.0
     mode_used: OrchestrationMode = OrchestrationMode.PARALLEL
-    signals_emitted: list[Signal] = field(default_factory=list)
+    signals_emitted: list["Signal"] = field(default_factory=list)
     metadata: dict[str, Any] = field(default_factory=dict)
 
 
@@ -112,8 +137,8 @@ class GPTColonyOrchestrator:
 
     def __init__(
         self,
-        openai_service: Optional[OpenAIModulatedService] = None,
-        signal_bus: Optional[SignalBus] = None,
+        openai_service: Optional["OpenAIModulatedService"] = None,
+        signal_bus: Optional["SignalBus"] = None,
     ):
         # Use provided service or lazy-load via provider (eliminates import-time dependency)
         self._openai_service = openai_service
@@ -166,7 +191,7 @@ class GPTColonyOrchestrator:
                 self._signal_bus_loaded = True
         return self._signal_bus
 
-    def register_colony(self, colony_id: str, colony: EnhancedReasoningColony):
+    def register_colony(self, colony_id: str, colony: "EnhancedReasoningColony"):
         """Register a colony for orchestration"""
         self.colonies[colony_id] = colony
         self.colony_consensus[colony_id] = ColonyConsensus(colony_id, self.signal_bus)
@@ -587,14 +612,6 @@ class GPTColonyOrchestrator:
     async def _process_with_gpt(self, task: OrchestrationTask) -> Optional[dict[str, Any]]:
         """Process task with GPT model"""
         try:
-            # Import OpenAICapability lazily to avoid import-time dependency
-            if TYPE_CHECKING:
-                from labs.consciousness.reflection.openai_modulated_service import OpenAICapability
-            else:
-                import importlib
-                module = importlib.import_module("labs.consciousness.reflection.openai_modulated_service")
-                OpenAICapability = module.OpenAICapability
-
             response = await self.openai_service.process_modulated_request(
                 module="orchestrator",
                 capability=OpenAICapability.REASONING,
@@ -614,7 +631,7 @@ class GPTColonyOrchestrator:
 
         return None
 
-    async def _process_with_colony(self, task: OrchestrationTask) -> Optional[ConsensusResult]:
+    async def _process_with_colony(self, task: OrchestrationTask) -> Optional["ConsensusResult"]:
         """Process task with first available colony"""
         if not self.colonies:
             return None
@@ -625,7 +642,7 @@ class GPTColonyOrchestrator:
 
     async def _process_with_specific_colony(
         self, task: OrchestrationTask, colony_id: str
-    ) -> Optional[ConsensusResult]:
+    ) -> Optional["ConsensusResult"]:
         """Process task with specific colony"""
         try:
             colony = self.colonies.get(colony_id)
@@ -641,7 +658,7 @@ class GPTColonyOrchestrator:
             return None
 
     def _responses_agree(
-        self, gpt_response: dict[str, Any], colony_response: ConsensusResult
+        self, gpt_response: dict[str, Any], colony_response: "ConsensusResult"
     ) -> bool:
         """Check if GPT and Colony responses agree"""
         if not gpt_response or not colony_response:
@@ -685,7 +702,7 @@ class GPTColonyOrchestrator:
             + result.processing_time * 0.1
         )
 
-    async def _emit_signal(self, signal_type: SignalType, level: float, metadata: dict):
+    async def _emit_signal(self, signal_type: "SignalType", level: float, metadata: dict):
         """Emit signal through signal bus"""
         signal = Signal(
             name=signal_type,

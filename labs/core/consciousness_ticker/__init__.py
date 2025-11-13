@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated List import to native list type in consciousness ticker bridge
+# estimate: 5min | priority: medium | dependencies: consciousness-system
+
 """Bridge for `candidate.core.consciousness_ticker`.
 
 Auto-generated bridge following canonical pattern:
@@ -10,9 +14,8 @@ Graceful fallback to stubs if no backend available.
 from __future__ import annotations
 
 from importlib import import_module
-from typing import List
 
-__all__: List[str] = []
+__all__: list[str] = []
 
 def _try(n: str):
     try:

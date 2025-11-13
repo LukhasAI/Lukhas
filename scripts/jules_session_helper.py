@@ -25,7 +25,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from bridge.llm_wrappers.jules_wrapper import JulesClient
 
-
 # Today's session IDs (update as needed)
 TODAY_SESSIONS = {
     "Guardian Kill-Switch": "9950861015326926289",
@@ -93,8 +92,8 @@ async def approve_plan(session_id: str):
         print(f"\n✅ Approving plan for session: {session_id}")
 
         try:
-            result = await jules.approve_plan(session_id)
-            print(f"✅ Plan approved successfully!")
+            await jules.approve_plan(session_id)
+            print("✅ Plan approved successfully!")
             print(f"   URL: https://jules.google.com/session/{session_id}")
         except Exception as e:
             print(f"❌ Error: {e}")
@@ -107,8 +106,8 @@ async def send_message(session_id: str, message: str):
         print(f"   Message: {message}")
 
         try:
-            result = await jules.send_message(session_id, message)
-            print(f"✅ Message sent successfully!")
+            await jules.send_message(session_id, message)
+            print("✅ Message sent successfully!")
             print(f"   URL: https://jules.google.com/session/{session_id}")
         except Exception as e:
             print(f"❌ Error: {e}")

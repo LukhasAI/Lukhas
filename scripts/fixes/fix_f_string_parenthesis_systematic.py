@@ -6,10 +6,9 @@ Pattern: f"text{var}" → f"text{var()}" when there's a ( without )
 """
 
 import ast
+import logging
 import re
 from pathlib import Path
-
-import logging
 
 # Module-level logger
 logger = logging.getLogger(__name__)

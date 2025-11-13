@@ -10,6 +10,7 @@ Implements intelligent caching, validation, and automatic key rotation.
 from __future__ import annotations
 
 import asyncio
+import collections
 import contextlib
 import hashlib
 import json
@@ -20,7 +21,6 @@ from collections import OrderedDict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from typing import Any
-import collections
 
 logger = logging.getLogger(__name__)
 
@@ -112,7 +112,7 @@ class JWKSCache:
         self.enable_compression = enable_compression
 
         # Thread-safe cache storage (LRU)
-        self._cache: collections.collections.OrderedDict[str, JWKSCacheEntry] = OrderedDict()
+        self._cache: collections.collections.Ordereddict[str, JWKSCacheEntry] = OrderedDict()
         self._lock = threading.RLock()
 
         # Statistics

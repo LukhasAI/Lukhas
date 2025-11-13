@@ -33,7 +33,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 # LUKHAS imports
 try:
@@ -141,7 +141,7 @@ class GuardianThresholds:
     critical_violation_immediate_block: bool = True  # Skip bands for critical violations
     system_error_fallback_band: GuardianBand = GuardianBand.BLOCK  # Fail-closed on errors
 
-    def validate(self) -> List[str]:
+    def validate(self) -> list[str]:
         """Validate threshold configuration."""
         errors = []
 
@@ -179,7 +179,7 @@ class BandTransition:
     plan_hash: str
     reason: str
     hysteresis_remaining: float = 0.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -192,9 +192,9 @@ class GuardianBandResult:
     evaluation_time_ms: float
     plan_hash: str
     transition: Optional[BandTransition]
-    guardrails: List[str]
-    human_requirements: List[str]
-    audit_context: Dict[str, Any]
+    guardrails: list[str]
+    human_requirements: list[str]
+    audit_context: dict[str, Any]
     hysteresis_active: bool = False
     hysteresis_remaining_seconds: float = 0.0
     # Dual-approval fields
@@ -242,8 +242,8 @@ class GuardianDriftBands:
         self.hysteresis_expires = {}  # band -> expiration time
 
         # History tracking
-        self.transition_history: List[BandTransition] = []
-        self.drift_history: List[Tuple[datetime, float]] = []
+        self.transition_history: list[BandTransition] = []
+        self.drift_history: list[tuple[datetime, float]] = []
         self.max_history_size = 1000
 
         # Thread safety
@@ -261,8 +261,8 @@ class GuardianDriftBands:
 
     def evaluate(
         self,
-        plan: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None,
+        plan: dict[str, Any],
+        context: Optional[dict[str, Any]] = None,
         drift_score: Optional[float] = None,
         ethics_result: Optional[EthicsResult] = None
     ) -> GuardianBandResult:
@@ -391,8 +391,8 @@ class GuardianDriftBands:
 
     def _calculate_drift_score(
         self,
-        plan: Dict[str, Any],
-        context: Optional[Dict[str, Any]],
+        plan: dict[str, Any],
+        context: Optional[dict[str, Any]],
         ethics_result: Optional[EthicsResult]
     ) -> float:
         """Calculate composite drift score from plan, context, and ethics."""
@@ -477,7 +477,7 @@ class GuardianDriftBands:
         drift_score: float,
         ethics_action: str,
         plan_hash: str
-    ) -> Tuple[GuardianBand, Optional[BandTransition]]:
+    ) -> tuple[GuardianBand, Optional[BandTransition]]:
         """Apply hysteresis logic to prevent rapid band oscillations."""
 
         now = datetime.now(timezone.utc)
@@ -579,7 +579,7 @@ class GuardianDriftBands:
         band: GuardianBand,
         drift_score: float,
         ethics_result: Optional[EthicsResult]
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate specific guardrails for the assigned band."""
         guardrails = []
 
@@ -625,7 +625,7 @@ class GuardianDriftBands:
         band: GuardianBand,
         drift_score: float,
         ethics_result: Optional[EthicsResult]
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate human oversight requirements for bands that need them."""
         requirements = []
 
@@ -664,7 +664,7 @@ class GuardianDriftBands:
         else:
             return "critical"
 
-    def get_current_status(self) -> Dict[str, Any]:
+    def get_current_status(self) -> dict[str, Any]:
         """Get current Guardian band system status."""
         now = datetime.now(timezone.utc)
 
@@ -836,11 +836,11 @@ class GuardianDriftBands:
 
     def evaluate_with_override_option(
         self,
-        plan: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None,
+        plan: dict[str, Any],
+        context: Optional[dict[str, Any]] = None,
         drift_score: Optional[float] = None,
         ethics_result: Optional[EthicsResult] = None,
-        override_request: Optional[Dict[str, Any]] = None
+        override_request: Optional[dict[str, Any]] = None
     ) -> GuardianBandResult:
         """
         Evaluate plan with optional override request for BLOCK results.
@@ -885,8 +885,8 @@ class GuardianDriftBands:
     def _emit_governance_decision(
         self,
         result: GuardianBandResult,
-        plan: Dict[str, Any],
-        context: Dict[str, Any]
+        plan: dict[str, Any],
+        context: dict[str, Any]
     ) -> None:
         """
         Emit governance ledger entry for non-ALLOW decisions.

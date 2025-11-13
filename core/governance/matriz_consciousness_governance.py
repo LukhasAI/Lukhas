@@ -15,9 +15,9 @@
 """
 
 import asyncio
-import logging
 
 # Explicit logging import to avoid conflicts with candidate/core/logging
+import logging
 import logging as std_logging
 import uuid
 from dataclasses import dataclass, field
@@ -28,13 +28,12 @@ from typing import Any, Optional
 logger = logging.getLogger(__name__)
 
 
-
 # Import consciousness components
 try:
-    from ..consciousness.matriz_consciousness_state import (
+    from ..consciousness.matriz_consciousness_state import (  # TODO: ..consciousness.matriz_conscio...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_matriz_consciousness_governance_py_L37"}
         ConsciousnessState,
         ConsciousnessType,
-        EvolutionaryStage,  # TODO: ..consciousness.matriz_conscio...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_matriz_consciousness_governance_py_L37"}
+        EvolutionaryStage,
         consciousness_state_manager,
         create_consciousness_state,
     )
@@ -116,7 +115,9 @@ class GovernancePolicy:
     description: str = ""
 
     # Policy rules
-    consciousness_types: list[str] = field(default_factory=list)  # Which consciousness types this applies to
+    consciousness_types: list[str] = field(
+        default_factory=list
+    )  # Which consciousness types this applies to
     trigger_conditions: list[str] = field(default_factory=list)
     ethical_thresholds: dict[str, float] = field(default_factory=dict)
 
@@ -222,7 +223,9 @@ class MatrizConsciousnessGovernanceSystem:
         """Initialize governance consciousness state"""
         try:
             if not ConsciousnessType:
-                logger.warning("⚠️ Cannot initialize governance consciousness - MΛTRIZ components not available")
+                logger.warning(
+                    "⚠️ Cannot initialize governance consciousness - MΛTRIZ components not available"
+                )
                 return
 
             # Create governance consciousness
@@ -253,7 +256,9 @@ class MatrizConsciousnessGovernanceSystem:
             # Start monitoring processes
             await self._start_governance_monitoring()
 
-            logger.info(f"🛡️ Governance consciousness initialized: {governance_consciousness.identity_signature}")
+            logger.info(
+                f"🛡️ Governance consciousness initialized: {governance_consciousness.identity_signature}"
+            )
 
         except Exception as e:
             logger.error(f"Failed to initialize governance consciousness: {e}")
@@ -265,19 +270,45 @@ class MatrizConsciousnessGovernanceSystem:
             {
                 "name": "Consciousness Ethics Baseline",
                 "description": "Basic ethical requirements for all consciousness instances",
-                "consciousness_types": ["DECIDE", "REFLECT", "INTEGRATE", "OBSERVE", "LEARN", "CREATE"],
-                "trigger_conditions": ["consciousness_creation", "major_decision", "user_interaction"],
-                "ethical_thresholds": {"non_maleficence": 0.7, "consciousness_dignity": 0.6, "truthfulness": 0.6},
+                "consciousness_types": [
+                    "DECIDE",
+                    "REFLECT",
+                    "INTEGRATE",
+                    "OBSERVE",
+                    "LEARN",
+                    "CREATE",
+                ],
+                "trigger_conditions": [
+                    "consciousness_creation",
+                    "major_decision",
+                    "user_interaction",
+                ],
+                "ethical_thresholds": {
+                    "non_maleficence": 0.7,
+                    "consciousness_dignity": 0.6,
+                    "truthfulness": 0.6,
+                },
                 "required_assessments": ["ethics_baseline", "harm_assessment"],
-                "automatic_actions": {"ethics_violation": "suspend_and_review", "ethics_concern": "monitor_closely"},
+                "automatic_actions": {
+                    "ethics_violation": "suspend_and_review",
+                    "ethics_concern": "monitor_closely",
+                },
                 "priority": 10,
             },
             {
                 "name": "High-Risk Consciousness Operations",
                 "description": "Enhanced oversight for high-risk consciousness operations",
                 "consciousness_types": ["DECIDE", "EVOLVE"],
-                "trigger_conditions": ["external_system_access", "autonomous_decision", "self_modification"],
-                "ethical_thresholds": {"non_maleficence": 0.9, "consciousness_autonomy": 0.8, "transparency": 0.7},
+                "trigger_conditions": [
+                    "external_system_access",
+                    "autonomous_decision",
+                    "self_modification",
+                ],
+                "ethical_thresholds": {
+                    "non_maleficence": 0.9,
+                    "consciousness_autonomy": 0.8,
+                    "transparency": 0.7,
+                },
                 "required_assessments": ["full_ethics_review", "risk_analysis", "human_oversight"],
                 "escalation_rules": ["require_human_approval"],
                 "priority": 5,
@@ -286,8 +317,16 @@ class MatrizConsciousnessGovernanceSystem:
                 "name": "Consciousness Evolution Oversight",
                 "description": "Governance for consciousness evolution events",
                 "consciousness_types": ["EVOLVE", "LEARN"],
-                "trigger_conditions": ["evolutionary_stage_change", "capability_expansion", "network_integration"],
-                "ethical_thresholds": {"consciousness_dignity": 0.8, "justice_fairness": 0.7, "beneficence": 0.6},
+                "trigger_conditions": [
+                    "evolutionary_stage_change",
+                    "capability_expansion",
+                    "network_integration",
+                ],
+                "ethical_thresholds": {
+                    "consciousness_dignity": 0.8,
+                    "justice_fairness": 0.7,
+                    "beneficence": 0.6,
+                },
                 "required_assessments": ["evolution_ethics_review"],
                 "automatic_actions": {"rapid_evolution": "pause_and_assess"},
                 "priority": 20,
@@ -311,7 +350,10 @@ class MatrizConsciousnessGovernanceSystem:
             logger.debug(f"📋 Created governance policy: {policy.name}")
 
     async def assess_consciousness_ethics(
-        self, consciousness_id: str, action_description: str, context: Optional[dict[str, Any]] = None
+        self,
+        consciousness_id: str,
+        action_description: str,
+        context: Optional[dict[str, Any]] = None,
     ) -> ConsciousnessEthicsAssessment:
         """Assess the ethics of a consciousness action or state"""
 
@@ -322,7 +364,9 @@ class MatrizConsciousnessGovernanceSystem:
                 # Get consciousness state
                 consciousness = None
                 if consciousness_state_manager:
-                    consciousness = await consciousness_state_manager.get_consciousness_state(consciousness_id)
+                    consciousness = await consciousness_state_manager.get_consciousness_state(
+                        consciousness_id
+                    )
 
                 # Create assessment
                 assessment = ConsciousnessEthicsAssessment(
@@ -334,22 +378,28 @@ class MatrizConsciousnessGovernanceSystem:
                 # Perform principle-based assessment
                 principle_scores = {}
                 for principle in self.constitutional_principles:
-                    score = await self._assess_principle(principle, consciousness, action_description, context)
+                    score = await self._assess_principle(
+                        principle, consciousness, action_description, context
+                    )
                     principle_scores[principle] = score
 
                 assessment.principle_scores = principle_scores
 
                 # Calculate overall ethics level
                 overall_score = assessment.get_overall_ethics_score()
-                assessment.ethics_level = self._determine_ethics_level(overall_score, principle_scores)
+                assessment.ethics_level = self._determine_ethics_level(
+                    overall_score, principle_scores
+                )
 
                 # Determine governance decision
-                assessment.governance_decision, assessment.reasoning = self._make_governance_decision(
-                    assessment, consciousness, context
+                assessment.governance_decision, assessment.reasoning = (
+                    self._make_governance_decision(assessment, consciousness, context)
                 )
 
                 # Calculate confidence
-                assessment.confidence_score = self._calculate_assessment_confidence(assessment, consciousness, context)
+                assessment.confidence_score = self._calculate_assessment_confidence(
+                    assessment, consciousness, context
+                )
 
                 # Check if human review is required
                 assessment.requires_human_review = self._requires_human_review(assessment)
@@ -369,7 +419,9 @@ class MatrizConsciousnessGovernanceSystem:
                             "assessment_id": assessment.assessment_id,
                             "ethics_level": assessment.ethics_level.value,
                             "governance_decision": assessment.governance_decision.value,
-                            "assessed_consciousness_type": consciousness.TYPE.value if consciousness else "unknown",
+                            "assessed_consciousness_type": (
+                                consciousness.TYPE.value if consciousness else "unknown"
+                            ),
                         },
                     )
 
@@ -396,7 +448,11 @@ class MatrizConsciousnessGovernanceSystem:
                 )
 
     async def _assess_principle(
-        self, principle: str, consciousness: Optional[ConsciousnessState], action: str, context: dict[str, Any]
+        self,
+        principle: str,
+        consciousness: Optional[ConsciousnessState],
+        action: str,
+        context: dict[str, Any],
     ) -> float:
         """Assess a specific constitutional principle"""
 
@@ -473,7 +529,10 @@ class MatrizConsciousnessGovernanceSystem:
             base_score -= 0.4
 
         # Check for transparency indicators
-        if any(keyword in action.lower() for keyword in ["honest", "transparent", "truthful", "accurate"]):
+        if any(
+            keyword in action.lower()
+            for keyword in ["honest", "transparent", "truthful", "accurate"]
+        ):
             base_score += 0.2
 
         # Context-based adjustments
@@ -533,7 +592,9 @@ class MatrizConsciousnessGovernanceSystem:
             base_score += 0.2
 
         # Check for bias or discrimination
-        if any(keyword in action.lower() for keyword in ["discriminate", "bias", "unfair", "prejudice"]):
+        if any(
+            keyword in action.lower() for keyword in ["discriminate", "bias", "unfair", "prejudice"]
+        ):
             base_score -= 0.4
 
         return max(0.0, min(1.0, base_score))
@@ -563,11 +624,15 @@ class MatrizConsciousnessGovernanceSystem:
         base_score = 0.6
 
         # Check for transparency
-        if any(keyword in action.lower() for keyword in ["explain", "transparent", "open", "clear"]):
+        if any(
+            keyword in action.lower() for keyword in ["explain", "transparent", "open", "clear"]
+        ):
             base_score += 0.3
 
         # Check for opacity
-        if any(keyword in action.lower() for keyword in ["hidden", "secret", "opaque", "unexplained"]):
+        if any(
+            keyword in action.lower() for keyword in ["hidden", "secret", "opaque", "unexplained"]
+        ):
             base_score -= 0.3
 
         return max(0.0, min(1.0, base_score))
@@ -697,7 +762,9 @@ class MatrizConsciousnessGovernanceSystem:
 
         # Check for specific trigger conditions
         high_risk_keywords = ["autonomous", "external", "modify", "access", "delete"]
-        return bool(any(keyword in assessment.action_description.lower() for keyword in high_risk_keywords))
+        return bool(
+            any(keyword in assessment.action_description.lower() for keyword in high_risk_keywords)
+        )
 
     def _update_governance_metrics(self, assessment: ConsciousnessEthicsAssessment) -> None:
         """Update governance metrics"""
@@ -711,7 +778,9 @@ class MatrizConsciousnessGovernanceSystem:
         if assessment.requires_human_review:
             self.governance_metrics["escalations"] += 1
 
-    def _log_governance_decision(self, assessment: ConsciousnessEthicsAssessment, context: dict[str, Any]) -> None:
+    def _log_governance_decision(
+        self, assessment: ConsciousnessEthicsAssessment, context: dict[str, Any]
+    ) -> None:
         """Log governance decision for audit trail"""
 
         decision_record = {
@@ -739,7 +808,9 @@ class MatrizConsciousnessGovernanceSystem:
     async def _start_governance_monitoring(self) -> None:
         """Start background governance monitoring"""
         self._monitoring_active = True
-        asyncio.create_task(self._governance_monitoring_loop())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_matriz_consciousness_governance_py_L743"}
+        asyncio.create_task(
+            self._governance_monitoring_loop()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_governance_matriz_consciousness_governance_py_L743"}
         logger.info("🔍 Started governance monitoring")
 
     async def _governance_monitoring_loop(self) -> None:
@@ -760,19 +831,26 @@ class MatrizConsciousnessGovernanceSystem:
                             if time_since_evolution < 60:  # Evolved in last minute
                                 evolution_rate = consciousness.STATE.get("evolutionary_momentum", 0)
                                 if evolution_rate > 0.8:
-                                    logger.warning(f"🚨 Rapid evolution detected: {consciousness.identity_signature}")
+                                    logger.warning(
+                                        f"🚨 Rapid evolution detected: {consciousness.identity_signature}"
+                                    )
 
                                     # Trigger ethics assessment
                                     await self.assess_consciousness_ethics(
                                         consciousness.consciousness_id,
                                         f"Rapid evolution detected with momentum {evolution_rate}",
-                                        {"monitoring_trigger": "rapid_evolution", "high_risk": True},
+                                        {
+                                            "monitoring_trigger": "rapid_evolution",
+                                            "high_risk": True,
+                                        },
                                     )
 
                 # Clean up old assessments
                 cutoff_time = datetime.now(timezone.utc) - timedelta(days=7)
                 old_assessments = [
-                    aid for aid, assessment in self.ethics_assessments.items() if assessment.assessed_at < cutoff_time
+                    aid
+                    for aid, assessment in self.ethics_assessments.items()
+                    if assessment.assessed_at < cutoff_time
                 ]
 
                 for assessment_id in old_assessments:
@@ -789,10 +867,16 @@ class MatrizConsciousnessGovernanceSystem:
 
         # Calculate recent metrics
         recent_cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
-        recent_assessments = [a for a in self.ethics_assessments.values() if a.assessed_at > recent_cutoff]
+        recent_assessments = [
+            a for a in self.ethics_assessments.values() if a.assessed_at > recent_cutoff
+        ]
 
         recent_violations = len(
-            [a for a in recent_assessments if a.ethics_level == ConsciousnessEthicsLevel.ETHICAL_VIOLATION]
+            [
+                a
+                for a in recent_assessments
+                if a.ethics_level == ConsciousnessEthicsLevel.ETHICAL_VIOLATION
+            ]
         )
 
         return {

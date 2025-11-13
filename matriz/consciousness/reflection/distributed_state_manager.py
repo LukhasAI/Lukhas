@@ -66,7 +66,6 @@ from core.event_sourcing import Event, EventStore, get_global_event_store
 #!/usr/bin/env python3
 
 
-
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = get_logger(__name__)
@@ -147,9 +146,7 @@ class DistributedStateManager:
 
         # Sharded in-memory storage
         self.shard_manager = ShardManager(num_shards)
-        self.memory_shards: dict[int, dict[str, StateEntry]] = {
-            i: {} for i in range(num_shards)
-        }
+        self.memory_shards: dict[int, dict[str, StateEntry]] = {i: {} for i in range(num_shards)}
 
         # Synchronization
         self.shard_locks = {i: threading.RLock() for i in range(num_shards)}
@@ -172,13 +169,13 @@ class DistributedStateManager:
         # Restore state from event store
         self._restore_state()
 
-        logger.info(
-            f"Distributed state manager initialized: node={node_id}, shards={num_shards}"
-        )
+        logger.info(f"Distributed state manager initialized: node={node_id}, shards={num_shards}")
 
     def _get_shard_id(self, key: str) -> int:
         """Calculate shard ID for a given key"""
-        hash_value = int(hashlib.sha256(key.encode()).hexdigest(), 16)  # Changed from MD5 for security
+        hash_value = int(
+            hashlib.sha256(key.encode()).hexdigest(), 16
+        )  # Changed from MD5 for security
         return hash_value % self.num_shards
 
     def _start_background_tasks(self):
@@ -194,9 +191,7 @@ class DistributedStateManager:
         self._background_tasks.append(snapshot_task)
 
         # Access pattern analysis task
-        analysis_task = threading.Thread(
-            target=self._analyze_access_patterns, daemon=True
-        )
+        analysis_task = threading.Thread(target=self._analyze_access_patterns, daemon=True)
         analysis_task.start()
         self._background_tasks.append(analysis_task)
 
@@ -216,9 +211,7 @@ class DistributedStateManager:
         for shard_id in range(self.num_shards):
             with self.shard_locks[shard_id]:
                 shard = self.memory_shards[shard_id]
-                expired_keys = [
-                    key for key, entry in shard.items() if entry.is_expired()
-                ]
+                expired_keys = [key for key, entry in shard.items() if entry.is_expired()]
 
                 for key in expired_keys:
                     del shard[key]
@@ -233,10 +226,7 @@ class DistributedStateManager:
         while self._running:
             try:
                 time.sleep(300)  # Check every 5 minutes
-                if (
-                    self.event_counter - self.last_snapshot_version
-                    >= self.snapshot_interval
-                ):
+                if self.event_counter - self.last_snapshot_version >= self.snapshot_interval:
                     self._create_snapshot()
             except Exception as e:
                 logger.error(f"Error in snapshot creation: {e}")
@@ -330,8 +320,7 @@ class DistributedStateManager:
                 value=value,
                 version=event.version,
                 state_type=state_type,
-                ttl=ttl
-                or (self.default_cache_ttl if state_type != StateType.HOT else None),
+                ttl=ttl or (self.default_cache_ttl if state_type != StateType.HOT else None),
             )
             self.memory_shards[shard_id][key] = entry
             self.event_counter = event.version
@@ -424,12 +413,8 @@ class DistributedStateManager:
             shard = self.memory_shards[shard_id]
 
             hot_count = sum(1 for e in shard.values() if e.state_type == StateType.HOT)
-            warm_count = sum(
-                1 for e in shard.values() if e.state_type == StateType.WARM
-            )
-            cold_count = sum(
-                1 for e in shard.values() if e.state_type == StateType.COLD
-            )
+            warm_count = sum(1 for e in shard.values() if e.state_type == StateType.WARM)
+            cold_count = sum(1 for e in shard.values() if e.state_type == StateType.COLD)
 
             return {
                 "total_keys": len(shard),
@@ -478,9 +463,7 @@ class DistributedStateManager:
         # Copy all shard states
         for shard_id in range(self.num_shards):
             with self.shard_locks[shard_id]:
-                snapshot.shard_states[shard_id] = dict(
-                    self.memory_shards[shard_id].items()
-                )
+                snapshot.shard_states[shard_id] = dict(self.memory_shards[shard_id].items())
 
         # Store snapshot as special event
         event = Event(
@@ -532,9 +515,7 @@ class DistributedStateManager:
         snapshot_data = snapshot_event.data
 
         # Restore shard states
-        for shard_id_str, shard_entries in snapshot_data.get(
-            "shard_states", {}
-        ).items():
+        for shard_id_str, shard_entries in snapshot_data.get("shard_states", {}).items():
             shard_id = int(shard_id_str)
             with self.shard_locks[shard_id]:
                 self.memory_shards[shard_id] = {

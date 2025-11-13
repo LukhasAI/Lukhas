@@ -28,7 +28,7 @@ import threading
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -139,7 +139,7 @@ class ABSafetyGuard:
         logger.info(f"ABSafetyGuard initialized: candidate={self.config.candidate_enforcement.value}, "
                    f"control={self.config.control_enforcement.value}")
 
-    def should_enforce_ethics(self, lane: str, plan: Dict[str, Any]) -> bool:
+    def should_enforce_ethics(self, lane: str, plan: dict[str, Any]) -> bool:
         """
         Determine if ethics should be enforced for this lane/plan.
 
@@ -346,7 +346,7 @@ class ABSafetyGuard:
             f"Candidate enforcement DISABLED."
         )
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current safety guard status."""
         with self._lock:
             candidate_decisions = self.recent_decisions.get("labs", [])
@@ -415,7 +415,7 @@ def get_safety_guard() -> ABSafetyGuard:
     return _safety_guard
 
 
-def should_enforce_for_lane(lane: str, plan: Dict[str, Any]) -> bool:
+def should_enforce_for_lane(lane: str, plan: dict[str, Any]) -> bool:
     """Convenience function to check enforcement for lane."""
     return get_safety_guard().should_enforce_ethics(lane, plan)
 

@@ -17,7 +17,7 @@ import ast
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class ImportStatus(Enum):
@@ -49,8 +49,8 @@ class ServiceLane(Enum):
 class ImportRule:
     """Import boundary rule."""
     from_lane: ServiceLane
-    allowed_imports: List[ServiceLane]
-    forbidden_imports: List[ServiceLane]
+    allowed_imports: list[ServiceLane]
+    forbidden_imports: list[ServiceLane]
     description: str
 
 
@@ -74,7 +74,7 @@ class ImportViolation:
         """Alias for file_path for test compatibility."""
         return self.file_path
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         result = asdict(self)
         result['violation_type'] = self.violation_type.value
@@ -88,10 +88,10 @@ class ImportReviewReport:
     """Complete import review report."""
     total_files_scanned: int
     total_imports_found: int
-    violations: List[ImportViolation]
+    violations: list[ImportViolation]
     valid_imports: int
-    warnings: List[str] = field(default_factory=list)
-    suggestions: List[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    suggestions: list[str] = field(default_factory=list)
 
     @property
     def has_violations(self) -> bool:
@@ -103,7 +103,7 @@ class ImportReviewReport:
         """Count of error-level violations."""
         return sum(1 for v in self.violations if v.severity == "error")
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             'total_files_scanned': self.total_files_scanned,
@@ -135,7 +135,7 @@ class ImportController:
     """
 
     # Import rules based on ops/matriz.yaml
-    LANE_RULES: List[ImportRule] = [
+    LANE_RULES: list[ImportRule] = [
         ImportRule(
             from_lane=ServiceLane.CANDIDATE,
             allowed_imports=[ServiceLane.CORE, ServiceLane.MATRIZ, ServiceLane.UNIVERSAL],
@@ -171,15 +171,15 @@ class ImportController:
 
     def __init__(self):
         """Initialize Import Controller."""
-        self._import_cache: Dict[str, List[str]] = {}
-        self._matriz_config: Optional[Dict[str, Any]] = None
+        self._import_cache: dict[str, list[str]] = {}
+        self._matriz_config: Optional[dict[str, Any]] = None
         self._rules_loaded: bool = False
 
     async def review_file_imports(
         self,
         file_path: Path,
         lane: Optional[ServiceLane] = None
-    ) -> List[ImportViolation]:
+    ) -> list[ImportViolation]:
         """
         Review imports in a single file for violations.
         
@@ -352,7 +352,7 @@ class ImportController:
         line_number: int,
         from_lane: ServiceLane,
         import_type: str,
-        names: Optional[List[str]] = None
+        names: Optional[list[str]] = None
     ) -> Optional[ImportViolation]:
         """
         Check if an import violates lane boundaries.
@@ -470,7 +470,7 @@ class ImportController:
         """
         return self._detect_lane(file_path)
 
-    def get_allowed_imports(self, source_lane: ServiceLane) -> List[ServiceLane]:
+    def get_allowed_imports(self, source_lane: ServiceLane) -> list[ServiceLane]:
         """
         Get list of lanes that source_lane can import from.
         
@@ -545,7 +545,7 @@ class ImportController:
             names=None
         )
 
-    def load_matriz_config(self, config: Dict[str, Any]) -> None:
+    def load_matriz_config(self, config: dict[str, Any]) -> None:
         """
         Load lane configuration from ops/matriz.yaml.
         
@@ -576,7 +576,7 @@ class ImportController:
         self,
         directory: Path,
         recursive: bool = True
-    ) -> List[ImportViolation]:
+    ) -> list[ImportViolation]:
         """
         Scan directory for import violations (synchronous for test compatibility).
         
@@ -609,7 +609,7 @@ class ImportController:
         self,
         directory: Path,
         recursive: bool = True
-    ) -> List[ImportViolation]:
+    ) -> list[ImportViolation]:
         """
         Async version of scan_directory.
         
@@ -642,7 +642,7 @@ async def review_imports(directory: Path, recursive: bool = True) -> ImportRevie
     return await controller.review_directory_imports(directory, recursive)
 
 
-async def check_file(file_path: Path) -> List[ImportViolation]:
+async def check_file(file_path: Path) -> list[ImportViolation]:
     """
     Convenience function to check imports in a single file.
     

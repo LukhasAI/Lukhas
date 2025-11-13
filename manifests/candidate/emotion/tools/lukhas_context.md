@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.emotion.tools
 
 **Star**: Supporting

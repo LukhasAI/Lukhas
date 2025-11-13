@@ -11,6 +11,7 @@ Features:
 - Integration with adaptive memory system
 """
 
+import collections
 import hashlib
 import json
 import threading
@@ -22,7 +23,6 @@ from enum import Enum
 from typing import Any, Optional
 
 from .adaptive_memory import MemoryFold, MemoryItem, MemoryType
-import collections
 
 
 class FoldStatus(Enum):
@@ -202,7 +202,7 @@ class ScheduledFoldingManager:
         self.eviction_batch_size = eviction_batch_size
 
         # Storage
-        self.active_folds: collections.collections.OrderedDict[str, ScheduledFold] = OrderedDict()
+        self.active_folds: collections.collections.Ordereddict[str, ScheduledFold] = OrderedDict()
         self.compressed_folds: dict[str, ScheduledFold] = {}
         self.content_hashes: dict[str, str] = {}  # hash -> fold_id mapping
 

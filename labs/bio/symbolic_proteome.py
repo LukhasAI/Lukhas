@@ -717,10 +717,10 @@ class SymbolicProteome:
                     protein.folding_state = FoldingState.AGGREGATED
 
                 logger.warning(
-                    "Protein misfolded",
-                    protein_id=protein.protein_id,
-                    attempts=protein.fold_attempts,
-                    state=protein.folding_state.value,
+                    "Protein misfolded: id=%s, attempts=%s, state=%s",
+                    protein.protein_id,
+                    protein.fold_attempts,
+                    protein.folding_state.value,
                 )
 
             return False

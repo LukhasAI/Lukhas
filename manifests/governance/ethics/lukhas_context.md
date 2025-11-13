@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.governance.ethics
 
 **Star**: 🛡️ Watch (Guardian)

@@ -12,7 +12,7 @@ import argparse
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import yaml
 
@@ -60,7 +60,7 @@ class FlagMigrator:
         """
         # Load old config
         try:
-            with open(self.input_path, "r") as f:
+            with open(self.input_path) as f:
                 self.old_config = yaml.safe_load(f)
         except FileNotFoundError:
             print(f"{RED}Error: Input file not found: {self.input_path}{RESET}")
@@ -183,9 +183,8 @@ class FlagMigrator:
             if "disable_after" in flag_config:
                 new_flag["disable_after"] = flag_config["disable_after"]
 
-        elif flag_type == "environment":
-            if "allowed_environments" in flag_config:
-                new_flag["allowed_environments"] = flag_config["allowed_environments"]
+        elif flag_type == "environment" and "allowed_environments" in flag_config:
+            new_flag["allowed_environments"] = flag_config["allowed_environments"]
 
         return new_flag
 
@@ -221,7 +220,7 @@ def main() -> int:
         print(
             f"{RED}Error: Output file already exists: {args.output}{RESET}"
         )
-        print(f"Use --force to overwrite")
+        print("Use --force to overwrite")
         return 1
 
     # Perform migration

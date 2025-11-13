@@ -9,11 +9,16 @@ for API optimization and business intelligence.
 """
 
 import asyncio
+import importlib.util
 import logging
 import statistics
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
+
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernized typing imports - Dict->dict, List->list for Python 3.9+ compatibility
+# estimate: 5min | priority: high | dependencies: none
 from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
@@ -21,23 +26,8 @@ from typing import Any, Optional
 logger = logging.getLogger(__name__)
 
 # Optional dependencies for advanced features
-try:
-    import numpy as np  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_analytics_dashboard_py_L25"}
-    import pandas as pd  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_analytics_dashboard_py_L28"}
-    PANDAS_AVAILABLE = True
-except ImportError:
-    PANDAS_AVAILABLE = False
-
-try:
-    from sklearn.cluster import (
-        KMeans,  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_analytics_dashboard_py_L35"}
-    )
-    from sklearn.preprocessing import (
-        StandardScaler,  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "api_optimization_analytics_dashboard_py_L38"}
-    )
-    SKLEARN_AVAILABLE = True
-except ImportError:
-    SKLEARN_AVAILABLE = False
+PANDAS_AVAILABLE = importlib.util.find_spec("pandas") is not None
+SKLEARN_AVAILABLE = importlib.util.find_spec("sklearn") is not None
 
 
 class MetricType(Enum):

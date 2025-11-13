@@ -19,6 +19,10 @@ SUPPORTED FLAG TYPES:
 5. Environment-based (dev/staging/prod)
 """
 
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for feature flags service
+# estimate: 15min | priority: high | dependencies: none
+
 import hashlib
 import logging
 import os
@@ -26,7 +30,7 @@ import time
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional
 
 import yaml
 
@@ -93,7 +97,7 @@ class FlagEvaluationContext:
 class FeatureFlag:
     """Represents a feature flag configuration."""
 
-    def __init__(self, name: str, config: Dict[str, Any]):
+    def __init__(self, name: str, config: dict[str, Any]):
         """
         Initialize feature flag.
 
@@ -246,7 +250,7 @@ class FeatureFlagsService:
         """
         self.config_path = config_path or self._get_default_config_path()
         self.cache_ttl = cache_ttl
-        self.flags: Dict[str, FeatureFlag] = {}
+        self.flags: dict[str, FeatureFlag] = {}
         self._cache_timestamp: float = 0
         self._load_flags()
 
@@ -254,7 +258,7 @@ class FeatureFlagsService:
         """Get default config path relative to repository root."""
         # Try to find repo root
         current = Path(__file__).resolve()
-        for parent in [current] + list(current.parents):
+        for parent in [current, *list(current.parents)]:
             if (parent / "branding" / "features").exists():
                 return str(parent / "branding" / "features" / "flags.yaml")
 
@@ -269,7 +273,7 @@ class FeatureFlagsService:
                 self.flags = {}
                 return
 
-            with open(self.config_path, "r") as f:
+            with open(self.config_path) as f:
                 config = yaml.safe_load(f)
 
             # Parse flags
@@ -342,7 +346,7 @@ class FeatureFlagsService:
 
         return self.flags.get(flag_name)
 
-    def list_flags(self) -> List[str]:
+    def list_flags(self) -> list[str]:
         """
         List all flag names.
 
@@ -354,7 +358,7 @@ class FeatureFlagsService:
 
         return list(self.flags.keys())
 
-    def get_all_flags(self) -> Dict[str, FeatureFlag]:
+    def get_all_flags(self) -> dict[str, FeatureFlag]:
         """
         Get all flag configurations.
 

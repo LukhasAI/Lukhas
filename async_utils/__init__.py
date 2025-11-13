@@ -82,3 +82,17 @@ except Exception:
                     raise
         return None
     __all__.append("run_with_retry")
+
+_background_tasks: set = set()
+
+def create_background_task(coro, *, name=None):
+    '''Create background task with automatic cleanup.
+
+    Prevents RUF006 by storing task reference until complete.
+    '''
+    task = asyncio.create_task(coro, name=name)
+    _background_tasks.add(task)
+    task.add_done_callback(_background_tasks.discard)
+    return task
+
+__all__.append("create_background_task")

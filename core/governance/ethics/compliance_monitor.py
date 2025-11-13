@@ -136,7 +136,9 @@ class ComplianceAssessment:
     compliance_score: float = 0.0  # 0-100
     violations: list[ComplianceViolation] = field(default_factory=list)
     recommendations: list[str] = field(default_factory=list)
-    next_review_date: datetime = field(default_factory=lambda: datetime.now(timezone.utc) + timedelta(days=30))
+    next_review_date: datetime = field(
+        default_factory=lambda: datetime.now(timezone.utc) + timedelta(days=30)
+    )
     risk_factors: list[str] = field(default_factory=list)
 
     # Constellation Framework integration
@@ -509,7 +511,9 @@ class ComplianceMonitor:
                 risk_factors.extend(framework_result["risk_factors"])
 
             # Calculate overall compliance score
-            overall_score = await self._calculate_overall_compliance_score(framework_statuses, all_violations)
+            overall_score = await self._calculate_overall_compliance_score(
+                framework_statuses, all_violations
+            )
 
             # Determine overall status
             overall_status = await self._determine_overall_status(framework_statuses, overall_score)
@@ -871,7 +875,10 @@ class ComplianceMonitor:
         ]
 
         for framework in critical_frameworks:
-            if framework in framework_statuses and framework_statuses[framework] == ComplianceStatus.CRITICAL_VIOLATION:
+            if (
+                framework in framework_statuses
+                and framework_statuses[framework] == ComplianceStatus.CRITICAL_VIOLATION
+            ):
                 return ComplianceStatus.CRITICAL_VIOLATION
 
         # Check for non-compliance in any framework
@@ -883,7 +890,9 @@ class ComplianceMonitor:
             return ComplianceStatus.NON_COMPLIANT
 
         # Check for at-risk status
-        at_risk_count = sum(1 for status in framework_statuses.values() if status == ComplianceStatus.AT_RISK)
+        at_risk_count = sum(
+            1 for status in framework_statuses.values() if status == ComplianceStatus.AT_RISK
+        )
 
         if at_risk_count > len(framework_statuses) * 0.3:  # More than 30% at risk
             return ComplianceStatus.AT_RISK
@@ -960,9 +969,13 @@ class ComplianceMonitor:
                 time_to_deadline = violation.remediation_deadline - datetime.now(timezone.utc)
 
                 if time_to_deadline.total_seconds() < 3600:  # Less than 1 hour
-                    logger.warning(f"⚠️ Remediation deadline approaching for violation {violation.violation_id}")
+                    logger.warning(
+                        f"⚠️ Remediation deadline approaching for violation {violation.violation_id}"
+                    )
                 elif time_to_deadline.total_seconds() < 0:  # Overdue
-                    logger.error(f"❌ Remediation deadline exceeded for violation {violation.violation_id}")
+                    logger.error(
+                        f"❌ Remediation deadline exceeded for violation {violation.violation_id}"
+                    )
 
     async def _process_assessment_results(self, assessment: ComplianceAssessment):
         """Process and act on assessment results"""
@@ -981,13 +994,19 @@ class ComplianceMonitor:
     async def _send_critical_alert(self, assessment: ComplianceAssessment):
         """Send critical compliance alert"""
 
-        logger.critical(f"🚨 CRITICAL COMPLIANCE VIOLATION DETECTED - Assessment: {assessment.assessment_id}")
+        logger.critical(
+            f"🚨 CRITICAL COMPLIANCE VIOLATION DETECTED - Assessment: {assessment.assessment_id}"
+        )
 
         # In practice, this would send alerts via email, Slack, etc.
-        critical_violations = [v for v in assessment.violations if v.severity == ViolationSeverity.CRITICAL]
+        critical_violations = [
+            v for v in assessment.violations if v.severity == ViolationSeverity.CRITICAL
+        ]
 
         for violation in critical_violations:
-            logger.critical(f"Critical violation: {violation.title} (Framework: {violation.framework.value})")
+            logger.critical(
+                f"Critical violation: {violation.title} (Framework: {violation.framework.value})"
+            )
 
     async def _generate_improvement_recommendations(self, assessment: ComplianceAssessment):
         """Generate improvement recommendations"""
@@ -995,7 +1014,9 @@ class ComplianceMonitor:
         # This would typically use ML/AI to generate specific recommendations
         # For now, provide basic recommendations based on violations
 
-        logger.info(f"📊 Generating improvement recommendations for assessment {assessment.assessment_id}")
+        logger.info(
+            f"📊 Generating improvement recommendations for assessment {assessment.assessment_id}"
+        )
 
     async def _update_compliance_dashboard(self, assessment: ComplianceAssessment):
         """Update compliance dashboard with latest assessment"""
@@ -1011,7 +1032,9 @@ class ComplianceMonitor:
         self.metrics["total_assessments"] += 1
         self.metrics["total_violations"] += len(assessment.violations)
 
-        critical_count = sum(1 for v in assessment.violations if v.severity == ViolationSeverity.CRITICAL)
+        critical_count = sum(
+            1 for v in assessment.violations if v.severity == ViolationSeverity.CRITICAL
+        )
         self.metrics["critical_violations"] += critical_count
 
         # Update compliance score trend
@@ -1054,7 +1077,8 @@ class ComplianceMonitor:
             "last_assessment": latest_assessment.timestamp.isoformat(),
             "active_violations": len([v for v in self.violation_history if v.status == "open"]),
             "framework_statuses": {
-                framework.value: status.value for framework, status in latest_assessment.framework_statuses.items()
+                framework.value: status.value
+                for framework, status in latest_assessment.framework_statuses.items()
             },
             "recommendations": latest_assessment.recommendations[:5],  # Top 5
             "next_review": latest_assessment.next_review_date.isoformat(),
@@ -1091,7 +1115,9 @@ class ComplianceMonitor:
                 for framework in ComplianceFramework
             },
             "oldest_open_violation": (
-                min(open_violations, key=lambda x: x.detected_at).detected_at.isoformat() if open_violations else None
+                min(open_violations, key=lambda x: x.detected_at).detected_at.isoformat()
+                if open_violations
+                else None
             ),
         }
 
@@ -1112,7 +1138,11 @@ class ComplianceMonitor:
             "report_id": f"comp_report_{uuid.uuid4().hex[:8]}",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "assessment_period": {
-                "from": (self.assessment_history[0].timestamp.isoformat() if self.assessment_history else None),
+                "from": (
+                    self.assessment_history[0].timestamp.isoformat()
+                    if self.assessment_history
+                    else None
+                ),
                 "to": latest_assessment.timestamp.isoformat(),
             },
             "overall_compliance": {
@@ -1146,7 +1176,9 @@ class ComplianceMonitor:
                         "title": v.title,
                         "status": v.status,
                         "detected_at": v.detected_at.isoformat(),
-                        "deadline": (v.remediation_deadline.isoformat() if v.remediation_deadline else None),
+                        "deadline": (
+                            v.remediation_deadline.isoformat() if v.remediation_deadline else None
+                        ),
                     }
                     for v in self.violation_history[-50:]  # Last 50 violations
                 ],

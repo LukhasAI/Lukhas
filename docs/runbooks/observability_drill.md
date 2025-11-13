@@ -1,96 +1,61 @@
----
-status: wip
-type: documentation
-owner: unknown
-module: runbooks
-redirect: false
-moved_to: null
----
-
-![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
-
 # Observability Drill Runbook
 
-## 1. Objective
-This runbook outlines the procedure for conducting an observability drill on the LUKHAS AI system. The primary goal is to test and verify the effectiveness of our monitoring, alerting, and logging systems in detecting, diagnosing, and responding to system failures.
+## 1. Overview
 
-## 2. Participants
-- **Drill Leader**: (Name/Team) - Responsible for overseeing the drill.
-- **On-call Engineer**: (Name/Team) - Responsible for responding to the simulated incident.
+This document outlines the procedures for conducting observability drills to test the monitoring, alerting, and incident response capabilities of the LUKHAS AI System. The goal is to proactively identify and address gaps in observability before they impact production.
 
-## 3. Prerequisites
-- The LUKHAS application is running in a staging or pre-production environment.
-- The full observability stack is deployed and operational:
-  - **Prometheus**: Scraping metrics from the application.
-  - **Grafana**: Dashboards are set up for key application and system metrics.
-  - **Alertmanager**: Configured to send alerts to a designated channel (e.g., a test Slack channel).
-  - **Loki**: Aggregating logs from the application.
+## 2. Objectives
 
-## 4. Drill Scenario: High API Latency
-This drill will simulate a sudden increase in response time for a critical API endpoint. This will test our ability to detect performance degradation, which might not immediately result in errors but can severely impact user experience and system stability.
+- **Verify Monitoring Coverage:** Ensure all critical components and services are monitored with the correct metrics.
+- **Validate Alerting Rules:** Confirm that alerts are triggered under specific failure conditions and routed to the appropriate channels.
+- **Measure Incident Response Times:** Measure the Mean Time to Detection (MTTD) and Mean Time to Acknowledgment (MTTA) for simulated incidents.
+- **Assess Dashboard Accuracy:** Verify that observability dashboards update correctly and provide actionable insights during an incident.
 
-- **Target Component**: `api` service.
-- **Target Endpoint**: `/feedback/health` (as it's used in the healthcheck).
-- **Simulated Failure**: Introduce an artificial delay to mimic slow processing.
+## 3. Drill Scenarios
 
-## 5. Execution Steps
+The following scenarios will be simulated as part of the observability drill.
 
-### Step 1: Establish Baseline (5 mins)
-1.  Navigate to the primary LUKHAS application dashboard in Grafana.
-2.  Observe the current values for the following metrics for the `/feedback/health` endpoint:
-    - `lukhas_ai_response_time_seconds_p95` (or similar histogram).
-    - `lukhas_ai_requests_total` for status codes `200`.
-3.  Take a screenshot or note down the current values. All metrics should be within normal operating ranges.
+### 3.1. Database Failure
 
-### Step 2: Simulate Failure (5 mins)
-1.  **Action**: Introduce a 2-second delay into the `/feedback/health` endpoint handler in the application code.
-    *   *Note for engineer*: A simple way to do this is to add `time.sleep(2)` in the relevant request handler function.
-2.  Deploy the change to the environment where the drill is being conducted.
+- **Objective:** Simulate a complete failure of the primary database.
+- **Simulation Steps:**
+  1. Block network traffic to the database instance.
+  2. Inject a database connection error in the application.
+- **Expected Outcomes:**
+  - A critical alert for "Database Unreachable" is triggered within 2 minutes.
+  - The application health check status changes to "degraded" or "unhealthy."
+  - The "Database Health" dashboard shows a spike in connection errors.
 
-### Step 3: Observe and Detect (10 mins)
-1.  Continuously monitor the Grafana dashboard.
-2.  **Look for**:
-    - A significant increase in the `lukhas_ai_response_time_seconds` histogram for the `/feedback/health` endpoint. The p95 latency should rise to over 2 seconds.
-    - The `healthcheck` on the `api` service in `docker-compose.yml` might start failing if the timeout (10s) is breached, leading to container restarts. This would be visible in Docker logs and potentially as an alert.
-3.  Note the time it takes for the metric changes to become clearly visible on the dashboard.
+### 3.2. API Timeout
 
-### Step 4: Verify Alerting (10 mins)
-1.  Wait for an alert to be triggered by Alertmanager.
-2.  **Verify**:
-    - An alert for "High API Latency" or a similar rule is received in the configured notification channel.
-    - The alert contains relevant information, such as the affected service, endpoint, and current latency.
-    - The alert should provide a link to the relevant Grafana dashboard or runbook.
-3.  Note the time it takes from failure simulation to alert reception.
+- **Objective:** Simulate a high-latency scenario for a critical API endpoint.
+- **Simulation Steps:**
+  1. Introduce an artificial delay (e.g., 10 seconds) in the API response.
+- **Expected Outcomes:**
+  - A warning alert for "High API Latency" is triggered within 5 minutes.
+  - The "API Performance" dashboard shows an increase in p95 and p99 latency for the affected endpoint.
 
-### Step 5: Diagnose with Logs (10 mins)
-1.  Access the Loki logs via Grafana's "Explore" view.
-2.  Use a LogQL query to find logs related to the `/feedback/health` endpoint. Example query: `{job="api"} | json | line_format "{{.message}}"`
-3.  Look for any log messages indicating slow processing or healthcheck failures.
-4.  Assess if the logs provide enough context to diagnose the issue.
+### 3.3. Memory Spike
 
-### Step 6: Rollback and Recovery (10 mins)
-1.  **Action**: Revert the code change that introduced the delay.
-2.  Deploy the fix to the environment.
-3.  Monitor the Grafana dashboard and Alertmanager.
-4.  **Verify**:
-    - The `lukhas_ai_response_time_seconds` metric returns to the baseline level.
-    - The "High API Latency" alert is resolved and a recovery notification is sent.
-5.  Note the time it takes for the system to recover.
+- **Objective:** Simulate a memory leak or sudden increase in memory consumption in a service.
+- **Simulation Steps:**
+  1. Artificially increase memory usage in a container or process.
+- **Expected Outcomes:**
+  - A warning alert for "High Memory Utilization" is triggered when usage exceeds 80%.
+  - The "Resource Utilization" dashboard reflects the memory spike.
 
-## 6. Success Criteria
-The drill is considered successful if:
-- [ ] The high latency is clearly visible on the Grafana dashboard within **5 minutes** of the failure simulation.
-- [ ] An alert is received in the designated channel within **10 minutes**.
-- [ ] Relevant logs for the affected endpoint can be easily located and queried in Loki/Grafana.
-- [ ] The on-call engineer can correctly identify the root cause (or at least the affected component and endpoint) using the provided observability tools.
+## 4. Execution
 
-## 7. Post-Drill Analysis
-- **What went well?**
-- **What could be improved?**
-- **Were there any gaps in metrics, dashboards, alerts, or logs?**
-- **Action Items**:
-  - (Ticket ID) - (Description of follow-up action)
-  - (Ticket ID) - (Description of follow-up action)
+The observability drills will be executed using the `scripts/observability/run_drill.py` script. The script provides functions to simulate each of the scenarios described above.
 
----
-*This runbook provides a template for running observability drills. The specific failure scenarios can be adapted and expanded over time to cover other potential issues.*
+```bash
+python3 scripts/observability/run_drill.py --scenario db_failure
+```
+
+## 5. Post-Drill Analysis
+
+After each drill, the following actions should be taken:
+
+1. **Review Alerting Performance:** Document whether alerts were triggered as expected and if they contained the necessary information.
+2. **Analyze Dashboard Updates:** Confirm that dashboards provided a clear and accurate view of the simulated incident.
+3. **Identify Gaps:** Create tickets for any identified gaps in monitoring, alerting, or dashboarding.

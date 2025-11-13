@@ -31,15 +31,9 @@ from core.common.exceptions import LukhasError, ValidationError
 from core.interfaces import CoreInterface
 from core.interfaces.dependency_injection import get_service, register_service
 
-from .parallel_reality_safety import (
-    DriftMetrics,
-    ParallelRealitySafetyFramework,
-    SafetyLevel,
-)
+from .parallel_reality_safety import DriftMetrics, ParallelRealitySafetyFramework, SafetyLevel
 
 logger = logging.getLogger(__name__)
-
-
 
 
 logger = get_logger(__name__)
@@ -163,7 +157,9 @@ class ParallelRealitySimulator(CoreInterface):
 
         except Exception as e:
             logger.error(f"Failed to initialize simulator: {e}")
-            raise LukhasError(f"Initialization failed: {e}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_parallel_reality_simulator_py_L166"}
+            raise LukhasError(
+                f"Initialization failed: {e}"
+            )  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_parallel_reality_simulator_py_L166"}
 
     async def create_simulation(
         self,
@@ -224,7 +220,9 @@ class ParallelRealitySimulator(CoreInterface):
         if self.memory_service:
             await self._store_simulation_memory(simulation, "created")
 
-        logger.info(f"Created simulation {simulation.simulation_id} with {len(simulation.branches)} branches")
+        logger.info(
+            f"Created simulation {simulation.simulation_id} with {len(simulation.branches)} branches"
+        )
         return simulation
 
     async def _create_branch(
@@ -266,7 +264,9 @@ class ParallelRealitySimulator(CoreInterface):
 
         # Safety validation
         if self.safety_framework:
-            is_safe, hallucination = await self.safety_framework.validate_reality_branch(branch, base_state)
+            is_safe, hallucination = await self.safety_framework.validate_reality_branch(
+                branch, base_state
+            )
 
             if not is_safe:
                 logger.warning(
@@ -274,7 +274,9 @@ class ParallelRealitySimulator(CoreInterface):
                 )
                 if hallucination and hallucination.severity > 0.8:
                     # Reject high-severity hallucinations
-                    raise ValidationError(f"Reality branch rejected: {hallucination.recommended_action}")
+                    raise ValidationError(
+                        f"Reality branch rejected: {hallucination.recommended_action}"
+                    )
                 # For lower severity, continue but mark
                 branch.state["_safety_warning"] = (
                     hallucination.evidence if hallucination else {"warning": "safety check failed"}
@@ -282,7 +284,9 @@ class ParallelRealitySimulator(CoreInterface):
 
         return branch
 
-    async def _generate_divergence(self, base_state: dict[str, Any], reality_type: RealityType) -> dict[str, Any]:
+    async def _generate_divergence(
+        self, base_state: dict[str, Any], reality_type: RealityType
+    ) -> dict[str, Any]:
         """Generate divergence point based on reality type"""
         divergence = {}
 
@@ -369,7 +373,9 @@ class ParallelRealitySimulator(CoreInterface):
 
         return events
 
-    def _calculate_branch_probability(self, divergence: dict[str, Any], reality_type: RealityType) -> float:
+    def _calculate_branch_probability(
+        self, divergence: dict[str, Any], reality_type: RealityType
+    ) -> float:
         """Calculate probability of reality branch"""
         base_probability = 0.5
 
@@ -401,7 +407,9 @@ class ParallelRealitySimulator(CoreInterface):
 
         return max(self.min_probability, min(1.0, base_probability))
 
-    async def _apply_divergence(self, base_state: dict[str, Any], divergence: dict[str, Any]) -> dict[str, Any]:
+    async def _apply_divergence(
+        self, base_state: dict[str, Any], divergence: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply divergence to create new reality state"""
         new_state = base_state.copy()
 
@@ -425,7 +433,9 @@ class ParallelRealitySimulator(CoreInterface):
 
         return new_state
 
-    async def explore_branch(self, simulation_id: str, branch_id: str, depth: int = 1) -> list[RealityBranch]:
+    async def explore_branch(
+        self, simulation_id: str, branch_id: str, depth: int = 1
+    ) -> list[RealityBranch]:
         """
         Explore a reality branch by creating sub-branches.
 
@@ -493,7 +503,9 @@ class ParallelRealitySimulator(CoreInterface):
             # Calculate average drift for new branches
             drift_scores = []
             for new_branch in new_branches:
-                drift_metrics = await self.safety_framework.calculate_drift_metrics(new_branch, parent_branch.state)
+                drift_metrics = await self.safety_framework.calculate_drift_metrics(
+                    new_branch, parent_branch.state
+                )
                 drift_scores.append(drift_metrics.aggregate_drift)
 
             avg_drift = sum(drift_scores) / len(drift_scores) if drift_scores else 0.0
@@ -554,7 +566,9 @@ class ParallelRealitySimulator(CoreInterface):
             # Check consensus on key properties
             consensus_properties = ["probability", "ethical_score"]
             for prop in consensus_properties:
-                consensus_reached, score = await self.safety_framework.validate_consensus(viable_branches, prop)
+                consensus_reached, score = await self.safety_framework.validate_consensus(
+                    viable_branches, prop
+                )
                 if not consensus_reached:
                     logger.warning(f"Low consensus on {prop}: {score:.3f}")
 
@@ -564,8 +578,14 @@ class ParallelRealitySimulator(CoreInterface):
         elif selection_criteria.get("maximize") == "ethical_score":
             selected = max(viable_branches, key=lambda b: b.ethical_score)
         elif selection_criteria.get("maximize") == "creativity":
-            creative_branches = [b for b in viable_branches if b.reality_type == RealityType.CREATIVE]
-            selected = max(creative_branches, key=lambda b: b.probability) if creative_branches else viable_branches[0]
+            creative_branches = [
+                b for b in viable_branches if b.reality_type == RealityType.CREATIVE
+            ]
+            selected = (
+                max(creative_branches, key=lambda b: b.probability)
+                if creative_branches
+                else viable_branches[0]
+            )
         else:
             # Random weighted selection
             weights = [b.probability for b in viable_branches]
@@ -606,7 +626,8 @@ class ParallelRealitySimulator(CoreInterface):
                 "selected_probability": selected.probability,
                 "average_probability": avg_probability,
                 "percentile": (
-                    sum(1 for b in other_branches if b.probability < selected.probability) / len(other_branches)
+                    sum(1 for b in other_branches if b.probability < selected.probability)
+                    / len(other_branches)
                     if other_branches
                     else 1.0
                 ),
@@ -1010,7 +1031,9 @@ async def demonstrate_parallel_reality():
         print(f"Reality type: {branch_to_explore.reality_type.value}")
         print(f"Probability: {branch_to_explore.probability:.3f}")
 
-        new_branches = await simulator.explore_branch(simulation.simulation_id, branch_to_explore.branch_id, depth=2)
+        new_branches = await simulator.explore_branch(
+            simulation.simulation_id, branch_to_explore.branch_id, depth=2
+        )
         print(f"Created {len(new_branches)} sub-branches")
 
     # Collapse reality

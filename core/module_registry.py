@@ -38,7 +38,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from functools import wraps
-from typing import Any, Callable
+from typing import Any, Callable, ClassVar
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -92,16 +92,24 @@ class ModuleRegistry:
     """
 
     # Module tier requirements mapping
-    MODULE_TIER_REQUIREMENTS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_module_registry_py_L95"}
+    MODULE_TIER_REQUIREMENTS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_module_registry_py_L95"}
         # Core modules
         "memory": TierLevel.VISITOR,  # Tier 1
         "consciousness": TierLevel.VISITOR,  # Tier 1
         "reasoning": TierLevel.VISITOR,  # Tier 1
         "emotion": TierLevel.VISITOR,  # Tier 1
+        # New modules from PR #1404 (Tier 1 - Open access)
+        "oneiric": TierLevel.VISITOR,  # Dream generation and regret signatures
+        "lid": TierLevel.VISITOR,  # Lambda Identity (ΛiD) authentication
+        "dast": TierLevel.VISITOR,  # Decision & Action State Tracker
+        "eqnox": TierLevel.VISITOR,  # EQNOX glyph integrity and routing
         # Advanced modules
         "ethics": TierLevel.FRIEND,  # Tier 2
         "creativity": TierLevel.FRIEND,  # Tier 2
         "learning": TierLevel.FRIEND,  # Tier 2
+        # New modules from PR #1404 (Tier 2 - Advanced access)
+        "matriz_analysis": TierLevel.FRIEND,  # MATRIZ signal analysis tools
+        "matriz_tools": TierLevel.FRIEND,  # MATRIZ diagnostic probes
         # Restricted modules
         "quantum": TierLevel.TRUSTED,  # Tier 3
         "orchestration": TierLevel.TRUSTED,  # Tier 3

@@ -14,9 +14,9 @@ import pytest
 
 # Import module components
 try:
-    pass  # Placeholder
-    pass  #     pass  #
+    import lukhas_ai_intro
 except ImportError:
+    lukhas_ai_intro = None
     pytest.skip("Module lukhas-ai-intro not available", allow_module_level=True)
 
 
@@ -37,14 +37,14 @@ class TestLukhasAiIntroModule(unittest.TestCase):
     def test_module_import(self):
         """Test that module can be imported successfully."""
         # import lukhas_ai_intro  # Module name with hyphen - skipping
-        self.assertIsNotNone(lukhas-ai-intro)  # TODO: lukhas
+        self.assertIsNotNone("lukhas-ai-intro")  # TODO: lukhas
 
     def test_module_version(self):
         """Test module has version information."""
         # import lukhas_ai_intro  # Module name with hyphen - skipping
         # Most modules should have version info
-        self.assertTrue(hasattr(lukhas-ai-intro, '__version__') or  # TODO: lukhas
-                       hasattr(lukhas-ai-intro, 'VERSION'))  # TODO: lukhas
+        self.assertTrue(hasattr(lukhas_ai_intro, '__version__') or  # TODO: lukhas
+                       hasattr(lukhas_ai_intro, 'VERSION'))  # TODO: lukhas
 
     def test_module_initialization(self):
         """Test module can be initialized."""

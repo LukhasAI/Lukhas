@@ -1,6 +1,7 @@
 """
 Base classes for LLM wrappers.
 """
+
 from abc import ABC, abstractmethod
 from enum import Enum
 
@@ -33,7 +34,6 @@ class LLMWrapper(ABC):
         Returns:
             A tuple containing the generated response as a string and the model used.
         """
-        pass
 
     @abstractmethod
     def is_available(self) -> bool:
@@ -43,4 +43,3 @@ class LLMWrapper(ABC):
         Returns:
             True if the provider is available, False otherwise.
         """
-        pass

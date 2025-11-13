@@ -45,7 +45,7 @@ class EntropyProbe:
         Calculates the entropy of a list of data.
 
         Args:
-            data (List[Any]): The data to calculate the entropy of.
+            data (list[Any]): The data to calculate the entropy of.
 
         Returns:
             float: The entropy of the data.
@@ -62,7 +62,7 @@ class EntropyProbe:
         Probes the brain for entropy deltas.
 
         Returns:
-            Dict[str, Any]: A structured report of the probe.
+            dict[str, Any]: A structured report of the probe.
         """
         logger.info("Probing brain for entropy deltas.")
 

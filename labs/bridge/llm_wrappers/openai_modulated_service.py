@@ -24,7 +24,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, AsyncIterator, Dict, List, Optional, Union
+from typing import AsyncIterator, Union
 
 logger = logging.getLogger(__name__)
 
@@ -80,13 +80,13 @@ class VectorStoreConfig:
     max_retries: int = 3
 
     # Metadata
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class EmbeddingRequest:
     """Embedding generation request"""
-    text: Union[str, List[str]]
+    text: Union[str, list[str]]
     model: ModelTier = ModelTier.EMBEDDING_3_SMALL
 
     # ΛID integration
@@ -95,15 +95,15 @@ class EmbeddingRequest:
 
     # Request metadata
     request_id: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class EmbeddingResult:
     """Embedding generation result"""
-    embeddings: List[List[float]]
+    embeddings: list[list[float]]
     model: str
-    usage: Dict[str, int]
+    usage: dict[str, int]
 
     # Metadata
     request_id: Optional[str] = None
@@ -114,10 +114,10 @@ class EmbeddingResult:
 @dataclass
 class VectorSearchRequest:
     """Vector similarity search request"""
-    query: Union[str, List[float]]  # Text query or embedding vector
+    query: Union[str, list[float]]  # Text query or embedding vector
     top_k: int = 10
     namespace: Optional[str] = None
-    filter_metadata: Optional[Dict[str, Any]] = None
+    filter_metadata: Optional[dict[str, Any]] = None
 
     # ΛID integration
     lambda_id: Optional[str] = None
@@ -128,8 +128,8 @@ class VectorSearchRequest:
 @dataclass
 class VectorSearchResult:
     """Vector search result"""
-    matches: List[Dict[str, Any]]
-    query_embedding: Optional[List[float]] = None
+    matches: list[dict[str, Any]]
+    query_embedding: Optional[list[float]] = None
     search_time_ms: Optional[float] = None
 
     # Metadata
@@ -141,15 +141,15 @@ class VectorSearchResult:
 @dataclass
 class CompletionRequest:
     """Chat completion request with consciousness context"""
-    messages: List[Dict[str, str]]
+    messages: list[dict[str, str]]
     model: ModelTier = ModelTier.GPT35_TURBO
     temperature: float = 0.7
     max_tokens: Optional[int] = None
     stream: bool = False
 
     # Consciousness integration
-    consciousness_context: Optional[Dict[str, Any]] = None
-    memory_context: Optional[List[str]] = None  # From vector store
+    consciousness_context: Optional[dict[str, Any]] = None
+    memory_context: Optional[list[str]] = None  # From vector store
 
     # ΛID integration
     lambda_id: Optional[str] = None
@@ -157,7 +157,7 @@ class CompletionRequest:
 
     # Request metadata
     request_id: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -167,7 +167,7 @@ class RateLimitConfig:
     tokens_per_minute: int = 90000
 
     # ΛID-based tier limits
-    tier_multipliers: Dict[str, float] = field(default_factory=lambda: {
+    tier_multipliers: dict[str, float] = field(default_factory=lambda: {
         "alpha": 3.0,
         "beta": 2.0,
         "gamma": 1.5,
@@ -281,9 +281,9 @@ class VectorStoreAdapter:
 
     async def upsert_embeddings(
         self,
-        embeddings: List[List[float]],
-        ids: List[str],
-        metadata: Optional[List[Dict[str, Any]]] = None,
+        embeddings: list[list[float]],
+        ids: list[str],
+        metadata: Optional[list[dict[str, Any]]] = None,
         namespace: Optional[str] = None,
     ) -> bool:
         """
@@ -356,11 +356,11 @@ class VectorStoreAdapter:
 
     async def search(
         self,
-        query_embedding: List[float],
+        query_embedding: list[float],
         top_k: int = 10,
-        filter_metadata: Optional[Dict[str, Any]] = None,
+        filter_metadata: Optional[dict[str, Any]] = None,
         namespace: Optional[str] = None,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Search for similar vectors
         
@@ -457,10 +457,10 @@ class VectorStoreAdapter:
             logger.error(f"Vector search failed: {e}", exc_info=True)
             return []
 
-    def _normalize_matches(self, matches: List[Any]) -> List[Dict[str, Any]]:
+    def _normalize_matches(self, matches: list[Any]) -> list[dict[str, Any]]:
         """Normalize provider-specific match objects into dictionaries."""
 
-        normalized: List[Dict[str, Any]] = []
+        normalized: list[dict[str, Any]] = []
         for match in matches:
             # Provider SDKs often expose helper conversions
             if hasattr(match, "to_dict"):
@@ -536,7 +536,7 @@ class OpenAIModulatedService:
 
         # Rate limiting
         self.rate_limit_config = rate_limit_config or RateLimitConfig()
-        self._rate_limit_state: Dict[str, Dict[str, Any]] = {}
+        self._rate_limit_state: dict[str, dict[str, Any]] = {}
 
         logger.info(
             f"OpenAIModulatedService initialized: "
@@ -588,9 +588,9 @@ class OpenAIModulatedService:
 
     async def store_embeddings(
         self,
-        texts: List[str],
-        embeddings: List[List[float]],
-        metadata: Optional[List[Dict[str, Any]]] = None,
+        texts: list[str],
+        embeddings: list[list[float]],
+        metadata: Optional[list[dict[str, Any]]] = None,
         namespace: Optional[str] = None,
     ) -> bool:
         """

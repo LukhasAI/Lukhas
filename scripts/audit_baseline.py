@@ -10,6 +10,7 @@ import argparse
 import asyncio
 import hashlib
 import json
+import logging
 import os
 import platform
 import statistics
@@ -23,8 +24,6 @@ from pathlib import Path
 from typing import Any, Optional
 
 import psutil
-
-import logging
 
 # Module-level logger
 logger = logging.getLogger(__name__)

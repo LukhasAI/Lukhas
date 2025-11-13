@@ -29,12 +29,9 @@ Created: 2025-11-08
 
 import argparse
 import glob
-import json
 import os
 import re
 import sys
-from pathlib import Path
-from typing import Dict, List, Tuple
 
 # ANSI color codes
 RED = "\033[91m"
@@ -68,7 +65,7 @@ class LaunchValidator:
             self.errors.append(f"Playbook not found: {playbook_path}")
             return False
 
-        with open(playbook_path, "r") as f:
+        with open(playbook_path) as f:
             content = f.read()
 
         playbook_name = os.path.basename(playbook_path)
@@ -391,10 +388,10 @@ def main():
     try:
         if args.playbook:
             # Validate specific playbook
-            success = validator.validate_playbook(args.playbook)
+            validator.validate_playbook(args.playbook)
         else:
             # Validate all playbooks
-            success = validator.validate_all_playbooks(args.dir)
+            validator.validate_all_playbooks(args.dir)
 
         # Print summary
         final_success = validator.print_summary()

@@ -16,7 +16,7 @@ print(report.ok, report.issues)
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, List
+from typing import Any
 
 
 class StructuralIntegrityError(Exception):
@@ -28,7 +28,7 @@ class StructuralReport:
     coherence_score: float  # 0..1
     cascade_risk: float     # 0..1 (lower is better)
     alignment_score: float  # 0..1 with consciousness policy
-    issues: List[str] = field(default_factory=list)
+    issues: list[str] = field(default_factory=list)
 
 class StructuralConscience:
     """Memory structural awareness and integrity validation.
@@ -66,7 +66,7 @@ class StructuralConscience:
         quality (0..1), domain (str), metadata (dict). Accepts duck-typed
         objects (e.g., dataclasses from the orchestrator).
         """
-        issues: List[str] = []
+        issues: list[str] = []
 
         # Basic schema sanity
         try:
@@ -115,12 +115,12 @@ class StructuralConscience:
             issues=issues,
         )
 
-    def monitor_consciousness_integration(self, metrics: Dict[str, Any]) -> Dict[str, Any]:
+    def monitor_consciousness_integration(self, metrics: dict[str, Any]) -> dict[str, Any]:
         """Monitor memory-consciousness integration health.
 
         Parameters
         ----------
-        metrics : Dict[str, Any]
+        metrics : dict[str, Any]
             Expect keys like {"batches", "folds_created", "traces_consolidated"}.
         """
         # Simple thresholds; replace with your real KPI policy

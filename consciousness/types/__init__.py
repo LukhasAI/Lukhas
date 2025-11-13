@@ -4,7 +4,7 @@ from __future__ import annotations
 from _bridgeutils import bridge_from_candidates
 
 _CANDIDATES = (
-  "lukhas_website.consciousness.types",
+  "lukhas_website.lukhas.consciousness.types",
   "candidate.consciousness.types",
   "consciousness.types",
 )

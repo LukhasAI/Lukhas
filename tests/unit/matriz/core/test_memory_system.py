@@ -427,7 +427,7 @@ def test_persistence_load_error(mocker, tmp_path):
 def test_persistence_save_error(mocker, persistent_memory_system):
     """Test error handling when saving memories fails."""
     mocker.patch('builtins.open', mocker.mock_open())
-    open.side_effect = IOError("Failed to write")
+    open.side_effect = OSError("Failed to write")
 
     mocker.patch('builtins.print')
     persistent_memory_system._save_memories()

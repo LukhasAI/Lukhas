@@ -13,7 +13,7 @@ Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict, List
 
 
 class LukhasCoverageAnalyzer:
@@ -26,7 +26,7 @@ class LukhasCoverageAnalyzer:
         self.source_files = set()
         self.coverage_data = {}
 
-    def discover_all_python_files(self) -> dict[str, list]:
+    def discover_all_python_files(self) -> Dict[str, list]:
         """Discover ALL Python files in the repository"""
         print("🔍 DISCOVERING ALL PYTHON FILES...")
 
@@ -84,7 +84,7 @@ class LukhasCoverageAnalyzer:
 
         return any(pattern in file_str or pattern in name for pattern in test_patterns)
 
-    def analyze_major_systems(self) -> dict[str, dict]:
+    def analyze_major_systems(self) -> Dict[str, dict]:
         """Analyze major system directories and their testing status"""
         print("\n🏗️ ANALYZING MAJOR SYSTEMS...")
 
@@ -166,7 +166,7 @@ class LukhasCoverageAnalyzer:
 
         return system_analysis
 
-    def analyze_test_quality(self) -> dict[str, Any]:
+    def analyze_test_quality(self) -> Dict[str, Any]:
         """Analyze the quality and comprehensiveness of existing tests"""
         print("\n🧪 ANALYZING TEST QUALITY...")
 
@@ -236,7 +236,7 @@ class LukhasCoverageAnalyzer:
 
         return {"categories": test_categories, "quality_score": avg_quality_score, "total_test_files": total_test_files}
 
-    def calculate_real_coverage(self) -> dict[str, Any]:
+    def calculate_real_coverage(self) -> Dict[str, Any]:
         """Calculate realistic coverage metrics"""
         print("\n📊 CALCULATING REAL COVERAGE METRICS...")
 
@@ -288,7 +288,7 @@ class LukhasCoverageAnalyzer:
 
         return coverage_metrics
 
-    def generate_coverage_report(self) -> dict[str, Any]:
+    def generate_coverage_report(self) -> Dict[str, Any]:
         """Generate comprehensive coverage report"""
         print("📋 GENERATING COMPREHENSIVE COVERAGE REPORT...")
 
@@ -332,7 +332,7 @@ class LukhasCoverageAnalyzer:
 
         return report
 
-    def _generate_recommendations(self, metrics: dict, untested: list) -> list[str]:
+    def _generate_recommendations(self, metrics: dict, untested: list) -> List[str]:
         """Generate testing recommendations"""
         recommendations = []
 
@@ -356,7 +356,7 @@ class LukhasCoverageAnalyzer:
         return recommendations
 
 
-def print_coverage_table(report: dict[str, Any]):
+def print_coverage_table(report: Dict[str, Any]):
     """Print a detailed coverage table"""
     print("\n" + "=" * 100)
     print("📊 LUKHAS REAL COVERAGE INDEX TABLE")

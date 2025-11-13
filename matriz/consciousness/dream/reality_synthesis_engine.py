@@ -31,7 +31,6 @@ from core.interfaces.dependency_injection import register_service
 logger = logging.getLogger(__name__)
 
 
-
 logger = get_logger(__name__)
 
 
@@ -145,7 +144,9 @@ class RealitySynthesisEngine(CoreInterface):
 
         except Exception as e:
             logger.error(f"Failed to initialize Synthesis Engine: {e}")
-            raise LukhasError(f"Synthesis Engine initialization failed: {e}")  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_reality_synthesis_engine_py_L148"}
+            raise LukhasError(
+                f"Synthesis Engine initialization failed: {e}"
+            )  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "matriz_consciousness_dream_reality_synthesis_engine_py_L148"}
 
     async def shutdown(self) -> None:
         """Shutdown synthesis engine"""
@@ -170,7 +171,9 @@ class RealitySynthesisEngine(CoreInterface):
             Dictionary containing breakthroughs, patterns, and IP portfolio
         """
         # Phase 1: Detect universal patterns
-        universal_patterns = await self.detect_universal_patterns(reality_results, pattern_threshold, validation_count)
+        universal_patterns = await self.detect_universal_patterns(
+            reality_results, pattern_threshold, validation_count
+        )
 
         # Phase 2: Fuse innovations
         fused_innovations = await self.fuse_breakthrough_innovations(universal_patterns)
@@ -226,7 +229,9 @@ class RealitySynthesisEngine(CoreInterface):
                 for other_type, other_patterns in reality_patterns.items():
                     if other_type != base_type:
                         for other_pattern in other_patterns:
-                            similarity = await self._calculate_pattern_similarity(base_pattern, other_pattern)
+                            similarity = await self._calculate_pattern_similarity(
+                                base_pattern, other_pattern
+                            )
 
                             if similarity > 0.95:  # 95% similarity threshold
                                 cross_reality_evidence.append(
@@ -241,28 +246,38 @@ class RealitySynthesisEngine(CoreInterface):
                 if len(cross_reality_evidence) >= 3:
                     universal_pattern = UniversalPattern(
                         pattern_id=str(uuid.uuid4()),
-                        pattern_type=self._determine_pattern_type(base_pattern, cross_reality_evidence),
+                        pattern_type=self._determine_pattern_type(
+                            base_pattern, cross_reality_evidence
+                        ),
                         base_pattern=base_pattern,
                         cross_reality_evidence=cross_reality_evidence,
                         universality_score=len(cross_reality_evidence) / len(reality_patterns),
-                        significance=await self._calculate_significance(base_pattern, cross_reality_evidence),
+                        significance=await self._calculate_significance(
+                            base_pattern, cross_reality_evidence
+                        ),
                     )
 
                     if universal_pattern.significance > significance_threshold:
                         universal_patterns.append(universal_pattern)
-                        self.pattern_library[universal_pattern.pattern_type].append(universal_pattern)
+                        self.pattern_library[universal_pattern.pattern_type].append(
+                            universal_pattern
+                        )
                         self.pattern_cache[universal_pattern.pattern_id] = universal_pattern
                         self.metrics["patterns_discovered"] += 1
 
         # Validate patterns across additional realities
-        validated_patterns = await self._cross_validate_patterns(universal_patterns, cross_validation_count)
+        validated_patterns = await self._cross_validate_patterns(
+            universal_patterns, cross_validation_count
+        )
 
         self.metrics["universal_principles"] = len(validated_patterns)
         logger.info(f"🌟 Discovered {len(validated_patterns)} universal patterns")
 
         return validated_patterns
 
-    async def fuse_breakthrough_innovations(self, universal_patterns: list[UniversalPattern]) -> list[FusedInnovation]:
+    async def fuse_breakthrough_innovations(
+        self, universal_patterns: list[UniversalPattern]
+    ) -> list[FusedInnovation]:
         """
         Combine patterns to create mega-innovations.
 
@@ -351,7 +366,9 @@ class RealitySynthesisEngine(CoreInterface):
         logger.info(f"📜 Generated IP portfolio with {self.patent_count} patents")
         return portfolio
 
-    async def create_market_domination_strategy(self, innovations: list[FusedInnovation]) -> dict[str, Any]:
+    async def create_market_domination_strategy(
+        self, innovations: list[FusedInnovation]
+    ) -> dict[str, Any]:
         """
         Create strategy for market domination using innovations.
 
@@ -377,14 +394,14 @@ class RealitySynthesisEngine(CoreInterface):
     async def _initialize_pattern_detectors(self) -> None:
         """Initialize pattern detection algorithms"""
         # Initialize various pattern detection strategies
-        pass
 
     async def _initialize_fusion_engines(self) -> None:
         """Initialize innovation fusion engines"""
         # Initialize fusion strategies
-        pass
 
-    def _group_by_reality_type(self, reality_results: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
+    def _group_by_reality_type(
+        self, reality_results: list[dict[str, Any]]
+    ) -> dict[str, list[dict[str, Any]]]:
         """Group results by reality type"""
         groups = defaultdict(list)
         for result in reality_results:
@@ -392,7 +409,9 @@ class RealitySynthesisEngine(CoreInterface):
             groups[reality_type].append(result)
         return dict(groups)
 
-    async def _extract_patterns_from_reality_type(self, results: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    async def _extract_patterns_from_reality_type(
+        self, results: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Extract patterns from a specific reality type"""
         patterns = []
 
@@ -409,7 +428,9 @@ class RealitySynthesisEngine(CoreInterface):
 
         return patterns
 
-    async def _calculate_pattern_similarity(self, pattern1: dict[str, Any], pattern2: dict[str, Any]) -> float:
+    async def _calculate_pattern_similarity(
+        self, pattern1: dict[str, Any], pattern2: dict[str, Any]
+    ) -> float:
         """Calculate similarity between two patterns"""
         # Simplified similarity calculation
         score1 = pattern1.get("score", 0)
@@ -419,7 +440,9 @@ class RealitySynthesisEngine(CoreInterface):
         similarity = 1.0 - abs(score1 - score2)
         return similarity
 
-    def _determine_pattern_type(self, base_pattern: dict[str, Any], evidence: list[dict[str, Any]]) -> PatternType:
+    def _determine_pattern_type(
+        self, base_pattern: dict[str, Any], evidence: list[dict[str, Any]]
+    ) -> PatternType:
         """Determine the type of pattern"""
         # Simple heuristic for pattern type
         if len(evidence) >= 5:
@@ -429,7 +452,9 @@ class RealitySynthesisEngine(CoreInterface):
         else:
             return PatternType.EMERGENT
 
-    async def _calculate_significance(self, pattern: dict[str, Any], evidence: list[dict[str, Any]]) -> float:
+    async def _calculate_significance(
+        self, pattern: dict[str, Any], evidence: list[dict[str, Any]]
+    ) -> float:
         """Calculate significance score for a pattern"""
         base_score = pattern.get("score", 0.5)
         evidence_factor = min(len(evidence) / 10, 1.0)
@@ -447,7 +472,9 @@ class RealitySynthesisEngine(CoreInterface):
                 self.metrics["cross_reality_validations"] += 1
         return validated
 
-    async def _fuse_by_technological_convergence(self, patterns: list[UniversalPattern]) -> list[FusedInnovation]:
+    async def _fuse_by_technological_convergence(
+        self, patterns: list[UniversalPattern]
+    ) -> list[FusedInnovation]:
         """Fuse patterns based on technological convergence"""
         fusions = []
 
@@ -472,7 +499,9 @@ class RealitySynthesisEngine(CoreInterface):
 
         return fusions[:10]  # Return top 10 fusions
 
-    async def _fuse_by_market_synergy(self, patterns: list[UniversalPattern]) -> list[FusedInnovation]:
+    async def _fuse_by_market_synergy(
+        self, patterns: list[UniversalPattern]
+    ) -> list[FusedInnovation]:
         """Fuse patterns based on market synergy"""
         fusions = []
 
@@ -494,7 +523,9 @@ class RealitySynthesisEngine(CoreInterface):
 
         return fusions
 
-    async def _fuse_by_scientific_unity(self, patterns: list[UniversalPattern]) -> list[FusedInnovation]:
+    async def _fuse_by_scientific_unity(
+        self, patterns: list[UniversalPattern]
+    ) -> list[FusedInnovation]:
         """Fuse patterns based on scientific principles"""
         fusions = []
 
@@ -516,7 +547,9 @@ class RealitySynthesisEngine(CoreInterface):
 
         return fusions
 
-    async def _fuse_by_value_chain_integration(self, patterns: list[UniversalPattern]) -> list[FusedInnovation]:
+    async def _fuse_by_value_chain_integration(
+        self, patterns: list[UniversalPattern]
+    ) -> list[FusedInnovation]:
         """Fuse patterns for value chain optimization"""
         fusions = []
 
@@ -538,7 +571,9 @@ class RealitySynthesisEngine(CoreInterface):
 
         return fusions
 
-    def _has_technological_synergy(self, pattern1: UniversalPattern, pattern2: UniversalPattern) -> bool:
+    def _has_technological_synergy(
+        self, pattern1: UniversalPattern, pattern2: UniversalPattern
+    ) -> bool:
         """Check if two patterns have technological synergy"""
         # Simplified check
         return pattern1.pattern_type != pattern2.pattern_type
@@ -565,7 +600,9 @@ class RealitySynthesisEngine(CoreInterface):
             patents.append(patent)
         return patents
 
-    async def _generate_defensive_patents(self, innovation: FusedInnovation) -> list[dict[str, Any]]:
+    async def _generate_defensive_patents(
+        self, innovation: FusedInnovation
+    ) -> list[dict[str, Any]]:
         """Generate defensive patents around innovation"""
         patents = []
         for i in range(5):
@@ -579,7 +616,9 @@ class RealitySynthesisEngine(CoreInterface):
             patents.append(patent)
         return patents
 
-    async def _generate_improvement_patents(self, innovation: FusedInnovation) -> list[dict[str, Any]]:
+    async def _generate_improvement_patents(
+        self, innovation: FusedInnovation
+    ) -> list[dict[str, Any]]:
         """Generate improvement patents"""
         patents = []
         for i in range(3):
@@ -593,7 +632,9 @@ class RealitySynthesisEngine(CoreInterface):
             patents.append(patent)
         return patents
 
-    async def _generate_application_patents(self, innovation: FusedInnovation) -> list[dict[str, Any]]:
+    async def _generate_application_patents(
+        self, innovation: FusedInnovation
+    ) -> list[dict[str, Any]]:
         """Generate application patents"""
         patents = []
         for i in range(10):
@@ -622,7 +663,9 @@ class RealitySynthesisEngine(CoreInterface):
 
         return total
 
-    async def _create_rollout_timeline(self, innovations: list[FusedInnovation]) -> list[dict[str, Any]]:
+    async def _create_rollout_timeline(
+        self, innovations: list[FusedInnovation]
+    ) -> list[dict[str, Any]]:
         """Create timeline for innovation rollout"""
         timeline = [
             {
@@ -658,7 +701,9 @@ class RealitySynthesisEngine(CoreInterface):
             "Manufacturing Automation",
         ]
 
-    async def _analyze_competitive_advantages(self, innovations: list[FusedInnovation]) -> list[str]:
+    async def _analyze_competitive_advantages(
+        self, innovations: list[FusedInnovation]
+    ) -> list[str]:
         """Analyze competitive advantages from innovations"""
         return [
             "First-mover in Cognitive AI safety",
@@ -679,7 +724,9 @@ class RealitySynthesisEngine(CoreInterface):
             "year_5": total_market * 0.50,
         }
 
-    async def _identify_risks_and_mitigations(self, innovations: list[FusedInnovation]) -> list[dict[str, str]]:
+    async def _identify_risks_and_mitigations(
+        self, innovations: list[FusedInnovation]
+    ) -> list[dict[str, str]]:
         """Identify risks and mitigation strategies"""
         return [
             {

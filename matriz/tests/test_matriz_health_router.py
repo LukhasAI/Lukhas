@@ -12,16 +12,17 @@ class FakeHealthStatus(BaseModel):
     uptime_seconds: float
     components: Dict[str, Any]
 
+
 # Mock the problematic import before it's accessed
 # This allows the test to run without the 'interfaces' module being present.
 models_mock = MagicMock()
 models_mock.HealthStatus = FakeHealthStatus
 
-sys.modules['interfaces'] = MagicMock()
-sys.modules['interfaces.api'] = MagicMock()
-sys.modules['interfaces.api.v1'] = MagicMock()
-sys.modules['interfaces.api.v1.rest'] = MagicMock()
-sys.modules['interfaces.api.v1.rest.models'] = models_mock
+sys.modules["interfaces"] = MagicMock()
+sys.modules["interfaces.api"] = MagicMock()
+sys.modules["interfaces.api.v1"] = MagicMock()
+sys.modules["interfaces.api.v1.rest"] = MagicMock()
+sys.modules["interfaces.api.v1.rest.models"] = models_mock
 
 from fastapi import FastAPI
 from fastapi.testclient import TestClient

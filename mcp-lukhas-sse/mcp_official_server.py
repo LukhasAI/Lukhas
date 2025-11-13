@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict import to native dict type in MCP server
+# estimate: 5min | priority: medium | dependencies: none
+
 #!/usr/bin/env python3
 """
 Official MCP-compliant server for LUKHAS AI Platform.
@@ -9,7 +13,7 @@ import logging
 import os
 import time
 import uuid
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import uvicorn
 from starlette.applications import Starlette

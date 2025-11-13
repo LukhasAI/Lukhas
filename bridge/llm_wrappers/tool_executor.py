@@ -4,6 +4,7 @@ Compatibility bridge for tool execution used by tests.
 Exports an execute_tool function and ToolExecutionError class so tests can
 monkeypatch without touching core executor internals.
 """
+
 from typing import Any
 
 from tools.tool_executor import get_tool_executor

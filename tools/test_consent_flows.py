@@ -20,7 +20,7 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Optional
 
 
 class ConsentMode(Enum):
@@ -339,7 +339,7 @@ class ConsentFlowTester:
         return self.test(
             "Opt-out works correctly",
             initially_granted and now_denied,
-            f"Expected consent change from granted to denied",
+            "Expected consent change from granted to denied",
         )
 
     def test_functional_cannot_be_disabled(self) -> bool:

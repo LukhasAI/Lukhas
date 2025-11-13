@@ -1,0 +1,128 @@
+# LUKHAS Content Clusters Tracker
+# Tracks pillar pages and cluster articles across all domains
+
+version: "1.0"
+last_updated: "2025-11-08"
+
+pillars:
+  - id: "consciousness_ai"
+    domain: "lukhas.ai"
+    title: "Consciousness-Inspired AI"
+    url: "/pillars/consciousness-ai"
+    status: "published"
+    word_count: 2847
+    target_keywords:
+      - "consciousness AI"
+      - "bio-inspired AI"
+      - "cognitive architecture"
+    internal_links: 15
+    clusters:
+      - title: "What is Consciousness-Inspired AI?"
+        status: "planned"
+        target_keyword: "what is consciousness AI"
+      - title: "Bio-Inspired Cognitive Patterns"
+        status: "planned"
+        target_keyword: "bio-inspired patterns"
+      - title: "Quantum Computing Meets Consciousness"
+        status: "planned"
+        target_keyword: "quantum consciousness AI"
+      - title: "Memory Systems in Conscious AI"
+        status: "planned"
+        target_keyword: "AI memory systems"
+      - title: "Reasoning Like the Human Brain"
+        status: "planned"
+        target_keyword: "human-like AI reasoning"
+
+  - id: "matriz_engine"
+    domain: "lukhas.dev"
+    title: "MATRIZ Cognitive Engine"
+    url: "/pillars/matriz-engine"
+    status: "published"
+    word_count: 312
+    target_keywords:
+      - "cognitive AI engine"
+      - "reasoning architecture"
+      - "MATRIZ engine"
+    internal_links: 8
+    clusters:
+      - title: "MATRIZ Architecture Overview"
+        status: "planned"
+        target_keyword: "MATRIZ architecture"
+      - title: "Multi-Step Reasoning System"
+        status: "planned"
+        target_keyword: "multi-step AI reasoning"
+
+  - id: "enterprise_solutions"
+    domain: "lukhas.com"
+    title: "Enterprise AI Solutions"
+    url: "/pillars/enterprise-solutions"
+    status: "published"
+    word_count: 347
+    target_keywords:
+      - "enterprise AI"
+      - "AI for business"
+      - "corporate AI platform"
+    internal_links: 10
+    clusters:
+      - title: "Enterprise AI Buyer's Guide"
+        status: "planned"
+        target_keyword: "enterprise AI guide"
+      - title: "LUKHAS for Healthcare Organizations"
+        status: "planned"
+        target_keyword: "healthcare AI enterprise"
+
+  - id: "quantum_bio"
+    domain: "lukhas.eu"
+    title: "Quantum-Bio Computing"
+    url: "/pillars/quantum-bio-computing"
+    status: "published"
+    word_count: 348
+    target_keywords:
+      - "quantum AI"
+      - "bio-inspired algorithms"
+      - "hybrid computing"
+    internal_links: 7
+    clusters:
+      - title: "Introduction to Quantum-Bio Hybrid AI"
+        status: "planned"
+        target_keyword: "quantum bio AI"
+
+  - id: "ai_safety_ethics"
+    domain: "lukhas.app"
+    title: "AI Safety & Ethics"
+    url: "/pillars/ai-safety-ethics"
+    status: "published"
+    word_count: 597
+    target_keywords:
+      - "AI ethics"
+      - "constitutional AI"
+      - "AI safety"
+    internal_links: 12
+    clusters:
+      - title: "What is Constitutional AI?"
+        status: "planned"
+        target_keyword: "constitutional AI explained"
+      - title: "Guardian Ethics System"
+        status: "planned"
+        target_keyword: "AI ethics framework"
+
+# Progress tracking
+progress:
+  pillars:
+    total: 5
+    published: 5
+    draft: 0
+    planned: 0
+  clusters:
+    total: 67
+    published: 0
+    in_progress: 0
+    planned: 67
+
+# Performance metrics (to be updated monthly)
+metrics:
+  organic_traffic: 0  # Monthly visitors
+  pillar_page_views: 0
+  cluster_engagement_rate: 0.0
+  average_time_on_page: 0
+  bounce_rate: 0.0

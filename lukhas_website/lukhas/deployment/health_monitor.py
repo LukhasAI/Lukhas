@@ -21,7 +21,6 @@ from typing import Any, Callable, Optional
 
 from core.logging import get_logger
 from observability.metrics import get_metrics_collector
-import collections
 
 logger = get_logger(__name__)
 metrics = get_metrics_collector()

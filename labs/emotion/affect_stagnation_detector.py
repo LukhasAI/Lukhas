@@ -80,7 +80,7 @@ class AffectStagnationDetector:
         Checks for emotional stagnation.
 
         Returns:
-            Optional[Dict[str, Any]]: A symbolic prompt if stagnation is detected.
+            Optional[dict[str, Any]]: A symbolic prompt if stagnation is detected.
         """
         now_ts = datetime.now(timezone.utc).timestamp()
 

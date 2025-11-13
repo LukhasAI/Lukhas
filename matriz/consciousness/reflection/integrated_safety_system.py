@@ -66,8 +66,6 @@ import numpy as np
 #!/usr/bin/env python3
 
 
-
-
 class _FallbackComponent:
     """Generic fallback used when optional guardian subsystems are missing."""
 
@@ -538,7 +536,9 @@ class IntegratedSafetySystem:
         )
 
         # Subscribe colonies to events
-        asyncio.create_task(self._initialize_subscriptions())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_integrated_safety_system_py_L541"}
+        asyncio.create_task(
+            self._initialize_subscriptions()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_integrated_safety_system_py_L541"}
 
         logger.info(f"IntegratedSafetySystem {self.system_id} initialized")
 
@@ -964,7 +964,9 @@ class IntegratedSafetySystem:
                 timestamp=datetime.now(timezone.utc),
                 data={"component": component, "failures": breaker["failures"]},
             )
-            asyncio.create_task(self.event_bus.broadcast_safety_event(event))  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_integrated_safety_system_py_L968"}
+            asyncio.create_task(
+                self.event_bus.broadcast_safety_event(event)
+            )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_integrated_safety_system_py_L968"}
 
     async def run_continuous_monitoring(self):
         """Run continuous safety monitoring"""

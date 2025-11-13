@@ -34,6 +34,7 @@ from matriz.node_contract import (
 # Import the existing complex interface
 try:
     from matriz.core.node_interface import CognitiveNode
+
     LEGACY_AVAILABLE = True
 except ImportError:
     # Graceful fallback if legacy interface not available
@@ -59,10 +60,7 @@ class LegacyShim(MatrizNode):
             legacy_node: Existing CognitiveNode implementation
         """
         if not LEGACY_AVAILABLE:
-            raise ImportError(
-                "Legacy MATRIZ interface not available. "
-                "Cannot create shim."
-            )
+            raise ImportError("Legacy MATRIZ interface not available. " "Cannot create shim.")
 
         self.legacy = legacy_node
         self.name = f"shim_{legacy_node.__class__.__name__}"
@@ -87,7 +85,7 @@ class LegacyShim(MatrizNode):
                 reasons=["contract_violation:invalid_message"],
                 payload={},
                 trace={"error": "invalid_message", "shim_version": self.version},
-                guardian_log=[mk_guardian_token(self.name, msg.lane, msg.msg_id)]
+                guardian_log=[mk_guardian_token(self.name, msg.lane, msg.msg_id)],
             )
 
         if not LEGACY_AVAILABLE:
@@ -96,7 +94,7 @@ class LegacyShim(MatrizNode):
                 reasons=["Legacy interface not available"],
                 payload={},
                 trace={"error": "legacy_unavailable"},
-                guardian_log=["shim_error"]
+                guardian_log=["shim_error"],
             )
 
         try:
@@ -104,9 +102,9 @@ class LegacyShim(MatrizNode):
             legacy_input = self._to_legacy_format(msg)
 
             # Process with legacy node
-            if hasattr(self.legacy, 'process'):
+            if hasattr(self.legacy, "process"):
                 legacy_output = self.legacy.process(legacy_input)
-            elif hasattr(self.legacy, 'handle'):
+            elif hasattr(self.legacy, "handle"):
                 legacy_output = self.legacy.handle(legacy_input)
             else:
                 # Try to call the node directly
@@ -125,9 +123,9 @@ class LegacyShim(MatrizNode):
                 trace={
                     "error": str(e),
                     "legacy_node": self.legacy.__class__.__name__,
-                    "shim_version": self.version
+                    "shim_version": self.version,
                 },
-                guardian_log=[token]
+                guardian_log=[token],
             )
 
     def _to_legacy_format(self, msg: MatrizMessage) -> dict[str, Any]:
@@ -151,22 +149,18 @@ class LegacyShim(MatrizNode):
                 "glyph_kind": msg.glyph.kind,
                 "glyph_version": msg.glyph.version,
                 "glyph_tags": msg.glyph.tags,
-                "guardian_token": msg.guardian_token
+                "guardian_token": msg.guardian_token,
             },
             # Legacy fields that may be expected
-            "state": {
-                "confidence": 0.8,  # Default values
-                "salience": 0.7,
-                "novelty": 0.5
-            },
+            "state": {"confidence": 0.8, "salience": 0.7, "novelty": 0.5},  # Default values
             "links": [],  # Empty for now
             "provenance": {
                 "producer": "legacy_shim",
                 "tenant": "default",
                 "trace_id": str(msg.msg_id),
                 "digest": message_digest(msg),
-                "idempotency_key": msg.idempotency_key or str(msg.msg_id)
-            }
+                "idempotency_key": msg.idempotency_key or str(msg.msg_id),
+            },
         }
 
         return legacy_input
@@ -190,21 +184,21 @@ class LegacyShim(MatrizNode):
             trace = {
                 "legacy_format": "dict",
                 "original_keys": list(legacy_output.keys()),
-                "processed_at": datetime.now(timezone.utc).isoformat()
+                "processed_at": datetime.now(timezone.utc).isoformat(),
             }
 
-        elif hasattr(legacy_output, '__dict__'):
+        elif hasattr(legacy_output, "__dict__"):
             # Object output (NodeState, etc.)
             payload = {
-                "confidence": getattr(legacy_output, 'confidence', 0.8),
-                "salience": getattr(legacy_output, 'salience', 0.7),
-                "content": getattr(legacy_output, 'content', {})
+                "confidence": getattr(legacy_output, "confidence", 0.8),
+                "salience": getattr(legacy_output, "salience", 0.7),
+                "content": getattr(legacy_output, "content", {}),
             }
             success = True
             trace = {
                 "legacy_format": "object",
                 "object_type": legacy_output.__class__.__name__,
-                "processed_at": datetime.now(timezone.utc).isoformat()
+                "processed_at": datetime.now(timezone.utc).isoformat(),
             }
 
         else:
@@ -214,16 +208,18 @@ class LegacyShim(MatrizNode):
             trace = {
                 "legacy_format": "raw",
                 "output_type": type(legacy_output).__name__,
-                "processed_at": datetime.now(timezone.utc).isoformat()
+                "processed_at": datetime.now(timezone.utc).isoformat(),
             }
 
         # Add shim metadata to trace
-        trace.update({
-            "shim_version": self.version,
-            "legacy_node": self.legacy.__class__.__name__,
-            "original_topic": original_msg.topic,
-            "adaptation_successful": success
-        })
+        trace.update(
+            {
+                "shim_version": self.version,
+                "legacy_node": self.legacy.__class__.__name__,
+                "original_topic": original_msg.topic,
+                "adaptation_successful": success,
+            }
+        )
 
         token = mk_guardian_token(self.name, original_msg.lane, original_msg.msg_id)
         result = MatrizResult(
@@ -231,7 +227,7 @@ class LegacyShim(MatrizNode):
             reasons=[] if success else ["Legacy processing failed"],
             payload=payload,
             trace=trace,
-            guardian_log=[token]
+            guardian_log=[token],
         )
         # Ensure the result conforms to contract (e.g., guardian_log non-empty, JSON payload)
         if not validate_result(result):
@@ -291,10 +287,4 @@ def migrate_legacy_nodes() -> dict[str, MatrizNode]:
     return legacy_nodes
 
 
-__all__ = [
-    "LegacyShim",
-    "create_shim",
-    "is_legacy_available",
-    "logger",
-    "migrate_legacy_nodes"
-]
+__all__ = ["LegacyShim", "create_shim", "is_legacy_available", "logger", "migrate_legacy_nodes"]
