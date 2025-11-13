@@ -1,6 +1,6 @@
 """Counterfactual decision generation."""
-from typing import Dict, Any
 from datetime import datetime
+from typing import Any, Dict
 
 
 def generate_counterfactual(decision: Dict[str, Any]) -> Dict[str, Any]:

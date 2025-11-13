@@ -1,8 +1,8 @@
 """Comprehensive tests for Guardian Feedback Integration with adaptive drift thresholds."""
 
-import pytest
 from datetime import datetime, timezone
 
+import pytest
 from core.colonies.ethics_swarm_colony import (
     AdaptiveDriftThresholdManager,
     EthicsSwarmColony,

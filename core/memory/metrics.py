@@ -1,7 +1,7 @@
 """Pluggable drift metrics for memory comparison."""
-from typing import Callable, Dict, Any
-import numpy as np
+from typing import Any, Callable, Dict
 
+import numpy as np
 
 # Type alias for drift functions
 DriftFunction = Callable[[Any, Any], float]

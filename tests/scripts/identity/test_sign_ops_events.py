@@ -2,17 +2,18 @@
 Unit tests for the Operational Event Signing Script.
 """
 
-import unittest
+import hashlib
 import json
 import os
 import sys
-import hashlib
-from unittest.mock import patch, MagicMock
+import unittest
+from unittest.mock import MagicMock, patch
 
 # Add the script's directory to the Python path to allow for direct import
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../scripts/identity")))
 
 import sign_ops_events
+
 
 class TestSignOpsEvents(unittest.TestCase):
     """Test suite for the sign_ops_events script."""

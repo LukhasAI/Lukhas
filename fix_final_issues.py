@@ -4,6 +4,7 @@
 import re
 from pathlib import Path
 
+
 def fix_syntax_errors():
     """Fix critical syntax errors in various files."""
     fixes = [

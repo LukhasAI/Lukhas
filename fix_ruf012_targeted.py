@@ -9,11 +9,12 @@ Fixes RUF012 violations with precise pattern matching:
 3. Ensures proper typing imports are added
 """
 
+import json
 import os
 import re
 import subprocess
-import json
-from typing import List, Dict
+from typing import Dict, List
+
 
 def get_ruf012_violations() -> Dict[str, List[int]]:
     """Get RUF012 violations grouped by file"""

@@ -1,10 +1,12 @@
 """
 Smoke tests for the Enhanced Consciousness Engine.
 """
-import pytest
 import asyncio
 import time
-from unittest.mock import AsyncMock, MagicMock, patch, ANY
+from unittest.mock import ANY, AsyncMock, MagicMock, patch
+
+import pytest
+
 
 # The EnhancedDreamEngine is a complex class, so we need to mock its dependencies.
 # We will use stubs to avoid importing the actual classes, which may have their own dependencies.

@@ -13,9 +13,10 @@ import importlib
 import os
 import pkgutil
 import sys
-import tomllib
 from datetime import datetime
 from unittest.mock import MagicMock
+
+import tomllib
 
 # A set to keep track of modules that failed to import even after mocking
 _failed_imports = set()

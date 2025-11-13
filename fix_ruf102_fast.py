@@ -7,6 +7,7 @@ import os
 import re
 import subprocess
 
+
 def fix_dictionary_commas():
     """Fix missing commas in dictionary definitions causing RUF102 violations"""
 

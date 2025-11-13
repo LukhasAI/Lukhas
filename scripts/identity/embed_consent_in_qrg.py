@@ -76,7 +76,7 @@ sys.modules['lukhas.products.security.qrg'] = mock_qrg_core
 
 # These imports will now work because of the mocks above
 from lukhas.governance.consent import ConsentRecord
-from lukhas.products.security.qrg import QIResonanceGlyph, QIGlyph
+from lukhas.products.security.qrg import QIGlyph, QIResonanceGlyph
 
 
 def generate_consent_hash(consent_record: ConsentRecord) -> str:

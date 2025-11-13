@@ -10,13 +10,6 @@ A central registry for all available cognitive nodes across all categories:
 """
 
 # Thought nodes
-from matriz.nodes.thought.abductive_reasoning import AbductiveReasoningNode
-from matriz.nodes.thought.analogical_reasoning import AnalogicalReasoningNode
-from matriz.nodes.thought.causal_reasoning import CausalReasoningNode
-from matriz.nodes.thought.counterfactual_reasoning import CounterfactualReasoningNode
-from matriz.nodes.thought.deductive_reasoning import DeductiveReasoningNode
-from matriz.nodes.thought.metacognitive_reasoning import MetacognitiveReasoningNode
-
 # Action nodes
 from matriz.nodes.action.action_selection import ActionSelectionNode
 from matriz.nodes.action.execution_monitoring import ExecutionMonitoringNode
@@ -25,12 +18,6 @@ from matriz.nodes.action.plan_generation import PlanGenerationNode
 from matriz.nodes.action.resource_allocation import ResourceAllocationNode
 from matriz.nodes.action.tool_usage import ToolUsageNode
 
-# Decision nodes
-from matriz.nodes.decision.ethical_constraint import EthicalConstraintNode
-from matriz.nodes.decision.option_selection import OptionSelectionNode
-from matriz.nodes.decision.risk_assessment import RiskAssessmentNode
-from matriz.nodes.decision.utility_maximization import UtilityMaximizationNode
-
 # Awareness nodes
 from matriz.nodes.awareness.confidence_calibration import ConfidenceCalibrationNode
 from matriz.nodes.awareness.metacognitive_monitoring import MetacognitiveMonitoringNode
@@ -38,8 +25,20 @@ from matriz.nodes.awareness.performance_evaluation import PerformanceEvaluationN
 from matriz.nodes.awareness.self_monitoring import SelfMonitoringNode
 from matriz.nodes.awareness.state_assessment import StateAssessmentNode
 
+# Decision nodes
+from matriz.nodes.decision.ethical_constraint import EthicalConstraintNode
+from matriz.nodes.decision.option_selection import OptionSelectionNode
+from matriz.nodes.decision.risk_assessment import RiskAssessmentNode
+from matriz.nodes.decision.utility_maximization import UtilityMaximizationNode
+
 # Legacy nodes
 from matriz.nodes.math_node import MathNode
+from matriz.nodes.thought.abductive_reasoning import AbductiveReasoningNode
+from matriz.nodes.thought.analogical_reasoning import AnalogicalReasoningNode
+from matriz.nodes.thought.causal_reasoning import CausalReasoningNode
+from matriz.nodes.thought.counterfactual_reasoning import CounterfactualReasoningNode
+from matriz.nodes.thought.deductive_reasoning import DeductiveReasoningNode
+from matriz.nodes.thought.metacognitive_reasoning import MetacognitiveReasoningNode
 
 _NODE_REGISTRY = {}
 

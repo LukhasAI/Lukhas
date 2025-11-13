@@ -8,6 +8,7 @@ import os
 import re
 import subprocess
 
+
 def run_ruff_json():
     """Get RUF102 violations as JSON"""
     try:

@@ -5,8 +5,8 @@ Processes legal document templates with domain-specific variables
 """
 
 import re
-from pathlib import Path
 from datetime import date
+from pathlib import Path
 
 # Domain configurations
 DOMAIN_CONFIGS = {

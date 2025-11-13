@@ -3,15 +3,19 @@
 import json
 import os
 import time
+from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
-from pathlib import Path
 
 from lukhas.governance.audit import AuditEvent, AuditEventType, AuditLogger
-from lukhas.governance.audit.config import AuditConfig, get_default_config, get_development_config, get_testing_config
-from lukhas.governance.audit.storage import InMemoryAuditStorage, FileAuditStorage
-
+from lukhas.governance.audit.config import (
+    AuditConfig,
+    get_default_config,
+    get_development_config,
+    get_testing_config,
+)
+from lukhas.governance.audit.storage import FileAuditStorage, InMemoryAuditStorage
 
 # region: Fixtures
 

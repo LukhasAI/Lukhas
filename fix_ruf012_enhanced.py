@@ -10,11 +10,12 @@ Enhanced script to handle complex patterns including:
 - Pydantic Config classes
 """
 
+import json
 import os
 import re
 import subprocess
-import json
 from typing import List
+
 
 def fix_ruf012_violations_enhanced():
     """Enhanced fix for RUF012 violations with better pattern handling"""

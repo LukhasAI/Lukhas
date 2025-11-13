@@ -271,8 +271,8 @@ def readyz() -> dict[str, Any]:
 @app.get('/metrics', include_in_schema=False)
 def metrics() -> Response:
     """Prometheus metrics endpoint"""
-    from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
     from observability.prometheus_registry import LUKHAS_REGISTRY
+    from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 
     return Response(
         content=generate_latest(LUKHAS_REGISTRY),

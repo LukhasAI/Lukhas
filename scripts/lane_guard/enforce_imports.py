@@ -1,7 +1,7 @@
 
+import ast
 import os
 import sys
-import ast
 
 FORBIDDEN_IMPORT = "lukhas"
 CANDIDATE_DIR = "candidate"

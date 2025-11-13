@@ -1,9 +1,9 @@
 """Comprehensive tests for Drift Detector Archival functionality."""
 
-import pytest
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from datetime import datetime, timezone, timedelta
 
+import pytest
 from core.consciousness.drift_detector import (
     ConsciousnessDriftDetector,
     FileDriftArchive,

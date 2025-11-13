@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fix missing ClassVar imports in files using ClassVar annotations."""
-import re
 import glob
+import re
 
 files_missing_import = []
 

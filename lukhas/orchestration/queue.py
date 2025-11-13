@@ -5,9 +5,9 @@ Asynchronous priority queue for managing requests with backpressure and fairness
 import asyncio
 import time
 from collections import deque
+from collections.abc import Coroutine
 from enum import IntEnum
 from typing import Any, Deque, Dict, NamedTuple, Tuple
-from collections.abc import Coroutine
 
 
 class Priority(IntEnum):

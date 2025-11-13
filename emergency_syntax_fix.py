@@ -8,6 +8,7 @@ import os
 import re
 import subprocess
 
+
 def fix_syntax_errors():
     """Fix syntax errors caused by ClassVar modifications"""
 

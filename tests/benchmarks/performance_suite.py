@@ -8,12 +8,14 @@ Measures:
 """
 
 import asyncio
-import time
-from unittest.mock import MagicMock, AsyncMock
 
-import pytest
 # Mock missing modules
 import sys
+import time
+from unittest.mock import AsyncMock, MagicMock
+
+import pytest
+
 sys.modules['core.interfaces'] = MagicMock()
 sys.modules['core.registry'] = MagicMock()
 sys.modules['metrics'] = MagicMock()
@@ -25,8 +27,8 @@ sys.modules['memory.indexer'] = MagicMock()
 sys.modules['memory.observability'] = MagicMock()
 
 
-from memory.memory_orchestrator import MemoryOrchestrator
 from core.orchestration.async_orchestrator import AsyncOrchestrator, StageConfig
+from memory.memory_orchestrator import MemoryOrchestrator
 
 
 @pytest.fixture

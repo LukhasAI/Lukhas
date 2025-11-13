@@ -38,6 +38,7 @@ sys.modules['lukhas.products.security.qrg'] = mock_qrg_core
 
 import embed_consent_in_qrg
 
+
 class TestEmbedConsentInQRG(unittest.TestCase):
     """Test cases for the QRG consent embedding script."""
 

@@ -12,11 +12,12 @@ Target: 139 violations across multiple domains
 Priority: HIGH (#1397)
 """
 
+import json
 import os
 import re
 import subprocess
-import json
 from typing import Dict, List
+
 
 def get_ruf012_violations() -> List[Dict]:
     """Get all RUF012 violations from ruff"""

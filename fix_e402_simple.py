@@ -11,6 +11,7 @@ import subprocess
 from pathlib import Path
 from typing import List, Tuple
 
+
 def get_simple_e402_files() -> List[str]:
     """Get files categorized as 'simple' for E402 fixes."""
     # From our analysis, these are the simple files (1-3 violations each)

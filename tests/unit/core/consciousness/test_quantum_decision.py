@@ -1,8 +1,7 @@
 """Comprehensive tests for Quantum Decision Superposition functionality."""
 
-import pytest
 import numpy as np
-
+import pytest
 from core.consciousness.bridge import (
     DecisionMakingBridge,
     DecisionStrategy,

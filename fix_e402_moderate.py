@@ -9,6 +9,7 @@ docstrings but require careful reordering.
 
 from pathlib import Path
 
+
 def fix_bridge_api_validation():
     """Fix bridge/api/validation.py E402 violations."""
 

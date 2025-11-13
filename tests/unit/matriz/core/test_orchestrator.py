@@ -147,6 +147,7 @@ class TestCognitiveOrchestrator(unittest.TestCase):
         Tests that the orchestrator's memory usage does not grow indefinitely.
         """
         import os
+
         import psutil
 
         process = psutil.Process(os.getpid())
@@ -170,6 +171,7 @@ class TestCognitiveOrchestrator(unittest.TestCase):
         Tests that the orchestrator's memory usage stays under the 100MB target.
         """
         import os
+
         import psutil
 
         process = psutil.Process(os.getpid())

@@ -1,8 +1,8 @@
 # tests/observability/test_otel_config.py
 
-import unittest
-from unittest.mock import patch, MagicMock
 import sys
+import unittest
+from unittest.mock import MagicMock, patch
 
 # Mock all external dependencies before importing the module under test
 sys.modules['fastapi'] = MagicMock()
@@ -18,6 +18,7 @@ sys.modules['opentelemetry.sdk.trace'] = MagicMock()
 sys.modules['opentelemetry.sdk.trace.export'] = MagicMock()
 
 from lukhas.observability import otel_config
+
 
 # Dummy class to correctly handle 'isinstance' checks in the code under test
 class DummyFastAPI(MagicMock):

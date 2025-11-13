@@ -8,7 +8,6 @@ import json
 import sys
 import types
 
-
 import pytest
 
 FAKE_REG_CHALLENGE = base64.urlsafe_b64encode(b"library-registration-challenge").decode().rstrip("=")

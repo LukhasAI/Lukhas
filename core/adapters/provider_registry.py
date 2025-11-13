@@ -1,7 +1,7 @@
 """Provider registry with token bucket rate limiting."""
 import time
-from typing import Any, Optional
 from dataclasses import dataclass
+from typing import Any, Optional
 
 
 @dataclass

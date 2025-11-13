@@ -9,6 +9,7 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+
 from lukhas.core.common import get_logger
 from lukhas.core.interfaces.encrypted_perception_interface import (
     AnomalySignature,

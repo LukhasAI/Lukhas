@@ -7,8 +7,9 @@ This module safely handles cases where OpenTelemetry is not installed.
 
 from __future__ import annotations
 
-from functools import wraps, lru_cache
+from functools import lru_cache, wraps
 from typing import Any, Callable
+
 
 # Attempt to import OpenTelemetry modules.
 @lru_cache(maxsize=1)
@@ -23,7 +24,7 @@ def is_otel_available() -> bool:
 # Import OTel modules dynamically for type hinting and functionality.
 if is_otel_available():
     from opentelemetry import context, propagate, trace
-    from opentelemetry.propagate.textmap import CarrierT, Setter, Getter
+    from opentelemetry.propagate.textmap import CarrierT, Getter, Setter
     from opentelemetry.trace import Tracer
 
     class DictGetter(Getter[CarrierT]):

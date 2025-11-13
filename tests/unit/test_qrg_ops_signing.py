@@ -16,7 +16,6 @@ from datetime import datetime
 from pathlib import Path
 
 import pytest
-
 from core.qrg.signing import (
     canonical_payload_hash,
     generate_private_key,

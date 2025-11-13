@@ -6,14 +6,15 @@ Redis backend tests require redis server and are optional.
 """
 import os
 import time
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
 
 from lukhas.api.storage import (
     InMemoryStorage,
     RedisStorage,
-    get_storage_backend,
     StorageBackend,
+    get_storage_backend,
 )
 
 

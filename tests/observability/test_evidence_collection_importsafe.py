@@ -3,9 +3,10 @@
 Tests that evidence collection works correctly even when labs.observability
 is unavailable, using fallback stubs.
 """
-import pytest
 import sys
 from unittest.mock import patch
+
+import pytest
 
 
 def test_evidence_collection_imports_without_labs():

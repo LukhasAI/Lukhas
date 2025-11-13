@@ -23,12 +23,13 @@ sys.modules["lukhas.matriz"] = MagicMock()
 sys.modules["lukhas.external"] = MagicMock()
 
 import asyncio
-from typing import Dict, Any
+from typing import Any, Dict
 
 from lukhas.db import DatabaseManager
-from lukhas.memory import MemoryManager
-from lukhas.matriz import MatrizManager
 from lukhas.external import ExternalAPIManager
+from lukhas.matriz import MatrizManager
+from lukhas.memory import MemoryManager
+
 
 async def check_database_connection() -> Dict[str, Any]:
     """Checks the database connection."""

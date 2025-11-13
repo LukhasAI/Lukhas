@@ -5,12 +5,12 @@
 Automatically fixes common import issues in the LUKHAS  codebase.
 """
 from __future__ import annotations
-from typing import ClassVar
 
 import ast
 import re
 import sys
 from pathlib import Path
+from typing import ClassVar
 
 # Add project root to path
 PROJECT_ROOT = Path(__file__).parent.parent.parent

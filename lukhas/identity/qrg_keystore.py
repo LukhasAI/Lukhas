@@ -1,5 +1,6 @@
 import os
 
+
 class QRGKeystore:
     def __init__(self, key_dir: str = "/tmp/qrg_keys"):
         self.key_dir = key_dir

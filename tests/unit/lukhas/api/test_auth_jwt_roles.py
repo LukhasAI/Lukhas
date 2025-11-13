@@ -7,12 +7,13 @@ Tests:
 - Backward compatibility with tokens without roles
 - Integration with get_current_user dependency
 """
-import pytest
 from unittest.mock import MagicMock, patch
 
-from lukhas.api.auth import AuthManager
-from lukhas.api.auth_helpers import get_current_user_from_token, ROLE_HIERARCHY
+import pytest
 from fastapi import HTTPException
+
+from lukhas.api.auth import AuthManager
+from lukhas.api.auth_helpers import ROLE_HIERARCHY, get_current_user_from_token
 
 
 class TestJWTRoleClaims:
@@ -139,8 +140,9 @@ class TestGetCurrentUserFromToken:
     def test_token_without_subject_raises_401(self, auth_manager):
         """Test that token without 'sub' raises HTTPException."""
         # Manually create token without subject
-        import jwt
         from datetime import datetime, timedelta
+
+        import jwt
 
         token = jwt.encode(
             {"exp": datetime.utcnow() + timedelta(minutes=30)},

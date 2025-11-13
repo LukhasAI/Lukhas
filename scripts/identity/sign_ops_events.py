@@ -19,8 +19,8 @@ from unittest.mock import MagicMock
 # in the execution environment of this script.
 try:
     from lukhas.products.security.qrg.qrg_core import (
-        QIResonanceGlyph,
         ConsciousnessContext,
+        QIResonanceGlyph,
     )
 except ImportError:
     print(

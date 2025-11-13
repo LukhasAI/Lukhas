@@ -19,17 +19,18 @@ Dependencies:
 
 import argparse
 import json
+
+# Add project root to path if needed
+import os
 import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-# Add project root to path if needed
-import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from core.qrg.signing import qrg_sign, qrg_verify
 from core.qrg.model import QRGSignature
+from core.qrg.signing import qrg_sign, qrg_verify
 
 
 def sign_release_notes(

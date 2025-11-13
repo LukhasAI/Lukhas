@@ -1,7 +1,7 @@
 """ΛiD login telemetry events."""
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional, Any
+from typing import Any, Optional
 
 
 @dataclass

@@ -6,6 +6,7 @@ Ultimate RUF102 elimination - surgical fixes for syntax errors in test files.
 import os
 import re
 
+
 def fix_malformed_import_syntax(file_path):
     """Fix malformed import statements that cause RUF102 violations"""
 

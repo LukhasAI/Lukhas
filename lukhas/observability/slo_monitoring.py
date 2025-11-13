@@ -8,7 +8,7 @@ from unittest.mock import MagicMock
 
 # Mock missing modules that would provide the metrics registries and rule objects
 try:
-    from lukhas.observability.metrics import registry, DECILE_QUANTILES
+    from lukhas.observability.metrics import DECILE_QUANTILES, registry
     from lukhas.observability.rules import RecordingRule
 except ImportError:
     registry = MagicMock()

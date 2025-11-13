@@ -1,6 +1,6 @@
 """Oneiric configuration with reproducibility support."""
-from typing import Optional
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass

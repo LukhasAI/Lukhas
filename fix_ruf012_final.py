@@ -6,10 +6,11 @@ Final RUF012 Cleanup Script
 Handles remaining edge cases for RUF012 violations.
 """
 
+import json
 import os
 import re
 import subprocess
-import json
+
 
 def fix_remaining_ruf012():
     """Fix remaining RUF012 violations with advanced pattern matching"""
