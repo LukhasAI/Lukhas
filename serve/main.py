@@ -57,6 +57,15 @@ except Exception:
         return _os.getenv(key, default)
 import os
 
+# NIAS audit middleware configuration (opt-in via env var)
+NIAS_ENABLED = (env_get('NIAS_ENABLED', 'false') or 'false').strip().lower() == 'true'
+if NIAS_ENABLED:
+    try:
+        from lukhas.guardian.nias import NIASMiddleware
+    except ImportError:
+        logger.warning('NIAS_ENABLED=true but lukhas.guardian.nias module not available')
+        NIAS_ENABLED = False
+
 # ΛTAG: async_response_toggle -- optional async orchestrator integration seam
 _ASYNC_ORCH_ENV = (env_get("LUKHAS_ASYNC_ORCH", "0") or "0").strip()
 ASYNC_ORCH_ENABLED = _ASYNC_ORCH_ENV == "1"
@@ -160,6 +169,9 @@ frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http:/
 app.add_middleware(SecurityHeaders)
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
 app.add_middleware(StrictAuthMiddleware)
+# NIAS audit middleware (opt-in, audits after authentication)
+if NIAS_ENABLED:
+    app.add_middleware(NIASMiddleware)
 app.add_middleware(HeadersMiddleware)
 if routes_router is not None:
     app.include_router(routes_router)
