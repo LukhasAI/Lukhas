@@ -21,12 +21,15 @@ async def create_priority_sessions():
         sources = await jules.list_sources()
         lukhas_source = None
         for source in sources:
-            if "LukhasAI/Lukhas" in (source.repository_url or ""):
+            # Check both repository_url and source name pattern
+            if "LukhasAI/Lukhas" in (source.repository_url or "") or \
+               "LukhasAI/Lukhas" in source.name:
                 lukhas_source = source.name
                 break
 
         if not lukhas_source:
             print("❌ Lukhas source not found")
+            print(f"Available sources: {[s.name for s in sources]}")
             return
 
         print(f"✅ Using source: {lukhas_source}\n")
