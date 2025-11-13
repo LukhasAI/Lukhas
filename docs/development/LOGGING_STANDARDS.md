@@ -1,996 +1,311 @@
-# Logging Standards Guide for LUKHAS AI
+# LUKHAS Logging Standards Guide
 
-**Version**: 1.0.0
-**Status**: Production Ready
-**Last Updated**: 2025-01-10
-**Author**: Claude Code Web
+**Version:** 1.0
+**Status:** Adopted
+**Last Updated:** 2025-11-10
 
----
+## 1. Introduction
 
-## Table of Contents
+Effective logging is critical to the health, observability, and maintainability of the LUKHAS AI Platform. Standardized logging practices allow us to:
 
-- [Overview](#overview)
-- [Quick Start](#quick-start)
-- [Standard Logger Pattern](#standard-logger-pattern)
-- [Log Levels](#log-levels)
-- [Structured Logging](#structured-logging)
-- [Best Practices](#best-practices)
-- [Preventing Duplicate Loggers](#preventing-duplicate-loggers)
-- [Linting and Enforcement](#linting-and-enforcement)
-- [Integration with Monitoring](#integration-with-monitoring)
-- [Migration Guide](#migration-guide)
-- [Troubleshooting](#troubleshooting)
+-   **Debug effectively:** Quickly identify and resolve issues in a complex, distributed system.
+-   **Monitor system health:** Create automated alerts and dashboards based on log data.
+-   **Perform security audits:** Maintain a clear and structured record of system events.
+-   **Understand application behavior:** Analyze performance and usage patterns.
 
----
+This document outlines the official logging standards for all Python services within the LUKHAS ecosystem. Adherence to these standards is mandatory for all new code and is expected for all refactored legacy code.
 
-## Overview
+## 2. The Standardized Logger Pattern
 
-LUKHAS AI uses a **centralized logging system** with standardized patterns to ensure:
+The cornerstone of our logging strategy is a consistent pattern for instantiating loggers. The correct pattern ensures that our logging is hierarchical, configurable, and free from common issues like duplicate messages.
 
-- **Consistency**: All modules use the same logging interface
-- **No Duplicates**: Single logger instance per module
-- **Structured Data**: JSON-formatted logs for production
-- **Visual Clarity**: Emoji symbols for different log levels
-- **Performance**: Minimal overhead, configurable verbosity
+### The Correct Pattern: One Logger Per Module
 
-### Key Benefits
-
-✅ **Standardized Pattern**: `get_logger(__name__)` across all modules
-✅ **Zero Duplicates**: Cached logger instances prevent `ValueError: Duplicated timeseries`
-✅ **Structured Logging**: JSON output for log aggregation systems
-✅ **Module Context**: Automatic module name tagging
-✅ **Flexible Configuration**: Environment-based log levels
-
----
-
-## Quick Start
-
-### ✅ CORRECT Pattern (Use This)
+Every Python module (`.py` file) should define its own logger instance at the module level. The logger should be named after the module's full import path. The standard library handles this automatically when using the `__name__` special variable.
 
 ```python
-from labs.core.common import get_logger
-
-logger = get_logger(__name__)
-
-def process_dream(dream_data):
-    logger.info("Processing dream", extra={"dream_id": dream_data.id})
-    try:
-        result = analyze_dream(dream_data)
-        logger.debug("Dream analysis complete", extra={"result": result})
-        return result
-    except Exception as e:
-        logger.error("Dream processing failed", exc_info=True, extra={"dream_id": dream_data.id})
-        raise
-```
-
-### ❌ INCORRECT Pattern (Don't Do This)
-
-```python
+# in file: lukhas/core/orchestration/async_orchestrator.py
 import logging
 
-# ❌ DON'T: Duplicate logger definition
+# CORRECT: Logger is defined at the module level using __name__
 logger = logging.getLogger(__name__)
 
-# ❌ DON'T: Creating multiple loggers in one file
-logger1 = logging.getLogger("module1")
-logger2 = logging.getLogger("module2")
+class AsyncOrchestrator:
+    def run_pipeline(self):
+        logger.info("Asynchronous pipeline starting.")
+        # ... logic ...
+        logger.debug("Pipeline completed.", extra_details={"stages": 5})
 
-# ❌ DON'T: Module-level logger configuration
-logging.basicConfig(level=logging.DEBUG)  # Conflicts with global config
 ```
 
----
+**Why this is correct:**
 
-## Standard Logger Pattern
+-   **Hierarchy:** `logging.getLogger(__name__)` creates a logger named `lukhas.core.orchestration.async_orchestrator`. This allows us to configure log levels for entire sub-packages (e.g., set `lukhas.core` to `DEBUG` without affecting other modules).
+-   **No Name Collisions:** It automatically prevents two different modules from using the same logger name.
+-   **Readability:** It's a universally recognized Python idiom.
 
-### Module-Level Logger
+### Incorrect Patterns to Avoid
 
-**Rule**: One logger per file, defined at module level.
+**Anti-Pattern 1: Hardcoded Logger Name**
 
 ```python
-"""
-My Module
-=========
-Does something important for LUKHAS.
-"""
-from labs.core.common import get_logger
-
-# ✅ CORRECT: Single logger at module level
-logger = get_logger(__name__)
-
-
-def my_function():
-    """Function docstring"""
-    logger.info("Function called")
-    # ... implementation ...
-
-
-class MyClass:
-    """Class docstring"""
-
-    def method(self):
-        """Method docstring"""
-        # ✅ Use the module-level logger
-        logger.info("Method called")
-        # ... implementation ...
+# INCORRECT
+import logging
+logger = logging.getLogger("my_orchestrator") # Avoid hardcoded strings
 ```
+*Reasoning:* This breaks the module hierarchy and increases the risk of name collisions.
 
-### Using `__name__` for Logger Names
+**Anti-Pattern 2: Root Logger Abuse**
 
 ```python
-from labs.core.common import get_logger
-
-# ✅ CORRECT: Always use __name__
-logger = get_logger(__name__)
-
-# This automatically creates hierarchical logger names:
-# - In file labs/consciousness/dream/processor.py:
-#   Logger name becomes: "labs.consciousness.dream.processor"
-
-# - In file matriz/consciousness/reflection/system.py:
-#   Logger name becomes: "matriz.consciousness.reflection.system"
-```
-
-### Module Context (Optional)
-
-For modules in specific LUKHAS subsystems, add module context:
-
-```python
-from labs.core.common import get_logger
-
-# With module context (shows "CONSCIOUSNESS" prefix in logs)
-logger = get_logger(__name__, module_name="CONSCIOUSNESS")
-
-logger.info("Dream analysis started")
-# Output: ℹ️ 2025-01-10 12:00:00 [CONSCIOUSNESS] labs.consciousness.dream - INFO - Dream analysis started
-```
-
----
-
-## Log Levels
-
-### Level Guidelines
-
-| Level | When to Use | Examples |
-|-------|-------------|----------|
-| **DEBUG** | Detailed diagnostic information | Variable values, function entry/exit, algorithm steps |
-| **INFO** | General informational messages | System startup, configuration loaded, operation completed |
-| **WARNING** | Potentially harmful situations | Deprecated API usage, missing optional config, slow performance |
-| **ERROR** | Error events that might allow the app to continue | Failed to process request, database query failed, API call failed |
-| **CRITICAL** | Very severe errors that may cause the app to abort | Database unreachable, critical service down, unrecoverable state |
-
-### Examples
-
-#### DEBUG
-
-```python
-logger.debug("Entering process_dream function", extra={
-    "dream_id": dream_id,
-    "user_id": user_id,
-    "parameters": parameters
-})
-
-logger.debug("Computed coherence score", extra={"coherence": 0.87})
-
-logger.debug("Cache lookup result", extra={"key": cache_key, "hit": cache_hit})
-```
-
-#### INFO
-
-```python
-logger.info("Dream processing started", extra={"dream_id": dream_id})
-
-logger.info("User authenticated successfully", extra={"user_id": user_id})
-
-logger.info("System initialized", extra={"version": "1.0.0", "environment": "production"})
-```
-
-#### WARNING
-
-```python
-logger.warning("API rate limit approaching", extra={
-    "current_rate": 95,
-    "limit": 100,
-    "time_window": "1 minute"
-})
-
-logger.warning("Using deprecated parameter", extra={
-    "parameter": "old_param",
-    "replacement": "new_param"
-})
-
-logger.warning("Cache miss rate high", extra={
-    "miss_rate": 0.65,
-    "threshold": 0.5
-})
-```
-
-#### ERROR
-
-```python
-logger.error("Failed to process dream", exc_info=True, extra={
-    "dream_id": dream_id,
-    "error_type": "ValidationError"
-})
-
-logger.error("Database query failed", exc_info=True, extra={
-    "query": query_text,
-    "table": "dreams"
-})
-
-logger.error("External API call failed", exc_info=True, extra={
-    "api": "OpenAI",
-    "endpoint": "/v1/chat/completions",
-    "status_code": 429
-})
-```
-
-#### CRITICAL
-
-```python
-logger.critical("Database connection lost", exc_info=True, extra={
-    "host": db_host,
-    "retries": retry_count
-})
-
-logger.critical("Memory limit exceeded", extra={
-    "current_usage_mb": 8192,
-    "limit_mb": 8000
-})
-
-logger.critical("Consciousness engine crash", exc_info=True, extra={
-    "component": "MATRIZ",
-    "uptime_seconds": uptime
-})
-```
-
----
-
-## Structured Logging
-
-### Adding Extra Context
-
-Always use `extra` dictionary for structured data:
-
-```python
-# ✅ CORRECT: Structured logging with extra
-logger.info("User login", extra={
-    "user_id": "user_123",
-    "ip_address": "192.168.1.100",
-    "user_agent": "Mozilla/5.0...",
-    "timestamp": datetime.utcnow().isoformat()
-})
-
-# ❌ INCORRECT: String interpolation loses structure
-logger.info(f"User user_123 logged in from 192.168.1.100")
-```
-
-### JSON Output Format
-
-In production, enable JSON logging for log aggregation:
-
-```python
-from labs.core.common import configure_logging
-
-# Enable JSON logging for production
-configure_logging(
-    level="INFO",
-    json_output=True
-)
-
-logger.info("Request processed", extra={
-    "request_id": "req_abc123",
-    "duration_ms": 45.2,
-    "status": "success"
-})
-```
-
-**Output** (JSON):
-```json
-{
-  "timestamp": "2025-01-10T12:00:00.123Z",
-  "level": "INFO",
-  "module": "serve.routes",
-  "function": "handle_request",
-  "line": 42,
-  "message": "Request processed",
-  "thread": 123456,
-  "thread_name": "MainThread",
-  "request_id": "req_abc123",
-  "duration_ms": 45.2,
-  "status": "success"
-}
-```
-
-### Standard Extra Fields
-
-Use these standard field names for consistency:
-
-```python
-# User context
-logger.info("Action performed", extra={
-    "user_id": "user_123",
-    "tier": "premium",
-    "session_id": "sess_abc"
-})
-
-# Request context
-logger.info("API request", extra={
-    "request_id": "req_xyz",
-    "method": "POST",
-    "endpoint": "/api/dream/process",
-    "status_code": 200,
-    "duration_ms": 150.5
-})
-
-# Dream processing context
-logger.info("Dream processed", extra={
-    "dream_id": "dream_789",
-    "quantum_coherence": 0.87,
-    "emotional_state": "calm",
-    "processing_time_ms": 45.2
-})
-
-# Error context
-logger.error("Operation failed", exc_info=True, extra={
-    "error_type": "ValidationError",
-    "error_code": "INVALID_INPUT",
-    "retry_count": 3,
-    "will_retry": False
-})
-```
-
----
-
-## Best Practices
-
-### 1. Never Log Sensitive Data
-
-```python
-# ❌ INCORRECT: Logging sensitive data
-logger.info(f"User password: {password}")
-logger.info(f"API key: {api_key}")
-logger.info(f"Credit card: {cc_number}")
-
-# ✅ CORRECT: Log sanitized/redacted data
-logger.info("User authenticated", extra={"user_id": user_id})
-logger.info("API call made", extra={"api_key_prefix": api_key[:8] + "..."})
-logger.info("Payment processed", extra={"cc_last_4": cc_number[-4:]})
-```
-
-### 2. Use Exception Info
-
-```python
-# ✅ CORRECT: Include full traceback with exc_info=True
-try:
-    result = risky_operation()
-except Exception as e:
-    logger.error("Operation failed", exc_info=True, extra={"operation": "risky"})
-    raise
-
-# ❌ INCORRECT: Losing exception context
-except Exception as e:
-    logger.error(f"Error: {str(e)}")  # No traceback!
-```
-
-### 3. Avoid Expensive String Formatting
-
-```python
-# ✅ CORRECT: Lazy evaluation
-logger.debug("Processing %s items", len(items))  # Only formats if DEBUG enabled
-
-# ❌ INCORRECT: Always formats, even if not logged
-logger.debug(f"Processing {len(expensive_computation())} items")  # Always runs
-```
-
-### 4. Log at Appropriate Levels
-
-```python
-# ✅ CORRECT: INFO for important events
-logger.info("System started successfully")
-logger.info("Dream processing completed", extra={"dream_id": dream_id})
-
-# ❌ INCORRECT: DEBUG for important events (will be missed in production)
-logger.debug("System started")  # Too low level for important event
-```
-
-### 5. Include Timing Information
-
-```python
-import time
-
-# ✅ CORRECT: Log operation duration
-start_time = time.time()
-result = expensive_operation()
-duration_ms = (time.time() - start_time) * 1000
-
-logger.info("Operation completed", extra={
-    "operation": "dream_processing",
-    "duration_ms": duration_ms,
-    "items_processed": len(result)
-})
-```
-
-### 6. Use Consistent Patterns
-
-```python
-# ✅ CORRECT: Consistent log message patterns
-logger.info("Dream processing started", extra={"dream_id": dream_id})
-# ... processing ...
-logger.info("Dream processing completed", extra={"dream_id": dream_id, "duration_ms": duration})
-
-# ❌ INCORRECT: Inconsistent patterns
-logger.info(f"Starting dream {dream_id}")
-# ... processing ...
-logger.info(f"Dream done: {dream_id} took {duration}ms")
-```
-
----
-
-## Preventing Duplicate Loggers
-
-### The Problem
-
-Creating multiple logger instances with the same name causes issues:
-
-```python
-# ❌ PROBLEM: Multiple logger definitions
+# INCORRECT
 import logging
 
-logger = logging.getLogger(__name__)  # First definition
-# ... later in file ...
-logger = logging.getLogger(__name__)  # Duplicate! Can cause issues
+def some_function():
+    logging.info("A log message from the root logger.") # Avoid using the root logger directly
 ```
+*Reasoning:* Directly using `logging.info()` logs to the root logger. This is difficult to control and configure, as it's the parent of all other loggers. It should only be configured at the application's entry point, not used for logging within modules.
 
-### The Solution
-
-LUKHAS uses a **logger cache** to prevent duplicates:
+**Anti-Pattern 3: Logger Instantiation Inside Functions/Methods**
 
 ```python
-# From labs/core/common/logger.py
-_loggers: dict[str, logging.Logger] = {}
-
-def get_logger(name: str) -> logging.Logger:
-    """Get or create a logger instance (cached)"""
-    if name in _loggers:
-        return _loggers[name]  # Return cached instance
-
-    logger = logging.getLogger(name)
-    _configure_logger(logger)
-    _loggers[name] = logger  # Cache for future calls
-    return logger
-```
-
-### Rule: One Logger Per File
-
-```python
-# ✅ CORRECT: Single logger definition at module level
-from labs.core.common import get_logger
-
-logger = get_logger(__name__)
-
-# All functions and classes use this logger
-def function_a():
-    logger.info("In function A")
-
-def function_b():
-    logger.info("In function B")
+# INCORRECT
+import logging
 
 class MyClass:
-    def method(self):
-        logger.info("In method")
+    def do_work(self):
+        logger = logging.getLogger(__name__) # Avoid creating loggers inside functions/methods
+        logger.info("Doing work.")
 ```
+*Reasoning:* This is inefficient as it re-creates the logger object on every call. It can also interfere with logging configuration and lead to memory leaks if not managed carefully.
 
-### Checking for Duplicates
+## 3. Structured Logging
 
-```bash
-# Find files with multiple logger definitions
-grep -n "logger = " **/*.py | awk -F: '{print $1}' | uniq -d
+To make our logs machine-readable and powerfully searchable, LUKHAS uses **structured logging**. Instead of embedding variables into a log string, we pass them as a dictionary of key-value pairs. Our primary tool for this is `structlog`.
 
-# Or use the automated script
-python tools/fix_logger_imports.py --check
-```
+### Best Practices for Structured Logging
 
----
+1.  **Bind Context Early:** Bind important, long-lived context to the logger as early as possible. This context will be automatically included in all subsequent log messages from that logger instance.
 
-## Linting and Enforcement
+    ```python
+    import structlog
 
-### Pre-Commit Hook
+    logger = structlog.get_logger(__name__)
 
-Add to `.pre-commit-config.yaml`:
+    def process_request(request):
+        # Bind context that is relevant for the entire request
+        request_logger = logger.bind(
+            request_id=request.id,
+            user_id=request.user.id,
+            tenant_id=request.user.tenant_id,
+        )
 
-```yaml
-repos:
-  - repo: local
-    hooks:
-      - id: check-logger-imports
-        name: Check Logger Imports
-        entry: python tools/check_logger_standards.py
-        language: system
-        types: [python]
-        pass_filenames: false
-```
+        request_logger.info("request_received")
+        # ... do work ...
+        request_logger.info("request_completed", status_code=200)
+    ```
 
-### Ruff Configuration
+2.  **Log Events, Not Sentences:** The primary log message should be a short, static string that identifies the event, like a metric name. All dynamic information should be in the key-value pairs.
 
-Add to `pyproject.toml` or `.ruff.toml`:
+    ```python
+    # GOOD: The event is static, details are in the context
+    logger.info("user_login_success", user_id="usr_123")
+
+    # AVOID: The event is dynamic and hard to query
+    user_id = "usr_123"
+    logger.info(f"User {user_id} successfully logged in.")
+    ```
+
+3.  **Use Consistent Key Naming:** Adhere to a `snake_case` convention for all log keys. Use consistent names for the same data across the entire platform (e.g., always use `user_id`, not `userID` or `user`).
+
+## 4. Log Level Guidelines
+
+Choosing the correct log level is essential for keeping our logs useful and avoiding excessive noise in production.
+
+| Level      | When to Use                                                                                                | Example                                                                          |
+| :--------- | :--------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------- |
+| **`DEBUG`**    | Detailed diagnostic information. Useful only for developers actively debugging a specific component. Should be disabled in production. | `logger.debug("cache_miss", key="user:123", db_query="SELECT ...")`                |
+| **`INFO`**     | High-level confirmation of normal, significant application events. | `logger.info("service_startup", port=8000)` <br> `logger.info("request_handled", path="/v1/chat", status=200)` |
+| **`WARNING`**  | An unexpected event occurred, or a potential problem was detected, but the application is still functioning correctly. Requires human attention eventually. | `logger.warning("deprecated_api_called", endpoint="/v1/legacy")` <br> `logger.warning("config_fallback", key="timeout", value=5)` |
+| **`ERROR`**    | A specific operation failed due to a serious error. The request could not be completed, but the application itself is not crashing. | `logger.error("database_query_failed", error="timeout", query="...")` <br> `logger.error("file_not_found", path="/data/model.bin")` |
+| **`CRITICAL`** | A severe error that may prevent the application from continuing to run. This indicates a catastrophic failure. | `logger.critical("database_connection_lost")` <br> `logger.critical("missing_critical_config", key="ENCRYPTION_KEY")` |
+
+## 5. Integration with the Observability Stack
+
+All logs produced by LUKHAS services are shipped to a central observability platform (e.g., Datadog, ELK Stack). The structured nature of our logs is what makes this integration powerful.
+
+-   **Search and Filtering:** We can easily filter logs by any context attribute, such as `tenant_id` or `request_id`, to trace a single request's journey across multiple services.
+-   **Dashboards:** We can build dashboards that visualize key events, such as login rates (`"user_login_success"`), error rates (`level:error`), and more.
+-   **Automated Alerts:** We can create alerts that trigger on specific log patterns, such as a spike in `ERROR` or `CRITICAL` messages from a particular service.
+
+## 6. Enforcing Standards with Linting
+
+To maintain these standards, we employ automated checks using `ruff` and `pre-commit`.
+
+### Ruff Configuration (`.ruff.toml`)
+
+To enforce these logging standards, we enable specific rules from the `flake8-logging-format` (G) and `flake8-logging` (LOG) plugins within our `ruff` configuration.
 
 ```toml
+# .ruff.toml or pyproject.toml
 [tool.ruff]
-# Enable custom rules for logger checking
-select = ["E", "F", "W", "I"]
-
-[tool.ruff.per-file-ignores]
-# Exclude logger.py itself from logger checks
-"labs/core/common/logger.py" = ["E402"]
+# ... other config ...
 
 [tool.ruff.lint]
-# Custom rules for logger standards
-logger-import-pattern = "from labs.core.common import get_logger"
-max-loggers-per-file = 1
+select = [
+    "E", "F", "W", # Standard flake8 rules
+    "G",           # Enforce flake8-logging-format
+    "LOG",         # Enforce flake8-logging
+]
+
+# Optional: Ignore specific rules if necessary, but avoid this for logging rules.
+# ignore = ["G004"]
 ```
 
-### Automated Checker Script
+**Key Rules to Enable:**
 
-Create `tools/check_logger_standards.py`:
+-   **`G001`, `G002`, `G003`, `G004`:** These rules ban the use of `str.format`, `%` formatting, `+` concatenation, and f-strings in logging calls, respectively. This is the primary mechanism for enforcing structured logging.
+-   **`LOG002`:** Ensures `logging.getLogger(__name__)` is used, maintaining the logger hierarchy.
+-   **`LOG007`:** Prevents incorrect usage of `logging.exception`.
+-   **`G010`:** Enforces the use of `logging.warning` over the deprecated `logging.warn`.
+
+This configuration ensures that violations of our core logging principles are caught automatically.
+
+### Pre-Commit Hooks (`.pre-commit-config.yaml`)
+
+The `ruff` checks are integrated into our pre-commit hooks to catch violations before code is even committed.
+
+```yaml
+# .pre-commit-config.yaml
+-   repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.6
+    hooks:
+    -   id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+```
+
+## 7. Migration Guide for Legacy Code
+
+When refactoring older parts of the codebase, follow these steps to align with current logging standards.
+
+### Example: Before Refactoring
 
 ```python
-#!/usr/bin/env python3
-"""
-Check logging standards compliance across codebase.
-"""
-import re
-import sys
-from pathlib import Path
-from collections import defaultdict
-
-# Patterns to detect
-WRONG_PATTERN = re.compile(r'logger\s*=\s*logging\.getLogger\(')
-CORRECT_PATTERN = re.compile(r'from\s+labs\.core\.common\s+import\s+get_logger')
-LOGGER_DEFINITION = re.compile(r'^\s*logger\s*=\s*')
-
-def check_file(filepath: Path) -> list[str]:
-    """Check a single Python file for logging standards violations."""
-    violations = []
-
-    try:
-        content = filepath.read_text()
-        lines = content.split('\n')
-
-        # Check for wrong import pattern
-        if WRONG_PATTERN.search(content):
-            violations.append(
-                f"{filepath}: Uses logging.getLogger() instead of get_logger()"
-            )
-
-        # Check for correct import
-        has_correct_import = bool(CORRECT_PATTERN.search(content))
-
-        # Count logger definitions
-        logger_count = sum(1 for line in lines if LOGGER_DEFINITION.match(line))
-
-        if logger_count > 1:
-            violations.append(
-                f"{filepath}: Multiple logger definitions ({logger_count} found)"
-            )
-
-        # If defines logger but doesn't use correct import
-        if logger_count > 0 and not has_correct_import:
-            if 'labs/core/common/logger.py' not in str(filepath):
-                violations.append(
-                    f"{filepath}: Defines logger but missing 'from labs.core.common import get_logger'"
-                )
-
-    except Exception as e:
-        violations.append(f"{filepath}: Error checking file: {e}")
-
-    return violations
-
-def main():
-    """Check all Python files in the repository."""
-    violations = []
-
-    # Find all Python files
-    python_files = Path('.').rglob('*.py')
-
-    # Exclude certain directories
-    excluded_dirs = {'.venv', 'venv', '__pycache__', '.git', 'node_modules'}
-
-    for filepath in python_files:
-        # Skip excluded directories
-        if any(excluded in filepath.parts for excluded in excluded_dirs):
-            continue
-
-        # Check file
-        file_violations = check_file(filepath)
-        violations.extend(file_violations)
-
-    # Report violations
-    if violations:
-        print("❌ Logging Standards Violations Found:\n")
-        for violation in violations:
-            print(f"  {violation}")
-        print(f"\n Total: {len(violations)} violation(s)")
-        return 1
-    else:
-        print("✅ All files comply with logging standards")
-        return 0
-
-if __name__ == "__main__":
-    sys.exit(main())
-```
-
-Usage:
-
-```bash
-# Check all files
-python tools/check_logger_standards.py
-
-# Run as pre-commit hook
-pre-commit run check-logger-imports --all-files
-```
-
----
-
-## Integration with Monitoring
-
-### Log Aggregation
-
-LUKHAS logs integrate with standard aggregation systems:
-
-- **ELK Stack** (Elasticsearch, Logstash, Kibana)
-- **Grafana Loki**
-- **Datadog**
-- **CloudWatch Logs**
-- **Splunk**
-
-### JSON Logging for Production
-
-```python
-from labs.core.common import configure_logging
-import os
-
-# Configure based on environment
-if os.getenv("ENV") == "production":
-    configure_logging(
-        level="INFO",
-        json_output=True,  # JSON for log aggregation
-        log_file="/var/log/lukhas/app.log"
-    )
-else:
-    configure_logging(
-        level="DEBUG",
-        format_type="detailed",  # Human-readable for dev
-        json_output=False
-    )
-```
-
-### Correlation IDs
-
-Add request correlation IDs for tracing:
-
-```python
-import uuid
-from contextvars import ContextVar
-
-# Request context
-request_id_var: ContextVar[str] = ContextVar('request_id', default=None)
-
-def handle_request(request):
-    # Generate correlation ID
-    request_id = str(uuid.uuid4())
-    request_id_var.set(request_id)
-
-    # Include in all logs
-    logger.info("Processing request", extra={"request_id": request_id})
-
-    try:
-        result = process_request(request)
-        logger.info("Request completed", extra={"request_id": request_id})
-        return result
-    except Exception as e:
-        logger.error("Request failed", exc_info=True, extra={"request_id": request_id})
-        raise
-```
-
-### Metrics from Logs
-
-Extract metrics from structured logs:
-
-```python
-# Log with metric information
-logger.info("Dream processed", extra={
-    "dream_id": dream_id,
-    "processing_time_ms": duration,
-    "coherence_score": coherence,
-    "status": "success"
-})
-
-# Log aggregation system can create metrics:
-# - avg(processing_time_ms) by status
-# - p95(processing_time_ms)
-# - count(*) where status="success"
-```
-
----
-
-## Migration Guide
-
-### Migrating Legacy Code
-
-#### Step 1: Update Imports
-
-```python
-# OLD (❌)
+# Old, non-standard logging
 import logging
 
-logger = logging.getLogger(__name__)
+def process_data(data, user):
+    logging.warn("Processing data for user %s with %d items." % (user, len(data)))
+    try:
+        # ... logic ...
+        result = complex_operation()
+        logging.debug("Operation returned: " + str(result))
+    except Exception as e:
+        logging.error("Failed to process data! Error: " + str(e))
 
-# NEW (✅)
-from labs.core.common import get_logger
-
-logger = get_logger(__name__)
 ```
 
-#### Step 2: Remove Custom Configuration
+### Example: After Refactoring
 
 ```python
-# OLD (❌)
-import logging
+# New, standardized logging
+import structlog
 
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(__name__)
 
-# NEW (✅)
-from labs.core.common import get_logger
+def process_data(data, user):
+    log = logger.bind(user_id=user.id, item_count=len(data))
+    log.info("data_processing_started")
+    try:
+        # ... logic ...
+        result = complex_operation()
+        log.debug("complex_operation_result", result=result)
+    except Exception as e:
+        # The exception info will be automatically added by the logger
+        log.exception("data_processing_failed")
 
-logger = get_logger(__name__)
-# Configuration is centralized
 ```
 
-#### Step 3: Convert to Structured Logging
+**Key Changes:**
+1.  A module-level, structured logger (`structlog`) was introduced.
+2.  `logging.warn` was changed to `log.warning` (the correct method name).
+3.  String formatting was replaced with key-value pairs.
+4.  `log.exception()` is used inside the `except` block, which automatically captures the stack trace.
 
-```python
-# OLD (❌)
-logger.info(f"Processing dream {dream_id} for user {user_id}")
+## 8. Automated Checks and Tools
 
-# NEW (✅)
-logger.info("Processing dream", extra={
-    "dream_id": dream_id,
-    "user_id": user_id
-})
-```
+### Checking for Duplicate Loggers
 
-#### Step 4: Consolidate Multiple Loggers
-
-```python
-# OLD (❌)
-logger1 = logging.getLogger("component1")
-logger2 = logging.getLogger("component2")
-
-def func1():
-    logger1.info("Function 1")
-
-def func2():
-    logger2.info("Function 2")
-
-# NEW (✅)
-from labs.core.common import get_logger
-
-logger = get_logger(__name__)
-
-def func1():
-    logger.info("Function 1", extra={"component": "component1"})
-
-def func2():
-    logger.info("Function 2", extra={"component": "component2"})
-```
-
-### Automated Migration
-
-Use the migration script:
+Run this command to find files with multiple logger definitions:
 
 ```bash
-# Dry run (shows what would change)
-python tools/fix_logger_imports.py --dry-run
+# Find potential duplicate logger definitions
+grep -r "logger = " --include="*.py" . | \
+  awk -F: '{print $1}' | sort | uniq -c | \
+  awk '$1 > 1 {print "⚠️  " $2 " has " $1 " logger definitions"}'
+```
+
+### Automated Fix Script
+
+Use `scripts/fix_duplicate_loggers.py` to automatically fix common logging issues:
+
+```bash
+# Dry run - shows what would be changed
+python scripts/fix_duplicate_loggers.py --dry-run
 
 # Apply fixes
-python tools/fix_logger_imports.py --fix
+python scripts/fix_duplicate_loggers.py
 
-# Apply to specific files
-python tools/fix_logger_imports.py --fix serve/routes.py matriz/consciousness/system.py
+# Fix specific directory
+python scripts/fix_duplicate_loggers.py --path lukhas/core
 ```
 
----
+The script will:
+- Remove duplicate logger definitions in the same file
+- Replace `logging.warn` with `logging.warning`
+- Replace root logger calls with module-level loggers
+- Standardize to `logger = logging.getLogger(__name__)` pattern
 
-## Troubleshooting
+### Running Linting Checks
 
-### Problem: No Logs Appearing
+```bash
+# Check logging standards with ruff
+ruff check --select G,LOG .
 
-**Symptoms**: Logger calls don't produce output
+# Auto-fix where possible
+ruff check --select G,LOG --fix .
 
-**Solutions**:
-
-1. Check log level:
-   ```python
-   from labs.core.common import configure_logging
-   configure_logging(level="DEBUG")  # Lower level to see more
-   ```
-
-2. Verify logger is configured:
-   ```python
-   from labs.core.common import get_logger
-   logger = get_logger(__name__)
-   logger.info("Test message")  # Should appear
-   ```
-
-3. Check for log level filtering:
-   ```python
-   # This won't appear if level is INFO
-   logger.debug("Debug message")
-
-   # This will appear
-   logger.info("Info message")
-   ```
-
-### Problem: Duplicate Log Messages
-
-**Symptoms**: Each log appears multiple times
-
-**Solutions**:
-
-1. Check for multiple logger instances:
-   ```bash
-   grep -c "logger = " your_file.py
-   # Should return 1 (or 0 if using class-level logger)
-   ```
-
-2. Verify using `get_logger`:
-   ```python
-   # ✅ CORRECT
-   from labs.core.common import get_logger
-   logger = get_logger(__name__)
-
-   # ❌ WRONG (can cause duplicates)
-   import logging
-   logger = logging.getLogger(__name__)
-   logger.addHandler(...)  # Don't add handlers manually
-   ```
-
-3. Clear existing handlers:
-   ```python
-   # The get_logger function handles this automatically
-   # But if migrating, may need to clear old handlers
-   logger.handlers.clear()
-   ```
-
-### Problem: JSON Formatting Not Working
-
-**Symptoms**: Logs not in JSON format in production
-
-**Solutions**:
-
-1. Enable JSON output:
-   ```python
-   from labs.core.common import configure_logging
-   configure_logging(json_output=True)
-   ```
-
-2. Verify configuration:
-   ```python
-   from labs.core.common import _logging_config
-   print(_logging_config.get("json_output"))  # Should be True
-   ```
-
-3. Check environment:
-   ```python
-   import os
-   if os.getenv("ENV") == "production":
-       configure_logging(json_output=True)
-   ```
-
-### Problem: Missing Extra Fields
-
-**Symptoms**: `extra` dictionary not appearing in logs
-
-**Solutions**:
-
-1. Use JSON formatter:
-   ```python
-   configure_logging(json_output=True)
-   logger.info("Message", extra={"key": "value"})
-   # Extra fields appear in JSON output
-   ```
-
-2. Use custom formatter for text logs:
-   ```python
-   # Extra fields are available in custom formatters
-   # See labs/core/common/logger.py for examples
-   ```
-
----
-
-## Summary
-
-### Quick Reference
-
-| Task | Command |
-|------|---------|
-| **Get Logger** | `from labs.core.common import get_logger` <br> `logger = get_logger(__name__)` |
-| **Basic Logging** | `logger.info("Message")` |
-| **Structured Logging** | `logger.info("Event", extra={"key": "value"})` |
-| **Error Logging** | `logger.error("Error", exc_info=True)` |
-| **Configure Logging** | `configure_logging(level="INFO", json_output=True)` |
-| **Check Standards** | `python tools/check_logger_standards.py` |
-
-### Checklist
-
-Before committing code:
-
-- [ ] Using `from labs.core.common import get_logger`
-- [ ] Only ONE logger definition per file
-- [ ] Using `logger = get_logger(__name__)`
-- [ ] Including `extra` dict for structured data
-- [ ] Using `exc_info=True` for exceptions
-- [ ] Not logging sensitive data (passwords, keys, PII)
-- [ ] Using appropriate log levels
-- [ ] Linting passes: `python tools/check_logger_standards.py`
-
-### Common Patterns
-
-```python
-# Module setup
-from labs.core.common import get_logger
-
-logger = get_logger(__name__)
-
-# INFO: Important events
-logger.info("Operation started", extra={"operation_id": op_id})
-
-# DEBUG: Detailed diagnostics
-logger.debug("Variable state", extra={"value": value})
-
-# WARNING: Potential issues
-logger.warning("Rate limit approaching", extra={"usage": 95, "limit": 100})
-
-# ERROR: Failures (with traceback)
-try:
-    risky_operation()
-except Exception as e:
-    logger.error("Operation failed", exc_info=True, extra={"operation": "risky"})
-
-# CRITICAL: System-critical failures
-logger.critical("Service unavailable", exc_info=True, extra={"service": "database"})
+# Run as part of pre-commit
+pre-commit run ruff --all-files
 ```
 
----
+## 9. Troubleshooting Common Issues
 
-## Resources
+### Duplicate Log Messages
 
-**Implementation Files**:
-- [labs/core/common/logger.py](../../labs/core/common/logger.py) - Logger implementation
-- [labs/core/common/__init__.py](../../labs/core/common/__init__.py) - Common utilities
+-   **Cause:** This typically happens when a handler is added to a logger that already has a handler, or whose parent logger has a handler. Log records propagate up the hierarchy (e.g., from `lukhas.core.orchestration` to `lukhas.core` to `lukhas` to the root logger).
+-   **Solution:**
+    1.  **NEVER** call `logging.basicConfig()` or `logger.addHandler()` in library code (i.e., any module that isn't the main entry point of an application).
+    2.  Configuration should happen **ONCE** at the application's startup.
+    3.  Ensure `propagate = False` is set on a logger if you are giving it a specific handler and want to prevent its messages from also going to the parent handlers.
 
-**Tools**:
-- [tools/check_logger_standards.py](../../tools/check_logger_standards.py) - Standards checker
-- [tools/fix_logger_imports.py](../../tools/fix_logger_imports.py) - Migration tool
+### Logger Not Found / Import Errors
 
-**Related Documentation**:
-- [Prometheus Monitoring Guide](../operations/PROMETHEUS_MONITORING_GUIDE.md)
-- [Development Standards](./T4_DEVELOPMENT_STANDARDS.md)
+-   **Cause:** Incorrect import statement or logger instantiation
+-   **Solution:** Always use the standard pattern:
+    ```python
+    import logging
+    logger = logging.getLogger(__name__)  # At module level
+    ```
 
-**External Resources**:
-- [Python Logging Documentation](https://docs.python.org/3/library/logging.html)
-- [Structured Logging Best Practices](https://www.structlog.org/en/stable/)
-- [The 12-Factor App: Logs](https://12factor.net/logs)
+### Performance Impact of Logging
 
----
+-   **Cause:** Expensive string formatting in log calls, especially at DEBUG level in production
+-   **Solution:** Use lazy formatting and appropriate log levels
+    ```python
+    # GOOD: Lazy evaluation
+    logger.debug("Processing %d items", len(items))
 
-**Last Updated**: 2025-01-10
-**Version**: 1.0.0
-**Status**: ✅ Production Ready
-
-🤖 Generated with Claude Code
+    # AVOID: Eager string formatting
+    logger.debug(f"Processing {len(items)} items")  # Evaluated even if DEBUG disabled
+    ```

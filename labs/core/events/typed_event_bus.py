@@ -8,7 +8,7 @@ import logging
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Callable, Optional, TypeVar, Union, cast
+from typing import OptionalVar, Union, cast
 
 from ..container.service_container import ServiceLifetime, injectable
 from .contracts import DomainEvent, EventPriority

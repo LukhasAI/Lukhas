@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.governance.guardian_serializer
 
 **Star**: 🛡️ Watch (Guardian)

@@ -7,9 +7,9 @@ import uuid
 from dataclasses import dataclass, field
 from enum import Enum
 from importlib import import_module
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
-__all__: List[str] = []
+__all__: list[str] = []
 
 for _candidate in (
     "labs.candidate.consciousness.guardian_integration",
@@ -77,8 +77,8 @@ if "GuardianValidationConfig" not in globals():
         guardian_active: bool = True
         timeout_ms: float = 250.0
 
-        def validate(self) -> List[str]:
-            errors: List[str] = []
+        def validate(self) -> list[str]:
+            errors: list[str] = []
             if self.p95_target_ms <= 0:
                 errors.append("p95_target_ms must be positive")
             if not 0 <= self.drift_threshold <= 1:
@@ -102,12 +102,12 @@ if "GuardianValidationResult" not in globals():
         reason: str = ""
         confidence: float = 1.0
         validation_duration_ms: float = 0.0
-        audit_trail: List[Dict[str, Any]] = field(default_factory=list)
+        audit_trail: list[dict[str, Any]] = field(default_factory=list)
 
         def is_approved(self) -> bool:
             return self.result == ValidationResult.APPROVED
 
-        def add_audit_entry(self, event_type: str, details: Dict[str, Any]) -> None:
+        def add_audit_entry(self, event_type: str, details: dict[str, Any]) -> None:
             self.audit_trail.append({
                 "event_type": event_type,
                 "details": details,
@@ -125,7 +125,7 @@ if "ConsciousnessValidationContext" not in globals():
         tenant: str = "default"
         lane: str = "consciousness"
         sensitive_operation: bool = False
-        risk_indicators: List[str] = field(default_factory=list)
+        risk_indicators: list[str] = field(default_factory=list)
         operation_id: str = field(default_factory=lambda: f"op-{uuid.uuid4().hex[:12]}")
         correlation_id: str = field(default_factory=lambda: f"corr-{uuid.uuid4().hex[:12]}")
         consciousness_state: Any = None

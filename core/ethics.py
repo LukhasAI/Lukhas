@@ -9,10 +9,16 @@ import importlib
 from typing import Any
 
 try:  # pragma: no cover
-    from core.ethics import *  # type: ignore
+    from core.ethics import (  # type: ignore
+        EthicalValidator,
+        EthicsEngine,
+        validate_ethical_compliance,
+    )
     _HAS_PRIMARY = True
+    __all__ = ["EthicalValidator", "EthicsEngine", "validate_ethical_compliance"]
 except Exception:  # pragma: no cover
     _HAS_PRIMARY = False
+    __all__ = []
 
 
 def __getattr__(name: str) -> Any:  # pragma: no cover

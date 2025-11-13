@@ -2,9 +2,49 @@
 set -euo pipefail
 
 # Split large ΛBot import into policy-compliant draft PRs
-# Usage: ./scripts/split_labot_import.sh [group_size]
+# Usage: ./scripts/split_labot_import.sh [--dry-run] [group_size]
 
-GROUP_SIZE=${1:-2}
+GROUP_SIZE=2
+DRY_RUN=false
+
+usage() {
+    cat <<'EOF'
+Usage: ./scripts/split_labot_import.sh [--dry-run] [group_size]
+
+  --dry-run   Show the branches and PR titles that would be created without
+              performing any git operations.
+  group_size  Optional display-only indicator for how many files are grouped
+              per PR (default: 2).
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --dry-run)
+            DRY_RUN=true
+            shift
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        -*)
+            echo "Unknown option: $1" >&2
+            usage >&2
+            exit 1
+            ;;
+        *)
+            if [[ "$1" =~ ^[0-9]+$ ]]; then
+                GROUP_SIZE="$1"
+                shift
+            else
+                echo "Invalid group size: $1" >&2
+                usage >&2
+                exit 1
+            fi
+            ;;
+    esac
+done
 ARTIFACTS_COMMIT="cb5d4cc01"
 POLISH_COMMIT="1fa806988"
 DOCS_COMMIT="8de9174cb"
@@ -12,6 +52,9 @@ DOCS_COMMIT="8de9174cb"
 echo "═══════════════════════════════════════════════════════════"
 echo "ΛBot Import Splitter - Creating Draft PRs"
 echo "Group size: $GROUP_SIZE files per PR"
+if [[ "$DRY_RUN" == true ]]; then
+    echo "Mode: dry run (no branches or commits will be created)"
+fi
 echo "═══════════════════════════════════════════════════════════"
 
 # Function to create PR for a group of files
@@ -23,9 +66,15 @@ create_pr_for_group() {
     local files=("$@")
 
     local branch="${branch_prefix}-$(printf '%02d' $group_num)"
+    local pr_title="chore(labot): import ΛBot artifacts (group $group_num)"
     echo ""
     echo "==> Creating branch: $branch"
     echo "Files (${#files[@]}): ${files[*]}"
+
+    if [[ "$DRY_RUN" == true ]]; then
+        echo "Dry run: would create PR '$pr_title'"
+        return
+    fi
 
     # Create branch from main
     git checkout -b "$branch" origin/main || {
@@ -63,7 +112,6 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
         git push -u origin "$branch"
 
         # Create draft PR
-        local pr_title="chore(labot): import ΛBot artifacts (group $group_num)"
         local pr_body="# ΛBot Import - Group $group_num
 
 **Source commit**: \`$commit\`
@@ -245,11 +293,16 @@ create_pr_for_group "$DOCS_COMMIT" "labot/import-docs" 21 "${docs_files[@]}"
 
 echo ""
 echo "═══════════════════════════════════════════════════════════"
-echo "✅ Import splitting complete!"
-echo "Created ~21 draft PRs for systematic review and merge"
-echo ""
-echo "Next steps:"
-echo "1. Review draft PRs on GitHub"
-echo "2. Merge in order: infra → prompts → requests → polish → docs"
-echo "3. PR #1203 (serve/main.py pilot) continues unchanged"
+if [[ "$DRY_RUN" == true ]]; then
+    echo "✅ Dry run complete!"
+    echo "Reviewed planned branches without making changes"
+else
+    echo "✅ Import splitting complete!"
+    echo "Created ~21 draft PRs for systematic review and merge"
+    echo ""
+    echo "Next steps:"
+    echo "1. Review draft PRs on GitHub"
+    echo "2. Merge in order: infra → prompts → requests → polish → docs"
+    echo "3. PR #1203 (serve/main.py pilot) continues unchanged"
+fi
 echo "═══════════════════════════════════════════════════════════"

@@ -1,0 +1,203 @@
+/**
+ * LUKHAS Design System - CSS Custom Properties
+ *
+ * Based on PR0T3US morphing system aesthetic and
+ * TradingView/GitHub dark theme patterns
+ */
+
+:root {
+  /* ==================== COLORS ==================== */
+
+  /* Primary Background Colors */
+  --lukhas-deep-space: #0a0a0a;      /* Primary background (from PR0T3US) */
+  --lukhas-card-bg: #181c24;          /* Card backgrounds */
+  --lukhas-card-elevated: #232b39;    /* Elevated surfaces */
+
+  /* Brand Colors */
+  --lukhas-lambda-blue: #00d4ff;      /* Primary CTA, links (Lambda Blue) */
+  --lukhas-quantum-green: #00ff88;    /* Success, active states (Quantum Green) */
+  --lukhas-luke-gold: #d4af37;        /* Special accents (Luke Gold) */
+
+  /* Text Colors */
+  --lukhas-text-primary: #f0f6fc;     /* Primary text */
+  --lukhas-text-secondary: #7d8590;   /* Secondary text */
+  --lukhas-text-accent: #58a6ff;      /* Accent text (links) */
+
+  /* Border & Divider */
+  --lukhas-border: #2a2a3e;           /* Subtle borders */
+  --lukhas-border-bright: #3a3a5e;    /* Hover/focus borders */
+
+  /* Domain-Specific Accents */
+  --domain-id-purple: #9333EA;        /* lukhas.id security */
+  --domain-com-trust-blue: #3B82F6;   /* lukhas.com corporate */
+  --domain-us-institutional: #1E40AF; /* lukhas.us compliance */
+
+  /* Semantic Colors */
+  --lukhas-success: #10B981;          /* Success states */
+  --lukhas-warning: #F59E0B;          /* Warning states */
+  --lukhas-danger: #EF4444;           /* Error/danger states */
+  --lukhas-info: #3B82F6;             /* Information states */
+
+  /* ==================== SPACING ==================== */
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-xxxl: 64px;
+
+  /* ==================== TYPOGRAPHY ==================== */
+
+  /* Font Families */
+  --font-display: Inter, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-condensed: 'Roboto Condensed', sans-serif;
+
+  /* Font Sizes */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+  --text-5xl: 3rem;      /* 48px */
+  --text-6xl: 3.75rem;   /* 60px */
+  --text-7xl: 4.5rem;    /* 72px */
+
+  /* Font Weights (Thin Capitals Emphasis) */
+  --font-thin: 100;
+  --font-extralight: 200;
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* Letter Spacing */
+  --tracking-thin-capitals: -3px;  /* Hero text */
+  --tracking-heading: -1px;        /* h1-h3 */
+  --tracking-normal: 0px;          /* Default */
+  --tracking-body: 0.15em;         /* Body text */
+  --tracking-logo: 0.15em;         /* LUKHAS wordmark */
+
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  /* ==================== ANIMATION ==================== */
+
+  /* Timing Durations */
+  --timing-fast: 0.15s;       /* Micro-interactions */
+  --timing-normal: 0.3s;      /* Most transitions */
+  --timing-slow: 0.5s;        /* Page transitions */
+  --timing-breathe: 12s;      /* Ambient breathing effects */
+
+  /* Easing Functions */
+  --easing-lukhas: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-in: cubic-bezier(0.4, 0, 1, 1);
+  --easing-out: cubic-bezier(0, 0, 0.2, 1);
+  --easing-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ==================== BORDERS ==================== */
+
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  --border-radius-glass: 18px;   /* Glassmorphism cards */
+  --border-radius-pill: 50px;    /* Pill buttons */
+
+  --border-width-thin: 1px;
+  --border-width-medium: 2px;
+  --border-width-thick: 4px;
+
+  /* ==================== SHADOWS ==================== */
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.2);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.25);
+  --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.3);
+
+  /* Glow Effects */
+  --glow-blue: 0 0 8px rgba(0, 212, 255, 0.5);
+  --glow-green: 0 0 8px rgba(0, 255, 136, 0.5);
+  --glow-purple: 0 0 8px rgba(147, 51, 234, 0.5);
+
+  /* ==================== GLASSMORPHISM ==================== */
+
+  --glass-bg: rgba(32, 32, 40, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-blur: 18px;
+
+  /* ==================== Z-INDEX ==================== */
+
+  --z-base: 0;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+
+  /* ==================== BREAKPOINTS ==================== */
+  /* Note: Use in JavaScript, not CSS media queries */
+
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+/* ==================== DARK THEME OVERRIDES ==================== */
+/* Already dark by default, but provide override capability */
+
+[data-theme="dark"] {
+  --lukhas-deep-space: #0a0a0a;
+  --lukhas-card-bg: #181c24;
+  --lukhas-text-primary: #f0f6fc;
+}
+
+/* ==================== LIGHT THEME (Optional) ==================== */
+/* For future light theme support if needed */
+
+[data-theme="light"] {
+  --lukhas-deep-space: #ffffff;
+  --lukhas-card-bg: #f6f8fa;
+  --lukhas-card-elevated: #ffffff;
+  --lukhas-text-primary: #1f2328;
+  --lukhas-text-secondary: #656d76;
+  --lukhas-border: #d0d7de;
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(0, 0, 0, 0.06);
+}
+
+/* ==================== ACCESSIBILITY ==================== */
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --timing-fast: 0.01s;
+    --timing-normal: 0.01s;
+    --timing-slow: 0.01s;
+    --timing-breathe: 0.01s;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  :root {
+    --lukhas-border: #ffffff;
+    --lukhas-text-secondary: #ffffff;
+  }
+}

@@ -193,7 +193,7 @@ class TestRateLimiting:
     def test_rate_limit_enforcement(self, client):
         """Test rate limit is enforced."""
         # Send events within limit
-        for i in range(5):
+        for _i in range(5):
             event = {
                 "events": [
                     {

@@ -13,6 +13,7 @@ Integrity Probe
 
 Runs consistency checks on DriftScore deltas and collapse recovery logic.
 """
+# ruff: noqa: F821
 import logging
 import os
 import threading
@@ -72,6 +73,9 @@ class IntegrityProbe:
 
     def __init__(
         self,
+# T4: code=F821 | ticket=SKELETON-1C2B54E4 | owner=lukhas-platform | status=skeleton
+# reason: Undefined DriftScoreCalculator in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         drift_score_calculator: "DriftScoreCalculator",  # TODO: DriftScoreCalculator
         memory_collapse_verifier: "MemoryCollapseVerifier",
         trace_repair_engine: "TraceRepairEngine",

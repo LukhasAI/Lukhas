@@ -402,7 +402,7 @@ class BrainIdentityConnector:
             limit: Maximum number of logs to return
 
         Returns:
-            List[Dict]: Recent access logs
+            list[Dict]: Recent access logs
         """
         return self.access_log[-limit:]
 
@@ -616,7 +616,7 @@ class MemoryIdentityIntegration:
             limit: Maximum number of logs to return
 
         Returns:
-            List[Dict]: Memory access logs
+            list[Dict]: Memory access logs
         """
         return self.connector.get_access_logs(limit)
 

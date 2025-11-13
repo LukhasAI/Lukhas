@@ -40,10 +40,34 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 # --- Lazy Loading and Stubs ---
+class _SimpleDreamEngine_stub:
+    async def generate_dream_sequence(self, daily_data: Optional[list] = None):
+        return {
+            "dream_sequence": {"narrative": "A peaceful dream state of creative possibility..."},
+            "learning": {"insights": "Creative potential explored"},
+            "memory_trace": "dream_fallback_001",
+        }
+try:
+    from consciousness.dream.engine.dream_engine import DreamEngine as SimpleDreamEngine
+except ImportError:
+    SimpleDreamEngine = _SimpleDreamEngine_stub
+
+class _DreamQuantumConfig_stub:
+    def __init__(self, *args, **kwargs):
+        self.coherence_threshold = 0.9
+
+try:
+    from qi.qi_dream_adapter import DreamQuantumConfig
+except ImportError:
+    DreamQuantumConfig = _DreamQuantumConfig_stub
 
 class _QIDreamAdapter_stub:
     def __init__(self, *args, **kwargs): pass
     def adapt(self, *args, **kwargs): return {}
+try:
+    from qi.qi_dream_adapter import QIDreamAdapter
+except ImportError:
+    QIDreamAdapter = _QIDreamAdapter_stub
     async def start_dream_cycle(self, *args, **kwargs): pass
     async def stop_dream_cycle(self, *args, **kwargs): pass
     async def get_quantum_like_state(self, *args, **kwargs): return {"coherence": 0.0, "entanglement": 0.0, "insights": [], "timestamp": datetime.now(timezone.utc).isoformat()}
@@ -76,24 +100,6 @@ class _SimpleDreamEngine_stub:
 def __getattr__(name: str) -> Any:
     """Lazy load dependencies to improve startup and handle optional modules."""
 
-    if name == "QIDreamAdapter":
-        try:
-            from qi.qi_dream_adapter import QIDreamAdapter
-            globals()[name] = QIDreamAdapter
-            return QIDreamAdapter
-        except ImportError:
-            globals()[name] = _QIDreamAdapter_stub
-            return _QIDreamAdapter_stub
-
-    if name == "DreamQuantumConfig":
-        try:
-            from qi.qi_dream_adapter import DreamQuantumConfig
-            globals()[name] = DreamQuantumConfig
-            return DreamQuantumConfig
-        except ImportError:
-            globals()[name] = _DreamQuantumConfig_stub
-            return _DreamQuantumConfig_stub
-
     if name == "QIBioOscillator":
         try:
             from core.unified.bio_signals import QIBioOscillator
@@ -120,16 +126,6 @@ def __getattr__(name: str) -> Any:
         except ImportError:
             globals()[name] = _BioOrchestrator_stub
             return _BioOrchestrator_stub
-
-    if name == "SimpleDreamEngine":
-        try:
-            # Note the alias
-            from consciousness.dream.engine.dream_engine import DreamEngine as SimpleDreamEngine
-            globals()[name] = SimpleDreamEngine
-            return SimpleDreamEngine
-        except ImportError:
-            globals()[name] = _SimpleDreamEngine_stub
-            return _SimpleDreamEngine_stub
 
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 

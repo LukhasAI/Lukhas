@@ -29,10 +29,12 @@ import os
 import statistics
 import time
 from dataclasses import dataclass
+from typing import Tuple
 from unittest.mock import AsyncMock, Mock
 
 import psutil
 import pytest
+from typing import Tuple
 
 PLACEHOLDER_PASSWORD = "a-secure-password"  # nosec B105
 
@@ -76,7 +78,7 @@ class PerformanceBenchmark:
         self.results = []
         self.process = psutil.Process()
 
-    async def measure_single_operation(self, operation_func, *args, **kwargs) -> tuple[float, bool, str]:
+    async def measure_single_operation(self, operation_func, *args, **kwargs) -> Tuple[float, bool, str]:
         """Measure single operation performance"""
         start_memory = self.process.memory_info().rss / 1024 / 1024  # MB
         self.process.cpu_percent()

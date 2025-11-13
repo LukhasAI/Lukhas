@@ -1,7 +1,15 @@
 # conftest.py — drop-in self-healing hooks (no per-test edits needed)
 from __future__ import annotations
-import os, json, time, hashlib, pathlib, random
+
+import contextlib
+import hashlib
+import json
+import os
+import pathlib
+import random
+import time
 from datetime import datetime
+
 import pytest
 
 # Import existing fixtures from labs.tests.conftest
@@ -39,10 +47,8 @@ def pytest_configure(config):
     if np is not None:
         np.random.seed(seed)
     if torch is not None:
-        try:
+        with contextlib.suppress(Exception):
             torch.manual_seed(seed)
-        except Exception:
-            pass
 
 @pytest.fixture(autouse=True)
 def _freeze_time(monkeypatch):
@@ -50,7 +56,7 @@ def _freeze_time(monkeypatch):
     if os.environ.get("FREEZE_TIME", "1") != "1":
         yield; return
     fixed = 1735689600  # 2025-01-01T00:00:00Z
-    start = time.time()
+    time.time()
     start_monotonic = time.monotonic()
 
     def fake_time():
@@ -69,7 +75,7 @@ def _block_network(monkeypatch):
     real_socket = socket.socket
 
     class GuardedSocket(socket.socket):
-        def connect(self, *args, **kwargs):  # noqa: D401
+        def connect(self, *args, **kwargs):
             raise RuntimeError("Network calls are blocked in tests (set ALLOW_NET=1 to override)")
 
     monkeypatch.setattr(socket, "socket", GuardedSocket)

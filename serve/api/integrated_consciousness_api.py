@@ -8,7 +8,7 @@ with real-time feedback collection.
 
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 from consciousness.interfaces.natural_language_interface import (
     ConversationManager,
@@ -50,6 +50,7 @@ nl_interface = None
 feedback_system = None
 dashboard = None
 conversation_manager = None
+consciousness_engine = None # Added for new endpoints
 
 
 # Request/Response models
@@ -63,7 +64,7 @@ class IntegratedChatRequest(BaseModel):
     region: Optional[ComplianceRegion] = Field(ComplianceRegion.GLOBAL, description="User's regulatory region")
 
     class Config:
-        json_schema_extra = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_api_integrated_consciousness_api_py_L66"}
+        json_schema_extra: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_api_integrated_consciousness_api_py_L66"}
             "example": {
                 "message": "How can you help me make a decision?",
                 "session_id": "session_123",
@@ -86,7 +87,7 @@ class IntegratedChatResponse(BaseModel):
     decision_trace: Optional[dict[str, Any]] = Field(None, description="Decision explanation")
 
     class Config:
-        json_schema_extra = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_api_integrated_consciousness_api_py_L89"}
+        json_schema_extra: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_api_integrated_consciousness_api_py_L89"}
             "example": {
                 "response": "I can help you make decisions by analyzing options...",
                 "session_id": "session_123",
@@ -114,7 +115,7 @@ class ConversationFeedback(BaseModel):
     content: dict[str, Any] = Field(..., description="Feedback content")
 
     class Config:
-        json_schema_extra = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_api_integrated_consciousness_api_py_L117"}
+        json_schema_extra: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_serve_api_integrated_consciousness_api_py_L117"}
             "example": {
                 "action_id": "action_789",
                 "user_id": "user_456",
@@ -132,6 +133,27 @@ class DashboardRequest(BaseModel):
     time_range: Optional[str] = Field("1h", description="Time range: 1h, 24h, 7d, 30d")
     include_feedback: bool = True
     include_decisions: bool = True
+
+# New Models from user request
+class ThoughtRequest(BaseModel):
+    content: str
+    context: Optional[dict] = None
+    emotions: Optional[dict] = None
+
+class DreamRequest(BaseModel):
+    seeds: list[str]
+    duration: int
+    creativity_level: float
+
+class MemoryRequest(BaseModel):
+    experience: str
+    context: dict
+    importance: float
+
+class RecallRequest(BaseModel):
+    query: str
+    limit: int = 10
+    emotions: Optional[dict] = None
 
 
 # Startup/Shutdown events
@@ -256,6 +278,9 @@ async def _setup_services():
     register_service("user_feedback_system", feedback_system)
     register_service("interpretability_dashboard", dashboard)
 
+    global consciousness_engine
+    consciousness_engine = mock_consciousness
+
 
 # API Endpoints
 @app.get("/", tags=["General"])
@@ -279,6 +304,99 @@ async def root():
             "sessions": "/sessions",
             "export": "/export",
         },
+    }
+
+@app.get('/consciousness/state')
+async def get_consciousness_state():
+    '''Get current consciousness state'''
+    state = await consciousness_engine.get_current_state()
+
+    return {
+        'state': state.name,
+        'awareness_level': state.awareness,
+        'active_thoughts': len(state.thoughts),
+        'emotional_state': state.emotion,
+        'memory_context': state.context_size,
+        'timestamp': state.timestamp.isoformat()
+    }
+
+@app.post('/consciousness/think')
+async def process_thought(request: ThoughtRequest):
+    '''Process thought through consciousness layer'''
+    result = await consciousness_engine.process_thought(
+        content=request.content,
+        context=request.context,
+        emotions=request.emotions
+    )
+
+    return {
+        'thought_id': result.id,
+        'processed_content': result.content,
+        'associations': result.associations,
+        'emotional_response': result.emotions,
+        'memory_references': result.memories
+    }
+
+@app.post('/consciousness/dream')
+async def enter_dream_state(request: DreamRequest):
+    '''Enter dream/creative state'''
+    dream_session = await consciousness_engine.enter_dream_state(
+        seed_thoughts=request.seeds,
+        duration=request.duration,
+        creativity=request.creativity_level
+    )
+
+    return {
+        'session_id': dream_session.id,
+        'state': 'dreaming',
+        'estimated_duration': request.duration,
+        'creative_outputs': []
+    }
+
+@app.get('/consciousness/dream/{session_id}')
+async def get_dream_outputs(session_id: str):
+    '''Get dream session outputs'''
+    outputs = await consciousness_engine.get_dream_outputs(session_id)
+
+    return {
+        'session_id': session_id,
+        'outputs': outputs,
+        'insights': [o.insight for o in outputs],
+        'state': 'completed' if outputs.complete else 'in_progress'
+    }
+
+@app.post('/consciousness/remember')
+async def store_consciousness_memory(request: MemoryRequest):
+    '''Store experience in consciousness memory'''
+    memory_id = await consciousness_engine.store_memory(
+        experience=request.experience,
+        context=request.context,
+        emotional_weight=request.importance
+    )
+
+    return {'memory_id': memory_id}
+
+@app.post('/consciousness/recall')
+async def recall_memory(request: RecallRequest):
+    '''Recall relevant memories'''
+    memories = await consciousness_engine.recall(
+        query=request.query,
+        limit=request.limit,
+        emotional_filter=request.emotions
+    )
+
+    return {'memories': [m.to_dict() for m in memories]}
+
+@app.get('/consciousness/self-awareness')
+async def get_self_awareness():
+    '''Get self-awareness metrics'''
+    awareness = await consciousness_engine.analyze_self_awareness()
+
+    return {
+        'awareness_score': awareness.score,
+        'introspection_depth': awareness.depth,
+        'metacognitive_insights': awareness.insights,
+        'timestamp': datetime.utcnow().isoformat()
     }
 
 

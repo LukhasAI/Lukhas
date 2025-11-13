@@ -3,6 +3,7 @@
 LUKHAS Enterprise API Framework
 Production-grade API with versioning, type safety, and OpenAPI documentation
 """
+# ruff: noqa: B008
 import asyncio
 import hashlib
 import logging
@@ -10,7 +11,7 @@ import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Generic, Optional, TypeVar
+from typing import Any, ClassVar, Generic, Optional, TypeVar
 
 import redis.asyncio as redis
 from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request
@@ -93,7 +94,7 @@ class TimestampMixin(BaseModel):
     updated_at: Optional[datetime] = None
 
     class Config:
-        json_encoders = {datetime: lambda v: v.isoformat()}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_adapters_api_framework_py_L96"}
+        json_encoders: ClassVar[dict] = {datetime: lambda v: v.isoformat()}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_adapters_api_framework_py_L96"}
 
 
 class RequestMetadata(BaseModel):

@@ -182,7 +182,7 @@ class DistributedAIAgent:
         self.agent_id = agent_id
         self.system = None
 
-    async def process_task(self, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_task(self, task_data: dict[str, Any]) -> dict[str, Any]:
         """Process task using the distributed system - legacy compatibility method"""
         if not self.system:
             # Create a temporary system for compatibility

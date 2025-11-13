@@ -1,0 +1,1101 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "LUKHAS API",
+    "description": "Governed tool loop, auditability, feedback LUT, and safety modes.",
+    "contact": {
+      "name": "LUKHAS AI Team",
+      "url": "https://github.com/LukhasAI/Lukhas"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000",
+      "description": "Local development"
+    },
+    {
+      "url": "https://api.ai",
+      "description": "Production"
+    }
+  ],
+  "paths": {
+    "/feedback/capture": {
+      "post": {
+        "tags": [
+          "feedback"
+        ],
+        "summary": "Capture Feedback",
+        "description": "Capture user feedback for an AI action.",
+        "operationId": "capture_feedback_feedback_capture_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Feedback captured successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackResponse"
+                },
+                "example": {
+                  "card_id": "card_123",
+                  "rating": 5,
+                  "timestamp": 1730000000.0,
+                  "message": "Feedback captured successfully"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedback/batch": {
+      "post": {
+        "tags": [
+          "feedback"
+        ],
+        "summary": "Capture Batch Feedback",
+        "description": "Capture multiple feedback cards at once.",
+        "operationId": "capture_batch_feedback_feedback_batch_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/FeedbackRequest"
+                },
+                "type": "array",
+                "title": "Requests"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Batch feedback captured successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/FeedbackResponse"
+                  },
+                  "type": "array",
+                  "title": "Response Capture Batch Feedback Feedback Batch Post"
+                },
+                "example": [
+                  {
+                    "card_id": "card_123",
+                    "rating": 5,
+                    "timestamp": 1730000000.0,
+                    "message": "Feedback captured successfully"
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedback/report/{user_id}": {
+      "get": {
+        "tags": [
+          "feedback"
+        ],
+        "summary": "Get Learning Report",
+        "description": "Get a learning report for a specific user.",
+        "operationId": "get_learning_report_feedback_report__user_id__get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "User Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Learning report generated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LearningReportResponse"
+                },
+                "example": {
+                  "user_id_hash": "hashed_user_id",
+                  "total_feedback_cards": 10,
+                  "overall_satisfaction": 4.5,
+                  "improvement_trend": 0.2,
+                  "preferred_styles": [
+                    "direct",
+                    "concise"
+                  ],
+                  "summary": "Based on 10 feedback cards...",
+                  "recommendations": {
+                    "tone": "more formal"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedback/metrics": {
+      "get": {
+        "tags": [
+          "feedback"
+        ],
+        "summary": "Get System Metrics",
+        "description": "Get overall feedback system metrics.",
+        "operationId": "get_system_metrics_feedback_metrics_get",
+        "responses": {
+          "200": {
+            "description": "System metrics retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemMetricsResponse"
+                },
+                "example": {
+                  "cards_captured": 100,
+                  "patterns_identified": 20,
+                  "policies_updated": 5,
+                  "validations_passed": 5,
+                  "validations_failed": 0,
+                  "total_cards": 500,
+                  "total_patterns": 50,
+                  "total_updates": 10
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/feedback/trigger-learning": {
+      "post": {
+        "tags": [
+          "feedback"
+        ],
+        "summary": "Trigger Learning Cycle",
+        "description": "Manually trigger pattern extraction and policy updates.",
+        "operationId": "trigger_learning_feedback_trigger_learning_post",
+        "responses": {
+          "200": {
+            "description": "Learning cycle triggered successfully.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "status": "triggered",
+                  "message": "Learning cycle triggered with 50 feedback cards"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/feedback/health": {
+      "get": {
+        "tags": [
+          "feedback"
+        ],
+        "summary": "Health Check",
+        "description": "Health check for feedback system.",
+        "operationId": "health_check_feedback_health_get",
+        "responses": {
+          "200": {
+            "description": "System is healthy.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "status": "healthy",
+                  "total_cards": 500,
+                  "system_active": true
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "System is unhealthy.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "unhealthy",
+                  "error": "Storage disconnected",
+                  "system_active": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/traces/latest": {
+      "get": {
+        "tags": [
+          "traces"
+        ],
+        "summary": "Get latest MATRIZ trace",
+        "description": "Retrieve the most recent trace from the MATRIZ traces directory.\n\nReturns:\n    JSON trace data with trace_id, or 404 if no traces available",
+        "operationId": "get_latest_trace_traces_latest_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Get Latest Trace Traces Latest Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/traces/{trace_id}": {
+      "get": {
+        "tags": [
+          "traces"
+        ],
+        "summary": "Get trace by ID",
+        "description": "Retrieve a specific trace by its ID.\n\nArgs:\n    trace_id: The trace identifier\n\nReturns:\n    JSON trace data, or 404 if trace not found",
+        "operationId": "get_trace_by_id_traces__trace_id__get",
+        "parameters": [
+          {
+            "name": "trace_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Trace Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Get Trace By Id Traces  Trace Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/traces/": {
+      "get": {
+        "tags": [
+          "traces"
+        ],
+        "summary": "List available traces with metadata",
+        "description": "List traces across sources with paging and filters. Ordering: mtime desc, name asc. Query params: offset>=0, 1<=limit<=200, optional source filter (env|live|golden), q substring matches id or filename.",
+        "operationId": "list_traces_traces__get",
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "source",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "env",
+                    "live",
+                    "golden"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Source"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response List Traces Traces  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dreams/simulate": {
+      "post": {
+        "tags": [
+          "Dreams"
+        ],
+        "summary": "Create Dream Simulation",
+        "description": "Simulate a dream based on seed and context.\n\nRequires: LUKHAS_DREAMS_ENABLED=1\nFor parallel processing: LUKHAS_PARALLEL_DREAMS=1\n\nReturns simulation results with dream_id for retrieval.",
+        "operationId": "create_dream_simulation_api_v1_dreams_simulate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DreamSimulationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DreamSimulationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/healthz": {
+      "get": {
+        "summary": "Healthz",
+        "description": "Health check endpoint for monitoring.\n\nBehavior:\n- Always returns HTTP 200 for readiness consumers.\n- When LUKHAS_VOICE_REQUIRED=true and the lightweight probe fails,\n  include 'voice' in `degraded_reasons` and set `voice_mode` to 'degraded'.\n- Exposes MATRIZ version, enabled modules, and lane configuration.",
+        "operationId": "healthz_healthz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Healthz Healthz Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health Alias",
+        "operationId": "health_alias_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Health Alias Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/readyz": {
+      "get": {
+        "summary": "Readyz",
+        "operationId": "readyz_readyz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Readyz Readyz Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "summary": "Metrics",
+        "operationId": "metrics_metrics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/models": {
+      "get": {
+        "tags": [
+          "OpenAI Compatible"
+        ],
+        "summary": "List Models",
+        "description": "OpenAI-compatible models list endpoint.",
+        "operationId": "list_models_v1_models_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response List Models V1 Models Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/embeddings": {
+      "post": {
+        "tags": [
+          "OpenAI Compatible"
+        ],
+        "summary": "Create Embeddings",
+        "description": "OpenAI-compatible embeddings endpoint with unique deterministic vectors.",
+        "operationId": "create_embeddings_v1_embeddings_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Create Embeddings V1 Embeddings Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/chat/completions": {
+      "post": {
+        "tags": [
+          "OpenAI Compatible"
+        ],
+        "summary": "Create Chat Completion",
+        "description": "OpenAI-compatible chat completions endpoint (stub for RC soak testing).",
+        "operationId": "create_chat_completion_v1_chat_completions_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Create Chat Completion V1 Chat Completions Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/responses": {
+      "post": {
+        "tags": [
+          "OpenAI Compatible"
+        ],
+        "summary": "Create Response",
+        "description": "LUKHAS responses endpoint (OpenAI-compatible format).",
+        "operationId": "create_response_v1_responses_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DreamSimulationRequest": {
+        "properties": {
+          "seed": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Seed",
+            "description": "Dream seed/prompt"
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "Optional context dictionary"
+          },
+          "parallel": {
+            "type": "boolean",
+            "title": "Parallel",
+            "description": "Use parallel processing",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "seed"
+        ],
+        "title": "DreamSimulationRequest",
+        "description": "Request model for dream simulation",
+        "example": {
+          "context": {
+            "mood": "calm",
+            "time": "06:00"
+          },
+          "parallel": false,
+          "seed": "morning_reflection"
+        }
+      },
+      "DreamSimulationResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success"
+          },
+          "dream_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dream Id"
+          },
+          "seed": {
+            "type": "string",
+            "title": "Seed"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "seed"
+        ],
+        "title": "DreamSimulationResponse",
+        "description": "Response model for dream simulation"
+      },
+      "FeedbackRequest": {
+        "properties": {
+          "action_id": {
+            "type": "string",
+            "title": "Action Id",
+            "description": "ID of the action being rated"
+          },
+          "rating": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Rating",
+            "description": "Rating from 1-5"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note",
+            "description": "Optional text feedback"
+          },
+          "symbols": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Symbols",
+            "description": "User-selected symbols"
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "Additional context"
+          },
+          "user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Id",
+            "description": "User ID (will be hashed)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "action_id",
+          "rating"
+        ],
+        "title": "FeedbackRequest",
+        "description": "Request model for capturing feedback."
+      },
+      "FeedbackResponse": {
+        "properties": {
+          "card_id": {
+            "type": "string",
+            "title": "Card Id"
+          },
+          "rating": {
+            "type": "integer",
+            "title": "Rating"
+          },
+          "timestamp": {
+            "type": "number",
+            "title": "Timestamp"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Feedback captured successfully"
+          }
+        },
+        "type": "object",
+        "required": [
+          "card_id",
+          "rating",
+          "timestamp"
+        ],
+        "title": "FeedbackResponse",
+        "description": "Response model for feedback capture."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "LearningReportResponse": {
+        "properties": {
+          "user_id_hash": {
+            "type": "string",
+            "title": "User Id Hash"
+          },
+          "total_feedback_cards": {
+            "type": "integer",
+            "title": "Total Feedback Cards"
+          },
+          "overall_satisfaction": {
+            "type": "number",
+            "title": "Overall Satisfaction"
+          },
+          "improvement_trend": {
+            "type": "number",
+            "title": "Improvement Trend"
+          },
+          "preferred_styles": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Preferred Styles"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          },
+          "recommendations": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Recommendations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id_hash",
+          "total_feedback_cards",
+          "overall_satisfaction",
+          "improvement_trend",
+          "preferred_styles",
+          "summary",
+          "recommendations"
+        ],
+        "title": "LearningReportResponse",
+        "description": "Response model for learning report."
+      },
+      "SystemMetricsResponse": {
+        "properties": {
+          "cards_captured": {
+            "type": "integer",
+            "title": "Cards Captured"
+          },
+          "patterns_identified": {
+            "type": "integer",
+            "title": "Patterns Identified"
+          },
+          "policies_updated": {
+            "type": "integer",
+            "title": "Policies Updated"
+          },
+          "validations_passed": {
+            "type": "integer",
+            "title": "Validations Passed"
+          },
+          "validations_failed": {
+            "type": "integer",
+            "title": "Validations Failed"
+          },
+          "total_cards": {
+            "type": "integer",
+            "title": "Total Cards"
+          },
+          "total_patterns": {
+            "type": "integer",
+            "title": "Total Patterns"
+          },
+          "total_updates": {
+            "type": "integer",
+            "title": "Total Updates"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cards_captured",
+          "patterns_identified",
+          "policies_updated",
+          "validations_passed",
+          "validations_failed",
+          "total_cards",
+          "total_patterns",
+          "total_updates"
+        ],
+        "title": "SystemMetricsResponse",
+        "description": "Response model for system metrics."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

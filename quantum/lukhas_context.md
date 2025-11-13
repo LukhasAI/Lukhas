@@ -187,7 +187,7 @@ Quantum Analysis → Algorithm Design → Simulation Implementation
 
 #### **System Performance Metrics**
 - Quantum simulation performance and computational efficiency
-- Resource utilization for quantum processing systems
+- Resource utilization for quantum-inspired systems
 - System reliability and quantum error correction effectiveness
 - Hybrid system coordination and quantum-classical integration
 

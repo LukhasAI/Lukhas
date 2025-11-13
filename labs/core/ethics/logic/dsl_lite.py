@@ -20,7 +20,7 @@ Features:
 """
 import hashlib
 import re
-from typing import Any, Callable, Dict, Optional
+from typing import Callable, Optional
 from urllib.parse import urlparse
 
 
@@ -284,7 +284,7 @@ def param_seconds_lte(param_value: Any, limit_str: str) -> bool:
         return False  # Fail closed on parsing errors
 
 
-def _resolve_path_in_dict(path: str, data: Dict[str, Any]) -> Any:
+def _resolve_path_in_dict(path: str, data: dict[str, Any]) -> Any:
     """Resolve dotted path in dictionary."""
     parts = path.split('.')
     obj = data
@@ -456,7 +456,7 @@ PREDICATES = {
 }
 
 
-def compile_rule(rule_str: str) -> Callable[[Dict[str, Any]], bool]:
+def compile_rule(rule_str: str) -> Callable[[dict[str, Any]], bool]:
     """
     Compile DSL rule string to executable function.
 
@@ -491,7 +491,7 @@ def compile_rule(rule_str: str) -> Callable[[Dict[str, Any]], bool]:
         ast = _parse_expression(rule_str.strip())
 
         # Compile to function
-        def evaluate(plan: Dict[str, Any], context: Optional[Dict[str, Any]] = None) -> bool:
+        def evaluate(plan: dict[str, Any], context: Optional[dict[str, Any]] = None) -> bool:
             """Evaluate compiled rule against plan and context."""
             context = context or {}
             try:
@@ -506,7 +506,7 @@ def compile_rule(rule_str: str) -> Callable[[Dict[str, Any]], bool]:
         raise DSLError(f"Failed to compile rule: {e}")
 
 
-def _parse_expression(expr: str) -> Dict[str, Any]:
+def _parse_expression(expr: str) -> dict[str, Any]:
     """Parse DSL expression to AST."""
     expr = expr.strip()
 
@@ -536,7 +536,7 @@ def _parse_expression(expr: str) -> Dict[str, Any]:
     }
 
 
-def _parse_logical(op: str, expr: str) -> Dict[str, Any]:
+def _parse_logical(op: str, expr: str) -> dict[str, Any]:
     """Parse logical operator expression."""
     # Extract content between outer parentheses
     if not expr.startswith(f"{op}(") or not expr.endswith(")"):
@@ -615,7 +615,7 @@ def _split_arguments(text: str) -> list:
     return args
 
 
-def _evaluate_ast(ast: Dict[str, Any], plan: Dict[str, Any], context: Dict[str, Any]) -> bool:
+def _evaluate_ast(ast: dict[str, Any], plan: dict[str, Any], context: dict[str, Any]) -> bool:
     """Evaluate AST against plan and context."""
     if ast['type'] == 'logical':
         op = ast['operator']
@@ -649,7 +649,7 @@ def _evaluate_ast(ast: Dict[str, Any], plan: Dict[str, Any], context: Dict[str, 
         raise DSLError(f"Unknown AST type: {ast['type']}")
 
 
-def _resolve_path(path: str, plan: Dict[str, Any], context: Dict[str, Any]) -> Any:
+def _resolve_path(path: str, plan: dict[str, Any], context: dict[str, Any]) -> Any:
     """Resolve dotted path in plan or context."""
     parts = path.split('.')
 

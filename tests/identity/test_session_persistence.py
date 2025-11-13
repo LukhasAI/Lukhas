@@ -9,7 +9,7 @@ import tempfile
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Optional
+from typing import Dict, Optional
 
 import pytest
 from identity.session_store import (
@@ -25,7 +25,7 @@ from identity.token_generator import TokenGenerator, TokenResponse, _calculate_c
 class MockSecretProvider:
     """Mock secret provider for testing"""
 
-    def __init__(self, secrets: Optional[dict[str, bytes]] = None):
+    def __init__(self, secrets: Optional[Dict[str, bytes]] = None):
         self.secrets = secrets or {
             "test-key-1": b"secret-key-for-testing-purposes-32-bytes",
             "test-key-2": b"rotated-secret-key-for-testing-32-b",

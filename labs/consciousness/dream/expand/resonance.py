@@ -3,7 +3,7 @@ Cross-dream resonance modeling (opt-in).
 Maintains emotional continuity across dream selections.
 """
 import os
-from typing import Dict, Optional
+from typing import Optional
 
 ENABLED = os.getenv("LUKHAS_DREAM_RESONANCE", "0") == "1"
 DECAY = float(os.getenv("LUKHAS_RESONANCE_DECAY", "0.9"))
@@ -19,10 +19,10 @@ class ResonanceField:
     """
 
     def __init__(self):
-        self.last_vector: Optional[Dict[str, float]] = None
+        self.last_vector: Optional[dict[str, float]] = None
         self.history: list = []  # For debugging/analysis
 
-    def apply(self, em: Dict[str, float]) -> Dict[str, float]:
+    def apply(self, em: dict[str, float]) -> dict[str, float]:
         """
         Apply resonance blending to emotion vector.
 
@@ -52,7 +52,7 @@ class ResonanceField:
         self._record_history(em, blended, "resonance")
         return blended
 
-    def _record_history(self, original: Dict[str, float], blended: Dict[str, float], event_type: str):
+    def _record_history(self, original: dict[str, float], blended: dict[str, float], event_type: str):
         """Record history for debugging/analysis."""
         if len(self.history) > 100:  # Limit history size
             self.history.pop(0)
@@ -70,7 +70,7 @@ class ResonanceField:
         self.last_vector = None
         self.history.clear()
 
-    def get_state(self) -> Dict[str, any]:
+    def get_state(self) -> dict[str, any]:
         """Get current resonance field state for debugging."""
         return {
             "enabled": ENABLED,
@@ -80,7 +80,7 @@ class ResonanceField:
             "history_length": len(self.history)
         }
 
-    def validate_resonance(self, original: Dict[str, float], resonant: Dict[str, float]) -> bool:
+    def validate_resonance(self, original: dict[str, float], resonant: dict[str, float]) -> bool:
         """
         Validate that resonance application maintains safety constraints.
 
@@ -114,7 +114,7 @@ def create_resonance_field() -> ResonanceField:
     """Factory function to create resonance field."""
     return ResonanceField()
 
-def get_resonance_config() -> Dict[str, any]:
+def get_resonance_config() -> dict[str, any]:
     """Get current resonance configuration."""
     return {
         "enabled": ENABLED,

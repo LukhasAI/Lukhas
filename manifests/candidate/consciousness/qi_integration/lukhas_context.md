@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.consciousness.qi_integration
 
 **Star**: 🌊 Flow (Consciousness)

@@ -129,7 +129,7 @@ def test_initialize_services_calls_all_registration_methods():
          patch.object(BioHub, '_register_analysis_services') as mock_an, \
          patch.object(BioHub, '_register_with_service_discovery') as mock_disc:
 
-        hub = BioHub()
+        BioHub()
 
         mock_proc.assert_called_once()
         mock_sym.assert_called_once()

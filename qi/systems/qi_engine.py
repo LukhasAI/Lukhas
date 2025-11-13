@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+# ruff: noqa: F821
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
 ██║     ██║   ██║██║ ██╔╝██║  ██║██╔══██╗██╔════╝
@@ -78,6 +79,9 @@ class QIEngine:
 
     def __init__(self):
         """Initialize the quantum engine."""
+# T4: code=F821 | ticket=SKELETON-60B7CDF7 | owner=lukhas-platform | status=skeleton
+# reason: Undefined Quantumoscillator in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self.oscillator = Quantumoscillator()  # TODO: Quantumoscillator
         self.qi_like_state = {"coherence": 1.0, "entanglement": 0.5}
 

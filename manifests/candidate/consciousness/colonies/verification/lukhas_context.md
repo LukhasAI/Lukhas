@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.consciousness.colonies.verification
 
 **Star**: 🌊 Flow (Consciousness)

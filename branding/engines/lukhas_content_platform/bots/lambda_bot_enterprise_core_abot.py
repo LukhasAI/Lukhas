@@ -230,7 +230,7 @@ if __name__ == "__main__":
 # Request: {request}
 
 import asyncio
-from typing import Dict, List, Any, Optional
+from typing import Optional
 
 class AdvancedSolution:
     """
@@ -241,7 +241,7 @@ class AdvancedSolution:
         self.initialized = True
         self.capabilities = ["advanced_logic", "async_processing", "error_handling"]
 
-    async def execute(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute(self, params: dict[str, Any]) -> dict[str, Any]:
         """Execute the advanced solution"""
         try:
             # Advanced implementation logic
@@ -250,7 +250,7 @@ class AdvancedSolution:
         except Exception as e:
             return {"success": False, "error": str(e)}
 
-    async def _process_advanced_logic(self, params: Dict[str, Any]) -> Any:
+    async def _process_advanced_logic(self, params: dict[str, Any]) -> Any:
         """Process with advanced logic capabilities"""
         # Implementation would be generated based on request
         return "Advanced result"

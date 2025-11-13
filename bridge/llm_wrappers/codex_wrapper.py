@@ -36,7 +36,6 @@ import asyncio
 import logging
 import os
 from datetime import datetime
-from typing import Optional
 
 import aiohttp
 from pydantic import BaseModel, Field
@@ -96,8 +95,8 @@ class CodexClient:
 
     def __init__(
         self,
-        api_key: Optional[str] = None,
-        config: Optional[CodexConfig] = None
+        api_key: str | None = None,
+        config: CodexConfig | None = None
     ):
         """
         Initialize Codex API client.
@@ -146,7 +145,7 @@ class CodexClient:
 
             self.config = CodexConfig(api_key=api_key)
 
-        self._session: Optional[aiohttp.ClientSession] = None
+        self._session: aiohttp.ClientSession | None = None
         self.logger = logging.getLogger(f"{__name__}.CodexClient")
 
     async def __aenter__(self) -> CodexClient:
@@ -176,9 +175,9 @@ class CodexClient:
     async def _make_request(
         self,
         prompt: str,
-        system_prompt: Optional[str] = None,
-        temperature: Optional[float] = None,
-        max_tokens: Optional[int] = None
+        system_prompt: str | None = None,
+        temperature: float | None = None,
+        max_tokens: int | None = None
     ) -> CodexResponse:
         """
         Make a request to OpenAI Chat Completions API.
@@ -249,8 +248,8 @@ class CodexClient:
     async def complete(
         self,
         prompt: str,
-        temperature: Optional[float] = None,
-        max_tokens: Optional[int] = None
+        temperature: float | None = None,
+        max_tokens: int | None = None
     ) -> CodexResponse:
         """
         Generate code completion from prompt.
@@ -276,7 +275,7 @@ class CodexClient:
         self,
         code: str,
         error: str,
-        context: Optional[str] = None
+        context: str | None = None
     ) -> CodexResponse:
         """
         Fix code that has errors.

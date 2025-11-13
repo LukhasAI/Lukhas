@@ -73,7 +73,7 @@ class KeychainManager:
             )
 
             # Add new key to keychain
-            result = subprocess.run(
+            subprocess.run(
                 [
                     "security",
                     "add-generic-password",

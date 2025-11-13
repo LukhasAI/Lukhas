@@ -62,7 +62,7 @@ class EthicsService:
             context: Additional context for the assessment
 
         Returns:
-            Tuple[bool, str, Dict]: (is_permitted, reason, assessment_details)
+            tuple[bool, str, Dict]: (is_permitted, reason, assessment_details)
         """
         # Verify user access
         if not self.identity_client.verify_user_access(user_id, "LAMBDA_TIER_1"):
@@ -110,7 +110,7 @@ class EthicsService:
             data: Data or action to check for compliance
 
         Returns:
-            Tuple[bool, Dict]: (is_compliant, compliance_report)
+            tuple[bool, Dict]: (is_compliant, compliance_report)
         """
         # Verify user has sufficient tier for compliance checks
         if not self.identity_client.verify_user_access(user_id, "LAMBDA_TIER_2"):
