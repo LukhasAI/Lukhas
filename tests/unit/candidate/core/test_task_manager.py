@@ -14,7 +14,7 @@ for module_name in ["labs", "labs.core", "labs.core.task_manager"]:
 from labs.core.task_manager import (
     LukhλsTaskManager,
     TaskPriority,
-)
+)  # noqa: E402
 
 
 @pytest.mark.asyncio

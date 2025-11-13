@@ -20,7 +20,7 @@ dream_pkg.core = dream_core_pkg
 
 from consciousness.dream.core.dream_feedback_controller import (
     DreamFeedbackController,
-)
+)  # noqa: E402
 
 
 class StubSnapshotStore:

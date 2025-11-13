@@ -25,19 +25,19 @@ from typing import Any, Optional
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-import jsonschema
+import jsonschema  # noqa: E402
 from ledger.event_bus import (
     AsyncEventBus,
-)
+)  # noqa: E402
 from ledger.events import (
     ConsentGrantedEvent,
     ConsentType,
     validate_event_schema,
-)
+)  # noqa: E402
 from ledger.metrics import (
     get_metrics,
     reset_metrics,
-)
+)  # noqa: E402
 
 # Configure logging
 logging.basicConfig(

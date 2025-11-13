@@ -23,7 +23,7 @@ from core.colonies.oracle_colony import (
     OracleQuery,
     OracleResponse,
     get_oracle_colony,
-)
+)  # noqa: E402
 
 pytestmark = pytest.mark.asyncio
 

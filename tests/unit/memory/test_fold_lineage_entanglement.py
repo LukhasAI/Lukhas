@@ -29,7 +29,7 @@ if flt_spec.loader is not None:
 from memory.fold_lineage_tracker import (
     CausationType,
     FoldLineageTracker,
-)
+)  # noqa: E402
 
 
 # ΛTAG: fold_lineage

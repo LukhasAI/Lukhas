@@ -20,7 +20,7 @@ from core.identity.matriz_consciousness_identity_signals import (
     IdentitySignalType,
     ProcessedBatch,
     ValidationResult,
-)
+)  # noqa: E402
 
 
 # Mock ConsciousnessSignal for testing purposes

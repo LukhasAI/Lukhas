@@ -27,7 +27,7 @@ sys.path.insert(0, str(project_root))
 from observability.service_metrics import (
     MetricType,
     ServiceType,
-)
+)  # noqa: E402
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
