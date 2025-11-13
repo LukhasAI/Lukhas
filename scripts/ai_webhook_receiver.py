@@ -157,7 +157,7 @@ async def receive_ai_status(payload: WebhookPayload):
 
     except Exception as e:
         logger.error(f"❌ Failed to enqueue task: {e}", exc_info=True)
-        raise HTTPException(status_code=500, detail=f"Failed to enqueue task: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Failed to enqueue task: {e!s}") from e
 
 
 @app.get("/health")
@@ -206,7 +206,7 @@ async def queue_status():
         )
     except Exception as e:
         logger.error(f"Failed to get queue status: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 if __name__ == "__main__":  # pragma: no cover

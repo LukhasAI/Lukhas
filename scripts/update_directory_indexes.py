@@ -152,7 +152,7 @@ class DirectoryIndexUpdater:
             return True
 
         except Exception as e:
-            raise Exception(f"Failed to update {index_file}: {e!s}")
+            raise Exception(f"Failed to update {index_file}: {e!s}") from e
 
     def modernize_index_data(self, data: dict[str, Any], file_path: Path) -> dict[str, Any]:
         """Apply all modernization transformations to index data"""
