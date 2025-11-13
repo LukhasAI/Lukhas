@@ -52,7 +52,7 @@ def fix_ruf012_violations_enhanced():
         print(f"\n🔧 Processing: {file_path}")
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             lines = content.split('\n')
@@ -77,7 +77,7 @@ def fix_ruf012_violations_enhanced():
             # Ensure typing imports are present if we made changes
             if modified:
                 if ensure_typing_imports(lines):
-                    print(f"  ✅ Added necessary typing imports")
+                    print("  ✅ Added necessary typing imports")
 
                 # Write back the file
                 with open(file_path, 'w', encoding='utf-8') as f:
@@ -134,7 +134,7 @@ def fix_line_pattern(lines: List[str], line_idx: int) -> bool:
         lines[line_idx] = f"{indent}{var_name}: ClassVar[List] = {value_part}"
         return True
 
-    # Pattern 4: Set assignments  
+    # Pattern 4: Set assignments
     set_match = re.match(r'^(\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(set\(|{\w)', line)
     if set_match:
         indent, var_name = set_match.groups()[:2]

@@ -12,7 +12,7 @@ def add_skip_markers():
 
     problematic_files = [
         "tests/e2e/test_core_components_comprehensive.py",
-        "tests/qualia/test_integrity_microcheck.py", 
+        "tests/qualia/test_integrity_microcheck.py",
         "tests/unit/aka_qualia/test_metrics.py",
         "tests/unit/candidate/consciousness/dream/test_dream_feedback_controller.py",
         "tests/unit/consciousness/test_registry_activation_order.py",
@@ -35,7 +35,7 @@ pytestmark = pytest.mark.skip(reason="Syntax errors from bulk UP035 modernizatio
         print(f"Adding skip marker to: {file_path}")
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             # Check if already has a skip marker
@@ -45,11 +45,8 @@ pytestmark = pytest.mark.skip(reason="Syntax errors from bulk UP035 modernizatio
                 insert_index = 0
 
                 for i, line in enumerate(lines):
-                    if (line.strip().startswith(('import ', 'from ')) and 
-                        not line.strip().startswith(('#', '"""', "'''"))):
-                        insert_index = i
-                        break
-                    elif line.strip().startswith(('class ', 'def ')) and not line.strip().startswith('#'):
+                    if (line.strip().startswith(('import ', 'from ')) and
+                        not line.strip().startswith(('#', '"""', "'''"))) or (line.strip().startswith(('class ', 'def ')) and not line.strip().startswith('#')):
                         insert_index = i
                         break
 

@@ -138,7 +138,7 @@ class StrictAuthMiddleware(BaseHTTPMiddleware):
         except Exception as e:
             logger.warning(
                 f"Token validation error: {request.method} {request.url.path} "
-                f"from {request.client.host if request.client else 'unknown'} - {str(e)}",
+                f"from {request.client.host if request.client else 'unknown'} - {e!s}",
                 exc_info=True
             )
             return self._unauthorized_response(

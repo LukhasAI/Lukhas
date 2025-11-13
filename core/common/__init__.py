@@ -38,7 +38,6 @@ for _mod in (
 else:
     # Minimal fallback - load from shadowed core/common.py file
     import importlib.util
-    import sys
     from pathlib import Path
     _common_file = Path(__file__).parent.parent / "common.py"
     if _common_file.exists():

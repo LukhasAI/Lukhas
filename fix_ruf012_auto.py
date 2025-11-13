@@ -51,7 +51,7 @@ def fix_file(filepath: str, violation_lines: Set[int]):
     lines = content.split('\n')
 
     # Check if ClassVar import exists
-    has_classvar = 'from typing import ClassVar' in content or 'from typing import' in content and 'ClassVar' in content
+    has_classvar = 'from typing import ClassVar' in content or ('from typing import' in content and 'ClassVar' in content)
 
     modified = False
     new_lines = []

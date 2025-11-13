@@ -205,13 +205,12 @@ class TestGetStorageBackend:
         mock_redis = MagicMock()
         mock_redis.from_url.return_value = MagicMock()
 
-        with patch.dict("sys.modules", {"redis": mock_redis}):
-            with patch.dict(
-                os.environ,
-                {"STORAGE_BACKEND": "redis", "REDIS_URL": "redis://localhost:6379/0"},
-            ):
-                storage = get_storage_backend()
-                assert isinstance(storage, RedisStorage)
+        with patch.dict("sys.modules", {"redis": mock_redis}), patch.dict(
+            os.environ,
+            {"STORAGE_BACKEND": "redis", "REDIS_URL": "redis://localhost:6379/0"},
+        ):
+            storage = get_storage_backend()
+            assert isinstance(storage, RedisStorage)
 
     @pytest.mark.skip(reason="Complex mocking scenario - tested manually")
     def test_redis_fallback_when_package_missing(self):

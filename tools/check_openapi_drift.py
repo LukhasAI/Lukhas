@@ -476,7 +476,7 @@ class OpenAPIDriftDetector:
             if url:  # Skip None values
                 changes.append(DriftChange(
                     change_type="removed",
-                    path=f"servers",
+                    path="servers",
                     severity="informational",
                     old_value=url,
                     description=f"Server URL removed: {url}"
@@ -488,7 +488,7 @@ class OpenAPIDriftDetector:
             if url:  # Skip None values
                 changes.append(DriftChange(
                     change_type="added",
-                    path=f"servers",
+                    path="servers",
                     severity="informational",
                     new_value=url,
                     description=f"New server URL added: {url}"

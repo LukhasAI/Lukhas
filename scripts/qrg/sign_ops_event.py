@@ -265,7 +265,7 @@ def load_signature(signature_path: str) -> dict:
     if not signature_file.exists():
         raise FileNotFoundError(f"Signature file not found: {signature_path}")
 
-    with open(signature_file, "r") as f:
+    with open(signature_file) as f:
         return json.load(f)
 
 
@@ -339,7 +339,7 @@ Examples:
             else:
                 print(json.dumps(signature_data, indent=2, sort_keys=True))
 
-            print(f"✅ Release notes signed successfully", file=sys.stderr)
+            print("✅ Release notes signed successfully", file=sys.stderr)
 
         elif args.command == "sign-policy":
             # Sign policy change
@@ -359,7 +359,7 @@ Examples:
             else:
                 print(json.dumps(signature_data, indent=2, sort_keys=True))
 
-            print(f"✅ Policy change signed successfully", file=sys.stderr)
+            print("✅ Policy change signed successfully", file=sys.stderr)
 
         elif args.command == "verify":
             # Verify signature

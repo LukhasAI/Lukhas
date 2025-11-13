@@ -26,7 +26,7 @@ def run_ruff_json():
 def fix_expected_comma_errors(file_path):
     """Fix 'Expected `,`, found name' errors by adding missing commas in imports"""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
 
         original_content = content
@@ -50,7 +50,7 @@ def fix_expected_comma_errors(file_path):
             if line.strip().startswith(('from ', 'import ')) and 'import' in line:
                 in_import = True
                 # Check if this line should have a comma but doesn't
-                if (not line.rstrip().endswith(',') and 
+                if (not line.rstrip().endswith(',') and
                     not line.rstrip().endswith(')') and
                     i + 1 < len(lines) and
                     lines[i + 1].strip() and
@@ -58,7 +58,7 @@ def fix_expected_comma_errors(file_path):
 
                     # Check if next line looks like a continuation
                     next_line = lines[i + 1].strip()
-                    if (next_line and 
+                    if (next_line and
                         not next_line.startswith(('def ', 'class ', 'if ', 'for ', 'while ', 'try:', 'except')) and
                         re.match(r'^[A-Za-z_][A-Za-z0-9_]*', next_line)):
                         line = line.rstrip() + ','
@@ -69,7 +69,7 @@ def fix_expected_comma_errors(file_path):
                     in_import = False
                 elif not line.rstrip().endswith(',') and not line.rstrip().endswith(')'):
                     # This might need a comma
-                    if (i + 1 < len(lines) and 
+                    if (i + 1 < len(lines) and
                         lines[i + 1].strip() and
                         re.match(r'^[A-Za-z_][A-Za-z0-9_]*', lines[i + 1].strip())):
                         line = line.rstrip() + ','
@@ -93,7 +93,7 @@ def fix_expected_comma_errors(file_path):
 def fix_colon_comma_errors(file_path):
     """Fix 'Expected `,`, found `:`' and 'Expected `:`, found `,`' errors"""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
 
         original_content = content
@@ -128,7 +128,7 @@ def fix_colon_comma_errors(file_path):
 def fix_indentation_errors(file_path):
     """Fix indentation and try/except block issues"""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             lines = f.readlines()
 
         original_lines = lines[:]

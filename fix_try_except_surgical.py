@@ -8,7 +8,7 @@ def fix_try_except_blocks():
     """Fix malformed try/except blocks with wrong indentation"""
     file_path = '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/e2e/test_core_components_comprehensive.py'
 
-    with open(file_path, 'r') as f:
+    with open(file_path) as f:
         content = f.read()
 
     # Fix the specific pattern: try:\n<code>\nexcept Exception:\n    pass
@@ -23,8 +23,8 @@ def fix_try_except_blocks():
         line = lines[i]
 
         # Look for malformed try/except pattern
-        if ('try:' in line and 
-            i + 1 < len(lines) and 
+        if ('try:' in line and
+            i + 1 < len(lines) and
             'from ' in lines[i + 1] and
             i + 2 < len(lines) and
             lines[i + 2].strip() == 'except Exception:'):
@@ -56,8 +56,8 @@ def fix_try_except_blocks():
                 i += 1
 
         # Handle orphaned except blocks
-        elif (line.strip() == 'except Exception:' and 
-              i > 0 and 
+        elif (line.strip() == 'except Exception:' and
+              i > 0 and
               not lines[i-1].strip().endswith(':')):
             # This except is orphaned, skip it
             i += 1

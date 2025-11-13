@@ -170,7 +170,7 @@ def generate_fix_strategy(categories: Dict[str, List[str]], file_violations: Dic
             print(f"   Sys.path modifications: {analysis.get('sys_path_modifications', False)}")
 
             if analysis.get('first_violation_context'):
-                print(f"   Context around first violation:")
+                print("   Context around first violation:")
                 for line in analysis['first_violation_context'].split('\n'):
                     print(f"      {line}")
 
@@ -182,7 +182,7 @@ def generate_fix_strategy(categories: Dict[str, List[str]], file_violations: Dic
     print("   Approach: Move imports after docstring/comments to top")
 
     print("\n2. PHASE 2 (MODERATE): Fix multi-import reordering")
-    print(f"   Target: {len(categories['moderate'])} files") 
+    print(f"   Target: {len(categories['moderate'])} files")
     print("   Approach: Careful import reordering, validate functionality")
 
     print("\n3. PHASE 3 (COMPLEX): Handle conditional/dynamic imports")

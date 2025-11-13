@@ -289,7 +289,7 @@ class TestUsagePatterns:
             module = importlib.import_module('lukhas.adapters.openai.api')
 
             # Get the factory function
-            factory = getattr(module, 'get_app')
+            factory = module.get_app
 
             # Call it (uvicorn would do this)
             app = factory()

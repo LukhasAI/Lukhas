@@ -19,7 +19,7 @@ def fix_dictionary_commas():
         "tools/fix_f821_mass_elimination.py",
         "tools/module_schema_validator.py",
         "tools/scripts/final_linting_fix.py",
-        "tools/scripts/fix_real_issues.py", 
+        "tools/scripts/fix_real_issues.py",
         "tools/t4_master_fix.py"
     ]
 
@@ -30,7 +30,7 @@ def fix_dictionary_commas():
         print(f"Fixing dictionary commas in: {file_path}")
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             original_content = content
@@ -84,7 +84,7 @@ def fix_malformed_imports():
     # Files with import issues
     test_files = [
         "tests/e2e/test_core_components_comprehensive.py",
-        "tests/qualia/test_integrity_microcheck.py", 
+        "tests/qualia/test_integrity_microcheck.py",
         "tests/unit/aka_qualia/test_metrics.py",
         "tests/unit/candidate/consciousness/dream/test_dream_feedback_controller.py",
         "tests/unit/consciousness/test_registry_activation_order.py",
@@ -99,7 +99,7 @@ def fix_malformed_imports():
         print(f"Fixing imports in: {file_path}")
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             original_content = content

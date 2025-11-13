@@ -211,7 +211,7 @@ if __name__ == "__main__":
         emotion=emotion,
         binding_strength=0.85
     )
-    print(f"Double Strand:")
+    print("Double Strand:")
     print(f"  Combined hash: {double_strand.hash()[:16]}...")
     print(f"  Binding strength: {double_strand.binding_strength}")
     print(f"  Strongly bound: {double_strand.is_strongly_bound()}")
@@ -219,6 +219,6 @@ if __name__ == "__main__":
 
     # Get complements
     complements = double_strand.complement()
-    print(f"Complements:")
+    print("Complements:")
     for key, value in complements.items():
         print(f"  {key}: {value}")

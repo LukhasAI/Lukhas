@@ -11,7 +11,7 @@ def fix_malformed_import_syntax(file_path):
     """Fix malformed import statements that cause RUF102 violations"""
 
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
 
         original_content = content
@@ -51,8 +51,8 @@ def fix_malformed_import_syntax(file_path):
             line = lines[i]
 
             # Pattern: try: followed by import followed by except in next few lines
-            if (line.strip() == 'try:' and 
-                i + 1 < len(lines) and 
+            if (line.strip() == 'try:' and
+                i + 1 < len(lines) and
                 'import' in lines[i + 1]):
 
                 # Look ahead for except
@@ -100,18 +100,16 @@ def comment_out_broken_syntax(file_path):
     """Comment out lines that cause syntax errors as a last resort"""
 
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             lines = f.readlines()
 
         fixed_lines = []
         for i, line in enumerate(lines):
             # Comment out obviously broken syntax
-            if (re.search(r'except Exception:\s*$', line) and 
-                i > 0 and 
-                not lines[i-1].strip().endswith(':')):
-                fixed_lines.append('# ' + line.lstrip())
-            elif (line.strip() == 'pass' and 
-                  i > 0 and 
+            if (re.search(r'except Exception:\s*$', line) and
+                i > 0 and
+                not lines[i-1].strip().endswith(':')) or (line.strip() == 'pass' and
+                  i > 0 and
                   lines[i-1].startswith('# except')):
                 fixed_lines.append('# ' + line.lstrip())
             elif re.search(r'from .* import \(\s*$', line):
@@ -137,7 +135,7 @@ def main():
 
     problematic_files = [
         "tests/e2e/test_core_components_comprehensive.py",
-        "tests/qualia/test_integrity_microcheck.py", 
+        "tests/qualia/test_integrity_microcheck.py",
         "tests/unit/aka_qualia/test_metrics.py",
         "tests/unit/candidate/consciousness/dream/test_dream_feedback_controller.py",
         "tests/unit/consciousness/test_registry_activation_order.py",
@@ -153,13 +151,13 @@ def main():
 
         # First try surgical fixes
         if fix_malformed_import_syntax(file_path):
-            print(f"  ✅ Applied surgical fixes")
+            print("  ✅ Applied surgical fixes")
 
         # Then comment out remaining broken syntax
         if comment_out_broken_syntax(file_path):
-            print(f"  ✅ Commented out broken syntax")
+            print("  ✅ Commented out broken syntax")
 
-    print(f"\n🎯 Checking final results...")
+    print("\n🎯 Checking final results...")
     import subprocess
     result = subprocess.run(
         ['python3', '-m', 'ruff', 'check', '--select', 'RUF102', '--no-fix', '.'],

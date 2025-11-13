@@ -24,10 +24,10 @@ class TestSLSAProvenance:
     def load_provenance(path: str = "reports/provenance.json") -> Dict[str, Any]:
         """Load provenance JSON file"""
         provenance_path = Path(path)
-        
+
         if not provenance_path.exists():
             raise FileNotFoundError(f"Provenance file not found: {path}")
-        
+
         with open(provenance_path) as f:
             return json.load(f)
 
@@ -78,7 +78,7 @@ class TestSLSAProvenance:
         assert "configSource" in invocation
         assert "uri" in invocation["configSource"]
         assert "digest" in invocation["configSource"]
-        
+
         print(f"✅ Config source: {invocation['configSource']['uri']}")
 
     def test_metadata_timestamps(self):

@@ -485,7 +485,7 @@ def test_save_and_load_signature(temp_key_file):
 
     try:
         # Load from file
-        with open(sig_path, "r") as f:
+        with open(sig_path) as f:
             loaded = json.load(f)
 
         # Verify loaded signature

@@ -201,7 +201,7 @@ def process_template(template_path, output_path, config):
     print(f"Processing {template_path.name} for {config['domain']}...")
 
     # Read template
-    with open(template_path, 'r') as f:
+    with open(template_path) as f:
         content = f.read()
 
     # Process conditionals

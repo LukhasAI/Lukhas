@@ -65,7 +65,7 @@ class TestFlagEvaluationContext:
 
         # Should be SHA-256 hex string
         assert len(user_hash) == 64
-        assert user_hash == hashlib.sha256("user123".encode()).hexdigest()
+        assert user_hash == hashlib.sha256(b"user123").hexdigest()
 
     def test_get_user_hash_empty(self):
         """Test getting user hash with no user_id."""

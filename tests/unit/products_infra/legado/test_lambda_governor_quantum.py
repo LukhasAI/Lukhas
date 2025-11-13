@@ -1,5 +1,4 @@
-# ruff: noqa: B008
-# ruff: noqa: F821  # Experimental/test code with undefined names
+# Experimental/test code with undefined names
 import sys
 from datetime import datetime, timezone
 from pathlib import Path

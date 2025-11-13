@@ -132,7 +132,7 @@ def fix_specific_violation(lines: List[str], line_num: int) -> bool:
 def process_file(file_path: str, line_numbers: List[int]) -> int:
     """Process a single file to fix RUF012 violations"""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             lines = f.readlines()
 
         # Remove trailing newlines for processing
@@ -181,7 +181,7 @@ def main():
             total_fixes += fixes
             print(f"  ✅ Applied {fixes} ClassVar fixes")
         else:
-            print(f"  ⚠️  No fixes applied (may need manual review)")
+            print("  ⚠️  No fixes applied (may need manual review)")
 
     print(f"\n🎯 Total fixes applied: {total_fixes}")
 

@@ -5,7 +5,6 @@ import asyncio
 from typing import Dict, List
 
 import pytest
-
 from core.endocrine.hormone_system import (
     EndocrineSystem,
     HormoneType,

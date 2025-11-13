@@ -12,7 +12,7 @@ for filepath in glob.glob("**/*.py", recursive=True):
         continue
 
     try:
-        with open(filepath, 'r') as f:
+        with open(filepath) as f:
             content = f.read()
 
         if "ClassVar[" in content:

@@ -29,7 +29,7 @@ def regret_demo():
 
         print(f"Dream {i}: {dream['content']}")
         print(f"  Themes: {', '.join(dream['themes'])}")
-        print(f"  Regret Signature:")
+        print("  Regret Signature:")
         print(f"    Valence: {sig['valence']:.2f}")
         print(f"    Arousal: {sig['arousal']:.2f}")
         print(f"    Cause: {sig['cause_tag']}")

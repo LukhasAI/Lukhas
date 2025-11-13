@@ -1,5 +1,4 @@
-# ruff: noqa: B008
-# ruff: noqa: F821  # Experimental/test code with undefined names
+# Experimental/test code with undefined names
 from typing import List, Optional
 
 from lukhas_website.lukhas.consciousness.registry import (

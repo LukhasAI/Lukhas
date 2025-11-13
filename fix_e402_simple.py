@@ -17,7 +17,7 @@ def get_simple_e402_files() -> List[str]:
     # From our analysis, these are the simple files (1-3 violations each)
     simple_files = [
         "fix_deprecated_typing.py",
-        "fix_syntax_errors.py", 
+        "fix_syntax_errors.py",
         "fix_tests_typing.py",
         "governance/guardian_policies.py",
         "governance/guardian_reflector.py",
@@ -240,7 +240,7 @@ def main():
         )
 
         if 'E402' not in result.stdout:
-            print(f"   ℹ️  No E402 violations found, skipping")
+            print("   ℹ️  No E402 violations found, skipping")
             continue
 
         # Fix the file

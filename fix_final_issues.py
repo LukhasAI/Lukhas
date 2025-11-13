@@ -15,7 +15,7 @@ def fix_syntax_errors():
             "replacement": r'    "Optional": "from typing import Optional",\n    "List": "from typing import List",',
         },
         {
-            "file": "tools/ci/f821_scan.py", 
+            "file": "tools/ci/f821_scan.py",
             "pattern": r'    "Union": "from typing import Union"\n    "Tuple": "from typing import",',
             "replacement": r'    "Union": "from typing import Union",\n    "Tuple": "from typing import Tuple",',
         },
@@ -132,7 +132,7 @@ def fix_ruf012_in_file(file_path: str, line_num: int):
                         if not has_classvar_import:
                             # Find first typing import to add ClassVar
                             for i, line in enumerate(lines):
-                                if "from typing import" in line and not "ClassVar" in line:
+                                if "from typing import" in line and "ClassVar" not in line:
                                     if line.strip().endswith(','):
                                         lines[i] = line.rstrip().rstrip(',') + ', ClassVar'
                                     else:

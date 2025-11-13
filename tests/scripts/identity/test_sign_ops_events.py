@@ -112,7 +112,7 @@ class TestSignOpsEvents(unittest.TestCase):
 
         # Verify that the output file was written correctly
         self.assertTrue(os.path.exists(self.output_file_path))
-        with open(self.output_file_path, "r", encoding="utf-8") as f:
+        with open(self.output_file_path, encoding="utf-8") as f:
             written_data = json.load(f)
         self.assertEqual(written_data, mock_artifact)
 

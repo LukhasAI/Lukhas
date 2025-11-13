@@ -4,8 +4,7 @@ Validates multi-jurisdiction privacy statement generation for GDPR, CCPA,
 PIPEDA, and LGPD compliance.
 """
 
-# ruff: noqa: B008
-# ruff: noqa: F821  # Experimental/test code with undefined names
+# Experimental/test code with undefined names
 from datetime import datetime
 from typing import ClassVar, List
 

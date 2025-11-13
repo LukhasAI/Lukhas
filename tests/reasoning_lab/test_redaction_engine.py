@@ -137,7 +137,7 @@ class TestRedactionEngine:
 
         engine.export_audit_log(filepath)
 
-        with open(filepath, 'r') as f:
+        with open(filepath) as f:
             data = json.load(f)
 
         assert len(data) > 0

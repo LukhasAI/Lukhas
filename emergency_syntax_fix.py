@@ -51,7 +51,7 @@ for file in syntax_error_files:
 def fix_file_syntax(file_path: str) -> bool:
     """Fix syntax errors in a specific file"""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             lines = f.readlines()
 
         fixed_lines = []

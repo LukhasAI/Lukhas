@@ -42,13 +42,13 @@ def detect_mutable_type(line: str) -> str:
     line_clean = line.strip()
 
     # Dict patterns
-    if (re.search(r':\s*\{', line_clean) or 
+    if (re.search(r':\s*\{', line_clean) or
         re.search(r'=\s*\{', line_clean) or
         re.search(r'=\s*dict\(', line_clean)):
         return 'Dict'
 
     # List patterns
-    if (re.search(r':\s*\[', line_clean) or 
+    if (re.search(r':\s*\[', line_clean) or
         re.search(r'=\s*\[', line_clean) or
         re.search(r'=\s*list\(', line_clean)):
         return 'List'
@@ -64,7 +64,7 @@ def detect_mutable_type(line: str) -> str:
 def fix_classvar_annotation(file_path: str, line_num: int) -> bool:
     """Fix a specific RUF012 violation by adding ClassVar annotation"""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             lines = f.readlines()
 
         if line_num > len(lines):
@@ -221,10 +221,10 @@ def main():
             fixed_violations += file_fixed_count
             print(f"  ✅ Fixed {file_fixed_count} violations")
         else:
-            print(f"  ⚠️  No changes needed")
+            print("  ⚠️  No changes needed")
 
     print()
-    print(f"🎯 Summary:")
+    print("🎯 Summary:")
     print(f"  📁 Files processed: {fixed_files}")
     print(f"  🔧 Violations fixed: {fixed_violations}")
 

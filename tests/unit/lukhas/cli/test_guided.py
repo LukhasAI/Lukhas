@@ -272,9 +272,8 @@ class TestTour:
 
     def test_tour_step_count(self, cli):
         """Test that tour has expected number of steps."""
-        with patch.object(cli, 'print'):
-            with patch('builtins.input', return_value=""):
-                cli.tour()
+        with patch.object(cli, 'print'), patch('builtins.input', return_value=""):
+            cli.tour()
         # Tour should have 5 steps (based on implementation)
 
     def test_tour_with_rich(self):
@@ -364,9 +363,8 @@ class TestMainFunction:
 
     def test_main_invalid_command_shows_help(self):
         """Test main with invalid command shows help."""
-        with patch('sys.argv', ['guided.py', 'invalid']):
-            with pytest.raises(SystemExit):
-                main()
+        with patch('sys.argv', ['guided.py', 'invalid']), pytest.raises(SystemExit):
+            main()
 
 
 class TestEdgeCases:
@@ -429,10 +427,9 @@ class TestEdgeCases:
 
     def test_multiple_tour_runs(self, cli):
         """Test that tour can be run multiple times."""
-        with patch('builtins.input', return_value=""):
-            with patch.object(cli, 'print'):
-                cli.tour()
-                cli.tour()
+        with patch('builtins.input', return_value=""), patch.object(cli, 'print'):
+            cli.tour()
+            cli.tour()
         # Should not raise errors
 
 
