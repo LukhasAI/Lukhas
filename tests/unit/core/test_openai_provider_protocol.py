@@ -28,11 +28,11 @@ class MockOpenAIProvider:
         model: str,
         messages: List[ChatMessage],
         temperature: float = 0.7,
-        max_tokens: Optional[int] = None,
+        max_tokens: int | None = None,
         top_p: float = 1.0,
         frequency_penalty: float = 0.0,
         presence_penalty: float = 0.0,
-        stop: Optional[Union[str, List[str]]] = None,
+        stop: Union[str, List[str]] | None = None,
         stream: bool = False,
         **kwargs: Any,
     ) -> ChatCompletionResponse:

@@ -93,7 +93,7 @@ def is_emergency_killswitch_active() -> bool:
     return killswitch_exists
 
 
-def read_killswitch_reason() -> Optional[str]:
+def read_killswitch_reason() -> str | None:
     """
     Read the reason for kill-switch activation from the file contents.
 

@@ -361,7 +361,7 @@ class QuantumDecisionEngine:
     def create_superposition(
         self,
         strategies: List[DecisionStrategy],
-        initial_weights: Optional[List[float]] = None,
+        initial_weights: List[float] | None = None,
     ) -> QuantumDecisionState:
         """Create quantum decision state with strategies in superposition.
 
@@ -882,7 +882,7 @@ class DecisionMakingBridge:
         strategies: List[DecisionStrategy],
         context: Dict[str, Any],
         apply_interference: bool = True,
-        entangled_with: Optional[List[str]] = None,
+        entangled_with: List[str] | None = None,
     ) -> Tuple[DecisionStrategy, float, Dict[str, Any]]:
         """Evaluate decision using quantum superposition of multiple strategies.
 

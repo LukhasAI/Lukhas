@@ -249,7 +249,7 @@ class EthicsSwarmColony:
         # Initialize adaptive threshold manager
         self._enable_adaptive = enable_adaptive_threshold
         if enable_adaptive_threshold:
-            self._threshold_manager: Optional[AdaptiveDriftThresholdManager] = (
+            self._threshold_manager: AdaptiveDriftThresholdManager | None = (
                 AdaptiveDriftThresholdManager(
                     base_threshold=drift_threshold, feedback_window=guardian_feedback_window
                 )
@@ -350,7 +350,7 @@ class EthicsSwarmColony:
         self._signals.clear()
 
     def update_guardian_feedback(
-        self, score: float, source: str = "guardian", context: Optional[dict[str, Any]] = None
+        self, score: float, source: str = "guardian", context: dict[str, Any] | None = None
     ) -> None:
         """Update drift threshold based on Guardian system feedback.
 

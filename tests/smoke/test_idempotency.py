@@ -27,7 +27,7 @@ def client() -> TestClient:
     return TestClient(app)
 
 
-def _auth_headers(extra: Optional[Dict[str, str]] = None) -> Dict[str, str]:
+def _auth_headers(extra: Dict[str, str] | None = None) -> Dict[str, str]:
     headers = GOLDEN_AUTH_HEADERS
     if extra:
         headers.update(extra)

@@ -43,10 +43,10 @@ class ConsentRecord:
         scopes: List[str],
         audience: str,
         status: str = "active",
-        issued_at: Optional[datetime] = None,
-        expires_at: Optional[datetime] = None,
-        record_id: Optional[str] = None,
-        context: Optional[Dict[str, Any]] = None,
+        issued_at: datetime | None = None,
+        expires_at: datetime | None = None,
+        record_id: str | None = None,
+        context: Dict[str, Any] | None = None,
     ):
         """
         Initializes a new ConsentRecord.
@@ -126,7 +126,7 @@ class ConsentLedger:
         scopes: List[str],
         audience: str,
         ttl_minutes: int = 60,
-        context: Optional[Dict[str, Any]] = None,
+        context: Dict[str, Any] | None = None,
     ) -> ConsentRecord:
         """
         Grants consent and creates a new consent record.

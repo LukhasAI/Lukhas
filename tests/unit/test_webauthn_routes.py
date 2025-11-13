@@ -14,10 +14,10 @@ from fastapi.testclient import TestClient
 
 
 @pytest.fixture(name="load_app")
-def fixture_load_app(monkeypatch: pytest.MonkeyPatch) -> Callable[[Optional[str]], Any]:
+def fixture_load_app(monkeypatch: pytest.MonkeyPatch) -> Callable[[str | None], Any]:
     """Reload ``serve.main`` with the provided WebAuthn environment toggle."""
 
-    def _loader(flag_value: Optional[str]) -> Any:
+    def _loader(flag_value: str | None) -> Any:
         if flag_value is None:
             monkeypatch.delenv("LUKHAS_WEBAUTHN", raising=False)
         else:
@@ -33,7 +33,7 @@ def fixture_load_app(monkeypatch: pytest.MonkeyPatch) -> Callable[[Optional[str]
     return _loader
 
 
-def test_webauthn_roundtrip(load_app: Callable[[Optional[str]], Any]) -> None:
+def test_webauthn_roundtrip(load_app: Callable[[str | None], Any]) -> None:
     """Happy-path challenge creation and verification."""
 
     app = load_app("1")
@@ -66,7 +66,7 @@ def test_webauthn_roundtrip(load_app: Callable[[Optional[str]], Any]) -> None:
         }
 
 
-def test_webauthn_routes_disabled(load_app: Callable[[Optional[str]], Any]) -> None:
+def test_webauthn_routes_disabled(load_app: Callable[[str | None], Any]) -> None:
     """Routes should be unavailable when the feature flag is not enabled."""
 
     app = load_app(None)
