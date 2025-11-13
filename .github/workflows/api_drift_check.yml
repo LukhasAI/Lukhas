@@ -11,6 +11,11 @@ on:
       - main
       - develop
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   check-api-drift:
     runs-on: ubuntu-latest
