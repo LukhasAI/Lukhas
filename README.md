@@ -20,41 +20,45 @@ LUKHAS AI is an experimental cognitive platform exploring consciousness-inspired
 
 LUKHAS is a solo founder project, with all code developed by the founder in collaboration with AI assistants (primarily ChatGPT and Claude Code). We welcome collaboration opportunities with professionals, universities, and researchers. Contact licensing@lukhas.ai to discuss partnerships.
 
-## 🚨 MATRIZ Migration Update
+## 🚨 Current Development Status
 
-**Team Announcement (Ready to Share):**
+**Active Work (November 2025):**
 
-We've completed MATRIZ case standardization for all production code and integration tests!
+The project is under active development addressing core infrastructure issues:
 
-**Completed:**
-✅ serve/ (2 imports)
-✅ core/ (2 imports)  
-✅ tests/integration/ (20 imports)
+**Recent Progress:**
+- Fixed consciousness and aka_qualia imports across 30+ test files (PR #1549)
+- Resolved awareness engine test API issues (PR #1546)
+- Ongoing test suite stabilization (PRs #1545-1549)
 
-**Status:** 3 PRs in CI validation
+**Known Issues Being Addressed:**
+- MATRIZ/matriz case sensitivity conflict (both directories exist)
+- Test collection errors in multiple modules
+- Import path inconsistencies between lanes
+- CI pipeline validation failures
 
-**Next:** tests/unit + tests/smoke (23 imports) - will migrate after current PRs pass CI
+**If Contributing:** Please coordinate before making changes as the codebase is undergoing significant refactoring.
 
-**CI Mode:** Warning (logs occurrences, doesn't block)
-**Timeline:** Flip to blocking mode after critical tests are migrated and stable (~48 hours)
-
-**Action Required:** Avoid large MATRIZ-related changes until migrations merge. Use uppercase `from MATRIZ import X` for new code.
-
-Questions? See MATRIZ_MIGRATION_GUIDE.md
-
-## ⚡ 30-Second Quickstart
+## ⚡ Quick Start (Experimental)
 
 ```bash
-# Install and run LUKHAS in 30 seconds
-pip install -e . && pytest tests/smoke/
+# Install dependencies (may have errors)
+pip install -e .
+
+# Try running smoke tests (expect failures)
+pytest tests/smoke/ -v  # Many will fail due to import errors
+
+# Attempt to start API (may not work properly)
 python3 -m uvicorn lukhas.adapters.openai.api:get_app --factory --host 0.0.0.0 --port 8000 &
 
-# Test the API
+# Test if API responds (functionality limited)
 curl http://localhost:8000/v1/responses \
   -H "Authorization: Bearer sk-lukhas-test" \
   -H "Content-Type: application/json" \
-  -d '{"prompt":"Explain the Constellation Framework","max_tokens":150}'
+  -d '{"prompt":"Test","max_tokens":50}'
 ```
+
+**⚠️ Note**: Full functionality is not available. This is a research project under development.
 
 📖 **[Full Installation Guide](#-installation)** | 🎯 **[API Documentation](docs/api/)** | 🧪 **[SDK Examples](examples/sdk/)**
 
@@ -66,38 +70,54 @@ curl http://localhost:8000/v1/responses \
 
 ### ⚠️ Known Limitations & Challenges
 
-**Current Issues:**
-- 169 test collection errors requiring systematic resolution
-- MATRIZ case-sensitivity issues (MATRIZ/ vs matriz/)
-- Import boundary violations between development lanes
-- Performance targets not yet achieved (<250ms p95 latency target)
-- Documentation gaps in several modules
-- Memory cascade prevention at 96.3% (target: 99.7%)
+**Critical Issues:**
+- Test collection errors across multiple modules (actively fixing via PRs #1545-1549)
+- MATRIZ/matriz directory case conflict causing import failures
+- Both uppercase (28) and lowercase (600+) MATRIZ references throughout codebase
+- Import boundary violations between candidate/core/lukhas lanes
+- CI/CD pipeline failures blocking PR merges
 
-**Work in Progress:**
-- Constellation Framework implementation (~70% complete)
-- Guardian ethical system (dry-run mode, not enforced)
-- Multi-agent coordination (experimental)
-- Enterprise deployment tools (not production-ready)
+**Technical Debt:**
+- Performance targets not achieved (current: unknown, target: <250ms p95)
+- Memory cascade prevention at 96.3% (target: 99.7%)
+- Documentation incomplete for majority of modules
+- No production deployment capabilities
+- Security vulnerabilities pending fixes
+
+**Experimental/Incomplete Features:**
+- Constellation Framework (~70% implemented)
+- Guardian ethical system (dry-run only, not enforced)
+- Multi-agent coordination (prototype stage)
+- MCP servers (untested beyond basic functionality)
+- OpenAI API compatibility (partial implementation)
 
 ### ✅ What's Actually Working
 
-Recent achievements (November 2025):
-- ✅ **Security Hardening**: Resolved Dependabot alert #84 (HIGH - @actions/download-artifact CVE)
-- ✅ **Test Infrastructure Expansion**: 964 total tests (422 unit, 238 integration, 85 orchestration, 77 consciousness, 72 e2e)
-- ✅ **Performance Testing Suite**: Comprehensive MATRIZ performance validation framework
-- ✅ **Consciousness API**: Body and Depends implementation with FastAPI integration
-- ✅ **MATRIZ Test Coverage**: Comprehensive orchestrator and cognitive pipeline integration tests
-- ✅ **Context File System**: 1,757 context files (165 claude.me + 1,592 lukhas_context.md) updated to Constellation Framework
-- ✅ **Ruff Lint Progress**: 43% reduction in lint issues across codebase
-- ✅ **DX Improvements**: Enhanced developer experience with better tooling and documentation
-- ✅ **Repository Scale**: 21,497 Python files actively managed with lane-based architecture
+**Basic Functionality:**
+- Core directory structure and lane organization
+- Some smoke tests passing (partial)
+- Basic API endpoints responding
+- Documentation structure in place
+- Git workflow and CI/CD pipeline (with failures)
 
-**Next Steps**:
-1. Update module_index.json with new identity/consciousness modules
-2. Regenerate lukhas_context.md files across codebase
-3. Address 169 test collection errors systematically
-4. Complete MATRIZ case-sensitivity resolution (MATRIZ/ vs matriz/)
+**Recent Improvements (November 2025):**
+- Fixed some consciousness module imports (PR #1549)
+- Resolved some awareness engine test issues (PR #1546)
+- Added proper licensing and security documentation
+- Created realistic roadmap and project transparency
+
+**Infrastructure:**
+- 964 test files exist (many not collecting properly)
+- Basic MATRIZ directory structure (with case conflicts)
+- Context files present (usage unclear)
+- MCP server configurations (functionality limited)
+
+**Immediate Priorities**:
+1. Fix MATRIZ/matriz case sensitivity conflict
+2. Resolve remaining test collection errors
+3. Stabilize CI/CD pipeline
+4. Document what actually works vs aspirational features
+5. Clean up non-functional code paths
 
 ## 🧠 What is LUKHAS?
 
@@ -130,18 +150,25 @@ Development Lane (candidate/) → Integration Lane (core/) → Production Lane (
 - **Integration Lane**: Components under testing and validation
 - **Production Lane**: More stable components (still experimental overall)
 
-### MATRIZ Cognitive Engine
+### MATRIZ Cognitive Engine (Under Development)
 
-The **MATRIZ** (Memory-Attention-Thought-Action-Decision-Awareness) engine implements the core cognitive processing pipeline:
+The **MATRIZ** (Memory-Attention-Thought-Action-Decision-Awareness) engine is intended to implement a cognitive processing pipeline:
 
-1. **Memory**: Fold-based memory with statistical validation (0/100 cascades observed, 95% CI ≥ 96.3% Wilson lower bound)
-2. **Attention**: Focus mechanisms and pattern recognition
-3. **Thought**: Symbolic reasoning and inference
-4. **Action**: Decision execution and external interface
-5. **Decision**: Ethical constraint checking and approval
-6. **Awareness**: Self-reflection and consciousness evolution
+**Current State:**
+- ⚠️ Case sensitivity conflict: Both `/MATRIZ` and `/matriz` directories exist
+- ⚠️ Mixed import conventions: 28 uppercase vs 600+ lowercase references
+- ⚠️ Test coverage incomplete due to collection errors
+- ⚠️ Performance metrics not measured (no benchmarks running)
 
-**Performance Targets** (aspirational, not yet achieved): <250ms p95 latency, <100MB memory usage, 50+ ops/sec throughput
+**Intended Architecture** (not fully implemented):
+1. **Memory**: Fold-based memory system (partially implemented)
+2. **Attention**: Focus mechanisms (design phase)
+3. **Thought**: Symbolic reasoning (prototype exists)
+4. **Action**: Decision execution (basic structure only)
+5. **Decision**: Ethical constraints (not integrated)
+6. **Awareness**: Self-reflection (conceptual only)
+
+**Performance Targets** (aspirational): <250ms p95 latency, <100MB memory, 50+ ops/sec
 
 ## MATRIZ Lanes
 
@@ -149,12 +176,12 @@ The **MATRIZ** (Memory-Attention-Thought-Action-Decision-Awareness) engine imple
 - **integration** → stable APIs, enforced SLOs, shadow traffic allowed
 - **production** → canary → ramp → 100%, rollback ≤30s
 
-### Promotion Gates (must all pass)
-1) E2E perf budgets (tick<100ms, reflect<10ms, decide<50ms, E2E<250ms)
-2) Schema drift guard (no breaking changes)
-3) Chaos fail-closed (guardian + kill-switch)
-4) Telemetry contracts (promtool + label policy)
-5) Import hygiene (lane boundaries)
+### Promotion Gates (aspirational, not enforced)
+1) Performance budgets - not measured
+2) Schema validation - not implemented
+3) Safety systems - not operational
+4) Telemetry - configured but not active
+5) Import hygiene - currently violated
 
 ### MCP Status
 `mcp-servers/lukhas-devtools-mcp` • **11 tools** • catalog SHA: ![catalog-sha](https://img.shields.io/badge/sha-dynamic-blue?logo=json)
@@ -173,11 +200,11 @@ The **MATRIZ** (Memory-Attention-Thought-Action-Decision-Awareness) engine imple
 - Python 3.9-3.11 compatible
 
 **Quality Metrics**:
-- ✅ 100% smoke test pass rate (15/15 tests)
-- ✅ 97% lint health in production lanes
-- ✅ 928 validated manifests with capability inference
-- ✅ Lane boundary enforcement (import-linter)
-- ✅ Pre-commit hooks for T4 quality standards
+- ⚠️ Smoke tests partially passing (import errors)
+- ⚠️ Lint issues throughout codebase
+- ⚠️ Manifest system present (validation status unclear)
+- ❌ Lane boundaries currently violated
+- ⚠️ Pre-commit hooks configured (enforcement varies)
 
 **Security Posture**: See [docs/SECURITY_UPDATE_2025-11-10.md](docs/SECURITY_UPDATE_2025-11-10.md) for complete security status, 6 open security issues tracked, and remediation roadmap. The platform runs in controlled environments with strict lane isolation. See [SECURITY.md](SECURITY.md) for responsible disclosure procedures.
 
@@ -837,18 +864,18 @@ The **Guardian System** (experimental) aims to provide ethical oversight:
 
 ## 📊 Quality Assurance
 
-### Testing Strategy
-- **Smoke Tests**: Basic system health (15 tests, all passing)
-- **Unit Tests**: Component-level testing with 75%+ coverage requirement
-- **Integration Tests**: Cross-system consciousness workflows
-- **Performance Tests**: MATRIZ latency validation (<250ms p95)
-- **E2E Tests**: Complete consciousness processing pipelines
+### Testing Reality
+- **Smoke Tests**: 15 tests exist, partial passing due to import errors
+- **Unit Tests**: 42 files present, many failing to collect
+- **Integration Tests**: Present but blocked by module conflicts
+- **Performance Tests**: Not operational (no benchmarks running)
+- **E2E Tests**: Exist but not executing properly
 
-### Performance Monitoring
-- **MATRIZ Performance**: <250ms latency, 50+ ops/sec, <100MB memory
-- **Memory Systems**: 99.7% cascade prevention, fold-based architectures
-- **Consciousness Processing**: Real-time awareness with ethical constraints
-- **System Health**: Prometheus metrics, Grafana dashboards
+### Actual Performance Status
+- **MATRIZ Performance**: Not measured (benchmark suite not operational)
+- **Memory Systems**: 96.3% cascade prevention observed in limited tests
+- **Consciousness Processing**: Conceptual only, not functioning
+- **System Health**: Monitoring configured but not operational
 
 ## 🧠 Consciousness Systems
 
@@ -935,20 +962,20 @@ See [`products/`](products/) for enterprise deployment configurations.
 
 ## 📈 Roadmap
 
-### Current Status (v2.0.0)
-- ✅ Constellation Framework architecture
-- ✅ Lane-based development system
-- ✅ Guardian system v1.0.0
-- ✅ MATRIZ cognitive engine (70% complete)
-- ✅ Comprehensive testing infrastructure
-- ✅ Enterprise security safeguards
+### Current Reality
+- 🔄 Constellation Framework partially designed
+- 🔄 Lane-based system present but boundaries violated
+- 🔄 Guardian system conceptual only
+- 🔄 MATRIZ engine ~30% implemented (with major issues)
+- ⚠️ Testing infrastructure failing
+- ⚠️ No production security measures active
 
-### Upcoming Features
-- 🔄 MATRIZ completion and optimization
-- 🔄 Advanced consciousness evolution patterns
-- 🔄 Quantum-bio hybrid processing
-- 🔄 Enhanced multi-agent coordination
-- 🔄 Enterprise cognitive AI deployment tools
+### Realistic Next Steps
+- Fix fundamental issues (imports, case sensitivity)
+- Stabilize test suite
+- Document actual vs planned functionality
+- Clean up non-functional code
+- Establish working CI/CD pipeline
 
 ## 🤝 Collaboration Opportunities
 
