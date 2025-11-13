@@ -52,10 +52,10 @@ def gh_comment(repo: str, issue: int, msg: str, dry: bool = False) -> bool:
     if dry:
         print(f"[DRY] would post comment to {repo}#{issue}")
         return True
-    tf = tempfile.NamedTemporaryFile(delete=False, mode="w", encoding="utf-8")
-    tf.write(msg)
-    tf.close()
-    cmd = f"gh issue comment {issue} --repo {repo} --body-file {tf.name}"
+    with tempfile.NamedTemporaryFile(delete=False, mode="w", encoding="utf-8") as tf:
+        tf.write(msg)
+        tf_name = tf.name
+    cmd = f"gh issue comment {issue} --repo {repo} --body-file {tf_name}"
     r = run(cmd)
     if r.returncode != 0:
         print("ERR:", r.stderr.strip())
