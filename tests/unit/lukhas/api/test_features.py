@@ -128,13 +128,13 @@ class TestCheckRateLimit:
 
     def test_requests_under_limit(self):
         """Test requests under limit are allowed."""
-        for i in range(50):
+        for _i in range(50):
             assert check_rate_limit("user1") is True
 
     def test_requests_at_limit(self):
         """Test requests at limit threshold."""
         # Make 100 requests (the limit)
-        for i in range(100):
+        for _i in range(100):
             check_rate_limit("user1")
 
         # 101st request should be blocked
@@ -143,7 +143,7 @@ class TestCheckRateLimit:
     def test_requests_over_limit(self):
         """Test requests over limit are blocked."""
         # Exceed limit
-        for i in range(101):
+        for _i in range(101):
             check_rate_limit("user1")
 
         assert check_rate_limit("user1") is False
@@ -151,7 +151,7 @@ class TestCheckRateLimit:
     def test_different_users_separate_limits(self):
         """Test different users have separate rate limits."""
         # User1 exceeds limit
-        for i in range(101):
+        for _i in range(101):
             check_rate_limit("user1")
 
         # User2 should still be allowed

@@ -55,7 +55,7 @@ class TestDemoMode:
 
         # Create multiple sessions from same IP
         sessions = []
-        for i in range(15):
+        for _i in range(15):
             session_id = demo.create_session("192.168.1.1")
             if session_id:
                 sessions.append(session_id)

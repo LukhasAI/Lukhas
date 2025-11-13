@@ -120,7 +120,7 @@ async def get_health_status() -> Dict[str, Any]:
         "components": {},
     }
 
-    for i, (name, result) in enumerate(zip(checks.keys(), results)):
+    for _i, (name, result) in enumerate(zip(checks.keys(), results)):
         health_status["components"][name] = result
         if result["status"] != "ok":
             health_status["status"] = "error"

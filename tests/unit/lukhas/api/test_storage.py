@@ -263,7 +263,7 @@ class TestRateLimitingIntegration:
 
         # Fill the rate limit
         now = time.time()
-        for i in range(rate_limit):
+        for _i in range(rate_limit):
             storage.list_append(key, now)
 
         # Should be at limit

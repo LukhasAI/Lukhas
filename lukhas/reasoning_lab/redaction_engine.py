@@ -193,7 +193,7 @@ class RedactionEngine:
         """
         # Create pattern with dashes every 4 chars for readability
         result = []
-        for i, char in enumerate(text):
+        for _i, char in enumerate(text):
             if char.isalnum():
                 result.append('*')
             else:

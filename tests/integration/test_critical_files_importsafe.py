@@ -153,7 +153,7 @@ def test_no_direct_labs_imports_in_core():
     violations = []
     core_path = os.path.join(os.path.dirname(__file__), "../../core")
 
-    for root, dirs, files in os.walk(core_path):
+    for root, _dirs, files in os.walk(core_path):
         # Skip __pycache__
         if "__pycache__" in root:
             continue
@@ -192,7 +192,7 @@ def test_no_direct_candidate_imports_in_core():
     violations = []
     core_path = os.path.join(os.path.dirname(__file__), "../../core")
 
-    for root, dirs, files in os.walk(core_path):
+    for root, _dirs, files in os.walk(core_path):
         # Skip __pycache__
         if "__pycache__" in root:
             continue

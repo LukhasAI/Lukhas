@@ -281,7 +281,7 @@ class TestFeedbackEndpoint:
             ("quick", FeedbackType.QUICK),
         ]
 
-        for feedback_type_str, expected_enum in test_cases:
+        for feedback_type_str, _expected_enum in test_cases:
             feedback_data = {
                 "action_id": "action_123",
                 "user_id": "user_456",

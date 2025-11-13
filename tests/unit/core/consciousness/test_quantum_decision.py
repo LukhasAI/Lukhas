@@ -137,7 +137,7 @@ class TestQuantumDecisionSuperposition:
         assert "entropy" in evaluation
         assert "coherence" in evaluation
 
-        for strat_name, metrics in evaluation["strategy_evaluations"].items():
+        for _strat_name, metrics in evaluation["strategy_evaluations"].items():
             assert "probability" in metrics
             assert "phase" in metrics
             assert 0 <= metrics["probability"] <= 1

@@ -85,7 +85,7 @@ def get_module_info(module_name):
 def discover_modules(path, prefix):
     """Discovers all modules in a given path."""
     module_inventory = []
-    for finder, name, ispkg in pkgutil.walk_packages(path, prefix):
+    for _finder, name, _ispkg in pkgutil.walk_packages(path, prefix):
         module, version, status = get_module_info(name)
 
         if module:
