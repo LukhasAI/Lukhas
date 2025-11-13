@@ -10,6 +10,7 @@ import types
 
 
 import pytest
+from typing import Dict
 
 FAKE_REG_CHALLENGE = base64.urlsafe_b64encode(b"library-registration-challenge").decode().rstrip("=")
 FAKE_AUTH_CHALLENGE = base64.urlsafe_b64encode(b"library-authentication-challenge").decode().rstrip("=")

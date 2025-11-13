@@ -138,6 +138,7 @@ class TestHealthEndpoints:
         # Mock _get_health_status to return unhealthy
         from serve import main
 
+        original_health = main._get_health_status
 
         def mock_unhealthy():
             return {"status": "unhealthy", "error": "test error"}
@@ -315,7 +316,6 @@ class TestAsyncOrchestrator:
         with patch.dict("os.environ", {"LUKHAS_ASYNC_ORCH": "1"}):
             # Need to reload module to pick up env change
             import importlib
-
             from serve import main
 
             importlib.reload(main)
@@ -325,7 +325,7 @@ class TestAsyncOrchestrator:
 
     def test_v1_responses_with_async_orch(self):
         """Test responses with async orchestrator."""
-        Mock(return_value={"answer": "orchestrated response"})
+        mock_orch = Mock(return_value={"answer": "orchestrated response"})
 
         with patch.dict("os.environ", {"LUKHAS_ASYNC_ORCH": "0"}):
             from serve.main import app
@@ -665,8 +665,8 @@ class TestRequireAPIKey:
 
     def test_require_api_key_invalid(self):
         """Test invalid API key raises HTTPException."""
-        from fastapi import HTTPException
         from serve.main import require_api_key
+        from fastapi import HTTPException
 
         with patch.dict("os.environ", {"LUKHAS_API_KEY": "correct_key"}):
             with pytest.raises(HTTPException) as exc_info:

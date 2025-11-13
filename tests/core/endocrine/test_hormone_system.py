@@ -6,6 +6,7 @@ from typing import Dict, List
 
 import pytest
 from core.endocrine.hormone_system import (
+from typing import Dict, List
     EndocrineSystem,
     HormoneType,
 )

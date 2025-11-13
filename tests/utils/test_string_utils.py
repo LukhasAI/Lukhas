@@ -8,7 +8,7 @@ Trinity Framework: 🛡️ Guardian · 🏗️ Architecture
 """
 
 import re
-from typing import Optional
+from typing import List, Optional
 
 import pytest
 

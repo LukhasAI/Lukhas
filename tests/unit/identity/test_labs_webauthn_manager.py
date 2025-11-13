@@ -3,6 +3,7 @@ import base64
 
 import pytest
 from labs.governance.identity.core.auth import webauthn_manager
+from typing import Dict
 
 
 class FakeEnum(str):

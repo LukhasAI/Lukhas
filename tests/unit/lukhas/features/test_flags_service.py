@@ -27,6 +27,7 @@ from lukhas.features.flags_service import (
     is_enabled,
 )
 
+
 # Test FlagEvaluationContext
 
 
@@ -65,7 +66,7 @@ class TestFlagEvaluationContext:
 
         # Should be SHA-256 hex string
         assert len(user_hash) == 64
-        assert user_hash == hashlib.sha256(b"user123").hexdigest()
+        assert user_hash == hashlib.sha256("user123".encode()).hexdigest()
 
     def test_get_user_hash_empty(self):
         """Test getting user hash with no user_id."""
@@ -636,7 +637,7 @@ class TestFeatureFlagsService:
         """Test manually reloading flags."""
         service = FeatureFlagsService(config_path=temp_config)
 
-        len(service.flags)
+        initial_flags = len(service.flags)
 
         # Modify config file
         config = {

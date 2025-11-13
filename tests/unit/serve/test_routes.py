@@ -89,8 +89,8 @@ def mock_fold_manager():
 @pytest.fixture
 def app_client():
     """Create test client."""
-    from fastapi import FastAPI
     from serve.routes import router
+    from fastapi import FastAPI
 
     app = FastAPI()
     app.include_router(router)
@@ -640,7 +640,7 @@ class TestObservabilityIntegration:
     def test_generate_dream_traced(self, app_client):
         """Test generate_dream is traced."""
         with patch("serve.routes.obs_stack") as mock_obs:
-            MagicMock()
+            mock_trace = MagicMock()
             mock_obs.trace.return_value = lambda f: f
 
             response = app_client.post(
@@ -653,7 +653,7 @@ class TestObservabilityIntegration:
     def test_glyph_feedback_traced(self, app_client):
         """Test glyph_feedback is traced."""
         with patch("serve.routes.obs_stack") as mock_obs:
-            MagicMock()
+            mock_trace = MagicMock()
             mock_obs.trace.return_value = lambda f: f
 
             response = app_client.post(

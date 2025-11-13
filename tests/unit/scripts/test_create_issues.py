@@ -4,7 +4,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Dict, List
 
 CREATE = "scripts/todo_migration/create_issues.py"
 
