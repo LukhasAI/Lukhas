@@ -19,7 +19,6 @@ from typing import Any, Dict
 from unittest.mock import Mock, patch
 
 import pytest
-
 from core.matriz.optimized_orchestrator import OptimizedAsyncOrchestrator
 from observability.matriz_instrumentation import (
     cognitive_pipeline_span,
@@ -307,11 +306,11 @@ class TestCognitiveEventInstrumentation:
 
     def test_cognitive_event_custom_node_id_extractor(self):
         """Test custom node ID extraction in cognitive event instrumentation"""
-        def custom_extractor(event_data: Dict) -> str:
+        def custom_extractor(event_data: dict) -> str:
             return f"custom_{event_data.get('uuid', 'unknown')}"
 
         @instrument_cognitive_event("custom_event", node_id_extractor=custom_extractor)
-        def custom_event_processor(event: Dict):
+        def custom_event_processor(event: dict):
             return {"custom_processed": True}
 
         test_event = {"uuid": "abc123", "type": "custom"}

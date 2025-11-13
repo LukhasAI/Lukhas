@@ -11,7 +11,7 @@ Constellation Framework: Flow Star (🌊)
 from __future__ import annotations
 
 import time
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -62,7 +62,7 @@ decision_confidence_score = Gauge(
 class GuardianResponse:
     """Guardian validation response."""
 
-    def __init__(self, approved: bool, reason: str, confidence: float = 1.0, constraints: Optional[Dict[str, Any]] = None):
+    def __init__(self, approved: bool, reason: str, confidence: float = 1.0, constraints: dict[str, Any] | None = None):
         self.approved = approved
         self.reason = reason
         self.confidence = confidence
@@ -79,7 +79,7 @@ class AutoConsciousness:
     Guardian validation. Implements full consciousness decision loop.
     """
 
-    def __init__(self, guardian_validator: Optional[Callable] = None):
+    def __init__(self, guardian_validator: Callable | None = None):
         """
         Initialize autonomous consciousness system.
 
@@ -91,17 +91,17 @@ class AutoConsciousness:
 
         # Decision-making state
         self._last_decision_time = 0.0
-        self._decision_history: List[DecisionContext] = []
+        self._decision_history: list[DecisionContext] = []
         self._approval_count = 0
         self._total_decisions = 0
 
         # Action registry
-        self._action_handlers: Dict[str, Callable] = {}
+        self._action_handlers: dict[str, Callable] = {}
         self._register_default_actions()
 
         # Performance tracking
-        self._decision_latencies: List[float] = []
-        self._confidence_scores: List[float] = []
+        self._decision_latencies: list[float] = []
+        self._confidence_scores: list[float] = []
 
     def register_action_handler(self, action_type: str, handler: Callable) -> None:
         """Register a handler for a specific action type."""
@@ -110,9 +110,9 @@ class AutoConsciousness:
     async def decide_and_act(
         self,
         consciousness_state: ConsciousnessState,
-        awareness_snapshot: Optional[AwarenessSnapshot] = None,
-        reflection_report: Optional[ReflectionReport] = None,
-        dream_trace: Optional[DreamTrace] = None
+        awareness_snapshot: AwarenessSnapshot | None = None,
+        reflection_report: ReflectionReport | None = None,
+        dream_trace: DreamTrace | None = None
     ) -> DecisionContext:
         """
         Execute complete decision-making cycle with Guardian validation.
@@ -187,7 +187,7 @@ class AutoConsciousness:
     async def _generate_proposed_actions(
         self,
         decision_context: DecisionContext,
-        dream_trace: Optional[DreamTrace]
+        dream_trace: DreamTrace | None
     ) -> None:
         """Generate proposed actions based on consciousness inputs."""
 
@@ -212,7 +212,7 @@ class AutoConsciousness:
     async def _propose_awareness_actions(
         self,
         decision_context: DecisionContext,
-        awareness_snapshot: Optional[AwarenessSnapshot]
+        awareness_snapshot: AwarenessSnapshot | None
     ) -> None:
         """Propose actions based on awareness analysis."""
         if not awareness_snapshot:
@@ -256,7 +256,7 @@ class AutoConsciousness:
     async def _propose_reflection_actions(
         self,
         decision_context: DecisionContext,
-        reflection_report: Optional[ReflectionReport]
+        reflection_report: ReflectionReport | None
     ) -> None:
         """Propose actions based on reflection analysis."""
         if not reflection_report:
@@ -289,7 +289,7 @@ class AutoConsciousness:
     async def _propose_dream_actions(
         self,
         decision_context: DecisionContext,
-        dream_trace: Optional[DreamTrace]
+        dream_trace: DreamTrace | None
     ) -> None:
         """Propose actions based on dream processing insights."""
         if not dream_trace:
@@ -410,7 +410,7 @@ class AutoConsciousness:
             # Conservative default on Guardian failure
             return GuardianResponse(
                 approved=False,
-                reason=f"Guardian validation failed: {str(e)}",
+                reason=f"Guardian validation failed: {e!s}",
                 confidence=0.0
             )
 
@@ -454,7 +454,7 @@ class AutoConsciousness:
     async def _execute_approved_actions(
         self,
         decision_context: DecisionContext,
-        constraints: Dict[str, Any]
+        constraints: dict[str, Any]
     ) -> None:
         """Execute Guardian-approved actions."""
 
@@ -507,52 +507,52 @@ class AutoConsciousness:
             "optimize_decision_latency": self._handle_optimize_latency
         })
 
-    async def _handle_stabilize_drift(self, parameters: Dict[str, Any]) -> None:
+    async def _handle_stabilize_drift(self, parameters: dict[str, Any]) -> None:
         """Handle drift stabilization action."""
         # Placeholder for drift stabilization logic
         pass
 
-    async def _handle_reduce_load(self, parameters: Dict[str, Any]) -> None:
+    async def _handle_reduce_load(self, parameters: dict[str, Any]) -> None:
         """Handle load reduction action."""
         # Placeholder for load reduction logic
         pass
 
-    async def _handle_respond_to_anomalies(self, parameters: Dict[str, Any]) -> None:
+    async def _handle_respond_to_anomalies(self, parameters: dict[str, Any]) -> None:
         """Handle anomaly response action."""
         # Placeholder for anomaly response logic
         pass
 
-    async def _handle_improve_coherence(self, parameters: Dict[str, Any]) -> None:
+    async def _handle_improve_coherence(self, parameters: dict[str, Any]) -> None:
         """Handle coherence improvement action."""
         # Placeholder for coherence improvement logic
         pass
 
-    async def _handle_optimize_reflection(self, parameters: Dict[str, Any]) -> None:
+    async def _handle_optimize_reflection(self, parameters: dict[str, Any]) -> None:
         """Handle reflection optimization action."""
         # Placeholder for reflection optimization logic
         pass
 
-    async def _handle_apply_memory_insights(self, parameters: Dict[str, Any]) -> None:
+    async def _handle_apply_memory_insights(self, parameters: dict[str, Any]) -> None:
         """Handle memory insights application action."""
         # Placeholder for memory insights application logic
         pass
 
-    async def _handle_integrate_patterns(self, parameters: Dict[str, Any]) -> None:
+    async def _handle_integrate_patterns(self, parameters: dict[str, Any]) -> None:
         """Handle pattern integration action."""
         # Placeholder for pattern integration logic
         pass
 
-    async def _handle_improve_decision_quality(self, parameters: Dict[str, Any]) -> None:
+    async def _handle_improve_decision_quality(self, parameters: dict[str, Any]) -> None:
         """Handle decision quality improvement action."""
         # Placeholder for decision quality improvement logic
         pass
 
-    async def _handle_periodic_cleanup(self, parameters: Dict[str, Any]) -> None:
+    async def _handle_periodic_cleanup(self, parameters: dict[str, Any]) -> None:
         """Handle periodic cleanup action."""
         # Placeholder for cleanup logic
         pass
 
-    async def _handle_optimize_latency(self, parameters: Dict[str, Any]) -> None:
+    async def _handle_optimize_latency(self, parameters: dict[str, Any]) -> None:
         """Handle latency optimization action."""
         # Placeholder for latency optimization logic
         pass
@@ -591,7 +591,7 @@ class AutoConsciousness:
 
         self._last_decision_time = time.time()
 
-    def get_performance_stats(self) -> Dict[str, float]:
+    def get_performance_stats(self) -> dict[str, float]:
         """Get current performance statistics."""
         if self._total_decisions == 0:
             return {

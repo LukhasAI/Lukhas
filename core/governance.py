@@ -5,15 +5,18 @@ boundaries. If attributes are accessed that aren't provided by the primary
 `governance` package, they are lazily resolved from `labs.governance`.
 """
 from __future__ import annotations
+
 import importlib
 from typing import Any
 
 # Prefer the top-level governance package if available (no labs edge)
 try:  # pragma: no cover - import-time availability
-    from governance import *  # type: ignore  # noqa: F403,F401
+    from governance import GovernanceEngine, PolicyManager, enforce_governance  # type: ignore
     _HAS_PRIMARY = True
+    __all__ = ["GovernanceEngine", "PolicyManager", "enforce_governance"]
 except Exception:  # pragma: no cover
     _HAS_PRIMARY = False
+    __all__ = []
 
 
 def __getattr__(name: str) -> Any:  # pragma: no cover - lazy path

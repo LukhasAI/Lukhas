@@ -25,17 +25,17 @@ import base64
 import hashlib
 import hmac
 import struct
-from typing import Any, Dict, Optional
+from typing import Any
 
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import ec, rsa, padding
 from cryptography.exceptions import InvalidSignature as CryptoInvalidSignature
-from typing_extensions import TypedDict, NotRequired
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric import ec, padding, rsa
+from typing_extensions import NotRequired, TypedDict
 
 from lukhas.identity.webauthn_credential import WebAuthnCredential
 
-
 # Verification result types
+
 
 class VerificationResult(TypedDict):
     """Result of assertion verification with detailed outcome.
@@ -43,6 +43,7 @@ class VerificationResult(TypedDict):
     This type extends the VerifiedAuthentication type from webauthn_types.py
     with additional fields for error handling and user identification.
     """
+
     success: bool
     user_id: str
     credential_id: str
@@ -55,37 +56,33 @@ class VerificationResult(TypedDict):
 
 # Custom exceptions for verification failures
 
+
 class VerificationError(Exception):
     """Base class for verification errors."""
-    pass
 
 
 class InvalidSignatureError(VerificationError):
     """Signature verification failed."""
-    pass
 
 
 class InvalidChallengeError(VerificationError):
     """Challenge doesn't match expected value."""
-    pass
 
 
 class ReplayAttackError(VerificationError):
     """Sign counter didn't increment (possible replay attack)."""
-    pass
 
 
 class InvalidAssertionError(VerificationError):
     """Malformed or invalid assertion data."""
-    pass
 
 
 class CredentialNotFoundError(VerificationError):
     """Credential doesn't exist in storage."""
-    pass
 
 
 # Helper functions
+
 
 def _base64url_decode(data: str) -> bytes:
     """Decode base64url-encoded string to bytes.
@@ -102,10 +99,10 @@ def _base64url_decode(data: str) -> bytes:
     try:
         # Add padding if needed
         padding_needed = (4 - len(data) % 4) % 4
-        padded = data + ('=' * padding_needed)
+        padded = data + ("=" * padding_needed)
         return base64.urlsafe_b64decode(padded)
     except Exception as e:
-        raise InvalidAssertionError(f"Failed to decode base64url data: {e}")
+        raise InvalidAssertionError(f"Failed to decode base64url data: {e}") from e
 
 
 def _constant_time_compare(a: bytes, b: bytes) -> bool:
@@ -124,7 +121,7 @@ def _constant_time_compare(a: bytes, b: bytes) -> bool:
     return hmac.compare_digest(a, b)
 
 
-def _parse_authenticator_data(auth_data: bytes) -> Dict[str, Any]:
+def _parse_authenticator_data(auth_data: bytes) -> dict[str, Any]:
     """Parse authenticator data structure.
 
     Authenticator data structure (minimum 37 bytes):
@@ -152,7 +149,7 @@ def _parse_authenticator_data(auth_data: bytes) -> Dict[str, Any]:
     # Extract fields
     rp_id_hash = auth_data[0:32]
     flags_byte = auth_data[32]
-    sign_count = struct.unpack('>I', auth_data[33:37])[0]
+    sign_count = struct.unpack(">I", auth_data[33:37])[0]
 
     # Parse flags (bit 0 = UP, bit 2 = UV, bit 3 = BE, bit 4 = BS)
     user_present = bool(flags_byte & 0x01)
@@ -161,17 +158,17 @@ def _parse_authenticator_data(auth_data: bytes) -> Dict[str, Any]:
     backup_state = bool(flags_byte & 0x10)
 
     return {
-        'rp_id_hash': rp_id_hash,
-        'flags': flags_byte,
-        'sign_count': sign_count,
-        'user_present': user_present,
-        'user_verified': user_verified,
-        'backup_eligible': backup_eligible,
-        'backup_state': backup_state,
+        "rp_id_hash": rp_id_hash,
+        "flags": flags_byte,
+        "sign_count": sign_count,
+        "user_present": user_present,
+        "user_verified": user_verified,
+        "backup_eligible": backup_eligible,
+        "backup_state": backup_state,
     }
 
 
-def _parse_client_data_json(client_data_json: bytes) -> Dict[str, Any]:
+def _parse_client_data_json(client_data_json: bytes) -> dict[str, Any]:
     """Parse and validate client data JSON.
 
     Client data JSON contains:
@@ -192,30 +189,26 @@ def _parse_client_data_json(client_data_json: bytes) -> Dict[str, Any]:
     import json
 
     try:
-        data = json.loads(client_data_json.decode('utf-8'))
+        data = json.loads(client_data_json.decode("utf-8"))
     except Exception as e:
-        raise InvalidAssertionError(f"Failed to parse clientDataJSON: {e}")
+        raise InvalidAssertionError(f"Failed to parse clientDataJSON: {e}") from e
 
     # Validate required fields
-    if 'type' not in data:
+    if "type" not in data:
         raise InvalidAssertionError("Missing 'type' field in clientDataJSON")
-    if 'challenge' not in data:
+    if "challenge" not in data:
         raise InvalidAssertionError("Missing 'challenge' field in clientDataJSON")
-    if 'origin' not in data:
+    if "origin" not in data:
         raise InvalidAssertionError("Missing 'origin' field in clientDataJSON")
 
     return {
-        'type': data['type'],
-        'challenge': data['challenge'],
-        'origin': data['origin'],
+        "type": data["type"],
+        "challenge": data["challenge"],
+        "origin": data["origin"],
     }
 
 
-def _verify_signature_es256(
-    public_key_bytes: bytes,
-    signed_data: bytes,
-    signature: bytes
-) -> None:
+def _verify_signature_es256(public_key_bytes: bytes, signed_data: bytes, signature: bytes) -> None:
     """Verify ECDSA signature using ES256 (P-256 curve with SHA-256).
 
     Args:
@@ -234,43 +227,33 @@ def _verify_signature_es256(
         try:
             # Try parsing as DER first
             public_key = serialization.load_der_public_key(public_key_bytes)
-        except Exception:
+        except Exception as e:
             # If DER fails, try parsing as COSE key (common in WebAuthn)
             # COSE EC2 key format for P-256:
             # - First byte might be 0x04 (uncompressed point indicator)
             # - Followed by X coordinate (32 bytes) and Y coordinate (32 bytes)
             if len(public_key_bytes) == 65 and public_key_bytes[0] == 0x04:
                 # Uncompressed EC point format
-                x = int.from_bytes(public_key_bytes[1:33], 'big')
-                y = int.from_bytes(public_key_bytes[33:65], 'big')
+                x = int.from_bytes(public_key_bytes[1:33], "big")
+                y = int.from_bytes(public_key_bytes[33:65], "big")
                 public_key = ec.EllipticCurvePublicNumbers(
-                    x=x,
-                    y=y,
-                    curve=ec.SECP256R1()
+                    x=x, y=y, curve=ec.SECP256R1()
                 ).public_key()
             else:
-                raise InvalidSignatureError("Unsupported public key format")
+                raise InvalidSignatureError("Unsupported public key format") from e
 
         # Verify signature
         if not isinstance(public_key, ec.EllipticCurvePublicKey):
             raise InvalidSignatureError("Public key is not an EC key")
 
-        public_key.verify(
-            signature,
-            signed_data,
-            ec.ECDSA(hashes.SHA256())
-        )
+        public_key.verify(signature, signed_data, ec.ECDSA(hashes.SHA256()))
     except CryptoInvalidSignature:
-        raise InvalidSignatureError("ES256 signature verification failed")
+        raise InvalidSignatureError("ES256 signature verification failed") from None
     except Exception as e:
-        raise InvalidSignatureError(f"ES256 verification error: {e}")
+        raise InvalidSignatureError(f"ES256 verification error: {e}") from e
 
 
-def _verify_signature_rs256(
-    public_key_bytes: bytes,
-    signed_data: bytes,
-    signature: bytes
-) -> None:
+def _verify_signature_rs256(public_key_bytes: bytes, signed_data: bytes, signature: bytes) -> None:
     """Verify RSA signature using RS256 (RSA with SHA-256).
 
     Args:
@@ -289,26 +272,22 @@ def _verify_signature_rs256(
             raise InvalidSignatureError("Public key is not an RSA key")
 
         # Verify signature using PKCS#1 v1.5 padding
-        public_key.verify(
-            signature,
-            signed_data,
-            padding.PKCS1v15(),
-            hashes.SHA256()
-        )
+        public_key.verify(signature, signed_data, padding.PKCS1v15(), hashes.SHA256())
     except CryptoInvalidSignature:
-        raise InvalidSignatureError("RS256 signature verification failed")
+        raise InvalidSignatureError("RS256 signature verification failed") from None
     except Exception as e:
-        raise InvalidSignatureError(f"RS256 verification error: {e}")
+        raise InvalidSignatureError(f"RS256 verification error: {e}") from e
 
 
 # Main verification function
 
+
 def verify_assertion(
-    assertion: Dict[str, Any],
+    assertion: dict[str, Any],
     credential: WebAuthnCredential,
     expected_challenge: str,
     expected_origin: str,
-    expected_rp_id: str
+    expected_rp_id: str,
 ) -> VerificationResult:
     """Verify a WebAuthn authentication assertion.
 
@@ -368,60 +347,57 @@ def verify_assertion(
     """
     try:
         # Step 1: Extract and validate assertion structure
-        if 'response' not in assertion:
+        if "response" not in assertion:
             raise InvalidAssertionError("Missing 'response' field in assertion")
 
-        response = assertion['response']
-        required_fields = ['clientDataJSON', 'authenticatorData', 'signature']
+        response = assertion["response"]
+        required_fields = ["clientDataJSON", "authenticatorData", "signature"]
         for field in required_fields:
             if field not in response:
                 raise InvalidAssertionError(f"Missing '{field}' in assertion response")
 
         # Decode base64url fields
-        client_data_json_bytes = _base64url_decode(response['clientDataJSON'])
-        authenticator_data_bytes = _base64url_decode(response['authenticatorData'])
-        signature_bytes = _base64url_decode(response['signature'])
+        client_data_json_bytes = _base64url_decode(response["clientDataJSON"])
+        authenticator_data_bytes = _base64url_decode(response["authenticatorData"])
+        signature_bytes = _base64url_decode(response["signature"])
 
         # Step 2: Parse and validate clientDataJSON
         client_data = _parse_client_data_json(client_data_json_bytes)
 
         # Verify type is "webauthn.get"
-        if client_data['type'] != 'webauthn.get':
+        if client_data["type"] != "webauthn.get":
             raise InvalidAssertionError(
                 f"Invalid type: {client_data['type']} (expected 'webauthn.get')"
             )
 
         # Verify origin
-        if client_data['origin'] != expected_origin:
+        if client_data["origin"] != expected_origin:
             raise InvalidAssertionError(
                 f"Origin mismatch: {client_data['origin']} != {expected_origin}"
             )
 
         # Step 3: Verify challenge (constant-time comparison)
-        received_challenge = client_data['challenge']
+        received_challenge = client_data["challenge"]
         if not _constant_time_compare(
-            received_challenge.encode('utf-8'),
-            expected_challenge.encode('utf-8')
+            received_challenge.encode("utf-8"), expected_challenge.encode("utf-8")
         ):
-            raise InvalidChallengeError(
-                "Challenge verification failed (constant-time comparison)"
-            )
+            raise InvalidChallengeError("Challenge verification failed (constant-time comparison)")
 
         # Step 4: Parse authenticator data
         auth_data = _parse_authenticator_data(authenticator_data_bytes)
 
         # Verify RP ID hash
-        expected_rp_id_hash = hashlib.sha256(expected_rp_id.encode('utf-8')).digest()
-        if not _constant_time_compare(auth_data['rp_id_hash'], expected_rp_id_hash):
+        expected_rp_id_hash = hashlib.sha256(expected_rp_id.encode("utf-8")).digest()
+        if not _constant_time_compare(auth_data["rp_id_hash"], expected_rp_id_hash):
             raise InvalidAssertionError("RP ID hash mismatch")
 
         # Verify user presence
-        if not auth_data['user_present']:
+        if not auth_data["user_present"]:
             raise InvalidAssertionError("User presence flag not set")
 
         # Step 5: Validate sign counter (replay attack prevention)
-        new_sign_count = auth_data['sign_count']
-        stored_counter = credential['counter']
+        new_sign_count = auth_data["sign_count"]
+        stored_counter = credential["counter"]
 
         # Counter MUST increment (strict inequality prevents replay attacks)
         # Note: Counter of 0 is allowed on first authentication if credential
@@ -438,7 +414,7 @@ def verify_assertion(
         signed_data = authenticator_data_bytes + client_data_hash
 
         # Step 7: Verify signature
-        public_key_bytes = _base64url_decode(credential['public_key'])
+        public_key_bytes = _base64url_decode(credential["public_key"])
 
         # Try ES256 first (most common), then RS256 as fallback
         signature_verified = False
@@ -464,19 +440,19 @@ def verify_assertion(
 
         # Step 8: Build success result
         result: VerificationResult = {
-            'success': True,
-            'user_id': credential['user_id'],
-            'credential_id': credential['credential_id'],
-            'new_sign_count': new_sign_count,
+            "success": True,
+            "user_id": credential["user_id"],
+            "credential_id": credential["credential_id"],
+            "new_sign_count": new_sign_count,
         }
 
         # Add optional flags
-        if auth_data['user_verified']:
-            result['user_verified'] = True
-        if auth_data['backup_eligible']:
-            result['backup_eligible'] = True
-        if auth_data['backup_state']:
-            result['backup_state'] = True
+        if auth_data["user_verified"]:
+            result["user_verified"] = True
+        if auth_data["backup_eligible"]:
+            result["backup_eligible"] = True
+        if auth_data["backup_state"]:
+            result["backup_state"] = True
 
         return result
 
@@ -484,40 +460,38 @@ def verify_assertion(
         InvalidAssertionError,
         InvalidChallengeError,
         InvalidSignatureError,
-        ReplayAttackError
+        ReplayAttackError,
     ) as e:
         # Return failure result with error message
         # Note: credential info included to allow caller to update metadata
         return {
-            'success': False,
-            'user_id': credential.get('user_id', ''),
-            'credential_id': credential.get('credential_id', ''),
-            'new_sign_count': credential.get('counter', 0),
-            'error': str(e),
+            "success": False,
+            "user_id": credential.get("user_id", ""),
+            "credential_id": credential.get("credential_id", ""),
+            "new_sign_count": credential.get("counter", 0),
+            "error": str(e),
         }
     except Exception as e:
         # Unexpected error - wrap in InvalidAssertionError
         return {
-            'success': False,
-            'user_id': credential.get('user_id', ''),
-            'credential_id': credential.get('credential_id', ''),
-            'new_sign_count': credential.get('counter', 0),
-            'error': f"Unexpected verification error: {e}",
+            "success": False,
+            "user_id": credential.get("user_id", ""),
+            "credential_id": credential.get("credential_id", ""),
+            "new_sign_count": credential.get("counter", 0),
+            "error": f"Unexpected verification error: {e}",
         }
 
 
 __all__ = [
-    # Main verification function
-    'verify_assertion',
-
-    # Result types
-    'VerificationResult',
-
+    "CredentialNotFoundError",
+    "InvalidAssertionError",
+    "InvalidChallengeError",
+    "InvalidSignatureError",
+    "ReplayAttackError",
     # Exceptions
-    'VerificationError',
-    'InvalidSignatureError',
-    'InvalidChallengeError',
-    'ReplayAttackError',
-    'InvalidAssertionError',
-    'CredentialNotFoundError',
+    "VerificationError",
+    # Result types
+    "VerificationResult",
+    # Main verification function
+    "verify_assertion",
 ]

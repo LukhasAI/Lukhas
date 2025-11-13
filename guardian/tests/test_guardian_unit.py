@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import guardian  # noqa: F401  # TODO: guardian; consider using impor...
+    import guardian  # TODO: guardian; consider using impor...
 except ImportError:
     pytest.skip("Module guardian not available", allow_module_level=True)
 

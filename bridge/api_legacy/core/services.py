@@ -17,9 +17,8 @@ except ImportError:
             self.detail = detail
             super().__init__(detail)
 
-from hub.service_registry import get_service
-
 from core.common import get_logger
+from hub.service_registry import get_service
 
 logger = get_logger(__name__)
 
@@ -403,16 +402,16 @@ def get_identity_api_service() -> IdentityAPIService:
 
 
 __all__ = [
-    "MemoryAPIService",
-    "DreamAPIService",
     "ConsciousnessAPIService",
+    "DreamAPIService",
     "EmotionAPIService",
-    "LearningAPIService",
     "IdentityAPIService",
-    "get_memory_api_service",
-    "get_dream_api_service",
+    "LearningAPIService",
+    "MemoryAPIService",
     "get_consciousness_api_service",
+    "get_dream_api_service",
     "get_emotion_api_service",
+    "get_identity_api_service",
     "get_learning_api_service",
-    "get_identity_api_service"
+    "get_memory_api_service"
 ]

@@ -6,11 +6,15 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 def utc() -> str:
@@ -47,7 +51,8 @@ def parse_pct(xml_path: Path) -> float:
     rate = root.attrib.get("line-rate", "0")
     try:
         return round(100.0 * float(rate), 2)
-    except:
+    except Exception as e:
+        logger.debug(f"Expected optional failure: {e}")
         return 0.0
 
 

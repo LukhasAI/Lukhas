@@ -16,12 +16,11 @@ import os
 import re
 import shutil
 from pathlib import Path
-from typing import Dict, Tuple
 
 TODO_REGEX = re.compile(r"(?P<indent>\s*)#\s*TODO(\[.*?\])?\s*[:\-]?\s*(?P<msg>.*)$", re.IGNORECASE)
 
 
-def normalize_path_key(key: str) -> Tuple[Path, int]:
+def normalize_path_key(key: str) -> tuple[Path, int]:
     # key formats supported: path:line or /abs/path:line
     parts = key.rsplit(":", 1)
     if len(parts) != 2:
@@ -49,9 +48,9 @@ def backup_file(path: Path) -> Path:
     return bak
 
 
-def replace_in_file(path: Path, mapping: Dict[str, dict], apply: bool, log: list) -> bool:
+def replace_in_file(path: Path, mapping: dict[str, dict], apply: bool, log: list) -> bool:
     changed = False
-    with open(path, "r", encoding="utf-8") as fh:
+    with open(path, encoding="utf-8") as fh:
         lines = fh.readlines()
 
     new_lines = list(lines)
@@ -99,7 +98,7 @@ def replace_in_file(path: Path, mapping: Dict[str, dict], apply: bool, log: list
     return changed
 
 
-def load_mapping(mapfile: Path) -> Dict[str, dict]:
+def load_mapping(mapfile: Path) -> dict[str, dict]:
     data = json.loads(mapfile.read_text(encoding="utf-8"))
     # normalize keys to repo-relative when reasonable
     norm = {}
@@ -109,7 +108,7 @@ def load_mapping(mapfile: Path) -> Dict[str, dict]:
             repo_rel = os.path.relpath(p, Path.cwd())
             # store both repo_rel and original to maximize matching chance
             norm_key_rel = f"{repo_rel}:{line}"
-            norm_key_orig = f"{str(p)}:{line}"
+            norm_key_orig = f"{p!s}:{line}"
             norm[norm_key_rel] = v
             norm[norm_key_orig] = v
         except Exception:
@@ -133,7 +132,7 @@ def main():
     mapping = load_mapping(mapfile)
 
     # determine files from mapping
-    files = sorted({k.rsplit(":", 1)[0] for k in mapping.keys()})
+    files = sorted({k.rsplit(":", 1)[0] for k in mapping})
     log = []
     for f in files:
         p = Path(f)

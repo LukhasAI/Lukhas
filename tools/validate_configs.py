@@ -3,12 +3,13 @@
 Configuration validation tool for LUKHAS modules.
 Validates YAML configs against schemas and detects potential secrets.
 """
+from __future__ import annotations
 
 import json
 import pathlib
 import re
 import sys
-from typing import Any, Dict, List
+from typing import Any
 
 import yaml
 
@@ -66,12 +67,12 @@ class ConfigValidator:
             self.errors.append(f"{file_path}: Unexpected error - {e}")
             return False
 
-    def detect_secrets(self, file_path: pathlib.Path) -> List[str]:
+    def detect_secrets(self, file_path: pathlib.Path) -> list[str]:
         """Detect potential secrets in a file."""
         secrets_found = []
 
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path) as f:
                 content = f.read()
 
             for pattern, description in self.secret_patterns:
@@ -85,7 +86,7 @@ class ConfigValidator:
 
         return secrets_found
 
-    def validate_module_configs(self, module_path: pathlib.Path) -> Dict[str, Any]:
+    def validate_module_configs(self, module_path: pathlib.Path) -> dict[str, Any]:
         """Validate all config files in a module."""
         results = {
             "module": module_path.name,
@@ -143,7 +144,7 @@ class ConfigValidator:
             self.errors.append(f"{env_file}: Environment validation error - {e}")
             return False
 
-    def _flatten_dict(self, d: Dict[str, Any], parent_key: str = '', sep: str = '.') -> Dict[str, Any]:
+    def _flatten_dict(self, d: dict[str, Any], parent_key: str = '', sep: str = '.') -> dict[str, Any]:
         """Flatten nested dictionary."""
         items = []
         for k, v in d.items():

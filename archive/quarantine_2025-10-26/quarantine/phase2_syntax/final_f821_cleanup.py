@@ -10,6 +10,8 @@ Remaining patterns:
 - 17 timezone violations
 - Other specific patterns
 """
+from __future__ import annotations
+
 
 import os
 import re

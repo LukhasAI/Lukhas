@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -24,7 +26,7 @@ logger = logging.getLogger(__name__)
 ║ │ This system listens for the whispered harmonics of memory, the subtle      │
 ║ │ oscillations that connect seemingly distant experiences through the        │
 ║ │ mathematics of resonance. What conventional retrieval misses, resonant     │
-║ │ access discovers—the hidden melodies that bind memories together.           │
+║ │ access discovers-the hidden melodies that bind memories together.           │
 ║ │                                                                            │
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ TECHNICAL FEATURES:

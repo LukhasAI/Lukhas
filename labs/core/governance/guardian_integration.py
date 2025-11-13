@@ -284,19 +284,10 @@ class GuardianIntegrationMiddleware:
 
                 compliance_metadata: dict[str, Any] = {
                     "required_actions": list(compliance_outcome.get("required_actions") or []),
-                for field in ("explanation", "confidence", "max_risk_level", "processing_time_ms"):
-                    value = compliance_outcome.get(field)
-                    if value is not None:
-                        compliance_metadata[field] = value
-
-                decision_data["constitutional_compliance"] = compliance_metadata
-
-                required_actions = compliance_metadata["required_actions"]
                     "allowed": compliance_outcome["allowed"],
                     "score": compliance_outcome.get("score"),
                     "source": compliance_outcome.get("source"),
                     "details": compliance_outcome.get("details"),
-                    "required_actions": list(compliance_outcome.get("required_actions") or []),
                 }
 
                 for field in ("explanation", "confidence", "max_risk_level", "processing_time_ms"):

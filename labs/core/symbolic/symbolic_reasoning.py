@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import logging
 from datetime import timezone
 import streamlit as st
-from typing import Dict
+
 logger = logging.getLogger(__name__)
 """
 
@@ -188,10 +190,10 @@ class SymbolicEngine:
 
             Applies symbolic reasoning to the input data using defined logic operators and rules.
             Args:
-                input_data (Dict[str, Any]): A dictionary containing the data to be reasoned upon,
+                input_data (dict[str, Any]): A dictionary containing the data to be reasoned upon,
                                            typically including 'text' and optional 'context'.
             Returns:
-                Dict[str, Any]: A dictionary containing the results of the symbolic reasoning process,
+                dict[str, Any]: A dictionary containing the results of the symbolic reasoning process,
                                 including identified logical chains, valid logic,
         confidence, and timestamp.
         """

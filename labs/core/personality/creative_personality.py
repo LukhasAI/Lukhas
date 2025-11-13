@@ -27,6 +27,8 @@
 ║ Symbolic Tags: {ΛCREATIVITY}, {ΛMETA_LEARNING}, {ΛETHICS}, {ΛHAIKU}, {ΛHARMONY}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import logging
 
 # Configure module logger

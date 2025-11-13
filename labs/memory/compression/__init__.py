@@ -5,11 +5,11 @@ from __future__ import annotations
 from enum import Enum
 
 __all__ = [
-    "CompressionAlgorithm",
-    "AdaptiveCompressionManager",
-    "ZSTD_AVAILABLE",
     "LZ4_AVAILABLE",
+    "ZSTD_AVAILABLE",
+    "AdaptiveCompressionManager",
     "Bz2Compressor",
+    "CompressionAlgorithm",
     "CompressionResult",
     "CompressionStats",
     "GzipCompressor",

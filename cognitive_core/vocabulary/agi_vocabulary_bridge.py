@@ -35,10 +35,11 @@
 ║ Symbolic Tags: {ΛAGI}, {ΛREASON}, {ΛBRIDGE}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
 
 import os
 import sys
-from typing import Any, Optional
+from typing import Any
 
 # Add symbolic vocabularies to path
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../symbolic/vocabularies"))
@@ -236,7 +237,7 @@ class AGIVocabularyBridge:
         """Get Cognitive AI-specific symbol for an operation."""
         return self.cognitive_vocab.get(operation, default)
 
-    def get_cross_symbol(self, cognitive_operation: str) -> Optional[tuple[str, str]]:
+    def get_cross_symbol(self, cognitive_operation: str) -> tuple[str, str] | None:
         """Get corresponding symbol from other vocabularies."""
         return self.cross_mappings.get(cognitive_operation)
 
@@ -266,7 +267,7 @@ class AGIVocabularyBridge:
         if include_cross_ref:
             cross_ref = self.get_cross_symbol(operation)
             if cross_ref:
-                vocab_type, ref_key = cross_ref
+                vocab_type, _ref_key = cross_ref
                 if vocab_type == "dream":
                     dream_symbol = self.translate_to_dream(operation)
                     base_message += f" {dream_symbol}"

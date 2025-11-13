@@ -1,5 +1,3 @@
-from datetime import timezone
-
 """
 
 #TAG:qim
@@ -11,10 +9,14 @@ from datetime import timezone
 Quantum Dream Adapter for Dream Systems
 Provides quantum-based dream processing and adaptation capabilities.
 """
+
+from __future__ import annotations
+
 import math
 import random
 from dataclasses import dataclass
-from typing import Any, Optional
+from datetime import timezone
+from typing import Any
 
 
 @dataclass
@@ -46,7 +48,7 @@ class QIDreamAdapter:
     including superposition states, entanglement, and coherence management.
     """
 
-    def __init__(self, config: Optional[DreamQuantumConfig] = None):
+    def __init__(self, config: DreamQuantumConfig | None = None):
         """
         Initialize the quantum dream adapter.
 

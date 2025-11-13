@@ -10,8 +10,10 @@ from __future__ import annotations
 
 import importlib
 import sys
+from typing import List
 
 import pytest
+from typing import List
 
 
 @pytest.mark.parametrize(
@@ -50,7 +52,7 @@ def test_bridge_has_all(bridge_path: str) -> None:
         ("consciousness.matriz_thought_loop", []),  # May be empty if backend not found
     ],
 )
-def test_bridge_exports_expected_symbols(bridge_path: str, expected_symbols: list[str]) -> None:
+def test_bridge_exports_expected_symbols(bridge_path: str, expected_symbols: List[str]) -> None:
     """Bridge exports expected symbols (if backend available)."""
     mod = importlib.import_module(bridge_path)
     if not mod.__all__:

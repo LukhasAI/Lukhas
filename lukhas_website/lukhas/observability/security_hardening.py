@@ -17,13 +17,14 @@ Features:
 import asyncio
 import hashlib
 import hmac
+import json
 import os
 from collections import defaultdict, deque
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 from uuid import uuid4
 
 from cryptography.hazmat.backends import default_backend
@@ -32,7 +33,7 @@ from cryptography.hazmat.primitives.asymmetric import padding, rsa
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 try:
-    import jwt  # noqa: F401  # TODO: jwt; consider using importlib....
+    import jwt  # TODO: jwt; consider using importlib....
     JWT_AVAILABLE = True
 except ImportError:
     JWT_AVAILABLE = False
@@ -71,7 +72,7 @@ class SecurityEvent:
     component: str
     operation: str
     timestamp: datetime
-    details: Dict[str, Any]
+    details: dict[str, Any]
     action_taken: Optional[str] = None
     resolved: bool = False
     false_positive: bool = False
@@ -139,19 +140,19 @@ class ObservabilitySecurityHardening:
         self.lockout_duration_minutes = lockout_duration_minutes
 
         # Security state
-        self.security_keys: Dict[str, SecurityKey] = {}
-        self.security_events: List[SecurityEvent] = []
+        self.security_keys: dict[str, SecurityKey] = {}
+        self.security_events: list[SecurityEvent] = []
         self.access_attempts: deque = deque(maxlen=10000)
-        self.failed_attempts: Dict[str, List[datetime]] = defaultdict(list)
-        self.locked_sources: Dict[str, datetime] = {}
+        self.failed_attempts: dict[str, list[datetime]] = defaultdict(list)
+        self.locked_sources: dict[str, datetime] = {}
 
         # Integrity verification
-        self.integrity_hashes: Dict[str, str] = {}
+        self.integrity_hashes: dict[str, str] = {}
         self.tamper_detection_enabled = True
 
         # Security monitoring
         self.threat_detection_rules = []
-        self.security_baselines: Dict[str, Any] = {}
+        self.security_baselines: dict[str, Any] = {}
 
         # Background tasks
         self._security_monitor_task: Optional[asyncio.Task] = None
@@ -197,7 +198,7 @@ class ObservabilitySecurityHardening:
         if self.security_config_path.exists():
             try:
                 import json
-                with open(self.security_config_path, 'r') as f:
+                with open(self.security_config_path) as f:
                     self.security_config = json.load(f)
                     # Merge with defaults
                     for key, value in default_config.items():
@@ -339,10 +340,10 @@ class ObservabilitySecurityHardening:
 
     async def secure_evidence_collection(
         self,
-        evidence_data: Dict[str, Any],
+        evidence_data: dict[str, Any],
         source_ip: Optional[str] = None,
         user_id: Optional[str] = None,
-    ) -> Tuple[str, Dict[str, str]]:
+    ) -> tuple[str, dict[str, str]]:
         """
         Secure evidence collection with integrity verification.
 
@@ -378,7 +379,10 @@ class ObservabilitySecurityHardening:
         }
 
         # Generate integrity hash
-        evidence_json = json.dumps(evidence_data, sort_keys=True, default=str)  # noqa: F821  # TODO: json
+# T4: code=F821 | ticket=SKELETON-D25182CE | owner=lukhas-platform | status=skeleton
+# reason: Undefined json in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+        evidence_json = json.dumps(evidence_data, sort_keys=True, default=str)  # TODO: json
         integrity_hash = self._compute_integrity_hash(evidence_json.encode())
         security_metadata["integrity_hash"] = integrity_hash
 
@@ -403,8 +407,8 @@ class ObservabilitySecurityHardening:
     async def verify_evidence_integrity(
         self,
         evidence_id: str,
-        evidence_data: Dict[str, Any],
-        security_metadata: Dict[str, str],
+        evidence_data: dict[str, Any],
+        security_metadata: dict[str, str],
     ) -> bool:
         """
         Verify evidence integrity using cryptographic methods.
@@ -419,7 +423,10 @@ class ObservabilitySecurityHardening:
         """
         try:
             # Verify integrity hash
-            evidence_json = json.dumps(evidence_data, sort_keys=True, default=str)  # noqa: F821  # TODO: json
+# T4: code=F821 | ticket=SKELETON-D25182CE | owner=lukhas-platform | status=skeleton
+# reason: Undefined json in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+            evidence_json = json.dumps(evidence_data, sort_keys=True, default=str)  # TODO: json
             computed_hash = self._compute_integrity_hash(evidence_json.encode())
 
             stored_hash = security_metadata.get("integrity_hash")
@@ -542,7 +549,7 @@ class ObservabilitySecurityHardening:
         decryptor = cipher.decryptor()
         return decryptor.update(ciphertext) + decryptor.finalize()
 
-    def _is_sensitive_evidence(self, evidence_data: Dict[str, Any]) -> bool:
+    def _is_sensitive_evidence(self, evidence_data: dict[str, Any]) -> bool:
         """Determine if evidence contains sensitive data"""
         sensitive_fields = ["user_id", "session_id", "personal_data", "financial_data", "medical_data"]
         sensitive_evidence_types = ["authentication", "data_access", "regulatory_event"]
@@ -554,10 +561,7 @@ class ObservabilitySecurityHardening:
 
         # Check for sensitive evidence types
         evidence_type = evidence_data.get("evidence_type", "")
-        if evidence_type in sensitive_evidence_types:
-            return True
-
-        return False
+        return evidence_type in sensitive_evidence_types
 
     async def _verify_access_authorization(
         self,
@@ -656,7 +660,7 @@ class ObservabilitySecurityHardening:
         user_id: Optional[str],
         component: str,
         operation: str,
-        details: Dict[str, Any],
+        details: dict[str, Any],
         action_taken: Optional[str] = None,
     ):
         """Record security event"""
@@ -762,7 +766,7 @@ class ObservabilitySecurityHardening:
                 action_taken="key_rotated",
             )
 
-    def get_security_status(self) -> Dict[str, Any]:
+    def get_security_status(self) -> dict[str, Any]:
         """Get current security status"""
         current_time = datetime.now(timezone.utc)
 
@@ -898,7 +902,7 @@ def get_security_hardening() -> ObservabilitySecurityHardening:
     return _security_hardening
 
 
-async def secure_evidence_operation(evidence_data: Dict[str, Any], **kwargs) -> Tuple[str, Dict[str, str]]:
+async def secure_evidence_operation(evidence_data: dict[str, Any], **kwargs) -> tuple[str, dict[str, str]]:
     """Convenience function for secure evidence operations"""
     security_system = get_security_hardening()
     return await security_system.secure_evidence_collection(evidence_data, **kwargs)

@@ -11,11 +11,10 @@ Usage:
         --output docs/audits/COMPLETE_MODULE_INVENTORY.json \\
         --verbose
 """
-
 import ast
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -39,6 +38,9 @@ class ModuleInventoryGenerator:
         """Scan directory for Python packages"""
         print(f"Scanning {directory} (lane: {lane})...")
 
+# T4: code=F821 | ticket=SKELETON-0B5AC074 | owner=lukhas-platform | status=skeleton
+# reason: Undefined os in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         for root, dirs, files in os.walk(directory):
             # Skip common non-module directories
             dirs[:] = [d for d in dirs if d not in [
@@ -74,6 +76,9 @@ class ModuleInventoryGenerator:
         """Analyze a single module and extract metadata"""
 
         # Basic info
+# T4: code=F821 | ticket=SKELETON-0B5AC074 | owner=lukhas-platform | status=skeleton
+# reason: Undefined os in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         module_name = str(relative_path).replace(os.sep, '.')
 
         # Check for manifest
@@ -183,7 +188,7 @@ class ModuleInventoryGenerator:
             return capabilities
 
         try:
-            with open(init_file, 'r', encoding='utf-8') as f:
+            with open(init_file, encoding='utf-8') as f:
                 content = f.read()
 
                 # Parse AST
@@ -207,11 +212,10 @@ class ModuleInventoryGenerator:
                 for node in ast.walk(tree):
                     if isinstance(node, ast.Assign):
                         for target in node.targets:
-                            if isinstance(target, ast.Name) and target.id == '__all__':
-                                if isinstance(node.value, ast.List):
-                                    export_count = len(node.value.elts)
-                                    if export_count > 0:
-                                        capabilities.append(f'{export_count}_exports')
+                            if (isinstance(target, ast.Name) and target.id == '__all__') and isinstance(node.value, ast.List):
+                                export_count = len(node.value.elts)
+                                if export_count > 0:
+                                    capabilities.append(f'{export_count}_exports')
 
         except Exception as e:
             print(f"Warning: Could not parse {init_file}: {e}")
@@ -261,7 +265,7 @@ class ModuleInventoryGenerator:
         # Create final inventory document
         inventory_doc = {
             "schema_version": "1.0.0",
-            "generated_at": datetime.utcnow().isoformat() + "Z",
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "generator": "generate_complete_inventory.py",
             "total_modules": self.stats["total_modules"],
             "statistics": self.stats,

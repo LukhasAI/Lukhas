@@ -16,6 +16,8 @@
 ║ Authors: LUKHAS Bio-Symbolic Team | Claude Code
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 from consciousness.qi import qi
 import streamlit as st
 from datetime import timezone

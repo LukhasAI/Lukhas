@@ -6,7 +6,6 @@ from types import ModuleType
 
 import pytest
 
-
 MODULE_PATH = (
     Path(__file__).resolve().parents[3]
     / "lukhas_website"
@@ -141,7 +140,7 @@ async def test_begin_authentication_uses_public_key_credential_descriptor(monkey
     captured_kwargs = {}
 
     class DummyDescriptor:
-        def __init__(self, *, id, type):  # noqa: A002 - match library signature
+        def __init__(self, *, id, type):  # - match library signature
             self.id = id
             self.type = type
 
@@ -225,7 +224,7 @@ async def test_begin_authentication_skips_invalid_credentials(monkeypatch):
     captured_kwargs = {}
 
     class DummyDescriptor:
-        def __init__(self, *, id, type):  # noqa: A002 - match library signature
+        def __init__(self, *, id, type):  # - match library signature
             self.id = id
             self.type = type
 

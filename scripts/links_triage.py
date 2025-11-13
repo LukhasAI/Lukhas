@@ -9,7 +9,7 @@ import json
 import re
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 # Constants
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -22,7 +22,7 @@ LINK_PATTERN = re.compile(r'\[([^\]]+)\]\(([^)]+)\)')
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
@@ -47,7 +47,7 @@ def categorize_link(link_url: str) -> str:
     return 'other'
 
 
-def scan_broken_links(docs: List[Dict]) -> Dict[str, List[Dict]]:
+def scan_broken_links(docs: list[Dict]) -> dict[str, list[Dict]]:
     """Scan all docs for broken links and categorize."""
     broken_by_category = defaultdict(list)
     docs_by_path = {d['path']: d for d in docs}
@@ -61,7 +61,7 @@ def scan_broken_links(docs: List[Dict]) -> Dict[str, List[Dict]]:
             continue
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
         except Exception:
             continue
@@ -98,7 +98,7 @@ def scan_broken_links(docs: List[Dict]) -> Dict[str, List[Dict]]:
     return broken_by_category
 
 
-def generate_issue_for_category(category: str, links: List[Dict]) -> str:
+def generate_issue_for_category(category: str, links: list[Dict]) -> str:
     """Generate GitHub issue markdown for a category of broken links."""
     titles = {
         'missing_file': 'Broken Links: Missing Files',
@@ -223,7 +223,7 @@ def main():
     print("=" * 80)
     print()
     print("# Create GitHub issues:")
-    for category in broken_by_category.keys():
+    for category in broken_by_category:
         print(f"gh issue create --title 'Broken Links: {category}' --body-file 'docs/_generated/link_triage/{category}.md' --label 'docs:{category}'")
 
     print()

@@ -87,15 +87,14 @@ class BrandValidator:
                         )
 
                 # Check for incorrect Lambda usage in URLs
-                if "Λ" in line and ("href=" in line or "url" in line.lower() or "path" in line.lower()):
-                    if "aria-label" not in line and "display" not in line.lower():
-                        violations.append(
-                            (
-                                line_num,
-                                "Lambda (Λ) found in URL/path context",
-                                "Use plain text form in URLs and paths",
-                            )
+                if ('Λ' in line and ('href=' in line or 'url' in line.lower() or 'path' in line.lower())) and ('aria-label' not in line and 'display' not in line.lower()):
+                    violations.append(
+                        (
+                            line_num,
+                            "Lambda (Λ) found in URL/path context",
+                            "Use plain text form in URLs and paths",
                         )
+                    )
 
         except Exception as e:
             print(f"Error reading {filepath}: {e}", file=sys.stderr)

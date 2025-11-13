@@ -15,7 +15,7 @@ import functools
 import os
 import time
 from contextlib import contextmanager
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 try:
     from opentelemetry import metrics, trace
@@ -24,14 +24,14 @@ try:
     from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
     from opentelemetry.instrumentation.requests import RequestsInstrumentor
     from opentelemetry.instrumentation.sqlalchemy import (
-        SQLAlchemyInstrumentor,  # noqa: F401  # TODO: opentelemetry.instrumentation....
+        SQLAlchemyInstrumentor,  # TODO: opentelemetry.instrumentation....
     )
     from opentelemetry.sdk.metrics import MeterProvider
     from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
     from opentelemetry.sdk.trace import TracerProvider
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
     from opentelemetry.semconv.trace import (
-        SpanAttributes,  # noqa: F401  # TODO: opentelemetry.semconv.trace.Sp...
+        SpanAttributes,  # TODO: opentelemetry.semconv.trace.Sp...
     )
     from opentelemetry.trace.status import Status, StatusCode
 
@@ -230,7 +230,7 @@ class LUKHASTracer:
     def trace_operation(
         self,
         operation_name: str,
-        attributes: Optional[Dict[str, Any]] = None,
+        attributes: Optional[dict[str, Any]] = None,
         record_exception: bool = True,
     ):
         """
@@ -466,7 +466,7 @@ class LUKHASTracer:
 
 def trace_function(
     operation_name: Optional[str] = None,
-    attributes: Optional[Dict[str, Any]] = None,
+    attributes: Optional[dict[str, Any]] = None,
 ):
     """
     Decorator for tracing function execution.

@@ -1,109 +1,107 @@
-"""
-Enhanced Core TypeScript - Integrated from Advanced Systems
-Original: legacy_adapter.py
-Advanced: legacy_adapter.py
-Integration Date: 2025-05-31T07:55:29.984497
-"""
+"""Legacy adapter that bridges the unified integration layer with legacy components."""
+
+from __future__ import annotations
+
 import logging
 import time
 import uuid
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
-"""
-LegacyAdapter - Compatibility layer for existing LUKHAS components
-
-Provides adapters and wrappers to help existing components communicate with
-the new UniversalIntegrationLayer while maintaining all functionality.
-"""
-
+from ..unified_integration import (
+    ComponentType,
+    Message,
+    MessageType,
+    UniversalIntegrationLayer,
+)
 
 logger = logging.getLogger("LegacyAdapter")
 
 
 class LegacyComponentAdapter:
-    """Adapter to help legacy components work with new integration layer"""
+    """Adapter to help legacy components interact with the integration layer."""
 
     def __init__(
         self,
         integration_layer: UniversalIntegrationLayer,
         component_id: str,
-        component_type: ComponentType,
-    ):
-        """Initialize the adapter
-
-        Args:
-            integration_layer: Reference to integration layer
-            component_id: ID of the legacy component
-            component_type: Type of the component
-        """
+        component_type: ComponentType = ComponentType.LEGACY,
+    ) -> None:
         self.integration = integration_layer
         self.component_id = component_id
         self.component_type = component_type
+        self.legacy_handler: Callable[[dict[str, Any]], None] | None = None
 
-        # Register with integration layer
-        self.integration.register_component(component_id, component_type, self._handle_message)
+        # Register with integration layer using the legacy component type.
+        self.integration.register_component(
+            component_id,
+            component_type,
+            self._handle_message,
+        )
 
-        logger.info(f"Legacy adapter initialized for {component_id}")
-        metadata["legacy"] = True
+        logger.info("Legacy adapter initialized for component '%s'", component_id)
 
-        # Create standardized message
+    def adapt_legacy_message(
+        self,
+        message: dict[str, Any],
+        target: str | None = None,
+    ) -> Message:
+        """Normalize a legacy-style message to the integration format."""
+
+        metadata = dict(message.get("metadata", {}))
+        metadata.setdefault("legacy", True)
+
+        msg_type = MessageType.from_value(message.get("type"))
+        resolved_target = target or message.get("target")
+        content = message.get("content", message)
+
         return Message(
             id=message.get("id", str(uuid.uuid4())),
             type=msg_type,
             source=self.component_id,
-            target=target,
-            content=message.get("content", message),
+            target=resolved_target,
+            content=content,
             metadata=metadata,
             timestamp=time.time(),
         )
 
-    async def send_message(self, message: dict[str, Any], target: Optional[str] = None) -> str:
-        """Send a legacy message through the new integration layer
+    async def send_message(
+        self,
+        message: dict[str, Any],
+        target: str | None = None,
+    ) -> str:
+        """Send a legacy message through the integration layer."""
 
-        Args:
-            message: Legacy message dictionary
-            target: Optional target component
-
-        Returns:
-            str: Message ID
-        """
-        # Convert to new format
         new_message = self.adapt_legacy_message(message, target)
 
-        # Publish through integration layer
         return await self.integration.publish(
             message_type=new_message.type,
             content=new_message.content,
-            source=self.component_id,
-            target=target,
+            source=new_message.source,
+            target=new_message.target,
             metadata=new_message.metadata,
+            message_id=new_message.id,
         )
 
-    def register_legacy_handler(self, handler: Callable) -> None:
-        """Register a legacy message handler
+    def register_legacy_handler(self, handler: Callable[[dict[str, Any]], None]) -> None:
+        """Register a handler that should receive normalized messages."""
 
-        Args:
-            handler: Legacy message handling function
-        """
         self.legacy_handler = handler
 
     def _handle_message(self, message: Message) -> None:
-        """Handle messages from integration layer
+        """Dispatch integration messages to the legacy handler if present."""
 
-        Args:
-            message: Standardized message object
-        """
-        if hasattr(self, "legacy_handler"):
-            # Convert to legacy format
-            legacy_message = {
-                "type": message.type.value,
-                "content": message.content,
-                "source": message.source,
-                "metadata": message.metadata,
-            }
+        if self.legacy_handler is None:
+            logger.debug("No legacy handler registered for '%s'", self.component_id)
+            return
 
-            # Call legacy handler
-            try:
-                self.legacy_handler(legacy_message)
-            except Exception as e:
-                logger.error(f"Error in legacy handler: {e}")
+        legacy_message = {
+            "type": message.type.value,
+            "content": message.content,
+            "source": message.source,
+            "metadata": message.metadata,
+        }
+
+        try:
+            self.legacy_handler(legacy_message)
+        except Exception as exc:  # pragma: no cover - defensive logging
+            logger.error("Error in legacy handler for '%s': %s", self.component_id, exc)

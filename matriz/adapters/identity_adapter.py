@@ -1,8 +1,7 @@
 import importlib
 
-from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
-
 from core.trace import mk_crumb
+from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
 
 
 class IdentityAdapter(MatrizNode):
@@ -32,7 +31,7 @@ class IdentityAdapter(MatrizNode):
 # Added for test compatibility (matriz.adapters.identity_adapter.UidentityAdapter)
 try:
     _candidate_module = importlib.import_module("candidate.matriz.adapters.identity_adapter")
-    UidentityAdapter = getattr(_candidate_module, "UidentityAdapter")  # type: ignore[assignment]
+    UidentityAdapter = _candidate_module.UidentityAdapter  # type: ignore[assignment]
 except Exception:  # pragma: no cover - fallback for missing candidate module
 
     class UidentityAdapter:
@@ -44,7 +43,7 @@ except Exception:  # pragma: no cover - fallback for missing candidate module
 
 
 try:
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_adapters_identity_adapter_py_L46"}
 except NameError:
     __all__ = []
 if "UidentityAdapter" not in __all__:

@@ -1,390 +1,390 @@
 {
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/.semgrep/lukhas-security.yaml:547": {
+  ".semgrep/lukhas-security.yaml:547": {
     "issue": 552,
     "title": "[TODO] implement authentication",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/AUTONOMOUS_GUIDE_MATRIZ_COMPLETION.md:237": {
+  "AUTONOMOUS_GUIDE_MATRIZ_COMPLETION.md:237": {
     "issue": 553,
     "title": "[TODO] [SCOPE:PROD] : Add input validation to prevent X",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/AUTONOMOUS_GUIDE_TODO_CLEANUP.md:237": {
+  "AUTONOMOUS_GUIDE_TODO_CLEANUP.md:237": {
     "issue": 554,
     "title": "[TODO] [SCOPE:PROD] : Add input validation to prevent X",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/apis/platform_integrations.py:43": {
+  "branding/apis/platform_integrations.py:43": {
     "issue": 555,
     "title": "[TODO] requests_oauthlib; consider us...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/completion/BATCH-CODEX-CLEANUP-006.md:25": {
+  "completion/BATCH-CODEX-CLEANUP-006.md:25": {
     "issue": 556,
     "title": "[TODO] Send notification through consciousness hub | Deferred | Con",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/completion/BATCH-CODEX-CLEANUP-006.md:42": {
+  "completion/BATCH-CODEX-CLEANUP-006.md:42": {
     "issue": 557,
     "title": "[TODO] Add example | Deferred | Example content missing | Basic gov",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/completion/BATCH-CODEX-CLEANUP-006.md:45": {
+  "completion/BATCH-CODEX-CLEANUP-006.md:45": {
     "issue": 558,
     "title": "[TODO] Validate against token store | Deferred | Token store valida",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/core/identity/test_consciousness_identity_patterns.py:43": {
+  "core/identity/test_consciousness_identity_patterns.py:43": {
     "issue": 559,
     "title": "[TODO] .consciousness_tiered_authenti...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/core/identity/test_consciousness_identity_patterns.py:46": {
+  "core/identity/test_consciousness_identity_patterns.py:46": {
     "issue": 560,
     "title": "[TODO] .constitutional_ai_compliance....",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/audits/TODO_CLEANUP_REPORT.md:93": {
+  "docs/audits/TODO_CLEANUP_REPORT.md:93": {
     "issue": 561,
     "title": "[TODO] Verify signature using stored public key (SECURITY)",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/CRITICAL_SCAFFOLDS.md:418": {
+  "docs/gonzo/CRITICAL_SCAFFOLDS.md:418": {
     "issue": 562,
     "title": "[TODO] argon2id password verify",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/CRITICAL_SCAFFOLDS.md:426": {
+  "docs/gonzo/CRITICAL_SCAFFOLDS.md:426": {
     "issue": 563,
     "title": "[TODO] WebAuthn challenge/verify",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/FAILED_SESSION.md:404": {
+  "docs/gonzo/FAILED_SESSION.md:404": {
     "issue": 564,
     "title": "[TODO] requests_oauthlib; consider us...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/FAILED_SESSION.md:3976": {
+  "docs/gonzo/FAILED_SESSION.md:3976": {
     "issue": 565,
     "title": "[TODO] requests_oauthlib; consider us...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/matriz_prep/claude_copilot.md:1025": {
+  "docs/gonzo/matriz_prep/claude_copilot.md:1025": {
     "issue": 566,
     "title": "[TODO] verify token via policy_guard (owner/scopes); support PATs a",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/governance/guardian_integration.py:47": {
+  "labs/core/governance/guardian_integration.py:47": {
     "issue": 567,
     "title": "[TODO] .constitutional_compliance_eng...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/governance/guardian_integration.py:48": {
+  "labs/core/governance/guardian_integration.py:48": {
     "issue": 568,
     "title": "[TODO] .constitutional_compliance_eng...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/identity/test_consciousness_identity_patterns.py:43": {
+  "labs/core/identity/test_consciousness_identity_patterns.py:43": {
     "issue": 569,
     "title": "[TODO] .consciousness_tiered_authenti...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/identity/test_consciousness_identity_patterns.py:46": {
+  "labs/core/identity/test_consciousness_identity_patterns.py:46": {
     "issue": 570,
     "title": "[TODO] .constitutional_ai_compliance....",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/qi_financial/qi_financial_consciousness_engine.py:27": {
+  "labs/core/qi_financial/qi_financial_consciousness_engine.py:27": {
     "issue": 571,
     "title": "[TODO] - Amount determines token consciousness value",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/qi_financial/quantum_financial_consciousness_engine.py:27": {
+  "labs/core/qi_financial/quantum_financial_consciousness_engine.py:27": {
     "issue": 572,
     "title": "[TODO] - Amount determines quantum token consciousness value",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/quantum_financial/quantum_financial_consciousness_engine.py:27": {
+  "labs/core/quantum_financial/quantum_financial_consciousness_engine.py:27": {
     "issue": 573,
     "title": "[TODO] - Amount determines quantum token consciousness value",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/symbolic_bridge/token_map.py:7": {
+  "labs/core/symbolic_bridge/token_map.py:7": {
     "issue": 574,
     "title": "[TODO] - Implement full consciousness token mapping with emotional ",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/governance/identity/core/auth/webauthn_manager.py:26": {
+  "labs/governance/identity/core/auth/webauthn_manager.py:26": {
     "issue": 575,
     "title": "[TODO] webauthn.generate_authenticati...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/governance/identity/core/auth/webauthn_manager.py:27": {
+  "labs/governance/identity/core/auth/webauthn_manager.py:27": {
     "issue": 576,
     "title": "[TODO] webauthn.generate_registration...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/governance/identity/core/auth/webauthn_manager.py:28": {
+  "labs/governance/identity/core/auth/webauthn_manager.py:28": {
     "issue": 577,
     "title": "[TODO] webauthn.verify_authentication...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/governance/identity/core/auth/webauthn_manager.py:29": {
+  "labs/governance/identity/core/auth/webauthn_manager.py:29": {
     "issue": 578,
     "title": "[TODO] webauthn.verify_registration_r...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/governance/identity/core/sing/sso_engine.py:643": {
+  "labs/governance/identity/core/sing/sso_engine.py:643": {
     "issue": 579,
     "title": "[TODO] Implement device sync token creation",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/governance/identity/core/sing/sso_engine.py:648": {
+  "labs/governance/identity/core/sing/sso_engine.py:648": {
     "issue": 580,
     "title": "[TODO] Implement sync token registration",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/components/qrg-envelope.tsx:23": {
+  "lukhas_website/components/qrg-envelope.tsx:23": {
     "issue": 581,
     "title": "[TODO] Real authentication challenge (WebAuthn / device key)",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/components/qrg-envelope.tsx:24": {
+  "lukhas_website/components/qrg-envelope.tsx:24": {
     "issue": 582,
     "title": "[TODO] Audit \u039b-trace for security logging",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/api/oidc.py:1098": {
+  "lukhas_website/lukhas/api/oidc.py:1098": {
     "issue": 583,
     "title": "[TODO] get_tiered_auth_system",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/api/routing_admin.py:103": {
+  "lukhas_website/lukhas/api/routing_admin.py:103": {
     "issue": 584,
     "title": "[TODO] Implement proper admin authentication",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/test_lid_integration.py:31": {
+  "lukhas_website/lukhas/identity/test_lid_integration.py:31": {
     "issue": 585,
     "title": "[TODO] .auth_service.AuthResult; cons...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/test_lid_integration.py:39": {
+  "lukhas_website/lukhas/identity/test_lid_integration.py:39": {
     "issue": 586,
     "title": "[TODO] .token_generator.TokenClaims; ...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/test_lid_integration.py:44": {
+  "lukhas_website/lukhas/identity/test_lid_integration.py:44": {
     "issue": 587,
     "title": "[TODO] .token_introspection.Introspec...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/test_lid_integration.py:49": {
+  "lukhas_website/lukhas/identity/test_lid_integration.py:49": {
     "issue": 588,
     "title": "[TODO] .token_validator.ValidationRes...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/webauthn_enhanced.py:35": {
+  "lukhas_website/lukhas/identity/webauthn_enhanced.py:35": {
     "issue": 589,
     "title": "[TODO] .webauthn.WebAuthnCredential; ...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/webauthn_production.py:69": {
+  "lukhas_website/lukhas/identity/webauthn_production.py:69": {
     "issue": 590,
     "title": "[TODO] webauthn.helpers.structs.Authe...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/webauthn_production.py:72": {
+  "lukhas_website/lukhas/identity/webauthn_production.py:72": {
     "issue": 591,
     "title": "[TODO] webauthn.helpers.structs.Publi...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/webauthn_production.py:73": {
+  "lukhas_website/lukhas/identity/webauthn_production.py:73": {
     "issue": 592,
     "title": "[TODO] webauthn.helpers.structs.Publi...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/webauthn_production.py:74": {
+  "lukhas_website/lukhas/identity/webauthn_production.py:74": {
     "issue": 593,
     "title": "[TODO] webauthn.helpers.structs.Publi...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/webauthn_production.py:75": {
+  "lukhas_website/lukhas/identity/webauthn_production.py:75": {
     "issue": 594,
     "title": "[TODO] webauthn.helpers.structs.Publi...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/webauthn_production.py:76": {
+  "lukhas_website/lukhas/identity/webauthn_production.py:76": {
     "issue": 595,
     "title": "[TODO] webauthn.helpers.structs.Publi...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/webauthn_production.py:77": {
+  "lukhas_website/lukhas/identity/webauthn_production.py:77": {
     "issue": 596,
     "title": "[TODO] webauthn.helpers.structs.Regis...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/packages/auth/index.ts:362": {
+  "lukhas_website/packages/auth/index.ts:362": {
     "issue": 597,
     "title": "[TODO] Implement credential lookup",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/packages/auth/passkeys.ts:39": {
+  "lukhas_website/packages/auth/passkeys.ts:39": {
     "issue": 598,
     "title": "[TODO] Verify attestation, store credential",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/packages/auth/passkeys.ts:58": {
+  "lukhas_website/packages/auth/passkeys.ts:58": {
     "issue": 599,
     "title": "[TODO] Verify assertion, check credential",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/bio/oscillators/oscillator.py:263": {
+  "qi/bio/oscillators/oscillator.py:263": {
     "issue": 600,
     "title": "[TODO] Validate against token store",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/privacy/zero_knowledge_system.py:55": {
+  "qi/privacy/zero_knowledge_system.py:55": {
     "issue": 601,
     "title": "[TODO] PrivacyStatement",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/privacy/zero_knowledge_system.py:69": {
+  "qi/privacy/zero_knowledge_system.py:69": {
     "issue": 602,
     "title": "[TODO] PrivacyStatement",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/states/safe_blockchain.py:93": {
+  "qi/states/safe_blockchain.py:93": {
     "issue": 603,
     "title": "[TODO] ComplianceReport",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/states/safe_blockchain.py:109": {
+  "qi/states/safe_blockchain.py:109": {
     "issue": 604,
     "title": "[TODO] ComplianceReport",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/states/system_orchestrator.py:70": {
+  "qi/states/system_orchestrator.py:70": {
     "issue": 605,
     "title": "[TODO] SecurityMesh",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/states/system_orchestrator.py:72": {
+  "qi/states/system_orchestrator.py:72": {
     "issue": 606,
     "title": "[TODO] ZeroKnowledgePrivacyEngine",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/states/system_orchestrator.py:84": {
+  "qi/states/system_orchestrator.py:84": {
     "issue": 607,
     "title": "[TODO] MultiJurisdictionComplianceEng...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/states/system_orchestrator.py:141": {
+  "qi/states/system_orchestrator.py:141": {
     "issue": 608,
     "title": "[TODO] SecurityException",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/scripts/todo_migration/generate_todo_inventory.py:6": {
+  "scripts/todo_migration/generate_todo_inventory.py:6": {
     "issue": 609,
     "title": "[TODO] message",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/scripts/todo_migration/generate_todo_inventory.py:8": {
+  "scripts/todo_migration/generate_todo_inventory.py:8": {
     "issue": 610,
     "title": "[TODO] message",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_integration.py:18": {
+  "security/tests/test_security_integration.py:18": {
     "issue": 611,
     "title": "[TODO] security; consider using impor...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:281": {
+  "security/tests/test_security_suite.py:281": {
     "issue": 612,
     "title": "[TODO] create_encryption_manager",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:299": {
+  "security/tests/test_security_suite.py:299": {
     "issue": 613,
     "title": "[TODO] create_encryption_manager",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:309": {
+  "security/tests/test_security_suite.py:309": {
     "issue": 614,
     "title": "[TODO] EncryptionAlgorithm",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:320": {
+  "security/tests/test_security_suite.py:320": {
     "issue": 615,
     "title": "[TODO] create_encryption_manager",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:339": {
+  "security/tests/test_security_suite.py:339": {
     "issue": 616,
     "title": "[TODO] create_encryption_manager",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:364": {
+  "security/tests/test_security_suite.py:364": {
     "issue": 617,
     "title": "[TODO] create_encryption_manager",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:378": {
+  "security/tests/test_security_suite.py:378": {
     "issue": 618,
     "title": "[TODO] create_encryption_manager",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:490": {
+  "security/tests/test_security_suite.py:490": {
     "issue": 619,
     "title": "[TODO] create_security_monitor",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:660": {
+  "security/tests/test_security_suite.py:660": {
     "issue": 620,
     "title": "[TODO] create_compliance_framework",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:717": {
+  "security/tests/test_security_suite.py:717": {
     "issue": 621,
     "title": "[TODO] ComplianceStandard",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_unit.py:18": {
+  "security/tests/test_security_unit.py:18": {
     "issue": 622,
     "title": "[TODO] security; consider using impor...",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/security_reports/tests/test_security-reports_unit.py:40": {
+  "security_reports/tests/test_security-reports_unit.py:40": {
     "issue": 623,
     "title": "[TODO] security",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/security_reports/tests/test_security-reports_unit.py:46": {
+  "security_reports/tests/test_security-reports_unit.py:46": {
     "issue": 624,
     "title": "[TODO] security",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/security_reports/tests/test_security-reports_unit.py:47": {
+  "security_reports/tests/test_security-reports_unit.py:47": {
     "issue": 625,
     "title": "[TODO] security",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/scripts/test_replace_todos.py:20": {
+  "tests/unit/scripts/test_replace_todos.py:20": {
     "issue": 626,
     "title": "[TODO] [SCOPE:PROD] : Fix this\\nprint('hi')\\n\"",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/tools/test_categorize_todos.py:34": {
+  "tests/unit/tools/test_categorize_todos.py:34": {
     "issue": 627,
     "title": "[TODO] address security regression\",",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/tools/test_todo_tooling.py:37": {
+  "tests/unit/tools/test_todo_tooling.py:37": {
     "issue": 628,
     "title": "[TODO] Fix security vulnerability immediately\",",
     "repo": "LukhasAI/Lukhas"
   },
-  "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/tools/test_todo_tooling.py:61": {
+  "tests/unit/tools/test_todo_tooling.py:61": {
     "issue": 629,
     "title": "[TODO] Implement identity verification for guardian compliance\",",
     "repo": "LukhasAI/Lukhas"

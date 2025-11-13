@@ -18,6 +18,8 @@
 ║ identity management across the LUKHAS ecosystem.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import base64
 import hashlib
 import logging
@@ -111,7 +113,7 @@ class BiometricIntegrationManager:
         logger.info("ΛTRACE: Initializing Biometric Integration Manager")
 
         # Biometric template storage (encrypted)
-        self.biometric_templates = {}  # lambda_id -> List[BiometricTemplate]
+        self.biometric_templates = {}  # lambda_id -> list[BiometricTemplate]
 
         # Active challenges
         self.active_challenges = {}  # challenge_id -> BiometricChallenge

@@ -11,7 +11,7 @@ import logging
 import secrets
 import time
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Conditional JWT import with fallback
 try:
@@ -107,10 +107,7 @@ class TokenService(TokenManagerInterface):
                     return False
 
                 # Check issuer
-                if payload.get("iss") != self.issuer:
-                    return False
-
-                return True
+                return payload.get("iss") == self.issuer
             else:
                 # Fallback validation
                 return await self._validate_fallback_token(token)
@@ -142,7 +139,7 @@ class TokenService(TokenManagerInterface):
             logger.error(f"Token refresh failed: {e}")
             raise
 
-    async def decode_token(self, token: str) -> Optional[Dict[str, Any]]:
+    async def decode_token(self, token: str) -> Optional[dict[str, Any]]:
         """Decode token and return claims"""
         try:
             if JWT_AVAILABLE:
@@ -184,10 +181,7 @@ class TokenService(TokenManagerInterface):
                 return False
 
             # Check expiry
-            if claims.get("exp", 0) < time.time():
-                return False
-
-            return True
+            return not claims.get("exp", 0) < time.time()
         except Exception:
             return False
 
@@ -207,7 +201,7 @@ class TokenService(TokenManagerInterface):
 
         return await self._generate_fallback_token(claims)
 
-    async def _decode_fallback_token(self, token: str) -> Optional[Dict[str, Any]]:
+    async def _decode_fallback_token(self, token: str) -> Optional[dict[str, Any]]:
         """Decode fallback token"""
         try:
             import base64

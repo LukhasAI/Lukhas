@@ -59,7 +59,7 @@ class SecurityUpdater:
 
         # Check with safety
         print("  Running safety check...")
-        code, stdout, stderr = self.run_command(["python3", "-m", "safety", "check", "--json"])
+        code, stdout, _stderr = self.run_command(["python3", "-m", "safety", "check", "--json"])
         if stdout:
             try:
                 safety_results = json.loads(stdout)
@@ -100,7 +100,7 @@ class SecurityUpdater:
             return True
 
         print(f"  Updating {package}...")
-        code, stdout, stderr = self.run_command(cmd)
+        code, _stdout, stderr = self.run_command(cmd)
 
         if code == 0:
             self.updates_applied.append(package)
@@ -171,7 +171,7 @@ class SecurityUpdater:
             return True
 
         # Run pytest
-        code, stdout, stderr = self.run_command(["pytest", "tests/", "-v", "--tb=short", "-q"])
+        code, stdout, _stderr = self.run_command(["pytest", "tests/", "-v", "--tb=short", "-q"])
 
         if code == 0:
             print("  ✅ All tests passed")

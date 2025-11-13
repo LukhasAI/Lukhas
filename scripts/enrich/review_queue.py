@@ -51,7 +51,7 @@ class ReviewQueue:
         }
 
         if self.path.exists():
-            try:
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_enrich_review_queue_py_L54"}
                 self.data = json.loads(self.path.read_text())
             except Exception:
                 # Corrupt file - start fresh

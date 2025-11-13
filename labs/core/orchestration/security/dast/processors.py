@@ -4,6 +4,8 @@
 Specialized processors for tasks, tags, attention management, and solution tracking
 with AI-powered optimization and real-time processing capabilities.
 """
+from __future__ import annotations
+
 import time
 from datetime import datetime, timezone
 from typing import Any, Optional

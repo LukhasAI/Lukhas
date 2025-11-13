@@ -13,10 +13,10 @@ Usage:
 import argparse
 import json
 import pathlib
-from typing import Any, Dict
+from typing import Any
 
 
-def load_template_contract() -> Dict[str, Any]:
+def load_template_contract() -> dict[str, Any]:
     """Load the memory contract as a template."""
     template_path = pathlib.Path("memory/matrix_memoria.json")
     if not template_path.exists():
@@ -26,7 +26,7 @@ def load_template_contract() -> Dict[str, Any]:
         return json.load(f)
 
 
-def customize_contract_for_module(template: Dict[str, Any], module: str) -> Dict[str, Any]:
+def customize_contract_for_module(template: dict[str, Any], module: str) -> dict[str, Any]:
     """Customize the template contract for a specific module."""
     contract = template.copy()
 
@@ -132,7 +132,7 @@ def customize_contract_for_module(template: Dict[str, Any], module: str) -> Dict
     return contract
 
 
-def write_contract_file(contract: Dict[str, Any], output_path: pathlib.Path) -> None:
+def write_contract_file(contract: dict[str, Any], output_path: pathlib.Path) -> None:
     """Write contract to JSON file with pretty formatting."""
     with open(output_path, 'w') as f:
         json.dump(contract, f, indent=2, sort_keys=False)

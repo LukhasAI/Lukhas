@@ -28,6 +28,8 @@ Version: 2.0.0
 Status: OPERATIONAL
 """
 
+from __future__ import annotations
+
 import logging
 import os
 from typing import Any, Optional
@@ -162,7 +164,7 @@ def analyze_emotion_stream(data: Any, **kwargs) -> dict[str, Any]:
         return {"status": "error", "error": str(e), "processed": False}
 
 
-def create_emotion_session(session_id: str, **config) -> Optional[Any]:
+def create_emotion_session(session_id: str, **config) -> Any | None:
     """
     Create new emotion processing session.
 

@@ -52,6 +52,7 @@ class EventBus:
         self._priority_queue = asyncio.PriorityQueue()
         self._worker_task: Optional[asyncio.Task] = None
         self._priority_worker_task: Optional[asyncio.Task] = None
+        self._entry_counter = 0
 
         # Dream-specific enhancements
         self._dream_event_history: list[Event] = []
@@ -115,7 +116,8 @@ class EventBus:
 
         # Route to appropriate queue based on priority
         if priority >= 4:  # High priority events
-            await self._priority_queue.put((10 - priority, event))
+            await self._priority_queue.put((10 - priority, self._entry_counter, event))
+            self._entry_counter += 1
         else:
             await self._queue.put(event)
 
@@ -303,7 +305,7 @@ class EventBus:
         """Worker to process high priority events from the priority queue."""
         while True:
             try:
-                priority, event = await self._priority_queue.get()
+                _priority, _counter, event = await self._priority_queue.get()
                 await self._process_event(event)
                 self._priority_queue.task_done()
             except asyncio.CancelledError:

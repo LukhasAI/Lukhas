@@ -21,6 +21,7 @@
 ║ This module contains functions to validate the LUKHAS configuration.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
 
 """Validation helpers for configuration."""
 

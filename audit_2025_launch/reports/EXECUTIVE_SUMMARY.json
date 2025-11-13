@@ -1,0 +1,32 @@
+{
+  "timestamp": "2025-11-06T00:26:27.078583",
+  "audit_execution": {
+    "total_tools": 8,
+    "successful": 8,
+    "failed": 0,
+    "total_duration_seconds": 14.3
+  },
+  "launch_readiness_score": 65,
+  "blocking_issues": [
+    "4 critical security findings"
+  ],
+  "key_metrics": {
+    "total_files": 0,
+    "total_tests": 4668,
+    "documentation_files": 7341,
+    "critical_security_findings": 4,
+    "duplicate_groups": 326,
+    "archive_candidates": 0,
+    "must_keep_files": 1899
+  },
+  "reports_generated": {
+    "baseline_metrics": false,
+    "duplicate_files": true,
+    "archive_candidates": true,
+    "security_findings": true,
+    "config_inventory": true,
+    "docs_quality": true,
+    "test_coverage": true,
+    "must_keep_registry": true
+  }
+}

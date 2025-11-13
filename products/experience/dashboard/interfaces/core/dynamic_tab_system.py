@@ -41,6 +41,7 @@
 ║ ΛTAG: ΛTABS, ΛDYNAMIC, ΛADAPTIVE, ΛMORPHING, ΛINTELLIGENT
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
 
 import asyncio
 import logging

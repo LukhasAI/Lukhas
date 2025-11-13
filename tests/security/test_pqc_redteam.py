@@ -25,9 +25,13 @@ from typing import Any, Dict
 import pytest
 
 # Skip all tests if PQC not available (fallback mode)
-pytest.importorskip("oqs", reason="PQC tests require liboqs (install with: pip install liboqs-python)")
+try:
+    import oqs
+    OQS_INSTALLED = True
+except (ImportError, SystemExit, RuntimeError):
+    OQS_INSTALLED = False
 
-import oqs
+pytestmark = pytest.mark.skipif(not OQS_INSTALLED, reason="PQC tests require liboqs and its shared libraries to be properly installed.")
 
 
 class TestPQCSignatureForgery:

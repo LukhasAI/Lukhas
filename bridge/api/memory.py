@@ -25,7 +25,7 @@
 ║ ├──────────────────────────────────────────────────────────────────────────────┤
 ║ │ Poetic Essence:                                                                │
 ║ │ In the vast expanse of the digital cosmos, where ephemeral thoughts mingle with│
-║ │ the eternal echoes of data, lies a sanctuary—the Memory API. Here, memories   │
+║ │ the eternal echoes of data, lies a sanctuary-the Memory API. Here, memories   │
 ║ │ are not mere fragments of the past but vibrant tapestries woven from the      │
 ║ │ threads of experience, each fold a testament to the fleeting nature of time.  │
 ║ │ With every invocation, we summon forth these treasures, crafting a narrative   │
@@ -45,9 +45,11 @@
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛSTANDARD, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import logging
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 from fastapi import APIRouter, HTTPException, Query
@@ -106,14 +108,14 @@ class MemoryCreateRequest(BaseModel):
         ..., description="Memory content/context", min_length=10
     )
     user_id: str = Field(..., description="User identifier", example="lukhas_admin")
-    metadata: Optional[dict[str, Any]] = Field(
+    metadata: dict[str, Any] | None = Field(
         default_factory=dict, description="Additional metadata"
     )
 
 
 class MemoryRecallRequest(BaseModel):
     user_id: str = Field(..., description="User identifier")
-    filter_emotion: Optional[str] = Field(
+    filter_emotion: str | None = Field(
         None, description="Filter by specific emotion"
     )
     user_tier: int = Field(5, description="User access tier (0-5)", ge=0, le=5)
@@ -129,7 +131,7 @@ class EnhancedRecallRequest(BaseModel):
     emotion_threshold: float = Field(
         0.3, description="Emotion similarity threshold", ge=0.0, le=1.0
     )
-    context_query: Optional[str] = Field(
+    context_query: str | None = Field(
         None, description="Context query for semantic search"
     )
     max_results: int = Field(20, description="Maximum results to return", ge=1, le=100)
@@ -138,7 +140,7 @@ class EnhancedRecallRequest(BaseModel):
 class APIResponse(BaseModel):
     status: str = Field(..., description="Response status")
     data: Any = Field(..., description="Response data")
-    message: Optional[str] = Field(None, description="Optional message")
+    message: str | None = Field(None, description="Optional message")
     timestamp: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 

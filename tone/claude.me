@@ -1,4 +1,9 @@
-# Tone Module - Claude AI Context
+status: wip
+type: documentation
+# Tone Module Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
+
 
 **Module**: tone
 **Purpose**: 3-Layer Tone System - Poetic engagement, academic depth, and user-friendly accessibility
@@ -6,7 +11,6 @@
 **Language**: Python
 **Last Updated**: 2025-10-18
 
----
 
 ## Module Overview
 
@@ -44,7 +48,6 @@ This is not a "choose your tone" system—it's a **complete narrative experience
 - **⚡ Spark Star**: Creative energy in Layer 1 poetic compositions
 - **🧠 Flow Star**: Narrative flow and coherence across layer transitions
 
----
 
 ## Architecture: The 3-Layer Sequential Flow
 
@@ -61,7 +64,6 @@ This is not a "choose your tone" system—it's a **complete narrative experience
 - ❌ **Official specifications** - Standards documents, compliance records, audit trails
 - ⚠️ **Hybrid contexts** - Use judgment; prefer 3-layer for concept introductions even in technical docs
 
----
 
 ### Layer 1: Poetic/Keatsian Layer - "The Hook"
 
@@ -100,7 +102,6 @@ This is not a "choose your tone" system—it's a **complete narrative experience
 - Ensure metaphors **connect directly** to the technical reality explained in Layer 2
 - **Transition smoothly** to Layer 2 with a bridging sentence that shifts from poetry to precision
 
----
 
 ### Layer 2: Academic Layer - "The Depth"
 
@@ -148,7 +149,6 @@ This is not a "choose your tone" system—it's a **complete narrative experience
 - ❌ Oversimplification: Reducing rich concepts to trivial analogies
 - ❌ Missing the "why": Describing what without explaining why this approach
 
----
 
 ### Layer 3: User-Friendly Layer - "The Bridge"
 
@@ -213,7 +213,6 @@ memory.restore_fold(conversation_fold)
 - ❌ No practical examples: All theory, no application
 - ❌ Assuming expertise: Requiring background knowledge not everyone has
 
----
 
 ## The Flow: How the Three Layers Work Together
 
@@ -267,7 +266,6 @@ response = my_constellation.process("Tell me about consciousness")
 
 *Real benefit: You can start with just 2-3 stars and add more as your needs grow. Need creative responses? Add Spark ⚡. Need future planning? Add Oracle 🔮. Each star you add enhances your system's capabilities without requiring rewrites."*
 
----
 
 ## Module Structure
 
@@ -297,7 +295,6 @@ tone/
 └── tests/                       # Tone validation tests
 ```
 
----
 
 ## Development Guidelines
 
@@ -375,7 +372,6 @@ transition_1_to_2 = create_layer_transition(
 # makes fold-based memory possible."
 ```
 
----
 
 ## Usage Guidelines: When to Use the 3-Layer System
 
@@ -436,7 +432,6 @@ transition_1_to_2 = create_layer_transition(
 **Academic Papers**:
 - **Strategy**: Traditional academic papers typically use only Layer 2. However, for papers intended for broader audiences (like ACM Interactions or Communications of the ACM), a Layer 1 introduction can be appropriate.
 
----
 
 ## High Verbosity Preference
 
@@ -452,7 +447,6 @@ transition_1_to_2 = create_layer_transition(
 
 **Best Practice**: Better to use the 3-layer system properly with high verbosity on fewer concepts than to rush through many concepts with compressed layers.
 
----
 
 ## MATRIZ Pipeline Integration
 
@@ -465,7 +459,6 @@ This module operates within the MATRIZ cognitive framework:
 - **I (Intent)**: Understanding the intent behind content (public vs. internal) to guide tone selection
 - **A (Action)**: Automated tone generation, enforcement, and validation actions
 
----
 
 ## Observability
 
@@ -481,7 +474,6 @@ REQUIRED_SPANS = [
 ]
 ```
 
----
 
 ## Performance Targets
 
@@ -491,7 +483,6 @@ REQUIRED_SPANS = [
 - **Policy Validation**: <200ms for full 3-layer completeness check
 - **Real-time Layer Presence Indicators**: <100ms (for editor plugins)
 
----
 
 ## Related Modules
 
@@ -499,7 +490,6 @@ REQUIRED_SPANS = [
 - **Feedback** ([../feedback/](../feedback/)) - Collects tone quality feedback from users
 - **Serve** ([../serve/](../serve/)) - Serves tone-validated content to public APIs
 
----
 
 **Status**: Integration Lane (L2)
 **Manifest**: ✓ module.manifest.json (schema v1.0.0)
@@ -508,31 +498,3 @@ REQUIRED_SPANS = [
 **Philosophy**: Sequential 3-layer flow for public content, precision for internal docs
 **Verbosity Preference**: High verbosity across all layers
 **Last Updated**: 2025-10-18
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

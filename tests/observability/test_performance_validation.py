@@ -16,6 +16,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
+from async_utils import create_background_task
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
@@ -70,7 +71,7 @@ class TestPerformanceValidation:
                 metric_retention_hours=1,  # Short retention for testing
             )
             yield system
-            asyncio.create_task(system.shutdown())
+            create_background_task(system.shutdown())
 
     @pytest.fixture
     async def performance_detector(self, mock_dependencies):
@@ -267,7 +268,7 @@ class TestPerformanceValidation:
 
             start_time = time.perf_counter()
 
-            evidence_id, metadata = await security_hardening.secure_evidence_collection(
+            _evidence_id, _metadata = await security_hardening.secure_evidence_collection(
                 evidence_data=evidence_data,
                 source_ip="127.0.0.1",
                 user_id="test_user",

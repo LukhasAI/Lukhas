@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -38,10 +40,9 @@ from collections import OrderedDict, defaultdict
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from functools import wraps
-from typing import Any, Callable, Optional, TypeVar, Union
+from typing import OptionalVar, Union
 
 import numpy as np
-
 from core.common import get_logger
 
 # Set up logging
@@ -123,7 +124,7 @@ class AdaptiveCache(OptimizationStrategy):
         self.default_ttl = ttl_seconds
         self.prefetch_threshold = prefetch_threshold
 
-        self.cache: OrderedDict[str, CacheEntry] = OrderedDict()
+        self.cache: Ordereddict[str, CacheEntry] = OrderedDict()
         self.current_size = 0
         self.lock = threading.RLock()
 
@@ -706,7 +707,7 @@ class ComputationReuse(OptimizationStrategy):
     def __init__(self, max_cache_size: int = 1000):
         """Initialize computation reuse system"""
         self.max_cache_size = max_cache_size
-        self.cache: OrderedDict[str, Any] = OrderedDict()
+        self.cache: Ordereddict[str, Any] = OrderedDict()
         self.computation_graph: dict[str, set[str]] = defaultdict(set)
         self.lock = threading.RLock()
 

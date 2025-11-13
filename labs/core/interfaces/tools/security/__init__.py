@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # core/interfaces/tools/security/__init__.py
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Initializes the 'security' sub-package under 'core.interfaces.tools'.

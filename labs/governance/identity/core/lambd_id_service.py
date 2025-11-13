@@ -39,7 +39,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime
 from enum import Enum, IntEnum
 from pathlib import Path
-from typing import Any, Dict, Optional, Union
+from typing import Any, Union
 
 from core.common import get_logger
 
@@ -718,8 +718,8 @@ class LambdaIDService:
 
     # Guardian Integration Methods for ΛiD Security
 
-    async def validate_lambda_id_operation(self, operation_type: str, operation_data: Dict[str, Any],
-                                         user_id: str = "unknown") -> Dict[str, Any]:
+    async def validate_lambda_id_operation(self, operation_type: str, operation_data: dict[str, Any],
+                                         user_id: str = "unknown") -> dict[str, Any]:
         """Standalone method to validate ΛiD operations with Guardian"""
         if not self._guardian_integration_enabled or not self._guardian_instance:
             return {
@@ -758,12 +758,12 @@ class LambdaIDService:
             return {
                 "validated": False,
                 "safe": False,
-                "reason": f"Guardian validation failed: {str(e)}",
+                "reason": f"Guardian validation failed: {e!s}",
                 "error": True,
                 "correlation_id": correlation_id
             }
 
-    def get_guardian_lambda_id_status(self) -> Dict[str, Any]:
+    def get_guardian_lambda_id_status(self) -> dict[str, Any]:
         """Get comprehensive Guardian-ΛiD integration status for monitoring"""
         if not self._guardian_integration_enabled:
             return {

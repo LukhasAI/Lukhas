@@ -1,0 +1,16 @@
+# pip-audit Security Summary
+Run Date: 2025-11-03
+
+## Vulnerabilities Found: 1
+
+### CVE-2025-50181 (GHSA-pq67-6m6q-mj2v)
+- **Package**: urllib3 1.26.20
+- **Severity**: Medium
+- **Fix**: Upgrade to urllib3 >= 2.5.0
+- **Description**: urllib3 retries parameter ignored on PoolManager, redirects not disabled as expected
+- **Impact**: Applications attempting to mitigate SSRF by disabling redirects at PoolManager level remain vulnerable
+
+## Recommendation
+Upgrade urllib3 to version 2.5.0 or later to remediate the redirect handling vulnerability.
+
+## Total Dependencies Scanned: 141

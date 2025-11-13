@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
 # Added for test compatibility (qi.engines.identity.consolidate_identity_qi_secure.consolidate_identities)
 try:
-    from candidate.qi.engines.identity.consolidate_identity_qi_secure import (
+    from labs.qi.engines.identity.consolidate_identity_qi_secure import (
         consolidate_identities,
     )
 except ImportError:

@@ -9,12 +9,12 @@
 This tool systematically fixes the most common syntax error patterns
 identified in the LUKHAS codebase with consciousness-aware healing.
 """
+from __future__ import annotations
 
 import logging
 import re
 import subprocess
 from pathlib import Path
-from typing import Dict, List
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -29,7 +29,7 @@ class ComprehensiveSyntaxFixer:
         self.patterns_fixed = {}
         self.files_processed = set()
 
-    def get_syntax_errors(self) -> List[Dict]:
+    def get_syntax_errors(self) -> list[Dict]:
         """Get all syntax errors from ruff"""
         try:
             result = subprocess.run(
@@ -168,7 +168,7 @@ class ComprehensiveSyntaxFixer:
         """Apply all syntax fixes to a file"""
         try:
             path = Path(file_path)
-            if not path.exists() or not path.suffix == ".py":
+            if not path.exists() or path.suffix != ".py":
                 return False
 
             content = path.read_text(encoding="utf-8")

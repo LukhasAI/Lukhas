@@ -19,7 +19,13 @@ try:
     from core.enhanced_swarm import EnhancedSwarmHub
 
     # Agent 1 Task 2: Add event replay and snapshot system imports
-    from core.event_replay_snapshot import ActorStateSnapshot, Event, EventStore, EventType, SnapshotStore
+    from core.event_replay_snapshot import (
+        ActorStateSnapshot,
+        Event,
+        EventStore,
+        EventType,
+        SnapshotStore,
+    )
     from core.id import LukhosIDManager
     from core.integrator import (
         BioOrchestrator,

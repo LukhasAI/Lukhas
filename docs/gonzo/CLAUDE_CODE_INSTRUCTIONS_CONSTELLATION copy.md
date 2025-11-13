@@ -1,0 +1,1 @@
+{"type":"error","error":{"type":"not_found_error","message":"File not found in container: /home/claude/../CLAUDE_CODE_INSTRUCTIONS_CONSTELLATION.md","details":{"error_visibility":"user_facing"}},"request_id":"req_011CUs4RGxMWLRKEkaSKH2NK"}

@@ -66,13 +66,13 @@ bio_processor_adaptations_total = counter(
 
 # Public exports ------------------------------------------------------------
 __all__ = [
-    "router_no_rule_total",
-    "router_signal_processing_time",
-    "router_cascade_preventions_total",
-    "network_coherence_score",
-    "network_active_nodes",
-    "bio_processor_signals_total",
-    "bio_processor_adaptations_total",
     "PROMETHEUS_AVAILABLE",
     "Summary",
+    "bio_processor_adaptations_total",
+    "bio_processor_signals_total",
+    "network_active_nodes",
+    "network_coherence_score",
+    "router_cascade_preventions_total",
+    "router_no_rule_total",
+    "router_signal_processing_time",
 ]

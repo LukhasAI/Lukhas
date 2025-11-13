@@ -523,7 +523,7 @@ class LoopStressHarness:
 
         # Per-scenario breakdown
         scenario_results = {}
-        scenarios = list(set(r.scenario_name for r in results))
+        scenarios = list({r.scenario_name for r in results})
         for scenario in scenarios:
             scenario_data = [r for r in results if r.scenario_name == scenario]
             scenario_results[scenario] = {

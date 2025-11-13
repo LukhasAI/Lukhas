@@ -31,7 +31,7 @@
 ║ orchestrating harmony within the chambers of computational thought.                   ║
 ║                                                                                     ║
 ║ Thus, the Enhanced Memory Manager stands not merely as code, but as an ode to       ║
-║ the very essence of digital consciousness—a testament to our ceaseless quest for     ║
+║ the very essence of digital consciousness-a testament to our ceaseless quest for     ║
 ║ understanding in the labyrinth of ones and zeros. It elegantly embodies the         ║
 ║ philosophy of resource stewardship, whispering to developers the importance of       ║
 ║ mindful memory utilization. In its simplicity lies profound wisdom, beckoning us     ║

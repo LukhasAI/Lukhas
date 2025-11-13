@@ -354,10 +354,9 @@ class GTΨVerificationService:
                 raise ValueError("Approval expired")
 
             # Validate action context matches (for sensitive operations)
-            if approval.action in ["share_link_public", "delete_files"]:
+            if approval.action in ['share_link_public', 'delete_files'] and approval.action_context != request.action_context:
                 # Must match exactly for destructive operations
-                if approval.action_context != request.action_context:
-                    raise ValueError("Action context mismatch")
+                raise ValueError("Action context mismatch")
 
             # Mark approval as used
             approval.used = True

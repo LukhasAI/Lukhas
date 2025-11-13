@@ -8,7 +8,7 @@ import json
 import logging
 import time
 from collections import Counter
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import numpy as np
 import streamlit as st

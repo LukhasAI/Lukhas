@@ -50,7 +50,7 @@ async def test_consent_grant_and_withdraw_audit(tmp_path: Path):
     jsonl = tmp_path / "consent.jsonl"
     assert jsonl.exists()
     lines = jsonl.read_text().strip().splitlines()
-    events = [json.loads(l) for l in lines]
+    events = [json.loads(line) for line in lines]
     kinds = {e.get("event") for e in events}
     assert "consent_created" in kinds
     assert "consent_withdrawn" in kinds

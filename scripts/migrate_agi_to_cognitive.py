@@ -6,12 +6,12 @@ Systematically migrates 33k+ AGI references to Cognitive across the entire codeb
 Handles class names, function names, documentation, and configuration files while
 preserving technical accuracy and semantic meaning.
 """
+from __future__ import annotations
 
 import logging
 import os
 import re
 from pathlib import Path
-from typing import List, Tuple
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
@@ -192,17 +192,17 @@ class AGIToCognitiveMigrator:
 
         # Skip binary files
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 f.read(1024)  # Test read
         except (UnicodeDecodeError, UnicodeError, FileNotFoundError):
             return False
 
         return True
 
-    def migrate_file(self, file_path: Path) -> Tuple[bool, int]:
+    def migrate_file(self, file_path: Path) -> tuple[bool, int]:
         """Migrate AGI references in a single file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 original_content = f.read()
 
             modified_content = original_content
@@ -225,12 +225,12 @@ class AGIToCognitiveMigrator:
             return False, 0
 
         except Exception as e:
-            error_msg = f"Error processing {file_path}: {str(e)}"
+            error_msg = f"Error processing {file_path}: {e!s}"
             logger.error(error_msg)
             self.stats['errors'].append(error_msg)
             return False, 0
 
-    def scan_directory(self, directory: Path) -> List[Path]:
+    def scan_directory(self, directory: Path) -> list[Path]:
         """Recursively scan directory for files to process"""
         files_to_process = []
 
@@ -304,11 +304,11 @@ class AGIToCognitiveMigrator:
             if dry_run:
                 # Just count potential changes
                 try:
-                    with open(file_path, 'r', encoding='utf-8') as f:
+                    with open(file_path, encoding='utf-8') as f:
                         content = f.read()
 
                     total_matches = 0
-                    for pattern, replacement in self.patterns:
+                    for pattern, _replacement in self.patterns:
                         matches = len(re.findall(pattern, content))
                         total_matches += matches
 
@@ -316,7 +316,7 @@ class AGIToCognitiveMigrator:
                         logger.info(f"📋 {file_path}: {total_matches} potential changes")
 
                 except Exception as e:
-                    logger.error(f"Error previewing {file_path}: {str(e)}")
+                    logger.error(f"Error previewing {file_path}: {e!s}")
             else:
                 modified, count = self.migrate_file(file_path)
                 if modified:

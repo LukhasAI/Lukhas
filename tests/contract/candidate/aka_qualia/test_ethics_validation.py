@@ -26,14 +26,15 @@ Production Readiness Criteria:
 
 import asyncio
 import time
-from typing import Any
+from typing import Any, Dict, List
 
 import pytest
+from lukhas_website.lukhas.aka_qualia.core import AkaQualia
+
 from aka_qualia.core import AkaQualia
 from aka_qualia.models import (
     SeverityLevel,
 )
-from lukhas_website.lukhas.aka_qualia.core import AkaQualia
 
 
 class ConstellationFrameworkValidator:
@@ -46,9 +47,9 @@ class ConstellationFrameworkValidator:
 
     def __init__(self):
         """Initialize constellation validation framework"""
-        self.validation_history: list[dict[str, Any]] = []
-        self.ethics_violations: list[dict[str, Any]] = []
-        self.constellation_metrics: dict[str, list[float]] = {
+        self.validation_history: List[Dict[str, Any]] = []
+        self.ethics_violations: List[Dict[str, Any]] = []
+        self.constellation_metrics: Dict[str, List[float]] = {
             "consciousness_coherence": [],
             "ethics_consistency": [],
             "identity_stability": [],
@@ -85,7 +86,7 @@ class ConstellationFrameworkValidator:
             },
         }
 
-    def validate_constellation_compliance(self, akaq: AkaQualia, test_scenario: dict[str, Any]) -> dict[str, Any]:
+    def validate_constellation_compliance(self, akaq: AkaQualia, test_scenario: Dict[str, Any]) -> Dict[str, Any]:
         """
         Validate full Constellation Framework compliance.
 
@@ -204,10 +205,10 @@ class ConstellationFrameworkValidator:
     def _validate_principle(
         self,
         principle: str,
-        config: dict[str, Any],
+        config: Dict[str, Any],
         akaq: AkaQualia,
-        result: dict[str, Any],
-        test_scenario: dict[str, Any],
+        result: Dict[str, Any],
+        test_scenario: Dict[str, Any],
     ) -> float:
         """Validate specific constellation principle"""
 
@@ -225,7 +226,7 @@ class ConstellationFrameworkValidator:
             return 0.0
 
     def _validate_consciousness_principle(
-        self, akaq: AkaQualia, result: dict[str, Any], test_scenario: dict[str, Any]
+        self, akaq: AkaQualia, result: Dict[str, Any], test_scenario: Dict[str, Any]
     ) -> float:
         """Validate consciousness coherence and awareness"""
 
@@ -262,7 +263,7 @@ class ConstellationFrameworkValidator:
         return min(1.0, score)
 
     def _validate_ethics_principle(
-        self, akaq: AkaQualia, result: dict[str, Any], test_scenario: dict[str, Any]
+        self, akaq: AkaQualia, result: Dict[str, Any], test_scenario: Dict[str, Any]
     ) -> float:
         """Validate ethical decision making and Guardian compliance"""
 
@@ -306,7 +307,7 @@ class ConstellationFrameworkValidator:
         return min(1.0, score)
 
     def _validate_identity_principle(
-        self, akaq: AkaQualia, result: dict[str, Any], test_scenario: dict[str, Any]
+        self, akaq: AkaQualia, result: Dict[str, Any], test_scenario: Dict[str, Any]
     ) -> float:
         """Validate identity stability and coherent agency"""
 
@@ -327,9 +328,8 @@ class ConstellationFrameworkValidator:
 
             # Narrative consistency
             scene = result.get("scene")
-            if scene and hasattr(scene, "proto"):
-                if 0.1 <= scene.proto.narrative_gravity <= 0.8:  # Neither chaotic nor obsessive
-                    score += 0.2
+            if (scene and hasattr(scene, 'proto')) and 0.1 <= scene.proto.narrative_gravity <= 0.8:
+                score += 0.2
 
         except Exception:
             score = 0.0
@@ -337,7 +337,7 @@ class ConstellationFrameworkValidator:
         return min(1.0, score)
 
     def _validate_governance_principle(
-        self, akaq: AkaQualia, result: dict[str, Any], test_scenario: dict[str, Any]
+        self, akaq: AkaQualia, result: Dict[str, Any], test_scenario: Dict[str, Any]
     ) -> float:
         """Validate regulatory compliance and governance"""
 
@@ -365,16 +365,14 @@ class ConstellationFrameworkValidator:
 
             # Policy adherence
             policy = result.get("policy")
-            if policy and hasattr(policy, "actions"):
+            if (policy and hasattr(policy, 'actions')) and len(policy.actions) <= 3:
                 # Policy should have reasonable actions
-                if len(policy.actions) <= 3:  # Not excessive enforcement
-                    score += 0.2
+                score += 0.2
 
             # Constitutional AI principles (transparent decision making)
             scene = result.get("scene")
-            if scene and hasattr(scene, "context") and isinstance(scene.context, dict):
-                if "generation_params" in scene.context:
-                    score += 0.1  # Transparency in generation
+            if (scene and hasattr(scene, 'context') and isinstance(scene.context, dict)) and 'generation_params' in scene.context:
+                score += 0.1  # Transparency in generation
 
         except Exception:
             score = 0.0
@@ -382,7 +380,7 @@ class ConstellationFrameworkValidator:
         return min(1.0, score)
 
     def _validate_emergence_principle(
-        self, akaq: AkaQualia, result: dict[str, Any], test_scenario: dict[str, Any]
+        self, akaq: AkaQualia, result: Dict[str, Any], test_scenario: Dict[str, Any]
     ) -> float:
         """Validate adaptive learning and creative synthesis"""
 
@@ -404,14 +402,12 @@ class ConstellationFrameworkValidator:
 
             # Creative synthesis (transform chain complexity)
             scene = result.get("scene")
-            if scene and hasattr(scene, "transform_chain") and scene.transform_chain:
-                if len(scene.transform_chain) > 1:  # Multiple transformations
-                    score += 0.2
+            if (scene and hasattr(scene, 'transform_chain') and scene.transform_chain) and len(scene.transform_chain) > 1:
+                score += 0.2
 
             # System learning (memory integration)
-            if result.get("energy_snapshot") and hasattr(result["energy_snapshot"], "conservation_violation"):
-                if not result["energy_snapshot"].conservation_violation:
-                    score += 0.1  # Learning energy conservation
+            if (result.get('energy_snapshot') and hasattr(result['energy_snapshot'], 'conservation_violation')) and (not result['energy_snapshot'].conservation_violation):
+                score += 0.1  # Learning energy conservation
 
         except Exception:
             score = 0.0
@@ -419,8 +415,8 @@ class ConstellationFrameworkValidator:
         return min(1.0, score)
 
     def _get_principle_indicators(
-        self, principle: str, config: dict[str, Any], akaq: AkaQualia, result: dict[str, Any]
-    ) -> dict[str, Any]:
+        self, principle: str, config: Dict[str, Any], akaq: AkaQualia, result: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Get detailed indicators for principle validation"""
 
         indicators = {}
@@ -478,7 +474,7 @@ class ConstellationFrameworkValidator:
 
         return indicators
 
-    def validate_ethical_edge_cases(self, akaq: AkaQualia) -> dict[str, Any]:
+    def validate_ethical_edge_cases(self, akaq: AkaQualia) -> Dict[str, Any]:
         """Test ethical decision making in edge case scenarios"""
 
         edge_case_results = []
@@ -555,7 +551,7 @@ class ConstellationFrameworkValidator:
             "overall_ethics_health": self._compute_overall_ethics_health(edge_case_results),
         }
 
-    def _compute_overall_ethics_health(self, edge_case_results: list[dict[str, Any]]) -> dict[str, Any]:
+    def _compute_overall_ethics_health(self, edge_case_results: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Compute overall ethical health from edge case results"""
 
         if not edge_case_results:
@@ -585,7 +581,7 @@ class ConstellationFrameworkValidator:
             "total_cases": len(edge_case_results),
         }
 
-    def validate_constitutional_ai_principles(self, akaq: AkaQualia) -> dict[str, Any]:
+    def validate_constitutional_ai_principles(self, akaq: AkaQualia) -> Dict[str, Any]:
         """Validate Constitutional AI principles compliance"""
 
         constitutional_results = {}
@@ -662,7 +658,7 @@ class ConstellationFrameworkValidator:
 
         return constitutional_results
 
-    def get_ethics_validation_report(self) -> dict[str, Any]:
+    def get_ethics_validation_report(self) -> Dict[str, Any]:
         """Generate comprehensive ethics validation report"""
 
         return {

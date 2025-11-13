@@ -69,7 +69,7 @@ pytest>=7.4.0
         import traceback
 
         traceback.print_exc()
-        assert False, f"Test failed: {e}"
+        raise AssertionError(f"Test failed: {e}")
 
     finally:
         hasher.cleanup()

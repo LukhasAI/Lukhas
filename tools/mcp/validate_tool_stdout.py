@@ -7,4 +7,5 @@ try:
     assert "code" in payload and "stdout" in payload and "stderr" in payload
     print("ok")
 except Exception as e:
-    print("non-json or invalid tool envelope:", e); sys.exit(1)
+    print("non-json or invalid tool envelope:", e)
+    sys.exit(1)

@@ -144,7 +144,7 @@ async def test_verify_lukhas_id_registers_token_when_missing(tmp_path):
     try:
         assert await oscillator.verify_lukhas_id(security_context)
         tokens = store.list_tokens()
-        token_hash = hashlib.sha256("auto-registered-token".encode("utf-8")).hexdigest()
+        token_hash = hashlib.sha256(b"auto-registered-token").hexdigest()
         assert token_hash in tokens
     finally:
         BioOscillator.configure_session_token_store(None)

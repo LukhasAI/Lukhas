@@ -63,7 +63,6 @@ try:
     from communication.explainability_interface_layer import (
         ExplainabilityInterfaceLayer,
     )
-
     from ethics.meta_ethics_governor import EthicalVerdict, MetaEthicsGovernor
     from ethics.self_reflective_debugger import SelfReflectiveDebugger
     from orchestration.lukhas_master_orchestrator import (
@@ -968,7 +967,7 @@ class HumanInTheLoopOrchestrator:
 
             # Phase 8: Broadcast availability event for workflow orchestration
             if hasattr(self, "_broadcast_orchestration_event"):
-                asyncio.create_task(
+                asyncio.create_task(  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_orchestration_integration_human_in_the_loop_orchestrator_py_L970"}
                     self._broadcast_orchestration_event(
                         "orchestration.reviewer.availability_checked",
                         {
@@ -1708,10 +1707,9 @@ class HumanInTheLoopOrchestrator:
             if assignment.status != "assigned":
                 continue
 
-            if assignment.due_date and now > assignment.due_date:
-                if assignment.reminder_count < 3:  # Max 3 reminders
-                    await self._notify_reviewers(decision, "reminder")
-                    assignment.reminder_count += 1
+            if (assignment.due_date and now > assignment.due_date) and assignment.reminder_count < 3:
+                await self._notify_reviewers(decision, "reminder")
+                assignment.reminder_count += 1
 
     async def _update_metrics(self):
         """Background task to update performance metrics."""

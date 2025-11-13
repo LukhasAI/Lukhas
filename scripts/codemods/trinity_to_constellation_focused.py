@@ -24,7 +24,7 @@ def get_trinity_python_files():
                 if ".venv" in str(py_file) or "__pycache__" in str(py_file):
                     continue
                 try:
-                    with open(py_file, 'r', encoding='utf-8') as f:
+                    with open(py_file, encoding='utf-8') as f:
                         content = f.read()
                         if "Trinity" in content:
                             trinity_files.append(py_file)
@@ -76,7 +76,7 @@ def process_file(file_path):
         shutil.copy2(file_path, backup_path)
 
         # Read content
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
 
         # Apply transformations

@@ -204,9 +204,8 @@ class IntelligenceRegistryServicer:
                     if not any(cap in capabilities for cap in request.capability_filter):
                         continue
 
-                if request.engine_type_filter:
-                    if engine_data["engine_type"] != request.engine_type_filter:
-                        continue
+                if request.engine_type_filter and engine_data['engine_type'] != request.engine_type_filter:
+                    continue
 
                 if request.availability_only:
                     # Check if engine is available (placeholder logic)

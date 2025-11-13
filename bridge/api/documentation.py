@@ -25,7 +25,7 @@ from typing import Any, Optional
 
 try:
     from fastapi import (
-        FastAPI,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+        FastAPI,  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
     )
     from fastapi.openapi.utils import get_openapi
 

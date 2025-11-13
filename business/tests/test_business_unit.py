@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import business  # noqa: F401  # TODO: business; consider using impor...
+    import business  # TODO: business; consider using impor...
 except ImportError:
     pytest.skip("Module business not available", allow_module_level=True)
 

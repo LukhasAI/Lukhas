@@ -17,12 +17,18 @@ Task 13: Comprehensive testing for Safety Tags including:
 """
 
 import time
+
+# Import test targets
+from importlib.util import find_spec
 from unittest.mock import Mock, patch
 
 import pytest
 
-# Import test targets
-try:
+SAFETY_TAGS_AVAILABLE = find_spec("core.ethics.safety_tags") is not None
+
+if not SAFETY_TAGS_AVAILABLE:
+    pytest.skip("Safety Tags not available", allow_module_level=True)
+else:
     from core.ethics.logic.dsl_lite import (
         has_category,
         has_tag,
@@ -43,10 +49,6 @@ try:
         TaggedPlan,
         create_safety_tag_enricher,
     )
-    SAFETY_TAGS_AVAILABLE = True
-except ImportError:
-    SAFETY_TAGS_AVAILABLE = False
-    pytest.skip("Safety Tags not available", allow_module_level=True)
 
 
 class TestSafetyTag:
@@ -69,7 +71,7 @@ class TestSafetyTag:
 
     def test_invalid_confidence_raises_error(self):
         """Test that invalid confidence values raise errors."""
-        with pytest.raises(ValueError, match="Confidence must be between 0.0 and 1.0"):
+    with pytest.raises(ValueError, match=r"Confidence must be between 0.0 and 1.0"):
             SafetyTag(
                 name="test",
                 category=SafetyTagCategory.DATA_SENSITIVITY,

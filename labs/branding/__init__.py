@@ -10,6 +10,8 @@ Constellation Framework Integration: ⚛️🧠🛡️
 - 🧠 Consciousness: Brand awareness and consistent messaging
 - 🛡️ Guardian: Approved terminology and compliance standards
 """
+from __future__ import annotations
+
 import re
 from typing import Optional
 
@@ -130,13 +132,13 @@ __all__ = [
     "APPROVED_TERMS",
     "COLORS",
     "CONSCIOUSNESS_SYMBOL",
+    "CONSTELLATION_FRAMEWORK",
     "GUARDIAN_SYMBOL",
     "IDENTITY_SYMBOL",
     "SYSTEM_NAME",
     "SYSTEM_VERSION",
-    "CONSTELLATION_FRAMEWORK",
-    "get_system_signature",
     "get_constellation_description",
+    "get_system_signature",
     "normalize_chunk",
     "normalize_output",
     "validate_branding_compliance",

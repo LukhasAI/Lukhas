@@ -1,0 +1,407 @@
+"""
+Feature Flags API for LUKHAS AI.
+
+Provides FastAPI endpoints for managing and evaluating feature flags.
+
+PRIVACY REQUIREMENTS:
+- Authentication required (no anonymous flag checking)
+- Audit logging for flag evaluations
+- Rate limiting (100 requests/min per user)
+- No PII in responses
+- POST /api/features/{flag_name}/evaluate - Evaluate for user
+- PATCH /api/features/{flag_name} - Update flag (admin only)
+"""
+
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types for features API
+# estimate: 15min | priority: high | dependencies: none
+
+# ruff: noqa: B008
+import logging
+from typing import Dict, List, Optional
+
+from fastapi import APIRouter, Depends, HTTPException, status
+from pydantic import BaseModel, Field
+
+from lukhas.api import analytics
+from lukhas.api.auth_helpers import (
+    check_rate_limit,
+    get_current_user_from_token,
+    has_role,
+)
+from lukhas.features.flags_service import (
+    FeatureFlagsService,
+    FlagEvaluationContext,
+    FlagType,
+    get_service,
+)
+
+logger = logging.getLogger(__name__)
+
+# Create router
+router = APIRouter(prefix="/api/features", tags=["Feature Flags"])
+
+
+# Request/Response Models
+
+
+class FlagEvaluationRequest(BaseModel):
+    """Request to evaluate a feature flag."""
+
+    user_id: Optional[str] = Field(None, description="User ID for targeting")
+    email: Optional[str] = Field(None, description="User email for domain targeting")
+    environment: Optional[str] = Field(None, description="Environment (dev/staging/prod)")
+
+
+class FlagEvaluationResponse(BaseModel):
+    """Response from flag evaluation."""
+
+    flag_name: str = Field(..., description="Name of the flag")
+    enabled: bool = Field(..., description="Whether the flag is enabled")
+    flag_type: str = Field(..., description="Type of the flag")
+
+
+class FlagInfo(BaseModel):
+    """Information about a feature flag."""
+
+    name: str = Field(..., description="Flag name")
+    enabled: bool = Field(..., description="Whether the flag is globally enabled")
+    flag_type: str = Field(..., description="Type of the flag")
+    description: str = Field(..., description="Description of the flag")
+    owner: str = Field(..., description="Team/person responsible for the flag")
+    created_at: str = Field(..., description="Creation date")
+    jira_ticket: str = Field(..., description="Associated JIRA ticket")
+
+
+class FlagUpdateRequest(BaseModel):
+    """Request to update a feature flag."""
+
+    enabled: Optional[bool] = Field(None, description="Enable/disable the flag")
+    percentage: Optional[int] = Field(None, ge=0, le=100, description="Rollout percentage (0-100)")
+
+
+class FlagListResponse(BaseModel):
+    """Response with list of all flags."""
+
+    flags: List[FlagInfo] = Field(..., description="List of all feature flags")
+    total: int = Field(..., description="Total number of flags")
+
+
+# Dependency injection
+
+
+def get_feature_flags_service() -> FeatureFlagsService:
+    """Get feature flags service instance."""
+    return get_service()
+
+
+def get_current_user(user: dict = Depends(get_current_user_from_token)) -> dict:
+    """
+    Dependency to get the current user dict from the verified token.
+
+    Extracts role from JWT claims if present, otherwise infers from username prefix
+    for backward compatibility.
+    """
+    username = user.get("username", "")
+
+    # Use role from JWT if present, otherwise infer from username prefix
+    if "role" not in user:
+        # Fallback: infer role from username prefix for backward compatibility
+        if username.startswith("admin_"):
+            role = "admin"
+        elif username.startswith("moderator_"):
+            role = "moderator"
+        elif username.startswith("user_"):
+            role = "user"
+        else:
+            role = "guest"
+        user["role"] = role
+
+    return {**user, "id": username}
+
+
+def require_role(required_role: str):
+    """
+    Factory for a dependency that checks if the current user has the required role.
+
+    Uses the RBAC role hierarchy from auth_helpers.
+    """
+    async def role_checker(current_user: dict = Depends(get_current_user)):
+        user_role = current_user.get("role", "guest")
+        if not has_role(user_role, required_role):
+            raise HTTPException(
+                status_code=403,
+                detail=f"Requires {required_role} role"
+            )
+        return current_user
+    return role_checker
+
+
+# API Endpoints
+
+
+@router.get("/", response_model=FlagListResponse)
+async def list_flags(
+    current_user: dict = Depends(require_role("admin")),
+    service: FeatureFlagsService = Depends(get_feature_flags_service),
+) -> FlagListResponse:
+    """
+    List all feature flags (admin only).
+
+    Returns:
+        List of all feature flags with metadata
+    """
+    try:
+        flags = service.get_all_flags()
+
+        flag_infos = [
+            FlagInfo(
+                name=name,
+                enabled=flag.enabled,
+                flag_type=flag.flag_type.value,
+                description=flag.description,
+                owner=flag.owner,
+                created_at=flag.created_at,
+                jira_ticket=flag.jira_ticket,
+            )
+            for name, flag in flags.items()
+        ]
+
+        return FlagListResponse(flags=flag_infos, total=len(flag_infos))
+
+    except Exception as e:
+        logger.error(f"Error listing flags: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error listing feature flags",
+        )
+
+
+@router.get("/{flag_name}", response_model=FlagInfo)
+async def get_flag(
+    flag_name: str,
+    current_user: dict = Depends(get_current_user),
+    service: FeatureFlagsService = Depends(get_feature_flags_service),
+) -> FlagInfo:
+    """
+    Get feature flag information.
+
+    Args:
+        flag_name: Name of the flag
+
+    Returns:
+        Flag information
+    """
+    try:
+        flag = service.get_flag(flag_name)
+        if not flag:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Flag not found: {flag_name}",
+            )
+
+        return FlagInfo(
+            name=flag_name,
+            enabled=flag.enabled,
+            flag_type=flag.flag_type.value,
+            description=flag.description,
+            owner=flag.owner,
+            created_at=flag.created_at,
+            jira_ticket=flag.jira_ticket,
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error getting flag {flag_name}: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error getting feature flag",
+        )
+
+
+@router.post("/{flag_name}/evaluate", response_model=FlagEvaluationResponse)
+async def evaluate_flag(
+    flag_name: str,
+    request_data: FlagEvaluationRequest,
+    current_user: dict = Depends(get_current_user),
+    service: FeatureFlagsService = Depends(get_feature_flags_service),
+) -> FlagEvaluationResponse:
+    """
+    Evaluate feature flag for specific context.
+
+    Args:
+        flag_name: Name of the flag
+        request_data: Evaluation context data
+
+    Returns:
+        Flag evaluation result
+    """
+    user_id = current_user["id"]
+    # Check rate limit
+    if not check_rate_limit(current_user["username"]):
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail="Rate limit exceeded (100 requests/min)",
+        )
+
+    try:
+        # Create evaluation context
+        context = FlagEvaluationContext(
+            user_id=request_data.user_id,
+            email=request_data.email,
+            environment=request_data.environment,
+        )
+
+        # Get flag
+        flag = service.get_flag(flag_name)
+        if not flag:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Flag not found: {flag_name}",
+            )
+
+        # Evaluate flag
+        enabled = service.is_enabled(flag_name, context)
+
+        # Audit log (aggregate only, no PII)
+        logger.info(
+            f"Flag evaluation: {flag_name} = {enabled} "
+            f"(type={flag.flag_type.value}, env={context.environment})"
+        )
+
+        # Track analytics event
+        analytics.track_feature_evaluation(
+            flag_name=flag_name,
+            user_id=current_user["username"],
+            enabled=enabled,
+            context=context,
+        )
+
+        return FlagEvaluationResponse(
+            flag_name=flag_name,
+            enabled=enabled,
+            flag_type=flag.flag_type.value,
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error evaluating flag {flag_name}: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error evaluating feature flag",
+        )
+
+
+@router.patch("/{flag_name}", response_model=FlagInfo)
+async def update_flag(
+    flag_name: str,
+    update_data: FlagUpdateRequest,
+    current_user: dict = Depends(require_role("admin")),
+    service: FeatureFlagsService = Depends(get_feature_flags_service),
+) -> FlagInfo:
+    """
+    Update feature flag configuration (admin only).
+
+    Args:
+        flag_name: Name of the flag
+        update_data: Update data
+
+    Returns:
+        Updated flag information
+    """
+    user_id = current_user["id"]
+    try:
+        # Get flag
+        flag = service.get_flag(flag_name)
+        if not flag:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Flag not found: {flag_name}",
+            )
+
+        # Update flag
+        if update_data.enabled is not None:
+            flag.enabled = update_data.enabled
+
+        if update_data.percentage is not None:
+            if flag.flag_type != FlagType.PERCENTAGE:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=f"Cannot set percentage on {flag.flag_type.value} flag",
+                )
+            flag.percentage = update_data.percentage
+
+        # Audit log
+        logger.info(
+            f"Flag updated by {current_user['username']}: {flag_name} "
+            f"(enabled={flag.enabled}, percentage={flag.percentage})"
+        )
+
+        # Track analytics event
+        analytics.track_feature_update(
+            flag_name=flag_name,
+            admin_id=current_user["username"],
+            changes=update_data.model_dump(exclude_unset=True),
+        )
+
+        return FlagInfo(
+            name=flag_name,
+            enabled=flag.enabled,
+            flag_type=flag.flag_type.value,
+            description=flag.description,
+            owner=flag.owner,
+            created_at=flag.created_at,
+            jira_ticket=flag.jira_ticket,
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating flag {flag_name}: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error updating feature flag",
+        )
+
+
+@router.post("/{flag_name}/reload")
+async def reload_flag(
+    flag_name: str,
+    current_user: dict = Depends(require_role("admin")),
+    service: FeatureFlagsService = Depends(get_feature_flags_service),
+) -> Dict[str, str]:
+    """
+    Force reload flag from configuration (admin only).
+
+    Args:
+        flag_name: Name of the flag to reload
+
+    Returns:
+        Success message
+    """
+    user_id = current_user["id"]
+    try:
+        # Reload all flags
+        service.reload()
+
+        # Check if flag exists after reload
+        if not service.get_flag(flag_name):
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Flag not found after reload: {flag_name}",
+            )
+
+        logger.info(f"Flag reloaded by {current_user['username']}: {flag_name}")
+
+        return {"message": f"Flag reloaded successfully: {flag_name}"}
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error reloading flag {flag_name}: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error reloading feature flag",
+        )

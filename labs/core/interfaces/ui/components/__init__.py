@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # core/interfaces/ui/components/__init__.py
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Initializes the 'components' sub-package under 'core.interfaces.ui'.

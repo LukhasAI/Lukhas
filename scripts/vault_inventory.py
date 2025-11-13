@@ -11,6 +11,7 @@ Parametric inventory system for THE_VAULT with multi-format support:
 Usage:
   python3 scripts/vault_inventory.py --root /path/to/THE_VAULT
 """
+from __future__ import annotations
 
 import argparse
 import hashlib
@@ -20,7 +21,7 @@ import sys
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict
 
 try:
     import PyPDF2
@@ -83,7 +84,7 @@ def extract_pdf_metadata(filepath: Path) -> Dict:
         return {'error': str(e)[:100]}
 
 
-def detect_chat_log_origin(filepath: Path) -> Optional[str]:
+def detect_chat_log_origin(filepath: Path) -> str | None:
     """Detect chat log origin from filename or content."""
     filename = filepath.name.lower()
 
@@ -98,7 +99,7 @@ def detect_chat_log_origin(filepath: Path) -> Optional[str]:
     # Content patterns (for .json files)
     if filepath.suffix == '.json':
         try:
-            with open(filepath, 'r', encoding='utf-8') as f:
+            with open(filepath, encoding='utf-8') as f:
                 content = f.read(500)  # First 500 chars
                 if '"model": "gpt-' in content:
                     return 'ChatGPT'
@@ -157,7 +158,7 @@ def process_file(filepath: Path, root: Path) -> Dict:
     # Type-specific processing
     if file_type == 'markdown':
         try:
-            with open(filepath, 'r', encoding='utf-8') as f:
+            with open(filepath, encoding='utf-8') as f:
                 content = f.read()
 
             fm = extract_front_matter(content)
@@ -282,7 +283,7 @@ def generate_vault_index(manifest: Dict, output_dir: Path):
     return index_path
 
 
-def find_duplicates(manifest: Dict) -> List[List[Dict]]:
+def find_duplicates(manifest: Dict) -> list[list[Dict]]:
     """Find duplicate files by hash."""
     by_hash = defaultdict(list)
 
@@ -295,7 +296,7 @@ def find_duplicates(manifest: Dict) -> List[List[Dict]]:
     return duplicates
 
 
-def generate_duplicates_report(duplicates: List[List[Dict]], output_dir: Path):
+def generate_duplicates_report(duplicates: list[list[Dict]], output_dir: Path):
     """Generate VAULT_DUPLICATES.md report."""
     lines = [
         "# THE_VAULT Duplicate Files Report",

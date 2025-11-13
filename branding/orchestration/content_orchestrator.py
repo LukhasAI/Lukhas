@@ -8,12 +8,11 @@ Ensures 85%+ voice coherence and consciousness technology messaging consistency
 import asyncio
 import json
 import logging
-import sys
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
-# Add branding modules to path
+from branding.analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer
 
 
 def fix_later(*args, **kwargs):
@@ -22,12 +21,6 @@ def fix_later(*args, **kwargs):
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
-
-
-sys.path.append(str(Path(__file__).parent.parent))
-
-from analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer  # noqa: E402
-
 
 @dataclass
 class ContentSystem:

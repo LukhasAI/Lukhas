@@ -1,3 +1,8 @@
+status: wip
+type: documentation
+> **Note**: This is a vendor-neutral version of claude.me for compatibility with any AI tool or development environment.
+
+
 # Services Module - LUKHAS Microservices Architecture
 
 **Module**: services
@@ -5,7 +10,6 @@
 **Team**: Core
 **Purpose**: Microservice implementations for LUKHAS system components with production-ready infrastructure
 
----
 
 ## Overview
 
@@ -19,7 +23,6 @@ The services module provides production-ready microservice implementations for L
 - Performance and chaos testing
 - Production metrics and monitoring
 
----
 
 ## Architecture
 
@@ -49,7 +52,6 @@ services/
 └── config/                      # Service configuration
 ```
 
----
 
 ## Core Components
 
@@ -83,7 +85,6 @@ await service.start()
 # - Metrics export
 ```
 
----
 
 #### Read API (`api_read.py`)
 
@@ -123,7 +124,6 @@ folds = await list_folds(
 - `GET /api/v1/folds` - List memory folds
 - `GET /api/v1/folds/{fold_id}` - Get fold details
 
----
 
 #### Write API (`api_write.py`)
 
@@ -173,7 +173,6 @@ fold = await create_fold(
 - `DELETE /api/v1/memory/{memory_id}` - Delete memory
 - `POST /api/v1/folds` - Create new fold
 
----
 
 ### 2. Circuit Breaker (`circuit_breaker.py`)
 
@@ -214,7 +213,6 @@ if breaker.state == CircuitState.OPEN:
 - Circuit state transitions
 - Request rejection rate
 
----
 
 ### 3. Backpressure Management (`backpressure.py`)
 
@@ -255,7 +253,6 @@ if backpressure.is_overloaded():
 - Load shedding events
 - Average wait time
 
----
 
 ### 4. Vector Store Adapters
 
@@ -327,7 +324,6 @@ results = await store.search(
 - Batch operations
 - Connection pooling
 
----
 
 ### 5. Service Metrics (`metrics.py`)
 
@@ -366,7 +362,6 @@ record_latency(
 # - memory_backpressure_queue_depth
 ```
 
----
 
 ## Testing
 
@@ -411,7 +406,6 @@ async def test_circuit_breaker_opens_on_failures():
     assert breaker.state == CircuitState.OPEN
 ```
 
----
 
 ## Configuration
 
@@ -456,7 +450,6 @@ services:
       startup_grace_period: 30
 ```
 
----
 
 ## Deployment
 
@@ -534,7 +527,6 @@ spec:
           periodSeconds: 5
 ```
 
----
 
 ## Performance Targets
 
@@ -553,7 +545,6 @@ spec:
 - Circuit breaker recovery: <60 seconds
 - Backpressure queue processing: <1 second average wait
 
----
 
 ## Observability
 
@@ -570,7 +561,6 @@ spec:
 - Vector store operation latency
 - Error rate by type
 
----
 
 ## Future Services
 
@@ -582,7 +572,6 @@ Planned microservices following same architecture:
 - **MATRIZ Service**: Pipeline orchestration
 - **Analytics Service**: Data analysis and reporting
 
----
 
 ## Related Modules
 
@@ -592,7 +581,6 @@ Planned microservices following same architecture:
 - **telemetry/**: Observability infrastructure
 - **deployment/**: Deployment configurations
 
----
 
 ## Quick Reference
 
@@ -606,38 +594,9 @@ Planned microservices following same architecture:
 | `vector_store_pg.py` | Vector storage | Search latency <100ms |
 | `metrics.py` | Service metrics | Metric export rate |
 
----
 
 **Module Status**: L2 Integration
 **Schema Version**: 1.0.0
 **Production Readiness**: Beta (memory service ready for production)
 **Last Updated**: 2025-10-18
 **Philosophy**: Services should be resilient, observable, and production-ready from day one.
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

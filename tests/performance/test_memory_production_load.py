@@ -331,4 +331,4 @@ if __name__ == "__main__":
         sys.exit(0)
 
     # Run with pytest
-    pytest.main([__file__, "-v", "--tb=short"] + sys.argv[1:])
+    pytest.main([__file__, "-v", "--tb=short", *sys.argv[1:]])

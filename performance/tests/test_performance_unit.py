@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import performance  # noqa: F401  # TODO: performance; consider using im...
+    import performance  # TODO: performance; consider using im...
 except ImportError:
     pytest.skip("Module performance not available", allow_module_level=True)
 

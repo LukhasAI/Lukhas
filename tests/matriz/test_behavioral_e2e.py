@@ -9,9 +9,8 @@ with real cognitive processing and validation of outputs.
 import asyncio
 
 import pytest
-from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
-
 from core.registry import register
+from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
 from nodes.example_nodes import ActionNode, DecisionNode, IntentNode, ThoughtNode, VisionNode
 
 
@@ -332,4 +331,4 @@ async def test_cognitive_loop_concurrent_processing():
 
     # Each should have processed different queries
     queries_processed = [r.stage_results[0].get("keywords", []) for r in results]
-    assert len(set(str(q) for q in queries_processed)) == 3  # All different
+    assert len({str(q) for q in queries_processed}) == 3  # All different

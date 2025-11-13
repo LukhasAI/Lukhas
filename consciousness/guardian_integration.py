@@ -2,7 +2,10 @@
 from __future__ import annotations
 
 try:
-    from lukhas_website.consciousness.guardian_integration import *  # noqa: F403
-    __all__ = [n for n in dir() if not n.startswith("_")]
+    from lukhas_website.consciousness.guardian_integration import (
+        GuardianIntegrator,
+        integrate_guardian,
+    )
+    __all__ = ["GuardianIntegrator", "integrate_guardian"]
 except ImportError:
     __all__ = []

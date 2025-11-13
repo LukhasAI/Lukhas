@@ -5,7 +5,7 @@ owner: T4
 lane: labs
 star: "⚛️ Anchor Star"
 stability: experimental
-last_reviewed: 2025-10-24
+last_reviewed: 2025-11-10
 constellation_stars: "⚛️ Anchor · 🛡️ Watch · ✦ Trail"
 related_modules: "matriz, guardian, governance, consent"
 manifests: "module.manifest.json"
@@ -15,7 +15,7 @@ domain: identity, authentication, security
 stars: "[Anchor]"
 status: active
 tier: T2
-updated: 2025-10-24
+updated: 2025-11-10
 version: 1.0.0
 ---
 # ΛiD Identity System - ⚛️ Anchor Star

@@ -1,10 +1,10 @@
 """Tests for the consciousness bridge token mapping utilities."""
 
-from datetime import datetime, timedelta, timezone
 import importlib.util
-from pathlib import Path
 import sys
 import types
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 import pytest
 
@@ -38,7 +38,7 @@ def _load_bridge_token_map() -> type:
     module = importlib.util.module_from_spec(spec)
     assert spec and spec.loader
     spec.loader.exec_module(module)
-    return getattr(module, "BridgeTokenMap")
+    return module.BridgeTokenMap
 
 
 BridgeTokenMap = _load_bridge_token_map()

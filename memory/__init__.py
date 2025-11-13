@@ -1,8 +1,11 @@
 """Bridge: memory (namespace) with preserved submodule search path."""
 from __future__ import annotations
 
+__version__ = "0.1.0"
+
 from importlib import import_module
-from typing import Iterable
+from collections.abc import Iterable
+from pathlib import Path
 
 __all__: list[str] = []
 
@@ -47,5 +50,10 @@ if _backend is not None:
         for _location in getattr(_root_memory, "__path__", []):
             if _location not in search_locations:
                 search_locations.append(_location)
+    current_dir = Path(__file__).resolve().parent
+    for extra in (current_dir, current_dir / "backends"):
+        extra_str = str(extra)
+        if extra_str not in search_locations:
+            search_locations.append(extra_str)
     if search_locations:
         __path__ = search_locations  # type: ignore[assignment]

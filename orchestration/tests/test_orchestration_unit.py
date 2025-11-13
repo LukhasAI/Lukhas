@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import orchestration  # noqa: F401  # TODO: orchestration; consider using ...
+    import orchestration  # TODO: orchestration; consider using ...
 except ImportError:
     pytest.skip("Module orchestration not available", allow_module_level=True)
 

@@ -183,7 +183,7 @@ async def test_authz_span_tier_consistency(telemetry_capture, test_subjects):
         "service": 5  # root_dev
     }
 
-    for subject_type, expected_tier_num in tier_mappings.items():
+    for subject_type, _expected_tier_num in tier_mappings.items():
         if subject_type == "service":
             subject_data = test_subjects["service"]
         else:

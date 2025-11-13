@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import reasoning  # noqa: F401  # TODO: reasoning; consider using impo...
+    import reasoning  # TODO: reasoning; consider using impo...
 except ImportError:
     pytest.skip("Module reasoning not available", allow_module_level=True)
 

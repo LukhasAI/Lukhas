@@ -15,16 +15,16 @@ import json
 import re
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Set
+from typing import Any
 
 
 class BatchLocker:
     def __init__(self):
-        self.locked_tasks: Set[str] = set()
-        self.batch_registry: Dict[str, Dict[str, Any]] = {}
-        self.conflicts: List[Dict[str, Any]] = []
+        self.locked_tasks: set[str] = set()
+        self.batch_registry: dict[str, dict[str, Any]] = {}
+        self.conflicts: list[dict[str, Any]] = []
 
-    def lock_batches(self, batch_dir: str) -> Dict[str, Any]:
+    def lock_batches(self, batch_dir: str) -> dict[str, Any]:
         """Lock all batch files and create allocation registry"""
         batch_path = Path(batch_dir)
         if not batch_path.exists():
@@ -79,7 +79,7 @@ class BatchLocker:
     def _process_batch_file(self, batch_file: Path):
         """Process and validate a single batch file"""
         try:
-            with open(batch_file, "r") as f:
+            with open(batch_file) as f:
                 batch_data = json.load(f)
 
             batch_id = batch_data["batch_id"]
@@ -138,7 +138,7 @@ class BatchLocker:
                 }
             )
 
-    def _validate_batch(self, batch_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _validate_batch(self, batch_data: dict[str, Any]) -> dict[str, Any]:
         """Validate batch structure and constraints"""
         errors = []
 
@@ -171,7 +171,7 @@ class BatchLocker:
 
         return {"valid": len(errors) == 0, "errors": errors}
 
-    def _validate_task(self, task: Dict[str, Any], index: int) -> List[str]:
+    def _validate_task(self, task: dict[str, Any], index: int) -> list[str]:
         """Validate individual task structure"""
         errors = []
 
@@ -213,10 +213,7 @@ class BatchLocker:
             return False
 
         hash_part = parts[3]
-        if len(hash_part) != 8 or not re.fullmatch(r"[0-9a-fA-F]{8}", hash_part):
-            return False
-
-        return True
+        return not (len(hash_part) != 8 or not re.fullmatch(r"[0-9a-fA-F]{8}", hash_part))
 
     def _validate_branch_name(self, branch_name: str) -> bool:
         """Validate branch name format"""
@@ -233,10 +230,7 @@ class BatchLocker:
             return False
 
         agent_part = parts[1]
-        if not (agent_part.startswith("jules") or agent_part.startswith("codex")):
-            return False
-
-        return True
+        return agent_part.startswith("jules") or agent_part.startswith("codex")
 
     def _get_max_batch_size(self, agent: str) -> int:
         """Get maximum batch size for agent type"""
@@ -250,7 +244,7 @@ class BatchLocker:
             return 30
         return 25  # Default
 
-    def _calculate_checksum(self, batch_data: Dict[str, Any]) -> str:
+    def _calculate_checksum(self, batch_data: dict[str, Any]) -> str:
         """Calculate checksum for batch integrity verification"""
         # Use task IDs and batch ID for checksum
         task_ids = [task["task_id"] for task in batch_data.get("tasks", [])]
@@ -259,7 +253,7 @@ class BatchLocker:
         checksum_input = f"{batch_data.get('batch_id', '')}:{':'.join(task_ids)}"
         return hashlib.md5(checksum_input.encode()).hexdigest()[:16]
 
-    def _create_registry(self, batch_dir: str) -> Dict[str, Any]:
+    def _create_registry(self, batch_dir: str) -> dict[str, Any]:
         """Create allocation registry"""
         registry = {
             "created_at": datetime.now().isoformat() + "Z",
@@ -269,7 +263,7 @@ class BatchLocker:
             "total_conflicts": len(self.conflicts),
             "batches": self.batch_registry,
             "conflicts": self.conflicts,
-            "locked_task_ids": sorted(list(self.locked_tasks)),
+            "locked_task_ids": sorted(self.locked_tasks),
             "integrity": {
                 "checksum": self._calculate_registry_checksum(),
                 "verified_at": datetime.now().isoformat() + "Z",
@@ -281,7 +275,7 @@ class BatchLocker:
     def _calculate_registry_checksum(self) -> str:
         """Calculate registry integrity checksum"""
         # Sort for consistent checksum
-        sorted_tasks = sorted(list(self.locked_tasks))
+        sorted_tasks = sorted(self.locked_tasks)
         sorted_batches = sorted(self.batch_registry.keys())
 
         checksum_input = f"tasks:{':'.join(sorted_tasks)}:batches:{':'.join(sorted_batches)}"

@@ -597,9 +597,9 @@ enhanced_matriz_adapter = EnhancedMatrizAdapter()
 
 # Export key classes and functions
 __all__ = [
-    "SignalType",
-    "ConsciousnessSignal",
     "BioSymbolicPattern",
+    "ConsciousnessSignal",
     "EnhancedMatrizAdapter",
+    "SignalType",
     "enhanced_matriz_adapter",
 ]

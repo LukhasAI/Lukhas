@@ -3,10 +3,9 @@ View and manage tool governance security incidents.
 """
 import time
 
+from audit.tool_analytics import get_analytics, read_incidents
 from fastapi import APIRouter, Query
 from fastapi.responses import JSONResponse
-
-from audit.tool_analytics import get_analytics, read_incidents
 
 router = APIRouter(prefix="/tools", tags=["incidents"])
 

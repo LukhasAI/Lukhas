@@ -18,7 +18,7 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 try:
     import zstandard as zstd
@@ -135,8 +135,8 @@ class CompressionStats:
     total_bytes_saved: int = 0
 
     # Algorithm usage
-    algorithm_usage: Dict[str, int] = field(default_factory=dict)
-    level_usage: Dict[int, int] = field(default_factory=dict)
+    algorithm_usage: dict[str, int] = field(default_factory=dict)
+    level_usage: dict[int, int] = field(default_factory=dict)
 
     @property
     def overall_space_savings_percent(self) -> float:
@@ -544,7 +544,7 @@ class AdaptiveCompressionManager:
         data: bytes,
         content_type: Optional[str] = None,
         priority: str = "balanced"  # "speed", "balanced", "ratio"
-    ) -> Tuple[CompressionAlgorithm, int]:
+    ) -> tuple[CompressionAlgorithm, int]:
         """
         Select optimal compression algorithm and level.
 
@@ -578,7 +578,7 @@ class AdaptiveCompressionManager:
                     algorithm = self.content_hints['text']
                 else:
                     algorithm = self.content_hints['binary']
-            except:
+            except Exception:
                 algorithm = self.content_hints['default']
 
         # Ensure algorithm is available
@@ -636,10 +636,7 @@ class AdaptiveCompressionManager:
             CompressionResult with compressed data and metrics
         """
         # Convert string to bytes if needed
-        if isinstance(data, str):
-            data_bytes = data.encode('utf-8')
-        else:
-            data_bytes = data
+        data_bytes = data.encode('utf-8') if isinstance(data, str) else data
 
         # Select algorithm and level if not specified
         if algorithm is None or level is None:
@@ -785,10 +782,7 @@ class AdaptiveCompressionManager:
         Synchronous compression wrapper.
         """
         # Convert string to bytes if needed
-        if isinstance(data, str):
-            data_bytes = data.encode('utf-8')
-        else:
-            data_bytes = data
+        data_bytes = data.encode('utf-8') if isinstance(data, str) else data
 
         # Select algorithm and level if not specified
         if algorithm is None or level is None:
@@ -837,7 +831,7 @@ class AdaptiveCompressionManager:
 
         return result
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get comprehensive compression statistics"""
         stats_dict = {
             "operations": {
@@ -864,7 +858,7 @@ class AdaptiveCompressionManager:
             },
             "configuration": {
                 "adaptive_enabled": self.enable_adaptive,
-                "available_algorithms": [algo.value for algo in self.compressors.keys()],
+                "available_algorithms": [algo.value for algo in self.compressors],
                 "zstd_available": ZSTD_AVAILABLE
             }
         }
@@ -874,9 +868,9 @@ class AdaptiveCompressionManager:
     async def benchmark_algorithms(
         self,
         test_data: bytes,
-        algorithms: Optional[List[CompressionAlgorithm]] = None,
-        levels: Optional[List[int]] = None
-    ) -> Dict[str, Dict[str, Any]]:
+        algorithms: Optional[list[CompressionAlgorithm]] = None,
+        levels: Optional[list[int]] = None
+    ) -> dict[str, dict[str, Any]]:
         """
         Benchmark different algorithms and levels for given data.
 

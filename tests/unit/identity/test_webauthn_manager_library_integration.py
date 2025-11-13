@@ -8,7 +8,9 @@ import json
 import sys
 import types
 
+
 import pytest
+from typing import Dict
 
 FAKE_REG_CHALLENGE = base64.urlsafe_b64encode(b"library-registration-challenge").decode().rstrip("=")
 FAKE_AUTH_CHALLENGE = base64.urlsafe_b64encode(b"library-authentication-challenge").decode().rstrip("=")
@@ -18,31 +20,28 @@ FAKE_AUTH_CHALLENGE = base64.urlsafe_b64encode(b"library-authentication-challeng
 def fake_webauthn(monkeypatch):
     """Install a fake webauthn implementation for testing."""
 
-    call_log: dict[str, dict] = {}
+    call_log: Dict[str, dict] = {}
 
     fake_webauthn = types.ModuleType("webauthn")
 
     class FakeRegistrationOptions:
-        def __init__(self, data: dict[str, object]):
+        def __init__(self, data: Dict[str, object]):
             self._data = data
 
-        def model_dump(self) -> dict[str, object]:
+        def model_dump(self) -> Dict[str, object]:
             return dict(self._data)
 
     class FakeAuthenticationOptions:
-        def __init__(self, data: dict[str, object]):
+        def __init__(self, data: Dict[str, object]):
             self._data = data
 
-        def model_dump(self) -> dict[str, object]:
+        def model_dump(self) -> Dict[str, object]:
             return dict(self._data)
 
     def generate_registration_options(**kwargs):
         call_log["registration"] = kwargs
         user_id = kwargs.get("user_id", b"")
-        if isinstance(user_id, str):
-            user_id_bytes = user_id.encode()
-        else:
-            user_id_bytes = user_id
+        user_id_bytes = user_id.encode() if isinstance(user_id, str) else user_id
         user_struct = {
             "id": base64.urlsafe_b64encode(user_id_bytes).decode().rstrip("="),
             "name": kwargs.get("user_name", ""),

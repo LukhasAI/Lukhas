@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -27,7 +29,6 @@ from pathlib import Path
 from typing import Any, Optional
 
 import numpy as np
-
 from core.common import get_logger
 
 # Visualization libraries

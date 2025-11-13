@@ -23,7 +23,7 @@ try:
 	# Re-export commonly expected symbols
 	BioAwareness = mod.BioAwareness
 	AwarenessState = mod.AwarenessState
-	__all__ = ["BioAwareness", "AwarenessState"]
+	__all__ = ["AwarenessState", "BioAwareness"]
 except Exception as e:
 	logger.warning(f"Failed to load awareness implementation: {e}")
 	__all__ = []

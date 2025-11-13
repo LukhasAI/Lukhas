@@ -19,7 +19,7 @@ import statistics
 import string
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 import pytest
 
@@ -37,7 +37,7 @@ class PerformanceTestResult:
     operation_type: str
     sample_count: int
     duration_seconds: float
-    latencies_ms: List[float]
+    latencies_ms: list[float]
     p50_ms: float
     p95_ms: float
     p99_ms: float
@@ -56,7 +56,7 @@ class MockVectorStore:
     def __init__(self, base_latency_ms: float = 5.0, latency_variance: float = 2.0):
         self.base_latency_ms = base_latency_ms
         self.latency_variance = latency_variance
-        self.documents: Dict[str, VectorDocument] = {}
+        self.documents: dict[str, VectorDocument] = {}
         self.call_count = 0
         self.fail_rate = 0.0
 
@@ -104,7 +104,7 @@ class MockVectorStore:
             total_results=len(results)
         )
 
-    async def upsert_documents(self, documents: List[VectorDocument]) -> Dict[str, Any]:
+    async def upsert_documents(self, documents: list[VectorDocument]) -> dict[str, Any]:
         self.call_count += 1
 
         # Simulate processing latency
@@ -246,7 +246,7 @@ class TestMemoryServicePerformance:
     @pytest.mark.asyncio
     async def test_search_performance_t4_compliance(self, memory_services):
         """Test search operation T4/0.01% excellence compliance"""
-        read_service, _, vector_store = memory_services
+        read_service, _, _vector_store = memory_services
 
         # Define search operation
         async def search_operation():
@@ -276,7 +276,7 @@ class TestMemoryServicePerformance:
     @pytest.mark.asyncio
     async def test_upsert_performance_t4_compliance(self, memory_services):
         """Test upsert operation T4/0.01% excellence compliance"""
-        _, write_service, vector_store = memory_services
+        _, write_service, _vector_store = memory_services
 
         # Define upsert operation
         async def upsert_operation():
@@ -305,7 +305,7 @@ class TestMemoryServicePerformance:
     @pytest.mark.asyncio
     async def test_batch_upsert_performance(self, memory_services):
         """Test batch upsert performance under load"""
-        _, write_service, vector_store = memory_services
+        _, write_service, _vector_store = memory_services
 
         # Define batch upsert operation
         async def batch_upsert_operation():
@@ -339,7 +339,7 @@ class TestMemoryServicePerformance:
     @pytest.mark.asyncio
     async def test_mixed_workload_performance(self, memory_services):
         """Test performance under mixed read/write workload"""
-        read_service, write_service, vector_store = memory_services
+        read_service, write_service, _vector_store = memory_services
 
         # Mixed workload: 70% reads, 30% writes
         async def mixed_operation():
@@ -390,7 +390,7 @@ class TestMemoryServicePerformance:
                 search_type=SearchType.SEMANTIC,
                 top_k=5
             )
-            try:
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_services_memory_tests_test_performance_py_L393"}
                 await read_service.search(query)
             except Exception:
                 pass  # Expected failures
@@ -448,7 +448,7 @@ class TestMemoryServicePerformance:
     @pytest.mark.asyncio
     async def test_sustained_load_performance(self, memory_services):
         """Test performance under sustained load over time"""
-        read_service, write_service, vector_store = memory_services
+        read_service, write_service, _vector_store = memory_services
 
         results = []
         test_duration = 30  # 30 seconds

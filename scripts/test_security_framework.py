@@ -10,10 +10,10 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
-def run_command(cmd: List[str], description: str) -> Dict[str, Any]:
+def run_command(cmd: list[str], description: str) -> dict[str, Any]:
     """Run command and return result"""
     print(f"🧪 Testing: {description}")
 
@@ -48,13 +48,13 @@ def run_command(cmd: List[str], description: str) -> Dict[str, Any]:
         }
 
 
-def validate_json_output(file_path: Path, required_fields: List[str]) -> Dict[str, Any]:
+def validate_json_output(file_path: Path, required_fields: list[str]) -> dict[str, Any]:
     """Validate JSON output contains required fields"""
     if not file_path.exists():
         return {"valid": False, "error": "File does not exist"}
 
     try:
-        with open(file_path, 'r') as f:
+        with open(file_path) as f:
             data = json.load(f)
 
         missing_fields = []
@@ -98,7 +98,7 @@ def test_security_framework():
         print("\n📋 Testing Security Policy Configuration...")
         try:
             import yaml
-            with open("security/security_policy.yml", 'r') as f:
+            with open("security/security_policy.yml") as f:
                 policy = yaml.safe_load(f)
 
             policy_test = {
@@ -228,7 +228,7 @@ def test_security_framework():
         print("\n🔧 Testing CI Workflow Configuration...")
 
         try:
-            with open(".github/workflows/t4-validation.yml", 'r') as f:
+            with open(".github/workflows/t4-validation.yml") as f:
                 workflow_content = f.read()
 
             required_jobs = [

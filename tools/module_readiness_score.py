@@ -8,7 +8,7 @@ import json
 import pathlib
 import sys
 from dataclasses import dataclass
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 import yaml
 
@@ -20,9 +20,9 @@ class ReadinessScore:
     total_score: int
     max_score: int
     percentage: float
-    breakdown: Dict[str, Dict[str, Any]]
+    breakdown: dict[str, dict[str, Any]]
     status: str
-    recommendations: List[str]
+    recommendations: list[str]
 
 class ModuleReadinessScorer:
     def __init__(self):
@@ -34,7 +34,7 @@ class ModuleReadinessScorer:
             "configuration": 10  # Valid config files
         }
 
-    def _check_manifest_validity(self, module_path: pathlib.Path) -> Tuple[int, List[str]]:
+    def _check_manifest_validity(self, module_path: pathlib.Path) -> tuple[int, list[str]]:
         """Check module manifest validity and completeness."""
         score = 0
         issues = []
@@ -88,7 +88,7 @@ class ModuleReadinessScorer:
 
         return min(score, self.max_scores["manifest"]), issues
 
-    def _check_matriz_compliance(self, module_path: pathlib.Path) -> Tuple[int, List[str]]:
+    def _check_matriz_compliance(self, module_path: pathlib.Path) -> tuple[int, list[str]]:
         """Check MATRIZ contract compliance."""
         score = 0
         issues = []
@@ -128,7 +128,7 @@ class ModuleReadinessScorer:
 
         return min(score, self.max_scores["matriz"]), issues
 
-    def _check_documentation_quality(self, module_path: pathlib.Path) -> Tuple[int, List[str]]:
+    def _check_documentation_quality(self, module_path: pathlib.Path) -> tuple[int, list[str]]:
         """Check documentation completeness and quality."""
         score = 0
         issues = []
@@ -180,7 +180,7 @@ class ModuleReadinessScorer:
 
         return min(score, self.max_scores["documentation"]), issues
 
-    def _check_testing_status(self, module_path: pathlib.Path) -> Tuple[int, List[str]]:
+    def _check_testing_status(self, module_path: pathlib.Path) -> tuple[int, list[str]]:
         """Check testing completeness and status."""
         score = 0
         issues = []
@@ -230,7 +230,7 @@ class ModuleReadinessScorer:
 
         return min(score, self.max_scores["testing"]), issues
 
-    def _check_configuration_validity(self, module_path: pathlib.Path) -> Tuple[int, List[str]]:
+    def _check_configuration_validity(self, module_path: pathlib.Path) -> tuple[int, list[str]]:
         """Check configuration file validity."""
         score = 0
         issues = []
@@ -328,7 +328,7 @@ class ModuleReadinessScorer:
             recommendations=all_recommendations
         )
 
-    def generate_scoreboard(self, scores: List[ReadinessScore]) -> str:
+    def generate_scoreboard(self, scores: list[ReadinessScore]) -> str:
         """Generate a formatted scoreboard."""
         lines = []
         lines.append("🏆 LUKHAS Module Readiness Scoreboard")

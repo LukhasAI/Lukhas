@@ -41,7 +41,7 @@ def discover_nodes(root_package: str = "labs") -> int:
         return 0
 
     # Use pkgutil.walk_packages to find all submodules
-    for importer, modname, ispkg in pkgutil.walk_packages(
+    for _importer, modname, _ispkg in pkgutil.walk_packages(
         path=getattr(root_module, "__path__", []),
         prefix=f"{root_package}.",
         onerror=lambda x: None
@@ -57,7 +57,7 @@ def discover_nodes(root_package: str = "labs") -> int:
             continue
 
         # Scan the module for CognitiveNodeBase subclasses
-        for name, cls in inspect.getmembers(module, inspect.isclass):
+        for _name, cls in inspect.getmembers(module, inspect.isclass):
             # Skip if not a CognitiveNodeBase subclass
             if not issubclass(cls, CognitiveNodeBase):
                 continue

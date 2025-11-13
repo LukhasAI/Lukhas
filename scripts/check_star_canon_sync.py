@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
-from typing import Dict, List
 
 from star_canon_utils import extract_canon_labels, iter_star_definitions
 
@@ -20,12 +19,12 @@ SCHEMA_PATH = ROOT / "schemas/matriz_module_compliance.schema.json"
 
 # ΛTAG: star_canon
 
-def load_canon_payload(path: Path) -> Dict[str, object]:
+def load_canon_payload(path: Path) -> dict[str, object]:
     with open(path, encoding="utf-8") as handle:
         return json.load(handle)
 
 
-def load_schema_enum() -> List[str]:
+def load_schema_enum() -> list[str]:
     """Extract primary_star enum from schema."""
     with open(SCHEMA_PATH, encoding="utf-8") as handle:
         schema = json.load(handle)
@@ -35,7 +34,7 @@ def load_schema_enum() -> List[str]:
     return primary_star.get("enum", [])
 
 
-def _non_supporting(labels: List[str]) -> set[str]:
+def _non_supporting(labels: list[str]) -> set[str]:
     return {label for label in labels if "supporting" not in label.lower()}
 
 
@@ -50,9 +49,9 @@ def main() -> int:
 
     print(f"✅ Schema enum has {len(schema_enum)} entries")
 
-    errors: List[str] = []
-    labels_ref: List[str] | None = None
-    defs_ref: List[Dict[str, str]] | None = None
+    errors: list[str] = []
+    labels_ref: list[str] | None = None
+    defs_ref: list[dict[str, str]] | None = None
 
     schema_set = _non_supporting(schema_enum)
 

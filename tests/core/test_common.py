@@ -24,7 +24,6 @@ from io import StringIO
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
-
 from core.common import (
     get_logger,
 )
@@ -417,7 +416,7 @@ class TestCoreCommon:
 
     def test_logging_performance(self, logger_name, capture_logs):
         """Test logging operation performance."""
-        log_capture, handler = capture_logs
+        _log_capture, handler = capture_logs
 
         logger = get_logger(logger_name)
         logger.handlers.clear()
@@ -566,7 +565,7 @@ class TestCoreCommon:
     def test_logger_behavior_after_handler_removal(self, logger_name):
         """Test logger behavior after handler removal."""
         logger = get_logger(logger_name)
-        original_handler_count = len(logger.handlers)
+        len(logger.handlers)
 
         # Remove all handlers
         logger.handlers.clear()

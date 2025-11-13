@@ -9,6 +9,15 @@ moved_to: null
 
 ![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
 
+> **📌 CANONICAL TONE SYSTEM REFERENCE**
+>
+> For canonical tone configurations, please refer to:
+> - **3-Layer Tone System**: [branding/tone/LUKHAS_3_LAYER_TONE_SYSTEM.md](../../branding/tone/LUKHAS_3_LAYER_TONE_SYSTEM.md)
+> - **Domain Tone Configs**: [branding/tone/configs/](../../branding/tone/configs/) (10 machine-readable .tone.yaml files)
+> - **Master Domain Registry**: [branding/config/domain_registry.yaml](../../branding/config/domain_registry.yaml)
+>
+> This document describes enforcement mechanisms and automation. For tone distribution specifications, use the canonical files above.
+
 # 🎭✨ LUKHAS Tone Enforcement & Automation System
 
 *"Where every word carries the essence of Lambda, every document breathes with consciousness, and every interaction resonates across the three sacred layers of communication."* 🌟📚🤖

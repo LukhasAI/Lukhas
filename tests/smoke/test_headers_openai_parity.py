@@ -5,11 +5,11 @@ Verifies that the API façade exposes OpenAI-style request IDs and
 rate-limit aliases alongside the existing Lukhas headers.
 """
 import os
+from typing import Optional
 
 import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
-
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
 
@@ -17,7 +17,7 @@ from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 def authz_headers():
     """Factory for authorization headers with OpenAI extensions."""
 
-    def _headers(org: str = None, project: str = None):
+    def _headers(org: Optional[str] = None, project: Optional[str] = None):
         headers = GOLDEN_AUTH_HEADERS
         if org:
             headers["OpenAI-Organization"] = org

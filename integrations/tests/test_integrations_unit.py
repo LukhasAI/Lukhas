@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import integrations  # noqa: F401  # TODO: integrations; consider using i...
+    import integrations  # TODO: integrations; consider using i...
 except ImportError:
     pytest.skip("Module integrations not available", allow_module_level=True)
 

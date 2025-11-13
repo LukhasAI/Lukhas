@@ -1,4 +1,4 @@
-"""Bridge: aka_qualia.core — core subpackage facade."""
+"""Bridge: aka_qualia.core - core subpackage facade."""
 from __future__ import annotations
 
 from _bridgeutils import bridge_from_candidates, export_from, safe_guard

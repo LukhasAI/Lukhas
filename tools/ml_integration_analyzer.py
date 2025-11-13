@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 ML-Powered Integration Analyzer for LUKHΛS
 -------------------------------------------------
@@ -24,6 +22,9 @@ Design Notes
 - External tools (git, semgrep) are optional. The analyzer gracefully degrades.
 
 """
+
+from __future__ import annotations
+
 import ast
 import datetime as _dt
 import hashlib
@@ -1244,7 +1245,7 @@ def _cli(argv: list[str]) -> int:
     if not orphan.exists():
         print(f"[error] orphan module not found: {orphan}", file=sys.stderr)
         return 2
-    if not exists():
+    if not lukhas.exists():
         print(f"[error] LUKHΛS repo not found: {lukhas}", file=sys.stderr)
         return 2
 

@@ -10,7 +10,7 @@ import asyncio
 import logging
 import os
 import time
-from typing import List, Optional
+from typing import Optional
 
 from .base_client import AIProvider, AIResponse, BaseAIClient
 
@@ -191,7 +191,7 @@ class GoogleClient(BaseAIClient):
             logger.error(f"Google AI health check failed: {e}")
             return False
 
-    def get_available_models(self) -> List[str]:
+    def get_available_models(self) -> list[str]:
         """Get available Google AI models"""
         return self.models.copy()
 

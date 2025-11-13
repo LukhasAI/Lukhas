@@ -13,6 +13,12 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+from orchestration.signals.homeostasis import HomeostasisController
+from orchestration.signals.modulator import PromptModulator
+
+# Import modulation components
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+
 from consciousness.reflection.openai_core_service import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
     ModelType,
     OpenAICapability,
@@ -20,11 +26,6 @@ from consciousness.reflection.openai_core_service import (  # noqa: F401 # TODO[
     OpenAIRequest,
     OpenAIResponse,
 )
-from orchestration.signals.homeostasis import HomeostasisController
-from orchestration.signals.modulator import PromptModulator
-
-# Import modulation components
-from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 logger = logging.getLogger(__name__)
 

@@ -5,9 +5,10 @@ import argparse
 import json
 import sys
 from collections import defaultdict
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
+from typing import Any
 
 # ΛTAG: hidden_gems_summary
 
@@ -39,7 +40,7 @@ class HiddenGem:
 
     # ΛTAG: hidden_gem_factory
     @classmethod
-    def from_manifest_entry(cls, entry: Mapping[str, Any]) -> "HiddenGem":
+    def from_manifest_entry(cls, entry: Mapping[str, Any]) -> HiddenGem:
         """Create a ``HiddenGem`` from a manifest entry, validating required fields."""
 
         required_fields = ("module", "score", "complexity", "effort_hours", "target_location")
@@ -81,11 +82,11 @@ def load_manifest(manifest_path: Path) -> Mapping[str, Any]:
 
 def extract_hidden_gems(
     manifest_payload: Mapping[str, Any], *, min_score: float = 70.0, complexity: str = "low"
-) -> List[HiddenGem]:
+) -> list[HiddenGem]:
     """Return manifest entries meeting the hidden gem criteria."""
 
     modules: Iterable[Mapping[str, Any]] = manifest_payload.get("modules", [])
-    gems: List[HiddenGem] = []
+    gems: list[HiddenGem] = []
     for entry in modules:
         if entry.get("complexity") != complexity:
             continue
@@ -100,10 +101,10 @@ def extract_hidden_gems(
     return gems
 
 
-def summarize_by_lane(gems: Sequence[HiddenGem]) -> Dict[str, Dict[str, float]]:
+def summarize_by_lane(gems: Sequence[HiddenGem]) -> dict[str, dict[str, float]]:
     """Aggregate hidden gem counts and effort by lane."""
 
-    summary: Dict[str, Dict[str, float]] = defaultdict(lambda: {"count": 0, "effort": 0.0})
+    summary: dict[str, dict[str, float]] = defaultdict(lambda: {"count": 0, "effort": 0.0})
     for gem in gems:
         lane_stats = summary[gem.lane]
         lane_stats["count"] += 1
@@ -147,7 +148,7 @@ def format_summary(gems: Sequence[HiddenGem], *, top_n: int = 5) -> str:
     return "\n".join(lines)
 
 
-def _resolve_manifest_path(path_argument: Optional[Path]) -> Path:
+def _resolve_manifest_path(path_argument: Path | None) -> Path:
     """Resolve the manifest path argument, falling back to the default location."""
 
     manifest_path = path_argument or DEFAULT_MANIFEST_PATH
@@ -191,7 +192,7 @@ def _build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: Optional[Sequence[str]] = None) -> int:
+def main(argv: Sequence[str] | None = None) -> int:
     """Entry point for the CLI utility."""
 
     parser = _build_parser()

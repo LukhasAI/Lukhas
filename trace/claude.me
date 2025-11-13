@@ -1,16 +1,20 @@
-# Trace Module - Claude AI Context
+status: wip
+type: documentation
+# Trace Module Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
+
 
 **Module**: trace
-**Purpose**: Drift monitoring, harmonization, and Constellation Framework compliance
+**Purpose**: Drift monitoring, harmonization, and Constellation Framework (8 Stars) compliance
 **Lane**: L2 (Integration)
 **Language**: Python
 **Last Updated**: 2025-10-18
 
----
 
 ## Module Overview
 
-The trace module provides drift monitoring and harmonization for LUKHAS AI systems, ensuring Constellation Framework compliance through continuous drift tracking, analysis, and automated realignment strategies.
+The trace module provides drift monitoring and harmonization for LUKHAS AI systems, ensuring Constellation Framework (8 Stars) compliance through continuous drift tracking, analysis, and automated realignment strategies.
 
 ### Key Components
 - **Drift Tracker**: Real-time drift monitoring (DriftTracker)
@@ -24,7 +28,6 @@ The trace module provides drift monitoring and harmonization for LUKHAS AI syste
 - **⚛️ Anchor Star (Identity)**: System identity preservation
 - **✦ Trail Star (Memory)**: Drift history tracking
 
----
 
 ## Architecture
 
@@ -51,7 +54,6 @@ from trace.drift_harmonizer import (
 from trace.drift_metrics import DriftTracker
 ```
 
----
 
 ## Drift Monitoring Systems
 
@@ -85,7 +87,6 @@ avg = tracker.get_average_drift()
 tracker.reset()
 ```
 
----
 
 ### 2. Drift Harmonizer
 **Module**: `trace.drift_harmonizer`
@@ -121,7 +122,6 @@ balance = harmonizer.get_triad_balance()
 summary = harmonizer.get_drift_summary()
 ```
 
----
 
 ### 3. Drift Severity Levels
 
@@ -135,7 +135,6 @@ DriftSeverity.HIGH        # 20-30% drift
 DriftSeverity.CRITICAL    # >30% drift
 ```
 
----
 
 ### 4. Realignment Strategies
 
@@ -148,9 +147,8 @@ RealignmentStrategy.SCHEDULED     # Maintenance window correction
 RealignmentStrategy.ADAPTIVE      # Context-aware correction
 ```
 
----
 
-### 5. Constellation Framework Compliance
+### 5. Constellation Framework (8 Stars) Compliance
 
 ```python
 from trace.drift_harmonizer import validate_triad_compliance
@@ -168,7 +166,6 @@ compliance = validate_triad_compliance(
 # Returns: (is_compliant: bool, violations: list)
 ```
 
----
 
 ## Module Structure
 
@@ -189,7 +186,6 @@ trace/
 └── tests/                       # Trace test suites
 ```
 
----
 
 ## Development Guidelines
 
@@ -253,7 +249,6 @@ if not is_compliant:
     handle_violations(violations)
 ```
 
----
 
 ## MATRIZ Pipeline Integration
 
@@ -266,7 +261,6 @@ This module operates within the MATRIZ cognitive framework:
 - **I (Intent)**: Intent to maintain stability
 - **A (Action)**: Automated correction actions
 
----
 
 ## Observability
 
@@ -278,17 +272,15 @@ REQUIRED_SPANS = [
 ]
 ```
 
----
 
 ## Performance Targets
 
 - **Drift Detection**: <50ms real-time monitoring
 - **Drift Analysis**: <200ms comprehensive analysis
 - **Realignment Suggestion**: <100ms strategy generation
-- **Compliance Validation**: <50ms triad validation
+- **Compliance Validation**: <50ms Trinity validation
 - **History Tracking**: Unlimited drift event storage
 
----
 
 ## Dependencies
 
@@ -300,7 +292,6 @@ REQUIRED_SPANS = [
 - `identity` - Identity drift tracking
 - `monitoring` - Integration with monitoring systems
 
----
 
 ## Related Modules
 
@@ -308,7 +299,6 @@ REQUIRED_SPANS = [
 - **Governance** ([../governance/](../governance/)) - Guardian integration
 - **Memory** ([../memory/](../memory/)) - Cascade prevention
 
----
 
 ## Documentation
 
@@ -317,7 +307,6 @@ REQUIRED_SPANS = [
 - **Tests**: [trace/tests/](tests/)
 - **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#trace)
 
----
 
 **Status**: Integration Lane (L2)
 **Manifest**: ✓ module.manifest.json (schema v3.0.0)
@@ -327,31 +316,3 @@ REQUIRED_SPANS = [
 **Entrypoints**: 10 drift management functions
 **Test Coverage**: 85.0%
 **Last Updated**: 2025-10-18
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

@@ -4,11 +4,10 @@ from __future__ import annotations
 
 import importlib
 import os
+import pkgutil
 from types import ModuleType
-from typing import List
-
-__all__: List[str] = []
-__path__: List[str] = [os.path.dirname(__file__)]  # type: ignore[assignment]
+__all__: list[str] = []
+__path__: list[str] = [os.path.dirname(__file__)]  # type: ignore[assignment]
 
 _BACKEND: ModuleType | None = None
 _CANDIDATES = [
@@ -33,7 +32,23 @@ def _bind_backend() -> None:
             globals()[attr] = value
             if attr not in __all__:
                 __all__.append(attr)
+        _export_submodules(backend)
         break
+
+
+def _export_submodules(package: ModuleType) -> None:
+    paths = getattr(package, "__path__", None)
+    if not paths:
+        return
+    for finder, submodule_name, _ in pkgutil.iter_modules(paths):
+        full_name = f"{package.__name__}.{submodule_name}"
+        try:
+            module = importlib.import_module(full_name)
+        except Exception:
+            continue
+        globals()[submodule_name] = module
+        if submodule_name not in __all__:
+            __all__.append(submodule_name)
 
 
 _bind_backend()

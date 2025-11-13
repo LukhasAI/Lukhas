@@ -3,27 +3,35 @@
 from __future__ import annotations
 
 import time
-from typing import Optional
 
 from opentelemetry import trace
 from opentelemetry.trace import Status, StatusCode
+from prometheus_client import Counter, Histogram
 
 
-# Placeholder for actual Prometheus client
 class PrometheusMetrics:
     def __init__(self):
-        # TODO: Initialize actual prometheus_client metrics
-        pass
+        self.latency_histogram = Histogram(
+            'memory_query_duration_ms',
+            'Memory query latency in milliseconds',
+            ['operation']
+        )
+        self.op_counter = Counter(
+            'memory_operations_total',
+            'Total memory operations',
+            ['operation', 'status']
+        )
 
     def observe_latency(self, operation: str, duration_ms: float):
         """Record operation latency."""
-        # TODO: histogram.labels(operation=operation).observe(duration_ms)
-        pass
+        self.latency_histogram.labels(operation=operation).observe(duration_ms)
 
     def increment_counter(self, metric: str, labels: dict):
         """Increment operation counter."""
-        # TODO: counter.labels(**labels).inc()
-        pass
+        # The metric name is passed from the caller, but we've hard-coded it for simplicity
+        if metric == 'memory_operations_total':
+            self.op_counter.labels(**labels).inc()
+
 
 class MemoryTracer:
     """OpenTelemetry tracing for memory operations."""
@@ -32,7 +40,7 @@ class MemoryTracer:
         self.tracer = trace.get_tracer(service_name)
         self.metrics = PrometheusMetrics()
 
-    def trace_operation(self, operation: str, span_name: Optional[str] = None):
+    def trace_operation(self, operation: str, span_name: str | None = None):
         """Context manager for tracing memory operations."""
         return MemorySpan(
             self.tracer.start_span(span_name or f"memory.{operation}"),

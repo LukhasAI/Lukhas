@@ -302,7 +302,7 @@ async def main():
     signals = test_signal_system()
 
     # Test 2: Modulation system
-    modulator, params = test_modulation_system(signals)
+    modulator, _params = test_modulation_system(signals)
 
     if modulator:
         # Test 3: OpenAI integration

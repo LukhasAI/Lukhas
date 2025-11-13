@@ -32,7 +32,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional, Protocol
+from typing import Any, Protocol
 
 from pydantic import BaseModel, Field
 
@@ -112,8 +112,8 @@ class AwarenessInput(BaseModel):
     """Base model for any awareness input with metadata."""
 
     timestamp: str = Field(default_factory=now_iso)
-    user_id: Optional[str] = None
-    session_id: Optional[str] = None
+    user_id: str | None = None
+    session_id: str | None = None
     context_data: dict[str, Any] = Field(default_factory=dict)
 
 
@@ -123,9 +123,9 @@ class AwarenessOutput(BaseModel):
     alignment: AlignmentMetric
     data: dict[str, Any]
     recommendations: list[str] = Field(default_factory=list)
-    sustainability_score: Optional[float] = None
+    sustainability_score: float | None = None
     processing_time_ms: float = 0.0
-    qi_signature: Optional[str] = None
+    qi_signature: str | None = None
 
 
 class Reasoner(Protocol):
@@ -291,9 +291,9 @@ class EnvironmentalAwarenessInput(AwarenessInput):
     ambient_noise: float = Field(..., ge=0, description="Noise level in dB")
     light_level: float = Field(..., ge=0, description="Light level in lux")
     location: tuple[float, float] = Field(..., description="Latitude, Longitude")
-    air_quality_index: Optional[float] = Field(None, ge=0, le=500)
-    energy_consumption: Optional[float] = Field(None, description="kWh consumption")
-    carbon_footprint: Optional[float] = Field(None, description="CO2 kg equivalent")
+    air_quality_index: float | None = Field(None, ge=0, le=500)
+    energy_consumption: float | None = Field(None, description="kWh consumption")
+    carbon_footprint: float | None = Field(None, description="CO2 kg equivalent")
 
 
 class EnhancedEnvReasoner:
@@ -1238,30 +1238,29 @@ class EnhancedEmotionalReasoner:
 
     def _recommend_mood_interventions(self, trajectory: str, inputs: EmotionalAwarenessInput) -> list[str]:
         """Recommend mood interventions based on trajectory."""
-        if trajectory == "declining_requires_attention":
-            return [
+        interventions = {
+            "declining_requires_attention": [
                 "Engage in mood-lifting activities (exercise, music, nature)",
                 "Connect with supportive friends or family",
                 "Consider professional support if decline continues",
-            ]
-        elif trajectory == "volatile_unpredictable":
-            return [
+            ],
+            "volatile_unpredictable": [
                 "Focus on mood stabilization techniques",
                 "Maintain consistent daily routines",
                 "Practice grounding and mindfulness exercises",
-            ]
-        elif trajectory == "stable_positive":
-            return [
+            ],
+            "stable_positive": [
                 "Maintain current positive practices",
                 "Consider helping others or engaging in meaningful activities",
                 "Continue healthy emotional habits",
-            ]
-        else:
-            return [
-                "Continue current emotional wellness practices",
-                "Monitor for any significant changes",
-                "Maintain good emotional hygiene",
-            ]
+            ],
+        }
+
+        return interventions.get(trajectory, [
+            "Continue current emotional wellness practices",
+            "Monitor for any significant changes",
+            "Maintain good emotional hygiene",
+        ])
 
 
 class EmotionalAwarenessModule(AwarenessModule):
@@ -1449,11 +1448,11 @@ class LukhasAwarenessEngine:
         self.modules[AwarenessType.ENVIRONMENTAL] = EnvironmentalAwarenessModule(env_reasoner, self.config)
 
         # Cognitive Module with meta-learning reasoner
-        cog_reasoner = CognitiveReasoner()
+        cog_reasoner = EnhancedCognitiveReasoner()
         self.modules[AwarenessType.COGNITIVE] = CognitiveAwarenessModule(cog_reasoner, self.config)
 
         # Emotional Module with personality integration
-        emo_reasoner = EmotionalReasoner()
+        emo_reasoner = EnhancedEmotionalReasoner()
         self.modules[AwarenessType.EMOTIONAL] = EmotionalAwarenessModule(emo_reasoner, self.config)
 
         # Social Module with interpersonal dynamics reasoner

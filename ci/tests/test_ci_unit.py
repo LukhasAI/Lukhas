@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import ci  # noqa: F401  # TODO: ci; consider using importlib.u...
+    import ci  # TODO: ci; consider using importlib.u...
 except ImportError:
     pytest.skip("Module ci not available", allow_module_level=True)
 

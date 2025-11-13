@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class AuthenticationTier(Enum):
@@ -31,7 +31,7 @@ class IdentityBiometricData:
     confidence_score: float = 0.0
     behavioral_coherence: float = 0.0
     consciousness_frequency: float = 0.0
-    brainwave_pattern: Dict[str, float] = field(default_factory=dict)
+    brainwave_pattern: dict[str, float] = field(default_factory=dict)
 
 
 @dataclass
@@ -40,7 +40,7 @@ class NamespaceIsolationData:
 
     namespace_id: str = ""
     isolation_level: float = 1.0
-    permissions: List[str] = field(default_factory=list)
+    permissions: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -62,8 +62,8 @@ class _IdentitySignal:
     tier: AuthenticationTier
     validation_passed: bool
     signal_integrity_hash: str
-    bio_symbolic_data: Optional[IdentityBiometricData] = None
-    constellation_compliance: Optional[Dict[str, Any]] = None
+    bio_symbolic_data: IdentityBiometricData | None = None
+    constellation_compliance: dict[str, Any] | None = None
 
 
 class MatrizConsciousnessIdentitySignalEmitter:
@@ -72,8 +72,8 @@ class MatrizConsciousnessIdentitySignalEmitter:
     def __init__(self) -> None:
         self.signal_factory = object()  # Truthy sentinel for tests
         self._lock = asyncio.Lock()
-        self._emitted_signals: List[_IdentitySignal] = []
-        self._constitutional_signals: List[tuple[str, ConstitutionalComplianceData, dict[str, Any]]] = []
+        self._emitted_signals: list[_IdentitySignal] = []
+        self._constitutional_signals: list[tuple[str, ConstitutionalComplianceData, dict[str, Any]]] = []
         self._metrics = {
             "signals_emitted": 0,
             "authentication_signals": 0,
@@ -84,8 +84,8 @@ class MatrizConsciousnessIdentitySignalEmitter:
         self,
         identity_id: str,
         authentication_tier: AuthenticationTier,
-        biometric_data: Optional[IdentityBiometricData] = None,
-        namespace_data: Optional[NamespaceIsolationData] = None,
+        biometric_data: IdentityBiometricData | None = None,
+        namespace_data: NamespaceIsolationData | None = None,
     ) -> _IdentitySignal:
         async with self._lock:
             signal = _IdentitySignal(
@@ -147,7 +147,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                 "emitted_signals_count": len(self._emitted_signals),
             }
 
-    async def get_constitutional_signals(self) -> List[tuple[str, ConstitutionalComplianceData, dict[str, Any]]]:
+    async def get_constitutional_signals(self) -> list[tuple[str, ConstitutionalComplianceData, dict[str, Any]]]:
         async with self._lock:
             return list(self._constitutional_signals)
 
@@ -162,10 +162,10 @@ consciousness_identity_signal_emitter = MatrizConsciousnessIdentitySignalEmitter
 
 __all__ = [
     "AuthenticationTier",
-    "IdentitySignalType",
-    "IdentityBiometricData",
-    "NamespaceIsolationData",
     "ConstitutionalComplianceData",
+    "IdentityBiometricData",
+    "IdentitySignalType",
     "MatrizConsciousnessIdentitySignalEmitter",
+    "NamespaceIsolationData",
     "consciousness_identity_signal_emitter",
 ]

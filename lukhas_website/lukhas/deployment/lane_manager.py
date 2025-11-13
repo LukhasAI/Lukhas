@@ -6,14 +6,15 @@ Manages the candidate → lukhas → MATRIZ lane progression system with health-
 automatic lane switching and Constellation Framework coordination.
 """
 
+# ruff: noqa: F821  # Experimental/test code with undefined names
 import asyncio
 import logging
 import time
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Optional
 
 from ..constellation_framework import ConstellationFramework
 from ..governance.guardian_integration import GuardianValidator
@@ -43,8 +44,8 @@ class LaneConfig:
     health_check_interval: int
     failover_threshold: float
     rollback_threshold: float
-    feature_flags: Dict[str, bool]
-    resource_limits: Dict[str, Any]
+    feature_flags: dict[str, bool]
+    resource_limits: dict[str, Any]
     constellation_enabled: bool = True
 
 
@@ -79,10 +80,10 @@ class LaneManager:
         self.logger = logging.getLogger(f"{__name__}.LaneManager")
 
         # Lane state management
-        self._lanes: Dict[Lane, LaneConfig] = {}
-        self._lane_metrics: Dict[Lane, LaneMetrics] = {}
-        self._lane_assignments: Dict[str, Lane] = {}  # service_id -> lane
-        self._traffic_distribution: Dict[Lane, float] = {}
+        self._lanes: dict[Lane, LaneConfig] = {}
+        self._lane_metrics: dict[Lane, LaneMetrics] = {}
+        self._lane_assignments: dict[str, Lane] = {}  # service_id -> lane
+        self._traffic_distribution: dict[Lane, float] = {}
 
         # Control flags
         self._running = False
@@ -91,7 +92,7 @@ class LaneManager:
 
         # Performance tracking
         self._lane_switch_latencies = []
-        self._assignment_cache: Dict[str, Tuple[Lane, float]] = {}  # service_id -> (lane, timestamp)
+        self._assignment_cache: dict[str, tuple[Lane, float]] = {}  # service_id -> (lane, timestamp)
 
         # Load default configuration
         self._load_default_config()
@@ -219,10 +220,8 @@ class LaneManager:
 
         if self._monitoring_task:
             self._monitoring_task.cancel()
-            try:
+            with suppress(asyncio.CancelledError):
                 await self._monitoring_task
-            except asyncio.CancelledError:
-                pass
 
         self.logger.info("Lane Manager stopped")
 
@@ -340,10 +339,9 @@ class LaneManager:
             elif self._is_lane_healthy(Lane.MATRIZ):
                 return Lane.MATRIZ
 
-        elif service_type in ["experimental", "canary"]:
+        elif service_type in ['experimental', 'canary'] and self._is_lane_healthy(Lane.CANDIDATE):
             # Experimental features use candidate lane
-            if self._is_lane_healthy(Lane.CANDIDATE):
-                return Lane.CANDIDATE
+            return Lane.CANDIDATE
 
         # Fallback to healthiest lane
         return self._get_healthiest_lane()
@@ -379,7 +377,7 @@ class LaneManager:
         """Get current lane assignment for a service"""
         return self._lane_assignments.get(service_id)
 
-    async def update_traffic_distribution(self, distribution: Dict[Lane, float]):
+    async def update_traffic_distribution(self, distribution: dict[Lane, float]):
         """Update traffic distribution across lanes"""
         total = sum(distribution.values())
         if abs(total - 100.0) > 0.1:
@@ -606,7 +604,7 @@ class LaneManager:
                             lane, target_lane, "automatic_health_failover"
                         )
 
-    async def _health_check(self) -> Dict[str, Any]:
+    async def _health_check(self) -> dict[str, Any]:
         """Health check for Constellation Framework"""
         return {
             "status": "healthy" if self._running else "stopped",
@@ -622,16 +620,19 @@ class LaneManager:
             }
         }
 
-    async def get_deployment_status(self) -> Dict[str, Any]:
+    async def get_deployment_status(self) -> dict[str, Any]:
         """Get comprehensive deployment status"""
         return {
             "timestamp": datetime.now().isoformat(),
             "lanes": {
                 lane.value: {
                     "config": asdict(config),
-                    "metrics": asdict(metrics) if lane in self._lane_metrics else None,  # noqa: F821  # TODO: metrics
+# T4: code=F821 | ticket=SKELETON-4A32346C | owner=lukhas-platform | status=skeleton
+# reason: Undefined metrics in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+                    "metrics": asdict(metrics) if lane in self._lane_metrics else None,  # TODO: metrics
                     "assignments": len([
-                        s for s, l in self._lane_assignments.items() if l == lane
+                        s for s, lane_assignment in self._lane_assignments.items() if lane_assignment == lane
                     ])
                 }
                 for lane, config in self._lanes.items()

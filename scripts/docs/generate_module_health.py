@@ -12,6 +12,8 @@ Outputs:
 - artifacts/module_structure_report.json (machine-readable)
 - docs/_generated/MODULE_INDEX.md (human-readable index)
 """
+from __future__ import annotations
+
 import json
 import sys
 from pathlib import Path

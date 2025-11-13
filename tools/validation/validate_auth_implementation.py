@@ -29,7 +29,7 @@ def test_api_key_validation():
     print("🔑 Testing API Key Validation...")
 
     try:
-        from core.interfaces.api.v1.common.auth import (
+        from lukhas.core.interfaces.api.v1.common.auth import (
             _validate_key_format,
             _verify_key_signature,
             generate_api_key,
@@ -171,7 +171,7 @@ def test_session_management():
 
         # Test 3: Account lockout checking
         test_user = "testuser"
-        is_locked, message = _check_account_lockout(test_user)
+        is_locked, _message = _check_account_lockout(test_user)
         print(f"   ✅ Account lockout check: {not is_locked}")
         assert not is_locked, "Account should not be locked initially"
 

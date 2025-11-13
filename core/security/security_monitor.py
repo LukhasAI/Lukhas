@@ -12,12 +12,13 @@ still surfacing actionable signals for production and tests.
 from __future__ import annotations
 
 from collections import defaultdict, deque
+from collections.abc import Iterable, Mapping, MutableMapping
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from threading import RLock
 from time import perf_counter
-from typing import Any, Deque, Dict, Iterable, Mapping, MutableMapping, Optional, Tuple
+from typing import Any
 
 from observability import counter, gauge, histogram
 
@@ -25,9 +26,9 @@ __all__ = [
     "EventSeverity",
     "EventType",
     "SecurityEvent",
-    "SecurityThreat",
-    "SecurityMonitorConfig",
     "SecurityMonitor",
+    "SecurityMonitorConfig",
+    "SecurityThreat",
     "create_security_monitor",
 ]
 
@@ -51,7 +52,7 @@ class EventSeverity(str, Enum):
     CRITICAL = "critical"
 
 
-@dataclass(slots=True)
+@dataclass
 class SecurityEvent:
     """Normalized security event."""
 
@@ -64,7 +65,7 @@ class SecurityEvent:
     metadata: Mapping[str, Any] = field(default_factory=dict)
 
 
-@dataclass(slots=True)
+@dataclass
 class SecurityThreat:
     """Active security threat detected by the monitor."""
 
@@ -73,7 +74,7 @@ class SecurityThreat:
     severity: EventSeverity
     detected_at: datetime
     description: str
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
     last_updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def update_context(self, **updates: Any) -> None:
@@ -125,9 +126,9 @@ class SecurityMonitor:
         self.config = config or SecurityMonitorConfig()
         self._metrics = _SecurityMonitorMetrics()
         self._lock = RLock()
-        self._auth_failures: MutableMapping[Tuple[str, str], Deque[datetime]] = defaultdict(deque)
-        self._active_threats: Dict[str, SecurityThreat] = {}
-        self._metrics_snapshot: Dict[str, Any] = {
+        self._auth_failures: MutableMapping[tuple[str, str], deque[datetime]] = defaultdict(deque)
+        self._active_threats: dict[str, SecurityThreat] = {}
+        self._metrics_snapshot: dict[str, Any] = {
             "security_events_total": defaultdict(int),
             "processing_durations": [],
             "active_security_threats": 0,
@@ -139,7 +140,7 @@ class SecurityMonitor:
     # ------------------------------------------------------------------
     # Event ingestion API
     # ------------------------------------------------------------------
-    def process_event(self, event: SecurityEvent) -> Optional[SecurityThreat]:
+    def process_event(self, event: SecurityEvent) -> SecurityThreat | None:
         """Process a security event and update metrics/threats."""
 
         start = perf_counter()
@@ -153,18 +154,17 @@ class SecurityMonitor:
             new_threat = self._handle_anomalous_behavior(event)
         elif event.event_type is EventType.POLICY_VIOLATION:
             new_threat = self._handle_policy_violation(event)
-        elif event.event_type is EventType.QI_SECURITY_EVENT:
+        elif event.event_type is EventType.QI_SECURITY_EVENT and event.severity in {EventSeverity.HIGH, EventSeverity.CRITICAL}:
             # QI events are pass-through but still tracked as active threats when
             # flagged with high severity.
-            if event.severity in {EventSeverity.HIGH, EventSeverity.CRITICAL}:
-                new_threat = self._register_threat(
-                    threat_id=self._build_threat_id("qi", event),
-                    threat_type="qi_security",
-                    severity=event.severity,
-                    description="Quantum integrity security event",
-                    context=dict(event.metadata),
-                    timestamp=event.timestamp,
-                )
+            new_threat = self._register_threat(
+                threat_id=self._build_threat_id("qi", event),
+                threat_type="qi_security",
+                severity=event.severity,
+                description="Quantum integrity security event",
+                context=dict(event.metadata),
+                timestamp=event.timestamp,
+            )
 
         duration = perf_counter() - start
         self._metrics.observe_event(event, duration)
@@ -188,7 +188,7 @@ class SecurityMonitor:
         guardian_allowed: bool = True,
         guardian_reason: str | None = None,
         anomaly_score: float | None = None,
-        metadata: Optional[Mapping[str, Any]] = None,
+        metadata: Mapping[str, Any] | None = None,
     ) -> Iterable[SecurityThreat]:
         """Observe an authentication attempt from the identity system."""
 
@@ -240,8 +240,8 @@ class SecurityMonitor:
         identifier: str,
         source_ip: str | None,
         requests_per_minute: int,
-        metadata: Optional[Mapping[str, Any]] = None,
-    ) -> Optional[SecurityThreat]:
+        metadata: Mapping[str, Any] | None = None,
+    ) -> SecurityThreat | None:
         """Observe a rate limit violation event."""
 
         event = SecurityEvent(
@@ -259,8 +259,8 @@ class SecurityMonitor:
         subject: str,
         policy: str,
         severity: EventSeverity = EventSeverity.HIGH,
-        metadata: Optional[Mapping[str, Any]] = None,
-    ) -> Optional[SecurityThreat]:
+        metadata: Mapping[str, Any] | None = None,
+    ) -> SecurityThreat | None:
         """Observe a Guardian policy violation event."""
 
         event = SecurityEvent(
@@ -276,8 +276,8 @@ class SecurityMonitor:
         *,
         event_name: str,
         severity: EventSeverity,
-        metadata: Optional[Mapping[str, Any]] = None,
-    ) -> Optional[SecurityThreat]:
+        metadata: Mapping[str, Any] | None = None,
+    ) -> SecurityThreat | None:
         """Observe a Quantum Integrity system security event."""
 
         event = SecurityEvent(
@@ -290,7 +290,7 @@ class SecurityMonitor:
     # ------------------------------------------------------------------
     # Threat lifecycle management
     # ------------------------------------------------------------------
-    def get_active_threats(self) -> Dict[str, SecurityThreat]:
+    def get_active_threats(self) -> dict[str, SecurityThreat]:
         with self._lock:
             return dict(self._active_threats)
 
@@ -302,7 +302,7 @@ class SecurityMonitor:
                 self._metrics.set_active_threats(len(self._active_threats))
             return removed
 
-    def get_metrics_snapshot(self) -> Dict[str, Any]:
+    def get_metrics_snapshot(self) -> dict[str, Any]:
         with self._lock:
             snapshot = {
                 "security_events_total": dict(self._metrics_snapshot["security_events_total"]),
@@ -323,7 +323,7 @@ class SecurityMonitor:
     # ------------------------------------------------------------------
     # Internal helpers
     # ------------------------------------------------------------------
-    def _handle_auth_failure(self, event: SecurityEvent) -> Optional[SecurityThreat]:
+    def _handle_auth_failure(self, event: SecurityEvent) -> SecurityThreat | None:
         key = self._build_auth_key(event)
         with self._lock:
             failures = self._auth_failures[key]
@@ -349,7 +349,7 @@ class SecurityMonitor:
             )
         return None
 
-    def _handle_rate_limit(self, event: SecurityEvent) -> Optional[SecurityThreat]:
+    def _handle_rate_limit(self, event: SecurityEvent) -> SecurityThreat | None:
         requests_per_minute = int(event.metadata.get("requests_per_minute", 0))
         if requests_per_minute < self.config.rate_limit_threshold:
             return None
@@ -368,7 +368,7 @@ class SecurityMonitor:
             timestamp=event.timestamp,
         )
 
-    def _handle_anomalous_behavior(self, event: SecurityEvent) -> Optional[SecurityThreat]:
+    def _handle_anomalous_behavior(self, event: SecurityEvent) -> SecurityThreat | None:
         anomaly_score = float(event.metadata.get("anomaly_score", 0.0))
         if anomaly_score < self.config.anomaly_score_threshold:
             return None
@@ -387,7 +387,7 @@ class SecurityMonitor:
             timestamp=event.timestamp,
         )
 
-    def _handle_policy_violation(self, event: SecurityEvent) -> Optional[SecurityThreat]:
+    def _handle_policy_violation(self, event: SecurityEvent) -> SecurityThreat | None:
         policy_name = event.metadata.get("policy", event.metadata.get("reason", "guardian_policy_violation"))
         return self._register_threat(
             threat_id=self._build_threat_id("policy", event),
@@ -408,7 +408,7 @@ class SecurityMonitor:
         threat_type: str,
         severity: EventSeverity,
         description: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         timestamp: datetime,
     ) -> SecurityThreat:
         if threat_id is None:
@@ -424,7 +424,7 @@ class SecurityMonitor:
         return threat
 
     @staticmethod
-    def _build_auth_key(event: SecurityEvent) -> Tuple[str, str]:
+    def _build_auth_key(event: SecurityEvent) -> tuple[str, str]:
         user = event.actor_id or event.metadata.get("user_id") or "unknown"
         ip = event.ip_address or event.metadata.get("ip_address") or "unknown"
         return user, ip

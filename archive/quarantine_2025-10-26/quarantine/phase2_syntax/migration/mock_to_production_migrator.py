@@ -3,6 +3,8 @@
 LUKHAS Mock-to-Production Migration Tool
 Safely migrates from mocked tests to production-ready code
 """
+from __future__ import annotations
+
 from consciousness.qi import qi
 from typing import List
 from typing import Dict

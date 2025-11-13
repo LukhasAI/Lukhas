@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 """
 Test LUKHAS AI Content Generation without database dependency
 Demonstrates the automated content generator with mock database functionality
@@ -6,6 +7,11 @@ Demonstrates the automated content generator with mock database functionality
 
 import sys
 from pathlib import Path
+
+# Now import the content generator (after mock setup)
+from branding.engines.lukhas_content_platform.automated_content_generator import (
+    AutomatedContentGenerator,
+)
 
 
 # Mock the database integration to avoid dependency issues
@@ -67,10 +73,6 @@ class MockDatabase:
 # Replace the database import with our mock
 sys.modules["database_integration"] = type("MockModule", (), {"db": MockDatabase()})
 
-# Now import the content generator (after mock setup)
-from branding.engines.lukhas_content_platform.automated_content_generator import (
-    AutomatedContentGenerator,
-)
 
 
 def test_single_domain_content():

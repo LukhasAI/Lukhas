@@ -1,6 +1,5 @@
-from __future__ import annotations
-
 #!/usr/bin/env python3
+
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🌐 LUKHAS DASHBOARD WEBSOCKET SERVER
@@ -44,6 +43,9 @@ from __future__ import annotations
 ║ ΛTAG: ΛWEBSOCKET, ΛSTREAMING, ΛREALTIME, ΛDASHBOARD, ΛINTELLIGENCE
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
+from __future__ import annotations
+
 import asyncio
 import builtins
 import contextlib
@@ -53,9 +55,13 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 import uvicorn
+from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
+
+# LUKHAS system imports
+from core.oracle_nervous_system import get_oracle_nervous_system
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from products.experience.dashboard.interfaces.core.dashboard_colony_agent import (
@@ -69,11 +75,6 @@ from products.experience.dashboard.interfaces.core.self_healing_manager import S
 from products.experience.dashboard.interfaces.core.universal_adaptive_dashboard import (
     UniversalAdaptiveDashboard,
 )
-
-from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
-
-# LUKHAS system imports
-from core.oracle_nervous_system import get_oracle_nervous_system
 
 logger = logging.getLogger("ΛTRACE.websocket_server")
 
@@ -102,7 +103,7 @@ class StreamClient:
     subscribed_streams: set[StreamType]
     connected_at: datetime
     last_activity: datetime
-    user_id: Optional[str] = None
+    user_id: str | None = None
     permissions: set[str] = field(default_factory=set)
     client_info: dict[str, Any] = field(default_factory=dict)
 
@@ -116,7 +117,7 @@ class StreamMessage:
     data: dict[str, Any]
     timestamp: datetime
     priority: int = 3  # 1=critical, 2=high, 3=normal, 4=low, 5=debug
-    target_clients: Optional[set[str]] = None
+    target_clients: set[str] | None = None
 
 
 class DashboardWebSocketServer:
@@ -140,11 +141,11 @@ class DashboardWebSocketServer:
         self.client_lock = asyncio.Lock()
 
         # Dashboard system components
-        self.dashboard: Optional[UniversalAdaptiveDashboard] = None
+        self.dashboard: UniversalAdaptiveDashboard | None = None
         self.colony_agents: list = []
-        self.tab_system: Optional[DynamicTabSystem] = None
-        self.morphing_engine: Optional[MorphingEngine] = None
-        self.healing_manager: Optional[SelfHealingManager] = None
+        self.tab_system: DynamicTabSystem | None = None
+        self.morphing_engine: MorphingEngine | None = None
+        self.healing_manager: SelfHealingManager | None = None
 
         # LUKHAS system integration
         self.oracle_nervous_system = None
@@ -189,7 +190,11 @@ class DashboardWebSocketServer:
                 "status": "healthy",
                 "server_id": self.server_id,
                 "connected_clients": len(self.clients),
-                "uptime": ((datetime.now(timezone.utc) - self.start_time).total_seconds() if hasattr(self, "start_time") else 0),
+                "uptime": (
+                    (datetime.now(timezone.utc) - self.start_time).total_seconds()
+                    if hasattr(self, "start_time")
+                    else 0
+                ),
             }
 
         # Metrics endpoint
@@ -321,7 +326,9 @@ class DashboardWebSocketServer:
                 client_id=client_id,
                 websocket=websocket,
                 subscribed_streams=(
-                    {requested_stream} if requested_stream != StreamType.ALL_STREAMS else set(StreamType)
+                    {requested_stream}
+                    if requested_stream != StreamType.ALL_STREAMS
+                    else set(StreamType)
                 ),
                 connected_at=datetime.now(timezone.utc),
                 last_activity=datetime.now(timezone.utc),
@@ -447,14 +454,16 @@ class DashboardWebSocketServer:
         ]:
             tab_id = interaction_data.get("tab_id", "")
             if tab_id:
-                await self.tab_system.handle_user_interaction(tab_id, interaction_type, interaction_data)
+                await self.tab_system.handle_user_interaction(
+                    tab_id, interaction_type, interaction_data
+                )
 
     async def broadcast_message(
         self,
         stream_type: StreamType,
         data: dict[str, Any],
         priority: int = 3,
-        target_clients: Optional[set[str]] = None,
+        target_clients: set[str] | None = None,
     ):
         """Broadcast a message to subscribed clients."""
 
@@ -483,12 +492,15 @@ class DashboardWebSocketServer:
                 async with self.client_lock:
                     for client in self.clients.values():
                         # Check if client is subscribed to this stream type
-                        if (
+                        if (  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_governance_identity_auth_web_websocket_server_py_L487"}
                             message.stream_type in client.subscribed_streams
                             or StreamType.ALL_STREAMS in client.subscribed_streams
                         ):
                             # Check if message is targeted to specific clients
-                            if message.target_clients is None or client.client_id in message.target_clients:
+                            if (
+                                message.target_clients is None
+                                or client.client_id in message.target_clients
+                            ):
                                 target_clients.append(client)
 
                 # Broadcast to target clients
@@ -606,7 +618,7 @@ class DashboardWebSocketServer:
 
     # Stream handler methods
 
-    async def _handle_oracle_metrics_stream(self) -> Optional[dict[str, Any]]:
+    async def _handle_oracle_metrics_stream(self) -> dict[str, Any] | None:
         """Handle Oracle metrics stream."""
         if not self.oracle_nervous_system:
             return None
@@ -621,7 +633,7 @@ class DashboardWebSocketServer:
             self.logger.error("Oracle metrics stream error", error=str(e))
             return None
 
-    async def _handle_ethics_swarm_stream(self) -> Optional[dict[str, Any]]:
+    async def _handle_ethics_swarm_stream(self) -> dict[str, Any] | None:
         """Handle Ethics Swarm stream."""
         if not self.ethics_swarm:
             return None
@@ -636,7 +648,7 @@ class DashboardWebSocketServer:
             self.logger.error("Ethics swarm stream error", error=str(e))
             return None
 
-    async def _handle_system_health_stream(self) -> Optional[dict[str, Any]]:
+    async def _handle_system_health_stream(self) -> dict[str, Any] | None:
         """Handle system health stream."""
         if not self.healing_manager:
             return None
@@ -651,19 +663,19 @@ class DashboardWebSocketServer:
             self.logger.error("System health stream error", error=str(e))
             return None
 
-    async def _handle_morphing_events_stream(self) -> Optional[dict[str, Any]]:
+    async def _handle_morphing_events_stream(self) -> dict[str, Any] | None:
         """Handle morphing events stream."""
         # This would be event-driven rather than polling
         return None
 
-    async def _handle_healing_events_stream(self) -> Optional[dict[str, Any]]:
+    async def _handle_healing_events_stream(self) -> dict[str, Any] | None:
         """Handle healing events stream."""
         # This would be event-driven rather than polling
         return None
 
     async def _handle_colony_coordination_stream(
         self,
-    ) -> Optional[dict[str, Any]]:
+    ) -> dict[str, Any] | None:
         """Handle colony coordination stream."""
         if not self.colony_agents:
             return None
@@ -688,14 +700,14 @@ class DashboardWebSocketServer:
 
     async def _handle_performance_metrics_stream(
         self,
-    ) -> Optional[dict[str, Any]]:
+    ) -> dict[str, Any] | None:
         """Handle performance metrics stream."""
         return {
             "server_metrics": self.performance_metrics.copy(),
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    async def _handle_predictions_stream(self) -> Optional[dict[str, Any]]:
+    async def _handle_predictions_stream(self) -> dict[str, Any] | None:
         """Handle predictions stream."""
         if not (self.tab_system and self.morphing_engine):
             return None
@@ -761,7 +773,9 @@ class DashboardWebSocketServer:
 # Convenience function to create and start server
 
 
-async def create_dashboard_websocket_server(host: str = "localhost", port: int = 8765) -> DashboardWebSocketServer:
+async def create_dashboard_websocket_server(
+    host: str = "localhost", port: int = 8765
+) -> DashboardWebSocketServer:
     """Create and initialize a dashboard WebSocket server."""
     server = DashboardWebSocketServer(host, port)
     await server.initialize()

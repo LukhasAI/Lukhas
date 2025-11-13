@@ -51,4 +51,4 @@ class DriftAlignmentController:
         elif affect_delta > drift_score:
             return "Reduce affect amplification"
         else:
-            return "Maintain state – symbolic/emotional convergence stable"
+            return "Maintain state - symbolic/emotional convergence stable"

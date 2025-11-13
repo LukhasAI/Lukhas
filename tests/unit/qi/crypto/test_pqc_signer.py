@@ -64,14 +64,14 @@ def test_pqc_signer_enabled_functions_raise_error(monkeypatch):
 
     from qi.crypto import pqc_signer
 
-    with pytest.raises(NotImplementedError, match="MATRIZ client integration is not fully implemented yet."):
+    with pytest.raises(NotImplementedError, match=r"MATRIZ client integration is not fully implemented yet."):
         pqc_signer.sign_message(b"test")
 
-    with pytest.raises(NotImplementedError, match="MATRIZ client integration is not fully implemented yet."):
+    with pytest.raises(NotImplementedError, match=r"MATRIZ client integration is not fully implemented yet."):
         pqc_signer.verify_signature(b"test", {})
 
-    with pytest.warns(DeprecationWarning, match="sign_dilithium is deprecated"):
-        with pytest.raises(NotImplementedError, match="MATRIZ client integration is not fully implemented yet."):
+    with pytest.warns(DeprecationWarning, match=r"sign_dilithium is deprecated"):
+        with pytest.raises(NotImplementedError, match=r"MATRIZ client integration is not fully implemented yet."):
             pqc_signer.sign_dilithium(b"test")
 
     del sys.modules["matriz_client"]

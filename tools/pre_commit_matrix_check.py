@@ -9,10 +9,9 @@ Provides fast feedback on contract compliance without running full CI.
 import json
 import pathlib
 import sys
-from typing import List
 
 try:
-    from jsonschema import (  # noqa: F401  # TODO: jsonschema.ValidationError; co...
+    from jsonschema import (  # TODO: jsonschema.ValidationError; co...
         Draft202012Validator,
         ValidationError,
     )
@@ -21,7 +20,7 @@ except ImportError:
     sys.exit(1)
 
 
-def validate_matrix_contract(contract_path: str) -> List[str]:
+def validate_matrix_contract(contract_path: str) -> list[str]:
     """Validate a single matrix contract against schema."""
     errors = []
 

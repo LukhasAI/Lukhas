@@ -86,7 +86,7 @@ class RateLimiter:
         active_clients = 0
         total_requests = 0
 
-        for client_id, requests in self._request_counts.items():
+        for _client_id, requests in self._request_counts.items():
             recent_requests = [r for r in requests if r > minute_ago]
             if recent_requests:
                 active_clients += 1

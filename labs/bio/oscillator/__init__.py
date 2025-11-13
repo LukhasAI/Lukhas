@@ -22,7 +22,7 @@ try:
 
 	get_orchestrator = mod.get_orchestrator
 	BioOrchestrator = mod.BioOrchestrator
-	__all__ = ["get_orchestrator", "BioOrchestrator"]
+	__all__ = ["BioOrchestrator", "get_orchestrator"]
 except Exception as e:
 	logger.warning(f"Failed to load oscillator implementation: {e}")
 	__all__ = []

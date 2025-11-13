@@ -5,10 +5,11 @@ Provides register() function and _REG registry.
 """
 from __future__ import annotations
 import importlib as _importlib
+from typing import Optional
 try:
     _mod = _importlib.import_module("labs.core.identity.registry")
-    _REG = getattr(_mod, "_REG")
-    register = getattr(_mod, "register")
+    _REG = _mod._REG
+    register = _mod.register
 except Exception:
     _REG = None
     register = None
@@ -26,7 +27,7 @@ def autoload():
     """Autoload discovered plugins (placeholder)."""
     pass
 
-def discover_entry_points(group: str = None):
+def discover_entry_points(group: str | None = None):
     """Discover entry points (placeholder)."""
     return []
 
@@ -34,4 +35,4 @@ def _instantiate_plugin(entry_point):
     """Instantiate a plugin from entry point (placeholder)."""
     return None
 
-__all__ = ["register", "_REG", "resolve", "auto_discover", "autoload", "discover_entry_points", "_instantiate_plugin"]
+__all__ = ["_REG", "_instantiate_plugin", "auto_discover", "autoload", "discover_entry_points", "register", "resolve"]

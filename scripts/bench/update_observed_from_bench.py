@@ -64,7 +64,7 @@ def parse_percentiles(bench_json: Path) -> dict:
     samples = []
 
     for s in stats:
-        if "data" in s and s["data"]:
+        if s.get("data"):
             samples.extend(s["data"])
         elif "mean" in s:
             samples.append(s["mean"])

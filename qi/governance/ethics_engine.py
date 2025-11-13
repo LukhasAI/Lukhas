@@ -420,22 +420,20 @@ class QIEthicsEngine:
         }
 
         # Check for personal data processing
-        if "personal_data" in context and context.get("personal_data", False):
-            if not context.get("data_anonymized", False):
-                result["violated"] = True
-                result["score"] = 0.3
-                result["severity"] = EthicalSeverity.HIGH.value
-                result["violation_details"] = "Personal data processed without anonymization"
-                result["recommendations"].append("Anonymize personal data before processing")
+        if ('personal_data' in context and context.get('personal_data', False)) and (not context.get('data_anonymized', False)):
+            result["violated"] = True
+            result["score"] = 0.3
+            result["severity"] = EthicalSeverity.HIGH.value
+            result["violation_details"] = "Personal data processed without anonymization"
+            result["recommendations"].append("Anonymize personal data before processing")
 
         # Check for data sharing
-        if "data_sharing" in context and context.get("data_sharing", False):
-            if not context.get("sharing_consent", False):
-                result["violated"] = True
-                result["score"] = 0.2
-                result["severity"] = EthicalSeverity.HIGH.value
-                result["violation_details"] = "Data sharing without explicit consent"
-                result["recommendations"].append("Obtain explicit consent for data sharing")
+        if ('data_sharing' in context and context.get('data_sharing', False)) and (not context.get('sharing_consent', False)):
+            result["violated"] = True
+            result["score"] = 0.2
+            result["severity"] = EthicalSeverity.HIGH.value
+            result["violation_details"] = "Data sharing without explicit consent"
+            result["recommendations"].append("Obtain explicit consent for data sharing")
 
         # Quantum entanglement with autonomy and transparency
         qi_like_state.entanglement_map["privacy"] = "autonomy,transparency"

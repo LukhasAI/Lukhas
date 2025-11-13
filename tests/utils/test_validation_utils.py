@@ -9,7 +9,7 @@ Trinity Framework: 🛡️ Guardian · 🔒 Security
 
 import re
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 import pytest
 
@@ -384,7 +384,7 @@ def test_boundary_string_validation():
 @pytest.mark.unit
 def test_user_registration_validation():
     """Test complete user registration validation."""
-    def validate_registration(data: Dict[str, str]) -> tuple[bool, List[str]]:
+    def validate_registration(data: Dict[str, str]) -> Tuple[bool, List[str]]:
         """Validate user registration data. Returns (is_valid, errors)."""
         errors = []
 

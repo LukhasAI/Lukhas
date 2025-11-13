@@ -30,7 +30,7 @@ def main():
     for old_manifest in manifest_files:
         try:
             # Read the manifest to get the actual module path
-            with open(old_manifest, 'r', encoding='utf-8') as f:
+            with open(old_manifest, encoding='utf-8') as f:
                 data = json.load(f)
 
             module_path = data.get("module", {}).get("path", "")

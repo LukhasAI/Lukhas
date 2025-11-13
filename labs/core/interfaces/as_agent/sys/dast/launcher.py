@@ -31,9 +31,9 @@ def startup_sequence():
     print("🔧 LUKHAS Agent Launcher Starting...")
 
     # Example: Schedule a DST check-in
-    from datetime import datetime, timedelta
+    from datetime import datetime, timedelta, timezone
 
-    lukhas_scheduler.schedule_task("DST Check", datetime.utcnow() + timedelta(minutes=2))
+    lukhas_scheduler.schedule_task("DST Check", datetime.now(timezone.utc) + timedelta(minutes=2))
 
     # Example: Create a preview widget
     widget = lukhas_widget_engine.create_symbolic_widget("travel", user_tier=4, context_data={"vendor": "Uber"})

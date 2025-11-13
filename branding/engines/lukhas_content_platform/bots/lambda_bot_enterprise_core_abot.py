@@ -21,7 +21,7 @@ sys.path.append("/Users/A_G_I/Λ/brain")
 sys.path.append("/Users/A_G_I/Λ/core/neural_architectures/abas")
 
 try:
-    from enhanced_bot_primary import (  # noqa: F401  # TODO: enhanced_bot_primary.AGICapabi...
+    from enhanced_bot_primary import (  # TODO: enhanced_bot_primary.AGICapabi...
         AGICapabilityLevel,
         AGIResponse,
         EnhancedAGIBot,
@@ -230,7 +230,7 @@ if __name__ == "__main__":
 # Request: {request}
 
 import asyncio
-from typing import Dict, List, Any, Optional
+from typing import Optional
 
 class AdvancedSolution:
     """
@@ -241,7 +241,7 @@ class AdvancedSolution:
         self.initialized = True
         self.capabilities = ["advanced_logic", "async_processing", "error_handling"]
 
-    async def execute(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute(self, params: dict[str, Any]) -> dict[str, Any]:
         """Execute the advanced solution"""
         try:
             # Advanced implementation logic
@@ -250,7 +250,7 @@ class AdvancedSolution:
         except Exception as e:
             return {"success": False, "error": str(e)}
 
-    async def _process_advanced_logic(self, params: Dict[str, Any]) -> Any:
+    async def _process_advanced_logic(self, params: dict[str, Any]) -> Any:
         """Process with advanced logic capabilities"""
         # Implementation would be generated based on request
         return "Advanced result"
@@ -506,14 +506,14 @@ class CoreABot:
 
         # Basic response generation
         if "code" in user_input.lower() or "program" in user_input.lower():
-            code_result, code_upgrade = await self.self_coding.generate_code(user_input, context)
+            code_result, _code_upgrade = await self.self_coding.generate_code(user_input, context)
             if code_result:
                 response_parts.append(f"I've generated some code for you:\n\n```python\n{code_result}\n```")
             else:
                 response_parts.append("I'd love to help with coding, but this request requires advanced capabilities. ")
 
         elif "api" in user_input.lower() or "connect" in user_input.lower():
-            api_success, api_upgrade = await self.api_adapter.connect_to_api("example.com")
+            api_success, _api_upgrade = await self.api_adapter.connect_to_api("example.com")
             if api_success:
                 response_parts.append("I can help you connect to APIs. ")
             else:

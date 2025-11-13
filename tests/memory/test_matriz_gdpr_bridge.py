@@ -449,15 +449,15 @@ class TestMATRIZGDPRBridge:
         # Create decisions that reference these memories
         memory_ids = [m.fragment_id for m in memories]
 
-        decision1, _ = gdpr_bridge.matriz_decision_with_memory_query(
+        _decision1, _ = gdpr_bridge.matriz_decision_with_memory_query(
             {"user_id": user_id, "context": "decision_1"}, memory_ids[:2]
         )
 
-        decision2, _ = gdpr_bridge.matriz_decision_with_memory_query(
+        _decision2, _ = gdpr_bridge.matriz_decision_with_memory_query(
             {"user_id": user_id, "context": "decision_2"}, memory_ids[1:]
         )
 
-        decision3, _ = gdpr_bridge.matriz_decision_with_memory_query(
+        _decision3, _ = gdpr_bridge.matriz_decision_with_memory_query(
             {"user_id": "other_user", "context": "decision_3"}, []  # No memories
         )
 
@@ -523,7 +523,7 @@ class TestMATRIZGDPRBridge:
         # Test 1000 memory accesses
         for fragment in all_fragments[:1000]:
             start_time = time.perf_counter()
-            is_accessible, violation = gdpr_bridge.validate_memory_access(
+            _is_accessible, violation = gdpr_bridge.validate_memory_access(
                 fragment.fragment_id, "performance_test"
             )
             access_time = (time.perf_counter() - start_time) * 1000  # ms

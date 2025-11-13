@@ -34,7 +34,7 @@ def run_command(cmd, description):
             if result.stdout.strip():
                 # Show key output lines
                 lines = result.stdout.strip().split("\n")
-                summary_lines = [l for l in lines if any(x in l for x in ["passed", "failed", "error", "==="])]
+                summary_lines = [line for line in lines if any(x in line for x in ["passed", "failed", "error", "==="])]
                 for line in summary_lines[-3:]:  # Last 3 summary lines
                     print(f"      {line}")
             return True

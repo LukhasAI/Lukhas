@@ -12,7 +12,7 @@ from pathlib import Path
 def load_and_allocate_all_todos(manifest_path: str, output_dir: str):
     """Load manifest and allocate ALL TODOs to agents"""
 
-    with open(manifest_path, "r") as f:
+    with open(manifest_path) as f:
         manifest = json.load(f)
 
     # Get all open TODOs sorted by priority

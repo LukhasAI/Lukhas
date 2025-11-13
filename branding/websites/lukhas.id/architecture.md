@@ -1,7 +1,22 @@
 ---
 status: wip
 type: documentation
----
+canonical: https://lukhas.id/architecture
+seo:
+  description: "LUKHAS.ID identity anchor - ΛiD authentication with cryptographic precision, namespace isolation, and privacy-by-design for consciousness technology trust."
+  keywords:
+    - "ΛiD authentication"
+    - "namespace isolation"
+    - "consciousness identity"
+    - "privacy-preserving identity"
+    - "cryptographic identity"
+last_reviewed: "2025-11-08"
+keywords: "ΛiD authentication, namespace isolation, consciousness identity, privacy-preserving identity, cryptographic identity"
+evidence_links:
+  - 'release_artifacts/evidence/api-response-100ms.md'
+  - 'release_artifacts/evidence/compliance-rate-100pct.md'
+  - 'release_artifacts/evidence/experimental-design-95pct.md'
+  - 'release_artifacts/evidence/privacy-compliance-999pct.md'---
 # ⚛️ LUKHAS.ID - The Identity Anchor
 ## Website Architecture & Authentication Gateway
 

@@ -13,10 +13,10 @@ import json
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Set
+from typing import Dict
 
 # Approved open-source licenses
-APPROVED_LICENSES: Set[str] = {
+APPROVED_LICENSES: set[str] = {
     "MIT",
     "MIT License",
     "Apache-2.0",
@@ -36,10 +36,10 @@ APPROVED_LICENSES: Set[str] = {
 }
 
 
-def get_package_licenses() -> List[Dict[str, str]]:
+def get_package_licenses() -> list[dict[str, str]]:
     """
     Get licenses for all installed packages using pip-licenses.
-    
+
     Returns:
         List of dicts with keys: Name, Version, License
     """
@@ -69,10 +69,10 @@ def get_package_licenses() -> List[Dict[str, str]]:
         sys.exit(1)
 
 
-def check_license_compliance(packages: List[Dict[str, str]]) -> tuple[List[Dict], List[Dict]]:
+def check_license_compliance(packages: list[dict[str, str]]) -> tuple[list[Dict], list[Dict]]:
     """
     Check packages for license compliance.
-    
+
     Returns:
         tuple: (approved_packages, violations)
     """
@@ -91,7 +91,7 @@ def check_license_compliance(packages: List[Dict[str, str]]) -> tuple[List[Dict]
     return approved, violations
 
 
-def generate_report(packages: List[Dict], violations: List[Dict], output_path: Path):
+def generate_report(packages: list[Dict], violations: list[Dict], output_path: Path):
     """Generate markdown report of license compliance."""
 
     total = len(packages)

@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.ERN Neuroplastic & Tag System Integration
 Connects emotional regulation to neuroplastic learning and tag propagation
@@ -8,16 +5,23 @@ Connects emotional regulation to neuroplastic learning and tag propagation
 
 import hashlib
 import json
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from core.common import get_logger
+from lukhas.core.common import get_logger
+
+from .vivox_ern_core import RegulationResponse, RegulationStrategy, VADVector
+
+logger = logging.getLogger(__name__)
+
+
 
 # Import tag system
 try:
-    from core.tags import get_tag_registry
-    from core.tags.registry import TagCategory, TagDefinition, TagRegistry
+    from lukhas.core.tags import get_tag_registry
+    from lukhas.core.tags.registry import TagCategory, TagDefinition, TagRegistry
 
     TAG_SYSTEM_AVAILABLE = True
 except ImportError:
@@ -55,7 +59,6 @@ except ImportError:
 
     connector = EmotionConnector()
 
-from .vivox_ern_core import RegulationResponse, RegulationStrategy, VADVector
 
 logger = get_logger(__name__)
 

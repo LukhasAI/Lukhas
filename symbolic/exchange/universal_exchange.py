@@ -18,7 +18,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-
 from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 # Import our components
@@ -99,7 +98,7 @@ class UniversalSymbolExchange:
 
         session = ExchangeSession(
             session_id=session_id,
-            participants=set([initiator_id, *participant_ids]),
+            participants={initiator_id, *participant_ids},
             protocol=protocol,
         )
 

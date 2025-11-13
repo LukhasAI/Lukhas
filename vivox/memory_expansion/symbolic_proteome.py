@@ -3,6 +3,7 @@ VIVOX Symbolic Proteome
 AlphaFold2-inspired memory protein folding system
 Models memory traces as symbolic amino acid chains
 """
+# ruff: noqa: F821
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
@@ -444,7 +445,10 @@ class VIVOXSymbolicProteome:
         self.protein_database: dict[str, ProteinFold] = {}
 
     async def fold_memory_protein(
-        self, memory_entry: "MemoryHelixEntry", emotional_context: dict[str, Any]  # noqa: F821  # TODO: MemoryHelixEntry
+# T4: code=F821 | ticket=SKELETON-57DAEAEA | owner=lukhas-platform | status=skeleton
+# reason: Undefined MemoryHelixEntry in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+        self, memory_entry: "MemoryHelixEntry", emotional_context: dict[str, Any]  # TODO: MemoryHelixEntry
     ) -> ProteinFold:
         """
         Transform memory into 3D folded protein structure
@@ -543,7 +547,10 @@ class VIVOXSymbolicProteome:
         """Retrieve protein fold by ID"""
         return self.protein_database.get(protein_id)
 
-    async def _memory_to_amino_sequence(self, memory_entry: "MemoryHelixEntry") -> AminoSequence:  # noqa: F821  # TODO: MemoryHelixEntry
+# T4: code=F821 | ticket=SKELETON-57DAEAEA | owner=lukhas-platform | status=skeleton
+# reason: Undefined MemoryHelixEntry in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+    async def _memory_to_amino_sequence(self, memory_entry: "MemoryHelixEntry") -> AminoSequence:  # TODO: MemoryHelixEntry
         """Convert memory entry to symbolic amino acid sequence"""
         # Map decision components to amino acids
         sequence = ""

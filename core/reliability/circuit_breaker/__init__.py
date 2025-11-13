@@ -12,9 +12,7 @@ from __future__ import annotations
 
 import asyncio
 from importlib import import_module
-from typing import List
-
-__all__: List[str] = [
+__all__: list[str] = [
     "CircuitBreaker",
     "circuit_breaker",
     "get_circuit_health",
@@ -80,13 +78,13 @@ class _CircuitBreakerStub:
 
 def circuit_breaker(name: str, **kwargs):  # type: ignore[misc]
     if _SRC and hasattr(_SRC, "circuit_breaker"):
-        return getattr(_SRC, "circuit_breaker")(name, **kwargs)
+        return _SRC.circuit_breaker(name, **kwargs)
     return _CircuitBreakerStub(name, **kwargs)
 
 
 def get_circuit_health():
     if _SRC and hasattr(_SRC, "get_circuit_health"):
-        return getattr(_SRC, "get_circuit_health")()
+        return _SRC.get_circuit_health()
     return {"state": "unknown"}
 
 

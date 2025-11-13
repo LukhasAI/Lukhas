@@ -26,6 +26,8 @@
 ║ • Comprehensive error handling and fallbacks
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import asyncio
 import base64
 import json
@@ -35,11 +37,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-# OpenAI imports
-from openai import AsyncOpenAI, OpenAI
-
 # Internal imports
 from bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+
+# OpenAI imports
+from openai import AsyncOpenAI, OpenAI
 
 logger = logging.getLogger("ΛTRACE.dream.openai_integration")
 

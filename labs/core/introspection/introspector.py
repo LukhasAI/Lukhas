@@ -1,7 +1,7 @@
 """
 Core Introspection Module - Phase 3C
 
-# ΛLOCKED: Core introspection logic – symbolic-aware module scanner
+# ΛLOCKED: Core introspection logic - symbolic-aware module scanner
 # LUKHAS_TAG: introspection_core
 # PURPOSE: Analyze modules for symbolic tags, drift scores, and emotional deltas
 

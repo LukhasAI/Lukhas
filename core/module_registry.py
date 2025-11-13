@@ -32,11 +32,13 @@
 ║ SYMBOLIC TAGS: ΛREGISTRY, ΛTIER_GATE, ΛMODULES
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from functools import wraps
-from typing import Any, Callable, Optional
+from typing import Any, Callable, ClassVar
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -79,8 +81,8 @@ class ModuleInfo:
     permissions: set[str] = field(default_factory=set)
     dependencies: list[str] = field(default_factory=list)
     health_status: str = "unknown"
-    registered_at: datetime = field(default_factory=datetime.utcnow)
-    last_accessed: Optional[datetime] = None
+    registered_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    last_accessed: datetime | None = None
     access_count: int = 0
 
 
@@ -90,16 +92,24 @@ class ModuleRegistry:
     """
 
     # Module tier requirements mapping
-    MODULE_TIER_REQUIREMENTS = {
+    MODULE_TIER_REQUIREMENTS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_module_registry_py_L95"}
         # Core modules
         "memory": TierLevel.VISITOR,  # Tier 1
         "consciousness": TierLevel.VISITOR,  # Tier 1
         "reasoning": TierLevel.VISITOR,  # Tier 1
         "emotion": TierLevel.VISITOR,  # Tier 1
+        # New modules from PR #1404 (Tier 1 - Open access)
+        "oneiric": TierLevel.VISITOR,  # Dream generation and regret signatures
+        "lid": TierLevel.VISITOR,  # Lambda Identity (ΛiD) authentication
+        "dast": TierLevel.VISITOR,  # Decision & Action State Tracker
+        "eqnox": TierLevel.VISITOR,  # EQNOX glyph integrity and routing
         # Advanced modules
         "ethics": TierLevel.FRIEND,  # Tier 2
         "creativity": TierLevel.FRIEND,  # Tier 2
         "learning": TierLevel.FRIEND,  # Tier 2
+        # New modules from PR #1404 (Tier 2 - Advanced access)
+        "matriz_analysis": TierLevel.FRIEND,  # MATRIZ signal analysis tools
+        "matriz_tools": TierLevel.FRIEND,  # MATRIZ diagnostic probes
         # Restricted modules
         "quantum": TierLevel.TRUSTED,  # Tier 3
         "orchestration": TierLevel.TRUSTED,  # Tier 3
@@ -122,9 +132,9 @@ class ModuleRegistry:
         name: str,
         version: str,
         path: str,
-        min_tier: Optional[int] = None,
-        permissions: Optional[set[str]] = None,
-        dependencies: Optional[list[str]] = None,
+        min_tier: int | None = None,
+        permissions: set[str] | None = None,
+        dependencies: list[str] | None = None,
     ) -> bool:
         """
         Register a new module in the registry.
@@ -142,6 +152,8 @@ class ModuleRegistry:
         Returns:
             bool: True if registration successful
         """
+        if module_id in self.modules:
+            raise ValueError(f"Module {module_id} already registered")
         try:
             # Determine minimum tier
             if min_tier is None:
@@ -187,7 +199,7 @@ class ModuleRegistry:
             logger.error(f"Failed to register module {module_id}: {e}")
             return False
 
-    def get_module(self, module_id: str, user_id: str) -> Optional[Any]:
+    def get_module(self, module_id: str, user_id: str) -> Any | None:
         """
         Get a module instance with tier validation.
 
@@ -225,7 +237,7 @@ class ModuleRegistry:
 
         return module_info.instance
 
-    def require_module_tier(self, module_id: str, min_tier: Optional[int] = None):
+    def require_module_tier(self, module_id: str, min_tier: int | None = None):
         """
         Decorator to enforce tier requirements for module methods.
 
@@ -286,7 +298,7 @@ class ModuleRegistry:
                 metadata=kwargs,
             )
 
-    def list_modules(self, user_id: Optional[str] = None) -> list[dict[str, Any]]:
+    def list_modules(self, user_id: str | None = None) -> list[dict[str, Any]]:
         """
         List all modules accessible to a user.
 
@@ -451,7 +463,7 @@ module_registry = ModuleRegistry()
 # Convenience decorator for module methods
 
 
-def require_tier(module_id: str, min_tier: Optional[int] = None):
+def require_tier(module_id: str, min_tier: int | None = None):
     """
     Convenience decorator to enforce tier requirements on module methods.
 

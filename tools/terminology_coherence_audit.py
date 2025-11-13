@@ -12,7 +12,7 @@ Usage:
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Set
+from typing import Any, Optional
 
 
 @dataclass
@@ -60,12 +60,12 @@ class TerminologyAuditor:
         self.scanned_files = 0
         self.total_lines = 0
 
-    def scan_file(self, file_path: Path) -> List[TerminologyIssue]:
+    def scan_file(self, file_path: Path) -> list[TerminologyIssue]:
         """Scan a single file for terminology issues"""
         issues = []
 
         try:
-            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+            with open(file_path, encoding='utf-8', errors='ignore') as f:
                 lines = f.readlines()
                 self.total_lines += len(lines)
 
@@ -90,7 +90,7 @@ class TerminologyAuditor:
                 # Check for schema version compliance
                 if "schema" in line.lower() and "version" in line.lower():
                     found_schema = False
-                    for required_schema in self.required_schemas.keys():
+                    for required_schema in self.required_schemas:
                         if required_schema in line:
                             found_schema = True
                             break
@@ -111,7 +111,7 @@ class TerminologyAuditor:
 
         return issues
 
-    def scan_directory(self, directory: Path, extensions: Set[str] = None) -> None:
+    def scan_directory(self, directory: Path, extensions: Optional[set[str]] = None) -> None:
         """Scan directory recursively for terminology issues"""
         if extensions is None:
             extensions = {'.py', '.md', '.yml', '.yaml', '.json', '.sh', '.js', '.ts'}
@@ -127,7 +127,7 @@ class TerminologyAuditor:
                 file_issues = self.scan_file(file_path)
                 self.issues.extend(file_issues)
 
-    def check_context_counts(self) -> Dict[str, Any]:
+    def check_context_counts(self) -> dict[str, Any]:
         """Check for auto-generated context counts"""
         context_patterns = [
             r"context.*count.*\d+",
@@ -139,7 +139,7 @@ class TerminologyAuditor:
         context_files = []
         for file_path in Path('.').rglob('*.py'):
             try:
-                with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                with open(file_path, encoding='utf-8', errors='ignore') as f:
                     content = f.read()
                     for pattern in context_patterns:
                         if re.search(pattern, content, re.IGNORECASE):
@@ -154,7 +154,7 @@ class TerminologyAuditor:
             "auto_generated": len(context_files) > 5  # Heuristic
         }
 
-    def generate_report(self) -> Dict[str, Any]:
+    def generate_report(self) -> dict[str, Any]:
         """Generate comprehensive terminology audit report"""
 
         # Categorize issues by severity
@@ -199,8 +199,8 @@ class TerminologyAuditor:
             "compliance": {
                 "score": compliance_score,
                 "grade": "A" if compliance_score >= 95 else "B" if compliance_score >= 85 else "C" if compliance_score >= 75 else "D",
-                "clean_files": self.scanned_files - len(set(i.file_path for i in self.issues)),
-                "problematic_files": len(set(i.file_path for i in self.issues))
+                "clean_files": self.scanned_files - len({i.file_path for i in self.issues}),
+                "problematic_files": len({i.file_path for i in self.issues})
             },
             "top_issues": [
                 {

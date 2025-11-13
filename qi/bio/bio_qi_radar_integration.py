@@ -69,7 +69,7 @@ class BioQuantumRadarMetrics:
         self.performance_cache: dict[str, float] = {}
 
     def extract_reasoning_metrics(
-        self, reasoning_result: dict[str, Any], engine_state: dict[str, Any] = None
+        self, reasoning_result: dict[str, Any], engine_state: Optional[dict[str, Any]] = None
     ) -> dict[str, Any]:
         """
         Extract comprehensive metrics from Bio-Quantum reasoning results.
@@ -385,8 +385,8 @@ class BioQuantumRadarVisualizer:
         # Add main data trace
         fig.add_trace(
             go.Scatterpolar(
-                r=values + [values[0]],
-                theta=dimensions + [dimensions[0]],
+                r=[*values, values[0]],
+                theta=[*dimensions, dimensions[0]],
                 fill="toself",
                 fillcolor="rgba(31, 184, 205, 0.4)",
                 line={"color": "#1FB8CD", "width": 3},
@@ -435,8 +435,8 @@ class BioQuantumRadarVisualizer:
 
             fig.add_trace(
                 go.Scatterpolar(
-                    r=values + [values[0]],
-                    theta=dimensions + [dimensions[0]],
+                    r=[*values, values[0]],
+                    theta=[*dimensions, dimensions[0]],
                     fill="toself",
                     fillcolor=f"rgba{self._hex_to_rgba(color, 0.3)}",
                     line={"color": color, "width": 2},
@@ -476,8 +476,8 @@ class BioQuantumRadarVisualizer:
 
         fig.add_trace(
             go.Scatterpolar(
-                r=values + [values[0]],
-                theta=dimensions + [dimensions[0]],
+                r=[*values, values[0]],
+                theta=[*dimensions, dimensions[0]],
                 fill="toself",
                 fillcolor="rgba(155, 89, 182, 0.4)",  # Purple for quantum
                 line={"color": "#9B59B6", "width": 3},
@@ -514,8 +514,8 @@ class BioQuantumRadarVisualizer:
 
         fig.add_trace(
             go.Scatterpolar(
-                r=values + [values[0]],
-                theta=dimensions + [dimensions[0]],
+                r=[*values, values[0]],
+                theta=[*dimensions, dimensions[0]],
                 fill="toself",
                 fillcolor="rgba(46, 204, 113, 0.4)",  # Green for bio
                 line={"color": "#2ECC71", "width": 3},
@@ -534,7 +534,7 @@ class BioQuantumRadarVisualizer:
         fig.add_trace(
             go.Scatterpolar(
                 r=[1.0] * len(dimensions) + [1.0],
-                theta=dimensions + [dimensions[0]],
+                theta=[*dimensions, dimensions[0]],
                 fill="toself",
                 fillcolor="rgba(60, 150, 60, 0.1)",
                 line={"color": "rgba(60, 150, 60, 0)", "width": 0},
@@ -549,7 +549,7 @@ class BioQuantumRadarVisualizer:
         fig.add_trace(
             go.Scatterpolar(
                 r=[0.7] * len(dimensions) + [0.7],
-                theta=dimensions + [dimensions[0]],
+                theta=[*dimensions, dimensions[0]],
                 fill="toself",
                 fillcolor="rgba(255, 200, 50, 0.1)",
                 line={"color": "rgba(255, 200, 50, 0)", "width": 0},
@@ -587,7 +587,7 @@ class BioQuantumRadarIntegration:
     async def process_with_radar_analytics(
         self,
         problem_description: str,
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
         generate_visualization: bool = True,
     ) -> dict[str, Any]:
         """
@@ -805,7 +805,7 @@ class BioQuantumRadarIntegration:
 # Convenience functions for easy integration
 async def reason_with_radar(
     problem_description: str,
-    context: dict[str, Any] = None,
+    context: Optional[dict[str, Any]] = None,
     abstract_reasoning_interface: Any = None,
 ) -> dict[str, Any]:
     """

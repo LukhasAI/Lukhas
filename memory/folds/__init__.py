@@ -51,7 +51,7 @@ if "FoldManager" not in globals():
 
 # Added for test compatibility (memory.folds.FoldGuard)
 try:
-    from candidate.memory.folds import FoldGuard
+    from labs.memory.folds import FoldGuard
 except ImportError:
     class FoldGuard:
         """Stub for FoldGuard."""
@@ -59,7 +59,7 @@ except ImportError:
             for key, value in kwargs.items():
                 setattr(self, key, value)
 try:
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "memory_folds___init___py_L62"}
 except NameError:
     __all__ = []
 if "FoldGuard" not in __all__:

@@ -112,12 +112,24 @@ __all__ = [
 # Add ΛiD Token System components if available
 if ΛTOKEN_SYSTEM_AVAILABLE:
     __all__.extend([
-        "make_alias", "verify_crc", "parse_alias", "validate_alias_format", "ΛiDAlias",
-        "TokenGenerator", "TokenClaims", "TokenResponse",
-        "SecretProvider", "EnvironmentSecretProvider",
-        "TokenValidator", "ValidationResult", "TokenValidationError",
-        "TokenStorage", "StoredToken", "KeyRotationRecord", "TokenStatus",
-        "ΛTOKEN_SYSTEM_AVAILABLE"
+        "ΛTOKEN_SYSTEM_AVAILABLE",
+        "EnvironmentSecretProvider",
+        "KeyRotationRecord",
+        "SecretProvider",
+        "StoredToken",
+        "TokenClaims",
+        "TokenGenerator",
+        "TokenResponse",
+        "TokenStatus",
+        "TokenStorage",
+        "TokenValidationError",
+        "TokenValidator",
+        "ValidationResult",
+        "ΛiDAlias",
+        "make_alias",
+        "parse_alias",
+        "validate_alias_format",
+        "verify_crc"
     ])
 
 # Add identity core components if available

@@ -33,8 +33,6 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
-from pydantic import BaseModel, Field
-
 # Import global framework
 from identity.backend.app.institution_manager import (
     DataCategory,
@@ -46,8 +44,9 @@ from identity.backend.app.institution_manager import (
     global_timestamp,
     institutional_audit_log,
 )
+from pydantic import BaseModel, Field
 
-# ——— US-Specific Regulatory Framework ——————————————————————— #
+# --- US-Specific Regulatory Framework ----------------------- #
 
 
 class USLegalBasis(Enum):
@@ -275,7 +274,7 @@ class USInstitutionalOutput(BaseModel):
     compliance_attestation: str
 
 
-# ——— US-Compliant Reasoner Implementations ——————————————————— #
+# --- US-Compliant Reasoner Implementations ------------------- #
 
 
 class USEnvironmentalReasoner:
@@ -410,7 +409,7 @@ class USInstitutionalEnvironmentalModule(GlobalInstitutionalModule):
         return recommendations
 
 
-# ——— US Awareness Engine Orchestrator ——————————————————————— #
+# --- US Awareness Engine Orchestrator ----------------------- #
 
 
 class USInstitutionalAwarenessEngine:
@@ -704,7 +703,7 @@ class USInstitutionalAwarenessEngine:
         }
 
 
-# ——— Example Usage & US Compliance Testing ——————————————————— #
+# --- Example Usage & US Compliance Testing ------------------- #
 
 
 if __name__ == "__main__":

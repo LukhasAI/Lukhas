@@ -18,17 +18,17 @@ from .events import (
 )
 
 __all__ = [
+    "AsyncEventBus",
+    "ConsentCheckedEvent",
     "ConsentEvent",
     "ConsentGrantedEvent",
     "ConsentRevokedEvent",
-    "ConsentCheckedEvent",
-    "TraceCreatedEvent",
     "DuressDetectedEvent",
-    "AsyncEventBus",
     "EventOffset",
-    "ReplayIterator",
-    "IdempotentConsentHandler",
     "HandlerState",
+    "IdempotentConsentHandler",
+    "ReplayIterator",
+    "TraceCreatedEvent",
 ]
 
 __version__ = "2.0.0"

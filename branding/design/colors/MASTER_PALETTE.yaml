@@ -1,0 +1,483 @@
+# LUKHAS Master Color Palette
+# Comprehensive color system for entire LUKHAS ecosystem
+
+version: "1.0"
+created: "2025-11-06"
+last_updated: "2025-11-06"
+
+# ═══════════════════════════════════════════════════════════════
+# BASE CONSTELLATION COLORS
+# Core colors from existing constellation_visual_system.py
+# ═══════════════════════════════════════════════════════════════
+
+base_palette:
+  consciousness_deep:
+    hex: "#1A1A2E"
+    rgb: [26, 26, 46]
+    hsl: [240, 28%, 14%]
+    usage: "Dark foundation, backgrounds, professional contexts"
+    wcag_aa_text_on_white: false
+    wcag_aaa_text_on_white: false
+
+  awareness_silver:
+    hex: "#E8E8F0"
+    rgb: [232, 232, 240]
+    hsl: [240, 20%, 93%]
+    usage: "Light backgrounds, clarity, clean interfaces"
+    wcag_aa_text_on_dark: true
+    wcag_aaa_text_on_dark: true
+
+  identity_quantum:
+    hex: "#6C5CE7"
+    rgb: [108, 92, 231]
+    hsl: [247, 75%, 63%]
+    usage: "Core quantum purple, identity elements"
+    wcag_aa_text_on_white: false
+    wcag_aa_text_on_dark: true
+
+  consciousness_neural:
+    hex: "#00B894"
+    rgb: [0, 184, 148]
+    hsl: [168, 100%, 36%]
+    usage: "Growth, bio-inspired, success states"
+    wcag_aa_text_on_white: true
+    wcag_aaa_text_on_white: false
+
+  guardian_shield:
+    hex: "#E17055"
+    rgb: [225, 112, 85]
+    hsl: [12, 70%, 61%]
+    usage: "Ethics, protection, important alerts"
+    wcag_aa_text_on_white: false
+    wcag_aa_text_on_dark: true
+
+  lambda_gold:
+    hex: "#FFB347"
+    rgb: [255, 179, 71]
+    hsl: [35, 100%, 64%]
+    usage: "Lambda consciousness signature, premium highlights"
+    wcag_aa_text_on_dark: true
+    wcag_aa_text_on_white: false
+
+  whisper_pearl:
+    hex: "#F8F9FA"
+    rgb: [248, 249, 250]
+    hsl: [210, 17%, 98%]
+    usage: "Subtle backgrounds, minimal interfaces"
+    wcag_aa_text_on_dark: true
+    wcag_aaa_text_on_dark: true
+
+# ═══════════════════════════════════════════════════════════════
+# DOMAIN-SPECIFIC ACCENT COLORS
+# New colors from LUKHAS_STYLE_GUIDE.md for each domain
+# ═══════════════════════════════════════════════════════════════
+
+domain_accents:
+
+  lukhas_ai_ethereal:
+    hex: "#8B7CF6"
+    rgb: [139, 124, 246]
+    hsl: [247, 87%, 73%]
+    domain: lukhas.ai
+    usage: "Dream purple for flagship platform, ethereal aesthetics"
+    visual_theme: "Soft, dream-like, inspiring"
+    wcag_aa_text_on_white: false
+    wcag_aa_text_on_dark: true
+
+  lukhas_id_security:
+    hex: "#9333EA"
+    rgb: [147, 51, 234]
+    hsl: [272, 82%, 56%]
+    domain: lukhas.id
+    usage: "Security purple for identity portal, trust signals"
+    visual_theme: "Secure, trustworthy, biometric"
+    wcag_aa_text_on_white: true
+    wcag_aa_text_on_dark: true
+
+  lukhas_dev_code:
+    hex: "#06B6D4"
+    rgb: [6, 182, 212]
+    hsl: [189, 94%, 43%]
+    domain: lukhas.dev
+    usage: "Cyan/blue for developer platform, code elements"
+    visual_theme: "Technical, modern, developer-friendly"
+    wcag_aa_text_on_white: true
+    wcag_aa_text_on_dark: false
+
+  lukhas_team_harmony:
+    hex: "#10B981"
+    rgb: [16, 185, 129]
+    hsl: [160, 84%, 39%]
+    domain: lukhas.team
+    usage: "Guardian green for collaboration, team harmony"
+    visual_theme: "Collaborative, harmonious, trusted"
+    wcag_aa_text_on_white: true
+    wcag_aa_text_on_dark: false
+
+  lukhas_store_integration:
+    hex: "#FB923C"
+    rgb: [251, 146, 60]
+    hsl: [27, 96%, 61%]
+    domain: lukhas.store
+    usage: "Orange for marketplace, memory integration"
+    visual_theme: "Vibrant, energetic, creative"
+    wcag_aa_text_on_white: false
+    wcag_aa_text_on_dark: true
+
+  lukhas_io_infrastructure:
+    hex: "#22C55E"
+    rgb: [34, 197, 94]
+    hsl: [142, 71%, 45%]
+    domain: lukhas.io
+    usage: "Green for infrastructure, system health"
+    visual_theme: "Reliable, technical, operational"
+    wcag_aa_text_on_white: true
+    wcag_aa_text_on_dark: false
+
+  lukhas_cloud_enterprise:
+    hex: "#EC4899"
+    rgb: [236, 72, 153]
+    hsl: [330, 81%, 60%]
+    domain: lukhas.cloud
+    usage: "Pink/magenta for cloud services, enterprise"
+    visual_theme: "Premium, next-gen, innovative"
+    wcag_aa_text_on_white: false
+    wcag_aa_text_on_dark: true
+
+  lukhas_com_trust:
+    hex: "#3B82F6"
+    rgb: [59, 130, 246]
+    hsl: [221, 91%, 60%]
+    domain: lukhas.com
+    usage: "Trust blue for corporate, guardian hub"
+    visual_theme: "Professional, trustworthy, stable"
+    wcag_aa_text_on_white: true
+    wcag_aa_text_on_dark: false
+
+  lukhas_eu_compliance:
+    hex: "#0EA5E9"
+    rgb: [14, 165, 233]
+    hsl: [199, 89%, 48%]
+    domain: lukhas.eu
+    usage: "EU blue for European compliance"
+    visual_theme: "Regulatory, transparent, European"
+    wcag_aa_text_on_white: true
+    wcag_aa_text_on_dark: false
+
+  lukhas_us_institutional:
+    hex: "#1E40AF"
+    rgb: [30, 64, 175]
+    hsl: [226, 71%, 40%]
+    domain: lukhas.us
+    usage: "Institutional blue for US compliance"
+    visual_theme: "Regulatory, institutional, American"
+    wcag_aa_text_on_white: true
+    wcag_aa_text_on_dark: true
+
+  lukhas_xyz_experimental:
+    hex: "#A855F7"
+    rgb: [168, 85, 247]
+    hsl: [271, 91%, 65%]
+    domain: lukhas.xyz
+    usage: "Experimental purple for playground (shifting)"
+    visual_theme: "Chaotic, experimental, quantum"
+    dynamic: true  # Color can shift/change
+    wcag_aa_text_on_white: false
+    wcag_aa_text_on_dark: true
+
+# ═══════════════════════════════════════════════════════════════
+# SEMANTIC COLORS
+# Functional colors for UI states and feedback
+# ═══════════════════════════════════════════════════════════════
+
+semantic:
+
+  # Success States
+  success_primary:
+    hex: "#10B981"
+    rgb: [16, 185, 129]
+    usage: "Success messages, verified states, positive feedback"
+
+  success_light:
+    hex: "#D1FAE5"
+    rgb: [209, 250, 229]
+    usage: "Success backgrounds, subtle highlights"
+
+  success_dark:
+    hex: "#047857"
+    rgb: [4, 120, 87]
+    usage: "Success text on light backgrounds"
+
+  # Warning States
+  warning_primary:
+    hex: "#F59E0B"
+    rgb: [245, 158, 11]
+    usage: "Warnings, attention needed, deprecation"
+
+  warning_light:
+    hex: "#FEF3C7"
+    rgb: [254, 243, 199]
+    usage: "Warning backgrounds"
+
+  warning_dark:
+    hex: "#D97706"
+    rgb: [217, 119, 6]
+    usage: "Warning text on light backgrounds"
+
+  # Error States
+  error_primary:
+    hex: "#EF4444"
+    rgb: [239, 68, 68]
+    usage: "Errors, failed states, critical alerts"
+
+  error_light:
+    hex: "#FEE2E2"
+    rgb: [254, 226, 226]
+    usage: "Error backgrounds"
+
+  error_dark:
+    hex: "#DC2626"
+    rgb: [220, 38, 38]
+    usage: "Error text on light backgrounds"
+
+  # Info States
+  info_primary:
+    hex: "#3B82F6"
+    rgb: [59, 130, 246]
+    usage: "Informational messages, neutral feedback"
+
+  info_light:
+    hex: "#DBEAFE"
+    rgb: [219, 234, 254]
+    usage: "Info backgrounds"
+
+  info_dark:
+    hex: "#1D4ED8"
+    rgb: [29, 78, 216]
+    usage: "Info text on light backgrounds"
+
+# ═══════════════════════════════════════════════════════════════
+# GRADIENTS
+# Multi-color gradients for visual richness
+# ═══════════════════════════════════════════════════════════════
+
+gradients:
+
+  # Constellation Full Gradient (existing)
+  constellation_full:
+    type: "conic"
+    css: "conic-gradient(from 0deg, #6C5CE7, #00B894, #E17055, #FFB347)"
+    usage: "Full constellation representation, navigation"
+
+  # Domain-Specific Gradients
+  dream_ethereal:
+    type: "linear"
+    css: "linear-gradient(135deg, #8B7CF6 0%, #6366F1 100%)"
+    domain: lukhas.ai
+    usage: "Hero backgrounds, dreamy aesthetics"
+
+  security_trust:
+    type: "linear"
+    css: "linear-gradient(135deg, #9333EA 0%, #7C3AED 100%)"
+    domain: lukhas.id
+    usage: "Security visualizations, trust indicators"
+
+  code_technical:
+    type: "linear"
+    css: "linear-gradient(135deg, #06B6D4 0%, #0284C7 100%)"
+    domain: lukhas.dev
+    usage: "Code editor backgrounds, technical elements"
+
+  marketplace_vibrant:
+    type: "linear"
+    css: "linear-gradient(135deg, #FB923C 0%, #F97316 100%)"
+    domain: lukhas.store
+    usage: "Product cards, vibrant CTAs"
+
+  enterprise_cloud:
+    type: "linear"
+    css: "linear-gradient(135deg, #EC4899 0%, #DB2777 100%)"
+    domain: lukhas.cloud
+    usage: "Enterprise features, premium offerings"
+
+  consciousness_spectrum:
+    type: "linear"
+    css: "linear-gradient(90deg, #6C5CE7, #8B7CF6, #06B6D4, #10B981, #FFB347, #E17055)"
+    usage: "Full spectrum visualizations, consciousness representations"
+
+# ═══════════════════════════════════════════════════════════════
+# CODE SYNTAX COLORS
+# For code editors, documentation, technical content
+# ═══════════════════════════════════════════════════════════════
+
+syntax:
+  # Dark Theme (default for lukhas.dev)
+  dark_theme:
+    background: "#1A1A2E"
+    foreground: "#E8E8F0"
+    comment: "#546E7A"
+    keyword: "#C792EA"
+    string: "#C3E88D"
+    function: "#82AAFF"
+    number: "#F78C6C"
+    operator: "#89DDFF"
+    variable: "#EEFFFF"
+    class: "#FFCB6B"
+
+  # Light Theme (optional)
+  light_theme:
+    background: "#FFFFFF"
+    foreground: "#1A1A2E"
+    comment: "#90A4AE"
+    keyword: "#7C4DFF"
+    string: "#689F38"
+    function: "#0277BD"
+    number: "#F4511E"
+    operator: "#00BCD4"
+    variable: "#212121"
+    class: "#F57F17"
+
+# ═══════════════════════════════════════════════════════════════
+# ACCESSIBILITY COMPLIANCE
+# WCAG contrast ratios and guidelines
+# ═══════════════════════════════════════════════════════════════
+
+accessibility:
+  standards:
+    wcag_aa_normal: 4.5  # Minimum contrast ratio
+    wcag_aa_large: 3.0   # For large text (18pt+ or 14pt+ bold)
+    wcag_aaa_normal: 7.0 # Enhanced contrast
+    wcag_aaa_large: 4.5
+
+  # Pre-validated Color Combinations (WCAG AAA)
+  compliant_combinations:
+    - text: "#1A1A2E"  # Consciousness Deep
+      background: "#E8E8F0"  # Awareness Silver
+      ratio: 12.5
+      rating: AAA
+
+    - text: "#E8E8F0"  # Awareness Silver
+      background: "#1A1A2E"  # Consciousness Deep
+      ratio: 12.5
+      rating: AAA
+
+    - text: "#1A1A2E"  # Consciousness Deep
+      background: "#FFFFFF"
+      ratio: 14.8
+      rating: AAA
+
+    - text: "#9333EA"  # Security Purple
+      background: "#FFFFFF"
+      ratio: 5.1
+      rating: AA
+
+    - text: "#06B6D4"  # Code Cyan
+      background: "#1A1A2E"
+      ratio: 4.8
+      rating: AA
+
+  # Recommendations
+  recommendations:
+    body_text: "Use Consciousness Deep (#1A1A2E) on Awareness Silver (#E8E8F0) or white backgrounds"
+    headings: "All domain accent colors tested for at least WCAG AA on appropriate backgrounds"
+    interactive_elements: "Ensure minimum 3:1 contrast for UI components"
+    focus_indicators: "Use Lambda Gold (#FFB347) with 2px outline for focus states"
+
+# ═══════════════════════════════════════════════════════════════
+# USAGE GUIDELINES
+# How to apply colors across the ecosystem
+# ═══════════════════════════════════════════════════════════════
+
+usage_guidelines:
+
+  brand_consistency:
+    rule: "All domains use base_palette colors as foundation"
+    domain_distinction: "Each domain adds its specific accent color"
+    semantic_consistency: "Semantic colors (success, warning, error) are universal"
+
+  color_hierarchy:
+    primary: "Domain-specific accent color"
+    secondary: "Base constellation colors"
+    tertiary: "Semantic state colors"
+    background: "Consciousness Deep (dark) or Awareness Silver / Whisper Pearl (light)"
+
+  application_by_domain:
+    lukhas.ai:
+      primary: "#8B7CF6"  # Dream Ethereal
+      use_gradient: "dream_ethereal"
+      particle_color: "#8B7CF6 with #FFB347 accents"
+
+    lukhas.id:
+      primary: "#9333EA"  # Security Purple
+      use_gradient: "security_trust"
+      particle_color: "#9333EA biometric patterns"
+
+    lukhas.dev:
+      primary: "#06B6D4"  # Code Cyan
+      use_gradient: "code_technical"
+      syntax_theme: "dark_theme"
+
+    lukhas.store:
+      primary: "#FB923C"  # Integration Orange
+      use_gradient: "marketplace_vibrant"
+      card_accents: "#FB923C borders and highlights"
+
+  # Dark vs Light Themes
+  theme_preference:
+    lukhas.dev: "dark"  # Default dark theme for developers
+    lukhas.id: "auto"   # Respect user preference, slight dark bias
+    lukhas.ai: "auto"   # Respect user preference
+    all_others: "auto"  # Respect system/user preference
+
+# ═══════════════════════════════════════════════════════════════
+# EXPORT FORMATS
+# Available export formats for different platforms
+# ═══════════════════════════════════════════════════════════════
+
+exports:
+  available_formats:
+    - CSS Custom Properties
+    - SCSS Variables
+    - JavaScript/TypeScript Objects
+    - Tailwind Config
+    - Figma Style Library
+    - iOS Swift Color Assets
+    - Android XML Color Resources
+
+  export_locations:
+    css: "branding/design/colors/*.css"
+    scss: "branding/design/colors/*.scss"
+    js: "branding/design/colors/*.js"
+    tailwind: "branding/design/colors/tailwind.config.js"
+    figma: "Design System on Figma (link TBD)"
+
+# ═══════════════════════════════════════════════════════════════
+# VERSION & METADATA
+# ═══════════════════════════════════════════════════════════════
+
+metadata:
+  version: "1.0"
+  created: "2025-11-06"
+  last_updated: "2025-11-06"
+  next_review: "2026-02-06"
+  maintained_by: "LUKHAS Design Team"
+
+  changelog:
+    - version: "1.0"
+      date: "2025-11-06"
+      changes:
+        - "Initial master palette creation"
+        - "Added all domain-specific accent colors"
+        - "Integrated existing constellation colors"
+        - "Defined semantic color system"
+        - "Created gradients library"
+        - "WCAG compliance validation"
+
+  based_on:
+    - "LUKHAS Multi-Domain Web Ecosystem Strategy (docs/gonzo/LUKHAS_STYLE_GUIDE.md)"
+    - "Existing constellation_visual_system.py"
+    - "WCAG 2.1 Accessibility Guidelines"
+
+  contact:
+    design_team: "design@lukhas.ai"
+    brand_team: "brand@lukhas.ai"

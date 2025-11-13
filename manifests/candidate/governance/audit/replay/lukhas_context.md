@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.governance.audit.replay
 
 **Star**: 🛡️ Watch (Guardian)

@@ -6,9 +6,13 @@ Scans actual Python imports to build real dependency matrix
 
 import ast
 import json
+import logging
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, Set
+from typing import Dict
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 class DependencyScanner:
@@ -17,10 +21,10 @@ class DependencyScanner:
         self.dependencies = defaultdict(set)
         self.module_files = defaultdict(list)
 
-    def scan_file(self, file_path: Path) -> Set[str]:
+    def scan_file(self, file_path: Path) -> set[str]:
         """Extract imports from a Python file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             tree = ast.parse(content)
@@ -30,12 +34,12 @@ class DependencyScanner:
                 if isinstance(node, ast.Import):
                     for alias in node.names:
                         imports.add(alias.name.split('.')[0])
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module:
-                        imports.add(node.module.split('.')[0])
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    imports.add(node.module.split('.')[0])
 
             return imports
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             return set()
 
     def scan_module(self, module_path: Path, module_name: str):
@@ -85,8 +89,8 @@ class DependencyScanner:
             "module_dependency_matrix": {},
             "statistics": {
                 "total_dependencies": sum(len(deps) for deps in self.dependencies.values()),
-                "lukhas_modules": len([m for m in self.dependencies.keys() if m.startswith('lukhas.')]),
-                "candidate_modules": len([m for m in self.dependencies.keys() if m.startswith('candidate.')]),
+                "lukhas_modules": len([m for m in self.dependencies if m.startswith('lukhas.')]),
+                "candidate_modules": len([m for m in self.dependencies if m.startswith('candidate.')]),
                 "file_count": {module: len(files) for module, files in self.module_files.items()}
             }
         }

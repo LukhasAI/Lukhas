@@ -1,6 +1,8 @@
 # path: qi/provenance/receipts_api.py
 from __future__ import annotations
 
+# Use original open to avoid sandbox recursion
+import builtins
 import glob
 import hashlib
 import json
@@ -10,6 +12,10 @@ import random
 from fastapi import FastAPI, HTTPException, Query, Response
 from fastapi.responses import HTMLResponse, JSONResponse
 
+# NEW: helpers imported from trace & replay modules
+from qi.safety.teq_replay import replay_from_receipt
+from qi.trace.trace_graph import build_dot
+
 # NEW: optional CORS (uncomment if you want browser embedding from other origins)
 try:
     from fastapi.middleware.cors import CORSMiddleware  # pip install fastapi
@@ -18,17 +24,12 @@ try:
 except Exception:
     _HAS_CORS = False
 
-# Use original open to avoid sandbox recursion
-import builtins
 
 _ORIG_OPEN = builtins.open
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 RECDIR = os.path.join(STATE, "provenance", "exec_receipts")
 
-# NEW: helpers imported from trace & replay modules
-from qi.safety.teq_replay import replay_from_receipt
-from qi.trace.trace_graph import build_dot
 
 app = FastAPI(title="Lukhas Receipts API", version="1.1.0")
 

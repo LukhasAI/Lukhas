@@ -29,7 +29,7 @@ if _backend:
 else:
     from nodes import Graph, Node, NodeId  # type: ignore  # noqa: F401
 
-    __all__.extend(["NodeId", "Node", "Graph"])
+    __all__.extend(["Graph", "Node", "NodeId"])
 
 try:
     from . import example_nodes  # noqa: F401

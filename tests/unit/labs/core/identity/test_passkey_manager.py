@@ -4,7 +4,6 @@ import json
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed25519
-
 from labs.core.identity.lambda_id_core import WebAuthnPasskeyManager
 
 

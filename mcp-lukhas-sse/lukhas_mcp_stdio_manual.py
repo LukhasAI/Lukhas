@@ -9,7 +9,7 @@ import json
 import logging
 import os
 import sys
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Configure logging to stderr (NEVER use stdout in STDIO servers)
 logging.basicConfig(
@@ -37,7 +37,7 @@ class LukhasMCPServer:
             }
         }
 
-    async def handle_initialize(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def handle_initialize(self, request: dict[str, Any]) -> dict[str, Any]:
         """Handle MCP initialization request."""
         logger.info("Handling MCP initialization request")
 
@@ -58,7 +58,7 @@ class LukhasMCPServer:
             }
         }
 
-    async def handle_tools_list(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def handle_tools_list(self, request: dict[str, Any]) -> dict[str, Any]:
         """Handle tools/list request."""
         logger.info("Handling tools/list request")
 
@@ -184,7 +184,7 @@ class LukhasMCPServer:
 
         except Exception as e:
             logger.error(f"Error listing directory {path}: {e}")
-            return json.dumps({"error": f"Error listing directory: {str(e)}"}, indent=2)
+            return json.dumps({"error": f"Error listing directory: {e!s}"}, indent=2)
 
     async def read_file_tool(self, path: str, max_lines: int = 100) -> str:
         """Read the contents of a text file."""
@@ -212,7 +212,7 @@ class LukhasMCPServer:
                     "error": f"File '{path}' is too large ({file_size} bytes). Maximum allowed: 1MB"
                 }, indent=2)
 
-            with open(path, 'r', encoding='utf-8', errors='replace') as f:
+            with open(path, encoding='utf-8', errors='replace') as f:
                 lines = f.readlines()
 
             # Limit the number of lines
@@ -243,7 +243,7 @@ class LukhasMCPServer:
             }, indent=2)
         except Exception as e:
             logger.error(f"Error reading file {path}: {e}")
-            return json.dumps({"error": f"Error reading file: {str(e)}"}, indent=2)
+            return json.dumps({"error": f"Error reading file: {e!s}"}, indent=2)
 
     async def search_files_tool(self, directory: str, pattern: str, max_results: int = 20) -> str:
         """Search for files matching a pattern in a directory."""
@@ -304,7 +304,7 @@ class LukhasMCPServer:
 
         except Exception as e:
             logger.error(f"Error searching files in {directory}: {e}")
-            return json.dumps({"error": f"Error searching files: {str(e)}"}, indent=2)
+            return json.dumps({"error": f"Error searching files: {e!s}"}, indent=2)
 
     async def get_lukhas_info_tool(self) -> str:
         """Get information about the LUKHAS AI system and Constellation Framework."""
@@ -353,9 +353,9 @@ class LukhasMCPServer:
 
         except Exception as e:
             logger.error(f"Error getting LUKHAS info: {e}")
-            return json.dumps({"error": f"Error getting system info: {str(e)}"}, indent=2)
+            return json.dumps({"error": f"Error getting system info: {e!s}"}, indent=2)
 
-    async def handle_tools_call(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def handle_tools_call(self, request: dict[str, Any]) -> dict[str, Any]:
         """Handle tools/call request."""
         logger.info("Handling tools/call request")
 
@@ -409,11 +409,11 @@ class LukhasMCPServer:
                 "id": request.get("id"),
                 "error": {
                     "code": -32603,
-                    "message": f"Internal error executing tool: {str(e)}"
+                    "message": f"Internal error executing tool: {e!s}"
                 }
             }
 
-    async def handle_request(self, request: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    async def handle_request(self, request: dict[str, Any]) -> Optional[dict[str, Any]]:
         """Handle JSON-RPC requests according to MCP specification."""
         method = request.get("method")
 

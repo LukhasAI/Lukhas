@@ -1,0 +1,32 @@
+# LUKHAS.STORE Tone Configuration
+# Marketplace for Λpps
+
+domain: lukhas.store
+role: marketplace
+priority: high
+status: active
+
+tone_distribution:
+  user_friendly: 0.50
+  poetic: 0.30
+  academic: 0.20
+
+vocabulary_emphasis:
+  prismatic_light: 0.20
+  harmonic_resonance: 0.18
+  neural_gardens: 0.15
+  woven_patterns: 0.15
+  fluid_dynamics: 0.12
+  architectural_bridges: 0.10
+  circuit_patterns: 0.06
+  geological_strata: 0.04
+
+constellation_stars:
+  primary: [memory, identity, vision]
+  secondary: [dream, ethics, guardian]
+
+messaging:
+  brand_positioning: "Λpps that think, feel, and evolve—consciousness-powered applications"
+
+version: "1.0"
+created: "2025-11-06"

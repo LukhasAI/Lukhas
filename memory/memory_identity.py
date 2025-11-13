@@ -6,7 +6,7 @@ import copy
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any
 
 from memory.metrics import compute_affect_delta, compute_drift
 
@@ -19,7 +19,7 @@ class MemoryIdentity:
     """Representation of an entity capable of holding memories."""
 
     identifier: str
-    attributes: Dict[str, Any]
+    attributes: dict[str, Any]
 
 
 # ΛTAG: memory_identity_registry
@@ -60,12 +60,12 @@ class MemoryIdentityRegistry:
         )
         return metrics
 
-    def get_identity(self, identifier: str) -> Optional[MemoryIdentity]:
+    def get_identity(self, identifier: str) -> MemoryIdentity | None:
         """Retrieve a registered identity if available."""
 
         return self._identities.get(identifier)
 
-    def get_metrics(self, identifier: str) -> Optional[dict[str, Any]]:
+    def get_metrics(self, identifier: str) -> dict[str, Any] | None:
         """Retrieve telemetry metrics for a registered identity."""
 
         return self._metrics.get(identifier)
@@ -74,11 +74,11 @@ class MemoryIdentityRegistry:
 class MemoryIdentityFactory:
     """Factory for creating :class:`MemoryIdentity` objects."""
 
-    def __init__(self, registry: Optional[MemoryIdentityRegistry] = None) -> None:
+    def __init__(self, registry: MemoryIdentityRegistry | None = None) -> None:
         self.registry = registry or MemoryIdentityRegistry()
 
     # ΛTAG: memory_identity_factory
-    def create(self, identifier: str, attributes: Dict[str, Any]) -> MemoryIdentity:
+    def create(self, identifier: str, attributes: dict[str, Any]) -> MemoryIdentity:
         """Create a new :class:`MemoryIdentity` instance.
 
         Args:
@@ -90,7 +90,7 @@ class MemoryIdentityFactory:
         """
 
         self._validate_inputs(identifier, attributes)
-        safe_attributes: Dict[str, Any] = copy.deepcopy(attributes)
+        safe_attributes: dict[str, Any] = copy.deepcopy(attributes)
 
         identity = MemoryIdentity(identifier=identifier, attributes=safe_attributes)
         metrics = self.registry.register(identity)
@@ -109,7 +109,7 @@ class MemoryIdentityFactory:
         )
         return identity
 
-    def _validate_inputs(self, identifier: str, attributes: Dict[str, Any]) -> None:
+    def _validate_inputs(self, identifier: str, attributes: dict[str, Any]) -> None:
         """Validate identity creation inputs."""
 
         if not isinstance(identifier, str) or not identifier.strip():

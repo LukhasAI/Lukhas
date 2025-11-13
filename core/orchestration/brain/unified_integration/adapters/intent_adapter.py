@@ -8,6 +8,7 @@ Quantum-biological adapter for intent processing that integrates UnifiedNode
 features with the intent recognition system.
 """
 
+# ruff: noqa: F821  # Skeleton/experimental code
 import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
@@ -30,10 +31,22 @@ class IntentNodeAdapter:
 
     def __init__(self, cognitive_system=None):
         # Initialize bio components
-        self.proton_gradient = ProtonGradient()
-        self.attention_gate = QIAttentionGate()
-        self.crista_filter = CristaFilter()
-        self.identity_encoder = CardiolipinEncoder()
+# T4: code=F821 | ticket=SKELETON-9CDF3FBF | owner=integration-team | status=skeleton
+# reason: Undefined ProtonGradient in bridge/adapter skeleton - awaiting integration
+# estimate: 4h | priority=low | dependencies=production-implementation
+        self.proton_gradient = ProtonGradient()  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "core_orchestration_brain_unified_integration_adapters_intent_adapter_py_L33"}
+# T4: code=F821 | ticket=SKELETON-87BEFA74 | owner=integration-team | status=skeleton
+# reason: Undefined QIAttentionGate in bridge/adapter skeleton - awaiting integration
+# estimate: 4h | priority=low | dependencies=production-implementation
+        self.attention_gate = QIAttentionGate()  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "core_orchestration_brain_unified_integration_adapters_intent_adapter_py_L35"}
+# T4: code=F821 | ticket=SKELETON-3ED67BBA | owner=integration-team | status=skeleton
+# reason: Undefined CristaFilter in bridge/adapter skeleton - awaiting integration
+# estimate: 4h | priority=low | dependencies=production-implementation
+        self.crista_filter = CristaFilter()  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "core_orchestration_brain_unified_integration_adapters_intent_adapter_py_L37"}
+# T4: code=F821 | ticket=SKELETON-E10CC78A | owner=integration-team | status=skeleton
+# reason: Undefined CardiolipinEncoder in bridge/adapter skeleton - awaiting integration
+# estimate: 4h | priority=low | dependencies=production-implementation
+        self.identity_encoder = CardiolipinEncoder()  # TODO[T4-ISSUE]: {"code": "F821", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Async import or consciousness module lazy loading pattern", "estimate": "30m", "priority": "medium", "dependencies": "consciousness-wave-c", "id": "core_orchestration_brain_unified_integration_adapters_intent_adapter_py_L39"}
 
         # Create unified node
         self.unified_node = UnifiedNode(

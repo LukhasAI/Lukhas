@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 from datetime import timezone
 
@@ -13,7 +15,6 @@ from datetime import datetime
 from typing import Any, Optional
 
 import numpy as np
-
 from core.common import get_logger
 
 logger = get_logger(__name__)

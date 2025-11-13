@@ -3,24 +3,25 @@
 🎯 Build System Performance Metrics Dashboard
 Tracks efficiency gains from T4 system and Makefile improvements
 """
+from __future__ import annotations
 
 import json
 import subprocess
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 
 class BuildMetricsCollector:
     """Collects and analyzes build system performance metrics"""
 
-    def __init__(self, repo_path: Path = None):
+    def __init__(self, repo_path: Path | None = None):
         self.repo_path = repo_path or Path.cwd()
         self.metrics_file = self.repo_path / "reports" / "build_metrics.json"
         self.metrics_file.parent.mkdir(exist_ok=True)
 
-    def collect_makefile_metrics(self) -> Dict[str, Any]:
+    def collect_makefile_metrics(self) -> dict[str, Any]:
         """Collect Makefile performance and health metrics"""
         start_time = time.time()
 
@@ -74,7 +75,7 @@ class BuildMetricsCollector:
         metrics["collection_duration"] = round(time.time() - start_time, 2)
         return metrics
 
-    def collect_t4_metrics(self) -> Dict[str, Any]:
+    def collect_t4_metrics(self) -> dict[str, Any]:
         """Collect T4 unused imports system metrics"""
         start_time = time.time()
 
@@ -145,7 +146,7 @@ class BuildMetricsCollector:
         metrics["collection_duration"] = round(time.time() - start_time, 2)
         return metrics
 
-    def collect_system_health_metrics(self) -> Dict[str, Any]:
+    def collect_system_health_metrics(self) -> dict[str, Any]:
         """Collect overall system health metrics"""
         start_time = time.time()
 

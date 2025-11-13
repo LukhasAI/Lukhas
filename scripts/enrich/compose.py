@@ -5,6 +5,7 @@ T4/0.01% Manifest Composer
 Merges extracted signals into manifests with schema validation.
 """
 
+# ruff: noqa: F821
 from __future__ import annotations
 
 import json
@@ -19,7 +20,10 @@ class Composer:
     def __init__(self, schema: Dict):
         self.validator = Draft202012Validator(schema)
 
-    def merge(self, base: Dict, signals: Dict[str, "Signal"]) -> Dict:  # noqa: F821  # TODO: Signal
+# T4: code=F821 | ticket=SKELETON-36A08076 | owner=lukhas-platform | status=skeleton
+# reason: Undefined Signal in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+    def merge(self, base: Dict, signals: dict[str, Signal]) -> Dict:  # TODO: Signal
         """
         Deep merge signals into base manifest.
 

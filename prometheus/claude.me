@@ -1,3 +1,8 @@
+status: wip
+type: documentation
+> **Note**: This is a vendor-neutral version of claude.me for compatibility with any AI tool or development environment.
+
+
 # Prometheus Module - LUKHAS Metrics Collection & Alerting
 
 **Module**: prometheus
@@ -5,7 +10,6 @@
 **Team**: Core
 **Purpose**: Prometheus metrics collection, storage, and alert rule configuration for LUKHAS monitoring
 
----
 
 ## Overview
 
@@ -18,7 +22,6 @@ The prometheus module provides Prometheus configuration, alert rules, and servic
 - Long-term metric storage
 - Federation support for multi-cluster deployments
 
----
 
 ## Architecture
 
@@ -40,7 +43,6 @@ prometheus/
 └── tests/                       # Configuration tests
 ```
 
----
 
 ## Core Components
 
@@ -103,7 +105,6 @@ scrape_configs:
           - 'otel-collector:8889'
 ```
 
----
 
 ### 2. Alert Rules (`rules/lukhas-core.yml`)
 
@@ -221,7 +222,6 @@ groups:
           description: "Circuit breaker for {{ $labels.component }} has been open for 5 minutes. Downstream service may be failing."
 ```
 
----
 
 ### 3. SLO Rules (`rules/slos.yml`)
 
@@ -279,7 +279,6 @@ groups:
           description: "Cascade prevention success rate at {{ $value | humanizePercentage }}, below 99.7% SLO."
 ```
 
----
 
 ## Metric Naming Conventions
 
@@ -302,7 +301,6 @@ Examples:
 - **Histogram**: Distribution of values (latency, duration)
 - **Summary**: Similar to histogram, with quantiles
 
----
 
 ## Configuration
 
@@ -342,7 +340,6 @@ scrape_configs:
           - 'prometheus-cluster-2:9090'
 ```
 
----
 
 ## Deployment
 
@@ -398,7 +395,6 @@ volumes:
   prometheus-data:
 ```
 
----
 
 ## Performance Targets
 
@@ -407,7 +403,6 @@ volumes:
 - **Query Latency**: <1 second for simple queries, <10 seconds for complex
 - **Storage**: <100GB for 90-day retention with 15s scrape interval
 
----
 
 ## Observability
 
@@ -419,7 +414,6 @@ volumes:
 - `prometheus_rule_evaluation_duration_seconds`
 - `prometheus_target_scrape_duration_seconds`
 
----
 
 ## Related Modules
 
@@ -428,7 +422,6 @@ volumes:
 - **telemetry/**: Metric instrumentation
 - **alertmanager/**: Alert routing and notification (separate service)
 
----
 
 ## Quick Reference
 
@@ -443,31 +436,3 @@ volumes:
 **Schema Version**: 1.0.0
 **Last Updated**: 2025-10-18
 **Philosophy**: Measure everything, alert on what matters, store for the long term.
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

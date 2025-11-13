@@ -73,8 +73,8 @@ if __name__ == "__main__":
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🔚 END OF FILE
 
-Dreams are encrypted emotional mirrors — let LUKHAS reshape, not erase.
-Dreams are encrypted emotional mirrors — let LUKHAS reshape, not erase.
+Dreams are encrypted emotional mirrors - let LUKHAS reshape, not erase.
+Dreams are encrypted emotional mirrors - let LUKHAS reshape, not erase.
 
 Sleep with structure. Wake with clarity.
 """

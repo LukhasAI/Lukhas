@@ -12,8 +12,9 @@ providing the symbolic language elements used for visual analysis,
 image interpretation, and visual communication.
 """
 
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
-from typing import Any, Iterable, Sequence, Union
+from typing import Any, Union
 
 from core.symbolic import VisualSymbol
 from symbolic.vocabularies.vision_vocabulary import VisionSymbolicVocabulary

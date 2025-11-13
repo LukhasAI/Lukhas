@@ -127,10 +127,7 @@ except ImportError as import_error:
 
 
 try:
-    from memory.distributed_state_manager import (
-        DistributedStateManager,
-        MultiNodeStateManager,
-    )
+    from memory.distributed_state_manager import DistributedStateManager, MultiNodeStateManager
 except ImportError as import_error:
     _warn_placeholder("memory.distributed_state_manager", import_error)
 
@@ -161,9 +158,7 @@ except ImportError as e:
 
 # Agent 1 Task 7: Symbolic Delta Compression integration
 try:
-    from memory.systems.symbolic_delta_compression import (
-        create_compression_manager,
-    )
+    from memory.systems.symbolic_delta_compression import create_compression_manager
 
     SYMBOLIC_DELTA_COMPRESSION_AVAILABLE = True
 except ImportError as e:
@@ -172,9 +167,7 @@ except ImportError as e:
 
 # Agent 1 Task 10: Unified Emotional Memory Manager integration
 try:
-    from memory.emotional_memory_manager_unified import (
-        UnifiedEmotionalMemoryManager,
-    )
+    from memory.emotional_memory_manager_unified import UnifiedEmotionalMemoryManager
 
     UNIFIED_EMOTIONAL_MEMORY_AVAILABLE = True
 except ImportError as e:
@@ -225,9 +218,7 @@ except ImportError as e:
 
 # Multimodal memory support
 try:
-    from memory.systems.multimodal_memory_integration import (
-        create_multimodal_memory_integration,
-    )
+    from memory.systems.multimodal_memory_integration import create_multimodal_memory_integration
 
     MULTIMODAL_MEMORY_AVAILABLE = True
 except ImportError as e:
@@ -236,9 +227,7 @@ except ImportError as e:
 
 # Episodic Memory Colony Integration
 try:
-    from memory.colonies.episodic_memory_integration import (
-        create_episodic_memory_integration,
-    )
+    from memory.colonies.episodic_memory_integration import create_episodic_memory_integration
 
     EPISODIC_MEMORY_COLONY_AVAILABLE = True
 except ImportError as e:
@@ -247,9 +236,7 @@ except ImportError as e:
 
 # Memory Tracker Integration
 try:
-    from memory.systems.memory_tracker_integration import (
-        create_memory_tracker_integration,
-    )
+    from memory.systems.memory_tracker_integration import create_memory_tracker_integration
 
     MEMORY_TRACKER_AVAILABLE = True
 except ImportError as e:
@@ -600,9 +587,7 @@ class MemoryHub:
     def _register_neurosymbolic_layer(self):
         """Register the neurosymbolic integration layer."""
         try:
-            from memory.systems.neurosymbolic_integration import (
-                create_neurosymbolic_layer,
-            )
+            from memory.systems.neurosymbolic_integration import create_neurosymbolic_layer
 
             # This is an async factory, so we can't call it directly in __init__.
             # We will create it here and the initialize method will await it.
@@ -618,9 +603,7 @@ class MemoryHub:
     def _register_with_service_discovery(self):
         """Register services with global service discovery"""
         try:
-            from core.integration.service_discovery import (
-                get_service_discovery,
-            )
+            from core.integration.service_discovery import get_service_discovery
 
             discovery = get_service_discovery()
 
@@ -733,9 +716,7 @@ class MemoryHub:
             if hasattr(self, "distributedstatemanager"):
                 self.state_manager = self.distributedstatemanager
             else:
-                from memory.distributed_state_manager import (
-                    DistributedStateManager,
-                )
+                from memory.distributed_state_manager import DistributedStateManager
 
                 self.state_manager = DistributedStateManager(node_id="memory_hub")
 

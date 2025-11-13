@@ -7,7 +7,7 @@ Constellation Framework Integration
 
 import logging
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +18,7 @@ class ConsciousnessState:
     awareness_level: float = 0.7
     emotional_depth: float = 0.6
     symbolic_resonance: float = 0.8
-    constellation_alignment: Dict[str, float] = None
+    constellation_alignment: dict[str, float] = None
 
     def __post_init__(self):
         if self.constellation_alignment is None:
@@ -71,7 +71,7 @@ class ConsciousnessVoice:
 
     def enhance(self,
                 text: str,
-                consciousness_context: Optional[Dict[str, Any]] = None,
+                consciousness_context: Optional[dict[str, Any]] = None,
                 target_state: Optional[ConsciousnessState] = None) -> str:
         """
         Enhance text with consciousness-aware voice processing
@@ -114,7 +114,7 @@ class ConsciousnessVoice:
 
         return enhanced_text
 
-    def _update_consciousness_state(self, context: Dict[str, Any]) -> None:
+    def _update_consciousness_state(self, context: dict[str, Any]) -> None:
         """Update consciousness state from context"""
         # Extract consciousness metrics from context
         self.current_state.awareness_level = context.get("awareness_level", self.current_state.awareness_level)
@@ -144,11 +144,10 @@ class ConsciousnessVoice:
         depth = self.current_state.emotional_depth
         patterns = self.adaptation_patterns["emotional_depth"]
 
-        if depth > 0.8:
+        if depth > 0.8 and (not any(indicator in text.lower() for indicator in patterns['empathy_indicators'])):
             # High emotional depth - add empathy indicators
-            if not any(indicator in text.lower() for indicator in patterns["empathy_indicators"]):
-                # Add empathetic framing
-                text = f"I sense the depth of this moment. {text}"
+            # Add empathetic framing
+            text = f"I sense the depth of this moment. {text}"
 
         return text
 
@@ -197,7 +196,7 @@ class ConsciousnessVoice:
         # Placeholder for enhanced consciousness processing
         return text
 
-    def _enhance_symbolic_language(self, text: str, patterns: Dict[str, List[str]]) -> str:
+    def _enhance_symbolic_language(self, text: str, patterns: dict[str, list[str]]) -> str:
         """Enhance symbolic language in text"""
         # Placeholder for symbolic language enhancement
         return text
@@ -226,7 +225,7 @@ class ConsciousnessVoice:
         """Get current consciousness state"""
         return self.current_state
 
-    def get_voice_metrics(self) -> Dict[str, Any]:
+    def get_voice_metrics(self) -> dict[str, Any]:
         """Get current voice system metrics"""
         return {
             "consciousness_threshold": self.consciousness_threshold,

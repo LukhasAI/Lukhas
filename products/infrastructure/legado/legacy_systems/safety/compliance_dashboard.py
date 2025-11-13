@@ -120,7 +120,7 @@ except Exception:  # - optional dependency fallback
 LOG_PATH = "logs/emergency_log.jsonl"
 
 st.set_page_config(page_title="LUKHAS Institutional Compliance Viewer")
-st.title("🛡️ LUKHAS AGI – Compliance Audit Dashboard")
+st.title("🛡️ LUKHAS AGI - Compliance Audit Dashboard")
 
 if not os.path.exists(LOG_PATH):
     st.warning("No emergency logs found.")

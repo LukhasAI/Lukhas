@@ -36,14 +36,14 @@ def test_schedule_and_collect_happy_path():
 def test_denies_without_consent():
     try:
         run(api.schedule(_seed(consented=False)))
-        assert False, "Expected PolicyViolation"
+        raise AssertionError("Expected PolicyViolation")
     except api.PolicyViolation:
         pass
 
 def test_denies_under_duress():
     try:
         run(api.schedule(_seed(duress=True)))
-        assert False, "Expected PolicyViolation"
+        raise AssertionError("Expected PolicyViolation")
     except api.PolicyViolation:
         pass
 
@@ -51,7 +51,7 @@ def test_feature_flag_off_blocks():
     os.environ["SIMULATION_ENABLED"] = "false"
     try:
         run(api.schedule(_seed()))
-        assert False, "Expected SimulationDisabledError"
+        raise AssertionError("Expected SimulationDisabledError")
     except api.SimulationDisabledError:
         pass
     finally:

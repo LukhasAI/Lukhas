@@ -491,7 +491,7 @@ def test_text_analysis_pipeline():
     assert chars == 35
 
     # Unique words
-    unique = len(set(word.lower() for word in words))
+    unique = len({word.lower() for word in words})
     assert unique == 8  # "the" appears twice
 
     # Average word length

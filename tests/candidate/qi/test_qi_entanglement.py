@@ -1,6 +1,7 @@
 import math
 
 import pytest
+
 from qi.qi_entanglement import (
     QuantumState,
     compute_entanglement,

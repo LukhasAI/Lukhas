@@ -1,8 +1,7 @@
 import importlib
 
-from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
-
 from core.trace import mk_crumb
+from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
 
 
 class GovernanceAdapter(MatrizNode):
@@ -32,7 +31,7 @@ class GovernanceAdapter(MatrizNode):
 # Added for test compatibility (matriz.adapters.governance_adapter.UgovernanceAdapter)
 try:
     _candidate_module = importlib.import_module("candidate.matriz.adapters.governance_adapter")
-    UgovernanceAdapter = getattr(_candidate_module, "UgovernanceAdapter")  # type: ignore[assignment]
+    UgovernanceAdapter = _candidate_module.UgovernanceAdapter  # type: ignore[assignment]
 except Exception:  # pragma: no cover - fallback for missing candidate module
 
     class UgovernanceAdapter:
@@ -44,7 +43,7 @@ except Exception:  # pragma: no cover - fallback for missing candidate module
 
 
 try:
-    __all__  # type: ignore[name-defined]
+    __all__  # type: ignore[name-defined]  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_adapters_governance_adapter_py_L46"}
 except NameError:
     __all__ = []
 if "UgovernanceAdapter" not in __all__:

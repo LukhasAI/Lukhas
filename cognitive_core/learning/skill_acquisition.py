@@ -277,12 +277,12 @@ def create_skill_acquisition_context(
 
 # Export main classes and functions
 __all__ = [
+    "LearningPhase",
+    "LearningSession",
+    "Skill",
+    "SkillAcquisitionContext",
     "SkillAcquisitionEngine",
     "SkillLevel",
-    "LearningPhase",
-    "Skill",
-    "LearningSession",
-    "SkillAcquisitionContext",
-    "quick_skill_practice",
     "create_skill_acquisition_context",
+    "quick_skill_practice",
 ]

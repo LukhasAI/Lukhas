@@ -3,7 +3,7 @@ FastAPI endpoints for adaptive feedback collection and follow-ups.
 """
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
 from fastapi import APIRouter
 from pydantic import BaseModel
@@ -18,17 +18,17 @@ class FeedbackIn(BaseModel):
     trace_id: str
     rating_0_10: int
     text: str = ""
-    labels: Dict[str, float] = {}
+    labels: dict[str, float] = {}
 
 
 class FollowupIn(BaseModel):
     """Follow-up answers input model."""
     feedback_id: str
-    answers: Dict[str, str]
+    answers: dict[str, str]
 
 
 @router.post("/", status_code=202)
-async def submit_feedback(fb: FeedbackIn) -> Dict[str, Any]:
+async def submit_feedback(fb: FeedbackIn) -> dict[str, Any]:
     """
     Submit user feedback for a trace.
 
@@ -62,7 +62,7 @@ async def submit_feedback(fb: FeedbackIn) -> Dict[str, Any]:
 
 
 @router.post("/followup", status_code=202)
-async def submit_followup(ff: FollowupIn) -> Dict[str, Any]:
+async def submit_followup(ff: FollowupIn) -> dict[str, Any]:
     """
     Submit follow-up answers to feedback.
 
@@ -95,7 +95,7 @@ async def submit_followup(ff: FollowupIn) -> Dict[str, Any]:
 
 
 @router.get("/card/{trace_id}")
-async def get_feedback_card(trace_id: str) -> Dict[str, Any]:
+async def get_feedback_card(trace_id: str) -> dict[str, Any]:
     """
     Get adaptive feedback card configuration for a trace.
 

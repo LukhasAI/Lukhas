@@ -65,7 +65,7 @@ def generate_module_header():
 # - EU AI Act aligned (risk, transparency, auditability)
 # - Data is encrypted, minimal, exportable, and user-owned
 
-# 🏷️ LUCΛS_ΛGI_3 — Identity, Memory & Trust Infrastructure
+# 🏷️ LUCΛS_ΛGI_3 - Identity, Memory & Trust Infrastructure
 # ──────────────────────────────────────────────────────────────
 '''
 

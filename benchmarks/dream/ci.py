@@ -5,7 +5,7 @@ import os
 import subprocess
 import sys
 import time
-from typing import Any, Dict
+from typing import Any
 
 
 class CIRunner:
@@ -16,7 +16,7 @@ class CIRunner:
         self.results_dir = f"{work_dir}/ci_results"
         os.makedirs(self.results_dir, exist_ok=True)
 
-    def run_stability_check(self) -> Dict[str, Any]:
+    def run_stability_check(self) -> dict[str, Any]:
         """Run stability testing for CI."""
         print("🔍 Running stability check...")
 
@@ -55,7 +55,7 @@ class CIRunner:
                 "exit_code": -1
             }
 
-    def run_benchmark_validation(self) -> Dict[str, Any]:
+    def run_benchmark_validation(self) -> dict[str, Any]:
         """Run benchmark validation for CI."""
         print("📊 Running benchmark validation...")
 
@@ -72,7 +72,7 @@ class CIRunner:
             if success:
                 results_path = f"{self.results_dir}/ci_benchmark.jsonl"
                 if os.path.exists(results_path):
-                    with open(results_path, 'r') as f:
+                    with open(results_path) as f:
                         results = []
                         for line in f:
                             line = line.strip()
@@ -124,7 +124,7 @@ class CIRunner:
                 "exit_code": -1
             }
 
-    def run_synthetic_generation(self) -> Dict[str, Any]:
+    def run_synthetic_generation(self) -> dict[str, Any]:
         """Test synthetic case generation."""
         print("🎲 Testing synthetic generation...")
 
@@ -141,7 +141,7 @@ class CIRunner:
             if success:
                 synthetic_path = f"{self.results_dir}/ci_synthetic.json"
                 if os.path.exists(synthetic_path):
-                    with open(synthetic_path, 'r') as f:
+                    with open(synthetic_path) as f:
                         synthetic_data = json.load(f)
 
                     if len(synthetic_data) != 10:
@@ -189,7 +189,7 @@ class CIRunner:
                 "exit_code": -1
             }
 
-    def run_config_validation(self) -> Dict[str, Any]:
+    def run_config_validation(self) -> dict[str, Any]:
         """Test configuration validation."""
         print("⚙️  Testing config validation...")
 
@@ -234,7 +234,7 @@ class CIRunner:
                 "exit_code": -1
             }
 
-    def run_taxonomy_test(self) -> Dict[str, Any]:
+    def run_taxonomy_test(self) -> dict[str, Any]:
         """Test error taxonomy system."""
         print("🏷️  Testing taxonomy system...")
 
@@ -262,7 +262,7 @@ class CIRunner:
             if success:
                 taxonomy_path = f"{self.results_dir}/ci_taxonomy.json"
                 if os.path.exists(taxonomy_path):
-                    with open(taxonomy_path, 'r') as f:
+                    with open(taxonomy_path) as f:
                         taxonomy_report = json.load(f)
 
                     required_sections = ['taxonomy_analysis', 'error_patterns']
@@ -299,7 +299,7 @@ class CIRunner:
                 "exit_code": -1
             }
 
-    def run_all_tests(self) -> Dict[str, Any]:
+    def run_all_tests(self) -> dict[str, Any]:
         """Run comprehensive CI test suite."""
         start_time = time.time()
 

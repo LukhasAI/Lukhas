@@ -231,7 +231,7 @@ class OrganizationalAuditor:
 
         # Check for foreign files
         for file in module_path.glob("*"):
-            if (
+            if (  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_analysis_comprehensive_organizational_audit_py_L234"}
                 file.is_file() and file.name not in expected_files and not file.name.endswith(".py")
             ) and file.suffix in [".md", ".txt", ".json"]:
                 # Check if it belongs here
@@ -276,7 +276,7 @@ class OrganizationalAuditor:
             relative_path = md_file.relative_to(self.workspace)
 
             # Check if documentation is properly organized
-            if "documentation" not in str(relative_path) and "docs" not in str(relative_path):
+            if "documentation" not in str(relative_path) and "docs" not in str(relative_path):  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_analysis_comprehensive_organizational_audit_py_L279"}
                 # Check if it's a legitimate README or module doc
                 if md_file.name.lower() not in [
                     "readme.md",

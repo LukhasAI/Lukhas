@@ -269,7 +269,7 @@ class PythonCodeGenerator(CodeGenerator):
             "import asyncio",
             "import json",
             "import logging",
-            "from typing import Any, Dict, List, Optional",
+            "from typing import Any
         ]
 
         custom_imports = [f"import {dep}" for dep in dependencies]
@@ -303,7 +303,7 @@ import logging
 app = FastAPI()
 logger = logging.getLogger(__name__)
 
-async def validate_request_data(request: BaseModel) -> Dict[str, Any]:
+async def validate_request_data(request: BaseModel) -> dict[str, Any]:
     """
     Validate incoming request data with comprehensive checks
 
@@ -340,7 +340,7 @@ async def validate_request_data(request: BaseModel) -> Dict[str, Any]:
         logger.error(f"Request validation error: {{e}}")
         return {{"valid": False, "error": f"Validation failed: {{str(e)}}"}}
 
-async def execute_business_logic(request: BaseModel, processing_id: str) -> Dict[str, Any]:
+async def execute_business_logic(request: BaseModel, processing_id: str) -> dict[str, Any]:
     """
     Execute core business logic for the endpoint
 
@@ -390,7 +390,7 @@ async def execute_business_logic(request: BaseModel, processing_id: str) -> Dict
         logger.error(f"Business logic execution error: {{e}}")
         raise HTTPException(status_code=500, detail=f"Business logic failed: {{str(e)}}")
 
-async def process_data_operation(request_data: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
+async def process_data_operation(request_data: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
     """Process data-focused operations"""
     data = request_data.get('data', {{}})
     options = request_data.get('processing_options', {{}})
@@ -410,7 +410,7 @@ async def process_data_operation(request_data: Dict[str, Any], context: Dict[str
         }}
     }}
 
-async def process_integration_operation(request_data: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
+async def process_integration_operation(request_data: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
     """Process integration-focused operations"""
     integration_config = request_data.get('integration_config', {{}})
 
@@ -429,7 +429,7 @@ async def process_integration_operation(request_data: Dict[str, Any], context: D
         }}
     }}
 
-async def process_analysis_operation(request_data: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
+async def process_analysis_operation(request_data: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
     """Process analysis-focused operations"""
     analysis_params = request_data.get('analysis_parameters', {{}})
 
@@ -454,7 +454,7 @@ async def process_analysis_operation(request_data: Dict[str, Any], context: Dict
         ]
     }}
 
-async def process_default_operation(request_data: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
+async def process_default_operation(request_data: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
     """Process default operations when no specific type is specified"""
     return {{
         "operation": "default_processing",
@@ -471,7 +471,7 @@ async def process_default_operation(request_data: Dict[str, Any], context: Dict[
         }}
     }}
 
-async def post_process_result(business_result: Dict[str, Any], request: BaseModel) -> Dict[str, Any]:
+async def post_process_result(business_result: dict[str, Any], request: BaseModel) -> dict[str, Any]:
     """
     Apply post-processing and final validation to business logic results
 
@@ -517,7 +517,7 @@ async def post_process_result(business_result: Dict[str, Any], request: BaseMode
             "fallback_mode": True
         }}
 
-def sanitize_output_data(data: Dict[str, Any]) -> Dict[str, Any]:
+def sanitize_output_data(data: dict[str, Any]) -> dict[str, Any]:
     """Sanitize output data for security"""
     # Remove any sensitive fields that might have been accidentally included
     sensitive_keys = ['password', 'secret', 'key', 'token', 'credential']
@@ -542,7 +542,7 @@ class {endpoint_name.capitalize()}Response(BaseModel):
     """Response model for {endpoint_name} endpoint"""
     success: bool
     message: str
-    data: Optional[Dict[str, Any]] = None
+    data: Optional[dict[str, Any]] = None
 
 @app.{method.lower()}("/{endpoint_name}")
 async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request):
@@ -598,8 +598,8 @@ async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request)
 
     async def _generate_data_processor(self, request: CodeGenerationRequest) -> str:
         """Generate data processing function"""
-        return f'''async def process_data(data: Any, options: Optional[Dict[str,
-    Any]] = None) -> Dict[str, Any]:
+        return f'''async def process_data(data: Any, options: Optional[dict[str,
+    Any]] = None) -> dict[str, Any]:
     """
     {request.description}
 
@@ -686,7 +686,7 @@ async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request)
         self.created_at = datetime.now(timezone.utc)
         logger.info("LUKHAS{class_name.upper()}: Instance created", config=self.config)
 
-    async def process(self, data: Any) -> Dict[str, Any]:
+    async def process(self, data: Any) -> dict[str, Any]:
         """Main processing method"""
         try:
             logger.info("LUKHAS{class_name.upper()}: Processing started")
@@ -705,7 +705,7 @@ async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request)
             logger.error("LUKHAS{class_name.upper()}: Processing failed", error=str(e))
             raise
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get instance status"""
         return {{
             "class_name": "{class_name}",
@@ -756,7 +756,7 @@ class Test{request.context.get("class_name", "Generated")}:
 
     async def _generate_generic_function(self, request: CodeGenerationRequest) -> str:
         """Generate generic function"""
-        return f'''async def generated_function(input_data: Any) -> Dict[str, Any]:
+        return f'''async def generated_function(input_data: Any) -> dict[str, Any]:
     """
     {request.description}
 

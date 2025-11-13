@@ -14,6 +14,7 @@ Notes:
 """
 
 import argparse
+import contextlib
 import json
 import os
 import subprocess
@@ -21,11 +22,11 @@ import sys
 import tempfile
 import time
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
 def load_json(p: str) -> Any:
-    with open(p, "r", encoding="utf-8") as f:
+    with open(p, encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -50,8 +51,8 @@ def ensure_artifacts_dir() -> Path:
     return outdir
 
 
-def run_cmd(cmd: List[str]) -> subprocess.CompletedProcess:
-    return subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+def run_cmd(cmd: list[str]) -> subprocess.CompletedProcess:
+    return subprocess.run(cmd, check=True, capture_output=True, text=True)
 
 
 def main() -> int:
@@ -63,8 +64,8 @@ def main() -> int:
     ap.add_argument("--sleep", type=float, default=0.2, help="Sleep seconds between issues")
     args = ap.parse_args()
 
-    mapping: Dict[str, Dict[str, Any]] = load_json(args.map)
-    assignees_map: Dict[str, List[str]] = {}
+    mapping: dict[str, dict[str, Any]] = load_json(args.map)
+    assignees_map: dict[str, list[str]] = {}
     if args.assignees_json:
         assignees_map = load_json(args.assignees_json)
 
@@ -83,7 +84,7 @@ def main() -> int:
         path_line = k
         area = area_for_path(path_line.split(":")[0])
         title = entry.get("title", "")
-        assigned: List[str] = []
+        assigned: list[str] = []
         comment_posted = False
         err: str = ""
 
@@ -142,10 +143,8 @@ def main() -> int:
                 except subprocess.CalledProcessError as e:
                     err = (err + "; " if err else "") + f"comment_failed: {e.stderr.strip()}"
                 finally:
-                    try:
+                    with contextlib.suppress(Exception):
                         os.unlink(tmp_path)
-                    except Exception:
-                        pass
 
                 time.sleep(max(0.0, args.sleep))
         except Exception as e:

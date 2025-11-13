@@ -649,7 +649,7 @@ class TestRegistrySecurityIntegration:
                 assert len(_REG) > 0, "Should discover legitimate plugins"
 
                 # Verify registered plugins are legitimate
-                for key, value in _REG.items():
+                for key, _value in _REG.items():
                     assert key.startswith(('node:', 'constellation:', 'adapter:', 'monitor:')), \
                         f"Plugin should have valid prefix: {key}"
 

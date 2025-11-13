@@ -267,7 +267,7 @@ class DiagnosticOrchestrator:
         # For now, return success if auth_integration is available
         try:
             from governance.identity import (
-                auth_integration,  # noqa: F401  # Legacy bridge validation
+                auth_integration,  # Legacy bridge validation
             )
 
             return {"status": "success", "bridges_verified": 1}

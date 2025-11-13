@@ -8,9 +8,8 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
-
-from consciousness.systems.engine import LUKHASConsciousnessEngine
 from bridge.shared_state import SharedStateManager
+from consciousness.systems.engine import LUKHASConsciousnessEngine
 from core.colonies.creativity_colony import CreativityColony
 from core.colonies.memory_colony import MemoryColony
 from core.colonies.reasoning_colony import ReasoningColony

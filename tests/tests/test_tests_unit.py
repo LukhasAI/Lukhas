@@ -64,6 +64,7 @@ class TestTestsCore:
         """Test proper error handling patterns."""
         try:
             from core.exceptions import LUKHASException
+
             from tests import TestsCore
 
             component = TestsCore()
@@ -104,7 +105,7 @@ class TestTestsIntegration:
 
             # Test MATRIZ pipeline methods
             assert hasattr(component, 'process')
-            assert callable(getattr(component, 'process'))
+            assert callable(component.process)
 
         except ImportError:
             pytest.skip("TestsCore not available")

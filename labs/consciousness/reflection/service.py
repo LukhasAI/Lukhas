@@ -48,6 +48,7 @@
 ║ Symbolic Tags: {ΛSERVICE}, {ΛCONSCIOUSNESS}, {ΛAWARE}, {ΛTIER}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
 
 # Module imports
 import asyncio
@@ -57,6 +58,7 @@ from typing import Any, Callable, Optional, Union
 import structlog
 
 # Configure module logger
+logger = structlog.get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -295,7 +297,7 @@ class ConsciousnessService:
         Initialize the consciousness service with optional configuration.
 
         Args:
-            config (Optional[Dict[str, Any]]): Optional initialization configuration
+            config (Optional[dict[str, Any]]): Optional initialization configuration
 
         Returns:
             bool: True if initialization successful, False otherwise
@@ -347,13 +349,13 @@ class ConsciousnessService:
 
         Args:
             user_id (str): The ID of the user initiating the awareness processing.
-            input_data_stream (Dict[str, Any]): The raw input data for consciousness processing.
+            input_data_stream (dict[str, Any]): The raw input data for consciousness processing.
                                                 Expected to have an "elements" key with a list of data points.
             requested_awareness_level_key (str): The key corresponding to the desired awareness
                                                  processing capability in `consciousness_capabilities_config`.
 
         Returns:
-            Dict[str, Any]: A dictionary containing the processed awareness data and insights,
+            dict[str, Any]: A dictionary containing the processed awareness data and insights,
                             or an error message if processing fails or access is denied.
         """
         self.instance_logger.info(
@@ -476,7 +478,7 @@ class ConsciousnessService:
             introspection_method_type (str): The type of introspection to perform (e.g., "self_reflection_standard", "meta_cognitive_review").
 
         Returns:
-            Dict[str, Any]: A dictionary containing the introspective insights and analysis data,
+            dict[str, Any]: A dictionary containing the introspective insights and analysis data,
                             or an error message.
         """
         self.instance_logger.info(
@@ -576,7 +578,7 @@ class ConsciousnessService:
             request_detailed_metrics (bool): If True, attempts to include more detailed
                                              consciousness metrics (subject to tier/consent).
         Returns:
-            Dict[str, Any]: A dictionary representing the current consciousness state,
+            dict[str, Any]: A dictionary representing the current consciousness state,
                             or an error message.
         """
         self.instance_logger.info(
@@ -710,12 +712,12 @@ class ConsciousnessService:
 
         Args:
             user_id (str): The ID of the user directing the attention.
-            new_focus_targets (List[str]): A list of concepts, tasks, or data streams to focus on.
+            new_focus_targets (list[str]): A list of concepts, tasks, or data streams to focus on.
             focus_intensity_level (float): The desired intensity of focus (normalized 0.0 to 1.0).
             requested_focus_duration_seconds (Optional[int]): The requested duration for this focus in seconds.
                                                              If None, duration is system-managed or indefinite.
         Returns:
-            Dict[str, Any]: A dictionary confirming the attention focus operation and its parameters,
+            dict[str, Any]: A dictionary confirming the attention focus operation and its parameters,
                             or an error message.
         """
         self.instance_logger.info(
@@ -831,7 +833,7 @@ class ConsciousnessService:
             requested_analysis_depth_key (str): A key indicating the desired depth of analysis
                                                 (e.g., "shallow_review", "standard_depth", "deep_dive").
         Returns:
-            Dict[str, Any]: A dictionary containing the results of the metacognitive analysis,
+            dict[str, Any]: A dictionary containing the results of the metacognitive analysis,
                             or an error message.
         """
         self.instance_logger.info(

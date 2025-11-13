@@ -46,6 +46,8 @@
 ║ • Cybernetic Control Theory (Wiener, 1948)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import asyncio  # For tier decorator placeholder
 import logging
 from collections import defaultdict, deque  # Added defaultdict
@@ -122,7 +124,7 @@ class ReflectiveIntrospectionSystem:
         Args:
             max_history (int): Maximum number of interactions to keep in history.
             user_id_context (Optional[str]): User ID for contextual logging.
-            config (Optional[Dict[str, Any]]): Configuration dictionary.
+            config (Optional[dict[str, Any]]): Configuration dictionary.
         """
         self.user_id_context = user_id_context
         self.instance_logger = logger.getChild(f"ReflectiveIntrospectionSystem.{self.user_id_context or 'global'}")
@@ -154,7 +156,7 @@ class ReflectiveIntrospectionSystem:
         """
         Log an interaction dictionary for future reflective analysis.
         Args:
-            interaction_data (Dict[str, Any]): Data about the interaction.
+            interaction_data (dict[str, Any]): Data about the interaction.
             user_id (Optional[str]): User ID for tier checking.
         """
         log_user_id = user_id or self.user_id_context
@@ -181,7 +183,7 @@ class ReflectiveIntrospectionSystem:
         Args:
             user_id (Optional[str]): User ID for tier checking.
         Returns:
-            Dict[str, Any]: Analysis results including metrics, patterns, insights,
+            dict[str, Any]: Analysis results including metrics, patterns, insights,
                             and recommended parameter adjustments.
         """
         log_user_id = user_id or self.user_id_context

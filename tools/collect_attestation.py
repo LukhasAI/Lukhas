@@ -15,8 +15,8 @@ import hashlib
 import json
 import pathlib
 import platform
-from datetime import datetime
-from typing import Any, Dict, Optional
+from datetime import datetime, timezone
+from typing import Any, Optional
 
 import jwt
 from cryptography.hazmat.primitives import serialization
@@ -126,7 +126,7 @@ class RATSCollector:
         # Default to mock for development
         return "mock-tee"
 
-    def get_code_measurements(self) -> Dict[str, str]:
+    def get_code_measurements(self) -> dict[str, str]:
         """Calculate measurements of module code."""
         measurements = {}
 
@@ -182,12 +182,12 @@ class RATSCollector:
             # Development mode
             return mock_tee.get_sev_snp_report()
 
-    def collect_evidence(self) -> Dict[str, Any]:
+    def collect_evidence(self) -> dict[str, Any]:
         """Collect comprehensive RATS evidence."""
         evidence = {
             # Standard EAT claims (RFC 8392)
-            "iat": int(datetime.utcnow().timestamp()),
-            "exp": int(datetime.utcnow().timestamp()) + 3600,  # 1 hour validity
+            "iat": int(datetime.now(timezone.utc).timestamp()),
+            "exp": int(datetime.now(timezone.utc).timestamp()) + 3600,  # 1 hour validity
             "iss": f"lukhas.{self.module}",
             "sub": f"module:{self.module}",
 
@@ -209,7 +209,7 @@ class RATSCollector:
 
             # Runtime context
             "runtime": {
-                "timestamp": datetime.utcnow().isoformat() + "Z",
+                "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
                 "hostname": platform.node(),
                 "process_id": "mock-pid-12345"
             }
@@ -217,7 +217,7 @@ class RATSCollector:
 
         return evidence
 
-    def sign_evidence(self, evidence: Dict[str, Any], private_key_path: Optional[str] = None) -> str:
+    def sign_evidence(self, evidence: dict[str, Any], private_key_path: Optional[str] = None) -> str:
         """Sign evidence as JWT using RS256."""
         # Generate mock key for development
         if not private_key_path:
@@ -292,7 +292,7 @@ def main():
     print("\n🔍 Next steps:")
     print("1. Verify evidence: python tools/verify_attestation.py --jwt evidence.jwt")
     print("2. Add to gate: tools/matrix_gate.py --attestation evidence.jwt")
-    print("3. Generate CAR: tools/generate_car.py --module {} --attestation evidence.jwt".format(args.module))
+    print(f"3. Generate CAR: tools/generate_car.py --module {args.module} --attestation evidence.jwt")
 
     return 0
 

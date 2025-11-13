@@ -26,7 +26,6 @@ try:
     from backend.core.neuro_symbolic_engine import NeuroSymbolicEngine
     from backend.learning.meta_learning import MetaLearningSystem
     from backend.security.privacy_manager import PrivacyManager
-    from voice.speech_processor import SpeechProcessor
 
     # Utils and config
     from core.orchestration.brain.config.settings import load_settings
@@ -35,6 +34,7 @@ try:
     )
     from frontend.multimodal.image_generator import AdaptiveImageGenerator
     from governance.identity.core.id_service import IdentityManager
+    from voice.speech_processor import SpeechProcessor
 
 except ImportError as e:
     logger.critical(f"Failed to import required components: {e}")

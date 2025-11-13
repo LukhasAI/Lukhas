@@ -10,7 +10,6 @@ import time
 from unittest.mock import patch
 
 import pytest
-
 from core.policy_guard import (
     LanePolicyConfig,
     PolicyGuard,
@@ -302,7 +301,7 @@ class TestPolicyGuard:
         start_time = time.perf_counter()
         num_decisions = 100
 
-        for i in range(num_decisions):
+        for _i in range(num_decisions):
             guard.check_replay(event_kind="action", risk_level=0.1)
 
         duration = time.perf_counter() - start_time
@@ -340,7 +339,7 @@ class TestPolicyGuard:
         decisions = []
 
         def make_decisions():
-            for i in range(10):
+            for _i in range(10):
                 decision = guard.check_replay(event_kind="action")
                 decisions.append(decision)
 

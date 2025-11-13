@@ -14,11 +14,11 @@ import time
 from unittest.mock import Mock, patch
 
 import pytest
-from hypothesis import HealthCheck, given, settings, strategies as st
 
 # Import LUKHAS consciousness components
 from consciousness.reflection_engine import ReflectionConfig, ReflectionEngine
 from consciousness.types import AwarenessSnapshot, ConsciousnessState, ReflectionReport
+from hypothesis import HealthCheck, given, settings, strategies as st
 
 
 class TestReflectionEngineCore:
@@ -527,7 +527,7 @@ class TestReflectionEnginePerformance:
                 )
 
                 latencies = []
-                for i in range(iterations):
+                for _i in range(iterations):
                     start = time.perf_counter()
                     await reflection_engine.reflect(state)
                     latency = (time.perf_counter() - start) * 1000

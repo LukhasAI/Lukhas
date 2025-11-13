@@ -3,12 +3,10 @@
 from __future__ import annotations
 
 from importlib import import_module
-from typing import List
-
-__all__: List[str] = []
+__all__: list[str] = []
 
 for _candidate in (
-    "lukhas_website.consciousness.guardian_integration",
+    "lukhas_website.lukhas.consciousness.guardian_integration",
     "consciousness.guardian_integration",
     "candidate.consciousness.guardian_integration",
 ):

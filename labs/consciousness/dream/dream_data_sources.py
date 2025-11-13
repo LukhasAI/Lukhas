@@ -57,6 +57,8 @@
 ║    • Cultural knowledge base
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import asyncio
 import builtins
 import contextlib

@@ -5,6 +5,8 @@ Reduces 1,157 unused files to ~300 through smart merging
 
 Usage: python3 consolidate_duplicates.py --phase [1|2|3|all]
 """
+from __future__ import annotations
+
 
 import argparse
 import json

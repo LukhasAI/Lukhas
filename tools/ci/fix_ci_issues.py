@@ -7,6 +7,7 @@ Addresses streamlit imports and pre-commit hook issues
 import subprocess
 import sys
 from pathlib import Path
+from typing import Optional
 
 import yaml
 
@@ -14,7 +15,7 @@ import yaml
 class CIFixOrchestrator:
     """Resolves common CI/CD issues in LUKHAS AI infrastructure."""
 
-    def __init__(self, base_path: Path = None):
+    def __init__(self, base_path: Optional[Path] = None):
         self.base_path = base_path or Path.cwd()
 
     def fix_streamlit_imports(self):

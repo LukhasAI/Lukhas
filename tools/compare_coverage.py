@@ -7,19 +7,19 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 
-def load_coverage(path: str) -> Dict[str, Any]:
+def load_coverage(path: str) -> dict[str, Any]:
     """Load coverage data from JSON file"""
     if not Path(path).exists():
         print(f"❌ Coverage file not found: {path}")
         sys.exit(1)
 
-    with open(path, 'r') as f:
+    with open(path) as f:
         return json.load(f)
 
-def extract_metrics(coverage_data: Dict[str, Any]) -> Dict[str, float]:
+def extract_metrics(coverage_data: dict[str, Any]) -> dict[str, float]:
     """Extract key coverage metrics"""
     # Support different coverage report formats
     if 'totals' in coverage_data:
@@ -46,7 +46,7 @@ def extract_metrics(coverage_data: Dict[str, Any]) -> Dict[str, float]:
             'files': coverage_data.get('files', 0)
         }
 
-def compare_coverage(baseline: Dict[str, float], current: Dict[str, float]) -> bool:
+def compare_coverage(baseline: dict[str, float], current: dict[str, float]) -> bool:
     """Compare coverage metrics and return True if current >= baseline"""
 
     print("📊 Coverage Comparison")
@@ -54,7 +54,7 @@ def compare_coverage(baseline: Dict[str, float], current: Dict[str, float]) -> b
 
     all_good = True
 
-    for metric in baseline.keys():
+    for metric in baseline:
         if metric in current:
             baseline_val = baseline[metric]
             current_val = current[metric]
@@ -71,7 +71,7 @@ def compare_coverage(baseline: Dict[str, float], current: Dict[str, float]) -> b
             print(f"⚠️  {metric}: baseline {baseline[metric]:.2f} → current: N/A")
 
     # Check for new metrics in current
-    for metric in current.keys():
+    for metric in current:
         if metric not in baseline:
             print(f"🆕 {metric}: new metric → {current[metric]:.2f}")
 

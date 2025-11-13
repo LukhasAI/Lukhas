@@ -1,8 +1,9 @@
 import logging
 
-logger = logging.getLogger(__name__)
 from core.common.logger import JSONFormatter
 from memory.emotional import EmotionalMemoryManager
+
+logger = logging.getLogger(__name__)
 
 
 def test_logger_jsonformatter_utc_timestamp():

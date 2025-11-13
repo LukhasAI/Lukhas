@@ -15,8 +15,7 @@ def run_cmd(cmd, cwd, env=None):
         cmd,
         shell=True,
         cwd=cwd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         text=True,
         env=env or os.environ.copy()
     )

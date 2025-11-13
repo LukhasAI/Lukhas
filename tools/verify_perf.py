@@ -9,6 +9,7 @@ Usage (CI):
   pytest -m "not prod_only" --maxfail=1 -q --junitxml=reports/junit-unit.xml
   python tools/verify_perf.py
 """
+import contextlib
 import json
 import sys
 import xml.etree.ElementTree as ET
@@ -27,10 +28,8 @@ def _sum_junit_seconds(junit_path: Path) -> float:
     for tc in root.iter("testcase"):
         t = tc.get("time")
         if t is not None:
-            try:
+            with contextlib.suppress(ValueError):
                 total += float(t)
-            except ValueError:
-                pass
     return total
 
 def main() -> int:
@@ -44,7 +43,7 @@ def main() -> int:
     effective_budget = unit_budget * threshold_mult
     if total > effective_budget:
         print(f"❌ Performance budget exceeded: unit_contracts_total {total:.2f}s > {effective_budget:.2f}s "
-              f"(budget {unit_budget:.2f}s × {threshold_mult:g})")
+              f"(budget {unit_budget:.2f}s x {threshold_mult:g})")
         return 1
     print(f"✅ Performance budgets within limits: unit_contracts_total {total:.2f}s ≤ {effective_budget:.2f}s")
     return 0

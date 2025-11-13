@@ -226,7 +226,7 @@ async def test_multi_tenant_integration():
     start_time = time.perf_counter()
 
     # Generate 10 tokens
-    for i in range(10):
+    for _i in range(10):
         await tenant_manager.generate_tenant_token(
             tenant_id=org_tenant.tenant_id,
             user_id="user_dev_001",

@@ -1,0 +1,132 @@
+# GitHub Actions Smoke Test Job
+# Add this to your .github/workflows/ci.yml or create .github/workflows/smoke-tests.yml
+
+name: Smoke Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  smoke:
+    name: Smoke Tests (Quick)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-timeout
+
+      - name: Run smoke tests
+        id: smoke
+        run: |
+          make smoke || exit 1
+        env:
+          CI_QUALITY_GATES: "1"
+          PYTHONPATH: "."
+
+      - name: Upload smoke test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-test-results
+          path: |
+            release_artifacts/repo_audit_v2/tests/
+            release_artifacts/repo_audit_v2/security/
+          retention-days: 30
+
+      - name: Report smoke test failure
+        if: failure()
+        run: |
+          echo "::error::Smoke tests failed - critical system health issue"
+          echo "Review artifacts for detailed failure information"
+
+  smoke-stability:
+    name: Smoke Tests (Stability Check - 3x)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-timeout
+
+      - name: Run smoke tests 3 times (flake detection)
+        run: |
+          echo "=== Run 1 ==="
+          make smoke || { echo "::error::Run 1 failed"; exit 1; }
+
+          echo "=== Run 2 ==="
+          make smoke || { echo "::error::Run 2 failed"; exit 1; }
+
+          echo "=== Run 3 ==="
+          make smoke || { echo "::error::Run 3 failed"; exit 1; }
+
+          echo "✅ All 3 runs passed - no flakes detected"
+        env:
+          CI_QUALITY_GATES: "1"
+          PYTHONPATH: "."
+
+      - name: Upload stability results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-stability-results
+          path: release_artifacts/repo_audit_v2/
+          retention-days: 7
+
+# Alternative: Single job with matrix for parallel execution
+# Uncomment if you want to run smoke tests on multiple Python versions
+
+#  smoke-matrix:
+#    name: Smoke Tests (Python ${{ matrix.python-version }})
+#    runs-on: ubuntu-latest
+#    timeout-minutes: 5
+#
+#    strategy:
+#      matrix:
+#        python-version: ['3.9', '3.10', '3.11']
+#      fail-fast: false
+#
+#    steps:
+#      - uses: actions/checkout@v4
+#      - uses: actions/setup-python@v5
+#        with:
+#          python-version: ${{ matrix.python-version }}
+#          cache: 'pip'
+#
+#      - name: Install dependencies
+#        run: |
+#          pip install -r requirements.txt
+#          pip install pytest pytest-timeout
+#
+#      - name: Run smoke tests
+#        run: make smoke
+#        env:
+#          CI_QUALITY_GATES: "1"
+#          PYTHONPATH: "."

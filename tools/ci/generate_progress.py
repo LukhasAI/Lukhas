@@ -11,7 +11,7 @@ import argparse
 import json
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 
 class ProgressGenerator:
@@ -20,16 +20,16 @@ class ProgressGenerator:
         self.manifest = self._load_manifest()
         self.batches = self._load_batches()
 
-    def _load_manifest(self) -> Dict[str, Any]:
+    def _load_manifest(self) -> dict[str, Any]:
         """Load the manifest describing tracked tasks."""
         manifest_files = list(self.run_dir.glob("manifest*.json"))
         if not manifest_files:
             raise FileNotFoundError("No manifest.json found in run directory")
 
-        with open(manifest_files[0], "r") as f:
+        with open(manifest_files[0]) as f:
             return json.load(f)
 
-    def _load_batches(self) -> Dict[str, Dict[str, Any]]:
+    def _load_batches(self) -> dict[str, dict[str, Any]]:
         """Load all batch files from the most recent batch directory"""
         batches = {}
         # Priority order: clean is most recent/authoritative, then v2, then original
@@ -40,7 +40,7 @@ class ProgressGenerator:
             if batch_path.exists():
                 print(f"Loading batches from: {batch_path}")
                 for batch_file in batch_path.glob("BATCH-*.json"):
-                    with open(batch_file, "r") as f:
+                    with open(batch_file) as f:
                         batch_data = json.load(f)
                         batches[batch_data["agent"]] = batch_data
                 print(f"Loaded {len(batches)} batches from {batch_dir}")
@@ -48,7 +48,7 @@ class ProgressGenerator:
 
         return batches
 
-    def generate_progress_json(self) -> Dict[str, Any]:
+    def generate_progress_json(self) -> dict[str, Any]:
         """Generate progress.json as specified in PLANNING_TODO.md Section 9."""
         stats = self.manifest.get("stats", {})
 
@@ -137,7 +137,7 @@ class ProgressGenerator:
 
         return progress_data
 
-    def generate_daily_report(self, progress_data: Dict[str, Any]) -> str:
+    def generate_daily_report(self, progress_data: dict[str, Any]) -> str:
         """Generate daily report as specified in PLANNING_TODO.md Section 9."""
         date = progress_data["date"]
         summary = progress_data["summary"]

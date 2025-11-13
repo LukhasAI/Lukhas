@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # core/interfaces/as_agent/news_and_social/__init__.py
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Initializes the 'news_and_social' sub-package under 'core.interfaces.as_agent'.

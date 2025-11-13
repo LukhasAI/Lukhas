@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -39,7 +41,6 @@ from typing import Any, Optional, Union
 
 import msgpack
 import zstandard as zstd
-
 from core.common import LukhasError
 
 # LKF-Pack v1 magic bytes

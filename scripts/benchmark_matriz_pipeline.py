@@ -18,7 +18,7 @@ import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Add LUKHAS to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -35,7 +35,7 @@ class BenchmarkResult:
     total_queries: int
     successful_queries: int
     failed_queries: int
-    latencies_ms: List[float]
+    latencies_ms: list[float]
     p50_ms: float
     p95_ms: float
     p99_ms: float
@@ -122,7 +122,7 @@ class MATRIZBenchmark:
     async def benchmark_queries(
         self,
         orchestrator: AsyncCognitiveOrchestrator,
-        queries: List[str],
+        queries: list[str],
         iterations: int = 1
     ) -> BenchmarkResult:
         """Benchmark a set of queries"""
@@ -137,7 +137,7 @@ class MATRIZBenchmark:
 
         start_time = time.perf_counter()
 
-        for iteration in range(iterations):
+        for _iteration in range(iterations):
             for query in queries:
                 query_start = time.perf_counter()
 
@@ -210,7 +210,7 @@ class MATRIZBenchmark:
             total_duration_s=total_duration
         )
 
-    async def run_comprehensive_benchmark(self) -> Dict[str, Any]:
+    async def run_comprehensive_benchmark(self) -> dict[str, Any]:
         """Run comprehensive benchmark comparing optimized vs standard orchestrator"""
 
         print("🚀 Starting MATRIZ Pipeline T4/0.01% Benchmark")
@@ -311,11 +311,11 @@ class MATRIZBenchmark:
             max_ms=max(latencies),
             min_ms=min(latencies),
             error_rate=failed_queries / concurrent_requests,
-            within_budget_rate=sum(1 for l in latencies if l < 240) / len(latencies),
+            within_budget_rate=sum(1 for latency in latencies if latency < 240) / len(latencies),
             total_duration_s=total_duration
         )
 
-    async def time_single_query(self, orchestrator: AsyncCognitiveOrchestrator, query: str) -> Dict[str, Any]:
+    async def time_single_query(self, orchestrator: AsyncCognitiveOrchestrator, query: str) -> dict[str, Any]:
         """Time a single query execution"""
         start_time = time.perf_counter()
 
@@ -336,7 +336,7 @@ class MATRIZBenchmark:
                 "error": str(e)
             }
 
-    def print_results(self, results: Dict[str, BenchmarkResult]) -> None:
+    def print_results(self, results: dict[str, BenchmarkResult]) -> None:
         """Print formatted benchmark results"""
 
         print("\n" + "=" * 60)
@@ -396,7 +396,7 @@ class MATRIZBenchmark:
         overall_status = "✅ T4/0.01% COMPLIANT" if overall_compliant else "❌ NON-COMPLIANT"
         print(f"  Overall:           {overall_status}")
 
-    def save_results(self, results: Dict[str, BenchmarkResult], output_file: Path) -> None:
+    def save_results(self, results: dict[str, BenchmarkResult], output_file: Path) -> None:
         """Save results to JSON file"""
 
         serializable_results = {}
@@ -445,7 +445,7 @@ class MATRIZBenchmark:
 
         print(f"\n💾 Results saved to: {output_file}")
 
-    def create_histogram(self, latencies: List[float], bins: int = 10) -> Dict[str, int]:
+    def create_histogram(self, latencies: list[float], bins: int = 10) -> dict[str, int]:
         """Create latency histogram for analysis"""
         if not latencies:
             return {}

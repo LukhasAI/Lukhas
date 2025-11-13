@@ -1,7 +1,7 @@
 ---
 status: active-matriz-transition
 type: documentation
-updated: 2025-10-26
+updated: 2025-11-10
 ---
 # LUKHAS AI Platform
 
@@ -9,6 +9,7 @@ updated: 2025-10-26
 [![Manifests](https://img.shields.io/badge/manifests-928-blue)](manifests/)
 [![Smoke Tests](https://img.shields.io/badge/smoke%20tests-100%25-success)](tests/smoke/)
 [![Lint Health](https://img.shields.io/badge/lint-97%25%20clean-brightgreen)](docs/audits/)
+[![codecov](https://codecov.io/gh/LukhasAI/Lukhas/branch/main/graph/badge.svg)](https://codecov.io/gh/LukhasAI/Lukhas)
 [![DX Examples Smoke](https://github.com/LukhasAI/Lukhas/actions/workflows/dx-examples-smoke.yml/badge.svg)](https://github.com/LukhasAI/Lukhas/actions/workflows/dx-examples-smoke.yml)
 
 **A consciousness-aware AI development platform with distributed cognitive architecture.**
@@ -57,15 +58,16 @@ curl http://localhost:8000/v1/responses \
 
 **Phase**: R2 Preparation | **Progress**: 87% | **Target**: Q4 2025
 
-Recent achievements (October 26, 2025):
-- ✅ **11 Codex batch PRs** merged (100% success rate, zero revisions)
-- ✅ **190 branches deleted** via surgical analysis (43.8% reduction: 434 → 244)
-- ✅ **56 files reorganized** - cleaned root directory structure
-- ✅ **WebAuthn passwordless auth** implemented (PR #472)
-- ✅ **DAST engine** - Dynamic Affective Symbolic Timeline for gesture analysis
-- ✅ **API middleware** with tier enforcement and rate limiting
-- ✅ **Smoke tests 10/10 passing** after fixing six library dependency issue
-- ✅ **105 real TODOs resolved** through systematic Codex execution (187 → 82)
+Recent achievements (November 10, 2025):
+- ✅ **Security Hardening**: Resolved Dependabot alert #84 (HIGH - @actions/download-artifact CVE)
+- ✅ **Test Infrastructure Expansion**: 964 total tests (422 unit, 238 integration, 85 orchestration, 77 consciousness, 72 e2e)
+- ✅ **Performance Testing Suite**: Comprehensive MATRIZ performance validation framework
+- ✅ **Consciousness API**: Body and Depends implementation with FastAPI integration
+- ✅ **MATRIZ Test Coverage**: Comprehensive orchestrator and cognitive pipeline integration tests
+- ✅ **Context File System**: 1,757 context files (165 claude.me + 1,592 lukhas_context.md) updated to Constellation Framework
+- ✅ **Ruff Lint Progress**: 43% reduction in lint issues across codebase
+- ✅ **DX Improvements**: Enhanced developer experience with better tooling and documentation
+- ✅ **Repository Scale**: 21,497 Python files actively managed with lane-based architecture
 
 **Next Steps**:
 1. Update module_index.json with new identity/consciousness modules
@@ -139,7 +141,7 @@ The **MATRIZ** (Memory-Attention-Thought-Action-Decision-Awareness) engine imple
 
 ## 🔒 Security & Quality
 
-**Dependency Health**: 2 known vulnerabilities (1 high, 1 low) - [View Dependabot alerts](https://github.com/LukhasAI/Lukhas/security/dependabot)
+**Dependency Health**: ✅ 0 HIGH vulnerabilities (Alert #84 resolved 2025-11-10) - [View Dependabot alerts](https://github.com/LukhasAI/Lukhas/security/dependabot)
 
 **Current Versions**:
 - `aiohttp==3.12.15` (latest stable)
@@ -153,7 +155,7 @@ The **MATRIZ** (Memory-Attention-Thought-Action-Decision-Awareness) engine imple
 - ✅ Lane boundary enforcement (import-linter)
 - ✅ Pre-commit hooks for T4 quality standards
 
-**Note**: We're aware of the Dependabot alerts and are tracking them. The platform runs in controlled environments with strict lane isolation. See [SECURITY.md](SECURITY.md) for responsible disclosure procedures.
+**Security Posture**: See [docs/SECURITY_UPDATE_2025-11-10.md](docs/SECURITY_UPDATE_2025-11-10.md) for complete security status, 6 open security issues tracked, and remediation roadmap. The platform runs in controlled environments with strict lane isolation. See [SECURITY.md](SECURITY.md) for responsible disclosure procedures.
 
 ---
 
@@ -163,6 +165,7 @@ The **MATRIZ** (Memory-Attention-Thought-Action-Decision-Awareness) engine imple
 - Python 3.9+ (3.11 recommended)
 - Virtual environment required
 - Git LFS for large assets (optional)
+- For a complete list of external dependencies and setup instructions, see [DEPENDENCIES.md](DEPENDENCIES.md).
 
 ### Installation
 
@@ -528,6 +531,18 @@ print(f"Request {req_id}: {remaining}/{limit} remaining, resets at {datetime.fro
 
 ## 🛠️ Development Tools
 
+**T4 Unified Platform** (v2.0 - Code Quality System):
+```bash
+make t4-init           # Initialize T4 platform (one-time setup)
+make t4-validate       # Run unified validator (quality scoring)
+make t4-dashboard      # Generate interactive HTML dashboard
+make t4-migrate        # Migrate legacy annotations to unified format
+make t4-api            # Start Intent Registry API (port 8001)
+make t4-parallel       # Run parallel automation (5x throughput)
+make t4-codemod-apply  # Apply AST-level automated fixes
+```
+📊 **Dashboard**: `reports/t4_dashboard.html` | 📖 **Docs**: `T4_MEGA_PR_SUMMARY.md`
+
 **Quality Automation**:
 ```bash
 make lint              # Run Ruff, MyPy, Bandit security checks
@@ -560,6 +575,22 @@ make rc-soak-snapshot  # Daily health snapshot
 make rc-synthetic-load # Generate synthetic load
 ```
 - See [RC Soak Operations Guide](docs/ops/RC_SOAK_OPS_GUIDE.md) for GA readiness validation
+
+### Observability
+
+The LUKHAS API includes built-in support for Prometheus metrics and OpenTelemetry tracing, providing a comprehensive solution for monitoring and observability.
+
+#### Prometheus Metrics
+
+The API exposes a `/metrics` endpoint that provides a wide range of metrics in the Prometheus format. These metrics can be scraped by a Prometheus server and used to monitor the health and performance of the application.
+
+#### OpenTelemetry Tracing
+
+The API is instrumented with OpenTelemetry to provide distributed tracing. To enable tracing, set the `OTEL_EXPORTER_OTLP_ENDPOINT` environment variable to the address of your OpenTelemetry collector. For example:
+
+```bash
+export OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4317"
+```
 
 ---
 
@@ -760,6 +791,13 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 
 ## 🛡️ Security & Governance
 
+### Ethics & Governance
+
+LUKHAS AI operates under strict ethical guidelines:
+- [Ethics Disclosure](docs/governance/ETHICS_DISCLOSURE.md)
+- [Guardian System](docs/governance/GUARDIAN_SYSTEM.md)
+- [Responsible Usage](docs/guides/SAFE_AI_USAGE.md)
+
 ### Guardian System
 The **Guardian System v1.0.0** provides comprehensive ethical oversight:
 - **Constitutional AI**: Principles-based decision validation
@@ -825,20 +863,39 @@ See [`docs/consciousness/README.md`](docs/consciousness/README.md) for comprehen
 
 ## 📚 Documentation
 
+All documentation is now organized in the `docs/` directory for easy navigation.
+
 ### **Getting Started** 🚀
 - **[Quick Start Guide](docs/QUICK_START_GUIDE.md)** - 15-minute installation to first decision
 - **[Visual Architecture Guide](docs/VISUAL_ARCHITECTURE_GUIDE.md)** - ASCII & Mermaid diagrams
 - **[Core API Reference](docs/API_REFERENCE_CORE.md)** - Complete API documentation with examples
+- **[Context Files](lukhas_context.md)** - Comprehensive system context for AI agents ([Gemini version](gemini.md))
 
 ### **Architecture & Design** 🏗️
 - **[Architecture Overview](docs/ARCHITECTURE_OVERVIEW.md)** - Complete system with 0.01% standard
 - **[Architecture Guide](docs/architecture/README.md)** - Deep dive into system design
 - **[MΛTRIZ Guide](docs/MATRIZ_GUIDE.md)** - Cognitive engine documentation
+- **[MATRIZ Documentation](docs/matriz/)** - MATRIZ migration guides and reports
 
 ### **Development & API** 🛠️
 - **[Developer Guide](docs/development/README.md)** - Development workflows and standards
 - **[API Reference](docs/api/README.md)** - Comprehensive API documentation
-- **[Multi-Agent System](AGENTS.md)** - AI agent coordination platform
+- **[Multi-Agent System](docs/agents/)** - AI agent coordination and autonomous guides
+- **[Testing Documentation](docs/testing/)** - Test coverage reports and smoke test guides
+
+### **Project Management** 📋
+- **[Project Status](docs/project_status/)** - Implementation summaries and status reports
+- **[Project Planning](docs/project/)** - Quick reference guides and task templates
+- **[Session Notes](docs/sessions/)** - Development session summaries and progress reports
+
+### **Quality & Security** 🔒
+- **[Audit Reports](docs/audits/)** - Code quality audits and transparency scorecards
+- **[Security Documentation](docs/security/)** - Security improvement plans and posture reports
+- **[SECURITY.md](SECURITY.md)** - Security policy and vulnerability reporting
+
+### **Specialized Topics** 🎯
+- **[Bridge Patterns](docs/bridge/)** - Integration patterns and gap analysis
+- **[Codex Documentation](docs/codex/)** - Codex agent coordination and task reports
 
 ## 🚀 Enterprise Deployment
 

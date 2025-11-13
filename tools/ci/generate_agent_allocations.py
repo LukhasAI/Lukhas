@@ -11,7 +11,7 @@ from pathlib import Path
 
 def load_manifest(manifest_path: str):
     """Load the TODO manifest"""
-    with open(manifest_path, "r") as f:
+    with open(manifest_path) as f:
         return json.load(f)
 
 

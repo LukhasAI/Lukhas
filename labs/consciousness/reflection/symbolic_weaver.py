@@ -25,6 +25,7 @@
 ║ cohesion across time.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
 
 import argparse
 import asyncio
@@ -43,7 +44,6 @@ from pathlib import Path
 from typing import Any, Optional
 
 import numpy as np
-
 from dream.modifiers.qi_like_state_modifier import QILikeStateModifier
 
 # Configure structured logging

@@ -20,7 +20,7 @@ from core.ports.openai_provider import (
 )
 
 __all__ = [
-    "OpenAIProvider",
-    "ChatMessage",
     "ChatCompletionResponse",
+    "ChatMessage",
+    "OpenAIProvider",
 ]

@@ -22,7 +22,7 @@ def update_framework_integration_refs():
     for file_path in target_files:
         if os.path.exists(file_path):
             try:
-                with open(file_path, 'r', encoding='utf-8') as f:
+                with open(file_path, encoding='utf-8') as f:
                     content = f.read()
 
                 # Replace the pattern

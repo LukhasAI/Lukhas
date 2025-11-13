@@ -19,16 +19,25 @@ import sys
 import tempfile
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Add the project root to Python path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-import jsonschema
-from ledger.event_bus import AsyncEventBus
-from ledger.events import ConsentGrantedEvent, ConsentType, validate_event_schema
-from ledger.metrics import get_metrics, reset_metrics
+import jsonschema  # noqa: E402 - project root must be available on sys.path before import
+from ledger.event_bus import (  # noqa: E402 - project root must be available on sys.path before import
+    AsyncEventBus,
+)
+from ledger.events import (  # noqa: E402 - project root must be available on sys.path before import
+    ConsentGrantedEvent,
+    ConsentType,
+    validate_event_schema,
+)
+from ledger.metrics import (  # noqa: E402 - project root must be available on sys.path before import
+    get_metrics,
+    reset_metrics,
+)
 
 # Configure logging
 logging.basicConfig(
@@ -85,10 +94,10 @@ class LedgerPerformanceValidator:
             except Exception as e:
                 logger.warning(f"Cleanup failed: {e}")
 
-    def load_json_schema(self) -> Dict[str, Any]:
+    def load_json_schema(self) -> dict[str, Any]:
         """Load and validate JSON schema"""
         try:
-            with open(self.schema_path, 'r') as f:
+            with open(self.schema_path) as f:
                 schema = json.load(f)
 
             # Validate schema itself
@@ -100,7 +109,7 @@ class LedgerPerformanceValidator:
             logger.error(f"Failed to load schema: {e}")
             raise
 
-    def generate_test_events(self) -> List[ConsentGrantedEvent]:
+    def generate_test_events(self) -> list[ConsentGrantedEvent]:
         """Generate test events for validation"""
         logger.info(f"Generating {self.sample_count} test events...")
 
@@ -128,7 +137,7 @@ class LedgerPerformanceValidator:
         logger.info(f"Generated {len(events)} test events")
         return events
 
-    async def validate_schema_compliance(self, events: List[ConsentGrantedEvent]) -> Dict[str, Any]:
+    async def validate_schema_compliance(self, events: list[ConsentGrantedEvent]) -> dict[str, Any]:
         """Validate all events against JSON schema"""
         logger.info("Validating schema compliance...")
 
@@ -174,7 +183,7 @@ class LedgerPerformanceValidator:
         logger.info(f"Schema compliance: {compliance_rate:.2%} ({schema_valid_count}/{len(events)})")
         return result
 
-    async def validate_append_performance(self, events: List[ConsentGrantedEvent]) -> Dict[str, Any]:
+    async def validate_append_performance(self, events: list[ConsentGrantedEvent]) -> dict[str, Any]:
         """Validate append performance meets T4 requirements"""
         logger.info(f"Validating append performance with {len(events)} events...")
 
@@ -239,7 +248,7 @@ class LedgerPerformanceValidator:
         logger.info(f"Append performance - P95: {p95_ms:.2f}ms, Avg: {avg_ms:.2f}ms, T4 compliant: {t4_compliant}")
         return result
 
-    async def validate_replay_determinism(self) -> Dict[str, Any]:
+    async def validate_replay_determinism(self) -> dict[str, Any]:
         """Validate replay determinism (100% requirement)"""
         logger.info("Validating replay determinism...")
 
@@ -302,7 +311,7 @@ class LedgerPerformanceValidator:
         logger.info(f"Replay determinism: {deterministic}, {result['event_count']} events replayed")
         return result
 
-    async def generate_evidence_artifact(self) -> Dict[str, Any]:
+    async def generate_evidence_artifact(self) -> dict[str, Any]:
         """Generate evidence artifact for T4 compliance"""
         timestamp = time.time()
 
@@ -337,7 +346,7 @@ class LedgerPerformanceValidator:
 
         return artifact
 
-    async def run_full_validation(self) -> Dict[str, Any]:
+    async def run_full_validation(self) -> dict[str, Any]:
         """Run complete validation suite"""
         logger.info("Starting T4/0.01% excellence validation...")
 

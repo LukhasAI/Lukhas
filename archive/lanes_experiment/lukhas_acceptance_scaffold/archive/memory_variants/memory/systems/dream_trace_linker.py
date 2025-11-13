@@ -49,6 +49,8 @@ LUKHAS_TAG: dream_trace_linking, symbolic_entanglement, dreamseed_core
 TODO: Implement quantum dream resonance detection across parallel memory streams
 IDEA: Add predictive dream significance scoring based on symbolic pattern density
 """
+from __future__ import annotations
+
 
 import hashlib
 import json

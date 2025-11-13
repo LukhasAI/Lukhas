@@ -1,4 +1,4 @@
-"""Bridge: memory.backends — unify backends under one surface."""
+"""Bridge: memory.backends - unify backends under one surface."""
 from __future__ import annotations
 
 from importlib import import_module

@@ -22,14 +22,13 @@ from aethios.interface.voice.speech_processor import SpeechProcessor
 try:
     # DAST (Dynamic Alignment & Symbolic Tasking) components
     # ABAS (Adaptive Behavioral Arbitration System) components
-    from V1.systems.core.modules.abas.abas import evaluate_emotional_state, is_allowed_now
-    from V1.systems.core.modules.dast.dast_logger import log_task_event
-
     from AGENT.lukhas_nias_filter import evaluate_ad_permission  # TODO: Install or implement AGENT
 
     # NIAS (Non-Intrusive Ad System) components
     # Widget system from agent_folder
     from AGENT.lukhas_widget_engine import WidgetEngine  # TODO: Install or implement AGENT
+    from V1.systems.core.modules.abas.abas import evaluate_emotional_state, is_allowed_now
+    from V1.systems.core.modules.dast.dast_logger import log_task_event
 
     V1_COMPONENTS_AVAILABLE = True
 except ImportError:

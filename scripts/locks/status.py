@@ -30,7 +30,7 @@ def main() -> int:
             continue
         path = os.path.join(LOCK_DIR, name)
         try:
-            with open(path, "r", encoding="utf-8") as handle:
+            with open(path, encoding="utf-8") as handle:
                 data = json.load(handle)
         except Exception:
             data = {}

@@ -18,7 +18,7 @@ import pytest
 
 def load_telemetry_dump(path):
     """Load the exported spans/metrics JSON from a telemetry dump."""
-    with open(path, "r") as f:
+    with open(path) as f:
         return json.load(f)
 
 @pytest.mark.telemetry

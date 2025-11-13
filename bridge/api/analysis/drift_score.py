@@ -7,7 +7,7 @@ _CANDIDATES = (
     "lukhas_website.bridge.api.analysis.drift_score",
     "candidate.bridge.api.analysis.drift_score",
 )
-__all__, _exports = bridge_from_candidates(*_CANDIDATES); globals().update(_exports)
+__all__, _exports = bridge_from_candidates(*_CANDIDATES); globals().update(_exports)  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_api_analysis_drift_score_py_L10"}
 
 # Add stub function if not in bridge
 if "update_user_drift_profile" not in globals():

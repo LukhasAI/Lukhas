@@ -35,11 +35,10 @@ import pytest
 # LUKHAS cognitive imports
 from cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
 from cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine, InferenceType
-from hypothesis import assume, given, strategies as st
-from hypothesis.stateful import Bundle, RuleBasedStateMachine, consumes, rule
-
 from consciousness.enhanced_thought_engine import EnhancedThoughtEngine, ThoughtComplexity
 from consciousness.meta_cognitive_assessor import MetaCognitiveAssessor
+from hypothesis import assume, given, strategies as st
+from hypothesis.stateful import Bundle, RuleBasedStateMachine, consumes, rule
 
 # Test configuration
 hypothesis.settings(
@@ -313,7 +312,7 @@ def contradiction_scenario_strategy(draw):
     num_premises = draw(st.integers(min_value=2, max_value=10))
 
     premises = []
-    for i in range(num_premises):
+    for _i in range(num_premises):
         premise = draw(st.text(min_size=5, max_size=100))
         premises.append(premise)
 

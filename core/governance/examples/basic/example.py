@@ -16,7 +16,7 @@ class CasePredicate(Protocol):
         """Return ``True`` when a rule matches the provided case."""
 
 
-@dataclass(slots=True)
+@dataclass
 class GovernanceCase:
     """Describe a governance decision request."""
 
@@ -27,7 +27,7 @@ class GovernanceCase:
     metadata: dict[str, str] = field(default_factory=dict)
 
 
-@dataclass(slots=True)
+@dataclass
 class GovernanceRule:
     """Simple governance rule for demonstration purposes."""
 
@@ -51,7 +51,7 @@ class BasicGovernanceEngine:
     """Evaluate governance cases with deterministic sample rules."""
 
     def __init__(self, rules: Iterable[GovernanceRule]):
-        self._rules: List[GovernanceRule] = list(rules)
+        self._rules: list[GovernanceRule] = list(rules)
         if not self._rules:
             raise ValueError("At least one governance rule must be provided")
 
@@ -72,7 +72,7 @@ class BasicGovernanceEngine:
                 matched.append(rule)
                 notes.append(rule.description)
 
-        # ΛTAG: driftScore — treat risk_score as symbolic drift indicator for policy gates
+        # ΛTAG: driftScore - treat risk_score as symbolic drift indicator for policy gates
         requires_review = case.risk_score >= 0.7 or any(r.severity == "critical" for r in matched)
         approved = case.risk_score < 0.5 and not any(r.severity == "critical" for r in matched)
 
@@ -148,9 +148,9 @@ def demo_decision_flow() -> EvaluationResult:
 
 __all__ = [
     "BasicGovernanceEngine",
+    "EvaluationResult",
     "GovernanceCase",
     "GovernanceRule",
-    "EvaluationResult",
     "build_default_engine",
     "demo_decision_flow",
 ]

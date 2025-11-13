@@ -673,13 +673,13 @@ async def process_dream_sequence(sequence_id: str) -> dict[str, Any]:
 
 # Export public interface
 __all__ = [
-    "DreamType",
-    "DreamState",
-    "DreamElement",
-    "DreamSequence",
     "DreamContext",
+    "DreamElement",
     "DreamEngine",
-    "get_dream_engine",
+    "DreamSequence",
+    "DreamState",
+    "DreamType",
     "generate_dream",
+    "get_dream_engine",
     "process_dream_sequence",
 ]

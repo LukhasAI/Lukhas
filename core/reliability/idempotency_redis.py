@@ -1,6 +1,10 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict import to native dict type in Redis idempotency
+# estimate: 5min | priority: medium | dependencies: core-reliability-redis
+
 import json
 import time
-from typing import Dict, Optional, Tuple
+from typing import Optional
 
 import redis
 
@@ -12,7 +16,7 @@ class RedisIdempotencyStore(IdempotencyStore):
         self.r = redis.Redis.from_url(url, decode_responses=True)
         self.ttl = ttl_seconds
 
-    def get(self, k: str) -> Optional[Tuple[int, Dict, bytes, str]]:
+    def get(self, k: str) -> Optional[tuple[int, dict, bytes, str]]:
         raw = self.r.get(k)
         if not raw:
             return None
@@ -35,7 +39,7 @@ class RedisIdempotencyStore(IdempotencyStore):
             # Handle cases where the data is malformed or missing keys
             return None
 
-    def put(self, k: str, status: int, headers: Dict, body: bytes) -> None:
+    def put(self, k: str, status: int, headers: dict, body: bytes) -> None:
         body_sha256 = self._hash_body(body)
         payload = {
             "status": status,

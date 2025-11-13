@@ -8,12 +8,12 @@ Usage:
   trace = {"enter": mk_crumb("adapter_enter", msg.glyph, topic=msg.topic)}
 """
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from matriz.node_contract import GLYPH
 
 
-def mk_crumb(event: str, glyph: Optional[GLYPH] = None, **kv: Any) -> Dict[str, Any]:
+def mk_crumb(event: str, glyph: Optional[GLYPH] = None, **kv: Any) -> dict[str, Any]:
     """
     Minimal, deterministic trace crumb.
     """

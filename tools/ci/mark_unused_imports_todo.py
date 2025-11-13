@@ -75,7 +75,7 @@ def load_waivers():
 
 def ruff_F401(paths):
     """Run ruff F401 on the selected paths; return list[(abs_path, line, message)]."""
-    cmd = ["python3", "-m", "ruff", "check", "--select", "F401", "--output-format", "json"] + list(paths)
+    cmd = ["python3", "-m", "ruff", "check", "--select", "F401", "--output-format", "json", *list(paths)]
 
     try:
         result = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True)

@@ -9,7 +9,6 @@ particularly in documentation about AGI evolution and technical contexts.
 import os
 import re
 from pathlib import Path
-from typing import Tuple
 
 
 class AGICognitiveAccuracyFixer:
@@ -50,13 +49,11 @@ class AGICognitiveAccuracyFixer:
         if file_path.suffix in ['.md', '.py', '.json']:
             # Skip certain directories
             skip_dirs = {'.git', '__pycache__', '.pytest_cache', 'node_modules'}
-            if any(part in skip_dirs for part in file_path.parts):
-                return False
-            return True
+            return not any(part in skip_dirs for part in file_path.parts)
 
         return False
 
-    def fix_file_content(self, content: str) -> Tuple[str, int]:
+    def fix_file_content(self, content: str) -> tuple[str, int]:
         """Apply corrections to file content."""
         corrections_made = 0
 
@@ -72,7 +69,7 @@ class AGICognitiveAccuracyFixer:
     def process_file(self, file_path: Path) -> bool:
         """Process a single file."""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 original_content = f.read()
 
             new_content, corrections_made = self.fix_file_content(original_content)
@@ -99,7 +96,7 @@ class AGICognitiveAccuracyFixer:
 
         # Find all files to process
         files_to_process = []
-        for root, dirs, files in os.walk(self.root_path):
+        for root, _dirs, files in os.walk(self.root_path):
             for file in files:
                 file_path = Path(root) / file
                 if self.should_process_file(file_path):

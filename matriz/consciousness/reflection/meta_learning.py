@@ -1,18 +1,17 @@
 from __future__ import annotations
 
-import logging
-from datetime import datetime, timezone
-
-logger = logging.getLogger(__name__)
 import datetime
 import json
+import logging
 import os
 from collections import defaultdict
-from typing import Optional
+from datetime import datetime, timezone
 
 import numpy as np
-
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
+
 
 # TAG:consciousness
 # TAG:reflection
@@ -29,7 +28,7 @@ class FederatedModel:
     preserving privacy by keeping user data local.
     """
 
-    def __init__(self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None):
+    def __init__(self, model_id: str, model_type: str, initial_parameters: dict | None = None):
         self.model_id = model_id
         self.model_type = model_type
         self.parameters = initial_parameters or {}
@@ -65,7 +64,7 @@ class FederatedModel:
 
         return True
 
-    def get_parameters(self, client_id: Optional[str] = None) -> dict:
+    def get_parameters(self, client_id: str | None = None) -> dict:
         """
         Get model parameters, optionally customized for a specific client
 
@@ -98,7 +97,7 @@ class FederatedModel:
         }
 
     @classmethod
-    def deserialize(cls, data: dict) -> "FederatedModel":
+    def deserialize(cls, data: dict) -> FederatedModel:
         """Create model from serialized data"""
         model = cls(
             model_id=data["model_id"],
@@ -118,7 +117,7 @@ class FederatedLearningManager:
     Manages federated learning across multiple clients while preserving privacy.
     """
 
-    def __init__(self, storage_dir: Optional[str] = None):
+    def __init__(self, storage_dir: str | None = None):
         self.models = {}  # model_id -> FederatedModel
         self.client_models = defaultdict(set)  # client_id -> set(model_ids)
         self.aggregation_threshold = 5  # Min clients before aggregation
@@ -131,7 +130,7 @@ class FederatedLearningManager:
         self.load_models()
 
     def register_model(
-        self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None
+        self, model_id: str, model_type: str, initial_parameters: dict | None = None
     ) -> FederatedModel:
         """
         Register a new model for federated learning
@@ -152,7 +151,7 @@ class FederatedLearningManager:
         self.save_model(model)
         return model
 
-    def get_model(self, model_id: str, client_id: Optional[str] = None) -> Optional[dict]:
+    def get_model(self, model_id: str, client_id: str | None = None) -> dict | None:
         """
         Get model parameters for a client
 
@@ -177,7 +176,7 @@ class FederatedLearningManager:
         model_id: str,
         client_id: str,
         gradients: dict,
-        metrics: Optional[dict] = None,
+        metrics: dict | None = None,
     ) -> bool:
         """
         Contribute gradients from a client to update a model
@@ -253,7 +252,9 @@ class FederatedLearningManager:
             for key, value in metrics.items():
                 if key in model.performance_metrics:
                     # Exponential moving average to favor recent metrics
-                    model.performance_metrics[key] = 0.8 * value + 0.2 * model.performance_metrics[key]
+                    model.performance_metrics[key] = (
+                        0.8 * value + 0.2 * model.performance_metrics[key]
+                    )
                 else:
                     model.performance_metrics[key] = value
 
@@ -278,7 +279,9 @@ class FederatedLearningManager:
                         model_data = json.load(f)
                         model = FederatedModel.deserialize(model_data)
                         self.models[model.model_id] = model
-                        logger.info(f"Loaded federated model: {model.model_id} (version {model.version})")
+                        logger.info(
+                            f"Loaded federated model: {model.model_id} (version {model.version})"
+                        )
         except Exception as e:
             logger.error(f"Error loading federated models: {e!s}")
 
@@ -297,7 +300,9 @@ class FederatedLearningManager:
                     {
                         "model_id": model_id,
                         "version": model.version,
-                        "last_updated": (model.last_updated.isoformat() if model.last_updated else None),
+                        "last_updated": (
+                            model.last_updated.isoformat() if model.last_updated else None
+                        ),
                     }
                 )
                 if client_id in model.client_contributions:
@@ -629,15 +634,21 @@ class ReflectiveIntrospectionSystem:
         # Calculate improvement metrics
         total_insights = len(self.insight_history)
         total_improvements = len(self.improvement_plans)
-        active_improvements = len([imp for imp in self.improvement_plans if imp.get("status") == "active"])
-        completed_improvements = len([imp for imp in self.improvement_plans if imp.get("status") == "completed"])
+        active_improvements = len(
+            [imp for imp in self.improvement_plans if imp.get("status") == "active"]
+        )
+        completed_improvements = len(
+            [imp for imp in self.improvement_plans if imp.get("status") == "completed"]
+        )
 
         # Latest insights
         latest_insights = self.insight_history[-5:] if self.insight_history else []
 
         return {
             "reflection_cycles": self.reflection_cycle,
-            "last_reflection": (self.last_reflection_time.isoformat() if self.last_reflection_time else None),
+            "last_reflection": (
+                self.last_reflection_time.isoformat() if self.last_reflection_time else None
+            ),
             "total_insights_generated": total_insights,
             "total_improvements_proposed": total_improvements,
             "active_improvements": active_improvements,
@@ -774,7 +785,9 @@ class MetaLearningSystem:
         if strategy_name and strategy_name in self.learning_strategies:
             # Update performance with feedback
             if "performance_rating" in feedback:
-                self._update_strategy_performance(strategy_name, {"user_rating": feedback["performance_rating"]})
+                self._update_strategy_performance(
+                    strategy_name, {"user_rating": feedback["performance_rating"]}
+                )
 
             # Update strategy parameters if provided
             if "parameter_adjustments" in feedback:
@@ -788,7 +801,9 @@ class MetaLearningSystem:
                 metrics = model_contrib.get("metrics")
 
                 if model_id and gradients:
-                    self.federated_learning.contribute_gradients(model_id, client_id, gradients, metrics)
+                    self.federated_learning.contribute_gradients(
+                        model_id, client_id, gradients, metrics
+                    )
 
     def generate_learning_report(self) -> dict:
         """
@@ -815,7 +830,7 @@ class MetaLearningSystem:
             "generated_at": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
-    def get_federated_model(self, model_id: str, client_id: str) -> Optional[dict]:
+    def get_federated_model(self, model_id: str, client_id: str) -> dict | None:
         """
         Get a federated model for a client
 
@@ -947,7 +962,9 @@ class MetaLearningSystem:
 
         return result
 
-    def _evaluate_performance(self, strategy_name: str, learning_result: dict, duration: float) -> dict:
+    def _evaluate_performance(
+        self, strategy_name: str, learning_result: dict, duration: float
+    ) -> dict:
         """Evaluate the performance of the applied learning strategy"""
         # Placeholder - this would implement evaluation metrics
         metrics = {
@@ -1011,13 +1028,17 @@ class MetaLearningSystem:
         """Update meta-parameters based on learning history"""
         # Adjust exploration rate based on learning progress
         if len(self.performance_history) >= 10:
-            recent_variance = np.var([p.get("overall_score", 0) for p in self.performance_history[-10:]])
+            recent_variance = np.var(
+                [p.get("overall_score", 0) for p in self.performance_history[-10:]]
+            )
             # More variance = more exploration needed
             self.exploration_rate = min(0.3, max(0.05, recent_variance * 2))
 
         # Adjust other meta-parameters based on performance trends
         # Placeholder implementation
-        self.meta_parameters["adaptation_rate"] = max(0.01, min(0.2, self.meta_parameters["adaptation_rate"]))
+        self.meta_parameters["adaptation_rate"] = max(
+            0.01, min(0.2, self.meta_parameters["adaptation_rate"])
+        )
 
     def _adjust_strategy_parameters(self, strategy_name: str, adjustments: dict) -> None:
         """Adjust parameters of a specific strategy"""
@@ -1078,9 +1099,10 @@ class MetaLearningSystem:
             match_score += 0.2
 
         # Check for data volume match
-        if "data_volume" in features:
-            if features["data_volume"] < 100 and "limited_data" in strategy.get("suitable_for", []):
-                match_score += 0.2
+        if "data_volume" in features and (
+            features["data_volume"] < 100 and "limited_data" in strategy.get("suitable_for", [])
+        ):
+            match_score += 0.2
 
         # Check for privacy sensitivity match
         if (

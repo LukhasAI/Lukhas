@@ -189,7 +189,7 @@ def _hash_password(password: str) -> str:
     """Minimal hashing stub (non-production)."""
     if not isinstance(password, str):
         password = str(password)
-    # Warning: for demo only — replace with bcrypt/argon2 in production
+    # Warning: for demo only - replace with bcrypt/argon2 in production
     return hashlib.sha256(("lukhas-demo-salt::" + password).encode()).hexdigest()
 
 

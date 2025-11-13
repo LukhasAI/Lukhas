@@ -1,6 +1,5 @@
-from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
-
 from core.trace import mk_crumb
+from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
 
 
 class BridgeAdapter(MatrizNode):
@@ -15,7 +14,10 @@ class BridgeAdapter(MatrizNode):
         if topic == "connect":
             out = {"connected": True, "target": payload.get("target", "default")}
         elif topic == "transfer":
-            out = {"transferred": payload.get("data", ""), "bytes": len(str(payload.get("data", "")))}
+            out = {
+                "transferred": payload.get("data", ""),
+                "bytes": len(str(payload.get("data", ""))),
+            }
         else:
             out = {"status": "unknown_topic", "topic": topic}
 

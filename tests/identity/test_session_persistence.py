@@ -12,7 +12,6 @@ from pathlib import Path
 from typing import Dict, Optional
 
 import pytest
-
 from identity.session_store import (
     RedisSessionStore,
     SessionData,
@@ -626,7 +625,7 @@ class TestPerformanceRequirements:
 
         durations = []
 
-        for i in range(100):
+        for _i in range(100):
             start = time.perf_counter()
             await session_manager.get_session(session.session_id)
             duration = (time.perf_counter() - start) * 1000  # ms

@@ -63,9 +63,8 @@ class TestSchemaCore:
     def test_error_handling(self):
         """Test proper error handling patterns."""
         try:
-            from schema import SchemaCore
-
             from core.exceptions import LUKHASException
+            from schema import SchemaCore
 
             component = SchemaCore()
 
@@ -106,7 +105,7 @@ class TestSchemaIntegration:
 
             # Test MATRIZ pipeline methods
             assert hasattr(component, 'process')
-            assert callable(getattr(component, 'process'))
+            assert callable(component.process)
 
         except ImportError:
             pytest.skip("SchemaCore not available")

@@ -51,15 +51,14 @@ Example Usage:
 from __future__ import annotations
 
 import secrets
-from typing import Any, Dict, Optional
-
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM, ChaCha20Poly1305
+from typing import Any
 
 from core.security.encryption_types import (
     EncryptionAlgorithm,
     get_algorithm_metadata,
     validate_algorithm_choice,
 )
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM, ChaCha20Poly1305
 
 
 class EncryptionError(Exception):
@@ -110,15 +109,15 @@ class EncryptionManager:
 
     def __init__(self) -> None:
         """Initialize the EncryptionManager."""
-        self._cipher_cache: Dict[str, Any] = {}
+        self._cipher_cache: dict[str, Any] = {}
 
     def encrypt(
         self,
         data: bytes,
         algorithm: EncryptionAlgorithm,
-        key: Optional[bytes] = None,
-        associated_data: Optional[bytes] = None,
-    ) -> Dict[str, Any]:
+        key: bytes | None = None,
+        associated_data: bytes | None = None,
+    ) -> dict[str, Any]:
         """
         Encrypt data using specified AEAD algorithm.
 
@@ -203,9 +202,9 @@ class EncryptionManager:
 
     def decrypt(
         self,
-        encrypted_data: Dict[str, Any],
+        encrypted_data: dict[str, Any],
         key: bytes,
-        associated_data: Optional[bytes] = None,
+        associated_data: bytes | None = None,
     ) -> bytes:
         """
         Decrypt and verify AEAD-encrypted data.
@@ -325,7 +324,7 @@ class EncryptionManager:
         self,
         old_key_id: str,
         new_algorithm: EncryptionAlgorithm,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate new key for key rotation.
 
@@ -399,8 +398,8 @@ class EncryptionManager:
 
 
 __all__ = [
-    "EncryptionManager",
-    "EncryptionError",
     "DecryptionError",
+    "EncryptionError",
+    "EncryptionManager",
     "InvalidKeyError",
 ]

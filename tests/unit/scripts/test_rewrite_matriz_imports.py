@@ -50,5 +50,5 @@ def test_no_changes_for_strings(tmp_path):
             "File with only string import should not be changed"
         )
     else:
-        # No manifest means no changes at all — acceptable
+        # No manifest means no changes at all - acceptable
         assert True

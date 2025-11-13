@@ -1,6 +1,17 @@
 ---
 status: wip
 type: documentation
+canonical: https://lukhas.lab/architecture
+seo:
+  description: "LUKHAS.LAB research consciousness laboratory - dream-state consciousness studies bridging academic rigor with industrial R&D for consciousness technology advancement."
+  keywords:
+    - "consciousness research lab"
+    - "AI research laboratory"
+    - "consciousness studies"
+    - "academic AI research"
+    - "industrial R&D consciousness"
+last_reviewed: "2025-11-08"
+keywords: "consciousness research lab, AI research laboratory, consciousness studies, academic AI research, industrial R&D consciousness"
 ---
 # 🧪 LUKHAS.LAB - The Research Consciousness Laboratory
 ## Website Architecture & Academic-Industrial Consciousness Research Hub

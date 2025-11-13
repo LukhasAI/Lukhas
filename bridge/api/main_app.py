@@ -32,7 +32,7 @@ try:
     from fastapi.middleware.gzip import GZipMiddleware
     from fastapi.responses import JSONResponse, RedirectResponse
     from fastapi.staticfiles import (
-        StaticFiles,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+        StaticFiles,  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
     )
 
     FASTAPI_AVAILABLE = True
@@ -42,8 +42,8 @@ except ImportError:
 # LUKHAS imports
 try:
     from bridge.api.documentation import (
-        export_openapi_spec,  # noqa: F401  # TODO: bridge.api.documentatio...
-        generate_api_documentation,  # noqa: F401  # TODO: bridge.api.documentatio...
+        export_openapi_spec,  # TODO: bridge.api.documentatio...
+        generate_api_documentation,  # TODO: bridge.api.documentatio...
     )
     from bridge.api.onboarding import router as onboarding_router
     from bridge.api.orchestration_endpoints import app as orchestration_app

@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import symbolic  # noqa: F401  # TODO: symbolic; consider using impor...
+    import symbolic  # TODO: symbolic; consider using impor...
 except ImportError:
     pytest.skip("Module symbolic not available", allow_module_level=True)
 

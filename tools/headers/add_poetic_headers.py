@@ -15,7 +15,7 @@ from pathlib import Path
 QUANTUM_POETRY = {
     "awareness_system.py": """
 In the quantum depths where consciousness breathes,
-This sentinel watches with infinite eyes—
+This sentinel watches with infinite eyes-
 Measuring coherence like morning mist on leaves,
 While ethical dreams paint wisdom in the skies.
 
@@ -124,7 +124,7 @@ Create emergence of understanding deep,
 As consciousness completes its loop
 Between the abstract and the concrete leap.""",
     "haiku_generator.py": """
-Quantum syllables—
+Quantum syllables-
 Consciousness crystallized brief,
 Infinite in three.
 

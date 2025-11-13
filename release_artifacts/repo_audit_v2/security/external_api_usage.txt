@@ -1,0 +1,16 @@
+Files/locations referencing external LLM or LLM-client usage (search hits):
+
+- ai_orchestration/lukhas_ai_orchestrator.py
+- bridge/api/setup_api_keys.py
+- labs/core/orchestration/brain/lambdabot_autonomous_fixer.py
+- branding/integrations/simple_llm_bridge.py
+- labs/core/safety/constitutional_safety.py
+- docs/development/AI_SETUP_CURRENT.md
+- phase1_verification_pack/implementation_evidence/safety_defaults.txt
+- docs/roadmap/OPENAI_LUKHAS_2030_COLLABORATION_VISION.md
+- tools/ethics.py
+- ethics/stubs.py
+
+# Notes:
+# - Many of these are orchestration and adapter areas. The audit should ensure calls to external LLMs are wrapped by a single adapter layer, and that prompt logging is limited to hashes only.
+# - Next agent task: for each path above, produce a short snippet indicating whether raw `openai.*` calls are present (if so, mark for adapter).

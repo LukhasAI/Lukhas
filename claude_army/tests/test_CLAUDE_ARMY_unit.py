@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import CLAUDE_ARMY  # noqa: F401  # TODO: CLAUDE_ARMY; consider using im...
+    import CLAUDE_ARMY  # TODO: CLAUDE_ARMY; consider using im...
 except ImportError:
     pytest.skip("Module CLAUDE_ARMY not available", allow_module_level=True)
 

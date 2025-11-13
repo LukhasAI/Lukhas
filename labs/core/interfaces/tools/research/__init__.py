@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # core/interfaces/tools/research/__init__.py
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Initializes the 'research' sub-package under 'core.interfaces.tools'.

@@ -64,14 +64,14 @@ def get_branding_info():
 
 # Export key components
 __all__ = [
-    "TRINITY_IDENTITY",
+    "COLORS",
+    "LAMBDA_SYMBOLS",
+    "LUKHAS_FULL_NAME",
+    "LUKHAS_NAME",
     "TRINITY_CONSCIOUSNESS",
     "TRINITY_GUARDIAN",
-    "LUKHAS_NAME",
-    "LUKHAS_FULL_NAME",
-    "LAMBDA_SYMBOLS",
-    "COLORS",
-    "get_version",
-    "get_triad_framework",
+    "TRINITY_IDENTITY",
     "get_branding_info",
+    "get_triad_framework",
+    "get_version",
 ]

@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+from typing import ClassVar
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -28,19 +31,22 @@ import functools
 import os
 import time
 from collections import defaultdict
+from collections.abc import Awaitable
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Awaitable, Callable, Dict, Optional
+from typing import Any, Callable
 
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict import to native dict type in API middleware
+# estimate: 5min | priority: high | dependencies: core-api-interfaces
 # Replaced python-jose (vulnerable) with PyJWT for secure JWT handling
 import jwt
 import structlog
 from fastapi import HTTPException, Request, status
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer
-from jwt.exceptions import InvalidTokenError as JWTError
-
 from governance.identity.core.id_service import get_identity_manager
+from jwt.exceptions import InvalidTokenError as JWTError
 
 # Import centralized decorators and tier system
 
@@ -80,7 +86,7 @@ def _extract_request_from_args(*args: Any, **kwargs: Any) -> Request:
     )
 
 
-def _coerce_tier(value: Any) -> Optional[int]:
+def _coerce_tier(value: Any) -> int | None:
     """Normalize tier representation into an integer value."""
 
     # ΛTAG: tier_parsing
@@ -95,7 +101,7 @@ def _coerce_tier(value: Any) -> Optional[int]:
     return None
 
 
-def require_tier(min_tier: int, *, identity_manager: Optional[Any] = None) -> Callable:
+def require_tier(min_tier: int, *, identity_manager: Any | None = None) -> Callable:
     """Decorator enforcing minimum tier access for FastAPI endpoints."""
 
     resolved_identity_manager = identity_manager or IDENTITY_MANAGER
@@ -108,12 +114,11 @@ def require_tier(min_tier: int, *, identity_manager: Optional[Any] = None) -> Ca
             fallback_tier = _coerce_tier(getattr(request.state, "tier_level", None))
             effective_tier = user_tier if user_tier is not None else fallback_tier
 
-            if effective_tier is None:
-                if getattr(request.state, "user_id", None):
-                    identity_record = resolved_identity_manager.get_user_identity(
-                        request.state.user_id
-                    )
-                    effective_tier = _coerce_tier(identity_record.get("tier"))
+            if effective_tier is None and getattr(request.state, "user_id", None):
+                identity_record = resolved_identity_manager.get_user_identity(
+                    request.state.user_id
+                )
+                effective_tier = _coerce_tier(identity_record.get("tier"))
 
             if effective_tier is None:
                 logger.warning(
@@ -174,14 +179,14 @@ def require_tier(min_tier: int, *, identity_manager: Optional[Any] = None) -> Ca
 class RateLimitConfig:
     """Configuration for a specific tier rate limit."""
 
-    limit: Optional[int]
+    limit: int | None
     window_seconds: int
 
 
 class RateLimitMiddleware:
     """Rate limiting middleware with tier-based policies."""
 
-    DEFAULT_LIMITS: Dict[int, RateLimitConfig] = {
+    DEFAULT_LIMITS: dict[int, RateLimitConfig] = {
         0: RateLimitConfig(limit=1000, window_seconds=3600),
         1: RateLimitConfig(limit=5000, window_seconds=3600),
     }
@@ -189,15 +194,15 @@ class RateLimitMiddleware:
     def __init__(
         self,
         *,
-        rate_limits: Optional[Dict[int, RateLimitConfig]] = None,
-        identity_manager: Optional[Any] = None,
+        rate_limits: dict[int, RateLimitConfig] | None = None,
+        identity_manager: Any | None = None,
         time_provider: Callable[[], float] = time.time,
     ) -> None:
         self.rate_limits = rate_limits or self.DEFAULT_LIMITS.copy()
         self.identity_manager = identity_manager or IDENTITY_MANAGER
         self.time_provider = time_provider
-        self._request_counts: Dict[str, Dict[str, float]] = defaultdict(dict)
-        self._locks: Dict[str, asyncio.Lock] = defaultdict(asyncio.Lock)
+        self._request_counts: dict[str, dict[str, float]] = defaultdict(dict)
+        self._locks: dict[str, asyncio.Lock] = defaultdict(asyncio.Lock)
 
     def _resolve_key(self, request: Request) -> str:
         user_id = getattr(request.state, "user_id", None)
@@ -209,7 +214,7 @@ class RateLimitMiddleware:
         client_host = getattr(request.client, "host", "anonymous")
         return f"ip:{client_host}"
 
-    def _resolve_limit(self, tier: Optional[int]) -> Optional[RateLimitConfig]:
+    def _resolve_limit(self, tier: int | None) -> RateLimitConfig | None:
         if tier is None:
             return self.rate_limits.get(0)
         if tier >= 2:
@@ -290,7 +295,7 @@ class RateLimitMiddleware:
         return response
 
     @staticmethod
-    def _build_headers(limit: Any, remaining: Any, reset: Any) -> Dict[str, str]:
+    def _build_headers(limit: Any, remaining: Any, reset: Any) -> dict[str, str]:
         return {
             "X-RateLimit-Limit": str(limit),
             "X-RateLimit-Remaining": str(remaining),
@@ -479,7 +484,7 @@ class AuthMiddleware:
 auth_middleware = AuthMiddleware()
 
 
-def create_access_token(data: dict[str, Any], expires_delta: Optional[int] = None) -> str:
+def create_access_token(data: dict[str, Any], expires_delta: int | None = None) -> str:
     """Create a JWT access token.
 
     Args:

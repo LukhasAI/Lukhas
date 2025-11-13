@@ -610,7 +610,7 @@ if __name__ == "__main__":
     z_result = complex(2.0, 0.0)  # Baseline test result
     collapse_data = {"alignment_score": 1.0, "entropy_score": 0.0, "phase_drift": 0.0}
     mathematical_trace = {
-        "formula": "z(t) = A(t) * [e^(iθ(t)) + e^(i(π-θ(t)))] × W(ΔS(t))",
+        "formula": "z(t) = A(t) * [e^(iθ(t)) + e^(i(π-θ(t)))] x W(ΔS(t))",
         "baseline_test": True,
     }
 

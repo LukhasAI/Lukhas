@@ -8,7 +8,7 @@ import ast
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Set
+from typing import Dict
 
 import networkx as nx
 
@@ -21,11 +21,11 @@ class ConstellationMapper:
         self.graph = nx.DiGraph()
         self.component_map = {}
 
-    def extract_imports_from_file(self, file_path: Path) -> Set[str]:
+    def extract_imports_from_file(self, file_path: Path) -> set[str]:
         """Extract import dependencies from a Python file"""
         imports = set()
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             tree = ast.parse(content)
@@ -34,9 +34,8 @@ class ConstellationMapper:
                 if isinstance(node, ast.Import):
                     for alias in node.names:
                         imports.add(alias.name)
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module:
-                        imports.add(node.module)
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    imports.add(node.module)
 
         except Exception:
             pass
@@ -150,7 +149,7 @@ class ConstellationMapper:
                 # PageRank (overall importance)
                 try:
                     pagerank = nx.pagerank(self.graph)
-                except:
+                except Exception:
                     pagerank = {}
 
                 # Combine metrics

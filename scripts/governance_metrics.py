@@ -8,13 +8,14 @@ Generates comprehensive governance metrics with:
 - Action list (top 5 owners with most issues)
 - Trend analysis
 """
+from __future__ import annotations
 
 import json
 import sys
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 # Constants
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -28,16 +29,16 @@ DASHBOARD_PATH = REPO_ROOT / "docs" / "reports" / "DOCS_GOVERNANCE_DASHBOARD.md"
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
-def load_metrics_history() -> List[Dict]:
+def load_metrics_history() -> list[Dict]:
     """Load historical metrics (last 10 runs)."""
     if not METRICS_PATH.exists():
         return []
 
-    with open(METRICS_PATH, 'r', encoding='utf-8') as f:
+    with open(METRICS_PATH, encoding='utf-8') as f:
         data = json.load(f)
 
     return data.get('history', [])
@@ -79,7 +80,7 @@ def calculate_metrics(manifest: Dict) -> Dict:
     link_triage_dir = OUTPUT_DIR / "link_triage"
     if (link_triage_dir / "summary.md").exists():
         try:
-            with open(link_triage_dir / "summary.md", 'r', encoding='utf-8') as f:
+            with open(link_triage_dir / "summary.md", encoding='utf-8') as f:
                 content = f.read()
                 import re
                 match = re.search(r'\*\*Total broken links\*\*:\s+(\d+)', content)
@@ -118,7 +119,7 @@ def calculate_metrics(manifest: Dict) -> Dict:
     return metrics
 
 
-def generate_sparkline(values: List[float], width: int = 6) -> str:
+def generate_sparkline(values: list[float], width: int = 6) -> str:
     """Generate ASCII sparkline from values."""
     if not values or len(values) < 2:
         return '▂' * width
@@ -142,7 +143,7 @@ def generate_sparkline(values: List[float], width: int = 6) -> str:
     return sparkline
 
 
-def generate_dashboard(current_metrics: Dict, history: List[Dict]) -> str:
+def generate_dashboard(current_metrics: Dict, history: list[Dict]) -> str:
     """Generate markdown dashboard with trends."""
     lines = [
         "---",
@@ -311,7 +312,7 @@ def generate_dashboard(current_metrics: Dict, history: List[Dict]) -> str:
     return '\n'.join(lines)
 
 
-def save_metrics(metrics: Dict, history: List[Dict]):
+def save_metrics(metrics: Dict, history: list[Dict]):
     """Save metrics to JSON file with history."""
     # Add current metrics to history
     history.append(metrics)

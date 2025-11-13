@@ -32,7 +32,7 @@ import time
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 from unittest.mock import Mock, patch
 
 import pytest
@@ -297,7 +297,7 @@ class TestOrchestratorStressScenarios:
 
         for i, query_data in enumerate(large_queries):
             try:
-                result = orchestrator.process_query(str(query_data))
+                orchestrator.process_query(str(query_data))
                 successful_count += 1
 
                 # Monitor memory usage
@@ -367,7 +367,7 @@ class TestOrchestratorStressScenarios:
                 deregister_random_node()
             elif operation == "process":
                 try:
-                    result = orchestrator.process_query(f"Dynamic test {i}")
+                    orchestrator.process_query(f"Dynamic test {i}")
                     metrics.successful_requests += 1
                 except Exception as e:
                     metrics.failed_requests += 1
@@ -464,7 +464,7 @@ class TestOrchestratorStressScenarios:
                 else:
                     query = f"Simple query {iteration}"
 
-                result = orchestrator.process_query(query)
+                orchestrator.process_query(query)
                 metrics.successful_requests += 1
 
                 # Sample memory usage periodically

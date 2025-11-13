@@ -194,12 +194,12 @@ def create_pattern_learning_context(
 
 # Export main classes and functions
 __all__ = [
-    "PatternLearningEngine",
-    "PatternLearner",  # Alias for PatternLearningEngine
-    "PatternType",
-    "Pattern",
     "LearningPattern",  # Alias for Pattern
+    "Pattern",
+    "PatternLearner",  # Alias for PatternLearningEngine
     "PatternLearningContext",
-    "quick_pattern_learning",
+    "PatternLearningEngine",
+    "PatternType",
     "create_pattern_learning_context",
+    "quick_pattern_learning",
 ]

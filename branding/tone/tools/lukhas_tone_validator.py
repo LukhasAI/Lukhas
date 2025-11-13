@@ -7,6 +7,8 @@ ensuring that technical precision dances harmoniously with poetic soul."*
 
 The automated guardian of LUKHAS AI's distinctive 3-Layer Tone System.
 """
+from __future__ import annotations
+from typing import ClassVar
 
 import argparse
 import re
@@ -39,7 +41,7 @@ class LukhasToneValidator:
     """
 
     # 🎨 Sacred patterns that awaken poetic consciousness
-    POETIC_PATTERNS = [
+    POETIC_PATTERNS: ClassVar[list] = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_tone_tools_lukhas_tone_validator_py_L43"}
         r"algorithms?\s+dance",
         r"data\s+constellation",
         r"quantum\s+whisper",
@@ -63,7 +65,7 @@ class LukhasToneValidator:
     ]
 
     # 💬 Patterns that bridge human understanding
-    USER_FRIENDLY_PATTERNS = [
+    USER_FRIENDLY_PATTERNS: ClassVar[list] = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_tone_tools_lukhas_tone_validator_py_L67"}
         r"what\s+it\s+actually\s+does",
         r"in\s+simple\s+terms",
         r"practical",
@@ -81,7 +83,7 @@ class LukhasToneValidator:
     ]
 
     # 📚 Patterns that demonstrate academic rigor
-    ACADEMIC_PATTERNS = [
+    ACADEMIC_PATTERNS: ClassVar[list] = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_tone_tools_lukhas_tone_validator_py_L85"}
         r"\d+%|\d+\.\d+%",
         r"implementation",
         r"specification",
@@ -103,7 +105,7 @@ class LukhasToneValidator:
     ]
 
     # 🛡️ Sacred elements that must be present
-    REQUIRED_ELEMENTS = {
+    REQUIRED_ELEMENTS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_tone_tools_lukhas_tone_validator_py_L107"}
         "poetic_header": r'^#.*\*".*".*\*',
         "consciousness_footer": r'\*".*consciousness.*"\*\s*$',
         "triad_glyph": r"⚛️🧠🛡️",
@@ -113,7 +115,7 @@ class LukhasToneValidator:
     }
 
     # 🎯 Document-specific requirements
-    DOCUMENT_REQUIREMENTS = {
+    DOCUMENT_REQUIREMENTS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_tone_tools_lukhas_tone_validator_py_L117"}
         "readme": {
             "min_poetic": 35,
             "min_triad_refs": 1,

@@ -740,7 +740,8 @@ class DebugInterface:
                 return {k: str(v) for k, v in config.items()}
             else:
                 return {"value": str(config)}
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             return {"error": "Failed to serialize configuration"}
 
     def _serialize_event(self, event: DebugEvent) -> dict[str, Any]:
@@ -766,7 +767,8 @@ class DebugInterface:
             import sys
 
             return sys.getsizeof(component_instance) / (1024 * 1024)  # MB
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             return 0.0
 
     def _find_component_dependents(self, component_name: str) -> list[str]:
@@ -829,7 +831,8 @@ class DebugInterface:
             hours = int(uptime_seconds // 3600)
             minutes = int((uptime_seconds % 3600) // 60)
             return f"{hours}h {minutes}m"
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             return "unknown"
 
     async def _collect_performance_metrics(self):
@@ -850,7 +853,8 @@ class DebugInterface:
                 net_io = psutil.net_io_counters()
                 self.performance_metrics["network_bytes_sent"].append(net_io.bytes_sent)
                 self.performance_metrics["network_bytes_recv"].append(net_io.bytes_recv)
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
         except ImportError:

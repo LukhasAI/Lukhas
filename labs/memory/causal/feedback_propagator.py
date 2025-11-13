@@ -72,8 +72,8 @@ except ImportError:
 
 
 from dream.core.snapshot_redirection_controller import SnapshotRedirectionController
-from identity.interface import IdentityClient, check_consent, verify_access
 from emotion.mood_regulator import MoodRegulator
+from identity.interface import IdentityClient, check_consent, verify_access
 from memory.core_memory.fold_lineage_tracker import CausationType, FoldLineageTracker
 from memory.emotional import EmotionalMemory
 

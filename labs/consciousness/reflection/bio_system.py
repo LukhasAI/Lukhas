@@ -40,7 +40,6 @@ from datetime import datetime
 from typing import Any, Optional
 
 import numpy as np
-
 from bio.qi_layer import QIBioOscillator
 from core.common import get_logger
 

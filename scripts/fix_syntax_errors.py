@@ -4,15 +4,15 @@
 Automatically detects and fixes common syntax errors in Python files.
 Part of the Phase 1.1 Foundation Repair initiative.
 """
+from __future__ import annotations
 
 import ast
 import re
 import sys
 from pathlib import Path
-from typing import Optional
 
 
-def find_syntax_errors(file_path: Path) -> Optional[tuple[int, str]]:
+def find_syntax_errors(file_path: Path) -> tuple[int, str] | None:
     """Find syntax error in a Python file."""
     try:
         with open(file_path, encoding="utf-8") as f:
@@ -36,18 +36,17 @@ def fix_common_syntax_patterns(content: str) -> tuple[str, list[str]]:
         # Pattern 1: Fix self._object.method() -> self._method()
         pattern1 = re.match(r"(\s+)def\s+self\._(\w+)\.(\w+)\((.*?)\):", line)
         if pattern1:
-            indent, obj, method, params = pattern1.groups()
+            indent, _obj, method, params = pattern1.groups()
             line = f"{indent}def _{method}({params}):"
             fixes_applied.append(f"Line {i}: Fixed method definition syntax")
 
         # Pattern 2: Fix incomplete f-strings
-        if 'f"' in line or "f'" in line:
+        if ('f"' in line or "f'" in line) and line.count('{') != line.count('}'):  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_fix_syntax_errors_py_L44"}
             # Check for unclosed braces
-            if line.count("{") != line.count("}"):
-                # Try to fix by closing braces
-                if line.count("{") > line.count("}"):
-                    line = line + "}" * (line.count("{") - line.count("}"))
-                    fixes_applied.append(f"Line {i}: Fixed unclosed f-string braces")
+            # Try to fix by closing braces
+            if line.count("{") > line.count("}"):
+                line = line + "}" * (line.count("{") - line.count("}"))
+                fixes_applied.append(f"Line {i}: Fixed unclosed f-string braces")
 
         # Pattern 3: Fix invalid indentation (tabs to spaces)
         if "\t" in line:

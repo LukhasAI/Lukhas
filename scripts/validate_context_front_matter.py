@@ -157,7 +157,7 @@ def main():
             warns += 1
             rows.append(f"[WARN] {ctx}: star normalized '{star}' -> '{star_norm}'")
 
-        if colony in (None, "", "—"):
+        if colony in (None, "", "-"):
             warns += 1
             rows.append(f"[WARN] {ctx}: colony missing (recommended)")
 
@@ -200,7 +200,7 @@ def main():
             warns += 1
             rows.append(f"[WARN] {ctx}: no sibling module.manifest.json found")
 
-    header = f"# Context Front-Matter Report\nGenerated {datetime.datetime.utcnow().isoformat()}Z\n"
+    header = f"# Context Front-Matter Report\nGenerated {datetime.datetime.now(datetime.timezone.utc).isoformat()}\n"
     body = "\n".join(rows)
     summary = f"\nFailures: {failures} | Warnings: {warns} | Files checked: {len(ctx_files)}\n"
     REPORT.write_text(header + "\n" + body + "\n" + summary, encoding="utf-8")

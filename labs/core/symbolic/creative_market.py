@@ -8,10 +8,10 @@
 Exports generated art and literature with glyph tagging.
 Tracks symbolic reputation for each creative item.
 """
-
 from __future__ import annotations
 
 import json
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path

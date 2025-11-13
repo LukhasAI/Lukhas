@@ -11,7 +11,11 @@ from typing import Any, Optional
 from core.common import get_logger
 
 try:
-    from .λBot_consciousness_monitor import ConsciousnessLevel, ΛBotAGICore, ΛBotConsciousnessMonitor
+    from .λBot_consciousness_monitor import (
+        ConsciousnessLevel,
+        ΛBotAGICore,
+        ΛBotConsciousnessMonitor,
+    )
 
     LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE = True
 except ImportError as e:

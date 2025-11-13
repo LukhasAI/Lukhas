@@ -14,7 +14,9 @@ REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
-from lukhas import branding_bridge as bb
+from lukhas import (
+    branding_bridge as bb,  # - repository root must be added to sys.path before import
+)
 
 with warnings.catch_warnings(record=True) as w:
     warnings.simplefilter("always")

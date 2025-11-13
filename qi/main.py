@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -31,18 +27,24 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
-__module_name__ = "Quantum Main"
-__version__ = "2.0.0"
-__tier__ = 2
-
-
+import logging
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+
+logger = logging.getLogger(__name__)
+
+
+__module_name__ = "Quantum Main"
+__version__ = "2.0.0"
+__tier__ = 2
+
+
+
 
 
 class QIConsciousnessΛBot:

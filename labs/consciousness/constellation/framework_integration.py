@@ -32,6 +32,7 @@
 ║ • Integration Orchestration: Coordinated operation of all Constellation components
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
 
 import asyncio
 import logging

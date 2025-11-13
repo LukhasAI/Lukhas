@@ -1,12 +1,11 @@
 import asyncio
 from typing import Any
 
-from voice.synthesis import VoiceSynthesis
-
 from core.swarm import (
     AgentColony as SymbioticSwarm,  # reuse simple colony
     SwarmAgent,
 )
+from voice.synthesis import VoiceSynthesis
 
 
 class VoiceSwarmAgent(SwarmAgent):

@@ -122,7 +122,7 @@ class AndaluzVoiceEngine:
             import speech_recognition as sr
 
             gtts_module = importlib.import_module("gtts")
-            getattr(gtts_module, "gTTS")
+            gtts_module.gTTS
 
             # Initialize speech recognizer
             self.recognizer = sr.Recognizer()

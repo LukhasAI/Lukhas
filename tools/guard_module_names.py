@@ -3,6 +3,7 @@
 Guard script to enforce canonical module naming conventions.
 Ensures all module directories follow ^[a-z0-9_]+$ pattern.
 """
+from __future__ import annotations
 
 import pathlib
 import re

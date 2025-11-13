@@ -1,167 +1,121 @@
-"""Testing utilities and lightweight stubs for missing third-party deps."""
+# conftest.py — drop-in self-healing hooks (no per-test edits needed)
+from __future__ import annotations
 
-import base64
+import contextlib
 import hashlib
-import hmac
 import json
 import os
-import sys
+import pathlib
+import random
 import time
-import types
-import warnings
-from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
 
-
-os.environ.setdefault("LUKHAS_SUPPRESS_MATRIZ_COMPAT_WARNING", "1")
-warnings.filterwarnings("ignore", category=DeprecationWarning, module="matriz")
-
-
-def _install_jwt_stub() -> None:
-    jwt_module = types.ModuleType("jwt")
-
-    class ExpiredSignatureError(Exception):
-        pass
-
-    class InvalidAudienceError(Exception):
-        pass
-
-    class InvalidIssuerError(Exception):
-        pass
-
-    class InvalidSignatureError(Exception):
-        pass
-
-    class DecodeError(Exception):
-        pass
-
-    def _b64encode(data: bytes) -> str:
-        return base64.urlsafe_b64encode(data).decode("utf-8").rstrip("=")
-
-    def _b64decode(segment: str) -> bytes:
-        padding = "=" * (-len(segment) % 4)
-        return base64.urlsafe_b64decode(segment + padding)
-
-    def encode(payload: Dict[str, Any], key: str, algorithm: str = "HS256") -> str:
-        if algorithm not in {"HS256", "HS512", "RS256", "RS512"}:
-            raise DecodeError(f"Unsupported algorithm: {algorithm}")
-
-        header = {"alg": "HS256", "typ": "JWT"}
-        header_segment = _b64encode(json.dumps(header, separators=(",", ":")).encode("utf-8"))
-        payload_segment = _b64encode(json.dumps(payload, separators=(",", ":")).encode("utf-8"))
-
-        signing_input = f"{header_segment}.{payload_segment}".encode("utf-8")
-        signature = hmac.new(key.encode("utf-8"), signing_input, hashlib.sha256).digest()
-        signature_segment = _b64encode(signature)
-        return f"{header_segment}.{payload_segment}.{signature_segment}"
-
-    def decode(
-        token: str,
-        key: Optional[str] = None,
-        algorithms: Optional[List[str]] = None,
-        issuer: Optional[str] = None,
-        audience: Optional[Union[str, List[str]]] = None,
-        leeway: int = 0,
-        options: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
-        options = options or {}
-        verify_signature = options.get("verify_signature", True)
-        verify_exp = options.get("verify_exp", True)
-        verify_nbf = options.get("verify_nbf", True)
-        verify_iat = options.get("verify_iat", True)
-        verify_aud = options.get("verify_aud", True)
-        verify_iss = options.get("verify_iss", True)
-
-        try:
-            header_segment, payload_segment, signature_segment = token.split(".")
-        except ValueError as exc:
-            raise DecodeError("Invalid token format") from exc
-
-        header = json.loads(_b64decode(header_segment))
-        payload = json.loads(_b64decode(payload_segment))
-
-        algorithm = header.get("alg", "HS256")
-        if algorithms and algorithm not in algorithms:
-            raise DecodeError("Algorithm not allowed")
-
-        if verify_signature:
-            if key is None:
-                raise DecodeError("Key required for verification")
-            signing_input = f"{header_segment}.{payload_segment}".encode("utf-8")
-            expected_sig = hmac.new(key.encode("utf-8"), signing_input, hashlib.sha256).digest()
-            if not hmac.compare_digest(expected_sig, _b64decode(signature_segment)):
-                raise InvalidSignatureError("Signature mismatch")
-
-        now = int(time.time())
-        exp = int(payload.get("exp", now + 1))
-        nbf = int(payload.get("nbf", now - 1))
-        iat = int(payload.get("iat", now))
-
-        if verify_exp and now - leeway > exp:
-            raise ExpiredSignatureError("Token expired")
-        if verify_nbf and now + leeway < nbf:
-            raise DecodeError("Token not yet valid")
-        if verify_iat and iat - leeway > now:
-            raise DecodeError("Token issued in the future")
-
-        if verify_iss and issuer and payload.get("iss") != issuer:
-            raise InvalidIssuerError("Invalid issuer")
-
-        if verify_aud and audience:
-            token_aud = payload.get("aud")
-            if isinstance(audience, list):
-                valid = token_aud in audience if isinstance(token_aud, str) else bool(set(audience) & set(token_aud or []))
-            else:
-                if isinstance(token_aud, list):
-                    valid = audience in token_aud
-                else:
-                    valid = token_aud == audience
-            if not valid:
-                raise InvalidAudienceError("Invalid audience")
-
-        return payload
-
-    jwt_module.encode = encode
-    jwt_module.decode = decode
-    jwt_module.ExpiredSignatureError = ExpiredSignatureError
-    jwt_module.InvalidAudienceError = InvalidAudienceError
-    jwt_module.InvalidIssuerError = InvalidIssuerError
-    jwt_module.InvalidSignatureError = InvalidSignatureError
-    jwt_module.DecodeError = DecodeError
-
-    sys.modules.setdefault("jwt", jwt_module)
-
-
-def _install_yaml_stub() -> None:
-    yaml_module = types.ModuleType("yaml")
-
-    def safe_load(data: str) -> Any:
-        try:
-            return json.loads(data)
-        except json.JSONDecodeError:
-            return {}
-
-    yaml_module.safe_load = safe_load
-
-    sys.modules.setdefault("yaml", yaml_module)
-
-
-_install_jwt_stub()
-_install_yaml_stub()
-
-
-# Pytest skip helpers for optional dependencies
 import pytest
 
-# Check if labs is available
-try:
-    import importlib
-    importlib.import_module("labs")
-    LABS_AVAILABLE = True
-except ImportError:
-    LABS_AVAILABLE = False
+# Import existing fixtures from labs.tests.conftest
+from labs.tests.conftest import *
 
-# Skip decorator for tests requiring labs
-requires_labs = pytest.mark.skipif(
-    not LABS_AVAILABLE,
-    reason="labs not installed - skipping labs-dependent test"
-)
+# Optional libs if present (don't hard error)
+try:
+    import numpy as np
+except Exception:
+    np = None
+try:
+    import torch
+except Exception:
+    torch = None
+
+REPORTS = pathlib.Path("reports"); REPORTS.mkdir(parents=True, exist_ok=True)
+EVENTS = REPORTS / "events.ndjson"
+
+def _signature_hash(error_class: str, nodeid: str, message: str) -> str:
+    m = hashlib.sha256()
+    m.update((error_class or "Error").encode())
+    m.update(b"|")
+    m.update(nodeid.encode())
+    m.update(b"|")
+    m.update((message or "").encode())
+    return m.hexdigest()[:16]
+
+def pytest_configure(config):
+    # Collect events for Memory Healix
+    config._self_heal_events = []
+    # Make runs reproducible by default (override via env)
+    seed = int(os.environ.get("PYTEST_SEED", "1337"))
+    random.seed(seed)
+    os.environ["PYTHONHASHSEED"] = "0"
+    if np is not None:
+        np.random.seed(seed)
+    if torch is not None:
+        with contextlib.suppress(Exception):
+            torch.manual_seed(seed)
+
+@pytest.fixture(autouse=True)
+def _freeze_time(monkeypatch):
+    """Optional deterministic time. Disable with FREEZE_TIME=0."""
+    if os.environ.get("FREEZE_TIME", "1") != "1":
+        yield; return
+    fixed = 1735689600  # 2025-01-01T00:00:00Z
+    time.time()
+    start_monotonic = time.monotonic()
+
+    def fake_time():
+        # preserve monotonic deltas while keeping wall clock stable-ish
+        return fixed + (time.monotonic() - start_monotonic)
+
+    monkeypatch.setattr(time, "time", fake_time)
+    yield
+
+@pytest.fixture(autouse=True)
+def _block_network(monkeypatch):
+    """Block real network during tests unless ALLOW_NET=1."""
+    if os.environ.get("ALLOW_NET", "0") == "1":
+        yield; return
+    import socket
+    real_socket = socket.socket
+
+    class GuardedSocket(socket.socket):
+        def connect(self, *args, **kwargs):
+            raise RuntimeError("Network calls are blocked in tests (set ALLOW_NET=1 to override)")
+
+    monkeypatch.setattr(socket, "socket", GuardedSocket)
+    yield
+    monkeypatch.setattr(socket, "socket", real_socket)
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    # Capture failures for Memory Healix
+    outcome = yield
+    rep = outcome.get_result()
+    if rep.when != "call":
+        return
+    if rep.failed:
+        nodeid = item.nodeid
+        error_class = getattr(rep.longrepr, "reprcrash", None)
+        err_type = (error_class and error_class.message.split(":")[0]) or "Failure"
+        message = str(rep.longrepr)[:512]
+        evt = {
+            "ts": datetime.utcnow().isoformat() + "Z",
+            "suite": "unit",
+            "test_id": nodeid,
+            "file": str(getattr(item, "fspath", "")),
+            "error_class": err_type,
+            "message": message,
+            "stack": str(rep.longrepr)[:4000],
+            "repro_cmd": f"pytest -q {nodeid}",
+            "seed": int(os.environ.get("PYTEST_SEED", "1337")),
+            "env": {
+                "PYTHONHASHSEED": os.environ.get("PYTHONHASHSEED", ""),
+                "FREEZE_TIME": os.environ.get("FREEZE_TIME", ""),
+                "ALLOW_NET": os.environ.get("ALLOW_NET", ""),
+            },
+            "signature": _signature_hash(err_type, nodeid, message),
+        }
+        item.config._self_heal_events.append(evt)
+
+def pytest_sessionfinish(session, exitstatus):
+    # Write NDJSON events your self-healing loop consumes
+    if getattr(session.config, "_self_heal_events", None):
+        with open(EVENTS, "a", encoding="utf-8") as w:
+            for e in session.config._self_heal_events:
+                w.write(json.dumps(e, ensure_ascii=False) + "\n")

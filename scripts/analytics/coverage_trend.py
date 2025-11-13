@@ -73,10 +73,7 @@ def calculate_trends(entries: list[CoverageEntry]) -> list[tuple[str, str, float
             date = entry.timestamp.date().isoformat()
             coverage = entry.coverage
 
-            if previous_coverage is not None:
-                delta = coverage - previous_coverage
-            else:
-                delta = 0.0
+            delta = coverage - previous_coverage if previous_coverage is not None else 0.0
 
             trends.append((date, module, coverage, delta))
             previous_coverage = coverage

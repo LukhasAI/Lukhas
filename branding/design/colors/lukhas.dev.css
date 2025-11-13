@@ -1,0 +1,70 @@
+/**
+ * LUKHAS.DEV Color Palette
+ * Developer Platform - Code Technical Theme
+ * Generated from MASTER_PALETTE.yaml
+ */
+
+:root {
+  /* Domain Primary Accent */
+  --lukhas-dev-primary: #06B6D4;
+  --lukhas-dev-primary-rgb: 6, 182, 212;
+  --lukhas-dev-primary-hsl: 189, 94%, 43%;
+
+  /* Base Colors */
+  --consciousness-deep: #1A1A2E;
+  --awareness-silver: #E8E8F0;
+  --lambda-gold: #FFB347;
+
+  /* Gradients */
+  --code-technical-gradient: linear-gradient(135deg, #06B6D4 0%, #0284C7 100%);
+
+  /* Code Syntax (Dark Theme - Default) */
+  --syntax-bg: #1A1A2E;
+  --syntax-fg: #E8E8F0;
+  --syntax-comment: #546E7A;
+  --syntax-keyword: #C792EA;
+  --syntax-string: #C3E88D;
+  --syntax-function: #82AAFF;
+  --syntax-number: #F78C6C;
+  --syntax-operator: #89DDFF;
+  --syntax-variable: #EEFFFF;
+  --syntax-class: #FFCB6B;
+
+  /* Semantic */
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #3B82F6;
+}
+
+/* Dark Theme (Default for Developers) */
+[data-theme="dark"] {
+  --bg-primary: var(--consciousness-deep);
+  --bg-secondary: hsl(240, 28%, 18%);
+  --bg-code: var(--syntax-bg);
+  --text-primary: var(--awareness-silver);
+  --accent: var(--lukhas-dev-primary);
+}
+
+[data-theme="light"] {
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F8F9FA;
+  --bg-code: #F8F9FA;
+  --text-primary: var(--consciousness-deep);
+  --accent: var(--lukhas-dev-primary);
+}
+
+.bg-code-gradient {
+  background: var(--code-technical-gradient);
+}
+
+.text-lukhas-dev {
+  color: var(--lukhas-dev-primary);
+}
+
+/* Code Block Styles */
+.code-block {
+  background: var(--syntax-bg);
+  color: var(--syntax-fg);
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}

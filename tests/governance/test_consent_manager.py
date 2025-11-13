@@ -5,7 +5,7 @@ Part of BATCH-COPILOT-2025-10-08-01
 TaskID: ASSIST-MED-TEST-CONSENT-c1d2e3f4
 """
 from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 

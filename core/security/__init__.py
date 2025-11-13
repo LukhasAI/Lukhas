@@ -27,20 +27,20 @@ from core.security.encryption_types import (
 )
 
 __all__ = [
+    "ALGORITHM_METADATA",
+    "AlgorithmMetadata",
+    "DecryptionError",
     # Encryption types
     "EncryptionAlgorithm",
-    "SecurityLevel",
-    "AlgorithmMetadata",
-    "ALGORITHM_METADATA",
+    "EncryptionError",
     # Encryption manager
     "EncryptionManager",
-    "EncryptionError",
-    "DecryptionError",
     "InvalidKeyError",
+    "SecurityLevel",
     # Utility functions
     "get_algorithm_metadata",
-    "get_recommended_algorithms",
     "get_post_quantum_algorithms",
+    "get_recommended_algorithms",
     "is_aead_algorithm",
     "validate_algorithm_choice",
 ]

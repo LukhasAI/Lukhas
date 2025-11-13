@@ -1,3 +1,8 @@
+status: wip
+type: documentation
+> **Note**: This is a vendor-neutral version of claude.me for compatibility with any AI tool or development environment.
+
+
 # Telemetry Module - LUKHAS Observability & Data Collection
 
 **Module**: telemetry
@@ -5,7 +10,6 @@
 **Team**: Core
 **Purpose**: Telemetry data collection, observability, and performance tracking for LUKHAS systems
 
----
 
 ## Overview
 
@@ -19,7 +23,6 @@ The telemetry module provides comprehensive telemetry and observability capabili
 - Custom metric instrumentation
 - Export to monitoring backends
 
----
 
 ## Architecture
 
@@ -37,7 +40,6 @@ telemetry/
 └── config/                      # Configuration
 ```
 
----
 
 ## Core Capabilities
 
@@ -69,7 +71,6 @@ with trace_operation("awareness_update", tracer=tracer):
 - `lukhas.matriz.*`
 - `lukhas.brain.*`
 
----
 
 ### 2. Metrics Collection
 
@@ -98,7 +99,6 @@ collector.record(
 )
 ```
 
----
 
 ### 3. Performance Tracking
 
@@ -120,7 +120,6 @@ with tracker.track("memory_fold_operation"):
     # Latency, throughput automatically recorded
 ```
 
----
 
 ### 4. Health Telemetry
 
@@ -145,7 +144,6 @@ overall_health = health.get_system_health()
 # Returns: aggregated health score across all components
 ```
 
----
 
 ### 5. Custom Instrumentation
 
@@ -170,7 +168,6 @@ class ReasoningEngine:
         return conclusions
 ```
 
----
 
 ## Integration Points
 
@@ -197,7 +194,6 @@ configure_opentelemetry(
 
 **Semantic Conventions**: v1.37.0
 
----
 
 ### Prometheus Export
 
@@ -214,7 +210,6 @@ exporter = PrometheusExporter(
 # Access at: http://localhost:9090/metrics
 ```
 
----
 
 ### Monitoring Backend Integration
 
@@ -241,7 +236,6 @@ configure_backends(
 )
 ```
 
----
 
 ## MATRIZ Pipeline Telemetry
 
@@ -273,7 +267,6 @@ with track_matriz_pipeline("user_request_123"):
 - Stage error rates
 - End-to-end pipeline latency (<250ms target)
 
----
 
 ## Constellation Framework Telemetry
 
@@ -286,7 +279,6 @@ for star in ["anchor", "trail", "horizon", "watch", "flow", "spark", "persona", 
         execute_star_operation(star)
 ```
 
----
 
 ## Configuration
 
@@ -334,7 +326,6 @@ telemetry:
     aggregate_system_health: true
 ```
 
----
 
 ## Performance Targets
 
@@ -350,7 +341,6 @@ telemetry:
 - Health reporting: Every 30 seconds
 - Backend export: Every 60 seconds
 
----
 
 ## Observability
 
@@ -363,7 +353,6 @@ telemetry:
 - Backend availability
 - Data collection latency
 
----
 
 ## Testing
 
@@ -379,7 +368,6 @@ telemetry:
 - Backend connectivity
 - End-to-end tracing
 
----
 
 ## Use Cases
 
@@ -418,7 +406,6 @@ telemetry.record(
 )
 ```
 
----
 
 ## Development Guidelines
 
@@ -437,7 +424,6 @@ telemetry.record(
 - Aggregate metrics before export
 - Monitor telemetry overhead
 
----
 
 ## Related Modules
 
@@ -446,7 +432,6 @@ telemetry.record(
 - **analytics/**: Analytics data processing
 - **observability/**: Observability infrastructure
 
----
 
 ## Quick Reference
 
@@ -459,7 +444,6 @@ telemetry.record(
 | Prometheus Export | Metrics export to Prometheus | `backends.prometheus.port` |
 | OTLP Export | OpenTelemetry Protocol export | `backends.otlp.endpoint` |
 
----
 
 **Module Status**: L2 Integration
 **Schema Version**: 1.0.0
@@ -467,31 +451,3 @@ telemetry.record(
 **MATRIZ Compatibility**: Standard
 **Last Updated**: 2025-10-18
 **Philosophy**: What gets measured gets improved—telemetry makes the invisible visible.
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

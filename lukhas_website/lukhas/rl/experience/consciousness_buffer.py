@@ -21,9 +21,9 @@ from typing import Any
 
 import numpy as np
 import torch
+from observability.matriz_decorators import instrument
 
 from memory import MemoryFoldSystem
-from observability.matriz_decorators import instrument
 
 logger = logging.getLogger(__name__)
 
@@ -362,7 +362,7 @@ class ConsciousnessReplayBuffer:
             remaining_needed = batch_size - len(focused_experiences)
 
             if remaining_needed > 0:
-                general_experiences, general_indices = self._sample_prioritized(remaining_needed)
+                general_experiences, _general_indices = self._sample_prioritized(remaining_needed)
                 focused_experiences.extend(general_experiences)
 
                 # Create indices (approximate for focused experiences)
@@ -471,7 +471,7 @@ class ConsciousnessReplayBuffer:
                 key: count / total_experiences for key, count in self.consciousness_stats.items()
             }
         else:
-            stats["consciousness_ratios"] = {key: 0.0 for key in self.consciousness_stats}
+            stats["consciousness_ratios"] = dict.fromkeys(self.consciousness_stats, 0.0)
 
         return stats
 
@@ -533,7 +533,7 @@ class ConsciousnessReplayBuffer:
         for buffer in self.consciousness_experiences.values():
             buffer.clear()
 
-        self.consciousness_stats = {key: 0 for key in self.consciousness_stats}
+        self.consciousness_stats = dict.fromkeys(self.consciousness_stats, 0)
         self.position = 0
         self.total_experiences = 0
 

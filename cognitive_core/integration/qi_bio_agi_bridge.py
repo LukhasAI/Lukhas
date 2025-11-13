@@ -497,9 +497,8 @@ class QIBioAGIBridge:
             enhancement = qi_factor * bio_factor
 
             for component_result in primary.values():
-                if isinstance(component_result, dict) and "result" in component_result:
-                    if isinstance(component_result["result"], (int, float)):
-                        component_result["result"] *= enhancement
+                if (isinstance(component_result, dict) and 'result' in component_result) and isinstance(component_result['result'], (int, float)):
+                    component_result["result"] *= enhancement
 
             return primary
 

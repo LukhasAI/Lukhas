@@ -122,10 +122,10 @@ def generate_violation_indices(violations):
                 "description": get_rule_description(rule_code),
                 "total_violations": len(unique_violations),
                 "violations": unique_violations,
-                "affected_files": list(set(v.get("filename", "") for v in unique_violations)),
+                "affected_files": list({v.get("filename", "") for v in unique_violations}),
                 "lukhas_files": [
                     f
-                    for f in set(v.get("filename", "") for v in unique_violations)
+                    for f in {v.get("filename", "") for v in unique_violations}
                     if "lukhas/" in f or "candidate/" in f
                 ],
                 "severity": get_severity(rule_code),

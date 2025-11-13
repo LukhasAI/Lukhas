@@ -40,7 +40,6 @@ except ImportError:
 
 
 import structlog
-
 from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 # Optional import of global bus getter for default wiring

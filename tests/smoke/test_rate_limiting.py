@@ -13,7 +13,6 @@ import time
 import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
-
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
 
@@ -39,7 +38,7 @@ def test_rate_limit_enforced_on_burst(client, auth_headers):
     """Verify rate limit kicks in on burst requests."""
     # Make rapid requests to /v1/models (default 20 RPS, capacity ~40)
     responses = []
-    for i in range(50):  # Exceed capacity
+    for _i in range(50):  # Exceed capacity
         response = client.get("/v1/models", headers=auth_headers)
         responses.append(response.status_code)
         if response.status_code == 429:
@@ -52,7 +51,7 @@ def test_rate_limit_enforced_on_burst(client, auth_headers):
 def test_rate_limit_429_has_retry_after(client, auth_headers):
     """Verify 429 response includes Retry-After header."""
     # Exhaust rate limit
-    for i in range(50):
+    for _i in range(50):
         response = client.get("/v1/models", headers=auth_headers)
         if response.status_code == 429:
             # Check for Retry-After header
@@ -69,16 +68,13 @@ def test_rate_limit_429_has_retry_after(client, auth_headers):
 def test_rate_limit_error_format_openai_compatible(client, auth_headers):
     """Verify 429 error follows OpenAI format."""
     # Exhaust rate limit
-    for i in range(50):
+    for _i in range(50):
         response = client.get("/v1/models", headers=auth_headers)
         if response.status_code == 429:
             data = response.json()
 
             # Should have error field (may be wrapped in detail)
-            if "detail" in data:
-                error = data["detail"]
-            else:
-                error = data.get("error", data)
+            error = data["detail"] if "detail" in data else data.get("error", data)
 
             # OpenAI format
             assert isinstance(error, dict)
@@ -90,7 +86,7 @@ def test_rate_limit_per_tenant_isolation(client, auth_headers, auth_headers_tena
     """Verify tenant1 exhausting limit doesn't affect tenant2."""
     # Exhaust tenant1's limit
     tenant1_limited = False
-    for i in range(50):
+    for _i in range(50):
         response = client.get("/v1/models", headers=auth_headers)
         if response.status_code == 429:
             tenant1_limited = True
@@ -107,7 +103,7 @@ def test_rate_limit_per_tenant_isolation(client, auth_headers, auth_headers_tena
 def test_rate_limit_recovery_after_wait(client, auth_headers):
     """Verify rate limit recovers after waiting."""
     # Exhaust rate limit
-    for i in range(50):
+    for _i in range(50):
         response = client.get("/v1/models", headers=auth_headers)
         if response.status_code == 429:
             retry_after = float(response.headers.get("Retry-After", "1"))
@@ -125,11 +121,11 @@ def test_rate_limit_recovery_after_wait(client, auth_headers):
 def test_rate_limit_health_endpoints_exempt(client):
     """Verify health endpoints are not rate limited."""
     # Make many requests to health endpoints (no auth needed)
-    for i in range(100):
+    for _i in range(100):
         response = client.get("/healthz")
         assert response.status_code == 200
 
-    for i in range(100):
+    for _i in range(100):
         response = client.get("/readyz")
         assert response.status_code == 200
 
@@ -139,7 +135,7 @@ def test_rate_limit_health_endpoints_exempt(client):
 def test_rate_limit_metrics_endpoint_exempt(client):
     """Verify /metrics endpoint is not rate limited."""
     # Make many requests to metrics
-    for i in range(100):
+    for _i in range(100):
         response = client.get("/metrics")
         assert response.status_code == 200
 
@@ -150,7 +146,7 @@ def test_rate_limit_different_endpoints_separate_buckets(client, auth_headers):
     """Verify different endpoints have separate rate limit buckets."""
     # Exhaust /v1/models
     models_limited = False
-    for i in range(50):
+    for _i in range(50):
         response = client.get("/v1/models", headers=auth_headers)
         if response.status_code == 429:
             models_limited = True
@@ -173,7 +169,7 @@ def test_rate_limit_anonymous_requests_by_ip(client):
     # Note: This will fail with 401 since endpoints require auth
     # But the rate limiter should still process the request
     responses = []
-    for i in range(50):
+    for _i in range(50):
         response = client.get("/v1/models")  # No auth
         responses.append(response.status_code)
         if response.status_code == 429:
@@ -190,7 +186,7 @@ def test_rate_limit_preserves_tenant_identity(client):
     token = "Bearer sk-lukhas-same-token-12345678"
 
     responses = []
-    for i in range(50):
+    for _i in range(50):
         response = client.get(
             "/v1/models",
             headers={"Authorization": token}
@@ -206,7 +202,7 @@ def test_rate_limit_preserves_tenant_identity(client):
 def test_rate_limit_does_not_block_forever(client, auth_headers):
     """Verify rate limited requests eventually succeed (no permanent block)."""
     # Exhaust limit
-    for i in range(50):
+    for _i in range(50):
         response = client.get("/v1/models", headers=auth_headers)
         if response.status_code == 429:
             # Wait a bit longer

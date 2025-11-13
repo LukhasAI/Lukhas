@@ -13,7 +13,7 @@ import json
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Optional
 
 
 def _coerce_str(value: Any) -> str:
@@ -44,9 +44,7 @@ def _is_policy_configured(policy: Any) -> bool:
             return False
         version = _coerce_str(policy.get('version'))
         identifier = _coerce_str(policy.get('id'))
-        if version.lower() in {'', 'pending', 'tbd'} and identifier.lower() in {'', 'pending', 'tbd'}:
-            return False
-        return True
+        return not (version.lower() in {'', 'pending', 'tbd'} and identifier.lower() in {'', 'pending', 'tbd'})
 
     if isinstance(policy, str):
         normalized = policy.strip().lower()
@@ -94,9 +92,7 @@ def _is_telemetry_feature_enabled(config: Any) -> bool:
 
     if isinstance(config, str):
         normalized = config.strip().lower()
-        if normalized in {'', 'disabled', 'none', 'off'}:
-            return False
-        return True
+        return normalized not in {'', 'disabled', 'none', 'off'}
 
     return bool(config)
 
@@ -116,9 +112,7 @@ def _logs_are_structured(logs_config: Any) -> bool:
 
     if isinstance(logs_config, str):
         normalized = logs_config.strip().lower()
-        if normalized in {'', 'disabled', 'none', 'off'}:
-            return False
-        return True
+        return normalized not in {'', 'disabled', 'none', 'off'}
 
     return bool(logs_config)
 
@@ -150,7 +144,7 @@ class SecurityAlert:
     severity: str  # critical, high, medium, low
     category: str  # vulnerability, attestation, supply_chain, telemetry
     message: str
-    affected_modules: List[str]
+    affected_modules: list[str]
     remediation: str
     timestamp: str
 
@@ -160,7 +154,7 @@ class SecurityPostureMonitor:
 
     def __init__(self, verbose: bool = False):
         self.verbose = verbose
-        self.alerts: List[SecurityAlert] = []
+        self.alerts: list[SecurityAlert] = []
         self.metrics = {
             'vulnerability_exposure': 0.0,
             'attestation_coverage': 0.0,
@@ -170,10 +164,10 @@ class SecurityPostureMonitor:
         }
         self.overlays = self._load_overlay_data()
 
-    def _load_overlay_data(self) -> Dict[str, Dict[str, Dict[str, Any]]]:
+    def _load_overlay_data(self) -> dict[str, dict[str, dict[str, Any]]]:
         """Load optional overlay data for SBOM, attestation, and telemetry."""
 
-        overlays: Dict[str, Dict[str, Dict[str, Any]]] = {
+        overlays: dict[str, dict[str, dict[str, Any]]] = {
             'sboms': {},
             'attestations': {},
             'telemetry': {},
@@ -206,7 +200,7 @@ class SecurityPostureMonitor:
         if self.verbose:
             print(f"🔍 {message}")
 
-    def collect_security_telemetry(self, pattern: str = "**/matrix_*.json") -> Dict[str, Any]:
+    def collect_security_telemetry(self, pattern: str = "**/matrix_*.json") -> dict[str, Any]:
         """Collect security telemetry from all Matrix Track contracts."""
         self.log("Collecting security telemetry from Matrix Track contracts...")
 
@@ -250,7 +244,7 @@ class SecurityPostureMonitor:
 
         return telemetry
 
-    def _extract_vulnerability_data(self, contract: Dict, module: str) -> List[Dict]:
+    def _extract_vulnerability_data(self, contract: Dict, module: str) -> list[Dict]:
         """Extract vulnerability findings from contract gates."""
         findings = []
 
@@ -585,7 +579,7 @@ class SecurityPostureMonitor:
         self.log(f"Overall security posture score: {overall_score:.1f}/100")
         return overall_score
 
-    def generate_security_report(self, output_path: str = None) -> Dict:
+    def generate_security_report(self, output_path: Optional[str] = None) -> Dict:
         """Generate comprehensive security posture report."""
         report = {
             'security_posture_report': {
@@ -634,7 +628,7 @@ class SecurityPostureMonitor:
         else:
             return 'F'
 
-    def _generate_recommendations(self) -> List[str]:
+    def _generate_recommendations(self) -> list[str]:
         """Generate security improvement recommendations."""
         recommendations = []
 

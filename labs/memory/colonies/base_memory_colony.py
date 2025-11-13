@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -195,6 +197,7 @@ class BaseMemoryColony(ABC):
         self._heartbeat_task = None
         self._processing_task = None
         self._maintenance_task = None
+        self._background_tasks: set[asyncio.Task[Any]] = set()
 
         logger.info(
             f"{self.colony_role.value.title()} memory colony initialized",
@@ -212,8 +215,16 @@ class BaseMemoryColony(ABC):
 
         # Start background tasks
         self._heartbeat_task = asyncio.create_task(self._heartbeat_loop())
+        self._background_tasks.add(self._heartbeat_task)
+        self._heartbeat_task.add_done_callback(self._background_tasks.discard)
+
         self._processing_task = asyncio.create_task(self._operation_processing_loop())
+        self._background_tasks.add(self._processing_task)
+        self._processing_task.add_done_callback(self._background_tasks.discard)
+
         self._maintenance_task = asyncio.create_task(self._maintenance_loop())
+        self._background_tasks.add(self._maintenance_task)
+        self._maintenance_task.add_done_callback(self._background_tasks.discard)
 
         logger.info(f"Colony {self.colony_id} started")
 
@@ -223,13 +234,27 @@ class BaseMemoryColony(ABC):
         self.state = ColonyState.OFFLINE
 
         # Cancel background tasks
-        for task in [
-            self._heartbeat_task,
-            self._processing_task,
-            self._maintenance_task,
-        ]:
-            if task:
-                task.cancel()
+        tasks_to_cancel = [
+            task
+            for task in [
+                self._heartbeat_task,
+                self._processing_task,
+                self._maintenance_task,
+            ]
+            if task is not None
+        ]
+
+        for task in list(self._background_tasks):
+            if task not in tasks_to_cancel:
+                tasks_to_cancel.append(task)
+
+        for task in tasks_to_cancel:
+            task.cancel()
+
+        self._background_tasks.clear()
+
+        if tasks_to_cancel:
+            await asyncio.gather(*tasks_to_cancel, return_exceptions=True)
 
         # Complete active operations
         await self._complete_active_operations()
@@ -517,7 +542,9 @@ class BaseMemoryColony(ABC):
         while self._running:
             if self.operation_queue and len(self.active_operations) < self.capabilities.max_concurrent_operations:
                 operation = self.operation_queue.popleft()
-                asyncio.create_task(self.process_memory_operation(operation))
+                task = asyncio.create_task(self.process_memory_operation(operation))
+                self._background_tasks.add(task)
+                task.add_done_callback(self._background_tasks.discard)
 
             await asyncio.sleep(0.1)  # Check queue frequently
 

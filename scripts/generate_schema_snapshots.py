@@ -19,7 +19,7 @@ import hashlib
 import json
 import logging
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Optional
 
@@ -85,7 +85,7 @@ class SchemaSnapshotGenerator:
             return None
 
         try:
-            with open(schema_file, 'r', encoding='utf-8') as f:
+            with open(schema_file, encoding='utf-8') as f:
                 schema_data = json.load(f)
 
             # Validate schema structure
@@ -96,7 +96,7 @@ class SchemaSnapshotGenerator:
             logger.info("MATRIZ schema loaded and validated")
             return schema_data
 
-        except (json.JSONDecodeError, IOError) as e:
+        except (OSError, json.JSONDecodeError) as e:
             logger.error(f"Could not load MATRIZ schema: {e}")
             return None
 
@@ -108,7 +108,7 @@ class SchemaSnapshotGenerator:
             "schema_name": "matriz_decision_schema",
             "schema_version": schema_data.get("version", "unknown"),
             "schema_hash": schema_hash,
-            "generated_at": datetime.utcnow().isoformat() + "Z",
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "generator_version": "1.0.0",
             "validation_rules": {
                 "required_fields": schema_data.get("required", []),
@@ -163,7 +163,7 @@ class SchemaSnapshotGenerator:
                 json.dump(snapshot, f, indent=2, sort_keys=True, ensure_ascii=True)
 
             # Verify snapshot can be read back
-            with open(snapshot_file, 'r', encoding='utf-8') as f:
+            with open(snapshot_file, encoding='utf-8') as f:
                 verified = json.load(f)
 
             if verified != snapshot:
@@ -173,7 +173,7 @@ class SchemaSnapshotGenerator:
             logger.info(f"Snapshot saved and verified: {snapshot_file}")
             return True
 
-        except (IOError, json.JSONDecodeError) as e:
+        except (OSError, json.JSONDecodeError) as e:
             logger.error(f"Could not save snapshot {filename}: {e}")
             return False
 
@@ -213,7 +213,7 @@ class SchemaSnapshotGenerator:
             return False
 
         try:
-            with open(snapshot_file, 'r', encoding='utf-8') as f:
+            with open(snapshot_file, encoding='utf-8') as f:
                 snapshot = json.load(f)
 
             # Validate snapshot structure
@@ -238,7 +238,7 @@ class SchemaSnapshotGenerator:
             logger.info(f"✅ Snapshot {filename} validation passed")
             return True
 
-        except (json.JSONDecodeError, IOError, KeyError) as e:
+        except (OSError, json.JSONDecodeError, KeyError) as e:
             logger.error(f"Could not validate snapshot {filename}: {e}")
             return False
 

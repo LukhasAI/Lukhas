@@ -27,7 +27,12 @@ import numpy as np
 
 # Import LUKHAS components
 try:
-    from ..visualization.consciousness_mapper import BiometricData, CognitiveMetrics, ConsciousnessState, EmotionalState
+    from ..visualization.consciousness_mapper import (
+        BiometricData,
+        CognitiveMetrics,
+        ConsciousnessState,
+        EmotionalState,
+    )
     from ..visualization.lukhas_orb import LUKHASOrb, OrbState
 except ImportError:
     print("Warning: Consciousness visualization components not available")

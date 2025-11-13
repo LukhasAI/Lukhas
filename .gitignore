@@ -78,6 +78,7 @@ htmlcov/
 
 # Coverage files
 .coverage
+.coverage.*
 coverage.xml
 *.cover
 .hypothesis/
@@ -377,3 +378,10 @@ lukhas_website_with_carousel_and_palette/
 # CI and developer artifacts
 artifacts/reports/
 artifacts/manual-ci/
+release_artifacts/repo_audit_v2/security/bandit.json
+
+# SSL certificates
+ssl/*.crt
+ssl/*.key
+ssl/*.pem
+trace_logs/

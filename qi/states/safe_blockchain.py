@@ -1,13 +1,6 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
-import logging
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import Any, Mapping
-
-logger = logging.getLogger(__name__)
-
+# ruff: noqa: F821  # Skeleton/experimental code
 """
 
 #TAG:qim
@@ -42,12 +35,23 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
+from __future__ import annotations
+
+import logging
+from collections.abc import Mapping
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from hashlib import sha3_256
+from typing import Any
+
+logger = logging.getLogger(__name__)
+
+
 __module_name__ = "Quantum Safe Blockchain"
 __version__ = "2.0.0"
 __tier__ = 2
 
 
-from hashlib import sha3_256
 
 try:
     import rlp
@@ -60,7 +64,7 @@ except ModuleNotFoundError:  # pragma: no cover - fallback for test environments
     rlp = _RLPStub()  # type: ignore[assignment]
 
 
-@dataclass(slots=True)
+@dataclass
 class ComplianceReport:
     """Structured compliance report for QI safe blockchain audits."""
 
@@ -120,11 +124,29 @@ class QISafeAuditBlockchain:
     """
 
     def __init__(self):
-        self.chain: list[Block] = [self._create_genesis_block()]  # noqa: F821  # TODO: Block
-        self.pending_transactions: list[Transaction] = []  # noqa: F821  # TODO: Transaction
-        self.pqc_signer = PostQuantumSigner()  # noqa: F821  # TODO: PostQuantumSigner
+# T4: code=F821 | ticket=SKELETON-A3E76E85 | owner=lukhas-platform | status=skeleton
+# reason: Undefined Block in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+        self.chain: list[Block] = [self._create_genesis_block()]  # TODO: Block
+# T4: code=F821 | ticket=SKELETON-5A5A89AF | owner=lukhas-platform | status=skeleton
+# reason: Undefined Transaction in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+        self.pending_transactions: list[Transaction] = []  # TODO: Transaction
+# T4: code=F821 | ticket=SKELETON-1FF1C837 | owner=lukhas-platform | status=skeleton
+# reason: Undefined PostQuantumSigner in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+        self.pqc_signer = PostQuantumSigner()  # TODO: PostQuantumSigner
 
-    async def log_ai_decision(self, decision: AIDecision, context: DecisionContext, user_consent: ConsentProof) -> str:  # noqa: F821  # TODO: AIDecision
+# T4: code=F821 | ticket=SKELETON-F63C09A5 | owner=lukhas-platform | status=skeleton
+# reason: Undefined ConsentProof in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+# T4: code=F821 | ticket=SKELETON-28771847 | owner=lukhas-platform | status=skeleton
+# reason: Undefined DecisionContext in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+# T4: code=F821 | ticket=SKELETON-50143149 | owner=lukhas-platform | status=skeleton
+# reason: Undefined AIDecision in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+    async def log_ai_decision(self, decision: AIDecision, context: DecisionContext, user_consent: ConsentProof) -> str:  # TODO: AIDecision
         """
         Create immutable record of AI decision
         """
@@ -144,7 +166,10 @@ class QISafeAuditBlockchain:
         signature = await self.pqc_signer.sign(rlp.encode(audit_data), include_timestamp=True)
 
         # 3. Create transaction
-        transaction = Transaction(data=audit_data, signature=signature, transaction_type="ai_decision_audit")  # noqa: F821  # TODO: Transaction
+# T4: code=F821 | ticket=SKELETON-5A5A89AF | owner=lukhas-platform | status=skeleton
+# reason: Undefined Transaction in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+        transaction = Transaction(data=audit_data, signature=signature, transaction_type="ai_decision_audit")  # TODO: Transaction
 
         # 4. Add to pending and mine if threshold reached
         self.pending_transactions.append(transaction)
@@ -155,7 +180,10 @@ class QISafeAuditBlockchain:
 
     async def generate_compliance_report(
         self,
-        time_range: TimeRange,  # noqa: F821  # TODO: TimeRange
+# T4: code=F821 | ticket=SKELETON-A1D73BF9 | owner=lukhas-platform | status=skeleton
+# reason: Undefined TimeRange in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+        time_range: TimeRange,  # TODO: TimeRange
         compliance_framework: str,  # GDPR, CCPA, etc.
     ) -> ComplianceReport:
         """Generate cryptographically verifiable compliance report.
@@ -164,7 +192,10 @@ class QISafeAuditBlockchain:
         """
         relevant_blocks = list(self._get_blocks_in_range(time_range))
 
-        decision_tree = MerkleTree()  # noqa: F821  # TODO: MerkleTree
+# T4: code=F821 | ticket=SKELETON-5711C8F6 | owner=lukhas-platform | status=skeleton
+# reason: Undefined MerkleTree in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+        decision_tree = MerkleTree()  # TODO: MerkleTree
         total_decisions = 0
         model_breakdown: dict[str, int] = {}
         consent_summary = {"with_consent": 0, "without_consent": 0}

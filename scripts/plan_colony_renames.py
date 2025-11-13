@@ -17,7 +17,7 @@ import re
 import sys
 import time
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional
 
 BRAND_MAP = {
     "candidate": "labs",
@@ -42,7 +42,7 @@ def looks_laneish(p: Path) -> bool:
     # nested pockets like src/candidate/, libs/lucas/
     return any(tok in BRAND_MAP for tok in name.split("-"))
 
-def propose_target(p: Path) -> Optional[Tuple[str, str]]:
+def propose_target(p: Path) -> Optional[tuple[str, str]]:
     name = p.name
     if name in BRAND_MAP:
         return (str(p), str(p.with_name(BRAND_MAP[name])))
@@ -63,7 +63,7 @@ def main():
     csv_path = out_dir / f"colony_renames_{args.stamp}.csv"
 
     proposals = []
-    for base, dirs, files in os.walk(root):
+    for base, dirs, _files in os.walk(root):
         base_p = Path(base)
         # prune
         dirs[:] = [d for d in dirs if d not in SKIP_DIRS and not d.startswith(".")]

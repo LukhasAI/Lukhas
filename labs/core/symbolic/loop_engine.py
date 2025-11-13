@@ -17,11 +17,12 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 from bio.core import BioProcessor
-from consciousness.bridge import ConsciousnessBridge
 from qi.engines.consciousness import QIProcessor
 
 # These imports form an intentional cycle for symbolic grounding
 from symbolic.core import SymbolicProcessor
+
+from consciousness.bridge import ConsciousnessBridge
 
 
 @dataclass

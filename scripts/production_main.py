@@ -25,6 +25,8 @@ from typing import Any, Optional
 # Add project root to Python path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+from async_utils import create_background_task
+
 # Import LUKHAS components
 from branding_bridge import (
     get_constellation_context,
@@ -429,7 +431,7 @@ def signal_handler(signum, frame):
     logger.info(f"Received signal {signum}, initiating graceful shutdown...")
 
     if lukhas_system and lukhas_system.is_running:
-        asyncio.create_task(lukhas_system.stop_systems())
+        create_background_task(lukhas_system.stop_systems())
 
 
 async def main():

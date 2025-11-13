@@ -6,6 +6,7 @@
 Simple pattern-based scanner that identifies specialized lukhas functions
 without importing modules (to avoid dependency issues).
 """
+from __future__ import annotations
 
 import re
 from dataclasses import dataclass

@@ -107,6 +107,11 @@ class AwarenessMechanism:
             'last_self_reflection': None
         }
 
+        # Background task references
+        self._awareness_monitoring_task: Optional[asyncio.Task[None]] = None
+        self._meta_cognitive_task: Optional[asyncio.Task[None]] = None
+        self._restore_reflection_task: Optional[asyncio.Task[None]] = None
+
         # Performance metrics
         self.awareness_metrics = {
             'total_awareness_events': 0,
@@ -122,10 +127,14 @@ class AwarenessMechanism:
             self.logger.info("Initializing LUKHAS Awareness Mechanism")
 
             # Start background awareness monitoring
-            asyncio.create_task(self._awareness_monitoring_loop())
+            self._awareness_monitoring_task = asyncio.create_task(
+                self._awareness_monitoring_loop()
+            )
 
             # Start meta-cognitive reflection
-            asyncio.create_task(self._meta_cognitive_loop())
+            self._meta_cognitive_task = asyncio.create_task(
+                self._meta_cognitive_loop()
+            )
 
             # Initialize working memory
             await self._initialize_working_memory()
@@ -426,7 +435,11 @@ class AwarenessMechanism:
         self.meta_cognitive_state['reflection_depth'] = min(1.0, original_depth + 0.2)
 
         # Schedule reflection depth return to normal
-        asyncio.create_task(self._restore_reflection_depth(original_depth))
+        if self._restore_reflection_task is not None:
+            self._restore_reflection_task.cancel()
+        self._restore_reflection_task = asyncio.create_task(
+            self._restore_reflection_depth(original_depth)
+        )
 
     async def _restore_reflection_depth(self, original_depth: float, delay: float = 60.0):
         """Restore reflection depth to original after delay"""

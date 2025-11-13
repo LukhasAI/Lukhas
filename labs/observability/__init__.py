@@ -7,14 +7,14 @@ Incremental implementation - start minimal, flesh out as needed.
 from __future__ import annotations
 
 __all__ = [
-    "Tracer",
-    "Metrics",
     "Counter",
     "Histogram",
-    "observe_latency",
-    "log_event",
-    "get_tracer",
+    "Metrics",
+    "Tracer",
     "get_metrics",
+    "get_tracer",
+    "log_event",
+    "observe_latency",
 ]
 
 

@@ -1,4 +1,8 @@
-# Security Module - Claude AI Context
+status: wip
+type: documentation
+# Security Module Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
 
 **Module**: security
 **Purpose**: Specialized security functionality with 21 components for integrated system operations
@@ -6,7 +10,6 @@
 **Language**: Python
 **Last Updated**: 2025-10-18
 
----
 
 ## Module Overview
 
@@ -25,7 +28,6 @@ The security module implements comprehensive security functionality for LUKHAS, 
 - **⚛️ Anchor Star (Identity)**: Identity protection and authentication
 - **✦ Trail Star (Memory)**: Security audit trail and logging
 
----
 
 ## Architecture
 
@@ -84,7 +86,6 @@ guard.validate_identity(user_context)
 - Secret rotation
 - Integration with ΛID system
 
----
 
 ## Security Features
 
@@ -111,7 +112,6 @@ guard.validate_identity(user_context)
 - `lukhas.security.operation` - All security operations traced
 **Standards**: OpenTelemetry semantic conventions v1.37.0
 
----
 
 ## Module Structure
 
@@ -147,7 +147,6 @@ security/
     └── test_security_suite.py
 ```
 
----
 
 ## Security Documentation
 
@@ -180,7 +179,6 @@ The `docs/` directory contains comprehensive security documentation:
 ### CVE Tracking
 - **CVE-2024-GUNICORN-EMERGENCY.md**: Critical CVE tracking and remediation
 
----
 
 ## Development Guidelines
 
@@ -210,7 +208,6 @@ The `docs/` directory contains comprehensive security documentation:
 - **Integration Tests**: Test security across module boundaries
 - **Security Tests**: Penetration testing, fuzzing, vulnerability scanning
 
----
 
 ## MATRIZ Pipeline Integration
 
@@ -223,7 +220,6 @@ This module operates within the MATRIZ cognitive framework:
 - **I (Intent)**: Identity verification with ΛID
 - **A (Action)**: Security policy enforcement
 
----
 
 ## Performance & Quality
 
@@ -247,7 +243,6 @@ This module operates within the MATRIZ cognitive framework:
 - Security metrics and dashboards
 - Incident tracking and reporting
 
----
 
 ## Guardian Integration
 
@@ -265,7 +260,6 @@ The security module works closely with the Guardian system (🛡️):
 - Audit trails reviewed by Guardian
 - Incident escalation to Guardian for ethics review
 
----
 
 ## Related Modules
 
@@ -274,7 +268,6 @@ The security module works closely with the Guardian system (🛡️):
 - **Adapters** ([../adapters/](../adapters/)) - Capability token validation
 - **Monitoring** ([../monitoring/](../monitoring/)) - Security metrics and alerts
 
----
 
 ## Documentation
 
@@ -285,7 +278,6 @@ The security module works closely with the Guardian system (🛡️):
 - **Tests**: [security/tests/](tests/) - Security test suites
 - **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#security)
 
----
 
 **Status**: Integration Lane (L2)
 **Manifest**: ✓ module.manifest.json (schema v3.0.0)
@@ -293,31 +285,3 @@ The security module works closely with the Guardian system (🛡️):
 **Code Owners**: @lukhas-core
 **Components**: 21 security components
 **Last Updated**: 2025-10-18
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

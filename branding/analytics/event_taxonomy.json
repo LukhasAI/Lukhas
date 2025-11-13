@@ -1,0 +1,201 @@
+{
+  "version": "1.0",
+  "last_updated": "2025-11-08",
+  "events": {
+    "page_view": {
+      "description": "User views a page",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "required": true,
+          "example": "lukhas.ai"
+        },
+        "path": {
+          "type": "string",
+          "required": true,
+          "example": "/matriz"
+        },
+        "variant": {
+          "type": "string",
+          "required": false,
+          "example": "assistive"
+        },
+        "referrer": {
+          "type": "string",
+          "required": false,
+          "pii": false
+        }
+      },
+      "privacy": "No PII collected - domain/path only"
+    },
+    "quickstart_started": {
+      "description": "User begins quickstart tutorial",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "required": true
+        },
+        "language": {
+          "type": "string",
+          "required": true,
+          "example": "python"
+        },
+        "quickstart_id": {
+          "type": "string",
+          "required": true,
+          "example": "matriz-hello-world"
+        }
+      },
+      "kpi": "Quickstart conversion rate"
+    },
+    "quickstart_completed": {
+      "description": "User successfully completes quickstart",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "required": true
+        },
+        "language": {
+          "type": "string",
+          "required": true
+        },
+        "quickstart_id": {
+          "type": "string",
+          "required": true
+        },
+        "duration_seconds": {
+          "type": "number",
+          "required": false
+        },
+        "success": {
+          "type": "boolean",
+          "required": true
+        }
+      },
+      "kpi": "Quickstart success rate (% completed / started)"
+    },
+    "reasoning_trace_viewed": {
+      "description": "User views reasoning trace in Reasoning Lab",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "required": true
+        },
+        "trace_type": {
+          "type": "string",
+          "required": true,
+          "example": "symbolic_dna"
+        },
+        "interaction_depth": {
+          "type": "number",
+          "required": false,
+          "example": 3
+        }
+      },
+      "kpi": "Reasoning Lab engagement rate"
+    },
+    "assistive_variant_viewed": {
+      "description": "User switches to assistive mode",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "required": true
+        },
+        "page": {
+          "type": "string",
+          "required": true
+        },
+        "trigger": {
+          "type": "string",
+          "required": true,
+          "example": "toggle|preference|auto"
+        }
+      },
+      "kpi": "Assistive mode adoption rate"
+    },
+    "assistive_audio_played": {
+      "description": "User plays audio description in assistive mode",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "required": true
+        },
+        "page": {
+          "type": "string",
+          "required": true
+        },
+        "duration_seconds": {
+          "type": "number",
+          "required": false
+        }
+      },
+      "kpi": "Assistive audio engagement"
+    },
+    "evidence_artifact_requested": {
+      "description": "User clicks evidence link from claim",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "required": true
+        },
+        "claim_page": {
+          "type": "string",
+          "required": true
+        },
+        "evidence_id": {
+          "type": "string",
+          "required": true,
+          "example": "matriz-p95-latency-2025-q3"
+        }
+      },
+      "kpi": "Evidence transparency engagement"
+    },
+    "demo_interaction": {
+      "description": "User interacts with Safe Demo",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "required": true
+        },
+        "demo_type": {
+          "type": "string",
+          "required": true,
+          "example": "matriz_reasoning"
+        },
+        "action": {
+          "type": "string",
+          "required": true,
+          "example": "start|step|complete"
+        }
+      },
+      "kpi": "Demo completion rate"
+    },
+    "cta_clicked": {
+      "description": "User clicks call-to-action",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "required": true
+        },
+        "cta_text": {
+          "type": "string",
+          "required": true,
+          "example": "Try MATRIZ Now"
+        },
+        "cta_location": {
+          "type": "string",
+          "required": true,
+          "example": "homepage_hero"
+        }
+      },
+      "kpi": "CTA conversion rate"
+    }
+  },
+  "privacy_policy": {
+    "pii_collected": false,
+    "cookies": "Essential only (preferences, session)",
+    "gdpr_compliant": true,
+    "data_retention": "90 days aggregate, 30 days raw events",
+    "user_controls": "Opt-out via Do Not Track header respected"
+  }
+}

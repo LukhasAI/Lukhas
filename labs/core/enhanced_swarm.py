@@ -193,9 +193,9 @@ class EnhancedSwarmHub:
 __all__ = [
     "AgentCapability",
     "AgentMemory",
-    "EnhancedSwarmAgent",
-    "EnhancedColony",
-    "EnhancedSwarmHub",
     "CapabilityLevel",
+    "EnhancedColony",
+    "EnhancedSwarmAgent",
+    "EnhancedSwarmHub",
     "MemoryType"
 ]

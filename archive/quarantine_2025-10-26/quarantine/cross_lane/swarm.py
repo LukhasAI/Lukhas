@@ -19,10 +19,10 @@ try:
 
     # Re-export everything the enhanced module provides
     __all__ = [
+        "AgentColony",
         "AgentState",
         "CapabilityLevel",
         "SwarmAgent",
-        "AgentColony",
         "SwarmNetwork",
     ]
 except Exception:
@@ -53,9 +53,9 @@ except Exception:
             self.colonies = {}
 
     __all__ = [
+        "AgentColony",
         "AgentState",
         "CapabilityLevel",
         "SwarmAgent",
-        "AgentColony",
         "SwarmNetwork",
     ]

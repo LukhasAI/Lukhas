@@ -23,7 +23,7 @@ import statistics
 import time
 import uuid
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -46,13 +46,14 @@ try:
     OBSERVABILITY_AVAILABLE = True
 except ImportError:
     OBSERVABILITY_AVAILABLE = False
-    get_lukhas_metrics = lambda: None
+    def get_lukhas_metrics():
+        return None
 
 # Import Guardian integration
 try:
     from .guardian_integration import (
         ConsciousnessGuardianIntegration,
-        ConsciousnessValidationContext,  # noqa: F401  # TODO: .guardian_integration.Consciou...
+        ConsciousnessValidationContext,  # TODO: .guardian_integration.Consciou...
         GuardianValidationConfig,
         GuardianValidationType,
         create_validation_context,
@@ -131,7 +132,7 @@ class ReflectionConfig:
     detailed_tracing_enabled: bool = True
     performance_regression_detection: bool = True
 
-    def validate(self) -> List[str]:
+    def validate(self) -> list[str]:
         """Validate configuration parameters"""
         errors = []
 
@@ -157,10 +158,10 @@ class ReflectionEngine:
 
     def __init__(
         self,
-        config: Optional[ReflectionConfig] = None,
-        memory_backend: Optional[MemoryBackend] = None,
-        guardian_validator: Optional[Any] = None,
-        guardian_integration: Optional[ConsciousnessGuardianIntegration] = None
+        config: ReflectionConfig | None = None,
+        memory_backend: MemoryBackend | None = None,
+        guardian_validator: Any | None = None,
+        guardian_integration: ConsciousnessGuardianIntegration | None = None
     ):
         """
         Initialize ReflectionEngine.
@@ -199,20 +200,20 @@ class ReflectionEngine:
         self._lane = self._metrics.lane if self._metrics else "unknown"
 
         # Performance tracking
-        self._operation_latencies: List[float] = []
-        self._coherence_scores: List[float] = []
-        self._anomaly_counts: List[int] = []
-        self._performance_history: List[Dict[str, Any]] = []
+        self._operation_latencies: list[float] = []
+        self._coherence_scores: list[float] = []
+        self._anomaly_counts: list[int] = []
+        self._performance_history: list[dict[str, Any]] = []
 
         # Reflection state tracking
-        self._state_history: List[ConsciousnessState] = []
+        self._state_history: list[ConsciousnessState] = []
         self._last_reflection_time: float = 0.0
         self._drift_ema: float = 0.0
-        self._baseline_coherence: Optional[float] = None
+        self._baseline_coherence: float | None = None
 
         # Memory integration state
-        self._memory_fold_cache: Dict[str, Any] = {}
-        self._memory_coherence_cache: Dict[str, float] = {}
+        self._memory_fold_cache: dict[str, Any] = {}
+        self._memory_coherence_cache: dict[str, float] = {}
         self._last_memory_sync: float = 0.0
 
         # Safety and error handling
@@ -236,8 +237,8 @@ class ReflectionEngine:
     async def reflect(
         self,
         consciousness_state: ConsciousnessState,
-        awareness_snapshot: Optional[AwarenessSnapshot] = None,
-        context: Optional[Dict[str, Any]] = None
+        awareness_snapshot: AwarenessSnapshot | None = None,
+        context: dict[str, Any] | None = None
     ) -> ReflectionReport:
         """
         Perform comprehensive reflection analysis on consciousness state.
@@ -387,8 +388,8 @@ class ReflectionEngine:
     async def _analyze_state_coherence(
         self,
         state: ConsciousnessState,
-        awareness: Optional[AwarenessSnapshot]
-    ) -> Dict[str, Any]:
+        awareness: AwarenessSnapshot | None
+    ) -> dict[str, Any]:
         """Analyze coherence of consciousness state."""
 
         with tracer.start_as_current_span("analyze_state_coherence"):
@@ -536,7 +537,7 @@ class ReflectionEngine:
 
         return 0.5  # Default for unknown phases
 
-    async def _analyze_state_drift(self, state: ConsciousnessState) -> Dict[str, Any]:
+    async def _analyze_state_drift(self, state: ConsciousnessState) -> dict[str, Any]:
         """Analyze drift in consciousness state over time."""
 
         with tracer.start_as_current_span("analyze_state_drift"):
@@ -593,9 +594,9 @@ class ReflectionEngine:
     async def _detect_reflection_anomalies(
         self,
         state: ConsciousnessState,
-        coherence_result: Dict[str, Any],
-        drift_result: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        coherence_result: dict[str, Any],
+        drift_result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Detect anomalies in consciousness reflection analysis."""
 
         with tracer.start_as_current_span("detect_reflection_anomalies"):
@@ -662,8 +663,8 @@ class ReflectionEngine:
     async def _analyze_memory_integration(
         self,
         state: ConsciousnessState,
-        context: Optional[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        context: dict[str, Any] | None
+    ) -> dict[str, Any]:
         """Analyze integration with memory system."""
 
         if not self.fold_system:
@@ -714,7 +715,7 @@ class ReflectionEngine:
     async def _analyze_fold_coherence(
         self,
         state: ConsciousnessState,
-        context: Optional[Dict[str, Any]]
+        context: dict[str, Any] | None
     ) -> float:
         """Analyze coherence of memory folds."""
 
@@ -731,7 +732,7 @@ class ReflectionEngine:
 
         return 0.7  # Default reasonable coherence
 
-    async def _analyze_memory_access_patterns(self, state: ConsciousnessState) -> Dict[str, Any]:
+    async def _analyze_memory_access_patterns(self, state: ConsciousnessState) -> dict[str, Any]:
         """Analyze memory access patterns for coherence."""
 
         # Placeholder for memory access pattern analysis
@@ -769,7 +770,7 @@ class ReflectionEngine:
         self,
         report: ReflectionReport,
         state: ConsciousnessState,
-        context: Optional[Dict[str, Any]]
+        context: dict[str, Any] | None
     ) -> None:
         """Validate reflection results with Guardian integration system."""
 
@@ -846,7 +847,7 @@ class ReflectionEngine:
                 error_anomaly = {
                     "type": "guardian_integration_error",
                     "severity": "high",  # Elevated severity for fail-closed
-                    "details": f"Guardian integration validation error: {str(e)}",
+                    "details": f"Guardian integration validation error: {e!s}",
                     "timestamp": time.time()
                 }
                 report.anomalies.append(error_anomaly)
@@ -897,13 +898,13 @@ class ReflectionEngine:
                 error_anomaly = {
                     "type": "guardian_error",
                     "severity": "medium",
-                    "details": f"Guardian validation error: {str(e)}",
+                    "details": f"Guardian validation error: {e!s}",
                     "timestamp": time.time()
                 }
                 report.anomalies.append(error_anomaly)
                 report.anomaly_count += 1
 
-    async def _mock_guardian_validation(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _mock_guardian_validation(self, context: dict[str, Any]) -> dict[str, Any]:
         """Mock Guardian validation for development."""
 
         # Simple validation logic - in production this would call actual Guardian
@@ -1047,7 +1048,7 @@ class ReflectionEngine:
         if len(self._state_history) > 100:
             self._state_history = self._state_history[-50:]
 
-    def get_performance_stats(self) -> Dict[str, Any]:
+    def get_performance_stats(self) -> dict[str, Any]:
         """Get comprehensive performance statistics."""
 
         if not self._operation_latencies:
@@ -1129,7 +1130,7 @@ class ReflectionError(Exception):
 
 # Export public API
 __all__ = [
-    "ReflectionEngine",
     "ReflectionConfig",
+    "ReflectionEngine",
     "ReflectionError"
 ]

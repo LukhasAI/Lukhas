@@ -37,10 +37,12 @@
 ║ Symbolic Tags: {ΛGATEWAY}, {ΛAPI}, {ΛROUTING}, {ΛPERFORMANCE}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import logging
 import time
 from contextlib import asynccontextmanager
-from typing import Any, Optional
+from typing import Any
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -69,13 +71,13 @@ class ChatRequest(BaseModel):
     """Chat request model"""
 
     message: str
-    context_id: Optional[str] = None
-    task_type: Optional[str] = "conversation"
-    providers: Optional[list[str]] = None
+    context_id: str | None = None
+    task_type: str | None = "conversation"
+    providers: list[str] | None = None
     consensus_required: bool = True
     max_latency_ms: float = 5000
     stream: bool = False
-    metadata: Optional[dict[str, Any]] = None
+    metadata: dict[str, Any] | None = None
 
 
 class ChatResponse(BaseModel):
@@ -86,8 +88,8 @@ class ChatResponse(BaseModel):
     latency_ms: float
     providers_used: list[str]
     consensus_method: str
-    context_id: Optional[str] = None
-    metadata: Optional[dict[str, Any]] = None
+    context_id: str | None = None
+    metadata: dict[str, Any] | None = None
 
 
 class OrchestrationResponse(BaseModel):
@@ -95,7 +97,7 @@ class OrchestrationResponse(BaseModel):
 
     result: ChatResponse
     performance_metrics: dict[str, Any]
-    individual_responses: Optional[list[dict[str, Any]]] = None
+    individual_responses: list[dict[str, Any]] | None = None
 
 
 class HealthResponse(BaseModel):
@@ -131,7 +133,7 @@ class UnifiedAPIGateway:
     with <100ms latency target and comprehensive monitoring.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize the unified API gateway"""
         self.config = config or {}
 

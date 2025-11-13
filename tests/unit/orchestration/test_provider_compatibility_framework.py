@@ -167,7 +167,7 @@ class TestProviderHealthStatus:
             result = await self.orchestrator.get_provider_health_status()
 
             assert len(result) == len(self.orchestrator.providers)
-            for provider_name in self.orchestrator.providers.keys():
+            for provider_name in self.orchestrator.providers:
                 assert provider_name in result
                 assert result[provider_name]["healthy"] is True
                 assert result[provider_name]["sla_compliant"] is True
@@ -201,7 +201,7 @@ class TestProviderHealthStatus:
 
             result = await self.orchestrator.get_provider_health_status()
 
-            for provider_name in self.orchestrator.providers.keys():
+            for provider_name in self.orchestrator.providers:
                 assert provider_name in result
                 assert result[provider_name]["healthy"] is False
                 assert "Test exception" in result[provider_name]["error"]
@@ -357,7 +357,7 @@ class TestProviderChaosEngineering:
             for _ in range(50):
                 try:
                     result = await self.orchestrator.select_optimal_provider("claude")
-                    assert result in self.orchestrator.providers.keys()
+                    assert result in self.orchestrator.providers
                 except Exception as e:
                     pytest.fail(f"System failed under chaos: {e}")
 

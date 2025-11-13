@@ -20,7 +20,7 @@ def p95(samples):
 def bench(fn, iters=200, warmup=30):
     random.seed(7)  # Fixed seed for repeatability
     times = []
-    for i in range(iters):
+    for _i in range(iters):
         start = time.perf_counter_ns()
         fn()
         dt = (time.perf_counter_ns() - start) / 1e6  # Convert to ms

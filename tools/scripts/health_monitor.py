@@ -222,7 +222,7 @@ Generated: {self.health_status['timestamp']}
         for module, status in self.health_status.get("modules", {}).items():
             "✅" if status.get("health") == "HEALTHY" else "❌"
             module_desc = status.get("description", module)
-            report += f"\n## {module} — {module_desc}\n"
+            report += f"\n## {module} - {module_desc}\n"
 
             if status.get("exists"):
                 report += f"- Python Files: {status.get('py_files', 0)}\n"

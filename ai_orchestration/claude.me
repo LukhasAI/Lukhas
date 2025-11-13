@@ -1,4 +1,9 @@
-# AI Orchestration Module - Claude AI Context
+status: wip
+type: documentation
+# AI Orchestration Module Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
+
 
 **Module**: ai_orchestration
 **Purpose**: System orchestration and workflow coordination with multi-service integration
@@ -6,7 +11,6 @@
 **Language**: Python
 **Last Updated**: 2025-10-18
 
----
 
 ## Module Overview
 
@@ -25,7 +29,6 @@ The ai_orchestration module provides comprehensive orchestration capabilities fo
 - **🛡️ Watch Star (Guardian)**: Ethics validation in orchestration
 - **✦ Trail Star (Memory)**: Workflow history and pattern memory
 
----
 
 ## Architecture
 
@@ -55,7 +58,6 @@ from ai_orchestration.mcp_operational_support import (
 from ai_orchestration.routing import ABTestBucket
 ```
 
----
 
 ## AI Orchestration Systems
 
@@ -95,7 +97,6 @@ result = await orchestrator.orchestrate(
 - Load balancing
 - Cost optimization
 
----
 
 ### 2. LUKHAS Knowledge Server
 
@@ -134,7 +135,6 @@ copilot_instructions = export_for_copilot_instructions(
 - Pattern discovery
 - Context export
 
----
 
 ### 3. MCP Operational Support
 
@@ -183,7 +183,6 @@ workflow_result: WorkflowResult = await automate_support_workflows(
 - Workflow automation
 - Metrics aggregation
 
----
 
 ### 4. LUKHAS MCP Server (Consciousness-Aware)
 
@@ -215,7 +214,6 @@ await mcp_server.start()
 - Memory fold access
 - Ethics enforcement
 
----
 
 ### 5. LUKHAS MCP Server (Simple)
 
@@ -236,7 +234,6 @@ await mcp_server.start()
 - Basic operations only
 - Lightweight footprint
 
----
 
 ### 6. Routing System
 
@@ -269,7 +266,6 @@ else:
 - Feature flags
 - Gradual rollouts
 
----
 
 ## Module Structure
 
@@ -287,7 +283,6 @@ ai_orchestration/
 └── agents/                           # Agent subdirectory
 ```
 
----
 
 ## Observability
 
@@ -318,7 +313,6 @@ async def orchestrate_request(request):
         return result
 ```
 
----
 
 ## Development Guidelines
 
@@ -386,7 +380,6 @@ support = LUKHASMCPOperationalSupport(
 await support.start_monitoring(interval=60)  # 60 seconds
 ```
 
----
 
 ## MATRIZ Pipeline Integration
 
@@ -399,7 +392,6 @@ This module operates within the MATRIZ cognitive framework:
 - **I (Intent)**: Intent understanding for orchestration
 - **A (Action)**: Orchestrated action execution
 
----
 
 ## Performance Targets
 
@@ -409,7 +401,6 @@ This module operates within the MATRIZ cognitive framework:
 - **MCP Operations**: <100ms p95
 - **Monitoring Overhead**: <5% of total latency
 
----
 
 ## Dependencies
 
@@ -421,7 +412,6 @@ This module operates within the MATRIZ cognitive framework:
 - `lukhas.governance.guardian_system.guardian_validator` (for guardian integration)
 - `lukhas.memory.fold_system` (for memory integration)
 
----
 
 ## Related Modules
 
@@ -430,7 +420,6 @@ This module operates within the MATRIZ cognitive framework:
 - **Governance** ([../governance/](../governance/)) - Guardian validation
 - **Memory** ([../memory/](../memory/)) - Memory systems
 
----
 
 ## Documentation
 
@@ -439,7 +428,6 @@ This module operates within the MATRIZ cognitive framework:
 - **Tests**: [ai_orchestration/tests/](tests/) - Orchestration test suites
 - **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#ai_orchestration)
 
----
 
 **Status**: Integration Lane (L2)
 **Manifest**: ✓ module.manifest.json (schema v3.0.0)
@@ -448,31 +436,3 @@ This module operates within the MATRIZ cognitive framework:
 **Components**: 42 orchestration functions across 5 Python files
 **Test Coverage**: 85.0%
 **Last Updated**: 2025-10-18
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

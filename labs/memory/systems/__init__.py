@@ -2,6 +2,7 @@
 Memory Systems Module
 Unified memory system components for LUKHAS AI
 """
+import logging
 import streamlit as st
 
 try:

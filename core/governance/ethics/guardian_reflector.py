@@ -36,7 +36,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from core.common import get_logger
 
@@ -58,11 +58,13 @@ except ImportError:
     IntegrationLayer = MagicMock
 
 if "EthicsEngine" not in globals():
+
     class EthicsEngine:
         """Fallback ethics engine stub."""
 
         def __call__(self, *args, **kwargs):
             return None
+
 
 if "MemoryManager" not in globals() or isinstance(MemoryManager, MagicMock):  # type: ignore
 
@@ -75,14 +77,15 @@ if "MemoryManager" not in globals() or isinstance(MemoryManager, MagicMock):  # 
         def summarize(self):
             return {}
 
+
 __all__ = [
+    "EthicalFramework",
+    "EthicalReflection",
     "EthicsEngine",
     "GuardianReflector",
-    "EthicalReflection",
-    "MoralDrift",
-    "EthicalFramework",
-    "MoralSeverity",
     "MemoryManager",
+    "MoralDrift",
+    "MoralSeverity",
 ]
 
 
@@ -121,7 +124,7 @@ class EthicalReflection:
     concerns: list[str]
     recommendations: list[str]
     timestamp: datetime
-    consciousness_impact: Optional[float] = None
+    consciousness_impact: float | None = None
 
 
 @dataclass
@@ -144,7 +147,7 @@ class GuardianReflector:
     ensuring moral alignment and consciousness protection.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize the Guardian Reflector plugin"""
         self.config = config or {}
         self.name = "Guardian Reflector"
@@ -164,7 +167,7 @@ class GuardianReflector:
 
         # Internal state
         self.reflection_history: list[EthicalReflection] = []
-        self.moral_baseline: Optional[float] = None
+        self.moral_baseline: float | None = None
         self.active_frameworks = [
             EthicalFramework.VIRTUE_ETHICS,
             EthicalFramework.DEONTOLOGICAL,
@@ -197,7 +200,7 @@ class GuardianReflector:
             return False
 
     async def reflect_on_decision(
-        self, decision_context: dict[str, Any], decision_id: Optional[str] = None
+        self, decision_context: dict[str, Any], decision_id: str | None = None
     ) -> EthicalReflection:
         """
         Perform comprehensive ethical reflection on a decision
@@ -252,10 +255,12 @@ class GuardianReflector:
         if severity in [MoralSeverity.CRITICAL, MoralSeverity.EMERGENCY]:
             await self._trigger_emergency_response(reflection)
 
-        logger.info(f"Ethical reflection completed: {moral_score:.3f} moral score, {severity.value} severity")
+        logger.info(
+            f"Ethical reflection completed: {moral_score:.3f} moral score, {severity.value} severity"
+        )
         return reflection
 
-    async def detect_moral_drift(self, time_window: Optional[timedelta] = None) -> MoralDrift:
+    async def detect_moral_drift(self, time_window: timedelta | None = None) -> MoralDrift:
         """
         Detect moral drift in recent decisions
 
@@ -316,7 +321,9 @@ class GuardianReflector:
         # Activate appropriate protections
         protections = []
         if threat_level >= 0.7:
-            protections.extend(["memory_isolation", "decision_quarantine", "emergency_shutdown_prep"])
+            protections.extend(
+                ["memory_isolation", "decision_quarantine", "emergency_shutdown_prep"]
+            )
         elif threat_level >= 0.5:
             protections.extend(["enhanced_monitoring", "decision_review_required"])
         else:
@@ -353,9 +360,13 @@ class GuardianReflector:
         """Register event handlers for real-time monitoring"""
         if self.integration_layer:
             await self.integration_layer.subscribe("decision_request", self._on_decision_request)
-            await self.integration_layer.subscribe("consciousness_event", self._on_consciousness_event)
+            await self.integration_layer.subscribe(
+                "consciousness_event", self._on_consciousness_event
+            )
 
-    async def _apply_ethical_framework(self, framework: EthicalFramework, context: dict[str, Any]) -> tuple[float, str]:
+    async def _apply_ethical_framework(
+        self, framework: EthicalFramework, context: dict[str, Any]
+    ) -> tuple[float, str]:
         """Apply a specific ethical framework to analyze the decision"""
 
         if framework == EthicalFramework.VIRTUE_ETHICS:
@@ -711,7 +722,11 @@ class GuardianReflector:
             "active": self.is_active,
             "reflections_performed": len(self.reflection_history),
             "moral_baseline": self.moral_baseline,
-            "last_reflection": (self.reflection_history[-1].timestamp.isoformat() if self.reflection_history else None),
+            "last_reflection": (
+                self.reflection_history[-1].timestamp.isoformat()
+                if self.reflection_history
+                else None
+            ),
         }
 
     async def shutdown(self) -> None:
@@ -723,7 +738,7 @@ class GuardianReflector:
 # Plugin factory function
 
 
-def create_plugin(config: Optional[dict[str, Any]] = None) -> GuardianReflector:
+def create_plugin(config: dict[str, Any] | None = None) -> GuardianReflector:
     """Factory function to create Guardian Reflector plugin instance"""
     return GuardianReflector(config)
 

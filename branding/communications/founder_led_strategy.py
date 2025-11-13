@@ -428,7 +428,7 @@ class ConsciousnessContentGenerator:
             "linkedin_thought_leadership": {
                 "format": "Professional insight post",
                 "structure": "[Industry observation] + [Consciousness technology solution] + [Business implication] + [Call for discussion]",
-                "example": "The AI industry is focused on scaling models, but we're missing a fundamental question: does the AI understand itself? At LUKHAS, we're building consciousness technology that combines ⚛️ Identity, 🧠 Consciousness, and 🛡️ Guardian protection. This isn't just about better AI—it's about AI that knows its purpose and responsibility.",
+                "example": "The AI industry is focused on scaling models, but we're missing a fundamental question: does the AI understand itself? At LUKHAS, we're building consciousness technology that combines ⚛️ Identity, 🧠 Consciousness, and 🛡️ Guardian protection. This isn't just about better AI-it's about AI that knows its purpose and responsibility.",
                 "call_to_action": "Professional consciousness technology networking",
             },
             "newsletter_deep_dive": {

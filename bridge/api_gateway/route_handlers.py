@@ -66,9 +66,9 @@ class RouteHandlers:
             return response
 
         except Exception as e:
-            logger.error(f"Error handling request for {path}: {str(e)}")
+            logger.error(f"Error handling request for {path}: {e!s}")
             return {
-                "error": f"Internal server error: {str(e)}",
+                "error": f"Internal server error: {e!s}",
                 "status_code": 500,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
@@ -103,7 +103,7 @@ class RouteHandlers:
             else:
                 return middleware(request)
         except Exception as e:
-            logger.error(f"Error applying middleware {middleware.__name__}: {str(e)}")
+            logger.error(f"Error applying middleware {middleware.__name__}: {e!s}")
             return request  # Continue with original request
 
     def _register_default_handlers(self) -> None:

@@ -17,4 +17,4 @@ class HTTPError(Exception):
     """Base HTTP error used by callers importing from urllib3.exceptions."""
 
 
-__all__ = ["NotOpenSSLWarning", "InsecureRequestWarning", "DependencyWarning", "HTTPError"]
+__all__ = ["DependencyWarning", "HTTPError", "InsecureRequestWarning", "NotOpenSSLWarning"]

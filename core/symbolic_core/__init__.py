@@ -17,7 +17,7 @@ for _module in (
     try:
         backend = import_module(_module)
         if hasattr(backend, "plan_symbolic_core_preservation"):
-            plan_symbolic_core_preservation = getattr(backend, "plan_symbolic_core_preservation")  # type: ignore
+            plan_symbolic_core_preservation = backend.plan_symbolic_core_preservation  # type: ignore
             break
     except Exception:
         continue

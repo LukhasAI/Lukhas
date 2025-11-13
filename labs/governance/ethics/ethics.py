@@ -34,13 +34,13 @@ METADATA TAGS: #LuKhas #AI #Professional #Deployment #AI Professional System
 
 
 def main():
-    print("\n📜 Λ_AGI — ETHICAL FRAMEWORK PREVIEW")
+    print("\n📜 Λ_AGI - ETHICAL FRAMEWORK PREVIEW")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print("🧠 Purpose:")
     print(
         "  To ensure that all actions, outputs, and identities of Λ_AGI are bound by ethics, traceability, and symbolic consent."
     )
-    print("\n📜 lukhas_AGI — ETHICAL FRAMEWORK PREVIEW")
+    print("\n📜 lukhas_AGI - ETHICAL FRAMEWORK PREVIEW")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print("🧠 Purpose:")
     print(
@@ -48,10 +48,10 @@ def main():
     )
     print("")
     print("🧬 Core Pillars:")
-    print("  • Transparency — all outputs and changes are logged")
-    print("  • Consent — all high-impact actions route through governance")
-    print("  • Emotion — symbolic voice and dreams are emotionally aware")
-    print("  • Governance — tier-based logic and DAO oversight")
+    print("  • Transparency - all outputs and changes are logged")
+    print("  • Consent - all high-impact actions route through governance")
+    print("  • Emotion - symbolic voice and dreams are emotionally aware")
+    print("  • Governance - tier-based logic and DAO oversight")
     print("")
 
     try:

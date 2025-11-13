@@ -12,10 +12,11 @@ Usage:
 """
 from __future__ import annotations
 
+import contextlib
 import math
 import os
 from time import perf_counter, sleep
-from typing import Callable, List
+from typing import Callable
 
 # Optional Prometheus metrics (safe to import; no hard dependency in tests)
 try:
@@ -42,7 +43,7 @@ class Ticker:
         """
         self.fps = fps
         self.period = 1.0 / fps
-        self.subscribers: List[Callable[[int], None]] = []
+        self.subscribers: list[Callable[[int], None]] = []
         self.tick_count = 0
         self.running = False
 
@@ -61,7 +62,7 @@ class Ticker:
         }
 
         # Timing history for p95 calculation
-        self._timing_history: List[float] = []
+        self._timing_history: list[float] = []
         self._history_limit = 1000  # Keep last 1000 measurements
 
     def subscribe(self, callback: Callable[[int], None]) -> None:
@@ -131,10 +132,8 @@ class Ticker:
                 # Count and log, but keep ticking
                 self.metrics["subscriber_exceptions"] += 1
                 if _PROM_AVAILABLE:
-                    try:
+                    with contextlib.suppress(Exception):
                         ticker_subscriber_exceptions.labels(lane=self.lane).inc()
-                    except Exception:
-                        pass
                 print(f"Warning: subscriber {getattr(callback, '__name__', repr(callback))} error at tick {self.tick_count}: {e}")
             finally:
                 cb_elapsed = perf_counter() - cb_start
@@ -172,10 +171,8 @@ class Ticker:
                 elapsed = perf_counter() - tick_start
 
                 if _PROM_AVAILABLE:
-                    try:
+                    with contextlib.suppress(Exception):
                         tick_duration.labels(lane=self.lane).observe(elapsed)
-                    except Exception:
-                        pass
 
                 sleep_time = max(0.0, self.period - elapsed)
 
@@ -183,10 +180,8 @@ class Ticker:
                     # Over budget: record a drop and decide strategy
                     self.metrics["ticks_dropped"] += 1
                     if _PROM_AVAILABLE:
-                        try:
+                        with contextlib.suppress(Exception):
                             ticker_ticks_dropped.labels(lane=self.lane).inc()
-                        except Exception:
-                            pass
                     if self.mode == "catchup":
                         # Skip sleeping to catch up next loop
                         sleep_time = 0.0

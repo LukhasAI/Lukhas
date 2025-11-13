@@ -1,4 +1,3 @@
-import logging
 """Consciousness token mapping utilities for the symbolic bridge."""
 
 from dataclasses import dataclass, field
@@ -209,7 +208,7 @@ class BridgeTokenMap:
         Returns the proposed schema for the bridge token map.
 
         Returns:
-            Dict[str, Any]: The proposed schema.
+            dict[str, Any]: The proposed schema.
         """
         schema = {
             "title": "Bridge Token Map Schema",

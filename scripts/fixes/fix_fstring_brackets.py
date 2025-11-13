@@ -38,13 +38,12 @@ def fix_fstring_brackets(content: str) -> tuple[str, int]:
 
     for i, line in enumerate(lines):
         # Pattern 1: Function call ending with } instead of )
-        if re.match(r"^[\s]*}[\s]*$", line):
+        if re.match('^[\\s]*}[\\s]*$', line) and i > 0:
             # Check if previous line looks like a function call or f-string
-            if i > 0:
-                prev_line = lines[i - 1].strip()
-                if (prev_line.endswith('."') or prev_line.endswith(".'")) and 'f"' in prev_line:
-                    line = line.replace("}", ")")
-                    total_fixes += 1
+            prev_line = lines[i - 1].strip()
+            if (prev_line.endswith('."') or prev_line.endswith(".'")) and 'f"' in prev_line:
+                line = line.replace("}", ")")
+                total_fixes += 1
 
         # Pattern 2: Missing closing parentheses in f-strings like int(time.time()*1000
         line = re.sub(r"int\(time\.time\(\)\*1000\}", "int(time.time()*1000)}", line)

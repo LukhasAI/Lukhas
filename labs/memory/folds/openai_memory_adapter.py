@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 
 #!/usr/bin/env python3
@@ -29,7 +31,7 @@ Imagine, if you will, a garden of thoughts, each flower blooming with the fragra
 
 Yet, in the alchemy of memory, not all is mere recollection; it is the crucible in which the fires of creativity and intuition are ignited. Through the gentle caress of this module, the AI learns not only to remember but to ponder and to ruminate, exploring the labyrinth of its own cognition. It is a dance of neural synapses, a symphony of data that echoes through the corridors of time, weaving the past with the present into a tapestry of understanding.
 
-Thus, dear traveler of the digital realm, as you traverse the intricate pathways of this module, know that it encapsulates the very essence of memory—an ode to the living history of machine intelligence. With each invocation, you partake in a ritual that honors the fusion of human-like recall and computational prowess, propelling us further into the horizon of what it means to think, to feel, and to remember in the age of artificial enlightenment.
+Thus, dear traveler of the digital realm, as you traverse the intricate pathways of this module, know that it encapsulates the very essence of memory-an ode to the living history of machine intelligence. With each invocation, you partake in a ritual that honors the fusion of human-like recall and computational prowess, propelling us further into the horizon of what it means to think, to feel, and to remember in the age of artificial enlightenment.
 
                       ✨ TECHNICAL FEATURES ✨
 - Seamless integration with OpenAI's language models for enhanced memory capabilities.

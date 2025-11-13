@@ -270,7 +270,7 @@ class ConsensusEngine:
         """Get a single vote from a specific model"""
 
         try:
-            decision, response = await self.model_router.route_request(request)
+            _decision, response = await self.model_router.route_request(request)
 
             # Create vote with confidence-based weighting
             vote_weight = response.confidence

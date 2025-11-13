@@ -202,7 +202,7 @@ class SelfHealingDashboard:
                     lane_compliance[lane] = compliance
             except Exception as e:
                 logger.warning(f"Lane compliance check failed: {e}")
-                lane_compliance = {lane: 85.0 for lane in self.state.active_lanes}
+                lane_compliance = dict.fromkeys(self.state.active_lanes, 85.0)
 
         # Constellation Framework status
         constellation_status = await self._check_triad_status()
@@ -646,9 +646,8 @@ class SelfHealingDashboard:
                     if file_path.exists() and file_path.stat().st_size < 100000:  # Skip large files
                         content = file_path.read_text(errors="ignore")
                         # Simple check for potential f-string issues
-                        if 'f"' in content or "f'" in content:
-                            if content.count("{") != content.count("}"):
-                                affected_files.append(str(file_path.relative_to(ROOT)))
+                        if ('f"' in content or "f'" in content) and content.count('{') != content.count('}'):
+                            affected_files.append(str(file_path.relative_to(ROOT)))
 
             return {
                 "fix_type": "fstring_syntax",
@@ -680,7 +679,7 @@ class SelfHealingDashboard:
                 for file_path in files:
                     if file_path.exists() and file_path.stat().st_size < 10000:
                         content = file_path.read_text(errors="ignore")
-                        if any(p in content for p in import_patterns):
+                        if any(p in content for p in import_patterns):  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_dashboard_self_healing_dashboard_py_L682"}
                             if "ImportError" in content or "try:" in content:
                                 affected_files.append(str(file_path.relative_to(ROOT)))
 

@@ -26,4 +26,4 @@ def get_voice_bridge_logger(component: Optional[str] = None) -> logging.Logger:
 
 BRIDGE_LOGGER = get_voice_bridge_logger("module")
 
-__all__ = ["get_voice_bridge_logger", "BRIDGE_LOGGER"]
+__all__ = ["BRIDGE_LOGGER", "get_voice_bridge_logger"]

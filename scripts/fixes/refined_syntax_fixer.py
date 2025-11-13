@@ -115,7 +115,7 @@ class RefinedSyntaxFixer:
                 original_content = f.read()
 
             # Test original compilation status
-            original_compiles, original_error = self.test_compilation(str(full_path))
+            original_compiles, _original_error = self.test_compilation(str(full_path))
             if original_compiles:
                 logger.info("  ✅ File already compiles, skipping")
                 return True

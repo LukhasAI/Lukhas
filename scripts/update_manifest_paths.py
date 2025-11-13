@@ -22,8 +22,7 @@ from pathlib import Path
 
 def iter_json_files(root: Path):
     """Yield all .json files under root directory."""
-    for p in root.rglob("*.json"):
-        yield p
+    yield from root.rglob("*.json")
 
 
 def rewrite_json_strings(obj, old: str, new: str):

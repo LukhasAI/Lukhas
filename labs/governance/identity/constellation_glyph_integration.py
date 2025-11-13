@@ -897,10 +897,10 @@ def create_trinity_compliant_identity_system(
 
 # Export main classes
 __all__ = [
+    "ConstellationComponent",
+    "ConstellationValidator",
     "GLYPHIntegrator",
     "GLYPHMessage",
     "GLYPHType",
-    "ConstellationComponent",
-    "ConstellationValidator",
     "create_trinity_compliant_identity_system",
 ]

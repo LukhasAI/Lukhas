@@ -33,19 +33,19 @@ from typing import Any, Optional
 try:
     from bridge.llm_wrappers.anthropic_function_bridge import (
         AnthropicFunctionBridge,
-        ClaudeModel,  # noqa: F401  # TODO: bridge.llm_wrappers.ant...
-        ClaudeResponse,  # noqa: F401  # TODO: bridge.llm_wrappers.ant...
+        ClaudeModel,  # TODO: bridge.llm_wrappers.ant...
+        ClaudeResponse,  # TODO: bridge.llm_wrappers.ant...
         ToolUseMode,
     )
     from bridge.llm_wrappers.openai_function_bridge import (
         FunctionCallMode,
         OpenAIFunctionBridge,
-        OpenAIResponse,  # noqa: F401  # TODO: bridge.llm_wrappers.ope...
+        OpenAIResponse,  # TODO: bridge.llm_wrappers.ope...
     )
     from orchestration.multi_model_orchestration import (
-        ConsensusStrategy,  # noqa: F401  # TODO: orchestration.multi_mod...
+        ConsensusStrategy,  # TODO: orchestration.multi_mod...
         MultiModelOrchestrator,
-        OrchestrationMode,  # noqa: F401  # TODO: orchestration.multi_mod...
+        OrchestrationMode,  # TODO: orchestration.multi_mod...
     )
 
     BRIDGES_AVAILABLE = True
@@ -197,7 +197,7 @@ class ComprehensiveAPIOrchestrator:
             APIProvider.ANTHROPIC: {"daily": 50.0, "per_request": 1.0},
             APIProvider.GOOGLE: {"daily": 30.0, "per_request": 0.5},
         }
-        self.daily_costs = {provider: 0.0 for provider in APIProvider}
+        self.daily_costs = dict.fromkeys(APIProvider, 0.0)
 
         logger.info("🌐 Comprehensive API Orchestrator initialized")
         logger.info(f"   Available providers: {list(self.bridges.keys())}")

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 
 class OAuthTokenManager:
@@ -12,11 +12,11 @@ class OAuthTokenManager:
     a fake session without importing network libraries at module import time.
     """
 
-    def __init__(self, oauth_session_factory: Optional[Callable[..., Any]] = None, logger: Optional[Any] = None):
+    def __init__(self, oauth_session_factory: Callable[..., Any] | None = None, logger: Any | None = None):
         self._factory = oauth_session_factory
         self._logger = logger
 
-    def _should_refresh(self, access_token: Optional[str], expires_at_iso: Optional[str]) -> bool:
+    def _should_refresh(self, access_token: str | None, expires_at_iso: str | None) -> bool:
         if not access_token:
             return True
 
@@ -39,7 +39,7 @@ class OAuthTokenManager:
         # Refresh if token expires within 5 minutes
         return expires_at <= datetime.now(timezone.utc) + timedelta(minutes=5)
 
-    def refresh_token_sync(self, *, client_id: str, client_secret: str, refresh_token: str, token_url: str, current_access_token: Optional[str] = None) -> dict[str, Any]:
+    def refresh_token_sync(self, *, client_id: str, client_secret: str, refresh_token: str, token_url: str, current_access_token: str | None = None) -> dict[str, Any]:
         """Perform a synchronous refresh_token call via the injected factory.
 
         Returns the token dict returned by the session.refresh_token call.

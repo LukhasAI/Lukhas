@@ -8,7 +8,7 @@ Rewrites internal links to canonical paths and validates anchors.
 import json
 import re
 from pathlib import Path
-from typing import Dict, Set, Tuple
+from typing import Dict
 
 # Constants
 DOCS_ROOT = Path(__file__).parent.parent / "docs"
@@ -23,7 +23,7 @@ HEADING_PATTERN = re.compile(r'^#+\s+(.+)$', re.MULTILINE)
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
@@ -32,11 +32,11 @@ def load_dedupe_plan() -> Dict:
     if not DEDUPE_PLAN_PATH.exists():
         return {"redirects": []}
 
-    with open(DEDUPE_PLAN_PATH, 'r', encoding='utf-8') as f:
+    with open(DEDUPE_PLAN_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
-def build_redirect_map(dedupe_plan: Dict) -> Dict[str, str]:
+def build_redirect_map(dedupe_plan: Dict) -> dict[str, str]:
     """Build map of old path -> canonical path."""
     redirect_map = {}
 
@@ -48,7 +48,7 @@ def build_redirect_map(dedupe_plan: Dict) -> Dict[str, str]:
     return redirect_map
 
 
-def extract_headings(content: str) -> Set[str]:
+def extract_headings(content: str) -> set[str]:
     """Extract all heading anchors from content."""
     headings = set()
 
@@ -80,7 +80,7 @@ def resolve_relative_link(source_file: Path, link: str, docs_root: Path) -> Path
 
 
 def validate_link(source_file: Path, link_text: str, link_url: str,
-                  docs_by_path: Dict, redirect_map: Dict, docs_root: Path) -> Tuple[bool, str, str]:
+                  docs_by_path: Dict, redirect_map: Dict, docs_root: Path) -> tuple[bool, str, str]:
     """
     Validate a link and return (is_valid, error_msg, canonical_url).
     Returns canonical URL if redirect needed.
@@ -123,7 +123,7 @@ def validate_link(source_file: Path, link_text: str, link_url: str,
     # Validate anchor if present
     if anchor:
         try:
-            with open(target_doc['path'], 'r', encoding='utf-8') as f:
+            with open(target_doc['path'], encoding='utf-8') as f:
                 content = f.read()
             headings = extract_headings(content)
 
@@ -149,7 +149,7 @@ def rewrite_links_in_file(file_path: Path, docs_by_path: Dict, redirect_map: Dic
     Returns stats and changes.
     """
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
     except Exception as e:
         return {"error": str(e)}

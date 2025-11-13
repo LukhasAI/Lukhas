@@ -94,8 +94,8 @@ def _mk_markdown(policy_root: str, overlays: str | None, window: int) -> str:
     md.append("")
     md.append("## Receipts")
     md.append(f"- Total receipts: **{total}**")
-    md.append(f"- Median latency: **{lat_p50 if lat_p50 is not None else '—'} ms**")
-    md.append(f"- p95 latency: **{lat_p95 if lat_p95 is not None else '—'} ms**")
+    md.append(f"- Median latency: **{lat_p50 if lat_p50 is not None else '-'} ms**")
+    md.append(f"- p95 latency: **{lat_p95 if lat_p95 is not None else '-'} ms**")
     if by_task:
         md.append("- By task:")
         for k, v in sorted(by_task.items(), key=lambda x: -x[1])[:12]:

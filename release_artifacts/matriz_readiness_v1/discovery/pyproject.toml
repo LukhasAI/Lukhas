@@ -1,0 +1,413 @@
+[build-system]
+requires = ["setuptools>=78.1.1", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lukhas-ai"
+version = "1.0.0"
+requires-python = ">=3.9"
+description = "Production-ready consciousness-aware AI platform with Constellation Framework"
+authors = [
+    {name = "LUKHAS AI", email = "contact@lukhas.ai"}
+]
+readme = "README.md"
+license = "MIT"
+keywords = ["ai", "consciousness", "cognitive-architecture", "constellation-framework"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "fastapi>=0.100.0",
+    "pydantic>=2.0.0",
+    "aiohttp>=3.9.0",
+    "numpy>=1.24.0",
+    "cryptography>=41.0.0",
+    "openai>=1.0.0",
+    "anthropic>=0.18.0",
+    "python-dateutil>=2.8.2",
+    "pytz>=2023.3",
+    "typing-extensions>=4.8.0",
+    "pyyaml>=6.0.1",
+    "python-dotenv>=1.0.0",
+    "importlib-metadata>=6.0.0; python_version<'3.10'",
+    "websockets",
+    "pynacl",
+    "Pillow",
+    "qrcode",
+    "sqlalchemy",
+    "streamlit",
+    "prometheus-client",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+    "pytest-anyio>=0.0.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.11.0",
+    "mypy>=1.7.0",
+    "ruff>=0.1.0",
+    "flake8>=6.0.0",
+    "coverage>=7.3.0",
+    "bandit>=1.7.5",
+    "pre-commit>=3.4.0",
+    "PyJWT>=2.8.0",
+    "import-linter>=2.0.0",
+]
+lambda = [
+    "msgpack>=1.0.5",
+    "orjson>=3.9.0",
+    "prometheus-client>=0.19.0",
+]
+ml = [
+    "scikit-learn>=1.3.0",
+    "pandas>=2.0.0",
+    "scipy>=1.11.0",
+    "torch>=2.0.0",
+    "transformers>=4.30.0",
+    "tiktoken>=0.5.0",
+]
+mcp = [
+    "mcp",
+]
+s3 = [
+    "boto3",
+]
+dropbox = [
+    "dropbox",
+]
+
+[project.scripts]
+lukhas = "main:main"
+lukhas-test = "tests.COMPLETE_SYSTEM_TEST:main"
+
+[project.entry-points."lukhas.cognitive_nodes"]
+# MATRIZ Cognitive Nodes - Auto-discoverable via entry points (aligned with cognitive naming)
+memory = "candidate.core.matrix.nodes.memory_node:MemoryNode"
+attention = "candidate.core.matrix.nodes.attention_node:AttentionNode"
+thought = "candidate.core.matrix.nodes.thought_node:ThoughtNode"
+risk = "candidate.core.matrix.nodes.risk_node:RiskNode"
+intent = "candidate.core.matrix.nodes.intent_node:IntentNode"
+action = "candidate.core.matrix.nodes.action_node:ActionNode"
+vision = "candidate.core.matrix.nodes.vision_node:VisionNode"
+
+
+[project.entry-points."lukhas.constellation_components"]
+# Constellation Framework Components
+identity = "candidate.governance.identity.core.lambda_id_core:IdentityComponent"
+consciousness = "candidate.consciousness.core.engine:ConsciousnessComponent"
+guardian = "candidate.governance.guardian.guardian_system:GuardianComponent"
+memory_system = "candidate.memory.core.base_manager:MemorySystemComponent"
+
+[project.entry-points."lukhas.adapters"]
+# External Service Adapters
+gmail = "candidate.bridge.adapters.gmail_adapter:GmailAdapter"
+dropbox = "candidate.bridge.adapters.dropbox_adapter:DropboxAdapter"
+oauth = "candidate.governance.identity.core.auth.oauth2_oidc_provider:OAuth2Provider"
+
+[project.entry-points."lukhas.monitoring"]
+# Observability and Monitoring Components
+metrics = "lukhas.metrics:PrometheusMetrics"
+tracing = "candidate.core.orchestration.otel:OpenTelemetryTracing"
+constellation_monitor = "candidate.core.observability.constellation_framework_monitor:ConstellationFrameworkMonitor"
+
+[project.urls]
+Homepage = "https://github.com/LukhasAI/Lukhas"
+Documentation = "https://lukhas.ai/docs"
+Repository = "https://github.com/LukhasAI/Lukhas"
+Issues = "https://github.com/LukhasAI/Lukhas/issues"
+
+[tool.setuptools]
+packages = ["lukhas", "MATRIZ", "candidate", "branding"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+pythonpath = ["."]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-q --strict-markers --disable-warnings"
+asyncio_mode = "auto"
+markers = [
+    "unit: fast, isolated tests",
+    "integration: touches I/O, network, or filesystem",
+    "contract: provider/consumer API checks",
+    "e2e: end-to-end journeys",
+    "slow: long-running tests",
+    "security: Security tests",
+    "codex: CODEX automated fixes",
+    "datetime: Datetime UTC compliance tests",
+    "imports: Import structure validation",
+    "consciousness: Consciousness system tests",
+    "constellation: Constellation Framework tests",
+    "tier1: fast, blocking MATRIZ smoke",
+    "matriz: MATRIZ subsystem tests",
+    "smoke: tiny health checks",
+    "critical: critical path tests",
+    "regression: regression tests",
+    "slow: slow running tests",
+    "golden: deterministic trace tests",
+    "ablation: consciousness ablation tests",
+    "ethics: ethics validation tests",
+    "no_mock: tests requiring real dependencies",
+    "benchmark: performance benchmark tests",
+    "performance: performance tests",
+    "audit_safe: tests safe for audit environments",
+    "nias_transcendence: NIAS transcendence system tests",
+    "no_external_calls: tests that make no external API calls",
+    "fault: fault injection tests",
+    "perf: performance tests",
+    "adapters: external service adapter tests",
+    "oauth: OAuth integration tests",
+    "bio: bio-related tests",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+
+[tool.coverage.run]
+# Phase 3.1: Focus coverage on production lanes
+source = ["lukhas", "matriz", "core"]
+branch = true
+omit = ["*/tests/*", "*/test_*"]
+
+[tool.coverage.report]
+# Phase 3.1: Target 50% for prod lanes (current: 17%, audit target: 45-55%)
+fail_under = 30
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+include = '\.pyi?$'
+# Keep default quote normalization enabled (do NOT set skip-string-normalization=true)
+# Black is the single source of truth for string quotes
+
+[tool.ruff]
+src = ["lukhas", "core", "MATRIZ"]
+target-version = "py39"  # Match minimum Python version (requires-python >= 3.9)
+line-length = 100
+respect-gitignore = true
+fix = false  # Disable auto-fix; run selectively with --fix flag
+exclude = [
+    "labs",
+    "examples",
+    "docs",
+    "tests/fixtures",
+    "scripts/migrations",
+    ".git",
+    ".venv",
+    ".ruff_cache",
+    "build",
+    "dist",
+    "node_modules",
+    "**/migrations/**",
+    "**/generated/**",
+    "gemini-dev",
+    "b1db8919b599a05a3bdcacda2013e2f4e5803bfe",
+    "archive/**",
+    "**/quarantine/**",
+    "**/quarantine_*/**",
+    "products/**",
+    "dreamweaver_helpers_bundle/**",
+]
+
+[tool.ruff.lint]
+# Enable helpful, low-risk fixers
+select = [
+    "E",      # pycodestyle errors
+    "F",      # pyflakes
+    "W",      # pycodestyle warnings
+    "I",      # isort
+    "UP",     # pyupgrade
+    "B",      # flake8-bugbear
+    "SIM",    # flake8-simplify
+    "C4",     # flake8-comprehensions
+    "RUF",    # ruff-specific rules
+]
+ignore = [
+    "E501",     # line-too-long (Black handles this)
+    "PLC0415",  # import outside top-level
+    # Disable quote linting - let Black own this surface
+    "Q000",     # single quotes found but double quotes preferred
+    "Q001",     # single quote multiline found but double quotes preferred
+    "Q002",     # single quote docstring found but double quotes preferred
+    "Q003",     # avoidable escaped quote
+    # Python 3.9 compatibility - disable Python 3.10+ syntax
+    "UP007",    # Use X | Y for union types (requires Python 3.10+)
+    "UP006",    # Use list[X] instead of List[X] (safe with __future__.annotations but disabled for safety)
+]
+fixable = [
+    "E",
+    "F",
+    "W",
+    "I",
+    "UP",
+    "B",
+    "SIM",
+    "C4",
+    "RUF",
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["lukhas", "candidate", "MATRIZ"]
+combine-as-imports = true
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["F401", "F403", "I001", "TID252"]
+"tests/**/*.py" = ["F401", "F403"]
+
+[tool.interrogate]
+ignore-init-method = true
+ignore-init-module = true
+ignore-magic = true
+ignore-semiprivate = true
+ignore-private = true
+ignore-property-decorators = true
+fail-under = 85
+verbose = 1
+whitelist-regex = [
+  "^scripts/",
+]
+exclude = [
+  ".venv", "node_modules", "build", "dist",
+  "manifests", "docs/openapi", "tests", "legacy",
+  "lukhas", "matriz", "api"
+]
+
+[tool.pydocstyle]
+convention = "google"
+add-ignore = ["D104", "D203"]
+match-dir = "(?!(.venv|node_modules|build|dist|manifests|docs|tests|legacy|lukhas|matriz|api)).*"
+match = "(?!test_).*\\.py"
+
+[tool.mypy]
+python_version = "3.9"  # Match minimum Python version (requires-python >= 3.9)
+strict = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+no_implicit_optional = true
+disallow_any_generics = true
+disallow_subclassing_any = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+disallow_untyped_calls = true
+disallow_untyped_decorated_calls = true
+check_untyped_defs = true
+show_error_codes = true
+pretty = false
+color_output = false
+show_column_numbers = true
+# Core enforcement: lukhas, MATRIZ (strict)
+files = ["lukhas", "MATRIZ"]
+
+# Experimental/deferred areas get narrower checks or are excluded explicitly
+[[tool.mypy.overrides]]
+module = ["candidate.*", "archive.*", "quarantine.*", "tests.*", "tools.*"]
+ignore_errors = true
+
+# T4 Mutation Testing Configuration
+[tool.mutmut]
+paths = ["lukhas/", "candidate/"]
+tests_dir = "tests"
+runner = "pytest"
+timeout = 10
+exclude = [
+    "tests/specs/",
+    "tests/fixtures/",
+    "__pycache__",
+    "*.pyc"
+]
+report_only = true
+
+# T4 Lane Isolation Enforcement
+[tool.importlinter]
+root_package = "."
+include_external_packages = false
+
+# T4/0.01% Lane Isolation - Canonical LUKHAS Lane Progression
+# candidate → lukhas → MATRIZ → products
+# Reference: lukhas.governance.schema_registry.LUKHASLane
+
+[[tool.importlinter.contracts]]
+name = "Candidate Lane Isolation"
+type = "forbidden"
+source_modules = ["candidate"]
+forbidden_modules = ["lukhas", "MATRIZ", "products"]
+ignore_imports = [
+    "lukhas.governance.schema_registry.get_lane_enum",  # Canonical taxonomy access
+    "lukhas.core.logging",                              # Shared logging
+    "lukhas.core.types"                                 # Shared types
+]
+
+[[tool.importlinter.contracts]]
+name = "LUKHAS Lane Isolation"
+type = "forbidden"
+source_modules = ["lukhas"]
+forbidden_modules = ["candidate", "MATRIZ", "products"]
+ignore_imports = [
+    "lukhas.governance.schema_registry.get_lane_enum",  # Canonical taxonomy access
+]
+
+[[tool.importlinter.contracts]]
+name = "MATRIZ Lane Isolation"
+type = "forbidden"
+source_modules = ["MATRIZ"]
+forbidden_modules = ["candidate", "lukhas", "products"]
+ignore_imports = [
+    "lukhas.governance.schema_registry.get_lane_enum",  # Canonical taxonomy access
+    "lukhas.core.logging",                              # Shared logging
+    "lukhas.core.types"                                 # Shared types
+]
+
+[[tool.importlinter.contracts]]
+name = "Products Lane Independence"
+type = "forbidden"
+source_modules = ["products"]
+forbidden_modules = ["candidate", "lukhas", "MATRIZ"]
+ignore_imports = [
+    "lukhas.governance.schema_registry.get_lane_enum",  # Canonical taxonomy access
+    "lukhas.core.logging",                              # Shared logging
+    "lukhas.api"                                        # Public API access
+]
+
+[[tool.importlinter.contracts]]
+name = "Lane Progression Flow Enforcement"
+type = "layers"
+layers = [
+    "candidate",
+    "lukhas",
+    "MATRIZ",
+    "products"
+]
+ignore_imports = [
+    "lukhas.governance.schema_registry.get_lane_enum",  # Canonical taxonomy access
+    "lukhas.core.logging",                              # Shared logging infrastructure
+    "lukhas.core.types"                                 # Shared type definitions
+]
+
+[[tool.importlinter.contracts]]
+name = "Production lane isolation"
+type = "layers"
+layers = [
+    "candidate",
+    "lukhas",
+    "MATRIZ"
+]

@@ -481,7 +481,7 @@ def main():
         {
             "content": """What if consciousness isn't binary? 🤔
 
-We often think of consciousness as something you either have or don't have. But what if consciousness exists on a spectrum—a dance between awareness, understanding, and transcendence?
+We often think of consciousness as something you either have or don't have. But what if consciousness exists on a spectrum-a dance between awareness, understanding, and transcendence?
 
 The Constellation Framework ⚛️🧠🛡️ suggests that true consciousness emerges when:
 

@@ -1,0 +1,6 @@
+refactor/flatten-vivox-v1            # shim strategy - MATRIZ node example (2 files)
+refactor/flatten-benchmarks-v1       # physical move - small benchmark set (3 files)
+refactor/e741-tests-v1               # E741 fix pass for tests (5 files)
+refactor/flatten-scripts-tools-v1    # scripts/tools flatten (10 files)
+refactor/flatten-labs-v1             # labs flatten (8 files)
+chore/flatten-ci-updates             # CI & pre-commit updates

@@ -271,7 +271,7 @@ class TestAdaptiveCompressionManager:
         data = b"Small test data"
 
         # Test different content type hints
-        algo_text, level = self.manager._select_algorithm_and_level(
+        _algo_text, _level = self.manager._select_algorithm_and_level(
             data, content_type="text", priority="balanced"
         )
         algo_xml, _ = self.manager._select_algorithm_and_level(
@@ -435,7 +435,7 @@ class TestAdaptiveCompressionManager:
         manager = AdaptiveCompressionManager(enable_adaptive=False)
 
         data = b"Non-adaptive test"
-        algo, level = manager._select_algorithm_and_level(data, content_type="xml")
+        algo, _level = manager._select_algorithm_and_level(data, content_type="xml")
 
         # Should use default algorithm regardless of content type
         expected_default = (

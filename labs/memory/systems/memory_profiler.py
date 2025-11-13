@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 
 #!/usr/bin/env python3
@@ -41,10 +43,6 @@ import logging
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from typing import List
-from typing import Dict
-import time
-import streamlit as st
 
 import collections
 import dataclasses

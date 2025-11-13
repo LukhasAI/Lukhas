@@ -16,11 +16,12 @@ from typing import Any
 from consciousness.dream.parallel_reality_safety import (
     SafetyLevel,
 )
+from core.common import get_logger
+
 from consciousness.dream.parallel_reality_simulator import (
     ParallelRealitySimulator,
     RealityType,
 )
-from core.common import get_logger
 
 logger = get_logger(__name__)
 

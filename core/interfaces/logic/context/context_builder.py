@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # core/interfaces/logic/context/context_builder.py
 import logging
 from typing import Any
@@ -70,12 +72,12 @@ def build_user_context(user_id: str) -> dict[str, Any]:
     # ΛARGS:
     #   user_id (str): Unique symbolic ID of the user/session.
     # ΛRETURNS:
-    #   Dict[str, Any]: A symbolic context representation (tier, emotion, tags, etc.).
+    #   dict[str, Any]: A symbolic context representation (tier, emotion, tags, etc.).
     # AIO_NODE: Placeholder for future interaction with data sources.
     # ΛEXPOSE: Provides a structured view of the user's current state.
     # ΛSYMBOLIC_ECHO: Reflects the aggregated understanding of the user.
     """
-    # ΛPLACEHOLDER_LOGIC – should be dynamically linked to DAST, emotion memory, consent DB
+    # ΛPLACEHOLDER_LOGIC - should be dynamically linked to DAST, emotion memory, consent DB
     # ΛCAUTION: Current implementation returns static placeholder data.
     context_data = {
         "user_id": user_id,

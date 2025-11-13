@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -23,18 +18,23 @@ This module implements a decentralized coordination system where agents can:
 The system is inherently flexible, scalable, and resilient.
 """
 
+from __future__ import annotations
+
 import asyncio
+import logging
 import time
 import uuid
 from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from core.common import get_logger
 
 from .actor_system import ActorMessage, ActorRef
 from .mailbox import MailboxActor, MailboxType, MessagePriority
+
+logger = logging.getLogger(__name__)
 
 
 # Extension methods for ActorRef serialization
@@ -95,7 +95,9 @@ class Skill:
         self.total_tasks += 1
         if success:
             # Update success rate
-            self.success_rate = ((self.success_rate * (self.total_tasks - 1)) + 1) / self.total_tasks
+            self.success_rate = (
+                (self.success_rate * (self.total_tasks - 1)) + 1
+            ) / self.total_tasks
         else:
             self.success_rate = (self.success_rate * (self.total_tasks - 1)) / self.total_tasks
 
@@ -113,7 +115,7 @@ class TaskAnnouncement:
     description: str
     required_skills: list[tuple[str, SkillLevel]]  # (skill_name, min_level)
     initiator: ActorRef
-    deadline: Optional[float] = None
+    deadline: float | None = None
     priority: MessagePriority = MessagePriority.NORMAL
     max_group_size: int = 5
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -136,7 +138,7 @@ class SkillOffer:
     offered_skills: list[Skill]
     availability: float  # 0.0 to 1.0
     estimated_time: float
-    cost_estimate: Optional[float] = None
+    cost_estimate: float | None = None
     constraints: dict[str, Any] = field(default_factory=dict)
 
 
@@ -342,10 +344,14 @@ class CoordinationHub(MailboxActor):
                     contacted.add(agent_id)
                     agent_ref = self.actor_system.get_actor_ref(agent_id)
                     if agent_ref:
-                        await agent_ref.tell(CoordinationProtocol.SKILL_QUERY, announcement.__dict__)
+                        await agent_ref.tell(
+                            CoordinationProtocol.SKILL_QUERY, announcement.__dict__
+                        )
 
             # Start group formation timer
-            asyncio.create_task(self._form_group_timeout(announcement.task_id))
+            asyncio.create_task(
+                self._form_group_timeout(announcement.task_id)
+            )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_agent_coordination_py_L351"}
 
             return {"status": "announced", "candidates": len(contacted)}
 
@@ -453,7 +459,9 @@ class CoordinationHub(MailboxActor):
         if task_id in self.active_announcements:
             del self.active_announcements[task_id]
 
-        logger.info(f"Working group {group.group_id} formed for task {task_id} with {len(group.members)} members")
+        logger.info(
+            f"Working group {group.group_id} formed for task {task_id} with {len(group.members)} members"
+        )
 
     async def _handle_task_complete(self, msg: ActorMessage):
         """Handle task completion"""
@@ -481,7 +489,9 @@ class CoordinationHub(MailboxActor):
                 logger.info(f"Task {task_id} completed by group {group_id}")
 
                 # Clean up after delay
-                asyncio.create_task(self._delayed_cleanup(task_id, 60))
+                asyncio.create_task(
+                    self._delayed_cleanup(task_id, 60)
+                )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_agent_coordination_py_L488"}
 
                 return {"status": "acknowledged"}
 
@@ -496,7 +506,9 @@ class CoordinationHub(MailboxActor):
                 group.status = TaskStatus.FAILED
 
                 # Could implement retry logic here
-                logger.warning(f"Task {task_id} failed in group {group_id}: {msg.payload.get('reason', 'Unknown')}")
+                logger.warning(
+                    f"Task {task_id} failed in group {group_id}: {msg.payload.get('reason', 'Unknown')}"
+                )
 
                 # Clean up
                 await self._cleanup_group(task_id)
@@ -570,7 +582,7 @@ class CoordinationHub(MailboxActor):
 class AutonomousAgent(MailboxActor):
     """Base class for agents that participate in coordination"""
 
-    def __init__(self, agent_id: str, skills: Optional[list[Skill]] = None):
+    def __init__(self, agent_id: str, skills: list[Skill] | None = None):
         super().__init__(
             agent_id,
             mailbox_type=MailboxType.PRIORITY,
@@ -583,7 +595,7 @@ class AutonomousAgent(MailboxActor):
         self.availability = 1.0  # Full availability
 
         # Coordination hub reference (would be discovered in real system)
-        self.coord_hub: Optional[ActorRef] = None
+        self.coord_hub: ActorRef | None = None
 
         self._register_coordination_handlers()
 
@@ -603,7 +615,9 @@ class AutonomousAgent(MailboxActor):
         # Fallback for testing
         return ActorRef(self.actor_id, None)
 
-    async def announce_task(self, description: str, required_skills: list[tuple[str, SkillLevel]], **kwargs) -> str:
+    async def announce_task(
+        self, description: str, required_skills: list[tuple[str, SkillLevel]], **kwargs
+    ) -> str:
         """Broadcast a task need to the network"""
         task_id = str(uuid.uuid4())
 
@@ -616,7 +630,9 @@ class AutonomousAgent(MailboxActor):
         )
 
         if self.coord_hub:
-            result = await self.coord_hub.ask(CoordinationProtocol.TASK_ANNOUNCE, announcement.__dict__)
+            result = await self.coord_hub.ask(
+                CoordinationProtocol.TASK_ANNOUNCE, announcement.__dict__
+            )
             logger.info(f"Task {task_id} announced: {result}")
 
         return task_id
@@ -627,7 +643,9 @@ class AutonomousAgent(MailboxActor):
             return
 
         for skill in self.skills:
-            await self.coord_hub.tell("register_skill", {"agent_id": self.actor_id, "skill": skill.__dict__})
+            await self.coord_hub.tell(
+                "register_skill", {"agent_id": self.actor_id, "skill": skill.__dict__}
+            )
 
     async def _handle_skill_query(self, msg: ActorMessage):
         """Respond to skill query"""

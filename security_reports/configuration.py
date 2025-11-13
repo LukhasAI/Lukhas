@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping, MutableMapping
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Mapping, MutableMapping
+from typing import Any
 
 import yaml
-
 
 _PACKAGE_ROOT = Path(__file__).resolve().parent
 _DEFAULT_CONFIG_PATH = _PACKAGE_ROOT / "config" / "config.yaml"
@@ -87,4 +87,4 @@ def load_config(path: str | Path | None = None) -> SecurityReportsConfig:
     )
 
 
-__all__ = ["SecurityReportsConfig", "SecurityConfigurationError", "load_config"]
+__all__ = ["SecurityConfigurationError", "SecurityReportsConfig", "load_config"]

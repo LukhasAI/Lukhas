@@ -10,7 +10,6 @@ import json
 import re
 import subprocess
 from pathlib import Path
-from typing import Dict, List
 
 
 class TargetedSyntaxFixer:
@@ -19,7 +18,7 @@ class TargetedSyntaxFixer:
     def __init__(self, workspace_path: str = "/Users/agi_dev/LOCAL-REPOS/Lukhas"):
         self.workspace_path = Path(workspace_path)
 
-    def get_ruff_errors(self) -> List[Dict]:
+    def get_ruff_errors(self) -> list[Dict]:
         """Get syntax errors from ruff in JSON format."""
         try:
             result = subprocess.run(
@@ -33,7 +32,7 @@ class TargetedSyntaxFixer:
             print(f"Error getting ruff output: {e}")
             return []
 
-    def fix_obvious_indentation_issues(self, file_path: Path, lines: List[str]) -> List[str]:
+    def fix_obvious_indentation_issues(self, file_path: Path, lines: list[str]) -> list[str]:
         """Fix obvious indentation issues like mixed tabs/spaces."""
         fixed_lines = []
         for line_num, line in enumerate(lines, 1):
@@ -87,7 +86,7 @@ class TargetedSyntaxFixer:
     def fix_syntax_errors_in_file(self, file_path: Path) -> bool:
         """Fix syntax errors in a single file conservatively."""
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
                 lines = content.splitlines(keepends=True)
 
@@ -131,7 +130,7 @@ class TargetedSyntaxFixer:
                 file_path = self.workspace_path / file_name
                 if file_path.exists() and file_path.suffix == ".py":
                     try:
-                        with open(file_path, "r", encoding="utf-8") as f:
+                        with open(file_path, encoding="utf-8") as f:
                             content = f.read()
 
                         # Check if file has problematic patterns

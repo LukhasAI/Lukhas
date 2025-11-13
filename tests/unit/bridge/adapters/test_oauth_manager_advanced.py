@@ -27,14 +27,13 @@ from typing import Optional
 import pytest
 
 pytest.importorskip("hypothesis")
-from hypothesis import assume, given, settings, strategies as st
-
 from bridge.external_adapters.oauth_manager import (
     CircuitBreaker,
     CircuitBreakerState,
     OAuthManager,
     OAuthProvider,
 )
+from hypothesis import assume, given, settings, strategies as st
 
 # Configure Hypothesis for aggressive testing
 settings.register_profile("dev", max_examples=100)
@@ -230,7 +229,7 @@ class TestOAuthManagerMetamorphic:
         """
         Metamorphic Relation: Scaling token TTL should preserve relative relationships
         """
-        manager, metrics = manager_with_metrics
+        _manager, _metrics = manager_with_metrics
 
         # Base configuration
         config1 = {"token_ttl_hours": 24}
@@ -259,7 +258,7 @@ class TestOAuthManagerMetamorphic:
         """
         Metamorphic Relation: Different retry configurations should exhibit consistent failure patterns
         """
-        manager, metrics = manager_with_metrics
+        _manager, _metrics = manager_with_metrics
 
         # Simulate multiple refresh attempts with different configs
         results = []
@@ -573,7 +572,7 @@ class TestOAuthManagerAdvancedSuiteSummary:
         print("\n🧬 LUKHAS AI OAuth Manager - Advanced Testing Suite Results:")
         print("=" * 80)
 
-        for methodology, status in methodologies_covered.items():
+        for _methodology, status in methodologies_covered.items():
             print(f"  {status}")
 
         print("=" * 80)

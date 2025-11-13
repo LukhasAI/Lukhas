@@ -1,107 +1,29 @@
----
-status: wip
-type: documentation
----
-# 🧠 Matriz
+# MATRIZ Cognitive Engine
 
-_Within the grand architecture of LUKHAS, matriz emerges—This module provides lowercase, purpose refined to essence, functionality elevated to art._
+## Purpose
 
-**This module provides lowercase access to MATRIZ functionality for compatibility**
-
-## Overview
-
-This module provides lowercase access to MATRIZ functionality for compatibility
-
-
-
-**Technical Foundation**: Implements 6-stage cognitive pipeline (Memory→Attention→Thought→Reasoning→Action→Awareness) with <250ms end-to-end latency. Uses bio-symbolic processing with consciousness data flow integration.
-
-## Lane Position
-
-- **Lane**: `unknown`
-- **Module ID**: `unknown`
-- **Constellation**: Core System Component
-
-## Features
-
-- ✅ Core functionality
-- ✅ API integration
-- ✅ Testing support
-
-## Quick Start
-
-**Getting Started**: This module provides lowercase access to MATRIZ functionality for compatibility. This module integrates with the LUKHAS system to provide essential functionality.
-
-
-### Installation
-
-```python
-# Import from unknown lane
-from matriz import Matriz
-
-# Initialize
-system = Matriz()
-result = system.process(input_data)
-print(f"Result: {result}")
-```
-
-## API Reference
-
-See code docstrings and inline documentation.
-
-## Dependencies
-
-- `core`
-
-## Provides
-
-- Core module functionality
+The `matriz` module is the core cognitive engine of the LUKHAS AI system. It is responsible for processing information, driving the decision-making process, and enabling the AI's advanced reasoning capabilities. It is designed with a bio-inspired architecture that mimics the functions of a biological brain.
 
 ## Architecture
 
+The `matriz` module is composed of several key submodules that work together to provide a comprehensive cognitive framework:
+
+- **`core/`**: Contains the central processing components of the engine, including the main orchestrator.
+- **`consciousness/`**: Implements the mechanisms for awareness and self-reflection within the AI.
+- **`nodes/`**: A collection of specialized cognitive nodes, each designed to handle specific types of information processing.
+
+## Key Components
+
+- **`matriz/core/async_orchestrator.py`**: The primary entry point for asynchronous cognitive processing, which manages the flow of information through the engine.
+- **`matriz/nodes/`**: A suite of specialized processing units that can be combined to perform complex cognitive tasks.
+
+## Usage Examples
+
+To use the MATRIZ engine, you can import the `AsyncCognitiveOrchestrator` and use it to process queries:
+
+```python
+from matriz.core import AsyncCognitiveOrchestrator
+
+engine = AsyncCognitiveOrchestrator()
+result = engine.process_query("Analyze the sentiment of this text.")
 ```
-matriz/
-├── __init__.py          # Module initialization
-├── core.py              # Core functionality
-├── api.py               # API interfaces
-├── tests/               # Test suite
-└── docs/                # Documentation
-```
-
-## Testing
-
-```bash
-# Run module tests
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/matriz/tests/ -v
-
-# Run with coverage
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/matriz/tests/ --cov=matriz --cov-report=html
-```
-
-## Performance
-
-- Performance targets: Follow LUKHAS system SLOs
-
-## Documentation
-
-- **Module Manifest**: [`module.manifest.json`](module.manifest.json)
-- **Detailed Docs**: [`docs/`](docs/)
-- **API Examples**: See code docstrings and `docs/` directory
-
-## Contributing
-
-Follow LUKHAS development guidelines:
-1. Respect lane boundaries
-2. Maintain T4/0.01% quality standards
-3. Add comprehensive tests
-4. Update documentation
-
-## Related Modules
-
-- [core](../core/)
-
----
-
-**Version**: 1.0.0
-**Lane**: unknown
-**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum

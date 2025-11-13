@@ -33,7 +33,7 @@ class DreamFeedbackController:
         return {
             "action": "redirect",
             "target_snapshot": best_match,
-            "symbolic_reason": "High driftScore detected – converging via dream memory reentry",
+            "symbolic_reason": "High driftScore detected - converging via dream memory reentry",
         }
 
     def _select_redirect(self, snapshots, emotion):

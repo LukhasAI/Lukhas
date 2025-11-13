@@ -17,7 +17,7 @@ import re
 import secrets
 import tempfile
 from pathlib import Path
-from typing import Optional
+from typing import Dict, List, Optional, Tuple
 
 import pytest
 
@@ -25,7 +25,7 @@ import pytest
 class SecurityValidationFramework:
     """Framework for comprehensive security validation."""
 
-    SECURITY_PATTERNS = {
+    SECURITY_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_e2e_test_comprehensive_security_validation_py_L28"}
         "hardcoded_passwords": [
             r'password\s*=\s*["\'][^"\']{3,}["\']',
             r'pwd\s*=\s*["\'][^"\']{3,}["\']',
@@ -56,7 +56,7 @@ class SecurityValidationFramework:
     }
 
     @classmethod
-    def scan_file_for_vulnerabilities(cls, file_path: Path) -> dict[str, list[tuple[int, str]]]:
+    def scan_file_for_vulnerabilities(cls, file_path: Path) -> Dict[str, List[Tuple[int, str]]]:
         """Scan a file for security vulnerabilities."""
         if not file_path.exists() or file_path.suffix != ".py":
             return {}
@@ -84,8 +84,8 @@ class SecurityValidationFramework:
 
     @classmethod
     def scan_directory_for_vulnerabilities(
-        cls, directory: Path, patterns: Optional[list[str]] = None
-    ) -> dict[str, dict[str, list[tuple[int, str]]]]:
+        cls, directory: Path, patterns: Optional[List[str]] = None
+    ) -> Dict[str, Dict[str, List[Tuple[int, str]]]]:
         """Scan directory for security vulnerabilities."""
         if patterns is None:
             patterns = ["**/*.py"]

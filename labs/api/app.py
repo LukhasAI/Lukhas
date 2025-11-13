@@ -2,8 +2,6 @@ from __future__ import annotations
 
 import os
 
-from fastapi import Depends, FastAPI, Header, HTTPException
-
 from api.admin import router as admin_router
 from api.audit import router as audit_router
 from api.dna import router as dna_router
@@ -13,6 +11,7 @@ from api.metrics import router as metrics_router
 from api.ops import router as ops_router
 from api.perf import router as perf_router
 from api.tools import router as tools_router
+from fastapi import Depends, FastAPI, Header, HTTPException
 
 # --- app metadata ---
 app = FastAPI(

@@ -29,6 +29,9 @@
 ║ All LUKHAS modules should use this service instead of direct OpenAI calls.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
+from __future__ import annotations
+
 import asyncio
 import hashlib
 import json
@@ -37,7 +40,7 @@ import os
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional, Union
+from typing import Any, ClassVar
 
 # Try to import from core.common if available
 try:
@@ -97,11 +100,11 @@ class OpenAIRequest:
     module: str
     capability: OpenAICapability
     data: dict[str, Any]
-    model_preference: Optional[ModelType] = None
+    model_preference: ModelType | None = None
     priority: int = 5  # 1-10, higher is more important
-    user_id: Optional[str] = None
-    session_id: Optional[str] = None
-    metadata: Optional[dict[str, Any]] = None
+    user_id: str | None = None
+    session_id: str | None = None
+    metadata: dict[str, Any] | None = None
 
 
 @dataclass
@@ -112,10 +115,10 @@ class OpenAIResponse:
     module: str
     capability: OpenAICapability
     success: bool
-    data: Optional[Any] = None
-    error: Optional[str] = None
-    usage: Optional[dict[str, Any]] = None
-    latency_ms: Optional[int] = None
+    data: Any | None = None
+    error: str | None = None
+    usage: dict[str, Any] | None = None
+    latency_ms: int | None = None
     fallback_used: bool = False
 
 
@@ -126,7 +129,7 @@ class OpenAICoreService:
     """
 
     # Model configurations
-    MODELS = {
+    MODELS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_openai_core_service_py_L131"}
         ModelType.REASONING: "gpt-4-turbo-preview",
         ModelType.CREATIVE: "gpt-4",
         ModelType.FAST: "gpt-3.5-turbo",
@@ -139,7 +142,7 @@ class OpenAICoreService:
     }
 
     # Capability to models mapping
-    CAPABILITY_MODELS = {
+    CAPABILITY_MODELS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_openai_core_service_py_L144"}
         OpenAICapability.TEXT_GENERATION: [
             ModelType.REASONING,
             ModelType.CREATIVE,
@@ -154,7 +157,7 @@ class OpenAICoreService:
         OpenAICapability.MODERATION: [ModelType.MODERATION],
     }
 
-    def __init__(self, api_key: Optional[str] = None):
+    def __init__(self, api_key: str | None = None):
         """
         Initialize the OpenAI core service.
 
@@ -234,7 +237,9 @@ class OpenAICoreService:
             response.request_id = request_id
             response.module = request.module
             response.capability = request.capability
-            response.latency_ms = int((datetime.now(timezone.utc) - start_time).total_seconds() * 1000)
+            response.latency_ms = int(
+                (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
+            )
 
             # Cache successful responses
             if response.success and cache_key:
@@ -359,7 +364,9 @@ class OpenAICoreService:
                     {
                         "url": image.url if hasattr(image, "url") else None,
                         "b64_json": (image.b64_json if hasattr(image, "b64_json") else None),
-                        "revised_prompt": (image.revised_prompt if hasattr(image, "revised_prompt") else None),
+                        "revised_prompt": (
+                            image.revised_prompt if hasattr(image, "revised_prompt") else None
+                        ),
                     }
                 )
 
@@ -577,7 +584,7 @@ class OpenAICoreService:
         ).hexdigest()[:8]
         return f"{request.module}_{timestamp}_{data_hash}"
 
-    def _get_cache_key(self, request: OpenAIRequest) -> Optional[str]:
+    def _get_cache_key(self, request: OpenAIRequest) -> str | None:
         """Generate cache key for request."""
         # Only cache certain capabilities
         if request.capability not in [
@@ -674,7 +681,9 @@ class OpenAIMockProvider:
             "emotion": "The emotional resonance indicates a complex interplay of feelings...",
         }
 
-        content = module_responses.get(request.module, "This is a mock response for development purposes.")
+        content = module_responses.get(
+            request.module, "This is a mock response for development purposes."
+        )
 
         return OpenAIResponse(
             request_id="mock",
@@ -822,7 +831,9 @@ class RateLimiter:
 
 
 # Convenience functions for modules
-async def generate_text(module: str, prompt: str, model_type: ModelType = ModelType.FAST, **kwargs) -> str:
+async def generate_text(
+    module: str, prompt: str, model_type: ModelType = ModelType.FAST, **kwargs
+) -> str:
     """Convenience function for text generation."""
     service = OpenAICoreService()
     request = OpenAIRequest(
@@ -838,7 +849,9 @@ async def generate_text(module: str, prompt: str, model_type: ModelType = ModelT
         raise Exception(f"Text generation failed: {response.error}")
 
 
-async def generate_image(module: str, prompt: str, size: str = "1024x1024", **kwargs) -> dict[str, Any]:
+async def generate_image(
+    module: str, prompt: str, size: str = "1024x1024", **kwargs
+) -> dict[str, Any]:
     """Convenience function for image generation."""
     service = OpenAICoreService()
     request = OpenAIRequest(
@@ -857,9 +870,9 @@ async def generate_audio(
     module: str,
     text: str,
     voice: str = "nova",
-    output_path: Optional[str] = None,
+    output_path: str | None = None,
     **kwargs,
-) -> Union[str, bytes]:
+) -> str | bytes:
     """Convenience function for audio generation."""
     service = OpenAICoreService()
     data = {"text": text, "voice": voice, **kwargs}

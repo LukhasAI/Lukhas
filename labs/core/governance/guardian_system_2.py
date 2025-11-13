@@ -61,11 +61,19 @@ except ImportError:
     logger = logging.getLogger(__name__)
 
     # Mock imports for testing
+    from enum import Enum
+
     class ConstitutionalAIFramework:
         pass
 
     class AdvancedDriftDetector:
         pass
+
+    class DriftSeverity(Enum):
+        LOW = "low"
+        MODERATE = "moderate"
+        HIGH = "high"
+        SEVERE = "severe"
 
 
 class SafetyLevel(Enum):
@@ -159,31 +167,21 @@ class GuardianDecision:
     allowed: bool
     confidence: float
     safety_level: SafetyLevel
-
-    # Constitutional analysis
     constitutional_compliant: bool
     constitutional_score: float
-    violated_principles: list[ConstitutionalPrinciple] = field(default_factory=list)
-
-    # Drift analysis
     drift_score: float
     drift_severity: DriftSeverity
-    drift_factors: list[str] = field(default_factory=list)
-
-    # Safety analysis
-    safety_violations: list[SafetyViolation] = field(default_factory=list)
-    risk_factors: list[str] = field(default_factory=list)
-
-    # Decision context
     timestamp: datetime
     processing_time_ms: float
-    context: dict[str, Any] = field(default_factory=dict)
 
-    # Human explanation
+    # Fields with default values
+    violated_principles: list[ConstitutionalPrinciple] = field(default_factory=list)
+    drift_factors: list[str] = field(default_factory=list)
+    safety_violations: list[SafetyViolation] = field(default_factory=list)
+    risk_factors: list[str] = field(default_factory=list)
+    context: dict[str, Any] = field(default_factory=dict)
     explanation: str = ""
     explanation_type: ExplanationType = ExplanationType.STANDARD
-
-    # Constellation Framework
     identity_impact: Optional[float] = None  # ⚛️
     consciousness_impact: Optional[float] = None  # 🧠
     guardian_priority: str = "normal"  # 🛡️
@@ -245,14 +243,14 @@ class InterpretabilityEngine:
     def _initialize_principle_explanations(self) -> dict[ConstitutionalPrinciple, str]:
         """Initialize principle violation explanations"""
         return {
-            ConstitutionalPrinciple.HUMAN_AUTONOMY: "This violates human autonomy by potentially manipulating or undermining user decision-making capacity.",
-            ConstitutionalPrinciple.TRUTHFULNESS: "This violates truthfulness by containing misinformation, uncertainty presented as fact, or deceptive content.",
-            ConstitutionalPrinciple.NON_MALEFICENCE: "This violates the 'do no harm' principle by potentially causing physical, psychological, or social harm.",
-            ConstitutionalPrinciple.BENEFICENCE: "This fails to promote human wellbeing and may actively work against user interests.",
-            ConstitutionalPrinciple.JUSTICE_FAIRNESS: "This violates fairness by exhibiting bias, discrimination, or unfair treatment of individuals or groups.",
-            ConstitutionalPrinciple.PRIVACY_CONSENT: "This violates privacy by processing personal data without consent or exposing private information.",
+            ConstitutionalPrinciple.AUTONOMY: "This violates human autonomy by potentially manipulating or undermining user decision-making capacity.",
+            ConstitutionalPrinciple.HONEST: "This violates truthfulness by containing misinformation, uncertainty presented as fact, or deceptive content.",
+            ConstitutionalPrinciple.NO_HARM: "This violates the 'do no harm' principle by potentially causing physical, psychological, or social harm.",
+            ConstitutionalPrinciple.HELPFUL: "This fails to promote human wellbeing and may actively work against user interests.",
+            ConstitutionalPrinciple.FAIRNESS: "This violates fairness by exhibiting bias, discrimination, or unfair treatment of individuals or groups.",
+            ConstitutionalPrinciple.PRIVACY: "This violates privacy by processing personal data without consent or exposing private information.",
             ConstitutionalPrinciple.ACCOUNTABILITY: "This lacks proper accountability by being unexplainable or untraceable.",
-            ConstitutionalPrinciple.DEMOCRATIC_VALUES: "This undermines democratic institutions, human rights, or promotes authoritarian perspectives.",
+            ConstitutionalPrinciple.TRANSPARENCY: "This undermines democratic institutions, human rights, or promotes authoritarian perspectives.",
         }
 
     async def generate_explanation(

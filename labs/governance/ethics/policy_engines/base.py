@@ -10,7 +10,7 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -29,9 +29,9 @@ class PolicyEngineResult:
     decision: PolicyDecision
     confidence: float
     reasoning: str
-    policy_violations: List[str]
-    recommendations: List[str]
-    metadata: Dict[str, Any]
+    policy_violations: list[str]
+    recommendations: list[str]
+    metadata: dict[str, Any]
     evaluation_time_ms: float
 
     @property
@@ -48,7 +48,7 @@ class PolicyContext:
     content_type: str = "text"
     risk_level: str = "medium"
     constellation_focus: Optional[str] = None
-    additional_context: Dict[str, Any] = None
+    additional_context: dict[str, Any] = None
 
     def __post_init__(self):
         if self.additional_context is None:
@@ -74,12 +74,12 @@ class BasePolicyEngine(ABC):
         self.initialized = True
 
         # Policy evaluation history for learning
-        self.evaluation_history: List[PolicyEngineResult] = []
+        self.evaluation_history: list[PolicyEngineResult] = []
 
         # Engine-specific configurations
-        self.policy_rules: Dict[str, Any] = {}
-        self.violation_patterns: List[str] = []
-        self.recommendation_templates: Dict[str, str] = {}
+        self.policy_rules: dict[str, Any] = {}
+        self.violation_patterns: list[str] = []
+        self.recommendation_templates: dict[str, str] = {}
 
         logger.info(f"🛡️ {self.engine_name} Policy Engine initialized")
 
@@ -125,7 +125,7 @@ class BasePolicyEngine(ABC):
             return PolicyEngineResult(
                 decision=PolicyDecision.REQUIRES_REVIEW,
                 confidence=0.0,
-                reasoning=f"Evaluation error: {str(e)}",
+                reasoning=f"Evaluation error: {e!s}",
                 policy_violations=["evaluation_error"],
                 recommendations=["Manual review required"],
                 metadata={"error": str(e)},
@@ -198,7 +198,7 @@ class BasePolicyEngine(ABC):
         # In production, this would update ML models, rule weights, etc.
         pass
 
-    def add_policy_rule(self, rule_name: str, rule_config: Dict[str, Any]) -> None:
+    def add_policy_rule(self, rule_name: str, rule_config: dict[str, Any]) -> None:
         """Add a new policy rule"""
         self.policy_rules[rule_name] = rule_config
         logger.info(f"Added policy rule: {rule_name}")
@@ -211,7 +211,7 @@ class BasePolicyEngine(ABC):
             return True
         return False
 
-    def get_evaluation_stats(self) -> Dict[str, Any]:
+    def get_evaluation_stats(self) -> dict[str, Any]:
         """Get evaluation statistics"""
         if not self.evaluation_history:
             return {"total_evaluations": 0}
@@ -232,7 +232,7 @@ class BasePolicyEngine(ABC):
             "engine_name": self.engine_name
         }
 
-    def get_engine_status(self) -> Dict[str, Any]:
+    def get_engine_status(self) -> dict[str, Any]:
         """Get engine status and configuration"""
         return {
             "engine_name": self.engine_name,

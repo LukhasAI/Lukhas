@@ -143,10 +143,9 @@ class RegulationPolicyEngine:
             )
 
         # Rule 5: Conservative mode overrides
-        if self.config["conservative_mode"]:
-            if scene.proto.arousal > 0.6:  # Lower threshold in conservative mode
-                actions.append("breathing")
-                rationale.append("Conservative mode: preemptive arousal regulation")
+        if self.config['conservative_mode'] and scene.proto.arousal > 0.6:
+            actions.append("breathing")
+            rationale.append("Conservative mode: preemptive arousal regulation")
 
         # Compute gain and pace modulation
         gain = self._compute_gain_modulation(scene, rationale)

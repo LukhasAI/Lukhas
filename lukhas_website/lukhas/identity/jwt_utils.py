@@ -15,7 +15,7 @@ import secrets
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 import jwt
 from cryptography.hazmat.primitives.asymmetric import ec, rsa
@@ -61,30 +61,30 @@ class JWTClaims:
     # Standard JWT claims (RFC 7519)
     iss: str  # Issuer
     sub: str  # Subject
-    aud: Union[str, List[str]]  # Audience
+    aud: str | list[str]  # Audience
     exp: int  # Expiration time
     nbf: int  # Not before
     iat: int  # Issued at
     jti: str  # JWT ID
 
     # OpenID Connect claims
-    nonce: Optional[str] = None
-    auth_time: Optional[int] = None
-    acr: Optional[str] = None  # Authentication Context Class Reference
-    amr: Optional[List[str]] = None  # Authentication Methods References
+    nonce: str | None = None
+    auth_time: int | None = None
+    acr: str | None = None  # Authentication Context Class Reference
+    amr: list[str] | None = None  # Authentication Methods References
 
     # LUKHAS-specific claims
-    lukhas_tier: Optional[int] = None
-    lukhas_namespace: Optional[str] = None
-    permissions: Optional[List[str]] = None
-    lid_alias: Optional[str] = None  # ΛiD alias
-    guardian_validated: Optional[bool] = None
+    lukhas_tier: int | None = None
+    lukhas_namespace: str | None = None
+    permissions: list[str] | None = None
+    lid_alias: str | None = None  # ΛiD alias
+    guardian_validated: bool | None = None
 
     # Token metadata
     token_type: str = "Bearer"
-    scope: Optional[str] = None
+    scope: str | None = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for JWT payload."""
         result = {}
 
@@ -96,7 +96,7 @@ class JWTClaims:
         return result
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'JWTClaims':
+    def from_dict(cls, data: dict[str, Any]) -> JWTClaims:
         """Create from dictionary."""
         # Filter to only known fields
         known_fields = {field.name for field in cls.__dataclass_fields__.values()}
@@ -109,9 +109,9 @@ class JWTKeyManager:
 
     def __init__(self, algorithm: JWTAlgorithm = JWTAlgorithm.RS256):
         self.algorithm = algorithm
-        self._private_key: Optional[Any] = None
-        self._public_key: Optional[Any] = None
-        self._key_id: Optional[str] = None
+        self._private_key: Any | None = None
+        self._public_key: Any | None = None
+        self._key_id: str | None = None
         self._load_or_generate_keys()
 
     def _load_or_generate_keys(self):
@@ -154,7 +154,7 @@ class JWTKeyManager:
         """Get the key ID for JWKS."""
         return self._key_id or "default"
 
-    def get_jwks_entry(self) -> Dict[str, Any]:
+    def get_jwks_entry(self) -> dict[str, Any]:
         """Get JWKS (JSON Web Key Set) entry for this key."""
         if self.algorithm == JWTAlgorithm.HS256:
             # HMAC keys are not exposed in JWKS
@@ -183,7 +183,7 @@ class JWTKeyManager:
                 "y": self._int_to_base64url(public_numbers.y, 32),
             }
 
-    def _int_to_base64url(self, value: int, byte_length: Optional[int] = None) -> str:
+    def _int_to_base64url(self, value: int, byte_length: int | None = None) -> str:
         """Convert integer to base64url encoding."""
         if byte_length:
             byte_value = value.to_bytes(byte_length, byteorder='big')
@@ -217,9 +217,9 @@ class JWTManager:
 
     def create_token(self,
                     subject: str,
-                    audience: Union[str, List[str]],
-                    claims: Optional[Dict[str, Any]] = None,
-                    expiry: Optional[int] = None) -> str:
+                    audience: str | list[str],
+                    claims: dict[str, Any] | None = None,
+                    expiry: int | None = None) -> str:
         """
         Create a JWT token with LUKHAS claims.
 
@@ -290,7 +290,7 @@ class JWTManager:
                 span.set_attribute("jwt.error", str(e))
                 raise
 
-    def verify_token(self, token: str, audience: Optional[Union[str, List[str]]] = None) -> JWTClaims:
+    def verify_token(self, token: str, audience: str | list[str] | None = None) -> JWTClaims:
         """
         Verify and decode a JWT token.
 
@@ -354,7 +354,7 @@ class JWTManager:
                 span.set_attribute("jwt.error", str(e))
                 raise
 
-    def get_jwks(self) -> Dict[str, Any]:
+    def get_jwks(self) -> dict[str, Any]:
         """Get JSON Web Key Set for token verification."""
         keys = []
 
@@ -368,8 +368,8 @@ class JWTManager:
                        user_id: str,
                        client_id: str,
                        auth_time: int,
-                       nonce: Optional[str] = None,
-                       additional_claims: Optional[Dict[str, Any]] = None) -> str:
+                       nonce: str | None = None,
+                       additional_claims: dict[str, Any] | None = None) -> str:
         """
         Create an OpenID Connect ID token.
 
@@ -404,9 +404,9 @@ class JWTManager:
     def create_access_token(self,
                           user_id: str,
                           client_id: str,
-                          scopes: List[str],
-                          tier: Optional[str] = None,
-                          permissions: Optional[List[str]] = None) -> str:
+                          scopes: list[str],
+                          tier: str | None = None,
+                          permissions: list[str] | None = None) -> str:
         """
         Create an OAuth2 access token with LUKHAS claims.
 
@@ -441,7 +441,7 @@ class JWTManager:
 
 
 # Global JWT manager instance
-_jwt_manager: Optional[JWTManager] = None
+_jwt_manager: JWTManager | None = None
 
 def get_jwt_manager() -> JWTManager:
     """Get the default JWT manager instance."""

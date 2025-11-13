@@ -6,8 +6,12 @@ Pattern: f"text{var}" → f"text{var()}" when there's a ( without )
 """
 
 import ast
+import logging
 import re
 from pathlib import Path
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 def fix_fstring_parentheses(content: str) -> tuple[str, int]:
@@ -86,7 +90,8 @@ def main():
         except SyntaxError as e:
             if "f-string" in str(e) and ("closing parenthesis" in str(e) or "parenthesis" in str(e)):
                 return True
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             pass
         return False
 

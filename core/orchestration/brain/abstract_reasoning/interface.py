@@ -1,13 +1,14 @@
-from __future__ import annotations
-
 """
 🧠 Abstract Reasoning Brain Interface
 Interface for the Bio-Quantum Symbolic Reasoning system with Radar Analytics Integration
 """
+
+from __future__ import annotations
+
 import asyncio
 import logging
 from datetime import datetime, timezone
-from typing import Any, Optional, Union
+from typing import Any
 
 from .core import AbstractReasoningBrainCore
 
@@ -34,7 +35,7 @@ class AbstractReasoningBrainInterface:
 
     def __init__(
         self,
-        core: Optional[AbstractReasoningBrainCore] = None,
+        core: AbstractReasoningBrainCore | None = None,
         enable_radar_analytics: bool = True,
     ):
         self.core = core or AbstractReasoningBrainCore()
@@ -63,10 +64,10 @@ class AbstractReasoningBrainInterface:
 
     async def reason_abstractly(
         self,
-        problem: Union[str, dict[str, Any]],
-        context: Optional[dict[str, Any]] = None,
+        problem: str | dict[str, Any],
+        context: dict[str, Any] | None = None,
         reasoning_type: str = "general_abstract",
-        enable_radar_analytics: Optional[bool] = None,
+        enable_radar_analytics: bool | None = None,
     ) -> dict[str, Any]:
         """
         Perform abstract reasoning on a problem with optional radar analytics
@@ -152,7 +153,7 @@ class AbstractReasoningBrainInterface:
     async def orchestrate_brains(
         self,
         request: dict[str, Any],
-        target_brains: Optional[list[str]] = None,
+        target_brains: list[str] | None = None,
     ) -> dict[str, Any]:
         """
             Orchestrate reasoning across specific brain systems
@@ -259,7 +260,7 @@ class AbstractReasoningBrainInterface:
         self,
         reasoning_result: dict[str, Any],
         actual_outcome: bool,
-        feedback_notes: Optional[str] = None,
+        feedback_notes: str | None = None,
     ) -> dict[str, Any]:
         """
         Provide feedback on reasoning outcome for meta-learning
@@ -302,7 +303,7 @@ class AbstractReasoningBrainInterface:
             return {"feedback_processed": False, "error": str(e)}
 
     async def get_reasoning_history(
-        self, limit: Optional[int] = 10, include_full_results: bool = False
+        self, limit: int | None = 10, include_full_results: bool = False
     ) -> list[dict[str, Any]]:
         """
         Get history of reasoning sessions
@@ -398,7 +399,7 @@ class AbstractReasoningBrainInterface:
     async def start_radar_monitoring(
         self,
         update_interval: float = 2.0,
-        max_duration: Optional[float] = None,
+        max_duration: float | None = None,
     ) -> bool:
         """
         Start real-time radar monitoring of Bio-Quantum reasoning performance.
@@ -431,7 +432,7 @@ class AbstractReasoningBrainInterface:
         logger.info("🛑 Radar monitoring stopped")
         return True
 
-    def export_radar_analytics(self, filepath: Optional[str] = None) -> Optional[str]:
+    def export_radar_analytics(self, filepath: str | None = None) -> str | None:
         """
         Export comprehensive radar analytics session data.
 
@@ -467,8 +468,8 @@ class AbstractReasoningBrainInterface:
 
     async def reason_with_radar_visualization(
         self,
-        problem: Union[str, dict[str, Any]],
-        context: Optional[dict[str, Any]] = None,
+        problem: str | dict[str, Any],
+        context: dict[str, Any] | None = None,
         reasoning_type: str = "general_abstract",
     ) -> dict[str, Any]:
         """
@@ -511,8 +512,8 @@ class AbstractReasoningBrainInterface:
 
 
 async def reason_about(
-    problem: Union[str, dict[str, Any]],
-    context: Optional[dict[str, Any]] = None,
+    problem: str | dict[str, Any],
+    context: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """
     Quick function to perform abstract reasoning
@@ -563,7 +564,7 @@ async def analyze_reasoning_confidence(
 
 async def reason_about_with_radar(
     problem_description: str,
-    context: Optional[dict[str, Any]] = None,
+    context: dict[str, Any] | None = None,
     reasoning_type: str = "general_abstract",
 ) -> dict[str, Any]:
     """
@@ -616,9 +617,9 @@ async def start_radar_monitoring_session(update_interval: float = 2.0, duration:
 # Legacy function compatibility
 
 
-async def reason_about(
+async def reason_about_legacy(
     problem_description: str,
-    context: Optional[dict[str, Any]] = None,
+    context: dict[str, Any] | None = None,
     reasoning_type: str = "general_abstract",
 ) -> dict[str, Any]:
     """

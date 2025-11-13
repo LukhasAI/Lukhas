@@ -1,6 +1,6 @@
 """
 ═══════════════════════════════════════════════════════════════════════════════════
-🌌 LUKHAS AI - Voice Narration System Tests  
+🌌 LUKHAS AI - Voice Narration System Tests
 ═══════════════════════════════════════════════════════════════════════════════════
 
 Test Module: test_voice_narration
@@ -24,11 +24,10 @@ Architecture: Consciousness-aware voice synthesis with multi-provider support
 
 import time
 import unittest
-from typing import Any, Dict
+from typing import Any
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from core.modules.nias import (
     ENHANCED_TTS_CONFIG,
     TTS_CONFIG,
@@ -277,7 +276,7 @@ class TestVoiceNarratorNarration(unittest.TestCase):
     def test_narration_error_handling(self):
         """Test narration error handling and fallback"""
         # Force an error in the narration process
-        with patch.object(self.narrator, '_narrate_internal', side_effect=Exception("Test error")) as mock_internal:
+        with patch.object(self.narrator, '_narrate_internal', side_effect=Exception("Test error")):
             with patch('logging.Logger.error') as mock_error:
                 self.narrator.narrate("Test", {"dream_id": "error-test"})
 

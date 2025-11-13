@@ -13,7 +13,7 @@ import time
 import uuid
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 @dataclass
@@ -31,7 +31,7 @@ class MerkleProof:
     """Proof of inclusion for a specific item in the Merkle tree."""
     item_hash: str
     root_hash: str
-    proof_path: List[Dict[str, str]]  # List of {hash, direction}
+    proof_path: list[dict[str, str]]  # List of {hash, direction}
     tree_size: int
     proof_valid: bool
 
@@ -43,8 +43,8 @@ class MerkleChain:
     created_timestamp: float
     current_root: str
     tree_size: int
-    nodes: Dict[str, MerkleNode]
-    evidence_items: List[Dict[str, Any]]
+    nodes: dict[str, MerkleNode]
+    evidence_items: list[dict[str, Any]]
     integrity_verified: bool
     verification_timestamp: float
 
@@ -53,7 +53,7 @@ class MerkleTreeBuilder:
     """Cryptographic Merkle tree implementation for audit evidence."""
 
     def __init__(self):
-        self.nodes: Dict[str, MerkleNode] = {}
+        self.nodes: dict[str, MerkleNode] = {}
 
     def calculate_hash(self, data: str) -> str:
         """Calculate SHA-256 hash of data."""
@@ -64,7 +64,7 @@ class MerkleTreeBuilder:
         combined = left_hash + right_hash
         return hashlib.sha256(combined.encode('utf-8')).hexdigest()
 
-    def create_leaf_node(self, data: Dict[str, Any]) -> MerkleNode:
+    def create_leaf_node(self, data: dict[str, Any]) -> MerkleNode:
         """Create a leaf node from data."""
         # Serialize data deterministically
         data_str = json.dumps(data, sort_keys=True, separators=(',', ':'))
@@ -93,7 +93,7 @@ class MerkleTreeBuilder:
         self.nodes[combined_hash] = node
         return node
 
-    def build_tree(self, evidence_items: List[Dict[str, Any]]) -> str:
+    def build_tree(self, evidence_items: list[dict[str, Any]]) -> str:
         """Build Merkle tree from evidence items and return root hash."""
         if not evidence_items:
             return ""
@@ -113,10 +113,7 @@ class MerkleTreeBuilder:
                 left_node = current_level[i]
 
                 # Handle odd number of nodes by duplicating the last one
-                if i + 1 < len(current_level):
-                    right_node = current_level[i + 1]
-                else:
-                    right_node = left_node
+                right_node = current_level[i + 1] if i + 1 < len(current_level) else left_node
 
                 parent_node = self.create_internal_node(left_node, right_node)
                 next_level.append(parent_node)
@@ -203,7 +200,7 @@ class TamperEvidenceFramework:
     def __init__(self):
         self.merkle_builder = MerkleTreeBuilder()
 
-    def load_evidence_files(self, file_patterns: List[str]) -> List[Dict[str, Any]]:
+    def load_evidence_files(self, file_patterns: list[str]) -> list[dict[str, Any]]:
         """Load evidence files from patterns."""
         evidence_items = []
 
@@ -219,7 +216,7 @@ class TamperEvidenceFramework:
 
         return evidence_items
 
-    def _load_evidence_file(self, file_path: Path) -> Dict[str, Any]:
+    def _load_evidence_file(self, file_path: Path) -> dict[str, Any]:
         """Load and fingerprint a single evidence file."""
         # Calculate file hash
         file_hash = self._calculate_file_hash(file_path)
@@ -228,9 +225,9 @@ class TamperEvidenceFramework:
         content = None
         if file_path.suffix.lower() == '.json':
             try:
-                with open(file_path, 'r') as f:
+                with open(file_path) as f:
                     content = json.load(f)
-            except:
+            except Exception:
                 content = None
 
         return {
@@ -276,7 +273,7 @@ class TamperEvidenceFramework:
         else:
             return "unknown"
 
-    def create_merkle_chain(self, evidence_items: List[Dict[str, Any]]) -> MerkleChain:
+    def create_merkle_chain(self, evidence_items: list[dict[str, Any]]) -> MerkleChain:
         """Create complete Merkle chain from evidence items."""
         chain_id = str(uuid.uuid4())
 
@@ -297,7 +294,7 @@ class TamperEvidenceFramework:
 
         return chain
 
-    def verify_chain_integrity(self, chain: MerkleChain) -> Dict[str, Any]:
+    def verify_chain_integrity(self, chain: MerkleChain) -> dict[str, Any]:
         """Verify complete chain integrity."""
         verification_results = {
             "chain_id": chain.chain_id,
@@ -335,7 +332,7 @@ class TamperEvidenceFramework:
 
         return verification_results
 
-    def _verify_evidence_item(self, item: Dict[str, Any], chain: MerkleChain) -> Dict[str, Any]:
+    def _verify_evidence_item(self, item: dict[str, Any], chain: MerkleChain) -> dict[str, Any]:
         """Verify a single evidence item."""
         try:
             # Recalculate item hash
@@ -384,7 +381,7 @@ class TamperEvidenceFramework:
                 "error": str(e)
             }
 
-    def _verify_tree_structure(self, chain: MerkleChain) -> Dict[str, Any]:
+    def _verify_tree_structure(self, chain: MerkleChain) -> dict[str, Any]:
         """Verify Merkle tree structure integrity."""
         try:
             # Rebuild tree from evidence items
@@ -421,7 +418,7 @@ class TamperEvidenceFramework:
                 "error": str(e)
             }
 
-    def generate_inclusion_proofs(self, chain: MerkleChain) -> Dict[str, MerkleProof]:
+    def generate_inclusion_proofs(self, chain: MerkleChain) -> dict[str, MerkleProof]:
         """Generate inclusion proofs for all evidence items."""
         proofs = {}
 
@@ -439,7 +436,7 @@ class TamperEvidenceFramework:
     def export_verification_package(
         self,
         chain: MerkleChain,
-        verification_results: Dict[str, Any],
+        verification_results: dict[str, Any],
         output_path: str
     ):
         """Export complete verification package."""
@@ -522,7 +519,7 @@ def main():
 
         for chain_file in args.chain:
             try:
-                with open(chain_file, 'r') as f:
+                with open(chain_file) as f:
                     package = json.load(f)
 
                 # Reconstruct chain

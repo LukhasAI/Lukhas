@@ -11,7 +11,7 @@ from pathlib import Path
 def migrate_test_file(filepath: Path) -> tuple[bool, list[str]]:
     """
     Migrate a single test file to use golden fixtures.
-    
+
     Returns:
         (changed, changes_made): Whether file was modified and list of changes
     """

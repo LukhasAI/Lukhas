@@ -5,6 +5,7 @@
 │       Advanced archetypal pattern recognition for dream consciousness       │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
+from __future__ import annotations
 
 import logging
 from datetime import datetime, timezone
@@ -603,4 +604,4 @@ class ArchetypalPatternRecognizer:
         }
 
 
-__all__ = ["ArchetypalPatternRecognizer", "ArchetypalDomain", "ArchetypalRole", "ArchetypalResonance"]
+__all__ = ["ArchetypalDomain", "ArchetypalPatternRecognizer", "ArchetypalResonance", "ArchetypalRole"]

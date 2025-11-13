@@ -89,11 +89,10 @@ class DecimatingRing(Ring):
         # Check if we need to apply backpressure
         current_utilization = self.utilization
 
-        if current_utilization >= self.pressure_threshold:
+        if current_utilization >= self.pressure_threshold and self._should_drop_item(x, priority, current_utilization):
             # Apply decimation strategy
-            if self._should_drop_item(x, priority, current_utilization):
-                self.drops_total += 1
-                return  # Drop the item
+            self.drops_total += 1
+            return  # Drop the item
 
         # Add item normally
         self.q.append(x)

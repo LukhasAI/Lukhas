@@ -1,17 +1,21 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict import to native dict type in bridge API settings
+# estimate: 5min | priority: medium | dependencies: bridge-api
+
 """Stable bridge for API settings surfaces used across main."""
 from __future__ import annotations
 
 from dataclasses import dataclass
 from importlib import import_module
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Optional
 
 __all__ = [
+    "ENV",
     "Settings",
     "get_settings",
+    "load_env",
     "settings",
     "settings_router",
-    "ENV",
-    "load_env",
 ]
 
 _CANDIDATES = (
@@ -48,7 +52,7 @@ if "Settings" not in globals():
         env: str = "dev"
         debug: bool = False
 
-        def dict(self) -> Dict[str, Any]:
+        def dict(self) -> dict[str, Any]:
             return {"env": self.env, "debug": self.debug}
 
 
@@ -74,5 +78,5 @@ if "ENV" not in globals():
 
 
 if "load_env" not in globals():
-    def load_env(*_args: Any, **_kwargs: Any) -> Optional[Settings]:
+    def load_env(*_args: Any, **_kwargs: Any) -> Settings | None:
         return settings

@@ -24,7 +24,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -58,11 +58,11 @@ class DeploymentConfig:
     health_check_timeout: int = 300
     rollback_enabled: bool = True
     backup_enabled: bool = True
-    notification_channels: List[str] = field(default_factory=list)
-    environment_vars: Dict[str, str] = field(default_factory=dict)
-    secrets: Dict[str, str] = field(default_factory=dict)
-    pre_deploy_commands: List[str] = field(default_factory=list)
-    post_deploy_commands: List[str] = field(default_factory=list)
+    notification_channels: list[str] = field(default_factory=list)
+    environment_vars: dict[str, str] = field(default_factory=dict)
+    secrets: dict[str, str] = field(default_factory=dict)
+    pre_deploy_commands: list[str] = field(default_factory=list)
+    post_deploy_commands: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -74,8 +74,8 @@ class DeploymentResult:
     started_at: datetime
     completed_at: Optional[datetime] = None
     error_message: Optional[str] = None
-    logs: List[str] = field(default_factory=list)
-    metrics: Dict[str, Any] = field(default_factory=dict)
+    logs: list[str] = field(default_factory=list)
+    metrics: dict[str, Any] = field(default_factory=dict)
 
 
 class HealthChecker:
@@ -108,7 +108,7 @@ class HealthChecker:
             return False
 
     @staticmethod
-    def check_system_resources() -> Dict[str, float]:
+    def check_system_resources() -> dict[str, float]:
         """Check system resource availability"""
         try:
             import psutil
@@ -144,7 +144,7 @@ class DockerManager:
                 stderr=asyncio.subprocess.PIPE
             )
 
-            stdout, stderr = await process.communicate()
+            _stdout, stderr = await process.communicate()
 
             if process.returncode == 0:
                 logger.info(f"Docker image built successfully: {image_name}:{tag}")
@@ -158,8 +158,8 @@ class DockerManager:
             return False
 
     async def run_container(self, image_name: str, tag: str = "latest",
-                          port_mapping: Optional[Dict[int, int]] = None,
-                          environment: Optional[Dict[str, str]] = None,
+                          port_mapping: Optional[dict[int, int]] = None,
+                          environment: Optional[dict[str, str]] = None,
                           name: Optional[str] = None) -> Optional[str]:
         """Run Docker container and return container ID"""
         try:
@@ -210,7 +210,7 @@ class DockerManager:
                 stderr=asyncio.subprocess.PIPE
             )
 
-            stdout, stderr = await process.communicate()
+            _stdout, _stderr = await process.communicate()
             return process.returncode == 0
 
         except Exception as e:
@@ -226,7 +226,7 @@ class DockerManager:
                 stderr=asyncio.subprocess.PIPE
             )
 
-            stdout, stderr = await process.communicate()
+            _stdout, _stderr = await process.communicate()
             return process.returncode == 0
 
         except Exception as e:
@@ -249,18 +249,18 @@ class AutomatedDeploymentPipeline:
         self.health_checker = HealthChecker()
 
         # Deployment state
-        self.active_deployments: Dict[str, DeploymentResult] = {}
-        self.deployment_history: List[DeploymentResult] = []
+        self.active_deployments: dict[str, DeploymentResult] = {}
+        self.deployment_history: list[DeploymentResult] = []
 
         # Create deployment directories
         self.deployment_dir = project_root / "tools" / "devops" / "deployments"
         self.deployment_dir.mkdir(parents=True, exist_ok=True)
 
-    def _load_deployment_config(self) -> Dict[str, DeploymentConfig]:
+    def _load_deployment_config(self) -> dict[str, DeploymentConfig]:
         """Load deployment configuration"""
         try:
             if self.config_path.exists():
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path) as f:
                     config_data = json.load(f)
 
                 environments = {}
@@ -383,7 +383,7 @@ class AutomatedDeploymentPipeline:
                 return False
 
         # Run coverage check
-        success, output, error = await self._run_command(
+        success, _output, error = await self._run_command(
             "python -m pytest tests/ --cov=. --cov-report=json --cov-fail-under=80"
         )
 
@@ -422,7 +422,7 @@ class AutomatedDeploymentPipeline:
 
         # Run any custom build commands
         for command in config.pre_deploy_commands:
-            success, output, error = await self._run_command(command)
+            success, _output, error = await self._run_command(command)
             if not success:
                 logger.error(f"Pre-deploy command failed: {command} - {error}")
                 return False
@@ -446,7 +446,7 @@ class AutomatedDeploymentPipeline:
 
         # Run post-deploy commands
         for command in config.post_deploy_commands:
-            success, output, error = await self._run_command(command)
+            success, _output, error = await self._run_command(command)
             if not success:
                 logger.error(f"Post-deploy command failed: {command} - {error}")
                 return False
@@ -499,7 +499,7 @@ class AutomatedDeploymentPipeline:
         backup_path = backup_dir / f"backup-{timestamp}.tar.gz"
 
         # Create backup of current deployment
-        success, output, error = await self._run_command(
+        success, _output, error = await self._run_command(
             f"tar -czf {backup_path} --exclude='.git' --exclude='__pycache__' ."
         )
 
@@ -628,7 +628,7 @@ class AutomatedDeploymentPipeline:
             await self._run_command(f"docker stop {container_name}")
 
             # Restore backup
-            success, output, error = await self._run_command(
+            success, _output, error = await self._run_command(
                 f"tar -xzf {latest_backup} -C {self.project_root}"
             )
 
@@ -658,7 +658,7 @@ class AutomatedDeploymentPipeline:
 
         return None
 
-    def list_deployments(self, environment: Optional[str] = None) -> List[DeploymentResult]:
+    def list_deployments(self, environment: Optional[str] = None) -> list[DeploymentResult]:
         """List recent deployments"""
         deployments = []
 
@@ -691,7 +691,7 @@ class AutomatedDeploymentPipeline:
 
             if choice == "1":
                 print("\nAvailable environments:")
-                for env in self.environments.keys():
+                for env in self.environments:
                     print(f"- {env}")
 
                 env = input("Enter environment: ").strip()

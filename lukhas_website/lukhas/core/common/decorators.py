@@ -4,11 +4,9 @@
 Reusable decorators for LUKHAS modules.
 """
 
-import logging
-
-log = logging.getLogger(__name__)
 import asyncio
 import functools
+import logging
 import secrets
 import time
 from datetime import datetime, timezone
@@ -16,6 +14,9 @@ from typing import Callable, Optional, Union
 
 from .exceptions import ModuleTimeoutError
 from .logger import get_logger
+
+log = logging.getLogger(__name__)
+
 
 logger = get_logger(__name__)
 

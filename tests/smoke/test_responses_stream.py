@@ -15,10 +15,12 @@ from __future__ import annotations
 
 import asyncio
 import time
+from typing import List
 
 import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
+from typing import List
 
 AUTH_HEADERS = {"Authorization": "Bearer sk-lukhas-test-1234567890abcdef"}
 
@@ -36,7 +38,7 @@ def test_streaming_responses_sse_protocol(client: TestClient) -> None:
         assert r.status_code == 200
         assert r.headers.get("content-type", "").startswith("text/event-stream")
 
-        data_frames: list[str] = []
+        data_frames: List[str] = []
         done_received = False
 
         for line in r.iter_lines():
@@ -82,9 +84,9 @@ def test_streaming_trace_header(client: TestClient) -> None:
 def test_sse_yields_incremental_chunks(client: TestClient) -> None:
     """
     Task 2.1: SSE stream yields data incrementally, not all at once.
-    
+
     OpenAI Behavior: Stream chunks arrive progressively with <100ms inter-chunk delay.
-    
+
     DoD:
     - At least 5 chunks received
     - Chunks arrive progressively (not all buffered)
@@ -126,9 +128,9 @@ def test_sse_yields_incremental_chunks(client: TestClient) -> None:
 def test_sse_backpressure_1MB_payload_no_drop(client: TestClient) -> None:
     """
     Task 2.2: SSE handles backpressure on large payloads without dropping data.
-    
+
     OpenAI Behavior: Large responses stream reliably without truncation.
-    
+
     DoD:
     - Request generates substantial streamed data
     - All chunks received (no drops)
@@ -170,9 +172,9 @@ def test_sse_backpressure_1MB_payload_no_drop(client: TestClient) -> None:
 def test_sse_includes_x_trace_id_and_rl_headers(client: TestClient) -> None:
     """
     Task 2.3: SSE response includes X-Trace-Id and rate limit headers.
-    
+
     OpenAI Parity: Headers must be present on streaming responses (PR #406).
-    
+
     DoD:
     - X-Trace-Id header present (or X-Request-Id alias)
     - x-ratelimit-limit-requests header present

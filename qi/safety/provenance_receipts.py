@@ -6,12 +6,13 @@ import os
 import time
 from typing import Any
 
+# We reuse your Merkle + ed25519 attestation
+from qi.ops.provenance import attest, merkle_chain  # requires pynacl
+
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 RECEIPTS_DIR = os.path.join(STATE, "provenance", "receipts")
 os.makedirs(RECEIPTS_DIR, exist_ok=True)
 
-# We reuse your Merkle + ed25519 attestation
-from qi.ops.provenance import attest, merkle_chain  # requires pynacl
 
 
 def write_receipt(

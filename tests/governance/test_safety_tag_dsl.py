@@ -15,7 +15,7 @@ Constellation Framework: 🛡️ Guardian · ⚖️ Ethics
 Features Tested:
 - Safety tag classification (SAFE, CAUTION, DANGER, CRITICAL)
 - Tag propagation across consciousness layers
-- DSL syntax validation and parsing  
+- DSL syntax validation and parsing
 - Permission enforcement based on safety levels
 - Tag inheritance and escalation rules
 - Emergency override patterns
@@ -46,7 +46,7 @@ class SafetyLevel:
     DANGER = "DANGER"
     CRITICAL = "CRITICAL"
 
-    ALL_LEVELS = [SAFE, CAUTION, DANGER, CRITICAL]
+    ALL_LEVELS = [SAFE, CAUTION, DANGER, CRITICAL]  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_governance_test_safety_tag_dsl_py_L49"}
 
     @classmethod
     def get_numeric_level(cls, level: str) -> int:
@@ -138,7 +138,7 @@ class SafetyTagCollection:
             "highest_level": self.get_highest_level(),
             "tag_count": len(self.tags),
             "has_critical": self.has_critical_tags(),
-            "categories": list(set(tag.category for tag in self.tags))
+            "categories": list({tag.category for tag in self.tags})
         }
 
 
@@ -493,7 +493,7 @@ class TestGuardianDSLIntegration:
     def test_dual_approval_override_with_safety_tags(self):
         """Test dual approval override process with safety tags"""
         # Create critical safety tag requiring dual approval
-        critical_tag = SafetyTag(
+        SafetyTag(
             SafetyLevel.CRITICAL,
             "emergency_override",
             "Emergency system override",

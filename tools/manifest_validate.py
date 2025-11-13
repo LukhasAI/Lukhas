@@ -36,7 +36,8 @@ def semantic_checks(manifest_path: Path, data: dict) -> list[str]:
     if "." in mod:
         expected_leaf = mod.split(".")[-1].replace("_", "-").replace(".", "-")
         # allow small variations: underscore/dash differences are common
-        norm = lambda s: s.lower().replace("_", "").replace("-", "")
+        def norm(s):
+            return s.lower().replace("_", "").replace("-", "")
         if norm(leaf) != norm(expected_leaf):
             errs.append(f"module '{mod}' does not seem to match directory '{leaf}'")
 

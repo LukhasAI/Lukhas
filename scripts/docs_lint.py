@@ -8,7 +8,7 @@ Validates front-matter, regenerates site map, and checks internal links.
 import json
 import sys
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 # Constants
 DOCS_ROOT = Path(__file__).parent.parent / "docs"
@@ -41,11 +41,11 @@ def load_manifest() -> Dict:
         print("   Run: python3 scripts/docs_inventory.py")
         sys.exit(1)
 
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
-def check_front_matter(manifest: Dict) -> tuple[List[Dict], List[Dict]]:
+def check_front_matter(manifest: Dict) -> tuple[list[Dict], list[Dict]]:
     """Validate front-matter on all documents. Returns (errors, warnings)."""
     errors = []
     warnings = []
@@ -103,7 +103,7 @@ def check_front_matter(manifest: Dict) -> tuple[List[Dict], List[Dict]]:
     return errors, warnings
 
 
-def check_manifest_completeness(manifest: Dict) -> List[Dict]:
+def check_manifest_completeness(manifest: Dict) -> list[Dict]:
     """Check that all .md files are in manifest."""
     errors = []
 
@@ -138,7 +138,7 @@ def check_sitemap_fresh(manifest: Dict) -> bool:
         return False
 
     # Check if generated date matches
-    with open(SITEMAP_PATH, 'r', encoding='utf-8') as f:
+    with open(SITEMAP_PATH, encoding='utf-8') as f:
         content = f.read()
 
     # Simple check: does it contain all doc count?
@@ -150,7 +150,7 @@ def check_sitemap_fresh(manifest: Dict) -> bool:
     return True
 
 
-def check_encoding(manifest: Dict) -> List[Dict]:
+def check_encoding(manifest: Dict) -> list[Dict]:
     """Check that all markdown files are UTF-8 encoded."""
     errors = []
 
@@ -163,7 +163,7 @@ def check_encoding(manifest: Dict) -> List[Dict]:
             continue
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 f.read()
         except UnicodeDecodeError as e:
             errors.append({
@@ -175,7 +175,7 @@ def check_encoding(manifest: Dict) -> List[Dict]:
     return errors
 
 
-def check_internal_links(manifest: Dict) -> List[Dict]:
+def check_internal_links(manifest: Dict) -> list[Dict]:
     """
     Quick internal link validation.
     Returns list of broken links (sample only for performance).
@@ -197,7 +197,7 @@ def check_internal_links(manifest: Dict) -> List[Dict]:
         checked += 1
 
         try:
-            with open(doc['path'], 'r', encoding='utf-8') as f:
+            with open(doc['path'], encoding='utf-8') as f:
                 content = f.read()
 
             for match in LINK_PATTERN.finditer(content):

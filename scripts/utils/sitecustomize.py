@@ -97,7 +97,7 @@ except Exception:  # pragma: no cover - executed when urllib3 missing
 
     def _missing_attr(name: str):  # ΛTAG: governance_stub_guardian
         raise AttributeError(
-            "urllib3 stub does not implement attribute %r; install urllib3 for full support" % name
+            f"urllib3 stub does not implement attribute {name!r}; install urllib3 for full support"
         )
 
     def __getattr__(name: str):  # pragma: no cover - diagnostic helper

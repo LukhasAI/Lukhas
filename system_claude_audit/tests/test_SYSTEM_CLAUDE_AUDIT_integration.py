@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import SYSTEM_CLAUDE_AUDIT  # noqa: F401  # TODO: SYSTEM_CLAUDE_AUDIT; consider ...
+    import SYSTEM_CLAUDE_AUDIT  # TODO: SYSTEM_CLAUDE_AUDIT; consider ...
 except ImportError:
     pytest.skip("Module SYSTEM_CLAUDE_AUDIT not available", allow_module_level=True)
 

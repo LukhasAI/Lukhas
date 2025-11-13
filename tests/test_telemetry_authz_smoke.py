@@ -273,7 +273,7 @@ class TestAuthzTelemetrySmoke:
         import time
         start_time = time.time()
 
-        for i in range(10):
+        for _i in range(10):
             simulate_authz_check(tracer, input_data, contract, allow=True)
 
         duration = time.time() - start_time

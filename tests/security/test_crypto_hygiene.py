@@ -226,10 +226,9 @@ class TestSecureRandomGeneration:
         def failing_random():
             raise RuntimeError("Insecure random number generation detected")
 
-        with patch.object(random, 'random', failing_random):
-            with pytest.raises(RuntimeError):
-                # This should fail if code tries to use insecure random
-                random.random()
+        with patch.object(random, 'random', failing_random), pytest.raises(RuntimeError):
+            # This should fail if code tries to use insecure random
+            random.random()
 
     def test_secure_random_generation(self):
         """Test secure random number generation."""
@@ -598,11 +597,11 @@ class TestLUKHASCryptographicIntegration:
 
         # Test nonce validation
         test_nonce = nonces[0]
-        valid, reason = await manager.validate_nonce(test_nonce)
+        valid, _reason = await manager.validate_nonce(test_nonce)
         assert valid is True
 
         # Test replay protection
-        valid2, reason2 = await manager.validate_nonce(test_nonce)
+        valid2, _reason2 = await manager.validate_nonce(test_nonce)
         assert valid2 is False, "Replay attack not prevented"
 
     def _validate_lambda_id_security(self, lambda_id: str) -> bool:
@@ -617,10 +616,7 @@ class TestLUKHASCryptographicIntegration:
             return False
 
         # Check length
-        if len(lambda_id) < 16:
-            return False
-
-        return True
+        return not len(lambda_id) < 16
 
     def _calculate_string_entropy(self, s: str) -> float:
         """Calculate string entropy."""

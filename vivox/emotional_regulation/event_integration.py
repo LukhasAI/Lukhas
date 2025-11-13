@@ -1,26 +1,31 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.ERN Event Bus Integration
 Connects emotional regulation to the system-wide event architecture
 """
 
+# ruff: noqa: F821
 import asyncio
+import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from core.common import get_logger
+from lukhas.core.common import get_logger
+
+from .vivox_ern_core import RegulationResponse, VADVector
+
+logger = logging.getLogger(__name__)
+
+
 
 # Import event system
 try:
-    from core.events.contracts import (
+    from lukhas.core.events.contracts import (
         DomainEvent,
         EmotionalRegulationApplied,
         EmotionalStateChanged,
     )
-    from core.events.typed_event_bus import TypedEventBus
+    from lukhas.core.events.typed_event_bus import TypedEventBus
 
     EVENT_SYSTEM_AVAILABLE = True
 except ImportError:
@@ -40,7 +45,6 @@ except ImportError:
         """Fallback EmotionalRegulationApplied for testing"""
 
 
-from .vivox_ern_core import RegulationResponse, VADVector
 
 logger = get_logger(__name__)
 
@@ -517,7 +521,10 @@ class VIVOXERNIntegratedSystem:
 
     def __init__(
         self,
-        vivox_ern: "VIVOXEmotionalRegulationNetwork",  # noqa: F821  # TODO: VIVOXEmotionalRegulationNetwor...
+# T4: code=F821 | ticket=SKELETON-4AFFFAFB | owner=lukhas-platform | status=skeleton
+# reason: Undefined VIVOXEmotionalRegulationNetwork in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+        vivox_ern: "VIVOXEmotionalRegulationNetwork",  # TODO: VIVOXEmotionalRegulationNetwor...
         event_bus: Optional[TypedEventBus] = None,
     ):
         self.vivox_ern = vivox_ern

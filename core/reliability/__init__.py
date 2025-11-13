@@ -17,7 +17,7 @@ __all__ = [
     "IdempotencyStore",
     "InMemoryIdempotencyStore",
     "build_cache_key",
+    "clear",
     "get",
     "put",
-    "clear",
 ]

@@ -8,6 +8,7 @@ Enhanced link validation with:
 - Batch GitHub issues by 25 items
 - 3 reports: summary, internal, external
 """
+from __future__ import annotations
 
 import json
 import re
@@ -15,7 +16,7 @@ import sys
 import time
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict
 
 try:
     import requests
@@ -43,7 +44,7 @@ EXTERNAL_CHECK_LIMIT = 50  # max external links to check (avoid rate limits)
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
@@ -66,7 +67,7 @@ def extract_anchors(content: str) -> set:
     return anchors
 
 
-def check_external_link(url: str, timeout: int = EXTERNAL_TIMEOUT) -> Tuple[bool, Optional[str]]:
+def check_external_link(url: str, timeout: int = EXTERNAL_TIMEOUT) -> tuple[bool, str | None]:
     """
     Check if external link is reachable (HEAD request).
     Returns (is_reachable, error_message).
@@ -89,7 +90,7 @@ def check_external_link(url: str, timeout: int = EXTERNAL_TIMEOUT) -> Tuple[bool
         return False, str(e)[:50]
 
 
-def categorize_link(link_url: str, source_path: Path, docs_by_path: Dict) -> Tuple[str, Optional[str]]:
+def categorize_link(link_url: str, source_path: Path, docs_by_path: Dict) -> tuple[str, str | None]:
     """
     Categorize link and check validity.
     Returns (category, error_message).
@@ -136,7 +137,7 @@ def categorize_link(link_url: str, source_path: Path, docs_by_path: Dict) -> Tup
     return 'other', None
 
 
-def scan_broken_links(docs: List[Dict], check_external: bool = False) -> Dict[str, List[Dict]]:
+def scan_broken_links(docs: list[Dict], check_external: bool = False) -> dict[str, list[Dict]]:
     """
     Scan all docs for broken links and categorize.
 
@@ -162,7 +163,7 @@ def scan_broken_links(docs: List[Dict], check_external: bool = False) -> Dict[st
             continue
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
         except Exception:
             continue
@@ -221,7 +222,7 @@ def scan_broken_links(docs: List[Dict], check_external: bool = False) -> Dict[st
     return broken_by_category
 
 
-def generate_summary_report(broken_by_category: Dict[str, List[Dict]]) -> str:
+def generate_summary_report(broken_by_category: dict[str, list[Dict]]) -> str:
     """Generate executive summary of all broken links."""
     total = sum(len(links) for links in broken_by_category.values())
 
@@ -273,7 +274,7 @@ def generate_summary_report(broken_by_category: Dict[str, List[Dict]]) -> str:
     return '\n'.join(lines)
 
 
-def generate_internal_report(broken_by_category: Dict[str, List[Dict]]) -> str:
+def generate_internal_report(broken_by_category: dict[str, list[Dict]]) -> str:
     """Generate detailed report for internal broken links."""
     internal_categories = ['missing_file', 'broken_anchor', 'malformed']
     internal_links = {k: v for k, v in broken_by_category.items() if k in internal_categories}
@@ -330,7 +331,7 @@ def generate_internal_report(broken_by_category: Dict[str, List[Dict]]) -> str:
     return '\n'.join(lines)
 
 
-def generate_external_report(broken_by_category: Dict[str, List[Dict]]) -> str:
+def generate_external_report(broken_by_category: dict[str, list[Dict]]) -> str:
     """Generate detailed report for external broken links."""
     external_categories = ['external_path', 'external_broken']
     external_links = {k: v for k, v in broken_by_category.items() if k in external_categories}
@@ -353,7 +354,7 @@ def generate_external_report(broken_by_category: Dict[str, List[Dict]]) -> str:
         lines.append("")
 
         # Batch in groups of 25
-        for idx, link in enumerate(sorted(links, key=lambda l: l['source'])[:25]):
+        for idx, link in enumerate(sorted(links, key=lambda link: link['source'])[:25]):
             lines.append(f"### {idx + 1}. {link['source'].replace('docs/', '')}")
             lines.append(f"- Line {link['line']}: `[{link['text']}]({link['url']})`")
             if link.get('error'):

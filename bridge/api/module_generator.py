@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-from typing import Any
-
 """
 
 #TAG:bridge
@@ -16,8 +11,11 @@ Creates standardized module structure with LUKHAS personality preserved
 """
 
 import argparse
+import logging
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
+
+logger = logging.getLogger(__name__)
 
 # LUKHAS module template structure
 MODULE_TEMPLATE = {
@@ -128,7 +126,7 @@ logger = get_logger(__name__)
 class {module_class_name}Engine:
     """Main engine for {module_name} processing"""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {{}
         self._initialize_lukhas_concepts()
 
@@ -178,7 +176,7 @@ class {module_class_name}Model(BaseModel):
     {model_fields}
 
     # LUKHAS concepts
-    lukhas_metadata: Dict[str, Any] = Field(
+    lukhas_metadata: dict[str, Any] = Field(
         default_factory=dict,
         description="LUKHAS-specific metadata"
     )
@@ -241,7 +239,7 @@ from typing import Any, Dict, List
 
 logger = get_logger(__name__)
 
-def process_with_lukhas_concepts(data: Any, concepts: List[str]) -> Dict[str, Any]:
+def process_with_lukhas_concepts(data: Any, concepts: list[str]) -> dict[str, Any]:
     """Process data with LUKHAS concept awareness"""
     result = {{"data": data, "concepts_applied": concepts}
 
@@ -254,7 +252,7 @@ def process_with_lukhas_concepts(data: Any, concepts: List[str]) -> Dict[str, An
 
     return result
 
-def validate_lukhas_integrity(data: Dict[str, Any]) -> bool:
+def validate_lukhas_integrity(data: dict[str, Any]) -> bool:
     """Validate data maintains LUKHAS integrity"""
     # Ensure LUKHAS concepts are preserved
     required_keys = ["lukhas_metadata", "concepts_applied"]

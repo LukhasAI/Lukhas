@@ -18,7 +18,7 @@ import inspect
 import sys
 from pathlib import Path
 from types import ModuleType
-from typing import Callable, Optional
+from typing import Callable
 
 
 def _load_module_from_path(path: Path) -> ModuleType:
@@ -41,7 +41,7 @@ def run_tests(root: Path) -> tuple[int, int, int]:
             errors += 1
             continue
 
-        client_factory: Optional[Callable] = getattr(mod, "client", None)
+        client_factory: Callable | None = getattr(mod, "client", None)
         for name, obj in inspect.getmembers(mod, inspect.isfunction):
             if not name.startswith("test_"):
                 continue

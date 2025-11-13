@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 import logging
 from datetime import timezone
 import streamlit as st
-from typing import Dict
-from typing import List
+
+
 logger = logging.getLogger(__name__)
 """
 
@@ -127,12 +129,12 @@ class CausalReasoningModule:
         and constructs a reasoning path.
 
         Args:
-            attended_data (Dict[str, Any]): A dictionary containing data to be analyzed.
+            attended_data (dict[str, Any]): A dictionary containing data to be analyzed.
                                            Expected to have a "text" key (str) and an optional
-                                           "context" key (Dict[str, Any]).
+                                           "context" key (dict[str, Any]).
 
         Returns:
-            Dict[str, Any]: A dictionary containing the reasoning results, including:
+            dict[str, Any]: A dictionary containing the reasoning results, including:
                             - "primary_cause" (Optional[Dict]): Information about the most likely cause.
                             - "all_valid_causal_chains" (Dict): All identified causal chains meeting the confidence threshold.
                             - "extracted_reasoning_path_summary" (List): A simplified path of reasoning steps.
@@ -242,11 +244,11 @@ class CausalReasoningModule:
         and processes structured context data.
 
         Args:
-            attended_data (Dict[str, Any]): Input data, expected "text" and "context".
+            attended_data (dict[str, Any]): Input data, expected "text" and "context".
             parent_logger (Any): Logger instance bound with request context.
 
         Returns:
-            List[Dict[str, Any]]: A list of identified potential causal elements.
+            list[dict[str, Any]]: A list of identified potential causal elements.
         """
         element_logger = parent_logger.bind(method_name="_identify_causal_elements")
         element_logger.debug(
@@ -366,11 +368,11 @@ class CausalReasoningModule:
         This is a heuristic-based approach; more advanced graph algorithms could be used.
 
         Args:
-            causal_elements_list (List[Dict[str, Any]]): List of identified causal elements.
+            causal_elements_list (list[dict[str, Any]]): List of identified causal elements.
             parent_logger (Any): Logger instance with request context.
 
         Returns:
-            Dict[str, Any]: A dictionary where keys are chain IDs and values are chain details.
+            dict[str, Any]: A dictionary where keys are chain IDs and values are chain details.
         """
         chain_logger = parent_logger.bind(method_name="_build_causal_chains")
         chain_logger.debug(
@@ -443,11 +445,11 @@ class CausalReasoningModule:
         based on factors like chain length and diversity of element types.
 
         Args:
-            potential_causal_chains (Dict[str, Any]): Dictionary of potential causal chains.
+            potential_causal_chains (dict[str, Any]): Dictionary of potential causal chains.
             parent_logger (Any): Logger instance with request context.
 
         Returns:
-            Dict[str, Any]: Dictionary of causal chains with updated confidence scores and summaries.
+            dict[str, Any]: Dictionary of causal chains with updated confidence scores and summaries.
         """
         confidence_logger = parent_logger.bind(method_name="_calculate_causal_confidences")
         confidence_logger.debug(
@@ -511,7 +513,7 @@ class CausalReasoningModule:
         Creates a concise textual summary from the elements of a causal chain.
 
         Args:
-            chain_elements_data (List[Dict[str, Any]]): List of elements in the chain.
+            chain_elements_data (list[dict[str, Any]]): List of elements in the chain.
             parent_logger (Any): Logger instance with request context.
         Returns:
             str: A textual summary of the chain.
@@ -545,7 +547,7 @@ class CausalReasoningModule:
         This graph stores persistent knowledge about causal relationships.
 
         Args:
-            valid_causal_chains_map (Dict[str, Any]): Dictionary of valid causal chains.
+            valid_causal_chains_map (dict[str, Any]): Dictionary of valid causal chains.
             parent_logger (Any): Logger instance with request context.
         """
         graph_logger = parent_logger.bind(method_name="_update_causal_graph_knowledge")
@@ -602,11 +604,11 @@ class CausalReasoningModule:
         typically by selecting the chain with the highest confidence score.
 
         Args:
-            valid_causal_chains_map (Dict[str, Any]): Dictionary of valid causal chains.
+            valid_causal_chains_map (dict[str, Any]): Dictionary of valid causal chains.
             parent_logger (Any): Logger instance with request context.
 
         Returns:
-            Optional[Dict[str, Any]]: Details of the identified primary cause, or None if no valid causes.
+            Optional[dict[str, Any]]: Details of the identified primary cause, or None if no valid causes.
         """
         identification_logger = parent_logger.bind(method_name="_identify_primary_cause_from_chains")
         identification_logger.debug(
@@ -656,11 +658,11 @@ class CausalReasoningModule:
         primarily by chain confidence and then by element order within chains.
 
         Args:
-            valid_causal_chains_map (Dict[str, Any]): Dictionary of valid causal chains.
+            valid_causal_chains_map (dict[str, Any]): Dictionary of valid causal chains.
             parent_logger (Any): Logger instance with request context.
 
         Returns:
-            List[Dict[str, Any]]: A list of dictionaries, each representing a step in the reasoning path.
+            list[dict[str, Any]]: A list of dictionaries, each representing a step in the reasoning path.
         """
         path_logger = parent_logger.bind(method_name="_extract_simplified_reasoning_path")
         path_logger.debug(
@@ -714,7 +716,7 @@ class CausalReasoningModule:
         history does not exceed a predefined limit.
 
         Args:
-            reasoning_session_results (Dict[str, Any]): The results from a single reasoning session.
+            reasoning_session_results (dict[str, Any]): The results from a single reasoning session.
             parent_logger (Any): Logger instance with request context.
         """
         history_logger = parent_logger.bind(method_name="_add_to_reasoning_history")
@@ -766,7 +768,7 @@ class CausalReasoningModule:
         This can include trends in confidence, common causal chains, etc.
 
         Returns:
-            Dict[str, Any]: A dictionary containing insights such as average confidence scores,
+            dict[str, Any]: A dictionary containing insights such as average confidence scores,
                             observed trends, and the current size of the causal knowledge graph.
         """
         # Human-readable comment: Provides an overview of learned causal patterns

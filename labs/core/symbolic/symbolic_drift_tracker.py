@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -34,7 +36,6 @@ logger = logging.getLogger(__name__)
 """
 
 import structlog
-
 from core.symbolic.drift.symbolic_drift_tracker import (
     SymbolicDriftTracker as CoreSymbolicDriftTracker,
 )

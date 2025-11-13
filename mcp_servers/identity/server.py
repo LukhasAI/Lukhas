@@ -13,6 +13,7 @@ Features:
 - Tier management and validation
 - Trinity Framework compliance checking
 """
+from __future__ import annotations
 
 import asyncio
 import json

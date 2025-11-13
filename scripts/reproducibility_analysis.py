@@ -10,7 +10,7 @@ import argparse
 import json
 import warnings
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -25,25 +25,25 @@ class ReproducibilityAnalyzer:
         """Initialize with target reproducibility threshold."""
         self.target_reproducibility = target_reproducibility
 
-    def load_multiple_audits(self, file_patterns: List[str]) -> List[Dict[str, Any]]:
+    def load_multiple_audits(self, file_patterns: list[str]) -> list[dict[str, Any]]:
         """Load multiple audit result files."""
         audit_data = []
 
         for pattern in file_patterns:
             file_path = Path(pattern)
             if file_path.exists():
-                with open(file_path, 'r') as f:
+                with open(file_path) as f:
                     audit_data.append(json.load(f))
             else:
                 # Handle glob patterns
                 for file_path in Path(".").glob(pattern):
                     if file_path.is_file():
-                        with open(file_path, 'r') as f:
+                        with open(file_path) as f:
                             audit_data.append(json.load(f))
 
         return audit_data
 
-    def extract_performance_matrices(self, audit_results: List[Dict[str, Any]]) -> Dict[str, np.ndarray]:
+    def extract_performance_matrices(self, audit_results: list[dict[str, Any]]) -> dict[str, np.ndarray]:
         """Extract performance data as matrices for analysis."""
         matrices = {
             "guardian_p95": [],
@@ -76,7 +76,7 @@ class ReproducibilityAnalyzer:
 
         return matrices
 
-    def calculate_reproducibility_metrics(self, values: np.ndarray) -> Dict[str, float]:
+    def calculate_reproducibility_metrics(self, values: np.ndarray) -> dict[str, float]:
         """Calculate reproducibility metrics for a set of values."""
         if len(values) < 2:
             return {
@@ -131,7 +131,7 @@ class ReproducibilityAnalyzer:
             "count": len(values)
         }
 
-    def cross_run_variance_analysis(self, matrices: Dict[str, np.ndarray]) -> Dict[str, Any]:
+    def cross_run_variance_analysis(self, matrices: dict[str, np.ndarray]) -> dict[str, Any]:
         """Analyze variance across multiple runs."""
         results = {}
 
@@ -155,7 +155,7 @@ class ReproducibilityAnalyzer:
 
         return results
 
-    def detect_outliers(self, values: np.ndarray) -> Dict[str, Any]:
+    def detect_outliers(self, values: np.ndarray) -> dict[str, Any]:
         """Detect outliers using multiple methods."""
         if len(values) < 4:
             return {"method": "insufficient_data", "outliers": [], "outlier_count": 0}
@@ -189,11 +189,11 @@ class ReproducibilityAnalyzer:
             "iqr_outliers": iqr_outliers,
             "zscore_outliers": zscore_outliers,
             "all_outliers": all_outliers,
-            "outlier_count": len(set(o["index"] for o in all_outliers)),
-            "outlier_percentage": len(set(o["index"] for o in all_outliers)) / len(values) * 100
+            "outlier_count": len({o["index"] for o in all_outliers}),
+            "outlier_percentage": len({o["index"] for o in all_outliers}) / len(values) * 100
         }
 
-    def environment_consistency_analysis(self, audit_results: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def environment_consistency_analysis(self, audit_results: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze consistency across different environments."""
         environments = {}
 
@@ -226,7 +226,7 @@ class ReproducibilityAnalyzer:
 
         return env_analysis
 
-    def generate_reproducibility_matrix(self, matrices: Dict[str, np.ndarray]) -> Dict[str, Any]:
+    def generate_reproducibility_matrix(self, matrices: dict[str, np.ndarray]) -> dict[str, Any]:
         """Generate comprehensive reproducibility matrix."""
         # Overall variance analysis
         variance_analysis = self.cross_run_variance_analysis(matrices)
@@ -280,7 +280,7 @@ class ReproducibilityAnalyzer:
     def _generate_reproducibility_recommendation(
         self,
         score: float,
-        failing_metrics: List[str]
+        failing_metrics: list[str]
     ) -> str:
         """Generate reproducibility improvement recommendations."""
         if score >= self.target_reproducibility:
@@ -304,7 +304,7 @@ class ReproducibilityAnalyzer:
 
         return "; ".join(recommendations) if recommendations else "No specific recommendations"
 
-    def generate_visualizations(self, matrices: Dict[str, np.ndarray], output_dir: str):
+    def generate_visualizations(self, matrices: dict[str, np.ndarray], output_dir: str):
         """Generate reproducibility visualizations."""
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
@@ -334,7 +334,7 @@ class ReproducibilityAnalyzer:
                 mean_val = np.mean(matrices[metric])
                 cv = np.std(matrices[metric]) / mean_val * 100
                 ax.text(0.02, 0.98, f'CV: {cv:.1f}%', transform=ax.transAxes,
-                       verticalalignment='top', bbox=dict(boxstyle='round', facecolor='wheat'))
+                       verticalalignment='top', bbox={'boxstyle': 'round', 'facecolor': 'wheat'})
             else:
                 ax.text(0.5, 0.5, 'No Data', ha='center', va='center', transform=ax.transAxes)
                 ax.set_title(title + " (No Data)")
@@ -408,8 +408,8 @@ class ReproducibilityAnalyzer:
 
     def generate_comprehensive_report(
         self,
-        audit_results: List[Dict[str, Any]],
-        reproducibility_matrix: Dict[str, Any]
+        audit_results: list[dict[str, Any]],
+        reproducibility_matrix: dict[str, Any]
     ) -> str:
         """Generate comprehensive reproducibility report."""
         report_lines = []
@@ -539,10 +539,10 @@ def main():
         "environment_consistency": env_consistency,
         "audit_summary": {
             "total_audits": len(audit_results),
-            "environments": list(set(
+            "environments": list({
                 audit.get("environment", {}).get("environment_type", "unknown")
                 for audit in audit_results
-            )),
+            }),
             "analysis_timestamp": Path().absolute().name  # Use current dir as timestamp
         }
     }

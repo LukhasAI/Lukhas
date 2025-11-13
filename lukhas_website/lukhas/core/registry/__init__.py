@@ -25,7 +25,7 @@ from .plugin_registry import (
 )
 
 
-def _load_legacy_registry() -> Optional[ModuleType]:
+def _load_legacy_registry() -> ModuleType | None:
     """Load the legacy ``core.registry`` module if it still exists."""
 
     legacy_path = Path(__file__).resolve().parent.parent / "registry.py"
@@ -49,7 +49,7 @@ def _load_legacy_registry() -> Optional[ModuleType]:
 _legacy_module = _load_legacy_registry()
 
 
-def _get_attr(name: str, fallback: Optional[Callable[[], Any]] = None) -> Any:
+def _get_attr(name: str, fallback: Callable[[], Any] | None = None) -> Any:
     if _legacy_module and hasattr(_legacy_module, name):
         return getattr(_legacy_module, name)
     if fallback is not None:
@@ -72,21 +72,21 @@ _REG: dict[str, Any] = _REG_value
 
 
 __all__ = [
-    "PluginRegistry",
+    "_REG",
+    "LUKHASPlugin",
     "PluginBase",
     "PluginInfo",
-    "LUKHASPlugin",
-    "get_plugin_registry",
-    "register_plugin",
-    # Legacy runtime helpers
-    "register",
-    "resolve",
+    "PluginRegistry",
+    "_instantiate_plugin",
+    "_register_kind",
+    "auto_discover",
     "autoload",
     "discover_entry_points",
-    "auto_discover",
-    "_register_kind",
-    "_instantiate_plugin",
-    "_REG",
+    "get_plugin_registry",
+    # Legacy runtime helpers
+    "register",
+    "register_plugin",
+    "resolve",
 ]
 
 __version__ = "1.0.0"

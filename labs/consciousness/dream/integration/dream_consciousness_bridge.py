@@ -5,6 +5,7 @@
 │     Advanced bridge between dream states and consciousness systems          │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
+from __future__ import annotations
 
 import logging
 from datetime import datetime, timezone
@@ -178,4 +179,4 @@ class DreamConsciousnessBridge:
         }
 
 
-__all__ = ["DreamConsciousnessBridge", "ConsciousnessBridgeState"]
+__all__ = ["ConsciousnessBridgeState", "DreamConsciousnessBridge"]

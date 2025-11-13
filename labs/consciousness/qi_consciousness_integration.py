@@ -41,6 +41,8 @@
 ║ Symbolic Tags: {ΛQUANTUM}, {ΛCONSCIOUSNESS}, {ΛCREATIVE}, {ΛINTEGRATION}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 # Module imports
 import asyncio
 import logging
@@ -259,7 +261,7 @@ class QICreativeConsciousness:
             consciousness_level_setting (str): Desired level of consciousness influence (e.g., "elevated", "quantum").
             user_id (Optional[str]): User ID for tier checking.
         Returns:
-            Dict[str, Any]: Dictionary containing generated content and consciousness metrics.
+            dict[str, Any]: Dictionary containing generated content and consciousness metrics.
         """
         log_user_id = user_id or self.user_id_context
         self.instance_logger.info(
@@ -593,7 +595,7 @@ class QICreativeConsciousness:
         Args:
             user_id (Optional[str]): User ID for tier checking.
         Returns:
-            Dict[str, Any]: Dictionary containing status information.
+            dict[str, Any]: Dictionary containing status information.
         """
         log_user_id = user_id or self.user_id_context
         self.instance_logger.info(
@@ -668,7 +670,7 @@ async def generate_conscious_content(
         style (str): Writing style.
         user_id (Optional[str]): User ID for tier checking.
     Returns:
-        Dict[str, Any]: Generated content and metrics.
+        dict[str, Any]: Generated content and metrics.
     """
     logger.info(
         f"ΛTRACE: Module-level generate_conscious_content called by user '{user_id}'. Type: '{content_type}'."
@@ -692,7 +694,7 @@ def get_consciousness_integration_status(
     Args:
         user_id (Optional[str]): User ID for tier checking.
     Returns:
-        Dict[str, Any]: Status information.
+        dict[str, Any]: Status information.
     """
     logger.info(
         f"ΛTRACE: Module-level get_consciousness_integration_status called by user '{user_id}'."

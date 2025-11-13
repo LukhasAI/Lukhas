@@ -166,10 +166,9 @@ def test_quantum_algorithms_and_processing():
                     result = qi.run_algorithm(scenario["algorithm"], scenario)
                     assert result is not None or result is None
 
-                if hasattr(qi, "quantum_fourier_transform"):
-                    if scenario["algorithm"] == "quantum_fourier_transform":
-                        qft = qi.quantum_fourier_transform(scenario["input_size"])
-                        assert qft is not None or qft is None
+                if hasattr(qi, 'quantum_fourier_transform') and scenario['algorithm'] == 'quantum_fourier_transform':
+                    qft = qi.quantum_fourier_transform(scenario["input_size"])
+                    assert qft is not None or qft is None
 
                 if hasattr(qi, "grover_search") and scenario["algorithm"] == "grover_search":
                     grover = qi.grover_search(scenario["search_space"], scenario["target_items"])
@@ -366,10 +365,9 @@ def test_quantum_optimization_and_machine_learning():
                     ml_result = qi.quantum_machine_learning(scenario)
                     assert ml_result is not None or ml_result is None
 
-                if hasattr(qi, "variational_quantum_eigensolver"):
-                    if scenario["algorithm"] == "variational_quantum_eigensolver":
-                        vqe = qi.variational_quantum_eigensolver(scenario)
-                        assert vqe is not None or vqe is None
+                if hasattr(qi, 'variational_quantum_eigensolver') and scenario['algorithm'] == 'variational_quantum_eigensolver':
+                    vqe = qi.variational_quantum_eigensolver(scenario)
+                    assert vqe is not None or vqe is None
 
                 # Test optimization
                 if hasattr(qi, "quantum_optimization"):
@@ -435,10 +433,9 @@ def test_quantum_communication_and_cryptography():
                     bb84 = qi.bb84_protocol(scenario["key_length"])
                     assert bb84 is not None or bb84 is None
 
-                if hasattr(qi, "quantum_teleportation"):
-                    if scenario["protocol"] == "quantum_teleportation":
-                        teleport = qi.quantum_teleportation(scenario)
-                        assert teleport is not None or teleport is None
+                if hasattr(qi, 'quantum_teleportation') and scenario['protocol'] == 'quantum_teleportation':
+                    teleport = qi.quantum_teleportation(scenario)
+                    assert teleport is not None or teleport is None
 
                 # Test quantum cryptography
                 if hasattr(qi, "quantum_key_generation"):

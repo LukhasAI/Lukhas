@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from threading import RLock
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable
 
 logger = logging.getLogger(__name__)
 
@@ -28,15 +28,15 @@ def _default_state_dir() -> Path:
     return Path(os.path.expanduser(state_env))
 
 
-@dataclass(slots=True)
+@dataclass
 class TokenMetadata:
     """Container representing persisted token information."""
 
     token_hash: str
     created_at: str
-    expires_at: Optional[str]
-    metadata: Dict[str, Any]
-    last_validated_at: Optional[str] = None
+    expires_at: str | None
+    metadata: dict[str, Any]
+    last_validated_at: str | None = None
 
 
 class SessionTokenStore:
@@ -46,9 +46,9 @@ class SessionTokenStore:
 
     def __init__(
         self,
-        state_dir: Optional[Path | str] = None,
+        state_dir: Path | str | None = None,
         filename: str = "session_tokens.json",
-        clock: Optional[Callable[[], datetime]] = None,
+        clock: Callable[[], datetime] | None = None,
     ) -> None:
         self._clock = clock or _default_clock
         self._lock = RLock()
@@ -58,7 +58,7 @@ class SessionTokenStore:
         self._state_dir.mkdir(parents=True, exist_ok=True)
 
         self._store_path = self._state_dir / filename
-        self._tokens: Dict[str, TokenMetadata] = {}
+        self._tokens: dict[str, TokenMetadata] = {}
 
         self._load()
 
@@ -68,8 +68,8 @@ class SessionTokenStore:
     def register_token(
         self,
         token: str,
-        metadata: Optional[Dict[str, Any]] = None,
-        ttl_seconds: Optional[int] = None,
+        metadata: dict[str, Any] | None = None,
+        ttl_seconds: int | None = None,
     ) -> str:
         """Store a session token hash with optional metadata.
 
@@ -139,7 +139,7 @@ class SessionTokenStore:
                 self._save()
             return removed
 
-    def list_tokens(self) -> Dict[str, TokenMetadata]:
+    def list_tokens(self) -> dict[str, TokenMetadata]:
         """Return a shallow copy of stored token metadata."""
 
         with self._lock:
@@ -169,7 +169,7 @@ class SessionTokenStore:
             logger.error("Invalid token store format: expected mapping")
             return
 
-        loaded: Dict[str, TokenMetadata] = {}
+        loaded: dict[str, TokenMetadata] = {}
         for token_hash, info in tokens.items():
             if not isinstance(info, dict):
                 continue
@@ -231,7 +231,7 @@ class SessionTokenStore:
         if removed and save:
             self._save()
 
-    def _parse_datetime(self, value: str) -> Optional[datetime]:
+    def _parse_datetime(self, value: str) -> datetime | None:
         try:
             normalized = value.replace("Z", "+00:00")
             return datetime.fromisoformat(normalized)

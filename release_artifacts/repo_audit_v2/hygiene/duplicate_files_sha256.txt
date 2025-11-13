@@ -1,0 +1,999 @@
+# Duplicate Python Files (SHA256)
+Total unique hashes: 6127
+Duplicate sets found: 112
+
+
+Hash: eff90836cf3d4fbb7b91d19ed5745e283914d43a32bce9f81945bb58ec476bcd
+Count: 481 files
+  - ./tone/tools/__init__.py
+  - ./tone/tests/__init__.py
+  - ./modulation/tests/__init__.py
+  - ./mcp-lukhas-sse/__init__.py
+  - ./mcp-lukhas-sse/tests/__init__.py
+  - ./vocabularies/tests/__init__.py
+  - ./labs/bio/energy/__init__.py
+  - ./labs/bio/coherence/__init__.py
+  - ./labs/core/utils/__init__.py
+  - ./labs/core/observability/__init__.py
+  - ./labs/core/modules/nias/__init__.py
+  - ./labs/core/agi_preparedness/__init__.py
+  - ./labs/memory/consensus/__init__.py
+  - ./labs/memory/security/__init__.py
+  - ./labs/memory/consciousness/__init__.py
+  - ./labs/memory/tests/__init__.py
+  - ./labs/memory/fakes/__init__.py
+  - ./labs/memory/lineage/__init__.py
+  - ./labs/memory/dream/__init__.py
+  - ./labs/memory/interfaces/__init__.py
+  - ./labs/bridge/__init__.py
+  - ./labs/consciousness/constellation/__init__.py
+  - ./labs/consciousness/testing/__init__.py
+  - ./labs/consciousness/resilience/__init__.py
+  - ./labs/consciousness/dream/integration/__init__.py
+  - ./labs/consciousness/quantum/__init__.py
+  - ./labs/tests/__init__.py
+  - ./labs/governance/privacy/__init__.py
+  - ./labs/governance/identity/auth_integrations/__init__.py
+  - ./labs/governance/identity/auth_web/__init__.py
+  - ./labs/governance/consent/__init__.py
+  - ./candidate/quantum/__init__.py
+  - ./branding/design/__init__.py
+  - ./branding/apis/__init__.py
+  - ./branding/analysis/__init__.py
+  - ./branding/optimization/__init__.py
+  - ./branding/tests/__init__.py
+  - ./branding/content/__init__.py
+  - ./branding/poetry/legacy/__init__.py
+  - ./branding/engines/lukhas_content_platform/bots/__init__.py
+  - ./branding/engines/lukhas_doc_engine/__init__.py
+  - ./branding/storytelling/__init__.py
+  - ./branding/orchestration/__init__.py
+  - ./branding/communications/__init__.py
+  - ./phase1_verification_pack/tests/__init__.py
+  - ./cognitive_core/optimization/__init__.py
+  - ./cognitive/tests/__init__.py
+  - ./oneiric_core/tests/__init__.py
+  - ./lukhas_website/tests/__init__.py
+  - ./lukhas_website/tests/api/__init__.py
+  - ./lukhas_website/unified/__init__.py
+  - ./lukhas_website/scripts/__init__.py
+  - ./lukhas_website/lukhas/cognitive_core/reasoning/__init__.py
+  - ./lukhas_website/lukhas/quantum_bio_consciousness/__init__.py
+  - ./lukhas_website/lukhas/core/plugins/__init__.py
+  - ./lukhas_website/lukhas/core/orchestration/integration/__init__.py
+  - ./lukhas_website/lukhas/core/orchestration/brain/consciousness/__init__.py
+  - ./lukhas_website/lukhas/core/orchestration/brain/unified_integration/__init__.py
+  - ./lukhas_website/lukhas/core/orchestration/brain/unified_integration/adapters/__init__.py
+  - ./lukhas_website/lukhas/nodes/__init__.py
+  - ./lukhas_website/lukhas/utils/__init__.py
+  - ./lukhas_website/lukhas/shims/__init__.py
+  - ./lukhas_website/lukhas/interfaces/__init__.py
+  - ./lukhas_website/lukhas/aka_qualia/tools/__init__.py
+  - ./lukhas_website/lukhas/aka_qualia/tests/__init__.py
+  - ./delegation_reports/__init__.py
+  - ./delegation_reports/tests/__init__.py
+  - ./tools/tone/__init__.py
+  - ./tools/bench/__init__.py
+  - ./tools/devops/__init__.py
+  - ./tools/tests/__init__.py
+  - ./tools/tests/validators/__init__.py
+  - ./tools/mcp/__init__.py
+  - ./tools/docs/__init__.py
+  - ./tools/matriz/__init__.py
+  - ./tools/testing/__init__.py
+  - ./tools/error_analysis/__init__.py
+  - ./tools/audit/__init__.py
+  - ./tools/ai/__init__.py
+  - ./tools/automation/__init__.py
+  - ./tools/manifests/__init__.py
+  - ./tools/monitoring/__init__.py
+  - ./tools/git/__init__.py
+  - ./tools/vocabulary/__init__.py
+  - ./tools/debug/__init__.py
+  - ./docker/tests/__init__.py
+  - ./bio/tests/__init__.py
+  - ./trace/tests/__init__.py
+  - ./core/symbolic_legacy/__init__.py
+  - ./core/symbolic_legacy/features/collapse/__init__.py
+  - ./core/integration/__init__.py
+  - ./core/integration/innovation_orchestrator/__init__.py
+  - ./core/tests/__init__.py
+  - ./core/safety/__init__.py
+  - ./core/symbolism/__init__.py
+  - ./core/symbolic_core/features/collapse/__init__.py
+  - ./core/orchestration/golden_trio/__init__.py
+  - ./core/orchestration/swarm/__init__.py
+  - ./core/orchestration/integration/__init__.py
+  - ./core/orchestration/examples/__init__.py
+  - ./core/orchestration/brain/spine/__init__.py
+  - ./core/orchestration/brain/integration/__init__.py
+  - ./core/orchestration/brain/personality/__init__.py
+  - ./core/orchestration/brain/abstract_reasoning/__init__.py
+  - ./core/orchestration/brain/output/__init__.py
+  - ./core/orchestration/brain/symbolic_ai/modules/__init__.py
+  - ./core/orchestration/brain/orchestration/__init__.py
+  - ./core/orchestration/brain/neural/__init__.py
+  - ./core/orchestration/user_feedback/__init__.py
+  - ./core/orchestration/core_modules/__init__.py
+  - ./core/governance/identity/core/colonies/__init__.py
+  - ./core/governance/identity/core/health/__init__.py
+  - ./core/governance/identity/core/tagging/__init__.py
+  - ./core/governance/identity/core/glyph/__init__.py
+  - ./core/governance/security/__init__.py
+  - ./core/glyph/__init__.py
+  - ./core/monitoring/__init__.py
+  - ./core/neural_architectures/abas/__init__.py
+  - ./core/neural/__init__.py
+  - ./core/services/personality/__init__.py
+  - ./core/interfaces/ui/__init__.py
+  - ./core/interfaces/ui/components/__init__.py
+  - ./core/interfaces/logic/__init__.py
+  - ./core/interfaces/logic/context/__init__.py
+  - ./core/interfaces/as_agent/agent_logic/__init__.py
+  - ./core/interfaces/as_agent/streamlit/__init__.py
+  - ./core/interfaces/as_agent/core/__init__.py
+  - ./core/interfaces/as_agent/utils/__init__.py
+  - ./core/interfaces/as_agent/sys/nias/__init__.py
+  - ./core/interfaces/as_agent/sys/dast/__init__.py
+  - ./core/interfaces/as_agent/sys/abas/__init__.py
+  - ./core/interfaces/as_agent/widgets/__init__.py
+  - ./core/router/__init__.py
+  - ./memory/tests/__init__.py
+  - ./identity/tests/__init__.py
+  - ./evaluations/definitions/__init__.py
+  - ./evaluations/runs/tests/__init__.py
+  - ./codex_artifacts/tests/__init__.py
+  - ./third_party_stubs/tests/__init__.py
+  - ./out/tests/__init__.py
+  - ./config/tests/__init__.py
+  - ./next_gen/tests/__init__.py
+  - ./security/tests/__init__.py
+  - ./sbom/tests/__init__.py
+  - ./vocabulary_refresh_data/tests/__init__.py
+  - ./ci/tests/__init__.py
+  - ./bridge/tests/__init__.py
+  - ./health_reports/tests/__init__.py
+  - ./contracts/tests/__init__.py
+  - ./personality/tests/__init__.py
+  - ./recovered_components/tools/__init__.py
+  - ./recovered_components/memory/__init__.py
+  - ./recovered_components/auth/__init__.py
+  - ./recovered_components/tests/__init__.py
+  - ./recovered_components/utils/__init__.py
+  - ./recovered_components/api/__init__.py
+  - ./test_data/tests/__init__.py
+  - ./design_system/tests/__init__.py
+  - ./consciousness/tests/__init__.py
+  - ./consciousness/simulation/tests/__init__.py
+  - ./claude_army/__init__.py
+  - ./claude_army/tests/__init__.py
+  - ./mcp-server/tests/__init__.py
+  - ./business/tests/__init__.py
+  - ./tests/smoke/__init__.py
+  - ./tests/labs/core/governance/__init__.py
+  - ./tests/labs/governance/identity/core/auth/__init__.py
+  - ./tests/candidate/bridge/__init__.py
+  - ./tests/candidate/qi/__init__.py
+  - ./tests/candidate/emotion/examples/__init__.py
+  - ./tests/lane/__init__.py
+  - ./tests/unit/behavior/__init__.py
+  - ./tests/unit/labs/qi/__init__.py
+  - ./tests/unit/metrics/__init__.py
+  - ./tests/unit/candidate/core/__init__.py
+  - ./tests/unit/candidate/core/quantum_financial/__init__.py
+  - ./tests/unit/candidate/core/identity/__init__.py
+  - ./tests/unit/candidate/core/ethics/__init__.py
+  - ./tests/unit/candidate/core/matrix/__init__.py
+  - ./tests/unit/candidate/core/interfaces/api/v1/__init__.py
+  - ./tests/unit/candidate/identity/__init__.py
+  - ./tests/unit/candidate/bridge/__init__.py
+  - ./tests/unit/candidate/bridge/orchestration/__init__.py
+  - ./tests/unit/candidate/qi/__init__.py
+  - ./tests/unit/candidate/qi/engines/identity/__init__.py
+  - ./tests/unit/candidate/governance/identity/__init__.py
+  - ./tests/unit/branding/__init__.py
+  - ./tests/unit/branding/personal_brand/__init__.py
+  - ./tests/unit/branding/poetry/__init__.py
+  - ./tests/unit/contract/__init__.py
+  - ./tests/unit/tools/__init__.py
+  - ./tests/unit/tools/ci/__init__.py
+  - ./tests/unit/bio/__init__.py
+  - ./tests/unit/bio/core/__init__.py
+  - ./tests/unit/core/__init__.py
+  - ./tests/unit/core/blockchain/__init__.py
+  - ./tests/unit/core/emotion/__init__.py
+  - ./tests/unit/core/interfaces/api/v1/v1/__init__.py
+  - ./tests/unit/core/interfaces/as_agent/__init__.py
+  - ./tests/unit/memory/__init__.py
+  - ./tests/unit/identity/__init__.py
+  - ./tests/unit/config/__init__.py
+  - ./tests/unit/ci/__init__.py
+  - ./tests/unit/bridge/api_gateway/__init__.py
+  - ./tests/unit/bridge/adapters/__init__.py
+  - ./tests/unit/bridge/external_adapters/__init__.py
+  - ./tests/unit/consciousness/__init__.py
+  - ./tests/unit/golden/__init__.py
+  - ./tests/unit/ai_orchestration/__init__.py
+  - ./tests/unit/matriz/__init__.py
+  - ./tests/unit/observability/__init__.py
+  - ./tests/unit/compliance/__init__.py
+  - ./tests/unit/qi/__init__.py
+  - ./tests/unit/qi/crypto/__init__.py
+  - ./tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/__init__.py
+  - ./tests/unit/products_infra/trace/__init__.py
+  - ./tests/unit/products_infra/legado/__init__.py
+  - ./tests/unit/vivox/__init__.py
+  - ./tests/unit/scripts/__init__.py
+  - ./tests/unit/orchestration/__init__.py
+  - ./tests/unit/governance/__init__.py
+  - ./tests/unit/governance/compliance/__init__.py
+  - ./tests/unit/governance/ethics/__init__.py
+  - ./tests/unit/monitoring/__init__.py
+  - ./tests/unit/dream/__init__.py
+  - ./tests/unit/services/__init__.py
+  - ./tests/unit/services/registry/__init__.py
+  - ./tests/unit/emotion/__init__.py
+  - ./tests/unit/universal_language/__init__.py
+  - ./tests/unit/reports/__init__.py
+  - ./tests/unit/aka_qualia/__init__.py
+  - ./tests/unit/router/__init__.py
+  - ./tests/branding/__init__.py
+  - ./tests/branding/apis/__init__.py
+  - ./tests/cognitive/__init__.py
+  - ./tests/cognitive/property_based/__init__.py
+  - ./tests/cognitive/stress/__init__.py
+  - ./tests/lint/__init__.py
+  - ./tests/contract/__init__.py
+  - ./tests/contract/candidate/aka_qualia/__init__.py
+  - ./tests/contract/contract/__init__.py
+  - ./tests/contract/golden/__init__.py
+  - ./tests/contract/matriz/__init__.py
+  - ./tests/oneiric_core/__init__.py
+  - ./tests/tools/__init__.py
+  - ./tests/core/__init__.py
+  - ./tests/core/identity/__init__.py
+  - ./tests/core/consciousness/__init__.py
+  - ./tests/core/endocrine/__init__.py
+  - ./tests/core/orchestration/__init__.py
+  - ./tests/core/orchestration/brain/spine/__init__.py
+  - ./tests/core/governance/examples/__init__.py
+  - ./tests/core/api/__init__.py
+  - ./tests/core/symbolic/__init__.py
+  - ./tests/core/modules/__init__.py
+  - ./tests/capabilities/__init__.py
+  - ./tests/identity/__init__.py
+  - ./tests/constraints/__init__.py
+  - ./tests/gpt/__init__.py
+  - ./tests/config/__init__.py
+  - ./tests/security/__init__.py
+  - ./tests/integration/candidate/tools/__init__.py
+  - ./tests/integration/candidate/core/__init__.py
+  - ./tests/integration/candidate/core/collective/__init__.py
+  - ./tests/integration/candidate/identity/__init__.py
+  - ./tests/integration/candidate/bridge/__init__.py
+  - ./tests/integration/branding/__init__.py
+  - ./tests/integration/contract/__init__.py
+  - ./tests/integration/tools/__init__.py
+  - ./tests/integration/bio/__init__.py
+  - ./tests/integration/core/__init__.py
+  - ./tests/integration/identity/__init__.py
+  - ./tests/integration/end_to_end/__init__.py
+  - ./tests/integration/security/__init__.py
+  - ./tests/integration/bridge/__init__.py
+  - ./tests/integration/bridge/api_gateway/__init__.py
+  - ./tests/integration/bridge/adapters/__init__.py
+  - ./tests/integration/phase2/__init__.py
+  - ./tests/integration/ai_orchestration/__init__.py
+  - ./tests/integration/qi/__init__.py
+  - ./tests/integration/adapters/__init__.py
+  - ./tests/integration/consent/__init__.py
+  - ./tests/integration/scripts/__init__.py
+  - ./tests/integration/orchestration/__init__.py
+  - ./tests/integration/governance/__init__.py
+  - ./tests/integration/api/__init__.py
+  - ./tests/integration/universal_language/__init__.py
+  - ./tests/contracts/__init__.py
+  - ./tests/tests/__init__.py
+  - ./tests/simulation/__init__.py
+  - ./tests/utils/__init__.py
+  - ./tests/collapse/__init__.py
+  - ./tests/docs/__init__.py
+  - ./tests/matriz/__init__.py
+  - ./tests/qi/__init__.py
+  - ./tests/soak/__init__.py
+  - ./tests/drift/__init__.py
+  - ./tests/obs/__init__.py
+  - ./tests/dashboard/__init__.py
+  - ./tests/system/integration/__init__.py
+  - ./tests/ethics/__init__.py
+  - ./tests/deployment/__init__.py
+  - ./tests/examples/__init__.py
+  - ./tests/benchmarks/__init__.py
+  - ./tests/reliability/__init__.py
+  - ./tests/scripts/__init__.py
+  - ./tests/economics/__init__.py
+  - ./tests/orchestration/__init__.py
+  - ./tests/governance/__init__.py
+  - ./tests/rules/__init__.py
+  - ./tests/ast/__init__.py
+  - ./tests/fixtures/__init__.py
+  - ./tests/guardian/__init__.py
+  - ./tests/reality/tier1/__init__.py
+  - ./tests/reality/reality/tier1/__init__.py
+  - ./tests/qualia/__init__.py
+  - ./tests/monitoring/__init__.py
+  - ./tests/performance/__init__.py
+  - ./tests/e2e/candidate/bridge/__init__.py
+  - ./tests/e2e/tools/__init__.py
+  - ./tests/e2e/core/__init__.py
+  - ./tests/e2e/security/__init__.py
+  - ./tests/e2e/integration/__init__.py
+  - ./tests/e2e/memory_security/__init__.py
+  - ./tests/e2e/consciousness/__init__.py
+  - ./tests/e2e/comprehensive/__init__.py
+  - ./tests/e2e/phase2/__init__.py
+  - ./tests/e2e/gdpr/__init__.py
+  - ./tests/e2e/scripts/__init__.py
+  - ./tests/e2e/governance/__init__.py
+  - ./tests/e2e/lukhas/__init__.py
+  - ./tests/e2e/lukhas/core/__init__.py
+  - ./tests/e2e/lukhas/qi/__init__.py
+  - ./tests/e2e/functional/__init__.py
+  - ./tests/e2e/rl/__init__.py
+  - ./tests/perf/__init__.py
+  - ./tests/auditor/__init__.py
+  - ./tests/logging/__init__.py
+  - ./tests/stress/__init__.py
+  - ./completion/__init__.py
+  - ./completion/tests/__init__.py
+  - ./trace_logs/tests/__init__.py
+  - ./agents/tests/__init__.py
+  - ./var/tests/__init__.py
+  - ./grafana/tests/__init__.py
+  - ./server/tests/__init__.py
+  - ./utils/tests/__init__.py
+  - ./perp_runs/tests/__init__.py
+  - ./agent/tests/__init__.py
+  - ./docs/__init__.py
+  - ./docs/identity/examples/__init__.py
+  - ./docs/tests/__init__.py
+  - ./ai_orchestration/tests/__init__.py
+  - ./matriz/memory/temporal/__init__.py
+  - ./matriz/memory/core/__init__.py
+  - ./matriz/consciousness/awareness/__init__.py
+  - ./matriz/consciousness/dream/oneiric/oneiric_core/engine/__init__.py
+  - ./matriz/tests/__init__.py
+  - ./matriz/adapters/tests/__init__.py
+  - ./matriz/interfaces/__init__.py
+  - ./observability/tests/__init__.py
+  - ./policies/tests/__init__.py
+  - ./reasoning/tests/__init__.py
+  - ./qi/trace/__init__.py
+  - ./qi/learning/__init__.py
+  - ./qi/tests/__init__.py
+  - ./qi/docs/__init__.py
+  - ./qi/autonomy/__init__.py
+  - ./qi/provenance/__init__.py
+  - ./tagging/tests/__init__.py
+  - ./schemas/tests/__init__.py
+  - ./feedback/tests/__init__.py
+  - ./storage/tests/__init__.py
+  - ./TODO/tests/__init__.py
+  - ./system_claude_audit/tests/__init__.py
+  - ./exports/tests/__init__.py
+  - ./alerts/tests/__init__.py
+  - ./integrations/__init__.py
+  - ./integrations/tests/__init__.py
+  - ./samples/tests/__init__.py
+  - ./rats/tests/__init__.py
+  - ./adapters/tests/__init__.py
+  - ./schema/tests/__init__.py
+  - ./system/tests/__init__.py
+  - ./gymnasium_local/tests/__init__.py
+  - ./load/__init__.py
+  - ./presentations/tests/__init__.py
+  - ./ethics/tests/__init__.py
+  - ./consent/tests/__init__.py
+  - ./audit/tests/__init__.py
+  - ./dashboards/tests/__init__.py
+  - ./vivox/tests/__init__.py
+  - ./sdk/tests/__init__.py
+  - ./mk/tests/__init__.py
+  - ./deployment/tests/__init__.py
+  - ./hooks/tests/__init__.py
+  - ./examples/tests/__init__.py
+  - ./examples/sdk/python/src/__init__.py
+  - ./examples/rl/__init__.py
+  - ./benchmarks/tests/__init__.py
+  - ./benchmarks/dream/__init__.py
+  - ./transmission_bundle/tests/__init__.py
+  - ./scripts/fixes/__init__.py
+  - ./scripts/locks/__init__.py
+  - ./scripts/bench/__init__.py
+  - ./scripts/tools/__init__.py
+  - ./scripts/analysis/__init__.py
+  - ./scripts/util/__init__.py
+  - ./scripts/security/__init__.py
+  - ./scripts/ci/__init__.py
+  - ./scripts/todo_migration/__init__.py
+  - ./scripts/tests/__init__.py
+  - ./scripts/utils/__init__.py
+  - ./scripts/docs/__init__.py
+  - ./scripts/matriz/__init__.py
+  - ./scripts/phase_management/__init__.py
+  - ./scripts/bridges/__init__.py
+  - ./scripts/integrations/__init__.py
+  - ./scripts/testing/__init__.py
+  - ./scripts/cloud_tasks/__init__.py
+  - ./scripts/hooks/__init__.py
+  - ./scripts/pqc/__init__.py
+  - ./scripts/import_health/__init__.py
+  - ./scripts/automation/__init__.py
+  - ./scripts/guardian/__init__.py
+  - ./scripts/monitoring/__init__.py
+  - ./scripts/consolidation/__init__.py
+  - ./scripts/migration/__init__.py
+  - ./scripts/coverage/__init__.py
+  - ./scripts/analytics/__init__.py
+  - ./scripts/codemods/__init__.py
+  - ./packages/tests/__init__.py
+  - ./security_reports/tests/__init__.py
+  - ./diagnostics/tests/__init__.py
+  - ./mcp_servers/tests/__init__.py
+  - ./orchestration/tests/__init__.py
+  - ./governance/tests/__init__.py
+  - ./governance/ethics_legacy/policy_engines/examples/__init__.py
+  - ./governance/extended/tests/__init__.py
+  - ./rules/tests/__init__.py
+  - ./jules_branch/__init__.py
+  - ./jules_branch/tests/__init__.py
+  - ./api/tests/__init__.py
+  - ./brain/tests/__init__.py
+  - ./templates/tests/__init__.py
+  - ./pytest_asyncio_stub_DISABLED/tests/__init__.py
+  - ./ops/tests/__init__.py
+  - ./test_results/tests/__init__.py
+  - ./healing/tests/__init__.py
+  - ./prometheus/tests/__init__.py
+  - ./graphs/tests/__init__.py
+  - ./telemetry/tests/__init__.py
+  - ./symbolic/tests/__init__.py
+  - ./guardian/__init__.py
+  - ./guardian/tests/__init__.py
+  - ./enforcement/tone/__init__.py
+  - ./enforcement/tests/__init__.py
+  - ./serve/reference_api/__init__.py
+  - ./serve/tests/__init__.py
+  - ./serve/api/__init__.py
+  - ./monitoring/tests/__init__.py
+  - ./mcp-servers/tests/__init__.py
+  - ./mcp-servers/lukhas-devtools-mcp/__init__.py
+  - ./performance/tests/__init__.py
+  - ./modules/tests/__init__.py
+  - ./agents_external/tests/__init__.py
+  - ./assets/tests/__init__.py
+  - ./demos/tests/__init__.py
+  - ./lukhas_ai_intro/tests/__init__.py
+  - ./rl/tests/__init__.py
+  - ./services/tests/__init__.py
+  - ./services/registry/__init__.py
+  - ./emotion/tests/__init__.py
+  - ./universal_language/__init__.py
+  - ./universal_language/tests/__init__.py
+  - ./analytics/tests/__init__.py
+  - ./gtpsi/tests/__init__.py
+  - ./quantum/tests/__init__.py
+  - ./src/tests/__init__.py
+  - ./src/attribution/__init__.py
+  - ./src/economics/__init__.py
+
+Hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+Count: 104 files
+  - ./labs/core/bio_systems/__init__.py
+  - ./labs/core/bio_systems/qi_layer.py
+  - ./labs/core/utils/bio_orchestrator_orchestrator.py
+  - ./labs/core/orchestration/main_orchestrator.py
+  - ./labs/core/orchestration/immune/__init__.py
+  - ./labs/core/db/__init__.py
+  - ./labs/core/db/cli.py
+  - ./labs/core/api/__init__.py
+  - ./labs/core/api/api_server.py
+  - ./labs/core/symbolic/drift/__init__.py
+  - ./labs/core/interfaces/as_agent/sys/dast/dast_logger_fixed.py
+  - ./labs/core/interfaces/as_agent/sys/dast/aggregator_fixed.py
+  - ./labs/consciousness/perception/__init__.py
+  - ./labs/consciousness/dream/modifiers/__init__.py
+  - ./labs/governance/identity/mobile/websocket_client.py
+  - ./labs/governance/identity/mobile/__init__.py
+  - ./labs/governance/identity/mobile/qr_code_animator.py
+  - ./labs/governance/identity/auth_web/websocket_client.py
+  - ./labs/governance/identity/auth_web/qr_code_animator.py
+  - ./labs/governance/ethics_legacy/tracing.py
+  - ./labs/api/__init__.py
+  - ./branding/engines/__init__.py
+  - ./branding/engines/lukhas_content_platform/__init__.py
+  - ./lukhas_website/lukhas/__init__.py
+  - ./lukhas_website/lukhas/core/__init__.py
+  - ./lukhas_website/lukhas/core/guardian_sentinel.py
+  - ./lukhas_website/lukhas/core/contracts.py
+  - ./lukhas_website/lukhas/core/decorators.py
+  - ./lukhas_website/lukhas/core/policy/__init__.py
+  - ./lukhas_website/lukhas/compliance/symbolic_governance_checker.py
+  - ./lukhas_website/lukhas/compliance/__init__.py
+  - ./tools/audit/normalize_audit_md_new.py
+  - ./tools/healing/__init__.py
+  - ./tools/healing/emergency_surgery.py
+  - ./tools/healing/import_doctor.py
+  - ./core/orchestration/__init__.py
+  - ./core/orchestration/brain/__init__.py
+  - ./core/governance/identity/auth_backend/__init__.py
+  - ./core/governance/identity/tools/__init__.py
+  - ./core/governance/identity/auth/__init__.py
+  - ./core/governance/ethics/__init__.py
+  - ./core/governance/guardian/__init__.py
+  - ./config/sitecustomize.py
+  - ./security/scanning/consciousness-security-rules.py
+  - ./bridge/connectors/__init__.py
+  - ./tests/__init__.py
+  - ./tests/unit/__init__.py
+  - ./tests/unit/test_policy_pdp.py
+  - ./tests/unit/test_guardian_sentinel.py
+  - ./tests/unit/labs/__init__.py
+  - ./tests/unit/labs/core/__init__.py
+  - ./tests/unit/labs/core/identity/__init__.py
+  - ./tests/unit/candidate/__init__.py
+  - ./tests/unit/candidate/core/symbolic_legacy/__init__.py
+  - ./tests/unit/candidate/consciousness/__init__.py
+  - ./tests/unit/candidate/consciousness/dream/__init__.py
+  - ./tests/unit/candidate/qi/bio/__init__.py
+  - ./tests/unit/candidate/aka_qualia/__init__.py
+  - ./tests/unit/cognitive_core/__init__.py
+  - ./tests/unit/cognitive_core/integration/__init__.py
+  - ./tests/unit/contract/test_healthz_readiness.py
+  - ./tests/unit/golden/test_system_reality.py
+  - ./tests/contract/contract/test_step_result_contract.py
+  - ./tests/integration/__init__.py
+  - ./tests/integration/candidate/__init__.py
+  - ./tests/integration/candidate/aka_qualia/__init__.py
+  - ./tests/observability/__init__.py
+  - ./tests/resilience/__init__.py
+  - ./tests/api/__init__.py
+  - ./tests/e2e/__init__.py
+  - ./tests/e2e/test_dreams_flow_integration.py
+  - ./tests/e2e/candidate/__init__.py
+  - ./tests/e2e/candidate/aka_qualia/__init__.py
+  - ./matriz/consciousness/__init__.py
+  - ./matriz/consciousness/core/__init__.py
+  - ./matriz/consciousness/dream/__init__.py
+  - ./qi/glyphs/__init__.py
+  - ./qi/metrics/__init__.py
+  - ./qi/bio/__init__.py
+  - ./qi/explain/__init__.py
+  - ./qi/coordination/__init__.py
+  - ./qi/memory/__init__.py
+  - ./qi/processing/__init__.py
+  - ./qi/safety/__init__.py
+  - ./qi/engines/__init__.py
+  - ./qi/ops/__init__.py
+  - ./qi/eval/__init__.py
+  - ./qi/systems/__init__.py
+  - ./qi/awareness_system/__init__.py
+  - ./qi/router/__init__.py
+  - ./feedback/__init__.py
+  - ./feedback/card_system.py
+  - ./adapters/__init__.py
+  - ./gymnasium_local/__init__.py
+  - ./vivox/moral_alignment/__init__.py
+  - ./vivox/integration/__init__.py
+  - ./vivox/self_reflection/__init__.py
+  - ./vivox/consciousness/__init__.py
+  - ./vivox/memory_expansion/__init__.py
+  - ./examples/governance/__init__.py
+  - ./orchestration/__init__.py
+  - ./orchestration/brain/__init__.py
+  - ./jules_branch/ContentAutomationBot.py
+  - ./serve/__init__.py
+
+Hash: 184cdd0261f389e8a1b0ec0b910ea35fd5788ce75e27075278190860e781d8f0
+Count: 81 files
+  - ./labs/core/symbolic_legacy/vocabularies/__init__.py
+  - ./labs/core/symbolic_legacy/features/__init__.py
+  - ./labs/core/symbolic_legacy/features/memoria/__init__.py
+  - ./labs/core/adapters/__init__.py
+  - ./labs/core/container/__init__.py
+  - ./labs/core/engines/__init__.py
+  - ./labs/core/examples/__init__.py
+  - ./labs/core/examples/basic/__init__.py
+  - ./labs/core/symbolic_core/vocabularies/__init__.py
+  - ./labs/core/symbolic_core/features/__init__.py
+  - ./labs/core/symbolic_core/features/memoria/__init__.py
+  - ./labs/core/orchestration/apis/__init__.py
+  - ./labs/core/orchestration/config/__init__.py
+  - ./labs/core/orchestration/security/__init__.py
+  - ./labs/core/orchestration/integration/__init__.py
+  - ./labs/core/orchestration/agents/builtin/__init__.py
+  - ./labs/core/orchestration/specialized/__init__.py
+  - ./labs/core/orchestration/examples/__init__.py
+  - ./labs/core/orchestration/brain/mesh/__init__.py
+  - ./labs/core/orchestration/brain/visualization/__init__.py
+  - ./labs/core/orchestration/brain/abstract_reasoning/__init__.py
+  - ./labs/core/orchestration/brain/compliance/__init__.py
+  - ./labs/core/orchestration/brain/reasoning/__init__.py
+  - ./labs/core/orchestration/brain/emotional/__init__.py
+  - ./labs/core/orchestration/brain/monitoring/__init__.py
+  - ./labs/core/orchestration/user_feedback/__init__.py
+  - ./labs/core/orchestration/core_modules/__init__.py
+  - ./labs/core/orchestration/monitoring/__init__.py
+  - ./labs/core/orchestration/interfaces/__init__.py
+  - ./labs/core/meta_learning/__init__.py
+  - ./labs/core/events/__init__.py
+  - ./labs/core/base/__init__.py
+  - ./labs/core/hub_services/__init__.py
+  - ./labs/memory/colonies/__init__.py
+  - ./labs/memory/connected/__init__.py
+  - ./labs/memory/learning/embodied_thought/__init__.py
+  - ./labs/memory/learning/federated/__init__.py
+  - ./labs/memory/convergence/__init__.py
+  - ./labs/memory/examples/basic/__init__.py
+  - ./labs/consciousness/core/__init__.py
+  - ./labs/consciousness/connected/__init__.py
+  - ./labs/consciousness/creativity/__init__.py
+  - ./labs/consciousness/creativity/personality/__init__.py
+  - ./labs/consciousness/reasoning/__init__.py
+  - ./labs/consciousness/reasoning/ethical/__init__.py
+  - ./labs/consciousness/reasoning/analysis/__init__.py
+  - ./labs/consciousness/reasoning/goals/__init__.py
+  - ./labs/consciousness/reasoning/utils/__init__.py
+  - ./labs/consciousness/reasoning/intent/__init__.py
+  - ./labs/consciousness/reasoning/hooks/__init__.py
+  - ./labs/consciousness/reasoning/diagnostics/__init__.py
+  - ./labs/consciousness/reasoning/decision/__init__.py
+  - ./labs/consciousness/examples/basic/__init__.py
+  - ./labs/consciousness/dream/__init__.py
+  - ./labs/consciousness/dream/visualization/__init__.py
+  - ./labs/consciousness/dream/tools/__init__.py
+  - ./labs/consciousness/dream/oneiric/demo/__init__.py
+  - ./labs/consciousness/dream/oneiric/oneiric_core/analysis/__init__.py
+  - ./labs/consciousness/dream/oneiric/oneiric_core/utils/__init__.py
+  - ./labs/consciousness/dream/oneiric/oneiric_core/engine/__init__.py
+  - ./labs/consciousness/dream/processors/__init__.py
+  - ./labs/consciousness/dream/stability/__init__.py
+  - ./labs/consciousness/dream/engine/__init__.py
+  - ./labs/consciousness/qi_integration/__init__.py
+  - ./labs/governance/examples/basic/__init__.py
+  - ./labs/governance/ethics_legacy/__init__.py
+  - ./labs/governance/ethics_legacy/governor/__init__.py
+  - ./labs/governance/ethics_legacy/fallback/__init__.py
+  - ./labs/governance/ethics_legacy/training/__init__.py
+  - ./labs/governance/ethics_legacy/simulations/__init__.py
+  - ./labs/emotion/tools/__init__.py
+  - ./labs/emotion/examples/basic/__init__.py
+  - ./labs/emotion/mood_regulation/__init__.py
+  - ./labs/emotion/affect_detection/__init__.py
+  - ./tools/documentation/memory_evolution/__init__.py
+  - ./tools/enterprise/__init__.py
+  - ./tools/scripts/consolidation/__init__.py
+  - ./bridge/examples/basic/__init__.py
+  - ./vivox/utils/__init__.py
+  - ./vivox/collapse/__init__.py
+  - ./governance/identity/api/controllers/__init__.py
+
+Hash: 4e9c75f347cf89d73459de566bda7c92a7ad500d043368fbaea9d0b05ef4ea24
+Count: 65 files
+  - ./labs/core/agi/adaptive/meta_learning.py
+  - ./labs/core/net/__init__.py
+  - ./labs/core/spine/__init__.py
+  - ./labs/core/output/__init__.py
+  - ./labs/core/rem/__init__.py
+  - ./labs/core/orchestration/brain/tracing/__init__.py
+  - ./labs/core/orchestration/brain/cognitive/__init__.py
+  - ./labs/core/orchestration/brain/cognitive/awareness/__init__.py
+  - ./labs/core/orchestration/brain/net/__init__.py
+  - ./labs/core/orchestration/brain/access/__init__.py
+  - ./labs/core/orchestration/brain/spine/__init__.py
+  - ./labs/core/orchestration/brain/config/__init__.py
+  - ./labs/core/orchestration/brain/personality/__init__.py
+  - ./labs/core/orchestration/brain/consciousness/__init__.py
+  - ./labs/core/orchestration/brain/self_improvement/__init__.py
+  - ./labs/core/orchestration/brain/qrl_code/__init__.py
+  - ./labs/core/orchestration/brain/rem/__init__.py
+  - ./labs/core/orchestration/brain/neuro_symbolic/__init__.py
+  - ./labs/core/orchestration/brain/neuro_symbolic/governance/__init__.py
+  - ./labs/core/orchestration/brain/ethics/__init__.py
+  - ./labs/core/orchestration/brain/seamless/__init__.py
+  - ./labs/core/orchestration/brain/orchestration/__init__.py
+  - ./labs/core/orchestration/brain/governance/__init__.py
+  - ./labs/core/orchestration/brain/dna/__init__.py
+  - ./labs/core/orchestration/brain/dream_engine/__init__.py
+  - ./labs/core/orchestration/brain/dream_engine/cli/__init__.py
+  - ./labs/core/user_interface_manager/__init__.py
+  - ./labs/core/performance/__init__.py
+  - ./labs/core/neural_architectures/abas/__init__.py
+  - ./labs/core/interaction/__init__.py
+  - ./labs/core/services/personality/__init__.py
+  - ./labs/core/interfaces/as_agent/streamlit/components/__init__.py
+  - ./labs/core/interfaces/as_agent/sample_payloads/__init__.py
+  - ./labs/core/interfaces/as_agent/sys/nias/__init__.py
+  - ./labs/core/interfaces/as_agent/sys/dast/__init__.py
+  - ./labs/core/interfaces/as_agent/sys/abas/__init__.py
+  - ./labs/core/router/__init__.py
+  - ./labs/memory/learning/results/__init__.py
+  - ./labs/memory/learning/systems/__init__.py
+  - ./labs/consciousness/creativity/systems/__init__.py
+  - ./labs/consciousness/creativity/dream_engine/__init__.py
+  - ./labs/consciousness/creativity/emotion/__init__.py
+  - ./labs/consciousness/systems/cognitive_systems/__init__.py
+  - ./labs/consciousness/systems/dream_engine/__init__.py
+  - ./labs/consciousness/systems/reflection/__init__.py
+  - ./labs/governance/identity/auth_backend/__init__.py
+  - ./labs/governance/identity/tools/__init__.py
+  - ./labs/governance/identity/auth_utils/__init__.py
+  - ./labs/governance/identity/core/id_service/__init__.py
+  - ./labs/governance/identity/core/auth/__init__.py
+  - ./labs/governance/identity/core/commercial/__init__.py
+  - ./labs/governance/identity/core/onboarding/__init__.py
+  - ./labs/governance/identity/core/qrg/__init__.py
+  - ./labs/governance/identity/enterprise/__init__.py
+  - ./labs/governance/identity/lukhas_identity/security/__init__.py
+  - ./labs/governance/identity/wearables_integration/__init__.py
+  - ./labs/governance/identity/auth/__init__.py
+  - ./labs/governance/identity/utils/__init__.py
+  - ./labs/governance/identity/public/__init__.py
+  - ./labs/governance/identity/diagnostics/__init__.py
+  - ./labs/governance/identity/governance/__init__.py
+  - ./labs/governance/ethics_legacy/safety/__init__.py
+  - ./tools/documentation/__init__.py
+  - ./tools/documentation/symbolic_knowledge_core/__init__.py
+  - ./core/orchestration/brain/unified_integration/adapters/__init__.py
+
+Hash: 740255ac9368c51bdba94282ec1d0fa55a31f4d6b7fbcd8bee1952d315b399ad
+Count: 8 files
+  - ./labs/memory/examples/__init__.py
+  - ./labs/consciousness/examples/__init__.py
+  - ./labs/governance/examples/__init__.py
+  - ./labs/emotion/examples/__init__.py
+  - ./bridge/examples/__init__.py
+  - ./qi/examples/__init__.py
+  - ./deployment/platforms/consciousness_platform/examples/__init__.py
+  - ./examples/__init__.py
+
+Hash: b773eb0504c3447896377972fb4cd85250c7eddb694d8886202883d731b72006
+Count: 7 files
+  - ./memory/tests/test_unit.py
+  - ./identity/tests/test_unit.py
+  - ./consciousness/tests/test_unit.py
+  - ./consciousness/simulation/tests/test_unit.py
+  - ./matriz/tests/test_unit.py
+  - ./governance/tests/test_unit.py
+  - ./templates/tests/test_unit.py
+
+Hash: d947ffa8c057648ffeca67d5569dda5cecb6692f6dcb3484c6b2b0dfae89d0f1
+Count: 4 files
+  - ./labs/tools/__init__.py
+  - ./branding/tone/tools/__init__.py
+  - ./tools/__init__.py
+  - ./agents_external/CLAUDE/workspaces/special-ops-secrets-kms-legacy/tools/__init__.py
+
+Hash: cb3c3b3e0483f9005c95ad39afee5dbf549f3c9ecb3328e6d03388321af9e20a
+Count: 4 files
+  - ./labs/core/symbolic_legacy/vocabularies/emotion_vocabulary.py
+  - ./labs/core/symbolic_core/vocabularies/emotion_vocabulary.py
+  - ./branding/vocabularies/emotion_vocabulary.py
+  - ./symbolic/vocabularies/emotion_vocabulary.py
+
+Hash: 16a05a5e4451eda225c5a044ae94ea2419b1a8b3e9ecb4c6cac1cb85ecb9f5ec
+Count: 3 files
+  - ./labs/bio/systems/orchestration/__init__.py
+  - ./labs/orchestration/brain/orchestration/__init__.py
+  - ./qi/coordination/orchestration/__init__.py
+
+Hash: 0b3f261b1aaebdbd1c3b2744f6a6a7d229cb1abdd88afa72b00a56851ca182cb
+Count: 3 files
+  - ./labs/core/symbolic_legacy/swarm_tag_simulation.py
+  - ./labs/core/colonies/swarm_simulation.py
+  - ./labs/core/symbolic_core/swarm_tag_simulation.py
+
+Hash: b5992ccc2ce8af622c1c8568bb067119bb8442185a6a6ba826e317b6a61da88e
+Count: 3 files
+  - ./labs/core/symbolic_legacy/bio/crista_optimizer.py
+  - ./labs/core/symbolic_core/bio/crista_optimizer.py
+  - ./qi/bio/symbolic/crista_optimizer.py
+
+Hash: 47bdf52b143a5125936084a6570f21641908a2bbb698a45eca78e30164aa477c
+Count: 3 files
+  - ./labs/core/symbolic_legacy/processing/__init__.py
+  - ./labs/core/symbolic_core/processing/__init__.py
+  - ./labs/core/orchestration/processing/__init__.py
+
+Hash: 56e75376b61c5db629e6c4108f7f50c9c9e0e68721abc2b9d90acb499172a667
+Count: 3 files
+  - ./tools/security/__init__.py
+  - ./next_gen/security/__init__.py
+  - ./ethics/security/__init__.py
+
+Hash: 2ff1130a2fe2496bc7b199655728779251aa36bfc4c75ab7ee4e6995c2dc44ca
+Count: 3 files
+  - ./tools/scripts/syntax_doctor.py
+  - ./tools/healing/syntax_doctor.py
+  - ./tools/automation/syntax_doctor.py
+
+Hash: dc531280b344aa5e01ee0e4a0b9419ba8b4190660f3dead3f7ab97b061ff235c
+Count: 3 files
+  - ./sdk/python/src/__init__.py
+  - ./agents_external/CLAUDE/workspaces/identity-auth-specialist/src/__init__.py
+  - ./agents_external/CLAUDE/workspaces/consent-compliance-specialist/src/__init__.py
+
+Hash: 622a5c98228177e3c8603b577e940524e669d68641c60412aae679aacab4767e
+Count: 2 files
+  - ./lukhas_pb2.py
+  - ./core/interfaces/api/v1/v1/grpc/lukhas_pb2.py
+
+Hash: 0cbe609c7c45172cba16c8de1e81a0c1450ad98e5f7c2246a3b4cb27a7bbed51
+Count: 2 files
+  - ./labs/bio/quantum_inspired_layer/__init__.py
+  - ./labs/bio/qi_layer/__init__.py
+
+Hash: 4ee313ab3ec7540b0bc5e1dd6d29ba2e19e46979ca4f9b6ea4779b3bf6cf7cb8
+Count: 2 files
+  - ./labs/bio/qi_bio_components/__init__.py
+  - ./labs/bio/quantum_bio_components/__init__.py
+
+Hash: bd0b0490855c6f4729a05162d0a3913deb364e7ffd234a452095961148e6e91c
+Count: 2 files
+  - ./labs/bio/advanced_quantum_bio/__init__.py
+  - ./labs/bio/advanced_qi_bio/__init__.py
+
+Hash: 223418cd30c595477edebc3c43697a65750f7551a1d49cd9ba248cf13cdea92e
+Count: 2 files
+  - ./labs/core/symbolic_legacy/symbolic_glyph_hash.py
+  - ./labs/core/symbolic_core/symbolic_glyph_hash.py
+
+Hash: aaac6637a6a1df1a360346d1cc2afd9bf72bf8f8e07738d13c700bed3f82c657
+Count: 2 files
+  - ./labs/core/symbolic_legacy/vocabularies/vocabulary_template.py
+  - ./labs/core/symbolic_core/vocabularies/vocabulary_template.py
+
+Hash: ad41c47217613f686d449500e95c37810c3557dba6d62d6520ad84a186975204
+Count: 2 files
+  - ./labs/core/symbolic_legacy/bio/mito_qi_attention.py
+  - ./labs/core/symbolic_core/bio/mito_qi_attention.py
+
+Hash: c92c0ede84825a63611d3e92c5cde8dd201972a1bf49c53e1397ae6054fcce84
+Count: 2 files
+  - ./labs/core/symbolic_legacy/bio/bio_symbolic_architectures.py
+  - ./labs/core/symbolic_core/bio/bio_symbolic_architectures.py
+
+Hash: 9b6c626c8fc3003d61eff9427d97b029415fd885fa3c2e7fc3c621c868638db8
+Count: 2 files
+  - ./labs/core/symbolic_legacy/bio/bio_systems_inspiration.py
+  - ./labs/core/symbolic_core/bio/bio_systems_inspiration.py
+
+Hash: 90beed6d1979fec9d8303718196053e6a4ed414ecd75be49e33efd8bec576fe5
+Count: 2 files
+  - ./labs/core/symbolic_legacy/bio/mito_ethics_sync.py
+  - ./labs/core/symbolic_core/bio/mito_ethics_sync.py
+
+Hash: 85dcfe0e35f106e524df04f21a44937427819e7bd686ee8d854db253e3a61305
+Count: 2 files
+  - ./labs/core/symbolic_legacy/bio/__init__.py
+  - ./labs/core/symbolic_core/bio/__init__.py
+
+Hash: 7bef17450019af853591faed51ba3eb17993283bcdfae8e39ae08922582ed390
+Count: 2 files
+  - ./labs/core/symbolic_legacy/bio/stress_gate.py
+  - ./labs/core/symbolic_core/bio/stress_gate.py
+
+Hash: 5a9758ab0d8d16fd7e65164a453ee9f8f7c369b31a923a19944323c57100dc0b
+Count: 2 files
+  - ./labs/core/symbolic_legacy/bio/glyph_id_hash.py
+  - ./labs/core/symbolic_core/bio/glyph_id_hash.py
+
+Hash: b4078305524bf3eb69e00ad31d4ec5f5ba54ac5b46a50d8ad72a63b4c8e028b8
+Count: 2 files
+  - ./labs/core/symbolic_legacy/bio/qi_attention.py
+  - ./labs/core/symbolic_core/bio/qi_attention.py
+
+Hash: 97e63b0459a4bebf12956029a80da5668b4beba23671d75f18d54c033d649d4b
+Count: 2 files
+  - ./labs/core/symbolic_legacy/bio/mito_qi_attention_adapter.py
+  - ./labs/core/symbolic_core/bio/mito_qi_attention_adapter.py
+
+Hash: 2dcf96b1602e95fdd43fae0e53ae3061d01f12abb6504e2cb7012715ed838ffd
+Count: 2 files
+  - ./labs/core/symbolic_legacy/bio/bio_symbolic.py
+  - ./labs/core/symbolic_core/bio/bio_symbolic.py
+
+Hash: 590f09729da3329c0ed80be776c44239b2d7fe3593caae9355e3f91f96d4ebc0
+Count: 2 files
+  - ./labs/core/symbolic_legacy/integration/__init__.py
+  - ./labs/core/symbolic_core/integration/__init__.py
+
+Hash: 355b08f9d758ee489c8ae1255de376bcd3dea00d1d4e57985aae1d1049511a91
+Count: 2 files
+  - ./labs/core/symbolic_legacy/features/trace_verifier.py
+  - ./labs/core/symbolic_core/features/trace_verifier.py
+
+Hash: 9124f9cd2c96dd9c18343025cccb61818faf6b83a7923d26a504a94a702ecc42
+Count: 2 files
+  - ./labs/core/symbolic_legacy/features/security/__init__.py
+  - ./labs/core/symbolic_core/features/security/__init__.py
+
+Hash: a94e32b5417b1ef498f9213074d719b3715a67615a29a87879f36f7bbe8c11fa
+Count: 2 files
+  - ./labs/core/symbolic_legacy/features/security/main.py
+  - ./labs/core/symbolic_core/features/security/main.py
+
+Hash: 0ef90b9244d13ecf77862d4d806a35c085338753b9166c89c1c7f7d4007683de
+Count: 2 files
+  - ./labs/core/symbolic_legacy/features/drift/__init__.py
+  - ./labs/core/symbolic_core/features/drift/__init__.py
+
+Hash: cca5ca029e75acb636c0a42b0d4580a408cca0c83b265bf3ed33eac008021462
+Count: 2 files
+  - ./labs/core/symbolic_legacy/features/drift/score.py
+  - ./labs/core/symbolic_core/features/drift/score.py
+
+Hash: c23c3f4f70da6c7191406c36509142db4ece0a46d7947d5ca137a620c96d29e0
+Count: 2 files
+  - ./labs/core/symbolic_legacy/features/memoria/recall_hooks.py
+  - ./labs/core/symbolic_core/features/memoria/recall_hooks.py
+
+Hash: 0c8ccce61a4b2293d04df3f3ff29526e0a9b552791e6f05cca0b8d90dd5f5bff
+Count: 2 files
+  - ./labs/core/symbolic_legacy/utils/symbolic_utils.py
+  - ./labs/core/symbolic_core/utils/symbolic_utils.py
+
+Hash: e8b95a2f1f19d14571b3f14c82f071c5d808b7ab6ce6e3663f963de0180b9c97
+Count: 2 files
+  - ./labs/core/symbolic_legacy/utils/__init__.py
+  - ./labs/core/symbolic_core/utils/__init__.py
+
+Hash: 969de239ac133deefd173849bf12edc287215ff661447d22bb0beb2080e93788
+Count: 2 files
+  - ./labs/core/symbolic_legacy/reasoning/__init__.py
+  - ./labs/core/symbolic_core/reasoning/__init__.py
+
+Hash: b7d304d7077aba435cb7bb5164632bc4ae347fe71537768851b886170706c6db
+Count: 2 files
+  - ./labs/core/quantum_financial/__init__.py
+  - ./labs/core/qi_financial/__init__.py
+
+Hash: d152fe82b93546587ff195e1dc287750cc79059f1270a84f93df67819487cfc5
+Count: 2 files
+  - ./labs/core/identity/matriz_consciousness_identity.py
+  - ./core/identity/matriz_consciousness_identity.py
+
+Hash: 104dc7e0c912d3c6848edba0910848861c1ab57dac4035b9fefb205b5d472b58
+Count: 2 files
+  - ./labs/core/identity/consciousness_namespace_isolation.py
+  - ./core/identity/consciousness_namespace_isolation.py
+
+Hash: 6f3639180a6aca4e4f799d6095293d4eed12a295bc68c9a46654d124be675e2f
+Count: 2 files
+  - ./labs/core/config/__init__.py
+  - ./qi/config/__init__.py
+
+Hash: dbd562c9857974980c27688a87c11c8e5590c3483dcd8e378b4bb62e7f15c6a2
+Count: 2 files
+  - ./labs/core/qi_biometrics/quantum_biometrics_engine.py
+  - ./labs/core/quantum_biometrics/quantum_biometrics_engine.py
+
+Hash: 1ae09a8fdd39bee4ff5755c405e6addee6e9b543fd900dfc5c96aad66fc631ec
+Count: 2 files
+  - ./labs/core/qi_biometrics/__init__.py
+  - ./labs/core/quantum_biometrics/__init__.py
+
+Hash: b97be20a96a84d7a4a3a9b55f7c2f33ee0572003b4d065104da12c24a07a6c9d
+Count: 2 files
+  - ./labs/core/quantum_empathy/__init__.py
+  - ./labs/core/qi_empathy/__init__.py
+
+Hash: f02bde1314549e61789d81f8958551f4c66e7d9e9c098fa316a493111bfe11b8
+Count: 2 files
+  - ./labs/core/quantum_empathy/quantum_empathy_engine.py
+  - ./labs/core/qi_empathy/quantum_empathy_engine.py
+
+Hash: a5095cbecef3f8ec8cea0c744fd7fdd83ea89d8dff16f782f5b9c7723a3e926e
+Count: 2 files
+  - ./labs/core/orchestration/brain/orchestration/emotional_oscillator.py
+  - ./labs/core/orchestration/monitoring/emotional_oscillator.py

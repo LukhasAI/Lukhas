@@ -16,8 +16,7 @@ from enum import Enum
 from typing import Any, Optional, Union
 
 import numpy as np
-
-from core.common import get_logger
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -149,7 +148,7 @@ class VIVOXEncryptedPerceptionNode:
         self.ethical_thresholds = self._initialize_ethical_thresholds()
 
         # Initialize sub-components
-        from core.interfaces.dependency_injection import get_service
+        from lukhas.core.interfaces.dependency_injection import get_service
 
         from .ethical_perception import EthicalPerceptionFilter
         from .vector_encryption import PerceptualEncryptor
@@ -1075,15 +1074,13 @@ class VIVOXEncryptedPerceptionNode:
 
         # Check consent level
         consent = context.get("consent_level", "none")
-        if consent == "none":
-            return "maximum"
-        elif consent == "implicit":
-            return "high"
-        elif consent == "explicit":
-            return "standard"
+        consent_privacy_map = {
+            "none": "maximum",
+            "implicit": "high",
+            "explicit": "standard",
+        }
 
-        # Default to high privacy
-        return "high"
+        return consent_privacy_map.get(consent, "high")  # Default to high privacy
 
     def _aggregate_vectors(self, vectors: list[PerceptualVector]) -> np.ndarray:
         """Aggregate multiple perceptual vectors into single feature vector"""

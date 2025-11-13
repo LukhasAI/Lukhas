@@ -10,7 +10,7 @@ with sub-100ms routing latency and transparent logging.
 import asyncio
 import logging
 import time
-from typing import Any, Dict
+from typing import Any
 
 from orchestration.signals import DiagnosticSignalType, SignalType, SymbolicSignal
 
@@ -228,7 +228,7 @@ class SignalRouterMetrics:
         if not success:
             self.signals_by_type[type_key]["failures"] += 1
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get comprehensive routing metrics"""
         if not self.routing_times:
             return {"status": "no_data"}

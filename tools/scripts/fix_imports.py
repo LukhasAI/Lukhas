@@ -4,6 +4,8 @@
 ==================
 Automatically fixes common import issues in the LUKHAS  codebase.
 """
+from __future__ import annotations
+from typing import ClassVar
 
 import ast
 import re
@@ -19,7 +21,7 @@ class ImportFixer:
     """Fixes common import issues"""
 
     # Import mappings for moved/renamed modules
-    IMPORT_MAPPINGS = {
+    IMPORT_MAPPINGS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_scripts_fix_imports_py_L23"}
         # lukhas. prefix removal
         "core": "core",
         "memory": "memory",
@@ -50,7 +52,7 @@ class ImportFixer:
     }
 
     # Modules that should be commented out (not available)
-    COMMENT_OUT_IMPORTS = {
+    COMMENT_OUT_IMPORTS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_scripts_fix_imports_py_L54"}
         "edge_tts",
         "streamlit",
         "gradio",
@@ -90,7 +92,7 @@ class ImportFixer:
             content = self._fix_imports_regex(content)
 
             # Fix imports using AST (more complex cases)
-            try:
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_scripts_fix_imports_py_L94"}
                 content = self._fix_imports_ast(content, file_path)
             except SyntaxError:
                 # If AST parsing fails, stick with regex fixes

@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import trace  # noqa: F401  # TODO: trace; consider using importli...
+    import trace  # TODO: trace; consider using importli...
 except ImportError:
     pytest.skip("Module trace not available", allow_module_level=True)
 

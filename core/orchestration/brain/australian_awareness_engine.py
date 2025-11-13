@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 Australian Awareness Engine - Privacy Act 1988 Compliant Framework
 ===============================================================
@@ -34,6 +32,9 @@ Author: Lukhas AI Research Team - Australian Compliance Division
 Version: 1.0.0 - Privacy Act Edition
 Date: June 2025
 """
+
+from __future__ import annotations
+
 # NOTE: moved to core/orchestration/brain via Hidden Gems Integration (Batch 5)
 import json
 import logging
@@ -41,8 +42,12 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
+from labs.core.orchestration.brain.GlobalInstitutionalFramework import (
+    GlobalConsentData,
+    InstitutionalProcessingRecord,
+)
 from pydantic import Field
 
 # Import global framework (with import-time safety stubs for missing backend)
@@ -76,8 +81,8 @@ except Exception:  # pragma: no cover - fallback for import-time safety
         LEGITIMATE_INTERESTS = "legitimate_interests"
 
     class GlobalInstitutionalInput(_BaseModel):  # minimal surface
-        consent: Optional[Any] = None
-        processing_record: Optional[Any] = None
+        consent: Any | None = None
+        processing_record: Any | None = None
         user_context: dict[str, Any] = {}
 
     class GlobalInstitutionalOutput(_BaseModel):  # minimal surface
@@ -86,7 +91,7 @@ except Exception:  # pragma: no cover - fallback for import-time safety
         legal_basis: str = LegalBasis.CONSENT.value
         data_category: str = DataCategory.PERSONAL_DATA.value
 
-# ——— Australian-Specific Regulatory Framework ——————————————————————— #
+# --- Australian-Specific Regulatory Framework ----------------------- #
 
 
 class AustralianPrivacyPrinciple(Enum):
@@ -203,7 +208,7 @@ class AustralianInput(GlobalInstitutionalInput):
     # Cross-border transfers (APP 8)
     involves_overseas_disclosure: bool = Field(default=False)
     overseas_countries: list[str] = Field(default_factory=list)
-    cross_border_approval: Optional[CrossBorderApproval] = None
+    cross_border_approval: CrossBorderApproval | None = None
 
     # Consumer Data Right
     is_cdr_data: bool = Field(default=False)
@@ -290,7 +295,7 @@ def australian_audit_log(
     logging.getLogger("australian_institutional_audit").info(json.dumps(audit_entry))
 
 
-# ——— Australian Institutional Awareness Modules ——————————————————————— #
+# --- Australian Institutional Awareness Modules ----------------------- #
 
 
 class AustralianPrivacyModule:
@@ -528,7 +533,7 @@ class AustralianPrivacyModule:
         return True  # Default compliance for other states
 
 
-# ——— Main Australian Awareness Engine ——————————————————————————————— #
+# --- Main Australian Awareness Engine ------------------------------- #
 
 
 class AustralianAwarenessEngine:
@@ -544,7 +549,7 @@ class AustralianAwarenessEngine:
     - Indigenous data sovereignty protocols
     """
 
-    def __init__(self, config: Optional[AustralianComplianceConfig] = None):
+    def __init__(self, config: AustralianComplianceConfig | None = None):
         self.config = config or AustralianComplianceConfig()
         self.modules = {"privacy": AustralianPrivacyModule(self.config)}
 
@@ -601,7 +606,7 @@ class AustralianAwarenessEngine:
             raise
 
 
-# ——— Compliance Certification ——————————————————————————————————— #
+# --- Compliance Certification ----------------------------------- #
 
 
 def certify_australian_compliance() -> dict[str, Any]:

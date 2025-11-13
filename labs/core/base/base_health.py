@@ -35,6 +35,8 @@
 ║ Symbolic Tags: {ΛHEALTH}, {ΛMONITOR}, {ΛSTATUS}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 # Module imports
 import logging
 from dataclasses import dataclass, field

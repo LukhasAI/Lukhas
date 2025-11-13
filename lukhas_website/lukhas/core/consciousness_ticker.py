@@ -24,7 +24,7 @@ except Exception:
         def labels(self,*_,**__): return self
         def observe(self,*_): pass
         def inc(self,*_): pass
-    TICK=_N(); TICKS_DROPPED=_N(); SUB_EXC=_N(); PROM=False
+    TICK=_N(); TICKS_DROPPED=_N(); SUB_EXC=_N(); PROM=False  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_core_consciousness_ticker_py_L27"}
 
 import os
 

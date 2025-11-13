@@ -1,7 +1,20 @@
 ---
 status: wip
 type: documentation
----
+canonical: https://lukhas.store/architecture
+seo:
+  description: "LUKHAS.STORE consciousness marketplace - ethical commerce platform for consciousness applications with fair value exchange and community-driven quality curation."
+  keywords:
+    - "consciousness marketplace"
+    - "AI app store"
+    - "ethical commerce"
+    - "consciousness applications"
+    - "fair value exchange"
+last_reviewed: "2025-11-08"
+keywords: "consciousness marketplace, AI app store, ethical commerce, consciousness applications, fair value exchange"
+evidence_links:
+  - 'release_artifacts/evidence/experimental-design-95pct.md'
+  - 'release_artifacts/evidence/user-satisfaction-94pct.md'---
 # 🛒 LUKHAS.STORE - The Consciousness Marketplace
 ## Website Architecture & Digital Consciousness Commerce Platform
 

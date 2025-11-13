@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class ErrorType(Enum):
@@ -31,8 +31,8 @@ class ErrorPattern:
     """Defines an error detection pattern."""
     error_type: ErrorType
     severity: Severity
-    symptoms: List[str]
-    detection_rules: Dict[str, Any]
+    symptoms: list[str]
+    detection_rules: dict[str, Any]
     mitigation: str
     expected_frequency: float  # 0.0 - 1.0
 
@@ -157,14 +157,14 @@ class ErrorClassifier:
     def __init__(self):
         self.patterns = {p.error_type: p for p in ERROR_PATTERNS}
 
-    def classify_error(self, error_data: Dict[str, Any]) -> Optional[ErrorPattern]:
+    def classify_error(self, error_data: dict[str, Any]) -> ErrorPattern | None:
         """Classify an error based on available data."""
         for pattern in ERROR_PATTERNS:
             if self._matches_pattern(error_data, pattern):
                 return pattern
         return None
 
-    def _matches_pattern(self, error_data: Dict[str, Any], pattern: ErrorPattern) -> bool:
+    def _matches_pattern(self, error_data: dict[str, Any], pattern: ErrorPattern) -> bool:
         """Check if error data matches a pattern."""
         rules = pattern.detection_rules
 
@@ -198,7 +198,7 @@ class ErrorClassifier:
 
         return True
 
-def analyze_error_distribution(results: List[Dict[str, Any]]) -> Dict[str, Any]:
+def analyze_error_distribution(results: list[dict[str, Any]]) -> dict[str, Any]:
     """Analyze error distribution in benchmark results."""
     classifier = ErrorClassifier()
 
@@ -240,7 +240,7 @@ def analyze_error_distribution(results: List[Dict[str, Any]]) -> Dict[str, Any]:
         "classification_coverage": (total_errors - unclassified_errors) / total_errors if total_errors > 0 else 1.0
     }
 
-def generate_taxonomy_report(analysis: Dict[str, Any], out_path: str) -> None:
+def generate_taxonomy_report(analysis: dict[str, Any], out_path: str) -> None:
     """Generate comprehensive taxonomy report."""
     report = {
         "taxonomy_analysis": analysis,
@@ -276,25 +276,22 @@ def generate_taxonomy_report(analysis: Dict[str, Any], out_path: str) -> None:
     with open(out_path, "w") as f:
         json.dump(report, f, indent=2)
 
-def load_and_analyze(results_path: str) -> Dict[str, Any]:
+def load_and_analyze(results_path: str) -> dict[str, Any]:
     """Load benchmark results and perform taxonomy analysis."""
     results = []
 
     if results_path.endswith(".jsonl"):
         # JSONL format
-        with open(results_path, "r") as f:
+        with open(results_path) as f:
             for line in f:
                 line = line.strip()
                 if line:
                     results.append(json.loads(line))
     else:
         # JSON format
-        with open(results_path, "r") as f:
+        with open(results_path) as f:
             data = json.load(f)
-            if isinstance(data, list):
-                results = data
-            else:
-                results = [data]
+            results = data if isinstance(data, list) else [data]
 
     return analyze_error_distribution(results)
 

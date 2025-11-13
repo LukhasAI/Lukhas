@@ -16,12 +16,12 @@ JSON-driven test specification creation.
 import argparse
 import json
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import yaml
 
 
-def load_architecture_master(arch_path: Path) -> Dict[str, Any]:
+def load_architecture_master(arch_path: Path) -> dict[str, Any]:
     """Load the architecture master JSON."""
     if not arch_path.exists():
         print(f"Warning: Architecture master not found at {arch_path}")
@@ -31,7 +31,7 @@ def load_architecture_master(arch_path: Path) -> Dict[str, Any]:
         return json.load(f)
 
 
-def load_spec_template(template_path: Path) -> Dict[str, Any]:
+def load_spec_template(template_path: Path) -> dict[str, Any]:
     """Load the spec template YAML."""
     if not template_path.exists():
         # Create default template if missing

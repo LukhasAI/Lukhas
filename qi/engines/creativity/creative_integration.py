@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
-import logging
 
-logger = logging.getLogger(__name__)
-
+# ruff: noqa: F821  # Experimental/test code with undefined names
 """
 
 #TAG:qim
@@ -37,15 +35,20 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
+import asyncio
+import logging
+import sys
+from pathlib import Path
+from typing import Any, Optional
+
+logger = logging.getLogger(__name__)
+
+
 __module_name__ = "Quantum Creative Integration"
 __version__ = "2.0.0"
 __tier__ = 2
 
 
-import asyncio
-import sys
-from pathlib import Path
-from typing import Any, Optional
 
 sys.path.append(str(Path(__file__).parent))
 
@@ -166,7 +169,10 @@ class QICreativeBridge:
 
 
 # Global instance for easy access
-LUKHAS_QUANTUM_CREATIVE = lukhasQICreativeBridge()  # noqa: F821  # TODO: lukhasQICreativeBridge
+# T4: code=F821 | ticket=SKELETON-307B8F7E | owner=lukhas-platform | status=skeleton
+# reason: Undefined lukhasQICreativeBridge in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+LUKHAS_QUANTUM_CREATIVE = lukhasQICreativeBridge()  # TODO: lukhasQICreativeBridge
 
 
 # Easy integration functions for existing LUKHAS code

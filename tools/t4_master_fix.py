@@ -120,7 +120,7 @@ class T4MasterFixer:
 
             # Count syntax errors
             result = subprocess.run(
-                ".venv/bin/ruff check branding/ candidate/ tools/ products/ matriz/ next_gen/ lukhas/ --select=E999 --statistics".split(),
+                [".venv/bin/ruff", "check", "branding/", "candidate/", "tools/", "products/", "matriz/", "next_gen/", "lukhas/", "--select=E999", "--statistics"],
                 capture_output=True,
                 text=True,
             )
@@ -138,7 +138,7 @@ class T4MasterFixer:
 
             # Count undefined names
             result = subprocess.run(
-                ".venv/bin/ruff check branding/ candidate/ tools/ products/ matriz/ next_gen/ lukhas/ --select=F821 --statistics".split(),
+                [".venv/bin/ruff", "check", "branding/", "candidate/", "tools/", "products/", "matriz/", "next_gen/", "lukhas/", "--select=F821", "--statistics"],
                 capture_output=True,
                 text=True,
             )

@@ -123,7 +123,7 @@ def run_performance_tests(verbose: bool = False) -> str:
         if all_metrics:
             print(f"  📊 Recorded {len(all_metrics)} performance metrics")
             latest = all_metrics[-1]
-            is_acceptable, message = tester.tracker.benchmark.check_performance(latest)
+            _is_acceptable, message = tester.tracker.benchmark.check_performance(latest)
             print(f"  {message}")
 
             return f"✅ Completed - {len(all_metrics)} metrics recorded"

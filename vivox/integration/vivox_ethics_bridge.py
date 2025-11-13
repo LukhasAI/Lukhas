@@ -156,12 +156,11 @@ class VIVOXEthicsBridge:
         mae_principle = principle_mapping.get(constraint.constraint_type, "general")
 
         # Update weight in MAE if principle exists
-        if hasattr(self.vivox_mae.dissonance_calculator, "ethical_principles"):
-            if mae_principle in self.vivox_mae.dissonance_calculator.ethical_principles:
-                # Blend weights
-                current_weight = self.vivox_mae.dissonance_calculator.ethical_principles[mae_principle]
-                new_weight = (current_weight + constraint.weight) / 2
-                self.vivox_mae.dissonance_calculator.ethical_principles[mae_principle] = new_weight
+        if hasattr(self.vivox_mae.dissonance_calculator, 'ethical_principles') and mae_principle in self.vivox_mae.dissonance_calculator.ethical_principles:
+            # Blend weights
+            current_weight = self.vivox_mae.dissonance_calculator.ethical_principles[mae_principle]
+            new_weight = (current_weight + constraint.weight) / 2
+            self.vivox_mae.dissonance_calculator.ethical_principles[mae_principle] = new_weight
 
     async def _get_seedra_rules(self) -> list[dict[str, Any]]:
         """Get ethical rules from SEEDRA (placeholder)"""

@@ -5,6 +5,8 @@ Privacy Guardian - Privacy protection and data security for LUKHAS AI
 Provides encryption, anonymization, privacy compliance, and governance
 integration with Constellation Framework (⚛️🧠🛡️) oversight.
 """
+from __future__ import annotations
+
 import asyncio
 import base64
 import hashlib

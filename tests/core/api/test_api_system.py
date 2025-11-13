@@ -22,9 +22,6 @@ import time
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
-from fastapi import status
-from fastapi.testclient import TestClient
-
 from core.api.api_system import (
     APIResponse,
     APISystem,
@@ -36,6 +33,8 @@ from core.api.api_system import (
     handle_api_error,
     validate_request,
 )
+from fastapi import status
+from fastapi.testclient import TestClient
 
 
 class TestAPISystem:
@@ -342,13 +341,13 @@ class TestAPISystem:
         ]
 
         # Note: Not all headers may be implemented, so we check if any are present
-        security_headers_present = any(header in headers for header in expected_headers)
+        any(header in headers for header in expected_headers)
 
     def test_rate_limiting(self, test_client):
         """Test rate limiting functionality."""
         # Make multiple rapid requests
         responses = []
-        for i in range(10):
+        for _i in range(10):
             response = test_client.get("/api/v1/health")
             responses.append(response.status_code)
 

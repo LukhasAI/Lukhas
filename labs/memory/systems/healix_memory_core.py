@@ -23,7 +23,6 @@ from typing import Any, Optional  # Tuple unused
 # Third-Party Imports
 import numpy as np
 import structlog
-
 from core.core_utilities import QuorumOverride
 
 # Visualization library imports

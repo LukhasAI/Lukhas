@@ -5,7 +5,6 @@ from datetime import datetime, timezone
 
 from seedra.core.registry import get_user_tier
 from seedra_docs.vault_manager import current_sid  # assumes current SID is loaded here
-
 from symbolic.lukhas_dreams import generate_symbolic_dreams
 from symbolic.lukhas_emotion import analyze_emotion
 from symbolic.lukhas_guardian import ethical_check
@@ -74,7 +73,7 @@ def process_user_input(user_input):
 
 
 if __name__ == "__main__":
-    print("🎙️ LUKHAS v1.0 — Symbolic Conscience Activated")
+    print("🎙️ LUKHAS v1.0 - Symbolic Conscience Activated")
     while True:
         try:
             user_input = input("You: ")

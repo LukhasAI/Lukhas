@@ -15,6 +15,8 @@
 ║ consumption patterns, and optimization opportunities for the Symbiotic Swarm.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import gc
 import json
 import logging

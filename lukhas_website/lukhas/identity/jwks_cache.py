@@ -10,6 +10,8 @@ Implements intelligent caching, validation, and automatic key rotation.
 from __future__ import annotations
 
 import asyncio
+import collections
+import contextlib
 import hashlib
 import json
 import logging
@@ -18,7 +20,7 @@ import time
 from collections import OrderedDict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -26,11 +28,11 @@ logger = logging.getLogger(__name__)
 @dataclass
 class JWKSCacheEntry:
     """JWKS cache entry with metadata"""
-    jwks: Dict[str, Any]
+    jwks: dict[str, Any]
     created_at: datetime
     expires_at: datetime
-    etag: Optional[str] = None
-    last_modified: Optional[str] = None
+    etag: str | None = None
+    last_modified: str | None = None
     access_count: int = 0
     last_accessed: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -110,7 +112,7 @@ class JWKSCache:
         self.enable_compression = enable_compression
 
         # Thread-safe cache storage (LRU)
-        self._cache: OrderedDict[str, JWKSCacheEntry] = OrderedDict()
+        self._cache: collections.collections.Ordereddict[str, JWKSCacheEntry] = OrderedDict()
         self._lock = threading.RLock()
 
         # Statistics
@@ -118,7 +120,7 @@ class JWKSCache:
 
         # Prefetch queue and worker
         self._prefetch_queue: asyncio.Queue = asyncio.Queue()
-        self._prefetch_worker: Optional[asyncio.Task] = None
+        self._prefetch_worker: asyncio.Task | None = None
         self._running = False
 
         logger.info(f"🔑 JWKS Cache initialized (max_size={max_size}, ttl={default_ttl_seconds}s)")
@@ -134,13 +136,11 @@ class JWKSCache:
         self._running = False
         if self._prefetch_worker:
             self._prefetch_worker.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._prefetch_worker
-            except asyncio.CancelledError:
-                pass
         logger.info("🛑 JWKS Cache stopped")
 
-    def get(self, cache_key: str) -> Tuple[Optional[Dict[str, Any]], bool]:
+    def get(self, cache_key: str) -> tuple[dict[str, Any] | None, bool]:
         """
         Get JWKS from cache.
 
@@ -185,10 +185,10 @@ class JWKSCache:
     def put(
         self,
         cache_key: str,
-        jwks: Dict[str, Any],
-        ttl_seconds: Optional[int] = None,
-        etag: Optional[str] = None,
-        last_modified: Optional[str] = None
+        jwks: dict[str, Any],
+        ttl_seconds: int | None = None,
+        etag: str | None = None,
+        last_modified: str | None = None
     ) -> None:
         """
         Put JWKS in cache.
@@ -305,7 +305,7 @@ class JWKSCache:
                 avg_access_time_ms=self._stats.avg_access_time_ms
             )
 
-    def get_cache_info(self) -> Dict[str, Any]:
+    def get_cache_info(self) -> dict[str, Any]:
         """Get detailed cache information"""
         with self._lock:
             entries_info = []
@@ -416,7 +416,7 @@ class JWKSCache:
 
 
 # Global cache instance
-_global_jwks_cache: Optional[JWKSCache] = None
+_global_jwks_cache: JWKSCache | None = None
 
 
 def get_jwks_cache() -> JWKSCache:
@@ -431,8 +431,8 @@ def get_jwks_cache() -> JWKSCache:
 async def cached_get_jwks(
     issuer_url: str,
     jwks_fetcher: Any = None,
-    cache_key: Optional[str] = None
-) -> Dict[str, Any]:
+    cache_key: str | None = None
+) -> dict[str, Any]:
     """
     Get JWKS with caching support.
 
@@ -477,6 +477,6 @@ def _generate_cache_key(issuer_url: str) -> str:
 
 
 # FastAPI dependency for JWKS caching
-async def get_cached_jwks_dependency(issuer_url: str = "https://ai") -> Dict[str, Any]:
+async def get_cached_jwks_dependency(issuer_url: str = "https://ai") -> dict[str, Any]:
     """FastAPI dependency for cached JWKS"""
     return await cached_get_jwks(issuer_url)

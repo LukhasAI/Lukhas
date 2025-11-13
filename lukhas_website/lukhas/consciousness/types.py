@@ -13,7 +13,7 @@ from __future__ import annotations
 import time
 import uuid
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Literal, Optional, Union
+from typing import Any, Literal, Union
 
 # Core state phases for consciousness lifecycle
 StatePhase = Literal["IDLE", "AWARE", "REFLECT", "CREATE", "DREAM", "DECIDE"]
@@ -42,7 +42,7 @@ class ThoughtLoopContext:
     """Context for thought loop processing."""
     session_id: str
     query: str
-    context_data: Dict[str, Any]
+    context_data: dict[str, Any]
     time_budget_ms: float
     quality_threshold: float
     tenant: str
@@ -51,12 +51,12 @@ class ThoughtLoopContext:
 class ThoughtLoopResult:
     """Result of complete thought loop processing."""
     success: bool
-    thought_synthesis: Optional[Any]
-    inference_results: List[Any]
-    contradiction_analysis: Optional[Any]
-    memory_validation: Optional[Any]
-    awareness_snapshot: Optional[Any]
-    meta_assessment: Optional[Any]
+    thought_synthesis: Any | None
+    inference_results: list[Any]
+    contradiction_analysis: Any | None
+    memory_validation: Any | None
+    awareness_snapshot: Any | None
+    meta_assessment: Any | None
     overall_quality_score: float
     reasoning_confidence: float
     contradiction_score: float
@@ -82,13 +82,13 @@ class ConsciousnessState:
     emotional_tone: str = "neutral"
     level: float = 0.7  # Consciousness intensity [0.0-1.0]
     ts_ms: int = field(default_factory=lambda: int(time.time() * 1000))
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
 
     # Tracking metadata
     correlation_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     schema_version: str = "1.0.0"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization"""
         return {
             "phase": self.phase,
@@ -117,7 +117,7 @@ class AwarenessSnapshot:
     # Core awareness metrics
     drift_ema: float = 0.0
     load_factor: float = 0.0
-    anomalies: List[Dict[str, Any]] = field(default_factory=list)
+    anomalies: list[dict[str, Any]] = field(default_factory=list)
 
     # Signal processing
     signal_strength: float = 0.0
@@ -155,7 +155,7 @@ class ReflectionReport:
     state_delta_magnitude: float = 0.0
 
     # Anomaly detection
-    anomalies: List[Dict[str, Any]] = field(default_factory=list)
+    anomalies: list[dict[str, Any]] = field(default_factory=list)
     anomaly_count: int = 0
 
     # Performance metrics
@@ -197,8 +197,8 @@ class DreamTrace:
     reason: str = ""
 
     # Processing artifacts
-    top_k_motifs: List[str] = field(default_factory=list)
-    associations: List[Dict[str, Any]] = field(default_factory=list)
+    top_k_motifs: list[str] = field(default_factory=list)
+    associations: list[dict[str, Any]] = field(default_factory=list)
     compression_ratio: float = 1.0
 
     # Performance metrics
@@ -223,19 +223,19 @@ class DecisionContext:
     correlation_id: str = field(default_factory=lambda: str(uuid.uuid4()))
 
     # Input context
-    consciousness_state: Optional[ConsciousnessState] = None
-    awareness_snapshot: Optional[AwarenessSnapshot] = None
-    reflection_report: Optional[ReflectionReport] = None
+    consciousness_state: ConsciousnessState | None = None
+    awareness_snapshot: AwarenessSnapshot | None = None
+    reflection_report: ReflectionReport | None = None
 
     # Proposed actions
-    proposed_actions: List[Dict[str, Any]] = field(default_factory=list)
+    proposed_actions: list[dict[str, Any]] = field(default_factory=list)
     confidence_score: float = 0.0
 
     # Guardian validation
     guardian_approved: bool = False
-    guardian_response: Optional[Dict[str, Any]] = None
+    guardian_response: dict[str, Any] | None = None
 
-    def add_proposed_action(self, action_type: str, parameters: Dict[str, Any], priority: str = "medium"):
+    def add_proposed_action(self, action_type: str, parameters: dict[str, Any], priority: str = "medium"):
         """Add a proposed action to the decision context"""
         action = {
             "type": action_type,
@@ -264,9 +264,9 @@ class CreativitySnapshot:
     creative_energy: float = 0.0  # [0.0-1.0]
 
     # Generated ideas and concepts
-    ideas: List[Dict[str, Any]] = field(default_factory=list)
-    associations: List[Dict[str, Any]] = field(default_factory=list)
-    transformations: List[Dict[str, Any]] = field(default_factory=list)
+    ideas: list[dict[str, Any]] = field(default_factory=list)
+    associations: list[dict[str, Any]] = field(default_factory=list)
+    transformations: list[dict[str, Any]] = field(default_factory=list)
 
     # Creative metrics (T4/0.01% standards)
     novelty_score: float = 0.0  # [0.0-1.0] - originality assessment
@@ -281,10 +281,10 @@ class CreativitySnapshot:
     synthesis_quality: float = 0.0  # Integration effectiveness
 
     # Processing artifacts with Guardian compliance
-    inspiration_sources: List[str] = field(default_factory=list)
-    creative_constraints: List[str] = field(default_factory=list)
-    synthesis_patterns: List[str] = field(default_factory=list)
-    guardian_approvals: List[Dict[str, Any]] = field(default_factory=list)
+    inspiration_sources: list[str] = field(default_factory=list)
+    creative_constraints: list[str] = field(default_factory=list)
+    synthesis_patterns: list[str] = field(default_factory=list)
+    guardian_approvals: list[dict[str, Any]] = field(default_factory=list)
 
     # Performance metrics (p95 targets)
     generation_time_ms: float = 0.0  # Target: <50ms p95
@@ -292,10 +292,10 @@ class CreativitySnapshot:
     memory_pressure_score: float = 0.0  # Memory impact assessment
 
     # Quality assurance
-    validation_checks: List[Dict[str, Any]] = field(default_factory=list)
-    anomaly_flags: List[str] = field(default_factory=list)
+    validation_checks: list[dict[str, Any]] = field(default_factory=list)
+    anomaly_flags: list[str] = field(default_factory=list)
 
-    def add_idea(self, idea_type: str, content: Dict[str, Any], novelty: float = 0.0,
+    def add_idea(self, idea_type: str, content: dict[str, Any], novelty: float = 0.0,
                  coherence: float = 0.0, guardian_approved: bool = False):
         """Add a generated idea to the snapshot with T4/0.01% validation"""
         idea = {
@@ -349,7 +349,7 @@ class CreativitySnapshot:
         self.coherence_score = sum(coherences) / len(coherences)
 
         # Calculate flexibility (diversity of idea types)
-        idea_types = set(idea.get("type", "unknown") for idea in self.ideas)
+        idea_types = {idea.get("type", "unknown") for idea in self.ideas}
         self.flexibility_score = min(len(idea_types) / 10.0, 1.0)  # Normalize to [0,1]
 
         # Guardian approval rate
@@ -395,11 +395,11 @@ class CreativeTask:
 
     # Task definition
     prompt: str = ""
-    context: Dict[str, Any] = field(default_factory=dict)
-    constraints: List[str] = field(default_factory=list)
+    context: dict[str, Any] = field(default_factory=dict)
+    constraints: list[str] = field(default_factory=list)
 
     # Processing preferences
-    preferred_process: Optional[CreativeProcessType] = None
+    preferred_process: CreativeProcessType | None = None
     imagination_mode: ImaginationMode = "conceptual"
     target_novelty: float = 0.7
     target_coherence: float = 0.8
@@ -410,8 +410,8 @@ class CreativeTask:
     required_associations: int = 0
 
     # Inspiration sources
-    seed_concepts: List[str] = field(default_factory=list)
-    inspiration_domains: List[str] = field(default_factory=list)
+    seed_concepts: list[str] = field(default_factory=list)
+    inspiration_domains: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -447,8 +447,8 @@ class ConsciousnessMetrics:
 
 # Type aliases for complex types
 ConsciousnessEvent = Union[AwarenessSnapshot, ReflectionReport, DreamTrace, DecisionContext]
-EngineState = Dict[str, Any]
-SignalData = Dict[str, Union[str, int, float, bool, List[Any], Dict[str, Any]]]
+EngineState = dict[str, Any]
+SignalData = dict[str, Union[str, int, float, bool, list[Any], dict[str, Any]]]
 
 # Constants for system configuration
 DEFAULT_AWARENESS_CONFIG = {
@@ -482,16 +482,30 @@ DEFAULT_CREATIVITY_CONFIG = {
 
 # Export all public types
 __all__ = [
-    # Enums
-    "StatePhase", "DreamPhase", "AwarenessLevel", "AnomalySeverity",
-    "CreativeProcessType", "CreativeFlowState", "ImaginationMode",
-    # Core classes
-    "ConsciousnessState", "AwarenessSnapshot", "ReflectionReport",
-    "DreamTrace", "DecisionContext", "ConsciousnessMetrics",
-    "CreativitySnapshot", "CreativeTask",
-    # Type aliases
-    "ConsciousnessEvent", "EngineState", "SignalData",
     # Configuration constants
-    "DEFAULT_AWARENESS_CONFIG", "DEFAULT_REFLECTION_CONFIG", "DEFAULT_DREAM_CONFIG",
-    "DEFAULT_CREATIVITY_CONFIG"
+    "DEFAULT_AWARENESS_CONFIG",
+    "DEFAULT_CREATIVITY_CONFIG",
+    "DEFAULT_DREAM_CONFIG",
+    "DEFAULT_REFLECTION_CONFIG",
+    "AnomalySeverity",
+    "AwarenessLevel",
+    "AwarenessSnapshot",
+    # Type aliases
+    "ConsciousnessEvent",
+    "ConsciousnessMetrics",
+    # Core classes
+    "ConsciousnessState",
+    "CreativeFlowState",
+    "CreativeProcessType",
+    "CreativeTask",
+    "CreativitySnapshot",
+    "DecisionContext",
+    "DreamPhase",
+    "DreamTrace",
+    "EngineState",
+    "ImaginationMode",
+    "ReflectionReport",
+    "SignalData",
+    # Enums
+    "StatePhase"
 ]

@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import eval_runs  # noqa: F401  # TODO: eval_runs; consider using impo...
+    import eval_runs  # TODO: eval_runs; consider using impo...
 except ImportError:
     pytest.skip("Module eval_runs not available", allow_module_level=True)
 

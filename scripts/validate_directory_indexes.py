@@ -7,7 +7,7 @@ Validates directory indexes and integrates with context sync system
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict
 
 import jsonschema
 
@@ -20,19 +20,19 @@ class DirectoryIndexValidator:
     def load_schema(self) -> Dict:
         """Load the directory index schema"""
         try:
-            with open(self.schema_path, 'r') as f:
+            with open(self.schema_path) as f:
                 return json.load(f)
         except Exception as e:
             return {"error": f"Failed to load schema: {e}"}
 
-    def validate_index(self, index_path: Path) -> Tuple[bool, List[str]]:
+    def validate_index(self, index_path: Path) -> tuple[bool, list[str]]:
         """Validate a single directory index"""
         schema = self.load_schema()
         if "error" in schema:
             return False, [schema["error"]]
 
         try:
-            with open(index_path, 'r') as f:
+            with open(index_path) as f:
                 index = json.load(f)
 
             jsonschema.validate(index, schema)
@@ -45,14 +45,14 @@ class DirectoryIndexValidator:
         except Exception as e:
             return False, [f"Unexpected error: {e}"]
 
-    def find_all_indexes(self) -> List[Path]:
+    def find_all_indexes(self) -> list[Path]:
         """Find all directory_index.json files"""
         return list(self.root_path.rglob("directory_index.json"))
 
     def check_index_consistency(self, index_path: Path) -> Dict:
         """Check consistency between directory index and actual directory contents"""
         try:
-            with open(index_path, 'r') as f:
+            with open(index_path) as f:
                 index = json.load(f)
 
             directory = index_path.parent
@@ -107,7 +107,7 @@ class DirectoryIndexValidator:
     def check_context_sync_integration(self, index_path: Path) -> Dict:
         """Check integration with context sync system"""
         try:
-            with open(index_path, 'r') as f:
+            with open(index_path) as f:
                 index = json.load(f)
 
             directory = index_path.parent

@@ -79,7 +79,7 @@ class MessageQueue:
         while self._running:
             try:
                 # Get message with timeout
-                priority, message = await asyncio.wait_for(queue.get(), timeout=1.0)
+                _priority, message = await asyncio.wait_for(queue.get(), timeout=1.0)
 
                 # Calculate latency
                 latency = (datetime.now(timezone.utc) - message.timestamp).total_seconds() * 1000
@@ -119,7 +119,7 @@ class MessageQueue:
         for module, queue in self._queues.items():
             while not queue.empty():
                 try:
-                    priority, message = queue.get_nowait()
+                    _priority, message = queue.get_nowait()
                     processor = self._processors.get(module)
                     if processor:
                         await processor(message)

@@ -1,3 +1,4 @@
+from __future__ import annotations
 
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
@@ -44,7 +45,7 @@ class PartnerSDK:
 
         # Register with DAST integration hub (when available)
         self.dast_hub = None
-        try:
+        try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_interfaces_as_agent_sys_dast_partner_sdk_py_L48"}
             # TODO: Enable when hub dependencies are resolved
             # from dast.integration.dast_integration_hub import get_dast_integration_hub
             # self.dast_hub = get_dast_integration_hub()

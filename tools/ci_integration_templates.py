@@ -204,11 +204,11 @@ jobs:
     - name: Generate Comprehensive Audit Report
       run: |
         echo "📋 Generating comprehensive audit report..."
-        python -c "
-        import json
-        import os
-        from datetime import datetime
-        from pathlib import Path
+  python -c "
+  import json
+  import os
+  from datetime import datetime, timezone
+  from pathlib import Path
 
         # Generate comprehensive audit report
         report = {
@@ -216,7 +216,7 @@ jobs:
                 'workflow': 'github_actions_audit_validation',
                 'commit_sha': os.getenv('GITHUB_SHA', 'unknown'),
                 'branch': os.getenv('GITHUB_REF_NAME', 'unknown'),
-                'timestamp': datetime.utcnow().isoformat(),
+        'timestamp': datetime.now(timezone.utc).isoformat(),
                 'audit_purpose': 'pre_post_matriz_workspace_validation'
             },
             'validation_results': {
@@ -403,10 +403,10 @@ audit-report:
 	@mkdir -p audit
 	@python -c "
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 report = {
     'audit_type': 'pre_post_matriz_validation',
-    'timestamp': datetime.utcnow().isoformat(),
+  'timestamp': datetime.now(timezone.utc).isoformat(),
     'status': 'audit_preparation_complete'
 }
 with open('audit/makefile_audit_report.json', 'w') as f:

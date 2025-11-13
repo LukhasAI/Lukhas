@@ -44,6 +44,8 @@
 ║ ΛTAG: ΛETHICS, ΛSWARM, ΛSIMULATION, ΛDRIFT, ΛCOLLAPSE, ΛVERIFOLD
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import asyncio
 import hashlib
 import json
@@ -56,7 +58,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-
 from core.colonies.base_colony import BaseColony
 
 logger = logging.getLogger("ΛTRACE.ethics_swarm_colony")

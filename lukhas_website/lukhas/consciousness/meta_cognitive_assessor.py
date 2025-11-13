@@ -23,7 +23,7 @@ import statistics
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ..cognitive_core.reasoning.deep_inference_engine import InferenceResult
 from .types import ConsciousnessState
@@ -57,13 +57,13 @@ class MetaCognitiveContext:
     """Context for meta-cognitive assessment"""
     reasoning_session_id: str
     consciousness_state: Optional[ConsciousnessState]
-    recent_inferences: List[InferenceResult]
-    recent_thoughts: List[Dict[str, Any]]
-    processing_history: List[Dict[str, float]]
+    recent_inferences: list[InferenceResult]
+    recent_thoughts: list[dict[str, Any]]
+    processing_history: list[dict[str, float]]
     time_budget_ms: float
     assessment_depth: str = "standard"  # standard, deep, minimal
-    focus_aspects: Optional[List[MetaCognitiveAspect]] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    focus_aspects: Optional[list[MetaCognitiveAspect]] = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -89,7 +89,7 @@ class MetaCognitiveInsight:
     observation: str
     confidence: float
     actionable_recommendation: Optional[str]
-    evidence: Dict[str, Any]
+    evidence: dict[str, Any]
     priority: str  # high, medium, low
     timestamp: float = field(default_factory=time.time)
 
@@ -99,9 +99,9 @@ class MetaCognitiveAssessment:
     """Complete meta-cognitive assessment result"""
     session_id: str
     performance_metrics: CognitivePerformanceMetrics
-    insights: List[MetaCognitiveInsight]
+    insights: list[MetaCognitiveInsight]
     cognitive_load_assessment: CognitiveLoadLevel
-    recommended_adjustments: List[str]
+    recommended_adjustments: list[str]
     self_awareness_score: float
     meta_reasoning_quality: float
     processing_time_ms: float
@@ -134,9 +134,9 @@ class MetaCognitiveAssessor:
         self.enable_self_correction = enable_self_correction
 
         # Performance tracking
-        self.performance_history: List[CognitivePerformanceMetrics] = []
-        self.cognitive_load_window: List[float] = []
-        self.strategy_effectiveness_tracker: Dict[str, List[float]] = {}
+        self.performance_history: list[CognitivePerformanceMetrics] = []
+        self.cognitive_load_window: list[float] = []
+        self.strategy_effectiveness_tracker: dict[str, list[float]] = {}
 
         # Meta-cognitive state
         self.current_cognitive_load = CognitiveLoadLevel.LOW
@@ -237,7 +237,7 @@ class MetaCognitiveAssessor:
                 ),
                 insights=[],
                 cognitive_load_assessment=CognitiveLoadLevel.EXCESSIVE,
-                recommended_adjustments=[f"Error in assessment: {str(e)}"],
+                recommended_adjustments=[f"Error in assessment: {e!s}"],
                 self_awareness_score=0.0,
                 meta_reasoning_quality=0.0,
                 processing_time_ms=processing_time,
@@ -301,7 +301,7 @@ class MetaCognitiveAssessor:
             overall_performance=overall_performance
         )
 
-    async def _assess_reasoning_accuracy(self, recent_inferences: List[InferenceResult]) -> float:
+    async def _assess_reasoning_accuracy(self, recent_inferences: list[InferenceResult]) -> float:
         """Assess accuracy of recent reasoning processes."""
         if not recent_inferences:
             return 0.5  # Neutral when no data
@@ -327,7 +327,7 @@ class MetaCognitiveAssessor:
 
         return statistics.mean(accuracy_scores)
 
-    async def _assess_depth_adequacy(self, recent_inferences: List[InferenceResult]) -> float:
+    async def _assess_depth_adequacy(self, recent_inferences: list[InferenceResult]) -> float:
         """Assess if reasoning depth is adequate for the problems tackled."""
         if not recent_inferences:
             return 0.5
@@ -358,7 +358,7 @@ class MetaCognitiveAssessor:
 
         return statistics.mean(depth_scores)
 
-    async def _assess_confidence_calibration(self, recent_inferences: List[InferenceResult]) -> float:
+    async def _assess_confidence_calibration(self, recent_inferences: list[InferenceResult]) -> float:
         """Assess how well confidence scores match actual performance."""
         if not recent_inferences:
             return 0.5
@@ -376,7 +376,7 @@ class MetaCognitiveAssessor:
 
         return statistics.mean(calibration_scores)
 
-    async def _assess_processing_efficiency(self, processing_history: List[Dict[str, float]]) -> float:
+    async def _assess_processing_efficiency(self, processing_history: list[dict[str, float]]) -> float:
         """Assess efficiency of cognitive processing."""
         if not processing_history:
             return 0.5
@@ -396,7 +396,7 @@ class MetaCognitiveAssessor:
 
         return statistics.mean(efficiency_scores)
 
-    async def _assess_error_detection(self, recent_inferences: List[InferenceResult]) -> float:
+    async def _assess_error_detection(self, recent_inferences: list[InferenceResult]) -> float:
         """Assess ability to detect and handle errors/contradictions."""
         if not recent_inferences:
             return 0.5
@@ -422,8 +422,8 @@ class MetaCognitiveAssessor:
 
     async def _assess_strategy_effectiveness(
         self,
-        recent_inferences: List[InferenceResult],
-        recent_thoughts: List[Dict[str, Any]]
+        recent_inferences: list[InferenceResult],
+        recent_thoughts: list[dict[str, Any]]
     ) -> float:
         """Assess effectiveness of reasoning strategies used."""
         if not recent_inferences and not recent_thoughts:
@@ -474,10 +474,7 @@ class MetaCognitiveAssessor:
             load_factors.append(arousal)
 
         # Calculate overall load
-        if load_factors:
-            cognitive_load = statistics.mean(load_factors)
-        else:
-            cognitive_load = 0.3  # Default moderate-low load
+        cognitive_load = statistics.mean(load_factors) if load_factors else 0.3  # Default moderate-low load
 
         return min(1.0, cognitive_load)
 
@@ -534,7 +531,7 @@ class MetaCognitiveAssessor:
         self,
         context: MetaCognitiveContext,
         performance_metrics: CognitivePerformanceMetrics
-    ) -> List[MetaCognitiveInsight]:
+    ) -> list[MetaCognitiveInsight]:
         """Generate meta-cognitive insights from performance analysis."""
 
         insights = []
@@ -604,7 +601,7 @@ class MetaCognitiveAssessor:
     async def _calculate_self_awareness(
         self,
         context: MetaCognitiveContext,
-        insights: List[MetaCognitiveInsight]
+        insights: list[MetaCognitiveInsight]
     ) -> float:
         """Calculate self-awareness score based on insight generation and accuracy."""
 
@@ -618,10 +615,7 @@ class MetaCognitiveAssessor:
         confidence_bonus = min(0.1, len(high_confidence_insights) * 0.02)
 
         # Penalty for excessive insights (might indicate poor filtering)
-        if len(insights) > 10:
-            insight_penalty = 0.1
-        else:
-            insight_penalty = 0.0
+        insight_penalty = 0.1 if len(insights) > 10 else 0.0
 
         self_awareness_score = min(1.0, max(0.0,
             base_awareness + insight_bonus + confidence_bonus - insight_penalty
@@ -633,7 +627,7 @@ class MetaCognitiveAssessor:
         self,
         context: MetaCognitiveContext,
         performance_metrics: CognitivePerformanceMetrics,
-        insights: List[MetaCognitiveInsight]
+        insights: list[MetaCognitiveInsight]
     ) -> float:
         """Assess quality of meta-reasoning (reasoning about reasoning)."""
 
@@ -650,7 +644,7 @@ class MetaCognitiveAssessor:
             quality_factors.append(avg_insight_confidence)
 
             # Diversity of insights (covering different aspects)
-            unique_aspects = len(set(i.aspect for i in insights))
+            unique_aspects = len({i.aspect for i in insights})
             aspect_diversity = min(1.0, unique_aspects / len(MetaCognitiveAspect))
             quality_factors.append(aspect_diversity)
 
@@ -660,10 +654,7 @@ class MetaCognitiveAssessor:
             consistency_score = 1.0 - abs(performance_metrics.overall_performance - recent_trend)
             quality_factors.append(max(0.0, consistency_score))
 
-        if quality_factors:
-            meta_reasoning_quality = statistics.mean(quality_factors)
-        else:
-            meta_reasoning_quality = 0.5
+        meta_reasoning_quality = statistics.mean(quality_factors) if quality_factors else 0.5
 
         return meta_reasoning_quality
 
@@ -671,8 +662,8 @@ class MetaCognitiveAssessor:
         self,
         performance_metrics: CognitivePerformanceMetrics,
         cognitive_load: CognitiveLoadLevel,
-        insights: List[MetaCognitiveInsight]
-    ) -> List[str]:
+        insights: list[MetaCognitiveInsight]
+    ) -> list[str]:
         """Generate recommended cognitive adjustments."""
 
         recommendations = []
@@ -778,7 +769,7 @@ class MetaCognitiveAssessor:
                 (current_avg * (total - 1) + assessment.processing_time_ms) / total
             )
 
-    def get_current_cognitive_state(self) -> Dict[str, Any]:
+    def get_current_cognitive_state(self) -> dict[str, Any]:
         """Get current cognitive state summary."""
 
         return {
@@ -790,7 +781,7 @@ class MetaCognitiveAssessor:
             "assessment_stats": dict(self.assessment_stats)
         }
 
-    def get_performance_analytics(self) -> Dict[str, Any]:
+    def get_performance_analytics(self) -> dict[str, Any]:
         """Get detailed performance analytics."""
 
         if not self.performance_history:
@@ -827,11 +818,11 @@ class MetaCognitiveAssessor:
 
 # Export main classes
 __all__ = [
+    "CognitiveLoadLevel",
+    "CognitivePerformanceMetrics",
+    "MetaCognitiveAspect",
+    "MetaCognitiveAssessment",
     "MetaCognitiveAssessor",
     "MetaCognitiveContext",
-    "MetaCognitiveAssessment",
-    "CognitivePerformanceMetrics",
-    "MetaCognitiveInsight",
-    "MetaCognitiveAspect",
-    "CognitiveLoadLevel"
+    "MetaCognitiveInsight"
 ]

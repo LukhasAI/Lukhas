@@ -3,6 +3,7 @@
 Targeted syntax fixer for LUKHAS repository
 Focus on common fixable patterns while avoiding complex issues
 """
+from __future__ import annotations
 
 import ast
 import logging
@@ -31,14 +32,13 @@ def fix_simple_patterns(content):
             line = line.rstrip(",") + '",'
 
         # Fix 4: Generator expressions that need parentheses
-        if "for " in line and " if " in line and not line.strip().startswith("(") and "lambda" not in line:
+        if ('for ' in line and ' if ' in line and (not line.strip().startswith('(')) and ('lambda' not in line)) and (re.search('\\w+\\s+for\\s+\\w+\\s+in\\s+\\w+\\s+if\\s+', line) and (not re.search('[\\[\\(].*for.*[\\]\\)]', line))):
             # Check if it's a generator expression that needs parens
-            if re.search(r"\w+\s+for\s+\w+\s+in\s+\w+\s+if\s+", line) and not re.search(r"[\[\(].*for.*[\]\)]", line):
-                # Add parentheses around generator expression
-                match = re.search(r"(\w+\s+for\s+\w+\s+in\s+\w+\s+if\s+[^,\n]+)", line)
-                if match:
-                    expr = match.group(1)
-                    line = line.replace(expr, f"({expr})")
+            # Add parentheses around generator expression
+            match = re.search(r"(\w+\s+for\s+\w+\s+in\s+\w+\s+if\s+[^,\n]+)", line)
+            if match:
+                expr = match.group(1)
+                line = line.replace(expr, f"({expr})")
 
         fixed_lines.append(line)
 

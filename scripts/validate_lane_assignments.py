@@ -11,7 +11,7 @@ import logging
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Optional
 
 import yaml
 
@@ -23,10 +23,10 @@ logger = logging.getLogger(__name__)
 class LaneAssignmentValidator:
     """Validates lane assignments for T4/0.01% compliance"""
 
-    def __init__(self, config_file: Path = None):
+    def __init__(self, config_file: Optional[Path] = None):
         self.config_file = config_file or Path(__file__).parent.parent / "ops" / "lane_assignments.yaml"
-        self.config: Dict[str, Any] = {}
-        self.validation_results: Dict[str, Any] = {
+        self.config: dict[str, Any] = {}
+        self.validation_results: dict[str, Any] = {
             'valid': True,
             'issues': [],
             'warnings': [],
@@ -41,7 +41,7 @@ class LaneAssignmentValidator:
                 logger.error(f"Configuration file not found: {self.config_file}")
                 return False
 
-            with open(self.config_file, 'r') as f:
+            with open(self.config_file) as f:
                 self.config = yaml.safe_load(f)
 
             logger.info(f"✅ Loaded lane assignment configuration: {self.config_file}")
@@ -74,12 +74,11 @@ class LaneAssignmentValidator:
                 self.validation_results['valid'] = False
 
             # Validate lane progression
-            if current_lane and target_lane:
-                if not self._is_valid_lane_progression(current_lane, target_lane):
-                    self.validation_results['issues'].append(
-                        f"Component {component_name} has invalid lane progression: {current_lane} → {target_lane}"
-                    )
-                    self.validation_results['valid'] = False
+            if (current_lane and target_lane) and (not self._is_valid_lane_progression(current_lane, target_lane)):
+                self.validation_results['issues'].append(
+                    f"Component {component_name} has invalid lane progression: {current_lane} → {target_lane}"
+                )
+                self.validation_results['valid'] = False
 
             # Validate deployment percentages
             if current_lane == 'production' and deployment_percentage != 100:
@@ -103,7 +102,7 @@ class LaneAssignmentValidator:
 
         return target in valid_progressions.get(current, [])
 
-    def _is_assignment_stale(self, component_config: Dict[str, Any]) -> bool:
+    def _is_assignment_stale(self, component_config: dict[str, Any]) -> bool:
         """Check if component assignment is stale (>30 days old)"""
         last_updated_str = component_config.get('last_updated')
         if not last_updated_str:
@@ -254,7 +253,7 @@ class LaneAssignmentValidator:
         ci_dir = Path(__file__).parent.parent / ".github" / "workflows"
         for workflow_file in ci_dir.glob("*.yml"):
             try:
-                with open(workflow_file, 'r') as f:
+                with open(workflow_file) as f:
                     content = f.read()
                     if job_name in content:
                         return True
@@ -267,7 +266,7 @@ class LaneAssignmentValidator:
         alerts_dir = Path(__file__).parent.parent / "monitoring" / "alerts"
         return alerts_dir.exists() and len(list(alerts_dir.glob("*.yml"))) > 0
 
-    def validate_all(self) -> Dict[str, Any]:
+    def validate_all(self) -> dict[str, Any]:
         """Run all validations"""
         logger.info("🔍 Starting lane assignment validation...")
 
@@ -325,7 +324,7 @@ class LaneAssignmentValidator:
 
         logger.info("=" * 60)
 
-    def save_results(self, output_file: Path = None) -> None:
+    def save_results(self, output_file: Optional[Path] = None) -> None:
         """Save validation results to file"""
         if output_file is None:
             output_file = Path(__file__).parent.parent / "artifacts" / "lane_assignment_validation.json"

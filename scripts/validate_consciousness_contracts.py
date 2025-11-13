@@ -7,7 +7,7 @@ Validates consciousness component contracts against schema
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict
 
 import jsonschema
 
@@ -21,15 +21,15 @@ class ConsciousnessContractValidator:
     def load_schema(self) -> Dict:
         """Load the consciousness component schema"""
         try:
-            with open(self.schema_path, 'r') as f:
+            with open(self.schema_path) as f:
                 return json.load(f)
         except Exception as e:
             return {"error": f"Failed to load schema: {e}"}
 
-    def validate_contract(self, contract_path: Path, schema: Dict) -> Tuple[bool, List[str]]:
+    def validate_contract(self, contract_path: Path, schema: Dict) -> tuple[bool, list[str]]:
         """Validate a single contract against the schema"""
         try:
-            with open(contract_path, 'r') as f:
+            with open(contract_path) as f:
                 contract = json.load(f)
 
             jsonschema.validate(contract, schema)
@@ -88,7 +88,7 @@ class ConsciousnessContractValidator:
 
                 # Collect statistics
                 try:
-                    with open(contract_file, 'r') as f:
+                    with open(contract_file) as f:
                         contract = json.load(f)
 
                     comp_type = contract.get("component_type", "UNKNOWN")

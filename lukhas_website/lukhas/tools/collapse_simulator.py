@@ -15,8 +15,9 @@ import pathlib
 import random
 import sys
 import time
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any
 
 # NOTE: TraceRepairEngine is optional; defer import to runtime.
 try:  # pragma: no cover - import side effects tested via simulation
@@ -45,9 +46,9 @@ class SimulationContext:
     seed: int
     repair_attempts: int = 0
     repair_successes: int = 0
-    drift_scores: List[float] = field(default_factory=list)
-    affect_deltas: List[float] = field(default_factory=list)
-    collapse_hashes: List[str] = field(default_factory=list)
+    drift_scores: list[float] = field(default_factory=list)
+    affect_deltas: list[float] = field(default_factory=list)
+    collapse_hashes: list[str] = field(default_factory=list)
 
     def record_step(self, drift_score: float, affect_delta: float, collapse_hash: str) -> None:
         self.drift_scores.append(drift_score)
@@ -102,7 +103,7 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: Optional[Iterable[str]] = None) -> int:
+def main(argv: Iterable[str] | None = None) -> int:
     """Entry point for CLI use."""
 
     parser = build_parser()
@@ -133,8 +134,8 @@ def simulate_collapse(
     iterations: int,
     noise: float,
     output_path: pathlib.Path,
-    seed_override: Optional[int] = None,
-) -> Dict[str, Any]:
+    seed_override: int | None = None,
+) -> dict[str, Any]:
     """Simulate a collapse scenario and persist summary JSON."""
 
     if iterations <= 0:
@@ -210,11 +211,11 @@ def compute_affect_delta(rng: random.Random, scenario: str, noise: float, index:
 def compute_collapse_hash(scenario: str, drift_score: float, affect_delta: float, index: int) -> str:
     """Compute symbolic collapse hash for the iteration."""
 
-    digest_input = f"{scenario}:{drift_score}:{affect_delta}:{index}".encode("utf-8")
+    digest_input = f"{scenario}:{drift_score}:{affect_delta}:{index}".encode()
     return str(abs(hash(digest_input)) % 10 ** 10).zfill(10)
 
 
-def derive_top_symbols(scenario: str) -> List[str]:
+def derive_top_symbols(scenario: str) -> list[str]:
     """Return representative top symbols for reporting."""
 
     symbol_map = {
@@ -225,7 +226,7 @@ def derive_top_symbols(scenario: str) -> List[str]:
     return symbol_map.get(scenario, ["UNKNOWN_SYMBOL"])
 
 
-def initialize_trace_repair_engine() -> Optional["TraceRepairEngine"]:
+def initialize_trace_repair_engine() -> TraceRepairEngine | None:
     """Initialize TraceRepairEngine if available."""
 
     if TraceRepairEngine is None:
@@ -239,10 +240,10 @@ def initialize_trace_repair_engine() -> Optional["TraceRepairEngine"]:
 
 
 def invoke_trace_repair(
-    repair_engine: "TraceRepairEngine",
+    repair_engine: TraceRepairEngine,
     scenario: str,
     drift_score: float,
-    top_symbols: List[str],
+    top_symbols: list[str],
 ) -> bool:
     """Invoke TraceRepairEngine with synthetic context."""
 
@@ -267,7 +268,7 @@ def invoke_trace_repair(
     return bool(success)
 
 
-def compile_summary(context: SimulationContext, top_symbols: List[str]) -> Dict[str, Any]:
+def compile_summary(context: SimulationContext, top_symbols: list[str]) -> dict[str, Any]:
     """Prepare JSON summary payload for persistence."""
 
     summary = {
@@ -284,7 +285,7 @@ def compile_summary(context: SimulationContext, top_symbols: List[str]) -> Dict[
     return summary
 
 
-def persist_summary(output_path: pathlib.Path, summary: Dict[str, Any]) -> None:
+def persist_summary(output_path: pathlib.Path, summary: dict[str, Any]) -> None:
     """Persist JSON summary to disk, ensuring directories exist."""
 
     output_path.parent.mkdir(parents=True, exist_ok=True)

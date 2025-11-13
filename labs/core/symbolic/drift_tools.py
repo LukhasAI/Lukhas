@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 import logging
 from datetime import timezone
 import streamlit as st
 import random
-from typing import Dict
+
 logger = logging.getLogger(__name__)
 """
 

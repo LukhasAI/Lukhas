@@ -78,7 +78,7 @@ class MultiAgentCoordination:
         if self.strategy == CoordinationStrategy.CONSENSUS:
             # Require unanimous agreement (simplified)
             values = list(agent_proposals.values())
-            consensus_level = 1.0 if len(set(str(v) for v in values)) == 1 else 0.0
+            consensus_level = 1.0 if len({str(v) for v in values}) == 1 else 0.0
             final_decision = values[0] if consensus_level == 1.0 else None
 
         elif self.strategy == CoordinationStrategy.MAJORITY:

@@ -26,22 +26,23 @@ Tier 2 (expandable hooks)
 import logging
 import math
 import uuid
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
 __all__ = [
     "QuantumState",
-    "validate_states",
     "compute_entanglement",
     "generate_entanglement_report",
-    # Tier 2 hooks
-    "state_registry",
-    "register_state",
     "get_state",
     "list_states",
+    "register_state",
     "seed_random_state",
+    # Tier 2 hooks
+    "state_registry",
+    "validate_states",
 ]
 
 # --------------------------------------------------------------------
@@ -104,7 +105,7 @@ def compute_entanglement(states: Iterable[QuantumState]) -> float:
     return float(score)
 
 
-def generate_entanglement_report(states: Iterable[QuantumState]) -> Dict[str, Any]:
+def generate_entanglement_report(states: Iterable[QuantumState]) -> dict[str, Any]:
     """Return a structured, stable report dictionary.
 
     Schema:
@@ -136,7 +137,7 @@ def generate_entanglement_report(states: Iterable[QuantumState]) -> Dict[str, An
 # --------------------------------------------------------------------
 
 # Simple in-memory registry for reproducible tests and fixtures
-state_registry: Dict[str, QuantumState] = {}
+state_registry: dict[str, QuantumState] = {}
 
 
 def register_state(state: QuantumState, *, overwrite: bool = False) -> None:
@@ -155,7 +156,7 @@ def get_state(state_id: str) -> Optional[QuantumState]:
     return state_registry.get(state_id)
 
 
-def list_states() -> List[QuantumState]:
+def list_states() -> list[QuantumState]:
     """List all registered states."""
     # Return a copy to prevent accidental external mutation
     return list(state_registry.values())

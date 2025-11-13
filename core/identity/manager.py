@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 LUKHAS Advanced Identity Manager
 ==============================
@@ -25,6 +23,9 @@ Date: May 30, 2025
 Version: v2.0.0-golden
 Status: GOLDEN FEATURE - FLAGSHIP CANDIDATE
 """
+
+from __future__ import annotations
+
 import asyncio
 import hashlib
 import json
@@ -32,15 +33,21 @@ import logging
 import time
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 # Guardian system integration for ethical identity management
 try:
     from governance.guardian_system import GuardianSystem
     GUARDIAN_AVAILABLE = True
 except ImportError:
-    GUARDIAN_AVAILABLE = False
     print("⚠️  Guardian system not available - identity operations without ethical validation")
+    GUARDIAN_AVAILABLE = False
+
+
+
+
+
+
 
 logger = logging.getLogger(__name__)
 
@@ -437,10 +444,8 @@ class AdvancedIdentityManager:
                 self._guardian_instance = GuardianSystem()
                 self._guardian_integration_enabled = True
                 logger.info("🛡️  Guardian-Identity integration enabled for ethical identity management")
-            except Exception as e:
-                logger.error(f"⚠️  Failed to initialize Guardian integration: {e}")
+            except Exception:
                 self._guardian_integration_enabled = False
-
     async def get_user_identity(self, user_id):
         """Get user identity information"""
         if user_id in self.users:
@@ -482,7 +487,6 @@ class AdvancedIdentityManager:
                 "correlation_id": correlation_id,
                 "operation": "authenticate"
             }
-
             try:
                 if hasattr(self._guardian_instance, 'validate_action_async'):
                     guardian_result = await self._guardian_instance.validate_action_async(guardian_context)
@@ -509,8 +513,8 @@ class AdvancedIdentityManager:
 
                 self._validated_operations += 1
 
-            except Exception as e:
-                logger.warning(f"Guardian validation failed for authentication {correlation_id}: {e}")
+            except Exception:
+                pass
 
         # Extract emotional vector
         emotional_vector = self.emotional_memory.extract_vector(user_input)
@@ -549,7 +553,6 @@ class AdvancedIdentityManager:
                 "correlation_id": correlation_id,
                 "operation": "register_user"
             }
-
             try:
                 if hasattr(self._guardian_instance, 'validate_action_async'):
                     guardian_result = await self._guardian_instance.validate_action_async(guardian_context)
@@ -578,8 +581,8 @@ class AdvancedIdentityManager:
 
                 self._validated_operations += 1
 
-            except Exception as e:
-                logger.warning(f"Guardian validation failed for registration {correlation_id}: {e}")
+            except Exception:
+                pass
 
         # Extract emotional vector
         emotional_vector = self.emotional_memory.extract_vector(user_input)
@@ -673,7 +676,6 @@ class AdvancedIdentityManager:
                 "correlation_id": correlation_id,
                 "operation": "apply_trauma_lock"
             }
-
             try:
                 if hasattr(self._guardian_instance, 'validate_action_async'):
                     guardian_result = await self._guardian_instance.validate_action_async(guardian_context)
@@ -695,8 +697,8 @@ class AdvancedIdentityManager:
 
                 self._validated_operations += 1
 
-            except Exception as e:
-                logger.warning(f"Guardian validation failed for trauma lock {correlation_id}: {e}")
+            except Exception:
+                pass
 
         # ΛTAG: trauma_lock
         secured_vector, was_locked = self.trauma_lock.secure(memory_vector)
@@ -732,8 +734,8 @@ class AdvancedIdentityManager:
 
     # Guardian Integration Methods for Identity Security
 
-    async def validate_identity_operation(self, operation_type: str, operation_data: Dict[str, Any],
-                                        user_id: str = "unknown") -> Dict[str, Any]:
+    async def validate_identity_operation(self, operation_type: str, operation_data: dict[str, Any],
+                                        user_id: str = "unknown") -> dict[str, Any]:
         """Standalone method to validate identity operations with Guardian"""
         if not self._guardian_integration_enabled or not self._guardian_instance:
             return {
@@ -751,7 +753,6 @@ class AdvancedIdentityManager:
             "correlation_id": correlation_id,
             "operation": f"validate_{operation_type}"
         }
-
         try:
             if hasattr(self._guardian_instance, 'validate_action_async'):
                 result = await self._guardian_instance.validate_action_async(guardian_context)
@@ -772,12 +773,12 @@ class AdvancedIdentityManager:
             return {
                 "validated": False,
                 "safe": False,
-                "reason": f"Guardian validation failed: {str(e)}",
+                "reason": f"Guardian validation failed: {e!s}",
                 "error": True,
                 "correlation_id": correlation_id
             }
 
-    def get_guardian_identity_status(self) -> Dict[str, Any]:
+    def get_guardian_identity_status(self) -> dict[str, Any]:
         """Get comprehensive Guardian-Identity integration status for monitoring"""
         if not self._guardian_integration_enabled:
             return {

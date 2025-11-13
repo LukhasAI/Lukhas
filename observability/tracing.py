@@ -7,7 +7,7 @@ and integration with OTLP exporters for observability platforms.
 
 import logging
 import os
-from contextlib import contextmanager
+from contextlib import contextmanager, suppress
 from typing import Optional
 
 try:
@@ -221,10 +221,8 @@ try:
 
             # Record trace coverage metrics
             if PROMETHEUS_AVAILABLE_TRACE and TRACE_COUNTER:
-                try:
+                with suppress(Exception):
                     TRACE_COUNTER.labels(present="true", source=source).inc()
-                except Exception:
-                    pass
 
             return resp
 

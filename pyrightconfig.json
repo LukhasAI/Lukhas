@@ -1,0 +1,53 @@
+{
+    "pythonVersion": "3.9",
+    "include": [
+        "lukhas",
+        "MATRIZ"
+    ],
+    "exclude": [
+        "labs",
+        "candidate",
+        "archive",
+        "quarantine",
+        "tests",
+        "tools",
+        "examples",
+        "docs",
+        "tests/fixtures",
+        "scripts/migrations",
+        ".git",
+        ".venv",
+        ".ruff_cache",
+        "build",
+        "dist",
+        "node_modules",
+        "**/migrations",
+        "**/generated",
+        "gemini-dev",
+        "products",
+        "dreamweaver_helpers_bundle"
+    ],
+    "defineConstant": {
+        "DEBUG": true
+    },
+    "stubPath": "typings",
+    "venvPath": ".",
+    "venv": ".venv",
+    "reportMissingImports": "warning",
+    "reportMissingTypeStubs": "information",
+    "reportUnknownMemberType": "information",
+    "reportUnknownArgumentType": "information",
+    "reportUnknownVariableType": "information",
+    "reportUnknownParameterType": "information",
+    "reportMissingParameterType": "information",
+    "reportMissingReturnType": "information",
+    "reportUntypedFunctionDecorator": "information",
+    "reportUntypedClassDecorator": "information",
+    "reportUntypedBaseClass": "information",
+    "reportUntypedNamedTuple": "information",
+    "reportGeneralTypeIssues": "information",
+    "reportOptionalMemberAccess": "information",
+    "reportOptionalSubscript": "information",
+    "reportPrivateImportUsage": "information",
+    "typeCheckingMode": "basic"
+}

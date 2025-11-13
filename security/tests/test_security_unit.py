@@ -162,7 +162,7 @@ class TestIdentityGuard(unittest.TestCase):
 
     def test_identityguard_import(self):
         """Test IdentityGuard can be imported."""
-        self.assertIs(IDENTITY_GUARD_CLASS, getattr(IDENTITY_GUARD_MODULE, "IdentityGuard"))
+        self.assertIs(IDENTITY_GUARD_CLASS, IDENTITY_GUARD_MODULE.IdentityGuard)
 
     def test_identityguard_instantiation(self):
         """Test IdentityGuard can be instantiated."""

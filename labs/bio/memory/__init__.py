@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 try:
     from .symbolic_proteome import MemoryProtein, SymbolicProteome
     logger.info("Successfully imported SymbolicProteome")
-    __all__ = ["SymbolicProteome", "MemoryProtein"]
+    __all__ = ["MemoryProtein", "SymbolicProteome"]
 except ImportError as e:
     logger.warning(f"Could not import symbolic proteome: {e}")
     __all__ = []

@@ -24,11 +24,11 @@ from __future__ import annotations
 
 import argparse
 import ast
+import contextlib
 import csv
 import json
 import re
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
 
 # --- Config knobs ------------------------------------------------------------
 
@@ -50,13 +50,13 @@ STD_THIRD_MAP = {
     "lru_cache": "from functools import lru_cache",
     "partial": "from functools import partial",
     # typing
-    "Any": "from typing import Any",
-    "Optional": "from typing import Optional",
-    "Dict": "from typing import Dict",
-    "List": "from typing import List",
-    "Tuple": "from typing import Tuple",
-    "Set": "from typing import Set",
-    "Callable": "from typing import Callable",
+    "Any": "from typing import Any"
+    "Optional": "from typing import Optional"
+    "Dict": "from typing import Dict"
+    "List": "from typing import List"
+    "Tuple": "from typing import Tuple"
+    "Set": "from typing import Set"
+    "Callable": "from typing import Callable"
     # pydantic (common)
     "BaseModel": "from pydantic import BaseModel",
     "Field": "from pydantic import Field",
@@ -74,7 +74,7 @@ def read_json(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 def nearest_manifest(pyfile: Path) -> dict:
-    for parent in [pyfile] + list(pyfile.parents):
+    for parent in [pyfile, *list(pyfile.parents)]:
         m = parent / "module.manifest.json"
         if m.exists():
             try:
@@ -83,7 +83,7 @@ def nearest_manifest(pyfile: Path) -> dict:
                 return {}
     return {}
 
-def import_path_for(pyfile: Path, repo_root: Path, root_pkg: str) -> Optional[str]:
+def import_path_for(pyfile: Path, repo_root: Path, root_pkg: str) -> str | None:
     """
     Convert filesystem path to import path. E.g.
       /repo/lukhas/foo/bar.py -> foo.bar
@@ -104,7 +104,7 @@ def import_path_for(pyfile: Path, repo_root: Path, root_pkg: str) -> Optional[st
         parts[-1] = parts[-1].replace(".py", "")
     return ".".join(parts)
 
-def scan_symbols(pyfile: Path) -> Tuple[List[str], List[str], List[str]]:
+def scan_symbols(pyfile: Path) -> tuple[list[str], list[str], list[str]]:
     """Return (classes, functions, constants) defined at module top-level."""
     try:
         tree = ast.parse(pyfile.read_text(encoding="utf-8"))
@@ -124,15 +124,15 @@ def scan_symbols(pyfile: Path) -> Tuple[List[str], List[str], List[str]]:
                         consts.append(name)
     return classes, funcs, consts
 
-def build_symbol_index(repo_root: Path, root_pkg: str) -> Tuple[Dict[str, List[str]], Dict[str, str]]:
+def build_symbol_index(repo_root: Path, root_pkg: str) -> tuple[dict[str, list[str]], dict[str, str]]:
     """
     Walk the root package; build:
       - symbol_index: symbol -> [module.import.path,...]
       - module_index: file_path -> module.import.path
     """
     pkg_dir = repo_root / root_pkg
-    symbol_index: Dict[str, List[str]] = {}
-    module_index: Dict[str, str] = {}
+    symbol_index: dict[str, list[str]] = {}
+    module_index: dict[str, str] = {}
     if not pkg_dir.exists():
         return symbol_index, module_index
 
@@ -149,15 +149,15 @@ def build_symbol_index(repo_root: Path, root_pkg: str) -> Tuple[Dict[str, List[s
     return symbol_index, module_index
 
 def candidates_for_symbol(symbol: str,
-                          symbol_index: Dict[str, List[str]],
-                          module_index: Dict[str, str],
+                          symbol_index: dict[str, list[str]],
+                          module_index: dict[str, str],
                           file_path: Path,
                           repo_root: Path,
-                          root_pkg: str) -> List[Tuple[str, float, str]]:
+                          root_pkg: str) -> list[tuple[str, float, str]]:
     """
     Return list of (import_line, confidence, reason).
     """
-    suggestions: List[Tuple[str, float, str]] = []
+    suggestions: list[tuple[str, float, str]] = []
 
     # 1) std/third-party direct mapping (highest precision)
     if symbol in STD_THIRD_MAP:
@@ -181,10 +181,8 @@ def candidates_for_symbol(symbol: str,
                 mf = mod_file.with_suffix(".py").parent / "module.manifest.json"
             star = ""
             if mf.exists():
-                try:
+                with contextlib.suppress(Exception):
                     star = (read_json(mf).get("constellation_alignment") or {}).get("primary_star") or ""
-                except Exception:
-                    pass
             if me_star and star == me_star:
                 same_star.append(mod)
         pick = (same_star[0] if same_star else hits[0])
@@ -207,7 +205,7 @@ def candidates_for_symbol(symbol: str,
             suggestions.append((f"from {pkg}.{symbol} import {symbol}", 0.70, "sibling module match"))
 
     # dedupe by import line (keep highest confidence)
-    best: Dict[str, Tuple[float, str]] = {}
+    best: dict[str, tuple[float, str]] = {}
     for line, conf, why in suggestions:
         if line not in best or conf > best[line][0]:
             best[line] = (conf, why)
@@ -215,7 +213,7 @@ def candidates_for_symbol(symbol: str,
     merged.sort(key=lambda x: (-x[1], x[0]))
     return merged
 
-def extract_symbol_from_msg(msg: str) -> Optional[str]:
+def extract_symbol_from_msg(msg: str) -> str | None:
     m = F821_MSG_RE.search(msg)
     return m.group(1) if m else None
 
@@ -287,7 +285,7 @@ def main():
     ruff = read_json(Path(args.ruff))
     symbol_index, module_index = build_symbol_index(repo_root, args.root_pkg)
 
-    rows: List[Dict[str, str]] = []
+    rows: list[dict[str, str]] = []
     edits = 0
 
     for e in ruff:
@@ -301,7 +299,7 @@ def main():
 
         suggs = candidates_for_symbol(sym, symbol_index, module_index, file, repo_root, args.root_pkg)
         if not suggs:
-            # no idea—skip
+            # no idea-skip
             rows.append({
                 "file": str(file),
                 "line": str(e["location"]["row"]),
@@ -328,12 +326,11 @@ def main():
         if args.apply:
             if args.apply_limit and edits >= args.apply_limit:
                 continue
-            if not file_has_import(file, import_line):
-                if insert_import(file, import_line):
-                    edits += 1
+            if not file_has_import(file, import_line) and insert_import(file, import_line):
+                edits += 1
 
     # CSV
-    outp = Path(args.out); outp.parent.mkdir(parents=True, exist_ok=True)
+    outp = Path(args.out); outp.parent.mkdir(parents=True, exist_ok=True)  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_suggest_imports_f821_py_L334"}
     with outp.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=["file","line","symbol","suggestion","import_line","confidence","reason"])
         w.writeheader()
@@ -348,7 +345,7 @@ def main():
         f.write(f"- Edits applied: **{edits}**\n\n")
         f.write("| File | Line | Symbol | Import | Conf | Reason |\n|---|---:|---|---|---:|---|\n")
         for r in rows[:500]:
-            imp = r["import_line"] or "—"
+            imp = r["import_line"] or "-"
             f.write(f"| `{r['file']}` | {r['line']} | `{r['symbol']}` | `{imp}` | {r['confidence']} | {r['reason']} |\n")
 
     print(f"[OK] Wrote {outp} and {mdp}. Applied edits: {edits}")

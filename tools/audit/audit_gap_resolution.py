@@ -16,10 +16,10 @@ Validates system ready for 85-90 audit score and canary rollout.
 
 import json
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 
-def validate_ci_workflows_enabled() -> Dict[str, Any]:
+def validate_ci_workflows_enabled() -> dict[str, Any]:
     """Validate CI workflows moved from disabled to active"""
     disabled_dir = Path(".github/workflows-disabled")
     active_dir = Path(".github/workflows")
@@ -48,7 +48,7 @@ def validate_ci_workflows_enabled() -> Dict[str, Any]:
         "security_operational": "security-scan.yml" in essential_active
     }
 
-def validate_system_plugins_endpoint() -> Dict[str, Any]:
+def validate_system_plugins_endpoint() -> dict[str, Any]:
     """Validate /system/plugins endpoint implementation"""
     endpoint_file = Path("lukhas/api/system_endpoints.py")
 
@@ -56,7 +56,7 @@ def validate_system_plugins_endpoint() -> Dict[str, Any]:
         return {"status": "missing", "error": "System endpoints file not found"}
 
     try:
-        with open(endpoint_file, 'r') as f:
+        with open(endpoint_file) as f:
             content = f.read()
 
         has_plugins_endpoint = "get_plugins_status" in content
@@ -76,7 +76,7 @@ def validate_system_plugins_endpoint() -> Dict[str, Any]:
     except Exception as e:
         return {"status": "error", "error": str(e)}
 
-def validate_otel_instrumentation() -> Dict[str, Any]:
+def validate_otel_instrumentation() -> dict[str, Any]:
     """Validate comprehensive OTEL instrumentation"""
     otel_file = Path("lukhas/observability/otel_instrumentation.py")
     orchestrator_file = Path("matriz/core/async_orchestrator.py")
@@ -91,7 +91,7 @@ def validate_otel_instrumentation() -> Dict[str, Any]:
 
     if otel_file.exists():
         try:
-            with open(otel_file, 'r') as f:
+            with open(otel_file) as f:
                 otel_content = f.read()
             results["prometheus_integration"] = ("prometheus_client" in otel_content or
                                                "PrometheusMetricReader" in otel_content)
@@ -100,7 +100,7 @@ def validate_otel_instrumentation() -> Dict[str, Any]:
 
     if orchestrator_file.exists():
         try:
-            with open(orchestrator_file, 'r') as f:
+            with open(orchestrator_file) as f:
                 orch_content = f.read()
             results["orchestrator_instrumented"] = "otel_instrumentation" in orch_content
             results["stage_decorators"] = "@instrument_matriz_stage" in orch_content
@@ -128,7 +128,7 @@ def validate_otel_instrumentation() -> Dict[str, Any]:
         "comprehensive": comprehensive
     }
 
-def validate_promql_grafana_assets() -> Dict[str, Any]:
+def validate_promql_grafana_assets() -> dict[str, Any]:
     """Validate PromQL alerts and Grafana dashboards committed"""
     prometheus_alerts = Path("ops/prometheus/slo_alerts.yml")
     grafana_dashboard = Path("ops/grafana/lukhas_system_dashboard.json")
@@ -138,7 +138,7 @@ def validate_promql_grafana_assets() -> Dict[str, Any]:
 
     if prometheus_alerts.exists():
         try:
-            with open(prometheus_alerts, 'r') as f:
+            with open(prometheus_alerts) as f:
                 alerts_content = f.read()
             alerts_valid = ("lukhas:" in alerts_content and
                           "recording_rules" in alerts_content and
@@ -148,7 +148,7 @@ def validate_promql_grafana_assets() -> Dict[str, Any]:
 
     if grafana_dashboard.exists():
         try:
-            with open(grafana_dashboard, 'r') as f:
+            with open(grafana_dashboard) as f:
                 dashboard_data = json.load(f)
             dashboard_valid = ("dashboard" in dashboard_data and
                              "panels" in dashboard_data.get("dashboard", {}))
@@ -168,7 +168,7 @@ def validate_promql_grafana_assets() -> Dict[str, Any]:
         "comprehensive": alerts_valid and dashboard_valid
     }
 
-def validate_memory_benchmarks() -> Dict[str, Any]:
+def validate_memory_benchmarks() -> dict[str, Any]:
     """Validate memory performance benchmarks"""
     memory_bench_files = [
         Path("benchmarks/memory_performance.py"),
@@ -184,7 +184,7 @@ def validate_memory_benchmarks() -> Dict[str, Any]:
     for bench_file in memory_bench_files:
         if bench_file.exists():
             try:
-                with open(bench_file, 'r') as f:
+                with open(bench_file) as f:
                     content = f.read()
                 if "100ms" in content or "p95" in content:
                     slo_validation = True
@@ -205,7 +205,7 @@ def validate_memory_benchmarks() -> Dict[str, Any]:
                             cascade_prevention, stress_testing])
     }
 
-def validate_dual_approval_enforcement() -> Dict[str, Any]:
+def validate_dual_approval_enforcement() -> dict[str, Any]:
     """Validate dual-approval CI enforcement"""
     critical_path_workflow = Path(".github/workflows/critical-path-approval.yml")
     flag_snapshot = Path("guardian/flag_snapshot.sh")
@@ -215,7 +215,7 @@ def validate_dual_approval_enforcement() -> Dict[str, Any]:
 
     if critical_path_workflow.exists():
         try:
-            with open(critical_path_workflow, 'r') as f:
+            with open(critical_path_workflow) as f:
                 content = f.read()
             dual_approval_workflow = ("approval-check" in content and
                                     "CRITICAL_PATHS" in content and
@@ -225,7 +225,7 @@ def validate_dual_approval_enforcement() -> Dict[str, Any]:
 
     if flag_snapshot.exists():
         try:
-            with open(flag_snapshot, 'r') as f:
+            with open(flag_snapshot) as f:
                 content = f.read()
             governance_snapshot = ("dual_approval" in content and
                                  "governance" in content)
@@ -245,7 +245,7 @@ def validate_dual_approval_enforcement() -> Dict[str, Any]:
         "comprehensive": dual_approval_workflow and governance_snapshot
     }
 
-def validate_constraints_enforcement() -> Dict[str, Any]:
+def validate_constraints_enforcement() -> dict[str, Any]:
     """Validate constraints.txt enforcement in CI"""
     ci_file = Path(".github/workflows/ci.yml")
     constraints_file = Path("constraints.txt")
@@ -255,7 +255,7 @@ def validate_constraints_enforcement() -> Dict[str, Any]:
 
     if ci_file.exists():
         try:
-            with open(ci_file, 'r') as f:
+            with open(ci_file) as f:
                 content = f.read()
             ci_enforces_constraints = ("constraints.txt" in content and
                                      "pip install" in content)
@@ -269,7 +269,7 @@ def validate_constraints_enforcement() -> Dict[str, Any]:
         "comprehensive": constraints_exist and ci_enforces_constraints
     }
 
-def calculate_audit_score_improvement() -> Dict[str, Any]:
+def calculate_audit_score_improvement() -> dict[str, Any]:
     """Calculate estimated audit score based on implemented improvements"""
 
     components = {

@@ -199,7 +199,7 @@ class ImportAnalyzer:
                 elif imported in rec_stack:
                     # Found circular import
                     cycle_start = path.index(imported)
-                    self.circular_imports.append(path[cycle_start:] + [imported])
+                    self.circular_imports.append([*path[cycle_start:], imported])
 
             path.pop()
             rec_stack.remove(module)

@@ -48,7 +48,7 @@ Licensed under the LUKHAS Core License - see LICENSE.md for details.
 #    passive dream logs into actionable, narratable insights - forming the
 #    bridge between stored memory and expressive voice output.
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 DREAM_LOG = Path("core/logs/dream_log.jsonl")
@@ -69,7 +69,7 @@ def filter_narratable_dreams(dreams):
 def save_to_queue(filtered):
     with open(QUEUE_FILE, "a") as f:
         for entry in filtered:
-            entry["queued_at"] = datetime.utcnow().isoformat()
+            entry["queued_at"] = datetime.now(timezone.utc).isoformat()
             f.write(json.dumps(entry) + "\n")
 
 

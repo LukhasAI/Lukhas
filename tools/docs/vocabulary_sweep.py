@@ -20,8 +20,6 @@ import re
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
-
 
 @dataclass
 class TerminologyRule:
@@ -254,7 +252,7 @@ class VocabularySweeper:
             return True
 
         file_suffix = file_path.suffix.lower()
-        file_name = file_path.name.lower()
+        file_path.name.lower()
 
         for context in rule.contexts:
             if context.startswith('.') and file_suffix == context:
@@ -468,7 +466,7 @@ def main():
 
         # Generate report
         output_file = args.output or Path("vocabulary_sweep_report.json")
-        report = sweeper.generate_report(output_file)
+        sweeper.generate_report(output_file)
 
         if issues:
             print("\n💡 Run with --fix to apply corrections")

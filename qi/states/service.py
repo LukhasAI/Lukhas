@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-import logging
-from datetime import timezone
-
-from consciousness.qi import qi
-
-logger = logging.getLogger(__name__)
 
 """
 
@@ -40,17 +34,24 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
+import logging
+import math
+import os
+import random
+import sys
+from datetime import datetime, timezone
+from typing import Any, Optional
+
+from consciousness.qi import qi
+
+logger = logging.getLogger(__name__)
+
+
 __module_name__ = "Quantum Service"
 __version__ = "2.0.0"
 __tier__ = 2
 
 
-import math
-import os
-import random
-import sys
-from datetime import datetime
-from typing import Any, Optional
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 

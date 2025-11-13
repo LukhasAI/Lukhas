@@ -118,6 +118,6 @@ def log_compliance_event(event_data):
 # - Data is encrypted, minimal, exportable, and user-owned.
 # - All collapse hashes and logs are retrievable by rightful ID.
 # ===============================================================
-# 🏷️ LUCΛS ΛGI — Identity, Memory & Trust Infrastructure
+# 🏷️ LUCΛS ΛGI - Identity, Memory & Trust Infrastructure
 # 🛡️ LUCΛSiD is a secure subsystem of LUKHAS SYSTEMS Ltd (UK)
 # ===============================================================

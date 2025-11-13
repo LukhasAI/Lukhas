@@ -257,7 +257,7 @@ Response must be valid JSON only."""
             return False
 
         # Test the fix
-        success, failed = self.test_imports([package])
+        success, _failed = self.test_imports([package])
 
         if success:
             self.fixes_applied.append(

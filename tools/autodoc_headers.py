@@ -46,9 +46,8 @@ class DocHeaderGenerator:
             tree = ast.parse(content)
 
             # Module docstring is the first statement if it's a string
-            if tree.body and isinstance(tree.body[0], ast.Expr):
-                if isinstance(tree.body[0].value, (ast.Str, ast.Constant)):
-                    return True
+            if (tree.body and isinstance(tree.body[0], ast.Expr)) and isinstance(tree.body[0].value, (ast.Str, ast.Constant)):
+                return True
 
             # Also check for triple quotes at the beginning
             if content.lstrip().startswith('"""') or content.lstrip().startswith("'''"):

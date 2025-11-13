@@ -39,8 +39,6 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from pydantic import Field
-
 # Import global framework
 from identity.backend.app.institution_manager import (
     DataCategory,
@@ -50,8 +48,9 @@ from identity.backend.app.institution_manager import (
     LegalBasis,
     global_timestamp,
 )
+from pydantic import Field
 
-# ——— Canadian-Specific Regulatory Framework ——————————————————————— #
+# --- Canadian-Specific Regulatory Framework ----------------------- #
 
 
 class PIPEDALegalBasis(Enum):
@@ -254,7 +253,7 @@ def canadian_audit_log(
     )
 
 
-# ——— Canadian Institutional Awareness Modules ——————————————————————— #
+# --- Canadian Institutional Awareness Modules ----------------------- #
 
 
 class CanadianPrivacyModule:
@@ -562,7 +561,7 @@ class CanadianAIGovernanceModule:
         return min(score, 100.0)
 
 
-# ——— Main Canadian Awareness Engine ——————————————————————————————— #
+# --- Main Canadian Awareness Engine ------------------------------- #
 
 
 class CanadianAwarenessEngine:
@@ -650,7 +649,7 @@ class CanadianAwarenessEngine:
             raise
 
 
-# ——— Compliance Certification ——————————————————————————————————— #
+# --- Compliance Certification ----------------------------------- #
 
 
 def certify_canadian_compliance() -> dict[str, Any]:

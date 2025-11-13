@@ -318,7 +318,7 @@ class HardcodedSecretsFixer:
             report.append("")
 
         if len(self.issues_found) > 20:
-            report.append(f"... and {len(self.issues_found)} - 20} more issues")
+            report.append(f"... and {len(self.issues_found) - 20} more issues")
 
         report.append("## 🛡️ Remediation Steps")
         report.append("1. **Immediate:** Set up environment variables for all API keys")

@@ -3,6 +3,8 @@ Tool Executor for OpenAI Function Calls
 ========================================
 Safe handlers for executing OpenAI tool calls with LUKHAS governance.
 """
+from __future__ import annotations
+
 import asyncio
 import contextlib
 import hashlib
@@ -19,10 +21,9 @@ from typing import Any, Optional
 from urllib.parse import urlparse
 
 import aiohttp
+import docker
 import httpx
 from bs4 import BeautifulSoup
-
-import docker
 
 logger = logging.getLogger("ΛTRACE.tools.executor")
 

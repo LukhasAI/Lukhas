@@ -19,11 +19,11 @@ from collections import defaultdict
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 from uuid import uuid4
 
 try:
-    import pandas as pd  # noqa: F401  # TODO: pandas; consider using importl...
+    import pandas as pd  # TODO: pandas; consider using importl...
     PANDAS_AVAILABLE = True
 except ImportError:
     PANDAS_AVAILABLE = False
@@ -32,7 +32,7 @@ try:
     import matplotlib
     matplotlib.use('Agg')  # Use non-GUI backend
     import matplotlib.pyplot as plt
-    import seaborn as sns  # noqa: F401  # TODO: seaborn; consider using import...
+    import seaborn as sns  # TODO: seaborn; consider using import...
     PLOTTING_AVAILABLE = True
 except ImportError:
     PLOTTING_AVAILABLE = False
@@ -55,8 +55,8 @@ class ComplianceStatus:
     retention_compliance: bool
     data_integrity_score: float
     last_assessment: datetime
-    critical_findings: List[str] = field(default_factory=list)
-    remediation_actions: List[str] = field(default_factory=list)
+    critical_findings: list[str] = field(default_factory=list)
+    remediation_actions: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -69,7 +69,7 @@ class ComplianceMetric:
     tolerance: float
     last_updated: datetime
     trend_direction: str  # "improving", "degrading", "stable"
-    historical_values: List[Tuple[datetime, float]] = field(default_factory=list)
+    historical_values: list[tuple[datetime, float]] = field(default_factory=list)
 
 
 @dataclass
@@ -84,9 +84,9 @@ class AuditReport:
     compliance_score: float
     total_evidence_examined: int
     violations_found: int
-    critical_issues: List[str]
-    recommendations: List[str]
-    report_data: Dict[str, Any]
+    critical_issues: list[str]
+    recommendations: list[str]
+    report_data: dict[str, Any]
     report_file_path: Optional[str] = None
 
 
@@ -124,9 +124,9 @@ class ComplianceDashboard:
         self.alerting_system = get_alerting_system()
 
         # Compliance state
-        self.compliance_statuses: Dict[ComplianceRegime, ComplianceStatus] = {}
-        self.compliance_metrics: Dict[str, ComplianceMetric] = {}
-        self.audit_reports: List[AuditReport] = []
+        self.compliance_statuses: dict[ComplianceRegime, ComplianceStatus] = {}
+        self.compliance_metrics: dict[str, ComplianceMetric] = {}
+        self.audit_reports: list[AuditReport] = []
 
         # Dashboard configuration
         self.dashboard_config = self._load_dashboard_config()
@@ -139,7 +139,7 @@ class ComplianceDashboard:
         self._initialize_compliance_tracking()
         self._start_background_tasks()
 
-    def _load_dashboard_config(self) -> Dict[str, Any]:
+    def _load_dashboard_config(self) -> dict[str, Any]:
         """Load dashboard configuration"""
         default_config = {
             "regulations": ["GDPR", "CCPA", "SOX", "INTERNAL"],
@@ -167,7 +167,7 @@ class ComplianceDashboard:
 
         if self.config_path.exists():
             try:
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path) as f:
                     config = json.load(f)
                     # Merge with defaults
                     for key, value in default_config.items():
@@ -297,7 +297,7 @@ class ComplianceDashboard:
         self.compliance_statuses[regulation] = status
         return status
 
-    async def _assess_evidence_integrity(self, regulation: ComplianceRegime) -> Dict[str, Any]:
+    async def _assess_evidence_integrity(self, regulation: ComplianceRegime) -> dict[str, Any]:
         """Assess evidence integrity for a specific regulation"""
         total_records = 0
         verified_records = 0
@@ -461,7 +461,7 @@ class ComplianceDashboard:
         self,
         regulation: ComplianceRegime,
         report_type: str = "monthly",
-        custom_period: Optional[Tuple[datetime, datetime]] = None,
+        custom_period: Optional[tuple[datetime, datetime]] = None,
     ) -> AuditReport:
         """
         Generate comprehensive compliance audit report.
@@ -541,7 +541,7 @@ class ComplianceDashboard:
         regulation: ComplianceRegime,
         start_time: datetime,
         end_time: datetime,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Collect evidence statistics for reporting period"""
         stats = {
             "total_evidence": 0,
@@ -588,7 +588,7 @@ class ComplianceDashboard:
         regulation: ComplianceRegime,
         start_time: datetime,
         end_time: datetime,
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Get key compliance metrics for the reporting period"""
         metrics = {}
 
@@ -609,7 +609,7 @@ class ComplianceDashboard:
         regulation: ComplianceRegime,
         start_time: datetime,
         end_time: datetime,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate trend analysis for compliance metrics"""
         # This is a simplified trend analysis
         # In practice, would analyze historical compliance data
@@ -629,7 +629,7 @@ class ComplianceDashboard:
             ],
         }
 
-    def _assess_compliance_risks(self, status: ComplianceStatus) -> Dict[str, Any]:
+    def _assess_compliance_risks(self, status: ComplianceStatus) -> dict[str, Any]:
         """Assess compliance risks and provide risk ratings"""
         risks = {
             "overall_risk": "low",
@@ -701,7 +701,7 @@ class ComplianceDashboard:
             score = report.compliance_score
             colors = ['red' if score < 90 else 'orange' if score < 95 else 'green']
 
-            ax.pie([score, 100-score], startangle=90, colors=colors + ['lightgray'],
+            ax.pie([score, 100-score], startangle=90, colors=[*colors, 'lightgray'],
                   labels=[f'Compliant\n{score:.1f}%', f'Non-compliant\n{100-score:.1f}%'])
             ax.set_title(f'{report.regulation.value} Compliance Score')
             plt.savefig(chart_dir / 'compliance_score.png', dpi=150, bbox_inches='tight')
@@ -711,8 +711,8 @@ class ComplianceDashboard:
             if 'evidence_statistics' in report.report_data:
                 stats = report.report_data['evidence_statistics']
 
-                if 'by_type' in stats and stats['by_type']:
-                    fig, ax = plt.subplots(figsize=(10, 6))
+                if stats.get('by_type'):
+                    _fig, ax = plt.subplots(figsize=(10, 6))
                     types = list(stats['by_type'].keys())
                     counts = list(stats['by_type'].values())
 
@@ -726,7 +726,7 @@ class ComplianceDashboard:
         except Exception as e:
             print(f"Error generating charts: {e}")
 
-    def get_compliance_dashboard_data(self) -> Dict[str, Any]:
+    def get_compliance_dashboard_data(self) -> dict[str, Any]:
         """Get current compliance dashboard data"""
         dashboard_data = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -776,7 +776,7 @@ class ComplianceDashboard:
             while True:
                 try:
                     # Assess compliance for all regulations
-                    for regulation in self.compliance_statuses.keys():
+                    for regulation in self.compliance_statuses:
                         await self.assess_compliance_status(regulation)
 
                     await asyncio.sleep(300)  # Every 5 minutes
@@ -811,19 +811,19 @@ class ComplianceDashboard:
 
         # Generate daily reports at midnight
         if now.hour == 0 and now.minute < 10:
-            for regulation in self.compliance_statuses.keys():
+            for regulation in self.compliance_statuses:
                 if self.dashboard_config["reporting"]["daily_reports"]:
                     await self.generate_compliance_report(regulation, "daily")
 
         # Generate weekly reports on Sundays
         if now.weekday() == 6 and now.hour == 1 and now.minute < 10:
-            for regulation in self.compliance_statuses.keys():
+            for regulation in self.compliance_statuses:
                 if self.dashboard_config["reporting"]["weekly_reports"]:
                     await self.generate_compliance_report(regulation, "weekly")
 
         # Generate monthly reports on the 1st of each month
         if now.day == 1 and now.hour == 2 and now.minute < 10:
-            for regulation in self.compliance_statuses.keys():
+            for regulation in self.compliance_statuses:
                 if self.dashboard_config["reporting"]["monthly_reports"]:
                     await self.generate_compliance_report(regulation, "monthly")
 

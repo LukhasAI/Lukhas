@@ -10,12 +10,12 @@ try:
 except Exception:  # pragma: no cover - fallback
     from google_auth_oauthlib import flow as _flow  # type: ignore
 
-    InstalledAppFlow = getattr(_flow, "InstalledAppFlow")
+    InstalledAppFlow = _flow.InstalledAppFlow
 
     class Flow:  # type: ignore
         InstalledAppFlow = InstalledAppFlow
 
-    __all__ = ["InstalledAppFlow", "Flow"]
+    __all__ = ["Flow", "InstalledAppFlow"]
 else:
     __all__ = [name for name in globals() if not name.startswith("_")]
 

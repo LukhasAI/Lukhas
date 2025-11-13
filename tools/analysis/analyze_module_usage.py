@@ -4,6 +4,7 @@ Module Usage Analyzer for LUKHAS AI
 Detects unused modules, orphaned files, and import paths
 Constellation Framework: ⚛️🧠🛡️
 """
+from __future__ import annotations
 
 import ast
 import json

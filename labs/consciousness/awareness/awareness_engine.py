@@ -35,6 +35,8 @@
 ║ • Predictive Processing Framework (Clark, 2013)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import asyncio
 import logging
 from datetime import datetime, timezone
@@ -102,7 +104,7 @@ class AwarenessEngine:
         """
         Initializes the AwarenessEngine.
         Args:
-            config (Optional[Dict[str, Any]]): Configuration dictionary.
+            config (Optional[dict[str, Any]]): Configuration dictionary.
             user_id_context (Optional[str]): User ID for contextual logging.
         """
         self.user_id_context = user_id_context
@@ -248,8 +250,11 @@ class AwarenessEngine:
     def _validate_consciousness_coherence(self, state: dict) -> bool:
         """Validate consciousness state coherence."""
         try:
-            awareness = state.get("awareness_level", 0.0)
-            temporal = state.get("temporal_coherence", 0.0)
+            awareness = state.get("awareness_level")
+            temporal = state.get("temporal_coherence")
+
+            if awareness is None or temporal is None:
+                return False
 
             # Check coherence thresholds
             coherence_valid = abs(awareness - temporal) < 0.3
@@ -263,6 +268,8 @@ class AwarenessEngine:
     def _validate_symbolic_integration(self, patterns: set) -> bool:
         """Validate symbolic pattern integration."""
         try:
+            if not isinstance(patterns, set):
+                return False
             # Check pattern coherence and size limits
             return len(patterns) <= 100  # Prevent pattern overflow
 
@@ -294,7 +301,7 @@ class AwarenessEngine:
             data (Any): The input data to process. Expected to be a dict with 'category'.
             user_id (Optional[str]): User ID for tier checking and contextual processing.
         Returns:
-            Dict[str, Any]: A dictionary containing the processing result or an error.
+            dict[str, Any]: A dictionary containing the processing result or an error.
         """
         log_user_id = user_id or self.user_id_context  # Prioritize passed user_id
         self.instance_logger.info(
@@ -438,7 +445,7 @@ class AwarenessEngine:
         Args:
             user_id (Optional[str]): User ID for tier checking.
         Returns:
-            Dict[str, Any]: Dictionary containing component status.
+            dict[str, Any]: Dictionary containing component status.
         """
         log_user_id = user_id or self.user_id_context
         self.instance_logger.debug(f"ΛTRACE: Getting status for AwarenessEngine (user context '{log_user_id}').")
@@ -476,7 +483,7 @@ def create_awareness_component(
     """
     Factory function to create an AwarenessEngine instance.
     Args:
-        config (Optional[Dict[str, Any]]): Configuration for the engine.
+        config (Optional[dict[str, Any]]): Configuration for the engine.
         user_id (Optional[str]): User ID for tier checking and context.
     Returns:
         AwarenessEngine: A new instance of the AwarenessEngine.
@@ -494,7 +501,7 @@ async def create_and_initialize_awareness_component(
     """
     Async factory function to create and initialize an AwarenessEngine instance.
     Args:
-        config (Optional[Dict[str, Any]]): Configuration for the engine.
+        config (Optional[dict[str, Any]]): Configuration for the engine.
         user_id (Optional[str]): User ID for tier checking and context.
     Returns:
         AwarenessEngine: A new, initialized instance of the AwarenessEngine.
@@ -506,6 +513,41 @@ async def create_and_initialize_awareness_component(
 
 
 # Human-readable comment: Example usage block for demonstration and testing.
+async def demo_main():  # Renamed from main
+    logger.info("ΛTRACE: --- AwarenessEngine Demo Starting ---")
+    # Use the factory function, passing a user_id for context
+    test_user = "demo_user_awareness"
+    awareness_component = await create_and_initialize_awareness_component(user_id=test_user)
+
+    print(f"ΛTRACE Demo - Initialization: {'success' if awareness_component.is_initialized else 'failed'}")
+
+    if awareness_component.is_initialized:
+        # Process some data
+        test_data = {
+            "category": "consciousness_stream",
+            "payload": "example sensory data",
+        }
+        logger.info(f"ΛTRACE: Demo: Processing test data: {test_data}")
+        processing_result = await awareness_component.process(test_data, user_id=test_user)
+        print(f"ΛTRACE Demo - Processing result: {processing_result}")
+
+        # Validate
+        logger.info("ΛTRACE: Demo: Validating component.")
+        is_valid = await awareness_component.validate(user_id=test_user)
+        print(f"ΛTRACE Demo - Validation: {'passed' if is_valid else 'failed'}")
+
+        # Get status
+        logger.info("ΛTRACE: Demo: Getting component status.")
+        component_status = awareness_component.get_status(user_id=test_user)
+        print(f"ΛTRACE Demo - Status: {component_status}")
+
+        # Shutdown
+        logger.info("ΛTRACE: Demo: Shutting down component.")
+        await awareness_component.shutdown(user_id=test_user)
+        print(f"ΛTRACE Demo - Shutdown complete. Final status: {awareness_component.get_status(user_id=test_user)}")
+    logger.info("ΛTRACE: --- AwarenessEngine Demo Finished ---")
+
+
 if __name__ == "__main__":
     # Basic logging setup for standalone execution
     if not logging.getLogger("ΛTRACE").handlers:
@@ -515,40 +557,6 @@ if __name__ == "__main__":
         )
 
     logger.info("ΛTRACE: awareness_engine.py executed as __main__ for demonstration.")
-
-    async def demo_main():  # Renamed from main
-        logger.info("ΛTRACE: --- AwarenessEngine Demo Starting ---")
-        # Use the factory function, passing a user_id for context
-        test_user = "demo_user_awareness"
-        awareness_component = await create_and_initialize_awareness_component(user_id=test_user)
-
-        print(f"ΛTRACE Demo - Initialization: {'success' if awareness_component.is_initialized else 'failed'}")
-
-        if awareness_component.is_initialized:
-            # Process some data
-            test_data = {
-                "category": "consciousness_stream",
-                "payload": "example sensory data",
-            }
-            logger.info(f"ΛTRACE: Demo: Processing test data: {test_data}")
-            processing_result = await awareness_component.process(test_data, user_id=test_user)
-            print(f"ΛTRACE Demo - Processing result: {processing_result}")
-
-            # Validate
-            logger.info("ΛTRACE: Demo: Validating component.")
-            is_valid = await awareness_component.validate(user_id=test_user)
-            print(f"ΛTRACE Demo - Validation: {'passed' if is_valid else 'failed'}")
-
-            # Get status
-            logger.info("ΛTRACE: Demo: Getting component status.")
-            component_status = awareness_component.get_status(user_id=test_user)
-            print(f"ΛTRACE Demo - Status: {component_status}")
-
-            # Shutdown
-            logger.info("ΛTRACE: Demo: Shutting down component.")
-            await awareness_component.shutdown(user_id=test_user)
-            print(f"ΛTRACE Demo - Shutdown complete. Final status: {awareness_component.get_status(user_id=test_user)}")
-        logger.info("ΛTRACE: --- AwarenessEngine Demo Finished ---")
 
     asyncio.run(demo_main())
 

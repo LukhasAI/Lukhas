@@ -2,10 +2,9 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 from asgi_lifespan import LifespanManager
+from bridge.llm_wrappers.base import LLMProvider
 from enterprise.api.main import app
 from httpx import AsyncClient
-
-from bridge.llm_wrappers.base import LLMProvider
 
 
 @pytest.fixture

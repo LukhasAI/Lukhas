@@ -14,15 +14,9 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import (
     Any,
-    List,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
     Optional,
 )
 
-import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-
-from consciousness.qi import (
-    qi,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
-)
 from core.container.service_container import ServiceContainer
 from core.interfaces import CoreInterface
 from core.symbolic_engine import SymbolicEffect, SymbolicEvent
@@ -91,14 +85,16 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         # Initialize LUKHAS integration
         try:
             self.kernel_bus = container.get_service("symbolic_kernel_bus")
-        except:
+        except Exception as e:
+            logger.debug(f"Service container lookup failed for symbolic_kernel_bus: {e}")
             from orchestration.symbolic_kernel_bus import SymbolicKernelBus
 
             self.kernel_bus = SymbolicKernelBus()
 
         try:
             self.guardian = container.get_service("guardian_system")
-        except:
+        except Exception as e:
+            logger.debug(f"Service container lookup failed for guardian_system: {e}")
             from governance.guardian_system import GuardianSystem
 
             self.guardian = GuardianSystem()
@@ -582,7 +578,8 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         try:
             container = ServiceContainer.get_instance()
             return container.get_service("parallel_reality_simulator")
-        except:
+        except Exception as e:
+            logger.debug(f"Parallel reality simulator not available: {e}")
             return None
 
     def _get_quantum_consciousness_engine(self) -> Optional[Any]:
@@ -593,7 +590,8 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             )
 
             return QIConsciousnessIntegration()
-        except:
+        except (ImportError, ModuleNotFoundError) as e:
+            logger.debug(f"Quantum consciousness engine not available: {e}")
             return None
 
     def _get_temporal_intelligence_engine(self) -> Optional[Any]:
@@ -601,7 +599,8 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         try:
             container = ServiceContainer.get_instance()
             return container.get_service("temporal_intelligence_engine")
-        except:
+        except Exception as e:
+            logger.debug(f"Temporal intelligence engine not available: {e}")
             return None
 
     def _get_consciousness_expansion_engine(self) -> Optional[Any]:
@@ -612,7 +611,8 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             )
 
             return ConsciousnessExpansionEngine()
-        except:
+        except (ImportError, ModuleNotFoundError) as e:
+            logger.debug(f"Consciousness expansion engine not available: {e}")
             return None
 
     def _get_economic_reality_manipulator(self) -> Optional[Any]:
@@ -623,7 +623,8 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             )
 
             return EconomicRealityManipulator()
-        except:
+        except (ImportError, ModuleNotFoundError) as e:
+            logger.debug(f"Economic reality manipulator not available: {e}")
             return None
 
     def _get_breakthrough_detector_v2(self) -> Optional[Any]:
@@ -634,7 +635,8 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             )
 
             return BreakthroughDetectorV2()
-        except:
+        except (ImportError, ModuleNotFoundError) as e:
+            logger.debug(f"Breakthrough detector v2 not available: {e}")
             return None
 
     async def get_innovation_metrics(self) -> dict[str, Any]:

@@ -33,14 +33,14 @@ import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from uuid import uuid4
 
 import numpy as np
 
 try:
     import boto3
-    from botocore.exceptions import (  # noqa: F401  # TODO: botocore.exceptions.NoCredenti...
+    from botocore.exceptions import (  # TODO: botocore.exceptions.NoCredenti...
         ClientError,
         NoCredentialsError,
     )
@@ -69,7 +69,7 @@ class ArchivalManifestEntry:
     archived_at: datetime
     expires_at: Optional[datetime]
     checksum_sha256: str
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -81,7 +81,7 @@ class ArchivalManifest:
     total_documents: int = 0
     total_size_bytes: int = 0
     total_compressed_bytes: int = 0
-    entries: Dict[str, ArchivalManifestEntry] = field(default_factory=dict)
+    entries: dict[str, ArchivalManifestEntry] = field(default_factory=dict)
 
     def add_entry(self, entry: ArchivalManifestEntry):
         """Add entry to manifest with statistics update"""
@@ -139,7 +139,7 @@ class LocalFileSystemArchivalBackend(AbstractArchivalBackend):
         """Load manifest from disk"""
         if self.manifest_path.exists():
             try:
-                with open(self.manifest_path, 'r') as f:
+                with open(self.manifest_path) as f:
                     data = json.load(f)
 
                 # Convert string dates back to datetime objects

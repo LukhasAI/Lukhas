@@ -62,7 +62,7 @@ def main():
         by_top[top].append((key, str(m)))
 
     total = sum(len(v) for v in by_top.values())
-    target_total = max(1, int(round(total * args.size)))
+    target_total = max(1, round(total * args.size))
 
     # proportional per top-level, deterministic by hash
     picks = []
@@ -70,7 +70,7 @@ def main():
     for top, items in by_top.items():
         if top not in TOPS:
             continue
-        need = int(round(len(items) / total * target_total))
+        need = round(len(items) / total * target_total)
         items_sorted = sorted(items, key=lambda kv: sha_bucket(kv[0]))
         picks.extend(items_sorted[:need])
         allocated += need

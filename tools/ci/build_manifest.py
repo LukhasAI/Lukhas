@@ -8,6 +8,7 @@ Implements ground truth enumeration per PLANNING_TODO.md:
 - Verify claimed completions against actual code
 - Generate canonical manifest with evidence
 """
+from __future__ import annotations
 
 import argparse
 import hashlib
@@ -16,7 +17,7 @@ import re
 import subprocess
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class TodoManifestBuilder:
@@ -24,7 +25,7 @@ class TodoManifestBuilder:
         self.todos = []
         self.evidence_cache = {}
 
-    def parse_markdown_todos(self, todo_files: List[str]) -> List[Dict[str, Any]]:
+    def parse_markdown_todos(self, todo_files: list[str]) -> list[dict[str, Any]]:
         """Parse structured TODOs from markdown files"""
         todos = []
 
@@ -51,7 +52,7 @@ class TodoManifestBuilder:
             return "low"
         return "unknown"
 
-    def _parse_markdown_entries(self, content: str, source_file: str, priority: str) -> List[Dict[str, Any]]:
+    def _parse_markdown_entries(self, content: str, source_file: str, priority: str) -> list[dict[str, Any]]:
         """Parse individual TODO entries from markdown content"""
         entries = []
 
@@ -68,7 +69,7 @@ class TodoManifestBuilder:
 
         return entries
 
-    def _parse_single_entry(self, section: str, source_file: str, priority: str) -> Optional[Dict[str, Any]]:
+    def _parse_single_entry(self, section: str, source_file: str, priority: str) -> dict[str, Any] | None:
         """Parse a single TODO entry from markdown section"""
         # Extract file path
         file_match = re.search(r"\*\*File\*\*:\s*`([^`]+)`", section)
@@ -197,12 +198,12 @@ class TodoManifestBuilder:
             return "L"
         return "S"
 
-    def cross_check_codebase(self, grep_file: str, todos: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def cross_check_codebase(self, grep_file: str, todos: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Cross-check TODOs against live codebase"""
         # Read grep results
         grep_todos = []
         if Path(grep_file).exists():
-            with open(grep_file, "r") as f:
+            with open(grep_file) as f:
                 for line in f:
                     line = line.strip()
                     if ":" in line and ("TODO" in line or "FIXME" in line or "HACK" in line):
@@ -236,7 +237,7 @@ class TodoManifestBuilder:
         inline_match = re.search(r"\*\*TODO Text:\*\*\s*(.+)", section)
         return inline_match.group(1).strip() if inline_match else "No description"
 
-    def _find_evidence(self, todo: Dict[str, Any], grep_todos: List[str]) -> Dict[str, Any]:
+    def _find_evidence(self, todo: dict[str, Any], grep_todos: list[str]) -> dict[str, Any]:
         """Find evidence for TODO in grep results and git history"""
         evidence = {"grep": None, "last_commit": None}
 
@@ -260,7 +261,7 @@ class TodoManifestBuilder:
 
         return evidence
 
-    def _create_todo_from_grep(self, grep_line: str) -> Optional[Dict[str, Any]]:
+    def _create_todo_from_grep(self, grep_line: str) -> dict[str, Any] | None:
         """Create TODO entry from grep result"""
         parts = grep_line.split(":", 2)
         if len(parts) < 3:
@@ -292,7 +293,7 @@ class TodoManifestBuilder:
             "est": {"type": self._classify_type(title), "size": self._estimate_size(title)},
         }
 
-    def generate_manifest(self, todos: List[Dict[str, Any]], run_id: str) -> Dict[str, Any]:
+    def generate_manifest(self, todos: list[dict[str, Any]], run_id: str) -> dict[str, Any]:
         """Generate final manifest"""
         # Get git HEAD SHA
         try:

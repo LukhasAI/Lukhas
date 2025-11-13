@@ -20,6 +20,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from observability.matriz_decorators import instrument
 from rl.engine.policy_networks import ConsciousnessActorCritic
 from rl.environments.consciousness_environment import ConsciousnessEnvironment
 from rl.experience.consciousness_buffer import (
@@ -29,7 +30,6 @@ from rl.experience.consciousness_buffer import (
 
 from consciousness import ConsciousnessModule
 from governance import GuardianSystem
-from observability.matriz_decorators import instrument
 
 logger = logging.getLogger(__name__)
 
@@ -300,7 +300,7 @@ class MultiAgentConsciousnessTrainer:
         """Run single consciousness episode with multi-agent coordination"""
 
         # Reset environment
-        observation, info = self.environment.reset()
+        observation, _info = self.environment.reset()
         observation_tensor = torch.from_numpy(observation).float().to(self.device)
 
         episode_experiences = []
@@ -484,7 +484,7 @@ class MultiAgentConsciousnessTrainer:
         """Train individual consciousness module agent"""
 
         # Sample experiences from module's replay buffer
-        experiences, importance_weights, indices = agent.replay_buffer.sample(
+        experiences, _importance_weights, indices = agent.replay_buffer.sample(
             self.config.batch_size, consciousness_focus=None
         )
 

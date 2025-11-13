@@ -10,7 +10,7 @@ from __future__ import annotations
 import math
 import time
 from dataclasses import dataclass
-from typing import Iterable, List, Tuple
+from typing import Iterable
 
 
 @dataclass
@@ -31,11 +31,15 @@ def score(p: Proposal, now: float | None = None) -> float:
     return (0.6 * p.confidence) + (0.3 * recency) + (0.1 * p.role_weight) - (0.5 * p.ethics_risk)
 
 
-def choose(proposals: Iterable[Proposal]) -> Tuple[Proposal | None, dict]:
-    ranked: List[Tuple[Proposal, float]] = []
+def choose(proposals: Iterable[Proposal]) -> tuple[Proposal | None, dict]:
+    ranked: list[tuple[Proposal, float]] = []
     for p in proposals:
         ranked.append((p, score(p)))
     ranked.sort(key=lambda t: t[1], reverse=True)
-    winner = ranked[0][0] if ranked else None
+
+    winner = None
+    if ranked and ranked[0][1] > -math.inf:
+        winner = ranked[0][0]
+
     rationale = {"ranking": [(p.id, s) for p, s in ranked[:5]]}
     return winner, rationale

@@ -14,6 +14,7 @@ Target patterns:
 
 Surgical approach with syntax validation
 """
+from __future__ import annotations
 
 import ast
 import re
@@ -37,8 +38,8 @@ class ComprehensiveF821Eliminator:
             "random": "import random",
             "time": "import time",
             "logging": "import logging",
-            "VisualSymbol": "from core.symbolic import VisualSymbol",
-            "VoiceSymbol": "from core.symbolic import VoiceSymbol",
+            "VisualSymbol": "from lukhas.core.symbolic import VisualSymbol",
+            "VoiceSymbol": "from lukhas.core.symbolic import VoiceSymbol",
             "Dict": "from typing import Dict",
             "List": "from typing import List",
             "Optional": "from typing import Optional",
@@ -78,9 +79,8 @@ class ComprehensiveF821Eliminator:
 
         # Check for logger violations
         for logger_pattern in self.logger_patterns:
-            if re.search(rf"\b{logger_pattern}\.(info|debug|warning|error|critical)\b", content):
-                if not self.has_logger_definition(content):
-                    violations.append("log_declaration")
+            if re.search(f'\\b{logger_pattern}\\.(info|debug|warning|error|critical)\\b', content) and (not self.has_logger_definition(content)):
+                violations.append("log_declaration")
 
         return {"content": content, "violations": violations, "error": None}
 
@@ -92,8 +92,8 @@ class ComprehensiveF821Eliminator:
             "random": [r"import random"],
             "time": [r"import time"],
             "logging": [r"import logging"],
-            "VisualSymbol": [r"from.*symbolic.*import.*VisualSymbol", r"from core.symbolic import.*VisualSymbol"],
-            "VoiceSymbol": [r"from.*symbolic.*import.*VoiceSymbol", r"from core.symbolic import.*VoiceSymbol"],
+            "VisualSymbol": [r"from.*symbolic.*import.*VisualSymbol", r"from lukhas.core.symbolic import.*VisualSymbol"],
+            "VoiceSymbol": [r"from.*symbolic.*import.*VoiceSymbol", r"from lukhas.core.symbolic import.*VoiceSymbol"],
             "Dict": [r"from typing import.*Dict"],
             "List": [r"from typing import.*List"],
             "Optional": [r"from typing import.*Optional"],
@@ -271,7 +271,7 @@ class ComprehensiveF821Eliminator:
                     break
 
             print(f"📈 Baseline F821 violations: {baseline_count}")
-        except:
+        except Exception:
             baseline_count = 0
             print("⚠️ Could not get baseline count")
 
@@ -319,7 +319,7 @@ class ComprehensiveF821Eliminator:
             elif reduction >= 1000:
                 print("✅ GOOD PROGRESS! Significant reduction achieved")
 
-        except:
+        except Exception:
             print("⚠️ Could not get final count")
 
 

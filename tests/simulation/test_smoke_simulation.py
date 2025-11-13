@@ -145,10 +145,10 @@ class TestSimulationSmoke:
             import sys
 
             from consciousness.simulation import core
-            simulation_modules = [name for name in sys.modules.keys()
+            simulation_modules = [name for name in sys.modules
                                 if name.startswith('consciousness.simulation')]
 
-            adapter_imports = [name for name in sys.modules.keys()
+            adapter_imports = [name for name in sys.modules
                              if name.startswith('adapters') and
                              any(sim_mod in sys.modules.get(name, {}).get('__file__', '')
                                  for sim_mod in simulation_modules)]

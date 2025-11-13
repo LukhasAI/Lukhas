@@ -4,8 +4,17 @@ This module intentionally re-exports the canonical `lambda_id_bp` Blueprint
 so legacy imports that reference `lambd_id_routes` continue to work during
 the staged migration to the canonical module name.
 
-Do not add heavy logic here — keep this shim thin and import-only.
+Do not add heavy logic here - keep this shim thin and import-only.
 """
+
+import logging
+import random
+import time  # For request IDs
+from datetime import datetime, timezone
+
+from flask import Blueprint, jsonify, request
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 from .lambda_id_routes import lambda_id_bp
 
@@ -23,14 +32,7 @@ __all__ = ["lambd_id_bp", "lambda_id_bp"]
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import logging
-import random
-import time  # For request IDs
-from datetime import datetime, timezone
 
-from flask import Blueprint, jsonify, request
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
 
 # Initialize ΛTRACE logger for this routes module
 

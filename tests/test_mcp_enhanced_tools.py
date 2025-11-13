@@ -163,7 +163,7 @@ if __name__ == "__main__":
     test_file_full_path = f"/Users/agi_dev/LOCAL-REPOS/Lukhas/{test_file_path}"
 
     if os.path.exists(test_file_full_path):
-        with open(test_file_full_path, 'r') as f:
+        with open(test_file_full_path) as f:
             content = f.read()
 
         if "UPDATED by MCP writeFile tool" in content and "new_function" in content:

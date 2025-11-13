@@ -13,6 +13,7 @@ System-wide guardrails applied:
 ACK GUARDRAILS
 """
 
+# ruff: noqa: B008
 import asyncio
 import hashlib
 from collections import defaultdict
@@ -405,7 +406,7 @@ async def get_consolidation_service() -> CloudConsolidationService:
 @router.post("/plan", response_model=ConsolidationResponse)
 async def create_consolidation_plan(
     request: ConsolidationRequest,
-    service: CloudConsolidationService = Depends(get_consolidation_service),
+    service: CloudConsolidationService = Depends(get_consolidation_service),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_adapters_cloud_consolidation_py_L408"}
 ):
     """
     Analyze cloud storage and create consolidation plan.
@@ -449,7 +450,7 @@ async def create_consolidation_plan(
 @router.post("/execute")
 async def execute_consolidation_plan(
     request: ExecutePlanRequest,
-    service: CloudConsolidationService = Depends(get_consolidation_service),
+    service: CloudConsolidationService = Depends(get_consolidation_service),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_adapters_cloud_consolidation_py_L452"}
 ):
     """
     Execute selected consolidation actions.

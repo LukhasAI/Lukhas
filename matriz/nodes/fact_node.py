@@ -19,11 +19,7 @@ import re
 import time
 from typing import Any, Optional
 
-from matriz.core.node_interface import (
-    CognitiveNode,
-    NodeState,
-    NodeTrigger,
-)
+from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 
 
 class FactNode(CognitiveNode):
@@ -114,7 +110,9 @@ class FactNode(CognitiveNode):
         )
 
         if not question:
-            return self._create_error_response("No question provided", input_data, trace_id, start_time, [trigger])
+            return self._create_error_response(
+                "No question provided", input_data, trace_id, start_time, [trigger]
+            )
 
         # Clean and normalize the question
         normalized_question = self._normalize_question(question)
@@ -169,7 +167,9 @@ class FactNode(CognitiveNode):
                     "fact_source": match_info.get("source", "built_in_knowledge"),
                     "retrieval_method": "fuzzy_search",
                     "context": context,
-                    "deterministic_hash": self.get_deterministic_hash({"question": normalized_question}),
+                    "deterministic_hash": self.get_deterministic_hash(
+                        {"question": normalized_question}
+                    ),
                 },
             )
 
@@ -217,7 +217,9 @@ class FactNode(CognitiveNode):
                     "fact_source": "none",
                     "retrieval_method": "fuzzy_search",
                     "context": context,
-                    "deterministic_hash": self.get_deterministic_hash({"question": normalized_question}),
+                    "deterministic_hash": self.get_deterministic_hash(
+                        {"question": normalized_question}
+                    ),
                 },
             )
 
@@ -327,7 +329,8 @@ class FactNode(CognitiveNode):
             # Validate provenance
             provenance = matriz_node.get("provenance", {})
             return not (
-                "producer" not in provenance or "factual_knowledge_retrieval" not in provenance.get("capabilities", [])
+                "producer" not in provenance
+                or "factual_knowledge_retrieval" not in provenance.get("capabilities", [])
             )
 
         except Exception:
@@ -816,7 +819,9 @@ if __name__ == "__main__":
             # Check reflections
             if matriz_node["reflections"]:
                 reflection = matriz_node["reflections"][0]
-                print(f"Reflection: {reflection['reflection_type']} - {reflection['cause'][:50]}...")
+                print(
+                    f"Reflection: {reflection['reflection_type']} - {reflection['cause'][:50]}..."
+                )
 
             if is_valid and type_matches:
                 success_count += 1
@@ -828,7 +833,9 @@ if __name__ == "__main__":
             print(f"✗ EXCEPTION: {e!s}")
 
     print("\n" + "=" * 55)
-    print(f"Test Results: {success_count}/{total_tests} passed ({success_count / total_tests  * 100:.1f}%)")
+    print(
+        f"Test Results: {success_count}/{total_tests} passed ({success_count / total_tests  * 100:.1f}%)"
+    )
     print(f"Processing History: {len(fact_node.get_trace())} MATRIZ nodes created")
     print(f"Knowledge Base Size: {len(fact_node.knowledge_base)} facts")
 

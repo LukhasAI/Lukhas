@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import monitoring  # noqa: F401  # TODO: monitoring; consider using imp...
+    import monitoring  # TODO: monitoring; consider using imp...
 except ImportError:
     pytest.skip("Module monitoring not available", allow_module_level=True)
 

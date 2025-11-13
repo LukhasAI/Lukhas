@@ -14,14 +14,14 @@ Validates benchmark results against T4/0.01% performance requirements:
 import json
 import sys
 from pathlib import Path
-from typing import Dict, List
+from typing import ClassVar, Dict
 
 
 class PerformanceSLAValidator:
     """Validates performance benchmarks against T4/0.01% SLA requirements"""
 
     # T4/0.01% Excellence SLA Thresholds
-    SLA_THRESHOLDS = {
+    SLA_THRESHOLDS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_validate_performance_slas_py_L24"}
         'guardian_response': {'p95': 0.1, 'unit': 's'},
         'memory_event_creation': {'p95': 0.0001, 'unit': 's'},
         'ai_provider_request': {'p95': 0.25, 'unit': 's'},
@@ -32,13 +32,13 @@ class PerformanceSLAValidator:
     def __init__(self, benchmark_file: str):
         self.benchmark_file = Path(benchmark_file)
         self.results = self._load_benchmark_results()
-        self.violations: List[Dict] = []
-        self.passed_checks: List[Dict] = []
+        self.violations: list[Dict] = []
+        self.passed_checks: list[Dict] = []
 
     def _load_benchmark_results(self) -> Dict:
         """Load benchmark results from JSON file"""
         try:
-            with open(self.benchmark_file, 'r') as f:
+            with open(self.benchmark_file) as f:
                 return json.load(f)
         except FileNotFoundError:
             print(f"❌ Benchmark file not found: {self.benchmark_file}")

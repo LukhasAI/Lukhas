@@ -1,0 +1,17 @@
+=== Environment & Tool Check ===
+
+System Tools (Global PATH):
+python3: OK
+git: OK
+gh: OK
+rg: OK
+jq: OK
+
+Python Development Tools:
+black: Available in .venv/bin/black (version 25.9.0)
+ruff: Available in .venv/bin/ruff (version 0.14.2)
+pytest: Available in .venv/bin/pytest
+libcst: OK (Python module installed in .venv)
+
+Note: Black, Ruff, and Pytest are installed in the project venv.
+Activate with: source .venv/bin/activate

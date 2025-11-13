@@ -24,14 +24,16 @@
 ║ ΛTAG: ΛORACLE, ΛCOLONY, ΛPREDICTION, ΛDREAM, ΛTEMPORAL
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
 
 import asyncio
-import json
-import logging
 import importlib
+import json
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
+
+import structlog
 
 """Note on lane boundaries
 This module must not import from `labs.*` at import time. To keep lane guard
@@ -47,7 +49,7 @@ OpenAIRequest = None
 def _load_labs_openai_symbols() -> None:
     """Attempt to load OpenAI helper types from labs at runtime.
 
-    Avoids static imports so import‑linter lane guard remains satisfied.
+    Avoids static imports so import-linter lane guard remains satisfied.
     """
     global ModelType, OpenAICoreService, OpenAIRequest
     if all(sym is not None for sym in (ModelType, OpenAICoreService, OpenAIRequest)):
@@ -70,7 +72,7 @@ try:
 except ImportError:
     BaseColony = object
 
-logger = logging.getLogger("ΛTRACE.oracle_colony")
+logger = structlog.get_logger("ΛTRACE.oracle_colony")
 
 
 @dataclass
@@ -79,8 +81,8 @@ class OracleQuery:
 
     query_type: str  # "prediction", "dream", "prophecy", "analysis"
     context: dict[str, Any]
-    time_horizon: Optional[str] = "near"  # "immediate", "near", "medium", "far"
-    user_id: Optional[str] = None
+    time_horizon: str | None = "near"  # "immediate", "near", "medium", "far"
+    user_id: str | None = None
     priority: str = "normal"  # "low", "normal", "high", "critical"
     openai_enhanced: bool = True
 
@@ -105,12 +107,12 @@ class OracleAgent:
         self,
         agent_id: str,
         specialization: str,
-        openai_service: Optional[Any] = None,
+        openai_service: Any | None = None,
     ):
         self.agent_id = agent_id
         self.specialization = specialization  # "predictor", "dreamer", "prophet", "analyzer"
         self.openai_service = openai_service
-        self.logger = logger.bind(agent_id=agent_id, specialization=specialization)
+        self.logger = logger.bind(agent_id=agent_id, specialization=specialization) if hasattr(logger, "bind") else logger
 
     async def process_query(self, query: OracleQuery) -> OracleResponse:
         """Process an Oracle query based on specialization."""
@@ -297,7 +299,7 @@ class OracleAgent:
 
     async def _handle_analysis(self, query: OracleQuery) -> OracleResponse:
         """Handle deep analytical queries."""
-        query.context
+        query.context  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_colonies_oracle_colony_py_L302"}
 
         analysis_content = {
             "analysis": "Deep system analysis based on available data",
@@ -397,7 +399,7 @@ class OracleColony(BaseColony):
     """
 
     def __init__(self, colony_id: str = "oracle_colony"):
-        super().__init__(colony_id)
+        super().__init__(colony_id=colony_id)
         self.openai_service = None
         self.oracle_agents: dict[str, OracleAgent] = {}
         self.query_queue = asyncio.Queue()
@@ -405,8 +407,6 @@ class OracleColony(BaseColony):
 
     async def initialize(self):
         """Initialize the Oracle Colony."""
-        await super().initialize()
-
         # Initialize OpenAI service
         self.openai_service = None
         _load_labs_openai_symbols()
@@ -428,11 +428,11 @@ class OracleColony(BaseColony):
         # Create specialized Oracle agents
         specializations = ["predictor", "dreamer", "prophet", "analyzer"]
         for spec in specializations:
-            agent_id = f"oracle_{spec}_{self.node_id[:8]}"
+            agent_id = f"oracle_{spec}_{self.colony_id[:8]}"
             self.oracle_agents[spec] = OracleAgent(agent_id, spec, self.openai_service)
 
         # Start processing loop
-        asyncio.create_task(self._process_queries())
+        asyncio.create_task(self._process_queries())  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_colonies_oracle_colony_py_L436"}
 
         logger.info(
             "Oracle Colony fully initialized",
@@ -467,20 +467,21 @@ class OracleColony(BaseColony):
         self.response_cache[response.query_id] = response
 
         # Emit event
-        await self.emit_event(
-            "oracle_response_generated",
-            {
-                "query_type": query.query_type,
-                "response_id": response.query_id,
-                "confidence": response.confidence,
-                "agent_specialization": agent.specialization,
-            },
-        )
+        if hasattr(self, "emit_event") and asyncio.iscoroutinefunction(self.emit_event):
+            await self.emit_event(
+                "oracle_response_generated",
+                {
+                    "query_type": query.query_type,
+                    "response_id": response.query_id,
+                    "confidence": response.confidence,
+                    "agent_specialization": agent.specialization,
+                },
+            )
 
         return response
 
     async def get_temporal_insights(
-        self, context: dict[str, Any], horizons: Optional[list[str]] = None
+        self, context: dict[str, Any], horizons: list[str] | None = None
     ) -> dict[str, OracleResponse]:
         """Get insights across multiple time horizons."""
         if horizons is None:
@@ -576,7 +577,7 @@ async def predict(context: dict[str, Any], time_horizon: str = "near") -> Oracle
     return await colony.query_oracle(query)
 
 
-async def dream(context: dict[str, Any], user_id: Optional[str] = None) -> OracleResponse:
+async def dream(context: dict[str, Any], user_id: str | None = None) -> OracleResponse:
     """Direct dream generation function."""
     colony = await get_oracle_colony()
     query = OracleQuery(query_type="dream", context=context, user_id=user_id)

@@ -29,11 +29,10 @@ from mcp.types import (
 sys.path.append(".")
 try:
     from branding.constellation.triad_validator import TrinityFrameworkValidator
-    from tools.analysis.operational_summary import LUKHASOperationalAnalyzer
-
     from consciousness.awareness_engine import ConsciousnessAwarenessEngine
     from governance.guardian_system.guardian_validator import GuardianValidator
     from memory.fold_system import MemoryFoldSystem
+    from tools.analysis.operational_summary import LUKHASOperationalAnalyzer
 except ImportError as e:
     logging.warning(f"Could not import LUKHAS modules: {e}")
 
@@ -573,7 +572,7 @@ class LUKHASConsciousnessMCP:
                     if py_file.stat().st_size < 5000:  # Only small files
                         try:
                             file_info["preview"] = py_file.read_text()[:1000]
-                        except:
+                        except Exception:
                             file_info["preview"] = "Could not read file"
 
                     context["files"].append(file_info)

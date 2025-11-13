@@ -1,0 +1,563 @@
+{
+  "timestamp": "2025-11-06T00:26:20.360850",
+  "summary": {
+    "total_configs": 5920,
+    "env_vars_python": 73
+  },
+  "config_files": [
+    {
+      "path": "pyrightconfig.json",
+      "type": "json",
+      "size": 1465
+    },
+    {
+      "path": "config.json",
+      "type": "json",
+      "size": 20
+    },
+    {
+      "path": "zenodo.metadata.json",
+      "type": "json",
+      "size": 3060
+    },
+    {
+      "path": ".mcp.json",
+      "type": "json",
+      "size": 271
+    },
+    {
+      "path": "claude-code.json",
+      "type": "json",
+      "size": 2054
+    },
+    {
+      "path": "lukhas_agent_todos.json",
+      "type": "json",
+      "size": 2643
+    },
+    {
+      "path": ".codex_trace.json",
+      "type": "json",
+      "size": 4961
+    },
+    {
+      "path": "tone/tools/directory_index.json",
+      "type": "json",
+      "size": 2612
+    },
+    {
+      "path": "mcp-lukhas-sse/railway.json",
+      "type": "json",
+      "size": 212
+    },
+    {
+      "path": ".lukhas_feedback/lut.json",
+      "type": "json",
+      "size": 244
+    },
+    {
+      "path": "labs/branding/directory_index.json",
+      "type": "json",
+      "size": 2274
+    },
+    {
+      "path": "labs/tools/directory_index.json",
+      "type": "json",
+      "size": 5180
+    },
+    {
+      "path": "labs/tools/claude_integration/directory_index.json",
+      "type": "json",
+      "size": 3676
+    },
+    {
+      "path": "labs/bio/MODULE_MANIFEST.json",
+      "type": "json",
+      "size": 2107
+    },
+    {
+      "path": "labs/bio/directory_index.json",
+      "type": "json",
+      "size": 10180
+    },
+    {
+      "path": "labs/bio/endocrine_integration/directory_index.json",
+      "type": "json",
+      "size": 2087
+    },
+    {
+      "path": "labs/bio/quantum_inspired_layer/directory_index.json",
+      "type": "json",
+      "size": 2186
+    },
+    {
+      "path": "labs/bio/qi_layer/directory_index.json",
+      "type": "json",
+      "size": 2074
+    },
+    {
+      "path": "labs/bio/bio_utilities/directory_index.json",
+      "type": "json",
+      "size": 2079
+    },
+    {
+      "path": "labs/bio/core/directory_index.json",
+      "type": "json",
+      "size": 3663
+    },
+    {
+      "path": "labs/bio/bio_engine/directory_index.json",
+      "type": "json",
+      "size": 2076
+    },
+    {
+      "path": "labs/bio/memory/directory_index.json",
+      "type": "json",
+      "size": 3070
+    },
+    {
+      "path": "labs/bio/base_oscillator/directory_index.json",
+      "type": "json",
+      "size": 2081
+    },
+    {
+      "path": "labs/bio/energy/directory_index.json",
+      "type": "json",
+      "size": 2620
+    },
+    {
+      "path": "labs/bio/awareness/directory_index.json",
+      "type": "json",
+      "size": 2412
+    },
+    {
+      "path": "labs/bio/qi_bio_components/directory_index.json",
+      "type": "json",
+      "size": 2083
+    },
+    {
+      "path": "labs/bio/ai_client/directory_index.json",
+      "type": "json",
+      "size": 2075
+    },
+    {
+      "path": "labs/bio/advanced_quantum_bio/directory_index.json",
+      "type": "json",
+      "size": 2184
+    },
+    {
+      "path": "labs/bio/coherence/directory_index.json",
+      "type": "json",
+      "size": 3621
+    },
+    {
+      "path": "labs/bio/advanced_qi_bio/directory_index.json",
+      "type": "json",
+      "size": 2081
+    },
+    {
+      "path": "labs/bio/oscillator/directory_index.json",
+      "type": "json",
+      "size": 2076
+    },
+    {
+      "path": "labs/bio/simulation_controller/directory_index.json",
+      "type": "json",
+      "size": 2087
+    },
+    {
+      "path": "labs/bio/symbolic/directory_index.json",
+      "type": "json",
+      "size": 2557
+    },
+    {
+      "path": "labs/bio/bio_hub/directory_index.json",
+      "type": "json",
+      "size": 2073
+    },
+    {
+      "path": "labs/bio/systems/directory_index.json",
+      "type": "json",
+      "size": 2239
+    },
+    {
+      "path": "labs/bio/quantum_bio_components/directory_index.json",
+      "type": "json",
+      "size": 2186
+    },
+    {
+      "path": "labs/bio/bio_integration_hub/directory_index.json",
+      "type": "json",
+      "size": 2085
+    },
+    {
+      "path": "labs/core/config.json",
+      "type": "json",
+      "size": 477
+    },
+    {
+      "path": "labs/core/api_fixes.json",
+      "type": "json",
+      "size": 39775
+    },
+    {
+      "path": "labs/core/MODULE_MANIFEST.json",
+      "type": "json",
+      "size": 1811
+    },
+    {
+      "path": "labs/core/directory_index.json",
+      "type": "json",
+      "size": 64986
+    },
+    {
+      "path": "labs/core/symbolic_legacy/MODULE_MANIFEST.json",
+      "type": "json",
+      "size": 7443
+    },
+    {
+      "path": "labs/core/symbolic_legacy/directory_index.json",
+      "type": "json",
+      "size": 5024
+    },
+    {
+      "path": "labs/core/symbolic_legacy/vocabularies/directory_index.json",
+      "type": "json",
+      "size": 3056
+    },
+    {
+      "path": "labs/core/symbolic_legacy/foundry/foundational_knowledge.json",
+      "type": "json",
+      "size": 5057
+    },
+    {
+      "path": "labs/core/symbolic_legacy/foundry/cognitive_mesh_ai.json",
+      "type": "json",
+      "size": 25520
+    },
+    {
+      "path": "labs/core/symbolic_legacy/bio/directory_index.json",
+      "type": "json",
+      "size": 6102
+    },
+    {
+      "path": "labs/core/symbolic_legacy/processing/directory_index.json",
+      "type": "json",
+      "size": 2109
+    },
+    {
+      "path": "labs/core/symbolic_legacy/integration/directory_index.json",
+      "type": "json",
+      "size": 2110
+    },
+    {
+      "path": "labs/core/symbolic_legacy/features/directory_index.json",
+      "type": "json",
+      "size": 4764
+    },
+    {
+      "path": "labs/core/symbolic_legacy/utils/directory_index.json",
+      "type": "json",
+      "size": 2396
+    },
+    {
+      "path": "labs/core/symbolic_legacy/reasoning/directory_index.json",
+      "type": "json",
+      "size": 2029
+    },
+    {
+      "path": "labs/core/agi/directory_index.json",
+      "type": "json",
+      "size": 4930
+    },
+    {
+      "path": "labs/core/agi/adaptive/directory_index.json",
+      "type": "json",
+      "size": 2338
+    },
+    {
+      "path": "labs/core/quantum_financial/directory_index.json",
+      "type": "json",
+      "size": 2940
+    },
+    {
+      "path": "labs/core/net/directory_index.json",
+      "type": "json",
+      "size": 2279
+    },
+    {
+      "path": "labs/core/colonies/directory_index.json",
+      "type": "json",
+      "size": 10020
+    },
+    {
+      "path": "labs/core/colonies/demo/directory_index.json",
+      "type": "json",
+      "size": 2089
+    },
+    {
+      "path": "labs/core/symbolic_bridge/directory_index.json",
+      "type": "json",
+      "size": 3239
+    },
+    {
+      "path": "labs/core/identity/MODULE_MANIFEST.json",
+      "type": "json",
+      "size": 12385
+    },
+    {
+      "path": "labs/core/identity/directory_index.json",
+      "type": "json",
+      "size": 10046
+    },
+    {
+      "path": "labs/core/spine/memory_fold_config.json",
+      "type": "json",
+      "size": 1030
+    },
+    {
+      "path": "labs/core/spine/directory_index.json",
+      "type": "json",
+      "size": 2297
+    },
+    {
+      "path": "labs/core/config/directory_index.json",
+      "type": "json",
+      "size": 2294
+    },
+    {
+      "path": "labs/core/security/MODULE_MANIFEST.json",
+      "type": "json",
+      "size": 12927
+    },
+    {
+      "path": "labs/core/security/directory_index.json",
+      "type": "json",
+      "size": 8296
+    },
+    {
+      "path": "labs/core/qi_biometrics/directory_index.json",
+      "type": "json",
+      "size": 2852
+    },
+    {
+      "path": "labs/core/collective/directory_index.json",
+      "type": "json",
+      "size": 2801
+    },
+    {
+      "path": "labs/core/collective/swarm/directory_index.json",
+      "type": "json",
+      "size": 2359
+    },
+    {
+      "path": "labs/core/collective/clusters/directory_index.json",
+      "type": "json",
+      "size": 2380
+    },
+    {
+      "path": "labs/core/collective/routing/directory_index.json",
+      "type": "json",
+      "size": 2350
+    },
+    {
+      "path": "labs/core/log_system/directory_index.json",
+      "type": "json",
+      "size": 2077
+    },
+    {
+      "path": "labs/core/integration/directory_index.json",
+      "type": "json",
+      "size": 11951
+    },
+    {
+      "path": "labs/core/integration/innovation_orchestrator/directory_index.json",
+      "type": "json",
+      "size": 3855
+    },
+    {
+      "path": "labs/core/bio_systems/directory_index.json",
+      "type": "json",
+      "size": 2317
+    },
+    {
+      "path": "labs/core/personality/directory_index.json",
+      "type": "json",
+      "size": 5125
+    },
+    {
+      "path": "labs/core/symbolic_diagnostics/directory_index.json",
+      "type": "json",
+      "size": 2377
+    },
+    {
+      "path": "labs/core/consciousness/directory_index.json",
+      "type": "json",
+      "size": 4034
+    },
+    {
+      "path": "labs/core/consciousness/innovation/directory_index.json",
+      "type": "json",
+      "size": 3147
+    },
+    {
+      "path": "labs/core/consciousness/prediction/directory_index.json",
+      "type": "json",
+      "size": 2322
+    },
+    {
+      "path": "labs/core/consciousness/oracle/MODULE_MANIFEST.json",
+      "type": "json",
+      "size": 4236
+    },
+    {
+      "path": "labs/core/consciousness/oracle/directory_index.json",
+      "type": "json",
+      "size": 3295
+    },
+    {
+      "path": "labs/core/consciousness/evolution/directory_index.json",
+      "type": "json",
+      "size": 2580
+    },
+    {
+      "path": "labs/core/qi_financial/directory_index.json",
+      "type": "json",
+      "size": 3419
+    },
+    {
+      "path": "labs/core/business/directory_index.json",
+      "type": "json",
+      "size": 3535
+    },
+    {
+      "path": "labs/core/unified/directory_index.json",
+      "type": "json",
+      "size": 3007
+    },
+    {
+      "path": "labs/core/output/directory_index.json",
+      "type": "json",
+      "size": 2550
+    },
+    {
+      "path": "labs/core/architectures/directory_index.json",
+      "type": "json",
+      "size": 2080
+    },
+    {
+      "path": "labs/core/quantum_empathy/directory_index.json",
+      "type": "json",
+      "size": 2634
+    },
+    {
+      "path": "labs/core/utils/directory_index.json",
+      "type": "json",
+      "size": 4383
+    },
+    {
+      "path": "labs/core/observability/directory_index.json",
+      "type": "json",
+      "size": 4708
+    },
+    {
+      "path": "labs/core/introspection/directory_index.json",
+      "type": "json",
+      "size": 2289
+    },
+    {
+      "path": "labs/core/compliance/directory_index.json",
+      "type": "json",
+      "size": 4126
+    },
+    {
+      "path": "labs/core/bridges/directory_index.json",
+      "type": "json",
+      "size": 5828
+    },
+    {
+      "path": "labs/core/explainability/directory_index.json",
+      "type": "json",
+      "size": 2296
+    },
+    {
+      "path": "labs/core/tagging/directory_index.json",
+      "type": "json",
+      "size": 2507
+    },
+    {
+      "path": "labs/core/endocrine/directory_index.json",
+      "type": "json",
+      "size": 2814
+    },
+    {
+      "path": "labs/core/rem/directory_index.json",
+      "type": "json",
+      "size": 2951
+    },
+    {
+      "path": "labs/core/tags/directory_index.json",
+      "type": "json",
+      "size": 2276
+    },
+    {
+      "path": "labs/core/safety/directory_index.json",
+      "type": "json",
+      "size": 3283
+    }
+  ],
+  "environment_variables": {
+    "used_in_python": [
+      "ALLOWED_ROOTS",
+      "ALLOW_NO_AUTH",
+      "API_RATE_LIMIT",
+      "AUTH_P95_TARGET_MS",
+      "BUS_SCHEMA_VERSION",
+      "CONTEXT_P95_TARGET_MS",
+      "DATABASE_URL",
+      "DREAM_SIMULATION_ENABLED",
+      "DRIFT_THRESHOLD",
+      "ENFORCE_ETHICS_DSL",
+      "ETHICS_ENFORCEMENT_LEVEL",
+      "GITHUB_TOKEN",
+      "GUARDIAN_CACHE_TTL",
+      "GUARDIAN_CONSENSUS_REQUIRED",
+      "GUARDIAN_EMERGENCY_DISABLE_PATH",
+      "GUARDIAN_ETHICS_LEVEL",
+      "GUARDIAN_TIMEOUT",
+      "HOST",
+      "LOG_LEVEL",
+      "LUKHAS_ADVANCED_TAGS",
+      "LUKHAS_CANARY_PERCENT",
+      "LUKHAS_CREDENTIALS_PATH",
+      "LUKHAS_DEBUG",
+      "LUKHAS_ENABLE_BROWSER",
+      "LUKHAS_ENABLE_CODE_EXEC",
+      "LUKHAS_ENABLE_RETRIEVAL",
+      "LUKHAS_ENABLE_SCHEDULER",
+      "LUKHAS_ENV",
+      "LUKHAS_ENV_EXAMPLE_PATH",
+      "LUKHAS_EXPERIMENTAL",
+      "LUKHAS_GUARDIAN_ENFORCED_LANES",
+      "LUKHAS_ID_SECRET",
+      "LUKHAS_LANE",
+      "LUKHAS_LOG_LEVEL",
+      "LUKHAS_MASTER_KEY",
+      "LUKHAS_MAX_CONTENT_SIZE",
+      "LUKHAS_MCP_ROOTS",
+      "LUKHAS_PYTHON_PATH",
+      "LUKHAS_RATE_LIMIT_REQUESTS",
+      "LUKHAS_RATE_LIMIT_WINDOW",
+      "LUKHAS_REQUEST_TIMEOUT",
+      "LUKHAS_ROOT",
+      "MATRIZ_COMPAT_IMPORTS",
+      "MEMORY_FOLD_LIMIT",
+      "OAUTH_AUDIENCE",
+      "OAUTH_ISSUER",
+      "OPENAI_API_KEY",
+      "PLAN_ALLOWED_DOMAINS",
+      "PLAN_ETHICS_ENABLED",
+      "PLAN_GUARDIAN_ENABLED"
+    ]
+  }
+}

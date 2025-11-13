@@ -27,10 +27,7 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
-__module_name__ = "Quantum Quantum Consensus System Enhanced"
-__version__ = "2.0.0"
-__tier__ = 2
-
+from __future__ import annotations
 
 import asyncio
 import hashlib
@@ -41,9 +38,16 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum, auto
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
+
+__module_name__ = "Quantum Quantum Consensus System Enhanced"
+__version__ = "2.0.0"
+__tier__ = 2
+
+
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -128,7 +132,7 @@ class QILikeState:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "QILikeState":
+    def from_dict(cls, data: dict[str, Any]) -> QILikeState:
         """Create from dictionary"""
         return cls(
             state_vector=np.array(data["state_vector"]),
@@ -156,7 +160,7 @@ class QILikeState:
 
         return hashlib.sha256(state_str.encode()).hexdigest()
 
-    def calculate_distance(self, other: "QILikeState") -> float:
+    def calculate_distance(self, other: QILikeState) -> float:
         """Calculate quantum-like state distance (fidelity-based)"""
         # Use quantum fidelity as distance metric
         dot_product = np.abs(np.dot(self.state_vector.conj(), other.state_vector))
@@ -211,7 +215,7 @@ class QIConsensusSystem:
     def __init__(
         self,
         components: list[str],
-        initial_state: Optional[QILikeState] = None,
+        initial_state: QILikeState | None = None,
         consensus_threshold: float = 0.67,
         algorithm: ConsensusAlgorithm = ConsensusAlgorithm.QUANTUM_RAFT,
         bio_quantum_mode: bool = False,
@@ -232,14 +236,14 @@ class QIConsensusSystem:
         self.bio_quantum_mode = bio_quantum_mode
 
         # State management
-        self.current_state: Optional[QILikeState] = initial_state or self._get_default_initial_state()
+        self.current_state: QILikeState | None = initial_state or self._get_default_initial_state()
         self.state_history: deque = deque(maxlen=100)  # Keep last 100 states
         self.pending_proposals: dict[str, ConsensusProposal] = {}
 
         # Consensus tracking
         self.current_term = 0
-        self.current_leader: Optional[str] = None
-        self.voted_for: Optional[str] = None
+        self.current_leader: str | None = None
+        self.voted_for: str | None = None
 
         # Network partition detection
         self.partition_detector = PartitionDetector(self)
@@ -517,7 +521,7 @@ class QIConsensusSystem:
         # For now, log the change
         logger.info(f"State changed: type={new_state.state_type.value}, coherence={new_state.phase_coherence:.3f}")
 
-    def get_current_state(self) -> Optional[QILikeState]:
+    def get_current_state(self) -> QILikeState | None:
         """Get the current consensus state"""
         return self.current_state
 

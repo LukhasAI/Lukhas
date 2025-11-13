@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import consent  # noqa: F401  # TODO: consent; consider using import...
+    import consent  # TODO: consent; consider using import...
 except ImportError:
     pytest.skip("Module consent not available", allow_module_level=True)
 

@@ -3,6 +3,7 @@
 💥 NUCLEAR F-STRING FIXER - ISOLATED & DRY RUN CAPABLE
 More aggressive pattern matching with full isolation and dry run mode
 """
+from __future__ import annotations
 
 import ast
 import json
@@ -10,13 +11,12 @@ import os
 import re
 import shutil
 from pathlib import Path
-from typing import Optional
 
 
 class NuclearFStringFixer:
     """Nuclear approach with isolation and dry run safeguards"""
 
-    def __init__(self, dry_run: bool = True, isolation_dir: Optional[str] = None):
+    def __init__(self, dry_run: bool = True, isolation_dir: str | None = None):
         self.dry_run = dry_run
         self.isolation_dir = isolation_dir or f"/tmp/lukhas_nuclear_test_{os.getpid()}"
         self.fixes_applied = 0
@@ -121,10 +121,9 @@ class NuclearFStringFixer:
                     # Risk assessment
                     if risk_level == "NUCLEAR" and len(matches) > 10:
                         print(f"⚠️  {risk_level} pattern would affect {len(matches)} locations in {file_path}")
-                        if not self.dry_run:
+                        if not self.dry_run and (not self.isolate_and_test(file_path, content, new_content)):
                             # Extra validation for nuclear patterns
-                            if not self.isolate_and_test(file_path, content, new_content):
-                                continue
+                            continue
 
                     if new_content != content:
                         fixes_count += len(matches)

@@ -36,7 +36,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Optional
 
 
 class EncryptionAlgorithm(str, Enum):
@@ -97,7 +96,7 @@ class AlgorithmMetadata:
     key_size: int  # bits
     nonce_size: int  # bytes
     tag_size: int  # bytes (for AEAD)
-    block_size: Optional[int]  # bytes (None for stream ciphers)
+    block_size: int | None  # bytes (None for stream ciphers)
     pq_resistant: bool
     security_level: SecurityLevel
     aead: bool
@@ -286,7 +285,7 @@ def validate_algorithm_choice(
     algorithm: EncryptionAlgorithm,
     require_aead: bool = True,
     allow_legacy: bool = False,
-) -> tuple[bool, Optional[str]]:
+) -> tuple[bool, str | None]:
     """
     Validate an algorithm choice against security requirements.
 
@@ -331,13 +330,13 @@ def validate_algorithm_choice(
 
 
 __all__ = [
+    "ALGORITHM_METADATA",
+    "AlgorithmMetadata",
     "EncryptionAlgorithm",
     "SecurityLevel",
-    "AlgorithmMetadata",
-    "ALGORITHM_METADATA",
     "get_algorithm_metadata",
-    "get_recommended_algorithms",
     "get_post_quantum_algorithms",
+    "get_recommended_algorithms",
     "is_aead_algorithm",
     "validate_algorithm_choice",
 ]

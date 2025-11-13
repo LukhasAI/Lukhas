@@ -39,6 +39,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": true,
                   "type": "object",
                   "title": "Response Get Latest Trace Traces Latest Get"
                 }
@@ -100,6 +101,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Get Trace By Id Traces  Trace Id  Get"
                 }
               }
@@ -247,10 +249,165 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response List Traces Traces  Get"
                 }
               }
             },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dreams": {
+      "post": {
+        "tags": [
+          "dreams"
+        ],
+        "summary": "Create a new dream",
+        "description": "This endpoint generates a new dream sequence based on an optional seed and constraints.",
+        "operationId": "dreams_v1_dreams_post",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DreamRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dream sequence generated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "id": "dream_12345",
+                  "traces": [
+                    {
+                      "step": 1,
+                      "content": "quantum superposition based on seed: example_seed"
+                    },
+                    {
+                      "step": 2,
+                      "content": "lucid dream"
+                    },
+                    {
+                      "step": 3,
+                      "content": "ocean waves"
+                    }
+                  ],
+                  "model": "lukhas-consciousness",
+                  "seed": "example_seed",
+                  "constraints": {
+                    "max_steps": 3
+                  }
+                }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid API Key",
             "headers": {
               "X-Trace-Id": {
                 "$ref": "#/components/headers/X-Trace-Id"
@@ -328,6 +485,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": true,
                   "type": "object",
                   "title": "Response Healthz Healthz Get"
                 }
@@ -377,6 +535,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": true,
                   "type": "object",
                   "title": "Response List Models V1 Models Get"
                 }
@@ -420,16 +579,35 @@
         "summary": "Create Embeddings",
         "description": "OpenAI-compatible embeddings endpoint with unique deterministic vectors.",
         "operationId": "create_embeddings_v1_embeddings_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": true,
                 "title": "Request"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -438,6 +616,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Create Embeddings V1 Embeddings Post"
                 }
               }
@@ -520,6 +699,7 @@
           "content": {
             "application/json": {
               "schema": {
+                "additionalProperties": true,
                 "type": "object",
                 "title": "Request"
               }
@@ -533,6 +713,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": true,
                   "type": "object",
                   "title": "Response Create Chat Completion V1 Chat Completions Post"
                 }
@@ -616,6 +797,7 @@
           "content": {
             "application/json": {
               "schema": {
+                "additionalProperties": true,
                 "type": "object",
                 "title": "Request"
               }
@@ -629,6 +811,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": true,
                   "type": "object",
                   "title": "Response Create Response V1 Responses Post"
                 }
@@ -703,6 +886,35 @@
   },
   "components": {
     "schemas": {
+      "DreamRequest": {
+        "properties": {
+          "seed": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed"
+          },
+          "constraints": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Constraints"
+          }
+        },
+        "type": "object",
+        "title": "DreamRequest"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {

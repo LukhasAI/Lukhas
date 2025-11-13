@@ -3,16 +3,15 @@
 
 from __future__ import annotations
 
-import io
 import os
 import re
 import sys
-from typing import Iterable, Tuple
+from collections.abc import Iterable
 
 OPT_PATTERN = re.compile(r"(\b[A-Za-z_][A-Za-z0-9_.]*\b)\s*\|\s*None\b")
 
 
-def fix_text(source: str) -> Tuple[str, bool]:
+def fix_text(source: str) -> tuple[str, bool]:
     """Return rewritten source and whether a change was made."""
 
     changed = False
@@ -84,11 +83,11 @@ def main(argv: Iterable[str]) -> int:
         return 1
 
     for file_path in iter_targets(paths):
-        with io.open(file_path, "r", encoding="utf-8") as handle:
+        with open(file_path, encoding="utf-8") as handle:
             original = handle.read()
         rewritten, changed = fix_text(original)
         if changed:
-            with io.open(file_path, "w", encoding="utf-8") as handle:
+            with open(file_path, "w", encoding="utf-8") as handle:
                 handle.write(rewritten)
             print(f"rewrote: {file_path}")
 

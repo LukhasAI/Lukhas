@@ -14,6 +14,8 @@
 ║ Advanced awareness protocol with quantum-biological features.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import asyncio
 import logging
 from datetime import datetime, timezone
@@ -120,10 +122,10 @@ class LUKHASAwarenessProtocol:
         Initializes the LUKHASAwarenessProtocol.
         Args:
             user_id (str): The user ID for whom awareness is being assessed.
-            session_data (Dict[str, Any]): Current session data.
+            session_data (dict[str, Any]): Current session data.
             symbolic_trace_engine (SymbolicTraceLogger): Engine for logging symbolic traces.
             memory_context (Any): Context from the memory system.
-            config (Optional[Dict[str, Any]]): Configuration for the protocol and its adapter.
+            config (Optional[dict[str, Any]]): Configuration for the protocol and its adapter.
         """
         self.instance_logger = logger.getChild(f"LUKHASAwarenessProtocol.{user_id}")
         self.instance_logger.info(f"ΛTRACE: Initializing LUKHASAwarenessProtocol for user_id: '{user_id}'.")
@@ -307,7 +309,7 @@ class LUKHASAwarenessProtocol:
         """
         Update internal bio metrics of the BioSymbolicAwarenessAdapter.
         Args:
-            new_data (Dict[str, Any]): Dictionary of new metric values to update.
+            new_data (dict[str, Any]): Dictionary of new metric values to update.
         """
         self.instance_logger.info(f"ΛTRACE: Updating bio-metrics for user '{self.user_id}'. Data: {new_data}")
         if self.bio_adapter and hasattr(self.bio_adapter, "bio_metrics"):

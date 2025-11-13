@@ -420,7 +420,7 @@ class TestMetricsIntegration:
 
         def worker(worker_id):
             try:
-                for i in range(50):
+                for _i in range(50):
                     metrics.record_request(f"/worker/{worker_id}", "GET", "200", 0.1)
                     metrics.record_memory_operation("store", True, 0.005, 1)
                     time.sleep(0.001)  # Small delay

@@ -1,12 +1,42 @@
 ---
-status: wip
+status: DEPRECATED
 type: documentation
+deprecation_date: 2025-11-06
+superseded_by: BRAND_GUIDELINES.md
 ---
-# 🎭 LUKHAS AI Branding System - Complete Consolidation
 
-**Generated**: 2025-08-28T14:58:44.809926  
-**Source**: branding  
-**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum  
+# ⚠️ DEPRECATED: LUKHAS AI Branding System - Complete Consolidation
+
+> **🚨 THIS DOCUMENT IS DEPRECATED**
+>
+> **Date**: 2025-11-06
+> **Superseded By**:
+> - [BRAND_GUIDELINES.md](BRAND_GUIDELINES.md) (canonical brand foundation)
+> - [domains/](domains/) (10 domain-specific brand guides)
+> - [config/domain_registry.yaml](config/domain_registry.yaml) (master domain configuration)
+>
+> **Why Deprecated**: This auto-generated consolidation document from 2025-08-28 has been replaced by:
+> - Comprehensive domain-specific brand guides (lukhas.ai, lukhas.id, etc.)
+> - Canonical BRAND_GUIDELINES.md with visual identity standards
+> - Structured multi-domain branding system
+> - Machine-readable configuration files (YAML)
+> - Complete design system with color palettes and theme specifications
+>
+> **Please Use Instead**:
+> - **Foundation**: [BRAND_GUIDELINES.md](BRAND_GUIDELINES.md)
+> - **Domain Guides**: [domains/lukhas.ai/BRAND_GUIDE.md](domains/lukhas.ai/BRAND_GUIDE.md) (and 9 others)
+> - **Master Registry**: [config/domain_registry.yaml](config/domain_registry.yaml)
+> - **Navigation**: [README.md](README.md)
+>
+> **This document will be archived after 2026-02-06 (90 days).**
+
+---
+
+# 🎭 LUKHAS AI Branding System - Complete Consolidation (HISTORICAL - DO NOT USE)
+
+**Generated**: 2025-08-28T14:58:44.809926
+**Source**: branding
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Files Processed**: 193
 
 ---

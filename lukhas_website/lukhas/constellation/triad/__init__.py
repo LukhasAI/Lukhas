@@ -6,7 +6,7 @@ and can be expanded with public symbols as the migration proceeds.
 
 from __future__ import annotations
 
-__all__ = ["Identity", "Consciousness", "Guardian"]
+__all__ = ["Consciousness", "Guardian", "Identity"]
 
 
 class Identity:

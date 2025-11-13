@@ -20,6 +20,7 @@ Success Criteria: All components integrate seamlessly with proper claim propagat
 Constellation Framework: 🌊 Complete Stack Integration
 """
 
+# ruff: noqa: F821
 import asyncio
 import logging
 import time
@@ -28,8 +29,7 @@ from typing import Any, Dict, List
 from unittest.mock import Mock, patch
 
 import pytest
-
-from consciousness.matriz_thought_loop import matrizProcessingContext, MATRIZThoughtLoop
+from consciousness.matriz_thought_loop import MATRIZThoughtLoop, matrizProcessingContext
 from consciousness.types import ConsciousnessState
 from governance.guardian_serializer import GuardianEnvelopeSerializer
 from identity.auth_service import LUKHASIdentityService

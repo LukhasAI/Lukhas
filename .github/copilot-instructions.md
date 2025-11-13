@@ -1,17 +1,92 @@
 ---
-status: wip
+status: active
 type: documentation
+last_updated: 2025-11-06
 ---
 ````instructions
 # 🤖 GitHub Copilot Instructions for LUKHAS AI Platform
 
-**Consciousness-Aware AI Development Platform with Trinity Framework**
+**Consciousness-Aware AI Development Platform**
 
 LUKHAS AI is a sophisticated cognitive architecture implementing consciousness-inspired patterns for advanced AI applications. This platform features modular lane-based development, strict import boundaries, and comprehensive testing infrastructure with specialized multi-agent development support.
 
+## 🚀 NEW: T4 Unified Platform v2.0 - Intent-Driven Development (Nov 2025)
+
+**CRITICAL: All code changes now require pre-registered intents via T4 Intent API**
+
+### **What Changed**
+LUKHAS has deployed production-grade quality infrastructure with authentication, cost controls, and automated governance:
+
+✅ **Intent Registry API** (`tools/ci/intent_api.py`)
+  - FastAPI with API key authentication (X-T4-API-KEY header)
+  - Rate limiting: 120 requests/minute per agent
+  - Comprehensive audit logging for compliance
+
+✅ **LLM Safety Layer** (`tools/ci/llm_policy.py`)
+  - OpenAI wrapper with automatic cost tracking
+  - Per-agent daily quota enforcement
+  - Token usage and cost recording
+
+✅ **Policy Client** (`tools/t4/policy_client.py`)
+  - Python client for intent registration
+  - Pre-PR validation: `pre_pr_check(files, codes)`
+  - Auto-creates reserved placeholders
+
+✅ **Branch Protection** (`scripts/t4_protect_main.sh`)
+  - CODEOWNERS enforcement for critical paths
+  - Required status checks: t4-validator, t4-intent-api-health, ci/tests
+
+### **Copilot T4 Workflow Integration**
+
+**Before suggesting any code changes:**
+1. Check if file has existing intents: `grep -r "# T4:" <file>`
+2. For new violations, suggest T4 annotation format:
+   ```python
+   # T4: code=F821 | ticket=GH-1234 | owner=consciousness-team | status=planned
+   # reason: Undefined CognitiveReasoner - async import pattern for consciousness modules
+   # estimate: 2h | priority: medium | dependencies: consciousness-wave-c
+   ```
+
+**When generating new code:**
+- Include T4 annotations for known patterns (F401 unused imports, F821 undefined names)
+- Suggest registering intent via policy client before PR
+- Reference `docs/gonzo/T4_ONBOARD_AGENTS.md` for agent requirements
+
+**LLM-assisted code generation:**
+```python
+# When suggesting AI-powered refactoring, mention cost tracking:
+from tools.ci.llm_policy import call_openai_chat
+
+# Copilot can suggest this pattern for refactoring assistance:
+result = call_openai_chat(
+    prompt="Refactor this function for better readability",
+    model="gpt-4o-mini",  # Cost-effective for code tasks
+    agent_api_key=os.environ["T4_API_KEY"],
+    agent_id="copilot-assisted-dev"
+)
+```
+
+**Common T4 Patterns to Suggest:**
+- **F401 (unused import)**: Often intentional for consciousness module side-effects
+- **F821 (undefined name)**: Async imports or consciousness module lazy loading
+- **B018 (useless expression)**: Consciousness logging patterns (symbolic traces)
+- **RUF006 (async generator)**: State machine patterns in consciousness systems
+
+### **Quick Reference Commands**
+```bash
+# Check T4 baseline before making changes
+python3 tools/ci/check_t4_issues.py --json-only | jq '.summary'
+
+# Validate import boundaries (suggest before cross-lane imports)
+make lane-guard
+
+# Run T4 migration for new annotations
+python3 tools/ci/migrate_annotations.py --paths <file> --dry-run
+```
+
 ## 🧠 Architecture Overview
 
-LUKHAS implements a **Trinity Framework** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) across ~7,000 Python files in a modular lane-based architecture:
+LUKHAS implements a **multi-domain cognitive architecture** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) across ~7,000 Python files in a modular lane-based architecture:
 
 - **⚛️ Identity**: Lambda ID system, authentication, symbolic self-representation
 - **🧠 Consciousness**: 692-module cognitive processing, memory systems, awareness
@@ -26,7 +101,7 @@ LUKHAS implements a **Trinity Framework** (⚛️ Identity · ✦ Memory · 🔬
 ├── core/                      # Core symbolic logic systems
 ├── tests/                     # Comprehensive test suites (775+ tests)
 ├── mcp-servers/               # Model Context Protocol servers (5 servers)
-├── branding/                  # Trinity Framework branding & messaging
+├── branding/                  # LUKHAS AI branding & messaging
 └── products/                  # Production deployment systems (4,093 files)
 ```
 
@@ -46,6 +121,7 @@ make test              # Run comprehensive test suite
 make lint-unused       # T4 unused imports system
 make security-scan     # Security validation
 make doctor            # System health diagnostics
+make t4-check          # NEW: Run T4 validation
 ```
 
 ### **Build System** (50+ Makefile targets)
@@ -55,11 +131,14 @@ make smoke-matriz      # MATRIZ cognitive DNA smoke tests
 make test-tier1        # Critical system tests
 make audit             # Comprehensive system audit
 make lane-guard        # Validate import boundaries
+make t4-migrate        # NEW: Run T4 annotation migration
+make t4-dashboard      # NEW: Launch T4 web dashboard
 ```
 
 ### **Entry Points**
 - **Main System**: `python main.py` (async architecture with professional services)
 - **API Server**: `uvicorn lukhas.api.app:app --reload --port 8000`
+- **T4 Intent API**: `uvicorn tools.ci.intent_api:APP --reload --port 8001` (NEW)
 ### **Development**: Always check context files for domain context before working in any directory
   - **Workflow**: Read relevant context file → understand domain → make informed changes
   - **42 context files** distributed throughout codebase provide essential architecture
@@ -68,15 +147,17 @@ make lane-guard        # Validate import boundaries
 
 ## 🔧 Multi-Agent Development System
 
-### **Current Mission: Jules Agent Test Development**
+### **Current Mission: Jules Agent Test Development + T4 Platform Adoption**
 - **~150+ missing test modules** across 6 architectural domains
 - **10 Jules agents** (Jules-01 through Jules-10) handling systematic test creation
 - **T4 Testing Framework**: Comprehensive quality gates and tier-based testing
+- **NEW: T4 Agent Integration** - All agents must register intents before PR creation
 
 ### **Agent Types & Usage**
 - **Claude Code UI Specialists**: `/agents` command for specialized tasks (.claude/agents/)
 - **Claude Desktop Agents**: Terminal agents for complex workflows (agents/configs/)
 - **External Configurations**: Military-grade hierarchy (agents_external/)
+- **NEW: T4-Certified Agents**: Must obtain API keys via `create_api_key_admin.py`
 
 ## 📍 ESSENTIAL: Context Navigation System
 
@@ -90,17 +171,18 @@ Every major directory contains both `claude.me` and `lukhas_context.md` files wi
 - **Content**: Identical information in both files, choose based on your AI tool
 
 - **Domain Architecture**: Component relationships and data flows
-- **Integration Patterns**: How each domain connects to the Trinity Framework
+- **Integration Patterns**: How each domain connects to the LUKHAS AI platform
 - **Development Context**: Key files, entry points, and testing approaches
 - **Historical Context**: Evolution and current state of each domain
 
 ### **Key Navigation Points (Dual Format)**
-- **Master Overview**: [`claude.me`](claude.me) / [`lukhas_context.md`](lukhas_context.md) - Complete system architecture (7,000+ files)
+- **Master Overview**: [`claude.me`](claude.me) / [`lukhas_context.md`](lukhas_context.md) - Complete system architecture (7,000+ files) **[UPDATED 2025-11-06]**
 - **Development Hub**: [`candidate/claude.me`](candidate/claude.me) / [`candidate/lukhas_context.md`](candidate/lukhas_context.md) - Primary workspace (2,877 files)
 - **Production Layer**: [`lukhas/claude.me`](lukhas/claude.me) / [`lukhas/lukhas_context.md`](lukhas/lukhas_context.md) - Integration layer (148 files)
 - **MATRIZ Engine**: [`matriz/claude.me`](matriz/claude.me) / [`matriz/lukhas_context.md`](matriz/lukhas_context.md) - Cognitive DNA processing
+- **T4 Platform**: [`docs/gonzo/T4_ONBOARD_AGENTS.md`](docs/gonzo/T4_ONBOARD_AGENTS.md) - Agent onboarding guide **[NEW]**
 
-### **Trinity Framework Navigation (Dual Format)**
+### **Core System Navigation (Dual Format)**
 - **⚛️ Identity Systems**:
   - [`identity/claude.me`](identity/claude.me) / [`identity/lukhas_context.md`](identity/lukhas_context.md) - Lambda ID foundation
   - [`candidate/core/identity/claude.me`](candidate/core/identity/claude.me) / [`candidate/core/identity/lukhas_context.md`](candidate/core/identity/lukhas_context.md) - Identity development
@@ -108,7 +190,7 @@ Every major directory contains both `claude.me` and `lukhas_context.md` files wi
 - **🧠 Consciousness Systems**:
   - [`consciousness/claude.me`](consciousness/claude.me) / [`consciousness/lukhas_context.md`](consciousness/lukhas_context.md) - Research foundations
   - [`candidate/consciousness/claude.me`](candidate/consciousness/claude.me) / [`candidate/consciousness/lukhas_context.md`](candidate/consciousness/lukhas_context.md) - 52+ components
-  - [`lukhas/consciousness/claude.me`](lukhas/consciousness/claude.me) / [`lukhas/consciousness/lukhas_context.md`](lukhas/consciousness/lukhas_context.md) - Trinity activation
+  - [`lukhas/consciousness/claude.me`](lukhas/consciousness/claude.me) / [`lukhas/consciousness/lukhas_context.md`](lukhas/consciousness/lukhas_context.md) - Consciousness activation
 - **🛡️ Guardian Systems**:
   - [`ethics/claude.me`](ethics/claude.me) / [`ethics/lukhas_context.md`](ethics/lukhas_context.md) - Ethical frameworks
   - [`governance/claude.me`](governance/claude.me) / [`governance/lukhas_context.md`](governance/lukhas_context.md) - Governance systems
@@ -135,9 +217,9 @@ Every major directory contains both `claude.me` and `lukhas_context.md` files wi
 - Do NOT state or imply that any part of the system is "ready for production" or "production-ready" unless this has been explicitly approved by project leadership. This applies to code, documentation, commit messages, and internal/external communications.
 - Do NOT include any price predictions, revenue forecasts, or financial projections in code, documentation, commit messages, or internal notes. Remove any such content if found.
 
-**Trinity Tone & Messaging:**
+**LUKHAS AI Tone & Messaging:**
 
-- All Copilot-generated code, comments, and documentation must reflect the Trinity Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):
+- All Copilot-generated code, comments, and documentation must reflect the LUKHAS AI cognitive architecture (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):
   - ⚛️ Identity (authenticity, consciousness, symbolic self)
   - 🧠 Consciousness (memory, learning, dream states, neural processing)
   - 🛡️ Guardian (ethics, drift detection, repair)

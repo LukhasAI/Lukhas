@@ -5,6 +5,10 @@ Advanced: glyph_id_hash.py
 Integration Date: 2025-05-31T07:55:28.185300
 """
 
+import base64
+import hashlib
+import random
+import time
 
 """
 📦 MODULE      : glyph_id_hash.py
@@ -14,10 +18,6 @@ Integration Date: 2025-05-31T07:55:28.185300
 📅 UPDATED     : 2025-05-07
 """
 
-import base64
-import hashlib
-import random
-import time
 
 
 class GlyphIDHasher:

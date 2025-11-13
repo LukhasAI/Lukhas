@@ -9,9 +9,10 @@ leak into logs or analytics pipelines.
 from __future__ import annotations
 
 import re
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, replace
 from enum import Enum
-from typing import Any, Dict, Iterable, Mapping
+from typing import Any
 
 
 class SecurityReportValidationError(ValueError):
@@ -27,7 +28,7 @@ class SeverityLevel(str, Enum):
     CRITICAL = "critical"
 
     @classmethod
-    def from_value(cls, value: str | "SeverityLevel") -> "SeverityLevel":
+    def from_value(cls, value: str | SeverityLevel) -> SeverityLevel:
         """Return a :class:`SeverityLevel` instance from *value*.
 
         Args:
@@ -67,16 +68,14 @@ def _contains_sensitive_data(value: str) -> bool:
     return bool(_SENSITIVE_KEY_PATTERN.search(value))
 
 
-def _sanitize_mapping(data: Mapping[str, Any]) -> Dict[str, Any]:
+def _sanitize_mapping(data: Mapping[str, Any]) -> dict[str, Any]:
     """Return a sanitised copy of *data* with sensitive values redacted."""
 
-    sanitised: Dict[str, Any] = {}
+    sanitised: dict[str, Any] = {}
     for key, value in data.items():
         replacement: Any = value
 
-        if isinstance(key, str) and _contains_sensitive_data(key):
-            replacement = "[REDACTED]"
-        elif isinstance(value, str) and _contains_sensitive_data(value):
+        if (isinstance(key, str) and _contains_sensitive_data(key)) or (isinstance(value, str) and _contains_sensitive_data(value)):
             replacement = "[REDACTED]"
 
         sanitised[key] = replacement
@@ -92,12 +91,12 @@ class SecurityReport:
     summary: str
     details: Mapping[str, Any]
 
-    def sanitise(self) -> "SecurityReport":
+    def sanitise(self) -> SecurityReport:
         """Return a sanitised copy of the report with sensitive data redacted."""
 
         return replace(self, details=_sanitize_mapping(self.details))
 
-    def to_payload(self) -> Dict[str, Any]:
+    def to_payload(self) -> dict[str, Any]:
         """Return a dictionary payload suitable for serialisation."""
 
         sanitised = self.sanitise()
@@ -151,7 +150,7 @@ def validate_report(report: SecurityReport, *, allowed_detail_keys: Iterable[str
             )
 
 
-def build_secure_payload(report: SecurityReport) -> Dict[str, Any]:
+def build_secure_payload(report: SecurityReport) -> dict[str, Any]:
     """Validate and sanitise *report*, returning a serialisable payload."""
 
     validate_report(report)
@@ -162,7 +161,7 @@ class SecurityReportRepository:
     """In-memory repository that stores sanitised security reports."""
 
     def __init__(self) -> None:
-        self._storage: Dict[str, SecurityReport] = {}
+        self._storage: dict[str, SecurityReport] = {}
 
     def upsert(self, report: SecurityReport) -> None:
         """Insert or update *report* after validating and sanitising it."""

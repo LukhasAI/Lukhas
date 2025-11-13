@@ -1,5 +1,4 @@
-"""
-🔒 LUKHAS AI - Centralized Environment Configuration
+"""🔒 LUKHAS AI - Centralized Environment Configuration
 Secure environment variable loading with validation and optional YAML support
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
@@ -19,11 +18,12 @@ class EnvironmentConfig:
     """Centralized environment configuration with validation and YAML support"""
 
     def __init__(self, yaml_path: Optional[str] = None):
-        """
-        Initialize environment configuration
+        """Initialize environment configuration
 
         Args:
+        ----
             yaml_path: Optional path to YAML configuration file
+
         """
         self._yaml_config: dict[str, Any] = {}
         self._required_vars: list[str] = []
@@ -43,19 +43,22 @@ class EnvironmentConfig:
             self._yaml_config = {}
 
     def get(self, key: str, default: Any = None, required: bool = False) -> Any:
-        """
-        Get environment variable with fallback to YAML config
+        """Get environment variable with fallback to YAML config
 
         Args:
+        ----
             key: Environment variable name
             default: Default value if not found
             required: Whether this variable is required
 
         Returns:
+        -------
             Environment variable value or default
 
         Raises:
+        ------
             ValueError: If required variable is missing
+
         """
         # First try environment variables
         value = os.environ.get(key)
@@ -110,7 +113,7 @@ class EnvironmentConfig:
             return default
 
     def get_list(
-        self, key: str, default: Optional[list] = None, separator: str = ",", required: bool = False
+        self, key: str, default: Optional[list] = None, separator: str = ",", required: bool = False,
     ) -> list[str]:
         """Get list from comma-separated environment variable"""
         if default is None:

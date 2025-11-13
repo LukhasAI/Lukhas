@@ -9,11 +9,10 @@ If no backend is available, provide minimal stubs to satisfy imports in tests.
 from __future__ import annotations
 
 from importlib import import_module
-from typing import List
 from enum import Enum
 from dataclasses import dataclass
 
-__all__: List[str] = []
+__all__: list[str] = []
 
 def _try(n: str):
     try:
@@ -23,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order (avoid self to prevent recursion)
 _CANDIDATES = (
-    "lukhas_website.consciousness.meta_cognitive_assessor",
+    "lukhas_website.lukhas.consciousness.meta_cognitive_assessor",
     "candidate.consciousness.meta_cognitive_assessor",
 )
 

@@ -4,7 +4,7 @@
 
 import asyncio
 import time
-from typing import Any
+from typing import Any, Dict, List, Tuple
 
 import pytest
 from src.economics.auto_escalator_policy import (
@@ -17,27 +17,27 @@ from src.economics.auto_escalator_policy import (
 def _build_metrics(**overrides: Any) -> UserValueMetrics:
     """Helper to construct metrics objects with sensible defaults."""
 
-    base = dict(
-        user_id="user-test",
-        current_tier=EscalatorTier.VISITOR,
-        monthly_transaction_volume=750.0,
-        total_lifetime_volume=2500.0,
-        avg_order_value=125.0,
-        engagement_score=0.65,
-        session_frequency=4.2,
-        time_on_platform=8.5,
-        data_quality_score=0.78,
-        consent_breadth=0.85,
-        data_freshness=0.92,
-        feedback_score=0.72,
-        referral_count=3,
-        merchant_satisfaction=0.88,
-        platform_advocacy=0.56,
-        total_value_score=0.0,
-        next_tier_progress=0.0,
-        escalation_eligible=False,
-        last_updated=time.time(),
-    )
+    base = {
+        "user_id": "user-test",
+        "current_tier": EscalatorTier.VISITOR,
+        "monthly_transaction_volume": 750.0,
+        "total_lifetime_volume": 2500.0,
+        "avg_order_value": 125.0,
+        "engagement_score": 0.65,
+        "session_frequency": 4.2,
+        "time_on_platform": 8.5,
+        "data_quality_score": 0.78,
+        "consent_breadth": 0.85,
+        "data_freshness": 0.92,
+        "feedback_score": 0.72,
+        "referral_count": 3,
+        "merchant_satisfaction": 0.88,
+        "platform_advocacy": 0.56,
+        "total_value_score": 0.0,
+        "next_tier_progress": 0.0,
+        "escalation_eligible": False,
+        "last_updated": time.time(),
+    }
     base.update(overrides)
     return UserValueMetrics(**base)
 
@@ -112,7 +112,7 @@ def test_get_next_tier_progression():
 def test_apply_tier_escalation_blocked_by_cooldown(monkeypatch):
     policy = AutoEscalatorPolicy({"escalation_cooldown_days": 30})
 
-    async def fake_evaluate(user_id: str) -> dict[str, Any]:
+    async def fake_evaluate(user_id: str) -> Dict[str, Any]:
         return {
             "escalation_eligible": True,
             "current_tier": EscalatorTier.VISITOR.value,
@@ -136,7 +136,7 @@ def test_apply_tier_escalation_blocked_by_cooldown(monkeypatch):
 def test_apply_tier_escalation_force_bypasses_cooldown(monkeypatch):
     policy = AutoEscalatorPolicy({"escalation_cooldown_days": 30})
 
-    async def fake_evaluate(user_id: str) -> dict[str, Any]:
+    async def fake_evaluate(user_id: str) -> Dict[str, Any]:
         return {
             "escalation_eligible": True,
             "current_tier": EscalatorTier.VISITOR.value,
@@ -148,17 +148,17 @@ def test_apply_tier_escalation_force_bypasses_cooldown(monkeypatch):
     async def fake_last_escalation(user_id: str) -> float:
         return time.time()
 
-    store_calls: list[dict[str, Any]] = []
-    update_calls: list[tuple[str, EscalatorTier]] = []
-    notify_calls: list[tuple[str, dict[str, Any]]] = []
+    store_calls: List[Dict[str, Any]] = []
+    update_calls: List[Tuple[str, EscalatorTier]] = []
+    notify_calls: List[Tuple[str, Dict[str, Any]]] = []
 
-    async def fake_store(record: dict[str, Any]) -> None:
+    async def fake_store(record: Dict[str, Any]) -> None:
         store_calls.append(record)
 
     async def fake_update(user_id: str, tier: EscalatorTier) -> None:
         update_calls.append((user_id, tier))
 
-    async def fake_notify(user_id: str, record: dict[str, Any]) -> None:
+    async def fake_notify(user_id: str, record: Dict[str, Any]) -> None:
         notify_calls.append((user_id, record))
 
     monkeypatch.setattr(policy, "evaluate_tier_escalation", fake_evaluate)
@@ -219,7 +219,7 @@ def test_generate_escalation_transparency_report_aggregates_context(monkeypatch)
     async def fake_metrics(user_id: str) -> UserValueMetrics:
         return metrics
 
-    async def fake_eval(user_id: str) -> dict[str, Any]:
+    async def fake_eval(user_id: str) -> Dict[str, Any]:
         return {
             "escalation_eligible": False,
             "current_tier": EscalatorTier.TRUSTED.value,
@@ -231,7 +231,7 @@ def test_generate_escalation_transparency_report_aggregates_context(monkeypatch)
             "total_value_score": metrics.total_value_score,
         }
 
-    async def fake_history(user_id: str) -> list[dict[str, Any]]:
+    async def fake_history(user_id: str) -> List[Dict[str, Any]]:
         return [
             {
                 "from_tier": EscalatorTier.FRIEND.value,

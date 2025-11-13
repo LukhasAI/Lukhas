@@ -1,5 +1,4 @@
 import pytest
-
 from labs.core.identity.consciousness_tiered_authentication import ConsciousnessWebAuthnManager
 
 

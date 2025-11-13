@@ -1,11 +1,11 @@
 """
-structural_conscience.py — Structural awareness & integrity validation
+structural_conscience.py - Structural awareness & integrity validation
 
 Purpose
 -------
 Validates structural integrity of memory folds and monitors the
-memory–consciousness interface. Designed to prevent cascade errors and
-flag misalignment before consolidation writes land in long‑term memory.
+memory-consciousness interface. Designed to prevent cascade errors and
+flag misalignment before consolidation writes land in long-term memory.
 
 Usage
 -----
@@ -16,7 +16,7 @@ print(report.ok, report.issues)
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, List
+from typing import Any
 
 
 class StructuralIntegrityError(Exception):
@@ -28,7 +28,7 @@ class StructuralReport:
     coherence_score: float  # 0..1
     cascade_risk: float     # 0..1 (lower is better)
     alignment_score: float  # 0..1 with consciousness policy
-    issues: List[str] = field(default_factory=list)
+    issues: list[str] = field(default_factory=list)
 
 class StructuralConscience:
     """Memory structural awareness and integrity validation.
@@ -66,14 +66,14 @@ class StructuralConscience:
         quality (0..1), domain (str), metadata (dict). Accepts duck-typed
         objects (e.g., dataclasses from the orchestrator).
         """
-        issues: List[str] = []
+        issues: list[str] = []
 
         # Basic schema sanity
         try:
             origin_ids = list(memory_fold.origin_trace_ids)
             quality = float(memory_fold.quality)
             domain = str(memory_fold.domain)
-            metadata: Dict[str, Any] = dict(memory_fold.metadata)
+            dict(memory_fold.metadata)
         except Exception as e:
             raise StructuralIntegrityError(f"Fold schema invalid: {e}")
 
@@ -115,12 +115,12 @@ class StructuralConscience:
             issues=issues,
         )
 
-    def monitor_consciousness_integration(self, metrics: Dict[str, Any]) -> Dict[str, Any]:
-        """Monitor memory–consciousness integration health.
+    def monitor_consciousness_integration(self, metrics: dict[str, Any]) -> dict[str, Any]:
+        """Monitor memory-consciousness integration health.
 
         Parameters
         ----------
-        metrics : Dict[str, Any]
+        metrics : dict[str, Any]
             Expect keys like {"batches", "folds_created", "traces_consolidated"}.
         """
         # Simple thresholds; replace with your real KPI policy

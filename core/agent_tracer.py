@@ -209,8 +209,8 @@ def get_global_tracer() -> GlobalTracer:
 
 __all__ = [
     "AIAgentTracer",
+    "GlobalTracer",
     "TraceCollector",
     "TraceSpan",
-    "GlobalTracer",
     "get_global_tracer",
 ]

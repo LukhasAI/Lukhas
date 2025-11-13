@@ -26,7 +26,6 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
-from typing import Optional
 
 import yaml
 
@@ -42,12 +41,12 @@ INFRA_MODULES = {"core", "governance", "security", "observability", "api"}
 CRITICAL_MODULES = {"identity", "memory", "consciousness", "governance"}
 
 
-def lane_from_json(raw: Optional[str]) -> str:
+def lane_from_json(raw: str | None) -> str:
     raw = (raw or "").strip().lower()
     return LANE_MAP.get(raw, "candidate")
 
 
-def resolve_module_path(manifest_path: Path, prefer_labs: bool) -> Optional[Path]:
+def resolve_module_path(manifest_path: Path, prefer_labs: bool) -> Path | None:
     rel = manifest_path.parent
     # rel is manifests/<parts>/; we need <parts> as module path
     try:

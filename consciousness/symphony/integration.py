@@ -11,7 +11,7 @@ Provides:
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 import numpy as np
 
@@ -31,8 +31,8 @@ class BrainDecision:
     decision: Any
     raw_confidence: float
     activation_level: float
-    reasoning: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    reasoning: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -58,7 +58,7 @@ class MultiBrainSymphony:
 
     def __init__(
         self,
-        brains: Optional[Dict[str, BrainConfig]] = None,
+        brains: Optional[dict[str, BrainConfig]] = None,
         default_consensus: ConsensusMethod = ConsensusMethod.WEIGHTED_VOTE,
         audit_trail: Optional[Any] = None
     ):
@@ -70,12 +70,12 @@ class MultiBrainSymphony:
             default_consensus: Default consensus method
             audit_trail: AuditTrail instance for logging
         """
-        self.brains: Dict[str, BrainConfig] = brains or {}
+        self.brains: dict[str, BrainConfig] = brains or {}
         self.default_consensus = default_consensus
         self.audit_trail = audit_trail
 
         # Brain performance tracking
-        self.brain_metrics: Dict[str, Dict[str, float]] = {}
+        self.brain_metrics: dict[str, dict[str, float]] = {}
 
     def add_brain(
         self,
@@ -111,11 +111,11 @@ class MultiBrainSymphony:
 
     def orchestrate_decision(
         self,
-        decision_context: Dict[str, Any],
-        brain_functions: Dict[str, Callable],
+        decision_context: dict[str, Any],
+        brain_functions: dict[str, Callable],
         consensus_method: Optional[ConsensusMethod] = None,
         min_activation: float = 0.3
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Orchestrate a decision across multiple brains
 
@@ -132,7 +132,7 @@ class MultiBrainSymphony:
         consensus_method = consensus_method or self.default_consensus
 
         # Collect decisions from all active brains
-        brain_decisions: List[BrainDecision] = []
+        brain_decisions: list[BrainDecision] = []
 
         for brain_id, brain_config in self.brains.items():
             if not brain_config.enabled:
@@ -200,7 +200,7 @@ class MultiBrainSymphony:
             }
         }
 
-    def _achieve_consensus(self, brain_decisions: List[BrainDecision], method: ConsensusMethod) -> Dict[str, Any]:
+    def _achieve_consensus(self, brain_decisions: list[BrainDecision], method: ConsensusMethod) -> dict[str, Any]:
         """
         Deterministic weighted voting baseline:
         score(decision) = Σ weight_i * activation_i * raw_confidence_i
@@ -220,7 +220,7 @@ class MultiBrainSymphony:
 
         return {"decision": decision, "raw_confidence": raw_conf}
 
-    def _compute_consensus_strength(self, brain_decisions: List[BrainDecision], final_decision: Any) -> float:
+    def _compute_consensus_strength(self, brain_decisions: list[BrainDecision], final_decision: Any) -> float:
         """
         Compute consensus strength (fraction of weighted votes agreeing with final decision)
 
@@ -275,15 +275,15 @@ class MultiBrainSymphony:
 
         metrics["total_decisions"] = n + 1
 
-    def get_brain_metrics(self, brain_id: str) -> Optional[Dict[str, float]]:
+    def get_brain_metrics(self, brain_id: str) -> Optional[dict[str, float]]:
         """Get performance metrics for a brain"""
         return self.brain_metrics.get(brain_id)
 
-    def get_all_metrics(self) -> Dict[str, Dict[str, float]]:
+    def get_all_metrics(self) -> dict[str, dict[str, float]]:
         """Get performance metrics for all brains"""
         return self.brain_metrics.copy()
 
-    def optimize_weights(self, performance_data: Dict[str, float]):
+    def optimize_weights(self, performance_data: dict[str, float]):
         """
         Optimize brain weights based on performance data
 
@@ -301,7 +301,7 @@ class MultiBrainSymphony:
                 normalized_weight = (performance / total_performance) * len(performance_data)
                 self.brains[brain_id].weight = max(0.1, normalized_weight)  # Minimum weight 0.1
 
-    def export_configuration(self) -> Dict[str, Any]:
+    def export_configuration(self) -> dict[str, Any]:
         """Export symphony configuration"""
         return {
             "brains": {
@@ -318,7 +318,7 @@ class MultiBrainSymphony:
             "brain_metrics": self.brain_metrics
         }
 
-    def import_configuration(self, config: Dict[str, Any]):
+    def import_configuration(self, config: dict[str, Any]):
         """Import symphony configuration"""
         brain_configs = config.get("brains", {})
         for brain_id, brain_data in brain_configs.items():

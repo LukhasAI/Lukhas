@@ -38,6 +38,7 @@ try:
         AdaptiveInterfaceGenerator,
     )
     from frontend.multimodal.image_generator import AdaptiveImageGenerator
+    from products.experience.voice.bridge.speech_processor import SpeechProcessor
 
 except ImportError as e:
     logger.critical(f"Failed to import required components: {e}")

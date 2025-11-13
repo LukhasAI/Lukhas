@@ -15,25 +15,26 @@ Trinity Framework: 🛡️ Guardian · ⚖️ Ethics
 """
 
 import asyncio
+import importlib as _importlib
 from datetime import datetime, timezone
 
 import pytest
-from labs.governance.ethics.compliance_monitor import (
-    ComplianceFramework,
-    ComplianceMonitor,
-    ComplianceStatus,
-)
-from labs.governance.ethics.ethical_decision_maker import (
-    AdvancedEthicalDecisionMaker,
-)
-from labs.governance.security.access_control import (
-    AccessDecision,
-    AccessTier,
-    AccessType,
-)
+
+_compliance_mod = _importlib.import_module("labs.governance.ethics.compliance_monitor")
+ComplianceFramework = _compliance_mod.ComplianceFramework
+ComplianceMonitor = _compliance_mod.ComplianceMonitor
+ComplianceStatus = _compliance_mod.ComplianceStatus
+
+_ethics_mod = _importlib.import_module("labs.governance.ethics.ethical_decision_maker")
+AdvancedEthicalDecisionMaker = _ethics_mod.AdvancedEthicalDecisionMaker
+
+_access_mod = _importlib.import_module("labs.governance.security.access_control")
+AccessDecision = _access_mod.AccessDecision
+AccessTier = _access_mod.AccessTier
+AccessType = _access_mod.AccessType
 
 # Skip audit system imports - not required for current tests
-# from candidate.governance.security.audit_system import AuditSystem
+# from labs.governance.security.audit_system import AuditSystem
 
 
 # ============================================================================
@@ -178,7 +179,7 @@ async def test_compliance_monitor_gdpr(compliance_monitor):
     # Verify GDPR assessment
     assert ComplianceFramework.GDPR in assessment.framework_statuses
     gdpr_status = assessment.framework_statuses[ComplianceFramework.GDPR]
-    assert gdpr_status in [status for status in ComplianceStatus]
+    assert gdpr_status in list(ComplianceStatus)
 
 
 @pytest.mark.asyncio
@@ -397,5 +398,5 @@ async def test_compliance_monitor_empty_frameworks(compliance_monitor):
 def test_access_control_invalid_tier():
     """Test handling of invalid access tier."""
     # Valid tiers only
-    valid_tiers = [tier for tier in AccessTier]
+    valid_tiers = list(AccessTier)
     assert len(valid_tiers) == 5

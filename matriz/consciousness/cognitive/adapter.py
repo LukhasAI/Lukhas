@@ -14,6 +14,9 @@
 ║ Complete cognitive adapter implementation.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
+from __future__ import annotations
+
 import asyncio
 import json
 import logging
@@ -25,11 +28,10 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum, auto
 from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Any
 
 # Module imports
 import numpy as np
-
 from core.common import get_logger
 
 # Configure module logger
@@ -64,10 +66,11 @@ logger.info("ΛTRACE: Initializing cognitive_adapter module.")
 class CognitiveAdapterConfig:
     """Configuration management for Cognitive Adapter."""
 
-    def __init__(self, config_path: Optional[str] = None):
+    def __init__(self, config_path: str | None = None):
         """Initialize configuration from file or defaults."""
         self.config_path = (
-            config_path or Path(__file__).parent.parent.parent / "config" / "cognitive_adapter_config.json"
+            config_path
+            or Path(__file__).parent.parent.parent / "config" / "cognitive_adapter_config.json"
         )
         self.config = self._load_config()
 
@@ -152,10 +155,14 @@ def lukhas_tier_required(level: int):
                     user_tier = args[0].config.get("user_tier", 1)
 
                 if user_tier < level:
-                    logger.warning(f"Access denied. User tier {user_tier} < required {level} for {func.__name__}")
+                    logger.warning(
+                        f"Access denied. User tier {user_tier} < required {level} for {func.__name__}"
+                    )
                     return None
 
-                logger.debug(f"Access granted. User tier {user_tier} >= required {level} for {func.__name__}")
+                logger.debug(
+                    f"Access granted. User tier {user_tier} >= required {level} for {func.__name__}"
+                )
                 return await func(*args, **kwargs)
 
             return wrapper_async
@@ -172,10 +179,14 @@ def lukhas_tier_required(level: int):
                     user_tier = args[0].config.get("user_tier", 1)
 
                 if user_tier < level:
-                    logger.warning(f"Access denied. User tier {user_tier} < required {level} for {func.__name__}")
+                    logger.warning(
+                        f"Access denied. User tier {user_tier} < required {level} for {func.__name__}"
+                    )
                     return None
 
-                logger.debug(f"Access granted. User tier {user_tier} >= required {level} for {func.__name__}")
+                logger.debug(
+                    f"Access granted. User tier {user_tier} >= required {level} for {func.__name__}"
+                )
                 return func(*args, **kwargs)
 
             return wrapper_sync
@@ -188,7 +199,7 @@ class CoreComponent(ABC):
     """Abstract base class for core components."""
 
     @abstractmethod
-    def __init__(self, component_id: str, config: Optional[dict[str, Any]] = None):
+    def __init__(self, component_id: str, config: dict[str, Any] | None = None):
         self.component_id = component_id
         self.config = config or {}
         self.logger = logger.getChild(component_id)
@@ -197,7 +208,7 @@ class CoreComponent(ABC):
 class SecurityContext:
     """Security context for user authentication and authorization."""
 
-    def __init__(self, user_id: str, user_tier: int = 1, permissions: Optional[set[str]] = None):
+    def __init__(self, user_id: str, user_tier: int = 1, permissions: set[str] | None = None):
         self.user_id = user_id
         self.user_tier = user_tier
         self.permissions = permissions or set()
@@ -280,7 +291,10 @@ class MetaLearningSystem:
 
     def _matches_pattern(self, features: dict[str, Any], pattern_features: dict[str, Any]) -> bool:
         """Check if features match a pattern."""
-        return all(not (key not in features or features[key] != value) for key, value in pattern_features.items())
+        return all(
+            not (key not in features or features[key] != value)
+            for key, value in pattern_features.items()
+        )
 
     def _update_knowledge(self, features: dict[str, Any], feedback: dict[str, Any]):
         """Update knowledge base with new learning."""
@@ -293,14 +307,18 @@ class MetaLearningSystem:
             }
 
             # Track performance
-            self.performance_history.append({"timestamp": datetime.now(timezone.utc), "success": True, "features": features})
+            self.performance_history.append(
+                {"timestamp": datetime.now(timezone.utc), "success": True, "features": features}
+            )
 
     def _calculate_confidence(self, features: dict[str, Any]) -> float:
         """Calculate confidence in processing."""
         if not self.performance_history:
             return 0.5
 
-        recent_successes = sum(1 for p in list(self.performance_history)[-10:] if p.get("success", False))
+        recent_successes = sum(
+            1 for p in list(self.performance_history)[-10:] if p.get("success", False)
+        )
 
         return recent_successes / min(10, len(self.performance_history))
 
@@ -336,7 +354,9 @@ class HelixMapper:
         except Exception as e:
             self.logger.error(f"Failed to save memories: {e}")
 
-    async def search_memories(self, query: dict[str, Any], context: dict[str, Any]) -> list[dict[str, Any]]:
+    async def search_memories(
+        self, query: dict[str, Any], context: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Search for relevant memories based on query and context."""
         self.logger.debug(f"Searching memories with query: {query}")
 
@@ -399,7 +419,9 @@ class HelixMapper:
         self.logger.debug(f"Mapping memory of type {strand_type}")
 
         # Generate unique strand ID
-        strand_id = f"{strand_type}_{datetime.now(timezone.utc).timestamp()}_{np.random.randint(1000)}"
+        strand_id = (
+            f"{strand_type}_{datetime.now(timezone.utc).timestamp()}_{np.random.randint(1000)}"
+        )
 
         # Create memory strand
         self.memory_strands[strand_id] = {
@@ -470,9 +492,9 @@ class CognitiveAdapter(CoreComponent):
     @lukhas_tier_required(level=3)
     def __init__(
         self,
-        user_id_context: Optional[str] = None,
-        config: Optional[dict[str, Any]] = None,
-        config_path: Optional[str] = None,
+        user_id_context: str | None = None,
+        config: dict[str, Any] | None = None,
+        config_path: str | None = None,
     ):
         """Initialize the CognitiveAdapter."""
         super().__init__(
@@ -506,9 +528,13 @@ class CognitiveAdapter(CoreComponent):
         )
 
         # Initialize system components
-        self.meta_learner = MetaLearningSystem(learning_rate=self.adapter_config.get("learning_rate", 0.1))
+        self.meta_learner = MetaLearningSystem(
+            learning_rate=self.adapter_config.get("learning_rate", 0.1)
+        )
         self.memory_mapper = HelixMapper(
-            memory_path=(config.get("memory_path", "./helix_memory") if config else "./helix_memory")
+            memory_path=(
+                config.get("memory_path", "./helix_memory") if config else "./helix_memory"
+            )
         )
 
         # State history for analysis
@@ -556,7 +582,10 @@ class CognitiveAdapter(CoreComponent):
         # Pattern: Emotional volatility
         valence_values = [s.valence for s in recent_states]
         if valence_values:
-            valence_changes = [abs(valence_values[i] - valence_values[i - 1]) for i in range(1, len(valence_values))]
+            valence_changes = [
+                abs(valence_values[i] - valence_values[i - 1])
+                for i in range(1, len(valence_values))
+            ]
             avg_change = np.mean(valence_changes) if valence_changes else 0
             if avg_change > 0.3:
                 self.detected_patterns["emotional_volatility"] = {
@@ -575,19 +604,24 @@ class CognitiveAdapter(CoreComponent):
         self.state.arousal *= decay_factor
 
         # Valence tends toward emotional baseline
-        self.state.valence = self.state.valence * decay_factor + self.emotional_modulation.baseline * (1 - decay_factor)
+        self.state.valence = (
+            self.state.valence * decay_factor
+            + self.emotional_modulation.baseline * (1 - decay_factor)
+        )
 
     @lukhas_tier_required(level=3)
     async def process(
         self,
         data: dict[str, Any],
-        context: Optional[Union[SecurityContext, dict[str, Any]]] = None,
+        context: SecurityContext | dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """Main processing method for cognitive adaptation."""
         self.logger.info("Processing data through cognitive adapter")
 
         # Extract user context
-        user_context = context.get_user_context() if isinstance(context, SecurityContext) else context or {}
+        user_context = (
+            context.get_user_context() if isinstance(context, SecurityContext) else context or {}
+        )
 
         # Update cognitive state based on input
         self._update_state_from_input(data)
@@ -679,7 +713,9 @@ class CognitiveAdapter(CoreComponent):
 
         return modulated
 
-    async def _integrate_memory(self, data: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
+    async def _integrate_memory(
+        self, data: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Integrate with memory system."""
         # Search for relevant memories
         search_query = {
@@ -705,7 +741,9 @@ class CognitiveAdapter(CoreComponent):
                 data=data,
                 strand_type=memory_type.name,
                 owner=memory_context["user_id"],
-                encoding_strength=self.adapter_config.get("memory_integration.encoding_strength_default", 0.8),
+                encoding_strength=self.adapter_config.get(
+                    "memory_integration.encoding_strength_default", 0.8
+                ),
             )
 
             return {
@@ -746,16 +784,22 @@ class CognitiveAdapter(CoreComponent):
         # Adapt emotional modulation
         if user_satisfaction < 0.3:
             # Increase regulation if user is unsatisfied
-            self.emotional_modulation.regulation = min(self.emotional_modulation.regulation + 0.05, 1.0)
+            self.emotional_modulation.regulation = min(
+                self.emotional_modulation.regulation + 0.05, 1.0
+            )
         elif user_satisfaction > 0.8:
             # Increase reactivity if user is very satisfied
-            self.emotional_modulation.reactivity = min(self.emotional_modulation.reactivity + 0.05, 1.0)
+            self.emotional_modulation.reactivity = min(
+                self.emotional_modulation.reactivity + 0.05, 1.0
+            )
 
         # Adapt cognitive baseline
         if success_rate < 0.4:
             # Increase baseline attention if performance is poor
             base_attention = self.adapter_config.get("cognitive_state.base_attention", 0.5)
-            self.adapter_config.config["cognitive_state"]["base_attention"] = min(base_attention + 0.05, 0.8)
+            self.adapter_config.config["cognitive_state"]["base_attention"] = min(
+                base_attention + 0.05, 0.8
+            )
 
         # Save updated config
         self.adapter_config._save_config(self.adapter_config.config)
@@ -771,7 +815,7 @@ class CognitiveAdapter(CoreComponent):
         }
 
     @lukhas_tier_required(level=3)
-    def extract_patterns(self, window_size: Optional[int] = None) -> dict[str, Any]:
+    def extract_patterns(self, window_size: int | None = None) -> dict[str, Any]:
         """Extract cognitive patterns from state history."""
         if window_size is None:
             window_size = self.adapter_config.get("pattern_window_size", 100)
@@ -801,7 +845,10 @@ class CognitiveAdapter(CoreComponent):
             "std": np.std(attention_values),
             "trend": ("increasing" if attention_values[-1] > attention_values[0] else "decreasing"),
             "volatility": np.std(
-                [attention_values[i] - attention_values[i - 1] for i in range(1, len(attention_values))]
+                [
+                    attention_values[i] - attention_values[i - 1]
+                    for i in range(1, len(attention_values))
+                ]
             ),
         }
 
@@ -843,7 +890,10 @@ class CognitiveAdapter(CoreComponent):
         # Find peaks
         peaks = []
         for i in range(1, len(attention_values) - 1):
-            if attention_values[i] > attention_values[i - 1] and attention_values[i] > attention_values[i + 1]:
+            if (
+                attention_values[i] > attention_values[i - 1]
+                and attention_values[i] > attention_values[i + 1]
+            ):
                 peaks.append(i)
 
         # Calculate cycle length if multiple peaks
@@ -854,7 +904,8 @@ class CognitiveAdapter(CoreComponent):
                     {
                         "type": "attention",
                         "average_length": np.mean(cycle_lengths),
-                        "regularity": 1.0 - (np.std(cycle_lengths) / max(np.mean(cycle_lengths), 1)),
+                        "regularity": 1.0
+                        - (np.std(cycle_lengths) / max(np.mean(cycle_lengths), 1)),
                     }
                 )
 
@@ -991,7 +1042,9 @@ async def test_cognitive_adapter():
 
     # Test 5: Adaptation
     print("\nTest 5: Parameter Adaptation")
-    adaptation_result = await adapter.adapt_parameters({"success_rate": 0.3, "user_satisfaction": 0.2})
+    adaptation_result = await adapter.adapt_parameters(
+        {"success_rate": 0.3, "user_satisfaction": 0.2}
+    )
     print(f"Adapted parameters: {adaptation_result}")
 
     # Test 6: State summary

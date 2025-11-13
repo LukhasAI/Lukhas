@@ -4,6 +4,7 @@
 =================================
 Systematically fixes all import errors and dependencies in LUKHAS .
 """
+from __future__ import annotations
 
 import ast
 import json
@@ -12,7 +13,7 @@ import re
 import sys
 from collections import defaultdict
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 # Add project root to path
 PROJECT_ROOT = Path(__file__).parent.parent.parent
@@ -49,15 +50,15 @@ class ImportErrorFixer:
         # Common fix patterns
         self.import_fixes = {
             # Core module fixes
-            "core.common": "from core.common import",
+            "core.common": "from lukhas.core.common import",
             "memory.core": "from memory.core import",
             "consciousness.unified": "from consciousness.unified import",
             "governance.guardian_system": "from governance.guardian_system import",
             "qi.algorithms": "from qi.algorithms import",
             "orchestration.brain": "from orchestration.brain import",
             # Interface fixes
-            "core.interfaces": "from core.interfaces import",
-            "core.interfaces.dependency_injection": "from core.interfaces.dependency_injection import",
+            "core.interfaces": "from lukhas.core.interfaces import",
+            "core.interfaces.dependency_injection": "from lukhas.core.interfaces.dependency_injection import",
             # Common replacements
             "lukhas_core": "core",
             "core": "core",
@@ -285,7 +286,7 @@ class ImportErrorFixer:
                 # Create missing module structure
                 self.create_missing_module(module_name)
 
-    def find_correct_module_path(self, module_name: str) -> Optional[str]:
+    def find_correct_module_path(self, module_name: str) -> str | None:
         """Find the correct path for a module"""
         parts = module_name.split(".")
 
@@ -394,10 +395,10 @@ class ImportErrorFixer:
 
         common_fixes = [
             # Core imports
-            ("from core.common import", "from core.common import"),
-            ("from core.common import", "from core.common import"),
-            ("from core.common.logger import", "from core.common.logger import"),
-            ("from core.common.config import", "from core.common.config import"),
+            ("from lukhas.core.common import", "from lukhas.core.common import"),
+            ("from lukhas.core.common import", "from lukhas.core.common import"),
+            ("from lukhas.core.common.logger import", "from lukhas.core.common.logger import"),
+            ("from lukhas.core.common.config import", "from lukhas.core.common.config import"),
             # Memory imports
             ("from memory.core import", "from memory.core import"),
             (
@@ -414,7 +415,7 @@ class ImportErrorFixer:
                 "from consciousness.unified.auto_consciousness import",
             ),
             # Interface imports
-            ("from core.interfaces import", "from core.interfaces import"),
+            ("from lukhas.core.interfaces import", "from lukhas.core.interfaces import"),
         ]
 
         for py_file in self.root_path.rglob("*.py"):

@@ -14,6 +14,7 @@ against the requirements from AGENT_TASK_EXECUTION_PLAN.md
 """
 
 import asyncio
+import importlib as _importlib
 import tempfile
 import time
 import uuid
@@ -24,16 +25,15 @@ import pytest
 
 # Guardian System components
 try:
-    from labs.governance.guardian_system_integration import (
-        GuardianAlertLevel,
-        GuardianSystemIntegration,
-        GuardianValidationRequest,
-        ValidationResult,
-        validate_ai_action,
-    )
+    _mod = _importlib.import_module("labs.governance.guardian_system_integration")
+    GuardianAlertLevel = _mod.GuardianAlertLevel
+    GuardianSystemIntegration = _mod.GuardianSystemIntegration
+    GuardianValidationRequest = _mod.GuardianValidationRequest
+    ValidationResult = _mod.ValidationResult
+    validate_ai_action = _mod.validate_ai_action
 
     GUARDIAN_INTEGRATION_AVAILABLE = True
-except ImportError:
+except Exception:
     GUARDIAN_INTEGRATION_AVAILABLE = False
     print("Guardian System Integration not available for testing")
 

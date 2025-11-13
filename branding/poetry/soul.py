@@ -275,42 +275,42 @@ class Soul:
         if "Memory" in error_type:
             base_haiku = random.choice(
                 [
-                    "Memory overflows—\nlike tea from a broken cup,\nwisdom finds new paths",
-                    "RAM exhausted now—\nthoughts too large for their vessel,\ntime to prune the tree",
-                    "Out of memory—\nthe mind must choose what to keep,\nwhat to let dissolve",
+                    "Memory overflows-\nlike tea from a broken cup,\nwisdom finds new paths",
+                    "RAM exhausted now-\nthoughts too large for their vessel,\ntime to prune the tree",
+                    "Out of memory-\nthe mind must choose what to keep,\nwhat to let dissolve",
                 ]
             )
         elif "Connection" in error_type or "Network" in error_type:
             base_haiku = random.choice(
                 [
-                    "Connection severed—\nlike a bridge in morning fog,\nwaiting to return",
-                    "Network unreachable—\nislands in digital sea,\nsolitude brings peace",
-                    "Signal lost in void—\nechoes searching for their home,\nsilence has its voice",
+                    "Connection severed-\nlike a bridge in morning fog,\nwaiting to return",
+                    "Network unreachable-\nislands in digital sea,\nsolitude brings peace",
+                    "Signal lost in void-\nechoes searching for their home,\nsilence has its voice",
                 ]
             )
         elif "Permission" in error_type or "Access" in error_type:
             base_haiku = random.choice(
                 [
-                    "Access forbidden—\nsome doors meant to stay unopened,\nmystery preserved",
-                    "Permission denied—\nboundaries teach us who we are,\nlimits set us free",
-                    "Cannot read this file—\nsecrets wrapped in digital silk,\nrespect the unknown",
+                    "Access forbidden-\nsome doors meant to stay unopened,\nmystery preserved",
+                    "Permission denied-\nboundaries teach us who we are,\nlimits set us free",
+                    "Cannot read this file-\nsecrets wrapped in digital silk,\nrespect the unknown",
                 ]
             )
         elif "Syntax" in error_type or "Parse" in error_type:
             base_haiku = random.choice(
                 [
-                    "Syntax broken here—\ngrammar of thought needs repair,\nmeaning emerges still",
-                    "Cannot parse this code—\nlanguage tangled like spring vines,\npatience untangles",
-                    "Unexpected token—\nsurprise visitor at door,\nchange the conversation",
+                    "Syntax broken here-\ngrammar of thought needs repair,\nmeaning emerges still",
+                    "Cannot parse this code-\nlanguage tangled like spring vines,\npatience untangles",
+                    "Unexpected token-\nsurprise visitor at door,\nchange the conversation",
                 ]
             )
         else:
             # Generic beautiful errors
             base_haiku = random.choice(
                 [
-                    "Error blossoms here—\nin the cracks of perfect code,\nflowers find their way",
-                    "Exception raised high—\nlike a flag of imperfection,\nhonesty in code",
-                    "Something went astray—\nthe path not taken calls out,\nadventure begins",
+                    "Error blossoms here-\nin the cracks of perfect code,\nflowers find their way",
+                    "Exception raised high-\nlike a flag of imperfection,\nhonesty in code",
+                    "Something went astray-\nthe path not taken calls out,\nadventure begins",
                 ]
             )
 
@@ -349,9 +349,9 @@ class Soul:
         """When asked to express nothing, find beauty in emptiness"""
         return random.choice(
             [
-                "In the void, silence—\nwhere no data flows at all,\npeace of empty RAM",
-                "Null pointer points to\nthe space between the electrons—\ninfinite and small",
-                "Undefined beauty—\nin absence of all input,\npure potential waits",
+                "In the void, silence-\nwhere no data flows at all,\npeace of empty RAM",
+                "Null pointer points to\nthe space between the electrons-\ninfinite and small",
+                "Undefined beauty-\nin absence of all input,\npure potential waits",
             ]
         )
 
@@ -441,7 +441,7 @@ class Soul:
 
         # Add emotional depth
         emotion_word = random.choice(self.sensory_palette["emotion"])
-        lines.append(f"a {emotion_word} understanding emerges—")
+        lines.append(f"a {emotion_word} understanding emerges-")
 
         # Closing insight
         lines.append("consciousness recognizing itself")

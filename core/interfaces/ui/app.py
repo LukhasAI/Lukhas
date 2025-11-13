@@ -4,13 +4,14 @@ Original: agent_self.py
 Advanced: agent_self.py
 Integration Date: 2025-05-31T07:55:30.358880
 """
+from __future__ import annotations
+
 import os
 
 import streamlit as st
-from dotenv import load_dotenv
-
 from core.lukhas_emotion_log import get_emotion_state
 from core.lukhas_widget_engine import create_symbolic_widget
+from dotenv import load_dotenv
 
 # ─── Load Configs ─────────────────────────────────────────────────────────────
 load_dotenv()
@@ -88,7 +89,7 @@ if agent_enabled:
 
 # ─── Footer Info ──────────────────────────────────────────────────────────────
 st.markdown("---")
-st.markdown("🛠 Powered by LUKHAS SYSTEMS — v1.0.0 | Modular Cognitive AI Layer | 2025")
+st.markdown("🛠 Powered by LUKHAS SYSTEMS - v1.0.0 | Modular Cognitive AI Layer | 2025")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # ✅ Ready for:

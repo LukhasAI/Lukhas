@@ -2,7 +2,6 @@
 PII redaction and consent-aware data masking utilities.
 """
 import re
-from typing import List
 
 # PII detection patterns
 EMAIL = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
@@ -36,7 +35,7 @@ def mask_pii(text: str) -> str:
     return text
 
 
-def viewer_allows_scope(viewer_scopes: List[str], evidence_scope: str) -> bool:
+def viewer_allows_scope(viewer_scopes: list[str], evidence_scope: str) -> bool:
     """
     Check if viewer's scopes allow access to evidence scope.
 
@@ -63,7 +62,7 @@ def viewer_allows_scope(viewer_scopes: List[str], evidence_scope: str) -> bool:
     return evidence_scope.lower() in scopes
 
 
-def redact_for_viewer(text: str, viewer_scopes: List[str], evidence_scope: str) -> tuple[str, bool]:
+def redact_for_viewer(text: str, viewer_scopes: list[str], evidence_scope: str) -> tuple[str, bool]:
     """
     Redact text based on viewer scopes and evidence requirements.
 

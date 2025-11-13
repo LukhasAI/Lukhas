@@ -8,7 +8,7 @@ Env:
 from __future__ import annotations
 
 import os
-from contextlib import contextmanager
+from contextlib import contextmanager, suppress
 
 try:
     from prometheus_client import Counter, Gauge, Histogram, start_http_server  # type: ignore
@@ -19,10 +19,8 @@ except Exception:  # pragma: no cover
 
 ENABLED = os.getenv("ENABLE_PROM", "0") == "1"
 if ENABLED and start_http_server is not None:
-    try:
+    with suppress(Exception):
         start_http_server(int(os.getenv("PROM_PORT", "9108")))
-    except Exception:
-        pass
 
 
 def _noop_histogram(*_labels):
@@ -212,17 +210,29 @@ else:
     )
 
 __all__ = [
-    # Core metrics
-    "stage_latency", "stage_timeouts", "guardian_band",
-    "mtrx_stage_duration_seconds", "mtrx_orch_timeout_total",
-    "mtrx_orch_retry_total", "mtrx_orch_circuit_open_total",
+    "active_memory_folds",
+    "arbitration_decisions_total",
+    "consciousness_state_changes",
+    "constellation_star_activations",
+    "ethics_risk_distribution",
+    "guardian_band",
+    "guardian_violations_total",
     # Domain-specific metrics
-    "memory_cascade_prevention_rate", "guardian_violations_total",
-    "consciousness_state_changes", "reasoning_chain_length",
-    "ethics_risk_distribution", "node_confidence_scores",
-    "pipeline_success_rate", "active_memory_folds",
-    "constellation_star_activations", "arbitration_decisions_total",
-    "oscillation_detections_total", "retry_attempts_total",
+    "memory_cascade_prevention_rate",
+    "mtrx_orch_circuit_open_total",
+    "mtrx_orch_retry_total",
+    "mtrx_orch_timeout_total",
+    "mtrx_stage_duration_seconds",
+    "node_confidence_scores",
+    "oscillation_detections_total",
     # Parallel execution metrics
-    "parallel_batch_duration", "parallel_speedup_ratio", "parallel_execution_mode_total"
+    "parallel_batch_duration",
+    "parallel_execution_mode_total",
+    "parallel_speedup_ratio",
+    "pipeline_success_rate",
+    "reasoning_chain_length",
+    "retry_attempts_total",
+    # Core metrics
+    "stage_latency",
+    "stage_timeouts"
 ]

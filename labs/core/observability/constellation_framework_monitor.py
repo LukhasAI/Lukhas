@@ -1215,11 +1215,11 @@ class ConstellationFrameworkMonitor:
 __all__ = [
     "APIPerformanceMetric",
     "AuthenticationEvent",
-    "InteractionType",
-    "PerformanceMetric",
     "ConstellationComponent",
     "ConstellationFrameworkMonitor",
     "ConstellationHealthStatus",
     "ConstellationInteraction",
     "ConstellationReport",
+    "InteractionType",
+    "PerformanceMetric",
 ]

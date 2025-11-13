@@ -1,4 +1,8 @@
+from __future__ import annotations
+
 import logging
+
+from llm_adapter import openai_call
 
 logger = logging.getLogger(__name__)
 """
@@ -75,7 +79,7 @@ def meg_chat_completion(**kwargs) -> dict[str, Any]:
         }
 
     logger.info("MEG.guard: Executing OpenAI chat completion")
-    return openai.ChatCompletion.create(**kwargs)
+    return openai_call(**kwargs)
 
 
 @meg.guard(timeout=TIMEOUT_CRITICAL)
@@ -96,7 +100,7 @@ def meg_chat_completion_critical(**kwargs) -> dict[str, Any]:
         }
 
     logger.info("MEG.guard: Executing critical OpenAI chat completion")
-    return openai.ChatCompletion.create(**kwargs)
+    return openai_call(**kwargs)
 
 
 @meg.guard(timeout=TIMEOUT_EXTENDED)

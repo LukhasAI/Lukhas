@@ -14,6 +14,9 @@ from qi.ops.metrics_middleware import (
     PrometheusMiddleware,
     metrics_endpoint,
 )
+
+# Add rate limiting
+from qi.ops.rate_limit import BucketConfig, RateLimiter
 from qi.safety.provenance_receipts import write_receipt
 from qi.safety.provenance_uploader import load_record_by_sha
 
@@ -38,8 +41,6 @@ app = FastAPI(title="Lukhas Provenance Streamer", version="1.0.0")
 app.add_middleware(PrometheusMiddleware)
 app.add_api_route("/metrics", metrics_endpoint(), methods=["GET"])
 
-# Add rate limiting
-from qi.ops.rate_limit import BucketConfig, RateLimiter
 
 
 def is_prov(req):

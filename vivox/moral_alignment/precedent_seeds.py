@@ -3,6 +3,7 @@ VIVOX Ethical Precedent Seeds
 Common ethical scenarios to bootstrap the precedent database
 """
 
+# ruff: noqa: F821
 from datetime import datetime, timezone
 from typing import Any
 
@@ -281,7 +282,10 @@ def get_ethical_precedent_seeds() -> list[dict[str, Any]]:
     return formatted_precedents
 
 
-async def seed_precedent_database(mae_engine: "VIVOXMoralAlignmentEngine"):  # noqa: F821  # TODO: VIVOXMoralAlignmentEngine
+# T4: code=F821 | ticket=SKELETON-96F057B8 | owner=lukhas-platform | status=skeleton
+# reason: Undefined VIVOXMoralAlignmentEngine in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+async def seed_precedent_database(mae_engine: "VIVOXMoralAlignmentEngine"):  # TODO: VIVOXMoralAlignmentEngine
     """
     Seed the MAE precedent database with common ethical scenarios
 

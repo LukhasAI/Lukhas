@@ -404,9 +404,9 @@ async def create_consciousness_state(
 
 # Export key classes and functions
 __all__ = [
+    "ConsciousnessState",
     "ConsciousnessType",
     "EvolutionaryStage",
-    "ConsciousnessState",
     "MatrizConsciousnessStateManager",
     "consciousness_state_manager",
     "create_consciousness_state",

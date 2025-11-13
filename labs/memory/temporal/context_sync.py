@@ -33,7 +33,7 @@ def generate_daily_context(user_id="Commander"):
     context = {
         "user": user_id,
         "date": datetime.now(timezone.utc).isoformat(),
-        "date_readable": datetime.now(timezone.utc).strftime("%A, %B %d, %Y – %H:%M UTC"),
+        "date_readable": datetime.now(timezone.utc).strftime("%A, %B %d, %Y - %H:%M UTC"),
         "summary": [],
         "tags": [],
         "triggers": [],

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # core/interfaces/voice/voice_emotional/__init__.py
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Initializes the 'voice_emotional' sub-package under 'core.interfaces.voice'.

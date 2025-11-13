@@ -1,6 +1,5 @@
----
-title: me
-slug: core.interfaces.claude.me
+title: lukhas_context
+slug: core.interfaces.lukhas_context
 owner: T4
 lane: labs
 star:
@@ -10,7 +9,14 @@ constellation_stars:
 related_modules:
 manifests:
 links:
----
+status: wip
+type: documentation
+# LUKHAS AI Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
+
+
+
 # CANDIDATE Core Interface Systems
 *190-File Integration Architecture - API Protocols & Adaptive Enhancements*
 
@@ -34,7 +40,7 @@ System Integration Interface Ecosystem (190 Files)
 │   │   ├── memory_api.py           # Memory system v1 APIs
 │   │   └── [v1 API implementations...]
 │   ├── v2/                    # Current API implementation
-│   │   ├── trinity_framework_api.py # Trinity Framework v2
+│   │   ├── constellation_framework_api.py # Constellation Framework v2
 │   │   ├── orchestration_api.py    # Multi-agent v2 APIs
 │   │   └── [v2 API implementations...]
 │   └── grpc/                  # High-performance protocols
@@ -69,22 +75,22 @@ class AdaptiveEnhancementSystem:
         performance_metrics = await self.analyze_system_performance(
             enhancement_context
         )
-        
+
         # 2. Enhancement Opportunity Identification
         enhancement_opportunities = await self.identify_enhancement_opportunities(
             performance_metrics
         )
-        
+
         # 3. Dynamic Interface Optimization
         optimized_interfaces = await self.optimize_interfaces_dynamically(
             enhancement_opportunities
         )
-        
+
         # 4. Cross-System Enhancement Propagation
         system_wide_enhancements = await self.propagate_enhancements(
             optimized_interfaces
         )
-        
+
         # 5. Performance Validation
         return await self.validate_enhancement_performance(
             system_wide_enhancements
@@ -100,30 +106,30 @@ class AdaptiveEnhancementSystem:
 - **gRPC High-Performance**: High-throughput protocol implementation for intensive operations
 - **Cross-Version Compatibility**: Seamless migration and compatibility management
 
-#### **Trinity Framework API Integration**
+#### **Constellation Framework API Integration**
 ```python
-# Trinity Framework API coordination pattern
-async def coordinate_trinity_framework_apis(self, trinity_request):
+# Constellation Framework API coordination pattern
+async def coordinate_trinity_framework_apis(self, constellation_request):
     # 1. API Version Selection
-    api_version = await self.select_optimal_api_version(trinity_request)
-    
+    api_version = await self.select_optimal_api_version(constellation_request)
+
     # 2. Cross-Component API Coordination
     api_coordination = await asyncio.gather(
-        self.identity_api.process(trinity_request, api_version),
-        self.consciousness_api.process(trinity_request, api_version),
-        self.memory_api.process(trinity_request, api_version)
+        self.identity_api.process(constellation_request, api_version),
+        self.consciousness_api.process(constellation_request, api_version),
+        self.memory_api.process(constellation_request, api_version)
     )
-    
+
     # 3. Protocol Optimization
     optimized_protocols = await self.optimize_protocol_performance(
         api_coordination
     )
-    
+
     # 4. Response Synthesis
     synthesized_response = await self.synthesize_api_responses(
         optimized_protocols
     )
-    
+
     # 5. Interface Enhancement
     return await self.enhance_interface_performance(synthesized_response)
 ```
@@ -143,7 +149,7 @@ async def coordinate_trinity_framework_apis(self, trinity_request):
 **Modern API systems** - Current protocol implementation
 
 #### **v2 API Capabilities**
-- **Trinity Framework API**: Complete Trinity Framework protocol implementation
+- **Constellation Framework API**: Complete Constellation Framework protocol implementation
 - **Orchestration API**: Multi-agent coordination protocol systems
 - **Integration API**: Cross-system integration protocol coordination
 - **Performance Optimization**: Optimized modern protocol implementation
@@ -158,22 +164,22 @@ class HighPerformanceGRPCIntegration:
     async def process_high_throughput_request(self, grpc_request):
         # 1. Connection Optimization
         optimized_connection = await self.optimize_grpc_connection(grpc_request)
-        
+
         # 2. Streaming Protocol Implementation
         streaming_response = await self.implement_streaming_protocol(
             optimized_connection, grpc_request
         )
-        
+
         # 3. Parallel Processing Coordination
         parallel_processing = await self.coordinate_parallel_grpc_processing(
             streaming_response
         )
-        
+
         # 4. High-Throughput Response Management
         response_management = await self.manage_high_throughput_responses(
             parallel_processing
         )
-        
+
         # 5. Performance Monitoring
         return await self.monitor_grpc_performance(response_management)
 ```
@@ -189,24 +195,24 @@ class CrossSystemInterfaceDevelopment:
         interface_design = await self.design_cross_system_interface(
             interface_specification
         )
-        
+
         # 2. Multi-Protocol Implementation
         protocol_implementations = await asyncio.gather(
             self.implement_v1_protocol(interface_design),
             self.implement_v2_protocol(interface_design),
             self.implement_grpc_protocol(interface_design)
         )
-        
+
         # 3. Integration Testing
         integration_validation = await self.test_cross_system_integration(
             protocol_implementations
         )
-        
+
         # 4. Adaptive Enhancement Integration
         enhanced_interface = await self.integrate_adaptive_enhancements(
             integration_validation
         )
-        
+
         # 5. Documentation and Deployment
         return await self.document_and_deploy_interface(enhanced_interface)
 ```
@@ -219,22 +225,22 @@ async def integrate_external_service(self, service_specification):
     protocol_analysis = await self.analyze_external_service_protocols(
         service_specification
     )
-    
+
     # 2. Interface Adapter Development
     interface_adapter = await self.develop_service_interface_adapter(
         protocol_analysis
     )
-    
+
     # 3. Cross-System Integration
     cross_system_integration = await self.integrate_with_candidate_systems(
         interface_adapter
     )
-    
+
     # 4. Performance Optimization
     optimized_integration = await self.optimize_external_integration_performance(
         cross_system_integration
     )
-    
+
     # 5. Adaptive Enhancement
     return await self.apply_adaptive_enhancements(optimized_integration)
 ```
@@ -247,7 +253,7 @@ async def integrate_external_service(self, service_specification):
 #### **Documentation Features**
 - **API Usage Patterns**: Detailed usage examples and integration patterns
 - **Protocol Specifications**: Complete protocol definition and implementation guidance
-- **Cross-System Integration**: Integration examples across Trinity Framework components
+- **Cross-System Integration**: Integration examples across Constellation Framework components
 - **Performance Guidelines**: Interface performance optimization and best practices
 
 #### **Interface Development Guidance**
@@ -266,12 +272,12 @@ async def integrate_external_service(self, service_specification):
 
 ### **Integration Performance**
 - **API Response Time**: <50ms interface response across all protocol versions
-- **Cross-System Coordination**: <100ms Trinity Framework API coordination
+- **Cross-System Coordination**: <100ms Constellation Framework API coordination
 - **gRPC Throughput**: High-performance protocol with optimized streaming
 - **Adaptive Enhancement**: Real-time system optimization with performance improvement
 
 ### **Development Integration**
-- ✅ **Trinity Framework**: Complete Identity-Consciousness-Memory API integration
+- ✅ **Constellation Framework**: Complete Identity-Consciousness-Memory API integration
 - ✅ **Orchestration Integration**: Multi-agent API coordination and orchestration
 - ✅ **External Services**: External service integration and protocol adaptation
 - 🔄 **Advanced Enhancement**: Enhanced adaptive improvement systems development
@@ -285,7 +291,7 @@ async def integrate_external_service(self, service_specification):
 4. **Cross-Version Migration**: Streamlined v1 to v2 migration and compatibility
 
 ### **Integration Optimization**
-1. **Trinity Framework APIs**: Optimized Identity-Consciousness-Memory API coordination
+1. **Constellation Framework APIs**: Optimized Identity-Consciousness-Memory API coordination
 2. **External Service Integration**: Enhanced external service protocol adaptation
 3. **Performance Optimization**: Sub-50ms API response with maintained functionality
 4. **Documentation Enhancement**: Advanced interface documentation and development guidance
@@ -296,10 +302,9 @@ async def integrate_external_service(self, service_specification):
 3. **Monitoring Integration**: Advanced interface performance monitoring and observability
 4. **Production Deployment**: LUKHAS integration and PRODUCTS API deployment preparation
 
----
 
-**Interface Systems**: 190 files with multi-protocol APIs | **Core**: Adaptive enhancements + v1/v2/gRPC protocols  
-**Integration**: Trinity Framework + External services + Cross-system coordination | **Documentation**: 224KB comprehensive guide  
-**Performance**: <50ms API response + <100ms Trinity coordination + High-throughput gRPC
+**Interface Systems**: 190 files with multi-protocol APIs | **Core**: Adaptive enhancements + v1/v2/gRPC protocols
+**Integration**: Constellation Framework + External services + Cross-system coordination | **Documentation**: 224KB comprehensive guide
+**Performance**: <50ms API response + <100ms Constellation coordination + High-throughput gRPC
 
 *Primary system integration infrastructure - extend through protocol development and adaptive enhancement*

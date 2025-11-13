@@ -58,11 +58,11 @@ else:
             """Trivial matcher that looks for positive score."""
             return bool(getattr(doc, "score", 0) > 0)
 
-    __all__ = ["RetentionSeverity", "RetentionAction", "RetentionRule"]
+    __all__ = ["RetentionAction", "RetentionRule", "RetentionSeverity"]
 
 # --- retention aliases: ArchivalTier / AbstractArchivalBackend (safe append) ---
 try:
-    ArchivalTier
+    ArchivalTier  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "memory_retention___init___py_L65"}
 except NameError:
     from enum import Enum
 
@@ -72,10 +72,10 @@ except NameError:
         COLD = "cold"
         GLACIAL = "glacial"
 
-    __all__ = list(set((globals().get("__all__", []) or [])) | {"ArchivalTier"})
+    __all__ = list(set(globals().get("__all__", []) or []) | {"ArchivalTier"})
 
 try:
-    AbstractArchivalBackend
+    AbstractArchivalBackend  # TODO[T4-ISSUE]: {"code": "B018", "ticket": "GH-1031", "owner": "matriz-team", "status": "accepted", "reason": "Module export validation - __all__ check for dynamic adapter loading", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "memory_retention___init___py_L79"}
 except NameError:
 
     class AbstractArchivalBackend:
@@ -90,4 +90,4 @@ except NameError:
         def tombstone(self, doc_id: str) -> None:
             raise NotImplementedError
 
-    __all__ = list(set((globals().get("__all__", []) or [])) | {"AbstractArchivalBackend"})
+    __all__ = list(set(globals().get("__all__", []) or []) | {"AbstractArchivalBackend"})

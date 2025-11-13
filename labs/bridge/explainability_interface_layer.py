@@ -20,7 +20,7 @@ from collections import OrderedDict
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Union
 
 import yaml
 
@@ -59,11 +59,11 @@ class ExplanationTemplate:
     mode: ExplanationMode
     level: ExplanationLevel
     template: str
-    variables: List[str]
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    variables: list[str]
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'ExplanationTemplate':
+    def from_dict(cls, data: dict[str, Any]) -> 'ExplanationTemplate':
         """Create from dictionary."""
         return cls(
             template_id=data['template_id'],
@@ -81,14 +81,14 @@ class FormalProof:
     """Formal proof structure."""
     proof_id: str
     system: ProofSystem
-    premises: List[str]
+    premises: list[str]
     conclusion: str
-    steps: List[Dict[str, Any]]
+    steps: list[dict[str, Any]]
     valid: bool
     timestamp: int
     signature: Optional[str] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         result = asdict(self)
         result['system'] = self.system.value
@@ -103,9 +103,9 @@ class CompletenessMetrics:
     clarity_score: float   # 0-1: Readability/understandability
     consistency_score: float  # 0-1: Internal consistency
     overall_score: float   # Weighted average
-    missing_elements: List[str] = field(default_factory=list)
+    missing_elements: list[str] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return asdict(self)
 
@@ -116,15 +116,15 @@ class Explanation:
     explanation_id: str
     mode: ExplanationMode
     level: ExplanationLevel
-    content: Union[str, Dict[str, Any]]
-    metadata: Dict[str, Any]
+    content: Union[str, dict[str, Any]]
+    metadata: dict[str, Any]
     completeness: Optional[CompletenessMetrics] = None
     formal_proof: Optional[FormalProof] = None
-    reasoning_trace: Optional[List[Dict[str, Any]]] = None
+    reasoning_trace: Optional[list[dict[str, Any]]] = None
     timestamp: int = field(default_factory=lambda: int(time.time()))
     signature: Optional[str] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         result = {
             'explanation_id': self.explanation_id,
@@ -159,7 +159,7 @@ class ExplainabilityCache:
             max_size: Maximum number of cached explanations
         """
         self.max_size = max_size
-        self._cache: OrderedDict[str, Explanation] = OrderedDict()
+        self._cache: Ordereddict[str, Explanation] = OrderedDict()
         self._stats = {'hits': 0, 'misses': 0, 'evictions': 0}
 
     def get(self, key: str) -> Optional[Explanation]:
@@ -205,7 +205,7 @@ class ExplainabilityCache:
         """Clear cache."""
         self._cache.clear()
 
-    def stats(self) -> Dict[str, int]:
+    def stats(self) -> dict[str, int]:
         """Get cache statistics."""
         return self._stats.copy()
 
@@ -249,15 +249,15 @@ class ExplainabilityInterface:
         self.cache = ExplainabilityCache(max_size=cache_size)
         self.symbolic_engine = symbolic_engine
         self.meg_client = meg_client
-        
+
         # Load templates
-        self.templates: Dict[str, ExplanationTemplate] = {}
+        self.templates: dict[str, ExplanationTemplate] = {}
         if template_dir and template_dir.exists():
             self._load_templates()
 
     async def explain(
         self,
-        decision: Dict[str, Any],
+        decision: dict[str, Any],
         mode: ExplanationMode = ExplanationMode.TEXT,
         level: ExplanationLevel = ExplanationLevel.DETAILED,
         include_proof: bool = False,
@@ -286,12 +286,12 @@ class ExplainabilityInterface:
         """
         # Generate cache key
         cache_key = self._generate_cache_key(decision, mode, level)
-        
+
         # Check cache
         cached = self.cache.get(cache_key)
         if cached and not include_proof and not include_trace:
             return cached
-        
+
         # Generate explanation content based on mode
         if mode == ExplanationMode.MULTIMODAL:
             content = await self._generate_multimodal_explanation(decision, level)
@@ -301,10 +301,10 @@ class ExplainabilityInterface:
             content = await self._generate_symbolic_explanation(decision, level)
         else:
             content = await self._generate_text_explanation(decision, level)
-        
+
         # Generate explanation ID
         explanation_id = f"exp_{hashlib.sha256(cache_key.encode()).hexdigest()[:16]}"
-        
+
         # Create base explanation
         explanation = Explanation(
             explanation_id=explanation_id,
@@ -316,30 +316,30 @@ class ExplainabilityInterface:
                 'generated_at': int(time.time())
             }
         )
-        
+
         # Add formal proof if requested
         if include_proof:
             explanation.formal_proof = await self.generate_formal_proof(decision)
-        
+
         # Add reasoning trace if requested
         if include_trace:
             explanation.reasoning_trace = await self.generate_reasoning_trace(decision)
-        
+
         # Calculate completeness metrics
         explanation.completeness = await self.calculate_completeness(explanation, decision)
-        
+
         # Sign explanation if requested
         if sign_explanation:
             explanation.signature = await self._sign_explanation(explanation)
-        
+
         # Cache explanation
         self.cache.put(cache_key, explanation)
-        
+
         return explanation
 
     async def generate_formal_proof(
         self,
-        decision: Dict[str, Any],
+        decision: dict[str, Any],
         system: ProofSystem = ProofSystem.FIRST_ORDER
     ) -> FormalProof:
         """
@@ -357,10 +357,10 @@ class ExplainabilityInterface:
         # Extract premises from decision
         premises = decision.get('premises', [])
         conclusion = decision.get('conclusion', decision.get('result', 'unknown'))
-        
+
         # Generate proof steps
         steps = []
-        
+
         # Step 1: Premise validation
         for i, premise in enumerate(premises):
             steps.append({
@@ -369,7 +369,7 @@ class ExplainabilityInterface:
                 'statement': premise,
                 'justification': 'Given'
             })
-        
+
         # Step 2: Inference steps
         if 'reasoning_steps' in decision:
             for i, step in enumerate(decision['reasoning_steps']):
@@ -380,7 +380,7 @@ class ExplainabilityInterface:
                     'justification': step.get('rule', 'Modus Ponens'),
                     'from_steps': step.get('depends_on', [])
                 })
-        
+
         # Step 3: Conclusion
         steps.append({
             'step': len(steps) + 1,
@@ -389,10 +389,10 @@ class ExplainabilityInterface:
             'justification': 'From previous steps',
             'from_steps': list(range(1, len(steps) + 1))
         })
-        
+
         # Validate proof (simplified - real implementation would use theorem prover)
         valid = self._validate_proof_steps(steps, system)
-        
+
         proof = FormalProof(
             proof_id=f"proof_{hashlib.sha256(str(decision).encode()).hexdigest()[:16]}",
             system=system,
@@ -402,13 +402,13 @@ class ExplainabilityInterface:
             valid=valid,
             timestamp=int(time.time())
         )
-        
+
         return proof
 
     async def generate_reasoning_trace(
         self,
-        decision: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        decision: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """
         Generate symbolic reasoning trace.
         
@@ -420,7 +420,7 @@ class ExplainabilityInterface:
         
         Task: TODO-HIGH-BRIDGE-EXPLAIN-m5n6o7p8 (Symbolic engine integration)
         """
-        trace: List[Dict[str, Any]] = []
+        trace: list[dict[str, Any]] = []
 
         # Use symbolic engine if available
         if self.symbolic_engine:
@@ -443,7 +443,7 @@ class ExplainabilityInterface:
                     'confidence': step.get('confidence', 1.0),
                     'symbolic_form': step.get('symbolic', '')
                 })
-        
+
         # Add MEG integration if available
         if self.meg_client:
             meg_context = await self._get_meg_context(decision)
@@ -462,7 +462,7 @@ class ExplainabilityInterface:
     async def calculate_completeness(
         self,
         explanation: Explanation,
-        decision: Dict[str, Any]
+        decision: dict[str, Any]
     ) -> CompletenessMetrics:
         """
         Calculate explanation completeness metrics.
@@ -480,13 +480,13 @@ class ExplainabilityInterface:
         decision_factors = decision.get('factors', [])
         explained_factors = 0
         content_str = str(explanation.content).lower()
-        
+
         for factor in decision_factors:
             if str(factor).lower() in content_str:
                 explained_factors += 1
-        
+
         coverage = explained_factors / len(decision_factors) if decision_factors else 1.0
-        
+
         # Depth: How detailed is the explanation?
         if explanation.level == ExplanationLevel.SIMPLE:
             depth = 0.3
@@ -496,20 +496,20 @@ class ExplainabilityInterface:
             depth = 0.9
         else:  # EXPERT
             depth = 1.0
-        
+
         # Adjust depth based on content length
         content_length = len(content_str)
         if content_length < 100:
             depth *= 0.5
         elif content_length < 500:
             depth *= 0.8
-        
+
         # Clarity: NLP-based readability score
         clarity = await self._calculate_clarity_score(content_str)
-        
+
         # Consistency: Check for contradictions
-        consistency = await self._calculate_consistency_score(explanation)
-        
+        consistency = await self._calculate_consistency_score(explanation, decision)
+
         # Overall weighted score
         overall = (
             coverage * 0.3 +
@@ -517,7 +517,7 @@ class ExplainabilityInterface:
             clarity * 0.3 +
             consistency * 0.2
         )
-        
+
         # Identify missing elements
         missing = []
         if coverage < 0.7:
@@ -528,7 +528,7 @@ class ExplainabilityInterface:
             missing.append("Low readability score")
         if consistency < 0.8:
             missing.append("Potential inconsistencies detected")
-        
+
         return CompletenessMetrics(
             coverage_score=coverage,
             depth_score=depth,
@@ -540,66 +540,91 @@ class ExplainabilityInterface:
 
     async def _calculate_clarity_score(self, text: str) -> float:
         """
-        Calculate NLP-based clarity metrics.
+        Calculate NLP-based clarity metrics using Flesch-Kincaid readability.
         
         Args:
             text: Text to analyze
         
         Returns:
-            Clarity score (0-1)
+            Clarity score (0-1), normalized from the Flesch reading ease score.
         
         Task: TODO-HIGH-BRIDGE-EXPLAIN-u3v4w5x6 (NLP clarity metrics)
         """
-        # Simplified clarity calculation
-        # Real implementation would use NLP libraries (spaCy, TextBlob, etc.)
-        
-        # Factors:
-        # 1. Sentence length (shorter is clearer)
-        sentences = text.split('.')
-        avg_sentence_length = len(text) / max(len(sentences), 1)
-        length_score = 1.0 - min(avg_sentence_length / 200, 1.0)
-        
-        # 2. Word complexity (simpler words are clearer)
+        # Improved clarity calculation using Flesch-Kincaid Readability test.
+        # This is a more standard NLP metric that doesn't require heavy libraries.
         words = text.split()
-        avg_word_length = sum(len(w) for w in words) / max(len(words), 1)
-        complexity_score = 1.0 - min(avg_word_length / 15, 1.0)
-        
-        # 3. Readability (presence of connectors, structure)
-        connectors = ['because', 'therefore', 'thus', 'however', 'moreover', 'furthermore']
-        connector_count = sum(1 for c in connectors if c in text.lower())
-        structure_score = min(connector_count / 3, 1.0)
-        
-        # Combined clarity score
-        clarity = (length_score * 0.4 + complexity_score * 0.3 + structure_score * 0.3)
-        
-        return max(0.0, min(1.0, clarity))
+        num_words = len(words)
+        num_sentences = text.count('.') + text.count('!') + text.count('?')
+        if num_sentences == 0:
+            num_sentences = 1
 
-    async def _calculate_consistency_score(self, explanation: Explanation) -> float:
+        def count_syllables(word):
+            word = word.lower()
+            count = 0
+            vowels = "aeiouy"
+            if word[0] in vowels:
+                count += 1
+            for index in range(1, len(word)):
+                if word[index] in vowels and word[index - 1] not in vowels:
+                    count += 1
+            if word.endswith("e"):
+                count -= 1
+            if count == 0:
+                count += 1
+            return count
+
+        num_syllables = sum(count_syllables(word) for word in words)
+
+        if num_words == 0 or num_sentences == 0:
+            return 0.0
+
+        # Flesch reading ease formula
+        score = 206.835 - 1.015 * (num_words / num_sentences) - 84.6 * (num_syllables / num_words)
+
+        # Normalize score to be between 0 and 1.
+        # A score of 100 is very easy, 0 is very difficult.
+        normalized_score = max(0.0, min(1.0, score / 100.0))
+
+        return normalized_score
+
+    async def _calculate_consistency_score(self, explanation: Explanation, decision: dict[str, Any]) -> float:
         """
         Calculate internal consistency score.
         
         Args:
             explanation: Explanation to check
+            decision: The decision being explained
         
         Returns:
             Consistency score (0-1)
         """
         # Check for logical consistency
         # Real implementation would use formal logic verification
-        
+
         score = 1.0
-        
+
         # Check proof validity if present
         if explanation.formal_proof and not explanation.formal_proof.valid:
             score *= 0.5
-        
+
         # Check reasoning trace consistency
         if explanation.reasoning_trace:
             # Simplified: Check if confidences are reasonable
             confidences = [step.get('confidence', 1.0) for step in explanation.reasoning_trace]
             if any(c < 0 or c > 1 for c in confidences):
                 score *= 0.7
-        
+
+        # MEG Integration for consistency validation
+        if self.meg_client:
+            meg_context = await self._get_meg_context(decision)
+            if meg_context:
+                # Example: Check if explanation contradicts past decisions
+                if meg_context.get('contradicts_past_decision'):
+                    score *= 0.6
+                if meg_context.get('is_novel_pattern'):
+                    # Could be good or bad, let's say it slightly reduces confidence until verified
+                    score *= 0.9
+
         return score
 
     def _load_templates(self) -> None:
@@ -610,7 +635,7 @@ class ExplainabilityInterface:
         """
         if not self.template_dir or not self.template_dir.exists():
             return
-        
+
         # Load YAML templates
         for yaml_file in self.template_dir.glob("*.yaml"):
             try:
@@ -622,7 +647,7 @@ class ExplainabilityInterface:
                             self.templates[template.template_id] = template
             except Exception:
                 continue
-        
+
         # Load JSON templates
         for json_file in self.template_dir.glob("*.json"):
             try:
@@ -637,11 +662,11 @@ class ExplainabilityInterface:
 
     async def _generate_multimodal_explanation(
         self,
-        decision: Dict[str, Any],
+        decision: dict[str, Any],
         level: ExplanationLevel
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
-        Generate multi-modal explanation (text + visual + audio).
+        Generate multi-modal explanation (text + visual + audio + symbolic).
         
         Args:
             decision: Decision data
@@ -674,16 +699,27 @@ class ExplainabilityInterface:
             'generated_at': generated_at,
         }
 
+        # Generate symbolic component
+        symbolic_text = await self._generate_symbolic_explanation(decision, level)
+        symbolic = {
+            'type': 'symbolic_trace',
+            'content': symbolic_text,
+            'format': 'text/plain',
+            'url': f"/api/symbolic/{decision.get('id')}",
+            'generated_at': generated_at,
+        }
+
         # ΛTAG: multimodal_enrichment
         return {
             'text': text_output,
             'visual': visual,
             'audio': audio,
+            'symbolic': symbolic,
         }
 
     async def _generate_text_explanation(
         self,
-        decision: Dict[str, Any],
+        decision: dict[str, Any],
         level: ExplanationLevel
     ) -> str:
         """Generate text-based explanation."""
@@ -692,11 +728,11 @@ class ExplainabilityInterface:
         if template_key in self.templates:
             template = self.templates[template_key]
             return template.template.format(**decision)
-        
+
         # Fallback: Generate basic explanation
         result = decision.get('result', decision.get('conclusion', 'unknown'))
         confidence = decision.get('confidence', 0.0)
-        
+
         if level == ExplanationLevel.SIMPLE:
             return f"Decision: {result} (confidence: {confidence:.1%})"
         elif level == ExplanationLevel.DETAILED:
@@ -707,42 +743,42 @@ class ExplainabilityInterface:
 
     async def _generate_formal_proof_explanation(
         self,
-        decision: Dict[str, Any]
+        decision: dict[str, Any]
     ) -> str:
         """Generate formal proof as explanation."""
         proof = await self.generate_formal_proof(decision)
-        
+
         lines = [f"Formal Proof ({proof.system.value}):"]
-        lines.append(f"Premises:")
+        lines.append("Premises:")
         for i, premise in enumerate(proof.premises):
             lines.append(f"  P{i+1}. {premise}")
-        
-        lines.append(f"\nProof Steps:")
+
+        lines.append("\nProof Steps:")
         for step in proof.steps:
             lines.append(f"  {step['step']}. {step['statement']} ({step['justification']})")
-        
+
         lines.append(f"\nConclusion: {proof.conclusion}")
         lines.append(f"Valid: {proof.valid}")
-        
+
         return '\n'.join(lines)
 
     async def _generate_symbolic_explanation(
         self,
-        decision: Dict[str, Any],
+        decision: dict[str, Any],
         level: ExplanationLevel
     ) -> str:
         """Generate symbolic logic explanation."""
         trace = await self.generate_reasoning_trace(decision)
-        
+
         lines = ["Symbolic Reasoning Trace:"]
         for step in trace:
             lines.append(f"  Step {step['step_id']}: {step['operation']}")
             if 'symbolic_form' in step:
                 lines.append(f"    {step['symbolic_form']}")
-        
+
         return '\n'.join(lines)
 
-    async def _get_meg_context(self, decision: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    async def _get_meg_context(self, decision: dict[str, Any]) -> Optional[dict[str, Any]]:
         """
         Integrate with MEG for episodic memory context.
         
@@ -756,7 +792,7 @@ class ExplainabilityInterface:
         """
         if not self.meg_client:
             return None
-        
+
         try:
             # Query MEG for related episodic memories
             decision_id = decision.get('id', '')
@@ -779,20 +815,20 @@ class ExplainabilityInterface:
         """
         # Generate canonical representation
         canonical = json.dumps(explanation.to_dict(), sort_keys=True)
-        
+
         # Create SHA256 hash (simplified - real implementation would use SRD)
         signature = hashlib.sha256(canonical.encode()).hexdigest()
-        
+
         # In real implementation, this would use:
         # 1. SRD (Symbolic Response Digest) protocol
         # 2. Private key signing
         # 3. Timestamp authority
-        
+
         return f"SRD-SHA256:{signature}"
 
     def _generate_cache_key(
         self,
-        decision: Dict[str, Any],
+        decision: dict[str, Any],
         mode: ExplanationMode,
         level: ExplanationLevel
     ) -> str:
@@ -802,7 +838,7 @@ class ExplainabilityInterface:
 
     def _validate_proof_steps(
         self,
-        steps: List[Dict[str, Any]],
+        steps: list[dict[str, Any]],
         system: ProofSystem
     ) -> bool:
         """
@@ -817,22 +853,22 @@ class ExplainabilityInterface:
         """
         # Simplified validation
         # Real implementation would use automated theorem prover
-        
+
         # Check that each step has required fields
         for step in steps:
             if 'statement' not in step or 'justification' not in step:
                 return False
-        
+
         # Check conclusion is last step
         if not steps or steps[-1]['type'] != 'conclusion':
             return False
-        
+
         return True
 
 
 # Convenience functions
 async def explain_decision(
-    decision: Dict[str, Any],
+    decision: dict[str, Any],
     mode: ExplanationMode = ExplanationMode.TEXT,
     level: ExplanationLevel = ExplanationLevel.DETAILED,
     **kwargs

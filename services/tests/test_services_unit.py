@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import services  # noqa: F401  # TODO: services; consider using impor...
+    import services  # TODO: services; consider using impor...
 except ImportError:
     pytest.skip("Module services not available", allow_module_level=True)
 

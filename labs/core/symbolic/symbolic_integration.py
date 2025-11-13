@@ -41,6 +41,8 @@
 ║ Symbolic Tags: {ΛSYMBOLIC}, {ΛMEMORY}, {ΛINTEGRATION}, {ΛDRIFT}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 # Module imports
 import logging
 

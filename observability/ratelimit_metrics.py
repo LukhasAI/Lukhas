@@ -160,7 +160,7 @@ def record_hit(route: str, principal: str) -> None:
     if not _enabled() or not _sample_ok() or not PROMETHEUS_AVAILABLE:
         return
 
-    try:
+    try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_observability_ratelimit_metrics_py_L163"}
         RL_HITS.labels(route_key(route), fingerprint(principal)).inc()
     except Exception:
         # Never crash request processing due to metrics

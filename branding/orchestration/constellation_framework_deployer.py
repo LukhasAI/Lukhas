@@ -9,13 +9,12 @@ import asyncio
 import json
 import logging
 import re
-import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-# Add branding modules to path
+from branding.analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer
 
 
 def create_deployment_error_message(error: Exception, context: str, file_path: str = "") -> str:
@@ -36,12 +35,6 @@ def create_deployment_error_message(error: Exception, context: str, file_path: s
         return f"❌ Constellation deployment failed in {context} for {file_path}: {error_type} - {error_details}"
     else:
         return f"❌ Constellation deployment failed in {context}: {error_type} - {error_details}"
-
-
-sys.path.append(str(Path(__file__).parent.parent))
-
-from analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer  # noqa: E402
-
 
 @dataclass
 class ConstellationIntegration:

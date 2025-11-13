@@ -164,7 +164,7 @@ class TestGuardianSchemaContract:
             ("integrity", "integrity is required")
         ]
 
-        for field, description in test_cases:
+        for field, _description in test_cases:
             invalid_envelope = dict(valid_envelope)
             del invalid_envelope[field]
 

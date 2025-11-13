@@ -9,23 +9,24 @@ Generates green-light status badges for module READMEs based on:
 
 Updates module README.md files with current track status tables.
 """
+from __future__ import annotations
 
 import glob
 import json
 import pathlib
 import re
-from datetime import datetime
-from typing import Any, Dict, List
+from datetime import datetime, timezone
+from typing import Any
 
 
 class TrackBadgeGenerator:
     """Generate and update Matrix Tracks status badges in module READMEs."""
 
     def __init__(self):
-        self.timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        self.date_only = datetime.utcnow().strftime('%Y-%m-%d')
+        self.timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+        self.date_only = datetime.now(timezone.utc).strftime('%Y-%m-%d')
 
-    def analyze_contract(self, contract_path: str) -> Dict[str, Any]:
+    def analyze_contract(self, contract_path: str) -> dict[str, Any]:
         """Analyze matrix contract to determine track status."""
         try:
             with open(contract_path) as f:
@@ -50,7 +51,7 @@ class TrackBadgeGenerator:
             'gates': contract.get('gates', [])
         }
 
-    def _analyze_verification_track(self, contract: Dict) -> Dict[str, str]:
+    def _analyze_verification_track(self, contract: Dict) -> dict[str, str]:
         """Analyze verification track status from contract."""
         formal = contract.get('formal', {})
         probabilistic = formal.get('probabilistic', {})
@@ -81,7 +82,7 @@ class TrackBadgeGenerator:
             'details': 'No probabilistic verification in contract'
         }
 
-    def _analyze_provenance_track(self, contract: Dict) -> Dict[str, str]:
+    def _analyze_provenance_track(self, contract: Dict) -> dict[str, str]:
         """Analyze provenance track status from contract."""
         causal_prov = contract.get('causal_provenance', {})
         cid = causal_prov.get('ipld_root_cid', '')
@@ -108,7 +109,7 @@ class TrackBadgeGenerator:
             'details': 'No causal_provenance in contract'
         }
 
-    def _analyze_attestation_track(self, contract: Dict) -> Dict[str, str]:
+    def _analyze_attestation_track(self, contract: Dict) -> dict[str, str]:
         """Analyze attestation track status from contract."""
         attestation = contract.get('attestation', {})
         rats = attestation.get('rats', {})
@@ -139,7 +140,7 @@ class TrackBadgeGenerator:
             'details': 'No RATS configuration in contract'
         }
 
-    def generate_status_table(self, analysis: Dict[str, Any]) -> str:
+    def generate_status_table(self, analysis: dict[str, Any]) -> str:
         """Generate the Matrix Tracks status table markdown."""
         tracks = analysis['tracks']
 
@@ -167,7 +168,7 @@ class TrackBadgeGenerator:
 
         return table
 
-    def update_module_readme(self, contract_path: str, analysis: Dict[str, Any]) -> bool:
+    def update_module_readme(self, contract_path: str, analysis: dict[str, Any]) -> bool:
         """Update module README.md with current status table."""
         module_dir = pathlib.Path(contract_path).parent
         readme_path = module_dir / 'README.md'
@@ -177,7 +178,7 @@ class TrackBadgeGenerator:
 
         if readme_path.exists():
             # Update existing README
-            with open(readme_path, 'r') as f:
+            with open(readme_path) as f:
                 content = f.read()
 
             # Replace existing status table
@@ -237,7 +238,7 @@ Current gate configuration from [`matrix_{analysis['module']}.json`](matrix_{ana
             print(f"❌ Failed to write {readme_path}: {e}")
             return False
 
-    def generate_summary_report(self, analyses: List[Dict[str, Any]]) -> str:
+    def generate_summary_report(self, analyses: list[dict[str, Any]]) -> str:
         """Generate summary report of all track statuses."""
         if not analyses:
             return "No matrix contracts found."
@@ -300,7 +301,7 @@ Current gate configuration from [`matrix_{analysis['module']}.json`](matrix_{ana
 
         # Write summary to artifacts
         pathlib.Path("reports").mkdir(exist_ok=True)
-        summary_path = f"reports/matrix_tracks_status_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.md"
+        summary_path = f"reports/matrix_tracks_status_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.md"
         with open(summary_path, 'w') as f:
             f.write(summary)
 

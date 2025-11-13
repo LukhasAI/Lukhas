@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import phase1_verification_pack  # noqa: F401  # TODO: phase1_verification_pack; cons...
+    import phase1_verification_pack  # TODO: phase1_verification_pack; cons...
 except ImportError:
     pytest.skip("Module phase1_verification_pack not available", allow_module_level=True)
 

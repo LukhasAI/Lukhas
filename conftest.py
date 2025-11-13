@@ -1,4 +1,4 @@
-# conftest.py (ROOT) — deterministic import behavior + telemetry
+# conftest.py (ROOT) - deterministic import behavior + telemetry
 from __future__ import annotations
 
 import importlib
@@ -7,11 +7,13 @@ import importlib.util
 import sys
 import traceback
 from pathlib import Path
-from typing import Optional
+
+# ---- Additional test fixtures ----
+import pytest
 
 # Ensure sitecustomize runs (fixes _SixMetaPathImporter compatibility)
-try:
-    import sitecustomize  # noqa: F401
+try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_conftest_py_L15"}
+    import sitecustomize
 except ImportError:
     pass
 
@@ -61,7 +63,7 @@ class _LukhasAliasFinder(importlib.abc.MetaPathFinder):
             return None
 
 
-def _map_lukhas(fullname: str) -> Optional[str]:
+def _map_lukhas(fullname: str) -> str | None:
     """
     Centralize alias map (lukhas.* → canonical paths).
     Keep this tiny and pure (no imports of project code!).
@@ -106,8 +108,6 @@ def pytest_sessionstart(session):
         pass
 
 
-# ---- Additional test fixtures ----
-import pytest
 
 
 @pytest.fixture(scope="session")

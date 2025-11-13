@@ -4,7 +4,7 @@ tests/test_events.py
 Unit tests for event-sourced storage system - Event schema and EventStore functionality.
 Covers event creation, storage operations, queries, and replay functionality.
 """
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from unittest.mock import patch
 from uuid import UUID, uuid4
 
@@ -43,7 +43,7 @@ def test_event_creation_with_custom_params():
     """Test Event creation with custom timestamp and ID."""
     glyph_id = uuid4()
     event_id = uuid4()
-    ts = datetime.utcnow()
+    ts = datetime.now(timezone.utc)
     payload = {"test": "data"}
 
     event = Event.create("action", "labs", glyph_id, payload, ts=ts, event_id=event_id)
@@ -178,7 +178,7 @@ def test_query_recent_with_lane_filter(event_store, sample_glyph_id):
 
 def test_query_recent_with_time_filter(event_store, sample_glyph_id):
     """Test recent query with time filtering."""
-    base_time = datetime.utcnow()
+    base_time = datetime.now(timezone.utc)
 
     # Add old events
     for i in range(3):
@@ -221,7 +221,7 @@ def test_query_by_glyph(event_store):
 
 def test_query_sliding_window(event_store, sample_glyph_id):
     """Test sliding window queries."""
-    base_time = datetime.utcnow()
+    base_time = datetime.now(timezone.utc)
 
     # Add events at different times
     timestamps = [
@@ -242,7 +242,7 @@ def test_query_sliding_window(event_store, sample_glyph_id):
 
 def test_replay_sequence(event_store, sample_glyph_id):
     """Test replay sequence generation."""
-    base_time = datetime.utcnow()
+    base_time = datetime.now(timezone.utc)
 
     # Add events with specific timestamps (out of order)
     timestamps = [

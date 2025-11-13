@@ -12,7 +12,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-
 from core.colonies.memory_colony import MemoryColony
 from core.common import get_logger
 from core.event_sourcing import EventStore

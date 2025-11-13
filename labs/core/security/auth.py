@@ -79,36 +79,12 @@ except ImportError:
 
 try:
     import jwt
-
     JWT_AVAILABLE = True
 except ImportError:
     JWT_AVAILABLE = False
-
-    # Mock JWT for testing
-
-    class jwt:
-        @staticmethod
-        def encode(payload, secret, algorithm="HS256"):
-            import base64
-            import json
-
-            return base64.b64encode(json.dumps(payload).encode()).decode()
-
-        @staticmethod
-        def decode(token, secret, algorithms=None):
-            import base64
-            import json
-
-            try:
-                return json.loads(base64.b64decode(token))
-            except BaseException:
-                raise jwt.InvalidTokenError()
-
-        class ExpiredSignatureError(Exception):
-            pass
-
-        class InvalidTokenError(Exception):
-            pass
+    # Raising an ImportError is crucial to prevent the application
+    # from running in an insecure state when the JWT library is missing.
+    raise ImportError("The 'PyJWT' package is required for authentication but is not installed.")
 
 
 try:
@@ -216,7 +192,13 @@ class EnhancedAuthenticationSystem:
 
     def __init__(self, redis_url: Optional[str] = None):
         # JWT configuration (allow override via env)
-        self.jwt_secret = env_get("JWT_PRIVATE_KEY", secrets.token_urlsafe(32))
+        configured_secret = env_get("JWT_PRIVATE_KEY")
+        if configured_secret and configured_secret.strip():
+            self.jwt_secret = configured_secret.strip()
+            self.jwt_secret_configured = True
+        else:
+            self.jwt_secret = secrets.token_urlsafe(32)
+            self.jwt_secret_configured = False
         self.jwt_algorithm = "HS256"
         self.jwt_expiry_hours = 24
 

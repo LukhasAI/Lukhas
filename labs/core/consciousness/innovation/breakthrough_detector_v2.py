@@ -16,7 +16,6 @@ from datetime import datetime, timezone
 from typing import Any
 
 import numpy as np
-
 from core.common import get_logger
 from core.container.service_container import ServiceContainer
 from core.interfaces import CoreInterface
@@ -112,14 +111,14 @@ class BreakthroughDetectorV2(CoreInterface):
         # Initialize LUKHAS integration
         try:
             self.kernel_bus = container.get_service("symbolic_kernel_bus")
-        except:
+        except Exception:
             from orchestration.symbolic_kernel_bus import SymbolicKernelBus
 
             self.kernel_bus = SymbolicKernelBus()
 
         try:
             self.guardian = container.get_service("guardian_system")
-        except:
+        except Exception:
             from governance.guardian_system import GuardianSystem
 
             self.guardian = GuardianSystem()

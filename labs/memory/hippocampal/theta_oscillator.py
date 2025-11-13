@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -93,6 +95,7 @@ class ThetaOscillator:
         # Running state
         self._running = False
         self._oscillation_task = None
+        self._background_tasks: set[asyncio.Task[Any]] = set()
 
         logger.info(
             "ThetaOscillator initialized",
@@ -104,13 +107,30 @@ class ThetaOscillator:
         """Start theta oscillation"""
         self._running = True
         self._oscillation_task = asyncio.create_task(self._oscillation_loop())
+        self._background_tasks.add(self._oscillation_task)
+        self._oscillation_task.add_done_callback(self._background_tasks.discard)
         logger.info("ThetaOscillator started")
 
     async def stop(self):
         """Stop theta oscillation"""
         self._running = False
-        if self._oscillation_task:
-            self._oscillation_task.cancel()
+        tasks_to_cancel = [
+            task
+            for task in [self._oscillation_task]
+            if task is not None
+        ]
+
+        for task in list(self._background_tasks):
+            if task not in tasks_to_cancel:
+                tasks_to_cancel.append(task)
+
+        for task in tasks_to_cancel:
+            task.cancel()
+
+        self._background_tasks.clear()
+
+        if tasks_to_cancel:
+            await asyncio.gather(*tasks_to_cancel, return_exceptions=True)
         logger.info("ThetaOscillator stopped")
 
     def get_current_state(self) -> ThetaWave:
@@ -293,7 +313,9 @@ class ThetaOscillator:
             phase_name = wave.phase_name
             for callback in self.phase_callbacks.get(phase_name, []):
                 try:
-                    asyncio.create_task(callback(wave))
+                    task = asyncio.create_task(callback(wave))
+                    self._background_tasks.add(task)
+                    task.add_done_callback(self._background_tasks.discard)
                 except Exception as e:
                     logger.error(f"Phase callback error: {e}")
 

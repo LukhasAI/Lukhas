@@ -1,6 +1,9 @@
 # path: qi/provenance/receipts_hub.py
 from __future__ import annotations
 
+# ---- safe I/O (avoid sandbox recursion) ----
+import builtins
+import contextlib
 import hashlib
 import json
 import os
@@ -14,9 +17,6 @@ STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 OUT_DIR = os.path.join(STATE, "provenance", "exec_receipts")
 os.makedirs(OUT_DIR, exist_ok=True)
 
-# ---- safe I/O (avoid sandbox recursion) ----
-import builtins
-import contextlib
 
 _ORIG_OPEN = builtins.open
 
@@ -173,7 +173,7 @@ def _generate_grafana(path: str):
 def main():
     import argparse
 
-    ap = argparse.ArgumentParser(description="Lukhas Receipts Hub (Altman–Amodei–Hassabis)")
+    ap = argparse.ArgumentParser(description="Lukhas Receipts Hub (Altman-Amodei-Hassabis)")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     e = sub.add_parser("emit", help="Emit a single receipt from args (for testing)")

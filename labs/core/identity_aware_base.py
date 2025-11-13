@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -27,7 +29,6 @@ from functools import wraps
 from typing import Any, Callable, Optional
 
 import structlog
-
 from governance.identity.interface import IdentityClient
 
 logger = structlog.get_logger(__name__)

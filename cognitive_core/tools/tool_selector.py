@@ -383,15 +383,15 @@ def create_selection_context(
 
 # Export main classes and functions
 __all__ = [
-    "ToolSelector",
-    "ToolSelection",  # Alias for ToolSelector
-    "SelectionStrategy",
-    "ToolCategory",
-    "ToolMetrics",
-    "ToolInfo",
     "SelectionContext",
     "SelectionCriteria",  # Alias for SelectionContext
+    "SelectionStrategy",
+    "ToolCategory",
+    "ToolInfo",
+    "ToolMetrics",
     "ToolRecommendation",
-    "quick_tool_selection",
+    "ToolSelection",  # Alias for ToolSelector
+    "ToolSelector",
     "create_selection_context",
+    "quick_tool_selection",
 ]

@@ -10,34 +10,34 @@ PROMO = os.path.join(STATE, "promotions.jsonl")
 
 
 def propose(change_id: str, metrics: dict) -> dict:
-    {
-"ts": time.time(),
-"change_id": change_id,
-"status": "shadow",
-"metrics": metrics,
-}
-with open(PROMO, "a") as f:
-        f.write(json.dumps(rec) + "\n")  # noqa: F821  # TODO: rec
-return rec  # noqa: F821  # TODO: rec
+    rec = {
+        "ts": time.time(),
+        "change_id": change_id,
+        "status": "shadow",
+        "metrics": metrics,
+    }
+    with open(PROMO, "a") as f:
+        f.write(json.dumps(rec) + "\n")
+    return rec
 
 
 def promote(change_id: str, ok: bool, reason: str = ""):
-    {
-"ts": time.time(),
-"change_id": change_id,
-"status": "promoted" if ok else "rolled_back",
-"reason": reason,
-}
-with open(PROMO, "a") as f:
-        f.write(json.dumps(rec) + "\n")  # noqa: F821  # TODO: rec
-return rec  # noqa: F821  # TODO: rec
+    rec = {
+        "ts": time.time(),
+        "change_id": change_id,
+        "status": "promoted" if ok else "rolled_back",
+        "reason": reason,
+    }
+    with open(PROMO, "a") as f:
+        f.write(json.dumps(rec) + "\n")
+    return rec
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-ap.add_argument("--change-id", required=True)
-ap.add_argument("--promote", action="store_true")
-ap.add_argument("--ok", action="store_true")
+    ap.add_argument("--change-id", required=True)
+    ap.add_argument("--promote", action="store_true")
+    ap.add_argument("--ok", action="store_true")
 ap.add_argument("--reason", default="")
 args = ap.parse_args()
 if args.promote:

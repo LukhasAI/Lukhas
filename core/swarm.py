@@ -12,7 +12,7 @@ import time
 from contextlib import contextmanager
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 try:
     from core.fault_tolerance import SupervisionStrategy
@@ -341,13 +341,13 @@ class SwarmHub:
 class TraceEvent:
     name: str
     duration_ms: float
-    attributes: Dict[str, Any]
+    attributes: dict[str, Any]
 
 
 class TraceCollector:
     """Minimal trace collector that stores or emits trace events.
 
-    This is a lightweight, import-time-safe stand‑in for a full tracing backend.
+    This is a lightweight, import-time-safe stand-in for a full tracing backend.
     """
 
     def __init__(self):
@@ -368,7 +368,7 @@ _GLOBAL_TRACER: Optional[GlobalTracer] = None
 
 
 def get_global_tracer() -> GlobalTracer:
-    """Return a process‑local global tracer with a minimal collector."""
+    """Return a process-local global tracer with a minimal collector."""
     global _GLOBAL_TRACER
     if _GLOBAL_TRACER is None:
         _GLOBAL_TRACER = GlobalTracer()
@@ -404,7 +404,7 @@ class Supervisor:
 
     def __init__(self, strategy: SupervisionStrategy = SupervisionStrategy.RESTART):
         self.strategy = strategy
-        self.children: Dict[str, Actor] = {}
+        self.children: dict[str, Actor] = {}
 
     def add_child(self, child_id: str, actor: Actor) -> None:
         self.children[child_id] = actor
@@ -413,7 +413,7 @@ class Supervisor:
         # For now, log + simple restart placeholder depending on strategy
         if self.strategy == SupervisionStrategy.RESTART and child_id in self.children:
             # A real implementation would reconstruct/restart the actor.
-            # We keep a no‑op to maintain import‑time safety.
+            # We keep a no-op to maintain import-time safety.
             pass
         elif self.strategy == SupervisionStrategy.IGNORE:
             pass

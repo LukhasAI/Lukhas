@@ -14,12 +14,11 @@ Performance targets:
 import json
 import time
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import asyncpg
 import numpy as np
 from asyncpg.pool import Pool
-
 from core.common.logger import get_logger
 from observability.service_metrics import get_metrics_collector
 
@@ -54,7 +53,7 @@ class PgVectorStore(AbstractVectorStore):
         table_name: str = "vector_documents",
         dimension: int = 1536,
         index_type: str = "hnsw",  # hnsw, ivfflat
-        index_params: Optional[Dict[str, Any]] = None,
+        index_params: Optional[dict[str, Any]] = None,
         pool_size: int = 10,
         max_pool_size: int = 20
     ):
@@ -287,7 +286,7 @@ class PgVectorStore(AbstractVectorStore):
             )
             raise VectorStoreError(f"Failed to add document: {e}") from e
 
-    async def bulk_add(self, documents: List[VectorDocument]) -> List[bool]:
+    async def bulk_add(self, documents: list[VectorDocument]) -> list[bool]:
         """Add multiple documents in batch"""
         start_time = time.perf_counter()
 
@@ -300,9 +299,8 @@ class PgVectorStore(AbstractVectorStore):
                 self._validate_dimension(doc.embedding, self.dimension)
                 doc.embedding = self._normalize_vector(doc.embedding)
 
-            async with self.pool.acquire() as conn:
-                async with conn.transaction():
-                    insert_sql = f"""
+            async with self.pool.acquire() as conn, conn.transaction():
+                insert_sql = f"""
                     INSERT INTO {self.table_name} (
                         id, content, embedding, metadata, identity_id, lane, fold_id, tags,
                         created_at, updated_at, expires_at, access_count, last_accessed
@@ -315,33 +313,33 @@ class PgVectorStore(AbstractVectorStore):
                         updated_at = NOW();
                     """
 
-                    results = []
-                    for doc in documents:
-                        try:
-                            await conn.execute(
-                                insert_sql,
-                                doc.id,
-                                doc.content,
-                                doc.embedding.tolist(),
-                                json.dumps(doc.metadata),
-                                doc.identity_id,
-                                doc.lane,
-                                doc.fold_id,
-                                doc.tags,
-                                doc.created_at,
-                                doc.updated_at,
-                                doc.expires_at,
-                                doc.access_count,
-                                doc.last_accessed
-                            )
-                            results.append(True)
-                        except Exception as e:
-                            logger.error(
-                                "Failed to insert document in batch",
-                                document_id=doc.id,
-                                error=str(e)
-                            )
-                            results.append(False)
+                results = []
+                for doc in documents:
+                    try:
+                        await conn.execute(
+                            insert_sql,
+                            doc.id,
+                            doc.content,
+                            doc.embedding.tolist(),
+                            json.dumps(doc.metadata),
+                            doc.identity_id,
+                            doc.lane,
+                            doc.fold_id,
+                            doc.tags,
+                            doc.created_at,
+                            doc.updated_at,
+                            doc.expires_at,
+                            doc.access_count,
+                            doc.last_accessed
+                        )
+                        results.append(True)
+                    except Exception as e:
+                        logger.error(
+                            "Failed to insert document in batch",
+                            document_id=doc.id,
+                            error=str(e)
+                        )
+                        results.append(False)
 
             duration_ms = (time.perf_counter() - start_time) * 1000
             success_count = sum(results)
@@ -476,9 +474,9 @@ class PgVectorStore(AbstractVectorStore):
         self,
         query_vector: np.ndarray,
         k: int = 10,
-        filters: Optional[Dict[str, Any]] = None,
+        filters: Optional[dict[str, Any]] = None,
         include_metadata: bool = True
-    ) -> List[SearchResult]:
+    ) -> list[SearchResult]:
         """Vector similarity search using cosine similarity"""
         start_time = time.perf_counter()
 
@@ -590,8 +588,8 @@ class PgVectorStore(AbstractVectorStore):
         self,
         query_text: str,
         k: int = 10,
-        filters: Optional[Dict[str, Any]] = None
-    ) -> List[SearchResult]:
+        filters: Optional[dict[str, Any]] = None
+    ) -> list[SearchResult]:
         """Text-based search (requires external embedding service)"""
         # This would require an embedding service integration
         # For now, we'll do a simple text search as fallback
@@ -820,7 +818,7 @@ class PgVectorStore(AbstractVectorStore):
                 avg_dimension=float(self.dimension)
             )
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check for monitoring"""
         try:
             async with self.pool.acquire() as conn:

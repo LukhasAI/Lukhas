@@ -14,6 +14,8 @@
 ║ Learns from user feedback to adjust voice synthesis parameters.
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import time
 from statistics import mean
 

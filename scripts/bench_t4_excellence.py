@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""
-T4/0.01% Excellence Performance Validation Suite
+
+"""T4/0.01% Excellence Performance Validation Suite
 ================================================
 
 Unassailable performance validation with complete statistical rigor,
@@ -23,18 +23,26 @@ import time
 from contextlib import contextmanager
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, ClassVar, Dict
 
 import psutil
-
-# Suppress verbose logging
-logging.getLogger().setLevel(logging.CRITICAL)
 
 # Add project root to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from bench_core import PerformanceBenchmark
-from preflight_check import PreflightValidator
+from bench_core import (
+    PerformanceBenchmark,  # - requires sys.path manipulation before import
+)
+from preflight_check import (
+    PreflightValidator,  # - requires sys.path manipulation before import
+)
+
+# Suppress verbose logging
+logging.getLogger().setLevel(logging.CRITICAL)
+
+# Module-level logger
+logger = logging.getLogger(__name__)
+
 
 
 class ChaosCleanupManager:
@@ -172,18 +180,18 @@ class E2EPromotionGate:
     """E2E-only promotion gates for SLA compliance validation"""
 
     # Define valid E2E metric patterns
-    E2E_METRIC_PATTERNS = {
+    E2E_METRIC_PATTERNS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_bench_t4_excellence_py_L179"}
         'guardian_e2e', 'memory_e2e', 'orchestrator_e2e',
         'api_e2e', 'workflow_e2e', 'integration_e2e'
     }
 
     # Define forbidden unit test patterns
-    UNIT_METRIC_PATTERNS = {
+    UNIT_METRIC_PATTERNS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_bench_t4_excellence_py_L185"}
         'guardian_unit', 'memory_unit', 'orchestrator_unit',
         'api_unit', 'workflow_unit', 'integration_unit'
     }
 
-    SLA_THRESHOLDS = {
+    SLA_THRESHOLDS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_bench_t4_excellence_py_L190"}
         'guardian_e2e': 100000,    # 100ms in μs
         'memory_e2e': 1000,       # 1ms in μs
         'orchestrator_e2e': 250000, # 250ms in μs
@@ -237,7 +245,7 @@ class E2EPromotionGate:
             self.validations.append(validation)
             return False
 
-    def validate_sla_compliance(self, results: Dict[str, 'PerformanceDistribution']) -> Dict[str, bool]:
+    def validate_sla_compliance(self, results: dict[str, 'PerformanceDistribution']) -> dict[str, bool]:
         """Validate SLA compliance using only E2E metrics"""
         print("🚪 Running E2E-only promotion gate validation...")
 
@@ -295,7 +303,7 @@ class E2EPromotionGate:
 
         return sla_compliance
 
-    def generate_promotion_report(self) -> Dict[str, Any]:
+    def generate_promotion_report(self) -> dict[str, Any]:
         """Generate detailed promotion gate report"""
         return {
             'gate_type': 'e2e_only',
@@ -331,7 +339,7 @@ class PowerThermalTelemetry:
         print(f"  📊 Baseline CPU frequency: {reading.get('cpu_freq_mhz', 'N/A')} MHz")
         print(f"  🌡️  Baseline CPU temperature: {reading.get('cpu_temp_c', 'N/A')}°C")
 
-    def _take_reading(self, label: str = "") -> Dict[str, Any]:
+    def _take_reading(self, label: str = "") -> dict[str, Any]:
         """Take a comprehensive power/thermal reading"""
         reading = {
             'timestamp': time.time(),
@@ -357,7 +365,8 @@ class PowerThermalTelemetry:
                         if freqs:
                             reading['cpu_freq_per_core'] = freqs
                             reading['cpu_freq_variance'] = max(freqs) - min(freqs)
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
             # CPU temperature (if available)
@@ -375,7 +384,7 @@ class PowerThermalTelemetry:
                         reading['cpu_temp_c'] = sum(cpu_temps) / len(cpu_temps)
                         reading['cpu_temp_max'] = max(cpu_temps)
                         reading['cpu_temp_cores'] = cpu_temps
-            except:
+            except Exception:
                 reading['cpu_temp_c'] = None
 
             # Power consumption (Linux only)
@@ -393,7 +402,8 @@ class PowerThermalTelemetry:
                                 power_uw = int(f.read().strip())
                                 reading['battery_power_w'] = power_uw / 1000000  # Convert μW to W
                             break
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
             # CPU load averages
@@ -486,7 +496,7 @@ class PowerThermalTelemetry:
             else:
                 print(f"  ✅ System load acceptable: {load_mean:.2f} average")
 
-    def generate_telemetry_report(self) -> Dict[str, Any]:
+    def generate_telemetry_report(self) -> dict[str, Any]:
         """Generate comprehensive telemetry report"""
         report = {
             'telemetry_version': '1.0.0',
@@ -556,7 +566,7 @@ class SLOBurnRateDrill:
 
     def generate_synthetic_traffic(self, target_function, baseline_latency: float,
                                  duration_seconds: int = 30,
-                                 requests_per_second: int = 100) -> Dict[str, Any]:
+                                 requests_per_second: int = 100) -> dict[str, Any]:
         """Generate synthetic traffic to test SLO burn-rate monitoring"""
         print("🚀 Starting SLO burn-rate drill...")
         print(f"  📊 Target: {requests_per_second} RPS for {duration_seconds}s")
@@ -647,8 +657,8 @@ class SLOBurnRateDrill:
 
         return result
 
-    def _analyze_window(self, window_latencies: List[float], slo_thresholds: Dict[str, float],
-                       request_id: int) -> List[Dict[str, Any]]:
+    def _analyze_window(self, window_latencies: list[float], slo_thresholds: dict[str, float],
+                       request_id: int) -> list[dict[str, Any]]:
         """Analyze a window of latencies for SLO violations"""
         violations = []
 
@@ -690,8 +700,8 @@ class SLOBurnRateDrill:
 
         return violations
 
-    def _calculate_drill_results(self, all_latencies: List[float], slo_thresholds: Dict[str, float],
-                               violation_windows: List[Dict], duration_seconds: int) -> Dict[str, Any]:
+    def _calculate_drill_results(self, all_latencies: list[float], slo_thresholds: dict[str, float],
+                               violation_windows: list[Dict], duration_seconds: int) -> dict[str, Any]:
         """Calculate comprehensive drill results"""
         if not all_latencies:
             return {'error': 'No latency data'}
@@ -753,7 +763,7 @@ class SLOBurnRateDrill:
 
         return result
 
-    def _calculate_burn_rate(self, violation_windows: List[Dict], duration_seconds: int) -> Dict[str, Any]:
+    def _calculate_burn_rate(self, violation_windows: list[Dict], duration_seconds: int) -> dict[str, Any]:
         """Calculate SLO burn rate metrics"""
         if duration_seconds <= 0:
             return {'error': 'Invalid duration'}
@@ -790,7 +800,7 @@ class SLOBurnRateDrill:
             'thresholds': burn_rate_thresholds
         }
 
-    def run_comprehensive_drill(self, target_function, baseline_latency: float) -> Dict[str, Any]:
+    def run_comprehensive_drill(self, target_function, baseline_latency: float) -> dict[str, Any]:
         """Run comprehensive SLO burn-rate drill with multiple scenarios"""
         print("🎯 Running comprehensive SLO burn-rate drill...")
 
@@ -870,20 +880,20 @@ class PerformanceDistribution:
     max: float
     iqr: float  # Interquartile range
     mad: float  # Median absolute deviation
-    histogram: List[Tuple[float, int]] = field(default_factory=list)
-    raw_samples: List[float] = field(default_factory=list)
+    histogram: list[tuple[float, int]] = field(default_factory=list)
+    raw_samples: list[float] = field(default_factory=list)
 
 
 @dataclass
 class ValidationResult:
     """Complete validation result with proof"""
     timestamp: str
-    environment: Dict[str, Any]
-    distributions: Dict[str, PerformanceDistribution]
-    sla_compliance: Dict[str, bool]
-    chaos_results: Dict[str, Any]
-    reproducibility: Dict[str, float]
-    telemetry_report: Dict[str, Any]
+    environment: dict[str, Any]
+    distributions: dict[str, PerformanceDistribution]
+    sla_compliance: dict[str, bool]
+    chaos_results: dict[str, Any]
+    reproducibility: dict[str, float]
+    telemetry_report: dict[str, Any]
     merkle_root: str
     previous_hash: str
     evidence_hash: str
@@ -901,7 +911,7 @@ class T4ExcellenceValidator:
         self.artifacts_dir = Path("artifacts")
         self.artifacts_dir.mkdir(exist_ok=True)
 
-    def capture_full_environment(self) -> Dict[str, Any]:
+    def capture_full_environment(self) -> dict[str, Any]:
         """Capture complete environment for reproducibility"""
         cpu_info = psutil.cpu_freq()
         mem_info = psutil.virtual_memory()
@@ -918,7 +928,7 @@ class T4ExcellenceValidator:
                 if '==' in line:
                     name, version = line.split('==')
                     deps[name] = version
-        except:
+        except Exception:
             deps = {"error": "Could not capture dependencies"}
 
         return {
@@ -957,7 +967,7 @@ class T4ExcellenceValidator:
             }
         }
 
-    def calculate_distribution(self, samples: List[float], name: str) -> PerformanceDistribution:
+    def calculate_distribution(self, samples: list[float], name: str) -> PerformanceDistribution:
         """Calculate complete distribution statistics"""
         if not samples:
             return PerformanceDistribution(
@@ -1051,7 +1061,7 @@ class T4ExcellenceValidator:
         self.results[name] = dist
         return dist
 
-    def run_chaos_test(self, func, name: str, chaos_type: str = "cpu_spike") -> Dict[str, Any]:
+    def run_chaos_test(self, func, name: str, chaos_type: str = "cpu_spike") -> dict[str, Any]:
         """Run benchmark under chaos conditions with idempotent cleanup"""
         print(f"🌪️  Chaos test: {name} with {chaos_type}")
 
@@ -1121,7 +1131,7 @@ class T4ExcellenceValidator:
         self.chaos_results[name] = result
         return result
 
-    def test_reproducibility(self, func, name: str, runs: int = 5) -> Dict[str, float]:
+    def test_reproducibility(self, func, name: str, runs: int = 5) -> dict[str, float]:
         """Test reproducibility across multiple runs"""
         print(f"🔄 Testing reproducibility: {name} ({runs} runs)")
 
@@ -1207,7 +1217,7 @@ class T4ExcellenceValidator:
         result = ValidationResult(
             timestamp=env["timestamp"],
             environment=env,
-            distributions={k: v for k, v in self.results.items()},
+            distributions=dict(self.results.items()),
             sla_compliance=sla_compliance,
             chaos_results=self.chaos_results,
             reproducibility={},
@@ -1284,7 +1294,7 @@ def run_t4_excellence_validation():
         log_file = Path(temp_dir) / f"log_{time.time_ns()}.json"
         with open(log_file, 'w') as f:
             json.dump(response, f)
-        with open(log_file, 'r') as f:
+        with open(log_file) as f:
             verified = json.load(f)
         log_file.unlink()
         return verified
@@ -1304,7 +1314,7 @@ def run_t4_excellence_validation():
         event_file = Path(temp_dir) / f"event_{time.time_ns()}.json"
         with open(event_file, 'w') as f:
             json.dump({"data": event.data, "metadata": event.metadata}, f)
-        with open(event_file, 'r') as f:
+        with open(event_file) as f:
             verified = json.load(f)
         event_file.unlink()
         return verified

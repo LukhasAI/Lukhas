@@ -17,4 +17,4 @@ class AgentColony:
     def __init__(self, *args, **kwargs):
         pass
 
-__all__ = ["SwarmHub", "AgentColony"]
+__all__ = ["AgentColony", "SwarmHub"]

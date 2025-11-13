@@ -20,7 +20,7 @@ def extract_module_docstring(module_path: Path) -> Optional[str]:
         return None
 
     try:
-        with open(init_file, 'r', encoding='utf-8') as f:
+        with open(init_file, encoding='utf-8') as f:
             content = f.read()
 
         tree = ast.parse(content)
@@ -44,7 +44,7 @@ def generate_module_readme(module_path: Path) -> str:
         return ""
 
     try:
-        with open(manifest_file, 'r', encoding='utf-8') as f:
+        with open(manifest_file, encoding='utf-8') as f:
             manifest = json.load(f)
     except Exception as e:
         print(f"Error loading {manifest_file}: {e}")

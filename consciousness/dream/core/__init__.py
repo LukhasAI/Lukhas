@@ -4,7 +4,10 @@ from __future__ import annotations
 from _bridgeutils import bridge
 
 _mod, _exports, __all__ = bridge(
-    candidates=("candidate.consciousness.dream.core",),
+    candidates=(
+        "candidate.consciousness.dream.core",
+        "labs.consciousness.dream.core",
+    ),
     deprecation=(
         "Importing from 'consciousness.dream.core' is deprecated; "
         "prefer 'consciousness' public API where possible."

@@ -16,7 +16,6 @@ from pathlib import Path
 from typing import Any
 
 import structlog
-
 from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 try:

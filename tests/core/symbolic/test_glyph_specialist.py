@@ -14,11 +14,10 @@ Test Categories:
 6. Edge case and error handling tests
 7. Integration tests
 """
-from dataclasses import asdict
+from dataclasses import FrozenInstanceError, asdict
 from datetime import datetime, timezone
 
 import pytest
-
 from core.symbolic.glyph_specialist import GlyphConsensusResult, GlyphSignal, GlyphSpecialist
 
 
@@ -66,10 +65,10 @@ class TestGlyphSignal:
             affect_delta=0.2
         )
 
-        with pytest.raises(Exception):  # Should raise FrozenInstanceError
+        with pytest.raises(FrozenInstanceError):  # Should raise FrozenInstanceError
             signal.layer_id = "changed"  # type: ignore
 
-        with pytest.raises(Exception):
+        with pytest.raises(FrozenInstanceError):
             signal.driftScore = 0.9  # type: ignore
 
     def test_glyph_signal_default_timestamp(self):
@@ -163,10 +162,10 @@ class TestGlyphConsensusResult:
             glyph_signature=[]
         )
 
-        with pytest.raises(Exception):
+        with pytest.raises(FrozenInstanceError):
             result.consensus = False  # type: ignore
 
-        with pytest.raises(Exception):
+        with pytest.raises(FrozenInstanceError):
             result.driftScore = 0.9  # type: ignore
 
     def test_consensus_result_default_timestamp(self):
@@ -326,7 +325,7 @@ class TestGlyphSpecialist:
         original_layer_id = original_signals[0].layer_id
         original_drift = original_signals[0].driftScore
 
-        result = specialist.evaluate(original_signals)
+        specialist.evaluate(original_signals)
 
         # Original signals should be unchanged
         assert original_signals[0].layer_id == original_layer_id

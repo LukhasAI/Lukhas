@@ -10,12 +10,11 @@ from __future__ import annotations
 
 import json
 import pathlib
-from typing import Tuple
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 
-def find_front_matter_bounds(text: str) -> Tuple[int, int]:
+def find_front_matter_bounds(text: str) -> tuple[int, int]:
     """Locate the start and end line indices of YAML front matter.
 
     Searches for opening and closing '---' delimiters within the first 200 lines
@@ -180,7 +179,7 @@ def main() -> None:
         if is_archived(mf):
             continue
         try:
-            tier, m_owner = get_tier_and_owner(mf)
+            tier, _m_owner = get_tier_and_owner(mf)
         except Exception:
             continue
         if tier not in ('T1_critical', 'T2_important'):

@@ -82,7 +82,7 @@ Provides real-time database connectivity for all unified systems
 
 import sqlite3
 import json
-from typing import Dict, List, Any, Optional
+from typing import Optional
 from datetime import datetime
 from pathlib import Path
 
@@ -133,7 +133,7 @@ class LukhasDatabaseIntegration:
 
         return content_id
 
-    def get_content_by_type(self, content_type: str, limit: int = 10) -> List[Dict]:
+    def get_content_by_type(self, content_type: str, limit: int = 10) -> list[Dict]:
         """Get content from database for any system to use"""
         conn = self.get_connection()
         cursor = conn.cursor()
@@ -168,7 +168,7 @@ class LukhasDatabaseIntegration:
 
         return content_list
 
-    def get_all_content(self, limit: int = 50) -> List[Dict]:
+    def get_all_content(self, limit: int = 50) -> list[Dict]:
         """Get all content for system-wide operations"""
         conn = self.get_connection()
         cursor = conn.cursor()
@@ -223,7 +223,7 @@ class LukhasDatabaseIntegration:
         conn.commit()
         conn.close()
 
-    def get_system_analytics(self, system_name: str = None) -> List[Dict]:
+    def get_system_analytics(self, system_name: str = None) -> list[Dict]:
         """Get analytics for monitoring system performance"""
         conn = self.get_connection()
         cursor = conn.cursor()

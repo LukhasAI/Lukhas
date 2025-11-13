@@ -16,9 +16,9 @@ from .bio_symbolic import (
 # Export public interface
 __all__ = [
     "BioSymbolic",
+    "BioSymbolicArchitectureAnalyzer",
     "BioSymbolicOrchestrator",
     "SymbolicGlyph",
     "symbolic_bio_symbolic",
     "symbolic_bio_symbolic_orchestrator",
-    "BioSymbolicArchitectureAnalyzer",
 ]

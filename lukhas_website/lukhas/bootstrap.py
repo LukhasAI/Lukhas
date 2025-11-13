@@ -7,7 +7,7 @@ Initializes core services including OTEL tracing, metrics, and Guardian system.
 
 import logging
 import os
-from typing import Any, Dict
+from typing import Any
 
 # Early OTel initialization
 from opentelemetry import trace
@@ -48,7 +48,7 @@ def init_tracing(service_name: str = "lukhas-matriz"):
 init_tracing()
 
 
-def initialize_lukhas_services() -> Dict[str, Any]:
+def initialize_lukhas_services() -> dict[str, Any]:
     """
     Initialize all LUKHAS core services.
 
@@ -124,14 +124,14 @@ def initialize_lukhas_services() -> Dict[str, Any]:
     # Log overall status
     services_up = sum(1 for service, status in initialization_results.items()
                      if service != "lane" and status)
-    total_services = len([k for k in initialization_results.keys() if k != "lane"])
+    total_services = len([k for k in initialization_results if k != "lane"])
 
     logger.info(f"🚀 LUKHAS Bootstrap Complete: {services_up}/{total_services} services initialized")
 
     return initialization_results
 
 
-def validate_per_stage_spans() -> Dict[str, Any]:
+def validate_per_stage_spans() -> dict[str, Any]:
     """
     Test that per-stage OTEL spans are working.
 

@@ -7,12 +7,14 @@ Works with Constellation Framework for deep understanding.
 
 Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
+from __future__ import annotations
+
 import logging
 import re
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -252,7 +254,7 @@ class EntityExtractor:
         entity_type: EntityType,
         subtype: str,
         full_text: str,
-    ) -> Optional[Entity]:
+    ) -> Entity | None:
         """Create entity from regex match."""
         text = match.group(0)
         value = self._extract_value(match, entity_type, subtype)
@@ -285,7 +287,7 @@ class EntityExtractor:
             # For most entities, use the first captured group or whole match
             return match.group(1) if match.groups() else match.group(0)
 
-    def _parse_time_value(self, match: re.Match, subtype: str) -> Optional[datetime]:
+    def _parse_time_value(self, match: re.Match, subtype: str) -> datetime | None:
         """Parse time-related values."""
         try:
             if subtype == "iso_date":
@@ -321,7 +323,7 @@ class EntityExtractor:
             logger.warning(f"Failed to parse time value: {e}")
             return None
 
-    def _parse_metric_value(self, match: re.Match, subtype: str) -> Optional[float]:
+    def _parse_metric_value(self, match: re.Match, subtype: str) -> float | None:
         """Parse metric values."""
         try:
             if subtype == "metric_value":

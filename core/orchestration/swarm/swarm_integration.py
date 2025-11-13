@@ -8,9 +8,9 @@ from typing import Any
 from baggage.tag_system import BaggageTagSystem
 from colony.coordinator import ColonyCoordinator
 from event_bus.manager import EventBusManager
+from swarm.intelligence import SwarmIntelligence
 
 from orchestration.integration_hub import get_integration_hub
-from swarm.intelligence import SwarmIntelligence
 
 
 class ColonySwarmIntegration:

@@ -4,9 +4,10 @@ Default: Append-only JSONL files with optional Postgres backend.
 """
 from __future__ import annotations
 
+import contextlib
 import json
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 # Storage configuration
 AUDIT_STORAGE = Path("audit_logs")
@@ -24,7 +25,7 @@ class JSONLStorage:
         """Get path for JSONL table file."""
         return self.base_path / f"{table}.jsonl"
 
-    async def write_json(self, table: str, payload: Dict[str, Any]):
+    async def write_json(self, table: str, payload: dict[str, Any]):
         """
         Write JSON object to append-only JSONL file.
 
@@ -39,7 +40,7 @@ class JSONLStorage:
         with path.open("a") as f:
             f.write(line)
 
-    async def fetch_decision_trace(self, trace_id: str) -> Optional[Dict[str, Any]]:
+    async def fetch_decision_trace(self, trace_id: str) -> dict[str, Any] | None:
         """
         Fetch decision trace by ID.
 
@@ -68,8 +69,8 @@ class JSONLStorage:
         self,
         table: str,
         trace_id: str,
-        order_by: Optional[str] = None
-    ) -> List[Dict[str, Any]]:
+        order_by: str | None = None
+    ) -> list[dict[str, Any]]:
         """
         Fetch all JSON objects matching trace_id.
 
@@ -97,16 +98,14 @@ class JSONLStorage:
 
         # Sort if requested
         if order_by and results:
-            try:
+            with contextlib.suppress(TypeError, KeyError):
                 results.sort(key=lambda x: x.get(order_by, 0))
-            except (TypeError, KeyError):
-                pass
 
         return results
 
 
 # Singleton storage instance
-_storage: Optional[JSONLStorage] = None
+_storage: JSONLStorage | None = None
 
 
 def get_storage() -> JSONLStorage:
@@ -118,13 +117,13 @@ def get_storage() -> JSONLStorage:
 
 
 # Convenience wrappers
-async def write_json(table: str, payload: Dict[str, Any]):
+async def write_json(table: str, payload: dict[str, Any]):
     """Write JSON to storage."""
     storage = get_storage()
     await storage.write_json(table, payload)
 
 
-async def fetch_decision_trace(trace_id: str) -> Optional[Dict[str, Any]]:
+async def fetch_decision_trace(trace_id: str) -> dict[str, Any] | None:
     """Fetch decision trace by ID."""
     storage = get_storage()
     return await storage.fetch_decision_trace(trace_id)
@@ -133,8 +132,8 @@ async def fetch_decision_trace(trace_id: str) -> Optional[Dict[str, Any]]:
 async def fetch_jsons_by_trace(
     table: str,
     trace_id: str,
-    order_by: Optional[str] = None
-) -> List[Dict[str, Any]]:
+    order_by: str | None = None
+) -> list[dict[str, Any]]:
     """Fetch JSONs by trace ID."""
     storage = get_storage()
     return await storage.fetch_jsons_by_trace(table, trace_id, order_by)

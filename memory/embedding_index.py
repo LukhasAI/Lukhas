@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import logging
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Dict, Iterable, List, Optional
 
 # ΛTAG: memory_embedding_index_bootstrap
 logger = logging.getLogger(__name__)
@@ -26,10 +26,10 @@ class EmbeddingIndex:
 
     metric: str = "angular"
     trees: int = 10
-    dimension: Optional[int] = None
-    _vectors: Dict[str, List[float]] = field(default_factory=dict)
-    _annoy_index: Optional[AnnoyIndex] = None
-    _annoy_id_map: Dict[int, str] = field(default_factory=dict)
+    dimension: int | None = None
+    _vectors: dict[str, list[float]] = field(default_factory=dict)
+    _annoy_index: AnnoyIndex | None = None
+    _annoy_id_map: dict[int, str] = field(default_factory=dict)
     _dirty: bool = True
 
     def add(self, item_id: str, vector: Iterable[float]) -> None:
@@ -78,7 +78,7 @@ class EmbeddingIndex:
             return
 
         index = AnnoyIndex(self.dimension, self.metric)
-        id_map: Dict[int, str] = {}
+        id_map: dict[int, str] = {}
         for idx, (item_id, vector) in enumerate(self._vectors.items()):
             index.add_item(idx, vector)
             id_map[idx] = item_id
@@ -98,7 +98,7 @@ class EmbeddingIndex:
         )
 
     # ΛTAG: memory_embedding_index
-    def query(self, vector: Iterable[float], k: int = 10) -> List[str]:
+    def query(self, vector: Iterable[float], k: int = 10) -> list[str]:
         """Return nearest neighbours for the given vector."""
         vector_list = list(vector)
         if not vector_list or self.dimension is None:
@@ -122,7 +122,7 @@ class EmbeddingIndex:
             return [ids[i] for i in order[:k]]
 
         # Fallback to manual scoring
-        scored: List[tuple[float, str]] = []
+        scored: list[tuple[float, str]] = []
         for item_id, stored in self._vectors.items():
             score = sum(a * b for a, b in zip(vector_list, stored))
             scored.append((score, item_id))

@@ -33,6 +33,7 @@ TECHNICAL ARCHITECTURE:
 
 ΛTAG: ΛLUKHAS, ΛDREAM, ΛMEMORY, ΛSYMBOLIC, ΛENTANGLEMENT
 """
+from __future__ import annotations
 
 import json
 import logging
@@ -889,13 +890,13 @@ def get_dream_trace_linker() -> DreamTraceLinker:
 
 # Export classes and functions
 __all__ = [
-    "DreamTraceLinker",
     "DreamFragment",
+    "DreamState",
+    "DreamTraceLinker",
+    "GlyphType",
     "MemoryTrace",
     "SymbolicEntanglement",
-    "DreamState",
     "SymbolicPattern",
-    "GlyphType",
     "create_dream_trace_linker",
     "get_dream_trace_linker",
 ]

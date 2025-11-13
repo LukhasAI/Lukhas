@@ -1,0 +1,10 @@
+{
+  "agent": "jules",
+  "session_id": "sessions/test-456",
+  "status": "error",
+  "message": "Build failed due to Trinity Framework import boundary violation",
+  "error": "ImportError: candidate/ cannot import from lukhas/ - Trinity Framework boundary violation detected",
+  "pr_number": 43,
+  "file_paths": ["candidate/consciousness/adapter.py"],
+  "context": {}
+}

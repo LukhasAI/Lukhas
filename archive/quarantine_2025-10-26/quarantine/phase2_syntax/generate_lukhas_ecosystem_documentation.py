@@ -15,6 +15,8 @@ for the entire LUKHAS ecosystem including:
 This leverages the Phase 1 integration work where we successfully integrated
 three prototype plugins (Health Advisor, ΛEasyDoc, LukhasDoc) into the commercial platform.
 """
+from __future__ import annotations
+
 import streamlit as st
 from datetime import timezone
 
@@ -206,8 +208,8 @@ class LUKHASDocumentationOrchestrator:
         if filename == "README.md":
             return f"""# LUKHAS Ecosystem Documentation
 
-> "Intelligence is not about processing information—it's about creating understanding."
-> — LUKHAS SYSTEMS
+> "Intelligence is not about processing information-it's about creating understanding."
+> - LUKHAS SYSTEMS
 
 ## 🌟 Welcome to the LUKHAS Ecosystem
 

@@ -1,0 +1,11 @@
+ 63M	docs/
+ 11M	tests/
+880K	config/
+7.3M	branding/
+5.2M	scripts/
+ 13M	tools/
+1.0M	mcp-servers/
+ 56K	lukhas/
+9.3M	matriz/
+6.0M	core/
+ 68K	candidate/

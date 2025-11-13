@@ -1,6 +1,17 @@
 ---
 status: wip
 type: documentation
+canonical: https://lukhas.io/architecture
+seo:
+  description: "LUKHAS.IO developer portal architecture - technical documentation, APIs, and living knowledge for consciousness technology integration with adaptive growth patterns."
+  keywords:
+    - "consciousness API"
+    - "developer portal"
+    - "technical documentation"
+    - "AI integration"
+    - "consciousness technology SDK"
+last_reviewed: "2025-11-08"
+keywords: "consciousness API, developer portal, technical documentation, AI integration, consciousness technology SDK"
 ---
 # 🔬 LUKHAS.IO - The Developer Portal
 ## Website Architecture & Technical Ecosystem Gateway

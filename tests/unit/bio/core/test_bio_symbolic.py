@@ -3,12 +3,19 @@
 # module_uid: bio.core.bio_symbolic
 # criticality: P1
 
+from importlib.util import find_spec
+from unittest import mock
+
 import pytest
 
-try:
-    from bio.core.bio_symbolic import BioSymbolic, BioSymbolicOrchestrator, SymbolicGlyph
-except ImportError:  # pragma: no cover
+if find_spec("lukhas_website.lukhas.bio.core.bio_symbolic") is None:
     pytest.skip("Bio symbolic module unavailable", allow_module_level=True)
+else:
+    from lukhas_website.lukhas.bio.core.bio_symbolic import (
+        BioSymbolic,
+        BioSymbolicOrchestrator,
+        SymbolicGlyph,
+    )
 
 
 @pytest.mark.tier3
@@ -184,6 +191,16 @@ class TestBioSymbolic:
         assert len(self.bio_symbolic.integration_events) == 1
         assert self.bio_symbolic.integration_events[0]["coherence"] == pytest.approx(1.0)
 
+    def test_negative_noise_factor(self):
+        """Test that a negative noise factor doesn't increase coherence."""
+        data_without_noise = {"type": "test"}
+        coherence_without_noise = self.bio_symbolic.calculate_coherence(data_without_noise)
+
+        data_with_negative_noise = {"type": "test", "noise": -0.5}
+        coherence_with_negative_noise = self.bio_symbolic.calculate_coherence(data_with_negative_noise)
+
+        assert coherence_with_negative_noise <= coherence_without_noise
+
 
 @pytest.mark.tier3
 @pytest.mark.bio
@@ -251,3 +268,40 @@ class TestBioSymbolicOrchestrator:
         ]
         dominant_glyph = self.orchestrator.get_dominant_glyph(results)
         assert dominant_glyph in ["A", "B"]
+
+    def test_trace_generation(self):
+        """Test that the orchestrator generates a trace."""
+        inputs = [
+            {"type": "rhythm", "frequency": 0.05, "timestamp": "now"},
+            {"type": "energy", "level": 0.3},
+        ]
+        self.orchestrator.orchestrate(inputs)
+
+        assert hasattr(self.orchestrator, 'trace')
+        assert len(self.orchestrator.trace) == 2
+
+        trace_step_1 = self.orchestrator.trace[0]
+        assert trace_step_1['step'] == 1
+        assert trace_step_1['processor'] == 'RhythmProcessor'
+        assert trace_step_1['input'] == inputs[0]
+
+        trace_step_2 = self.orchestrator.trace[1]
+        assert trace_step_2['step'] == 2
+        assert trace_step_2['processor'] == 'EnergyProcessor'
+        assert trace_step_2['input'] == inputs[1]
+
+    def test_visualize_trace(self, mocker):
+        """Test that the visualize_trace method can be called."""
+        # Mock the visualize_trace method to avoid displaying a plot
+        mocker.patch.object(self.orchestrator, 'visualize_trace')
+
+        inputs = [{"type": "energy", "level": 0.9, "timestamp": "now"}]
+        self.orchestrator.orchestrate(inputs)
+
+        # Check if orchestrator has the visualize_trace method
+        assert hasattr(self.orchestrator, 'visualize_trace')
+
+        self.orchestrator.visualize_trace()
+
+        # Verify that the mocked visualize_trace function was called
+        self.orchestrator.visualize_trace.assert_called_once_with()

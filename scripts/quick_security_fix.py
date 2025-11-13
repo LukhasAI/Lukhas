@@ -5,7 +5,7 @@ Adds SBOM references to matrix contracts to resolve 102 security alerts.
 """
 
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -13,7 +13,7 @@ def add_sbom_reference_to_contract(contract_path: Path) -> bool:
     """Add SBOM reference to a matrix contract."""
     try:
         # Read existing contract
-        with open(contract_path, 'r') as f:
+        with open(contract_path) as f:
             contract = json.load(f)
 
         # Check if SBOM reference already exists
@@ -28,7 +28,7 @@ def add_sbom_reference_to_contract(contract_path: Path) -> bool:
                 "version": "1.5",
                 "location": "reports/sbom/cyclonedx.json",
                 "checksum": "generated_" + datetime.now().strftime("%Y%m%d_%H%M%S"),
-                "generated_at": datetime.utcnow().isoformat() + "Z",
+                "generated_at": datetime.now(timezone.utc).isoformat(),
                 "compliance_status": "compliant",
                 "security_posture": {
                     "attestation_coverage": True,

@@ -1,4 +1,9 @@
-# Ops Module - Claude AI Context
+status: wip
+type: documentation
+# Ops Module Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
+
 
 **Module**: ops
 **Purpose**: Operations management, monitoring, and system administration
@@ -6,7 +11,6 @@
 **Language**: Python
 **Last Updated**: 2025-10-18
 
----
 
 ## Module Overview
 
@@ -25,7 +29,6 @@ The ops module provides comprehensive operations management for LUKHAS AI, inclu
 - **⚛️ Anchor Star (Identity)**: Access control and operations authentication
 - **🔬 Horizon Star (Vision)**: Operational visibility and dashboards
 
----
 
 ## Architecture
 
@@ -62,7 +65,6 @@ scale_service(
 )
 ```
 
----
 
 #### 2. Incident Response
 **Purpose**: Automated incident detection and response
@@ -94,7 +96,6 @@ if incident.duration > 600:  # 10 minutes
     escalate_incident(incident.id, level="critical")
 ```
 
----
 
 #### 3. Infrastructure Management
 **Purpose**: Infrastructure provisioning and configuration
@@ -131,7 +132,6 @@ utilization = get_resource_utilization(
 )
 ```
 
----
 
 #### 4. Operational Monitoring
 **Purpose**: Real-time monitoring and alerting
@@ -167,7 +167,6 @@ configure_alerts(
 )
 ```
 
----
 
 #### 5. Maintenance Automation
 **Purpose**: Scheduled maintenance and updates
@@ -203,7 +202,6 @@ update_system(
 )
 ```
 
----
 
 ## Module Structure
 
@@ -224,7 +222,6 @@ ops/
     └── test_ops_integration.py
 ```
 
----
 
 ## Operational Runbooks
 
@@ -248,7 +245,6 @@ ops/
 - Disaster recovery plans
 - Data integrity verification
 
----
 
 ## Observability
 
@@ -270,7 +266,6 @@ The ops system tracks:
 - **Incident Response Time**: <5 minutes
 - **Change Success Rate**: >95%
 
----
 
 ## Standard Operating Procedures (SOPs)
 
@@ -302,7 +297,6 @@ ops investigate-incident <incident-id>
 ops resolve-incident <incident-id> --root-cause="Memory leak fixed"
 ```
 
----
 
 ## Development Guidelines
 
@@ -372,7 +366,6 @@ def handle_high_cpu(incident):
         incident.resolve("Auto-scaled successfully")
 ```
 
----
 
 ## MATRIZ Pipeline Integration
 
@@ -385,7 +378,6 @@ This module operates within the MATRIZ cognitive framework:
 - **I (Intent)**: Intent understanding for automation
 - **A (Action)**: Automated operational actions
 
----
 
 ## Performance Targets
 
@@ -395,7 +387,6 @@ This module operates within the MATRIZ cognitive framework:
 - **Health Check**: <10 seconds for full system check
 - **Automation Execution**: <2 minutes for standard tasks
 
----
 
 ## On-Call Procedures
 
@@ -423,7 +414,6 @@ This module operates within the MATRIZ cognitive framework:
 - **P2 (Medium)**: Notification within 1 hour
 - **P3 (Low)**: Daily summary
 
----
 
 ## Dependencies
 
@@ -435,7 +425,6 @@ This module operates within the MATRIZ cognitive framework:
 - CI/CD pipelines
 - Infrastructure as Code (Terraform)
 
----
 
 ## Related Modules
 
@@ -444,7 +433,6 @@ This module operates within the MATRIZ cognitive framework:
 - **Monitoring** ([../monitoring/](../monitoring/)) - System monitoring
 - **Docker** ([../docker/](../docker/)) - Container operations
 
----
 
 ## Documentation
 
@@ -456,7 +444,6 @@ This module operates within the MATRIZ cognitive framework:
 - **Tests**: [ops/tests/](tests/) - Ops test suites
 - **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#ops)
 
----
 
 **Status**: Integration Lane (L2)
 **Manifest**: ✓ module.manifest.json (schema v1.0.0)
@@ -465,31 +452,3 @@ This module operates within the MATRIZ cognitive framework:
 **Uptime Target**: 99.9%
 **MTTR Target**: <15 minutes
 **Last Updated**: 2025-10-18
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

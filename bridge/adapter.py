@@ -3,9 +3,12 @@ Compatibility shim for bridge.adapter
 DEPRECATED: This module will be removed on 2025-11-01
 Please update imports to: accepted.adapters.base
 """
+
 import warnings
 
-from adapters.base import *
+from adapters.base import AdapterRegistry, BaseAdapter, create_adapter
+
+__all__ = ["AdapterRegistry", "BaseAdapter", "create_adapter"]
 
 warnings.warn(
     "Import 'bridge.adapter' is deprecated and will be removed on 2025-11-01. "

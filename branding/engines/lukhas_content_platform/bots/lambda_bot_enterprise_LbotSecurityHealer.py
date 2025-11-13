@@ -26,7 +26,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="pkg_resources")
 try:
     from lukhas_ai_lambda_bot.specialists.ABotΛiDSecurity import ΛTraceLogger
     from lukhas_ai_lambda_bot.specialists.ΛBotPRReviewer import (
-        ΛBotPRReviewer,  # noqa: F401  # TODO: lukhas_ai_lambda_bot.specialis...
+        ΛBotPRReviewer,  # TODO: lukhas_ai_lambda_bot.specialis...
     )
 except ImportError:
     # Fallback trace logger for standalone operation

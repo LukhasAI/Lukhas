@@ -8,9 +8,11 @@ Part of the 21-day AGI implementation roadmap.
 import logging
 from typing import Any, Optional
 
-from fastapi import APIRouter, BackgroundTasks, HTTPException
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from feedback.card_system import FeedbackCardSystem
 from pydantic import BaseModel, Field
+
+from lukhas.governance.auth import get_current_user_id
 
 logger = logging.getLogger(__name__)
 
@@ -22,14 +24,17 @@ feedback_system = FeedbackCardSystem(storage_path="feedback_data")
 
 
 class FeedbackRequest(BaseModel):
-    """Request model for capturing feedback."""
+    """Request model for capturing feedback.
+
+    Note: user_id is NOT included in request body.
+    It's derived from authenticated JWT token via get_current_user_id() dependency.
+    """
 
     action_id: str = Field(..., description="ID of the action being rated")
     rating: int = Field(..., ge=1, le=5, description="Rating from 1-5")
     note: Optional[str] = Field(None, description="Optional text feedback")
     symbols: Optional[list[str]] = Field(default_factory=list, description="User-selected symbols")
     context: Optional[dict[str, Any]] = Field(default_factory=dict, description="Additional context")
-    user_id: Optional[str] = Field(None, description="User ID (will be hashed)")
 
 
 class FeedbackResponse(BaseModel):
@@ -66,23 +71,49 @@ class SystemMetricsResponse(BaseModel):
     total_updates: int
 
 
-@router.post("/capture", response_model=FeedbackResponse)
-async def capture_feedback(request: FeedbackRequest):
+@router.post(
+    "/capture",
+    response_model=FeedbackResponse,
+    summary="Capture Feedback",
+    description="Capture user feedback for an AI action.",
+    responses={
+        200: {
+            "description": "Feedback captured successfully.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "card_id": "card_123",
+                        "rating": 5,
+                        "timestamp": 1730000000.0,
+                        "message": "Feedback captured successfully",
+                    }
+                }
+            },
+        },
+        500: {"description": "Internal Server Error"},
+    },
+)
+async def capture_feedback(
+    request: FeedbackRequest,
+    user_id: str = Depends(get_current_user_id)
+):
     """
     Capture user feedback for an AI action.
 
     This endpoint allows users to rate AI responses and provide feedback,
     which is used for continuous alignment and learning.
+
+    Security: user_id derived from authenticated JWT token only.
     """
     try:
-        # Capture the feedback
+        # Capture the feedback with validated user_id from auth token
         card = feedback_system.capture_feedback(
             action_id=request.action_id,
             rating=request.rating,
             note=request.note,
             symbols=request.symbols,
             context=request.context,
-            user_id=request.user_id,
+            user_id=user_id,  # From JWT token, not request body
         )
 
         logger.info(f"Captured feedback card {card.card_id} with rating {request.rating}")
@@ -98,12 +129,41 @@ async def capture_feedback(request: FeedbackRequest):
         raise HTTPException(status_code=500, detail=str(e)) from e
 
 
-@router.post("/batch", response_model=list[FeedbackResponse])
-async def capture_batch_feedback(requests: list[FeedbackRequest]):
+@router.post(
+    "/batch",
+    response_model=list[FeedbackResponse],
+    summary="Capture Batch Feedback",
+    description="Capture multiple feedback cards at once.",
+    responses={
+        200: {
+            "description": "Batch feedback captured successfully.",
+            "content": {
+                "application/json": {
+                    "example": [
+                        {
+                            "card_id": "card_123",
+                            "rating": 5,
+                            "timestamp": 1730000000.0,
+                            "message": "Feedback captured successfully",
+                        }
+                    ]
+                }
+            },
+        },
+        500: {"description": "Internal Server Error"},
+    },
+)
+async def capture_batch_feedback(
+    requests: list[FeedbackRequest],
+    user_id: str = Depends(get_current_user_id)
+):
     """
     Capture multiple feedback cards at once.
 
     Useful for batch processing of user feedback sessions.
+    All feedback in the batch is attributed to the authenticated user.
+
+    Security: user_id derived from authenticated JWT token only.
     """
     responses = []
 
@@ -115,7 +175,7 @@ async def capture_batch_feedback(requests: list[FeedbackRequest]):
                 note=request.note,
                 symbols=request.symbols,
                 context=request.context,
-                user_id=request.user_id,
+                user_id=user_id,  # From JWT token, not request body
             )
 
             responses.append(
@@ -134,16 +194,54 @@ async def capture_batch_feedback(requests: list[FeedbackRequest]):
     return responses
 
 
-@router.get("/report/{user_id}", response_model=LearningReportResponse)
-async def get_learning_report(user_id: str):
+@router.get(
+    "/report/{path_user_id}",
+    response_model=LearningReportResponse,
+    summary="Get Learning Report",
+    description="Get a learning report for authenticated user.",
+    responses={
+        200: {
+            "description": "Learning report generated successfully.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "user_id_hash": "hashed_user_id",
+                        "total_feedback_cards": 10,
+                        "overall_satisfaction": 4.5,
+                        "improvement_trend": 0.2,
+                        "preferred_styles": ["direct", "concise"],
+                        "summary": "Based on 10 feedback cards...",
+                        "recommendations": {"tone": "more formal"},
+                    }
+                }
+            },
+        },
+        403: {"description": "Forbidden - Cannot access other user's report"},
+        500: {"description": "Internal Server Error"},
+    },
+)
+async def get_learning_report(
+    path_user_id: str,
+    auth_user_id: str = Depends(get_current_user_id)
+):
     """
-    Get a learning report for a specific user.
+    Get a learning report for authenticated user.
 
     This report explains what the system has learned from the user's feedback,
     including preferences, patterns, and recommendations.
+
+    Security: Validates that path parameter matches authenticated user's ID.
+    Users can only access their own learning reports.
     """
+    # Validate ownership: path user_id must match authenticated user_id
+    if path_user_id != auth_user_id:
+        raise HTTPException(
+            status_code=403,
+            detail="Cannot access other user's learning report"
+        )
+
     try:
-        report = feedback_system.explain_learning(user_id)
+        report = feedback_system.explain_learning(auth_user_id)
 
         # Format recommendations
         recommendations = report.recommended_adjustments or {}
@@ -175,7 +273,32 @@ async def get_learning_report(user_id: str):
         raise HTTPException(status_code=500, detail=str(e)) from e
 
 
-@router.get("/metrics", response_model=SystemMetricsResponse)
+@router.get(
+    "/metrics",
+    response_model=SystemMetricsResponse,
+    summary="Get System Metrics",
+    description="Get overall feedback system metrics.",
+    responses={
+        200: {
+            "description": "System metrics retrieved successfully.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "cards_captured": 100,
+                        "patterns_identified": 20,
+                        "policies_updated": 5,
+                        "validations_passed": 5,
+                        "validations_failed": 0,
+                        "total_cards": 500,
+                        "total_patterns": 50,
+                        "total_updates": 10,
+                    }
+                }
+            },
+        },
+        500: {"description": "Internal Server Error"},
+    },
+)
 async def get_system_metrics():
     """
     Get overall feedback system metrics.
@@ -201,7 +324,25 @@ async def get_system_metrics():
         raise HTTPException(status_code=500, detail=str(e)) from e
 
 
-@router.post("/trigger-learning")
+@router.post(
+    "/trigger-learning",
+    summary="Trigger Learning Cycle",
+    description="Manually trigger pattern extraction and policy updates.",
+    responses={
+        200: {
+            "description": "Learning cycle triggered successfully.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "status": "triggered",
+                        "message": "Learning cycle triggered with 50 feedback cards",
+                    }
+                }
+            },
+        },
+        500: {"description": "Internal Server Error"},
+    },
+)
 async def trigger_learning(background_tasks: BackgroundTasks):
     """
     Manually trigger pattern extraction and policy updates.
@@ -253,7 +394,29 @@ async def run_learning_cycle(cards):
         logger.error(f"Error in learning cycle: {e}")
 
 
-@router.get("/health")
+@router.get(
+    "/health",
+    summary="Health Check",
+    description="Health check for feedback system.",
+    responses={
+        200: {
+            "description": "System is healthy.",
+            "content": {
+                "application/json": {
+                    "example": {"status": "healthy", "total_cards": 500, "system_active": True}
+                }
+            },
+        },
+        503: {
+            "description": "System is unhealthy.",
+            "content": {
+                "application/json": {
+                    "example": {"status": "unhealthy", "error": "Storage disconnected", "system_active": False}
+                }
+            },
+        },
+    },
+)
 async def health_check():
     """Health check for feedback system."""
     try:

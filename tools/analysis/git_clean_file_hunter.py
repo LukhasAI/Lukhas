@@ -59,7 +59,7 @@ def find_clean_files_in_history():
 
     try:
         current_errors = json.loads(output)
-        current_error_files = set(error["filename"] for error in current_errors)
+        current_error_files = {error["filename"] for error in current_errors}
     except json.JSONDecodeError:
         print("Failed to parse current errors")
         return

@@ -27,3 +27,18 @@ def test_metrics_surface():
     r = client.get("/metrics")
     assert r.status_code == 200
     assert "process_cpu_seconds_total" in r.text or "http_requests_total" in r.text
+
+
+def test_healthz_details():
+    """Verify that the /healthz endpoint returns the expected detailed information."""
+    from serve.main import app
+    from starlette.testclient import TestClient
+    client = TestClient(app)
+    response = client.get("/healthz")
+    assert response.status_code == 200
+    data = response.json()
+    assert "voice_mode" in data
+    assert "matriz" in data
+    assert "version" in data["matriz"]
+    assert "rollout" in data["matriz"]
+    assert "lane" in data

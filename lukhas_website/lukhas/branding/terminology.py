@@ -93,12 +93,12 @@ def normalize_output(text: str, add_glyphs: bool = True) -> str:
 
 # Export main terminology elements
 __all__ = [
-    "TRINITY_TERMS",
-    "CONSCIOUSNESS_VOCAB",
     "COMPONENT_TERMS",
+    "CONSCIOUSNESS_VOCAB",
     "SYMBOLIC_GLYPHS",
-    "get_term_definition",
+    "TRINITY_TERMS",
     "get_glyph",
+    "get_term_definition",
     "get_triad_symbol",
     "normalize_output",
 ]

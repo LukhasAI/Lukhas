@@ -1,7 +1,3 @@
-import logging
-from datetime import timezone
-
-#!/usr/bin/env python3
 """
 
 #TAG:consciousness
@@ -53,16 +49,21 @@ from datetime import timezone
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
 import asyncio
 import hashlib
 import json
+import logging
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
+
+#!/usr/bin/env python3
 
 
 class _FallbackComponent:
@@ -535,7 +536,9 @@ class IntegratedSafetySystem:
         )
 
         # Subscribe colonies to events
-        asyncio.create_task(self._initialize_subscriptions())
+        asyncio.create_task(
+            self._initialize_subscriptions()
+        )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_integrated_safety_system_py_L541"}
 
         logger.info(f"IntegratedSafetySystem {self.system_id} initialized")
 
@@ -559,7 +562,7 @@ class IntegratedSafetySystem:
         logger.info("Event subscriptions initialized")
 
     async def validate_action(
-        self, action: dict[str, Any], context: Optional[dict[str, Any]] = None
+        self, action: dict[str, Any], context: dict[str, Any] | None = None
     ) -> SafetyValidationResult:
         """
         Comprehensive validation combining safety, ethics, and compliance
@@ -649,7 +652,7 @@ class IntegratedSafetySystem:
         )
 
     async def _validate_memory_safety(
-        self, action: dict[str, Any], context: Optional[dict[str, Any]]
+        self, action: dict[str, Any], context: dict[str, Any] | None
     ) -> tuple[bool, float]:
         """Validate action against memory safety system"""
         try:
@@ -701,7 +704,7 @@ class IntegratedSafetySystem:
             return False, 0.0
 
     async def _validate_ethics(
-        self, action: dict[str, Any], context: Optional[dict[str, Any]]
+        self, action: dict[str, Any], context: dict[str, Any] | None
     ) -> dict[str, Any]:
         """Validate action through ethics colony"""
         try:
@@ -737,7 +740,7 @@ class IntegratedSafetySystem:
             return {"approved": False, "score": 0.0, "violations": [str(e)]}
 
     async def _validate_compliance(
-        self, action: dict[str, Any], context: Optional[dict[str, Any]]
+        self, action: dict[str, Any], context: dict[str, Any] | None
     ) -> dict[str, Any]:
         """Validate action through compliance system"""
         try:
@@ -961,7 +964,9 @@ class IntegratedSafetySystem:
                 timestamp=datetime.now(timezone.utc),
                 data={"component": component, "failures": breaker["failures"]},
             )
-            asyncio.create_task(self.event_bus.broadcast_safety_event(event))
+            asyncio.create_task(
+                self.event_bus.broadcast_safety_event(event)
+            )  # TODO[T4-ISSUE]: {"code": "RUF006", "ticket": "GH-1031", "owner": "consciousness-team", "status": "accepted", "reason": "Fire-and-forget async task - intentional background processing pattern", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "matriz_consciousness_reflection_integrated_safety_system_py_L968"}
 
     async def run_continuous_monitoring(self):
         """Run continuous safety monitoring"""

@@ -4,18 +4,18 @@ LUKHAS AI Elite Voice Coherence Upgrader
 Systematically upgrades all content systems to achieve 85%+ voice coherence
 Implements brand terminology, Constellation Framework, and consciousness technology messaging
 """
+from __future__ import annotations
 
 import asyncio
 import json
 import logging
 import re
-import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-# Add branding modules to path
+from branding.analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer
 
 
 def create_error_summary(error: Exception, context: str) -> str:
@@ -32,12 +32,6 @@ def create_error_summary(error: Exception, context: str) -> str:
     error_message = str(error)
 
     return f"❌ {error_type} in {context}: {error_message}"
-
-
-sys.path.append(str(Path(__file__).parent.parent))
-
-from analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer  # noqa: E402
-
 
 @dataclass
 class UpgradeRule:

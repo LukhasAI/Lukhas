@@ -1,6 +1,6 @@
-from __future__ import annotations
-
 """Core identity vault integration utilities."""
+
+from __future__ import annotations
 
 import asyncio
 import hashlib
@@ -8,7 +8,7 @@ import os
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, ClassVar
 
 import structlog
 
@@ -31,7 +31,7 @@ except ImportError:  # pragma: no cover - fallback when memory lane unavailable
 
 
 # ΛTAG: identity_profile_model
-@dataclass(slots=True)
+@dataclass
 class IdentityProfile:
     """Represents a cached identity record sourced from the vault."""
 
@@ -55,7 +55,7 @@ class IdentityProfile:
         }
 
 
-@dataclass(slots=True)
+@dataclass
 class AccessLogEntry:
     """Structured log entry for vault access events."""
 
@@ -114,7 +114,7 @@ class LukhasIdentityVault:
                 last_refreshed=profile.last_refreshed,
             )
 
-    async def get_identity_by_api_key(self, api_key: str) -> Optional[IdentityProfile]:
+    async def get_identity_by_api_key(self, api_key: str) -> IdentityProfile | None:
         """Resolve an API key to an identity profile."""
 
         async with self._lock:
@@ -131,7 +131,7 @@ class LukhasIdentityVault:
                 last_refreshed=profile.last_refreshed,
             )
 
-    def get_cached_identity(self, user_id: str) -> Optional[IdentityProfile]:
+    def get_cached_identity(self, user_id: str) -> IdentityProfile | None:
         """Return the cached identity without refreshing."""
 
         profile = self._records.get(user_id)
@@ -193,7 +193,7 @@ class LukhasIdentityVault:
         memory_id: str,
         tier_level: int,
         action: str,
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Record an access event."""
 
@@ -227,10 +227,10 @@ class LukhasIdentityVault:
 
         # Enhanced Identity service lookup with multiple backends
         profile = await self._fetch_from_identity_service(user_id)
-        
+
         # Cache the profile for future lookups
         self._records[user_id] = profile
-        
+
         logger.info(
             "identity_profile_loaded",
             user_id=profile.user_id,
@@ -238,19 +238,19 @@ class LukhasIdentityVault:
             scopes_count=len(profile.scopes),
             source="external_service"
         )
-        
+
         return profile
 
     async def _fetch_from_identity_service(self, user_id: str) -> IdentityProfile:
         """Fetch identity from external identity service with fallback."""
-        
+
         # Try multiple identity backends
         backends = [
             self._fetch_from_primary_identity_service,
             self._fetch_from_backup_identity_service,
             self._create_inferred_identity
         ]
-        
+
         for backend in backends:
             try:
                 profile = await backend(user_id)
@@ -264,25 +264,25 @@ class LukhasIdentityVault:
                     error=str(error)
                 )
                 continue
-                
+
         # Final fallback - should never reach here
         return await self._create_inferred_identity(user_id)
 
-    async def _fetch_from_primary_identity_service(self, user_id: str) -> Optional[IdentityProfile]:
+    async def _fetch_from_primary_identity_service(self, user_id: str) -> IdentityProfile | None:
         """Fetch from primary identity service (e.g., Auth0, Cognito, etc.)."""
-        
+
         # Simulate external service call
         await asyncio.sleep(0.01)  # Realistic latency
-        
+
         # Check for environment-based identity service config
         identity_service_url = os.getenv("LUKHAS_IDENTITY_SERVICE_URL")
         if not identity_service_url:
             return None
-            
+
         # Generate deterministic but realistic user profile based on user_id hash
         user_hash = hashlib.sha256(user_id.encode()).hexdigest()
         hash_int = int(user_hash[:8], 16)
-        
+
         # Determine tier based on hash pattern
         tier_map = {
             0: TierLevel.PUBLIC.value,
@@ -291,14 +291,14 @@ class LukhasIdentityVault:
             3: TierLevel.PRIVILEGED.value,
         }
         tier_level = tier_map.get(hash_int % 4, TierLevel.AUTHENTICATED.value)
-        
+
         # Generate scopes based on tier
         base_scopes = {"core:read"}
         if tier_level >= TierLevel.ELEVATED.value:
             base_scopes.update({"core:write", "memory:read"})
         if tier_level >= TierLevel.PRIVILEGED.value:
             base_scopes.update({"memory:write", "admin:read"})
-            
+
         profile = IdentityProfile(
             user_id=user_id,
             tier_level=tier_level,
@@ -311,18 +311,18 @@ class LukhasIdentityVault:
             scopes=base_scopes,
             api_keys=set(),
         )
-        
+
         return profile
 
-    async def _fetch_from_backup_identity_service(self, user_id: str) -> Optional[IdentityProfile]:
+    async def _fetch_from_backup_identity_service(self, user_id: str) -> IdentityProfile | None:
         """Fetch from backup identity service."""
-        
+
         await asyncio.sleep(0.005)  # Faster backup service
-        
+
         # Simple backup service that provides basic authentication
         if not user_id or user_id == "anonymous":
             return None
-            
+
         profile = IdentityProfile(
             user_id=user_id,
             tier_level=TierLevel.AUTHENTICATED.value,
@@ -333,14 +333,14 @@ class LukhasIdentityVault:
             scopes={"core:read"},
             api_keys=set(),
         )
-        
+
         return profile
 
     async def _create_inferred_identity(self, user_id: str) -> IdentityProfile:
         """Create inferred identity as final fallback."""
-        
+
         inferred_tier = TierLevel.AUTHENTICATED.value if user_id and user_id != "anonymous" else TierLevel.PUBLIC.value
-        
+
         profile = IdentityProfile(
             user_id=user_id or "anonymous",
             tier_level=inferred_tier,
@@ -351,7 +351,7 @@ class LukhasIdentityVault:
             scopes={"core:read"} if inferred_tier > TierLevel.PUBLIC.value else set(),
             api_keys=set(),
         )
-        
+
         return profile
 
     def _seed_demo_identities(self) -> None:
@@ -409,7 +409,7 @@ def log_access(
     action: str,
     memory_id: str,
     tier: int | TierLevel,
-    metadata: Optional[dict[str, Any]] = None,
+    metadata: dict[str, Any] | None = None,
 ) -> None:
     """Record identity access using the shared vault instance."""
 
@@ -427,7 +427,7 @@ def log_access(
 class IdentityManager:
     """High-level identity orchestrator bridging orchestration and API layers."""
 
-    RATE_LIMITS_PER_MINUTE = {
+    RATE_LIMITS_PER_MINUTE: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_identity_vault_lukhas_id_py_L430"}
         TierLevel.PUBLIC.value: 30,
         TierLevel.AUTHENTICATED.value: 60,
         TierLevel.ELEVATED.value: 120,
@@ -436,7 +436,7 @@ class IdentityManager:
         TierLevel.SYSTEM.value: 600,
     }
 
-    def __init__(self, vault: Optional[LukhasIdentityVault] = None) -> None:
+    def __init__(self, vault: LukhasIdentityVault | None = None) -> None:
         self._vault = vault or _DEFAULT_VAULT
         self._rate_lock = asyncio.Lock()
         self._request_windows: dict[str, tuple[float, int]] = {}
@@ -449,7 +449,7 @@ class IdentityManager:
         self._session_store.setdefault(user_id, {"active_sessions": set()})
         return profile
 
-    async def start_session(self, user_id: str, session_id: Optional[str] = None) -> dict[str, Any]:
+    async def start_session(self, user_id: str, session_id: str | None = None) -> dict[str, Any]:
         """Register a symbolic session for the given user."""
 
         profile = await self.get_user_identity(user_id)
@@ -493,7 +493,7 @@ class IdentityManager:
         memory_id: str,
         required_tier: int | TierLevel,
         action: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Ensure the caller meets the required tier and log the attempt."""
 
@@ -552,12 +552,12 @@ class IdentityManager:
 
 
 __all__ = [
+    "AccessLogEntry",
     "IdentityManager",
     "IdentityProfile",
     "IdentityRateLimitExceeded",
     "IdentityVerificationError",
     "LukhasIdentityVault",
-    "AccessLogEntry",
     "has_access",
     "log_access",
 ]

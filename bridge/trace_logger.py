@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-import logging
-from datetime import datetime, timezone
 
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -39,10 +37,15 @@ from datetime import datetime, timezone
 ║ Trace: #ΛTRACE: ENABLED
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
+from __future__ import annotations
+
 import json
+import logging
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 # ΛTRACE injection point
 logger = logging.getLogger("bridge.trace_logger")
@@ -154,9 +157,8 @@ class BridgeTraceLogger:
             try:
                 import gzip
                 import shutil
-                with open(source, 'rb') as f_in:
-                    with gzip.open(f"{dest}.gz", 'wb') as f_out:
-                        shutil.copyfileobj(f_in, f_out)
+                with open(source, 'rb') as f_in, gzip.open(f"{dest}.gz", 'wb') as f_out:
+                    shutil.copyfileobj(f_in, f_out)
                 Path(source).unlink()  # Remove uncompressed file
             except Exception as e:
                 logger.warning(f"Failed to compress log file {source}: {e}")
@@ -183,7 +185,7 @@ class BridgeTraceLogger:
         level: TraceLevel,
         component: str,
         message: str,
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> str:
         """
         Log bridge operation event with trace data
@@ -242,7 +244,7 @@ class BridgeTraceLogger:
 
         return event_id
 
-    def trace_symbolic_handshake(self, dream_id: str, status: str, details: Optional[dict[str, Any]] = None) -> str:
+    def trace_symbolic_handshake(self, dream_id: str, status: str, details: dict[str, Any] | None = None) -> str:
         """
         Trace symbolic handshake operations
 
@@ -268,7 +270,7 @@ class BridgeTraceLogger:
             metadata,
         )
 
-    def trace_memory_mapping(self, map_id: str, operation: str, result: Optional[dict[str, Any]] = None) -> str:
+    def trace_memory_mapping(self, map_id: str, operation: str, result: dict[str, Any] | None = None) -> str:
         """
         Trace memory mapping operations
 

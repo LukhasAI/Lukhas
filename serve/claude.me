@@ -1,4 +1,9 @@
-# Serve Module - Claude AI Context
+status: wip
+type: documentation
+# Serve Module Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
+
 
 **Module**: serve
 **Purpose**: LUKHAS serve module implementing API serving, orchestration, and consciousness endpoints
@@ -6,7 +11,6 @@
 **Language**: Python
 **Last Updated**: 2025-10-18
 
----
 
 ## Module Overview
 
@@ -25,7 +29,6 @@ The serve module provides comprehensive API serving capabilities for LUKHAS, inc
 - **🛡️ Watch Star (Guardian)**: Guardian validation and drift scoring
 - **✦ Trail Star (Memory)**: Memory dump and retrieval endpoints
 
----
 
 ## Architecture
 
@@ -143,7 +146,6 @@ response: FeedbackResponse = await submit_feedback(feedback)
 report: LearningReportResponse = await get_learning_report()
 ```
 
----
 
 ## API Schemas
 
@@ -173,7 +175,6 @@ auth_request = TierAuthRequest(lambda_id="ΛID-USER-001", tier=2)
 auth_response: TierAuthResponse = await authenticate_tier(auth_request)
 ```
 
----
 
 ## Observability
 
@@ -201,7 +202,6 @@ from serve.main import instrument_app
 app = instrument_app(app)
 ```
 
----
 
 ## Performance Routes
 
@@ -222,7 +222,6 @@ server = ExtremePerformanceServer(
 await server.start()
 ```
 
----
 
 ## Utility Functions
 
@@ -264,7 +263,6 @@ service = get_service()
 response = await service.chat_completion(messages)
 ```
 
----
 
 ## Health & Diagnostics
 
@@ -287,7 +285,6 @@ from serve.main import openapi_export
 spec = openapi_export()
 ```
 
----
 
 ## Module Structure
 
@@ -320,7 +317,6 @@ serve/
     └── (1 Python file)
 ```
 
----
 
 ## Development Guidelines
 
@@ -367,7 +363,6 @@ async def protected_endpoint():
     return {"status": "authenticated"}
 ```
 
----
 
 ## MATRIZ Pipeline Integration
 
@@ -380,7 +375,6 @@ This module operates within the MATRIZ cognitive framework:
 - **I (Intent)**: Intent understanding through orchestration
 - **A (Action)**: API response generation and delivery
 
----
 
 ## Performance Targets
 
@@ -390,7 +384,6 @@ This module operates within the MATRIZ cognitive framework:
 - **Health Checks**: <10ms p95
 - **Throughput**: 1000+ req/sec per instance
 
----
 
 ## Dependencies
 
@@ -399,7 +392,6 @@ This module operates within the MATRIZ cognitive framework:
 - `identity` - Authentication and identity management
 - `memory` - Memory systems and fold management
 
----
 
 ## Related Modules
 
@@ -408,7 +400,6 @@ This module operates within the MATRIZ cognitive framework:
 - **Governance** ([../governance/](../governance/)) - Guardian system
 - **Consciousness** ([../consciousness/](../consciousness/)) - Consciousness processing
 
----
 
 ## Documentation
 
@@ -417,7 +408,6 @@ This module operates within the MATRIZ cognitive framework:
 - **Tests**: [serve/tests/](tests/) - Serve test suites
 - **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#serve)
 
----
 
 **Status**: Integration Lane (L2)
 **Manifest**: ✓ module.manifest.json (schema v3.0.0)
@@ -426,31 +416,3 @@ This module operates within the MATRIZ cognitive framework:
 **Components**: 46 components across 13 Python files + 5 subdirectories
 **Test Coverage**: 85.0%
 **Last Updated**: 2025-10-18
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

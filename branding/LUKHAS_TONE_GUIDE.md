@@ -1,8 +1,36 @@
 ---
-status: wip
+status: DEPRECATED
 type: documentation
+deprecation_date: 2025-11-06
+superseded_by: tone/LUKHAS_3_LAYER_TONE_SYSTEM.md
 ---
-# 🎭 LUKHAS AI Tone System Guide
+
+# ⚠️ DEPRECATED: LUKHAS AI Tone System Guide
+
+> **🚨 THIS DOCUMENT IS DEPRECATED**
+>
+> **Date**: 2025-11-06
+> **Superseded By**:
+> - [tone/LUKHAS_3_LAYER_TONE_SYSTEM.md](tone/LUKHAS_3_LAYER_TONE_SYSTEM.md) (canonical tone system)
+> - [tone/configs/](tone/configs/) (domain-specific tone configurations)
+>
+> **Why Deprecated**: This document has been replaced by the canonical tone system which provides:
+> - Machine-readable tone configurations (.tone.yaml files)
+> - Domain-specific tone distributions for all 10 domains
+> - Integration with multi-domain system
+> - Precise vocabulary emphasis ratios
+> - Quality standards and enforcement rules
+>
+> **Please Use Instead**:
+> - **Foundation**: [tone/LUKHAS_3_LAYER_TONE_SYSTEM.md](tone/LUKHAS_3_LAYER_TONE_SYSTEM.md)
+> - **Domain Configs**: [tone/configs/](tone/configs/) - 10 domain-specific configurations
+> - **Navigation**: [README.md](README.md)
+>
+> **This document will be archived after 2026-02-06 (90 days).**
+
+---
+
+# 🎭 LUKHAS AI Tone System Guide (HISTORICAL - DO NOT USE)
 *The Complete 3-Layer Communication Framework with Enforcement*
 
 ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework Communication** | **MATRIZ Pipeline Integration** | **T4/0.01% Standards** | **8-Family Vocabulary Rotation Engine**

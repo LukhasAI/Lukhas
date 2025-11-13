@@ -5,6 +5,7 @@ The emotional homeostasis guardian
 Maintains emotional equilibrium through adaptive regulation strategies
 Integrates with neuroplastic systems, event bus, and endocrine signals
 """
+# ruff: noqa: F821
 import math
 import time
 from dataclasses import dataclass, field
@@ -739,7 +740,10 @@ class VIVOXEmotionalRegulationNetwork:
     Main VIVOX.ERN class integrating all emotional regulation components
     """
 
-    def __init__(self, vivox_me: Optional["VIVOXMemoryExpansion"] = None):  # noqa: F821  # TODO: VIVOXMemoryExpansion
+# T4: code=F821 | ticket=SKELETON-21FFE361 | owner=lukhas-platform | status=skeleton
+# reason: Undefined VIVOXMemoryExpansion in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+    def __init__(self, vivox_me: Optional["VIVOXMemoryExpansion"] = None):  # TODO: VIVOXMemoryExpansion
         self.vivox_me = vivox_me
         self.regulator = EmotionalRegulator()
         self.current_state = VADVector()  # Neutral starting state

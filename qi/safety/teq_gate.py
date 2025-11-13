@@ -12,7 +12,7 @@ from typing import Any
 import yaml
 
 try:
-    from .pii import detect_pii, mask_pii  # noqa: F401  # TODO: .pii.mask_pii; consider using ...
+    from .pii import detect_pii, mask_pii  # TODO: .pii.mask_pii; consider using ...
 except ImportError:
     from pii import detect_pii
 

@@ -4,18 +4,20 @@ Validates multi-jurisdiction privacy statement generation for GDPR, CCPA,
 PIPEDA, and LGPD compliance.
 """
 
+# ruff: noqa: B008
+# ruff: noqa: F821  # Experimental/test code with undefined names
 from datetime import datetime
+from typing import ClassVar
 
 import pytest
-
 from qi.compliance.privacy_statement import (
+from typing import List
     Jurisdiction,
     OrganizationInfo,
     OutputFormat,
     PrivacyStatement,
     PrivacyStatementGenerator,
 )
-
 
 @pytest.fixture
 def sample_organization() -> OrganizationInfo:
@@ -30,9 +32,8 @@ def sample_organization() -> OrganizationInfo:
         website="https://lukhas.ai",
     )
 
-
 @pytest.fixture
-def sample_data_types() -> list[str]:
+def sample_data_types() -> List[str]:
     """Create sample data types for testing."""
     return [
         "Name and email address",
@@ -42,12 +43,10 @@ def sample_data_types() -> list[str]:
         "IP address and location data",
     ]
 
-
 @pytest.fixture
 def generator() -> PrivacyStatementGenerator:
     """Create a privacy statement generator."""
     return PrivacyStatementGenerator()
-
 
 class TestPrivacyStatementGenerator:
     """Test PrivacyStatementGenerator class."""
@@ -62,7 +61,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test GDPR privacy statement generation in plain text."""
         statement = generator.generate(
@@ -108,7 +107,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test GDPR privacy statement generation in HTML."""
         statement = generator.generate(
@@ -150,7 +149,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test CCPA privacy statement generation in plain text."""
         statement = generator.generate(
@@ -186,7 +185,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test CCPA privacy statement generation in HTML."""
         statement = generator.generate(
@@ -211,7 +210,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test PIPEDA privacy statement generation in plain text."""
         statement = generator.generate(
@@ -249,7 +248,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test PIPEDA privacy statement generation in HTML."""
         statement = generator.generate(
@@ -274,7 +273,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test LGPD privacy statement generation in plain text."""
         statement = generator.generate(
@@ -313,7 +312,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test LGPD privacy statement generation in HTML."""
         statement = generator.generate(
@@ -338,7 +337,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test generation with string jurisdiction parameter."""
         statement = generator.generate(
@@ -353,7 +352,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test generation with string output format parameter."""
         statement = generator.generate(
@@ -369,7 +368,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test generation with invalid jurisdiction raises error."""
         with pytest.raises(ValueError, match="Unsupported jurisdiction"):
@@ -383,7 +382,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test generation with custom purposes."""
         custom_purposes = [
@@ -407,7 +406,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test generation with custom retention period."""
         custom_retention = "5 years from last account activity"
@@ -425,7 +424,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test generation with custom legal basis."""
         custom_legal_basis = "explicit consent and contractual necessity"
@@ -442,7 +441,7 @@ class TestPrivacyStatementGenerator:
     def test_organization_without_dpo(
         self,
         generator: PrivacyStatementGenerator,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test generation for organization without DPO."""
         org_no_dpo = OrganizationInfo(
@@ -464,7 +463,7 @@ class TestPrivacyStatementGenerator:
     def test_organization_without_optional_fields(
         self,
         generator: PrivacyStatementGenerator,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test generation with minimal organization info."""
         minimal_org = OrganizationInfo(
@@ -548,7 +547,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test all jurisdictions include contact information."""
         for jurisdiction in Jurisdiction:
@@ -566,7 +565,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test all jurisdictions include required sections."""
         for jurisdiction in Jurisdiction:
@@ -597,7 +596,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test privacy statement includes proper version and metadata."""
         statement = generator.generate(
@@ -614,7 +613,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test last updated date is properly formatted in output."""
         statement = generator.generate(
@@ -668,7 +667,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test default purposes are used when none provided."""
         statement = generator.generate(
@@ -685,7 +684,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test default legal basis for GDPR."""
         statement = generator.generate(
@@ -704,7 +703,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test HTML output has valid structure."""
         for jurisdiction in Jurisdiction:
@@ -738,7 +737,7 @@ class TestPrivacyStatementGenerator:
         self,
         generator: PrivacyStatementGenerator,
         sample_organization: OrganizationInfo,
-        sample_data_types: list[str],
+        sample_data_types: List[str],
     ) -> None:
         """Test plain text output is readable and well-formatted."""
         statement = generator.generate(
@@ -762,7 +761,6 @@ class TestPrivacyStatementGenerator:
 
         # Should have reasonable length
         assert len(content) > 500
-
 
 class TestOrganizationInfo:
     """Test OrganizationInfo dataclass."""
@@ -801,7 +799,6 @@ class TestOrganizationInfo:
         assert org.dpo_email == "dpo@complete.com"
         assert org.website == "https://complete.com"
 
-
 class TestPrivacyStatement:
     """Test PrivacyStatement dataclass."""
 
@@ -829,7 +826,6 @@ class TestPrivacyStatement:
         assert statement.version == "1.0"
         assert statement.language == "en"
 
-
 class TestJurisdictionEnum:
     """Test Jurisdiction enum."""
 
@@ -843,7 +839,6 @@ class TestJurisdictionEnum:
     def test_jurisdiction_count(self) -> None:
         """Test correct number of jurisdictions."""
         assert len(list(Jurisdiction)) == 4
-
 
 class TestOutputFormatEnum:
     """Test OutputFormat enum."""

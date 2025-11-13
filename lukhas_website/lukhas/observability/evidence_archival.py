@@ -25,7 +25,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 from uuid import uuid4
 
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
@@ -75,7 +75,7 @@ class RetentionPolicy:
     regulation: ComplianceRegime
     minimum_retention_days: int
     maximum_retention_days: int
-    storage_tier_transitions: Dict[StorageTier, int]  # Days to transition
+    storage_tier_transitions: dict[StorageTier, int]  # Days to transition
     auto_delete_after_retention: bool = False
     legal_hold_exempt: bool = False
 
@@ -119,7 +119,7 @@ class ArchivedEvidence:
     retention_until: datetime
     retrieval_count: int = 0
     last_retrieved: Optional[datetime] = None
-    compliance_regimes: List[ComplianceRegime] = field(default_factory=list)
+    compliance_regimes: list[ComplianceRegime] = field(default_factory=list)
 
 
 class EvidenceArchivalSystem:
@@ -157,12 +157,12 @@ class EvidenceArchivalSystem:
         self.integrity_check_interval_hours = integrity_check_interval_hours
 
         # Core state
-        self.retention_policies: Dict[ComplianceRegime, RetentionPolicy] = {}
-        self.archival_jobs: Dict[str, ArchivalJob] = {}
-        self.archived_evidence: Dict[str, ArchivedEvidence] = {}
+        self.retention_policies: dict[ComplianceRegime, RetentionPolicy] = {}
+        self.archival_jobs: dict[str, ArchivalJob] = {}
+        self.archived_evidence: dict[str, ArchivedEvidence] = {}
 
         # Cloud storage clients
-        self.cloud_clients: Dict[CloudProvider, Any] = {}
+        self.cloud_clients: dict[CloudProvider, Any] = {}
 
         # Archival statistics
         self.archival_stats = {
@@ -252,7 +252,7 @@ class EvidenceArchivalSystem:
 
         if self.config_path.exists():
             try:
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path) as f:
                     self.config = json.load(f)
                     # Merge with defaults
                     for key, value in default_config.items():
@@ -360,7 +360,7 @@ class EvidenceArchivalSystem:
 
         # Default retention policy
         if not retention_policy:
-            retention_policy = list(self.retention_policies.values())[0]
+            retention_policy = next(iter(self.retention_policies.values()))
 
         job = ArchivalJob(
             job_id=job_id,
@@ -424,7 +424,7 @@ class EvidenceArchivalSystem:
                 with gzip.open(evidence_file, 'rt') as f:
                     evidence_data = json.load(f)
             else:
-                with open(evidence_file, 'r') as f:
+                with open(evidence_file) as f:
                     evidence_data = json.load(f)
 
             original_size = evidence_file.stat().st_size
@@ -444,7 +444,7 @@ class EvidenceArchivalSystem:
     async def _archive_single_evidence(
         self,
         job: ArchivalJob,
-        evidence_record: Dict[str, Any],
+        evidence_record: dict[str, Any],
         estimated_size: int,
     ):
         """Archive a single evidence record"""
@@ -690,7 +690,7 @@ class EvidenceArchivalSystem:
         except Exception as e:
             raise Exception(f"Failed to store in GCS: {e}")
 
-    async def retrieve_archived_evidence(self, archive_id: str) -> Optional[Dict[str, Any]]:
+    async def retrieve_archived_evidence(self, archive_id: str) -> Optional[dict[str, Any]]:
         """
         Retrieve and reconstruct archived evidence.
 
@@ -830,7 +830,7 @@ class EvidenceArchivalSystem:
 
         return True
 
-    def get_archival_statistics(self) -> Dict[str, Any]:
+    def get_archival_statistics(self) -> dict[str, Any]:
         """Get archival system statistics"""
         # Calculate storage tier distribution
         tier_distribution = defaultdict(int)
@@ -908,8 +908,8 @@ class EvidenceArchivalSystem:
         """Schedule archival based on evidence age and retention policies"""
         current_time = datetime.now(timezone.utc)
 
-        for regulation, policy in self.retention_policies.items():
-            for tier, days_threshold in policy.storage_tier_transitions.items():
+        for _regulation, policy in self.retention_policies.items():
+            for _tier, days_threshold in policy.storage_tier_transitions.items():
                 current_time - timedelta(days=days_threshold)
 
                 # Find evidence that should be transitioned to this tier

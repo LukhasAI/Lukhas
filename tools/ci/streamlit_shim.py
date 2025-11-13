@@ -3,6 +3,9 @@ Streamlit compatibility shim for CI environment
 Provides mock streamlit functions for testing
 """
 
+# Mock streamlit module
+import sys
+
 
 class StreamlitMock:
     """Mock streamlit for CI testing."""
@@ -14,8 +17,6 @@ class StreamlitMock:
         return mock_function
 
 
-# Mock streamlit module
-import sys
 
 sys.modules["streamlit"] = StreamlitMock()
 

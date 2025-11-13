@@ -12,5 +12,6 @@ cat = json.loads(pathlib.Path("mcp-servers/lukhas-devtools-mcp/tooling/catalog.j
 names = {f"lukhas.{t['name']}" for t in cat["tools"]}
 missing = sorted(required - names)
 if missing:
-    print("❌ Missing tools:", missing); sys.exit(1)
+    print("❌ Missing tools:", missing)
+    sys.exit(1)
 print("✅ MCP tool contract satisfied")

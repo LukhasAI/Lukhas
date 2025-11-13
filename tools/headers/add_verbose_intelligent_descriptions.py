@@ -9,6 +9,8 @@ Creates rich, narrative module descriptions with:
 Perfect for content generation systems.
 """
 
+from __future__ import annotations
+
 import os
 import re
 from pathlib import Path

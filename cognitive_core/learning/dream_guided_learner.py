@@ -506,7 +506,7 @@ class DreamGuidedLearner:
                 )
 
                 try:
-                    decision, response = await self.model_router.route_request(request)
+                    _decision, response = await self.model_router.route_request(request)
 
                     session.generated_insights.append(
                         {
@@ -572,7 +572,7 @@ class DreamGuidedLearner:
         if recent_sessions:
             avg_success = np.mean([s.success_score for s in recent_sessions if s.success_score])
             most_effective_mode = max(
-                set(s.mode for s in recent_sessions),
+                {s.mode for s in recent_sessions},
                 key=lambda mode: np.mean(
                     [s.success_score for s in recent_sessions if s.mode == mode and s.success_score]
                 ),
@@ -715,7 +715,7 @@ class DreamGuidedLearner:
         dream_boost = len(dream_insights) * 0.05
 
         # Boost for multiple learning modes
-        unique_phases = set(i.get("phase", "") for i in session.generated_insights)
+        unique_phases = {i.get("phase", "") for i in session.generated_insights}
         diversity_boost = len(unique_phases) * 0.02
 
         return min(1.0, base_confidence + dream_boost + diversity_boost)
@@ -733,7 +733,7 @@ class DreamGuidedLearner:
         dream_boost = len(outcome.dream_contributions) * 0.05
 
         # Session engagement boost
-        insight_diversity = len(set(i.get("type", "") for i in session.generated_insights))
+        insight_diversity = len({i.get("type", "") for i in session.generated_insights})
         engagement_boost = insight_diversity * 0.02
 
         retention = base_retention + concept_reinforcement + skill_reinforcement + dream_boost + engagement_boost

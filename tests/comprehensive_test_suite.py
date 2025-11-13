@@ -7,7 +7,7 @@ Enterprise-grade comprehensive test suite for LUKHAS AI platform.
 Provides structured testing across all system components with quality gates.
 
 P1 Task: TP001 - Create comprehensive test suite
-Priority: High (P1) 
+Priority: High (P1)
 Agent: Claude Code (Testing/Documentation)
 
 Constellation Framework: 🛡️ Guardian · ⚛️ Identity · 🧠 Consciousness
@@ -34,7 +34,7 @@ from collections import defaultdict
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 import pytest
 
@@ -225,7 +225,7 @@ class ComprehensiveTestSuite:
         config_path = self.project_root / "tests" / "test_suite_config.json"
         if config_path.exists():
             try:
-                with open(config_path, 'r') as f:
+                with open(config_path) as f:
                     custom_config = json.load(f)
                     default_config.update(custom_config)
             except Exception as e:
@@ -246,10 +246,10 @@ class ComprehensiveTestSuite:
     def run_comprehensive_suite(self, tier_filter: Optional[str] = None) -> TestSuiteMetrics:
         """
         Run comprehensive test suite with quality gates
-        
+
         Args:
             tier_filter: Optional tier to run (unit, integration, system, security)
-            
+
         Returns:
             Complete test metrics and quality assessment
         """

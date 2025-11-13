@@ -22,6 +22,8 @@ Author: Lukhas AI System
 Version: 1.0.0
 License: Proprietary
 """
+from __future__ import annotations
+
 import ast
 import json
 import logging

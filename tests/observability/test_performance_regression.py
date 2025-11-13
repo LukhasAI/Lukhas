@@ -106,7 +106,7 @@ class TestPerformanceRegressionDetector:
         component = "test_service"
 
         # Record too few samples
-        for i in range(5):  # Less than min_samples_for_baseline
+        for _i in range(5):  # Less than min_samples_for_baseline
             await regression_detector.record_performance_metric(metric_name, component, 0.1)
 
         # Should not establish baseline

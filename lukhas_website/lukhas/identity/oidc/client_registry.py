@@ -14,7 +14,7 @@ import secrets
 import time
 from dataclasses import asdict, dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge
@@ -66,17 +66,17 @@ class OIDCClient:
     application_type: ApplicationType
 
     # Authentication
-    client_secret: Optional[str] = None
-    client_secret_expires_at: Optional[int] = None
+    client_secret: str | None = None
+    client_secret_expires_at: int | None = None
 
     # Redirect URIs and scopes
-    redirect_uris: List[str] = field(default_factory=list)
-    post_logout_redirect_uris: List[str] = field(default_factory=list)
-    allowed_scopes: Set[str] = field(default_factory=lambda: {"openid"})
+    redirect_uris: list[str] = field(default_factory=list)
+    post_logout_redirect_uris: list[str] = field(default_factory=list)
+    allowed_scopes: set[str] = field(default_factory=lambda: {"openid"})
 
     # Grant types and response types
-    grant_types: Set[str] = field(default_factory=lambda: {"authorization_code"})
-    response_types: Set[str] = field(default_factory=lambda: {"code"})
+    grant_types: set[str] = field(default_factory=lambda: {"authorization_code"})
+    response_types: set[str] = field(default_factory=lambda: {"code"})
 
     # Token configuration
     access_token_lifetime: int = 3600  # 1 hour
@@ -89,14 +89,14 @@ class OIDCClient:
 
     # Metadata
     created_at: int = field(default_factory=lambda: int(time.time()))
-    last_used_at: Optional[int] = None
+    last_used_at: int | None = None
     is_active: bool = True
 
     # LUKHAS-specific extensions
-    allowed_tiers: Set[str] = field(default_factory=lambda: {"T1", "T2"})
+    allowed_tiers: set[str] = field(default_factory=lambda: {"T1", "T2"})
     require_guardian_approval: bool = False
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for API responses."""
         result = asdict(self)
         # Convert enums to strings
@@ -141,7 +141,7 @@ class ClientRegistry:
 
     def __init__(self, guardian_client=None):
         """Initialize client registry with optional Guardian validation."""
-        self._clients: Dict[str, OIDCClient] = {}
+        self._clients: dict[str, OIDCClient] = {}
         self.guardian_client = guardian_client
         self._load_default_clients()
 
@@ -189,7 +189,7 @@ class ClientRegistry:
 
         registered_clients_total.set(len(self._clients))
 
-    def register_client(self, client_data: Dict[str, Any]) -> OIDCClient:
+    def register_client(self, client_data: dict[str, Any]) -> OIDCClient:
         """Register a new OAuth2 client."""
         with tracer.start_span("oidc.register_client") as span:
             # Generate client ID and secret
@@ -217,11 +217,11 @@ class ClientRegistry:
 
             return client
 
-    def get_client(self, client_id: str) -> Optional[OIDCClient]:
+    def get_client(self, client_id: str) -> OIDCClient | None:
         """Get client by ID."""
         return self._clients.get(client_id)
 
-    def authenticate_client(self, client_id: str, client_secret: Optional[str] = None) -> Optional[OIDCClient]:
+    def authenticate_client(self, client_id: str, client_secret: str | None = None) -> OIDCClient | None:
         """Authenticate OAuth2 client."""
         with tracer.start_span("oidc.authenticate_client") as span:
             span.set_attribute("oidc.client_id", client_id)
@@ -273,7 +273,7 @@ class ClientRegistry:
 
             return client
 
-    def list_clients(self, active_only: bool = True) -> List[OIDCClient]:
+    def list_clients(self, active_only: bool = True) -> list[OIDCClient]:
         """List all registered clients."""
         clients = list(self._clients.values())
         if active_only:
@@ -288,7 +288,7 @@ class ClientRegistry:
             return True
         return False
 
-    def update_client(self, client_id: str, updates: Dict[str, Any]) -> Optional[OIDCClient]:
+    def update_client(self, client_id: str, updates: dict[str, Any]) -> OIDCClient | None:
         """Update client configuration."""
         if client := self.get_client(client_id):
             # Update allowed fields (security consideration)
@@ -309,7 +309,7 @@ class ClientRegistry:
         """Generate cryptographically secure client secret."""
         return secrets.token_urlsafe(32)
 
-    def _validate_with_guardian(self, client: OIDCClient) -> Dict[str, Any]:
+    def _validate_with_guardian(self, client: OIDCClient) -> dict[str, Any]:
         """Validate client registration with Guardian system."""
         # Placeholder for Guardian integration
         # In production, this would call Guardian for policy validation
@@ -317,7 +317,7 @@ class ClientRegistry:
 
 
 # Singleton instance for application use
-_default_registry: Optional[ClientRegistry] = None
+_default_registry: ClientRegistry | None = None
 
 def get_default_client_registry() -> ClientRegistry:
     """Get the default client registry instance."""

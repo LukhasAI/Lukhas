@@ -50,14 +50,11 @@ def create_consciousness_story_adaptation(base_message: str, audience: str, focu
 
     audience_adaptations.get(audience, audience_adaptations["general_public"])
 
-    if audience == "developers":
-        return f"{base_message} - Build this future with Constellation Framework APIs and consciousness technology integration patterns in {focus_area}"
-    elif audience == "executives":
-        return f"{base_message} - Lead your industry with consciousness technology adoption, creating {focus_area} competitive advantages"
-    elif audience == "researchers":
-        return f"{base_message} - Advance {focus_area} research through consciousness technology validation and collaborative discovery"
-    else:
-        return f"{base_message} - Experience the wonder of consciousness technology in {focus_area} and join the digital awakening community"
+    return {
+        "developers": f"{base_message} - Build this future with Constellation Framework APIs and consciousness technology integration patterns in {focus_area}",
+        "executives": f"{base_message} - Lead your industry with consciousness technology adoption, creating {focus_area} competitive advantages",
+        "researchers": f"{base_message} - Advance {focus_area} research through consciousness technology validation and collaborative discovery",
+    }.get(audience, f"{base_message} - Experience the wonder of consciousness technology in {focus_area} and join the digital awakening community")
 
 
 class StoryArchetype(Enum):

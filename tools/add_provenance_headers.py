@@ -7,7 +7,6 @@ Helps track template versions and edit policies.
 import pathlib
 import subprocess
 import sys
-from typing import Dict
 
 
 class ProvenanceHeadersAdder:
@@ -73,7 +72,7 @@ human_editable: {str(is_editable).lower()}
     def has_provenance_header(self, file_path: pathlib.Path) -> bool:
         """Check if file already has a provenance header."""
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path) as f:
                 first_lines = f.read(500)  # Check first 500 chars
                 return '@generated LUKHAS scaffold' in first_lines
         except Exception:
@@ -90,7 +89,7 @@ human_editable: {str(is_editable).lower()}
 
         try:
             # Read current content
-            with open(file_path, 'r') as f:
+            with open(file_path) as f:
                 content = f.read()
 
             # Create header
@@ -106,7 +105,7 @@ human_editable: {str(is_editable).lower()}
             print(f"❌ Failed to add header to {file_path}: {e}")
             return False
 
-    def process_module_directory(self, module_path: pathlib.Path) -> Dict[str, int]:
+    def process_module_directory(self, module_path: pathlib.Path) -> dict[str, int]:
         """Process all scaffold files in a module directory."""
         results = {"processed": 0, "skipped": 0, "errors": 0}
 

@@ -78,7 +78,7 @@ def main():
                 (p for p in m.get("docs", []) if p.endswith("README.md")), m.get("path")
             )
             desc = m.get("description", "")[:80]
-            md_idx.append(f"- [{m['name']}]({readme}) — {desc}")
+            md_idx.append(f"- [{m['name']}]({readme}) - {desc}")
         md_idx.append("")
 
     # Write uncategorized
@@ -90,7 +90,7 @@ def main():
                 (p for p in m.get("docs", []) if p.endswith("README.md")), m.get("path")
             )
             desc = m.get("description", "")[:80]
-            md_idx.append(f"- [{m['name']}]({readme}) — {desc}")
+            md_idx.append(f"- [{m['name']}]({readme}) - {desc}")
 
     OUT_IDX.write_text("\n".join(md_idx) + "\n", encoding="utf-8")
 

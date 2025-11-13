@@ -28,6 +28,7 @@ Constellation Framework: Flow Star (🌊) coordination hub
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import hashlib
 import json
 import logging
@@ -36,7 +37,7 @@ import uuid
 import zlib
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from opentelemetry import trace
 
@@ -111,8 +112,8 @@ class ContextHop:
     timestamp: float
     latency_ms: float
     success: bool
-    error: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    error: str | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -123,7 +124,7 @@ class ContextMetadata:
     created_at: float
     last_updated: float
     version: str = "1.0.0"
-    hops: List[ContextHop] = field(default_factory=list)
+    hops: list[ContextHop] = field(default_factory=list)
     compression_level: CompressionLevel = CompressionLevel.STANDARD
     encryption_enabled: bool = False
     ttl_seconds: int = 3600  # 1 hour default
@@ -134,16 +135,16 @@ class ContextMetadata:
 class PreservedContext:
     """Complete preserved context with metadata"""
     metadata: ContextMetadata
-    data: Dict[str, Any]
-    compressed_data: Optional[bytes] = None
-    checksum: Optional[str] = None
+    data: dict[str, Any]
+    compressed_data: bytes | None = None
+    checksum: str | None = None
 
 
 class ContextSerializer:
     """Handles context serialization and compression"""
 
     @staticmethod
-    def serialize(context_data: Dict[str, Any]) -> bytes:
+    def serialize(context_data: dict[str, Any]) -> bytes:
         """Serialize context data to bytes"""
         try:
             json_str = json.dumps(context_data, ensure_ascii=False, separators=(',', ':'))
@@ -153,7 +154,7 @@ class ContextSerializer:
             raise
 
     @staticmethod
-    def deserialize(data: bytes) -> Dict[str, Any]:
+    def deserialize(data: bytes) -> dict[str, Any]:
         """Deserialize bytes to context data"""
         try:
             json_str = data.decode('utf-8')
@@ -212,10 +213,10 @@ class ContextCache:
     def __init__(self, max_size: int = 1000, ttl_seconds: int = 3600):
         self.max_size = max_size
         self.ttl_seconds = ttl_seconds
-        self._cache: Dict[str, tuple[PreservedContext, float]] = {}  # key -> (context, expiry_time)
-        self._access_order: List[str] = []  # LRU tracking
+        self._cache: dict[str, tuple[PreservedContext, float]] = {}  # key -> (context, expiry_time)
+        self._access_order: list[str] = []  # LRU tracking
 
-    async def get(self, context_id: str) -> Optional[PreservedContext]:
+    async def get(self, context_id: str) -> PreservedContext | None:
         """Get context from cache"""
         start_time = time.time()
 
@@ -254,9 +255,8 @@ class ContextCache:
             expiry_time = time.time() + context.metadata.ttl_seconds
 
             # Remove if already exists
-            if context_id in self._cache:
-                if context_id in self._access_order:
-                    self._access_order.remove(context_id)
+            if context_id in self._cache and context_id in self._access_order:
+                self._access_order.remove(context_id)
 
             # Add to cache
             self._cache[context_id] = (context, expiry_time)
@@ -296,7 +296,7 @@ class ContextCache:
 
         return len(expired_keys)
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get cache statistics"""
         return {
             "size": len(self._cache),
@@ -313,10 +313,10 @@ class ContextPreservationEngine:
         self.cache = ContextCache()
 
         # Context stores (in-memory and persistent)
-        self.memory_store: Dict[str, PreservedContext] = {}
+        self.memory_store: dict[str, PreservedContext] = {}
 
         # Background cleanup task
-        self.cleanup_task: Optional[asyncio.Task] = None
+        self.cleanup_task: asyncio.Task | None = None
         self.cleanup_interval = 300  # 5 minutes
 
         logger.info("Context preservation engine initialized")
@@ -336,17 +336,15 @@ class ContextPreservationEngine:
 
         if self.cleanup_task:
             self.cleanup_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self.cleanup_task
-            except asyncio.CancelledError:
-                pass
 
         logger.info("✅ Context preservation engine stopped")
 
     async def preserve_context(
         self,
         session_id: str,
-        context_data: Dict[str, Any],
+        context_data: dict[str, Any],
         context_type: ContextType = ContextType.CONVERSATION,
         compression_level: CompressionLevel = CompressionLevel.STANDARD,
         ttl_seconds: int = 3600
@@ -412,7 +410,7 @@ class ContextPreservationEngine:
                 logger.error(f"❌ Failed to preserve context: {e}")
                 raise
 
-    async def restore_context(self, context_id: str) -> Optional[Dict[str, Any]]:
+    async def restore_context(self, context_id: str) -> dict[str, Any] | None:
         """Restore context data by ID"""
 
         start_time = time.time()
@@ -447,7 +445,7 @@ class ContextPreservationEngine:
                 # Restore from compressed data
                 if preserved_context.compressed_data:
                     # Verify checksum
-                    if preserved_context.checksum:
+                    if preserved_context.checksum:  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_lukhas_website_lukhas_orchestration_context_preservation_py_L448"}
                         if not self.serializer.verify_checksum(
                             preserved_context.compressed_data,
                             preserved_context.checksum
@@ -483,7 +481,7 @@ class ContextPreservationEngine:
         context_id: str,
         source_provider: str,
         destination_provider: str,
-        additional_metadata: Optional[Dict[str, Any]] = None
+        additional_metadata: dict[str, Any] | None = None
     ) -> bool:
         """Hand off context between providers"""
 
@@ -554,7 +552,7 @@ class ContextPreservationEngine:
                 logger.error(f"❌ Context handoff failed: {e}")
                 return False
 
-    async def get_context_metadata(self, context_id: str) -> Optional[ContextMetadata]:
+    async def get_context_metadata(self, context_id: str) -> ContextMetadata | None:
         """Get context metadata"""
         preserved_context = await self.cache.get(context_id)
         if not preserved_context:
@@ -613,7 +611,7 @@ class ContextPreservationEngine:
 
         logger.info("🛑 Context cleanup loop stopped")
 
-    async def get_preservation_stats(self) -> Dict[str, Any]:
+    async def get_preservation_stats(self) -> dict[str, Any]:
         """Get context preservation statistics"""
         cache_stats = self.cache.get_stats()
 
@@ -626,7 +624,7 @@ class ContextPreservationEngine:
 
 
 # Global context preservation engine
-_context_engine: Optional[ContextPreservationEngine] = None
+_context_engine: ContextPreservationEngine | None = None
 
 
 async def get_context_preservation_engine() -> ContextPreservationEngine:

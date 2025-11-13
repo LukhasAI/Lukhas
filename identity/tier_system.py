@@ -682,14 +682,17 @@ def symbolic_access_test():
     Test access tier logic with a symbolic operation.
     """
     tier = DynamicTierSystem()
-    operation = "modify_dream_path"
-    user_context = {"role": "user", "session": "standard"}
-    result = tier.check_access("user", operation, user_context)
-    logger.info(f"[TierSystem] Access check result for '{operation}': {result}")
-
-
-if __name__ == "__main__":
-    symbolic_access_test()
+    context = AccessContext(
+        user_id="symbolic_user",
+        session_id="s1",
+        operation_type=AccessType.MODIFY,
+        resource_scope=PermissionScope.MEMORY_FOLD,
+        resource_id="dream_path",
+        timestamp_utc=datetime.now(timezone.utc).isoformat(),
+        metadata={}
+    )
+    result = tier.check_access(context, TierLevel.ELEVATED)
+    logger.info(f"[TierSystem] Access check result for 'modify_dream_path': {result}")
 
 
 # Minimal stub for test compatibility

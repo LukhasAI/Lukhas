@@ -26,14 +26,14 @@ W3C WebAuthn Level 2 Specification: https://www.w3.org/TR/webauthn-2/
 """
 import base64
 import secrets
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Dict, List, Optional, Tuple
-from dataclasses import dataclass
 
 # External dependencies
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 # WebAuthn library
 from webauthn import verify_registration_response
@@ -41,15 +41,16 @@ from webauthn.helpers import base64url_to_bytes
 
 # LUKHAS imports
 try:
-    from lukhas.identity.webauthn_credential import WebAuthnCredentialStore
     from lukhas_website.lukhas.identity.webauthn_types import (
+        AuthenticatorSelectionCriteria,
         CredentialCreationOptions,
         PublicKeyCredentialCreation,
+        PublicKeyCredentialParameters,
         PublicKeyCredentialRpEntity,
         PublicKeyCredentialUserEntity,
-        PublicKeyCredentialParameters,
-        AuthenticatorSelectionCriteria,
     )
+
+    from lukhas.identity.webauthn_credential import WebAuthnCredentialStore
 except ImportError:
     print("Note: LUKHAS modules not available. Using simplified types.")
     # Fallback type definitions for testing without LUKHAS installed
@@ -269,7 +270,7 @@ def verify_credential_registration(
         }
 
     except Exception as e:
-        raise ValueError(f"Registration verification failed: {str(e)}")
+        raise ValueError(f"Registration verification failed: {e!s}")
 
 
 # --- API Endpoints ---
@@ -349,7 +350,7 @@ async def start_registration(request_data: Dict) -> JSONResponse:
         return JSONResponse(content=options)
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to generate options: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to generate options: {e!s}")
 
 
 @app.post("/api/auth/webauthn/register/complete")
@@ -410,7 +411,7 @@ async def complete_registration(request_data: Dict) -> JSONResponse:
             expected_rp_id=RP_ID
         )
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=f"Verification failed: {str(e)}")
+        raise HTTPException(status_code=400, detail=f"Verification failed: {e!s}")
 
     # Store credential in database
     try:
@@ -445,7 +446,7 @@ async def complete_registration(request_data: Dict) -> JSONResponse:
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to store credential: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to store credential: {e!s}")
 
 
 @app.get("/api/auth/webauthn/credentials")

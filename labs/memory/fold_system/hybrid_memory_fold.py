@@ -39,7 +39,10 @@
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛADVANCED, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import hashlib
+import logging
 import math
 
 # RESEARCH INTEGRATION: SAMPL (Spreading Activation and Memory Plasticity)

@@ -16,7 +16,7 @@ Related Issues:
 """
 
 import unittest
-from dataclasses import fields
+from dataclasses import FrozenInstanceError, fields
 
 from core.security.encryption_types import (
     ALGORITHM_METADATA,
@@ -145,7 +145,7 @@ class TestAlgorithmMetadata(unittest.TestCase):
         """Test that metadata instances are immutable."""
         metadata = ALGORITHM_METADATA[EncryptionAlgorithm.AES_256_GCM]
 
-        with self.assertRaises(Exception):
+        with self.assertRaises(FrozenInstanceError):
             metadata.key_size = 512  # Should fail - frozen dataclass
 
     def test_metadata_has_all_required_fields(self):
@@ -523,7 +523,7 @@ class TestTypeSafety(unittest.TestCase):
 
     def test_metadata_registry_keys_are_enums(self):
         """Test that registry keys are EncryptionAlgorithm enums."""
-        for key in ALGORITHM_METADATA.keys():
+        for key in ALGORITHM_METADATA:
             self.assertIsInstance(key, EncryptionAlgorithm)
 
     def test_algorithm_comparison_type_safety(self):

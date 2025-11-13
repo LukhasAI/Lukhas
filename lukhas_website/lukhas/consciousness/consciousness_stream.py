@@ -17,7 +17,7 @@ import asyncio
 import logging
 import time
 from dataclasses import asdict
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -47,7 +47,7 @@ from .types import (
 try:
     from .guardian_integration import (
         ConsciousnessGuardianIntegration,
-        ConsciousnessValidationContext,  # noqa: F401  # TODO: .guardian_integration.Consciou...
+        ConsciousnessValidationContext,  # TODO: .guardian_integration.Consciou...
         GuardianValidationConfig,
         GuardianValidationType,
         create_validation_context,
@@ -103,7 +103,7 @@ class ConsciousnessStream:
     Implements T4/0.01% performance standards with comprehensive observability.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize consciousness stream with configuration."""
         self.config = config or {}
         self._component_id = "ConsciousnessStream"
@@ -142,7 +142,7 @@ class ConsciousnessStream:
 
         # Consciousness state
         self._current_state = ConsciousnessState()
-        self._state_history: List[ConsciousnessState] = []
+        self._state_history: list[ConsciousnessState] = []
 
         # Processing state
         self._is_running = False
@@ -150,21 +150,21 @@ class ConsciousnessStream:
         self._last_tick_time = 0.0
 
         # Recent processing artifacts
-        self._recent_awareness: Optional[AwarenessSnapshot] = None
-        self._recent_reflection: Optional[ReflectionReport] = None
-        self._recent_dream: Optional[DreamTrace] = None
-        self._recent_creativity: Optional[CreativitySnapshot] = None
-        self._recent_decision: Optional[DecisionContext] = None
+        self._recent_awareness: AwarenessSnapshot | None = None
+        self._recent_reflection: ReflectionReport | None = None
+        self._recent_dream: DreamTrace | None = None
+        self._recent_creativity: CreativitySnapshot | None = None
+        self._recent_decision: DecisionContext | None = None
 
         # Performance tracking
-        self._tick_latencies: List[float] = []
-        self._phase_durations: Dict[StatePhase, List[float]] = {
+        self._tick_latencies: list[float] = []
+        self._phase_durations: dict[StatePhase, list[float]] = {
             phase: [] for phase in ["IDLE", "AWARE", "REFLECT", "CREATE", "DREAM", "DECIDE"]
         }
 
         # Signal processing
-        self._signal_buffer: Dict[str, Any] = {}
-        self._memory_events: List[Dict[str, Any]] = []
+        self._signal_buffer: dict[str, Any] = {}
+        self._memory_events: list[dict[str, Any]] = []
 
     async def start(self) -> None:
         """Start the consciousness processing stream."""
@@ -200,7 +200,7 @@ class ConsciousnessStream:
 
             logger.info(f"Consciousness Stream stopped after {self._tick_count} ticks")
 
-    async def tick(self, signals: Optional[Dict[str, Any]] = None) -> ConsciousnessMetrics:
+    async def tick(self, signals: dict[str, Any] | None = None) -> ConsciousnessMetrics:
         """
         Execute single consciousness processing tick.
 
@@ -440,7 +440,7 @@ class ConsciousnessStream:
             logger.error(f"Decision processing failed: {e}")
             self._recent_decision = None
 
-    def _assess_creative_triggers(self) -> Dict[str, Any]:
+    def _assess_creative_triggers(self) -> dict[str, Any]:
         """Assess whether creative processing should be triggered."""
 
         triggers = {
@@ -476,7 +476,7 @@ class ConsciousnessStream:
         # Extract seed concepts from signal buffer
         if self._signal_buffer:
             # Look for creative cues in signals
-            creative_signals = [k for k in self._signal_buffer.keys()
+            creative_signals = [k for k in self._signal_buffer
                              if "creative" in k.lower() or "idea" in k.lower()]
             if creative_signals:
                 triggers["should_create"] = True
@@ -644,7 +644,7 @@ class ConsciousnessStream:
         """Get current consciousness state."""
         return self._current_state
 
-    def get_recent_artifacts(self) -> Dict[str, Any]:
+    def get_recent_artifacts(self) -> dict[str, Any]:
         """Get recent processing artifacts."""
         return {
             "awareness": asdict(self._recent_awareness) if self._recent_awareness else None,
@@ -654,7 +654,7 @@ class ConsciousnessStream:
             "decision": asdict(self._recent_decision) if self._recent_decision else None
         }
 
-    def get_performance_stats(self) -> Dict[str, Any]:
+    def get_performance_stats(self) -> dict[str, Any]:
         """Get comprehensive performance statistics."""
         avg_tick_latency = sum(self._tick_latencies) / len(self._tick_latencies) if self._tick_latencies else 0.0
 

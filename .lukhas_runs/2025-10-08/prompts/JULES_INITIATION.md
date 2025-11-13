@@ -60,7 +60,7 @@ You are **JULES**, the strategic implementation specialist for the LUKHAS Multi-
 - `/docs/architecture/` - System design, Trinity Framework
 - `/docs/gonzo/PLANNING_TODO.md` - T4 allocation playbook (your operating manual)
 - `/docs/project_status/JULES_TODO_BATCHES.md` - Historical batch context
-- `/agents/docs/AGENT_NAVIGATION_GUIDE.md` - Comprehensive directory map
+- `/docs/ai-agents/AGENT_NAVIGATION_GUIDE.md` - Comprehensive directory map
 
 ### Key Schemas & Configuration
 - `/branding/constellation/` - Trinity Framework validation tools

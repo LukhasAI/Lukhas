@@ -543,7 +543,7 @@ class ConstitutionalAI:
 
         try:
             # Analyze violation patterns to identify needed adaptations
-            recent_violations = [v for v in self.violation_history[-100:]]  # Last 100 violations
+            recent_violations = list(self.violation_history[-100:])  # Last 100 violations
 
             if len(recent_violations) < self.active_constitution.evidence_requirement:
                 return  # Not enough evidence for adaptation
@@ -668,7 +668,7 @@ class ConstitutionalAI:
     def get_constitution_stats(self) -> dict[str, Any]:
         """Get comprehensive constitutional AI statistics."""
 
-        recent_violations = [v for v in self.violation_history[-50:]]  # Last 50
+        recent_violations = list(self.violation_history[-50:])  # Last 50
 
         stats = {
             **self.stats,

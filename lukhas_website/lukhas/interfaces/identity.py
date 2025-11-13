@@ -9,6 +9,7 @@ Other modules, such as `governance`, should import from this module
 to avoid circular dependencies.
 """
 
+import abc
 from typing import Any, Optional
 
 
@@ -28,7 +29,6 @@ def ensure_both_id_keys(obj: dict[str, Any], lid: Optional[str]) -> None:
     obj.setdefault("lambda_id", lid)
 
 
-import abc
 
 
 class AuthenticationIntegration(abc.ABC):

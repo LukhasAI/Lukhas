@@ -5,7 +5,7 @@ Provides canonical metric schemas and compatibility shims for legacy aliases.
 Prevents test/UI drift by normalizing metric key names across the system.
 """
 from dataclasses import dataclass
-from typing import Any, Dict, Mapping
+from typing import Any, Mapping
 
 
 @dataclass(frozen=True)
@@ -68,7 +68,7 @@ LEGACY_ALIASES: Mapping[str, str] = {
 }
 
 
-def normalize_metrics(metrics_dict: Dict[str, Any]) -> Dict[str, Any]:
+def normalize_metrics(metrics_dict: dict[str, Any]) -> dict[str, Any]:
     """
     Normalize metrics dictionary by adding canonical keys for legacy aliases.
 
@@ -88,7 +88,7 @@ def normalize_metrics(metrics_dict: Dict[str, Any]) -> Dict[str, Any]:
     return normalized
 
 
-def validate_bio_processor_stats(stats: Dict[str, Any]) -> bool:
+def validate_bio_processor_stats(stats: dict[str, Any]) -> bool:
     """
     Validate that bio processor stats contain required canonical keys.
 
@@ -102,7 +102,7 @@ def validate_bio_processor_stats(stats: Dict[str, Any]) -> bool:
     return all(key in stats for key in required_keys)
 
 
-def validate_router_stats(stats: Dict[str, Any]) -> bool:
+def validate_router_stats(stats: dict[str, Any]) -> bool:
     """
     Validate that router stats contain required canonical keys.
 
@@ -117,7 +117,7 @@ def validate_router_stats(stats: Dict[str, Any]) -> bool:
 
 
 # Test helper functions for contract compliance
-def assert_bio_processor_contract(stats: Dict[str, Any]) -> None:
+def assert_bio_processor_contract(stats: dict[str, Any]) -> None:
     """Assert that bio processor stats meet the canonical contract"""
     normalized = normalize_metrics(stats)
 
@@ -133,7 +133,7 @@ def assert_bio_processor_contract(stats: Dict[str, Any]) -> None:
     assert isinstance(normalized["adaptation_rate"], (float, int)), "adaptation_rate must be numeric"
 
 
-def assert_router_contract(stats: Dict[str, Any]) -> None:
+def assert_router_contract(stats: dict[str, Any]) -> None:
     """Assert that router stats meet the canonical contract"""
     normalized = normalize_metrics(stats)
 
@@ -149,13 +149,13 @@ def assert_router_contract(stats: Dict[str, Any]) -> None:
 
 # Export for easy access
 __all__ = [
-    "BioProcessorStats",
-    "RouterStats",
-    "NetworkMetrics",
     "LEGACY_ALIASES",
+    "BioProcessorStats",
+    "NetworkMetrics",
+    "RouterStats",
+    "assert_bio_processor_contract",
+    "assert_router_contract",
     "normalize_metrics",
     "validate_bio_processor_stats",
     "validate_router_stats",
-    "assert_bio_processor_contract",
-    "assert_router_contract",
 ]

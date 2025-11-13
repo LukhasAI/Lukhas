@@ -28,7 +28,7 @@ import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 ROOT = Path(__file__).resolve().parents[2]
 REGISTRY = ROOT / "docs" / "_generated" / "MODULE_REGISTRY.json"
@@ -45,7 +45,7 @@ def load_flags() -> Dict:
     return {}
 
 
-def parse_lane(tags: List[str]) -> str:
+def parse_lane(tags: list[str]) -> str:
     """Extract lane from tags"""
     for tag in tags:
         if tag.startswith("lane:"):
@@ -67,7 +67,7 @@ def days_since(timestamp: str) -> int:
         return 9999
 
 
-def check_slo_violation(manifest: Dict, module_name: str, tags: List[str], max_age_days: int) -> tuple[bool, str]:
+def check_slo_violation(manifest: Dict, module_name: str, tags: list[str], max_age_days: int) -> tuple[bool, str]:
     """
     Check if module violates SLO targets.
 

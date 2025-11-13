@@ -31,6 +31,7 @@
 ║ Symbolic Tags: {ΛBIO}, {ΛHEALTH}, {ΛAUTH}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
 
 # Bio status symbols
 BIO_SYMBOLS = {

@@ -6,7 +6,7 @@ from importlib import import_module
 __all__ = ["CollapseConfig", "run_simulator", "simulate_once"]
 
 _CANDIDATES = (
-    "lukhas_website.consciousness.collapse.simulator",
+    "lukhas_website.lukhas.consciousness.collapse.simulator",
     "candidate.consciousness.collapse.simulator",
     "consciousness.collapse.simulator_impl",
     "tools.collapse_simulator",
@@ -37,7 +37,7 @@ if not ok_config:
 
 
 if not ok_run:
-    def run_simulator(cfg: "CollapseConfig", *args, **kwargs):  # type: ignore[misc]
+    def run_simulator(cfg: CollapseConfig, *args, **kwargs):  # type: ignore[misc]
         return {"status": "noop", "steps": 0}
 
 

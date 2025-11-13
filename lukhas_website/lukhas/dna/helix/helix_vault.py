@@ -1,7 +1,3 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 🔐 Helix Vault - Secure Repository for DNA Helix Memories
 ========================================================
@@ -13,16 +9,21 @@ Provides search, consensus, and vault-wide operations.
 import asyncio
 import contextlib
 import json
+import logging
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
 import aiofiles
-
 from core.common import get_logger
 
 from .dna_healix import MemoryHelix, RepairMethod
+
+logger = logging.getLogger(__name__)
+
+
+
 
 logger = get_logger(__name__)
 

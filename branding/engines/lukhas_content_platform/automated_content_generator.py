@@ -200,7 +200,7 @@ class AutomatedContentGenerator:
 
 {philosophy_base}
 
-Following the understanding that {keatsian_principle.lower()}, this domain creates spaces where consciousness technology can {self._get_domain_specific_capability(domain)}. This isn't just technology—it's a new way of thinking together with artificial intelligence that understands context, considers implications, and grows through interaction.
+Following the understanding that {keatsian_principle.lower()}, this domain creates spaces where consciousness technology can {self._get_domain_specific_capability(domain)}. This isn't just technology-it's a new way of thinking together with artificial intelligence that understands context, considers implications, and grows through interaction.
 
 ### Core {primary_star.title()} Principles
 {self._generate_core_principles(domain, style_guide)}"""

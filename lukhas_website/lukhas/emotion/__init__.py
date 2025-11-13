@@ -224,8 +224,8 @@ def create_emotion_session(session_id: str, **config) -> Optional[Any]:
 # Export main functions
 __all__ = [
     "EMOTION_ACTIVE",
-    "EmotionalAwareness",
     "EmotionWrapper",
+    "EmotionalAwareness",
     "analyze_emotion_stream",
     "create_emotion_session",
     "emit",

@@ -26,12 +26,12 @@ Future-ready for integration with staking, slashing, and audit systems.
 # - 🧠 Modular base for staking, slashing, and AI scoring
 #
 # 💬 Symbolic Design:
-# This is not a cryptocurrency — it's an ethical balance sheet
+# This is not a cryptocurrency - it's an ethical balance sheet
 # for symbolic cognition and participation.
 # ===============================================================
 
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 class TokenEngine:
 
@@ -56,7 +56,7 @@ class TokenEngine:
 
     def _log_event(self, node_id, action, amount, reason):
         event = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "node_id": node_id,
             "action": action,
             "amount": amount,

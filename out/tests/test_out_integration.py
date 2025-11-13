@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import out  # noqa: F401  # TODO: out; consider using importlib....
+    import out  # TODO: out; consider using importlib....
 except ImportError:
     pytest.skip("Module out not available", allow_module_level=True)
 

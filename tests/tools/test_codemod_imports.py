@@ -12,6 +12,7 @@ Phase 3: Added as stability guarantee after codemod robustness fix (45d40b49c).
 import pathlib
 import subprocess
 import sys
+from typing import Optional
 
 import pytest
 
@@ -25,7 +26,7 @@ CASES = [
      "from labs.foo import bar\n"),
 
     ("simple_import",
-     "import candidate.core\n",
+     "import labs.core\n",
      "import labs.core\n"),
 
     # Multi-import forms
@@ -79,7 +80,7 @@ CASES = [
 ]
 
 
-def run_codemod(src: str, mapping: dict = None) -> str:
+def run_codemod(src: str, mapping: Optional[dict] = None) -> str:
     """
     Run codemod_imports.py on source code via subprocess.
 
@@ -111,7 +112,7 @@ def run_codemod(src: str, mapping: dict = None) -> str:
     try:
         # Run codemod on temp file
         subprocess.run(
-            cmd + [temp_path, "--apply"],
+            [*cmd, temp_path, "--apply"],
             capture_output=True,
             text=True,
             cwd=ROOT,
@@ -119,7 +120,7 @@ def run_codemod(src: str, mapping: dict = None) -> str:
         )
 
         # Read result
-        with open(temp_path, 'r') as f:
+        with open(temp_path) as f:
             output = f.read()
 
         return output

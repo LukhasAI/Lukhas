@@ -13,6 +13,15 @@ from pathlib import Path
 
 LEDGER = Path("artifacts/lukhas_import_ledger.ndjson")
 
+
+def read_ledger():
+    """Read events from the NDJSON ledger file."""
+    with open(LEDGER) as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                yield json.loads(line)
+
 IMPORT_RE = re.compile(
     r'^(?P<indent>\s*)(from\s+|import\s+)(?P<mod>lukhas(?:\.[A-Za-z0-9_]+)+)',
     re.MULTILINE
@@ -21,20 +30,18 @@ IMPORT_RE = re.compile(
 def build_mapping(threshold=3):
     if not LEDGER.exists():
         raise SystemExit("ledger missing; run tests to populate.")
-    votes = defaultdict(Counter)  # mod -> canonical -> count
-    for line in LEDGER.read_text().splitlines():
-        if not line.strip():
-            continue
-        ev = json.loads(line)
-        if ev.get("event") != "alias":
-            continue
-        l, r = ev.get("lukhas"), ev.get("real")
-        votes[l][r] += 1
+    pairs = defaultdict(Counter)
+    for ev in read_ledger():
+        if ev.get("event") == "alias":
+            lukhas_mod = ev.get("lukhas")
+            real_mod = ev.get("real")
+            if lukhas_mod and real_mod:
+                pairs[lukhas_mod][real_mod] += 1
     mapping = {}
-    for l, counts in votes.items():
+    for lukhas_mod, counts in pairs.items():
         best, n = counts.most_common(1)[0]
         if n >= threshold:  # only rewrite if we have strong evidence
-            mapping[l] = best
+            mapping[lukhas_mod] = best
     return mapping
 
 def rewrite_file(path: Path, mapping: dict, apply=False):

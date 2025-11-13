@@ -93,13 +93,13 @@ class ΛBotAutonomousWorkflowFixer:
             line = line.strip()
 
             # Detect workflow failures
-            if "workflow run failed" in line.lower() or "–" in line:
+            if "workflow run failed" in line.lower() or "-" in line:
                 if current_issue:
                     issues.append(current_issue)
 
                 # Extract repository and workflow info
-                if "–" in line:
-                    parts = line.split("–")
+                if "-" in line:
+                    parts = line.split("-")
                     if len(parts) >= 2:
                         repo_part = parts[0].strip()
                         workflow_part = parts[1].strip()
@@ -548,23 +548,23 @@ def main():
 
     # Sample notifications text (representing the 145 pages)
     sample_notifications = """
-    LukhasAI/Lukhas – Critical Path Validation #242
+    LukhasAI/Lukhas - Critical Path Validation #242
     Critical Path Validation workflow run failed for master branch
     1 hour ago
 
-    LukhasAI/Prototype – ΛBot Continuous Quality Monitor #36
+    LukhasAI/Prototype - ΛBot Continuous Quality Monitor #36
     ΛBot Continuous Quality Monitor workflow run failed at startup for main branch
     18 hours ago
 
-    LukhasAI/Prototype – AI Dependency Bot #14
+    LukhasAI/Prototype - AI Dependency Bot #14
     AI Dependency Bot workflow run failed for main branch
     18 hours ago
 
-    LukhasAI/Prototype – LUKHAS Security Warrior #1
+    LukhasAI/Prototype - LUKHAS Security Warrior #1
     LUKHAS Security Warrior workflow run failed for master branch
     yesterday
 
-    LukhasAI/Prototype – LUKHAS Symbol Validator Bot #1
+    LukhasAI/Prototype - LUKHAS Symbol Validator Bot #1
     LUKHAS Symbol Validator Bot workflow run failed for master branch
     yesterday
     """

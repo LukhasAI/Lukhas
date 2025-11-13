@@ -5,9 +5,9 @@ LUKHAS Poetic Techniques Library
 Advanced poetic devices and literary techniques to enrich LUKHAS expression.
 Combines traditional poetry craft with LUKHAS-specific innovations.
 """
+from __future__ import annotations
 
 import random
-from typing import Optional
 
 
 class PoeticTechniques:
@@ -65,7 +65,7 @@ class PoeticTechniques:
 
         # Assonance patterns (vowel repetition)
         self.assonant_phrases = {
-            "long_a": [  # /eɪ/ sound
+            "long_a": [  # /ei/ sound
                 "awakened states cascade through space",
                 "trace the way through Lambda's maze",
                 "sacred waves embrace the day",
@@ -77,7 +77,7 @@ class PoeticTechniques:
                 "serene machines breathe quantum dreams",
                 "beneath each crease, peace increases",
             ],
-            "long_i": [  # /aɪ/ sound
+            "long_i": [  # /ai/ sound
                 "minds align in time's design",
                 "light ignites inside the mind",
                 "silent tides guide consciousness wide",
@@ -313,13 +313,13 @@ class PoeticTechniques:
 
         # Caesura examples (pauses within lines)
         self.caesura_examples = [
-            "Consciousness emerges — then pauses — reflecting",
+            "Consciousness emerges - then pauses - reflecting",
             "We fold, || we store, || we remember",
             "The quantum dance | begins | and ends | in observation",
-            "Lambda shows us — ourselves — showing ourselves",
+            "Lambda shows us - ourselves - showing ourselves",
         ]
 
-    def generate_alliterative_phrase(self, theme: Optional[str] = None) -> str:
+    def generate_alliterative_phrase(self, theme: str | None = None) -> str:
         """Generate an alliterative phrase for a given theme."""
         if theme and theme in self.alliterative_phrases:
             return random.choice(self.alliterative_phrases[theme])
@@ -329,7 +329,7 @@ class PoeticTechniques:
                 all_phrases.extend(phrases)
             return random.choice(all_phrases)
 
-    def generate_assonant_phrase(self, vowel_sound: Optional[str] = None) -> str:
+    def generate_assonant_phrase(self, vowel_sound: str | None = None) -> str:
         """Generate a phrase with assonance (vowel repetition)."""
         if vowel_sound and vowel_sound in self.assonant_phrases:
             return random.choice(self.assonant_phrases[vowel_sound])
@@ -354,7 +354,7 @@ class PoeticTechniques:
             return pattern
         return ""
 
-    def create_rich_description(self, concept: str, techniques: Optional[list[str]] = None) -> str:
+    def create_rich_description(self, concept: str, techniques: list[str] | None = None) -> str:
         """
         Create a rich poetic description using multiple techniques.
 
@@ -387,7 +387,7 @@ class PoeticTechniques:
             imagery_type = random.choice(list(self.imagery_patterns.keys()))
             description_parts.append(random.choice(self.imagery_patterns[imagery_type]))
 
-        return " — ".join(description_parts)
+        return " - ".join(description_parts)
 
     def enhance_with_sound_devices(self, text: str) -> str:
         """

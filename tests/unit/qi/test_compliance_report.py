@@ -7,8 +7,8 @@ PIPEDA, and LGPD with comprehensive coverage of all report sections.
 import json
 from datetime import datetime, timedelta, timezone
 
-import pytest
 
+import pytest
 from qi.compliance.compliance_report import (
     AccessorType,
     AccessPurpose,
@@ -19,6 +19,7 @@ from qi.compliance.compliance_report import (
     LegalBasis,
 )
 from qi.compliance.privacy_statement import Jurisdiction
+from typing import Tuple
 
 
 @pytest.fixture
@@ -34,7 +35,7 @@ def sample_user_id() -> str:
 
 
 @pytest.fixture
-def sample_date_range() -> tuple[datetime, datetime]:
+def sample_date_range() -> Tuple[datetime, datetime]:
     """Create a sample date range for testing."""
     end_date = datetime.now(timezone.utc)
     start_date = end_date - timedelta(days=90)
@@ -55,7 +56,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test GDPR compliance report generation."""
         report = generator.generate_report(
@@ -92,7 +93,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test CCPA compliance report generation."""
         report = generator.generate_report(
@@ -115,7 +116,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test PIPEDA compliance report generation."""
         report = generator.generate_report(
@@ -138,7 +139,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test LGPD compliance report generation."""
         report = generator.generate_report(
@@ -161,7 +162,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test generation with string jurisdiction parameter."""
         report = generator.generate_report(
@@ -176,7 +177,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test generation with invalid jurisdiction raises error."""
         with pytest.raises(ValueError, match="Unsupported jurisdiction"):
@@ -190,7 +191,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test consent history section is populated correctly."""
         report = generator.generate_report(
@@ -227,7 +228,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test data access log section is populated correctly."""
         report = generator.generate_report(
@@ -265,7 +266,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test retention compliance section is populated correctly."""
         report = generator.generate_report(
@@ -279,7 +280,7 @@ class TestComplianceReportGenerator:
         assert len(retention) > 0
 
         # Check retention policy structure
-        for category, policy in retention.items():
+        for _category, policy in retention.items():
             assert "data_category" in policy
             assert "retention_period_days" in policy
             assert "next_deletion_date" in policy
@@ -293,7 +294,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test deletion requests section is populated correctly."""
         report = generator.generate_report(
@@ -325,7 +326,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test third-party disclosures section is populated correctly."""
         report = generator.generate_report(
@@ -359,7 +360,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test security events section is included when requested."""
         report = generator.generate_report(
@@ -387,7 +388,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test security events section can be excluded."""
         report = generator.generate_report(
@@ -423,7 +424,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test user ID is pseudonymized in report."""
         report = generator.generate_report(
@@ -441,7 +442,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test IP addresses are redacted in access logs."""
         report = generator.generate_report(
@@ -461,7 +462,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test metadata is generated correctly."""
         report = generator.generate_report(
@@ -484,7 +485,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test JSON export functionality."""
         report = generator.generate_report(
@@ -509,7 +510,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test HTML export functionality."""
         report = generator.generate_report(
@@ -544,7 +545,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test HTML export contains properly formatted tables."""
         report = generator.generate_report(
@@ -566,7 +567,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test HTML export includes CSS styling."""
         report = generator.generate_report(
@@ -588,7 +589,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test all jurisdictions generate valid reports."""
         for jurisdiction in Jurisdiction:
@@ -612,7 +613,7 @@ class TestComplianceReportGenerator:
     def test_empty_data_scenarios(
         self,
         generator: ComplianceReportGenerator,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test report generation with user who has minimal data."""
         # Use a different user ID that might have less data
@@ -636,7 +637,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test GDPR report includes Article 15 required information."""
         report = generator.generate_report(
@@ -666,7 +667,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test CCPA report includes required categories and sources."""
         report = generator.generate_report(
@@ -696,7 +697,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test PIPEDA report covers required principles."""
         report = generator.generate_report(
@@ -716,7 +717,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test LGPD report includes international transfer information."""
         report = generator.generate_report(
@@ -745,7 +746,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test consent records include expiry tracking."""
         report = generator.generate_report(
@@ -765,7 +766,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test report hash is generated and consistent."""
         report1 = generator.generate_report(
@@ -792,7 +793,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test JSON export creates machine-readable output."""
         report = generator.generate_report(
@@ -820,7 +821,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test HTML export creates human-readable output."""
         report = generator.generate_report(
@@ -846,7 +847,7 @@ class TestComplianceReportGenerator:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test generating reports for multiple jurisdictions for same user."""
         jurisdictions = [Jurisdiction.GDPR, Jurisdiction.CCPA, Jurisdiction.PIPEDA, Jurisdiction.LGPD]
@@ -980,7 +981,7 @@ class TestPrivacyProtection:
         self,
         generator: ComplianceReportGenerator,
         sample_user_id: str,
-        sample_date_range: tuple[datetime, datetime],
+        sample_date_range: Tuple[datetime, datetime],
     ) -> None:
         """Test report doesn't contain sensitive data like passwords."""
         report = generator.generate_report(

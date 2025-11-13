@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-
 """
 
 #TAG:bridge
@@ -27,15 +23,16 @@ Agent 10 Advanced Systems Implementation
 """
 
 import asyncio
+import logging
 from typing import Any, Optional
 
 # Import LUKHAS AI branding system for API response compliance
 try:
     from branding_bridge import (
-        BrandContext,  # noqa: F401  # TODO: branding_bridge.BrandCo...
-        get_brand_voice,  # noqa: F401  # TODO: branding_bridge.get_bra...
-        normalize_output_text,  # noqa: F401  # TODO: branding_bridge.normali...
-        validate_output,  # noqa: F401  # TODO: branding_bridge.validat...
+        BrandContext,  # TODO: branding_bridge.BrandCo...
+        get_brand_voice,  # TODO: branding_bridge.get_bra...
+        normalize_output_text,  # TODO: branding_bridge.normali...
+        validate_output,  # TODO: branding_bridge.validat...
     )
 
     BRANDING_AVAILABLE = True
@@ -44,6 +41,8 @@ except ImportError:
 
 # Import priority API components
 from .services import ConsciousnessAPIService, EmotionAPIService, MemoryAPIService
+
+logger = logging.getLogger(__name__)
 
 
 class APIHub:

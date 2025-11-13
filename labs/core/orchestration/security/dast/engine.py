@@ -7,6 +7,8 @@ Sam Altman Cognitive AI Vision: "AI should proactively assist in task management
 This is the core engine for AI-powered task management with symbolic reasoning,
 intelligent prioritization, and seamless human-AI collaboration.
 """
+from __future__ import annotations
+
 import streamlit as st
 from datetime import timezone
 

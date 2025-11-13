@@ -22,10 +22,12 @@
 ║ signal type and an optional target.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from typing import Any, Optional
+from __future__ import annotations
+
+from typing import Any
 
 
-def route_signal(signal_type: str, payload: dict[str, Any], target: Optional[str] = None) -> dict[str, Any]:
+def route_signal(signal_type: str, payload: dict[str, Any], target: str | None = None) -> dict[str, Any]:
     """Route a signal to appropriate handler.
 
     Args:

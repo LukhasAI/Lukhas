@@ -18,10 +18,9 @@ import zlib
 from datetime import datetime, timezone
 from typing import Any
 
+from core.glyph.glyph_memory_integration import get_glyph_memory_system
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
-
-from core.glyph.glyph_memory_integration import get_glyph_memory_system
 from symbolic.features.glyphs import GLYPH_MAP
 
 logger = logging.getLogger("api.glyph_exchange")

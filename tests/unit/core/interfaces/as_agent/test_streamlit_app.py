@@ -3,13 +3,14 @@ from __future__ import annotations
 import importlib
 import sys
 import types
-from typing import Any, Sequence
+from collections.abc import Sequence
+from typing import Any, List, Tuple
 
 import pytest
 
 
 class _ColumnContext:
-    def __enter__(self) -> "_ColumnContext":
+    def __enter__(self) -> _ColumnContext:
         return self
 
     def __exit__(self, *args: Any) -> None:
@@ -84,7 +85,7 @@ class _StreamlitStub(types.ModuleType):
     def json(self, *args: Any, **kwargs: Any) -> None:
         return None
 
-    def columns(self, count: int) -> tuple[_ColumnContext, ...]:
+    def columns(self, count: int) -> Tuple[_ColumnContext, ...]:
         return tuple(_ColumnContext() for _ in range(count))
 
     def subheader(self, *args: Any, **kwargs: Any) -> None:
@@ -109,7 +110,7 @@ def _install_streamlit_stub(monkeypatch: pytest.MonkeyPatch) -> None:
 def _install_dashboard_settings_stub(monkeypatch: pytest.MonkeyPatch) -> None:
     dashboard_stub = types.ModuleType("core.dashboard_settings")
 
-    def get_paired_apps(user_id: str) -> list[str]:
+    def get_paired_apps(user_id: str) -> List[str]:
         return [f"demo_app_for_{user_id}"]
 
     dashboard_stub.get_paired_apps = get_paired_apps  # type: ignore[attr-defined]
@@ -126,7 +127,7 @@ def test_build_module_blocks_discovers_metadata(monkeypatch: pytest.MonkeyPatch)
     module_blocks = module.build_module_blocks()
 
     assert module_blocks, "Expected module blocks to be discovered"
-    full_header, mod_name, body = module_blocks[0]
+    full_header, _mod_name, body = module_blocks[0]
     assert full_header.startswith("### 📦 ")
     assert "## 📘 Header Info" in body
     assert "## 📄 Usage Guide" in body

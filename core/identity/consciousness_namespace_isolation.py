@@ -1,7 +1,5 @@
 import logging
 
-import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-
 logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
@@ -31,12 +29,12 @@ from typing import Any, Optional
 
 # Import MΛTRIZ consciousness components
 try:
-    from ..matriz_consciousness_signals import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+    from ..matriz_consciousness_signals import (  # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
         ConsciousnessSignal,
         ConstellationStar,
     )
     from .matriz_consciousness_identity_signals import (
-        IdentitySignalType,  # noqa: F401  # TODO: .matriz_consciousness_identity...
+        IdentitySignalType,  # TODO: .matriz_consciousness_identity...
         NamespaceIsolationData,
         consciousness_identity_signal_emitter,
     )

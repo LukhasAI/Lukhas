@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
 
 class EthicsError(Exception): ...
 
-def authorize_or_raise(seed: Dict[str, Any]) -> None:
+def authorize_or_raise(seed: dict[str, Any]) -> None:
     constraints = seed.get("constraints", {})
     consent = constraints.get("consent", {})
     flags = constraints.get("flags", {})

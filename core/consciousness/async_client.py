@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -16,6 +11,8 @@ Original: async_client.py
 Advanced: async_client.py
 Integration Date: 2025-05-31T07:55:28.056913
 """
+
+from __future__ import annotations
 
 # coding=utf-8
 # Copyright 2023-present, the HuggingFace Inc. team.
@@ -39,11 +36,13 @@ Integration Date: 2025-05-31T07:55:28.056913
 # WARNING
 import asyncio
 import base64
+import logging
 import re
 import warnings
 from collections.abc import AsyncIterable
-from typing import TYPE_CHECKING, Any, Literal, Optional, Union, overload
+from typing import TYPE_CHECKING, Any, Literal, overload
 
+from core.common import get_logger
 from huggingface_hub import constants
 from huggingface_hub.errors import InferenceTimeoutError
 from huggingface_hub.inference._common import (
@@ -113,9 +112,12 @@ from huggingface_hub.utils import build_hf_headers, get_session, hf_raise_for_st
 from huggingface_hub.utils._auth import get_token
 from huggingface_hub.utils._deprecation import _deprecate_method
 
-from core.common import get_logger
-
 from .._common import _async_yield_from, _import_aiohttp
+
+logger = logging.getLogger(__name__)
+
+
+
 
 if TYPE_CHECKING:
     import numpy as np
@@ -155,13 +157,13 @@ class AsyncInferenceClient:
         timeout (`float`, `optional`):
             The maximum number of seconds to wait for a response from the server. Loading a new model in Inference
             API can take up to several minutes. Defaults to None, meaning it will loop until the server is available.
-        headers (`Dict[str, str]`, `optional`):
+        headers (`dict[str, str]`, `optional`):
             Additional headers to send to the server. By default only the authorization and user-agent headers are sent.
             Values in this dictionary will override the default values.
         bill_to (`str`, `optional`):
             The billing account to use for the requests. By default the requests are billed on the user's account.
             Requests can only be billed to an organization the user is a member of, and which has subscribed to Enterprise Hub.
-        cookies (`Dict[str, str]`, `optional`):
+        cookies (`dict[str, str]`, `optional`):
             Additional cookies to send to the server.
         trust_env ('bool', 'optional'):
             Trust environment settings for proxy configuration if the parameter is `True` (`False` by default).
@@ -177,19 +179,19 @@ class AsyncInferenceClient:
 
     def __init__(
         self,
-        model: Optional[str] = None,
+        model: str | None = None,
         *,
-        provider: Optional[PROVIDER_T] = None,
-        token: Optional[str] = None,
-        timeout: Optional[float] = None,
-        headers: Optional[dict[str, str]] = None,
-        cookies: Optional[dict[str, str]] = None,
+        provider: PROVIDER_T | None = None,
+        token: str | None = None,
+        timeout: float | None = None,
+        headers: dict[str, str] | None = None,
+        cookies: dict[str, str] | None = None,
         trust_env: bool = False,
-        proxies: Optional[Any] = None,
-        bill_to: Optional[str] = None,
+        proxies: Any | None = None,
+        bill_to: str | None = None,
         # OpenAI compatibility
-        base_url: Optional[str] = None,
-        api_key: Optional[str] = None,
+        base_url: str | None = None,
+        api_key: str | None = None,
     ) -> None:
         if model is not None and base_url is not None:
             raise ValueError(
@@ -221,8 +223,8 @@ class AsyncInferenceClient:
             )
             token = get_token()
 
-        self.model: Optional[str] = base_url or model
-        self.token: Optional[str] = token
+        self.model: str | None = base_url or model
+        self.token: str | None = token
 
         self.headers = {**headers} if headers is not None else {}
         if bill_to is not None:
@@ -263,10 +265,10 @@ class AsyncInferenceClient:
     async def post(  # type: ignore[misc]
         self,
         *,
-        json: Optional[Union[str, dict, list]] = None,
-        data: Optional[ContentT] = None,
-        model: Optional[str] = None,
-        task: Optional[str] = None,
+        json: str | dict | list | None = None,
+        data: ContentT | None = None,
+        model: str | None = None,
+        task: str | None = None,
         stream: Literal[False] = ...,
     ) -> bytes: ...
 
@@ -274,10 +276,10 @@ class AsyncInferenceClient:
     async def post(  # type: ignore[misc]
         self,
         *,
-        json: Optional[Union[str, dict, list]] = None,
-        data: Optional[ContentT] = None,
-        model: Optional[str] = None,
-        task: Optional[str] = None,
+        json: str | dict | list | None = None,
+        data: ContentT | None = None,
+        model: str | None = None,
+        task: str | None = None,
         stream: Literal[True] = ...,
     ) -> AsyncIterable[bytes]: ...
 
@@ -285,12 +287,12 @@ class AsyncInferenceClient:
     async def post(
         self,
         *,
-        json: Optional[Union[str, dict, list]] = None,
-        data: Optional[ContentT] = None,
-        model: Optional[str] = None,
-        task: Optional[str] = None,
+        json: str | dict | list | None = None,
+        data: ContentT | None = None,
+        model: str | None = None,
+        task: str | None = None,
         stream: bool = False,
-    ) -> Union[bytes, AsyncIterable[bytes]]: ...
+    ) -> bytes | AsyncIterable[bytes]: ...
 
     @_deprecate_method(
         version="0.31.0",
@@ -303,12 +305,12 @@ class AsyncInferenceClient:
     async def post(
         self,
         *,
-        json: Optional[Union[str, dict, list]] = None,
-        data: Optional[ContentT] = None,
-        model: Optional[str] = None,
-        task: Optional[str] = None,
+        json: str | dict | list | None = None,
+        data: ContentT | None = None,
+        model: str | None = None,
+        task: str | None = None,
         stream: bool = False,
-    ) -> Union[bytes, AsyncIterable[bytes]]:
+    ) -> bytes | AsyncIterable[bytes]:
         """
         Make a POST request to the inference server.
 
@@ -349,11 +351,11 @@ class AsyncInferenceClient:
     @overload
     async def _inner_post(
         self, request_parameters: RequestParameters, *, stream: bool = False
-    ) -> Union[bytes, AsyncIterable[bytes]]: ...
+    ) -> bytes | AsyncIterable[bytes]: ...
 
     async def _inner_post(
         self, request_parameters: RequestParameters, *, stream: bool = False
-    ) -> Union[bytes, AsyncIterable[bytes]]:
+    ) -> bytes | AsyncIterable[bytes]:
         """Make a request to the inference server."""
 
         aiohttp = _import_aiohttp()
@@ -376,7 +378,7 @@ class AsyncInferenceClient:
                 )
                 response_error_payload = None
                 if response.status != 200:
-                    try:
+                    try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_core_consciousness_async_client_py_L381"}
                         response_error_payload = await response.json()  # get payload before connection closed
                     except Exception:
                         pass
@@ -430,9 +432,9 @@ class AsyncInferenceClient:
         self,
         audio: ContentT,
         *,
-        model: Optional[str] = None,
-        top_k: Optional[int] = None,
-        function_to_apply: Optional["AudioClassificationOutputTransform"] = None,
+        model: str | None = None,
+        top_k: int | None = None,
+        function_to_apply: AudioClassificationOutputTransform | None = None,
     ) -> list[AudioClassificationOutputElement]:
         """
         Perform audio classification on the provided audio content.
@@ -451,7 +453,7 @@ class AsyncInferenceClient:
                 The function to apply to the model outputs in order to retrieve the scores.
 
         Returns:
-            `List[AudioClassificationOutputElement]`: List of [`AudioClassificationOutputElement`] items containing the predicted labels and their confidence.
+            `list[AudioClassificationOutputElement]`: List of [`AudioClassificationOutputElement`] items containing the predicted labels and their confidence.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -487,7 +489,7 @@ class AsyncInferenceClient:
         self,
         audio: ContentT,
         *,
-        model: Optional[str] = None,
+        model: str | None = None,
     ) -> list[AudioToAudioOutputElement]:
         """
         Performs multiple tasks related to audio-to-audio depending on the model (eg: speech enhancement, source separation).
@@ -502,7 +504,7 @@ class AsyncInferenceClient:
                 audio_to_audio will be used.
 
         Returns:
-            `List[AudioToAudioOutputElement]`: A list of [`AudioToAudioOutputElement`] items containing audios label, content-type, and audio content in blob.
+            `list[AudioToAudioOutputElement]`: A list of [`AudioToAudioOutputElement`] items containing audios label, content-type, and audio content in blob.
 
         Raises:
             `InferenceTimeoutError`:
@@ -539,8 +541,8 @@ class AsyncInferenceClient:
         self,
         audio: ContentT,
         *,
-        model: Optional[str] = None,
-        extra_body: Optional[dict] = None,
+        model: str | None = None,
+        extra_body: dict | None = None,
     ) -> AutomaticSpeechRecognitionOutput:
         """
         Perform automatic speech recognition (ASR or audio-to-text) on the given audio content.
@@ -588,25 +590,25 @@ class AsyncInferenceClient:
         self,
         messages: list[dict],
         *,
-        model: Optional[str] = None,
+        model: str | None = None,
         stream: Literal[False] = False,
-        frequency_penalty: Optional[float] = None,
-        logit_bias: Optional[list[float]] = None,
-        logprobs: Optional[bool] = None,
-        max_tokens: Optional[int] = None,
-        n: Optional[int] = None,
-        presence_penalty: Optional[float] = None,
-        response_format: Optional[ChatCompletionInputGrammarType] = None,
-        seed: Optional[int] = None,
-        stop: Optional[list[str]] = None,
-        stream_options: Optional[ChatCompletionInputStreamOptions] = None,
-        temperature: Optional[float] = None,
-        tool_choice: Optional[Union[ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"]] = None,
-        tool_prompt: Optional[str] = None,
-        tools: Optional[list[ChatCompletionInputTool]] = None,
-        top_logprobs: Optional[int] = None,
-        top_p: Optional[float] = None,
-        extra_body: Optional[dict] = None,
+        frequency_penalty: float | None = None,
+        logit_bias: list[float] | None = None,
+        logprobs: bool | None = None,
+        max_tokens: int | None = None,
+        n: int | None = None,
+        presence_penalty: float | None = None,
+        response_format: ChatCompletionInputGrammarType | None = None,
+        seed: int | None = None,
+        stop: list[str] | None = None,
+        stream_options: ChatCompletionInputStreamOptions | None = None,
+        temperature: float | None = None,
+        tool_choice: ChatCompletionInputToolChoiceClass | ChatCompletionInputToolChoiceEnum | None = None,
+        tool_prompt: str | None = None,
+        tools: list[ChatCompletionInputTool] | None = None,
+        top_logprobs: int | None = None,
+        top_p: float | None = None,
+        extra_body: dict | None = None,
     ) -> ChatCompletionOutput: ...
 
     @overload
@@ -614,25 +616,25 @@ class AsyncInferenceClient:
         self,
         messages: list[dict],
         *,
-        model: Optional[str] = None,
+        model: str | None = None,
         stream: Literal[True] = True,
-        frequency_penalty: Optional[float] = None,
-        logit_bias: Optional[list[float]] = None,
-        logprobs: Optional[bool] = None,
-        max_tokens: Optional[int] = None,
-        n: Optional[int] = None,
-        presence_penalty: Optional[float] = None,
-        response_format: Optional[ChatCompletionInputGrammarType] = None,
-        seed: Optional[int] = None,
-        stop: Optional[list[str]] = None,
-        stream_options: Optional[ChatCompletionInputStreamOptions] = None,
-        temperature: Optional[float] = None,
-        tool_choice: Optional[Union[ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"]] = None,
-        tool_prompt: Optional[str] = None,
-        tools: Optional[list[ChatCompletionInputTool]] = None,
-        top_logprobs: Optional[int] = None,
-        top_p: Optional[float] = None,
-        extra_body: Optional[dict] = None,
+        frequency_penalty: float | None = None,
+        logit_bias: list[float] | None = None,
+        logprobs: bool | None = None,
+        max_tokens: int | None = None,
+        n: int | None = None,
+        presence_penalty: float | None = None,
+        response_format: ChatCompletionInputGrammarType | None = None,
+        seed: int | None = None,
+        stop: list[str] | None = None,
+        stream_options: ChatCompletionInputStreamOptions | None = None,
+        temperature: float | None = None,
+        tool_choice: ChatCompletionInputToolChoiceClass | ChatCompletionInputToolChoiceEnum | None = None,
+        tool_prompt: str | None = None,
+        tools: list[ChatCompletionInputTool] | None = None,
+        top_logprobs: int | None = None,
+        top_p: float | None = None,
+        extra_body: dict | None = None,
     ) -> AsyncIterable[ChatCompletionStreamOutput]: ...
 
     @overload
@@ -640,52 +642,52 @@ class AsyncInferenceClient:
         self,
         messages: list[dict],
         *,
-        model: Optional[str] = None,
+        model: str | None = None,
         stream: bool = False,
-        frequency_penalty: Optional[float] = None,
-        logit_bias: Optional[list[float]] = None,
-        logprobs: Optional[bool] = None,
-        max_tokens: Optional[int] = None,
-        n: Optional[int] = None,
-        presence_penalty: Optional[float] = None,
-        response_format: Optional[ChatCompletionInputGrammarType] = None,
-        seed: Optional[int] = None,
-        stop: Optional[list[str]] = None,
-        stream_options: Optional[ChatCompletionInputStreamOptions] = None,
-        temperature: Optional[float] = None,
-        tool_choice: Optional[Union[ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"]] = None,
-        tool_prompt: Optional[str] = None,
-        tools: Optional[list[ChatCompletionInputTool]] = None,
-        top_logprobs: Optional[int] = None,
-        top_p: Optional[float] = None,
-        extra_body: Optional[dict] = None,
-    ) -> Union[ChatCompletionOutput, AsyncIterable[ChatCompletionStreamOutput]]: ...
+        frequency_penalty: float | None = None,
+        logit_bias: list[float] | None = None,
+        logprobs: bool | None = None,
+        max_tokens: int | None = None,
+        n: int | None = None,
+        presence_penalty: float | None = None,
+        response_format: ChatCompletionInputGrammarType | None = None,
+        seed: int | None = None,
+        stop: list[str] | None = None,
+        stream_options: ChatCompletionInputStreamOptions | None = None,
+        temperature: float | None = None,
+        tool_choice: ChatCompletionInputToolChoiceClass | ChatCompletionInputToolChoiceEnum | None = None,
+        tool_prompt: str | None = None,
+        tools: list[ChatCompletionInputTool] | None = None,
+        top_logprobs: int | None = None,
+        top_p: float | None = None,
+        extra_body: dict | None = None,
+    ) -> ChatCompletionOutput | AsyncIterable[ChatCompletionStreamOutput]: ...
 
     async def chat_completion(
         self,
         messages: list[dict],
         *,
-        model: Optional[str] = None,
+        model: str | None = None,
         stream: bool = False,
         # Parameters from ChatCompletionInput (handled manually)
-        frequency_penalty: Optional[float] = None,
-        logit_bias: Optional[list[float]] = None,
-        logprobs: Optional[bool] = None,
-        max_tokens: Optional[int] = None,
-        n: Optional[int] = None,
-        presence_penalty: Optional[float] = None,
-        response_format: Optional[ChatCompletionInputGrammarType] = None,
-        seed: Optional[int] = None,
-        stop: Optional[list[str]] = None,
-        stream_options: Optional[ChatCompletionInputStreamOptions] = None,
-        temperature: Optional[float] = None,
-        tool_choice: Optional[Union[ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"]] = None,
-        tool_prompt: Optional[str] = None,
-        tools: Optional[list[ChatCompletionInputTool]] = None,
-        top_logprobs: Optional[int] = None,
-        top_p: Optional[float] = None,
-        extra_body: Optional[dict] = None,
-    ) -> Union[ChatCompletionOutput, AsyncIterable[ChatCompletionStreamOutput]]:
+        frequency_penalty: float | None = None,
+        logit_bias: list[float] | None = None,
+        logprobs: bool | None = None,
+        max_tokens: int | None = None,
+        n: int | None = None,
+        presence_penalty: float | None = None,
+        response_format: ChatCompletionInputGrammarType | None = None,
+        seed: int | None = None,
+        stop: list[str] | None = None,
+        stream_options: ChatCompletionInputStreamOptions | None = None,
+        temperature: float | None = None,
+        tool_choice: ChatCompletionInputToolChoiceClass | ChatCompletionInputToolChoiceEnum | None = None,
+        tool_prompt: str | None = None,
+        tools: list[ChatCompletionInputTool] | None = None,
+        top_logprobs: int | None = None,
+        top_p: float | None = None,
+        extra_body: dict | None = None,
+    ) -> ChatCompletionOutput | AsyncIterable[ChatCompletionStreamOutput]:
         """
         A method for completing conversations using a specified language model.
 
@@ -714,7 +716,7 @@ class AsyncInferenceClient:
             frequency_penalty (`float`, *optional*):
                 Penalizes new tokens based on their existing frequency
                 in the text so far. Range: [-2.0, 2.0]. Defaults to 0.0.
-            logit_bias (`List[float]`, *optional*):
+            logit_bias (`list[float]`, *optional*):
                 Adjusts the likelihood of specific tokens appearing in the generated output.
             logprobs (`bool`, *optional*):
                 Whether to return log probabilities of the output tokens or not. If true, returns the log
@@ -730,7 +732,7 @@ class AsyncInferenceClient:
                 Grammar constraints. Can be either a JSONSchema or a regex.
             seed (Optional[`int`], *optional*):
                 Seed for reproducible control flow. Defaults to None.
-            stop (`List[str]`, *optional*):
+            stop (`list[str]`, *optional*):
                 Up to four strings which trigger the end of the response.
                 Defaults to None.
             stream (`bool`, *optional*):
@@ -1072,15 +1074,15 @@ class AsyncInferenceClient:
         image: ContentT,
         question: str,
         *,
-        model: Optional[str] = None,
-        doc_stride: Optional[int] = None,
-        handle_impossible_answer: Optional[bool] = None,
-        lang: Optional[str] = None,
-        max_answer_len: Optional[int] = None,
-        max_question_len: Optional[int] = None,
-        max_seq_len: Optional[int] = None,
-        top_k: Optional[int] = None,
-        word_boxes: Optional[list[Union[list[float], str]]] = None,
+        model: str | None = None,
+        doc_stride: int | None = None,
+        handle_impossible_answer: bool | None = None,
+        lang: str | None = None,
+        max_answer_len: int | None = None,
+        max_question_len: int | None = None,
+        max_seq_len: int | None = None,
+        top_k: int | None = None,
+        word_boxes: list[list[float] | str] | None = None,
     ) -> list[DocumentQuestionAnsweringOutputElement]:
         """
         Answer questions on document images.
@@ -1111,11 +1113,11 @@ class AsyncInferenceClient:
             top_k (`int`, *optional*):
                 The number of answers to return (will be chosen by order of likelihood). Can return less than top_k
                 answers if there are not enough options available within the context.
-            word_boxes (`List[Union[List[float], str`, *optional*):
+            word_boxes (`list[Union[list[float], str`, *optional*):
                 A list of words and bounding boxes (normalized 0->1000). If provided, the inference will skip the OCR
                 step and use the provided bounding boxes instead.
         Returns:
-            `List[DocumentQuestionAnsweringOutputElement]`: a list of [`DocumentQuestionAnsweringOutputElement`] items containing the predicted label, associated probability, word ids, and page number.
+            `list[DocumentQuestionAnsweringOutputElement]`: a list of [`DocumentQuestionAnsweringOutputElement`] items containing the predicted label, associated probability, word ids, and page number.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -1158,12 +1160,12 @@ class AsyncInferenceClient:
         self,
         text: str,
         *,
-        normalize: Optional[bool] = None,
-        prompt_name: Optional[str] = None,
-        truncate: Optional[bool] = None,
-        truncation_direction: Optional[Literal["Left", "Right"]] = None,
-        model: Optional[str] = None,
-    ) -> "np.ndarray":
+        normalize: bool | None = None,
+        prompt_name: str | None = None,
+        truncate: bool | None = None,
+        truncation_direction: Literal["Left", "Right"] | None = None,
+        model: str | None = None,
+    ) -> np.ndarray:
         """
         Generate embeddings for a given text.
 
@@ -1231,9 +1233,9 @@ class AsyncInferenceClient:
         self,
         text: str,
         *,
-        model: Optional[str] = None,
-        targets: Optional[list[str]] = None,
-        top_k: Optional[int] = None,
+        model: str | None = None,
+        targets: list[str] | None = None,
+        top_k: int | None = None,
     ) -> list[FillMaskOutputElement]:
         """
         Fill in a hole with a missing word (token to be precise).
@@ -1244,14 +1246,14 @@ class AsyncInferenceClient:
             model (`str`, *optional*):
                 The model to use for the fill mask task. Can be a model ID hosted on the Hugging Face Hub or a URL to
                 a deployed Inference Endpoint. If not provided, the default recommended fill mask model will be used.
-            targets (`List[str`, *optional*):
+            targets (`list[str`, *optional*):
                 When passed, the model will limit the scores to the passed targets instead of looking up in the whole
                 vocabulary. If the provided targets are not in the model vocab, they will be tokenized and the first
                 resulting token will be used (with a warning, and that might be slower).
             top_k (`int`, *optional*):
                 When passed, overrides the number of predictions to return.
         Returns:
-            `List[FillMaskOutputElement]`: a list of [`FillMaskOutputElement`] items containing the predicted label, associated
+            `list[FillMaskOutputElement]`: a list of [`FillMaskOutputElement`] items containing the predicted label, associated
             probability, token reference, and completed text.
 
         Raises:
@@ -1287,9 +1289,9 @@ class AsyncInferenceClient:
         self,
         image: ContentT,
         *,
-        model: Optional[str] = None,
-        function_to_apply: Optional["ImageClassificationOutputTransform"] = None,
-        top_k: Optional[int] = None,
+        model: str | None = None,
+        function_to_apply: ImageClassificationOutputTransform | None = None,
+        top_k: int | None = None,
     ) -> list[ImageClassificationOutputElement]:
         """
         Perform image classification on the given image using the specified model.
@@ -1305,7 +1307,7 @@ class AsyncInferenceClient:
             top_k (`int`, *optional*):
                 When specified, limits the output to the top K most probable classes.
         Returns:
-            `List[ImageClassificationOutputElement]`: a list of [`ImageClassificationOutputElement`] items containing the predicted label and associated probability.
+            `list[ImageClassificationOutputElement]`: a list of [`ImageClassificationOutputElement`] items containing the predicted label and associated probability.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -1337,11 +1339,11 @@ class AsyncInferenceClient:
         self,
         image: ContentT,
         *,
-        model: Optional[str] = None,
-        mask_threshold: Optional[float] = None,
-        overlap_mask_area_threshold: Optional[float] = None,
-        subtask: Optional["ImageSegmentationSubtask"] = None,
-        threshold: Optional[float] = None,
+        model: str | None = None,
+        mask_threshold: float | None = None,
+        overlap_mask_area_threshold: float | None = None,
+        subtask: ImageSegmentationSubtask | None = None,
+        threshold: float | None = None,
     ) -> list[ImageSegmentationOutputElement]:
         """
         Perform image segmentation on the given image using the specified model.
@@ -1367,7 +1369,7 @@ class AsyncInferenceClient:
             threshold (`float`, *optional*):
                 Probability threshold to filter out predicted masks.
         Returns:
-            `List[ImageSegmentationOutputElement]`: A list of [`ImageSegmentationOutputElement`] items containing the segmented masks and associated attributes.
+            `list[ImageSegmentationOutputElement]`: A list of [`ImageSegmentationOutputElement`] items containing the segmented masks and associated attributes.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -1406,15 +1408,15 @@ class AsyncInferenceClient:
     async def image_to_image(
         self,
         image: ContentT,
-        prompt: Optional[str] = None,
+        prompt: str | None = None,
         *,
-        negative_prompt: Optional[str] = None,
-        num_inference_steps: Optional[int] = None,
-        guidance_scale: Optional[float] = None,
-        model: Optional[str] = None,
-        target_size: Optional[ImageToImageTargetSize] = None,
+        negative_prompt: str | None = None,
+        num_inference_steps: int | None = None,
+        guidance_scale: float | None = None,
+        model: str | None = None,
+        target_size: ImageToImageTargetSize | None = None,
         **kwargs,
-    ) -> "Image":
+    ) -> Image:
         """
         Perform image-to-image translation using a specified model.
 
@@ -1479,7 +1481,7 @@ class AsyncInferenceClient:
         response = await self._inner_post(request_parameters)
         return _bytes_to_image(response)
 
-    async def image_to_text(self, image: ContentT, *, model: Optional[str] = None) -> ImageToTextOutput:
+    async def image_to_text(self, image: ContentT, *, model: str | None = None) -> ImageToTextOutput:
         """
         Takes an input image and return text.
 
@@ -1529,8 +1531,8 @@ class AsyncInferenceClient:
         self,
         image: ContentT,
         *,
-        model: Optional[str] = None,
-        threshold: Optional[float] = None,
+        model: str | None = None,
+        threshold: float | None = None,
     ) -> list[ObjectDetectionOutputElement]:
         """
         Perform object detection on the given image using the specified model.
@@ -1550,7 +1552,7 @@ class AsyncInferenceClient:
             threshold (`float`, *optional*):
                 The probability necessary to make a prediction.
         Returns:
-            `List[ObjectDetectionOutputElement]`: A list of [`ObjectDetectionOutputElement`] items containing the bounding boxes and associated attributes.
+            `list[ObjectDetectionOutputElement]`: A list of [`ObjectDetectionOutputElement`] items containing the bounding boxes and associated attributes.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -1585,15 +1587,15 @@ class AsyncInferenceClient:
         question: str,
         context: str,
         *,
-        model: Optional[str] = None,
-        align_to_words: Optional[bool] = None,
-        doc_stride: Optional[int] = None,
-        handle_impossible_answer: Optional[bool] = None,
-        max_answer_len: Optional[int] = None,
-        max_question_len: Optional[int] = None,
-        max_seq_len: Optional[int] = None,
-        top_k: Optional[int] = None,
-    ) -> Union[QuestionAnsweringOutputElement, list[QuestionAnsweringOutputElement]]:
+        model: str | None = None,
+        align_to_words: bool | None = None,
+        doc_stride: int | None = None,
+        handle_impossible_answer: bool | None = None,
+        max_answer_len: int | None = None,
+        max_question_len: int | None = None,
+        max_seq_len: int | None = None,
+        top_k: int | None = None,
+    ) -> QuestionAnsweringOutputElement | list[QuestionAnsweringOutputElement]:
         """
         Retrieve the answer to a question from a given text.
 
@@ -1625,7 +1627,7 @@ class AsyncInferenceClient:
                 topk answers if there are not enough options available within the context.
 
         Returns:
-            Union[`QuestionAnsweringOutputElement`, List[`QuestionAnsweringOutputElement`]]:
+            Union[`QuestionAnsweringOutputElement`, list[`QuestionAnsweringOutputElement`]]:
                 When top_k is 1 or not provided, it returns a single `QuestionAnsweringOutputElement`.
                 When top_k is greater than 1, it returns a list of `QuestionAnsweringOutputElement`.
         Raises:
@@ -1668,7 +1670,7 @@ class AsyncInferenceClient:
         return output
 
     async def sentence_similarity(
-        self, sentence: str, other_sentences: list[str], *, model: Optional[str] = None
+        self, sentence: str, other_sentences: list[str], *, model: str | None = None
     ) -> list[float]:
         """
         Compute the semantic similarity between a sentence and a list of other sentences by comparing their embeddings.
@@ -1676,7 +1678,7 @@ class AsyncInferenceClient:
         Args:
             sentence (`str`):
                 The main sentence to compare to others.
-            other_sentences (`List[str]`):
+            other_sentences (`list[str]`):
                 The list of sentences to compare to.
             model (`str`, *optional*):
                 The model to use for the conversational task. Can be a model ID hosted on the Hugging Face Hub or a URL to
@@ -1684,7 +1686,7 @@ class AsyncInferenceClient:
                 Defaults to None.
 
         Returns:
-            `List[float]`: The embedding representing the input text.
+            `list[float]`: The embedding representing the input text.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -1724,10 +1726,10 @@ class AsyncInferenceClient:
         self,
         text: str,
         *,
-        model: Optional[str] = None,
-        clean_up_tokenization_spaces: Optional[bool] = None,
-        generate_parameters: Optional[dict[str, Any]] = None,
-        truncation: Optional["SummarizationTruncationStrategy"] = None,
+        model: str | None = None,
+        clean_up_tokenization_spaces: bool | None = None,
+        generate_parameters: dict[str, Any] | None = None,
+        truncation: SummarizationTruncationStrategy | None = None,
     ) -> SummarizationOutput:
         """
         Generate a summary of a given text using a specified model.
@@ -1740,7 +1742,7 @@ class AsyncInferenceClient:
                 Inference Endpoint. If not provided, the default recommended model for summarization will be used.
             clean_up_tokenization_spaces (`bool`, *optional*):
                 Whether to clean up the potential extra spaces in the text output.
-            generate_parameters (`Dict[str, Any]`, *optional*):
+            generate_parameters (`dict[str, Any]`, *optional*):
                 Additional parametrization of the text generation algorithm.
             truncation (`"SummarizationTruncationStrategy"`, *optional*):
                 The truncation strategy to use.
@@ -1783,10 +1785,10 @@ class AsyncInferenceClient:
         table: dict[str, Any],
         query: str,
         *,
-        model: Optional[str] = None,
-        padding: Optional["Padding"] = None,
-        sequential: Optional[bool] = None,
-        truncation: Optional[bool] = None,
+        model: str | None = None,
+        padding: Padding | None = None,
+        sequential: bool | None = None,
+        truncation: bool | None = None,
     ) -> TableQuestionAnsweringOutputElement:
         """
         Retrieve the answer to a question from information given in a table.
@@ -1846,12 +1848,12 @@ class AsyncInferenceClient:
         response = await self._inner_post(request_parameters)
         return TableQuestionAnsweringOutputElement.parse_obj_as_instance(response)
 
-    async def tabular_classification(self, table: dict[str, Any], *, model: Optional[str] = None) -> list[str]:
+    async def tabular_classification(self, table: dict[str, Any], *, model: str | None = None) -> list[str]:
         """
         Classifying a target category (a group) based on a set of attributes.
 
         Args:
-            table (`Dict[str, Any]`):
+            table (`dict[str, Any]`):
                 Set of attributes to classify.
             model (`str`, *optional*):
                 The model to use for the tabular classification task. Can be a model ID hosted on the Hugging Face Hub or a URL to
@@ -1901,12 +1903,12 @@ class AsyncInferenceClient:
         response = await self._inner_post(request_parameters)
         return _bytes_to_list(response)
 
-    async def tabular_regression(self, table: dict[str, Any], *, model: Optional[str] = None) -> list[float]:
+    async def tabular_regression(self, table: dict[str, Any], *, model: str | None = None) -> list[float]:
         """
         Predicting a numerical target value given a set of attributes/features in a table.
 
         Args:
-            table (`Dict[str, Any]`):
+            table (`dict[str, Any]`):
                 Set of attributes stored in a table. The attributes used to predict the target can be both numerical and categorical.
             model (`str`, *optional*):
                 The model to use for the tabular regression task. Can be a model ID hosted on the Hugging Face Hub or a URL to
@@ -1955,9 +1957,9 @@ class AsyncInferenceClient:
         self,
         text: str,
         *,
-        model: Optional[str] = None,
-        top_k: Optional[int] = None,
-        function_to_apply: Optional["TextClassificationOutputTransform"] = None,
+        model: str | None = None,
+        top_k: int | None = None,
+        function_to_apply: TextClassificationOutputTransform | None = None,
     ) -> list[TextClassificationOutputElement]:
         """
         Perform text classification (e.g. sentiment-analysis) on the given text.
@@ -1975,7 +1977,7 @@ class AsyncInferenceClient:
                 The function to apply to the model outputs in order to retrieve the scores.
 
         Returns:
-            `List[TextClassificationOutputElement]`: a list of [`TextClassificationOutputElement`] items containing the predicted label and associated probability.
+            `list[TextClassificationOutputElement]`: a list of [`TextClassificationOutputElement`] items containing the predicted label and associated probability.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -2016,27 +2018,27 @@ class AsyncInferenceClient:
         *,
         details: Literal[False] = ...,
         stream: Literal[False] = ...,
-        model: Optional[str] = None,
+        model: str | None = None,
         # Parameters from `TextGenerationInputGenerateParameters` (maintained manually)
-        adapter_id: Optional[str] = None,
-        best_of: Optional[int] = None,
-        decoder_input_details: Optional[bool] = None,
-        do_sample: Optional[bool] = False,  # Manual default value
-        frequency_penalty: Optional[float] = None,
-        grammar: Optional[TextGenerationInputGrammarType] = None,
-        max_new_tokens: Optional[int] = None,
-        repetition_penalty: Optional[float] = None,
-        return_full_text: Optional[bool] = False,  # Manual default value
-        seed: Optional[int] = None,
-        stop: Optional[list[str]] = None,
-        stop_sequences: Optional[list[str]] = None,  # Deprecated, use `stop` instead
-        temperature: Optional[float] = None,
-        top_k: Optional[int] = None,
-        top_n_tokens: Optional[int] = None,
-        top_p: Optional[float] = None,
-        truncate: Optional[int] = None,
-        typical_p: Optional[float] = None,
-        watermark: Optional[bool] = None,
+        adapter_id: str | None = None,
+        best_of: int | None = None,
+        decoder_input_details: bool | None = None,
+        do_sample: bool | None = False,  # Manual default value
+        frequency_penalty: float | None = None,
+        grammar: TextGenerationInputGrammarType | None = None,
+        max_new_tokens: int | None = None,
+        repetition_penalty: float | None = None,
+        return_full_text: bool | None = False,  # Manual default value
+        seed: int | None = None,
+        stop: list[str] | None = None,
+        stop_sequences: list[str] | None = None,  # Deprecated, use `stop` instead
+        temperature: float | None = None,
+        top_k: int | None = None,
+        top_n_tokens: int | None = None,
+        top_p: float | None = None,
+        truncate: int | None = None,
+        typical_p: float | None = None,
+        watermark: bool | None = None,
     ) -> str: ...
 
     @overload
@@ -2046,27 +2048,27 @@ class AsyncInferenceClient:
         *,
         details: Literal[True] = ...,
         stream: Literal[False] = ...,
-        model: Optional[str] = None,
+        model: str | None = None,
         # Parameters from `TextGenerationInputGenerateParameters` (maintained manually)
-        adapter_id: Optional[str] = None,
-        best_of: Optional[int] = None,
-        decoder_input_details: Optional[bool] = None,
-        do_sample: Optional[bool] = False,  # Manual default value
-        frequency_penalty: Optional[float] = None,
-        grammar: Optional[TextGenerationInputGrammarType] = None,
-        max_new_tokens: Optional[int] = None,
-        repetition_penalty: Optional[float] = None,
-        return_full_text: Optional[bool] = False,  # Manual default value
-        seed: Optional[int] = None,
-        stop: Optional[list[str]] = None,
-        stop_sequences: Optional[list[str]] = None,  # Deprecated, use `stop` instead
-        temperature: Optional[float] = None,
-        top_k: Optional[int] = None,
-        top_n_tokens: Optional[int] = None,
-        top_p: Optional[float] = None,
-        truncate: Optional[int] = None,
-        typical_p: Optional[float] = None,
-        watermark: Optional[bool] = None,
+        adapter_id: str | None = None,
+        best_of: int | None = None,
+        decoder_input_details: bool | None = None,
+        do_sample: bool | None = False,  # Manual default value
+        frequency_penalty: float | None = None,
+        grammar: TextGenerationInputGrammarType | None = None,
+        max_new_tokens: int | None = None,
+        repetition_penalty: float | None = None,
+        return_full_text: bool | None = False,  # Manual default value
+        seed: int | None = None,
+        stop: list[str] | None = None,
+        stop_sequences: list[str] | None = None,  # Deprecated, use `stop` instead
+        temperature: float | None = None,
+        top_k: int | None = None,
+        top_n_tokens: int | None = None,
+        top_p: float | None = None,
+        truncate: int | None = None,
+        typical_p: float | None = None,
+        watermark: bool | None = None,
     ) -> TextGenerationOutput: ...
 
     @overload
@@ -2076,27 +2078,27 @@ class AsyncInferenceClient:
         *,
         details: Literal[False] = ...,
         stream: Literal[True] = ...,
-        model: Optional[str] = None,
+        model: str | None = None,
         # Parameters from `TextGenerationInputGenerateParameters` (maintained manually)
-        adapter_id: Optional[str] = None,
-        best_of: Optional[int] = None,
-        decoder_input_details: Optional[bool] = None,
-        do_sample: Optional[bool] = False,  # Manual default value
-        frequency_penalty: Optional[float] = None,
-        grammar: Optional[TextGenerationInputGrammarType] = None,
-        max_new_tokens: Optional[int] = None,
-        repetition_penalty: Optional[float] = None,
-        return_full_text: Optional[bool] = False,  # Manual default value
-        seed: Optional[int] = None,
-        stop: Optional[list[str]] = None,
-        stop_sequences: Optional[list[str]] = None,  # Deprecated, use `stop` instead
-        temperature: Optional[float] = None,
-        top_k: Optional[int] = None,
-        top_n_tokens: Optional[int] = None,
-        top_p: Optional[float] = None,
-        truncate: Optional[int] = None,
-        typical_p: Optional[float] = None,
-        watermark: Optional[bool] = None,
+        adapter_id: str | None = None,
+        best_of: int | None = None,
+        decoder_input_details: bool | None = None,
+        do_sample: bool | None = False,  # Manual default value
+        frequency_penalty: float | None = None,
+        grammar: TextGenerationInputGrammarType | None = None,
+        max_new_tokens: int | None = None,
+        repetition_penalty: float | None = None,
+        return_full_text: bool | None = False,  # Manual default value
+        seed: int | None = None,
+        stop: list[str] | None = None,
+        stop_sequences: list[str] | None = None,  # Deprecated, use `stop` instead
+        temperature: float | None = None,
+        top_k: int | None = None,
+        top_n_tokens: int | None = None,
+        top_p: float | None = None,
+        truncate: int | None = None,
+        typical_p: float | None = None,
+        watermark: bool | None = None,
     ) -> AsyncIterable[str]: ...
 
     @overload
@@ -2106,27 +2108,27 @@ class AsyncInferenceClient:
         *,
         details: Literal[True] = ...,
         stream: Literal[True] = ...,
-        model: Optional[str] = None,
+        model: str | None = None,
         # Parameters from `TextGenerationInputGenerateParameters` (maintained manually)
-        adapter_id: Optional[str] = None,
-        best_of: Optional[int] = None,
-        decoder_input_details: Optional[bool] = None,
-        do_sample: Optional[bool] = False,  # Manual default value
-        frequency_penalty: Optional[float] = None,
-        grammar: Optional[TextGenerationInputGrammarType] = None,
-        max_new_tokens: Optional[int] = None,
-        repetition_penalty: Optional[float] = None,
-        return_full_text: Optional[bool] = False,  # Manual default value
-        seed: Optional[int] = None,
-        stop: Optional[list[str]] = None,
-        stop_sequences: Optional[list[str]] = None,  # Deprecated, use `stop` instead
-        temperature: Optional[float] = None,
-        top_k: Optional[int] = None,
-        top_n_tokens: Optional[int] = None,
-        top_p: Optional[float] = None,
-        truncate: Optional[int] = None,
-        typical_p: Optional[float] = None,
-        watermark: Optional[bool] = None,
+        adapter_id: str | None = None,
+        best_of: int | None = None,
+        decoder_input_details: bool | None = None,
+        do_sample: bool | None = False,  # Manual default value
+        frequency_penalty: float | None = None,
+        grammar: TextGenerationInputGrammarType | None = None,
+        max_new_tokens: int | None = None,
+        repetition_penalty: float | None = None,
+        return_full_text: bool | None = False,  # Manual default value
+        seed: int | None = None,
+        stop: list[str] | None = None,
+        stop_sequences: list[str] | None = None,  # Deprecated, use `stop` instead
+        temperature: float | None = None,
+        top_k: int | None = None,
+        top_n_tokens: int | None = None,
+        top_p: float | None = None,
+        truncate: int | None = None,
+        typical_p: float | None = None,
+        watermark: bool | None = None,
     ) -> AsyncIterable[TextGenerationStreamOutput]: ...
 
     @overload
@@ -2136,28 +2138,28 @@ class AsyncInferenceClient:
         *,
         details: Literal[True] = ...,
         stream: bool = ...,
-        model: Optional[str] = None,
+        model: str | None = None,
         # Parameters from `TextGenerationInputGenerateParameters` (maintained manually)
-        adapter_id: Optional[str] = None,
-        best_of: Optional[int] = None,
-        decoder_input_details: Optional[bool] = None,
-        do_sample: Optional[bool] = False,  # Manual default value
-        frequency_penalty: Optional[float] = None,
-        grammar: Optional[TextGenerationInputGrammarType] = None,
-        max_new_tokens: Optional[int] = None,
-        repetition_penalty: Optional[float] = None,
-        return_full_text: Optional[bool] = False,  # Manual default value
-        seed: Optional[int] = None,
-        stop: Optional[list[str]] = None,
-        stop_sequences: Optional[list[str]] = None,  # Deprecated, use `stop` instead
-        temperature: Optional[float] = None,
-        top_k: Optional[int] = None,
-        top_n_tokens: Optional[int] = None,
-        top_p: Optional[float] = None,
-        truncate: Optional[int] = None,
-        typical_p: Optional[float] = None,
-        watermark: Optional[bool] = None,
-    ) -> Union[TextGenerationOutput, AsyncIterable[TextGenerationStreamOutput]]: ...
+        adapter_id: str | None = None,
+        best_of: int | None = None,
+        decoder_input_details: bool | None = None,
+        do_sample: bool | None = False,  # Manual default value
+        frequency_penalty: float | None = None,
+        grammar: TextGenerationInputGrammarType | None = None,
+        max_new_tokens: int | None = None,
+        repetition_penalty: float | None = None,
+        return_full_text: bool | None = False,  # Manual default value
+        seed: int | None = None,
+        stop: list[str] | None = None,
+        stop_sequences: list[str] | None = None,  # Deprecated, use `stop` instead
+        temperature: float | None = None,
+        top_k: int | None = None,
+        top_n_tokens: int | None = None,
+        top_p: float | None = None,
+        truncate: int | None = None,
+        typical_p: float | None = None,
+        watermark: bool | None = None,
+    ) -> TextGenerationOutput | AsyncIterable[TextGenerationStreamOutput]: ...
 
     async def text_generation(
         self,
@@ -2165,33 +2167,28 @@ class AsyncInferenceClient:
         *,
         details: bool = False,
         stream: bool = False,
-        model: Optional[str] = None,
+        model: str | None = None,
         # Parameters from `TextGenerationInputGenerateParameters` (maintained manually)
-        adapter_id: Optional[str] = None,
-        best_of: Optional[int] = None,
-        decoder_input_details: Optional[bool] = None,
-        do_sample: Optional[bool] = False,  # Manual default value
-        frequency_penalty: Optional[float] = None,
-        grammar: Optional[TextGenerationInputGrammarType] = None,
-        max_new_tokens: Optional[int] = None,
-        repetition_penalty: Optional[float] = None,
-        return_full_text: Optional[bool] = False,  # Manual default value
-        seed: Optional[int] = None,
-        stop: Optional[list[str]] = None,
-        stop_sequences: Optional[list[str]] = None,  # Deprecated, use `stop` instead
-        temperature: Optional[float] = None,
-        top_k: Optional[int] = None,
-        top_n_tokens: Optional[int] = None,
-        top_p: Optional[float] = None,
-        truncate: Optional[int] = None,
-        typical_p: Optional[float] = None,
-        watermark: Optional[bool] = None,
-    ) -> Union[
-        str,
-        TextGenerationOutput,
-        AsyncIterable[str],
-        AsyncIterable[TextGenerationStreamOutput],
-    ]:
+        adapter_id: str | None = None,
+        best_of: int | None = None,
+        decoder_input_details: bool | None = None,
+        do_sample: bool | None = False,  # Manual default value
+        frequency_penalty: float | None = None,
+        grammar: TextGenerationInputGrammarType | None = None,
+        max_new_tokens: int | None = None,
+        repetition_penalty: float | None = None,
+        return_full_text: bool | None = False,  # Manual default value
+        seed: int | None = None,
+        stop: list[str] | None = None,
+        stop_sequences: list[str] | None = None,  # Deprecated, use `stop` instead
+        temperature: float | None = None,
+        top_k: int | None = None,
+        top_n_tokens: int | None = None,
+        top_p: float | None = None,
+        truncate: int | None = None,
+        typical_p: float | None = None,
+        watermark: bool | None = None,
+    ) -> str | TextGenerationOutput | AsyncIterable[str] | AsyncIterable[TextGenerationStreamOutput]:
         """
         Given a prompt, generate the following text.
 
@@ -2239,9 +2236,9 @@ class AsyncInferenceClient:
                 Whether to prepend the prompt to the generated text
             seed (`int`, *optional*):
                 Random sampling seed
-            stop (`List[str]`, *optional*):
+            stop (`list[str]`, *optional*):
                 Stop generating tokens if a member of `stop` is generated.
-            stop_sequences (`List[str]`, *optional*):
+            stop_sequences (`list[str]`, *optional*):
                 Deprecated argument. Use `stop` instead.
             temperature (`float`, *optional*):
                 The value used to module the logits distribution.
@@ -2515,16 +2512,16 @@ class AsyncInferenceClient:
         self,
         prompt: str,
         *,
-        negative_prompt: Optional[str] = None,
-        height: Optional[int] = None,
-        width: Optional[int] = None,
-        num_inference_steps: Optional[int] = None,
-        guidance_scale: Optional[float] = None,
-        model: Optional[str] = None,
-        scheduler: Optional[str] = None,
-        seed: Optional[int] = None,
-        extra_body: Optional[dict[str, Any]] = None,
-    ) -> "Image":
+        negative_prompt: str | None = None,
+        height: int | None = None,
+        width: int | None = None,
+        num_inference_steps: int | None = None,
+        guidance_scale: float | None = None,
+        model: str | None = None,
+        scheduler: str | None = None,
+        seed: int | None = None,
+        extra_body: dict[str, Any] | None = None,
+    ) -> Image:
         """
         Generate an image based on a given text using a specified model.
 
@@ -2561,7 +2558,7 @@ class AsyncInferenceClient:
                 Override the scheduler with a compatible one.
             seed (`int`, *optional*):
                 Seed for the random number generator.
-            extra_body (`Dict[str, Any]`, *optional*):
+            extra_body (`dict[str, Any]`, *optional*):
                 Additional provider-specific parameters to pass to the model. Refer to the provider's documentation
                 for supported parameters.
 
@@ -2658,13 +2655,13 @@ class AsyncInferenceClient:
         self,
         prompt: str,
         *,
-        model: Optional[str] = None,
-        guidance_scale: Optional[float] = None,
-        negative_prompt: Optional[list[str]] = None,
-        num_frames: Optional[float] = None,
-        num_inference_steps: Optional[int] = None,
-        seed: Optional[int] = None,
-        extra_body: Optional[dict[str, Any]] = None,
+        model: str | None = None,
+        guidance_scale: float | None = None,
+        negative_prompt: list[str] | None = None,
+        num_frames: float | None = None,
+        num_inference_steps: int | None = None,
+        seed: int | None = None,
+        extra_body: dict[str, Any] | None = None,
     ) -> bytes:
         """
         Generate a video based on a given text.
@@ -2683,7 +2680,7 @@ class AsyncInferenceClient:
             guidance_scale (`float`, *optional*):
                 A higher guidance scale value encourages the model to generate videos closely linked to the text
                 prompt, but values too high may cause saturation and other artifacts.
-            negative_prompt (`List[str]`, *optional*):
+            negative_prompt (`list[str]`, *optional*):
                 One or several prompt to guide what NOT to include in video generation.
             num_frames (`float`, *optional*):
                 The num_frames parameter determines how many video frames are generated.
@@ -2692,7 +2689,7 @@ class AsyncInferenceClient:
                 expense of slower inference.
             seed (`int`, *optional*):
                 Seed for the random number generator.
-            extra_body (`Dict[str, Any]`, *optional*):
+            extra_body (`dict[str, Any]`, *optional*):
                 Additional provider-specific parameters to pass to the model. Refer to the provider's documentation
                 for supported parameters.
 
@@ -2754,24 +2751,24 @@ class AsyncInferenceClient:
         self,
         text: str,
         *,
-        model: Optional[str] = None,
-        do_sample: Optional[bool] = None,
-        early_stopping: Optional[Union[bool, "TextToSpeechEarlyStoppingEnum"]] = None,
-        epsilon_cutoff: Optional[float] = None,
-        eta_cutoff: Optional[float] = None,
-        max_length: Optional[int] = None,
-        max_new_tokens: Optional[int] = None,
-        min_length: Optional[int] = None,
-        min_new_tokens: Optional[int] = None,
-        num_beam_groups: Optional[int] = None,
-        num_beams: Optional[int] = None,
-        penalty_alpha: Optional[float] = None,
-        temperature: Optional[float] = None,
-        top_k: Optional[int] = None,
-        top_p: Optional[float] = None,
-        typical_p: Optional[float] = None,
-        use_cache: Optional[bool] = None,
-        extra_body: Optional[dict[str, Any]] = None,
+        model: str | None = None,
+        do_sample: bool | None = None,
+        early_stopping: bool | TextToSpeechEarlyStoppingEnum | None = None,
+        epsilon_cutoff: float | None = None,
+        eta_cutoff: float | None = None,
+        max_length: int | None = None,
+        max_new_tokens: int | None = None,
+        min_length: int | None = None,
+        min_new_tokens: int | None = None,
+        num_beam_groups: int | None = None,
+        num_beams: int | None = None,
+        penalty_alpha: float | None = None,
+        temperature: float | None = None,
+        top_k: int | None = None,
+        top_p: float | None = None,
+        typical_p: float | None = None,
+        use_cache: bool | None = None,
+        extra_body: dict[str, Any] | None = None,
     ) -> bytes:
         """
         Synthesize an audio of a voice pronouncing a given text.
@@ -2833,7 +2830,7 @@ class AsyncInferenceClient:
                 paper](https://hf.co/papers/2202.00666) for more details.
             use_cache (`bool`, *optional*):
                 Whether the model should use the past last key/values attentions to speed up decoding
-            extra_body (`Dict[str, Any]`, *optional*):
+            extra_body (`dict[str, Any]`, *optional*):
                 Additional provider-specific parameters to pass to the model. Refer to the provider's documentation
                 for supported parameters.
         Returns:
@@ -2963,10 +2960,10 @@ class AsyncInferenceClient:
         self,
         text: str,
         *,
-        model: Optional[str] = None,
-        aggregation_strategy: Optional["TokenClassificationAggregationStrategy"] = None,
-        ignore_labels: Optional[list[str]] = None,
-        stride: Optional[int] = None,
+        model: str | None = None,
+        aggregation_strategy: TokenClassificationAggregationStrategy | None = None,
+        ignore_labels: list[str] | None = None,
+        stride: int | None = None,
     ) -> list[TokenClassificationOutputElement]:
         """
         Perform token classification on the given text.
@@ -2981,13 +2978,13 @@ class AsyncInferenceClient:
                 Defaults to None.
             aggregation_strategy (`"TokenClassificationAggregationStrategy"`, *optional*):
                 The strategy used to fuse tokens based on model predictions
-            ignore_labels (`List[str`, *optional*):
+            ignore_labels (`list[str`, *optional*):
                 A list of labels to ignore
             stride (`int`, *optional*):
                 The number of overlapping tokens between chunks when splitting the input text.
 
         Returns:
-            `List[TokenClassificationOutputElement]`: List of [`TokenClassificationOutputElement`] items containing the entity group, confidence score, word, start and end index.
+            `list[TokenClassificationOutputElement]`: List of [`TokenClassificationOutputElement`] items containing the entity group, confidence score, word, start and end index.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -3038,12 +3035,12 @@ class AsyncInferenceClient:
         self,
         text: str,
         *,
-        model: Optional[str] = None,
-        src_lang: Optional[str] = None,
-        tgt_lang: Optional[str] = None,
-        clean_up_tokenization_spaces: Optional[bool] = None,
-        truncation: Optional["TranslationTruncationStrategy"] = None,
-        generate_parameters: Optional[dict[str, Any]] = None,
+        model: str | None = None,
+        src_lang: str | None = None,
+        tgt_lang: str | None = None,
+        clean_up_tokenization_spaces: bool | None = None,
+        truncation: TranslationTruncationStrategy | None = None,
+        generate_parameters: dict[str, Any] | None = None,
     ) -> TranslationOutput:
         """
         Convert text from one language to another.
@@ -3068,7 +3065,7 @@ class AsyncInferenceClient:
                 Whether to clean up the potential extra spaces in the text output.
             truncation (`"TranslationTruncationStrategy"`, *optional*):
                 The truncation strategy to use.
-            generate_parameters (`Dict[str, Any]`, *optional*):
+            generate_parameters (`dict[str, Any]`, *optional*):
                 Additional parametrization of the text generation algorithm.
 
         Returns:
@@ -3128,8 +3125,8 @@ class AsyncInferenceClient:
         image: ContentT,
         question: str,
         *,
-        model: Optional[str] = None,
-        top_k: Optional[int] = None,
+        model: str | None = None,
+        top_k: int | None = None,
     ) -> list[VisualQuestionAnsweringOutputElement]:
         """
         Answering open-ended questions based on an image.
@@ -3147,7 +3144,7 @@ class AsyncInferenceClient:
                 The number of answers to return (will be chosen by order of likelihood). Note that we return less than
                 topk answers if there are not enough options available within the context.
         Returns:
-            `List[VisualQuestionAnsweringOutputElement]`: a list of [`VisualQuestionAnsweringOutputElement`] items containing the predicted label and associated probability.
+            `list[VisualQuestionAnsweringOutputElement]`: a list of [`VisualQuestionAnsweringOutputElement`] items containing the predicted label and associated probability.
 
         Raises:
             `InferenceTimeoutError`:
@@ -3187,9 +3184,9 @@ class AsyncInferenceClient:
         text: str,
         candidate_labels: list[str],
         *,
-        multi_label: Optional[bool] = False,
-        hypothesis_template: Optional[str] = None,
-        model: Optional[str] = None,
+        multi_label: bool | None = False,
+        hypothesis_template: str | None = None,
+        model: str | None = None,
     ) -> list[ZeroShotClassificationOutputElement]:
         """
         Provide as input a text and a set of candidate labels to classify the input text.
@@ -3197,9 +3194,9 @@ class AsyncInferenceClient:
         Args:
             text (`str`):
                 The input text to classify.
-            candidate_labels (`List[str]`):
+            candidate_labels (`list[str]`):
                 The set of possible class labels to classify the text into.
-            labels (`List[str]`, *optional*):
+            labels (`list[str]`, *optional*):
                 (deprecated) List of strings. Each string is the verbalization of a possible label for the input text.
             multi_label (`bool`, *optional*):
                 Whether multiple candidate labels can be true. If false, the scores are normalized such that the sum of
@@ -3214,7 +3211,7 @@ class AsyncInferenceClient:
 
 
         Returns:
-            `List[ZeroShotClassificationOutputElement]`: List of [`ZeroShotClassificationOutputElement`] items containing the predicted labels and their confidence.
+            `list[ZeroShotClassificationOutputElement]`: List of [`ZeroShotClassificationOutputElement`] items containing the predicted labels and their confidence.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -3294,10 +3291,10 @@ class AsyncInferenceClient:
         image: ContentT,
         candidate_labels: list[str],
         *,
-        model: Optional[str] = None,
-        hypothesis_template: Optional[str] = None,
+        model: str | None = None,
+        hypothesis_template: str | None = None,
         # deprecated argument
-        labels: Optional[list[str]] = None,  # type: ignore
+        labels: list[str] | None = None,  # type: ignore
     ) -> list[ZeroShotImageClassificationOutputElement]:
         """
         Provide input image and text labels to predict text labels for the image.
@@ -3305,9 +3302,9 @@ class AsyncInferenceClient:
         Args:
             image (`Union[str, Path, bytes, BinaryIO]`):
                 The input image to caption. It can be raw bytes, an image file, or a URL to an online image.
-            candidate_labels (`List[str]`):
+            candidate_labels (`list[str]`):
                 The candidate labels for this image
-            labels (`List[str]`, *optional*):
+            labels (`list[str]`, *optional*):
                 (deprecated) List of string possible labels. There must be at least 2 labels.
             model (`str`, *optional*):
                 The model to use for inference. Can be a model ID hosted on the Hugging Face Hub or a URL to a deployed
@@ -3317,7 +3314,7 @@ class AsyncInferenceClient:
                 replacing the placeholder with the candidate labels.
 
         Returns:
-            `List[ZeroShotImageClassificationOutputElement]`: List of [`ZeroShotImageClassificationOutputElement`] items containing the predicted labels and their confidence.
+            `list[ZeroShotImageClassificationOutputElement]`: List of [`ZeroShotImageClassificationOutputElement`] items containing the predicted labels and their confidence.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -3364,7 +3361,7 @@ class AsyncInferenceClient:
         ),
     )
     async def list_deployed_models(
-        self, frameworks: Union[None, str, Literal["all"], list[str]] = None
+        self, frameworks: None | str | Literal["all"] | list[str] = None
     ) -> dict[str, list[str]]:
         """
         List models deployed on the HF Serverless Inference API service.
@@ -3391,13 +3388,13 @@ class AsyncInferenceClient:
         </Tip>
 
         Args:
-            frameworks (`Literal["all"]` or `List[str]` or `str`, *optional*):
+            frameworks (`Literal["all"]` or `list[str]` or `str`, *optional*):
                 The frameworks to filter on. By default only a subset of the available frameworks are tested. If set to
                 "all", all available frameworks will be tested. It is also possible to provide a single framework or a
                 custom set of frameworks to check.
 
         Returns:
-            `Dict[str, List[str]]`: A dictionary mapping task names to a sorted list of model IDs.
+            `dict[str, list[str]]`: A dictionary mapping task names to a sorted list of model IDs.
 
         Example:
         ```py
@@ -3453,7 +3450,7 @@ class AsyncInferenceClient:
             models_by_task[task] = sorted(set(models), key=lambda x: x.lower())
         return models_by_task
 
-    def _get_client_session(self, headers: Optional[dict] = None) -> "ClientSession":
+    def _get_client_session(self, headers: dict | None = None) -> ClientSession:
         aiohttp = _import_aiohttp()
         client_headers = self.headers.copy()
         if headers is not None:
@@ -3494,7 +3491,7 @@ class AsyncInferenceClient:
         session.close = close_session
         return session
 
-    async def get_endpoint_info(self, *, model: Optional[str] = None) -> dict[str, Any]:
+    async def get_endpoint_info(self, *, model: str | None = None) -> dict[str, Any]:
         """
         Get information about the deployed endpoint.
 
@@ -3507,7 +3504,7 @@ class AsyncInferenceClient:
                 Inference Endpoint. This parameter overrides the model defined at the instance level. Defaults to None.
 
         Returns:
-            `Dict[str, Any]`: Information about the endpoint.
+            `dict[str, Any]`: Information about the endpoint.
 
         Example:
         ```py
@@ -3554,7 +3551,7 @@ class AsyncInferenceClient:
             response.raise_for_status()
             return await response.json()
 
-    async def health_check(self, model: Optional[str] = None) -> bool:
+    async def health_check(self, model: str | None = None) -> bool:
         """
         Check the health of the deployed endpoint.
 
@@ -3600,7 +3597,7 @@ class AsyncInferenceClient:
             " Use `HfApi.model_info` to get the model status both with HF Inference API and external providers."
         ),
     )
-    async def get_model_status(self, model: Optional[str] = None) -> ModelStatus:
+    async def get_model_status(self, model: str | None = None) -> ModelStatus:
         """
         Get the status of a model hosted on the HF Inference API.
 
@@ -3657,7 +3654,7 @@ class AsyncInferenceClient:
         )
 
     @property
-    def chat(self) -> "ProxyClientChat":
+    def chat(self) -> ProxyClientChat:
         return ProxyClientChat(self)
 
 
@@ -3672,7 +3669,7 @@ class ProxyClientChat(_ProxyClient):
     """Proxy class to be able to call `client.chat.completion.create(...)` as OpenAI client."""
 
     @property
-    def completions(self) -> "ProxyClientChatCompletions":
+    def completions(self) -> ProxyClientChatCompletions:
         return ProxyClientChatCompletions(self._client)
 
 

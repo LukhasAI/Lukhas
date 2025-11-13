@@ -25,7 +25,7 @@ from adapters.openai.api import get_app
 def client(monkeypatch):
     """Create test client with permissive policy mode."""
     monkeypatch.setenv("LUKHAS_POLICY_MODE", "permissive")
-    app = app
+    app = get_app()
     return TestClient(app)
 
 
@@ -33,7 +33,7 @@ def client(monkeypatch):
 def strict_client(monkeypatch):
     """Create test client with strict policy mode."""
     monkeypatch.setenv("LUKHAS_POLICY_MODE", "strict")
-    app = app
+    app = get_app()
     return TestClient(app)
 
 
@@ -313,7 +313,7 @@ class TestRateLimitingIntegration:
     def test_rate_limit_per_route(self, client):
         """Verify rate limiting is enforced per route."""
         # Multiple requests should succeed (within rate limit)
-        for i in range(5):
+        for _i in range(5):
             response = client.get("/healthz")
             assert response.status_code == 200
 
@@ -323,7 +323,7 @@ class TestRateLimitingIntegration:
         token_b = "sk-lukhas-test-token-b"
 
         # Both principals should have independent rate limits
-        for i in range(3):
+        for _i in range(3):
             response_a = client.get(
                 "/v1/models",
                 headers={"Authorization": f"Bearer {token_a}"}

@@ -44,6 +44,8 @@
 ║ • Support for consensus requirements and multi-reviewer scenarios
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 
 import asyncio
 from dataclasses import dataclass

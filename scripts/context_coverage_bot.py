@@ -47,10 +47,7 @@ def has_front_matter(p: pathlib.Path) -> bool:
     lines = text.splitlines()
     if not lines or not FM_START.match(lines[0]):
         return False
-    for i in range(1, min(len(lines), 200)):
-        if FM_END.match(lines[i]):
-            return True
-    return False
+    return any(FM_END.match(lines[i]) for i in range(1, min(len(lines), 200)))
 
 
 def main():

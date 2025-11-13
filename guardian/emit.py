@@ -8,15 +8,16 @@ Provides dual-approval tracking for critical overrides.
 
 Part of Task 13: Safety Tags System
 """
+from __future__ import annotations
 
 import hashlib
 import json
 import re
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 
-def _normalize_consent_timestamp(value: Optional[Union[str, datetime]]) -> Optional[str]:
+def _normalize_consent_timestamp(value: str | datetime | None) -> str | None:
     """Normalize consent timestamps to ISO-8601 strings."""
 
     if value is None:
@@ -28,7 +29,7 @@ def _normalize_consent_timestamp(value: Optional[Union[str, datetime]]) -> Optio
     return value
 
 
-def emit_exemption(db, rec: Dict[str, Any]) -> None:
+def emit_exemption(db, rec: dict[str, Any]) -> None:
     """
     Insert into Postgres if available; otherwise no-op.
     Expect keys matching the SQL/JSON schema above.
@@ -107,20 +108,20 @@ def emit_guardian_decision(
     lambda_id: str,
     action: str,
     rule_name: str,
-    tags: List[str],
-    confidences: Dict[str, float],
+    tags: list[str],
+    confidences: dict[str, float],
     band: str,
     tenant: str = "default",
     env: str = "prod",
-    purpose: Optional[str] = None,
-    retention_days: Optional[int] = None,
-    justification: Optional[str] = None,
+    purpose: str | None = None,
+    retention_days: int | None = None,
+    justification: str | None = None,
     override_requested: bool = False,
     override_granted: bool = False,
-    approver1_id: Optional[str] = None,
-    approver2_id: Optional[str] = None,
-    user_consent_timestamp: Optional[Union[str, datetime]] = None,
-    consent_method: Optional[str] = None
+    approver1_id: str | None = None,
+    approver2_id: str | None = None,
+    user_consent_timestamp: str | datetime | None = None,
+    consent_method: str | None = None
 ) -> None:
     """
     Convenience wrapper to emit guardian decisions.
@@ -224,9 +225,9 @@ def redact_pii_for_exemplars(data: Any) -> Any:
 def emit_guardian_action_with_exemplar(
     action: str,
     lane: str,
-    plan: Dict[str, Any],
-    trace_id: Optional[str] = None,
-    confidence_scores: Optional[Dict[str, float]] = None,
+    plan: dict[str, Any],
+    trace_id: str | None = None,
+    confidence_scores: dict[str, float] | None = None,
     emit_to_prometheus: bool = True
 ) -> None:
     """
@@ -281,7 +282,7 @@ def emit_guardian_action_with_exemplar(
 
 
 def emit_confidence_metrics(
-    tags: List[Dict[str, Any]],
+    tags: list[dict[str, Any]],
     lane: str = "unknown"
 ) -> None:
     """

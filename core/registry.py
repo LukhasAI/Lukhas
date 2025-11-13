@@ -4,12 +4,12 @@ Avoid import-time dependency on `labs.core.registry`. This module provides a
 lazy attribute proxy for labs fallback while preferring the in-repo package.
 """
 from __future__ import annotations
+
 import importlib
 from typing import Any
 
 # Prefer the in-repo package if available (no labs edge)
 try:  # pragma: no cover
-    from core.registry import *  # type: ignore  # noqa: F403,F401
     _HAS_PRIMARY = True
 except Exception:  # pragma: no cover
     _HAS_PRIMARY = False

@@ -4,6 +4,8 @@ Original: safety_guardrails.py
 Advanced: safety_guardrails.py
 Integration Date: 2025-05-31T07:55:27.768220
 """
+from __future__ import annotations
+
 from datetime import timezone
 
 """

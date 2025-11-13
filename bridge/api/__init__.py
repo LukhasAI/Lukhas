@@ -9,6 +9,7 @@ _exports: dict[str, object] = {}
 _CANDIDATES = (
     "lukhas_website.bridge.api",
     "candidate.bridge.api",
+    "labs.bridge.api",
     "bridge.api_impl",
 )
 
@@ -18,7 +19,7 @@ try:
         names=("identity_routes", "analysis_routes", "health_routes", "RouteHandlers"),
     )
     globals().update(_exports)
-except ModuleNotFoundError:
+except (ModuleNotFoundError, AttributeError):
     __all__ = []
 
 if not isinstance(__all__, list):

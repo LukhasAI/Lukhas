@@ -41,16 +41,12 @@ def is_scaffold_file(file_path):
 
     relative_to_module = "/".join(path.parts[2:])  # Remove lukhas/module_name/
 
-    for pattern in scaffold_patterns:
-        if pattern.replace("*", "") in relative_to_module:
-            return True
-
-    return False
+    return any(pattern.replace("*", "") in relative_to_module for pattern in scaffold_patterns)
 
 def has_provenance_header(file_path):
     """Check if file has proper scaffold provenance header."""
     try:
-        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+        with open(file_path, encoding='utf-8', errors='ignore') as f:
             first_line = f.readline().strip()
             return first_line == PROV_PREFIX.strip()
     except Exception:

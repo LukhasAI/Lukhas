@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:bridge
@@ -11,12 +8,18 @@ logger = logging.getLogger(__name__)
 Unified API Router - Connects all API endpoints
 """
 
+import logging
 from typing import Any
 
+from core.common import get_logger
 from fastapi import APIRouter, HTTPException
 
-from core.common import get_logger
 from memory import memory_manager
+
+logger = logging.getLogger(__name__)
+
+
+
 
 # Import LUKHAS AI branding system for API responses
 try:
@@ -24,8 +27,8 @@ try:
         BrandContext,
         get_brand_voice,
         get_system_signature,
-        normalize_output_text,  # noqa: F401  # TODO: branding_bridge.normali...
-        validate_output,  # noqa: F401  # TODO: branding_bridge.validat...
+        normalize_output_text,  # TODO: branding_bridge.normali...
+        validate_output,  # TODO: branding_bridge.validat...
     )
 
     BRANDING_AVAILABLE = True

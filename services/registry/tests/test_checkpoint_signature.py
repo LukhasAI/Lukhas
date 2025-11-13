@@ -3,18 +3,18 @@
 from __future__ import annotations
 
 import base64
+import contextlib
 import json
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
 
 import pytest
 from fastapi.testclient import TestClient
-
 from services.registry import main as registry_main
 from services.registry.main import app
 
 
-def _load_sample_nodespec() -> Dict[str, Any]:
+def _load_sample_nodespec() -> dict[str, Any]:
     spec_path = Path("docs/schemas/examples/memory_adapter.json")
     if not spec_path.exists():
         pytest.skip("memory_adapter.json example not available")
@@ -31,10 +31,8 @@ def reset_registry_state():
         registry_main.REGISTRY_SIG,
         registry_main.REGISTRY_META,
     ):
-        try:
+        with contextlib.suppress(FileNotFoundError):
             artifact.unlink()
-        except FileNotFoundError:
-            pass
 
     yield
 
@@ -44,10 +42,8 @@ def reset_registry_state():
         registry_main.REGISTRY_SIG,
         registry_main.REGISTRY_META,
     ):
-        try:
+        with contextlib.suppress(FileNotFoundError):
             artifact.unlink()
-        except FileNotFoundError:
-            pass
 
 
 def test_checkpoint_signature_bundle_integrity():

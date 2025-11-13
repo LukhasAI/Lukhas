@@ -35,6 +35,8 @@
 ║ Symbolic Tags: {ΛCONFIG}, {ΛSETTINGS}, {ΛHIERARCHY}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import json
 
 # Module imports

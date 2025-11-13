@@ -94,17 +94,16 @@ class StricterEthicalEvaluator:
         # 2. Check for protected system violations
         content_str = str(action.content).lower()
         for system in self.protected_systems:
-            if system in content_str or system in action_lower:
-                if "override" in action_lower or "bypass" in action_lower:
-                    risk_factors.append(f"Attempting to override protected system: {system}")
-                    base_risk = max(base_risk, 0.9)
-                    potential_harms.append(
-                        {
-                            "type": "system_compromise",
-                            "target": system,
-                            "severity": "critical",
-                        }
-                    )
+            if (system in content_str or system in action_lower) and ('override' in action_lower or 'bypass' in action_lower):
+                risk_factors.append(f"Attempting to override protected system: {system}")
+                base_risk = max(base_risk, 0.9)
+                potential_harms.append(
+                    {
+                        "type": "system_compromise",
+                        "target": system,
+                        "severity": "critical",
+                    }
+                )
 
         # 3. Analyze context for risk amplifiers
         amplifier = 1.0

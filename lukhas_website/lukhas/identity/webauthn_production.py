@@ -20,7 +20,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -82,20 +82,9 @@ except ImportError:
 
 # Import LUKHAS WebAuthn type definitions (TypedDict for type checking)
 # Resolves: #591, #592, #593, #594, #595, #596
-from lukhas_website.lukhas.identity.webauthn_types import (
-    AuthenticatorAssertionResponse,
-    AuthenticatorAttestationResponse,
-    CredentialCreationOptions,
-    CredentialRequestOptions,
-    PublicKeyCredential,
-    PublicKeyCredentialAssertion,
-    PublicKeyCredentialCreation,
-    VerifiedAuthentication,
-    VerifiedRegistration,
-)
 
 
-def _decode_credential_id(credential_id: str) -> Optional[bytes]:
+def _decode_credential_id(credential_id: str) -> bytes | None:
     """Decode a credential ID stored as URL-safe base64."""
     padding = "=" * (-len(credential_id) % 4)
     try:
@@ -142,16 +131,16 @@ class WebAuthnCredential:
     tier: AuthenticatorTier = AuthenticatorTier.T4_STRONG
     status: CredentialStatus = CredentialStatus.ACTIVE
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    last_used: Optional[datetime] = None
-    device_name: Optional[str] = None
-    aaguid: Optional[str] = None  # Authenticator Attestation GUID
-    attestation_data: Dict[str, Any] = field(default_factory=dict)
+    last_used: datetime | None = None
+    device_name: str | None = None
+    aaguid: str | None = None  # Authenticator Attestation GUID
+    attestation_data: dict[str, Any] = field(default_factory=dict)
     biometric_enrolled: bool = False
     backup_eligible: bool = False
     backup_state: bool = False
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert credential to dictionary"""
         return {
             "credential_id": self.credential_id,
@@ -173,7 +162,7 @@ class WebAuthnCredential:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'WebAuthnCredential':
+    def from_dict(cls, data: dict[str, Any]) -> WebAuthnCredential:
         """Create credential from dictionary"""
         credential = cls(
             credential_id=data["credential_id"],
@@ -208,7 +197,7 @@ class WebAuthnChallenge:
     operation: str  # "registration" or "authentication"
     expires_at: datetime
     tier_required: AuthenticatorTier = AuthenticatorTier.T4_STRONG
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def is_expired(self) -> bool:
         """Check if challenge is expired"""
@@ -219,8 +208,8 @@ class WebAuthnCredentialStore:
     """Credential storage interface"""
 
     def __init__(self):
-        self._credentials: Dict[str, List[WebAuthnCredential]] = {}
-        self._challenges: Dict[str, WebAuthnChallenge] = {}
+        self._credentials: dict[str, list[WebAuthnCredential]] = {}
+        self._challenges: dict[str, WebAuthnChallenge] = {}
 
     async def store_credential(self, credential: WebAuthnCredential) -> None:
         """Store a WebAuthn credential"""
@@ -235,11 +224,11 @@ class WebAuthnCredentialStore:
             authenticator_type=credential.authenticator_type.value
         ).inc()
 
-    async def get_credentials(self, user_id: str) -> List[WebAuthnCredential]:
+    async def get_credentials(self, user_id: str) -> list[WebAuthnCredential]:
         """Get all credentials for a user"""
         return self._credentials.get(user_id, [])
 
-    async def get_credential(self, credential_id: str) -> Optional[WebAuthnCredential]:
+    async def get_credential(self, credential_id: str) -> WebAuthnCredential | None:
         """Get specific credential by ID"""
         for credentials in self._credentials.values():
             for credential in credentials:
@@ -257,7 +246,7 @@ class WebAuthnCredentialStore:
 
     async def delete_credential(self, credential_id: str) -> bool:
         """Delete a credential"""
-        for user_id, credentials in self._credentials.items():
+        for _user_id, credentials in self._credentials.items():
             for i, credential in enumerate(credentials):
                 if credential.credential_id == credential_id:
                     removed = credentials.pop(i)
@@ -275,7 +264,7 @@ class WebAuthnCredentialStore:
         """Store a WebAuthn challenge"""
         self._challenges[challenge.challenge_id] = challenge
 
-    async def get_challenge(self, challenge_id: str) -> Optional[WebAuthnChallenge]:
+    async def get_challenge(self, challenge_id: str) -> WebAuthnChallenge | None:
         """Get a challenge by ID"""
         challenge = self._challenges.get(challenge_id)
         if challenge and challenge.is_expired():
@@ -296,7 +285,7 @@ class WebAuthnManager:
                  rp_id: str,
                  rp_name: str,
                  origin: str,
-                 credential_store: Optional[WebAuthnCredentialStore] = None):
+                 credential_store: WebAuthnCredentialStore | None = None):
         self.rp_id = rp_id
         self.rp_name = rp_name
         self.origin = origin
@@ -337,8 +326,8 @@ class WebAuthnManager:
                                username: str,
                                display_name: str,
                                tier: AuthenticatorTier = AuthenticatorTier.T4_STRONG,
-                               authenticator_attachment: Optional[str] = None,
-                               resident_key: bool = True) -> Dict[str, Any]:
+                               authenticator_attachment: str | None = None,
+                               resident_key: bool = True) -> dict[str, Any]:
         """Begin WebAuthn credential registration"""
 
         with tracer.start_span("webauthn.begin_registration") as span:
@@ -470,8 +459,8 @@ class WebAuthnManager:
 
     async def finish_registration(self,
                                 challenge_id: str,
-                                credential_data: Dict[str, Any],
-                                device_name: Optional[str] = None) -> WebAuthnCredential:
+                                credential_data: dict[str, Any],
+                                device_name: str | None = None) -> WebAuthnCredential:
         """Complete WebAuthn credential registration"""
 
         with tracer.start_span("webauthn.finish_registration") as span:
@@ -592,9 +581,9 @@ class WebAuthnManager:
                 raise
 
     async def begin_authentication(self,
-                                 user_id: Optional[str] = None,
+                                 user_id: str | None = None,
                                  tier: AuthenticatorTier = AuthenticatorTier.T4_STRONG,
-                                 timeout: int = 300000) -> Dict[str, Any]:
+                                 timeout: int = 300000) -> dict[str, Any]:
         """Begin WebAuthn authentication"""
 
         with tracer.start_span("webauthn.begin_authentication") as span:
@@ -605,7 +594,7 @@ class WebAuthnManager:
 
             try:
                 # Get allowed credentials
-                active_credentials: List[WebAuthnCredential] = []
+                active_credentials: list[WebAuthnCredential] = []
                 if user_id:
                     credentials = await self.credential_store.get_credentials(user_id)
                     active_credentials = [
@@ -714,7 +703,7 @@ class WebAuthnManager:
 
     async def finish_authentication(self,
                                   challenge_id: str,
-                                  credential_data: Dict[str, Any]) -> Tuple[WebAuthnCredential, Dict[str, Any]]:
+                                  credential_data: dict[str, Any]) -> tuple[WebAuthnCredential, dict[str, Any]]:
         """Complete WebAuthn authentication"""
 
         with tracer.start_span("webauthn.finish_authentication") as span:
@@ -871,7 +860,7 @@ class WebAuthnManager:
 
         raise TypeError("Unsupported credential_id type")
 
-    def _build_credential_descriptors(self, credentials: List[WebAuthnCredential]):
+    def _build_credential_descriptors(self, credentials: list[WebAuthnCredential]):
         """Create PublicKeyCredentialDescriptor entries for provided credentials."""
         if not WEBAUTHN_AVAILABLE:
             raise RuntimeError("PublicKeyCredentialDescriptor is unavailable")
@@ -882,7 +871,7 @@ class WebAuthnManager:
             descriptors.append(PublicKeyCredentialDescriptor(id=credential_id_bytes))
         return descriptors
 
-    async def list_user_credentials(self, user_id: str) -> List[Dict[str, Any]]:
+    async def list_user_credentials(self, user_id: str) -> list[dict[str, Any]]:
         """List all credentials for a user"""
         credentials = await self.credential_store.get_credentials(user_id)
         return [
@@ -919,7 +908,7 @@ class WebAuthnManager:
 
 
 # Global WebAuthn manager instance
-_global_webauthn_manager: Optional[WebAuthnManager] = None
+_global_webauthn_manager: WebAuthnManager | None = None
 
 def get_webauthn_manager(rp_id: str = "ai",
                         rp_name: str = "LUKHAS AI",

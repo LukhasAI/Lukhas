@@ -18,7 +18,7 @@ import os
 import time
 import zlib
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, Optional
+from typing import Any
 
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram
@@ -248,7 +248,7 @@ class TokenGenerator:
     def __init__(
         self,
         secret_provider: SecretProvider,
-        kid: Optional[str] = None,
+        kid: str | None = None,
         ttl_seconds: int = 3600,
         issuer: str = "ai"
     ):
@@ -269,10 +269,10 @@ class TokenGenerator:
 
     def create(
         self,
-        claims: Dict[str, Any],
-        realm: Optional[str] = None,
-        zone: Optional[str] = None,
-        alias: Optional[str] = None
+        claims: dict[str, Any],
+        realm: str | None = None,
+        zone: str | None = None,
+        alias: str | None = None
     ) -> TokenResponse:
         """
         Create signed JWT token with ΛiD alias.
@@ -376,7 +376,7 @@ class TokenGenerator:
                 span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
                 raise
 
-    def _create_jwt_with_crc32(self, claims: Dict[str, Any]) -> tuple[str, str]:
+    def _create_jwt_with_crc32(self, claims: dict[str, Any]) -> tuple[str, str]:
         """
         Create HMAC-signed JWT token with CRC32 integrity trailer.
 
@@ -420,7 +420,7 @@ class TokenGenerator:
 
         return enhanced_jwt, crc32_checksum
 
-    def _create_jwt(self, claims: Dict[str, Any]) -> str:
+    def _create_jwt(self, claims: dict[str, Any]) -> str:
         """
         Legacy JWT creation method (deprecated in favor of CRC32 version).
 
@@ -501,7 +501,7 @@ class TokenGenerator:
             return '.'.join(parts[:-1])  # Remove CRC32
         return jwt_with_crc  # Already standard JWT
 
-    def get_performance_stats(self) -> Dict[str, Any]:
+    def get_performance_stats(self) -> dict[str, Any]:
         """
         Get current performance statistics.
 
@@ -518,9 +518,9 @@ class TokenGenerator:
 
 # Export public interface
 __all__ = [
-    "TokenGenerator",
-    "TokenClaims",
-    "TokenResponse",
+    "EnvironmentSecretProvider",
     "SecretProvider",
-    "EnvironmentSecretProvider"
+    "TokenClaims",
+    "TokenGenerator",
+    "TokenResponse"
 ]

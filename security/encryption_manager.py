@@ -18,10 +18,11 @@ import hashlib
 import os
 import secrets
 import time
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, Iterable, Optional, Tuple
+from typing import Any
 
 
 class EncryptionAlgorithm(str, Enum):
@@ -63,7 +64,7 @@ class KeyMetadata:
     usage: KeyUsage
     created_at: datetime
     is_active: bool = True
-    expires_at: Optional[datetime] = None
+    expires_at: datetime | None = None
 
 
 @dataclass
@@ -72,10 +73,10 @@ class EncryptionResult:
 
     encrypted_data: bytes
     iv: bytes
-    tag: Optional[bytes]
+    tag: bytes | None
     algorithm: EncryptionAlgorithm
     key_id: str
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -86,7 +87,7 @@ class DecryptionResult:
     algorithm: EncryptionAlgorithm
     verified: bool
     key_id: str
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class EncryptionManager:
@@ -97,14 +98,14 @@ class EncryptionManager:
 
     def __init__(
         self,
-        key_store_path: Optional[str] = None,
+        key_store_path: str | None = None,
         *,
         auto_rotation: bool = False,
         key_retention_days: int = 90,
-        default_algorithm: Optional[EncryptionAlgorithm] = None,
+        default_algorithm: EncryptionAlgorithm | None = None,
         password_iterations: int = DEFAULT_PASSWORD_ITERATIONS,
         password_salt_size: int = DEFAULT_PASSWORD_SALT_SIZE,
-        allowed_algorithms: Optional[Iterable[EncryptionAlgorithm]] = None,
+        allowed_algorithms: Iterable[EncryptionAlgorithm] | None = None,
     ) -> None:
         self.key_store_path = key_store_path or os.path.join(
             os.getcwd(), "keys"
@@ -120,7 +121,7 @@ class EncryptionManager:
         self.password_iterations = password_iterations
         self.password_salt_size = password_salt_size
 
-        self.allowed_algorithms: Tuple[EncryptionAlgorithm, ...]
+        self.allowed_algorithms: tuple[EncryptionAlgorithm, ...]
         if allowed_algorithms:
             coerced = tuple(self._coerce_algorithm(alg) for alg in allowed_algorithms)
             if not coerced:
@@ -134,11 +135,11 @@ class EncryptionManager:
         else:
             coerced_default = self._coerce_algorithm(default_algorithm)
             if coerced_default not in self.allowed_algorithms:
-                self.allowed_algorithms = self.allowed_algorithms + (coerced_default,)
+                self.allowed_algorithms = (*self.allowed_algorithms, coerced_default)
             self.default_algorithm = coerced_default
 
-        self.keys: Dict[str, KeyMetadata] = {}
-        self._key_material: Dict[str, bytes] = {}
+        self.keys: dict[str, KeyMetadata] = {}
+        self._key_material: dict[str, bytes] = {}
         self.operation_count = 0
         self.total_time_ms = 0.0
 
@@ -184,8 +185,8 @@ class EncryptionManager:
         self,
         key_id: str,
         *,
-        key_type: Optional[KeyType] = None,
-        usage: Optional[KeyUsage] = None,
+        key_type: KeyType | None = None,
+        usage: KeyUsage | None = None,
     ) -> str:
         """Rotate the key referenced by ``key_id`` and return the new key id."""
 
@@ -297,7 +298,7 @@ class EncryptionManager:
     # ------------------------------------------------------------------
     # Metrics
     # ------------------------------------------------------------------
-    def get_performance_stats(self) -> Dict[str, Any]:
+    def get_performance_stats(self) -> dict[str, Any]:
         """Return aggregated performance statistics for encryption ops."""
 
         if self.operation_count == 0:
@@ -367,7 +368,7 @@ class EncryptionManager:
         self.total_time_ms += elapsed
 
 
-def create_encryption_manager(config: Optional[Dict[str, Any]] = None) -> EncryptionManager:
+def create_encryption_manager(config: dict[str, Any] | None = None) -> EncryptionManager:
     """Factory used by the tests to obtain an :class:`EncryptionManager`."""
 
     config = config or {}
@@ -389,7 +390,7 @@ def create_encryption_manager(config: Optional[Dict[str, Any]] = None) -> Encryp
         _parse_algorithm(default_algorithm) if default_algorithm is not None else None
     )
 
-    parsed_allowed: Optional[Iterable[EncryptionAlgorithm]]
+    parsed_allowed: Iterable[EncryptionAlgorithm] | None
     if allowed_algorithms is None:
         parsed_allowed = None
     else:

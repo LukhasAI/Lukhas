@@ -3,6 +3,8 @@ import sys
 from pathlib import Path
 
 import pytest
+from core.symbolic_core import plan_symbolic_core_preservation
+from core.symbolic_core.colony_tag_propagation import SymbolicReasoningColony
 
 ROOT = Path(__file__).resolve().parents[4]
 if str(ROOT) not in sys.path:
@@ -15,8 +17,6 @@ loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
 asyncio.create_task = lambda coro, *, _loop=loop: _loop.create_task(coro)  # type: ignore[assignment]
 
-from core.symbolic_core import plan_symbolic_core_preservation
-from core.symbolic_core.colony_tag_propagation import SymbolicReasoningColony
 
 
 @pytest.mark.asyncio

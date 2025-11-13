@@ -8,7 +8,7 @@ import ast
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 
 class ConsciousnessContractGenerator:
@@ -21,7 +21,7 @@ class ConsciousnessContractGenerator:
     def analyze_component_file(self, file_path: Path) -> Dict:
         """Analyze a Python consciousness component file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             # Parse AST
@@ -47,9 +47,8 @@ class ConsciousnessContractGenerator:
                 elif isinstance(node, ast.Import):
                     for alias in node.names:
                         component_info["imports"].append(alias.name)
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module:
-                        component_info["imports"].append(node.module)
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    component_info["imports"].append(node.module)
 
             # Analyze content for patterns
             if "async " in content:
@@ -173,7 +172,7 @@ class ConsciousnessContractGenerator:
 
         return contract
 
-    def _infer_input_types(self, component_type: str, analysis: Dict) -> List[str]:
+    def _infer_input_types(self, component_type: str, analysis: Dict) -> list[str]:
         """Infer input types based on component type and analysis"""
         base_inputs = ["CONTEXT_INFO"]
 
@@ -191,7 +190,7 @@ class ConsciousnessContractGenerator:
 
         return base_inputs + type_inputs.get(component_type, [])
 
-    def _infer_output_types(self, component_type: str, analysis: Dict) -> List[str]:
+    def _infer_output_types(self, component_type: str, analysis: Dict) -> list[str]:
         """Infer output types based on component type and analysis"""
         type_outputs = {
             "CONSCIOUSNESS_ENGINE": ["CONSCIOUSNESS_STATE", "EMOTIONAL_RESPONSE"],

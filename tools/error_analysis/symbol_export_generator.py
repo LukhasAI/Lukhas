@@ -27,10 +27,11 @@ import argparse
 import json
 import re
 import sys
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Tuple
+from typing import Any
 
 
 class SymbolType(Enum):
@@ -59,7 +60,7 @@ class ExportPlan:
 class SymbolExportGenerator:
     """Generate and apply symbol export stubs based on analyzer output."""
 
-    _DETAIL_REGEXES: Tuple[re.Pattern, ...] = (
+    _DETAIL_REGEXES: tuple[re.Pattern, ...] = (
         re.compile(r"(?P<symbol>[A-Za-z0-9_]+) from (?P<module>[A-Za-z0-9_.]+)"),
         re.compile(
             r"cannot import name '(?P<symbol>[^']+)' from '(?P<module>[^']+)'"
@@ -75,12 +76,12 @@ class SymbolExportGenerator:
     # --------------------------------------------------------------------- #
     # Analysis parsing
     # --------------------------------------------------------------------- #
-    def load_analysis(self, analysis_path: Path) -> List[ExportPlan]:
+    def load_analysis(self, analysis_path: Path) -> list[ExportPlan]:
         """Load analyzer JSON and prepare export plan entries."""
         with analysis_path.open() as handle:
             data = json.load(handle)
 
-        aggregated: Dict[Tuple[str, str], int] = {}
+        aggregated: dict[tuple[str, str], int] = {}
         for entry in data.get("errors", []):
             parsed = self._parse_error_entry(entry)
             if not parsed:
@@ -91,7 +92,7 @@ class SymbolExportGenerator:
             key = (module, symbol)
             aggregated[key] = aggregated.get(key, 0) + int(entry.get("count", 1))
 
-        exports: List[ExportPlan] = []
+        exports: list[ExportPlan] = []
         for (module, symbol), count in aggregated.items():
             destination = self._resolve_destination(module)
             if destination is None:
@@ -111,7 +112,7 @@ class SymbolExportGenerator:
         exports.sort(key=lambda plan: plan.count, reverse=True)
         return exports
 
-    def _parse_error_entry(self, entry: Dict) -> Optional[Tuple[str, str]]:
+    def _parse_error_entry(self, entry: Dict) -> tuple[str, str] | None:
         """Extract (module, symbol) from analyzer entry."""
         category = entry.get("category")
         if category not in {"CannotImport", "ImportError"}:
@@ -232,7 +233,7 @@ class SymbolExportGenerator:
             return f"candidate.{module}"
         return f"candidate.{module}"
 
-    def _resolve_destination(self, module: str) -> Optional[Path]:
+    def _resolve_destination(self, module: str) -> Path | None:
         """Resolve module path to filesystem destination inside repo."""
         module_path = Path(*module.split("."))
         module_file = (self.repo_root / f"{module_path}.py")
@@ -262,11 +263,11 @@ class SymbolExportGenerator:
         output_path.write_text(json.dumps(payload, indent=2))
         print(f"Saved plan with {len(payload)} exports → {output_path}")
 
-    def load_plan(self, plan_path: Path) -> List[ExportPlan]:
+    def load_plan(self, plan_path: Path) -> list[ExportPlan]:
         """Load plan JSON into ExportPlan objects."""
         with plan_path.open() as handle:
             data = json.load(handle)
-        exports: List[ExportPlan] = []
+        exports: list[ExportPlan] = []
         for entry in data:
             exports.append(
                 ExportPlan(
@@ -282,9 +283,9 @@ class SymbolExportGenerator:
 
     def apply_plan(
         self,
-        plan: List[ExportPlan],
+        plan: list[ExportPlan],
         mode: str,
-        limit: Optional[int] = None,
+        limit: int | None = None,
     ) -> None:
         """Apply exports according to the requested mode."""
         applied = 0
@@ -352,7 +353,7 @@ class SymbolExportGenerator:
         print("-" * 80)
 
 
-def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Generate/apply symbol export stubs based on pytest analysis."
     )
@@ -386,7 +387,7 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     repo_root = Path(".").resolve()
     generator = SymbolExportGenerator(repo_root)

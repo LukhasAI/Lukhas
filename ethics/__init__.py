@@ -104,7 +104,7 @@ class PolicyEngines:
 # Export the policy_engines for compatibility
 policy_engines = PolicyEngines()
 
-__all__ = ["MegBridge", "EthicsEngine", "SafetyChecker", "policy_engines"]
+__all__ = ["EthicsEngine", "MegBridge", "SafetyChecker", "policy_engines"]
 
 
 # Create aliases for backward compatibility

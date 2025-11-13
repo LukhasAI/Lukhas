@@ -14,7 +14,7 @@ import time
 from collections import deque
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Optional
 
 from observability.opentelemetry_tracing import LUKHASTracer
 from observability.prometheus_metrics import LUKHASMetrics
@@ -62,8 +62,8 @@ class AdaptiveTimeoutManager:
 
     def __init__(self, window_size: int = 1000):
         self.window_size = window_size
-        self.operation_data: Dict[str, deque] = {}
-        self.timeout_configs: Dict[str, TimeoutConfig] = {}
+        self.operation_data: dict[str, deque] = {}
+        self.timeout_configs: dict[str, TimeoutConfig] = {}
         self.metrics = LUKHASMetrics()
         self.tracer = LUKHASTracer()
 
@@ -115,7 +115,7 @@ class AdaptiveTimeoutManager:
                 p95_latency = statistics.quantiles(successful_latencies, n=20)[18]
             else:
                 p95_latency = max(successful_latencies)
-        except:
+        except Exception:
             p95_latency = statistics.mean(successful_latencies)
 
         # Apply safety multiplier
@@ -319,7 +319,7 @@ class IntelligentBackoff:
         except ImportError:
             return 1.0  # No load adjustment if psutil not available
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get backoff statistics."""
         if not self.attempt_history:
             return {}
@@ -382,10 +382,7 @@ async def execute_with_backoff(
     **kwargs
 ) -> Any:
     """Execute function with intelligent backoff."""
-    if config:
-        backoff = IntelligentBackoff(config)
-    else:
-        backoff = get_default_backoff()
+    backoff = IntelligentBackoff(config) if config else get_default_backoff()
 
     return await backoff.execute_with_backoff(operation, func, *args, **kwargs)
 

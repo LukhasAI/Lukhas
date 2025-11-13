@@ -19,9 +19,9 @@ import ast
 import csv
 import re
 import sys
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Tuple
 
 HAS_LIBCST = True
 
@@ -93,12 +93,9 @@ def load_cfg(path: str|None):
     return merged, allow or ALLOWLIST_DEFAULT
 
 def root_ok(p: Path)->bool:
-    for seg in p.parts:
-        if seg in EXCLUDE_DIRS:
-            return False
-    return True
+    return all(seg not in EXCLUDE_DIRS for seg in p.parts)
 
-def rewrite_root(name: str, mapping: Dict[str,str]) -> str|None:
+def rewrite_root(name: str, mapping: dict[str,str]) -> str|None:
     # If name begins with any legacy root, replace that segment
     parts = name.split(".")
     if not parts:
@@ -106,15 +103,15 @@ def rewrite_root(name: str, mapping: Dict[str,str]) -> str|None:
     root = parts[0]
     if root in mapping:
         new_root = mapping[root]
-        new_name = ".".join([new_root] + parts[1:])
+        new_name = ".".join([new_root, *parts[1:]])
         return new_name
     return None
 
 if HAS_LIBCST:
     class ImportRewriter(cst.CSTTransformer):
-        def __init__(self, mapping: Dict[str,str]):
+        def __init__(self, mapping: dict[str,str]):
             self.mapping = mapping
-            self.changes: List[Tuple[str,str]] = []  # (old, new)
+            self.changes: list[tuple[str,str]] = []  # (old, new)
 
         def leave_Import(self, original: cst.Import, updated: cst.Import) -> cst.Import:
             names = []
@@ -187,7 +184,7 @@ class Replacement:
     new_text: str
 
 
-def _line_offsets(text: str) -> List[int]:
+def _line_offsets(text: str) -> list[int]:
     offsets = [0]
     total = 0
     for line in text.splitlines(keepends=True):
@@ -196,7 +193,7 @@ def _line_offsets(text: str) -> List[int]:
     return offsets
 
 
-def _abs_index(offsets: List[int], lineno: int, col: int) -> int:
+def _abs_index(offsets: list[int], lineno: int, col: int) -> int:
     return offsets[lineno - 1] + col
 
 
@@ -217,7 +214,7 @@ def _preserve_quotes(original: str, new_body: str) -> str:
     return repr(new_body)
 
 
-def _rewrite_literal_value(value: str, mapping: Dict[str, str]) -> Tuple[str | None, str | None]:
+def _rewrite_literal_value(value: str, mapping: dict[str, str]) -> tuple[str | None, str | None]:
     for legacy, canonical in mapping.items():
         if value == legacy or value.startswith(f"{legacy}."):
             new_value = f"{canonical}{value[len(legacy):]}"
@@ -225,10 +222,10 @@ def _rewrite_literal_value(value: str, mapping: Dict[str, str]) -> Tuple[str | N
     return None, None
 
 
-def _fallback_replacements(src: str, mapping: Dict[str, str]) -> Tuple[List[Replacement], List[Tuple[str, str]]]:
+def _fallback_replacements(src: str, mapping: dict[str, str]) -> tuple[list[Replacement], list[tuple[str, str]]]:
     # ΛTAG: import_codemod_fallback - deterministic fallback when LibCST is unavailable.
-    replacements: List[Replacement] = []
-    changes: List[Tuple[str, str]] = []
+    replacements: list[Replacement] = []
+    changes: list[tuple[str, str]] = []
     try:
         tree = ast.parse(src)
     except SyntaxError:
@@ -302,11 +299,11 @@ def _fallback_replacements(src: str, mapping: Dict[str, str]) -> Tuple[List[Repl
 
     replacements.sort(key=lambda r: r.start)
     # merge replacements into non-overlapping order by applying from end
-    merged: List[Replacement] = []
+    merged: list[Replacement] = []
     last_end = -1
     for rep in replacements:
         if rep.start < last_end:
-            # overlapping replacement – skip to keep deterministic output
+            # overlapping replacement - skip to keep deterministic output
             continue
         merged.append(rep)
         last_end = rep.end
@@ -321,7 +318,7 @@ def _apply_replacements(src: str, replacements: Iterable[Replacement]) -> str:
     return new_src
 
 
-def process_file(path: Path, mapping: Dict[str,str], apply: bool):
+def process_file(path: Path, mapping: dict[str,str], apply: bool):
     try:
         src = path.read_text(encoding="utf-8", errors="ignore")
     except FileNotFoundError:

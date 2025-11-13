@@ -3,13 +3,13 @@
 from __future__ import annotations
 
 import copy
+from collections.abc import Iterable, Mapping, MutableMapping
 from dataclasses import dataclass
-from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Optional
+from typing import Any
 
 from .jurisdictions import CCPAModule, GDPRModule, LGPDModule, PIPEDAModule
 from .jurisdictions.base import BaseJurisdictionModule
 from .policy_engine import PolicyEngine, PolicyRecord
-
 
 _CONSENT_PRIORITY = {
     "implied": 0,
@@ -27,7 +27,7 @@ class JurisdictionDecision:
     name: str
     reason: str
     weight: int
-    version: Optional[str]
+    version: str | None
     history: Iterable[str]
     policy: Mapping[str, Any]
 
@@ -37,9 +37,9 @@ class MultiJurisdictionComplianceEngine:
 
     def __init__(
         self,
-        policy_engine: Optional[PolicyEngine] = None,
-        jurisdiction_modules: Optional[Iterable[BaseJurisdictionModule]] = None,
-        overrides: Optional[Mapping[str, Any]] = None,
+        policy_engine: PolicyEngine | None = None,
+        jurisdiction_modules: Iterable[BaseJurisdictionModule] | None = None,
+        overrides: Mapping[str, Any] | None = None,
     ) -> None:
         self.policy_engine = policy_engine or PolicyEngine()
         self.jurisdiction_modules = list(jurisdiction_modules or self._default_modules())
@@ -51,7 +51,7 @@ class MultiJurisdictionComplianceEngine:
 
     # ------------------------------------------------------------------
     @staticmethod
-    def _default_modules() -> List[BaseJurisdictionModule]:
+    def _default_modules() -> list[BaseJurisdictionModule]:
         return [
             GDPRModule(),
             CCPAModule(),
@@ -60,10 +60,10 @@ class MultiJurisdictionComplianceEngine:
         ]
 
     # ------------------------------------------------------------------
-    def detect_applicable_jurisdictions(self, user_data: Mapping[str, Any]) -> List[JurisdictionDecision]:
+    def detect_applicable_jurisdictions(self, user_data: Mapping[str, Any]) -> list[JurisdictionDecision]:
         """Detect all jurisdictions that apply to *user_data*."""
 
-        decisions: List[JurisdictionDecision] = []
+        decisions: list[JurisdictionDecision] = []
         per_j_overrides = self._resolve_overrides().get("jurisdictions", {})
 
         for module in self.jurisdiction_modules:
@@ -93,8 +93,8 @@ class MultiJurisdictionComplianceEngine:
     def get_effective_policy(
         self,
         user_data: Mapping[str, Any],
-        overrides: Optional[Mapping[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        overrides: Mapping[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """Return the effective policy across all applicable jurisdictions."""
 
         decisions = self.detect_applicable_jurisdictions(user_data)
@@ -111,8 +111,8 @@ class MultiJurisdictionComplianceEngine:
         }
 
     # ------------------------------------------------------------------
-    def _aggregate_policies(self, decisions: Iterable[JurisdictionDecision]) -> Dict[str, Any]:
-        aggregated: Dict[str, Any] = {}
+    def _aggregate_policies(self, decisions: Iterable[JurisdictionDecision]) -> dict[str, Any]:
+        aggregated: dict[str, Any] = {}
         for decision in decisions:
             for key, value in decision.policy.items():
                 aggregator = getattr(self, f"_aggregate_{key}", None)
@@ -123,7 +123,7 @@ class MultiJurisdictionComplianceEngine:
         return aggregated
 
     @staticmethod
-    def _aggregate_consent(current: Optional[str], new_value: Optional[str]) -> Optional[str]:
+    def _aggregate_consent(current: str | None, new_value: str | None) -> str | None:
         if new_value is None:
             return current
         if current is None:
@@ -131,7 +131,7 @@ class MultiJurisdictionComplianceEngine:
         return new_value if _CONSENT_PRIORITY.get(new_value, 0) >= _CONSENT_PRIORITY.get(current, 0) else current
 
     @staticmethod
-    def _aggregate_data_retention_days(current: Optional[int], new_value: Optional[int]) -> Optional[int]:
+    def _aggregate_data_retention_days(current: int | None, new_value: int | None) -> int | None:
         if new_value is None:
             return current
         if current is None:
@@ -143,7 +143,7 @@ class MultiJurisdictionComplianceEngine:
         return min(current, new_value)
 
     @staticmethod
-    def _aggregate_access_rights(current: Optional[Iterable[str]], new_value: Optional[Iterable[str]]) -> Iterable[str]:
+    def _aggregate_access_rights(current: Iterable[str] | None, new_value: Iterable[str] | None) -> Iterable[str]:
         current_set = set(current or [])
         new_set = set(new_value or [])
         return current_set.union(new_set)
@@ -171,8 +171,8 @@ class MultiJurisdictionComplianceEngine:
         return {str(current), str(new_value)}
 
     # ------------------------------------------------------------------
-    def _resolve_overrides(self, overrides: Optional[Mapping[str, Any]] = None) -> Dict[str, Dict[str, Any]]:
-        resolved: Dict[str, Dict[str, Any]] = {"global": {}, "jurisdictions": {}}
+    def _resolve_overrides(self, overrides: Mapping[str, Any] | None = None) -> dict[str, dict[str, Any]]:
+        resolved: dict[str, dict[str, Any]] = {"global": {}, "jurisdictions": {}}
         for source in (self._base_overrides, overrides or {}):
             if not source:
                 continue
@@ -188,11 +188,11 @@ class MultiJurisdictionComplianceEngine:
         return resolved
 
     @staticmethod
-    def _apply_jurisdiction_overrides(record: PolicyRecord, overrides: Optional[Mapping[str, Any]]) -> Dict[str, Any]:
+    def _apply_jurisdiction_overrides(record: PolicyRecord, overrides: Mapping[str, Any] | None) -> dict[str, Any]:
         policy_rules: MutableMapping[str, Any] = copy.deepcopy(dict(record.rules))
         if overrides:
             PolicyEngine.apply_overrides(policy_rules, dict(overrides))
         return dict(policy_rules)
 
 
-__all__ = ["MultiJurisdictionComplianceEngine", "JurisdictionDecision"]
+__all__ = ["JurisdictionDecision", "MultiJurisdictionComplianceEngine"]

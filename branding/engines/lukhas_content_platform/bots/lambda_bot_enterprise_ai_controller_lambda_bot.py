@@ -104,7 +104,7 @@ except Exception:
 
 # Import workspace components
 try:
-    from cognitive_controller import (  # noqa: F401  # TODO: cognitive_controller.ModuleStatus; c...
+    from cognitive_controller import (  # TODO: cognitive_controller.ModuleStatus; c...
         CognitiveController,
         ConsciousnessLevel,
         ModuleStatus,
@@ -118,7 +118,7 @@ except ImportError as e:
 
 # Import base LUKHAS AI ΛBot
 try:
-    from core_ΛBot import (  # noqa: F401  # TODO: core_ΛBot.SubscriptionTier; co...
+    from core_ΛBot import (  # TODO: core_ΛBot.SubscriptionTier; co...
         CoreLambdaBot,
         SubscriptionTier,
     )

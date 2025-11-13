@@ -154,9 +154,8 @@ def add(ctx, content, type, tags, emotion):
     print_success(f"Added {type} entry: {entry.id}")
 
     # For decisions, prompt for additional info
-    if type == "decision":
-        if click.confirm("Would you like to add more decision details?"):
-            ctx.invoke(decision, title=content)
+    if type == "decision" and click.confirm("Would you like to add more decision details?"):
+        ctx.invoke(decision, title=content)
 
 
 @cli.command()

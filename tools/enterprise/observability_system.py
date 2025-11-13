@@ -17,6 +17,7 @@ import aiohttp
 import numpy as np
 import pandas as pd
 import structlog
+from async_utils import create_background_task
 from prometheus_api_client import PrometheusConnect
 from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
@@ -169,7 +170,7 @@ class AnomalyDetector:
         metric_name: str,
         value: float,
         timestamp: datetime,
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> tuple[bool, float, Optional[str]]:
         """Detect if a value is anomalous with explanation"""
         if metric_name not in self.models:
@@ -291,9 +292,9 @@ class ObservabilitySystem:
         await self._train_anomaly_models()
 
         # Start monitoring loops
-        asyncio.create_task(self._metric_collection_loop())
-        asyncio.create_task(self._anomaly_detection_loop())
-        asyncio.create_task(self._alert_evaluation_loop())
+        create_background_task(self._metric_collection_loop())
+        create_background_task(self._anomaly_detection_loop())
+        create_background_task(self._alert_evaluation_loop())
 
         logger.info("observability_system_initialized")
 
@@ -650,7 +651,7 @@ class ObservabilitySystem:
         if rule.comparison == "anomaly":
             # Use ML-based detection
             latest_value = values[-1]
-            is_anomaly, score, _ = self.anomaly_detector.detect_anomaly(
+            is_anomaly, _score, _ = self.anomaly_detector.detect_anomaly(
                 rule.metric_query, latest_value, datetime.now(timezone.utc)
             )
             return is_anomaly

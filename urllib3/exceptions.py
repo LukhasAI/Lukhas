@@ -11,4 +11,12 @@ class InsecureRequestWarning(Warning):
     """Placeholder warning mirroring urllib3's interface."""
 
 
-__all__ = ["NotOpenSSLWarning", "InsecureRequestWarning"]
+class HTTPError(Exception):
+    """Base HTTP exception class for urllib3 compatibility."""
+
+
+class DependencyWarning(Warning):
+    """Placeholder warning for urllib3 dependency issues."""
+
+
+__all__ = ["DependencyWarning", "HTTPError", "InsecureRequestWarning", "NotOpenSSLWarning"]

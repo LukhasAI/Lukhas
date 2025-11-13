@@ -6,8 +6,8 @@ from .pipeda import PIPEDAModule
 from .lgpd import LGPDModule
 
 __all__ = [
-    "GDPRModule",
     "CCPAModule",
-    "PIPEDAModule",
+    "GDPRModule",
     "LGPDModule",
+    "PIPEDAModule",
 ]

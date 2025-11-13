@@ -4,8 +4,7 @@
 # do_not_edit: true
 # human_editable: false
 #
-"""
-Test configuration for config module.
+"""Test configuration for config module.
 """
 
 import os
@@ -21,7 +20,7 @@ def test_config():
     return {
         "module_name": "config",
         "test_mode": True,
-        "log_level": "DEBUG"
+        "log_level": "DEBUG",
     }
 
 
@@ -49,16 +48,16 @@ def clean_environment():
     os.environ.update(original_env)
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_config_config():
     """Mock configuration for config module."""
     return {
         "module": {
             "name": "config",
-            "version": "1.0.0-test"
+            "version": "1.0.0-test",
         },
         "runtime": {
             "log_level": "DEBUG",
-            "debug_mode": True
-        }
+            "debug_mode": True,
+        },
     }

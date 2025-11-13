@@ -1,0 +1,26 @@
+=== Validating flatten_map.csv File Existence ===
+Date: Mon Nov  3 13:37:06 GMT 2025
+
+❌ MISSING: candidate/core/matrix/nodes/memory_node.py
+❌ MISSING: candidate/core/matrix/nodes/attention_node.py
+❌ MISSING: candidate/core/matrix/nodes/thought_node.py
+❌ MISSING: candidate/core/matrix/nodes/risk_node.py
+❌ MISSING: candidate/core/matrix/nodes/intent_node.py
+❌ MISSING: candidate/core/matrix/nodes/action_node.py
+❌ MISSING: candidate/core/matrix/nodes/vision_node.py
+❌ MISSING: candidate/governance/identity/core/lambda_id_core.py
+❌ MISSING: candidate/consciousness/core/engine.py
+❌ MISSING: candidate/governance/guardian/guardian_system.py
+❌ MISSING: MATRIZ/matrix_utils/helpers.py
+❌ MISSING: lukhas/core/module_registry.py
+❌ MISSING: lukhas/serve/guardian_api.py
+❌ MISSING: benchmarks/scripts/benchmark_matriz_pipeline.py
+❌ MISSING: # Sample discovery output - common nested file patterns
+
+=== Summary ===
+Files exist: 34
+Files missing: 15
+Total candidates: 49
+
+⚠️  STATUS: VALIDATION FAILED - 15 phantom files detected
+Recommended action: Regenerate discovery with validated file paths

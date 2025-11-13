@@ -29,24 +29,25 @@ import os
 import statistics
 import time
 from dataclasses import dataclass
+from typing import Tuple
 from unittest.mock import AsyncMock, Mock
 
 import psutil
 import pytest
+from typing import Tuple
 
 PLACEHOLDER_PASSWORD = "a-secure-password"  # nosec B105
 
 # Performance testing imports with fallback handling
 try:
+    from governance.guardian_system import GuardianSystem
+    from identity.core import IdentitySystem
     from labs.memory.service import MemoryService
     from labs.orchestration.high_performance_context_bus import (
         HighPerformanceContextBus,
     )
     from labs.orchestration.multi_model_orchestration import MultiModelOrchestrator
     from labs.tools.tool_executor import ToolExecutor
-
-    from governance.guardian_system import GuardianSystem
-    from identity.core import IdentitySystem
 
 except ImportError as e:
     pytest.skip(f"Performance testing modules not available: {e}", allow_module_level=True)
@@ -77,7 +78,7 @@ class PerformanceBenchmark:
         self.results = []
         self.process = psutil.Process()
 
-    async def measure_single_operation(self, operation_func, *args, **kwargs) -> tuple[float, bool, str]:
+    async def measure_single_operation(self, operation_func, *args, **kwargs) -> Tuple[float, bool, str]:
         """Measure single operation performance"""
         start_memory = self.process.memory_info().rss / 1024 / 1024  # MB
         self.process.cpu_percent()
@@ -147,7 +148,7 @@ class PerformanceBenchmark:
                 errors += 1
                 continue
 
-            latency, success, error, memory_delta, cpu_usage, _ = result
+            latency, success, _error, memory_delta, cpu_usage, _ = result
             latencies.append(latency)
             memory_usages.append(memory_delta)
             cpu_usages.append(cpu_usage)

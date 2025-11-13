@@ -79,10 +79,7 @@ def calculate_trends(entries: list[BenchEntry]) -> list[tuple[str, str, float, f
             p99 = entry.p99
             env = entry.env_fingerprint
 
-            if previous_p95 is not None:
-                delta_p95 = p95 - previous_p95
-            else:
-                delta_p95 = 0.0
+            delta_p95 = p95 - previous_p95 if previous_p95 is not None else 0.0
 
             trends.append((date, module, p50, p95, p99, delta_p95, env))
             previous_p95 = p95

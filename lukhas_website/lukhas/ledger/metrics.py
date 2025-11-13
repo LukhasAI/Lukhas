@@ -12,7 +12,7 @@ Comprehensive metrics collection for T4/0.01% excellence monitoring:
 import logging
 import threading
 import time
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from prometheus_client import (
     CollectorRegistry,
@@ -201,7 +201,7 @@ class LedgerMetrics:
         with self._lock:
             self.ledger_dead_letter_queue_size.set(size)
 
-    def get_performance_summary(self) -> Dict[str, Any]:
+    def get_performance_summary(self) -> dict[str, Any]:
         """Get performance summary for T4 validation"""
         # Get current metric values (simplified - in production would query Prometheus)
         try:
@@ -319,7 +319,7 @@ def time_db_operation(operation: str, table: str):
 
 
 # Health check utilities
-def check_t4_compliance() -> Dict[str, Any]:
+def check_t4_compliance() -> dict[str, Any]:
     """Check T4/0.01% excellence compliance"""
     metrics = get_metrics()
     summary = metrics.get_performance_summary()

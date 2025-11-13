@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -15,7 +17,7 @@ logger = logging.getLogger(__name__)
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║                             ◊ POETIC ESSENCE ◊
 ║
-║ │ In the cellular cathedral of consciousness, the Symbolic Proteome dances—     │
+║ │ In the cellular cathedral of consciousness, the Symbolic Proteome dances-     │
 ║ │ not mere data structures, but living proteins of thought. Each memory         │
 ║ │ transcribes its RNA, each RNA translates to functional form, each protein    │
 ║ │ folds into purpose.                                                           │
@@ -25,7 +27,7 @@ logger = logging.getLogger(__name__)
 ║ │ dynamic enzymes, catalyzing new understanding, binding to receptors of        │
 ║ │ relevance, phosphorylating the pathways of perception.                        │
 ║ │                                                                               │
-║ │ Through post-translational modifications, memories mature—glycosylated        │
+║ │ Through post-translational modifications, memories mature-glycosylated        │
 ║ │ with context, methylated by importance, ubiquitinated for recycling when     │
 ║ │ their time has passed. This is the living chemistry of mind.                  │
 ║ │                                                                               │

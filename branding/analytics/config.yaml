@@ -1,0 +1,184 @@
+# Privacy-First Analytics Configuration
+# GDPR-compliant settings for LUKHAS analytics
+
+version: "1.0"
+last_updated: "2025-11-08"
+
+# Event taxonomy reference
+event_taxonomy: "./event_taxonomy.json"
+
+# Consent mode defaults (GDPR requires denied by default)
+consent_defaults:
+  analytics: denied
+  marketing: denied
+  functional: granted  # Essential functionality
+
+# Retention policies per event type
+retention:
+  raw_events_days: 30
+  aggregated_data_days: 90
+  user_sessions_days: 1
+  consent_records_years: 7  # Legal requirement
+
+# PII detection patterns
+pii_patterns:
+  email:
+    pattern: '\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    redacted_value: "[EMAIL_REDACTED]"
+
+  phone:
+    pattern: '\+?[1-9]\d{1,14}|\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}'
+    redacted_value: "[PHONE_REDACTED]"
+
+  ip_address:
+    pattern: '\b(?:\d{1,3}\.){3}\d{1,3}\b'
+    redacted_value: "[IP_REDACTED]"
+    anonymize: true  # Strip last octet
+
+  credit_card:
+    pattern: '\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b'
+    redacted_value: "[CC_REDACTED]"
+
+  ssn:
+    pattern: '\b\d{3}-\d{2}-\d{4}\b'
+    redacted_value: "[SSN_REDACTED]"
+
+  user_id:
+    pattern: '\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b'
+    redacted_value: "[USER_ID_REDACTED]"
+
+# Allowed/blocked domains for tracking
+domains:
+  allowed:
+    - lukhas.ai
+    - lukhas.dev
+    - lukhas.com
+    - lukhas.eu
+    - lukhas.app
+
+  blocked:
+    - localhost
+    - 127.0.0.1
+    - "*.test"
+    - "*.local"
+
+# Rate limiting (events per hour per session)
+rate_limits:
+  page_view: 1000
+  quickstart_started: 100
+  quickstart_completed: 100
+  reasoning_trace_viewed: 500
+  assistive_variant_viewed: 200
+  assistive_audio_played: 500
+  evidence_artifact_requested: 500
+  demo_interaction: 500
+  cta_clicked: 200
+
+# Batch settings
+batching:
+  max_batch_size: 10
+  max_batch_age_seconds: 300
+  max_retry_attempts: 3
+  retry_backoff_multiplier: 2
+
+# Circuit breaker settings
+circuit_breaker:
+  failure_threshold: 5
+  timeout_seconds: 60
+  half_open_timeout_seconds: 30
+
+# IP anonymization settings
+ip_anonymization:
+  enabled: true
+  ipv4_mask: 24  # Remove last octet
+  ipv6_mask: 64  # Remove last 64 bits
+
+# User-Agent normalization
+user_agent_normalization:
+  enabled: true
+  mode: browser_family  # Only store browser family, not full UA
+
+# Privacy features
+privacy:
+  respect_dnt: true  # Honor Do Not Track header
+  no_third_party_cookies: true
+  no_third_party_scripts: true
+  no_cross_site_tracking: true
+
+  # Consent requirements
+  require_consent_for:
+    - analytics
+    - marketing
+
+  # Data subject rights
+  data_subject_rights:
+    access: true
+    deletion: true
+    portability: true
+    rectification: true
+    objection: true
+    restriction: true
+
+  # Response time for data requests (days)
+  data_request_response_days: 30
+
+# Server endpoint configuration
+server:
+  endpoint: "https://analytics.lukhas.ai/events"
+  timeout_seconds: 10
+  max_payload_size_kb: 100
+
+# Validation rules
+validation:
+  # Maximum property value length
+  max_property_length: 1000
+
+  # Required properties for all events
+  required_properties:
+    - domain
+
+  # Forbidden property names (likely to contain PII)
+  forbidden_properties:
+    - email
+    - phone
+    - name
+    - address
+    - user_id
+    - session_token
+    - api_key
+
+# Compliance
+compliance:
+  gdpr: true
+  ccpa: true
+  coppa: false  # Not collecting data from children
+
+  # Legal basis for processing
+  legal_basis: "consent"  # GDPR Article 6(1)(a)
+
+  # Data controller
+  data_controller:
+    name: "LUKHAS AI"
+    contact: "privacy@lukhas.ai"
+
+  # Data processor (if using third-party)
+  data_processor: null  # Self-hosted
+
+# Monitoring and alerts
+monitoring:
+  # Alert if PII detected in events
+  alert_on_pii: true
+
+  # Alert if consent not obtained
+  alert_on_no_consent: true
+
+  # Alert if rate limits exceeded
+  alert_on_rate_limit: true
+
+# Feature flags
+features:
+  enable_analytics: true
+  enable_marketing: false  # Not implemented yet
+  enable_a_b_testing: false
+  enable_heatmaps: false
+  enable_session_replay: false  # Privacy concern

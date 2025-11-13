@@ -81,4 +81,4 @@ def bio_adapt(environment: dict[str, Any]) -> float:
 
 
 # Export main components
-__all__ = ["BioUtilities", "FatigueLevel", "fatigue_level", "bio_adapt"]
+__all__ = ["BioUtilities", "FatigueLevel", "bio_adapt", "fatigue_level"]

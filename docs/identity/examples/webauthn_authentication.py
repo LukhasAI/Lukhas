@@ -26,14 +26,14 @@ W3C WebAuthn Level 2 Specification: https://www.w3.org/TR/webauthn-2/
 """
 import base64
 import secrets
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Dict, List, Optional, Tuple
-from dataclasses import dataclass
 
 # External dependencies
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 # WebAuthn library
 from webauthn import verify_authentication_response
@@ -41,11 +41,12 @@ from webauthn.helpers import base64url_to_bytes
 
 # LUKHAS imports (same as registration example)
 try:
-    from lukhas.identity.webauthn_credential import WebAuthnCredentialStore
     from lukhas_website.lukhas.identity.webauthn_types import (
         CredentialRequestOptions,
         PublicKeyCredentialAssertion,
     )
+
+    from lukhas.identity.webauthn_credential import WebAuthnCredentialStore
 except ImportError:
     print("Note: LUKHAS modules not available. Using simplified types.")
     class WebAuthnCredentialStore:
@@ -263,7 +264,7 @@ def verify_credential_authentication(
                 status_code=403,
                 detail="Security check failed. Please re-register your device."
             )
-        raise ValueError(f"Authentication verification failed: {str(e)}")
+        raise ValueError(f"Authentication verification failed: {e!s}")
 
 
 # --- API Endpoints ---
@@ -327,7 +328,7 @@ async def start_authentication(request_data: Dict) -> JSONResponse:
         return JSONResponse(content=options)
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to generate options: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to generate options: {e!s}")
 
 
 @app.post("/api/auth/webauthn/authenticate/complete")
@@ -390,7 +391,7 @@ async def complete_authentication(request_data: Dict) -> JSONResponse:
     except HTTPException:
         raise
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=f"Verification failed: {str(e)}")
+        raise HTTPException(status_code=400, detail=f"Verification failed: {e!s}")
 
     # Update sign counter in database (prevents replay attacks)
     credential_id = credential["id"]
@@ -407,7 +408,7 @@ async def complete_authentication(request_data: Dict) -> JSONResponse:
             raise ValueError("Failed to update sign counter")
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to update credential: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to update credential: {e!s}")
 
     # Clean up challenge
     del challenge_store[username]

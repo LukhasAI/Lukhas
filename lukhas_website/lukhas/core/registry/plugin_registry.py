@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
 #!/usr/bin/env python3
 """
 LUKHAS Plugin Registry System
@@ -13,11 +17,10 @@ import os
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Protocol, Type
+from typing import Protocol
 
 from observability.opentelemetry_tracing import LUKHASTracer
 from observability.prometheus_metrics import LUKHASMetrics
-
 
 class LUKHASPlugin(Protocol):
     """Protocol defining the interface for LUKHAS plugins."""
@@ -30,14 +33,13 @@ class LUKHASPlugin(Protocol):
         """Shutdown the plugin."""
         ...
 
-    async def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process data through the plugin."""
         ...
 
-    def get_info(self) -> Dict[str, Any]:
+    def get_info(self) -> dict[str, Any]:
         """Get plugin information."""
         ...
-
 
 @dataclass
 class PluginInfo:
@@ -47,10 +49,9 @@ class PluginInfo:
     description: str
     author: str
     category: str
-    dependencies: List[str]
-    config_schema: Optional[Dict[str, Any]] = None
-    performance_profile: Optional[Dict[str, Any]] = None
-
+    dependencies: list[str]
+    config_schema: Optional[dict[str, Any]] = None
+    performance_profile: Optional[dict[str, Any]] = None
 
 class PluginBase(ABC):
     """Base class for LUKHAS plugins."""
@@ -107,10 +108,9 @@ class PluginBase(ABC):
         pass
 
     @abstractmethod
-    async def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process data through the plugin."""
         pass
-
 
 class PluginRegistry:
     """
@@ -125,7 +125,7 @@ class PluginRegistry:
 
     def __init__(
         self,
-        search_paths: Optional[List[str]] = None,
+        search_paths: Optional[list[str]] = None,
         metrics: Optional[LUKHASMetrics] = None,
         tracer: Optional[LUKHASTracer] = None,
     ):
@@ -148,14 +148,14 @@ class PluginRegistry:
         self.metrics = metrics or LUKHASMetrics()
         self.tracer = tracer or LUKHASTracer()
 
-        self.discovered_plugins: Dict[str, Type[PluginBase]] = {}
-        self.instantiated_plugins: Dict[str, PluginBase] = {}
-        self.plugin_metadata: Dict[str, PluginInfo] = {}
+        self.discovered_plugins: dict[str, type[PluginBase]] = {}
+        self.instantiated_plugins: dict[str, PluginBase] = {}
+        self.plugin_metadata: dict[str, PluginInfo] = {}
 
         self._last_discovery = 0
         self._discovery_cache_duration = 300  # 5 minutes
 
-    def discover_plugins(self, force_refresh: bool = False) -> Dict[str, Type[PluginBase]]:
+    def discover_plugins(self, force_refresh: bool = False) -> dict[str, type[PluginBase]]:
         """
         Discover plugins from configured search paths.
 
@@ -229,7 +229,7 @@ class PluginRegistry:
 
         return discovered_count
 
-    def _load_plugin_from_file(self, file_path: str) -> Optional[Type[PluginBase]]:
+    def _load_plugin_from_file(self, file_path: str) -> Optional[type[PluginBase]]:
         """Load a plugin class from a Python file."""
         try:
             # Create module spec
@@ -244,7 +244,7 @@ class PluginRegistry:
             spec.loader.exec_module(module)
 
             # Find plugin classes
-            for name, obj in inspect.getmembers(module, inspect.isclass):
+            for _name, obj in inspect.getmembers(module, inspect.isclass):
                 if (issubclass(obj, PluginBase) and
                     obj != PluginBase and
                     not obj.__name__.startswith('_')):
@@ -258,7 +258,7 @@ class PluginRegistry:
     def instantiate_plugin(
         self,
         plugin_name: str,
-        config: Optional[Dict[str, Any]] = None
+        config: Optional[dict[str, Any]] = None
     ) -> PluginBase:
         """
         Instantiate a plugin by name.
@@ -288,10 +288,7 @@ class PluginRegistry:
         with self.tracer.trace_operation(f"plugin_instantiation_{plugin_name}") as span:
             try:
                 # Instantiate plugin
-                if config:
-                    plugin_instance = plugin_class(config=config)
-                else:
-                    plugin_instance = plugin_class()
+                plugin_instance = plugin_class(config=config) if config else plugin_class()
 
                 # Initialize plugin
                 plugin_instance.initialize()
@@ -329,14 +326,14 @@ class PluginRegistry:
         """Get an instantiated plugin by name."""
         return self.instantiated_plugins.get(plugin_name)
 
-    def list_plugins(self) -> Dict[str, PluginInfo]:
+    def list_plugins(self) -> dict[str, PluginInfo]:
         """List all available plugins with their metadata."""
         # Ensure discovery is up to date
         self.discover_plugins()
 
         plugin_list = {}
 
-        for name, plugin_class in self.discovered_plugins.items():
+        for name, _plugin_class in self.discovered_plugins.items():
             if name in self.plugin_metadata:
                 plugin_list[name] = self.plugin_metadata[name]
             else:
@@ -363,7 +360,7 @@ class PluginRegistry:
 
             self.instantiated_plugins.clear()
 
-    def health_check(self) -> Dict[str, Any]:
+    def health_check(self) -> dict[str, Any]:
         """Perform health check on plugin registry and all plugins."""
         health_data = {
             "registry_healthy": True,
@@ -393,10 +390,8 @@ class PluginRegistry:
 
         return health_data
 
-
 # Global plugin registry instance
 _plugin_registry: Optional[PluginRegistry] = None
-
 
 def get_plugin_registry() -> PluginRegistry:
     """Get or create the global plugin registry."""
@@ -405,8 +400,7 @@ def get_plugin_registry() -> PluginRegistry:
         _plugin_registry = PluginRegistry()
     return _plugin_registry
 
-
-def register_plugin(plugin_class: Type[PluginBase]) -> None:
+def register_plugin(plugin_class: type[PluginBase]) -> None:
     """Register a plugin class with the global registry."""
     registry = get_plugin_registry()
     registry.discovered_plugins[plugin_class.__name__] = plugin_class

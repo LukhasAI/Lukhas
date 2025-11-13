@@ -95,7 +95,7 @@ except ImportError:
 
 # Streamlit support (optional)
 try:
-    import streamlit as st
+    import streamlit as st  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_notion_sync_py_L98"}
 
     STREAMLIT_AVAILABLE = True
 except ImportError:
@@ -691,9 +691,8 @@ def test_system():
         # Test imports
         from audit_logger import AuditLogger
         from block_builder import BlockBuilder
-        from markdown_parser import MarkdownParser
-
         from core.config_manager import ConfigManager
+        from markdown_parser import MarkdownParser
 
         print("✅ All imports successful")
 

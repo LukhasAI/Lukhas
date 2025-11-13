@@ -20,10 +20,7 @@ def main():
 
     # Use pytest directly (CI environments don't have .venv)
     import os
-    if os.path.exists(".venv/bin/pytest"):
-        pytest_cmd = ".venv/bin/pytest"
-    else:
-        pytest_cmd = "pytest"
+    pytest_cmd = ".venv/bin/pytest" if os.path.exists(".venv/bin/pytest") else "pytest"
 
     # Run pytest collection check for T4 hardening test directories only
     test_dirs = [

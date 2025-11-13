@@ -7,7 +7,7 @@ import os
 import secrets
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any
 
 from core.common.config import get_config, get_setting
 
@@ -23,8 +23,8 @@ class IdentityUser:
     password: str
     user_id: str
     registered_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    last_authenticated_at: Optional[datetime] = None
-    last_token: Optional[str] = None
+    last_authenticated_at: datetime | None = None
+    last_token: str | None = None
 
 
 # ΛTAG:identity_auth
@@ -37,23 +37,23 @@ class IdentitySystem:
 
     def __init__(
         self,
-        database_url: Optional[str] = None,
-        jwt_secret: Optional[str] = None,
-        config_override: Optional[Dict[str, Any]] = None,
+        database_url: str | None = None,
+        jwt_secret: str | None = None,
+        config_override: dict[str, Any] | None = None,
     ) -> None:
         self._config = self._load_configuration(config_override)
         self.database_url = database_url or self._config.get("database_url", "sqlite:///:memory:")
         self.jwt_secret = jwt_secret or self._config.get("jwt_secret", os.getenv("JWT_SECRET", "test-secret"))
 
-        self._users: Dict[str, IdentityUser] = {}
+        self._users: dict[str, IdentityUser] = {}
         self._metrics = {"registrations": 0, "authentications": 0, "failures": 0}
 
         logger.info("IdentitySystem initialized with database=%s", self.database_url)
 
-    def _load_configuration(self, override: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    def _load_configuration(self, override: dict[str, Any] | None) -> dict[str, Any]:
         """Load module configuration using the shared config loader."""
 
-        configuration: Dict[str, Any] = {}
+        configuration: dict[str, Any] = {}
         try:
             module_config = get_config("identity")
             configuration.update(module_config.settings)
@@ -68,7 +68,7 @@ class IdentitySystem:
 
         return configuration
 
-    async def register_user(self, profile: Dict[str, Any]) -> Dict[str, Any]:
+    async def register_user(self, profile: dict[str, Any]) -> dict[str, Any]:
         """Register or update a user profile."""
 
         username = profile.get("username")
@@ -95,7 +95,7 @@ class IdentitySystem:
             "registered_at": user.registered_at,
         }
 
-    async def authenticate_user(self, credentials: Dict[str, Any]) -> Dict[str, Any]:
+    async def authenticate_user(self, credentials: dict[str, Any]) -> dict[str, Any]:
         """Authenticate a user using stored credentials."""
 
         username = credentials.get("username")
@@ -118,12 +118,12 @@ class IdentitySystem:
             "authenticated_at": user.last_authenticated_at,
         }
 
-    def get_metrics(self) -> Dict[str, int]:
+    def get_metrics(self) -> dict[str, int]:
         """Expose registration/authentication counters for diagnostics."""
 
         return dict(self._metrics)
 
-    def get_registered_users(self) -> Dict[str, IdentityUser]:
+    def get_registered_users(self) -> dict[str, IdentityUser]:
         """Return a copy of registered user data for inspection."""
 
         return dict(self._users)

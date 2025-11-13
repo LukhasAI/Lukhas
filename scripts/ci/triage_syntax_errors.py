@@ -24,7 +24,7 @@ def get_syntax_errors():
 
     try:
         errors = json.loads(result.stdout)
-    except:
+    except Exception:
         errors = []
 
     return errors

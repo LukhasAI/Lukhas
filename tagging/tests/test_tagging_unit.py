@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import tagging  # noqa: F401  # TODO: tagging; consider using import...
+    import tagging  # TODO: tagging; consider using import...
 except ImportError:
     pytest.skip("Module tagging not available", allow_module_level=True)
 

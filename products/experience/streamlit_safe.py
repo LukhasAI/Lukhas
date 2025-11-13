@@ -85,4 +85,4 @@ def get_streamlit() -> StreamlitFacade:
     return _FACADE
 
 
-__all__ = ["StreamlitFacade", "StreamlitCall", "STREAMLIT_AVAILABLE", "get_streamlit"]
+__all__ = ["STREAMLIT_AVAILABLE", "StreamlitCall", "StreamlitFacade", "get_streamlit"]

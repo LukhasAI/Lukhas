@@ -13,9 +13,10 @@ from typing import Any, Optional
 class SymbolProgram:
     """A symbolic program representation"""
 
-    def __init__(self, symbols: Optional[list[str]] = None):
+    def __init__(self, symbols: Optional[list[str]] = None, max_symbols: int = 1000):
         self.symbols = symbols or []
         self.context: dict[str, Any] = {}
+        self.max_symbols = max_symbols
 
     def execute(self) -> Any:
         """Execute the symbolic program"""
@@ -23,6 +24,8 @@ class SymbolProgram:
 
     def add_symbol(self, symbol: str) -> None:
         """Add a symbol to the program"""
+        if len(self.symbols) >= self.max_symbols:
+            raise MemoryError("Symbol limit reached")
         self.symbols.append(symbol)
 
 
@@ -34,6 +37,8 @@ class SymbolComposer:
 
     def compose(self, symbols: list[str]) -> SymbolProgram:
         """Compose symbols into a program"""
+        if not isinstance(symbols, list):
+            raise TypeError("Symbols must be a list")
         program = SymbolProgram(symbols)
         self.compositions.append(program)
         return program

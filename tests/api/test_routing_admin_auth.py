@@ -4,10 +4,15 @@ import logging
 import sys
 import types
 from importlib import import_module
+from typing import List, Optional, Tuple, Dict
 
 import pytest
 from fastapi import HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials
+from lukhas_website.lukhas.api.routing_admin import (
+    ADMIN_PERMISSION,
+    get_admin_user,
+)
 from starlette.requests import Request
 
 # Provide lightweight bridges by reusing the repository implementation when available.
@@ -110,7 +115,7 @@ routing_strategies_module.get_routing_engine = get_routing_engine
 sys.modules.setdefault("orchestration.routing_strategies", routing_strategies_module)
 
 
-def _build_request(headers: list[tuple[bytes, bytes]] | None = None) -> Request:
+def _build_request(headers: Optional[List[Tuple[bytes, bytes]]] = None) -> Request:
     scope = {
         "type": "http",
         "method": "GET",
@@ -123,15 +128,11 @@ def _build_request(headers: list[tuple[bytes, bytes]] | None = None) -> Request:
         "http_version": "1.1",
     }
 
-    async def receive() -> dict[str, object]:  # pragma: no cover - stub receiver
+    async def receive() -> Dict[str, object]:  # pragma: no cover - stub receiver
         return {"type": "http.request", "body": b"", "more_body": False}
 
     return Request(scope, receive)
 
-from lukhas_website.lukhas.api.routing_admin import (
-    ADMIN_PERMISSION,
-    get_admin_user,
-)
 
 
 @pytest.mark.asyncio

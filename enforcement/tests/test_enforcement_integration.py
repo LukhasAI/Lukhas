@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import enforcement  # noqa: F401  # TODO: enforcement; consider using im...
+    import enforcement  # TODO: enforcement; consider using im...
 except ImportError:
     pytest.skip("Module enforcement not available", allow_module_level=True)
 

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # core/interfaces/logic/__init__.py
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Initializes the 'logic' sub-package within 'core.interfaces'.

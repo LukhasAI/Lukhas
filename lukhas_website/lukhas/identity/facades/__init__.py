@@ -18,14 +18,14 @@ from .authentication_facade import (
 )
 
 __all__ = [
-    "AuthenticationFacade",
     "AuthResult",
-    "UserProfile",
+    "AuthenticationFacade",
     "AuthenticatorInterface",
-    "TokenManagerInterface",
     "SessionManagerInterface",
-    "get_authentication_facade",
-    "authenticate_user",
+    "TokenManagerInterface",
+    "UserProfile",
+    "authenticate_api_key",
     "authenticate_token",
-    "authenticate_api_key"
+    "authenticate_user",
+    "get_authentication_facade"
 ]

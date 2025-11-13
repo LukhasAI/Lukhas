@@ -14,6 +14,8 @@ This script will find and process all 264 unresolved security issues in PRs.
 Created: 2025-07-02
 Status: ACTIVE DEPLOYMENT ✅
 """
+from __future__ import annotations
+
 
 import json
 import logging

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # core/interfaces/tools/dao/__init__.py
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Initializes the 'dao' sub-package under 'core.interfaces.tools'.

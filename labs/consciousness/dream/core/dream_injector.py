@@ -12,6 +12,8 @@ DESCRIPTION:
     It logs outcomes per message: DELIVERED | DREAM | REJECTED
 
 """
+from __future__ import annotations
+
 import json
 import os
 

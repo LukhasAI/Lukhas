@@ -4,6 +4,7 @@
 📦 Purpose: Extract domain-specific keywords from system codebase and documentation
 🎯 Goal: Build comprehensive thematic classification for modularization
 """
+from __future__ import annotations
 
 import json
 import os

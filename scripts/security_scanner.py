@@ -4,6 +4,7 @@ LUKHAS Security Scanner
 Comprehensive security scanning with Semgrep, Bandit, dependency vulnerability scanning,
 and secrets detection for T4/0.01% excellence standards.
 """
+from __future__ import annotations
 
 import argparse
 import datetime
@@ -13,7 +14,7 @@ import subprocess
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 @dataclass
@@ -26,7 +27,7 @@ class SecurityFinding:
     file_path: str
     line_number: int
     code_snippet: str
-    fix_suggestion: Optional[str] = None
+    fix_suggestion: str | None = None
 
 
 @dataclass
@@ -37,7 +38,7 @@ class VulnerabilityFinding:
     vulnerability_id: str
     severity: str
     description: str
-    fix_version: Optional[str] = None
+    fix_version: str | None = None
 
 
 @dataclass
@@ -60,9 +61,9 @@ class LUKHASSecurityScanner:
         self.timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
         # Security findings
-        self.static_findings: List[SecurityFinding] = []
-        self.vulnerability_findings: List[VulnerabilityFinding] = []
-        self.secret_findings: List[SecretFinding] = []
+        self.static_findings: list[SecurityFinding] = []
+        self.vulnerability_findings: list[VulnerabilityFinding] = []
+        self.secret_findings: list[SecretFinding] = []
 
         # T4/0.01% standards
         self.max_critical_findings = 0
@@ -236,7 +237,7 @@ class LUKHASSecurityScanner:
 
         return rules_file
 
-    def run_semgrep_scan(self) -> List[SecurityFinding]:
+    def run_semgrep_scan(self) -> list[SecurityFinding]:
         """Run Semgrep static analysis"""
         print("🔍 Running Semgrep static analysis...")
 
@@ -285,7 +286,7 @@ class LUKHASSecurityScanner:
 
         return findings
 
-    def run_bandit_scan(self) -> List[SecurityFinding]:
+    def run_bandit_scan(self) -> list[SecurityFinding]:
         """Run Bandit security linting"""
         print("🔍 Running Bandit security linting...")
 
@@ -331,7 +332,7 @@ class LUKHASSecurityScanner:
 
         return findings
 
-    def run_dependency_scan(self) -> List[VulnerabilityFinding]:
+    def run_dependency_scan(self) -> list[VulnerabilityFinding]:
         """Run dependency vulnerability scanning"""
         print("🔍 Running dependency vulnerability scan...")
 
@@ -368,7 +369,7 @@ class LUKHASSecurityScanner:
 
         return findings
 
-    def run_secrets_scan(self) -> List[SecretFinding]:
+    def run_secrets_scan(self) -> list[SecretFinding]:
         """Run secrets detection scan"""
         print("🔍 Running secrets detection scan...")
 
@@ -425,7 +426,7 @@ class LUKHASSecurityScanner:
 
         return findings
 
-    def generate_security_report(self) -> Dict[str, Any]:
+    def generate_security_report(self) -> dict[str, Any]:
         """Generate comprehensive security report"""
 
         # Count findings by severity
@@ -532,7 +533,7 @@ class LUKHASSecurityScanner:
             pass
         return "unknown"
 
-    def _generate_recommendations(self) -> List[str]:
+    def _generate_recommendations(self) -> list[str]:
         """Generate security recommendations"""
         recommendations = []
 
@@ -550,7 +551,7 @@ class LUKHASSecurityScanner:
 
         return recommendations
 
-    def run_comprehensive_scan(self) -> Dict[str, Any]:
+    def run_comprehensive_scan(self) -> dict[str, Any]:
         """Run comprehensive security scan"""
         print("🚀 Starting LUKHAS comprehensive security scan...")
         print(f"📁 Project: {self.project_root}")

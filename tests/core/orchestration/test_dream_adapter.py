@@ -1,6 +1,6 @@
 """
 ═══════════════════════════════════════════════════════════════════════════════════
-🌌 LUKHAS AI - Dream Engine Adapter Tests  
+🌌 LUKHAS AI - Dream Engine Adapter Tests
 ═══════════════════════════════════════════════════════════════════════════════════
 
 Test Module: test_dream_adapter
@@ -29,7 +29,6 @@ from typing import Any, Dict
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-
 from core.orchestration.brain.unified_integration.adapters.dream_adapter import DreamEngineAdapter
 
 
@@ -141,7 +140,7 @@ class TestDreamEngineAdapterStateManagement(unittest.TestCase):
 
     def test_state_persistence(self):
         """Test state persistence across operations"""
-        original_time = time.time()
+        time.time()
 
         # Update state
         self.adapter._update_state("dreaming", 30)
@@ -379,7 +378,7 @@ class TestDreamEngineAdapterErrorHandling(unittest.TestCase):
         """Test async operation timeout handling"""
         # This tests robustness of async operations
         with patch('asyncio.sleep', side_effect=asyncio.TimeoutError()):
-            try:
+            try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_core_orchestration_test_dream_adapter_py_L381"}
                 # Should handle timeout gracefully
                 await self.adapter.start_dream_cycle(30)
             except asyncio.TimeoutError:
@@ -442,7 +441,7 @@ class TestDreamEngineAdapterPerformance(unittest.TestCase):
         initial_objects = len(gc.get_objects())
 
         # Perform operations
-        for i in range(100):
+        for _i in range(100):
             message = {"content": {"action": "get_dream_state"}}
             with patch.object(self.adapter, '_handle_get_state'):
                 self.adapter.handle_message(message)

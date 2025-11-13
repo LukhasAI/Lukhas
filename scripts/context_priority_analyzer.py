@@ -6,7 +6,7 @@ Analyzes and prioritizes context file updates based on criticality
 
 import json
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 
 class ContextPriorityAnalyzer:
@@ -100,9 +100,9 @@ class ContextPriorityAnalyzer:
     def analyze_update_impact(self, file_path: Path) -> Dict:
         """Analyze the impact of updating a specific file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
-        except:
+        except Exception:
             content = ""
 
         impact = {
@@ -178,7 +178,7 @@ class ContextPriorityAnalyzer:
         else:
             return "LOW"
 
-    def create_update_sequence(self, batches: Dict) -> List[Dict]:
+    def create_update_sequence(self, batches: Dict) -> list[Dict]:
         """Create recommended update sequence"""
         sequence = []
 

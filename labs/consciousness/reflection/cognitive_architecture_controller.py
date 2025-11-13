@@ -50,6 +50,8 @@
 ║ Symbolic Tags: {ΛCOGNITIVE}, {ΛORCHESTRATOR}, {ΛMEMORY}, {ΛATTENTION}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 # Module imports
 import asyncio
 import configparser

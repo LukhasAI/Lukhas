@@ -39,6 +39,8 @@
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 from typing import Any, Optional
 
 from ..systems.emotional_memory_manager import EmotionalModulator

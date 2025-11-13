@@ -1,12 +1,14 @@
 """Unit tests for the QI system orchestrator security handling."""
 
-from types import SimpleNamespace
-from pathlib import Path
 import importlib
-import types
 import sys
+import types
+from pathlib import Path
+from types import SimpleNamespace
+
 
 import pytest
+from typing import Dict
 
 ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:  # pragma: no cover - defensive path setup for pytest
@@ -36,7 +38,7 @@ if "consciousness.qi" not in sys.modules:
     sys.modules["consciousness"].qi = consciousness_qi_module  # type: ignore[attr-defined]
 
 
-def _install_stub_module(name: str, attributes: dict[str, object]) -> None:
+def _install_stub_module(name: str, attributes: Dict[str, object]) -> None:
     if name in sys.modules:  # pragma: no cover - allow real modules to take precedence
         return
 

@@ -62,7 +62,7 @@ class CEvalRunner:
 
     def _execute_task(self, task: dict[str, Any]) -> dict[str, Any]:
         """
-        Stub executor—replace with your real invoke + judge.
+        Stub executor-replace with your real invoke + judge.
         """
         # Deterministic(ish) mock using task_id hash
         seed = int(hashlib.sha1(task["id"].encode()).hexdigest()[:8], 16) ^ int(time.time()) & 0xFFFF

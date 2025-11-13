@@ -4,12 +4,14 @@ LUKHAS Documentation Deduplication Tool
 
 Detects exact and near-duplicate documents and generates a redirect/move plan.
 """
+from __future__ import annotations
 
+import contextlib
 import json
 import re
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict
 
 # Constants
 DOCS_ROOT = Path(__file__).parent.parent / "docs"
@@ -39,7 +41,7 @@ INDEX_FILES = [
 
 def load_manifest() -> Dict:
     """Load the documentation manifest."""
-    with open(MANIFEST_PATH, 'r', encoding='utf-8') as f:
+    with open(MANIFEST_PATH, encoding='utf-8') as f:
         return json.load(f)
 
 
@@ -81,7 +83,7 @@ def read_doc_content(doc_path: str) -> str:
     """Read document content for similarity comparison."""
     try:
         full_path = Path(doc_path)
-        with open(full_path, 'r', encoding='utf-8') as f:
+        with open(full_path, encoding='utf-8') as f:
             return f.read()
     except Exception:
         return ""
@@ -91,7 +93,7 @@ def is_referenced_by_index(doc_path: str) -> bool:
     """Check if document is referenced by any index file."""
     for index_file in INDEX_FILES:
         try:
-            with open(index_file, 'r', encoding='utf-8') as f:
+            with open(index_file, encoding='utf-8') as f:
                 content = f.read()
                 # Check for relative path reference
                 if doc_path.replace('docs/', '') in content:
@@ -101,7 +103,7 @@ def is_referenced_by_index(doc_path: str) -> bool:
     return False
 
 
-def canonical_preference_score(doc: Dict) -> Tuple[int, int, int, str]:
+def canonical_preference_score(doc: Dict) -> tuple[int, int, int, str]:
     """
     Score document for canonical preference.
     Returns tuple: (taxonomy_match, index_ref, fm_richness, -date)
@@ -135,7 +137,7 @@ def canonical_preference_score(doc: Dict) -> Tuple[int, int, int, str]:
     return (taxonomy_score, index_score, fm_score, date_str)
 
 
-def find_near_duplicates(docs: List[Dict], threshold: float = 0.92) -> List[List[Dict]]:
+def find_near_duplicates(docs: list[Dict], threshold: float = 0.92) -> list[list[Dict]]:
     """
     Find near-duplicate documents using MinHash-like approach.
     Returns list of duplicate groups.
@@ -360,7 +362,7 @@ def apply_dedupe_plan():
         print("   Run: python3 scripts/docs_dedupe.py")
         return False
 
-    with open(DEDUPE_PLAN_PATH, 'r', encoding='utf-8') as f:
+    with open(DEDUPE_PLAN_PATH, encoding='utf-8') as f:
         plan = json.load(f)
 
     redirects = plan.get('redirects', [])
@@ -428,10 +430,8 @@ Please update your bookmarks.
         except Exception as e:
             errors.append(f"Failed to create redirect at {from_path}: {e}")
             # Try to restore from archive
-            try:
+            with contextlib.suppress(Exception):
                 shutil.move(str(archive_path), str(from_path))
-            except Exception:
-                pass
             continue
 
     print()

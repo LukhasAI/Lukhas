@@ -19,7 +19,7 @@ required_tools = {
   "audit.export",
 }
 names = {t["name"] for t in cfg.get("tools", [])}
-missing = sorted(list(required_tools - names))
+missing = sorted(required_tools - names)
 if missing:
     print("❌ MCP config missing tools:", json.dumps(missing, indent=2))
     sys.exit(1)

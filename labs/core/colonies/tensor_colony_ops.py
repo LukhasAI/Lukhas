@@ -5,7 +5,6 @@ from __future__ import annotations
 import time
 
 import torch
-
 from core.colonies.base_colony import BaseColony
 from core.symbolism.tags import TagPermission, TagScope
 from tagging import SimpleTagResolver
@@ -108,4 +107,4 @@ class TensorColonyOps:
         return simulate_throughput(colony_vectors, steps)
 
 
-__all__ = ["TensorColonyOps", "tags_to_tensor", "batch_propagate", "colony_reasoning_tensor", "simulate_throughput", "plot_throughput"]
+__all__ = ["TensorColonyOps", "batch_propagate", "colony_reasoning_tensor", "plot_throughput", "simulate_throughput", "tags_to_tensor"]

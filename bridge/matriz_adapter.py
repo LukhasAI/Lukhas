@@ -2,6 +2,7 @@
 MATRIZ Adapter for Bridge Module
 Emits MATRIZ-compliant nodes for external API integration events
 """
+
 import json
 import time
 import uuid
@@ -51,7 +52,9 @@ class BridgeMatrizAdapter:
         return node
 
     @staticmethod
-    def emit_api_call(api_id: str, provider: str, endpoint: str, latency_ms: int, success: bool) -> dict[str, Any]:
+    def emit_api_call(
+        api_id: str, provider: str, endpoint: str, latency_ms: int, success: bool
+    ) -> dict[str, Any]:
         """Emit an external API call event"""
 
         urgency = 0.1 if success else 0.8
@@ -76,7 +79,9 @@ class BridgeMatrizAdapter:
         )
 
     @staticmethod
-    def emit_llm_interaction(llm_id: str, model: str, tokens_used: int, response_quality: float) -> dict[str, Any]:
+    def emit_llm_interaction(
+        llm_id: str, model: str, tokens_used: int, response_quality: float
+    ) -> dict[str, Any]:
         """Emit an LLM interaction event"""
 
         return BridgeMatrizAdapter.create_node(

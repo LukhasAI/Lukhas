@@ -156,6 +156,13 @@ class GuardianAgent:
     operational_since: datetime = field(default_factory=datetime.now)
     restart_count: int = 0
 
+    def __post_init__(self):
+        # Ensure datetimes are timezone-aware after initialization
+        if self.last_heartbeat.tzinfo is None:
+            self.last_heartbeat = self.last_heartbeat.replace(tzinfo=timezone.utc)
+        if self.operational_since.tzinfo is None:
+            self.operational_since = self.operational_since.replace(tzinfo=timezone.utc)
+
     # Constellation Framework integration
     identity_binding: Optional[str] = None  # ⚛️ Identity context
     consciousness_level: str = "standard"  # 🧠 Consciousness level
@@ -250,10 +257,11 @@ class EnhancedGuardianSystem:
         self.monitoring_active = True
         self.monitoring_interval = 1.0  # seconds
 
-        # Initialize system
-        asyncio.create_task(self._initialize_guardian_system())
-
         logger.info("🛡️ Enhanced Guardian System v1.0.0 initialized")
+
+    async def initialize(self):
+        """Asynchronously initialize the guardian system and start background tasks."""
+        await self._initialize_guardian_system()
 
     async def _initialize_guardian_system(self):
         """Initialize the Guardian system with default agents"""
@@ -457,7 +465,7 @@ class EnhancedGuardianSystem:
             for action in actions:
                 result = await self._execute_response_action(action, threat, agent, response)
                 execution_results.append(result)
-                response.audit_trail.append(f"Executed {action.value}: {result['status']}")
+                response.audit_trail.append(f"Executed {action.value}: {'success' if result.get('success') else 'failure'}")
 
             # Evaluate response effectiveness
             response.completed_at = datetime.now(timezone.utc)
@@ -526,7 +534,7 @@ class EnhancedGuardianSystem:
         elif threat_type == "anomaly_detection":
             anomaly_score = threat_data.get("anomaly_score", 0.0)
             base_score = anomaly_score
-            level = ThreatLevel.HIGH if anomaly_score > 0.8 else ThreatLevel.MODERATE
+            level = ThreatLevel.MODERATE # Start with moderate
             indicators.append(f"Anomaly score: {anomaly_score:.3f}")
 
         elif threat_type == "security_breach":
@@ -550,11 +558,18 @@ class EnhancedGuardianSystem:
         # Determine recommended actions
         recommended_actions = []
         if base_score >= 0.8:
+            level = ThreatLevel.CRITICAL if base_score >= 0.9 else ThreatLevel.HIGH
             recommended_actions = [ResponseAction.BLOCK, ResponseAction.ESCALATE]
         elif base_score >= 0.5:
+            level = ThreatLevel.HIGH if base_score >= 0.7 else ThreatLevel.MODERATE
             recommended_actions = [ResponseAction.ALERT, ResponseAction.MONITOR]
         else:
+            level = ThreatLevel.LOW if base_score >= 0.2 else ThreatLevel.MINIMAL
             recommended_actions = [ResponseAction.MONITOR]
+
+        if threat_type == "drift_detection" and base_score > self.drift_threshold:
+             recommended_actions = [ResponseAction.ALERT, ResponseAction.MONITOR]
+
 
         return {
             "level": level,
@@ -613,7 +628,8 @@ class EnhancedGuardianSystem:
             result["execution_time"] = execution_time
 
             # Record resource usage
-            response.resource_usage[action.value] = {
+            action_key = action.value if isinstance(action, Enum) else action
+            response.resource_usage[action_key] = {
                 "cpu_time": execution_time,
                 "memory_used": 0,  # Would be measured in real implementation
                 "network_calls": result.get("network_calls", 0),
@@ -849,6 +865,36 @@ class EnhancedGuardianSystem:
                 best_agent = agent
 
         return best_agent
+
+    async def _trigger_automated_response(self, detection: ThreatDetection):
+        """Placeholder for triggering automated response"""
+        logger.info(f"Automated response triggered for {detection.detection_id}")
+        # This would contain logic to initiate a response flow
+        pass
+
+    async def _capture_system_state(self) -> dict:
+        """Placeholder for capturing the system state."""
+        return {"cpu_load": 0.5, "memory_usage": "high"}
+
+    async def _analyze_identity_impact(self, threat_data: dict, context: dict) -> str:
+        """Placeholder for analyzing identity impact."""
+        return "high"
+
+    async def _analyze_consciousness_impact(self, threat_data: dict, context: dict) -> str:
+        """Placeholder for analyzing consciousness impact."""
+        return "medium"
+
+    async def _determine_guardian_priority(self, detection: ThreatDetection) -> str:
+        """Placeholder for determining guardian priority."""
+        return "critical"
+
+    async def _validate_agent_config(self, agent: GuardianAgent) -> bool:
+        """Placeholder for validating agent config."""
+        return True
+
+    async def _initialize_agent_handlers(self, agent: GuardianAgent):
+        """Placeholder for initializing agent handlers."""
+        pass
 
     async def _monitoring_loop(self):
         """Main monitoring loop for threat detection"""

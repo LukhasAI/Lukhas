@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 @dataclass
@@ -12,14 +12,14 @@ class JobStatus:
     state: str
     trace_id: str
     created_ts: float
-    started_ts: Optional[float] = None
-    finished_ts: Optional[float] = None
+    started_ts: float | None = None
+    finished_ts: float | None = None
     budget_tokens: int = 0
     budget_seconds: float = 0.0
     progress: float = 0.0
-    seed: Dict[str, Any] = field(default_factory=dict)
+    seed: dict[str, Any] = field(default_factory=dict)
 
-    def model_dump(self) -> Dict[str, Any]:
+    def model_dump(self) -> dict[str, Any]:
         return {
             "job_id": self.job_id,
             "state": self.state,
@@ -34,12 +34,12 @@ class JobStatus:
 
 class SimulationScheduler:
     def __init__(self) -> None:
-        self._jobs: Dict[str, JobStatus] = {}
-        self._events: Dict[str, asyncio.Event] = {}
+        self._jobs: dict[str, JobStatus] = {}
+        self._events: dict[str, asyncio.Event] = {}
         self._queue: asyncio.Queue[str] = asyncio.Queue()
-        self._runner_task: Optional[asyncio.Task] = None
+        self._runner_task: asyncio.Task | None = None
 
-    async def enqueue(self, job_id: str, seed: Dict[str, Any], trace_id: str) -> None:
+    async def enqueue(self, job_id: str, seed: dict[str, Any], trace_id: str) -> None:
         budgets = seed.get("constraints", {}).get("budgets", {})
         js = JobStatus(
             job_id=job_id,
@@ -56,7 +56,7 @@ class SimulationScheduler:
         if not self._runner_task or self._runner_task.done():
             self._runner_task = asyncio.create_task(self._runner())
 
-    def get(self, job_id: str) -> Optional[JobStatus]:
+    def get(self, job_id: str) -> JobStatus | None:
         return self._jobs.get(job_id)
 
     async def wait(self, job_id: str) -> None:

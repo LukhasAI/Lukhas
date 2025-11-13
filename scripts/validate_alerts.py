@@ -12,7 +12,6 @@ import logging
 import re
 import sys
 from pathlib import Path
-from typing import Set
 
 import yaml
 
@@ -74,7 +73,7 @@ class PrometheusAlertValidator:
             'coverage_percentage': 0.0
         }
 
-    def extract_metrics_from_promql(self, expr: str) -> Set[str]:
+    def extract_metrics_from_promql(self, expr: str) -> set[str]:
         """Extract metric names from PromQL expression"""
         metric_pattern = r'([a-zA-Z_][a-zA-Z0-9_]*)\s*[\{\(]?'
         metrics = set()
@@ -113,7 +112,7 @@ class PrometheusAlertValidator:
     def validate_yaml_alert_file(self, alert_file: Path) -> bool:
         """Validate a Prometheus YAML alert file"""
         try:
-            with open(alert_file, 'r') as f:
+            with open(alert_file) as f:
                 content = yaml.safe_load(f)
 
             logger.info(f"✅ {alert_file.name}: Valid YAML structure")

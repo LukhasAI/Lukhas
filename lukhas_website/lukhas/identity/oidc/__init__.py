@@ -13,8 +13,8 @@ from .provider import OIDCProvider
 from .tokens import OIDCTokenManager
 
 __all__ = [
-    "OIDCProvider",
     "ClientRegistry",
-    "OIDCTokenManager",
-    "DiscoveryDocument"
+    "DiscoveryDocument",
+    "OIDCProvider",
+    "OIDCTokenManager"
 ]

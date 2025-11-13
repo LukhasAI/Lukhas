@@ -81,4 +81,4 @@ class SymbolicShellArchiver:
 # Alias for backward compatibility
 Archiver = SymbolicShellArchiver
 
-__all__ = ["SymbolicShellArchiver", "Archiver"]
+__all__ = ["Archiver", "SymbolicShellArchiver"]

@@ -20,7 +20,7 @@ from typing import Any, Optional, Protocol
 
 from pydantic import BaseModel, Field
 
-# ——— Configuration & Utilities —————————————————————————————— #
+# --- Configuration & Utilities ------------------------------ #
 
 
 class ComplianceStatus(Enum):
@@ -84,7 +84,7 @@ def structured_log(event: str, payload: dict, level: str = "INFO"):
     getattr(logger, level.lower())(json.dumps(record))
 
 
-# ——— Core DAST Awareness Interfaces ————————————————————————————— #
+# --- Core DAST Awareness Interfaces ----------------------------- #
 
 
 class AwarenessInput(BaseModel):
@@ -231,7 +231,7 @@ class AwarenessModule(ABC):
         return risk_factors
 
 
-# ——— DAST Environmental Awareness Module ——————————————————————— #
+# --- DAST Environmental Awareness Module ----------------------- #
 
 
 class EnvironmentalAwarenessInput(AwarenessInput):
@@ -445,7 +445,7 @@ class EnvironmentalAwarenessModule(AwarenessModule):
         return max(0.0, min(base_score, 100.0))
 
 
-# ——— DAST Cognitive Awareness Module ——————————————————————————— #
+# --- DAST Cognitive Awareness Module --------------------------- #
 
 
 class CognitiveAwarenessInput(AwarenessInput):
@@ -566,7 +566,7 @@ class CognitiveAwarenessModule(AwarenessModule):
         return recommendations
 
 
-# ——— DAST Awareness Engine Orchestrator ———————————————————————— #
+# --- DAST Awareness Engine Orchestrator ------------------------ #
 
 
 class DastAwarenessEngine:
@@ -628,7 +628,7 @@ class DastAwarenessEngine:
         }
 
 
-# ——— Example Usage & Testing ————————————————————————————————— #
+# --- Example Usage & Testing --------------------------------- #
 
 
 if __name__ == "__main__":

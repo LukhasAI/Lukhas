@@ -7,9 +7,13 @@ Identifies duplicate and conflicting code patterns for cleanup.
 
 import ast
 import hashlib
+import logging
 import os
 from collections import defaultdict
 from pathlib import Path
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 class DuplicateCodeAnalyzer:
@@ -137,7 +141,8 @@ class DuplicateCodeAnalyzer:
             # Simple hash based on AST dump
             dump = ast.dump(node)
             return hashlib.md5(dump.encode()).hexdigest()[:8]
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             return "unknown"
 
     def _get_name(self, node) -> str:

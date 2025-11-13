@@ -22,7 +22,6 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 import pytest
-
 from memory.lifecycle import (
     ArchivalTier,
     FileArchivalBackend,
@@ -108,7 +107,7 @@ class MockVectorStore:
         self.documents[document.id] = document
         return True
 
-    async def list_expired_documents(self, cutoff_time: datetime, limit: int) -> list[VectorDocument]:
+    async def list_expired_documents(self, cutoff_time: datetime, limit: int) -> List[VectorDocument]:
         """List documents that have expired"""
         expired = []
         for doc in self.documents.values():
@@ -118,7 +117,7 @@ class MockVectorStore:
                     break
         return expired
 
-    async def list_by_identity(self, identity_id: str, limit: int) -> list[VectorDocument]:
+    async def list_by_identity(self, identity_id: str, limit: int) -> List[VectorDocument]:
         """List documents by identity"""
         matching = [
             doc for doc in self.documents.values()
@@ -396,7 +395,7 @@ class TestGDPRTombstones:
         assert len(audit_files) > 0
 
         # Check audit event content
-        with open(audit_files[0], 'r', encoding='utf-8') as f:
+        with open(audit_files[0], encoding='utf-8') as f:
             audit_event = json.loads(f.read().strip())
 
         assert audit_event["event_type"] == "tombstone_created"
@@ -558,7 +557,7 @@ class TestAuditEventGeneration:
         audit_files = list(artifacts_path.glob("memory_validation_*.json"))
         assert len(audit_files) > 0
 
-        with open(audit_files[0], 'r', encoding='utf-8') as f:
+        with open(audit_files[0], encoding='utf-8') as f:
             audit_event = json.loads(f.read().strip())
 
         # Validate audit event structure
@@ -601,7 +600,7 @@ class TestAuditEventGeneration:
         assert len(audit_files) > 0
 
         # Count events in file
-        with open(audit_files[0], 'r', encoding='utf-8') as f:
+        with open(audit_files[0], encoding='utf-8') as f:
             content = f.read().strip()
             events = [json.loads(line) for line in content.split('\n') if line.strip()]
 

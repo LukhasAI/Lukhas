@@ -14,6 +14,8 @@
 ║ Initialization for awareness components.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import logging
 
 import streamlit as st

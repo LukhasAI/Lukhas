@@ -15,7 +15,7 @@ import json
 import logging
 import os
 import time
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Optional
 
 try:
     import jsonschema
@@ -88,10 +88,10 @@ LLM_GUARDRAIL_LATENCY = _histogram(
 
 def call_llm(
     prompt: str,
-    schema: Dict[str, Any],
-    llm: Optional[Callable[[str], Dict[str, Any]]] = None,
+    schema: dict[str, Any],
+    llm: Optional[Callable[[str], dict[str, Any]]] = None,
     **kwargs
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Safe LLM call with JSON schema validation.
 
@@ -152,7 +152,7 @@ def call_llm(
         LLM_GUARDRAIL_LATENCY.labels(lane=lane).observe(duration)
 
 
-def _schema_fingerprint(schema: Dict[str, Any]) -> str:
+def _schema_fingerprint(schema: dict[str, Any]) -> str:
     """Create a stable fingerprint for schema metrics."""
     # Simple hash to avoid cardinality explosion
     schema_str = json.dumps(schema, sort_keys=True)
@@ -160,7 +160,7 @@ def _schema_fingerprint(schema: Dict[str, Any]) -> str:
 
 
 # Health check function
-def guardrail_health() -> Dict[str, Any]:
+def guardrail_health() -> dict[str, Any]:
     """Return guardrail health status."""
     return {
         "enabled": os.getenv("ENABLE_LLM_GUARDRAIL", "0") == "1",

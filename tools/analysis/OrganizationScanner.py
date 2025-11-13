@@ -89,7 +89,7 @@ class OrganizationScanner:
             relative_path = md_file.relative_to(self.workspace_root)
 
             # Check if .md file is in core directories (suspicious)
-            if "/core/" in str(relative_path) and md_file.name not in [
+            if "/core/" in str(relative_path) and md_file.name not in [  # TODO[T4-ISSUE]: {"code":"SIM102","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Nested if statements - can be collapsed with 'and' operator","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tools_analysis_OrganizationScanner_py_L92"}
                 "README.md",
                 "ARCHITECTURE.md",
                 "API.md",
@@ -148,16 +148,15 @@ class OrganizationScanner:
             relative_path = str(file_path.relative_to(self.workspace_root))
 
             for pattern, expected_category in suspicious_patterns:
-                if re.search(pattern, file_path.name, re.IGNORECASE):
-                    if expected_category not in relative_path:
-                        self.issues["orphaned_files"].append(
-                            {
-                                "file": relative_path,
-                                "current_location": str(file_path.parent.relative_to(self.workspace_root)),
-                                "suggested_category": expected_category,
-                                "reason": f"Matches pattern: {pattern}",
-                            }
-                        )
+                if re.search(pattern, file_path.name, re.IGNORECASE) and expected_category not in relative_path:
+                    self.issues["orphaned_files"].append(
+                        {
+                            "file": relative_path,
+                            "current_location": str(file_path.parent.relative_to(self.workspace_root)),
+                            "suggested_category": expected_category,
+                            "reason": f"Matches pattern: {pattern}",
+                        }
+                    )
 
     def _pascal_to_snake(self, name: str) -> str:
         """Convert PascalCase to snake_case"""
@@ -268,7 +267,7 @@ class OrganizationScanner:
 ## ✅ COMPLETION STATUS
 
 **Organization Scan:** Complete
-**Issues Identified:** {sum(len(v) if isinstance(v, list) else len(v) for v in self.issues.values())}
+**Issues Identified:** {sum(len(v) for v in self.issues.values())}
 **Ready for:** Manual fixes and automated cleanup
 
 """
@@ -318,7 +317,7 @@ def main():
     print(f"📋 Report: {report_path}")
 
     # Print summary
-    total_issues = sum(len(v) if isinstance(v, list) else len(v) for v in scanner.issues.values())
+    total_issues = sum(len(v) for v in scanner.issues.values())
     print(f"🔍 Total Issues Found: {total_issues}")
 
 

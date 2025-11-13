@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict import to native dict type in MCP server
+# estimate: 5min | priority: medium | dependencies: none
+
 #!/usr/bin/env python3
 """
 Official MCP-compliant server for LUKHAS AI Platform.
@@ -9,7 +13,7 @@ import logging
 import os
 import time
 import uuid
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import uvicorn
 from starlette.applications import Starlette
@@ -159,7 +163,7 @@ class MCPServer:
             }
         }
 
-    async def list_directory_tool(self, path: str) -> Dict[str, Any]:
+    async def list_directory_tool(self, path: str) -> dict[str, Any]:
         """List files and directories in the given path."""
         try:
             # Security: Only allow paths under allowed roots
@@ -183,7 +187,7 @@ class MCPServer:
         except Exception as e:
             return {"error": str(e)}
 
-    async def read_file_tool(self, path: str, max_lines: int = 100) -> Dict[str, Any]:
+    async def read_file_tool(self, path: str, max_lines: int = 100) -> dict[str, Any]:
         """Read the contents of a text file."""
         try:
             # Security: Only allow paths under allowed roots
@@ -197,7 +201,7 @@ class MCPServer:
             if not os.path.isfile(path):
                 return {"error": "Path is not a file"}
 
-            with open(path, 'r', encoding='utf-8') as f:
+            with open(path, encoding='utf-8') as f:
                 lines = f.readlines()[:max_lines]
 
             return {

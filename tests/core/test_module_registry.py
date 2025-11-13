@@ -23,7 +23,6 @@ from datetime import datetime, timezone
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
-
 from core.module_registry import (
     ModuleAccessError,
     ModuleAuditLogger,
@@ -119,7 +118,7 @@ class TestModuleRegistry:
     def test_module_deregistration(self, registry, sample_module_info):
         """Test module deregistration."""
         # Register and then deregister
-        registration_id = registry.register_module(sample_module_info)
+        registry.register_module(sample_module_info)
         assert registry.is_module_registered("test_module") is True
 
         # Deregister

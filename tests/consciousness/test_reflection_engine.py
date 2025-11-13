@@ -15,7 +15,7 @@ import asyncio
 import os
 import statistics
 import time
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 from unittest.mock import patch
 
 import pytest
@@ -36,7 +36,7 @@ from consciousness.systems.state import ConsciousnessState
 class MockContextProvider:
     """Mock context provider for testing"""
 
-    def __init__(self, context_data: Dict[str, Any] = None, should_fail: bool = False):
+    def __init__(self, context_data: Optional[Dict[str, Any]] = None, should_fail: bool = False):
         self.context_data = context_data or {"test": "context"}
         self.should_fail = should_fail
 
@@ -545,7 +545,7 @@ class TestReflectionEnginePerformance:
                 await state.initialize()
 
                 latencies = []
-                for i in range(iterations):
+                for _i in range(iterations):
                     start = time.perf_counter()
                     await engine.reflect(state)
                     latency = (time.perf_counter() - start) * 1000

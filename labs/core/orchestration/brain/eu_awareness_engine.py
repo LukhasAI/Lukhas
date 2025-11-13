@@ -33,7 +33,7 @@ from typing import Any, Optional, Protocol
 
 from pydantic import BaseModel, Field, validator
 
-# ——— EU Regulatory Compliance Framework ——————————————————————— #
+# --- EU Regulatory Compliance Framework ----------------------- #
 
 
 class GDPRLegalBasis(Enum):
@@ -170,7 +170,7 @@ def structured_audit_log(
     getattr(logger, level.lower())(json.dumps(record))
 
 
-# ——— GDPR-Compliant Data Models ——————————————————————————————— #
+# --- GDPR-Compliant Data Models ------------------------------- #
 
 
 class ConsentData(BaseModel):
@@ -275,7 +275,7 @@ class EUAwarenessOutput(BaseModel):
     quality_metrics: dict[str, float] = Field(default_factory=dict)
 
 
-# ——— EU-Compliant Reasoner Protocol ——————————————————————————— #
+# --- EU-Compliant Reasoner Protocol --------------------------- #
 
 
 class EUReasoner(Protocol):
@@ -298,7 +298,7 @@ class EUReasoner(Protocol):
         ...
 
 
-# ——— EU Awareness Module Base Class ————————————————————————— #
+# --- EU Awareness Module Base Class ------------------------- #
 
 
 class EUAwarenessModule(ABC):
@@ -578,7 +578,7 @@ class EUAwarenessModule(ABC):
         )
 
 
-# ——— EU Environmental Awareness Module ——————————————————————— #
+# --- EU Environmental Awareness Module ----------------------- #
 
 
 class EUEnvironmentalReasoner:
@@ -663,7 +663,7 @@ class EUEnvironmentalAwarenessModule(EUAwarenessModule):
         return recommendations
 
 
-# ——— EU Awareness Engine Orchestrator ——————————————————————— #
+# --- EU Awareness Engine Orchestrator ----------------------- #
 
 
 class EUAwarenessEngine:
@@ -858,7 +858,7 @@ class EUAwarenessEngine:
         }
 
 
-# ——— Example Usage & EU Compliance Testing ——————————————————— #
+# --- Example Usage & EU Compliance Testing ------------------- #
 
 
 if __name__ == "__main__":

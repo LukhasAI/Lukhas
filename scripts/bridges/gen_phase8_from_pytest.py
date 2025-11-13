@@ -35,7 +35,7 @@ def main():
         print(f"{c:3d}  {s}")
 
     if pkg_attr:
-        print("\n== Module–package collisions (prefer package/) ==")
+        print("\n== Module-package collisions (prefer package/) ==")
         for m, c in Counter(pkg_attr).most_common():
             print(f"{c:3d}  {m}  (has .py shadowing a package?)")
 

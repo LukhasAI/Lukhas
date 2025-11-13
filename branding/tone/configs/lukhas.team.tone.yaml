@@ -1,0 +1,32 @@
+# LUKHAS.TEAM Tone Configuration
+# Collaborative Hub for Teams
+
+domain: lukhas.team
+role: team_collaboration
+priority: medium
+status: active
+
+tone_distribution:
+  user_friendly: 0.50
+  academic: 0.35
+  poetic: 0.15
+
+vocabulary_emphasis:
+  woven_patterns: 0.25
+  harmonic_resonance: 0.20
+  architectural_bridges: 0.18
+  neural_gardens: 0.15
+  circuit_patterns: 0.10
+  fluid_dynamics: 0.07
+  geological_strata: 0.03
+  prismatic_light: 0.02
+
+constellation_stars:
+  primary: [guardian, memory, identity]
+  secondary: [ethics, bio, vision]
+
+messaging:
+  brand_positioning: "Teams that think together—collective intelligence powered by LUKHAS"
+
+version: "1.0"
+created: "2025-11-06"

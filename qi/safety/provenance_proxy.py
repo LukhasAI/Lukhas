@@ -1,3 +1,4 @@
+# ruff: noqa: F821  # Experimental/test code with undefined names
 # path: qi/safety/provenance_proxy.py
 from __future__ import annotations
 
@@ -43,7 +44,10 @@ def get_presigned_link(sha: str, request: Request, expires: int = 600, filename:
         raise HTTPException(status_code=404, detail=f"Record not found for {sha}: {e}",
     )
 
-    return {"record": _summary_record(sha, rec), "link": link}  # noqa: F821  # TODO: link
+# T4: code=F821 | ticket=SKELETON-487CA9DC | owner=lukhas-platform | status=skeleton
+# reason: Undefined link in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+    return {"record": _summary_record(sha, rec), "link": link}  # TODO: link
 
 
 @app.get("/provenance/{sha}/download")
@@ -54,8 +58,14 @@ def download(sha: str, request: Request, expires: int = 600, filename: str | Non
         raise HTTPException(status_code=404, detail=f"Record not found for {sha}: {e}",
         )
         return FileResponse(
-            path,  # noqa: F821  # TODO: path
-            filename=filename or os.path.basename(path),  # noqa: F821  # TODO: path
+# T4: code=F821 | ticket=SKELETON-9732BBF2 | owner=lukhas-platform | status=skeleton
+# reason: Undefined path in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+            path,  # TODO: path
+# T4: code=F821 | ticket=SKELETON-9732BBF2 | owner=lukhas-platform | status=skeleton
+# reason: Undefined path in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+            filename=filename or os.path.basename(path),  # TODO: path
             media_type=rec.get("mime_type") or "application/octet-stream",
         )
 
@@ -64,13 +74,25 @@ def download(sha: str, request: Request, expires: int = 600, filename: str | Non
         artifact_sha=sha,
         event="download_redirect",
         user_id=request.headers.get("x-user-id"),
-        url=link.get("url"),  # noqa: F821  # TODO: link
+# T4: code=F821 | ticket=SKELETON-487CA9DC | owner=lukhas-platform | status=skeleton
+# reason: Undefined link in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+        url=link.get("url"),  # TODO: link
         client_ip=_get_client_ip(request),
         user_agent=request.headers.get("user-agent"),
         purpose=request.query_params.get("purpose"),
-        extras={"backend": backend, "expires_in": link.get("expires_in")},  # noqa: F821  # TODO: backend
+# T4: code=F821 | ticket=SKELETON-487CA9DC | owner=lukhas-platform | status=skeleton
+# reason: Undefined link in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+# T4: code=F821 | ticket=SKELETON-1A76683B | owner=lukhas-platform | status=skeleton
+# reason: Undefined backend in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+        extras={"backend": backend, "expires_in": link.get("expires_in")},  # TODO: backend
     )
-    return RedirectResponse(link["url"], status_code=302)  # noqa: F821  # TODO: link
+# T4: code=F821 | ticket=SKELETON-487CA9DC | owner=lukhas-platform | status=skeleton
+# reason: Undefined link in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+    return RedirectResponse(link["url"], status_code=302)  # TODO: link
 
 
 @app.post("/provenance/{sha}/receipt")

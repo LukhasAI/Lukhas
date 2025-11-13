@@ -16,7 +16,7 @@ import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Optional
 
 
 class GuardianComplianceValidator:
@@ -31,7 +31,7 @@ class GuardianComplianceValidator:
     - GDPR/CCPA compliance readiness
     """
 
-    def __init__(self, lukhas_root: str = None):
+    def __init__(self, lukhas_root: Optional[str] = None):
         self.lukhas_root = Path(lukhas_root) if lukhas_root else Path.cwd()
         self.validation_start = datetime.now(timezone.utc)
         self.drift_threshold = 0.15  # Guardian System drift detection threshold
@@ -358,7 +358,7 @@ class GuardianComplianceValidator:
         except Exception:
             return False
 
-    def _is_guardian_compliant(self, results: Dict[str, Any]) -> bool:
+    def _is_guardian_compliant(self, results: dict[str, Any]) -> bool:
         """Check if Guardian System is compliant."""
         guardian = results["guardian"]
         return (

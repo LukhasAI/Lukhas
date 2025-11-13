@@ -7,10 +7,11 @@ import json
 import os
 from typing import Any
 
-_ORIG_OPEN = builtins.open
-
 from qi.metrics.calibration import apply_calibration, load_params
 from qi.safety.constants import MAX_THRESHOLD_SHIFT
+
+_ORIG_OPEN = builtins.open
+
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 COUPLER_STATE = os.path.join(STATE, "teq_coupler.json")
@@ -60,7 +61,7 @@ def calibrated_gate(
                 adjustments = json.load(f)
                 if task and task in adjustments:
                     feedback_shift = adjustments[task].get("threshold_delta", 0.0)
-    except:
+    except (FileNotFoundError, json.JSONDecodeError, KeyError):
         pass
 
     # Combine temperature-based and feedback-based shifts (bounded)

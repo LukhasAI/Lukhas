@@ -9,11 +9,12 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+from typing import Optional
 
 
 class AutoLintFixer:
 
-    def __init__(self, project_root: Path = None):
+    def __init__(self, project_root: Optional[Path] = None):
         self.project_root = project_root or Path.cwd()
         self.issues_fixed = []
         self.issues_remaining = []
@@ -34,7 +35,7 @@ class AutoLintFixer:
         dirs = ["lukhas", "bridge", "core", "serve", "tests"]
         for dir_name in dirs:
             if (self.project_root / dir_name).exists():
-                code, out, err = self.run_command(
+                code, _out, err = self.run_command(
                     ["black", "--line-length", "79", dir_name]
                 )
                 if code == 0:
@@ -57,7 +58,7 @@ class AutoLintFixer:
         dirs = ["lukhas", "bridge", "core", "serve", "tests"]
         for dir_name in dirs:
             if (self.project_root / dir_name).exists():
-                code, out, err = self.run_command(
+                code, _out, _err = self.run_command(
                     [
                         "isort",
                         "--profile",
@@ -76,7 +77,7 @@ class AutoLintFixer:
         dirs = ["lukhas", "bridge", "core", "serve"]
         for dir_name in dirs:
             if (self.project_root / dir_name).exists():
-                code, out, err = self.run_command(
+                code, _out, _err = self.run_command(
                     [
                         "autoflake",
                         "--in-place",
@@ -111,7 +112,7 @@ class AutoLintFixer:
             self.issues_remaining.append(f"Flake8 issues remain: {out}")
 
         # Run mypy to check types
-        code, out, err = self.run_command(["mypy", "--ignore-missing-imports", "."])
+        code, out, _err = self.run_command(["mypy", "--ignore-missing-imports", "."])
 
         if code != 0:
             self.issues_remaining.append(f"Type issues remain: {out}")

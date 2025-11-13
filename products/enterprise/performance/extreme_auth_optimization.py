@@ -187,7 +187,7 @@ def get_auth_performance_integration_status() -> dict[str, Any]:
     return _resolver.get_integration_status()
 
 # Export resolver for advanced usage
-__all__ = ["get_auth_performance_integration_status", "_resolver"]
+__all__ = ["_resolver", "get_auth_performance_integration_status"]
 
 # Agent integration verification
 if __name__ == "__main__":

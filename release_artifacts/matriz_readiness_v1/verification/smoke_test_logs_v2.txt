@@ -1,0 +1,12 @@
+
+==================================== ERRORS ====================================
+_________________ ERROR collecting tests/api/test_main_api.py __________________
+E   ModuleNotFoundError: No module named 'httpx'
+
+During handling of the above exception, another exception occurred:
+E   RuntimeError: The starlette.testclient module requires the httpx package to be installed.
+    You can install this with:
+        $ pip install httpx
+=========================== short test summary info ============================
+ERROR tests/api/test_main_api.py - RuntimeError: The starlette.testclient mod...
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!

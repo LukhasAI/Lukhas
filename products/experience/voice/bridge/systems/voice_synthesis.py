@@ -13,7 +13,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import requests
-
 from core.common import get_logger
 
 """

@@ -12,7 +12,7 @@ import json
 import pathlib
 import sys
 from collections import defaultdict
-from typing import Any, Dict, List, Set
+from typing import Any
 
 
 class ImportVisitor(ast.NodeVisitor):
@@ -44,10 +44,10 @@ class ImportVisitor(ast.NodeVisitor):
                 })
 
 
-def extract_imports_from_file(file_path: pathlib.Path) -> List[Dict[str, Any]]:
+def extract_imports_from_file(file_path: pathlib.Path) -> list[dict[str, Any]]:
     """Extract import statements from a Python file."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
 
         tree = ast.parse(content, filename=str(file_path))
@@ -59,7 +59,7 @@ def extract_imports_from_file(file_path: pathlib.Path) -> List[Dict[str, Any]]:
         return []
 
 
-def find_python_files(root_path: pathlib.Path) -> List[pathlib.Path]:
+def find_python_files(root_path: pathlib.Path) -> list[pathlib.Path]:
     """Find all Python files in the codebase."""
     python_files = []
 
@@ -85,7 +85,7 @@ def find_python_files(root_path: pathlib.Path) -> List[pathlib.Path]:
     return python_files
 
 
-def detect_bad_root_imports(imports: List[Dict[str, Any]], file_path: str) -> List[Dict[str, Any]]:
+def detect_bad_root_imports(imports: list[dict[str, Any]], file_path: str) -> list[dict[str, Any]]:
     """Detect problematic root import patterns."""
     bad_imports = []
 
@@ -114,7 +114,7 @@ def detect_bad_root_imports(imports: List[Dict[str, Any]], file_path: str) -> Li
     return bad_imports
 
 
-def build_dependency_graph(imports_by_file: Dict[str, List[Dict[str, Any]]]) -> Dict[str, Set[str]]:
+def build_dependency_graph(imports_by_file: dict[str, list[dict[str, Any]]]) -> dict[str, set[str]]:
     """Build module dependency graph."""
     graph = defaultdict(set)
 
@@ -137,7 +137,7 @@ def build_dependency_graph(imports_by_file: Dict[str, List[Dict[str, Any]]]) -> 
     return graph
 
 
-def detect_circular_imports(graph: Dict[str, Set[str]]) -> List[List[str]]:
+def detect_circular_imports(graph: dict[str, set[str]]) -> list[list[str]]:
     """Detect circular import dependencies using DFS."""
     visited = set()
     rec_stack = set()
@@ -147,7 +147,7 @@ def detect_circular_imports(graph: Dict[str, Set[str]]) -> List[List[str]]:
         if node in rec_stack:
             # Found a cycle
             cycle_start = path.index(node)
-            cycle = path[cycle_start:] + [node]
+            cycle = [*path[cycle_start:], node]
             cycles.append(cycle)
             return
 
@@ -158,7 +158,7 @@ def detect_circular_imports(graph: Dict[str, Set[str]]) -> List[List[str]]:
         rec_stack.add(node)
 
         for neighbor in graph.get(node, set()):
-            dfs(neighbor, path + [node])
+            dfs(neighbor, [*path, node])
 
         rec_stack.remove(node)
 
@@ -169,7 +169,7 @@ def detect_circular_imports(graph: Dict[str, Set[str]]) -> List[List[str]]:
     return cycles
 
 
-def analyze_imports(root_path: pathlib.Path) -> Dict[str, Any]:
+def analyze_imports(root_path: pathlib.Path) -> dict[str, Any]:
     """Perform comprehensive import analysis."""
     python_files = find_python_files(root_path)
 
@@ -192,7 +192,7 @@ def analyze_imports(root_path: pathlib.Path) -> Dict[str, Any]:
 
     # Summary statistics
     total_files = len(python_files)
-    files_with_bad_imports = len(set(imp['file'] for imp in all_bad_imports))
+    files_with_bad_imports = len({imp['file'] for imp in all_bad_imports})
     total_bad_imports = len(all_bad_imports)
 
     return {

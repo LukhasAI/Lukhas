@@ -12,7 +12,7 @@ Usage:
 import json
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 
 @dataclass
@@ -24,7 +24,7 @@ class LaneMetric:
     throughput: float
     user_satisfaction: float
 
-def generate_mock_lane_data() -> Dict[str, LaneMetric]:
+def generate_mock_lane_data() -> dict[str, LaneMetric]:
     """Generate mock lane comparison data"""
 
     # Simulate realistic metrics with small variations
@@ -67,7 +67,7 @@ def calculate_delta_percentage(control_value: float, candidate_value: float, low
     # For metrics where higher is better (throughput, satisfaction), positive delta is good
     return delta
 
-def generate_ab_lane_report() -> Dict[str, Any]:
+def generate_ab_lane_report() -> dict[str, Any]:
     """Generate comprehensive A/B lane comparison report"""
 
     print("📊 A/B LANE COMPARISON REPORT")

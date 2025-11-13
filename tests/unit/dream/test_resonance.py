@@ -81,7 +81,7 @@ class TestResonanceField:
             result = field.apply(current_emotion)
 
             # Values must always be in valid range
-            for key, value in result.items():
+            for _key, value in result.items():
                 assert 0.0 <= value <= 1.0
 
             current_emotion = result

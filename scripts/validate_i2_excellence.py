@@ -26,7 +26,7 @@ import statistics
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Import validation components
 try:
@@ -35,7 +35,7 @@ try:
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
     from governance.guardian_system import GuardianSystem
-    from identity.biometrics import (  # noqa: F401  # TODO: identity.biometrics.Bio...
+    from identity.biometrics import (  # TODO: identity.biometrics.Bio...
         BiometricModality,
         create_mock_biometric_provider,
     )
@@ -91,7 +91,7 @@ class T4ExcellenceValidator:
             "excellence_verdict": {}
         }
 
-    async def run_comprehensive_validation(self) -> Dict[str, Any]:
+    async def run_comprehensive_validation(self) -> dict[str, Any]:
         """Run comprehensive T4/0.01% excellence validation."""
         print("🚀 Starting I.2 T4/0.01% Excellence Validation")
         print(f"📊 Validation ID: {self.validation_id}")
@@ -135,7 +135,7 @@ class T4ExcellenceValidator:
             print("✅ Validation completed successfully")
 
         except Exception as e:
-            print(f"❌ Validation failed: {str(e)}")
+            print(f"❌ Validation failed: {e!s}")
             self.results["validation_error"] = str(e)
 
         return self.results
@@ -211,7 +211,7 @@ class T4ExcellenceValidator:
 
         self.results["performance_validation"] = performance_results
 
-    async def _measure_tier_performance(self, tier: str, runs: int) -> List[float]:
+    async def _measure_tier_performance(self, tier: str, runs: int) -> list[float]:
         """Measure performance for a specific tier."""
         latencies = []
 
@@ -333,8 +333,8 @@ class T4ExcellenceValidator:
         identifier = "test_ip_rate_limit"
         rate_limit_results = []
 
-        for i in range(15):  # Exceed typical rate limit
-            action, reason = await self.security_manager.check_rate_limit(identifier, "authentication")
+        for _i in range(15):  # Exceed typical rate limit
+            action, _reason = await self.security_manager.check_rate_limit(identifier, "authentication")
             rate_limit_results.append(action.value)
 
         # Should have some throttling or blocking
@@ -543,7 +543,7 @@ class T4ExcellenceValidator:
             print(f"      📊 Overall score: {score:.1f}%")
             print("      🚫 Production deployment not recommended")
 
-    def _percentile(self, data: List[float], percentile: float) -> float:
+    def _percentile(self, data: list[float], percentile: float) -> float:
         """Calculate percentile of dataset."""
         if not data:
             return 0.0

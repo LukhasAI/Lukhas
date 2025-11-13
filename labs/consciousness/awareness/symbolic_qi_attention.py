@@ -15,7 +15,6 @@ import logging
 from typing import Any, Optional
 
 import numpy as np
-
 from bio.core import BioOrchestrator, ResourcePriority
 
 # TODO: Re-enable when qi_attention is properly implemented

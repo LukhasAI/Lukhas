@@ -250,7 +250,7 @@ def span_validator():
         """Utility class for validating spans."""
 
         @staticmethod
-        def validate_authz_span(span: CapturedSpan, expected_attrs: Dict[str, Any] = None) -> bool:
+        def validate_authz_span(span: CapturedSpan, expected_attrs: Optional[Dict[str, Any]] = None) -> bool:
             """Validate an authorization span has required attributes."""
             required_attrs = [
                 "subject",
@@ -292,10 +292,7 @@ def span_validator():
                 return False
 
             # Check duration is non-negative
-            if span.duration_ms < 0:
-                return False
-
-            return True
+            return not span.duration_ms < 0
 
     return SpanValidator()
 

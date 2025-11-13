@@ -14,7 +14,6 @@ import re
 import uuid
 import zlib
 from dataclasses import dataclass
-from typing import Optional, Tuple
 
 
 @dataclass
@@ -127,7 +126,7 @@ def verify_crc(alias: str) -> bool:
         return False
 
 
-def parse_alias(alias: str) -> Optional[ΛiDAlias]:
+def parse_alias(alias: str) -> ΛiDAlias | None:
     """
     Parse ΛiD alias into structured components.
 
@@ -168,7 +167,7 @@ def parse_alias(alias: str) -> Optional[ΛiDAlias]:
     )
 
 
-def validate_alias_format(alias: str) -> Tuple[bool, str]:
+def validate_alias_format(alias: str) -> tuple[bool, str]:
     """
     Comprehensive alias validation with detailed error reporting.
 
@@ -235,9 +234,9 @@ def generate_test_aliases(count: int = 10) -> list[str]:
 # Export public interface
 __all__ = [
     "ΛiDAlias",
+    "generate_test_aliases",
     "make_alias",
-    "verify_crc",
     "parse_alias",
     "validate_alias_format",
-    "generate_test_aliases"
+    "verify_crc"
 ]

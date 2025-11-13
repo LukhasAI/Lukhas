@@ -47,13 +47,13 @@ except ImportError:
     MetaLearningEnhancement = None
 
 __all__ = [
+    "MetaLearningEnhancement",
     "dreamseed_unified",
     "id_reasoning_engine",
+    "integrated_safety_system",
     "memory_hub",
     "orchestration_service",
     "reflection_layer",
     "swarm",
     "symbolic_drift_analyzer",
-    "integrated_safety_system",
-    "MetaLearningEnhancement",
 ]

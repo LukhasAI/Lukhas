@@ -28,6 +28,8 @@
 ║ • Bio-Rhythmic Entrainment: Synchronization across consciousness layers
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import asyncio
 import logging
 import math

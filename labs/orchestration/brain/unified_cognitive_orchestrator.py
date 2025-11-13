@@ -11,7 +11,7 @@ Core Integration Points:
 - Optimized Memory Folds for efficient state management
 - Enhanced Quantum Processing for complex computations
 """
-from typing import List
+
 import time
 import streamlit as st
 
@@ -106,7 +106,7 @@ class UnifiedCognitiveOrchestrator:
 
         # Module registrations
         self.registered_modules = {}
-        self.module_symbols = {}  # Module -> List[Symbol]
+        self.module_symbols = {}  # Module -> list[Symbol]
 
         # Performance tracking
         self.metrics = {

@@ -17,7 +17,7 @@ import ast
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class ImportStatus(Enum):
@@ -39,7 +39,7 @@ class ServiceLane(Enum):
     UNIVERSAL = "universal_language"  # Universal language
     EXPERIMENTAL = "experimental"   # Experimental features
     UNKNOWN = "unknown"            # Unknown/unclassified
-    
+
     # Aliases for backward compatibility
     PRODUCTION = LUKHAS            # Alias to LUKHAS
     MATRIX = MATRIZ                # Alias to MATRIZ
@@ -49,8 +49,8 @@ class ServiceLane(Enum):
 class ImportRule:
     """Import boundary rule."""
     from_lane: ServiceLane
-    allowed_imports: List[ServiceLane]
-    forbidden_imports: List[ServiceLane]
+    allowed_imports: list[ServiceLane]
+    forbidden_imports: list[ServiceLane]
     description: str
 
 
@@ -65,16 +65,16 @@ class ImportViolation:
     to_lane: ServiceLane
     message: str
     severity: str = "error"  # error, warning, info
-    
+
     # Class attribute for test compatibility
     FORBIDDEN_LANE = ImportStatus.INVALID_LANE_VIOLATION
-    
+
     @property
     def source_file(self) -> str:
         """Alias for file_path for test compatibility."""
         return self.file_path
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         result = asdict(self)
         result['violation_type'] = self.violation_type.value
@@ -88,22 +88,22 @@ class ImportReviewReport:
     """Complete import review report."""
     total_files_scanned: int
     total_imports_found: int
-    violations: List[ImportViolation]
+    violations: list[ImportViolation]
     valid_imports: int
-    warnings: List[str] = field(default_factory=list)
-    suggestions: List[str] = field(default_factory=list)
-    
+    warnings: list[str] = field(default_factory=list)
+    suggestions: list[str] = field(default_factory=list)
+
     @property
     def has_violations(self) -> bool:
         """Check if any violations found."""
         return len(self.violations) > 0
-    
+
     @property
     def error_count(self) -> int:
         """Count of error-level violations."""
         return sum(1 for v in self.violations if v.severity == "error")
-    
-    def to_dict(self) -> Dict[str, Any]:
+
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             'total_files_scanned': self.total_files_scanned,
@@ -135,7 +135,7 @@ class ImportController:
     """
 
     # Import rules based on ops/matriz.yaml
-    LANE_RULES: List[ImportRule] = [
+    LANE_RULES: list[ImportRule] = [
         ImportRule(
             from_lane=ServiceLane.CANDIDATE,
             allowed_imports=[ServiceLane.CORE, ServiceLane.MATRIZ, ServiceLane.UNIVERSAL],
@@ -171,15 +171,15 @@ class ImportController:
 
     def __init__(self):
         """Initialize Import Controller."""
-        self._import_cache: Dict[str, List[str]] = {}
-        self._matriz_config: Optional[Dict[str, Any]] = None
+        self._import_cache: dict[str, list[str]] = {}
+        self._matriz_config: Optional[dict[str, Any]] = None
         self._rules_loaded: bool = False
 
     async def review_file_imports(
         self,
         file_path: Path,
         lane: Optional[ServiceLane] = None
-    ) -> List[ImportViolation]:
+    ) -> list[ImportViolation]:
         """
         Review imports in a single file for violations.
         
@@ -193,19 +193,19 @@ class ImportController:
         Task: TODO-HIGH-BRIDGE-API-o1p2q3r4 (Review AGI services imports)
         """
         violations = []
-        
+
         # Auto-detect lane from path
         if lane is None:
             lane = self._detect_lane(file_path)
-        
+
         # Parse file for imports
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 tree = ast.parse(f.read(), filename=str(file_path))
-        except Exception as e:
+        except Exception:
             # Skip files that can't be parsed
             return violations
-        
+
         # Extract imports
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
@@ -219,7 +219,7 @@ class ImportController:
                     )
                     if violation:
                         violations.append(violation)
-            
+
             elif isinstance(node, ast.ImportFrom):
                 if node.module:
                     violation = self._check_import(
@@ -232,7 +232,7 @@ class ImportController:
                     )
                     if violation:
                         violations.append(violation)
-        
+
         return violations
 
     async def review_directory_imports(
@@ -255,20 +255,20 @@ class ImportController:
         all_violations = []
         files_scanned = 0
         total_imports = 0
-        
+
         # Find all Python files
         pattern = "**/*.py" if recursive else "*.py"
         python_files = list(directory.glob(pattern))
-        
+
         for file_path in python_files:
             # Skip __pycache__ and test files if requested
             if '__pycache__' in str(file_path):
                 continue
-            
+
             files_scanned += 1
             violations = await self.review_file_imports(file_path)
             all_violations.extend(violations)
-            
+
             # Count total imports in file
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
@@ -278,30 +278,30 @@ class ImportController:
                             total_imports += 1
             except Exception:
                 pass
-        
+
         # Generate report
         valid_imports = total_imports - len(all_violations)
-        
+
         report = ImportReviewReport(
             total_files_scanned=files_scanned,
             total_imports_found=total_imports,
             violations=all_violations,
             valid_imports=valid_imports
         )
-        
+
         # Add warnings for common issues
         if report.has_violations:
             report.warnings.append(
                 f"Found {len(all_violations)} import violations. "
                 f"Run 'make lane-guard' to validate import boundaries."
             )
-        
+
         # Add suggestions
         if any(v.violation_type == ImportStatus.INVALID_LANE_VIOLATION for v in all_violations):
             report.suggestions.append(
                 "Use candidate.bridge adapters instead of direct lukhas imports"
             )
-        
+
         return report
 
     def _detect_lane(self, file_path: Path) -> ServiceLane:
@@ -315,7 +315,7 @@ class ImportController:
             Detected ServiceLane
         """
         path_str = str(file_path).replace('\\', '/')  # Normalize path separators
-        
+
         # Check for lane patterns in path
         if 'lukhas/' in path_str and 'candidate/' not in path_str:
             return ServiceLane.LUKHAS  # Use LUKHAS alias instead of PRODUCTION
@@ -327,7 +327,7 @@ class ImportController:
             return ServiceLane.CORE
         elif 'universal_language/' in path_str:
             return ServiceLane.UNIVERSAL
-        
+
         # Check if path starts with lane name (for relative paths)
         path_parts = path_str.split('/')
         if path_parts:
@@ -342,7 +342,7 @@ class ImportController:
                 return ServiceLane.CORE
             elif first_part == 'universal_language':
                 return ServiceLane.UNIVERSAL
-        
+
         return ServiceLane.UNKNOWN
 
     def _check_import(
@@ -352,7 +352,7 @@ class ImportController:
         line_number: int,
         from_lane: ServiceLane,
         import_type: str,
-        names: Optional[List[str]] = None
+        names: Optional[list[str]] = None
     ) -> Optional[ImportViolation]:
         """
         Check if an import violates lane boundaries.
@@ -370,11 +370,11 @@ class ImportController:
         """
         # Detect target lane
         to_lane = self._detect_import_lane(import_name)
-        
+
         if to_lane is None:
             # Not a LUKHAS import, allow it
             return None
-        
+
         # Check for deprecated imports
         import_statement = f"from {import_name}" if import_type == 'from' else f"import {import_name}"
         for deprecated, suggestion in self.DEPRECATED_IMPORTS.items():
@@ -389,18 +389,18 @@ class ImportController:
                     message=f"Deprecated import. {suggestion}",
                     severity="warning"
                 )
-        
+
         # Find applicable rule
         applicable_rule = None
         for rule in self.LANE_RULES:
             if rule.from_lane == from_lane:
                 applicable_rule = rule
                 break
-        
+
         if applicable_rule is None:
             # No rule defined, allow for now
             return None
-        
+
         # Check if import is forbidden
         if to_lane in applicable_rule.forbidden_imports:
             return ImportViolation(
@@ -413,7 +413,7 @@ class ImportController:
                 message=f"Lane violation: {from_lane.value} cannot import from {to_lane.value}. {applicable_rule.description}",
                 severity="error"
             )
-        
+
         # Check if import is allowed
         if to_lane not in applicable_rule.allowed_imports and applicable_rule.allowed_imports:
             return ImportViolation(
@@ -426,7 +426,7 @@ class ImportController:
                 message=f"Lane violation: {from_lane.value} can only import from {[l.value for l in applicable_rule.allowed_imports]}",
                 severity="error"
             )
-        
+
         return None
 
     def _detect_import_lane(self, import_name: str) -> Optional[ServiceLane]:
@@ -470,7 +470,7 @@ class ImportController:
         """
         return self._detect_lane(file_path)
 
-    def get_allowed_imports(self, source_lane: ServiceLane) -> List[ServiceLane]:
+    def get_allowed_imports(self, source_lane: ServiceLane) -> list[ServiceLane]:
         """
         Get list of lanes that source_lane can import from.
         
@@ -489,7 +489,7 @@ class ImportController:
                 allowed = rule.allowed_imports.copy()
                 allowed.append(source_lane)
                 return allowed
-        
+
         # No rule found, allow self-imports only
         return [source_lane]
 
@@ -512,7 +512,7 @@ class ImportController:
         """
         # Detect source lane
         from_lane = self._detect_lane(source_file)
-        
+
         # Parse import statement to extract module name
         import_name = None
         if import_statement.startswith("from "):
@@ -525,16 +525,16 @@ class ImportController:
             parts = import_statement.split()
             if len(parts) >= 2:
                 import_name = parts[1]
-        
+
         if not import_name:
             return None  # Can't parse, assume valid
-        
+
         # Detect target lane
         to_lane = self._detect_import_lane(import_name)
-        
+
         if to_lane is None:
             return None  # Not a LUKHAS import, allow it
-        
+
         # Check against rules
         return self._check_import(
             import_name=import_name,
@@ -545,7 +545,7 @@ class ImportController:
             names=None
         )
 
-    def load_matriz_config(self, config: Dict[str, Any]) -> None:
+    def load_matriz_config(self, config: dict[str, Any]) -> None:
         """
         Load lane configuration from ops/matriz.yaml.
         
@@ -556,7 +556,7 @@ class ImportController:
         """
         self._matriz_config = config
         self._rules_loaded = True
-        
+
         # Could update LANE_RULES based on config here
         # For now, just store the config
         pass
@@ -576,7 +576,7 @@ class ImportController:
         self,
         directory: Path,
         recursive: bool = True
-    ) -> List[ImportViolation]:
+    ) -> list[ImportViolation]:
         """
         Scan directory for import violations (synchronous for test compatibility).
         
@@ -590,7 +590,7 @@ class ImportController:
         Task: TEST-HIGH-CONTROLLER-02 (directory scanning)
         """
         import asyncio
-        
+
         # Run async method synchronously
         try:
             loop = asyncio.get_event_loop()
@@ -601,15 +601,15 @@ class ImportController:
         except RuntimeError:
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
-        
+
         report = loop.run_until_complete(self.review_directory_imports(directory, recursive))
         return report.violations
-    
+
     async def scan_directory_async(
         self,
         directory: Path,
         recursive: bool = True
-    ) -> List[ImportViolation]:
+    ) -> list[ImportViolation]:
         """
         Async version of scan_directory.
         
@@ -642,7 +642,7 @@ async def review_imports(directory: Path, recursive: bool = True) -> ImportRevie
     return await controller.review_directory_imports(directory, recursive)
 
 
-async def check_file(file_path: Path) -> List[ImportViolation]:
+async def check_file(file_path: Path) -> list[ImportViolation]:
     """
     Convenience function to check imports in a single file.
     

@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
 #!/usr/bin/env python3
 """
 LUKHAS Security - Phase 6 Security Hardening Integration
@@ -30,7 +34,7 @@ import time
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Union
 
 try:
     from .secure_random import (
@@ -284,7 +288,7 @@ class LUKHASSecuritySystem:
     # Core Security API methods would go here...
     # [Abbreviated for length - full implementation available in separate files]
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get overall security system status."""
         return {
             "enabled": self.config.enabled,
@@ -315,20 +319,21 @@ def initialize_security(config: Optional[SecurityConfig] = None) -> LUKHASSecuri
 # Legacy exports (Phase 0 secure random)
 if SECURE_RANDOM_AVAILABLE:
     __all__ = [
+        "SECURE_RANDOM_AVAILABLE",
+        # Availability flags
+        "SECURITY_COMPONENTS_AVAILABLE",
         # Phase 6 main classes
         "LUKHASSecuritySystem",
-        "SecurityConfig",
-        "SecurityMetrics",
-
-        # Phase 6 functions
-        "get_security_system",
-        "initialize_security",
-
         # Legacy Phase 0 secure random
         "SecureRandom",
+        "SecurityConfig",
+        "SecurityMetrics",
         "choice",
         "choices",
         "gauss",
+        # Phase 6 functions
+        "get_security_system",
+        "initialize_security",
         "normalvariate",
         "randint",
         "random",
@@ -342,20 +347,16 @@ if SECURE_RANDOM_AVAILABLE:
         "secure_random",
         "secure_token",
         "shuffle",
-        "uniform",
-
-        # Availability flags
-        "SECURITY_COMPONENTS_AVAILABLE",
-        "SECURE_RANDOM_AVAILABLE"
+        "uniform"
     ]
 else:
     __all__ = [
+        "SECURE_RANDOM_AVAILABLE",
+        "SECURITY_COMPONENTS_AVAILABLE",
         # Phase 6 only
         "LUKHASSecuritySystem",
         "SecurityConfig",
         "SecurityMetrics",
         "get_security_system",
-        "initialize_security",
-        "SECURITY_COMPONENTS_AVAILABLE",
-        "SECURE_RANDOM_AVAILABLE"
+        "initialize_security"
     ]

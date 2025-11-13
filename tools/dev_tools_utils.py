@@ -1,19 +1,20 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 Dev Tools Utils Module
 Provides utilities for development and debugging of LUKHAS  system
 """
 
 import json
+import logging
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
 import structlog
+
+logger = logging.getLogger(__name__)
+
+
 
 logger = structlog.get_logger(__name__)
 

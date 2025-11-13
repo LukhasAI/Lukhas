@@ -19,7 +19,6 @@ from unittest.mock import Mock, patch
 
 import numpy as np
 import pytest
-
 from core.symbolic.neuro_symbolic_fusion_layer import FusionPattern, NeuroSymbolicFusionLayer
 
 
@@ -233,7 +232,7 @@ class TestNeuroSymbolicFusionIntegration:
 
     def test_fusion_layer_with_multiple_patterns(self):
         """Test fusion layer behavior with multiple fusion patterns."""
-        fusion_layer = NeuroSymbolicFusionLayer()
+        NeuroSymbolicFusionLayer()
 
         # Create multiple patterns
         patterns = []

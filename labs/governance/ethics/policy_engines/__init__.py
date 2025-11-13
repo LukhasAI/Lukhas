@@ -6,7 +6,7 @@ Constellation Framework Integration
 """
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ except ImportError as e:
         pass
 
 
-def get_policy_engines_status() -> Dict[str, Any]:
+def get_policy_engines_status() -> dict[str, Any]:
     """Get policy engines status"""
     return {
         "policy_engines_available": POLICY_ENGINES_AVAILABLE,
@@ -67,13 +67,13 @@ def create_policy_engine(engine_type: str = "constitutional", **config) -> BaseP
 
 # Export public interface
 __all__ = [
+    "POLICY_ENGINES_AVAILABLE",
     "BasePolicyEngine",
-    "PolicyEngineResult",
     "ConstitutionalPolicyEngine",
     "GuardianPolicyEngine",
-    "get_policy_engines_status",
+    "PolicyEngineResult",
     "create_policy_engine",
-    "POLICY_ENGINES_AVAILABLE"
+    "get_policy_engines_status"
 ]
 
 logger.info("🛡️ LUKHAS Policy Engines Module initialized")

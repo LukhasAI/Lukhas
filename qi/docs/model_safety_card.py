@@ -133,7 +133,7 @@ def to_markdown(card: dict, *, jurisdiction_diffs: dict | None = None) -> str:
     jdiff = ""
     if jurisdiction_diffs:
         jdiff = "\n##"
-    return f"""# Model & Safety Card — {card["model_name"]} (v{card["version"]})
+    return f"""# Model & Safety Card - {card["model_name"]} (v{card["version"]})
 
 **Generated:** {time.strftime("%Y-%m-%d %H:%M:%SZ", time.gmtime(card["generated_at"]))}
 **Jurisdictions:** {", ".join(card["jurisdictions"])}

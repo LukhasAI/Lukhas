@@ -82,7 +82,7 @@ class SafetyMonitor:
         """Monitor an action for safety compliance"""
         context = context or {}
         if _kill_switch_active():
-            # ΛTAG: guardian_kill_switch — bypass evaluation during emergency
+            # ΛTAG: guardian_kill_switch - bypass evaluation during emergency
             logger.warning("Guardian emergency kill-switch active - allowing action")
             return True
         decision = self.framework.evaluate_action(action, context)
@@ -103,7 +103,7 @@ class EthicsEngine:
     def validate_action(self, action: str, context: Optional[dict[str, Any]] = None) -> EthicalDecision:
         """Validate an action against ethical framework"""
         if _kill_switch_active():
-            # ΛTAG: guardian_kill_switch — deterministic ALLOW response under emergency override
+            # ΛTAG: guardian_kill_switch - deterministic ALLOW response under emergency override
             logger.warning("Guardian emergency kill-switch active - returning ALLOW decision")
             return EthicalDecision(
                 decision="allow",
@@ -138,9 +138,9 @@ class SafetyChecker:
 # Export main components
 __all__ = [
     "ConstitutionalFramework",
-    "SafetyMonitor",
-    "EthicsEngine",
-    "SafetyChecker",
     "EthicalDecision",
     "EthicalSeverity",
+    "EthicsEngine",
+    "SafetyChecker",
+    "SafetyMonitor",
 ]

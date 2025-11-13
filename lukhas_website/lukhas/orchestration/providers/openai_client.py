@@ -10,7 +10,7 @@ import asyncio
 import logging
 import os
 import time
-from typing import List, Optional
+from typing import Optional
 
 from .base_client import AIProvider, AIResponse, BaseAIClient
 
@@ -184,7 +184,7 @@ class OpenAIClient(BaseAIClient):
             logger.error(f"OpenAI health check failed: {e}")
             return False
 
-    def get_available_models(self) -> List[str]:
+    def get_available_models(self) -> list[str]:
         """Get available OpenAI models"""
         return self.models.copy()
 

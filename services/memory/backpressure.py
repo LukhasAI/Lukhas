@@ -20,7 +20,9 @@ import time
 from collections import deque
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
+
+from async_utils import create_background_task
 
 logger = logging.getLogger(__name__)
 
@@ -117,10 +119,9 @@ class TokenBucket:
         if self.mode == BackpressureMode.DISABLED:
             return True
 
-        if self.mode == BackpressureMode.EMERGENCY:
-            if self.total_requests % 10 != 0:  # Allow only 10% through
-                self.rejection_count += 1
-                return False
+        if self.mode == BackpressureMode.EMERGENCY and self.total_requests % 10 != 0:
+            self.rejection_count += 1
+            return False
 
         async with self._lock:
             # Refill tokens based on elapsed time
@@ -191,7 +192,7 @@ class TokenBucket:
             # Trigger adaptation check periodically
             now = time.monotonic()
             if now - self.last_adaptation >= self.config.adaptation_window_sec:
-                asyncio.create_task(self._adapt_rate())
+                create_background_task(self._adapt_rate())
 
     async def _adapt_rate(self):
         """Adapt refill rate based on observed latencies"""
@@ -292,8 +293,8 @@ class AdaptiveBackpressure:
     and provides centralized backpressure control with metrics.
     """
 
-    def __init__(self, configs: Dict[str, BackpressureConfig]):
-        self.buckets: Dict[str, TokenBucket] = {}
+    def __init__(self, configs: dict[str, BackpressureConfig]):
+        self.buckets: dict[str, TokenBucket] = {}
         self.global_config = configs.get('global', BackpressureConfig())
 
         # Create token buckets for different operation types
@@ -319,7 +320,7 @@ class AdaptiveBackpressure:
         bucket = self.buckets.get(operation_type, self.buckets['default'])
         bucket.record_latency(latency_ms)
 
-    async def get_metrics(self, operation_type: Optional[str] = None) -> Dict[str, BackpressureMetrics]:
+    async def get_metrics(self, operation_type: Optional[str] = None) -> dict[str, BackpressureMetrics]:
         """Get metrics for all or specific operation types"""
         if operation_type:
             bucket = self.buckets.get(operation_type)
@@ -348,7 +349,7 @@ class AdaptiveBackpressure:
         logger.info(f"Backpressure mode set to {mode.value}" +
                    (f" for {operation_type}" if operation_type else " globally"))
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check for backpressure system"""
         health = {
             'healthy': True,
@@ -397,7 +398,7 @@ class BackpressureFactory:
     """Factory for creating standard backpressure configurations"""
 
     @staticmethod
-    def create_memory_service_config() -> Dict[str, BackpressureConfig]:
+    def create_memory_service_config() -> dict[str, BackpressureConfig]:
         """Create backpressure configuration for memory service"""
         return {
             'search': BackpressureConfig(
@@ -427,7 +428,7 @@ class BackpressureFactory:
         }
 
     @staticmethod
-    def create_high_throughput_config() -> Dict[str, BackpressureConfig]:
+    def create_high_throughput_config() -> dict[str, BackpressureConfig]:
         """Create configuration optimized for high throughput"""
         return {
             'default': BackpressureConfig(
@@ -440,7 +441,7 @@ class BackpressureFactory:
         }
 
     @staticmethod
-    def create_strict_latency_config() -> Dict[str, BackpressureConfig]:
+    def create_strict_latency_config() -> dict[str, BackpressureConfig]:
         """Create configuration optimized for strict latency"""
         return {
             'default': BackpressureConfig(

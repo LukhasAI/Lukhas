@@ -11,6 +11,7 @@ Core Features:
 """
 import hashlib
 import json
+import logging
 import time
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -31,11 +32,11 @@ except ImportError:
 
     logger = logging.getLogger("VIVOX.ME")
 
-    def debug_trace(l, m, **k):
-        return l.debug(f"{m} | {k}" if k else m)
+    def debug_trace(logger, message, **kwargs):
+        return logger.debug(f"{message} | {kwargs}" if kwargs else message)
 
-    def log_performance(l, o, e, c=None):
-        return l.info(f"{o}: {e:.3f}s")
+    def log_performance(logger, operation, elapsed, count=None):
+        return logger.info(f"{operation}: {elapsed:.3f}s")
 
 
 class VeilLevel(Enum):
@@ -382,11 +383,10 @@ class VIVOXMemoryExpansion:
 
             resonance = await self._calculate_resonance(current_frequency, memory_frequency)
 
-            if resonance >= resonance_threshold:
+            if resonance >= resonance_threshold and (not await self.soma_layer.is_memory_veiled(memory_entry.sequence_id)):
                 # Check if memory is veiled
-                if not await self.soma_layer.is_memory_veiled(memory_entry.sequence_id):
-                    memory_entry.resonance_score = resonance
-                    resonant_memories.append(memory_entry)
+                memory_entry.resonance_score = resonance
+                resonant_memories.append(memory_entry)
 
         return sorted(resonant_memories, key=lambda m: m.resonance_score, reverse=True)
 

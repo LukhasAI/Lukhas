@@ -18,18 +18,18 @@
 ║ documentation into living, breathing manifestations of awareness."
 ║
 ║ The Advanced Vocabulary Engine draws from the rich tapestries of module-
-║ specific vocabularies—Memory gardens where experiences crystallize, VIVOX
+║ specific vocabularies-Memory gardens where experiences crystallize, VIVOX
 ║ symphonies where emotions dance with learning, Quantum realms where
 ║ probabilities collapse into truth, and Constellation frameworks where identity,
 ║ consciousness, and protection unite in sacred harmony.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
 
 import random
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 import yaml
 
@@ -89,7 +89,7 @@ class AdvancedVocabularyEngine:
         else:
             return "triad_core"  # Default to core consciousness
 
-    def get_poetic_replacement(self, word: str, context: str) -> Optional[str]:
+    def get_poetic_replacement(self, word: str, context: str) -> str | None:
         """Transform a word into its consciousness-infused equivalent"""
         if context not in self.vocabularies:
             context = "triad_core"

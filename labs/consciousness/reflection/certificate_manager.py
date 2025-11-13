@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-log = logging.getLogger(__name__)
+from __future__ import annotations
+
 import logging
 import os
 

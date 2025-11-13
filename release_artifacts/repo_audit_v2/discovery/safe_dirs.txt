@@ -1,0 +1,139 @@
+=== CHECK: generated ===
+./.venv/lib/python3.9/site-packages/torch/include/torch/csrc/inductor/aoti_torch/generated
+100K	./.venv/lib/python3.9/site-packages/torch/include/torch/csrc/inductor/aoti_torch/generated
+./.venv/lib/python3.9/site-packages/torch/include/torch/csrc/autograd/generated
+612K	./.venv/lib/python3.9/site-packages/torch/include/torch/csrc/autograd/generated
+./.venv/lib/python3.9/site-packages/torch/include/torch/csrc/lazy/generated
+320K	./.venv/lib/python3.9/site-packages/torch/include/torch/csrc/lazy/generated
+./.venv/lib/python3.9/site-packages/torch/testing/_internal/generated
+540K	./.venv/lib/python3.9/site-packages/torch/testing/_internal/generated
+=== CHECK: migrations ===
+./lukhas_website/prisma/migrations
+8.0K	./lukhas_website/prisma/migrations
+./lukhas_website/lukhas/aka_qualia/migrations
+ 12K	./lukhas_website/lukhas/aka_qualia/migrations
+./archive/lukhas_website_original_working/prisma/migrations
+8.0K	./archive/lukhas_website_original_working/prisma/migrations
+=== CHECK: .venv ===
+./.venv
+870M	./.venv
+=== CHECK: venv ===
+./.venv/lib/python3.9/site-packages/mypy/typeshed/stdlib/venv
+4.0K	./.venv/lib/python3.9/site-packages/mypy/typeshed/stdlib/venv
+=== CHECK: build ===
+./.venv/lib/python3.9/site-packages/pip/_internal/operations/build
+ 24K	./.venv/lib/python3.9/site-packages/pip/_internal/operations/build
+=== CHECK: dist ===
+=== CHECK: node_modules ===
+=== CHECK: archive ===
+./archive
+ 18M	./archive
+./archive/lanes_experiment/lukhas_acceptance_scaffold/archive
+316K	./archive/lanes_experiment/lukhas_acceptance_scaffold/archive
+./docs/archive
+1.1M	./docs/archive
+./manifests/.archive/20251011_223858_pre_matriz_rollout/scattered_manifests/archive
+4.0K	./manifests/.archive/20251011_223858_pre_matriz_rollout/scattered_manifests/archive
+=== CHECK: quarantine ===
+./quarantine
+  0B	./quarantine
+./archive/quarantine_2025-10-26/quarantine
+2.1M	./archive/quarantine_2025-10-26/quarantine
+./tests/quarantine
+ 12K	./tests/quarantine
+./manifests/.archive/20251011_223858_pre_matriz_rollout/scattered_manifests/quarantine
+4.0K	./manifests/.archive/20251011_223858_pre_matriz_rollout/scattered_manifests/quarantine
+=== CHECK: products ===
+./branding/products
+8.0K	./branding/products
+./cognitive_core/products
+136K	./cognitive_core/products
+./lukhas_website/app/products
+ 32K	./lukhas_website/app/products
+./products
+9.3M	./products
+./archive/website_v1/src/app/products
+ 12K	./archive/website_v1/src/app/products
+./tests/unit/products
+8.0K	./tests/unit/products
+./tests/products
+ 24K	./tests/products
+./tests/integration/products
+8.0K	./tests/integration/products
+./docs/products
+4.0K	./docs/products
+./manifests/.archive/20251011_223858_pre_matriz_rollout/scattered_manifests/products
+ 20K	./manifests/.archive/20251011_223858_pre_matriz_rollout/scattered_manifests/products
+=== CHECK: dreamweaver_helpers_bundle ===
+./archive/dreamweaver_helpers_bundle_2025-10-26/dreamweaver_helpers_bundle
+144K	./archive/dreamweaver_helpers_bundle_2025-10-26/dreamweaver_helpers_bundle
+./manifests/.archive/20251011_223858_pre_matriz_rollout/scattered_manifests/dreamweaver_helpers_bundle
+4.0K	./manifests/.archive/20251011_223858_pre_matriz_rollout/scattered_manifests/dreamweaver_helpers_bundle
+=== CHECK: docs/openapi ===
+./lukhas_website/docs/openapi
+ 12K	./lukhas_website/docs/openapi
+./docs/openapi
+240K	./docs/openapi
+./.venv/lib/python3.9/site-packages/fastapi/openapi
+ 56K	./.venv/lib/python3.9/site-packages/fastapi/openapi
+=== CHECK: manifests ===
+./tools/manifests
+ 16K	./tools/manifests
+./tests/manifests
+ 12K	./tests/manifests
+./docs/manifests
+4.0K	./docs/manifests
+./manifests
+ 20M	./manifests
+=== CHECK: legacy ===
+./branding/poetry/legacy
+ 36K	./branding/poetry/legacy
+./products/shared/legacy
+8.0K	./products/shared/legacy
+./docs/legacy
+ 36K	./docs/legacy
+./.venv/lib/python3.9/site-packages/pip/_internal/resolution/legacy
+ 24K	./.venv/lib/python3.9/site-packages/pip/_internal/resolution/legacy
+=== CHECK: golden ===
+./tests/unit/golden
+4.0K	./tests/unit/golden
+./tests/contract/golden
+8.0K	./tests/contract/golden
+./tests/golden
+ 28K	./tests/golden
+./tests/fixtures/golden
+272K	./tests/fixtures/golden
+./tests/manifests/golden
+ 12K	./tests/manifests/golden
+=== CHECK: data ===
+./.venv/lib/python3.9/site-packages/sympy/utilities/mathml/data
+360K	./.venv/lib/python3.9/site-packages/sympy/utilities/mathml/data
+./.venv/lib/python3.9/site-packages/torch/distributed/elastic/utils/data
+ 12K	./.venv/lib/python3.9/site-packages/torch/distributed/elastic/utils/data
+./.venv/lib/python3.9/site-packages/torch/include/torch/csrc/api/include/torch/data
+164K	./.venv/lib/python3.9/site-packages/torch/include/torch/csrc/api/include/torch/data
+./.venv/lib/python3.9/site-packages/torch/utils/data
+496K	./.venv/lib/python3.9/site-packages/torch/utils/data
+./.venv/lib/python3.9/site-packages/torch/testing/_internal/data
+ 12K	./.venv/lib/python3.9/site-packages/torch/testing/_internal/data
+./.venv/lib/python3.9/site-packages/numpy/_core/tests/data
+1.1M	./.venv/lib/python3.9/site-packages/numpy/_core/tests/data
+./.venv/lib/python3.9/site-packages/numpy/typing/tests/data
+808K	./.venv/lib/python3.9/site-packages/numpy/typing/tests/data
+./.venv/lib/python3.9/site-packages/numpy/lib/tests/data
+ 28K	./.venv/lib/python3.9/site-packages/numpy/lib/tests/data
+./.venv/lib/python3.9/site-packages/numpy/random/tests/data
+236K	./.venv/lib/python3.9/site-packages/numpy/random/tests/data
+./.venv/lib/python3.9/site-packages/botocore/data
+ 21M	./.venv/lib/python3.9/site-packages/botocore/data
+./.venv/lib/python3.9/site-packages/pkg_resources/tests/data
+ 36K	./.venv/lib/python3.9/site-packages/pkg_resources/tests/data
+./.venv/lib/python3.9/site-packages/pyarrow/tests/data
+292K	./.venv/lib/python3.9/site-packages/pyarrow/tests/data
+./.venv/lib/python3.9/site-packages/boto3/data
+664K	./.venv/lib/python3.9/site-packages/boto3/data
+./data
+4.0K	./data
+=== CHECK: datasets ===
+./.venv/lib/python3.9/site-packages/torch/include/torch/csrc/api/include/torch/data/datasets
+ 44K	./.venv/lib/python3.9/site-packages/torch/include/torch/csrc/api/include/torch/data/datasets

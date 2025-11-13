@@ -39,7 +39,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import yaml
 
@@ -85,7 +85,7 @@ class SecurityFinding:
     category: str = "security"
     confidence: str = "medium"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert finding to dictionary."""
         return {
             "id": self.id,
@@ -122,7 +122,7 @@ class AuditReport:
     t4_compliance: bool = False
 
     # Findings
-    findings: List[SecurityFinding] = field(default_factory=list)
+    findings: list[SecurityFinding] = field(default_factory=list)
 
     # Performance metrics
     audit_duration: float = 0.0
@@ -156,7 +156,7 @@ class AuditReport:
         self.excellence_score = score
         return score
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert report to dictionary."""
         return {
             "timestamp": self.timestamp.isoformat(),
@@ -240,7 +240,7 @@ class SecurityAuditor:
                 title="Security Audit System Error",
                 severity=SecurityLevel.CRITICAL,
                 status=AuditStatus.ERROR,
-                description=f"Audit system error: {str(e)}",
+                description=f"Audit system error: {e!s}",
                 recommendation="Fix audit system configuration and retry"
             )
             self.report.findings.append(finding)
@@ -315,7 +315,7 @@ class SecurityAuditor:
                 title="Static Analysis Error",
                 severity=SecurityLevel.HIGH,
                 status=AuditStatus.ERROR,
-                description=f"Static analysis failed: {str(e)}",
+                description=f"Static analysis failed: {e!s}",
                 recommendation="Install Semgrep and verify configuration"
             )
             self.report.findings.append(finding)
@@ -429,7 +429,7 @@ class SecurityAuditor:
                 title="Cryptographic Hygiene Test Error",
                 severity=SecurityLevel.HIGH,
                 status=AuditStatus.ERROR,
-                description=f"Failed to run crypto hygiene tests: {str(e)}",
+                description=f"Failed to run crypto hygiene tests: {e!s}",
                 recommendation="Install test dependencies and verify test configuration"
             )
             self.report.findings.append(finding)

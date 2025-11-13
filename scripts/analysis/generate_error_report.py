@@ -111,8 +111,8 @@ def categorize_errors(errors: list[dict[str, Any]]) -> dict[str, Any]:
         "by_type": {k: len(v) for k, v in by_type.items()},
         "by_module": {k: len(v) for k, v in by_module.items()},
         "by_test_dir": {k: len(v) for k, v in by_test_dir.items()},
-        "type_details": {k: v for k, v in by_type.items()},
-        "module_details": {k: v for k, v in by_module.items()},
+        "type_details": dict(by_type.items()),
+        "module_details": dict(by_module.items()),
     }
 
 

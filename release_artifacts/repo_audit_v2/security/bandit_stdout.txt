@@ -1,0 +1,144 @@
+[main]	INFO	profile include tests: None
+[main]	INFO	profile exclude tests: None
+[main]	INFO	cli include tests: None
+[main]	INFO	cli exclude tests: None
+[manager]	WARNING	Test in comment: _lines is not a test name or id, ignoring
+[manager]	WARNING	Test in comment: is is not a test name or id, ignoring
+[manager]	WARNING	Test in comment: a is not a test name or id, ignoring
+[manager]	WARNING	Test in comment: dict is not a test name or id, ignoring
+[manager]	WARNING	Test in comment: of is not a test name or id, ignoring
+[manager]	WARNING	Test in comment: line is not a test name or id, ignoring
+[manager]	WARNING	Test in comment: number is not a test name or id, ignoring
+[manager]	WARNING	Test in comment: set is not a test name or id, ignoring
+[manager]	WARNING	Test in comment: of is not a test name or id, ignoring
+[manager]	WARNING	Test in comment: tests is not a test name or id, ignoring
+[manager]	WARNING	Test in comment: to is not a test name or id, ignoring
+[manager]	WARNING	Test in comment: ignore is not a test name or id, ignoring
+[manager]	WARNING	Test in comment: tkelsey is not a test name or id, ignoring
+[manager]	WARNING	Test in comment: catching is not a test name or id, ignoring
+[manager]	WARNING	Test in comment: expected is not a test name or id, ignoring
+[manager]	WARNING	Test in comment: exception is not a test name or id, ignoring
+[tester]	WARNING	nosec encountered (B108), but no failed test on line 61
+[manager]	WARNING	Test in comment: c is not a test name or id, ignoring
+[manager]	WARNING	Test in comment: B410 is not a test name or id, ignoring
+[manager]	WARNING	Test in comment: B320 is not a test name or id, ignoring
+[manager]	ERROR	Exception occurred when executing tests against ./archive/quarantine_2025-10-26/quarantine/critical/.!82107!override_logic.py.
+[manager]	ERROR	Run "bandit --debug ./archive/quarantine_2025-10-26/quarantine/critical/.!82107!override_logic.py" to see the full traceback.
+[manager]	ERROR	Exception occurred when executing tests against ./archive/quarantine_2025-10-26/quarantine/critical/.!92646!override_logic.py.
+[manager]	ERROR	Run "bandit --debug ./archive/quarantine_2025-10-26/quarantine/critical/.!92646!override_logic.py" to see the full traceback.
+[manager]	ERROR	Exception occurred when executing tests against ./archive/quarantine_2025-10-26/quarantine/critical/override_logic.py.
+[manager]	ERROR	Run "bandit --debug ./archive/quarantine_2025-10-26/quarantine/critical/override_logic.py" to see the full traceback.
+[manager]	ERROR	Exception occurred when executing tests against ./archive/quarantine_2025-10-26/quarantine/encoding/lambda_products_gpt_adapter.py.
+[manager]	ERROR	Run "bandit --debug ./archive/quarantine_2025-10-26/quarantine/encoding/lambda_products_gpt_adapter.py" to see the full traceback.
+[tester]	ERROR	Bandit internal error running: start_process_with_partial_path on file ./products/experience/voice/core/audio_filters.py at line 268: unhashable type: 'dict'Traceback (most recent call last):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/tester.py", line 51, in run_tests
+    result = test(context, test._config)
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/plugins/injection_shell.py", line 678, in start_process_with_partial_path
+    if config and len(context.call_args):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 51, in call_args
+    args.append(self._get_literal_value(arg))
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 202, in _get_literal_value
+    return_set.add(self._get_literal_value(si))
+TypeError: unhashable type: 'dict'
+
+[tester]	ERROR	Bandit internal error running: start_process_with_partial_path on file ./products/experience/voice/core/audio_pipeline.py at line 629: unhashable type: 'dict'Traceback (most recent call last):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/tester.py", line 51, in run_tests
+    result = test(context, test._config)
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/plugins/injection_shell.py", line 678, in start_process_with_partial_path
+    if config and len(context.call_args):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 51, in call_args
+    args.append(self._get_literal_value(arg))
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 202, in _get_literal_value
+    return_set.add(self._get_literal_value(si))
+TypeError: unhashable type: 'dict'
+
+[tester]	ERROR	Bandit internal error running: start_process_with_partial_path on file ./products/experience/voice/core/audio_pipeline.py at line 654: unhashable type: 'dict'Traceback (most recent call last):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/tester.py", line 51, in run_tests
+    result = test(context, test._config)
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/plugins/injection_shell.py", line 678, in start_process_with_partial_path
+    if config and len(context.call_args):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 51, in call_args
+    args.append(self._get_literal_value(arg))
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 202, in _get_literal_value
+    return_set.add(self._get_literal_value(si))
+TypeError: unhashable type: 'dict'
+
+[tester]	ERROR	Bandit internal error running: start_process_with_partial_path on file ./products/experience/voice/core/audio_processing.py at line 662: unhashable type: 'dict'Traceback (most recent call last):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/tester.py", line 51, in run_tests
+    result = test(context, test._config)
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/plugins/injection_shell.py", line 678, in start_process_with_partial_path
+    if config and len(context.call_args):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 51, in call_args
+    args.append(self._get_literal_value(arg))
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 202, in _get_literal_value
+    return_set.add(self._get_literal_value(si))
+TypeError: unhashable type: 'dict'
+
+[tester]	ERROR	Bandit internal error running: start_process_with_partial_path on file ./products/experience/voice/core/audio_streaming.py at line 218: unhashable type: 'dict'Traceback (most recent call last):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/tester.py", line 51, in run_tests
+    result = test(context, test._config)
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/plugins/injection_shell.py", line 678, in start_process_with_partial_path
+    if config and len(context.call_args):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 51, in call_args
+    args.append(self._get_literal_value(arg))
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 202, in _get_literal_value
+    return_set.add(self._get_literal_value(si))
+TypeError: unhashable type: 'dict'
+
+[tester]	ERROR	Bandit internal error running: start_process_with_partial_path on file ./products/experience/voice/core/audio_streaming.py at line 268: unhashable type: 'dict'Traceback (most recent call last):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/tester.py", line 51, in run_tests
+    result = test(context, test._config)
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/plugins/injection_shell.py", line 678, in start_process_with_partial_path
+    if config and len(context.call_args):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 51, in call_args
+    args.append(self._get_literal_value(arg))
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 202, in _get_literal_value
+    return_set.add(self._get_literal_value(si))
+TypeError: unhashable type: 'dict'
+
+[tester]	ERROR	Bandit internal error running: start_process_with_partial_path on file ./products/experience/voice/core/voice_training.py at line 406: unhashable type: 'dict'Traceback (most recent call last):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/tester.py", line 51, in run_tests
+    result = test(context, test._config)
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/plugins/injection_shell.py", line 678, in start_process_with_partial_path
+    if config and len(context.call_args):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 51, in call_args
+    args.append(self._get_literal_value(arg))
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 202, in _get_literal_value
+    return_set.add(self._get_literal_value(si))
+TypeError: unhashable type: 'dict'
+
+[tester]	ERROR	Bandit internal error running: start_process_with_partial_path on file ./products/experience/voice/core/voice_training.py at line 505: unhashable type: 'dict'Traceback (most recent call last):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/tester.py", line 51, in run_tests
+    result = test(context, test._config)
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/plugins/injection_shell.py", line 678, in start_process_with_partial_path
+    if config and len(context.call_args):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 51, in call_args
+    args.append(self._get_literal_value(arg))
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 202, in _get_literal_value
+    return_set.add(self._get_literal_value(si))
+TypeError: unhashable type: 'dict'
+
+[tester]	ERROR	Bandit internal error running: start_process_with_partial_path on file ./products/experience/voice/core/voice_training.py at line 593: unhashable type: 'dict'Traceback (most recent call last):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/tester.py", line 51, in run_tests
+    result = test(context, test._config)
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/plugins/injection_shell.py", line 678, in start_process_with_partial_path
+    if config and len(context.call_args):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 51, in call_args
+    args.append(self._get_literal_value(arg))
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 202, in _get_literal_value
+    return_set.add(self._get_literal_value(si))
+TypeError: unhashable type: 'dict'
+
+[tester]	ERROR	Bandit internal error running: start_process_with_partial_path on file ./products/experience/voice/core/voice_training.py at line 614: unhashable type: 'dict'Traceback (most recent call last):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/tester.py", line 51, in run_tests
+    result = test(context, test._config)
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/plugins/injection_shell.py", line 678, in start_process_with_partial_path
+    if config and len(context.call_args):
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 51, in call_args
+    args.append(self._get_literal_value(arg))
+  File "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/lib/python3.9/site-packages/bandit/core/context.py", line 202, in _get_literal_value
+    return_set.add(self._get_literal_value(si))
+TypeError: unhashable type: 'dict'
+
+Working... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:05:34
+[json]	INFO	JSON output written to file: release_artifacts/repo_audit_v2/security/bandit.json

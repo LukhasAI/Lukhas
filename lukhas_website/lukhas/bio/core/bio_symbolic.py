@@ -80,7 +80,7 @@ class BioSymbolicProcessor:
         completeness = len(actual_keys & expected_keys) / len(expected_keys) if expected_keys else 0.0
 
         # Check for noise or anomalies
-        noise_factor = data.get("noise", 0.0)
+        noise_factor = max(0.0, data.get("noise", 0.0))
         coherence = completeness * (1 - noise_factor)
 
         return min(1.0, max(0.0, coherence))
@@ -323,7 +323,7 @@ class BioSymbolic:
         completeness = len(actual_keys & expected_keys) / len(expected_keys) if expected_keys else 0.0
 
         # Check for noise or anomalies
-        noise_factor = data.get("noise", 0.0)
+        noise_factor = max(0.0, data.get("noise", 0.0))
         coherence = completeness * (1 - noise_factor)
 
         return min(1.0, max(0.0, coherence))
@@ -391,6 +391,7 @@ class BioSymbolicOrchestrator:
     def __init__(self) -> None:
         self.bio_symbolic = BioSymbolic()
         self.orchestration_events: list[dict] = []
+        self.trace: list[dict] = []
         logger.info("Bio-Symbolic Orchestrator initialized")
 
     def orchestrate(self, inputs: list[dict[str, Any]]) -> dict[str, Any]:
@@ -404,10 +405,24 @@ class BioSymbolicOrchestrator:
             Orchestrated result with all processed data
         """
         results = []
+        self.trace = []  # Reset trace for each orchestration
 
         for input_data in inputs:
-            processed = self.bio_symbolic.process(input_data)
+            processor_name = input_data.get("type", "unknown")
+            processor = self.bio_symbolic.processors.get(
+                processor_name, self.bio_symbolic.processors["unknown"]
+            )
+            processed = processor.process(input_data)
             results.append(processed)
+
+            self.trace.append(
+                {
+                    "step": len(self.trace) + 1,
+                    "input": input_data,
+                    "processor": processor.__class__.__name__,
+                    "output": processed,
+                }
+            )
 
         # Calculate overall coherence
         overall_coherence = sum(r.get("coherence", 0) for r in results) / len(results) if results else 0
@@ -450,6 +465,16 @@ class BioSymbolicOrchestrator:
             return max(glyph_counts, key=glyph_counts.get)
 
         return None
+
+    def visualize_trace(self):
+        """
+        Visualizes the most recent trace using the MATRIZGraphViewer.
+        """
+        try:
+            from matriz.visualization.trace_visualizer import visualize_trace
+            visualize_trace(self.trace)
+        except ImportError:
+            logger.error("Could not import trace visualizer. Please ensure MATRIZ is installed.")
 
 
 # Aliases for backward compatibility

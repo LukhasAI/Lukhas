@@ -20,7 +20,6 @@ from collections import defaultdict, deque
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
-
 from core.consciousness_signal_router import (
     CascadePrevention,
     ConsciousnessSignalRouter,
@@ -380,7 +379,6 @@ class TestConsciousnessSignalRouter:
     # Cascade Prevention Tests
     def test_cascade_prevention(self, router, sample_signal):
         """Test cascade prevention mechanism."""
-        cascade_prevented = False
 
         with patch.object(router.cascade_prevention, 'should_prevent_cascade', return_value=True):
             handler_called = False
@@ -504,7 +502,7 @@ class TestConsciousnessSignalRouter:
 
     def test_performance_metrics(self, router, sample_signals):
         """Test performance metrics tracking."""
-        start_time = time.time()
+        time.time()
 
         # Process multiple signals
         for signal in sample_signals:
@@ -589,7 +587,7 @@ class TestConsciousnessSignalRouter:
 
         # Create multiple threads
         threads = []
-        for i in range(5):
+        for _i in range(5):
             thread = threading.Thread(
                 target=lambda: [router.route_signal(s) for s in sample_signals]
             )

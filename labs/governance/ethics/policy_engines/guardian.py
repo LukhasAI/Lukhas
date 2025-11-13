@@ -3,9 +3,10 @@
 LUKHAS Guardian Policy Engine
 Guardian-focused policy evaluation with drift detection and safety protocols
 """
+from __future__ import annotations
 
 import logging
-from typing import Any, Dict, List
+from typing import Any
 
 from .base import BasePolicyEngine, PolicyContext, PolicyDecision, PolicyEngineResult
 
@@ -136,7 +137,7 @@ class GuardianPolicyEngine(BasePolicyEngine):
             evaluation_time_ms=0.0  # Will be set by base class
         )
 
-    def _check_critical_safety(self, content: str) -> List[str]:
+    def _check_critical_safety(self, content: str) -> list[str]:
         """Check for critical safety keyword violations"""
         violations = []
         for keyword in self.critical_safety_keywords:
@@ -144,7 +145,7 @@ class GuardianPolicyEngine(BasePolicyEngine):
                 violations.append(f"Critical safety keyword detected: {keyword}")
         return violations
 
-    def _create_critical_rejection(self, violations: List[str], content: str) -> PolicyEngineResult:
+    def _create_critical_rejection(self, violations: list[str], content: str) -> PolicyEngineResult:
         """Create immediate rejection for critical safety violations"""
         return PolicyEngineResult(
             decision=PolicyDecision.REJECTED,
@@ -187,7 +188,7 @@ class GuardianPolicyEngine(BasePolicyEngine):
 
         return total_score / total_weight if total_weight > 0 else 0.8
 
-    def _evaluate_drift_patterns(self, content: str) -> tuple[float, List[str]]:
+    def _evaluate_drift_patterns(self, content: str) -> tuple[float, list[str]]:
         """Evaluate content for drift patterns"""
         import re
 
@@ -210,7 +211,7 @@ class GuardianPolicyEngine(BasePolicyEngine):
 
         return overall_drift, violations
 
-    def _assess_guardian_risks(self, content: str, context: PolicyContext) -> Dict[str, Any]:
+    def _assess_guardian_risks(self, content: str, context: PolicyContext) -> dict[str, Any]:
         """Assess guardian-specific risks"""
         risk_factors = {
             "content_length": len(content) / 10000,  # Longer content = slightly higher risk
@@ -249,7 +250,7 @@ class GuardianPolicyEngine(BasePolicyEngine):
     def _determine_guardian_decision(self,
                                    confidence: float,
                                    drift_score: float,
-                                   violations: List[str]) -> PolicyDecision:
+                                   violations: list[str]) -> PolicyDecision:
         """Determine guardian decision based on guardian criteria"""
         # Guardian is more conservative than other engines
         if violations or drift_score > self.drift_threshold:
@@ -264,7 +265,7 @@ class GuardianPolicyEngine(BasePolicyEngine):
     def _generate_guardian_recommendations(self,
                                          safety_score: float,
                                          drift_score: float,
-                                         violations: List[str]) -> List[str]:
+                                         violations: list[str]) -> list[str]:
         """Generate guardian-specific recommendations"""
         recommendations = []
 
@@ -285,7 +286,7 @@ class GuardianPolicyEngine(BasePolicyEngine):
     def _generate_guardian_reasoning(self,
                                    safety_score: float,
                                    drift_score: float,
-                                   violations: List[str]) -> str:
+                                   violations: list[str]) -> str:
         """Generate guardian-specific reasoning"""
         if violations:
             return f"Guardian rejection due to {len(violations)} policy violations including drift patterns"
@@ -296,7 +297,7 @@ class GuardianPolicyEngine(BasePolicyEngine):
         else:
             return f"Guardian conditional approval - moderate safety alignment (score: {safety_score:.2f})"
 
-    def _get_guardian_metrics(self, content: str) -> Dict[str, Any]:
+    def _get_guardian_metrics(self, content: str) -> dict[str, Any]:
         """Get detailed guardian metrics"""
         safety_scores = {}
         for protocol, config in self.safety_protocols.items():
@@ -310,7 +311,7 @@ class GuardianPolicyEngine(BasePolicyEngine):
             "critical_keywords_detected": sum(1 for keyword in self.critical_safety_keywords if keyword in content)
         }
 
-    def _calculate_protocol_score(self, content: str, config: Dict[str, Any]) -> float:
+    def _calculate_protocol_score(self, content: str, config: dict[str, Any]) -> float:
         """Calculate score for individual protocol"""
         positive_indicators = config.get("safety_indicators", []) + \
                             config.get("integrity_indicators", []) + \
@@ -333,7 +334,7 @@ class GuardianPolicyEngine(BasePolicyEngine):
         self.drift_threshold = max(0.0, min(new_threshold, 1.0))
         logger.info(f"Guardian drift threshold updated to {self.drift_threshold}")
 
-    def add_safety_protocol(self, name: str, config: Dict[str, Any]) -> None:
+    def add_safety_protocol(self, name: str, config: dict[str, Any]) -> None:
         """Add a new safety protocol"""
         self.safety_protocols[name] = config
         logger.info(f"Added safety protocol: {name}")
@@ -345,7 +346,7 @@ class GuardianPolicyEngine(BasePolicyEngine):
         self.drift_patterns[drift_type].append(pattern)
         logger.info(f"Added drift pattern to {drift_type}: {pattern}")
 
-    def get_guardian_status(self) -> Dict[str, Any]:
+    def get_guardian_status(self) -> dict[str, Any]:
         """Get guardian engine status"""
         base_status = self.get_engine_status()
         base_status.update({

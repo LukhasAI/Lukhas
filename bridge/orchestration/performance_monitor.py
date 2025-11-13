@@ -38,6 +38,8 @@
 ║ Symbolic Tags: {ΛMONITOR}, {ΛPERFORMANCE}, {ΛMETRICS}, {ΛOPTIMIZATION}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import asyncio
 import logging
 import statistics
@@ -46,7 +48,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.orchestration.performance")
@@ -75,8 +77,8 @@ class PerformanceMetric:
     latency_ms: float
     success: bool
     confidence: float
-    token_count: Optional[int] = None
-    error_type: Optional[str] = None
+    token_count: int | None = None
+    error_type: str | None = None
 
 
 @dataclass
@@ -118,7 +120,7 @@ class PerformanceMonitor:
     for multi-AI orchestration with <10ms monitoring overhead.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize the performance monitor"""
         self.config = config or {}
 
@@ -163,8 +165,8 @@ class PerformanceMonitor:
         latency_ms: float,
         success: bool,
         confidence: float = 0.0,
-        token_count: Optional[int] = None,
-        error_type: Optional[str] = None,
+        token_count: int | None = None,
+        error_type: str | None = None,
     ) -> None:
         """
         Record a performance metric with minimal overhead

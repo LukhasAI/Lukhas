@@ -13,6 +13,8 @@ Usage:
 Author: LUKHAS Development Team
 Last Updated: 2025-10-19
 """
+from __future__ import annotations
+
 import argparse
 import json
 import pathlib

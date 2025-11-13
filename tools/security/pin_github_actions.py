@@ -12,7 +12,6 @@ Usage:
 import argparse
 import re
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 # Known action SHA mappings (as of Sep 2024)
 ACTION_SHA_MAP = {
@@ -29,7 +28,7 @@ ACTION_SHA_MAP = {
 }
 
 
-def find_workflow_files() -> List[Path]:
+def find_workflow_files() -> list[Path]:
     """Find all GitHub workflow files"""
     workflows_dir = Path(".github/workflows")
     if not workflows_dir.exists():
@@ -38,12 +37,12 @@ def find_workflow_files() -> List[Path]:
     return list(workflows_dir.glob("*.yml")) + list(workflows_dir.glob("*.yaml"))
 
 
-def analyze_workflow_file(filepath: Path) -> List[Tuple[str, str, int]]:
+def analyze_workflow_file(filepath: Path) -> list[tuple[str, str, int]]:
     """Analyze a workflow file for action references that need pinning"""
     issues = []
 
     try:
-        with open(filepath, 'r') as f:
+        with open(filepath) as f:
             lines = f.readlines()
 
         for line_num, line in enumerate(lines, 1):
@@ -64,7 +63,7 @@ def analyze_workflow_file(filepath: Path) -> List[Tuple[str, str, int]]:
 def update_workflow_file(filepath: Path, dry_run: bool = True) -> bool:
     """Update a workflow file to use SHA references"""
     try:
-        with open(filepath, 'r') as f:
+        with open(filepath) as f:
             content = f.read()
 
         updates_made = 0
@@ -90,7 +89,7 @@ def update_workflow_file(filepath: Path, dry_run: bool = True) -> bool:
     return False
 
 
-def check_workflows() -> Dict[str, List]:
+def check_workflows() -> dict[str, List]:
     """Check all workflows for unpinned actions"""
     print("🔍 Scanning GitHub workflows for unpinned actions...")
 
@@ -112,7 +111,7 @@ def check_workflows() -> Dict[str, List]:
         print("\n🔍 Unpinned Actions Found:")
         for filepath, issues in all_issues.items():
             print(f"\n{filepath}:")
-            for action_ref, line, line_num in issues:
+            for action_ref, _line, line_num in issues:
                 status = "🔄 CAN PIN" if action_ref in ACTION_SHA_MAP else "⚠️ UNKNOWN"
                 print(f"   Line {line_num}: {action_ref} {status}")
 

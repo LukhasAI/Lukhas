@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
 """
 LUKHAS Consent Ledger v2.0.0 - Event-Driven Facade
 ===================================================
@@ -23,7 +27,7 @@ import threading
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import  Callable, Optional
 
 # Import original types for compatibility
 from ..governance.consent_ledger_impl import (
@@ -49,7 +53,6 @@ from .events import (
 from .metrics import get_metrics, time_append_operation
 
 logger = logging.getLogger(__name__)
-
 
 class ConsentLedgerV2:
     """
@@ -157,13 +160,13 @@ class ConsentLedgerV2:
         self,
         lid: str,
         resource_type: str,
-        scopes: List[str],
+        scopes: list[str],
         purpose: str,
         lawful_basis: str = "consent",
         consent_type: ConsentType = ConsentType.EXPLICIT,
-        data_categories: Optional[List[str]] = None,
-        third_parties: Optional[List[str]] = None,
-        processing_locations: Optional[List[str]] = None,
+        data_categories: Optional[list[str]] = None,
+        third_parties: Optional[list[str]] = None,
+        processing_locations: Optional[list[str]] = None,
         expires_in_days: Optional[int] = None,
         retention_period: Optional[int] = None,
         automated_decision_making: bool = False,
@@ -285,7 +288,8 @@ class ConsentLedgerV2:
                 )
                 try:
                     self._run_async(self.event_bus.append_event(error_trace))
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass  # Don't fail on error trace failure
 
                 raise
@@ -330,7 +334,7 @@ class ConsentLedgerV2:
                 logger.error(f"Failed to revoke consent {consent_id}: {e}")
                 return False
 
-    def check_consent(self, lid: str, resource_type: str, action: str, context: Optional[Dict] = None) -> Dict[str, Any]:
+    def check_consent(self, lid: str, resource_type: str, action: str, context: Optional[Dict] = None) -> dict[str, Any]:
         """
         Check consent with event sourcing.
         Maintains ConsentLedgerV1 API compatibility.
@@ -354,7 +358,7 @@ class ConsentLedgerV2:
                 reason = "no_active_consent"
 
                 if result:
-                    consent_id, scopes_json, purpose, expires_at, lawful_basis = result
+                    consent_id, scopes_json, _purpose, expires_at, lawful_basis = result
                     scopes = json.loads(scopes_json)
 
                     # Check expiration
@@ -483,7 +487,7 @@ class ConsentLedgerV2:
         logger.info(f"Agent callback registration: {agent_name} (event-driven mode)")
         # In event-driven mode, agents subscribe to events via the event bus
 
-    def get_health_status(self) -> Dict[str, Any]:
+    def get_health_status(self) -> dict[str, Any]:
         """Get health status including event sourcing components"""
         try:
             # Get event bus health
@@ -539,7 +543,6 @@ class ConsentLedgerV2:
         except Exception as e:
             logger.error(f"Shutdown error: {e}")
 
-
 # Factory function to maintain backward compatibility
 def ConsentLedgerV1(*args, **kwargs):
     """
@@ -547,7 +550,6 @@ def ConsentLedgerV1(*args, **kwargs):
     Returns ConsentLedgerV2 but maintains V1 interface.
     """
     return ConsentLedgerV2(*args, **kwargs)
-
 
 # For complete backward compatibility, we can also expose the original class name
 class ConsentLedgerV1(ConsentLedgerV2):

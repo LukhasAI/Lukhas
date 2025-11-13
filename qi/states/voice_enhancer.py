@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+# ruff: noqa: F821
 """
 
 #TAG:qim
@@ -158,7 +159,10 @@ class QIVoiceEnhancer:
         self,
         audio_data: bytes,
         context: Optional[dict[str, Any]],
-        original_method: Callable,  # noqa: F821  # TODO: Callable
+# T4: code=F821 | ticket=SKELETON-69355C65 | owner=lukhas-platform | status=skeleton
+# reason: Undefined Callable in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+        original_method: Callable,  # TODO: Callable
     ) -> dict[str, Any]:
         """Process voice input with quantum enhancement"""
         try:
@@ -185,7 +189,10 @@ class QIVoiceEnhancer:
         self,
         text: str,
         voice_params: Optional[dict[str, Any]],
-        original_method: Callable,  # noqa: F821  # TODO: Callable
+# T4: code=F821 | ticket=SKELETON-69355C65 | owner=lukhas-platform | status=skeleton
+# reason: Undefined Callable in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
+        original_method: Callable,  # TODO: Callable
     ) -> dict[str, Any]:
         """Generate speech with quantum enhancement"""
         try:

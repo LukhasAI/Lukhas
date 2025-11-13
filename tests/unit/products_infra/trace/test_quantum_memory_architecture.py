@@ -3,6 +3,11 @@ from pathlib import Path
 
 import numpy as np
 import pytest
+from products.infrastructure.trace.quantum_implementations.QuantumMemoryArchitecture import (
+    QIAssociativeMemoryBank,
+    QuantumQuery,
+    QuantumState,
+)
 
 path_obj = Path(__file__).resolve()
 tests_unit_path = str(path_obj.parents[2])
@@ -11,11 +16,6 @@ if tests_unit_path in sys.path:
 
 sys.path.insert(0, str(path_obj.parents[4]))
 
-from products.infrastructure.trace.quantum_implementations.QuantumMemoryArchitecture import (
-    QIAssociativeMemoryBank,
-    QuantumQuery,
-    QuantumState,
-)
 
 
 @pytest.mark.asyncio

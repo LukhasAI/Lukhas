@@ -1,3 +1,8 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
+
 #!/usr/bin/env python3
 """
 LUKHAS Security - Input Validation Framework
@@ -15,6 +20,7 @@ Key Features:
 
 Constellation Framework: 🛡️ Guardian Excellence - Input Security
 """
+from __future__ import annotations
 
 import html
 import logging
@@ -24,7 +30,7 @@ import unicodedata
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, TypeVar
+from typing import Callable
 
 # AI-specific validation imports
 try:
@@ -63,15 +69,15 @@ class ValidationResult:
     """Result of input validation with detailed diagnostics."""
     is_valid: bool
     severity: ValidationSeverity
-    attack_vectors: List[AttackVector] = field(default_factory=list)
-    sanitized_value: Optional[Any] = None
-    warnings: List[str] = field(default_factory=list)
-    errors: List[str] = field(default_factory=list)
+    attack_vectors: list[AttackVector] = field(default_factory=list)
+    sanitized_value: Any | None = None
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
     processing_time_ms: float = 0.0
     confidence_score: float = 0.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert result to dictionary for logging/API responses."""
         return {
             "is_valid": self.is_valid,
@@ -149,9 +155,9 @@ class InputValidator:
 
     def validate(self,
                  value: Any,
-                 context: Optional[Dict[str, Any]] = None,
-                 expected_type: Optional[type] = None,
-                 custom_validators: Optional[List[Callable]] = None) -> ValidationResult:
+                 context: dict[str, Any] | None = None,
+                 expected_type: type | None = None,
+                 custom_validators: list[Callable] | None = None) -> ValidationResult:
         """
         Comprehensive input validation with multi-layer checks.
 
@@ -207,7 +213,7 @@ class InputValidator:
             logger.exception(f"Validation error: {e}")
             result.is_valid = False
             result.severity = ValidationSeverity.CRITICAL
-            result.errors.append(f"Validation system error: {str(e)}")
+            result.errors.append(f"Validation system error: {e!s}")
 
         finally:
             result.processing_time_ms = (time.perf_counter() - start_time) * 1000
@@ -215,7 +221,7 @@ class InputValidator:
 
         return result
 
-    def _validate_basic(self, value: Any, result: ValidationResult, expected_type: Optional[type]):
+    def _validate_basic(self, value: Any, result: ValidationResult, expected_type: type | None):
         """Basic type and null validation."""
         if value is None:
             result.warnings.append("Null value provided")
@@ -229,11 +235,7 @@ class InputValidator:
     def _validate_size(self, value: Any, result: ValidationResult):
         """Size and length validation."""
         size = 0
-        if isinstance(value, (str, bytes)):
-            size = len(value)
-        elif isinstance(value, (list, dict)):
-            size = len(value)
-        elif hasattr(value, '__len__'):
+        if isinstance(value, (str, bytes, list, dict)) or hasattr(value, '__len__'):
             size = len(value)
 
         result.metadata["size"] = size
@@ -336,7 +338,7 @@ class InputValidator:
                 result.severity = ValidationSeverity.DANGER
                 result.is_valid = False
 
-    def _run_custom_validators(self, value: Any, result: ValidationResult, validators: List[Callable]):
+    def _run_custom_validators(self, value: Any, result: ValidationResult, validators: list[Callable]):
         """Run custom validation functions."""
         for validator in validators:
             try:
@@ -356,7 +358,7 @@ class InputValidator:
                 logger.exception(f"Custom validator error: {e}")
                 result.errors.append(f"Custom validator error: {validator.__name__}")
 
-    def _guardian_validation(self, value: Any, result: ValidationResult, context: Optional[Dict[str, Any]]):
+    def _guardian_validation(self, value: Any, result: ValidationResult, context: dict[str, Any] | None):
         """Integrate with Guardian system for high-risk inputs."""
         try:
             # Mock Guardian integration - would be replaced with actual Guardian calls
@@ -384,7 +386,7 @@ class InputValidator:
             logger.exception(f"Guardian integration error: {e}")
             result.warnings.append("Guardian system unavailable")
 
-    def _sanitize_value(self, value: Any, result: ValidationResult) -> Optional[Any]:
+    def _sanitize_value(self, value: Any, result: ValidationResult) -> Any | None:
         """Sanitize input value based on detected threats."""
         if not isinstance(value, str):
             return value
@@ -461,7 +463,7 @@ class AIInputValidator(InputValidator):
             ]
         }
 
-    def validate_ai_input(self, prompt: str, context: Optional[Dict[str, Any]] = None) -> ValidationResult:
+    def validate_ai_input(self, prompt: str, context: dict[str, Any] | None = None) -> ValidationResult:
         """Validate AI input with specialized AI threat detection."""
         result = self.validate(prompt, context, expected_type=str)
 
@@ -561,7 +563,7 @@ class ValidationMetrics:
         if false_positive:
             self.false_positives += 1
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get validation statistics."""
         if self.total_validations == 0:
             return {"no_data": True}

@@ -22,6 +22,7 @@ Version: 1.0.0
 #TAG:tags
 #TAG:task13
 """
+from __future__ import annotations
 
 import logging
 
@@ -34,7 +35,7 @@ import time
 import unicodedata
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any
 
 _LUKHAS_ADVANCED = os.getenv("LUKHAS_ADVANCED_TAGS") == "1" or os.getenv("LUKHAS_EXPERIMENTAL") == "1"
 
@@ -269,7 +270,7 @@ class SafetyTag:
     description: str
     confidence: float = 1.0
     source: str = "detection"  # detection, manual, inherited
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         if not 0.0 <= self.confidence <= 1.0:
@@ -279,18 +280,18 @@ class SafetyTag:
 @dataclass
 class TaggedPlan:
     """Plan enriched with safety tags."""
-    original_plan: Dict[str, Any]
-    tags: List[SafetyTag]
+    original_plan: dict[str, Any]
+    tags: list[SafetyTag]
     enrichment_time_ms: float
-    enrichment_context: Dict[str, Any] = field(default_factory=dict)
+    enrichment_context: dict[str, Any] = field(default_factory=dict)
 
     @property
-    def tag_names(self) -> Set[str]:
+    def tag_names(self) -> set[str]:
         """Get set of tag names."""
         return {tag.name for tag in self.tags}
 
     @property
-    def tags_by_category(self) -> Dict[SafetyTagCategory, List[SafetyTag]]:
+    def tags_by_category(self) -> dict[SafetyTagCategory, list[SafetyTag]]:
         """Group tags by category."""
         groups = {}
         for tag in self.tags:
@@ -307,7 +308,7 @@ class TaggedPlan:
         """Check if plan has any tags in category."""
         return category in self.tags_by_category
 
-    def get_tags_by_category(self, category: SafetyTagCategory) -> List[SafetyTag]:
+    def get_tags_by_category(self, category: SafetyTagCategory) -> list[SafetyTag]:
         """Get tags in specific category."""
         return self.tags_by_category.get(category, [])
 
@@ -320,7 +321,7 @@ class SafetyTagDetector:
         self.category = category
         self.description = description
 
-    def detect(self, plan: Dict[str, Any], context: Dict[str, Any]) -> Optional[SafetyTag]:
+    def detect(self, plan: dict[str, Any], context: dict[str, Any]) -> Optional[SafetyTag]:
         """Detect if this tag applies to the plan. Override in subclasses."""
         raise NotImplementedError
 
@@ -344,7 +345,7 @@ class PIIDetector(SafetyTagDetector):
             'date_of_birth', 'dob', 'personal_id', 'user_id', 'customer_id'
         }
 
-    def detect(self, plan: Dict[str, Any], context: Dict[str, Any]) -> Optional[SafetyTag]:
+    def detect(self, plan: dict[str, Any], context: dict[str, Any]) -> Optional[SafetyTag]:
         """Detect PII in plan parameters."""
         confidence = 0.0
         detected_types = []
@@ -415,7 +416,7 @@ class FinancialDetector(SafetyTagDetector):
             'billing', 'invoice', 'transaction', 'financial'
         }
 
-    def detect(self, plan: Dict[str, Any], context: Dict[str, Any]) -> Optional[SafetyTag]:
+    def detect(self, plan: dict[str, Any], context: dict[str, Any]) -> Optional[SafetyTag]:
         """Detect financial content in plan."""
         confidence = 0.0
         detected_types = []
@@ -479,7 +480,7 @@ class ModelSwitchDetector(SafetyTagDetector):
             'completion', 'chat completion', 'text generation'
         }
 
-    def detect(self, plan: Dict[str, Any], context: Dict[str, Any]) -> Optional[SafetyTag]:
+    def detect(self, plan: dict[str, Any], context: dict[str, Any]) -> Optional[SafetyTag]:
         """Detect model switching operations."""
         confidence = 0.0
         detected_types = []
@@ -542,7 +543,7 @@ class ExternalCallDetector(SafetyTagDetector):
             'third-party', 'external', 'remote', 'upstream'
         }
 
-    def detect(self, plan: Dict[str, Any], context: Dict[str, Any]) -> Optional[SafetyTag]:
+    def detect(self, plan: dict[str, Any], context: dict[str, Any]) -> Optional[SafetyTag]:
         """Detect external API calls."""
         confidence = 0.0
         detected_types = []
@@ -608,7 +609,7 @@ class PrivilegeEscalationDetector(SafetyTagDetector):
             'role_change', 'permission_grant', 'access_override'
         }
 
-    def detect(self, plan: Dict[str, Any], context: Dict[str, Any]) -> Optional[SafetyTag]:
+    def detect(self, plan: dict[str, Any], context: dict[str, Any]) -> Optional[SafetyTag]:
         """Detect privilege escalation patterns."""
         confidence = 0.0
         detected_types = []
@@ -659,7 +660,7 @@ class GDPRDetector(SafetyTagDetector):
             'data_processor', 'consent', 'legitimate_interest'
         }
 
-    def detect(self, plan: Dict[str, Any], context: Dict[str, Any]) -> Optional[SafetyTag]:
+    def detect(self, plan: dict[str, Any], context: dict[str, Any]) -> Optional[SafetyTag]:
         """Detect GDPR-related operations."""
         confidence = 0.0
         detected_types = []
@@ -791,7 +792,7 @@ class SafetyTagEnricher:
 
         return text
 
-    def preprocess_plan(self, plan: Dict[str, Any]) -> Dict[str, Any]:
+    def preprocess_plan(self, plan: dict[str, Any]) -> dict[str, Any]:
         """
         Preprocess plan to normalize all text fields.
 
@@ -825,8 +826,8 @@ class SafetyTagEnricher:
 
     def enrich_plan(
         self,
-        plan: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None
+        plan: dict[str, Any],
+        context: Optional[dict[str, Any]] = None
     ) -> TaggedPlan:
         """
         Enrich action plan with safety tags.
@@ -942,7 +943,7 @@ class SafetyTagEnricher:
                     enrichment_context={"error": str(e)}
                 )
 
-    def _generate_cache_key(self, plan: Dict[str, Any], context: Dict[str, Any]) -> str:
+    def _generate_cache_key(self, plan: dict[str, Any], context: dict[str, Any]) -> str:
         """Generate cache key for plan + context."""
         import hashlib
         content = f"{sorted(plan.items())}_{sorted(context.items())}"
@@ -969,7 +970,7 @@ class SafetyTagEnricher:
 
         logger.info(f"Added custom detector: {detector.tag_name}")
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get enricher statistics."""
         return {
             "detector_count": len(self.detectors),
@@ -998,16 +999,16 @@ def create_safety_tag_enricher(enable_caching: bool = True) -> SafetyTagEnricher
 
 # Export main classes
 __all__ = [
+    "ExternalCallDetector",
+    "FinancialDetector",
+    "GDPRDetector",
+    "ModelSwitchDetector",
+    "PIIDetector",
+    "PrivilegeEscalationDetector",
     "SafetyTag",
     "SafetyTagCategory",
     "SafetyTagDetector",
-    "TaggedPlan",
     "SafetyTagEnricher",
-    "PIIDetector",
-    "FinancialDetector",
-    "ModelSwitchDetector",
-    "ExternalCallDetector",
-    "PrivilegeEscalationDetector",
-    "GDPRDetector",
+    "TaggedPlan",
     "create_safety_tag_enricher"
 ]

@@ -176,7 +176,7 @@ class BaseColony:
 
 __all__ = [
     "BaseColony",
+    "ConsensusResult",
     "Tag",
     "TagScope",
-    "ConsensusResult",
 ]

@@ -1,0 +1,30 @@
+==================================== ERRORS ====================================
+____________ ERROR collecting tests/api/test_optimization_system.py ____________
+____________ ERROR collecting tests/api/test_routing_admin_auth.py _____________
+______________ ERROR collecting tests/bridge/test_jwt_adapter.py _______________
+E   ModuleNotFoundError: No module named 'jwt'
+_______ ERROR collecting tests/bridge/test_jwt_adapter_high_priority.py ________
+E   ModuleNotFoundError: No module named 'jwt'
+_________ ERROR collecting tests/candidate/qi/test_qi_entanglement.py __________
+E   ModuleNotFoundError: No module named 'qi.qi_entanglement'
+_________ ERROR collecting tests/capabilities/test_governance_suite.py _________
+E   ModuleNotFoundError: No module named 'lukhas_website.core'
+_ ERROR collecting tests/cognitive/property_based/test_reasoning_edge_cases.py _
+E   ModuleNotFoundError: No module named 'hypothesis'
+_ ERROR collecting tests/cognitive/stress/test_cognitive_load_infrastructure.py _
+E   ModuleNotFoundError: No module named 'psutil'
+_______ ERROR collecting tests/cognitive/test_comprehensive_coverage.py ________
+    raise TypeError(f'non-default argument {f.name!r} '
+E   TypeError: non-default argument 'creation_time' follows default argument
+________ ERROR collecting tests/collapse/test_collapse_simulator_cli.py ________
+E   ModuleNotFoundError: No module named 'tools.collapse_simulator'
+___ ERROR collecting tests/consciousness/test_advanced_cognitive_features.py ___
+E   ModuleNotFoundError: No module named 'cognitive_core.reasoning.contradiction_integrator'
+___ ERROR collecting tests/consciousness/test_c1_consciousness_components.py ___
+E   ModuleNotFoundError: No module named 'hypothesis'
+________ ERROR collecting tests/consciousness/test_creativity_engine.py ________
+______ ERROR collecting tests/consciousness/test_guardian_integration.py _______
+____ ERROR collecting tests/consciousness/test_lukhas_reflection_engine.py _____
+E   ModuleNotFoundError: No module named 'hypothesis'
+________ ERROR collecting tests/consciousness/test_reflection_engine.py ________
+E   ModuleNotFoundError: No module named 'hypothesis'

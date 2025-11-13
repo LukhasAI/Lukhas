@@ -17,10 +17,9 @@ import argparse
 import subprocess
 import sys
 from pathlib import Path
-from typing import Set
 
 
-def get_changed_test_files(base_ref: str) -> Set[Path]:
+def get_changed_test_files(base_ref: str) -> set[Path]:
     """Get test files that have been changed since base_ref."""
     try:
         result = subprocess.run(
@@ -97,7 +96,7 @@ def has_matching_spec(test_path: Path) -> bool:
                 filename = filename[:-3]  # Remove '.py'
 
             # Join with underscores
-            spec_parts = list(remaining_parts[:-1]) + [filename]
+            spec_parts = [*list(remaining_parts[:-1]), filename]
             spec_name = "_".join(spec_parts) + "_spec.yaml"
 
             spec_path = Path("tests/specs") / spec_name

@@ -9,8 +9,8 @@ Integration Date: 2025-05-31T07:55:30.487056
 ┌────────────────────────────────────────────────────────────────────────────┐
 │ MODULE         : lukhas_travel_widget.py                                    │
 │ DESCRIPTION    :                                                           │
-│   Orchestrates travel suggestions — from local rides to long-distance     │
-│   trips — based on emotional, symbolic, and scheduling context.           │
+│   Orchestrates travel suggestions - from local rides to long-distance     │
+│   trips - based on emotional, symbolic, and scheduling context.           │
 │   Tier-based logic governs access to proactive booking, smart routing,    │
 │   dream-inspired destinations, and real-time external API syncing.        │
 │ TYPE           : Context-Aware Suggestion Engine VERSION : v1.0.0         │

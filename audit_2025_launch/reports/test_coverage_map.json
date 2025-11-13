@@ -1,0 +1,678 @@
+{
+  "timestamp": "2025-11-06T00:26:25.262914",
+  "summary": {
+    "total_test_files": 1038,
+    "total_test_functions": 4668,
+    "total_source_files": 5983,
+    "note": "Simplified coverage - run pytest-cov for detailed coverage"
+  },
+  "test_files": [
+    {
+      "path": "tests/test_mcp_fetch.py",
+      "test_count": 1,
+      "markers": [],
+      "size": 1640
+    },
+    {
+      "path": "tests/test_contracts.py",
+      "test_count": 21,
+      "markers": [
+        "contract"
+      ],
+      "size": 8307
+    },
+    {
+      "path": "tests/test_policy_guard.py",
+      "test_count": 17,
+      "markers": [],
+      "size": 14338
+    },
+    {
+      "path": "tests/conftest.py",
+      "test_count": 0,
+      "markers": [],
+      "size": 133
+    },
+    {
+      "path": "tests/test_router_logonly.py",
+      "test_count": 3,
+      "markers": [
+        "prod_only"
+      ],
+      "size": 2121
+    },
+    {
+      "path": "tests/test_candidate_unit.py",
+      "test_count": 0,
+      "markers": [],
+      "size": 166
+    },
+    {
+      "path": "tests/test_stream_continuity.py",
+      "test_count": 8,
+      "markers": [],
+      "size": 12626
+    },
+    {
+      "path": "tests/test_golden_manifests.py",
+      "test_count": 1,
+      "markers": [],
+      "size": 397
+    },
+    {
+      "path": "tests/test_security_caching_storage.py",
+      "test_count": 0,
+      "markers": [
+        "asyncio"
+      ],
+      "size": 32731
+    },
+    {
+      "path": "tests/generate_test_report.py",
+      "test_count": 0,
+      "markers": [],
+      "size": 7200
+    },
+    {
+      "path": "tests/test_chatgpt_mcp.py",
+      "test_count": 1,
+      "markers": [],
+      "size": 7510
+    },
+    {
+      "path": "tests/test_memory_integration.py",
+      "test_count": 0,
+      "markers": [
+        "asyncio"
+      ],
+      "size": 799
+    },
+    {
+      "path": "tests/test_consciousness_tick.py",
+      "test_count": 13,
+      "markers": [],
+      "size": 6095
+    },
+    {
+      "path": "tests/test_guardian_integration_validation.py",
+      "test_count": 1,
+      "markers": [],
+      "size": 9116
+    },
+    {
+      "path": "tests/test_symbolic_bridge_temporal_map.py",
+      "test_count": 0,
+      "markers": [],
+      "size": 208
+    },
+    {
+      "path": "tests/__init__.py",
+      "test_count": 0,
+      "markers": [],
+      "size": 0
+    },
+    {
+      "path": "tests/test_guardian_quick.py",
+      "test_count": 2,
+      "markers": [],
+      "size": 5343
+    },
+    {
+      "path": "tests/test_async_minimal.py",
+      "test_count": 0,
+      "markers": [],
+      "size": 271
+    },
+    {
+      "path": "tests/test_t4_excellence_summary.py",
+      "test_count": 0,
+      "markers": [],
+      "size": 6247
+    },
+    {
+      "path": "tests/test_creative_market_import.py",
+      "test_count": 1,
+      "markers": [],
+      "size": 388
+    },
+    {
+      "path": "tests/test_hidden_gems_summary.py",
+      "test_count": 5,
+      "markers": [],
+      "size": 3520
+    },
+    {
+      "path": "tests/test_telemetry_authz_smoke.py",
+      "test_count": 7,
+      "markers": [],
+      "size": 12443
+    },
+    {
+      "path": "tests/test_lukhas_integration.py",
+      "test_count": 5,
+      "markers": [
+        "integration"
+      ],
+      "size": 1823
+    },
+    {
+      "path": "tests/test_provenance_smoke.py",
+      "test_count": 11,
+      "markers": [],
+      "size": 11682
+    },
+    {
+      "path": "tests/test_consciousness_stream.py",
+      "test_count": 19,
+      "markers": [],
+      "size": 15974
+    },
+    {
+      "path": "tests/test_telemetry_semconv.py",
+      "test_count": 7,
+      "markers": [
+        "telemetry"
+      ],
+      "size": 5440
+    },
+    {
+      "path": "tests/test_mcp_enhanced_tools.py",
+      "test_count": 1,
+      "markers": [],
+      "size": 6508
+    },
+    {
+      "path": "tests/marks.py",
+      "test_count": 0,
+      "markers": [],
+      "size": 167
+    },
+    {
+      "path": "tests/test_constellation_shims.py",
+      "test_count": 1,
+      "markers": [],
+      "size": 515
+    },
+    {
+      "path": "tests/test_breakthrough.py",
+      "test_count": 5,
+      "markers": [
+        "benchmark",
+        "perf",
+        "stability",
+        "tier2"
+      ],
+      "size": 4145
+    },
+    {
+      "path": "tests/test_mcp_file_operations.py",
+      "test_count": 0,
+      "markers": [],
+      "size": 367
+    },
+    {
+      "path": "tests/test_guardian_serializers.py",
+      "test_count": 29,
+      "markers": [
+        "asyncio"
+      ],
+      "size": 27173
+    },
+    {
+      "path": "tests/test_candidate_integration.py",
+      "test_count": 0,
+      "markers": [],
+      "size": 187
+    },
+    {
+      "path": "tests/test_lukhas_unit.py",
+      "test_count": 6,
+      "markers": [
+        "unit"
+      ],
+      "size": 1892
+    },
+    {
+      "path": "tests/test_api_expansion.py",
+      "test_count": 18,
+      "markers": [],
+      "size": 4605
+    },
+    {
+      "path": "tests/test_folds.py",
+      "test_count": 10,
+      "markers": [],
+      "size": 5929
+    },
+    {
+      "path": "tests/test_memory_sync.py",
+      "test_count": 22,
+      "markers": [],
+      "size": 21562
+    },
+    {
+      "path": "tests/test_orchestrator_quick.py",
+      "test_count": 0,
+      "markers": [],
+      "size": 8611
+    },
+    {
+      "path": "tests/test_events.py",
+      "test_count": 20,
+      "markers": [],
+      "size": 11847
+    },
+    {
+      "path": "tests/test_experience_replay.py",
+      "test_count": 6,
+      "markers": [],
+      "size": 10027
+    },
+    {
+      "path": "tests/test_clock.py",
+      "test_count": 11,
+      "markers": [
+        "clock",
+        "slow"
+      ],
+      "size": 8634
+    },
+    {
+      "path": "tests/test_backpressure_ring.py",
+      "test_count": 12,
+      "markers": [],
+      "size": 8030
+    },
+    {
+      "path": "tests/comprehensive_test_suite.py",
+      "test_count": 6,
+      "markers": [],
+      "size": 29775
+    },
+    {
+      "path": "tests/test_drift.py",
+      "test_count": 14,
+      "markers": [
+        "parametrize"
+      ],
+      "size": 9394
+    },
+    {
+      "path": "tests/test_breakthrough_basic.py",
+      "test_count": 11,
+      "markers": [],
+      "size": 4554
+    },
+    {
+      "path": "tests/test_matrix_v3_presence.py",
+      "test_count": 7,
+      "markers": [
+        "parametrize"
+      ],
+      "size": 9054
+    },
+    {
+      "path": "tests/test_mcp_minimal.py",
+      "test_count": 1,
+      "markers": [],
+      "size": 1388
+    },
+    {
+      "path": "tests/test_memory_quick.py",
+      "test_count": 4,
+      "markers": [],
+      "size": 8683
+    },
+    {
+      "path": "tests/smoke/test_idempotency.py",
+      "test_count": 7,
+      "markers": [],
+      "size": 7426
+    },
+    {
+      "path": "tests/smoke/test_rate_limiting.py",
+      "test_count": 11,
+      "markers": [],
+      "size": 7484
+    },
+    {
+      "path": "tests/smoke/test_matriz_integration.py",
+      "test_count": 17,
+      "markers": [],
+      "size": 11594
+    },
+    {
+      "path": "tests/smoke/test_concurrency.py",
+      "test_count": 10,
+      "markers": [],
+      "size": 11301
+    },
+    {
+      "path": "tests/smoke/test_traces_router.py",
+      "test_count": 3,
+      "markers": [
+        "matriz",
+        "smoke"
+      ],
+      "size": 1674
+    },
+    {
+      "path": "tests/smoke/test_candidate_smoke.py",
+      "test_count": 1,
+      "markers": [],
+      "size": 249
+    },
+    {
+      "path": "tests/smoke/test_tracing.py",
+      "test_count": 3,
+      "markers": [],
+      "size": 2112
+    },
+    {
+      "path": "tests/smoke/test_openai_rl_headers.py",
+      "test_count": 8,
+      "markers": [],
+      "size": 4463
+    },
+    {
+      "path": "tests/smoke/test_metrics_tracking.py",
+      "test_count": 6,
+      "markers": [],
+      "size": 3746
+    },
+    {
+      "path": "tests/smoke/test_routing_negative.py",
+      "test_count": 7,
+      "markers": [
+        "smoke"
+      ],
+      "size": 8174
+    },
+    {
+      "path": "tests/smoke/test_memory_systems.py",
+      "test_count": 20,
+      "markers": [],
+      "size": 17130
+    },
+    {
+      "path": "tests/smoke/test_auth.py",
+      "test_count": 12,
+      "markers": [],
+      "size": 6638
+    },
+    {
+      "path": "tests/smoke/test_matriz_smoke.py",
+      "test_count": 1,
+      "markers": [
+        "matriz_smoke"
+      ],
+      "size": 2078
+    },
+    {
+      "path": "tests/smoke/test_archive_smoke.py",
+      "test_count": 1,
+      "markers": [],
+      "size": 402
+    },
+    {
+      "path": "tests/smoke/test_llm_adapter_scan.py",
+      "test_count": 3,
+      "markers": [
+        "smoke"
+      ],
+      "size": 9373
+    },
+    {
+      "path": "tests/smoke/test_experimental_smoke.py",
+      "test_count": 2,
+      "markers": [],
+      "size": 495
+    },
+    {
+      "path": "tests/smoke/test_embeddings.py",
+      "test_count": 14,
+      "markers": [],
+      "size": 9341
+    },
+    {
+      "path": "tests/smoke/test_error_handling.py",
+      "test_count": 21,
+      "markers": [],
+      "size": 9487
+    },
+    {
+      "path": "tests/smoke/__init__.py",
+      "test_count": 0,
+      "markers": [],
+      "size": 29
+    },
+    {
+      "path": "tests/smoke/test_quarantine_smoke.py",
+      "test_count": 1,
+      "markers": [],
+      "size": 429
+    },
+    {
+      "path": "tests/smoke/test_memory_roundtrip.py",
+      "test_count": 5,
+      "markers": [
+        "smoke"
+      ],
+      "size": 7176
+    },
+    {
+      "path": "tests/smoke/test_api_acl.py",
+      "test_count": 7,
+      "markers": [
+        "smoke"
+      ],
+      "size": 7809
+    },
+    {
+      "path": "tests/smoke/test_imports_light.py",
+      "test_count": 1,
+      "markers": [
+        "parametrize"
+      ],
+      "size": 634
+    },
+    {
+      "path": "tests/smoke/test_responses_stub.py",
+      "test_count": 5,
+      "markers": [],
+      "size": 3536
+    },
+    {
+      "path": "tests/smoke/test_evals_runner.py",
+      "test_count": 1,
+      "markers": [],
+      "size": 659
+    },
+    {
+      "path": "tests/smoke/test_security_headers.py",
+      "test_count": 17,
+      "markers": [],
+      "size": 10148
+    },
+    {
+      "path": "tests/smoke/test_app_lifecycle.py",
+      "test_count": 9,
+      "markers": [
+        "smoke"
+      ],
+      "size": 8417
+    },
+    {
+      "path": "tests/smoke/test_identity_auth_smoke.py",
+      "test_count": 3,
+      "markers": [
+        "smoke"
+      ],
+      "size": 4789
+    },
+    {
+      "path": "tests/smoke/test_dreams.py",
+      "test_count": 9,
+      "markers": [],
+      "size": 5346
+    },
+    {
+      "path": "tests/smoke/test_responses.py",
+      "test_count": 19,
+      "markers": [],
+      "size": 9197
+    },
+    {
+      "path": "tests/smoke/test_rate_limit_headers.py",
+      "test_count": 3,
+      "markers": [],
+      "size": 2924
+    },
+    {
+      "path": "tests/smoke/test_models.py",
+      "test_count": 14,
+      "markers": [],
+      "size": 7521
+    },
+    {
+      "path": "tests/smoke/test_guardian_ethics.py",
+      "test_count": 5,
+      "markers": [
+        "asyncio",
+        "smoke"
+      ],
+      "size": 8302
+    },
+    {
+      "path": "tests/smoke/test_openai_facade.py",
+      "test_count": 2,
+      "markers": [],
+      "size": 754
+    },
+    {
+      "path": "tests/smoke/test_health.py",
+      "test_count": 1,
+      "markers": [],
+      "size": 39
+    },
+    {
+      "path": "tests/smoke/test_models_openai_shape.py",
+      "test_count": 4,
+      "markers": [],
+      "size": 2186
+    },
+    {
+      "path": "tests/smoke/test_healthz_signals.py",
+      "test_count": 3,
+      "markers": [],
+      "size": 2039
+    },
+    {
+      "path": "tests/smoke/test_dreams_api.py",
+      "test_count": 1,
+      "markers": [],
+      "size": 524
+    },
+    {
+      "path": "tests/smoke/test_external_deps.py",
+      "test_count": 10,
+      "markers": [
+        "smoke"
+      ],
+      "size": 8935
+    },
+    {
+      "path": "tests/smoke/test_core_smoke.py",
+      "test_count": 1,
+      "markers": [],
+      "size": 610
+    },
+    {
+      "path": "tests/smoke/test_consciousness_pipeline.py",
+      "test_count": 32,
+      "markers": [],
+      "size": 20050
+    },
+    {
+      "path": "tests/smoke/test_accepted_smoke.py",
+      "test_count": 1,
+      "markers": [],
+      "size": 583
+    },
+    {
+      "path": "tests/smoke/test_headers_openai_parity.py",
+      "test_count": 6,
+      "markers": [],
+      "size": 4383
+    },
+    {
+      "path": "tests/smoke/test_healthz.py",
+      "test_count": 1,
+      "markers": [
+        "asyncio"
+      ],
+      "size": 876
+    },
+    {
+      "path": "tests/smoke/test_trace_header.py",
+      "test_count": 3,
+      "markers": [],
+      "size": 1710
+    },
+    {
+      "path": "tests/smoke/test_entrypoints.py",
+      "test_count": 7,
+      "markers": [
+        "smoke"
+      ],
+      "size": 5533
+    },
+    {
+      "path": "tests/smoke/test_secrets_config.py",
+      "test_count": 5,
+      "markers": [
+        "smoke"
+      ],
+      "size": 6499
+    },
+    {
+      "path": "tests/smoke/test_runtime_lanes.py",
+      "test_count": 2,
+      "markers": [],
+      "size": 1308
+    },
+    {
+      "path": "tests/smoke/fixtures.py",
+      "test_count": 0,
+      "markers": [],
+      "size": 8148
+    },
+    {
+      "path": "tests/smoke/test_responses_stream.py",
+      "test_count": 6,
+      "markers": [],
+      "size": 7877
+    },
+    {
+      "path": "tests/smoke/test_auth_errors.py",
+      "test_count": 4,
+      "markers": [],
+      "size": 5514
+    },
+    {
+      "path": "tests/labs/core/governance/test_guardian_integration_middleware.py",
+      "test_count": 0,
+      "markers": [
+        "asyncio"
+      ],
+      "size": 10267
+    }
+  ],
+  "source_files_by_lane": {
+    "production": 10,
+    "integration": 419,
+    "development": 13,
+    "engine": 109,
+    "other": 5432
+  }
+}

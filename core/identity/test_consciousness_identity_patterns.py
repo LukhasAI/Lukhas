@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 ╔══════════════════════════════════════════════════════════════
 ║ 🧬 MΛTRIZ Consciousness Identity Test Suite: Comprehensive Pattern Testing
@@ -15,8 +13,11 @@ from __future__ import annotations
 ║ 🛡️ GUARDIAN: Security and compliance testing
 ╚══════════════════════════════════════════════════════════════
 """
+
+from __future__ import annotations
+
 import logging
-from typing import Any, Optional
+from typing import Any
 
 import pytest
 
@@ -38,9 +39,9 @@ except ImportError as exc:  # pragma: no cover - critical dependency missing
 try:
     from .consciousness_coherence_monitor import (
         CoherenceAlert,
-        CoherenceAnomaly,  # noqa: F401  # TODO: .consciousness_coherence_monit...
+        CoherenceAnomaly,  # TODO: .consciousness_coherence_monit...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_test_consciousness_identity_patterns_py_L42"}
         CoherenceMetricType,
-        CoherenceState,  # noqa: F401  # TODO: .consciousness_coherence_monit...
+        CoherenceState,  # TODO: .consciousness_coherence_monit...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_test_consciousness_identity_patterns_py_L45"}
         IdentityCoherenceMonitor,
     )
     COHERENCE_MODULES_AVAILABLE = True
@@ -53,8 +54,8 @@ try:
         ConsciousnessDomain,
         ConsciousnessNamespaceManager,
         IsolationLevel,
-        NamespaceInstance,  # noqa: F401  # TODO: .consciousness_namespace_isola...
-        NamespacePolicy,  # noqa: F401  # TODO: .consciousness_namespace_isola...
+        NamespaceInstance,  # TODO: .consciousness_namespace_isola...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_test_consciousness_identity_patterns_py_L59"}
+        NamespacePolicy,  # TODO: .consciousness_namespace_isola...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_test_consciousness_identity_patterns_py_L61"}
     )
     NAMESPACE_MODULES_AVAILABLE = True
 except ImportError:
@@ -73,8 +74,8 @@ except ImportError:
 
 try:
     from .matriz_consciousness_identity import (
-        ConsciousnessIdentityProfile,  # noqa: F401  # TODO: .matriz_consciousness_identity...
-        ConsciousnessNamespace,  # noqa: F401  # TODO: .matriz_consciousness_identity...
+        ConsciousnessIdentityProfile,  # TODO: .matriz_consciousness_identity...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_test_consciousness_identity_patterns_py_L81"}
+        ConsciousnessNamespace,  # TODO: .matriz_consciousness_identity...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_test_consciousness_identity_patterns_py_L83"}
         IdentityConsciousnessType,
         MatrizConsciousnessIdentityManager,
     )
@@ -85,10 +86,10 @@ except ImportError:
 try:
     from .matriz_consciousness_identity_signals import (
         AuthenticationTier,
-        ConstitutionalComplianceData,  # noqa: F401  # TODO: .matriz_consciousness_identity...
+        ConstitutionalComplianceData,  # TODO: .matriz_consciousness_identity...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_test_consciousness_identity_patterns_py_L95"}
         IdentityBiometricData,
         MatrizConsciousnessIdentitySignalEmitter,
-        NamespaceIsolationData,  # noqa: F401  # TODO: .matriz_consciousness_identity...
+        NamespaceIsolationData,  # TODO: .matriz_consciousness_identity...  # TODO[T4-ISSUE]: {"code": "F401", "ticket": "GH-1031", "owner": "core-team", "status": "accepted", "reason": "Optional dependency import or module side-effect registration", "estimate": "0h", "priority": "low", "dependencies": "none", "id": "core_identity_test_consciousness_identity_patterns_py_L99"}
     )
     SIGNAL_MODULES_AVAILABLE = True
 except ImportError:
@@ -643,7 +644,7 @@ class TestConstitutionalCompliance:
         await validator.shutdown_constitutional_validation()
 
     def create_test_validation_context(
-        self, decision_type: DecisionType, identity_id: str, decision_data: Optional[dict[str, Any]] = None
+        self, decision_type: DecisionType, identity_id: str, decision_data: dict[str, Any] | None = None
     ) -> ConstitutionalValidationContext:
         """Create test validation context"""
         return ConstitutionalValidationContext(

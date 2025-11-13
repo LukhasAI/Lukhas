@@ -20,7 +20,6 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from typing import List, Tuple
 
 import psutil
 
@@ -53,7 +52,7 @@ class PreflightValidator:
         elif status in ["FAIL", "WARN"]:
             self.warnings.append(f"{category}.{name}: {details}")
 
-    def run_command(self, cmd: List[str], timeout: int = 10) -> Tuple[int, str, str]:
+    def run_command(self, cmd: list[str], timeout: int = 10) -> tuple[int, str, str]:
         """Execute command with timeout and capture output"""
         try:
             result = subprocess.run(
@@ -187,7 +186,7 @@ class PreflightValidator:
                 return
 
             # Fallback: check ntpstat
-            ret, out, err = self.run_command(["ntpstat"])
+            ret, out, _err = self.run_command(["ntpstat"])
             if ret == 0:
                 self.add_check("time", "ntp_sync", "PASS",
                               "NTP synchronized (ntpstat)")
@@ -238,9 +237,9 @@ class PreflightValidator:
         in_container = (
             Path("/.dockerenv").exists() or
             os.getenv("container") is not None or
-            Path("/proc/1/cgroup").exists() and
+            (Path("/proc/1/cgroup").exists() and
             any("docker" in line or "containerd" in line
-                for line in Path("/proc/1/cgroup").read_text().split('\n'))
+                for line in Path("/proc/1/cgroup").read_text().split('\n')))
         )
 
         if not in_container:

@@ -15,7 +15,7 @@ import re
 import sys
 from collections import Counter
 from pathlib import Path
-from typing import Any, List, Tuple
+from typing import Any
 
 
 def load_json(path: Path) -> Any:
@@ -32,7 +32,7 @@ def normalize_star(s: str) -> str:
 def build_regex(pattern: str) -> re.Pattern:
     return re.compile(pattern, re.IGNORECASE)
 
-def choose_best(candidates: List[Tuple[str, float, str]], min_conf: float) -> Tuple[str, float, str] | None:
+def choose_best(candidates: list[tuple[str, float, str]], min_conf: float) -> tuple[str, float, str] | None:
     if not candidates:
         return None
     # Prefer highest confidence; stable tiebreaker by star label
@@ -58,7 +58,7 @@ def main():
     cap_over = {r["capability"]: normalize_star(r["star"]) for r in ruleset.get("capability_overrides", [])}
     node_over = {r["node"]: normalize_star(r["star"]) for r in ruleset.get("node_overrides", [])}
 
-    out_dir = Path(args.out); out_dir.mkdir(parents=True, exist_ok=True)
+    out_dir = Path(args.out); out_dir.mkdir(parents=True, exist_ok=True)  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_suggest_star_promotions_py_L61"}
 
     promotions = []
     counts = Counter()
@@ -82,7 +82,7 @@ def main():
         caps = data.get("capabilities", []) or []
         nodes = (data.get("matriz_integration", {}) or {}).get("pipeline_nodes", []) or []
 
-        candidates: List[Tuple[str, float, str]] = []
+        candidates: list[tuple[str, float, str]] = []
 
         # 1) capability overrides (weight 0.6)
         for c in caps:

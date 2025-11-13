@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict import to native dict type in dream calibration benchmarks
+# estimate: 5min | priority: medium | dependencies: dream-benchmarks
+
 from __future__ import annotations
 
 import json
@@ -5,7 +9,7 @@ import os
 import pathlib
 import subprocess
 import sys
-from typing import Any, Dict, List
+from typing import Any
 
 # Threshold sweep ranges
 ALIGNMENT_THRESHOLDS = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
@@ -22,20 +26,20 @@ def run_with_thresholds(align_thresh: float, drift_thresh: float, conf_thresh: f
 
     subprocess.check_call([sys.executable, "-m", "benchmarks.dream.run", "--out", out], env=env)
 
-def load_results(path: str) -> List[Dict[str, Any]]:
+def load_results(path: str) -> list[dict[str, Any]]:
     """Load results from JSONL file."""
     results = []
     if not pathlib.Path(path).exists():
         return results
 
-    with open(path, "r") as f:
+    with open(path) as f:
         for line in f:
             line = line.strip()
             if line:
                 results.append(json.loads(line))
     return results
 
-def evaluate_threshold_performance(results: List[Dict]) -> Dict[str, float]:
+def evaluate_threshold_performance(results: list[dict]) -> dict[str, float]:
     """Evaluate performance metrics for given results."""
     if not results:
         return {"accuracy": 0.0, "coverage": 0.0, "avg_latency": 0.0}
@@ -106,15 +110,15 @@ def run_threshold_sweep(out_dir: str = "benchmarks/dream/calibration_results") -
     print(f"Threshold sweep report saved to: {report_path}")
     return report_path
 
-def find_optimal_thresholds(report_path: str, metric: str = "accuracy") -> Dict[str, Any]:
+def find_optimal_thresholds(report_path: str, metric: str = "accuracy") -> dict[str, Any]:
     """Find optimal thresholds based on specified metric."""
-    with open(report_path, "r") as f:
+    with open(report_path) as f:
         sweep_results = json.load(f)
 
     best_config = None
     best_score = -1.0
 
-    for config_key, config_data in sweep_results.items():
+    for _config_key, config_data in sweep_results.items():
         if "error" in config_data:
             continue
 
@@ -131,7 +135,7 @@ def find_optimal_thresholds(report_path: str, metric: str = "accuracy") -> Dict[
         "optimization_metric": metric
     }
 
-def calibration_report(sweep_path: str, out_path: str = None) -> str:
+def calibration_report(sweep_path: str, out_path: str | None = None) -> str:
     """Generate calibration report with recommendations."""
     if out_path is None:
         out_path = sweep_path.replace(".json", "_report.json")
@@ -168,7 +172,7 @@ def calibration_report(sweep_path: str, out_path: str = None) -> str:
 
 def print_calibration_summary(report_path: str) -> None:
     """Print human-readable calibration summary."""
-    with open(report_path, "r") as f:
+    with open(report_path) as f:
         report = json.load(f)
 
     print("\n=== CALIBRATION SUMMARY ===")

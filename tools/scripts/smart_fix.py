@@ -33,7 +33,7 @@ class SmartFixer:
         print("🔍 Identifying critical issues...")
 
         # Run flake8 with our config
-        code, out, err = self.run_command(
+        code, out, _err = self.run_command(
             [
                 sys.executable,
                 "-m",
@@ -98,7 +98,7 @@ class SmartFixer:
             print(f"  Fixing {file_path}...")
 
             # Use autoflake conservatively
-            code, out, err = self.run_command(
+            code, _out, _err = self.run_command(
                 [
                     sys.executable,
                     "-m",
@@ -128,7 +128,7 @@ class SmartFixer:
                 continue
 
             # Use Black with safe settings
-            code, out, err = self.run_command(
+            code, out, _err = self.run_command(
                 [
                     sys.executable,
                     "-m",
@@ -165,7 +165,7 @@ class SmartFixer:
                 continue
 
         for file_path in files_to_sort:
-            code, out, err = self.run_command(
+            code, _out, _err = self.run_command(
                 [
                     sys.executable,
                     "-m",
@@ -188,7 +188,7 @@ class SmartFixer:
         print("✅ Validating fixes...")
 
         # Quick syntax check
-        code, out, err = self.run_command(
+        code, _out, _err = self.run_command(
             [
                 sys.executable,
                 "-m",

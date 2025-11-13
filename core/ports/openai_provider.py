@@ -7,8 +7,11 @@ with mocks, and clear contracts for OpenAI-dependent code.
 Part of T4 lane isolation initiative to remove hard dependencies on labs.
 """
 from __future__ import annotations
-from typing import Any, AsyncIterator, Iterator, Protocol
-from typing_extensions import TypedDict, NotRequired
+
+from collections.abc import AsyncIterator, Iterator
+from typing import Any, Protocol
+
+from typing_extensions import NotRequired, TypedDict
 
 
 class ChatMessage(TypedDict):
@@ -165,7 +168,7 @@ class OpenAIProvider(Protocol):
 
 
 __all__ = [
-    "OpenAIProvider",
-    "ChatMessage",
     "ChatCompletionResponse",
+    "ChatMessage",
+    "OpenAIProvider",
 ]

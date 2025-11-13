@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import universal_language  # noqa: F401  # TODO: universal_language; consider u...
+    import universal_language  # TODO: universal_language; consider u...
 except ImportError:
     pytest.skip("Module universal_language not available", allow_module_level=True)
 

@@ -35,6 +35,8 @@
 ║ Symbolic Tags: {ΛBASE}, {ΛMODULE}, {ΛLIFECYCLE}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
+
 import logging
 
 # Module imports

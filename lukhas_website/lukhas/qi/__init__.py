@@ -252,6 +252,7 @@ else:
 
 # Export public interface
 __all__ = [
+    "QI",  # Add QI class export
     # Feature flags
     "QI_ACTIVE",
     "QI_DRY_RUN",
@@ -266,7 +267,6 @@ __all__ = [
     # Processing functions
     "process_quantum_inspired",
     "validate_qi_module",
-    "QI",  # Add QI class export
 ]
 
 # Create QI alias for the main class

@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import presentations  # noqa: F401  # TODO: presentations; consider using ...
+    import presentations  # TODO: presentations; consider using ...
 except ImportError:
     pytest.skip("Module presentations not available", allow_module_level=True)
 

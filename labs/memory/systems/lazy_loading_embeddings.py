@@ -39,6 +39,7 @@
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛADVANCED, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from __future__ import annotations
 
 import asyncio
 import hashlib
@@ -96,7 +97,7 @@ class LRUEmbeddingCache:
         self.enable_access_tracking = enable_access_tracking
 
         # Thread-safe ordered dict for LRU behavior
-        self._cache: OrderedDict[str, EmbeddingCacheEntry] = OrderedDict()
+        self._cache: Ordereddict[str, EmbeddingCacheEntry] = OrderedDict()
         self._lock = threading.RLock()
         self._current_memory_usage = 0
 

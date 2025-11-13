@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict import to native dict type in cognitive security
+# estimate: 5min | priority: high | dependencies: security-system
+
 """
 Cognitive Security Module - Stub Implementation
 ================================================
@@ -6,7 +10,7 @@ Placeholder for cognitive security components in the candidate system.
 """
 
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 
 class CognitiveSecurityMonitor:
@@ -15,7 +19,7 @@ class CognitiveSecurityMonitor:
     def __init__(self):
         self.active = True
 
-    def monitor(self, *args, **kwargs) -> Dict[str, Any]:
+    def monitor(self, *args, **kwargs) -> dict[str, Any]:
         """Monitor cognitive security events."""
         return {"status": "monitored", "threat_level": "low"}
 
@@ -30,7 +34,7 @@ class CognitiveSecurityEngine:
     def __init__(self):
         self.monitor = CognitiveSecurityMonitor()
 
-    def process(self, *args, **kwargs) -> Dict[str, Any]:
+    def process(self, *args, **kwargs) -> dict[str, Any]:
         """Process cognitive security checks."""
         return {"processed": True, "secure": True}
 
@@ -50,7 +54,7 @@ class CognitiveSecurityValidator:
 class AccessControlSystem:
     """Stub access control system used by governance/security tests."""
 
-    def __init__(self, policy: Optional[Dict[str, Any]] = None):
+    def __init__(self, policy: Optional[dict[str, Any]] = None):
         self.policy = policy or {}
 
     def is_allowed(self, user_id: str, action: str, resource: str) -> bool:
@@ -118,7 +122,7 @@ class SessionManager:
     """Stub security session manager."""
 
     def __init__(self):
-        self.sessions: Dict[str, Dict[str, Any]] = {}
+        self.sessions: dict[str, dict[str, Any]] = {}
 
     def create_session(self, user_id: str) -> str:
         session_id = f"sess-{user_id}"
@@ -144,8 +148,8 @@ class AGISecuritySystem:
 
 # Export symbols
 __all__ = [
-    'CognitiveSecurityMonitor',
+    'AccessControlSystem',
     'CognitiveSecurityEngine',
-    'CognitiveSecurityValidator',
-    'AccessControlSystem'
+    'CognitiveSecurityMonitor',
+    'CognitiveSecurityValidator'
 ]

@@ -14,7 +14,7 @@ from typing import Any
 _ORIG_OPEN = builtins.open
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
-CAL_DIR = os.path.join(STATE, "calibration"); os.makedirs(CAL_DIR, exist_ok=True)
+CAL_DIR = os.path.join(STATE, "calibration"); os.makedirs(CAL_DIR, exist_ok=True)  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_metrics_calibration_py_L17"}
 PARAMS_PATH = os.path.join(CAL_DIR, "calibration_params.json")
 
 EVALDIR = os.environ.get("LUKHAS_EVAL_DIR", "./eval_runs")
@@ -82,7 +82,7 @@ def reliability_diagram(samples: list[tuple[float,int,str]], bins: int = 10, tas
     for conf, corr, _t in samples:
         c = min(max(conf, 0.0), 1.0)
         idx = min(int(c * bins), bins-1)
-        b = buckets[idx]; b["count"] += 1; b["acc"] += corr; b["conf"] += c
+        b = buckets[idx]; b["count"] += 1; b["acc"] += corr; b["conf"] += c  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_metrics_calibration_py_L85"}
     diag=[]
     for b in buckets:
         if b["count"] == 0:
@@ -114,7 +114,7 @@ def fit_temperature(samples: list[tuple[float,int,str]], weights: dict[str, floa
 
     T = 1.0
     for _ in range(50):
-        grad = 0.0; hess = 0.0
+        grad = 0.0; hess = 0.0  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_metrics_calibration_py_L117"}
         for conf, corr, weight in weighted_pairs:
             c = min(max(conf, 1e-6), 1-1e-6)
             z = math.log(c/(1.0-c))
@@ -144,7 +144,7 @@ def fit_and_save(source_preference: str = "eval", feedback_weights: dict[str, fl
             triage = get_triage()
             clusters = triage.store.read_clusters()
             feedback_weights = triage.compute_task_weights(clusters)
-        except:
+        except Exception:
             feedback_weights = {}
 
     # global (with weights)
@@ -208,9 +208,9 @@ def reliability_svg(task: str | None=None, width=640, height=320) -> str:
     ece = (p.per_task_ece or {}).get(task) if task else p.ece
     T = (p.per_task_temperature or {}).get(task) if task else p.temperature
     if not bins:
-        bins = p.bins; ece = p.ece; T = p.temperature
+        bins = p.bins; ece = p.ece; T = p.temperature  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_metrics_calibration_py_L211"}
 
-    pad = 40; W=width; H=height
+    pad = 40; W=width; H=height  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_metrics_calibration_py_L213"}
     # axes
     lines = [f"<rect width='{W}' height='{H}' fill='#0f1115'/>",
              f"<line x1='{pad}' y1='{H-pad}' x2='{W-pad}' y2='{H-pad}' stroke='#444'/>",

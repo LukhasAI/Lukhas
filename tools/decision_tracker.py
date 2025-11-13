@@ -3,11 +3,12 @@
 LUKHAS Decision Tracker
 Track and analyze development decisions with context and rationale
 """
+from __future__ import annotations
 
 import re
 import subprocess
 from datetime import datetime, timedelta, timezone
-from typing import Any, Optional
+from typing import Any
 
 # Use absolute import instead of relative import
 try:
@@ -37,7 +38,7 @@ class Decision:
         chosen_approach: str,
         expected_outcome: str,
         files_affected: list[str],
-        commit_hash: Optional[str] = None,
+        commit_hash: str | None = None,
     ):
         self.title = title
         self.rationale = rationale
@@ -57,7 +58,7 @@ class DecisionTracker:
     Helps you understand why you made certain choices
     """
 
-    def __init__(self, journal_engine: Optional[JournalEngine] = None):
+    def __init__(self, journal_engine: JournalEngine | None = None):
         self.journal = journal_engine or JournalEngine()
         self.pending_decisions = []
         self.decision_templates = self._load_templates()
@@ -149,9 +150,9 @@ How do we prevent this in the future?
         self,
         title: str,
         rationale: str,
-        alternatives: Optional[list[str]] = None,
-        chosen_approach: Optional[str] = None,
-        expected_outcome: Optional[str] = None,
+        alternatives: list[str] | None = None,
+        chosen_approach: str | None = None,
+        expected_outcome: str | None = None,
         template: str = "architecture",
     ) -> Decision:
         """Track a new decision"""
@@ -307,7 +308,7 @@ How do we prevent this in the future?
             template=("feature" if "add" in title.lower() or "implement" in title.lower() else "refactoring"),
         )
 
-    def track_outcome(self, decision_id: str, outcome: str, lessons_learned: Optional[str] = None):
+    def track_outcome(self, decision_id: str, outcome: str, lessons_learned: str | None = None):
         """Track the outcome of a previous decision"""
         # Find the decision
         decision_entry = None

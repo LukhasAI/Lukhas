@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Lukhas Setup Configuration
+"""Lukhas Setup Configuration
 """
 
 from pathlib import Path

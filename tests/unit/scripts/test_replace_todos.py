@@ -22,7 +22,7 @@ def test_replace_todo_dry_run(tmp_path):
     )
 
     mapfile = tmp_path / "map.json"
-    key = f"{str(f)}:1"
+    key = f"{f!s}:1"
     mapping = {key: {"issue": 123, "repo": "org/repo", "title": "Fix TODO"}}
     Path("artifacts").mkdir(exist_ok=True)
     mapfile.write_text(json.dumps(mapping))

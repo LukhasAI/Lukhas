@@ -1,0 +1,115 @@
+# LUKHAS AI Feature Flags Configuration
+# Privacy-first feature flags for controlled rollouts and safe experimentation
+#
+# PRIVACY REQUIREMENTS:
+# - NO user tracking without consent
+# - Flag evaluations logged only in aggregate
+# - User targeting via privacy-preserving hashes (SHA-256)
+# - No third-party services
+# - Local-first evaluation
+#
+# SUPPORTED FLAG TYPES:
+# 1. boolean - Simple on/off toggle
+# 2. percentage - Gradual rollout (0-100%)
+# 3. user_targeting - Target specific users by email domain or hash
+# 4. time_based - Enable/disable based on date
+# 5. environment - Enable only in specific environments
+
+version: "1.0"
+
+# Feature flags configuration
+flags:
+  # Example 1: Boolean flag (simple on/off)
+  reasoning_lab_enabled:
+    type: boolean
+    enabled: false
+    description: "Enable the Reasoning Lab feature for advanced AI reasoning visualization"
+    owner: "platform-team@lukhas.ai"
+    created_at: "2025-11-08"
+    jira_ticket: "GAPS-B5"
+    fallback: false
+
+  # Example 2: Percentage rollout (gradual deployment)
+  matriz_v2_rollout:
+    type: percentage
+    enabled: true
+    percentage: 10  # Start at 10% rollout
+    description: "Gradual rollout of MATRIZ v2 consciousness framework"
+    owner: "consciousness-team@lukhas.ai"
+    created_at: "2025-11-08"
+    jira_ticket: "GAPS-B5"
+    fallback: false
+    # Recommended rollout schedule:
+    # Day 1: 1% (monitor for issues)
+    # Day 3: 10% (if no issues)
+    # Day 7: 50% (if no issues)
+    # Day 14: 100% (full rollout)
+
+  # Example 3: User targeting (email domain-based)
+  enhanced_memory_beta:
+    type: user_targeting
+    enabled: true
+    description: "Enhanced memory capabilities - beta access for internal team"
+    owner: "memory-team@lukhas.ai"
+    created_at: "2025-11-08"
+    jira_ticket: "GAPS-B5"
+    allowed_domains:
+      - "lukhas.ai"
+      - "lukhas.com"
+    fallback: false
+    # For targeting specific users, use SHA-256 hashes:
+    # allowed_user_hashes:
+    #   - "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"  # Example hash
+
+  # Example 4: Time-based flag (scheduled enablement)
+  new_landing_page:
+    type: time_based
+    enabled: true
+    description: "New landing page design - go live on Dec 1, 2025"
+    owner: "marketing-team@lukhas.ai"
+    created_at: "2025-11-08"
+    jira_ticket: "GAPS-B5"
+    enable_after: "2025-12-01T00:00:00Z"
+    # Optional: disable_after: "2026-01-01T00:00:00Z"
+    fallback: false
+
+  # Example 5: Environment-based flag
+  debug_mode:
+    type: environment
+    enabled: true
+    description: "Enable debug logging and tools in dev/staging environments"
+    owner: "platform-team@lukhas.ai"
+    created_at: "2025-11-08"
+    jira_ticket: "GAPS-B5"
+    allowed_environments:
+      - "dev"
+      - "staging"
+    fallback: false
+
+  # Example 6: Privacy-first analytics (percentage + environment)
+  privacy_analytics_v2:
+    type: percentage
+    enabled: true
+    percentage: 50
+    description: "Privacy-first analytics system rollout"
+    owner: "analytics-team@lukhas.ai"
+    created_at: "2025-11-08"
+    jira_ticket: "GAPS-B5"
+    fallback: false
+
+  # Example 7: A/B testing flag
+  onboarding_flow_v2:
+    type: percentage
+    enabled: true
+    percentage: 50  # 50/50 A/B test
+    description: "A/B test for new onboarding flow"
+    owner: "product-team@lukhas.ai"
+    created_at: "2025-11-08"
+    jira_ticket: "GAPS-B5"
+    fallback: false
+
+# Metadata
+metadata:
+  last_updated: "2025-11-08"
+  schema_version: "1.0"
+  total_flags: 7

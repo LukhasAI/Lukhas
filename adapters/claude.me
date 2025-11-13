@@ -1,6 +1,5 @@
----
-title: me
-slug: claude.me
+title: lukhas_context
+slug: lukhas_context
 owner: T4
 lane: labs
 star:
@@ -10,14 +9,11 @@ constellation_stars:
 related_modules:
 manifests:
 links:
-contracts: "[]"
-domain: governance
-stars: "[Anchor, Watch, Trail]"
-status: active
-tier: T2
-updated: 2025-10-18
----
-# Adapters Module - Claude AI Context
+status: wip
+type: documentation
+# Adapters Module Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
 
 **Module**: adapters
 **Purpose**: Common interface for external service integrations with capability token validation
@@ -25,7 +21,6 @@ updated: 2025-10-18
 **Language**: Python
 **Last Updated**: 2025-10-18
 
----
 
 ## Module Overview
 
@@ -44,7 +39,6 @@ The adapters module provides a standardized interface for integrating external s
 3. **No Direct Vendor Calls**: Orchestrator must use adapters only, no direct API access
 4. **Complete Audit Trail**: All operations logged for compliance and security
 
----
 
 ## Architecture
 
@@ -82,7 +76,6 @@ class ServiceAdapter(ABC):
 - filters: dict
 - limit, offset for pagination
 
----
 
 ## Available Adapters
 
@@ -145,7 +138,6 @@ plan = await service.analyze_duplicates()
 response = await service.execute_plan(plan)
 ```
 
----
 
 ## Security & Compliance
 
@@ -161,20 +153,11 @@ response = await service.execute_plan(plan)
 - **Audit Logging**: All operations logged with user, timestamp, resource
 - **Guardian Integration**: Ethics validation for sensitive operations
 
-## ⭐ Constellation Stars
+### Constellation Framework Integration
+- **⚛️ Anchor Star (Identity)**: OAuth2 token management with ΛID
+- **🛡️ Watch Star (Guardian)**: Capability validation and ethics checks
+- **✦ Trail Star (Memory)**: Audit trail storage in memory folds
 
-This module aligns with:
-
-### Anchor (Identity) ⚛️
-Manages OAuth2 tokens and identity for external services, ensuring secure connections.
-
-### Watch (Guardian) 🛡️
-Enforces security through capability validation and ethical checks on all adapter operations.
-
-### Trail (Memory) ✦
-Ensures compliance by logging all adapter operations, creating a complete audit trail.
-
----
 
 ## Technical Details
 
@@ -231,7 +214,6 @@ adapters/
     └── test_adapters_integration.py
 ```
 
----
 
 ## Development Guidelines
 
@@ -270,7 +252,6 @@ class MyServiceAdapter(ServiceAdapter):
 - Integration tests: Test against real services (with test accounts)
 - Security tests: Verify capability enforcement
 
----
 
 ## Performance & Quality
 
@@ -287,7 +268,6 @@ class MyServiceAdapter(ServiceAdapter):
 - ✅ Security scanning and vulnerability checks
 - ✅ Documentation completeness
 
----
 
 ## Documentation
 
@@ -298,7 +278,6 @@ class MyServiceAdapter(ServiceAdapter):
 - **Tests**: [adapters/tests/README.md](tests/README.md)
 - **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#adapters)
 
----
 
 ## Related Modules
 
@@ -307,38 +286,9 @@ class MyServiceAdapter(ServiceAdapter):
 - **Orchestration** ([../orchestration/](../orchestration/)) - Multi-adapter workflows
 - **Security** ([../security/](../security/)) - Security policies and audit
 
----
 
 **Status**: Integration Lane (L2)
 **Manifest**: ✓ module.manifest.json (schema v3.0.0)
 **Team**: Core
 **Code Owners**: @lukhas-core
 **Last Updated**: 2025-10-18
-
-
-## 🚀 GA Deployment Status
-
-**Current Status**: 66.7% Ready (6/9 tasks complete)
-
-### Recent Milestones
-- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
-- ✅ **Dependency Audit**: 196 packages, 0 CVEs
-- ✅ **OpenAI Façade**: Full SDK compatibility validated
-- ✅ **Guardian MCP**: Production-ready deployment
-- ✅ **OpenAPI Schema**: Validated and documented
-
-### New Documentation
-- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
-- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
-- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
-
-### Recent Updates
-- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
-- OpenAI façade validation - Full SDK compatibility
-- Guardian MCP server deployment - Production ready
-- Shadow diff harness - Pre-audit validation framework
-- MATRIZ evaluation harness - Comprehensive testing
-
-**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
-
----

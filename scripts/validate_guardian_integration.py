@@ -26,10 +26,10 @@ import time
 import traceback
 import uuid
 from collections import defaultdict
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Dict
+from typing import TYPE_CHECKING, Any
 
 # Suppress verbose logging during validation
 logging.getLogger().setLevel(logging.CRITICAL)
@@ -65,13 +65,13 @@ class GuardianIntegrationReport:
     """Comprehensive Guardian integration validation report"""
     timestamp: str
     validation_id: str
-    environment: Dict[str, Any]
-    module_metrics: Dict[str, GuardianValidationMetrics]
-    cross_module_tests: Dict[str, Any]
-    chaos_resilience: Dict[str, Any]
-    security_validation: Dict[str, Any]
-    performance_sla: Dict[str, bool]
-    audit_artifacts: Dict[str, str]
+    environment: dict[str, Any]
+    module_metrics: dict[str, GuardianValidationMetrics]
+    cross_module_tests: dict[str, Any]
+    chaos_resilience: dict[str, Any]
+    security_validation: dict[str, Any]
+    performance_sla: dict[str, bool]
+    audit_artifacts: dict[str, str]
     merkle_proof: str
     overall_status: str
     certification_level: str
@@ -99,7 +99,7 @@ class GuardianChaosEngine:
                     for _ in range(10):
                         if not chaos_active:
                             break
-                        try:
+                        try:  # TODO[T4-ISSUE]: {"code":"SIM105","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"try-except-pass pattern - consider contextlib.suppress for clarity","estimate":"10m","priority":"low","dependencies":"contextlib","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_validate_guardian_integration_py_L102"}
                             await guardian.validate_action_async({
                                 "action_type": "chaos_load_test",
                                 "timestamp": time.time(),
@@ -125,10 +125,8 @@ class GuardianChaosEngine:
             # Cancel all chaos tasks
             for task in chaos_tasks:
                 task.cancel()
-                try:
+                with suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
             print("    Guardian overload chaos stopped")
 
     @staticmethod
@@ -138,7 +136,7 @@ class GuardianChaosEngine:
         print("🌪️  Starting drift injection chaos")
 
         try:
-            from governance.guardian_reflector import GuardianReflector
+            from lukhas_website.lukhas.governance.guardian.reflector import GuardianReflector
 
             # Create reflector with artificial drift
             reflector = GuardianReflector()
@@ -259,7 +257,7 @@ class GuardianIntegrationValidator:
         self.metrics["guardian_performance"] = metrics
         return metrics
 
-    async def validate_module_integrations(self) -> Dict[str, GuardianValidationMetrics]:
+    async def validate_module_integrations(self) -> dict[str, GuardianValidationMetrics]:
         """Validate Guardian integration in each LUKHAS module"""
         print("\n🔗 Validating Guardian integration across all modules...")
 
@@ -414,7 +412,7 @@ class GuardianIntegrationValidator:
 
         return module_results
 
-    async def validate_guardian_fail_safe_behavior(self) -> Dict[str, Any]:
+    async def validate_guardian_fail_safe_behavior(self) -> dict[str, Any]:
         """Validate that Guardian fails safely under all conditions"""
         print("\n🛡️  Validating Guardian fail-safe behavior...")
 
@@ -511,7 +509,7 @@ class GuardianIntegrationValidator:
 
         return fail_safe_tests
 
-    async def validate_guardian_drift_detection(self) -> Dict[str, Any]:
+    async def validate_guardian_drift_detection(self) -> dict[str, Any]:
         """Validate Guardian drift detection and remediation"""
         print("\n📊 Validating Guardian drift detection...")
 
@@ -552,7 +550,7 @@ class GuardianIntegrationValidator:
 
         return drift_tests
 
-    async def validate_security_and_audit_trails(self) -> Dict[str, Any]:
+    async def validate_security_and_audit_trails(self) -> dict[str, Any]:
         """Validate security controls and audit trail completeness"""
         print("\n🔒 Validating security controls and audit trails...")
 
@@ -880,7 +878,7 @@ async def main():
         audit_run_id = f"guardian_val_{int(time.time())}"
         from preflight_check import PreflightValidator as PreflightValidatorRuntime
 
-        validator: "PreflightValidatorType"
+        validator: PreflightValidatorType
         validator = PreflightValidatorRuntime(audit_run_id)
         preflight_passed = validator.run_all_validations()
 

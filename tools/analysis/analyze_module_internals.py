@@ -7,8 +7,12 @@ Constellation Framework: ⚛️🧠🛡️
 
 import ast
 import json
+import logging
 import os
 from pathlib import Path
+
+# Module-level logger
+logger = logging.getLogger(__name__)
 
 
 class ModuleInternalAnalyzer:
@@ -154,7 +158,8 @@ class ModuleInternalAnalyzer:
                         imports.append(node.module[len(module_name) + 1 :])
                     elif node.level > 0:  # Relative import
                         imports.append("." + (node.module or ""))
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             pass
         return imports
 
@@ -185,7 +190,8 @@ class ModuleInternalAnalyzer:
             size = os.path.getsize(file_path)
             if size > 5000:  # Over 5KB
                 return True
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             pass
 
         # Check name
@@ -196,7 +202,8 @@ class ModuleInternalAnalyzer:
         try:
             with open(file_path) as f:
                 return len(f.readlines())
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             return 0
 
     def analyze_all(self):

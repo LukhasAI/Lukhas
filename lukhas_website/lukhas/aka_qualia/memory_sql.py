@@ -13,26 +13,32 @@ import datetime as dt
 import hashlib
 import json
 import logging
-from datetime import timezone  # ΛTAG: utc
+from datetime import timezone
 from typing import Any, Optional
 from urllib.parse import urlparse
 
 try:
-    import sqlalchemy as sa  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
-    from sqlalchemy import create_engine, text
-    from sqlalchemy.engine import Engine
-    from sqlalchemy.exc import (
-        SQLAlchemyError,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    import sqlalchemy as sa
+    from sqlalchemy import (
+        Column,
+        DateTime,
+        Float,
+        ForeignKey,
+        String,
+        Text,
+        create_engine,
+        desc,
+        func,
     )
+    from sqlalchemy.engine import Engine
+    from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 except ImportError:
     raise ImportError("SQLAlchemy required. Install with: pip install sqlalchemy")
 
 try:
     import ulid
 except ImportError:
-    # Fallback to UUID if ULID not available
     import uuid
-
     ulid = None
 
 from .memory import AkaqMemory
@@ -40,19 +46,56 @@ from .observability import get_observability, measure_memory_operation
 
 logger = logging.getLogger(__name__)
 
+Base = declarative_base()
+
+
+class AkaqScene(Base):
+    __tablename__ = "akaq_scene"
+    scene_id = Column(String, primary_key=True)
+    user_id = Column(String, nullable=False, index=True)
+    subject = Column(String)
+    object = Column(String)
+    proto = Column(Text)
+    proto_vec = Column(Text)
+    risk = Column(Text)
+    context = Column(Text)
+    transform_chain = Column(Text)
+    collapse_hash = Column(String)
+    drift_phi = Column(Float)
+    congruence_index = Column(Float)
+    neurosis_risk = Column(Float)
+    repair_delta = Column(Float)
+    sublimation_rate = Column(Float)
+    affect_energy_before = Column(Float)
+    affect_energy_after = Column(Float)
+    affect_energy_diff = Column(Float)
+    cfg_version = Column(String)
+    ts = Column(Float, default=lambda: dt.datetime.now(timezone.utc).timestamp(), index=True)
+    glyphs = relationship("AkaqGlyph", back_populates="scene", cascade="all, delete-orphan")
+
+
+class AkaqGlyph(Base):
+    __tablename__ = "akaq_glyph"
+    glyph_id = Column(String, primary_key=True)
+    scene_id = Column(String, ForeignKey("akaq_scene.scene_id"), index=True)
+    user_id = Column(String, nullable=False, index=True)
+    key = Column(String)
+    attrs = Column(Text)
+    priority = Column(Float)
+    ts = Column(Float, default=lambda: dt.datetime.now(timezone.utc).timestamp())
+    scene = relationship("AkaqScene", back_populates="glyphs")
+
+
+class AkaqMemoryOps(Base):
+    __tablename__ = "akaq_memory_ops"
+    operation_id = Column(String, primary_key=True)
+    operation = Column(String, nullable=False)
+    user_id = Column(String)
+    op_metadata = Column(Text)
+    timestamp = Column(DateTime, default=dt.datetime.now(timezone.utc))
+
 
 class SqlMemory(AkaqMemory):
-    """
-    SQL-based memory implementation with GDPR compliance and privacy hashing.
-
-    Features:
-    - PostgreSQL + pgvector for production vector similarity
-    - SQLite fallback for development (app-side similarity)
-    - Subject/object hashing in production for privacy
-    - Context sanitization and transform chain auditing
-    - Atomic scene+glyph transactions with retry logic
-    """
-
     def __init__(
         self,
         engine: Optional[Engine] = None,
@@ -61,16 +104,6 @@ class SqlMemory(AkaqMemory):
         is_prod: bool = False,
         config: Optional[dict[str, Any]] = None,
     ):
-        """
-        Initialize SQL memory client.
-
-        Args:
-            engine: Pre-configured SQLAlchemy engine (optional)
-            dsn: Database connection string if engine not provided
-            rotate_salt: Salt for privacy hashing (change regularly in prod)
-            is_prod: Enable privacy hashing and production features
-            config: Additional configuration options
-        """
         if engine is None:
             if dsn is None:
                 raise ValueError("Either engine or dsn must be provided")
@@ -80,171 +113,50 @@ class SqlMemory(AkaqMemory):
         self.rotate_salt = rotate_salt
         self.is_prod = is_prod
         self.config = config or {}
-
-        # Detect database driver
         self.driver = self._detect_driver()
-
-        # Apply database migration to create tables
         self._apply_migration()
 
-        # Statistics
+        self.Session = sessionmaker(bind=self.engine)
         self.scenes_saved = 0
         self.save_failures = 0
-
         logger.info(f"SqlMemory initialized with {self.driver} driver (prod={is_prod})")
 
     def _create_engine(self, dsn: str) -> Engine:
-        """Create SQLAlchemy engine with optimal settings"""
         parsed = urlparse(dsn)
-
         if parsed.scheme == "postgresql":
-            # PostgreSQL with connection pooling
             return create_engine(dsn, pool_size=10, max_overflow=20, pool_timeout=30, pool_recycle=3600)
         elif parsed.scheme == "sqlite":
-            # SQLite with WAL mode for better concurrency
             engine = create_engine(dsn, connect_args={"check_same_thread": False})
-            # Enable WAL mode and foreign keys
             with engine.begin() as conn:
-                conn.execute(text("PRAGMA journal_mode=WAL"))
-                conn.execute(text("PRAGMA foreign_keys=ON"))
+                conn.execute(sa.text("PRAGMA journal_mode=WAL"))
+                conn.execute(sa.text("PRAGMA foreign_keys=ON"))
             return engine
         else:
             return create_engine(dsn)
 
     def _detect_driver(self) -> str:
-        """Detect database driver from engine"""
         return self.engine.name
 
     def _apply_migration(self) -> None:
-        """Apply database migration to create required tables"""
-        with self.engine.begin() as conn:
-            # Create akaq_scene table with all required columns
-            conn.execute(
-                text(
-                    """
-                CREATE TABLE IF NOT EXISTS akaq_scene (
-                    scene_id TEXT PRIMARY KEY,
-                    user_id TEXT NOT NULL,
-                    subject TEXT,
-                    object TEXT,
-                    proto TEXT,
-                    proto_vec TEXT,
-                    risk TEXT,
-                    context TEXT,
-                    transform_chain TEXT,
-                    collapse_hash TEXT,
-                    drift_phi REAL,
-                    congruence_index REAL,
-                    neurosis_risk REAL,
-                    repair_delta REAL,
-                    sublimation_rate REAL,
-                    affect_energy_before REAL,
-                    affect_energy_after REAL,
-                    affect_energy_diff REAL,
-                    cfg_version TEXT,
-                    ts REAL DEFAULT (julianday('now'))
-                )
-            """
-                )
-            )
-
-            # Create akaq_glyph table
-            conn.execute(
-                text(
-                    """
-                CREATE TABLE IF NOT EXISTS akaq_glyph (
-                    glyph_id TEXT PRIMARY KEY,
-                    scene_id TEXT,
-                    user_id TEXT NOT NULL,
-                    key TEXT,
-                    attrs TEXT,
-                    priority REAL,
-                    ts REAL DEFAULT (julianday('now')),
-                    FOREIGN KEY (scene_id) REFERENCES akaq_scene(scene_id)
-                )
-            """
-                )
-            )
-
-            # Create akaq_memory_ops table for audit trail
-            conn.execute(
-                text(
-                    """
-                CREATE TABLE IF NOT EXISTS akaq_memory_ops (
-                    operation_id TEXT PRIMARY KEY,
-                    operation TEXT NOT NULL,
-                    user_id TEXT,
-                    metadata TEXT,
-                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                )
-            """
-                )
-            )
-
-            # Create indexes for performance
-            conn.execute(
-                text(
-                    """
-                CREATE INDEX IF NOT EXISTS idx_akaq_scene_user_id ON akaq_scene(user_id)
-            """
-                )
-            )
-
-            conn.execute(
-                text(
-                    """
-                CREATE INDEX IF NOT EXISTS idx_akaq_scene_ts ON akaq_scene(ts)
-            """
-                )
-            )
-
-            conn.execute(
-                text(
-                    """
-                CREATE INDEX IF NOT EXISTS idx_akaq_glyph_user_id ON akaq_glyph(user_id)
-            """
-                )
-            )
-
-            conn.execute(
-                text(
-                    """
-                CREATE INDEX IF NOT EXISTS idx_akaq_glyph_scene_id ON akaq_glyph(scene_id)
-            """
-                )
-            )
-
+        Base.metadata.create_all(self.engine)
         logger.info("Database migration applied successfully")
 
     def _hash_safe(self, s: Optional[str]) -> Optional[str]:
-        """Hash string with rotating salt if in production mode"""
         if not s or not self.is_prod:
             return s
-
         h = hashlib.sha3_256()
         h.update((self.rotate_salt + s).encode("utf-8"))
         return h.hexdigest()
 
     def _sanitize_context(self, context: dict[str, Any]) -> dict[str, Any]:
-        """Sanitize context to remove PII and keep safe fields"""
-        # Whitelist approach - only keep known-safe fields
         safe_fields = {
-            "safe_palette",
-            "approach_avoid_score",
-            "colorfield",
-            "temporal_feel",
-            "agency_feel",
-            "scenario",
-            "test_context",
-            "cfg_version",  # Configuration version (essential metadata)
-            "policy_sig",  # Policy signature (compliance)
-            "session_id",  # Session identifier (non-PII)
+            "safe_palette", "approach_avoid_score", "colorfield", "temporal_feel",
+            "agency_feel", "scenario", "test_context", "cfg_version", "policy_sig",
+            "session_id",
         }
-
         return {k: v for k, v in context.items() if k in safe_fields}
 
     def _generate_scene_id(self) -> str:
-        """Generate ULID or UUID for scene ID"""
         if ulid:
             return ulid.new().str
         else:
@@ -260,337 +172,214 @@ class SqlMemory(AkaqMemory):
         metrics: dict[str, Any],
         cfg_version: str,
     ) -> str:
-        """
-        Atomically persist scene+glyphs+metrics with full audit trail.
-
-        Implements privacy hashing, context sanitization, and transform auditing.
-        """
         obs = get_observability()
-
         with measure_memory_operation("save", "sql"):
             scene_id = self._generate_scene_id()
-
+            session = self.Session()
             try:
-                # Prepare scene data with privacy measures
-                user_id_hash = self._hash_safe(user_id)  # Hash user_id in production
+                user_id_hash = self._hash_safe(user_id)
                 subject = self._hash_safe(scene.get("subject"))
                 object_field = self._hash_safe(scene.get("object"))
                 proto = scene["proto"]
-
-                # Convert proto to vector for similarity (if available)
                 proto_vec = self._proto_to_vector(proto)
                 sanitized_context = self._sanitize_context(scene.get("context", {}))
+                proto_vec_param = json.dumps(proto_vec) if self.driver != "postgresql" else proto_vec
 
-                # Convert proto_vec for storage
-                if self.driver == "postgresql":
-                    # PostgreSQL can store vector directly
-                    proto_vec_param = proto_vec
-                else:
-                    # SQLite stores as JSON string
-                    proto_vec_param = json.dumps(proto_vec)
+                new_scene = AkaqScene(
+                    scene_id=scene_id,
+                    user_id=user_id_hash,
+                    subject=subject,
+                    object=object_field,
+                    proto=json.dumps(proto),
+                    proto_vec=proto_vec_param,
+                    risk=json.dumps(scene["risk"]),
+                    context=json.dumps(sanitized_context),
+                    transform_chain=json.dumps(scene.get("transform_chain", [])),
+                    collapse_hash=scene.get("collapse_hash"),
+                    drift_phi=metrics.get("drift_phi"),
+                    congruence_index=metrics.get("congruence_index"),
+                    neurosis_risk=metrics.get("neurosis_risk"),
+                    repair_delta=metrics.get("repair_delta"),
+                    sublimation_rate=metrics.get("sublimation_rate"),
+                    affect_energy_before=metrics.get("affect_energy_before"),
+                    affect_energy_after=metrics.get("affect_energy_after"),
+                    affect_energy_diff=metrics.get("affect_energy_diff"),
+                    cfg_version=cfg_version,
+                    ts=scene.get("timestamp", dt.datetime.now(timezone.utc).timestamp()),
+                )
+                session.add(new_scene)
 
-                with self.engine.begin() as tx:
-                    # Extract timestamp from scene if available
-                    scene_timestamp = scene.get("timestamp", dt.datetime.now(timezone.utc).timestamp())
-
-                    # Insert scene with all metrics
-                    tx.execute(
-                        text(
-                            """
-                        INSERT INTO akaq_scene (
-                            scene_id, user_id, subject, object, proto, proto_vec, risk, context,
-                            transform_chain, collapse_hash, drift_phi, congruence_index, neurosis_risk,
-                            repair_delta, sublimation_rate, affect_energy_before, affect_energy_after,
-                            affect_energy_diff, cfg_version, ts
-                        ) VALUES (
-                            :scene_id, :user_id, :subject, :object, :proto, :proto_vec, :risk, :context,
-                            :transform_chain, :collapse_hash, :drift_phi, :congruence_index, :neurosis_risk,
-                            :repair_delta, :sublimation_rate, :E_before, :E_after, :E_diff, :cfg_version, :ts
-                        )
-                        """
-                        ),
-                        {
-                            "scene_id": scene_id,
-                            "user_id": user_id_hash,  # Use hashed user_id
-                            "subject": subject,
-                            "object": object_field,
-                            "proto": json.dumps(proto),
-                            "proto_vec": proto_vec_param,
-                            "risk": json.dumps(scene["risk"]),
-                            "context": json.dumps(sanitized_context),
-                            "transform_chain": json.dumps(scene.get("transform_chain", [])),
-                            "collapse_hash": scene.get("collapse_hash"),
-                            "drift_phi": metrics.get("drift_phi"),
-                            "congruence_index": metrics.get("congruence_index"),
-                            "neurosis_risk": metrics.get("neurosis_risk"),
-                            "repair_delta": metrics.get("repair_delta"),
-                            "sublimation_rate": metrics.get("sublimation_rate"),
-                            "E_before": metrics.get("affect_energy_before"),
-                            "E_after": metrics.get("affect_energy_after"),
-                            "E_diff": metrics.get("affect_energy_diff"),
-                            "cfg_version": cfg_version,
-                            "ts": scene_timestamp,
-                        },
+                for glyph in glyphs:
+                    new_glyph = AkaqGlyph(
+                        glyph_id=self._generate_scene_id(),
+                        scene_id=scene_id,
+                        user_id=user_id,
+                        key=glyph["key"],
+                        attrs=json.dumps(glyph.get("attrs", {})),
+                        priority=glyph.get("priority", 0.5),
                     )
+                    session.add(new_glyph)
 
-                    # Insert glyphs
-                    for glyph in glyphs:
-                        glyph_id = self._generate_scene_id()  # Generate unique ID for glyph
-                        tx.execute(
-                            text(
-                                """
-                                INSERT INTO akaq_glyph (glyph_id, scene_id, user_id, key, attrs, priority)
-                                VALUES (:glyph_id, :scene_id, :user_id, :key, :attrs, :priority)
-                            """
-                            ),
-                            {
-                                "glyph_id": glyph_id,
-                                "scene_id": scene_id,
-                                "user_id": user_id,
-                                "key": glyph["key"],
-                                "attrs": json.dumps(glyph.get("attrs", {})),
-                                "priority": glyph.get("priority", 0.5),
-                            },
-                        )
-
-                    tx.commit()
-
+                session.commit()
                 self.scenes_saved += 1
                 logger.debug(f"Saved scene {scene_id} with {len(glyphs)} glyphs")
-
-                # Record observability metrics
-                obs.update_memory_storage("sql", "scenes", self.scenes_saved * 1024)  # Estimate
+                obs.update_memory_storage("sql", "scenes", self.scenes_saved * 1024)
                 obs.record_scene_processed(status="success")
-
                 return scene_id
-
             except Exception as e:
+                session.rollback()
                 self.save_failures += 1
                 logger.error(f"Failed to save scene: {e!s}")
                 raise
+            finally:
+                session.close()
 
     def _proto_to_vector(self, proto: dict[str, Any]) -> list[float]:
-        """Convert proto-qualia to 5D vector [tone, arousal, clarity, embodiment, narrative_gravity]"""
         return [
-            float(proto.get("tone", 0.0)),
-            float(proto.get("arousal", 0.0)),
-            float(proto.get("clarity", 0.0)),
-            float(proto.get("embodiment", 0.0)),
+            float(proto.get("tone", 0.0)), float(proto.get("arousal", 0.0)),
+            float(proto.get("clarity", 0.0)), float(proto.get("embodiment", 0.0)),
             float(proto.get("narrative_gravity", 0.0)),
         ]
 
     def fetch_prev_scene(self, *, user_id: str, before_ts: Optional[dt.datetime] = None) -> Optional[dict[str, Any]]:
-        """Get most recent scene before timestamp for drift computation"""
+        session = self.Session()
         try:
             if before_ts is None:
-                before_ts = dt.datetime.now(timezone.utc)  # ΛTAG: utc
+                before_ts = dt.datetime.now(timezone.utc)
 
-            with self.engine.begin() as conn:
-                result = conn.execute(
-                    text(
-                        """
-                        SELECT scene_id, proto, risk, drift_phi, congruence_index,
-                               neurosis_risk, repair_delta, ts
-                        FROM akaq_scene
-                        WHERE user_id = :user_id AND ts < :before_ts
-                        ORDER BY ts DESC
-                        LIMIT 1
-                    """
-                    ),
-                    {"user_id": user_id, "before_ts": before_ts},
-                )
+            ts_timestamp = before_ts.timestamp()
 
-                row = result.fetchone()
-                if not row:
-                    return None
+            scene = (
+                session.query(AkaqScene)
+                .filter(AkaqScene.user_id == user_id, AkaqScene.ts < ts_timestamp)
+                .order_by(desc(AkaqScene.ts))
+                .first()
+            )
 
-                return {
-                    "scene_id": row[0],
-                    "proto": json.loads(row[1]),
-                    "risk": json.loads(row[2]),
-                    "drift_phi": row[3],
-                    "congruence_index": row[4],
-                    "neurosis_risk": row[5],
-                    "repair_delta": row[6],
-                    "timestamp": row[7],
-                }
+            if not scene:
+                return None
 
+            return {
+                "scene_id": scene.scene_id, "proto": json.loads(scene.proto),
+                "risk": json.loads(scene.risk), "drift_phi": scene.drift_phi,
+                "congruence_index": scene.congruence_index, "neurosis_risk": scene.neurosis_risk,
+                "repair_delta": scene.repair_delta, "timestamp": scene.ts,
+            }
         except Exception as e:
             logger.error(f"Failed to fetch previous scene: {e!s}")
             return None
+        finally:
+            session.close()
 
     def history(self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None) -> list[dict[str, Any]]:
-        """Get reverse-chronological slice of scenes for user"""
         with measure_memory_operation("sql_history"):
-            scenes = []
-
-            # Hash user ID if in production
-            user_id_hash = self._hash_safe(user_id)
-
-            with self.engine.connect() as conn:
-                query = """
-                    SELECT scene_id, ts, proto, risk, context, drift_phi, congruence_index, neurosis_risk, subject, object
-                    FROM akaq_scene
-                    WHERE user_id = :user_id
-                """
-                params = {"user_id": user_id_hash}
-
+            session = self.Session()
+            try:
+                user_id_hash = self._hash_safe(user_id)
+                query = session.query(AkaqScene).filter(AkaqScene.user_id == user_id_hash)
                 if since:
-                    since_ts = since.timestamp()
-                    query += " AND ts > :since"
-                    params["since"] = since_ts
+                    query = query.filter(AkaqScene.ts > since.timestamp())
 
-                query += " ORDER BY ts DESC LIMIT :limit"
-                params["limit"] = limit
+                scenes_data = query.order_by(desc(AkaqScene.ts)).limit(limit).all()
 
-                result = conn.execute(text(query), params)
+                scenes = [
+                    {
+                        "scene_id": s.scene_id, "timestamp": s.ts,
+                        "proto": json.loads(s.proto or "{}"), "risk": json.loads(s.risk or "{}"),
+                        "context": json.loads(s.context or "{}"), "drift_phi": s.drift_phi,
+                        "congruence_index": s.congruence_index, "neurosis_risk": s.neurosis_risk,
+                        "subject": s.subject, "object": s.object,
+                    }
+                    for s in scenes_data
+                ]
+                logger.debug(f"Retrieved {len(scenes)} scenes for user {user_id}")
+                return scenes
+            finally:
+                session.close()
 
-                for row in result:
-                    scenes.append(
-                        {
-                            "scene_id": row[0],
-                            "timestamp": row[1],
-                            "proto": json.loads(row[2] or "{}"),
-                            "risk": json.loads(row[3] or "{}"),
-                            "context": json.loads(row[4] or "{}"),
-                            "drift_phi": row[5],
-                            "congruence_index": row[6],
-                            "neurosis_risk": row[7],
-                            "subject": row[8],
-                            "object": row[9],
-                        }
-                    )
-
-            logger.debug(f"Retrieved {len(scenes)} scenes for user {user_id}")
-            return scenes
-
-    def get_scene_history(
-        self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None
-    ) -> list[dict[str, Any]]:
-        """Alias for history method to match test expectations"""
+    def get_scene_history(self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None) -> list[dict[str, Any]]:
         return self.history(user_id=user_id, limit=limit, since=since)
 
-    def search_by_glyph(
-        self, *, user_id: str, key: Optional[str] = None, glyph_key: Optional[str] = None, limit: int = 50
-    ) -> list[dict[str, Any]]:
-        """Find scenes that emitted a specific glyph"""
-        # Support both 'key' and 'glyph_key' parameter names for compatibility
+    def search_by_glyph(self, *, user_id: str, key: Optional[str] = None, glyph_key: Optional[str] = None, limit: int = 50) -> list[dict[str, Any]]:
         search_key = key or glyph_key
         if not search_key:
             raise ValueError("Either 'key' or 'glyph_key' must be provided")
 
+        session = self.Session()
         try:
-            # Hash user ID if in production
             user_id_hash = self._hash_safe(user_id)
-
-            with self.engine.begin() as conn:
-                result = conn.execute(
-                    text(
-                        """
-                        SELECT s.scene_id, s.ts, s.proto, s.risk, s.subject, s.object, g.attrs
-                        FROM akaq_glyph g
-                        JOIN akaq_scene s ON g.scene_id = s.scene_id
-                        WHERE s.user_id = :user_id AND g.key = :key
-                        ORDER BY s.ts DESC
-                        LIMIT :limit
-                    """
-                    ),
-                    {"user_id": user_id_hash, "key": search_key, "limit": limit},
-                )
-
-                scenes = []
-                for row in result.fetchall():
-                    scenes.append(
-                        {
-                            "scene_id": row[0],
-                            "timestamp": row[1],
-                            "proto": json.loads(row[2]),
-                            "risk": json.loads(row[3]),
-                            "subject": row[4],
-                            "object": row[5],
-                            "glyph_attrs": json.loads(row[6]),
-                            "glyph_key": search_key,
-                        }
-                    )
-
-                return scenes
-
+            results = (
+                session.query(AkaqScene, AkaqGlyph)
+                .join(AkaqGlyph, AkaqScene.scene_id == AkaqGlyph.scene_id)
+                .filter(AkaqScene.user_id == user_id_hash, AkaqGlyph.key == search_key)
+                .order_by(desc(AkaqScene.ts))
+                .limit(limit)
+                .all()
+            )
+            scenes = [
+                {
+                    "scene_id": s.scene_id, "timestamp": s.ts,
+                    "proto": json.loads(s.proto), "risk": json.loads(s.risk),
+                    "subject": s.subject, "object": s.object,
+                    "glyph_attrs": json.loads(g.attrs), "glyph_key": search_key,
+                }
+                for s, g in results
+            ]
+            return scenes
         except Exception as e:
             logger.error(f"Failed to search by glyph: {e!s}")
             return []
+        finally:
+            session.close()
 
     def top_drift(self, *, user_id: str, limit: int = 10) -> list[dict[str, Any]]:
-        """Get scenes with highest drift_phi values"""
+        session = self.Session()
         try:
-            with self.engine.begin() as conn:
-                result = conn.execute(
-                    text(
-                        """
-                        SELECT scene_id, ts, proto, drift_phi, congruence_index
-                        FROM akaq_scene
-                        WHERE user_id = :user_id AND drift_phi IS NOT NULL
-                        ORDER BY drift_phi DESC
-                        LIMIT :limit
-                    """
-                    ),
-                    {"user_id": user_id, "limit": limit},
-                )
-
-                scenes = []
-                for row in result.fetchall():
-                    scenes.append(
-                        {
-                            "scene_id": row[0],
-                            "timestamp": row[1],
-                            "proto": json.loads(row[2]),
-                            "drift_phi": row[3],
-                            "congruence_index": row[4],
-                        }
-                    )
-
-                return scenes
-
+            scenes_data = (
+                session.query(AkaqScene)
+                .filter(AkaqScene.user_id == user_id, AkaqScene.drift_phi.isnot(None))
+                .order_by(desc(AkaqScene.drift_phi))
+                .limit(limit)
+                .all()
+            )
+            return [
+                {
+                    "scene_id": s.scene_id, "timestamp": s.ts,
+                    "proto": json.loads(s.proto), "drift_phi": s.drift_phi,
+                    "congruence_index": s.congruence_index,
+                }
+                for s in scenes_data
+            ]
         except Exception as e:
             logger.error(f"Failed to fetch top drift scenes: {e!s}")
             return []
+        finally:
+            session.close()
 
     def delete_user(self, *, user_id: str) -> int:
-        """Delete all user data (GDPR compliance)"""
+        session = self.Session()
         try:
-            with self.engine.begin() as conn:
-                # Count before deletion for audit
-                count_result = conn.execute(
-                    text("SELECT COUNT(*) FROM akaq_scene WHERE user_id = :user_id"),
-                    {"user_id": user_id},
-                )
-                count_result.scalar()
+            count = session.query(AkaqScene).filter(AkaqScene.user_id == user_id).count()
 
-                # Delete scenes (cascades to glyphs via foreign key)
-                delete_result = conn.execute(
-                    text("DELETE FROM akaq_scene WHERE user_id = :user_id"),
-                    {"user_id": user_id},
-                )
+            if count > 0:
+                session.query(AkaqScene).filter(AkaqScene.user_id == user_id).delete()
+                session.commit()
 
-                rows_deleted = delete_result.rowcount
-                conn.commit()
-
-                logger.info(f"Deleted {rows_deleted} scenes for user {user_id}")
-                return rows_deleted
-
+            logger.info(f"Deleted {count} scenes for user {user_id}")
+            return count
         except Exception as e:
+            session.rollback()
             logger.error(f"Failed to delete user data: {e!s}")
             raise
+        finally:
+            session.close()
 
     def get_stats(self) -> dict[str, Any]:
-        """Get memory client statistics"""
         return {
-            "driver": self.driver,
-            "is_prod": self.is_prod,
-            "scenes_saved": self.scenes_saved,
-            "save_failures": self.save_failures,
+            "driver": self.driver, "is_prod": self.is_prod,
+            "scenes_saved": self.scenes_saved, "save_failures": self.save_failures,
             "success_rate": (
                 self.scenes_saved / (self.scenes_saved + self.save_failures)
-                if (self.scenes_saved + self.save_failures) > 0
-                else 0
+                if (self.scenes_saved + self.save_failures) > 0 else 0
             ),
         }

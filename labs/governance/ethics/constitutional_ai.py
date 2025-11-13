@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 from datetime import timezone
 
@@ -1269,8 +1271,8 @@ __all__ = [
     "CapabilityRisk",
     "ConstitutionalAI",
     "ConstitutionalFramework",
-    "ConstitutionalRule",
     "ConstitutionalPrinciple",
+    "ConstitutionalRule",
     "EthicalDecision",
     "EthicalDecisionMaker",
     "EthicalPrinciple",

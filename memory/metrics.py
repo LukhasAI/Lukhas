@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from collections.abc import Mapping, Sequence
 from numbers import Real
-from typing import Any, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +25,7 @@ def _collect_numeric_values(sequence: Sequence[Any]) -> list[float]:
     return values
 
 
-def _maybe_float(value: Any) -> Optional[float]:
+def _maybe_float(value: Any) -> float | None:
     """Convert a value to float when possible."""
     if isinstance(value, Real):
         return float(value)
@@ -76,12 +76,9 @@ def compute_affect_delta(payload: Mapping[str, Any]) -> float:
 
 # ΛTAG: drift_metric
 
-def compute_drift(previous: Optional[float], current: float) -> float:
+def compute_drift(previous: float | None, current: float) -> float:
     """Compute driftScore from a previous affect delta reading and the current value."""
-    if previous is None:
-        drift = _clamp(abs(current))
-    else:
-        drift = _clamp(abs(current - previous))
+    drift = _clamp(abs(current)) if previous is None else _clamp(abs(current - previous))
     logger.debug(
         "Computed driftScore",
         extra={"driftScore": drift, "previous_affect_delta": previous, "current_affect_delta": current},

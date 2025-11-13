@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 from dataclasses import dataclass
 
 try:
@@ -47,22 +48,19 @@ class Lifecycle:
 
 
 __all__ = [
-    "RetentionRule",
-    "RetentionSeverity",
+    "Lifecycle",
     "RetentionAction",
     "RetentionPolicy",
-    "Lifecycle",
+    "RetentionRule",
+    "RetentionSeverity",
 ]
 
-try:
-    from memory.retention import AbstractArchivalBackend, ArchivalTier  # noqa: F401
+with contextlib.suppress(Exception):
     __all__.extend(
         name
         for name in ("ArchivalTier", "AbstractArchivalBackend")
         if name not in __all__
     )
-except Exception:
-    pass
 
 
 try:

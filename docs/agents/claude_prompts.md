@@ -1,56 +1,75 @@
-# Claude Code — Single-file Provider/Lazy Refactor Prompt
+# Claude Code: Single-file task prompt (T4 / 0.01%)
 
-Use this prompt in your IDE for small, safe edits that remove import-time `labs.*` dependencies in production lanes.
+Use when you want the IDE agent to make a small, safe refactor.
 
----
+Context:
+- Repo: LukhasAI/Lukhas
+- Production modules must not have import-time edges to `labs.*`.
+- Provider Registry exists under `core/adapters/provider_registry.py`.
+- The goal is to remove static `labs.*` imports from a single file and add safe, testable changes.
 
-Prompt:
+Template (copy & paste into Claude Code):
+-----------------------------------------
+FILE:  (set file path, e.g. `core/registry.py`)
+BRANCH: `task/lazy-load-<file>-<you>`
 
-I want a small, safe, single-file refactor in the Lukhas repo to remove import-time production → labs edges.
-Context: production lane modules must not import `labs.*` at import time. We already have `core/adapters/provider_registry.py` and `labs_integrations/*` plugin. Your job is to convert a single file to use the provider pattern or a lazy import.
+1) Create branch:
+   `git fetch origin && git checkout -b task/lazy-load-<file>-<you> origin/feat/fix-lane-violation-MATRIZ`
 
-Target file (replace this): `core/registry.py`
-Target class / function (if specific): `RegistryManager` (or update top-level imports only).
+2) Replace import-time `labs` usage:
+   - If file is a service or client, use ProviderRegistry:
+     ```py
+     from core.adapters.provider_registry import ProviderRegistry
+     from core.adapters.config_resolver import make_resolver
 
-Make these exact changes:
-1) Create a branch from `origin/main` (name: `task/lazy-load-<file>-<you>`).
-2) If file contains `from labs.* import ...` or `import labs`, remove the top-level import. Instead:
-   - If it’s a service/client, use ProviderRegistry:
+     def _get_openai_provider():
+         reg = ProviderRegistry(make_resolver())
+         return reg.get_openai()
+     ```
+   - Otherwise use a lazy helper:
+     ```py
+     import importlib
+     from typing import Optional, Any
+     def _get_labs() -> Optional[Any]:
+         try:
+             return importlib.import_module("labs")
+         except Exception:
+             return None
+     ```
 
-```py
-from core.adapters.provider_registry import ProviderRegistry
-from core.adapters.config_resolver import make_resolver
+3) Update call sites to use provider or `_get_labs()` and guard `None` with a clear runtime error message.
 
-def _openai_provider():
-    reg = ProviderRegistry(make_resolver())
-    return reg.get_openai()
+4) Add unit test `tests/.../test_<file>_importsafe.py` that asserts `import module` does not crash without `labs` installed. For provider pattern, test by injecting a stub provider.
+
+5) Local checks:
+   - `python3 -m venv .venv && . .venv/bin/activate`
+   - `pip install -r requirements.txt || true`
+   - `pytest tests/... -q`
+   - `ruff check core/path/to/file.py --select E,F,W,C`
+   - `./scripts/run_lane_guard_worktree.sh` (worktree lane-guard)
+
+6) Commit & push:
+   `git add ... && git commit -m "refactor(provider): lazy-load labs in <file>" && git push -u origin task/lazy-load-<file>-<you>`
+
+PR body template:
 ```
 
-Replace `labs.*` calls with `provider = _openai_provider(); provider.chat(...)`.
+Title: refactor(provider): lazy-load labs in <file>
 
-   - If usage is small, use a lazy loader:
+Summary:
 
-```py
-import importlib
-def _get_labs():
-    try:
-        return importlib.import_module("labs")
-    except Exception:
-        return None
+* Replace import-time labs import with provider/lazy-load.
+* Unit test added.
+  Validation:
+* pytest: PASS
+* ruff: PASS (targeted)
+* Lane-guard: PASS (attached artifact)
+
 ```
 
-Then call `_get_labs()` inside functions and guard `None` appropriately.
+Stop & ask human if:
+- More than 1 file requires changes to make the code work,
+- The refactor requires breaking API behavior,
+- The agent can't get tests to pass locally.
 
-Validation:
-- Run: `pytest -q tests/unit/<targeted_tests>.py`
-- Run: `make smoke`
-- Run: `make lane-guard` (or `scripts/run_lane_guard_worktree.sh`)
-
-Commit (T4):
-`refactor(core): lazy-load labs usage in <file>`
-
-Checklist:
-- [ ] Tests OK (targeted)
-- [ ] smoke OK
-- [ ] lane-guard OK
-
+Safety: Do not commit credentials or change `.importlinter` or `.venv`. Use one file per PR.
