@@ -42,8 +42,10 @@ def priority_from_text(text:str, specialist:bool)->str:
     m = RX_PRIORITY.search(text or "")
     if m:
         tok = m.group(1).upper()
-        if tok in {"BLOCKER","HIGH"}: return "P0" if tok=="BLOCKER" else "P1"
-        if tok in {"LOW","TRIVIAL"}: return "P3"
+        if tok in {"BLOCKER","HIGH"}:
+            return "P0" if tok=="BLOCKER" else "P1"
+        if tok in {"LOW","TRIVIAL"}:
+            return "P3"
         return tok
     return "P2" if specialist else "P3"
 
@@ -89,7 +91,8 @@ def scan_file(path:Path):
                 # split on first occurrence of "TODO" or "FIXME"
                 split_point = None
                 mt = re.search(r'(?i)TODO|FIXME', raw)
-                if mt: split_point = mt.end()
+                if mt:
+                    split_point = mt.end()
                 text_part = raw[split_point:].strip() if split_point else raw
             except Exception:
                 pass

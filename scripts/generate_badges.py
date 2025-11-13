@@ -31,10 +31,14 @@ def badge_svg(label, value, color):
 """
 
 def pct_color(p):
-    if p >= 90: return "#4c1"
-    if p >= 70: return "#97CA00"
-    if p >= 50: return "#dfb317"
-    if p >= 30: return "#fe7d37"
+    if p >= 90:
+        return "#4c1"
+    if p >= 70:
+        return "#97CA00"
+    if p >= 50:
+        return "#dfb317"
+    if p >= 30:
+        return "#fe7d37"
     return "#e05d44"
 
 def main():
@@ -46,7 +50,8 @@ def main():
 
     inv = json.load(open(args.inventory, encoding="utf-8"))
     total = int(inv.get("statistics", {}).get("total_modules", len(inv.get("inventory", [])) or 0))
-    out_dir = pathlib.Path(args.out); out_dir.mkdir(parents=True, exist_ok=True)  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_generate_badges_py_L49"}
+    out_dir = pathlib.Path(args.out)
+    out_dir.mkdir(parents=True, exist_ok=True)
 
     # Manifest coverage
     manifests = list(pathlib.Path(args.manifests_root).rglob("module.manifest.json"))
