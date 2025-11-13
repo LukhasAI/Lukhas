@@ -9,6 +9,8 @@ from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 
+from lukhas.middleware import SecurityHeaders
+
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False
 try:
@@ -154,6 +156,8 @@ class HeadersMiddleware(BaseHTTPMiddleware):
         response.headers['x-ratelimit-reset-requests'] = str(int(time.time()) + 60)
         return response
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
+# Security headers first - applies to all responses including auth failures
+app.add_middleware(SecurityHeaders)
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
 app.add_middleware(StrictAuthMiddleware)
 app.add_middleware(HeadersMiddleware)
