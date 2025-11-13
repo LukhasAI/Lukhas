@@ -87,3 +87,25 @@ __all__ = [
     "qi_coordinator",
     "qi_entanglement",
 ]
+
+# Import compliance, ops, and security modules
+try:
+    from . import compliance
+    QI_COMPLIANCE_AVAILABLE = True
+except ImportError:
+    compliance = None
+    QI_COMPLIANCE_AVAILABLE = False
+
+try:
+    from . import ops
+    QI_OPS_AVAILABLE = True
+except ImportError:
+    ops = None
+    QI_OPS_AVAILABLE = False
+
+try:
+    from . import security
+    QI_SECURITY_AVAILABLE = True
+except ImportError:
+    security = None
+    QI_SECURITY_AVAILABLE = False

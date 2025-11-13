@@ -7,12 +7,10 @@ Covers: Critical (P0), High (P1), Medium (P2), Low (P3) tasks
 import asyncio
 import sys
 from pathlib import Path
-from typing import Optional
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from bridge.llm_wrappers.jules_wrapper import JulesClient
-
 
 # Session definitions organized by priority
 SESSIONS = {
@@ -1047,7 +1045,7 @@ Related: #492 (CI provisioning)
     "LOW": [
         {
             "title": "🟢 P3: Improve Documentation - Manifest Coverage (Issue #436)",
-            "prompt": """**LOW PRIORITY: Achieve 99% Manifest Coverage**
+            "prompt": r"""**LOW PRIORITY: Achieve 99% Manifest Coverage**
 
 **Objective**: Create 363 missing module manifests to reach 99% documentation coverage
 

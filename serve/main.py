@@ -256,11 +256,50 @@ def _hash_embed(text: str, dim: int=1536) -> list[float]:
     buf = (h * (dim // len(h) + 1))[:dim]
     return [b / 255.0 for b in buf]
 
+# Module-level cache for /v1/models endpoint to ensure deterministic responses
+_MODEL_LIST_CACHE: Optional[dict[str, Any]] = None
+_CACHE_TIMESTAMP: Optional[int] = None
+
+def _build_model_list(timestamp: Optional[int] = None) -> dict[str, Any]:
+    """Build the model list response with deterministic timestamp.
+
+    Args:
+        timestamp: Optional fixed timestamp for deterministic caching.
+                  If None, uses current time.
+
+    Returns:
+        OpenAI-compatible model list response.
+    """
+    created_time = timestamp if timestamp is not None else int(time.time())
+    models = [
+        {'id': 'lukhas-mini', 'object': 'model', 'created': created_time, 'owned_by': 'lukhas'},
+        {'id': 'lukhas-embed-1', 'object': 'model', 'created': created_time, 'owned_by': 'lukhas'},
+        {'id': 'text-embedding-ada-002', 'object': 'model', 'created': created_time, 'owned_by': 'lukhas'},
+        {'id': 'gpt-4', 'object': 'model', 'created': created_time, 'owned_by': 'lukhas'}
+    ]
+    return {'object': 'list', 'data': models}
+
+def invalidate_model_cache() -> None:
+    """Invalidate the model list cache, forcing regeneration on next request."""
+    global _MODEL_LIST_CACHE, _CACHE_TIMESTAMP
+    _MODEL_LIST_CACHE = None
+    _CACHE_TIMESTAMP = None
+
 @app.get('/v1/models', tags=['OpenAI Compatible'])
 async def list_models() -> dict[str, Any]:
-    """OpenAI-compatible models list endpoint."""
-    models = [{'id': 'lukhas-mini', 'object': 'model', 'owned_by': 'lukhas'}, {'id': 'lukhas-embed-1', 'object': 'model', 'owned_by': 'lukhas'}, {'id': 'text-embedding-ada-002', 'object': 'model', 'owned_by': 'lukhas'}, {'id': 'gpt-4', 'object': 'model', 'owned_by': 'lukhas'}]
-    return {'object': 'list', 'data': models}
+    """OpenAI-compatible models list endpoint with deterministic caching.
+
+    Returns a cached response to ensure identical JSON output across requests,
+    enabling CDN/proxy caching and reducing response variance.
+    """
+    global _MODEL_LIST_CACHE, _CACHE_TIMESTAMP
+
+    if _MODEL_LIST_CACHE is None:
+        # Initialize cache with fixed timestamp for deterministic responses
+        _CACHE_TIMESTAMP = int(time.time())
+        _MODEL_LIST_CACHE = _build_model_list(_CACHE_TIMESTAMP)
+
+    return _MODEL_LIST_CACHE
 
 @app.post('/v1/embeddings', tags=['OpenAI Compatible'])
 async def create_embeddings(request: dict) -> dict[str, Any]:

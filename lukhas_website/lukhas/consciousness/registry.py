@@ -1,3 +1,8 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
+
 """
 Consciousness Component Registry for LUKHAS AI Distributed Architecture
 
@@ -32,11 +37,10 @@ from contextlib import asynccontextmanager, suppress
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Optional, TypeVar
+from typing import Optional
 
 try:
     from async_manager import TaskPriority, get_consciousness_manager
-
     from core.common.config import get_config
 except ImportError:
     # Graceful fallback for development

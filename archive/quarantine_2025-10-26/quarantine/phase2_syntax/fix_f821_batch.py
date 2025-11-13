@@ -182,7 +182,7 @@ def fix_typing_imports(file_path):
                     # Add to existing import
                     all_imports = sorted(list(typing_imports) + missing)
                     content = re.sub(
-                        r"from typing import .+",
+                        r"from typing import .+"
                         f'from typing import {", ".join(all_imports)}',
                         content,
                         count=1

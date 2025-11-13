@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import pytest
-
 from core.identity.vault.lukhas_id import (
     IdentityManager,
     IdentityProfile,

@@ -632,7 +632,7 @@ class TopologyManager:
         Identifies potential bottlenecks or performance issues within the network,
         such as high-error nodes, isolated nodes, or overconnected nodes.
         Returns:
-            List[Dict[str, Any]]: A list of dictionaries, each describing a bottleneck.
+            list[dict[str, Any]]: A list of dictionaries, each describing a bottleneck.
         """
         self.logger.info("ΛTRACE: Identifying network bottlenecks.")
         identified_bottlenecks: list[dict[str, Any]] = []
@@ -740,7 +740,7 @@ class TopologyManager:
         Args:
             current_metrics (TopologyMetrics): The current calculated metrics of the network.
         Returns:
-            List[str]: A list of string suggestions for improvement.
+            list[str]: A list of string suggestions for improvement.
         """
         self.logger.info(
             f"ΛTRACE: Suggesting topology improvements based on metrics: {current_metrics}"
@@ -809,7 +809,7 @@ class TopologyManager:
         """
         Records the results of an optimization operation in the manager's history.
         Args:
-            optimization_result_dict (Dict[str, Any]): A dictionary containing details of the optimization.
+            optimization_result_dict (dict[str, Any]): A dictionary containing details of the optimization.
         """
         self.logger.debug(
             f"ΛTRACE: Recording optimization result: {optimization_result_dict.get('operation_type', 'N/A')}"
@@ -858,7 +858,7 @@ class TopologyManager:
         Analyzes the recent optimization history to identify trends in operations,
         success rates, and error levels.
         Returns:
-            Dict[str, Any]: A dictionary summarizing observed trends.
+            dict[str, Any]: A dictionary summarizing observed trends.
         """
         self.logger.debug("ΛTRACE: Analyzing optimization trends.")
         if not self.optimization_history:

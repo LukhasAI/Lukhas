@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from typing import ClassVar
 
 import logging
 
@@ -33,17 +34,19 @@ from collections import defaultdict
 from collections.abc import Awaitable
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Callable, Dict
+from typing import Any, Callable
 
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict import to native dict type in API middleware
+# estimate: 5min | priority: high | dependencies: core-api-interfaces
 # Replaced python-jose (vulnerable) with PyJWT for secure JWT handling
 import jwt
 import structlog
 from fastapi import HTTPException, Request, status
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer
-from jwt.exceptions import InvalidTokenError as JWTError
-
 from governance.identity.core.id_service import get_identity_manager
+from jwt.exceptions import InvalidTokenError as JWTError
 
 # Import centralized decorators and tier system
 
@@ -183,7 +186,7 @@ class RateLimitConfig:
 class RateLimitMiddleware:
     """Rate limiting middleware with tier-based policies."""
 
-    DEFAULT_LIMITS: Dict[int, RateLimitConfig] = {
+    DEFAULT_LIMITS: dict[int, RateLimitConfig] = {
         0: RateLimitConfig(limit=1000, window_seconds=3600),
         1: RateLimitConfig(limit=5000, window_seconds=3600),
     }
@@ -191,15 +194,15 @@ class RateLimitMiddleware:
     def __init__(
         self,
         *,
-        rate_limits: Dict[int, RateLimitConfig] | None = None,
+        rate_limits: dict[int, RateLimitConfig] | None = None,
         identity_manager: Any | None = None,
         time_provider: Callable[[], float] = time.time,
     ) -> None:
         self.rate_limits = rate_limits or self.DEFAULT_LIMITS.copy()
         self.identity_manager = identity_manager or IDENTITY_MANAGER
         self.time_provider = time_provider
-        self._request_counts: Dict[str, Dict[str, float]] = defaultdict(dict)
-        self._locks: Dict[str, asyncio.Lock] = defaultdict(asyncio.Lock)
+        self._request_counts: dict[str, dict[str, float]] = defaultdict(dict)
+        self._locks: dict[str, asyncio.Lock] = defaultdict(asyncio.Lock)
 
     def _resolve_key(self, request: Request) -> str:
         user_id = getattr(request.state, "user_id", None)
@@ -292,7 +295,7 @@ class RateLimitMiddleware:
         return response
 
     @staticmethod
-    def _build_headers(limit: Any, remaining: Any, reset: Any) -> Dict[str, str]:
+    def _build_headers(limit: Any, remaining: Any, reset: Any) -> dict[str, str]:
         return {
             "X-RateLimit-Limit": str(limit),
             "X-RateLimit-Remaining": str(remaining),

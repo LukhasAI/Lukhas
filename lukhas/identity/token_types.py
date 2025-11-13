@@ -112,3 +112,25 @@ def get_remaining_lifetime(claims: TokenClaims) -> timedelta:
     now_dt = datetime.now(timezone.utc)
 
     return expiration_dt - now_dt
+
+
+def mk_exp(seconds_from_now: int) -> int:
+    """Creates an expiration timestamp for a JWT.
+
+    Args:
+        seconds_from_now: The number of seconds from now for the token to expire.
+
+    Returns:
+        The Unix timestamp for the expiration time.
+    """
+    return int((datetime.now(timezone.utc) + timedelta(seconds=seconds_from_now)).timestamp())
+
+
+def mk_iat() -> int:
+    """Creates an 'issued at' timestamp for a JWT.
+
+    Returns:
+        The current Unix timestamp.
+    """
+    # Return the current UTC timestamp as an integer.
+    return int(datetime.now(timezone.utc).timestamp())

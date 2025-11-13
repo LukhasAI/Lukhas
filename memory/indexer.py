@@ -16,9 +16,23 @@ def _register(symbol: str) -> None:
 
 # TODO: plug in actual embedding providers
 class Embeddings:
+    def __init__(self, provider=None):
+        self._cache = {}
+        # Use a simple stub if no provider is given
+        self.provider = provider or OpenAIEmbeddingProvider()
+
     def embed(self, text: str) -> list[float]:
-        # TODO: call provider, cache results
-        return [0.0] * 1536  # placeholder
+        """Get embedding from provider with caching"""
+        cache_key = hashlib.sha256(text.encode()).hexdigest()
+
+        if cache_key in self._cache:
+            return self._cache[cache_key]
+
+        # The stub provider expects an iterable and returns a list of lists.
+        # We adapt to call it with a single item.
+        embedding = self.provider.embed([text])[0]
+        self._cache[cache_key] = embedding
+        return embedding
 
 
 def _fingerprint(text: str) -> str:
@@ -32,9 +46,19 @@ class Indexer:
 
     def upsert(self, text: str, meta: dict[str, Any]) -> str:
         fp = _fingerprint(text)
+
+        # Check for duplicates using the fingerprint (id)
+        existing = self.store.search(embedding=[0.0]*1536, k=1, filters={"id": fp})
+        if existing:
+            return existing[0][0] # Return existing ID
+
         vec = self.emb.embed(text)
-        # TODO: detect duplicates by fp in meta
-        return self.store.add(VectorDoc(id=fp, text=text, embedding=vec, meta=meta))
+
+        # Add the fingerprint to the metadata
+        meta_with_fp = meta.copy()
+        meta_with_fp['fingerprint'] = fp
+
+        return self.store.add(VectorDoc(id=fp, text=text, embedding=vec, meta=meta_with_fp))
 
     def search_text(self, query: str, k: int = 10, filters: dict[str, Any] | None = None):
         vec = self.emb.embed(query)

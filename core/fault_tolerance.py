@@ -1,4 +1,6 @@
 """Bridge module for core.fault_tolerance → labs.core.fault_tolerance"""
 from __future__ import annotations
 
-from labs.core.fault_tolerance import *
+from labs.core.fault_tolerance import FaultHandler, FaultTolerance, handle_faults
+
+__all__ = ["FaultHandler", "FaultTolerance", "handle_faults"]

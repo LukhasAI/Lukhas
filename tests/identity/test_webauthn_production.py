@@ -13,7 +13,6 @@ import time
 from datetime import datetime, timedelta, timezone
 
 import pytest
-
 from identity.webauthn_production import (
     AuthenticatorTier,
     AuthenticatorType,

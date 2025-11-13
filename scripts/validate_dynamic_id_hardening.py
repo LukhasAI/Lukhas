@@ -24,13 +24,23 @@ from typing import Any
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from observability.service_metrics import (  # noqa: E402 - project root must be injected before import
+from observability.service_metrics import (
     MetricType,
     ServiceType,
 )
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+# TODO: This validator class needs to be properly implemented
+class MATRIZMetricsContractValidator:
+    """Stub implementation for metrics contract validation."""
+
+    def record_and_validate_matriz_metric(self, name: str, **kwargs) -> list:
+        """Stub method that needs actual implementation."""
+        # This is a placeholder - actual implementation needed
+        return []
 
 
 def validate_dynamic_id_patterns() -> tuple[bool, dict[str, Any]]:

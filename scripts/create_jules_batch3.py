@@ -7,12 +7,10 @@ Focus: Maximize automation coverage with remaining 70+ quota
 import asyncio
 import sys
 from pathlib import Path
-from typing import Optional
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from bridge.llm_wrappers.jules_wrapper import JulesClient
-
 
 BATCH3_SESSIONS = [
     # HIGH PRIORITY - Test Coverage
@@ -322,7 +320,7 @@ Tests: All performance targets met
     # MEDIUM PRIORITY - Documentation
     {
         "title": "📚 P2: Create Getting Started Guides for LUKHAS Platform",
-        "prompt": """**MEDIUM PRIORITY: Getting Started Documentation**
+        "prompt": r"""**MEDIUM PRIORITY: Getting Started Documentation**
 
 **Objective**: Create comprehensive onboarding documentation for new developers
 
@@ -430,7 +428,7 @@ Docs: 5 guides, all examples tested
     },
     {
         "title": "📚 P2: Update API Documentation with New Endpoints",
-        "prompt": """**MEDIUM PRIORITY: API Documentation Refresh**
+        "prompt": r"""**MEDIUM PRIORITY: API Documentation Refresh**
 
 **Objective**: Update API docs to reflect current endpoints and features
 

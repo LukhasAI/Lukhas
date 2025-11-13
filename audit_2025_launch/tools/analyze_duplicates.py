@@ -2,17 +2,21 @@
 """
 Analyze duplicate files from previous audit and generate actionable recommendations.
 """
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernized typing imports - Dict->dict, List->list for Python 3.9+ compatibility
+# estimate: 2min | priority: high | dependencies: none
+
 import json
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
-def load_duplicate_report(report_path: str) -> Dict[str, Any]:
+def load_duplicate_report(report_path: str) -> dict[str, Any]:
     """Load the duplicate report JSON."""
     with open(report_path) as f:
         return json.load(f)
 
-def categorize_duplicates(duplicates: List[Dict]) -> Dict[str, List[Dict]]:
+def categorize_duplicates(duplicates: list[dict]) -> dict[str, list[dict]]:
     """Categorize duplicates by type and importance."""
     categories = {
         'init_files': [],           # __init__.py files (expected)
@@ -49,14 +53,14 @@ def categorize_duplicates(duplicates: List[Dict]) -> Dict[str, List[Dict]]:
 
     return categories
 
-def calculate_space_impact(dup_group: Dict) -> int:
+def calculate_space_impact(dup_group: dict) -> int:
     """Calculate wasted space for a duplicate group."""
     size = dup_group.get('size_bytes', 0)
     count = len(dup_group.get('files', []))
     # Wasted space = size * (count - 1), since we keep one
     return size * (count - 1)
 
-def prioritize_which_to_keep(files: List[str]) -> tuple:
+def prioritize_which_to_keep(files: list[str]) -> tuple:
     """Determine which file to keep and which to archive."""
     # Priority rules:
     # 1. Keep production lane (lukhas/) over candidate/
@@ -102,7 +106,7 @@ def prioritize_which_to_keep(files: List[str]) -> tuple:
 
     return keep_file, archive_files
 
-def generate_recommendations(categories: Dict[str, List[Dict]]) -> Dict[str, Any]:
+def generate_recommendations(categories: dict[str, list[dict]]) -> dict[str, Any]:
     """Generate actionable recommendations for each category."""
     recommendations = {
         'summary': {
@@ -163,7 +167,7 @@ def generate_recommendations(categories: Dict[str, List[Dict]]) -> Dict[str, Any
 
     return recommendations
 
-def determine_action(category: str, files: List[str]) -> str:
+def determine_action(category: str, files: list[str]) -> str:
     """Determine recommended action for duplicate group."""
     if category == 'init_files':
         return "KEEP_ALL - Standard Python package structure"

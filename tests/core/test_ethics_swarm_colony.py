@@ -4,7 +4,6 @@ from __future__ import annotations
 import logging
 
 import pytest
-
 from core.colonies import (
     EthicalDecisionRequest,
     EthicalDecisionResponse,

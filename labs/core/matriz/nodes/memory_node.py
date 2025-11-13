@@ -1,5 +1,5 @@
 """MATRIZ MemoryNode implementation."""
-from typing import Any, Dict, List
+from typing import Any
 
 from matriz.core.node_interface import NodeState
 
@@ -18,14 +18,14 @@ class MemoryNode(BaseMatrixNode):
         self.top_k = top_k
         # ✅ TODO: integrate with production memory backend once available
 
-    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:  # type: ignore[override]
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:  # type: ignore[override]
         start = self._start_timer()
         query = str(input_data.get("query", "")).lower()
         memory_entries = input_data.get("memory_context") or input_data.get("memories") or []
         if not isinstance(memory_entries, list):
             memory_entries = []
 
-        scored: List[tuple[float, Dict[str, Any]]] = []
+        scored: list[tuple[float, dict[str, Any]]] = []
         for entry in memory_entries:
             if not isinstance(entry, dict):
                 continue
@@ -77,7 +77,7 @@ class MemoryNode(BaseMatrixNode):
         result["driftScore"] = input_data.get("drift_score", 0.0)
         return result
 
-    def _score_entry(self, query: str, text: str, entry: Dict[str, Any]) -> float:
+    def _score_entry(self, query: str, text: str, entry: dict[str, Any]) -> float:
         if not query:
             base = 0.25
         else:

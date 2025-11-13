@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.memory.memory_consolidation
 
 **Star**: ✦ Trail (Memory)

@@ -1,0 +1,267 @@
+name: Reasoning Lab Safety Validation
+
+on:
+  pull_request:
+    paths:
+      - 'lukhas/reasoning_lab/**'
+      - 'products/frontend/components/RedactionSlider.tsx'
+      - 'products/frontend/pages/admin/reasoning_lab_safety.tsx'
+      - 'tests/reasoning_lab/**'
+      - 'tools/validate_reasoning_lab_safety.py'
+      - 'docs/reasoning_lab/**'
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'lukhas/reasoning_lab/**'
+      - 'products/frontend/components/RedactionSlider.tsx'
+      - 'products/frontend/pages/admin/reasoning_lab_safety.tsx'
+      - 'tests/reasoning_lab/**'
+      - 'tools/validate_reasoning_lab_safety.py'
+      - 'docs/reasoning_lab/**'
+  workflow_dispatch:
+
+jobs:
+  validate-safety-controls:
+    name: Validate Safety Controls
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+
+      - name: Run safety validation
+        run: |
+          make reasoning-lab-safety-check
+
+      - name: Run unit tests
+        run: |
+          pytest tests/reasoning_lab/ -v --tb=short
+
+      - name: Check documentation exists
+        run: |
+          test -f docs/reasoning_lab/SAFETY_CONTROLS.md || exit 1
+          echo "✅ Documentation found"
+
+      - name: Validate detection accuracy
+        run: |
+          python3 -c "
+          from lukhas.reasoning_lab.sensitive_data_detector import SensitiveDataDetector
+          detector = SensitiveDataDetector()
+          # Test a few key patterns
+          tests = [
+              'sk-abc123xyz456789012345678901234567890123456',  # OpenAI
+              'user@example.com',  # Email
+              '4532015112830366',  # Credit card
+          ]
+          total = len(tests)
+          detected = sum(1 for t in tests if detector.detect(t))
+          accuracy = (detected / total) * 100
+          print(f'Detection accuracy: {accuracy:.1f}%')
+          assert accuracy >= 95.0, f'Detection accuracy too low: {accuracy}%'
+          "
+
+      - name: Test redaction modes
+        run: |
+          python3 -c "
+          from lukhas.reasoning_lab.sensitive_data_detector import SensitiveDataDetector
+          from lukhas.reasoning_lab.redaction_engine import RedactionEngine, RedactionMode
+
+          detector = SensitiveDataDetector()
+          redactor = RedactionEngine()
+
+          text = 'API key: sk-abc123xyz456789012345678901234567890123456'
+          detections = detector.detect(text)
+
+          # Test all modes
+          for mode in [RedactionMode.FULL, RedactionMode.PARTIAL, RedactionMode.HASH, RedactionMode.BLUR]:
+              redacted = redactor.redact(text, detections, mode)
+              assert 'sk-abc' not in redacted, f'{mode.value} mode failed to redact'
+
+          print('✅ All redaction modes working')
+          "
+
+      - name: Test demo mode sandboxing
+        run: |
+          python3 -c "
+          from lukhas.reasoning_lab.demo_mode import DemoMode
+
+          demo = DemoMode()
+          assert demo.is_sandboxed(), 'Demo mode not sandboxed!'
+
+          session_id = demo.create_session('192.168.1.1')
+          assert session_id is not None, 'Failed to create session'
+
+          result = demo.process_reasoning_trace(
+              session_id,
+              'Test trace with sk-abc123xyz456789012345678901234567890123456',
+          )
+
+          assert result['success'], 'Failed to process trace'
+          assert demo.WATERMARK in result['trace'], 'Watermark missing'
+          assert 'sk-abc' not in result['trace'], 'Sensitive data not redacted'
+
+          print('✅ Demo mode working correctly')
+          "
+
+  security-audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    needs: validate-safety-controls
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install bandit
+        run: |
+          pip install bandit
+
+      - name: Run security scan
+        run: |
+          bandit -r lukhas/reasoning_lab/ -f json -o bandit-report.json || true
+
+      - name: Check for critical issues
+        run: |
+          python3 -c "
+          import json
+          with open('bandit-report.json') as f:
+              report = json.load(f)
+
+          high_severity = [r for r in report.get('results', []) if r.get('issue_severity') == 'HIGH']
+
+          if high_severity:
+              print(f'❌ Found {len(high_severity)} high-severity security issues')
+              for issue in high_severity:
+                  print(f'  - {issue[\"issue_text\"]} in {issue[\"filename\"]}:{issue[\"line_number\"]}')
+              exit(1)
+
+          print('✅ No high-severity security issues found')
+          "
+
+      - name: Upload security report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-report
+          path: bandit-report.json
+          retention-days: 30
+
+  integration-test:
+    name: Integration Test
+    runs-on: ubuntu-latest
+    needs: validate-safety-controls
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+
+      - name: Run integration tests
+        run: |
+          python3 -c "
+          from lukhas.reasoning_lab.sensitive_data_detector import SensitiveDataDetector
+          from lukhas.reasoning_lab.redaction_engine import RedactionEngine, RedactionMode
+          from lukhas.reasoning_lab.demo_mode import DemoMode
+
+          # Full workflow test
+          demo = DemoMode()
+          session_id = demo.create_session('192.168.1.1')
+
+          sensitive_trace = '''
+          Here is my reasoning process:
+          1. First I'll use my API key: sk-abc123xyz456789012345678901234567890123456
+          2. Then contact user@example.com
+          3. Call (555) 123-4567
+          4. Use credit card 4532015112830366
+          '''
+
+          result = demo.process_reasoning_trace(
+              session_id,
+              sensitive_trace,
+              RedactionMode.FULL
+          )
+
+          assert result['success']
+          assert result['detections_count'] >= 4, f'Expected at least 4 detections, got {result[\"detections_count\"]}'
+          assert 'sk-abc' not in result['trace']
+          assert 'user@example.com' not in result['trace']
+          assert '(555) 123-4567' not in result['trace']
+          assert '4532015112830366' not in result['trace']
+          assert demo.WATERMARK in result['trace']
+
+          print(f'✅ Integration test passed')
+          print(f'   Detected {result[\"detections_count\"]} sensitive items')
+          print(f'   Traces remaining: {result[\"session_traces_remaining\"]}')
+          "
+
+      - name: Test rate limiting
+        run: |
+          python3 -c "
+          from lukhas.reasoning_lab.demo_mode import DemoMode
+          from lukhas.reasoning_lab.redaction_engine import RedactionMode
+
+          demo = DemoMode()
+          session_id = demo.create_session('192.168.1.1')
+
+          # Try to exceed limit
+          successful = 0
+          for i in range(demo.MAX_TRACES_PER_SESSION + 5):
+              result = demo.process_reasoning_trace(
+                  session_id,
+                  f'Trace {i}',
+                  RedactionMode.FULL
+              )
+              if result['success']:
+                  successful += 1
+
+          assert successful <= demo.MAX_TRACES_PER_SESSION, 'Rate limiting not working!'
+
+          print(f'✅ Rate limiting working correctly')
+          print(f'   Limit: {demo.MAX_TRACES_PER_SESSION}, Successful: {successful}')
+          "
+
+  summary:
+    name: Validation Summary
+    runs-on: ubuntu-latest
+    needs: [validate-safety-controls, security-audit, integration-test]
+    if: always()
+
+    steps:
+      - name: Check all jobs passed
+        run: |
+          if [ "${{ needs.validate-safety-controls.result }}" != "success" ] || \
+             [ "${{ needs.security-audit.result }}" != "success" ] || \
+             [ "${{ needs.integration-test.result }}" != "success" ]; then
+            echo "❌ Some validation checks failed"
+            exit 1
+          fi
+          echo "✅ All reasoning lab safety validations passed!"

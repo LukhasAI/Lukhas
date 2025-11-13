@@ -4,7 +4,6 @@ from urllib.parse import urlencode
 
 import pytest
 from aioresponses import aioresponses
-
 from bridge.adapters.drive_adapter import DriveAdapter, DriveContextIntegration
 from bridge.adapters.service_adapter_base import CapabilityToken
 

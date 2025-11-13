@@ -15,9 +15,8 @@ import logging
 
 import torch
 import torch.nn as nn
-from torch.distributions import Categorical, Normal
-
 from observability.matriz_decorators import instrument
+from torch.distributions import Categorical, Normal
 
 logger = logging.getLogger(__name__)
 

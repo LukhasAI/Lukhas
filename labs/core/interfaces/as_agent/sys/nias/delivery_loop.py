@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import logging
-from typing import Any, Iterable, List
+from typing import Iterable
 
 try:
     from .nias_core import push_symbolic_message
@@ -23,7 +23,7 @@ if not logger.handlers:
 def run_delivery_queue(
     queue: Iterable[dict[str, Any]],
     user_context: dict[str, Any],
-) -> List[dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Process symbolic messages through NIAS push pipeline.
 
     Args:
@@ -33,7 +33,7 @@ def run_delivery_queue(
     Returns:
         A list of decision dictionaries returned by ``push_symbolic_message``.
     """
-    results: List[dict[str, Any]] = []
+    results: list[dict[str, Any]] = []
 
     if push_symbolic_message is None:
         logger.error("push_handler_missing")

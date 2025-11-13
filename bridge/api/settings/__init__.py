@@ -1,9 +1,13 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict import to native dict type in bridge API settings
+# estimate: 5min | priority: medium | dependencies: bridge-api
+
 """Stable bridge for API settings surfaces used across main."""
 from __future__ import annotations
 
 from dataclasses import dataclass
 from importlib import import_module
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Optional
 
 __all__ = [
     "ENV",

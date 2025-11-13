@@ -8,17 +8,17 @@ Provides interactive commands for quickstart, demos, and tours.
 
 from __future__ import annotations
 
-import sys
 import subprocess
+import sys
 from pathlib import Path
 from typing import Any
 
 try:
     from rich.console import Console
-    from rich.table import Table
     from rich.panel import Panel
     from rich.progress import Progress, SpinnerColumn, TextColumn
-    from rich.prompt import Prompt, Confirm
+    from rich.prompt import Confirm, Prompt
+    from rich.table import Table
 
     HAS_RICH = True
 except ImportError:

@@ -20,7 +20,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.consciousness.resilience",
+    "lukhas_website.lukhas.consciousness.resilience",
     "candidate.consciousness.resilience",
     "consciousness.resilience",
 )
@@ -41,6 +41,9 @@ for _cand in _CANDIDATES:
 
 def __getattr__(name: str):
     """Lazy attribute access fallback."""
-    if _SRC and hasattr(_SRC, name):
-        return getattr(_SRC, name)
+    if _SRC is not None:
+        try:
+            return getattr(_SRC, name)
+        except AttributeError:
+            pass
     raise AttributeError(f"module '{__name__}' has no attribute '{name}'")

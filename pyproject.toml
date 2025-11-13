@@ -467,3 +467,38 @@ layers = [
     "lukhas",
     "MATRIZ"
 ]
+
+# Website Shim Layer Isolation Rules
+# Reference: docs/audit/LUKHAS_WEBSITE_DIRECTORY_AUDIT_2025-11-12.md
+
+[[tool.importlinter.contracts]]
+name = "Website Shim Layer Independence"
+type = "forbidden"
+source_modules = ["lukhas_website.lukhas"]
+forbidden_modules = ["candidate"]
+ignore_imports = [
+    "lukhas_website.lukhas.shims.*",  # Shims can exist independently
+]
+
+[[tool.importlinter.contracts]]
+name = "Production Cannot Import Website"
+type = "forbidden"
+source_modules = ["lukhas", "matriz", "core"]
+forbidden_modules = ["lukhas_website"]
+ignore_imports = []
+
+[[tool.importlinter.contracts]]
+name = "Website Explicit Shim Usage"
+type = "forbidden"
+source_modules = ["lukhas_website"]
+forbidden_modules = ["lukhas"]
+ignore_imports = [
+    # Website can import from production with try/except fallback
+    # These are monitored but not blocked (fallback pattern expected)
+    "lukhas.api.*",
+    "lukhas.glyphs.*",
+    "lukhas.governance.audit.*",
+    "lukhas.core.drift",
+    "lukhas.dream.*",
+    "lukhas.identity.*",
+]

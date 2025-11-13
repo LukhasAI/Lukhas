@@ -47,7 +47,7 @@ class SnapshotRedirectionController:
         Args:
             emotional_memory (EmotionalMemory): The emotional memory system.
             snapshot_store (DreamSnapshotStore): The dream snapshot store.
-            config (Optional[Dict[str, Any]], optional): Configuration options. Defaults to None.
+            config (Optional[dict[str, Any]], optional): Configuration options. Defaults to None.
         """
         self.emotional_memory = emotional_memory
         self.snapshot_store = snapshot_store
@@ -68,7 +68,7 @@ class SnapshotRedirectionController:
             user_id (str): The ID of the user.
 
         Returns:
-            Optional[Dict[str, Any]]: A new dream seed if redirection is needed, otherwise None.
+            Optional[dict[str, Any]]: A new dream seed if redirection is needed, otherwise None.
         """
         if self.session_redirects > 3:
             logger.warning("Redirect overload detected. Halting redirection for this session.")
@@ -101,7 +101,7 @@ class SnapshotRedirectionController:
         Calculates the emotional drift across a series of snapshots.
 
         Args:
-            snapshots (List[Dict[str, Any]]): A list of dream snapshots.
+            snapshots (list[dict[str, Any]]): A list of dream snapshots.
 
         Returns:
             Optional[float]: The calculated emotional drift, or None if not enough data.
@@ -149,7 +149,7 @@ class SnapshotRedirectionController:
             emotional_drift (float): The calculated emotional drift.
 
         Returns:
-            Dict[str, Any]: A new dream seed.
+            dict[str, Any]: A new dream seed.
         """
         # This is a placeholder implementation.
         # In a real implementation, we would have a more sophisticated way of
@@ -173,9 +173,9 @@ class SnapshotRedirectionController:
         Logs the redirection event.
 
         Args:
-            snapshot (Dict[str, Any]): The snapshot that triggered the redirection.
+            snapshot (dict[str, Any]): The snapshot that triggered the redirection.
             drift_score (float): The drift score that triggered the redirection.
-            narrative (Dict[str, Any]): The new narrative that was selected.
+            narrative (dict[str, Any]): The new narrative that was selected.
         """
         # LUKHAS_TAG: redirect_cause_logging
         emotional_delta = self.emotional_memory.affect_delta(
@@ -265,7 +265,7 @@ class SnapshotRedirectionController:
             user_id (str): The ID of the user.
 
         Returns:
-            Optional[Dict[str, Any]]: A new dream seed if stabilization is needed, otherwise None.
+            Optional[dict[str, Any]]: A new dream seed if stabilization is needed, otherwise None.
         """
         recent_snapshots = self.snapshot_store.get_recent_snapshots(user_id)
         if len(recent_snapshots) < 2:
@@ -293,7 +293,7 @@ class SnapshotRedirectionController:
 
         Args:
             drift_score (float): The drift score that triggered the redirection.
-            narrative (Dict[str, Any]): The new narrative that was selected.
+            narrative (dict[str, Any]): The new narrative that was selected.
         """
         commentary = f"This redirection was predicted due to compounding emotional drift (Δ={drift_score:.2f}) and entropy rise. Stabilization is advised."
         with open("dream/logs/redirect_reasoning_commentary.log", "a") as f:

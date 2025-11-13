@@ -229,7 +229,7 @@ class TestEmergencyProtocols:
         assert guardian_system.system_status == GuardianStatus.ACTIVE
 
         # 3. Verify the system can process a new threat normally after recovery
-        new_threat = self.create_threat(level=ThreatLevel.LOW, threat_type="minor_anomaly")
+        self.create_threat(level=ThreatLevel.LOW, threat_type="minor_anomaly")
 
         # We need to mock the full detect_threat path to ensure it runs
         with patch.object(guardian_system, '_analyze_threat', new_callable=AsyncMock) as mock_analyze, \

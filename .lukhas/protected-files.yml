@@ -1,0 +1,7 @@
+# Protected Files - Two-key approval required
+# These files have heightened security/auth requirements
+- serve/identity_api.py
+- serve/middleware/strict_auth.py
+- lukhas/identity/**
+- lukhas/features/flags_service.py
+- core/security/**

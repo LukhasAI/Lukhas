@@ -1,0 +1,94 @@
+{
+  "total_failures": 8,
+  "unique_error_types": 6,
+  "proposals_generated": 6,
+  "high_confidence_proposals": 3,
+  "proposals": [
+    {
+      "id": "dep-pydantic-3",
+      "title": "Add missing dependency: pydantic",
+      "description": "Tests are failing due to missing Python package 'pydantic'. This affects 3 test file(s). Add the package to project dependencies and install it.",
+      "fix_type": "dependency",
+      "affected_files": [
+        "tests/unit/adapters/test_bridge_adapter.py",
+        "tests/unit/adapters/test_bio_adapter.py",
+        "tests/unit/adapters/test_compliance_adapter.py"
+      ],
+      "confidence": 0.9,
+      "patch_content": "# Add to requirements.txt or pyproject.toml\npydantic\n\n# Or install directly:\n# uv pip install pydantic\n# pip install pydantic\n",
+      "runbook_reference": null,
+      "priority": "medium",
+      "estimated_effort": "low"
+    },
+    {
+      "id": "import-error-1",
+      "title": "Fix import error",
+      "description": "Tests are failing due to import error: cannot import name 'EngineCore' from 'matriz.core'. This affects 1 test file(s). Review the import statements and ensure modules are correctly structured.",
+      "fix_type": "import",
+      "affected_files": [
+        "tests/unit/core/test_engine.py"
+      ],
+      "confidence": 0.7,
+      "patch_content": null,
+      "runbook_reference": null,
+      "priority": "medium",
+      "estimated_effort": "medium"
+    },
+    {
+      "id": "dep-requests-1",
+      "title": "Add missing dependency: requests",
+      "description": "Tests are failing due to missing Python package 'requests'. This affects 1 test file(s). Add the package to project dependencies and install it.",
+      "fix_type": "dependency",
+      "affected_files": [
+        "tests/integration/test_api_integration.py"
+      ],
+      "confidence": 0.9,
+      "patch_content": "# Add to requirements.txt or pyproject.toml\nrequests\n\n# Or install directly:\n# uv pip install requests\n# pip install requests\n",
+      "runbook_reference": null,
+      "priority": "medium",
+      "estimated_effort": "low"
+    },
+    {
+      "id": "dep-sqlalchemy-1",
+      "title": "Add missing dependency: sqlalchemy",
+      "description": "Tests are failing due to missing Python package 'sqlalchemy'. This affects 1 test file(s). Add the package to project dependencies and install it.",
+      "fix_type": "dependency",
+      "affected_files": [
+        "tests/integration/test_database.py"
+      ],
+      "confidence": 0.9,
+      "patch_content": "# Add to requirements.txt or pyproject.toml\nsqlalchemy\n\n# Or install directly:\n# uv pip install sqlalchemy\n# pip install sqlalchemy\n",
+      "runbook_reference": null,
+      "priority": "medium",
+      "estimated_effort": "low"
+    },
+    {
+      "id": "error-testfailure-1",
+      "title": "Fix TestFailure",
+      "description": "Tests are failing due to TestFailure: AttributeError: 'NoneType' object has no attribute 'token'. This affects 1 test file(s). Review the affected tests and code to identify the root cause.",
+      "fix_type": "generic",
+      "affected_files": [
+        "tests/unit/bridge/test_api.py::test_authentication"
+      ],
+      "confidence": 0.4,
+      "patch_content": null,
+      "runbook_reference": null,
+      "priority": "medium",
+      "estimated_effort": "medium"
+    },
+    {
+      "id": "error-testfailure-1",
+      "title": "Fix TestFailure",
+      "description": "Tests are failing due to TestFailure: AssertionError: Expected 200, got 403. This affects 1 test file(s). Review the affected tests and code to identify the root cause.",
+      "fix_type": "generic",
+      "affected_files": [
+        "tests/unit/bridge/test_api.py::test_authorization"
+      ],
+      "confidence": 0.4,
+      "patch_content": null,
+      "runbook_reference": null,
+      "priority": "medium",
+      "estimated_effort": "medium"
+    }
+  ]
+}

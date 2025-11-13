@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.bridge.adapters.openai_embedding_provider
 
 **Star**: Supporting

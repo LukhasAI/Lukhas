@@ -221,7 +221,7 @@ class QIDreamAdapter:
             emotional_context: Original emotional values
 
         Returns:
-            Dict[str, float]: Enhanced emotional context
+            dict[str, float]: Enhanced emotional context
         """
         try:
             # Convert emotions to quantum-like state

@@ -17,10 +17,9 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
-from scipy.spatial.distance import cosine
-
 from core.common.logger import get_logger
 from observability.service_metrics import get_metrics_collector
+from scipy.spatial.distance import cosine
 
 from .base import (
     AbstractVectorStore,

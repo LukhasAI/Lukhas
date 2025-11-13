@@ -2,10 +2,11 @@
 from __future__ import annotations
 
 import asyncio
+from typing import Dict, List
 
 import pytest
-
 from core.endocrine.hormone_system import (
+from typing import Dict, List
     EndocrineSystem,
     HormoneType,
 )
@@ -58,9 +59,9 @@ def test_neuroplasticity_bounds_with_extreme_levels(endocrine_system: EndocrineS
 
 def test_apply_effects_notifies_receptors(endocrine_system: EndocrineSystem) -> None:
     """Registered receptors receive effect updates via the async bridge."""
-    received: list[float] = []
+    received: List[float] = []
 
-    async def receptor(effects: dict[str, float]) -> None:
+    async def receptor(effects: Dict[str, float]) -> None:
         received.append(effects["stress_level"])
 
     endocrine_system.register_receptor("tests", receptor)

@@ -18,7 +18,6 @@ from dataclasses import FrozenInstanceError, asdict
 from datetime import datetime, timezone
 
 import pytest
-
 from core.symbolic.glyph_specialist import GlyphConsensusResult, GlyphSignal, GlyphSpecialist
 
 

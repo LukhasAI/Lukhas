@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.consciousness.meta_cognitive_context
 
 **Star**: 🌊 Flow (Consciousness)

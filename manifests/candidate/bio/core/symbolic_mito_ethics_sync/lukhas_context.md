@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.bio.core.symbolic_mito_ethics_sync
 
 **Star**: 🛡️ Watch (Guardian)

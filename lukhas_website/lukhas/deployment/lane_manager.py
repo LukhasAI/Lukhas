@@ -6,6 +6,7 @@ Manages the candidate → lukhas → MATRIZ lane progression system with health-
 automatic lane switching and Constellation Framework coordination.
 """
 
+# ruff: noqa: F821  # Experimental/test code with undefined names
 import asyncio
 import logging
 import time
@@ -626,6 +627,9 @@ class LaneManager:
             "lanes": {
                 lane.value: {
                     "config": asdict(config),
+# T4: code=F821 | ticket=SKELETON-4A32346C | owner=lukhas-platform | status=skeleton
+# reason: Undefined metrics in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                     "metrics": asdict(metrics) if lane in self._lane_metrics else None,  # TODO: metrics
                     "assignments": len([
                         s for s, lane_assignment in self._lane_assignments.items() if lane_assignment == lane

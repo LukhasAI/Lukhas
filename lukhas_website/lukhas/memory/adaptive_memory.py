@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
 #!/usr/bin/env python3
 """
 LUKHAS Adaptive Memory System with Top-K Recall
@@ -20,12 +24,11 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from memory.embedding_index import EmbeddingIndex
 
 logger = logging.getLogger(__name__)
-
 
 class MemoryType(Enum):
     """Types of memory for categorization"""
@@ -33,7 +36,6 @@ class MemoryType(Enum):
     SEMANTIC = "semantic"      # Fact-based memories
     PROCEDURAL = "procedural"  # How-to memories
     EMOTIONAL = "emotional"    # Emotion-tagged memories
-
 
 @dataclass
 class MemoryItem:
@@ -89,7 +91,6 @@ class MemoryItem:
             0.3 * similarity_score +
             0.2 * self.importance
         )
-
 
 @dataclass
 class MemoryFold:
@@ -160,7 +161,6 @@ class MemoryFold:
             {"id": i.id, "content": str(i.content)[:100]}
             for i in sorted_items[:5]
         ]
-
 
 class AdaptiveMemorySystem:
     """
@@ -557,10 +557,8 @@ class AdaptiveMemorySystem:
         """Clean shutdown"""
         self._stop_background_consolidation()
 
-
 # Global instance for easy access
 _memory_system: Optional[AdaptiveMemorySystem] = None
-
 
 def get_memory_system() -> AdaptiveMemorySystem:
     """Get or create memory system singleton"""

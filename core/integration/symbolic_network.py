@@ -217,7 +217,7 @@ class SymbolicNode:
             style (str): A descriptive tag for the split operation.
             split_ratio (float): The ratio for distributing weight to the first child (0.1 to 0.9).
         Returns:
-            List[SymbolicNode]: A list containing the two newly created child nodes.
+            list[SymbolicNode]: A list containing the two newly created child nodes.
         """
         self.logger.info(
             f"ΛTRACE: Splitting SymbolicNode '{self}' (Style: {style},"
@@ -1201,7 +1201,7 @@ class SymbolicNetwork:
         Performs a series of checks to validate the integrity of the network structure
         and identify potential issues like orphaned connections or performance anomalies.
         Returns:
-            Dict[str, Any]: A dictionary containing validation status and a list of identified issues.
+            dict[str, Any]: A dictionary containing validation status and a list of identified issues.
         """
         self.logger.info("ΛTRACE: Validating network integrity.")
         found_issues: list[str] = []

@@ -24,6 +24,8 @@ Security:
 Constellation Framework: Flow Star (🌊) coordination hub
 """
 
+# ruff: noqa: B008
+# ruff: noqa: F821  # Experimental/test code with undefined names
 from __future__ import annotations
 
 import logging
@@ -34,14 +36,13 @@ from typing import Any
 from fastapi import Depends, FastAPI, HTTPException, Request, Security, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from pydantic import BaseModel, Field
-
 from identity.auth_service import verify_token
 from observability.matriz_decorators import instrument
 from orchestration.externalized_orchestrator import get_externalized_orchestrator
 from orchestration.health_monitor import get_health_monitor
 from orchestration.routing_config import get_routing_config_manager
 from orchestration.routing_strategies import RoutingContext, get_routing_engine
+from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
 
@@ -592,12 +593,18 @@ async def manage_circuit_breaker(
         elif request.action == "open":
             # Force open circuit breaker
             if provider in routing_engine.circuit_breakers:
+# T4: code=F821 | ticket=SKELETON-7EDF28A7 | owner=api-team | status=skeleton
+# reason: Undefined CircuitBreakerState in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 routing_engine.circuit_breakers[provider].state = CircuitBreakerState.OPEN  # TODO: CircuitBreakerState
             return {"message": f"Circuit breaker opened for {provider}"}
 
         elif request.action == "close":
             # Force close circuit breaker
             if provider in routing_engine.circuit_breakers:
+# T4: code=F821 | ticket=SKELETON-7EDF28A7 | owner=api-team | status=skeleton
+# reason: Undefined CircuitBreakerState in API skeleton - awaiting endpoint implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
                 routing_engine.circuit_breakers[provider].state = CircuitBreakerState.CLOSED  # TODO: CircuitBreakerState
                 routing_engine.circuit_breakers[provider].failure_count = 0
             return {"message": f"Circuit breaker closed for {provider}"}

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.identity
 
 **Star**: ⚛️ Anchor (Identity)

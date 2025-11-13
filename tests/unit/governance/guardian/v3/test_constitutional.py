@@ -30,11 +30,11 @@ def mock_decision():
         safety_level=SafetyLevel.SAFE,
         constitutional_compliant=True,
         constitutional_score=0.95,
-        violated_principles=[],
+        violated_principles=None,
         drift_score=0.05,
         drift_severity=DriftSeverity.LOW,
-        drift_factors=[],
-        safety_violations=[],
+        drift_factors=None,
+        safety_violations=None,
         decision_type=DecisionType.USER_INTERACTION,
         confidence=0.98,
         processing_time_ms=50.0,
@@ -42,6 +42,12 @@ def mock_decision():
         consciousness_impact=None
     ):
         # Reorder arguments to match the corrected dataclass definition
+        if safety_violations is None:
+            safety_violations = []
+        if drift_factors is None:
+            drift_factors = []
+        if violated_principles is None:
+            violated_principles = []
         return GuardianDecision(
             decision_id='test_decision_123',
             decision_type=decision_type,
@@ -229,7 +235,7 @@ def test_format_safety_issues(engine):
     ]
     # Use sorted to make the comparison order-independent, as sets are used internally
     actual = sorted(engine._format_safety_issues(violations).split(', '))
-    expected = sorted("type_a, type_b".split(', '))
+    expected = sorted(["type_a", "type_b"])
     assert actual == expected
 
 def test_get_caution_factors(engine, mock_decision):
