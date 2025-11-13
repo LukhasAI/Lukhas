@@ -175,21 +175,42 @@ filterwarnings = [
 
 [tool.coverage.run]
 # Phase 3.1: Focus coverage on production lanes
-source = ["lukhas", "matriz", "core"]
+source = ["lukhas", "MATRIZ", "core"]
 branch = true
-omit = ["*/tests/*", "*/test_*"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+    "*/site-packages/*",
+]
+parallel = true
+concurrency = ["thread", "greenlet"]
 
 [tool.coverage.report]
 # Phase 3.1: Target 50% for prod lanes (current: 17%, audit target: 45-55%)
+# Current baseline: 30% - enforced via CI gate and ratchet mechanism
 fail_under = 30
 show_missing = true
 skip_covered = false
+skip_empty = true
+precision = 2
 exclude_lines = [
     "pragma: no cover",
     "def __repr__",
+    "def __str__",
     "raise AssertionError",
     "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
 ]
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.coverage.xml]
+output = "coverage.xml"
 
 [tool.black]
 line-length = 100
