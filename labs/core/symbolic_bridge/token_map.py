@@ -13,7 +13,22 @@ import structlog
 # TODO[GLYPH:specialist] - Add causal linkage preservation and drift detection capabilities
 # TODO[GLYPH:specialist] - Integrate with Guardian system for ethical validation of consciousness flows
 
+from typing import Any, Optional
+
+
 logger = structlog.get_logger(__name__)
+
+
+@dataclass
+class CausalLink:
+    """Represents a causal relationship between token mappings."""
+
+    source_mapping_id: str  # f"{source_system}:{target_system}:{source_token}"
+    target_mapping_id: str
+    causality_type: str  # "temporal", "semantic", "intentional"
+    strength: float  # 0.0-1.0
+    created_at: datetime
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -28,6 +43,7 @@ class TokenMappingRecord:
     sync_drift_ms: float = 0.0
     sync_history: list[dict[str, Any]] = field(default_factory=list)
     is_temporally_synced: bool = True
+    causal_links: list[CausalLink] = field(default_factory=list)
 
     def update_temporal_sync(
         self,
@@ -203,6 +219,147 @@ class BridgeTokenMap:
             "sync_history": list(record.sync_history),
         }
 
+    def detect_drift(
+        self,
+        source_system: str,
+        target_system: str,
+        source_token: str,
+        tolerance_ms: Optional[int] = None
+    ) -> dict[str, Any]:
+        """
+        Detect temporal drift and causal inconsistencies.
+
+        Returns:
+            dict with keys:
+            - temporal_drift_ms: float
+            - is_drifted: bool
+            - causal_breaks: list[str]  # broken causal chain IDs
+            - drift_severity: str  # "none", "low", "medium", "high"
+        """
+        record = self.get_mapping_record(source_system, target_system, source_token)
+        if not record:
+            return {"error": "mapping_not_found"}
+
+        tolerance = tolerance_ms or self.config.get("temporal_tolerance_ms", 5000)
+
+        # Check temporal drift
+        temporal_drift = record.sync_drift_ms
+        is_temporally_drifted = temporal_drift > tolerance
+
+        # Check causal chain integrity
+        causal_breaks = []
+        for link in record.causal_links:
+            target_record = self._get_record_by_id(link.target_mapping_id)
+            if not target_record or not target_record.is_temporally_synced:
+                causal_breaks.append(link.target_mapping_id)
+
+        # Calculate drift severity
+        severity = "none"
+        if is_temporally_drifted or causal_breaks:
+            if temporal_drift > tolerance * 3 or len(causal_breaks) > 2:
+                severity = "high"
+            elif temporal_drift > tolerance * 2 or len(causal_breaks) > 1:
+                severity = "medium"
+            else:
+                severity = "low"
+
+        return {
+            "temporal_drift_ms": temporal_drift,
+            "is_drifted": is_temporally_drifted or bool(causal_breaks),
+            "causal_breaks": causal_breaks,
+            "drift_severity": severity,
+            "last_sync": record.last_synced_at.isoformat(),
+        }
+
+    def add_causal_link(
+        self,
+        source_system: str,
+        target_system: str,
+        source_token: str,
+        target_mapping_id: str,
+        causality_type: str = "semantic",
+        strength: float = 1.0,
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> bool:
+        """Add a causal relationship between token mappings."""
+        record = self.get_mapping_record(source_system, target_system, source_token)
+        if not record:
+            logger.warning("Cannot add causal link - source mapping not found")
+            return False
+
+        # Validate target exists
+        target_record = self._get_record_by_id(target_mapping_id)
+        if not target_record:
+            logger.warning("Cannot add causal link - target mapping not found")
+            return False
+
+        # Create link
+        link = CausalLink(
+            source_mapping_id=f"{source_system}:{target_system}:{source_token}",
+            target_mapping_id=target_mapping_id,
+            causality_type=causality_type,
+            strength=max(0.0, min(1.0, strength)),
+            created_at=datetime.now(timezone.utc),
+            metadata=metadata or {},
+        )
+
+        record.causal_links.append(link)
+
+        logger.info(
+            "Causal link added",
+            source=link.source_mapping_id,
+            target=target_mapping_id,
+            type=causality_type,
+            strength=strength,
+        )
+
+        return True
+
+    def get_causal_chain(
+        self,
+        source_system: str,
+        target_system: str,
+        source_token: str,
+        max_depth: int = 10,
+    ) -> list[dict[str, Any]]:
+        """Traverse causal links to build complete chain."""
+        chain = []
+        visited = set()
+
+        def traverse(mapping_id: str, depth: int):
+            if depth >= max_depth or mapping_id in visited:
+                return
+
+            visited.add(mapping_id)
+            record = self._get_record_by_id(mapping_id)
+
+            if not record:
+                return
+
+            chain.append({
+                "mapping_id": mapping_id,
+                "depth": depth,
+                "is_synced": record.is_temporally_synced,
+                "drift_ms": record.sync_drift_ms,
+            })
+
+            for link in record.causal_links:
+                traverse(link.target_mapping_id, depth + 1)
+
+        start_id = f"{source_system}:{target_system}:{source_token}"
+        traverse(start_id, 0)
+
+        return chain
+
+    def _get_record_by_id(self, mapping_id: str) -> Optional[TokenMappingRecord]:
+        """Helper to get record by composite ID."""
+        parts = mapping_id.split(":")
+        if len(parts) != 3:
+            return None
+
+        source_sys, target_sys, token = parts
+        return self.get_mapping_record(source_sys, target_sys, token)
+
     def get_schema(self) -> dict[str, Any]:
         """
         Returns the proposed schema for the bridge token map.
@@ -245,6 +402,20 @@ class BridgeTokenMap:
                             "temporal_signature": {"type": "string"},
                             "sync_drift_ms": {"type": "number"},
                             "is_temporally_synced": {"type": "boolean"},
+                            "causal_links": {
+                                "type": "array",
+                                "description": "Causal relationships to other token mappings",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "source_mapping_id": {"type": "string"},
+                                        "target_mapping_id": {"type": "string"},
+                                        "causality_type": {"type": "string", "enum": ["temporal", "semantic", "intentional"]},
+                                        "strength": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                                        "created_at": {"type": "string", "format": "date-time"},
+                                    },
+                                },
+                            },
                         },
                     },
                 },
