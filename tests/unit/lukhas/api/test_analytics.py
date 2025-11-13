@@ -5,19 +5,20 @@ Tests event validation, PII stripping, IP anonymization, User-Agent normalizatio
 aggregation, rate limiting, and API endpoints.
 """
 
-import pytest
 from datetime import datetime, timedelta
 from unittest.mock import Mock, patch
+
+import pytest
 from fastapi.testclient import TestClient
 
 from lukhas.api.analytics import (
-    EventProperties,
+    AnalyticsAggregator,
     AnalyticsEvent,
     EventBatch,
-    AnalyticsAggregator,
+    EventProperties,
     anonymize_ip,
-    normalize_user_agent,
     app,
+    normalize_user_agent,
 )
 
 

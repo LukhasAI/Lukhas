@@ -1,10 +1,10 @@
 
+from typing import Tuple
 from unittest.mock import AsyncMock, patch
 
 import pytest
 from bridge.llm_wrappers.base import LLMProvider, LLMWrapper
 from bridge.orchestration.multi_ai_orchestrator import ModelOrchestrator
-from typing import Tuple
 
 
 class MockLLMWrapper(LLMWrapper):

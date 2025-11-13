@@ -4,17 +4,19 @@ Tests for Redaction Engine
 Tests all redaction modes and audit logging.
 """
 
-import pytest
-import tempfile
 import json
-from lukhas.reasoning_lab.sensitive_data_detector import (
-    SensitiveDataDetector,
-    Detection,
-    SensitiveDataType,
-)
+import tempfile
+
+import pytest
+
 from lukhas.reasoning_lab.redaction_engine import (
     RedactionEngine,
     RedactionMode,
+)
+from lukhas.reasoning_lab.sensitive_data_detector import (
+    Detection,
+    SensitiveDataDetector,
+    SensitiveDataType,
 )
 
 

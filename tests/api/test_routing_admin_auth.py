@@ -4,7 +4,7 @@ import logging
 import sys
 import types
 from importlib import import_module
-from typing import List, Optional, Tuple, Dict
+from typing import Dict, List, Optional, Tuple
 
 import pytest
 from fastapi import HTTPException, status

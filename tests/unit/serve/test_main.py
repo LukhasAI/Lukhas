@@ -316,6 +316,7 @@ class TestAsyncOrchestrator:
         with patch.dict("os.environ", {"LUKHAS_ASYNC_ORCH": "1"}):
             # Need to reload module to pick up env change
             import importlib
+
             from serve import main
 
             importlib.reload(main)
@@ -665,8 +666,8 @@ class TestRequireAPIKey:
 
     def test_require_api_key_invalid(self):
         """Test invalid API key raises HTTPException."""
-        from serve.main import require_api_key
         from fastapi import HTTPException
+        from serve.main import require_api_key
 
         with patch.dict("os.environ", {"LUKHAS_API_KEY": "correct_key"}):
             with pytest.raises(HTTPException) as exc_info:

@@ -26,7 +26,6 @@ from lukhas.analytics.privacy_client import (
     UserAgentNormalizer,
 )
 
-
 # Test EventBatch
 
 

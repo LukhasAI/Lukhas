@@ -16,13 +16,14 @@ sys.modules['core.security.auth'] = mock_auth_module
 sys.modules['labs.core.security.auth'] = mock_auth_module
 sys.modules['streamlit'] = MagicMock()
 
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.testclient import TestClient
+
 from lukhas.governance.auth.dependencies import (
     get_current_user,
     get_current_user_id,
     get_current_user_tier,
-    require_admin
+    require_admin,
 )
 
 

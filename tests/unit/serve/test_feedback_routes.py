@@ -74,8 +74,8 @@ def mock_feedback_system():
 def app_client(mock_feedback_system):
     """Create test client with mocked feedback system."""
     with patch("serve.feedback_routes.FeedbackCardSystem", return_value=mock_feedback_system):
-        from serve.feedback_routes import router
         from fastapi import FastAPI
+        from serve.feedback_routes import router
 
         app = FastAPI()
         app.include_router(router)
@@ -595,6 +595,7 @@ class TestRouterConfiguration:
         with patch("serve.feedback_routes.FeedbackCardSystem") as mock_system_class:
             # Re-import to trigger initialization
             import importlib
+
             from serve import feedback_routes
 
             importlib.reload(feedback_routes)

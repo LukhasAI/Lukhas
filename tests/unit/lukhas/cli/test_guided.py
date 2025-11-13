@@ -4,11 +4,12 @@ Comprehensive tests for the Guided CLI - Interactive setup and demos.
 Tests quickstart wizard, demo execution, and interactive tours.
 """
 
-import pytest
+import subprocess
 import sys
 from pathlib import Path
-from unittest.mock import Mock, patch, MagicMock, call
-import subprocess
+from unittest.mock import MagicMock, Mock, call, patch
+
+import pytest
 
 from lukhas.cli.guided import GuidedCLI, main
 
@@ -80,7 +81,7 @@ class TestQuickstart:
     def test_quickstart_with_rich(self):
         """Test quickstart with rich UI."""
         from rich.console import Console
-        from rich.prompt import Prompt, Confirm
+        from rich.prompt import Confirm, Prompt
 
         cli = GuidedCLI()
         cli.console = Console()
@@ -94,7 +95,7 @@ class TestQuickstart:
     def test_quickstart_developer_path(self):
         """Test quickstart with developer path selection."""
         with patch('lukhas.cli.guided.HAS_RICH', True):
-            from rich.prompt import Prompt, Confirm
+            from rich.prompt import Confirm, Prompt
             cli = GuidedCLI()
 
             with patch.object(Prompt, 'ask', return_value="1"):
@@ -105,7 +106,7 @@ class TestQuickstart:
     def test_quickstart_researcher_path(self):
         """Test quickstart with researcher path selection."""
         with patch('lukhas.cli.guided.HAS_RICH', True):
-            from rich.prompt import Prompt, Confirm
+            from rich.prompt import Confirm, Prompt
             cli = GuidedCLI()
 
             with patch.object(Prompt, 'ask', return_value="2"):
@@ -116,7 +117,7 @@ class TestQuickstart:
     def test_quickstart_enterprise_path(self):
         """Test quickstart with enterprise path selection."""
         with patch('lukhas.cli.guided.HAS_RICH', True):
-            from rich.prompt import Prompt, Confirm
+            from rich.prompt import Confirm, Prompt
             cli = GuidedCLI()
 
             with patch.object(Prompt, 'ask', return_value="3"):
@@ -383,7 +384,7 @@ class TestEdgeCases:
     def test_quickstart_with_progress_spinner(self):
         """Test quickstart with progress spinner."""
         with patch('lukhas.cli.guided.HAS_RICH', True):
-            from rich.prompt import Prompt, Confirm
+            from rich.prompt import Confirm, Prompt
             cli = GuidedCLI()
 
             with patch.object(Prompt, 'ask', return_value="1"):
@@ -441,7 +442,7 @@ class TestIntegration:
     def test_full_quickstart_flow(self):
         """Test complete quickstart workflow."""
         with patch('lukhas.cli.guided.HAS_RICH', True):
-            from rich.prompt import Prompt, Confirm
+            from rich.prompt import Confirm, Prompt
             cli = GuidedCLI()
 
             with patch.object(Prompt, 'ask', return_value="1"):
@@ -502,7 +503,7 @@ class TestUserInteraction:
     def test_quickstart_user_choices_stored(self):
         """Test that user choices are captured during quickstart."""
         with patch('lukhas.cli.guided.HAS_RICH', True):
-            from rich.prompt import Prompt, Confirm
+            from rich.prompt import Confirm, Prompt
             cli = GuidedCLI()
 
             with patch.object(Prompt, 'ask', return_value="2") as mock_prompt:

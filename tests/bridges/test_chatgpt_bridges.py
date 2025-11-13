@@ -13,7 +13,6 @@ import sys
 from typing import List
 
 import pytest
-from typing import List
 
 
 @pytest.mark.parametrize(

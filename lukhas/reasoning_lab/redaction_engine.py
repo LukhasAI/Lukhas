@@ -8,10 +8,10 @@ Supports full, partial, hash, and blur redaction with audit logging.
 import hashlib
 import json
 import logging
+from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Dict, List, Optional
 from enum import Enum
-from dataclasses import dataclass, asdict
+from typing import Dict, List, Optional
 
 from .sensitive_data_detector import Detection, SensitiveDataType
 

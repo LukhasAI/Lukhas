@@ -16,7 +16,6 @@ import time
 from typing import Dict, List
 
 import pytest
-from typing import Dict, List
 
 try:
     from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator

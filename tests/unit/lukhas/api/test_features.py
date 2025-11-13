@@ -12,7 +12,9 @@ from datetime import datetime
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
-from fastapi import status
+
+# Create test app
+from fastapi import FastAPI, status
 from fastapi.testclient import TestClient
 
 from lukhas.api.features import (
@@ -29,10 +31,6 @@ from lukhas.api.features import (
     router,
 )
 from lukhas.features.flags_service import FeatureFlag, FeatureFlagsService, FlagType
-
-
-# Create test app
-from fastapi import FastAPI
 
 app = FastAPI()
 app.include_router(router)
@@ -190,7 +188,7 @@ class TestGetCurrentUser:
 
     def test_without_api_key(self):
         """Test authentication without API key raises error."""
-        from fastapi import Request, HTTPException
+        from fastapi import HTTPException, Request
 
         request = Mock(spec=Request)
         request.headers.get.return_value = None

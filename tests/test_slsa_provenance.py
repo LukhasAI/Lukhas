@@ -10,11 +10,11 @@ Usage:
     pytest tests/test_slsa_provenance.py -v
 """
 
-import json
 import hashlib
-from pathlib import Path
-from typing import Dict, Any
+import json
 import sys
+from pathlib import Path
+from typing import Any, Dict
 
 
 class TestSLSAProvenance:

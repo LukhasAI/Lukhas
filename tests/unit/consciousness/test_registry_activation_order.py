@@ -7,6 +7,7 @@ from lukhas_website.lukhas.consciousness.registry import (
     ConsciousnessComponentRegistry,
 )
 
+
 def _register_component(
     registry: ConsciousnessComponentRegistry,
     component_id: str,

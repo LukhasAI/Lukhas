@@ -10,7 +10,6 @@ from datetime import datetime
 from typing import ClassVar, List
 
 import pytest
-
 from qi.compliance.privacy_statement import (
     Jurisdiction,
     OrganizationInfo,
@@ -18,6 +17,7 @@ from qi.compliance.privacy_statement import (
     PrivacyStatement,
     PrivacyStatementGenerator,
 )
+
 
 @pytest.fixture
 def sample_organization() -> OrganizationInfo:

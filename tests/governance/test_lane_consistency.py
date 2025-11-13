@@ -17,7 +17,6 @@ from typing import List
 
 import pytest
 from governance.schema_registry import LUKHASLane, get_lane_enum
-from typing import List
 
 
 class TestLaneConsistency:

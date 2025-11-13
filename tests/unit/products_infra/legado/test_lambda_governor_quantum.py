@@ -3,12 +3,10 @@
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import ClassVar, List, Tuple
 from unittest.mock import MagicMock
-from typing import ClassVar
 
 import pytest
-from typing import List, Tuple
-
 from products.infrastructure.legado.legacy_systems.governor.lambda_governor import (
     EscalationPriority,
     EscalationSignal,

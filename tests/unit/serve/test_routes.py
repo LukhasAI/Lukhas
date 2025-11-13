@@ -89,8 +89,8 @@ def mock_fold_manager():
 @pytest.fixture
 def app_client():
     """Create test client."""
-    from serve.routes import router
     from fastapi import FastAPI
+    from serve.routes import router
 
     app = FastAPI()
     app.include_router(router)

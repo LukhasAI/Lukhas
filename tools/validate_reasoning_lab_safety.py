@@ -11,20 +11,18 @@ Validates that reasoning lab safety controls meet compliance requirements:
 """
 
 import sys
-import os
 from pathlib import Path
-from typing import List, Tuple
+from typing import List
 
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from lukhas.reasoning_lab.demo_mode import DemoMode
+from lukhas.reasoning_lab.redaction_engine import RedactionEngine, RedactionMode
 from lukhas.reasoning_lab.sensitive_data_detector import (
     SensitiveDataDetector,
     SensitiveDataType,
-    DetectionThreshold,
 )
-from lukhas.reasoning_lab.redaction_engine import RedactionEngine, RedactionMode
-from lukhas.reasoning_lab.demo_mode import DemoMode
 
 
 class ValidationResult:

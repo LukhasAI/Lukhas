@@ -6,7 +6,6 @@ from typing import Dict
 
 import pytest
 from qi.compliance import MultiJurisdictionComplianceEngine
-from typing import Dict
 
 
 @pytest.mark.parametrize(

@@ -14,7 +14,7 @@ Architecture:
 
 import importlib
 import logging
-from typing import Any, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Optional
 
 from core.adapters.config_resolver import Config
 

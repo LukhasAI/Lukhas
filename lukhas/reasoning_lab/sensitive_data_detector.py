@@ -5,11 +5,11 @@ Detects sensitive data in text using pattern-based detection and entropy analysi
 Supports API keys, passwords, PII, credit cards, and other secret formats.
 """
 
-import re
 import math
-from typing import List, Tuple, Dict
+import re
 from dataclasses import dataclass
 from enum import Enum
+from typing import Dict, List
 
 
 class SensitiveDataType(Enum):

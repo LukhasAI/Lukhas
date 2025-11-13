@@ -13,12 +13,12 @@ from __future__ import annotations
 
 import time
 import uuid
+from typing import Dict, Optional
 
 import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
-from typing import Dict, Optional
 
 
 @pytest.fixture

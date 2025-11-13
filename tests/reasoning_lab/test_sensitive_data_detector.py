@@ -5,10 +5,11 @@ Tests pattern matching, entropy analysis, and detection accuracy.
 """
 
 import pytest
+
 from lukhas.reasoning_lab.sensitive_data_detector import (
+    DetectionThreshold,
     SensitiveDataDetector,
     SensitiveDataType,
-    DetectionThreshold,
 )
 
 

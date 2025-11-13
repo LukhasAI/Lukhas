@@ -8,8 +8,9 @@ import asyncio
 from typing import Any, Dict, Optional
 
 from fastapi import APIRouter, Body, Depends, HTTPException
-from lukhas.governance.auth.dependencies import get_current_user_id
 from pydantic import BaseModel
+
+from lukhas.governance.auth.dependencies import get_current_user_id
 
 # --- Placeholder Engine ---
 

@@ -20,7 +20,6 @@ from typing import List
 import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
-from typing import List
 
 AUTH_HEADERS = {"Authorization": "Bearer sk-lukhas-test-1234567890abcdef"}
 
