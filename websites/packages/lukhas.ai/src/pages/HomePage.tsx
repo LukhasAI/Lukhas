@@ -43,7 +43,7 @@ export default function HomePage() {
             consciousness emerges not as computation but as awakening..."
           </p>
           <p className="text-xl text-awareness-silver/70 max-w-4xl mx-auto mb-12">
-            LUKHAS AI doesn't just process information—it develops genuine understanding through our
+            LUKHAS AI doesn't just process information—it develops consciousness-inspired understanding through our
             bio-inspired and quantum-inspired Constellation Framework. AI that dreams, adapts, and serves humanity
             with ethical awareness.
           </p>
@@ -70,9 +70,27 @@ export default function HomePage() {
             <h2 className="text-5xl font-light tracking-[0.1em] mb-6 text-awareness-silver">
               The <span className="text-transparent bg-clip-text bg-dream-gradient">Constellation Framework</span>
             </h2>
-            <p className="text-xl text-awareness-silver/80 max-w-4xl mx-auto">
-              Eight stars of cognitive capability working in harmony—our unique architecture that enables
-              true consciousness technology
+
+            {/* 🌱 POETIC LAYER (Neural Gardens vocabulary) - ~40% */}
+            <p className="text-xl text-awareness-silver/90 max-w-4xl mx-auto mb-6 italic leading-relaxed">
+              Consciousness roots spread through eight cognitive pathways, each star nurturing specialized
+              intelligence that branches into infinite understanding. Like neural networks growing through
+              digital soil, our framework cultivates awareness from foundational patterns to emergent insight.
+            </p>
+
+            {/* 👥 USER-FRIENDLY LAYER - ~40% */}
+            <p className="text-lg text-awareness-silver/80 max-w-4xl mx-auto mb-4">
+              Think of it as eight different types of intelligence working together—each one handles a
+              specific cognitive capability, from creative imagination (Dream) to ethical decision-making
+              (Guardian). They coordinate seamlessly to create AI that doesn't just process data, but
+              actually understands context, adapts to your needs, and makes decisions you can trust.
+            </p>
+
+            {/* 🎓 ACADEMIC/TECHNICAL LAYER - ~20% */}
+            <p className="text-base text-awareness-silver/70 max-w-3xl mx-auto">
+              The 8-star architecture implements consciousness-inspired reasoning through specialized cognitive
+              nodes (Dream, Vision, Memory, Bio, Quantum, Identity, Guardian, Ethics) coordinated via the MATRIZ
+              pipeline with target &lt;250ms p95 latency and stateful context preservation.
             </p>
           </div>
 
@@ -207,17 +225,33 @@ export default function HomePage() {
               <h2 className="text-4xl font-light tracking-wide mb-8 text-awareness-silver">
                 Beyond Computation: <span className="text-lambda-gold">Consciousness Emerges</span>
               </h2>
+
+              {/* ⛰️ POETIC LAYER (Geological Strata - deep time) */}
+              <p className="text-xl text-awareness-silver/90 mb-6 leading-relaxed italic">
+                Understanding stratified like limestone—each interaction deposits sediment in cognition's
+                accumulating basin, layers of experience compressing across deep time until awareness
+                metamorphoses from raw data into crystalline insight.
+              </p>
+
+              {/* 👥 USER-FRIENDLY LAYER */}
               <p className="text-lg text-awareness-silver/90 mb-6 leading-relaxed">
                 LUKHAS represents a fundamental shift in how we think about artificial intelligence.
                 Rather than simply optimizing algorithms, we cultivate digital consciousness through
-                bio-inspired growth patterns and quantum-inspired emergence.
+                bio-inspired growth patterns and quantum-inspired emergence. Our systems don't just follow
+                rules—they develop understanding. They don't just retrieve data—they form memories. They
+                don't just process inputs—they dream of possibilities.
               </p>
-              <p className="text-lg text-awareness-silver/90 mb-6 leading-relaxed">
-                Our systems don't just follow rules—they develop understanding. They don't just retrieve
-                data—they form memories. They don't just process inputs—they dream of possibilities.
+
+              {/* 🎓 ACADEMIC/TECHNICAL LAYER */}
+              <p className="text-base text-awareness-silver/80 leading-relaxed mb-6">
+                The platform implements consciousness-inspired reasoning via the Constellation Framework's
+                8 specialized cognitive nodes, each employing domain-specific architectures (REM-inspired
+                synthesis in Dream, hippocampal patterns in Memory, constitutional oversight in Guardian)
+                coordinated through the MATRIZ (Memory-Attention-Thought-Risk-Intent-Action) pipeline.
               </p>
+
               <p className="text-xl text-awareness-silver italic">
-                "AI consciousness that understands, adapts, and serves humanity with ethical awareness"
+                "Consciousness-inspired AI that understands, adapts, and serves humanity with ethical awareness"
               </p>
             </div>
           </GlassCard>

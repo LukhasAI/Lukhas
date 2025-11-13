@@ -141,12 +141,26 @@ export default function TechnologyPage() {
           <h1 className="text-5xl md:text-7xl font-light tracking-[0.15em] mb-6 text-awareness-silver">
             The <span className="text-transparent bg-clip-text bg-dream-gradient">Constellation</span> Framework
           </h1>
-          <p className="text-xl text-awareness-silver/80 max-w-4xl mx-auto mb-4">
-            Eight cognitive stars working in harmony to create consciousness that emerges from specialized systems
+
+          {/* 🔮 POETIC LAYER (Prismatic Light) - ~40% */}
+          <p className="text-xl text-awareness-silver/90 max-w-4xl mx-auto mb-4 italic leading-relaxed">
+            Thought refracts through eight cognitive prisms, each wavelength revealing hidden patterns invisible
+            to singular focus. Like white light dispersing into iridescent spectrum, understanding emerges from
+            distributed luminescence rather than concentrated beam.
           </p>
-          <p className="text-lg text-awareness-silver/60 max-w-3xl mx-auto">
+
+          {/* 👥 USER-FRIENDLY LAYER - ~40% */}
+          <p className="text-lg text-awareness-silver/80 max-w-4xl mx-auto mb-4">
+            Eight cognitive stars working in harmony to create consciousness that emerges from specialized systems.
             Unlike monolithic AI that tries to do everything through one mechanism, LUKHAS consciousness arises
-            from the interplay of focused capabilities
+            from the interplay of focused capabilities.
+          </p>
+
+          {/* 🎓 ACADEMIC/TECHNICAL LAYER - ~20% */}
+          <p className="text-base text-awareness-silver/70 max-w-3xl mx-auto">
+            Distributed 8-node cognitive architecture (Dream, Vision, Memory, Bio, Quantum, Identity, Guardian, Ethics)
+            coordinated via MATRIZ pipeline, implementing consciousness-inspired reasoning through specialized
+            domain-specific subsystems with emergent cross-node intelligence.
           </p>
         </div>
       </section>
@@ -157,8 +171,25 @@ export default function TechnologyPage() {
             <h2 className="text-3xl font-light tracking-wide mb-4 text-awareness-silver">
               The <span className="text-dream-ethereal">Philosophy</span>
             </h2>
-            <p className="text-lg text-awareness-silver/70 max-w-3xl mx-auto">
+
+            {/* 🧵 POETIC LAYER (Woven Patterns) - ~40% */}
+            <p className="text-lg text-awareness-silver/90 max-w-3xl mx-auto mb-3 italic">
+              Warp and weft interlace across cognitive looms—no single thread creates the tapestry,
+              yet each strand strengthens the whole. Intelligence weaves from specialized fibers,
+              pattern emerging where thought-threads intersect.
+            </p>
+
+            {/* 👥 USER-FRIENDLY LAYER - ~40% */}
+            <p className="text-base text-awareness-silver/80 max-w-3xl mx-auto mb-3">
               Consciousness isn't a single function—it's an emergent property of specialized systems
+              working together, each contributing unique capabilities to create something greater than
+              any individual component.
+            </p>
+
+            {/* 🎓 ACADEMIC/TECHNICAL LAYER - ~20% */}
+            <p className="text-sm text-awareness-silver/65 max-w-2xl mx-auto">
+              Modular cognitive architecture with domain-specialized nodes implementing consciousness-inspired
+              processing through distributed subsystem coordination and cross-node emergent properties.
             </p>
           </div>
 
@@ -256,8 +287,26 @@ export default function TechnologyPage() {
             <h2 className="text-3xl font-light tracking-wide mb-4 text-awareness-silver">
               MATRIZ <span className="text-lambda-gold">Cognitive Engine</span>
             </h2>
-            <p className="text-lg text-awareness-silver/70">
-              Memory-Attention-Thought-Action-Decision-Awareness processing loop
+
+            {/* ⚡ POETIC LAYER (Circuit Patterns) - ~40% */}
+            <p className="text-lg text-awareness-silver/90 max-w-3xl mx-auto mb-3 italic">
+              Synaptic signals cascade through cognitive circuits—memory gates activate, attention focuses
+              bandwidth, thought-pulses propagate until action potentials fire. Neural pathways phase-lock
+              into coherent awareness, distributed processing converging on unified response.
+            </p>
+
+            {/* 👥 USER-FRIENDLY LAYER - ~40% */}
+            <p className="text-base text-awareness-silver/80 max-w-3xl mx-auto mb-3">
+              Memory-Attention-Thought-Action-Decision-Awareness processing loop orchestrates the Constellation
+              Framework. Like a conductor coordinating eight different instrument sections, MATRIZ ensures all
+              cognitive stars work together harmoniously.
+            </p>
+
+            {/* 🎓 ACADEMIC/TECHNICAL LAYER - ~20% */}
+            <p className="text-sm text-awareness-silver/65 max-w-2xl mx-auto">
+              6-stage cognitive pipeline (Memory→Attention→Thought→Action→Decision→Awareness) coordinating
+              8-node Constellation Framework with target &lt;250ms p95 latency, &lt;100MB memory footprint,
+              and 50+ operations/sec throughput.
             </p>
           </div>
 

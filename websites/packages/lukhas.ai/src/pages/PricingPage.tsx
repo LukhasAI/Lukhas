@@ -147,11 +147,26 @@ export default function PricingPage() {
           <h1 className="text-5xl md:text-6xl font-light tracking-[0.15em] mb-6 text-awareness-silver">
             Choose Your <span className="text-transparent bg-clip-text bg-dream-gradient">Consciousness Tier</span>
           </h1>
-          <p className="text-xl text-awareness-silver/80 max-w-3xl mx-auto mb-4">
-            From exploration to enterprise deployment, we have a plan that scales with your consciousness technology needs
+
+          {/* 🌱 POETIC LAYER (Neural Gardens - growth) - ~40% */}
+          <p className="text-xl text-awareness-silver/90 max-w-3xl mx-auto mb-4 italic leading-relaxed">
+            Every innovation begins as seedling potential—water your experiments with exploration tiers,
+            transplant proven concepts into production soil, harvest enterprise-scale intelligence when
+            your vision blossoms into transformative applications.
           </p>
+
+          {/* 👥 USER-FRIENDLY LAYER - ~40% */}
+          <p className="text-lg text-awareness-silver/80 max-w-3xl mx-auto mb-4">
+            From exploration to enterprise deployment, we have a plan that scales with your consciousness
+            technology needs. Start free, grow into advanced features, or partner for custom infrastructure—
+            your journey, your pace.
+          </p>
+
+          {/* 🎓 ACADEMIC/TECHNICAL LAYER - ~20% */}
           <p className="text-sm text-awareness-silver/60 max-w-2xl mx-auto">
-            Platform currently under active development. Pricing and features subject to change as we refine consciousness technology systems.
+            Platform under active development. Pricing targets early access phase with 3-tier structure
+            (Free: exploration, Pro: production prototyping, Enterprise: custom infrastructure). Features
+            and pricing subject to refinement as systems mature.
           </p>
         </div>
       </section>

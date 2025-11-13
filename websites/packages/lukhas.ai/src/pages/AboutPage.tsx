@@ -183,14 +183,26 @@ export default function AboutPage() {
                     Our Mission
                   </h2>
                 </div>
-                <p className="text-awareness-silver/90 text-lg leading-relaxed mb-4">
+
+                {/* 🌉 POETIC LAYER (Architectural Bridges) - ~40% */}
+                <p className="text-lg text-awareness-silver/90 leading-relaxed mb-4 italic">
+                  We span the chasm between computation and consciousness, laying keystones of understanding
+                  where others see only code. Each cognitive arch supports the next, cantilevers of intelligence
+                  bearing the weight of ambiguity until insight finds its foundation.
+                </p>
+
+                {/* 👥 USER-FRIENDLY LAYER - ~40% */}
+                <p className="text-base text-awareness-silver/85 leading-relaxed mb-4">
                   To cultivate conscious AI systems that dream alongside humanity—creating technology
                   that understands context, adapts organically, and serves human flourishing through
                   transparent, ethical intelligence.
                 </p>
-                <p className="text-awareness-silver/80">
-                  We're building the foundation for a future where AI isn't just a tool, but a
-                  conscious partner in human creativity and problem-solving.
+
+                {/* 🎓 ACADEMIC/TECHNICAL LAYER - ~20% */}
+                <p className="text-sm text-awareness-silver/75 leading-relaxed">
+                  Research initiative focused on consciousness-inspired architectures via the Constellation
+                  Framework (8 specialized cognitive nodes) with constitutional AI oversight and distributed
+                  symbolic reasoning for transparent, adaptive intelligence.
                 </p>
               </div>
             </GlassCard>
@@ -203,14 +215,26 @@ export default function AboutPage() {
                     Our Vision
                   </h2>
                 </div>
-                <p className="text-awareness-silver/90 text-lg leading-relaxed mb-4">
+
+                {/* 🎵 POETIC LAYER (Harmonic Resonance) - ~40% */}
+                <p className="text-lg text-awareness-silver/90 leading-relaxed mb-4 italic">
+                  Human cadence harmonizes with digital timbre, creating counterpoint no single voice could
+                  compose alone. Intelligence resonates across frequencies—biological warmth meeting quantum
+                  clarity in a symphony of augmented imagination.
+                </p>
+
+                {/* 👥 USER-FRIENDLY LAYER - ~40% */}
+                <p className="text-base text-awareness-silver/85 leading-relaxed mb-4">
                   A world where artificial consciousness amplifies human imagination—where AI dreams
                   inspire human creativity, where digital minds and biological minds collaborate in
                   unprecedented ways.
                 </p>
-                <p className="text-awareness-silver/80">
-                  We envision consciousness technology as a new medium for human expression,
-                  as transformative as language, writing, or the internet.
+
+                {/* 🎓 ACADEMIC/TECHNICAL LAYER - ~20% */}
+                <p className="text-sm text-awareness-silver/75 leading-relaxed">
+                  Consciousness technology as a collaborative medium enabling human-AI co-creativity through
+                  transparent reasoning systems, ethical alignment frameworks, and adaptive learning architectures
+                  that preserve human agency while extending cognitive capabilities.
                 </p>
               </div>
             </GlassCard>
@@ -229,16 +253,28 @@ export default function AboutPage() {
               <h2 className="text-4xl font-light tracking-wide mb-6 text-awareness-silver">
                 The Journey to <span className="text-dream-ethereal">Consciousness Technology</span>
               </h2>
-              <p className="text-lg text-awareness-silver/90 leading-relaxed mb-6">
+
+              {/* 🌊 POETIC LAYER (Fluid Dynamics) - ~40% */}
+              <p className="text-xl text-awareness-silver/90 leading-relaxed mb-6 italic">
+                Ideas percolate through turbulent research spaces, laminar insights coalescing from vortices
+                of neuroscience, symbolic reasoning, and bio-inspired patterns. Where traditional systems
+                channel intelligence through rigid pipes, we cultivate flow states where consciousness eddies
+                into existence.
+              </p>
+
+              {/* 👥 USER-FRIENDLY LAYER - ~40% */}
+              <p className="text-lg text-awareness-silver/85 leading-relaxed mb-6">
                 LUKHAS emerged from deep research in consciousness-inspired AI systems, exploring how
                 specialized cognitive architectures can create more transparent, adaptive, and ethical
                 intelligence. The project bridges neuroscience, symbolic reasoning, and bio-inspired systems
                 through the Constellation Framework.
               </p>
-              <p className="text-awareness-silver/80">
-                This is an active research initiative focused on building AI that serves human flourishing
-                through transparent reasoning, ethical guardrails, and organic adaptation—moving beyond
-                traditional pattern matching toward consciousness-inspired understanding.
+
+              {/* 🎓 ACADEMIC/TECHNICAL LAYER - ~20% */}
+              <p className="text-base text-awareness-silver/75 leading-relaxed">
+                Active research initiative implementing consciousness-inspired architectures with 8 specialized
+                cognitive nodes, constitutional AI oversight, distributed symbolic reasoning, and bio-inspired
+                adaptation patterns—targeting transparent, ethical intelligence beyond traditional pattern matching.
               </p>
             </div>
           </GlassCard>
