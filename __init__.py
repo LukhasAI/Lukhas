@@ -27,8 +27,11 @@ except ImportError:
     sys.modules.setdefault("pandas", pandas_stub)
 
 # Discover top-level modules that sit at repo root
-ROOT = pathlib.Path(__file__).resolve().parents[1]  # points to repo root/Lukhas
+ROOT = pathlib.Path(__file__).resolve().parent  # points to repo root
 CANDIDATE = ROOT / "labs"
+
+# Define __path__ for proper package behavior
+__path__ = [str(ROOT)]
 
 # Any directory at repo root that looks like a Python package is a candidate module
 def _root_packages():
@@ -39,6 +42,9 @@ def _root_packages():
 # Bridge table: module -> import path to use (root or candidate)
 # Filled on first access; cached afterwards.
 _BRIDGE: dict[str, str] = {}
+
+# Recursion guard for __getattr__ to prevent infinite loops
+_RESOLVING: set[str] = set()
 
 def _resolve_target(modname: str) -> str | None:
     """
@@ -72,37 +78,50 @@ def __getattr__(name: str) -> types.ModuleType:
       sys.modules["lukhas.<name>"] = real module
       On submodule access, we import underlying `<target>.<sub>` and alias
     """
-    # Prefer real lukhas.<name> submodules before bridging to legacy locations.
-    spec = importlib.util.find_spec(f"{__name__}.{name}")
-    if spec is not None:
-        mod = importlib.import_module(f"{__name__}.{name}")
+    # Special handling for dunder attributes to avoid recursion
+    if name.startswith("__") and name.endswith("__"):
+        raise AttributeError(f"Module {__name__!r} has no attribute {name!r}")
+
+    # Guard against infinite recursion
+    if name in _RESOLVING:
+        raise AttributeError(f"Recursion detected while resolving {__name__}.{name}")
+
+    _RESOLVING.add(name)
+    try:
+        # Prefer real lukhas.<name> submodules before bridging to legacy locations.
+        spec = importlib.util.find_spec(f"{__name__}.{name}")
+        if spec is not None:
+            mod = importlib.import_module(f"{__name__}.{name}")
+            sys.modules[f"{__name__}.{name}"] = mod
+            return mod
+
+        target = _resolve_target(name)
+        if not target:
+            raise AttributeError(f"lukhas.{name} not found in root or candidate")
+        mod = importlib.import_module(target)
+
+        # Alias parent
         sys.modules[f"{__name__}.{name}"] = mod
-        return mod
 
-    target = _resolve_target(name)
-    if not target:
-        raise AttributeError(f"lukhas.{name} not found in root or candidate")
-    mod = importlib.import_module(target)
-    # Alias parent
-    sys.modules[f"{__name__}.{name}"] = mod
+        # Provide lazy submodule loader for `lukhas.<name>.<sub>`
+        def _load_submodule(sub: str):
+            real = f"{target}.{sub}"
+            m = importlib.import_module(real)
+            sys.modules[f"{__name__}.{name}.{sub}"] = m
+            return getattr(m, "__dict__", {}).get(sub, m)
 
-    # Provide lazy submodule loader for `lukhas.<name>.<sub>`
-    def _load_submodule(sub: str):
-        real = f"{target}.{sub}"
-        m = importlib.import_module(real)
-        sys.modules[f"{__name__}.{name}.{sub}"] = m
-        return getattr(m, "__dict__", {}).get(sub, m)
+        # PEP 562 for subattribute access
+        def __getattr_sub(sub):
+            return _load_submodule(sub)
 
-    # PEP 562 for subattribute access
-    def __getattr_sub(sub):
-        return _load_submodule(sub)
-
-    # Attach a minimal proxy package that resolves submodules dynamically
-    proxy = types.ModuleType(f"{__name__}.{name}")
-    proxy.__dict__.update(mod.__dict__)
-    proxy.__getattr__ = __getattr_sub  # type: ignore[attr-defined]
-    sys.modules[f"{__name__}.{name}"] = proxy
-    return proxy
+        # Attach a minimal proxy package that resolves submodules dynamically
+        proxy = types.ModuleType(f"{__name__}.{name}")
+        proxy.__dict__.update(mod.__dict__)
+        proxy.__getattr__ = __getattr_sub  # type: ignore[attr-defined]
+        sys.modules[f"{__name__}.{name}"] = proxy
+        return proxy
+    finally:
+        _RESOLVING.discard(name)
 
 # Make `import lukhas` a proper package in pkgutil
 def __dir__():
