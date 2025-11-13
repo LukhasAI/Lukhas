@@ -1474,7 +1474,6 @@ class MLAnomalyPredictor:
         )
 
         # Motif stability (how consistent are symbols across sessions)
-        from collections import Counter
 
         symbol_counts = Counter(all_symbols)
         motif_stability_score = (
