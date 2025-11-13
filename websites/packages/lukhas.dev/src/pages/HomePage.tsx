@@ -229,10 +229,10 @@ print(response.confidence)`}
                   <Zap className="w-12 h-12 text-code-cyan" strokeWidth={1.5} />
                 </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-awareness-silver text-center">
-                  Production-Ready
+                  Enterprise Infrastructure
                 </h3>
                 <p className="text-sm text-awareness-silver/80 text-center">
-                  99.9% uptime SLA, global edge network, auto-scaling infrastructure, and enterprise support
+                  Target 99.9% uptime, global edge network, auto-scaling infrastructure, and enterprise support
                 </p>
               </div>
             </GlassCard>

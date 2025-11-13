@@ -24,7 +24,7 @@ export default function PricingPage() {
       name: 'Professional',
       price: '$199',
       period: 'per month',
-      description: 'Production-ready consciousness computing',
+      description: 'Advanced consciousness computing at scale',
       features: [
         '10M cognitive units/month',
         'Sub-250ms P95 latency',
@@ -98,7 +98,7 @@ export default function PricingPage() {
             Just pure cognitive compute.
           </p>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-enterprise-pink/10 border border-enterprise-pink/30">
-            <span className="text-enterprise-pink text-sm font-medium">Free tier includes 100K units/month · No credit card required</span>
+            <span className="text-enterprise-pink text-sm font-medium">Free tier includes 100K units/month ï¿½ No credit card required</span>
           </div>
         </div>
       </section>
