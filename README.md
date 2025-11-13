@@ -14,7 +14,7 @@ updated: 2025-11-10
 
 > **🔒 PROPRIETARY SOFTWARE**: This repository is public for viewing only. Commercial licensing required for any use. Contact licensing@lukhas.ai
 
-LUKHAS AI is a sophisticated cognitive platform that implements consciousness-inspired patterns for advanced AI applications. Built with a modular lane-based architecture, the platform enables safe development and deployment of consciousness-aware AI systems through strict boundaries and comprehensive governance.
+LUKHAS AI is an experimental cognitive platform exploring consciousness-inspired patterns for AI applications. Built with a modular lane-based architecture, the platform aims to enable safe development of consciousness-aware AI systems through boundaries and governance mechanisms (currently in development).
 
 ## 👤 About the Author
 
@@ -112,7 +112,7 @@ LUKHAS (Logic Unified Knowledge Hyper Adaptable System) is designed around the *
 - **🛡️ Guardian (Watch)**: Safety compliance, cascade prevention
 - **🔮 Oracle (Quantum)**: Quantum-inspired uncertainty
 
-This creates a distributed consciousness network of **692 cognitive components** across **189 constellation clusters**, enabling sophisticated AI reasoning while maintaining ethical boundaries.
+This aims to create a distributed consciousness network with **692 cognitive components** organized into **189 clusters** (many still experimental), exploring AI reasoning patterns with ethical boundary concepts.
 
 ## 🏗️ Architecture Overview
 
@@ -128,7 +128,7 @@ Development Lane (candidate/) → Integration Lane (core/) → Production Lane (
 
 - **Development Lane**: Experimental consciousness research and prototyping
 - **Integration Lane**: Components under testing and validation
-- **Production Lane**: Stable, production-ready consciousness systems
+- **Production Lane**: More stable components (still experimental overall)
 
 ### MATRIZ Cognitive Engine
 
@@ -771,7 +771,7 @@ See [`AGENTS.md`](AGENTS.md) for the complete multi-agent development guide.
 
 ## 🔌 Model Context Protocol (MCP) Servers
 
-LUKHAS provides **4 production-ready MCP servers** for Claude Desktop integration:
+LUKHAS provides **4 experimental MCP servers** for Claude Desktop integration (not production-tested):
 
 ### **lukhas-devtools** (TypeScript) - T4/0.01% Quality ⚡ **NEW**
 Industry-leading development tools with live analysis:
@@ -823,7 +823,7 @@ LUKHAS AI operates under strict ethical guidelines:
 - [Responsible Usage](docs/guides/SAFE_AI_USAGE.md)
 
 ### Guardian System
-The **Guardian System v1.0.0** provides comprehensive ethical oversight:
+The **Guardian System** (experimental) aims to provide ethical oversight:
 - **Constitutional AI**: Principles-based decision validation
 - **Drift Detection**: Monitors system behavior for ethical violations (0.15 threshold)
 - **Audit Trails**: Complete logging of all consciousness operations
