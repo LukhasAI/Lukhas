@@ -303,7 +303,7 @@ def validate_manifest(path: Path, validator: Draft202012Validator, vocab_feature
     try:
         validator.validate(data)
     except ValidationError as e:
-        raise ValueError(f"Schema validation failed: {e.message}")
+        raise ValueError(f"Schema validation failed: {e.message}") from e
 
     # Vocab gates
     unknown = [x for x in data.get("features", []) if x not in vocab_features]

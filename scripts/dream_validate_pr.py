@@ -49,7 +49,8 @@ def main():
     else:
         p.error("Either --prompts or --full must be specified.")
 
-    prompts = json.load(open(prompt_file))
+    with open(prompt_file) as f:
+        prompts = json.load(f)
     # demo private key generation (CI should use proper key)
     priv = generate_private_key()
     priv_pem = private_key_to_pem(priv)

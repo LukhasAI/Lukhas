@@ -666,8 +666,10 @@ def main():
     ap.add_argument("--star-confidence-min", type=float, default=0.70)
     args = ap.parse_args()
 
-    inv = json.load(open(args.inventory, encoding="utf-8"))
-    star_canon = json.load(open(args.star_canon, encoding="utf-8"))
+    with open(args.inventory, encoding="utf-8") as f:
+        inv = json.load(f)
+    with open(args.star_canon, encoding="utf-8") as f:
+        star_canon = json.load(f)
     extract_canon_labels(star_canon)
 
     items = inv.get("inventory", [])

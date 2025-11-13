@@ -91,7 +91,7 @@ def sign_release_notes(
         with open(key_file, "rb") as f:
             priv_pem = f.read()
     except Exception as e:
-        raise ValueError(f"Failed to read private key: {e}")
+        raise ValueError(f"Failed to read private key: {e}") from e
 
     # Build payload
     payload = {
@@ -106,7 +106,7 @@ def sign_release_notes(
     try:
         signature = qrg_sign(payload, priv_pem, consent_hash=consent_hash)
     except Exception as e:
-        raise ValueError(f"Failed to generate QRG signature: {e}")
+        raise ValueError(f"Failed to generate QRG signature: {e}") from e
 
     # Return combined result
     return {
@@ -173,7 +173,7 @@ def sign_policy_change(
         with open(key_file, "rb") as f:
             priv_pem = f.read()
     except Exception as e:
-        raise ValueError(f"Failed to read private key: {e}")
+        raise ValueError(f"Failed to read private key: {e}") from e
 
     # Build payload
     payload = {
@@ -197,7 +197,7 @@ def sign_policy_change(
     try:
         signature = qrg_sign(payload, priv_pem, consent_hash=consent_hash)
     except Exception as e:
-        raise ValueError(f"Failed to generate QRG signature: {e}")
+        raise ValueError(f"Failed to generate QRG signature: {e}") from e
 
     # Return combined result
     return {

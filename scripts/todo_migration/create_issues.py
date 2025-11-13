@@ -205,12 +205,12 @@ def main():
             else:
                 try:
                     issue_number = run_gh_issue_create(title, body, labels)
-                except Exception:
+                except Exception as e:
                     token = os.environ.get("GITHUB_TOKEN")
                     if not token:
                         raise RuntimeError(
                             "No gh CLI and no GITHUB_TOKEN; cannot create issue."
-                        )
+                        ) from e
                     issue_number = create_issue_rest(args.repo, token, title, body, labels)
             created += 1
             mapping_key = f"{entry['file']}:{entry['line']}"
