@@ -1,6 +1,6 @@
 """PII redaction for audit logs."""
 import re
-from typing import Dict, Any
+from typing import Any
 
 
 # Redaction patterns
