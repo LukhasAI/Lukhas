@@ -10,6 +10,7 @@ import asyncio
 import json
 import logging
 import importlib
+import inspect
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional, Dict, List
@@ -305,26 +306,32 @@ class OracleAgent:
 
         # Enhanced prediction with OpenAI if available
         if query.openai_enhanced and self.openai_service:
-            openai_request = OpenAIRequest(
-                model=ModelType.GPT_4O,
-                messages=[
-                    {
-                        "role": "system",
-                        "content": f"You are an AI Oracle specialized in predictive analysis. Analyze the provided context and generate predictions for the {query.time_horizon} term.",
-                    },
-                    {
-                        "role": "user",
-                        "content": f"Context: {json.dumps(context, indent=2)}\n\nProvide detailed predictions including trends, risks, and recommendations.",
-                    },
-                ],
-                temperature=0.7,
-                max_tokens=1000,
-            )
+            messages = [
+                {
+                    "role": "system",
+                    "content": (
+                        "You are an AI Oracle specialized in predictive analysis. "
+                        "Analyze the provided context and generate predictions for "
+                        f"the {query.time_horizon} term."
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": (
+                        f"Context: {json.dumps(context, indent=2)}\n\n"
+                        "Provide detailed predictions including trends, risks, and recommendations."
+                    ),
+                },
+            ]
 
             try:
-                openai_response = await self.openai_service.complete(openai_request)
+                openai_content = await self._invoke_openai_chat(
+                    messages,
+                    temperature=0.7,
+                    max_tokens=1000,
+                )
                 prediction_content = {
-                    "prediction": openai_response.content,
+                    "prediction": openai_content,
                     "enhanced_by": "openai",
                     "model": "gpt-4o",
                     "confidence_factors": [
@@ -360,29 +367,33 @@ class OracleAgent:
 
         # Enhanced dream generation with OpenAI
         if query.openai_enhanced and self.openai_service:
-            openai_request = OpenAIRequest(
-                model=ModelType.GPT_4O,
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "You are an AI Dream Oracle that creates meaningful, "
-                        "symbolic dreams based on user context and predictive insights.",
-                    },
-                    {
-                        "role": "user",
-                        "content": f"User Context: {json.dumps(context, indent=2)}\n\nGenerate a symbolic dream that provides insight, guidance, or reflection based on this context.",
-                    },
-                ],
-                temperature=0.9,
-                max_tokens=800,
-            )
+            messages = [
+                {
+                    "role": "system",
+                    "content": (
+                        "You are an AI Dream Oracle that creates meaningful, "
+                        "symbolic dreams based on user context and predictive insights."
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": (
+                        f"User Context: {json.dumps(context, indent=2)}\n\n"
+                        "Generate a symbolic dream that provides insight, guidance, or reflection based on this context."
+                    ),
+                },
+            ]
 
             try:
-                openai_response = await self.openai_service.complete(openai_request)
+                openai_content = await self._invoke_openai_chat(
+                    messages,
+                    temperature=0.9,
+                    max_tokens=800,
+                )
                 dream_content = {
-                    "dream_narrative": openai_response.content,
+                    "dream_narrative": openai_content,
                     "dream_type": "prophetic",
-                    "symbolic_elements": await self._extract_symbols(openai_response.content),
+                    "symbolic_elements": await self._extract_symbols(openai_content),
                     "enhanced_by": "openai",
                 }
                 confidence = 0.88
@@ -416,26 +427,31 @@ class OracleAgent:
 
         # Generate prophecy with enhanced OpenAI capabilities
         if query.openai_enhanced and self.openai_service:
-            openai_request = OpenAIRequest(
-                model=ModelType.GPT_4O,
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "You are a Prophetic Oracle that combines analytical prediction with symbolic wisdom. Generate prophecies that are both insightful and actionable.",
-                    },
-                    {
-                        "role": "user",
-                        "content": f"Context: {json.dumps(context, indent=2)}\n\nProvide a prophecy that combines predictive analysis with symbolic guidance for the {query.time_horizon} term.",
-                    },
-                ],
-                temperature=0.8,
-                max_tokens=600,
-            )
+            messages = [
+                {
+                    "role": "system",
+                    "content": (
+                        "You are a Prophetic Oracle that combines analytical prediction with "
+                        "symbolic wisdom. Generate prophecies that are both insightful and actionable."
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": (
+                        f"Context: {json.dumps(context, indent=2)}\n\n"
+                        f"Provide a prophecy that combines predictive analysis with symbolic guidance for the {query.time_horizon} term."
+                    ),
+                },
+            ]
 
             try:
-                openai_response = await self.openai_service.complete(openai_request)
+                openai_content = await self._invoke_openai_chat(
+                    messages,
+                    temperature=0.8,
+                    max_tokens=600,
+                )
                 prophecy_content = {
-                    "prophecy": openai_response.content,
+                    "prophecy": openai_content,
                     "prophecy_type": "analytical_symbolic",
                     "warning_level": await self._assess_warning_level(context),
                     "recommended_actions": await self._generate_recommendations(context),
@@ -489,6 +505,60 @@ class OracleAgent:
                 "specialization": self.specialization,
             },
         )
+
+    async def _invoke_openai_chat(
+        self,
+        messages: list[dict[str, str]],
+        **kwargs: Any,
+    ) -> str:
+        """Call the configured OpenAI provider via its chat interface."""
+        if not self.openai_service:
+            raise RuntimeError("OpenAI service not configured")
+
+        chat_callable = getattr(self.openai_service, "chat", None)
+        if not callable(chat_callable):
+            raise AttributeError("OpenAI provider does not expose chat()")
+
+        response = chat_callable(messages, **kwargs)
+        if inspect.isawaitable(response):
+            response = await response
+
+        return self._extract_chat_content(response)
+
+    def _extract_chat_content(self, response: Any) -> str:
+        """Normalize provider chat responses into a string payload."""
+        if response is None:
+            return ""
+
+        if isinstance(response, str):
+            return response
+
+        if isinstance(response, dict):
+            if "content" in response:
+                content = response["content"]
+                return content if isinstance(content, str) else json.dumps(content)
+
+            choices = response.get("choices")
+            if isinstance(choices, list) and choices:
+                first_choice = choices[0]
+                if isinstance(first_choice, dict):
+                    if "message" in first_choice and isinstance(first_choice["message"], dict):
+                        message_content = first_choice["message"].get("content")
+                        if isinstance(message_content, str):
+                            return message_content
+                    content = first_choice.get("content")
+                    if isinstance(content, str):
+                        return content
+
+            return json.dumps(response)
+
+        if hasattr(response, "content"):
+            content_value = getattr(response, "content")
+            if isinstance(content_value, str):
+                return content_value
+            return json.dumps(content_value)
+
+        return str(response)
 
     # Fallback methods for when OpenAI is unavailable
     async def _fallback_prediction(self, context: dict[str, Any]) -> dict[str, Any]:
