@@ -28,8 +28,8 @@ def normalize_path_key(key: str) -> tuple[Path, int]:
     path_str, line_str = parts
     try:
         line_no = int(line_str)
-    except ValueError:
-        raise ValueError(f"Invalid line number in mapping key: {key}")
+    except ValueError as e:
+        raise ValueError(f"Invalid line number in mapping key: {key}") from e
     p = Path(path_str)
     if p.is_absolute():
         # convert to repo-relative if possible

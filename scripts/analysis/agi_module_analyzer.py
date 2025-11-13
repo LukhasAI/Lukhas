@@ -197,7 +197,7 @@ class AGIModuleAnalyzer:
         try:
             tree = ast.parse(content)
             if isinstance(tree.body[0], ast.Expr) and isinstance(tree.body[0].value, ast.Str):
-                tree.body[0].value.s
+                _ = tree.body[0].value.s  # Access docstring for validation
         except Exception as e:
             logger.debug(f"Expected optional failure: {e}")
             pass

@@ -115,8 +115,8 @@ def main():
     if not mdir.exists():
         try:
             mdir = next(root.rglob(f"{args.module}/module.manifest.json")).parent
-        except StopIteration:
-            raise SystemExit(f"❌ Module not found: {args.module}")
+        except StopIteration as e:
+            raise SystemExit(f"❌ Module not found: {args.module}") from e
 
     manifest = mdir / "module.manifest.json"
     if not manifest.exists():

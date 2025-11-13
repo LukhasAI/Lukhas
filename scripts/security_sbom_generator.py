@@ -175,7 +175,7 @@ class LUKHASSecuritySBOMGenerator:
                     break
                 elif in_deps and line.startswith('"') and line.endswith('",'):
                     # Parse dependency line like "fastapi>=0.100.0",
-                    dep_line = line.strip('"",')
+                    dep_line = line.strip('"').rstrip(',')
                     name, version = self._parse_dependency(dep_line)
                     if name:
                         self._add_component(name, version, "required")

@@ -59,13 +59,15 @@ def _parse_front_matter(raw: str):
 
 def _dump_yaml(data: dict) -> str:
     def dump_scalar(k,v):
-        if v is None: return f"{k}:"
+        if v is None:
+            return f"{k}:"
         if isinstance(v, str):
             # quote only if contains special chars
             if any(c in v for c in [":","#","{","}","[","]","'",'"']):
                 return f'{k}: "{v}"'
             return f"{k}: {v}"
-        if isinstance(v, (int,float)): return f"{k}: {v}"
+        if isinstance(v, (int,float)):
+            return f"{k}: {v}"
         if isinstance(v, list):
             lines = [f"{k}:"]
             for item in v:
@@ -75,7 +77,8 @@ def _dump_yaml(data: dict) -> str:
             lines = [f"{k}:"]
             for dk in sorted(v.keys()):
                 dv = v[dk]
-                if dv is None: lines.append(f"  {dk}:")
+                if dv is None:
+                    lines.append(f"  {dk}:")
                 else:
                     if any(c in str(dv) for c in [":","#","{","}","[","]","'",'"']):
                         lines.append(f'  {dk}: "{dv}"')
@@ -105,7 +108,8 @@ def _merge(a: dict, b: dict) -> dict:
             out[k] = list(merged)
         elif isinstance(v, dict):
             ex = out.get(k, {})
-            m = dict(ex); m.update(v)  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_normalize_context_front_matter_py_L108"}
+            m = dict(ex)
+            m.update(v)
             out[k] = m
         else:
             out[k] = v
@@ -142,7 +146,8 @@ def _load_manifest_map(manifests_dir: Path):
         except Exception:
             continue
         slug = js.get("module") or js.get("slug") or js.get("name")
-        if not slug: continue
+        if not slug:
+            continue
         if isinstance(slug, dict):
             slug = slug.get("name")
 

@@ -6,8 +6,10 @@ from pathlib import Path
 
 def load(path):
     p = Path(path)
-    if not p.exists(): return []
-    with p.open() as f: return [ln.strip() for ln in f if ln.strip()]
+    if not p.exists():
+        return []
+    with p.open() as f:
+        return [ln.strip() for ln in f if ln.strip()]
 
 def stat(batch):
     done = load(batch + ".done")

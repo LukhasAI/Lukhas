@@ -14,7 +14,8 @@ if not spec_path.exists():
     print(f"❌ OpenAPI spec not found: {spec_path}")
     exit(1)
 
-spec = json.load(open(spec_path))
+with open(spec_path) as f:
+    spec = json.load(f)
 errors = list(openapi_v3_spec_validator.iter_errors(spec))
 
 if errors:

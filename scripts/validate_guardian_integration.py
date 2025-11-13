@@ -372,7 +372,7 @@ class GuardianIntegrationValidator:
 
             # Test orchestrator operations with Guardian validation
             test_ops = []
-            for i in range(100):
+            for _i in range(100):
                 start_time = time.perf_counter_ns()
 
                 # Test get orchestrator status (includes Guardian status)

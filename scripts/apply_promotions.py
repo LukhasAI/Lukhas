@@ -45,16 +45,20 @@ def main():
 
             if target not in canonical:
                 print(f"[SKIP] {file} → {target} not canonical")
-                skipped += 1; continue  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_apply_promotions_py_L46"}
+                skipped += 1
+                continue
             if target in deny:
                 print(f"[SKIP] {file} → {target} is denied")
-                skipped += 1; continue  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_apply_promotions_py_L49"}
+                skipped += 1
+                continue
             if conf < min_auto:
                 print(f"[SKIP] {file} → confidence {conf:.2f} < {min_auto:.2f}")
-                skipped += 1; continue  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_apply_promotions_py_L52"}
+                skipped += 1
+                continue
             if not file.exists():
                 print(f"[SKIP] missing file {file}")
-                skipped += 1; continue  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_apply_promotions_py_L55"}
+                skipped += 1
+                continue
 
             try:
                 d = load_json(file)
@@ -62,7 +66,8 @@ def main():
                 current = align.get("primary_star", "Supporting")
                 if current == target:
                     print(f"[SKIP] {file} already {target}")
-                    skipped += 1; continue  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_apply_promotions_py_L63"}
+                    skipped += 1
+                    continue
                 print(f"[APPLY] {file}: {current} → {target} (conf={conf:.2f}; {reason})")
                 align["primary_star"] = target
 
@@ -83,7 +88,8 @@ def main():
                 errors += 1
 
     print(f"\nSummary: applied={applied} skipped={skipped} errors={errors}")
-    if errors: sys.exit(1)
+    if errors:
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()

@@ -48,7 +48,8 @@ def main():
 
     man_local = os.path.join(args.target, "_manifest.json")
     fetch(args.manifest, man_local)
-    man = json.loads(open(man_local).read())
+    with open(man_local) as f:
+        man = json.loads(f.read())
 
     tar_src = args.tarball or man["bundle"]["path"]
     tar_local = os.path.join(args.target, os.path.basename(tar_src))
