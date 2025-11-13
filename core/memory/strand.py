@@ -1,5 +1,5 @@
 """Memory strand types with double-helix structure."""
-from typing import Any, Optional, Dict
+from typing import Any, Dict
 from dataclasses import dataclass
 import hashlib
 import json

@@ -78,7 +78,6 @@ def explain_veto_detailed(event: VetoEvent) -> Dict[str, Any]:
 
 
 if __name__ == "__main__":
-    from datetime import datetime
 
     print("=== Guardian Veto Explanation Demo ===\n")
 

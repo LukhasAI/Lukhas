@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Automatically fix all RUF012 violations by adding ClassVar annotations."""
 
-import ast
 import re
 import subprocess
 import sys

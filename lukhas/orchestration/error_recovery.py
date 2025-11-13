@@ -10,7 +10,7 @@ degradation.
 import asyncio
 import time
 from functools import wraps
-from typing import Any, Callable, Dict, Type, Union
+from typing import Any, Callable, Type, Union
 from collections.abc import Coroutine
 
 

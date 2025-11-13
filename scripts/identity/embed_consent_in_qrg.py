@@ -15,7 +15,7 @@ import hashlib
 import json
 import sys
 import uuid
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
 from unittest.mock import MagicMock

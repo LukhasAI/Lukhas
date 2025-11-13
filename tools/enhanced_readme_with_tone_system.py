@@ -11,7 +11,6 @@ import json
 import random
 from datetime import datetime
 from pathlib import Path
-from typing import Any
 
 
 class VocabularyEngine:

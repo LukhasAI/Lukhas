@@ -1,5 +1,5 @@
 """Self-contradiction detection signals."""
-from typing import Optional, Any
+from typing import Optional
 from datetime import datetime
 
 

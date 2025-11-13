@@ -6,7 +6,7 @@ A cognitive node for performing deductive reasoning based on a set of premises.
 """
 
 import time
-from typing import Any, ClassVar
+from typing import Any
 
 from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 

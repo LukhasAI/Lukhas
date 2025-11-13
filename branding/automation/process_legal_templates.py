@@ -4,7 +4,6 @@ Legal Template Processor for LUKHAS Websites
 Processes legal document templates with domain-specific variables
 """
 
-import os
 import re
 from pathlib import Path
 from datetime import date

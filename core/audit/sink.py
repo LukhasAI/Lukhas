@@ -3,7 +3,6 @@ import json
 from pathlib import Path
 from datetime import datetime
 from typing import Any, Optional
-import os
 
 
 class JSONLAuditSink:

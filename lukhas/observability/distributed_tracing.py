@@ -7,7 +7,6 @@ This module safely handles cases where OpenTelemetry is not installed.
 
 from __future__ import annotations
 
-import asyncio
 from functools import wraps, lru_cache
 from typing import Any, Callable
 
@@ -25,7 +24,7 @@ def is_otel_available() -> bool:
 if is_otel_available():
     from opentelemetry import context, propagate, trace
     from opentelemetry.propagate.textmap import CarrierT, Setter, Getter
-    from opentelemetry.trace import Span, Tracer
+    from opentelemetry.trace import Tracer
 
     class DictGetter(Getter[CarrierT]):
         def get(self, carrier: CarrierT, key: str) -> list[str] | None:

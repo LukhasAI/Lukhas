@@ -10,7 +10,6 @@ def regret_demo():
 
     # Simulate dream generation with regret tracking
     from oneiric.core.generator import DreamGenerator, SimpleEventBus
-    from datetime import datetime
 
     bus = SimpleEventBus()
     generator = DreamGenerator(event_bus=bus)

@@ -39,7 +39,7 @@ from metrics import (
     stage_timeouts,
 )
 
-from lukhas.observability.distributed_tracing import extract_context, inject_context
+from lukhas.observability.distributed_tracing import extract_context
 
 from .consensus_arbitrator import Proposal, choose
 from .meta_controller import MetaController

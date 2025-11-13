@@ -5,7 +5,7 @@
 import os
 import time
 from functools import lru_cache
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer

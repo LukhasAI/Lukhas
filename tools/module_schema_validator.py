@@ -228,10 +228,10 @@ MODULE_MANIFEST_SCHEMA: Dict[str, Any] = {
 
 def validate_module_manifest(manifest_data: Dict[str, Any]) -> bool:
     """Validate a module manifest against the schema.
-    
+
     Args:
         manifest_data: The manifest data to validate
-        
+
     Returns:
         True if valid, False otherwise
     """
@@ -242,7 +242,7 @@ def validate_module_manifest(manifest_data: Dict[str, Any]) -> bool:
 
 def get_schema() -> Dict[str, Any]:
     """Get the module manifest schema.
-    
+
     Returns:
         The JSON schema as a Python dictionary
     """

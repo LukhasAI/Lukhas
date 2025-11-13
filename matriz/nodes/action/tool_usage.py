@@ -6,7 +6,7 @@ A cognitive node for selecting and using tools.
 """
 
 import time
-from typing import Any, ClassVar
+from typing import Any
 
 from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 

@@ -1,6 +1,6 @@
 """Endocrine API with mood-to-tags export."""
 
-from .hormone_system import HormoneSystem, HormoneState
+from .hormone_system import HormoneSystem
 
 
 class EndocrineAPI:
