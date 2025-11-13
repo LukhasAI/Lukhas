@@ -106,7 +106,7 @@ class MATRIZTracingContractValidator:
         self,
         operation: str,
         correlation_id: str,
-        parent_span: Any | None = None,
+        parent_span: Optional[Any] = None,
         **attributes
     ) -> Any:
         """Create MATRIZ span with proper tracing contract compliance."""

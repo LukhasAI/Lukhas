@@ -10,9 +10,8 @@ Tests:
 - /v1/* path enforcement
 """
 import sys
-from unittest.mock import MagicMock, Mock, patch
-
 import pytest
+from unittest.mock import Mock, patch, MagicMock
 
 # Mock the auth system before importing the middleware
 mock_auth_module = MagicMock()
@@ -20,8 +19,9 @@ mock_auth_module.get_auth_system = Mock()
 sys.modules['labs.core.security.auth'] = mock_auth_module
 
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
 from fastapi.testclient import TestClient
+from fastapi.responses import JSONResponse
+
 from serve.middleware.strict_auth import StrictAuthMiddleware
 
 

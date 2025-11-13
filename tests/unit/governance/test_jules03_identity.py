@@ -8,7 +8,7 @@ import sys
 import types
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import pytest
 from governance.healthcare.decision_support import ClinicalDecisionSupport
@@ -75,7 +75,7 @@ healthcare_pkg = types.ModuleType("governance.healthcare")
 
 
 class _ClinicalDecisionSupport:
-    def __init__(self, config: dict | None = None):
+    def __init__(self, config: Optional[dict] = None):
         self._audit_sink = (config or {}).get("governance_sink", lambda payload: None)
 
     async def analyze_case(self, case_data: dict) -> dict:
@@ -120,7 +120,7 @@ sys.modules["governance.identity.core.sing"] = core_sing_pkg
 
 
 class _SessionReplayManager:
-    def __init__(self, config: dict | None = None):
+    def __init__(self, config: Optional[dict] = None):
         self._sessions: Dict[str, dict] = {}
 
     def create_replay_session(self, user_id: str, devices: Tuple[str, str]) -> dict:

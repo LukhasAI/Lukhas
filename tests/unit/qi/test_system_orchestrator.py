@@ -7,6 +7,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
+from typing import Dict
 
 ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:  # pragma: no cover - defensive path setup for pytest

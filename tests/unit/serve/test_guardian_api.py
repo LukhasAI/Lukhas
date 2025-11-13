@@ -9,6 +9,7 @@ Tests:
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
+
 from serve.guardian_api import router
 
 
@@ -155,9 +156,8 @@ class TestResponseTimes:
     @pytest.mark.asyncio
     async def test_endpoints_are_async(self):
         """Verify all endpoints are async coroutines."""
+        from serve.guardian_api import validate, audit, drift_check
         import asyncio
-
-        from serve.guardian_api import audit, drift_check, validate
 
         assert asyncio.iscoroutinefunction(validate)
         assert asyncio.iscoroutinefunction(audit)

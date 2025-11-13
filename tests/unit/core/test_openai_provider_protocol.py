@@ -5,7 +5,7 @@ for type-safe dependency injection without requiring actual OpenAI clients.
 """
 from __future__ import annotations
 
-from typing import Any, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 
 import pytest
 from core.ports import ChatCompletionResponse, ChatMessage, OpenAIProvider
@@ -28,11 +28,11 @@ class MockOpenAIProvider:
         model: str,
         messages: List[ChatMessage],
         temperature: float = 0.7,
-        max_tokens: int | None = None,
+        max_tokens: Optional[int] = None,
         top_p: float = 1.0,
         frequency_penalty: float = 0.0,
         presence_penalty: float = 0.0,
-        stop: Union[str, List[str]] | None = None,
+        stop: Optional[Union[str, List[str]]] = None,
         stream: bool = False,
         **kwargs: Any,
     ) -> ChatCompletionResponse:

@@ -4,7 +4,7 @@ Tests for the MATRIZ Cognitive Node Interface
 """
 
 import time
-from typing import Any
+from typing import Any, Dict
 
 import numpy as np
 import pytest

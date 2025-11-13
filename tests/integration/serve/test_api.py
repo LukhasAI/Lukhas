@@ -15,6 +15,30 @@ def test_list_models_endpoint(client_no_auth):
     assert response.status_code == 200
     assert response.json()["object"] == "list"
 
+
+def test_list_models_deterministic_caching(client_no_auth):
+    """Test that /v1/models returns identical responses across multiple requests."""
+    from serve.main import invalidate_model_cache
+    invalidate_model_cache()  # Start fresh
+    
+    # Make first request
+    response1 = client_no_auth.get("/v1/models")
+    assert response1.status_code == 200
+    data1 = response1.json()
+
+    # Make second request
+    response2 = client_no_auth.get("/v1/models")
+    assert response2.status_code == 200
+    data2 = response2.json()
+
+    # All responses should be identical
+    assert data1 == data2, "Responses should be deterministic"
+
+    # Verify all models have consistent 'created' timestamps
+    created_times = [model.get("created") for model in data1["data"]]
+    assert all(ct == created_times[0] for ct in created_times)
+
+
 @patch("serve.main.index_manager")
 def test_create_embeddings_endpoint(mock_index_manager, client_no_auth):
     """Test the /v1/embeddings endpoint."""

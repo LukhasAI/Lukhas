@@ -10,11 +10,12 @@ Tests trace API endpoints including:
 """
 
 import uuid
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 from fastapi import HTTPException
+
 from serve.routes_traces import (
     get_recent_traces,
     get_trace,

@@ -475,7 +475,7 @@ class TestRateLimiting:
     def test_root_endpoint_rate_limit(self, client):
         """Test root endpoint has rate limit configured"""
         # Make multiple requests
-        for _i in range(5):
+        for i in range(5):
             response = client.get("/")
             assert response.status_code == 200
 

@@ -17,7 +17,7 @@ if PROJECT_ROOT not in sys.path:
 PACKAGE_PREFIX = "lukhas_candidate"
 
 
-def _ensure_package(name: str, path: str | None = None) -> types.ModuleType:
+def _ensure_package(name: str, path: Optional[str] = None) -> types.ModuleType:
     module = sys.modules.get(name)
     if module is None:
         module = types.ModuleType(name)

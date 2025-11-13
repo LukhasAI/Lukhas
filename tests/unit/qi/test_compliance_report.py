@@ -18,6 +18,7 @@ from qi.compliance.compliance_report import (
     LegalBasis,
 )
 from qi.compliance.privacy_statement import Jurisdiction
+from typing import Tuple
 
 
 @pytest.fixture

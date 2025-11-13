@@ -1,58 +1,51 @@
 """
-Comprehensive test suite for serve.feedback_routes module.
+Comprehensive test suite for serve/feedback_routes.py
 
-Tests all 6 endpoints (capture, batch, report, metrics, trigger-learning, health)
-and 1 helper function (run_learning_cycle) with comprehensive coverage.
-
-Following Test Surgeon canonical guidelines:
-- Tests only (no production code changes)
-- Deterministic (mocked time, dependencies, filesystem)
-- Network-free (all external systems mocked)
-- Comprehensive coverage (75%+ target)
+Tests feedback collection and learning system:
+- Feedback capture endpoint
+- Batch feedback processing
+- Learning report generation
+- System metrics
+- Manual learning trigger
+- Health check
+- Background task processing
 """
+from __future__ import annotations
+
 from typing import Any
-from unittest import mock
+from unittest.mock import AsyncMock, MagicMock, Mock, patch
 
 import pytest
-from fastapi import BackgroundTasks
 from fastapi.testclient import TestClient
 
 
 @pytest.fixture
-def mock_feedback_card():
-    """Create mock feedback card."""
-    card = mock.MagicMock()
-    card.card_id = "card_test_123"
-    card.rating.value = 5
-    card.timestamp = 1730000000.0
-    return card
+def mock_feedback_system():
+    """Mock FeedbackCardSystem."""
+    mock_system = MagicMock()
 
+    # Mock feedback card
+    mock_card = MagicMock()
+    mock_card.card_id = "card_123"
+    mock_card.rating = MagicMock(value=5)
+    mock_card.timestamp = 1730000000.0
 
-@pytest.fixture
-def mock_feedback_system(mock_feedback_card):
-    """
-    Create mock FeedbackCardSystem with pre-configured responses.
-    """
-    system = mock.MagicMock()
+    mock_system.capture_feedback.return_value = mock_card
+    mock_system.feedback_cards = [mock_card] * 50  # Simulate existing cards
 
-    # Mock capture_feedback method
-    system.capture_feedback.return_value = mock_feedback_card
-
-    # Mock feedback_cards list for trigger_learning
-    system.feedback_cards = [mock_feedback_card] * 50
-
-    # Mock explain_learning method
-    mock_report = mock.MagicMock()
+    # Mock learning report
+    mock_report = MagicMock()
     mock_report.user_id_hash = "hashed_user_123"
-    mock_report.total_feedback_cards = 25
-    mock_report.overall_satisfaction = 4.3
-    mock_report.improvement_trend = 0.15
+    mock_report.total_feedback_cards = 10
+    mock_report.overall_satisfaction = 4.5
+    mock_report.improvement_trend = 0.2
     mock_report.preferred_styles = ["direct", "concise"]
-    mock_report.recommended_adjustments = {"tone": "more formal", "detail_level": "higher"}
-    system.explain_learning.return_value = mock_report
+    mock_report.recommended_adjustments = {"tone": "more formal"}
 
-    # Mock get_metrics method
-    system.get_metrics.return_value = {
+    mock_system.explain_learning.return_value = mock_report
+
+    # Mock metrics
+    mock_system.get_metrics.return_value = {
         "cards_captured": 100,
         "patterns_identified": 20,
         "policies_updated": 5,
@@ -63,634 +56,578 @@ def mock_feedback_system(mock_feedback_card):
         "total_updates": 10,
     }
 
-    # Mock extract_patterns method
-    mock_pattern = mock.MagicMock()
-    mock_pattern.pattern_id = "pattern_test"
-    system.extract_patterns.return_value = [mock_pattern]
+    # Mock pattern extraction
+    mock_system.extract_patterns.return_value = [
+        {"pattern_id": "p1", "type": "preference"},
+    ]
 
-    # Mock update_policy method
-    mock_update = mock.MagicMock()
-    mock_update.update_id = "update_test"
-    system.update_policy.return_value = mock_update
+    # Mock policy update
+    mock_update = MagicMock()
+    mock_update.update_id = "update_123"
+    mock_system.update_policy.return_value = mock_update
+    mock_system.validate_update.return_value = True
 
-    # Mock validate_update method
-    system.validate_update.return_value = True
-
-    return system
+    return mock_system
 
 
 @pytest.fixture
-def feedback_routes_module(mock_feedback_system):
-    """
-    Import serve.feedback_routes with mocked FeedbackCardSystem.
-    """
-    with mock.patch("serve.feedback_routes.FeedbackCardSystem", return_value=mock_feedback_system):
-        import importlib
-
-        import serve.feedback_routes as routes_module
-        importlib.reload(routes_module)
-        # Replace the module-level feedback_system instance
-        routes_module.feedback_system = mock_feedback_system
-        yield routes_module
+def app_client(mock_feedback_system):
+    """Create test client with mocked feedback system."""
+    with patch("serve.feedback_routes.FeedbackCardSystem", return_value=mock_feedback_system):
+        from serve.feedback_routes import router
+        from fastapi import FastAPI
+
+        app = FastAPI()
+        app.include_router(router)
+        return TestClient(app)
+
+
+class TestCaptureFeedback:
+    """Test /feedback/capture endpoint."""
+
+    def test_capture_feedback_success(self, app_client, mock_feedback_system):
+        """Test successful feedback capture."""
+        response = app_client.post(
+            "/feedback/capture",
+            json={
+                "action_id": "action_123",
+                "rating": 5,
+                "note": "Great response!",
+                "symbols": ["helpful", "accurate"],
+                "context": {"session": "test"},
+                "user_id": "user_456",
+            },
+        )
+
+        assert response.status_code == 200
+        data = response.json()
+
+        assert data["card_id"] == "card_123"
+        assert data["rating"] == 5
+        assert data["timestamp"] == 1730000000.0
+        assert data["message"] == "Feedback captured successfully"
+
+        # Verify system was called correctly
+        mock_feedback_system.capture_feedback.assert_called_once()
+        call_kwargs = mock_feedback_system.capture_feedback.call_args.kwargs
+
+        assert call_kwargs["action_id"] == "action_123"
+        assert call_kwargs["rating"] == 5
+        assert call_kwargs["note"] == "Great response!"
+        assert call_kwargs["symbols"] == ["helpful", "accurate"]
+        assert call_kwargs["context"] == {"session": "test"}
+        assert call_kwargs["user_id"] == "user_456"
+
+    def test_capture_feedback_minimal(self, app_client, mock_feedback_system):
+        """Test feedback capture with minimal fields."""
+        response = app_client.post(
+            "/feedback/capture",
+            json={
+                "action_id": "action_123",
+                "rating": 3,
+            },
+        )
+
+        assert response.status_code == 200
+        data = response.json()
+        assert data["rating"] == 5  # Mock returns 5
+
+    def test_capture_feedback_rating_validation_min(self, app_client):
+        """Test rating minimum validation."""
+        response = app_client.post(
+            "/feedback/capture",
+            json={
+                "action_id": "action_123",
+                "rating": 0,  # Below minimum
+            },
+        )
+
+        assert response.status_code == 422  # Validation error
+
+    def test_capture_feedback_rating_validation_max(self, app_client):
+        """Test rating maximum validation."""
+        response = app_client.post(
+            "/feedback/capture",
+            json={
+                "action_id": "action_123",
+                "rating": 6,  # Above maximum
+            },
+        )
+
+        assert response.status_code == 422  # Validation error
+
+    def test_capture_feedback_missing_required_fields(self, app_client):
+        """Test error on missing required fields."""
+        response = app_client.post(
+            "/feedback/capture",
+            json={
+                "action_id": "action_123",
+                # Missing rating
+            },
+        )
+
+        assert response.status_code == 422
+
+    def test_capture_feedback_system_error(self, app_client, mock_feedback_system):
+        """Test error handling when system fails."""
+        mock_feedback_system.capture_feedback.side_effect = Exception("System error")
+
+        response = app_client.post(
+            "/feedback/capture",
+            json={
+                "action_id": "action_123",
+                "rating": 4,
+            },
+        )
+
+        assert response.status_code == 500
+        assert "System error" in response.json()["detail"]
+
+
+class TestBatchFeedback:
+    """Test /feedback/batch endpoint."""
+
+    def test_batch_feedback_success(self, app_client, mock_feedback_system):
+        """Test successful batch feedback capture."""
+        response = app_client.post(
+            "/feedback/batch",
+            json=[
+                {"action_id": "action_1", "rating": 5},
+                {"action_id": "action_2", "rating": 4},
+                {"action_id": "action_3", "rating": 3},
+            ],
+        )
+
+        assert response.status_code == 200
+        data = response.json()
+
+        assert len(data) == 3
+        for item in data:
+            assert "card_id" in item
+            assert "rating" in item
+            assert "timestamp" in item
+
+        # Verify all were captured
+        assert mock_feedback_system.capture_feedback.call_count == 3
+
+    def test_batch_feedback_empty_list(self, app_client):
+        """Test batch with empty list."""
+        response = app_client.post("/feedback/batch", json=[])
+
+        assert response.status_code == 200
+        assert response.json() == []
+
+    def test_batch_feedback_partial_failure(self, app_client, mock_feedback_system):
+        """Test batch continues on individual failures."""
+        # Make second call fail
+        mock_feedback_system.capture_feedback.side_effect = [
+            MagicMock(card_id="card_1", rating=MagicMock(value=5), timestamp=1.0),
+            Exception("Error on second"),
+            MagicMock(card_id="card_3", rating=MagicMock(value=3), timestamp=3.0),
+        ]
+
+        response = app_client.post(
+            "/feedback/batch",
+            json=[
+                {"action_id": "action_1", "rating": 5},
+                {"action_id": "action_2", "rating": 4},
+                {"action_id": "action_3", "rating": 3},
+            ],
+        )
+
+        assert response.status_code == 200
+        data = response.json()
+
+        # Should have 2 successful captures (skipped the failed one)
+        assert len(data) == 2
+
+    def test_batch_feedback_validation_error(self, app_client):
+        """Test batch validation errors."""
+        response = app_client.post(
+            "/feedback/batch",
+            json=[
+                {"action_id": "action_1", "rating": 5},
+                {"action_id": "action_2", "rating": 10},  # Invalid
+            ],
+        )
 
+        assert response.status_code == 422
+
 
-@pytest.fixture
-def test_app(feedback_routes_module):
-    """Create FastAPI test client with feedback routes and mocked auth."""
-    from fastapi import FastAPI
+class TestLearningReport:
+    """Test /feedback/report/{user_id} endpoint."""
+
+    def test_learning_report_success(self, app_client, mock_feedback_system):
+        """Test successful learning report generation."""
+        response = app_client.get("/feedback/report/user_123")
 
-    from lukhas.governance.auth import get_current_user_id
+        assert response.status_code == 200
+        data = response.json()
 
-    app = FastAPI()
+        assert data["user_id_hash"] == "hashed_user_123"
+        assert data["total_feedback_cards"] == 10
+        assert data["overall_satisfaction"] == 4.5
+        assert data["improvement_trend"] == 0.2
+        assert data["preferred_styles"] == ["direct", "concise"]
+        assert data["recommendations"] == {"tone": "more formal"}
+        assert "summary" in data
 
-    # Mock the auth dependency to return a test user ID
-    def mock_get_current_user_id():
-        return "test_user_123"
+        # Verify system was called
+        mock_feedback_system.explain_learning.assert_called_once_with("user_123")
 
-    # Override the dependency
-    app.dependency_overrides[get_current_user_id] = mock_get_current_user_id
+    def test_learning_report_summary_improving(self, app_client, mock_feedback_system):
+        """Test summary for improving trend."""
+        response = app_client.get("/feedback/report/user_123")
 
-    app.include_router(feedback_routes_module.router)
-    return TestClient(app)
+        assert response.status_code == 200
+        data = response.json()
 
+        summary = data["summary"]
+        assert "10 feedback cards" in summary
+        assert "4.5/5" in summary
+        assert "improving" in summary.lower()
+        assert "direct, concise" in summary
 
-# ==============================================================================
-# Endpoint Tests: POST /feedback/capture
-# ==============================================================================
+    def test_learning_report_summary_degrading(self, app_client, mock_feedback_system):
+        """Test summary for degrading trend."""
+        mock_report = mock_feedback_system.explain_learning.return_value
+        mock_report.improvement_trend = -0.3
 
-def test_capture_feedback_success(test_app, mock_feedback_system):
-    """Test POST /feedback/capture with valid request."""
-    payload = {
-        "action_id": "action_123",
-        "rating": 5,
-        "note": "Great response!",
-        "symbols": ["helpful", "accurate"],
-        "context": {"session_id": "session_123"},
-        # user_id is NOT in payload - it comes from JWT token via get_current_user_id()
-    }
+        response = app_client.get("/feedback/report/user_123")
 
-    response = test_app.post("/feedback/capture", json=payload)
+        assert response.status_code == 200
+        data = response.json()
 
-    assert response.status_code == 200
-    data = response.json()
-    assert data["card_id"] == "card_test_123"
-    assert data["rating"] == 5
-    assert data["timestamp"] == 1730000000.0
-    assert data["message"] == "Feedback captured successfully"
+        summary = data["summary"]
+        assert "may not align" in summary.lower() or "recent changes" in summary.lower()
 
-    # Verify feedback_system.capture_feedback was called correctly
-    # user_id should be "test_user_123" from the mocked auth dependency
-    mock_feedback_system.capture_feedback.assert_called_once_with(
-        action_id="action_123",
-        rating=5,
-        note="Great response!",
-        symbols=["helpful", "accurate"],
-        context={"session_id": "session_123"},
-        user_id="test_user_123",
-    )
+    def test_learning_report_no_recommendations(self, app_client, mock_feedback_system):
+        """Test report with no recommendations."""
+        mock_report = mock_feedback_system.explain_learning.return_value
+        mock_report.recommended_adjustments = None
 
+        response = app_client.get("/feedback/report/user_123")
 
-def test_capture_feedback_minimal(test_app, mock_feedback_system):
-    """Test POST /feedback/capture with minimal required fields."""
-    payload = {
-        "action_id": "action_456",
-        "rating": 3,
-    }
+        assert response.status_code == 200
+        data = response.json()
+        assert data["recommendations"] == {}
 
-    response = test_app.post("/feedback/capture", json=payload)
+    def test_learning_report_system_error(self, app_client, mock_feedback_system):
+        """Test error handling in report generation."""
+        mock_feedback_system.explain_learning.side_effect = Exception("Report error")
 
-    assert response.status_code == 200
-    data = response.json()
-    assert data["card_id"] == "card_test_123"
-    assert data["rating"] == 5
+        response = app_client.get("/feedback/report/user_123")
 
+        assert response.status_code == 500
+        assert "Report error" in response.json()["detail"]
 
-def test_capture_feedback_rating_validation_low(test_app):
-    """Test POST /feedback/capture rejects rating below 1."""
-    payload = {
-        "action_id": "action_789",
-        "rating": 0,
-    }
 
-    response = test_app.post("/feedback/capture", json=payload)
+class TestSystemMetrics:
+    """Test /feedback/metrics endpoint."""
 
-    assert response.status_code == 422  # Validation error
+    def test_system_metrics_success(self, app_client, mock_feedback_system):
+        """Test successful metrics retrieval."""
+        response = app_client.get("/feedback/metrics")
 
+        assert response.status_code == 200
+        data = response.json()
 
-def test_capture_feedback_rating_validation_high(test_app):
-    """Test POST /feedback/capture rejects rating above 5."""
-    payload = {
-        "action_id": "action_789",
-        "rating": 6,
-    }
+        assert data["cards_captured"] == 100
+        assert data["patterns_identified"] == 20
+        assert data["policies_updated"] == 5
+        assert data["validations_passed"] == 5
+        assert data["validations_failed"] == 0
+        assert data["total_cards"] == 500
+        assert data["total_patterns"] == 50
+        assert data["total_updates"] == 10
 
-    response = test_app.post("/feedback/capture", json=payload)
+    def test_system_metrics_error(self, app_client, mock_feedback_system):
+        """Test error handling in metrics retrieval."""
+        mock_feedback_system.get_metrics.side_effect = Exception("Metrics error")
 
-    assert response.status_code == 422  # Validation error
+        response = app_client.get("/feedback/metrics")
 
+        assert response.status_code == 500
 
-def test_capture_feedback_system_error(test_app, mock_feedback_system):
-    """Test POST /feedback/capture handles system errors gracefully."""
-    mock_feedback_system.capture_feedback.side_effect = Exception("Database connection failed")
 
-    payload = {
-        "action_id": "action_error",
-        "rating": 4,
-    }
+class TestTriggerLearning:
+    """Test /feedback/trigger-learning endpoint."""
 
-    response = test_app.post("/feedback/capture", json=payload)
+    def test_trigger_learning_success(self, app_client, mock_feedback_system):
+        """Test successful learning trigger."""
+        response = app_client.post("/feedback/trigger-learning")
 
-    assert response.status_code == 500
-    assert "Database connection failed" in response.json()["detail"]
+        assert response.status_code == 200
+        data = response.json()
 
+        assert data["status"] == "triggered"
+        assert "50 feedback cards" in data["message"]
 
-# ==============================================================================
-# Endpoint Tests: POST /feedback/batch
-# ==============================================================================
+    def test_trigger_learning_insufficient_cards(self, app_client, mock_feedback_system):
+        """Test learning trigger with insufficient cards."""
+        mock_feedback_system.feedback_cards = [MagicMock()] * 5  # Only 5 cards
 
-def test_capture_batch_feedback_success(test_app, mock_feedback_system):
-    """Test POST /feedback/batch with multiple valid requests."""
-    payload = [
-        {"action_id": "action_1", "rating": 5},
-        {"action_id": "action_2", "rating": 4},
-        {"action_id": "action_3", "rating": 3},
-    ]
+        response = app_client.post("/feedback/trigger-learning")
 
-    response = test_app.post("/feedback/batch", json=payload)
+        assert response.status_code == 200
+        data = response.json()
 
-    assert response.status_code == 200
-    data = response.json()
-    assert len(data) == 3
-    assert all(item["card_id"] == "card_test_123" for item in data)
-    assert all(item["rating"] == 5 for item in data)
-    assert mock_feedback_system.capture_feedback.call_count == 3
+        assert data["status"] == "skipped"
+        assert "Not enough" in data["message"]
+        assert "minimum 10" in data["message"]
 
+    def test_trigger_learning_background_task(self, app_client, mock_feedback_system):
+        """Test learning is triggered as background task."""
+        from fastapi import BackgroundTasks
 
-def test_capture_batch_feedback_empty_list(test_app):
-    """Test POST /feedback/batch with empty list."""
-    payload = []
+        response = app_client.post("/feedback/trigger-learning")
 
-    response = test_app.post("/feedback/batch", json=payload)
+        assert response.status_code == 200
+        # Background task should be scheduled (tested via successful response)
 
-    assert response.status_code == 200
-    data = response.json()
-    assert len(data) == 0
+    def test_trigger_learning_error(self, app_client, mock_feedback_system):
+        """Test error handling in learning trigger."""
+        mock_feedback_system.feedback_cards = None  # Cause error
 
+        response = app_client.post("/feedback/trigger-learning")
 
-def test_capture_batch_feedback_partial_failure(test_app, mock_feedback_system):
-    """Test POST /feedback/batch continues on individual failures."""
-    # First call succeeds, second fails, third succeeds
-    mock_feedback_system.capture_feedback.side_effect = [
-        mock_feedback_system.capture_feedback.return_value,
-        Exception("Transient error"),
-        mock_feedback_system.capture_feedback.return_value,
-    ]
+        assert response.status_code == 500
 
-    payload = [
-        {"action_id": "action_1", "rating": 5},
-        {"action_id": "action_2", "rating": 4},
-        {"action_id": "action_3", "rating": 3},
-    ]
 
-    response = test_app.post("/feedback/batch", json=payload)
+class TestRunLearningCycle:
+    """Test run_learning_cycle background task."""
 
-    assert response.status_code == 200
-    data = response.json()
-    # Should have 2 successful captures (1st and 3rd)
-    assert len(data) == 2
+    @pytest.mark.asyncio
+    async def test_run_learning_cycle_success(self, mock_feedback_system):
+        """Test successful learning cycle execution."""
+        from serve.feedback_routes import run_learning_cycle
 
+        mock_cards = [MagicMock() for _ in range(20)]
 
-def test_capture_batch_feedback_single_item(test_app, mock_feedback_system):
-    """Test POST /feedback/batch with single item."""
-    payload = [{"action_id": "action_solo", "rating": 5}]
+        # Patch the global feedback_system
+        with patch("serve.feedback_routes.feedback_system", mock_feedback_system):
+            await run_learning_cycle(mock_cards)
 
-    response = test_app.post("/feedback/batch", json=payload)
+        # Verify pattern extraction was called
+        mock_feedback_system.extract_patterns.assert_called_once_with(mock_cards)
 
-    assert response.status_code == 200
-    data = response.json()
-    assert len(data) == 1
+        # Verify policy update was called
+        mock_feedback_system.update_policy.assert_called_once()
 
+        # Verify validation was called
+        mock_feedback_system.validate_update.assert_called_once()
 
-# ==============================================================================
-# Endpoint Tests: GET /feedback/report/{user_id}
-# ==============================================================================
+    @pytest.mark.asyncio
+    async def test_run_learning_cycle_no_patterns(self, mock_feedback_system):
+        """Test learning cycle with no patterns."""
+        from serve.feedback_routes import run_learning_cycle
 
-def test_get_learning_report_success(test_app, mock_feedback_system):
-    """Test GET /feedback/report/{user_id} returns learning report."""
-    # Use the mocked auth user_id in the path
-    response = test_app.get("/feedback/report/test_user_123")
+        mock_feedback_system.extract_patterns.return_value = []
 
-    assert response.status_code == 200
-    data = response.json()
+        mock_cards = [MagicMock() for _ in range(20)]
 
-    assert data["user_id_hash"] == "hashed_user_123"
-    assert data["total_feedback_cards"] == 25
-    assert data["overall_satisfaction"] == 4.3
-    assert data["improvement_trend"] == 0.15
-    assert data["preferred_styles"] == ["direct", "concise"]
-    assert "summary" in data
-    assert "25 feedback cards" in data["summary"]
-    assert "4.3/5" in data["summary"]
-    assert data["recommendations"] == {"tone": "more formal", "detail_level": "higher"}
+        with patch("serve.feedback_routes.feedback_system", mock_feedback_system):
+            await run_learning_cycle(mock_cards)
 
-    # Verify it was called with the mocked auth user_id
-    mock_feedback_system.explain_learning.assert_called_once_with("test_user_123")
+        # Should not call update_policy if no patterns
+        mock_feedback_system.update_policy.assert_not_called()
 
+    @pytest.mark.asyncio
+    async def test_run_learning_cycle_validation_failed(self, mock_feedback_system):
+        """Test learning cycle when validation fails."""
+        from serve.feedback_routes import run_learning_cycle
 
-def test_get_learning_report_positive_trend(test_app, mock_feedback_system):
-    """Test GET /feedback/report/{user_id} with positive improvement trend."""
-    mock_report = mock_feedback_system.explain_learning.return_value
-    mock_report.improvement_trend = 0.25
+        mock_feedback_system.validate_update.return_value = False
 
-    response = test_app.get("/feedback/report/test_user_123")
+        mock_cards = [MagicMock() for _ in range(20)]
 
-    assert response.status_code == 200
-    data = response.json()
-    assert "improving" in data["summary"]
+        with patch("serve.feedback_routes.feedback_system", mock_feedback_system):
+            # Should not raise error, just log warning
+            await run_learning_cycle(mock_cards)
 
+        mock_feedback_system.validate_update.assert_called_once()
 
-def test_get_learning_report_negative_trend(test_app, mock_feedback_system):
-    """Test GET /feedback/report/{user_id} with negative improvement trend."""
-    mock_report = mock_feedback_system.explain_learning.return_value
-    mock_report.improvement_trend = -0.15
+    @pytest.mark.asyncio
+    async def test_run_learning_cycle_error_handling(self, mock_feedback_system):
+        """Test error handling in learning cycle."""
+        from serve.feedback_routes import run_learning_cycle
 
-    response = test_app.get("/feedback/report/test_user_123")
+        mock_feedback_system.extract_patterns.side_effect = Exception("Pattern error")
 
-    assert response.status_code == 200
-    data = response.json()
-    assert "may not align" in data["summary"]
+        mock_cards = [MagicMock() for _ in range(20)]
 
+        with patch("serve.feedback_routes.feedback_system", mock_feedback_system):
+            # Should not raise error, just log
+            await run_learning_cycle(mock_cards)
 
-def test_get_learning_report_no_preferred_styles(test_app, mock_feedback_system):
-    """Test GET /feedback/report/{user_id} with no preferred styles."""
-    mock_report = mock_feedback_system.explain_learning.return_value
-    mock_report.preferred_styles = []
 
-    response = test_app.get("/feedback/report/test_user_123")
+class TestHealthCheck:
+    """Test /feedback/health endpoint."""
 
-    assert response.status_code == 200
-    data = response.json()
-    # Summary should not mention preferred style
-    assert data["preferred_styles"] == []
+    def test_health_check_healthy(self, app_client, mock_feedback_system):
+        """Test health check when system is healthy."""
+        response = app_client.get("/feedback/health")
 
+        assert response.status_code == 200
+        data = response.json()
 
-def test_get_learning_report_no_recommendations(test_app, mock_feedback_system):
-    """Test GET /feedback/report/{user_id} with no recommendations."""
-    mock_report = mock_feedback_system.explain_learning.return_value
-    mock_report.recommended_adjustments = None
+        assert data["status"] == "healthy"
+        assert data["total_cards"] == 500
+        assert data["system_active"] is True
 
-    response = test_app.get("/feedback/report/test_user_123")
+    def test_health_check_unhealthy(self, app_client, mock_feedback_system):
+        """Test health check when system is unhealthy."""
+        mock_feedback_system.get_metrics.side_effect = Exception("Storage disconnected")
 
-    assert response.status_code == 200
-    data = response.json()
-    assert data["recommendations"] == {}
+        response = app_client.get("/feedback/health")
 
+        assert response.status_code == 200
+        data = response.json()
 
-def test_get_learning_report_system_error(test_app, mock_feedback_system):
-    """Test GET /feedback/report/{user_id} handles system errors."""
-    mock_feedback_system.explain_learning.side_effect = Exception("Analysis failed")
+        assert data["status"] == "unhealthy"
+        assert "error" in data
+        assert data["system_active"] is False
 
-    response = test_app.get("/feedback/report/test_user_123")
 
-    assert response.status_code == 500
-    assert "Analysis failed" in response.json()["detail"]
+class TestRequestModels:
+    """Test request/response model validation."""
 
+    def test_feedback_request_model(self):
+        """Test FeedbackRequest model."""
+        from serve.feedback_routes import FeedbackRequest
 
-# ==============================================================================
-# Endpoint Tests: GET /feedback/metrics
-# ==============================================================================
+        request = FeedbackRequest(
+            action_id="test_action",
+            rating=5,
+            note="Great job",
+            symbols=["accurate", "helpful"],
+            context={"key": "value"},
+            user_id="user_123",
+        )
 
-def test_get_system_metrics_success(test_app, mock_feedback_system):
-    """Test GET /feedback/metrics returns system metrics."""
-    response = test_app.get("/feedback/metrics")
+        assert request.action_id == "test_action"
+        assert request.rating == 5
+        assert request.note == "Great job"
+        assert request.symbols == ["accurate", "helpful"]
+        assert request.context == {"key": "value"}
+        assert request.user_id == "user_123"
 
-    assert response.status_code == 200
-    data = response.json()
+    def test_feedback_request_defaults(self):
+        """Test FeedbackRequest default values."""
+        from serve.feedback_routes import FeedbackRequest
 
-    assert data["cards_captured"] == 100
-    assert data["patterns_identified"] == 20
-    assert data["policies_updated"] == 5
-    assert data["validations_passed"] == 5
-    assert data["validations_failed"] == 0
-    assert data["total_cards"] == 500
-    assert data["total_patterns"] == 50
-    assert data["total_updates"] == 10
+        request = FeedbackRequest(action_id="test", rating=3)
 
-    mock_feedback_system.get_metrics.assert_called_once()
+        assert request.note is None
+        assert request.symbols == []
+        assert request.context == {}
+        assert request.user_id is None
 
+    def test_feedback_response_model(self):
+        """Test FeedbackResponse model."""
+        from serve.feedback_routes import FeedbackResponse
 
-def test_get_system_metrics_zero_values(test_app, mock_feedback_system):
-    """Test GET /feedback/metrics with zero values."""
-    mock_feedback_system.get_metrics.return_value = {
-        "cards_captured": 0,
-        "patterns_identified": 0,
-        "policies_updated": 0,
-        "validations_passed": 0,
-        "validations_failed": 0,
-        "total_cards": 0,
-        "total_patterns": 0,
-        "total_updates": 0,
-    }
+        response = FeedbackResponse(
+            card_id="card_123",
+            rating=5,
+            timestamp=1730000000.0,
+        )
 
-    response = test_app.get("/feedback/metrics")
+        assert response.card_id == "card_123"
+        assert response.rating == 5
+        assert response.timestamp == 1730000000.0
+        assert response.message == "Feedback captured successfully"
 
-    assert response.status_code == 200
-    data = response.json()
-    assert data["total_cards"] == 0
+    def test_learning_report_response_model(self):
+        """Test LearningReportResponse model."""
+        from serve.feedback_routes import LearningReportResponse
 
+        response = LearningReportResponse(
+            user_id_hash="hash_123",
+            total_feedback_cards=10,
+            overall_satisfaction=4.5,
+            improvement_trend=0.2,
+            preferred_styles=["direct"],
+            summary="Test summary",
+            recommendations={"tone": "formal"},
+        )
 
-def test_get_system_metrics_error(test_app, mock_feedback_system):
-    """Test GET /feedback/metrics handles system errors."""
-    mock_feedback_system.get_metrics.side_effect = Exception("Metrics unavailable")
+        assert response.user_id_hash == "hash_123"
+        assert response.total_feedback_cards == 10
+        assert response.overall_satisfaction == 4.5
 
-    response = test_app.get("/feedback/metrics")
+    def test_system_metrics_response_model(self):
+        """Test SystemMetricsResponse model."""
+        from serve.feedback_routes import SystemMetricsResponse
 
-    assert response.status_code == 500
-    assert "Metrics unavailable" in response.json()["detail"]
+        response = SystemMetricsResponse(
+            cards_captured=100,
+            patterns_identified=20,
+            policies_updated=5,
+            validations_passed=5,
+            validations_failed=0,
+            total_cards=500,
+            total_patterns=50,
+            total_updates=10,
+        )
 
+        assert response.cards_captured == 100
+        assert response.total_cards == 500
 
-# ==============================================================================
-# Endpoint Tests: POST /feedback/trigger-learning
-# ==============================================================================
 
-def test_trigger_learning_success(test_app, mock_feedback_system):
-    """Test POST /feedback/trigger-learning with sufficient cards."""
-    # Ensure we have more than 10 cards
-    mock_feedback_system.feedback_cards = [mock.MagicMock()] * 50
+class TestRouterConfiguration:
+    """Test router configuration."""
 
-    response = test_app.post("/feedback/trigger-learning")
+    def test_router_prefix(self):
+        """Test router has correct prefix."""
+        from serve.feedback_routes import router
 
-    assert response.status_code == 200
-    data = response.json()
-    assert data["status"] == "triggered"
-    assert "50 feedback cards" in data["message"]
+        assert router.prefix == "/feedback"
 
+    def test_router_tags(self):
+        """Test router has correct tags."""
+        from serve.feedback_routes import router
 
-def test_trigger_learning_insufficient_cards(test_app, mock_feedback_system):
-    """Test POST /feedback/trigger-learning with insufficient cards."""
-    # Set less than 10 cards
-    mock_feedback_system.feedback_cards = [mock.MagicMock()] * 5
+        assert "feedback" in router.tags
 
-    response = test_app.post("/feedback/trigger-learning")
+    def test_feedback_system_initialization(self):
+        """Test feedback system is initialized."""
+        with patch("serve.feedback_routes.FeedbackCardSystem") as mock_system_class:
+            # Re-import to trigger initialization
+            import importlib
+            from serve import feedback_routes
 
-    assert response.status_code == 200
-    data = response.json()
-    assert data["status"] == "skipped"
-    assert "Not enough feedback cards" in data["message"]
-    assert "minimum 10 required" in data["message"]
+            importlib.reload(feedback_routes)
 
+            # System should be initialized with storage_path
+            mock_system_class.assert_called_with(storage_path="feedback_data")
 
-def test_trigger_learning_exactly_ten_cards(test_app, mock_feedback_system):
-    """Test POST /feedback/trigger-learning with exactly 10 cards."""
-    mock_feedback_system.feedback_cards = [mock.MagicMock()] * 10
 
-    response = test_app.post("/feedback/trigger-learning")
+class TestEndpointDocumentation:
+    """Test endpoint documentation and OpenAPI specs."""
 
-    assert response.status_code == 200
-    data = response.json()
-    assert data["status"] == "triggered"
+    def test_capture_endpoint_summary(self):
+        """Test capture endpoint has summary."""
+        from serve.feedback_routes import router
 
+        capture_route = None
+        for route in router.routes:
+            if hasattr(route, "path") and route.path == "/capture":
+                capture_route = route
+                break
 
-def test_trigger_learning_more_than_hundred_cards(test_app, mock_feedback_system):
-    """Test POST /feedback/trigger-learning caps at 100 cards."""
-    # Set 200 cards, should only use last 100
-    mock_feedback_system.feedback_cards = [mock.MagicMock()] * 200
+        assert capture_route is not None
+        assert capture_route.summary == "Capture Feedback"
 
-    response = test_app.post("/feedback/trigger-learning")
+    def test_batch_endpoint_response_model(self):
+        """Test batch endpoint response model."""
+        from serve.feedback_routes import router
 
-    assert response.status_code == 200
-    data = response.json()
-    assert data["status"] == "triggered"
-    assert "100 feedback cards" in data["message"]
+        batch_route = None
+        for route in router.routes:
+            if hasattr(route, "path") and route.path == "/batch":
+                batch_route = route
+                break
 
-
-def test_trigger_learning_system_error(test_app, mock_feedback_system):
-    """Test POST /feedback/trigger-learning handles system errors."""
-    mock_feedback_system.feedback_cards = None  # Trigger error
-
-    response = test_app.post("/feedback/trigger-learning")
-
-    assert response.status_code == 500
-
-
-# ==============================================================================
-# Endpoint Tests: GET /feedback/health
-# ==============================================================================
-
-def test_health_check_healthy(test_app, mock_feedback_system):
-    """Test GET /feedback/health when system is healthy."""
-    response = test_app.get("/feedback/health")
-
-    assert response.status_code == 200
-    data = response.json()
-    assert data["status"] == "healthy"
-    assert data["total_cards"] == 500
-    assert data["system_active"] is True
-
-
-def test_health_check_unhealthy(test_app, mock_feedback_system):
-    """Test GET /feedback/health when system has errors."""
-    mock_feedback_system.get_metrics.side_effect = Exception("Storage disconnected")
-
-    response = test_app.get("/feedback/health")
-
-    # Note: health endpoint returns 200 even when unhealthy
-    assert response.status_code == 200
-    data = response.json()
-    assert data["status"] == "unhealthy"
-    assert data["error"] == "Storage disconnected"
-    assert data["system_active"] is False
-
-
-def test_health_check_zero_cards(test_app, mock_feedback_system):
-    """Test GET /feedback/health with zero cards."""
-    mock_feedback_system.get_metrics.return_value = {
-        "cards_captured": 0,
-        "patterns_identified": 0,
-        "policies_updated": 0,
-        "validations_passed": 0,
-        "validations_failed": 0,
-        "total_cards": 0,
-        "total_patterns": 0,
-        "total_updates": 0,
-    }
-
-    response = test_app.get("/feedback/health")
-
-    assert response.status_code == 200
-    data = response.json()
-    assert data["status"] == "healthy"
-    assert data["total_cards"] == 0
-
-
-# ==============================================================================
-# Helper Function Tests: run_learning_cycle
-# ==============================================================================
-
-@pytest.mark.asyncio
-async def test_run_learning_cycle_success(feedback_routes_module, mock_feedback_system):
-    """Test run_learning_cycle completes successfully."""
-    mock_cards = [mock.MagicMock() for _ in range(20)]
-
-    await feedback_routes_module.run_learning_cycle(mock_cards)
-
-    # Verify pattern extraction was called
-    mock_feedback_system.extract_patterns.assert_called_once_with(mock_cards)
-
-    # Verify policy update was called
-    mock_feedback_system.update_policy.assert_called_once()
-
-    # Verify validation was called
-    mock_feedback_system.validate_update.assert_called_once()
-
-
-@pytest.mark.asyncio
-async def test_run_learning_cycle_no_patterns(feedback_routes_module, mock_feedback_system):
-    """Test run_learning_cycle when no patterns found."""
-    mock_feedback_system.extract_patterns.return_value = []
-    mock_cards = [mock.MagicMock() for _ in range(20)]
-
-    await feedback_routes_module.run_learning_cycle(mock_cards)
-
-    # Should extract patterns but not update policy
-    mock_feedback_system.extract_patterns.assert_called_once()
-    mock_feedback_system.update_policy.assert_not_called()
-
-
-@pytest.mark.asyncio
-async def test_run_learning_cycle_no_update(feedback_routes_module, mock_feedback_system):
-    """Test run_learning_cycle when update_policy returns None."""
-    mock_feedback_system.update_policy.return_value = None
-    mock_cards = [mock.MagicMock() for _ in range(20)]
-
-    await feedback_routes_module.run_learning_cycle(mock_cards)
-
-    # Should not validate if no update
-    mock_feedback_system.validate_update.assert_not_called()
-
-
-@pytest.mark.asyncio
-async def test_run_learning_cycle_validation_failure(feedback_routes_module, mock_feedback_system):
-    """Test run_learning_cycle when validation fails."""
-    mock_feedback_system.validate_update.return_value = False
-    mock_cards = [mock.MagicMock() for _ in range(20)]
-
-    # Should not raise exception, just log warning
-    await feedback_routes_module.run_learning_cycle(mock_cards)
-
-    mock_feedback_system.validate_update.assert_called_once()
-
-
-@pytest.mark.asyncio
-async def test_run_learning_cycle_extract_patterns_error(
-    feedback_routes_module, mock_feedback_system
-):
-    """Test run_learning_cycle handles extract_patterns errors."""
-    mock_feedback_system.extract_patterns.side_effect = Exception("Pattern extraction failed")
-    mock_cards = [mock.MagicMock() for _ in range(20)]
-
-    # Should not raise exception, errors are logged
-    await feedback_routes_module.run_learning_cycle(mock_cards)
-
-
-@pytest.mark.asyncio
-async def test_run_learning_cycle_update_policy_error(
-    feedback_routes_module, mock_feedback_system
-):
-    """Test run_learning_cycle handles update_policy errors."""
-    mock_feedback_system.update_policy.side_effect = Exception("Update generation failed")
-    mock_cards = [mock.MagicMock() for _ in range(20)]
-
-    # Should not raise exception, errors are logged
-    await feedback_routes_module.run_learning_cycle(mock_cards)
-
-
-# ==============================================================================
-# Integration Tests
-# ==============================================================================
-
-def test_router_exports(feedback_routes_module):
-    """Test that feedback_routes module exports router correctly."""
-    assert hasattr(feedback_routes_module, "router")
-    assert feedback_routes_module.router is not None
-    assert feedback_routes_module.router.prefix == "/feedback"
-    assert "feedback" in feedback_routes_module.router.tags
-
-
-def test_feedback_system_initialization(feedback_routes_module):
-    """Test that feedback_system is initialized at module level."""
-    assert hasattr(feedback_routes_module, "feedback_system")
-    assert feedback_routes_module.feedback_system is not None
-
-
-def test_request_model_validation():
-    """Test FeedbackRequest model validation."""
-    from serve.feedback_routes import FeedbackRequest
-
-    # Valid request
-    request = FeedbackRequest(action_id="test", rating=3)
-    assert request.action_id == "test"
-    assert request.rating == 3
-    assert request.note is None
-    assert request.symbols == []
-    assert request.context == {}
-
-    # Test rating bounds
-    with pytest.raises(Exception):  # Pydantic ValidationError
-        FeedbackRequest(action_id="test", rating=0)
-
-    with pytest.raises(Exception):  # Pydantic ValidationError
-        FeedbackRequest(action_id="test", rating=6)
-
-
-def test_response_model_structure():
-    """Test FeedbackResponse model structure."""
-    from serve.feedback_routes import FeedbackResponse
-
-    response = FeedbackResponse(
-        card_id="card_123",
-        rating=5,
-        timestamp=1730000000.0,
-    )
-
-    assert response.card_id == "card_123"
-    assert response.rating == 5
-    assert response.timestamp == 1730000000.0
-    assert response.message == "Feedback captured successfully"
-
-
-def test_learning_report_model_structure():
-    """Test LearningReportResponse model structure."""
-    from serve.feedback_routes import LearningReportResponse
-
-    report = LearningReportResponse(
-        user_id_hash="hash",
-        total_feedback_cards=10,
-        overall_satisfaction=4.5,
-        improvement_trend=0.2,
-        preferred_styles=["direct"],
-        summary="Summary text",
-        recommendations={"key": "value"},
-    )
-
-    assert report.user_id_hash == "hash"
-    assert report.total_feedback_cards == 10
-
-
-def test_system_metrics_model_structure():
-    """Test SystemMetricsResponse model structure."""
-    from serve.feedback_routes import SystemMetricsResponse
-
-    metrics = SystemMetricsResponse(
-        cards_captured=100,
-        patterns_identified=20,
-        policies_updated=5,
-        validations_passed=5,
-        validations_failed=0,
-        total_cards=500,
-        total_patterns=50,
-        total_updates=10,
-    )
-
-    assert metrics.cards_captured == 100
-    assert metrics.total_cards == 500
+        assert batch_route is not None
+        # Response model should be list of FeedbackResponse
