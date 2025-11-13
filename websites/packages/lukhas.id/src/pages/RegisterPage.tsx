@@ -234,11 +234,11 @@ export default function RegisterPage() {
         <div className="mt-4 flex justify-center gap-6 text-xs text-awareness-silver/50">
           <span className="flex items-center gap-1">
             <span className="inline-block w-2 h-2 bg-verified-green rounded-full"></span>
-            SOC 2 Certified
+            SOC 2 Target
           </span>
           <span className="flex items-center gap-1">
             <span className="inline-block w-2 h-2 bg-verified-green rounded-full"></span>
-            ISO 27001
+            ISO 27001 Aligned
           </span>
           <span className="flex items-center gap-1">
             <span className="inline-block w-2 h-2 bg-verified-green rounded-full"></span>

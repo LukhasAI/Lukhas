@@ -82,15 +82,15 @@ export default function HomePage() {
           <div className="flex flex-wrap justify-center gap-6 text-sm text-awareness-silver/60 tracking-wide">
             <span className="flex items-center gap-2">
               <span className="inline-block w-2 h-2 bg-verified-green rounded-full"></span>
-              Trusted by Fortune 500
+              Enterprise-Grade Security
             </span>
             <span className="flex items-center gap-2">
               <span className="inline-block w-2 h-2 bg-verified-green rounded-full"></span>
-              SOC 2 Type II
+              Zero-Knowledge Architecture
             </span>
             <span className="flex items-center gap-2">
               <span className="inline-block w-2 h-2 bg-verified-green rounded-full"></span>
-              ISO 27001
+              End-to-End Encrypted
             </span>
           </div>
         </div>
@@ -157,7 +157,7 @@ export default function HomePage() {
               Enterprise-Grade <span className="text-security-purple">Security</span>
             </h2>
             <p className="text-xl text-awareness-silver/80 max-w-3xl mx-auto">
-              The same security Fortune 500 companies trust
+              Enterprise-grade security architecture designed for demanding environments
             </p>
           </div>
 
@@ -256,15 +256,15 @@ export default function HomePage() {
                 <ul className="space-y-2 text-awareness-silver/70">
                   <li className="flex items-start gap-2">
                     <span className="text-verified-green mt-1">✓</span>
-                    <span>SOC 2 Type II certified</span>
+                    <span>SOC 2 Type II target compliance framework</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-verified-green mt-1">✓</span>
-                    <span>ISO 27001 compliant</span>
+                    <span>ISO 27001 aligned security controls</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-verified-green mt-1">✓</span>
-                    <span>GDPR & CCPA compliant</span>
+                    <span>GDPR & CCPA compliant architecture</span>
                   </li>
                 </ul>
               </div>
@@ -280,7 +280,7 @@ export default function HomePage() {
             Ready to Create Your ΛiD?
           </h2>
           <p className="text-xl text-white/90 mb-12">
-            Join thousands who trust ΛiD for secure, private identity management
+            Experience secure, private identity management with consciousness-inspired architecture
           </p>
           <Link to="/register">
             <Button size="lg" className="bg-white text-security-purple px-12 py-6 text-lg hover:bg-awareness-silver">

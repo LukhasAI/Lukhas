@@ -150,7 +150,7 @@ export default function LoginPage() {
         <div className="mt-8 flex justify-center gap-6 text-xs text-awareness-silver/50">
           <span className="flex items-center gap-1">
             <span className="inline-block w-2 h-2 bg-verified-green rounded-full"></span>
-            SOC 2 Certified
+            SOC 2 Target
           </span>
           <span className="flex items-center gap-1">
             <span className="inline-block w-2 h-2 bg-verified-green rounded-full"></span>
