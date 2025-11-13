@@ -10,8 +10,8 @@ import time
 from unittest.mock import AsyncMock
 
 import pytest
-from consciousness.creativity_engine import CreativityEngine
-from consciousness.types import (
+from labs.consciousness.creativity_engine import CreativityEngine
+from labs.consciousness.types import (
     DEFAULT_CREATIVITY_CONFIG,
     ConsciousnessState,
     CreativeTask,

@@ -19,7 +19,7 @@ from unittest.mock import Mock, patch
 import pytest
 
 # Import Guardian integration components
-from consciousness.guardian_integration import (
+from labs.consciousness.guardian_integration import (
     ConsciousnessGuardianIntegration,
     ConsciousnessValidationContext,
     GuardianValidationConfig,
@@ -30,7 +30,7 @@ from consciousness.guardian_integration import (
 )
 
 # Import consciousness components
-from consciousness.types import ConsciousnessState
+from labs.consciousness.types import ConsciousnessState
 
 
 class TestGuardianValidationConfig:
@@ -235,9 +235,9 @@ class TestConsciousnessGuardianIntegration:
     def guardian_integration(self, guardian_config, mock_guardian_system, mock_ethics_engine):
         """Guardian integration fixture"""
         # Mock the guardian imports to avoid import errors
-        with patch('consciousness.guardian_integration.GUARDIAN_AVAILABLE', True):
-            with patch('consciousness.guardian_integration.GuardianSystem', return_value=mock_guardian_system):
-                with patch('consciousness.guardian_integration.EthicsEngine', return_value=mock_ethics_engine):
+        with patch('labs.consciousness.guardian_integration.GUARDIAN_AVAILABLE', True):
+            with patch('labs.consciousness.guardian_integration.GuardianSystem', return_value=mock_guardian_system):
+                with patch('labs.consciousness.guardian_integration.EthicsEngine', return_value=mock_ethics_engine):
                     integration = ConsciousnessGuardianIntegration(
                         config=guardian_config,
                         guardian_system=mock_guardian_system,

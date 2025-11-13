@@ -1,4 +1,4 @@
-from consciousness.dream.expand import archetypes
+from labs.consciousness.dream.expand import archetypes
 
 
 def test_tag_identifies_hero():

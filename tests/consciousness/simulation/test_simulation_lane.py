@@ -4,7 +4,7 @@ import inspect
 import os
 
 os.environ["SIMULATION_ENABLED"] = "true"
-from consciousness.simulation import api
+from labs.consciousness.simulation import api
 
 
 def run(coro):

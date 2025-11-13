@@ -25,13 +25,13 @@ import time
 from unittest.mock import patch
 
 import pytest
-from consciousness.matriz_thought_loop import matrizThoughtLoop
-from consciousness.meta_cognitive_assessor import CognitiveLoadLevel, MetaCognitiveAssessment
+from labs.consciousness.matriz_thought_loop import matrizThoughtLoop
+from labs.consciousness.meta_cognitive_assessor import CognitiveLoadLevel, MetaCognitiveAssessment
 
 # Gate heavy dependency: if consciousness.types is not wired in this environment,
 # skip this module-level test suite to keep CI green while adapters are wired.
 try:
-    from consciousness.types import ConsciousnessState, ThoughtLoopContext, ThoughtLoopResult
+    from labs.consciousness.types import ConsciousnessState, ThoughtLoopContext, ThoughtLoopResult
 except Exception:  # pragma: no cover - environment gating
     pytest.skip(
         "consciousness.types not available in this environment; skipping MATRIZ thought loop integration tests",
