@@ -17,3 +17,9 @@ for _candidate in (
             continue
         globals()[_attr] = getattr(_mod, _attr)
     break
+
+# Add stub for GuardianEnvelopeSerializer if not found
+if "GuardianEnvelopeSerializer" not in globals():
+    class GuardianEnvelopeSerializer:
+        """Placeholder for Guardian envelope serialization."""
+        pass
