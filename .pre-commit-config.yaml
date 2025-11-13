@@ -99,7 +99,7 @@ repos:
         name: ΛiD Tier Consistency Check
         entry: python3 tools/lukhas_id_bridge.py --check-consistency
         language: system
-        files: (lukhas/.*/matrix_.*\.json|candidate/governance/identity/config/tier_permissions\.json)
+        files: '(lukhas/.*/matrix_.*\.json|candidate/governance/identity/config/tier_permissions\.json)'
         pass_filenames: false
 
   - repo: local

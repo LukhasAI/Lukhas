@@ -1,0 +1,33 @@
+name: SBOM Generation
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Weekly on Sunday
+  release:
+    types: [published]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generate-sbom:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate SBOM
+        id: sbom
+        uses: anchore/syft-action@v0.15.0
+        with:
+          format: 'spdx-json'
+          output-file: 'sbom.json'
+
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.json
+          retention-days: 90
