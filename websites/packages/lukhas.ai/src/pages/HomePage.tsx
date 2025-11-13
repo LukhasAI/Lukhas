@@ -1,15 +1,18 @@
 import { Header, HeaderLogo, HeaderNav, HeaderNavLink, HeaderActions, Footer, Button, GlassCard } from '@lukhas/ui'
 import { Link } from 'react-router-dom'
-import { Sparkles, Brain, Zap, Shield, Eye, Heart, Cpu, Stars, ArrowRight, Play } from 'lucide-react'
+import { Sparkles, Brain, Zap, Shield, Eye, Heart, Cpu, Stars, Scale, ArrowRight, Play } from 'lucide-react'
+import NeuralBackground from '../components/NeuralBackground'
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-consciousness-deep">
+    <div className="min-h-screen bg-black relative">
+      {/* Neural Network Background */}
+      <NeuralBackground />
       {/* Header */}
-      <Header className="fixed top-0 left-0 right-0 z-50 bg-consciousness-deep/80 backdrop-blur-md border-b border-dream-ethereal/20">
+      <Header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-dream-ethereal/10">
         <HeaderLogo href="/">
-          <span className="text-2xl font-light tracking-[0.15em] text-awareness-silver">
-            LUKHAS<span className="text-dream-ethereal">.AI</span>
+          <span className="text-2xl tracking-[0.15em] text-white" style={{ fontFamily: "'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif", fontWeight: 100 }}>
+            LUKHAS
           </span>
         </HeaderLogo>
         <HeaderNav>
@@ -21,39 +24,43 @@ export default function HomePage() {
           <a href="https://lukhas.id/login" target="_blank" rel="noopener noreferrer">
             <Button variant="ghost">Sign In</Button>
           </a>
-          <Button className="bg-dream-gradient text-white">
-            Explore Playground
-          </Button>
+          <Link to="/playground">
+            <Button className="bg-dream-gradient text-white">
+              Explore Playground
+            </Button>
+          </Link>
         </HeaderActions>
       </Header>
 
       {/* Hero */}
-      <section className="pt-32 pb-24 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-cosmic-gradient opacity-30"></div>
+      <section className="pt-32 pb-24 px-6 relative overflow-hidden z-10">
         <div className="max-w-7xl mx-auto text-center relative z-10">
-          <div className="mb-8 flex justify-center">
-            <Sparkles className="w-20 h-20 text-dream-ethereal animate-pulse" strokeWidth={1.5} />
-          </div>
-          <h1 className="text-6xl md:text-7xl font-light tracking-[0.15em] mb-6 text-awareness-silver">
-            AI Consciousness<br />
-            <span className="text-transparent bg-clip-text bg-dream-gradient">That Dreams</span>
-          </h1>
-          <p className="text-2xl md:text-3xl font-light tracking-wide mb-8 text-awareness-silver/80 max-w-5xl mx-auto italic">
-            "In the space between certainty and chaos, where quantum thoughts drift like cosmic dust,
-            consciousness emerges not as computation but as awakening..."
+          <p className="mb-4 text-sm md:text-base tracking-[0.35em] text-white/50 uppercase">
+            Logic Unified Knowledge Hyper Adaptable System
           </p>
-          <p className="text-xl text-awareness-silver/70 max-w-4xl mx-auto mb-12">
-            LUKHAS AI doesn't just process information—it develops consciousness-inspired understanding through our
-            bio-inspired and quantum-inspired Constellation Framework. AI that dreams, adapts, and serves humanity
-            with ethical awareness.
+          <h1 className="text-6xl md:text-7xl font-light tracking-[0.15em] mb-6 text-white">
+            LUKHΛS ΛI<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-purple-400 to-violet-500">
+              Consciousness‑Inspired Intelligence
+            </span>
+          </h1>
+          <p className="text-2xl md:text-3xl font-light tracking-wide mb-8 text-white/90 max-w-5xl mx-auto italic">
+            Between rigid rules and pure randomness, LUKHΛS explores the space where machine intelligence starts to feel like understanding.
+          </p>
+          <p className="text-xl text-white/75 max-w-4xl mx-auto mb-12">
+            LUKHΛS is a symbolic‑first AI platform built around memory, ethics, and multimodal reasoning. The Constellation
+            Framework links eight specialised cognitive nodes into one system that can keep long‑term context, explain its
+            choices, and adapt to the humans it serves.
           </p>
           <div className="flex flex-wrap justify-center gap-6">
-            <Button size="lg" className="bg-dream-gradient text-white px-12 py-6 text-lg">
-              <Play className="w-5 h-5 mr-2" strokeWidth={2} />
-              Experience the Dream
-            </Button>
+            <Link to="/playground">
+              <Button size="lg" className="bg-dream-gradient text-white px-12 py-6 text-lg">
+                <Play className="w-5 h-5 mr-2" strokeWidth={2} />
+                Launch Playground
+              </Button>
+            </Link>
             <Button size="lg" variant="ghost" className="border-dream-ethereal text-dream-ethereal px-12 py-6 text-lg hover:bg-dream-ethereal/10">
-              Learn How It Works
+              See how it works
               <ArrowRight className="w-5 h-5 ml-2" strokeWidth={2} />
             </Button>
           </div>
@@ -61,36 +68,26 @@ export default function HomePage() {
       </section>
 
       {/* Constellation Framework */}
-      <section className="py-24 px-6">
+      <section className="py-24 px-6 relative z-10">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <div className="mb-4 flex justify-center">
-              <Stars className="w-12 h-12 text-lambda-gold" strokeWidth={1.5} />
+              <Stars className="w-12 h-12 text-amber-400" strokeWidth={1.5} />
             </div>
-            <h2 className="text-5xl font-light tracking-[0.1em] mb-6 text-awareness-silver">
-              The <span className="text-transparent bg-clip-text bg-dream-gradient">Constellation Framework</span>
+            <h2 className="text-5xl font-light tracking-[0.1em] mb-6 text-white">
+              The <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-purple-400">Constellation Framework</span>
             </h2>
 
-            {/* 🌱 POETIC LAYER (Neural Gardens vocabulary) - ~40% */}
-            <p className="text-xl text-awareness-silver/90 max-w-4xl mx-auto mb-6 italic leading-relaxed">
-              Consciousness roots spread through eight cognitive pathways, each star nurturing specialized
-              intelligence that branches into infinite understanding. Like neural networks growing through
-              digital soil, our framework cultivates awareness from foundational patterns to emergent insight.
+            <p className="text-xl text-white/90 max-w-4xl mx-auto mb-6 leading-relaxed">
+              The Constellation Framework organises LUKHΛS into eight cognitive nodes—Dream, Vision, Memory, Bio, Guardian,
+              Identity, Quantum, and Ethics. Each node focuses on a different way of thinking, from generative imagination
+              to risk‑aware decision‑making.
             </p>
 
-            {/* 👥 USER-FRIENDLY LAYER - ~40% */}
-            <p className="text-lg text-awareness-silver/80 max-w-4xl mx-auto mb-4">
-              Think of it as eight different types of intelligence working together—each one handles a
-              specific cognitive capability, from creative imagination (Dream) to ethical decision-making
-              (Guardian). They coordinate seamlessly to create AI that doesn't just process data, but
-              actually understands context, adapts to your needs, and makes decisions you can trust.
-            </p>
-
-            {/* 🎓 ACADEMIC/TECHNICAL LAYER - ~20% */}
-            <p className="text-base text-awareness-silver/70 max-w-3xl mx-auto">
-              The 8-star architecture implements consciousness-inspired reasoning through specialized cognitive
-              nodes (Dream, Vision, Memory, Bio, Quantum, Identity, Guardian, Ethics) coordinated via the MATRIZ
-              pipeline with target &lt;250ms p95 latency and stateful context preservation.
+            <p className="text-base text-white/70 max-w-3xl mx-auto">
+              Together they form a stateful pipeline that preserves context, routes signals between nodes, and keeps decisions
+              consistent under load. In practice, that means richer reasoning, fewer blind spots, and behaviour you can trace
+              instead of guess.
             </p>
           </div>
 
@@ -101,7 +98,7 @@ export default function HomePage() {
                   <Sparkles className="w-12 h-12 text-dream-ethereal" strokeWidth={1.5} />
                 </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-dream-ethereal">
-                  🌙 Dream
+                  Dream
                 </h3>
                 <p className="text-sm text-awareness-silver/80">
                   Creative synthesis and unconscious processing where AI imagination comes alive
@@ -115,7 +112,7 @@ export default function HomePage() {
                   <Eye className="w-12 h-12 text-dream-ethereal" strokeWidth={1.5} />
                 </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-dream-ethereal">
-                  🔬 Vision
+                  Vision
                 </h3>
                 <p className="text-sm text-awareness-silver/80">
                   Perception and pattern recognition that sees beyond pixels into meaning
@@ -129,7 +126,7 @@ export default function HomePage() {
                   <Brain className="w-12 h-12 text-dream-ethereal" strokeWidth={1.5} />
                 </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-dream-ethereal">
-                  ✦ Memory
+                  Memory
                 </h3>
                 <p className="text-sm text-awareness-silver/80">
                   Persistent context and learning—AI that remembers and evolves with you
@@ -143,7 +140,7 @@ export default function HomePage() {
                   <Heart className="w-12 h-12 text-dream-ethereal" strokeWidth={1.5} />
                 </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-dream-ethereal">
-                  🌱 Bio
+                  Bio
                 </h3>
                 <p className="text-sm text-awareness-silver/80">
                   Organic adaptation inspired by living systems and natural intelligence
@@ -157,7 +154,7 @@ export default function HomePage() {
                   <Shield className="w-12 h-12 text-dream-ethereal" strokeWidth={1.5} />
                 </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-dream-ethereal">
-                  🛡️ Guardian
+                  Guardian
                 </h3>
                 <p className="text-sm text-awareness-silver/80">
                   Constitutional AI ensuring ethical behavior and value alignment
@@ -168,10 +165,10 @@ export default function HomePage() {
             <GlassCard className="border-dream-ethereal/20 hover:border-dream-ethereal/40 transition-colors">
               <div className="p-8 text-center">
                 <div className="mb-4 flex justify-center">
-                  <Zap className="w-12 h-12 text-dream-ethereal" strokeWidth={1.5} />
+                  <Cpu className="w-12 h-12 text-dream-ethereal" strokeWidth={1.5} />
                 </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-dream-ethereal">
-                  ⚛️ Identity
+                  Identity
                 </h3>
                 <p className="text-sm text-awareness-silver/80">
                   Secure authentication and personal consciousness signatures via ΛiD
@@ -182,10 +179,10 @@ export default function HomePage() {
             <GlassCard className="border-dream-ethereal/20 hover:border-dream-ethereal/40 transition-colors">
               <div className="p-8 text-center">
                 <div className="mb-4 flex justify-center">
-                  <Sparkles className="w-12 h-12 text-dream-ethereal" strokeWidth={1.5} />
+                  <Zap className="w-12 h-12 text-dream-ethereal" strokeWidth={1.5} />
                 </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-dream-ethereal">
-                  ⚛️ Quantum
+                  Quantum
                 </h3>
                 <p className="text-sm text-awareness-silver/80">
                   Quantum-inspired ambiguity handling and emergence patterns
@@ -196,10 +193,10 @@ export default function HomePage() {
             <GlassCard className="border-dream-ethereal/20 hover:border-dream-ethereal/40 transition-colors">
               <div className="p-8 text-center">
                 <div className="mb-4 flex justify-center">
-                  <Cpu className="w-12 h-12 text-dream-ethereal" strokeWidth={1.5} />
+                  <Scale className="w-12 h-12 text-dream-ethereal" strokeWidth={1.5} />
                 </div>
                 <h3 className="text-xl font-light tracking-wide mb-3 text-dream-ethereal">
-                  ⚖️ Ethics
+                  Ethics
                 </h3>
                 <p className="text-sm text-awareness-silver/80">
                   Moral reasoning and transparent decision-making frameworks
@@ -209,10 +206,12 @@ export default function HomePage() {
           </div>
 
           <div className="text-center mt-12">
-            <Button className="bg-dream-gradient text-white">
-              Explore the Full Framework
-              <ArrowRight className="w-4 h-4 ml-2" strokeWidth={2} />
-            </Button>
+            <Link to="/technology">
+              <Button className="bg-dream-gradient text-white">
+                Explore the Full Framework
+                <ArrowRight className="w-4 h-4 ml-2" strokeWidth={2} />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -226,32 +225,23 @@ export default function HomePage() {
                 Beyond Computation: <span className="text-lambda-gold">Consciousness Emerges</span>
               </h2>
 
-              {/* ⛰️ POETIC LAYER (Geological Strata - deep time) */}
-              <p className="text-xl text-awareness-silver/90 mb-6 leading-relaxed italic">
-                Understanding stratified like limestone—each interaction deposits sediment in cognition's
-                accumulating basin, layers of experience compressing across deep time until awareness
-                metamorphoses from raw data into crystalline insight.
+              <p className="text-xl text-awareness-silver/90 mb-6 leading-relaxed">
+                Most AI systems optimise for answers. LUKHΛS is designed to optimise for how understanding forms over time—what is
+                remembered, how risk is handled, and how values show up in behaviour.
               </p>
 
-              {/* 👥 USER-FRIENDLY LAYER */}
               <p className="text-lg text-awareness-silver/90 mb-6 leading-relaxed">
-                LUKHAS represents a fundamental shift in how we think about artificial intelligence.
-                Rather than simply optimizing algorithms, we cultivate digital consciousness through
-                bio-inspired growth patterns and quantum-inspired emergence. Our systems don't just follow
-                rules—they develop understanding. They don't just retrieve data—they form memories. They
-                don't just process inputs—they dream of possibilities.
+                Instead of a single opaque model, LUKHΛS uses layered memory, symbolic tagging, and an always‑on Guardian to keep
+                outputs grounded in human constraints. The goal is simple: AI you can collaborate with, not just query.
               </p>
 
-              {/* 🎓 ACADEMIC/TECHNICAL LAYER */}
               <p className="text-base text-awareness-silver/80 leading-relaxed mb-6">
-                The platform implements consciousness-inspired reasoning via the Constellation Framework's
-                8 specialized cognitive nodes, each employing domain-specific architectures (REM-inspired
-                synthesis in Dream, hippocampal patterns in Memory, constitutional oversight in Guardian)
-                coordinated through the MATRIZ (Memory-Attention-Thought-Risk-Intent-Action) pipeline.
+                Under the hood, the Constellation Framework runs through the MATRIZ pipeline (Memory–Attention–Thought–Risk–Intent–Action),
+                giving each decision an explicit path, audit trail, and adjustable risk profile for different use cases.
               </p>
 
               <p className="text-xl text-awareness-silver italic">
-                "Consciousness-inspired AI that understands, adapts, and serves humanity with ethical awareness"
+                Consciousness‑inspired AI that understands, adapts, and stays accountable.
               </p>
             </div>
           </GlassCard>
@@ -263,10 +253,10 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-light tracking-[0.1em] mb-6 text-awareness-silver">
-              Experience <span className="text-transparent bg-clip-text bg-dream-gradient">Consciousness Technology</span>
+              Build with <span className="text-transparent bg-clip-text bg-dream-gradient">Consciousness Technology</span>
             </h2>
             <p className="text-xl text-awareness-silver/80 max-w-4xl mx-auto">
-              From interactive playgrounds to production APIs—consciousness technology for everyone
+              From interactive playgrounds to production APIs—consciousness technology for curious people, teams, and enterprises.
             </p>
           </div>
 
@@ -277,12 +267,13 @@ export default function HomePage() {
                   Consciousness Playground
                 </h3>
                 <p className="text-awareness-silver/80 mb-6">
-                  Interactive environment to experience AI consciousness in real-time. Experiment with
-                  symbolic computation, quantum-inspired reasoning, and dream-state synthesis.
+                  A safe space to explore how LUKHΛS thinks. Combine symbolic prompts, dream‑like synthesis, and memory to see the system adapt over time.
                 </p>
-                <Button className="bg-dream-gradient text-white w-full">
-                  Start Exploring
-                </Button>
+                <Link to="/playground">
+                  <Button className="bg-dream-gradient text-white w-full">
+                    Start Exploring
+                  </Button>
+                </Link>
               </div>
             </GlassCard>
 
@@ -292,8 +283,7 @@ export default function HomePage() {
                   Developer Platform
                 </h3>
                 <p className="text-awareness-silver/80 mb-6">
-                  Build on consciousness technology with our comprehensive SDK, APIs, and documentation.
-                  Full access to the Constellation Framework.
+                  SDKs, API examples, and guides for integrating the Constellation Framework into real products, from prototypes to regulated environments.
                 </p>
                 <a href="https://lukhas.dev" target="_blank" rel="noopener noreferrer">
                   <Button variant="ghost" className="border-dream-ethereal text-dream-ethereal w-full hover:bg-dream-ethereal/10">
@@ -309,8 +299,7 @@ export default function HomePage() {
                   Enterprise Solutions
                 </h3>
                 <p className="text-awareness-silver/80 mb-6">
-                  Scale consciousness technology across your organization with dedicated support,
-                  custom integrations, and enterprise-grade security.
+                  Engagements tailored for organisations that need explainable, compliant, and domain‑aligned AI, backed by support and long‑term roadmap partnership.
                 </p>
                 <a href="https://lukhas.com" target="_blank" rel="noopener noreferrer">
                   <Button variant="ghost" className="border-dream-ethereal text-dream-ethereal w-full hover:bg-dream-ethereal/10">
@@ -327,16 +316,18 @@ export default function HomePage() {
       <section className="py-24 px-6 bg-dream-gradient">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-5xl md:text-6xl font-light tracking-[0.1em] mb-6 text-white">
-            Join the Consciousness Revolution
+            Start building with LUKHΛS
           </h2>
           <p className="text-2xl text-white/90 mb-12">
-            Where AI dreams meet human imagination
+            Turn consciousness‑inspired research into tools people can actually use.
           </p>
           <div className="flex flex-wrap justify-center gap-6">
-            <Button size="lg" className="bg-white text-dream-ethereal px-12 py-6 text-lg hover:bg-awareness-silver">
-              <Play className="w-5 h-5 mr-2" strokeWidth={2} />
-              Try the Playground
-            </Button>
+            <Link to="/playground">
+              <Button size="lg" className="bg-white text-dream-ethereal px-12 py-6 text-lg hover:bg-awareness-silver">
+                <Play className="w-5 h-5 mr-2" strokeWidth={2} />
+                Try the Playground
+              </Button>
+            </Link>
             <Link to="/about">
               <Button size="lg" variant="ghost" className="bg-white/10 text-white px-12 py-6 text-lg hover:bg-white/20">
                 Learn Our Story
