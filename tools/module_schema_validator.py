@@ -7,7 +7,7 @@ Hardened with conditional constraints and reusable definitions.
 """
 
 import json
-from typing import Dict, Any
+from typing import Any
 
 # Module manifest schema for LUKHAS AI platform
 MODULE_MANIFEST_SCHEMA: Dict[str, Any] = {
@@ -99,7 +99,7 @@ MODULE_MANIFEST_SCHEMA: Dict[str, Any] = {
 
     "matrix": {
       "type": "object",
-      "additionalProperties": false
+      "additionalProperties": false,
       "properties": {
         "contract": { "$ref": "#/$defs/relpath" },
         "lane": { "$ref": "#/$defs/lane" },
@@ -109,9 +109,9 @@ MODULE_MANIFEST_SCHEMA: Dict[str, Any] = {
 
     "identity": {
       "type": "object",
-      "additionalProperties": false
+      "additionalProperties": false,
       "properties": {
-        "requires_auth": { "type": "boolean", "default": false }
+        "requires_auth": { "type": "boolean", "default": false },
         "tiers": { "type": "array", "items": { "$ref": "#/$defs/tier" } },
         "scopes": { "type": "array", "items": { "type": "string", "minLength": 1 } }
       }
@@ -119,7 +119,7 @@ MODULE_MANIFEST_SCHEMA: Dict[str, Any] = {
 
     "links": {
       "type": "object",
-      "additionalProperties": false
+      "additionalProperties": false,
       "required": ["repo", "docs", "issues"],
       "properties": {
         "repo": { "$ref": "#/$defs/uri" },
@@ -133,18 +133,18 @@ MODULE_MANIFEST_SCHEMA: Dict[str, Any] = {
 
     "observability": {
       "type": "object",
-      "additionalProperties": false
+      "additionalProperties": false,
       "properties": {
-        "required_spans": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+        "required_spans": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
         "otel_semconv_version": { "$ref": "#/$defs/otelSemconv", "default": "1.37.0" }
       }
     },
 
     "tokenization": {
       "type": "object",
-      "additionalProperties": false
+      "additionalProperties": false,
       "properties": {
-        "enabled": { "type": "boolean", "default": false }
+        "enabled": { "type": "boolean", "default": false },
         "chain": { "type": "string", "enum": ["solana", "evm", "none"], "default": "none" },
         "asset_id": { "type": "string" },
         "proof_uri": { "oneOf": [ { "$ref": "#/$defs/uri" }, { "$ref": "#/$defs/relpath" } ] }
@@ -157,7 +157,7 @@ MODULE_MANIFEST_SCHEMA: Dict[str, Any] = {
 
     "metadata": {
       "type": "object",
-      "additionalProperties": false
+      "additionalProperties": false,
       "properties": {
         "created": { "type": "string", "format": "date" },
         "updated": { "type": "string", "format": "date" },
@@ -168,11 +168,11 @@ MODULE_MANIFEST_SCHEMA: Dict[str, Any] = {
 
     "performance": {
       "type": "object",
-      "additionalProperties": false
+      "additionalProperties": false,
       "properties": {
         "sla": {
           "type": "object",
-          "additionalProperties": false
+          "additionalProperties": false,
           "properties": {
             "availability": { "type": "number", "minimum": 0, "maximum": 100 },
             "latency_p95_ms": { "type": "integer", "minimum": 1 },
@@ -182,7 +182,7 @@ MODULE_MANIFEST_SCHEMA: Dict[str, Any] = {
         },
         "resource_limits": {
           "type": "object",
-          "additionalProperties": false
+          "additionalProperties": false,
           "properties": {
             "memory_mb": { "type": "integer", "minimum": 1 },
             "cpu_cores": { "type": "number", "minimum": 0.1 },
@@ -194,7 +194,7 @@ MODULE_MANIFEST_SCHEMA: Dict[str, Any] = {
 
     "testing": {
       "type": "object",
-      "additionalProperties": false
+      "additionalProperties": false,
       "properties": {
         "coverage_target": { "type": "integer", "minimum": 0, "maximum": 100 },
         "test_frameworks": { "type": "array", "items": { "type": "string", "enum": ["pytest", "unittest", "jest", "mocha", "other"] } },
@@ -228,10 +228,10 @@ MODULE_MANIFEST_SCHEMA: Dict[str, Any] = {
 
 def validate_module_manifest(manifest_data: Dict[str, Any]) -> bool:
     """Validate a module manifest against the schema.
-    
+
     Args:
         manifest_data: The manifest data to validate
-        
+
     Returns:
         True if valid, False otherwise
     """
@@ -242,7 +242,7 @@ def validate_module_manifest(manifest_data: Dict[str, Any]) -> bool:
 
 def get_schema() -> Dict[str, Any]:
     """Get the module manifest schema.
-    
+
     Returns:
         The JSON schema as a Python dictionary
     """

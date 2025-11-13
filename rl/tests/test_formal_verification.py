@@ -1,4 +1,3 @@
-# ruff: noqa: F821  # Experimental/test code with undefined names
 # @generated LUKHAS scaffold v1.0
 # template_id: module.scaffold/v1
 # template_commit: f95979630
@@ -27,7 +26,7 @@ from typing import Any, Optional
 import pytest
 
 try:
-    from z3 import And, Int, Not, Or, Real, Solver, sat, unsat
+    from z3 import *
 
     Z3_AVAILABLE = True
 except ImportError:

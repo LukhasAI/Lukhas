@@ -8,7 +8,7 @@ import importlib
 import logging
 from enum import Enum
 from types import ModuleType
-from typing import Optional, Any
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 

@@ -1,7 +1,7 @@
 """Pluggable drift metrics for memory comparison."""
-from typing import Callable, Dict, Any
-import numpy as np
+from typing import Any, Callable, Dict
 
+import numpy as np
 
 # Type alias for drift functions
 DriftFunction = Callable[[Any, Any], float]
@@ -149,9 +149,7 @@ def _to_vector(obj: Any) -> np.ndarray:
 
 def _to_sequence(obj: Any) -> list:
     """Convert object to sequence."""
-    if isinstance(obj, (list, tuple)):
-        return list(obj)
-    elif isinstance(obj, str):
+    if isinstance(obj, (list, tuple, str)):
         return list(obj)
     elif isinstance(obj, dict):
         return list(obj.values())

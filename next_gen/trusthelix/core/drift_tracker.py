@@ -9,7 +9,7 @@ import logging
 from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Optional
+from typing import ClassVar, Optional
 
 import numpy as np
 

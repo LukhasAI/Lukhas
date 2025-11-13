@@ -9,8 +9,9 @@ degradation.
 
 import asyncio
 import time
+from collections.abc import Coroutine
 from functools import wraps
-from typing import Any, Callable, Coroutine, Dict, Type, Union
+from typing import Any, Callable, Type, Union
 
 
 class CircuitBreaker:

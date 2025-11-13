@@ -162,10 +162,7 @@ class MetacognitiveMonitoringNode(CognitiveNode):
         if not 0.0 <= output["confidence"] <= 1.0:
             return False
 
-        if "cognitive_metrics" not in output["answer"]:
-            return False
-
-        return True
+        return "cognitive_metrics" in output["answer"]
 
     def _monitor_processes(
         self,

@@ -8,7 +8,7 @@ RESTful API for natural language consciousness interaction.
 import time
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 from consciousness.interfaces.natural_language_interface import (
     ConversationManager,

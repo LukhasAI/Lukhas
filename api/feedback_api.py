@@ -8,7 +8,7 @@ RESTful API for collecting multi-modal user feedback with compliance support.
 # ruff: noqa: B008
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 from core.common import get_logger
 from fastapi import FastAPI, HTTPException, Query

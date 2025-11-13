@@ -6,8 +6,9 @@ Registry for pipeline cancellation tokens, cleanup handlers, and partial results
 
 import asyncio
 import logging
+from collections.abc import Coroutine
 from datetime import datetime
-from typing import Any, Callable, Coroutine, Dict, List
+from typing import Any, Callable, Dict, List
 
 logger = logging.getLogger(__name__)
 

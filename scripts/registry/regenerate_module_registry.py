@@ -13,9 +13,10 @@ import importlib
 import os
 import pkgutil
 import sys
-import tomllib
 from datetime import datetime
 from unittest.mock import MagicMock
+
+import tomllib
 
 # A set to keep track of modules that failed to import even after mocking
 _failed_imports = set()
@@ -39,19 +40,18 @@ def get_imports_from_file(file_path):
     if not os.path.exists(file_path):
         return []
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
             tree = ast.parse(content)
             for node in ast.walk(tree):
                 if isinstance(node, ast.Import):
                     for alias in node.names:
                         imports.add(alias.name.split('.')[0])
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module:
-                        imports.add(node.module.split('.')[0])
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    imports.add(node.module.split('.')[0])
     except (SyntaxError, UnicodeDecodeError, FileNotFoundError) as e:
         print(f"Warning: Could not parse {file_path}: {e}", file=sys.stderr)
-    return sorted(list(imports))
+    return sorted(imports)
 
 
 def get_module_info(module_name):
@@ -84,7 +84,7 @@ def get_module_info(module_name):
 def discover_modules(path, prefix):
     """Discovers all modules in a given path."""
     module_inventory = []
-    for finder, name, ispkg in pkgutil.walk_packages(path, prefix):
+    for _finder, name, _ispkg in pkgutil.walk_packages(path, prefix):
         module, version, status = get_module_info(name)
 
         if module:

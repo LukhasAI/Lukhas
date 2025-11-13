@@ -5,6 +5,7 @@ Canary enforcement mode for the Guardian system.
 import random
 from typing import Dict
 
+
 # Mock prometheus_client for metrics tracking
 class MockCounter:
     def inc(self):

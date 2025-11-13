@@ -15,7 +15,8 @@ for module_name in MOCKED_MODULES:
         sys.modules[module_name] = MagicMock()
 
 
-from locust import HttpUser, task, between
+from locust import HttpUser, between, task
+
 
 class APIUser(HttpUser):
     """

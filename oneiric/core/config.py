@@ -1,6 +1,6 @@
 """Oneiric configuration with reproducibility support."""
-from typing import Optional
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
@@ -60,18 +60,18 @@ if __name__ == "__main__":
 
     # Enable reproducibility
     config.set_seed(42)
-    print(f"After setting seed=42:")
+    print("After setting seed=42:")
     print(f"  Reproducible: {config.is_reproducible()}")
     print(f"  Seed: {config.get_seed()}\n")
 
     # Create config with seed at initialization
     reproducible_config = OneiricConfig(seed_lock=12345)
-    print(f"Config with seed_lock=12345:")
+    print("Config with seed_lock=12345:")
     print(f"  Reproducible: {reproducible_config.is_reproducible()}")
     print(f"  Seed: {reproducible_config.get_seed()}\n")
 
     # Clear seed
     config.clear_seed()
-    print(f"After clearing seed:")
+    print("After clearing seed:")
     print(f"  Reproducible: {config.is_reproducible()}")
     print(f"  Seed: {config.get_seed()}")

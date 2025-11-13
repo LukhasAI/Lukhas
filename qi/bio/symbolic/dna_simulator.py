@@ -1,6 +1,6 @@
 """DNA Simulator for symbolic tag generation."""
 
-from typing import Optional
+from typing import ClassVar, Optional
 
 from core.colonies.base_colony import BaseColony
 from core.symbolism.tags import TagPermission, TagScope

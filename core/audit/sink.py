@@ -1,9 +1,8 @@
 """Lightweight JSONL audit sink."""
 import json
-from pathlib import Path
 from datetime import datetime
-from typing import Dict, Any, Optional
-import os
+from pathlib import Path
+from typing import Any, Optional
 
 
 class JSONLAuditSink:

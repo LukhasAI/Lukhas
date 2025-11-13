@@ -16,6 +16,13 @@ from aka_qualia.memory_sql import SqlMemory
 from aka_qualia.models import (
     AgencyFeel,
     PhenomenalGlyph,
+    PhenomenalScene,
+    ProtoQualia,
+    RegulationPolicy,
+    RiskProfile,
+    SeverityLevel,
+    TemporalFeel,
+)
 
 # Skip all aka_qualia tests - experimental candidate module
 pytestmark = pytest.mark.skip(reason="aka_qualia is experimental candidate module")
@@ -31,13 +38,6 @@ Comprehensive fixture setup for testing the C4 memory system with:
 - Test data generation
 - Performance benchmarking utilities
 """
-    PhenomenalScene,
-    ProtoQualia,
-    RegulationPolicy,
-    RiskProfile,
-    SeverityLevel,
-    TemporalFeel,
-)
 
 # === Database Fixtures ===
 

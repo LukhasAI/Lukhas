@@ -10,7 +10,7 @@ import logging
 from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Optional
+from typing import ClassVar, Optional
 
 import websockets
 

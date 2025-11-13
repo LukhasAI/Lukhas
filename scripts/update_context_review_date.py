@@ -16,7 +16,7 @@ import argparse
 import re
 from datetime import date
 from pathlib import Path
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 # Full 8-star Constellation Framework
 CONSTELLATION_8_STARS = "⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum"
@@ -34,7 +34,7 @@ OLD_STAR_PATTERNS = [
 class ContextFileUpdater:
     """Updates context files with standardized information."""
 
-    def __init__(self, dry_run: bool = False, review_date: str = None):
+    def __init__(self, dry_run: bool = False, review_date: Optional[str] = None):
         self.dry_run = dry_run
         self.review_date = review_date or date.today().isoformat()
         self.conflicts: List[Tuple[Path, str]] = []

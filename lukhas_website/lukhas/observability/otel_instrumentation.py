@@ -32,7 +32,7 @@ import logging
 import os
 import time
 from contextlib import contextmanager
-from typing import  Callable, Optional
+from typing import Callable, Optional
 
 # Optional OpenTelemetry imports
 try:

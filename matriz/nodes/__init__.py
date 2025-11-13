@@ -73,32 +73,32 @@ from .thought import (
 )
 
 __all__ = [
-    # Base nodes
-    "FactNode",
-    "MathNode",
-    "SymbolicNode",
-    "ValidatorNode",
     # Thought nodes
     "AbductiveReasoningNode",
-    "AnalogicalReasoningNode",
-    "CausalReasoningNode",
-    "CounterfactualReasoningNode",
-    "MetacognitiveReasoningNode",
     # Action nodes
     "ActionSelectionNode",
-    "ExecutionMonitoringNode",
-    "GoalPrioritizationNode",
-    "PlanGenerationNode",
-    "ResourceAllocationNode",
-    # Decision nodes
-    "EthicalConstraintNode",
-    "RiskAssessmentNode",
-    "UtilityMaximizationNode",
+    "AnalogicalReasoningNode",
+    "CausalReasoningNode",
     # Awareness nodes
     "ConfidenceCalibrationNode",
+    "CounterfactualReasoningNode",
+    # Decision nodes
+    "EthicalConstraintNode",
+    "ExecutionMonitoringNode",
+    # Base nodes
+    "FactNode",
+    "GoalPrioritizationNode",
+    "MathNode",
     "MetacognitiveMonitoringNode",
+    "MetacognitiveReasoningNode",
     "PerformanceEvaluationNode",
+    "PlanGenerationNode",
+    "ResourceAllocationNode",
+    "RiskAssessmentNode",
     "SelfMonitoringNode",
+    "SymbolicNode",
+    "UtilityMaximizationNode",
+    "ValidatorNode",
 ]
 
 __version__ = "2.0.0"

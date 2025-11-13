@@ -9,7 +9,7 @@ import json
 import logging
 import sys
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 import yaml
 

@@ -1,6 +1,5 @@
-from typing import ClassVar
 import unittest
-from typing import Any, Dict, List
+from typing import Any, ClassVar, Dict, List
 
 from matriz.core.example_node import MathReasoningNode
 from matriz.core.node_interface import CognitiveNode, NodeState

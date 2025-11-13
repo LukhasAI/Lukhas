@@ -1,5 +1,5 @@
 """Reflection Colony with lazy provider guard."""
-from typing import Optional, Any
+from typing import Any, Optional
 
 
 class ReflectionColony:

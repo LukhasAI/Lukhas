@@ -120,7 +120,7 @@ def main():
 
     for file_path in workflow_files:
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 workflow_content_str = f.read()
                 # The FullLoader is safer than the default Loader
                 workflow_content = yaml.load(workflow_content_str, Loader=yaml.FullLoader)

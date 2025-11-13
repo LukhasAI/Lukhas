@@ -9,7 +9,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Optional
+from typing import ClassVar, Optional
 
 logger = logging.getLogger(__name__)
 

@@ -1,7 +1,6 @@
 """PII redaction for audit logs."""
 import re
-from typing import Dict, Any
-
+from typing import Any
 
 # Redaction patterns
 EMAIL_PATTERN = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')

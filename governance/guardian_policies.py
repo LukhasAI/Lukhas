@@ -55,32 +55,28 @@ PolicyResult = GuardianResponse
 PolicySeverity = SeverityLevel
 
 __all__ = [
-    # Main classes
-    "GuardianPoliciesEngine",
-    "PolicyRule",
-    "PolicyContext",
-    "PolicyReason",
-    "PolicyAction",
-    "GuardianResponse",
-
+    "ActionType",
     # Enums
     "DecisionType",
-    "SeverityLevel",
-    "ActionType",
-
     # Built-in policies
     "DriftThresholdPolicy",
-    "RateLimitPolicy",
-    "TierAccessPolicy",
     "EmergencyStopPolicy",
-
-    # Functions
-    "get_guardian_policies_engine",
-
     # Legacy aliases
     "GuardianPolicies",
-    "PolicyEngine",
+    # Main classes
+    "GuardianPoliciesEngine",
+    "GuardianResponse",
+    "PolicyAction",
     "PolicyCondition",
+    "PolicyContext",
+    "PolicyEngine",
+    "PolicyReason",
     "PolicyResult",
+    "PolicyRule",
     "PolicySeverity",
+    "RateLimitPolicy",
+    "SeverityLevel",
+    "TierAccessPolicy",
+    # Functions
+    "get_guardian_policies_engine",
 ]

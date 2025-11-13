@@ -237,7 +237,7 @@ async def evaluate_flag(
     Returns:
         Flag evaluation result
     """
-    user_id = current_user["id"]
+    current_user["id"]
     # Check rate limit
     if not check_rate_limit(current_user["username"]):
         raise HTTPException(
@@ -311,7 +311,7 @@ async def update_flag(
     Returns:
         Updated flag information
     """
-    user_id = current_user["id"]
+    current_user["id"]
     try:
         # Get flag
         flag = service.get_flag(flag_name)
@@ -381,7 +381,7 @@ async def reload_flag(
     Returns:
         Success message
     """
-    user_id = current_user["id"]
+    current_user["id"]
     try:
         # Reload all flags
         service.reload()

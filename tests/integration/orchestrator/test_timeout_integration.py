@@ -144,10 +144,10 @@ async def test_cancellation_registry_integration(registry):
     nodes = [("node1", long_node)]
 
     # Register pipeline
-    token = registry.register("test_pipeline")
+    registry.register("test_pipeline")
 
     # Start pipeline execution
-    task = asyncio.create_task(
+    asyncio.create_task(
         executor.execute_pipeline("test_pipeline", nodes, {})
     )
 

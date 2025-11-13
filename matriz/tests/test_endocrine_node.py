@@ -1,5 +1,7 @@
 import unittest
+
 from matriz.nodes.endocrine_node import EndocrineNode
+
 
 class TestEndocrineNode(unittest.TestCase):
     def test_trigger_stress(self):

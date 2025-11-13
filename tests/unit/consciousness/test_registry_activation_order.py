@@ -1,10 +1,11 @@
-# ruff: noqa: B008
-# ruff: noqa: F821  # Experimental/test code with undefined names
-from lukhas_website.lukhas.consciousness.registry import (
+# Experimental/test code with undefined names
 from typing import List, Optional
+
+from lukhas_website.lukhas.consciousness.registry import (
     ComponentType,
     ConsciousnessComponentRegistry,
 )
+
 
 def _register_component(
     registry: ConsciousnessComponentRegistry,

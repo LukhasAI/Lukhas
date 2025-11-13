@@ -14,7 +14,7 @@ import json
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 import pkg_resources
 

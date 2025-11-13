@@ -1,6 +1,7 @@
 
 import datetime
 
+
 class SoftDeletable:
     def __init__(self):
         self.is_deleted = False

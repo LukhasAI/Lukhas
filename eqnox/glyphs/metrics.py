@@ -1,5 +1,6 @@
 """Glyph scalar metrics export."""
 from typing import Dict
+
 from .model import Glyph
 
 

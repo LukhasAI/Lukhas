@@ -40,9 +40,9 @@ class ComprehensiveF821Eliminator:
             "logging": "import logging",
             "VisualSymbol": "from lukhas.core.symbolic import VisualSymbol",
             "VoiceSymbol": "from lukhas.core.symbolic import VoiceSymbol",
-            "Dict": "from typing import",
-            "List": "from typing import",
-            "Optional": "from typing import Optional"
+            "Dict": "from typing import Dict",
+            "List": "from typing import List",
+            "Optional": "from typing import Optional",
             "lukhas_pb2": "import lukhas_pb2",
             "qi": "from consciousness.qi import qi",
             "QuantumCreativeComponent": "from quantum.creative import QuantumCreativeComponent",

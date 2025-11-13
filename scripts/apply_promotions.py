@@ -31,7 +31,9 @@ def main():
     deny = set(rules.get("deny", []))
     min_auto = args.min_confidence if args.min_confidence is not None else float(rules["confidence"]["min_autopromote"])
 
-    applied = 0; skipped = 0; errors = 0  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_apply_promotions_py_L34"}
+    applied = 0
+    skipped = 0
+    errors = 0
 
     with Path(args.csv).open("r", encoding="utf-8") as f:
         r = csv.DictReader(f)

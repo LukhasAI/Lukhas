@@ -8,7 +8,7 @@ from unittest.mock import MagicMock
 
 # Mock missing modules that would provide the metrics registries and rule objects
 try:
-    from lukhas.observability.metrics import registry, DECILE_QUANTILES
+    from lukhas.observability.metrics import DECILE_QUANTILES, registry
     from lukhas.observability.rules import RecordingRule
 except ImportError:
     registry = MagicMock()
@@ -54,7 +54,7 @@ memory_recall_sli_rule = RecordingRule(
 # Rule for Pipeline Latency p95
 pipeline_latency_p95_rule = RecordingRule(
     record="lukhas:pipeline:execution_latency_seconds:p95",
-    expr=f"histogram_quantile(0.95, sum(rate(lukhas_pipeline_execution_latency_seconds_bucket[5m])) by (le))",
+    expr="histogram_quantile(0.95, sum(rate(lukhas_pipeline_execution_latency_seconds_bucket[5m])) by (le))",
     labels={"slo": "pipeline_latency"},
 )
 

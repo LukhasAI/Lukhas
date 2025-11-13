@@ -28,4 +28,4 @@ def trigger_reward(intensity: float = 0.5):
 def get_hormone_profile():
     return _node.process({"query": {"operation": "get_hormone_profile", "args": {}}})
 
-__all__ = ["trigger_stress", "trigger_reward", "get_hormone_profile"]
+__all__ = ["get_hormone_profile", "trigger_reward", "trigger_stress"]

@@ -20,7 +20,7 @@ import argparse
 import re
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 # ANSI colors
 GREEN = "\033[92m"
@@ -40,7 +40,7 @@ class AgentViewSyncer:
         self.tasks_by_agent: Dict[str, List[Dict]] = defaultdict(list)
         self.tasks_by_priority: Dict[str, List[Dict]] = defaultdict(list)
 
-    def sync(self, specific_agent: str = None):
+    def sync(self, specific_agent: Optional[str] = None):
         """Sync agent views from MASTER_LOG."""
         if not self.master_log_path.exists():
             print(f"MASTER_LOG not found: {self.master_log_path}")

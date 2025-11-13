@@ -1,14 +1,12 @@
-# ruff: noqa: B008
-# ruff: noqa: F821  # Experimental/test code with undefined names
+# Experimental/test code with undefined names
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import ClassVar, List, Tuple
 from unittest.mock import MagicMock
-from typing import ClassVar
 
 import pytest
 from products.infrastructure.legado.legacy_systems.governor.lambda_governor import (
-from typing import List, Tuple
     EscalationPriority,
     EscalationSignal,
     EscalationSource,

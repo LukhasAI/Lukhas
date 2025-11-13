@@ -4,7 +4,9 @@ Unit tests for the canary enforcement logic.
 
 import unittest
 from unittest.mock import patch
-from lukhas.governance.guardian.canary import is_canary_enforced, get_canary_metrics
+
+from lukhas.governance.guardian.canary import get_canary_metrics, is_canary_enforced
+
 
 class TestCanaryEnforcement(unittest.TestCase):
     def test_canary_enforced_at_100_percent(self):

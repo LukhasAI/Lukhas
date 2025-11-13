@@ -4,10 +4,9 @@ Legal Template Processor for LUKHAS Websites
 Processes legal document templates with domain-specific variables
 """
 
-import os
 import re
-from pathlib import Path
 from datetime import date
+from pathlib import Path
 
 # Domain configurations
 DOMAIN_CONFIGS = {
@@ -202,7 +201,7 @@ def process_template(template_path, output_path, config):
     print(f"Processing {template_path.name} for {config['domain']}...")
 
     # Read template
-    with open(template_path, 'r') as f:
+    with open(template_path) as f:
         content = f.read()
 
     # Process conditionals

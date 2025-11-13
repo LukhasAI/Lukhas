@@ -1,4 +1,5 @@
 from typing import ClassVar
+
 """
 Privacy-first analytics client with GDPR compliance.
 

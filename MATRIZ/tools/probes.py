@@ -1,5 +1,5 @@
 """Identical-prompt probe for drift measurement."""
-from typing import Dict, Any
+from typing import Any, Dict
 
 
 def run_identical_prompt(

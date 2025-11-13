@@ -11,7 +11,7 @@ import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Generic, Optional, TypeVar
+from typing import Any, ClassVar, Generic, Optional, TypeVar
 
 import redis.asyncio as redis
 from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request

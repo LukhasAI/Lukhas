@@ -12,7 +12,7 @@ from collections import Counter, deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
+from typing import ClassVar, Optional
 
 logger = logging.getLogger(__name__)
 

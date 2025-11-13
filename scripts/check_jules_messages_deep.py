@@ -33,9 +33,8 @@ async def check_all():
                 # Look for agent messages
                 agent_messages = []
                 for a in activities:
-                    if a.get('originator') == 'AGENT':
-                        if 'agentMessaged' in a:
-                            agent_messages.append(a)
+                    if a.get('originator') == 'AGENT' and 'agentMessaged' in a:
+                        agent_messages.append(a)
 
                 if agent_messages:
                     sessions_with_messages.append({

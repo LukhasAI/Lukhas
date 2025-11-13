@@ -72,8 +72,8 @@ class DirectoryComparator:
                 "website_only_count": len(website_only),
                 "overlapping_count": len(overlapping),
             },
-            "prod_only": sorted(list(prod_only)),
-            "website_only": sorted(list(website_only)),
+            "prod_only": sorted(prod_only),
+            "website_only": sorted(website_only),
             "overlapping": [],
         }
 

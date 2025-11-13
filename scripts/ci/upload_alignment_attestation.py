@@ -7,6 +7,7 @@ from unittest.mock import MagicMock
 sys.modules["lukhas"] = MagicMock()
 from lukhas.alignment import calculate_drift_metrics
 
+
 def main():
     """
     Generates alignment.json with drift metrics and uploads as a GH Actions artifact.

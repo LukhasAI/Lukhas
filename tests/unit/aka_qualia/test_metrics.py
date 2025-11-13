@@ -9,6 +9,9 @@ from typing import ClassVar
 
 import pytest
 
+# Skip experimental aka_qualia tests
+pytestmark = pytest.mark.skip(reason="aka_qualia is experimental")
+
 if find_spec("aka_qualia.metrics") is None or find_spec("aka_qualia.models") is None:
     pytest.skip("Aka Qualia metrics not available", allow_module_level=True)
 else:
@@ -339,11 +342,8 @@ class TestAkaQualiaMetrics:
         """Tests that repeated glyph triplets add a penalty to the risk score."""
         from aka_qualia.models import PhenomenalGlyph
 
-# Skip experimental aka_qualia tests
-pytestmark = pytest.mark.skip(reason="aka_qualia is experimental")
-
         # Create a repeating glyph pattern
-        glyphs: ClassVar[list] = [PhenomenalGlyph(key="aka:loop", attrs={})]
+        glyphs = [PhenomenalGlyph(key="aka:loop", attrs={})]
         scene = create_phenomenal_scene()
 
         # Calculate risk with a repetitive pattern but no glyphs

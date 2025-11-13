@@ -20,7 +20,7 @@ import secrets
 import time
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 try:
     import asyncpg  # type: ignore[import-not-found]
