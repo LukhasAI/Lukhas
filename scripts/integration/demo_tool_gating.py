@@ -46,9 +46,8 @@ def lukhas_completion_with_gating(
     Returns:
         Completion response with audit bundle ID
     """
-    from openai.tooling import build_tools_from_allowlist
-
     from audit.store import audit_log_write
+    from openai.tooling import build_tools_from_allowlist
 
     # Extract tool allowlist and build gated tools
     tool_allowlist = params.get("tool_allowlist", [])

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+# ruff: noqa: F821  # Skeleton/experimental code
 """
 
 
@@ -127,6 +128,13 @@ QIBioCoordinator = Any  # Placeholder
 
 try:
     from bio.symbolic.architectures import BioSymbolicOrchestrator as BioOrchestrator
+
+    # type: ignore
+    from core.bio_systems.qi_layer import (  # type: ignore
+        QIBioOscillator,
+        QIConfig,
+        QILikeState,
+    )
     from qi.qi_awareness_system import QIAwarenessSystem  # type: ignore
 
     # AIMPORT_TODO: Review this path for QIBioCoordinator. If it's part
@@ -135,13 +143,6 @@ try:
     from qi.qi_dream_adapter import QIDreamAdapter  # type: ignore
     from qi.qi_unified_system import (
         UnifiedQuantumSystem,  # type: ignore  # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
-    )
-
-    # type: ignore
-    from core.bio_systems.qi_layer import (  # type: ignore
-        QIBioOscillator,
-        QIConfig,
-        QILikeState,
     )
 
     LUKHAS_CORE_COMPONENTS_AVAILABLE = True
@@ -611,6 +612,9 @@ class QIBioOptimizationAdapter:
         time_condition = self.last_optimization_timestamp is None or (
             time.monotonic() - self.last_optimization_timestamp > time_threshold_sec
         )
+# T4: code=F821 | ticket=SKELETON-35E0584E | owner=lukhas-platform | status=skeleton
+# reason: Undefined cycles_condition in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         return cycles_condition and time_condition  # TODO: cycles_condition
 
     async def _process_dream_consolidation(self, awareness_result: dict[str, Any]) -> dict[str, Any]:

@@ -74,7 +74,7 @@ def main() -> int:
     issues = []
 
     for src, dst in MAPPING.items():
-        src_path, dst_path, status = check_file_pair(src, dst)
+        _src_path, _dst_path, status = check_file_pair(src, dst)
 
         if status is None:
             print(f"✅ {dst}")

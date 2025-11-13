@@ -18,13 +18,13 @@ Tests include:
 Constellation Framework: 🌊 Flow Star Integration Testing
 """
 
+# ruff: noqa: F821  # Experimental/test code with undefined names
 import asyncio
 import logging
 import time
 from unittest.mock import patch
 
 import pytest
-
 from consciousness.matriz_thought_loop import matrizThoughtLoop
 from consciousness.meta_cognitive_assessor import CognitiveLoadLevel, MetaCognitiveAssessment
 

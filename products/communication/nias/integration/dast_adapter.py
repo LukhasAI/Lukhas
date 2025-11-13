@@ -191,11 +191,11 @@ class NIASDastAdapter:
 
         Returns:
             {
-                "symbolic_tags": List[str],
+                "symbolic_tags": list[str],
                 "primary_activity": str,
-                "context_scores": Dict[str, float],
-                "recommended_colors": List[str],
-                "recommended_elements": List[str],
+                "context_scores": dict[str, float],
+                "recommended_colors": list[str],
+                "recommended_elements": list[str],
                 "recommended_tone": str,
                 "coherence_score": float,
                 "lambda_fingerprint": str

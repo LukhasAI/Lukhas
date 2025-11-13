@@ -43,3 +43,20 @@ import serve
 # Perform operations
 # Handle results
 ```
+
+## Metrics
+
+The API exposes a `/metrics` endpoint for Prometheus monitoring. This endpoint provides a variety of metrics about the API's performance and health.
+
+### Available Metrics
+
+- `http_requests_total`: Total number of HTTP requests, labeled by method, endpoint, and status code.
+- `http_request_duration_seconds`: Latency of HTTP requests in seconds, labeled by method and endpoint.
+- `http_requests_errors_total`: Total number of HTTP requests that resulted in an error (status code >= 400), labeled by method, endpoint, and status code.
+- `http_active_connections`: The number of HTTP connections currently being handled.
+- `matriz_operations_total`: Total number of MATRIZ cognitive operations, labeled by operation type and status.
+- `matriz_operation_duration_milliseconds`: Latency of MATRIZ operations in milliseconds, labeled by operation type.
+- `matriz_active_thoughts`: The number of active "thoughts" currently being processed in the MATRIZ engine.
+- `memory_entries`: The total number of entries in the memory system.
+- `cache_hits_total`: Total number of cache hits, labeled by cache name.
+- `cache_misses_total`: Total number of cache misses, labeled by cache name.

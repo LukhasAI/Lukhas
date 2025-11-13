@@ -14,6 +14,7 @@ Phase 5 Implementation Features:
 """
 
 # Core observability (Phase 0-4)
+import asyncio
 from .advanced_metrics import (
     AdvancedMetricsSystem,
     AnomalyType,
@@ -292,6 +293,9 @@ async def shutdown_phase5_observability():
         enhanced_distributed_tracing.shutdown_enhanced_tracing()
 
         # Execute all shutdowns concurrently
+# T4: code=F821 | ticket=SKELETON-836A1CA1 | owner=lukhas-platform | status=skeleton
+# reason: Undefined asyncio in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         await asyncio.gather(*shutdown_tasks, return_exceptions=True)  # TODO: asyncio
 
         print("Phase 5 observability shutdown completed")

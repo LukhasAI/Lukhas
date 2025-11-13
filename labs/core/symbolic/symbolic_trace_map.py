@@ -41,7 +41,7 @@ class SymbolicTraceMap:
                 symbol_id (str): The ID of the symbol being traced.
                 node_type (str): The type of node (e.g., "creation", "access",
         "modification").
-                metadata (Optional[Dict[str, Any]], optional): Additional metadata about the node. Defaults to None.
+                metadata (Optional[dict[str, Any]], optional): Additional metadata about the node. Defaults to None.
         """
         if symbol_id not in self.trace_map:
             self.trace_map[symbol_id] = []
@@ -67,7 +67,7 @@ class SymbolicTraceMap:
             symbol_id (str): The ID of the symbol to retrieve the trace for.
 
         Returns:
-            List[Dict[str, Any]]: A list of trace nodes for the given symbol.
+            list[dict[str, Any]]: A list of trace nodes for the given symbol.
         """
         return self.trace_map.get(symbol_id, [])
 

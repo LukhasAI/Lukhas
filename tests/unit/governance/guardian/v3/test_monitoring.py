@@ -111,7 +111,7 @@ class TestGuardianMonitoring:
         await guardian_system._drift_monitoring_loop()
 
         mock_detect_threat.assert_awaited_once()
-        args, kwargs = mock_detect_threat.call_args
+        args, _kwargs = mock_detect_threat.call_args
         assert args[0] == "drift_detection"
         assert args[2]['drift_score'] == 0.2
 

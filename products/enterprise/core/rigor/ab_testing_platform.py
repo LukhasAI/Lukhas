@@ -45,7 +45,7 @@ class Experiment:
     name: str
     tier: str
     significance_threshold: float
-    variants: Dict[str, VariantResult] = field(default_factory=dict)
+    variants: dict[str, VariantResult] = field(default_factory=dict)
     metadata: dict[str, str] = field(default_factory=dict)
 
     def ensure_variant(self, variant: str) -> VariantResult:
@@ -74,7 +74,7 @@ class T4ABTestingPlatform:
 
         self.tier = tier
         self.significance_threshold = significance_threshold
-        self._experiments: Dict[str, Experiment] = {}
+        self._experiments: dict[str, Experiment] = {}
 
         logger.info(
             "Initialized T4ABTestingPlatform",

@@ -52,7 +52,7 @@ class EventSeverity(str, Enum):
     CRITICAL = "critical"
 
 
-@dataclass(slots=True)
+@dataclass
 class SecurityEvent:
     """Normalized security event."""
 
@@ -65,7 +65,7 @@ class SecurityEvent:
     metadata: Mapping[str, Any] = field(default_factory=dict)
 
 
-@dataclass(slots=True)
+@dataclass
 class SecurityThreat:
     """Active security threat detected by the monitor."""
 

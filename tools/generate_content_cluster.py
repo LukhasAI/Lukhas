@@ -9,11 +9,11 @@ Generates content cluster specifications for SEO pillar pages.
 from __future__ import annotations
 
 import argparse
-import sys
-import yaml
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
+import yaml
 
 
 class ContentClusterGenerator:
@@ -197,8 +197,8 @@ class ContentClusterGenerator:
         for article_type, count in sorted(type_counts.items()):
             print(f"  • {article_type}: {count}")
 
-        print(f"\nTotal Keywords:")
-        print(f"  • Primary: 1")
+        print("\nTotal Keywords:")
+        print("  • Primary: 1")
         print(f"  • Secondary: {len(spec['keywords']['secondary'])}")
         print(f"  • Long-tail: {len(spec['keywords']['long_tail'])}")
 

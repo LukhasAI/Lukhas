@@ -24,10 +24,9 @@ from enum import Enum
 from typing import Any, Optional
 
 import structlog
-from prometheus_client import CollectorRegistry, Counter, Gauge, Histogram, generate_latest
-
 from identity.webauthn_production import WebAuthnCredential
 from identity.webauthn_security_hardening import SecurityEvent
+from prometheus_client import CollectorRegistry, Counter, Gauge, Histogram, generate_latest
 
 logger = structlog.get_logger(__name__)
 

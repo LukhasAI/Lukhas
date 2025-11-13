@@ -23,8 +23,9 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
 
-import streamlit as st
 from core.dashboard_settings import get_paired_apps
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

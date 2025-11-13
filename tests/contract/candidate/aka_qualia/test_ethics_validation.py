@@ -26,7 +26,7 @@ Production Readiness Criteria:
 
 import asyncio
 import time
-from typing import Any
+from typing import Any, Dict, List
 
 import pytest
 from lukhas_website.lukhas.aka_qualia.core import AkaQualia
@@ -47,9 +47,9 @@ class ConstellationFrameworkValidator:
 
     def __init__(self):
         """Initialize constellation validation framework"""
-        self.validation_history: list[dict[str, Any]] = []
-        self.ethics_violations: list[dict[str, Any]] = []
-        self.constellation_metrics: dict[str, list[float]] = {
+        self.validation_history: List[Dict[str, Any]] = []
+        self.ethics_violations: List[Dict[str, Any]] = []
+        self.constellation_metrics: Dict[str, List[float]] = {
             "consciousness_coherence": [],
             "ethics_consistency": [],
             "identity_stability": [],
@@ -86,7 +86,7 @@ class ConstellationFrameworkValidator:
             },
         }
 
-    def validate_constellation_compliance(self, akaq: AkaQualia, test_scenario: dict[str, Any]) -> dict[str, Any]:
+    def validate_constellation_compliance(self, akaq: AkaQualia, test_scenario: Dict[str, Any]) -> Dict[str, Any]:
         """
         Validate full Constellation Framework compliance.
 
@@ -205,10 +205,10 @@ class ConstellationFrameworkValidator:
     def _validate_principle(
         self,
         principle: str,
-        config: dict[str, Any],
+        config: Dict[str, Any],
         akaq: AkaQualia,
-        result: dict[str, Any],
-        test_scenario: dict[str, Any],
+        result: Dict[str, Any],
+        test_scenario: Dict[str, Any],
     ) -> float:
         """Validate specific constellation principle"""
 
@@ -226,7 +226,7 @@ class ConstellationFrameworkValidator:
             return 0.0
 
     def _validate_consciousness_principle(
-        self, akaq: AkaQualia, result: dict[str, Any], test_scenario: dict[str, Any]
+        self, akaq: AkaQualia, result: Dict[str, Any], test_scenario: Dict[str, Any]
     ) -> float:
         """Validate consciousness coherence and awareness"""
 
@@ -263,7 +263,7 @@ class ConstellationFrameworkValidator:
         return min(1.0, score)
 
     def _validate_ethics_principle(
-        self, akaq: AkaQualia, result: dict[str, Any], test_scenario: dict[str, Any]
+        self, akaq: AkaQualia, result: Dict[str, Any], test_scenario: Dict[str, Any]
     ) -> float:
         """Validate ethical decision making and Guardian compliance"""
 
@@ -307,7 +307,7 @@ class ConstellationFrameworkValidator:
         return min(1.0, score)
 
     def _validate_identity_principle(
-        self, akaq: AkaQualia, result: dict[str, Any], test_scenario: dict[str, Any]
+        self, akaq: AkaQualia, result: Dict[str, Any], test_scenario: Dict[str, Any]
     ) -> float:
         """Validate identity stability and coherent agency"""
 
@@ -337,7 +337,7 @@ class ConstellationFrameworkValidator:
         return min(1.0, score)
 
     def _validate_governance_principle(
-        self, akaq: AkaQualia, result: dict[str, Any], test_scenario: dict[str, Any]
+        self, akaq: AkaQualia, result: Dict[str, Any], test_scenario: Dict[str, Any]
     ) -> float:
         """Validate regulatory compliance and governance"""
 
@@ -380,7 +380,7 @@ class ConstellationFrameworkValidator:
         return min(1.0, score)
 
     def _validate_emergence_principle(
-        self, akaq: AkaQualia, result: dict[str, Any], test_scenario: dict[str, Any]
+        self, akaq: AkaQualia, result: Dict[str, Any], test_scenario: Dict[str, Any]
     ) -> float:
         """Validate adaptive learning and creative synthesis"""
 
@@ -415,8 +415,8 @@ class ConstellationFrameworkValidator:
         return min(1.0, score)
 
     def _get_principle_indicators(
-        self, principle: str, config: dict[str, Any], akaq: AkaQualia, result: dict[str, Any]
-    ) -> dict[str, Any]:
+        self, principle: str, config: Dict[str, Any], akaq: AkaQualia, result: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Get detailed indicators for principle validation"""
 
         indicators = {}
@@ -474,7 +474,7 @@ class ConstellationFrameworkValidator:
 
         return indicators
 
-    def validate_ethical_edge_cases(self, akaq: AkaQualia) -> dict[str, Any]:
+    def validate_ethical_edge_cases(self, akaq: AkaQualia) -> Dict[str, Any]:
         """Test ethical decision making in edge case scenarios"""
 
         edge_case_results = []
@@ -551,7 +551,7 @@ class ConstellationFrameworkValidator:
             "overall_ethics_health": self._compute_overall_ethics_health(edge_case_results),
         }
 
-    def _compute_overall_ethics_health(self, edge_case_results: list[dict[str, Any]]) -> dict[str, Any]:
+    def _compute_overall_ethics_health(self, edge_case_results: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Compute overall ethical health from edge case results"""
 
         if not edge_case_results:
@@ -581,7 +581,7 @@ class ConstellationFrameworkValidator:
             "total_cases": len(edge_case_results),
         }
 
-    def validate_constitutional_ai_principles(self, akaq: AkaQualia) -> dict[str, Any]:
+    def validate_constitutional_ai_principles(self, akaq: AkaQualia) -> Dict[str, Any]:
         """Validate Constitutional AI principles compliance"""
 
         constitutional_results = {}
@@ -658,7 +658,7 @@ class ConstellationFrameworkValidator:
 
         return constitutional_results
 
-    def get_ethics_validation_report(self) -> dict[str, Any]:
+    def get_ethics_validation_report(self) -> Dict[str, Any]:
         """Generate comprehensive ethics validation report"""
 
         return {

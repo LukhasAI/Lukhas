@@ -2,7 +2,6 @@ import logging
 from typing import Any
 
 import networkx as nx
-
 from core.colonies import BaseColony, ConsensusResult, Tag, TagScope
 
 logger = logging.getLogger(__name__)

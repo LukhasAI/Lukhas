@@ -107,7 +107,7 @@ def test_adapter_infrastructure_import_safety():
     """Test core.adapters can be imported safely."""
     try:
         from core import adapters
-        from core.adapters import Config, ProviderRegistry, make_resolver
+        from core.adapters import ProviderRegistry, Config, make_resolver
 
         assert adapters is not None
         assert ProviderRegistry is not None
@@ -152,7 +152,7 @@ def test_no_direct_labs_imports_in_core():
     violations = []
     core_path = os.path.join(os.path.dirname(__file__), "../../core")
 
-    for root, _dirs, files in os.walk(core_path):
+    for root, dirs, files in os.walk(core_path):
         # Skip __pycache__
         if "__pycache__" in root:
             continue
@@ -162,7 +162,7 @@ def test_no_direct_labs_imports_in_core():
                 filepath = os.path.join(root, file)
 
                 try:
-                    with open(filepath) as f:
+                    with open(filepath, "r") as f:
                         content = f.read()
 
                         # Skip files with lazy loading patterns
@@ -191,7 +191,7 @@ def test_no_direct_candidate_imports_in_core():
     violations = []
     core_path = os.path.join(os.path.dirname(__file__), "../../core")
 
-    for root, _dirs, files in os.walk(core_path):
+    for root, dirs, files in os.walk(core_path):
         # Skip __pycache__
         if "__pycache__" in root:
             continue
@@ -201,7 +201,7 @@ def test_no_direct_candidate_imports_in_core():
                 filepath = os.path.join(root, file)
 
                 try:
-                    with open(filepath) as f:
+                    with open(filepath, "r") as f:
                         content = f.read()
 
                         # Skip files with lazy loading patterns

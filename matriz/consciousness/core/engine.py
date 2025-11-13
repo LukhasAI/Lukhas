@@ -25,13 +25,9 @@ import numpy as np
 
 # Import LUKHAS AI branding system for consciousness-aware outputs
 try:
-    from branding_bridge import (  # TODO: branding_bridge.BrandCo...  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-eb45d958","reason_category":"CONSTELLATION","reason":"Constellation Framework branding and cryptography integration","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:08:41+00:00"}  # TODO: branding_bridge.get_bra...  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-34267a68","reason_category":"CONSTELLATION","reason":"Constellation Framework branding and cryptography integration","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:08:41+00:00"}  # TODO: branding_bridge.get_con...  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-f8f9d2e8","reason_category":"CONSTELLATION","reason":"Constellation Framework branding and cryptography integration","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:08:41+00:00"}  # TODO: branding_bridge.normali...  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-d967cbeb","reason_category":"CONSTELLATION","reason":"Constellation Framework branding and cryptography integration","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:08:41+00:00"}  # TODO: branding_bridge.validat...  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-654948ea","reason_category":"CONSTELLATION","reason":"Constellation Framework branding and cryptography integration","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:08:41+00:00"}
-        BrandContext,
-        get_brand_voice,
-        get_constellation_context,
-        normalize_output_text,
-        validate_output,
-    )
+    # TODO: [CONSTELLATION] Implement full branding integration. The branding_bridge
+    # module is a placeholder for Constellation Framework branding and cryptography integration.
+    import branding_bridge
 
     BRANDING_AVAILABLE = True
 except ImportError:
@@ -82,13 +78,12 @@ def lukhas_tier_required(level: int):
 
 # Attempt to import anthropic, with fallback
 ANTHROPIC_AVAILABLE = False
-anthropic_client = None
 try:
-    import anthropic  # External dependency  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)  # TODO[T4-UNUSED-IMPORT]: {"id":"t4-83304959","reason_category":"MATRIZ","reason":"MATRIZ consciousness integration pending","owner":null,"ticket":null,"eta":null,"status":"reserved","created_at":"2025-11-06T14:07:03+00:00"}
+    # TODO: [MATRIZ] Implement Anthropic client for ethics engine. This is a placeholder
+    # for MATRIZ consciousness integration.
+    import anthropic  # External dependency
 
     ANTHROPIC_AVAILABLE = True
-    # TODO: Initialize anthropic_client if needed, e.g.,
-    # anthropic.AsyncAnthropic() with API key
     logger.info("ΛTRACE: Anthropic client library imported successfully.")
 except ImportError:
     logger.warning(

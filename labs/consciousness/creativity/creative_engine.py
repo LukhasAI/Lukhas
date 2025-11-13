@@ -37,7 +37,7 @@ from dataclasses import dataclass, field
 from enum import Enum, auto
 from functools import lru_cache, wraps
 from pathlib import Path
-from typing import Any, Callable, Protocol, TypeVar
+from typing import ProtocolVar
 
 import aioredis
 import numpy as np

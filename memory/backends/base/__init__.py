@@ -26,9 +26,11 @@ _CANDIDATES = (
 )
 
 _SRC = None
+import sys
 for _cand in _CANDIDATES:
     _m = _try(_cand)
-    if _m:
+    # Skip if we imported ourselves (circular reference protection)
+    if _m and _m is not sys.modules.get(__name__):
         _SRC = _m
         for _k in dir(_m):
             if not _k.startswith("_"):
@@ -41,6 +43,9 @@ for _cand in _CANDIDATES:
 
 def __getattr__(name: str):
     """Lazy attribute access fallback."""
-    if _SRC and hasattr(_SRC, name):
-        return getattr(_SRC, name)
+    if _SRC is not None:
+        try:
+            return getattr(_SRC, name)
+        except AttributeError:
+            pass
     raise AttributeError(f"module '{__name__}' has no attribute '{name}'")

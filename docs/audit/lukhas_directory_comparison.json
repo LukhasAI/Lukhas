@@ -1,0 +1,192 @@
+{
+  "summary": {
+    "prod_total_modules": 12,
+    "website_total_modules": 48,
+    "prod_only_count": 3,
+    "website_only_count": 39,
+    "overlapping_count": 9
+  },
+  "prod_only": [
+    "analytics",
+    "cli",
+    "features"
+  ],
+  "website_only": [
+    "accepted",
+    "agents",
+    "aka_qualia",
+    "audit",
+    "bio",
+    "branding",
+    "bridge",
+    "cognitive_core",
+    "colonies",
+    "colony",
+    "compliance",
+    "constellation",
+    "core",
+    "deployment",
+    "dna",
+    "emotion",
+    "feedback",
+    "flags",
+    "interfaces",
+    "ledger",
+    "matriz",
+    "migration",
+    "modulation",
+    "nias",
+    "nodes",
+    "observability",
+    "openai",
+    "orchestration",
+    "qi",
+    "quantum_bio_consciousness",
+    "rl",
+    "security",
+    "shims",
+    "tools",
+    "trace",
+    "trinity",
+    "utils",
+    "vivox",
+    "voice"
+  ],
+  "overlapping": [
+    {
+      "module": "adapters",
+      "prod": {
+        "py_files": 4,
+        "total_size": 4566,
+        "total_size_kb": 4
+      },
+      "website": {
+        "py_files": 1,
+        "total_size": 168,
+        "total_size_kb": 0
+      },
+      "size_diff_pct": -96.3,
+      "verdict": "WEBSITE_SUBSET"
+    },
+    {
+      "module": "api",
+      "prod": {
+        "py_files": 6,
+        "total_size": 21073,
+        "total_size_kb": 20
+      },
+      "website": {
+        "py_files": 11,
+        "total_size": 165894,
+        "total_size_kb": 162
+      },
+      "size_diff_pct": 687.2,
+      "verdict": "WEBSITE_EXTENSION"
+    },
+    {
+      "module": "consciousness",
+      "prod": {
+        "py_files": 1,
+        "total_size": 4309,
+        "total_size_kb": 4
+      },
+      "website": {
+        "py_files": 21,
+        "total_size": 552210,
+        "total_size_kb": 539
+      },
+      "size_diff_pct": 12715.3,
+      "verdict": "WEBSITE_EXTENSION"
+    },
+    {
+      "module": "dream",
+      "prod": {
+        "py_files": 1,
+        "total_size": 7938,
+        "total_size_kb": 7
+      },
+      "website": {
+        "py_files": 1,
+        "total_size": 4271,
+        "total_size_kb": 4
+      },
+      "size_diff_pct": -46.2,
+      "verdict": "WEBSITE_SUBSET"
+    },
+    {
+      "module": "glyphs",
+      "prod": {
+        "py_files": 1,
+        "total_size": 9423,
+        "total_size_kb": 9
+      },
+      "website": {
+        "py_files": 1,
+        "total_size": 6603,
+        "total_size_kb": 6
+      },
+      "size_diff_pct": -29.9,
+      "verdict": "WEBSITE_SUBSET"
+    },
+    {
+      "module": "governance",
+      "prod": {
+        "py_files": 16,
+        "total_size": 103033,
+        "total_size_kb": 100
+      },
+      "website": {
+        "py_files": 40,
+        "total_size": 680722,
+        "total_size_kb": 664
+      },
+      "size_diff_pct": 560.7,
+      "verdict": "WEBSITE_EXTENSION"
+    },
+    {
+      "module": "identity",
+      "prod": {
+        "py_files": 4,
+        "total_size": 34723,
+        "total_size_kb": 33
+      },
+      "website": {
+        "py_files": 60,
+        "total_size": 1001060,
+        "total_size_kb": 977
+      },
+      "size_diff_pct": 2783.0,
+      "verdict": "WEBSITE_EXTENSION"
+    },
+    {
+      "module": "memory",
+      "prod": {
+        "py_files": 2,
+        "total_size": 2429,
+        "total_size_kb": 2
+      },
+      "website": {
+        "py_files": 23,
+        "total_size": 462777,
+        "total_size_kb": 451
+      },
+      "size_diff_pct": 18952.2,
+      "verdict": "WEBSITE_EXTENSION"
+    },
+    {
+      "module": "orchestrator",
+      "prod": {
+        "py_files": 6,
+        "total_size": 18252,
+        "total_size_kb": 17
+      },
+      "website": {
+        "py_files": 1,
+        "total_size": 172,
+        "total_size_kb": 0
+      },
+      "size_diff_pct": -99.1,
+      "verdict": "WEBSITE_SUBSET"
+    }
+  ]
+}

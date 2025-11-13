@@ -9,18 +9,20 @@ rate limiting, and comprehensive monitoring.
 Constellation Framework: Flow Star (🌊) API layer
 """
 
+# ruff: noqa: B008
 from __future__ import annotations
 
 import logging
+import time
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from identity.auth_service import verify_token
 from opentelemetry import trace
 from pydantic import BaseModel, Field
 
 from governance.guardian import get_guardian
-from identity.auth_service import verify_token
 from observability import counter, histogram
 
 from .multi_ai_router import AIProvider, ConsensusType, RoutingRequest, get_multi_ai_router
@@ -302,8 +304,8 @@ async def enable_model(
 ):
     """Enable a specific AI model"""
 
-    with tracer.start_span("orchestration_api.enable_model"):
-        span.set_attribute("model_id", model_id)  # TODO: span
+    with tracer.start_span("orchestration_api.enable_model") as span:
+        span.set_attribute("model_id", model_id)
 
         try:
             router_instance = get_multi_ai_router()
@@ -353,8 +355,8 @@ async def disable_model(
 ):
     """Disable a specific AI model"""
 
-    with tracer.start_span("orchestration_api.disable_model"):
-        span.set_attribute("model_id", model_id)  # TODO: span
+    with tracer.start_span("orchestration_api.disable_model") as span:
+        span.set_attribute("model_id", model_id)
 
         try:
             router_instance = get_multi_ai_router()

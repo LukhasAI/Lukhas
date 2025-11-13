@@ -8,7 +8,6 @@ from dataclasses import dataclass
 from typing import Any
 
 import structlog
-
 from core.identity.vault.lukhas_id import (
     IdentityManager,
     IdentityVerificationError,
@@ -18,7 +17,7 @@ logger = structlog.get_logger(__name__)
 
 
 # ΛTAG: dashboard_widget_model
-@dataclass(slots=True)
+@dataclass
 class DashboardWidget:
     """Live dashboard widget with real-time data streams."""
 
@@ -35,7 +34,7 @@ class DashboardWidget:
 
 
 # ΛTAG: dashboard_identity_model
-@dataclass(slots=True)
+@dataclass
 class DashboardIdentityView:
     """Materialised view of identity information for dashboard rendering."""
 

@@ -50,8 +50,8 @@ The vocabularies module provides a comprehensive vocabulary management system fo
 ### Blocklist Categories
 - **Superlatives**: revolutionary, groundbreaking, ultimate, game-changing
 - **Misleading Claims**: true AI, sentient, conscious AI, AGI (without qualification)
-- **Inaccurate Technical**: "quantum processing" → use "quantum-inspired"
-- **Deprecated Terms**: LUKHAS Cognitive AI, MATADA, old product names
+- **Inaccurate Technical**: "quantum-inspired" → use "quantum-inspired"
+- **Deprecated Terms**: LUKHAS AI, MATRIZ, old product names
 - **Unverified Claims**: production status, revenue projections
 
 ### Allowlist (Evidence-Backed)
@@ -64,9 +64,9 @@ The vocabularies module provides a comprehensive vocabulary management system fo
 ### Technical Accuracy Rules
 ```python
 # REQUIRED terminology
-"quantum-inspired"  # NOT "quantum processing"
+"quantum-inspired"  # NOT "quantum-inspired"
 "bio-inspired"      # NOT "biological processing"
-"LUKHAS AI"         # NOT "LUKHAS Cognitive AI"
+"LUKHAS AI"         # NOT "LUKHAS AI"
 "MΛTRIZ"           # Display form
 "Matriz"           # Plain text form
 ```
@@ -273,7 +273,7 @@ Memory folds achieve 99.7% cascade prevention through careful architecture.
 ### ❌ Problematic Usage
 ```markdown
 Revolutionary quantum AI brain achieves sentient consciousness.
-Ultimate groundbreaking LUKHAS Cognitive AI system.
+Ultimate groundbreaking LUKHAS AI system.
 True AGI ready for production deployment.
 "In the infinite cathedral of quantum consciousness where probability waves
 dance through crystalline architectures of pure awareness seeking eternal
@@ -306,5 +306,5 @@ truth of existence." (24 words - over limit, obscures meaning)
 
 **Module Status**: L2 Integration
 **Schema Version**: 1.0.0
-**Last Updated**: 2025-10-18
+**Last Updated**: 2025-11-07
 **Philosophy**: *"In consciousness we trust, in code we create, in ethics we evolve."* ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum

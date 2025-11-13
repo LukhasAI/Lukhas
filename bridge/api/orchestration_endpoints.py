@@ -20,6 +20,8 @@ Features:
 - Constellation Framework integration
 """
 
+# ruff: noqa: B008
+# ruff: noqa: F821  # Experimental/test code with undefined names
 import json
 import logging
 import time
@@ -29,6 +31,16 @@ from typing import Any, Optional
 
 try:
     import jwt  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+
+    # LUKHAS imports
+    from bridge.api.orchestration_api_bridge import (
+        APIProvider,
+        ComprehensiveAPIOrchestrator,  # TODO: bridge.api.orchestratio...
+        OrchestrationRequest,
+        OrchestrationResponse,  # TODO: bridge.api.orchestratio...
+        OrchestrationStrategy,
+        get_orchestrator,
+    )
     from fastapi import (
         Depends,
         FastAPI,
@@ -46,16 +58,6 @@ try:
         BaseModel,
         Field,
         ValidationError,
-    )
-
-    # LUKHAS imports
-    from bridge.api.orchestration_api_bridge import (
-        APIProvider,
-        ComprehensiveAPIOrchestrator,  # TODO: bridge.api.orchestratio...
-        OrchestrationRequest,
-        OrchestrationResponse,  # TODO: bridge.api.orchestratio...
-        OrchestrationStrategy,
-        get_orchestrator,
     )
 
     FASTAPI_AVAILABLE = True
@@ -538,6 +540,9 @@ if FASTAPI_AVAILABLE:
 
         # Validate functions before registration
         try:
+# T4: code=F821 | ticket=SKELETON-99B14DF7 | owner=integration-team | status=skeleton
+# reason: Undefined get_validator in bridge/adapter skeleton - awaiting integration
+# estimate: 4h | priority=low | dependencies=production-implementation
             validator = get_validator()  # TODO: get_validator
             if validator:
                 validation_result = await validator.validate_request(

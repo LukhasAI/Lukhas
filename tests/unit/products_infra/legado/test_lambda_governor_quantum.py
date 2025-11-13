@@ -1,10 +1,14 @@
+# ruff: noqa: B008
+# ruff: noqa: F821  # Experimental/test code with undefined names
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import MagicMock
+from typing import ClassVar
 
 import pytest
 from products.infrastructure.legado.legacy_systems.governor.lambda_governor import (
+from typing import List, Tuple
     EscalationPriority,
     EscalationSignal,
     EscalationSource,
@@ -18,17 +22,14 @@ if tests_unit_path in sys.path:
 
 sys.path.insert(0, str(path_obj.parents[4]))
 
-
-
 class _DeterministicRouter:
     def __init__(self, router_id: str) -> None:
         self.router_id = router_id
-        self.calls: list[tuple[dict, str]] = []
+        self.calls: List[Tuple[dict, str]] = []
 
     async def verify_arbitration(self, payload: dict, collapse_hash: str) -> bool:
         self.calls.append((payload, collapse_hash))
         return True
-
 
 @pytest.mark.asyncio
 async def test_lambda_governor_generates_quantum_safe_record(monkeypatch):

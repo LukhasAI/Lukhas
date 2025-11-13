@@ -5,7 +5,7 @@ owner: T4
 lane: labs
 star:
 stability: experimental
-last_reviewed: 2025-10-24
+last_reviewed: 2025-11-10
 constellation_stars: "⚛️ Anchor · ✦ Trail · 🔬 Horizon · 🛡️ Watch"
 related_modules: "orchestrator, node_interface, memory_system, async_orchestrator"
 manifests: "../node_contract.py, ../matriz_node_v1.json"
@@ -15,7 +15,7 @@ domain: reasoning
 stars: "[Skill]"
 status: active
 tier: T2
-updated: 2025-10-24
+updated: 2025-11-10
 version: 1.0.0
 contract_version: 1.0.0
 ---

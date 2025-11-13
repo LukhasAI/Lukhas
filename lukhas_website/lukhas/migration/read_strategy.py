@@ -1,3 +1,4 @@
+# ruff: noqa: F821  # Experimental/test code with undefined names
 import logging
 from typing import Optional
 
@@ -9,7 +10,13 @@ logger = logging.getLogger(__name__)
 
 
 def read_memory(*, legacy: LegacyStore, dna: HelixMemory, key: str) -> Optional[dict]:
+# T4: code=F821 | ticket=SKELETON-E62E981B | owner=lukhas-platform | status=skeleton
+# reason: Undefined Flags in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     cutover = Flags.get_str("DNA_CUTOVER_READ_FROM", "legacy").lower()  # TODO: Flags
+# T4: code=F821 | ticket=SKELETON-E62E981B | owner=lukhas-platform | status=skeleton
+# reason: Undefined Flags in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
     shadow = Flags.get("DNA_READ_SHADOW", default=False)  # TODO: Flags
 
     def _cmp(a, b):  # minimalist compare

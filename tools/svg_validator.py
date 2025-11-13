@@ -109,7 +109,7 @@ def normalize_color(col):
     m = re.match(r'rgb\((\d+),\s*(\d+),\s*(\d+)\)', col)
     if m:
         r, g, b = map(int, m.groups())
-        return '#%02x%02x%02x' % (r, g, b)
+        return f'#{r:02x}{g:02x}{b:02x}'
 
     return None
 

@@ -12,7 +12,7 @@ from typing import Any, Protocol
 
 # ============================================================================
 # TEMPLATE 1: Core Decision Engine Registry
-# Replaces: static imports from core.* in lukhas/core/core_wrapper.py
+# Replaces: static imports from lukhas.core.* in lukhas/core/core_wrapper.py
 # ============================================================================
 
 

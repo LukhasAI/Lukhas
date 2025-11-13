@@ -7,7 +7,7 @@ import json
 import os
 import random
 import time
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 ENABLED = os.getenv("LUKHAS_STRATEGY_EVOLVE", "0") == "1"
 MUTATION_RATE = float(os.getenv("LUKHAS_EVOLVE_MUTATION_RATE", "0.1"))
@@ -24,7 +24,7 @@ class StrategyGenome:
     - Bounded parameter spaces
     """
 
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: dict[str, Any] = None):
         if config is None:
             config = self._default_config()
 
@@ -40,7 +40,7 @@ class StrategyGenome:
         self.generation: int = config.get("generation", 0)
         self.genome_id: str = self._generate_id()
 
-    def _default_config(self) -> Dict[str, Any]:
+    def _default_config(self) -> dict[str, Any]:
         """Default configuration for strategy genome."""
         return {
             "alignment_threshold": 0.5,
@@ -94,7 +94,7 @@ class StrategyGenome:
 
         return StrategyGenome(mutated_config)
 
-    def crossover(self, other: 'StrategyGenome') -> Tuple['StrategyGenome', 'StrategyGenome']:
+    def crossover(self, other: 'StrategyGenome') -> tuple['StrategyGenome', 'StrategyGenome']:
         """
         Create two offspring through crossover with another genome.
 
@@ -131,7 +131,7 @@ class StrategyGenome:
 
         return StrategyGenome(child1_config), StrategyGenome(child2_config)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert genome to dictionary representation."""
         return {
             "genes": self.genes.copy(),
@@ -140,7 +140,7 @@ class StrategyGenome:
             "genome_id": self.genome_id
         }
 
-    def to_dream_config(self) -> Dict[str, Any]:
+    def to_dream_config(self) -> dict[str, Any]:
         """Convert genome to dream system configuration."""
         return {
             "alignment_threshold": self.genes["alignment_threshold"],
@@ -168,12 +168,12 @@ class EvolutionEngine:
             population_size = POPULATION_SIZE
 
         self.population_size = population_size
-        self.population: List[StrategyGenome] = []
+        self.population: list[StrategyGenome] = []
         self.generation: int = 0
         self.best_genome: Optional[StrategyGenome] = None
-        self.evolution_history: List[Dict[str, Any]] = []
+        self.evolution_history: list[dict[str, Any]] = []
 
-    def initialize_population(self, seed_configs: List[Dict[str, Any]] = None) -> None:
+    def initialize_population(self, seed_configs: list[dict[str, Any]] = None) -> None:
         """
         Initialize population with random or seeded configurations.
 
@@ -228,7 +228,7 @@ class EvolutionEngine:
             if self.best_genome is None or (best_candidate.fitness or 0.0) > (self.best_genome.fitness or 0.0):
                 self.best_genome = best_candidate
 
-    def selection(self, selection_pressure: float = 0.7) -> List[StrategyGenome]:
+    def selection(self, selection_pressure: float = 0.7) -> list[StrategyGenome]:
         """
         Select parents for reproduction using tournament selection.
 
@@ -248,7 +248,7 @@ class EvolutionEngine:
         num_selected = max(2, int(len(sorted_population) * selection_pressure))
         return sorted_population[:num_selected]
 
-    def reproduce(self, parents: List[StrategyGenome]) -> List[StrategyGenome]:
+    def reproduce(self, parents: list[StrategyGenome]) -> list[StrategyGenome]:
         """
         Create next generation through crossover and mutation.
 
@@ -283,7 +283,7 @@ class EvolutionEngine:
 
         return offspring[:self.population_size]
 
-    def evolve_generation(self, benchmark_function) -> Dict[str, Any]:
+    def evolve_generation(self, benchmark_function) -> dict[str, Any]:
         """
         Evolve one generation.
 
@@ -321,7 +321,7 @@ class EvolutionEngine:
         self.evolution_history.append(stats)
         return stats
 
-def save_strategy(config: Dict[str, Any], path: str = "dream_strategies.json") -> None:
+def save_strategy(config: dict[str, Any], path: str = "dream_strategies.json") -> None:
     """
     Save strategy configuration to file.
 
@@ -357,7 +357,7 @@ def save_strategy(config: Dict[str, Any], path: str = "dream_strategies.json") -
     except Exception:
         pass  # Fail silently on file errors
 
-def load_strategy(path: str = "dream_strategies.json") -> Optional[Dict[str, Any]]:
+def load_strategy(path: str = "dream_strategies.json") -> Optional[dict[str, Any]]:
     """
     Load strategy configuration from file.
 
@@ -377,7 +377,7 @@ def load_strategy(path: str = "dream_strategies.json") -> Optional[Dict[str, Any
     except Exception:
         return None
 
-def get_evolution_config() -> Dict[str, Any]:
+def get_evolution_config() -> dict[str, Any]:
     """Get current evolution configuration."""
     return {
         "enabled": ENABLED,

@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import pytest
-
 from core.emotion.emotion_mapper_alt import EmotionMapper, EmotionProfile
 
 

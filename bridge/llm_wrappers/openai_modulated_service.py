@@ -23,6 +23,7 @@ from typing import Any, cast
 from bridge.llm_wrappers.tool_executor import (
     execute_tool as bridged_execute_tool,
 )
+from caching.cache_system import cache_operation
 
 # from audit.tool_analytics import get_analytics  # Module not available, using mock
 
@@ -33,8 +34,6 @@ def get_analytics():
 
 from branding.policy.terminology import normalize_chunk, normalize_output
 from openai.tooling import build_tools_from_allowlist, get_all_tools
-
-from metrics import get_metrics_collector
 from orchestration.signals.homeostasis import (
     HomeostasisController,
     ModulationParams,
@@ -42,6 +41,8 @@ from orchestration.signals.homeostasis import (
 )
 from orchestration.signals.modulator import PromptModulation, PromptModulator
 from orchestration.signals.signal_bus import Signal, get_signal_bus
+
+from metrics import get_metrics_collector
 
 from .unified_openai_client import UnifiedOpenAIClient
 
@@ -77,6 +78,7 @@ class OpenAIModulatedService:
             if function_name:
                 self._function_to_allowlist_map[function_name] = allowlist_name
 
+    @cache_operation(cache_key="modulated_generate", ttl_seconds=600)
     async def generate(
         self,
         prompt: str,
@@ -918,9 +920,8 @@ def resume_with_tools(
     import asyncio
     import json
 
-    from tools.tool_executor import get_tool_executor
-
     from audit.tool_analytics import get_analytics
+    from tools.tool_executor import get_tool_executor
 
     analytics = get_analytics()
     executor = get_tool_executor()

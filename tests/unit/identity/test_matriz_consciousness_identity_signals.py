@@ -1,3 +1,4 @@
+# ruff: noqa: F821
 # owner: Jules-02
 # tier: tier1
 # module_uid: candidate.core.identity.matriz_consciousness_identity_signals
@@ -40,6 +41,9 @@ class MockConsciousnessSignal:
 
 # Patch the ConsciousnessSignal in the module with our mock
 
+# T4: code=F821 | ticket=SKELETON-0B0C6A8E | owner=testing-team | status=skeleton
+# reason: Undefined candidate in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
 candidate.core.identity.matriz_consciousness_identity_signals.ConsciousnessSignal = MockConsciousnessSignal  # TODO: candidate
 
 

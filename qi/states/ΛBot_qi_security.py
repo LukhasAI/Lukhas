@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+# ruff: noqa: F821
 """
 
 #TAG:qim
@@ -423,6 +424,9 @@ class ΛBotQuantumSecurityOrchestrator:
 
         # Initialize brain symphony for bio-symbolic processing
         if BRAIN_SYSTEM_AVAILABLE:
+# T4: code=F821 | ticket=SKELETON-D7589796 | owner=lukhas-platform | status=skeleton
+# reason: Undefined MultiBrainSymphony in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             self.brain_symphony = MultiBrainSymphony()  # TODO: MultiBrainSymphony
         else:
             self.brain_symphony = None

@@ -1,4 +1,6 @@
 """Bridge module for core.actor_system → labs.core.actor_system"""
 from __future__ import annotations
 
-from labs.core.actor_system import *
+from labs.core.actor_system import ActorRef, ActorSystem, get_global_actor_system
+
+__all__ = ["ActorRef", "ActorSystem", "get_global_actor_system"]

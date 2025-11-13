@@ -35,59 +35,102 @@ from __future__ import annotations
 import asyncio
 import contextlib
 import logging
+import importlib
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-try:
-    from qi.qi_dream_adapter import DreamQuantumConfig, QIDreamAdapter
-except ImportError:
-    # Create placeholders if the modules don't exist
-    class QIDreamAdapter:
-        def __init__(self, *args, **kwargs):
-            pass
-
-        def adapt(self, *args, **kwargs):
-            return {}
-
-    class DreamQuantumConfig:
-        def __init__(self, *args, **kwargs):
-            pass
-
-
-try:
-    from core.unified.bio_signals import QIBioOscillator
-    from core.unified.integration import UnifiedIntegration
-    from core.unified.orchestration import BioOrchestrator
-except ImportError:
-    # Create placeholders if the modules don't exist
-    class BioOrchestrator:
-        def __init__(self, *args, **kwargs):
-            pass
-
-    class QIBioOscillator:
-        def __init__(self, *args, **kwargs):
-            pass
-
-    class UnifiedIntegration:
-        def __init__(self, *args, **kwargs):
-            pass
-
-
-logger = logging.getLogger("enhanced_dream")
-
-
-# Import the simple DreamEngine as a fallback
+# --- Lazy Loading and Stubs ---
+class _SimpleDreamEngine_stub:
+    async def generate_dream_sequence(self, daily_data: Optional[list] = None):
+        return {
+            "dream_sequence": {"narrative": "A peaceful dream state of creative possibility..."},
+            "learning": {"insights": "Creative potential explored"},
+            "memory_trace": "dream_fallback_001",
+        }
 try:
     from consciousness.dream.engine.dream_engine import DreamEngine as SimpleDreamEngine
 except ImportError:
-    # Create a minimal fallback
-    class SimpleDreamEngine:
-        async def generate_dream_sequence(self, daily_data: Optional[list] = None):
-            return {
-                "dream_sequence": {"narrative": "A peaceful dream state of creative possibility..."},
-                "learning": {"insights": "Creative potential explored"},
-                "memory_trace": "dream_fallback_001",
-            }
+    SimpleDreamEngine = _SimpleDreamEngine_stub
+
+class _DreamQuantumConfig_stub:
+    def __init__(self, *args, **kwargs):
+        self.coherence_threshold = 0.9
+
+try:
+    from qi.qi_dream_adapter import DreamQuantumConfig
+except ImportError:
+    DreamQuantumConfig = _DreamQuantumConfig_stub
+
+class _QIDreamAdapter_stub:
+    def __init__(self, *args, **kwargs): pass
+    def adapt(self, *args, **kwargs): return {}
+try:
+    from qi.qi_dream_adapter import QIDreamAdapter
+except ImportError:
+    QIDreamAdapter = _QIDreamAdapter_stub
+    async def start_dream_cycle(self, *args, **kwargs): pass
+    async def stop_dream_cycle(self, *args, **kwargs): pass
+    async def get_quantum_like_state(self, *args, **kwargs): return {"coherence": 0.0, "entanglement": 0.0, "insights": [], "timestamp": datetime.now(timezone.utc).isoformat()}
+    async def enhance_emotional_state(self, emotional_state): return emotional_state
+
+class _DreamQuantumConfig_stub:
+    def __init__(self, *args, **kwargs):
+        self.coherence_threshold = 0.9
+
+class _BioOrchestrator_stub:
+    def __init__(self, *args, **kwargs): pass
+
+class _QIBioOscillator_stub:
+    def __init__(self, *args, **kwargs): pass
+
+class _UnifiedIntegration_stub:
+    def __init__(self, *args, **kwargs): pass
+    def register_component(self, name, handler): pass
+    async def store_data(self, store_name, data): pass
+    async def get_data(self, store_name): return []
+
+class _SimpleDreamEngine_stub:
+    async def generate_dream_sequence(self, daily_data: Optional[list] = None):
+        return {
+            "dream_sequence": {"narrative": "A peaceful dream state of creative possibility..."},
+            "learning": {"insights": "Creative potential explored"},
+            "memory_trace": "dream_fallback_001",
+        }
+
+def __getattr__(name: str) -> Any:
+    """Lazy load dependencies to improve startup and handle optional modules."""
+
+    if name == "QIBioOscillator":
+        try:
+            from core.unified.bio_signals import QIBioOscillator
+            globals()[name] = QIBioOscillator
+            return QIBioOscillator
+        except ImportError:
+            globals()[name] = _QIBioOscillator_stub
+            return _QIBioOscillator_stub
+
+    if name == "UnifiedIntegration":
+        try:
+            from core.unified.integration import UnifiedIntegration
+            globals()[name] = UnifiedIntegration
+            return UnifiedIntegration
+        except ImportError:
+            globals()[name] = _UnifiedIntegration_stub
+            return _UnifiedIntegration_stub
+
+    if name == "BioOrchestrator":
+        try:
+            from core.unified.orchestration import BioOrchestrator
+            globals()[name] = BioOrchestrator
+            return BioOrchestrator
+        except ImportError:
+            globals()[name] = _BioOrchestrator_stub
+            return _BioOrchestrator_stub
+
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+
+logger = logging.getLogger("enhanced_dream")
 
 
 class EnhancedDreamEngine:

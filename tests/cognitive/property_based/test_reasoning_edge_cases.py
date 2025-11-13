@@ -27,7 +27,7 @@ import time
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any
+from typing import Any, Dict, List
 
 import hypothesis
 import pytest
@@ -35,11 +35,10 @@ import pytest
 # LUKHAS cognitive imports
 from cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
 from cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine, InferenceType
-from hypothesis import assume, given, strategies as st
-from hypothesis.stateful import Bundle, RuleBasedStateMachine, consumes, rule
-
 from consciousness.enhanced_thought_engine import EnhancedThoughtEngine, ThoughtComplexity
 from consciousness.meta_cognitive_assessor import MetaCognitiveAssessor
+from hypothesis import assume, given, strategies as st
+from hypothesis.stateful import Bundle, RuleBasedStateMachine, consumes, rule
 
 # Test configuration
 hypothesis.settings(
@@ -68,7 +67,7 @@ class EdgeCaseScenario:
     """Structured edge case scenario for testing"""
     category: EdgeCaseCategory
     description: str
-    input_data: dict[str, Any]
+    input_data: Dict[str, Any]
     expected_behavior: str
     probability_estimate: float  # Target <0.01%
 
@@ -86,7 +85,7 @@ class PropertyBasedTestFramework:
         self.thought_engine = None
         self.contradiction_integrator = None
         self.meta_assessor = None
-        self.test_scenarios: list[EdgeCaseScenario] = []
+        self.test_scenarios: List[EdgeCaseScenario] = []
         self.performance_metrics = {
             'latency_samples': [],
             'error_rates': {},
@@ -118,7 +117,7 @@ class PropertyBasedTestFramework:
             performance_tracking=True
         )
 
-    def generate_edge_case_scenarios(self) -> list[EdgeCaseScenario]:
+    def generate_edge_case_scenarios(self) -> List[EdgeCaseScenario]:
         """Generate comprehensive edge case scenarios"""
         scenarios = []
 
@@ -256,7 +255,7 @@ class PropertyBasedTestFramework:
         """Validate T4/0.01% latency compliance"""
         return latency_ms < 250.0
 
-    def calculate_test_coverage_metrics(self) -> dict[str, float]:
+    def calculate_test_coverage_metrics(self) -> Dict[str, float]:
         """Calculate test coverage metrics for edge cases"""
         total_scenarios = len(self.test_scenarios)
         if total_scenarios == 0:

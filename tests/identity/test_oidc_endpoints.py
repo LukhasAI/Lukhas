@@ -12,11 +12,11 @@ import time
 from unittest.mock import Mock, patch
 
 import pytest
-from fastapi import FastAPI
-from fastapi.testclient import TestClient
 
 # Import modules to test
 from api.oidc import get_correlation_id, router, security_check_dependency
+from fastapi import FastAPI
+from fastapi.testclient import TestClient
 from identity.security_hardening import SecurityAction
 
 

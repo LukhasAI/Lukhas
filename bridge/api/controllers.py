@@ -72,15 +72,14 @@ try:
     # or installed as part of a larger package.
     # For example: from core_modules.ethics.ethics_service import EthicsService
     # For now, using the provided relative-like import paths.
-    from creativity.creativity_service import CreativityService
-
-    # Learning service is now obtained through the service registry
-    from qi.qi_service import QIService
-
     from consciousness.consciousness_service import ConsciousnessService
+    from creativity.creativity_service import CreativityService
     from ethics.ethics_service import EthicsService
     from governance.identity.interface import IdentityClient  # Needs to be a defined interface
     from memory.memory_service import MemoryService
+
+    # Learning service is now obtained through the service registry
+    from qi.qi_service import QIService
 
     logger.info("ΛTRACE: Successfully imported Cognitive module services and IdentityClient.")
 except ImportError as e:
@@ -232,7 +231,7 @@ def handle_api_error(error: Exception, endpoint: str, user_id: Optional[str]) ->
         endpoint (str): The API endpoint path where the error occurred.
         user_id (Optional[str]): The ID of the user making the request, if available.
     Returns:
-        Dict[str, Any]: A standardized error response dictionary.
+        dict[str, Any]: A standardized error response dictionary.
     """
     error_message = str(error)
     error_type_name = type(error).__name__

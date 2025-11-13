@@ -20,7 +20,7 @@ import sys
 import threading
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 from unittest.mock import Mock, patch
 
 import pytest
@@ -34,9 +34,9 @@ from core.registry import _REG, discover_entry_points, register, resolve
 class LaneConfig:
     """Configuration for a specific execution lane"""
     name: str
-    allowed_plugin_groups: list[str]
+    allowed_plugin_groups: List[str]
     security_level: str  # 'strict', 'moderate', 'permissive'
-    resource_limits: dict[str, Any]
+    resource_limits: Dict[str, Any]
     plugin_prefix: str
 
 
@@ -261,7 +261,7 @@ class TestLaneIsolationEnforcement:
 
                 # Mock the discovery process to respect lane isolation
                 with patch('core.registry._register_kind') as mock_register_kind:
-                    def lane_aware_register(group, name, obj):
+                    def lane_aware_register(group, name, obj, lane_name=lane_name):
                         # Only register if plugin is allowed in current lane
                         if self.isolation_manager.is_plugin_allowed_in_lane(group, lane_name):
                             lane_key = self.isolation_manager.get_lane_specific_registry_key(

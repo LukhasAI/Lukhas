@@ -10,7 +10,7 @@ from typing import Any, Optional
 from pydantic import BaseModel
 
 # Import Lukhas interfaces (these would be provided by Lukhas AGI)
-from core import (
+from lukhas.core import (
     LUKHASBioOscillatorInterface,
     LUKHASComplianceInterface,
     LUKHASIdentityInterface,

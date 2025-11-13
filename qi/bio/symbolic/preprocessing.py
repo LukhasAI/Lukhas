@@ -19,7 +19,6 @@ from typing import Any
 
 import numpy as np
 from bio.core.symbolic_fallback_systems import get_fallback_manager
-
 from core.colonies.base_colony import BaseColony
 from core.symbolism.tags import TagPermission, TagScope
 

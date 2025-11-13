@@ -8,17 +8,16 @@ RESTful API for natural language consciousness interaction.
 import time
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Optional
-
-from fastapi import Body, FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from typing import Any, ClassVar, Optional
 
 from consciousness.interfaces.natural_language_interface import (
     ConversationManager,
     NaturalLanguageConsciousnessInterface,
 )
 from core.common import get_logger
+from fastapi import Body, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
 
 logger = get_logger(__name__)
 
@@ -52,7 +51,7 @@ class ChatRequest(BaseModel):
     user_id: Optional[str] = Field(None, description="User identifier")
 
     class Config:
-        json_schema_extra = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_consciousness_chat_api_py_L54"}
+        json_schema_extra: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_consciousness_chat_api_py_L54"}
             "example": {
                 "message": "How aware are you right now?",
                 "session_id": "session_123",
@@ -70,7 +69,7 @@ class ChatResponse(BaseModel):
     metadata: Optional[dict[str, Any]] = Field(None, description="Additional response metadata")
 
     class Config:
-        json_schema_extra = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_consciousness_chat_api_py_L72"}
+        json_schema_extra: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_api_consciousness_chat_api_py_L72"}
             "example": {
                 "response": "My current awareness level is 85%. I'm highly aware and focused on our conversation.",
                 "session_id": "session_123",

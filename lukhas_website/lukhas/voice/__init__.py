@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
 #!/usr/bin/env python3
 """
 LUKHAS Voice Systems Module
@@ -6,7 +10,7 @@ Constellation Framework: Identity-Consciousness-Guardian
 """
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +47,6 @@ except ImportError as e:
         def adapt(self, text: str, style: str = "default") -> str:
             return text
 
-
 def get_voice_status() -> dict[str, Any]:
     """Get voice systems status"""
     return {
@@ -56,21 +59,17 @@ def get_voice_status() -> dict[str, Any]:
         "module": "candidate.voice"
     }
 
-
 def create_voice_engine(**config) -> VoiceEngine:
     """Create voice engine with configuration"""
     return VoiceEngine(**config)
-
 
 def create_consciousness_voice(**config) -> ConsciousnessVoice:
     """Create consciousness voice with configuration"""
     return ConsciousnessVoice(**config)
 
-
 def create_voice_adapter(**config) -> VoiceAdapter:
     """Create voice adapter with configuration"""
     return VoiceAdapter(**config)
-
 
 # Export public interface
 __all__ = [

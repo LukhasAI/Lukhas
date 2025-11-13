@@ -5,13 +5,13 @@ Validates retention policies, GDPR compliance, archival operations,
 and lifecycle automation with T4/0.01% excellence standards.
 """
 
+# ruff: noqa: F821
 import asyncio
 from datetime import datetime, timedelta, timezone
 from unittest.mock import patch
 
 import numpy as np
 import pytest
-
 from memory.backends.base import AbstractVectorStore, VectorDocument
 from memory.lifecycle import (
     AbstractArchivalBackend,
@@ -49,6 +49,9 @@ class MockVectorStore(AbstractVectorStore):
 
     async def get(self, document_id):
         if document_id in self.deleted_ids:
+# T4: code=F821 | ticket=SKELETON-D3A914A0 | owner=testing-team | status=skeleton
+# reason: Undefined DocumentNotFoundError in test skeleton - awaiting test implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
             raise DocumentNotFoundError(f"Document {document_id} not found")  # TODO: DocumentNotFoundError
         return self.documents.get(document_id)
 

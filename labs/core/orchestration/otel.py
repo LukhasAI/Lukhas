@@ -6,6 +6,7 @@ OTel span helper. Falls back to no-op if opentelemetry not installed.
 from __future__ import annotations
 
 from contextlib import contextmanager
+from typing import Any
 
 try:
     from opentelemetry import trace  # type: ignore
@@ -15,11 +16,11 @@ except Exception:  # pragma: no cover
 
 
 @contextmanager
-def stage_span(name: str, **attrs):
+def stage_span(name: str, context: Any = None, **attrs):
     if _TRACER is None:
         yield None
         return
-    with _TRACER.start_as_current_span(f"matriz.{name}") as sp:
+    with _TRACER.start_as_current_span(f"matriz.{name}", context=context) as sp:
         for k, v in attrs.items():
             try:
                 sp.set_attribute(f"matriz.{k}", v)

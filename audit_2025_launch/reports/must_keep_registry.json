@@ -5577,7 +5577,7 @@
       "priority": "high"
     },
     {
-      "path": "agents/docs/README.md",
+      "path": "docs/ai-agents/README.md",
       "category": "critical_documentation",
       "reason": "Critical documentation: README.md",
       "priority": "high"
@@ -7989,7 +7989,7 @@
       "priority": "high"
     },
     {
-      "path": "agents/docs/CLAUDE.md",
+      "path": "docs/ai-agents/CLAUDE.md",
       "category": "critical_documentation",
       "reason": "Critical documentation: CLAUDE.md",
       "priority": "high"
@@ -16984,7 +16984,7 @@
         "priority": "high"
       },
       {
-        "path": "agents/docs/README.md",
+        "path": "docs/ai-agents/README.md",
         "category": "critical_documentation",
         "reason": "Critical documentation: README.md",
         "priority": "high"
@@ -19396,7 +19396,7 @@
         "priority": "high"
       },
       {
-        "path": "agents/docs/CLAUDE.md",
+        "path": "docs/ai-agents/CLAUDE.md",
         "category": "critical_documentation",
         "reason": "Critical documentation: CLAUDE.md",
         "priority": "high"

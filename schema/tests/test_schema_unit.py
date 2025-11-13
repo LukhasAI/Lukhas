@@ -63,9 +63,8 @@ class TestSchemaCore:
     def test_error_handling(self):
         """Test proper error handling patterns."""
         try:
-            from schema import SchemaCore
-
             from core.exceptions import LUKHASException
+            from schema import SchemaCore
 
             component = SchemaCore()
 

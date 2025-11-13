@@ -10,7 +10,6 @@ import os
 import random
 
 import pytest
-
 from core.breakthrough import BreakthroughDetector
 
 # ---- Helpers ---------------------------------------------------------------

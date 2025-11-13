@@ -16,7 +16,8 @@ def test_anneal_with_simple_objective():
     """Test the anneal method with a simple objective function."""
     annealer = QuantumAnnealer()
     search_space = [{"x": 1}, {"x": 2}, {"x": 3}]
-    objective = lambda state: state["x"]
+    def objective(state):
+        return state["x"]
     result = annealer.anneal(objective, search_space=search_space)
     assert result.solution == {"x": 1}
     assert result.energy == 1

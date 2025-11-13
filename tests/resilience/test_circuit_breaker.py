@@ -583,12 +583,12 @@ class TestCircuitBreakerDecorator:
             nonlocal call_count
             call_count += 1
             if call_count <= 3:
-                raise Exception("Service unavailable")
+                raise ValueError("Service unavailable")
             return "recovered"
 
         # First few calls should fail
         for _i in range(3):
-            with pytest.raises(Exception):
+            with pytest.raises((ValueError, CircuitBreakerOpenError)):
                 await failing_function()
 
         # Eventually circuit should open and reject calls

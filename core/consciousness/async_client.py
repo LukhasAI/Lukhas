@@ -42,6 +42,7 @@ import warnings
 from collections.abc import AsyncIterable
 from typing import TYPE_CHECKING, Any, Literal, overload
 
+from core.common import get_logger
 from huggingface_hub import constants
 from huggingface_hub.errors import InferenceTimeoutError
 from huggingface_hub.inference._common import (
@@ -111,8 +112,6 @@ from huggingface_hub.utils import build_hf_headers, get_session, hf_raise_for_st
 from huggingface_hub.utils._auth import get_token
 from huggingface_hub.utils._deprecation import _deprecate_method
 
-from core.common import get_logger
-
 from .._common import _async_yield_from, _import_aiohttp
 
 logger = logging.getLogger(__name__)
@@ -158,13 +157,13 @@ class AsyncInferenceClient:
         timeout (`float`, `optional`):
             The maximum number of seconds to wait for a response from the server. Loading a new model in Inference
             API can take up to several minutes. Defaults to None, meaning it will loop until the server is available.
-        headers (`Dict[str, str]`, `optional`):
+        headers (`dict[str, str]`, `optional`):
             Additional headers to send to the server. By default only the authorization and user-agent headers are sent.
             Values in this dictionary will override the default values.
         bill_to (`str`, `optional`):
             The billing account to use for the requests. By default the requests are billed on the user's account.
             Requests can only be billed to an organization the user is a member of, and which has subscribed to Enterprise Hub.
-        cookies (`Dict[str, str]`, `optional`):
+        cookies (`dict[str, str]`, `optional`):
             Additional cookies to send to the server.
         trust_env ('bool', 'optional'):
             Trust environment settings for proxy configuration if the parameter is `True` (`False` by default).
@@ -454,7 +453,7 @@ class AsyncInferenceClient:
                 The function to apply to the model outputs in order to retrieve the scores.
 
         Returns:
-            `List[AudioClassificationOutputElement]`: List of [`AudioClassificationOutputElement`] items containing the predicted labels and their confidence.
+            `list[AudioClassificationOutputElement]`: List of [`AudioClassificationOutputElement`] items containing the predicted labels and their confidence.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -505,7 +504,7 @@ class AsyncInferenceClient:
                 audio_to_audio will be used.
 
         Returns:
-            `List[AudioToAudioOutputElement]`: A list of [`AudioToAudioOutputElement`] items containing audios label, content-type, and audio content in blob.
+            `list[AudioToAudioOutputElement]`: A list of [`AudioToAudioOutputElement`] items containing audios label, content-type, and audio content in blob.
 
         Raises:
             `InferenceTimeoutError`:
@@ -717,7 +716,7 @@ class AsyncInferenceClient:
             frequency_penalty (`float`, *optional*):
                 Penalizes new tokens based on their existing frequency
                 in the text so far. Range: [-2.0, 2.0]. Defaults to 0.0.
-            logit_bias (`List[float]`, *optional*):
+            logit_bias (`list[float]`, *optional*):
                 Adjusts the likelihood of specific tokens appearing in the generated output.
             logprobs (`bool`, *optional*):
                 Whether to return log probabilities of the output tokens or not. If true, returns the log
@@ -733,7 +732,7 @@ class AsyncInferenceClient:
                 Grammar constraints. Can be either a JSONSchema or a regex.
             seed (Optional[`int`], *optional*):
                 Seed for reproducible control flow. Defaults to None.
-            stop (`List[str]`, *optional*):
+            stop (`list[str]`, *optional*):
                 Up to four strings which trigger the end of the response.
                 Defaults to None.
             stream (`bool`, *optional*):
@@ -1114,11 +1113,11 @@ class AsyncInferenceClient:
             top_k (`int`, *optional*):
                 The number of answers to return (will be chosen by order of likelihood). Can return less than top_k
                 answers if there are not enough options available within the context.
-            word_boxes (`List[Union[List[float], str`, *optional*):
+            word_boxes (`list[Union[list[float], str`, *optional*):
                 A list of words and bounding boxes (normalized 0->1000). If provided, the inference will skip the OCR
                 step and use the provided bounding boxes instead.
         Returns:
-            `List[DocumentQuestionAnsweringOutputElement]`: a list of [`DocumentQuestionAnsweringOutputElement`] items containing the predicted label, associated probability, word ids, and page number.
+            `list[DocumentQuestionAnsweringOutputElement]`: a list of [`DocumentQuestionAnsweringOutputElement`] items containing the predicted label, associated probability, word ids, and page number.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -1247,14 +1246,14 @@ class AsyncInferenceClient:
             model (`str`, *optional*):
                 The model to use for the fill mask task. Can be a model ID hosted on the Hugging Face Hub or a URL to
                 a deployed Inference Endpoint. If not provided, the default recommended fill mask model will be used.
-            targets (`List[str`, *optional*):
+            targets (`list[str`, *optional*):
                 When passed, the model will limit the scores to the passed targets instead of looking up in the whole
                 vocabulary. If the provided targets are not in the model vocab, they will be tokenized and the first
                 resulting token will be used (with a warning, and that might be slower).
             top_k (`int`, *optional*):
                 When passed, overrides the number of predictions to return.
         Returns:
-            `List[FillMaskOutputElement]`: a list of [`FillMaskOutputElement`] items containing the predicted label, associated
+            `list[FillMaskOutputElement]`: a list of [`FillMaskOutputElement`] items containing the predicted label, associated
             probability, token reference, and completed text.
 
         Raises:
@@ -1308,7 +1307,7 @@ class AsyncInferenceClient:
             top_k (`int`, *optional*):
                 When specified, limits the output to the top K most probable classes.
         Returns:
-            `List[ImageClassificationOutputElement]`: a list of [`ImageClassificationOutputElement`] items containing the predicted label and associated probability.
+            `list[ImageClassificationOutputElement]`: a list of [`ImageClassificationOutputElement`] items containing the predicted label and associated probability.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -1370,7 +1369,7 @@ class AsyncInferenceClient:
             threshold (`float`, *optional*):
                 Probability threshold to filter out predicted masks.
         Returns:
-            `List[ImageSegmentationOutputElement]`: A list of [`ImageSegmentationOutputElement`] items containing the segmented masks and associated attributes.
+            `list[ImageSegmentationOutputElement]`: A list of [`ImageSegmentationOutputElement`] items containing the segmented masks and associated attributes.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -1553,7 +1552,7 @@ class AsyncInferenceClient:
             threshold (`float`, *optional*):
                 The probability necessary to make a prediction.
         Returns:
-            `List[ObjectDetectionOutputElement]`: A list of [`ObjectDetectionOutputElement`] items containing the bounding boxes and associated attributes.
+            `list[ObjectDetectionOutputElement]`: A list of [`ObjectDetectionOutputElement`] items containing the bounding boxes and associated attributes.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -1628,7 +1627,7 @@ class AsyncInferenceClient:
                 topk answers if there are not enough options available within the context.
 
         Returns:
-            Union[`QuestionAnsweringOutputElement`, List[`QuestionAnsweringOutputElement`]]:
+            Union[`QuestionAnsweringOutputElement`, list[`QuestionAnsweringOutputElement`]]:
                 When top_k is 1 or not provided, it returns a single `QuestionAnsweringOutputElement`.
                 When top_k is greater than 1, it returns a list of `QuestionAnsweringOutputElement`.
         Raises:
@@ -1679,7 +1678,7 @@ class AsyncInferenceClient:
         Args:
             sentence (`str`):
                 The main sentence to compare to others.
-            other_sentences (`List[str]`):
+            other_sentences (`list[str]`):
                 The list of sentences to compare to.
             model (`str`, *optional*):
                 The model to use for the conversational task. Can be a model ID hosted on the Hugging Face Hub or a URL to
@@ -1687,7 +1686,7 @@ class AsyncInferenceClient:
                 Defaults to None.
 
         Returns:
-            `List[float]`: The embedding representing the input text.
+            `list[float]`: The embedding representing the input text.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -1743,7 +1742,7 @@ class AsyncInferenceClient:
                 Inference Endpoint. If not provided, the default recommended model for summarization will be used.
             clean_up_tokenization_spaces (`bool`, *optional*):
                 Whether to clean up the potential extra spaces in the text output.
-            generate_parameters (`Dict[str, Any]`, *optional*):
+            generate_parameters (`dict[str, Any]`, *optional*):
                 Additional parametrization of the text generation algorithm.
             truncation (`"SummarizationTruncationStrategy"`, *optional*):
                 The truncation strategy to use.
@@ -1854,7 +1853,7 @@ class AsyncInferenceClient:
         Classifying a target category (a group) based on a set of attributes.
 
         Args:
-            table (`Dict[str, Any]`):
+            table (`dict[str, Any]`):
                 Set of attributes to classify.
             model (`str`, *optional*):
                 The model to use for the tabular classification task. Can be a model ID hosted on the Hugging Face Hub or a URL to
@@ -1909,7 +1908,7 @@ class AsyncInferenceClient:
         Predicting a numerical target value given a set of attributes/features in a table.
 
         Args:
-            table (`Dict[str, Any]`):
+            table (`dict[str, Any]`):
                 Set of attributes stored in a table. The attributes used to predict the target can be both numerical and categorical.
             model (`str`, *optional*):
                 The model to use for the tabular regression task. Can be a model ID hosted on the Hugging Face Hub or a URL to
@@ -1978,7 +1977,7 @@ class AsyncInferenceClient:
                 The function to apply to the model outputs in order to retrieve the scores.
 
         Returns:
-            `List[TextClassificationOutputElement]`: a list of [`TextClassificationOutputElement`] items containing the predicted label and associated probability.
+            `list[TextClassificationOutputElement]`: a list of [`TextClassificationOutputElement`] items containing the predicted label and associated probability.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -2237,9 +2236,9 @@ class AsyncInferenceClient:
                 Whether to prepend the prompt to the generated text
             seed (`int`, *optional*):
                 Random sampling seed
-            stop (`List[str]`, *optional*):
+            stop (`list[str]`, *optional*):
                 Stop generating tokens if a member of `stop` is generated.
-            stop_sequences (`List[str]`, *optional*):
+            stop_sequences (`list[str]`, *optional*):
                 Deprecated argument. Use `stop` instead.
             temperature (`float`, *optional*):
                 The value used to module the logits distribution.
@@ -2559,7 +2558,7 @@ class AsyncInferenceClient:
                 Override the scheduler with a compatible one.
             seed (`int`, *optional*):
                 Seed for the random number generator.
-            extra_body (`Dict[str, Any]`, *optional*):
+            extra_body (`dict[str, Any]`, *optional*):
                 Additional provider-specific parameters to pass to the model. Refer to the provider's documentation
                 for supported parameters.
 
@@ -2681,7 +2680,7 @@ class AsyncInferenceClient:
             guidance_scale (`float`, *optional*):
                 A higher guidance scale value encourages the model to generate videos closely linked to the text
                 prompt, but values too high may cause saturation and other artifacts.
-            negative_prompt (`List[str]`, *optional*):
+            negative_prompt (`list[str]`, *optional*):
                 One or several prompt to guide what NOT to include in video generation.
             num_frames (`float`, *optional*):
                 The num_frames parameter determines how many video frames are generated.
@@ -2690,7 +2689,7 @@ class AsyncInferenceClient:
                 expense of slower inference.
             seed (`int`, *optional*):
                 Seed for the random number generator.
-            extra_body (`Dict[str, Any]`, *optional*):
+            extra_body (`dict[str, Any]`, *optional*):
                 Additional provider-specific parameters to pass to the model. Refer to the provider's documentation
                 for supported parameters.
 
@@ -2831,7 +2830,7 @@ class AsyncInferenceClient:
                 paper](https://hf.co/papers/2202.00666) for more details.
             use_cache (`bool`, *optional*):
                 Whether the model should use the past last key/values attentions to speed up decoding
-            extra_body (`Dict[str, Any]`, *optional*):
+            extra_body (`dict[str, Any]`, *optional*):
                 Additional provider-specific parameters to pass to the model. Refer to the provider's documentation
                 for supported parameters.
         Returns:
@@ -2979,13 +2978,13 @@ class AsyncInferenceClient:
                 Defaults to None.
             aggregation_strategy (`"TokenClassificationAggregationStrategy"`, *optional*):
                 The strategy used to fuse tokens based on model predictions
-            ignore_labels (`List[str`, *optional*):
+            ignore_labels (`list[str`, *optional*):
                 A list of labels to ignore
             stride (`int`, *optional*):
                 The number of overlapping tokens between chunks when splitting the input text.
 
         Returns:
-            `List[TokenClassificationOutputElement]`: List of [`TokenClassificationOutputElement`] items containing the entity group, confidence score, word, start and end index.
+            `list[TokenClassificationOutputElement]`: List of [`TokenClassificationOutputElement`] items containing the entity group, confidence score, word, start and end index.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -3066,7 +3065,7 @@ class AsyncInferenceClient:
                 Whether to clean up the potential extra spaces in the text output.
             truncation (`"TranslationTruncationStrategy"`, *optional*):
                 The truncation strategy to use.
-            generate_parameters (`Dict[str, Any]`, *optional*):
+            generate_parameters (`dict[str, Any]`, *optional*):
                 Additional parametrization of the text generation algorithm.
 
         Returns:
@@ -3145,7 +3144,7 @@ class AsyncInferenceClient:
                 The number of answers to return (will be chosen by order of likelihood). Note that we return less than
                 topk answers if there are not enough options available within the context.
         Returns:
-            `List[VisualQuestionAnsweringOutputElement]`: a list of [`VisualQuestionAnsweringOutputElement`] items containing the predicted label and associated probability.
+            `list[VisualQuestionAnsweringOutputElement]`: a list of [`VisualQuestionAnsweringOutputElement`] items containing the predicted label and associated probability.
 
         Raises:
             `InferenceTimeoutError`:
@@ -3195,9 +3194,9 @@ class AsyncInferenceClient:
         Args:
             text (`str`):
                 The input text to classify.
-            candidate_labels (`List[str]`):
+            candidate_labels (`list[str]`):
                 The set of possible class labels to classify the text into.
-            labels (`List[str]`, *optional*):
+            labels (`list[str]`, *optional*):
                 (deprecated) List of strings. Each string is the verbalization of a possible label for the input text.
             multi_label (`bool`, *optional*):
                 Whether multiple candidate labels can be true. If false, the scores are normalized such that the sum of
@@ -3212,7 +3211,7 @@ class AsyncInferenceClient:
 
 
         Returns:
-            `List[ZeroShotClassificationOutputElement]`: List of [`ZeroShotClassificationOutputElement`] items containing the predicted labels and their confidence.
+            `list[ZeroShotClassificationOutputElement]`: List of [`ZeroShotClassificationOutputElement`] items containing the predicted labels and their confidence.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -3303,9 +3302,9 @@ class AsyncInferenceClient:
         Args:
             image (`Union[str, Path, bytes, BinaryIO]`):
                 The input image to caption. It can be raw bytes, an image file, or a URL to an online image.
-            candidate_labels (`List[str]`):
+            candidate_labels (`list[str]`):
                 The candidate labels for this image
-            labels (`List[str]`, *optional*):
+            labels (`list[str]`, *optional*):
                 (deprecated) List of string possible labels. There must be at least 2 labels.
             model (`str`, *optional*):
                 The model to use for inference. Can be a model ID hosted on the Hugging Face Hub or a URL to a deployed
@@ -3315,7 +3314,7 @@ class AsyncInferenceClient:
                 replacing the placeholder with the candidate labels.
 
         Returns:
-            `List[ZeroShotImageClassificationOutputElement]`: List of [`ZeroShotImageClassificationOutputElement`] items containing the predicted labels and their confidence.
+            `list[ZeroShotImageClassificationOutputElement]`: List of [`ZeroShotImageClassificationOutputElement`] items containing the predicted labels and their confidence.
 
         Raises:
             [`InferenceTimeoutError`]:
@@ -3389,13 +3388,13 @@ class AsyncInferenceClient:
         </Tip>
 
         Args:
-            frameworks (`Literal["all"]` or `List[str]` or `str`, *optional*):
+            frameworks (`Literal["all"]` or `list[str]` or `str`, *optional*):
                 The frameworks to filter on. By default only a subset of the available frameworks are tested. If set to
                 "all", all available frameworks will be tested. It is also possible to provide a single framework or a
                 custom set of frameworks to check.
 
         Returns:
-            `Dict[str, List[str]]`: A dictionary mapping task names to a sorted list of model IDs.
+            `dict[str, list[str]]`: A dictionary mapping task names to a sorted list of model IDs.
 
         Example:
         ```py
@@ -3505,7 +3504,7 @@ class AsyncInferenceClient:
                 Inference Endpoint. This parameter overrides the model defined at the instance level. Defaults to None.
 
         Returns:
-            `Dict[str, Any]`: Information about the endpoint.
+            `dict[str, Any]`: Information about the endpoint.
 
         Example:
         ```py

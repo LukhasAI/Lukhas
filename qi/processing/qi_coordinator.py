@@ -6,10 +6,12 @@ This hub coordinates all quantum subsystem components and provides
 a unified interface for external systems to interact with quantum.
 
 """
+# ruff: noqa: F821
 import asyncio
 import logging
 from typing import Any, Optional
 
+from core.bridges.quantum_memory_bridge import get_quantum_memory_bridge
 from qi.bio.bio_optimizer import (
     MockBioOrchestrator,
     MockQIBioCoordinator,
@@ -27,8 +29,6 @@ from qi.post_quantum_crypto_enhanced import (
     SecureMemoryManager,
 )
 from qi.quantum_security_integration import create_quantum_security_integration
-
-from core.bridges.quantum_memory_bridge import get_quantum_memory_bridge
 
 # Neuro Symbolic Integration
 try:
@@ -64,10 +64,19 @@ class QIHub:
         # Initialize components
         self.coordinator = QuantumCoordinator()
         self.register_service("coordinator", self.coordinator)
+# T4: code=F821 | ticket=SKELETON-8CB5172E | owner=lukhas-platform | status=skeleton
+# reason: Undefined MockQuantumCore in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self.mock = MockQuantumCore()  # TODO: MockQuantumCore
         self.register_service("mock", self.mock)
+# T4: code=F821 | ticket=SKELETON-B3DA72C0 | owner=lukhas-platform | status=skeleton
+# reason: Undefined MockBioCoordinator in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self.mockbiocoordinator = MockBioCoordinator()  # TODO: MockBioCoordinator
         self.register_service("mockbiocoordinator", self.mockbiocoordinator)
+# T4: code=F821 | ticket=SKELETON-0E8C61ED | owner=lukhas-platform | status=skeleton
+# reason: Undefined SimpleBioCoordinator in development skeleton - awaiting implementation
+# estimate: 4h | priority=low | dependencies=production-implementation
         self.simplebiocoordinator = SimpleBioCoordinator()  # TODO: SimpleBioCoordinator
         self.register_service("simplebiocoordinator", self.simplebiocoordinator)
         self.metadatamanager = QuantumMetadataManager()

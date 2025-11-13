@@ -753,9 +753,9 @@ __all__ = [
     "GuardianSubject",
     "GuardianSystem",
     "RuntimeEnvironment",
+    "activate_kill_switch",
+    "check_kill_switch_status",
     "create_guardian_system",
     "create_simple_decision",
-    "activate_kill_switch",
-    "deactivate_kill_switch",
-    "check_kill_switch_status"
+    "deactivate_kill_switch"
 ]

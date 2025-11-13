@@ -12,6 +12,7 @@ Key Optimizations:
 """
 
 import asyncio
+import collections
 import hashlib
 import time
 from collections import OrderedDict
@@ -21,7 +22,6 @@ from typing import Any, Optional
 
 from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator, StageResult, StageType
 from matriz.core.node_interface import CognitiveNode
-
 from observability.matriz_instrumentation import (
     cognitive_pipeline_span,
     initialize_cognitive_instrumentation,
@@ -57,7 +57,7 @@ class LRUCache:
     def __init__(self, max_size: int = 1000, default_ttl: float = 60.0):
         self.max_size = max_size
         self.default_ttl = default_ttl
-        self._cache: collections.collections.OrderedDict[str, CacheEntry] = OrderedDict()
+        self._cache: collections.Ordereddict[str, CacheEntry] = OrderedDict()
         self._hits = 0
         self._misses = 0
 

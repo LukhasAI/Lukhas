@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.memory.repair
 
 **Star**: ✦ Trail (Memory)

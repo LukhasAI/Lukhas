@@ -1,0 +1,219 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "7.5.0"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "title": "DSL Enforcement %",
+      "type": "gauge",
+      "targets": [
+        {
+          "expr": "sum(rate(lukhas_guardian_decision_total{outcome=\"allow\"}[5m])) / sum(rate(lukhas_guardian_decision_total[5m])) * 100",
+          "legendFormat": "Allow",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 4,
+      "title": "Violations/hr",
+      "type": "graph",
+      "targets": [
+        {
+          "expr": "sum(rate(lukhas_guardian_decision_total{outcome=\"deny\"}[1h])) * 3600",
+          "legendFormat": "Violations",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": {
+        "h": 9,
+        "w": 4,
+        "x": 0,
+        "y": 9
+      },
+      "id": 6,
+      "title": "Kill-switch Status",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "lukhas_guardian_kill_switch_status",
+          "legendFormat": "Status",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": {
+        "h": 9,
+        "w": 4,
+        "x": 4,
+        "y": 9
+      },
+      "id": 8,
+      "title": "Overrides",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "sum(increase(lukhas_guardian_overrides_total[1h]))",
+          "legendFormat": "Count",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": {
+        "h": 9,
+        "w": 4,
+        "x": 8,
+        "y": 9
+      },
+      "id": 10,
+      "title": "Exemptions",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "sum(increase(lukhas_guardian_exemptions_total[1h]))",
+          "legendFormat": "Count",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 0,
+        "y": 18
+      },
+      "id": 12,
+      "title": "p50 Latency",
+      "type": "graph",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.50, sum(rate(lukhas_guardian_decision_duration_seconds_bucket[5m])) by (le))",
+          "legendFormat": "p50",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 8,
+        "y": 18
+      },
+      "id": 14,
+      "title": "p95 Latency",
+      "type": "graph",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(lukhas_guardian_decision_duration_seconds_bucket[5m])) by (le))",
+          "legendFormat": "p95",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 16,
+        "y": 18
+      },
+      "id": 16,
+      "title": "p99 Latency",
+      "type": "graph",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.99, sum(rate(lukhas_guardian_decision_duration_seconds_bucket[5m])) by (le))",
+          "legendFormat": "p99",
+          "refId": "A"
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 30,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Guardian Policy Enforcement",
+  "uid": "guardian-policy-enforcement",
+  "version": 1
+}

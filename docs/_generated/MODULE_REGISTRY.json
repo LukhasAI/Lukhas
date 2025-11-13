@@ -83,10 +83,10 @@
       "docs": [
         "agents/README.md",
         "agents/config/README.md",
-        "agents/docs/README.md",
-        "agents/docs/api.md",
-        "agents/docs/architecture.md",
-        "agents/docs/troubleshooting.md",
+        "docs/ai-agents/README.md",
+        "docs/ai-agents/api.md",
+        "docs/ai-agents/architecture.md",
+        "docs/ai-agents/troubleshooting.md",
         "agents/lukhas_context.md",
         "agents/tests/README.md"
       ],

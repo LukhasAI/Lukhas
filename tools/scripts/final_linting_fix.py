@@ -94,7 +94,7 @@ def add_missing_imports(file_path: Path) -> bool:
             "List": "from typing import List",
             "Dict": "from typing import Dict",
             "Tuple": "from typing import Tuple",
-            "Union": "from typing import Union",
+            "Union": "from typing import Union"
         }
 
         # Parse the file to find undefined names

@@ -21,7 +21,7 @@ import threading
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any
 
 from .dsl_lite import DSLError, compile_rule, hash_rule
 
@@ -146,7 +146,7 @@ class EthicsRule:
     rule_dsl: str
     action: EthicsAction
     priority: Priority
-    tags: Set[str]
+    tags: set[str]
 
     # Compiled function (cached)
     _compiled_fn: Optional[callable] = None
@@ -165,7 +165,7 @@ class EthicsRule:
             # Fail closed - create a function that always returns False
             self._compiled_fn = lambda plan, context: False
 
-    def evaluate(self, plan: Dict[str, Any], context: Optional[Dict[str, Any]] = None) -> bool:
+    def evaluate(self, plan: dict[str, Any], context: Optional[dict[str, Any]] = None) -> bool:
         """Evaluate rule against plan and context."""
         if self._compiled_fn is None:
             return False
@@ -185,15 +185,15 @@ class EthicsRule:
 class EthicsResult:
     """Result of ethics evaluation."""
     action: EthicsAction
-    triggered_rules: List[EthicsRule]
+    triggered_rules: list[EthicsRule]
     evaluation_time_ms: float
     plan_hash: str
-    reasons: List[str]
+    reasons: list[str]
     facts_hash: str
-    triggered_rule_ids: List[str]
+    triggered_rule_ids: list[str]
 
     @property
-    def reason_codes(self) -> List[str]:
+    def reason_codes(self) -> list[str]:
         """Get list of reason codes for triggered rules."""
         return [rule.reason_code.value for rule in self.triggered_rules]
 
@@ -201,7 +201,7 @@ class EthicsResult:
 class RuleSet:
     """Collection of ethics rules with priority lattice evaluation."""
 
-    def __init__(self, rules: List[EthicsRule]):
+    def __init__(self, rules: list[EthicsRule]):
         """
         Initialize rule set.
 
@@ -227,8 +227,8 @@ class RuleSet:
 
     def evaluate(
         self,
-        plan: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None
+        plan: dict[str, Any],
+        context: Optional[dict[str, Any]] = None
     ) -> EthicsResult:
         """
         Evaluate plan against all rules with priority lattice.
@@ -343,15 +343,15 @@ class RuleSet:
 
             return result
 
-    def get_rules_by_tag(self, tag: str) -> List[EthicsRule]:
+    def get_rules_by_tag(self, tag: str) -> list[EthicsRule]:
         """Get all rules with specified tag."""
         return [rule for rule in self.rules if tag in rule.tags]
 
-    def get_rules_by_action(self, action: EthicsAction) -> List[EthicsRule]:
+    def get_rules_by_action(self, action: EthicsAction) -> list[EthicsRule]:
         """Get all rules with specified action."""
         return [rule for rule in self.rules if rule.action == action]
 
-    def get_rules_by_priority(self, priority: Priority) -> List[EthicsRule]:
+    def get_rules_by_priority(self, priority: Priority) -> list[EthicsRule]:
         """Get all rules with specified priority."""
         return [rule for rule in self.rules if rule.priority == priority]
 
@@ -373,8 +373,8 @@ class EthicsEngine:
 
     def evaluate_plan(
         self,
-        plan: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None
+        plan: dict[str, Any],
+        context: Optional[dict[str, Any]] = None
     ) -> EthicsResult:
         """
         Evaluate action plan against ethics rules.
@@ -410,8 +410,8 @@ class EthicsEngine:
 
     def is_plan_allowed(
         self,
-        plan: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None
+        plan: dict[str, Any],
+        context: Optional[dict[str, Any]] = None
     ) -> bool:
         """
         Check if plan is allowed (not blocked).
@@ -426,7 +426,7 @@ class EthicsEngine:
         result = self.evaluate_plan(plan, context)
         return result.action != EthicsAction.BLOCK
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get engine statistics."""
         return {
             'total_rules': len(self.rule_set.rules),

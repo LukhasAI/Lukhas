@@ -20,7 +20,9 @@ except ImportError:
 
 # A concrete implementation of the abstract CognitiveNode for testing purposes.
 class ConcreteNode(CognitiveNode):
-    def __init__(self, node_name="test_node", capabilities=["test"]):
+    def __init__(self, node_name="test_node", capabilities=None):
+        if capabilities is None:
+            capabilities = ["test"]
         super().__init__(node_name, capabilities)
 
     def process(self, input_data):
