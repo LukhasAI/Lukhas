@@ -1,3 +1,4 @@
+# ruff: noqa: B008
 import logging
 import time
 import uuid

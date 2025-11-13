@@ -42,7 +42,7 @@ def map_scene_to_glyphs(scene: PhenomenalScene) -> list[PhenomenalGlyph]:
         scene: PhenomenalScene to convert
 
     Returns:
-        List[PhenomenalGlyph]: Deterministic glyph list (same scene → same glyphs)
+        list[PhenomenalGlyph]: Deterministic glyph list (same scene → same glyphs)
     """
     glyphs = []
     pq = scene.proto
@@ -156,7 +156,7 @@ def normalize_glyph_keys(glyphs: list[PhenomenalGlyph]) -> list[PhenomenalGlyph]
         glyphs: List of glyphs to normalize
 
     Returns:
-        List[PhenomenalGlyph]: Glyphs with normalized keys
+        list[PhenomenalGlyph]: Glyphs with normalized keys
     """
     normalized_glyphs = []
 

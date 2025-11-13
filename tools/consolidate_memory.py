@@ -56,7 +56,7 @@ Fold-based memory with 99.7% cascade prevention
 Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-from typing import List, Dict, Any, Optional
+from typing import Optional
 from dataclasses import dataclass, field
 from datetime import datetime
 import uuid
@@ -166,7 +166,7 @@ Preserves causal chains and relationships
 Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-from typing import List, Dict, Any, Optional, Tuple
+
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -274,7 +274,7 @@ Stores and retrieves episodic memories
 Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-from typing import List, Dict, Any, Optional
+from typing import Optional
 from dataclasses import dataclass, field
 from datetime import datetime
 import uuid
@@ -409,7 +409,7 @@ Consolidates and compresses memories
 Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-from typing import List, Dict, Any, Optional
+from typing import Optional
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 
@@ -545,7 +545,7 @@ Distributed memory across colony nodes
 Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-from typing import List, Dict, Any, Optional
+from typing import Optional
 from dataclasses import dataclass
 from enum import Enum
 

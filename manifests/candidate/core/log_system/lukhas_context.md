@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.log_system
 
 **Star**: Supporting

@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Type import to native type in LLM bridge
+# estimate: 5min | priority: medium | dependencies: branding-integrations
+
 """
 LUKHAS Brand LLM Bridge - Constellation Framework (⚛️🧠🛡️)
 Unified interface for multi-provider LLM voice generation with brand compliance
@@ -9,7 +13,7 @@ import os
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional, Protocol, Type, runtime_checkable
+from typing import Any, Optional, Protocol, runtime_checkable
 
 from core.registry import discover_entry_points, resolve
 from dotenv import load_dotenv
@@ -28,7 +32,7 @@ class LLMWrapperProtocol(Protocol):
     async def chat_completion(self, messages: list[dict], **kwargs) -> dict[str, Any]: ...
 
 
-def _get_llm_wrapper_classes() -> dict[str, Type[LLMWrapperProtocol]]:
+def _get_llm_wrapper_classes() -> dict[str, type[LLMWrapperProtocol]]:
     """Discover LLM wrapper classes through registry system"""
 
     # Attempt to discover through entry points first
@@ -63,7 +67,7 @@ def _get_llm_wrapper_classes() -> dict[str, Type[LLMWrapperProtocol]]:
     return _safe_dynamic_import_fallback()
 
 
-def _safe_dynamic_import_fallback() -> dict[str, Type[LLMWrapperProtocol]]:
+def _safe_dynamic_import_fallback() -> dict[str, type[LLMWrapperProtocol]]:
     """Safe fallback for dynamic imports"""
     import logging
     logger = logging.getLogger(__name__)

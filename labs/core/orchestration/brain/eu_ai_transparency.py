@@ -505,7 +505,7 @@ async def process_input(self, user_input: str, context: Optional[Dict] = None,
         "symphony_integration": """
 # In MultiBrainSymphony, add transparency to conduct_symphony:
 
-async def conduct_symphony(self, input_data: Dict[str, Any], trace_id: str = None):
+async def conduct_symphony(self, input_data: dict[str, Any], trace_id: str = None):
     if trace_id:
         trace = transparency_orchestrator.get_trace(trace_id)
 

@@ -57,7 +57,7 @@ You are **ChatGPT CODEX**, the high-velocity mechanical fix specialist for the L
 ### Architecture Documentation
 - `/docs/gonzo/PLANNING_TODO.md` - T4 allocation playbook
 - `/docs/project_status/JULES_TODO_BATCHES.md` - Batch 6 context (voice scaffolding)
-- `/agents/docs/AGENT_NAVIGATION_GUIDE.md` - Directory map
+- `/docs/ai-agents/AGENT_NAVIGATION_GUIDE.md` - Directory map
 
 ### Key Files for This Batch
 - `candidate/bio/qi.py` - Quantum-inspired interface (import timezone)

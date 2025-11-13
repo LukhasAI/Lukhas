@@ -1,4 +1,5 @@
 
+import contextlib
 import importlib
 import sys
 from collections import defaultdict
@@ -56,10 +57,8 @@ def glyph_module():
 
     if original_module is not None:
         sys.modules["core.glyph.glyph_memory_integration"] = original_module
-        try:
+        with contextlib.suppress(Exception):
             importlib.reload(original_module)
-        except Exception:
-            pass
     else:
         sys.modules.pop("core.glyph.glyph_memory_integration", None)
 
@@ -392,15 +391,15 @@ class TestGlyphMemorySystem:
         # Use patch to mock the dependent systems within the constructor
         with patch(
             "core.glyph.glyph_memory_integration.MemoryFoldSystem"
-        ) as MockMemSys, patch(
+        ), patch(
             "core.glyph.glyph_memory_integration.GlyphMemoryIndex"
-        ) as MockIndex, patch(
+        ), patch(
             "core.glyph.glyph_memory_integration.EmotionalFoldingEngine"
-        ) as MockEngine, patch(
+        ), patch(
             "core.glyph.glyph_memory_integration.GlyphAffectCoupler"
-        ) as MockCoupler, patch(
+        ), patch(
             "core.glyph.glyph_memory_integration.DreamMemoryBridge"
-        ) as MockBridge:
+        ):
             # Re-initialize the system to use the mocks
             glyph_system = glyph_module.GlyphMemorySystem(memory_fold_config={})
             yield glyph_system

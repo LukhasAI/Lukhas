@@ -18,6 +18,7 @@ Tests include:
 Constellation Framework: 🌊 Flow Star Integration Testing
 """
 
+# ruff: noqa: F821  # Experimental/test code with undefined names
 import asyncio
 import logging
 import time

@@ -50,7 +50,7 @@ from typing import Any, Optional
 try:
     from core.common import get_logger
 
-    logger = get_logger("consciousness", timezone)
+    logger = get_logger("consciousness")
 except ImportError:
     logger = logging.getLogger("consciousness")
 

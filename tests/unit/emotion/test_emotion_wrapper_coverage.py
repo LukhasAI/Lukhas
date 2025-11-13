@@ -1,7 +1,8 @@
 """Strategic coverage test for emotion_wrapper.py - 172 lines, 0% -> target 40%"""
 
-import pytest
 from importlib.util import find_spec
+
+import pytest
 
 HAS_EMOTION_WRAPPER = find_spec("emotion.emotion_wrapper") is not None
 if HAS_EMOTION_WRAPPER:

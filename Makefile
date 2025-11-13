@@ -21,7 +21,7 @@
 .PHONY: lint-json lint-fix lint-delta f401-tests import-map imports-abs imports-graph ruff-heatmap ruff-ratchet f821-suggest f706-detect f811-detect todos todos-issues codemod-dry codemod-apply check-legacy-imports
 .PHONY: state-sweep shadow-diff plan-colony-renames integration-manifest
 .PHONY: t4-init t4-migrate t4-migrate-dry t4-validate t4-dashboard t4-api t4-parallel t4-parallel-dry t4-codemod-dry t4-codemod-apply
-.PHONY: evidence-pages evidence-validate evidence-validate-strict branding-vocab-lint branding-claims-fix flags-validate flags-migrate launch-validate
+.PHONY: evidence-pages evidence-validate evidence-validate-strict branding-vocab-lint branding-claims-fix flags-validate flags-migrate launch-validate reasoning-lab-safety-check
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1980,49 +1980,11 @@ launch-validate: ## Validate launch playbook completeness
 	@echo "✅ Launch playbook validation complete"
 
 # ============================================================================
-# Self-Healing Test Loop (Memory Healix v0.1)
+# Reasoning Lab Safety Controls Validation (GAPS B4)
 # ============================================================================
 
-.PHONY: test-heal heal canary policy artifacts
-
-# Variables for self-healing test infrastructure
-PY=python3
-TEST=pytest -q
-COVER=pytest --cov=. --cov-report=xml:reports/coverage.xml
-JUNIT=--junitxml=reports/junit.xml
-
-test-heal: ## Run tests with JUnit XML and coverage for self-healing loop
-	@mkdir -p reports
-	$(TEST) $(JUNIT)
-	$(COVER)
-
-heal: ## Normalize JUnit XML to NDJSON events for Memory Healix
-	@mkdir -p reports
-	$(PY) tools/normalize_junit.py --in reports/junit.xml --out reports/events.ndjson
-
-canary: ## Run smoke tests (canary validation)
-	$(TEST) tests/smoke -q
-
-policy: ## Validate PR against patch size, protected files, and risky patterns
-	$(PY) tools/guard_patch.py --protected .lukhas/protected-files.yml --max-files 2 --max-lines 40
-
-artifacts: test-heal heal ## Generate all self-healing artifacts (junit.xml, coverage.xml, events.ndjson)
-	@echo "✅ Artifacts in ./reports: junit.xml, coverage.xml, events.ndjson"
-
-# ============================================================================
-# ΛBot - Stage A Test Planner (Systematic Test Enrichment)
-# ============================================================================
-
-.PHONY: labot-plan labot-gen labot-all labot-open
-
-labot-plan: ## Find top test targets (ranked by coverage + hotness)
-	$(PY) tools/labot.py --mode plan
-
-labot-gen: ## Generate agent-ready prompts for test targets
-	$(PY) tools/labot.py --mode plan+gen
-
-labot-all: labot-gen ## Alias for labot-gen
-
-labot-open: ## Open PR shell for a target (usage: make labot-open slug=serve_main)
-	$(PY) tools/labot.py --mode open-pr --slug $(slug)
+reasoning-lab-safety-check: ## Validate reasoning lab safety controls compliance
+	@echo "🔒 Validating reasoning lab safety controls..."
+	@python3 tools/validate_reasoning_lab_safety.py
+	@echo "✅ Reasoning lab safety validation complete"
 

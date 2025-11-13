@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+# ruff: noqa: B008
 """
 LUKHAS AI Public API Gateway
 ===========================

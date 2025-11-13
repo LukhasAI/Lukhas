@@ -83,17 +83,17 @@ class F821MassEliminatorPhase2:
                 'priority': 11
             },
             'Dict': {
-                'import_fix': 'from typing import Dict',
+                'import_fix': 'from typing import Dict'
                 'expected_count': 8,
                 'priority': 12
             },
             'List': {
-                'import_fix': 'from typing import List',
+                'import_fix': 'from typing import List'
                 'expected_count': 5,
                 'priority': 13
             },
             'Optional': {
-                'import_fix': 'from typing import Optional',
+                'import_fix': 'from typing import Optional'
                 'expected_count': 5,
                 'priority': 14
             }

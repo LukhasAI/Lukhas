@@ -72,7 +72,7 @@ class TestSecurityMonitor:
             )
             configured_monitor.process_event(event)
 
-        threat_id = list(configured_monitor.get_active_threats().keys())[0]
+        threat_id = next(iter(configured_monitor.get_active_threats().keys()))
 
         was_resolved = configured_monitor.resolve_threat(threat_id)
 

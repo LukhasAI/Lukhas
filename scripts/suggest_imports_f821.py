@@ -29,7 +29,6 @@ import csv
 import json
 import re
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 # --- Config knobs ------------------------------------------------------------
 
@@ -51,13 +50,13 @@ STD_THIRD_MAP = {
     "lru_cache": "from functools import lru_cache",
     "partial": "from functools import partial",
     # typing
-    "Any": "from typing import Any",
-    "Optional": "from typing import Optional",
-    "Dict": "from typing import Dict",
-    "List": "from typing import List",
-    "Tuple": "from typing import Tuple",
-    "Set": "from typing import Set",
-    "Callable": "from typing import Callable",
+    "Any": "from typing import Any"
+    "Optional": "from typing import Optional"
+    "Dict": "from typing import Dict"
+    "List": "from typing import List"
+    "Tuple": "from typing import Tuple"
+    "Set": "from typing import Set"
+    "Callable": "from typing import Callable"
     # pydantic (common)
     "BaseModel": "from pydantic import BaseModel",
     "Field": "from pydantic import Field",

@@ -5,8 +5,8 @@ from __future__ import annotations
 from importlib import import_module
 
 for _candidate in (
-    "lukhas_website.governance.guardian.guardian_impl",
-    "governance.guardian.guardian_impl",
+    "lukhas_website.lukhas.governance.guardian.guardian_impl",
+    "labs.governance.guardian.guardian_impl",
 ):
     try:
         _mod = import_module(_candidate)

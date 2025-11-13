@@ -8,9 +8,12 @@ Provides:
 - Continuous learning and parameter fitting
 """
 
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Remove unused deprecated Dict import in confidence calibration
+# estimate: 5min | priority: medium | dependencies: governance-metrics
+
 from collections import deque
 from dataclasses import dataclass
-from typing import Dict
 
 import numpy as np
 

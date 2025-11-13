@@ -24,7 +24,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 import numpy as np
 
@@ -131,7 +131,7 @@ class SymbolicStabilizer:
     """Represents a symbolic stabilizer with contextual properties"""
 
     # Symbolic stabilizer catalog
-    STABILIZERS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_entanglement_tuner_py_L134"}
+    STABILIZERS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_qi_entanglement_tuner_py_L134"}
         # Harmony and Balance
         "ΛHARMONY": {
             "description": "Phase synchronization and frequency alignment",

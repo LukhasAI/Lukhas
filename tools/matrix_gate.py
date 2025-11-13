@@ -21,7 +21,7 @@ import pathlib
 import subprocess
 import sys
 import traceback
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 try:
     from jsonschema import (  # TODO: jsonschema.validate; consider ...

@@ -70,7 +70,6 @@ def add_evidence_links_to_file(filepath, evidence_links):
         lines = front_matter.split('\n')
         new_lines = []
         in_evidence_links = False
-        evidence_links_added = False
 
         for line in lines:
             if line.strip().startswith('evidence_links:'):
@@ -79,7 +78,6 @@ def add_evidence_links_to_file(filepath, evidence_links):
                 # Add all evidence links
                 for link in sorted(set(evidence_links)):
                     new_lines.append(f"  - 'release_artifacts/evidence/{link}.md'")
-                evidence_links_added = True
             elif in_evidence_links and line.strip().startswith('-'):
                 # Skip existing evidence links
                 continue
@@ -97,7 +95,7 @@ def add_evidence_links_to_file(filepath, evidence_links):
         new_lines = []
         added = False
 
-        for i, line in enumerate(lines):
+        for _i, line in enumerate(lines):
             new_lines.append(line)
             # Add after title field
             if line.strip().startswith('title:') and not added:

@@ -5,8 +5,12 @@ until one of its members is accessed. This improves startup time and
 allows for optional dependency graceful degradation.
 """
 import importlib
-from types import ModuleType
+import logging
 from enum import Enum
+from types import ModuleType
+from typing import Optional, Any
+
+logger = logging.getLogger(__name__)
 
 # List of all attributes that this module is expected to export.
 __all__ = [
@@ -14,11 +18,36 @@ __all__ = [
     "EvidenceCollectionEngine",
     "EvidenceType",
     "collect_evidence",
-    "initialize_evidence_collection",
     "get_evidence_engine",
+    "initialize_evidence_collection",
 ]
 
 _loaded_module = None
+_labs_observability = None
+
+def _get_labs_observability() -> Optional[Any]:
+    """Lazy-load labs.observability module.
+
+    Returns:
+        labs.observability module or None if unavailable
+
+    Note:
+        Core evidence collection should work without labs.
+        Callers must check for None and use fallback.
+    """
+    global _labs_observability
+    if _labs_observability is not None:
+        return _labs_observability
+
+    try:
+        _labs_observability = importlib.import_module("labs.observability")
+        return _labs_observability
+    except (ImportError, ModuleNotFoundError):
+        logger.debug("labs.observability not available, using fallback")
+        return None
+    except Exception as e:
+        logger.warning(f"Unexpected error loading labs.observability: {e}")
+        return None
 
 def _load_module():
     """Loads the real implementation module or a stub if not found."""

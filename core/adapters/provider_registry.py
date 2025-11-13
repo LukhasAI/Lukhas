@@ -14,7 +14,7 @@ Architecture:
 
 import importlib
 import logging
-from typing import TYPE_CHECKING, Any, Optional
+from typing import Any, Optional, TYPE_CHECKING
 
 from core.adapters.config_resolver import Config
 
@@ -64,7 +64,7 @@ class ProviderRegistry:
         try:
             # Lazy import at runtime
             module = importlib.import_module("labs.consciousness.reflection.openai_modulated_service")
-            OpenAIModulatedService = module.OpenAIModulatedService
+            OpenAIModulatedService = getattr(module, "OpenAIModulatedService")
 
             # Create instance
             instance = OpenAIModulatedService(
@@ -82,7 +82,7 @@ class ProviderRegistry:
 
         except ImportError as e:
             logger.error(f"Failed to load OpenAI provider: {e}")
-            raise ImportError(  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_adapters_provider_registry_py_L85"}
+            raise ImportError(
                 f"Cannot import OpenAI provider from labs. "
                 f"Ensure labs.consciousness.reflection.openai_modulated_service is available. "
                 f"Error: {e}"
@@ -148,8 +148,8 @@ class ProviderRegistry:
 
         except ImportError as e:
             logger.error(f"Failed to load consciousness service: {e}")
-            raise ImportError(  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_adapters_provider_registry_py_L152"}
-                f"Cannot import consciousness service from labs. "
+            raise ImportError(
+                f"Cannot import consciousness service from candidate. "
                 f"Ensure candidate.consciousness is available. "
                 f"Error: {e}"
             )
@@ -214,8 +214,8 @@ class ProviderRegistry:
 
         except ImportError as e:
             logger.error(f"Failed to load memory service: {e}")
-            raise ImportError(  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_adapters_provider_registry_py_L219"}
-                f"Cannot import memory service from labs. "
+            raise ImportError(
+                f"Cannot import memory service from candidate. "
                 f"Ensure candidate.memory is available. "
                 f"Error: {e}"
             )
@@ -308,8 +308,8 @@ class ProviderRegistry:
 
         except ImportError as e:
             logger.error(f"Failed to load identity service: {e}")
-            raise ImportError(  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_adapters_provider_registry_py_L314"}
-                f"Cannot import identity service from labs. "
+            raise ImportError(
+                f"Cannot import identity service from candidate. "
                 f"Ensure candidate.identity is available. "
                 f"Error: {e}"
             )
@@ -378,7 +378,7 @@ class ProviderRegistry:
 
         except ImportError as e:
             logger.error(f"Failed to load governance service: {e}")
-            raise ImportError(  # TODO[T4-ISSUE]: {"code": "B904", "ticket": "GH-1031", "owner": "consciousness-team", "status": "planned", "reason": "Exception re-raise pattern - needs review for proper chaining (raise...from)", "estimate": "15m", "priority": "medium", "dependencies": "none", "id": "core_adapters_provider_registry_py_L385"}
+            raise ImportError(
                 f"Cannot import governance service. "
                 f"Ensure governance modules are available. "
                 f"Error: {e}"

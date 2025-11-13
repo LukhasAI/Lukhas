@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # candidate.core.symbolic.symbolic_glyph_hash
 
 **Star**: Supporting

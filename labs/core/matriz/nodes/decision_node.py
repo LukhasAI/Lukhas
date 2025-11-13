@@ -1,5 +1,5 @@
 """MATRIZ DecisionNode implementation."""
-from typing import Any, Dict, List
+from typing import Any
 
 from matriz.core.node_interface import NodeState
 
@@ -17,7 +17,7 @@ class DecisionNode(BaseMatrixNode):
         )
         self.default_action = default_action
 
-    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:  # type: ignore[override]
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:  # type: ignore[override]
         start = self._start_timer()
         candidate_actions = input_data.get("candidate_actions") or []
         if not isinstance(candidate_actions, list):
@@ -60,7 +60,7 @@ class DecisionNode(BaseMatrixNode):
         )
         return result
 
-    def _choose_action(self, actions: List[Dict[str, Any]], context: Dict[str, Any]) -> Dict[str, Any]:
+    def _choose_action(self, actions: list[dict[str, Any]], context: dict[str, Any]) -> dict[str, Any]:
         if not actions:
             return {
                 "name": self.default_action,

@@ -1,7 +1,8 @@
 """Test QI module basic functionality."""
 
-import pytest
 from importlib.util import find_spec
+
+import pytest
 
 HAS_QI_WRAPPER = find_spec("qi.QIWrapper") is not None
 HAS_QI = find_spec("qi") is not None

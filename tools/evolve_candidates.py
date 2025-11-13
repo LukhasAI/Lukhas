@@ -1,6 +1,10 @@
 # Lists "evolution" candidates: low coverage + high fan-in/hot paths (simple heuristics)
 from __future__ import annotations
-import json, pathlib, subprocess
+
+import json
+import pathlib
+import subprocess
+
 
 def _cov():
     p = pathlib.Path("reports/coverage.xml")

@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import logging
 import re
-from typing import Any, Dict, List
+from typing import Any
 
 from .base import BasePolicyEngine, PolicyContext, PolicyDecision, PolicyEngineResult
 
@@ -179,7 +179,7 @@ class ConstitutionalPolicyEngine(BasePolicyEngine):
 
         return total_score / total_weight if total_weight > 0 else 0.6
 
-    def _check_violation_patterns(self, content: str) -> List[str]:
+    def _check_violation_patterns(self, content: str) -> list[str]:
         """Check for explicit violation patterns"""
         violations = []
 
@@ -192,7 +192,7 @@ class ConstitutionalPolicyEngine(BasePolicyEngine):
     def _generate_reasoning(self,
                           constitutional_score: float,
                           lukhas_score: float,
-                          violations: List[str]) -> str:
+                          violations: list[str]) -> str:
         """Generate human-readable reasoning for the decision"""
         if violations:
             return f"Content rejected due to policy violations: {', '.join(violations[:2])}"
@@ -203,7 +203,7 @@ class ConstitutionalPolicyEngine(BasePolicyEngine):
         else:
             return "Content shows limited alignment with constitutional and LUKHAS principles"
 
-    def _get_detailed_scores(self, content: str) -> Dict[str, float]:
+    def _get_detailed_scores(self, content: str) -> dict[str, float]:
         """Get detailed scores for each principle"""
         scores = {}
 
@@ -224,12 +224,12 @@ class ConstitutionalPolicyEngine(BasePolicyEngine):
 
         return scores
 
-    def add_constitutional_principle(self, name: str, config: Dict[str, Any]) -> None:
+    def add_constitutional_principle(self, name: str, config: dict[str, Any]) -> None:
         """Add a new constitutional principle"""
         self.constitutional_principles[name] = config
         logger.info(f"Added constitutional principle: {name}")
 
-    def add_lukhas_principle(self, name: str, config: Dict[str, Any]) -> None:
+    def add_lukhas_principle(self, name: str, config: dict[str, Any]) -> None:
         """Add a new LUKHAS-specific principle"""
         self.lukhas_principles[name] = config
         logger.info(f"Added LUKHAS principle: {name}")
@@ -239,7 +239,7 @@ class ConstitutionalPolicyEngine(BasePolicyEngine):
         self.violation_patterns.append(pattern)
         logger.info(f"Added violation pattern: {pattern}")
 
-    def get_principles_summary(self) -> Dict[str, Any]:
+    def get_principles_summary(self) -> dict[str, Any]:
         """Get summary of all principles"""
         return {
             "constitutional_principles": list(self.constitutional_principles.keys()),

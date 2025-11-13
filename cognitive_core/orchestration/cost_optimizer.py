@@ -184,10 +184,7 @@ class CostOptimizer:
             return False
 
         # Daily constraint
-        if constraints.max_cost_per_day and self.current_usage['day'] + estimated_cost > constraints.max_cost_per_day:
-            return False
-
-        return True
+        return not (constraints.max_cost_per_day and self.current_usage['day'] + estimated_cost > constraints.max_cost_per_day)
 
     def calculate_cost_efficiency_score(self, model_id: str, quality_score: float) -> float:
         """Calculate cost efficiency score for model."""

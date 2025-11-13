@@ -8,7 +8,7 @@ with required attributes for auditing and observability.
 
 import hashlib
 import json
-from typing import Any
+from typing import Any, Dict, List
 
 import pytest
 from opentelemetry.sdk.trace import TracerProvider
@@ -16,7 +16,7 @@ from opentelemetry.sdk.trace.export import SimpleSpanProcessor
 from opentelemetry.sdk.trace.export.in_memory_span_exporter import InMemorySpanExporter
 
 # Test configuration
-TEST_SPANS: list[Any] = []
+TEST_SPANS: List[Any] = []
 SPAN_EXPORTER = InMemorySpanExporter()
 
 
@@ -37,7 +37,7 @@ def telemetry_setup():
     # No cleanup needed - each test gets fresh components
 
 
-def create_mock_contract(module: str, tiers: list[str], scopes: list[str], webauthn: bool = False) -> dict[str, Any]:
+def create_mock_contract(module: str, tiers: List[str], scopes: List[str], webauthn: bool = False) -> Dict[str, Any]:
     """Create a mock Matrix contract."""
     return {
         "schema_version": "1.0.0",
@@ -54,7 +54,7 @@ def create_mock_contract(module: str, tiers: list[str], scopes: list[str], webau
     }
 
 
-def simulate_authz_check(tracer, input_data: dict[str, Any], contract: dict[str, Any], allow: bool = True) -> dict[str, Any]:
+def simulate_authz_check(tracer, input_data: Dict[str, Any], contract: Dict[str, Any], allow: bool = True) -> Dict[str, Any]:
     """Simulate an authorization check with telemetry."""
     with tracer.start_as_current_span("authz.check") as span:
         # Compute contract hash

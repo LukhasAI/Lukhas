@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict import to native dict type in identity manager
+# estimate: 5min | priority: high | dependencies: identity-system
+
 #!/usr/bin/env python3
 """
 CANDIDATE Identity Manager - Compatibility Layer
@@ -8,7 +12,7 @@ Provides minimal compatibility interface for system components.
 """
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -16,22 +20,22 @@ logger = logging.getLogger(__name__)
 class IdentityManager:
     """Basic identity manager for system integration."""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize identity manager with optional config."""
         self.config = config or {}
         self.active_identity = None
         logger.info("Identity manager initialized in compatibility mode")
 
-    def get_current_identity(self) -> Optional[Dict[str, Any]]:
+    def get_current_identity(self) -> Optional[dict[str, Any]]:
         """Get current active identity."""
         return self.active_identity
 
-    def set_identity(self, identity: Dict[str, Any]) -> None:
+    def set_identity(self, identity: dict[str, Any]) -> None:
         """Set active identity."""
         self.active_identity = identity
         logger.debug(f"Active identity set: {identity.get('name', 'unknown')}")
 
-    def validate_identity(self, identity: Dict[str, Any]) -> bool:
+    def validate_identity(self, identity: dict[str, Any]) -> bool:
         """Validate identity structure."""
         required_fields = ['name', 'type']
         return all(field in identity for field in required_fields)

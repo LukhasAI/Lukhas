@@ -1,6 +1,7 @@
 import pytest
 from matriz.pqc_signer import PQCCheckpointSigner
 
+
 @pytest.fixture
 def signer():
     return PQCCheckpointSigner()

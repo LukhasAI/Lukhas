@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # lukhas.aka_qualia.memory
 
 **Star**: ✦ Trail (Memory)

@@ -6,6 +6,7 @@ Template for creating tier-protected API endpoints with proper authentication.
 Copy this template when creating new API endpoints.
 """
 
+# ruff: noqa: B008
 # Configure logging
 import logging
 from datetime import datetime, timezone

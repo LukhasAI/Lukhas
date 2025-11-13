@@ -11,14 +11,16 @@ class TestQuantumAnnealer(unittest.TestCase):
 
     def test_anneal_basic(self):
         # Objective: minimize x^2
-        objective = lambda state: state["x"] ** 2
+        def objective(state):
+            return state["x"] ** 2
         search_space = [{"x": i} for i in range(-10, 11)]
         result = self.annealer.anneal(objective, search_space=search_space)
         self.assertEqual(result.solution, {"x": 0})
         self.assertEqual(result.energy, 0)
 
     def test_anneal_with_constraints(self):
-        objective = lambda state: state["x"] ** 2
+        def objective(state):
+            return state["x"] ** 2
         search_space = [{"x": i} for i in range(-10, 11)]
         constraints = {
             "initial_temperature": 100.0,
@@ -59,12 +61,14 @@ class TestQuantumAnnealer(unittest.TestCase):
             self.annealer.anneal(None, search_space=search_space)
 
     def test_empty_search_space(self):
-        objective = lambda state: state["x"] ** 2
+        def objective(state):
+            return state["x"] ** 2
         with self.assertRaises(ValueError):
             self.annealer.anneal(objective, search_space=[])
 
     def test_reproducibility(self):
-        objective = lambda state: (state["x"] - 7) ** 2 + (state["y"] + 2) ** 2
+        def objective(state):
+            return (state["x"] - 7) ** 2 + (state["y"] + 2) ** 2
         search_space = [{"x": i, "y": j} for i in range(10) for j in range(-5, 5)]
 
         # Run 1
@@ -81,7 +85,8 @@ class TestQuantumAnnealer(unittest.TestCase):
         self.assertEqual(result1.energy, result2.energy)
 
     def test_initial_state(self):
-        objective = lambda state: state["x"]
+        def objective(state):
+            return state["x"]
         search_space = [{"x": i} for i in range(10)]
         constraints = {"initial_state": {"x": 9}}
         result = self.annealer.anneal(objective, search_space=search_space, constraints=constraints)
@@ -89,7 +94,8 @@ class TestQuantumAnnealer(unittest.TestCase):
         self.assertEqual(result.history[0], 9)
 
     def test_single_candidate(self):
-        objective = lambda state: state["x"] ** 2
+        def objective(state):
+            return state["x"] ** 2
         search_space = [{"x": 5}]
         result = self.annealer.anneal(objective, search_space=search_space)
         self.assertEqual(result.solution, {"x": 5})
