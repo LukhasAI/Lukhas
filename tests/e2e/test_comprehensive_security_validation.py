@@ -17,7 +17,7 @@ import re
 import secrets
 import tempfile
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import ClassVar, Dict, List, Optional, Tuple
 
 import pytest
 

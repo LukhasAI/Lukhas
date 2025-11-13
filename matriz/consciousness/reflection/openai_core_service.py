@@ -40,7 +40,7 @@ import os
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, ClassVar
 
 # Try to import from core.common if available
 try:

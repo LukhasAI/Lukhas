@@ -9,7 +9,7 @@ import math
 import random
 import sys
 import time
-from typing import Optional
+from typing import ClassVar, Optional
 
 
 # Console control sequences

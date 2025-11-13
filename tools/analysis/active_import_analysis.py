@@ -10,7 +10,7 @@ import importlib.util
 import sys
 from collections import defaultdict
 from pathlib import Path
-from typing import Optional
+from typing import ClassVar, Optional
 
 # Add project root to path
 PROJECT_ROOT = Path(__file__).parent.parent.parent

@@ -9,7 +9,7 @@ import json
 import logging
 from functools import wraps
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 
 def get_logger(name: str) -> logging.Logger:

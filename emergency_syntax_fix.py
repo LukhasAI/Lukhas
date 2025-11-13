@@ -7,7 +7,7 @@ Repairs syntax errors introduced by the ClassVar fix script
 import os
 import re
 import subprocess
-from typing import List
+from typing import ClassVar, List
 
 def fix_syntax_errors():
     """Fix syntax errors caused by ClassVar modifications"""

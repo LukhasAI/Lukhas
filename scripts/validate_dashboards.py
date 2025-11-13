@@ -14,7 +14,7 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Dict
+from typing import ClassVar, Dict
 
 import requests
 

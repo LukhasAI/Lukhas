@@ -23,7 +23,7 @@ import time
 from contextlib import contextmanager
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, ClassVar, Dict
 
 import psutil
 
