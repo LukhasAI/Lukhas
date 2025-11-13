@@ -2,7 +2,7 @@
 status: proposed
 type: documentation
 owner: codex
-module: adapters.redirect
+module: adapters.dast_adapter
 redirect: false
 moved_to: null
 ---

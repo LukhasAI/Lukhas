@@ -1,8 +1,12 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernize deprecated Dict, List, Set imports to native types in symbolic bridge
+# estimate: 10min | priority: medium | dependencies: consciousness-system
+
 import logging
 import uuid
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 # GLYPH Consciousness Communication - Symbolic Bridge Integrator
@@ -37,7 +41,7 @@ class DreamSeed:
         self.origin_node = origin_node
         self.timestamp = datetime.now(timezone.utc)
         self.emotional_vector = emotional_vector or {}
-        self.propagation_path: List[str] = []
+        self.propagation_path: list[str] = []
         self.creativity_score = 0.0
 
     def propagate_to(self, target_node: str, transformation_applied: bool = False):
@@ -50,10 +54,10 @@ class DreamSeed:
 class ConsciousnessMesh:
     """Manages the distributed consciousness node network"""
     def __init__(self):
-        self.nodes: Dict[str, ConsciousnessState] = {}
-        self.connections: Dict[str, Set[str]] = {}
-        self.sync_timestamps: Dict[str, datetime] = {}
-        self.drift_scores: Dict[str, float] = {}
+        self.nodes: dict[str, ConsciousnessState] = {}
+        self.connections: dict[str, set[str]] = {}
+        self.sync_timestamps: dict[str, datetime] = {}
+        self.drift_scores: dict[str, float] = {}
 
     def register_node(self, node_id: str) -> bool:
         """Register a new consciousness node in the mesh"""
@@ -75,7 +79,7 @@ class ConsciousnessMesh:
             return True
         return False
 
-    def synchronize_states(self, node_ids: List[str]) -> bool:
+    def synchronize_states(self, node_ids: list[str]) -> bool:
         """Synchronize consciousness states across specified nodes"""
         now = datetime.now(timezone.utc)
         for node_id in node_ids:
@@ -103,7 +107,7 @@ class ConsciousnessMesh:
             return True
         return False
 
-    def get_mesh_topology(self) -> Dict[str, Any]:
+    def get_mesh_topology(self) -> dict[str, Any]:
         """Get current mesh topology and states"""
         return {
             "nodes": {node_id: state.value for node_id, state in self.nodes.items()},
@@ -121,8 +125,8 @@ class SymbolicBridgeIntegrator:
     def __init__(self, config=None):
         self.config = config or {}
         self.consciousness_mesh = ConsciousnessMesh()
-        self.dream_seeds: List[DreamSeed] = []
-        self.active_propagations: Dict[str, Set[str]] = {}
+        self.dream_seeds: list[DreamSeed] = []
+        self.active_propagations: dict[str, set[str]] = {}
         logger.info("SymbolicBridgeIntegrator initialized with consciousness mesh.", config=self.config)
 
     def register_consciousness_node(self, node_id: str) -> bool:
@@ -134,7 +138,7 @@ class SymbolicBridgeIntegrator:
         return self.consciousness_mesh.form_connection(node_a, node_b)
 
     def propagate_dream_seed(self, content: str, origin_node: str,
-                           target_nodes: List[str], emotional_vector: Optional[Dict] = None) -> str:
+                           target_nodes: list[str], emotional_vector: Optional[Dict] = None) -> str:
         """Propagate a creative dream seed across consciousness nodes"""
         dream_seed = DreamSeed(content, origin_node, emotional_vector)
 
@@ -152,12 +156,12 @@ class SymbolicBridgeIntegrator:
 
         return dream_seed.id
 
-    def synchronize_consciousness_mesh(self, node_ids: Optional[List[str]] = None) -> bool:
+    def synchronize_consciousness_mesh(self, node_ids: Optional[list[str]] = None) -> bool:
         """Synchronize consciousness states across the mesh"""
         target_nodes = node_ids or list(self.consciousness_mesh.nodes.keys())
         return self.consciousness_mesh.synchronize_states(target_nodes)
 
-    def monitor_drift_across_mesh(self, threshold: float = 0.15) -> Dict[str, bool]:
+    def monitor_drift_across_mesh(self, threshold: float = 0.15) -> dict[str, bool]:
         """Monitor consciousness drift across all nodes"""
         drift_status = {}
         for node_id in self.consciousness_mesh.nodes.keys():
@@ -170,7 +174,7 @@ class SymbolicBridgeIntegrator:
 
         return drift_status
 
-    def get_consciousness_topology(self) -> Dict[str, Any]:
+    def get_consciousness_topology(self) -> dict[str, Any]:
         """Get current consciousness mesh topology and health metrics"""
         return self.consciousness_mesh.get_mesh_topology()
 

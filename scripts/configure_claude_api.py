@@ -228,7 +228,7 @@ async def test_api_key(api_key: str) -> bool:
         if not claude.is_available():
             return False
 
-        response, model = await claude.generate_response(
+        response, _model = await claude.generate_response(
             prompt="Say 'test' in one word.",
             model="claude-3-5-haiku-20241022",  # Fastest for testing
             max_tokens=10

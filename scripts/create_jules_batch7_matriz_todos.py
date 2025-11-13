@@ -38,7 +38,7 @@ from bridge.llm_wrappers.jules_wrapper import JulesClient
 BATCH7_SESSIONS = [
     {
         "title": "🔴 P0: Implement Visionary Orchestrator TODOs (20 TODOs)",
-        "prompt": """**CRITICAL: Complete Visionary Orchestrator Implementation**
+        "prompt": r"""**CRITICAL: Complete Visionary Orchestrator Implementation**
 
 **📚 CONTEXT FILES - READ THESE FIRST**:
 - `matriz/lukhas_context.md` - MATRIZ cognitive architecture
@@ -251,7 +251,7 @@ Impact:
     },
     {
         "title": "🟠 P1: Complete Reflection Layer TODOs (10 TODOs)",
-        "prompt": """**HIGH PRIORITY: Finish Reflection Layer Implementation**
+        "prompt": r"""**HIGH PRIORITY: Finish Reflection Layer Implementation**
 
 **📚 CONTEXT FILES - READ THESE FIRST**:
 - `matriz/consciousness/reflection/lukhas_context.md` - Reflection layer design

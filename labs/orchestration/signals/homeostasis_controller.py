@@ -383,7 +383,7 @@ class HomeostasisController:
         """Emit a hormone signal"""
         try:
             # Create signal
-            signal_type = SignalType[hormone_name.upper()]
+            signal_type = Signaltype[hormone_name.upper()]
             signal = Signal(
                 name=signal_type,
                 level=level,

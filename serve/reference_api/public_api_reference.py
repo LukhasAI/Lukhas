@@ -22,6 +22,7 @@ Path: serve/reference_api/public_api_reference.py
 Rescued: 2025-09-09 from archive/scattered_root_files/public_api.py
 """
 
+# ruff: noqa: B008
 import base64
 import logging
 import os

@@ -119,7 +119,7 @@ class PgVectorStore:
         else:
             # Simple WHERE implementation, e.g., where={"source": "doc.pdf"}
             # This is not safe for complex queries, but works for this scope.
-            conditions = " AND ".join([f"metadata->>'{key}' = %s" for key in where.keys()])
+            conditions = " AND ".join([f"metadata->>'{key}' = %s" for key in where])
             query = f"DELETE FROM {self.table} WHERE {conditions}"
             params = tuple(where.values())
 

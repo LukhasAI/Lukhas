@@ -4,6 +4,7 @@ LUKHAS API Expansion
 This module provides the FastAPI application for the LUKHAS API expansion.
 """
 
+# ruff: noqa: B008
 from fastapi import Depends, FastAPI
 
 from api import models

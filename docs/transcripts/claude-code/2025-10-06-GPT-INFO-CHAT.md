@@ -1751,22 +1751,22 @@ python3 scripts/docs/migrate_docs_auto.py --dry-run
 📋 Would move: docs/administration/SECURITY_SUMMARY.md → administration/docs/SECURITY_SUMMARY.md (confidence: 0.8, strategy: path)
 📋 Would move: docs/agent-allocations/README.md → agent-allocations/docs/README.md (confidence: 0.8, strategy: path)
 📋 Would move: docs/agent-instructions/GROUP-C1-JULES11-INSTRUCTIONS.md → agent-instructions/docs/GROUP-C1-JULES11-INSTRUCTIONS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENTS.md → agents/docs/AGENTS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENTS_EXPANDED.md → agents/docs/AGENTS_EXPANDED.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_ARMY_SETUP.md → agents/docs/AGENT_ARMY_SETUP.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_CRITICAL_WARNING.md → agents/docs/AGENT_CRITICAL_WARNING.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_DEVELOPMENT_GUIDE.md → agents/docs/AGENT_DEVELOPMENT_GUIDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md → agents/docs/AGENT_IMPLEMENTATION_FINAL_STATUS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_NAVIGATION_GUIDE.md → agents/docs/AGENT_NAVIGATION_GUIDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_WORKFLOWS.md → agents/docs/AGENT_WORKFLOWS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE.md → agents/docs/CLAUDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md → agents/docs/CLAUDE_AGENT_COMPLIANCE_TASKS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_MCP.md → agents/docs/CLAUDE_CODE_MCP.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_PROMPTS.md → agents/docs/CLAUDE_CODE_PROMPTS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_SESSION_PLAN.md → agents/docs/CLAUDE_CODE_SESSION_PLAN.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_SYSTEM_GUIDE.md → agents/docs/CLAUDE_CODE_SYSTEM_GUIDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_KNOWLEDGE_BASE.md → agents/docs/CLAUDE_KNOWLEDGE_BASE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_TASK_ASSIGNMENTS.md → agents/docs/CLAUDE_TASK_ASSIGNMENTS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENTS.md → docs/ai-agents/AGENTS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENTS_EXPANDED.md → docs/ai-agents/AGENTS_EXPANDED.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_ARMY_SETUP.md → docs/ai-agents/AGENT_ARMY_SETUP.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_CRITICAL_WARNING.md → docs/ai-agents/AGENT_CRITICAL_WARNING.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_DEVELOPMENT_GUIDE.md → docs/ai-agents/AGENT_DEVELOPMENT_GUIDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md → docs/ai-agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_NAVIGATION_GUIDE.md → docs/ai-agents/AGENT_NAVIGATION_GUIDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_WORKFLOWS.md → docs/ai-agents/AGENT_WORKFLOWS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE.md → docs/ai-agents/CLAUDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md → docs/ai-agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_MCP.md → docs/ai-agents/CLAUDE_CODE_MCP.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_PROMPTS.md → docs/ai-agents/CLAUDE_CODE_PROMPTS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_SESSION_PLAN.md → docs/ai-agents/CLAUDE_CODE_SESSION_PLAN.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_SYSTEM_GUIDE.md → docs/ai-agents/CLAUDE_CODE_SYSTEM_GUIDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_KNOWLEDGE_BASE.md → docs/ai-agents/CLAUDE_KNOWLEDGE_BASE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_TASK_ASSIGNMENTS.md → docs/ai-agents/CLAUDE_TASK_ASSIGNMENTS.md (confidence: 0.8, strategy: path)
 I see the problem - it's creating wrong paths like consciousness.simulation (with dot) instead of proper module directories. Also, docs/_generated/ shouldn't be moved. Let me reconsider the approach - maybe we should skip this automatic migration for now since it's too complex, and instead just commit the toolchain and let the user decide which docs to migrate manually. Let me provide a status update instead:
 📊 Migration Status Update
 The mapping tool is working correctly (1,828 high-confidence mappings, 51.6%), but I've identified an issue with the migration logic that needs refinement:
@@ -2192,39 +2192,39 @@ python3 scripts/docs/migrate_docs_auto.py --dry-run
 🔍 DRY RUN MODE - No changes will be made
 
 📋 Would move: consciousness/simulation/lukhas_context.md → consciousness/simulation/docs/lukhas_context.md (confidence: 1.0, strategy: frontmatter)
-📋 Would move: docs/agents/AGENTS.md → agents/docs/AGENTS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENTS_EXPANDED.md → agents/docs/AGENTS_EXPANDED.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_ARMY_SETUP.md → agents/docs/AGENT_ARMY_SETUP.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_CRITICAL_WARNING.md → agents/docs/AGENT_CRITICAL_WARNING.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_DEVELOPMENT_GUIDE.md → agents/docs/AGENT_DEVELOPMENT_GUIDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md → agents/docs/AGENT_IMPLEMENTATION_FINAL_STATUS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_NAVIGATION_GUIDE.md → agents/docs/AGENT_NAVIGATION_GUIDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_WORKFLOWS.md → agents/docs/AGENT_WORKFLOWS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE.md → agents/docs/CLAUDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md → agents/docs/CLAUDE_AGENT_COMPLIANCE_TASKS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_MCP.md → agents/docs/CLAUDE_CODE_MCP.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_PROMPTS.md → agents/docs/CLAUDE_CODE_PROMPTS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_SESSION_PLAN.md → agents/docs/CLAUDE_CODE_SESSION_PLAN.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_SYSTEM_GUIDE.md → agents/docs/CLAUDE_CODE_SYSTEM_GUIDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_KNOWLEDGE_BASE.md → agents/docs/CLAUDE_KNOWLEDGE_BASE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_TASK_ASSIGNMENTS.md → agents/docs/CLAUDE_TASK_ASSIGNMENTS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md → agents/docs/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/JULES_IMPORT_FIX_TASKS.md → agents/docs/JULES_IMPORT_FIX_TASKS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/JULES_PR_INTEGRATION_PLAN.md → agents/docs/JULES_PR_INTEGRATION_PLAN.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/LUKHAS_SEMANTIC_INDEX.md → agents/docs/LUKHAS_SEMANTIC_INDEX.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/MULTI_AI_ORCHESTRATION_SYSTEM.md → agents/docs/MULTI_AI_ORCHESTRATION_SYSTEM.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md → agents/docs/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/PHASE_1_2_ACHIEVEMENTS.md → agents/docs/PHASE_1_2_ACHIEVEMENTS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/QUICK_AGENT_BRIEFS.md → agents/docs/QUICK_AGENT_BRIEFS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/STAGE_1_IMPLEMENTATION_REPORT.md → agents/docs/STAGE_1_IMPLEMENTATION_REPORT.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md → agents/docs/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/001_MASTER_ORCHESTRATOR.md → agents/docs/001_MASTER_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/002_SYMBOLIC_KERNEL_BUS.md → agents/docs/002_SYMBOLIC_KERNEL_BUS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/003_MULTI_MODEL_ORCHESTRATION.md → agents/docs/003_MULTI_MODEL_ORCHESTRATION.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/004_UNIFIED_MEMORY_ORCHESTRATOR.md → agents/docs/004_UNIFIED_MEMORY_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/005_DREAM_ORCHESTRATOR.md → agents/docs/005_DREAM_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/006_EMOTION_HUB.md → agents/docs/006_EMOTION_HUB.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/007_AKA_QUALIA_PHENOMENOLOGICAL.md → agents/docs/007_AKA_QUALIA_PHENOMENOLOGICAL.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENTS.md → docs/ai-agents/AGENTS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENTS_EXPANDED.md → docs/ai-agents/AGENTS_EXPANDED.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_ARMY_SETUP.md → docs/ai-agents/AGENT_ARMY_SETUP.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_CRITICAL_WARNING.md → docs/ai-agents/AGENT_CRITICAL_WARNING.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_DEVELOPMENT_GUIDE.md → docs/ai-agents/AGENT_DEVELOPMENT_GUIDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md → docs/ai-agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_NAVIGATION_GUIDE.md → docs/ai-agents/AGENT_NAVIGATION_GUIDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_WORKFLOWS.md → docs/ai-agents/AGENT_WORKFLOWS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE.md → docs/ai-agents/CLAUDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md → docs/ai-agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_MCP.md → docs/ai-agents/CLAUDE_CODE_MCP.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_PROMPTS.md → docs/ai-agents/CLAUDE_CODE_PROMPTS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_SESSION_PLAN.md → docs/ai-agents/CLAUDE_CODE_SESSION_PLAN.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_SYSTEM_GUIDE.md → docs/ai-agents/CLAUDE_CODE_SYSTEM_GUIDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_KNOWLEDGE_BASE.md → docs/ai-agents/CLAUDE_KNOWLEDGE_BASE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_TASK_ASSIGNMENTS.md → docs/ai-agents/CLAUDE_TASK_ASSIGNMENTS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md → docs/ai-agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/JULES_IMPORT_FIX_TASKS.md → docs/ai-agents/JULES_IMPORT_FIX_TASKS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/JULES_PR_INTEGRATION_PLAN.md → docs/ai-agents/JULES_PR_INTEGRATION_PLAN.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/LUKHAS_SEMANTIC_INDEX.md → docs/ai-agents/LUKHAS_SEMANTIC_INDEX.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/MULTI_AI_ORCHESTRATION_SYSTEM.md → docs/ai-agents/MULTI_AI_ORCHESTRATION_SYSTEM.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md → docs/ai-agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/PHASE_1_2_ACHIEVEMENTS.md → docs/ai-agents/PHASE_1_2_ACHIEVEMENTS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/QUICK_AGENT_BRIEFS.md → docs/ai-agents/QUICK_AGENT_BRIEFS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/STAGE_1_IMPLEMENTATION_REPORT.md → docs/ai-agents/STAGE_1_IMPLEMENTATION_REPORT.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md → docs/ai-agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/001_MASTER_ORCHESTRATOR.md → docs/ai-agents/001_MASTER_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/002_SYMBOLIC_KERNEL_BUS.md → docs/ai-agents/002_SYMBOLIC_KERNEL_BUS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/003_MULTI_MODEL_ORCHESTRATION.md → docs/ai-agents/003_MULTI_MODEL_ORCHESTRATION.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/004_UNIFIED_MEMORY_ORCHESTRATOR.md → docs/ai-agents/004_UNIFIED_MEMORY_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/005_DREAM_ORCHESTRATOR.md → docs/ai-agents/005_DREAM_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/006_EMOTION_HUB.md → docs/ai-agents/006_EMOTION_HUB.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/007_AKA_QUALIA_PHENOMENOLOGICAL.md → docs/ai-agents/007_AKA_QUALIA_PHENOMENOLOGICAL.md (confidence: 0.8, strategy: path)
 📋 Would move: docs/api/API_ENHANCEMENT_GUIDE.md → api/docs/API_ENHANCEMENT_GUIDE.md (confidence: 0.8, strategy: path)
 📋 Would move: docs/api/API_INTEGRATION_SUMMARY.md → api/docs/API_INTEGRATION_SUMMARY.md (confidence: 0.8, strategy: path)
 📋 Would move: docs/api/API_REFERENCE.md → api/docs/API_REFERENCE.md (confidence: 0.8, strategy: path)
@@ -2279,8 +2279,8 @@ python3 scripts/docs/migrate_docs_auto.py
    Eligible for migration: 955
 🔄 Migrating: consciousness/simulation/lukhas_context.md → consciousness/simulation/docs/lukhas_context.md
   📍 Created redirect stub: consciousness/simulation/lukhas_context.md
-🔄 Migrating: docs/agents/AGENTS.md → agents/docs/AGENTS.md
-  ✅ Injected frontmatter: agents/docs/AGENTS.md
+🔄 Migrating: docs/agents/AGENTS.md → docs/ai-agents/AGENTS.md
+  ✅ Injected frontmatter: docs/ai-agents/AGENTS.md
 Traceback (most recent call last):
   File "/Users/agi_dev/LOCAL-REPOS/Lukhas/scripts/docs/migrate_docs_auto.py", line 233, in <module>
     sys.exit(main())
@@ -2292,7 +2292,7 @@ Traceback (most recent call last):
     **New location**: [{new_path}]({new_path.relative_to(old_path.parent)})
   File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 929, in relative_to
     raise ValueError("{!r} is not in the subpath of {!r}"
-ValueError: 'agents/docs/AGENTS.md' is not in the subpath of 'docs/agents' OR one path is relative and the other is absolute.
+ValueError: 'docs/ai-agents/AGENTS.md' is not in the subpath of 'docs/agents' OR one path is relative and the other is absolute.
 make: *** [docs-migrate-auto] Error 1
 We have an issue with the redirect stub path calculation. Let me fix that:
 Read migrate_docs_auto.py (lines 91-105)
@@ -2307,7 +2307,7 @@ IN
 git status --short | head -20
 OUT
  M .claude/settings.local.json
-RM docs/agents/AGENTS.md -> agents/docs/AGENTS.md
+RM docs/agents/AGENTS.md -> docs/ai-agents/AGENTS.md
 R  consciousness/simulation/lukhas_context.md -> consciousness/simulation/docs/lukhas_context.md
  M mcp-servers/lukhas-constellation-mcp/package.json
  M scripts/docs/build_docs_map.py
@@ -2346,8 +2346,8 @@ python3 scripts/docs/migrate_docs_auto.py
   ⚠️  Failed to move: consciousness/simulation/docs/GUIDES.md
 🔄 Migrating: consciousness/simulation/lukhas_context.md → consciousness/simulation/docs/lukhas_context.md
   📍 Created redirect stub: consciousness/simulation/lukhas_context.md
-🔄 Migrating: docs/agents/AGENTS.md → agents/docs/AGENTS.md
-  ✅ Injected frontmatter: agents/docs/AGENTS.md
+🔄 Migrating: docs/agents/AGENTS.md → docs/ai-agents/AGENTS.md
+  ✅ Injected frontmatter: docs/ai-agents/AGENTS.md
 Traceback (most recent call last):
   File "/Users/agi_dev/LOCAL-REPOS/Lukhas/scripts/docs/migrate_docs_auto.py", line 190, in <module>
     sys.exit(main())
@@ -2359,7 +2359,7 @@ Traceback (most recent call last):
     **New location**: [{new_path}]({new_path.relative_to(old_path.parent)})
   File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 929, in relative_to
     raise ValueError("{!r} is not in the subpath of {!r}"
-ValueError: 'agents/docs/AGENTS.md' is not in the subpath of 'docs/agents' OR one path is relative and the other is absolute.
+ValueError: 'docs/ai-agents/AGENTS.md' is not in the subpath of 'docs/agents' OR one path is relative and the other is absolute.
 make: *** [docs-migrate-auto] Error 1
 The git reset reverted my edit! The file still has the old redirect stub logic. Also, we're seeing files that are already in the correct location trying to move to themselves. Let me re-apply both fixes properly and also update the already_in_correct_location check:
 Read migrate_docs_auto.py (lines 91-165)
@@ -2370,7 +2370,7 @@ Check current state
 IN
 git status --short
 OUT
-RM docs/agents/AGENTS.md -> agents/docs/AGENTS.md
+RM docs/agents/AGENTS.md -> docs/ai-agents/AGENTS.md
 R  consciousness/simulation/lukhas_context.md -> consciousness/simulation/docs/lukhas_context.md
 ?? consciousness/simulation/lukhas_context.md
 Bash
@@ -2433,7 +2433,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 OUT
 [main 775bafafb] fix(docs-migration): robust path inference; skip special root docs; use filesystem paths
  2 files changed, 0 insertions(+), 0 deletions(-)
- rename {docs/agents => agents/docs}/AGENTS.md (100%)
+ rename {docs/agents => docs/ai-agents}/AGENTS.md (100%)
  rename consciousness/simulation/{ => docs}/lukhas_context.md (100%)
 [0;34m📊 Generating post-commit security report...[0m
 Wait - it actually committed 2 file moves! Let me check what happened:
@@ -2498,7 +2498,7 @@ Date:   Mon Oct 6 12:28:18 2025 +0100
     
     Co-Authored-By: Claude <noreply@anthropic.com>
 
- {docs/agents => agents/docs}/AGENTS.md                | 0
+ {docs/agents => docs/ai-agents}/AGENTS.md                | 0
  consciousness/simulation/{ => docs}/lukhas_context.md | 0
  2 files changed, 0 insertions(+), 0 deletions(-)
 Interesting! Git automatically staged the partial migration that had happened before the reset. We have 2 successful file moves with history preserved. Let me push this and provide a summary:
@@ -2544,7 +2544,7 @@ High-confidence mappings (≥0.80): 955 files (26.9%)
 Module directories discovered: 146
 Special root docs protected: 10 directories
 Successful Migrations (2 pilot files):
-docs/agents/AGENTS.md → agents/docs/AGENTS.md ✅
+docs/agents/AGENTS.md → docs/ai-agents/AGENTS.md ✅
 consciousness/simulation/lukhas_context.md → consciousness/simulation/docs/lukhas_context.md ✅
 Protected Directories (won't migrate):
 docs/_generated/ (auto-generated content)
@@ -2621,7 +2621,7 @@ Beautiful momentum. You’ve got the hard parts in: mapping, robust path logic, 
 
 * Open the two migrated files in the PR diff:
 
-  * `docs/agents/AGENTS.md → agents/docs/AGENTS.md`
+  * `docs/agents/AGENTS.md → docs/ai-agents/AGENTS.md`
   * `consciousness/simulation/lukhas_context.md → consciousness/simulation/docs/lukhas_context.md`
 * Verify:
 
@@ -2753,9 +2753,9 @@ Bash
 ⎿
 Verify migrated files exist
 IN
-ls -la agents/docs/AGENTS.md consciousness/simulation/docs/lukhas_context.md 2>&1 | head -5
+ls -la docs/ai-agents/AGENTS.md consciousness/simulation/docs/lukhas_context.md 2>&1 | head -5
 OUT
--rw-r--r--@ 1 agi_dev  staff  24881 Oct  6 12:27 agents/docs/AGENTS.md
+-rw-r--r--@ 1 agi_dev  staff  24881 Oct  6 12:27 docs/ai-agents/AGENTS.md
 -rw-r--r--@ 1 agi_dev  staff    255 Oct  6 12:27 consciousness/simulation/docs/lukhas_context.md
 Read AGENTS.md
 Perfect! Frontmatter injected correctly. Let me check the redirect stub and the other migrated file:
@@ -3376,7 +3376,7 @@ __all__ = ["*"]
 5. Check average health threshold (fail <40, warn <60)
 
 ### Migrated Files (2 successful pilot migrations)
-1. **docs/agents/AGENTS.md → agents/docs/AGENTS.md**
+1. **docs/agents/AGENTS.md → docs/ai-agents/AGENTS.md**
    - Frontmatter injected: `module: agents`, `title: 🎖️ LUKHAS AI Agent Army`
    - History preserved via git mv
    - Redirect stub missing (migration interrupted)
@@ -3471,7 +3471,7 @@ for skip_prefix in SKIP_ROOT_DOC_GLOBS:
 
 **Error Message**:
 ```
-ValueError: 'agents/docs/AGENTS.md' is not in the subpath of 'docs/agents'
+ValueError: 'docs/ai-agents/AGENTS.md' is not in the subpath of 'docs/agents'
 ```
 
 **Fix Attempted**:
@@ -3560,7 +3560,7 @@ def already_in_correct_location(file_path: Path, module_path: str) -> bool:
 Immediately before the summary request, I was in the **validation phase after pilot migration**:
 
 1. **Validated 2 Pilot Migrations**:
-   - `agents/docs/AGENTS.md` - Frontmatter correctly injected with `module: agents`
+   - `docs/ai-agents/AGENTS.md` - Frontmatter correctly injected with `module: agents`
    - `consciousness/simulation/docs/lukhas_context.md` - Already had frontmatter, moved successfully
    - One redirect stub created, one missing (due to migration interruption)
 
@@ -4052,7 +4052,7 @@ Breakdown by confidence:
 High confidence (≥0.90): 13 files
 
 First 20 high-confidence candidates:
- 1. agents/docs/AGENTS.md                                        → agents                         (frontmatter)
+ 1. docs/ai-agents/AGENTS.md                                        → agents                         (frontmatter)
  2. consciousness/docs/GUIDES.md                                 → consciousness                  (frontmatter)
  3. consciousness/simulation/docs/API.md                         → consciousness.simulation       (frontmatter)
  4. consciousness/simulation/docs/ARCHITECTURE.md                → consciousness.simulation       (frontmatter)
@@ -4143,7 +4143,7 @@ OUT
 High confidence files (1.0): 13
 
 Checking which need migration:
-  OK (already correct): agents/docs/AGENTS.md
+  OK (already correct): docs/ai-agents/AGENTS.md
   OK (already correct): consciousness/docs/GUIDES.md
   OK (already correct): consciousness/simulation/docs/API.md
   OK (already correct): consciousness/simulation/docs/ARCHITECTURE.md
@@ -4233,10 +4233,10 @@ Checking migration candidates:
   agent/docs/api.md                                                      → api/md/docs/api.md
   agent/docs/architecture.md                                             → architecture/md/docs/architecture.md
   agent/docs/troubleshooting.md                                          → troubleshooting/md/docs/troubleshooting.md
-  agents/docs/README.md                                                  → README/md/docs/README.md
-  agents/docs/api.md                                                     → api/md/docs/api.md
-  agents/docs/architecture.md                                            → architecture/md/docs/architecture.md
-  agents/docs/troubleshooting.md                                         → troubleshooting/md/docs/troubleshooting.md
+  docs/ai-agents/README.md                                                  → README/md/docs/README.md
+  docs/ai-agents/api.md                                                     → api/md/docs/api.md
+  docs/ai-agents/architecture.md                                            → architecture/md/docs/architecture.md
+  docs/ai-agents/troubleshooting.md                                         → troubleshooting/md/docs/troubleshooting.md
   agents_external/CLAUDE/workspaces/special-ops-secrets-kms-legacy/docs/integration_points.md → integration_points/md/docs/integration_points.md
   agents_external/docs/README.md                                         → README/md/docs/README.md
   agents_external/docs/api.md                                            → api/md/docs/api.md
@@ -4336,8 +4336,8 @@ Sample 0.8 confidence path-inferred files:
  6. agent/docs/api.md                                                      → agent
  7. agent/docs/architecture.md                                             → agent
  8. agent/docs/troubleshooting.md                                          → agent
- 9. agents/docs/README.md                                                  → agents
-10. agents/docs/api.md                                                     → agents
+ 9. docs/ai-agents/README.md                                                  → agents
+10. docs/ai-agents/api.md                                                     → agents
 Excellent! The path inference is now working correctly. Let me check which files from the 0.8 and 1.0 confidence files need migration:
 Bash
 ⎿
@@ -4350,38 +4350,38 @@ OUT
 📋 Would move: consciousness/simulation/docs/ARCHITECTURE.md → consciousness.simulation/docs/ARCHITECTURE.md (confidence: 1.0, strategy: frontmatter)
 📋 Would move: consciousness/simulation/docs/GUIDES.md → consciousness.simulation/docs/GUIDES.md (confidence: 1.0, strategy: frontmatter)
 📋 Would move: consciousness/simulation/docs/lukhas_context.md → consciousness.simulation/docs/lukhas_context.md (confidence: 1.0, strategy: frontmatter)
-📋 Would move: docs/agents/AGENTS_EXPANDED.md → agents/docs/AGENTS_EXPANDED.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_ARMY_SETUP.md → agents/docs/AGENT_ARMY_SETUP.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_CRITICAL_WARNING.md → agents/docs/AGENT_CRITICAL_WARNING.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_DEVELOPMENT_GUIDE.md → agents/docs/AGENT_DEVELOPMENT_GUIDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md → agents/docs/AGENT_IMPLEMENTATION_FINAL_STATUS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_NAVIGATION_GUIDE.md → agents/docs/AGENT_NAVIGATION_GUIDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_WORKFLOWS.md → agents/docs/AGENT_WORKFLOWS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE.md → agents/docs/CLAUDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md → agents/docs/CLAUDE_AGENT_COMPLIANCE_TASKS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_MCP.md → agents/docs/CLAUDE_CODE_MCP.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_PROMPTS.md → agents/docs/CLAUDE_CODE_PROMPTS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_SESSION_PLAN.md → agents/docs/CLAUDE_CODE_SESSION_PLAN.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_SYSTEM_GUIDE.md → agents/docs/CLAUDE_CODE_SYSTEM_GUIDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_KNOWLEDGE_BASE.md → agents/docs/CLAUDE_KNOWLEDGE_BASE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_TASK_ASSIGNMENTS.md → agents/docs/CLAUDE_TASK_ASSIGNMENTS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md → agents/docs/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/JULES_IMPORT_FIX_TASKS.md → agents/docs/JULES_IMPORT_FIX_TASKS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/JULES_PR_INTEGRATION_PLAN.md → agents/docs/JULES_PR_INTEGRATION_PLAN.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/LUKHAS_SEMANTIC_INDEX.md → agents/docs/LUKHAS_SEMANTIC_INDEX.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/MULTI_AI_ORCHESTRATION_SYSTEM.md → agents/docs/MULTI_AI_ORCHESTRATION_SYSTEM.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md → agents/docs/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/PHASE_1_2_ACHIEVEMENTS.md → agents/docs/PHASE_1_2_ACHIEVEMENTS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/QUICK_AGENT_BRIEFS.md → agents/docs/QUICK_AGENT_BRIEFS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/STAGE_1_IMPLEMENTATION_REPORT.md → agents/docs/STAGE_1_IMPLEMENTATION_REPORT.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md → agents/docs/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/001_MASTER_ORCHESTRATOR.md → agents/docs/consciousness_profiles/001_MASTER_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/002_SYMBOLIC_KERNEL_BUS.md → agents/docs/consciousness_profiles/002_SYMBOLIC_KERNEL_BUS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/003_MULTI_MODEL_ORCHESTRATION.md → agents/docs/consciousness_profiles/003_MULTI_MODEL_ORCHESTRATION.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/004_UNIFIED_MEMORY_ORCHESTRATOR.md → agents/docs/consciousness_profiles/004_UNIFIED_MEMORY_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/005_DREAM_ORCHESTRATOR.md → agents/docs/consciousness_profiles/005_DREAM_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/006_EMOTION_HUB.md → agents/docs/consciousness_profiles/006_EMOTION_HUB.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/007_AKA_QUALIA_PHENOMENOLOGICAL.md → agents/docs/consciousness_profiles/007_AKA_QUALIA_PHENOMENOLOGICAL.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENTS_EXPANDED.md → docs/ai-agents/AGENTS_EXPANDED.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_ARMY_SETUP.md → docs/ai-agents/AGENT_ARMY_SETUP.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_CRITICAL_WARNING.md → docs/ai-agents/AGENT_CRITICAL_WARNING.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_DEVELOPMENT_GUIDE.md → docs/ai-agents/AGENT_DEVELOPMENT_GUIDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md → docs/ai-agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_NAVIGATION_GUIDE.md → docs/ai-agents/AGENT_NAVIGATION_GUIDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_WORKFLOWS.md → docs/ai-agents/AGENT_WORKFLOWS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE.md → docs/ai-agents/CLAUDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md → docs/ai-agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_MCP.md → docs/ai-agents/CLAUDE_CODE_MCP.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_PROMPTS.md → docs/ai-agents/CLAUDE_CODE_PROMPTS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_SESSION_PLAN.md → docs/ai-agents/CLAUDE_CODE_SESSION_PLAN.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_SYSTEM_GUIDE.md → docs/ai-agents/CLAUDE_CODE_SYSTEM_GUIDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_KNOWLEDGE_BASE.md → docs/ai-agents/CLAUDE_KNOWLEDGE_BASE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_TASK_ASSIGNMENTS.md → docs/ai-agents/CLAUDE_TASK_ASSIGNMENTS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md → docs/ai-agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/JULES_IMPORT_FIX_TASKS.md → docs/ai-agents/JULES_IMPORT_FIX_TASKS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/JULES_PR_INTEGRATION_PLAN.md → docs/ai-agents/JULES_PR_INTEGRATION_PLAN.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/LUKHAS_SEMANTIC_INDEX.md → docs/ai-agents/LUKHAS_SEMANTIC_INDEX.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/MULTI_AI_ORCHESTRATION_SYSTEM.md → docs/ai-agents/MULTI_AI_ORCHESTRATION_SYSTEM.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md → docs/ai-agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/PHASE_1_2_ACHIEVEMENTS.md → docs/ai-agents/PHASE_1_2_ACHIEVEMENTS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/QUICK_AGENT_BRIEFS.md → docs/ai-agents/QUICK_AGENT_BRIEFS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/STAGE_1_IMPLEMENTATION_REPORT.md → docs/ai-agents/STAGE_1_IMPLEMENTATION_REPORT.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md → docs/ai-agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/001_MASTER_ORCHESTRATOR.md → docs/ai-agents/consciousness_profiles/001_MASTER_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/002_SYMBOLIC_KERNEL_BUS.md → docs/ai-agents/consciousness_profiles/002_SYMBOLIC_KERNEL_BUS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/003_MULTI_MODEL_ORCHESTRATION.md → docs/ai-agents/consciousness_profiles/003_MULTI_MODEL_ORCHESTRATION.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/004_UNIFIED_MEMORY_ORCHESTRATOR.md → docs/ai-agents/consciousness_profiles/004_UNIFIED_MEMORY_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/005_DREAM_ORCHESTRATOR.md → docs/ai-agents/consciousness_profiles/005_DREAM_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/006_EMOTION_HUB.md → docs/ai-agents/consciousness_profiles/006_EMOTION_HUB.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/007_AKA_QUALIA_PHENOMENOLOGICAL.md → docs/ai-agents/consciousness_profiles/007_AKA_QUALIA_PHENOMENOLOGICAL.md (confidence: 0.8, strategy: path)
 📋 Would move: docs/api/API_ENHANCEMENT_GUIDE.md → api/docs/API_ENHANCEMENT_GUIDE.md (confidence: 0.8, strategy: path)
 📋 Would move: docs/api/API_INTEGRATION_SUMMARY.md → api/docs/API_INTEGRATION_SUMMARY.md (confidence: 0.8, strategy: path)
 📋 Would move: docs/api/API_REFERENCE.md → api/docs/API_REFERENCE.md (confidence: 0.8, strategy: path)
@@ -4463,11 +4463,11 @@ OUT
 ✓  OK (already correct): agent/docs/api.md
 ✓  OK (already correct): agent/docs/architecture.md
 ✓  OK (already correct): agent/docs/troubleshooting.md
-✓  OK (already correct): agents/docs/AGENTS.md
-✓  OK (already correct): agents/docs/README.md
-✓  OK (already correct): agents/docs/api.md
-✓  OK (already correct): agents/docs/architecture.md
-✓  OK (already correct): agents/docs/troubleshooting.md
+✓  OK (already correct): docs/ai-agents/AGENTS.md
+✓  OK (already correct): docs/ai-agents/README.md
+✓  OK (already correct): docs/ai-agents/api.md
+✓  OK (already correct): docs/ai-agents/architecture.md
+✓  OK (already correct): docs/ai-agents/troubleshooting.md
 ✓  OK (already correct): agents_external/docs/README.md
 ✓  OK (already correct): agents_external/docs/api.md
 ✓  OK (already correct): agents_external/docs/architecture.md
@@ -4622,38 +4622,38 @@ Find files that would actually be migrated
 IN
 python3 scripts/docs/migrate_docs_auto.py --dry-run 2>&1 | grep "Would move" | head -50
 OUT
-📋 Would move: docs/agents/AGENTS_EXPANDED.md → agents/docs/AGENTS_EXPANDED.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_ARMY_SETUP.md → agents/docs/AGENT_ARMY_SETUP.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_CRITICAL_WARNING.md → agents/docs/AGENT_CRITICAL_WARNING.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_DEVELOPMENT_GUIDE.md → agents/docs/AGENT_DEVELOPMENT_GUIDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md → agents/docs/AGENT_IMPLEMENTATION_FINAL_STATUS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_NAVIGATION_GUIDE.md → agents/docs/AGENT_NAVIGATION_GUIDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_WORKFLOWS.md → agents/docs/AGENT_WORKFLOWS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE.md → agents/docs/CLAUDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md → agents/docs/CLAUDE_AGENT_COMPLIANCE_TASKS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_MCP.md → agents/docs/CLAUDE_CODE_MCP.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_PROMPTS.md → agents/docs/CLAUDE_CODE_PROMPTS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_SESSION_PLAN.md → agents/docs/CLAUDE_CODE_SESSION_PLAN.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_SYSTEM_GUIDE.md → agents/docs/CLAUDE_CODE_SYSTEM_GUIDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_KNOWLEDGE_BASE.md → agents/docs/CLAUDE_KNOWLEDGE_BASE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_TASK_ASSIGNMENTS.md → agents/docs/CLAUDE_TASK_ASSIGNMENTS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md → agents/docs/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/JULES_IMPORT_FIX_TASKS.md → agents/docs/JULES_IMPORT_FIX_TASKS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/JULES_PR_INTEGRATION_PLAN.md → agents/docs/JULES_PR_INTEGRATION_PLAN.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/LUKHAS_SEMANTIC_INDEX.md → agents/docs/LUKHAS_SEMANTIC_INDEX.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/MULTI_AI_ORCHESTRATION_SYSTEM.md → agents/docs/MULTI_AI_ORCHESTRATION_SYSTEM.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md → agents/docs/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/PHASE_1_2_ACHIEVEMENTS.md → agents/docs/PHASE_1_2_ACHIEVEMENTS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/QUICK_AGENT_BRIEFS.md → agents/docs/QUICK_AGENT_BRIEFS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/STAGE_1_IMPLEMENTATION_REPORT.md → agents/docs/STAGE_1_IMPLEMENTATION_REPORT.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md → agents/docs/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/001_MASTER_ORCHESTRATOR.md → agents/docs/001_MASTER_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/002_SYMBOLIC_KERNEL_BUS.md → agents/docs/002_SYMBOLIC_KERNEL_BUS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/003_MULTI_MODEL_ORCHESTRATION.md → agents/docs/003_MULTI_MODEL_ORCHESTRATION.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/004_UNIFIED_MEMORY_ORCHESTRATOR.md → agents/docs/004_UNIFIED_MEMORY_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/005_DREAM_ORCHESTRATOR.md → agents/docs/005_DREAM_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/006_EMOTION_HUB.md → agents/docs/006_EMOTION_HUB.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/consciousness_profiles/007_AKA_QUALIA_PHENOMENOLOGICAL.md → agents/docs/007_AKA_QUALIA_PHENOMENOLOGICAL.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENTS_EXPANDED.md → docs/ai-agents/AGENTS_EXPANDED.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_ARMY_SETUP.md → docs/ai-agents/AGENT_ARMY_SETUP.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_CRITICAL_WARNING.md → docs/ai-agents/AGENT_CRITICAL_WARNING.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_DEVELOPMENT_GUIDE.md → docs/ai-agents/AGENT_DEVELOPMENT_GUIDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md → docs/ai-agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_NAVIGATION_GUIDE.md → docs/ai-agents/AGENT_NAVIGATION_GUIDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_WORKFLOWS.md → docs/ai-agents/AGENT_WORKFLOWS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE.md → docs/ai-agents/CLAUDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md → docs/ai-agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_MCP.md → docs/ai-agents/CLAUDE_CODE_MCP.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_PROMPTS.md → docs/ai-agents/CLAUDE_CODE_PROMPTS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_SESSION_PLAN.md → docs/ai-agents/CLAUDE_CODE_SESSION_PLAN.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_SYSTEM_GUIDE.md → docs/ai-agents/CLAUDE_CODE_SYSTEM_GUIDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_KNOWLEDGE_BASE.md → docs/ai-agents/CLAUDE_KNOWLEDGE_BASE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_TASK_ASSIGNMENTS.md → docs/ai-agents/CLAUDE_TASK_ASSIGNMENTS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md → docs/ai-agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/JULES_IMPORT_FIX_TASKS.md → docs/ai-agents/JULES_IMPORT_FIX_TASKS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/JULES_PR_INTEGRATION_PLAN.md → docs/ai-agents/JULES_PR_INTEGRATION_PLAN.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/LUKHAS_SEMANTIC_INDEX.md → docs/ai-agents/LUKHAS_SEMANTIC_INDEX.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/MULTI_AI_ORCHESTRATION_SYSTEM.md → docs/ai-agents/MULTI_AI_ORCHESTRATION_SYSTEM.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md → docs/ai-agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/PHASE_1_2_ACHIEVEMENTS.md → docs/ai-agents/PHASE_1_2_ACHIEVEMENTS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/QUICK_AGENT_BRIEFS.md → docs/ai-agents/QUICK_AGENT_BRIEFS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/STAGE_1_IMPLEMENTATION_REPORT.md → docs/ai-agents/STAGE_1_IMPLEMENTATION_REPORT.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md → docs/ai-agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/001_MASTER_ORCHESTRATOR.md → docs/ai-agents/001_MASTER_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/002_SYMBOLIC_KERNEL_BUS.md → docs/ai-agents/002_SYMBOLIC_KERNEL_BUS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/003_MULTI_MODEL_ORCHESTRATION.md → docs/ai-agents/003_MULTI_MODEL_ORCHESTRATION.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/004_UNIFIED_MEMORY_ORCHESTRATOR.md → docs/ai-agents/004_UNIFIED_MEMORY_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/005_DREAM_ORCHESTRATOR.md → docs/ai-agents/005_DREAM_ORCHESTRATOR.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/006_EMOTION_HUB.md → docs/ai-agents/006_EMOTION_HUB.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/consciousness_profiles/007_AKA_QUALIA_PHENOMENOLOGICAL.md → docs/ai-agents/007_AKA_QUALIA_PHENOMENOLOGICAL.md (confidence: 0.8, strategy: path)
 📋 Would move: docs/api/API_ENHANCEMENT_GUIDE.md → api/docs/API_ENHANCEMENT_GUIDE.md (confidence: 0.8, strategy: path)
 📋 Would move: docs/api/API_INTEGRATION_SUMMARY.md → api/docs/API_INTEGRATION_SUMMARY.md (confidence: 0.8, strategy: path)
 📋 Would move: docs/api/API_REFERENCE.md → api/docs/API_REFERENCE.md (confidence: 0.8, strategy: path)
@@ -4755,26 +4755,26 @@ Files needing migration: 162
 Duplicate files (source + target both exist): 110
 
 First 20 files needing migration:
- 1. docs/agents/AGENTS_EXPANDED.md                                         → agents/docs/AGENTS_EXPANDED.md
- 2. docs/agents/AGENT_ARMY_SETUP.md                                        → agents/docs/AGENT_ARMY_SETUP.md
- 3. docs/agents/AGENT_CRITICAL_WARNING.md                                  → agents/docs/AGENT_CRITICAL_WARNING.md
- 4. docs/agents/AGENT_DEVELOPMENT_GUIDE.md                                 → agents/docs/AGENT_DEVELOPMENT_GUIDE.md
- 5. docs/agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md                       → agents/docs/AGENT_IMPLEMENTATION_FINAL_STATUS.md
- 6. docs/agents/AGENT_NAVIGATION_GUIDE.md                                  → agents/docs/AGENT_NAVIGATION_GUIDE.md
- 7. docs/agents/AGENT_WORKFLOWS.md                                         → agents/docs/AGENT_WORKFLOWS.md
- 8. docs/agents/CLAUDE.md                                                  → agents/docs/CLAUDE.md
- 9. docs/agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md                           → agents/docs/CLAUDE_AGENT_COMPLIANCE_TASKS.md
-10. docs/agents/CLAUDE_CODE_MCP.md                                         → agents/docs/CLAUDE_CODE_MCP.md
-11. docs/agents/CLAUDE_CODE_PROMPTS.md                                     → agents/docs/CLAUDE_CODE_PROMPTS.md
-12. docs/agents/CLAUDE_CODE_SESSION_PLAN.md                                → agents/docs/CLAUDE_CODE_SESSION_PLAN.md
-13. docs/agents/CLAUDE_CODE_SYSTEM_GUIDE.md                                → agents/docs/CLAUDE_CODE_SYSTEM_GUIDE.md
-14. docs/agents/CLAUDE_KNOWLEDGE_BASE.md                                   → agents/docs/CLAUDE_KNOWLEDGE_BASE.md
-15. docs/agents/CLAUDE_TASK_ASSIGNMENTS.md                                 → agents/docs/CLAUDE_TASK_ASSIGNMENTS.md
-16. docs/agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md                   → agents/docs/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md
-17. docs/agents/JULES_IMPORT_FIX_TASKS.md                                  → agents/docs/JULES_IMPORT_FIX_TASKS.md
-18. docs/agents/JULES_PR_INTEGRATION_PLAN.md                               → agents/docs/JULES_PR_INTEGRATION_PLAN.md
-19. docs/agents/LUKHAS_SEMANTIC_INDEX.md                                   → agents/docs/LUKHAS_SEMANTIC_INDEX.md
-20. docs/agents/MULTI_AI_ORCHESTRATION_SYSTEM.md                           → agents/docs/MULTI_AI_ORCHESTRATION_SYSTEM.md
+ 1. docs/agents/AGENTS_EXPANDED.md                                         → docs/ai-agents/AGENTS_EXPANDED.md
+ 2. docs/agents/AGENT_ARMY_SETUP.md                                        → docs/ai-agents/AGENT_ARMY_SETUP.md
+ 3. docs/agents/AGENT_CRITICAL_WARNING.md                                  → docs/ai-agents/AGENT_CRITICAL_WARNING.md
+ 4. docs/agents/AGENT_DEVELOPMENT_GUIDE.md                                 → docs/ai-agents/AGENT_DEVELOPMENT_GUIDE.md
+ 5. docs/agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md                       → docs/ai-agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md
+ 6. docs/agents/AGENT_NAVIGATION_GUIDE.md                                  → docs/ai-agents/AGENT_NAVIGATION_GUIDE.md
+ 7. docs/agents/AGENT_WORKFLOWS.md                                         → docs/ai-agents/AGENT_WORKFLOWS.md
+ 8. docs/agents/CLAUDE.md                                                  → docs/ai-agents/CLAUDE.md
+ 9. docs/agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md                           → docs/ai-agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md
+10. docs/agents/CLAUDE_CODE_MCP.md                                         → docs/ai-agents/CLAUDE_CODE_MCP.md
+11. docs/agents/CLAUDE_CODE_PROMPTS.md                                     → docs/ai-agents/CLAUDE_CODE_PROMPTS.md
+12. docs/agents/CLAUDE_CODE_SESSION_PLAN.md                                → docs/ai-agents/CLAUDE_CODE_SESSION_PLAN.md
+13. docs/agents/CLAUDE_CODE_SYSTEM_GUIDE.md                                → docs/ai-agents/CLAUDE_CODE_SYSTEM_GUIDE.md
+14. docs/agents/CLAUDE_KNOWLEDGE_BASE.md                                   → docs/ai-agents/CLAUDE_KNOWLEDGE_BASE.md
+15. docs/agents/CLAUDE_TASK_ASSIGNMENTS.md                                 → docs/ai-agents/CLAUDE_TASK_ASSIGNMENTS.md
+16. docs/agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md                   → docs/ai-agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md
+17. docs/agents/JULES_IMPORT_FIX_TASKS.md                                  → docs/ai-agents/JULES_IMPORT_FIX_TASKS.md
+18. docs/agents/JULES_PR_INTEGRATION_PLAN.md                               → docs/ai-agents/JULES_PR_INTEGRATION_PLAN.md
+19. docs/agents/LUKHAS_SEMANTIC_INDEX.md                                   → docs/ai-agents/LUKHAS_SEMANTIC_INDEX.md
+20. docs/agents/MULTI_AI_ORCHESTRATION_SYSTEM.md                           → docs/ai-agents/MULTI_AI_ORCHESTRATION_SYSTEM.md
 
 First 20 duplicates (both exist):
  1. docs/api/API_ENHANCEMENT_GUIDE.md                                      == api/docs/API_ENHANCEMENT_GUIDE.md
@@ -4867,8 +4867,8 @@ OUT
 📊 Total files: 3547
    High confidence (≥0.8): 955 (26.9%)
    Eligible for migration: 955
-🔄 Migrating: docs/agents/AGENTS_EXPANDED.md → agents/docs/AGENTS_EXPANDED.md
-  ✅ Injected frontmatter: agents/docs/AGENTS_EXPANDED.md
+🔄 Migrating: docs/agents/AGENTS_EXPANDED.md → docs/ai-agents/AGENTS_EXPANDED.md
+  ✅ Injected frontmatter: docs/ai-agents/AGENTS_EXPANDED.md
 Traceback (most recent call last):
   File "/Users/agi_dev/LOCAL-REPOS/Lukhas/scripts/docs/migrate_docs_auto.py", line 232, in <module>
     sys.exit(main())
@@ -4880,7 +4880,7 @@ Traceback (most recent call last):
     **New location**: [{new_path}]({new_path.relative_to(old_path.parent)})
   File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 929, in relative_to
     raise ValueError("{!r} is not in the subpath of {!r}"
-ValueError: 'agents/docs/AGENTS_EXPANDED.md' is not in the subpath of 'docs/agents' OR one path is relative and the other is absolute.
+ValueError: 'docs/ai-agents/AGENTS_EXPANDED.md' is not in the subpath of 'docs/agents' OR one path is relative and the other is absolute.
 The redirect stub path calculation is still broken. Let me fix it - I'll use a simple relative path calculation:
 Read migrate_docs_auto.py (lines 86-110)
 Edit migrate_docs_auto.py
@@ -4893,7 +4893,7 @@ Check git status after partial migration
 IN
 git -C /Users/agi_dev/LOCAL-REPOS/Lukhas status --short | head -20
 OUT
-RM docs/agents/AGENTS_EXPANDED.md -> agents/docs/AGENTS_EXPANDED.md
+RM docs/agents/AGENTS_EXPANDED.md -> docs/ai-agents/AGENTS_EXPANDED.md
  M scripts/docs/build_docs_map.py
  M scripts/docs/migrate_docs_auto.py
 One file was moved successfully. Let me reset it and re-run with the fix:
@@ -5224,26 +5224,26 @@ Verify dry-run with fixed logic
 IN
 python3 scripts/docs/migrate_docs_auto.py --dry-run 2>&1 | grep -E "(Would move|SKIP.*duplicate)" | head -20
 OUT
-📋 Would move: docs/agents/AGENTS_EXPANDED.md → agents/docs/AGENTS_EXPANDED.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_ARMY_SETUP.md → agents/docs/AGENT_ARMY_SETUP.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_CRITICAL_WARNING.md → agents/docs/AGENT_CRITICAL_WARNING.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_DEVELOPMENT_GUIDE.md → agents/docs/AGENT_DEVELOPMENT_GUIDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md → agents/docs/AGENT_IMPLEMENTATION_FINAL_STATUS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_NAVIGATION_GUIDE.md → agents/docs/AGENT_NAVIGATION_GUIDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/AGENT_WORKFLOWS.md → agents/docs/AGENT_WORKFLOWS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE.md → agents/docs/CLAUDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md → agents/docs/CLAUDE_AGENT_COMPLIANCE_TASKS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_MCP.md → agents/docs/CLAUDE_CODE_MCP.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_PROMPTS.md → agents/docs/CLAUDE_CODE_PROMPTS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_SESSION_PLAN.md → agents/docs/CLAUDE_CODE_SESSION_PLAN.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_CODE_SYSTEM_GUIDE.md → agents/docs/CLAUDE_CODE_SYSTEM_GUIDE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_KNOWLEDGE_BASE.md → agents/docs/CLAUDE_KNOWLEDGE_BASE.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CLAUDE_TASK_ASSIGNMENTS.md → agents/docs/CLAUDE_TASK_ASSIGNMENTS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md → agents/docs/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/JULES_IMPORT_FIX_TASKS.md → agents/docs/JULES_IMPORT_FIX_TASKS.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/JULES_PR_INTEGRATION_PLAN.md → agents/docs/JULES_PR_INTEGRATION_PLAN.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/LUKHAS_SEMANTIC_INDEX.md → agents/docs/LUKHAS_SEMANTIC_INDEX.md (confidence: 0.8, strategy: path)
-📋 Would move: docs/agents/MULTI_AI_ORCHESTRATION_SYSTEM.md → agents/docs/MULTI_AI_ORCHESTRATION_SYSTEM.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENTS_EXPANDED.md → docs/ai-agents/AGENTS_EXPANDED.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_ARMY_SETUP.md → docs/ai-agents/AGENT_ARMY_SETUP.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_CRITICAL_WARNING.md → docs/ai-agents/AGENT_CRITICAL_WARNING.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_DEVELOPMENT_GUIDE.md → docs/ai-agents/AGENT_DEVELOPMENT_GUIDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md → docs/ai-agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_NAVIGATION_GUIDE.md → docs/ai-agents/AGENT_NAVIGATION_GUIDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/AGENT_WORKFLOWS.md → docs/ai-agents/AGENT_WORKFLOWS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE.md → docs/ai-agents/CLAUDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md → docs/ai-agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_MCP.md → docs/ai-agents/CLAUDE_CODE_MCP.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_PROMPTS.md → docs/ai-agents/CLAUDE_CODE_PROMPTS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_SESSION_PLAN.md → docs/ai-agents/CLAUDE_CODE_SESSION_PLAN.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_CODE_SYSTEM_GUIDE.md → docs/ai-agents/CLAUDE_CODE_SYSTEM_GUIDE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_KNOWLEDGE_BASE.md → docs/ai-agents/CLAUDE_KNOWLEDGE_BASE.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CLAUDE_TASK_ASSIGNMENTS.md → docs/ai-agents/CLAUDE_TASK_ASSIGNMENTS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md → docs/ai-agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/JULES_IMPORT_FIX_TASKS.md → docs/ai-agents/JULES_IMPORT_FIX_TASKS.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/JULES_PR_INTEGRATION_PLAN.md → docs/ai-agents/JULES_PR_INTEGRATION_PLAN.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/LUKHAS_SEMANTIC_INDEX.md → docs/ai-agents/LUKHAS_SEMANTIC_INDEX.md (confidence: 0.8, strategy: path)
+📋 Would move: docs/agents/MULTI_AI_ORCHESTRATION_SYSTEM.md → docs/ai-agents/MULTI_AI_ORCHESTRATION_SYSTEM.md (confidence: 0.8, strategy: path)
 Bash
 ⎿
 Check final summary
@@ -5284,82 +5284,82 @@ OUT
 📊 Total files: 3547
    High confidence (≥0.8): 955 (26.9%)
    Eligible for migration: 955
-🔄 Migrating: docs/agents/AGENTS_EXPANDED.md → agents/docs/AGENTS_EXPANDED.md
-  ✅ Injected frontmatter: agents/docs/AGENTS_EXPANDED.md
+🔄 Migrating: docs/agents/AGENTS_EXPANDED.md → docs/ai-agents/AGENTS_EXPANDED.md
+  ✅ Injected frontmatter: docs/ai-agents/AGENTS_EXPANDED.md
   📍 Created redirect stub: docs/agents/AGENTS_EXPANDED.md
-🔄 Migrating: docs/agents/AGENT_ARMY_SETUP.md → agents/docs/AGENT_ARMY_SETUP.md
+🔄 Migrating: docs/agents/AGENT_ARMY_SETUP.md → docs/ai-agents/AGENT_ARMY_SETUP.md
   📍 Created redirect stub: docs/agents/AGENT_ARMY_SETUP.md
-🔄 Migrating: docs/agents/AGENT_CRITICAL_WARNING.md → agents/docs/AGENT_CRITICAL_WARNING.md
-  ✅ Injected frontmatter: agents/docs/AGENT_CRITICAL_WARNING.md
+🔄 Migrating: docs/agents/AGENT_CRITICAL_WARNING.md → docs/ai-agents/AGENT_CRITICAL_WARNING.md
+  ✅ Injected frontmatter: docs/ai-agents/AGENT_CRITICAL_WARNING.md
   📍 Created redirect stub: docs/agents/AGENT_CRITICAL_WARNING.md
-🔄 Migrating: docs/agents/AGENT_DEVELOPMENT_GUIDE.md → agents/docs/AGENT_DEVELOPMENT_GUIDE.md
-  ✅ Injected frontmatter: agents/docs/AGENT_DEVELOPMENT_GUIDE.md
+🔄 Migrating: docs/agents/AGENT_DEVELOPMENT_GUIDE.md → docs/ai-agents/AGENT_DEVELOPMENT_GUIDE.md
+  ✅ Injected frontmatter: docs/ai-agents/AGENT_DEVELOPMENT_GUIDE.md
   📍 Created redirect stub: docs/agents/AGENT_DEVELOPMENT_GUIDE.md
-🔄 Migrating: docs/agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md → agents/docs/AGENT_IMPLEMENTATION_FINAL_STATUS.md
-  ✅ Injected frontmatter: agents/docs/AGENT_IMPLEMENTATION_FINAL_STATUS.md
+🔄 Migrating: docs/agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md → docs/ai-agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md
+  ✅ Injected frontmatter: docs/ai-agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md
   📍 Created redirect stub: docs/agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md
-🔄 Migrating: docs/agents/AGENT_NAVIGATION_GUIDE.md → agents/docs/AGENT_NAVIGATION_GUIDE.md
-  ✅ Injected frontmatter: agents/docs/AGENT_NAVIGATION_GUIDE.md
+🔄 Migrating: docs/agents/AGENT_NAVIGATION_GUIDE.md → docs/ai-agents/AGENT_NAVIGATION_GUIDE.md
+  ✅ Injected frontmatter: docs/ai-agents/AGENT_NAVIGATION_GUIDE.md
   📍 Created redirect stub: docs/agents/AGENT_NAVIGATION_GUIDE.md
-🔄 Migrating: docs/agents/AGENT_WORKFLOWS.md → agents/docs/AGENT_WORKFLOWS.md
-  ✅ Injected frontmatter: agents/docs/AGENT_WORKFLOWS.md
+🔄 Migrating: docs/agents/AGENT_WORKFLOWS.md → docs/ai-agents/AGENT_WORKFLOWS.md
+  ✅ Injected frontmatter: docs/ai-agents/AGENT_WORKFLOWS.md
   📍 Created redirect stub: docs/agents/AGENT_WORKFLOWS.md
-🔄 Migrating: docs/agents/CLAUDE.md → agents/docs/CLAUDE.md
-  ✅ Injected frontmatter: agents/docs/CLAUDE.md
+🔄 Migrating: docs/agents/CLAUDE.md → docs/ai-agents/CLAUDE.md
+  ✅ Injected frontmatter: docs/ai-agents/CLAUDE.md
   📍 Created redirect stub: docs/agents/CLAUDE.md
-🔄 Migrating: docs/agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md → agents/docs/CLAUDE_AGENT_COMPLIANCE_TASKS.md
-  ✅ Injected frontmatter: agents/docs/CLAUDE_AGENT_COMPLIANCE_TASKS.md
+🔄 Migrating: docs/agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md → docs/ai-agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md
+  ✅ Injected frontmatter: docs/ai-agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md
   📍 Created redirect stub: docs/agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md
-🔄 Migrating: docs/agents/CLAUDE_CODE_MCP.md → agents/docs/CLAUDE_CODE_MCP.md
-  ✅ Injected frontmatter: agents/docs/CLAUDE_CODE_MCP.md
+🔄 Migrating: docs/agents/CLAUDE_CODE_MCP.md → docs/ai-agents/CLAUDE_CODE_MCP.md
+  ✅ Injected frontmatter: docs/ai-agents/CLAUDE_CODE_MCP.md
   📍 Created redirect stub: docs/agents/CLAUDE_CODE_MCP.md
-🔄 Migrating: docs/agents/CLAUDE_CODE_PROMPTS.md → agents/docs/CLAUDE_CODE_PROMPTS.md
-  ✅ Injected frontmatter: agents/docs/CLAUDE_CODE_PROMPTS.md
+🔄 Migrating: docs/agents/CLAUDE_CODE_PROMPTS.md → docs/ai-agents/CLAUDE_CODE_PROMPTS.md
+  ✅ Injected frontmatter: docs/ai-agents/CLAUDE_CODE_PROMPTS.md
   📍 Created redirect stub: docs/agents/CLAUDE_CODE_PROMPTS.md
-🔄 Migrating: docs/agents/CLAUDE_CODE_SESSION_PLAN.md → agents/docs/CLAUDE_CODE_SESSION_PLAN.md
-  ✅ Injected frontmatter: agents/docs/CLAUDE_CODE_SESSION_PLAN.md
+🔄 Migrating: docs/agents/CLAUDE_CODE_SESSION_PLAN.md → docs/ai-agents/CLAUDE_CODE_SESSION_PLAN.md
+  ✅ Injected frontmatter: docs/ai-agents/CLAUDE_CODE_SESSION_PLAN.md
   📍 Created redirect stub: docs/agents/CLAUDE_CODE_SESSION_PLAN.md
-🔄 Migrating: docs/agents/CLAUDE_CODE_SYSTEM_GUIDE.md → agents/docs/CLAUDE_CODE_SYSTEM_GUIDE.md
-  ✅ Injected frontmatter: agents/docs/CLAUDE_CODE_SYSTEM_GUIDE.md
+🔄 Migrating: docs/agents/CLAUDE_CODE_SYSTEM_GUIDE.md → docs/ai-agents/CLAUDE_CODE_SYSTEM_GUIDE.md
+  ✅ Injected frontmatter: docs/ai-agents/CLAUDE_CODE_SYSTEM_GUIDE.md
   📍 Created redirect stub: docs/agents/CLAUDE_CODE_SYSTEM_GUIDE.md
-🔄 Migrating: docs/agents/CLAUDE_KNOWLEDGE_BASE.md → agents/docs/CLAUDE_KNOWLEDGE_BASE.md
-  ✅ Injected frontmatter: agents/docs/CLAUDE_KNOWLEDGE_BASE.md
+🔄 Migrating: docs/agents/CLAUDE_KNOWLEDGE_BASE.md → docs/ai-agents/CLAUDE_KNOWLEDGE_BASE.md
+  ✅ Injected frontmatter: docs/ai-agents/CLAUDE_KNOWLEDGE_BASE.md
   📍 Created redirect stub: docs/agents/CLAUDE_KNOWLEDGE_BASE.md
-🔄 Migrating: docs/agents/CLAUDE_TASK_ASSIGNMENTS.md → agents/docs/CLAUDE_TASK_ASSIGNMENTS.md
-  ✅ Injected frontmatter: agents/docs/CLAUDE_TASK_ASSIGNMENTS.md
+🔄 Migrating: docs/agents/CLAUDE_TASK_ASSIGNMENTS.md → docs/ai-agents/CLAUDE_TASK_ASSIGNMENTS.md
+  ✅ Injected frontmatter: docs/ai-agents/CLAUDE_TASK_ASSIGNMENTS.md
   📍 Created redirect stub: docs/agents/CLAUDE_TASK_ASSIGNMENTS.md
-🔄 Migrating: docs/agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md → agents/docs/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md
-  ✅ Injected frontmatter: agents/docs/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md
+🔄 Migrating: docs/agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md → docs/ai-agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md
+  ✅ Injected frontmatter: docs/ai-agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md
   📍 Created redirect stub: docs/agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md
-🔄 Migrating: docs/agents/JULES_IMPORT_FIX_TASKS.md → agents/docs/JULES_IMPORT_FIX_TASKS.md
-  ✅ Injected frontmatter: agents/docs/JULES_IMPORT_FIX_TASKS.md
+🔄 Migrating: docs/agents/JULES_IMPORT_FIX_TASKS.md → docs/ai-agents/JULES_IMPORT_FIX_TASKS.md
+  ✅ Injected frontmatter: docs/ai-agents/JULES_IMPORT_FIX_TASKS.md
   📍 Created redirect stub: docs/agents/JULES_IMPORT_FIX_TASKS.md
-🔄 Migrating: docs/agents/JULES_PR_INTEGRATION_PLAN.md → agents/docs/JULES_PR_INTEGRATION_PLAN.md
-  ✅ Injected frontmatter: agents/docs/JULES_PR_INTEGRATION_PLAN.md
+🔄 Migrating: docs/agents/JULES_PR_INTEGRATION_PLAN.md → docs/ai-agents/JULES_PR_INTEGRATION_PLAN.md
+  ✅ Injected frontmatter: docs/ai-agents/JULES_PR_INTEGRATION_PLAN.md
   📍 Created redirect stub: docs/agents/JULES_PR_INTEGRATION_PLAN.md
-🔄 Migrating: docs/agents/LUKHAS_SEMANTIC_INDEX.md → agents/docs/LUKHAS_SEMANTIC_INDEX.md
-  ✅ Injected frontmatter: agents/docs/LUKHAS_SEMANTIC_INDEX.md
+🔄 Migrating: docs/agents/LUKHAS_SEMANTIC_INDEX.md → docs/ai-agents/LUKHAS_SEMANTIC_INDEX.md
+  ✅ Injected frontmatter: docs/ai-agents/LUKHAS_SEMANTIC_INDEX.md
   📍 Created redirect stub: docs/agents/LUKHAS_SEMANTIC_INDEX.md
-🔄 Migrating: docs/agents/MULTI_AI_ORCHESTRATION_SYSTEM.md → agents/docs/MULTI_AI_ORCHESTRATION_SYSTEM.md
-  ✅ Injected frontmatter: agents/docs/MULTI_AI_ORCHESTRATION_SYSTEM.md
+🔄 Migrating: docs/agents/MULTI_AI_ORCHESTRATION_SYSTEM.md → docs/ai-agents/MULTI_AI_ORCHESTRATION_SYSTEM.md
+  ✅ Injected frontmatter: docs/ai-agents/MULTI_AI_ORCHESTRATION_SYSTEM.md
   📍 Created redirect stub: docs/agents/MULTI_AI_ORCHESTRATION_SYSTEM.md
-🔄 Migrating: docs/agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md → agents/docs/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md
-  ✅ Injected frontmatter: agents/docs/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md
+🔄 Migrating: docs/agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md → docs/ai-agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md
+  ✅ Injected frontmatter: docs/ai-agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md
   📍 Created redirect stub: docs/agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md
-🔄 Migrating: docs/agents/PHASE_1_2_ACHIEVEMENTS.md → agents/docs/PHASE_1_2_ACHIEVEMENTS.md
-  ✅ Injected frontmatter: agents/docs/PHASE_1_2_ACHIEVEMENTS.md
+🔄 Migrating: docs/agents/PHASE_1_2_ACHIEVEMENTS.md → docs/ai-agents/PHASE_1_2_ACHIEVEMENTS.md
+  ✅ Injected frontmatter: docs/ai-agents/PHASE_1_2_ACHIEVEMENTS.md
   📍 Created redirect stub: docs/agents/PHASE_1_2_ACHIEVEMENTS.md
-🔄 Migrating: docs/agents/QUICK_AGENT_BRIEFS.md → agents/docs/QUICK_AGENT_BRIEFS.md
-  ✅ Injected frontmatter: agents/docs/QUICK_AGENT_BRIEFS.md
+🔄 Migrating: docs/agents/QUICK_AGENT_BRIEFS.md → docs/ai-agents/QUICK_AGENT_BRIEFS.md
+  ✅ Injected frontmatter: docs/ai-agents/QUICK_AGENT_BRIEFS.md
   📍 Created redirect stub: docs/agents/QUICK_AGENT_BRIEFS.md
-🔄 Migrating: docs/agents/STAGE_1_IMPLEMENTATION_REPORT.md → agents/docs/STAGE_1_IMPLEMENTATION_REPORT.md
-  ✅ Injected frontmatter: agents/docs/STAGE_1_IMPLEMENTATION_REPORT.md
+🔄 Migrating: docs/agents/STAGE_1_IMPLEMENTATION_REPORT.md → docs/ai-agents/STAGE_1_IMPLEMENTATION_REPORT.md
+  ✅ Injected frontmatter: docs/ai-agents/STAGE_1_IMPLEMENTATION_REPORT.md
   📍 Created redirect stub: docs/agents/STAGE_1_IMPLEMENTATION_REPORT.md
-🔄 Migrating: docs/agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md → agents/docs/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md
-  ✅ Injected frontmatter: agents/docs/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md
+🔄 Migrating: docs/agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md → docs/ai-agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md
+  ✅ Injected frontmatter: docs/ai-agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md
   📍 Created redirect stub: docs/agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md
-🔄 Migrating: docs/agents/consciousness_profiles/001_MASTER_ORCHESTRATOR.md → agents/docs/001_MASTER_ORCHESTRATOR.md
-  ✅ Injected frontmatter: agents/docs/001_MASTER_ORCHESTRATOR.md
+🔄 Migrating: docs/agents/consciousness_profiles/001_MASTER_ORCHESTRATOR.md → docs/ai-agents/001_MASTER_ORCHESTRATOR.md
+  ✅ Injected frontmatter: docs/ai-agents/001_MASTER_ORCHESTRATOR.md
 Perfect! The migration is running smoothly with redirect stubs being created correctly. Let me check the final summary:
 Bash
 ⎿
@@ -5715,38 +5715,38 @@ IN
 git -C /Users/agi_dev/LOCAL-REPOS/Lukhas status --short | head -40
 OUT
  M .claude/settings.local.json
-RM docs/agents/consciousness_profiles/001_MASTER_ORCHESTRATOR.md -> agents/docs/001_MASTER_ORCHESTRATOR.md
-RM docs/agents/consciousness_profiles/002_SYMBOLIC_KERNEL_BUS.md -> agents/docs/002_SYMBOLIC_KERNEL_BUS.md
-RM docs/agents/consciousness_profiles/003_MULTI_MODEL_ORCHESTRATION.md -> agents/docs/003_MULTI_MODEL_ORCHESTRATION.md
-RM docs/agents/consciousness_profiles/004_UNIFIED_MEMORY_ORCHESTRATOR.md -> agents/docs/004_UNIFIED_MEMORY_ORCHESTRATOR.md
-RM docs/agents/consciousness_profiles/005_DREAM_ORCHESTRATOR.md -> agents/docs/005_DREAM_ORCHESTRATOR.md
-RM docs/agents/consciousness_profiles/006_EMOTION_HUB.md -> agents/docs/006_EMOTION_HUB.md
-RM docs/agents/consciousness_profiles/007_AKA_QUALIA_PHENOMENOLOGICAL.md -> agents/docs/007_AKA_QUALIA_PHENOMENOLOGICAL.md
-RM docs/agents/AGENTS_EXPANDED.md -> agents/docs/AGENTS_EXPANDED.md
-R  docs/agents/AGENT_ARMY_SETUP.md -> agents/docs/AGENT_ARMY_SETUP.md
-RM docs/agents/AGENT_CRITICAL_WARNING.md -> agents/docs/AGENT_CRITICAL_WARNING.md
-RM docs/agents/AGENT_DEVELOPMENT_GUIDE.md -> agents/docs/AGENT_DEVELOPMENT_GUIDE.md
-RM docs/agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md -> agents/docs/AGENT_IMPLEMENTATION_FINAL_STATUS.md
-RM docs/agents/AGENT_NAVIGATION_GUIDE.md -> agents/docs/AGENT_NAVIGATION_GUIDE.md
-RM docs/agents/AGENT_WORKFLOWS.md -> agents/docs/AGENT_WORKFLOWS.md
-RM docs/agents/CLAUDE.md -> agents/docs/CLAUDE.md
-RM docs/agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md -> agents/docs/CLAUDE_AGENT_COMPLIANCE_TASKS.md
-RM docs/agents/CLAUDE_CODE_MCP.md -> agents/docs/CLAUDE_CODE_MCP.md
-RM docs/agents/CLAUDE_CODE_PROMPTS.md -> agents/docs/CLAUDE_CODE_PROMPTS.md
-RM docs/agents/CLAUDE_CODE_SESSION_PLAN.md -> agents/docs/CLAUDE_CODE_SESSION_PLAN.md
-RM docs/agents/CLAUDE_CODE_SYSTEM_GUIDE.md -> agents/docs/CLAUDE_CODE_SYSTEM_GUIDE.md
-RM docs/agents/CLAUDE_KNOWLEDGE_BASE.md -> agents/docs/CLAUDE_KNOWLEDGE_BASE.md
-RM docs/agents/CLAUDE_TASK_ASSIGNMENTS.md -> agents/docs/CLAUDE_TASK_ASSIGNMENTS.md
-RM docs/agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md -> agents/docs/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md
-RM docs/agents/JULES_IMPORT_FIX_TASKS.md -> agents/docs/JULES_IMPORT_FIX_TASKS.md
-RM docs/agents/JULES_PR_INTEGRATION_PLAN.md -> agents/docs/JULES_PR_INTEGRATION_PLAN.md
-RM docs/agents/LUKHAS_SEMANTIC_INDEX.md -> agents/docs/LUKHAS_SEMANTIC_INDEX.md
-RM docs/agents/MULTI_AI_ORCHESTRATION_SYSTEM.md -> agents/docs/MULTI_AI_ORCHESTRATION_SYSTEM.md
-RM docs/agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md -> agents/docs/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md
-RM docs/agents/PHASE_1_2_ACHIEVEMENTS.md -> agents/docs/PHASE_1_2_ACHIEVEMENTS.md
-RM docs/agents/QUICK_AGENT_BRIEFS.md -> agents/docs/QUICK_AGENT_BRIEFS.md
-RM docs/agents/STAGE_1_IMPLEMENTATION_REPORT.md -> agents/docs/STAGE_1_IMPLEMENTATION_REPORT.md
-RM docs/agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md -> agents/docs/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md
+RM docs/agents/consciousness_profiles/001_MASTER_ORCHESTRATOR.md -> docs/ai-agents/001_MASTER_ORCHESTRATOR.md
+RM docs/agents/consciousness_profiles/002_SYMBOLIC_KERNEL_BUS.md -> docs/ai-agents/002_SYMBOLIC_KERNEL_BUS.md
+RM docs/agents/consciousness_profiles/003_MULTI_MODEL_ORCHESTRATION.md -> docs/ai-agents/003_MULTI_MODEL_ORCHESTRATION.md
+RM docs/agents/consciousness_profiles/004_UNIFIED_MEMORY_ORCHESTRATOR.md -> docs/ai-agents/004_UNIFIED_MEMORY_ORCHESTRATOR.md
+RM docs/agents/consciousness_profiles/005_DREAM_ORCHESTRATOR.md -> docs/ai-agents/005_DREAM_ORCHESTRATOR.md
+RM docs/agents/consciousness_profiles/006_EMOTION_HUB.md -> docs/ai-agents/006_EMOTION_HUB.md
+RM docs/agents/consciousness_profiles/007_AKA_QUALIA_PHENOMENOLOGICAL.md -> docs/ai-agents/007_AKA_QUALIA_PHENOMENOLOGICAL.md
+RM docs/agents/AGENTS_EXPANDED.md -> docs/ai-agents/AGENTS_EXPANDED.md
+R  docs/agents/AGENT_ARMY_SETUP.md -> docs/ai-agents/AGENT_ARMY_SETUP.md
+RM docs/agents/AGENT_CRITICAL_WARNING.md -> docs/ai-agents/AGENT_CRITICAL_WARNING.md
+RM docs/agents/AGENT_DEVELOPMENT_GUIDE.md -> docs/ai-agents/AGENT_DEVELOPMENT_GUIDE.md
+RM docs/agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md -> docs/ai-agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md
+RM docs/agents/AGENT_NAVIGATION_GUIDE.md -> docs/ai-agents/AGENT_NAVIGATION_GUIDE.md
+RM docs/agents/AGENT_WORKFLOWS.md -> docs/ai-agents/AGENT_WORKFLOWS.md
+RM docs/agents/CLAUDE.md -> docs/ai-agents/CLAUDE.md
+RM docs/agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md -> docs/ai-agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md
+RM docs/agents/CLAUDE_CODE_MCP.md -> docs/ai-agents/CLAUDE_CODE_MCP.md
+RM docs/agents/CLAUDE_CODE_PROMPTS.md -> docs/ai-agents/CLAUDE_CODE_PROMPTS.md
+RM docs/agents/CLAUDE_CODE_SESSION_PLAN.md -> docs/ai-agents/CLAUDE_CODE_SESSION_PLAN.md
+RM docs/agents/CLAUDE_CODE_SYSTEM_GUIDE.md -> docs/ai-agents/CLAUDE_CODE_SYSTEM_GUIDE.md
+RM docs/agents/CLAUDE_KNOWLEDGE_BASE.md -> docs/ai-agents/CLAUDE_KNOWLEDGE_BASE.md
+RM docs/agents/CLAUDE_TASK_ASSIGNMENTS.md -> docs/ai-agents/CLAUDE_TASK_ASSIGNMENTS.md
+RM docs/agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md -> docs/ai-agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md
+RM docs/agents/JULES_IMPORT_FIX_TASKS.md -> docs/ai-agents/JULES_IMPORT_FIX_TASKS.md
+RM docs/agents/JULES_PR_INTEGRATION_PLAN.md -> docs/ai-agents/JULES_PR_INTEGRATION_PLAN.md
+RM docs/agents/LUKHAS_SEMANTIC_INDEX.md -> docs/ai-agents/LUKHAS_SEMANTIC_INDEX.md
+RM docs/agents/MULTI_AI_ORCHESTRATION_SYSTEM.md -> docs/ai-agents/MULTI_AI_ORCHESTRATION_SYSTEM.md
+RM docs/agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md -> docs/ai-agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md
+RM docs/agents/PHASE_1_2_ACHIEVEMENTS.md -> docs/ai-agents/PHASE_1_2_ACHIEVEMENTS.md
+RM docs/agents/QUICK_AGENT_BRIEFS.md -> docs/ai-agents/QUICK_AGENT_BRIEFS.md
+RM docs/agents/STAGE_1_IMPLEMENTATION_REPORT.md -> docs/ai-agents/STAGE_1_IMPLEMENTATION_REPORT.md
+RM docs/agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md -> docs/ai-agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md
 RM docs/bridge/LLM_GUARDRAIL.md -> bridge/docs/LLM_GUARDRAIL.md
 RM docs/business/NIAS_ECONOMIC_MODEL_COMPREHENSIVE.md -> business/docs/NIAS_ECONOMIC_MODEL_COMPREHENSIVE.md
 RM docs/business/PRESS_RELEASE_LUKHAS_LAUNCH.md -> business/docs/PRESS_RELEASE_LUKHAS_LAUNCH.md
@@ -5803,7 +5803,7 @@ Redirect Stub Format:
 ```yaml
 ---
 redirect: true
-moved_to: "../../agents/docs/FILENAME.md"
+moved_to: "../../docs/ai-agents/FILENAME.md"
 moved_at: "2025-10-06T13:03:39"
 ---
 
@@ -5846,38 +5846,38 @@ EOF
 OUT
 [main 3c97ef143] chore(docs): migrate 160 high-confidence docs to module-local directories with history preservation
  323 files changed, 34870 insertions(+), 32732 deletions(-)
- create mode 100644 agents/docs/001_MASTER_ORCHESTRATOR.md
- create mode 100644 agents/docs/002_SYMBOLIC_KERNEL_BUS.md
- create mode 100644 agents/docs/003_MULTI_MODEL_ORCHESTRATION.md
- create mode 100644 agents/docs/004_UNIFIED_MEMORY_ORCHESTRATOR.md
- create mode 100644 agents/docs/005_DREAM_ORCHESTRATOR.md
- create mode 100644 agents/docs/006_EMOTION_HUB.md
- create mode 100644 agents/docs/007_AKA_QUALIA_PHENOMENOLOGICAL.md
- create mode 100644 agents/docs/AGENTS_EXPANDED.md
- create mode 100644 agents/docs/AGENT_ARMY_SETUP.md
- create mode 100644 agents/docs/AGENT_CRITICAL_WARNING.md
- create mode 100644 agents/docs/AGENT_DEVELOPMENT_GUIDE.md
- create mode 100644 agents/docs/AGENT_IMPLEMENTATION_FINAL_STATUS.md
- create mode 100644 agents/docs/AGENT_NAVIGATION_GUIDE.md
- create mode 100644 agents/docs/AGENT_WORKFLOWS.md
- create mode 100644 agents/docs/CLAUDE.md
- create mode 100644 agents/docs/CLAUDE_AGENT_COMPLIANCE_TASKS.md
- create mode 100644 agents/docs/CLAUDE_CODE_MCP.md
- create mode 100644 agents/docs/CLAUDE_CODE_PROMPTS.md
- create mode 100644 agents/docs/CLAUDE_CODE_SESSION_PLAN.md
- create mode 100644 agents/docs/CLAUDE_CODE_SYSTEM_GUIDE.md
- create mode 100644 agents/docs/CLAUDE_KNOWLEDGE_BASE.md
- create mode 100644 agents/docs/CLAUDE_TASK_ASSIGNMENTS.md
- create mode 100644 agents/docs/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md
- create mode 100644 agents/docs/JULES_IMPORT_FIX_TASKS.md
- create mode 100644 agents/docs/JULES_PR_INTEGRATION_PLAN.md
- create mode 100644 agents/docs/LUKHAS_SEMANTIC_INDEX.md
- create mode 100644 agents/docs/MULTI_AI_ORCHESTRATION_SYSTEM.md
- create mode 100644 agents/docs/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md
- create mode 100644 agents/docs/PHASE_1_2_ACHIEVEMENTS.md
- create mode 100644 agents/docs/QUICK_AGENT_BRIEFS.md
- create mode 100644 agents/docs/STAGE_1_IMPLEMENTATION_REPORT.md
- create mode 100644 agents/docs/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md
+ create mode 100644 docs/ai-agents/001_MASTER_ORCHESTRATOR.md
+ create mode 100644 docs/ai-agents/002_SYMBOLIC_KERNEL_BUS.md
+ create mode 100644 docs/ai-agents/003_MULTI_MODEL_ORCHESTRATION.md
+ create mode 100644 docs/ai-agents/004_UNIFIED_MEMORY_ORCHESTRATOR.md
+ create mode 100644 docs/ai-agents/005_DREAM_ORCHESTRATOR.md
+ create mode 100644 docs/ai-agents/006_EMOTION_HUB.md
+ create mode 100644 docs/ai-agents/007_AKA_QUALIA_PHENOMENOLOGICAL.md
+ create mode 100644 docs/ai-agents/AGENTS_EXPANDED.md
+ create mode 100644 docs/ai-agents/AGENT_ARMY_SETUP.md
+ create mode 100644 docs/ai-agents/AGENT_CRITICAL_WARNING.md
+ create mode 100644 docs/ai-agents/AGENT_DEVELOPMENT_GUIDE.md
+ create mode 100644 docs/ai-agents/AGENT_IMPLEMENTATION_FINAL_STATUS.md
+ create mode 100644 docs/ai-agents/AGENT_NAVIGATION_GUIDE.md
+ create mode 100644 docs/ai-agents/AGENT_WORKFLOWS.md
+ create mode 100644 docs/ai-agents/CLAUDE.md
+ create mode 100644 docs/ai-agents/CLAUDE_AGENT_COMPLIANCE_TASKS.md
+ create mode 100644 docs/ai-agents/CLAUDE_CODE_MCP.md
+ create mode 100644 docs/ai-agents/CLAUDE_CODE_PROMPTS.md
+ create mode 100644 docs/ai-agents/CLAUDE_CODE_SESSION_PLAN.md
+ create mode 100644 docs/ai-agents/CLAUDE_CODE_SYSTEM_GUIDE.md
+ create mode 100644 docs/ai-agents/CLAUDE_KNOWLEDGE_BASE.md
+ create mode 100644 docs/ai-agents/CLAUDE_TASK_ASSIGNMENTS.md
+ create mode 100644 docs/ai-agents/CONSCIOUSNESS_ORCHESTRATION_BLUEPRINT.md
+ create mode 100644 docs/ai-agents/JULES_IMPORT_FIX_TASKS.md
+ create mode 100644 docs/ai-agents/JULES_PR_INTEGRATION_PLAN.md
+ create mode 100644 docs/ai-agents/LUKHAS_SEMANTIC_INDEX.md
+ create mode 100644 docs/ai-agents/MULTI_AI_ORCHESTRATION_SYSTEM.md
+ create mode 100644 docs/ai-agents/ORCHESTRATION_CONSCIOUSNESS_ANALYSIS.md
+ create mode 100644 docs/ai-agents/PHASE_1_2_ACHIEVEMENTS.md
+ create mode 100644 docs/ai-agents/QUICK_AGENT_BRIEFS.md
+ create mode 100644 docs/ai-agents/STAGE_1_IMPLEMENTATION_REPORT.md
+ create mode 100644 docs/ai-agents/STAGE_2_DOMAIN_CONSCIOUSNESS_REPORT.md
  create mode 100644 bridge/docs/LLM_GUARDRAIL.md
  create mode 100644 business/docs/NIAS_ECONOMIC_MODEL_COMPREHENSIVE.md
  create mode 100644 business/docs/PRESS_RELEASE_LUKHAS_LAUNCH.md
@@ -8727,7 +8727,7 @@ if candidate.endswith(".md"):
 ```
 
 ### Error 2: Redirect Stub Path Calculation Failure
-**Error Message**: `ValueError: 'agents/docs/AGENTS.md' is not in the subpath of 'docs/agents'`
+**Error Message**: `ValueError: 'docs/ai-agents/AGENTS.md' is not in the subpath of 'docs/agents'`
 
 **User Feedback**: User provided Option 3 with `os.path.relpath()` fix
 
@@ -9610,31 +9610,31 @@ expected alphabetic or numeric character, but found '*'
   in "<unicode string>", line 3, column 27:
     goal: Run full MATRIZ pack: presence, schema, identity, OP ... 
                               ^
-  agents/docs/007_AKA_QUALIA_PHENOMENOLOGICAL.md: Invalid YAML syntax: mapping values are not allowed here
+  docs/ai-agents/007_AKA_QUALIA_PHENOMENOLOGICAL.md: Invalid YAML syntax: mapping values are not allowed here
   in "<unicode string>", line 3, column 31:
     title: 🧬 CONSCIOUSNESS PROFILE: Aka Qualia - Phenomenological  ... 
                                   ^
-  agents/docs/003_MULTI_MODEL_ORCHESTRATION.md: Invalid YAML syntax: mapping values are not allowed here
+  docs/ai-agents/003_MULTI_MODEL_ORCHESTRATION.md: Invalid YAML syntax: mapping values are not allowed here
   in "<unicode string>", line 3, column 31:
     title: 🧬 CONSCIOUSNESS PROFILE: Multi-Model Orchestration
                                   ^
-  agents/docs/006_EMOTION_HUB.md: Invalid YAML syntax: mapping values are not allowed here
+  docs/ai-agents/006_EMOTION_HUB.md: Invalid YAML syntax: mapping values are not allowed here
   in "<unicode string>", line 3, column 31:
     title: 🧬 CONSCIOUSNESS PROFILE: Emotion Hub
                                   ^
-  agents/docs/004_UNIFIED_MEMORY_ORCHESTRATOR.md: Invalid YAML syntax: mapping values are not allowed here
+  docs/ai-agents/004_UNIFIED_MEMORY_ORCHESTRATOR.md: Invalid YAML syntax: mapping values are not allowed here
   in "<unicode string>", line 3, column 31:
     title: 🧬 CONSCIOUSNESS PROFILE: Unified Memory Orchestrator
                                   ^
-  agents/docs/005_DREAM_ORCHESTRATOR.md: Invalid YAML syntax: mapping values are not allowed here
+  docs/ai-agents/005_DREAM_ORCHESTRATOR.md: Invalid YAML syntax: mapping values are not allowed here
   in "<unicode string>", line 3, column 31:
     title: 🧬 CONSCIOUSNESS PROFILE: Dream Orchestrator
                                   ^
-  agents/docs/001_MASTER_ORCHESTRATOR.md: Invalid YAML syntax: mapping values are not allowed here
+  docs/ai-agents/001_MASTER_ORCHESTRATOR.md: Invalid YAML syntax: mapping values are not allowed here
   in "<unicode string>", line 3, column 31:
     title: 🧬 CONSCIOUSNESS PROFILE: Master Orchestrator
                                   ^
-  agents/docs/002_SYMBOLIC_KERNEL_BUS.md: Invalid YAML syntax: mapping values are not allowed here
+  docs/ai-agents/002_SYMBOLIC_KERNEL_BUS.md: Invalid YAML syntax: mapping values are not allowed here
   in "<unicode string>", line 3, column 31:
     title: 🧬 CONSCIOUSNESS PROFILE: Symbolic Kernel Bus
                                   ^
@@ -9770,13 +9770,13 @@ OUT
 Fixed: .claude/agents/consciousness-content-strategist.md
 Fixed: .claude/agents/context-orchestrator-specialist.md
 Fixed: .claude/commands/40_validate_all.md
-Fixed: agents/docs/001_MASTER_ORCHESTRATOR.md
-Fixed: agents/docs/002_SYMBOLIC_KERNEL_BUS.md
-Fixed: agents/docs/003_MULTI_MODEL_ORCHESTRATION.md
-Fixed: agents/docs/004_UNIFIED_MEMORY_ORCHESTRATOR.md
-Fixed: agents/docs/005_DREAM_ORCHESTRATOR.md
-Fixed: agents/docs/006_EMOTION_HUB.md
-Fixed: agents/docs/007_AKA_QUALIA_PHENOMENOLOGICAL.md
+Fixed: docs/ai-agents/001_MASTER_ORCHESTRATOR.md
+Fixed: docs/ai-agents/002_SYMBOLIC_KERNEL_BUS.md
+Fixed: docs/ai-agents/003_MULTI_MODEL_ORCHESTRATION.md
+Fixed: docs/ai-agents/004_UNIFIED_MEMORY_ORCHESTRATOR.md
+Fixed: docs/ai-agents/005_DREAM_ORCHESTRATOR.md
+Fixed: docs/ai-agents/006_EMOTION_HUB.md
+Fixed: docs/ai-agents/007_AKA_QUALIA_PHENOMENOLOGICAL.md
 Fixed: business/docs/NIAS_ECONOMIC_MODEL_COMPREHENSIVE.md
 Fixed: business/docs/PRESS_RELEASE_LUKHAS_LAUNCH.md
 Fixed: governance/docs/RFC-2025-09-14-context-policy-amendments.md
@@ -10239,7 +10239,7 @@ Solution:
 
 Fixes Applied:
 - .claude/agents/*.md: 24 files (description → block scalar)
-- agents/docs/*.md: 7 files (title → quoted)
+- docs/ai-agents/*.md: 7 files (title → quoted)
 - reports/docs/*.md: 13 files (title → block scalar)
 - business/docs/*.md: 2 files (title → quoted)
 - branding/ai_agents/*.md: 1 file (description → block scalar)

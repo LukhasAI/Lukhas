@@ -1,3 +1,4 @@
+# ruff: noqa: F821  # Experimental/test code with undefined names
 # @generated LUKHAS scaffold v1.0
 # template_id: module.scaffold/v1
 # template_commit: f95979630
@@ -332,15 +333,15 @@ class MetamorphicConsciousnessTesting:
             self.environment = ConsciousnessEnvironment()  # T4: code=F821 | ticket=GH-1234 | owner=consciousness-team | status=planned
             # reason: Async import - ConsciousnessEnvironment under development in consciousness-wave-c
             # estimate: 6h | priority: high | dependencies: consciousness-wave-c
-            
+
             self.policy = PolicyNetwork()  # T4: code=F821 | ticket=GH-1234 | owner=consciousness-team | status=planned
             # reason: Async import - PolicyNetwork RL system under development in consciousness-wave-c
             # estimate: 4h | priority: high | dependencies: consciousness-wave-c
-            
+
             self.value_network = ValueNetwork()  # T4: code=F821 | ticket=GH-1234 | owner=consciousness-team | status=planned
             # reason: Async import - ValueNetwork RL evaluation under development in consciousness-wave-c
             # estimate: 4h | priority: high | dependencies: consciousness-wave-c
-            
+
             self.rewards = ConsciousnessRewards()  # T4: code=F821 | ticket=GH-1234 | owner=consciousness-team | status=planned
             # reason: Async import - ConsciousnessRewards system under development in consciousness-wave-c
             # estimate: 3h | priority: high | dependencies: consciousness-wave-c

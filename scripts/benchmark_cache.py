@@ -6,10 +6,11 @@ Usage:
     python scripts/benchmark_cache.py > reports/cache_performance.md
     python scripts/benchmark_cache.py --iterations 5000
 """
-import asyncio
-import time
-import statistics
 import argparse
+import asyncio
+import statistics
+import time
+
 from caching.cache_system import cache_operation, get_cache_manager
 
 
@@ -84,13 +85,13 @@ async def run_benchmark(iterations: int = 1000, reuse_factor: int = 100):
     cached_rps = 1000 / p50_cached if p50_cached > 0 else 0
     throughput_improvement = ((cached_rps / uncached_rps - 1) * 100) if uncached_rps > 0 else 0
 
-    print(f"\n## Throughput Analysis\n")
-    print(f"| Metric | Uncached | Cached | Improvement |")
-    print(f"|--------|----------|--------|-------------|")
+    print("\n## Throughput Analysis\n")
+    print("| Metric | Uncached | Cached | Improvement |")
+    print("|--------|----------|--------|-------------|")
     print(f"| **Requests/sec (p50)** | {uncached_rps:.0f} req/s | {cached_rps:.0f} req/s | **+{throughput_improvement:.0f}%** |")
 
     stats = await cache_manager.get_statistics()
-    print(f"\n## Cache Statistics\n")
+    print("\n## Cache Statistics\n")
     print(f"- **Cache Hit Ratio:** {stats.hit_ratio * 100:.1f}%")
     print(f"- **Total Hits:** {stats.hits}")
     print(f"- **Total Misses:** {stats.misses}")

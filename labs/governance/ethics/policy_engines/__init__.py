@@ -6,7 +6,7 @@ Constellation Framework Integration
 """
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ except ImportError as e:
         pass
 
 
-def get_policy_engines_status() -> Dict[str, Any]:
+def get_policy_engines_status() -> dict[str, Any]:
     """Get policy engines status"""
     return {
         "policy_engines_available": POLICY_ENGINES_AVAILABLE,

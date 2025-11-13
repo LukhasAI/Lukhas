@@ -179,7 +179,7 @@ class CircularQREngine:
             visual_size: Output image size in pixels
 
         Returns:
-            Tuple[np.ndarray, CircularData]: Visual matrix and encoding data
+            tuple[np.ndarray, CircularData]: Visual matrix and encoding data
         """
         logger.info(f"🔮 Encoding circular QR: {len(data)} characters")
 
@@ -733,7 +733,7 @@ class CircularQREngine:
             visual_matrix: Visual representation to decode
 
         Returns:
-            Tuple[str, Dict]: Decoded data and metadata
+            tuple[str, Dict]: Decoded data and metadata
         """
         logger.info("🔍 Decoding circular QR pattern")
 

@@ -17,12 +17,12 @@ Task 13: Comprehensive testing for Safety Tags including:
 """
 
 import time
-from unittest.mock import Mock, patch
-
-import pytest
 
 # Import test targets
 from importlib.util import find_spec
+from unittest.mock import Mock, patch
+
+import pytest
 
 SAFETY_TAGS_AVAILABLE = find_spec("core.ethics.safety_tags") is not None
 

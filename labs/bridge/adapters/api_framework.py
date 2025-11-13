@@ -24,7 +24,7 @@ import os
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Union
 
 import jwt
 
@@ -54,7 +54,7 @@ class TokenClaims:
     # Standard JWT claims
     sub: str  # Subject (user/system ID)
     iss: str  # Issuer
-    aud: Union[str, List[str]]  # Audience
+    aud: Union[str, list[str]]  # Audience
     exp: int  # Expiration timestamp
     iat: int  # Issued at timestamp
     nbf: Optional[int] = None  # Not before timestamp
@@ -67,10 +67,10 @@ class TokenClaims:
 
     # Custom claims
     token_type: str = "access"
-    scopes: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    scopes: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert claims to JWT payload dict"""
         payload = {
             "sub": self.sub,
@@ -99,7 +99,7 @@ class TokenClaims:
         return payload
 
     @classmethod
-    def from_dict(cls, payload: Dict[str, Any]) -> "TokenClaims":
+    def from_dict(cls, payload: dict[str, Any]) -> "TokenClaims":
         """Create claims from JWT payload"""
         return cls(
             sub=payload["sub"],
@@ -128,7 +128,7 @@ class TokenValidationResult:
     timestamp: datetime = field(default_factory=datetime.utcnow)
 
     # Audit information
-    validation_metadata: Dict[str, Any] = field(default_factory=dict)
+    validation_metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class JWTAdapter:
@@ -153,7 +153,7 @@ class JWTAdapter:
         private_key: Optional[str] = None,
         algorithm: JWTAlgorithm = JWTAlgorithm.HS256,
         issuer: str = "lukhas-api",
-        audience: Union[str, List[str]] = "lukhas-platform",
+        audience: Union[str, list[str]] = "lukhas-platform",
         access_token_ttl: int = 3600,  # 1 hour
         refresh_token_ttl: int = 86400 * 30,  # 30 days
         leeway: int = 60,  # Clock skew tolerance
@@ -213,10 +213,10 @@ class JWTAdapter:
         self,
         subject: str,
         token_type: TokenType = TokenType.ACCESS,
-        scopes: Optional[List[str]] = None,
+        scopes: Optional[list[str]] = None,
         lambda_id: Optional[str] = None,
         identity_tier: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
         custom_ttl: Optional[int] = None,
     ) -> str:
         """
@@ -286,7 +286,7 @@ class JWTAdapter:
         self,
         token: str,
         expected_type: Optional[TokenType] = None,
-        required_scopes: Optional[List[str]] = None,
+        required_scopes: Optional[list[str]] = None,
         verify_lambda_id: bool = True,
     ) -> TokenValidationResult:
         """
@@ -432,7 +432,7 @@ class JWTAdapter:
     def refresh_token(
         self,
         refresh_token: str,
-        new_scopes: Optional[List[str]] = None,
+        new_scopes: Optional[list[str]] = None,
     ) -> Optional[str]:
         """
         Refresh an access token using a refresh token
@@ -497,7 +497,7 @@ class JWTAdapter:
             logger.error(f"Token revocation failed: {e}")
             return False
 
-    def decode_without_verification(self, token: str) -> Optional[Dict[str, Any]]:
+    def decode_without_verification(self, token: str) -> Optional[dict[str, Any]]:
         """
         Decode token without verification (for debugging/logging)
         
@@ -517,7 +517,7 @@ class JWTAdapter:
             logger.error(f"Token decode failed: {e}")
             return None
 
-    def get_token_info(self, token: str) -> Dict[str, Any]:
+    def get_token_info(self, token: str) -> dict[str, Any]:
         """
         Get token information without full verification
         
@@ -555,7 +555,7 @@ def create_identity_token(
     adapter: JWTAdapter,
     lambda_id: str,
     identity_tier: str,
-    scopes: Optional[List[str]] = None,
+    scopes: Optional[list[str]] = None,
 ) -> str:
     """
     Create ΛID-based identity token

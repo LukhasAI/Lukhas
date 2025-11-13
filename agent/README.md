@@ -1,107 +1,215 @@
+# LUKHAS Agent System
+
+> **Internal agent coordination for LUKHAS consciousness operations**
+>
+> Multi-agent orchestration · Collaborative intelligence · Supervisory control
+
 ---
-status: wip
-type: documentation
+
+## 🎯 Purpose
+
+This module implements **LUKHAS-as-agent** functionality—the system's internal agent architecture for coordinating multiple AI subsystems and consciousness operations.
+
+**⚠️ Important**: This is NOT for external AI agent documentation (Claude Code, Jules, etc.). For that, see [`../ai-agents/`](../ai-agents/).
+
 ---
-# 📦 Agent
 
-_Like a maestro conducting infinite instruments, agent harmonizes disparate voices into symphonic coherence—many minds, one purpose._
+## 🏗️ Architecture
 
-**Real LUKHAS agents for internal consciousness operations.**
+### Core Components
 
-## Overview
+1. **AIAgentActor** (`__init__.py`)
+   - Base agent interface
+   - Execution context
+   - State management
 
-Real LUKHAS agents for internal consciousness operations.
+2. **SupervisorAgent** (`__init__.py`)
+   - Multi-agent coordination
+   - Task delegation
+   - Result aggregation
 
+3. **CollaborativeAgent** (`collaborative.py`)
+   - Team-based problem solving
+   - Consensus building
+   - Shared state management
 
+4. **IntelligenceBridge** (`intelligence_bridge.py`)
+   - Bridge to consciousness systems
+   - Integration with MATRIZ
+   - Cognitive pipeline access
 
-**Technical Foundation**: Core agent module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
+5. **Core Logic** (`core.py`)
+   - Agent lifecycle
+   - Communication protocols
+   - Error handling
 
-## Lane Position
-
-- **Lane**: `unknown`
-- **Module ID**: `unknown`
-- **Constellation**: Core System Component
-
-## Features
-
-- ✅ Core functionality
-- ✅ API integration
-- ✅ Testing support
-
-## Quick Start
-
-**Getting Started**: This module coordinates multiple components—like a project manager who assigns tasks to team members and integrates their work into a final deliverable.
-
-
-### Installation
-
-```python
-# Import from unknown lane
-from agent import Agent
-
-# Initialize
-system = Agent()
-result = system.process(input_data)
-print(f"Result: {result}")
-```
-
-## API Reference
-
-See code docstrings and inline documentation.
-
-## Dependencies
-
-- No external dependencies
-
-## Provides
-
-- Core module functionality
-
-## Architecture
+### Directory Structure
 
 ```
 agent/
-├── __init__.py          # Module initialization
-├── core.py              # Core functionality
-├── api.py               # API interfaces
-├── tests/               # Test suite
-└── docs/                # Documentation
+├── __init__.py                    # Agent exports (AIAgentActor, SupervisorAgent, etc.)
+├── core.py                        # Core agent logic
+├── collaborative.py               # Collaborative agent system
+├── intelligence_bridge.py         # Consciousness integration
+├── interfaces.py                  # Agent interface definitions
+├── context/                       # AI agent context files (for external agents)
+│   ├── claude.me
+│   ├── lukhas_context.md
+│   └── gemini.md
+└── tests/                         # Agent test suite
+    ├── test_agent_unit.py
+    └── test_agent_integration.py
 ```
-
-## Testing
-
-```bash
-# Run module tests
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/agent/tests/ -v
-
-# Run with coverage
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/agent/tests/ --cov=agent --cov-report=html
-```
-
-## Performance
-
-- Performance targets: Follow LUKHAS system SLOs
-
-## Documentation
-
-- **Module Manifest**: [`module.manifest.json`](module.manifest.json)
-- **Detailed Docs**: [`docs/`](docs/)
-- **API Examples**: See code docstrings and `docs/` directory
-
-## Contributing
-
-Follow LUKHAS development guidelines:
-1. Respect lane boundaries
-2. Maintain T4/0.01% quality standards
-3. Add comprehensive tests
-4. Update documentation
-
-## Related Modules
-
-- See main [LUKHAS README](../../README.md) for system overview
 
 ---
 
-**Version**: 1.0.0
-**Lane**: unknown
-**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
+## 🚀 Quick Start
+
+### Basic Agent
+
+```python
+from agent import AIAgentActor
+
+class MyAgent(AIAgentActor):
+    async def execute(self, task):
+        # Implement agent logic
+        result = await self.process(task)
+        return result
+
+# Initialize and run
+agent = MyAgent(name="my-agent")
+result = await agent.execute(my_task)
+```
+
+### Supervisor Pattern
+
+```python
+from agent import SupervisorAgent, AIAgentActor
+
+# Create specialized agents
+agent1 = MySpecializedAgent()
+agent2 = AnotherAgent()
+
+# Supervisor coordinates them
+supervisor = SupervisorAgent(agents=[agent1, agent2])
+results = await supervisor.delegate_tasks(tasks)
+```
+
+### Collaborative Team
+
+```python
+from agent import CollaborativeAgent
+
+# Create collaborative team
+team = CollaborativeAgent(
+    agents=[agent1, agent2, agent3],
+    consensus_required=0.66
+)
+
+# Team reaches consensus
+decision = await team.collaborate(problem)
+```
+
+---
+
+## 🔗 Integration Points
+
+### With MATRIZ Engine
+
+```python
+from agent import IntelligenceBridge
+
+bridge = IntelligenceBridge()
+cognitive_result = await bridge.process_through_matriz(data)
+```
+
+### With Consciousness Systems
+
+The agent system integrates with:
+- **Memory**: Persistent agent state
+- **Guardian**: Safety constraints for agent actions
+- **Orchestrator**: Task coordination and scheduling
+
+---
+
+## ✅ Testing
+
+```bash
+# Run all agent tests
+pytest agent/tests/ -v
+
+# Unit tests only
+pytest agent/tests/test_agent_unit.py -v
+
+# Integration tests
+pytest agent/tests/test_agent_integration.py -v
+
+# With coverage
+pytest agent/tests/ --cov=agent --cov-report=html
+```
+
+---
+
+## 📊 Performance
+
+- **Agent spawn time**: <10ms
+- **Message latency**: <5ms between agents
+- **Supervisor overhead**: <2ms per delegation
+- **Memory per agent**: <1MB base footprint
+
+---
+
+## 🎓 Concepts
+
+### Agent vs External AI
+
+| Aspect | LUKHAS Agents (this module) | External AI (Claude/Jules) |
+|--------|----------------------------|----------------------------|
+| **Purpose** | Internal system coordination | External development assistance |
+| **Lifecycle** | Managed by LUKHAS | Managed by providers |
+| **State** | Persistent within system | Stateless sessions |
+| **Integration** | Direct MATRIZ access | Via APIs |
+| **Documentation** | This README | `../ai-agents/README.md` |
+
+### Multi-Agent Patterns
+
+1. **Supervisor**: One agent coordinates many workers
+2. **Collaborative**: Agents reach consensus through discussion
+3. **Pipeline**: Sequential processing through specialized agents
+4. **Swarm**: Distributed problem-solving with emergence
+
+---
+
+## 🔧 Configuration
+
+Agent behavior is configured via:
+- Environment variables (see `context/lukhas_context.md`)
+- Runtime parameters
+- LUKHAS system configuration
+
+---
+
+## 📚 Related Documentation
+
+- **[LUKHAS README](../README.md)** - System overview
+- **[MATRIZ Guide](../docs/MATRIZ_GUIDE.md)** - Cognitive engine
+- **[ai-agents/](../ai-agents/)** - External AI agent docs
+- **[context/claude.me](context/claude.me)** - Claude Code context
+
+---
+
+## 🤝 Contributing
+
+When working with the agent system:
+
+1. **Maintain interfaces** - Don't break AIAgentActor contract
+2. **Add tests** - Every new agent type needs unit + integration tests
+3. **Document patterns** - New multi-agent patterns go in this README
+4. **Performance** - Keep agent overhead minimal (<10ms spawn)
+
+---
+
+**Version**: 1.1.0
+**Lane**: Core System
+**Last Updated**: 2025-11-11
+**Constellation**: ⚛️ Identity · ✦ Memory · 🛡️ Guardian · ⚛️ Quantum

@@ -1,3 +1,4 @@
+from typing import ClassVar
 #!/usr/bin/env python3
 """
 Update lukhas_context.md files with branding compliance
@@ -11,16 +12,16 @@ References:
 """
 
 import re
-from pathlib import Path
-from typing import List, Dict, Tuple
 from datetime import datetime
+from pathlib import Path
+from typing import Dict, List, Tuple
 
 
 class BrandingValidator:
     """Validates and fixes branding violations in lukhas_context.md files"""
 
     # Branding standards from BRANDING_POLICY.md
-    DEPRECATED_TERMS = {
+    DEPRECATED_TERMS: ClassVar[dict] = {
         "LUKHAS Cognitive AI": "LUKHAS AI",
         "Cognitive AI technology": "consciousness technology",
         "MATADA": "MATRIZ",
@@ -31,7 +32,7 @@ class BrandingValidator:
     }
 
     # Prohibited terms that should trigger warnings
-    PROHIBITED_TERMS = [
+    PROHIBITED_TERMS: ClassVar[list] = [
         "production-ready",
         "guaranteed",
         "flawless",
@@ -57,7 +58,7 @@ class BrandingValidator:
         """Validate a lukhas_context.md file for branding compliance"""
         issues = []
 
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
 
         # Check for deprecated terms
@@ -93,7 +94,7 @@ class BrandingValidator:
 
     def fix_file(self, file_path: Path, dry_run: bool = False) -> bool:
         """Fix branding violations in a file"""
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
 
         original_content = content

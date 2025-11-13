@@ -10,11 +10,11 @@ import logging
 from functools import wraps
 from typing import Callable
 
-from fastapi import Depends, HTTPException, Request, status
+from fastapi import HTTPException, Request, status
 
 # Import tier system
 try:
-    from identity.tier_system import TierLevel, PermissionScope
+    from identity.tier_system import PermissionScope, TierLevel
     TIER_SYSTEM_AVAILABLE = True
 except ImportError:
     # Fallback if tier system not available
@@ -103,7 +103,7 @@ def lukhas_tier_required(tier_level: TierLevel, scope: PermissionScope):
 
             # Audit log
             logger.info(
-                f"Tier access granted",
+                "Tier access granted",
                 extra={
                     "user_id": current_user.get("user_id"),
                     "tier": user_tier,

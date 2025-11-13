@@ -12,6 +12,7 @@ DoD: This test passes green → no unauthorized importlib usage detected
 import ast
 import sys
 from pathlib import Path
+from typing import List, Tuple
 
 import pytest
 from typing import List, Tuple

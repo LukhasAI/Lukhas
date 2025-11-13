@@ -19,7 +19,7 @@ import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class QRSAlgorithm(Enum):
@@ -52,9 +52,9 @@ class QRSSignature:
     request_id: str
     service: str
     nonce: str = field(default_factory=lambda: secrets.token_hex(16))
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return asdict(self)
 
@@ -67,9 +67,9 @@ class QRSVerificationResult:
     qrs_id: str
     verified_at: Optional[int] = None
     reason: Optional[str] = None
-    details: Dict[str, Any] = field(default_factory=dict)
+    details: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         result = asdict(self)
         result['status'] = self.status.value
@@ -130,7 +130,7 @@ class QRSManager:
         self._used_nonces: set = set()
 
         # Audit trail storage
-        self._audit_trail: List[Dict[str, Any]] = []
+        self._audit_trail: list[dict[str, Any]] = []
 
         # Rate limit configuration (requests per minute by tier)
         self._rate_limits = {
@@ -142,7 +142,7 @@ class QRSManager:
 
     async def create_qrs(
         self,
-        data: Dict[str, Any],
+        data: dict[str, Any],
         algorithm: Optional[QRSAlgorithm] = None,
         ttl: Optional[int] = None
     ) -> QRSSignature:
@@ -251,8 +251,8 @@ class QRSManager:
 
     async def verify_qrs(
         self,
-        qrs_data: Dict[str, Any],
-        original_data: Optional[Dict[str, Any]] = None
+        qrs_data: dict[str, Any],
+        original_data: Optional[dict[str, Any]] = None
     ) -> QRSVerificationResult:
         """
         Verify a Quantum Response Signature.
@@ -390,8 +390,8 @@ class QRSManager:
 
     async def batch_verify(
         self,
-        qrs_list: List[Dict[str, Any]]
-    ) -> List[QRSVerificationResult]:
+        qrs_list: list[dict[str, Any]]
+    ) -> list[QRSVerificationResult]:
         """
         Verify multiple QRS signatures in batch.
         
@@ -409,7 +409,7 @@ class QRSManager:
             results.append(result)
         return results
 
-    def get_stats(self) -> Dict[str, int]:
+    def get_stats(self) -> dict[str, int]:
         """
         Get QRS manager statistics.
         
@@ -418,7 +418,7 @@ class QRSManager:
         """
         return self._stats.copy()
 
-    def get_audit_trail(self, limit: Optional[int] = None) -> List[Dict[str, Any]]:
+    def get_audit_trail(self, limit: Optional[int] = None) -> list[dict[str, Any]]:
         """Return recent QRS audit events."""
 
         if limit is None or limit >= len(self._audit_trail):
@@ -463,7 +463,7 @@ class QRSManager:
         else:
             raise ValueError(f"Unsupported algorithm: {algorithm}")
 
-    async def _log_qrs_creation(self, qrs: QRSSignature, original_data: Dict[str, Any]) -> None:
+    async def _log_qrs_creation(self, qrs: QRSSignature, original_data: dict[str, Any]) -> None:
         """
         Log QRS creation to ΛTRACE audit trail.
         
@@ -489,7 +489,7 @@ class QRSManager:
             # Silent failure - don't break QRS creation if logging fails
             pass
 
-    async def _log_qrs_verification(self, qrs_data: Dict[str, Any], valid: bool) -> None:
+    async def _log_qrs_verification(self, qrs_data: dict[str, Any], valid: bool) -> None:
         """
         Log QRS verification to ΛTRACE audit trail.
         
@@ -517,7 +517,7 @@ class QRSManager:
 
     def generate_signature(
         self,
-        request_data: Dict[str, Any],
+        request_data: dict[str, Any],
         algorithm: QRSAlgorithm = QRSAlgorithm.SHA256
     ) -> str:
         """
@@ -552,7 +552,7 @@ class QRSManager:
 
     def verify_signature(
         self,
-        request_data: Dict[str, Any],
+        request_data: dict[str, Any],
         signature: str,
         algorithm: QRSAlgorithm = QRSAlgorithm.SHA256
     ) -> bool:
@@ -577,10 +577,10 @@ class QRSManager:
 
     def create_audit_entry(
         self,
-        request_data: Dict[str, Any],
+        request_data: dict[str, Any],
         signature: str,
         verification_result: bool
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Create ΛTRACE audit trail entry.
         
@@ -712,7 +712,7 @@ class QRSManager:
 
 
 # Module-level convenience functions
-async def create_qrs(data: Dict[str, Any], **kwargs) -> QRSSignature:
+async def create_qrs(data: dict[str, Any], **kwargs) -> QRSSignature:
     """
     Convenience function to create QRS signature.
     
@@ -727,7 +727,7 @@ async def create_qrs(data: Dict[str, Any], **kwargs) -> QRSSignature:
     return await manager.create_qrs(data, **kwargs)
 
 
-async def verify_qrs(qrs_data: Dict[str, Any], **kwargs) -> QRSVerificationResult:
+async def verify_qrs(qrs_data: dict[str, Any], **kwargs) -> QRSVerificationResult:
     """
     Convenience function to verify QRS signature.
     

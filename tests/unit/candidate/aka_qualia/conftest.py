@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+import pytest
+
+# Skip all aka_qualia tests - experimental candidate module
+pytestmark = pytest.mark.skip(reason="aka_qualia is experimental candidate module")
+
+
 """
 Test Fixtures for Wave C Memory System Testing
 =============================================

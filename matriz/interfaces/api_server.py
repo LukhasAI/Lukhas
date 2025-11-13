@@ -1,29 +1,110 @@
 #!/usr/bin/env python3
 """
-MATRIZ-AGI FastAPI Server
-Production-ready REST API with WebSocket support for MATRIZ cognitive system
+MATRIZ Interface API Documentation
+===================================
 
-Features:
-- RESTful endpoints for query processing
-- WebSocket real-time interaction
-- CORS configuration for web clients
-- Health monitoring and diagnostics
-- Node inspection and system introspection
-- Complete OpenAPI/Swagger documentation
-- Comprehensive error handling and validation
-- Request/response logging and tracing
+## Overview
+The MATRIZ interface layer provides a unified FastAPI server with HTTP and WebSocket
+APIs for cognitive processing. This server acts as the primary entry point for
+interacting with the MATRIZ cognitive orchestrator, allowing clients to submit queries,
+receive real-time updates, and introspect the system's state.
+
+This module includes:
+- A FastAPI application instance.
+- Lifespan management for initializing and cleaning up the `CognitiveOrchestrator`.
+- Pydantic models for request and response validation.
+- RESTful API endpoints for synchronous query processing and system monitoring.
+- A WebSocket endpoint for real-time, bidirectional communication.
+
+## API Endpoints Summary
+
+### Health Checks
+- `GET /health`: Comprehensive health status.
+- `GET /health/ready`: Kubernetes readiness probe.
+- `GET /health/live`: Kubernetes liveness probe.
+
+### Cognitive Processing
+- `POST /query`: Submits a query for processing by the MATRIZ orchestrator.
+
+### System Introspection
+- `GET /system/info`: High-level system diagnostics.
+- `GET /system/nodes`: Lists all registered cognitive nodes.
+- `GET /system/nodes/{node_name}`: Details for a specific node.
+- `GET /system/graph`: The recent MATRIZ processing graph.
+- `GET /system/trace`: Recent execution traces.
+- `GET /system/causal/{node_id}`: The causal chain for a given node.
+
+### Real-time Communication
+- `WEBSOCKET /ws`: Establishes a WebSocket connection for real-time interaction.
+
+## Usage Example (HTTP)
+
+```python
+import requests
+
+response = requests.post(
+    "http://localhost:8000/query",
+    json={
+        "query": "What is the square root of 256?",
+        "include_trace": True
+    }
+)
+
+if response.status_code == 200:
+    data = response.json()
+    print(f"Answer: {data['answer']}")
+    print(f"Confidence: {data['confidence']}")
+else:
+    print(f"Error: {response.text}")
+```
+
+## Usage Example (WebSocket)
+
+```python
+import asyncio
+import websockets
+import json
+
+async def main():
+    uri = "ws://localhost:8000/ws"
+    async with websockets.connect(uri) as websocket:
+        # Send a query
+        await websocket.send(json.dumps({
+            "type": "query",
+            "data": {"query": "2 + 2"},
+            "timestamp": "2023-10-27T10:00:00Z"
+        }))
+
+        # Wait for the response
+        response = await websocket.recv()
+        print(f"Received: {json.loads(response)}")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
 """
 
+# ruff: noqa: B008
 import logging
 import os
+import re
 import time
 import uuid
+from collections import defaultdict
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from typing import Any, Optional
 
 import uvicorn
-from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import (
+    BackgroundTasks,
+    Depends,
+    FastAPI,
+    HTTPException,
+    Request,
+    WebSocket,
+    WebSocketDisconnect,
+)
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field, validator
@@ -45,10 +126,58 @@ logger = logging.getLogger(__name__)
 orchestrator: Optional[CognitiveOrchestrator] = None
 websocket_connections: list[WebSocket] = []
 
+# --- Security and Validation Constants ---
+MAX_REQUEST_SIZE = 1024 * 1024  # 1 MB
+RATE_LIMIT_DURATION = 60  # seconds
+RATE_LIMIT_REQUESTS = 100  # requests per client_ip per duration
+ALLOWED_NODE_TYPES = {"math", "facts", "validator"}
+rate_limit_data = defaultdict(list)
+
+def get_depth(d):
+    if not isinstance(d, dict) or not d:
+        return 0
+    return 1 + max(get_depth(v) for v in d.values())
+
+class NodeCreationRequest(BaseModel):
+    node_type: str = Field(..., max_length=100, pattern="^[a-zA-Z0-9_]+$")
+    config: dict = Field(..., max_items=50)
+
+    @validator("node_type")
+    def validate_node_type(cls, v):
+        if v not in ALLOWED_NODE_TYPES:
+            raise ValueError(f"Invalid node type: {v}")
+        return v
+
+    @validator("config")
+    def validate_config(cls, v):
+        if get_depth(v) > 10:
+            raise ValueError("Config too deeply nested")
+        sanitized_config = {}
+        for key, value in v.items():
+            if isinstance(value, str):
+                sanitized_value = re.sub(r'[<>"\'&]', '', value).strip()
+                if sanitized_value:
+                    sanitized_config[key] = sanitized_value
+            else:
+                sanitized_config[key] = value
+        return sanitized_config
 
 # Pydantic models for request/response validation
 class QueryRequest(BaseModel):
-    """Request model for cognitive query processing"""
+    """
+    Defines the structure for a query request to the `/query` endpoint.
+
+    Attributes:
+        query: The natural language query to be processed by the orchestrator.
+        trace_id: An optional unique identifier to trace the execution of this
+            query through the system. If not provided, a UUID will be generated.
+        context: An optional dictionary containing additional context that may
+            be used by cognitive nodes during processing.
+        include_trace: If `True`, the response will include a detailed execution
+            trace. Defaults to `True`.
+        include_nodes: If `True`, the response will include the list of MATRIZ
+            nodes generated during processing. Defaults to `True`.
+    """
 
     query: str = Field(..., min_length=1, max_length=10000, description="Query to process")
     trace_id: Optional[str] = Field(None, description="Optional execution trace ID")
@@ -72,7 +201,20 @@ class QueryRequest(BaseModel):
 
 
 class QueryResponse(BaseModel):
-    """Response model for cognitive query processing"""
+    """
+    Defines the structure for the response from the `/query` endpoint.
+
+    Attributes:
+        answer: The final result of the cognitive processing.
+        confidence: A numerical score (0.0 to 1.0) indicating the system's
+            confidence in the provided answer.
+        processing_time: The total time in seconds required to process the query.
+        trace_id: The unique identifier for the execution trace.
+        timestamp: The ISO 8601 timestamp of when the processing was completed.
+        matriz_nodes: An optional list of MATRIZ nodes that were generated.
+        trace: An optional detailed trace of the execution pipeline.
+        reasoning_chain: An optional human-readable list of reasoning steps.
+    """
 
     answer: str = Field(..., description="Processing result")
     confidence: float = Field(..., ge=0.0, le=1.0, description="Confidence in result")
@@ -85,7 +227,11 @@ class QueryResponse(BaseModel):
 
 
 class HealthResponse(BaseModel):
-    """Health check response model"""
+    """
+    Defines the structure for the response from the `/health` endpoint.
+
+    This model provides a comprehensive snapshot of the system's health.
+    """
 
     status: str = Field(..., description="Service status")
     timestamp: str = Field(..., description="ISO timestamp")
@@ -107,7 +253,11 @@ class HealthResponse(BaseModel):
 
 
 class NodeInfo(BaseModel):
-    """Information about a cognitive node"""
+    """
+    Represents metadata about a single cognitive node.
+
+    Used in the `SystemInfo` response model.
+    """
 
     name: str = Field(..., description="Node name")
     capabilities: list[str] = Field(..., description="Node capabilities")
@@ -116,7 +266,9 @@ class NodeInfo(BaseModel):
 
 
 class SystemInfo(BaseModel):
-    """System information and diagnostics"""
+    """
+    Defines the structure for the response from the `/system/info` endpoint.
+    """
 
     nodes: list[NodeInfo] = Field(..., description="Registered cognitive nodes")
     matriz_graph_size: int = Field(..., description="Number of nodes in MATRIZ graph")
@@ -125,7 +277,15 @@ class SystemInfo(BaseModel):
 
 
 class WebSocketMessage(BaseModel):
-    """WebSocket message format"""
+    """
+    Defines the structure for messages exchanged over the WebSocket connection.
+
+    Attributes:
+        type: The type of the message (e.g., `query`, `response`, `ping`).
+        data: The message payload.
+        trace_id: An optional trace identifier.
+        timestamp: The ISO 8601 timestamp of the message.
+    """
 
     type: str = Field(..., description="Message type: query, response, error, ping, pong")
     data: Optional[dict[str, Any]] = Field(None, description="Message data")
@@ -139,7 +299,15 @@ total_queries = 0
 
 
 def _compute_orchestrator_health() -> dict[str, Any]:
-    """Construct an orchestrator health snapshot for status endpoints."""
+    """
+    Computes a health snapshot of the cognitive orchestrator.
+
+    This internal function gathers metrics and status information from the global
+    `orchestrator` instance to be used in health check endpoints.
+
+    Returns:
+        A dictionary containing a detailed health snapshot.
+    """
     lane = os.getenv("LUKHAS_LANE", "experimental").lower() or "unknown"
 
     snapshot: dict[str, Any] = {
@@ -192,7 +360,15 @@ def _compute_orchestrator_health() -> dict[str, Any]:
 
 
 def get_orchestrator() -> CognitiveOrchestrator:
-    """Dependency to get the orchestrator instance"""
+    """
+    FastAPI dependency to get the global `CognitiveOrchestrator` instance.
+
+    This function is used in route definitions to inject the orchestrator.
+    It raises an HTTPException if the orchestrator has not been initialized.
+
+    Returns:
+        The global `CognitiveOrchestrator` instance.
+    """
     global orchestrator
     if orchestrator is None:
         raise HTTPException(status_code=500, detail="Orchestrator not initialized")
@@ -200,7 +376,12 @@ def get_orchestrator() -> CognitiveOrchestrator:
 
 
 async def initialize_orchestrator():
-    """Initialize the cognitive orchestrator with default nodes"""
+    """
+    Initializes the global `CognitiveOrchestrator` instance.
+
+    This function is called during the application's startup lifespan event.
+    It creates the orchestrator and registers the default set of cognitive nodes.
+    """
     global orchestrator
 
     logger.info("Initializing MATRIZ Cognitive Orchestrator...")
@@ -226,7 +407,11 @@ async def initialize_orchestrator():
 
 
 async def cleanup_orchestrator():
-    """Cleanup orchestrator resources"""
+    """
+    Cleans up orchestrator resources on application shutdown.
+
+    This function is called during the application's shutdown lifespan event.
+    """
     global orchestrator
     if orchestrator:
         logger.info("Cleaning up orchestrator...")
@@ -236,7 +421,12 @@ async def cleanup_orchestrator():
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Manage application lifespan"""
+    """
+    An async context manager to manage the application's lifespan events.
+
+    Handles the startup and shutdown logic for the FastAPI application,
+    ensuring that the `CognitiveOrchestrator` is initialized and cleaned up properly.
+    """
     # Startup
     await initialize_orchestrator()
     logger.info("MATRIZ-AGI FastAPI server started")
@@ -276,6 +466,24 @@ app = FastAPI(
     ],
 )
 
+# --- Security Middleware ---
+@app.middleware("http")
+async def security_middleware(request: Request, call_next):
+    if "content-length" in request.headers and int(request.headers["content-length"]) > MAX_REQUEST_SIZE:
+        return JSONResponse(status_code=413, content={"detail": "Request too large"})
+
+    client_ip = request.client.host
+    now = time.time()
+    rate_limit_data[client_ip] = [t for t in rate_limit_data[client_ip] if now - t < RATE_LIMIT_DURATION]
+    if len(rate_limit_data[client_ip]) >= RATE_LIMIT_REQUESTS:
+        return JSONResponse(status_code=429, content={"detail": "Rate limit exceeded"})
+    rate_limit_data[client_ip].append(now)
+
+    if "/system" in request.url.path and "Authorization" not in request.headers:
+        return JSONResponse(status_code=401, content={"detail": "Unauthorized"})
+
+    return await call_next(request)
+
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
@@ -289,7 +497,12 @@ app.add_middleware(
 # Exception handlers
 @app.exception_handler(Exception)
 async def global_exception_handler(request, exc):
-    """Global exception handler"""
+    """
+    Global exception handler to catch any unhandled exceptions.
+
+    This ensures that even unexpected errors are returned as a structured
+    JSON response with a 500 status code, preventing the server from crashing.
+    """
     logger.error(f"Unhandled exception: {exc!s}", exc_info=True)
     return JSONResponse(
         status_code=HTTP_500_INTERNAL_SERVER_ERROR,
@@ -305,14 +518,36 @@ async def global_exception_handler(request, exc):
 # Root endpoint
 @app.get("/", include_in_schema=False)
 async def root():
-    """Redirect root to documentation"""
+    """
+    Redirects the root URL (`/`) to the API documentation (`/docs`).
+    """
     return RedirectResponse(url="/docs")
 
 
 # Health check endpoints
 @app.get("/health", response_model=HealthResponse, tags=["Health"])
 async def health_check():
-    """Basic health check endpoint"""
+    """
+    Provides a comprehensive health check of the API and cognitive system.
+
+    This endpoint returns a detailed snapshot of the service's health,
+    including uptime, node status, query statistics, and latency metrics.
+    It is useful for monitoring and diagnostics.
+
+    ### Response:
+    - **status**: Overall status (`healthy`, `degraded`, `critical`).
+    - **timestamp**: The ISO 8601 timestamp of the health check.
+    - **version**: The version of the API.
+    - **uptime_seconds**: The number of seconds the service has been running.
+    - **registered_nodes**: The number of cognitive nodes registered with the orchestrator.
+    - **total_queries**: The total number of queries processed since startup.
+    - **active_websockets**: The number of active WebSocket connections.
+    - **lane**: The current LUKHAS deployment lane (e.g., `production`, `experimental`).
+    - **within_latency_budget**: `True` if the p95 latency is within the 250ms budget.
+    - **last_latency_ms**: The latency of the most recent query in milliseconds.
+    - **node_health_snapshot**: A dictionary with the health status of each node.
+    - **issues**: A list of any active health concerns.
+    """
     global total_queries, start_time, websocket_connections, orchestrator
     snapshot = _compute_orchestrator_health()
 
@@ -334,7 +569,28 @@ async def health_check():
 
 @app.get("/health/ready", tags=["Health"])
 async def readiness_check():
-    """Readiness check for container orchestration"""
+    """
+    Kubernetes-compatible readiness probe.
+
+    This endpoint is used by container orchestration systems like Kubernetes to
+    determine if the service is ready to accept traffic. It returns a `200 OK`
+    status if the system is healthy and a `503 Service Unavailable` status
+    if the system is in a critical state (e.g., orchestrator not initialized).
+
+    ### Response (Success):
+    ```json
+    {
+      "status": "ready",
+      "timestamp": "...",
+      "lane": "...",
+      "within_latency_budget": true,
+      "issues": []
+    }
+    ```
+
+    ### Errors:
+    - **503 Service Unavailable**: If the service is not ready for traffic.
+    """
     snapshot = _compute_orchestrator_health()
     if snapshot["status"] == "critical":
         raise HTTPException(
@@ -353,7 +609,13 @@ async def readiness_check():
 
 @app.get("/health/live", tags=["Health"])
 async def liveness_check():
-    """Liveness check for container orchestration"""
+    """
+    Kubernetes-compatible liveness probe.
+
+    This endpoint is used by container orchestration systems to determine if the
+    service is running. It performs a minimal check and returns a `200 OK`
+    status as long as the server is responsive.
+    """
     snapshot = _compute_orchestrator_health()
     return {
         "status": "alive",
@@ -372,10 +634,33 @@ async def process_query(
     ),  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_interfaces_api_server_py_L370"}
 ):
     """
-    Process a cognitive query through MATRIZ nodes
+    Process a cognitive query through the MATRIZ orchestrator.
 
-    This endpoint routes queries through the appropriate cognitive nodes based on
-    intent analysis and returns complete results with tracing information.
+    This is the primary endpoint for submitting cognitive tasks. The query is
+    processed by a pipeline of cognitive nodes selected by the orchestrator
+    based on the query's intent.
+
+    ### Request Body:
+    - **query**: The natural language query to be processed.
+    - **trace_id**: (Optional) A unique identifier for tracing the request.
+    - **context**: (Optional) A dictionary of contextual information.
+    - **include_trace**: If `True`, includes a detailed execution trace.
+    - **include_nodes**: If `True`, includes the list of MATRIZ nodes generated.
+
+    ### Response:
+    - **answer**: The final answer from the cognitive processing.
+    - **confidence**: A score from 0.0 to 1.0 indicating confidence in the answer.
+    - **processing_time**: The total time taken in seconds.
+    - **trace_id**: The unique trace identifier for the request.
+    - **timestamp**: The ISO 8601 timestamp of the response.
+    - **matriz_nodes**: (Optional) The MATRIZ nodes generated during processing.
+    - **trace**: (Optional) A detailed execution trace.
+    - **reasoning_chain**: (Optional) A human-readable list of reasoning steps.
+
+    ### Errors:
+    - **422 Unprocessable Entity**: If the request body is invalid.
+    - **500 Internal Server Error**: If an unexpected error occurs during processing.
+    - **503 Service Unavailable**: If the orchestrator is not initialized.
     """
     global total_queries
 
@@ -449,7 +734,18 @@ async def process_query(
 async def system_info(
     orch: CognitiveOrchestrator = Depends(get_orchestrator),
 ):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_interfaces_api_server_py_L447"}
-    """Get comprehensive system information and diagnostics"""
+    """
+    Retrieves high-level system information and diagnostics.
+
+    This endpoint provides a snapshot of the orchestrator's state, including
+    registered nodes and the size of its internal data structures.
+
+    ### Response:
+    - **nodes**: A list of `NodeInfo` objects for each registered node.
+    - **matriz_graph_size**: The total number of nodes in the MATRIZ graph.
+    - **execution_trace_count**: The total number of execution traces recorded.
+    - **memory_nodes**: The number of nodes currently in the context memory.
+    """
 
     nodes = []
     for name, node in orch.available_nodes.items():
@@ -474,7 +770,11 @@ async def system_info(
 async def list_nodes(
     orch: CognitiveOrchestrator = Depends(get_orchestrator),
 ):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_interfaces_api_server_py_L470"}
-    """List all registered cognitive nodes"""
+    """
+    Lists all cognitive nodes registered with the orchestrator.
+
+    Returns a dictionary of nodes, where each key is the node's registered name.
+    """
     nodes = {}
     for name, node in orch.available_nodes.items():
         nodes[name] = {
@@ -491,7 +791,17 @@ async def list_nodes(
 async def get_node_details(
     node_name: str, orch: CognitiveOrchestrator = Depends(get_orchestrator)
 ):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_interfaces_api_server_py_L485"}
-    """Get detailed information about a specific cognitive node"""
+    """
+    Retrieves detailed information about a specific cognitive node.
+
+    This includes its capabilities, tenant, class, and recent processing traces.
+
+    ### Path Parameters:
+    - **node_name**: The registered name of the node to retrieve.
+
+    ### Errors:
+    - **404 Not Found**: If a node with the specified name is not found.
+    """
     if node_name not in orch.available_nodes:
         raise HTTPException(status_code=404, detail=f"Node '{node_name}' not found")
 
@@ -512,7 +822,15 @@ async def get_matriz_graph(
     orch: CognitiveOrchestrator = Depends(get_orchestrator),
     limit: int = 100,  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_interfaces_api_server_py_L504"}
 ):
-    """Get the MATRIZ graph nodes (limited for performance)"""
+    """
+    Retrieves the most recent nodes from the MATRIZ processing graph.
+
+    The MATRIZ graph is a log of all cognitive nodes created during processing.
+    This endpoint returns a portion of that log for inspection.
+
+    ### Query Parameters:
+    - **limit**: The maximum number of graph nodes to return (default: 100).
+    """
     nodes = list(orch.matriz_graph.values())[-limit:]
     return {
         "total_nodes": len(orch.matriz_graph),
@@ -526,7 +844,14 @@ async def get_execution_trace(
     orch: CognitiveOrchestrator = Depends(get_orchestrator),
     limit: int = 50,  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_interfaces_api_server_py_L517"}
 ):
-    """Get recent execution traces"""
+    """
+    Retrieves the most recent execution traces.
+
+    An execution trace is a record of a single query processing pipeline.
+
+    ### Query Parameters:
+    - **limit**: The maximum number of traces to return (default: 50).
+    """
     traces = orch.execution_trace[-limit:]
     return {
         "total_traces": len(orch.execution_trace),
@@ -544,11 +869,42 @@ async def get_execution_trace(
     }
 
 
+@app.post("/system/nodes", status_code=201, tags=["System"])
+async def create_node(request: NodeCreationRequest, orch: CognitiveOrchestrator = Depends(get_orchestrator)):
+    try:
+        if not request.config:
+            raise ValueError("Configuration cannot be empty after sanitization.")
+
+        node_map = {"math": MathNode, "facts": FactNode, "validator": ValidatorNode}
+        node_class = node_map[request.node_type]
+
+        if request.node_type == 'validator':
+            node = node_class(tenant="api_server", schema=request.config.get('schema', {}), rule=request.config.get('rule', ''))
+        else:
+            node = node_class(tenant="api_server", **request.config)
+
+        node_name = f"{request.node_type}_{uuid.uuid4().hex[:8]}"
+        orch.register_node(node_name, node)
+        return {"status": "created", "node_name": node_name}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        logger.error(f"Node creation failed: {e!s}")
+        raise HTTPException(status_code=400, detail=f"Invalid config for node type: {request.node_type}")
+
 @app.get("/system/causal/{node_id}", tags=["System"])
 async def get_causal_chain(
     node_id: str, orch: CognitiveOrchestrator = Depends(get_orchestrator)
-):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_interfaces_api_server_py_L538"}
-    """Get the causal chain for a specific MATRIZ node"""
+):
+    """
+    Retrieves the causal chain for a specific MATRIZ node.
+
+    The causal chain shows the sequence of nodes that led to the creation
+    of the specified node, providing a clear audit trail.
+
+    ### Path Parameters:
+    - **node_id**: The unique identifier of the MATRIZ node.
+    """
     chain = orch.get_causal_chain(node_id)
     return {"node_id": node_id, "chain_length": len(chain), "causal_chain": chain}
 
@@ -557,13 +913,29 @@ async def get_causal_chain(
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     """
-    WebSocket endpoint for real-time interaction
+    Establishes a WebSocket connection for real-time, bidirectional communication.
 
-    Supports:
-    - Real-time query processing
-    - System status updates
-    - Processing notifications
-    - Bidirectional communication
+    Clients can send `query` messages to have them processed in real-time,
+    and the server will broadcast updates and processing results.
+
+    ### Protocol:
+    - All messages are JSON-encoded strings.
+    - Each message should conform to the `WebSocketMessage` model.
+
+    ### Client-to-Server Message Types:
+    - **`query`**: Submits a query for processing.
+      - **data**: `{"query": "your query text"}`
+    - **`ping`**: Checks if the connection is alive.
+      - **data**: (Optional) Any JSON object, which will be echoed in the `pong` response.
+    - **`system_info`**: Requests a snapshot of the system's status.
+
+    ### Server-to-Client Message Types:
+    - **`connected`**: Sent upon successful connection.
+    - **`response`**: The result of a processed query.
+    - **`pong`**: The response to a `ping` message.
+    - **`query_processed`**: A broadcast message indicating a query has been processed via HTTP.
+    - **`system_info`**: A snapshot of system status, sent in response to a `system_info` request.
+    - **`error`**: Indicates an error occurred.
     """
     await websocket.accept()
     websocket_connections.append(websocket)
@@ -703,7 +1075,16 @@ async def websocket_endpoint(websocket: WebSocket):
 
 
 async def broadcast_to_websockets(message: dict[str, Any]):
-    """Broadcast message to all connected WebSocket clients"""
+    """
+    Broadcasts a message to all currently connected WebSocket clients.
+
+    This function is used to send server-initiated events, such as notifications
+    about queries processed via the HTTP endpoint. It handles connection errors
+    gracefully by removing disconnected clients.
+
+    Args:
+        message: The JSON-serializable message to broadcast.
+    """
     if not websocket_connections:
         return
 
@@ -730,13 +1111,17 @@ def run_server(
     log_level: str = "info",
 ):
     """
-    Run the FastAPI server with uvicorn
+    Runs the FastAPI application using the Uvicorn server.
+
+    This function is the main entry point for starting the server from the command
+    line. It provides options for configuring the host, port, and other
+    development settings.
 
     Args:
-        host: Host to bind to
-        port: Port to listen on
-        reload: Enable auto-reload for development
-        log_level: Logging level
+        host: The host address to bind the server to.
+        port: The port to listen on.
+        reload: If `True`, enables auto-reloading for development.
+        log_level: The logging level for Uvicorn.
     """
     logger.info(f"Starting MATRIZ-AGI FastAPI server on {host}:{port}")
 

@@ -1,28 +1,14 @@
-"""Core endocrine system integration for hormonal modulation."""
-from __future__ import annotations
+"""
+DEPRECATED: The `core.endocrine` module has been migrated to the MATRIZ architecture.
+Please use `lukhas.endocrine` instead.
+"""
+import warnings
 
-from .hormone_system import (
-    EndocrineSystem,
-    HormoneInteraction,
-    HormoneLevel,
-    HormoneType,
-    get_endocrine_system,
-    get_neuroplasticity,
-    trigger_reward,
-    trigger_stress,
+warnings.warn(
+    "`core.endocrine` is deprecated and will be removed in a future version. "
+    "Please use `lukhas.endocrine` instead.",
+    DeprecationWarning,
+    stacklevel=2,
 )
 
-__all__ = [
-    "EndocrineSystem",
-    "HormoneInteraction",
-    "HormoneLevel",
-    "HormoneType",
-    "get_endocrine_system",
-    "get_neuroplasticity",
-    "trigger_reward",
-    "trigger_stress",
-]
-
-# ΛTAG: endocrine
-# Initialize the global endocrine system on import to prime receptors.
-_system = get_endocrine_system()
+from lukhas.endocrine import *

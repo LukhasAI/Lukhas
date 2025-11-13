@@ -200,7 +200,7 @@ Impact:
     },
     {
         "title": "🟠 P1: Systematic Logger Cleanup for labs/memory/ (183 files)",
-        "prompt": """**HIGH PRIORITY: Systematic Logger Cleanup Across Memory Subsystem**
+        "prompt": r"""**HIGH PRIORITY: Systematic Logger Cleanup Across Memory Subsystem**
 
 **📚 CONTEXT FILES - READ THESE FIRST**:
 - `labs/memory/lukhas_context.md` - Memory subsystem architecture
@@ -334,7 +334,7 @@ Duplicates removed: 194
     },
     {
         "title": "🟠 P1: Fix Undefined Logger References (gpt_reflection.py)",
-        "prompt": """**HIGH PRIORITY: Fix Undefined Logger Reference in GPT Reflection Module**
+        "prompt": r"""**HIGH PRIORITY: Fix Undefined Logger Reference in GPT Reflection Module**
 
 **📚 CONTEXT FILES - READ THESE FIRST**:
 - `labs/memory/lukhas_context.md` - Memory subsystem patterns

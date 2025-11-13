@@ -1,3 +1,7 @@
+# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
+# reason: Modernizing deprecated typing imports to native Python 3.9+ types
+# estimate: 5min | priority: high | dependencies: none
+
 """
 LUKHAS Glyphs Wrapper Module
 
@@ -8,7 +12,7 @@ Constellation Framework: Spark Star (⚡) - Inter-module communication
 """
 
 import os
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Union
 
 # Feature flag
 GLYPHS_ENABLED = os.environ.get("GLYPHS_ENABLED", "false").lower() in ("true", "1", "yes", "on")
@@ -17,7 +21,6 @@ GLYPHS_ENABLED = os.environ.get("GLYPHS_ENABLED", "false").lower() in ("true", "
 _glyph_module: Optional[Any] = None
 _glyph_token_class: Optional[type] = None
 _glyph_router_class: Optional[type] = None
-
 
 def _ensure_glyphs_loaded() -> None:
     """
@@ -40,7 +43,6 @@ def _ensure_glyphs_loaded() -> None:
         except ImportError as e:
             raise RuntimeError(f"Glyphs module not available: {e}") from e
 
-
 def get_glyph_token_class() -> type:
     """
     Get GLYPHToken class.
@@ -53,7 +55,6 @@ def get_glyph_token_class() -> type:
     """
     _ensure_glyphs_loaded()
     return _glyph_token_class  # type: ignore[return-value]
-
 
 def get_glyph_router_class() -> type:
     """
@@ -68,13 +69,12 @@ def get_glyph_router_class() -> type:
     _ensure_glyphs_loaded()
     return _glyph_router_class  # type: ignore[return-value]
 
-
 def create_glyph(
     symbol: Union[str, Any],
     source: str,
     target: str,
-    payload: Optional[Dict[str, Any]] = None,
-    context: Optional[Union[Dict[str, Any], Any]] = None,
+    payload: Optional[dict[str, Any]] = None,
+    context: Optional[Union[dict[str, Any], Any]] = None,
     priority: Union[str, Any] = "NORMAL",
     **metadata: Any,
 ) -> Any:
@@ -107,8 +107,7 @@ def create_glyph(
         **metadata,
     )
 
-
-def parse_glyph(data: Union[str, Dict[str, Any]]) -> Any:
+def parse_glyph(data: Union[str, dict[str, Any]]) -> Any:
     """
     Parse GLYPH token from JSON string or dictionary.
 
@@ -123,7 +122,6 @@ def parse_glyph(data: Union[str, Dict[str, Any]]) -> Any:
     """
     _ensure_glyphs_loaded()
     return _glyph_module.parse_glyph(data)  # type: ignore[union-attr]
-
 
 def validate_glyph(token: Any) -> bool:
     """
@@ -141,11 +139,10 @@ def validate_glyph(token: Any) -> bool:
     _ensure_glyphs_loaded()
     return _glyph_module.validate_glyph(token)  # type: ignore[union-attr]
 
-
 def create_response_glyph(
     request: Any,
     symbol: Union[str, Any],
-    payload: Optional[Dict[str, Any]] = None,
+    payload: Optional[dict[str, Any]] = None,
     **metadata: Any,
 ) -> Any:
     """
@@ -171,12 +168,11 @@ def create_response_glyph(
         **metadata,
     )
 
-
 def create_error_glyph(
     request: Any,
     error_message: str,
     error_code: Optional[str] = None,
-    details: Optional[Dict[str, Any]] = None,
+    details: Optional[dict[str, Any]] = None,
 ) -> Any:
     """
     Create an error GLYPH token.
@@ -201,7 +197,6 @@ def create_error_glyph(
         details=details,
     )
 
-
 def create_router() -> Any:
     """
     Create a new GLYPH router instance.
@@ -215,7 +210,6 @@ def create_router() -> Any:
     _ensure_glyphs_loaded()
     return _glyph_router_class()  # type: ignore[misc]
 
-
 # Re-export common types for convenience (when enabled)
 def _get_glyph_symbols() -> Optional[type]:
     """Get GLYPHSymbol enum if available."""
@@ -227,7 +221,6 @@ def _get_glyph_symbols() -> Optional[type]:
             return None
     return None
 
-
 def _get_glyph_priority() -> Optional[type]:
     """Get GLYPHPriority enum if available."""
     if GLYPHS_ENABLED:
@@ -237,7 +230,6 @@ def _get_glyph_priority() -> Optional[type]:
         except ImportError:
             return None
     return None
-
 
 # Module-level convenience exports (only when enabled)
 GLYPHSymbol = _get_glyph_symbols()
@@ -254,16 +246,16 @@ __framework__ = "Constellation Framework - Spark Star (⚡)"
 # Public exports
 __all__ = [
     "GLYPHS_ENABLED",
-    "get_glyph_token_class",
-    "get_glyph_router_class",
+    "GLYPHPriority",
+    "GLYPHSymbol",
+    "__framework__",
+    "__version__",
+    "create_error_glyph",
     "create_glyph",
+    "create_response_glyph",
+    "create_router",
+    "get_glyph_router_class",
+    "get_glyph_token_class",
     "parse_glyph",
     "validate_glyph",
-    "create_response_glyph",
-    "create_error_glyph",
-    "create_router",
-    "GLYPHSymbol",
-    "GLYPHPriority",
-    "__version__",
-    "__framework__",
 ]

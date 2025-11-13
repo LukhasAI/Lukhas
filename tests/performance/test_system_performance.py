@@ -63,7 +63,7 @@ class TestSystemPerformance:
     def _mock_component_operation(self, component_name: str):
         """Simulates a processing-intensive operation for a given component."""
         if component_name == "data_processing":
-            data = [i for i in range(50_000)]
+            data = list(range(50_000))
             _ = [x*x for x in data]
             time.sleep(0.075)
         elif component_name == "io_bound":
@@ -142,7 +142,7 @@ class TestSystemPerformance:
             tasks = [t for t in tasks if not t.done()]
 
         await asyncio.gather(*tasks, return_exceptions=True)
-        end_time = time.perf_counter()
+        time.perf_counter()
 
         total_ops = success_count + error_count
         error_rate = error_count / total_ops if total_ops > 0 else 0

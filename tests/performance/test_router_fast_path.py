@@ -13,6 +13,7 @@ Usage:
 import asyncio
 import statistics
 import time
+from typing import Dict, List
 
 import pytest
 from typing import Dict, List

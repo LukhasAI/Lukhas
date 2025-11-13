@@ -7,8 +7,9 @@ Validates that get_dream_engine() returns appropriate engine configuration.
 Note: Uses mocking to avoid RecursionError in memory/backends/base (known issue).
 """
 import os
-import pytest
 from unittest.mock import Mock, patch
+
+import pytest
 
 
 @pytest.fixture(autouse=True)
@@ -61,7 +62,7 @@ def test_sequential_engine_by_default():
         dream_module._dream_engine = None
 
         # Call get_dream_engine - it will import and use our mocked DreamEngine
-        engine = dream_module.get_dream_engine()
+        dream_module.get_dream_engine()
 
         # Verify DreamEngine was called with config containing mode="sequential"
         mock_dream_engine_class.assert_called_once()
@@ -104,7 +105,7 @@ def test_parallel_engine_when_enabled():
     try:
         dream_module._dream_engine = None
 
-        engine = dream_module.get_dream_engine()
+        dream_module.get_dream_engine()
 
         mock_dream_engine_class.assert_called_once()
         call_args = mock_dream_engine_class.call_args
@@ -126,8 +127,9 @@ def test_parallel_engine_when_enabled():
 
 def test_engine_switches_when_flag_changes():
     """Test that engine is recreated when flag changes at runtime"""
-    import lukhas_website.lukhas.dream as dream_module
     import sys
+
+    import lukhas_website.lukhas.dream as dream_module
 
     mock_instance1 = Mock()
     mock_instance1.config = {"mode": "sequential"}
@@ -172,6 +174,7 @@ def test_raises_error_when_dreams_disabled():
     os.environ["DREAMS_ENABLED"] = "false"
 
     import importlib
+
     import lukhas_website.lukhas.dream as dream_module
     importlib.reload(dream_module)
 
@@ -187,6 +190,7 @@ def test_flag_reading():
     os.environ["PARALLEL_DREAMS_ENABLED"] = "true"
 
     import importlib
+
     import lukhas_website.lukhas.dream as dream_module
     importlib.reload(dream_module)
 

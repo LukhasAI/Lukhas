@@ -1,0 +1,104 @@
+name: Auto Request Copilot Code Review
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  request-copilot-review:
+    runs-on: ubuntu-latest
+    # Skip draft PRs
+    if: github.event.pull_request.draft == false
+
+    steps:
+      - name: Request GitHub Copilot code review
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const pull_number = context.payload.pull_request.number;
+
+            try {
+              // Check if Copilot is already requested
+              const { data: pr } = await github.rest.pulls.get({
+                owner,
+                repo,
+                pull_number,
+              });
+
+              const currentReviewers = pr.requested_reviewers.map(r => r.login);
+              const copilotRequested = currentReviewers.includes('copilot');
+
+              if (!copilotRequested) {
+                // Request Copilot as a reviewer
+                await github.rest.pulls.requestReviewers({
+                  owner,
+                  repo,
+                  pull_number,
+                  reviewers: ['copilot'],
+                });
+                console.log('✓ GitHub Copilot requested as reviewer');
+              } else {
+                console.log('ℹ GitHub Copilot already assigned');
+              }
+
+              // Add label to track Copilot-reviewed PRs
+              await github.rest.issues.addLabels({
+                owner,
+                repo,
+                issue_number: pull_number,
+                labels: ['copilot-review-requested'],
+              });
+
+            } catch (error) {
+              console.error('Error requesting Copilot review:', error.message);
+              // Non-fatal - don't fail the workflow if Copilot can't be assigned
+              // This handles cases where Copilot isn't available for the repo
+            }
+
+      - name: Post information comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const pull_number = context.payload.pull_request.number;
+
+            // Only post comment on newly opened PRs
+            if (context.payload.action === 'opened') {
+              const comment = `## 🤖 Automated Reviews Requested
+
+This PR has been automatically assigned to:
+- **GitHub Copilot** - AI-powered code review
+- **Codex** - LUKHAS-specific validation
+
+### Review Customization
+Copilot's review follows LUKHAS-specific guidelines from [\`.github/copilot-instructions.md\`](.github/copilot-instructions.md):
+- Lane-based architecture validation
+- T4 quality gates compliance
+- Consciousness module patterns
+- Import boundary enforcement
+
+### Additional Reviews Available
+- **Claude Code Review**: Add \`@claude\` mention to request Claude-powered analysis
+- **Human Review**: Assigned based on CODEOWNERS
+
+---
+*Reviews typically complete within 30 seconds. Copilot reviews are informational and won't block merging.*`;
+
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: pull_number,
+                body: comment,
+              });
+            }

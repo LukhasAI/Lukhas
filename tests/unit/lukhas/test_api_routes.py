@@ -9,8 +9,9 @@ Validates dreams, glyphs, and drift API endpoints:
 - Error handling
 """
 import os
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
 from fastapi.testclient import TestClient
 
 
@@ -59,9 +60,8 @@ class TestDreamsAPI:
 
     def test_mesh_endpoint_requires_parallel_flag(self):
         """POST /api/v1/dreams/mesh requires parallel dreams enabled"""
-        from lukhas_website.lukhas.api import dreams
         from fastapi import FastAPI
-        from fastapi.testclient import TestClient
+        from lukhas_website.lukhas.api import dreams
 
         with patch.object(dreams, 'is_enabled', return_value=True):
             with patch.object(dreams, 'is_parallel_enabled', return_value=False):
@@ -78,9 +78,8 @@ class TestDreamsAPI:
 
     def test_health_check_endpoint(self):
         """GET /api/v1/dreams/ returns health status"""
-        from lukhas_website.lukhas.api import dreams
         from fastapi import FastAPI
-        from fastapi.testclient import TestClient
+        from lukhas_website.lukhas.api import dreams
 
         app = FastAPI()
         app.include_router(dreams.router)
@@ -104,9 +103,8 @@ class TestGlyphsAPI:
 
     def test_encode_endpoint_disabled_by_default(self):
         """POST /api/v1/glyphs/encode returns 503 when disabled"""
-        from lukhas_website.lukhas.api import glyphs
         from fastapi import FastAPI
-        from fastapi.testclient import TestClient
+        from lukhas_website.lukhas.api import glyphs
 
         with patch.object(glyphs, 'is_enabled', return_value=False):
             app = FastAPI()
@@ -138,9 +136,8 @@ class TestGlyphsAPI:
 
     def test_bind_endpoint_validates_glyph_data(self):
         """POST /api/v1/glyphs/bind validates glyph_data structure"""
-        from lukhas_website.lukhas.api import glyphs
         from fastapi import FastAPI
-        from fastapi.testclient import TestClient
+        from lukhas_website.lukhas.api import glyphs
 
         with patch.object(glyphs, 'is_enabled', return_value=True):
             app = FastAPI()
@@ -157,9 +154,8 @@ class TestGlyphsAPI:
 
     def test_validate_endpoint_always_available(self):
         """POST /api/v1/glyphs/validate works even when glyphs disabled"""
-        from lukhas_website.lukhas.api import glyphs
         from fastapi import FastAPI
-        from fastapi.testclient import TestClient
+        from lukhas_website.lukhas.api import glyphs
 
         # Validation should work even when disabled
         app = FastAPI()
@@ -177,9 +173,8 @@ class TestGlyphsAPI:
 
     def test_health_check_endpoint(self):
         """GET /api/v1/glyphs/ returns health status"""
-        from lukhas_website.lukhas.api import glyphs
         from fastapi import FastAPI
-        from fastapi.testclient import TestClient
+        from lukhas_website.lukhas.api import glyphs
 
         app = FastAPI()
         app.include_router(glyphs.router)
@@ -202,9 +197,8 @@ class TestDriftAPI:
 
     def test_update_endpoint_disabled_by_default(self):
         """POST /api/v1/drift/update returns 503 when disabled"""
-        from lukhas_website.lukhas.api import drift
         from fastapi import FastAPI
-        from fastapi.testclient import TestClient
+        from lukhas_website.lukhas.api import drift
 
         with patch.object(drift, '_DRIFT_ENABLED', False):
             app = FastAPI()
@@ -240,9 +234,8 @@ class TestDriftAPI:
 
     def test_update_validates_vector_length_match(self):
         """Update endpoint validates intent/action vector lengths match"""
-        from lukhas_website.lukhas.api import drift
         from fastapi import FastAPI
-        from fastapi.testclient import TestClient
+        from lukhas_website.lukhas.api import drift
 
         with patch.object(drift, '_DRIFT_ENABLED', True):
             with patch.object(drift, '_DRIFT_AVAILABLE', True):
@@ -264,9 +257,8 @@ class TestDriftAPI:
 
     def test_get_drift_score_404_for_unknown_user(self):
         """GET /api/v1/drift/{user_id} returns 404 for unknown user"""
-        from lukhas_website.lukhas.api import drift
         from fastapi import FastAPI
-        from fastapi.testclient import TestClient
+        from lukhas_website.lukhas.api import drift
 
         with patch.object(drift, '_DRIFT_ENABLED', True):
             with patch.object(drift, '_DRIFT_AVAILABLE', True):
@@ -279,9 +271,8 @@ class TestDriftAPI:
 
     def test_config_endpoint_always_available(self):
         """GET /api/v1/drift/config/{lane} works even when drift disabled"""
-        from lukhas_website.lukhas.api import drift
         from fastapi import FastAPI
-        from fastapi.testclient import TestClient
+        from lukhas_website.lukhas.api import drift
 
         with patch.object(drift, '_DRIFT_AVAILABLE', True):
             app = FastAPI()
@@ -296,9 +287,8 @@ class TestDriftAPI:
 
     def test_health_check_endpoint(self):
         """GET /api/v1/drift/ returns health status"""
-        from lukhas_website.lukhas.api import drift
         from fastapi import FastAPI
-        from fastapi.testclient import TestClient
+        from lukhas_website.lukhas.api import drift
 
         app = FastAPI()
         app.include_router(drift.router)

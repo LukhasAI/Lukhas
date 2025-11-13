@@ -42,7 +42,7 @@ def __getattr__(name: str) -> Any:
         try:
             # Assumes the primary implementation is in labs.governance.guardian
             module = importlib.import_module("labs.governance.guardian")
-            Guardian = getattr(module, "Guardian")
+            Guardian = module.Guardian
             _loaded_modules[name] = Guardian
             return Guardian
         except (ImportError, AttributeError):
@@ -53,7 +53,7 @@ def __getattr__(name: str) -> Any:
         try:
             # Assumes the primary implementation is in labs.governance.ethics
             module = importlib.import_module("labs.governance.ethics.engine")
-            EthicsEngine = getattr(module, "EthicsEngine")
+            EthicsEngine = module.EthicsEngine
             _loaded_modules[name] = EthicsEngine
             return EthicsEngine
         except (ImportError, AttributeError):
@@ -63,6 +63,6 @@ def __getattr__(name: str) -> Any:
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 __all__ = [
-    "Guardian",
     "EthicsEngine",
+    "Guardian",
 ]
