@@ -25,10 +25,12 @@ ROLE_HIERARCHY: Dict[str, int] = {
     "admin": 3,
 }
 
-# --- Rate Limiting (In-Memory Placeholder) ---
-# TODO: Replace with a more robust solution (e.g., Redis-based) for production.
-# This implementation is not suitable for multi-process or multi-server deployments.
-_rate_limit_store: Dict[str, List[float]] = {}
+# --- Storage Backend Configuration ---
+from lukhas.api.storage import get_storage_backend
+
+_storage_backend = get_storage_backend()
+
+# --- Rate Limiting ---
 _RATE_LIMIT = 100  # requests per minute
 _RATE_LIMIT_WINDOW = 60  # seconds
 
@@ -57,6 +59,9 @@ def check_rate_limit(identifier: str) -> bool:
     """
     Check if a given identifier has exceeded the rate limit.
 
+    Uses configurable storage backend (in-memory or Redis).
+    Storage backend is configured via STORAGE_BACKEND and REDIS_URL environment variables.
+
     Args:
         identifier: A unique identifier (e.g., user ID, IP address).
 
@@ -64,42 +69,81 @@ def check_rate_limit(identifier: str) -> bool:
         True if within the rate limit, False otherwise.
     """
     now = time.time()
-    if identifier not in _rate_limit_store:
-        _rate_limit_store[identifier] = []
+    key = f"rate_limit:{identifier}"
 
-    # Remove timestamps outside the current window
-    valid_timestamps = [
-        ts for ts in _rate_limit_store[identifier] if now - ts < _RATE_LIMIT_WINDOW
-    ]
-    _rate_limit_store[identifier] = valid_timestamps
+    # Get existing timestamps
+    timestamps = _storage_backend.list_get(key)
 
+    # Filter to keep only timestamps within the current window
+    valid_timestamps = [ts for ts in timestamps if now - ts < _RATE_LIMIT_WINDOW]
+
+    # Update stored timestamps
+    if valid_timestamps:
+        _storage_backend.list_filter(key, lambda ts: now - ts < _RATE_LIMIT_WINDOW)
+    else:
+        _storage_backend.delete(key)
+
+    # Check if limit exceeded
     if len(valid_timestamps) >= _RATE_LIMIT:
         return False
 
-    _rate_limit_store[identifier].append(now)
+    # Add new timestamp with TTL
+    _storage_backend.list_append(key, now)
+    _storage_backend.set(key, valid_timestamps + [now], ttl=_RATE_LIMIT_WINDOW)
+
     return True
 
-# --- Session Management (In-Memory Placeholder) ---
-# TODO: Replace with a persistent session store (e.g., Redis) for production.
-# This implementation is not suitable for multi-process or multi-server deployments.
-_sessions: Dict[str, dict] = {}
+# --- Session Management ---
+# Uses configurable storage backend (in-memory or Redis)
+# Configure via STORAGE_BACKEND and REDIS_URL environment variables
 
-def create_session(user_id: str, session_data: dict) -> str:
-    """Creates a new session for a user."""
+_SESSION_TTL = 3600  # 1 hour default session lifetime
+
+
+def create_session(user_id: str, session_data: dict, ttl: Optional[int] = None) -> str:
+    """
+    Creates a new session for a user.
+
+    Args:
+        user_id: User identifier
+        session_data: Session data to store
+        ttl: Session time-to-live in seconds (default: 1 hour)
+
+    Returns:
+        Session ID
+    """
     session_id = f"session_{user_id}_{time.time()}"
-    _sessions[session_id] = session_data
+    key = f"session:{session_id}"
+    _storage_backend.set(key, session_data, ttl=ttl or _SESSION_TTL)
     return session_id
 
+
 def get_session(session_id: str) -> Optional[dict]:
-    """Retrieves session data."""
-    return _sessions.get(session_id)
+    """
+    Retrieves session data.
+
+    Args:
+        session_id: Session identifier
+
+    Returns:
+        Session data dict or None if not found/expired
+    """
+    key = f"session:{session_id}"
+    return _storage_backend.get(key)
+
 
 def invalidate_session(session_id: str) -> bool:
-    """Invalidates a user session."""
-    if session_id in _sessions:
-        del _sessions[session_id]
-        return True
-    return False
+    """
+    Invalidates a user session.
+
+    Args:
+        session_id: Session identifier
+
+    Returns:
+        True if session existed and was deleted, False otherwise
+    """
+    key = f"session:{session_id}"
+    return _storage_backend.delete(key)
 
 
 # --- Dependencies ---
