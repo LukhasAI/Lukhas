@@ -3,6 +3,8 @@ import logging
 import time
 import uuid
 from collections.abc import Awaitable
+from copy import deepcopy
+from threading import Lock
 from typing import Any, Callable, Optional
 
 from fastapi import FastAPI, Header, HTTPException, Request, Response
@@ -96,6 +98,31 @@ matriz_traces_router = (
 )
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+_MODEL_CACHE: Optional[dict[str, Any]] = None
+_MODEL_CACHE_LOCK = Lock()
+
+
+def _build_models_payload() -> dict[str, Any]:
+    """Construct the canonical response payload for /v1/models."""
+
+    created = 1_730_000_000
+    models = [
+        {"id": "lukhas-mini", "object": "model", "created": created, "owned_by": "lukhas"},
+        {"id": "lukhas-embed-1", "object": "model", "created": created, "owned_by": "lukhas"},
+        {"id": "text-embedding-ada-002", "object": "model", "created": created, "owned_by": "lukhas"},
+        {"id": "gpt-4", "object": "model", "created": created, "owned_by": "lukhas"},
+    ]
+    return {"object": "list", "data": models}
+
+
+def invalidate_model_cache() -> None:
+    """Clear the cached /v1/models payload so the next call rebuilds it."""
+
+    global _MODEL_CACHE
+    with _MODEL_CACHE_LOCK:
+        _MODEL_CACHE = None
 
 def require_api_key(x_api_key: Optional[str]=Header(default=None)) -> Optional[str]:
     """Simple API key security for protected endpoints"""
@@ -258,9 +285,16 @@ def _hash_embed(text: str, dim: int=1536) -> list[float]:
 
 @app.get('/v1/models', tags=['OpenAI Compatible'])
 async def list_models() -> dict[str, Any]:
-    """OpenAI-compatible models list endpoint."""
-    models = [{'id': 'lukhas-mini', 'object': 'model', 'owned_by': 'lukhas'}, {'id': 'lukhas-embed-1', 'object': 'model', 'owned_by': 'lukhas'}, {'id': 'text-embedding-ada-002', 'object': 'model', 'owned_by': 'lukhas'}, {'id': 'gpt-4', 'object': 'model', 'owned_by': 'lukhas'}]
-    return {'object': 'list', 'data': models}
+    """OpenAI-compatible models list endpoint with deterministic caching."""
+
+    global _MODEL_CACHE
+    if _MODEL_CACHE is None:
+        with _MODEL_CACHE_LOCK:
+            if _MODEL_CACHE is None:
+                _MODEL_CACHE = _build_models_payload()
+    # Return a defensive copy so downstream mutation can't dirty the cache
+    assert _MODEL_CACHE is not None
+    return deepcopy(_MODEL_CACHE)
 
 @app.post('/v1/embeddings', tags=['OpenAI Compatible'])
 async def create_embeddings(request: dict) -> dict[str, Any]:
