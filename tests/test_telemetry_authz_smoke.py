@@ -8,7 +8,7 @@ with required attributes for auditing and observability.
 
 import hashlib
 import json
-from typing import Any, Dict, List
+from typing import Any
 
 import pytest
 from opentelemetry.sdk.trace import TracerProvider

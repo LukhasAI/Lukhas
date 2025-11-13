@@ -9,7 +9,7 @@ with expected types and default values.
 import glob
 import json
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import pytest
 
