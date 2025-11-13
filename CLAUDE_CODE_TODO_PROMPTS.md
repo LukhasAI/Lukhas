@@ -1918,6 +1918,3235 @@ from candidate.quantum.superposition import QuantumState  # lukhas/ cannot impor
 
 ---
 
+## TODO #4: ML-Based Pattern Prediction for Symbolic Anomaly Detection
+
+**File**: `core/symbolic/symbolic_anomaly_explorer.py`
+**Line**: 55
+**Complexity**: High
+**Estimated Effort**: 4-6 hours
+**Owner**: consciousness-team / dream-team
+
+### **Context**
+
+The Symbolic Anomaly Explorer is a Jules-13 analysis engine that detects irregularities in dream sessions. It currently performs reactive analysis - detecting anomalies after they occur. The TODO requests adding **ML-based pattern prediction** for proactive anomaly detection.
+
+**Current System Capabilities**:
+- Multi-session symbolic pattern detection with temporal correlation
+- Emotional volatility tracking across dream sequences
+- Recursive loop identification with pattern classification
+- Symbolic conflict analysis between competing narratives
+- Drift score integration for stability assessment
+
+**Anomaly Types Detected**:
+- Symbolic Conflict: Competing motifs creating narrative tension
+- Recursive Loops: Patterns that trap consciousness in cycles
+- Emotional Dissonance: Affect misalignment with symbolic content
+- Motif Mutation: Unexpected transformation of stable symbols
+- Drift Acceleration: Rapid symbolic instability patterns
+
+**Current TODO**:
+```python
+# Line 55 in core/symbolic/symbolic_anomaly_explorer.py
+TODO: Add ML-based pattern prediction for proactive anomaly detection
+```
+
+### **Technical Requirements**
+
+**Goal**: Implement ML-based time series forecasting to predict future anomalies before they manifest, enabling proactive intervention.
+
+**Machine Learning Approach**:
+1. **Feature Engineering**: Extract temporal features from dream session history
+2. **Time Series Forecasting**: Use LSTM/GRU or Prophet for sequence prediction
+3. **Anomaly Probability**: Predict likelihood of each anomaly type in next N sessions
+4. **Confidence Scoring**: Provide uncertainty estimates for predictions
+5. **Incremental Learning**: Update model as new dream sessions occur
+
+**Implementation Approach**:
+
+```python
+# Add to core/symbolic/symbolic_anomaly_explorer.py
+
+from typing import List, Tuple, Dict, Optional
+import numpy as np
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta, timezone
+from collections import deque
+
+# Optional ML dependencies (graceful degradation if not available)
+try:
+    from sklearn.ensemble import RandomForestClassifier, IsolationForest
+    from sklearn.preprocessing import StandardScaler
+    ML_AVAILABLE = True
+except ImportError:
+    ML_AVAILABLE = False
+
+try:
+    # Prophet for time series forecasting
+    from prophet import Prophet
+    PROPHET_AVAILABLE = True
+except ImportError:
+    PROPHET_AVAILABLE = False
+
+
+@dataclass
+class AnomalyPrediction:
+    """Prediction of future anomaly occurrence."""
+    anomaly_type: AnomalyType
+    probability: float  # 0.0 to 1.0
+    confidence: float  # 0.0 to 1.0 (uncertainty measure)
+    time_horizon: int  # Sessions ahead (1-10)
+    contributing_features: Dict[str, float]
+    predicted_severity: AnomalySeverity
+    recommended_action: Optional[str] = None
+
+
+@dataclass
+class PredictionFeatures:
+    """Features extracted from dream session history for ML prediction."""
+
+    # Temporal features
+    session_count: int
+    time_span_hours: float
+    avg_session_duration: float
+
+    # Symbolic features
+    unique_symbols_count: int
+    symbol_repetition_rate: float
+    motif_stability_score: float
+
+    # Emotional features
+    avg_valence: float
+    avg_arousal: float
+    emotional_volatility: float
+
+    # Drift features
+    avg_drift_score: float
+    drift_acceleration: float
+    max_drift_spike: float
+
+    # Anomaly history features
+    recent_conflict_count: int
+    recent_loop_count: int
+    recent_dissonance_count: int
+    recent_mutation_count: int
+
+    # Temporal patterns
+    session_interval_variance: float
+    time_of_day_pattern: float  # 0-23 hour average
+
+
+class MLAnomalyPredictor:
+    """
+    Machine Learning-based predictor for symbolic anomalies.
+
+    Uses ensemble of classifiers to predict anomaly occurrence:
+    - Random Forest for anomaly type classification
+    - Isolation Forest for general anomaly detection
+    - Prophet (optional) for time series forecasting
+    """
+
+    def __init__(
+        self,
+        *,
+        history_window: int = 50,
+        prediction_horizon: int = 5,
+        confidence_threshold: float = 0.6
+    ):
+        """
+        Initialize ML predictor.
+
+        Args:
+            history_window: Number of sessions to use for training
+            prediction_horizon: How many sessions ahead to predict
+            confidence_threshold: Minimum confidence for predictions
+        """
+        if not ML_AVAILABLE:
+            raise ImportError(
+                "ML dependencies not available. Install: pip install scikit-learn"
+            )
+
+        self.history_window = history_window
+        self.prediction_horizon = prediction_horizon
+        self.confidence_threshold = confidence_threshold
+
+        # Models
+        self._anomaly_classifier = RandomForestClassifier(
+            n_estimators=100,
+            max_depth=10,
+            random_state=42
+        )
+        self._isolation_forest = IsolationForest(
+            contamination=0.1,
+            random_state=42
+        )
+        self._scaler = StandardScaler()
+
+        # Training data
+        self._feature_history: deque = deque(maxlen=history_window)
+        self._anomaly_history: deque = deque(maxlen=history_window)
+
+        self._is_trained = False
+        self._logger = logger
+
+    def extract_features(
+        self,
+        session_history: List[Dict[str, Any]],
+        anomaly_history: List[Dict[str, Any]]
+    ) -> PredictionFeatures:
+        """
+        Extract ML features from session and anomaly history.
+
+        Args:
+            session_history: List of dream session summaries
+            anomaly_history: List of detected anomalies
+
+        Returns:
+            PredictionFeatures for ML model
+        """
+        if not session_history:
+            raise ValueError("Cannot extract features from empty history")
+
+        # Temporal features
+        session_count = len(session_history)
+
+        timestamps = [
+            datetime.fromisoformat(s["timestamp"])
+            for s in session_history if "timestamp" in s
+        ]
+        time_span_hours = (
+            (max(timestamps) - min(timestamps)).total_seconds() / 3600
+            if len(timestamps) > 1 else 0
+        )
+
+        avg_session_duration = np.mean([
+            s.get("duration_seconds", 0) for s in session_history
+        ])
+
+        # Symbolic features
+        all_symbols = []
+        for session in session_history:
+            all_symbols.extend(session.get("symbols", []))
+
+        unique_symbols_count = len(set(all_symbols))
+        symbol_repetition_rate = (
+            1 - (unique_symbols_count / len(all_symbols))
+            if all_symbols else 0
+        )
+
+        # Motif stability (how consistent are symbols across sessions)
+        from collections import Counter
+        symbol_counts = Counter(all_symbols)
+        motif_stability_score = (
+            max(symbol_counts.values()) / len(all_symbols)
+            if all_symbols else 0
+        )
+
+        # Emotional features
+        valences = [s.get("valence", 0) for s in session_history]
+        arousals = [s.get("arousal", 0) for s in session_history]
+
+        avg_valence = np.mean(valences) if valences else 0
+        avg_arousal = np.mean(arousals) if arousals else 0
+        emotional_volatility = np.std(valences) if valences else 0
+
+        # Drift features
+        drift_scores = [s.get("drift_score", 0) for s in session_history]
+        avg_drift_score = np.mean(drift_scores) if drift_scores else 0
+        max_drift_spike = max(drift_scores) if drift_scores else 0
+
+        # Drift acceleration (derivative)
+        drift_acceleration = 0
+        if len(drift_scores) > 1:
+            drift_deltas = np.diff(drift_scores)
+            drift_acceleration = float(np.mean(drift_deltas))
+
+        # Anomaly history features
+        recent_anomalies = anomaly_history[-10:] if anomaly_history else []
+        anomaly_types = [a.get("type") for a in recent_anomalies]
+
+        recent_conflict_count = anomaly_types.count("symbolic_conflict")
+        recent_loop_count = anomaly_types.count("recursive_loop")
+        recent_dissonance_count = anomaly_types.count("emotional_dissonance")
+        recent_mutation_count = anomaly_types.count("motif_mutation")
+
+        # Temporal patterns
+        if len(timestamps) > 1:
+            intervals = [
+                (timestamps[i+1] - timestamps[i]).total_seconds()
+                for i in range(len(timestamps) - 1)
+            ]
+            session_interval_variance = float(np.std(intervals))
+        else:
+            session_interval_variance = 0
+
+        time_of_day_pattern = (
+            np.mean([t.hour for t in timestamps])
+            if timestamps else 12
+        )
+
+        return PredictionFeatures(
+            session_count=session_count,
+            time_span_hours=time_span_hours,
+            avg_session_duration=avg_session_duration,
+            unique_symbols_count=unique_symbols_count,
+            symbol_repetition_rate=symbol_repetition_rate,
+            motif_stability_score=motif_stability_score,
+            avg_valence=avg_valence,
+            avg_arousal=avg_arousal,
+            emotional_volatility=emotional_volatility,
+            avg_drift_score=avg_drift_score,
+            drift_acceleration=drift_acceleration,
+            max_drift_spike=max_drift_spike,
+            recent_conflict_count=recent_conflict_count,
+            recent_loop_count=recent_loop_count,
+            recent_dissonance_count=recent_dissonance_count,
+            recent_mutation_count=recent_mutation_count,
+            session_interval_variance=session_interval_variance,
+            time_of_day_pattern=time_of_day_pattern
+        )
+
+    def _features_to_array(self, features: PredictionFeatures) -> np.ndarray:
+        """Convert PredictionFeatures to numpy array for ML model."""
+        return np.array([
+            features.session_count,
+            features.time_span_hours,
+            features.avg_session_duration,
+            features.unique_symbols_count,
+            features.symbol_repetition_rate,
+            features.motif_stability_score,
+            features.avg_valence,
+            features.avg_arousal,
+            features.emotional_volatility,
+            features.avg_drift_score,
+            features.drift_acceleration,
+            features.max_drift_spike,
+            features.recent_conflict_count,
+            features.recent_loop_count,
+            features.recent_dissonance_count,
+            features.recent_mutation_count,
+            features.session_interval_variance,
+            features.time_of_day_pattern
+        ])
+
+    def update_history(
+        self,
+        features: PredictionFeatures,
+        anomalies: List[AnomalyType]
+    ) -> None:
+        """
+        Update prediction history with new session data.
+
+        Args:
+            features: Extracted features from latest sessions
+            anomalies: Anomalies detected in latest session
+        """
+        self._feature_history.append(features)
+        self._anomaly_history.append(anomalies)
+
+        # Retrain if we have enough data
+        if len(self._feature_history) >= 20:
+            self._train_models()
+
+    def _train_models(self) -> None:
+        """Train ML models on accumulated history."""
+        if len(self._feature_history) < 20:
+            self._logger.warning("Insufficient data for training (need 20+ samples)")
+            return
+
+        # Prepare training data
+        X = np.array([
+            self._features_to_array(f) for f in self._feature_history
+        ])
+
+        # Binary labels: 1 if any anomaly occurred, 0 otherwise
+        y_binary = np.array([
+            1 if anomalies else 0
+            for anomalies in self._anomaly_history
+        ])
+
+        # Scale features
+        X_scaled = self._scaler.fit_transform(X)
+
+        # Train Isolation Forest (unsupervised anomaly detection)
+        self._isolation_forest.fit(X_scaled)
+
+        # Train Random Forest Classifier (if we have positive examples)
+        if y_binary.sum() > 0:
+            self._anomaly_classifier.fit(X_scaled, y_binary)
+            self._is_trained = True
+
+        self._logger.info(
+            "ML models trained",
+            extra={
+                "samples": len(X),
+                "anomaly_rate": float(y_binary.mean())
+            }
+        )
+
+    def predict_anomalies(
+        self,
+        current_features: PredictionFeatures,
+        time_horizon: int = 5
+    ) -> List[AnomalyPrediction]:
+        """
+        Predict anomalies for upcoming sessions.
+
+        Args:
+            current_features: Current feature state
+            time_horizon: Number of sessions to predict ahead
+
+        Returns:
+            List of anomaly predictions with probabilities
+        """
+        if not self._is_trained:
+            self._logger.warning("Predictor not trained yet, returning empty predictions")
+            return []
+
+        predictions = []
+
+        # Convert features to array
+        X = self._features_to_array(current_features).reshape(1, -1)
+        X_scaled = self._scaler.transform(X)
+
+        # Get probability from classifier
+        if hasattr(self._anomaly_classifier, "predict_proba"):
+            proba = self._anomaly_classifier.predict_proba(X_scaled)[0]
+            anomaly_prob = proba[1] if len(proba) > 1 else 0
+        else:
+            anomaly_prob = 0.5
+
+        # Get anomaly score from Isolation Forest
+        iso_score = self._isolation_forest.score_samples(X_scaled)[0]
+        # Convert to probability (lower score = more anomalous)
+        iso_prob = 1 / (1 + np.exp(iso_score))  # Sigmoid transformation
+
+        # Combine probabilities
+        combined_prob = (anomaly_prob + iso_prob) / 2
+
+        # Feature importance (which features contribute most)
+        feature_importance = {}
+        if hasattr(self._anomaly_classifier, "feature_importances_"):
+            feature_names = [
+                "session_count", "time_span_hours", "avg_session_duration",
+                "unique_symbols_count", "symbol_repetition_rate", "motif_stability_score",
+                "avg_valence", "avg_arousal", "emotional_volatility",
+                "avg_drift_score", "drift_acceleration", "max_drift_spike",
+                "recent_conflict_count", "recent_loop_count", "recent_dissonance_count",
+                "recent_mutation_count", "session_interval_variance", "time_of_day_pattern"
+            ]
+            for name, importance in zip(feature_names, self._anomaly_classifier.feature_importances_):
+                if importance > 0.05:  # Only include significant features
+                    feature_importance[name] = float(importance)
+
+        # Predict specific anomaly types based on feature patterns
+        anomaly_type_predictions = self._predict_anomaly_types(current_features, combined_prob)
+
+        for anomaly_type, type_prob in anomaly_type_predictions:
+            if type_prob >= self.confidence_threshold:
+                # Determine severity based on probability
+                if type_prob >= 0.8:
+                    severity = AnomalySeverity.CRITICAL
+                elif type_prob >= 0.6:
+                    severity = AnomalySeverity.HIGH
+                elif type_prob >= 0.4:
+                    severity = AnomalySeverity.MEDIUM
+                else:
+                    severity = AnomalySeverity.LOW
+
+                # Generate recommendation
+                recommendation = self._generate_recommendation(anomaly_type, type_prob)
+
+                predictions.append(AnomalyPrediction(
+                    anomaly_type=anomaly_type,
+                    probability=type_prob,
+                    confidence=combined_prob,
+                    time_horizon=time_horizon,
+                    contributing_features=feature_importance,
+                    predicted_severity=severity,
+                    recommended_action=recommendation
+                ))
+
+        return sorted(predictions, key=lambda p: p.probability, reverse=True)
+
+    def _predict_anomaly_types(
+        self,
+        features: PredictionFeatures,
+        base_prob: float
+    ) -> List[Tuple[AnomalyType, float]]:
+        """
+        Predict specific anomaly types based on feature patterns.
+
+        Uses heuristics to map features to anomaly types.
+        """
+        type_probs = []
+
+        # Symbolic Conflict: High symbol repetition + high volatility
+        conflict_score = (
+            features.symbol_repetition_rate * 0.4 +
+            features.emotional_volatility * 0.3 +
+            (features.recent_conflict_count / 10) * 0.3
+        )
+        type_probs.append((AnomalyType.SYMBOLIC_CONFLICT, conflict_score * base_prob))
+
+        # Recursive Loop: Low motif stability + high recent loops
+        loop_score = (
+            (1 - features.motif_stability_score) * 0.5 +
+            (features.recent_loop_count / 10) * 0.5
+        )
+        type_probs.append((AnomalyType.RECURSIVE_LOOP, loop_score * base_prob))
+
+        # Emotional Dissonance: High emotional volatility
+        dissonance_score = (
+            features.emotional_volatility * 0.6 +
+            (features.recent_dissonance_count / 10) * 0.4
+        )
+        type_probs.append((AnomalyType.EMOTIONAL_DISSONANCE, dissonance_score * base_prob))
+
+        # Motif Mutation: High recent mutations + low stability
+        mutation_score = (
+            (features.recent_mutation_count / 10) * 0.5 +
+            (1 - features.motif_stability_score) * 0.5
+        )
+        type_probs.append((AnomalyType.MOTIF_MUTATION, mutation_score * base_prob))
+
+        # Drift Acceleration: High drift acceleration
+        drift_score = min(abs(features.drift_acceleration) / 0.5, 1.0)
+        type_probs.append((AnomalyType.DRIFT_ACCELERATION, drift_score * base_prob))
+
+        return type_probs
+
+    def _generate_recommendation(
+        self,
+        anomaly_type: AnomalyType,
+        probability: float
+    ) -> str:
+        """Generate actionable recommendation for predicted anomaly."""
+        recommendations = {
+            AnomalyType.SYMBOLIC_CONFLICT: "Consider symbolic integration exercises or motif reconciliation",
+            AnomalyType.RECURSIVE_LOOP: "Implement loop-breaking interventions or pattern interrupts",
+            AnomalyType.EMOTIONAL_DISSONANCE: "Schedule emotional processing or affect regulation session",
+            AnomalyType.MOTIF_MUTATION: "Monitor symbol stability and consider symbolic anchoring",
+            AnomalyType.DRIFT_ACCELERATION: "Increase drift monitoring frequency and consider stabilization"
+        }
+
+        base_rec = recommendations.get(
+            anomaly_type,
+            "Monitor closely and prepare intervention protocols"
+        )
+
+        if probability >= 0.8:
+            return f"URGENT: {base_rec}"
+        elif probability >= 0.6:
+            return f"RECOMMENDED: {base_rec}"
+        else:
+            return f"SUGGESTED: {base_rec}"
+
+    def get_model_stats(self) -> Dict[str, Any]:
+        """Get statistics about predictor state and performance."""
+        return {
+            "is_trained": self._is_trained,
+            "training_samples": len(self._feature_history),
+            "history_window": self.history_window,
+            "prediction_horizon": self.prediction_horizon,
+            "confidence_threshold": self.confidence_threshold,
+            "ml_available": ML_AVAILABLE,
+            "prophet_available": PROPHET_AVAILABLE
+        }
+
+
+# Integration into SymbolicAnomalyExplorer class
+# Add this method to the existing class:
+
+def __init__(
+    self,
+    *,
+    enable_ml_prediction: bool = True,
+    prediction_horizon: int = 5
+):
+    """
+    Initialize Symbolic Anomaly Explorer with optional ML prediction.
+
+    Args:
+        enable_ml_prediction: Enable ML-based anomaly prediction
+        prediction_horizon: Sessions ahead to predict
+    """
+    # ... existing initialization ...
+
+    # ML Predictor
+    self._enable_ml_prediction = enable_ml_prediction and ML_AVAILABLE
+    if self._enable_ml_prediction:
+        try:
+            self._ml_predictor = MLAnomalyPredictor(
+                prediction_horizon=prediction_horizon
+            )
+        except ImportError:
+            logger.warning("ML prediction requested but dependencies not available")
+            self._enable_ml_prediction = False
+            self._ml_predictor = None
+    else:
+        self._ml_predictor = None
+
+
+def predict_future_anomalies(
+    self,
+    session_history: List[Dict[str, Any]],
+    anomaly_history: List[Dict[str, Any]],
+    time_horizon: int = 5
+) -> List[AnomalyPrediction]:
+    """
+    Predict future anomalies using ML models.
+
+    Args:
+        session_history: Historical dream session data
+        anomaly_history: Historical anomaly detections
+        time_horizon: How many sessions ahead to predict
+
+    Returns:
+        List of predicted anomalies with probabilities
+    """
+    if not self._enable_ml_prediction or not self._ml_predictor:
+        logger.warning("ML prediction not enabled or available")
+        return []
+
+    # Extract features from current state
+    features = self._ml_predictor.extract_features(
+        session_history,
+        anomaly_history
+    )
+
+    # Update predictor with latest data
+    recent_anomalies = [
+        a.get("type") for a in anomaly_history[-1:]
+    ] if anomaly_history else []
+
+    self._ml_predictor.update_history(features, recent_anomalies)
+
+    # Get predictions
+    predictions = self._ml_predictor.predict_anomalies(
+        features,
+        time_horizon=time_horizon
+    )
+
+    logger.info(
+        "ML anomaly predictions generated",
+        extra={
+            "prediction_count": len(predictions),
+            "time_horizon": time_horizon,
+            "max_probability": max([p.probability for p in predictions]) if predictions else 0
+        }
+    )
+
+    return predictions
+```
+
+### **Testing Requirements**
+
+Create tests in `tests/unit/core/symbolic/test_ml_anomaly_prediction.py`:
+
+```python
+import pytest
+import numpy as np
+from datetime import datetime, timezone, timedelta
+from core.symbolic.symbolic_anomaly_explorer import (
+    MLAnomalyPredictor,
+    PredictionFeatures,
+    AnomalyType,
+    AnomalySeverity,
+    ML_AVAILABLE
+)
+
+pytestmark = pytest.mark.skipif(
+    not ML_AVAILABLE,
+    reason="ML dependencies not available"
+)
+
+
+class TestFeatureExtraction:
+
+    def test_extract_basic_features(self):
+        """Test feature extraction from session history."""
+        predictor = MLAnomalyPredictor()
+
+        session_history = [
+            {
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "duration_seconds": 300,
+                "symbols": ["tree", "water", "mountain"],
+                "valence": 0.5,
+                "arousal": 0.6,
+                "drift_score": 0.3
+            }
+        ]
+
+        features = predictor.extract_features(session_history, [])
+
+        assert features.session_count == 1
+        assert features.unique_symbols_count == 3
+        assert features.avg_valence == 0.5
+        assert features.avg_arousal == 0.6
+
+    def test_symbol_repetition_calculation(self):
+        """Test symbol repetition rate calculation."""
+        predictor = MLAnomalyPredictor()
+
+        session_history = [
+            {
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "symbols": ["tree", "tree", "water", "tree"],  # 3 tree, 1 water
+                "valence": 0,
+                "arousal": 0,
+                "drift_score": 0
+            }
+        ]
+
+        features = predictor.extract_features(session_history, [])
+
+        # 4 symbols, 2 unique -> repetition = 1 - (2/4) = 0.5
+        assert features.symbol_repetition_rate == 0.5
+
+    def test_drift_acceleration_calculation(self):
+        """Test drift acceleration from multiple sessions."""
+        predictor = MLAnomalyPredictor()
+
+        session_history = [
+            {
+                "timestamp": (datetime.now(timezone.utc) - timedelta(hours=i)).isoformat(),
+                "drift_score": 0.1 + i * 0.1,  # Increasing drift
+                "symbols": ["test"],
+                "valence": 0,
+                "arousal": 0
+            }
+            for i in range(5)
+        ]
+
+        features = predictor.extract_features(session_history, [])
+
+        # Drift acceleration should be positive (increasing)
+        assert features.drift_acceleration > 0
+
+
+class TestMLPredictor:
+
+    @pytest.fixture
+    def trained_predictor(self):
+        """Create a predictor trained on synthetic data."""
+        predictor = MLAnomalyPredictor(history_window=30)
+
+        # Generate synthetic training data
+        for i in range(25):
+            features = PredictionFeatures(
+                session_count=i,
+                time_span_hours=i * 2.0,
+                avg_session_duration=300,
+                unique_symbols_count=5 + i % 3,
+                symbol_repetition_rate=0.3 + (i % 10) * 0.05,
+                motif_stability_score=0.7 - (i % 5) * 0.1,
+                avg_valence=0.5,
+                avg_arousal=0.5,
+                emotional_volatility=0.1 + (i % 8) * 0.05,
+                avg_drift_score=0.3 + (i % 7) * 0.05,
+                drift_acceleration=0.02,
+                max_drift_spike=0.5,
+                recent_conflict_count=i % 3,
+                recent_loop_count=i % 2,
+                recent_dissonance_count=i % 4,
+                recent_mutation_count=i % 2,
+                session_interval_variance=100.0,
+                time_of_day_pattern=12.0
+            )
+
+            # Anomalies occur when certain conditions met
+            anomalies = []
+            if i % 5 == 0:
+                anomalies.append(AnomalyType.SYMBOLIC_CONFLICT)
+
+            predictor.update_history(features, anomalies)
+
+        return predictor
+
+    def test_predictor_trains_with_sufficient_data(self, trained_predictor):
+        """Test that predictor trains when it has enough data."""
+        assert trained_predictor._is_trained
+
+    def test_prediction_returns_probabilities(self, trained_predictor):
+        """Test that predictions return valid probabilities."""
+        features = PredictionFeatures(
+            session_count=30,
+            time_span_hours=60.0,
+            avg_session_duration=300,
+            unique_symbols_count=8,
+            symbol_repetition_rate=0.4,
+            motif_stability_score=0.6,
+            avg_valence=0.5,
+            avg_arousal=0.5,
+            emotional_volatility=0.2,
+            avg_drift_score=0.4,
+            drift_acceleration=0.03,
+            max_drift_spike=0.6,
+            recent_conflict_count=2,
+            recent_loop_count=1,
+            recent_dissonance_count=0,
+            recent_mutation_count=1,
+            session_interval_variance=150.0,
+            time_of_day_pattern=14.0
+        )
+
+        predictions = trained_predictor.predict_anomalies(features, time_horizon=5)
+
+        # Should return at least one prediction
+        assert len(predictions) > 0
+
+        # All probabilities should be in [0, 1]
+        for pred in predictions:
+            assert 0 <= pred.probability <= 1
+            assert 0 <= pred.confidence <= 1
+
+    def test_high_conflict_features_predict_conflict(self, trained_predictor):
+        """Test that high conflict features predict conflict anomaly."""
+        features = PredictionFeatures(
+            session_count=30,
+            time_span_hours=60.0,
+            avg_session_duration=300,
+            unique_symbols_count=8,
+            symbol_repetition_rate=0.9,  # Very high repetition
+            motif_stability_score=0.3,
+            avg_valence=0.5,
+            avg_arousal=0.5,
+            emotional_volatility=0.8,  # Very high volatility
+            avg_drift_score=0.4,
+            drift_acceleration=0.03,
+            max_drift_spike=0.6,
+            recent_conflict_count=5,  # Many recent conflicts
+            recent_loop_count=0,
+            recent_dissonance_count=0,
+            recent_mutation_count=0,
+            session_interval_variance=150.0,
+            time_of_day_pattern=14.0
+        )
+
+        predictions = trained_predictor.predict_anomalies(features)
+
+        # Should predict symbolic conflict
+        conflict_preds = [
+            p for p in predictions
+            if p.anomaly_type == AnomalyType.SYMBOLIC_CONFLICT
+        ]
+        assert len(conflict_preds) > 0
+
+    def test_recommendations_generated(self, trained_predictor):
+        """Test that predictions include actionable recommendations."""
+        features = PredictionFeatures(
+            session_count=30, time_span_hours=60.0, avg_session_duration=300,
+            unique_symbols_count=8, symbol_repetition_rate=0.4,
+            motif_stability_score=0.6, avg_valence=0.5, avg_arousal=0.5,
+            emotional_volatility=0.2, avg_drift_score=0.4,
+            drift_acceleration=0.03, max_drift_spike=0.6,
+            recent_conflict_count=2, recent_loop_count=1,
+            recent_dissonance_count=0, recent_mutation_count=1,
+            session_interval_variance=150.0, time_of_day_pattern=14.0
+        )
+
+        predictions = trained_predictor.predict_anomalies(features)
+
+        for pred in predictions:
+            assert pred.recommended_action is not None
+            assert len(pred.recommended_action) > 0
+
+    def test_severity_scales_with_probability(self, trained_predictor):
+        """Test that predicted severity scales with probability."""
+        # High probability should have higher severity
+        # This is tested implicitly through the severity assignment logic
+        pass
+
+    def test_model_stats(self, trained_predictor):
+        """Test that model statistics are accessible."""
+        stats = trained_predictor.get_model_stats()
+
+        assert stats["is_trained"] is True
+        assert stats["training_samples"] >= 20
+        assert "ml_available" in stats
+
+
+class TestIntegrationWithSymbolicAnomalyExplorer:
+
+    def test_prediction_integration(self):
+        """Test integration with SymbolicAnomalyExplorer."""
+        from core.symbolic.symbolic_anomaly_explorer import SymbolicAnomalyExplorer
+
+        explorer = SymbolicAnomalyExplorer(
+            enable_ml_prediction=True,
+            prediction_horizon=5
+        )
+
+        # Generate synthetic session history
+        session_history = [
+            {
+                "timestamp": (datetime.now(timezone.utc) - timedelta(hours=i)).isoformat(),
+                "duration_seconds": 300,
+                "symbols": ["symbol" + str(j) for j in range(5)],
+                "valence": 0.5,
+                "arousal": 0.5,
+                "drift_score": 0.3 + i * 0.01
+            }
+            for i in range(30)
+        ]
+
+        anomaly_history = []
+
+        predictions = explorer.predict_future_anomalies(
+            session_history,
+            anomaly_history,
+            time_horizon=5
+        )
+
+        # Should return predictions (may be empty if not enough training data)
+        assert isinstance(predictions, list)
+```
+
+### **Acceptance Criteria**
+
+✅ **Functional Requirements**:
+- [ ] `PredictionFeatures` dataclass with 18+ features
+- [ ] `AnomalyPrediction` dataclass with probability, confidence, recommendations
+- [ ] `MLAnomalyPredictor` class with all methods
+- [ ] Feature extraction from session history
+- [ ] Random Forest classifier for anomaly detection
+- [ ] Isolation Forest for unsupervised anomaly detection
+- [ ] Feature scaling with StandardScaler
+- [ ] Anomaly type prediction based on feature patterns
+- [ ] Severity prediction (CRITICAL/HIGH/MEDIUM/LOW)
+- [ ] Actionable recommendation generation
+- [ ] Incremental learning (update as new data arrives)
+- [ ] Integration method in `SymbolicAnomalyExplorer`
+
+✅ **Testing Requirements**:
+- [ ] Feature extraction tests (3+ tests)
+- [ ] ML predictor tests (6+ tests)
+- [ ] Integration tests with SymbolicAnomalyExplorer
+- [ ] Test prediction probabilities in valid range
+- [ ] Test recommendations generation
+- [ ] Test graceful degradation if ML not available
+
+✅ **Documentation**:
+- [ ] Docstrings for all classes and methods
+- [ ] Feature descriptions
+- [ ] ML approach explanation
+- [ ] Example usage
+- [ ] TODO comment removed
+
+✅ **Dependencies**:
+- [ ] Optional dependency handling (graceful degradation)
+- [ ] Requirements: `scikit-learn>=1.0.0`
+- [ ] Optional: `prophet>=1.0` for time series forecasting
+
+### **Configuration**
+
+```python
+# config/ml_prediction.py
+
+import os
+
+# ML Prediction Configuration
+ML_PREDICTION_ENABLED = os.getenv("ML_PREDICTION_ENABLED", "1") == "1"
+PREDICTION_HORIZON = int(os.getenv("PREDICTION_HORIZON", "5"))
+CONFIDENCE_THRESHOLD = float(os.getenv("CONFIDENCE_THRESHOLD", "0.6"))
+TRAINING_WINDOW = int(os.getenv("TRAINING_WINDOW", "50"))
+
+# Feature to install ML dependencies
+# pip install scikit-learn>=1.0.0
+# pip install prophet>=1.0  # optional for time series
+```
+
+### **References**
+
+- **Module**: `core/symbolic/symbolic_anomaly_explorer.py`
+- **Dream System**: `candidate/consciousness/dream/`
+- **Drift Detection**: `core/consciousness/drift_detector.py`
+- **Documentation**: `docs/architecture/consciousness.md`
+
+---
+
+## TODO #5: Quantum Entanglement Modeling for Superpositions
+
+**File**: `candidate/quantum/superposition_engine.py`
+**Line**: 176
+**Complexity**: High
+**Estimated Effort**: 4-6 hours
+**Owner**: quantum-team / consciousness-team
+
+### **Context**
+
+The `QuantumSuperpositionEngine` creates and manages quantum-inspired superposition states for the QI-AGI (Quantum-Inspired AGI) system. Currently supports single superposition states with interference patterns. The TODO requests extending with **entanglement modeling across multiple superpositions**.
+
+**Current System**:
+- Creates normalized superposition states with complex amplitudes
+- Applies interference patterns based on context
+- Supports measurement/collapse to single option
+- Computes amplitudes with phase information
+
+**Current TODO**:
+```python
+# Line 176 in candidate/quantum/superposition_engine.py
+# TODO: Extend with entanglement modelling across multiple superpositions.
+```
+
+### **Technical Requirements**
+
+**Goal**: Implement quantum-inspired entanglement between multiple superposition states, where measurement of one state affects probabilities in entangled states.
+
+**Quantum Entanglement Concepts**:
+1. **Entangled States**: Multiple superpositions linked by correlation
+2. **Non-local Correlation**: Measuring one affects the other
+3. **Bell States**: Maximally entangled states
+4. **Partial Entanglement**: Correlation strength parameter (0 to 1)
+5. **Entanglement Preservation**: Maintain correlations through operations
+
+**Implementation Approach**:
+
+```python
+# Add to candidate/quantum/superposition_engine.py
+
+from typing import Dict, List, Tuple, Optional, Set
+from dataclasses import dataclass, field
+from enum import Enum
+import numpy as np
+import cmath
+
+@dataclass
+class EntanglementLink:
+    """Represents entanglement between two superposition states."""
+    state_id_1: str
+    state_id_2: str
+    correlation: float  # -1.0 to 1.0 (strength and type of correlation)
+    entanglement_type: str  # "bell", "partial", "custom"
+    created_at: float
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+
+class EntanglementType(Enum):
+    """Types of quantum entanglement patterns."""
+    BELL_PHI_PLUS = "bell_phi_plus"  # Maximally entangled, positive correlation
+    BELL_PHI_MINUS = "bell_phi_minus"  # Maximally entangled, negative correlation
+    BELL_PSI_PLUS = "bell_psi_plus"
+    BELL_PSI_MINUS = "bell_psi_minus"
+    PARTIAL = "partial"  # Partial entanglement with custom correlation
+    GHZ = "ghz"  # Greenberger-Horne-Zeilinger (3+ states)
+
+
+@dataclass
+class EntangledSuperpositionState:
+    """Superposition state with entanglement tracking."""
+    state_id: str
+    options: list[dict[str, Any]]
+    amplitudes: list[complex]
+    metadata: dict[str, Any]
+    entangled_with: Set[str] = field(default_factory=set)
+    is_measured: bool = False
+    measured_outcome: Optional[int] = None
+
+
+class QuantumEntanglementManager:
+    """
+    Manages entanglement relationships between multiple superposition states.
+
+    Implements quantum-inspired entanglement where measuring one superposition
+    affects the probability distributions of entangled superpositions.
+    """
+
+    def __init__(self):
+        """Initialize entanglement manager."""
+        self._states: Dict[str, EntangledSuperpositionState] = {}
+        self._entanglements: List[EntanglementLink] = []
+        self._entanglement_graph: Dict[str, Set[str]] = {}
+        self._logger = logging.getLogger(__name__)
+
+    def register_state(
+        self,
+        state_id: str,
+        state: SuperpositionState
+    ) -> EntangledSuperpositionState:
+        """
+        Register a superposition state for entanglement tracking.
+
+        Args:
+            state_id: Unique identifier for this state
+            state: SuperpositionState to register
+
+        Returns:
+            EntangledSuperpositionState with tracking
+        """
+        entangled_state = EntangledSuperpositionState(
+            state_id=state_id,
+            options=state.options,
+            amplitudes=state.amplitudes,
+            metadata=state.metadata
+        )
+
+        self._states[state_id] = entangled_state
+        self._entanglement_graph[state_id] = set()
+
+        self._logger.debug(f"Registered state {state_id} with {len(state.options)} options")
+
+        return entangled_state
+
+    def create_entanglement(
+        self,
+        state_id_1: str,
+        state_id_2: str,
+        entanglement_type: EntanglementType = EntanglementType.PARTIAL,
+        correlation: float = 0.8
+    ) -> EntanglementLink:
+        """
+        Create entanglement between two superposition states.
+
+        Args:
+            state_id_1: First state ID
+            state_id_2: Second state ID
+            entanglement_type: Type of entanglement pattern
+            correlation: Correlation strength (-1.0 to 1.0)
+
+        Returns:
+            EntanglementLink describing the entanglement
+        """
+        if state_id_1 not in self._states or state_id_2 not in self._states:
+            raise ValueError(f"Both states must be registered before entanglement")
+
+        # Validate correlation
+        correlation = max(-1.0, min(1.0, correlation))
+
+        # Create entanglement link
+        link = EntanglementLink(
+            state_id_1=state_id_1,
+            state_id_2=state_id_2,
+            correlation=correlation,
+            entanglement_type=entanglement_type.value,
+            created_at=time.time()
+        )
+
+        self._entanglements.append(link)
+
+        # Update entanglement graph
+        self._entanglement_graph[state_id_1].add(state_id_2)
+        self._entanglement_graph[state_id_2].add(state_id_1)
+
+        # Update states
+        self._states[state_id_1].entangled_with.add(state_id_2)
+        self._states[state_id_2].entangled_with.add(state_id_1)
+
+        # Apply entanglement to amplitudes
+        self._apply_entanglement_pattern(state_id_1, state_id_2, entanglement_type, correlation)
+
+        self._logger.info(
+            f"Created {entanglement_type.value} entanglement between {state_id_1} and {state_id_2} "
+            f"(correlation={correlation:.2f})"
+        )
+
+        return link
+
+    def _apply_entanglement_pattern(
+        self,
+        state_id_1: str,
+        state_id_2: str,
+        entanglement_type: EntanglementType,
+        correlation: float
+    ) -> None:
+        """
+        Apply entanglement pattern to modify state amplitudes.
+
+        Entanglement creates correlations in the probability distributions.
+        """
+        state1 = self._states[state_id_1]
+        state2 = self._states[state_id_2]
+
+        if entanglement_type in [EntanglementType.BELL_PHI_PLUS, EntanglementType.BELL_PHI_MINUS]:
+            # Bell states: Maximally entangled states
+            # Adjust amplitudes to create correlation
+            n1 = len(state1.amplitudes)
+            n2 = len(state2.amplitudes)
+
+            # For Bell Phi+: Same outcomes have high correlation
+            # For Bell Phi-: Opposite outcomes have high correlation
+            sign = 1.0 if entanglement_type == EntanglementType.BELL_PHI_PLUS else -1.0
+
+            # Modify phase relationships
+            for i in range(min(n1, n2)):
+                phase_shift = sign * np.pi / 4 * correlation
+                state1.amplitudes[i] *= cmath.exp(1j * phase_shift)
+                state2.amplitudes[i] *= cmath.exp(1j * phase_shift)
+
+            # Renormalize
+            self._normalize_state(state_id_1)
+            self._normalize_state(state_id_2)
+
+        elif entanglement_type == EntanglementType.PARTIAL:
+            # Partial entanglement: Adjust phases based on correlation strength
+            n = min(len(state1.amplitudes), len(state2.amplitudes))
+
+            for i in range(n):
+                # Create phase correlation
+                phase_correlation = correlation * np.pi / 2
+                state1.amplitudes[i] *= cmath.exp(1j * phase_correlation * i / n)
+                state2.amplitudes[i] *= cmath.exp(1j * phase_correlation * i / n)
+
+            self._normalize_state(state_id_1)
+            self._normalize_state(state_id_2)
+
+    def _normalize_state(self, state_id: str) -> None:
+        """Normalize amplitudes of a state to ensure valid probability distribution."""
+        state = self._states[state_id]
+        amplitudes = np.array(state.amplitudes)
+        norm = np.sqrt(np.sum(np.abs(amplitudes) ** 2))
+        if norm > 0:
+            state.amplitudes = list(amplitudes / norm)
+
+    def measure_state(
+        self,
+        state_id: str
+    ) -> Tuple[int, Any]:
+        """
+        Measure a superposition state, collapsing it to single outcome.
+
+        If state is entangled, this affects probability distributions of
+        entangled states.
+
+        Args:
+            state_id: ID of state to measure
+
+        Returns:
+            (outcome_index, outcome_value)
+        """
+        if state_id not in self._states:
+            raise ValueError(f"State {state_id} not registered")
+
+        state = self._states[state_id]
+
+        if state.is_measured:
+            self._logger.warning(f"State {state_id} already measured")
+            return state.measured_outcome, state.options[state.measured_outcome]
+
+        # Compute probabilities
+        probabilities = np.abs(np.array(state.amplitudes)) ** 2
+        probabilities /= probabilities.sum()  # Normalize
+
+        # Measure (collapse)
+        outcome_index = np.random.choice(len(state.options), p=probabilities)
+        outcome_value = state.options[outcome_index]
+
+        # Mark as measured
+        state.is_measured = True
+        state.measured_outcome = outcome_index
+
+        self._logger.info(
+            f"Measured state {state_id}: outcome {outcome_index} "
+            f"(probability={probabilities[outcome_index]:.3f})"
+        )
+
+        # Propagate measurement to entangled states
+        self._propagate_measurement(state_id, outcome_index)
+
+        return outcome_index, outcome_value
+
+    def _propagate_measurement(
+        self,
+        measured_state_id: str,
+        measured_outcome: int
+    ) -> None:
+        """
+        Propagate measurement to entangled states.
+
+        When one state is measured, entangled states' probability
+        distributions are updated based on correlation.
+        """
+        measured_state = self._states[measured_state_id]
+
+        # Find entanglement links involving this state
+        for link in self._entanglements:
+            if link.state_id_1 == measured_state_id:
+                partner_id = link.state_id_2
+            elif link.state_id_2 == measured_state_id:
+                partner_id = link.state_id_1
+            else:
+                continue  # Link doesn't involve measured state
+
+            if partner_id not in self._states:
+                continue
+
+            partner_state = self._states[partner_id]
+
+            if partner_state.is_measured:
+                continue  # Already measured
+
+            # Update partner state amplitudes based on correlation
+            self._apply_measurement_correlation(
+                partner_state,
+                measured_outcome,
+                link.correlation
+            )
+
+            self._logger.debug(
+                f"Propagated measurement from {measured_state_id} to {partner_id} "
+                f"(correlation={link.correlation:.2f})"
+            )
+
+    def _apply_measurement_correlation(
+        self,
+        partner_state: EntangledSuperpositionState,
+        measured_outcome: int,
+        correlation: float
+    ) -> None:
+        """
+        Apply measurement correlation to update partner state amplitudes.
+
+        Positive correlation: Increase probability of same outcome
+        Negative correlation: Decrease probability of same outcome
+        """
+        n = len(partner_state.amplitudes)
+
+        # Map measured outcome to partner state (may have different size)
+        partner_outcome = min(measured_outcome, n - 1)
+
+        # Modify amplitudes based on correlation
+        for i in range(n):
+            if correlation > 0:
+                # Positive correlation: boost matching outcome
+                if i == partner_outcome:
+                    partner_state.amplitudes[i] *= (1 + abs(correlation))
+                else:
+                    partner_state.amplitudes[i] *= (1 - abs(correlation) * 0.5)
+            else:
+                # Negative correlation: suppress matching outcome
+                if i == partner_outcome:
+                    partner_state.amplitudes[i] *= (1 - abs(correlation) * 0.5)
+                else:
+                    partner_state.amplitudes[i] *= (1 + abs(correlation) * 0.3)
+
+        # Renormalize
+        amplitudes = np.array(partner_state.amplitudes)
+        norm = np.sqrt(np.sum(np.abs(amplitudes) ** 2))
+        if norm > 0:
+            partner_state.amplitudes = list(amplitudes / norm)
+
+    def get_entanglement_network(self) -> Dict[str, List[str]]:
+        """
+        Get the full entanglement network structure.
+
+        Returns:
+            Dict mapping state IDs to lists of entangled partner IDs
+        """
+        return {
+            state_id: list(partners)
+            for state_id, partners in self._entanglement_graph.items()
+        }
+
+    def compute_entanglement_entropy(self, state_id: str) -> float:
+        """
+        Compute von Neumann entropy of a state (measure of entanglement).
+
+        Higher entropy indicates more entanglement/uncertainty.
+        """
+        if state_id not in self._states:
+            raise ValueError(f"State {state_id} not registered")
+
+        state = self._states[state_id]
+        probabilities = np.abs(np.array(state.amplitudes)) ** 2
+
+        # Remove zero probabilities
+        probabilities = probabilities[probabilities > 1e-10]
+
+        # Von Neumann entropy
+        entropy = -np.sum(probabilities * np.log2(probabilities))
+
+        return float(entropy)
+
+    def get_correlation_matrix(self) -> np.ndarray:
+        """
+        Compute correlation matrix for all states.
+
+        Returns:
+            NxN matrix where [i,j] is correlation between states i and j
+        """
+        state_ids = list(self._states.keys())
+        n = len(state_ids)
+
+        matrix = np.zeros((n, n))
+
+        for link in self._entanglements:
+            try:
+                i = state_ids.index(link.state_id_1)
+                j = state_ids.index(link.state_id_2)
+                matrix[i, j] = link.correlation
+                matrix[j, i] = link.correlation  # Symmetric
+            except ValueError:
+                continue  # State not in current list
+
+        # Diagonal is 1.0 (state perfectly correlated with itself)
+        np.fill_diagonal(matrix, 1.0)
+
+        return matrix
+
+    def reset_all_measurements(self) -> None:
+        """Reset all states to unmeasured (for re-measurement)."""
+        for state in self._states.values():
+            state.is_measured = False
+            state.measured_outcome = None
+
+        self._logger.info("Reset all state measurements")
+
+
+# Integration into QuantumSuperpositionEngine
+class QuantumSuperpositionEngine:
+    """Create and manage quantum-inspired superposition states with entanglement."""
+
+    def __init__(self, *, rng: Any | None = None, enable_entanglement: bool = True) -> None:
+        self._rng = rng or random.Random()
+        self._enable_entanglement = enable_entanglement
+
+        if enable_entanglement:
+            self._entanglement_manager = QuantumEntanglementManager()
+        else:
+            self._entanglement_manager = None
+
+    def create_entangled_pair(
+        self,
+        options_1: Sequence[Mapping[str, Any]],
+        options_2: Sequence[Mapping[str, Any]],
+        context: Mapping[str, Any] | None = None,
+        correlation: float = 0.8
+    ) -> Tuple[EntangledSuperpositionState, EntangledSuperpositionState]:
+        """
+        Create a pair of entangled superposition states.
+
+        Args:
+            options_1: Options for first state
+            options_2: Options for second state
+            context: Optional context for interference
+            correlation: Correlation strength (0 to 1)
+
+        Returns:
+            Tuple of two entangled superposition states
+        """
+        if not self._enable_entanglement:
+            raise RuntimeError("Entanglement not enabled")
+
+        # Create both states
+        state1 = self.create_state(options_1, context)
+        state2 = self.create_state(options_2, context)
+
+        # Register with entanglement manager
+        state_id_1 = f"state_{id(state1)}"
+        state_id_2 = f"state_{id(state2)}"
+
+        entangled_1 = self._entanglement_manager.register_state(state_id_1, state1)
+        entangled_2 = self._entanglement_manager.register_state(state_id_2, state2)
+
+        # Create entanglement
+        self._entanglement_manager.create_entanglement(
+            state_id_1,
+            state_id_2,
+            entanglement_type=EntanglementType.BELL_PHI_PLUS,
+            correlation=correlation
+        )
+
+        return entangled_1, entangled_2
+
+    def measure_entangled_state(
+        self,
+        state: EntangledSuperpositionState
+    ) -> Tuple[int, Any]:
+        """
+        Measure an entangled state.
+
+        This will affect all states entangled with this one.
+        """
+        if not self._enable_entanglement:
+            raise RuntimeError("Entanglement not enabled")
+
+        return self._entanglement_manager.measure_state(state.state_id)
+```
+
+### **Testing Requirements**
+
+Create tests in `tests/unit/candidate/quantum/test_entanglement.py`:
+
+```python
+import pytest
+import numpy as np
+from candidate.quantum.superposition_engine import (
+    QuantumSuperpositionEngine,
+    QuantumEntanglementManager,
+    EntanglementType,
+    SuperpositionState
+)
+
+
+class TestQuantumEntanglement:
+
+    @pytest.fixture
+    def entanglement_manager(self):
+        """Create entanglement manager."""
+        return QuantumEntanglementManager()
+
+    @pytest.fixture
+    def sample_states(self, entanglement_manager):
+        """Create sample states for testing."""
+        state1 = SuperpositionState(
+            options=[{"id": "A"}, {"id": "B"}],
+            amplitudes=[1/np.sqrt(2), 1/np.sqrt(2)],
+            metadata={}
+        )
+        state2 = SuperpositionState(
+            options=[{"id": "X"}, {"id": "Y"}],
+            amplitudes=[1/np.sqrt(2), 1/np.sqrt(2)],
+            metadata={}
+        )
+
+        es1 = entanglement_manager.register_state("state1", state1)
+        es2 = entanglement_manager.register_state("state2", state2)
+
+        return es1, es2
+
+    def test_register_state(self, entanglement_manager):
+        """Test registering a state."""
+        state = SuperpositionState(
+            options=[{"id": "A"}],
+            amplitudes=[1.0+0j],
+            metadata={}
+        )
+
+        es = entanglement_manager.register_state("test_state", state)
+
+        assert es.state_id == "test_state"
+        assert len(es.options) == 1
+        assert len(es.entangled_with) == 0
+
+    def test_create_entanglement(self, entanglement_manager, sample_states):
+        """Test creating entanglement between two states."""
+        es1, es2 = sample_states
+
+        link = entanglement_manager.create_entanglement(
+            "state1",
+            "state2",
+            entanglement_type=EntanglementType.PARTIAL,
+            correlation=0.8
+        )
+
+        assert link.correlation == 0.8
+        assert "state2" in es1.entangled_with
+        assert "state1" in es2.entangled_with
+
+    def test_measurement_propagation(self, entanglement_manager, sample_states):
+        """Test that measuring one state affects entangled states."""
+        es1, es2 = sample_states
+
+        # Create entanglement
+        entanglement_manager.create_entanglement(
+            "state1",
+            "state2",
+            entanglement_type=EntanglementType.BELL_PHI_PLUS,
+            correlation=0.9
+        )
+
+        # Get initial probabilities of state2
+        initial_probs_2 = np.abs(np.array(es2.amplitudes)) ** 2
+
+        # Measure state1
+        outcome1, _ = entanglement_manager.measure_state("state1")
+
+        # State2 probabilities should have changed
+        final_probs_2 = np.abs(np.array(es2.amplitudes)) ** 2
+
+        # Due to positive correlation, same outcome should be more likely
+        assert final_probs_2[outcome1] > initial_probs_2[outcome1]
+
+    def test_positive_correlation(self, entanglement_manager, sample_states):
+        """Test positive correlation favors same outcomes."""
+        es1, es2 = sample_states
+
+        entanglement_manager.create_entanglement(
+            "state1",
+            "state2",
+            correlation=1.0  # Perfect positive correlation
+        )
+
+        # Measure state1 multiple times (reset between measurements)
+        matches = 0
+        trials = 100
+
+        for _ in range(trials):
+            entanglement_manager.reset_all_measurements()
+
+            outcome1, _ = entanglement_manager.measure_state("state1")
+            outcome2, _ = entanglement_manager.measure_state("state2")
+
+            if outcome1 == outcome2:
+                matches += 1
+
+        # With positive correlation, should have more matches than random (50%)
+        assert matches > trials * 0.6
+
+    def test_negative_correlation(self, entanglement_manager, sample_states):
+        """Test negative correlation favors opposite outcomes."""
+        es1, es2 = sample_states
+
+        entanglement_manager.create_entanglement(
+            "state1",
+            "state2",
+            correlation=-1.0  # Perfect negative correlation
+        )
+
+        matches = 0
+        trials = 100
+
+        for _ in range(trials):
+            entanglement_manager.reset_all_measurements()
+
+            outcome1, _ = entanglement_manager.measure_state("state1")
+            outcome2, _ = entanglement_manager.measure_state("state2")
+
+            if outcome1 == outcome2:
+                matches += 1
+
+        # With negative correlation, should have fewer matches than random (50%)
+        assert matches < trials * 0.4
+
+    def test_entanglement_entropy(self, entanglement_manager, sample_states):
+        """Test entropy calculation."""
+        es1, _ = sample_states
+
+        entropy = entanglement_manager.compute_entanglement_entropy("state1")
+
+        # Equal superposition should have maximum entropy
+        # For 2 options: max entropy = log2(2) = 1.0
+        assert entropy == pytest.approx(1.0, abs=0.01)
+
+    def test_correlation_matrix(self, entanglement_manager, sample_states):
+        """Test correlation matrix generation."""
+        es1, es2 = sample_states
+
+        entanglement_manager.create_entanglement(
+            "state1",
+            "state2",
+            correlation=0.7
+        )
+
+        matrix = entanglement_manager.get_correlation_matrix()
+
+        assert matrix.shape == (2, 2)
+        assert matrix[0, 0] == 1.0  # Self-correlation
+        assert matrix[1, 1] == 1.0
+        assert matrix[0, 1] == 0.7
+        assert matrix[1, 0] == 0.7
+
+    def test_entanglement_network(self, entanglement_manager):
+        """Test entanglement network structure."""
+        # Create 3 states
+        for i in range(3):
+            state = SuperpositionState(
+                options=[{"id": str(i)}],
+                amplitudes=[1.0+0j],
+                metadata={}
+            )
+            entanglement_manager.register_state(f"state{i}", state)
+
+        # Create entanglements: 0-1, 1-2 (chain)
+        entanglement_manager.create_entanglement("state0", "state1")
+        entanglement_manager.create_entanglement("state1", "state2")
+
+        network = entanglement_manager.get_entanglement_network()
+
+        assert "state1" in network["state0"]
+        assert "state0" in network["state1"]
+        assert "state2" in network["state1"]
+        assert "state1" in network["state2"]
+
+
+class TestSuperpositionEngineWithEntanglement:
+
+    def test_create_entangled_pair(self):
+        """Test creating entangled pair of states."""
+        engine = QuantumSuperpositionEngine(enable_entanglement=True)
+
+        options1 = [{"action": "left"}, {"action": "right"}]
+        options2 = [{"choice": "A"}, {"choice": "B"}]
+
+        state1, state2 = engine.create_entangled_pair(
+            options1,
+            options2,
+            correlation=0.8
+        )
+
+        assert state1.state_id != state2.state_id
+        assert state2.state_id in state1.entangled_with
+        assert state1.state_id in state2.entangled_with
+
+    def test_measure_entangled_state(self):
+        """Test measuring entangled states."""
+        engine = QuantumSuperpositionEngine(enable_entanglement=True)
+
+        options = [{"id": str(i)} for i in range(3)]
+        state1, state2 = engine.create_entangled_pair(options, options, correlation=0.9)
+
+        outcome1, value1 = engine.measure_entangled_state(state1)
+
+        assert 0 <= outcome1 < 3
+        assert value1 in options
+        assert state1.is_measured
+```
+
+### **Acceptance Criteria**
+
+✅ **Functional Requirements**:
+- [ ] `EntanglementLink` dataclass
+- [ ] `EntanglementType` enum with Bell states
+- [ ] `EntangledSuperpositionState` class
+- [ ] `QuantumEntanglementManager` class with all methods
+- [ ] State registration and tracking
+- [ ] Entanglement creation (partial, Bell states)
+- [ ] Measurement propagation to entangled states
+- [ ] Correlation-based amplitude updates
+- [ ] Entanglement entropy calculation
+- [ ] Correlation matrix generation
+- [ ] Network structure retrieval
+- [ ] Integration into `QuantumSuperpositionEngine`
+
+✅ **Testing Requirements**:
+- [ ] Entanglement manager tests (8+ tests)
+- [ ] Integration tests with engine (2+ tests)
+- [ ] Test positive correlation favors same outcomes
+- [ ] Test negative correlation favors opposite outcomes
+- [ ] Test measurement propagation
+- [ ] Test entropy calculation
+- [ ] Test correlation matrix
+
+✅ **Documentation**:
+- [ ] Docstrings with quantum concepts explained
+- [ ] Example usage for entangled pairs
+- [ ] Correlation parameter guide
+- [ ] TODO comment removed
+
+### **References**
+
+- **Module**: `candidate/quantum/superposition_engine.py`
+- **Quantum Systems**: `candidate/quantum/`
+- **Decision Systems**: `core/consciousness/bridge.py` (uses superpositions)
+- **Documentation**: Quantum-inspired algorithms guide
+
+---
+
+## TODO #6: Distributed GLYPH Registry Synchronization
+
+**File**: `core/symbolic/glyph_specialist.py`
+**Line**: 97
+**Complexity**: Medium-High
+**Estimated Effort**: 3-5 hours
+**Owner**: symbolic-team / distributed-systems-team
+
+### **Context**
+
+The `GlyphSpecialist` manages symbolic glyphs with drift thresholds for consensus. Currently uses local drift threshold storage. The TODO requests synchronizing thresholds to a **distributed GLYPH registry** for multi-instance coordination.
+
+**Current Implementation**:
+```python
+def update_threshold(self, new_threshold: float) -> None:
+    """Update drift threshold used for consensus."""
+    if new_threshold <= 0:
+        raise ValueError("new_threshold must be positive")
+    self.drift_threshold = new_threshold
+    self._logger.info(
+        "# ΛTAG: glyph_threshold_update -- updated drift threshold",
+        extra={"drift_threshold": new_threshold},
+    )
+    # TODO: sync threshold to distributed GLYPH registry once service hook lands.
+```
+
+**Current TODO**:
+```python
+# Line 97 in core/symbolic/glyph_specialist.py
+# TODO: sync threshold to distributed GLYPH registry once service hook lands.
+```
+
+### **Technical Requirements**
+
+**Goal**: Implement distributed registry synchronization for GLYPH thresholds, enabling multi-instance consensus and coordination.
+
+**Distributed Registry Design**:
+1. **Registry Backend**: Support Redis, etcd, or in-memory backends
+2. **Threshold Publishing**: Publish threshold updates to registry
+3. **Threshold Subscription**: Subscribe to updates from other instances
+4. **Conflict Resolution**: Handle concurrent updates with timestamps
+5. **Eventual Consistency**: Guarantee convergence across instances
+6. **Health Monitoring**: Detect and handle registry failures
+
+**Implementation Approach**:
+
+```python
+# Add to core/symbolic/glyph_specialist.py
+
+from typing import Protocol, Optional, Dict, Callable
+from abc import ABC, abstractmethod
+from datetime import datetime, timezone
+import json
+import threading
+import time
+
+class GlyphRegistryBackend(Protocol):
+    """Protocol for distributed GLYPH registry backends."""
+
+    def publish_threshold(self, glyph_id: str, threshold: float, metadata: Dict[str, Any]) -> None:
+        """Publish threshold update to registry."""
+        ...
+
+    def get_threshold(self, glyph_id: str) -> Optional[Dict[str, Any]]:
+        """Get current threshold from registry."""
+        ...
+
+    def subscribe_to_updates(
+        self,
+        glyph_id: str,
+        callback: Callable[[float, Dict[str, Any]], None]
+    ) -> None:
+        """Subscribe to threshold updates."""
+        ...
+
+    def list_all_glyphs(self) -> Dict[str, Dict[str, Any]]:
+        """List all glyphs in registry."""
+        ...
+
+
+class RedisGlyphRegistry:
+    """Redis-based distributed GLYPH registry."""
+
+    def __init__(self, redis_url: str = "redis://localhost:6379/0"):
+        """
+        Initialize Redis registry.
+
+        Args:
+            redis_url: Redis connection URL
+        """
+        try:
+            import redis
+        except ImportError:
+            raise ImportError("Redis backend requires redis package: pip install redis")
+
+        self.redis_client = redis.from_url(redis_url, decode_responses=True)
+        self._subscribers: Dict[str, Callable] = {}
+        self._pubsub_thread = None
+        self._logger = logging.getLogger(__name__)
+
+    def publish_threshold(
+        self,
+        glyph_id: str,
+        threshold: float,
+        metadata: Dict[str, Any]
+    ) -> None:
+        """Publish threshold to Redis."""
+        key = f"glyph:threshold:{glyph_id}"
+
+        data = {
+            "threshold": threshold,
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "instance_id": metadata.get("instance_id", "unknown"),
+            **metadata
+        }
+
+        # Store in hash
+        self.redis_client.hset(key, mapping={
+            k: json.dumps(v) if not isinstance(v, str) else v
+            for k, v in data.items()
+        })
+
+        # Publish update notification
+        channel = f"glyph:updates:{glyph_id}"
+        self.redis_client.publish(channel, json.dumps(data))
+
+        self._logger.info(
+            f"Published threshold update for {glyph_id}",
+            extra={"threshold": threshold, "instance": data["instance_id"]}
+        )
+
+    def get_threshold(self, glyph_id: str) -> Optional[Dict[str, Any]]:
+        """Get threshold from Redis."""
+        key = f"glyph:threshold:{glyph_id}"
+
+        data = self.redis_client.hgetall(key)
+
+        if not data:
+            return None
+
+        # Parse JSON values
+        result = {}
+        for k, v in data.items():
+            try:
+                result[k] = json.loads(v)
+            except (json.JSONDecodeError, TypeError):
+                result[k] = v
+
+        return result
+
+    def subscribe_to_updates(
+        self,
+        glyph_id: str,
+        callback: Callable[[float, Dict[str, Any]], None]
+    ) -> None:
+        """Subscribe to threshold updates via Redis pub/sub."""
+        self._subscribers[glyph_id] = callback
+
+        # Start pub/sub thread if not already running
+        if self._pubsub_thread is None:
+            self._start_pubsub_listener()
+
+    def _start_pubsub_listener(self) -> None:
+        """Start Redis pub/sub listener thread."""
+        pubsub = self.redis_client.pubsub()
+
+        # Subscribe to all glyph update channels
+        for glyph_id in self._subscribers.keys():
+            channel = f"glyph:updates:{glyph_id}"
+            pubsub.subscribe(channel)
+
+        def listen():
+            for message in pubsub.listen():
+                if message["type"] == "message":
+                    try:
+                        data = json.loads(message["data"])
+
+                        # Extract glyph_id from channel name
+                        channel = message["channel"]
+                        glyph_id = channel.split(":")[-1]
+
+                        if glyph_id in self._subscribers:
+                            threshold = data["threshold"]
+                            metadata = {k: v for k, v in data.items() if k != "threshold"}
+                            self._subscribers[glyph_id](threshold, metadata)
+
+                    except Exception as e:
+                        self._logger.error(f"Error processing pub/sub message: {e}")
+
+        self._pubsub_thread = threading.Thread(target=listen, daemon=True)
+        self._pubsub_thread.start()
+
+    def list_all_glyphs(self) -> Dict[str, Dict[str, Any]]:
+        """List all glyphs in registry."""
+        pattern = "glyph:threshold:*"
+        glyphs = {}
+
+        for key in self.redis_client.scan_iter(match=pattern):
+            glyph_id = key.split(":")[-1]
+            data = self.get_threshold(glyph_id)
+            if data:
+                glyphs[glyph_id] = data
+
+        return glyphs
+
+
+class InMemoryGlyphRegistry:
+    """In-memory GLYPH registry for testing/development."""
+
+    def __init__(self):
+        """Initialize in-memory registry."""
+        self._storage: Dict[str, Dict[str, Any]] = {}
+        self._subscribers: Dict[str, list] = {}
+        self._logger = logging.getLogger(__name__)
+
+    def publish_threshold(
+        self,
+        glyph_id: str,
+        threshold: float,
+        metadata: Dict[str, Any]
+    ) -> None:
+        """Publish threshold to in-memory storage."""
+        data = {
+            "threshold": threshold,
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+            **metadata
+        }
+
+        self._storage[glyph_id] = data
+
+        # Notify subscribers
+        if glyph_id in self._subscribers:
+            for callback in self._subscribers[glyph_id]:
+                try:
+                    callback(threshold, metadata)
+                except Exception as e:
+                    self._logger.error(f"Error in subscriber callback: {e}")
+
+    def get_threshold(self, glyph_id: str) -> Optional[Dict[str, Any]]:
+        """Get threshold from in-memory storage."""
+        return self._storage.get(glyph_id)
+
+    def subscribe_to_updates(
+        self,
+        glyph_id: str,
+        callback: Callable[[float, Dict[str, Any]], None]
+    ) -> None:
+        """Subscribe to threshold updates."""
+        if glyph_id not in self._subscribers:
+            self._subscribers[glyph_id] = []
+        self._subscribers[glyph_id].append(callback)
+
+    def list_all_glyphs(self) -> Dict[str, Dict[str, Any]]:
+        """List all glyphs."""
+        return dict(self._storage)
+
+
+class DistributedGlyphSynchronizer:
+    """
+    Manages synchronization of GLYPH thresholds across multiple instances.
+
+    Handles publishing local updates and subscribing to remote updates.
+    """
+
+    def __init__(
+        self,
+        registry: GlyphRegistryBackend,
+        instance_id: Optional[str] = None,
+        sync_interval: float = 5.0
+    ):
+        """
+        Initialize synchronizer.
+
+        Args:
+            registry: Registry backend (Redis, in-memory, etc.)
+            instance_id: Unique identifier for this instance
+            sync_interval: Seconds between sync checks
+        """
+        self.registry = registry
+        self.instance_id = instance_id or f"instance_{int(time.time())}"
+        self.sync_interval = sync_interval
+
+        self._local_thresholds: Dict[str, float] = {}
+        self._sync_thread = None
+        self._running = False
+        self._logger = logging.getLogger(__name__)
+
+    def publish_threshold_update(
+        self,
+        glyph_id: str,
+        threshold: float
+    ) -> None:
+        """
+        Publish threshold update to distributed registry.
+
+        Args:
+            glyph_id: GLYPH identifier
+            threshold: New threshold value
+        """
+        self._local_thresholds[glyph_id] = threshold
+
+        metadata = {
+            "instance_id": self.instance_id,
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+
+        self.registry.publish_threshold(glyph_id, threshold, metadata)
+
+        self._logger.info(
+            f"Published threshold for {glyph_id}",
+            extra={"threshold": threshold, "instance": self.instance_id}
+        )
+
+    def subscribe_to_glyph(
+        self,
+        glyph_id: str,
+        callback: Callable[[float, Dict[str, Any]], None]
+    ) -> None:
+        """
+        Subscribe to updates for a specific GLYPH.
+
+        Args:
+            glyph_id: GLYPH to subscribe to
+            callback: Function to call when threshold updates
+        """
+        def wrapped_callback(threshold: float, metadata: Dict[str, Any]):
+            # Don't process our own updates
+            if metadata.get("instance_id") == self.instance_id:
+                return
+
+            self._logger.info(
+                f"Received threshold update for {glyph_id}",
+                extra={
+                    "threshold": threshold,
+                    "from_instance": metadata.get("instance_id")
+                }
+            )
+
+            callback(threshold, metadata)
+
+        self.registry.subscribe_to_updates(glyph_id, wrapped_callback)
+
+    def get_consensus_threshold(
+        self,
+        glyph_id: str,
+        strategy: str = "latest"
+    ) -> Optional[float]:
+        """
+        Get consensus threshold from registry.
+
+        Args:
+            glyph_id: GLYPH identifier
+            strategy: Consensus strategy ("latest", "average", "max", "min")
+
+        Returns:
+            Consensus threshold value or None
+        """
+        data = self.registry.get_threshold(glyph_id)
+
+        if not data:
+            return None
+
+        if strategy == "latest":
+            return data.get("threshold")
+
+        # For other strategies, would need to query multiple instances
+        # This is simplified for now
+        return data.get("threshold")
+
+    def start_background_sync(self) -> None:
+        """Start background synchronization thread."""
+        if self._running:
+            self._logger.warning("Background sync already running")
+            return
+
+        self._running = True
+
+        def sync_loop():
+            while self._running:
+                try:
+                    self._perform_sync()
+                except Exception as e:
+                    self._logger.error(f"Error in sync loop: {e}")
+
+                time.sleep(self.sync_interval)
+
+        self._sync_thread = threading.Thread(target=sync_loop, daemon=True)
+        self._sync_thread.start()
+
+        self._logger.info("Started background synchronization")
+
+    def _perform_sync(self) -> None:
+        """Perform periodic synchronization check."""
+        # Re-publish local thresholds to ensure freshness
+        for glyph_id, threshold in self._local_thresholds.items():
+            self.publish_threshold_update(glyph_id, threshold)
+
+    def stop_background_sync(self) -> None:
+        """Stop background synchronization."""
+        self._running = False
+        if self._sync_thread:
+            self._sync_thread.join(timeout=2.0)
+
+        self._logger.info("Stopped background synchronization")
+
+
+# Integration into GlyphSpecialist
+class GlyphSpecialist:
+    """Symbolic GLYPH specialist with distributed synchronization."""
+
+    def __init__(
+        self,
+        *,
+        drift_threshold: float = 0.85,
+        enable_distributed_sync: bool = False,
+        registry_backend: str = "memory",
+        redis_url: Optional[str] = None
+    ):
+        """
+        Initialize GLYPH specialist.
+
+        Args:
+            drift_threshold: Local drift threshold
+            enable_distributed_sync: Enable distributed registry sync
+            registry_backend: "redis" or "memory"
+            redis_url: Redis connection URL (if using Redis)
+        """
+        self.drift_threshold = drift_threshold
+        self._logger = logging.getLogger(__name__)
+
+        # Distributed synchronization
+        self._enable_distributed_sync = enable_distributed_sync
+        if enable_distributed_sync:
+            registry = self._create_registry(registry_backend, redis_url)
+            self._synchronizer = DistributedGlyphSynchronizer(registry)
+
+            # Subscribe to threshold updates
+            glyph_id = "default"  # Could be made configurable
+            self._synchronizer.subscribe_to_glyph(
+                glyph_id,
+                self._on_remote_threshold_update
+            )
+
+            self._synchronizer.start_background_sync()
+        else:
+            self._synchronizer = None
+
+    def _create_registry(
+        self,
+        backend_type: str,
+        redis_url: Optional[str]
+    ) -> GlyphRegistryBackend:
+        """Create registry backend."""
+        if backend_type == "redis":
+            return RedisGlyphRegistry(redis_url or "redis://localhost:6379/0")
+        elif backend_type == "memory":
+            return InMemoryGlyphRegistry()
+        else:
+            raise ValueError(f"Unknown registry backend: {backend_type}")
+
+    def update_threshold(self, new_threshold: float) -> None:
+        """
+        Update drift threshold used for consensus.
+
+        Syncs to distributed registry if enabled.
+        """
+        if new_threshold <= 0:
+            raise ValueError("new_threshold must be positive")
+
+        self.drift_threshold = new_threshold
+        self._logger.info(
+            "# ΛTAG: glyph_threshold_update -- updated drift threshold",
+            extra={"drift_threshold": new_threshold},
+        )
+
+        # Sync to distributed registry
+        if self._enable_distributed_sync and self._synchronizer:
+            self._synchronizer.publish_threshold_update("default", new_threshold)
+
+    def _on_remote_threshold_update(
+        self,
+        threshold: float,
+        metadata: Dict[str, Any]
+    ) -> None:
+        """
+        Handle threshold update from remote instance.
+
+        Args:
+            threshold: Updated threshold value
+            metadata: Update metadata (instance_id, timestamp, etc.)
+        """
+        self._logger.info(
+            "Received remote threshold update",
+            extra={
+                "new_threshold": threshold,
+                "from_instance": metadata.get("instance_id"),
+                "timestamp": metadata.get("timestamp")
+            }
+        )
+
+        # Apply update (could add conflict resolution logic here)
+        self.drift_threshold = threshold
+```
+
+### **Testing Requirements**
+
+Create tests in `tests/unit/core/symbolic/test_glyph_registry.py`:
+
+```python
+import pytest
+import time
+from unittest.mock import Mock
+from core.symbolic.glyph_specialist import (
+    InMemoryGlyphRegistry,
+    DistributedGlyphSynchronizer,
+    GlyphSpecialist
+)
+
+class TestInMemoryRegistry:
+
+    def test_publish_and_get_threshold(self):
+        """Test publishing and retrieving thresholds."""
+        registry = InMemoryGlyphRegistry()
+
+        registry.publish_threshold(
+            "glyph1",
+            0.85,
+            {"instance": "test"}
+        )
+
+        data = registry.get_threshold("glyph1")
+
+        assert data["threshold"] == 0.85
+        assert data["instance"] == "test"
+
+    def test_subscribe_to_updates(self):
+        """Test subscription to threshold updates."""
+        registry = InMemoryGlyphRegistry()
+
+        updates = []
+
+        def callback(threshold, metadata):
+            updates.append((threshold, metadata))
+
+        registry.subscribe_to_updates("glyph1", callback)
+
+        registry.publish_threshold("glyph1", 0.9, {"test": "data"})
+
+        assert len(updates) == 1
+        assert updates[0][0] == 0.9
+
+    def test_list_all_glyphs(self):
+        """Test listing all glyphs."""
+        registry = InMemoryGlyphRegistry()
+
+        registry.publish_threshold("glyph1", 0.85, {})
+        registry.publish_threshold("glyph2", 0.75, {})
+
+        glyphs = registry.list_all_glyphs()
+
+        assert len(glyphs) == 2
+        assert "glyph1" in glyphs
+        assert "glyph2" in glyphs
+
+
+class TestDistributedSynchronizer:
+
+    @pytest.fixture
+    def registry(self):
+        """Create in-memory registry."""
+        return InMemoryGlyphRegistry()
+
+    @pytest.fixture
+    def synchronizer(self, registry):
+        """Create synchronizer."""
+        return DistributedGlyphSynchronizer(
+            registry,
+            instance_id="test_instance",
+            sync_interval=1.0
+        )
+
+    def test_publish_threshold_update(self, synchronizer):
+        """Test publishing threshold update."""
+        synchronizer.publish_threshold_update("glyph1", 0.85)
+
+        data = synchronizer.registry.get_threshold("glyph1")
+
+        assert data["threshold"] == 0.85
+        assert data["instance_id"] == "test_instance"
+
+    def test_subscribe_to_glyph(self, synchronizer):
+        """Test subscribing to GLYPH updates."""
+        updates = []
+
+        def callback(threshold, metadata):
+            updates.append(threshold)
+
+        synchronizer.subscribe_to_glyph("glyph1", callback)
+
+        # Publish from different instance
+        synchronizer.registry.publish_threshold(
+            "glyph1",
+            0.9,
+            {"instance_id": "other_instance"}
+        )
+
+        # Should receive update
+        assert len(updates) == 1
+        assert updates[0] == 0.9
+
+    def test_ignores_own_updates(self, synchronizer):
+        """Test that own updates are ignored in subscription."""
+        updates = []
+
+        def callback(threshold, metadata):
+            updates.append(threshold)
+
+        synchronizer.subscribe_to_glyph("glyph1", callback)
+
+        # Publish from same instance
+        synchronizer.publish_threshold_update("glyph1", 0.85)
+
+        # Should NOT receive update (own instance)
+        assert len(updates) == 0
+
+    def test_get_consensus_threshold(self, synchronizer):
+        """Test getting consensus threshold."""
+        synchronizer.publish_threshold_update("glyph1", 0.85)
+
+        consensus = synchronizer.get_consensus_threshold("glyph1", strategy="latest")
+
+        assert consensus == 0.85
+
+    def test_background_sync(self, synchronizer):
+        """Test background synchronization."""
+        synchronizer.start_background_sync()
+
+        assert synchronizer._running is True
+
+        # Publish threshold
+        synchronizer.publish_threshold_update("glyph1", 0.85)
+
+        # Wait for sync
+        time.sleep(2.0)
+
+        # Verify threshold still present
+        data = synchronizer.registry.get_threshold("glyph1")
+        assert data["threshold"] == 0.85
+
+        synchronizer.stop_background_sync()
+        assert synchronizer._running is False
+
+
+class TestGlyphSpecialistIntegration:
+
+    def test_glyph_specialist_with_distributed_sync(self):
+        """Test GlyphSpecialist with distributed sync enabled."""
+        specialist = GlyphSpecialist(
+            drift_threshold=0.85,
+            enable_distributed_sync=True,
+            registry_backend="memory"
+        )
+
+        # Update threshold
+        specialist.update_threshold(0.9)
+
+        # Verify it was synced to registry
+        assert specialist.drift_threshold == 0.9
+
+    def test_glyph_specialist_without_sync(self):
+        """Test GlyphSpecialist without distributed sync."""
+        specialist = GlyphSpecialist(
+            drift_threshold=0.85,
+            enable_distributed_sync=False
+        )
+
+        # Update threshold
+        specialist.update_threshold(0.9)
+
+        # Should work without registry
+        assert specialist.drift_threshold == 0.9
+
+    def test_remote_threshold_propagation(self):
+        """Test that remote updates propagate to local instance."""
+        # Create two instances sharing same registry
+        registry = InMemoryGlyphRegistry()
+
+        sync1 = DistributedGlyphSynchronizer(registry, instance_id="instance1")
+        sync2 = DistributedGlyphSynchronizer(registry, instance_id="instance2")
+
+        # Track updates on instance2
+        updates = []
+
+        def callback(threshold, metadata):
+            updates.append(threshold)
+
+        sync2.subscribe_to_glyph("default", callback)
+
+        # Publish from instance1
+        sync1.publish_threshold_update("default", 0.95)
+
+        # Instance2 should receive update
+        assert len(updates) == 1
+        assert updates[0] == 0.95
+```
+
+### **Acceptance Criteria**
+
+✅ **Functional Requirements**:
+- [ ] `GlyphRegistryBackend` protocol
+- [ ] `RedisGlyphRegistry` implementation
+- [ ] `InMemoryGlyphRegistry` implementation
+- [ ] `DistributedGlyphSynchronizer` class
+- [ ] Publish threshold to registry
+- [ ] Subscribe to threshold updates
+- [ ] Background synchronization thread
+- [ ] Consensus threshold retrieval
+- [ ] Integration into `GlyphSpecialist`
+- [ ] Optional enable/disable flag
+
+✅ **Testing Requirements**:
+- [ ] In-memory registry tests (3+ tests)
+- [ ] Synchronizer tests (6+ tests)
+- [ ] GlyphSpecialist integration tests (3+ tests)
+- [ ] Test multi-instance synchronization
+- [ ] Test update propagation
+- [ ] Test own-update filtering
+
+✅ **Documentation**:
+- [ ] Docstrings for all classes
+- [ ] Registry backend selection guide
+- [ ] Configuration examples
+- [ ] TODO comment removed
+
+✅ **Configuration**:
+- [ ] Environment variables for registry backend
+- [ ] Redis URL configuration
+- [ ] Sync interval configuration
+
+### **Configuration**
+
+```python
+# config/glyph_registry.py
+
+import os
+
+DISTRIBUTED_SYNC_ENABLED = os.getenv("GLYPH_DISTRIBUTED_SYNC", "0") == "1"
+REGISTRY_BACKEND = os.getenv("GLYPH_REGISTRY_BACKEND", "memory")  # "redis" or "memory"
+REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+SYNC_INTERVAL = float(os.getenv("GLYPH_SYNC_INTERVAL", "5.0"))
+```
+
+### **References**
+
+- **Module**: `core/symbolic/glyph_specialist.py`
+- **Symbolic Systems**: `core/symbolic/`
+- **Distributed Systems**: Redis pub/sub, etcd
+- **Documentation**: LUKHAS distributed architecture
+
+---
+
+## TODO #7: Blockchain Integration for Decentralized Dream Commerce
+
+**File**: `core/bridge/dream_commerce.py`
+**Line**: 46
+**Complexity**: Very High
+**Estimated Effort**: 6-10 hours
+**Owner**: blockchain-team / dream-commerce-team
+
+### **Context**
+
+The Dream Commerce system (SEEDRA Protocol) provides consent-driven dream experience generation with commercial integration. Currently lacks blockchain backend for decentralized commerce. The TODO requests adding **blockchain integration** for transparent, trustless dream content transactions.
+
+**Current System (SEEDRA Protocol)**:
+- Creative, Brand, Educational, Therapeutic dream content
+- Consent-driven marketing with privacy preservation
+- Revenue sharing and creator compensation
+- Ethical advertising boundary enforcement
+- Dream experience marketplace
+
+**Current TODO**:
+```python
+# Line 46 in core/bridge/dream_commerce.py
+ΛTODO: Add blockchain integration for decentralized dream commerce
+```
+
+### **Technical Requirements**
+
+**Goal**: Implement blockchain-based smart contracts for:
+1. **Dream Content NFTs**: Tokenize dream experiences as NFTs
+2. **Royalty Distribution**: Automated creator compensation
+3. **Consent Ledger**: Immutable consent tracking
+4. **Escrow Payments**: Trustless payment handling
+5. **Reputation System**: On-chain creator/consumer reputation
+
+**Blockchain Architecture**:
+- **Smart Contracts**: Solidity contracts for Ethereum/Polygon
+- **Web3 Integration**: Python web3.py for blockchain interaction
+- **IPFS Storage**: Decentralized dream content storage
+- **Oracle Integration**: Off-chain data verification
+- **Gas Optimization**: Minimize transaction costs
+
+**Implementation Approach**:
+
+```python
+# Add to core/bridge/dream_commerce.py
+
+from typing import Optional, Dict, List, Any
+from decimal import Decimal
+from dataclasses import dataclass
+from datetime import datetime, timezone
+import json
+import hashlib
+
+# Blockchain dependencies (optional)
+try:
+    from web3 import Web3, HTTPProvider
+    from web3.contract import Contract
+    WEB3_AVAILABLE = True
+except ImportError:
+    WEB3_AVAILABLE = False
+
+try:
+    import ipfshttpclient
+    IPFS_AVAILABLE = True
+except ImportError:
+    IPFS_AVAILABLE = False
+
+
+@dataclass
+class DreamContentNFT:
+    """Represents a dream content NFT."""
+    token_id: int
+    dream_seed_id: str
+    creator_address: str
+    content_hash: str  # IPFS hash
+    metadata_uri: str  # IPFS metadata URI
+    mint_timestamp: datetime
+    royalty_percentage: Decimal  # 0-100
+    license_terms: Dict[str, Any]
+
+
+@dataclass
+class ConsentRecord:
+    """Blockchain-backed consent record."""
+    user_address: str
+    dream_seed_id: str
+    consent_given: bool
+    timestamp: datetime
+    transaction_hash: str
+    ipfs_proof_hash: Optional[str] = None
+
+
+class DreamCommerceBlockchain:
+    """
+    Blockchain integration for decentralized dream commerce.
+
+    Manages NFT minting, royalty distribution, and consent ledger
+    on Ethereum-compatible blockchains.
+    """
+
+    # Smart contract ABIs (simplified for example)
+    DREAM_NFT_ABI = json.loads('''[
+        {
+            "inputs": [{"type": "string", "name": "contentHash"}, {"type": "uint256", "name": "royalty"}],
+            "name": "mintDreamNFT",
+            "outputs": [{"type": "uint256"}],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [{"type": "uint256", "name": "tokenId"}],
+            "name": "tokenURI",
+            "outputs": [{"type": "string"}],
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ]''')
+
+    CONSENT_LEDGER_ABI = json.loads('''[
+        {
+            "inputs": [{"type": "string", "name": "dreamSeedId"}, {"type": "bool", "name": "consent"}],
+            "name": "recordConsent",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [{"type": "address", "name": "user"}, {"type": "string", "name": "dreamSeedId"}],
+            "name": "getConsent",
+            "outputs": [{"type": "bool"}],
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ]''')
+
+    def __init__(
+        self,
+        *,
+        blockchain_rpc_url: str = "http://localhost:8545",
+        dream_nft_contract_address: Optional[str] = None,
+        consent_ledger_address: Optional[str] = None,
+        ipfs_api: str = "/ip4/127.0.0.1/tcp/5001",
+        private_key: Optional[str] = None
+    ):
+        """
+        Initialize blockchain integration.
+
+        Args:
+            blockchain_rpc_url: Ethereum RPC endpoint
+            dream_nft_contract_address: Deployed NFT contract address
+            consent_ledger_address: Deployed consent ledger address
+            ipfs_api: IPFS API endpoint
+            private_key: Private key for signing transactions
+        """
+        if not WEB3_AVAILABLE:
+            raise ImportError("Blockchain features require web3: pip install web3")
+
+        self.w3 = Web3(HTTPProvider(blockchain_rpc_url))
+
+        if not self.w3.is_connected():
+            raise ConnectionError(f"Cannot connect to blockchain at {blockchain_rpc_url}")
+
+        self.dream_nft_address = dream_nft_contract_address
+        self.consent_ledger_address = consent_ledger_address
+        self._private_key = private_key
+
+        # Initialize contracts
+        self.dream_nft_contract: Optional[Contract] = None
+        self.consent_ledger_contract: Optional[Contract] = None
+
+        if dream_nft_contract_address:
+            self.dream_nft_contract = self.w3.eth.contract(
+                address=dream_nft_contract_address,
+                abi=self.DREAM_NFT_ABI
+            )
+
+        if consent_ledger_address:
+            self.consent_ledger_contract = self.w3.eth.contract(
+                address=consent_ledger_address,
+                abi=self.CONSENT_LEDGER_ABI
+            )
+
+        # IPFS client
+        self._ipfs_client = None
+        if IPFS_AVAILABLE:
+            try:
+                self._ipfs_client = ipfshttpclient.connect(ipfs_api)
+            except Exception as e:
+                logging.warning(f"Could not connect to IPFS: {e}")
+
+        self._logger = logging.getLogger(__name__)
+
+    def upload_to_ipfs(self, content: bytes) -> str:
+        """
+        Upload content to IPFS.
+
+        Args:
+            content: Raw content bytes
+
+        Returns:
+            IPFS hash (CID)
+        """
+        if not self._ipfs_client:
+            raise RuntimeError("IPFS client not available")
+
+        result = self._ipfs_client.add_bytes(content)
+        ipfs_hash = result
+
+        self._logger.info(f"Uploaded to IPFS: {ipfs_hash}")
+
+        return ipfs_hash
+
+    def mint_dream_nft(
+        self,
+        dream_seed_id: str,
+        content: bytes,
+        creator_address: str,
+        royalty_percentage: Decimal,
+        metadata: Dict[str, Any]
+    ) -> DreamContentNFT:
+        """
+        Mint a dream content NFT on blockchain.
+
+        Args:
+            dream_seed_id: Dream seed identifier
+            content: Dream content (imagery, audio, etc.)
+            creator_address: Creator's blockchain address
+            royalty_percentage: Royalty for secondary sales (0-100)
+            metadata: NFT metadata
+
+        Returns:
+            DreamContentNFT with token ID and IPFS hashes
+        """
+        if not self.dream_nft_contract:
+            raise RuntimeError("Dream NFT contract not initialized")
+
+        # Upload content to IPFS
+        content_hash = self.upload_to_ipfs(content)
+
+        # Create metadata
+        nft_metadata = {
+            "name": metadata.get("name", f"Dream {dream_seed_id}"),
+            "description": metadata.get("description", ""),
+            "image": f"ipfs://{content_hash}",
+            "dream_seed_id": dream_seed_id,
+            "creator": creator_address,
+            "royalty": float(royalty_percentage),
+            **metadata
+        }
+
+        # Upload metadata to IPFS
+        metadata_bytes = json.dumps(nft_metadata).encode()
+        metadata_hash = self.upload_to_ipfs(metadata_bytes)
+        metadata_uri = f"ipfs://{metadata_hash}"
+
+        # Mint NFT on blockchain
+        account = self.w3.eth.account.from_key(self._private_key)
+
+        tx = self.dream_nft_contract.functions.mintDreamNFT(
+            content_hash,
+            int(royalty_percentage)
+        ).build_transaction({
+            'from': account.address,
+            'nonce': self.w3.eth.get_transaction_count(account.address),
+            'gas': 200000,
+            'gasPrice': self.w3.eth.gas_price
+        })
+
+        # Sign and send transaction
+        signed_tx = account.sign_transaction(tx)
+        tx_hash = self.w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+
+        # Wait for confirmation
+        receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
+
+        # Extract token ID from logs (simplified)
+        token_id = int.from_bytes(receipt['logs'][0]['topics'][1], 'big')
+
+        nft = DreamContentNFT(
+            token_id=token_id,
+            dream_seed_id=dream_seed_id,
+            creator_address=creator_address,
+            content_hash=content_hash,
+            metadata_uri=metadata_uri,
+            mint_timestamp=datetime.now(timezone.utc),
+            royalty_percentage=royalty_percentage,
+            license_terms=metadata.get("license", {})
+        )
+
+        self._logger.info(
+            f"Minted Dream NFT #{token_id}",
+            extra={
+                "dream_seed_id": dream_seed_id,
+                "creator": creator_address,
+                "tx_hash": tx_hash.hex()
+            }
+        )
+
+        return nft
+
+    def record_consent_on_chain(
+        self,
+        user_address: str,
+        dream_seed_id: str,
+        consent_given: bool
+    ) -> ConsentRecord:
+        """
+        Record user consent on blockchain for immutable audit trail.
+
+        Args:
+            user_address: User's blockchain address
+            dream_seed_id: Dream seed identifier
+            consent_given: Whether consent was given
+
+        Returns:
+            ConsentRecord with transaction hash
+        """
+        if not self.consent_ledger_contract:
+            raise RuntimeError("Consent ledger contract not initialized")
+
+        account = self.w3.eth.account.from_key(self._private_key)
+
+        # Build transaction
+        tx = self.consent_ledger_contract.functions.recordConsent(
+            dream_seed_id,
+            consent_given
+        ).build_transaction({
+            'from': account.address,
+            'nonce': self.w3.eth.get_transaction_count(account.address),
+            'gas': 100000,
+            'gasPrice': self.w3.eth.gas_price
+        })
+
+        # Sign and send
+        signed_tx = account.sign_transaction(tx)
+        tx_hash = self.w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+
+        # Wait for confirmation
+        self.w3.eth.wait_for_transaction_receipt(tx_hash)
+
+        record = ConsentRecord(
+            user_address=user_address,
+            dream_seed_id=dream_seed_id,
+            consent_given=consent_given,
+            timestamp=datetime.now(timezone.utc),
+            transaction_hash=tx_hash.hex()
+        )
+
+        self._logger.info(
+            f"Recorded consent on-chain",
+            extra={
+                "user": user_address,
+                "dream_seed": dream_seed_id,
+                "consent": consent_given,
+                "tx_hash": tx_hash.hex()
+            }
+        )
+
+        return record
+
+    def verify_consent_on_chain(
+        self,
+        user_address: str,
+        dream_seed_id: str
+    ) -> bool:
+        """
+        Verify consent from blockchain ledger.
+
+        Args:
+            user_address: User's blockchain address
+            dream_seed_id: Dream seed identifier
+
+        Returns:
+            True if consent was given, False otherwise
+        """
+        if not self.consent_ledger_contract:
+            raise RuntimeError("Consent ledger contract not initialized")
+
+        consent = self.consent_ledger_contract.functions.getConsent(
+            user_address,
+            dream_seed_id
+        ).call()
+
+        return bool(consent)
+
+    def distribute_royalties(
+        self,
+        token_id: int,
+        sale_amount: Decimal,
+        buyer_address: str
+    ) -> Dict[str, Decimal]:
+        """
+        Distribute royalties from secondary sale.
+
+        Args:
+            token_id: NFT token ID
+            sale_amount: Sale price in wei
+            buyer_address: Buyer's address
+
+        Returns:
+            Dict mapping addresses to amounts
+        """
+        # This would interact with a marketplace contract
+        # Simplified implementation
+
+        # Get royalty percentage from NFT metadata
+        metadata_uri = self.dream_nft_contract.functions.tokenURI(token_id).call()
+        # Fetch and parse metadata...
+
+        # Calculate distributions
+        royalty_percentage = Decimal("10")  # From metadata
+        creator_amount = sale_amount * royalty_percentage / 100
+        seller_amount = sale_amount - creator_amount
+
+        return {
+            "creator": creator_amount,
+            "seller": seller_amount
+        }
+
+
+# Integration into DreamCommerceService
+class DreamCommerceService:
+    """Dream commerce service with blockchain integration."""
+
+    def __init__(
+        self,
+        *,
+        enable_blockchain: bool = False,
+        blockchain_config: Optional[Dict[str, Any]] = None
+    ):
+        """
+        Initialize dream commerce service.
+
+        Args:
+            enable_blockchain: Enable blockchain features
+            blockchain_config: Blockchain configuration dict
+        """
+        self._enable_blockchain = enable_blockchain and WEB3_AVAILABLE
+
+        if self._enable_blockchain:
+            self._blockchain = DreamCommerceBlockchain(**(blockchain_config or {}))
+        else:
+            self._blockchain = None
+
+    def publish_dream_content(
+        self,
+        dream_seed: Dict[str, Any],
+        content: bytes,
+        creator_address: str,
+        royalty_percentage: Decimal = Decimal("10")
+    ) -> Dict[str, Any]:
+        """
+        Publish dream content as NFT (if blockchain enabled).
+
+        Args:
+            dream_seed: Dream seed data
+            content: Dream content bytes
+            creator_address: Creator's blockchain address
+            royalty_percentage: Royalty for secondary sales
+
+        Returns:
+            Publication result with NFT details
+        """
+        if not self._enable_blockchain or not self._blockchain:
+            # Fallback to traditional publishing
+            return {
+                "published": True,
+                "blockchain": False,
+                "dream_seed_id": dream_seed["id"]
+            }
+
+        # Mint as NFT
+        nft = self._blockchain.mint_dream_nft(
+            dream_seed_id=dream_seed["id"],
+            content=content,
+            creator_address=creator_address,
+            royalty_percentage=royalty_percentage,
+            metadata={
+                "name": dream_seed.get("title"),
+                "description": dream_seed.get("description"),
+                "category": dream_seed.get("type")
+            }
+        )
+
+        return {
+            "published": True,
+            "blockchain": True,
+            "dream_seed_id": dream_seed["id"],
+            "nft": {
+                "token_id": nft.token_id,
+                "content_hash": nft.content_hash,
+                "metadata_uri": nft.metadata_uri
+            }
+        }
+```
+
+### **Smart Contract Example (Solidity)**
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract DreamContentNFT is ERC721, Ownable {
+    uint256 private _tokenIdCounter;
+
+    struct DreamNFT {
+        string contentHash;  // IPFS hash
+        uint256 royaltyPercentage;  // 0-100
+        address creator;
+    }
+
+    mapping(uint256 => DreamNFT) public dreamNFTs;
+
+    event DreamMinted(uint256 indexed tokenId, string contentHash, address creator);
+
+    constructor() ERC721("DreamContent", "DREAM") {}
+
+    function mintDreamNFT(string memory contentHash, uint256 royaltyPercentage)
+        public
+        returns (uint256)
+    {
+        require(royaltyPercentage <= 100, "Royalty cannot exceed 100%");
+
+        uint256 tokenId = _tokenIdCounter;
+        _tokenIdCounter++;
+
+        _safeMint(msg.sender, tokenId);
+
+        dreamNFTs[tokenId] = DreamNFT({
+            contentHash: contentHash,
+            royaltyPercentage: royaltyPercentage,
+            creator: msg.sender
+        });
+
+        emit DreamMinted(tokenId, contentHash, msg.sender);
+
+        return tokenId;
+    }
+
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        override
+        returns (string memory)
+    {
+        require(_exists(tokenId), "Token does not exist");
+        return string(abi.encodePacked("ipfs://", dreamNFTs[tokenId].contentHash));
+    }
+}
+
+contract ConsentLedger is Ownable {
+    mapping(address => mapping(string => bool)) private consents;
+
+    event ConsentRecorded(address indexed user, string dreamSeedId, bool consent);
+
+    function recordConsent(string memory dreamSeedId, bool consent) public {
+        consents[msg.sender][dreamSeedId] = consent;
+        emit ConsentRecorded(msg.sender, dreamSeedId, consent);
+    }
+
+    function getConsent(address user, string memory dreamSeedId)
+        public
+        view
+        returns (bool)
+    {
+        return consents[user][dreamSeedId];
+    }
+}
+```
+
+### **Testing Requirements**
+
+Create tests in `tests/unit/core/bridge/test_dream_blockchain.py`:
+
+```python
+import pytest
+from decimal import Decimal
+from unittest.mock import Mock, MagicMock, patch
+from core.bridge.dream_commerce import (
+    DreamCommerceBlockchain,
+    DreamContentNFT,
+    ConsentRecord,
+    WEB3_AVAILABLE
+)
+
+pytestmark = pytest.mark.skipif(
+    not WEB3_AVAILABLE,
+    reason="Web3 dependencies not available"
+)
+
+
+class TestDreamCommerceBlockchain:
+
+    @pytest.fixture
+    def mock_web3(self):
+        """Mock Web3 instance."""
+        with patch('core.bridge.dream_commerce.Web3') as mock_w3_class:
+            mock_w3 = MagicMock()
+            mock_w3.is_connected.return_value = True
+            mock_w3.eth.gas_price = 1000000000
+            mock_w3_class.return_value = mock_w3
+            yield mock_w3
+
+    @pytest.fixture
+    def blockchain(self, mock_web3):
+        """Create blockchain instance with mocks."""
+        with patch('core.bridge.dream_commerce.ipfshttpclient'):
+            bc = DreamCommerceBlockchain(
+                blockchain_rpc_url="http://localhost:8545",
+                dream_nft_contract_address="0x" + "1" * 40,
+                consent_ledger_address="0x" + "2" * 40,
+                private_key="0x" + "a" * 64
+            )
+            yield bc
+
+    def test_initialization(self, blockchain):
+        """Test blockchain initialization."""
+        assert blockchain.w3 is not None
+        assert blockchain.dream_nft_address == "0x" + "1" * 40
+
+    def test_upload_to_ipfs(self, blockchain):
+        """Test IPFS upload."""
+        with patch.object(blockchain, '_ipfs_client') as mock_ipfs:
+            mock_ipfs.add_bytes.return_value = "Qm123abc"
+
+            content = b"test dream content"
+            ipfs_hash = blockchain.upload_to_ipfs(content)
+
+            assert ipfs_hash == "Qm123abc"
+            mock_ipfs.add_bytes.assert_called_once_with(content)
+
+    def test_mint_dream_nft(self, blockchain):
+        """Test NFT minting."""
+        # Mock IPFS uploads
+        with patch.object(blockchain, 'upload_to_ipfs', side_effect=["Qm123content", "Qm456metadata"]):
+            # Mock contract transaction
+            with patch.object(blockchain.dream_nft_contract.functions, 'mintDreamNFT') as mock_mint:
+                mock_build = MagicMock()
+                mock_build.build_transaction.return_value = {"gas": 200000}
+                mock_mint.return_value = mock_build
+
+                # Mock transaction sending
+                with patch.object(blockchain.w3.eth, 'send_raw_transaction', return_value=b'\x12\x34'):
+                    with patch.object(blockchain.w3.eth, 'wait_for_transaction_receipt') as mock_receipt:
+                        mock_receipt.return_value = {
+                            'logs': [{'topics': [b'', b'\x00' * 31 + b'\x01']}]
+                        }
+
+                        nft = blockchain.mint_dream_nft(
+                            dream_seed_id="dream_001",
+                            content=b"dream content",
+                            creator_address="0x" + "3" * 40,
+                            royalty_percentage=Decimal("10"),
+                            metadata={"name": "Test Dream"}
+                        )
+
+                        assert isinstance(nft, DreamContentNFT)
+                        assert nft.token_id == 1
+                        assert nft.content_hash == "Qm123content"
+
+    def test_record_consent_on_chain(self, blockchain):
+        """Test consent recording."""
+        with patch.object(blockchain.consent_ledger_contract.functions, 'recordConsent') as mock_record:
+            mock_build = MagicMock()
+            mock_build.build_transaction.return_value = {"gas": 100000}
+            mock_record.return_value = mock_build
+
+            with patch.object(blockchain.w3.eth, 'send_raw_transaction', return_value=b'\xab\xcd'):
+                with patch.object(blockchain.w3.eth, 'wait_for_transaction_receipt'):
+                    record = blockchain.record_consent_on_chain(
+                        user_address="0x" + "4" * 40,
+                        dream_seed_id="dream_001",
+                        consent_given=True
+                    )
+
+                    assert isinstance(record, ConsentRecord)
+                    assert record.consent_given is True
+                    assert record.transaction_hash is not None
+
+    def test_verify_consent_on_chain(self, blockchain):
+        """Test consent verification."""
+        with patch.object(blockchain.consent_ledger_contract.functions, 'getConsent') as mock_get:
+            mock_call = MagicMock()
+            mock_call.call.return_value = True
+            mock_get.return_value = mock_call
+
+            consent = blockchain.verify_consent_on_chain(
+                user_address="0x" + "4" * 40,
+                dream_seed_id="dream_001"
+            )
+
+            assert consent is True
+```
+
+### **Acceptance Criteria**
+
+✅ **Functional Requirements**:
+- [ ] `DreamContentNFT` and `ConsentRecord` dataclasses
+- [ ] `DreamCommerceBlockchain` class
+- [ ] IPFS content upload
+- [ ] NFT minting with royalties
+- [ ] Consent recording on-chain
+- [ ] Consent verification from chain
+- [ ] Royalty distribution calculation
+- [ ] Integration into `DreamCommerceService`
+- [ ] Smart contract examples (Solidity)
+
+✅ **Testing Requirements**:
+- [ ] Blockchain integration tests (5+ tests)
+- [ ] Mock Web3 interactions
+- [ ] IPFS upload tests
+- [ ] NFT minting tests
+- [ ] Consent ledger tests
+- [ ] Graceful degradation if blockchain unavailable
+
+✅ **Documentation**:
+- [ ] Comprehensive docstrings
+- [ ] Smart contract documentation
+- [ ] Deployment guide
+- [ ] TODO comment removed
+
+✅ **Dependencies**:
+- [ ] `web3>=6.0.0`
+- [ ] `ipfshttpclient>=0.8.0`
+- [ ] OpenZeppelin contracts for Solidity
+
+### **Configuration**
+
+```python
+# config/blockchain.py
+
+import os
+
+BLOCKCHAIN_ENABLED = os.getenv("BLOCKCHAIN_ENABLED", "0") == "1"
+BLOCKCHAIN_RPC_URL = os.getenv("BLOCKCHAIN_RPC_URL", "http://localhost:8545")
+DREAM_NFT_CONTRACT = os.getenv("DREAM_NFT_CONTRACT_ADDRESS")
+CONSENT_LEDGER_CONTRACT = os.getenv("CONSENT_LEDGER_CONTRACT_ADDRESS")
+IPFS_API = os.getenv("IPFS_API", "/ip4/127.0.0.1/tcp/5001")
+BLOCKCHAIN_PRIVATE_KEY = os.getenv("BLOCKCHAIN_PRIVATE_KEY")  # Keep secure!
+```
+
+### **References**
+
+- **Module**: `core/bridge/dream_commerce.py`
+- **Dream Systems**: `candidate/consciousness/dream/`
+- **SEEDRA Protocol**: Dream content consent and commerce
+- **Documentation**: Blockchain integration architecture
+
+---
+
 ## ✅ Submission Checklist
 
 Before considering a TODO complete:
@@ -1937,6 +5166,6 @@ Before considering a TODO complete:
 
 **Generated for**: Claude Code Web
 **Repository**: /Users/agi_dev/LOCAL-REPOS/Lukhas
-**Contact**: @consciousness-team, @ethics-team, @governance-team
+**Contact**: @consciousness-team, @ethics-team, @governance-team, @quantum-team, @blockchain-team
 
 *Use these prompts to delegate complex TODOs while maintaining LUKHAS architecture patterns and quality standards.*
