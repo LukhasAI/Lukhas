@@ -1,8 +1,19 @@
 // Signup flow implementation
 import { randomInt } from 'crypto';
 import { createHash } from 'crypto';
+import { createEmailServiceFromEnv } from './email-service';
 
 const verificationCodes = new Map<string, { code: string; expires: number }>();
+
+// Initialize email service
+let emailService: ReturnType<typeof createEmailServiceFromEnv> | null = null;
+
+function getEmailService() {
+  if (!emailService) {
+    emailService = createEmailServiceFromEnv();
+  }
+  return emailService;
+}
 
 export async function sendSignupEmail({ email }: { email: string }) {
   const code = randomInt(100000, 999999).toString();
@@ -11,9 +22,27 @@ export async function sendSignupEmail({ email }: { email: string }) {
   const hashedEmail = createHash('sha256').update(email.toLowerCase()).digest('hex');
   verificationCodes.set(hashedEmail, { code, expires });
 
-  // TODO: Send email with code
-  console.log(`Verification code for ${email}: ${code}`);
+  // Send email with verification code
+  try {
+    const service = getEmailService();
+    const result = await service.sendVerificationCode({
+      email,
+      code,
+      expiresInMinutes: 10,
+      purpose: 'register',
+      language: 'en' // TODO: Get from user preferences or Accept-Language header
+    });
 
+    if (!result.success) {
+      console.error(`[Signup] Failed to send verification email to ${email}:`, result.error);
+    } else {
+      console.log(`[Signup] Sent verification code to ${email} (Message ID: ${result.messageId})`);
+    }
+  } catch (error) {
+    console.error(`[Signup] Error sending email:`, error);
+  }
+
+  // Always return success for enumeration safety
   return { ok: true };
 }
 
@@ -34,8 +63,8 @@ export async function verifySignupEmail({ email, code }: { email: string; code: 
 
   verificationCodes.delete(hashedEmail);
 
-  // TODO: Create user account
-  const userId = 'user_' + Date.now();
-
-  return { success: true, userId };
+  // User account creation handled by caller (typically in API route)
+  // This allows for proper database integration and transaction handling
+  // Returns success to indicate code verification passed
+  return { success: true, email: hashedEmail };
 }
