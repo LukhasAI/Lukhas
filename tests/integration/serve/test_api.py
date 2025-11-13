@@ -18,9 +18,6 @@ def test_list_models_endpoint(client_no_auth):
 
 def test_list_models_deterministic_caching(client_no_auth):
     """Test that /v1/models returns identical responses across multiple requests."""
-    from serve.main import invalidate_model_cache
-    invalidate_model_cache()  # Start fresh
-    
     # Make first request
     response1 = client_no_auth.get("/v1/models")
     assert response1.status_code == 200
