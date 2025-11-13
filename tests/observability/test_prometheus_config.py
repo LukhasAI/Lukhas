@@ -1,11 +1,12 @@
 """Tests for the Prometheus configuration and metrics endpoint."""
 
-import pytest
-from fastapi.testclient import TestClient
-from unittest.mock import MagicMock
-
 # Mock modules that are not needed for these tests
 import sys
+from unittest.mock import MagicMock
+
+import pytest
+from fastapi.testclient import TestClient
+
 sys.modules['async_lru'] = MagicMock()
 sys.modules['psutil'] = MagicMock()
 sys.modules['redis'] = MagicMock()
@@ -31,10 +32,11 @@ sys.modules['lukhas_website.lukhas.api.middleware'] = MagicMock()
 sys.modules['lukhas_website.lukhas.api.middleware.strict_auth'] = MagicMock(StrictAuthMiddleware=PassthroughMiddleware)
 
 from serve.main import app
+
 from lukhas.observability.prometheus_config import (
+    ERRORS_TOTAL,
     REQUEST_DURATION_SECONDS,
     REQUESTS_TOTAL,
-    ERRORS_TOTAL,
 )
 
 

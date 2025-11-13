@@ -14,7 +14,7 @@ from fastapi import HTTPException, Request, status
 
 # Import tier system
 try:
-    from identity.tier_system import PermissionScope, TierLevel
+    from lukhas_website.lukhas.identity.tier_system import PermissionScope, TierLevel
     TIER_SYSTEM_AVAILABLE = True
 except ImportError:
     # Fallback if tier system not available

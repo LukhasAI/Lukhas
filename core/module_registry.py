@@ -38,7 +38,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from functools import wraps
-from typing import Any, Callable
+from typing import Any, Callable, ClassVar
 
 # Configure module logger
 logger = logging.getLogger(__name__)

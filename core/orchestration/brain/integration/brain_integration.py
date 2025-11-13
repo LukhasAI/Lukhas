@@ -20,7 +20,7 @@ import time
 import uuid
 from collections import deque
 from datetime import datetime, timezone
-from typing import Any, Callable, Optional
+from typing import Any, Callable, ClassVar, Optional
 
 # ΛTAG: consciousness_legacy_imports
 from core.consciousness.drift_detector import ConsciousnessDriftDetector

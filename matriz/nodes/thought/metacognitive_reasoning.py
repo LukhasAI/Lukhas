@@ -149,10 +149,7 @@ class MetacognitiveReasoningNode(CognitiveNode):
         if not 0.0 <= output["confidence"] <= 1.0:
             return False
 
-        if "assessment" not in output["answer"]:
-            return False
-
-        return True
+        return "assessment" in output["answer"]
 
     def _assess_reasoning_quality(
         self,

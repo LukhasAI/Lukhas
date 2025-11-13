@@ -9,6 +9,7 @@ Tests cover:
 - Edge cases and validation
 """
 
+import contextlib
 import json
 import os
 import tempfile
@@ -16,7 +17,6 @@ from datetime import datetime
 from pathlib import Path
 
 import pytest
-
 from core.qrg.signing import (
     canonical_payload_hash,
     generate_private_key,
@@ -45,10 +45,8 @@ def temp_key_file():
     yield key_path
 
     # Cleanup
-    try:
+    with contextlib.suppress(Exception):
         os.unlink(key_path)
-    except Exception:
-        pass
 
 
 @pytest.fixture
@@ -486,7 +484,7 @@ def test_save_and_load_signature(temp_key_file):
 
     try:
         # Load from file
-        with open(sig_path, "r") as f:
+        with open(sig_path) as f:
             loaded = json.load(f)
 
         # Verify loaded signature

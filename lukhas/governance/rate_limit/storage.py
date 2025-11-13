@@ -149,10 +149,7 @@ class InMemoryRateLimitStorage(RateLimitStorage):
             current_count = len(window)
 
             # Calculate reset time (when oldest request expires)
-            if window:
-                reset_time = window[0] + window_seconds
-            else:
-                reset_time = current_time + window_seconds
+            reset_time = window[0] + window_seconds if window else current_time + window_seconds
 
             # Check if request is allowed
             if current_count < limit:

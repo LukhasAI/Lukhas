@@ -1,4 +1,5 @@
 from typing import ClassVar
+
 #!/usr/bin/env python3
 """
 Analytics Privacy Validation Tool

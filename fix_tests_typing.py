@@ -29,13 +29,13 @@ def fix_file(filepath: Path) -> bool:
             # Remove from start of import list
             content = re.sub(
                 rf'from typing import {deprecated_type}\b,\s*',
-                r'from typing import '
+                r'from typing import ',
                 content
             )
             # Remove from end of import list
             content = re.sub(
                 rf'from typing import ([^()\n]*?),\s*{deprecated_type}\b',
-                r'from typing import \1'
+                r'from typing import \1',
                 content
             )
             # Remove if it's the only import

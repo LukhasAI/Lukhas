@@ -6,7 +6,7 @@ A cognitive node for selecting the best option from a list.
 """
 
 import time
-from typing import Any, ClassVar
+from typing import Any, Optional
 
 from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 
@@ -149,12 +149,14 @@ class OptionSelectionNode(CognitiveNode):
         trace_id: str,
         start_time: float,
         triggers: list[NodeTrigger],
-        options: list[str] = [],
+        options: Optional[list[str]] = None,
         criteria: str = "",
     ) -> dict[str, Any]:
         """
         Create standardized error response with MATRIZ node.
         """
+        if options is None:
+            options = []
         confidence = 0.1
         state = NodeState(
             confidence=confidence,

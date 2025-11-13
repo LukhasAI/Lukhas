@@ -5,7 +5,6 @@ including duration, success/failure rates, and throughput.
 """
 
 import os
-from typing import Optional
 
 # Mock prometheus_client for environments where it's not installed (e.g., lightweight tests)
 try:

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Automatically fix all RUF012 violations by adding ClassVar annotations."""
 
-import ast
 import re
 import subprocess
 import sys
@@ -52,7 +51,7 @@ def fix_file(filepath: str, violation_lines: Set[int]):
     lines = content.split('\n')
 
     # Check if ClassVar import exists
-    has_classvar = 'from typing import ClassVar' in content or 'from typing import' in content and 'ClassVar' in content
+    has_classvar = 'from typing import ClassVar' in content or ('from typing import' in content and 'ClassVar' in content)
 
     modified = False
     new_lines = []

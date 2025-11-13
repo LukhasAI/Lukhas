@@ -8,7 +8,7 @@ standard node interface helpers (links, triggers, reflections, provenance).
 """
 
 import time
-from collections import deque, OrderedDict
+from collections import OrderedDict, deque
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from typing import Any

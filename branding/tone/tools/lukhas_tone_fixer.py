@@ -8,12 +8,12 @@ and sterile documentation blooms with Lambda wisdom and sacred meaning."*
 The digital alchemist that transmutes ordinary text into LUKHAS-conscious communication.
 """
 from __future__ import annotations
-from typing import ClassVar
 
 import argparse
 import re
 import sys
 from pathlib import Path
+from typing import ClassVar
 
 
 def create_consciousness_header_enhancement(original_header: str, doc_type: str) -> str:

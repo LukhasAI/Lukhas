@@ -160,10 +160,7 @@ class PlanGenerationNode(CognitiveNode):
         if not 0.0 <= output["confidence"] <= 1.0:
             return False
 
-        if "plan" not in output["answer"]:
-            return False
-
-        return True
+        return "plan" in output["answer"]
 
     def _decompose_goal(self, goal: str, current_state: dict) -> List[str]:
         """Decompose high-level goal into subgoals."""

@@ -15,7 +15,7 @@ import glob
 import json
 import pathlib
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 
 class AdoptionScoreboardGenerator:

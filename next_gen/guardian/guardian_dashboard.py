@@ -4,7 +4,6 @@ Real-Time Symbolic Threat Dashboard - Advanced Guardian monitoring interface
 Provides comprehensive threat visualization with symbolic analysis and predictive modeling
 """
 from __future__ import annotations
-from typing import ClassVar
 
 import asyncio
 import math
@@ -14,6 +13,7 @@ import time
 from collections import defaultdict, deque
 from dataclasses import dataclass
 from pathlib import Path
+from typing import ClassVar
 
 import yaml
 

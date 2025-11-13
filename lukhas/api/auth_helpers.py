@@ -5,7 +5,7 @@
 import os
 import time
 from functools import lru_cache
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -89,7 +89,7 @@ def check_rate_limit(identifier: str) -> bool:
 
     # Add new timestamp with TTL
     _storage_backend.list_append(key, now)
-    _storage_backend.set(key, valid_timestamps + [now], ttl=_RATE_LIMIT_WINDOW)
+    _storage_backend.set(key, [*valid_timestamps, now], ttl=_RATE_LIMIT_WINDOW)
 
     return True
 

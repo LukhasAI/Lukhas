@@ -14,7 +14,7 @@ import time
 from collections import defaultdict, deque
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Optional
+from typing import ClassVar, Optional
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

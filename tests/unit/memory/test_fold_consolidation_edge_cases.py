@@ -11,11 +11,12 @@ Tests critical edge cases in:
 - Import/export with conflicts
 """
 
-import pytest
-from datetime import datetime, timezone, timedelta
-from pathlib import Path
-import json
 import hashlib
+import json
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+
+import pytest
 
 # Import system under test
 from labs.memory.fold_system.memory_fold_system import (
@@ -196,7 +197,7 @@ class TestTagNormalization:
         # Note: Current implementation might not skip empty tags - this tests actual behavior
         tag_names = {
             system.tag_registry[tid].tag_name
-            for tid in system.tag_registry.keys()
+            for tid in system.tag_registry
         }
 
         # Should not have empty string as tag (or should handle gracefully)
@@ -530,7 +531,7 @@ class TestImportExport:
         tmp_path = Path("/tmp/test_filtered_export.lkf")
 
         # Export only public items
-        stats = await system.export_archive(tmp_path, filter_tags=["public"], timezone=timezone.utc)
+        await system.export_archive(tmp_path, filter_tags=["public"], timezone=timezone.utc)
 
         # Verify export includes only filtered items
         # (Would need to actually parse the LKF file to verify completely)
@@ -545,7 +546,7 @@ class TestImportExport:
         system = MemoryFoldSystem(enable_auto_tagging=False)
 
         # Create original item
-        original_id = await system.fold_in(
+        await system.fold_in(
             data={"message": "original"},
             tags=["original"],
         )
@@ -578,11 +579,11 @@ class TestImportExport:
         await system.export_archive(tmp_path, timezone=timezone.utc)
 
         # Manually add tags to existing item
-        item_id = list(system.items.keys())[0]
+        item_id = next(iter(system.items.keys()))
         await system._add_tags_to_item(item_id, ["tag2"])
 
         # Import with tag merging
-        stats = await system.import_archive(tmp_path, overwrite=False, merge_tags=True)
+        await system.import_archive(tmp_path, overwrite=False, merge_tags=True)
 
         # Original tags should remain
         item_tags = {

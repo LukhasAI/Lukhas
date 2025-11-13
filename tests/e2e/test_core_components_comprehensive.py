@@ -28,6 +28,11 @@ logger = logging.getLogger(__name__)
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import pytest
+
+# Skip experimental aka_qualia tests
+pytestmark = pytest.mark.skip(reason="aka_qualia is experimental")
+
 # Suppress logging during tests unless debug mode
 if not os.getenv("DEBUG_TESTS"):
     logging.getLogger().setLevel(logging.CRITICAL)
@@ -646,11 +651,8 @@ class TestMainApplication:
             import os
             import sys
 
-# Skip experimental aka_qualia tests
-pytestmark: ClassVar[Any] = pytest.mark.skip(reason="aka_qualia is experimental")
-
             # Check that project root is in path
-            project_root: ClassVar[Any] = os.path.dirname(os.path.abspath(__file__))
+            project_root = os.path.dirname(os.path.abspath(__file__))
             any(os.path.samefile(path, project_root) for path in sys.path if os.path.exists(path))
 
             # Test that core modules are accessible

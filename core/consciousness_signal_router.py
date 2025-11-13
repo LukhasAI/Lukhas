@@ -12,7 +12,7 @@ import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable, ClassVar, Optional
 
 from core.bio_symbolic_processor import get_bio_symbolic_processor
 from core.matriz_consciousness_signals import (

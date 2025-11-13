@@ -13,9 +13,11 @@ mock_prometheus_client.Counter.return_value = MagicMock()
 
 # We need to patch 'prometheus_client' in sys.modules BEFORE importing stage_metrics
 import sys
+
 sys.modules['prometheus_client'] = mock_prometheus_client
 
 from lukhas.orchestration import stage_metrics
+
 
 class TestStageMetrics(unittest.TestCase):
     """Test suite for the orchestration stage_metrics module."""

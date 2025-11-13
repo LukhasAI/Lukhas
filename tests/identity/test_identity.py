@@ -10,7 +10,8 @@ mock_webauthn_module.WebAuthnManager = mock_webauthn_manager_class
 sys.modules['identity.webauthn'] = mock_webauthn_module
 
 # Mock the 'observability.matriz_decorators' module
-mock_instrument = lambda *args, **kwargs: lambda func: func
+def mock_instrument(*args, **kwargs):
+    return lambda func: func
 mock_observability_module = MagicMock()
 mock_observability_module.instrument = mock_instrument
 sys.modules['observability.matriz_decorators'] = mock_observability_module

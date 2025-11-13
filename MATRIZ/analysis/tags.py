@@ -1,5 +1,5 @@
 """Emotional continuity tagger."""
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 
 def tag_emotional_continuity(

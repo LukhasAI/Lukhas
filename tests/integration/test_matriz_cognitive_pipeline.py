@@ -197,7 +197,7 @@ def test_memory_efficiency():
 
     orchestrator.process_query("memory test")
 
-    current, peak = tracemalloc.get_traced_memory()
+    _current, peak = tracemalloc.get_traced_memory()
     tracemalloc.stop()
 
     assert peak < 100 * 1024 * 1024

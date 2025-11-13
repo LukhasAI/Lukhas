@@ -38,6 +38,7 @@ sys.modules['lukhas.products.security.qrg'] = mock_qrg_core
 
 import embed_consent_in_qrg
 
+
 class TestEmbedConsentInQRG(unittest.TestCase):
     """Test cases for the QRG consent embedding script."""
 
@@ -121,7 +122,7 @@ class TestEmbedConsentInQRG(unittest.TestCase):
         mock_generator_instance.embed_hidden_data.assert_called_once()
 
         # Inspect the arguments passed to embed_hidden_data
-        call_args, call_kwargs = mock_generator_instance.embed_hidden_data.call_args
+        _call_args, call_kwargs = mock_generator_instance.embed_hidden_data.call_args
         self.assertEqual(call_kwargs['glyph'], mock_base_glyph)
 
         hidden_payload = call_kwargs['hidden_payload']

@@ -25,7 +25,7 @@ import functools
 import logging
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable
+from typing import Any, Callable, ClassVar
 
 import structlog
 

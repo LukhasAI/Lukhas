@@ -1,13 +1,13 @@
 
+import ast
 import os
 import sys
-import ast
 
 FORBIDDEN_IMPORT = "lukhas"
 CANDIDATE_DIR = "candidate"
 
 def check_imports(file_path):
-    with open(file_path, "r") as f:
+    with open(file_path) as f:
         content = f.read()
 
     try:

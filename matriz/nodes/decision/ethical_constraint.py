@@ -163,10 +163,7 @@ class EthicalConstraintNode(CognitiveNode):
         if not 0.0 <= output["confidence"] <= 1.0:
             return False
 
-        if "approved" not in output["answer"]:
-            return False
-
-        return True
+        return "approved" in output["answer"]
 
     def _default_principles(self) -> List[dict]:
         """Default ethical principles to check."""
@@ -214,7 +211,7 @@ class EthicalConstraintNode(CognitiveNode):
         violations = []
 
         for principle in ethical_principles:
-            principle_name = principle.get("name", "")
+            principle.get("name", "")
             violation = self._check_principle(
                 decision,
                 principle,
@@ -295,15 +292,14 @@ class EthicalConstraintNode(CognitiveNode):
                 )
 
         # Check transparency
-        elif principle_name == "transparency":
-            if not decision.get("explainable", True):
-                return EthicalViolation(
-                    violation_id=f"violation_{principle_name}",
-                    principle="Transparency",
-                    description="Decision lacks transparency and explainability",
-                    severity="moderate",
-                    recommendation="Provide clear explanation and reasoning"
-                )
+        elif principle_name == "transparency" and not decision.get("explainable", True):
+            return EthicalViolation(
+                violation_id=f"violation_{principle_name}",
+                principle="Transparency",
+                description="Decision lacks transparency and explainability",
+                severity="moderate",
+                recommendation="Provide clear explanation and reasoning"
+            )
 
         return None
 

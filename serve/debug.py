@@ -1,5 +1,5 @@
 """Debug endpoints for development."""
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
 
 
 def get_last_directive(
@@ -39,6 +39,7 @@ if __name__ == "__main__":
     print("=== Debug Last-Directive Endpoint Demo ===\n")
 
     import json
+
     from dast.orchestrator import Orchestrator
 
     orch = Orchestrator()

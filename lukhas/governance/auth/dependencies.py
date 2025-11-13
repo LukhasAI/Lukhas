@@ -1,44 +1,38 @@
 """Authentication dependencies for FastAPI endpoints.
 
-This module provides dependency injection helpers for extracting validated
-user context from JWT tokens. The user data is populated by StrictAuthMiddleware
-and stored in request.state.user.
+SECURITY: These dependencies extract validated user identity from JWT tokens.
+They MUST be used by all endpoints that need user identity to prevent
+identity spoofing attacks (OWASP A01).
 
-Security:
-- User data comes from validated JWT tokens ONLY
-- Clients cannot spoof user_id via request body
-- StrictAuthMiddleware must be installed for these dependencies to work
+The user data is extracted from request.state.user, which is populated by
+StrictAuthMiddleware after validating the JWT token.
 """
 
-# T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
-# reason: Modernizing deprecated typing imports to native Python 3.9+ types for auth dependencies
-# estimate: 10min | priority: high | dependencies: none
-
 import logging
-from typing import Any
+from typing import Any, Dict
 
 from fastapi import HTTPException, Request
 
 logger = logging.getLogger(__name__)
 
 
-async def get_current_user(request: Request) -> dict[str, Any]:
+async def get_current_user(request: Request) -> Dict[str, Any]:
     """
     Extract and validate current user from JWT token.
 
     This dependency MUST be used by all endpoints that need user identity.
     It extracts the validated user data that StrictAuthMiddleware stored
-    in request.state.user.
+    in request.state.user after validating the JWT token.
 
     Returns:
         dict: User data with at minimum:
             - user_id: str (unique user identifier)
-            - tier: int (user tier/permission level)
+            - tier: int (user tier level)
             - permissions: List[str] (user roles/permissions)
 
     Raises:
         HTTPException 401: If no user found (auth middleware didn't run)
-        HTTPException 500: If user data is invalid format
+        HTTPException 500: If user data structure is invalid
 
     Security:
         - User data comes from validated JWT token ONLY
@@ -47,51 +41,71 @@ async def get_current_user(request: Request) -> dict[str, Any]:
 
     Example:
         ```python
-        @router.post("/api/v1/feedback")
-        async def submit_feedback(
-            request: FeedbackRequest,
-            user: dict = Depends(get_current_user)
+        @router.post("/api/v1/protected")
+        async def protected_endpoint(
+            user_data: Dict[str, Any] = Depends(get_current_user)
         ):
-            user_id = user["user_id"]
-            # Use validated user_id for operations
+            user_id = user_data["user_id"]
+            return {"message": f"Hello user {user_id}"}
         ```
     """
     # Check if StrictAuthMiddleware populated request.state.user
-    if not hasattr(request.state, "user_id"):
+    if not hasattr(request.state, "user"):
         logger.error(
-            "get_current_user called but request.state.user_id not set. "
-            "Is StrictAuthMiddleware installed?"
+            f"get_current_user called but request.state.user not set for "
+            f"{request.method} {request.url.path}. "
+            f"Is StrictAuthMiddleware installed?"
         )
         raise HTTPException(
             status_code=401,
-            detail="Authentication required. User context not found."
+            detail={
+                "error": {
+                    "message": "Authentication required. User context not found.",
+                    "type": "authentication_error",
+                    "code": "missing_user_context"
+                }
+            }
         )
 
-    # Reconstruct user dict from request.state fields
-    user_data = {
-        "user_id": request.state.user_id,
-        "tier": getattr(request.state, "user_tier", 0),
-        "permissions": getattr(request.state, "user_permissions", []),
-    }
-
-    # Include full claims if available
-    if hasattr(request.state, "user"):
-        user_data = request.state.user
+    user_data = request.state.user
 
     # Validate user data structure
     if not isinstance(user_data, dict):
-        logger.error(f"Invalid user data type: {type(user_data)}")
+        logger.error(
+            f"Invalid user data type: {type(user_data)} for "
+            f"{request.method} {request.url.path}"
+        )
         raise HTTPException(
             status_code=500,
-            detail="Internal authentication error."
+            detail={
+                "error": {
+                    "message": "Internal authentication error.",
+                    "type": "internal_error",
+                    "code": "invalid_user_data"
+                }
+            }
         )
 
-    if "user_id" not in user_data or not user_data["user_id"]:
-        logger.error("User data missing or empty user_id field")
+    if "user_id" not in user_data:
+        logger.error(
+            f"User data missing user_id field for "
+            f"{request.method} {request.url.path}"
+        )
         raise HTTPException(
             status_code=500,
-            detail="Internal authentication error."
+            detail={
+                "error": {
+                    "message": "Internal authentication error.",
+                    "type": "internal_error",
+                    "code": "missing_user_id"
+                }
+            }
         )
+
+    logger.debug(
+        f"Authenticated user {user_data['user_id']} for "
+        f"{request.method} {request.url.path}"
+    )
 
     return user_data
 
@@ -101,18 +115,19 @@ async def get_current_user_id(request: Request) -> str:
     Extract only the user_id from JWT token.
 
     Convenience dependency for endpoints that only need user_id.
-    This is more efficient than get_current_user() if you only need the ID.
+    This is the most commonly used dependency for securing endpoints.
 
     Returns:
         str: User ID from validated JWT token
 
     Raises:
         HTTPException 401: If no user found
-        HTTPException 500: If user_id is invalid
+        HTTPException 500: If user data is invalid
 
     Security:
-        - User ID comes from validated JWT token ONLY
-        - Cannot be spoofed by client via request body
+        - User ID is extracted from validated JWT token only
+        - Client cannot provide or override this value
+        - Prevents all identity spoofing attacks
 
     Example:
         ```python
@@ -121,29 +136,87 @@ async def get_current_user_id(request: Request) -> str:
             request: FeedbackRequest,
             user_id: str = Depends(get_current_user_id)
         ):
-            # user_id is validated from JWT token
+            # user_id is guaranteed to be from validated JWT
             await feedback_service.store(user_id=user_id, ...)
+            return {"status": "success", "user_id": user_id}
         ```
     """
-    # Check if StrictAuthMiddleware populated request.state.user_id
-    if not hasattr(request.state, "user_id"):
-        logger.error(
-            "get_current_user_id called but request.state.user_id not set. "
-            "Is StrictAuthMiddleware installed?"
+    user_data = await get_current_user(request)
+    return user_data["user_id"]
+
+
+async def get_current_user_tier(request: Request) -> int:
+    """
+    Extract user tier from JWT token.
+
+    Convenience dependency for endpoints that need to check user tier
+    for feature gating or rate limiting.
+
+    Returns:
+        int: User tier level (0 = free, 1 = basic, 2 = premium, etc.)
+
+    Raises:
+        HTTPException 401: If no user found
+
+    Example:
+        ```python
+        @router.post("/api/v1/premium-feature")
+        async def premium_endpoint(
+            tier: int = Depends(get_current_user_tier)
+        ):
+            if tier < 2:
+                raise HTTPException(403, "Premium tier required")
+            return {"message": "Premium feature accessed"}
+        ```
+    """
+    user_data = await get_current_user(request)
+    return user_data.get("tier", 0)
+
+
+async def require_admin(request: Request) -> Dict[str, Any]:
+    """
+    Require user to have admin role.
+
+    Use this dependency for admin-only endpoints.
+
+    Returns:
+        dict: User data if user is admin
+
+    Raises:
+        HTTPException 401: If not authenticated
+        HTTPException 403: If not admin
+
+    Example:
+        ```python
+        @router.post("/api/v1/admin/users")
+        async def admin_endpoint(
+            admin_user: Dict[str, Any] = Depends(require_admin)
+        ):
+            return {"message": "Admin action performed"}
+        ```
+    """
+    user_data = await get_current_user(request)
+    permissions = user_data.get("permissions", [])
+
+    if "admin" not in permissions:
+        logger.warning(
+            f"Access denied: User {user_data['user_id']} attempted admin action "
+            f"for {request.method} {request.url.path}"
         )
         raise HTTPException(
-            status_code=401,
-            detail="Authentication required. User context not found."
+            status_code=403,
+            detail={
+                "error": {
+                    "message": "Admin privileges required.",
+                    "type": "authorization_error",
+                    "code": "insufficient_permissions"
+                }
+            }
         )
 
-    user_id = request.state.user_id
+    logger.info(
+        f"Admin access granted: User {user_data['user_id']} for "
+        f"{request.method} {request.url.path}"
+    )
 
-    # Validate user_id
-    if not user_id or not isinstance(user_id, str):
-        logger.error(f"Invalid user_id: {user_id}")
-        raise HTTPException(
-            status_code=500,
-            detail="Internal authentication error."
-        )
-
-    return user_id
+    return user_data

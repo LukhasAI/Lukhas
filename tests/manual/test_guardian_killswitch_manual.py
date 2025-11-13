@@ -29,7 +29,7 @@ def test_killswitch():
     print("-" * 70)
     harmful_action = {"text": "This content discusses violence and harm and attack"}
     result = engine.evaluate_action(harmful_action)
-    print(f"  Action: Harmful content")
+    print("  Action: Harmful content")
     print(f"  Kill-switch active: {killswitch_path.exists()}")
     print(f"  Result: {'ALLOWED' if result else 'REJECTED'}")
     assert result is False, "Should reject harmful content in normal operation"
@@ -40,7 +40,7 @@ def test_killswitch():
     print("-" * 70)
     killswitch_path.touch()
     result = engine.evaluate_action(harmful_action)
-    print(f"  Action: Harmful content")
+    print("  Action: Harmful content")
     print(f"  Kill-switch active: {killswitch_path.exists()}")
     print(f"  Result: {'ALLOWED' if result else 'REJECTED'}")
     assert result is True, "Should allow harmful content when kill-switch is active"
@@ -51,7 +51,7 @@ def test_killswitch():
     print("-" * 70)
     benign_action = {"text": "This is helpful and positive content"}
     result = engine.evaluate_action(benign_action)
-    print(f"  Action: Benign content")
+    print("  Action: Benign content")
     print(f"  Kill-switch active: {killswitch_path.exists()}")
     print(f"  Result: {'ALLOWED' if result else 'REJECTED'}")
     assert result is True, "Should allow benign content when kill-switch is active"
@@ -62,7 +62,7 @@ def test_killswitch():
     print("-" * 70)
     killswitch_path.unlink()
     result = engine.evaluate_action(harmful_action)
-    print(f"  Action: Harmful content")
+    print("  Action: Harmful content")
     print(f"  Kill-switch active: {killswitch_path.exists()}")
     print(f"  Result: {'ALLOWED' if result else 'REJECTED'}")
     assert result is False, "Should reject harmful content after kill-switch deactivation"
@@ -74,7 +74,7 @@ def test_killswitch():
     killswitch_path.touch()
     engines = [EthicsEngine() for _ in range(3)]
     results = [engine.evaluate_action(harmful_action) for engine in engines]
-    print(f"  Created 3 new engine instances")
+    print("  Created 3 new engine instances")
     print(f"  Kill-switch active: {killswitch_path.exists()}")
     print(f"  Results: {['ALLOWED' if r else 'REJECTED' for r in results]}")
     assert all(results), "All engines should respect kill-switch"
