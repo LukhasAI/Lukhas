@@ -1,7 +1,10 @@
 from __future__ import annotations
+
 import math
 from typing import Any, Dict, List
+
 from .base import Node, NodeContext, NodeMetrics
+
 
 class AttentionController(Node):
     """

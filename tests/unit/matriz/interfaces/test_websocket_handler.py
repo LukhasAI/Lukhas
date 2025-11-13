@@ -124,7 +124,7 @@ def test_websocket_forceful_disconnect():
     # This test is a bit more manual to control the websocket lifecycle
     client = TestClient(app)
     assert len(websocket_connections) == 0
-    with client.websocket_connect("/ws") as ws:
+    with client.websocket_connect("/ws"):
         assert len(websocket_connections) == 1
         # Simulate a forceful disconnect by not calling ws.close()
     # After the with block, the disconnect should have been handled
@@ -135,7 +135,7 @@ def test_websocket_forceful_disconnect():
 def test_websocket_disconnect_on_receive_error(mock_receive_json, client):
     mock_receive_json.side_effect = WebSocketDisconnect()
     assert len(websocket_connections) == 0
-    with client.websocket_connect("/ws") as ws:
+    with client.websocket_connect("/ws"):
         assert len(websocket_connections) == 1
     assert len(websocket_connections) == 0
 

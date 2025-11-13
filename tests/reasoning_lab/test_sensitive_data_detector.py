@@ -159,7 +159,7 @@ class TestSensitiveDataDetector:
 
         # High threshold should be selective
         # Only very confident matches
-        high_confidence_count = len([d for d in detections if d.confidence >= 0.8])
+        len([d for d in detections if d.confidence >= 0.8])
         assert all(d.confidence >= 0.8 for d in detections) or len(detections) == 0
 
     def test_no_false_positives_on_clean_text(self):

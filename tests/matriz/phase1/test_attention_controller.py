@@ -1,6 +1,8 @@
 from __future__ import annotations
+
 from MATRIZ.nodes.phase1.attention_controller import AttentionController
 from MATRIZ.nodes.phase1.base import NodeContext
+
 
 def test_attn_topk_deterministic():
     attn = AttentionController(top_k=2, temperature=1.0)

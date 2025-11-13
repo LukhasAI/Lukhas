@@ -74,7 +74,6 @@ def fix_remaining_ruf012():
 
         violations = []
         lines = result.stdout.split('\n')
-        current_file = None
 
         for line in lines:
             if 'RUF012' in line and '-->' in line:

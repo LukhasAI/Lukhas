@@ -159,10 +159,7 @@ class AbductiveReasoningNode(CognitiveNode):
         if not 0.0 <= output["confidence"] <= 1.0:
             return False
 
-        if "best_explanation" not in output["answer"]:
-            return False
-
-        return True
+        return "best_explanation" in output["answer"]
 
     def _generate_candidates(
         self,

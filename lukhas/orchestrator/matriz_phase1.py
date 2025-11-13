@@ -1,10 +1,14 @@
 from __future__ import annotations
-from typing import Dict, Any, Optional
-import os, json
+
+import json
+from typing import Any, Dict
 
 from MATRIZ.nodes.phase1 import (
-    NodeRegistry, NodeContext,
-    WorkingMemory, AttentionController, EpisodicMemory
+    AttentionController,
+    EpisodicMemory,
+    NodeContext,
+    NodeRegistry,
+    WorkingMemory,
 )
 from MATRIZ.nodes.phase1.events import wavec_checkpoint
 
@@ -15,19 +19,19 @@ DEFAULT_CONFIG = {
     "wavec_every_n": 10,
 }
 
-def _load_config(path: Optional[str]) -> Dict[str, Any]:
+def _load_config(path: str | None) -> Dict[str, Any]:
     if not path:
         return dict(DEFAULT_CONFIG)
     # Accept YAML or JSON; for now parse JSON if .json else fallback to defaults
     try:
         if path.endswith(".json"):
-            with open(path, "r") as f:
+            with open(path) as f:
                 return json.load(f)
     except Exception:
         pass
     return dict(DEFAULT_CONFIG)
 
-def compose_phase1(config_path: Optional[str] = None) -> NodeRegistry:
+def compose_phase1(config_path: str | None = None) -> NodeRegistry:
     cfg = _load_config(config_path)
     reg = NodeRegistry()
     # Register nodes (in dependency‑light order)

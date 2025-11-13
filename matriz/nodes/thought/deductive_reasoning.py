@@ -6,7 +6,7 @@ A cognitive node for performing deductive reasoning based on a set of premises.
 """
 
 import time
-from typing import Any
+from typing import Any, Optional
 
 from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 
@@ -154,12 +154,14 @@ class DeductiveReasoningNode(CognitiveNode):
         trace_id: str,
         start_time: float,
         triggers: list[NodeTrigger],
-        premises: list[str] = [],
+        premises: Optional[list[str]] = None,
         question: str = "",
     ) -> dict[str, Any]:
         """
         Create standardized error response with MATRIZ node.
         """
+        if premises is None:
+            premises = []
         confidence = 0.1
         state = NodeState(
             confidence=confidence,

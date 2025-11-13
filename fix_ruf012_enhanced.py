@@ -66,7 +66,7 @@ def fix_ruf012_violations_enhanced():
                     continue
 
                 # Look for the problematic pattern
-                target_line = lines[line_idx]
+                lines[line_idx]
 
                 # Handle different patterns
                 if fix_line_pattern(lines, line_idx):

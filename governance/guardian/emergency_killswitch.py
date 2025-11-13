@@ -57,7 +57,6 @@ import logging
 import os
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
 
 # Kill-switch file path - DO NOT CHANGE without updating runbooks
 KILLSWITCH_PATH = "/tmp/guardian_emergency_disable"

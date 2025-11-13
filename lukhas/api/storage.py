@@ -238,7 +238,7 @@ def get_storage_backend() -> StorageBackend:
             warnings.warn(
                 "Redis storage requested but redis package not installed. "
                 "Falling back to InMemoryStorage. Install redis with: pip install redis",
-                RuntimeWarning,
+                RuntimeWarning, stacklevel=2,
             )
             return InMemoryStorage()
 

@@ -98,7 +98,7 @@ async def test_websocket_concurrent_connections():
 
 def test_websocket_connection_cleanup(client):
     with patch("serve.websocket_routes.logger.info") as mock_log:
-        with client.websocket_connect("/ws/dreams/stream?token=valid-token") as ws:
+        with client.websocket_connect("/ws/dreams/stream?token=valid-token"):
             pass
 
     mock_log.assert_called_with("Client disconnected: user123")

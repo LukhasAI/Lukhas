@@ -1,8 +1,11 @@
 from __future__ import annotations
+
 from dataclasses import dataclass, field
 from typing import Any, Dict, List
+
 from .base import Node, NodeContext, NodeMetrics
 from .events import NodeEvent, emit_event
+
 
 @dataclass
 class WorkingMemory(Node):

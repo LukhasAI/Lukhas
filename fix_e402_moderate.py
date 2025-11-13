@@ -85,9 +85,8 @@ def fix_moderate_files():
     for file_path in moderate_files[:3]:  # Start with first 3 for testing
         print(f"🔄 Fixing {file_path}...")
 
-        if file_path == "bridge/api/validation.py":
-            if fix_bridge_api_validation():
-                success_count += 1
+        if file_path == "bridge/api/validation.py" and fix_bridge_api_validation():
+            success_count += 1
         # Add more specific fixes for other files as needed
 
     return success_count

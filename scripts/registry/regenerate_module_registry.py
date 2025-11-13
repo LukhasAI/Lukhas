@@ -47,12 +47,11 @@ def get_imports_from_file(file_path):
                 if isinstance(node, ast.Import):
                     for alias in node.names:
                         imports.add(alias.name.split('.')[0])
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module:
-                        imports.add(node.module.split('.')[0])
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    imports.add(node.module.split('.')[0])
     except (SyntaxError, UnicodeDecodeError, FileNotFoundError) as e:
         print(f"Warning: Could not parse {file_path}: {e}", file=sys.stderr)
-    return sorted(list(imports))
+    return sorted(imports)
 
 
 def get_module_info(module_name):

@@ -1,5 +1,6 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
 from core.symbolic_legacy.colony_tag_propagation import SymbolicReasoningColony
 
 

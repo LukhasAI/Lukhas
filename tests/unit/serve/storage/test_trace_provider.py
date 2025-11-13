@@ -101,7 +101,7 @@ class TestFileTraceStorageProvider:
         storage_path = str(tmp_path / "new_traces")
         assert not os.path.exists(storage_path)
 
-        provider = FileTraceStorageProvider(storage_location=storage_path)
+        FileTraceStorageProvider(storage_location=storage_path)
 
         assert os.path.exists(storage_path)
         assert os.path.isdir(storage_path)
@@ -242,7 +242,7 @@ class TestFileTraceStorageProvider:
         with patch("serve.storage.trace_provider.TraceMemoryLogger", return_value=mock_trace_logger):
             provider = FileTraceStorageProvider(storage_location=temp_storage)
 
-            traces = await provider.get_recent_traces(limit=5, level=2, tag="test_tag")
+            await provider.get_recent_traces(limit=5, level=2, tag="test_tag")
 
             mock_trace_logger.get_recent_traces.assert_called_once_with(
                 limit=5, level=2, tag="test_tag"

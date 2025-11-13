@@ -35,7 +35,7 @@ if str(SCRIPT_DIR.parent) not in sys.path:
 def load_exemptions(filepath: str) -> list[dict]:
     """Loads exemptions from a JSON file."""
     try:
-        with open(filepath, 'r') as f:
+        with open(filepath) as f:
             return json.load(f)
     except FileNotFoundError:
         print(f"Error: Input file not found at '{filepath}'", file=sys.stderr)
@@ -121,7 +121,7 @@ def write_report(report: str, filepath: str):
         with open(filepath, 'w') as f:
             f.write(report)
         print(f"Audit report successfully written to '{filepath}'")
-    except IOError as e:
+    except OSError as e:
         print(f"Error: Could not write report to '{filepath}': {e}", file=sys.stderr)
         sys.exit(1)
 
